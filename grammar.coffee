@@ -33,7 +33,8 @@ module.exports = compiler.grammar
       @null,
       @undefined,
       @object,
-      @array)
+      @array,
+      @function)
 
     object: -> seq(
       "{",
@@ -41,6 +42,21 @@ module.exports = compiler.grammar
         choice(@identifier, @string),
         ":",
         @expression))
+      "}")
+
+    function: -> seq(
+      keyword("function"),
+      @formal_parameters,
+      @statement_block)
+
+    formal_parameters: -> seq(
+      "(",
+      commaSep(@identifier),
+      ")")
+
+    statement_block: -> seq(
+      "{",
+      repeat(@statement),
       "}")
 
     array: -> seq(

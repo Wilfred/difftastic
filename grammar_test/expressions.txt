@@ -104,3 +104,21 @@ Arrays
   (expression_statement (array))
   (expression_statement (array (string)))
   (expression_statement (array (string) (identifier))))
+
+============================================
+Functions
+============================================
+
+function() {};
+function(arg1, arg2) {
+  arg2;
+};
+
+---
+
+(program
+  (expression_statement (function (formal_parameters) (statement_block)))
+  (expression_statement (function
+    (formal_parameters (identifier) (identifier))
+    (statement_block
+      (expression_statement (identifier))))))
