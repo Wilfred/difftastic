@@ -1,0 +1,38 @@
+============================================
+Strings
+============================================
+
+"A string with \"double\" and 'single' quotes";
+'A string with "double" and \'single\' quotes';
+
+----
+
+(program
+  (expression_statement (string))
+  (expression_statement (string)))
+
+============================================
+Numbers
+============================================
+
+101;
+3.14;
+
+---
+
+(program
+  (expression_statement (number))
+  (expression_statement (number)))
+
+============================================
+Variables
+============================================
+
+theVar;
+theVar2;
+
+---
+
+(program
+  (expression_statement (variable))
+  (expression_statement (variable)))
