@@ -1,5 +1,8 @@
 compiler = require("tree-sitter-compiler")
-{ choice, repeat, seq, keyword, token, optional } = compiler.rules
+{ blank, choice, repeat, seq, keyword, token, optional } = compiler.rules
+
+commaSep = (rule) ->
+  choice(blank(), seq(rule, repeat(seq(",", rule))))
 
 module.exports = compiler.grammar
   name: 'javascript',
@@ -20,11 +23,32 @@ module.exports = compiler.grammar
       @statement)
 
     expression: -> choice(
-      @variable,
+      @identifier,
       @number,
-      @string)
+      @string,
+      @regex,
+      @true,
+      @true,
+      @false,
+      @null,
+      @undefined,
+      @object,
+      @array)
 
-    variable: -> /\a+\d*/,
+    object: -> seq(
+      "{",
+      commaSep(seq(
+        choice(@identifier, @string),
+        ":",
+        @expression))
+      "}")
+
+    array: -> seq(
+      "[",
+      commaSep(@expression)
+      "]")
+
+    identifier: -> /\a+\d*/
 
     number: -> token(seq(
       /\d+/,
@@ -33,3 +57,12 @@ module.exports = compiler.grammar
     string: -> token(choice(
       seq('"', repeat(choice(/[^"]/, '\\"')), '"'),
       seq("'", repeat(choice(/[^']/, "\\'")), "'")))
+
+    regex: -> token(seq(
+      '/', repeat(choice(/[^/]/, '\\/')), '/',
+      repeat(choice('i', 'g'))))
+
+    true: -> keyword("true")
+    false: -> keyword("false")
+    null: -> keyword("null")
+    undefined: -> keyword("undefined")

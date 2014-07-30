@@ -34,5 +34,73 @@ theVar2;
 ---
 
 (program
-  (expression_statement (variable))
-  (expression_statement (variable)))
+  (expression_statement (identifier))
+  (expression_statement (identifier)))
+
+============================================
+Booleans
+============================================
+
+null;
+undefined;
+true;
+false;
+
+---
+
+(program
+  (expression_statement (null))
+  (expression_statement (undefined))
+  (expression_statement (true))
+  (expression_statement (false)))
+
+============================================
+Regexps
+============================================
+
+/one/;
+/one/g;
+/one/i;
+/one/gi;
+
+---
+
+(program
+  (expression_statement (regex))
+  (expression_statement (regex))
+  (expression_statement (regex))
+  (expression_statement (regex)))
+
+============================================
+Objects
+============================================
+
+{};
+{ key1: "value1" };
+{ key1: "value1", "key2": value2, key3: 3.0 };
+
+---
+
+(program
+  (expression_statement (object))
+  (expression_statement (object
+    (identifier) (string)))
+  (expression_statement (object
+    (identifier) (string)
+    (string) (identifier)
+    (identifier) (number))))
+
+============================================
+Arrays
+============================================
+
+[];
+[ "item1" ];
+[ "item1", item2 ];
+
+---
+
+(program
+  (expression_statement (array))
+  (expression_statement (array (string)))
+  (expression_statement (array (string) (identifier))))
