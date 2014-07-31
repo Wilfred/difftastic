@@ -34,7 +34,20 @@ module.exports = compiler.grammar
       @undefined,
       @object,
       @array,
-      @function)
+      @function,
+      @member_access,
+      @subscript_access)
+
+    member_access: -> seq(
+      @expression,
+      ".",
+      @identifier)
+
+    subscript_access: -> seq(
+      @expression,
+      "[",
+      @expression,
+      "]")
 
     object: -> seq(
       "{",
