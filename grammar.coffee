@@ -12,14 +12,25 @@ module.exports = compiler.grammar
 
     statement: -> choice(
       @expression_statement,
-      @if_statement)
+      @if_statement,
+      @for_statement,
+      @statement_block)
 
     expression_statement: -> seq(
-      @expression, ";")
+      optional(@expression), ";")
 
     if_statement: -> seq(
       keyword("if"),
       "(", @expression, ")",
+      @statement)
+
+    for_statement: -> seq(
+      keyword("for"),
+      "(",
+      @expression_statement,
+      @expression_statement,
+      optional(@expression),
+      ")",
       @statement)
 
     expression: -> choice(
@@ -38,6 +49,9 @@ module.exports = compiler.grammar
       @member_access,
       @subscript_access,
       @function_call,
+      @math_op,
+      @rel_op,
+      @assignment,
       seq("(", @expression, ")"))
 
     member_access: -> seq(
@@ -50,6 +64,14 @@ module.exports = compiler.grammar
       "(",
       commaSep(@expression),
       ")")
+
+    assignment: -> seq(
+      choice(
+        @identifier,
+        @member_access,
+        @subscript_access),
+      "=",
+      @expression)
 
     subscript_access: -> seq(
       @expression,
@@ -90,6 +112,22 @@ module.exports = compiler.grammar
     number: -> token(seq(
       /\d+/,
       optional(seq(".", /\d+/))))
+
+    math_op: -> choice(
+      seq(@expression, "++"),
+      seq(@expression, "--"),
+      seq(@expression, "+", @expression),
+      seq(@expression, "-", @expression))
+
+    rel_op: -> choice(
+      seq(@expression, "<", @expression),
+      seq(@expression, "<=", @expression),
+      seq(@expression, "==", @expression),
+      seq(@expression, "===", @expression),
+      seq(@expression, "!=", @expression),
+      seq(@expression, "!==", @expression),
+      seq(@expression, ">=", @expression),
+      seq(@expression, ">", @expression))
 
     string: -> token(choice(
       seq('"', repeat(choice(/[^"]/, '\\"')), '"'),

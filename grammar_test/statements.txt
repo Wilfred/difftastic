@@ -1,0 +1,51 @@
+============================================
+If statements
+============================================
+
+if (x)
+  log(y);
+
+if (a.b) {
+  log(c);
+  log(d);
+}
+
+----
+
+(program
+  (if_statement (identifier)
+    (expression_statement (function_call
+      (identifier) (identifier))))
+  (if_statement (member_access (identifier) (identifier))
+    (statement_block
+      (expression_statement (function_call
+        (identifier) (identifier)))
+      (expression_statement (function_call
+        (identifier) (identifier))))))
+
+============================================
+For statements
+============================================
+
+for (i = 0; i < 10; i++)
+  log(y);
+
+for (;;) {
+  log(y);
+}
+
+---
+
+(program
+  (for_statement
+    (expression_statement (assignment (identifier) (number)))
+    (expression_statement (rel_op (identifier) (number)))
+    (math_op (identifier))
+    (expression_statement (function_call (identifier) (identifier))))
+
+  (for_statement
+    (expression_statement)
+    (expression_statement)
+    (statement_block
+      (expression_statement (function_call (identifier) (identifier))))))
+    

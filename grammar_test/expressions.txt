@@ -153,3 +153,63 @@ x.someMethod(arg1, "arg2");
     (identifier) (string)))
   (expression_statement (function_call
     (expression (function (formal_parameters) (statement_block))))))
+
+============================================
+Math operators
+============================================
+
+i++;
+i--;
+i + j;
+i - j;
+
+---
+
+(program
+  (expression_statement (math_op (identifier)))
+  (expression_statement (math_op (identifier)))
+  (expression_statement (math_op (identifier) (identifier)))
+  (expression_statement (math_op (identifier) (identifier))))
+
+============================================
+Relational operators
+============================================
+
+x < y;
+x <= y;
+x == y;
+x === y;
+x != y;
+x !== y;
+x >= y;
+x > y;
+
+---
+
+(program
+  (expression_statement (rel_op (identifier) (identifier)))
+  (expression_statement (rel_op (identifier) (identifier)))
+  (expression_statement (rel_op (identifier) (identifier)))
+  (expression_statement (rel_op (identifier) (identifier)))
+  (expression_statement (rel_op (identifier) (identifier)))
+  (expression_statement (rel_op (identifier) (identifier)))
+  (expression_statement (rel_op (identifier) (identifier)))
+  (expression_statement (rel_op (identifier) (identifier))))
+
+==============================================
+Assignments
+==============================================
+
+x = 0;
+x.y = 0;
+x["y"] = 0;
+
+---
+
+(program
+  (expression_statement (assignment
+    (identifier) (number)))
+  (expression_statement (assignment
+    (member_access (identifier) (identifier)) (number)))
+  (expression_statement (assignment
+    (subscript_access (identifier) (string)) (number))))
