@@ -14,7 +14,8 @@ module.exports = compiler.grammar
       @expression_statement,
       @if_statement,
       @for_statement,
-      @statement_block)
+      @statement_block,
+      @return_statement)
 
     expression_statement: -> seq(
       optional(@expression), ";")
@@ -32,6 +33,11 @@ module.exports = compiler.grammar
       optional(@expression),
       ")",
       @statement)
+
+    return_statement: -> seq(
+      keyword("return"),
+      optional(@expression),
+      ";")
 
     expression: -> choice(
       @identifier,

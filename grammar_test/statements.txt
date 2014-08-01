@@ -49,3 +49,15 @@ for (;;) {
     (statement_block
       (expression_statement (function_call (identifier) (identifier))))))
     
+============================================
+Return statements
+============================================
+
+return;
+return 5;
+
+---
+
+(program
+  (return_statement)
+  (return_statement (number)))
