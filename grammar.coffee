@@ -36,12 +36,20 @@ module.exports = compiler.grammar
       @array,
       @function,
       @member_access,
-      @subscript_access)
+      @subscript_access,
+      @function_call,
+      seq("(", @expression, ")"))
 
     member_access: -> seq(
       @expression,
       ".",
       @identifier)
+
+    function_call: -> seq(
+      @expression,
+      "(",
+      commaSep(@expression),
+      ")")
 
     subscript_access: -> seq(
       @expression,
