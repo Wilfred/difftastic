@@ -61,3 +61,19 @@ return 5;
 (program
   (return_statement)
   (return_statement (number)))
+
+============================================
+Var declarations
+============================================
+
+var x = 1;
+var x, y = {}, z;
+
+---
+
+(program
+  (var_declaration (identifier) (number))
+  (var_declaration
+    (identifier)
+    (identifier) (object)
+    (identifier)))
