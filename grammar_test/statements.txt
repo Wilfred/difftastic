@@ -77,3 +77,28 @@ var x, y = {}, z;
     (identifier)
     (identifier) (object)
     (identifier)))
+
+============================================
+Comments
+============================================
+
+{
+
+  // This is a property
+  aProperty: 1,
+
+
+  /*
+   * This is a method
+   */
+  aMethod: function() {}
+};
+
+---
+
+(program
+  (expression_statement (object
+    (comment)
+    (identifier) (number)
+    (comment)
+    (identifier) (function (formal_parameters) (statement_block)))))

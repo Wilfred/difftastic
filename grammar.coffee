@@ -7,6 +7,8 @@ commaSep = (rule) ->
 module.exports = compiler.grammar
   name: 'javascript',
 
+  ubiquitous: ["comment"]
+
   rules:
     program: -> repeat(@statement)
 
@@ -150,8 +152,12 @@ module.exports = compiler.grammar
       seq('"', repeat(choice(/[^"]/, '\\"')), '"'),
       seq("'", repeat(choice(/[^']/, "\\'")), "'")))
 
+    comment: -> token(choice(
+      seq("//", /.*/),
+      seq("/*", repeat(choice(/[^\*]/, /\*[^/]/)), "*/")))
+
     regex: -> token(seq(
-      '/', repeat(choice(/[^/]/, '\\/')), '/',
+      '/', repeat(choice(/[^/\n]/, '\\/')), '/',
       repeat(choice('i', 'g'))))
 
     true: -> keyword("true")
