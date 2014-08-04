@@ -102,3 +102,19 @@ Comments
     (identifier) (number)
     (comment)
     (identifier) (function (formal_parameters) (statement_block)))))
+
+============================================
+Automatic semicolon insertion
+============================================
+
+stuff()
+return 5
+var x = y
+
+---
+
+(program
+  (expression_statement (function_call (identifier)))
+  (return_statement (number))
+  (var_declaration (identifier) (identifier)))
+

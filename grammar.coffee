@@ -1,13 +1,16 @@
 compiler = require("tree-sitter-compiler")
-{ blank, choice, repeat, seq, keyword, token, optional } = compiler.rules
+{ blank, choice, repeat, seq, sym, keyword, token, optional } = compiler.rules
 
 commaSep = (rule) ->
   choice(blank(), seq(rule, repeat(seq(",", rule))))
 
+terminator = ->
+  choice(";", sym("_line_break"))
+
 module.exports = compiler.grammar
   name: 'javascript',
 
-  ubiquitous: ["comment"]
+  ubiquitous: ["comment", "_line_break"]
 
   rules:
     program: -> repeat(@statement)
@@ -21,7 +24,7 @@ module.exports = compiler.grammar
       @var_declaration)
 
     expression_statement: -> seq(
-      optional(@expression), ";")
+      optional(@expression), terminator())
 
     if_statement: -> seq(
       keyword("if"),
@@ -40,7 +43,7 @@ module.exports = compiler.grammar
     return_statement: -> seq(
       keyword("return"),
       optional(@expression),
-      ";")
+      terminator())
 
     var_declaration: -> seq(
       keyword("var"),
@@ -50,7 +53,7 @@ module.exports = compiler.grammar
           @identifier,
           "=",
           @expression))),
-      ";")
+      terminator())
 
     expression: -> choice(
       @identifier,
@@ -164,3 +167,5 @@ module.exports = compiler.grammar
     false: -> keyword("false")
     null: -> keyword("null")
     undefined: -> keyword("undefined")
+
+    _line_break: -> "\n"
