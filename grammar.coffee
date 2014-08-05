@@ -97,6 +97,7 @@ module.exports = compiler.grammar
       @member_access,
       @subscript_access,
       @function_call,
+      @bool_op,
       @math_op,
       @rel_op,
       @assignment,
@@ -160,6 +161,10 @@ module.exports = compiler.grammar
     number: -> token(seq(
       /\d+/,
       optional(seq(".", /\d+/))))
+
+    bool_op: -> choice(
+      seq(@expression, "&&", @expression),
+      seq(@expression, "||", @expression))
 
     math_op: -> choice(
       seq(@expression, "++"),
