@@ -20,6 +20,7 @@ module.exports = compiler.grammar
       @if_statement,
       @switch_statement,
       @for_statement,
+      @for_in_statement,
       @break_statement,
       @statement_block,
       @return_statement,
@@ -63,6 +64,16 @@ module.exports = compiler.grammar
       @expression_statement,
       @expression_statement,
       optional(@expression),
+      ")",
+      @statement)
+
+    for_in_statement: -> seq(
+      keyword("for"),
+      "(",
+      optional(keyword("var")),
+      @identifier,
+      keyword("in"),
+      @expression,
       ")",
       @statement)
 
