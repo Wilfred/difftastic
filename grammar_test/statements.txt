@@ -118,3 +118,32 @@ var x = y
   (return_statement (number))
   (var_declaration (identifier) (identifier)))
 
+============================================
+Switch statements
+============================================
+
+switch (x) {
+  case 1:
+  case 2:
+    something();
+    break;
+  case "three":
+    somethingElse();
+    break;
+  default:
+    return 4;
+}
+
+---
+
+(program
+  (switch_statement (identifier)
+    (case (number))
+    (case (number)
+      (expression_statement (function_call (identifier)))
+      (break_statement))
+    (case (string)
+      (expression_statement (function_call (identifier)))
+      (break_statement))
+    (default
+      (return_statement (number)))))

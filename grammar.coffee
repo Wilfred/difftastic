@@ -18,7 +18,9 @@ module.exports = compiler.grammar
     statement: -> choice(
       @expression_statement,
       @if_statement,
+      @switch_statement,
       @for_statement,
+      @break_statement,
       @statement_block,
       @return_statement,
       @var_declaration)
@@ -30,6 +32,30 @@ module.exports = compiler.grammar
       keyword("if"),
       "(", @expression, ")",
       @statement)
+
+    switch_statement: -> seq(
+      keyword("switch"),
+      "(",
+      @expression,
+      ")",
+      "{",
+      repeat(choice(@case, @default))
+      "}")
+
+    case: -> seq(
+      keyword("case"),
+      @expression,
+      ":",
+      repeat(@statement))
+
+    default: -> seq(
+      keyword("default"),
+      ":",
+      repeat(@statement))
+
+    break_statement: -> seq(
+      keyword("break"),
+      terminator())
 
     for_statement: -> seq(
       keyword("for"),
