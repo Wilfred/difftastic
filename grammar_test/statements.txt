@@ -38,14 +38,12 @@ for (;;) {
 
 (program
   (for_statement
-    (expression_statement (assignment (identifier) (number)))
-    (expression_statement (rel_op (identifier) (number)))
+    (assignment (identifier) (number))
+    (rel_op (identifier) (number))
     (math_op (identifier))
     (expression_statement (function_call (identifier) (identifier))))
 
   (for_statement
-    (expression_statement)
-    (expression_statement)
     (statement_block
       (expression_statement (function_call (identifier) (identifier))))))
 
@@ -125,16 +123,21 @@ Comments
 Automatic semicolon insertion
 ============================================
 
-stuff()
-return 5
-var x = y
+if (a) {
+  var b = c
+  d()
+  e()
+  return f
+}
 
 ---
 
 (program
-  (expression_statement (function_call (identifier)))
-  (return_statement (number))
-  (var_declaration (identifier) (identifier)))
+  (if_statement (identifier) (statement_block
+    (var_declaration (identifier) (identifier))
+    (expression_statement (function_call (identifier)))
+    (expression_statement (function_call (identifier)))
+    (return_statement (identifier)))))
 
 ============================================
 Switch statements

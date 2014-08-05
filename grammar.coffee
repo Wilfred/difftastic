@@ -12,6 +12,8 @@ module.exports = compiler.grammar
 
   ubiquitous: ["comment", "_line_break"]
 
+  separators: [' ', '\t', '\r']
+
   rules:
     program: -> repeat(@statement)
 
@@ -27,7 +29,7 @@ module.exports = compiler.grammar
       @var_declaration)
 
     expression_statement: -> seq(
-      optional(@expression), terminator())
+      @expression, terminator())
 
     if_statement: -> seq(
       keyword("if"),
@@ -61,8 +63,8 @@ module.exports = compiler.grammar
     for_statement: -> seq(
       keyword("for"),
       "(",
-      @expression_statement,
-      @expression_statement,
+      optional(@expression), ";"
+      optional(@expression), ";"
       optional(@expression),
       ")",
       @statement)
