@@ -1,7 +1,9 @@
 language: node_js
-before_script:
+before_install:
   - "script/get_edge_deps"
+before_script:
   - "tree-sitter compile"
   - "npm install"
 node_js:
   - "0.10"
+  - "0.11"
