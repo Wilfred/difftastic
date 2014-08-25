@@ -88,11 +88,13 @@ module.exports = compiler.grammar
       keyword("var"),
       commaSep(choice(
         @identifier,
-        seq(
-          @identifier,
-          "=",
-          @expression))),
+        @var_assignment)),
       terminator())
+
+    var_assignment: -> seq(
+      @identifier,
+      "=",
+      @expression)
 
     expression: -> choice(
       @identifier,
@@ -113,13 +115,10 @@ module.exports = compiler.grammar
       @bool_op,
       @math_op,
       @rel_op,
-      @assignment,
+      @var_assignment,
+      @member_assignment,
+      @subscript_assignment,
       seq("(", @expression, ")"))
-
-    member_access: -> seq(
-      @expression,
-      ".",
-      @identifier)
 
     function_call: -> seq(
       @expression,
@@ -127,13 +126,17 @@ module.exports = compiler.grammar
       commaSep(@expression),
       ")")
 
-    assignment: -> seq(
-      choice(
+    member_access: -> seq(
+      @expression,
+      ".",
+      @identifier)
+
+    member_assignment: -> seq(
+        @expression,
+        ".",
         @identifier,
-        @member_access,
-        @subscript_access),
-      "=",
-      @expression)
+        "=",
+        @expression)
 
     subscript_access: -> seq(
       @expression,
@@ -141,13 +144,23 @@ module.exports = compiler.grammar
       @expression,
       "]")
 
+    subscript_assignment: -> seq(
+      @expression,
+      "[",
+      @expression,
+      "]",
+      "=",
+      @expression)
+
     object: -> seq(
       "{",
-      commaSep(seq(
-        choice(@identifier, @string),
-        ":",
-        @expression))
+      commaSep(@pair),
       "}")
+
+    pair: -> seq(
+      choice(@identifier, @string),
+      ":",
+      @expression)
 
     function: -> seq(
       keyword("function"),

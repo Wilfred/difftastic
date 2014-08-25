@@ -38,7 +38,7 @@ for (;;) {
 
 (program
   (for_statement
-    (assignment (identifier) (number))
+    (var_assignment (identifier) (number))
     (rel_op (identifier) (number))
     (math_op (identifier))
     (expression_statement (function_call (identifier) (identifier))))
@@ -88,10 +88,11 @@ var x, y = {}, z;
 ---
 
 (program
-  (var_declaration (identifier) (number))
+  (var_declaration
+    (var_assignment (identifier) (number)))
   (var_declaration
     (identifier)
-    (identifier) (object)
+    (var_assignment (identifier) (object))
     (identifier)))
 
 ============================================
@@ -115,9 +116,9 @@ Comments
 (program
   (expression_statement (object
     (comment)
-    (identifier) (number)
+    (pair (identifier) (number))
     (comment)
-    (identifier) (function (formal_parameters) (statement_block)))))
+    (pair (identifier) (function (formal_parameters) (statement_block))))))
 
 ============================================
 Automatic semicolon insertion
@@ -134,7 +135,7 @@ if (a) {
 
 (program
   (if_statement (identifier) (statement_block
-    (var_declaration (identifier) (identifier))
+    (var_declaration (var_assignment (identifier) (identifier)))
     (expression_statement (function_call (identifier)))
     (expression_statement (function_call (identifier)))
     (return_statement (identifier)))))

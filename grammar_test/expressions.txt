@@ -84,11 +84,11 @@ Objects
 (program
   (expression_statement (object))
   (expression_statement (object
-    (identifier) (string)))
+    (pair (identifier) (string))))
   (expression_statement (object
-    (identifier) (string)
-    (string) (identifier)
-    (identifier) (number))))
+    (pair (identifier) (string))
+    (pair (string) (identifier))
+    (pair (identifier) (number)))))
 
 ============================================
 Arrays
@@ -220,9 +220,9 @@ x["y"] = 0;
 ---
 
 (program
-  (expression_statement (assignment
+  (expression_statement (var_assignment
     (identifier) (number)))
-  (expression_statement (assignment
-    (member_access (identifier) (identifier)) (number)))
-  (expression_statement (assignment
-    (subscript_access (identifier) (string)) (number))))
+  (expression_statement (member_assignment
+    (identifier) (identifier) (number)))
+  (expression_statement (subscript_assignment
+    (identifier) (string) (number))))
