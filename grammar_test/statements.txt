@@ -15,13 +15,13 @@ if (a.b) {
 (program
   (if_statement (identifier)
     (expression_statement (function_call
-      (identifier) (identifier))))
+      (identifier) (arguments (identifier)))))
   (if_statement (member_access (identifier) (identifier))
     (statement_block
       (expression_statement (function_call
-        (identifier) (identifier)))
+        (identifier) (arguments (identifier))))
       (expression_statement (function_call
-        (identifier) (identifier))))))
+        (identifier) (arguments (identifier)))))))
 
 ============================================
 For statements
@@ -41,11 +41,11 @@ for (;;) {
     (var_assignment (identifier) (number))
     (rel_op (identifier) (number))
     (math_op (identifier))
-    (expression_statement (function_call (identifier) (identifier))))
+    (expression_statement (function_call (identifier) (arguments (identifier)))))
 
   (for_statement
     (statement_block
-      (expression_statement (function_call (identifier) (identifier))))))
+      (expression_statement (function_call (identifier) (arguments (identifier)))))))
 
 ============================================
 For-in statements
@@ -61,9 +61,9 @@ for (item in items)
 
 (program
   (for_in_statement (identifier) (identifier)
-    (expression_statement (function_call (identifier) (identifier))))
+    (expression_statement (function_call (identifier) (arguments (identifier)))))
   (for_in_statement (identifier) (identifier)
-    (expression_statement (function_call (identifier) (identifier)))))
+    (expression_statement (function_call (identifier) (arguments (identifier))))))
 
 ============================================
 Return statements
@@ -118,7 +118,7 @@ Comments
     (comment)
     (pair (identifier) (number))
     (comment)
-    (pair (identifier) (function (formal_parameters) (statement_block))))))
+    (pair (identifier) (function (statement_block))))))
 
 ============================================
 Automatic semicolon insertion

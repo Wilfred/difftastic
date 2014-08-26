@@ -1,8 +1,11 @@
 compiler = require("tree-sitter-compiler")
-{ blank, choice, repeat, seq, sym, keyword, token, optional } = compiler.rules
+{ choice, repeat, seq, sym, keyword, token, optional, prec } = compiler.rules
+
+commaSep1 = (rule) ->
+  seq(rule, repeat(seq(",", rule)))
 
 commaSep = (rule) ->
-  choice(blank(), seq(rule, repeat(seq(",", rule))))
+  optional(commaSep1(rule))
 
 terminator = ->
   choice(";", sym("_line_break"))
@@ -112,6 +115,7 @@ module.exports = compiler.grammar
       @member_access,
       @subscript_access,
       @function_call,
+      @constructor_call,
       @bool_op,
       @math_op,
       @rel_op,
@@ -123,34 +127,45 @@ module.exports = compiler.grammar
     function_call: -> seq(
       @expression,
       "(",
-      commaSep(@expression),
+      optional(@arguments),
       ")")
 
-    member_access: -> seq(
+    constructor_call: -> prec(1, seq(
+      keyword("new"),
+      @expression,
+      optional(seq(
+        "(",
+        optional(@arguments),
+        ")"))))
+
+    arguments: ->
+      commaSep1(@expression)
+
+    member_access: -> prec(10, seq(
       @expression,
       ".",
-      @identifier)
+      @identifier))
 
-    member_assignment: -> seq(
-        @expression,
-        ".",
-        @identifier,
-        "=",
-        @expression)
+    member_assignment: -> prec(10, seq(
+      @expression,
+      ".",
+      @identifier,
+      "=",
+      @expression))
 
-    subscript_access: -> seq(
+    subscript_access: -> prec(10, seq(
       @expression,
       "[",
       @expression,
-      "]")
+      "]"))
 
-    subscript_assignment: -> seq(
+    subscript_assignment: -> prec(10, seq(
       @expression,
       "[",
       @expression,
       "]",
       "=",
-      @expression)
+      @expression))
 
     object: -> seq(
       "{",
@@ -164,13 +179,12 @@ module.exports = compiler.grammar
 
     function: -> seq(
       keyword("function"),
-      @formal_parameters,
+      optional(@identifier),
+      "(", optional(@formal_parameters), ")",
       @statement_block)
 
-    formal_parameters: -> seq(
-      "(",
-      commaSep(@identifier),
-      ")")
+    formal_parameters: ->
+      commaSep1(@identifier)
 
     statement_block: -> seq(
       "{",

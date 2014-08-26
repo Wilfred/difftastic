@@ -113,15 +113,19 @@ function() {};
 function(arg1, arg2) {
   arg2;
 };
+function stuff() {}
 
 ---
 
 (program
-  (expression_statement (function (formal_parameters) (statement_block)))
+  (expression_statement (function (statement_block)))
   (expression_statement (function
     (formal_parameters (identifier) (identifier))
     (statement_block
-      (expression_statement (identifier))))))
+      (expression_statement (identifier)))))
+  (expression_statement (function
+    (identifier)
+    (statement_block))))
 
 ============================================
 Property access
@@ -150,9 +154,25 @@ x.someMethod(arg1, "arg2");
 (program
   (expression_statement (function_call
     (member_access (identifier) (identifier))
-    (identifier) (string)))
+    (arguments (identifier) (string))))
   (expression_statement (function_call
-    (expression (function (formal_parameters) (statement_block))))))
+    (expression (function (statement_block))))))
+
+============================================
+Constructor calls
+============================================
+
+new module.Klass(1, "two");
+new Thing;
+
+---
+
+(program
+  (expression_statement (constructor_call
+    (member_access (identifier) (identifier))
+    (arguments (number) (string))))
+  (expression_statement (constructor_call
+    (identifier))))
 
 ============================================
 Math operators
