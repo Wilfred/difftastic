@@ -1,5 +1,5 @@
 compiler = require("tree-sitter-compiler")
-{ choice, repeat, seq, sym, keyword, token, optional, prec } = compiler.rules
+{ choice, err, repeat, seq, sym, keyword, token, optional, prec } = compiler.rules
 
 commaSep1 = (rule) ->
   seq(rule, repeat(seq(",", rule)))
@@ -32,11 +32,11 @@ module.exports = compiler.grammar
       @var_declaration)
 
     expression_statement: -> seq(
-      @expression, terminator())
+      err(@expression), terminator())
 
     if_statement: -> seq(
       keyword("if"),
-      "(", @expression, ")",
+      "(", err(@expression), ")",
       @statement)
 
     switch_statement: -> seq(

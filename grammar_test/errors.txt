@@ -1,0 +1,36 @@
+============================================
+Bad statements
+============================================
+
+what the heck is this
+y();
+
+if (x) {
+  >>>
+  var y = right
+}
+
+---
+
+(program
+  (expression_statement (ERROR 't'))
+  (expression_statement (function_call (identifier)))
+  (if_statement (identifier) (statement_block
+    (expression_statement (ERROR '>'))
+    (var_declaration (var_assignment (identifier) (identifier))))))
+
+============================================
+Bad if conditions
+============================================
+
+if (%$&^)
+  wat();
+
+okWhatever();
+
+---
+
+(program
+  (if_statement (ERROR '%')
+    (expression_statement (function_call (identifier))))
+  (expression_statement (function_call (identifier))))
