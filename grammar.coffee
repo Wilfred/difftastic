@@ -37,7 +37,11 @@ module.exports = compiler.grammar
     if_statement: -> seq(
       keyword("if"),
       "(", err(@expression), ")",
-      @statement)
+      @statement,
+      optional(seq(
+        keyword("else"),
+        @statement
+      )))
 
     switch_statement: -> seq(
       keyword("switch"),
