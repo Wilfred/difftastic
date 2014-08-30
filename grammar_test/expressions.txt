@@ -147,7 +147,9 @@ Function calls
 ============================================
 
 x.someMethod(arg1, "arg2");
-(function() {})();
+function(x, y) {
+
+}(a, b);
 
 ---
 
@@ -156,7 +158,10 @@ x.someMethod(arg1, "arg2");
     (member_access (identifier) (identifier))
     (arguments (identifier) (string))))
   (expression_statement (function_call
-    (expression (function (statement_block))))))
+    (function
+      (formal_parameters (identifier) (identifier))
+      (statement_block))
+    (arguments (identifier) (identifier)))))
 
 ============================================
 Constructor calls
@@ -240,9 +245,46 @@ x["y"] = 0;
 ---
 
 (program
-  (expression_statement (var_assignment
-    (identifier) (number)))
-  (expression_statement (member_assignment
-    (identifier) (identifier) (number)))
-  (expression_statement (subscript_assignment
-    (identifier) (string) (number))))
+  (expression_statement (assignment
+    (identifier)
+    (number)))
+  (expression_statement (assignment
+    (member_access (identifier) (identifier))
+    (number)))
+  (expression_statement (assignment
+    (subscript_access (identifier) (string))
+    (number))))
+
+==============================================
+Ternaries
+==============================================
+
+condition ? case1 : case2;
+
+x.y = some.condition ?
+  some.case :
+  some.other.case;
+---
+
+(program
+  (expression_statement (ternary
+    (identifier) (identifier) (identifier)))
+  (expression_statement (assignment
+    (member_access (identifier) (identifier))
+    (ternary
+      (member_access (identifier) (identifier))
+      (member_access (identifier) (identifier))
+      (member_access (member_access (identifier) (identifier)) (identifier))))))
+
+==============================================
+Type operators
+==============================================
+
+typeof x;
+x instanceof String;
+
+---
+
+(program
+  (expression_statement (type_op (identifier)))
+  (expression_statement (type_op (identifier) (identifier))))

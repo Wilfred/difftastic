@@ -68,7 +68,7 @@ for (;;) {
 
 (program
   (for_statement
-    (var_assignment (identifier) (number))
+    (assignment (identifier) (number))
     (rel_op (identifier) (number))
     (math_op (identifier))
     (expression_statement (function_call (identifier) (arguments (identifier)))))
@@ -199,3 +199,15 @@ switch (x) {
       (break_statement))
     (default
       (return_statement (number)))))
+
+============================================
+Throw statements
+============================================
+
+throw new Error("uh oh");
+
+---
+
+(program
+  (throw_statement
+    (constructor_call (identifier) (arguments (string)))))

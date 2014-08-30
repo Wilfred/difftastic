@@ -29,6 +29,7 @@ module.exports = compiler.grammar
       @break_statement,
       @statement_block,
       @return_statement,
+      @throw_statement,
       @var_declaration)
 
     expression_statement: -> seq(
@@ -103,6 +104,11 @@ module.exports = compiler.grammar
       "=",
       @expression)
 
+    throw_statement: -> seq(
+      keyword("throw"),
+      @expression,
+      terminator())
+
     expression: -> choice(
       @identifier,
       @number,
@@ -120,12 +126,12 @@ module.exports = compiler.grammar
       @subscript_access,
       @function_call,
       @constructor_call,
+      @ternary,
       @bool_op,
       @math_op,
       @rel_op,
-      @var_assignment,
-      @member_assignment,
-      @subscript_assignment,
+      @type_op,
+      @assignment,
       seq("(", @expression, ")"))
 
     function_call: -> seq(
@@ -150,24 +156,17 @@ module.exports = compiler.grammar
       ".",
       @identifier))
 
-    member_assignment: -> prec(10, seq(
-      @expression,
-      ".",
-      @identifier,
-      "=",
-      @expression))
-
     subscript_access: -> prec(10, seq(
       @expression,
       "[",
       @expression,
       "]"))
 
-    subscript_assignment: -> prec(10, seq(
-      @expression,
-      "[",
-      @expression,
-      "]",
+    assignment: -> prec(-1, seq(
+      choice(
+        @identifier,
+        @member_access,
+        @subscript_access)
       "=",
       @expression))
 
@@ -210,6 +209,9 @@ module.exports = compiler.grammar
       seq(@expression, "&&", @expression),
       seq(@expression, "||", @expression))
 
+    ternary: -> seq(
+      @expression, "?", @expression, ":", @expression)
+
     math_op: -> choice(
       seq(@expression, "++"),
       seq(@expression, "--"),
@@ -225,6 +227,10 @@ module.exports = compiler.grammar
       seq(@expression, "!==", @expression),
       seq(@expression, ">=", @expression),
       seq(@expression, ">", @expression))
+
+    type_op: -> choice(
+      seq(keyword("typeof"), @expression),
+      seq(@expression, keyword("instanceof"), @expression))
 
     string: -> token(choice(
       seq('"', repeat(choice(/[^"]/, '\\"')), '"'),
