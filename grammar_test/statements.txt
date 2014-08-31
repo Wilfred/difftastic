@@ -96,6 +96,19 @@ for (item in items)
     (expression_statement (function_call (identifier) (arguments (identifier))))))
 
 ============================================
+While statements
+============================================
+
+while (a)
+  b();
+
+---
+
+(program
+  (while_statement (identifier)
+    (expression_statement (function_call (identifier)))))
+
+============================================
 Return statements
 ============================================
 
@@ -211,3 +224,29 @@ throw new Error("uh oh");
 (program
   (throw_statement
     (constructor_call (identifier) (arguments (string)))))
+
+============================================
+Try catch finally statements
+============================================
+
+try { a; } catch (b) { c; }
+try { d; } finally { e; }
+try { f; } catch { g; } finally { h; }
+
+---
+
+(program
+  (try_statement
+    (statement_block (expression_statement (identifier)))
+    (catch (identifier)
+      (statement_block (expression_statement (identifier)))))
+  (try_statement
+    (statement_block (expression_statement (identifier)))
+    (finally
+      (statement_block (expression_statement (identifier)))))
+  (try_statement
+    (statement_block (expression_statement (identifier)))
+    (catch
+      (statement_block (expression_statement (identifier))))
+    (finally
+      (statement_block (expression_statement (identifier))))))

@@ -26,10 +26,12 @@ module.exports = compiler.grammar
       @switch_statement,
       @for_statement,
       @for_in_statement,
+      @while_statement,
       @break_statement,
       @statement_block,
       @return_statement,
       @throw_statement,
+      @try_statement,
       @var_declaration)
 
     expression_statement: -> seq(
@@ -87,6 +89,11 @@ module.exports = compiler.grammar
       ")",
       @statement)
 
+    while_statement: -> seq(
+      keyword("while"),
+      "(", err(@expression), ")",
+      @statement)
+
     return_statement: -> seq(
       keyword("return"),
       optional(@expression),
@@ -94,15 +101,30 @@ module.exports = compiler.grammar
 
     var_declaration: -> seq(
       keyword("var"),
-      commaSep(choice(
+      commaSep1(err(choice(
         @identifier,
-        @var_assignment)),
+        @var_assignment))),
       terminator())
 
     var_assignment: -> seq(
       @identifier,
       "=",
       @expression)
+
+    try_statement: -> seq(
+      keyword("try"),
+      @statement_block,
+      optional(@catch),
+      optional(@finally))
+
+    catch: -> seq(
+      keyword("catch"),
+      optional(seq("(", @identifier, ")"))
+      @statement_block)
+
+    finally: -> seq(
+      keyword("finally"),
+      @statement_block)
 
     throw_statement: -> seq(
       keyword("throw"),
@@ -129,27 +151,24 @@ module.exports = compiler.grammar
       @ternary,
       @bool_op,
       @math_op,
+      @bitwise_op,
       @rel_op,
       @type_op,
       @assignment,
-      seq("(", @expression, ")"))
+      seq("(", err(@expression), ")"))
 
     function_call: -> seq(
       @expression,
-      "(",
-      optional(@arguments),
-      ")")
+      "(", err(optional(@arguments)), ")")
 
     constructor_call: -> prec(1, seq(
       keyword("new"),
       @expression,
       optional(seq(
-        "(",
-        optional(@arguments),
-        ")"))))
+        "(", err(optional(@arguments)), ")"))))
 
     arguments: ->
-      commaSep1(@expression)
+      commaSep1(err(@expression))
 
     member_access: -> prec(10, seq(
       @expression,
@@ -158,11 +177,9 @@ module.exports = compiler.grammar
 
     subscript_access: -> prec(10, seq(
       @expression,
-      "[",
-      @expression,
-      "]"))
+      "[", err(@expression), "]"))
 
-    assignment: -> prec(-1, seq(
+    assignment: -> prec(-2, seq(
       choice(
         @identifier,
         @member_access,
@@ -172,7 +189,7 @@ module.exports = compiler.grammar
 
     object: -> seq(
       "{",
-      commaSep(@pair),
+      commaSep(err(@pair)),
       "}")
 
     pair: -> seq(
@@ -191,7 +208,7 @@ module.exports = compiler.grammar
 
     statement_block: -> seq(
       "{",
-      repeat(@statement),
+      err(repeat(@statement)),
       "}")
 
     array: -> seq(
@@ -199,20 +216,29 @@ module.exports = compiler.grammar
       commaSep(@expression)
       "]")
 
-    identifier: -> /\a+\d*/
+    identifier: -> /[\a_$][\a\d_$]*/
 
     number: -> token(seq(
       /\d+/,
       optional(seq(".", /\d+/))))
 
     bool_op: -> choice(
-      seq(@expression, "&&", @expression),
+      prec(3, seq("!", @expression)),
+      prec(2, seq(@expression, "&&", @expression)),
       seq(@expression, "||", @expression))
 
-    ternary: -> seq(
-      @expression, "?", @expression, ":", @expression)
+    bitwise_op: -> choice(
+      seq(@expression, ">>", @expression),
+      seq(@expression, "<<", @expression),
+      seq(@expression, "&", @expression),
+      seq(@expression, "|", @expression))
+
+    ternary: -> prec(-1, seq(
+      @expression, "?", @expression, ":", @expression))
 
     math_op: -> choice(
+      prec(2, seq("-", @expression)),
+      prec(2, seq("+", @expression)),
       seq(@expression, "++"),
       seq(@expression, "--"),
       seq(@expression, "+", @expression),
