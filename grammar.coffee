@@ -33,6 +33,7 @@ module.exports = compiler.grammar
       @return_statement,
       @throw_statement,
       @try_statement,
+      @delete_statement,
       @var_declaration)
 
     expression_statement: -> seq(
@@ -100,6 +101,11 @@ module.exports = compiler.grammar
     return_statement: -> seq(
       keyword("return"),
       optional(@expression),
+      terminator())
+
+    delete_statement: -> seq(
+      keyword("delete"),
+      choice(@member_access, @subscript_access),
       terminator())
 
     var_declaration: -> seq(
