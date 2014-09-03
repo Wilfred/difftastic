@@ -215,9 +215,13 @@ module.exports = compiler.grammar
 
     identifier: -> /[\a_$][\a\d_$]*/
 
-    number: -> token(seq(
-      /\d+/,
-      optional(seq(".", /\d+/))))
+    number: -> token(choice(
+      seq(
+        "0x",
+        /[\da-fA-F]+/),
+      seq(
+        /\d+/,
+        optional(seq(".", /\d*/)))))
 
     bool_op: -> choice(
       prec(4, seq("!", @expression)),

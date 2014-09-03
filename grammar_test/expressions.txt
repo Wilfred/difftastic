@@ -17,10 +17,12 @@ Numbers
 
 101;
 3.14;
+0x1ABCDEFabcdef;
 
 ---
 
 (program
+  (expression_statement (number))
   (expression_statement (number))
   (expression_statement (number)))
 
