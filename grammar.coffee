@@ -71,7 +71,7 @@ module.exports = compiler.grammar
     for_statement: -> seq(
       keyword("for"),
       "(",
-      optional(@expression), ";"
+      commaSep(@expression), ";"
       optional(@expression), ";"
       optional(@expression),
       ")",
