@@ -109,6 +109,21 @@ while (a)
     (expression_statement (function_call (identifier)))))
 
 ============================================
+Do statements
+============================================
+
+do {
+  a;
+} while (b)
+
+---
+
+(program
+  (do_statement
+    (statement_block (expression_statement (identifier)))
+    (identifier)))
+
+============================================
 Return statements
 ============================================
 

@@ -27,6 +27,7 @@ module.exports = compiler.grammar
       @for_statement,
       @for_in_statement,
       @while_statement,
+      @do_statement,
       @break_statement,
       @statement_block,
       @return_statement,
@@ -48,12 +49,8 @@ module.exports = compiler.grammar
 
     switch_statement: -> seq(
       keyword("switch"),
-      "(",
-      @expression,
-      ")",
-      "{",
-      repeat(choice(@case, @default))
-      "}")
+      "(", @expression, ")",
+      "{", repeat(choice(@case, @default)), "}")
 
     case: -> seq(
       keyword("case"),
@@ -93,6 +90,12 @@ module.exports = compiler.grammar
       keyword("while"),
       "(", err(@expression), ")",
       @statement)
+
+    do_statement: -> seq(
+      keyword("do"),
+      @statement_block,
+      keyword("while"),
+      "(", err(@expression), ")")
 
     return_statement: -> seq(
       keyword("return"),
@@ -188,9 +191,7 @@ module.exports = compiler.grammar
       @expression))
 
     object: -> seq(
-      "{",
-      commaSep(err(@pair)),
-      "}")
+      "{", commaSep(err(@pair)), "}")
 
     pair: -> seq(
       choice(@identifier, @string),
@@ -207,14 +208,10 @@ module.exports = compiler.grammar
       commaSep1(@identifier)
 
     statement_block: -> seq(
-      "{",
-      err(repeat(@statement)),
-      "}")
+      "{", err(repeat(@statement)), "}")
 
     array: -> seq(
-      "[",
-      commaSep(@expression)
-      "]")
+      "[", commaSep(err(@expression)), "]")
 
     identifier: -> /[\a_$][\a\d_$]*/
 
@@ -223,26 +220,28 @@ module.exports = compiler.grammar
       optional(seq(".", /\d+/))))
 
     bool_op: -> choice(
-      prec(3, seq("!", @expression)),
+      prec(4, seq("!", @expression)),
       prec(2, seq(@expression, "&&", @expression)),
-      seq(@expression, "||", @expression))
+      prec(1, seq(@expression, "||", @expression)))
 
     bitwise_op: -> choice(
-      seq(@expression, ">>", @expression),
-      seq(@expression, "<<", @expression),
-      seq(@expression, "&", @expression),
-      seq(@expression, "|", @expression))
+      prec(3, seq(@expression, ">>", @expression)),
+      prec(3, seq(@expression, "<<", @expression)),
+      prec(2, seq(@expression, "&", @expression)),
+      prec(1, seq(@expression, "|", @expression)))
 
     ternary: -> prec(-1, seq(
       @expression, "?", @expression, ":", @expression))
 
     math_op: -> choice(
-      prec(2, seq("-", @expression)),
-      prec(2, seq("+", @expression)),
-      seq(@expression, "++"),
-      seq(@expression, "--"),
-      seq(@expression, "+", @expression),
-      seq(@expression, "-", @expression))
+      prec(4, seq("-", @expression)),
+      prec(4, seq("+", @expression)),
+      prec(4, seq(@expression, "++")),
+      prec(4, seq(@expression, "--")),
+      prec(1, seq(@expression, "+", @expression)),
+      prec(1, seq(@expression, "-", @expression)),
+      prec(2, seq(@expression, "*", @expression)),
+      prec(2, seq(@expression, "/", @expression)))
 
     rel_op: -> choice(
       seq(@expression, "<", @expression),
@@ -255,8 +254,9 @@ module.exports = compiler.grammar
       seq(@expression, ">", @expression))
 
     type_op: -> choice(
-      seq(keyword("typeof"), @expression),
-      seq(@expression, keyword("instanceof"), @expression))
+      prec(1, seq(keyword("typeof"), @expression)),
+      prec(1, seq(@expression, keyword("instanceof"), @expression)),
+      prec(1, seq(@expression, keyword("in"), @expression)))
 
     string: -> token(choice(
       seq('"', repeat(choice(/[^"]/, '\\"')), '"'),
