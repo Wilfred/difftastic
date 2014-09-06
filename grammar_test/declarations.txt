@@ -1,0 +1,61 @@
+============================================
+Simple variable declarations
+============================================
+
+size_t the_size;
+
+---
+
+(program
+  (var_declaration (identifier) (identifier)))
+
+============================================
+Pointer variable declarations
+============================================
+
+char *the_string;
+const char **the_string, **the_other_string;
+
+---
+
+(program
+  (var_declaration (identifier) (pointer_type (identifier)))
+  (var_declaration (type_modifier) (identifier)
+    (pointer_type (pointer_type (identifier)))
+    (pointer_type (pointer_type (identifier)))))
+
+============================================
+Simple typedefs
+============================================
+
+typedef int my_int;
+
+---
+
+(program
+  (typedef (identifier) (identifier)))
+
+============================================
+Struct typedefs
+============================================
+
+typedef struct {
+  size_t i;
+  struct {
+    float x;
+    float y;
+  } pos;
+} my_struct;
+
+---
+
+(program (typedef
+  (struct_type
+    (field (identifier) (identifier))
+    (field
+      (struct_type
+        (field (identifier) (identifier))
+        (field (identifier) (identifier)))
+      (identifier)))
+  (identifier)))
+

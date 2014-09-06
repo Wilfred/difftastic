@@ -1,0 +1,23 @@
+============================================
+Include directives
+============================================
+
+#include "some/path.h"
+#include <stdint.h>
+
+---
+
+(program
+  (preproc_include (string))
+  (preproc_include (system_lib_string)))
+
+============================================
+Defines
+============================================
+
+#define SIZE 1024
+
+---
+
+(program
+  (preproc_define (identifier)))
