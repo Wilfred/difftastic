@@ -7,3 +7,5 @@ binding.gyp
 grammar.json
 src
 include
+
+*.log
