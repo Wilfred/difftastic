@@ -51,6 +51,9 @@ module.exports = compiler.grammar
       ";")
 
     var_declaration: -> seq(
+      repeat(choice(
+        keyword("static"),
+        keyword("extern"))),
       @type,
       commaSep1(choice(
         @type_expression,
@@ -67,6 +70,7 @@ module.exports = compiler.grammar
       "{", err(repeat(@statement)), "}")
 
     statement: -> choice(
+      @var_declaration,
       @return_statement,
       @expression_statement),
 
@@ -148,6 +152,7 @@ module.exports = compiler.grammar
       @identifier,
       @bool_op,
       @math_op,
+      @assignment,
       @function_call,
       @field_access,
       @deref_field_access,
@@ -174,6 +179,14 @@ module.exports = compiler.grammar
       prec(3, seq("!", @expression)),
       prec(2, seq(@expression, "&&", @expression)),
       prec(1, seq(@expression, "||", @expression)))
+
+    assignment: -> seq(
+      choice(
+        @identifier,
+        @field_access,
+        @deref_field_access),
+      "=",
+      @expression)
 
     number: -> /\d+(\.\d+)?/
 
