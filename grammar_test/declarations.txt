@@ -61,13 +61,15 @@ enum e2 {
 Primitive-typed variable declarations
 ============================================
 
-int a;
+unsigned short int a;
+long int b;
 float d, e;
 
 ---
 
 (program
-  (var_declaration (identifier) (identifier))
+  (var_declaration (primitive_type (identifier)) (identifier))
+  (var_declaration (primitive_type (identifier)) (identifier))
   (var_declaration (identifier) (identifier) (identifier)))
 
 ============================================

@@ -64,10 +64,17 @@ module.exports = compiler.grammar
     type: -> seq(
       optional(keyword("const")),
       choice(
-        @identifier,
+        @primitive_type,
         @struct_type,
         @enum_type,
         @union_type))
+
+    primitive_type: -> seq(
+      optional(repeat(choice(
+        keyword("unsigned"),
+        keyword("short"),
+        keyword("long")))),
+      @identifier)
 
     formal_parameters: ->
       err(commaSep(@field))
