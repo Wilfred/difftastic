@@ -62,14 +62,17 @@ Primitive-typed variable declarations
 ============================================
 
 unsigned short int a;
-long int b;
+long int b, c = 5, d;
 float d, e;
 
 ---
 
 (program
   (var_declaration (primitive_type (identifier)) (identifier))
-  (var_declaration (primitive_type (identifier)) (identifier))
+  (var_declaration (primitive_type (identifier))
+    (identifier)
+    (var_assignment (identifier) (number))
+    (identifier))
   (var_declaration (identifier) (identifier) (identifier)))
 
 ============================================
@@ -126,4 +129,21 @@ int main(int argc, const char **argv);
   (formal_parameters
     (field (identifier) (identifier))
     (field (type (identifier)) (pointer_type (pointer_type (identifier)))))))
+
+============================================
+Function definitions
+============================================
+
+void do_stuff(int arg1) {
+  return 5;
+}
+
+---
+
+(program (function_declaration
+  (identifier)
+  (identifier)
+  (formal_parameters (field (identifier) (identifier)))
+  (statement_block
+    (return_statement (number)))))
 

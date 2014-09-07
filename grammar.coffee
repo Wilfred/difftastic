@@ -52,14 +52,25 @@ module.exports = compiler.grammar
 
     var_declaration: -> seq(
       @type,
-      commaSep1(@type_expression),
+      commaSep1(choice(
+        @type_expression,
+        @var_assignment)),
       ";")
 
     function_declaration: -> seq(
       @type,
       @identifier,
       "(", @formal_parameters, ")",
-      ";")
+      choice(";", @statement_block))
+
+    statement_block: -> seq(
+      "{", err(repeat(@statement)), "}")
+
+    statement: -> choice(
+      @return_statement),
+
+    return_statement: -> seq(
+      keyword("return"), @expression, ";")
 
     type: -> seq(
       optional(keyword("const")),
@@ -120,12 +131,18 @@ module.exports = compiler.grammar
           "{", err(commaSep(@enum_value)), "}")))
 
     enum_value: -> seq(
-      @identifier, optional(seq("=", @number)))
+      @identifier, optional(seq("=", @expression)))
 
     field: -> seq(@type, @type_expression)
 
+    var_assignment: -> seq(@type_expression, "=", @expression)
+
     type_modifier: -> choice(
       keyword("const"))
+
+    expression: -> choice(
+      @number,
+      @string)
 
     number: -> /\d+(\.\d+)?/
 
