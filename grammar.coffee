@@ -62,10 +62,12 @@ module.exports = compiler.grammar
       ";")
 
     type: -> seq(
-      repeat(@type_modifier),
+      optional(keyword("const")),
       choice(
         @identifier,
-        @struct_type))
+        @struct_type,
+        @enum_type,
+        @union_type))
 
     formal_parameters: ->
       err(commaSep(@field))

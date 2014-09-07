@@ -1,31 +1,4 @@
 ============================================
-Simple variable declarations
-============================================
-
-int x;
-float y, z;
-
----
-
-(program
-  (var_declaration (type (identifier)) (identifier))
-  (var_declaration (type (identifier)) (identifier) (identifier)))
-
-============================================
-Pointer variable declarations
-============================================
-
-char *the_string;
-const char **the_strings;
-
----
-
-(program
-  (var_declaration (type (identifier)) (pointer_type (identifier)))
-  (var_declaration (type (type_modifier) (identifier))
-    (pointer_type (pointer_type (identifier)))))
-
-============================================
 Struct declarations
 ============================================
 
@@ -41,8 +14,8 @@ struct s2 {
 (program
   (struct_declaration (struct_type (identifier)))
   (struct_declaration (struct_type (identifier)
-    (field (type (identifier)) (identifier))
-    (field (type (identifier)) (identifier)))))
+    (field (identifier) (identifier))
+    (field (identifier) (identifier)))))
 
 ============================================
 Union declarations
@@ -60,8 +33,8 @@ union s2 {
 (program
   (union_declaration (union_type (identifier)))
   (union_declaration (union_type (identifier)
-    (field (type (identifier)) (identifier))
-    (field (type (identifier)) (identifier)))))
+    (field (identifier) (identifier))
+    (field (identifier) (identifier)))))
 
 ============================================
 Enum declarations
@@ -85,6 +58,48 @@ enum e2 {
     (identifier))))
 
 ============================================
+Primitive-typed variable declarations
+============================================
+
+int a;
+float d, e;
+
+---
+
+(program
+  (var_declaration (identifier) (identifier))
+  (var_declaration (identifier) (identifier) (identifier)))
+
+============================================
+Composite-typed variable declarations
+============================================
+
+struct b c;
+union { int e; } f;
+enum { g, h } i;
+
+---
+
+(program
+  (var_declaration (struct_type (identifier)) (identifier))
+  (var_declaration (union_type (field (identifier) (identifier))) (identifier))
+  (var_declaration (enum_type (identifier) (identifier)) (identifier)))
+
+============================================
+Pointer variable declarations
+============================================
+
+char *the_string;
+const char **the_strings;
+
+---
+
+(program
+  (var_declaration (identifier) (pointer_type (identifier)))
+  (var_declaration (type (identifier))
+    (pointer_type (pointer_type (identifier)))))
+
+============================================
 Typedefs
 ============================================
 
@@ -93,7 +108,7 @@ typedef int my_int;
 ---
 
 (program
-  (typedef (type (identifier)) (identifier)))
+  (typedef (identifier) (identifier)))
 
 ============================================
 Function declarations
@@ -104,9 +119,9 @@ int main(int argc, const char **argv);
 ---
 
 (program (function_declaration
-  (type (identifier))
+  (identifier)
   (identifier)
   (formal_parameters
-    (field (type (identifier)) (identifier))
-    (field (type (type_modifier) (identifier)) (pointer_type (pointer_type (identifier)))))))
+    (field (identifier) (identifier))
+    (field (type (identifier)) (pointer_type (pointer_type (identifier)))))))
 
