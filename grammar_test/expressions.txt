@@ -28,3 +28,55 @@ int main() {
     (expression_statement (field_access (identifier) (identifier)))
     (expression_statement (deref_field_access (identifier) (identifier)))))
 
+============================================
+Field access
+============================================
+
+int main() {
+  s.data1;
+  p->data2;
+}
+
+---
+
+(function_declaration (identifier) (identifier) (formal_parameters)
+  (statement_block
+    (expression_statement (field_access (identifier) (identifier)))
+    (expression_statement (deref_field_access (identifier) (identifier)))))
+
+============================================
+Boolean operators
+============================================
+
+int main() {
+  !x || !y && !z;
+}
+
+---
+
+(function_declaration (identifier) (identifier) (formal_parameters)
+  (statement_block
+    (expression_statement (bool_op
+      (bool_op (identifier))
+      (bool_op (bool_op (identifier)) (bool_op (identifier)))))))
+
+============================================
+Math operators
+============================================
+
+int main() {
+  -a / b + c * -d;
+}
+
+---
+
+(function_declaration (identifier) (identifier) (formal_parameters)
+  (statement_block
+    (expression_statement (math_op
+      (math_op
+        (math_op (identifier))
+        (identifier))
+      (math_op
+        (identifier)
+        (math_op (identifier)))))))
+

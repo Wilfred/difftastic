@@ -1,5 +1,5 @@
 compiler = require("tree-sitter-compiler")
-{ choice, err, repeat, seq, keyword, optional, token } = compiler.rules
+{ choice, err, repeat, seq, keyword, optional, token, prec } = compiler.rules
 
 commaSep = (rule) ->
   optional(commaSep1(rule))
@@ -146,6 +146,8 @@ module.exports = compiler.grammar
 
     expression: -> choice(
       @identifier,
+      @bool_op,
+      @math_op,
       @function_call,
       @field_access,
       @deref_field_access,
@@ -160,6 +162,18 @@ module.exports = compiler.grammar
 
     function_call: -> seq(
       @expression, "(", err(commaSep(@expression)), ")")
+
+    math_op: -> choice(
+      prec(3, seq("-", @expression)),
+      prec(2, seq(@expression, "*", @expression)),
+      prec(2, seq(@expression, "/", @expression)),
+      prec(1, seq(@expression, "+", @expression)),
+      prec(1, seq(@expression, "-", @expression)))
+
+    bool_op: -> choice(
+      prec(3, seq("!", @expression)),
+      prec(2, seq(@expression, "&&", @expression)),
+      prec(1, seq(@expression, "||", @expression)))
 
     number: -> /\d+(\.\d+)?/
 
