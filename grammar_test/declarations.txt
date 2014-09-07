@@ -2,30 +2,90 @@
 Simple variable declarations
 ============================================
 
-size_t the_size;
+int x;
+float y, z;
 
 ---
 
 (program
-  (var_declaration (identifier) (identifier)))
+  (var_declaration (type (identifier)) (identifier))
+  (var_declaration (type (identifier)) (identifier) (identifier)))
 
 ============================================
 Pointer variable declarations
 ============================================
 
 char *the_string;
-const char **the_string, **the_other_string;
+const char **the_strings;
 
 ---
 
 (program
-  (var_declaration (identifier) (pointer_type (identifier)))
-  (var_declaration (type_modifier) (identifier)
-    (pointer_type (pointer_type (identifier)))
+  (var_declaration (type (identifier)) (pointer_type (identifier)))
+  (var_declaration (type (type_modifier) (identifier))
     (pointer_type (pointer_type (identifier)))))
 
 ============================================
-Simple typedefs
+Struct declarations
+============================================
+
+struct s1;
+
+struct s2 {
+  int x;
+  float y;
+};
+
+---
+
+(program
+  (struct_declaration (struct_type (identifier)))
+  (struct_declaration (struct_type (identifier)
+    (field (type (identifier)) (identifier))
+    (field (type (identifier)) (identifier)))))
+
+============================================
+Union declarations
+============================================
+
+union u1;
+
+union s2 {
+  int x;
+  float y;
+};
+
+---
+
+(program
+  (union_declaration (union_type (identifier)))
+  (union_declaration (union_type (identifier)
+    (field (type (identifier)) (identifier))
+    (field (type (identifier)) (identifier)))))
+
+============================================
+Enum declarations
+============================================
+
+enum e1;
+
+enum e2 {
+  val1,
+  val2 = 5,
+  val3
+};
+
+---
+
+(program
+  (enum_declaration (enum_type (identifier)))
+  (enum_declaration (enum_type (identifier)
+    (identifier)
+    (enum_value (identifier) (number))
+    (identifier))))
+
+============================================
+Typedefs
 ============================================
 
 typedef int my_int;
@@ -33,29 +93,20 @@ typedef int my_int;
 ---
 
 (program
-  (typedef (identifier) (identifier)))
+  (typedef (type (identifier)) (identifier)))
 
 ============================================
-Struct typedefs
+Function declarations
 ============================================
 
-typedef struct {
-  size_t i;
-  struct {
-    float x;
-    float y;
-  } pos;
-} my_struct;
+int main(int argc, const char **argv);
 
 ---
 
-(program (typedef
-  (struct_type
-    (field (identifier) (identifier))
-    (field
-      (struct_type
-        (field (identifier) (identifier))
-        (field (identifier) (identifier)))
-      (identifier)))
-  (identifier)))
+(program (function_declaration
+  (type (identifier))
+  (identifier)
+  (formal_parameters
+    (field (type (identifier)) (identifier))
+    (field (type (type_modifier) (identifier)) (pointer_type (pointer_type (identifier)))))))
 

@@ -16,15 +16,19 @@ module.exports = compiler.grammar
 
   rules:
     program: -> repeat(choice(
-      @preproc_call,
-      @typedef,
-      @var_declaration))
-
-    preproc_call: -> choice(
       @preproc_include,
       @preproc_define,
-      seq(@preproc_directive, /.*/)
-    )
+      @preproc_call,
+
+      # declarations
+      @struct_declaration,
+      @union_declaration,
+      @enum_declaration,
+      @function_declaration,
+      @var_declaration,
+
+      @typedef,
+    ))
 
     preproc_include: -> seq(
       keyword("#include"),
@@ -35,6 +39,9 @@ module.exports = compiler.grammar
       @identifier,
       /.+/)
 
+    preproc_call: -> choice(
+      seq(@preproc_directive, /.*/))
+
     preproc_directive: -> /#\a\w+/
 
     typedef: -> seq(
@@ -44,33 +51,74 @@ module.exports = compiler.grammar
       ";")
 
     var_declaration: -> seq(
-      repeat(@type_modifier),
-      @identifier,
+      @type,
       commaSep1(@type_expression),
       ";")
+
+    function_declaration: -> seq(
+      @type,
+      @identifier,
+      "(", @formal_parameters, ")",
+      ";")
+
+    type: -> seq(
+      repeat(@type_modifier),
+      choice(
+        @identifier,
+        @struct_type))
+
+    formal_parameters: ->
+      err(commaSep(@field))
 
     type_expression: -> choice(
       @identifier,
       @pointer_type)
 
-    type: -> choice(
-      @identifier,
-      @struct_type)
-
     pointer_type: -> seq(
       "*", @type_expression)
 
+    struct_declaration: -> seq(
+      @struct_type, ";")
+
     struct_type: -> seq(
       keyword("struct"),
-      "{", err(repeat(seq(@field, ";"))), "}")
+      choice(
+        @identifier,
+        seq(
+          optional(@identifier),
+          "{", err(repeat(seq(@field, ";"))), "}")))
+
+    union_declaration: -> seq(
+      @union_type, ";")
+
+    union_type: -> seq(
+      keyword("union"),
+      choice(
+        @identifier,
+        seq(
+          optional(@identifier),
+          "{", err(repeat(seq(@field, ";"))), "}")))
+
+    enum_declaration: -> seq(
+      @enum_type, ";")
+
+    enum_type: -> seq(
+      keyword("enum"),
+      choice(
+        @identifier,
+        seq(
+          optional(@identifier),
+          "{", err(commaSep(@enum_value)), "}")))
+
+    enum_value: -> seq(
+      @identifier, optional(seq("=", @number)))
 
     field: -> seq(@type, @type_expression)
 
     type_modifier: -> choice(
-      keyword("const"),
-      keyword("static"),
-      keyword("inline"),
-      keyword("extern"))
+      keyword("const"))
+
+    number: -> /\d+(\.\d+)?/
 
     string: -> token(seq(
       '"', repeat(choice(/[^"]/, '\\"')), '"'))
