@@ -26,7 +26,7 @@ Invalid if conditions
 if (%$&^)
   wat();
 
-okWhatever();
+ok();
 
 ---
 
@@ -85,8 +85,7 @@ function() { ^ & * }
 
 ---
 
-(program
-  (expression_statement (function (statement_block (ERROR '^')))))
+(expression_statement (function (statement_block (ERROR '^'))))
 
 ============================================
 Invalid objects
@@ -101,12 +100,12 @@ x = {
 };
 ---
 
-(program (expression_statement (assignment
+(expression_statement (assignment
   (identifier)
   (object
     (pair (identifier) (identifier))
     (ERROR 'e')
-    (pair (identifier) (expression (identifier)))))))
+    (pair (identifier) (expression (identifier))))))
 
 ============================================
 Invalid items in var declarations
@@ -120,9 +119,9 @@ var
   e;
 ---
 
-(program (var_declaration
+(var_declaration
   (var_assignment (identifier) (number))
   (ERROR '-')
   (var_assignment (identifier) (number))
   (ERROR '=')
-  (identifier)))
+  (identifier))
