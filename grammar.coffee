@@ -81,10 +81,10 @@ module.exports = compiler.grammar
         @union_type))
 
     primitive_type: -> seq(
-      optional(repeat(choice(
+      repeat(choice(
         keyword("unsigned"),
         keyword("short"),
-        keyword("long")))),
+        keyword("long"))),
       @identifier)
 
     formal_parameters: ->

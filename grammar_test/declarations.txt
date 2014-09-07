@@ -112,8 +112,7 @@ typedef int my_int;
 
 ---
 
-(program
-  (typedef (identifier) (identifier)))
+(typedef (identifier) (identifier))
 
 ============================================
 Function declarations
@@ -123,12 +122,12 @@ int main(int argc, const char **argv);
 
 ---
 
-(program (function_declaration
+(function_declaration
   (identifier)
   (identifier)
   (formal_parameters
     (field (identifier) (identifier))
-    (field (type (identifier)) (pointer_type (pointer_type (identifier)))))))
+    (field (type (identifier)) (pointer_type (pointer_type (identifier))))))
 
 ============================================
 Function definitions
@@ -140,10 +139,8 @@ void do_stuff(int arg1) {
 
 ---
 
-(program (function_declaration
+(function_declaration
   (identifier)
   (identifier)
-  (formal_parameters (field (identifier) (identifier)))
-  (statement_block
-    (return_statement (number)))))
-
+  (field (identifier) (identifier))
+  (statement_block (return_statement (number))))

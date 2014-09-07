@@ -19,5 +19,4 @@ Defines
 
 ---
 
-(program
-  (preproc_define (identifier)))
+(preproc_define (identifier))
