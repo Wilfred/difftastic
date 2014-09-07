@@ -36,6 +36,48 @@ okWhatever();
   (expression_statement (function_call (identifier))))
 
 ============================================
+Invalid for loops
+============================================
+
+for (i = 0; a b c d e; i++)
+  wat();
+
+ok1;
+
+for (a b c d; e; i++)
+  wat();
+
+ok2;
+
+for (a; b; c d e f)
+  wat();
+
+---
+
+(program
+  (for_statement
+    (assignment (identifier) (number))
+    (ERROR 'b')
+    (math_op (identifier))
+    (expression_statement (function_call (identifier))))
+
+  (expression_statement (identifier))
+
+  (for_statement
+    (ERROR 'b')
+    (identifier)
+    (math_op (identifier))
+    (expression_statement (function_call (identifier))))
+
+  (expression_statement (identifier))
+
+  (for_statement
+    (identifier)
+    (identifier)
+    (ERROR 'd')
+    (expression_statement (function_call (identifier)))))
+
+============================================
 Invalid statement blocks
 ============================================
 
