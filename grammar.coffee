@@ -277,7 +277,7 @@ module.exports = compiler.grammar
       seq("/*", repeat(choice(/[^\*]/, /\*[^/]/)), "*/")))
 
     regex: -> token(seq(
-      '/', repeat(choice(/[^/\n]/, '\\/')), '/',
+      '/', repeat(choice(/[^\\/\n]/, /\\./)), '/',
       repeat(choice('i', 'g'))))
 
     true: -> keyword("true")
