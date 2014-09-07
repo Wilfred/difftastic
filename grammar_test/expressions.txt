@@ -1,0 +1,30 @@
+============================================
+Function calls
+============================================
+
+int main() {
+  printf("hi! %d\n", x);
+}
+
+---
+
+(function_declaration (identifier) (identifier) (formal_parameters)
+  (statement_block
+    (expression_statement (function_call (identifier) (string) (identifier)))))
+
+============================================
+Field access
+============================================
+
+int main() {
+  s.data1;
+  p->data2;
+}
+
+---
+
+(function_declaration (identifier) (identifier) (formal_parameters)
+  (statement_block
+    (expression_statement (field_access (identifier) (identifier)))
+    (expression_statement (deref_field_access (identifier) (identifier)))))
+

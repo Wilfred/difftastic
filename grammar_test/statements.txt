@@ -1,0 +1,17 @@
+============================================
+Expression statements
+============================================
+
+int main() {
+  x;
+}
+
+---
+
+(function_declaration
+  (identifier)
+  (identifier)
+  (formal_parameters)
+  (statement_block
+    (expression_statement (identifier))))
+

@@ -67,10 +67,14 @@ module.exports = compiler.grammar
       "{", err(repeat(@statement)), "}")
 
     statement: -> choice(
-      @return_statement),
+      @return_statement,
+      @expression_statement),
 
     return_statement: -> seq(
       keyword("return"), @expression, ";")
+
+    expression_statement: -> seq(
+      @expression, ";")
 
     type: -> seq(
       optional(keyword("const")),
@@ -141,8 +145,21 @@ module.exports = compiler.grammar
       keyword("const"))
 
     expression: -> choice(
+      @identifier,
+      @function_call,
+      @field_access,
+      @deref_field_access,
       @number,
       @string)
+
+    field_access: -> seq(
+      @expression, ".", @identifier)
+
+    deref_field_access: -> seq(
+      @expression, "->", @identifier)
+
+    function_call: -> seq(
+      @expression, "(", err(commaSep(@expression)), ")")
 
     number: -> /\d+(\.\d+)?/
 
