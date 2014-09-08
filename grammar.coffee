@@ -10,9 +10,7 @@ commaSep1 = (rule) ->
 module.exports = compiler.grammar
   name: 'c',
 
-  separators: [' ', '\t', '\r', '\n']
-
-  ubiquitous: ["comment"]
+  ubiquitous: -> [@comment, /\s/]
 
   rules:
     program: -> repeat(choice(
