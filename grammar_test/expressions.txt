@@ -321,3 +321,35 @@ x instanceof String;
 (program
   (expression_statement (type_op (identifier)))
   (expression_statement (type_op (identifier) (identifier))))
+
+==============================================
+Math assignment operators
+==============================================
+
+x += 1;
+y.z *= 3;
+
+---
+
+(program
+  (expression_statement
+    (math_assignment (identifier) (number)))
+  (expression_statement
+    (math_assignment (member_access (identifier) (identifier)) (number))))
+
+==============================================
+Operator precedence
+==============================================
+
+a <= b && c >= d;
+a.b = c ? d : e;
+
+---
+
+(program
+  (expression_statement (bool_op
+    (rel_op (identifier) (identifier))
+    (rel_op (identifier) (identifier))))
+  (expression_statement (assignment
+    (member_access (identifier) (identifier))
+    (ternary (identifier) (identifier) (identifier)))))

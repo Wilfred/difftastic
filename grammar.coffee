@@ -43,7 +43,7 @@ module.exports = compiler.grammar
 
     if_statement: -> seq(
       keyword("if"),
-      "(", err(@expression), ")",
+      @_paren_expression,
       @statement,
       optional(seq(
         keyword("else"),
@@ -91,14 +91,14 @@ module.exports = compiler.grammar
 
     while_statement: -> seq(
       keyword("while"),
-      "(", err(@expression), ")",
+      @_paren_expression,
       @statement)
 
     do_statement: -> seq(
       keyword("do"),
       @statement_block,
       keyword("while"),
-      "(", err(@expression), ")")
+      @_paren_expression)
 
     return_statement: -> seq(
       keyword("return"),
@@ -166,7 +166,11 @@ module.exports = compiler.grammar
       @rel_op,
       @type_op,
       @assignment,
-      seq("(", err(@expression), ")"))
+      @math_assignment,
+      @_paren_expression)
+
+    _paren_expression: -> seq(
+      "(", err(@expression), ")")
 
     function_call: -> seq(
       @expression,
@@ -196,6 +200,14 @@ module.exports = compiler.grammar
         @member_access,
         @subscript_access)
       "=",
+      @expression))
+
+    math_assignment: -> prec(-2, seq(
+      choice(
+        @identifier,
+        @member_access,
+        @subscript_access)
+      choice("+=", "-=", "*=", "/="),
       @expression))
 
     object: -> seq(
@@ -237,33 +249,33 @@ module.exports = compiler.grammar
       prec(1, seq(@expression, "||", @expression)))
 
     bitwise_op: -> choice(
-      prec(3, seq(@expression, ">>", @expression)),
-      prec(3, seq(@expression, "<<", @expression)),
-      prec(2, seq(@expression, "&", @expression)),
-      prec(1, seq(@expression, "|", @expression)))
+      prec(13, seq(@expression, ">>", @expression)),
+      prec(13, seq(@expression, "<<", @expression)),
+      prec(12, seq(@expression, "&", @expression)),
+      prec(11, seq(@expression, "|", @expression)))
 
     ternary: -> prec(-1, seq(
       @expression, "?", @expression, ":", @expression))
 
     math_op: -> choice(
-      prec(4, seq("-", @expression)),
-      prec(4, seq("+", @expression)),
-      prec(4, seq(@expression, "++")),
-      prec(4, seq(@expression, "--")),
-      prec(1, seq(@expression, "+", @expression)),
-      prec(1, seq(@expression, "-", @expression)),
-      prec(2, seq(@expression, "*", @expression)),
-      prec(2, seq(@expression, "/", @expression)))
+      prec(14, seq("-", @expression)),
+      prec(14, seq("+", @expression)),
+      prec(14, seq(@expression, "++")),
+      prec(14, seq(@expression, "--")),
+      prec(11, seq(@expression, "+", @expression)),
+      prec(11, seq(@expression, "-", @expression)),
+      prec(12, seq(@expression, "*", @expression)),
+      prec(12, seq(@expression, "/", @expression)))
 
     rel_op: -> choice(
-      seq(@expression, "<", @expression),
-      seq(@expression, "<=", @expression),
-      seq(@expression, "==", @expression),
-      seq(@expression, "===", @expression),
-      seq(@expression, "!=", @expression),
-      seq(@expression, "!==", @expression),
-      seq(@expression, ">=", @expression),
-      seq(@expression, ">", @expression))
+      prec(10, seq(@expression, "<", @expression)),
+      prec(10, seq(@expression, "<=", @expression)),
+      prec(10, seq(@expression, "==", @expression)),
+      prec(10, seq(@expression, "===", @expression)),
+      prec(10, seq(@expression, "!=", @expression)),
+      prec(10, seq(@expression, "!==", @expression)),
+      prec(10, seq(@expression, ">=", @expression)),
+      prec(10, seq(@expression, ">", @expression)))
 
     type_op: -> choice(
       prec(1, seq(keyword("typeof"), @expression)),
