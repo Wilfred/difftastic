@@ -15,3 +15,32 @@ int main() {
   (statement_block
     (expression_statement (identifier))))
 
+============================================
+If statements
+============================================
+
+int main() {
+  if (a)
+    b;
+
+  if (!a) {
+    b;
+  } else {
+    c;
+  }
+}
+
+---
+
+(function_declaration
+  (identifier)
+  (identifier)
+  (formal_parameters)
+  (statement_block
+    (if_statement (identifier)
+      (expression_statement (identifier)))
+    (if_statement (bool_op (identifier))
+      (statement_block
+        (expression_statement (identifier)))
+      (statement_block
+        (expression_statement (identifier))))))

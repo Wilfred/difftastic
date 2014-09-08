@@ -70,13 +70,22 @@ module.exports = compiler.grammar
     statement: -> choice(
       @var_declaration,
       @return_statement,
-      @expression_statement),
+      @if_statement,
+      @expression_statement,
+      @statement_block),
 
     return_statement: -> seq(
       keyword("return"), @expression, ";")
 
     expression_statement: -> seq(
       @expression, ";")
+
+    if_statement: -> seq(
+      keyword("if"), "(", err(@expression), ")",
+      @statement,
+      optional(seq(
+        keyword("else"),
+        @statement)))
 
     type: -> seq(
       optional(keyword("const")),
