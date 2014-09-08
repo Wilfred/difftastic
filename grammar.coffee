@@ -1,5 +1,5 @@
-compiler = require("tree-sitter-compiler")
-{ choice, err, repeat, seq, keyword, optional, token, prec } = compiler.rules
+{ grammar, rules } = require("tree-sitter-compiler")
+{ choice, err, repeat, seq, keyword, optional, token, prec } = rules
 
 commaSep = (rule) ->
   optional(commaSep1(rule))
@@ -7,7 +7,7 @@ commaSep = (rule) ->
 commaSep1 = (rule) ->
   seq(rule, repeat(seq(",", rule)))
 
-module.exports = compiler.grammar
+module.exports = grammar
   name: 'c',
 
   ubiquitous: -> [@comment, /\s/]
