@@ -1,5 +1,5 @@
-compiler = require("tree-sitter-compiler")
-{ choice, err, repeat, seq, sym, keyword, token, optional, prec } = compiler.rules
+{ grammar, rules } = require("tree-sitter-compiler")
+{ choice, err, repeat, seq, sym, keyword, token, optional, prec } = rules
 
 commaSep1 = (rule) ->
   seq(rule, repeat(seq(",", rule)))
@@ -10,7 +10,7 @@ commaSep = (rule) ->
 terminator = ->
   choice(";", sym("_line_break"))
 
-module.exports = compiler.grammar
+module.exports = grammar
   name: 'javascript',
 
   ubiquitous: -> [
@@ -169,14 +169,11 @@ module.exports = compiler.grammar
       @math_assignment,
       @_paren_expression)
 
-    _paren_expression: -> seq(
-      "(", err(@expression), ")")
-
-    function_call: -> seq(
+    function_call: -> prec(20, seq(
       @expression,
-      "(", err(optional(@arguments)), ")")
+      "(", err(optional(@arguments)), ")"))
 
-    constructor_call: -> prec(1, seq(
+    constructor_call: -> prec(21, seq(
       keyword("new"),
       @expression,
       optional(seq(
@@ -185,7 +182,7 @@ module.exports = compiler.grammar
     arguments: ->
       commaSep1(err(@expression))
 
-    member_access: -> prec(10, seq(
+    member_access: -> prec(31, seq(
       @expression,
       ".",
       @identifier))
@@ -278,9 +275,9 @@ module.exports = compiler.grammar
       prec(10, seq(@expression, ">", @expression)))
 
     type_op: -> choice(
-      prec(1, seq(keyword("typeof"), @expression)),
-      prec(1, seq(@expression, keyword("instanceof"), @expression)),
-      prec(1, seq(@expression, keyword("in"), @expression)))
+      prec(14, seq(keyword("typeof"), @expression)),
+      prec(12, seq(@expression, keyword("instanceof"), @expression)),
+      prec(12, seq(@expression, keyword("in"), @expression)))
 
     string: -> token(choice(
       seq('"', repeat(choice(/[^"]/, '\\"')), '"'),
@@ -298,5 +295,8 @@ module.exports = compiler.grammar
     false: -> keyword("false")
     null: -> keyword("null")
     undefined: -> keyword("undefined")
+
+    _paren_expression: -> seq(
+      "(", err(@expression), ")")
 
     _line_break: -> "\n"

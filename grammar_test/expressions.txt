@@ -343,6 +343,9 @@ Operator precedence
 
 a <= b && c >= d;
 a.b = c ? d : e;
+a && b(c) && d;
+a && new b(c) && d;
+typeof a == b && c instanceof d
 
 ---
 
@@ -352,4 +355,19 @@ a.b = c ? d : e;
     (rel_op (identifier) (identifier))))
   (expression_statement (assignment
     (member_access (identifier) (identifier))
-    (ternary (identifier) (identifier) (identifier)))))
+    (ternary (identifier) (identifier) (identifier))))
+  (expression_statement (bool_op
+    (identifier)
+    (bool_op
+      (function_call (identifier) (identifier))
+      (identifier))))
+  (expression_statement (bool_op
+    (identifier)
+    (bool_op
+      (constructor_call (identifier) (identifier))
+      (identifier))))
+  (expression_statement (bool_op
+    (rel_op
+      (type_op (identifier))
+      (identifier))
+    (type_op (identifier) (identifier)))))
