@@ -13,9 +13,11 @@ terminator = ->
 module.exports = compiler.grammar
   name: 'javascript',
 
-  ubiquitous: ["comment", "_line_break"]
-
-  separators: [' ', '\t', '\r']
+  ubiquitous: -> [
+    @comment,
+    @_line_break,
+    /[ \t\r]/
+  ]
 
   rules:
     program: -> repeat(@statement)
