@@ -323,6 +323,16 @@ x instanceof String;
   (expression_statement (type_op (identifier) (identifier))))
 
 ==============================================
+Comma operator
+==============================================
+
+f, g;
+
+---
+
+(expression_statement (comma_op (identifier) (identifier)))
+
+==============================================
 Math assignment operators
 ==============================================
 

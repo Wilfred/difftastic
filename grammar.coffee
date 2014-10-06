@@ -73,7 +73,7 @@ module.exports = grammar
     for_statement: -> seq(
       keyword("for"),
       "(",
-      commaSep(err(@expression)), ";"
+      optional(err(@expression)), ";"
       optional(err(@expression)), ";"
       optional(err(@expression)),
       ")",
@@ -162,6 +162,7 @@ module.exports = grammar
       @ternary,
       @bool_op,
       @math_op,
+      @comma_op,
       @bitwise_op,
       @rel_op,
       @type_op,
@@ -253,6 +254,9 @@ module.exports = grammar
 
     ternary: -> prec(-1, seq(
       @expression, "?", @expression, ":", @expression))
+
+    comma_op: -> prec(-3, seq(
+      @expression, ",", @expression))
 
     math_op: -> choice(
       prec(14, seq("-", @expression)),

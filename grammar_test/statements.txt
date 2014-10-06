@@ -68,8 +68,9 @@ for (;;) {
 
 (program
   (for_statement
-    (assignment (identifier) (number))
-    (function_call (identifier))
+    (comma_op
+      (assignment (identifier) (number))
+      (function_call (identifier)))
     (rel_op (identifier) (number))
     (math_op (identifier))
     (expression_statement (function_call (identifier) (identifier))))
