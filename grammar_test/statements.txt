@@ -57,6 +57,9 @@ if (a) {
 For statements
 ============================================
 
+for (var a, b; c; d)
+  log(e);
+
 for (i = 0, init(); i < 10; i++)
   log(y);
 
@@ -67,6 +70,12 @@ for (;;) {
 ---
 
 (program
+  (for_statement
+    (var_declaration (identifier) (identifier))
+    (identifier)
+    (identifier)
+    (expression_statement (function_call (identifier) (identifier))))
+
   (for_statement
     (comma_op
       (assignment (identifier) (number))

@@ -73,7 +73,10 @@ module.exports = grammar
     for_statement: -> seq(
       keyword("for"),
       "(",
-      optional(err(@expression)), ";"
+      choice(
+        @var_declaration,
+        seq(err(@expression), ";"),
+        ";"),
       optional(err(@expression)), ";"
       optional(err(@expression)),
       ")",
