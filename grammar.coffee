@@ -287,8 +287,8 @@ module.exports = grammar
       prec(12, seq(@expression, keyword("in"), @expression)))
 
     string: -> token(choice(
-      seq('"', repeat(choice(/[^"]/, '\\"')), '"'),
-      seq("'", repeat(choice(/[^']/, "\\'")), "'")))
+      seq('"', repeat(choice(/[^\\"\n]/, /\\./)), '"'),
+      seq("'", repeat(choice(/[^\\'\n]/, /\\./)), "'")))
 
     comment: -> token(choice(
       seq("//", /.*/),

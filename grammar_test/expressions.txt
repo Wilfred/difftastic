@@ -4,10 +4,14 @@ Strings
 
 "A string with \"double\" and 'single' quotes";
 'A string with "double" and \'single\' quotes';
+'\\'
+"\\"
 
 ----
 
 (program
+  (expression_statement (string))
+  (expression_statement (string))
   (expression_statement (string))
   (expression_statement (string)))
 
