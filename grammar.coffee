@@ -22,24 +22,41 @@ module.exports = grammar
   rules:
     program: -> repeat(@statement)
 
+    #
+    # Statements
+    #
+
     statement: -> choice(
       @expression_statement,
+      @var_declaration,
+      @statement_block,
+
       @if_statement,
       @switch_statement,
       @for_statement,
       @for_in_statement,
       @while_statement,
       @do_statement,
+      @try_statement,
+
       @break_statement,
-      @statement_block,
       @return_statement,
       @throw_statement,
-      @try_statement,
       @delete_statement,
-      @var_declaration)
+    )
 
     expression_statement: -> seq(
       err(@expression), terminator())
+
+    var_declaration: -> seq(
+      keyword("var"),
+      commaSep1(err(choice(
+        @identifier,
+        @var_assignment))),
+      terminator())
+
+    statement_block: -> seq(
+      "{", err(repeat(@statement)), "}")
 
     if_statement: -> seq(
       keyword("if"),
@@ -54,21 +71,6 @@ module.exports = grammar
       keyword("switch"),
       "(", @expression, ")",
       "{", repeat(choice(@case, @default)), "}")
-
-    case: -> seq(
-      keyword("case"),
-      @expression,
-      ":",
-      repeat(@statement))
-
-    default: -> seq(
-      keyword("default"),
-      ":",
-      repeat(@statement))
-
-    break_statement: -> seq(
-      keyword("break"),
-      terminator())
 
     for_statement: -> seq(
       keyword("for"),
@@ -103,9 +105,24 @@ module.exports = grammar
       keyword("while"),
       @_paren_expression)
 
+    try_statement: -> seq(
+      keyword("try"),
+      @statement_block,
+      optional(@catch),
+      optional(@finally))
+
+    break_statement: -> seq(
+      keyword("break"),
+      terminator())
+
     return_statement: -> seq(
       keyword("return"),
       optional(@expression),
+      terminator())
+
+    throw_statement: -> seq(
+      keyword("throw"),
+      @expression,
       terminator())
 
     delete_statement: -> seq(
@@ -113,23 +130,20 @@ module.exports = grammar
       choice(@member_access, @subscript_access),
       terminator())
 
-    var_declaration: -> seq(
-      keyword("var"),
-      commaSep1(err(choice(
-        @identifier,
-        @var_assignment))),
-      terminator())
+    #
+    # Statement components
+    #
 
-    var_assignment: -> seq(
-      @identifier,
-      "=",
-      @expression)
+    case: -> seq(
+      keyword("case"),
+      @expression,
+      ":",
+      repeat(@statement))
 
-    try_statement: -> seq(
-      keyword("try"),
-      @statement_block,
-      optional(@catch),
-      optional(@finally))
+    default: -> seq(
+      keyword("default"),
+      ":",
+      repeat(@statement))
 
     catch: -> seq(
       keyword("catch"),
@@ -140,12 +154,37 @@ module.exports = grammar
       keyword("finally"),
       @statement_block)
 
-    throw_statement: -> seq(
-      keyword("throw"),
-      @expression,
-      terminator())
+    var_assignment: -> seq(
+      @identifier,
+      "=",
+      @expression)
+
+    _paren_expression: -> seq(
+      "(", err(@expression), ")")
+
+    #
+    # Expressions
+    #
 
     expression: -> choice(
+      @object,
+      @array,
+      @function,
+      @function_call,
+      @constructor_call,
+      @member_access,
+      @subscript_access,
+      @assignment,
+      @math_assignment,
+      @ternary,
+      @bool_op,
+      @math_op,
+      @comma_op,
+      @bitwise_op,
+      @rel_op,
+      @type_op,
+      @_paren_expression,
+
       @identifier,
       @number,
       @string,
@@ -155,23 +194,19 @@ module.exports = grammar
       @false,
       @null,
       @undefined,
-      @object,
-      @array,
-      @function,
-      @member_access,
-      @subscript_access,
-      @function_call,
-      @constructor_call,
-      @ternary,
-      @bool_op,
-      @math_op,
-      @comma_op,
-      @bitwise_op,
-      @rel_op,
-      @type_op,
-      @assignment,
-      @math_assignment,
-      @_paren_expression)
+    )
+
+    object: -> seq(
+      "{", commaSep(err(@pair)), "}")
+
+    array: -> seq(
+      "[", commaSep(err(@expression)), "]")
+
+    function: -> seq(
+      keyword("function"),
+      optional(@identifier),
+      "(", optional(@formal_parameters), ")",
+      @statement_block)
 
     function_call: -> prec(20, seq(
       @expression,
@@ -182,9 +217,6 @@ module.exports = grammar
       @expression,
       optional(seq(
         "(", err(optional(@arguments)), ")"))))
-
-    arguments: ->
-      commaSep1(err(@expression))
 
     member_access: -> prec(31, seq(
       @expression,
@@ -211,38 +243,8 @@ module.exports = grammar
       choice("+=", "-=", "*=", "/="),
       @expression))
 
-    object: -> seq(
-      "{", commaSep(err(@pair)), "}")
-
-    pair: -> seq(
-      choice(@identifier, @string),
-      ":",
-      @expression)
-
-    function: -> seq(
-      keyword("function"),
-      optional(@identifier),
-      "(", optional(@formal_parameters), ")",
-      @statement_block)
-
-    formal_parameters: ->
-      commaSep1(@identifier)
-
-    statement_block: -> seq(
-      "{", err(repeat(@statement)), "}")
-
-    array: -> seq(
-      "[", commaSep(err(@expression)), "]")
-
-    identifier: -> /[\a_$][\a\d_$]*/
-
-    number: -> token(choice(
-      seq(
-        "0x",
-        /[\da-fA-F]+/),
-      seq(
-        /\d+/,
-        optional(seq(".", /\d*/)))))
+    ternary: -> prec(-1, seq(
+      @expression, "?", @expression, ":", @expression))
 
     bool_op: -> choice(
       prec(4, seq("!", @expression)),
@@ -254,9 +256,6 @@ module.exports = grammar
       prec(13, seq(@expression, "<<", @expression)),
       prec(12, seq(@expression, "&", @expression)),
       prec(11, seq(@expression, "|", @expression)))
-
-    ternary: -> prec(-1, seq(
-      @expression, "?", @expression, ":", @expression))
 
     comma_op: -> prec(-3, seq(
       @expression, ",", @expression))
@@ -286,24 +285,50 @@ module.exports = grammar
       prec(12, seq(@expression, keyword("instanceof"), @expression)),
       prec(12, seq(@expression, keyword("in"), @expression)))
 
-    string: -> token(choice(
-      seq('"', repeat(choice(/[^\\"\n]/, /\\./)), '"'),
-      seq("'", repeat(choice(/[^\\'\n]/, /\\./)), "'")))
+    #
+    # Primitives
+    #
 
     comment: -> token(choice(
       seq("//", /.*/),
       seq("/*", repeat(choice(/[^\*]/, /\*[^/]/)), "*/")))
 
+    string: -> token(choice(
+      seq('"', repeat(choice(/[^\\"\n]/, /\\./)), '"'),
+      seq("'", repeat(choice(/[^\\'\n]/, /\\./)), "'")))
+
     regex: -> token(seq(
       '/', repeat(choice(/[^\\/\n]/, /\\./)), '/',
       repeat(choice('i', 'g'))))
+
+    number: -> token(choice(
+      seq(
+        "0x",
+        /[\da-fA-F]+/),
+      seq(
+        /\d+/,
+        optional(seq(".", /\d*/)))))
+
+    identifier: -> /[\a_$][\a\d_$]*/
 
     true: -> keyword("true")
     false: -> keyword("false")
     null: -> keyword("null")
     undefined: -> keyword("undefined")
-
-    _paren_expression: -> seq(
-      "(", err(@expression), ")")
-
     _line_break: -> "\n"
+
+    #
+    # Expression components
+    #
+
+    arguments: ->
+      commaSep1(err(@expression))
+
+    formal_parameters: ->
+      commaSep1(@identifier)
+
+    pair: -> seq(
+      choice(@identifier, @string),
+      ":",
+      @expression)
+
