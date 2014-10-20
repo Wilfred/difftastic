@@ -10,6 +10,23 @@ commaSep = (rule) ->
 terminator = ->
   choice(";", sym("_line_break"))
 
+PREC =
+  COMMA: -1,
+  ASSIGN: 0,
+  TERNARY: 1,
+  OR: 2,
+  AND: 3,
+  PLUS: 4,
+  REL: 5,
+  TIMES: 6,
+  TYPEOF: 7,
+  NOT: 8,
+  NEG: 9,
+  INC: 10,
+  CALL: 11,
+  NEW: 12,
+  MEMBER: 13
+
 module.exports = grammar
   name: 'javascript',
 
@@ -190,7 +207,6 @@ module.exports = grammar
       @string,
       @regex,
       @true,
-      @true,
       @false,
       @null,
       @undefined,
@@ -208,26 +224,26 @@ module.exports = grammar
       "(", optional(@formal_parameters), ")",
       @statement_block)
 
-    function_call: -> prec(20, seq(
+    function_call: -> prec(PREC.CALL, seq(
       @expression,
       "(", err(optional(@arguments)), ")"))
 
-    constructor_call: -> prec(21, seq(
+    constructor_call: -> prec(PREC.NEW, seq(
       keyword("new"),
       @expression,
       optional(seq(
         "(", err(optional(@arguments)), ")"))))
 
-    member_access: -> prec(31, seq(
+    member_access: -> prec(PREC.MEMBER, seq(
       @expression,
       ".",
       @identifier))
 
-    subscript_access: -> prec(10, seq(
+    subscript_access: -> prec(PREC.MEMBER, seq(
       @expression,
       "[", err(@expression), "]"))
 
-    assignment: -> prec(-2, seq(
+    assignment: -> prec(PREC.ASSIGN, seq(
       choice(
         @identifier,
         @member_access,
@@ -235,7 +251,7 @@ module.exports = grammar
       "=",
       @expression))
 
-    math_assignment: -> prec(-2, seq(
+    math_assignment: -> prec(PREC.ASSIGN, seq(
       choice(
         @identifier,
         @member_access,
@@ -243,47 +259,47 @@ module.exports = grammar
       choice("+=", "-=", "*=", "/="),
       @expression))
 
-    ternary: -> prec(-1, seq(
+    ternary: -> prec(PREC.TERNARY, seq(
       @expression, "?", @expression, ":", @expression))
 
     bool_op: -> choice(
-      prec(4, seq("!", @expression)),
-      prec(2, seq(@expression, "&&", @expression)),
-      prec(1, seq(@expression, "||", @expression)))
+      prec(PREC.NOT, seq("!", @expression)),
+      prec(PREC.AND, seq(@expression, "&&", @expression)),
+      prec(PREC.OR, seq(@expression, "||", @expression)))
 
     bitwise_op: -> choice(
-      prec(13, seq(@expression, ">>", @expression)),
-      prec(13, seq(@expression, "<<", @expression)),
-      prec(12, seq(@expression, "&", @expression)),
-      prec(11, seq(@expression, "|", @expression)))
+      prec(PREC.TIMES, seq(@expression, ">>", @expression)),
+      prec(PREC.TIMES, seq(@expression, "<<", @expression)),
+      prec(PREC.AND, seq(@expression, "&", @expression)),
+      prec(PREC.OR, seq(@expression, "|", @expression)))
 
-    comma_op: -> prec(-3, seq(
+    comma_op: -> prec(PREC.COMMA, seq(
       @expression, ",", @expression))
 
     math_op: -> choice(
-      prec(14, seq("-", @expression)),
-      prec(14, seq("+", @expression)),
-      prec(14, seq(@expression, "++")),
-      prec(14, seq(@expression, "--")),
-      prec(11, seq(@expression, "+", @expression)),
-      prec(11, seq(@expression, "-", @expression)),
-      prec(12, seq(@expression, "*", @expression)),
-      prec(12, seq(@expression, "/", @expression)))
+      prec(PREC.NEG, seq("-", @expression)),
+      prec(PREC.NEG, seq("+", @expression)),
+      prec(PREC.INC, seq(@expression, "++")),
+      prec(PREC.INC, seq(@expression, "--")),
+      prec(PREC.PLUS, seq(@expression, "+", @expression)),
+      prec(PREC.PLUS, seq(@expression, "-", @expression)),
+      prec(PREC.TIMES, seq(@expression, "*", @expression)),
+      prec(PREC.TIMES, seq(@expression, "/", @expression)))
 
     rel_op: -> choice(
-      prec(10, seq(@expression, "<", @expression)),
-      prec(10, seq(@expression, "<=", @expression)),
-      prec(10, seq(@expression, "==", @expression)),
-      prec(10, seq(@expression, "===", @expression)),
-      prec(10, seq(@expression, "!=", @expression)),
-      prec(10, seq(@expression, "!==", @expression)),
-      prec(10, seq(@expression, ">=", @expression)),
-      prec(10, seq(@expression, ">", @expression)))
+      prec(PREC.REL, seq(@expression, "<", @expression)),
+      prec(PREC.REL, seq(@expression, "<=", @expression)),
+      prec(PREC.REL, seq(@expression, "==", @expression)),
+      prec(PREC.REL, seq(@expression, "===", @expression)),
+      prec(PREC.REL, seq(@expression, "!=", @expression)),
+      prec(PREC.REL, seq(@expression, "!==", @expression)),
+      prec(PREC.REL, seq(@expression, ">=", @expression)),
+      prec(PREC.REL, seq(@expression, ">", @expression)))
 
     type_op: -> choice(
-      prec(14, seq(keyword("typeof"), @expression)),
-      prec(12, seq(@expression, keyword("instanceof"), @expression)),
-      prec(12, seq(@expression, keyword("in"), @expression)))
+      prec(PREC.TYPEOF, seq(keyword("typeof"), @expression)),
+      prec(PREC.REL, seq(@expression, keyword("instanceof"), @expression)),
+      prec(PREC.REL, seq(@expression, keyword("in"), @expression)))
 
     #
     # Primitives
