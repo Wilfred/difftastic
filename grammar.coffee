@@ -45,7 +45,7 @@ module.exports = grammar
     typedef: -> seq(
       keyword("typedef"),
       @type,
-      @identifier,
+      @type_expression,
       ";")
 
     var_declaration: -> seq(

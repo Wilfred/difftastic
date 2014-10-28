@@ -110,9 +110,17 @@ Typedefs
 
 typedef int my_int;
 
+typedef struct{
+  int x;
+} *a;
+
 ---
 
-(typedef (identifier) (identifier))
+(program
+  (typedef (identifier) (identifier))
+  (typedef (struct_type
+    (field (identifier) (identifier)))
+    (pointer_type (identifier))))
 
 ============================================
 Function declarations
