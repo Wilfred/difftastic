@@ -72,6 +72,7 @@ module.exports = grammar
       @return_statement,
       @if_statement,
       @for_statement,
+      @while_statement,
       @expression_statement,
       @statement_block),
 
@@ -97,6 +98,11 @@ module.exports = grammar
       optional(@expression), ";",
       optional(@expression),
       ")",
+      @statement)
+
+    while_statement: -> seq(
+      keyword("while"),
+      "(", @expression, ")",
       @statement)
 
     type: -> seq(
