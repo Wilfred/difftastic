@@ -71,6 +71,7 @@ module.exports = grammar
       @var_declaration,
       @return_statement,
       @if_statement,
+      @for_statement,
       @expression_statement,
       @statement_block),
 
@@ -86,6 +87,17 @@ module.exports = grammar
       optional(seq(
         keyword("else"),
         @statement)))
+
+    for_statement: -> seq(
+      keyword("for"),
+      "(",
+      choice(
+        @var_declaration,
+        seq(optional(@expression), ";")),
+      optional(@expression), ";",
+      optional(@expression),
+      ")",
+      @statement)
 
     type: -> seq(
       optional(keyword("const")),
@@ -159,6 +171,7 @@ module.exports = grammar
       @identifier,
       @bool_op,
       @math_op,
+      @rel_op,
       @assignment,
       @function_call,
       @field_access,
@@ -176,6 +189,8 @@ module.exports = grammar
       @expression, "(", err(commaSep(@expression)), ")")
 
     math_op: -> choice(
+      prec(4, seq(@expression, "++")),
+      prec(4, seq(@expression, "++")),
       prec(3, seq("-", @expression)),
       prec(2, seq(@expression, "*", @expression)),
       prec(2, seq(@expression, "/", @expression)),
@@ -186,6 +201,14 @@ module.exports = grammar
       prec(3, seq("!", @expression)),
       prec(2, seq(@expression, "&&", @expression)),
       prec(1, seq(@expression, "||", @expression)))
+
+    rel_op: -> choice(
+      prec(1, seq(@expression, "<", @expression)),
+      prec(1, seq(@expression, "<=", @expression)),
+      prec(1, seq(@expression, "==", @expression)),
+      prec(1, seq(@expression, "!=", @expression)),
+      prec(1, seq(@expression, ">=", @expression)),
+      prec(1, seq(@expression, ">", @expression)))
 
     assignment: -> seq(
       choice(

@@ -44,3 +44,36 @@ int main() {
         (expression_statement (identifier)))
       (statement_block
         (expression_statement (identifier))))))
+
+============================================
+For loops
+============================================
+
+int main() {
+  for (;;)
+    x;
+
+  for (int i = 0; i < 5; i++) {
+    y;
+  }
+
+  for (start(); check(); step())
+    z;
+}
+
+---
+
+(function_declaration (identifier) (identifier) (formal_parameters)
+  (statement_block
+    (for_statement
+      (expression_statement (identifier)))
+    (for_statement
+      (var_declaration (identifier) (var_assignment (identifier) (number)))
+      (rel_op (identifier) (number))
+      (math_op (identifier))
+      (statement_block (expression_statement (identifier))))
+    (for_statement
+      (function_call (identifier))
+      (function_call (identifier))
+      (function_call (identifier))
+      (expression_statement (identifier)))))
