@@ -14,6 +14,10 @@ module.exports = grammar
 
   rules:
     program: -> repeat(choice(
+      @preproc_ifdef,
+      @preproc_ifndef,
+      @preproc_endif,
+      @preproc_else,
       @preproc_include,
       @preproc_define,
       @preproc_call,
@@ -35,10 +39,15 @@ module.exports = grammar
     preproc_define: -> seq(
       keyword("#define"),
       @identifier,
-      /.+/)
+      token(seq(/.+/, repeat(seq("\\\n", /.+/)))))
 
     preproc_call: -> choice(
       seq(@preproc_directive, /.*/))
+
+    preproc_ifdef: -> seq(keyword("#ifdef"), @identifier)
+    preproc_ifndef: -> seq(keyword("#ifndef"), @identifier)
+    preproc_else: -> keyword("#else")
+    preproc_endif: -> keyword("#endif")
 
     preproc_directive: -> /#\a\w+/
 

@@ -17,6 +17,35 @@ Defines
 
 #define SIZE 1024
 
+#define SOMETHING \
+  x + \
+  y
+
 ---
 
-(preproc_define (identifier))
+(program
+  (preproc_define (identifier))
+  (preproc_define (identifier)))
+
+============================================
+Ifdefs
+============================================
+
+#ifndef SOMETHING
+int x;
+#endif
+
+#ifdef SOMETHING_ELSE
+#else
+#endif
+
+---
+
+(program
+  (preproc_ifndef (identifier))
+  (var_declaration (identifier) (identifier))
+  (preproc_endif)
+  (preproc_ifdef (identifier))
+  (preproc_else)
+  (preproc_endif))
+
