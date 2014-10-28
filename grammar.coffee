@@ -183,6 +183,7 @@ module.exports = grammar
       @field_access,
       @deref_field_access,
       @number,
+      @char,
       @string)
 
     field_access: -> seq(
@@ -225,6 +226,13 @@ module.exports = grammar
       @expression)
 
     number: -> /\d+(\.\d+)?/
+
+    char: -> token(seq(
+      "'",
+      choice(
+        seq(optional("\\"), /[^']/),
+        seq("\\", "'")),
+      "'"))
 
     string: -> token(seq(
       '"', repeat(choice(/[^"]/, '\\"')), '"'))

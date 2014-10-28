@@ -13,6 +13,26 @@ int main() {
     (expression_statement (function_call (identifier) (string) (identifier)))))
 
 ============================================
+Character literals
+============================================
+
+int main() {
+  'a';
+  '\0';
+  '\t';
+  '\'';
+}
+
+---
+
+(function_declaration (identifier) (identifier) (formal_parameters)
+  (statement_block
+    (expression_statement (char))
+    (expression_statement (char))
+    (expression_statement (char))
+    (expression_statement (char))))
+
+============================================
 Field access
 ============================================
 
