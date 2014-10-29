@@ -191,6 +191,7 @@ module.exports = grammar
       @function_call,
       @field_access,
       @deref_field_access,
+      @compound_literal,
       @number,
       @char,
       @string)
@@ -231,6 +232,15 @@ module.exports = grammar
         @identifier,
         @field_access,
         @deref_field_access),
+      "=",
+      @expression)
+
+    compound_literal: -> seq(
+      "(", @type, ")",
+      "{", commaSep(choice(@struct_literal_field, @expression)), optional(","), "}")
+
+    struct_literal_field: -> seq(
+      ".", @identifier,
       "=",
       @expression)
 

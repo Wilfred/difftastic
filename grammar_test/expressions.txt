@@ -120,3 +120,26 @@ int main() {
     (expression_statement (assignment (field_access (identifier) (identifier)) (number)))
     (expression_statement (assignment (deref_field_access (identifier) (identifier)) (number)))))
 
+============================================
+Compound literals
+============================================
+
+int main() {
+  x = (SomeType) { .field1 = 5, .field2 = 6 };
+  y = (struct SomeStruct) { 7, 8 };
+}
+
+---
+
+(function_declaration (identifier) (identifier) (formal_parameters)
+  (statement_block
+    (expression_statement (assignment
+      (identifier)
+      (compound_literal (identifier)
+        (struct_literal_field (identifier) (number))
+        (struct_literal_field (identifier) (number)))))
+    (expression_statement (assignment
+      (identifier)
+      (compound_literal (struct_type (identifier))
+        (number)
+        (number))))))
