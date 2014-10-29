@@ -69,7 +69,7 @@ module.exports = grammar
 
     function_declaration: -> seq(
       @type,
-      @identifier,
+      @type_expression,
       "(", @formal_parameters, ")",
       choice(";", @statement_block))
 

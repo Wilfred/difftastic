@@ -141,7 +141,7 @@ int main(int argc, const char **argv);
 Function definitions
 ============================================
 
-void do_stuff(int arg1) {
+void * do_stuff(int arg1) {
   return 5;
 }
 
@@ -149,6 +149,6 @@ void do_stuff(int arg1) {
 
 (function_declaration
   (identifier)
-  (identifier)
+  (pointer_type (identifier))
   (field (identifier) (identifier))
   (statement_block (return_statement (number))))
