@@ -183,18 +183,23 @@ module.exports = grammar
       keyword("const"))
 
     expression: -> choice(
-      @identifier,
       @bool_op,
       @math_op,
       @rel_op,
-      @assignment,
       @function_call,
-      @field_access,
-      @deref_field_access,
       @compound_literal,
       @number,
       @char,
-      @string)
+      @string,
+      @deref,
+      @address_of,
+      @identifier,
+      @assignment,
+      @field_access,
+      @deref_field_access)
+
+    deref: -> prec(10, seq("*", @expression))
+    address_of: -> prec(10, seq("&", @expression))
 
     field_access: -> seq(
       @expression, ".", @identifier)
@@ -206,10 +211,10 @@ module.exports = grammar
       @expression, "(", err(commaSep(@expression)), ")")
 
     math_op: -> choice(
-      prec(4, seq(@expression, "++")),
-      prec(4, seq(@expression, "++")),
-      prec(3, seq("-", @expression)),
-      prec(2, seq(@expression, "*", @expression)),
+      prec(6, seq(@expression, "++")),
+      prec(6, seq(@expression, "++")),
+      prec(6, seq("-", @expression)),
+      prec(5, seq(@expression, "*", @expression)),
       prec(2, seq(@expression, "/", @expression)),
       prec(1, seq(@expression, "+", @expression)),
       prec(1, seq(@expression, "-", @expression)))
@@ -227,13 +232,14 @@ module.exports = grammar
       prec(1, seq(@expression, ">=", @expression)),
       prec(1, seq(@expression, ">", @expression)))
 
-    assignment: -> seq(
+    assignment: -> prec(-1, seq(
       choice(
+        @deref,
         @identifier,
         @field_access,
         @deref_field_access),
       "=",
-      @expression)
+      @expression))
 
     compound_literal: -> seq(
       "(", @type, ")",

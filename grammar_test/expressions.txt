@@ -106,7 +106,7 @@ Assignments
 
 int main() {
   static int a = 1;
-  b = c = 2;
+  b = *c = 2;
   d.e = 3;
   f->g = 4;
 }
@@ -116,9 +116,25 @@ int main() {
 (function_declaration (identifier) (identifier) (formal_parameters)
   (statement_block
     (var_declaration (identifier) (var_assignment (identifier) (number)))
-    (expression_statement (assignment (identifier) (assignment (identifier) (number))))
+    (expression_statement (assignment (identifier) (assignment (deref (identifier)) (number))))
     (expression_statement (assignment (field_access (identifier) (identifier)) (number)))
     (expression_statement (assignment (deref_field_access (identifier) (identifier)) (number)))))
+
+============================================
+Pointer operations
+============================================
+
+int main() {
+  doSomething(&x, *x);
+}
+
+---
+
+(function_declaration (identifier) (identifier) (formal_parameters)
+  (statement_block
+    (expression_statement (function_call (identifier)
+      (address_of (identifier))
+      (deref (identifier))))))
 
 ============================================
 Compound literals
