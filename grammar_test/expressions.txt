@@ -49,22 +49,6 @@ int main() {
     (expression_statement (deref_field_access (identifier) (identifier)))))
 
 ============================================
-Field access
-============================================
-
-int main() {
-  s.data1;
-  p->data2;
-}
-
----
-
-(function_declaration (identifier) (identifier) (formal_parameters)
-  (statement_block
-    (expression_statement (field_access (identifier) (identifier)))
-    (expression_statement (deref_field_access (identifier) (identifier)))))
-
-============================================
 Boolean operators
 ============================================
 
@@ -86,6 +70,7 @@ Math operators
 
 int main() {
   -a / b + c * -d;
+  a++ - ++b + c-- + --d;
 }
 
 ---
@@ -98,7 +83,15 @@ int main() {
         (identifier))
       (math_op
         (identifier)
-        (math_op (identifier)))))))
+        (math_op (identifier)))))
+    (expression_statement
+      (math_op
+        (math_op (identifier))
+        (math_op
+          (math_op (identifier))
+          (math_op
+            (math_op (identifier))
+            (math_op (identifier))))))))
 
 ============================================
 Assignments
