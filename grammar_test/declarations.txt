@@ -69,11 +69,31 @@ float d, e;
 
 (program
   (var_declaration (primitive_type (identifier)) (identifier))
-  (var_declaration (primitive_type (identifier))
+  (var_declaration
+    (primitive_type (identifier))
     (identifier)
     (var_assignment (identifier) (number))
     (identifier))
   (var_declaration (identifier) (identifier) (identifier)))
+
+============================================
+Variable storage classes
+============================================
+
+int a;
+extern int b, c;
+auto int d;
+register int e;
+static int f;
+
+---
+
+(program
+  (var_declaration (identifier) (identifier))
+  (var_declaration (storage_class) (identifier) (identifier) (identifier))
+  (var_declaration (storage_class) (identifier) (identifier))
+  (var_declaration (storage_class) (identifier) (identifier))
+  (var_declaration (storage_class) (identifier) (identifier)))
 
 ============================================
 Composite-typed variable declarations

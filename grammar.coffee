@@ -174,9 +174,11 @@ module.exports =
       enum_value: -> seq(
         @identifier, optional(seq("=", @expression)))
 
-      storage_class: -> repeat(choice(
+      storage_class: -> choice(
+        keyword("extern"),
         keyword("static"),
-        keyword("extern"))),
+        keyword("auto"),
+        keyword("register"))
 
       field: -> seq(@type, @type_expression)
 
