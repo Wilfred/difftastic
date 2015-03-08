@@ -1,4 +1,20 @@
 ============================================
+Identifiers
+============================================
+
+int main() {
+  _abc;
+  d_EG123;
+}
+
+---
+
+(function_declaration (identifier) (identifier) (formal_parameters)
+  (statement_block
+    (expression_statement (identifier))
+    (expression_statement (identifier))))
+
+============================================
 Function calls
 ============================================
 

@@ -277,7 +277,7 @@ module.exports =
       system_lib_string: -> token(seq(
         '<', repeat(choice(/[^>]/, '\\>')), '>'))
 
-      identifier: -> /\a\w*/
+      identifier: -> /[\a_][\a\d_]*/
 
       comment: -> token(choice(
         seq("//", /.*/),
