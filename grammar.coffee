@@ -199,7 +199,8 @@ module.exports =
         @identifier,
         @assignment,
         @field_access,
-        @deref_field_access)
+        @deref_field_access,
+        @subscript_access)
 
       deref: -> prec(10, seq("*", @expression))
       address_of: -> prec(10, seq("&", @expression))
@@ -209,6 +210,9 @@ module.exports =
 
       deref_field_access: -> seq(
         @expression, "->", @identifier)
+
+      subscript_access: -> seq(
+        @expression, "[", @expression, "]")
 
       function_call: -> seq(
         @expression, "(", err(commaSep(@expression)), ")")
@@ -242,7 +246,8 @@ module.exports =
           @deref,
           @identifier,
           @field_access,
-          @deref_field_access),
+          @deref_field_access,
+          @subscript_access),
         "=",
         @expression))
 
