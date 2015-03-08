@@ -182,9 +182,6 @@ module.exports =
 
       var_assignment: -> seq(@type_expression, "=", @expression)
 
-      type_modifier: -> choice(
-        keyword("const"))
-
       expression: -> choice(
         @bool_op,
         @math_op,
@@ -248,7 +245,12 @@ module.exports =
           @field_access,
           @deref_field_access,
           @subscript_access),
-        "=",
+        choice(
+          "=",
+          "+=",
+          "-=",
+          "*=",
+          "/="),
         @expression))
 
       compound_literal: -> seq(
