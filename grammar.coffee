@@ -58,9 +58,7 @@ module.exports =
         ";")
 
       var_declaration: -> seq(
-        repeat(choice(
-          keyword("static"),
-          keyword("extern"))),
+        optional(@storage_class),
         @type,
         commaSep1(choice(
           @type_expression,
@@ -68,6 +66,7 @@ module.exports =
         ";")
 
       function_declaration: -> seq(
+        optional(@storage_class),
         @type,
         @type_expression,
         "(", @formal_parameters, ")",
@@ -174,6 +173,10 @@ module.exports =
 
       enum_value: -> seq(
         @identifier, optional(seq("=", @expression)))
+
+      storage_class: -> repeat(choice(
+        keyword("static"),
+        keyword("extern"))),
 
       field: -> seq(@type, @type_expression)
 

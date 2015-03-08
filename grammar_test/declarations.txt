@@ -127,15 +127,23 @@ Function declarations
 ============================================
 
 int main(int argc, const char **argv);
+static foo bar();
 
 ---
 
-(function_declaration
-  (identifier)
-  (identifier)
-  (formal_parameters
-    (field (identifier) (identifier))
-    (field (type (identifier)) (pointer_type (pointer_type (identifier))))))
+(program
+  (function_declaration
+    (identifier)
+    (identifier)
+    (formal_parameters
+      (field (identifier) (identifier))
+      (field (type (identifier)) (pointer_type (pointer_type (identifier))))))
+
+  (function_declaration
+    (storage_class)
+    (identifier)
+    (identifier)
+    (formal_parameters)))
 
 ============================================
 Function definitions
