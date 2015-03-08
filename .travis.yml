@@ -3,5 +3,4 @@ before_script:
   - "tree-sitter compile"
   - "npm install"
 node_js:
-  - "0.10"
-  - "0.11"
+  - "0.12"
