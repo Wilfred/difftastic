@@ -11,11 +11,11 @@ struct s2 {
 
 ---
 
-(program
-  (struct_declaration (struct_type (identifier)))
-  (struct_declaration (struct_type (identifier)
-    (field (identifier) (identifier))
-    (field (identifier) (identifier)))))
+(translation_unit
+  (declaration (struct_specifier (identifier)))
+  (declaration (struct_specifier (identifier)
+    (struct_declaration (identifier) (identifier))
+    (struct_declaration (identifier) (identifier)))))
 
 ============================================
 Union declarations
@@ -30,11 +30,11 @@ union s2 {
 
 ---
 
-(program
-  (union_declaration (union_type (identifier)))
-  (union_declaration (union_type (identifier)
-    (field (identifier) (identifier))
-    (field (identifier) (identifier)))))
+(translation_unit
+  (declaration (union_specifier (identifier)))
+  (declaration (union_specifier (identifier)
+    (struct_declaration (identifier) (identifier))
+    (struct_declaration (identifier) (identifier)))))
 
 ============================================
 Enum declarations
@@ -50,11 +50,11 @@ enum e2 {
 
 ---
 
-(program
-  (enum_declaration (enum_type (identifier)))
-  (enum_declaration (enum_type (identifier)
+(translation_unit
+  (declaration (enum_specifier (identifier)))
+  (declaration (enum_specifier (identifier)
     (identifier)
-    (enum_value (identifier) (number))
+    (enumerator (identifier) (number_literal))
     (identifier))))
 
 ============================================
@@ -67,14 +67,14 @@ float d, e;
 
 ---
 
-(program
-  (var_declaration (primitive_type (identifier)) (identifier))
-  (var_declaration
-    (primitive_type (identifier))
+(translation_unit
+  (declaration (type_specifier (identifier)) (identifier))
+  (declaration
+    (type_specifier (identifier))
     (identifier)
-    (var_assignment (identifier) (number))
+    (init_declarator (identifier) (number_literal))
     (identifier))
-  (var_declaration (identifier) (identifier) (identifier)))
+  (declaration (identifier) (identifier) (identifier)))
 
 ============================================
 Variable storage classes
@@ -88,12 +88,12 @@ static int f;
 
 ---
 
-(program
-  (var_declaration (identifier) (identifier))
-  (var_declaration (storage_class) (identifier) (identifier) (identifier))
-  (var_declaration (storage_class) (identifier) (identifier))
-  (var_declaration (storage_class) (identifier) (identifier))
-  (var_declaration (storage_class) (identifier) (identifier)))
+(translation_unit
+  (declaration (identifier) (identifier))
+  (declaration (storage_class_specifier) (identifier) (identifier) (identifier))
+  (declaration (storage_class_specifier) (identifier) (identifier))
+  (declaration (storage_class_specifier) (identifier) (identifier))
+  (declaration (storage_class_specifier) (identifier) (identifier)))
 
 ============================================
 Composite-typed variable declarations
@@ -105,10 +105,10 @@ enum { g, h } i;
 
 ---
 
-(program
-  (var_declaration (struct_type (identifier)) (identifier))
-  (var_declaration (union_type (field (identifier) (identifier))) (identifier))
-  (var_declaration (enum_type (identifier) (identifier)) (identifier)))
+(translation_unit
+  (declaration (struct_specifier (identifier)) (identifier))
+  (declaration (union_specifier (struct_declaration (identifier) (identifier))) (identifier))
+  (declaration (enum_specifier (identifier) (identifier)) (identifier)))
 
 ============================================
 Pointer variable declarations
@@ -119,10 +119,10 @@ const char **the_strings;
 
 ---
 
-(program
-  (var_declaration (identifier) (pointer_type (identifier)))
-  (var_declaration (type (identifier))
-    (pointer_type (pointer_type (identifier)))))
+(translation_unit
+  (declaration (identifier) (declarator (pointer) (identifier)))
+  (declaration (type_qualifier) (identifier)
+    (declarator (pointer) (pointer) (identifier))))
 
 ============================================
 Typedefs
@@ -136,11 +136,11 @@ typedef struct{
 
 ---
 
-(program
-  (typedef (identifier) (identifier))
-  (typedef (struct_type
-    (field (identifier) (identifier)))
-    (pointer_type (identifier))))
+(translation_unit
+  (declaration (storage_class_specifier) (identifier) (identifier))
+  (declaration (storage_class_specifier) (struct_specifier
+    (struct_declaration (identifier) (identifier)))
+    (declarator (pointer) (identifier))))
 
 ============================================
 Function declarations
@@ -151,19 +151,19 @@ static foo bar();
 
 ---
 
-(program
-  (function_declaration
+(translation_unit
+  (declaration
     (identifier)
-    (identifier)
-    (formal_parameters
-      (field (identifier) (identifier))
-      (field (type (identifier)) (pointer_type (pointer_type (identifier))))))
+    (direct_declarator
+      (identifier)
+      (parameter_type_list
+        (parameter_declaration (identifier) (identifier))
+        (parameter_declaration (type_qualifier) (identifier) (declarator (pointer) (pointer) (identifier))))))
 
-  (function_declaration
-    (storage_class)
+  (declaration
+    (storage_class_specifier)
     (identifier)
-    (identifier)
-    (formal_parameters)))
+    (direct_declarator (identifier))))
 
 ============================================
 Function definitions
@@ -175,8 +175,11 @@ void * do_stuff(int arg1) {
 
 ---
 
-(function_declaration
+(function_definition
   (identifier)
-  (pointer_type (identifier))
-  (field (identifier) (identifier))
-  (statement_block (return_statement (number))))
+  (declarator
+    (pointer)
+    (direct_declarator
+      (identifier)
+      (parameter_declaration (identifier) (identifier))))
+    (compound_statement (return_statement (number_literal))))

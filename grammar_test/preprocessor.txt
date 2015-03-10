@@ -7,8 +7,8 @@ Include directives
 
 ---
 
-(program
-  (preproc_include (string))
+(translation_unit
+  (preproc_include (string_literal))
   (preproc_include (system_lib_string)))
 
 ============================================
@@ -23,7 +23,7 @@ Defines
 
 ---
 
-(program
+(translation_unit
   (preproc_define (identifier))
   (preproc_define (identifier)))
 
@@ -41,11 +41,10 @@ int x;
 
 ---
 
-(program
+(translation_unit
   (preproc_ifndef (identifier))
-  (var_declaration (identifier) (identifier))
+  (declaration (identifier) (identifier))
   (preproc_endif)
   (preproc_ifdef (identifier))
   (preproc_else)
   (preproc_endif))
-

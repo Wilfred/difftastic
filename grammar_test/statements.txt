@@ -1,49 +1,31 @@
 ============================================
-Expression statements
-============================================
-
-int main() {
-  x;
-}
-
----
-
-(function_declaration
-  (identifier)
-  (identifier)
-  (formal_parameters)
-  (statement_block
-    (expression_statement (identifier))))
-
-============================================
 If statements
 ============================================
 
 int main() {
   if (a)
-    b;
+    1;
 
   if (!a) {
-    b;
+    2;
   } else {
-    c;
+    3;
   }
 }
 
 ---
 
-(function_declaration
+(function_definition
   (identifier)
-  (identifier)
-  (formal_parameters)
-  (statement_block
+  (direct_declarator (identifier))
+  (compound_statement
     (if_statement (identifier)
-      (expression_statement (identifier)))
-    (if_statement (bool_op (identifier))
-      (statement_block
-        (expression_statement (identifier)))
-      (statement_block
-        (expression_statement (identifier))))))
+      (expression_statement (number_literal)))
+    (if_statement (logical_expression (identifier))
+      (compound_statement
+        (expression_statement (number_literal)))
+      (compound_statement
+        (expression_statement (number_literal))))))
 
 ============================================
 For loops
@@ -51,32 +33,34 @@ For loops
 
 int main() {
   for (;;)
-    x;
+    1;
 
   for (int i = 0; i < 5; i++) {
-    y;
+    2;
   }
 
   for (start(); check(); step())
-    z;
+    3;
 }
 
 ---
 
-(function_declaration (identifier) (identifier) (formal_parameters)
-  (statement_block
+(function_definition
+  (identifier)
+  (direct_declarator (identifier))
+  (compound_statement
     (for_statement
-      (expression_statement (identifier)))
+      (expression_statement (number_literal)))
     (for_statement
-      (var_declaration (identifier) (var_assignment (identifier) (number)))
-      (rel_op (identifier) (number))
-      (math_op (identifier))
-      (statement_block (expression_statement (identifier))))
+      (declaration (identifier) (init_declarator (identifier) (number_literal)))
+      (relational_expression (identifier) (number_literal))
+      (math_expression (identifier))
+      (compound_statement (expression_statement (number_literal))))
     (for_statement
-      (function_call (identifier))
-      (function_call (identifier))
-      (function_call (identifier))
-      (expression_statement (identifier)))))
+      (call_expression (identifier))
+      (call_expression (identifier))
+      (call_expression (identifier))
+      (expression_statement (number_literal)))))
 
 ============================================
 While loops
@@ -89,7 +73,9 @@ int main() {
 
 ---
 
-(function_declaration (identifier) (identifier) (formal_parameters)
-  (statement_block
+(function_definition
+  (identifier)
+  (direct_declarator (identifier))
+  (compound_statement
     (while_statement (identifier)
-      (expression_statement (function_call (identifier) (string))))))
+      (expression_statement (call_expression (identifier) (string_literal))))))
