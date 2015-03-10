@@ -196,6 +196,26 @@ int main() {
         (identifier))))))
 
 ============================================
+Sizeof expressions
+============================================
+
+int main() {
+  sizeof x.a;
+  sizeof(x.a);
+  sizeof(const char *);
+}
+
+---
+
+(function_definition
+  (identifier)
+  (direct_declarator (identifier))
+  (compound_statement
+    (expression_statement (sizeof_expression (field_expression (identifier) (identifier))))
+    (expression_statement (sizeof_expression (expression (field_expression (identifier) (identifier)))))
+    (expression_statement (sizeof_expression (type_name (type_qualifier) (identifier) (pointer))))))
+
+============================================
 Compound literals
 ============================================
 

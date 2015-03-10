@@ -391,8 +391,9 @@ module.exports =
       cast_expression: ->
         prec(PREC.cast, seq("(", @type_name, ")", @expression))
 
-      sizeof_expression: ->
+      sizeof_expression: -> choice(
         prefix(PREC.sizeof, @expression, keyword("sizeof"))
+        prefix(PREC.sizeof, seq("(", @type_name, ")"), keyword("sizeof")))
 
       subscript_expression: ->
         prec(PREC.subscript, seq(@expression, "[", @expression, "]"))
