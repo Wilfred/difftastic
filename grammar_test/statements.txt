@@ -77,7 +77,7 @@ for (;;) {
     (expression_statement (function_call (identifier) (identifier))))
 
   (for_statement
-    (comma_op
+    (expressions
       (assignment (identifier) (number))
       (function_call (identifier)))
     (rel_op (identifier) (number))
@@ -243,7 +243,7 @@ throw new Error("uh oh");
 ---
 
 (throw_statement
-  (constructor_call (identifier) (string)))
+  (new_expression (function_call (identifier) (string))))
 
 ============================================
 Try catch finally statements

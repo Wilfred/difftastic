@@ -181,10 +181,10 @@ new Thing;
 ---
 
 (program
-  (expression_statement (constructor_call
+  (expression_statement (new_expression (function_call
     (member_access (identifier) (identifier))
-    (arguments (number) (string))))
-  (expression_statement (constructor_call
+    (arguments (number) (string)))))
+  (expression_statement (new_expression
     (identifier))))
 
 ============================================
@@ -334,7 +334,7 @@ f, g;
 
 ---
 
-(expression_statement (comma_op (identifier) (identifier)))
+(expression_statement (expressions (identifier) (identifier)))
 
 ==============================================
 Math assignment operators
@@ -371,15 +371,15 @@ typeof a == b && c instanceof d
     (member_access (identifier) (identifier))
     (ternary (identifier) (identifier) (identifier))))
   (expression_statement (bool_op
-    (identifier)
     (bool_op
-      (function_call (identifier) (identifier))
-      (identifier))))
+      (identifier)
+      (function_call (identifier) (identifier)))
+    (identifier)))
   (expression_statement (bool_op
-    (identifier)
     (bool_op
-      (constructor_call (identifier) (identifier))
-      (identifier))))
+      (identifier)
+      (new_expression (function_call (identifier) (identifier))))
+    (identifier)))
   (expression_statement (bool_op
     (rel_op
       (type_op (identifier))

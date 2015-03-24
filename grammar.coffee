@@ -1,5 +1,5 @@
 module.exports =
-({choice, err, repeat, seq, sym, keyword, token, optional, prec}) ->
+({choice, err, repeat, seq, sym, token, optional, prec}) ->
 
   commaSep1 = (rule) ->
     seq(rule, repeat(seq(",", rule)))
@@ -13,6 +13,7 @@ module.exports =
   PREC =
     COMMA: -1,
     ASSIGN: 0,
+    BLOCK: 1,
     TERNARY: 1,
     OR: 2,
     AND: 3,
@@ -23,8 +24,8 @@ module.exports =
     NOT: 8,
     NEG: 9,
     INC: 10,
-    CALL: 11,
-    NEW: 12,
+    NEW: 11,
+    CALL: 12,
     MEMBER: 13
 
   {
@@ -63,87 +64,87 @@ module.exports =
       )
 
       expression_statement: -> seq(
-        err(@expression), terminator())
+        err(@expressions), terminator())
 
       var_declaration: -> seq(
-        keyword("var"),
+        "var",
         commaSep1(err(choice(
           @identifier,
           @var_assignment))),
         terminator())
 
-      statement_block: -> seq(
-        "{", err(repeat(@statement)), "}")
+      statement_block: -> prec(PREC.BLOCK, seq(
+        "{", err(repeat(@statement)), "}"))
 
-      if_statement: -> seq(
-        keyword("if"),
+      if_statement: -> prec.right(0, seq(
+        "if",
         @_paren_expression,
         @statement,
         optional(seq(
-          keyword("else"),
+          "else",
           @statement
-        )))
+        ))))
 
       switch_statement: -> seq(
-        keyword("switch"),
+        "switch",
         "(", @expression, ")",
         "{", repeat(choice(@case, @default)), "}")
 
       for_statement: -> seq(
-        keyword("for"),
+        "for",
         "(",
         choice(
           @var_declaration,
-          seq(err(@expression), ";"),
+          seq(err(@expressions), ";"),
           ";"),
-        optional(err(@expression)), ";"
-        optional(err(@expression)),
+        optional(err(@expressions)), ";"
+        optional(err(@expressions)),
         ")",
         @statement)
 
       for_in_statement: -> seq(
-        keyword("for"),
+        "for",
         "(",
-        optional(keyword("var")),
-        @identifier,
-        keyword("in"),
+        optional("var"),
+        @expression,
+        "in",
         @expression,
         ")",
         @statement)
 
       while_statement: -> seq(
-        keyword("while"),
+        "while",
         @_paren_expression,
         @statement)
 
       do_statement: -> seq(
-        keyword("do"),
+        "do",
         @statement_block,
-        keyword("while"),
+        "while",
         @_paren_expression)
 
       try_statement: -> seq(
-        keyword("try"),
+        "try",
         @statement_block,
         optional(@catch),
         optional(@finally))
 
       break_statement: -> seq(
-        keyword("break"),
+        "break",
         terminator())
 
       return_statement: -> seq(
-        keyword("return"),
-        optional(@expression),
+        "return",
+        optional(@expressions),
         terminator())
 
       throw_statement: -> seq(
-        keyword("throw"),
+        "throw",
         @expression,
         terminator())
 
       delete_statement: -> seq(
-        keyword("delete"),
+        "delete",
         choice(@member_access, @subscript_access),
         terminator())
 
@@ -152,23 +153,23 @@ module.exports =
       #
 
       case: -> seq(
-        keyword("case"),
+        "case",
         @expression,
         ":",
         repeat(@statement))
 
       default: -> seq(
-        keyword("default"),
+        "default",
         ":",
         repeat(@statement))
 
       catch: -> seq(
-        keyword("catch"),
+        "catch",
         optional(seq("(", @identifier, ")"))
         @statement_block)
 
       finally: -> seq(
-        keyword("finally"),
+        "finally",
         @statement_block)
 
       var_assignment: -> seq(
@@ -183,12 +184,14 @@ module.exports =
       # Expressions
       #
 
+      expressions: -> commaSep1(@expression)
+
       expression: -> choice(
         @object,
         @array,
         @function,
         @function_call,
-        @constructor_call,
+        @new_expression,
         @member_access,
         @subscript_access,
         @assignment,
@@ -196,7 +199,6 @@ module.exports =
         @ternary,
         @bool_op,
         @math_op,
-        @comma_op,
         @bitwise_op,
         @rel_op,
         @type_op,
@@ -219,7 +221,7 @@ module.exports =
         "[", commaSep(err(@expression)), "]")
 
       function: -> seq(
-        keyword("function"),
+        "function",
         optional(@identifier),
         "(", optional(@formal_parameters), ")",
         @statement_block)
@@ -228,18 +230,16 @@ module.exports =
         @expression,
         "(", err(optional(@arguments)), ")"))
 
-      constructor_call: -> prec(PREC.NEW, seq(
-        keyword("new"),
-        @expression,
-        optional(seq(
-          "(", err(optional(@arguments)), ")"))))
+      new_expression: -> prec(PREC.NEW, seq(
+        "new",
+        @expression))
 
       member_access: -> prec(PREC.MEMBER, seq(
         @expression,
         ".",
         @identifier))
 
-      subscript_access: -> prec(PREC.MEMBER, seq(
+      subscript_access: -> prec.right(PREC.MEMBER, seq(
         @expression,
         "[", err(@expression), "]"))
 
@@ -273,9 +273,6 @@ module.exports =
         prec(PREC.AND, seq(@expression, "&", @expression)),
         prec(PREC.OR, seq(@expression, "|", @expression)))
 
-      comma_op: -> prec(PREC.COMMA, seq(
-        @expression, ",", @expression))
-
       math_op: -> choice(
         prec(PREC.NEG, seq("-", @expression)),
         prec(PREC.NEG, seq("+", @expression)),
@@ -297,9 +294,9 @@ module.exports =
         prec(PREC.REL, seq(@expression, ">", @expression)))
 
       type_op: -> choice(
-        prec(PREC.TYPEOF, seq(keyword("typeof"), @expression)),
-        prec(PREC.REL, seq(@expression, keyword("instanceof"), @expression)),
-        prec(PREC.REL, seq(@expression, keyword("in"), @expression)))
+        prec(PREC.TYPEOF, seq("typeof", @expression)),
+        prec(PREC.REL, seq(@expression, "instanceof", @expression)),
+        prec(PREC.REL, seq(@expression, "in", @expression)))
 
       #
       # Primitives
@@ -327,10 +324,10 @@ module.exports =
 
       identifier: -> /[\a_$][\a\d_$]*/
 
-      true: -> keyword("true")
-      false: -> keyword("false")
-      null: -> keyword("null")
-      undefined: -> keyword("undefined")
+      true: -> "true"
+      false: -> "false"
+      null: -> "null"
+      undefined: -> "undefined"
       _line_break: -> "\n"
 
       #
@@ -348,4 +345,3 @@ module.exports =
         ":",
         @expression)
   }
-
