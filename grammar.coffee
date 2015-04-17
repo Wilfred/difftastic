@@ -1,49 +1,35 @@
 module.exports =
-({choice, err, repeat, seq, keyword, optional, token, prec, precedenceValues}) ->
+({choice, err, repeat, seq, optional, token, prec}) ->
 
-  precedenceValues = (names) ->
-    result = {}
-    startValue = -1 * names.indexOf('default')
-    for name in names
-      result[name] = startValue++
-    result
+  repeat1 = (rule) ->
+    seq(rule, repeat(rule))
 
   commaSep = (rule) ->
     optional(commaSep1(rule))
 
   commaSep1 = (rule) ->
-    seq(rule, repeat(seq(",", rule)))
+    seq(rule, repeat(prec.left(0, seq(",", rule))))
 
-  prefix = (precedence, operand, operator) ->
-    prec(precedence, seq(operator, operand))
-
-  postfix = (precedence, operand, operator) ->
-    prec(precedence, seq(operand, operator))
-
-  infix = (precedence, operand, operator) ->
-    prec(precedence, seq(operand, operator, operand))
-
-  PREC = precedenceValues [
-    'assignment'
-    'conditional'
-    'default'
-    'logical_or'
-    'logical_and'
-    'inclusive_or'
-    'exclusive_or'
-    'bitwise_and'
-    'equal'
-    'relational'
-    'sizeof'
-    'shift'
-    'add'
-    'multiply'
-    'call'
-    'cast'
-    'unary'
-    'field'
-    'subscript'
-  ]
+  PREC =
+    assignment: -1
+    conditional: -2
+    default: 0
+    logical_or: 1
+    logical_and: 2
+    inclusive_or: 3
+    exclusive_or: 4
+    bitwise_and: 5
+    equal: 6
+    relational: 7
+    sizeof: 8
+    shift: 9
+    add: 10
+    multiply: 11
+    call: 12
+    cast: 13
+    unary: 14
+    field: 15
+    subscript: 16
 
   {
     name: 'c'
@@ -68,21 +54,21 @@ module.exports =
         @preproc_call)
 
       preproc_include: -> seq(
-        keyword("#include"),
+        "#include",
         choice(@string_literal, @system_lib_string))
 
       preproc_define: -> seq(
-        keyword("#define"),
+        "#define",
         @identifier,
         token(seq(/.+/, repeat(seq("\\\n", /.+/)))))
 
       preproc_call: -> choice(
         seq(@preproc_directive, /.*/))
 
-      preproc_ifdef: -> seq(keyword("#ifdef"), @identifier)
-      preproc_ifndef: -> seq(keyword("#ifndef"), @identifier)
-      preproc_else: -> keyword("#else")
-      preproc_endif: -> keyword("#endif")
+      preproc_ifdef: -> seq("#ifdef", @identifier)
+      preproc_ifndef: -> seq("#ifndef", @identifier)
+      preproc_else: -> "#else"
+      preproc_endif: -> "#endif"
       preproc_directive: -> /#\a\w+/
 
       # Section - Main Grammar
@@ -100,7 +86,7 @@ module.exports =
         commaSep(@init_declarator),
         ";")
 
-      declaration_specifiers: -> repeat(choice(
+      declaration_specifiers: -> repeat1(choice(
         @storage_class_specifier,
         @type_qualifier,
         @function_specifier))
@@ -122,18 +108,18 @@ module.exports =
         "}")
 
       storage_class_specifier: -> choice(
-        keyword("typedef"),
-        keyword("extern"),
-        keyword("static") ,
-        keyword("auto"),
-        keyword("register"))
+        "typedef",
+        "extern",
+        "static" ,
+        "auto",
+        "register")
 
       type_qualifier: -> choice(
-        keyword("const"),
-        keyword("restrict"),
-        keyword("volatile"))
+        "const",
+        "restrict",
+        "volatile")
 
-      function_specifier: -> keyword("inline")
+      function_specifier: -> "inline"
 
       type_specifier: -> choice(
         @struct_specifier,
@@ -141,13 +127,13 @@ module.exports =
         @enum_specifier,
         seq(
           repeat(choice(
-            keyword("unsigned"),
-            keyword("long"),
-            keyword("short"))),
-          @identifier))
+            "unsigned",
+            "long",
+            "short")),
+          prec(20, @identifier)))
 
       enum_specifier: -> seq(
-        keyword("enum"),
+        "enum",
         choice(
           @identifier,
           seq(
@@ -155,7 +141,7 @@ module.exports =
             "{", commaSep(@enumerator), "}")))
 
       struct_specifier: -> seq(
-        keyword("struct"),
+        "struct",
         choice(
           @identifier,
           seq(
@@ -163,7 +149,7 @@ module.exports =
             "{", repeat(@struct_declaration), "}")))
 
       union_specifier: -> seq(
-        keyword("union"),
+        "union",
         choice(
           @identifier,
           seq(
@@ -171,9 +157,8 @@ module.exports =
             "{", repeat(@struct_declaration), "}")))
 
       struct_declaration: -> seq(
-        repeat(choice(
-          @type_specifier,
-          @type_qualifier)),
+        repeat(@type_qualifier),
+        @type_specifier,
         commaSep(@struct_declarator),
         ";")
 
@@ -193,7 +178,7 @@ module.exports =
         @identifier,
 
         # TODO - is this needed? Currently, it creates ambiguity w/
-        # call expressions
+        # call expressions.
         #
         # seq("(", @declarator, ")"),
 
@@ -201,25 +186,29 @@ module.exports =
           @direct_declarator,
           choice(
             seq("[", repeat(@type_qualifier), optional(@expression), "]"),
-            seq("[", keyword("static"), repeat(@type_qualifier), @expression, "]"),
-            seq("[", repeat(@type_qualifier), keyword("static"), @expression, "]"),
+            seq("[", "static", repeat(@type_qualifier), @expression, "]"),
+            seq("[", repeat(@type_qualifier), "static", @expression, "]"),
             seq("[", repeat(@type_qualifier), "*", "]"),
             seq("(", optional(@parameter_type_list), ")"),
             seq("(", commaSep(@identifier), ")"))))
 
       direct_abstract_declarator: -> choice(
-        seq("(", @abstract_declarator, ")"),
+
+        # TODO - is this needed? Currently, it creates ambiguity.
+        #
+        # seq("(", @abstract_declarator, ")"),
+
         seq(
           @direct_abstract_declarator,
           choice(
             seq("[", repeat(@type_qualifier), optional(@expression), "]"),
-            seq("[", keyword("static"), repeat(@type_qualifier), @expression, "]"),
-            seq("[", repeat(@type_qualifier), keyword("static"), @expression, "]"),
+            seq("[", "static", repeat(@type_qualifier), @expression, "]"),
+            seq("[", repeat(@type_qualifier), "static", @expression, "]"),
             seq("[", "*", "]"),
-            seq("(", optional(@parameter_type_list), ")"))))
+            seq("(", @parameter_type_list, ")"))))
 
       parameter_type_list: -> seq(
-        commaSep(@parameter_declaration),
+        commaSep1(@parameter_declaration),
         optional(seq(",", "...")))
 
       parameter_declaration: -> seq(
@@ -253,38 +242,38 @@ module.exports =
         optional(@expression), ";")
 
       if_statement: -> seq(
-        keyword("if"),
+        "if",
         "(", @expression, ")",
-        @statement,
+        prec.left(0, @statement),
         optional(seq(
-          keyword("else"),
+          "else",
           @statement)))
 
       switch_statement: -> seq(
-        keyword("switch"),
+        "switch",
         "(", @expression, ")",
         @statement)
 
       case_statement: -> seq(
         choice(
-          seq(keyword("case"), @expression),
-          keyword("default")),
+          seq("case", @expression),
+          "default"),
         ":",
         @statement)
 
       while_statement: -> seq(
-        keyword("while"),
+        "while",
         "(", @expression, ")",
         @statement)
 
       do_statement: -> seq(
-        keyword("do"),
+        "do",
         @statement,
-        keyword("while"),
+        "while",
         "(", @expression, ")")
 
       for_statement: -> seq(
-        keyword("for"),
+        "for",
         "(",
         choice(
           @declaration,
@@ -295,18 +284,18 @@ module.exports =
         @statement)
 
       return_statement: -> seq(
-        keyword("return"),
+        "return",
         optional(@expression)
         ";")
 
       break_statement: -> seq(
-        keyword("break"), ";")
+        "break", ";")
 
       continue_statement: -> seq(
-        keyword("continue"), ";")
+        "continue", ";")
 
       goto_statement: -> seq(
-        keyword("goto"), @identifier, ";")
+        "goto", @identifier, ";")
 
       # Expressions
 
@@ -323,14 +312,14 @@ module.exports =
         @pointer_expression,
         @sizeof_expression,
         @subscript_expression,
-          @call_expression,
+        @call_expression,
         @field_expression,
         @compound_literal_expression,
         @identifier,
         @number_literal,
         @string_literal,
         @char_literal,
-        seq("(", @expression, ")"))
+        prec(PREC.cast, seq("(", @expression, ")")))
 
       conditional_expression: -> prec(PREC.conditional, seq(
         @expression,
@@ -340,60 +329,63 @@ module.exports =
         @expression))
 
       assignment_expression: ->
-        infix(PREC.assignment, @expression, choice(
-          "=",
-          "*=",
-          "/=",
-          "%=",
-          "+=",
-          "-=",
-          "<<=",
-          ">>=",
-          "&=",
-          "^=",
-          "|="))
+        prec.right(PREC.assignment, seq(
+          @expression,
+          choice(
+            "=",
+            "*=",
+            "/=",
+            "%=",
+            "+=",
+            "-=",
+            "<<=",
+            ">>=",
+            "&=",
+            "^=",
+            "|="),
+          @expression))
 
       pointer_expression: -> choice(
-        prefix(PREC.unary, @expression, "*"),
-        prefix(PREC.unary, @expression, "&"))
+        prec(PREC.unary, seq("*", @expression)),
+        prec(PREC.unary, seq("&", @expression)))
 
       logical_expression: -> choice(
-        infix(PREC.logical_or, @expression, "||"),
-        infix(PREC.logical_and, @expression, "&&"),
-        prefix(PREC.unary, @expression, "!"))
+        prec(PREC.logical_or, seq(@expression, "||", @expression)),
+        prec(PREC.logical_and, seq(@expression, "&&", @expression)),
+        prec(PREC.unary, seq("!", @expression)))
 
       bitwise_expression: -> choice(
-        infix(PREC.inclusive_or, @expression, "|"),
-        infix(PREC.exclusive_or, @expression, "^"),
-        infix(PREC.bitwise_and, @expression, "&"),
-        prefix(PREC.unary, @expression, "~"))
+        prec(PREC.inclusive_or, seq(@expression, "|", @expression)),
+        prec(PREC.exclusive_or, seq(@expression, "^", @expression)),
+        prec(PREC.bitwise_and, seq(@expression, "&", @expression)),
+        prec(PREC.unary, seq("~", @expression)))
 
       equality_expression: ->
-        infix(PREC.equal, @expression, choice("==", "!="))
+        prec(PREC.equal, seq(@expression, choice("==", "!="), @expression))
 
       relational_expression: ->
-        infix(PREC.relational, @expression, choice("<", ">", "<=", ">="))
+        prec(PREC.relational, seq(@expression, choice("<", ">", "<=", ">="), @expression))
 
       shift_expression: ->
-        infix(PREC.shift, @expression, choice("<<", ">>"))
+        prec(PREC.shift, seq(@expression, choice("<<", ">>"), @expression))
 
       math_expression: -> choice(
-        infix(PREC.add, @expression, "+"),
-        infix(PREC.add, @expression, "-"),
-        infix(PREC.multiply, @expression, "*"),
-        infix(PREC.multiply, @expression, "/"),
-        infix(PREC.multiply, @expression, "%"),
-        prefix(PREC.unary, @expression, "-"),
-        prefix(PREC.unary, @expression, "+"),
-        prefix(PREC.unary, @expression, choice("++", "--")),
-        postfix(PREC.unary, @expression, choice("++", "--")))
+        prec(PREC.add, seq(@expression, "+", @expression)),
+        prec(PREC.add, seq(@expression, "-", @expression)),
+        prec(PREC.multiply, seq(@expression, "*", @expression)),
+        prec(PREC.multiply, seq(@expression, "/", @expression)),
+        prec(PREC.multiply, seq(@expression, "%", @expression)),
+        prec(PREC.unary, seq("-", @expression)),
+        prec(PREC.unary, seq("+", @expression)),
+        prec(PREC.unary, seq(choice("--", "++"), @expression)),
+        prec(PREC.unary, seq(@expression, choice("++", "--"))))
 
       cast_expression: ->
         prec(PREC.cast, seq("(", @type_name, ")", @expression))
 
       sizeof_expression: -> choice(
-        prefix(PREC.sizeof, @expression, keyword("sizeof"))
-        prefix(PREC.sizeof, seq("(", @type_name, ")"), keyword("sizeof")))
+        prec(PREC.sizeof, seq("sizeof", @expression)),
+        prec(PREC.sizeof, seq("sizeof", "(", @type_name, ")")))
 
       subscript_expression: ->
         prec(PREC.subscript, seq(@expression, "[", @expression, "]"))
@@ -402,26 +394,31 @@ module.exports =
         prec(PREC.call, seq(@expression, "(", commaSep(@expression), ")"))
 
       field_expression: -> choice(
-        infix(PREC.field, @expression, "."),
-        infix(PREC.field, @expression, "->"))
+        prec(PREC.field, seq(@expression, ".", @expression)),
+        prec(PREC.field, seq(@expression, "->", @expression)))
 
       compound_literal_expression: -> seq(
-        "(", @type_name, ")",
-        @initializer_list)
-
-      type_name: -> seq(
-        repeat(choice(
-          @type_specifier,
-          @type_qualifier)),
-        optional(@abstract_declarator))
-
-      initializer_list: -> seq(
+        prec(PREC.cast, seq("(", @type_name, ")")),
         "{",
-        commaSep(seq(
-          optional(seq(repeat(@designator), "=")),
-          @initializer)),
+        @_initializer_list,
         optional(",")
         "}")
+
+      type_name: -> seq(
+        repeat(@type_qualifier),
+        @type_specifier,
+        optional(@abstract_declarator))
+
+      _initializer_list: -> choice(
+        seq(
+          optional(seq(repeat1(@designator), "=")),
+          @initializer),
+        seq(
+          @_initializer_list,
+          ","
+          seq(
+            optional(seq(repeat1(@designator), "=")),
+            @initializer)))
 
       designator: -> choice(
         seq("[", @expression, "]"),
@@ -429,7 +426,11 @@ module.exports =
 
       initializer: -> choice(
         @expression,
-        @initializer_list)
+        seq(
+          "{"
+          @_initializer_list
+          optional(",")
+          "}"))
 
       number_literal: -> /\d+(\.\d+)?/
 

@@ -118,12 +118,12 @@ int main() {
         (math_expression (identifier)))))
     (expression_statement
       (math_expression
-        (math_expression (identifier))
         (math_expression
-          (math_expression (identifier))
           (math_expression
             (math_expression (identifier))
-            (math_expression (identifier))))))))
+            (math_expression (identifier)))
+          (math_expression (identifier)))
+        (math_expression (identifier))))))
 
 ============================================
 Assignments
@@ -220,7 +220,7 @@ Compound literals
 ============================================
 
 int main() {
-  x = (SomeType) { .field1 = 5, .field2 = 6 };
+  x = (SomeType) { .f1 = 5, .f2 = 6 };
   y = (struct SomeStruct) { 7, 8 };
 }
 
@@ -233,12 +233,36 @@ int main() {
     (expression_statement (assignment_expression
       (identifier)
       (compound_literal_expression (identifier)
-        (initializer_list
-          (designator (identifier)) (number_literal)
-          (designator (identifier)) (number_literal)))))
+        (designator (identifier)) (number_literal)
+        (designator (identifier)) (number_literal))))
     (expression_statement (assignment_expression
       (identifier)
       (compound_literal_expression (struct_specifier (identifier))
-        (initializer_list
-          (number_literal)
-          (number_literal)))))))
+        (number_literal)
+        (number_literal))))))
+
+============================================
+Compound literals with trailing commas
+============================================
+
+int main() {
+  x = (SomeType) { .f1 = 5, .f2 = 6, };
+  y = (struct SomeStruct) { 7, 8, };
+}
+
+---
+
+(function_definition
+  (identifier)
+  (direct_declarator (identifier))
+  (compound_statement
+    (expression_statement (assignment_expression
+      (identifier)
+      (compound_literal_expression (identifier)
+        (designator (identifier)) (number_literal)
+        (designator (identifier)) (number_literal))))
+    (expression_statement (assignment_expression
+      (identifier)
+      (compound_literal_expression (struct_specifier (identifier))
+        (number_literal)
+        (number_literal))))))
