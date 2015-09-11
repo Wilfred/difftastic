@@ -1,347 +1,343 @@
-module.exports =
-({choice, err, repeat, seq, sym, token, optional, prec}) ->
+commaSep1 = (rule) ->
+  seq(rule, repeat(seq(",", rule)))
 
-  commaSep1 = (rule) ->
-    seq(rule, repeat(seq(",", rule)))
+commaSep = (rule) ->
+  optional(commaSep1(rule))
 
-  commaSep = (rule) ->
-    optional(commaSep1(rule))
+terminator = ->
+  choice(";", sym("_line_break"))
 
-  terminator = ->
-    choice(";", sym("_line_break"))
+PREC =
+  COMMA: -1,
+  ASSIGN: 0,
+  BLOCK: 1,
+  TERNARY: 1,
+  OR: 2,
+  AND: 3,
+  PLUS: 4,
+  REL: 5,
+  TIMES: 6,
+  TYPEOF: 7,
+  NOT: 8,
+  NEG: 9,
+  INC: 10,
+  NEW: 11,
+  CALL: 12,
+  MEMBER: 13
 
-  PREC =
-    COMMA: -1,
-    ASSIGN: 0,
-    BLOCK: 1,
-    TERNARY: 1,
-    OR: 2,
-    AND: 3,
-    PLUS: 4,
-    REL: 5,
-    TIMES: 6,
-    TYPEOF: 7,
-    NOT: 8,
-    NEG: 9,
-    INC: 10,
-    NEW: 11,
-    CALL: 12,
-    MEMBER: 13
+module.exports = grammar
+  name: 'javascript'
 
-  {
-    name: 'javascript'
+  ubiquitous: -> [
+    @comment,
+    @_line_break,
+    /[ \t\r]/
+  ]
 
-    ubiquitous: -> [
-      @comment,
-      @_line_break,
-      /[ \t\r]/
-    ]
+  rules:
+    program: -> repeat(@_statement)
 
-    rules:
-      program: -> repeat(@_statement)
+    #
+    # Statements
+    #
 
-      #
-      # Statements
-      #
+    _statement: -> choice(
+      @expression_statement,
+      @var_declaration,
+      @statement_block,
 
-      _statement: -> choice(
-        @expression_statement,
+      @if_statement,
+      @switch_statement,
+      @for_statement,
+      @for_in_statement,
+      @while_statement,
+      @do_statement,
+      @try_statement,
+
+      @break_statement,
+      @return_statement,
+      @throw_statement,
+      @delete_statement,
+    )
+
+    expression_statement: -> seq(
+      err(@_expressions), terminator())
+
+    var_declaration: -> seq(
+      "var",
+      commaSep1(err(choice(
+        @identifier,
+        @var_assignment))),
+      terminator())
+
+    statement_block: -> prec(PREC.BLOCK, seq(
+      "{", err(repeat(@_statement)), "}"))
+
+    if_statement: -> prec.right(0, seq(
+      "if",
+      @_paren_expression,
+      @_statement,
+      optional(seq(
+        "else",
+        @_statement
+      ))))
+
+    switch_statement: -> seq(
+      "switch",
+      "(", @_expression, ")",
+      "{", repeat(choice(@case, @default)), "}")
+
+    for_statement: -> seq(
+      "for",
+      "(",
+      choice(
         @var_declaration,
-        @statement_block,
+        seq(err(@_expressions), ";"),
+        ";"),
+      optional(err(@_expressions)), ";"
+      optional(err(@_expressions)),
+      ")",
+      @_statement)
 
-        @if_statement,
-        @switch_statement,
-        @for_statement,
-        @for_in_statement,
-        @while_statement,
-        @do_statement,
-        @try_statement,
+    for_in_statement: -> seq(
+      "for",
+      "(",
+      optional("var"),
+      @_expression,
+      "in",
+      @_expression,
+      ")",
+      @_statement)
 
-        @break_statement,
-        @return_statement,
-        @throw_statement,
-        @delete_statement,
-      )
+    while_statement: -> seq(
+      "while",
+      @_paren_expression,
+      @_statement)
 
-      expression_statement: -> seq(
-        err(@_expressions), terminator())
+    do_statement: -> seq(
+      "do",
+      @statement_block,
+      "while",
+      @_paren_expression)
 
-      var_declaration: -> seq(
-        "var",
-        commaSep1(err(choice(
-          @identifier,
-          @var_assignment))),
-        terminator())
+    try_statement: -> seq(
+      "try",
+      @statement_block,
+      optional(@catch),
+      optional(@finally))
 
-      statement_block: -> prec(PREC.BLOCK, seq(
-        "{", err(repeat(@_statement)), "}"))
+    break_statement: -> seq(
+      "break",
+      terminator())
 
-      if_statement: -> prec.right(0, seq(
-        "if",
-        @_paren_expression,
-        @_statement,
-        optional(seq(
-          "else",
-          @_statement
-        ))))
+    return_statement: -> seq(
+      "return",
+      optional(@_expressions),
+      terminator())
 
-      switch_statement: -> seq(
-        "switch",
-        "(", @_expression, ")",
-        "{", repeat(choice(@case, @default)), "}")
+    throw_statement: -> seq(
+      "throw",
+      @_expression,
+      terminator())
 
-      for_statement: -> seq(
-        "for",
-        "(",
-        choice(
-          @var_declaration,
-          seq(err(@_expressions), ";"),
-          ";"),
-        optional(err(@_expressions)), ";"
-        optional(err(@_expressions)),
-        ")",
-        @_statement)
+    delete_statement: -> seq(
+      "delete",
+      choice(@member_access, @subscript_access),
+      terminator())
 
-      for_in_statement: -> seq(
-        "for",
-        "(",
-        optional("var"),
-        @_expression,
-        "in",
-        @_expression,
-        ")",
-        @_statement)
+    #
+    # Statement components
+    #
 
-      while_statement: -> seq(
-        "while",
-        @_paren_expression,
-        @_statement)
+    case: -> seq(
+      "case",
+      @_expression,
+      ":",
+      repeat(@_statement))
 
-      do_statement: -> seq(
-        "do",
-        @statement_block,
-        "while",
-        @_paren_expression)
+    default: -> seq(
+      "default",
+      ":",
+      repeat(@_statement))
 
-      try_statement: -> seq(
-        "try",
-        @statement_block,
-        optional(@catch),
-        optional(@finally))
+    catch: -> seq(
+      "catch",
+      optional(seq("(", @identifier, ")"))
+      @statement_block)
 
-      break_statement: -> seq(
-        "break",
-        terminator())
+    finally: -> seq(
+      "finally",
+      @statement_block)
 
-      return_statement: -> seq(
-        "return",
-        optional(@_expressions),
-        terminator())
+    var_assignment: -> seq(
+      @identifier,
+      "=",
+      @_expression)
 
-      throw_statement: -> seq(
-        "throw",
-        @_expression,
-        terminator())
+    _paren_expression: -> seq(
+      "(", err(@_expression), ")")
 
-      delete_statement: -> seq(
-        "delete",
-        choice(@member_access, @subscript_access),
-        terminator())
+    #
+    # Expressions
+    #
 
-      #
-      # Statement components
-      #
+    _expressions: -> commaSep1(@_expression)
 
-      case: -> seq(
-        "case",
-        @_expression,
-        ":",
-        repeat(@_statement))
+    _expression: -> choice(
+      @object,
+      @array,
+      @function,
+      @function_call,
+      @new_expression,
+      @member_access,
+      @subscript_access,
+      @assignment,
+      @math_assignment,
+      @ternary,
+      @bool_op,
+      @math_op,
+      @bitwise_op,
+      @rel_op,
+      @type_op,
+      @_paren_expression,
 
-      default: -> seq(
-        "default",
-        ":",
-        repeat(@_statement))
+      @identifier,
+      @number,
+      @string,
+      @regex,
+      @true,
+      @false,
+      @null,
+      @undefined,
+    )
 
-      catch: -> seq(
-        "catch",
-        optional(seq("(", @identifier, ")"))
-        @statement_block)
+    object: -> seq(
+      "{", commaSep(err(@pair)), "}")
 
-      finally: -> seq(
-        "finally",
-        @statement_block)
+    array: -> seq(
+      "[", commaSep(err(@_expression)), "]")
 
-      var_assignment: -> seq(
+    function: -> seq(
+      "function",
+      optional(@identifier),
+      "(", optional(@formal_parameters), ")",
+      @statement_block)
+
+    function_call: -> prec(PREC.CALL, seq(
+      @_expression,
+      "(", err(optional(@arguments)), ")"))
+
+    new_expression: -> prec(PREC.NEW, seq(
+      "new",
+      @_expression))
+
+    member_access: -> prec(PREC.MEMBER, seq(
+      @_expression,
+      ".",
+      @identifier))
+
+    subscript_access: -> prec.right(PREC.MEMBER, seq(
+      @_expression,
+      "[", err(@_expression), "]"))
+
+    assignment: -> prec(PREC.ASSIGN, seq(
+      choice(
         @identifier,
-        "=",
-        @_expression)
-
-      _paren_expression: -> seq(
-        "(", err(@_expression), ")")
-
-      #
-      # Expressions
-      #
-
-      _expressions: -> commaSep1(@_expression)
-
-      _expression: -> choice(
-        @object,
-        @array,
-        @function,
-        @function_call,
-        @new_expression,
         @member_access,
-        @subscript_access,
-        @assignment,
-        @math_assignment,
-        @ternary,
-        @bool_op,
-        @math_op,
-        @bitwise_op,
-        @rel_op,
-        @type_op,
-        @_paren_expression,
+        @subscript_access)
+      "=",
+      @_expression))
 
+    math_assignment: -> prec(PREC.ASSIGN, seq(
+      choice(
         @identifier,
-        @number,
-        @string,
-        @regex,
-        @true,
-        @false,
-        @null,
-        @undefined,
-      )
+        @member_access,
+        @subscript_access)
+      choice("+=", "-=", "*=", "/="),
+      @_expression))
 
-      object: -> seq(
-        "{", commaSep(err(@pair)), "}")
+    ternary: -> prec(PREC.TERNARY, seq(
+      @_expression, "?", @_expression, ":", @_expression))
 
-      array: -> seq(
-        "[", commaSep(err(@_expression)), "]")
+    bool_op: -> choice(
+      prec(PREC.NOT, seq("!", @_expression)),
+      prec(PREC.AND, seq(@_expression, "&&", @_expression)),
+      prec(PREC.OR, seq(@_expression, "||", @_expression)))
 
-      function: -> seq(
-        "function",
-        optional(@identifier),
-        "(", optional(@formal_parameters), ")",
-        @statement_block)
+    bitwise_op: -> choice(
+      prec(PREC.TIMES, seq(@_expression, ">>", @_expression)),
+      prec(PREC.TIMES, seq(@_expression, "<<", @_expression)),
+      prec(PREC.AND, seq(@_expression, "&", @_expression)),
+      prec(PREC.OR, seq(@_expression, "|", @_expression)))
 
-      function_call: -> prec(PREC.CALL, seq(
-        @_expression,
-        "(", err(optional(@arguments)), ")"))
+    math_op: -> choice(
+      prec(PREC.NEG, seq("-", @_expression)),
+      prec(PREC.NEG, seq("+", @_expression)),
+      prec(PREC.INC, seq(@_expression, "++")),
+      prec(PREC.INC, seq(@_expression, "--")),
+      prec(PREC.PLUS, seq(@_expression, "+", @_expression)),
+      prec(PREC.PLUS, seq(@_expression, "-", @_expression)),
+      prec(PREC.TIMES, seq(@_expression, "*", @_expression)),
+      prec(PREC.TIMES, seq(@_expression, "/", @_expression)))
 
-      new_expression: -> prec(PREC.NEW, seq(
-        "new",
-        @_expression))
+    rel_op: -> choice(
+      prec(PREC.REL, seq(@_expression, "<", @_expression)),
+      prec(PREC.REL, seq(@_expression, "<=", @_expression)),
+      prec(PREC.REL, seq(@_expression, "==", @_expression)),
+      prec(PREC.REL, seq(@_expression, "===", @_expression)),
+      prec(PREC.REL, seq(@_expression, "!=", @_expression)),
+      prec(PREC.REL, seq(@_expression, "!==", @_expression)),
+      prec(PREC.REL, seq(@_expression, ">=", @_expression)),
+      prec(PREC.REL, seq(@_expression, ">", @_expression)))
 
-      member_access: -> prec(PREC.MEMBER, seq(
-        @_expression,
-        ".",
-        @identifier))
+    type_op: -> choice(
+      prec(PREC.TYPEOF, seq("typeof", @_expression)),
+      prec(PREC.REL, seq(@_expression, "instanceof", @_expression)),
+      prec(PREC.REL, seq(@_expression, "in", @_expression)))
 
-      subscript_access: -> prec.right(PREC.MEMBER, seq(
-        @_expression,
-        "[", err(@_expression), "]"))
+    #
+    # Primitives
+    #
 
-      assignment: -> prec(PREC.ASSIGN, seq(
-        choice(
-          @identifier,
-          @member_access,
-          @subscript_access)
-        "=",
-        @_expression))
+    comment: -> token(choice(
+      seq("//", /.*/),
+      seq("/*", repeat(choice(/[^\*]/, /\*[^/]/)), "*/")))
 
-      math_assignment: -> prec(PREC.ASSIGN, seq(
-        choice(
-          @identifier,
-          @member_access,
-          @subscript_access)
-        choice("+=", "-=", "*=", "/="),
-        @_expression))
+    string: -> token(choice(
+      seq('"', repeat(choice(/[^\\"\n]/, /\\./)), '"'),
+      seq("'", repeat(choice(/[^\\'\n]/, /\\./)), "'")))
 
-      ternary: -> prec(PREC.TERNARY, seq(
-        @_expression, "?", @_expression, ":", @_expression))
+    regex: -> token(seq(
+      '/', repeat(choice(/[^\\/\n]/, /\\./)), '/',
+      repeat(choice('i', 'g'))))
 
-      bool_op: -> choice(
-        prec(PREC.NOT, seq("!", @_expression)),
-        prec(PREC.AND, seq(@_expression, "&&", @_expression)),
-        prec(PREC.OR, seq(@_expression, "||", @_expression)))
+    number: -> token(choice(
+      seq(
+        "0x",
+        /[\da-fA-F]+/),
+      seq(
+        /\d+/,
+        optional(seq(".", /\d*/)))))
 
-      bitwise_op: -> choice(
-        prec(PREC.TIMES, seq(@_expression, ">>", @_expression)),
-        prec(PREC.TIMES, seq(@_expression, "<<", @_expression)),
-        prec(PREC.AND, seq(@_expression, "&", @_expression)),
-        prec(PREC.OR, seq(@_expression, "|", @_expression)))
+    identifier: -> /[\a_$][\a\d_$]*/
 
-      math_op: -> choice(
-        prec(PREC.NEG, seq("-", @_expression)),
-        prec(PREC.NEG, seq("+", @_expression)),
-        prec(PREC.INC, seq(@_expression, "++")),
-        prec(PREC.INC, seq(@_expression, "--")),
-        prec(PREC.PLUS, seq(@_expression, "+", @_expression)),
-        prec(PREC.PLUS, seq(@_expression, "-", @_expression)),
-        prec(PREC.TIMES, seq(@_expression, "*", @_expression)),
-        prec(PREC.TIMES, seq(@_expression, "/", @_expression)))
+    true: -> "true"
+    false: -> "false"
+    null: -> "null"
+    undefined: -> "undefined"
+    _line_break: -> "\n"
 
-      rel_op: -> choice(
-        prec(PREC.REL, seq(@_expression, "<", @_expression)),
-        prec(PREC.REL, seq(@_expression, "<=", @_expression)),
-        prec(PREC.REL, seq(@_expression, "==", @_expression)),
-        prec(PREC.REL, seq(@_expression, "===", @_expression)),
-        prec(PREC.REL, seq(@_expression, "!=", @_expression)),
-        prec(PREC.REL, seq(@_expression, "!==", @_expression)),
-        prec(PREC.REL, seq(@_expression, ">=", @_expression)),
-        prec(PREC.REL, seq(@_expression, ">", @_expression)))
+    #
+    # Expression components
+    #
 
-      type_op: -> choice(
-        prec(PREC.TYPEOF, seq("typeof", @_expression)),
-        prec(PREC.REL, seq(@_expression, "instanceof", @_expression)),
-        prec(PREC.REL, seq(@_expression, "in", @_expression)))
+    arguments: ->
+      commaSep1(err(@_expression))
 
-      #
-      # Primitives
-      #
+    formal_parameters: ->
+      commaSep1(@identifier)
 
-      comment: -> token(choice(
-        seq("//", /.*/),
-        seq("/*", repeat(choice(/[^\*]/, /\*[^/]/)), "*/")))
-
-      string: -> token(choice(
-        seq('"', repeat(choice(/[^\\"\n]/, /\\./)), '"'),
-        seq("'", repeat(choice(/[^\\'\n]/, /\\./)), "'")))
-
-      regex: -> token(seq(
-        '/', repeat(choice(/[^\\/\n]/, /\\./)), '/',
-        repeat(choice('i', 'g'))))
-
-      number: -> token(choice(
-        seq(
-          "0x",
-          /[\da-fA-F]+/),
-        seq(
-          /\d+/,
-          optional(seq(".", /\d*/)))))
-
-      identifier: -> /[\a_$][\a\d_$]*/
-
-      true: -> "true"
-      false: -> "false"
-      null: -> "null"
-      undefined: -> "undefined"
-      _line_break: -> "\n"
-
-      #
-      # Expression components
-      #
-
-      arguments: ->
-        commaSep1(err(@_expression))
-
-      formal_parameters: ->
-        commaSep1(@identifier)
-
-      pair: -> seq(
-        choice(@identifier, @string),
-        ":",
-        @_expression)
-  }
+    pair: -> seq(
+      choice(@identifier, @string),
+      ":",
+      @_expression)
