@@ -2,21 +2,19 @@
 #define TREE_SITTER_COMPILER_H_
 
 #include <memory>
-#include <set>
 #include <string>
 #include <utility>
 #include <vector>
 
 namespace tree_sitter {
 
-namespace rules {
-
 class Rule;
 typedef std::shared_ptr<Rule> rule_ptr;
 
 enum Associativity {
-  AssociativityLeft = 1,
-  AssociativityRight
+  AssociativityNone,
+  AssociativityLeft,
+  AssociativityRight,
 };
 
 rule_ptr blank();
@@ -31,22 +29,18 @@ rule_ptr prec(int precedence, const rule_ptr &);
 rule_ptr prec(int precedence, const rule_ptr &, Associativity);
 rule_ptr token(const rule_ptr &rule);
 
-std::ostream &operator<<(std::ostream &stream, const rules::rule_ptr &rule);
-
-}  // namespace rules
-
 class Grammar {
-  const std::vector<std::pair<std::string, rules::rule_ptr>> rules_;
-  std::set<rules::rule_ptr> ubiquitous_tokens_;
+  const std::vector<std::pair<std::string, rule_ptr>> rules_;
+  std::vector<rule_ptr> ubiquitous_tokens_;
+  std::vector<std::vector<std::string>> expected_conflicts_;
 
  public:
-  explicit Grammar(const std::vector<std::pair<std::string, rules::rule_ptr>> &);
-  bool operator==(const Grammar &) const;
-  std::string start_rule_name() const;
-  const rules::rule_ptr rule(const std::string &) const;
-  const std::vector<std::pair<std::string, rules::rule_ptr>> &rules() const;
-  const std::set<rules::rule_ptr> &ubiquitous_tokens() const;
-  Grammar &ubiquitous_tokens(const std::set<rules::rule_ptr> &);
+  explicit Grammar(const std::vector<std::pair<std::string, rule_ptr>> &);
+  Grammar &ubiquitous_tokens(const std::vector<rule_ptr> &);
+  Grammar &expected_conflicts(const std::vector<std::vector<std::string>> &);
+  const std::vector<std::pair<std::string, rule_ptr>> &rules() const;
+  const std::vector<rule_ptr> &ubiquitous_tokens() const;
+  const std::vector<std::vector<std::string>> &expected_conflicts() const;
 };
 
 enum GrammarErrorType {
@@ -65,10 +59,8 @@ class GrammarError {
   std::string message;
 };
 
-std::pair<std::string, const GrammarError *> compile(const Grammar &, std::string);
-
-std::ostream &operator<<(std::ostream &stream, const Grammar &grammar);
-std::ostream &operator<<(std::ostream &stream, const GrammarError *error);
+std::pair<std::string, const GrammarError *> compile(const Grammar &,
+                                                     std::string);
 
 }  // namespace tree_sitter
 
