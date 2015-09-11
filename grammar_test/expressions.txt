@@ -334,7 +334,8 @@ f, g;
 
 ---
 
-(expression_statement (expressions (identifier) (identifier)))
+(program
+  (expression_statement (identifier) (identifier)))
 
 ==============================================
 Math assignment operators
@@ -373,12 +374,12 @@ typeof a == b && c instanceof d
   (expression_statement (bool_op
     (bool_op
       (identifier)
-      (function_call (identifier) (identifier)))
+      (function_call (identifier) (arguments (identifier))))
     (identifier)))
   (expression_statement (bool_op
     (bool_op
       (identifier)
-      (new_expression (function_call (identifier) (identifier))))
+      (new_expression (function_call (identifier) (arguments (identifier)))))
     (identifier)))
   (expression_statement (bool_op
     (rel_op

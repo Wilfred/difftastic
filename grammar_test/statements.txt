@@ -7,7 +7,7 @@ if (x)
 
 if (a.b) {
   log(c);
-  log(d);
+  d;
 }
 
 ----
@@ -15,56 +15,55 @@ if (a.b) {
 (program
   (if_statement (identifier)
     (expression_statement (function_call
-      (identifier) (identifier))))
+      (identifier) (arguments (identifier)))))
   (if_statement (member_access (identifier) (identifier))
     (statement_block
       (expression_statement (function_call
-        (identifier) (identifier)))
-      (expression_statement (function_call
-        (identifier) (identifier))))))
+        (identifier) (arguments (identifier))))
+      (expression_statement (identifier)))))
 
 ============================================
 If-else statements
 ============================================
 
 if (x)
-  y();
+  y;
 else if (a)
-  b();
+  b;
 
 if (a) {
-  c();
-  d();
+  c;
+  d;
 } else {
-  e();
+  e;
 }
 
 ----
 
 (program
   (if_statement (identifier)
-    (expression_statement (function_call (identifier)))
+    (expression_statement (identifier))
     (if_statement (identifier)
-      (expression_statement (function_call (identifier)))))
+      (expression_statement (identifier))))
   (if_statement (identifier)
     (statement_block
-      (expression_statement (function_call (identifier)))
-      (expression_statement (function_call (identifier))))
+      (expression_statement (identifier))
+      (expression_statement (identifier)))
     (statement_block
-      (expression_statement (function_call (identifier))))))
+      (expression_statement (identifier)))))
 
 ============================================
 For statements
 ============================================
 
 for (var a, b; c; d)
-  log(e);
+  e;
 
 for (i = 0, init(); i < 10; i++)
   log(y);
 
 for (;;) {
-  log(y);
+  z;
 }
 
 ---
@@ -74,37 +73,36 @@ for (;;) {
     (var_declaration (identifier) (identifier))
     (identifier)
     (identifier)
-    (expression_statement (function_call (identifier) (identifier))))
+    (expression_statement (identifier)))
 
   (for_statement
-    (expressions
-      (assignment (identifier) (number))
-      (function_call (identifier)))
+    (assignment (identifier) (number))
+    (function_call (identifier))
     (rel_op (identifier) (number))
     (math_op (identifier))
-    (expression_statement (function_call (identifier) (identifier))))
+    (expression_statement (function_call (identifier) (arguments (identifier)))))
 
   (for_statement
     (statement_block
-      (expression_statement (function_call (identifier) (identifier))))))
+      (expression_statement (identifier)))))
 
 ============================================
 For-in statements
 ============================================
 
 for (var item in items)
-  log(item);
+  item();
 
 for (item in items)
-  log(item);
+  item();
 
 ---
 
 (program
   (for_in_statement (identifier) (identifier)
-    (expression_statement (function_call (identifier) (identifier))))
+    (expression_statement (function_call (identifier))))
   (for_in_statement (identifier) (identifier)
-    (expression_statement (function_call (identifier) (identifier)))))
+    (expression_statement (function_call (identifier)))))
 
 ============================================
 While statements
@@ -115,8 +113,9 @@ while (a)
 
 ---
 
-(while_statement (identifier)
-  (expression_statement (function_call (identifier))))
+(program
+  (while_statement (identifier)
+    (expression_statement (function_call (identifier)))))
 
 ============================================
 Do statements
@@ -128,9 +127,10 @@ do {
 
 ---
 
-(do_statement
-  (statement_block (expression_statement (identifier)))
-  (identifier))
+(program
+  (do_statement
+    (statement_block (expression_statement (identifier)))
+    (identifier)))
 
 ============================================
 Return statements
@@ -180,11 +180,12 @@ Comments
 
 ---
 
-(expression_statement (object
-  (comment)
-  (pair (identifier) (number))
-  (comment)
-  (pair (identifier) (function (statement_block)))))
+(program
+  (expression_statement (object
+    (comment)
+    (pair (identifier) (number))
+    (comment)
+    (pair (identifier) (function (statement_block))))))
 
 ============================================
 Automatic semicolon insertion
@@ -199,11 +200,12 @@ if (a) {
 
 ---
 
-(if_statement (identifier) (statement_block
-  (var_declaration (var_assignment (identifier) (identifier)))
-  (expression_statement (function_call (identifier)))
-  (expression_statement (function_call (identifier)))
-  (return_statement (identifier))))
+(program
+  (if_statement (identifier) (statement_block
+    (var_declaration (var_assignment (identifier) (identifier)))
+    (expression_statement (function_call (identifier)))
+    (expression_statement (function_call (identifier)))
+    (return_statement (identifier)))))
 
 ============================================
 Switch statements
@@ -223,16 +225,17 @@ switch (x) {
 
 ---
 
-(switch_statement (identifier)
-  (case (number))
-  (case (number)
-    (expression_statement (function_call (identifier)))
-    (break_statement))
-  (case (string)
-    (expression_statement (function_call (identifier)))
-    (break_statement))
-  (default
-    (return_statement (number))))
+(program
+  (switch_statement (identifier)
+    (case (number))
+    (case (number)
+      (expression_statement (function_call (identifier)))
+      (break_statement))
+    (case (string)
+      (expression_statement (function_call (identifier)))
+      (break_statement))
+    (default
+      (return_statement (number)))))
 
 ============================================
 Throw statements
@@ -242,8 +245,9 @@ throw new Error("uh oh");
 
 ---
 
-(throw_statement
-  (new_expression (function_call (identifier) (string))))
+(program
+  (throw_statement
+    (new_expression (function_call (identifier) (arguments (string))))))
 
 ============================================
 Try catch finally statements

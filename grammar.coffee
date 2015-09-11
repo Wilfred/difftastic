@@ -38,13 +38,13 @@ module.exports =
     ]
 
     rules:
-      program: -> repeat(@statement)
+      program: -> repeat(@_statement)
 
       #
       # Statements
       #
 
-      statement: -> choice(
+      _statement: -> choice(
         @expression_statement,
         @var_declaration,
         @statement_block,
@@ -64,7 +64,7 @@ module.exports =
       )
 
       expression_statement: -> seq(
-        err(@expressions), terminator())
+        err(@_expressions), terminator())
 
       var_declaration: -> seq(
         "var",
@@ -74,20 +74,20 @@ module.exports =
         terminator())
 
       statement_block: -> prec(PREC.BLOCK, seq(
-        "{", err(repeat(@statement)), "}"))
+        "{", err(repeat(@_statement)), "}"))
 
       if_statement: -> prec.right(0, seq(
         "if",
         @_paren_expression,
-        @statement,
+        @_statement,
         optional(seq(
           "else",
-          @statement
+          @_statement
         ))))
 
       switch_statement: -> seq(
         "switch",
-        "(", @expression, ")",
+        "(", @_expression, ")",
         "{", repeat(choice(@case, @default)), "}")
 
       for_statement: -> seq(
@@ -95,27 +95,27 @@ module.exports =
         "(",
         choice(
           @var_declaration,
-          seq(err(@expressions), ";"),
+          seq(err(@_expressions), ";"),
           ";"),
-        optional(err(@expressions)), ";"
-        optional(err(@expressions)),
+        optional(err(@_expressions)), ";"
+        optional(err(@_expressions)),
         ")",
-        @statement)
+        @_statement)
 
       for_in_statement: -> seq(
         "for",
         "(",
         optional("var"),
-        @expression,
+        @_expression,
         "in",
-        @expression,
+        @_expression,
         ")",
-        @statement)
+        @_statement)
 
       while_statement: -> seq(
         "while",
         @_paren_expression,
-        @statement)
+        @_statement)
 
       do_statement: -> seq(
         "do",
@@ -135,12 +135,12 @@ module.exports =
 
       return_statement: -> seq(
         "return",
-        optional(@expressions),
+        optional(@_expressions),
         terminator())
 
       throw_statement: -> seq(
         "throw",
-        @expression,
+        @_expression,
         terminator())
 
       delete_statement: -> seq(
@@ -154,14 +154,14 @@ module.exports =
 
       case: -> seq(
         "case",
-        @expression,
+        @_expression,
         ":",
-        repeat(@statement))
+        repeat(@_statement))
 
       default: -> seq(
         "default",
         ":",
-        repeat(@statement))
+        repeat(@_statement))
 
       catch: -> seq(
         "catch",
@@ -175,18 +175,18 @@ module.exports =
       var_assignment: -> seq(
         @identifier,
         "=",
-        @expression)
+        @_expression)
 
       _paren_expression: -> seq(
-        "(", err(@expression), ")")
+        "(", err(@_expression), ")")
 
       #
       # Expressions
       #
 
-      expressions: -> commaSep1(@expression)
+      _expressions: -> commaSep1(@_expression)
 
-      expression: -> choice(
+      _expression: -> choice(
         @object,
         @array,
         @function,
@@ -218,7 +218,7 @@ module.exports =
         "{", commaSep(err(@pair)), "}")
 
       array: -> seq(
-        "[", commaSep(err(@expression)), "]")
+        "[", commaSep(err(@_expression)), "]")
 
       function: -> seq(
         "function",
@@ -227,21 +227,21 @@ module.exports =
         @statement_block)
 
       function_call: -> prec(PREC.CALL, seq(
-        @expression,
+        @_expression,
         "(", err(optional(@arguments)), ")"))
 
       new_expression: -> prec(PREC.NEW, seq(
         "new",
-        @expression))
+        @_expression))
 
       member_access: -> prec(PREC.MEMBER, seq(
-        @expression,
+        @_expression,
         ".",
         @identifier))
 
       subscript_access: -> prec.right(PREC.MEMBER, seq(
-        @expression,
-        "[", err(@expression), "]"))
+        @_expression,
+        "[", err(@_expression), "]"))
 
       assignment: -> prec(PREC.ASSIGN, seq(
         choice(
@@ -249,7 +249,7 @@ module.exports =
           @member_access,
           @subscript_access)
         "=",
-        @expression))
+        @_expression))
 
       math_assignment: -> prec(PREC.ASSIGN, seq(
         choice(
@@ -257,46 +257,46 @@ module.exports =
           @member_access,
           @subscript_access)
         choice("+=", "-=", "*=", "/="),
-        @expression))
+        @_expression))
 
       ternary: -> prec(PREC.TERNARY, seq(
-        @expression, "?", @expression, ":", @expression))
+        @_expression, "?", @_expression, ":", @_expression))
 
       bool_op: -> choice(
-        prec(PREC.NOT, seq("!", @expression)),
-        prec(PREC.AND, seq(@expression, "&&", @expression)),
-        prec(PREC.OR, seq(@expression, "||", @expression)))
+        prec(PREC.NOT, seq("!", @_expression)),
+        prec(PREC.AND, seq(@_expression, "&&", @_expression)),
+        prec(PREC.OR, seq(@_expression, "||", @_expression)))
 
       bitwise_op: -> choice(
-        prec(PREC.TIMES, seq(@expression, ">>", @expression)),
-        prec(PREC.TIMES, seq(@expression, "<<", @expression)),
-        prec(PREC.AND, seq(@expression, "&", @expression)),
-        prec(PREC.OR, seq(@expression, "|", @expression)))
+        prec(PREC.TIMES, seq(@_expression, ">>", @_expression)),
+        prec(PREC.TIMES, seq(@_expression, "<<", @_expression)),
+        prec(PREC.AND, seq(@_expression, "&", @_expression)),
+        prec(PREC.OR, seq(@_expression, "|", @_expression)))
 
       math_op: -> choice(
-        prec(PREC.NEG, seq("-", @expression)),
-        prec(PREC.NEG, seq("+", @expression)),
-        prec(PREC.INC, seq(@expression, "++")),
-        prec(PREC.INC, seq(@expression, "--")),
-        prec(PREC.PLUS, seq(@expression, "+", @expression)),
-        prec(PREC.PLUS, seq(@expression, "-", @expression)),
-        prec(PREC.TIMES, seq(@expression, "*", @expression)),
-        prec(PREC.TIMES, seq(@expression, "/", @expression)))
+        prec(PREC.NEG, seq("-", @_expression)),
+        prec(PREC.NEG, seq("+", @_expression)),
+        prec(PREC.INC, seq(@_expression, "++")),
+        prec(PREC.INC, seq(@_expression, "--")),
+        prec(PREC.PLUS, seq(@_expression, "+", @_expression)),
+        prec(PREC.PLUS, seq(@_expression, "-", @_expression)),
+        prec(PREC.TIMES, seq(@_expression, "*", @_expression)),
+        prec(PREC.TIMES, seq(@_expression, "/", @_expression)))
 
       rel_op: -> choice(
-        prec(PREC.REL, seq(@expression, "<", @expression)),
-        prec(PREC.REL, seq(@expression, "<=", @expression)),
-        prec(PREC.REL, seq(@expression, "==", @expression)),
-        prec(PREC.REL, seq(@expression, "===", @expression)),
-        prec(PREC.REL, seq(@expression, "!=", @expression)),
-        prec(PREC.REL, seq(@expression, "!==", @expression)),
-        prec(PREC.REL, seq(@expression, ">=", @expression)),
-        prec(PREC.REL, seq(@expression, ">", @expression)))
+        prec(PREC.REL, seq(@_expression, "<", @_expression)),
+        prec(PREC.REL, seq(@_expression, "<=", @_expression)),
+        prec(PREC.REL, seq(@_expression, "==", @_expression)),
+        prec(PREC.REL, seq(@_expression, "===", @_expression)),
+        prec(PREC.REL, seq(@_expression, "!=", @_expression)),
+        prec(PREC.REL, seq(@_expression, "!==", @_expression)),
+        prec(PREC.REL, seq(@_expression, ">=", @_expression)),
+        prec(PREC.REL, seq(@_expression, ">", @_expression)))
 
       type_op: -> choice(
-        prec(PREC.TYPEOF, seq("typeof", @expression)),
-        prec(PREC.REL, seq(@expression, "instanceof", @expression)),
-        prec(PREC.REL, seq(@expression, "in", @expression)))
+        prec(PREC.TYPEOF, seq("typeof", @_expression)),
+        prec(PREC.REL, seq(@_expression, "instanceof", @_expression)),
+        prec(PREC.REL, seq(@_expression, "in", @_expression)))
 
       #
       # Primitives
@@ -335,7 +335,7 @@ module.exports =
       #
 
       arguments: ->
-        commaSep1(err(@expression))
+        commaSep1(err(@_expression))
 
       formal_parameters: ->
         commaSep1(@identifier)
@@ -343,5 +343,5 @@ module.exports =
       pair: -> seq(
         choice(@identifier, @string),
         ":",
-        @expression)
+        @_expression)
   }

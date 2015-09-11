@@ -2,7 +2,7 @@
 Invalid statements
 ============================================
 
-what the heck is this
+what the heck !
 y();
 
 if (x) {
@@ -13,10 +13,11 @@ if (x) {
 ---
 
 (program
-  (expression_statement (ERROR 't'))
+  (expression_statement
+    (ERROR (identifier) (UNEXPECTED 't') (identifier) (identifier)))
   (expression_statement (function_call (identifier)))
   (if_statement (identifier) (statement_block
-    (expression_statement (ERROR '>'))
+    (expression_statement (ERROR (UNEXPECTED '>')))
     (var_declaration (var_assignment (identifier) (identifier))))))
 
 ============================================
@@ -31,7 +32,7 @@ ok();
 ---
 
 (program
-  (if_statement (ERROR '%')
+  (if_statement (ERROR (UNEXPECTED '%') (identifier))
     (expression_statement (function_call (identifier))))
   (expression_statement (function_call (identifier))))
 
@@ -39,17 +40,17 @@ ok();
 Invalid for loops
 ============================================
 
-for (i = 0; a b c d e; i++)
+for (i = 0; a b c; i++)
   wat();
 
 ok1;
 
-for (a b c d; e; i++)
+for (a b c; e; i++)
   wat();
 
 ok2;
 
-for (a; b; c d e f)
+for (a; b; c d e)
   wat();
 
 ---
@@ -57,14 +58,14 @@ for (a; b; c d e f)
 (program
   (for_statement
     (assignment (identifier) (number))
-    (ERROR 'b')
+    (ERROR (identifier) (UNEXPECTED 'b') (identifier) (identifier))
     (math_op (identifier))
     (expression_statement (function_call (identifier))))
 
   (expression_statement (identifier))
 
   (for_statement
-    (ERROR 'b')
+    (ERROR (identifier) (UNEXPECTED 'b') (identifier) (identifier))
     (identifier)
     (math_op (identifier))
     (expression_statement (function_call (identifier))))
@@ -74,7 +75,7 @@ for (a; b; c d e f)
   (for_statement
     (identifier)
     (identifier)
-    (ERROR 'd')
+    (ERROR (identifier) (UNEXPECTED 'd') (identifier) (identifier))
     (expression_statement (function_call (identifier)))))
 
 ============================================
@@ -85,7 +86,8 @@ function() { ^ & * }
 
 ---
 
-(expression_statement (function (statement_block (ERROR '^'))))
+(program
+  (expression_statement (function (statement_block (ERROR (UNEXPECTED '^'))))))
 
 ============================================
 Invalid objects
@@ -98,14 +100,16 @@ x = {
 
   key2: value2
 };
+
 ---
 
-(expression_statement (assignment
-  (identifier)
-  (object
-    (pair (identifier) (identifier))
-    (ERROR 'e')
-    (pair (identifier) (expression (identifier))))))
+(program
+  (expression_statement (assignment
+    (identifier)
+    (object
+      (pair (identifier) (identifier))
+      (ERROR (identifier) (UNEXPECTED 'e') (identifier))
+      (pair (identifier) (identifier))))))
 
 ============================================
 Invalid items in var declarations
@@ -117,11 +121,13 @@ var
   c = 2,
   d = = = = =,
   e;
+
 ---
 
-(var_declaration
-  (var_assignment (identifier) (number))
-  (ERROR '-')
-  (var_assignment (identifier) (number))
-  (ERROR '=')
-  (identifier))
+(program
+  (var_declaration
+    (var_assignment (identifier) (number))
+    (ERROR (UNEXPECTED '-') (identifier))
+    (var_assignment (identifier) (number))
+    (ERROR (identifier) (UNEXPECTED '='))
+    (identifier)))
