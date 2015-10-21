@@ -1,4 +1,5 @@
 language: node_js
+sudo: false
 before_install:
   - "script/get_edge_deps"
 before_script:
@@ -6,4 +7,3 @@ before_script:
   - "npm install"
 node_js:
   - "0.12"
-  - "iojs"
