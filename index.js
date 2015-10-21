@@ -1,5 +1,1 @@
-var language = require("bindings")("ts_language_javascript_binding");
-
-language.name = "javascript";
-
-module.exports = language;
+module.exports = require("./build/Release/ts_language_javascript_binding");

@@ -64,7 +64,7 @@ module.exports = grammar
       err(@_expressions), terminator())
 
     var_declaration: -> seq(
-      "var",
+      choice("var", "const", "let"),
       commaSep1(err(choice(
         @identifier,
         @var_assignment))),
@@ -240,7 +240,7 @@ module.exports = grammar
       @_expression,
       "[", err(@_expression), "]"))
 
-    assignment: -> prec(PREC.ASSIGN, seq(
+    assignment: -> prec.right(PREC.ASSIGN, seq(
       choice(
         @identifier,
         @member_access,
@@ -248,7 +248,7 @@ module.exports = grammar
       "=",
       @_expression))
 
-    math_assignment: -> prec(PREC.ASSIGN, seq(
+    math_assignment: -> prec.right(PREC.ASSIGN, seq(
       choice(
         @identifier,
         @member_access,
@@ -256,44 +256,44 @@ module.exports = grammar
       choice("+=", "-=", "*=", "/="),
       @_expression))
 
-    ternary: -> prec(PREC.TERNARY, seq(
+    ternary: -> prec.right(PREC.TERNARY, seq(
       @_expression, "?", @_expression, ":", @_expression))
 
     bool_op: -> choice(
-      prec(PREC.NOT, seq("!", @_expression)),
-      prec(PREC.AND, seq(@_expression, "&&", @_expression)),
-      prec(PREC.OR, seq(@_expression, "||", @_expression)))
+      prec.left(PREC.NOT, seq("!", @_expression)),
+      prec.left(PREC.AND, seq(@_expression, "&&", @_expression)),
+      prec.left(PREC.OR, seq(@_expression, "||", @_expression)))
 
     bitwise_op: -> choice(
-      prec(PREC.TIMES, seq(@_expression, ">>", @_expression)),
-      prec(PREC.TIMES, seq(@_expression, "<<", @_expression)),
-      prec(PREC.AND, seq(@_expression, "&", @_expression)),
-      prec(PREC.OR, seq(@_expression, "|", @_expression)))
+      prec.left(PREC.TIMES, seq(@_expression, ">>", @_expression)),
+      prec.left(PREC.TIMES, seq(@_expression, "<<", @_expression)),
+      prec.left(PREC.AND, seq(@_expression, "&", @_expression)),
+      prec.left(PREC.OR, seq(@_expression, "|", @_expression)))
 
     math_op: -> choice(
-      prec(PREC.NEG, seq("-", @_expression)),
-      prec(PREC.NEG, seq("+", @_expression)),
-      prec(PREC.INC, seq(@_expression, "++")),
-      prec(PREC.INC, seq(@_expression, "--")),
-      prec(PREC.PLUS, seq(@_expression, "+", @_expression)),
-      prec(PREC.PLUS, seq(@_expression, "-", @_expression)),
-      prec(PREC.TIMES, seq(@_expression, "*", @_expression)),
-      prec(PREC.TIMES, seq(@_expression, "/", @_expression)))
+      prec.left(PREC.NEG, seq("-", @_expression)),
+      prec.left(PREC.NEG, seq("+", @_expression)),
+      prec.left(PREC.INC, seq(@_expression, "++")),
+      prec.left(PREC.INC, seq(@_expression, "--")),
+      prec.left(PREC.PLUS, seq(@_expression, "+", @_expression)),
+      prec.left(PREC.PLUS, seq(@_expression, "-", @_expression)),
+      prec.left(PREC.TIMES, seq(@_expression, "*", @_expression)),
+      prec.left(PREC.TIMES, seq(@_expression, "/", @_expression)))
 
     rel_op: -> choice(
-      prec(PREC.REL, seq(@_expression, "<", @_expression)),
-      prec(PREC.REL, seq(@_expression, "<=", @_expression)),
-      prec(PREC.REL, seq(@_expression, "==", @_expression)),
-      prec(PREC.REL, seq(@_expression, "===", @_expression)),
-      prec(PREC.REL, seq(@_expression, "!=", @_expression)),
-      prec(PREC.REL, seq(@_expression, "!==", @_expression)),
-      prec(PREC.REL, seq(@_expression, ">=", @_expression)),
-      prec(PREC.REL, seq(@_expression, ">", @_expression)))
+      prec.left(PREC.REL, seq(@_expression, "<", @_expression)),
+      prec.left(PREC.REL, seq(@_expression, "<=", @_expression)),
+      prec.left(PREC.REL, seq(@_expression, "==", @_expression)),
+      prec.left(PREC.REL, seq(@_expression, "===", @_expression)),
+      prec.left(PREC.REL, seq(@_expression, "!=", @_expression)),
+      prec.left(PREC.REL, seq(@_expression, "!==", @_expression)),
+      prec.left(PREC.REL, seq(@_expression, ">=", @_expression)),
+      prec.left(PREC.REL, seq(@_expression, ">", @_expression)))
 
     type_op: -> choice(
       prec(PREC.TYPEOF, seq("typeof", @_expression)),
-      prec(PREC.REL, seq(@_expression, "instanceof", @_expression)),
-      prec(PREC.REL, seq(@_expression, "in", @_expression)))
+      prec.left(PREC.REL, seq(@_expression, "instanceof", @_expression)),
+      prec.left(PREC.REL, seq(@_expression, "in", @_expression)))
 
     #
     # Primitives
