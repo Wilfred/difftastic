@@ -193,8 +193,7 @@ Math operators
 
 i++;
 i--;
-i + j;
-i - j;
+i + j * 3 - j % 5;
 +x;
 -x;
 
@@ -203,8 +202,11 @@ i - j;
 (program
   (expression_statement (math_op (identifier)))
   (expression_statement (math_op (identifier)))
-  (expression_statement (math_op (identifier) (identifier)))
-  (expression_statement (math_op (identifier) (identifier)))
+  (expression_statement (math_op
+    (math_op
+      (identifier)
+      (math_op (identifier) (number)))
+    (math_op (identifier) (number))))
   (expression_statement (math_op (identifier)))
   (expression_statement (math_op (identifier))))
 

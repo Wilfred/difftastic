@@ -280,7 +280,8 @@ module.exports = grammar
       prec.left(PREC.PLUS, seq(@_expression, "+", @_expression)),
       prec.left(PREC.PLUS, seq(@_expression, "-", @_expression)),
       prec.left(PREC.TIMES, seq(@_expression, "*", @_expression)),
-      prec.left(PREC.TIMES, seq(@_expression, "/", @_expression)))
+      prec.left(PREC.TIMES, seq(@_expression, "/", @_expression)),
+      prec.left(PREC.TIMES, seq(@_expression, "%", @_expression)))
 
     rel_op: -> choice(
       prec.left(PREC.REL, seq(@_expression, "<", @_expression)),
