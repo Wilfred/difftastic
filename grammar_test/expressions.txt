@@ -237,6 +237,7 @@ i >> j;
 i << j;
 i & j;
 i | j;
+~i ^ ~j
 
 ---
 
@@ -244,7 +245,10 @@ i | j;
   (expression_statement (bitwise_op (identifier) (identifier)))
   (expression_statement (bitwise_op (identifier) (identifier)))
   (expression_statement (bitwise_op (identifier) (identifier)))
-  (expression_statement (bitwise_op (identifier) (identifier))))
+  (expression_statement (bitwise_op (identifier) (identifier)))
+  (expression_statement (bitwise_op
+    (bitwise_op (identifier))
+    (bitwise_op (identifier)))))
 
 ============================================
 Relational operators

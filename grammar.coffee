@@ -265,9 +265,11 @@ module.exports = grammar
       prec.left(PREC.OR, seq(@_expression, "||", @_expression)))
 
     bitwise_op: -> choice(
+      prec.left(PREC.NOT, seq("~", @_expression)),
       prec.left(PREC.TIMES, seq(@_expression, ">>", @_expression)),
       prec.left(PREC.TIMES, seq(@_expression, "<<", @_expression)),
       prec.left(PREC.AND, seq(@_expression, "&", @_expression)),
+      prec.left(PREC.OR, seq(@_expression, "^", @_expression)),
       prec.left(PREC.OR, seq(@_expression, "|", @_expression)))
 
     math_op: -> choice(
