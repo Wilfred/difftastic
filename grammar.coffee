@@ -277,6 +277,8 @@ module.exports = grammar
       prec.left(PREC.NEG, seq("+", @_expression)),
       prec.left(PREC.INC, seq(@_expression, "++")),
       prec.left(PREC.INC, seq(@_expression, "--")),
+      prec.left(PREC.INC, seq("++", @_expression)),
+      prec.left(PREC.INC, seq("--", @_expression)),
       prec.left(PREC.PLUS, seq(@_expression, "+", @_expression)),
       prec.left(PREC.PLUS, seq(@_expression, "-", @_expression)),
       prec.left(PREC.TIMES, seq(@_expression, "*", @_expression)),
