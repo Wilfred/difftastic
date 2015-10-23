@@ -10,7 +10,7 @@ terminator = ->
 PREC =
   COMMA: -1,
   ASSIGN: 0,
-  BLOCK: 1,
+  OBJECT: 1,
   TERNARY: 1,
   OR: 2,
   AND: 3,
@@ -70,8 +70,8 @@ module.exports = grammar
         @var_assignment))),
       terminator())
 
-    statement_block: -> prec(PREC.BLOCK, seq(
-      "{", err(repeat(@_statement)), "}"))
+    statement_block: -> seq(
+      "{", err(repeat(@_statement)), "}")
 
     if_statement: -> prec.right(0, seq(
       "if",
@@ -211,8 +211,8 @@ module.exports = grammar
       @undefined,
     )
 
-    object: -> seq(
-      "{", commaSep(err(@pair)), "}")
+    object: -> prec(PREC.OBJECT, seq(
+      "{", commaSep(err(@pair)), "}"))
 
     array: -> seq(
       "[", commaSep(err(@_expression)), "]")
