@@ -314,7 +314,7 @@ module.exports = grammar
 
     regex: -> token(seq(
       '/', repeat(choice(/[^\\/\n]/, /\\./)), '/',
-      repeat(choice('i', 'g'))))
+      repeat(/a-z/)))
 
     number: -> token(choice(
       seq(
