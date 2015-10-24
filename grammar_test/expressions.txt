@@ -151,6 +151,41 @@ x["some-string"];
   (expression_statement (subscript_access (identifier) (string))))
 
 ============================================
+Chained Property access
+============================================
+
+return returned.promise()
+  .done( newDefer.resolve )
+  .fail( newDefer.reject )
+  .progress( newDefer.notify );
+
+---
+
+(program
+  (expression_statement (member_access (identifier) (identifier)))
+  (expression_statement (subscript_access (identifier) (identifier)))
+  (expression_statement (subscript_access (identifier) (string))))
+
+============================================
+Chained callbacks
+============================================
+
+return this.map(function(){
+	return elements ? jQuery.makeArray( elements ) : this;
+})
+.filter(function (){
+	var type = this.type;
+	// Use .is(":disabled") so that fieldset[disabled] works
+	return this.name && !jQuery( this ).is( ":disabled" ) &&
+		rsubmittable.test( this.nodeName ) && !rsubmitterTypes.test( type ) &&
+		( this.checked || !manipulation_rcheckableType.test( type ) );
+})
+
+---
+
+()
+
+============================================
 Function calls
 ============================================
 
@@ -331,17 +366,6 @@ x instanceof String;
 (program
   (expression_statement (type_op (identifier)))
   (expression_statement (type_op (identifier) (identifier))))
-
-==============================================
-Comma operator
-==============================================
-
-f, g;
-
----
-
-(program
-  (expression_statement (identifier) (identifier)))
 
 ==============================================
 Math assignment operators

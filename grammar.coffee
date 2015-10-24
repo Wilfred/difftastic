@@ -61,7 +61,7 @@ module.exports = grammar
     )
 
     expression_statement: -> seq(
-      err(@_expressions), terminator())
+      err(@_expression), terminator())
 
     var_declaration: -> seq(
       choice("var", "const", "let"),
@@ -92,10 +92,10 @@ module.exports = grammar
       "(",
       choice(
         @var_declaration,
-        seq(err(@_expressions), ";"),
+        seq(err(commaSep1(@_expression)), ";"),
         ";"),
-      optional(err(@_expressions)), ";"
-      optional(err(@_expressions)),
+      optional(err(@_expression)), ";"
+      optional(err(@_expression)),
       ")",
       @_statement)
 
@@ -133,7 +133,7 @@ module.exports = grammar
 
     return_statement: -> seq(
       "return",
-      optional(@_expressions),
+      optional(@_expression),
       terminator())
 
     throw_statement: -> seq(
@@ -181,8 +181,6 @@ module.exports = grammar
     #
     # Expressions
     #
-
-    _expressions: -> commaSep1(@_expression)
 
     _expression: -> choice(
       @object,
@@ -344,6 +342,6 @@ module.exports = grammar
       commaSep1(@identifier)
 
     pair: -> seq(
-      choice(@identifier, @string),
+      choice(@identifier, @string, @number),
       ":",
       @_expression)
