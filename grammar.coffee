@@ -118,7 +118,8 @@ module.exports = grammar
       "do",
       @statement_block,
       "while",
-      @_paren_expression)
+      @_paren_expression,
+      terminator())
 
     try_statement: -> seq(
       "try",
