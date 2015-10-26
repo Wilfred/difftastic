@@ -157,33 +157,47 @@ Chained Property access
 return returned.promise()
   .done( newDefer.resolve )
   .fail( newDefer.reject )
-  .progress( newDefer.notify );
 
 ---
 
-(program
-  (expression_statement (member_access (identifier) (identifier)))
-  (expression_statement (subscript_access (identifier) (identifier)))
-  (expression_statement (subscript_access (identifier) (string))))
+(program (return_statement
+  (function_call
+    (member_access
+      (function_call
+        (member_access
+          (function_call (member_access (identifier) (identifier)))
+          (identifier))
+        (arguments (member_access (identifier) (identifier))))
+      (identifier))
+  (arguments (member_access (identifier) (identifier))))))
 
 ============================================
 Chained callbacks
 ============================================
 
-return this.map(function(){
-	return elements ? jQuery.makeArray( elements ) : this;
+return this.map(function (a) {
+	return a.b;
 })
-.filter(function (){
-	var type = this.type;
-	// Use .is(":disabled") so that fieldset[disabled] works
-	return this.name && !jQuery( this ).is( ":disabled" ) &&
-		rsubmittable.test( this.nodeName ) && !rsubmitterTypes.test( type ) &&
-		( this.checked || !manipulation_rcheckableType.test( type ) );
+// a comment
+.filter(function (c) {
+  return c.d;
 })
 
 ---
 
-()
+
+(program (return_statement
+  (function_call
+    (member_access
+      (function_call
+        (member_access (identifier) (identifier))
+        (arguments
+          (function (formal_parameters (identifier)) (statement_block
+            (return_statement (member_access (identifier) (identifier)))))))
+        (comment)
+      (identifier))
+      (arguments (function (formal_parameters (identifier)) (statement_block
+        (return_statement (member_access (identifier) (identifier)))))))))
 
 ============================================
 Function calls
