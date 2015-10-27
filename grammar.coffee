@@ -4,8 +4,7 @@ commaSep1 = (rule) ->
 commaSep = (rule) ->
   optional(commaSep1(rule))
 
-terminator = ->
-  choice(";", sym("_line_break"))
+terminator = choice(";", "\n")
 
 PREC =
   COMMA: -1,
@@ -30,7 +29,7 @@ module.exports = grammar
 
   ubiquitous: -> [
     @comment,
-    @_line_break,
+    "\n",
     /[ \t\r]/
   ]
 
@@ -61,14 +60,14 @@ module.exports = grammar
     )
 
     expression_statement: -> seq(
-      err(@_expression), terminator())
+      err(@_expression), terminator)
 
     var_declaration: -> seq(
       choice("var", "const", "let"),
       commaSep1(err(choice(
         @identifier,
         @var_assignment))),
-      terminator())
+      terminator)
 
     statement_block: -> seq(
       "{", err(repeat(@_statement)), "}")
@@ -119,7 +118,7 @@ module.exports = grammar
       @statement_block,
       "while",
       @_paren_expression,
-      terminator())
+      terminator)
 
     try_statement: -> seq(
       "try",
@@ -129,22 +128,22 @@ module.exports = grammar
 
     break_statement: -> seq(
       "break",
-      terminator())
+      terminator)
 
     return_statement: -> seq(
       "return",
       optional(@_expression),
-      terminator())
+      terminator)
 
     throw_statement: -> seq(
       "throw",
       @_expression,
-      terminator())
+      terminator)
 
     delete_statement: -> seq(
       "delete",
       choice(@member_access, @subscript_access),
-      terminator())
+      terminator)
 
     #
     # Statement components
@@ -329,7 +328,6 @@ module.exports = grammar
     false: -> "false"
     null: -> "null"
     undefined: -> "undefined"
-    _line_break: -> "\n"
 
     #
     # Expression components
