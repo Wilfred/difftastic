@@ -18,7 +18,7 @@ int main() {
 (translation_unit
   (function_definition
     (identifier)
-    (direct_declarator (identifier))
+    (function_declarator (identifier))
     (compound_statement
       (if_statement (identifier)
         (expression_statement (number_literal)))
@@ -49,7 +49,7 @@ int main() {
 (translation_unit
   (function_definition
     (identifier)
-    (direct_declarator (identifier))
+    (function_declarator (identifier))
     (compound_statement
       (for_statement
         (expression_statement (number_literal)))

@@ -6,7 +6,7 @@ struct s1;
 
 struct s2 {
   int x;
-  float y;
+  float y : 5;
 };
 
 ---
@@ -15,7 +15,7 @@ struct s2 {
   (declaration (struct_specifier (identifier)))
   (declaration (struct_specifier (identifier)
     (struct_declaration (identifier) (identifier))
-    (struct_declaration (identifier) (identifier)))))
+    (struct_declaration (identifier) (identifier) (number_literal)))))
 
 ============================================
 Union declarations
@@ -53,9 +53,9 @@ enum e2 {
 (translation_unit
   (declaration (enum_specifier (identifier)))
   (declaration (enum_specifier (identifier)
-    (identifier)
+    (enumerator (identifier))
     (enumerator (identifier) (number_literal))
-    (identifier))))
+    (enumerator (identifier)))))
 
 ============================================
 Primitive-typed variable declarations
@@ -68,9 +68,9 @@ float d, e;
 ---
 
 (translation_unit
-  (declaration (type_specifier (identifier)) (identifier))
+  (declaration (sized_type_specifier (identifier)) (identifier))
   (declaration
-    (type_specifier (identifier))
+    (sized_type_specifier (identifier))
     (identifier)
     (init_declarator (identifier) (number_literal))
     (identifier))
@@ -106,9 +106,15 @@ enum { g, h } i;
 ---
 
 (translation_unit
-  (declaration (struct_specifier (identifier)) (identifier))
-  (declaration (union_specifier (struct_declaration (identifier) (identifier))) (identifier))
-  (declaration (enum_specifier (identifier) (identifier)) (identifier)))
+  (declaration
+    (struct_specifier (identifier))
+    (identifier))
+  (declaration
+    (union_specifier (struct_declaration (identifier) (identifier)))
+    (identifier))
+  (declaration
+    (enum_specifier (enumerator (identifier)) (enumerator (identifier)))
+    (identifier)))
 
 ============================================
 Pointer variable declarations
@@ -120,9 +126,9 @@ const char **the_strings;
 ---
 
 (translation_unit
-  (declaration (identifier) (declarator (pointer) (identifier)))
+  (declaration (identifier) (pointer_declarator (identifier)))
   (declaration (type_qualifier) (identifier)
-    (declarator (pointer) (pointer) (identifier))))
+    (pointer_declarator (pointer_declarator (identifier)))))
 
 ============================================
 Typedefs
@@ -130,7 +136,7 @@ Typedefs
 
 typedef int my_int;
 
-typedef struct{
+typedef struct {
   int x;
 } *a;
 
@@ -138,9 +144,10 @@ typedef struct{
 
 (translation_unit
   (declaration (storage_class_specifier) (identifier) (identifier))
-  (declaration (storage_class_specifier) (struct_specifier
-    (struct_declaration (identifier) (identifier)))
-    (declarator (pointer) (identifier))))
+  (declaration
+    (storage_class_specifier)
+    (struct_specifier (struct_declaration (identifier) (identifier)))
+    (pointer_declarator (identifier))))
 
 ============================================
 Function declarations
@@ -154,16 +161,16 @@ static foo bar();
 (translation_unit
   (declaration
     (identifier)
-    (direct_declarator
+    (function_declarator
       (identifier)
       (parameter_type_list
         (parameter_declaration (identifier) (identifier))
-        (parameter_declaration (type_qualifier) (identifier) (declarator (pointer) (pointer) (identifier))))))
+        (parameter_declaration (type_qualifier) (identifier) (pointer_declarator (pointer_declarator (identifier)))))))
 
   (declaration
     (storage_class_specifier)
     (identifier)
-    (direct_declarator (identifier))))
+    (function_declarator (identifier))))
 
 ============================================
 Function definitions
@@ -175,11 +182,11 @@ void * do_stuff(int arg1) {
 
 ---
 
-(function_definition
-  (identifier)
-  (declarator
-    (pointer)
-    (direct_declarator
-      (identifier)
-      (parameter_declaration (identifier) (identifier))))
-    (compound_statement (return_statement (number_literal))))
+(translation_unit
+  (function_definition
+    (identifier)
+    (pointer_declarator
+      (function_declarator (identifier)
+        (parameter_type_list
+          (parameter_declaration (identifier) (identifier)))))
+    (compound_statement (return_statement (number_literal)))))

@@ -1,6 +1,3 @@
-repeat1 = (rule) ->
-  seq(rule, repeat(rule))
-
 commaSep = (rule) ->
   optional(commaSep1(rule))
 
@@ -32,6 +29,12 @@ module.exports = grammar
   name: 'c'
 
   ubiquitous: -> [@comment, /\s/]
+
+  expectedConflicts: -> [
+    [@_type_specifier, @_expression]
+    [@_type_specifier, @direct_declarator]
+    [@sizeof_expression, @cast_expression]
+  ]
 
   rules:
     translation_unit: -> repeat(choice(
@@ -71,33 +74,76 @@ module.exports = grammar
     # Section - Main Grammar
 
     function_definition: -> seq(
-      optional(@declaration_specifiers),
-      @type_specifier,
+      optional(@_declaration_specifiers),
+      @_type_specifier,
       @_declarator,
       optional(repeat(@declaration)),
       @compound_statement)
 
     declaration: -> seq(
-      optional(@declaration_specifiers),
-      @type_specifier,
-      commaSep(@init_declarator),
+      optional(@_declaration_specifiers),
+      @_type_specifier,
+      commaSep(choice(
+        @_declarator
+        @init_declarator)),
       ";")
 
-    declaration_specifiers: -> repeat1(choice(
+    _declaration_specifiers: -> repeat1(choice(
       @storage_class_specifier,
       @type_qualifier,
       @function_specifier))
 
-    _declarator: ->
-      seq(repeat(@pointer), @direct_declarator)
+    _declarator: -> choice(
+      @pointer_declarator,
+      @function_declarator,
+      @array_declarator,
+      seq('(', @_declarator, ')'),
+      @identifier,
+    )
 
-    abstract_declarator: -> choice(
-      @pointer,
-      seq(repeat(@pointer), @direct_abstract_declarator))
+    _abstract_declarator: -> choice(
+      @abstract_pointer_declarator,
+      @abstract_function_declarator,
+      @abstract_array_declarator,
+      prec(1, seq('(', @_abstract_declarator, ')')),
+    )
 
-    init_declarator: -> choice(
+    pointer_declarator: -> seq('*', @_declarator)
+
+    abstract_pointer_declarator: -> seq('*', optional(@_abstract_declarator))
+
+    function_declarator: -> prec(1, seq(
       @_declarator,
-      seq(@_declarator, "=", @initializer))
+      '(',
+      optional(@parameter_type_list),
+      ')'))
+
+    abstract_function_declarator: -> prec(1, seq(
+      @_abstract_declarator,
+      '(',
+      optional(@parameter_type_list),
+      ')'))
+
+    array_declarator: -> prec(1, seq(
+      @_declarator,
+      '[',
+      choice(
+        seq(optional("static"), repeat(@type_qualifier), optional(@_expression)),
+        seq(repeat(@type_qualifier), "static", @_expression))
+      ']'))
+
+    abstract_array_declarator: -> prec(1, seq(
+      optional(@_abstract_declarator),
+      '[',
+      choice(
+        seq(optional("static"), repeat(@type_qualifier), optional(@_expression)),
+        seq(repeat(@type_qualifier), "static", @_expression))
+      ']'))
+
+    init_declarator: -> seq(
+      @_declarator,
+      "=",
+      choice(@initializer_list, @_expression))
 
     compound_statement: -> seq(
       "{",
@@ -118,16 +164,19 @@ module.exports = grammar
 
     function_specifier: -> "inline"
 
-    type_specifier: -> choice(
+    _type_specifier: -> choice(
       @struct_specifier,
       @union_specifier,
       @enum_specifier,
-      seq(
-        repeat(choice(
-          "unsigned",
-          "long",
-          "short")),
-        prec(20, @identifier)))
+      @sized_type_specifier,
+      @identifier)
+
+    sized_type_specifier: -> seq(
+      repeat1(choice(
+        "unsigned",
+        "long",
+        "short")),
+      @identifier)
 
     enum_specifier: -> seq(
       "enum",
@@ -155,61 +204,21 @@ module.exports = grammar
 
     struct_declaration: -> seq(
       repeat(@type_qualifier),
-      @type_specifier,
-      commaSep(@struct_declarator),
+      @_type_specifier,
+      commaSep(@_declarator),
+      optional(seq(':', @_expression))
       ";")
 
     enumerator: -> choice(
       @identifier,
       seq(@identifier, "=", @_expression))
 
-    struct_declarator: -> choice(
-      @_declarator,
-      seq(optional(@_declarator), ":", @_expression))
-
-    pointer: -> seq(
-      "*",
-      repeat(@type_qualifier))
-
-    direct_declarator: -> choice(
-      @identifier,
-
-      # TODO - is this needed? Currently, it creates ambiguity w/
-      # call expressions.
-      #
-      # seq("(", @_declarator, ")"),
-
-      seq(
-        @direct_declarator,
-        choice(
-          seq("[", repeat(@type_qualifier), optional(@_expression), "]"),
-          seq("[", "static", repeat(@type_qualifier), @_expression, "]"),
-          seq("[", repeat(@type_qualifier), "static", @_expression, "]"),
-          seq("[", repeat(@type_qualifier), "*", "]"),
-          seq("(", optional(@parameter_type_list), ")"),
-          seq("(", commaSep(@identifier), ")"))))
-
-    direct_abstract_declarator: -> choice(
-
-      # TODO - is this needed? Currently, it creates ambiguity.
-      #
-      # seq("(", @abstract_declarator, ")"),
-
-      seq(
-        @direct_abstract_declarator,
-        choice(
-          seq("[", repeat(@type_qualifier), optional(@_expression), "]"),
-          seq("[", "static", repeat(@type_qualifier), @_expression, "]"),
-          seq("[", repeat(@type_qualifier), "static", @_expression, "]"),
-          seq("[", "*", "]"),
-          seq("(", @parameter_type_list, ")"))))
-
     parameter_type_list: -> commaSep1(@parameter_declaration)
 
     parameter_declaration: -> seq(
-      optional(@declaration_specifiers),
-      @type_specifier,
-      optional(choice(@_declarator, @abstract_declarator)))
+      optional(@_declaration_specifiers),
+      @_type_specifier,
+      optional(choice(@_declarator, @_abstract_declarator)))
 
     # Statements
 
@@ -236,14 +245,13 @@ module.exports = grammar
     expression_statement: -> seq(
       optional(@_expression), ";")
 
-    if_statement: -> seq(
+    if_statement: -> prec.right(seq(
       "if",
       "(", @_expression, ")",
       @_statement,
-      prec.right(0,
-        optional(seq(
-          "else",
-          @_statement))))
+      optional(seq(
+        "else",
+        @_statement))))
 
     switch_statement: -> seq(
       "switch",
@@ -315,9 +323,9 @@ module.exports = grammar
       @number_literal,
       @string_literal,
       @char_literal,
-      prec(PREC.cast, seq("(", @_expression, ")")))
+      seq("(", @_expression, ")"))
 
-    conditional_expression: -> prec(PREC.conditional, seq(
+    conditional_expression: -> prec.right(PREC.conditional, seq(
       @_expression,
       "?",
       @_expression,
@@ -342,39 +350,39 @@ module.exports = grammar
         @_expression))
 
     pointer_expression: -> choice(
-      prec(PREC.unary, seq("*", @_expression)),
-      prec(PREC.unary, seq("&", @_expression)))
+      prec.left(PREC.unary, seq("*", @_expression)),
+      prec.left(PREC.unary, seq("&", @_expression)))
 
     logical_expression: -> choice(
-      prec(PREC.logical_or, seq(@_expression, "||", @_expression)),
-      prec(PREC.logical_and, seq(@_expression, "&&", @_expression)),
-      prec(PREC.unary, seq("!", @_expression)))
+      prec.left(PREC.logical_or, seq(@_expression, "||", @_expression)),
+      prec.left(PREC.logical_and, seq(@_expression, "&&", @_expression)),
+      prec.left(PREC.unary, seq("!", @_expression)))
 
     bitwise_expression: -> choice(
-      prec(PREC.inclusive_or, seq(@_expression, "|", @_expression)),
-      prec(PREC.exclusive_or, seq(@_expression, "^", @_expression)),
-      prec(PREC.bitwise_and, seq(@_expression, "&", @_expression)),
-      prec(PREC.unary, seq("~", @_expression)))
+      prec.left(PREC.inclusive_or, seq(@_expression, "|", @_expression)),
+      prec.left(PREC.exclusive_or, seq(@_expression, "^", @_expression)),
+      prec.left(PREC.bitwise_and, seq(@_expression, "&", @_expression)),
+      prec.left(PREC.unary, seq("~", @_expression)))
 
     equality_expression: ->
-      prec(PREC.equal, seq(@_expression, choice("==", "!="), @_expression))
+      prec.left(PREC.equal, seq(@_expression, choice("==", "!="), @_expression))
 
     relational_expression: ->
-      prec(PREC.relational, seq(@_expression, choice("<", ">", "<=", ">="), @_expression))
+      prec.left(PREC.relational, seq(@_expression, choice("<", ">", "<=", ">="), @_expression))
 
     shift_expression: ->
-      prec(PREC.shift, seq(@_expression, choice("<<", ">>"), @_expression))
+      prec.left(PREC.shift, seq(@_expression, choice("<<", ">>"), @_expression))
 
     math_expression: -> choice(
-      prec(PREC.add, seq(@_expression, "+", @_expression)),
-      prec(PREC.add, seq(@_expression, "-", @_expression)),
-      prec(PREC.multiply, seq(@_expression, "*", @_expression)),
-      prec(PREC.multiply, seq(@_expression, "/", @_expression)),
-      prec(PREC.multiply, seq(@_expression, "%", @_expression)),
-      prec(PREC.unary, seq("-", @_expression)),
-      prec(PREC.unary, seq("+", @_expression)),
-      prec(PREC.unary, seq(choice("--", "++"), @_expression)),
-      prec(PREC.unary, seq(@_expression, choice("++", "--"))))
+      prec.left(PREC.add, seq(@_expression, "+", @_expression)),
+      prec.left(PREC.add, seq(@_expression, "-", @_expression)),
+      prec.left(PREC.multiply, seq(@_expression, "*", @_expression)),
+      prec.left(PREC.multiply, seq(@_expression, "/", @_expression)),
+      prec.left(PREC.multiply, seq(@_expression, "%", @_expression)),
+      prec.right(PREC.unary, seq("-", @_expression)),
+      prec.right(PREC.unary, seq("+", @_expression)),
+      prec.right(PREC.unary, seq(choice("--", "++"), @_expression)),
+      prec.right(PREC.unary, seq(@_expression, choice("++", "--"))))
 
     cast_expression: ->
       prec(PREC.cast, seq("(", @type_name, ")", @_expression))
@@ -390,31 +398,34 @@ module.exports = grammar
       prec(PREC.call, seq(@_expression, "(", commaSep(@_expression), ")"))
 
     field_expression: -> choice(
-      prec(PREC.field, seq(@_expression, ".", @_expression)),
-      prec(PREC.field, seq(@_expression, "->", @_expression)))
+      prec.left(PREC.field, seq(@_expression, ".", @_expression)),
+      prec.left(PREC.field, seq(@_expression, "->", @_expression)))
 
     compound_literal_expression: -> seq(
       prec(PREC.cast, seq("(", @type_name, ")")),
-      "{",
-      @_initializer_list,
-      optional(",")
-      "}")
+      @initializer_list)
 
     type_name: -> seq(
       repeat(@type_qualifier),
-      @type_specifier,
-      optional(@abstract_declarator))
+      @_type_specifier,
+      optional(@_abstract_declarator))
 
-    _initializer_list: -> choice(
+    initializer_list: -> seq(
+      "{",
+      @_initializer_list_contents,
+      optional(",")
+      "}")
+
+    _initializer_list_contents: -> choice(
       seq(
         optional(seq(repeat1(@designator), "=")),
-        @initializer),
+        choice(@_expression, @initializer_list)),
       seq(
-        @_initializer_list,
+        @_initializer_list_contents,
         ","
         seq(
           optional(seq(repeat1(@designator), "=")),
-          @initializer)))
+          choice(@_expression, @initializer_list))))
 
     designator: -> choice(
       seq("[", @_expression, "]"),
@@ -422,11 +433,7 @@ module.exports = grammar
 
     initializer: -> choice(
       @_expression,
-      seq(
-        "{"
-        @_initializer_list
-        optional(",")
-        "}"))
+      @initializer_list)
 
     number_literal: -> /\d+(\.\d+)?/
 

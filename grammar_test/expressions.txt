@@ -12,7 +12,7 @@ int main() {
 (translation_unit
   (function_definition
     (identifier)
-    (direct_declarator (identifier))
+    (function_declarator (identifier))
     (compound_statement
       (declaration (identifier))
       (declaration (identifier)))))
@@ -30,7 +30,7 @@ int main() {
 (translation_unit
   (function_definition
     (identifier)
-    (direct_declarator (identifier))
+    (function_declarator (identifier))
     (compound_statement
       (expression_statement (call_expression (identifier) (string_literal) (identifier))))))
 
@@ -50,7 +50,7 @@ int main() {
 (translation_unit
   (function_definition
     (identifier)
-    (direct_declarator (identifier))
+    (function_declarator (identifier))
     (compound_statement
       (expression_statement (char_literal))
       (expression_statement (char_literal))
@@ -72,7 +72,7 @@ int main() {
 (translation_unit
   (function_definition
     (identifier)
-    (direct_declarator (identifier))
+    (function_declarator (identifier))
     (compound_statement
       (expression_statement (field_expression (identifier) (identifier)))
       (expression_statement (field_expression (identifier) (identifier)))
@@ -91,7 +91,7 @@ int main() {
 (translation_unit
   (function_definition
     (identifier)
-    (direct_declarator (identifier))
+    (function_declarator (identifier))
     (compound_statement
       (expression_statement (logical_expression
         (logical_expression (identifier))
@@ -113,7 +113,7 @@ int main() {
 (translation_unit
   (function_definition
     (identifier)
-    (direct_declarator (identifier))
+    (function_declarator (identifier))
     (compound_statement
       (expression_statement (math_expression
         (math_expression
@@ -152,7 +152,7 @@ int main() {
 (translation_unit
   (function_definition
     (identifier)
-    (direct_declarator (identifier))
+    (function_declarator (identifier))
     (compound_statement
       (declaration (storage_class_specifier) (identifier) (init_declarator (identifier) (number_literal)))
       (expression_statement (assignment_expression (identifier) (assignment_expression (pointer_expression (identifier)) (number_literal))))
@@ -177,7 +177,7 @@ int main() {
 (translation_unit
   (function_definition
     (identifier)
-    (direct_declarator (identifier))
+    (function_declarator (identifier))
     (compound_statement
       (expression_statement (call_expression (identifier)
         (pointer_expression (identifier))
@@ -196,12 +196,12 @@ int main() {
 (translation_unit
   (function_definition
     (identifier)
-    (direct_declarator (identifier))
+    (function_declarator (identifier))
     (compound_statement
       (expression_statement (assignment_expression
         (identifier)
         (cast_expression
-          (type_name (type_qualifier) (identifier) (pointer))
+          (type_name (type_qualifier) (identifier) (abstract_pointer_declarator))
           (identifier)))))))
 
 ============================================
@@ -211,7 +211,7 @@ Sizeof expressions
 int main() {
   sizeof x.a;
   sizeof(x.a);
-  sizeof(const char *);
+  sizeof(const char **);
 }
 
 ---
@@ -219,11 +219,12 @@ int main() {
 (translation_unit
   (function_definition
     (identifier)
-    (direct_declarator (identifier))
+    (function_declarator (identifier))
     (compound_statement
       (expression_statement (sizeof_expression (field_expression (identifier) (identifier))))
-      (expression_statement (sizeof_expression (expression (field_expression (identifier) (identifier)))))
-      (expression_statement (sizeof_expression (type_name (type_qualifier) (identifier) (pointer)))))))
+      (expression_statement (sizeof_expression (field_expression (identifier) (identifier))))
+      (expression_statement (sizeof_expression
+        (type_name (type_qualifier) (identifier) (abstract_pointer_declarator (abstract_pointer_declarator))))))))
 
 ============================================
 Compound literals
@@ -239,18 +240,22 @@ int main() {
 (translation_unit
   (function_definition
     (identifier)
-    (direct_declarator (identifier))
+    (function_declarator (identifier))
     (compound_statement
       (expression_statement (assignment_expression
         (identifier)
-        (compound_literal_expression (identifier)
-          (designator (identifier)) (number_literal)
-          (designator (identifier)) (number_literal))))
+        (compound_literal_expression
+          (type_name (identifier))
+          (initializer_list
+            (designator (identifier)) (number_literal)
+            (designator (identifier)) (number_literal)))))
       (expression_statement (assignment_expression
         (identifier)
-        (compound_literal_expression (struct_specifier (identifier))
-          (number_literal)
-          (number_literal)))))))
+        (compound_literal_expression
+          (type_name (struct_specifier (identifier)))
+          (initializer_list
+            (number_literal)
+            (number_literal))))))))
 
 ============================================
 Compound literals with trailing commas
@@ -266,15 +271,19 @@ int main() {
 (translation_unit
   (function_definition
     (identifier)
-    (direct_declarator (identifier))
+    (function_declarator (identifier))
     (compound_statement
       (expression_statement (assignment_expression
         (identifier)
-        (compound_literal_expression (identifier)
-          (designator (identifier)) (number_literal)
-          (designator (identifier)) (number_literal))))
+        (compound_literal_expression
+          (type_name (identifier))
+          (initializer_list
+            (designator (identifier)) (number_literal)
+            (designator (identifier)) (number_literal)))))
       (expression_statement (assignment_expression
         (identifier)
-        (compound_literal_expression (struct_specifier (identifier))
-          (number_literal)
-          (number_literal)))))))
+        (compound_literal_expression
+          (type_name (struct_specifier (identifier)))
+          (initializer_list
+            (number_literal)
+            (number_literal))))))))
