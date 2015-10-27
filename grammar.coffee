@@ -283,7 +283,7 @@ module.exports = grammar
         @declaration,
         seq(optional(@_expression), ";")),
       optional(@_expression), ";"
-      optional(@_expression),
+      commaSep(@_expression),
       ")",
       @_statement)
 
