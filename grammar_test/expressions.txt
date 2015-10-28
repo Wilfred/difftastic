@@ -1,4 +1,19 @@
 ============================================
+Number literals
+============================================
+
+int a = 0xAC00;
+int b = 0.123;
+int c = 0b1010001;
+
+---
+
+(translation_unit
+  (declaration (identifier) (init_declarator (identifier) (number_literal)))
+  (declaration (identifier) (init_declarator (identifier) (number_literal)))
+  (declaration (identifier) (init_declarator (identifier) (number_literal))))
+
+============================================
 Identifiers
 ============================================
 

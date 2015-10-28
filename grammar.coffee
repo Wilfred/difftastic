@@ -435,7 +435,12 @@ module.exports = grammar
       @_expression,
       @initializer_list)
 
-    number_literal: -> /\d+(\.\d+)?/
+    number_literal: -> token(choice(
+      /\d+(\.\d+)?/,
+      /\d+u/,
+      seq("0x", /[0-9a-fA-f]+/),
+      seq("0b", /[01]+/),
+    ))
 
     char_literal: -> token(seq(
       "'",
