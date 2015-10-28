@@ -2,7 +2,12 @@ commaSep = (rule) ->
   optional(commaSep1(rule))
 
 commaSep1 = (rule) ->
-  seq(rule, repeat(prec.left(0, seq(",", rule))))
+  seq(rule, repeat(seq(",", rule)))
+
+# Avoid conflict between optional trailing comma and the comma separator.
+# TODO: maybe abstract this in tree-sitter core somehow
+commaSepTrailing = (recurSymbol, rule) ->
+  choice(rule, seq(recurSymbol, ',', rule))
 
 PREC =
   assignment: -1
@@ -184,7 +189,14 @@ module.exports = grammar
         @identifier,
         seq(
           optional(@identifier),
-          "{", commaSep(@enumerator), "}")))
+          "{",
+          @_enum_specifier_contents,
+          optional(',')
+          "}")))
+
+    _enum_specifier_contents: -> commaSepTrailing(
+      @_enum_specifier_contents,
+      @enumerator)
 
     struct_specifier: -> seq(
       "struct",
@@ -416,16 +428,11 @@ module.exports = grammar
       optional(",")
       "}")
 
-    _initializer_list_contents: -> choice(
+    _initializer_list_contents: -> commaSepTrailing(
+      @_initializer_list_contents,
       seq(
         optional(seq(repeat1(@designator), "=")),
-        choice(@_expression, @initializer_list)),
-      seq(
-        @_initializer_list_contents,
-        ","
-        seq(
-          optional(seq(repeat1(@designator), "=")),
-          choice(@_expression, @initializer_list))))
+        choice(@_expression, @initializer_list)))
 
     designator: -> choice(
       seq("[", @_expression, "]"),

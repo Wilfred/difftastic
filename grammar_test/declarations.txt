@@ -48,6 +48,10 @@ enum e2 {
   val3
 };
 
+enum e3 {
+  val1,
+};
+
 ---
 
 (translation_unit
@@ -55,6 +59,8 @@ enum e2 {
   (declaration (enum_specifier (identifier)
     (enumerator (identifier))
     (enumerator (identifier) (number_literal))
+    (enumerator (identifier))))
+  (declaration (enum_specifier (identifier)
     (enumerator (identifier)))))
 
 ============================================
