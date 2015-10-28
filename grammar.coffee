@@ -51,9 +51,6 @@ module.exports = grammar
 
     _preproc_statement: -> choice(
       @preproc_ifdef,
-      @preproc_ifndef,
-      @preproc_endif,
-      @preproc_else,
       @preproc_include,
       @preproc_define,
       @preproc_call)
@@ -70,10 +67,23 @@ module.exports = grammar
     preproc_call: -> choice(
       seq(@preproc_directive, /.*/))
 
-    preproc_ifdef: -> seq("#ifdef", @identifier)
-    preproc_ifndef: -> seq("#ifndef", @identifier)
-    preproc_else: -> "#else"
-    preproc_endif: -> "#endif"
+    preproc_ifdef: -> seq(
+      choice("#ifdef", "#ifndef"),
+      @identifier,
+      repeat(choice(
+        @_preproc_statement,
+        @function_definition,
+        @declaration)),
+      optional(@preproc_else),
+      "#endif")
+
+    preproc_else: -> seq(
+      "#else",
+      repeat(choice(
+        @_preproc_statement,
+        @function_definition,
+        @declaration)))
+
     preproc_directive: -> /#\a\w+/
 
     # Section - Main Grammar

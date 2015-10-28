@@ -31,20 +31,43 @@ Defines
 Ifdefs
 ============================================
 
-#ifndef SOMETHING
-int x;
+#ifndef DEFINE1
+int j;
 #endif
 
-#ifdef SOMETHING_ELSE
+#ifdef DEFINE2
+ssize_t b;
+#define c 32
 #else
+int b;
+#define c 16;
+#endif
+
+#ifdef DEFINE2
+#else
+#ifdef DEFINE3
+#else
+#endif
 #endif
 
 ---
 
 (translation_unit
-  (preproc_ifndef (identifier))
-  (declaration (identifier) (identifier))
-  (preproc_endif)
-  (preproc_ifdef (identifier))
-  (preproc_else)
-  (preproc_endif))
+  (preproc_ifdef
+    (identifier)
+    (declaration (identifier) (identifier)))
+
+  (preproc_ifdef
+    (identifier)
+    (declaration (identifier) (identifier))
+    (preproc_define (identifier))
+    (preproc_else
+      (declaration (identifier) (identifier))
+      (preproc_define (identifier))))
+
+  (preproc_ifdef
+    (identifier)
+    (preproc_else
+      (preproc_ifdef
+        (identifier)
+        (preproc_else)))))
