@@ -1,0 +1,81 @@
+========================================
+Errors inside ifdefs
+========================================
+
+#ifdef something
+int x // no semicolon
+#endif
+
+int a;
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+int b;
+
+#ifdef __cplusplus
+}
+#endif
+
+int c;
+
+---
+
+(translation_unit
+  (preproc_ifdef
+    (identifier)
+    (ERROR (identifier) (identifier) (comment) (UNEXPECTED '#')))
+
+  (declaration (identifier) (identifier))
+
+  (preproc_ifdef
+    (identifier)
+    (ERROR (UNEXPECTED '"') (string_literal)))
+
+  (declaration (identifier) (identifier))
+
+  (preproc_ifdef
+    (identifier)
+    (ERROR (UNEXPECTED '}')))
+
+  (declaration (identifier) (identifier)))
+
+========================================
+Errors inside blocks
+========================================
+
+int main() {
+  int x;
+  int %$#@
+}
+
+---
+
+(translation_unit
+  (function_definition
+    (identifier)
+    (function_declarator (identifier))
+    (compound_statement
+      (ERROR
+        (declaration (identifier) (identifier))
+        (identifier) (UNEXPECTED '$')))))
+
+========================================
+Errors inside expressions
+========================================
+
+int main() {
+  int x = (123 123);
+}
+
+---
+
+(translation_unit
+  (function_definition
+    (identifier)
+    (function_declarator (identifier))
+    (compound_statement
+      (declaration (identifier) (init_declarator
+        (identifier)
+        (ERROR (number_literal) (UNEXPECTED '1') (number_literal)))))))

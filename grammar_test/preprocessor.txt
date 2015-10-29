@@ -40,7 +40,7 @@ ssize_t b;
 #define c 32
 #else
 int b;
-#define c 16;
+#define c 16
 #endif
 
 #ifdef DEFINE2

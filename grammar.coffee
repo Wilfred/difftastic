@@ -62,18 +62,21 @@ module.exports = grammar
     preproc_define: -> seq(
       "#define",
       @identifier,
-      token(seq(/.+/, repeat(seq("\\\n", /.+/)))))
+      optional(@_preproc_arg))
 
-    preproc_call: -> choice(
-      seq(@preproc_directive, /.*/))
+    preproc_call: -> seq(
+      @preproc_directive,
+      @_preproc_arg)
+
+    _preproc_arg: -> token(prec(-1, repeat(choice(/./, "\\\n"))))
 
     preproc_ifdef: -> seq(
       choice("#ifdef", "#ifndef"),
       @identifier,
-      repeat(choice(
+      err(repeat(choice(
         @_preproc_statement,
         @function_definition,
-        @declaration)),
+        @declaration))),
       optional(@preproc_else),
       "#endif")
 
@@ -84,7 +87,7 @@ module.exports = grammar
         @function_definition,
         @declaration)))
 
-    preproc_directive: -> /#\a\w+/
+    preproc_directive: -> /#\a\w*/
 
     # Section - Main Grammar
 
@@ -162,7 +165,7 @@ module.exports = grammar
 
     compound_statement: -> seq(
       "{",
-      repeat(choice(@declaration, @_statement)),
+      err(repeat(choice(@declaration, @_statement))),
       "}")
 
     storage_class_specifier: -> choice(
@@ -345,7 +348,7 @@ module.exports = grammar
       @number_literal,
       @string_literal,
       @char_literal,
-      seq("(", @_expression, ")"))
+      seq("(", err(@_expression), ")"))
 
     conditional_expression: -> prec.right(PREC.conditional, seq(
       @_expression,
