@@ -12,20 +12,41 @@ Include directives
   (preproc_include (system_lib_string)))
 
 ============================================
-Defines
+Object-like macro definitions
 ============================================
 
-#define SIZE 1024
-
-#define SOMETHING \
-  x + \
-  y
+#define ONE
+#define TWO int a = b;
+#define THREE \
+  c == d ? \
+  e : \
+  f
 
 ---
 
 (translation_unit
-  (preproc_define (identifier))
-  (preproc_define (identifier)))
+  (preproc_def (identifier))
+  (preproc_def (identifier) (preproc_arg))
+  (preproc_def (identifier) (preproc_arg)))
+
+============================================
+Function-like macro definitions
+============================================
+
+#define ONE() a
+#define TWO(b) c
+#define THREE(d, e) f
+#define FOUR(...) g
+#define FIVE(h, i, ...) j
+
+---
+
+(translation_unit
+  (preproc_function_def (identifier) (preproc_params) (preproc_arg))
+  (preproc_function_def (identifier) (preproc_params (identifier)) (preproc_arg))
+  (preproc_function_def (identifier) (preproc_params (identifier) (identifier)) (preproc_arg))
+  (preproc_function_def (identifier) (preproc_params) (preproc_arg))
+  (preproc_function_def (identifier) (preproc_params (identifier) (identifier)) (preproc_arg)))
 
 ============================================
 Ifdefs
@@ -60,10 +81,10 @@ int b;
   (preproc_ifdef
     (identifier)
     (declaration (identifier) (identifier))
-    (preproc_define (identifier))
+    (preproc_def (identifier) (preproc_arg))
     (preproc_else
       (declaration (identifier) (identifier))
-      (preproc_define (identifier))))
+      (preproc_def (identifier) (preproc_arg))))
 
   (preproc_ifdef
     (identifier)

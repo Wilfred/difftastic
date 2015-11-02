@@ -14,7 +14,7 @@
     "nan": "2.1.0"
   },
   "devDependencies": {
-    "tree-sitter-compiler": ">= 0.0.27"
+    "tree-sitter-compiler": ">= 0.0.30"
   },
   "scripts": {
     "prepublish": "tree-sitter compile",

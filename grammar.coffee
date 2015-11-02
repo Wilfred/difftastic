@@ -52,23 +52,37 @@ module.exports = grammar
     _preproc_statement: -> choice(
       @preproc_ifdef,
       @preproc_include,
-      @preproc_define,
+      @preproc_def,
+      @preproc_function_def,
       @preproc_call)
 
     preproc_include: -> seq(
       "#include",
       choice(@string_literal, @system_lib_string))
 
-    preproc_define: -> seq(
+    preproc_def: -> seq(
       "#define",
       @identifier,
-      optional(@_preproc_arg))
+      optional(@preproc_arg),
+      '\n')
+
+    preproc_function_def: -> seq(
+      "#define",
+      @identifier,
+      @preproc_params,
+      optional(@preproc_arg),
+      '\n')
+
+    preproc_params: -> seq(
+      '(',
+      commaSep(choice(@identifier, '...')),
+      ')')
 
     preproc_call: -> seq(
       @preproc_directive,
-      @_preproc_arg)
+      @preproc_arg)
 
-    _preproc_arg: -> token(prec(-1, repeat(choice(/./, "\\\n"))))
+    preproc_arg: -> token(prec(-1, repeat1(choice(/./, "\\\n"))))
 
     preproc_ifdef: -> seq(
       choice("#ifdef", "#ifndef"),
