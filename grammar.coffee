@@ -199,6 +199,7 @@ module.exports = grammar
       @type_op,
       @_paren_expression,
 
+      @this_expression,
       @identifier,
       @number,
       @string,
@@ -321,6 +322,8 @@ module.exports = grammar
       seq(
         /\d+/,
         optional(seq(".", /\d*/)))))
+
+    this_expression: -> "this"
 
     identifier: -> /[\a_$][\a\d_$]*/
 

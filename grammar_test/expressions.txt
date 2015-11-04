@@ -49,6 +49,7 @@ $_;
 Booleans
 ============================================
 
+this;
 null;
 undefined;
 true;
@@ -57,6 +58,7 @@ false;
 ---
 
 (program
+  (expression_statement (this_expression))
   (expression_statement (null))
   (expression_statement (undefined))
   (expression_statement (true))
@@ -190,7 +192,7 @@ return this.map(function (a) {
   (function_call
     (member_access
       (function_call
-        (member_access (identifier) (identifier))
+        (member_access (this_expression) (identifier))
         (arguments
           (function (formal_parameters (identifier)) (statement_block
             (return_statement (member_access (identifier) (identifier)))))))
