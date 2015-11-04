@@ -6,6 +6,8 @@ commaSep = (rule) ->
 
 terminator = choice(";", sym('_line_break'))
 
+variableType = choice('var', 'let', 'const')
+
 PREC =
   COMMA: -1,
   ASSIGN: 0,
@@ -49,6 +51,7 @@ module.exports = grammar
       @switch_statement,
       @for_statement,
       @for_in_statement,
+      @for_of_statement,
       @while_statement,
       @do_statement,
       @try_statement,
@@ -63,7 +66,7 @@ module.exports = grammar
       err(@_expression), terminator)
 
     var_declaration: -> seq(
-      choice("var", "const", "let"),
+      variableType,
       commaSep1(err(choice(
         @identifier,
         @var_assignment))),
@@ -101,9 +104,19 @@ module.exports = grammar
     for_in_statement: -> seq(
       "for",
       "(",
-      optional("var"),
+      optional(variableType),
       @_expression,
       "in",
+      @_expression,
+      ")",
+      @_statement)
+
+    for_of_statement: -> seq(
+      "for",
+      "(",
+      optional(variableType),
+      @_expression,
+      "of",
       @_expression,
       ")",
       @_statement)
