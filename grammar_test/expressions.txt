@@ -101,6 +101,75 @@ Objects
     (pair (identifier) (number)))))
 
 ============================================
+Objects with method definitions
+============================================
+
+{
+  foo: true,
+
+  add(a, b) {
+    return a + b;
+  }
+};
+
+---
+
+(program
+  (expression_statement (object
+    (pair (identifier) (true))
+    (method_definition
+      (identifier)
+      (formal_parameters (identifier) (identifier))
+      (statement_block
+        (return_statement (math_op (identifier) (identifier))))))))
+
+============================================
+Classes
+============================================
+
+class Foo {
+  static one(a) { return a; };
+  two(b) { return b; }
+  three(c) { return c; }
+}
+
+class Foo extends require('another-class') {
+  constructor() {
+    super()
+  }
+}
+
+---
+
+(program
+  (expression_statement
+    (class
+      (identifier)
+      (class_body
+        (method_definition
+          (identifier)
+          (formal_parameters (identifier))
+          (statement_block (return_statement (identifier))))
+        (method_definition
+          (identifier)
+          (formal_parameters (identifier))
+          (statement_block (return_statement (identifier))))
+        (method_definition
+          (identifier)
+          (formal_parameters (identifier))
+          (statement_block (return_statement (identifier)))))))
+
+  (expression_statement
+    (class
+      (identifier)
+      (function_call (identifier) (arguments (string)))
+      (class_body
+        (method_definition
+          (identifier)
+          (statement_block
+            (expression_statement (function_call (super)))))))))
+
+============================================
 Arrays
 ============================================
 

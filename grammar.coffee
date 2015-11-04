@@ -35,6 +35,10 @@ module.exports = grammar
     /[ \t\r]/
   ]
 
+  expectedConflicts: -> [
+    [@_expression, @method_definition]
+  ]
+
   rules:
     program: -> repeat(@_statement)
 
@@ -197,6 +201,7 @@ module.exports = grammar
     _expression: -> choice(
       @object,
       @array,
+      @class,
       @function,
       @function_call,
       @new_expression,
@@ -224,10 +229,20 @@ module.exports = grammar
     )
 
     object: -> prec(PREC.OBJECT, seq(
-      "{", commaSep(err(@pair)), "}"))
+      "{",
+      commaSep(err(choice(
+        @method_definition,
+        @pair))),
+      "}"))
 
     array: -> seq(
       "[", commaSep(err(@_expression)), "]")
+
+    class: -> seq(
+      "class",
+      @identifier,
+      optional(seq("extends", @_expression)),
+      @class_body)
 
     function: -> seq(
       "function",
@@ -236,7 +251,7 @@ module.exports = grammar
       @statement_block)
 
     function_call: -> prec(PREC.CALL, seq(
-      @_expression,
+      choice(@_expression, @super),
       "(", err(optional(@arguments)), ")"))
 
     new_expression: -> prec(PREC.NEW, seq(
@@ -338,6 +353,8 @@ module.exports = grammar
 
     this_expression: -> "this"
 
+    super: -> "super"
+
     identifier: -> /[\a_$][\a\d_$]*/
 
     true: -> "true"
@@ -352,8 +369,23 @@ module.exports = grammar
     arguments: ->
       commaSep1(err(@_expression))
 
+    class_body: -> seq(
+      '{',
+      repeat(seq(
+        @method_definition,
+        optional(';'))),
+      '}')
+
     formal_parameters: ->
       commaSep1(@identifier)
+
+    method_definition: -> seq(
+      optional('static'),
+      @identifier,
+      '(',
+      optional(@formal_parameters),
+      ')',
+      @statement_block)
 
     pair: -> seq(
       choice(@identifier, @string, @number),
