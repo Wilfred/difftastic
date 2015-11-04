@@ -192,7 +192,7 @@ return this.map(function (a) {
   (function_call
     (member_access
       (function_call
-        (member_access (identifier) (identifier))
+        (member_access (this_expression) (identifier))
         (arguments
           (function (formal_parameters (identifier)) (statement_block
             (return_statement (member_access (identifier) (identifier)))))))
