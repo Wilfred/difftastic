@@ -199,6 +199,7 @@ module.exports = grammar
       @type_op,
       @_paren_expression,
 
+      @this_expression,
       @identifier,
       @number,
       @string,
