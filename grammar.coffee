@@ -322,6 +322,8 @@ module.exports = grammar
         /\d+/,
         optional(seq(".", /\d*/)))))
 
+    this_expression: -> "this"
+
     identifier: -> /[\a_$][\a\d_$]*/
 
     true: -> "true"
