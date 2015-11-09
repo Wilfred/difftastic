@@ -252,7 +252,7 @@ module.exports = grammar
       @identifier,
       seq(@identifier, "=", @_expression))
 
-    parameter_type_list: -> commaSep1(@parameter_declaration)
+    parameter_type_list: -> commaSep1(choice(@parameter_declaration, '...'))
 
     parameter_declaration: -> seq(
       optional(@_declaration_specifiers),

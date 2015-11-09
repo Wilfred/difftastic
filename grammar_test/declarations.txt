@@ -161,6 +161,7 @@ Function declarations
 
 int main(int argc, const char **argv);
 static foo bar();
+static baz quux(...);
 
 ---
 
@@ -176,7 +177,14 @@ static foo bar();
   (declaration
     (storage_class_specifier)
     (identifier)
-    (function_declarator (identifier))))
+    (function_declarator (identifier)))
+
+  (declaration
+    (storage_class_specifier)
+    (identifier)
+    (function_declarator
+      (identifier)
+      (parameter_type_list))))
 
 ============================================
 Function definitions
