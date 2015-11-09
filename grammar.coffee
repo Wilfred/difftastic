@@ -109,15 +109,15 @@ module.exports = grammar
       optional(@_declaration_specifiers),
       @_type_specifier,
       @_declarator,
-      optional(repeat(@declaration)),
       @compound_statement)
 
     declaration: -> seq(
-      optional(@_declaration_specifiers),
-      @_type_specifier,
-      commaSep(choice(
-        @_declarator
-        @init_declarator)),
+      err(seq(
+        optional(@_declaration_specifiers),
+        @_type_specifier,
+        commaSep(choice(
+          @_declarator,
+          @init_declarator)))),
       ";")
 
     _declaration_specifiers: -> repeat1(choice(

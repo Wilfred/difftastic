@@ -79,3 +79,16 @@ int main() {
       (declaration (identifier) (init_declarator
         (identifier)
         (ERROR (number_literal) (UNEXPECTED '1') (number_literal)))))))
+
+========================================
+Errors in declarations
+========================================
+
+float x WTF;
+int y = 5;
+
+---
+
+(translation_unit
+  (declaration (ERROR (identifier) (identifier) (UNEXPECTED 'W') (identifier)))
+  (declaration (identifier) (init_declarator (identifier) (number_literal))))
