@@ -206,6 +206,31 @@ function stuff() {}
     (identifier)
     (statement_block))))
 
+===================================================
+Arrow functions
+===================================================
+
+a => 1;
+() => 2;
+(d, e) => 3;
+(f, g) => {
+  return h;
+};
+
+---
+
+(program
+  (expression_statement (arrow_function
+    (identifier) (number)))
+  (expression_statement (arrow_function
+    (number)))
+  (expression_statement (arrow_function
+    (formal_parameters (identifier) (identifier)) (number)))
+  (expression_statement (arrow_function
+    (formal_parameters (identifier) (identifier))
+    (statement_block
+      (return_statement (identifier))))))
+
 ============================================
 Property access
 ============================================

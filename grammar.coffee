@@ -36,7 +36,8 @@ module.exports = grammar
   ]
 
   expectedConflicts: -> [
-    [@_expression, @method_definition]
+    [@_expression, @method_definition],
+    [@_expression, @formal_parameters]
   ]
 
   rules:
@@ -203,6 +204,7 @@ module.exports = grammar
       @array,
       @class,
       @function,
+      @arrow_function,
       @function_call,
       @new_expression,
       @member_access,
@@ -249,6 +251,15 @@ module.exports = grammar
       optional(@identifier),
       "(", optional(@formal_parameters), ")",
       @statement_block)
+
+    arrow_function: -> seq(
+      choice(
+        @identifier,
+        seq('(', optional(@formal_parameters), ')')),
+      '=>',
+      choice(
+        @_expression,
+        @statement_block))
 
     function_call: -> prec(PREC.CALL, seq(
       choice(@_expression, @super),
