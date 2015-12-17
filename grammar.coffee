@@ -18,6 +18,7 @@ PREC =
   TIMES: 6,
   TYPEOF: 7,
   DELETE: 7,
+  VOID: 7,
   NOT: 8,
   NEG: 9,
   INC: 10,
@@ -192,6 +193,7 @@ module.exports = grammar
       @rel_op,
       @type_op,
       @delete_op,
+      @void_op,
       @_paren_expression,
 
       @this_expression,
@@ -282,6 +284,9 @@ module.exports = grammar
     delete_op: -> prec(PREC.DELETE, seq(
       "delete",
       choice(@member_access, @subscript_access)))
+
+    void_op: -> prec(PREC.VOID, seq(
+      "void", @_expression))
 
     comma_op: -> prec(PREC.COMMA, seq(
       @_expression, ',', choice(@comma_op, @_expression)))

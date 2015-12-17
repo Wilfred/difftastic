@@ -419,6 +419,18 @@ true ? delete thing.prop : null;
       (delete_op (member_access (identifier) (identifier)))
       (null))))
 
+============================================
+The void operator
+============================================
+
+a = void b()
+
+---
+
+(program (expression_statement (assignment
+  (identifier)
+  (void_op (function_call (identifier))))))
+
 ==============================================
 Math assignment operators
 ==============================================
