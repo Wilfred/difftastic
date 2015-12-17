@@ -60,7 +60,7 @@ module.exports = grammar
     )
 
     expression_statement: -> seq(
-      err(@_expression), terminator)
+      err(choice(@_expression, @comma_op)), terminator)
 
     var_declaration: -> seq(
       choice("var", "const", "let"),
@@ -175,7 +175,7 @@ module.exports = grammar
       @_expression)
 
     _paren_expression: -> seq(
-      "(", err(@_expression), ")")
+      "(", err(choice(@_expression, @comma_op)), ")")
 
     #
     # Expressions
@@ -283,6 +283,9 @@ module.exports = grammar
       prec.left(PREC.TIMES, seq(@_expression, "*", @_expression)),
       prec.left(PREC.TIMES, seq(@_expression, "/", @_expression)),
       prec.left(PREC.TIMES, seq(@_expression, "%", @_expression)))
+
+    comma_op: -> prec(PREC.COMMA, seq(
+      @_expression, ',', choice(@comma_op, @_expression)))
 
     rel_op: -> choice(
       prec.left(PREC.REL, seq(@_expression, "<", @_expression)),

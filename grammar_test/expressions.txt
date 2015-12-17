@@ -350,6 +350,25 @@ x["y"] = 0;
     (number))))
 
 ==============================================
+The comma operator
+==============================================
+
+a = 1, b = 2;
+c = {d: (3, 4 + 5, 6)};
+
+---
+
+(program
+  (expression_statement (comma_op
+    (assignment (identifier) (number))
+    (assignment (identifier) (number))))
+  (expression_statement
+    (assignment (identifier) (object
+      (pair
+        (identifier)
+        (comma_op (number) (comma_op (math_op (number) (number)) (number))))))))
+
+==============================================
 Ternaries
 ==============================================
 
