@@ -350,6 +350,25 @@ x["y"] = 0;
     (number))))
 
 ==============================================
+The comma operator
+==============================================
+
+a = 1, b = 2;
+c = {d: (3, 4 + 5, 6)};
+
+---
+
+(program
+  (expression_statement (comma_op
+    (assignment (identifier) (number))
+    (assignment (identifier) (number))))
+  (expression_statement
+    (assignment (identifier) (object
+      (pair
+        (identifier)
+        (comma_op (number) (comma_op (math_op (number) (number)) (number))))))))
+
+==============================================
 Ternaries
 ==============================================
 
@@ -382,6 +401,35 @@ x instanceof String;
 (program
   (expression_statement (type_op (identifier)))
   (expression_statement (type_op (identifier) (identifier))))
+
+============================================
+The delete operator
+============================================
+
+delete thing['prop'];
+true ? delete thing.prop : null;
+
+---
+
+(program
+  (expression_statement
+    (delete_op (subscript_access (identifier) (string))))
+  (expression_statement
+    (ternary (true)
+      (delete_op (member_access (identifier) (identifier)))
+      (null))))
+
+============================================
+The void operator
+============================================
+
+a = void b()
+
+---
+
+(program (expression_statement (assignment
+  (identifier)
+  (void_op (function_call (identifier))))))
 
 ==============================================
 Math assignment operators
