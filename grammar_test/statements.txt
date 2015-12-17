@@ -274,16 +274,3 @@ try { f; } catch { g; } finally { h; }
       (statement_block (expression_statement (identifier))))
     (finally
       (statement_block (expression_statement (identifier))))))
-
-============================================
-Delete statements
-============================================
-
-delete thing.prop;
-delete thing['prop'];
-
----
-
-(program
-  (delete_statement (member_access (identifier) (identifier)))
-  (delete_statement (subscript_access (identifier) (string))))

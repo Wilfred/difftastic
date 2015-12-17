@@ -17,6 +17,7 @@ PREC =
   REL: 5,
   TIMES: 6,
   TYPEOF: 7,
+  DELETE: 7,
   NOT: 8,
   NEG: 9,
   INC: 10,
@@ -55,9 +56,7 @@ module.exports = grammar
 
       @break_statement,
       @return_statement,
-      @throw_statement,
-      @delete_statement,
-    )
+      @throw_statement)
 
     expression_statement: -> seq(
       err(choice(@_expression, @comma_op)), terminator)
@@ -140,11 +139,6 @@ module.exports = grammar
       @_expression,
       terminator)
 
-    delete_statement: -> seq(
-      "delete",
-      choice(@member_access, @subscript_access),
-      terminator)
-
     #
     # Statement components
     #
@@ -197,6 +191,7 @@ module.exports = grammar
       @bitwise_op,
       @rel_op,
       @type_op,
+      @delete_op,
       @_paren_expression,
 
       @this_expression,
@@ -283,6 +278,10 @@ module.exports = grammar
       prec.left(PREC.TIMES, seq(@_expression, "*", @_expression)),
       prec.left(PREC.TIMES, seq(@_expression, "/", @_expression)),
       prec.left(PREC.TIMES, seq(@_expression, "%", @_expression)))
+
+    delete_op: -> prec(PREC.DELETE, seq(
+      "delete",
+      choice(@member_access, @subscript_access)))
 
     comma_op: -> prec(PREC.COMMA, seq(
       @_expression, ',', choice(@comma_op, @_expression)))

@@ -402,6 +402,23 @@ x instanceof String;
   (expression_statement (type_op (identifier)))
   (expression_statement (type_op (identifier) (identifier))))
 
+============================================
+The delete operator
+============================================
+
+delete thing['prop'];
+true ? delete thing.prop : null;
+
+---
+
+(program
+  (expression_statement
+    (delete_op (subscript_access (identifier) (string))))
+  (expression_statement
+    (ternary (true)
+      (delete_op (member_access (identifier) (identifier)))
+      (null))))
+
 ==============================================
 Math assignment operators
 ==============================================
