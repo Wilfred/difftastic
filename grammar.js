@@ -394,7 +394,13 @@ module.exports = grammar({
     )),
 
     regex: $ => token(seq(
-      '/', repeat(choice(/[^\\\/\n]/, /\\./)), '/',
+      '/',
+      repeat(choice(
+        seq('[', /[^\]\n]*/, ']'), // square-bracket-delimited character class
+        seq('\\', /./),            // escaped character
+        /[^/\\\[\n]/               // any character besides '[', '\', '/', '\n'
+      )),
+      '/',
       repeat(/a-z/)
     )),
 
