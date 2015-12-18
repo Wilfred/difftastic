@@ -1,7 +1,14 @@
 language: node_js
 sudo: false
-before_script:
-  - "tree-sitter compile"
-  - "npm install"
 node_js:
-  - "0.12"
+  - "node"
+compiler: clang-3.6
+env:
+  - CXX=clang-3.6
+addons:
+  apt:
+    sources:
+      - llvm-toolchain-precise-3.6
+      - ubuntu-toolchain-r-test
+    packages:
+      - clang-3.6
