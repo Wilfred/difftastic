@@ -431,12 +431,10 @@ module.exports = grammar({
       )
     )),
 
-    this_expression: $ => 'this',
-
-    super: $ => 'super',
-
     identifier: $ => (/[\a_$][\a\d_$]*/),
 
+    this_expression: $ => 'this',
+    super: $ => 'super',
     true: $ => 'true',
     false: $ => 'false',
     null: $ => 'null',
