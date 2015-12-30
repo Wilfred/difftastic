@@ -74,101 +74,101 @@ module.exports = grammar({
     ),
 
     statement_block: $ => seq(
-      "{", err(repeat($._statement)), "}"
+      '{', err(repeat($._statement)), '}'
     ),
 
-    if_statement: $ => prec.right(0, seq(
-      "if",
+    if_statement: $ => prec.right(seq(
+      'if',
       $._paren_expression,
       $._statement,
       optional(seq(
-        "else",
+        'else',
         $._statement
       ))
     )),
 
     switch_statement: $ => seq(
-      "switch",
-      "(", $._expression, ")",
-      "{", repeat(choice($.case, $.default)), "}"
+      'switch',
+      '(', $._expression, ')',
+      '{', repeat(choice($.case, $.default)), '}'
     ),
 
     for_statement: $ => seq(
-      "for",
-      "(",
+      'for',
+      '(',
       choice(
         $.var_declaration,
-        seq(err(commaSep1($._expression)), ";"),
-        ";"
+        seq(err(commaSep1($._expression)), ';'),
+        ';'
       ),
-      optional(err($._expression)), ";",
+      optional(err($._expression)), ';',
       optional(err($._expression)),
-      ")",
+      ')',
       $._statement
     ),
 
     for_in_statement: $ => seq(
-      "for",
-      "(",
+      'for',
+      '(',
       optional(variableType()),
       $._expression,
-      "in",
+      'in',
       $._expression,
-      ")",
+      ')',
       $._statement
     ),
 
     for_of_statement: $ => seq(
-      "for",
-      "(",
+      'for',
+      '(',
       optional(variableType()),
       $._expression,
-      "of",
+      'of',
       $._expression,
-      ")",
+      ')',
       $._statement
     ),
 
     while_statement: $ => seq(
-      "while",
+      'while',
       $._paren_expression,
       $._statement
     ),
 
     do_statement: $ => seq(
-      "do",
+      'do',
       $.statement_block,
-      "while",
+      'while',
       $._paren_expression,
       terminator()
     ),
 
     try_statement: $ => seq(
-      "try",
+      'try',
       $.statement_block,
       optional($.catch),
       optional($.finally)
     ),
 
     break_statement: $ => seq(
-      "break",
+      'break',
       terminator()
     ),
 
     return_statement: $ => seq(
-      "return",
+      'return',
       optional($._expression),
       terminator()
     ),
 
     yield_statement: $ => seq(
-      "yield",
+      'yield',
       optional($._expression),
       terminator()
     ),
 
     throw_statement: $ => seq(
-      "throw",
+      'throw',
       $._expression,
       terminator()
     ),
@@ -178,37 +178,37 @@ module.exports = grammar({
     //
 
     case: $ => seq(
-      "case",
+      'case',
       $._expression,
-      ":",
+      ':',
       repeat($._statement)
     ),
 
     default: $ => seq(
-      "default",
-      ":",
+      'default',
+      ':',
       repeat($._statement)
     ),
 
     catch: $ => seq(
-      "catch",
-      optional(seq("(", $.identifier, ")")),
+      'catch',
+      optional(seq('(', $.identifier, ')')),
       $.statement_block
     ),
 
     finally: $ => seq(
-      "finally",
+      'finally',
       $.statement_block
     ),
 
     var_assignment: $ => seq(
       $.identifier,
-      "=",
+      '=',
       $._expression
     ),
 
     _paren_expression: $ => seq(
-      "(", err(choice($._expression, $.comma_op)), ")"
+      '(', err(choice($._expression, $.comma_op)), ')'
     ),
 
     //
@@ -250,24 +250,24 @@ module.exports = grammar({
     ),
 
     object: $ => prec(PREC.OBJECT, seq(
-      "{", commaSep(err(choice($.pair, $.method_definition))), "}"
+      '{', commaSep(err(choice($.pair, $.method_definition))), '}'
     )),
 
     array: $ => seq(
-      "[", commaSep(err($._expression)), "]"
+      '[', commaSep(err($._expression)), ']'
     ),
 
     class: $ => seq(
-      "class",
+      'class',
       $.identifier,
-      optional(seq("extends", $._expression)),
+      optional(seq('extends', $._expression)),
       $.class_body
     ),
 
     function: $ => seq(
-      "function",
+      'function',
       optional($.identifier),
-      "(", optional($.formal_parameters), ")",
+      '(', optional($.formal_parameters), ')',
       $.statement_block
     ),
 
@@ -284,32 +284,32 @@ module.exports = grammar({
     ),
 
     generator_function: $ => seq(
-      "function",
+      'function',
       '*',
       optional($.identifier),
-      "(", optional($.formal_parameters), ")",
+      '(', optional($.formal_parameters), ')',
       $.statement_block
     ),
 
     function_call: $ => prec(PREC.CALL, seq(
       choice($._expression, $.super),
-      "(", err(optional($.arguments)), ")"
+      '(', err(optional($.arguments)), ')'
     )),
 
     new_expression: $ => prec(PREC.NEW, seq(
-      "new",
+      'new',
       $._expression
     )),
 
     member_access: $ => prec(PREC.MEMBER, seq(
       $._expression,
-      ".",
+      '.',
       $.identifier
     )),
 
     subscript_access: $ => prec.right(PREC.MEMBER, seq(
       $._expression,
-      "[", err($._expression), "]"
+      '[', err($._expression), ']'
     )),
 
     assignment: $ => prec.right(PREC.ASSIGN, seq(
@@ -318,7 +318,7 @@ module.exports = grammar({
         $.member_access,
         $.subscript_access
       ),
-      "=",
+      '=',
       $._expression
     )),
 
@@ -328,50 +328,50 @@ module.exports = grammar({
         $.member_access,
         $.subscript_access
       ),
-      choice("+=", "-=", "*=", "/="),
+      choice('+=', '-=', '*=', '/='),
       $._expression
     )),
 
     ternary: $ => prec.right(PREC.TERNARY, seq(
-      $._expression, "?", $._expression, ":", $._expression
+      $._expression, '?', $._expression, ':', $._expression
     )),
 
     bool_op: $ => choice(
-      prec.left(PREC.NOT, seq("!", $._expression)),
-      prec.left(PREC.AND, seq($._expression, "&&", $._expression)),
-      prec.left(PREC.OR, seq($._expression, "||", $._expression))
+      prec.left(PREC.NOT, seq('!', $._expression)),
+      prec.left(PREC.AND, seq($._expression, '&&', $._expression)),
+      prec.left(PREC.OR, seq($._expression, '||', $._expression))
     ),
 
     bitwise_op: $ => choice(
-      prec.left(PREC.NOT, seq("~", $._expression)),
-      prec.left(PREC.TIMES, seq($._expression, ">>", $._expression)),
-      prec.left(PREC.TIMES, seq($._expression, "<<", $._expression)),
-      prec.left(PREC.AND, seq($._expression, "&", $._expression)),
-      prec.left(PREC.OR, seq($._expression, "^", $._expression)),
-      prec.left(PREC.OR, seq($._expression, "|", $._expression))
+      prec.left(PREC.NOT, seq('~', $._expression)),
+      prec.left(PREC.TIMES, seq($._expression, '>>', $._expression)),
+      prec.left(PREC.TIMES, seq($._expression, '<<', $._expression)),
+      prec.left(PREC.AND, seq($._expression, '&', $._expression)),
+      prec.left(PREC.OR, seq($._expression, '^', $._expression)),
+      prec.left(PREC.OR, seq($._expression, '|', $._expression))
     ),
 
     math_op: $ => choice(
-      prec.left(PREC.NEG, seq("-", $._expression)),
-      prec.left(PREC.NEG, seq("+", $._expression)),
-      prec.left(PREC.INC, seq($._expression, "++")),
-      prec.left(PREC.INC, seq($._expression, "--")),
-      prec.left(PREC.INC, seq("++", $._expression)),
-      prec.left(PREC.INC, seq("--", $._expression)),
-      prec.left(PREC.PLUS, seq($._expression, "+", $._expression)),
-      prec.left(PREC.PLUS, seq($._expression, "-", $._expression)),
-      prec.left(PREC.TIMES, seq($._expression, "*", $._expression)),
-      prec.left(PREC.TIMES, seq($._expression, "/", $._expression)),
-      prec.left(PREC.TIMES, seq($._expression, "%", $._expression))
+      prec.left(PREC.NEG, seq('-', $._expression)),
+      prec.left(PREC.NEG, seq('+', $._expression)),
+      prec.left(PREC.INC, seq($._expression, '++')),
+      prec.left(PREC.INC, seq($._expression, '--')),
+      prec.left(PREC.INC, seq('++', $._expression)),
+      prec.left(PREC.INC, seq('--', $._expression)),
+      prec.left(PREC.PLUS, seq($._expression, '+', $._expression)),
+      prec.left(PREC.PLUS, seq($._expression, '-', $._expression)),
+      prec.left(PREC.TIMES, seq($._expression, '*', $._expression)),
+      prec.left(PREC.TIMES, seq($._expression, '/', $._expression)),
+      prec.left(PREC.TIMES, seq($._expression, '%', $._expression))
     ),
 
     delete_op: $ => prec(PREC.DELETE, seq(
-      "delete",
+      'delete',
       choice($.member_access, $.subscript_access))
     ),
 
     void_op: $ => prec(PREC.VOID, seq(
-      "void", $._expression)
+      'void', $._expression)
     ),
 
     comma_op: $ => prec(PREC.COMMA, seq(
@@ -379,20 +379,20 @@ module.exports = grammar({
     ),
 
     rel_op: $ => choice(
-      prec.left(PREC.REL, seq($._expression, "<", $._expression)),
-      prec.left(PREC.REL, seq($._expression, "<=", $._expression)),
-      prec.left(PREC.REL, seq($._expression, "==", $._expression)),
-      prec.left(PREC.REL, seq($._expression, "===", $._expression)),
-      prec.left(PREC.REL, seq($._expression, "!=", $._expression)),
-      prec.left(PREC.REL, seq($._expression, "!==", $._expression)),
-      prec.left(PREC.REL, seq($._expression, ">=", $._expression)),
-      prec.left(PREC.REL, seq($._expression, ">", $._expression))
+      prec.left(PREC.REL, seq($._expression, '<', $._expression)),
+      prec.left(PREC.REL, seq($._expression, '<=', $._expression)),
+      prec.left(PREC.REL, seq($._expression, '==', $._expression)),
+      prec.left(PREC.REL, seq($._expression, '===', $._expression)),
+      prec.left(PREC.REL, seq($._expression, '!=', $._expression)),
+      prec.left(PREC.REL, seq($._expression, '!==', $._expression)),
+      prec.left(PREC.REL, seq($._expression, '>=', $._expression)),
+      prec.left(PREC.REL, seq($._expression, '>', $._expression))
     ),
 
     type_op: $ => choice(
-      prec(PREC.TYPEOF, seq("typeof", $._expression)),
-      prec.left(PREC.REL, seq($._expression, "instanceof", $._expression)),
-      prec.left(PREC.REL, seq($._expression, "in", $._expression))
+      prec(PREC.TYPEOF, seq('typeof', $._expression)),
+      prec.left(PREC.REL, seq($._expression, 'instanceof', $._expression)),
+      prec.left(PREC.REL, seq($._expression, 'in', $._expression))
     ),
 
     //
@@ -400,8 +400,8 @@ module.exports = grammar({
     //
 
     comment: $ => token(choice(
-      seq("//", /.*/),
-      seq("/*", repeat(choice(/[^\*]/, /\*[^\/]/)), "*/")
+      seq('//', /.*/),
+      seq('/*', repeat(choice(/[^\*]/, /\*[^\/]/)), '*/')
     )),
 
     string: $ => token(choice(
@@ -422,25 +422,25 @@ module.exports = grammar({
 
     number: $ => token(choice(
       seq(
-        "0x",
+        '0x',
         /[\da-fA-F]+/
       ),
       seq(
         /\d+/,
-        optional(seq(".", /\d*/))
+        optional(seq('.', /\d*/))
       )
     )),
 
-    this_expression: $ => "this",
+    this_expression: $ => 'this',
 
-    super: $ => "super",
+    super: $ => 'super',
 
     identifier: $ => (/[\a_$][\a\d_$]*/),
 
-    true: $ => "true",
-    false: $ => "false",
-    null: $ => "null",
-    undefined: $ => "undefined",
+    true: $ => 'true',
+    false: $ => 'false',
+    null: $ => 'null',
+    undefined: $ => 'undefined',
 
     //
     // Expression components
@@ -470,7 +470,7 @@ module.exports = grammar({
 
     pair: $ => seq(
       choice($.identifier, $.string, $.number),
-      ":",
+      ':',
       $._expression
     ),
 
@@ -479,7 +479,7 @@ module.exports = grammar({
 });
 
 function commaSep1 (rule) {
-  return seq(rule, repeat(seq(",", rule)));
+  return seq(rule, repeat(seq(',', rule)));
 }
 
 function commaSep (rule) {
@@ -487,9 +487,9 @@ function commaSep (rule) {
 }
 
 function terminator () {
-  return choice(";", sym('_line_break'));
+  return choice(';', sym('_line_break'));
 }
 
 function variableType () {
-  return choice("var", "let", "const");
+  return choice('var', 'let', 'const');
 }
