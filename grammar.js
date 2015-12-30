@@ -56,6 +56,7 @@ module.exports = grammar({
 
       $.break_statement,
       $.return_statement,
+      $.yield_statement,
       $.throw_statement
     ),
 
@@ -160,6 +161,12 @@ module.exports = grammar({
       terminator()
     ),
 
+    yield_statement: $ => seq(
+      "yield",
+      optional($._expression),
+      terminator()
+    ),
+
     throw_statement: $ => seq(
       "throw",
       $._expression,
@@ -214,6 +221,7 @@ module.exports = grammar({
       $.class,
       $.function,
       $.arrow_function,
+      $.generator_function,
       $.function_call,
       $.new_expression,
       $.member_access,
@@ -273,6 +281,14 @@ module.exports = grammar({
         $._expression,
         $.statement_block
       )
+    ),
+
+    generator_function: $ => seq(
+      "function",
+      '*',
+      optional($.identifier),
+      "(", optional($.formal_parameters), ")",
+      $.statement_block
     ),
 
     function_call: $ => prec(PREC.CALL, seq(
