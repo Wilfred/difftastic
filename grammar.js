@@ -31,13 +31,16 @@ module.exports = grammar({
   conflicts: $ => [
     [$._type_specifier, $._expression],
     [$.sizeof_expression, $.cast_expression],
+    [$._type_specifier, $._expression, $.macro_type_specifier],
+    [$._type_specifier, $.macro_type_specifier],
   ],
 
   rules: {
     translation_unit: $ => repeat(choice(
       $._preproc_statement,
       $.function_definition,
-      $.declaration
+      $.declaration,
+      $._empty_declaration
     )),
 
     // Preprocesser
@@ -120,10 +123,11 @@ module.exports = grammar({
       err(seq(
         optional($._declaration_specifiers),
         $._type_specifier,
-        commaSep(choice(
+        commaSep1(choice(
           $._declarator,
           $.init_declarator)))),
-      ';'),
+      ';'
+    ),
 
     _declaration_specifiers: $ => repeat1(choice(
       $.storage_class_specifier,
@@ -197,7 +201,7 @@ module.exports = grammar({
 
     compound_statement: $ => seq(
       '{',
-      err(repeat(choice($.declaration, $._statement))),
+      err(repeat(choice($.declaration, $._empty_declaration, $._statement))),
       '}'
     ),
 
@@ -221,6 +225,7 @@ module.exports = grammar({
       $.struct_specifier,
       $.union_specifier,
       $.enum_specifier,
+      $.macro_type_specifier,
       $.sized_type_specifier,
       $.identifier
     ),
@@ -580,6 +585,19 @@ module.exports = grammar({
     ),
 
     identifier: $ => (/[\a_][\a\d_]*/),
+
+    _empty_declaration: $ => seq(
+      optional($._declaration_specifiers),
+      $._type_specifier,
+      ';'
+    ),
+
+    macro_type_specifier: $ => seq(
+      $.identifier,
+      '(',
+      $._type_specifier,
+      ')'
+    ),
 
     comment: $ => token(choice(
       seq(

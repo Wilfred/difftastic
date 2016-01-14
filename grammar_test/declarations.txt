@@ -12,10 +12,10 @@ struct s2 {
 ---
 
 (translation_unit
-  (declaration (struct_specifier (identifier)))
-  (declaration (struct_specifier (identifier)
+  (struct_specifier (identifier))
+  (struct_specifier (identifier)
     (struct_declaration (identifier) (identifier))
-    (struct_declaration (identifier) (identifier) (number_literal)))))
+    (struct_declaration (identifier) (identifier) (number_literal))))
 
 ============================================
 Union declarations
@@ -31,10 +31,10 @@ union s2 {
 ---
 
 (translation_unit
-  (declaration (union_specifier (identifier)))
-  (declaration (union_specifier (identifier)
+  (union_specifier (identifier))
+  (union_specifier (identifier)
     (struct_declaration (identifier) (identifier))
-    (struct_declaration (identifier) (identifier)))))
+    (struct_declaration (identifier) (identifier))))
 
 ============================================
 Enum declarations
@@ -55,13 +55,13 @@ enum e3 {
 ---
 
 (translation_unit
-  (declaration (enum_specifier (identifier)))
-  (declaration (enum_specifier (identifier)
+  (enum_specifier (identifier))
+  (enum_specifier (identifier)
     (enumerator (identifier))
     (enumerator (identifier) (number_literal))
+    (enumerator (identifier)))
+  (enum_specifier (identifier)
     (enumerator (identifier))))
-  (declaration (enum_specifier (identifier)
-    (enumerator (identifier)))))
 
 ============================================
 Primitive-typed variable declarations
