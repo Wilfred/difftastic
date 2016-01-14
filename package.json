@@ -1,7 +1,7 @@
 {
-  "name": "tree-sitter-javascript",
+  "name": "tree-sitter-json",
   "version": "0.0.8",
-  "description": "Javascript grammar for node-tree-sitter",
+  "description": "JSON grammar for node-tree-sitter",
   "main": "index.js",
   "keywords": [
     "parser",
