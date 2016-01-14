@@ -1,0 +1,35 @@
+===================
+arrays
+===================
+
+[
+  333,
+  null,
+  true,
+  false,
+  { "stuff": "good" }
+]
+
+---
+
+(array
+  (number)
+  (null)
+  (true)
+  (false)
+  (object (pair (string) (string))))
+
+===================
+long objects
+===================
+
+{
+  "key1": "value1",
+  "key2": 1
+}
+
+---
+
+(object
+  (pair (string) (string))
+  (pair (string) (number)))

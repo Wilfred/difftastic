@@ -1,0 +1,22 @@
+{
+  "name": "tree-sitter-javascript",
+  "version": "0.0.8",
+  "description": "Javascript grammar for node-tree-sitter",
+  "main": "index.js",
+  "keywords": [
+    "parser",
+    "lexer"
+  ],
+  "author": "Max Brunsfeld",
+  "license": "MIT",
+  "dependencies": {
+    "nan": "^2.0.0"
+  },
+  "devDependencies": {
+    "tree-sitter-compiler": ">= 0.0.21"
+  },
+  "scripts": {
+    "prepublish": "tree-sitter compile && node-gyp build",
+    "test": "tree-sitter test"
+  }
+}
