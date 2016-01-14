@@ -30,7 +30,6 @@ module.exports = grammar({
 
   conflicts: $ => [
     [$._type_specifier, $._expression],
-    [$._type_specifier, $.direct_declarator],
     [$.sizeof_expression, $.cast_expression],
   ],
 
