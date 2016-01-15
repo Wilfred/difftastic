@@ -1,0 +1,28 @@
+==========================================
+property access across lines
+==========================================
+
+object
+  .someProperty
+  .otherProperty
+
+---
+
+(program (expression_statement
+  (member_access
+    (member_access (identifier) (identifier))
+    (identifier))))
+
+===========================================
+indented code after blocks
+===========================================
+
+  function x() {}
+  return z;
+
+---
+
+(program
+  (expression_statement
+    (function (identifier) (statement_block)))
+  (return_statement (identifier)))

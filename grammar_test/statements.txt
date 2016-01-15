@@ -104,6 +104,24 @@ for (item in items)
   (for_in_statement (identifier) (identifier)
     (expression_statement (function_call (identifier)))))
 
+==========================================
+For loops beginning with an in-expression
+==========================================
+
+for (key in something && i = 0; i < n; i++) {
+  doSomething();
+}
+
+---
+
+(program (for_statement
+  (bool_op
+    (type_op (identifier) (identifier))
+    (assignment (identifier) (number)))
+  (rel_op (identifier) (identifier))
+  (math_op (identifier))
+  (statement_block (expression_statement (function_call (identifier))))))
+
 ============================================
 While statements
 ============================================
@@ -186,6 +204,54 @@ Comments
     (pair (identifier) (number))
     (comment)
     (pair (identifier) (function (statement_block))))))
+
+==========================================
+Comments between statements
+==========================================
+
+// this is the beginning of the script.
+// here we go.
+var thing = {
+
+  // this is a property.
+  // its value is a function.
+  key: function(x /* this is a parameter */) {
+    // this is one statement
+    one();
+    // this is another statement
+    two();
+  }
+};
+
+---
+
+(program
+  (comment)
+  (comment)
+  (var_declaration (var_assignment
+    (identifier)
+    (object
+      (comment)
+      (comment)
+      (pair (identifier) (function
+        (formal_parameters (identifier)) (comment)
+        (statement_block
+          (comment)
+          (expression_statement (function_call (identifier)))
+          (comment)
+          (expression_statement (function_call (identifier))))))))))
+
+==========================================
+Comments within expressions
+==========================================
+
+y // comment
+  * z;
+
+---
+
+(program (expression_statement
+  (math_op (identifier) (comment) (identifier))))
 
 ============================================
 Automatic semicolon insertion
