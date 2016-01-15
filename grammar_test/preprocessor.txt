@@ -21,11 +21,13 @@ Object-like macro definitions
   c == d ? \
   e : \
   f
+#define FOUR mno
 
 ---
 
 (translation_unit
   (preproc_def (identifier))
+  (preproc_def (identifier) (preproc_arg))
   (preproc_def (identifier) (preproc_arg))
   (preproc_def (identifier) (preproc_arg)))
 
