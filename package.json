@@ -14,6 +14,9 @@
     "nan": "^2.0.0"
   },
   "devDependencies": {
+    "acorn": "^2.6.4",
+    "babylon": "^6.3.26",
+    "esprima": "^2.7.1",
     "tree-sitter-compiler": ">= 0.0.21"
   },
   "scripts": {
