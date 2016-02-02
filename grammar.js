@@ -16,7 +16,7 @@ const PREC = {
   INC: 10,
   NEW: 11,
   CALL: 12,
-  MEMBER: 13,
+  MEMBER: 13
 };
 
 module.exports = grammar({
@@ -26,6 +26,11 @@ module.exports = grammar({
     $.comment,
     $._line_break,
     /[ \t\r]/
+  ],
+
+  conflicts: $ => [
+    [$._expression, $.method_definition],
+    [$._expression, $.formal_parameters]
   ],
 
   rules: {
@@ -44,12 +49,14 @@ module.exports = grammar({
       $.switch_statement,
       $.for_statement,
       $.for_in_statement,
+      $.for_of_statement,
       $.while_statement,
       $.do_statement,
       $.try_statement,
 
       $.break_statement,
       $.return_statement,
+      $.yield_statement,
       $.throw_statement
     ),
 
@@ -58,7 +65,7 @@ module.exports = grammar({
     ),
 
     var_declaration: $ => seq(
-      choice("var", "const", "let"),
+      variableType(),
       commaSep1(err(choice(
         $.identifier,
         $.var_assignment
@@ -67,84 +74,101 @@ module.exports = grammar({
     ),
 
     statement_block: $ => seq(
-      "{", err(repeat($._statement)), "}"
+      '{', err(repeat($._statement)), '}'
     ),
 
-    if_statement: $ => prec.right(0, seq(
-      "if",
+    if_statement: $ => prec.right(seq(
+      'if',
       $._paren_expression,
       $._statement,
       optional(seq(
-        "else",
+        'else',
         $._statement
       ))
     )),
 
     switch_statement: $ => seq(
-      "switch",
-      "(", $._expression, ")",
-      "{", repeat(choice($.case, $.default)), "}"
+      'switch',
+      '(', $._expression, ')',
+      '{', repeat(choice($.case, $.default)), '}'
     ),
 
     for_statement: $ => seq(
-      "for",
-      "(",
+      'for',
+      '(',
       choice(
         $.var_declaration,
-        seq(err(commaSep1($._expression)), ";"),
-        ";"
+        seq(err(commaSep1($._expression)), ';'),
+        ';'
       ),
-      optional(err($._expression)), ";",
+      optional(err($._expression)), ';',
       optional(err($._expression)),
-      ")",
+      ')',
       $._statement
     ),
 
     for_in_statement: $ => seq(
-      "for",
-      "(",
-      optional("var"),
+      'for',
+      '(',
+      optional(variableType()),
       $._expression,
-      "in",
+      'in',
       $._expression,
-      ")",
+      ')',
+      $._statement
+    ),
+
+    for_of_statement: $ => seq(
+      'for',
+      '(',
+      optional(variableType()),
+      $._expression,
+      'of',
+      $._expression,
+      ')',
       $._statement
     ),
 
     while_statement: $ => seq(
-      "while",
+      'while',
       $._paren_expression,
       $._statement
     ),
 
     do_statement: $ => seq(
-      "do",
+      'do',
       $.statement_block,
-      "while",
+      'while',
       $._paren_expression,
       terminator()
     ),
 
     try_statement: $ => seq(
-      "try",
+      'try',
       $.statement_block,
       optional($.catch),
       optional($.finally)
     ),
 
     break_statement: $ => seq(
-      "break",
+      'break',
       terminator()
     ),
 
     return_statement: $ => seq(
-      "return",
+      'return',
+      optional($._expression),
+      terminator()
+    ),
+
+    yield_statement: $ => seq(
+      'yield',
       optional($._expression),
       terminator()
     ),
 
     throw_statement: $ => seq(
-      "throw",
+      'throw',
       $._expression,
       terminator()
     ),
@@ -154,37 +178,37 @@ module.exports = grammar({
     //
 
     case: $ => seq(
-      "case",
+      'case',
       $._expression,
-      ":",
+      ':',
       repeat($._statement)
     ),
 
     default: $ => seq(
-      "default",
-      ":",
+      'default',
+      ':',
       repeat($._statement)
     ),
 
     catch: $ => seq(
-      "catch",
-      optional(seq("(", $.identifier, ")")),
+      'catch',
+      optional(seq('(', $.identifier, ')')),
       $.statement_block
     ),
 
     finally: $ => seq(
-      "finally",
+      'finally',
       $.statement_block
     ),
 
     var_assignment: $ => seq(
       $.identifier,
-      "=",
+      '=',
       $._expression
     ),
 
     _paren_expression: $ => seq(
-      "(", err(choice($._expression, $.comma_op)), ")"
+      '(', err(choice($._expression, $.comma_op)), ')'
     ),
 
     //
@@ -194,7 +218,10 @@ module.exports = grammar({
     _expression: $ => choice(
       $.object,
       $.array,
+      $.class,
       $.function,
+      $.arrow_function,
+      $.generator_function,
       $.function_call,
       $.new_expression,
       $.member_access,
@@ -215,6 +242,7 @@ module.exports = grammar({
       $.identifier,
       $.number,
       $.string,
+      $.template_string,
       $.regex,
       $.true,
       $.false,
@@ -223,39 +251,66 @@ module.exports = grammar({
     ),
 
     object: $ => prec(PREC.OBJECT, seq(
-      "{", commaSep(err($.pair)), "}"
+      '{', commaSep(err(choice($.pair, $.method_definition))), '}'
     )),
 
     array: $ => seq(
-      "[", commaSep(err($._expression)), "]"
+      '[', commaSep(err($._expression)), ']'
+    ),
+
+    class: $ => seq(
+      'class',
+      $.identifier,
+      optional(seq('extends', $._expression)),
+      $.class_body
     ),
 
     function: $ => seq(
-      "function",
+      'function',
       optional($.identifier),
-      "(", optional($.formal_parameters), ")",
+      '(', optional($.formal_parameters), ')',
+      $.statement_block
+    ),
+
+    arrow_function: $ => seq(
+      choice(
+        $.identifier,
+        seq('(', optional($.formal_parameters), ')')
+      ),
+      '=>',
+      choice(
+        $._expression,
+        $.statement_block
+      )
+    ),
+
+    generator_function: $ => seq(
+      'function',
+      '*',
+      optional($.identifier),
+      '(', optional($.formal_parameters), ')',
       $.statement_block
     ),
 
     function_call: $ => prec(PREC.CALL, seq(
-      $._expression,
-      "(", err(optional($.arguments)), ")"
+      choice($._expression, $.super),
+      '(', err(optional($.arguments)), ')'
     )),
 
     new_expression: $ => prec(PREC.NEW, seq(
-      "new",
+      'new',
       $._expression
     )),
 
     member_access: $ => prec(PREC.MEMBER, seq(
       $._expression,
-      ".",
+      '.',
       $.identifier
     )),
 
     subscript_access: $ => prec.right(PREC.MEMBER, seq(
       $._expression,
-      "[", err($._expression), "]"
+      '[', err($._expression), ']'
     )),
 
     assignment: $ => prec.right(PREC.ASSIGN, seq(
@@ -264,7 +319,7 @@ module.exports = grammar({
         $.member_access,
         $.subscript_access
       ),
-      "=",
+      '=',
       $._expression
     )),
 
@@ -274,50 +329,50 @@ module.exports = grammar({
         $.member_access,
         $.subscript_access
       ),
-      choice("+=", "-=", "*=", "/="),
+      choice('+=', '-=', '*=', '/='),
       $._expression
     )),
 
     ternary: $ => prec.right(PREC.TERNARY, seq(
-      $._expression, "?", $._expression, ":", $._expression
+      $._expression, '?', $._expression, ':', $._expression
     )),
 
     bool_op: $ => choice(
-      prec.left(PREC.NOT, seq("!", $._expression)),
-      prec.left(PREC.AND, seq($._expression, "&&", $._expression)),
-      prec.left(PREC.OR, seq($._expression, "||", $._expression))
+      prec.left(PREC.NOT, seq('!', $._expression)),
+      prec.left(PREC.AND, seq($._expression, '&&', $._expression)),
+      prec.left(PREC.OR, seq($._expression, '||', $._expression))
     ),
 
     bitwise_op: $ => choice(
-      prec.left(PREC.NOT, seq("~", $._expression)),
-      prec.left(PREC.TIMES, seq($._expression, ">>", $._expression)),
-      prec.left(PREC.TIMES, seq($._expression, "<<", $._expression)),
-      prec.left(PREC.AND, seq($._expression, "&", $._expression)),
-      prec.left(PREC.OR, seq($._expression, "^", $._expression)),
-      prec.left(PREC.OR, seq($._expression, "|", $._expression))
+      prec.left(PREC.NOT, seq('~', $._expression)),
+      prec.left(PREC.TIMES, seq($._expression, '>>', $._expression)),
+      prec.left(PREC.TIMES, seq($._expression, '<<', $._expression)),
+      prec.left(PREC.AND, seq($._expression, '&', $._expression)),
+      prec.left(PREC.OR, seq($._expression, '^', $._expression)),
+      prec.left(PREC.OR, seq($._expression, '|', $._expression))
     ),
 
     math_op: $ => choice(
-      prec.left(PREC.NEG, seq("-", $._expression)),
-      prec.left(PREC.NEG, seq("+", $._expression)),
-      prec.left(PREC.INC, seq($._expression, "++")),
-      prec.left(PREC.INC, seq($._expression, "--")),
-      prec.left(PREC.INC, seq("++", $._expression)),
-      prec.left(PREC.INC, seq("--", $._expression)),
-      prec.left(PREC.PLUS, seq($._expression, "+", $._expression)),
-      prec.left(PREC.PLUS, seq($._expression, "-", $._expression)),
-      prec.left(PREC.TIMES, seq($._expression, "*", $._expression)),
-      prec.left(PREC.TIMES, seq($._expression, "/", $._expression)),
-      prec.left(PREC.TIMES, seq($._expression, "%", $._expression))
+      prec.left(PREC.NEG, seq('-', $._expression)),
+      prec.left(PREC.NEG, seq('+', $._expression)),
+      prec.left(PREC.INC, seq($._expression, '++')),
+      prec.left(PREC.INC, seq($._expression, '--')),
+      prec.left(PREC.INC, seq('++', $._expression)),
+      prec.left(PREC.INC, seq('--', $._expression)),
+      prec.left(PREC.PLUS, seq($._expression, '+', $._expression)),
+      prec.left(PREC.PLUS, seq($._expression, '-', $._expression)),
+      prec.left(PREC.TIMES, seq($._expression, '*', $._expression)),
+      prec.left(PREC.TIMES, seq($._expression, '/', $._expression)),
+      prec.left(PREC.TIMES, seq($._expression, '%', $._expression))
     ),
 
     delete_op: $ => prec(PREC.DELETE, seq(
-      "delete",
+      'delete',
       choice($.member_access, $.subscript_access))
     ),
 
     void_op: $ => prec(PREC.VOID, seq(
-      "void", $._expression)
+      'void', $._expression)
     ),
 
     comma_op: $ => prec(PREC.COMMA, seq(
@@ -325,20 +380,20 @@ module.exports = grammar({
     ),
 
     rel_op: $ => choice(
-      prec.left(PREC.REL, seq($._expression, "<", $._expression)),
-      prec.left(PREC.REL, seq($._expression, "<=", $._expression)),
-      prec.left(PREC.REL, seq($._expression, "==", $._expression)),
-      prec.left(PREC.REL, seq($._expression, "===", $._expression)),
-      prec.left(PREC.REL, seq($._expression, "!=", $._expression)),
-      prec.left(PREC.REL, seq($._expression, "!==", $._expression)),
-      prec.left(PREC.REL, seq($._expression, ">=", $._expression)),
-      prec.left(PREC.REL, seq($._expression, ">", $._expression))
+      prec.left(PREC.REL, seq($._expression, '<', $._expression)),
+      prec.left(PREC.REL, seq($._expression, '<=', $._expression)),
+      prec.left(PREC.REL, seq($._expression, '==', $._expression)),
+      prec.left(PREC.REL, seq($._expression, '===', $._expression)),
+      prec.left(PREC.REL, seq($._expression, '!=', $._expression)),
+      prec.left(PREC.REL, seq($._expression, '!==', $._expression)),
+      prec.left(PREC.REL, seq($._expression, '>=', $._expression)),
+      prec.left(PREC.REL, seq($._expression, '>', $._expression))
     ),
 
     type_op: $ => choice(
-      prec(PREC.TYPEOF, seq("typeof", $._expression)),
-      prec.left(PREC.REL, seq($._expression, "instanceof", $._expression)),
-      prec.left(PREC.REL, seq($._expression, "in", $._expression))
+      prec(PREC.TYPEOF, seq('typeof', $._expression)),
+      prec.left(PREC.REL, seq($._expression, 'instanceof', $._expression)),
+      prec.left(PREC.REL, seq($._expression, 'in', $._expression))
     ),
 
     //
@@ -346,8 +401,8 @@ module.exports = grammar({
     //
 
     comment: $ => token(choice(
-      seq("//", /.*/),
-      seq("/*", repeat(choice(/[^\*]/, /\*[^/]/)), "*/")
+      seq('//', /.*/),
+      seq('/*', repeat(choice(/[^\*]/, /\*[^\/]/)), '*/')
     )),
 
     string: $ => token(choice(
@@ -355,30 +410,40 @@ module.exports = grammar({
       seq("'", repeat(choice(/[^\\'\n]/, /\\./)), "'")
     )),
 
+    template_string: $ => token(seq(
+      '`', repeat(/[^`]/), '`'
+    )),
+
     regex: $ => token(seq(
-      '/', repeat(choice(/[^\\/\n]/, /\\./)), '/',
+      '/',
+      repeat(choice(
+        seq('[', /[^\]\n]*/, ']'), // square-bracket-delimited character class
+        seq('\\', /./),            // escaped character
+        /[^/\\\[\n]/               // any character besides '[', '\', '/', '\n'
+      )),
+      '/',
       repeat(/a-z/)
     )),
 
     number: $ => token(choice(
       seq(
-        "0x",
+        '0x',
         /[\da-fA-F]+/
       ),
       seq(
         /\d+/,
-        optional(seq(".", /\d*/))
+        optional(seq('.', /\d*/))
       )
     )),
 
-    this_expression: $ => "this",
-
     identifier: $ => (/[\a_$][\a\d_$]*/),
 
-    true: $ => "true",
-    false: $ => "false",
-    null: $ => "null",
-    undefined: $ => "undefined",
+    this_expression: $ => 'this',
+    super: $ => 'super',
+    true: $ => 'true',
+    false: $ => 'false',
+    null: $ => 'null',
+    undefined: $ => 'undefined',
 
     //
     // Expression components
@@ -386,11 +451,29 @@ module.exports = grammar({
 
     arguments: $ => commaSep1(err($._expression)),
 
+    class_body: $ => seq(
+      '{',
+      repeat(seq(
+        $.method_definition,
+        optional(';')
+      )),
+      '}'
+    ),
+
     formal_parameters: $ => commaSep1($.identifier),
+
+    method_definition: $ => seq(
+      optional('static'),
+      $.identifier,
+      '(',
+      optional($.formal_parameters),
+      ')',
+      $.statement_block
+    ),
 
     pair: $ => seq(
       choice($.identifier, $.string, $.number),
-      ":",
+      ':',
       $._expression
     ),
 
@@ -399,13 +482,17 @@ module.exports = grammar({
 });
 
 function commaSep1 (rule) {
-  return seq(rule, repeat(seq(",", rule)))
+  return seq(rule, repeat(seq(',', rule)));
 }
 
 function commaSep (rule) {
-  return optional(commaSep1(rule))
+  return optional(commaSep1(rule));
 }
 
 function terminator () {
-  return choice(";", sym('_line_break'));
+  return choice(';', sym('_line_break'));
+}
+
+function variableType () {
+  return choice('var', 'let', 'const');
 }

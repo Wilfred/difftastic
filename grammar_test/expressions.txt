@@ -16,6 +16,20 @@ Strings
   (expression_statement (string)))
 
 ============================================
+Template strings
+============================================
+
+`one line`;
+`multi
+  line`;
+
+----
+
+(program
+  (expression_statement (template_string))
+  (expression_statement (template_string)))
+
+============================================
 Numbers
 ============================================
 
@@ -72,10 +86,14 @@ Regexps
 /one/g;
 /one/i;
 /one/gim;
+/on\/e/gim;
+/on[^/]afe/gim;
 
 ---
 
 (program
+  (expression_statement (regex))
+  (expression_statement (regex))
   (expression_statement (regex))
   (expression_statement (regex))
   (expression_statement (regex))
@@ -99,6 +117,75 @@ Objects
     (pair (identifier) (string))
     (pair (string) (identifier))
     (pair (identifier) (number)))))
+
+============================================
+Objects with method definitions
+============================================
+
+{
+  foo: true,
+
+  add(a, b) {
+    return a + b;
+  }
+};
+
+---
+
+(program
+  (expression_statement (object
+    (pair (identifier) (true))
+    (method_definition
+      (identifier)
+      (formal_parameters (identifier) (identifier))
+      (statement_block
+        (return_statement (math_op (identifier) (identifier))))))))
+
+============================================
+Classes
+============================================
+
+class Foo {
+  static one(a) { return a; };
+  two(b) { return b; }
+  three(c) { return c; }
+}
+
+class Foo extends require('another-class') {
+  constructor() {
+    super()
+  }
+}
+
+---
+
+(program
+  (expression_statement
+    (class
+      (identifier)
+      (class_body
+        (method_definition
+          (identifier)
+          (formal_parameters (identifier))
+          (statement_block (return_statement (identifier))))
+        (method_definition
+          (identifier)
+          (formal_parameters (identifier))
+          (statement_block (return_statement (identifier))))
+        (method_definition
+          (identifier)
+          (formal_parameters (identifier))
+          (statement_block (return_statement (identifier)))))))
+
+  (expression_statement
+    (class
+      (identifier)
+      (function_call (identifier) (arguments (string)))
+      (class_body
+        (method_definition
+          (identifier)
+          (statement_block
+            (expression_statement (function_call (super)))))))))
 
 ============================================
 Arrays
@@ -136,6 +223,52 @@ function stuff() {}
   (expression_statement (function
     (identifier)
     (statement_block))))
+
+===================================================
+Arrow functions
+===================================================
+
+a => 1;
+() => 2;
+(d, e) => 3;
+(f, g) => {
+  return h;
+};
+
+---
+
+(program
+  (expression_statement (arrow_function
+    (identifier) (number)))
+  (expression_statement (arrow_function
+    (number)))
+  (expression_statement (arrow_function
+    (formal_parameters (identifier) (identifier)) (number)))
+  (expression_statement (arrow_function
+    (formal_parameters (identifier) (identifier))
+    (statement_block
+      (return_statement (identifier))))))
+
+============================================
+Generator Functions
+============================================
+
+function *() {};
+function *generateStuff(arg1, arg2) {
+  yield;
+  yield arg2;
+};
+
+---
+
+(program
+  (expression_statement (generator_function (statement_block)))
+  (expression_statement (generator_function
+    (identifier)
+    (formal_parameters (identifier) (identifier))
+    (statement_block
+      (yield_statement)
+      (yield_statement (identifier))))))
 
 ============================================
 Property access
