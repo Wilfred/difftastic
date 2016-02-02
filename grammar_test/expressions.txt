@@ -16,6 +16,20 @@ Strings
   (expression_statement (string)))
 
 ============================================
+Template strings
+============================================
+
+`one line`;
+`multi
+  line`;
+
+----
+
+(program
+  (expression_statement (template_string))
+  (expression_statement (template_string)))
+
+============================================
 Numbers
 ============================================
 

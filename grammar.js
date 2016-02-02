@@ -242,6 +242,7 @@ module.exports = grammar({
       $.identifier,
       $.number,
       $.string,
+      $.template_string,
       $.regex,
       $.true,
       $.false,
@@ -407,6 +408,10 @@ module.exports = grammar({
     string: $ => token(choice(
       seq('"', repeat(choice(/[^\\"\n]/, /\\./)), '"'),
       seq("'", repeat(choice(/[^\\'\n]/, /\\./)), "'")
+    )),
+
+    template_string: $ => token(seq(
+      '`', repeat(/[^`]/), '`'
     )),
 
     regex: $ => token(seq(
