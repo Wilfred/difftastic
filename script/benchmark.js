@@ -4,6 +4,11 @@
 
 const fs = require('fs')
 const assert = require('assert');
+const babylon = require('babylon');
+const esprima = require('esprima');
+const treesitter = require('tree-sitter-compiler/node_modules/tree-sitter');
+const jsLanguage = require('..');
+
 const ITERATION_COUNT = 50;
 
 if (process.argv.length < 3) {
@@ -14,27 +19,29 @@ if (process.argv.length < 3) {
 const fileName = process.argv[2];
 const code = fs.readFileSync(fileName, 'utf8');
 
-profile("Babylon", () => {
-  const babylon = require('babylon');
-  let rootNode = babylon.parse(code);
-  assert(rootNode.type === 'File');
-});
+// profile("Babylon", () => {
+//   let rootNode = babylon.parse(code);
+//   assert(rootNode.type === 'File');
+// });
+//
+//
+// profile("Esprima", () => {
+//   let rootNode = esprima.parse(code);
+//   assert(rootNode.type === 'Program');
+// });
 
-profile("Esprima", () => {
-  const esprima = require('esprima');
-  let rootNode = esprima.parse(code);
-  assert(rootNode.type === 'Program');
-});
+let document = null
 
 profile("Tree-sitter", () => {
-  const Document = require('tree-sitter-compiler/node_modules/tree-sitter').Document;
-  const jsLanguage = require('..');
-  let document = new Document()
+  document = new treesitter.Document()
     .setInputString(code)
     .setLanguage(jsLanguage)
     .parse();
+
   assert(document.rootNode.type === 'program');
 });
+
+assert(!/ERROR/.test(document.rootNode.toString()))
 
 function profile (name, action) {
   console.log(name + ":")
