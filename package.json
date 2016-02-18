@@ -22,5 +22,6 @@
   "scripts": {
     "prepublish": "tree-sitter compile && node-gyp build",
     "test": "tree-sitter test"
-  }
+  },
+  "repository": "https://github.com/tree-sitter/tree-sitter-ruby"
 }
