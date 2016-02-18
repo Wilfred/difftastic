@@ -5,7 +5,7 @@ module.exports = grammar({
     $.comment,
 	$._line_break,
 	/[ \t\r]/
-  ]
+  ],
 
   rules: {
     program: $ => $._compound_statement,
