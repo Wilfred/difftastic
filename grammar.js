@@ -17,6 +17,7 @@ module.exports = grammar({
     ),
   	_expression: $ => choice($._argument),
 
+    _arguments: $ => seq($._argument, repeat(seq(",", $._arguments))),
   	_argument: $ => choice($._primary),
 
   	_primary: $ => choice(
