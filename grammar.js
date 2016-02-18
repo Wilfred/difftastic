@@ -42,3 +42,7 @@ module.exports = grammar({
   	_terminator: $ => choice($._line_break, ';'),
   }
 });
+
+function commaSep1 (rule) {
+  return seq(rule, repeat(seq(',', rule)));
+}
