@@ -32,7 +32,7 @@ module.exports = grammar({
       seq('#', /.*/),
       seq(
         '=begin\n',
-        repeat(/.*/),
+        repeat(/.*\n/),
         '=end\n'
       )
     )),

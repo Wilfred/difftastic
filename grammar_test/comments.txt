@@ -18,3 +18,15 @@ empty block comment
 ---
 
 (program (comment))
+
+======================
+one-line block comment
+======================
+
+=begin
+whatever
+=end
+
+---
+
+(program (comment))
