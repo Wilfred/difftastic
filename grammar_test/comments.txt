@@ -1,0 +1,9 @@
+========
+comments
+========
+
+# anything else here should be ignored
+
+---
+
+(program (comment))
