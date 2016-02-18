@@ -2,6 +2,8 @@ module.exports = grammar({
   name: 'ruby',
 
   rules: {
+	_compound_statement: $ => seq($._statement, rep(seq($._terminator, $._expression)), optional($._terminator)),
+
 	_statement: $ => choice($._expression),
 	_expression: $ => choice($._argument),
 
