@@ -8,9 +8,7 @@ module.exports = grammar({
   ],
 
   rules: {
-    program: $ => $._compound_statement,
-
-	_compound_statement: $ => seq($._statement, repeat(seq($._terminator, $._expression)), optional($._terminator)),
+    program: $ => repeat(seq($._statement, optional($._terminator))),
 
 	_statement: $ => choice($._expression),
 	_expression: $ => choice($._argument),
