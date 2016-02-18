@@ -2,6 +2,8 @@ module.exports = grammar({
   name: 'ruby',
 
   rules: {
+	_argument: $ => choice($._primary),
+
 	_primary: $ => choice($._variable),
 
 	_variable: $ => choice($.identifier , 'nil', 'self'),
