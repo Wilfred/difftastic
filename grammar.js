@@ -1,6 +1,12 @@
 module.exports = grammar({
   name: 'ruby',
 
+  extras: $ => [
+    $.comment,
+	$._line_break,
+	/[ \t\r]/
+  ]
+
   rules: {
     program: $ => $._compound_statement,
 
