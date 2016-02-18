@@ -17,6 +17,8 @@ module.exports = grammar({
 
 	identifier: $ => seq(rep(choice('@', '$')), /[a-zA-Z_][a-zA-Z0-9_]*/),
 
+	comment: $ => seq('#', /.*/),
+
     _line_break: $ => '\n',
 	_terminator: $ => choice($._line_break, ';'),
   }
