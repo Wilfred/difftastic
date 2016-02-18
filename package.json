@@ -1,0 +1,26 @@
+{
+  "name": "tree-sitter-Ruby",
+  "version": "0.0.8",
+  "description": "Ruby grammar for tree-sitter",
+  "main": "index.js",
+  "keywords": [
+    "parser",
+    "lexer"
+  ],
+  "author": "Rob Rix",
+  "license": "MIT",
+  "dependencies": {
+    "bindings": "1.2.x",
+    "nan": "^2.0.0"
+  },
+  "devDependencies": {
+    "acorn": "^2.6.4",
+    "babylon": "^6.3.26",
+    "esprima": "^2.7.1",
+    "tree-sitter-compiler": ">= 0.0.21"
+  },
+  "scripts": {
+    "prepublish": "tree-sitter compile && node-gyp build",
+    "test": "tree-sitter test"
+  }
+}
