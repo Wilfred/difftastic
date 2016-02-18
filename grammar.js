@@ -23,7 +23,7 @@ module.exports = grammar({
 
 	comment: $ => token(seq('#', /.*/)),
 
-    _line_break: $ => '\n',
+  _line_break: $ => '\n',
 	_terminator: $ => choice($._line_break, ';'),
   }
 });
