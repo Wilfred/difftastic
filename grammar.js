@@ -23,7 +23,7 @@ module.exports = grammar({
 
 	identifier: $ => seq(repeat(choice('@', '$')), /[a-zA-Z_][a-zA-Z0-9_]*/),
 
-	comment: $ => seq('#', /.*/),
+	comment: $ => token(seq('#', /.*/)),
 
     _line_break: $ => '\n',
 	_terminator: $ => choice($._line_break, ';'),
