@@ -7,3 +7,14 @@ comments
 ---
 
 (program (comment))
+
+===================
+empty block comment
+===================
+
+=begin
+=end
+
+---
+
+(program (comment))

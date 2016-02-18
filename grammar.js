@@ -12,7 +12,9 @@ module.exports = grammar({
 
     _compound_statement: $ => repeat(seq($._statement, optional($._terminator))),
 
-  	_statement: $ => choice($._expression),
+  	_statement: $ => choice(
+      $._expression
+    ),
   	_expression: $ => choice($._argument),
 
   	_argument: $ => choice($._primary),
@@ -26,7 +28,14 @@ module.exports = grammar({
 
   	identifier: $ => seq(repeat(choice('@', '$')), /[a-zA-Z_][a-zA-Z0-9_]*/),
 
-  	comment: $ => token(seq('#', /.*/)),
+  	comment: $ => token(choice(
+      seq('#', /.*/),
+      seq(
+        '=begin\n',
+        repeat(/.*/),
+        '=end\n'
+      )
+    )),
 
     _line_break: $ => '\n',
   	_terminator: $ => choice($._line_break, ';'),
