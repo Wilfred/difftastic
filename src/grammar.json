@@ -2,6 +2,10 @@
   "name": "ruby",
   "rules": {
     "program": {
+      "type": "SYMBOL",
+      "name": "_compound_statement"
+    },
+    "_compound_statement": {
       "type": "REPEAT",
       "content": {
         "type": "SEQ",
@@ -55,6 +59,23 @@
     "_primary": {
       "type": "CHOICE",
       "members": [
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "("
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_compound_statement"
+            },
+            {
+              "type": "STRING",
+              "value": ")"
+            }
+          ]
+        },
         {
           "type": "SYMBOL",
           "name": "_variable"
