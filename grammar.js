@@ -10,7 +10,7 @@ module.exports = grammar({
   rules: {
     program: $ => $._compound_statement,
 
-	_compound_statement: $ => seq($._statement, rep(seq($._terminator, $._expression)), optional($._terminator)),
+	_compound_statement: $ => seq($._statement, repeat(seq($._terminator, $._expression)), optional($._terminator)),
 
 	_statement: $ => choice($._expression),
 	_expression: $ => choice($._argument),
@@ -21,7 +21,7 @@ module.exports = grammar({
 
 	_variable: $ => choice($.identifier , 'nil', 'self'),
 
-	identifier: $ => seq(rep(choice('@', '$')), /[a-zA-Z_][a-zA-Z0-9_]*/),
+	identifier: $ => seq(repeat(choice('@', '$')), /[a-zA-Z_][a-zA-Z0-9_]*/),
 
 	comment: $ => seq('#', /.*/),
 
