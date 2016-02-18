@@ -30,3 +30,16 @@ whatever
 ---
 
 (program (comment))
+
+=========================
+multi-line block comments
+=========================
+
+=begin
+whatever
+multiple lines of whatever
+=end
+
+---
+
+(program (comment))
