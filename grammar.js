@@ -46,3 +46,7 @@ module.exports = grammar({
 function commaSep1 (rule) {
   return seq(rule, repeat(seq(',', rule)));
 }
+
+function commaSep (rule) {
+  return optional(commaSep1(rule));
+}
