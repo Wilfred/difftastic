@@ -14,6 +14,7 @@ module.exports = grammar({
 
   	_statement: $ => choice(
       seq($._call, "do", optional("|", $._block_variable, "|"), $._compound_statement, "end"),
+      seq("undef", $._function_name),
       $._expression
     ),
 
@@ -61,6 +62,8 @@ module.exports = grammar({
         '=end\n'
       )
     )),
+
+    _function_name: $ => choice($.identifier, '..', '|'),
 
     _line_break: $ => '\n',
   	_terminator: $ => choice($._line_break, ';'),

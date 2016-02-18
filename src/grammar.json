@@ -66,6 +66,19 @@
           ]
         },
         {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "undef"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_function_name"
+            }
+          ]
+        },
+        {
           "type": "SYMBOL",
           "name": "_expression"
         }
@@ -466,6 +479,23 @@
           }
         ]
       }
+    },
+    "_function_name": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "identifier"
+        },
+        {
+          "type": "STRING",
+          "value": ".."
+        },
+        {
+          "type": "STRING",
+          "value": "|"
+        }
+      ]
     },
     "_line_break": {
       "type": "STRING",
