@@ -17,7 +17,10 @@ module.exports = grammar({
 
   	_argument: $ => choice($._primary),
 
-  	_primary: $ => choice($._variable),
+  	_primary: $ => choice(
+      seq("(", $._compound_statement, ")"),
+      $._variable
+    ),
 
   	_variable: $ => choice($.identifier , 'nil', 'self'),
 
