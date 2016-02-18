@@ -79,6 +79,23 @@
           ]
         },
         {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "alias"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_function_name"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_function_name"
+            }
+          ]
+        },
+        {
           "type": "SYMBOL",
           "name": "_expression"
         }

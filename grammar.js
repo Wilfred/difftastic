@@ -15,6 +15,7 @@ module.exports = grammar({
   	_statement: $ => choice(
       seq($._call, "do", optional("|", $._block_variable, "|"), $._compound_statement, "end"),
       seq("undef", $._function_name),
+      seq("alias", $._function_name, $._function_name),
       $._expression
     ),
 
