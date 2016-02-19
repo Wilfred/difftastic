@@ -65,3 +65,14 @@ end
 ---
 
 (program (unless_statement (condition (identifier))))
+
+================================
+empty unless statement with then
+================================
+
+unless foo then
+end
+
+---
+
+(program (unless_statement (condition (identifier))))
