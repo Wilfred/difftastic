@@ -86,7 +86,7 @@ function sep (rule, separator) {
 }
 
 function commaSep1 (rule) {
-  return seq(rule, repeat(seq(',', rule)));
+  return sep1(rule, ',')
 }
 
 function commaSep (rule) {
