@@ -43,6 +43,28 @@ end
 
 (program (method_declaration (identifier) (argument_list (identifier))))
 
+=========================
+method with multiple args
+=========================
+
+def foo(bar, quux)
+end
+
+---
+
+(program (method_declaration (identifier) (argument_list (identifier) (identifier))))
+
+=========================================
+method with multiple unparenthesized args
+=========================================
+
+def foo bar, quux
+end
+
+---
+
+(program (method_declaration (identifier) (argument_list (identifier) (identifier))))
+
 ===========
 empty class
 ===========
