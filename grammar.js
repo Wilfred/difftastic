@@ -12,7 +12,7 @@ module.exports = grammar({
 
   	_statement: $ => choice(
       $._declaration,
-      seq($._call, "do", optional("|", $._block_variable, "|"), sep($._statement, $._terminator), "end"),
+      seq($._call, "do", optional("|", commaSep($._block_variable), "|"), sep($._statement, $._terminator), "end"),
       seq("undef", $._function_name),
       seq("alias", $._function_name, $._function_name),
       $.while_statement,
