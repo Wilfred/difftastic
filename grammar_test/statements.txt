@@ -1,39 +1,39 @@
-=====================
-conditional statement
-=====================
+====================
+conditional modifier
+====================
 
 foo if bar
 
 ---
 
-(program (identifier) (identifier))
+(program (if_modifier (identifier) (identifier)))
 
-===============
-while statement
-===============
+==============
+while modifier
+==============
 
 foo while bar
 
 ---
 
-(program (identifier) (identifier))
+(program (while_modifier (identifier) (identifier)))
 
-================
-unless statement
-================
+===============
+unless modifier
+===============
 
 foo unless bar
 
 ---
 
-(program (identifier) (identifier))
+(program (unless_modifier (identifier) (identifier)))
 
-================
-until statement
-================
+==============
+until modifier
+==============
 
 foo until bar
 
 ---
 
-(program (identifier) (identifier))
+(program (until_modifier (identifier) (identifier)))
