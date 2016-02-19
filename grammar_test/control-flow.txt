@@ -250,3 +250,21 @@ end
 ---
 
 (program (begin_statement (rescue_block (identifier))))
+
+============================
+begin with all the trimmings
+============================
+
+begin
+	foo
+rescue x
+  bar
+else
+	quux
+ensure
+  baz
+end
+
+---
+
+(program (begin_statement (identifier) (rescue_block (identifier) (identifier)) (else_block (identifier)) (ensure_block (identifier))))
