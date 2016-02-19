@@ -57,6 +57,19 @@ module.exports = grammar({
     ),
     _do_block: $ => seq("do", sep($._statement, $._terminator), "end"),
     _then_else_block: $ => seq(choice("then", $._terminator), sep($._statement, $._terminator), optional(seq("else", sep($._statement, $._terminator))), "end"),
+    _then_elsif_else_block: $ => seq(
+      choice("then", $._terminator),
+      sep($._statement, $._terminator),
+      repeat(seq(
+        "elsif", $.condition, choice("then", $._terminator),
+        sep($._statement, $._terminator)
+      )),
+      optional(seq(
+        "else",
+        sep($._statement, $._terminator)
+      )),
+      "end"
+    ),
 
     _call: $ => choice($._function_call, $._command),
 

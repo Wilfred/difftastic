@@ -88,6 +88,36 @@ if foo then bar else quux end
 
 (program (if_statement (condition (identifier)) (identifier) (identifier)))
 
+========
+if/elsif
+========
+
+if foo
+  bar
+elsif quux
+  baz
+end
+
+---
+
+(program (if_statement (condition (identifier)) (identifier) (condition (identifier)) (identifier)))
+
+========
+if/elsif/else
+========
+
+if foo
+  bar
+elsif quux
+  baz
+else
+  bat
+end
+
+---
+
+(program (if_statement (condition (identifier)) (identifier) (condition (identifier)) (identifier) (identifier)))
+
 ======================
 empty unless statement
 ======================
