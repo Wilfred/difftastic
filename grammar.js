@@ -68,6 +68,8 @@ module.exports = grammar({
       )
     )),
 
+    symbol: $ => token(seq(':', choice($._function_name, $._variable))),
+
     _function_name: $ => choice($.identifier, '..', '|'),
 
     _line_break: $ => '\n',

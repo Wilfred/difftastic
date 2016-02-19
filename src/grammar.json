@@ -565,6 +565,31 @@
         ]
       }
     },
+    "symbol": {
+      "type": "TOKEN",
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": ":"
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "_function_name"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "_variable"
+              }
+            ]
+          }
+        ]
+      }
+    },
     "_function_name": {
       "type": "CHOICE",
       "members": [
