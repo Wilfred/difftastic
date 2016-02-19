@@ -102,7 +102,7 @@ function identifierChars () {
 }
 
 function operatorChars () {
-  return choice('..', '|');
+  return choice('..', '|', '^', '&', '<=>', '==', '===', '=~', '>', '>=', '<', '<=', '+', '-', '*', '/', '%', '**', '<<', '>>', '~', '+@', '-@', '[]', '[]=');
 }
 
 function sep1 (rule, separator) {
