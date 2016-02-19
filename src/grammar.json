@@ -615,7 +615,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_then_else_block"
+          "name": "_then_elsif_else_block"
         }
       ]
     },
