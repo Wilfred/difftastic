@@ -1,3 +1,7 @@
+const PREC = {
+  NOT: 5,
+};
+
 module.exports = grammar({
   name: 'ruby',
 
@@ -123,7 +127,7 @@ module.exports = grammar({
     member_access: $ => seq($._primary, ".", $.identifier),
     yield: $ => seq("yield", optional($._expression)),
 
-    not: $ => seq("not", $._expression),
+    not: $ => prec.right(PREC.NOT, seq("not", $._expression)),
 
     _block_variable: $ => choice($._lhs, $._mlhs),
     _mlhs: $ => choice(
