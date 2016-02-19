@@ -77,6 +77,14 @@ module.exports = grammar({
   }
 });
 
+function sep1 (rule, separator) {
+  return seq(rule, repeat(seq(separator, rule)));
+}
+
+function sep (rule, separator) {
+  return optional(sep1(rule, separator));
+}
+
 function commaSep1 (rule) {
   return seq(rule, repeat(seq(',', rule)));
 }
