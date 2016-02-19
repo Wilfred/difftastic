@@ -175,3 +175,15 @@ end
 ---
 
 (program (for_statement (identifier) (identifier) (identifier)))
+
+===========
+empty begin
+===========
+
+begin
+end
+
+---
+
+(program (begin_statement))
+

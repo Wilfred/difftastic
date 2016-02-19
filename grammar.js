@@ -20,6 +20,7 @@ module.exports = grammar({
       $.if_statement,
       $.unless_statement,
       $.for_statement,
+      $.begin_statement,
       $.if_modifier,
       $.unless_modifier,
       $.while_modifier,
@@ -50,6 +51,7 @@ module.exports = grammar({
     if_statement: $ => seq("if", $.condition, $._then_elsif_else_block),
     unless_statement: $ => seq("unless", $.condition, $._then_else_block),
     for_statement: $ => seq("for", $._lhs, "in", $._expression, $._statement_block),
+    begin_statement: $ => seq("begin", "end"),
 
     if_modifier: $ => seq($._statement, "if", $._expression),
     unless_modifier: $ => seq($._statement, "unless", $._expression),

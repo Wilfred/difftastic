@@ -155,6 +155,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "begin_statement"
+        },
+        {
+          "type": "SYMBOL",
           "name": "if_modifier"
         },
         {
@@ -610,6 +614,19 @@
         {
           "type": "SYMBOL",
           "name": "_statement_block"
+        }
+      ]
+    },
+    "begin_statement": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "begin"
+        },
+        {
+          "type": "STRING",
+          "value": "end"
         }
       ]
     },
