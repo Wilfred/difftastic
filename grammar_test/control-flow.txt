@@ -1,0 +1,153 @@
+=====================
+empty while statement
+=====================
+
+while foo do
+end
+
+---
+
+(program (while_statement (condition (identifier))))
+
+================
+while without do
+================
+
+while foo
+end
+
+---
+
+(program (while_statement (condition (identifier))))
+
+=========================
+while statement with body
+=========================
+
+while foo do
+  bar
+end
+
+---
+
+(program (while_statement (condition (identifier)) (identifier)))
+
+=====================
+empty until statement
+=====================
+
+until foo do
+end
+
+---
+
+(program (until_statement (condition (identifier))))
+
+=========================
+until statement with body
+=========================
+
+until foo do
+  bar
+end
+
+---
+
+(program (until_statement (condition (identifier)) (identifier)))
+
+==================
+empty if statement
+==================
+
+if foo
+end
+
+---
+
+(program (if_statement (condition (identifier)) (then_block)))
+
+=======================
+empty if/else statement
+=======================
+
+if foo then
+else
+end
+
+---
+
+(program (if_statement (condition (identifier)) (then_block) (else_block)))
+
+==================================
+single-line if then else statement
+==================================
+
+if foo then bar else quux end
+
+---
+
+(program (if_statement (condition (identifier)) (then_block (identifier)) (else_block (identifier))))
+
+========
+if elsif
+========
+
+if foo
+  bar
+elsif quux
+  baz
+end
+
+---
+
+(program (if_statement (condition (identifier)) (then_block (identifier)) (condition (identifier)) (then_block (identifier))))
+
+=============
+if elsif else
+=============
+
+if foo
+  bar
+elsif quux
+  baz
+else
+  bat
+end
+
+---
+
+(program (if_statement (condition (identifier)) (then_block (identifier)) (condition (identifier)) (then_block (identifier)) (else_block (identifier))))
+
+======================
+empty unless statement
+======================
+
+unless foo
+end
+
+---
+
+(program (unless_statement (condition (identifier)) (then_block)))
+
+================================
+empty unless statement with then
+================================
+
+unless foo then
+end
+
+---
+
+(program (unless_statement (condition (identifier)) (then_block)))
+
+================================
+empty unless statement with else
+================================
+
+unless foo
+else
+end
+
+---
+
+(program (unless_statement (condition (identifier)) (then_block) (else_block)))

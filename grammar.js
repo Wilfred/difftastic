@@ -15,6 +15,10 @@ module.exports = grammar({
       seq($._call, "do", optional("|", $._block_variable, "|"), sep($._statement, $._terminator), "end"),
       seq("undef", $._function_name),
       seq("alias", $._function_name, $._function_name),
+      $.while_statement,
+      $.until_statement,
+      $.if_statement,
+      $.unless_statement,
       seq($._statement, "if", $._expression),
       seq($._statement, "while", $._expression),
       seq($._statement, "unless", $._expression),
@@ -40,6 +44,33 @@ module.exports = grammar({
 
     module_declaration: $ => seq("module", $.identifier, $._terminator, sep($._statement, $._terminator), "end"),
 
+    while_statement: $ => seq("while", $.condition, $._statement_block),
+    until_statement: $ => seq("until", $.condition, $._statement_block),
+    if_statement: $ => seq("if", $.condition, $._then_elsif_else_block),
+    unless_statement: $ => seq("unless", $.condition, $._then_else_block),
+
+    condition: $ => $._expression,
+
+    _statement_block: $ => choice(
+      $._do_block,
+      seq($._terminator, sep($._statement, $._terminator), "end")
+    ),
+    _do_block: $ => seq("do", sep($._statement, $._terminator), "end"),
+
+    then_block: $ => seq(choice("then", $._terminator), sep($._statement, $._terminator)),
+    else_block: $ => seq("else", sep($._statement, $._terminator)),
+
+    _then_else_block: $ => seq($.then_block, optional($.else_block), "end"),
+    _then_elsif_else_block: $ => seq(
+      $.then_block,
+      repeat(seq(
+        "elsif", $.condition,
+        $.then_block
+      )),
+      optional($.else_block),
+      "end"
+    ),
+
     _call: $ => choice($._function_call, $._command),
 
     _call_arguments: $ => choice(
@@ -60,7 +91,7 @@ module.exports = grammar({
   	_argument: $ => choice($._primary),
 
   	_primary: $ => choice(
-      seq("(", sep1($._statement, $._terminator), ")"),
+      seq("(", sep($._statement, $._terminator), ")"),
       $._variable,
       $.scope_resolution_expression,
       $.subscript_expression
