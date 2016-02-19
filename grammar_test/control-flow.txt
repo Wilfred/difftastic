@@ -151,3 +151,27 @@ end
 ---
 
 (program (unless_statement (condition (identifier)) (then_block) (else_block)))
+
+===
+for
+===
+
+for x in y do
+	f
+end
+
+---
+
+(program (for_statement (identifier) (identifier) (identifier)))
+
+==============
+for without do
+==============
+
+for x in y
+  f
+end
+
+---
+
+(program (for_statement (identifier) (identifier) (identifier)))
