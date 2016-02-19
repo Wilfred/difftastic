@@ -43,6 +43,17 @@ end
 
 (program (class_declaration (identifier) (identifier)))
 
+==================================
+empty subclass of namespaced class
+==================================
+
+class Foo < Bar::Quux
+end
+
+---
+
+(program (class_declaration (identifier) (identifier) (identifier)))
+
 ============
 empty module
 ============
