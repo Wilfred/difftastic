@@ -97,9 +97,7 @@ module.exports = grammar({
 
   	_primary: $ => choice(
       seq("(", sep($._statement, $._terminator), ")"),
-      $._variable,
-      $.scope_resolution_expression,
-      $.subscript_expression
+      $._lhs
     ),
 
     scope_resolution_expression: $ => seq(optional($._primary), '::', $.identifier),
@@ -112,12 +110,11 @@ module.exports = grammar({
       seq("*", $._lhs)
     ),
     _mlhs_item: $ => choice($._lhs, seq("(", $._mlhs, ")")),
-    _lhs: $ => seq(
-      $._primary,
-      optional(choice(
-        seq("[", commaSep($._argument), "]"),
-        seq(".", $.identifier)
-      ))
+    _lhs: $ => choice(
+      $._variable,
+      $.scope_resolution_expression,
+      $.subscript_expression,
+      $.member_access
     ),
   	_variable: $ => choice($.identifier , 'nil', 'self'),
 
