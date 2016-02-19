@@ -7,3 +7,13 @@ symbol
 ---
 
 (program (symbol))
+
+================
+scope resolution
+================
+
+Foo::bar
+
+---
+
+(program (identifier) (identifier))
