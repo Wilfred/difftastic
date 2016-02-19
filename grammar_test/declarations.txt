@@ -30,7 +30,7 @@ end
 
 ---
 
-(program (method_declaration (identifier) (identifier)))
+(program (method_declaration (identifier) (argument_list (identifier))))
 
 ===========
 empty class

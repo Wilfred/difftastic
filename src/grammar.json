@@ -247,7 +247,7 @@
                 },
                 {
                   "type": "SYMBOL",
-                  "name": "_argument_list"
+                  "name": "argument_list"
                 },
                 {
                   "type": "STRING",
@@ -260,7 +260,7 @@
               "members": [
                 {
                   "type": "SYMBOL",
-                  "name": "_argument_list"
+                  "name": "argument_list"
                 },
                 {
                   "type": "SYMBOL",
@@ -309,7 +309,7 @@
         }
       ]
     },
-    "_argument_list": {
+    "argument_list": {
       "type": "CHOICE",
       "members": [
         {
