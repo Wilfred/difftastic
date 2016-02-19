@@ -246,8 +246,16 @@
                   "value": "("
                 },
                 {
-                  "type": "SYMBOL",
-                  "name": "argument_list"
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "SYMBOL",
+                      "name": "argument_list"
+                    },
+                    {
+                      "type": "BLANK"
+                    }
+                  ]
                 },
                 {
                   "type": "STRING",
@@ -259,8 +267,16 @@
               "type": "SEQ",
               "members": [
                 {
-                  "type": "SYMBOL",
-                  "name": "argument_list"
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "SYMBOL",
+                      "name": "argument_list"
+                    },
+                    {
+                      "type": "BLANK"
+                    }
+                  ]
                 },
                 {
                   "type": "SYMBOL",
@@ -310,87 +326,79 @@
       ]
     },
     "argument_list": {
-      "type": "CHOICE",
+      "type": "SEQ",
       "members": [
         {
           "type": "SEQ",
           "members": [
             {
-              "type": "SEQ",
+              "type": "CHOICE",
               "members": [
                 {
                   "type": "CHOICE",
                   "members": [
                     {
-                      "type": "CHOICE",
-                      "members": [
-                        {
-                          "type": "STRING",
-                          "value": "*"
-                        },
-                        {
-                          "type": "STRING",
-                          "value": "&"
-                        }
-                      ]
+                      "type": "STRING",
+                      "value": "*"
                     },
                     {
-                      "type": "BLANK"
+                      "type": "STRING",
+                      "value": "&"
                     }
                   ]
                 },
                 {
-                  "type": "SYMBOL",
-                  "name": "identifier"
+                  "type": "BLANK"
                 }
               ]
             },
             {
-              "type": "REPEAT",
-              "content": {
+              "type": "SYMBOL",
+              "name": "identifier"
+            }
+          ]
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "STRING",
+                "value": ","
+              },
+              {
                 "type": "SEQ",
                 "members": [
                   {
-                    "type": "STRING",
-                    "value": ","
-                  },
-                  {
-                    "type": "SEQ",
+                    "type": "CHOICE",
                     "members": [
                       {
                         "type": "CHOICE",
                         "members": [
                           {
-                            "type": "CHOICE",
-                            "members": [
-                              {
-                                "type": "STRING",
-                                "value": "*"
-                              },
-                              {
-                                "type": "STRING",
-                                "value": "&"
-                              }
-                            ]
+                            "type": "STRING",
+                            "value": "*"
                           },
                           {
-                            "type": "BLANK"
+                            "type": "STRING",
+                            "value": "&"
                           }
                         ]
                       },
                       {
-                        "type": "SYMBOL",
-                        "name": "identifier"
+                        "type": "BLANK"
                       }
                     ]
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "identifier"
                   }
                 ]
               }
-            }
-          ]
-        },
-        {
-          "type": "BLANK"
+            ]
+          }
         }
       ]
     },
