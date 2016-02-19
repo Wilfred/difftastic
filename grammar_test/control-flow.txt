@@ -226,3 +226,15 @@ end
 ---
 
 (program (begin_statement (identifier) (ensure_block (identifier))))
+
+=======================
+begin with empty rescue
+=======================
+
+begin
+rescue
+end
+
+---
+
+(program (begin_statement (rescue_block)))
