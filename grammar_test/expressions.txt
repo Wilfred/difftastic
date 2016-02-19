@@ -88,6 +88,16 @@ foo or bar
 
 (program (or (identifier) (identifier)))
 
+====================
+and or associativity
+====================
+
+a or b and c
+
+---
+
+(program (and (or (identifier) (identifier)) (identifier)))
+
 ========
 defined?
 ========
