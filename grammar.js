@@ -107,7 +107,7 @@ module.exports = grammar({
     _block_variable: $ => choice($._lhs, $._mlhs),
     _mlhs: $ => choice(
       seq($._mlhs_item, optional(seq($._mlhs_item, repeat(",", $._mlhs_item))), optional(seq("*", optional($._lhs)))),
-      seq("*", $._lhs)
+      seq("*", optional($._lhs))
     ),
     _mlhs_item: $ => choice($._lhs, seq("(", $._mlhs, ")")),
     _lhs: $ => choice(
