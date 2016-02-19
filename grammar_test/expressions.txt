@@ -27,3 +27,13 @@ foo[bar]
 ---
 
 (program (subscript_expression (identifier) (identifier)))
+
+===============
+vacuous literal
+===============
+
+()
+
+---
+
+(program)

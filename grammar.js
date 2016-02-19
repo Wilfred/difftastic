@@ -60,7 +60,7 @@ module.exports = grammar({
   	_argument: $ => choice($._primary),
 
   	_primary: $ => choice(
-      seq("(", sep1($._statement, $._terminator), ")"),
+      seq("(", sep($._statement, $._terminator), ")"),
       $._variable,
       $.scope_resolution_expression,
       $.subscript_expression
