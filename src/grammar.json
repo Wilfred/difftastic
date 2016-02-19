@@ -143,6 +143,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "if_statement"
+        },
+        {
+          "type": "SYMBOL",
           "name": "unless_statement"
         },
         {
@@ -595,6 +599,23 @@
         {
           "type": "SYMBOL",
           "name": "_statement_block"
+        }
+      ]
+    },
+    "if_statement": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "if"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "condition"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_then_else_block"
         }
       ]
     },

@@ -17,6 +17,7 @@ module.exports = grammar({
       seq("alias", $._function_name, $._function_name),
       $.while_statement,
       $.until_statement,
+      $.if_statement,
       $.unless_statement,
       seq($._statement, "if", $._expression),
       seq($._statement, "while", $._expression),
@@ -45,6 +46,7 @@ module.exports = grammar({
 
     while_statement: $ => seq("while", $.condition, $._statement_block),
     until_statement: $ => seq("until", $.condition, $._statement_block),
+    if_statement: $ => seq("if", $.condition, $._then_else_block),
     unless_statement: $ => seq("unless", $.condition, $._then_else_block),
 
     condition: $ => $._expression,

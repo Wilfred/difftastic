@@ -55,6 +55,17 @@ end
 
 (program (until_statement (condition (identifier)) (identifier)))
 
+==================
+empty if statement
+==================
+
+if foo
+end
+
+---
+
+(program (if_statement (condition (identifier))))
+
 ======================
 empty unless statement
 ======================
