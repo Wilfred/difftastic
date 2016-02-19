@@ -16,7 +16,7 @@ Foo::bar
 
 ---
 
-(program (identifier) (identifier))
+(program (scope_resolution_expression (identifier) (identifier)))
 
 ============
 subscripting
