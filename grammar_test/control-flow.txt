@@ -64,7 +64,7 @@ end
 
 ---
 
-(program (if_statement (condition (identifier))))
+(program (if_statement (condition (identifier)) (then_block)))
 
 =======================
 empty if/else statement
@@ -76,7 +76,7 @@ end
 
 ---
 
-(program (if_statement (condition (identifier))))
+(program (if_statement (condition (identifier)) (then_block)))
 
 ==================================
 single-line if then else statement
@@ -86,7 +86,7 @@ if foo then bar else quux end
 
 ---
 
-(program (if_statement (condition (identifier)) (identifier) (identifier)))
+(program (if_statement (condition (identifier)) (then_block (identifier)) (identifier)))
 
 ========
 if elsif
@@ -100,7 +100,7 @@ end
 
 ---
 
-(program (if_statement (condition (identifier)) (identifier) (condition (identifier)) (identifier)))
+(program (if_statement (condition (identifier)) (then_block (identifier)) (condition (identifier)) (identifier)))
 
 =============
 if elsif else
@@ -116,7 +116,7 @@ end
 
 ---
 
-(program (if_statement (condition (identifier)) (identifier) (condition (identifier)) (identifier) (identifier)))
+(program (if_statement (condition (identifier)) (then_block (identifier)) (condition (identifier)) (identifier) (identifier)))
 
 ======================
 empty unless statement
@@ -127,7 +127,7 @@ end
 
 ---
 
-(program (unless_statement (condition (identifier))))
+(program (unless_statement (condition (identifier)) (then_block)))
 
 ================================
 empty unless statement with then
@@ -138,7 +138,7 @@ end
 
 ---
 
-(program (unless_statement (condition (identifier))))
+(program (unless_statement (condition (identifier)) (then_block)))
 
 ================================
 empty unless statement with else
@@ -150,4 +150,4 @@ end
 
 ---
 
-(program (unless_statement (condition (identifier))))
+(program (unless_statement (condition (identifier)) (then_block)))
