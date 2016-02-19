@@ -17,3 +17,13 @@ Foo::bar
 ---
 
 (program (identifier) (identifier))
+
+============
+subscripting
+============
+
+foo[bar]
+
+---
+
+(program (identifier) (identifier))

@@ -62,7 +62,8 @@ module.exports = grammar({
   	_primary: $ => choice(
       seq("(", sep1($._statement, $._terminator), ")"),
       $._variable,
-      seq(optional($._primary), '::', $.identifier)
+      seq(optional($._primary), '::', $.identifier),
+      seq($._primary, "[", commaSep($._argument), "]")
     ),
 
     _block_variable: $ => choice($._lhs, $._mlhs),
