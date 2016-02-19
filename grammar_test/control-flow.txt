@@ -9,6 +9,17 @@ end
 
 (program (while_statement (condition (identifier))))
 
+================
+while without do
+================
+
+while foo
+end
+
+---
+
+(program (while_statement (condition (identifier))))
+
 =========================
 while statement with body
 =========================

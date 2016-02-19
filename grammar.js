@@ -42,11 +42,15 @@ module.exports = grammar({
 
     module_declaration: $ => seq("module", $.identifier, $._terminator, sep($._statement, $._terminator), "end"),
 
-    while_statement: $ => seq("while", $.condition, $._do_block),
-    until_statement: $ => seq("until", $.condition, $._do_block),
+    while_statement: $ => seq("while", $.condition, $._statement_block),
+    until_statement: $ => seq("until", $.condition, $._statement_block),
 
     condition: $ => $._expression,
 
+    _statement_block: $ => choice(
+      $._do_block,
+      seq($._terminator, sep($._statement, $._terminator), "end")
+    ),
     _do_block: $ => seq("do", sep($._statement, $._terminator), "end"),
 
     _call: $ => choice($._function_call, $._command),
