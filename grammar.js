@@ -52,7 +52,10 @@ module.exports = grammar({
     ),
     _function_call: $ => choice("super"),
 
-  	_expression: $ => choice($._argument),
+  	_expression: $ => choice(
+      $._argument,
+      $.symbol
+    ),
 
   	_argument: $ => choice($._primary),
 
