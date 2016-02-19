@@ -187,3 +187,14 @@ end
 
 (program (begin_statement))
 
+===============
+begin with body
+===============
+
+begin
+	foo
+end
+
+---
+
+(program (begin_statement (identifier)))
