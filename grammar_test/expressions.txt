@@ -26,4 +26,4 @@ foo[bar]
 
 ---
 
-(program (identifier) (identifier))
+(program (subscript_expression (identifier) (identifier)))

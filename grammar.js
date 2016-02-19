@@ -63,10 +63,11 @@ module.exports = grammar({
       seq("(", sep1($._statement, $._terminator), ")"),
       $._variable,
       $.scope_resolution_expression,
-      seq($._primary, "[", commaSep($._argument), "]")
+      $.subscript_expression
     ),
 
     scope_resolution_expression: $ => seq(optional($._primary), '::', $.identifier),
+    subscript_expression: $ => seq($._primary, "[", commaSep($._argument), "]"),
 
     _block_variable: $ => choice($._lhs, $._mlhs),
     _mlhs: $ => choice(
