@@ -13,3 +13,5 @@ addons:
     packages:
       - clang-3.6
 
+notifications:
+  email: false
