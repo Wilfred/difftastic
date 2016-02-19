@@ -74,7 +74,7 @@ module.exports = grammar({
     ),
   	_variable: $ => choice($.identifier , 'nil', 'self'),
 
-  	identifier: $ => seq(repeat(choice('@', '$')), /[a-zA-Z_][a-zA-Z0-9_]*/),
+  	identifier: $ => token(seq(repeat(choice('@', '$')), /[a-zA-Z_][a-zA-Z0-9_]*/)),
 
   	comment: $ => token(choice(
       seq('#', /.*/),
