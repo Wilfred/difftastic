@@ -611,19 +611,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_then_block"
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "_else_block"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
+          "name": "_then_else_block"
         }
       ]
     },
@@ -732,7 +720,7 @@
         }
       ]
     },
-    "_then_block": {
+    "_then_else_block": {
       "type": "SEQ",
       "members": [
         {
@@ -782,43 +770,47 @@
           ]
         },
         {
-          "type": "STRING",
-          "value": "end"
-        }
-      ]
-    },
-    "_else_block": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "else"
-        },
-        {
           "type": "CHOICE",
           "members": [
             {
               "type": "SEQ",
               "members": [
                 {
-                  "type": "SYMBOL",
-                  "name": "_statement"
+                  "type": "STRING",
+                  "value": "else"
                 },
                 {
-                  "type": "REPEAT",
-                  "content": {
-                    "type": "SEQ",
-                    "members": [
-                      {
-                        "type": "SYMBOL",
-                        "name": "_terminator"
-                      },
-                      {
-                        "type": "SYMBOL",
-                        "name": "_statement"
-                      }
-                    ]
-                  }
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "SEQ",
+                      "members": [
+                        {
+                          "type": "SYMBOL",
+                          "name": "_statement"
+                        },
+                        {
+                          "type": "REPEAT",
+                          "content": {
+                            "type": "SEQ",
+                            "members": [
+                              {
+                                "type": "SYMBOL",
+                                "name": "_terminator"
+                              },
+                              {
+                                "type": "SYMBOL",
+                                "name": "_statement"
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "type": "BLANK"
+                    }
+                  ]
                 }
               ]
             },
