@@ -89,7 +89,7 @@ if foo then bar else quux end
 (program (if_statement (condition (identifier)) (identifier) (identifier)))
 
 ========
-if/elsif
+if elsif
 ========
 
 if foo
@@ -103,7 +103,7 @@ end
 (program (if_statement (condition (identifier)) (identifier) (condition (identifier)) (identifier)))
 
 =============
-if/elsif/else
+if elsif else
 =============
 
 if foo
