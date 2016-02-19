@@ -1,0 +1,21 @@
+===========
+empty class
+===========
+
+class Foo
+end
+
+---
+
+(program (class_declaration (identifier)))
+
+============
+empty module
+============
+
+module Foo
+end
+
+---
+
+(program (module_declaration (identifier)))
