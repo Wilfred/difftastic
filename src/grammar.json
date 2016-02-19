@@ -159,6 +159,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "return_statement"
+        },
+        {
+          "type": "SYMBOL",
           "name": "if_modifier"
         },
         {
@@ -691,6 +695,19 @@
         {
           "type": "STRING",
           "value": "end"
+        }
+      ]
+    },
+    "return_statement": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "return"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_expression"
         }
       ]
     },

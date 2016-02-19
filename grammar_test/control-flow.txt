@@ -268,3 +268,13 @@ end
 ---
 
 (program (begin_statement (identifier) (rescue_block (identifier) (identifier)) (else_block (identifier)) (ensure_block (identifier))))
+
+======
+return
+======
+
+return foo
+
+---
+
+(program (return_statement (identifier)))

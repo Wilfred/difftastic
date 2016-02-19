@@ -21,6 +21,7 @@ module.exports = grammar({
       $.unless_statement,
       $.for_statement,
       $.begin_statement,
+      $.return_statement,
       $.if_modifier,
       $.unless_modifier,
       $.while_modifier,
@@ -59,6 +60,8 @@ module.exports = grammar({
       optional($.ensure_block),
       "end"
     ),
+
+    return_statement: $ => seq("return", $._expression),
 
     if_modifier: $ => seq($._statement, "if", $._expression),
     unless_modifier: $ => seq($._statement, "unless", $._expression),
