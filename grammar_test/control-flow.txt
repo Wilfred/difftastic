@@ -278,3 +278,13 @@ return foo
 ---
 
 (program (return_statement (identifier)))
+
+====================
+return without value
+====================
+
+return
+
+---
+
+(program (return_statement))

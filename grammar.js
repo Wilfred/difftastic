@@ -61,7 +61,7 @@ module.exports = grammar({
       "end"
     ),
 
-    return_statement: $ => seq("return", $._expression),
+    return_statement: $ => seq("return", optional($._expression)),
 
     if_modifier: $ => seq($._statement, "if", $._expression),
     unless_modifier: $ => seq($._statement, "unless", $._expression),
