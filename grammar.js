@@ -74,7 +74,7 @@ module.exports = grammar({
     ),
   	_variable: $ => choice($.identifier , 'nil', 'self'),
 
-  	identifier: $ => token(seq(repeat(choice('@', '$')), /[a-zA-Z_][a-zA-Z0-9_]*/)),
+  	identifier: $ => token(seq(repeat(choice('@', '$')), identifierChars())),
 
   	comment: $ => token(choice(
       seq('#', /.*/),
@@ -93,6 +93,10 @@ module.exports = grammar({
   	_terminator: $ => choice($._line_break, ';'),
   }
 });
+
+function identifierChars () {
+  return /[a-zA-Z_][a-zA-Z0-9_]*/;
+}
 
 function sep1 (rule, separator) {
   return seq(rule, repeat(seq(separator, rule)));
