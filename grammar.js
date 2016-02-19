@@ -36,9 +36,9 @@ module.exports = grammar({
 
     argument_list: $ => commaSep1(seq(optional(choice("*", "&")), $.identifier)),
 
-    class_declaration: $ => seq("class", $.identifier, optional(seq("<", sep1($.identifier, "::"))), sep($._statement, $._terminator), "end"),
+    class_declaration: $ => seq("class", $.identifier, optional(seq("<", sep1($.identifier, "::"))), $._terminator, sep($._statement, $._terminator), "end"),
 
-    module_declaration: $ => seq("module", $.identifier, sep($._statement, $._terminator), "end"),
+    module_declaration: $ => seq("module", $.identifier, $._terminator, sep($._statement, $._terminator), "end"),
 
     _call: $ => choice($._function_call, $._command),
 
