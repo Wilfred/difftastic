@@ -78,6 +78,16 @@ end
 
 (program (if_statement (condition (identifier))))
 
+==================================
+single-line if then else statement
+==================================
+
+if foo then bar else quux end
+
+---
+
+(program (if_statement (condition (identifier)) (identifier) (identifier)))
+
 ======================
 empty unless statement
 ======================
