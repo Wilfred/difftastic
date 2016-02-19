@@ -19,6 +19,7 @@ module.exports = grammar({
       seq($._statement, "if", $._expression),
       seq($._statement, "while", $._expression),
       seq($._statement, "unless", $._expression),
+      seq($._statement, "until", $._expression),
       $._expression
     ),
 

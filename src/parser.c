@@ -1,7 +1,7 @@
 #include "tree_sitter/parser.h"
 
 #define STATE_COUNT 124
-#define SYMBOL_COUNT 40
+#define SYMBOL_COUNT 41
 
 enum {
     sym_program = ts_builtin_sym_start,
@@ -29,6 +29,7 @@ enum {
     anon_sym_if,
     anon_sym_while,
     anon_sym_unless,
+    anon_sym_until,
     anon_sym_COMMA,
     anon_sym_super,
     anon_sym_LPAREN,
@@ -72,6 +73,7 @@ static const char *ts_symbol_names[] = {
     [anon_sym_if] = "if",
     [anon_sym_while] = "while",
     [anon_sym_unless] = "unless",
+    [anon_sym_until] = "until",
     [anon_sym_COMMA] = ",",
     [anon_sym_super] = "super",
     [anon_sym_LPAREN] = "(",
@@ -115,6 +117,7 @@ static const TSSymbolMetadata ts_symbol_metadata[SYMBOL_COUNT] = {
     [anon_sym_if] = {.visible = true, .named = false, .structural = true, .extra = false},
     [anon_sym_while] = {.visible = true, .named = false, .structural = true, .extra = false},
     [anon_sym_unless] = {.visible = true, .named = false, .structural = true, .extra = false},
+    [anon_sym_until] = {.visible = true, .named = false, .structural = true, .extra = false},
     [anon_sym_COMMA] = {.visible = true, .named = false, .structural = true, .extra = false},
     [anon_sym_super] = {.visible = true, .named = false, .structural = true, .extra = false},
     [anon_sym_LPAREN] = {.visible = true, .named = false, .structural = true, .extra = false},
@@ -187,9 +190,9 @@ static TSTree *ts_lex(TSLexer *lexer, TSStateId state, bool error_mode) {
             if (lookahead == 'u')
                 ADVANCE(49);
             if (lookahead == 'w')
-                ADVANCE(58);
+                ADVANCE(61);
             if (lookahead == '|')
-                ADVANCE(63);
+                ADVANCE(66);
             LEX_ERROR();
         case 1:
             ACCEPT_TOKEN(ts_builtin_sym_end);
@@ -540,12 +543,15 @@ static TSTree *ts_lex(TSLexer *lexer, TSStateId state, bool error_mode) {
                 (lookahead == '_') ||
                 ('a' <= lookahead && lookahead <= 'c') ||
                 ('e' <= lookahead && lookahead <= 'k') ||
-                ('m' <= lookahead && lookahead <= 'z'))
+                ('m' <= lookahead && lookahead <= 's') ||
+                ('u' <= lookahead && lookahead <= 'z'))
                 ADVANCE(25);
             if (lookahead == 'd')
                 ADVANCE(51);
             if (lookahead == 'l')
                 ADVANCE(54);
+            if (lookahead == 't')
+                ADVANCE(58);
             ACCEPT_FRAGILE_TOKEN(aux_sym_SLASH_LBRACKa_DASHzA_DASHZ_RBRACK_LBRACKa_DASHzA_DASHZ0_DASH9_RBRACK_STAR_SLASH);
         case 51:
             if (('0' <= lookahead && lookahead <= '9') ||
@@ -615,23 +621,13 @@ static TSTree *ts_lex(TSLexer *lexer, TSStateId state, bool error_mode) {
             if (('0' <= lookahead && lookahead <= '9') ||
                 ('A' <= lookahead && lookahead <= 'Z') ||
                 (lookahead == '_') ||
-                ('a' <= lookahead && lookahead <= 'g') ||
-                ('i' <= lookahead && lookahead <= 'z'))
-                ADVANCE(25);
-            if (lookahead == 'h')
-                ADVANCE(59);
-            ACCEPT_FRAGILE_TOKEN(aux_sym_SLASH_LBRACKa_DASHzA_DASHZ_RBRACK_LBRACKa_DASHzA_DASHZ0_DASH9_RBRACK_STAR_SLASH);
-        case 59:
-            if (('0' <= lookahead && lookahead <= '9') ||
-                ('A' <= lookahead && lookahead <= 'Z') ||
-                (lookahead == '_') ||
                 ('a' <= lookahead && lookahead <= 'h') ||
                 ('j' <= lookahead && lookahead <= 'z'))
                 ADVANCE(25);
             if (lookahead == 'i')
-                ADVANCE(60);
+                ADVANCE(59);
             ACCEPT_FRAGILE_TOKEN(aux_sym_SLASH_LBRACKa_DASHzA_DASHZ_RBRACK_LBRACKa_DASHzA_DASHZ0_DASH9_RBRACK_STAR_SLASH);
-        case 60:
+        case 59:
             if (('0' <= lookahead && lookahead <= '9') ||
                 ('A' <= lookahead && lookahead <= 'Z') ||
                 (lookahead == '_') ||
@@ -639,9 +635,46 @@ static TSTree *ts_lex(TSLexer *lexer, TSStateId state, bool error_mode) {
                 ('m' <= lookahead && lookahead <= 'z'))
                 ADVANCE(25);
             if (lookahead == 'l')
-                ADVANCE(61);
+                ADVANCE(60);
             ACCEPT_FRAGILE_TOKEN(aux_sym_SLASH_LBRACKa_DASHzA_DASHZ_RBRACK_LBRACKa_DASHzA_DASHZ0_DASH9_RBRACK_STAR_SLASH);
+        case 60:
+            if (('0' <= lookahead && lookahead <= '9') ||
+                ('A' <= lookahead && lookahead <= 'Z') ||
+                (lookahead == '_') ||
+                ('a' <= lookahead && lookahead <= 'z'))
+                ADVANCE(25);
+            ACCEPT_TOKEN(anon_sym_until);
         case 61:
+            if (('0' <= lookahead && lookahead <= '9') ||
+                ('A' <= lookahead && lookahead <= 'Z') ||
+                (lookahead == '_') ||
+                ('a' <= lookahead && lookahead <= 'g') ||
+                ('i' <= lookahead && lookahead <= 'z'))
+                ADVANCE(25);
+            if (lookahead == 'h')
+                ADVANCE(62);
+            ACCEPT_FRAGILE_TOKEN(aux_sym_SLASH_LBRACKa_DASHzA_DASHZ_RBRACK_LBRACKa_DASHzA_DASHZ0_DASH9_RBRACK_STAR_SLASH);
+        case 62:
+            if (('0' <= lookahead && lookahead <= '9') ||
+                ('A' <= lookahead && lookahead <= 'Z') ||
+                (lookahead == '_') ||
+                ('a' <= lookahead && lookahead <= 'h') ||
+                ('j' <= lookahead && lookahead <= 'z'))
+                ADVANCE(25);
+            if (lookahead == 'i')
+                ADVANCE(63);
+            ACCEPT_FRAGILE_TOKEN(aux_sym_SLASH_LBRACKa_DASHzA_DASHZ_RBRACK_LBRACKa_DASHzA_DASHZ0_DASH9_RBRACK_STAR_SLASH);
+        case 63:
+            if (('0' <= lookahead && lookahead <= '9') ||
+                ('A' <= lookahead && lookahead <= 'Z') ||
+                (lookahead == '_') ||
+                ('a' <= lookahead && lookahead <= 'k') ||
+                ('m' <= lookahead && lookahead <= 'z'))
+                ADVANCE(25);
+            if (lookahead == 'l')
+                ADVANCE(64);
+            ACCEPT_FRAGILE_TOKEN(aux_sym_SLASH_LBRACKa_DASHzA_DASHZ_RBRACK_LBRACKa_DASHzA_DASHZ0_DASH9_RBRACK_STAR_SLASH);
+        case 64:
             if (('0' <= lookahead && lookahead <= '9') ||
                 ('A' <= lookahead && lookahead <= 'Z') ||
                 (lookahead == '_') ||
@@ -649,25 +682,25 @@ static TSTree *ts_lex(TSLexer *lexer, TSStateId state, bool error_mode) {
                 ('f' <= lookahead && lookahead <= 'z'))
                 ADVANCE(25);
             if (lookahead == 'e')
-                ADVANCE(62);
+                ADVANCE(65);
             ACCEPT_FRAGILE_TOKEN(aux_sym_SLASH_LBRACKa_DASHzA_DASHZ_RBRACK_LBRACKa_DASHzA_DASHZ0_DASH9_RBRACK_STAR_SLASH);
-        case 62:
+        case 65:
             if (('0' <= lookahead && lookahead <= '9') ||
                 ('A' <= lookahead && lookahead <= 'Z') ||
                 (lookahead == '_') ||
                 ('a' <= lookahead && lookahead <= 'z'))
                 ADVANCE(25);
             ACCEPT_TOKEN(anon_sym_while);
-        case 63:
+        case 66:
             ACCEPT_TOKEN(anon_sym_PIPE);
-        case 64:
+        case 67:
             START_TOKEN();
             if (lookahead == 0)
                 ADVANCE(1);
             if ((lookahead == '\t') ||
                 (lookahead == '\r') ||
                 (lookahead == ' '))
-                ADVANCE(64);
+                ADVANCE(67);
             if (lookahead == '\n')
                 ADVANCE(2);
             if (lookahead == '#')
@@ -694,9 +727,9 @@ static TSTree *ts_lex(TSLexer *lexer, TSStateId state, bool error_mode) {
             if (lookahead == 's')
                 ADVANCE(41);
             if (lookahead == 'u')
-                ADVANCE(65);
+                ADVANCE(68);
             LEX_ERROR();
-        case 65:
+        case 68:
             if (('0' <= lookahead && lookahead <= '9') ||
                 ('A' <= lookahead && lookahead <= 'Z') ||
                 (lookahead == '_') ||
@@ -704,9 +737,9 @@ static TSTree *ts_lex(TSLexer *lexer, TSStateId state, bool error_mode) {
                 ('o' <= lookahead && lookahead <= 'z'))
                 ADVANCE(25);
             if (lookahead == 'n')
-                ADVANCE(66);
+                ADVANCE(69);
             ACCEPT_FRAGILE_TOKEN(aux_sym_SLASH_LBRACKa_DASHzA_DASHZ_RBRACK_LBRACKa_DASHzA_DASHZ0_DASH9_RBRACK_STAR_SLASH);
-        case 66:
+        case 69:
             if (('0' <= lookahead && lookahead <= '9') ||
                 ('A' <= lookahead && lookahead <= 'Z') ||
                 (lookahead == '_') ||
@@ -716,14 +749,14 @@ static TSTree *ts_lex(TSLexer *lexer, TSStateId state, bool error_mode) {
             if (lookahead == 'd')
                 ADVANCE(51);
             ACCEPT_FRAGILE_TOKEN(aux_sym_SLASH_LBRACKa_DASHzA_DASHZ_RBRACK_LBRACKa_DASHzA_DASHZ0_DASH9_RBRACK_STAR_SLASH);
-        case 67:
+        case 70:
             START_TOKEN();
             if (lookahead == 0)
                 ADVANCE(1);
             if ((lookahead == '\t') ||
                 (lookahead == '\r') ||
                 (lookahead == ' '))
-                ADVANCE(67);
+                ADVANCE(70);
             if (lookahead == '\n')
                 ADVANCE(2);
             if (lookahead == '#')
@@ -731,14 +764,14 @@ static TSTree *ts_lex(TSLexer *lexer, TSStateId state, bool error_mode) {
             if (lookahead == '=')
                 ADVANCE(11);
             LEX_ERROR();
-        case 68:
+        case 71:
             START_TOKEN();
             if (lookahead == 0)
                 ADVANCE(1);
             if ((lookahead == '\t') ||
                 (lookahead == '\r') ||
                 (lookahead == ' '))
-                ADVANCE(68);
+                ADVANCE(71);
             if (lookahead == '\n')
                 ADVANCE(2);
             if (lookahead == '#')
@@ -773,29 +806,8 @@ static TSTree *ts_lex(TSLexer *lexer, TSStateId state, bool error_mode) {
             if (lookahead == 'u')
                 ADVANCE(49);
             if (lookahead == 'w')
-                ADVANCE(58);
+                ADVANCE(61);
             LEX_ERROR();
-        case 69:
-            START_TOKEN();
-            if ((lookahead == '\t') ||
-                (lookahead == '\r') ||
-                (lookahead == ' '))
-                ADVANCE(69);
-            if (lookahead == '\n')
-                ADVANCE(2);
-            if (lookahead == '#')
-                ADVANCE(3);
-            if (lookahead == '=')
-                ADVANCE(11);
-            if (lookahead == 'd')
-                ADVANCE(70);
-            LEX_ERROR();
-        case 70:
-            if (lookahead == 'o')
-                ADVANCE(71);
-            LEX_ERROR();
-        case 71:
-            ACCEPT_TOKEN(anon_sym_do);
         case 72:
             START_TOKEN();
             if ((lookahead == '\t') ||
@@ -808,17 +820,38 @@ static TSTree *ts_lex(TSLexer *lexer, TSStateId state, bool error_mode) {
                 ADVANCE(3);
             if (lookahead == '=')
                 ADVANCE(11);
+            if (lookahead == 'd')
+                ADVANCE(73);
+            LEX_ERROR();
+        case 73:
+            if (lookahead == 'o')
+                ADVANCE(74);
+            LEX_ERROR();
+        case 74:
+            ACCEPT_TOKEN(anon_sym_do);
+        case 75:
+            START_TOKEN();
+            if ((lookahead == '\t') ||
+                (lookahead == '\r') ||
+                (lookahead == ' '))
+                ADVANCE(75);
+            if (lookahead == '\n')
+                ADVANCE(2);
+            if (lookahead == '#')
+                ADVANCE(3);
+            if (lookahead == '=')
+                ADVANCE(11);
             if (('A' <= lookahead && lookahead <= 'Z') ||
                 (lookahead == '_') ||
                 ('a' <= lookahead && lookahead <= 'z'))
                 ADVANCE(25);
             LEX_ERROR();
-        case 73:
+        case 76:
             START_TOKEN();
             if ((lookahead == '\t') ||
                 (lookahead == '\r') ||
                 (lookahead == ' '))
-                ADVANCE(73);
+                ADVANCE(76);
             if (lookahead == '\n')
                 ADVANCE(2);
             if (lookahead == '#')
@@ -836,14 +869,14 @@ static TSTree *ts_lex(TSLexer *lexer, TSStateId state, bool error_mode) {
                 ('a' <= lookahead && lookahead <= 'z'))
                 ADVANCE(25);
             if (lookahead == '|')
-                ADVANCE(63);
+                ADVANCE(66);
             LEX_ERROR();
-        case 74:
+        case 77:
             START_TOKEN();
             if ((lookahead == '\t') ||
                 (lookahead == '\r') ||
                 (lookahead == ' '))
-                ADVANCE(74);
+                ADVANCE(77);
             if (lookahead == '\n')
                 ADVANCE(2);
             if (lookahead == '#')
@@ -870,12 +903,12 @@ static TSTree *ts_lex(TSLexer *lexer, TSStateId state, bool error_mode) {
             if (lookahead == 's')
                 ADVANCE(41);
             LEX_ERROR();
-        case 75:
+        case 78:
             START_TOKEN();
             if ((lookahead == '\t') ||
                 (lookahead == '\r') ||
                 (lookahead == ' '))
-                ADVANCE(75);
+                ADVANCE(78);
             if (lookahead == '\n')
                 ADVANCE(2);
             if (lookahead == '#')
@@ -904,14 +937,14 @@ static TSTree *ts_lex(TSLexer *lexer, TSStateId state, bool error_mode) {
             if (lookahead == 's')
                 ADVANCE(41);
             if (lookahead == 'u')
-                ADVANCE(65);
+                ADVANCE(68);
             LEX_ERROR();
-        case 76:
+        case 79:
             START_TOKEN();
             if ((lookahead == '\t') ||
                 (lookahead == '\r') ||
                 (lookahead == ' '))
-                ADVANCE(76);
+                ADVANCE(79);
             if (lookahead == '\n')
                 ADVANCE(2);
             if (lookahead == '#')
@@ -927,12 +960,12 @@ static TSTree *ts_lex(TSLexer *lexer, TSStateId state, bool error_mode) {
                 ('a' <= lookahead && lookahead <= 'z'))
                 ADVANCE(25);
             LEX_ERROR();
-        case 77:
+        case 80:
             START_TOKEN();
             if ((lookahead == '\t') ||
                 (lookahead == '\r') ||
                 (lookahead == ' '))
-                ADVANCE(77);
+                ADVANCE(80);
             if (lookahead == '\n')
                 ADVANCE(2);
             if (lookahead == '#')
@@ -942,12 +975,12 @@ static TSTree *ts_lex(TSLexer *lexer, TSStateId state, bool error_mode) {
             if (lookahead == '=')
                 ADVANCE(11);
             LEX_ERROR();
-        case 78:
+        case 81:
             START_TOKEN();
             if ((lookahead == '\t') ||
                 (lookahead == '\r') ||
                 (lookahead == ' '))
-                ADVANCE(78);
+                ADVANCE(81);
             if (lookahead == '\n')
                 ADVANCE(2);
             if (lookahead == '#')
@@ -984,14 +1017,14 @@ static TSTree *ts_lex(TSLexer *lexer, TSStateId state, bool error_mode) {
             if (lookahead == 'u')
                 ADVANCE(49);
             if (lookahead == 'w')
-                ADVANCE(58);
+                ADVANCE(61);
             LEX_ERROR();
-        case 79:
+        case 82:
             START_TOKEN();
             if ((lookahead == '\t') ||
                 (lookahead == '\r') ||
                 (lookahead == ' '))
-                ADVANCE(79);
+                ADVANCE(82);
             if (lookahead == '\n')
                 ADVANCE(2);
             if (lookahead == '#')
@@ -1021,16 +1054,16 @@ static TSTree *ts_lex(TSLexer *lexer, TSStateId state, bool error_mode) {
             if (lookahead == 's')
                 ADVANCE(41);
             if (lookahead == 'u')
-                ADVANCE(65);
+                ADVANCE(68);
             if (lookahead == '|')
-                ADVANCE(63);
+                ADVANCE(66);
             LEX_ERROR();
-        case 80:
+        case 83:
             START_TOKEN();
             if ((lookahead == '\t') ||
                 (lookahead == '\r') ||
                 (lookahead == ' '))
-                ADVANCE(80);
+                ADVANCE(83);
             if (lookahead == '\n')
                 ADVANCE(2);
             if (lookahead == '#')
@@ -1038,24 +1071,24 @@ static TSTree *ts_lex(TSLexer *lexer, TSStateId state, bool error_mode) {
             if (lookahead == '=')
                 ADVANCE(11);
             if (lookahead == 'e')
-                ADVANCE(81);
+                ADVANCE(84);
             LEX_ERROR();
-        case 81:
-            if (lookahead == 'n')
-                ADVANCE(82);
-            LEX_ERROR();
-        case 82:
-            if (lookahead == 'd')
-                ADVANCE(83);
-            LEX_ERROR();
-        case 83:
-            ACCEPT_TOKEN(anon_sym_end);
         case 84:
+            if (lookahead == 'n')
+                ADVANCE(85);
+            LEX_ERROR();
+        case 85:
+            if (lookahead == 'd')
+                ADVANCE(86);
+            LEX_ERROR();
+        case 86:
+            ACCEPT_TOKEN(anon_sym_end);
+        case 87:
             START_TOKEN();
             if ((lookahead == '\t') ||
                 (lookahead == '\r') ||
                 (lookahead == ' '))
-                ADVANCE(84);
+                ADVANCE(87);
             if (lookahead == '\n')
                 ADVANCE(2);
             if (lookahead == '#')
@@ -1093,14 +1126,14 @@ static TSTree *ts_lex(TSLexer *lexer, TSStateId state, bool error_mode) {
             if (lookahead == 'u')
                 ADVANCE(49);
             if (lookahead == 'w')
-                ADVANCE(58);
+                ADVANCE(61);
             LEX_ERROR();
-        case 85:
+        case 88:
             START_TOKEN();
             if ((lookahead == '\t') ||
                 (lookahead == '\r') ||
                 (lookahead == ' '))
-                ADVANCE(85);
+                ADVANCE(88);
             if (lookahead == '\n')
                 ADVANCE(2);
             if (lookahead == '#')
@@ -1130,14 +1163,14 @@ static TSTree *ts_lex(TSLexer *lexer, TSStateId state, bool error_mode) {
             if (lookahead == 's')
                 ADVANCE(41);
             if (lookahead == 'u')
-                ADVANCE(65);
+                ADVANCE(68);
             LEX_ERROR();
-        case 86:
+        case 89:
             START_TOKEN();
             if ((lookahead == '\t') ||
                 (lookahead == '\r') ||
                 (lookahead == ' '))
-                ADVANCE(86);
+                ADVANCE(89);
             if (lookahead == '\n')
                 ADVANCE(2);
             if (lookahead == '#')
@@ -1159,9 +1192,9 @@ static TSTree *ts_lex(TSLexer *lexer, TSStateId state, bool error_mode) {
             if (lookahead == 'n')
                 ADVANCE(38);
             if (lookahead == 's')
-                ADVANCE(87);
+                ADVANCE(90);
             LEX_ERROR();
-        case 87:
+        case 90:
             if (('0' <= lookahead && lookahead <= '9') ||
                 ('A' <= lookahead && lookahead <= 'Z') ||
                 (lookahead == '_') ||
@@ -1171,12 +1204,12 @@ static TSTree *ts_lex(TSLexer *lexer, TSStateId state, bool error_mode) {
             if (lookahead == 'e')
                 ADVANCE(42);
             ACCEPT_FRAGILE_TOKEN(aux_sym_SLASH_LBRACKa_DASHzA_DASHZ_RBRACK_LBRACKa_DASHzA_DASHZ0_DASH9_RBRACK_STAR_SLASH);
-        case 88:
+        case 91:
             START_TOKEN();
             if ((lookahead == '\t') ||
                 (lookahead == '\r') ||
                 (lookahead == ' '))
-                ADVANCE(88);
+                ADVANCE(91);
             if (lookahead == '\n')
                 ADVANCE(2);
             if (lookahead == '#')
@@ -1186,14 +1219,14 @@ static TSTree *ts_lex(TSLexer *lexer, TSStateId state, bool error_mode) {
             if (lookahead == '=')
                 ADVANCE(11);
             if (lookahead == 'd')
-                ADVANCE(70);
+                ADVANCE(73);
             LEX_ERROR();
-        case 89:
+        case 92:
             START_TOKEN();
             if ((lookahead == '\t') ||
                 (lookahead == '\r') ||
                 (lookahead == ' '))
-                ADVANCE(89);
+                ADVANCE(92);
             if (lookahead == '\n')
                 ADVANCE(2);
             if (lookahead == '#')
@@ -1223,130 +1256,130 @@ static TSTree *ts_lex(TSLexer *lexer, TSStateId state, bool error_mode) {
 }
 
 static TSStateId ts_lex_states[STATE_COUNT] = {
-    [0] = 64,
-    [1] = 67,
-    [2] = 67,
-    [3] = 68,
-    [4] = 69,
-    [5] = 69,
-    [6] = 68,
-    [7] = 68,
-    [8] = 68,
-    [9] = 68,
-    [10] = 68,
-    [11] = 67,
-    [12] = 72,
-    [13] = 73,
-    [14] = 73,
-    [15] = 74,
-    [16] = 75,
-    [17] = 76,
-    [18] = 68,
-    [19] = 72,
-    [20] = 77,
-    [21] = 78,
-    [22] = 69,
-    [23] = 78,
-    [24] = 78,
-    [25] = 78,
-    [26] = 78,
-    [27] = 78,
-    [28] = 77,
-    [29] = 72,
-    [30] = 73,
-    [31] = 73,
-    [32] = 75,
-    [33] = 78,
-    [34] = 77,
-    [35] = 78,
-    [36] = 73,
-    [37] = 73,
-    [38] = 72,
-    [39] = 73,
-    [40] = 73,
-    [41] = 78,
-    [42] = 78,
-    [43] = 78,
-    [44] = 78,
-    [45] = 79,
-    [46] = 80,
-    [47] = 84,
-    [48] = 69,
-    [49] = 84,
-    [50] = 84,
-    [51] = 84,
-    [52] = 84,
-    [53] = 84,
-    [54] = 80,
-    [55] = 72,
-    [56] = 85,
-    [57] = 73,
-    [58] = 73,
-    [59] = 75,
-    [60] = 84,
-    [61] = 77,
-    [62] = 84,
-    [63] = 73,
-    [64] = 84,
-    [65] = 84,
-    [66] = 84,
-    [67] = 80,
-    [68] = 78,
-    [69] = 84,
-    [70] = 79,
-    [71] = 80,
-    [72] = 85,
-    [73] = 80,
-    [74] = 84,
-    [75] = 84,
-    [76] = 85,
-    [77] = 80,
-    [78] = 86,
-    [79] = 84,
-    [80] = 85,
-    [81] = 80,
-    [82] = 78,
-    [83] = 75,
-    [84] = 77,
-    [85] = 86,
-    [86] = 78,
-    [87] = 75,
-    [88] = 77,
-    [89] = 68,
-    [90] = 69,
-    [91] = 69,
-    [92] = 88,
-    [93] = 88,
-    [94] = 88,
-    [95] = 88,
-    [96] = 72,
-    [97] = 89,
-    [98] = 75,
-    [99] = 88,
-    [100] = 77,
-    [101] = 88,
-    [102] = 88,
-    [103] = 69,
-    [104] = 86,
-    [105] = 88,
-    [106] = 69,
-    [107] = 73,
-    [108] = 68,
-    [109] = 68,
-    [110] = 68,
-    [111] = 68,
-    [112] = 79,
-    [113] = 80,
-    [114] = 85,
-    [115] = 80,
-    [116] = 68,
-    [117] = 68,
-    [118] = 64,
-    [119] = 67,
-    [120] = 86,
-    [121] = 68,
-    [122] = 64,
-    [123] = 67,
+    [0] = 67,
+    [1] = 70,
+    [2] = 70,
+    [3] = 71,
+    [4] = 72,
+    [5] = 72,
+    [6] = 71,
+    [7] = 71,
+    [8] = 71,
+    [9] = 71,
+    [10] = 71,
+    [11] = 70,
+    [12] = 75,
+    [13] = 76,
+    [14] = 76,
+    [15] = 77,
+    [16] = 78,
+    [17] = 79,
+    [18] = 71,
+    [19] = 75,
+    [20] = 80,
+    [21] = 81,
+    [22] = 72,
+    [23] = 81,
+    [24] = 81,
+    [25] = 81,
+    [26] = 81,
+    [27] = 81,
+    [28] = 80,
+    [29] = 75,
+    [30] = 76,
+    [31] = 76,
+    [32] = 78,
+    [33] = 81,
+    [34] = 80,
+    [35] = 81,
+    [36] = 76,
+    [37] = 76,
+    [38] = 75,
+    [39] = 76,
+    [40] = 76,
+    [41] = 81,
+    [42] = 81,
+    [43] = 81,
+    [44] = 81,
+    [45] = 82,
+    [46] = 83,
+    [47] = 87,
+    [48] = 72,
+    [49] = 87,
+    [50] = 87,
+    [51] = 87,
+    [52] = 87,
+    [53] = 87,
+    [54] = 83,
+    [55] = 75,
+    [56] = 88,
+    [57] = 76,
+    [58] = 76,
+    [59] = 78,
+    [60] = 87,
+    [61] = 80,
+    [62] = 87,
+    [63] = 76,
+    [64] = 87,
+    [65] = 87,
+    [66] = 87,
+    [67] = 83,
+    [68] = 81,
+    [69] = 87,
+    [70] = 82,
+    [71] = 83,
+    [72] = 88,
+    [73] = 83,
+    [74] = 87,
+    [75] = 87,
+    [76] = 88,
+    [77] = 83,
+    [78] = 89,
+    [79] = 87,
+    [80] = 88,
+    [81] = 83,
+    [82] = 81,
+    [83] = 78,
+    [84] = 80,
+    [85] = 89,
+    [86] = 81,
+    [87] = 78,
+    [88] = 80,
+    [89] = 71,
+    [90] = 72,
+    [91] = 72,
+    [92] = 91,
+    [93] = 91,
+    [94] = 91,
+    [95] = 91,
+    [96] = 75,
+    [97] = 92,
+    [98] = 78,
+    [99] = 91,
+    [100] = 80,
+    [101] = 91,
+    [102] = 91,
+    [103] = 72,
+    [104] = 89,
+    [105] = 91,
+    [106] = 72,
+    [107] = 76,
+    [108] = 71,
+    [109] = 71,
+    [110] = 71,
+    [111] = 71,
+    [112] = 82,
+    [113] = 83,
+    [114] = 88,
+    [115] = 83,
+    [116] = 71,
+    [117] = 71,
+    [118] = 67,
+    [119] = 70,
+    [120] = 89,
+    [121] = 71,
+    [122] = 67,
+    [123] = 70,
 };
 
 #pragma GCC diagnostic push
@@ -1409,6 +1442,7 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [anon_sym_if] = 52,
         [anon_sym_while] = 52,
         [anon_sym_unless] = 52,
+        [anon_sym_until] = 52,
         [anon_sym_super] = 32,
         [anon_sym_LPAREN] = 34,
         [anon_sym_nil] = 20,
@@ -1449,6 +1483,7 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [anon_sym_if] = 62,
         [anon_sym_while] = 62,
         [anon_sym_unless] = 62,
+        [anon_sym_until] = 62,
         [anon_sym_super] = 62,
         [anon_sym_LPAREN] = 62,
         [anon_sym_nil] = 62,
@@ -1479,6 +1514,7 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [anon_sym_if] = 64,
         [anon_sym_while] = 64,
         [anon_sym_unless] = 64,
+        [anon_sym_until] = 64,
         [anon_sym_super] = 64,
         [anon_sym_LPAREN] = 64,
         [anon_sym_nil] = 64,
@@ -1509,6 +1545,7 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [anon_sym_if] = 66,
         [anon_sym_while] = 66,
         [anon_sym_unless] = 66,
+        [anon_sym_until] = 66,
         [anon_sym_super] = 66,
         [anon_sym_LPAREN] = 66,
         [anon_sym_nil] = 66,
@@ -1539,6 +1576,7 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [anon_sym_if] = 68,
         [anon_sym_while] = 68,
         [anon_sym_unless] = 68,
+        [anon_sym_until] = 68,
         [anon_sym_super] = 68,
         [anon_sym_LPAREN] = 68,
         [anon_sym_nil] = 68,
@@ -1569,6 +1607,7 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [anon_sym_if] = 70,
         [anon_sym_while] = 70,
         [anon_sym_unless] = 70,
+        [anon_sym_until] = 70,
         [anon_sym_super] = 70,
         [anon_sym_LPAREN] = 70,
         [anon_sym_nil] = 70,
@@ -1686,6 +1725,7 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [anon_sym_if] = 142,
         [anon_sym_while] = 142,
         [anon_sym_unless] = 142,
+        [anon_sym_until] = 142,
         [anon_sym_super] = 142,
         [anon_sym_LPAREN] = 142,
         [anon_sym_nil] = 142,
@@ -1725,6 +1765,7 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [anon_sym_if] = 152,
         [anon_sym_while] = 152,
         [anon_sym_unless] = 152,
+        [anon_sym_until] = 152,
         [anon_sym_super] = 32,
         [anon_sym_LPAREN] = 134,
         [anon_sym_RPAREN] = 50,
@@ -1760,6 +1801,7 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [anon_sym_if] = 62,
         [anon_sym_while] = 62,
         [anon_sym_unless] = 62,
+        [anon_sym_until] = 62,
         [anon_sym_super] = 62,
         [anon_sym_LPAREN] = 62,
         [anon_sym_RPAREN] = 62,
@@ -1790,6 +1832,7 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [anon_sym_if] = 64,
         [anon_sym_while] = 64,
         [anon_sym_unless] = 64,
+        [anon_sym_until] = 64,
         [anon_sym_super] = 64,
         [anon_sym_LPAREN] = 64,
         [anon_sym_RPAREN] = 64,
@@ -1820,6 +1863,7 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [anon_sym_if] = 66,
         [anon_sym_while] = 66,
         [anon_sym_unless] = 66,
+        [anon_sym_until] = 66,
         [anon_sym_super] = 66,
         [anon_sym_LPAREN] = 66,
         [anon_sym_RPAREN] = 66,
@@ -1850,6 +1894,7 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [anon_sym_if] = 68,
         [anon_sym_while] = 68,
         [anon_sym_unless] = 68,
+        [anon_sym_until] = 68,
         [anon_sym_super] = 68,
         [anon_sym_LPAREN] = 68,
         [anon_sym_RPAREN] = 68,
@@ -1880,6 +1925,7 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [anon_sym_if] = 70,
         [anon_sym_while] = 70,
         [anon_sym_unless] = 70,
+        [anon_sym_until] = 70,
         [anon_sym_super] = 70,
         [anon_sym_LPAREN] = 70,
         [anon_sym_RPAREN] = 70,
@@ -1970,6 +2016,7 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [anon_sym_if] = 142,
         [anon_sym_while] = 142,
         [anon_sym_unless] = 142,
+        [anon_sym_until] = 142,
         [anon_sym_super] = 142,
         [anon_sym_LPAREN] = 142,
         [anon_sym_RPAREN] = 142,
@@ -2005,6 +2052,7 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [anon_sym_if] = 172,
         [anon_sym_while] = 172,
         [anon_sym_unless] = 172,
+        [anon_sym_until] = 172,
         [anon_sym_super] = 172,
         [anon_sym_LPAREN] = 172,
         [anon_sym_RPAREN] = 172,
@@ -2088,6 +2136,7 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [anon_sym_if] = 174,
         [anon_sym_while] = 174,
         [anon_sym_unless] = 174,
+        [anon_sym_until] = 174,
         [anon_sym_super] = 174,
         [anon_sym_LPAREN] = 174,
         [anon_sym_RPAREN] = 174,
@@ -2118,6 +2167,7 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [anon_sym_if] = 182,
         [anon_sym_while] = 182,
         [anon_sym_unless] = 182,
+        [anon_sym_until] = 182,
         [anon_sym_super] = 182,
         [anon_sym_LPAREN] = 182,
         [anon_sym_RPAREN] = 182,
@@ -2148,6 +2198,7 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [anon_sym_if] = 184,
         [anon_sym_while] = 184,
         [anon_sym_unless] = 184,
+        [anon_sym_until] = 184,
         [anon_sym_super] = 184,
         [anon_sym_LPAREN] = 184,
         [anon_sym_RPAREN] = 184,
@@ -2178,6 +2229,7 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [anon_sym_if] = 180,
         [anon_sym_while] = 180,
         [anon_sym_unless] = 180,
+        [anon_sym_until] = 180,
         [anon_sym_super] = 180,
         [anon_sym_LPAREN] = 180,
         [anon_sym_RPAREN] = 180,
@@ -2241,6 +2293,7 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [anon_sym_if] = 222,
         [anon_sym_while] = 222,
         [anon_sym_unless] = 222,
+        [anon_sym_until] = 222,
         [anon_sym_super] = 32,
         [anon_sym_LPAREN] = 212,
         [anon_sym_nil] = 200,
@@ -2276,6 +2329,7 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [anon_sym_if] = 62,
         [anon_sym_while] = 62,
         [anon_sym_unless] = 62,
+        [anon_sym_until] = 62,
         [anon_sym_super] = 62,
         [anon_sym_LPAREN] = 62,
         [anon_sym_nil] = 62,
@@ -2306,6 +2360,7 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [anon_sym_if] = 64,
         [anon_sym_while] = 64,
         [anon_sym_unless] = 64,
+        [anon_sym_until] = 64,
         [anon_sym_super] = 64,
         [anon_sym_LPAREN] = 64,
         [anon_sym_nil] = 64,
@@ -2336,6 +2391,7 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [anon_sym_if] = 66,
         [anon_sym_while] = 66,
         [anon_sym_unless] = 66,
+        [anon_sym_until] = 66,
         [anon_sym_super] = 66,
         [anon_sym_LPAREN] = 66,
         [anon_sym_nil] = 66,
@@ -2366,6 +2422,7 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [anon_sym_if] = 68,
         [anon_sym_while] = 68,
         [anon_sym_unless] = 68,
+        [anon_sym_until] = 68,
         [anon_sym_super] = 68,
         [anon_sym_LPAREN] = 68,
         [anon_sym_nil] = 68,
@@ -2396,6 +2453,7 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [anon_sym_if] = 70,
         [anon_sym_while] = 70,
         [anon_sym_unless] = 70,
+        [anon_sym_until] = 70,
         [anon_sym_super] = 70,
         [anon_sym_LPAREN] = 70,
         [anon_sym_nil] = 70,
@@ -2512,6 +2570,7 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [anon_sym_if] = 142,
         [anon_sym_while] = 142,
         [anon_sym_unless] = 142,
+        [anon_sym_until] = 142,
         [anon_sym_super] = 142,
         [anon_sym_LPAREN] = 142,
         [anon_sym_nil] = 142,
@@ -2547,6 +2606,7 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [anon_sym_if] = 172,
         [anon_sym_while] = 172,
         [anon_sym_unless] = 172,
+        [anon_sym_until] = 172,
         [anon_sym_super] = 172,
         [anon_sym_LPAREN] = 172,
         [anon_sym_nil] = 172,
@@ -2589,6 +2649,7 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [anon_sym_if] = 174,
         [anon_sym_while] = 174,
         [anon_sym_unless] = 174,
+        [anon_sym_until] = 174,
         [anon_sym_super] = 174,
         [anon_sym_LPAREN] = 174,
         [anon_sym_nil] = 174,
@@ -2619,6 +2680,7 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [anon_sym_if] = 182,
         [anon_sym_while] = 182,
         [anon_sym_unless] = 182,
+        [anon_sym_until] = 182,
         [anon_sym_super] = 182,
         [anon_sym_LPAREN] = 182,
         [anon_sym_nil] = 182,
@@ -2649,6 +2711,7 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [anon_sym_if] = 184,
         [anon_sym_while] = 184,
         [anon_sym_unless] = 184,
+        [anon_sym_until] = 184,
         [anon_sym_super] = 184,
         [anon_sym_LPAREN] = 184,
         [anon_sym_nil] = 184,
@@ -2683,6 +2746,7 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [anon_sym_if] = 248,
         [anon_sym_while] = 248,
         [anon_sym_unless] = 248,
+        [anon_sym_until] = 248,
         [anon_sym_super] = 248,
         [anon_sym_LPAREN] = 248,
         [anon_sym_RPAREN] = 248,
@@ -2714,6 +2778,7 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [anon_sym_if] = 180,
         [anon_sym_while] = 180,
         [anon_sym_unless] = 180,
+        [anon_sym_until] = 180,
         [anon_sym_super] = 180,
         [anon_sym_LPAREN] = 180,
         [anon_sym_nil] = 180,
@@ -2807,6 +2872,7 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [anon_sym_if] = 248,
         [anon_sym_while] = 248,
         [anon_sym_unless] = 248,
+        [anon_sym_until] = 248,
         [anon_sym_super] = 248,
         [anon_sym_LPAREN] = 248,
         [anon_sym_nil] = 248,
@@ -2837,6 +2903,7 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [anon_sym_if] = 260,
         [anon_sym_while] = 260,
         [anon_sym_unless] = 260,
+        [anon_sym_until] = 260,
         [anon_sym_super] = 260,
         [anon_sym_LPAREN] = 260,
         [anon_sym_nil] = 260,
@@ -2913,6 +2980,7 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [anon_sym_if] = 268,
         [anon_sym_while] = 268,
         [anon_sym_unless] = 268,
+        [anon_sym_until] = 268,
         [anon_sym_super] = 266,
         [anon_sym_LPAREN] = 266,
         [anon_sym_nil] = 266,
@@ -2972,6 +3040,7 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [anon_sym_if] = 260,
         [anon_sym_while] = 260,
         [anon_sym_unless] = 260,
+        [anon_sym_until] = 260,
         [anon_sym_super] = 260,
         [anon_sym_LPAREN] = 260,
         [anon_sym_RPAREN] = 260,
@@ -3048,6 +3117,7 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [anon_sym_if] = 268,
         [anon_sym_while] = 268,
         [anon_sym_unless] = 268,
+        [anon_sym_until] = 268,
         [anon_sym_super] = 266,
         [anon_sym_LPAREN] = 266,
         [anon_sym_RPAREN] = 266,
@@ -3109,6 +3179,7 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [anon_sym_if] = 172,
         [anon_sym_while] = 172,
         [anon_sym_unless] = 172,
+        [anon_sym_until] = 172,
         [anon_sym_super] = 172,
         [anon_sym_LPAREN] = 172,
         [anon_sym_nil] = 172,
@@ -3296,6 +3367,7 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [anon_sym_if] = 174,
         [anon_sym_while] = 174,
         [anon_sym_unless] = 174,
+        [anon_sym_until] = 174,
         [anon_sym_super] = 174,
         [anon_sym_LPAREN] = 174,
         [anon_sym_nil] = 174,
@@ -3326,6 +3398,7 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [anon_sym_if] = 182,
         [anon_sym_while] = 182,
         [anon_sym_unless] = 182,
+        [anon_sym_until] = 182,
         [anon_sym_super] = 182,
         [anon_sym_LPAREN] = 182,
         [anon_sym_nil] = 182,
@@ -3356,6 +3429,7 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [anon_sym_if] = 184,
         [anon_sym_while] = 184,
         [anon_sym_unless] = 184,
+        [anon_sym_until] = 184,
         [anon_sym_super] = 184,
         [anon_sym_LPAREN] = 184,
         [anon_sym_nil] = 184,
@@ -3386,6 +3460,7 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [anon_sym_if] = 180,
         [anon_sym_while] = 180,
         [anon_sym_unless] = 180,
+        [anon_sym_until] = 180,
         [anon_sym_super] = 180,
         [anon_sym_LPAREN] = 180,
         [anon_sym_nil] = 180,
@@ -3479,6 +3554,7 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [anon_sym_if] = 248,
         [anon_sym_while] = 248,
         [anon_sym_unless] = 248,
+        [anon_sym_until] = 248,
         [anon_sym_super] = 248,
         [anon_sym_LPAREN] = 248,
         [anon_sym_nil] = 248,
@@ -3509,6 +3585,7 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [anon_sym_if] = 260,
         [anon_sym_while] = 260,
         [anon_sym_unless] = 260,
+        [anon_sym_until] = 260,
         [anon_sym_super] = 260,
         [anon_sym_LPAREN] = 260,
         [anon_sym_nil] = 260,
@@ -3585,6 +3662,7 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [anon_sym_if] = 268,
         [anon_sym_while] = 268,
         [anon_sym_unless] = 268,
+        [anon_sym_until] = 268,
         [anon_sym_super] = 266,
         [anon_sym_LPAREN] = 266,
         [anon_sym_nil] = 266,

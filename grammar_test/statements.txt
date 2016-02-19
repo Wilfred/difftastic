@@ -27,3 +27,13 @@ foo unless bar
 ---
 
 (program (identifier) (identifier))
+
+================
+until statement
+================
+
+foo until bar
+
+---
+
+(program (identifier) (identifier))

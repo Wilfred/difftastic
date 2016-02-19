@@ -147,6 +147,23 @@
           ]
         },
         {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_statement"
+            },
+            {
+              "type": "STRING",
+              "value": "until"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_expression"
+            }
+          ]
+        },
+        {
           "type": "SYMBOL",
           "name": "_expression"
         }
