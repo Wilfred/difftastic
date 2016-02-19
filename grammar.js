@@ -29,7 +29,7 @@ module.exports = grammar({
     ),
 
     method_declaration: $ => seq(
-      "def", $._function_name, choice(seq("(", $._argument_list, ")"), seq(optional($._argument_list), $._terminator)),
+      "def", $._function_name, optional($._argument_declaration),
       sep($._statement, $._terminator),
       "end"
     ),
@@ -38,12 +38,8 @@ module.exports = grammar({
 
     module_declaration: $ => seq("module", $.identifier, sep($._statement, $._terminator), "end"),
 
-    _argument_list: $ => seq(
-      commaSep($.identifier),
-      optional(seq("*", $.identifier)),
-      optional(seq("&", $.identifier)),
-      $._terminator
-    ),
+    _argument_declaration: $ => choice(seq("(", $._argument_list, ")"), seq($._argument_list, $._terminator)),
+    _argument_list: $ => commaSep(seq(choice("*", "&"), $.identifier)),
 
     _call: $ => choice($._function_call, $._command),
 

@@ -21,6 +21,17 @@ end
 
 (program (method_declaration (identifier) (identifier)))
 
+================
+method with args
+================
+
+def foo(bar)
+end
+
+---
+
+(program (method_declaration (identifier) (identifier)))
+
 ===========
 empty class
 ===========
