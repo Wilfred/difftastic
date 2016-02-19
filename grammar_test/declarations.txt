@@ -54,6 +54,19 @@ end
 
 (program (class_declaration (identifier) (identifier) (identifier)))
 
+===============
+class with body
+===============
+
+class Foo
+	def bar
+	end
+end
+
+---
+
+(program (class_declaration (identifier) (method_declaration (identifier))))
+
 ============
 empty module
 ============
