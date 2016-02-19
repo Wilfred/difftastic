@@ -12,17 +12,20 @@ module.exports = grammar({
 
   	_statement: $ => choice(
       $._declaration,
-      seq($._call, "do", optional("|", $._block_variable, "|"), sep($._statement, $._terminator), "end"),
+      seq($._call, "do", optional("|", commaSep($._block_variable), "|"), sep($._statement, $._terminator), "end"),
       seq("undef", $._function_name),
       seq("alias", $._function_name, $._function_name),
       $.while_statement,
       $.until_statement,
       $.if_statement,
       $.unless_statement,
-      seq($._statement, "if", $._expression),
-      seq($._statement, "while", $._expression),
-      seq($._statement, "unless", $._expression),
-      seq($._statement, "until", $._expression),
+      $.for_statement,
+      $.begin_statement,
+      $.return_statement,
+      $.if_modifier,
+      $.unless_modifier,
+      $.while_modifier,
+      $.until_modifier,
       $._expression
     ),
 
@@ -48,6 +51,22 @@ module.exports = grammar({
     until_statement: $ => seq("until", $.condition, $._statement_block),
     if_statement: $ => seq("if", $.condition, $._then_elsif_else_block),
     unless_statement: $ => seq("unless", $.condition, $._then_else_block),
+    for_statement: $ => seq("for", $._lhs, "in", $._expression, $._statement_block),
+    begin_statement: $ => seq(
+      "begin",
+      sep($._statement, $._terminator),
+      repeat($.rescue_block),
+      optional($.else_block),
+      optional($.ensure_block),
+      "end"
+    ),
+
+    return_statement: $ => seq("return", optional($._expression)),
+
+    if_modifier: $ => seq($._statement, "if", $._expression),
+    unless_modifier: $ => seq($._statement, "unless", $._expression),
+    while_modifier: $ => seq($._statement, "while", $._expression),
+    until_modifier: $ => seq($._statement, "until", $._expression),
 
     condition: $ => $._expression,
 
@@ -59,6 +78,8 @@ module.exports = grammar({
 
     then_block: $ => seq(choice("then", $._terminator), sep($._statement, $._terminator)),
     else_block: $ => seq("else", sep($._statement, $._terminator)),
+    rescue_block: $ => seq("rescue", commaSep($._argument), choice("do", $._terminator), sep($._statement, $._terminator)),
+    ensure_block: $ => seq("ensure", sep($._statement, $._terminator)),
 
     _then_else_block: $ => seq($.then_block, optional($.else_block), "end"),
     _then_elsif_else_block: $ => seq(
@@ -85,6 +106,7 @@ module.exports = grammar({
 
   	_expression: $ => choice(
       $._argument,
+      $.yield,
       $.symbol
     ),
 
@@ -92,24 +114,25 @@ module.exports = grammar({
 
   	_primary: $ => choice(
       seq("(", sep($._statement, $._terminator), ")"),
-      $._variable,
-      $.scope_resolution_expression,
-      $.subscript_expression
+      $._lhs
     ),
 
     scope_resolution_expression: $ => seq(optional($._primary), '::', $.identifier),
     subscript_expression: $ => seq($._primary, "[", commaSep($._argument), "]"),
+    member_access: $ => seq($._primary, ".", $.identifier),
+    yield: $ => seq("yield", optional($._expression)),
 
     _block_variable: $ => choice($._lhs, $._mlhs),
     _mlhs: $ => choice(
-      seq($._mlhs_item, optional(seq($._mlhs_item, repeat(",", $._mlhs_item))), optional(seq("*", optional($._lhs)))),
-      seq("*", $._lhs)
+      seq(commaSep1($._mlhs_item), optional(seq("*", optional($._lhs)))),
+      seq("*", optional($._lhs))
     ),
     _mlhs_item: $ => choice($._lhs, seq("(", $._mlhs, ")")),
     _lhs: $ => choice(
       $._variable,
-      seq($._primary, "[", commaSep($._argument), "]"),
-      seq($._primary, ".", $.identifier)
+      $.scope_resolution_expression,
+      $.subscript_expression,
+      $.member_access
     ),
   	_variable: $ => choice($.identifier , 'nil', 'self'),
 

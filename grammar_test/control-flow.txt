@@ -151,3 +151,140 @@ end
 ---
 
 (program (unless_statement (condition (identifier)) (then_block) (else_block)))
+
+===
+for
+===
+
+for x in y do
+	f
+end
+
+---
+
+(program (for_statement (identifier) (identifier) (identifier)))
+
+==============
+for without do
+==============
+
+for x in y
+  f
+end
+
+---
+
+(program (for_statement (identifier) (identifier) (identifier)))
+
+===========
+empty begin
+===========
+
+begin
+end
+
+---
+
+(program (begin_statement))
+
+===============
+begin with body
+===============
+
+begin
+	foo
+end
+
+---
+
+(program (begin_statement (identifier)))
+
+===============
+begin with else
+===============
+
+begin
+	foo
+else
+  bar
+end
+
+---
+
+(program (begin_statement (identifier) (else_block (identifier))))
+
+===============
+begin with ensure
+===============
+
+begin
+	foo
+ensure
+  bar
+end
+
+---
+
+(program (begin_statement (identifier) (ensure_block (identifier))))
+
+=======================
+begin with empty rescue
+=======================
+
+begin
+rescue
+end
+
+---
+
+(program (begin_statement (rescue_block)))
+
+===========================
+begin with rescue with args
+===========================
+
+begin
+rescue x
+end
+
+---
+
+(program (begin_statement (rescue_block (identifier))))
+
+============================
+begin with all the trimmings
+============================
+
+begin
+	foo
+rescue x
+  bar
+else
+	quux
+ensure
+  baz
+end
+
+---
+
+(program (begin_statement (identifier) (rescue_block (identifier) (identifier)) (else_block (identifier)) (ensure_block (identifier))))
+
+======
+return
+======
+
+return foo
+
+---
+
+(program (return_statement (identifier)))
+
+====================
+return without value
+====================
+
+return
+
+---
+
+(program (return_statement))

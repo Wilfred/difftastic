@@ -37,3 +37,23 @@ vacuous literal
 ---
 
 (program)
+
+===================
+yield without value
+===================
+
+yield
+
+---
+
+(program (yield))
+
+=====
+yield
+=====
+
+yield foo
+
+---
+
+(program (yield (identifier)))
