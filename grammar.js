@@ -85,7 +85,7 @@ module.exports = grammar({
       )
     )),
 
-    symbol: $ => token(seq(':', choice($._function_name, $._variable))),
+    symbol: $ => token(seq(':', choice(identifierChars(), operatorChars()))),
 
     _function_name: $ => choice($.identifier, operatorChars()),
 
