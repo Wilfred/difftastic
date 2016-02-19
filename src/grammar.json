@@ -138,6 +138,10 @@
           "name": "while_statement"
         },
         {
+          "type": "SYMBOL",
+          "name": "until_statement"
+        },
+        {
           "type": "SEQ",
           "members": [
             {
@@ -562,6 +566,23 @@
         {
           "type": "STRING",
           "value": "while"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "condition"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_do_block"
+        }
+      ]
+    },
+    "until_statement": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "until"
         },
         {
           "type": "SYMBOL",

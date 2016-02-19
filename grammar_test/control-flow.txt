@@ -20,3 +20,26 @@ end
 ---
 
 (program (while_statement (condition (identifier)) (identifier)))
+
+=====================
+empty until statement
+=====================
+
+until foo do
+end
+
+---
+
+(program (until_statement (condition (identifier))))
+
+=========================
+until statement with body
+=========================
+
+until foo do
+  bar
+end
+
+---
+
+(program (until_statement (condition (identifier)) (identifier)))
