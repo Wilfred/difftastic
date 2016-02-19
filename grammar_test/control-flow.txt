@@ -238,3 +238,15 @@ end
 ---
 
 (program (begin_statement (rescue_block)))
+
+===========================
+begin with rescue with args
+===========================
+
+begin
+rescue x
+end
+
+---
+
+(program (begin_statement (rescue_block (identifier))))
