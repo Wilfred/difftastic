@@ -106,6 +106,7 @@ module.exports = grammar({
 
   	_expression: $ => choice(
       $._argument,
+      $.yield,
       $.symbol
     ),
 
@@ -119,6 +120,7 @@ module.exports = grammar({
     scope_resolution_expression: $ => seq(optional($._primary), '::', $.identifier),
     subscript_expression: $ => seq($._primary, "[", commaSep($._argument), "]"),
     member_access: $ => seq($._primary, ".", $.identifier),
+    yield: $ => seq("yield", optional($._expression)),
 
     _block_variable: $ => choice($._lhs, $._mlhs),
     _mlhs: $ => choice(
