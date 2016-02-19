@@ -32,6 +32,17 @@ end
 
 (program (class_declaration (identifier)))
 
+==============
+empty subclass
+==============
+
+class Foo < Bar
+end
+
+---
+
+(program (class_declaration (identifier) (identifier)))
+
 ============
 empty module
 ============
