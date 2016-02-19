@@ -9,6 +9,18 @@ end
 
 (program (method_declaration (identifier)))
 
+================
+method with body
+================
+
+def foo
+  bar
+end
+
+---
+
+(program (method_declaration (identifier) (identifier)))
+
 ===========
 empty class
 ===========
