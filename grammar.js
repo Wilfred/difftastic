@@ -34,7 +34,7 @@ module.exports = grammar({
       "end"
     ),
 
-    _argument_list: $ => commaSep(seq(choice("*", "&"), $.identifier)),
+    _argument_list: $ => commaSep(seq(optional(choice("*", "&")), $.identifier)),
 
     class_declaration: $ => seq("class", $.identifier, optional(seq("<", sep1($.identifier, "::"))), sep($._statement, $._terminator), "end"),
 
