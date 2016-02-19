@@ -67,3 +67,13 @@ not foo
 ---
 
 (program (not (identifier)))
+
+===
+and
+===
+
+foo and bar
+
+---
+
+(program (and (identifier) (identifier)))

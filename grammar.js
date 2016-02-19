@@ -1,4 +1,5 @@
 const PREC = {
+  AND: -1,
   NOT: 5,
 };
 
@@ -112,6 +113,7 @@ module.exports = grammar({
       $._argument,
       $.yield,
       $.not,
+      $.and,
       $.symbol
     ),
 
@@ -128,6 +130,7 @@ module.exports = grammar({
     yield: $ => seq("yield", optional($._expression)),
 
     not: $ => prec.right(PREC.NOT, seq("not", $._expression)),
+    and: $ => prec.left(PREC.AND, seq($._expression, "and", $._expression)),
 
     _block_variable: $ => choice($._lhs, $._mlhs),
     _mlhs: $ => choice(
