@@ -198,3 +198,17 @@ end
 ---
 
 (program (begin_statement (identifier)))
+
+===============
+begin with else
+===============
+
+begin
+	foo
+else
+  bar
+end
+
+---
+
+(program (begin_statement (identifier) (else_block (identifier))))
