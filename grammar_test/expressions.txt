@@ -77,3 +77,13 @@ foo and bar
 ---
 
 (program (and (identifier) (identifier)))
+
+===
+or
+===
+
+foo or bar
+
+---
+
+(program (or (identifier) (identifier)))
