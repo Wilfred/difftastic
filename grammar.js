@@ -8,12 +8,10 @@ module.exports = grammar({
   ],
 
   rules: {
-    program: $ => $._compound_statement,
-
-    _compound_statement: $ => repeat(seq($._statement, optional($._terminator))),
+    program: $ => sep($._statement, $._terminator),
 
   	_statement: $ => choice(
-      seq($._call, "do", optional("|", $._block_variable, "|"), $._compound_statement, "end"),
+      seq($._call, "do", optional("|", $._block_variable, "|"), sep($._statement, $._terminator), "end"),
       seq("undef", $._function_name),
       seq("alias", $._function_name, $._function_name),
       seq($._statement, "if", $._expression),
@@ -40,7 +38,7 @@ module.exports = grammar({
   	_argument: $ => choice($._primary),
 
   	_primary: $ => choice(
-      seq("(", $._compound_statement, ")"),
+      seq("(", sep($._statement, $._terminator), ")"),
       $._variable
     ),
 
