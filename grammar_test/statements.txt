@@ -17,3 +17,13 @@ foo while bar
 ---
 
 (program (identifier) (identifier))
+
+================
+unless statement
+================
+
+foo unless bar
+
+---
+
+(program (identifier) (identifier))

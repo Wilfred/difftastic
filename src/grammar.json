@@ -130,6 +130,23 @@
           ]
         },
         {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_statement"
+            },
+            {
+              "type": "STRING",
+              "value": "unless"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_expression"
+            }
+          ]
+        },
+        {
           "type": "SYMBOL",
           "name": "_expression"
         }
