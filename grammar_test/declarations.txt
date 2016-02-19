@@ -1,3 +1,14 @@
+============
+empty method
+============
+
+def foo
+end
+
+---
+
+(program (method_declaration (identifier)))
+
 ===========
 empty class
 ===========

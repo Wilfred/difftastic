@@ -23,13 +23,27 @@ module.exports = grammar({
     ),
 
     _declaration: $ => choice(
+      $.method_declaration,
       $.class_declaration,
       $.module_declaration
+    ),
+
+    method_declaration: $ => seq(
+      "def", $._function_name, choice(seq("(", $._argument_list, ")"), seq(optional($._argument_list), $._terminator)),
+      sep($._statement, $._terminator),
+      "end"
     ),
 
     class_declaration: $ => seq("class", $.identifier, optional(seq("<", sep1($.identifier, "::"))), sep($._statement, $._terminator), "end"),
 
     module_declaration: $ => seq("module", $.identifier, sep($._statement, $._terminator), "end"),
+
+    _argument_list: $ => seq(
+      commaSep($.identifier),
+      optional(seq("*", $.identifier)),
+      optional(seq("&", $.identifier)),
+      $._terminator
+    ),
 
     _call: $ => choice($._function_call, $._command),
 
@@ -99,4 +113,8 @@ function commaSep1 (rule) {
 
 function commaSep (rule) {
   return optional(commaSep1(rule));
+}
+
+function optionalParens (rule) {
+  return choice(seq("(", rule, ")"), rule)
 }
