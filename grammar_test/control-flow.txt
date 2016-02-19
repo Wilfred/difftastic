@@ -66,6 +66,18 @@ end
 
 (program (if_statement (condition (identifier))))
 
+=======================
+empty if/else statement
+=======================
+
+if foo then
+else
+end
+
+---
+
+(program (if_statement (condition (identifier))))
+
 ======================
 empty unless statement
 ======================
