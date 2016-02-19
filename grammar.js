@@ -87,7 +87,7 @@ module.exports = grammar({
 
     symbol: $ => token(seq(':', choice($._function_name, $._variable))),
 
-    _function_name: $ => choice($.identifier, '..', '|'),
+    _function_name: $ => choice($.identifier, operatorChars()),
 
     _line_break: $ => '\n',
   	_terminator: $ => choice($._line_break, ';'),
@@ -96,6 +96,10 @@ module.exports = grammar({
 
 function identifierChars () {
   return /[a-zA-Z_][a-zA-Z0-9_]*/;
+}
+
+function operatorChars () {
+  return choice('..', '|');
 }
 
 function sep1 (rule, separator) {
