@@ -8,3 +8,15 @@ end
 ---
 
 (program (while_statement (condition (identifier))))
+
+=========================
+while statement with body
+=========================
+
+while foo do
+  bar
+end
+
+---
+
+(program (while_statement (condition (identifier)) (identifier)))
