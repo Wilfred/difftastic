@@ -64,8 +64,8 @@ module.exports = grammar({
     _then_elsif_else_block: $ => seq(
       $.then_block,
       repeat(seq(
-        "elsif", $.condition, choice("then", $._terminator),
-        sep($._statement, $._terminator)
+        "elsif", $.condition,
+        $.then_block
       )),
       optional($.else_block),
       "end"

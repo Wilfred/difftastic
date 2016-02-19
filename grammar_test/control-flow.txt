@@ -100,7 +100,7 @@ end
 
 ---
 
-(program (if_statement (condition (identifier)) (then_block (identifier)) (condition (identifier)) (identifier)))
+(program (if_statement (condition (identifier)) (then_block (identifier)) (condition (identifier)) (then_block (identifier))))
 
 =============
 if elsif else
@@ -116,7 +116,7 @@ end
 
 ---
 
-(program (if_statement (condition (identifier)) (then_block (identifier)) (condition (identifier)) (identifier) (else_block (identifier))))
+(program (if_statement (condition (identifier)) (then_block (identifier)) (condition (identifier)) (then_block (identifier)) (else_block (identifier))))
 
 ======================
 empty unless statement
