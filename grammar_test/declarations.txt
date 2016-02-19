@@ -64,3 +64,16 @@ end
 ---
 
 (program (module_declaration (identifier)))
+
+================
+module with body
+================
+
+module Foo
+	def bar
+	end
+end
+
+---
+
+(program (module_declaration (identifier) (method_declaration (identifier))))
