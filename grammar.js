@@ -107,6 +107,7 @@ module.exports = grammar({
   	_expression: $ => choice(
       $._argument,
       $.yield,
+      $.not,
       $.symbol
     ),
 
@@ -121,6 +122,8 @@ module.exports = grammar({
     subscript_expression: $ => seq($._primary, "[", commaSep($._argument), "]"),
     member_access: $ => seq($._primary, ".", $.identifier),
     yield: $ => seq("yield", optional($._expression)),
+
+    not: $ => seq("not", $._expression),
 
     _block_variable: $ => choice($._lhs, $._mlhs),
     _mlhs: $ => choice(

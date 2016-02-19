@@ -57,3 +57,13 @@ yield foo
 ---
 
 (program (yield (identifier)))
+
+===
+not
+===
+
+not foo
+
+---
+
+(program (not (identifier)))

@@ -1272,6 +1272,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "not"
+        },
+        {
+          "type": "SYMBOL",
           "name": "symbol"
         }
       ]
@@ -1450,6 +1454,19 @@
               "type": "BLANK"
             }
           ]
+        }
+      ]
+    },
+    "not": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "not"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_expression"
         }
       ]
     },
