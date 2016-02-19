@@ -55,6 +55,7 @@ module.exports = grammar({
       "begin",
       sep($._statement, $._terminator),
       optional($.else_block),
+      optional($.ensure_block),
       "end"
     ),
 
@@ -73,6 +74,7 @@ module.exports = grammar({
 
     then_block: $ => seq(choice("then", $._terminator), sep($._statement, $._terminator)),
     else_block: $ => seq("else", sep($._statement, $._terminator)),
+    ensure_block: $ => seq("ensure", sep($._statement, $._terminator)),
 
     _then_else_block: $ => seq($.then_block, optional($.else_block), "end"),
     _then_elsif_else_block: $ => seq(

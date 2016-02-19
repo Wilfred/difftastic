@@ -212,3 +212,17 @@ end
 ---
 
 (program (begin_statement (identifier) (else_block (identifier))))
+
+===============
+begin with ensure
+===============
+
+begin
+	foo
+ensure
+  bar
+end
+
+---
+
+(program (begin_statement (identifier) (ensure_block (identifier))))
