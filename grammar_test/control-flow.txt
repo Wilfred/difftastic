@@ -76,3 +76,15 @@ end
 ---
 
 (program (unless_statement (condition (identifier))))
+
+================================
+empty unless statement with else
+================================
+
+unless foo
+else
+end
+
+---
+
+(program (unless_statement (condition (identifier))))
