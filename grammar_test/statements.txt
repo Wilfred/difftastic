@@ -7,3 +7,13 @@ foo if bar
 ---
 
 (program (identifier) (identifier))
+
+===============
+while statement
+===============
+
+foo while bar
+
+---
+
+(program (identifier) (identifier))

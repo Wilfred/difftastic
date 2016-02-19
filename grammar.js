@@ -17,6 +17,7 @@ module.exports = grammar({
       seq("undef", $._function_name),
       seq("alias", $._function_name, $._function_name),
       seq($._statement, "if", $._expression),
+      seq($._statement, "while", $._expression),
       $._expression
     ),
 
