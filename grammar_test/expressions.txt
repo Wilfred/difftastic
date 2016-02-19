@@ -87,3 +87,13 @@ foo or bar
 ---
 
 (program (or (identifier) (identifier)))
+
+========
+defined?
+========
+
+defined? foo
+
+---
+
+(program (defined (identifier)))

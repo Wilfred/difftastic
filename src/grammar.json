@@ -1272,15 +1272,19 @@
         },
         {
           "type": "SYMBOL",
-          "name": "not"
-        },
-        {
-          "type": "SYMBOL",
           "name": "and"
         },
         {
           "type": "SYMBOL",
           "name": "or"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "not"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "defined"
         },
         {
           "type": "SYMBOL",
@@ -1465,23 +1469,6 @@
         }
       ]
     },
-    "not": {
-      "type": "PREC_RIGHT",
-      "value": 5,
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "STRING",
-            "value": "not"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "_expression"
-          }
-        ]
-      }
-    },
     "and": {
       "type": "PREC_LEFT",
       "value": -1,
@@ -1516,6 +1503,40 @@
           {
             "type": "STRING",
             "value": "or"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_expression"
+          }
+        ]
+      }
+    },
+    "not": {
+      "type": "PREC_RIGHT",
+      "value": 5,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "not"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_expression"
+          }
+        ]
+      }
+    },
+    "defined": {
+      "type": "PREC",
+      "value": 10,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "defined?"
           },
           {
             "type": "SYMBOL",

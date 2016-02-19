@@ -2,6 +2,7 @@ const PREC = {
   AND: -1,
   OR: -1,
   NOT: 5,
+  DEFINED: 10,
 };
 
 module.exports = grammar({
@@ -113,9 +114,10 @@ module.exports = grammar({
   	_expression: $ => choice(
       $._argument,
       $.yield,
-      $.not,
       $.and,
       $.or,
+      $.not,
+      $.defined,
       $.symbol
     ),
 
@@ -131,9 +133,10 @@ module.exports = grammar({
     member_access: $ => seq($._primary, ".", $.identifier),
     yield: $ => seq("yield", optional($._expression)),
 
-    not: $ => prec.right(PREC.NOT, seq("not", $._expression)),
     and: $ => prec.left(PREC.AND, seq($._expression, "and", $._expression)),
     or: $ => prec.left(PREC.OR, seq($._expression, "or", $._expression)),
+    not: $ => prec.right(PREC.NOT, seq("not", $._expression)),
+    defined: $ => prec(PREC.DEFINED, seq("defined?", $._expression)),
 
     _block_variable: $ => choice($._lhs, $._mlhs),
     _mlhs: $ => choice(
