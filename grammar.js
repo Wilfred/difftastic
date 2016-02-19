@@ -104,6 +104,7 @@ module.exports = grammar({
 
     scope_resolution_expression: $ => seq(optional($._primary), '::', $.identifier),
     subscript_expression: $ => seq($._primary, "[", commaSep($._argument), "]"),
+    member_access: $ => seq($._primary, ".", $.identifier),
 
     _block_variable: $ => choice($._lhs, $._mlhs),
     _mlhs: $ => choice(
