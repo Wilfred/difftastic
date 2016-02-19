@@ -15,6 +15,7 @@ module.exports = grammar({
       seq($._call, "do", optional("|", $._block_variable, "|"), sep($._statement, $._terminator), "end"),
       seq("undef", $._function_name),
       seq("alias", $._function_name, $._function_name),
+      $.while_statement,
       seq($._statement, "if", $._expression),
       seq($._statement, "while", $._expression),
       seq($._statement, "unless", $._expression),
@@ -39,6 +40,12 @@ module.exports = grammar({
     class_declaration: $ => seq("class", $.identifier, optional(seq("<", sep1($.identifier, "::"))), $._terminator, sep($._statement, $._terminator), "end"),
 
     module_declaration: $ => seq("module", $.identifier, $._terminator, sep($._statement, $._terminator), "end"),
+
+    while_statement: $ => seq("while", $.condition, $._do_block),
+
+    condition: $ => $._expression,
+
+    _do_block: $ => seq("do", sep($._statement, $._terminator), "end"),
 
     _call: $ => choice($._function_call, $._command),
 

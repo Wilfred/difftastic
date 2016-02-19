@@ -1,0 +1,10 @@
+=====================
+empty while statement
+=====================
+
+while foo do
+end
+
+---
+
+(program (while_statement (condition (identifier))))
