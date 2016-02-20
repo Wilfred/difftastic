@@ -227,3 +227,23 @@ a >> b
 ---
 
 (program (shift (identifier) (identifier)))
+
+========
+additive
+========
+
+a + b
+
+---
+
+(program (additive (identifier) (identifier)))
+
+==============
+multiplicative
+==============
+
+a * b
+
+---
+
+(program (multiplicative (identifier) (identifier)))
