@@ -267,3 +267,13 @@ a ** b
 ---
 
 (program (exponential (identifier) (identifier)))
+
+==========
+complement
+==========
+
+!a
+
+---
+
+(program (complement (identifier)))

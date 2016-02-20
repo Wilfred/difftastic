@@ -1344,6 +1344,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "complement"
+        },
+        {
+          "type": "SYMBOL",
           "name": "symbol"
         }
       ]
@@ -1982,6 +1986,36 @@
           {
             "type": "STRING",
             "value": "**"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_expression"
+          }
+        ]
+      }
+    },
+    "complement": {
+      "type": "PREC_RIGHT",
+      "value": 85,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "!"
+              },
+              {
+                "type": "STRING",
+                "value": "~"
+              },
+              {
+                "type": "STRING",
+                "value": "+"
+              }
+            ]
           },
           {
             "type": "SYMBOL",
