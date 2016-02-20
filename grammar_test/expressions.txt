@@ -254,4 +254,6 @@ unary minus
 
 -a
 
+---
+
 (program (unary_minus (identifier)))
