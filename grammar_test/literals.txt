@@ -37,3 +37,13 @@ integer with decimal prefix
 ---
 
 (program (integer))
+
+===============================
+integer with hexadecimal prefix
+===============================
+
+0xa_bcd_ef0_123_456_789
+
+---
+
+(program (integer))
