@@ -177,3 +177,13 @@ a <=> b
 ---
 
 (program (relational (identifier) (identifier)))
+
+==========
+comparison
+==========
+
+a < b
+
+---
+
+(program (comparison (identifier) (identifier)))
