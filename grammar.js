@@ -215,9 +215,13 @@ module.exports = grammar({
       )
     )),
 
-    _literal: $ => choice($.symbol),
+    _literal: $ => choice(
+      $.symbol,
+      $.integer
+    ),
 
     symbol: $ => token(seq(':', choice(identifierChars(), operatorChars()))),
+    integer: $ => (/[\d](_?\d)*/),
 
     _function_name: $ => choice($.identifier, operatorChars()),
 

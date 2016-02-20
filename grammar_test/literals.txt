@@ -7,3 +7,23 @@ symbol
 ---
 
 (program (symbol))
+
+=======
+integer
+=======
+
+1234
+
+---
+
+(program (integer))
+
+=======================
+integer with underscore
+=======================
+
+1_234
+
+---
+
+(program (integer))

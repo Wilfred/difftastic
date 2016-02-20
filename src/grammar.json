@@ -2261,6 +2261,10 @@
         {
           "type": "SYMBOL",
           "name": "symbol"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "integer"
         }
       ]
     },
@@ -2389,6 +2393,10 @@
           }
         ]
       }
+    },
+    "integer": {
+      "type": "PATTERN",
+      "value": "[\\d](_?\\d)*"
     },
     "_function_name": {
       "type": "CHOICE",
