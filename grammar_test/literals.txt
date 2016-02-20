@@ -88,3 +88,13 @@ true
 ---
 
 (program (boolean))
+
+===
+nil
+===
+
+nil
+
+---
+
+(program (nil))
