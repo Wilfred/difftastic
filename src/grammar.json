@@ -1308,6 +1308,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "relational"
+        },
+        {
+          "type": "SYMBOL",
           "name": "symbol"
         }
       ]
@@ -1679,6 +1683,52 @@
           {
             "type": "STRING",
             "value": "&&"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_expression"
+          }
+        ]
+      }
+    },
+    "relational": {
+      "type": "PREC_RIGHT",
+      "value": 40,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_expression"
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "=="
+              },
+              {
+                "type": "STRING",
+                "value": "!="
+              },
+              {
+                "type": "STRING",
+                "value": "==="
+              },
+              {
+                "type": "STRING",
+                "value": "<=>"
+              },
+              {
+                "type": "STRING",
+                "value": "=~"
+              },
+              {
+                "type": "STRING",
+                "value": "!~"
+              }
+            ]
           },
           {
             "type": "SYMBOL",

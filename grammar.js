@@ -8,6 +8,7 @@ const PREC = {
   RANGE: 25,
   BOOLEAN_OR: 30,
   BOOLEAN_AND: 35,
+  RELATIONAL: 40,
 };
 
 module.exports = grammar({
@@ -128,6 +129,7 @@ module.exports = grammar({
       $.range,
       $.boolean_or,
       $.boolean_and,
+      $.relational,
       $.symbol
     ),
 
@@ -153,6 +155,8 @@ module.exports = grammar({
 
     boolean_or: $ => prec.left(PREC.BOOLEAN_OR, seq($._expression, '||', $._expression)),
     boolean_and: $ => prec.left(PREC.BOOLEAN_OR, seq($._expression, '&&', $._expression)),
+
+    relational: $ => prec.right(PREC.RELATIONAL, seq($._expression, choice('==', '!=', '===', '<=>', '=~', '!~'), $._expression)),
 
     _block_variable: $ => choice($._lhs, $._mlhs),
     _mlhs: $ => choice(

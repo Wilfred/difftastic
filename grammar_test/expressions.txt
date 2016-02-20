@@ -167,3 +167,13 @@ a && b
 ---
 
 (program (boolean_and (identifier) (identifier)))
+
+==========
+relational
+==========
+
+a <=> b
+
+---
+
+(program (relational (identifier) (identifier)))
