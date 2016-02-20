@@ -220,7 +220,8 @@ module.exports = grammar({
       $.integer,
       $.float,
       $.boolean,
-      $.nil
+      $.nil,
+      $.string
     ),
 
     symbol: $ => token(seq(':', choice(identifierChars(), operatorChars()))),
@@ -228,6 +229,11 @@ module.exports = grammar({
     float: $ => (/\d(_?\d)*\.\d(_?\d)*([eE]\d(_?\d)*)?/),
     boolean: $ => choice('true', 'false', 'TRUE', 'FALSE'),
     nil: $ => choice('nil', 'NIL'),
+
+    string: $ => choice(
+      $._single_quoted
+    ),
+    _single_quoted: $ => (/'(\\.|[^\\'])*'/),
 
     _function_name: $ => choice($.identifier, operatorChars()),
 

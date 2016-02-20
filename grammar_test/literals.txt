@@ -98,3 +98,45 @@ nil
 ---
 
 (program (nil))
+
+====================
+single-quoted string
+====================
+
+''
+' '
+'  '
+
+---
+
+(program (string) (string) (string))
+
+==============================================
+single-quoted string with escaped single quote
+==============================================
+
+'\''
+
+---
+
+(program (string))
+
+===========================================
+single-quoted string with escaped backslash
+===========================================
+
+'\\'
+
+---
+
+(program (string))
+
+=================================================
+single-quoted string with backslash and character
+=================================================
+
+'\d'
+
+---
+
+(program (string))
