@@ -47,3 +47,14 @@ integer with hexadecimal prefix
 ---
 
 (program (integer))
+
+=========================
+integer with octal prefix
+=========================
+
+01234567
+0o1234567
+
+---
+
+(program (integer) (integer))
