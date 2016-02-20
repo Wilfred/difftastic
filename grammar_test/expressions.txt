@@ -187,3 +187,33 @@ a < b
 ---
 
 (program (comparison (identifier) (identifier)))
+
+==========
+bitwise or
+==========
+
+a | b
+
+---
+
+(program (bitwise_or (identifier) (identifier)))
+
+===========
+bitwise xor
+===========
+
+a ^ b
+
+---
+
+(program (bitwise_or (identifier) (identifier)))
+
+===========
+bitwise and
+===========
+
+a & b
+
+---
+
+(program (bitwise_and (identifier) (identifier)))

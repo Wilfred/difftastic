@@ -10,6 +10,8 @@ const PREC = {
   BOOLEAN_AND: 35,
   RELATIONAL: 40,
   COMPARISON: 45,
+  BITWISE_OR: 50,
+  BITWISE_AND: 55,
 };
 
 module.exports = grammar({
@@ -132,6 +134,8 @@ module.exports = grammar({
       $.boolean_and,
       $.relational,
       $.comparison,
+      $.bitwise_or,
+      $.bitwise_and,
       $.symbol
     ),
 
@@ -160,6 +164,9 @@ module.exports = grammar({
 
     relational: $ => prec.right(PREC.RELATIONAL, seq($._expression, choice('==', '!=', '===', '<=>', '=~', '!~'), $._expression)),
     comparison: $ => prec.left(PREC.COMPARISON, seq($._expression, choice('<', '<=', '>', '>='), $._expression)),
+
+    bitwise_or: $ => prec.left(PREC.BITWISE_OR, seq($._expression, choice('^', '|'), $._expression)),
+    bitwise_and: $ => prec.left(PREC.BITWISE_AND, seq($._expression, '&', $._expression)),
 
     _block_variable: $ => choice($._lhs, $._mlhs),
     _mlhs: $ => choice(
