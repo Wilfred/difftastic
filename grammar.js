@@ -5,6 +5,7 @@ const PREC = {
   DEFINED: 10,
   ASSIGN: 15,
   CONDITIONAL: 20,
+  RANGE: 25,
 };
 
 module.exports = grammar({
@@ -122,6 +123,7 @@ module.exports = grammar({
       $.defined,
       $.assignment,
       $.conditional,
+      $.range,
       $.symbol
     ),
 
@@ -143,6 +145,7 @@ module.exports = grammar({
     defined: $ => prec(PREC.DEFINED, seq("defined?", $._expression)),
     assignment: $ => prec.right(PREC.ASSIGN, seq($._lhs, '=', $._expression)),
     conditional: $ => prec.right(PREC.CONDITIONAL, seq($._expression, '?', $._expression, ':', $._expression)),
+    range: $ => prec.right(PREC.RANGE, seq($._expression, choice('..', '...'), $._expression)),
 
     _block_variable: $ => choice($._lhs, $._mlhs),
     _mlhs: $ => choice(

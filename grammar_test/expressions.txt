@@ -127,3 +127,23 @@ a ? b : c
 ---
 
 (program (conditional (identifier) (identifier) (identifier)))
+
+===============
+inclusive range
+===============
+
+a..b
+
+---
+
+(program (range (identifier) (identifier)))
+
+===============
+exclusive range
+===============
+
+a...b
+
+---
+
+(program (range (identifier) (identifier)))
