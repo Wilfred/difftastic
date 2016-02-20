@@ -148,7 +148,7 @@ module.exports = grammar({
       $.unary_minus,
       $.exponential,
       $.complement,
-      $.symbol
+      $._literal
     ),
 
   	_argument: $ => choice($._primary),
@@ -214,6 +214,8 @@ module.exports = grammar({
         '=end\n'
       )
     )),
+
+    _literal: $ => choice($.symbol),
 
     symbol: $ => token(seq(':', choice(identifierChars(), operatorChars()))),
 
