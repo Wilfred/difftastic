@@ -217,3 +217,13 @@ a & b
 ---
 
 (program (bitwise_and (identifier) (identifier)))
+
+=====
+shift
+=====
+
+a >> b
+
+---
+
+(program (shift (identifier) (identifier)))

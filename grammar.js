@@ -12,6 +12,7 @@ const PREC = {
   COMPARISON: 45,
   BITWISE_OR: 50,
   BITWISE_AND: 55,
+  SHIFT: 60,
 };
 
 module.exports = grammar({
@@ -136,6 +137,7 @@ module.exports = grammar({
       $.comparison,
       $.bitwise_or,
       $.bitwise_and,
+      $.shift,
       $.symbol
     ),
 
@@ -167,6 +169,7 @@ module.exports = grammar({
 
     bitwise_or: $ => prec.left(PREC.BITWISE_OR, seq($._expression, choice('^', '|'), $._expression)),
     bitwise_and: $ => prec.left(PREC.BITWISE_AND, seq($._expression, '&', $._expression)),
+    shift: $ => prec.left(PREC.SHIFT, seq($._expression, choice('<<', '>>'), $._expression)),
 
     _block_variable: $ => choice($._lhs, $._mlhs),
     _mlhs: $ => choice(
