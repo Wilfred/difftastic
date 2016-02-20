@@ -235,7 +235,8 @@ module.exports = grammar({
       $._double_quoted
     ),
     _single_quoted: $ => (/'(\\.|[^\\'])*'/),
-    _double_quoted: $ => seq('"', repeat(choice(/\\./, /[^\\"]/)), '"'),
+    _double_quoted: $ => token(seq('"', repeat(choice(/\\./, $.interpolation, /[^\\"]/)), '"')),
+    interpolation: $ => seq('#{', $._expression, '}'),
 
     _function_name: $ => choice($.identifier, operatorChars()),
 

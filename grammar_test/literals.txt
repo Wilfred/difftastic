@@ -182,3 +182,23 @@ double-quoted string with backslash and character
 ---
 
 (program (string))
+
+=============
+interpolation
+=============
+
+"#{foo}"
+
+---
+
+(program (string (interpolation (identifier))))
+
+=====================
+escaped interpolation
+=====================
+
+"\#{foo}"
+
+---
+
+(program (string))
