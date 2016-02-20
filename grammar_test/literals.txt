@@ -68,3 +68,13 @@ integer with binary prefix
 ---
 
 (program (integer))
+
+=====
+float
+=====
+
+1.234_5e678_90
+
+---
+
+(program (float))
