@@ -16,6 +16,7 @@ const PREC = {
   ADDITIVE: 65,
   MULTIPLICATIVE: 70,
   UNARY_MINUS: 75,
+  EXPONENTIAL: 80,
 };
 
 module.exports = grammar({
@@ -144,6 +145,7 @@ module.exports = grammar({
       $.additive,
       $.multiplicative,
       $.unary_minus,
+      $.exponential,
       $.symbol
     ),
 
@@ -181,6 +183,8 @@ module.exports = grammar({
     multiplicative: $ => prec.left(PREC.MULTIPLICATIVE, seq($._expression, choice('*', '/', '%'), $._expression)),
 
     unary_minus: $ => prec.right(PREC.UNARY_MINUS, seq('-', $._expression)),
+
+    exponential: $ => prec.right(PREC.EXPONENTIAL, seq($._expression, '**', $._expression)),
 
     _block_variable: $ => choice($._lhs, $._mlhs),
     _mlhs: $ => choice(

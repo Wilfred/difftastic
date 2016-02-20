@@ -1340,6 +1340,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "exponential"
+        },
+        {
+          "type": "SYMBOL",
           "name": "symbol"
         }
       ]
@@ -1957,6 +1961,27 @@
           {
             "type": "STRING",
             "value": "-"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_expression"
+          }
+        ]
+      }
+    },
+    "exponential": {
+      "type": "PREC_RIGHT",
+      "value": 80,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_expression"
+          },
+          {
+            "type": "STRING",
+            "value": "**"
           },
           {
             "type": "SYMBOL",

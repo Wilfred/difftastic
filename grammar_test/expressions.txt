@@ -257,3 +257,13 @@ unary minus
 ---
 
 (program (unary_minus (identifier)))
+
+===========
+exponential
+===========
+
+a ** b
+
+---
+
+(program (exponential (identifier) (identifier)))
