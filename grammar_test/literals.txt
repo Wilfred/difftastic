@@ -152,3 +152,33 @@ double-quoted string
 ---
 
 (program (string) (string) (string))
+
+==============================================
+double-quoted string with escaped double quote
+==============================================
+
+"\""
+
+---
+
+(program (string))
+
+===========================================
+double-quoted string with escaped backslash
+===========================================
+
+"\\"
+
+---
+
+(program (string))
+
+=================================================
+double-quoted string with backslash and character
+=================================================
+
+"\d"
+
+---
+
+(program (string))
