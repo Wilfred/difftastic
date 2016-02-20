@@ -107,3 +107,13 @@ defined? foo
 ---
 
 (program (defined (identifier)))
+
+==========
+assignment
+==========
+
+x = y
+
+---
+
+(program (assignment (identifier) (identifier)))

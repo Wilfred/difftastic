@@ -3,6 +3,7 @@ const PREC = {
   OR: -1,
   NOT: 5,
   DEFINED: 10,
+  ASSIGN: 15,
 };
 
 module.exports = grammar({
@@ -118,6 +119,7 @@ module.exports = grammar({
       $.or,
       $.not,
       $.defined,
+      $.assignment,
       $.symbol
     ),
 
@@ -137,6 +139,7 @@ module.exports = grammar({
     or: $ => prec.left(PREC.OR, seq($._expression, "or", $._expression)),
     not: $ => prec.right(PREC.NOT, seq("not", $._expression)),
     defined: $ => prec(PREC.DEFINED, seq("defined?", $._expression)),
+    assignment: $ => prec.right(PREC.ASSIGN, seq($._lhs, '=', $._expression)),
 
     _block_variable: $ => choice($._lhs, $._mlhs),
     _mlhs: $ => choice(
