@@ -6,6 +6,8 @@ const PREC = {
   ASSIGN: 15,
   CONDITIONAL: 20,
   RANGE: 25,
+  BOOLEAN_OR: 30,
+  BOOLEAN_AND: 35,
 };
 
 module.exports = grammar({
@@ -124,6 +126,8 @@ module.exports = grammar({
       $.assignment,
       $.conditional,
       $.range,
+      $.boolean_or,
+      $.boolean_and,
       $.symbol
     ),
 
@@ -146,6 +150,9 @@ module.exports = grammar({
     assignment: $ => prec.right(PREC.ASSIGN, seq($._lhs, '=', $._expression)),
     conditional: $ => prec.right(PREC.CONDITIONAL, seq($._expression, '?', $._expression, ':', $._expression)),
     range: $ => prec.right(PREC.RANGE, seq($._expression, choice('..', '...'), $._expression)),
+
+    boolean_or: $ => prec.left(PREC.BOOLEAN_OR, seq($._expression, '||', $._expression)),
+    boolean_and: $ => prec.left(PREC.BOOLEAN_OR, seq($._expression, '&&', $._expression)),
 
     _block_variable: $ => choice($._lhs, $._mlhs),
     _mlhs: $ => choice(

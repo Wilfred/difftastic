@@ -147,3 +147,23 @@ a...b
 ---
 
 (program (range (identifier) (identifier)))
+
+==========
+boolean or
+==========
+
+a || b
+
+---
+
+(program (boolean_or (identifier) (identifier)))
+
+===========
+boolean and
+===========
+
+a && b
+
+---
+
+(program (boolean_and (identifier) (identifier)))
