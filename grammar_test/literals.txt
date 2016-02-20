@@ -1,0 +1,9 @@
+======
+symbol
+======
+
+:foo
+
+---
+
+(program (symbol))
