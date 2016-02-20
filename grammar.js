@@ -1,3 +1,25 @@
+const PREC = {
+  AND: -1,
+  OR: -1,
+  NOT: 5,
+  DEFINED: 10,
+  ASSIGN: 15,
+  CONDITIONAL: 20,
+  RANGE: 25,
+  BOOLEAN_OR: 30,
+  BOOLEAN_AND: 35,
+  RELATIONAL: 40,
+  COMPARISON: 45,
+  BITWISE_OR: 50,
+  BITWISE_AND: 55,
+  SHIFT: 60,
+  ADDITIVE: 65,
+  MULTIPLICATIVE: 70,
+  UNARY_MINUS: 75,
+  EXPONENTIAL: 80,
+  COMPLEMENT: 85,
+};
+
 module.exports = grammar({
   name: 'ruby',
 
@@ -107,6 +129,25 @@ module.exports = grammar({
   	_expression: $ => choice(
       $._argument,
       $.yield,
+      $.and,
+      $.or,
+      $.not,
+      $.defined,
+      $.assignment,
+      $.conditional,
+      $.range,
+      $.boolean_or,
+      $.boolean_and,
+      $.relational,
+      $.comparison,
+      $.bitwise_or,
+      $.bitwise_and,
+      $.shift,
+      $.additive,
+      $.multiplicative,
+      $.unary_minus,
+      $.exponential,
+      $.complement,
       $.symbol
     ),
 
@@ -121,6 +162,33 @@ module.exports = grammar({
     subscript_expression: $ => seq($._primary, "[", commaSep($._argument), "]"),
     member_access: $ => seq($._primary, ".", $.identifier),
     yield: $ => seq("yield", optional($._expression)),
+
+    and: $ => prec.left(PREC.AND, seq($._expression, "and", $._expression)),
+    or: $ => prec.left(PREC.OR, seq($._expression, "or", $._expression)),
+    not: $ => prec.right(PREC.NOT, seq("not", $._expression)),
+    defined: $ => prec(PREC.DEFINED, seq("defined?", $._expression)),
+    assignment: $ => prec.right(PREC.ASSIGN, seq($._lhs, '=', $._expression)),
+    conditional: $ => prec.right(PREC.CONDITIONAL, seq($._expression, '?', $._expression, ':', $._expression)),
+    range: $ => prec.right(PREC.RANGE, seq($._expression, choice('..', '...'), $._expression)),
+
+    boolean_or: $ => prec.left(PREC.BOOLEAN_OR, seq($._expression, '||', $._expression)),
+    boolean_and: $ => prec.left(PREC.BOOLEAN_OR, seq($._expression, '&&', $._expression)),
+
+    relational: $ => prec.right(PREC.RELATIONAL, seq($._expression, choice('==', '!=', '===', '<=>', '=~', '!~'), $._expression)),
+    comparison: $ => prec.left(PREC.COMPARISON, seq($._expression, choice('<', '<=', '>', '>='), $._expression)),
+
+    bitwise_or: $ => prec.left(PREC.BITWISE_OR, seq($._expression, choice('^', '|'), $._expression)),
+    bitwise_and: $ => prec.left(PREC.BITWISE_AND, seq($._expression, '&', $._expression)),
+    shift: $ => prec.left(PREC.SHIFT, seq($._expression, choice('<<', '>>'), $._expression)),
+
+    additive: $ => prec.left(PREC.ADDITIVE, seq($._expression, choice('-', '+'), $._expression)),
+    multiplicative: $ => prec.left(PREC.MULTIPLICATIVE, seq($._expression, choice('*', '/', '%'), $._expression)),
+
+    unary_minus: $ => prec.right(PREC.UNARY_MINUS, seq('-', $._expression)),
+
+    exponential: $ => prec.right(PREC.EXPONENTIAL, seq($._expression, '**', $._expression)),
+
+    complement: $ => prec.right(PREC.COMPLEMENT, seq(choice('!', '~', '+'), $._expression)),
 
     _block_variable: $ => choice($._lhs, $._mlhs),
     _mlhs: $ => choice(

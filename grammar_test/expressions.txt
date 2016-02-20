@@ -57,3 +57,223 @@ yield foo
 ---
 
 (program (yield (identifier)))
+
+===
+not
+===
+
+not foo
+
+---
+
+(program (not (identifier)))
+
+===
+and
+===
+
+foo and bar
+
+---
+
+(program (and (identifier) (identifier)))
+
+===
+or
+===
+
+foo or bar
+
+---
+
+(program (or (identifier) (identifier)))
+
+====================
+and or associativity
+====================
+
+a or b and c
+
+---
+
+(program (and (or (identifier) (identifier)) (identifier)))
+
+========
+defined?
+========
+
+defined? foo
+
+---
+
+(program (defined (identifier)))
+
+==========
+assignment
+==========
+
+x = y
+
+---
+
+(program (assignment (identifier) (identifier)))
+
+===========
+conditional
+===========
+
+a ? b : c
+
+---
+
+(program (conditional (identifier) (identifier) (identifier)))
+
+===============
+inclusive range
+===============
+
+a..b
+
+---
+
+(program (range (identifier) (identifier)))
+
+===============
+exclusive range
+===============
+
+a...b
+
+---
+
+(program (range (identifier) (identifier)))
+
+==========
+boolean or
+==========
+
+a || b
+
+---
+
+(program (boolean_or (identifier) (identifier)))
+
+===========
+boolean and
+===========
+
+a && b
+
+---
+
+(program (boolean_and (identifier) (identifier)))
+
+==========
+relational
+==========
+
+a <=> b
+
+---
+
+(program (relational (identifier) (identifier)))
+
+==========
+comparison
+==========
+
+a < b
+
+---
+
+(program (comparison (identifier) (identifier)))
+
+==========
+bitwise or
+==========
+
+a | b
+
+---
+
+(program (bitwise_or (identifier) (identifier)))
+
+===========
+bitwise xor
+===========
+
+a ^ b
+
+---
+
+(program (bitwise_or (identifier) (identifier)))
+
+===========
+bitwise and
+===========
+
+a & b
+
+---
+
+(program (bitwise_and (identifier) (identifier)))
+
+=====
+shift
+=====
+
+a >> b
+
+---
+
+(program (shift (identifier) (identifier)))
+
+========
+additive
+========
+
+a + b
+
+---
+
+(program (additive (identifier) (identifier)))
+
+==============
+multiplicative
+==============
+
+a * b
+
+---
+
+(program (multiplicative (identifier) (identifier)))
+
+===========
+unary minus
+===========
+
+-a
+
+---
+
+(program (unary_minus (identifier)))
+
+===========
+exponential
+===========
+
+a ** b
+
+---
+
+(program (exponential (identifier) (identifier)))
+
+==========
+complement
+==========
+
+!a
+
+---
+
+(program (complement (identifier)))
