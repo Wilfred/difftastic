@@ -2178,10 +2178,6 @@
         },
         {
           "type": "STRING",
-          "value": "nil"
-        },
-        {
-          "type": "STRING",
           "value": "self"
         }
       ]
@@ -2269,6 +2265,10 @@
         {
           "type": "SYMBOL",
           "name": "float"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "boolean"
         }
       ]
     },
@@ -2405,6 +2405,27 @@
     "float": {
       "type": "PATTERN",
       "value": "\\d(_?\\d)*\\.\\d(_?\\d)*([eE]\\d(_?\\d)*)?"
+    },
+    "boolean": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "true"
+        },
+        {
+          "type": "STRING",
+          "value": "false"
+        },
+        {
+          "type": "STRING",
+          "value": "TRUE"
+        },
+        {
+          "type": "STRING",
+          "value": "FALSE"
+        }
+      ]
     },
     "_function_name": {
       "type": "CHOICE",

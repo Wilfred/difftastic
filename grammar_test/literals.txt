@@ -78,3 +78,13 @@ float
 ---
 
 (program (float))
+
+=======
+boolean
+=======
+
+true
+
+---
+
+(program (boolean))
