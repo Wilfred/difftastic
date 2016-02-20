@@ -58,3 +58,13 @@ integer with octal prefix
 ---
 
 (program (integer) (integer))
+
+==========================
+integer with binary prefix
+==========================
+
+0b1_0
+
+---
+
+(program (integer))
