@@ -27,3 +27,13 @@ integer with underscore
 ---
 
 (program (integer))
+
+===========================
+integer with decimal prefix
+===========================
+
+0d1_234
+
+---
+
+(program (integer))
