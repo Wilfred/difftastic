@@ -247,3 +247,11 @@ a * b
 ---
 
 (program (multiplicative (identifier) (identifier)))
+
+===========
+unary minus
+===========
+
+-a
+
+(program (unary_minus (identifier)))

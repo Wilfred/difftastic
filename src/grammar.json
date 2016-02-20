@@ -1336,6 +1336,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "unary_minus"
+        },
+        {
+          "type": "SYMBOL",
           "name": "symbol"
         }
       ]
@@ -1936,6 +1940,23 @@
                 "value": "%"
               }
             ]
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_expression"
+          }
+        ]
+      }
+    },
+    "unary_minus": {
+      "type": "PREC_RIGHT",
+      "value": 75,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "-"
           },
           {
             "type": "SYMBOL",
