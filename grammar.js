@@ -231,9 +231,11 @@ module.exports = grammar({
     nil: $ => choice('nil', 'NIL'),
 
     string: $ => choice(
-      $._single_quoted
+      $._single_quoted,
+      $._double_quoted
     ),
     _single_quoted: $ => (/'(\\.|[^\\'])*'/),
+    _double_quoted: $ => (/"(\\.|[^\\"])*"/),
 
     _function_name: $ => choice($.identifier, operatorChars()),
 

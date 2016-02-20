@@ -2454,12 +2454,20 @@
         {
           "type": "SYMBOL",
           "name": "_single_quoted"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_double_quoted"
         }
       ]
     },
     "_single_quoted": {
       "type": "PATTERN",
       "value": "'(\\\\.|[^\\\\'])*'"
+    },
+    "_double_quoted": {
+      "type": "PATTERN",
+      "value": "\"(\\\\.|[^\\\\\"])*\""
     },
     "_function_name": {
       "type": "CHOICE",

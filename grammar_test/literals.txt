@@ -140,3 +140,15 @@ single-quoted string with backslash and character
 ---
 
 (program (string))
+
+====================
+double-quoted string
+====================
+
+""
+" "
+"  "
+
+---
+
+(program (string) (string) (string))
