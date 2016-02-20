@@ -265,7 +265,3 @@ function commaSep1 (rule) {
 function commaSep (rule) {
   return optional(commaSep1(rule));
 }
-
-function optionalParens (rule) {
-  return choice(seq("(", rule, ")"), rule)
-}
