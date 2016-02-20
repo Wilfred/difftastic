@@ -4,6 +4,7 @@ const PREC = {
   NOT: 5,
   DEFINED: 10,
   ASSIGN: 15,
+  CONDITIONAL: 20,
 };
 
 module.exports = grammar({
@@ -120,6 +121,7 @@ module.exports = grammar({
       $.not,
       $.defined,
       $.assignment,
+      $.conditional,
       $.symbol
     ),
 
@@ -140,6 +142,7 @@ module.exports = grammar({
     not: $ => prec.right(PREC.NOT, seq("not", $._expression)),
     defined: $ => prec(PREC.DEFINED, seq("defined?", $._expression)),
     assignment: $ => prec.right(PREC.ASSIGN, seq($._lhs, '=', $._expression)),
+    conditional: $ => prec.right(PREC.CONDITIONAL, seq($._expression, '?', $._expression, ':', $._expression)),
 
     _block_variable: $ => choice($._lhs, $._mlhs),
     _mlhs: $ => choice(

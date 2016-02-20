@@ -117,3 +117,13 @@ x = y
 ---
 
 (program (assignment (identifier) (identifier)))
+
+===========
+conditional
+===========
+
+a ? b : c
+
+---
+
+(program (conditional (identifier) (identifier) (identifier)))

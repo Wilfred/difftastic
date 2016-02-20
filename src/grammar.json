@@ -1292,6 +1292,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "conditional"
+        },
+        {
+          "type": "SYMBOL",
           "name": "symbol"
         }
       ]
@@ -1562,6 +1566,35 @@
           {
             "type": "STRING",
             "value": "="
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_expression"
+          }
+        ]
+      }
+    },
+    "conditional": {
+      "type": "PREC_RIGHT",
+      "value": 20,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_expression"
+          },
+          {
+            "type": "STRING",
+            "value": "?"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_expression"
+          },
+          {
+            "type": "STRING",
+            "value": ":"
           },
           {
             "type": "SYMBOL",
