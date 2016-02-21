@@ -259,7 +259,8 @@ module.exports = grammar({
     ),
     _backticks: $ => stringBody('`'),
 
-    array: $ => seq('[', commaSep($._expression), ']'),
+    array: $ => seq('[', $._array_items, ']'),
+    _array_items: $ => optional(seq($._expression, optional(seq(',', $._array_items)))),
 
     _function_name: $ => choice($.identifier, operatorChars()),
 

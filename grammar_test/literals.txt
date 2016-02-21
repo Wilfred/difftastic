@@ -302,3 +302,13 @@ array
 ---
 
 (program (array (identifier) (identifier)))
+
+=========================
+array with trailing comma
+=========================
+
+[ foo, ]
+
+---
+
+(program (array (identifier)))
