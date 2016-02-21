@@ -502,6 +502,17 @@ percent w array
 ---
 
 (program (array))
+
+==========================
+unbalanced percent w array
+==========================
+
+%w|one two|
+
+---
+
+(program (array))
+
 =====================
 empty percent i array
 =====================
@@ -517,6 +528,16 @@ percent i array
 ===============
 
 %i(word word)
+
+---
+
+(program (array))
+
+==========================
+unbalanced percent i array
+==========================
+
+%i|one two|
 
 ---
 
