@@ -2289,135 +2289,167 @@
       ]
     },
     "symbol": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "TOKEN",
-          "content": {
-            "type": "SEQ",
+      "type": "TOKEN",
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": ":"
+          },
+          {
+            "type": "CHOICE",
             "members": [
               {
-                "type": "STRING",
-                "value": ":"
+                "type": "PATTERN",
+                "value": "\\'(\\\\.|[^\\\\\\'])*\\'"
+              },
+              {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "STRING",
+                    "value": "\""
+                  },
+                  {
+                    "type": "REPEAT",
+                    "content": {
+                      "type": "CHOICE",
+                      "members": [
+                        {
+                          "type": "PATTERN",
+                          "value": "\\\\."
+                        },
+                        {
+                          "type": "SYMBOL",
+                          "name": "interpolation"
+                        },
+                        {
+                          "type": "PATTERN",
+                          "value": "[^\\\\\\\"]"
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "\""
+                  }
+                ]
+              },
+              {
+                "type": "PATTERN",
+                "value": "[a-zA-Z_][a-zA-Z0-9_]*"
               },
               {
                 "type": "CHOICE",
                 "members": [
                   {
-                    "type": "PATTERN",
-                    "value": "[a-zA-Z_][a-zA-Z0-9_]*"
+                    "type": "STRING",
+                    "value": ".."
                   },
                   {
-                    "type": "CHOICE",
-                    "members": [
-                      {
-                        "type": "STRING",
-                        "value": ".."
-                      },
-                      {
-                        "type": "STRING",
-                        "value": "|"
-                      },
-                      {
-                        "type": "STRING",
-                        "value": "^"
-                      },
-                      {
-                        "type": "STRING",
-                        "value": "&"
-                      },
-                      {
-                        "type": "STRING",
-                        "value": "<=>"
-                      },
-                      {
-                        "type": "STRING",
-                        "value": "=="
-                      },
-                      {
-                        "type": "STRING",
-                        "value": "==="
-                      },
-                      {
-                        "type": "STRING",
-                        "value": "=~"
-                      },
-                      {
-                        "type": "STRING",
-                        "value": ">"
-                      },
-                      {
-                        "type": "STRING",
-                        "value": ">="
-                      },
-                      {
-                        "type": "STRING",
-                        "value": "<"
-                      },
-                      {
-                        "type": "STRING",
-                        "value": "<="
-                      },
-                      {
-                        "type": "STRING",
-                        "value": "+"
-                      },
-                      {
-                        "type": "STRING",
-                        "value": "-"
-                      },
-                      {
-                        "type": "STRING",
-                        "value": "*"
-                      },
-                      {
-                        "type": "STRING",
-                        "value": "/"
-                      },
-                      {
-                        "type": "STRING",
-                        "value": "%"
-                      },
-                      {
-                        "type": "STRING",
-                        "value": "**"
-                      },
-                      {
-                        "type": "STRING",
-                        "value": "<<"
-                      },
-                      {
-                        "type": "STRING",
-                        "value": ">>"
-                      },
-                      {
-                        "type": "STRING",
-                        "value": "~"
-                      },
-                      {
-                        "type": "STRING",
-                        "value": "+@"
-                      },
-                      {
-                        "type": "STRING",
-                        "value": "-@"
-                      },
-                      {
-                        "type": "STRING",
-                        "value": "[]"
-                      },
-                      {
-                        "type": "STRING",
-                        "value": "[]="
-                      }
-                    ]
+                    "type": "STRING",
+                    "value": "|"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "^"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "&"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "<=>"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "=="
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "==="
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "=~"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": ">"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": ">="
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "<"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "<="
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "+"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "-"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "*"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "/"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "%"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "**"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "<<"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": ">>"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "~"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "+@"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "-@"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "[]"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "[]="
                   }
                 ]
               }
             ]
           }
-        }
-      ]
+        ]
+      }
     },
     "integer": {
       "type": "PATTERN",
@@ -2536,37 +2568,32 @@
                   "type": "SEQ",
                   "members": [
                     {
-                      "type": "SEQ",
-                      "members": [
-                        {
-                          "type": "STRING",
-                          "value": "!"
-                        },
-                        {
-                          "type": "REPEAT",
-                          "content": {
-                            "type": "CHOICE",
-                            "members": [
-                              {
-                                "type": "PATTERN",
-                                "value": "\\\\."
-                              },
-                              {
-                                "type": "SYMBOL",
-                                "name": "interpolation"
-                              },
-                              {
-                                "type": "PATTERN",
-                                "value": "[^\\\\\\!]"
-                              }
-                            ]
+                      "type": "STRING",
+                      "value": "!"
+                    },
+                    {
+                      "type": "REPEAT",
+                      "content": {
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "PATTERN",
+                            "value": "\\\\."
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "interpolation"
+                          },
+                          {
+                            "type": "PATTERN",
+                            "value": "[^\\\\\\!]"
                           }
-                        },
-                        {
-                          "type": "STRING",
-                          "value": "!"
-                        }
-                      ]
+                        ]
+                      }
+                    },
+                    {
+                      "type": "STRING",
+                      "value": "!"
                     }
                   ]
                 },
@@ -2574,37 +2601,32 @@
                   "type": "SEQ",
                   "members": [
                     {
-                      "type": "SEQ",
-                      "members": [
-                        {
-                          "type": "STRING",
-                          "value": "@"
-                        },
-                        {
-                          "type": "REPEAT",
-                          "content": {
-                            "type": "CHOICE",
-                            "members": [
-                              {
-                                "type": "PATTERN",
-                                "value": "\\\\."
-                              },
-                              {
-                                "type": "SYMBOL",
-                                "name": "interpolation"
-                              },
-                              {
-                                "type": "PATTERN",
-                                "value": "[^\\\\\\@]"
-                              }
-                            ]
+                      "type": "STRING",
+                      "value": "@"
+                    },
+                    {
+                      "type": "REPEAT",
+                      "content": {
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "PATTERN",
+                            "value": "\\\\."
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "interpolation"
+                          },
+                          {
+                            "type": "PATTERN",
+                            "value": "[^\\\\\\@]"
                           }
-                        },
-                        {
-                          "type": "STRING",
-                          "value": "@"
-                        }
-                      ]
+                        ]
+                      }
+                    },
+                    {
+                      "type": "STRING",
+                      "value": "@"
                     }
                   ]
                 },
@@ -2612,37 +2634,32 @@
                   "type": "SEQ",
                   "members": [
                     {
-                      "type": "SEQ",
-                      "members": [
-                        {
-                          "type": "STRING",
-                          "value": "#"
-                        },
-                        {
-                          "type": "REPEAT",
-                          "content": {
-                            "type": "CHOICE",
-                            "members": [
-                              {
-                                "type": "PATTERN",
-                                "value": "\\\\."
-                              },
-                              {
-                                "type": "SYMBOL",
-                                "name": "interpolation"
-                              },
-                              {
-                                "type": "PATTERN",
-                                "value": "[^\\\\\\#]"
-                              }
-                            ]
+                      "type": "STRING",
+                      "value": "#"
+                    },
+                    {
+                      "type": "REPEAT",
+                      "content": {
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "PATTERN",
+                            "value": "\\\\."
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "interpolation"
+                          },
+                          {
+                            "type": "PATTERN",
+                            "value": "[^\\\\\\#]"
                           }
-                        },
-                        {
-                          "type": "STRING",
-                          "value": "#"
-                        }
-                      ]
+                        ]
+                      }
+                    },
+                    {
+                      "type": "STRING",
+                      "value": "#"
                     }
                   ]
                 },
@@ -2650,37 +2667,32 @@
                   "type": "SEQ",
                   "members": [
                     {
-                      "type": "SEQ",
-                      "members": [
-                        {
-                          "type": "STRING",
-                          "value": "$"
-                        },
-                        {
-                          "type": "REPEAT",
-                          "content": {
-                            "type": "CHOICE",
-                            "members": [
-                              {
-                                "type": "PATTERN",
-                                "value": "\\\\."
-                              },
-                              {
-                                "type": "SYMBOL",
-                                "name": "interpolation"
-                              },
-                              {
-                                "type": "PATTERN",
-                                "value": "[^\\\\\\$]"
-                              }
-                            ]
+                      "type": "STRING",
+                      "value": "$"
+                    },
+                    {
+                      "type": "REPEAT",
+                      "content": {
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "PATTERN",
+                            "value": "\\\\."
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "interpolation"
+                          },
+                          {
+                            "type": "PATTERN",
+                            "value": "[^\\\\\\$]"
                           }
-                        },
-                        {
-                          "type": "STRING",
-                          "value": "$"
-                        }
-                      ]
+                        ]
+                      }
+                    },
+                    {
+                      "type": "STRING",
+                      "value": "$"
                     }
                   ]
                 },
@@ -2688,37 +2700,32 @@
                   "type": "SEQ",
                   "members": [
                     {
-                      "type": "SEQ",
-                      "members": [
-                        {
-                          "type": "STRING",
-                          "value": "%"
-                        },
-                        {
-                          "type": "REPEAT",
-                          "content": {
-                            "type": "CHOICE",
-                            "members": [
-                              {
-                                "type": "PATTERN",
-                                "value": "\\\\."
-                              },
-                              {
-                                "type": "SYMBOL",
-                                "name": "interpolation"
-                              },
-                              {
-                                "type": "PATTERN",
-                                "value": "[^\\\\\\%]"
-                              }
-                            ]
+                      "type": "STRING",
+                      "value": "%"
+                    },
+                    {
+                      "type": "REPEAT",
+                      "content": {
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "PATTERN",
+                            "value": "\\\\."
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "interpolation"
+                          },
+                          {
+                            "type": "PATTERN",
+                            "value": "[^\\\\\\%]"
                           }
-                        },
-                        {
-                          "type": "STRING",
-                          "value": "%"
-                        }
-                      ]
+                        ]
+                      }
+                    },
+                    {
+                      "type": "STRING",
+                      "value": "%"
                     }
                   ]
                 },
@@ -2726,37 +2733,32 @@
                   "type": "SEQ",
                   "members": [
                     {
-                      "type": "SEQ",
-                      "members": [
-                        {
-                          "type": "STRING",
-                          "value": "^"
-                        },
-                        {
-                          "type": "REPEAT",
-                          "content": {
-                            "type": "CHOICE",
-                            "members": [
-                              {
-                                "type": "PATTERN",
-                                "value": "\\\\."
-                              },
-                              {
-                                "type": "SYMBOL",
-                                "name": "interpolation"
-                              },
-                              {
-                                "type": "PATTERN",
-                                "value": "[^\\\\\\^]"
-                              }
-                            ]
+                      "type": "STRING",
+                      "value": "^"
+                    },
+                    {
+                      "type": "REPEAT",
+                      "content": {
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "PATTERN",
+                            "value": "\\\\."
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "interpolation"
+                          },
+                          {
+                            "type": "PATTERN",
+                            "value": "[^\\\\\\^]"
                           }
-                        },
-                        {
-                          "type": "STRING",
-                          "value": "^"
-                        }
-                      ]
+                        ]
+                      }
+                    },
+                    {
+                      "type": "STRING",
+                      "value": "^"
                     }
                   ]
                 },
@@ -2764,37 +2766,32 @@
                   "type": "SEQ",
                   "members": [
                     {
-                      "type": "SEQ",
-                      "members": [
-                        {
-                          "type": "STRING",
-                          "value": "&"
-                        },
-                        {
-                          "type": "REPEAT",
-                          "content": {
-                            "type": "CHOICE",
-                            "members": [
-                              {
-                                "type": "PATTERN",
-                                "value": "\\\\."
-                              },
-                              {
-                                "type": "SYMBOL",
-                                "name": "interpolation"
-                              },
-                              {
-                                "type": "PATTERN",
-                                "value": "[^\\\\\\&]"
-                              }
-                            ]
+                      "type": "STRING",
+                      "value": "&"
+                    },
+                    {
+                      "type": "REPEAT",
+                      "content": {
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "PATTERN",
+                            "value": "\\\\."
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "interpolation"
+                          },
+                          {
+                            "type": "PATTERN",
+                            "value": "[^\\\\\\&]"
                           }
-                        },
-                        {
-                          "type": "STRING",
-                          "value": "&"
-                        }
-                      ]
+                        ]
+                      }
+                    },
+                    {
+                      "type": "STRING",
+                      "value": "&"
                     }
                   ]
                 },
@@ -2802,37 +2799,32 @@
                   "type": "SEQ",
                   "members": [
                     {
-                      "type": "SEQ",
-                      "members": [
-                        {
-                          "type": "STRING",
-                          "value": "*"
-                        },
-                        {
-                          "type": "REPEAT",
-                          "content": {
-                            "type": "CHOICE",
-                            "members": [
-                              {
-                                "type": "PATTERN",
-                                "value": "\\\\."
-                              },
-                              {
-                                "type": "SYMBOL",
-                                "name": "interpolation"
-                              },
-                              {
-                                "type": "PATTERN",
-                                "value": "[^\\\\\\*]"
-                              }
-                            ]
+                      "type": "STRING",
+                      "value": "*"
+                    },
+                    {
+                      "type": "REPEAT",
+                      "content": {
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "PATTERN",
+                            "value": "\\\\."
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "interpolation"
+                          },
+                          {
+                            "type": "PATTERN",
+                            "value": "[^\\\\\\*]"
                           }
-                        },
-                        {
-                          "type": "STRING",
-                          "value": "*"
-                        }
-                      ]
+                        ]
+                      }
+                    },
+                    {
+                      "type": "STRING",
+                      "value": "*"
                     }
                   ]
                 },
@@ -2840,37 +2832,32 @@
                   "type": "SEQ",
                   "members": [
                     {
-                      "type": "SEQ",
-                      "members": [
-                        {
-                          "type": "STRING",
-                          "value": ")"
-                        },
-                        {
-                          "type": "REPEAT",
-                          "content": {
-                            "type": "CHOICE",
-                            "members": [
-                              {
-                                "type": "PATTERN",
-                                "value": "\\\\."
-                              },
-                              {
-                                "type": "SYMBOL",
-                                "name": "interpolation"
-                              },
-                              {
-                                "type": "PATTERN",
-                                "value": "[^\\\\\\)]"
-                              }
-                            ]
+                      "type": "STRING",
+                      "value": ")"
+                    },
+                    {
+                      "type": "REPEAT",
+                      "content": {
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "PATTERN",
+                            "value": "\\\\."
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "interpolation"
+                          },
+                          {
+                            "type": "PATTERN",
+                            "value": "[^\\\\\\)]"
                           }
-                        },
-                        {
-                          "type": "STRING",
-                          "value": ")"
-                        }
-                      ]
+                        ]
+                      }
+                    },
+                    {
+                      "type": "STRING",
+                      "value": ")"
                     }
                   ]
                 },
@@ -2878,37 +2865,32 @@
                   "type": "SEQ",
                   "members": [
                     {
-                      "type": "SEQ",
-                      "members": [
-                        {
-                          "type": "STRING",
-                          "value": "]"
-                        },
-                        {
-                          "type": "REPEAT",
-                          "content": {
-                            "type": "CHOICE",
-                            "members": [
-                              {
-                                "type": "PATTERN",
-                                "value": "\\\\."
-                              },
-                              {
-                                "type": "SYMBOL",
-                                "name": "interpolation"
-                              },
-                              {
-                                "type": "PATTERN",
-                                "value": "[^\\\\\\]]"
-                              }
-                            ]
+                      "type": "STRING",
+                      "value": "]"
+                    },
+                    {
+                      "type": "REPEAT",
+                      "content": {
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "PATTERN",
+                            "value": "\\\\."
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "interpolation"
+                          },
+                          {
+                            "type": "PATTERN",
+                            "value": "[^\\\\\\]]"
                           }
-                        },
-                        {
-                          "type": "STRING",
-                          "value": "]"
-                        }
-                      ]
+                        ]
+                      }
+                    },
+                    {
+                      "type": "STRING",
+                      "value": "]"
                     }
                   ]
                 },
@@ -2916,37 +2898,32 @@
                   "type": "SEQ",
                   "members": [
                     {
-                      "type": "SEQ",
-                      "members": [
-                        {
-                          "type": "STRING",
-                          "value": "}"
-                        },
-                        {
-                          "type": "REPEAT",
-                          "content": {
-                            "type": "CHOICE",
-                            "members": [
-                              {
-                                "type": "PATTERN",
-                                "value": "\\\\."
-                              },
-                              {
-                                "type": "SYMBOL",
-                                "name": "interpolation"
-                              },
-                              {
-                                "type": "PATTERN",
-                                "value": "[^\\\\\\}]"
-                              }
-                            ]
+                      "type": "STRING",
+                      "value": "}"
+                    },
+                    {
+                      "type": "REPEAT",
+                      "content": {
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "PATTERN",
+                            "value": "\\\\."
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "interpolation"
+                          },
+                          {
+                            "type": "PATTERN",
+                            "value": "[^\\\\\\}]"
                           }
-                        },
-                        {
-                          "type": "STRING",
-                          "value": "}"
-                        }
-                      ]
+                        ]
+                      }
+                    },
+                    {
+                      "type": "STRING",
+                      "value": "}"
                     }
                   ]
                 },
@@ -2954,37 +2931,32 @@
                   "type": "SEQ",
                   "members": [
                     {
-                      "type": "SEQ",
-                      "members": [
-                        {
-                          "type": "STRING",
-                          "value": ">"
-                        },
-                        {
-                          "type": "REPEAT",
-                          "content": {
-                            "type": "CHOICE",
-                            "members": [
-                              {
-                                "type": "PATTERN",
-                                "value": "\\\\."
-                              },
-                              {
-                                "type": "SYMBOL",
-                                "name": "interpolation"
-                              },
-                              {
-                                "type": "PATTERN",
-                                "value": "[^\\\\\\>]"
-                              }
-                            ]
+                      "type": "STRING",
+                      "value": ">"
+                    },
+                    {
+                      "type": "REPEAT",
+                      "content": {
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "PATTERN",
+                            "value": "\\\\."
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "interpolation"
+                          },
+                          {
+                            "type": "PATTERN",
+                            "value": "[^\\\\\\>]"
                           }
-                        },
-                        {
-                          "type": "STRING",
-                          "value": ">"
-                        }
-                      ]
+                        ]
+                      }
+                    },
+                    {
+                      "type": "STRING",
+                      "value": ">"
                     }
                   ]
                 },
@@ -2992,37 +2964,32 @@
                   "type": "SEQ",
                   "members": [
                     {
-                      "type": "SEQ",
-                      "members": [
-                        {
-                          "type": "STRING",
-                          "value": "|"
-                        },
-                        {
-                          "type": "REPEAT",
-                          "content": {
-                            "type": "CHOICE",
-                            "members": [
-                              {
-                                "type": "PATTERN",
-                                "value": "\\\\."
-                              },
-                              {
-                                "type": "SYMBOL",
-                                "name": "interpolation"
-                              },
-                              {
-                                "type": "PATTERN",
-                                "value": "[^\\\\\\|]"
-                              }
-                            ]
+                      "type": "STRING",
+                      "value": "|"
+                    },
+                    {
+                      "type": "REPEAT",
+                      "content": {
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "PATTERN",
+                            "value": "\\\\."
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "interpolation"
+                          },
+                          {
+                            "type": "PATTERN",
+                            "value": "[^\\\\\\|]"
                           }
-                        },
-                        {
-                          "type": "STRING",
-                          "value": "|"
-                        }
-                      ]
+                        ]
+                      }
+                    },
+                    {
+                      "type": "STRING",
+                      "value": "|"
                     }
                   ]
                 },
@@ -3030,37 +2997,32 @@
                   "type": "SEQ",
                   "members": [
                     {
-                      "type": "SEQ",
-                      "members": [
-                        {
-                          "type": "STRING",
-                          "value": "\\"
-                        },
-                        {
-                          "type": "REPEAT",
-                          "content": {
-                            "type": "CHOICE",
-                            "members": [
-                              {
-                                "type": "PATTERN",
-                                "value": "\\\\."
-                              },
-                              {
-                                "type": "SYMBOL",
-                                "name": "interpolation"
-                              },
-                              {
-                                "type": "PATTERN",
-                                "value": "[^\\\\\\\\]"
-                              }
-                            ]
+                      "type": "STRING",
+                      "value": "\\"
+                    },
+                    {
+                      "type": "REPEAT",
+                      "content": {
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "PATTERN",
+                            "value": "\\\\."
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "interpolation"
+                          },
+                          {
+                            "type": "PATTERN",
+                            "value": "[^\\\\\\\\]"
                           }
-                        },
-                        {
-                          "type": "STRING",
-                          "value": "\\"
-                        }
-                      ]
+                        ]
+                      }
+                    },
+                    {
+                      "type": "STRING",
+                      "value": "\\"
                     }
                   ]
                 },
@@ -3068,37 +3030,32 @@
                   "type": "SEQ",
                   "members": [
                     {
-                      "type": "SEQ",
-                      "members": [
-                        {
-                          "type": "STRING",
-                          "value": "="
-                        },
-                        {
-                          "type": "REPEAT",
-                          "content": {
-                            "type": "CHOICE",
-                            "members": [
-                              {
-                                "type": "PATTERN",
-                                "value": "\\\\."
-                              },
-                              {
-                                "type": "SYMBOL",
-                                "name": "interpolation"
-                              },
-                              {
-                                "type": "PATTERN",
-                                "value": "[^\\\\\\=]"
-                              }
-                            ]
+                      "type": "STRING",
+                      "value": "="
+                    },
+                    {
+                      "type": "REPEAT",
+                      "content": {
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "PATTERN",
+                            "value": "\\\\."
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "interpolation"
+                          },
+                          {
+                            "type": "PATTERN",
+                            "value": "[^\\\\\\=]"
                           }
-                        },
-                        {
-                          "type": "STRING",
-                          "value": "="
-                        }
-                      ]
+                        ]
+                      }
+                    },
+                    {
+                      "type": "STRING",
+                      "value": "="
                     }
                   ]
                 },
@@ -3106,37 +3063,32 @@
                   "type": "SEQ",
                   "members": [
                     {
-                      "type": "SEQ",
-                      "members": [
-                        {
-                          "type": "STRING",
-                          "value": "/"
-                        },
-                        {
-                          "type": "REPEAT",
-                          "content": {
-                            "type": "CHOICE",
-                            "members": [
-                              {
-                                "type": "PATTERN",
-                                "value": "\\\\."
-                              },
-                              {
-                                "type": "SYMBOL",
-                                "name": "interpolation"
-                              },
-                              {
-                                "type": "PATTERN",
-                                "value": "[^\\\\\\/]"
-                              }
-                            ]
+                      "type": "STRING",
+                      "value": "/"
+                    },
+                    {
+                      "type": "REPEAT",
+                      "content": {
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "PATTERN",
+                            "value": "\\\\."
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "interpolation"
+                          },
+                          {
+                            "type": "PATTERN",
+                            "value": "[^\\\\\\/]"
                           }
-                        },
-                        {
-                          "type": "STRING",
-                          "value": "/"
-                        }
-                      ]
+                        ]
+                      }
+                    },
+                    {
+                      "type": "STRING",
+                      "value": "/"
                     }
                   ]
                 },
@@ -3144,37 +3096,32 @@
                   "type": "SEQ",
                   "members": [
                     {
-                      "type": "SEQ",
-                      "members": [
-                        {
-                          "type": "STRING",
-                          "value": "+"
-                        },
-                        {
-                          "type": "REPEAT",
-                          "content": {
-                            "type": "CHOICE",
-                            "members": [
-                              {
-                                "type": "PATTERN",
-                                "value": "\\\\."
-                              },
-                              {
-                                "type": "SYMBOL",
-                                "name": "interpolation"
-                              },
-                              {
-                                "type": "PATTERN",
-                                "value": "[^\\\\\\+]"
-                              }
-                            ]
+                      "type": "STRING",
+                      "value": "+"
+                    },
+                    {
+                      "type": "REPEAT",
+                      "content": {
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "PATTERN",
+                            "value": "\\\\."
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "interpolation"
+                          },
+                          {
+                            "type": "PATTERN",
+                            "value": "[^\\\\\\+]"
                           }
-                        },
-                        {
-                          "type": "STRING",
-                          "value": "+"
-                        }
-                      ]
+                        ]
+                      }
+                    },
+                    {
+                      "type": "STRING",
+                      "value": "+"
                     }
                   ]
                 },
@@ -3182,37 +3129,32 @@
                   "type": "SEQ",
                   "members": [
                     {
-                      "type": "SEQ",
-                      "members": [
-                        {
-                          "type": "STRING",
-                          "value": "-"
-                        },
-                        {
-                          "type": "REPEAT",
-                          "content": {
-                            "type": "CHOICE",
-                            "members": [
-                              {
-                                "type": "PATTERN",
-                                "value": "\\\\."
-                              },
-                              {
-                                "type": "SYMBOL",
-                                "name": "interpolation"
-                              },
-                              {
-                                "type": "PATTERN",
-                                "value": "[^\\\\\\-]"
-                              }
-                            ]
+                      "type": "STRING",
+                      "value": "-"
+                    },
+                    {
+                      "type": "REPEAT",
+                      "content": {
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "PATTERN",
+                            "value": "\\\\."
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "interpolation"
+                          },
+                          {
+                            "type": "PATTERN",
+                            "value": "[^\\\\\\-]"
                           }
-                        },
-                        {
-                          "type": "STRING",
-                          "value": "-"
-                        }
-                      ]
+                        ]
+                      }
+                    },
+                    {
+                      "type": "STRING",
+                      "value": "-"
                     }
                   ]
                 },
@@ -3220,37 +3162,32 @@
                   "type": "SEQ",
                   "members": [
                     {
-                      "type": "SEQ",
-                      "members": [
-                        {
-                          "type": "STRING",
-                          "value": "~"
-                        },
-                        {
-                          "type": "REPEAT",
-                          "content": {
-                            "type": "CHOICE",
-                            "members": [
-                              {
-                                "type": "PATTERN",
-                                "value": "\\\\."
-                              },
-                              {
-                                "type": "SYMBOL",
-                                "name": "interpolation"
-                              },
-                              {
-                                "type": "PATTERN",
-                                "value": "[^\\\\\\~]"
-                              }
-                            ]
+                      "type": "STRING",
+                      "value": "~"
+                    },
+                    {
+                      "type": "REPEAT",
+                      "content": {
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "PATTERN",
+                            "value": "\\\\."
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "interpolation"
+                          },
+                          {
+                            "type": "PATTERN",
+                            "value": "[^\\\\\\~]"
                           }
-                        },
-                        {
-                          "type": "STRING",
-                          "value": "~"
-                        }
-                      ]
+                        ]
+                      }
+                    },
+                    {
+                      "type": "STRING",
+                      "value": "~"
                     }
                   ]
                 },
@@ -3258,37 +3195,32 @@
                   "type": "SEQ",
                   "members": [
                     {
-                      "type": "SEQ",
-                      "members": [
-                        {
-                          "type": "STRING",
-                          "value": "`"
-                        },
-                        {
-                          "type": "REPEAT",
-                          "content": {
-                            "type": "CHOICE",
-                            "members": [
-                              {
-                                "type": "PATTERN",
-                                "value": "\\\\."
-                              },
-                              {
-                                "type": "SYMBOL",
-                                "name": "interpolation"
-                              },
-                              {
-                                "type": "PATTERN",
-                                "value": "[^\\\\\\`]"
-                              }
-                            ]
+                      "type": "STRING",
+                      "value": "`"
+                    },
+                    {
+                      "type": "REPEAT",
+                      "content": {
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "PATTERN",
+                            "value": "\\\\."
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "interpolation"
+                          },
+                          {
+                            "type": "PATTERN",
+                            "value": "[^\\\\\\`]"
                           }
-                        },
-                        {
-                          "type": "STRING",
-                          "value": "`"
-                        }
-                      ]
+                        ]
+                      }
+                    },
+                    {
+                      "type": "STRING",
+                      "value": "`"
                     }
                   ]
                 },
@@ -3296,37 +3228,32 @@
                   "type": "SEQ",
                   "members": [
                     {
-                      "type": "SEQ",
-                      "members": [
-                        {
-                          "type": "STRING",
-                          "value": "'"
-                        },
-                        {
-                          "type": "REPEAT",
-                          "content": {
-                            "type": "CHOICE",
-                            "members": [
-                              {
-                                "type": "PATTERN",
-                                "value": "\\\\."
-                              },
-                              {
-                                "type": "SYMBOL",
-                                "name": "interpolation"
-                              },
-                              {
-                                "type": "PATTERN",
-                                "value": "[^\\\\\\']"
-                              }
-                            ]
+                      "type": "STRING",
+                      "value": "'"
+                    },
+                    {
+                      "type": "REPEAT",
+                      "content": {
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "PATTERN",
+                            "value": "\\\\."
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "interpolation"
+                          },
+                          {
+                            "type": "PATTERN",
+                            "value": "[^\\\\\\']"
                           }
-                        },
-                        {
-                          "type": "STRING",
-                          "value": "'"
-                        }
-                      ]
+                        ]
+                      }
+                    },
+                    {
+                      "type": "STRING",
+                      "value": "'"
                     }
                   ]
                 },
@@ -3334,37 +3261,32 @@
                   "type": "SEQ",
                   "members": [
                     {
-                      "type": "SEQ",
-                      "members": [
-                        {
-                          "type": "STRING",
-                          "value": "\""
-                        },
-                        {
-                          "type": "REPEAT",
-                          "content": {
-                            "type": "CHOICE",
-                            "members": [
-                              {
-                                "type": "PATTERN",
-                                "value": "\\\\."
-                              },
-                              {
-                                "type": "SYMBOL",
-                                "name": "interpolation"
-                              },
-                              {
-                                "type": "PATTERN",
-                                "value": "[^\\\\\\\"]"
-                              }
-                            ]
+                      "type": "STRING",
+                      "value": "\""
+                    },
+                    {
+                      "type": "REPEAT",
+                      "content": {
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "PATTERN",
+                            "value": "\\\\."
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "interpolation"
+                          },
+                          {
+                            "type": "PATTERN",
+                            "value": "[^\\\\\\\"]"
                           }
-                        },
-                        {
-                          "type": "STRING",
-                          "value": "\""
-                        }
-                      ]
+                        ]
+                      }
+                    },
+                    {
+                      "type": "STRING",
+                      "value": "\""
                     }
                   ]
                 },
@@ -3372,37 +3294,32 @@
                   "type": "SEQ",
                   "members": [
                     {
-                      "type": "SEQ",
-                      "members": [
-                        {
-                          "type": "STRING",
-                          "value": ","
-                        },
-                        {
-                          "type": "REPEAT",
-                          "content": {
-                            "type": "CHOICE",
-                            "members": [
-                              {
-                                "type": "PATTERN",
-                                "value": "\\\\."
-                              },
-                              {
-                                "type": "SYMBOL",
-                                "name": "interpolation"
-                              },
-                              {
-                                "type": "PATTERN",
-                                "value": "[^\\\\\\,]"
-                              }
-                            ]
+                      "type": "STRING",
+                      "value": ","
+                    },
+                    {
+                      "type": "REPEAT",
+                      "content": {
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "PATTERN",
+                            "value": "\\\\."
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "interpolation"
+                          },
+                          {
+                            "type": "PATTERN",
+                            "value": "[^\\\\\\,]"
                           }
-                        },
-                        {
-                          "type": "STRING",
-                          "value": ","
-                        }
-                      ]
+                        ]
+                      }
+                    },
+                    {
+                      "type": "STRING",
+                      "value": ","
                     }
                   ]
                 },
@@ -3410,37 +3327,32 @@
                   "type": "SEQ",
                   "members": [
                     {
-                      "type": "SEQ",
-                      "members": [
-                        {
-                          "type": "STRING",
-                          "value": "."
-                        },
-                        {
-                          "type": "REPEAT",
-                          "content": {
-                            "type": "CHOICE",
-                            "members": [
-                              {
-                                "type": "PATTERN",
-                                "value": "\\\\."
-                              },
-                              {
-                                "type": "SYMBOL",
-                                "name": "interpolation"
-                              },
-                              {
-                                "type": "PATTERN",
-                                "value": "[^\\\\\\.]"
-                              }
-                            ]
+                      "type": "STRING",
+                      "value": "."
+                    },
+                    {
+                      "type": "REPEAT",
+                      "content": {
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "PATTERN",
+                            "value": "\\\\."
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "interpolation"
+                          },
+                          {
+                            "type": "PATTERN",
+                            "value": "[^\\\\\\.]"
                           }
-                        },
-                        {
-                          "type": "STRING",
-                          "value": "."
-                        }
-                      ]
+                        ]
+                      }
+                    },
+                    {
+                      "type": "STRING",
+                      "value": "."
                     }
                   ]
                 },
@@ -3448,37 +3360,32 @@
                   "type": "SEQ",
                   "members": [
                     {
-                      "type": "SEQ",
-                      "members": [
-                        {
-                          "type": "STRING",
-                          "value": "?"
-                        },
-                        {
-                          "type": "REPEAT",
-                          "content": {
-                            "type": "CHOICE",
-                            "members": [
-                              {
-                                "type": "PATTERN",
-                                "value": "\\\\."
-                              },
-                              {
-                                "type": "SYMBOL",
-                                "name": "interpolation"
-                              },
-                              {
-                                "type": "PATTERN",
-                                "value": "[^\\\\\\?]"
-                              }
-                            ]
+                      "type": "STRING",
+                      "value": "?"
+                    },
+                    {
+                      "type": "REPEAT",
+                      "content": {
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "PATTERN",
+                            "value": "\\\\."
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "interpolation"
+                          },
+                          {
+                            "type": "PATTERN",
+                            "value": "[^\\\\\\?]"
                           }
-                        },
-                        {
-                          "type": "STRING",
-                          "value": "?"
-                        }
-                      ]
+                        ]
+                      }
+                    },
+                    {
+                      "type": "STRING",
+                      "value": "?"
                     }
                   ]
                 },
@@ -3486,37 +3393,32 @@
                   "type": "SEQ",
                   "members": [
                     {
-                      "type": "SEQ",
-                      "members": [
-                        {
-                          "type": "STRING",
-                          "value": ":"
-                        },
-                        {
-                          "type": "REPEAT",
-                          "content": {
-                            "type": "CHOICE",
-                            "members": [
-                              {
-                                "type": "PATTERN",
-                                "value": "\\\\."
-                              },
-                              {
-                                "type": "SYMBOL",
-                                "name": "interpolation"
-                              },
-                              {
-                                "type": "PATTERN",
-                                "value": "[^\\\\\\:]"
-                              }
-                            ]
+                      "type": "STRING",
+                      "value": ":"
+                    },
+                    {
+                      "type": "REPEAT",
+                      "content": {
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "PATTERN",
+                            "value": "\\\\."
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "interpolation"
+                          },
+                          {
+                            "type": "PATTERN",
+                            "value": "[^\\\\\\:]"
                           }
-                        },
-                        {
-                          "type": "STRING",
-                          "value": ":"
-                        }
-                      ]
+                        ]
+                      }
+                    },
+                    {
+                      "type": "STRING",
+                      "value": ":"
                     }
                   ]
                 },
@@ -3524,37 +3426,32 @@
                   "type": "SEQ",
                   "members": [
                     {
-                      "type": "SEQ",
-                      "members": [
-                        {
-                          "type": "STRING",
-                          "value": ";"
-                        },
-                        {
-                          "type": "REPEAT",
-                          "content": {
-                            "type": "CHOICE",
-                            "members": [
-                              {
-                                "type": "PATTERN",
-                                "value": "\\\\."
-                              },
-                              {
-                                "type": "SYMBOL",
-                                "name": "interpolation"
-                              },
-                              {
-                                "type": "PATTERN",
-                                "value": "[^\\\\\\;]"
-                              }
-                            ]
+                      "type": "STRING",
+                      "value": ";"
+                    },
+                    {
+                      "type": "REPEAT",
+                      "content": {
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "PATTERN",
+                            "value": "\\\\."
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "interpolation"
+                          },
+                          {
+                            "type": "PATTERN",
+                            "value": "[^\\\\\\;]"
                           }
-                        },
-                        {
-                          "type": "STRING",
-                          "value": ";"
-                        }
-                      ]
+                        ]
+                      }
+                    },
+                    {
+                      "type": "STRING",
+                      "value": ";"
                     }
                   ]
                 },
@@ -3562,37 +3459,32 @@
                   "type": "SEQ",
                   "members": [
                     {
-                      "type": "SEQ",
-                      "members": [
-                        {
-                          "type": "STRING",
-                          "value": "_"
-                        },
-                        {
-                          "type": "REPEAT",
-                          "content": {
-                            "type": "CHOICE",
-                            "members": [
-                              {
-                                "type": "PATTERN",
-                                "value": "\\\\."
-                              },
-                              {
-                                "type": "SYMBOL",
-                                "name": "interpolation"
-                              },
-                              {
-                                "type": "PATTERN",
-                                "value": "[^\\\\\\_]"
-                              }
-                            ]
+                      "type": "STRING",
+                      "value": "_"
+                    },
+                    {
+                      "type": "REPEAT",
+                      "content": {
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "PATTERN",
+                            "value": "\\\\."
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "interpolation"
+                          },
+                          {
+                            "type": "PATTERN",
+                            "value": "[^\\\\\\_]"
                           }
-                        },
-                        {
-                          "type": "STRING",
-                          "value": "_"
-                        }
-                      ]
+                        ]
+                      }
+                    },
+                    {
+                      "type": "STRING",
+                      "value": "_"
                     }
                   ]
                 }
@@ -3816,256 +3708,116 @@
               "type": "CHOICE",
               "members": [
                 {
-                  "type": "SEQ",
-                  "members": [
-                    {
-                      "type": "PATTERN",
-                      "value": "\\!(\\\\.|[^\\\\\\!])*\\!"
-                    }
-                  ]
+                  "type": "PATTERN",
+                  "value": "\\!(\\\\.|[^\\\\\\!])*\\!"
                 },
                 {
-                  "type": "SEQ",
-                  "members": [
-                    {
-                      "type": "PATTERN",
-                      "value": "\\@(\\\\.|[^\\\\\\@])*\\@"
-                    }
-                  ]
+                  "type": "PATTERN",
+                  "value": "\\@(\\\\.|[^\\\\\\@])*\\@"
                 },
                 {
-                  "type": "SEQ",
-                  "members": [
-                    {
-                      "type": "PATTERN",
-                      "value": "\\#(\\\\.|[^\\\\\\#])*\\#"
-                    }
-                  ]
+                  "type": "PATTERN",
+                  "value": "\\#(\\\\.|[^\\\\\\#])*\\#"
                 },
                 {
-                  "type": "SEQ",
-                  "members": [
-                    {
-                      "type": "PATTERN",
-                      "value": "\\$(\\\\.|[^\\\\\\$])*\\$"
-                    }
-                  ]
+                  "type": "PATTERN",
+                  "value": "\\$(\\\\.|[^\\\\\\$])*\\$"
                 },
                 {
-                  "type": "SEQ",
-                  "members": [
-                    {
-                      "type": "PATTERN",
-                      "value": "\\%(\\\\.|[^\\\\\\%])*\\%"
-                    }
-                  ]
+                  "type": "PATTERN",
+                  "value": "\\%(\\\\.|[^\\\\\\%])*\\%"
                 },
                 {
-                  "type": "SEQ",
-                  "members": [
-                    {
-                      "type": "PATTERN",
-                      "value": "\\^(\\\\.|[^\\\\\\^])*\\^"
-                    }
-                  ]
+                  "type": "PATTERN",
+                  "value": "\\^(\\\\.|[^\\\\\\^])*\\^"
                 },
                 {
-                  "type": "SEQ",
-                  "members": [
-                    {
-                      "type": "PATTERN",
-                      "value": "\\&(\\\\.|[^\\\\\\&])*\\&"
-                    }
-                  ]
+                  "type": "PATTERN",
+                  "value": "\\&(\\\\.|[^\\\\\\&])*\\&"
                 },
                 {
-                  "type": "SEQ",
-                  "members": [
-                    {
-                      "type": "PATTERN",
-                      "value": "\\*(\\\\.|[^\\\\\\*])*\\*"
-                    }
-                  ]
+                  "type": "PATTERN",
+                  "value": "\\*(\\\\.|[^\\\\\\*])*\\*"
                 },
                 {
-                  "type": "SEQ",
-                  "members": [
-                    {
-                      "type": "PATTERN",
-                      "value": "\\)(\\\\.|[^\\\\\\)])*\\)"
-                    }
-                  ]
+                  "type": "PATTERN",
+                  "value": "\\)(\\\\.|[^\\\\\\)])*\\)"
                 },
                 {
-                  "type": "SEQ",
-                  "members": [
-                    {
-                      "type": "PATTERN",
-                      "value": "\\](\\\\.|[^\\\\\\]])*\\]"
-                    }
-                  ]
+                  "type": "PATTERN",
+                  "value": "\\](\\\\.|[^\\\\\\]])*\\]"
                 },
                 {
-                  "type": "SEQ",
-                  "members": [
-                    {
-                      "type": "PATTERN",
-                      "value": "\\}(\\\\.|[^\\\\\\}])*\\}"
-                    }
-                  ]
+                  "type": "PATTERN",
+                  "value": "\\}(\\\\.|[^\\\\\\}])*\\}"
                 },
                 {
-                  "type": "SEQ",
-                  "members": [
-                    {
-                      "type": "PATTERN",
-                      "value": "\\>(\\\\.|[^\\\\\\>])*\\>"
-                    }
-                  ]
+                  "type": "PATTERN",
+                  "value": "\\>(\\\\.|[^\\\\\\>])*\\>"
                 },
                 {
-                  "type": "SEQ",
-                  "members": [
-                    {
-                      "type": "PATTERN",
-                      "value": "\\|(\\\\.|[^\\\\\\|])*\\|"
-                    }
-                  ]
+                  "type": "PATTERN",
+                  "value": "\\|(\\\\.|[^\\\\\\|])*\\|"
                 },
                 {
-                  "type": "SEQ",
-                  "members": [
-                    {
-                      "type": "PATTERN",
-                      "value": "\\\\(\\\\.|[^\\\\\\\\])*\\\\"
-                    }
-                  ]
+                  "type": "PATTERN",
+                  "value": "\\\\(\\\\.|[^\\\\\\\\])*\\\\"
                 },
                 {
-                  "type": "SEQ",
-                  "members": [
-                    {
-                      "type": "PATTERN",
-                      "value": "\\=(\\\\.|[^\\\\\\=])*\\="
-                    }
-                  ]
+                  "type": "PATTERN",
+                  "value": "\\=(\\\\.|[^\\\\\\=])*\\="
                 },
                 {
-                  "type": "SEQ",
-                  "members": [
-                    {
-                      "type": "PATTERN",
-                      "value": "\\/(\\\\.|[^\\\\\\/])*\\/"
-                    }
-                  ]
+                  "type": "PATTERN",
+                  "value": "\\/(\\\\.|[^\\\\\\/])*\\/"
                 },
                 {
-                  "type": "SEQ",
-                  "members": [
-                    {
-                      "type": "PATTERN",
-                      "value": "\\+(\\\\.|[^\\\\\\+])*\\+"
-                    }
-                  ]
+                  "type": "PATTERN",
+                  "value": "\\+(\\\\.|[^\\\\\\+])*\\+"
                 },
                 {
-                  "type": "SEQ",
-                  "members": [
-                    {
-                      "type": "PATTERN",
-                      "value": "\\-(\\\\.|[^\\\\\\-])*\\-"
-                    }
-                  ]
+                  "type": "PATTERN",
+                  "value": "\\-(\\\\.|[^\\\\\\-])*\\-"
                 },
                 {
-                  "type": "SEQ",
-                  "members": [
-                    {
-                      "type": "PATTERN",
-                      "value": "\\~(\\\\.|[^\\\\\\~])*\\~"
-                    }
-                  ]
+                  "type": "PATTERN",
+                  "value": "\\~(\\\\.|[^\\\\\\~])*\\~"
                 },
                 {
-                  "type": "SEQ",
-                  "members": [
-                    {
-                      "type": "PATTERN",
-                      "value": "\\`(\\\\.|[^\\\\\\`])*\\`"
-                    }
-                  ]
+                  "type": "PATTERN",
+                  "value": "\\`(\\\\.|[^\\\\\\`])*\\`"
                 },
                 {
-                  "type": "SEQ",
-                  "members": [
-                    {
-                      "type": "PATTERN",
-                      "value": "\\'(\\\\.|[^\\\\\\'])*\\'"
-                    }
-                  ]
+                  "type": "PATTERN",
+                  "value": "\\'(\\\\.|[^\\\\\\'])*\\'"
                 },
                 {
-                  "type": "SEQ",
-                  "members": [
-                    {
-                      "type": "PATTERN",
-                      "value": "\\\"(\\\\.|[^\\\\\\\"])*\\\""
-                    }
-                  ]
+                  "type": "PATTERN",
+                  "value": "\\\"(\\\\.|[^\\\\\\\"])*\\\""
                 },
                 {
-                  "type": "SEQ",
-                  "members": [
-                    {
-                      "type": "PATTERN",
-                      "value": "\\,(\\\\.|[^\\\\\\,])*\\,"
-                    }
-                  ]
+                  "type": "PATTERN",
+                  "value": "\\,(\\\\.|[^\\\\\\,])*\\,"
                 },
                 {
-                  "type": "SEQ",
-                  "members": [
-                    {
-                      "type": "PATTERN",
-                      "value": "\\.(\\\\.|[^\\\\\\.])*\\."
-                    }
-                  ]
+                  "type": "PATTERN",
+                  "value": "\\.(\\\\.|[^\\\\\\.])*\\."
                 },
                 {
-                  "type": "SEQ",
-                  "members": [
-                    {
-                      "type": "PATTERN",
-                      "value": "\\?(\\\\.|[^\\\\\\?])*\\?"
-                    }
-                  ]
+                  "type": "PATTERN",
+                  "value": "\\?(\\\\.|[^\\\\\\?])*\\?"
                 },
                 {
-                  "type": "SEQ",
-                  "members": [
-                    {
-                      "type": "PATTERN",
-                      "value": "\\:(\\\\.|[^\\\\\\:])*\\:"
-                    }
-                  ]
+                  "type": "PATTERN",
+                  "value": "\\:(\\\\.|[^\\\\\\:])*\\:"
                 },
                 {
-                  "type": "SEQ",
-                  "members": [
-                    {
-                      "type": "PATTERN",
-                      "value": "\\;(\\\\.|[^\\\\\\;])*\\;"
-                    }
-                  ]
+                  "type": "PATTERN",
+                  "value": "\\;(\\\\.|[^\\\\\\;])*\\;"
                 },
                 {
-                  "type": "SEQ",
-                  "members": [
-                    {
-                      "type": "PATTERN",
-                      "value": "\\_(\\\\.|[^\\\\\\_])*\\_"
-                    }
-                  ]
+                  "type": "PATTERN",
+                  "value": "\\_(\\\\.|[^\\\\\\_])*\\_"
                 }
               ]
             }
