@@ -22,6 +22,7 @@ const PREC = {
 
 const unbalancedDelimiters = '!@#$%^&*)]}>|\\=/+-~`\'",.?:;_';
 const identifierPattern = /[a-zA-Z_][a-zA-Z0-9_]*/;
+const operators = ['..', '|', '^', '&', '<=>', '==', '===', '=~', '>', '>=', '<', '<=', '+', '-', '*', '/', '%', '**', '<<', '>>', '~', '+@', '-@', '[]', '[]='];
 
 module.exports = grammar({
   name: 'ruby',
@@ -229,7 +230,7 @@ module.exports = grammar({
       $.array
     ),
 
-    symbol: $ => token(seq(':', choice(stringBody("'"), stringBody('"', $.interpolation), identifierPattern, operatorChars()))),
+    symbol: $ => token(seq(':', choice(stringBody("'"), stringBody('"', $.interpolation), identifierPattern, choice.apply(null, operators)))),
     integer: $ => (/0b[01](_?[01])*|0[oO]?[0-7](_?[0-7])*|(0d)?\d(_?\d)*|0x[0-9a-fA-F](_?[0-9a-fA-F])*/),
     float: $ => (/\d(_?\d)*\.\d(_?\d)*([eE]\d(_?\d)*)?/),
     boolean: $ => choice('true', 'false', 'TRUE', 'FALSE'),
@@ -275,7 +276,7 @@ module.exports = grammar({
     array: $ => seq('[', $._array_items, ']'),
     _array_items: $ => optional(seq($._expression, optional(seq(',', $._array_items)))),
 
-    _function_name: $ => choice($.identifier, operatorChars()),
+    _function_name: $ => choice($.identifier, choice.apply(null, operators)),
 
     _line_break: $ => '\n',
     _terminator: $ => choice($._line_break, ';'),
@@ -297,10 +298,6 @@ function balancedStringBody (me, open, close, insert) {
   } else {
     return seq(open, repeat(choice(/\\./, me, insert, RegExp('[^\\\\\\' + open + '\\' + close + ']'))), close);
   }
-}
-
-function operatorChars () {
-  return choice('..', '|', '^', '&', '<=>', '==', '===', '=~', '>', '>=', '<', '<=', '+', '-', '*', '/', '%', '**', '<<', '>>', '~', '+@', '-@', '[]', '[]=');
 }
 
 function sep1 (rule, separator) {
