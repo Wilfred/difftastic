@@ -249,6 +249,10 @@ module.exports = grammar({
   }
 });
 
+function stringBody (delimiter) {
+  return RegExp('\\' + delimiter + '(\\\\.|[^\\\\\\' + delimiter + '])*\\' + delimiter);
+}
+
 function identifierChars () {
   return /[a-zA-Z_][a-zA-Z0-9_]*/;
 }
