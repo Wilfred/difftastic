@@ -330,6 +330,16 @@ function balancedStringBody (me, open, close, insert) {
   return seq(open, repeat(choice.apply(null, contents)), close);
 }
 
+function regexBody (open, close, insert) {
+  var contents = [
+    seq('[', /[^\]\n]*/, ']'), // square-bracket-delimited character class
+    seq('\\', /./),            // escaped character
+    /[^/\\\[\n]/               // any character besides '[', '\', '/', '\n'
+  ];
+  if (typeof insert !== 'undefined') contents.push(insert);
+  return seq(open, repeat(choice.apply(null, contents)), close, repeat(/a-z/));
+}
+
 function sep1 (rule, separator) {
   return seq(rule, repeat(seq(separator, rule)));
 }
