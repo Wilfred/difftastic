@@ -282,3 +282,23 @@ backticks subshell with escape
 ---
 
 (program (subshell))
+
+===========
+empty array
+===========
+
+[]
+
+---
+
+(program (array))
+
+=====
+array
+=====
+
+[ foo, bar ]
+
+---
+
+(program (array (identifier) (identifier)))

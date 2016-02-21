@@ -224,7 +224,8 @@ module.exports = grammar({
       $.boolean,
       $.nil,
       $.string,
-      $.subshell
+      $.subshell,
+      $.array
     ),
 
     symbol: $ => token(seq(':', choice(stringBody("'"), identifierChars(), operatorChars()))),
@@ -257,6 +258,8 @@ module.exports = grammar({
       $._backticks
     ),
     _backticks: $ => stringBody('`'),
+
+    array: $ => seq('[', commaSep($._expression), ']'),
 
     _function_name: $ => choice($.identifier, operatorChars()),
 
