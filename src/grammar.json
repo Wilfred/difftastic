@@ -2304,11 +2304,19 @@
                 "type": "SEQ",
                 "members": [
                   {
-                    "type": "BLANK"
-                  },
-                  {
-                    "type": "STRING",
-                    "value": "'"
+                    "type": "TOKEN",
+                    "content": {
+                      "type": "SEQ",
+                      "members": [
+                        {
+                          "type": "BLANK"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "'"
+                        }
+                      ]
+                    }
                   },
                   {
                     "type": "REPEAT",
@@ -2336,11 +2344,19 @@
                 "type": "SEQ",
                 "members": [
                   {
-                    "type": "BLANK"
-                  },
-                  {
-                    "type": "STRING",
-                    "value": "\""
+                    "type": "TOKEN",
+                    "content": {
+                      "type": "SEQ",
+                      "members": [
+                        {
+                          "type": "BLANK"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "\""
+                        }
+                      ]
+                    }
                   },
                   {
                     "type": "REPEAT",
@@ -2549,11 +2565,19 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "BLANK"
-        },
-        {
-          "type": "STRING",
-          "value": "'"
+          "type": "TOKEN",
+          "content": {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "BLANK"
+              },
+              {
+                "type": "STRING",
+                "value": "'"
+              }
+            ]
+          }
         },
         {
           "type": "REPEAT",
@@ -2581,11 +2605,19 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "BLANK"
-        },
-        {
-          "type": "STRING",
-          "value": "\""
+          "type": "TOKEN",
+          "content": {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "BLANK"
+              },
+              {
+                "type": "STRING",
+                "value": "\""
+              }
+            ]
+          }
         },
         {
           "type": "REPEAT",
@@ -2630,11 +2662,19 @@
                   "type": "SEQ",
                   "members": [
                     {
-                      "type": "BLANK"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "!"
+                      "type": "TOKEN",
+                      "content": {
+                        "type": "SEQ",
+                        "members": [
+                          {
+                            "type": "BLANK"
+                          },
+                          {
+                            "type": "STRING",
+                            "value": "!"
+                          }
+                        ]
+                      }
                     },
                     {
                       "type": "REPEAT",
@@ -2666,11 +2706,19 @@
                   "type": "SEQ",
                   "members": [
                     {
-                      "type": "BLANK"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "@"
+                      "type": "TOKEN",
+                      "content": {
+                        "type": "SEQ",
+                        "members": [
+                          {
+                            "type": "BLANK"
+                          },
+                          {
+                            "type": "STRING",
+                            "value": "@"
+                          }
+                        ]
+                      }
                     },
                     {
                       "type": "REPEAT",
@@ -2702,11 +2750,19 @@
                   "type": "SEQ",
                   "members": [
                     {
-                      "type": "BLANK"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "#"
+                      "type": "TOKEN",
+                      "content": {
+                        "type": "SEQ",
+                        "members": [
+                          {
+                            "type": "BLANK"
+                          },
+                          {
+                            "type": "STRING",
+                            "value": "#"
+                          }
+                        ]
+                      }
                     },
                     {
                       "type": "REPEAT",
@@ -2738,11 +2794,19 @@
                   "type": "SEQ",
                   "members": [
                     {
-                      "type": "BLANK"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "$"
+                      "type": "TOKEN",
+                      "content": {
+                        "type": "SEQ",
+                        "members": [
+                          {
+                            "type": "BLANK"
+                          },
+                          {
+                            "type": "STRING",
+                            "value": "$"
+                          }
+                        ]
+                      }
                     },
                     {
                       "type": "REPEAT",
@@ -2774,11 +2838,19 @@
                   "type": "SEQ",
                   "members": [
                     {
-                      "type": "BLANK"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "%"
+                      "type": "TOKEN",
+                      "content": {
+                        "type": "SEQ",
+                        "members": [
+                          {
+                            "type": "BLANK"
+                          },
+                          {
+                            "type": "STRING",
+                            "value": "%"
+                          }
+                        ]
+                      }
                     },
                     {
                       "type": "REPEAT",
@@ -2810,11 +2882,19 @@
                   "type": "SEQ",
                   "members": [
                     {
-                      "type": "BLANK"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "^"
+                      "type": "TOKEN",
+                      "content": {
+                        "type": "SEQ",
+                        "members": [
+                          {
+                            "type": "BLANK"
+                          },
+                          {
+                            "type": "STRING",
+                            "value": "^"
+                          }
+                        ]
+                      }
                     },
                     {
                       "type": "REPEAT",
@@ -2846,11 +2926,19 @@
                   "type": "SEQ",
                   "members": [
                     {
-                      "type": "BLANK"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "&"
+                      "type": "TOKEN",
+                      "content": {
+                        "type": "SEQ",
+                        "members": [
+                          {
+                            "type": "BLANK"
+                          },
+                          {
+                            "type": "STRING",
+                            "value": "&"
+                          }
+                        ]
+                      }
                     },
                     {
                       "type": "REPEAT",
@@ -2882,11 +2970,19 @@
                   "type": "SEQ",
                   "members": [
                     {
-                      "type": "BLANK"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "*"
+                      "type": "TOKEN",
+                      "content": {
+                        "type": "SEQ",
+                        "members": [
+                          {
+                            "type": "BLANK"
+                          },
+                          {
+                            "type": "STRING",
+                            "value": "*"
+                          }
+                        ]
+                      }
                     },
                     {
                       "type": "REPEAT",
@@ -2918,11 +3014,19 @@
                   "type": "SEQ",
                   "members": [
                     {
-                      "type": "BLANK"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": ")"
+                      "type": "TOKEN",
+                      "content": {
+                        "type": "SEQ",
+                        "members": [
+                          {
+                            "type": "BLANK"
+                          },
+                          {
+                            "type": "STRING",
+                            "value": ")"
+                          }
+                        ]
+                      }
                     },
                     {
                       "type": "REPEAT",
@@ -2954,11 +3058,19 @@
                   "type": "SEQ",
                   "members": [
                     {
-                      "type": "BLANK"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "]"
+                      "type": "TOKEN",
+                      "content": {
+                        "type": "SEQ",
+                        "members": [
+                          {
+                            "type": "BLANK"
+                          },
+                          {
+                            "type": "STRING",
+                            "value": "]"
+                          }
+                        ]
+                      }
                     },
                     {
                       "type": "REPEAT",
@@ -2990,11 +3102,19 @@
                   "type": "SEQ",
                   "members": [
                     {
-                      "type": "BLANK"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "}"
+                      "type": "TOKEN",
+                      "content": {
+                        "type": "SEQ",
+                        "members": [
+                          {
+                            "type": "BLANK"
+                          },
+                          {
+                            "type": "STRING",
+                            "value": "}"
+                          }
+                        ]
+                      }
                     },
                     {
                       "type": "REPEAT",
@@ -3026,11 +3146,19 @@
                   "type": "SEQ",
                   "members": [
                     {
-                      "type": "BLANK"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": ">"
+                      "type": "TOKEN",
+                      "content": {
+                        "type": "SEQ",
+                        "members": [
+                          {
+                            "type": "BLANK"
+                          },
+                          {
+                            "type": "STRING",
+                            "value": ">"
+                          }
+                        ]
+                      }
                     },
                     {
                       "type": "REPEAT",
@@ -3062,11 +3190,19 @@
                   "type": "SEQ",
                   "members": [
                     {
-                      "type": "BLANK"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "|"
+                      "type": "TOKEN",
+                      "content": {
+                        "type": "SEQ",
+                        "members": [
+                          {
+                            "type": "BLANK"
+                          },
+                          {
+                            "type": "STRING",
+                            "value": "|"
+                          }
+                        ]
+                      }
                     },
                     {
                       "type": "REPEAT",
@@ -3098,11 +3234,19 @@
                   "type": "SEQ",
                   "members": [
                     {
-                      "type": "BLANK"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "\\"
+                      "type": "TOKEN",
+                      "content": {
+                        "type": "SEQ",
+                        "members": [
+                          {
+                            "type": "BLANK"
+                          },
+                          {
+                            "type": "STRING",
+                            "value": "\\"
+                          }
+                        ]
+                      }
                     },
                     {
                       "type": "REPEAT",
@@ -3134,11 +3278,19 @@
                   "type": "SEQ",
                   "members": [
                     {
-                      "type": "BLANK"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "="
+                      "type": "TOKEN",
+                      "content": {
+                        "type": "SEQ",
+                        "members": [
+                          {
+                            "type": "BLANK"
+                          },
+                          {
+                            "type": "STRING",
+                            "value": "="
+                          }
+                        ]
+                      }
                     },
                     {
                       "type": "REPEAT",
@@ -3170,11 +3322,19 @@
                   "type": "SEQ",
                   "members": [
                     {
-                      "type": "BLANK"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "/"
+                      "type": "TOKEN",
+                      "content": {
+                        "type": "SEQ",
+                        "members": [
+                          {
+                            "type": "BLANK"
+                          },
+                          {
+                            "type": "STRING",
+                            "value": "/"
+                          }
+                        ]
+                      }
                     },
                     {
                       "type": "REPEAT",
@@ -3206,11 +3366,19 @@
                   "type": "SEQ",
                   "members": [
                     {
-                      "type": "BLANK"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "+"
+                      "type": "TOKEN",
+                      "content": {
+                        "type": "SEQ",
+                        "members": [
+                          {
+                            "type": "BLANK"
+                          },
+                          {
+                            "type": "STRING",
+                            "value": "+"
+                          }
+                        ]
+                      }
                     },
                     {
                       "type": "REPEAT",
@@ -3242,11 +3410,19 @@
                   "type": "SEQ",
                   "members": [
                     {
-                      "type": "BLANK"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "-"
+                      "type": "TOKEN",
+                      "content": {
+                        "type": "SEQ",
+                        "members": [
+                          {
+                            "type": "BLANK"
+                          },
+                          {
+                            "type": "STRING",
+                            "value": "-"
+                          }
+                        ]
+                      }
                     },
                     {
                       "type": "REPEAT",
@@ -3278,11 +3454,19 @@
                   "type": "SEQ",
                   "members": [
                     {
-                      "type": "BLANK"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "~"
+                      "type": "TOKEN",
+                      "content": {
+                        "type": "SEQ",
+                        "members": [
+                          {
+                            "type": "BLANK"
+                          },
+                          {
+                            "type": "STRING",
+                            "value": "~"
+                          }
+                        ]
+                      }
                     },
                     {
                       "type": "REPEAT",
@@ -3314,11 +3498,19 @@
                   "type": "SEQ",
                   "members": [
                     {
-                      "type": "BLANK"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "`"
+                      "type": "TOKEN",
+                      "content": {
+                        "type": "SEQ",
+                        "members": [
+                          {
+                            "type": "BLANK"
+                          },
+                          {
+                            "type": "STRING",
+                            "value": "`"
+                          }
+                        ]
+                      }
                     },
                     {
                       "type": "REPEAT",
@@ -3350,11 +3542,19 @@
                   "type": "SEQ",
                   "members": [
                     {
-                      "type": "BLANK"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "'"
+                      "type": "TOKEN",
+                      "content": {
+                        "type": "SEQ",
+                        "members": [
+                          {
+                            "type": "BLANK"
+                          },
+                          {
+                            "type": "STRING",
+                            "value": "'"
+                          }
+                        ]
+                      }
                     },
                     {
                       "type": "REPEAT",
@@ -3386,11 +3586,19 @@
                   "type": "SEQ",
                   "members": [
                     {
-                      "type": "BLANK"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "\""
+                      "type": "TOKEN",
+                      "content": {
+                        "type": "SEQ",
+                        "members": [
+                          {
+                            "type": "BLANK"
+                          },
+                          {
+                            "type": "STRING",
+                            "value": "\""
+                          }
+                        ]
+                      }
                     },
                     {
                       "type": "REPEAT",
@@ -3422,11 +3630,19 @@
                   "type": "SEQ",
                   "members": [
                     {
-                      "type": "BLANK"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": ","
+                      "type": "TOKEN",
+                      "content": {
+                        "type": "SEQ",
+                        "members": [
+                          {
+                            "type": "BLANK"
+                          },
+                          {
+                            "type": "STRING",
+                            "value": ","
+                          }
+                        ]
+                      }
                     },
                     {
                       "type": "REPEAT",
@@ -3458,11 +3674,19 @@
                   "type": "SEQ",
                   "members": [
                     {
-                      "type": "BLANK"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "."
+                      "type": "TOKEN",
+                      "content": {
+                        "type": "SEQ",
+                        "members": [
+                          {
+                            "type": "BLANK"
+                          },
+                          {
+                            "type": "STRING",
+                            "value": "."
+                          }
+                        ]
+                      }
                     },
                     {
                       "type": "REPEAT",
@@ -3494,11 +3718,19 @@
                   "type": "SEQ",
                   "members": [
                     {
-                      "type": "BLANK"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "?"
+                      "type": "TOKEN",
+                      "content": {
+                        "type": "SEQ",
+                        "members": [
+                          {
+                            "type": "BLANK"
+                          },
+                          {
+                            "type": "STRING",
+                            "value": "?"
+                          }
+                        ]
+                      }
                     },
                     {
                       "type": "REPEAT",
@@ -3530,11 +3762,19 @@
                   "type": "SEQ",
                   "members": [
                     {
-                      "type": "BLANK"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": ":"
+                      "type": "TOKEN",
+                      "content": {
+                        "type": "SEQ",
+                        "members": [
+                          {
+                            "type": "BLANK"
+                          },
+                          {
+                            "type": "STRING",
+                            "value": ":"
+                          }
+                        ]
+                      }
                     },
                     {
                       "type": "REPEAT",
@@ -3566,11 +3806,19 @@
                   "type": "SEQ",
                   "members": [
                     {
-                      "type": "BLANK"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": ";"
+                      "type": "TOKEN",
+                      "content": {
+                        "type": "SEQ",
+                        "members": [
+                          {
+                            "type": "BLANK"
+                          },
+                          {
+                            "type": "STRING",
+                            "value": ";"
+                          }
+                        ]
+                      }
                     },
                     {
                       "type": "REPEAT",
@@ -3602,11 +3850,19 @@
                   "type": "SEQ",
                   "members": [
                     {
-                      "type": "BLANK"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "_"
+                      "type": "TOKEN",
+                      "content": {
+                        "type": "SEQ",
+                        "members": [
+                          {
+                            "type": "BLANK"
+                          },
+                          {
+                            "type": "STRING",
+                            "value": "_"
+                          }
+                        ]
+                      }
                     },
                     {
                       "type": "REPEAT",
@@ -3850,12 +4106,20 @@
               "type": "SEQ",
               "members": [
                 {
-                  "type": "STRING",
-                  "value": "%q"
-                },
-                {
-                  "type": "STRING",
-                  "value": "!"
+                  "type": "TOKEN",
+                  "content": {
+                    "type": "SEQ",
+                    "members": [
+                      {
+                        "type": "STRING",
+                        "value": "%q"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "!"
+                      }
+                    ]
+                  }
                 },
                 {
                   "type": "REPEAT",
@@ -3883,12 +4147,20 @@
               "type": "SEQ",
               "members": [
                 {
-                  "type": "STRING",
-                  "value": "%q"
-                },
-                {
-                  "type": "STRING",
-                  "value": "@"
+                  "type": "TOKEN",
+                  "content": {
+                    "type": "SEQ",
+                    "members": [
+                      {
+                        "type": "STRING",
+                        "value": "%q"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "@"
+                      }
+                    ]
+                  }
                 },
                 {
                   "type": "REPEAT",
@@ -3916,12 +4188,20 @@
               "type": "SEQ",
               "members": [
                 {
-                  "type": "STRING",
-                  "value": "%q"
-                },
-                {
-                  "type": "STRING",
-                  "value": "#"
+                  "type": "TOKEN",
+                  "content": {
+                    "type": "SEQ",
+                    "members": [
+                      {
+                        "type": "STRING",
+                        "value": "%q"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "#"
+                      }
+                    ]
+                  }
                 },
                 {
                   "type": "REPEAT",
@@ -3949,12 +4229,20 @@
               "type": "SEQ",
               "members": [
                 {
-                  "type": "STRING",
-                  "value": "%q"
-                },
-                {
-                  "type": "STRING",
-                  "value": "$"
+                  "type": "TOKEN",
+                  "content": {
+                    "type": "SEQ",
+                    "members": [
+                      {
+                        "type": "STRING",
+                        "value": "%q"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "$"
+                      }
+                    ]
+                  }
                 },
                 {
                   "type": "REPEAT",
@@ -3982,12 +4270,20 @@
               "type": "SEQ",
               "members": [
                 {
-                  "type": "STRING",
-                  "value": "%q"
-                },
-                {
-                  "type": "STRING",
-                  "value": "%"
+                  "type": "TOKEN",
+                  "content": {
+                    "type": "SEQ",
+                    "members": [
+                      {
+                        "type": "STRING",
+                        "value": "%q"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "%"
+                      }
+                    ]
+                  }
                 },
                 {
                   "type": "REPEAT",
@@ -4015,12 +4311,20 @@
               "type": "SEQ",
               "members": [
                 {
-                  "type": "STRING",
-                  "value": "%q"
-                },
-                {
-                  "type": "STRING",
-                  "value": "^"
+                  "type": "TOKEN",
+                  "content": {
+                    "type": "SEQ",
+                    "members": [
+                      {
+                        "type": "STRING",
+                        "value": "%q"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "^"
+                      }
+                    ]
+                  }
                 },
                 {
                   "type": "REPEAT",
@@ -4048,12 +4352,20 @@
               "type": "SEQ",
               "members": [
                 {
-                  "type": "STRING",
-                  "value": "%q"
-                },
-                {
-                  "type": "STRING",
-                  "value": "&"
+                  "type": "TOKEN",
+                  "content": {
+                    "type": "SEQ",
+                    "members": [
+                      {
+                        "type": "STRING",
+                        "value": "%q"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "&"
+                      }
+                    ]
+                  }
                 },
                 {
                   "type": "REPEAT",
@@ -4081,12 +4393,20 @@
               "type": "SEQ",
               "members": [
                 {
-                  "type": "STRING",
-                  "value": "%q"
-                },
-                {
-                  "type": "STRING",
-                  "value": "*"
+                  "type": "TOKEN",
+                  "content": {
+                    "type": "SEQ",
+                    "members": [
+                      {
+                        "type": "STRING",
+                        "value": "%q"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "*"
+                      }
+                    ]
+                  }
                 },
                 {
                   "type": "REPEAT",
@@ -4114,12 +4434,20 @@
               "type": "SEQ",
               "members": [
                 {
-                  "type": "STRING",
-                  "value": "%q"
-                },
-                {
-                  "type": "STRING",
-                  "value": ")"
+                  "type": "TOKEN",
+                  "content": {
+                    "type": "SEQ",
+                    "members": [
+                      {
+                        "type": "STRING",
+                        "value": "%q"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": ")"
+                      }
+                    ]
+                  }
                 },
                 {
                   "type": "REPEAT",
@@ -4147,12 +4475,20 @@
               "type": "SEQ",
               "members": [
                 {
-                  "type": "STRING",
-                  "value": "%q"
-                },
-                {
-                  "type": "STRING",
-                  "value": "]"
+                  "type": "TOKEN",
+                  "content": {
+                    "type": "SEQ",
+                    "members": [
+                      {
+                        "type": "STRING",
+                        "value": "%q"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "]"
+                      }
+                    ]
+                  }
                 },
                 {
                   "type": "REPEAT",
@@ -4180,12 +4516,20 @@
               "type": "SEQ",
               "members": [
                 {
-                  "type": "STRING",
-                  "value": "%q"
-                },
-                {
-                  "type": "STRING",
-                  "value": "}"
+                  "type": "TOKEN",
+                  "content": {
+                    "type": "SEQ",
+                    "members": [
+                      {
+                        "type": "STRING",
+                        "value": "%q"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "}"
+                      }
+                    ]
+                  }
                 },
                 {
                   "type": "REPEAT",
@@ -4213,12 +4557,20 @@
               "type": "SEQ",
               "members": [
                 {
-                  "type": "STRING",
-                  "value": "%q"
-                },
-                {
-                  "type": "STRING",
-                  "value": ">"
+                  "type": "TOKEN",
+                  "content": {
+                    "type": "SEQ",
+                    "members": [
+                      {
+                        "type": "STRING",
+                        "value": "%q"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": ">"
+                      }
+                    ]
+                  }
                 },
                 {
                   "type": "REPEAT",
@@ -4246,12 +4598,20 @@
               "type": "SEQ",
               "members": [
                 {
-                  "type": "STRING",
-                  "value": "%q"
-                },
-                {
-                  "type": "STRING",
-                  "value": "|"
+                  "type": "TOKEN",
+                  "content": {
+                    "type": "SEQ",
+                    "members": [
+                      {
+                        "type": "STRING",
+                        "value": "%q"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "|"
+                      }
+                    ]
+                  }
                 },
                 {
                   "type": "REPEAT",
@@ -4279,12 +4639,20 @@
               "type": "SEQ",
               "members": [
                 {
-                  "type": "STRING",
-                  "value": "%q"
-                },
-                {
-                  "type": "STRING",
-                  "value": "\\"
+                  "type": "TOKEN",
+                  "content": {
+                    "type": "SEQ",
+                    "members": [
+                      {
+                        "type": "STRING",
+                        "value": "%q"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "\\"
+                      }
+                    ]
+                  }
                 },
                 {
                   "type": "REPEAT",
@@ -4312,12 +4680,20 @@
               "type": "SEQ",
               "members": [
                 {
-                  "type": "STRING",
-                  "value": "%q"
-                },
-                {
-                  "type": "STRING",
-                  "value": "="
+                  "type": "TOKEN",
+                  "content": {
+                    "type": "SEQ",
+                    "members": [
+                      {
+                        "type": "STRING",
+                        "value": "%q"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "="
+                      }
+                    ]
+                  }
                 },
                 {
                   "type": "REPEAT",
@@ -4345,12 +4721,20 @@
               "type": "SEQ",
               "members": [
                 {
-                  "type": "STRING",
-                  "value": "%q"
-                },
-                {
-                  "type": "STRING",
-                  "value": "/"
+                  "type": "TOKEN",
+                  "content": {
+                    "type": "SEQ",
+                    "members": [
+                      {
+                        "type": "STRING",
+                        "value": "%q"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "/"
+                      }
+                    ]
+                  }
                 },
                 {
                   "type": "REPEAT",
@@ -4378,12 +4762,20 @@
               "type": "SEQ",
               "members": [
                 {
-                  "type": "STRING",
-                  "value": "%q"
-                },
-                {
-                  "type": "STRING",
-                  "value": "+"
+                  "type": "TOKEN",
+                  "content": {
+                    "type": "SEQ",
+                    "members": [
+                      {
+                        "type": "STRING",
+                        "value": "%q"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "+"
+                      }
+                    ]
+                  }
                 },
                 {
                   "type": "REPEAT",
@@ -4411,12 +4803,20 @@
               "type": "SEQ",
               "members": [
                 {
-                  "type": "STRING",
-                  "value": "%q"
-                },
-                {
-                  "type": "STRING",
-                  "value": "-"
+                  "type": "TOKEN",
+                  "content": {
+                    "type": "SEQ",
+                    "members": [
+                      {
+                        "type": "STRING",
+                        "value": "%q"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "-"
+                      }
+                    ]
+                  }
                 },
                 {
                   "type": "REPEAT",
@@ -4444,12 +4844,20 @@
               "type": "SEQ",
               "members": [
                 {
-                  "type": "STRING",
-                  "value": "%q"
-                },
-                {
-                  "type": "STRING",
-                  "value": "~"
+                  "type": "TOKEN",
+                  "content": {
+                    "type": "SEQ",
+                    "members": [
+                      {
+                        "type": "STRING",
+                        "value": "%q"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "~"
+                      }
+                    ]
+                  }
                 },
                 {
                   "type": "REPEAT",
@@ -4477,12 +4885,20 @@
               "type": "SEQ",
               "members": [
                 {
-                  "type": "STRING",
-                  "value": "%q"
-                },
-                {
-                  "type": "STRING",
-                  "value": "`"
+                  "type": "TOKEN",
+                  "content": {
+                    "type": "SEQ",
+                    "members": [
+                      {
+                        "type": "STRING",
+                        "value": "%q"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "`"
+                      }
+                    ]
+                  }
                 },
                 {
                   "type": "REPEAT",
@@ -4510,12 +4926,20 @@
               "type": "SEQ",
               "members": [
                 {
-                  "type": "STRING",
-                  "value": "%q"
-                },
-                {
-                  "type": "STRING",
-                  "value": "'"
+                  "type": "TOKEN",
+                  "content": {
+                    "type": "SEQ",
+                    "members": [
+                      {
+                        "type": "STRING",
+                        "value": "%q"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "'"
+                      }
+                    ]
+                  }
                 },
                 {
                   "type": "REPEAT",
@@ -4543,12 +4967,20 @@
               "type": "SEQ",
               "members": [
                 {
-                  "type": "STRING",
-                  "value": "%q"
-                },
-                {
-                  "type": "STRING",
-                  "value": "\""
+                  "type": "TOKEN",
+                  "content": {
+                    "type": "SEQ",
+                    "members": [
+                      {
+                        "type": "STRING",
+                        "value": "%q"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "\""
+                      }
+                    ]
+                  }
                 },
                 {
                   "type": "REPEAT",
@@ -4576,12 +5008,20 @@
               "type": "SEQ",
               "members": [
                 {
-                  "type": "STRING",
-                  "value": "%q"
-                },
-                {
-                  "type": "STRING",
-                  "value": ","
+                  "type": "TOKEN",
+                  "content": {
+                    "type": "SEQ",
+                    "members": [
+                      {
+                        "type": "STRING",
+                        "value": "%q"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": ","
+                      }
+                    ]
+                  }
                 },
                 {
                   "type": "REPEAT",
@@ -4609,12 +5049,20 @@
               "type": "SEQ",
               "members": [
                 {
-                  "type": "STRING",
-                  "value": "%q"
-                },
-                {
-                  "type": "STRING",
-                  "value": "."
+                  "type": "TOKEN",
+                  "content": {
+                    "type": "SEQ",
+                    "members": [
+                      {
+                        "type": "STRING",
+                        "value": "%q"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "."
+                      }
+                    ]
+                  }
                 },
                 {
                   "type": "REPEAT",
@@ -4642,12 +5090,20 @@
               "type": "SEQ",
               "members": [
                 {
-                  "type": "STRING",
-                  "value": "%q"
-                },
-                {
-                  "type": "STRING",
-                  "value": "?"
+                  "type": "TOKEN",
+                  "content": {
+                    "type": "SEQ",
+                    "members": [
+                      {
+                        "type": "STRING",
+                        "value": "%q"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "?"
+                      }
+                    ]
+                  }
                 },
                 {
                   "type": "REPEAT",
@@ -4675,12 +5131,20 @@
               "type": "SEQ",
               "members": [
                 {
-                  "type": "STRING",
-                  "value": "%q"
-                },
-                {
-                  "type": "STRING",
-                  "value": ":"
+                  "type": "TOKEN",
+                  "content": {
+                    "type": "SEQ",
+                    "members": [
+                      {
+                        "type": "STRING",
+                        "value": "%q"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": ":"
+                      }
+                    ]
+                  }
                 },
                 {
                   "type": "REPEAT",
@@ -4708,12 +5172,20 @@
               "type": "SEQ",
               "members": [
                 {
-                  "type": "STRING",
-                  "value": "%q"
-                },
-                {
-                  "type": "STRING",
-                  "value": ";"
+                  "type": "TOKEN",
+                  "content": {
+                    "type": "SEQ",
+                    "members": [
+                      {
+                        "type": "STRING",
+                        "value": "%q"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": ";"
+                      }
+                    ]
+                  }
                 },
                 {
                   "type": "REPEAT",
@@ -4741,12 +5213,20 @@
               "type": "SEQ",
               "members": [
                 {
-                  "type": "STRING",
-                  "value": "%q"
-                },
-                {
-                  "type": "STRING",
-                  "value": "_"
+                  "type": "TOKEN",
+                  "content": {
+                    "type": "SEQ",
+                    "members": [
+                      {
+                        "type": "STRING",
+                        "value": "%q"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "_"
+                      }
+                    ]
+                  }
                 },
                 {
                   "type": "REPEAT",
@@ -4995,11 +5475,19 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "BLANK"
-        },
-        {
-          "type": "STRING",
-          "value": "`"
+          "type": "TOKEN",
+          "content": {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "BLANK"
+              },
+              {
+                "type": "STRING",
+                "value": "`"
+              }
+            ]
+          }
         },
         {
           "type": "REPEAT",

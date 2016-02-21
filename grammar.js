@@ -287,7 +287,7 @@ module.exports = grammar({
 function stringBody (prefix, delimiter, insert) {
   var contents = [ /\\./, RegExp('[^\\\\\\' + delimiter + ']') ];
   if (typeof insert !== 'undefined') contents.push(insert);
-  return seq(prefix, delimiter, repeat(choice.apply(null, contents)), delimiter);
+  return seq(token(seq(prefix, delimiter)), repeat(choice.apply(null, contents)), delimiter);
 }
 
 function balancedStringBody (me, open, close, insert) {
