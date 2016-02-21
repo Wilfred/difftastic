@@ -242,7 +242,7 @@ module.exports = grammar({
     _single_quoted: $ => stringBody("'"),
     _double_quoted: $ => token(seq('"', repeat(choice(/\\./, $.interpolation, /[^\\"]/)), '"')),
     _percent_q: $ => choice(
-      token(seq('%q', choice.apply(null, unbalancedDelimiters.split('').map(stringBody)))),
+      token(seq('%q', choice.apply(null, unbalancedDelimiters.split('').map(d => stringBody(d))))),
       seq('%q', $._percent_q_angle),
       seq('%q', $._percent_q_bracket),
       seq('%q', $._percent_q_paren),
@@ -269,8 +269,13 @@ module.exports = grammar({
   }
 });
 
-function stringBody (delimiter) {
-  return RegExp('\\' + delimiter + '(\\\\.|[^\\\\\\' + delimiter + '])*\\' + delimiter);
+/// Describes the body of a string literal bounded by `delimiter`, and optionally containing (potentially recursive) references to `insert`.
+function stringBody (delimiter, insert) {
+  if (typeof insert === 'undefined') {
+    return RegExp('\\' + delimiter + '(\\\\.|[^\\\\\\' + delimiter + '])*\\' + delimiter);
+  } else {
+    return token(seq(delimiter, repeat(choice(/\\./, insert, RegExp('[^\\\\\\' + delimiter + ']'))), delimiter));
+  }
 }
 
 function balancedStringBody (me, open, close) {
