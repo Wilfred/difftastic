@@ -203,9 +203,9 @@ escaped interpolation
 
 (program (string))
 
-========================================
-percent q string with various delimiters
-========================================
+===========================================
+percent q string with unbalanced delimiters
+===========================================
 
 %q!a!
 %q@a@
