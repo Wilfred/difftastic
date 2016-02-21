@@ -203,12 +203,39 @@ escaped interpolation
 
 (program (string))
 
-===========================
-percent q string with pipes
-===========================
+========================================
+percent q string with various delimiters
+========================================
 
-%q|stringy|
+%q!a!
+%q@a@
+%q$a$
+%q%a%
+%q^a^
+%q&a&
+%q*a*
+%q-a-
+%q+a+
+%q/a/
+%q|a|
+%q?a?
+%q?a?
+%q\a\
+%q.a.
+%q,a,
+%q:a:
+%q;a;
+%q'a'
+%q"a"
+%q)a)
+%q]a]
+%q}a}
+%q>a>
+%q`a`
+%q~a~
+%q_a_
+%q#a#
 
 ---
 
-(program (string))
+(program (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string))
