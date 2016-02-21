@@ -283,9 +283,9 @@ percent q string with balanced delimiters
 
 (program (string) (string) (string) (string))
 
-===========================================
-percent q string with unbalanced delimiters
-===========================================
+=========================================
+percent string with unbalanced delimiters
+=========================================
 
 %=a=
 %!a!
@@ -321,7 +321,7 @@ percent q string with unbalanced delimiters
 (program (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string))
 
 ===========================================
-percent q string with unbalanced delimiters
+percent Q string with unbalanced delimiters
 ===========================================
 
 %Q=a=
