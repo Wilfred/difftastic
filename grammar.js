@@ -274,7 +274,12 @@ module.exports = grammar({
     interpolation: $ => seq(token(prec(20, '#{')), $._expression, '}'),
 
     subshell: $ => choice(
-      stringBody('`', '`')
+      stringBody('`', '`'),
+      choice.apply(null, unbalancedDelimiters.split('').map(d => stringBody('%x' + d, d, $.interpolation))),
+      seq('%x', $._interpolated_angle),
+      seq('%x', $._interpolated_bracket),
+      seq('%x', $._interpolated_paren),
+      seq('%x', $._interpolated_brace)
     ),
 
     array: $ => seq('[', $._array_items, ']'),
