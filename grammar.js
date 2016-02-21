@@ -230,7 +230,7 @@ module.exports = grammar({
       $.array
     ),
 
-    symbol: $ => token(seq(':', choice(stringBody("'"), stringBody('"', $.interpolation), identifierPattern, choice.apply(null, operators)))),
+    symbol: $ => token(seq(':', choice(stringBody(blank(), "'"), stringBody(blank(), '"', $.interpolation), identifierPattern, choice.apply(null, operators)))),
     integer: $ => (/0b[01](_?[01])*|0[oO]?[0-7](_?[0-7])*|(0d)?\d(_?\d)*|0x[0-9a-fA-F](_?[0-9a-fA-F])*/),
     float: $ => (/\d(_?\d)*\.\d(_?\d)*([eE]\d(_?\d)*)?/),
     boolean: $ => choice('true', 'false', 'TRUE', 'FALSE'),
@@ -242,10 +242,10 @@ module.exports = grammar({
       $._percent,
       $._percent_q
     ),
-    _single_quoted: $ => stringBody("'"),
-    _double_quoted: $ => stringBody('"', $.interpolation),
+    _single_quoted: $ => stringBody(blank(), "'"),
+    _double_quoted: $ => stringBody(blank(), '"', $.interpolation),
     _percent: $ => choice(
-      seq(/%Q?/, choice.apply(null, unbalancedDelimiters.split('').map(d => stringBody(d, $.interpolation)))),
+      seq(/%Q?/, choice.apply(null, unbalancedDelimiters.split('').map(d => stringBody(blank(), d, $.interpolation)))),
       seq(/%Q?/, $._percent_angle),
       seq(/%Q?/, $._percent_bracket),
       seq(/%Q?/, $._percent_paren),
@@ -256,7 +256,7 @@ module.exports = grammar({
     _percent_paren: $ => balancedStringBody($._percent_paren, '(', ')', $.interpolation),
     _percent_brace: $ => balancedStringBody($._percent_brace, '{', '}', $.interpolation),
     _percent_q: $ => choice(
-      seq('%q', choice.apply(null, unbalancedDelimiters.split('').map(d => stringBody(d)))),
+      choice.apply(null, unbalancedDelimiters.split('').map(d => stringBody('%q', d))),
       seq('%q', $._percent_q_angle),
       seq('%q', $._percent_q_bracket),
       seq('%q', $._percent_q_paren),
@@ -271,7 +271,7 @@ module.exports = grammar({
     subshell: $ => choice(
       $._backticks
     ),
-    _backticks: $ => stringBody('`'),
+    _backticks: $ => stringBody(blank(), '`'),
 
     array: $ => seq('[', $._array_items, ']'),
     _array_items: $ => optional(seq($._expression, optional(seq(',', $._array_items)))),
@@ -284,10 +284,10 @@ module.exports = grammar({
 });
 
 /// Describes the body of a string literal bounded by `delimiter`, and optionally containing (potentially recursive) references to `insert`.
-function stringBody (delimiter, insert) {
+function stringBody (prefix, delimiter, insert) {
   var contents = [ /\\./, RegExp('[^\\\\\\' + delimiter + ']') ];
   if (typeof insert !== 'undefined') contents.push(insert);
-  return seq(delimiter, repeat(choice.apply(null, contents)), delimiter);
+  return seq(prefix, delimiter, repeat(choice.apply(null, contents)), delimiter);
 }
 
 function balancedStringBody (me, open, close, insert) {
