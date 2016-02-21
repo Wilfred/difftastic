@@ -18,6 +18,7 @@ const PREC = {
   UNARY_MINUS: 75,
   EXPONENTIAL: 80,
   COMPLEMENT: 85,
+  LITERAL: 100,
 };
 
 const unbalancedDelimiters = '!@#$%^&*)]}>|\\=/+-~`\'",.?:;_';
@@ -272,7 +273,7 @@ module.exports = grammar({
     _uninterpolated_bracket: $ => balancedStringBody($._uninterpolated_bracket, '[', ']'),
     _uninterpolated_paren: $ => balancedStringBody($._uninterpolated_paren, '(', ')'),
     _uninterpolated_brace: $ => balancedStringBody($._uninterpolated_brace, '{', '}'),
-    interpolation: $ => seq(token(prec(20, '#{')), $._expression, '}'),
+    interpolation: $ => seq(token(prec(PREC.LITERAL, '#{')), $._expression, '}'),
 
     subshell: $ => choice(
       stringBody('`', '`'),
@@ -312,7 +313,7 @@ module.exports = grammar({
 function stringBody (open, close, insert) {
   var contents = [ /\\./, RegExp('[^\\\\\\' + close + ']') ];
   if (typeof insert !== 'undefined') contents.push(insert);
-  return seq(open, repeat(choice.apply(null, contents)), token(prec(20, close)));
+  return seq(open, repeat(choice.apply(null, contents)), token(prec(PREC.LITERAL, close)));
 }
 
 function balancedStringBody (me, open, close, insert) {
