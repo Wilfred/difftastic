@@ -572,3 +572,13 @@ regular expression
 ---
 
 (program (regex))
+
+=====================================
+regular expression with interpolation
+=====================================
+
+/word#{foo}word/
+
+---
+
+(program (regex (interpolation (identifier))))
