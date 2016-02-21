@@ -38,6 +38,56 @@ double quoted symbol with interpolation
 
 (program (symbol (interpolation (identifier))))
 
+=========================================
+percent symbol with unbalanced delimiters
+=========================================
+
+%s=a=
+%s!a!
+%s@a@
+%s$a$
+%s%a%
+%s^a^
+%s&a&
+%s*a*
+%s-a-
+%s+a+
+%s/a/
+%s|a|
+%s?a?
+%s\a\
+%s.a.
+%s,a,
+%s:a:
+%s;a;
+%s'a'
+%s"a"
+%s)a)
+%s]a]
+%s}a}
+%s>a>
+%s`a`
+%s~a~
+%s_a_
+%s#a#
+
+---
+
+(program (symbol) (symbol) (symbol) (symbol) (symbol) (symbol) (symbol) (symbol) (symbol) (symbol) (symbol) (symbol) (symbol) (symbol) (symbol) (symbol) (symbol) (symbol) (symbol) (symbol) (symbol) (symbol) (symbol) (symbol) (symbol) (symbol) (symbol) (symbol))
+
+=======================================
+percent symbol with balanced delimiters
+=======================================
+
+%s{a{b}c}
+%s<a<b>c>
+%s(a(b)c)
+%s[a[b]c]
+
+---
+
+(program (symbol) (symbol) (symbol) (symbol))
+
 =======
 integer
 =======

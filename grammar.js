@@ -233,8 +233,18 @@ module.exports = grammar({
     symbol: $ => choice(
       token(seq(':', choice(identifierPattern, choice.apply(null, operators)))),
       stringBody(":'", "'"),
-      stringBody(':"', '"', $.interpolation)
+      stringBody(':"', '"', $.interpolation),
+      choice.apply(null, unbalancedDelimiters.split('').map(d => stringBody('%s' + d, d))),
+      seq(/%s/, $._symbol_angle),
+      seq(/%s/, $._symbol_bracket),
+      seq(/%s/, $._symbol_paren),
+      seq(/%s/, $._symbol_brace)
     ),
+    _symbol_angle: $ => balancedStringBody($._percent_angle, '<', '>', $.interpolation),
+    _symbol_bracket: $ => balancedStringBody($._percent_bracket, '[', ']', $.interpolation),
+    _symbol_paren: $ => balancedStringBody($._percent_paren, '(', ')', $.interpolation),
+    _symbol_brace: $ => balancedStringBody($._percent_brace, '{', '}', $.interpolation),
+
     integer: $ => (/0b[01](_?[01])*|0[oO]?[0-7](_?[0-7])*|(0d)?\d(_?\d)*|0x[0-9a-fA-F](_?[0-9a-fA-F])*/),
     float: $ => (/\d(_?\d)*\.\d(_?\d)*([eE]\d(_?\d)*)?/),
     boolean: $ => choice('true', 'false', 'TRUE', 'FALSE'),
