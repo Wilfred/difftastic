@@ -243,7 +243,7 @@ module.exports = grammar({
     _single_quoted: $ => stringBody("'"),
     _double_quoted: $ => stringBody('"', $.interpolation),
     _percent: $ => choice(
-      token(seq(/%Q?/, choice.apply(null, unbalancedDelimiters.split('').map(d => stringBody(d, $.interpolation))))),
+      seq(/%Q?/, choice.apply(null, unbalancedDelimiters.split('').map(d => seq(stringBody(d, $.interpolation))))),
       seq(/%Q?/, $._percent_angle),
       seq(/%Q?/, $._percent_bracket),
       seq(/%Q?/, $._percent_paren),
@@ -254,7 +254,7 @@ module.exports = grammar({
     _percent_paren: $ => balancedStringBody($._percent_paren, '(', ')', $.interpolation),
     _percent_brace: $ => balancedStringBody($._percent_brace, '{', '}', $.interpolation),
     _percent_q: $ => choice(
-      token(seq('%q', choice.apply(null, unbalancedDelimiters.split('').map(d => stringBody(d))))),
+      seq('%q', choice.apply(null, unbalancedDelimiters.split('').map(d => seq(stringBody(d))))),
       seq('%q', $._percent_q_angle),
       seq('%q', $._percent_q_bracket),
       seq('%q', $._percent_q_paren),
