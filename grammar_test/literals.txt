@@ -562,3 +562,13 @@ percent I array with captures
 ---
 
 (program (array (interpolation (identifier))))
+
+==================
+regular expression
+==================
+
+/^(foo|bar[^_])$/i
+
+---
+
+(program (regex))
