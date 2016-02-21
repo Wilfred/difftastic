@@ -243,7 +243,7 @@ module.exports = grammar({
       token(seq('%q', choice.apply(null, unbalancedDelimiters.split('').map(stringBody)))),
       seq('%q', $._percent_q_angle)
     ),
-    _percent_q_angle: $ => seq('<', repeat(choice(/\\./, $._percent_q_angle, /[^\\<>]/)), '>'),
+    _percent_q_angle: $ => balancedStringBody($._percent_q_angle, '<', '>'),
     interpolation: $ => seq('#{', $._expression, '}'),
 
     _function_name: $ => choice($.identifier, operatorChars()),
