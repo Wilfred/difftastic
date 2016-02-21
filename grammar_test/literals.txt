@@ -492,3 +492,13 @@ empty percent w array
 ---
 
 (program (array))
+
+===============
+percent w array
+===============
+
+%w(word word)
+
+---
+
+(program (array))
