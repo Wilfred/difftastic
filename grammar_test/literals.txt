@@ -28,6 +28,16 @@ double quoted symbol
 
 (program (symbol))
 
+=======================================
+double quoted symbol with interpolation
+=======================================
+
+:"foo #{bar}"
+
+---
+
+(program (symbol (interpolation (identifier))))
+
 =======
 integer
 =======
