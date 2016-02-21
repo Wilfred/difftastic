@@ -482,3 +482,13 @@ array with trailing comma
 ---
 
 (program (array (identifier)))
+
+=====================
+empty percent w array
+=====================
+
+%w()
+
+---
+
+(program (array))

@@ -282,7 +282,13 @@ module.exports = grammar({
       seq('%x', $._interpolated_brace)
     ),
 
-    array: $ => seq('[', $._array_items, ']'),
+    array: $ => choice(
+      seq('[', $._array_items, ']'),
+      seq('%w', $._uninterpolated_angle),
+      seq('%w', $._uninterpolated_bracket),
+      seq('%w', $._uninterpolated_paren),
+      seq('%w', $._uninterpolated_brace)
+    ),
     _array_items: $ => optional(seq($._expression, optional(seq(',', $._array_items)))),
 
     _function_name: $ => choice($.identifier, choice.apply(null, operators)),
