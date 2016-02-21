@@ -2467,7 +2467,7 @@
     },
     "_single_quoted": {
       "type": "PATTERN",
-      "value": "'(\\\\.|[^\\\\'])*'"
+      "value": "\\'(\\\\.|[^\\\\\\'])*\\'"
     },
     "_double_quoted": {
       "type": "TOKEN",
