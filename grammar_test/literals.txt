@@ -513,6 +513,16 @@ unbalanced percent w array
 
 (program (array))
 
+===================================
+percent W array with interpolations
+===================================
+
+%W(a #{b} c)
+
+---
+
+(program (array (interpolation (identifier))))
+
 =====================
 empty percent i array
 =====================
@@ -542,3 +552,13 @@ unbalanced percent i array
 ---
 
 (program (array))
+
+=============================
+percent I array with captures
+=============================
+
+%I(a #{b} c)
+
+---
+
+(program (array (interpolation (identifier))))

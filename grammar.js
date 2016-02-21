@@ -288,7 +288,12 @@ module.exports = grammar({
       seq(/%[wi]/, $._uninterpolated_angle),
       seq(/%[wi]/, $._uninterpolated_bracket),
       seq(/%[wi]/, $._uninterpolated_paren),
-      seq(/%[wi]/, $._uninterpolated_brace)
+      seq(/%[wi]/, $._uninterpolated_brace),
+      choice.apply(null, unbalancedDelimiters.split('').map(d => stringBody(RegExp('%[WI]\\' + d), d, $.interpolation))),
+      seq(/%[WI]/, $._interpolated_angle),
+      seq(/%[WI]/, $._interpolated_bracket),
+      seq(/%[WI]/, $._interpolated_paren),
+      seq(/%[WI]/, $._interpolated_brace)
     ),
     _array_items: $ => optional(seq($._expression, optional(seq(',', $._array_items)))),
 
