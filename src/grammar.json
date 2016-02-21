@@ -2645,6 +2645,45 @@
               "name": "_percent_q_angle"
             }
           ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "%q"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_percent_q_bracket"
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "%q"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_percent_q_paren"
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "%q"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_percent_q_brace"
+            }
+          ]
         }
       ]
     },
@@ -2678,6 +2717,105 @@
         {
           "type": "STRING",
           "value": ">"
+        }
+      ]
+    },
+    "_percent_q_bracket": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "["
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "PATTERN",
+                "value": "\\\\."
+              },
+              {
+                "type": "SYMBOL",
+                "name": "_percent_q_bracket"
+              },
+              {
+                "type": "PATTERN",
+                "value": "[^\\\\\\[\\]]"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "]"
+        }
+      ]
+    },
+    "_percent_q_paren": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "PATTERN",
+                "value": "\\\\."
+              },
+              {
+                "type": "SYMBOL",
+                "name": "_percent_q_paren"
+              },
+              {
+                "type": "PATTERN",
+                "value": "[^\\\\\\(\\)]"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "_percent_q_brace": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "{"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "PATTERN",
+                "value": "\\\\."
+              },
+              {
+                "type": "SYMBOL",
+                "name": "_percent_q_brace"
+              },
+              {
+                "type": "PATTERN",
+                "value": "[^\\\\\\{\\}]"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "}"
         }
       ]
     },
