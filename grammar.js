@@ -325,11 +325,9 @@ function stringBody (open, close, insert) {
 }
 
 function balancedStringBody (me, open, close, insert) {
-  if (typeof insert === 'undefined') {
-    return seq(open, repeat(choice(/\\./, me, RegExp('[^\\\\\\' + open + '\\' + close + ']'))), close);
-  } else {
-    return seq(open, repeat(choice(/\\./, me, insert, RegExp('[^\\\\\\' + open + '\\' + close + ']'))), close);
-  }
+  var contents = [ /\\./, me, RegExp('[^\\\\\\' + open + '\\' + close + ']') ];
+  if (typeof insert !== 'undefined') contents.push(insert);
+  return seq(open, repeat(choice.apply(null, contents)), close);
 }
 
 function sep1 (rule, separator) {
