@@ -18,6 +18,16 @@ single quoted symbol
 
 (program (symbol))
 
+====================
+double quoted symbol
+====================
+
+:"foo bar"
+
+---
+
+(program (symbol))
+
 =======
 integer
 =======

@@ -2305,6 +2305,42 @@
                 "value": "\\'(\\\\.|[^\\\\\\'])*\\'"
               },
               {
+                "type": "TOKEN",
+                "content": {
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "STRING",
+                      "value": "\""
+                    },
+                    {
+                      "type": "REPEAT",
+                      "content": {
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "PATTERN",
+                            "value": "\\\\."
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "interpolation"
+                          },
+                          {
+                            "type": "PATTERN",
+                            "value": "[^\\\\\\\"]"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "STRING",
+                      "value": "\""
+                    }
+                  ]
+                }
+              },
+              {
                 "type": "PATTERN",
                 "value": "[a-zA-Z_][a-zA-Z0-9_]*"
               },
