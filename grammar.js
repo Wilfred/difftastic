@@ -278,8 +278,12 @@ function stringBody (delimiter, insert) {
   }
 }
 
-function balancedStringBody (me, open, close) {
-  return seq(open, repeat(choice(/\\./, me, RegExp('[^\\\\\\' + open + '\\' + close + ']'))), close);
+function balancedStringBody (me, open, close, insert) {
+  if (typeof insert === 'undefined') {
+    return seq(open, repeat(choice(/\\./, me, RegExp('[^\\\\\\' + open + '\\' + close + ']'))), close);
+  } else {
+    return seq(open, repeat(choice(/\\./, me, insert, RegExp('[^\\\\\\' + open + '\\' + close + ']'))), close);
+  }
 }
 
 function identifierChars () {
