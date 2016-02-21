@@ -284,6 +284,7 @@ module.exports = grammar({
 
     array: $ => choice(
       seq('[', $._array_items, ']'),
+      choice.apply(null, unbalancedDelimiters.split('').map(d => stringBody(RegExp('%[wi]\\' + d), d))),
       seq(/%[wi]/, $._uninterpolated_angle),
       seq(/%[wi]/, $._uninterpolated_bracket),
       seq(/%[wi]/, $._uninterpolated_paren),
