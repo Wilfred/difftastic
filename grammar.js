@@ -257,6 +257,10 @@ function stringBody (delimiter) {
   return RegExp('\\' + delimiter + '(\\\\.|[^\\\\\\' + delimiter + '])*\\' + delimiter);
 }
 
+function balancedStringBody (me, open, close) {
+  return seq(open, repeat(choice(/\\./, me, RegExp('[^\\\\\\' + open + '\\' + close + ']'))), close);
+}
+
 function identifierChars () {
   return /[a-zA-Z_][a-zA-Z0-9_]*/;
 }
