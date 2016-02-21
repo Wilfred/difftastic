@@ -230,7 +230,11 @@ module.exports = grammar({
       $.array
     ),
 
-    symbol: $ => token(seq(':', choice(stringBody(blank(), "'"), stringBody(blank(), '"', $.interpolation), identifierPattern, choice.apply(null, operators)))),
+    symbol: $ => choice(
+      token(seq(':', choice(identifierPattern, choice.apply(null, operators)))),
+      stringBody(':', "'"),
+      stringBody(':', '"', $.interpolation)
+    ),
     integer: $ => (/0b[01](_?[01])*|0[oO]?[0-7](_?[0-7])*|(0d)?\d(_?\d)*|0x[0-9a-fA-F](_?[0-9a-fA-F])*/),
     float: $ => (/\d(_?\d)*\.\d(_?\d)*([eE]\d(_?\d)*)?/),
     boolean: $ => choice('true', 'false', 'TRUE', 'FALSE'),
