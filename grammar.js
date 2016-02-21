@@ -324,11 +324,13 @@ function balancedStringBody (me, open, close, insert) {
   return seq(open, repeat(choice.apply(null, contents)), close);
 }
 
-function regexBody (open, close, interpolation) {
-  return seq(open, repeat(choice(
+function regexBody (open, close, interpolation, me) {
+  var contents = [
     RegExp('\\[[^\\]\\n]*\\]|\\\\.|[^\\' + close + '\\\\\\[\\n]'),
     interpolation
-  )), close, /[a-z]*/);
+  ];
+  if (typeof me !== 'undefined') contents.push(me);
+  return seq(open, repeat(choice.apply(null, contents)), close, /[a-z]*/);
 }
 
 function sep1 (rule, separator) {
