@@ -232,8 +232,8 @@ module.exports = grammar({
 
     symbol: $ => choice(
       token(seq(':', choice(identifierPattern, choice.apply(null, operators)))),
-      stringBody(':', "'"),
-      stringBody(':', '"', $.interpolation)
+      stringBody(":'", "'"),
+      stringBody(':"', '"', $.interpolation)
     ),
     integer: $ => (/0b[01](_?[01])*|0[oO]?[0-7](_?[0-7])*|(0d)?\d(_?\d)*|0x[0-9a-fA-F](_?[0-9a-fA-F])*/),
     float: $ => (/\d(_?\d)*\.\d(_?\d)*([eE]\d(_?\d)*)?/),
@@ -246,10 +246,10 @@ module.exports = grammar({
       $._percent,
       $._percent_q
     ),
-    _single_quoted: $ => stringBody(blank(), "'"),
-    _double_quoted: $ => stringBody(blank(), '"', $.interpolation),
+    _single_quoted: $ => stringBody("'", "'"),
+    _double_quoted: $ => stringBody('"', '"', $.interpolation),
     _percent: $ => choice(
-      choice.apply(null, unbalancedDelimiters.split('').map(d => stringBody(/%(Q|)/, d, $.interpolation))),
+      choice.apply(null, unbalancedDelimiters.split('').map(d => stringBody(RegExp('%(Q|)\\' + d), d, $.interpolation))),
       seq(/%Q?/, $._percent_angle),
       seq(/%Q?/, $._percent_bracket),
       seq(/%Q?/, $._percent_paren),
@@ -260,7 +260,7 @@ module.exports = grammar({
     _percent_paren: $ => balancedStringBody($._percent_paren, '(', ')', $.interpolation),
     _percent_brace: $ => balancedStringBody($._percent_brace, '{', '}', $.interpolation),
     _percent_q: $ => choice(
-      choice.apply(null, unbalancedDelimiters.split('').map(d => stringBody('%q', d))),
+      choice.apply(null, unbalancedDelimiters.split('').map(d => stringBody('%q' + d, d))),
       seq('%q', $._percent_q_angle),
       seq('%q', $._percent_q_bracket),
       seq('%q', $._percent_q_paren),
@@ -275,7 +275,7 @@ module.exports = grammar({
     subshell: $ => choice(
       $._backticks
     ),
-    _backticks: $ => stringBody(blank(), '`'),
+    _backticks: $ => stringBody('`', '`'),
 
     array: $ => seq('[', $._array_items, ']'),
     _array_items: $ => optional(seq($._expression, optional(seq(',', $._array_items)))),
