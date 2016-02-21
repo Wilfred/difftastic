@@ -20,7 +20,7 @@ const PREC = {
   COMPLEMENT: 85,
 };
 
-const unbalancedDelimiters = '!@#$%^&*)]}>|\\/+-~`\'",.?:;_';
+const unbalancedDelimiters = '!@#$%^&*)]}>|\\=/+-~`\'",.?:;_';
 
 module.exports = grammar({
   name: 'ruby',

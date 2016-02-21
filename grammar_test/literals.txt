@@ -207,6 +207,7 @@ escaped interpolation
 percent q string with unbalanced delimiters
 ===========================================
 
+%q=a=
 %q!a!
 %q@a@
 %q$a$
@@ -237,7 +238,7 @@ percent q string with unbalanced delimiters
 
 ---
 
-(program (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string))
+(program (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string))
 
 =========================================
 percent q string with balanced delimiters
