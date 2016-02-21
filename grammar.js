@@ -285,11 +285,9 @@ module.exports = grammar({
 
 /// Describes the body of a string literal bounded by `delimiter`, and optionally containing (potentially recursive) references to `insert`.
 function stringBody (delimiter, insert) {
-  if (typeof insert === 'undefined') {
-    return seq(delimiter, repeat(choice(/\\./, RegExp('[^\\\\\\' + delimiter + ']'))), delimiter);
-  } else {
-    return seq(delimiter, repeat(choice(/\\./, insert, RegExp('[^\\\\\\' + delimiter + ']'))), delimiter);
-  }
+  var contents = [ /\\./, RegExp('[^\\\\\\' + delimiter + ']') ];
+  if (typeof insert !== 'undefined') contents.push(insert);
+  return seq(delimiter, repeat(choice.apply(null, contents)), delimiter);
 }
 
 function balancedStringBody (me, open, close, insert) {

@@ -2346,12 +2346,12 @@
                           "value": "\\\\."
                         },
                         {
-                          "type": "SYMBOL",
-                          "name": "interpolation"
-                        },
-                        {
                           "type": "PATTERN",
                           "value": "[^\\\\\\\"]"
+                        },
+                        {
+                          "type": "SYMBOL",
+                          "name": "interpolation"
                         }
                       ]
                     }
@@ -2585,12 +2585,12 @@
                 "value": "\\\\."
               },
               {
-                "type": "SYMBOL",
-                "name": "interpolation"
-              },
-              {
                 "type": "PATTERN",
                 "value": "[^\\\\\\\"]"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "interpolation"
               }
             ]
           }
@@ -2631,12 +2631,12 @@
                             "value": "\\\\."
                           },
                           {
-                            "type": "SYMBOL",
-                            "name": "interpolation"
-                          },
-                          {
                             "type": "PATTERN",
                             "value": "[^\\\\\\!]"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "interpolation"
                           }
                         ]
                       }
@@ -2664,12 +2664,12 @@
                             "value": "\\\\."
                           },
                           {
-                            "type": "SYMBOL",
-                            "name": "interpolation"
-                          },
-                          {
                             "type": "PATTERN",
                             "value": "[^\\\\\\@]"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "interpolation"
                           }
                         ]
                       }
@@ -2697,12 +2697,12 @@
                             "value": "\\\\."
                           },
                           {
-                            "type": "SYMBOL",
-                            "name": "interpolation"
-                          },
-                          {
                             "type": "PATTERN",
                             "value": "[^\\\\\\#]"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "interpolation"
                           }
                         ]
                       }
@@ -2730,12 +2730,12 @@
                             "value": "\\\\."
                           },
                           {
-                            "type": "SYMBOL",
-                            "name": "interpolation"
-                          },
-                          {
                             "type": "PATTERN",
                             "value": "[^\\\\\\$]"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "interpolation"
                           }
                         ]
                       }
@@ -2763,12 +2763,12 @@
                             "value": "\\\\."
                           },
                           {
-                            "type": "SYMBOL",
-                            "name": "interpolation"
-                          },
-                          {
                             "type": "PATTERN",
                             "value": "[^\\\\\\%]"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "interpolation"
                           }
                         ]
                       }
@@ -2796,12 +2796,12 @@
                             "value": "\\\\."
                           },
                           {
-                            "type": "SYMBOL",
-                            "name": "interpolation"
-                          },
-                          {
                             "type": "PATTERN",
                             "value": "[^\\\\\\^]"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "interpolation"
                           }
                         ]
                       }
@@ -2829,12 +2829,12 @@
                             "value": "\\\\."
                           },
                           {
-                            "type": "SYMBOL",
-                            "name": "interpolation"
-                          },
-                          {
                             "type": "PATTERN",
                             "value": "[^\\\\\\&]"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "interpolation"
                           }
                         ]
                       }
@@ -2862,12 +2862,12 @@
                             "value": "\\\\."
                           },
                           {
-                            "type": "SYMBOL",
-                            "name": "interpolation"
-                          },
-                          {
                             "type": "PATTERN",
                             "value": "[^\\\\\\*]"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "interpolation"
                           }
                         ]
                       }
@@ -2895,12 +2895,12 @@
                             "value": "\\\\."
                           },
                           {
-                            "type": "SYMBOL",
-                            "name": "interpolation"
-                          },
-                          {
                             "type": "PATTERN",
                             "value": "[^\\\\\\)]"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "interpolation"
                           }
                         ]
                       }
@@ -2928,12 +2928,12 @@
                             "value": "\\\\."
                           },
                           {
-                            "type": "SYMBOL",
-                            "name": "interpolation"
-                          },
-                          {
                             "type": "PATTERN",
                             "value": "[^\\\\\\]]"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "interpolation"
                           }
                         ]
                       }
@@ -2961,12 +2961,12 @@
                             "value": "\\\\."
                           },
                           {
-                            "type": "SYMBOL",
-                            "name": "interpolation"
-                          },
-                          {
                             "type": "PATTERN",
                             "value": "[^\\\\\\}]"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "interpolation"
                           }
                         ]
                       }
@@ -2994,12 +2994,12 @@
                             "value": "\\\\."
                           },
                           {
-                            "type": "SYMBOL",
-                            "name": "interpolation"
-                          },
-                          {
                             "type": "PATTERN",
                             "value": "[^\\\\\\>]"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "interpolation"
                           }
                         ]
                       }
@@ -3027,12 +3027,12 @@
                             "value": "\\\\."
                           },
                           {
-                            "type": "SYMBOL",
-                            "name": "interpolation"
-                          },
-                          {
                             "type": "PATTERN",
                             "value": "[^\\\\\\|]"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "interpolation"
                           }
                         ]
                       }
@@ -3060,12 +3060,12 @@
                             "value": "\\\\."
                           },
                           {
-                            "type": "SYMBOL",
-                            "name": "interpolation"
-                          },
-                          {
                             "type": "PATTERN",
                             "value": "[^\\\\\\\\]"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "interpolation"
                           }
                         ]
                       }
@@ -3093,12 +3093,12 @@
                             "value": "\\\\."
                           },
                           {
-                            "type": "SYMBOL",
-                            "name": "interpolation"
-                          },
-                          {
                             "type": "PATTERN",
                             "value": "[^\\\\\\=]"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "interpolation"
                           }
                         ]
                       }
@@ -3126,12 +3126,12 @@
                             "value": "\\\\."
                           },
                           {
-                            "type": "SYMBOL",
-                            "name": "interpolation"
-                          },
-                          {
                             "type": "PATTERN",
                             "value": "[^\\\\\\/]"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "interpolation"
                           }
                         ]
                       }
@@ -3159,12 +3159,12 @@
                             "value": "\\\\."
                           },
                           {
-                            "type": "SYMBOL",
-                            "name": "interpolation"
-                          },
-                          {
                             "type": "PATTERN",
                             "value": "[^\\\\\\+]"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "interpolation"
                           }
                         ]
                       }
@@ -3192,12 +3192,12 @@
                             "value": "\\\\."
                           },
                           {
-                            "type": "SYMBOL",
-                            "name": "interpolation"
-                          },
-                          {
                             "type": "PATTERN",
                             "value": "[^\\\\\\-]"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "interpolation"
                           }
                         ]
                       }
@@ -3225,12 +3225,12 @@
                             "value": "\\\\."
                           },
                           {
-                            "type": "SYMBOL",
-                            "name": "interpolation"
-                          },
-                          {
                             "type": "PATTERN",
                             "value": "[^\\\\\\~]"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "interpolation"
                           }
                         ]
                       }
@@ -3258,12 +3258,12 @@
                             "value": "\\\\."
                           },
                           {
-                            "type": "SYMBOL",
-                            "name": "interpolation"
-                          },
-                          {
                             "type": "PATTERN",
                             "value": "[^\\\\\\`]"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "interpolation"
                           }
                         ]
                       }
@@ -3291,12 +3291,12 @@
                             "value": "\\\\."
                           },
                           {
-                            "type": "SYMBOL",
-                            "name": "interpolation"
-                          },
-                          {
                             "type": "PATTERN",
                             "value": "[^\\\\\\']"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "interpolation"
                           }
                         ]
                       }
@@ -3324,12 +3324,12 @@
                             "value": "\\\\."
                           },
                           {
-                            "type": "SYMBOL",
-                            "name": "interpolation"
-                          },
-                          {
                             "type": "PATTERN",
                             "value": "[^\\\\\\\"]"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "interpolation"
                           }
                         ]
                       }
@@ -3357,12 +3357,12 @@
                             "value": "\\\\."
                           },
                           {
-                            "type": "SYMBOL",
-                            "name": "interpolation"
-                          },
-                          {
                             "type": "PATTERN",
                             "value": "[^\\\\\\,]"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "interpolation"
                           }
                         ]
                       }
@@ -3390,12 +3390,12 @@
                             "value": "\\\\."
                           },
                           {
-                            "type": "SYMBOL",
-                            "name": "interpolation"
-                          },
-                          {
                             "type": "PATTERN",
                             "value": "[^\\\\\\.]"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "interpolation"
                           }
                         ]
                       }
@@ -3423,12 +3423,12 @@
                             "value": "\\\\."
                           },
                           {
-                            "type": "SYMBOL",
-                            "name": "interpolation"
-                          },
-                          {
                             "type": "PATTERN",
                             "value": "[^\\\\\\?]"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "interpolation"
                           }
                         ]
                       }
@@ -3456,12 +3456,12 @@
                             "value": "\\\\."
                           },
                           {
-                            "type": "SYMBOL",
-                            "name": "interpolation"
-                          },
-                          {
                             "type": "PATTERN",
                             "value": "[^\\\\\\:]"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "interpolation"
                           }
                         ]
                       }
@@ -3489,12 +3489,12 @@
                             "value": "\\\\."
                           },
                           {
-                            "type": "SYMBOL",
-                            "name": "interpolation"
-                          },
-                          {
                             "type": "PATTERN",
                             "value": "[^\\\\\\;]"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "interpolation"
                           }
                         ]
                       }
@@ -3522,12 +3522,12 @@
                             "value": "\\\\."
                           },
                           {
-                            "type": "SYMBOL",
-                            "name": "interpolation"
-                          },
-                          {
                             "type": "PATTERN",
                             "value": "[^\\\\\\_]"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "interpolation"
                           }
                         ]
                       }
