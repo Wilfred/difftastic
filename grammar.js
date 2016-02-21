@@ -287,7 +287,7 @@ module.exports = grammar({
   }
 });
 
-/// Describes the body of a string literal bounded by `delimiter`, and optionally containing (potentially recursive) references to `insert`.
+/// Describes the body of a string literal bounded by `open` and `close`, and optionally containing (potentially recursive) references to `insert`.
 function stringBody (open, close, insert) {
   var contents = [ /\\./, RegExp('[^\\\\\\' + close + ']') ];
   if (typeof insert !== 'undefined') contents.push(insert);
