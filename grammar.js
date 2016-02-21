@@ -32,7 +32,7 @@ module.exports = grammar({
   rules: {
     program: $ => sep($._statement, $._terminator),
 
-  	_statement: $ => choice(
+    _statement: $ => choice(
       $._declaration,
       seq($._call, "do", optional("|", commaSep($._block_variable), "|"), sep($._statement, $._terminator), "end"),
       seq("undef", $._function_name),
@@ -126,7 +126,7 @@ module.exports = grammar({
     ),
     _function_call: $ => choice("super"),
 
-  	_expression: $ => choice(
+    _expression: $ => choice(
       $._argument,
       $.yield,
       $.and,
@@ -151,9 +151,9 @@ module.exports = grammar({
       $._literal
     ),
 
-  	_argument: $ => choice($._primary),
+    _argument: $ => choice($._primary),
 
-  	_primary: $ => choice(
+    _primary: $ => choice(
       seq("(", sep($._statement, $._terminator), ")"),
       $._lhs
     ),
@@ -202,11 +202,11 @@ module.exports = grammar({
       $.subscript_expression,
       $.member_access
     ),
-  	_variable: $ => choice($.identifier , 'self'),
+    _variable: $ => choice($.identifier , 'self'),
 
-  	identifier: $ => token(seq(repeat(choice('@', '$')), identifierChars())),
+    identifier: $ => token(seq(repeat(choice('@', '$')), identifierChars())),
 
-  	comment: $ => token(choice(
+    comment: $ => token(choice(
       seq('#', /.*/),
       seq(
         '=begin\n',
@@ -241,7 +241,7 @@ module.exports = grammar({
     _function_name: $ => choice($.identifier, operatorChars()),
 
     _line_break: $ => '\n',
-  	_terminator: $ => choice($._line_break, ';'),
+    _terminator: $ => choice($._line_break, ';'),
   }
 });
 
