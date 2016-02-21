@@ -237,9 +237,9 @@ module.exports = grammar({
     ),
     _single_quoted: $ => (/'(\\.|[^\\'])*'/),
     _double_quoted: $ => token(seq('"', repeat(choice(/\\./, $.interpolation, /[^\\"]/)), '"')),
-    _percent_q: $ => choice(
-      /%q\|(\\.|[^\\\|])*\|/
-    ),
+    _percent_q: $ => token(seq('%q', choice(
+      stringBody('|')
+    ))),
     interpolation: $ => seq('#{', $._expression, '}'),
 
     _function_name: $ => choice($.identifier, operatorChars()),

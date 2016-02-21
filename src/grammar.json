@@ -2506,13 +2506,25 @@
       }
     },
     "_percent_q": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "PATTERN",
-          "value": "%q\\|(\\\\.|[^\\\\\\|])*\\|"
-        }
-      ]
+      "type": "TOKEN",
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "%q"
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "PATTERN",
+                "value": "\\|(\\\\.|[^\\\\\\|])*\\|"
+              }
+            ]
+          }
+        ]
+      }
     },
     "interpolation": {
       "type": "SEQ",
