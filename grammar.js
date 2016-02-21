@@ -284,10 +284,10 @@ module.exports = grammar({
 
     array: $ => choice(
       seq('[', $._array_items, ']'),
-      seq('%w', $._uninterpolated_angle),
-      seq('%w', $._uninterpolated_bracket),
-      seq('%w', $._uninterpolated_paren),
-      seq('%w', $._uninterpolated_brace)
+      seq(/%[wi]/, $._uninterpolated_angle),
+      seq(/%[wi]/, $._uninterpolated_bracket),
+      seq(/%[wi]/, $._uninterpolated_paren),
+      seq(/%[wi]/, $._uninterpolated_brace)
     ),
     _array_items: $ => optional(seq($._expression, optional(seq(',', $._array_items)))),
 
