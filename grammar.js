@@ -240,7 +240,7 @@ module.exports = grammar({
       $._percent_q
     ),
     _single_quoted: $ => stringBody("'"),
-    _double_quoted: $ => token(seq('"', repeat(choice(/\\./, $.interpolation, /[^\\"]/)), '"')),
+    _double_quoted: $ => stringBody('"', $.interpolation),
     _percent_q: $ => choice(
       token(seq('%q', choice.apply(null, unbalancedDelimiters.split('').map(d => stringBody(d))))),
       seq('%q', $._percent_q_angle),
