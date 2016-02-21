@@ -238,3 +238,13 @@ percent q string with unbalanced delimiters
 ---
 
 (program (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string))
+
+=========================================
+percent q string with balanced delimiters
+=========================================
+
+%q<a<b>c>
+
+---
+
+(program (string))
