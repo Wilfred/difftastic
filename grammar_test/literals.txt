@@ -252,3 +252,23 @@ percent q string with balanced delimiters
 ---
 
 (program (string) (string) (string) (string))
+
+==================
+backticks subshell
+==================
+
+`/usr/bin/env test blah blah`
+
+---
+
+(program (subshell))
+
+==============================
+backticks subshell with escape
+==============================
+
+`/usr/bin/env test blah \`blah\``
+
+---
+
+(program (subshell))

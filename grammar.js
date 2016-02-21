@@ -223,7 +223,8 @@ module.exports = grammar({
       $.float,
       $.boolean,
       $.nil,
-      $.string
+      $.string,
+      $.subshell
     ),
 
     symbol: $ => token(seq(':', choice(identifierChars(), operatorChars()))),
@@ -251,6 +252,11 @@ module.exports = grammar({
     _percent_q_paren: $ => balancedStringBody($._percent_q_paren, '(', ')'),
     _percent_q_brace: $ => balancedStringBody($._percent_q_brace, '{', '}'),
     interpolation: $ => seq('#{', $._expression, '}'),
+
+    subshell: $ => choice(
+      $._backticks
+    ),
+    _backticks: $ => stringBody('`'),
 
     _function_name: $ => choice($.identifier, operatorChars()),
 
