@@ -286,7 +286,7 @@ module.exports = grammar({
 /// Describes the body of a string literal bounded by `delimiter`, and optionally containing (potentially recursive) references to `insert`.
 function stringBody (delimiter, insert) {
   if (typeof insert === 'undefined') {
-    return RegExp('\\' + delimiter + '(\\\\.|[^\\\\\\' + delimiter + '])*\\' + delimiter);
+    return seq(delimiter, repeat(choice(/\\./, RegExp('[^\\\\\\' + delimiter + ']'))), delimiter);
   } else {
     return seq(delimiter, repeat(choice(/\\./, insert, RegExp('[^\\\\\\' + delimiter + ']'))), delimiter);
   }
