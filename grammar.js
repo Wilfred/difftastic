@@ -274,9 +274,8 @@ module.exports = grammar({
     interpolation: $ => seq(token(prec(20, '#{')), $._expression, '}'),
 
     subshell: $ => choice(
-      $._backticks
+      stringBody('`', '`')
     ),
-    _backticks: $ => stringBody('`', '`'),
 
     array: $ => seq('[', $._array_items, ']'),
     _array_items: $ => optional(seq($._expression, optional(seq(',', $._array_items)))),
