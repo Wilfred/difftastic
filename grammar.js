@@ -300,12 +300,8 @@ module.exports = grammar({
     _array_items: $ => optional(seq($._expression, optional(seq(',', $._array_items)))),
 
     // via https://github.com/tree-sitter/tree-sitter-javascript/blob/31d8b3de9f839057d46c304982b9c245b987bf38/grammar.js#L417-L426
-    regex: $ => prec(PREC.LITERAL, seq('/', $._regex_body, /\/[a-z]*/)),
-    _regex_body: $ => repeat(choice(
-      seq('[', /[^\]\n]*/, ']'), // square-bracket-delimited character class
-      seq('\\', /./),            // escaped character
-      /[^/\\\[\n]/,              // any character besides '[', '\', '/', '\n'
-      $.interpolation
+    regex: $ => prec(PREC.LITERAL, choice(
+      regexBody('/', '/', $.interpolation)
     )),
 
     _function_name: $ => choice($.identifier, choice.apply(null, operators)),
@@ -326,6 +322,15 @@ function balancedStringBody (me, open, close, insert) {
   var contents = [ /\\./, me, RegExp('[^\\\\\\' + open + '\\' + close + ']') ];
   if (typeof insert !== 'undefined') contents.push(insert);
   return seq(open, repeat(choice.apply(null, contents)), close);
+}
+
+function regexBody (open, close, interpolation) {
+  return seq(open, repeat(choice(
+    seq('[', /[^\]\n]*/, ']'), // square-bracket-delimited character class
+    seq('\\', /./),            // escaped character
+    /[^/\\\[\n]/,              // any character besides '[', '\', '/', '\n'
+    interpolation
+  )), close, /[a-z]*/);
 }
 
 function sep1 (rule, separator) {
