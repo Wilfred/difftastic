@@ -502,3 +502,22 @@ percent w array
 ---
 
 (program (array))
+=====================
+empty percent i array
+=====================
+
+%i()
+
+---
+
+(program (array))
+
+===============
+percent i array
+===============
+
+%i(word word)
+
+---
+
+(program (array))
