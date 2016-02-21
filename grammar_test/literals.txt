@@ -219,7 +219,6 @@ percent q string with various delimiters
 %q/a/
 %q|a|
 %q?a?
-%q?a?
 %q\a\
 %q.a.
 %q,a,
@@ -238,4 +237,4 @@ percent q string with various delimiters
 
 ---
 
-(program (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string))
+(program (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string))
