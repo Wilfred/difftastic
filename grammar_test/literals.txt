@@ -8,6 +8,16 @@ symbol
 
 (program (symbol))
 
+====================
+single quoted symbol
+====================
+
+:'foo bar'
+
+---
+
+(program (symbol))
+
 =======
 integer
 =======
