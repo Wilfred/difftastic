@@ -235,15 +235,11 @@ module.exports = grammar({
       stringBody(":'", "'"),
       stringBody(':"', '"', $.interpolation),
       choice.apply(null, unbalancedDelimiters.split('').map(d => stringBody('%s' + d, d))),
-      seq(/%s/, $._symbol_angle),
-      seq(/%s/, $._symbol_bracket),
-      seq(/%s/, $._symbol_paren),
-      seq(/%s/, $._symbol_brace)
+      seq(/%s/, $._uninterpolated_angle),
+      seq(/%s/, $._uninterpolated_bracket),
+      seq(/%s/, $._uninterpolated_paren),
+      seq(/%s/, $._uninterpolated_brace)
     ),
-    _symbol_angle: $ => balancedStringBody($._percent_angle, '<', '>', $.interpolation),
-    _symbol_bracket: $ => balancedStringBody($._percent_bracket, '[', ']', $.interpolation),
-    _symbol_paren: $ => balancedStringBody($._percent_paren, '(', ')', $.interpolation),
-    _symbol_brace: $ => balancedStringBody($._percent_brace, '{', '}', $.interpolation),
 
     integer: $ => (/0b[01](_?[01])*|0[oO]?[0-7](_?[0-7])*|(0d)?\d(_?\d)*|0x[0-9a-fA-F](_?[0-9a-fA-F])*/),
     float: $ => (/\d(_?\d)*\.\d(_?\d)*([eE]\d(_?\d)*)?/),
@@ -260,26 +256,26 @@ module.exports = grammar({
     _double_quoted: $ => stringBody('"', '"', $.interpolation),
     _percent: $ => choice(
       choice.apply(null, unbalancedDelimiters.split('').map(d => stringBody(RegExp('%(Q|)\\' + d), d, $.interpolation))),
-      seq(/%Q?/, $._percent_angle),
-      seq(/%Q?/, $._percent_bracket),
-      seq(/%Q?/, $._percent_paren),
-      seq(/%Q?/, $._percent_brace)
+      seq(/%Q?/, $._interpolated_angle),
+      seq(/%Q?/, $._interpolated_bracket),
+      seq(/%Q?/, $._interpolated_paren),
+      seq(/%Q?/, $._interpolated_brace)
     ),
-    _percent_angle: $ => balancedStringBody($._percent_angle, '<', '>', $.interpolation),
-    _percent_bracket: $ => balancedStringBody($._percent_bracket, '[', ']', $.interpolation),
-    _percent_paren: $ => balancedStringBody($._percent_paren, '(', ')', $.interpolation),
-    _percent_brace: $ => balancedStringBody($._percent_brace, '{', '}', $.interpolation),
+    _interpolated_angle: $ => balancedStringBody($._interpolated_angle, '<', '>', $.interpolation),
+    _interpolated_bracket: $ => balancedStringBody($._interpolated_bracket, '[', ']', $.interpolation),
+    _interpolated_paren: $ => balancedStringBody($._interpolated_paren, '(', ')', $.interpolation),
+    _interpolated_brace: $ => balancedStringBody($._interpolated_brace, '{', '}', $.interpolation),
     _percent_q: $ => choice(
       choice.apply(null, unbalancedDelimiters.split('').map(d => stringBody('%q' + d, d))),
-      seq('%q', $._percent_q_angle),
-      seq('%q', $._percent_q_bracket),
-      seq('%q', $._percent_q_paren),
-      seq('%q', $._percent_q_brace)
+      seq('%q', $._uninterpolated_angle),
+      seq('%q', $._uninterpolated_bracket),
+      seq('%q', $._uninterpolated_paren),
+      seq('%q', $._uninterpolated_brace)
     ),
-    _percent_q_angle: $ => balancedStringBody($._percent_q_angle, '<', '>'),
-    _percent_q_bracket: $ => balancedStringBody($._percent_q_bracket, '[', ']'),
-    _percent_q_paren: $ => balancedStringBody($._percent_q_paren, '(', ')'),
-    _percent_q_brace: $ => balancedStringBody($._percent_q_brace, '{', '}'),
+    _uninterpolated_angle: $ => balancedStringBody($._uninterpolated_angle, '<', '>'),
+    _uninterpolated_bracket: $ => balancedStringBody($._uninterpolated_bracket, '[', ']'),
+    _uninterpolated_paren: $ => balancedStringBody($._uninterpolated_paren, '(', ')'),
+    _uninterpolated_brace: $ => balancedStringBody($._uninterpolated_brace, '{', '}'),
     interpolation: $ => seq(token(prec(20, '#{')), $._expression, '}'),
 
     subshell: $ => choice(
