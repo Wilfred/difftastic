@@ -21,6 +21,7 @@ const PREC = {
 };
 
 const unbalancedDelimiters = '!@#$%^&*)]}>|\\=/+-~`\'",.?:;_';
+const identifierPattern = /[a-zA-Z_][a-zA-Z0-9_]*/;
 
 module.exports = grammar({
   name: 'ruby',
@@ -206,7 +207,7 @@ module.exports = grammar({
     ),
     _variable: $ => choice($.identifier , 'self'),
 
-    identifier: $ => token(seq(repeat(choice('@', '$')), identifierChars())),
+    identifier: $ => token(seq(repeat(choice('@', '$')), identifierPattern)),
 
     comment: $ => token(choice(
       seq('#', /.*/),
@@ -228,7 +229,7 @@ module.exports = grammar({
       $.array
     ),
 
-    symbol: $ => token(seq(':', choice(stringBody("'"), stringBody('"', $.interpolation), identifierChars(), operatorChars()))),
+    symbol: $ => token(seq(':', choice(stringBody("'"), stringBody('"', $.interpolation), identifierPattern, operatorChars()))),
     integer: $ => (/0b[01](_?[01])*|0[oO]?[0-7](_?[0-7])*|(0d)?\d(_?\d)*|0x[0-9a-fA-F](_?[0-9a-fA-F])*/),
     float: $ => (/\d(_?\d)*\.\d(_?\d)*([eE]\d(_?\d)*)?/),
     boolean: $ => choice('true', 'false', 'TRUE', 'FALSE'),
@@ -296,10 +297,6 @@ function balancedStringBody (me, open, close, insert) {
   } else {
     return seq(open, repeat(choice(/\\./, me, insert, RegExp('[^\\\\\\' + open + '\\' + close + ']'))), close);
   }
-}
-
-function identifierChars () {
-  return /[a-zA-Z_][a-zA-Z0-9_]*/;
 }
 
 function operatorChars () {
