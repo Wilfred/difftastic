@@ -264,7 +264,7 @@ module.exports = grammar({
     _percent_q_bracket: $ => balancedStringBody($._percent_q_bracket, '[', ']'),
     _percent_q_paren: $ => balancedStringBody($._percent_q_paren, '(', ')'),
     _percent_q_brace: $ => balancedStringBody($._percent_q_brace, '{', '}'),
-    interpolation: $ => seq('#{', $._expression, '}'),
+    interpolation: $ => seq(token(prec(20, '#{')), $._expression, '}'),
 
     subshell: $ => choice(
       $._backticks
@@ -286,7 +286,7 @@ function stringBody (delimiter, insert) {
   if (typeof insert === 'undefined') {
     return RegExp('\\' + delimiter + '(\\\\.|[^\\\\\\' + delimiter + '])*\\' + delimiter);
   } else {
-    return token(seq(delimiter, repeat(choice(/\\./, insert, RegExp('[^\\\\\\' + delimiter + ']'))), delimiter));
+    return seq(delimiter, repeat(choice(/\\./, insert, RegExp('[^\\\\\\' + delimiter + ']'))), delimiter);
   }
 }
 

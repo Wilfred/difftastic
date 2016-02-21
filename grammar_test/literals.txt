@@ -211,7 +211,7 @@ interpolation
 
 ---
 
-(program (string))
+(program (string (interpolation (identifier))))
 
 =====================
 escaped interpolation
