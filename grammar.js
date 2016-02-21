@@ -291,7 +291,7 @@ module.exports = grammar({
 function stringBody (open, close, insert) {
   var contents = [ /\\./, RegExp('[^\\\\\\' + close + ']') ];
   if (typeof insert !== 'undefined') contents.push(insert);
-  return seq(open, repeat(choice.apply(null, contents)), close);
+  return seq(open, repeat(choice.apply(null, contents)), token(prec(20, close)));
 }
 
 function balancedStringBody (me, open, close, insert) {
