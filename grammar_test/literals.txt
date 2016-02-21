@@ -273,6 +273,106 @@ percent q string with balanced delimiters
 
 (program (string) (string) (string) (string))
 
+===========================================
+percent q string with unbalanced delimiters
+===========================================
+
+%=a=
+%!a!
+%@a@
+%$a$
+%%a%
+%^a^
+%&a&
+%*a*
+%-a-
+%+a+
+%/a/
+%|a|
+%?a?
+%\a\
+%.a.
+%,a,
+%:a:
+%;a;
+%'a'
+%"a"
+%)a)
+%]a]
+%}a}
+%>a>
+%`a`
+%~a~
+%_a_
+%#a#
+
+---
+
+(program (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string))
+
+===========================================
+percent q string with unbalanced delimiters
+===========================================
+
+%Q=a=
+%Q!a!
+%Q@a@
+%Q$a$
+%Q%a%
+%Q^a^
+%Q&a&
+%Q*a*
+%Q-a-
+%Q+a+
+%Q/a/
+%Q|a|
+%Q?a?
+%Q\a\
+%Q.a.
+%Q,a,
+%Q:a:
+%Q;a;
+%Q'a'
+%Q"a"
+%Q)a)
+%Q]a]
+%Q}a}
+%Q>a>
+%Q`a`
+%Q~a~
+%Q_a_
+%Q#a#
+
+---
+
+(program (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string))
+
+=========================================
+percent string with balanced delimiters
+=========================================
+
+%<a<b>c>
+%{a{b}c}
+%[a[b]c]
+%(a(b)c)
+
+---
+
+(program (string) (string) (string) (string))
+
+=========================================
+percent Q string with balanced delimiters
+=========================================
+
+%Q<a<b>c>
+%Q{a{b}c}
+%Q[a[b]c]
+%Q(a(b)c)
+
+---
+
+(program (string) (string) (string) (string))
+
 ==================
 backticks subshell
 ==================
