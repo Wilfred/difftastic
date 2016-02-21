@@ -2458,6 +2458,10 @@
         {
           "type": "SYMBOL",
           "name": "_double_quoted"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_percent_q"
         }
       ]
     },
@@ -2500,6 +2504,15 @@
           }
         ]
       }
+    },
+    "_percent_q": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "PATTERN",
+          "value": "%q\\|(\\\\.|[^\\\\\\|])*\\|"
+        }
+      ]
     },
     "interpolation": {
       "type": "SEQ",

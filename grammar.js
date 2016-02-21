@@ -232,10 +232,14 @@ module.exports = grammar({
 
     string: $ => choice(
       $._single_quoted,
-      $._double_quoted
+      $._double_quoted,
+      $._percent_q
     ),
     _single_quoted: $ => (/'(\\.|[^\\'])*'/),
     _double_quoted: $ => token(seq('"', repeat(choice(/\\./, $.interpolation, /[^\\"]/)), '"')),
+    _percent_q: $ => choice(
+      /%q\|(\\.|[^\\\|])*\|/
+    ),
     interpolation: $ => seq('#{', $._expression, '}'),
 
     _function_name: $ => choice($.identifier, operatorChars()),
