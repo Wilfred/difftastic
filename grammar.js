@@ -232,8 +232,8 @@ module.exports = grammar({
 
     symbol: $ => choice(
       token(seq(':', choice(identifierPattern, choice.apply(null, operators)))),
-      stringBody(":'", "'"),
-      stringBody(':"', '"', $.interpolation),
+      seq(":'", $._single_quoted_continuation),
+      seq(':"', $._double_quoted_continuation),
       choice.apply(null, unbalancedDelimiters.split('').map(d => stringBody('%s' + d, d))),
       seq(/%s/, $._uninterpolated_angle),
       seq(/%s/, $._uninterpolated_bracket),
@@ -247,31 +247,26 @@ module.exports = grammar({
     nil: $ => choice('nil', 'NIL'),
 
     string: $ => choice(
-      $._single_quoted,
-      $._double_quoted,
-      $._percent,
-      $._percent_q
-    ),
-    _single_quoted: $ => stringBody("'", "'"),
-    _double_quoted: $ => stringBody('"', '"', $.interpolation),
-    _percent: $ => choice(
+      seq("'", $._single_quoted_continuation),
+      seq('"', $._double_quoted_continuation),
       choice.apply(null, unbalancedDelimiters.split('').map(d => stringBody(RegExp('%(Q|)\\' + d), d, $.interpolation))),
       seq(/%Q?/, $._interpolated_angle),
       seq(/%Q?/, $._interpolated_bracket),
       seq(/%Q?/, $._interpolated_paren),
-      seq(/%Q?/, $._interpolated_brace)
-    ),
-    _interpolated_angle: $ => balancedStringBody($._interpolated_angle, '<', '>', $.interpolation),
-    _interpolated_bracket: $ => balancedStringBody($._interpolated_bracket, '[', ']', $.interpolation),
-    _interpolated_paren: $ => balancedStringBody($._interpolated_paren, '(', ')', $.interpolation),
-    _interpolated_brace: $ => balancedStringBody($._interpolated_brace, '{', '}', $.interpolation),
-    _percent_q: $ => choice(
+      seq(/%Q?/, $._interpolated_brace),
       choice.apply(null, unbalancedDelimiters.split('').map(d => stringBody('%q' + d, d))),
       seq('%q', $._uninterpolated_angle),
       seq('%q', $._uninterpolated_bracket),
       seq('%q', $._uninterpolated_paren),
       seq('%q', $._uninterpolated_brace)
     ),
+    _single_quoted_continuation: $ => stringBody(blank(), "'"),
+    _double_quoted_continuation: $ => stringBody(blank(), '"', $.interpolation),
+
+    _interpolated_angle: $ => balancedStringBody($._interpolated_angle, '<', '>', $.interpolation),
+    _interpolated_bracket: $ => balancedStringBody($._interpolated_bracket, '[', ']', $.interpolation),
+    _interpolated_paren: $ => balancedStringBody($._interpolated_paren, '(', ')', $.interpolation),
+    _interpolated_brace: $ => balancedStringBody($._interpolated_brace, '{', '}', $.interpolation),
     _uninterpolated_angle: $ => balancedStringBody($._uninterpolated_angle, '<', '>'),
     _uninterpolated_bracket: $ => balancedStringBody($._uninterpolated_bracket, '[', ']'),
     _uninterpolated_paren: $ => balancedStringBody($._uninterpolated_paren, '(', ')'),
