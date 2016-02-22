@@ -642,3 +642,13 @@ percent r regular expression with unbalanced delimiters and interpolation
 ---
 
 (program (regex (interpolation (identifier))))
+
+=======================================================================
+percent r regular expression with balanced delimiters and interpolation
+=======================================================================
+
+%r[a#{b}c]
+
+---
+
+(program (regex (interpolation (identifier))))
