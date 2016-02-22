@@ -267,3 +267,14 @@ complement
 ---
 
 (program (complement (identifier)))
+
+===============================
+function call with empty parens
+===============================
+
+foo()
+
+---
+
+(program (member_access (identifier) (argument_list)))
+
