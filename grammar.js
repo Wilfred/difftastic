@@ -232,7 +232,8 @@ module.exports = grammar({
       $.subshell,
       $.array,
       $.hash,
-      $.regex
+      $.regex,
+      $.function
     ),
 
     symbol: $ => choice(
@@ -322,6 +323,8 @@ module.exports = grammar({
     _regex_interpolated_bracket: $ => regexBody('[', ']', $.interpolation, $._regex_interpolated_bracket),
     _regex_interpolated_paren: $ => regexBody('(', ')', $.interpolation, $._regex_interpolated_paren),
     _regex_interpolated_brace: $ => regexBody('{', '}', $.interpolation, $._regex_interpolated_brace),
+
+    function: $ => seq('->', optional(choice(seq('(', optional($.formal_parameters), ')'), $.parameter)), '{', sep($._statement, $._terminator), '}'),
 
     _function_name: $ => choice($.identifier, choice.apply(null, operators)),
 
