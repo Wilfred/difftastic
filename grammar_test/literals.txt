@@ -722,3 +722,16 @@ function with an arg
 ---
 
 (program (function (identifier) (integer)))
+
+===========================
+function with multiple args
+===========================
+
+-> (a, b, c) {
+	1
+	2
+}
+
+---
+
+(program (function (formal_parameters (identifier) (identifier) (identifier)) (integer) (integer)))
