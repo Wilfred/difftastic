@@ -573,6 +573,16 @@ empty hash
 
 (program (hash))
 
+=========================
+hash with expression keys
+=========================
+
+{ "a" => 1, "b" => 2 }
+
+---
+
+(program (hash (pair (string) (integer)) (pair (string) (integer))))
+
 ==================
 regular expression
 ==================
