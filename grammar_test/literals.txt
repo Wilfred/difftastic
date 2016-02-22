@@ -433,6 +433,16 @@ percent Q string with balanced delimiters
 
 (program (string) (string) (string) (string))
 
+===============
+string chaining
+===============
+
+%q{a} "b" "c"
+
+---
+
+(program (string))
+
 ==================
 backticks subshell
 ==================

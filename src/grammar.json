@@ -3565,6 +3565,2269 @@
       ]
     },
     "string": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_quoted_string"
+            },
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "PATTERN",
+                      "value": "%(Q|)\\!"
+                    },
+                    {
+                      "type": "REPEAT",
+                      "content": {
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "PATTERN",
+                            "value": "\\\\."
+                          },
+                          {
+                            "type": "PATTERN",
+                            "value": "[^\\\\\\!]"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "interpolation"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "TOKEN",
+                      "content": {
+                        "type": "PREC",
+                        "value": 100,
+                        "content": {
+                          "type": "STRING",
+                          "value": "!"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "PATTERN",
+                      "value": "%(Q|)\\@"
+                    },
+                    {
+                      "type": "REPEAT",
+                      "content": {
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "PATTERN",
+                            "value": "\\\\."
+                          },
+                          {
+                            "type": "PATTERN",
+                            "value": "[^\\\\\\@]"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "interpolation"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "TOKEN",
+                      "content": {
+                        "type": "PREC",
+                        "value": 100,
+                        "content": {
+                          "type": "STRING",
+                          "value": "@"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "PATTERN",
+                      "value": "%(Q|)\\#"
+                    },
+                    {
+                      "type": "REPEAT",
+                      "content": {
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "PATTERN",
+                            "value": "\\\\."
+                          },
+                          {
+                            "type": "PATTERN",
+                            "value": "[^\\\\\\#]"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "interpolation"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "TOKEN",
+                      "content": {
+                        "type": "PREC",
+                        "value": 100,
+                        "content": {
+                          "type": "STRING",
+                          "value": "#"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "PATTERN",
+                      "value": "%(Q|)\\$"
+                    },
+                    {
+                      "type": "REPEAT",
+                      "content": {
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "PATTERN",
+                            "value": "\\\\."
+                          },
+                          {
+                            "type": "PATTERN",
+                            "value": "[^\\\\\\$]"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "interpolation"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "TOKEN",
+                      "content": {
+                        "type": "PREC",
+                        "value": 100,
+                        "content": {
+                          "type": "STRING",
+                          "value": "$"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "PATTERN",
+                      "value": "%(Q|)\\%"
+                    },
+                    {
+                      "type": "REPEAT",
+                      "content": {
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "PATTERN",
+                            "value": "\\\\."
+                          },
+                          {
+                            "type": "PATTERN",
+                            "value": "[^\\\\\\%]"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "interpolation"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "TOKEN",
+                      "content": {
+                        "type": "PREC",
+                        "value": 100,
+                        "content": {
+                          "type": "STRING",
+                          "value": "%"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "PATTERN",
+                      "value": "%(Q|)\\^"
+                    },
+                    {
+                      "type": "REPEAT",
+                      "content": {
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "PATTERN",
+                            "value": "\\\\."
+                          },
+                          {
+                            "type": "PATTERN",
+                            "value": "[^\\\\\\^]"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "interpolation"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "TOKEN",
+                      "content": {
+                        "type": "PREC",
+                        "value": 100,
+                        "content": {
+                          "type": "STRING",
+                          "value": "^"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "PATTERN",
+                      "value": "%(Q|)\\&"
+                    },
+                    {
+                      "type": "REPEAT",
+                      "content": {
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "PATTERN",
+                            "value": "\\\\."
+                          },
+                          {
+                            "type": "PATTERN",
+                            "value": "[^\\\\\\&]"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "interpolation"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "TOKEN",
+                      "content": {
+                        "type": "PREC",
+                        "value": 100,
+                        "content": {
+                          "type": "STRING",
+                          "value": "&"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "PATTERN",
+                      "value": "%(Q|)\\*"
+                    },
+                    {
+                      "type": "REPEAT",
+                      "content": {
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "PATTERN",
+                            "value": "\\\\."
+                          },
+                          {
+                            "type": "PATTERN",
+                            "value": "[^\\\\\\*]"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "interpolation"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "TOKEN",
+                      "content": {
+                        "type": "PREC",
+                        "value": 100,
+                        "content": {
+                          "type": "STRING",
+                          "value": "*"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "PATTERN",
+                      "value": "%(Q|)\\)"
+                    },
+                    {
+                      "type": "REPEAT",
+                      "content": {
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "PATTERN",
+                            "value": "\\\\."
+                          },
+                          {
+                            "type": "PATTERN",
+                            "value": "[^\\\\\\)]"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "interpolation"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "TOKEN",
+                      "content": {
+                        "type": "PREC",
+                        "value": 100,
+                        "content": {
+                          "type": "STRING",
+                          "value": ")"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "PATTERN",
+                      "value": "%(Q|)\\]"
+                    },
+                    {
+                      "type": "REPEAT",
+                      "content": {
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "PATTERN",
+                            "value": "\\\\."
+                          },
+                          {
+                            "type": "PATTERN",
+                            "value": "[^\\\\\\]]"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "interpolation"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "TOKEN",
+                      "content": {
+                        "type": "PREC",
+                        "value": 100,
+                        "content": {
+                          "type": "STRING",
+                          "value": "]"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "PATTERN",
+                      "value": "%(Q|)\\}"
+                    },
+                    {
+                      "type": "REPEAT",
+                      "content": {
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "PATTERN",
+                            "value": "\\\\."
+                          },
+                          {
+                            "type": "PATTERN",
+                            "value": "[^\\\\\\}]"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "interpolation"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "TOKEN",
+                      "content": {
+                        "type": "PREC",
+                        "value": 100,
+                        "content": {
+                          "type": "STRING",
+                          "value": "}"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "PATTERN",
+                      "value": "%(Q|)\\>"
+                    },
+                    {
+                      "type": "REPEAT",
+                      "content": {
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "PATTERN",
+                            "value": "\\\\."
+                          },
+                          {
+                            "type": "PATTERN",
+                            "value": "[^\\\\\\>]"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "interpolation"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "TOKEN",
+                      "content": {
+                        "type": "PREC",
+                        "value": 100,
+                        "content": {
+                          "type": "STRING",
+                          "value": ">"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "PATTERN",
+                      "value": "%(Q|)\\|"
+                    },
+                    {
+                      "type": "REPEAT",
+                      "content": {
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "PATTERN",
+                            "value": "\\\\."
+                          },
+                          {
+                            "type": "PATTERN",
+                            "value": "[^\\\\\\|]"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "interpolation"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "TOKEN",
+                      "content": {
+                        "type": "PREC",
+                        "value": 100,
+                        "content": {
+                          "type": "STRING",
+                          "value": "|"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "PATTERN",
+                      "value": "%(Q|)\\\\"
+                    },
+                    {
+                      "type": "REPEAT",
+                      "content": {
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "PATTERN",
+                            "value": "\\\\."
+                          },
+                          {
+                            "type": "PATTERN",
+                            "value": "[^\\\\\\\\]"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "interpolation"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "TOKEN",
+                      "content": {
+                        "type": "PREC",
+                        "value": 100,
+                        "content": {
+                          "type": "STRING",
+                          "value": "\\"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "PATTERN",
+                      "value": "%(Q|)\\="
+                    },
+                    {
+                      "type": "REPEAT",
+                      "content": {
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "PATTERN",
+                            "value": "\\\\."
+                          },
+                          {
+                            "type": "PATTERN",
+                            "value": "[^\\\\\\=]"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "interpolation"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "TOKEN",
+                      "content": {
+                        "type": "PREC",
+                        "value": 100,
+                        "content": {
+                          "type": "STRING",
+                          "value": "="
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "PATTERN",
+                      "value": "%(Q|)\\/"
+                    },
+                    {
+                      "type": "REPEAT",
+                      "content": {
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "PATTERN",
+                            "value": "\\\\."
+                          },
+                          {
+                            "type": "PATTERN",
+                            "value": "[^\\\\\\/]"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "interpolation"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "TOKEN",
+                      "content": {
+                        "type": "PREC",
+                        "value": 100,
+                        "content": {
+                          "type": "STRING",
+                          "value": "/"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "PATTERN",
+                      "value": "%(Q|)\\+"
+                    },
+                    {
+                      "type": "REPEAT",
+                      "content": {
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "PATTERN",
+                            "value": "\\\\."
+                          },
+                          {
+                            "type": "PATTERN",
+                            "value": "[^\\\\\\+]"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "interpolation"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "TOKEN",
+                      "content": {
+                        "type": "PREC",
+                        "value": 100,
+                        "content": {
+                          "type": "STRING",
+                          "value": "+"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "PATTERN",
+                      "value": "%(Q|)\\-"
+                    },
+                    {
+                      "type": "REPEAT",
+                      "content": {
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "PATTERN",
+                            "value": "\\\\."
+                          },
+                          {
+                            "type": "PATTERN",
+                            "value": "[^\\\\\\-]"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "interpolation"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "TOKEN",
+                      "content": {
+                        "type": "PREC",
+                        "value": 100,
+                        "content": {
+                          "type": "STRING",
+                          "value": "-"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "PATTERN",
+                      "value": "%(Q|)\\~"
+                    },
+                    {
+                      "type": "REPEAT",
+                      "content": {
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "PATTERN",
+                            "value": "\\\\."
+                          },
+                          {
+                            "type": "PATTERN",
+                            "value": "[^\\\\\\~]"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "interpolation"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "TOKEN",
+                      "content": {
+                        "type": "PREC",
+                        "value": 100,
+                        "content": {
+                          "type": "STRING",
+                          "value": "~"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "PATTERN",
+                      "value": "%(Q|)\\`"
+                    },
+                    {
+                      "type": "REPEAT",
+                      "content": {
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "PATTERN",
+                            "value": "\\\\."
+                          },
+                          {
+                            "type": "PATTERN",
+                            "value": "[^\\\\\\`]"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "interpolation"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "TOKEN",
+                      "content": {
+                        "type": "PREC",
+                        "value": 100,
+                        "content": {
+                          "type": "STRING",
+                          "value": "`"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "PATTERN",
+                      "value": "%(Q|)\\'"
+                    },
+                    {
+                      "type": "REPEAT",
+                      "content": {
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "PATTERN",
+                            "value": "\\\\."
+                          },
+                          {
+                            "type": "PATTERN",
+                            "value": "[^\\\\\\']"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "interpolation"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "TOKEN",
+                      "content": {
+                        "type": "PREC",
+                        "value": 100,
+                        "content": {
+                          "type": "STRING",
+                          "value": "'"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "PATTERN",
+                      "value": "%(Q|)\\\""
+                    },
+                    {
+                      "type": "REPEAT",
+                      "content": {
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "PATTERN",
+                            "value": "\\\\."
+                          },
+                          {
+                            "type": "PATTERN",
+                            "value": "[^\\\\\\\"]"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "interpolation"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "TOKEN",
+                      "content": {
+                        "type": "PREC",
+                        "value": 100,
+                        "content": {
+                          "type": "STRING",
+                          "value": "\""
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "PATTERN",
+                      "value": "%(Q|)\\,"
+                    },
+                    {
+                      "type": "REPEAT",
+                      "content": {
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "PATTERN",
+                            "value": "\\\\."
+                          },
+                          {
+                            "type": "PATTERN",
+                            "value": "[^\\\\\\,]"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "interpolation"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "TOKEN",
+                      "content": {
+                        "type": "PREC",
+                        "value": 100,
+                        "content": {
+                          "type": "STRING",
+                          "value": ","
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "PATTERN",
+                      "value": "%(Q|)\\."
+                    },
+                    {
+                      "type": "REPEAT",
+                      "content": {
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "PATTERN",
+                            "value": "\\\\."
+                          },
+                          {
+                            "type": "PATTERN",
+                            "value": "[^\\\\\\.]"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "interpolation"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "TOKEN",
+                      "content": {
+                        "type": "PREC",
+                        "value": 100,
+                        "content": {
+                          "type": "STRING",
+                          "value": "."
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "PATTERN",
+                      "value": "%(Q|)\\?"
+                    },
+                    {
+                      "type": "REPEAT",
+                      "content": {
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "PATTERN",
+                            "value": "\\\\."
+                          },
+                          {
+                            "type": "PATTERN",
+                            "value": "[^\\\\\\?]"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "interpolation"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "TOKEN",
+                      "content": {
+                        "type": "PREC",
+                        "value": 100,
+                        "content": {
+                          "type": "STRING",
+                          "value": "?"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "PATTERN",
+                      "value": "%(Q|)\\:"
+                    },
+                    {
+                      "type": "REPEAT",
+                      "content": {
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "PATTERN",
+                            "value": "\\\\."
+                          },
+                          {
+                            "type": "PATTERN",
+                            "value": "[^\\\\\\:]"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "interpolation"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "TOKEN",
+                      "content": {
+                        "type": "PREC",
+                        "value": 100,
+                        "content": {
+                          "type": "STRING",
+                          "value": ":"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "PATTERN",
+                      "value": "%(Q|)\\;"
+                    },
+                    {
+                      "type": "REPEAT",
+                      "content": {
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "PATTERN",
+                            "value": "\\\\."
+                          },
+                          {
+                            "type": "PATTERN",
+                            "value": "[^\\\\\\;]"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "interpolation"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "TOKEN",
+                      "content": {
+                        "type": "PREC",
+                        "value": 100,
+                        "content": {
+                          "type": "STRING",
+                          "value": ";"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "PATTERN",
+                      "value": "%(Q|)\\_"
+                    },
+                    {
+                      "type": "REPEAT",
+                      "content": {
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "PATTERN",
+                            "value": "\\\\."
+                          },
+                          {
+                            "type": "PATTERN",
+                            "value": "[^\\\\\\_]"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "interpolation"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "TOKEN",
+                      "content": {
+                        "type": "PREC",
+                        "value": 100,
+                        "content": {
+                          "type": "STRING",
+                          "value": "_"
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "PATTERN",
+                  "value": "%Q?"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "_interpolated_angle"
+                }
+              ]
+            },
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "PATTERN",
+                  "value": "%Q?"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "_interpolated_bracket"
+                }
+              ]
+            },
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "PATTERN",
+                  "value": "%Q?"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "_interpolated_paren"
+                }
+              ]
+            },
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "PATTERN",
+                  "value": "%Q?"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "_interpolated_brace"
+                }
+              ]
+            },
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "STRING",
+                      "value": "%q!"
+                    },
+                    {
+                      "type": "REPEAT",
+                      "content": {
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "PATTERN",
+                            "value": "\\\\."
+                          },
+                          {
+                            "type": "PATTERN",
+                            "value": "[^\\\\\\!]"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "TOKEN",
+                      "content": {
+                        "type": "PREC",
+                        "value": 100,
+                        "content": {
+                          "type": "STRING",
+                          "value": "!"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "STRING",
+                      "value": "%q@"
+                    },
+                    {
+                      "type": "REPEAT",
+                      "content": {
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "PATTERN",
+                            "value": "\\\\."
+                          },
+                          {
+                            "type": "PATTERN",
+                            "value": "[^\\\\\\@]"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "TOKEN",
+                      "content": {
+                        "type": "PREC",
+                        "value": 100,
+                        "content": {
+                          "type": "STRING",
+                          "value": "@"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "STRING",
+                      "value": "%q#"
+                    },
+                    {
+                      "type": "REPEAT",
+                      "content": {
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "PATTERN",
+                            "value": "\\\\."
+                          },
+                          {
+                            "type": "PATTERN",
+                            "value": "[^\\\\\\#]"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "TOKEN",
+                      "content": {
+                        "type": "PREC",
+                        "value": 100,
+                        "content": {
+                          "type": "STRING",
+                          "value": "#"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "STRING",
+                      "value": "%q$"
+                    },
+                    {
+                      "type": "REPEAT",
+                      "content": {
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "PATTERN",
+                            "value": "\\\\."
+                          },
+                          {
+                            "type": "PATTERN",
+                            "value": "[^\\\\\\$]"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "TOKEN",
+                      "content": {
+                        "type": "PREC",
+                        "value": 100,
+                        "content": {
+                          "type": "STRING",
+                          "value": "$"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "STRING",
+                      "value": "%q%"
+                    },
+                    {
+                      "type": "REPEAT",
+                      "content": {
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "PATTERN",
+                            "value": "\\\\."
+                          },
+                          {
+                            "type": "PATTERN",
+                            "value": "[^\\\\\\%]"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "TOKEN",
+                      "content": {
+                        "type": "PREC",
+                        "value": 100,
+                        "content": {
+                          "type": "STRING",
+                          "value": "%"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "STRING",
+                      "value": "%q^"
+                    },
+                    {
+                      "type": "REPEAT",
+                      "content": {
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "PATTERN",
+                            "value": "\\\\."
+                          },
+                          {
+                            "type": "PATTERN",
+                            "value": "[^\\\\\\^]"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "TOKEN",
+                      "content": {
+                        "type": "PREC",
+                        "value": 100,
+                        "content": {
+                          "type": "STRING",
+                          "value": "^"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "STRING",
+                      "value": "%q&"
+                    },
+                    {
+                      "type": "REPEAT",
+                      "content": {
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "PATTERN",
+                            "value": "\\\\."
+                          },
+                          {
+                            "type": "PATTERN",
+                            "value": "[^\\\\\\&]"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "TOKEN",
+                      "content": {
+                        "type": "PREC",
+                        "value": 100,
+                        "content": {
+                          "type": "STRING",
+                          "value": "&"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "STRING",
+                      "value": "%q*"
+                    },
+                    {
+                      "type": "REPEAT",
+                      "content": {
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "PATTERN",
+                            "value": "\\\\."
+                          },
+                          {
+                            "type": "PATTERN",
+                            "value": "[^\\\\\\*]"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "TOKEN",
+                      "content": {
+                        "type": "PREC",
+                        "value": 100,
+                        "content": {
+                          "type": "STRING",
+                          "value": "*"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "STRING",
+                      "value": "%q)"
+                    },
+                    {
+                      "type": "REPEAT",
+                      "content": {
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "PATTERN",
+                            "value": "\\\\."
+                          },
+                          {
+                            "type": "PATTERN",
+                            "value": "[^\\\\\\)]"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "TOKEN",
+                      "content": {
+                        "type": "PREC",
+                        "value": 100,
+                        "content": {
+                          "type": "STRING",
+                          "value": ")"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "STRING",
+                      "value": "%q]"
+                    },
+                    {
+                      "type": "REPEAT",
+                      "content": {
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "PATTERN",
+                            "value": "\\\\."
+                          },
+                          {
+                            "type": "PATTERN",
+                            "value": "[^\\\\\\]]"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "TOKEN",
+                      "content": {
+                        "type": "PREC",
+                        "value": 100,
+                        "content": {
+                          "type": "STRING",
+                          "value": "]"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "STRING",
+                      "value": "%q}"
+                    },
+                    {
+                      "type": "REPEAT",
+                      "content": {
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "PATTERN",
+                            "value": "\\\\."
+                          },
+                          {
+                            "type": "PATTERN",
+                            "value": "[^\\\\\\}]"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "TOKEN",
+                      "content": {
+                        "type": "PREC",
+                        "value": 100,
+                        "content": {
+                          "type": "STRING",
+                          "value": "}"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "STRING",
+                      "value": "%q>"
+                    },
+                    {
+                      "type": "REPEAT",
+                      "content": {
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "PATTERN",
+                            "value": "\\\\."
+                          },
+                          {
+                            "type": "PATTERN",
+                            "value": "[^\\\\\\>]"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "TOKEN",
+                      "content": {
+                        "type": "PREC",
+                        "value": 100,
+                        "content": {
+                          "type": "STRING",
+                          "value": ">"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "STRING",
+                      "value": "%q|"
+                    },
+                    {
+                      "type": "REPEAT",
+                      "content": {
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "PATTERN",
+                            "value": "\\\\."
+                          },
+                          {
+                            "type": "PATTERN",
+                            "value": "[^\\\\\\|]"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "TOKEN",
+                      "content": {
+                        "type": "PREC",
+                        "value": 100,
+                        "content": {
+                          "type": "STRING",
+                          "value": "|"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "STRING",
+                      "value": "%q\\"
+                    },
+                    {
+                      "type": "REPEAT",
+                      "content": {
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "PATTERN",
+                            "value": "\\\\."
+                          },
+                          {
+                            "type": "PATTERN",
+                            "value": "[^\\\\\\\\]"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "TOKEN",
+                      "content": {
+                        "type": "PREC",
+                        "value": 100,
+                        "content": {
+                          "type": "STRING",
+                          "value": "\\"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "STRING",
+                      "value": "%q="
+                    },
+                    {
+                      "type": "REPEAT",
+                      "content": {
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "PATTERN",
+                            "value": "\\\\."
+                          },
+                          {
+                            "type": "PATTERN",
+                            "value": "[^\\\\\\=]"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "TOKEN",
+                      "content": {
+                        "type": "PREC",
+                        "value": 100,
+                        "content": {
+                          "type": "STRING",
+                          "value": "="
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "STRING",
+                      "value": "%q/"
+                    },
+                    {
+                      "type": "REPEAT",
+                      "content": {
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "PATTERN",
+                            "value": "\\\\."
+                          },
+                          {
+                            "type": "PATTERN",
+                            "value": "[^\\\\\\/]"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "TOKEN",
+                      "content": {
+                        "type": "PREC",
+                        "value": 100,
+                        "content": {
+                          "type": "STRING",
+                          "value": "/"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "STRING",
+                      "value": "%q+"
+                    },
+                    {
+                      "type": "REPEAT",
+                      "content": {
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "PATTERN",
+                            "value": "\\\\."
+                          },
+                          {
+                            "type": "PATTERN",
+                            "value": "[^\\\\\\+]"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "TOKEN",
+                      "content": {
+                        "type": "PREC",
+                        "value": 100,
+                        "content": {
+                          "type": "STRING",
+                          "value": "+"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "STRING",
+                      "value": "%q-"
+                    },
+                    {
+                      "type": "REPEAT",
+                      "content": {
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "PATTERN",
+                            "value": "\\\\."
+                          },
+                          {
+                            "type": "PATTERN",
+                            "value": "[^\\\\\\-]"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "TOKEN",
+                      "content": {
+                        "type": "PREC",
+                        "value": 100,
+                        "content": {
+                          "type": "STRING",
+                          "value": "-"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "STRING",
+                      "value": "%q~"
+                    },
+                    {
+                      "type": "REPEAT",
+                      "content": {
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "PATTERN",
+                            "value": "\\\\."
+                          },
+                          {
+                            "type": "PATTERN",
+                            "value": "[^\\\\\\~]"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "TOKEN",
+                      "content": {
+                        "type": "PREC",
+                        "value": 100,
+                        "content": {
+                          "type": "STRING",
+                          "value": "~"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "STRING",
+                      "value": "%q`"
+                    },
+                    {
+                      "type": "REPEAT",
+                      "content": {
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "PATTERN",
+                            "value": "\\\\."
+                          },
+                          {
+                            "type": "PATTERN",
+                            "value": "[^\\\\\\`]"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "TOKEN",
+                      "content": {
+                        "type": "PREC",
+                        "value": 100,
+                        "content": {
+                          "type": "STRING",
+                          "value": "`"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "STRING",
+                      "value": "%q'"
+                    },
+                    {
+                      "type": "REPEAT",
+                      "content": {
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "PATTERN",
+                            "value": "\\\\."
+                          },
+                          {
+                            "type": "PATTERN",
+                            "value": "[^\\\\\\']"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "TOKEN",
+                      "content": {
+                        "type": "PREC",
+                        "value": 100,
+                        "content": {
+                          "type": "STRING",
+                          "value": "'"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "STRING",
+                      "value": "%q\""
+                    },
+                    {
+                      "type": "REPEAT",
+                      "content": {
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "PATTERN",
+                            "value": "\\\\."
+                          },
+                          {
+                            "type": "PATTERN",
+                            "value": "[^\\\\\\\"]"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "TOKEN",
+                      "content": {
+                        "type": "PREC",
+                        "value": 100,
+                        "content": {
+                          "type": "STRING",
+                          "value": "\""
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "STRING",
+                      "value": "%q,"
+                    },
+                    {
+                      "type": "REPEAT",
+                      "content": {
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "PATTERN",
+                            "value": "\\\\."
+                          },
+                          {
+                            "type": "PATTERN",
+                            "value": "[^\\\\\\,]"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "TOKEN",
+                      "content": {
+                        "type": "PREC",
+                        "value": 100,
+                        "content": {
+                          "type": "STRING",
+                          "value": ","
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "STRING",
+                      "value": "%q."
+                    },
+                    {
+                      "type": "REPEAT",
+                      "content": {
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "PATTERN",
+                            "value": "\\\\."
+                          },
+                          {
+                            "type": "PATTERN",
+                            "value": "[^\\\\\\.]"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "TOKEN",
+                      "content": {
+                        "type": "PREC",
+                        "value": 100,
+                        "content": {
+                          "type": "STRING",
+                          "value": "."
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "STRING",
+                      "value": "%q?"
+                    },
+                    {
+                      "type": "REPEAT",
+                      "content": {
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "PATTERN",
+                            "value": "\\\\."
+                          },
+                          {
+                            "type": "PATTERN",
+                            "value": "[^\\\\\\?]"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "TOKEN",
+                      "content": {
+                        "type": "PREC",
+                        "value": 100,
+                        "content": {
+                          "type": "STRING",
+                          "value": "?"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "STRING",
+                      "value": "%q:"
+                    },
+                    {
+                      "type": "REPEAT",
+                      "content": {
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "PATTERN",
+                            "value": "\\\\."
+                          },
+                          {
+                            "type": "PATTERN",
+                            "value": "[^\\\\\\:]"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "TOKEN",
+                      "content": {
+                        "type": "PREC",
+                        "value": 100,
+                        "content": {
+                          "type": "STRING",
+                          "value": ":"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "STRING",
+                      "value": "%q;"
+                    },
+                    {
+                      "type": "REPEAT",
+                      "content": {
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "PATTERN",
+                            "value": "\\\\."
+                          },
+                          {
+                            "type": "PATTERN",
+                            "value": "[^\\\\\\;]"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "TOKEN",
+                      "content": {
+                        "type": "PREC",
+                        "value": 100,
+                        "content": {
+                          "type": "STRING",
+                          "value": ";"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "STRING",
+                      "value": "%q_"
+                    },
+                    {
+                      "type": "REPEAT",
+                      "content": {
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "PATTERN",
+                            "value": "\\\\."
+                          },
+                          {
+                            "type": "PATTERN",
+                            "value": "[^\\\\\\_]"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "TOKEN",
+                      "content": {
+                        "type": "PREC",
+                        "value": 100,
+                        "content": {
+                          "type": "STRING",
+                          "value": "_"
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "%q"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "_uninterpolated_angle"
+                }
+              ]
+            },
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "%q"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "_uninterpolated_bracket"
+                }
+              ]
+            },
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "%q"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "_uninterpolated_paren"
+                }
+              ]
+            },
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "%q"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "_uninterpolated_brace"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_quoted_string"
+          }
+        }
+      ]
+    },
+    "_quoted_string": {
       "type": "CHOICE",
       "members": [
         {
@@ -3590,2248 +5853,6 @@
             {
               "type": "SYMBOL",
               "name": "_double_quoted_continuation"
-            }
-          ]
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "PATTERN",
-                  "value": "%(Q|)\\!"
-                },
-                {
-                  "type": "REPEAT",
-                  "content": {
-                    "type": "CHOICE",
-                    "members": [
-                      {
-                        "type": "PATTERN",
-                        "value": "\\\\."
-                      },
-                      {
-                        "type": "PATTERN",
-                        "value": "[^\\\\\\!]"
-                      },
-                      {
-                        "type": "SYMBOL",
-                        "name": "interpolation"
-                      }
-                    ]
-                  }
-                },
-                {
-                  "type": "TOKEN",
-                  "content": {
-                    "type": "PREC",
-                    "value": 100,
-                    "content": {
-                      "type": "STRING",
-                      "value": "!"
-                    }
-                  }
-                }
-              ]
-            },
-            {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "PATTERN",
-                  "value": "%(Q|)\\@"
-                },
-                {
-                  "type": "REPEAT",
-                  "content": {
-                    "type": "CHOICE",
-                    "members": [
-                      {
-                        "type": "PATTERN",
-                        "value": "\\\\."
-                      },
-                      {
-                        "type": "PATTERN",
-                        "value": "[^\\\\\\@]"
-                      },
-                      {
-                        "type": "SYMBOL",
-                        "name": "interpolation"
-                      }
-                    ]
-                  }
-                },
-                {
-                  "type": "TOKEN",
-                  "content": {
-                    "type": "PREC",
-                    "value": 100,
-                    "content": {
-                      "type": "STRING",
-                      "value": "@"
-                    }
-                  }
-                }
-              ]
-            },
-            {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "PATTERN",
-                  "value": "%(Q|)\\#"
-                },
-                {
-                  "type": "REPEAT",
-                  "content": {
-                    "type": "CHOICE",
-                    "members": [
-                      {
-                        "type": "PATTERN",
-                        "value": "\\\\."
-                      },
-                      {
-                        "type": "PATTERN",
-                        "value": "[^\\\\\\#]"
-                      },
-                      {
-                        "type": "SYMBOL",
-                        "name": "interpolation"
-                      }
-                    ]
-                  }
-                },
-                {
-                  "type": "TOKEN",
-                  "content": {
-                    "type": "PREC",
-                    "value": 100,
-                    "content": {
-                      "type": "STRING",
-                      "value": "#"
-                    }
-                  }
-                }
-              ]
-            },
-            {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "PATTERN",
-                  "value": "%(Q|)\\$"
-                },
-                {
-                  "type": "REPEAT",
-                  "content": {
-                    "type": "CHOICE",
-                    "members": [
-                      {
-                        "type": "PATTERN",
-                        "value": "\\\\."
-                      },
-                      {
-                        "type": "PATTERN",
-                        "value": "[^\\\\\\$]"
-                      },
-                      {
-                        "type": "SYMBOL",
-                        "name": "interpolation"
-                      }
-                    ]
-                  }
-                },
-                {
-                  "type": "TOKEN",
-                  "content": {
-                    "type": "PREC",
-                    "value": 100,
-                    "content": {
-                      "type": "STRING",
-                      "value": "$"
-                    }
-                  }
-                }
-              ]
-            },
-            {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "PATTERN",
-                  "value": "%(Q|)\\%"
-                },
-                {
-                  "type": "REPEAT",
-                  "content": {
-                    "type": "CHOICE",
-                    "members": [
-                      {
-                        "type": "PATTERN",
-                        "value": "\\\\."
-                      },
-                      {
-                        "type": "PATTERN",
-                        "value": "[^\\\\\\%]"
-                      },
-                      {
-                        "type": "SYMBOL",
-                        "name": "interpolation"
-                      }
-                    ]
-                  }
-                },
-                {
-                  "type": "TOKEN",
-                  "content": {
-                    "type": "PREC",
-                    "value": 100,
-                    "content": {
-                      "type": "STRING",
-                      "value": "%"
-                    }
-                  }
-                }
-              ]
-            },
-            {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "PATTERN",
-                  "value": "%(Q|)\\^"
-                },
-                {
-                  "type": "REPEAT",
-                  "content": {
-                    "type": "CHOICE",
-                    "members": [
-                      {
-                        "type": "PATTERN",
-                        "value": "\\\\."
-                      },
-                      {
-                        "type": "PATTERN",
-                        "value": "[^\\\\\\^]"
-                      },
-                      {
-                        "type": "SYMBOL",
-                        "name": "interpolation"
-                      }
-                    ]
-                  }
-                },
-                {
-                  "type": "TOKEN",
-                  "content": {
-                    "type": "PREC",
-                    "value": 100,
-                    "content": {
-                      "type": "STRING",
-                      "value": "^"
-                    }
-                  }
-                }
-              ]
-            },
-            {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "PATTERN",
-                  "value": "%(Q|)\\&"
-                },
-                {
-                  "type": "REPEAT",
-                  "content": {
-                    "type": "CHOICE",
-                    "members": [
-                      {
-                        "type": "PATTERN",
-                        "value": "\\\\."
-                      },
-                      {
-                        "type": "PATTERN",
-                        "value": "[^\\\\\\&]"
-                      },
-                      {
-                        "type": "SYMBOL",
-                        "name": "interpolation"
-                      }
-                    ]
-                  }
-                },
-                {
-                  "type": "TOKEN",
-                  "content": {
-                    "type": "PREC",
-                    "value": 100,
-                    "content": {
-                      "type": "STRING",
-                      "value": "&"
-                    }
-                  }
-                }
-              ]
-            },
-            {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "PATTERN",
-                  "value": "%(Q|)\\*"
-                },
-                {
-                  "type": "REPEAT",
-                  "content": {
-                    "type": "CHOICE",
-                    "members": [
-                      {
-                        "type": "PATTERN",
-                        "value": "\\\\."
-                      },
-                      {
-                        "type": "PATTERN",
-                        "value": "[^\\\\\\*]"
-                      },
-                      {
-                        "type": "SYMBOL",
-                        "name": "interpolation"
-                      }
-                    ]
-                  }
-                },
-                {
-                  "type": "TOKEN",
-                  "content": {
-                    "type": "PREC",
-                    "value": 100,
-                    "content": {
-                      "type": "STRING",
-                      "value": "*"
-                    }
-                  }
-                }
-              ]
-            },
-            {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "PATTERN",
-                  "value": "%(Q|)\\)"
-                },
-                {
-                  "type": "REPEAT",
-                  "content": {
-                    "type": "CHOICE",
-                    "members": [
-                      {
-                        "type": "PATTERN",
-                        "value": "\\\\."
-                      },
-                      {
-                        "type": "PATTERN",
-                        "value": "[^\\\\\\)]"
-                      },
-                      {
-                        "type": "SYMBOL",
-                        "name": "interpolation"
-                      }
-                    ]
-                  }
-                },
-                {
-                  "type": "TOKEN",
-                  "content": {
-                    "type": "PREC",
-                    "value": 100,
-                    "content": {
-                      "type": "STRING",
-                      "value": ")"
-                    }
-                  }
-                }
-              ]
-            },
-            {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "PATTERN",
-                  "value": "%(Q|)\\]"
-                },
-                {
-                  "type": "REPEAT",
-                  "content": {
-                    "type": "CHOICE",
-                    "members": [
-                      {
-                        "type": "PATTERN",
-                        "value": "\\\\."
-                      },
-                      {
-                        "type": "PATTERN",
-                        "value": "[^\\\\\\]]"
-                      },
-                      {
-                        "type": "SYMBOL",
-                        "name": "interpolation"
-                      }
-                    ]
-                  }
-                },
-                {
-                  "type": "TOKEN",
-                  "content": {
-                    "type": "PREC",
-                    "value": 100,
-                    "content": {
-                      "type": "STRING",
-                      "value": "]"
-                    }
-                  }
-                }
-              ]
-            },
-            {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "PATTERN",
-                  "value": "%(Q|)\\}"
-                },
-                {
-                  "type": "REPEAT",
-                  "content": {
-                    "type": "CHOICE",
-                    "members": [
-                      {
-                        "type": "PATTERN",
-                        "value": "\\\\."
-                      },
-                      {
-                        "type": "PATTERN",
-                        "value": "[^\\\\\\}]"
-                      },
-                      {
-                        "type": "SYMBOL",
-                        "name": "interpolation"
-                      }
-                    ]
-                  }
-                },
-                {
-                  "type": "TOKEN",
-                  "content": {
-                    "type": "PREC",
-                    "value": 100,
-                    "content": {
-                      "type": "STRING",
-                      "value": "}"
-                    }
-                  }
-                }
-              ]
-            },
-            {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "PATTERN",
-                  "value": "%(Q|)\\>"
-                },
-                {
-                  "type": "REPEAT",
-                  "content": {
-                    "type": "CHOICE",
-                    "members": [
-                      {
-                        "type": "PATTERN",
-                        "value": "\\\\."
-                      },
-                      {
-                        "type": "PATTERN",
-                        "value": "[^\\\\\\>]"
-                      },
-                      {
-                        "type": "SYMBOL",
-                        "name": "interpolation"
-                      }
-                    ]
-                  }
-                },
-                {
-                  "type": "TOKEN",
-                  "content": {
-                    "type": "PREC",
-                    "value": 100,
-                    "content": {
-                      "type": "STRING",
-                      "value": ">"
-                    }
-                  }
-                }
-              ]
-            },
-            {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "PATTERN",
-                  "value": "%(Q|)\\|"
-                },
-                {
-                  "type": "REPEAT",
-                  "content": {
-                    "type": "CHOICE",
-                    "members": [
-                      {
-                        "type": "PATTERN",
-                        "value": "\\\\."
-                      },
-                      {
-                        "type": "PATTERN",
-                        "value": "[^\\\\\\|]"
-                      },
-                      {
-                        "type": "SYMBOL",
-                        "name": "interpolation"
-                      }
-                    ]
-                  }
-                },
-                {
-                  "type": "TOKEN",
-                  "content": {
-                    "type": "PREC",
-                    "value": 100,
-                    "content": {
-                      "type": "STRING",
-                      "value": "|"
-                    }
-                  }
-                }
-              ]
-            },
-            {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "PATTERN",
-                  "value": "%(Q|)\\\\"
-                },
-                {
-                  "type": "REPEAT",
-                  "content": {
-                    "type": "CHOICE",
-                    "members": [
-                      {
-                        "type": "PATTERN",
-                        "value": "\\\\."
-                      },
-                      {
-                        "type": "PATTERN",
-                        "value": "[^\\\\\\\\]"
-                      },
-                      {
-                        "type": "SYMBOL",
-                        "name": "interpolation"
-                      }
-                    ]
-                  }
-                },
-                {
-                  "type": "TOKEN",
-                  "content": {
-                    "type": "PREC",
-                    "value": 100,
-                    "content": {
-                      "type": "STRING",
-                      "value": "\\"
-                    }
-                  }
-                }
-              ]
-            },
-            {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "PATTERN",
-                  "value": "%(Q|)\\="
-                },
-                {
-                  "type": "REPEAT",
-                  "content": {
-                    "type": "CHOICE",
-                    "members": [
-                      {
-                        "type": "PATTERN",
-                        "value": "\\\\."
-                      },
-                      {
-                        "type": "PATTERN",
-                        "value": "[^\\\\\\=]"
-                      },
-                      {
-                        "type": "SYMBOL",
-                        "name": "interpolation"
-                      }
-                    ]
-                  }
-                },
-                {
-                  "type": "TOKEN",
-                  "content": {
-                    "type": "PREC",
-                    "value": 100,
-                    "content": {
-                      "type": "STRING",
-                      "value": "="
-                    }
-                  }
-                }
-              ]
-            },
-            {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "PATTERN",
-                  "value": "%(Q|)\\/"
-                },
-                {
-                  "type": "REPEAT",
-                  "content": {
-                    "type": "CHOICE",
-                    "members": [
-                      {
-                        "type": "PATTERN",
-                        "value": "\\\\."
-                      },
-                      {
-                        "type": "PATTERN",
-                        "value": "[^\\\\\\/]"
-                      },
-                      {
-                        "type": "SYMBOL",
-                        "name": "interpolation"
-                      }
-                    ]
-                  }
-                },
-                {
-                  "type": "TOKEN",
-                  "content": {
-                    "type": "PREC",
-                    "value": 100,
-                    "content": {
-                      "type": "STRING",
-                      "value": "/"
-                    }
-                  }
-                }
-              ]
-            },
-            {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "PATTERN",
-                  "value": "%(Q|)\\+"
-                },
-                {
-                  "type": "REPEAT",
-                  "content": {
-                    "type": "CHOICE",
-                    "members": [
-                      {
-                        "type": "PATTERN",
-                        "value": "\\\\."
-                      },
-                      {
-                        "type": "PATTERN",
-                        "value": "[^\\\\\\+]"
-                      },
-                      {
-                        "type": "SYMBOL",
-                        "name": "interpolation"
-                      }
-                    ]
-                  }
-                },
-                {
-                  "type": "TOKEN",
-                  "content": {
-                    "type": "PREC",
-                    "value": 100,
-                    "content": {
-                      "type": "STRING",
-                      "value": "+"
-                    }
-                  }
-                }
-              ]
-            },
-            {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "PATTERN",
-                  "value": "%(Q|)\\-"
-                },
-                {
-                  "type": "REPEAT",
-                  "content": {
-                    "type": "CHOICE",
-                    "members": [
-                      {
-                        "type": "PATTERN",
-                        "value": "\\\\."
-                      },
-                      {
-                        "type": "PATTERN",
-                        "value": "[^\\\\\\-]"
-                      },
-                      {
-                        "type": "SYMBOL",
-                        "name": "interpolation"
-                      }
-                    ]
-                  }
-                },
-                {
-                  "type": "TOKEN",
-                  "content": {
-                    "type": "PREC",
-                    "value": 100,
-                    "content": {
-                      "type": "STRING",
-                      "value": "-"
-                    }
-                  }
-                }
-              ]
-            },
-            {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "PATTERN",
-                  "value": "%(Q|)\\~"
-                },
-                {
-                  "type": "REPEAT",
-                  "content": {
-                    "type": "CHOICE",
-                    "members": [
-                      {
-                        "type": "PATTERN",
-                        "value": "\\\\."
-                      },
-                      {
-                        "type": "PATTERN",
-                        "value": "[^\\\\\\~]"
-                      },
-                      {
-                        "type": "SYMBOL",
-                        "name": "interpolation"
-                      }
-                    ]
-                  }
-                },
-                {
-                  "type": "TOKEN",
-                  "content": {
-                    "type": "PREC",
-                    "value": 100,
-                    "content": {
-                      "type": "STRING",
-                      "value": "~"
-                    }
-                  }
-                }
-              ]
-            },
-            {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "PATTERN",
-                  "value": "%(Q|)\\`"
-                },
-                {
-                  "type": "REPEAT",
-                  "content": {
-                    "type": "CHOICE",
-                    "members": [
-                      {
-                        "type": "PATTERN",
-                        "value": "\\\\."
-                      },
-                      {
-                        "type": "PATTERN",
-                        "value": "[^\\\\\\`]"
-                      },
-                      {
-                        "type": "SYMBOL",
-                        "name": "interpolation"
-                      }
-                    ]
-                  }
-                },
-                {
-                  "type": "TOKEN",
-                  "content": {
-                    "type": "PREC",
-                    "value": 100,
-                    "content": {
-                      "type": "STRING",
-                      "value": "`"
-                    }
-                  }
-                }
-              ]
-            },
-            {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "PATTERN",
-                  "value": "%(Q|)\\'"
-                },
-                {
-                  "type": "REPEAT",
-                  "content": {
-                    "type": "CHOICE",
-                    "members": [
-                      {
-                        "type": "PATTERN",
-                        "value": "\\\\."
-                      },
-                      {
-                        "type": "PATTERN",
-                        "value": "[^\\\\\\']"
-                      },
-                      {
-                        "type": "SYMBOL",
-                        "name": "interpolation"
-                      }
-                    ]
-                  }
-                },
-                {
-                  "type": "TOKEN",
-                  "content": {
-                    "type": "PREC",
-                    "value": 100,
-                    "content": {
-                      "type": "STRING",
-                      "value": "'"
-                    }
-                  }
-                }
-              ]
-            },
-            {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "PATTERN",
-                  "value": "%(Q|)\\\""
-                },
-                {
-                  "type": "REPEAT",
-                  "content": {
-                    "type": "CHOICE",
-                    "members": [
-                      {
-                        "type": "PATTERN",
-                        "value": "\\\\."
-                      },
-                      {
-                        "type": "PATTERN",
-                        "value": "[^\\\\\\\"]"
-                      },
-                      {
-                        "type": "SYMBOL",
-                        "name": "interpolation"
-                      }
-                    ]
-                  }
-                },
-                {
-                  "type": "TOKEN",
-                  "content": {
-                    "type": "PREC",
-                    "value": 100,
-                    "content": {
-                      "type": "STRING",
-                      "value": "\""
-                    }
-                  }
-                }
-              ]
-            },
-            {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "PATTERN",
-                  "value": "%(Q|)\\,"
-                },
-                {
-                  "type": "REPEAT",
-                  "content": {
-                    "type": "CHOICE",
-                    "members": [
-                      {
-                        "type": "PATTERN",
-                        "value": "\\\\."
-                      },
-                      {
-                        "type": "PATTERN",
-                        "value": "[^\\\\\\,]"
-                      },
-                      {
-                        "type": "SYMBOL",
-                        "name": "interpolation"
-                      }
-                    ]
-                  }
-                },
-                {
-                  "type": "TOKEN",
-                  "content": {
-                    "type": "PREC",
-                    "value": 100,
-                    "content": {
-                      "type": "STRING",
-                      "value": ","
-                    }
-                  }
-                }
-              ]
-            },
-            {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "PATTERN",
-                  "value": "%(Q|)\\."
-                },
-                {
-                  "type": "REPEAT",
-                  "content": {
-                    "type": "CHOICE",
-                    "members": [
-                      {
-                        "type": "PATTERN",
-                        "value": "\\\\."
-                      },
-                      {
-                        "type": "PATTERN",
-                        "value": "[^\\\\\\.]"
-                      },
-                      {
-                        "type": "SYMBOL",
-                        "name": "interpolation"
-                      }
-                    ]
-                  }
-                },
-                {
-                  "type": "TOKEN",
-                  "content": {
-                    "type": "PREC",
-                    "value": 100,
-                    "content": {
-                      "type": "STRING",
-                      "value": "."
-                    }
-                  }
-                }
-              ]
-            },
-            {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "PATTERN",
-                  "value": "%(Q|)\\?"
-                },
-                {
-                  "type": "REPEAT",
-                  "content": {
-                    "type": "CHOICE",
-                    "members": [
-                      {
-                        "type": "PATTERN",
-                        "value": "\\\\."
-                      },
-                      {
-                        "type": "PATTERN",
-                        "value": "[^\\\\\\?]"
-                      },
-                      {
-                        "type": "SYMBOL",
-                        "name": "interpolation"
-                      }
-                    ]
-                  }
-                },
-                {
-                  "type": "TOKEN",
-                  "content": {
-                    "type": "PREC",
-                    "value": 100,
-                    "content": {
-                      "type": "STRING",
-                      "value": "?"
-                    }
-                  }
-                }
-              ]
-            },
-            {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "PATTERN",
-                  "value": "%(Q|)\\:"
-                },
-                {
-                  "type": "REPEAT",
-                  "content": {
-                    "type": "CHOICE",
-                    "members": [
-                      {
-                        "type": "PATTERN",
-                        "value": "\\\\."
-                      },
-                      {
-                        "type": "PATTERN",
-                        "value": "[^\\\\\\:]"
-                      },
-                      {
-                        "type": "SYMBOL",
-                        "name": "interpolation"
-                      }
-                    ]
-                  }
-                },
-                {
-                  "type": "TOKEN",
-                  "content": {
-                    "type": "PREC",
-                    "value": 100,
-                    "content": {
-                      "type": "STRING",
-                      "value": ":"
-                    }
-                  }
-                }
-              ]
-            },
-            {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "PATTERN",
-                  "value": "%(Q|)\\;"
-                },
-                {
-                  "type": "REPEAT",
-                  "content": {
-                    "type": "CHOICE",
-                    "members": [
-                      {
-                        "type": "PATTERN",
-                        "value": "\\\\."
-                      },
-                      {
-                        "type": "PATTERN",
-                        "value": "[^\\\\\\;]"
-                      },
-                      {
-                        "type": "SYMBOL",
-                        "name": "interpolation"
-                      }
-                    ]
-                  }
-                },
-                {
-                  "type": "TOKEN",
-                  "content": {
-                    "type": "PREC",
-                    "value": 100,
-                    "content": {
-                      "type": "STRING",
-                      "value": ";"
-                    }
-                  }
-                }
-              ]
-            },
-            {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "PATTERN",
-                  "value": "%(Q|)\\_"
-                },
-                {
-                  "type": "REPEAT",
-                  "content": {
-                    "type": "CHOICE",
-                    "members": [
-                      {
-                        "type": "PATTERN",
-                        "value": "\\\\."
-                      },
-                      {
-                        "type": "PATTERN",
-                        "value": "[^\\\\\\_]"
-                      },
-                      {
-                        "type": "SYMBOL",
-                        "name": "interpolation"
-                      }
-                    ]
-                  }
-                },
-                {
-                  "type": "TOKEN",
-                  "content": {
-                    "type": "PREC",
-                    "value": 100,
-                    "content": {
-                      "type": "STRING",
-                      "value": "_"
-                    }
-                  }
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "PATTERN",
-              "value": "%Q?"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "_interpolated_angle"
-            }
-          ]
-        },
-        {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "PATTERN",
-              "value": "%Q?"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "_interpolated_bracket"
-            }
-          ]
-        },
-        {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "PATTERN",
-              "value": "%Q?"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "_interpolated_paren"
-            }
-          ]
-        },
-        {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "PATTERN",
-              "value": "%Q?"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "_interpolated_brace"
-            }
-          ]
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "STRING",
-                  "value": "%q!"
-                },
-                {
-                  "type": "REPEAT",
-                  "content": {
-                    "type": "CHOICE",
-                    "members": [
-                      {
-                        "type": "PATTERN",
-                        "value": "\\\\."
-                      },
-                      {
-                        "type": "PATTERN",
-                        "value": "[^\\\\\\!]"
-                      }
-                    ]
-                  }
-                },
-                {
-                  "type": "TOKEN",
-                  "content": {
-                    "type": "PREC",
-                    "value": 100,
-                    "content": {
-                      "type": "STRING",
-                      "value": "!"
-                    }
-                  }
-                }
-              ]
-            },
-            {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "STRING",
-                  "value": "%q@"
-                },
-                {
-                  "type": "REPEAT",
-                  "content": {
-                    "type": "CHOICE",
-                    "members": [
-                      {
-                        "type": "PATTERN",
-                        "value": "\\\\."
-                      },
-                      {
-                        "type": "PATTERN",
-                        "value": "[^\\\\\\@]"
-                      }
-                    ]
-                  }
-                },
-                {
-                  "type": "TOKEN",
-                  "content": {
-                    "type": "PREC",
-                    "value": 100,
-                    "content": {
-                      "type": "STRING",
-                      "value": "@"
-                    }
-                  }
-                }
-              ]
-            },
-            {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "STRING",
-                  "value": "%q#"
-                },
-                {
-                  "type": "REPEAT",
-                  "content": {
-                    "type": "CHOICE",
-                    "members": [
-                      {
-                        "type": "PATTERN",
-                        "value": "\\\\."
-                      },
-                      {
-                        "type": "PATTERN",
-                        "value": "[^\\\\\\#]"
-                      }
-                    ]
-                  }
-                },
-                {
-                  "type": "TOKEN",
-                  "content": {
-                    "type": "PREC",
-                    "value": 100,
-                    "content": {
-                      "type": "STRING",
-                      "value": "#"
-                    }
-                  }
-                }
-              ]
-            },
-            {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "STRING",
-                  "value": "%q$"
-                },
-                {
-                  "type": "REPEAT",
-                  "content": {
-                    "type": "CHOICE",
-                    "members": [
-                      {
-                        "type": "PATTERN",
-                        "value": "\\\\."
-                      },
-                      {
-                        "type": "PATTERN",
-                        "value": "[^\\\\\\$]"
-                      }
-                    ]
-                  }
-                },
-                {
-                  "type": "TOKEN",
-                  "content": {
-                    "type": "PREC",
-                    "value": 100,
-                    "content": {
-                      "type": "STRING",
-                      "value": "$"
-                    }
-                  }
-                }
-              ]
-            },
-            {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "STRING",
-                  "value": "%q%"
-                },
-                {
-                  "type": "REPEAT",
-                  "content": {
-                    "type": "CHOICE",
-                    "members": [
-                      {
-                        "type": "PATTERN",
-                        "value": "\\\\."
-                      },
-                      {
-                        "type": "PATTERN",
-                        "value": "[^\\\\\\%]"
-                      }
-                    ]
-                  }
-                },
-                {
-                  "type": "TOKEN",
-                  "content": {
-                    "type": "PREC",
-                    "value": 100,
-                    "content": {
-                      "type": "STRING",
-                      "value": "%"
-                    }
-                  }
-                }
-              ]
-            },
-            {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "STRING",
-                  "value": "%q^"
-                },
-                {
-                  "type": "REPEAT",
-                  "content": {
-                    "type": "CHOICE",
-                    "members": [
-                      {
-                        "type": "PATTERN",
-                        "value": "\\\\."
-                      },
-                      {
-                        "type": "PATTERN",
-                        "value": "[^\\\\\\^]"
-                      }
-                    ]
-                  }
-                },
-                {
-                  "type": "TOKEN",
-                  "content": {
-                    "type": "PREC",
-                    "value": 100,
-                    "content": {
-                      "type": "STRING",
-                      "value": "^"
-                    }
-                  }
-                }
-              ]
-            },
-            {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "STRING",
-                  "value": "%q&"
-                },
-                {
-                  "type": "REPEAT",
-                  "content": {
-                    "type": "CHOICE",
-                    "members": [
-                      {
-                        "type": "PATTERN",
-                        "value": "\\\\."
-                      },
-                      {
-                        "type": "PATTERN",
-                        "value": "[^\\\\\\&]"
-                      }
-                    ]
-                  }
-                },
-                {
-                  "type": "TOKEN",
-                  "content": {
-                    "type": "PREC",
-                    "value": 100,
-                    "content": {
-                      "type": "STRING",
-                      "value": "&"
-                    }
-                  }
-                }
-              ]
-            },
-            {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "STRING",
-                  "value": "%q*"
-                },
-                {
-                  "type": "REPEAT",
-                  "content": {
-                    "type": "CHOICE",
-                    "members": [
-                      {
-                        "type": "PATTERN",
-                        "value": "\\\\."
-                      },
-                      {
-                        "type": "PATTERN",
-                        "value": "[^\\\\\\*]"
-                      }
-                    ]
-                  }
-                },
-                {
-                  "type": "TOKEN",
-                  "content": {
-                    "type": "PREC",
-                    "value": 100,
-                    "content": {
-                      "type": "STRING",
-                      "value": "*"
-                    }
-                  }
-                }
-              ]
-            },
-            {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "STRING",
-                  "value": "%q)"
-                },
-                {
-                  "type": "REPEAT",
-                  "content": {
-                    "type": "CHOICE",
-                    "members": [
-                      {
-                        "type": "PATTERN",
-                        "value": "\\\\."
-                      },
-                      {
-                        "type": "PATTERN",
-                        "value": "[^\\\\\\)]"
-                      }
-                    ]
-                  }
-                },
-                {
-                  "type": "TOKEN",
-                  "content": {
-                    "type": "PREC",
-                    "value": 100,
-                    "content": {
-                      "type": "STRING",
-                      "value": ")"
-                    }
-                  }
-                }
-              ]
-            },
-            {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "STRING",
-                  "value": "%q]"
-                },
-                {
-                  "type": "REPEAT",
-                  "content": {
-                    "type": "CHOICE",
-                    "members": [
-                      {
-                        "type": "PATTERN",
-                        "value": "\\\\."
-                      },
-                      {
-                        "type": "PATTERN",
-                        "value": "[^\\\\\\]]"
-                      }
-                    ]
-                  }
-                },
-                {
-                  "type": "TOKEN",
-                  "content": {
-                    "type": "PREC",
-                    "value": 100,
-                    "content": {
-                      "type": "STRING",
-                      "value": "]"
-                    }
-                  }
-                }
-              ]
-            },
-            {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "STRING",
-                  "value": "%q}"
-                },
-                {
-                  "type": "REPEAT",
-                  "content": {
-                    "type": "CHOICE",
-                    "members": [
-                      {
-                        "type": "PATTERN",
-                        "value": "\\\\."
-                      },
-                      {
-                        "type": "PATTERN",
-                        "value": "[^\\\\\\}]"
-                      }
-                    ]
-                  }
-                },
-                {
-                  "type": "TOKEN",
-                  "content": {
-                    "type": "PREC",
-                    "value": 100,
-                    "content": {
-                      "type": "STRING",
-                      "value": "}"
-                    }
-                  }
-                }
-              ]
-            },
-            {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "STRING",
-                  "value": "%q>"
-                },
-                {
-                  "type": "REPEAT",
-                  "content": {
-                    "type": "CHOICE",
-                    "members": [
-                      {
-                        "type": "PATTERN",
-                        "value": "\\\\."
-                      },
-                      {
-                        "type": "PATTERN",
-                        "value": "[^\\\\\\>]"
-                      }
-                    ]
-                  }
-                },
-                {
-                  "type": "TOKEN",
-                  "content": {
-                    "type": "PREC",
-                    "value": 100,
-                    "content": {
-                      "type": "STRING",
-                      "value": ">"
-                    }
-                  }
-                }
-              ]
-            },
-            {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "STRING",
-                  "value": "%q|"
-                },
-                {
-                  "type": "REPEAT",
-                  "content": {
-                    "type": "CHOICE",
-                    "members": [
-                      {
-                        "type": "PATTERN",
-                        "value": "\\\\."
-                      },
-                      {
-                        "type": "PATTERN",
-                        "value": "[^\\\\\\|]"
-                      }
-                    ]
-                  }
-                },
-                {
-                  "type": "TOKEN",
-                  "content": {
-                    "type": "PREC",
-                    "value": 100,
-                    "content": {
-                      "type": "STRING",
-                      "value": "|"
-                    }
-                  }
-                }
-              ]
-            },
-            {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "STRING",
-                  "value": "%q\\"
-                },
-                {
-                  "type": "REPEAT",
-                  "content": {
-                    "type": "CHOICE",
-                    "members": [
-                      {
-                        "type": "PATTERN",
-                        "value": "\\\\."
-                      },
-                      {
-                        "type": "PATTERN",
-                        "value": "[^\\\\\\\\]"
-                      }
-                    ]
-                  }
-                },
-                {
-                  "type": "TOKEN",
-                  "content": {
-                    "type": "PREC",
-                    "value": 100,
-                    "content": {
-                      "type": "STRING",
-                      "value": "\\"
-                    }
-                  }
-                }
-              ]
-            },
-            {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "STRING",
-                  "value": "%q="
-                },
-                {
-                  "type": "REPEAT",
-                  "content": {
-                    "type": "CHOICE",
-                    "members": [
-                      {
-                        "type": "PATTERN",
-                        "value": "\\\\."
-                      },
-                      {
-                        "type": "PATTERN",
-                        "value": "[^\\\\\\=]"
-                      }
-                    ]
-                  }
-                },
-                {
-                  "type": "TOKEN",
-                  "content": {
-                    "type": "PREC",
-                    "value": 100,
-                    "content": {
-                      "type": "STRING",
-                      "value": "="
-                    }
-                  }
-                }
-              ]
-            },
-            {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "STRING",
-                  "value": "%q/"
-                },
-                {
-                  "type": "REPEAT",
-                  "content": {
-                    "type": "CHOICE",
-                    "members": [
-                      {
-                        "type": "PATTERN",
-                        "value": "\\\\."
-                      },
-                      {
-                        "type": "PATTERN",
-                        "value": "[^\\\\\\/]"
-                      }
-                    ]
-                  }
-                },
-                {
-                  "type": "TOKEN",
-                  "content": {
-                    "type": "PREC",
-                    "value": 100,
-                    "content": {
-                      "type": "STRING",
-                      "value": "/"
-                    }
-                  }
-                }
-              ]
-            },
-            {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "STRING",
-                  "value": "%q+"
-                },
-                {
-                  "type": "REPEAT",
-                  "content": {
-                    "type": "CHOICE",
-                    "members": [
-                      {
-                        "type": "PATTERN",
-                        "value": "\\\\."
-                      },
-                      {
-                        "type": "PATTERN",
-                        "value": "[^\\\\\\+]"
-                      }
-                    ]
-                  }
-                },
-                {
-                  "type": "TOKEN",
-                  "content": {
-                    "type": "PREC",
-                    "value": 100,
-                    "content": {
-                      "type": "STRING",
-                      "value": "+"
-                    }
-                  }
-                }
-              ]
-            },
-            {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "STRING",
-                  "value": "%q-"
-                },
-                {
-                  "type": "REPEAT",
-                  "content": {
-                    "type": "CHOICE",
-                    "members": [
-                      {
-                        "type": "PATTERN",
-                        "value": "\\\\."
-                      },
-                      {
-                        "type": "PATTERN",
-                        "value": "[^\\\\\\-]"
-                      }
-                    ]
-                  }
-                },
-                {
-                  "type": "TOKEN",
-                  "content": {
-                    "type": "PREC",
-                    "value": 100,
-                    "content": {
-                      "type": "STRING",
-                      "value": "-"
-                    }
-                  }
-                }
-              ]
-            },
-            {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "STRING",
-                  "value": "%q~"
-                },
-                {
-                  "type": "REPEAT",
-                  "content": {
-                    "type": "CHOICE",
-                    "members": [
-                      {
-                        "type": "PATTERN",
-                        "value": "\\\\."
-                      },
-                      {
-                        "type": "PATTERN",
-                        "value": "[^\\\\\\~]"
-                      }
-                    ]
-                  }
-                },
-                {
-                  "type": "TOKEN",
-                  "content": {
-                    "type": "PREC",
-                    "value": 100,
-                    "content": {
-                      "type": "STRING",
-                      "value": "~"
-                    }
-                  }
-                }
-              ]
-            },
-            {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "STRING",
-                  "value": "%q`"
-                },
-                {
-                  "type": "REPEAT",
-                  "content": {
-                    "type": "CHOICE",
-                    "members": [
-                      {
-                        "type": "PATTERN",
-                        "value": "\\\\."
-                      },
-                      {
-                        "type": "PATTERN",
-                        "value": "[^\\\\\\`]"
-                      }
-                    ]
-                  }
-                },
-                {
-                  "type": "TOKEN",
-                  "content": {
-                    "type": "PREC",
-                    "value": 100,
-                    "content": {
-                      "type": "STRING",
-                      "value": "`"
-                    }
-                  }
-                }
-              ]
-            },
-            {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "STRING",
-                  "value": "%q'"
-                },
-                {
-                  "type": "REPEAT",
-                  "content": {
-                    "type": "CHOICE",
-                    "members": [
-                      {
-                        "type": "PATTERN",
-                        "value": "\\\\."
-                      },
-                      {
-                        "type": "PATTERN",
-                        "value": "[^\\\\\\']"
-                      }
-                    ]
-                  }
-                },
-                {
-                  "type": "TOKEN",
-                  "content": {
-                    "type": "PREC",
-                    "value": 100,
-                    "content": {
-                      "type": "STRING",
-                      "value": "'"
-                    }
-                  }
-                }
-              ]
-            },
-            {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "STRING",
-                  "value": "%q\""
-                },
-                {
-                  "type": "REPEAT",
-                  "content": {
-                    "type": "CHOICE",
-                    "members": [
-                      {
-                        "type": "PATTERN",
-                        "value": "\\\\."
-                      },
-                      {
-                        "type": "PATTERN",
-                        "value": "[^\\\\\\\"]"
-                      }
-                    ]
-                  }
-                },
-                {
-                  "type": "TOKEN",
-                  "content": {
-                    "type": "PREC",
-                    "value": 100,
-                    "content": {
-                      "type": "STRING",
-                      "value": "\""
-                    }
-                  }
-                }
-              ]
-            },
-            {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "STRING",
-                  "value": "%q,"
-                },
-                {
-                  "type": "REPEAT",
-                  "content": {
-                    "type": "CHOICE",
-                    "members": [
-                      {
-                        "type": "PATTERN",
-                        "value": "\\\\."
-                      },
-                      {
-                        "type": "PATTERN",
-                        "value": "[^\\\\\\,]"
-                      }
-                    ]
-                  }
-                },
-                {
-                  "type": "TOKEN",
-                  "content": {
-                    "type": "PREC",
-                    "value": 100,
-                    "content": {
-                      "type": "STRING",
-                      "value": ","
-                    }
-                  }
-                }
-              ]
-            },
-            {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "STRING",
-                  "value": "%q."
-                },
-                {
-                  "type": "REPEAT",
-                  "content": {
-                    "type": "CHOICE",
-                    "members": [
-                      {
-                        "type": "PATTERN",
-                        "value": "\\\\."
-                      },
-                      {
-                        "type": "PATTERN",
-                        "value": "[^\\\\\\.]"
-                      }
-                    ]
-                  }
-                },
-                {
-                  "type": "TOKEN",
-                  "content": {
-                    "type": "PREC",
-                    "value": 100,
-                    "content": {
-                      "type": "STRING",
-                      "value": "."
-                    }
-                  }
-                }
-              ]
-            },
-            {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "STRING",
-                  "value": "%q?"
-                },
-                {
-                  "type": "REPEAT",
-                  "content": {
-                    "type": "CHOICE",
-                    "members": [
-                      {
-                        "type": "PATTERN",
-                        "value": "\\\\."
-                      },
-                      {
-                        "type": "PATTERN",
-                        "value": "[^\\\\\\?]"
-                      }
-                    ]
-                  }
-                },
-                {
-                  "type": "TOKEN",
-                  "content": {
-                    "type": "PREC",
-                    "value": 100,
-                    "content": {
-                      "type": "STRING",
-                      "value": "?"
-                    }
-                  }
-                }
-              ]
-            },
-            {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "STRING",
-                  "value": "%q:"
-                },
-                {
-                  "type": "REPEAT",
-                  "content": {
-                    "type": "CHOICE",
-                    "members": [
-                      {
-                        "type": "PATTERN",
-                        "value": "\\\\."
-                      },
-                      {
-                        "type": "PATTERN",
-                        "value": "[^\\\\\\:]"
-                      }
-                    ]
-                  }
-                },
-                {
-                  "type": "TOKEN",
-                  "content": {
-                    "type": "PREC",
-                    "value": 100,
-                    "content": {
-                      "type": "STRING",
-                      "value": ":"
-                    }
-                  }
-                }
-              ]
-            },
-            {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "STRING",
-                  "value": "%q;"
-                },
-                {
-                  "type": "REPEAT",
-                  "content": {
-                    "type": "CHOICE",
-                    "members": [
-                      {
-                        "type": "PATTERN",
-                        "value": "\\\\."
-                      },
-                      {
-                        "type": "PATTERN",
-                        "value": "[^\\\\\\;]"
-                      }
-                    ]
-                  }
-                },
-                {
-                  "type": "TOKEN",
-                  "content": {
-                    "type": "PREC",
-                    "value": 100,
-                    "content": {
-                      "type": "STRING",
-                      "value": ";"
-                    }
-                  }
-                }
-              ]
-            },
-            {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "STRING",
-                  "value": "%q_"
-                },
-                {
-                  "type": "REPEAT",
-                  "content": {
-                    "type": "CHOICE",
-                    "members": [
-                      {
-                        "type": "PATTERN",
-                        "value": "\\\\."
-                      },
-                      {
-                        "type": "PATTERN",
-                        "value": "[^\\\\\\_]"
-                      }
-                    ]
-                  }
-                },
-                {
-                  "type": "TOKEN",
-                  "content": {
-                    "type": "PREC",
-                    "value": 100,
-                    "content": {
-                      "type": "STRING",
-                      "value": "_"
-                    }
-                  }
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "STRING",
-              "value": "%q"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "_uninterpolated_angle"
-            }
-          ]
-        },
-        {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "STRING",
-              "value": "%q"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "_uninterpolated_bracket"
-            }
-          ]
-        },
-        {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "STRING",
-              "value": "%q"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "_uninterpolated_paren"
-            }
-          ]
-        },
-        {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "STRING",
-              "value": "%q"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "_uninterpolated_brace"
             }
           ]
         }

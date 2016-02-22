@@ -250,9 +250,8 @@ module.exports = grammar({
     boolean: $ => choice('true', 'false', 'TRUE', 'FALSE'),
     nil: $ => choice('nil', 'NIL'),
 
-    string: $ => choice(
-      seq("'", $._single_quoted_continuation),
-      seq('"', $._double_quoted_continuation),
+    string: $ => seq(choice(
+      $._quoted_string,
       choice.apply(null, unbalancedDelimiters.split('').map(d => stringBody(RegExp('%(Q|)\\' + d), d, $.interpolation))),
       seq(/%Q?/, $._interpolated_angle),
       seq(/%Q?/, $._interpolated_bracket),
@@ -263,6 +262,10 @@ module.exports = grammar({
       seq('%q', $._uninterpolated_bracket),
       seq('%q', $._uninterpolated_paren),
       seq('%q', $._uninterpolated_brace)
+    ), repeat($._quoted_string)),
+    _quoted_string: $ => choice(
+      seq("'", $._single_quoted_continuation),
+      seq('"', $._double_quoted_continuation)
     ),
     _single_quoted_continuation: $ => stringBody(blank(), "'"),
     _double_quoted_continuation: $ => stringBody(blank(), '"', $.interpolation),
