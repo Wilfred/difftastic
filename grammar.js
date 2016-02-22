@@ -35,7 +35,8 @@ module.exports = grammar({
   ],
 
   rules: {
-    program: $ => sep($._statement, $._terminator),
+    program: $ => seq(sep($._statement, $._terminator), optional(seq('\n__END__', $.uninterpreted))),
+    uninterpreted: $ => (/.*/),
 
     _statement: $ => choice(
       $._declaration,

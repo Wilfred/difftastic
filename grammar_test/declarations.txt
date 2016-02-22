@@ -134,3 +134,15 @@ end
 ---
 
 (program (module_declaration (identifier) (method_declaration (identifier))))
+
+=======
+__END__
+=======
+
+word
+__END__
+word
+
+---
+
+(program (identifier) (uninterpreted))
