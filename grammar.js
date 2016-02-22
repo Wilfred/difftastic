@@ -301,7 +301,11 @@ module.exports = grammar({
 
     regex: $ => prec(PREC.LITERAL, choice(
       regexBody('/', '/', $.interpolation),
-      choice.apply(null, unbalancedDelimiters.split('').map(d => regexBody('%r' + d, d, $.interpolation)))
+      choice.apply(null, unbalancedDelimiters.split('').map(d => regexBody('%r' + d, d, $.interpolation))),
+      seq('%r', $._regex_interpolated_angle),
+      seq('%r', $._regex_interpolated_bracket),
+      seq('%r', $._regex_interpolated_paren),
+      seq('%r', $._regex_interpolated_brace)
     )),
     _regex_interpolated_angle: $ => regexBody('<', '>', $.interpolation, $._regex_interpolated_angle),
     _regex_interpolated_bracket: $ => regexBody('[', ']', $.interpolation, $._regex_interpolated_bracket),
