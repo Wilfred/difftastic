@@ -117,7 +117,7 @@ module.exports = grammar({
 
     then_block: $ => seq(choice("then", $._terminator), sep($._statement, $._terminator)),
     else_block: $ => seq("else", sep($._statement, $._terminator)),
-    rescue_block: $ => seq("rescue", commaSep($._argument), choice("do", $._terminator), sep($._statement, $._terminator)),
+    rescue_block: $ => seq("rescue", commaSep($._primary), choice("do", $._terminator), sep($._statement, $._terminator)),
     ensure_block: $ => seq("ensure", sep($._statement, $._terminator)),
 
     _then_else_block: $ => seq($.then_block, optional($.else_block), "end"),
@@ -142,7 +142,7 @@ module.exports = grammar({
     ),
 
     _expression: $ => choice(
-      $._argument,
+      $._primary,
       $.yield,
       $.and,
       $.or,
@@ -166,15 +166,13 @@ module.exports = grammar({
       $._literal
     ),
 
-    _argument: $ => choice($._primary),
-
     _primary: $ => choice(
       seq("(", sep($._statement, $._terminator), ")"),
       $._lhs
     ),
 
     scope_resolution_expression: $ => seq(optional($._primary), '::', $.identifier),
-    subscript_expression: $ => seq($._primary, "[", commaSep($._argument), "]"),
+    subscript_expression: $ => seq($._primary, "[", commaSep($._primary), "]"),
     member_access: $ => seq($._primary, ".", $.identifier),
     yield: $ => seq("yield", optional($._expression)),
 
