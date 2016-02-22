@@ -40,7 +40,7 @@ module.exports = grammar({
 
     _statement: $ => choice(
       $._declaration,
-      seq($._call, "do", optional("|", commaSep($._block_variable), "|"), sep($._statement, $._terminator), "end"),
+      // seq($._call, "do", optional("|", commaSep($._block_variable), "|"), sep($._statement, $._terminator), "end"),
       seq("undef", $._function_name),
       seq("alias", $._function_name, $._function_name),
       $.while_statement,
@@ -131,17 +131,15 @@ module.exports = grammar({
       "end"
     ),
 
-    _call: $ => choice($._function_call, $._command),
-
-    _call_arguments: $ => choice(
-      commaSep1($._argument),
-      $._command
+    function_call: $ => seq(
+      $.member_access,
+      $.argument_list
     ),
 
-    _command: $ => choice(
-      seq("super", $._call_arguments)
+    argument_list: $ => choice(
+      seq("(", commaSep($._expression), ")"),
+      commaSep1($._expression)
     ),
-    _function_call: $ => choice("super"),
 
     _expression: $ => choice(
       $._argument,
