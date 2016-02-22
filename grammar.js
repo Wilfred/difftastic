@@ -330,7 +330,7 @@ function regexBody (open, close, interpolation, me) {
     interpolation
   ];
   if (typeof me !== 'undefined') contents.push(me);
-  return seq(open, repeat(choice.apply(null, contents)), close, /[a-z]*/);
+  return seq(open, repeat(choice.apply(null, contents)), token(prec(PREC.LITERAL, RegExp('\\' + close + '[a-z]*'))));
 }
 
 function sep1 (rule, separator) {
