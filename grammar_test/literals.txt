@@ -593,6 +593,16 @@ hash with keyword keys
 
 (program (hash (pair (identifier) (integer)) (pair (identifier) (integer))))
 
+========================
+hash with trailing comma
+========================
+
+{ a: 1, }
+
+---
+
+(program (hash (pair (identifier) (integer))))
+
 ==================
 regular expression
 ==================
