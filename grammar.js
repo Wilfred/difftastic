@@ -68,7 +68,9 @@ module.exports = grammar({
       "end"
     ),
 
-    formal_parameters: $ => commaSep1(seq(optional(choice("*", "&")), $.identifier)),
+    formal_parameters: $ => commaSep1($.parameter),
+
+    parameter: $ => token(seq(optional(choice("*", "&")), identifierPattern)),
 
     class_declaration: $ => seq("class", $.identifier, optional(seq("<", sep1($.identifier, "::"))), $._terminator, sep($._statement, $._terminator), "end"),
 
