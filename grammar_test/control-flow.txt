@@ -313,3 +313,20 @@ end
 ---
 
 (program (case_statement (identifier) (when_block (pattern (identifier)) (then_block)) (else_block)))
+
+==============================
+case with multiple when blocks
+==============================
+
+case a
+when b
+  c
+when d
+  e
+else
+  f
+end
+
+---
+
+(program (case_statement (identifier) (when_block (pattern (identifier)) (then_block (identifier))) (when_block (pattern (identifier)) (then_block (identifier))) (else_block (identifier))))
