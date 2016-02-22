@@ -692,3 +692,13 @@ percent r regular expression with balanced delimiters and interpolation
 ---
 
 (program (regex (interpolation (identifier))))
+
+==============
+empty function
+==============
+
+-> {}
+
+---
+
+(program (function))
