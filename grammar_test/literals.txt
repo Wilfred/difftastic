@@ -1,0 +1,747 @@
+======
+symbol
+======
+
+:foo
+
+---
+
+(program (symbol))
+
+====================
+single quoted symbol
+====================
+
+:'foo bar'
+
+---
+
+(program (symbol))
+
+====================
+double quoted symbol
+====================
+
+:"foo bar"
+
+---
+
+(program (symbol))
+
+=======================================
+double quoted symbol with interpolation
+=======================================
+
+:"foo #{bar}"
+
+---
+
+(program (symbol (interpolation (identifier))))
+
+=========================================
+percent symbol with unbalanced delimiters
+=========================================
+
+%s=a=
+%s!a!
+%s@a@
+%s$a$
+%s%a%
+%s^a^
+%s&a&
+%s*a*
+%s-a-
+%s+a+
+%s/a/
+%s|a|
+%s?a?
+%s\a\
+%s.a.
+%s,a,
+%s:a:
+%s;a;
+%s'a'
+%s"a"
+%s)a)
+%s]a]
+%s}a}
+%s>a>
+%s`a`
+%s~a~
+%s_a_
+%s#a#
+
+---
+
+(program (symbol) (symbol) (symbol) (symbol) (symbol) (symbol) (symbol) (symbol) (symbol) (symbol) (symbol) (symbol) (symbol) (symbol) (symbol) (symbol) (symbol) (symbol) (symbol) (symbol) (symbol) (symbol) (symbol) (symbol) (symbol) (symbol) (symbol) (symbol))
+
+=======================================
+percent symbol with balanced delimiters
+=======================================
+
+%s{a{b}c}
+%s<a<b>c>
+%s(a(b)c)
+%s[a[b]c]
+
+---
+
+(program (symbol) (symbol) (symbol) (symbol))
+
+=======
+integer
+=======
+
+1234
+
+---
+
+(program (integer))
+
+=======================
+integer with underscore
+=======================
+
+1_234
+
+---
+
+(program (integer))
+
+===========================
+integer with decimal prefix
+===========================
+
+0d1_234
+
+---
+
+(program (integer))
+
+===============================
+integer with hexadecimal prefix
+===============================
+
+0xa_bcd_ef0_123_456_789
+
+---
+
+(program (integer))
+
+=========================
+integer with octal prefix
+=========================
+
+01234567
+0o1234567
+
+---
+
+(program (integer) (integer))
+
+==========================
+integer with binary prefix
+==========================
+
+0b1_0
+
+---
+
+(program (integer))
+
+=====
+float
+=====
+
+1.234_5e678_90
+
+---
+
+(program (float))
+
+=======
+boolean
+=======
+
+true
+
+---
+
+(program (boolean))
+
+===
+nil
+===
+
+nil
+
+---
+
+(program (nil))
+
+====================
+single-quoted string
+====================
+
+''
+' '
+'  '
+
+---
+
+(program (string) (string) (string))
+
+==============================================
+single-quoted string with escaped single quote
+==============================================
+
+'\''
+
+---
+
+(program (string))
+
+===========================================
+single-quoted string with escaped backslash
+===========================================
+
+'\\'
+
+---
+
+(program (string))
+
+=================================================
+single-quoted string with backslash and character
+=================================================
+
+'\d'
+
+---
+
+(program (string))
+
+====================
+double-quoted string
+====================
+
+""
+" "
+"  "
+
+---
+
+(program (string) (string) (string))
+
+==============================================
+double-quoted string with escaped double quote
+==============================================
+
+"\""
+
+---
+
+(program (string))
+
+===========================================
+double-quoted string with escaped backslash
+===========================================
+
+"\\"
+
+---
+
+(program (string))
+
+=================================================
+double-quoted string with backslash and character
+=================================================
+
+"\d"
+
+---
+
+(program (string))
+
+=============
+interpolation
+=============
+
+"#{foo}"
+
+---
+
+(program (string (interpolation (identifier))))
+
+=====================
+escaped interpolation
+=====================
+
+"\#{foo}"
+
+---
+
+(program (string))
+
+===========================================
+percent q string with unbalanced delimiters
+===========================================
+
+%q=a=
+%q!a!
+%q@a@
+%q$a$
+%q%a%
+%q^a^
+%q&a&
+%q*a*
+%q-a-
+%q+a+
+%q/a/
+%q|a|
+%q?a?
+%q\a\
+%q.a.
+%q,a,
+%q:a:
+%q;a;
+%q'a'
+%q"a"
+%q)a)
+%q]a]
+%q}a}
+%q>a>
+%q`a`
+%q~a~
+%q_a_
+%q#a#
+
+---
+
+(program (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string))
+
+=========================================
+percent q string with balanced delimiters
+=========================================
+
+%q<a<b>c>
+%q{a{b}c}
+%q[a[b]c]
+%q(a(b)c)
+
+---
+
+(program (string) (string) (string) (string))
+
+=========================================
+percent string with unbalanced delimiters
+=========================================
+
+%=a=
+%!a!
+%@a@
+%$a$
+%%a%
+%^a^
+%&a&
+%*a*
+%-a-
+%+a+
+%/a/
+%|a|
+%?a?
+%\a\
+%.a.
+%,a,
+%:a:
+%;a;
+%'a'
+%"a"
+%)a)
+%]a]
+%}a}
+%>a>
+%`a`
+%~a~
+%_a_
+%#a#
+
+---
+
+(program (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string))
+
+===========================================
+percent Q string with unbalanced delimiters
+===========================================
+
+%Q=a=
+%Q!a!
+%Q@a@
+%Q$a$
+%Q%a%
+%Q^a^
+%Q&a&
+%Q*a*
+%Q-a-
+%Q+a+
+%Q/a/
+%Q|a|
+%Q?a?
+%Q\a\
+%Q.a.
+%Q,a,
+%Q:a:
+%Q;a;
+%Q'a'
+%Q"a"
+%Q)a)
+%Q]a]
+%Q}a}
+%Q>a>
+%Q`a`
+%Q~a~
+%Q_a_
+%Q#a#
+
+---
+
+(program (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string))
+
+=========================================
+percent string with balanced delimiters
+=========================================
+
+%<a<b>c>
+%{a{b}c}
+%[a[b]c]
+%(a(b)c)
+
+---
+
+(program (string) (string) (string) (string))
+
+=========================================
+percent Q string with balanced delimiters
+=========================================
+
+%Q<a<b>c>
+%Q{a{b}c}
+%Q[a[b]c]
+%Q(a(b)c)
+
+---
+
+(program (string) (string) (string) (string))
+
+===============
+string chaining
+===============
+
+%q{a} "b" "c"
+
+---
+
+(program (string))
+
+==================
+backticks subshell
+==================
+
+`/usr/bin/env test blah blah`
+
+---
+
+(program (subshell))
+
+==============================
+backticks subshell with escape
+==============================
+
+`/usr/bin/env test blah \`blah\``
+
+---
+
+(program (subshell))
+
+===========
+empty array
+===========
+
+[]
+
+---
+
+(program (array))
+
+=====
+array
+=====
+
+[ foo, bar ]
+
+---
+
+(program (array (identifier) (identifier)))
+
+=========================
+array with trailing comma
+=========================
+
+[ foo, ]
+
+---
+
+(program (array (identifier)))
+
+=====================
+empty percent w array
+=====================
+
+%w()
+
+---
+
+(program (array))
+
+===============
+percent w array
+===============
+
+%w(word word)
+
+---
+
+(program (array))
+
+==========================
+unbalanced percent w array
+==========================
+
+%w|one two|
+
+---
+
+(program (array))
+
+===================================
+percent W array with interpolations
+===================================
+
+%W(a #{b} c)
+
+---
+
+(program (array (interpolation (identifier))))
+
+=====================
+empty percent i array
+=====================
+
+%i()
+
+---
+
+(program (array))
+
+===============
+percent i array
+===============
+
+%i(word word)
+
+---
+
+(program (array))
+
+==========================
+unbalanced percent i array
+==========================
+
+%i|one two|
+
+---
+
+(program (array))
+
+=============================
+percent I array with captures
+=============================
+
+%I(a #{b} c)
+
+---
+
+(program (array (interpolation (identifier))))
+
+==========
+empty hash
+==========
+
+{}
+
+---
+
+(program (hash))
+
+=========================
+hash with expression keys
+=========================
+
+{ "a" => 1, "b" => 2 }
+
+---
+
+(program (hash (pair (string) (integer)) (pair (string) (integer))))
+
+======================
+hash with keyword keys
+======================
+
+{ a: 1, b: 2 }
+
+---
+
+(program (hash (pair (identifier) (integer)) (pair (identifier) (integer))))
+
+========================
+hash with trailing comma
+========================
+
+{ a: 1, }
+
+---
+
+(program (hash (pair (identifier) (integer))))
+
+==================
+regular expression
+==================
+
+/^(foo|bar[^_])$/i
+
+---
+
+(program (regex))
+
+=====================================
+regular expression with interpolation
+=====================================
+
+/word#{foo}word/
+
+---
+
+(program (regex (interpolation (identifier))))
+
+=======================================================
+percent r regular expression with unbalanced delimiters
+=======================================================
+
+%r=a=
+%r!a!
+%r@a@
+%r$a$
+%r%a%
+%r^a^
+%r&a&
+%r*a*
+%r-a-
+%r+a+
+%r/a/
+%r|a|
+%r?a?
+%r\a\
+%r.a.
+%r,a,
+%r:a:
+%r;a;
+%r'a'
+%r"a"
+%r)a)
+%r]a]
+%r}a}
+%r>a>
+%r`a`
+%r~a~
+%r_a_
+%r#a#
+
+---
+
+(program (regex) (regex) (regex) (regex) (regex) (regex) (regex) (regex) (regex) (regex) (regex) (regex) (regex) (regex) (regex) (regex) (regex) (regex) (regex) (regex) (regex) (regex) (regex) (regex) (regex) (regex) (regex) (regex))
+
+=====================================================
+percent r regular expression with balanced delimiters
+=====================================================
+
+%r<a<b>c>
+%r{a{b}c}
+%r[a[b]c]
+%r(a(b)c)
+
+---
+
+(program (regex) (regex) (regex) (regex))
+
+=========================================================================
+percent r regular expression with unbalanced delimiters and interpolation
+=========================================================================
+
+%r|a#{b}c|
+
+---
+
+(program (regex (interpolation (identifier))))
+
+=======================================================================
+percent r regular expression with balanced delimiters and interpolation
+=======================================================================
+
+%r[a#{b}c]
+
+---
+
+(program (regex (interpolation (identifier))))
+
+==============
+empty function
+==============
+
+-> {}
+
+---
+
+(program (function))
+
+==================
+function with body
+==================
+
+-> { foo }
+
+---
+
+(program (function (identifier)))
+
+====================
+function with an arg
+====================
+
+-> foo { 1 }
+
+---
+
+(program (function (identifier) (integer)))
+
+===========================
+function with multiple args
+===========================
+
+-> (a, b, c) {
+	1
+	2
+}
+
+---
+
+(program (function (formal_parameters (identifier) (identifier) (identifier)) (integer) (integer)))
