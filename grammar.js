@@ -91,6 +91,8 @@ module.exports = grammar({
 
     return_statement: $ => seq("return", optional($._expression)),
 
+    pattern: $ => $._statement,
+
     if_modifier: $ => seq($._statement, "if", $._expression),
     unless_modifier: $ => seq($._statement, "unless", $._expression),
     while_modifier: $ => seq($._statement, "while", $._expression),
