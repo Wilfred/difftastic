@@ -50,6 +50,7 @@ module.exports = grammar({
       $.for_statement,
       $.begin_statement,
       $.return_statement,
+      $.case_statement,
       $.if_modifier,
       $.unless_modifier,
       $.while_modifier,
