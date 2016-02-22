@@ -91,6 +91,14 @@ module.exports = grammar({
 
     return_statement: $ => seq("return", optional($._expression)),
 
+    case_statement: $ => seq(
+      "case", $._statement, $._line_break,
+      repeat($.when_block),
+      optional($.else_block),
+      "end"
+    ),
+    when_block: $ => seq("when", $.pattern, $.then_block),
+
     pattern: $ => $._statement,
 
     if_modifier: $ => seq($._statement, "if", $._expression),
