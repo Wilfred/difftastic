@@ -702,3 +702,13 @@ empty function
 ---
 
 (program (function))
+
+==================
+function with body
+==================
+
+-> { foo }
+
+---
+
+(program (function (identifier)))
