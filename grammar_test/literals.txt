@@ -620,3 +620,15 @@ percent r regular expression with unbalanced delimiters
 
 (program (regex) (regex) (regex) (regex) (regex) (regex) (regex) (regex) (regex) (regex) (regex) (regex) (regex) (regex) (regex) (regex) (regex) (regex) (regex) (regex) (regex) (regex) (regex) (regex) (regex) (regex) (regex) (regex))
 
+=====================================================
+percent r regular expression with balanced delimiters
+=====================================================
+
+%r<a<b>c>
+%r{a{b}c}
+%r[a[b]c]
+%r(a(b)c)
+
+---
+
+(program (regex) (regex) (regex) (regex))
