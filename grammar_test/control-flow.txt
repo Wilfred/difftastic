@@ -288,3 +288,15 @@ return
 ---
 
 (program (return_statement))
+
+====
+case
+====
+
+case foo
+when bar
+end
+
+---
+
+(program (case_statement (identifier) (when_block (pattern (identifier)) (then_block))))
