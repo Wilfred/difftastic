@@ -229,6 +229,7 @@ module.exports = grammar({
       $.string,
       $.subshell,
       $.array,
+      $.hash,
       $.regex
     ),
 
@@ -298,6 +299,14 @@ module.exports = grammar({
       seq(/%[WI]/, $._interpolated_brace)
     ),
     _array_items: $ => optional(seq($._expression, optional(seq(',', $._array_items)))),
+
+    hash: $ => seq('{', $._hash_items, '}'),
+    _hash_items: $ => optional(seq($.pair, optional(seq(',', $._hash_items)))),
+
+    pair: $ => seq(choice(
+      seq($._expression, '=>'),
+      seq($.identifier, ':')
+    ), $._expression),
 
     regex: $ => prec(PREC.LITERAL, choice(
       regexBody('/', '/', $.interpolation),
