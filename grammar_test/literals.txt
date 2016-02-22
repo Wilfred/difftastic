@@ -583,12 +583,40 @@ regular expression with interpolation
 
 (program (regex (interpolation (identifier))))
 
-=======================================
-unbalanced percent r regular expression
-=======================================
+=======================================================
+percent r regular expression with unbalanced delimiters
+=======================================================
 
-%r|word|
+%r=a=
+%r!a!
+%r@a@
+%r$a$
+%r%a%
+%r^a^
+%r&a&
+%r*a*
+%r-a-
+%r+a+
+%r/a/
+%r|a|
+%r?a?
+%r\a\
+%r.a.
+%r,a,
+%r:a:
+%r;a;
+%r'a'
+%r"a"
+%r)a)
+%r]a]
+%r}a}
+%r>a>
+%r`a`
+%r~a~
+%r_a_
+%r#a#
 
 ---
 
-(program (regex))
+(program (regex) (regex) (regex) (regex) (regex) (regex) (regex) (regex) (regex) (regex) (regex) (regex) (regex) (regex) (regex) (regex) (regex) (regex) (regex) (regex) (regex) (regex) (regex) (regex) (regex) (regex) (regex) (regex))
+
