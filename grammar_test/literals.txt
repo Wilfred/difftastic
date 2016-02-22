@@ -563,6 +563,16 @@ percent I array with captures
 
 (program (array (interpolation (identifier))))
 
+==========
+empty hash
+==========
+
+{}
+
+---
+
+(program (hash))
+
 ==================
 regular expression
 ==================
