@@ -34,6 +34,16 @@ module.exports = grammar({
     /[ \t\r]/
   ],
 
+  conflicts: $ => [
+    [$.function_call, $._lhs],
+    [$.argument_list, $._primary],
+    [$.argument_list, $._statement],
+    [$.argument_list],
+    [$._argument_list],
+    [$._argument_list, $._statement],
+    // [$.function_call, $.scope_resolution_expression],
+  ],
+
   rules: {
     program: $ => seq(sep($._statement, $._terminator), optional(seq('\n__END__', $.uninterpreted))),
     uninterpreted: $ => (/.*/),
@@ -131,18 +141,9 @@ module.exports = grammar({
       "end"
     ),
 
-    function_call: $ => seq(
-      $.member_access,
-      $.argument_list
-    ),
-
-    argument_list: $ => choice(
-      seq("(", commaSep($._expression), ")"),
-      commaSep1($._expression)
-    ),
-
     _expression: $ => choice(
       $._primary,
+      $.function_call,
       $.yield,
       $.and,
       $.or,
@@ -171,9 +172,22 @@ module.exports = grammar({
       $._lhs
     ),
 
-    scope_resolution_expression: $ => seq(optional($._primary), '::', $.identifier),
+    scope_resolution_expression: $ => prec.left(seq(optional($._primary), '::', $.identifier)),
     subscript_expression: $ => seq($._primary, "[", commaSep($._primary), "]"),
-    member_access: $ => seq($._primary, ".", $.identifier),
+    member_access: $ => prec.left(seq($._primary, ".", $.identifier, optional($.argument_list))),
+
+    function_call: $ => prec.left(-1, seq(
+      choice($._variable, $.scope_resolution_expression, $.member_access),
+      $.argument_list
+    )),
+
+    argument_list: $ => prec.left(choice(
+      seq("(", optional($._argument_list), ")"),
+      $._argument_list
+    )),
+
+    _argument_list: $ => prec.left(seq($._expression, optional(seq(',', $._argument_list)))),
+
     yield: $ => seq("yield", optional($._expression)),
 
     and: $ => prec.left(PREC.AND, seq($._expression, "and", $._expression)),
