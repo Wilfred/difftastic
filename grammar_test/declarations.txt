@@ -30,7 +30,7 @@ end
 
 ---
 
-(program (method_declaration (identifier) (formal_parameters (parameter))))
+(program (method_declaration (identifier) (formal_parameters (identifier))))
 
 ================================
 method with unparenthesized args
@@ -41,7 +41,7 @@ end
 
 ---
 
-(program (method_declaration (identifier) (formal_parameters (parameter))))
+(program (method_declaration (identifier) (formal_parameters (identifier))))
 
 =========================
 method with multiple args
@@ -52,7 +52,7 @@ end
 
 ---
 
-(program (method_declaration (identifier) (formal_parameters (parameter) (parameter))))
+(program (method_declaration (identifier) (formal_parameters (identifier) (identifier))))
 
 =========================================
 method with multiple unparenthesized args
@@ -63,7 +63,7 @@ end
 
 ---
 
-(program (method_declaration (identifier) (formal_parameters (parameter) (parameter))))
+(program (method_declaration (identifier) (formal_parameters (identifier) (identifier))))
 
 ===========
 empty class

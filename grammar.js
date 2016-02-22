@@ -68,9 +68,7 @@ module.exports = grammar({
       "end"
     ),
 
-    formal_parameters: $ => commaSep1($.parameter),
-
-    parameter: $ => token(seq(optional(choice("*", "&")), identifierPattern)),
+    formal_parameters: $ => commaSep1(seq(optional(choice("*", "&")), $.identifier)),
 
     class_declaration: $ => seq("class", $.identifier, optional(seq("<", sep1($.identifier, "::"))), $._terminator, sep($._statement, $._terminator), "end"),
 
@@ -324,7 +322,7 @@ module.exports = grammar({
     _regex_interpolated_paren: $ => regexBody('(', ')', $.interpolation, $._regex_interpolated_paren),
     _regex_interpolated_brace: $ => regexBody('{', '}', $.interpolation, $._regex_interpolated_brace),
 
-    function: $ => seq('->', optional(choice(seq('(', optional($.formal_parameters), ')'), $.parameter)), '{', sep($._statement, $._terminator), '}'),
+    function: $ => seq('->', optional(choice(seq('(', optional($.formal_parameters), ')'), $.identifier)), '{', sep($._statement, $._terminator), '}'),
 
     _function_name: $ => choice($.identifier, choice.apply(null, operators)),
 
