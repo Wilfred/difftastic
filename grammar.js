@@ -303,6 +303,10 @@ module.exports = grammar({
       regexBody('/', '/', $.interpolation),
       choice.apply(null, unbalancedDelimiters.split('').map(d => regexBody('%r' + d, d, $.interpolation)))
     )),
+    _regex_interpolated_angle: $ => regexBody('<', '>', $.interpolation, $._regex_interpolated_angle),
+    _regex_interpolated_bracket: $ => regexBody('[', ']', $.interpolation, $._regex_interpolated_bracket),
+    _regex_interpolated_paren: $ => regexBody('(', ')', $.interpolation, $._regex_interpolated_paren),
+    _regex_interpolated_brace: $ => regexBody('{', '}', $.interpolation, $._regex_interpolated_brace),
 
     _function_name: $ => choice($.identifier, choice.apply(null, operators)),
 
