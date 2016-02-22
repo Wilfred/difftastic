@@ -21,7 +21,7 @@ const PREC = {
   LITERAL: 100,
 };
 
-const unbalancedDelimiters = '!@#$%^&*)]}>|\\=/+-~`\'",.?:;_';
+const unbalancedDelimiters = '!@#$%^&*)]}>|\\=/+-~`\'",.?:;_'.split('');
 const identifierPattern = /[a-zA-Z_][a-zA-Z0-9_]*/;
 const operators = ['..', '|', '^', '&', '<=>', '==', '===', '=~', '>', '>=', '<', '<=', '+', '-', '*', '/', '%', '**', '<<', '>>', '~', '+@', '-@', '[]', '[]='];
 
@@ -250,11 +250,13 @@ module.exports = grammar({
       token(seq(':', choice(identifierPattern, choice.apply(null, operators)))),
       seq(":'", $._single_quoted_continuation),
       seq(':"', $._double_quoted_continuation),
-      choice.apply(null, unbalancedDelimiters.split('').map(d => stringBody('%s' + d, d))),
-      seq(/%s/, $._uninterpolated_angle),
-      seq(/%s/, $._uninterpolated_bracket),
-      seq(/%s/, $._uninterpolated_paren),
-      seq(/%s/, $._uninterpolated_brace)
+      seq('%s', choice(
+        choice.apply(null, unbalancedDelimiters.map(d => stringBody(d, d))),
+        $._uninterpolated_angle,
+        $._uninterpolated_bracket,
+        $._uninterpolated_paren,
+        $._uninterpolated_brace
+      ))
     ),
 
     integer: $ => (/0b[01](_?[01])*|0[oO]?[0-7](_?[0-7])*|(0d)?\d(_?\d)*|0x[0-9a-fA-F](_?[0-9a-fA-F])*/),
@@ -264,17 +266,22 @@ module.exports = grammar({
 
     string: $ => seq(choice(
       $._quoted_string,
-      choice.apply(null, unbalancedDelimiters.split('').map(d => stringBody(RegExp('%(Q|)\\' + d), d, $.interpolation))),
-      seq(/%Q?/, $._interpolated_angle),
-      seq(/%Q?/, $._interpolated_bracket),
-      seq(/%Q?/, $._interpolated_paren),
-      seq(/%Q?/, $._interpolated_brace),
-      choice.apply(null, unbalancedDelimiters.split('').map(d => stringBody('%q' + d, d))),
-      seq('%q', $._uninterpolated_angle),
-      seq('%q', $._uninterpolated_bracket),
-      seq('%q', $._uninterpolated_paren),
-      seq('%q', $._uninterpolated_brace)
+      seq(/%Q?/, choice(
+        choice.apply(null, unbalancedDelimiters.map(d => stringBody(d, d, $.interpolation))),
+        $._interpolated_angle,
+        $._interpolated_bracket,
+        $._interpolated_paren,
+        $._interpolated_brace
+      )),
+      seq(/%q/, choice(
+        choice.apply(null, unbalancedDelimiters.map(d => stringBody(d, d))),
+        $._uninterpolated_angle,
+        $._uninterpolated_bracket,
+        $._uninterpolated_paren,
+        $._uninterpolated_brace
+      ))
     ), repeat($._quoted_string)),
+
     _quoted_string: $ => choice(
       seq("'", $._single_quoted_continuation),
       seq('"', $._double_quoted_continuation)
@@ -294,26 +301,33 @@ module.exports = grammar({
 
     subshell: $ => choice(
       stringBody('`', '`'),
-      choice.apply(null, unbalancedDelimiters.split('').map(d => stringBody('%x' + d, d, $.interpolation))),
-      seq('%x', $._interpolated_angle),
-      seq('%x', $._interpolated_bracket),
-      seq('%x', $._interpolated_paren),
-      seq('%x', $._interpolated_brace)
+      seq('%x', choice(
+        choice.apply(null, unbalancedDelimiters.map(d => stringBody(d, d, $.interpolation))),
+        $._interpolated_angle,
+        $._interpolated_bracket,
+        $._interpolated_paren,
+        $._interpolated_brace
+      ))
     ),
 
     array: $ => choice(
       seq('[', $._array_items, ']'),
-      choice.apply(null, unbalancedDelimiters.split('').map(d => stringBody(RegExp('%[wi]\\' + d), d))),
-      seq(/%[wi]/, $._uninterpolated_angle),
-      seq(/%[wi]/, $._uninterpolated_bracket),
-      seq(/%[wi]/, $._uninterpolated_paren),
-      seq(/%[wi]/, $._uninterpolated_brace),
-      choice.apply(null, unbalancedDelimiters.split('').map(d => stringBody(RegExp('%[WI]\\' + d), d, $.interpolation))),
-      seq(/%[WI]/, $._interpolated_angle),
-      seq(/%[WI]/, $._interpolated_bracket),
-      seq(/%[WI]/, $._interpolated_paren),
-      seq(/%[WI]/, $._interpolated_brace)
+      seq(/%[wi]/, choice(
+        choice.apply(null, unbalancedDelimiters.map(d => stringBody(d, d))),
+        $._uninterpolated_angle,
+        $._uninterpolated_bracket,
+        $._uninterpolated_paren,
+        $._uninterpolated_brace
+      )),
+      seq(/%[WI]/, choice(
+        choice.apply(null, unbalancedDelimiters.map(d => stringBody(d, d, $.interpolation))),
+        $._interpolated_angle,
+        $._interpolated_bracket,
+        $._interpolated_paren,
+        $._interpolated_brace
+      ))
     ),
+
     _array_items: $ => optional(seq($._expression, optional(seq(',', $._array_items)))),
 
     hash: $ => seq('{', $._hash_items, '}'),
@@ -326,12 +340,15 @@ module.exports = grammar({
 
     regex: $ => prec(PREC.LITERAL, choice(
       regexBody('/', '/', $.interpolation),
-      choice.apply(null, unbalancedDelimiters.split('').map(d => regexBody('%r' + d, d, $.interpolation))),
-      seq('%r', $._regex_interpolated_angle),
-      seq('%r', $._regex_interpolated_bracket),
-      seq('%r', $._regex_interpolated_paren),
-      seq('%r', $._regex_interpolated_brace)
+      seq('%r', choice(
+        choice.apply(null, unbalancedDelimiters.map(d => regexBody(d, d, $.interpolation))),
+        $._regex_interpolated_angle,
+        $._regex_interpolated_bracket,
+        $._regex_interpolated_paren,
+        $._regex_interpolated_brace
+      ))
     )),
+
     _regex_interpolated_angle: $ => regexBody('<', '>', $.interpolation, $._regex_interpolated_angle),
     _regex_interpolated_bracket: $ => regexBody('[', ']', $.interpolation, $._regex_interpolated_bracket),
     _regex_interpolated_paren: $ => regexBody('(', ')', $.interpolation, $._regex_interpolated_paren),
@@ -350,7 +367,11 @@ module.exports = grammar({
 function stringBody (open, close, insert) {
   var contents = [ /\\./, RegExp('[^\\\\\\' + close + ']') ];
   if (typeof insert !== 'undefined') contents.push(insert);
-  return seq(open, repeat(choice.apply(null, contents)), token(prec(PREC.LITERAL, close)));
+  return seq(
+    (typeof open === 'string') ? token(prec(PREC.LITERAL, open)) : open,
+    repeat(choice.apply(null, contents)),
+    token(prec(PREC.LITERAL, close))
+  );
 }
 
 function balancedStringBody (me, open, close, insert) {
@@ -365,7 +386,11 @@ function regexBody (open, close, interpolation, me) {
     interpolation
   ];
   if (typeof me !== 'undefined') contents.push(me);
-  return seq(open, repeat(choice.apply(null, contents)), token(prec(PREC.LITERAL, RegExp('\\' + close + '[a-z]*'))));
+  return seq(
+    (typeof open === 'string') ? token(prec(PREC.LITERAL, open)) : open,
+    repeat(choice.apply(null, contents)),
+    token(prec(PREC.LITERAL, RegExp('\\' + close + '[a-z]*')))
+  );
 }
 
 function sep1 (rule, separator) {
