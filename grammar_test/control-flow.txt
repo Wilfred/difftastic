@@ -300,3 +300,16 @@ end
 ---
 
 (program (case_statement (identifier) (when_block (pattern (identifier)) (then_block))))
+
+==============
+case with else
+==============
+
+case foo
+when bar
+else
+end
+
+---
+
+(program (case_statement (identifier) (when_block (pattern (identifier)) (then_block)) (else_block)))
