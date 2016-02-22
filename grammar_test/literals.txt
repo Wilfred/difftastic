@@ -632,3 +632,13 @@ percent r regular expression with balanced delimiters
 ---
 
 (program (regex) (regex) (regex) (regex))
+
+=========================================================================
+percent r regular expression with unbalanced delimiters and interpolation
+=========================================================================
+
+%r|a#{b}c|
+
+---
+
+(program (regex (interpolation (identifier))))
