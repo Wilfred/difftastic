@@ -288,37 +288,10 @@ percent q string with unbalanced delimiters
 ===========================================
 
 %q=a=
-%q!a!
-%q@a@
-%q$a$
-%q%a%
-%q^a^
-%q&a&
-%q*a*
-%q-a-
-%q+a+
-%q/a/
-%q|a|
-%q?a?
-%q\a\
-%q.a.
-%q,a,
-%q:a:
-%q;a;
-%q'a'
-%q"a"
-%q)a)
-%q]a]
-%q}a}
-%q>a>
-%q`a`
-%q~a~
-%q_a_
-%q#a#
 
 ---
 
-(program (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string))
+(program (string))
 
 =========================================
 percent q string with balanced delimiters
