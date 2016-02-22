@@ -712,3 +712,13 @@ function with body
 ---
 
 (program (function (identifier)))
+
+====================
+function with an arg
+====================
+
+-> foo { 1 }
+
+---
+
+(program (function (identifier) (integer)))
