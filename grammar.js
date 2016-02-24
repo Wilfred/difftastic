@@ -18,11 +18,12 @@ const PREC = {
   UNARY_MINUS: 75,
   EXPONENTIAL: 80,
   COMPLEMENT: 85,
+  UNARY_PLUS: 85,
   LITERAL: 100,
 };
 
 const unbalancedDelimiters = '!@#$%^&*)]}>|\\=/+-~`\'",.?:;_'.split('');
-const identifierPattern = /[a-zA-Z_][a-zA-Z0-9_]*/;
+const identifierPattern = /[a-zA-Z_][a-zA-Z0-9_]*\??/;
 const operators = ['..', '|', '^', '&', '<=>', '==', '===', '=~', '>', '>=', '<', '<=', '+', '-', '*', '/', '%', '**', '<<', '>>', '~', '+@', '-@', '[]', '[]='];
 
 module.exports = grammar({
@@ -34,13 +35,23 @@ module.exports = grammar({
     /[ \t\r]/
   ],
 
+  conflicts: $ => [
+    [$.function_call, $._lhs],
+    [$.argument_list, $._primary],
+    [$.argument_list, $._statement],
+    [$.argument_list],
+    [$._argument_list],
+    [$._argument_list, $._statement],
+    // [$.function_call, $.scope_resolution_expression],
+  ],
+
   rules: {
     program: $ => seq(sep($._statement, $._terminator), optional(seq('\n__END__', $.uninterpreted))),
     uninterpreted: $ => (/.*/),
 
     _statement: $ => choice(
       $._declaration,
-      seq($._call, "do", optional("|", commaSep($._block_variable), "|"), sep($._statement, $._terminator), "end"),
+      // seq($._call, "do", optional("|", commaSep($._block_variable), "|"), sep($._statement, $._terminator), "end"),
       seq("undef", $._function_name),
       seq("alias", $._function_name, $._function_name),
       $.while_statement,
@@ -117,7 +128,7 @@ module.exports = grammar({
 
     then_block: $ => seq(choice("then", $._terminator), sep($._statement, $._terminator)),
     else_block: $ => seq("else", sep($._statement, $._terminator)),
-    rescue_block: $ => seq("rescue", commaSep($._argument), choice("do", $._terminator), sep($._statement, $._terminator)),
+    rescue_block: $ => seq("rescue", commaSep($._primary), choice("do", $._terminator), sep($._statement, $._terminator)),
     ensure_block: $ => seq("ensure", sep($._statement, $._terminator)),
 
     _then_else_block: $ => seq($.then_block, optional($.else_block), "end"),
@@ -131,20 +142,9 @@ module.exports = grammar({
       "end"
     ),
 
-    _call: $ => choice($._function_call, $._command),
-
-    _call_arguments: $ => choice(
-      commaSep1($._argument),
-      $._command
-    ),
-
-    _command: $ => choice(
-      seq("super", $._call_arguments)
-    ),
-    _function_call: $ => choice("super"),
-
     _expression: $ => choice(
-      $._argument,
+      $._primary,
+      $.function_call,
       $.yield,
       $.and,
       $.or,
@@ -168,16 +168,27 @@ module.exports = grammar({
       $._literal
     ),
 
-    _argument: $ => choice($._primary),
-
     _primary: $ => choice(
       seq("(", sep($._statement, $._terminator), ")"),
       $._lhs
     ),
 
-    scope_resolution_expression: $ => seq(optional($._primary), '::', $.identifier),
-    subscript_expression: $ => seq($._primary, "[", commaSep($._argument), "]"),
-    member_access: $ => seq($._primary, ".", $.identifier),
+    scope_resolution_expression: $ => prec.left(seq(optional($._primary), '::', $.identifier)),
+    subscript_expression: $ => prec.left(seq($._primary, "[", commaSep($._primary), "]")),
+    member_access: $ => prec.left(seq($._primary, ".", $.identifier)),
+
+    function_call: $ => prec.left(-1, seq(
+      choice($._variable, $.scope_resolution_expression, $.member_access),
+      $.argument_list
+    )),
+
+    argument_list: $ => prec.left(choice(
+      seq("(", optional($._argument_list), ")"),
+      $._argument_list
+    )),
+
+    _argument_list: $ => prec.left(seq($._expression, optional(seq(',', $._argument_list)))),
+
     yield: $ => seq("yield", optional($._expression)),
 
     and: $ => prec.left(PREC.AND, seq($._expression, "and", $._expression)),
@@ -205,7 +216,8 @@ module.exports = grammar({
 
     exponential: $ => prec.right(PREC.EXPONENTIAL, seq($._expression, '**', $._expression)),
 
-    complement: $ => prec.right(PREC.COMPLEMENT, seq(choice('!', '~', '+'), $._expression)),
+    unary_plus: $ => prec.right(PREC.UNARY_PLUS, seq('+', $._expression)),
+    complement: $ => prec.right(PREC.COMPLEMENT, seq(choice('!', '~'), $._expression)),
 
     _block_variable: $ => choice($._lhs, $._mlhs),
     _mlhs: $ => choice(

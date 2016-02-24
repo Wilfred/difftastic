@@ -267,3 +267,23 @@ complement
 ---
 
 (program (complement (identifier)))
+
+===============================
+function call with empty parens
+===============================
+
+foo()
+
+---
+
+(program (function_call (identifier) (argument_list)))
+
+============================
+function call without parens
+============================
+
+include D::E.f
+
+---
+
+(program (function_call (identifier) (argument_list (member_access (scope_resolution_expression (identifier) (identifier)) (identifier)))))

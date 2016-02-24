@@ -146,3 +146,36 @@ word
 ---
 
 (program (identifier) (uninterpreted))
+
+==============================
+module with class with methods
+==============================
+
+module A
+  class B < C
+    include D::E.f.g
+
+    attr_reader :h
+
+    # i
+    def j
+      k
+    end
+  end
+end
+
+---
+
+(program (module_declaration (identifier)
+  (class_declaration (identifier) (identifier)
+    (function_call (identifier) (argument_list
+      (member_access
+        (member_access
+          (scope_resolution_expression (identifier) (identifier))
+          (identifier))
+        (identifier))))
+
+    (function_call (identifier) (argument_list (symbol)))
+
+    (comment)
+    (method_declaration (identifier) (identifier)))))
