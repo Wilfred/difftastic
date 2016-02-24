@@ -23,7 +23,7 @@ const PREC = {
 };
 
 const unbalancedDelimiters = '!@#$%^&*)]}>|\\=/+-~`\'",.?:;_'.split('');
-const identifierPattern = /[a-zA-Z_][a-zA-Z0-9_]*/;
+const identifierPattern = /[a-zA-Z_][a-zA-Z0-9_]*\??/;
 const operators = ['..', '|', '^', '&', '<=>', '==', '===', '=~', '>', '>=', '<', '<=', '+', '-', '*', '/', '%', '**', '<<', '>>', '~', '+@', '-@', '[]', '[]='];
 
 module.exports = grammar({
