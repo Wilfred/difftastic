@@ -18,6 +18,7 @@ const PREC = {
   UNARY_MINUS: 75,
   EXPONENTIAL: 80,
   COMPLEMENT: 85,
+  UNARY_PLUS: 85,
   LITERAL: 100,
 };
 
@@ -215,7 +216,8 @@ module.exports = grammar({
 
     exponential: $ => prec.right(PREC.EXPONENTIAL, seq($._expression, '**', $._expression)),
 
-    complement: $ => prec.right(PREC.COMPLEMENT, seq(choice('!', '~', '+'), $._expression)),
+    unary_plus: $ => prec.right(PREC.UNARY_PLUS, seq('+', $._expression)),
+    complement: $ => prec.right(PREC.COMPLEMENT, seq(choice('!', '~'), $._expression)),
 
     _block_variable: $ => choice($._lhs, $._mlhs),
     _mlhs: $ => choice(
