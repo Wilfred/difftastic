@@ -276,7 +276,7 @@ foo()
 
 ---
 
-(program (member_access (identifier) (argument_list)))
+(program (function_call (identifier) (argument_list)))
 
 ============================
 function call without parens
