@@ -173,7 +173,7 @@ module.exports = grammar({
     ),
 
     scope_resolution_expression: $ => prec.left(seq(optional($._primary), '::', $.identifier)),
-    subscript_expression: $ => seq($._primary, "[", commaSep($._primary), "]"),
+    subscript_expression: $ => prec.left(seq($._primary, "[", commaSep($._primary), "]")),
     member_access: $ => prec.left(seq($._primary, ".", $.identifier)),
 
     function_call: $ => prec.left(-1, seq(
