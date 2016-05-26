@@ -34,7 +34,18 @@ module.exports = grammar({
   ],
 
   rules: {
-    program: $ => repeat($._statement),
+    program: $ => optional($._statements),
+
+    _statements: $ => choice(
+      seq($._statement, optional($._statements)),
+      choice(
+        $.trailing_break_statement,
+        $.trailing_yield_statement,
+        $.trailing_throw_statement,
+        $.trailing_return_statement,
+        $.trailing_expression_statement
+      )
+    ),
 
     //
     // Statements
@@ -64,6 +75,10 @@ module.exports = grammar({
       err(choice($._expression, $.comma_op)), terminator()
     ),
 
+    trailing_expression_statement: $ => seq(
+      choice($._expression, $.comma_op)
+    ),
+
     var_declaration: $ => seq(
       variableType(),
       commaSep1(err(choice(
@@ -74,7 +89,7 @@ module.exports = grammar({
     ),
 
     statement_block: $ => seq(
-      '{', err(repeat($._statement)), '}'
+      '{', err(optional($._statements)), '}'
     ),
 
     if_statement: $ => prec.right(seq(
@@ -155,10 +170,17 @@ module.exports = grammar({
       terminator()
     ),
 
+    trailing_break_statement: $ => 'break',
+
     return_statement: $ => seq(
       'return',
       optional($._expression),
       terminator()
+    ),
+
+    trailing_return_statement: $ => seq(
+      'return',
+      optional($._expression)
     ),
 
     yield_statement: $ => seq(
@@ -167,10 +189,20 @@ module.exports = grammar({
       terminator()
     ),
 
+    trailing_yield_statement: $ => seq(
+      'yield',
+      optional($._expression)
+    ),
+
     throw_statement: $ => seq(
       'throw',
       $._expression,
       terminator()
+    ),
+
+    trailing_throw_statement: $ => seq(
+      'throw',
+      $._expression
     ),
 
     //
@@ -181,13 +213,13 @@ module.exports = grammar({
       'case',
       $._expression,
       ':',
-      repeat($._statement)
+      optional($._statements)
     ),
 
     default: $ => seq(
       'default',
       ':',
-      repeat($._statement)
+      optional($._statements)
     ),
 
     catch: $ => seq(
