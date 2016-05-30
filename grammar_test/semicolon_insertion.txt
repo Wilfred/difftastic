@@ -26,3 +26,20 @@ indented code after blocks
   (expression_statement
     (function (identifier) (statement_block)))
   (return_statement (identifier)))
+
+===========================================
+single-line blocks without semicolons
+===========================================
+
+function a() {b}
+function c() {return d}
+
+---
+
+(program
+  (expression_statement
+    (function (identifier) (statement_block
+      (trailing_expression_statement (identifier)))))
+  (expression_statement
+    (function (identifier) (statement_block
+      (trailing_return_statement (identifier))))))
