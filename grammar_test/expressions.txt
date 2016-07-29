@@ -127,7 +127,13 @@ Objects with method definitions
 
   add(a, b) {
     return a + b;
-  }
+  },
+
+	get bar() { return c; },
+
+	set bar(a) { c = a; },
+
+	*barGenerator() { yield c; }
 };
 
 ---
@@ -139,7 +145,17 @@ Objects with method definitions
       (identifier)
       (formal_parameters (identifier) (identifier))
       (statement_block
-        (return_statement (math_op (identifier) (identifier))))))))
+        (return_statement (math_op (identifier) (identifier)))))
+    (method_definition
+      (identifier)
+      (statement_block
+			  (return_statement (identifier))))
+		(method_definition
+		  (identifier)
+			(formal_parameters (identifier))
+			(statement_block
+			  (expression_statement (assignment (identifier) (identifier)))))
+		(method_definition (identifier) (statement_block (yield_statement (identifier)))))))
 
 ============================================
 Classes
