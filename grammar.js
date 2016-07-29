@@ -486,6 +486,7 @@ module.exports = grammar({
     class_body: $ => seq(
       '{',
       repeat(seq(
+	    optional('static'),
         $.method_definition,
         optional(';')
       )),
@@ -495,7 +496,7 @@ module.exports = grammar({
     formal_parameters: $ => commaSep1($.identifier),
 
     method_definition: $ => seq(
-      optional('static'),
+	  optional(choice('get', 'set', '*')),
       $.identifier,
       '(',
       optional($.formal_parameters),
