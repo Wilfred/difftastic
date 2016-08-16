@@ -129,11 +129,11 @@ Objects with method definitions
     return a + b;
   },
 
-	get bar() { return c; },
+  get bar() { return c; },
 
-	set bar(a) { c = a; },
+  set bar(a) { c = a; },
 
-	*barGenerator() { yield c; }
+  *barGenerator() { yield c; }
 };
 
 ---
@@ -149,13 +149,33 @@ Objects with method definitions
     (method_definition
       (identifier)
       (statement_block
-			  (return_statement (identifier))))
-		(method_definition
-		  (identifier)
-			(formal_parameters (identifier))
-			(statement_block
-			  (expression_statement (assignment (identifier) (identifier)))))
-		(method_definition (identifier) (statement_block (yield_statement (identifier)))))))
+        (return_statement (identifier))))
+    (method_definition
+      (identifier)
+      (formal_parameters (identifier))
+      (statement_block
+        (expression_statement (assignment (identifier) (identifier)))))
+    (method_definition (identifier) (statement_block (yield_statement (identifier)))))))
+
+============================================
+Objects with reserved words for keys
+============================================
+
+{
+  get: function () {},
+
+  set: function () {},
+
+  static: true
+};
+
+---
+
+(program
+  (expression_statement (object
+    (pair (identifier) (function (statement_block)))
+    (pair (identifier) (function (statement_block)))
+    (pair (identifier) (true)))))
 
 ============================================
 Classes
@@ -327,7 +347,7 @@ Chained callbacks
 ============================================
 
 return this.map(function (a) {
-	return a.b;
+  return a.b;
 })
 // a comment
 .filter(function (c) {
