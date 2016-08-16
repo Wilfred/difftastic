@@ -21,6 +21,6 @@
   },
   "scripts": {
     "prepublish": "tree-sitter compile && node-gyp build",
-    "test": "tree-sitter test"
+    "test": "tree-sitter test && tree-sitter parse benchmarks/jquery.js"
   }
 }
