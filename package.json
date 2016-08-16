@@ -14,7 +14,7 @@
     "nan": "2.1.0"
   },
   "devDependencies": {
-    "tree-sitter-compiler": ">= 0.0.30"
+    "tree-sitter-compiler": ">= 0.0.45"
   },
   "scripts": {
     "prepublish": "tree-sitter compile && node-gyp build",
