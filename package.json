@@ -11,7 +11,7 @@
   "license": "MIT",
   "dependencies": {
     "bindings": "1.2.x",
-    "nan": "2.1.0"
+    "nan": "^2.4.0"
   },
   "devDependencies": {
     "tree-sitter-compiler": ">= 0.0.45"
