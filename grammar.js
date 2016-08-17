@@ -193,7 +193,8 @@ module.exports = grammar({
       $.identifier,
       $.qualified_identifier,
       $.array_type,
-      $.slice_type
+      $.slice_type,
+      $.struct_type
     ),
 
     array_type: $ => seq(
@@ -207,6 +208,21 @@ module.exports = grammar({
       '[',
       ']',
       $._type
+    ),
+
+    struct_type: $ => seq(
+      'struct',
+      '{',
+      repeat(seq($.field_declaration, terminator)),
+      '}'
+    ),
+
+    field_declaration: $ => seq(
+      choice(
+        seq($.identifier_list, $._type),
+        seq(optional('*'), $.identifier)
+      ),
+      optional($._string_literal)
     ),
 
     qualified_identifier: $ => seq(
@@ -253,13 +269,13 @@ module.exports = grammar({
 
     raw_string_literal: $ => token(seq(
       '`',
-      repeat(choice(unicodeChar, newline)),
+      repeat(/[^`\n]/),
       '`'
     )),
 
     interpreted_string_literal: $ => token(seq(
       '"',
-      repeat(choice(unicodeValue, byteValue)),
+      repeat(/[^"\n]/),
       '"'
     )),
 

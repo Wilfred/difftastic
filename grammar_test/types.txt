@@ -55,3 +55,51 @@ type b [][]d
     (type_spec
       (identifier)
       (slice_type (slice_type (identifier))))))
+
+============================================
+Struct types
+============================================
+
+package main
+
+type s1 struct {}
+
+type s2 struct {
+  f, g int
+}
+
+type s3 struct {
+  // an embedded struct
+  s1
+
+  // a tag
+  h int `json:"h"`
+}
+
+---
+
+(source_file
+  (package_clause (identifier))
+  (type_declaration
+    (type_spec
+      (identifier)
+      (struct_type)))
+  (type_declaration
+    (type_spec
+      (identifier)
+      (struct_type
+        (field_declaration
+          (identifier_list (identifier) (identifier))
+          (identifier)))))
+  (type_declaration
+    (type_spec
+      (identifier)
+      (struct_type
+        (comment)
+        (field_declaration
+          (identifier))
+        (comment)
+        (field_declaration
+          (identifier_list (identifier))
+          (identifier)
+          (raw_string_literal))))))
