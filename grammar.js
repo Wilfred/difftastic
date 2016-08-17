@@ -116,7 +116,31 @@ module.exports = grammar({
       )
     ),
 
-    function_declaration: $ => NOT_IMPLEMENTED,
+    function_declaration: $ => seq(
+      'func',
+      $.identifier,
+      $.parameters,
+      optional(choice($.parameters, $._type)),
+      optional($.block)
+    ),
+
+    parameters: $ => seq(
+      '(',
+      optional($._parameter_list),
+      ')'
+    ),
+
+    _parameter_list: $ => commaSepTrailing($._parameter_list, choice(
+      $.identifier,
+      $.parameter_declaration
+    )),
+
+    parameter_declaration: $ => seq(
+      $.identifier,
+      $._type
+    ),
+
+    block: $ => seq('{', '}'),
 
     method_declaration: $ => NOT_IMPLEMENTED,
 
@@ -188,3 +212,7 @@ module.exports = grammar({
     ))
   }
 })
+
+function commaSepTrailing (recurSymbol, rule) {
+  return choice(rule, seq(recurSymbol, ',', rule))
+}

@@ -155,3 +155,44 @@ var (
     (var_spec
       (identifier_list (identifier))
       (expression_list (int_literal)))))
+
+============================================
+Function declarations
+============================================
+
+package main
+
+func f1() {}
+func f2(a int, b, c, d string) int {}
+func f2() (int, error) {}
+func f2() (result int, err error) {}
+
+---
+
+(source_file
+  (package_clause (identifier))
+  (function_declaration
+    (identifier)
+    (parameters)
+    (block))
+  (function_declaration
+    (identifier)
+    (parameters
+      (parameter_declaration (identifier) (identifier))
+      (identifier)
+      (identifier)
+      (parameter_declaration (identifier) (identifier)))
+    (identifier)
+    (block))
+  (function_declaration
+    (identifier)
+    (parameters)
+    (parameters (identifier) (identifier))
+    (block))
+  (function_declaration
+    (identifier)
+    (parameters)
+    (parameters
+      (parameter_declaration (identifier) (identifier))
+      (parameter_declaration (identifier) (identifier)))
+    (block)))
