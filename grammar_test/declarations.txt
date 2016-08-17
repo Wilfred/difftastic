@@ -1,0 +1,68 @@
+============================================
+Single const declarations without types
+============================================
+
+package main
+
+const zero = 0
+const one, two = 1, 2
+const three, four, five = 3, 4, 5
+
+----
+
+(source_file
+  (package_clause (identifier))
+  (const_declaration (const_spec
+    (identifier_list (identifier))
+    (expression_list (int_literal))))
+  (const_declaration (const_spec
+    (identifier_list (identifier) (identifier))
+    (expression_list (int_literal) (int_literal))))
+  (const_declaration (const_spec
+    (identifier_list (identifier) (identifier) (identifier))
+    (expression_list (int_literal) (int_literal) (int_literal)))))
+
+============================================
+Single const declarations with types
+============================================
+
+package main
+
+const zero int = 0
+const one, two uint64 = 1, 2
+
+----
+
+(source_file
+  (package_clause (identifier))
+  (const_declaration (const_spec
+    (identifier_list (identifier))
+    (identifier)
+    (expression_list (int_literal))))
+  (const_declaration (const_spec
+    (identifier_list (identifier) (identifier))
+    (identifier)
+    (expression_list (int_literal) (int_literal)))))
+
+============================================
+Grouped const declarations
+============================================
+
+package main
+
+const (
+  zero = 0
+  one = 1
+)
+
+----
+
+(source_file
+  (package_clause (identifier))
+  (const_declaration
+    (const_spec
+      (identifier_list (identifier))
+      (expression_list (int_literal)))
+    (const_spec
+      (identifier_list (identifier))
+      (expression_list (int_literal)))))

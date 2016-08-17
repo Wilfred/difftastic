@@ -1,0 +1,49 @@
+============================================
+Package clauses
+============================================
+
+package main
+
+----
+
+(source_file
+  (package_clause (identifier)))
+
+============================================
+Single import declarations
+============================================
+
+package a
+
+import "net/http"
+import . "some/dsl"
+import alias "some/package"
+
+----
+
+(source_file
+  (package_clause (identifier))
+  (import_declaration (import_spec (interpreted_string_literal)))
+  (import_declaration (import_spec (interpreted_string_literal)))
+  (import_declaration (import_spec (identifier) (interpreted_string_literal))))
+
+============================================
+Grouped import declarations
+============================================
+
+package a
+
+import (
+  "net/http"
+  . "some/dsl"
+  alias "some/package"
+)
+
+----
+
+(source_file
+  (package_clause (identifier))
+  (import_declaration
+    (import_spec (interpreted_string_literal))
+    (import_spec (interpreted_string_literal))
+    (import_spec (identifier) (interpreted_string_literal))))
