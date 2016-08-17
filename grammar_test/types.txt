@@ -103,3 +103,20 @@ type s3 struct {
           (identifier_list (identifier))
           (identifier)
           (raw_string_literal))))))
+
+============================================
+Map types
+============================================
+
+package main
+
+type m1 map[string]error
+
+---
+
+(source_file
+  (package_clause (identifier))
+  (type_declaration
+    (type_spec
+      (identifier)
+      (map_type (identifier) (identifier)))))

@@ -194,7 +194,8 @@ module.exports = grammar({
       $.qualified_identifier,
       $.array_type,
       $.slice_type,
-      $.struct_type
+      $.struct_type,
+      $.map_type
     ),
 
     array_type: $ => seq(
@@ -223,6 +224,14 @@ module.exports = grammar({
         seq(optional('*'), $.identifier)
       ),
       optional($._string_literal)
+    ),
+
+    map_type: $ => seq(
+      'map',
+      '[',
+      $._type,
+      ']',
+      $._type
     ),
 
     qualified_identifier: $ => seq(
