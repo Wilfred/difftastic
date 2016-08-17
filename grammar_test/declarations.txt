@@ -217,3 +217,25 @@ func (self Person) Equals(other Person) bool {}
       (parameter_declaration (identifier) (identifier)))
     (identifier)
     (block)))
+
+============================================
+Type declarations
+============================================
+
+package main
+
+type a b
+type (
+  a b
+  c d
+)
+
+---
+
+(source_file
+  (package_clause (identifier))
+  (type_declaration
+    (type_spec (identifier) (identifier)))
+  (type_declaration
+    (type_spec (identifier) (identifier))
+    (type_spec (identifier) (identifier))))

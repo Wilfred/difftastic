@@ -151,7 +151,19 @@ module.exports = grammar({
 
     block: $ => seq('{', '}'),
 
-    type_declaration: $ => NOT_IMPLEMENTED,
+    type_declaration: $ => seq(
+      'type',
+      choice(
+        $.type_spec,
+        seq(
+          '(',
+          repeat(seq($.type_spec, terminator)),
+          ')'
+        )
+      )
+    ),
+
+    type_spec: $ => seq($.identifier, $._type),
 
     identifier_list: $ => seq(
       $.identifier,
