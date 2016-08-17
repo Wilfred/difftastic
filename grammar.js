@@ -93,13 +93,34 @@ module.exports = grammar({
       $.expression_list
     ),
 
+    var_declaration: $ => seq(
+      'var',
+      choice(
+        $.var_spec,
+        seq(
+          '(',
+          repeat(seq($.var_spec, terminator)),
+          ')'
+        )
+      )
+    ),
+
+    var_spec: $ => seq(
+      $.identifier_list,
+      choice(
+        seq(
+          $._type,
+          optional(seq('=', $.expression_list))
+        ),
+        seq('=', $.expression_list)
+      )
+    ),
+
     function_declaration: $ => NOT_IMPLEMENTED,
 
     method_declaration: $ => NOT_IMPLEMENTED,
 
     type_declaration: $ => NOT_IMPLEMENTED,
-
-    var_declaration: $ => NOT_IMPLEMENTED,
 
     identifier_list: $ => seq(
       $.identifier,

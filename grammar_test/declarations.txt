@@ -66,3 +66,92 @@ const (
     (const_spec
       (identifier_list (identifier))
       (expression_list (int_literal)))))
+
+============================================
+Var declarations without types
+============================================
+
+package main
+
+var zero = 0
+var one, two = 1, 2
+var three, four, five = 3, 4, 5
+
+----
+
+(source_file
+  (package_clause (identifier))
+  (var_declaration (var_spec
+    (identifier_list (identifier))
+    (expression_list (int_literal))))
+  (var_declaration (var_spec
+    (identifier_list (identifier) (identifier))
+    (expression_list (int_literal) (int_literal))))
+  (var_declaration (var_spec
+    (identifier_list (identifier) (identifier) (identifier))
+    (expression_list (int_literal) (int_literal) (int_literal)))))
+
+============================================
+Var declarations with types
+============================================
+
+package main
+
+var zero int = 0
+var one, two uint64 = 1, 2
+
+----
+
+(source_file
+  (package_clause (identifier))
+  (var_declaration (var_spec
+    (identifier_list (identifier))
+    (identifier)
+    (expression_list (int_literal))))
+  (var_declaration (var_spec
+    (identifier_list (identifier) (identifier))
+    (identifier)
+    (expression_list (int_literal) (int_literal)))))
+
+============================================
+Var declarations with no expressions
+============================================
+
+package main
+
+var zero int
+var one, two uint64
+
+----
+
+(source_file
+  (package_clause (identifier))
+  (var_declaration (var_spec
+    (identifier_list (identifier))
+    (identifier)))
+  (var_declaration (var_spec
+    (identifier_list (identifier) (identifier))
+    (identifier))))
+
+============================================
+Grouped var declarations
+============================================
+
+package main
+
+var (
+  zero = 0
+  one = 1
+)
+
+----
+
+(source_file
+  (package_clause (identifier))
+  (var_declaration
+    (var_spec
+      (identifier_list (identifier))
+      (expression_list (int_literal)))
+    (var_spec
+      (identifier_list (identifier))
+      (expression_list (int_literal)))))
