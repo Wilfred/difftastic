@@ -124,6 +124,15 @@ module.exports = grammar({
       optional($.block)
     ),
 
+    method_declaration: $ => seq(
+      'func',
+      $.parameters,
+      $.identifier,
+      $.parameters,
+      optional(choice($.parameters, $._type)),
+      optional($.block)
+    ),
+
     parameters: $ => seq(
       '(',
       optional($._parameter_list),
@@ -141,8 +150,6 @@ module.exports = grammar({
     ),
 
     block: $ => seq('{', '}'),
-
-    method_declaration: $ => NOT_IMPLEMENTED,
 
     type_declaration: $ => NOT_IMPLEMENTED,
 

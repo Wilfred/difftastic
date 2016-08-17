@@ -196,3 +196,24 @@ func f2() (result int, err error) {}
       (parameter_declaration (identifier) (identifier))
       (parameter_declaration (identifier) (identifier)))
     (block)))
+
+============================================
+Method declarations
+============================================
+
+package main
+
+func (self Person) Equals(other Person) bool {}
+
+---
+
+(source_file
+  (package_clause (identifier))
+  (method_declaration
+    (parameters
+      (parameter_declaration (identifier) (identifier)))
+    (identifier)
+    (parameters
+      (parameter_declaration (identifier) (identifier)))
+    (identifier)
+    (block)))
