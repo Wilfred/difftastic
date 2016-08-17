@@ -192,9 +192,10 @@ module.exports = grammar({
     _type: $ => choice(
       $.identifier,
       $.qualified_identifier,
+      $.struct_type,
+      $.interface_type,
       $.array_type,
       $.slice_type,
-      $.struct_type,
       $.map_type
     ),
 
@@ -224,6 +225,22 @@ module.exports = grammar({
         seq(optional('*'), $.identifier)
       ),
       optional($._string_literal)
+    ),
+
+    interface_type: $ => seq(
+      'interface',
+      '{',
+      repeat(seq(
+        choice($.identifier, $.method_spec),
+        terminator
+      )),
+      '}'
+    ),
+
+    method_spec: $ => seq(
+      $.identifier,
+      $.parameters,
+      optional(choice($.parameters, $._type))
     ),
 
     map_type: $ => seq(

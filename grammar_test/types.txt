@@ -105,6 +105,35 @@ type s3 struct {
           (raw_string_literal))))))
 
 ============================================
+Interface types
+============================================
+
+package main
+
+type i1 interface {}
+
+type i2 interface {
+  i1
+  SomeMethod(s string) error
+}
+
+---
+
+(source_file
+  (package_clause (identifier))
+  (type_declaration (type_spec
+    (identifier)
+    (interface_type)))
+  (type_declaration (type_spec
+    (identifier)
+    (interface_type
+      (identifier)
+      (method_spec
+        (identifier)
+        (parameters (parameter_declaration (identifier) (identifier)))
+        (identifier))))))
+
+============================================
 Map types
 ============================================
 
