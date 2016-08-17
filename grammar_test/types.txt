@@ -1,0 +1,57 @@
+============================================
+Qualified type names
+============================================
+
+package main
+
+type a b.c
+
+---
+
+(source_file
+  (package_clause (identifier))
+  (type_declaration
+    (type_spec
+      (identifier)
+      (qualified_identifier (identifier) (identifier)))))
+
+============================================
+Array types
+============================================
+
+package main
+
+type a [2+2]c
+
+---
+
+(source_file
+  (package_clause (identifier))
+  (type_declaration
+    (type_spec
+      (identifier)
+      (array_type
+        (binary_expression (int_literal) (int_literal))
+        (identifier)))))
+
+============================================
+Slice types
+============================================
+
+package main
+
+type a []c
+type b [][]d
+
+---
+
+(source_file
+  (package_clause (identifier))
+  (type_declaration
+    (type_spec
+      (identifier)
+      (slice_type (identifier))))
+  (type_declaration
+    (type_spec
+      (identifier)
+      (slice_type (slice_type (identifier))))))

@@ -1,4 +1,18 @@
 const
+  PREC = {
+    multiplicative: 5,
+    additive: 4,
+    comparative: 3,
+    and: 2,
+    or: 1
+  },
+
+  multiplicative_operator = choice('*', '/', '%', '<<', '>>', '&', '&^'),
+  additive_operator = choice('+', '-', '|', '^'),
+  comparative_operator = choice('==', '!=', '<', '<=', '>', '>='),
+  and_operator = '&&',
+  or_operator = '||',
+
   unicodeLetter = /[a-zA-Z]/,
   unicodeDigit = /[0-9]/,
   unicodeChar = /./,
@@ -176,6 +190,28 @@ module.exports = grammar({
     ),
 
     _type: $ => choice(
+      $.identifier,
+      $.qualified_identifier,
+      $.array_type,
+      $.slice_type
+    ),
+
+    array_type: $ => seq(
+      '[',
+      $._expression,
+      ']',
+      $._type
+    ),
+
+    slice_type: $ => seq(
+      '[',
+      ']',
+      $._type
+    ),
+
+    qualified_identifier: $ => seq(
+      $.identifier,
+      '.',
       $.identifier
     ),
 
@@ -187,7 +223,13 @@ module.exports = grammar({
 
     unary_expression: $ => NOT_IMPLEMENTED,
 
-    binary_expression: $ => NOT_IMPLEMENTED,
+    binary_expression: $ => choice(
+      prec.left(PREC.multiplicative, seq($._expression, multiplicative_operator, $._expression)),
+      prec.left(PREC.additive, seq($._expression, additive_operator, $._expression)),
+      prec.left(PREC.comparative, seq($._expression, comparative_operator, $._expression)),
+      prec.left(PREC.and, seq($._expression, and_operator, $._expression)),
+      prec.left(PREC.or, seq($._expression, or_operator, $._expression))
+    ),
 
     _primary_expression: $ => choice(
       // Basic literal
