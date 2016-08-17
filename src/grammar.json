@@ -698,6 +698,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "pointer_type"
+        },
+        {
+          "type": "SYMBOL",
           "name": "struct_type"
         },
         {
@@ -715,6 +719,19 @@
         {
           "type": "SYMBOL",
           "name": "map_type"
+        }
+      ]
+    },
+    "pointer_type": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "*"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_type"
         }
       ]
     },

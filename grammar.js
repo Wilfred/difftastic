@@ -192,12 +192,15 @@ module.exports = grammar({
     _type: $ => choice(
       $.identifier,
       $.qualified_identifier,
+      $.pointer_type,
       $.struct_type,
       $.interface_type,
       $.array_type,
       $.slice_type,
       $.map_type
     ),
+
+    pointer_type: $ => seq('*', $._type),
 
     array_type: $ => seq(
       '[',

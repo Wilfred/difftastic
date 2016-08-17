@@ -149,3 +149,26 @@ type m1 map[string]error
     (type_spec
       (identifier)
       (map_type (identifier) (identifier)))))
+
+============================================
+Pointer types
+============================================
+
+package main
+
+type (
+  p1 *string
+  p2 **p1
+)
+
+---
+
+(source_file
+  (package_clause (identifier))
+  (type_declaration
+    (type_spec
+      (identifier)
+      (pointer_type (identifier)))
+    (type_spec
+      (identifier)
+      (pointer_type (pointer_type (identifier))))))
