@@ -328,6 +328,7 @@ module.exports = grammar({
       $.index_expression,
       $.slice_expression,
       $.call_expression,
+      $.type_assertion_expression,
       $.identifier,
       $.composite_literal,
       $.func_literal,
@@ -364,6 +365,14 @@ module.exports = grammar({
         seq(optional($._expression), ':', $._expression, ':', $._expression)
       ),
       ']'
+    ),
+
+    type_assertion_expression: $ => seq(
+      $._expression,
+      '.',
+      '(',
+      $._type,
+      ')'
     ),
 
     composite_literal: $ => seq(

@@ -44,3 +44,20 @@ func main() {
     (slice_expression (identifier) (int_literal) (int_literal))
     (slice_expression (identifier) (int_literal) (int_literal))
     (slice_expression (identifier) (int_literal) (int_literal) (int_literal)))))
+
+============================================
+Type assertion expressions
+============================================
+
+package main
+
+func main() {
+  a.(p.Person)
+}
+
+---
+
+(source_file
+  (package_clause (identifier))
+  (function_declaration (identifier) (parameters) (block
+    (type_assertion_expression (identifier) (qualified_identifier (identifier) (identifier))))))
