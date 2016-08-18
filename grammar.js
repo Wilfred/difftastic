@@ -324,17 +324,27 @@ module.exports = grammar({
     _expression: $ => choice(
       $.unary_expression,
       $.binary_expression,
-      $._primary_expression,
+      $.selector_expression,
       $.call_expression,
+      $.identifier,
       $.composite_literal,
-      $.func_literal
+      $.func_literal,
+      $._string_literal,
+      $.int_literal,
+      $.float_literal
     ),
 
     call_expression: $ => seq(
       $._expression,
       '(',
-      $.expression_list,
+      optional($.expression_list),
       ')'
+    ),
+
+    selector_expression: $ => seq(
+      $._expression,
+      '.',
+      $.identifier
     ),
 
     composite_literal: $ => seq(
@@ -384,16 +394,6 @@ module.exports = grammar({
       prec.left(PREC.comparative, seq($._expression, comparative_operator, $._expression)),
       prec.left(PREC.and, seq($._expression, and_operator, $._expression)),
       prec.left(PREC.or, seq($._expression, or_operator, $._expression))
-    ),
-
-    _primary_expression: $ => choice(
-      // Basic literal
-      $._string_literal,
-      $.int_literal,
-      $.float_literal,
-
-      // Operand name
-      $.identifier
     ),
 
     qualified_identifier: $ => seq(
