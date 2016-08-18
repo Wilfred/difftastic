@@ -489,6 +489,7 @@ module.exports = grammar({
       $._string_literal,
       $.int_literal,
       $.float_literal,
+      $.rune_literal,
       seq('(', $._expression, ')')
     ),
 
@@ -643,6 +644,15 @@ module.exports = grammar({
       seq(decimals, '.', optional(decimals), optional(exponent)),
       seq(decimals, exponent),
       seq('.', decimals, optional(exponent))
+    )),
+
+    rune_literal: $ => token(seq(
+      "'",
+      choice(
+        /[^'\\]/,
+        seq('\\', /./)
+      ),
+      "'"
     )),
 
     comment: $ => token(seq(

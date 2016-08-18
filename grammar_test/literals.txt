@@ -47,6 +47,29 @@ const (
     (const_spec (identifier_list (identifier)) (expression_list (float_literal)))))
 
 ============================================
+Rune literals
+============================================
+
+package main
+
+const (
+  a = '0'
+  b = '\''
+  c = '\\'
+  c = '\n'
+)
+
+---
+
+(source_file
+  (package_clause (identifier))
+  (const_declaration
+    (const_spec (identifier_list (identifier)) (expression_list (rune_literal)))
+    (const_spec (identifier_list (identifier)) (expression_list (rune_literal)))
+    (const_spec (identifier_list (identifier)) (expression_list (rune_literal)))
+    (const_spec (identifier_list (identifier)) (expression_list (rune_literal)))))
+
+============================================
 Slice literals
 ============================================
 

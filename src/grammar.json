@@ -2080,6 +2080,10 @@
           "name": "float_literal"
         },
         {
+          "type": "SYMBOL",
+          "name": "rune_literal"
+        },
+        {
           "type": "SEQ",
           "members": [
             {
@@ -3219,6 +3223,44 @@
                 ]
               }
             ]
+          }
+        ]
+      }
+    },
+    "rune_literal": {
+      "type": "TOKEN",
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "'"
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "PATTERN",
+                "value": "[^'\\\\]"
+              },
+              {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "STRING",
+                    "value": "\\"
+                  },
+                  {
+                    "type": "PATTERN",
+                    "value": "."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "STRING",
+            "value": "'"
           }
         ]
       }
