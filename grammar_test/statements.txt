@@ -267,3 +267,31 @@ func main() {
         (expression_case)
         (call_expression (identifier))
         (break_statement))))))
+
+============================================
+Type switch statements
+============================================
+
+package main
+
+func main() {
+  switch e.(type) {
+    case []Person:
+      a()
+    case *Dog:
+      break
+  }
+}
+
+---
+
+(source_file
+  (package_clause (identifier))
+  (function_declaration (identifier) (parameters) (block
+    (type_switch_statement (identifier)
+      (type_case_clause
+        (type_case (slice_type (identifier)))
+        (call_expression (identifier)))
+      (type_case_clause
+        (type_case (pointer_type (identifier)))
+        (break_statement))))))

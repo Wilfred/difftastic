@@ -304,6 +304,7 @@ module.exports = grammar({
       $.if_statement,
       $.for_statement,
       $.expression_switch_statement,
+      $.type_switch_statement,
       $.fallthrough_statement,
       $.break_statement,
       $.continue_statement
@@ -410,6 +411,34 @@ module.exports = grammar({
 
     expression_case: $ => choice(
       seq('case', $.expression_list),
+      'default'
+    ),
+
+    type_switch_statement: $ => seq(
+      'switch',
+      optional(seq(
+        $._simple_statement,
+        ';'
+      )),
+      $._type_switch_guard,
+      '{',
+      repeat($.type_case_clause),
+      '}'
+    ),
+
+    _type_switch_guard: $ => seq(
+      optional(seq($.expression_list, ':=' )),
+      $._expression, '.', '(', 'type', ')'
+    ),
+
+    type_case_clause: $ => seq(
+      $.type_case,
+      ':',
+      repeat(seq($._statement, terminator))
+    ),
+
+    type_case: $ => choice(
+      seq('case', commaSep1($._type)),
       'default'
     ),
 
@@ -572,6 +601,10 @@ module.exports = grammar({
     ))
   }
 })
+
+function commaSep1(rule) {
+  return seq(rule, repeat(seq(',', rule)))
+}
 
 function commaSepTrailing (recurSymbol, rule) {
   return choice(rule, seq(rule, ',', optional(recurSymbol)))
