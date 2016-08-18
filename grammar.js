@@ -302,7 +302,10 @@ module.exports = grammar({
       $._simple_statement,
       $.return_statement,
       $.if_statement,
-      $.for_statement
+      $.for_statement,
+      $.expression_switch_statement,
+      $.fallthrough_statement,
+      $.break_statement
     ),
 
     _simple_statement: $ => choice(
@@ -347,6 +350,10 @@ module.exports = grammar({
       $.expression_list
     ),
 
+    fallthrough_statement: $ => 'fallthrough',
+
+    break_statement: $ => seq('break', optional($.identifier)),
+
     return_statement: $ => seq(
       'return',
       $.expression_list
@@ -382,6 +389,25 @@ module.exports = grammar({
       choice('=', ':='),
       'range',
       $._expression
+    ),
+
+    expression_switch_statement: $ => seq(
+      'switch',
+      $._expression,
+      '{',
+      repeat($.expression_case_clause),
+      '}'
+    ),
+
+    expression_case_clause: $ => seq(
+      $.expression_case,
+      ':',
+      repeat(seq($._statement, terminator))
+    ),
+
+    expression_case: $ => choice(
+      seq('case', $.expression_list),
+      'default'
     ),
 
     _expression: $ => choice(

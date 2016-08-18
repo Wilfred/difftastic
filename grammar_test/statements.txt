@@ -230,3 +230,37 @@ func main() {
     (for_statement
       (range_clause (expression_list (identifier)) (identifier))
       (block (call_expression (identifier) (expression_list (identifier))))))))
+
+============================================
+Switch statements
+============================================
+
+package main
+
+func main() {
+  switch (e) {
+    case 1, 2:
+      a()
+      b()
+      fallthrough
+    default:
+      c()
+      break
+  }
+}
+
+---
+
+(source_file
+  (package_clause (identifier))
+  (function_declaration (identifier) (parameters) (block
+    (expression_switch_statement (identifier)
+      (expression_case_clause
+        (expression_case (expression_list (int_literal) (int_literal)))
+        (call_expression (identifier))
+        (call_expression (identifier))
+        (fallthrough_statement))
+      (expression_case_clause
+        (expression_case)
+        (call_expression (identifier))
+        (break_statement))))))
