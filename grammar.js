@@ -319,7 +319,8 @@ module.exports = grammar({
       $.unary_expression,
       $.binary_expression,
       $._primary_expression,
-      $.call_expression
+      $.call_expression,
+      $.composite_literal
     ),
 
     call_expression: $ => seq(
@@ -327,6 +328,38 @@ module.exports = grammar({
       '(',
       $.expression_list,
       ')'
+    ),
+
+    composite_literal: $ => seq(
+      choice(
+        $.map_type,
+        $.slice_type,
+        $.struct_type,
+        $.identifier
+      ),
+      $.literal_value
+    ),
+
+    literal_value: $ => seq(
+      '{',
+      optional($._element_list),
+      '}'
+    ),
+
+    _element_list: $ => commaSepTrailing($._element_list, $.element),
+
+    element: $ => seq(
+      optional(seq(
+        choice(
+          $._expression,
+          $.literal_value
+        ),
+        ':'
+      )),
+      choice(
+        $._expression,
+        $.literal_value
+      )
     ),
 
     unary_expression: $ => NOT_IMPLEMENTED,
