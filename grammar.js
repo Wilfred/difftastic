@@ -277,7 +277,8 @@ module.exports = grammar({
       $._expression,
       $.send_statement,
       $.inc_statement,
-      $.dec_statement
+      $.dec_statement,
+      $.assignment_statement
     ),
 
     send_statement: $ => seq(
@@ -294,6 +295,15 @@ module.exports = grammar({
     dec_statement: $ => seq(
       $._expression,
       '--'
+    ),
+
+    assignment_statement: $ => seq(
+      $.expression_list,
+      token(seq(
+        optional(choice(multiplicative_operator, additive_operator)),
+        '='
+      )),
+      $.expression_list
     ),
 
     _expression: $ => choice(
