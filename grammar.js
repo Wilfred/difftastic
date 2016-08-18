@@ -163,8 +163,6 @@ module.exports = grammar({
       $._type
     ),
 
-    block: $ => seq('{', '}'),
-
     type_declaration: $ => seq(
       'type',
       choice(
@@ -268,10 +266,15 @@ module.exports = grammar({
       optional(choice($.parameters, $._type))
     ),
 
-    qualified_identifier: $ => seq(
-      $.identifier,
-      '.',
-      $.identifier
+    block: $ => seq(
+      '{',
+      repeat(seq($._statement, terminator)),
+      '}'
+    ),
+
+    _statement: $ => choice(
+      $._declaration,
+      $._expression
     ),
 
     _expression: $ => choice(
@@ -297,6 +300,12 @@ module.exports = grammar({
       $.float_literal,
 
       // Operand name
+      $.identifier
+    ),
+
+    qualified_identifier: $ => seq(
+      $.identifier,
+      '.',
       $.identifier
     ),
 

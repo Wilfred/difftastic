@@ -1,0 +1,20 @@
+============================================
+Declaration statements
+============================================
+
+package main
+
+func main() {
+  var x = y
+  const x = 5
+}
+
+---
+
+(source_file
+  (package_clause (identifier))
+  (function_declaration (identifier) (parameters) (block
+    (var_declaration
+      (var_spec (identifier_list (identifier)) (expression_list (identifier))))
+    (const_declaration
+      (const_spec (identifier_list (identifier)) (expression_list (int_literal)))))))
