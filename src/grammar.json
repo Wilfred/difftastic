@@ -1173,6 +1173,10 @@
         {
           "type": "SYMBOL",
           "name": "break_statement"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "continue_statement"
         }
       ]
     },
@@ -1381,6 +1385,10 @@
           ]
         }
       ]
+    },
+    "continue_statement": {
+      "type": "STRING",
+      "value": "continue"
     },
     "return_statement": {
       "type": "SEQ",

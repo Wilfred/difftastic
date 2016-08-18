@@ -305,7 +305,8 @@ module.exports = grammar({
       $.for_statement,
       $.expression_switch_statement,
       $.fallthrough_statement,
-      $.break_statement
+      $.break_statement,
+      $.continue_statement
     ),
 
     _simple_statement: $ => choice(
@@ -353,6 +354,8 @@ module.exports = grammar({
     fallthrough_statement: $ => 'fallthrough',
 
     break_statement: $ => seq('break', optional($.identifier)),
+
+    continue_statement: $ => 'continue',
 
     return_statement: $ => seq(
       'return',

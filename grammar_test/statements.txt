@@ -193,6 +193,7 @@ func main() {
 
   for ; i < 10; i++ {
     a()
+    continue
   }
 
   for ;; {
@@ -223,7 +224,9 @@ func main() {
       (for_clause
         (binary_expression (identifier) (int_literal))
         (inc_statement (identifier)))
-      (block (call_expression (identifier))))
+      (block
+        (call_expression (identifier))
+        (continue_statement)))
     (for_statement
       (for_clause)
       (block (call_expression (identifier))))
