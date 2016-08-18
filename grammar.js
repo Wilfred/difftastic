@@ -305,6 +305,7 @@ module.exports = grammar({
       $.for_statement,
       $.expression_switch_statement,
       $.type_switch_statement,
+      $.select_statement,
       $.fallthrough_statement,
       $.break_statement,
       $.continue_statement
@@ -322,6 +323,12 @@ module.exports = grammar({
     send_statement: $ => seq(
       $._expression,
       '<-',
+      $._expression
+    ),
+
+    receive_statement: $ => seq(
+      $.expression_list,
+      choice('=', ':='),
       $._expression
     ),
 
@@ -360,7 +367,7 @@ module.exports = grammar({
 
     return_statement: $ => seq(
       'return',
-      $.expression_list
+      optional($.expression_list)
     ),
 
     if_statement: $ => seq(
@@ -439,6 +446,24 @@ module.exports = grammar({
 
     type_case: $ => choice(
       seq('case', commaSep1($._type)),
+      'default'
+    ),
+
+    select_statement: $ => seq(
+      'select',
+      '{',
+      repeat($.communication_clause),
+      '}'
+    ),
+
+    communication_clause: $ => seq(
+      $.communication_case,
+      ':',
+      repeat(seq($._statement, terminator))
+    ),
+
+    communication_case: $ => choice(
+      seq('case', choice($.send_statement, $.receive_statement)),
       'default'
     ),
 

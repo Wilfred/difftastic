@@ -295,3 +295,40 @@ func main() {
       (type_case_clause
         (type_case (pointer_type (identifier)))
         (break_statement))))))
+
+============================================
+Select statements
+============================================
+
+package main
+
+func main() {
+  select {
+    case x := <-c:
+      println(x)
+    case y <- 5:
+      println(5)
+    default:
+      return
+  }
+}
+
+---
+
+(source_file
+  (package_clause (identifier))
+  (function_declaration (identifier) (parameters) (block
+    (select_statement
+      (communication_clause
+        (communication_case
+          (receive_statement
+            (expression_list (identifier))
+            (unary_expression (identifier))))
+        (call_expression (identifier) (expression_list (identifier))))
+      (communication_clause
+        (communication_case
+          (send_statement (identifier) (int_literal)))
+          (call_expression (identifier) (expression_list (int_literal))))
+      (communication_clause
+        (communication_case)
+        (return_statement))))))
