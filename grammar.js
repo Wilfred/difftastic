@@ -562,6 +562,7 @@ module.exports = grammar({
       choice(
         $.map_type,
         $.slice_type,
+        $.array_type,
         $.struct_type,
         $.identifier
       ),
@@ -634,7 +635,10 @@ module.exports = grammar({
 
     interpreted_string_literal: $ => token(seq(
       '"',
-      repeat(/[^"\n]/),
+      repeat(choice(
+        /[^"\n\\]/,
+        seq('\\', /./)
+      )),
       '"'
     )),
 

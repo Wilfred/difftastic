@@ -70,6 +70,25 @@ const (
     (const_spec (identifier_list (identifier)) (expression_list (rune_literal)))))
 
 ============================================
+String literals
+============================================
+
+package main
+
+const (
+  a = "0"
+  b = "`\"`"
+)
+
+---
+
+(source_file
+  (package_clause (identifier))
+  (const_declaration
+    (const_spec (identifier_list (identifier)) (expression_list (interpreted_string_literal)))
+    (const_spec (identifier_list (identifier)) (expression_list (interpreted_string_literal)))))
+
+============================================
 Slice literals
 ============================================
 
