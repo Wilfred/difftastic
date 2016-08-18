@@ -134,3 +134,44 @@ func main() {
     (short_var_declaration
       (expression_list (identifier) (identifier))
       (expression_list (int_literal) (int_literal))))))
+
+============================================
+If statements
+============================================
+
+package main
+
+func main() {
+  if a() {
+    b()
+  }
+
+  if a := b(); c {
+    d()
+  }
+
+  if a() {
+    b()
+  } else {
+    c()
+  }
+}
+
+---
+
+(source_file
+  (package_clause (identifier))
+  (function_declaration (identifier) (parameters) (block
+    (if_statement
+      (call_expression (identifier))
+      (block (call_expression (identifier))))
+    (if_statement
+      (short_var_declaration
+        (expression_list (identifier))
+        (expression_list (call_expression (identifier))))
+      (identifier)
+      (block (call_expression (identifier))))
+    (if_statement
+      (call_expression (identifier))
+      (block (call_expression (identifier)))
+      (block (call_expression (identifier)))))))

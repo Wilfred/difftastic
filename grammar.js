@@ -61,7 +61,11 @@ module.exports = grammar({
 
     // func() (a)
     //          ^-- parameter list or type?
-    [$._parameter_list, $._type]
+    [$._parameter_list, $._type],
+
+    // if foo{}
+    //     ^-- expression or type?
+    [$.composite_literal, $._expression]
   ],
 
   rules: {
@@ -295,13 +299,18 @@ module.exports = grammar({
 
     _statement: $ => choice(
       $._declaration,
+      $._simple_statement,
+      $.return_statement,
+      $.if_statement
+    ),
+
+    _simple_statement: $ => choice(
       $._expression,
       $.send_statement,
       $.inc_statement,
       $.dec_statement,
       $.assignment_statement,
-      $.short_var_declaration,
-      $.return_statement
+      $.short_var_declaration
     ),
 
     send_statement: $ => seq(
@@ -340,6 +349,17 @@ module.exports = grammar({
     return_statement: $ => seq(
       'return',
       $.expression_list
+    ),
+
+    if_statement: $ => seq(
+      'if',
+      optional(seq($._simple_statement, ';')),
+      $._expression,
+      $.block,
+      optional(seq(
+        'else',
+        choice($.block, $.if_statement)
+      ))
     ),
 
     _expression: $ => choice(
