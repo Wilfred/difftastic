@@ -301,7 +301,8 @@ module.exports = grammar({
       $._declaration,
       $._simple_statement,
       $.return_statement,
-      $.if_statement
+      $.if_statement,
+      $.for_statement
     ),
 
     _simple_statement: $ => choice(
@@ -360,6 +361,27 @@ module.exports = grammar({
         'else',
         choice($.block, $.if_statement)
       ))
+    ),
+
+    for_statement: $ => seq(
+      'for',
+      optional(choice($._expression, $.for_clause, $.range_clause)),
+      $.block
+    ),
+
+    for_clause: $ => seq(
+      optional($._simple_statement),
+      ';',
+      optional($._expression),
+      ';',
+      optional($._simple_statement)
+    ),
+
+    range_clause: $ => seq(
+      $.expression_list,
+      choice('=', ':='),
+      'range',
+      $._expression
     ),
 
     _expression: $ => choice(

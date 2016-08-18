@@ -175,3 +175,58 @@ func main() {
       (call_expression (identifier))
       (block (call_expression (identifier)))
       (block (call_expression (identifier)))))))
+
+============================================
+For statements
+============================================
+
+package main
+
+func main() {
+  for {
+    a()
+  }
+
+  for i := 0; i < 5; i++ {
+    a()
+  }
+
+  for ; i < 10; i++ {
+    a()
+  }
+
+  for ;; {
+    a()
+  }
+
+  for x := range y {
+    a(x)
+  }
+}
+
+---
+
+(source_file
+  (package_clause (identifier))
+  (function_declaration (identifier) (parameters) (block
+    (for_statement
+      (block (call_expression (identifier))))
+    (for_statement
+      (for_clause
+        (short_var_declaration
+          (expression_list (identifier))
+          (expression_list (int_literal)))
+        (binary_expression (identifier) (int_literal))
+        (inc_statement (identifier)))
+      (block (call_expression (identifier))))
+    (for_statement
+      (for_clause
+        (binary_expression (identifier) (int_literal))
+        (inc_statement (identifier)))
+      (block (call_expression (identifier))))
+    (for_statement
+      (for_clause)
+      (block (call_expression (identifier))))
+    (for_statement
+      (range_clause (expression_list (identifier)) (identifier))
+      (block (call_expression (identifier) (expression_list (identifier))))))))
