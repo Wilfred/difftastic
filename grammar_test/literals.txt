@@ -57,6 +57,8 @@ const (
   b = '\''
   c = '\\'
   c = '\n'
+  c = '\u0000'
+  c = '\U01234567'
 )
 
 ---
@@ -64,6 +66,8 @@ const (
 (source_file
   (package_clause (identifier))
   (const_declaration
+    (const_spec (identifier_list (identifier)) (expression_list (rune_literal)))
+    (const_spec (identifier_list (identifier)) (expression_list (rune_literal)))
     (const_spec (identifier_list (identifier)) (expression_list (rune_literal)))
     (const_spec (identifier_list (identifier)) (expression_list (rune_literal)))
     (const_spec (identifier_list (identifier)) (expression_list (rune_literal)))

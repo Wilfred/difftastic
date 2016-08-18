@@ -654,7 +654,16 @@ module.exports = grammar({
       "'",
       choice(
         /[^'\\]/,
-        seq('\\', /./)
+        seq(
+          '\\',
+          choice(
+            seq('x', hexDigit, hexDigit),
+            seq(octalDigit, octalDigit, octalDigit),
+            seq('u', hexDigit, hexDigit, hexDigit, hexDigit),
+            seq('U', hexDigit, hexDigit, hexDigit, hexDigit, hexDigit, hexDigit, hexDigit, hexDigit),
+            seq(choice('a', 'b', 'f', 'n', 'r', 't', 'v', '\\', "'", '"'))
+          )
+        )
       ),
       "'"
     )),
