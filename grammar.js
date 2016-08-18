@@ -75,7 +75,7 @@ module.exports = grammar({
   rules: {
     source_file: $ => seq(
       $.package_clause,
-      repeat($.import_declaration),
+      repeat(seq($.import_declaration, terminator)),
       repeat(seq($._top_level_declaration, terminator))
     ),
 
@@ -357,10 +357,13 @@ module.exports = grammar({
 
     assignment_statement: $ => seq(
       $.expression_list,
-      token(seq(
-        optional(choice(multiplicative_operator, additive_operator)),
+      choice(
+        token(seq(
+          optional(choice(multiplicative_operator, additive_operator)),
+          '='
+        )),
         '='
-      )),
+      ),
       $.expression_list
     ),
 
