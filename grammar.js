@@ -477,6 +477,8 @@ module.exports = grammar({
       $.index_expression,
       $.slice_expression,
       $.call_expression,
+      $.make_expression,
+      $.new_expression,
       $.type_assertion_expression,
       $.type_conversion_expression,
       $.identifier,
@@ -493,6 +495,24 @@ module.exports = grammar({
       '(',
       optional($.expression_list),
       optional(seq('...', optional(','))),
+      ')'
+    ),
+
+    make_expression: $ => seq(
+      'make',
+      '(',
+      $._type,
+      optional(seq(
+        ',',
+        $._expression
+      )),
+      ')'
+    ),
+
+    new_expression: $ => seq(
+      'new',
+      '(',
+      $._type,
       ')'
     ),
 
