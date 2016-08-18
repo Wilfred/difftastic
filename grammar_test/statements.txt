@@ -241,7 +241,7 @@ Switch statements
 package main
 
 func main() {
-  switch (e) {
+  switch e {
     case 1, 2:
       a()
       b()
@@ -249,6 +249,11 @@ func main() {
     default:
       c()
       break
+  }
+
+  switch {
+    case true:
+      return
   }
 }
 
@@ -266,7 +271,11 @@ func main() {
       (expression_case_clause
         (expression_case)
         (call_expression (identifier))
-        (break_statement))))))
+        (break_statement)))
+    (expression_switch_statement
+      (expression_case_clause
+        (expression_case (expression_list (identifier)))
+        (return_statement))))))
 
 ============================================
 Type switch statements

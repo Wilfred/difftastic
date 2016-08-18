@@ -413,7 +413,7 @@ module.exports = grammar({
 
     expression_switch_statement: $ => seq(
       'switch',
-      $._expression,
+      optional($._expression),
       '{',
       repeat($.expression_case_clause),
       '}'
