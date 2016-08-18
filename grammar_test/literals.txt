@@ -58,3 +58,35 @@ const s = map[string]string{
       (literal_value
         (element (interpreted_string_literal) (interpreted_string_literal))
         (element (interpreted_string_literal) (interpreted_string_literal))))))))
+
+============================================
+Struct literals
+============================================
+
+package main
+
+const s1 = Person{
+  name: "Frank",
+  Age: "5 months",
+}
+
+const s2 = struct{i int;}{i: 5}
+
+---
+
+(source_file
+  (package_clause (identifier))
+  (const_declaration (const_spec
+    (identifier_list (identifier))
+    (expression_list (composite_literal
+      (identifier)
+      (literal_value
+        (element (identifier) (interpreted_string_literal))
+        (element (identifier) (interpreted_string_literal)))))))
+  (const_declaration (const_spec
+    (identifier_list (identifier))
+    (expression_list (composite_literal
+      (struct_type
+        (field_declaration (identifier_list (identifier)) (identifier)))
+      (literal_value
+        (element (identifier) (int_literal))))))))
