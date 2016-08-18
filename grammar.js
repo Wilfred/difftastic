@@ -279,7 +279,8 @@ module.exports = grammar({
       $.inc_statement,
       $.dec_statement,
       $.assignment_statement,
-      $.short_var_declaration
+      $.short_var_declaration,
+      $.return_statement
     ),
 
     send_statement: $ => seq(
@@ -315,12 +316,18 @@ module.exports = grammar({
       $.expression_list
     ),
 
+    return_statement: $ => seq(
+      'return',
+      $.expression_list
+    ),
+
     _expression: $ => choice(
       $.unary_expression,
       $.binary_expression,
       $._primary_expression,
       $.call_expression,
-      $.composite_literal
+      $.composite_literal,
+      $.func_literal
     ),
 
     call_expression: $ => seq(
@@ -360,6 +367,13 @@ module.exports = grammar({
         $._expression,
         $.literal_value
       )
+    ),
+
+    func_literal: $ => seq(
+      'func',
+      $.parameters,
+      optional(choice($.parameters, $._type)),
+      $.block
     ),
 
     unary_expression: $ => NOT_IMPLEMENTED,
