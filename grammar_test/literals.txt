@@ -1,4 +1,29 @@
 ============================================
+Float literals
+============================================
+
+package main
+
+const (
+  f1 = 1.5
+  f2 = 1.5e100
+  f3 = 1.5e+50
+  f4 = 1.5e-5
+  f5 = .5e-50
+)
+
+---
+
+(source_file
+  (package_clause (identifier))
+  (const_declaration
+    (const_spec (identifier_list (identifier)) (expression_list (float_literal)))
+    (const_spec (identifier_list (identifier)) (expression_list (float_literal)))
+    (const_spec (identifier_list (identifier)) (expression_list (float_literal)))
+    (const_spec (identifier_list (identifier)) (expression_list (float_literal)))
+    (const_spec (identifier_list (identifier)) (expression_list (float_literal)))))
+
+============================================
 Slice literals
 ============================================
 

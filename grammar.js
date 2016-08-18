@@ -33,6 +33,14 @@ const
   newline = '\n',
   letter = choice(unicodeLetter, '_'),
 
+  exponent = seq(
+    choice('e', 'E'),
+    optional(choice('+', '-')),
+    repeat1(decimalDigit)
+  ),
+
+  decimals = repeat1(decimalDigit),
+
   terminator = choice(newline, ';')
 
 const NOT_IMPLEMENTED = choice()
@@ -482,7 +490,11 @@ module.exports = grammar({
 
     int_literal: $ => choice(decimalLiteral, octalLiteral, hexLiteral),
 
-    float_literal: $ => NOT_IMPLEMENTED,
+    float_literal: $ => token(choice(
+      seq(decimals, '.', optional(decimals), optional(exponent)),
+      seq(decimals, exponent),
+      seq('.', decimals, optional(exponent))
+    )),
 
     comment: $ => token(seq(
       '//',
