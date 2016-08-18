@@ -198,6 +198,38 @@ func f2() (result int, err error) {}
     (block)))
 
 ============================================
+Single-line function declarations
+============================================
+
+package main
+
+func f1() { a() }
+func f2() { a(); b() }
+func f3() { a(); b(); }
+
+---
+
+(source_file
+  (package_clause (identifier))
+  (function_declaration
+    (identifier)
+    (parameters)
+    (block
+      (call_expression (identifier))))
+  (function_declaration
+    (identifier)
+    (parameters)
+    (block
+      (call_expression (identifier))
+      (call_expression (identifier))))
+  (function_declaration
+    (identifier)
+    (parameters)
+    (block
+      (call_expression (identifier))
+      (call_expression (identifier)))))
+
+============================================
 Method declarations
 ============================================
 

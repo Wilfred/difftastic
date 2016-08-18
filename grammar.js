@@ -177,7 +177,7 @@ module.exports = grammar({
       ')'
     ),
 
-    _parameter_list: $ => commaSepTrailing($._parameter_list, choice(
+    _parameter_list: $ => sepTrailing(',', $._parameter_list, choice(
       $.identifier,
       $.parameter_declaration
     )),
@@ -293,9 +293,11 @@ module.exports = grammar({
 
     block: $ => seq(
       '{',
-      repeat(seq($._statement, terminator)),
+      optional($._statement_list),
       '}'
     ),
+
+    _statement_list: $ => sepTrailing(terminator, $._statement_list, $._statement),
 
     _statement: $ => choice(
       $._declaration,
@@ -416,7 +418,7 @@ module.exports = grammar({
     expression_case_clause: $ => seq(
       $.expression_case,
       ':',
-      repeat(seq($._statement, terminator))
+      optional($._statement_list)
     ),
 
     expression_case: $ => choice(
@@ -444,7 +446,7 @@ module.exports = grammar({
     type_case_clause: $ => seq(
       $.type_case,
       ':',
-      repeat(seq($._statement, terminator))
+      optional($._statement_list)
     ),
 
     type_case: $ => choice(
@@ -462,7 +464,7 @@ module.exports = grammar({
     communication_clause: $ => seq(
       $.communication_case,
       ':',
-      repeat(seq($._statement, terminator))
+      optional($._statement_list)
     ),
 
     communication_case: $ => choice(
@@ -571,7 +573,7 @@ module.exports = grammar({
       '}'
     ),
 
-    _element_list: $ => commaSepTrailing($._element_list, $.element),
+    _element_list: $ => sepTrailing(',', $._element_list, $.element),
 
     element: $ => seq(
       optional(seq(
@@ -654,6 +656,6 @@ function commaSep1(rule) {
   return seq(rule, repeat(seq(',', rule)))
 }
 
-function commaSepTrailing (recurSymbol, rule) {
-  return choice(rule, seq(rule, ',', optional(recurSymbol)))
+function sepTrailing (separator, recurSymbol, rule) {
+  return choice(rule, seq(rule, separator, optional(recurSymbol)))
 }
