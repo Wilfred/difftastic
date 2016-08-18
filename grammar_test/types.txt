@@ -199,3 +199,30 @@ type (
     (type_spec
       (identifier)
       (channel_type (channel_type (identifier))))))
+
+============================================
+Function types
+============================================
+
+package main
+
+type (
+  a func(int) int
+  b func(int, string) (bool, error)
+)
+
+---
+
+(source_file
+  (package_clause (identifier))
+  (type_declaration
+    (type_spec
+      (identifier)
+      (function_type
+        (parameters (identifier))
+        (identifier)))
+    (type_spec
+      (identifier)
+      (function_type
+        (parameters (identifier) (identifier))
+        (parameters (identifier) (identifier))))))

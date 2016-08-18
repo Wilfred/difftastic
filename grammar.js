@@ -48,7 +48,7 @@ module.exports = grammar({
     source_file: $ => seq(
       $.package_clause,
       repeat($.import_declaration),
-      repeat($._top_level_declaration)
+      repeat(seq($._top_level_declaration, terminator))
     ),
 
     package_clause: $ => seq(
@@ -198,7 +198,8 @@ module.exports = grammar({
       $.array_type,
       $.slice_type,
       $.map_type,
-      $.channel_type
+      $.channel_type,
+      $.function_type
     ),
 
     pointer_type: $ => seq('*', $._type),
@@ -259,6 +260,12 @@ module.exports = grammar({
       prec(5, seq('chan', $._type)),
       seq('chan', '<-', $._type),
       seq('<-', 'chan', $._type)
+    ),
+
+    function_type: $ => seq(
+      'func',
+      $.parameters,
+      optional(choice($.parameters, $._type))
     ),
 
     qualified_identifier: $ => seq(
