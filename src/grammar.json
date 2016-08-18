@@ -1148,6 +1148,14 @@
         {
           "type": "SYMBOL",
           "name": "send_statement"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "inc_statement"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "dec_statement"
         }
       ]
     },
@@ -1165,6 +1173,32 @@
         {
           "type": "SYMBOL",
           "name": "_expression"
+        }
+      ]
+    },
+    "inc_statement": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_expression"
+        },
+        {
+          "type": "STRING",
+          "value": "++"
+        }
+      ]
+    },
+    "dec_statement": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_expression"
+        },
+        {
+          "type": "STRING",
+          "value": "--"
         }
       ]
     },

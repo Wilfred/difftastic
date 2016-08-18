@@ -69,3 +69,22 @@ func main() {
   (package_clause (identifier))
   (function_declaration (identifier) (parameters) (block
     (send_statement (identifier) (int_literal)))))
+
+============================================
+Increment/Decrement statements
+============================================
+
+package main
+
+func main() {
+  i++
+  j--
+}
+
+---
+
+(source_file
+  (package_clause (identifier))
+  (function_declaration (identifier) (parameters) (block
+    (inc_statement (identifier))
+    (dec_statement (identifier)))))
