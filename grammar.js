@@ -32,7 +32,7 @@ const
   newline = '\n',
   letter = choice(unicodeLetter, '_'),
 
-  terminator = token(choice(newline, ';'))
+  terminator = choice(newline, ';')
 
 const NOT_IMPLEMENTED = choice()
 

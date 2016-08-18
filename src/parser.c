@@ -1,7 +1,7 @@
 #include "tree_sitter/parser.h"
 
 #define STATE_COUNT 719
-#define SYMBOL_COUNT 115
+#define SYMBOL_COUNT 116
 
 enum {
     sym_source_file = ts_builtin_sym_start,
@@ -65,7 +65,8 @@ enum {
     aux_sym_struct_type_repeat1,
     aux_sym_interface_type_repeat1,
     aux_sym_block_repeat1,
-    aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH,
+    anon_sym_LF,
+    anon_sym_SEMI,
     anon_sym_package,
     anon_sym_import,
     anon_sym_LPAREN,
@@ -183,7 +184,8 @@ static const char *ts_symbol_names[] = {
     [aux_sym_block_repeat1] = "block_repeat1",
     [ts_builtin_sym_error] = "ERROR",
     [ts_builtin_sym_end] = "END",
-    [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = "/(\n|;)/",
+    [anon_sym_LF] = "\n",
+    [anon_sym_SEMI] = ";",
     [anon_sym_package] = "package",
     [anon_sym_import] = "import",
     [anon_sym_LPAREN] = "(",
@@ -301,7 +303,8 @@ static const TSSymbolMetadata ts_symbol_metadata[SYMBOL_COUNT] = {
     [aux_sym_block_repeat1] = {.visible = false, .named = false, .structural = true, .extra = false},
     [ts_builtin_sym_error] = {.visible = true, .named = true, .structural = true, .extra = false},
     [ts_builtin_sym_end] = {.visible = false, .named = false, .structural = true, .extra = false},
-    [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = {.visible = false, .named = false, .structural = true, .extra = false},
+    [anon_sym_LF] = {.visible = true, .named = false, .structural = true, .extra = false},
+    [anon_sym_SEMI] = {.visible = true, .named = false, .structural = true, .extra = false},
     [anon_sym_package] = {.visible = true, .named = false, .structural = true, .extra = false},
     [anon_sym_import] = {.visible = true, .named = false, .structural = true, .extra = false},
     [anon_sym_LPAREN] = {.visible = true, .named = false, .structural = true, .extra = false},
@@ -458,7 +461,7 @@ static TSTree *ts_lex(TSLexer *lexer, TSStateId state, bool error_mode) {
             ACCEPT_TOKEN(ts_builtin_sym_end);
         case 2:
             START_TOKEN();
-            ACCEPT_TOKEN(aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH);
+            ACCEPT_TOKEN(anon_sym_LF);
         case 3:
             if (lookahead == '=')
                 ADVANCE(4);
@@ -565,7 +568,7 @@ static TSTree *ts_lex(TSLexer *lexer, TSStateId state, bool error_mode) {
         case 29:
             ACCEPT_TOKEN(anon_sym_COLON_EQ);
         case 30:
-            ACCEPT_TOKEN(aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH);
+            ACCEPT_TOKEN(anon_sym_SEMI);
         case 31:
             if (lookahead == '-')
                 ADVANCE(32);
@@ -4262,15 +4265,18 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [sym_comment] = 8,
     },
     [6] = {
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 44,
+        [anon_sym_LF] = 44,
+        [anon_sym_SEMI] = 44,
         [sym_comment] = 8,
     },
     [7] = {
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 46,
+        [anon_sym_LF] = 46,
+        [anon_sym_SEMI] = 46,
         [sym_comment] = 8,
     },
     [8] = {
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 48,
+        [anon_sym_LF] = 48,
+        [anon_sym_SEMI] = 48,
         [sym_comment] = 8,
     },
     [9] = {
@@ -4330,7 +4336,8 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [sym_comment] = 8,
     },
     [16] = {
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 90,
+        [anon_sym_LF] = 90,
+        [anon_sym_SEMI] = 90,
         [sym_comment] = 8,
     },
     [17] = {
@@ -4363,11 +4370,13 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [sym_comment] = 8,
     },
     [19] = {
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 120,
+        [anon_sym_LF] = 120,
+        [anon_sym_SEMI] = 120,
         [sym_comment] = 8,
     },
     [20] = {
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 122,
+        [anon_sym_LF] = 122,
+        [anon_sym_SEMI] = 122,
         [sym_comment] = 8,
     },
     [21] = {
@@ -4461,7 +4470,8 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [sym_comment] = 8,
     },
     [29] = {
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 122,
+        [anon_sym_LF] = 122,
+        [anon_sym_SEMI] = 122,
         [anon_sym_DOT] = 164,
         [sym_comment] = 8,
     },
@@ -4470,7 +4480,8 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [sym_comment] = 8,
     },
     [31] = {
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 168,
+        [anon_sym_LF] = 168,
+        [anon_sym_SEMI] = 168,
         [sym_comment] = 8,
     },
     [32] = {
@@ -4496,11 +4507,13 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [sym_comment] = 8,
     },
     [33] = {
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 172,
+        [anon_sym_LF] = 172,
+        [anon_sym_SEMI] = 172,
         [sym_comment] = 8,
     },
     [34] = {
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 174,
+        [anon_sym_LF] = 174,
+        [anon_sym_SEMI] = 174,
         [sym_comment] = 8,
     },
     [35] = {
@@ -4526,7 +4539,8 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [sym_comment] = 8,
     },
     [36] = {
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 178,
+        [anon_sym_LF] = 178,
+        [anon_sym_SEMI] = 178,
         [sym_comment] = 8,
     },
     [37] = {
@@ -4778,7 +4792,8 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [sym_comment] = 8,
     },
     [61] = {
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 250,
+        [anon_sym_LF] = 250,
+        [anon_sym_SEMI] = 250,
         [sym_comment] = 8,
     },
     [62] = {
@@ -4791,7 +4806,8 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     },
     [64] = {
         [sym_parameters] = 256,
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 250,
+        [anon_sym_LF] = 250,
+        [anon_sym_SEMI] = 250,
         [anon_sym_LPAREN] = 126,
         [sym_comment] = 8,
     },
@@ -4807,7 +4823,8 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [sym_channel_type] = 100,
         [sym_function_type] = 100,
         [sym_qualified_identifier] = 100,
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 260,
+        [anon_sym_LF] = 260,
+        [anon_sym_SEMI] = 260,
         [anon_sym_LPAREN] = 262,
         [anon_sym_func] = 102,
         [anon_sym_STAR] = 104,
@@ -4855,7 +4872,8 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [sym_channel_type] = 282,
         [sym_function_type] = 282,
         [sym_qualified_identifier] = 282,
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 282,
+        [anon_sym_LF] = 282,
+        [anon_sym_SEMI] = 282,
         [anon_sym_LPAREN] = 282,
         [anon_sym_func] = 282,
         [anon_sym_STAR] = 282,
@@ -5179,7 +5197,8 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [sym_comment] = 8,
     },
     [101] = {
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 390,
+        [anon_sym_LF] = 390,
+        [anon_sym_SEMI] = 390,
         [sym_comment] = 8,
     },
     [102] = {
@@ -5208,7 +5227,8 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [sym_qualified_identifier] = 396,
         [sym__string_literal] = 398,
         [aux_sym_identifier_list_repeat1] = 400,
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 402,
+        [anon_sym_LF] = 402,
+        [anon_sym_SEMI] = 402,
         [anon_sym_func] = 396,
         [anon_sym_COMMA] = 404,
         [anon_sym_STAR] = 396,
@@ -5224,7 +5244,8 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [sym_comment] = 8,
     },
     [106] = {
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 408,
+        [anon_sym_LF] = 408,
+        [anon_sym_SEMI] = 408,
         [sym_comment] = 8,
     },
     [107] = {
@@ -5254,7 +5275,8 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [sym_comment] = 8,
     },
     [109] = {
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 414,
+        [anon_sym_LF] = 414,
+        [anon_sym_SEMI] = 414,
         [sym_comment] = 8,
     },
     [110] = {
@@ -5305,13 +5327,15 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     },
     [112] = {
         [sym__string_literal] = 422,
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 408,
+        [anon_sym_LF] = 408,
+        [anon_sym_SEMI] = 408,
         [sym_raw_string_literal] = 406,
         [sym_interpreted_string_literal] = 406,
         [sym_comment] = 8,
     },
     [113] = {
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 424,
+        [anon_sym_LF] = 424,
+        [anon_sym_SEMI] = 424,
         [sym_comment] = 8,
     },
     [114] = {
@@ -5334,7 +5358,8 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     },
     [117] = {
         [sym__string_literal] = 122,
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 122,
+        [anon_sym_LF] = 122,
+        [anon_sym_SEMI] = 122,
         [sym_raw_string_literal] = 122,
         [sym_interpreted_string_literal] = 122,
         [sym_comment] = 8,
@@ -5431,7 +5456,8 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     },
     [126] = {
         [sym__string_literal] = 122,
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 122,
+        [anon_sym_LF] = 122,
+        [anon_sym_SEMI] = 122,
         [anon_sym_DOT] = 456,
         [sym_raw_string_literal] = 122,
         [sym_interpreted_string_literal] = 122,
@@ -5443,7 +5469,8 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     },
     [128] = {
         [sym__string_literal] = 168,
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 168,
+        [anon_sym_LF] = 168,
+        [anon_sym_SEMI] = 168,
         [sym_raw_string_literal] = 168,
         [sym_interpreted_string_literal] = 168,
         [sym_comment] = 8,
@@ -5472,14 +5499,16 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     },
     [130] = {
         [sym__string_literal] = 172,
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 172,
+        [anon_sym_LF] = 172,
+        [anon_sym_SEMI] = 172,
         [sym_raw_string_literal] = 172,
         [sym_interpreted_string_literal] = 172,
         [sym_comment] = 8,
     },
     [131] = {
         [sym__string_literal] = 174,
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 174,
+        [anon_sym_LF] = 174,
+        [anon_sym_SEMI] = 174,
         [sym_raw_string_literal] = 174,
         [sym_interpreted_string_literal] = 174,
         [sym_comment] = 8,
@@ -5508,7 +5537,8 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     },
     [133] = {
         [sym__string_literal] = 178,
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 178,
+        [anon_sym_LF] = 178,
+        [anon_sym_SEMI] = 178,
         [sym_raw_string_literal] = 178,
         [sym_interpreted_string_literal] = 178,
         [sym_comment] = 8,
@@ -5563,7 +5593,8 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     },
     [137] = {
         [sym__string_literal] = 240,
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 240,
+        [anon_sym_LF] = 240,
+        [anon_sym_SEMI] = 240,
         [sym_raw_string_literal] = 240,
         [sym_interpreted_string_literal] = 240,
         [sym_comment] = 8,
@@ -5581,14 +5612,16 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     },
     [140] = {
         [sym__string_literal] = 254,
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 254,
+        [anon_sym_LF] = 254,
+        [anon_sym_SEMI] = 254,
         [sym_raw_string_literal] = 254,
         [sym_interpreted_string_literal] = 254,
         [sym_comment] = 8,
     },
     [141] = {
         [sym__string_literal] = 354,
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 354,
+        [anon_sym_LF] = 354,
+        [anon_sym_SEMI] = 354,
         [sym_raw_string_literal] = 354,
         [sym_interpreted_string_literal] = 354,
         [sym_comment] = 8,
@@ -5608,14 +5641,16 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     },
     [144] = {
         [sym__string_literal] = 394,
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 394,
+        [anon_sym_LF] = 394,
+        [anon_sym_SEMI] = 394,
         [sym_raw_string_literal] = 394,
         [sym_interpreted_string_literal] = 394,
         [sym_comment] = 8,
     },
     [145] = {
         [sym__string_literal] = 426,
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 426,
+        [anon_sym_LF] = 426,
+        [anon_sym_SEMI] = 426,
         [sym_raw_string_literal] = 426,
         [sym_interpreted_string_literal] = 426,
         [sym_comment] = 8,
@@ -8604,7 +8639,8 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     },
     [311] = {
         [sym__string_literal] = 792,
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 792,
+        [anon_sym_LF] = 792,
+        [anon_sym_SEMI] = 792,
         [sym_raw_string_literal] = 792,
         [sym_interpreted_string_literal] = 792,
         [sym_comment] = 8,
@@ -8633,14 +8669,16 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     },
     [313] = {
         [sym__string_literal] = 808,
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 808,
+        [anon_sym_LF] = 808,
+        [anon_sym_SEMI] = 808,
         [sym_raw_string_literal] = 808,
         [sym_interpreted_string_literal] = 808,
         [sym_comment] = 8,
     },
     [314] = {
         [sym__string_literal] = 812,
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 812,
+        [anon_sym_LF] = 812,
+        [anon_sym_SEMI] = 812,
         [sym_raw_string_literal] = 812,
         [sym_interpreted_string_literal] = 812,
         [sym_comment] = 8,
@@ -8658,7 +8696,8 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [sym_function_type] = 370,
         [sym_qualified_identifier] = 370,
         [sym__string_literal] = 816,
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 816,
+        [anon_sym_LF] = 816,
+        [anon_sym_SEMI] = 816,
         [anon_sym_LPAREN] = 846,
         [anon_sym_func] = 372,
         [anon_sym_STAR] = 374,
@@ -8697,7 +8736,8 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [sym_function_type] = 282,
         [sym_qualified_identifier] = 282,
         [sym__string_literal] = 282,
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 282,
+        [anon_sym_LF] = 282,
+        [anon_sym_SEMI] = 282,
         [anon_sym_LPAREN] = 282,
         [anon_sym_func] = 282,
         [anon_sym_STAR] = 282,
@@ -8725,7 +8765,8 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [sym_function_type] = 826,
         [sym_qualified_identifier] = 826,
         [sym__string_literal] = 826,
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 826,
+        [anon_sym_LF] = 826,
+        [anon_sym_SEMI] = 826,
         [anon_sym_LPAREN] = 826,
         [anon_sym_func] = 826,
         [anon_sym_STAR] = 826,
@@ -8742,7 +8783,8 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     },
     [320] = {
         [sym__string_literal] = 828,
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 828,
+        [anon_sym_LF] = 828,
+        [anon_sym_SEMI] = 828,
         [sym_raw_string_literal] = 828,
         [sym_interpreted_string_literal] = 828,
         [sym_comment] = 8,
@@ -8760,14 +8802,16 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     },
     [323] = {
         [sym__string_literal] = 282,
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 282,
+        [anon_sym_LF] = 282,
+        [anon_sym_SEMI] = 282,
         [sym_raw_string_literal] = 282,
         [sym_interpreted_string_literal] = 282,
         [sym_comment] = 8,
     },
     [324] = {
         [sym__string_literal] = 826,
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 826,
+        [anon_sym_LF] = 826,
+        [anon_sym_SEMI] = 826,
         [sym_raw_string_literal] = 826,
         [sym_interpreted_string_literal] = 826,
         [sym_comment] = 8,
@@ -8986,7 +9030,8 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [sym_channel_type] = 826,
         [sym_function_type] = 826,
         [sym_qualified_identifier] = 826,
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 826,
+        [anon_sym_LF] = 826,
+        [anon_sym_SEMI] = 826,
         [anon_sym_LPAREN] = 826,
         [anon_sym_func] = 826,
         [anon_sym_STAR] = 826,
@@ -9004,7 +9049,8 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [sym_comment] = 8,
     },
     [344] = {
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 886,
+        [anon_sym_LF] = 886,
+        [anon_sym_SEMI] = 886,
         [sym_comment] = 8,
     },
     [345] = {
@@ -9019,11 +9065,13 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [sym_comment] = 8,
     },
     [347] = {
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 282,
+        [anon_sym_LF] = 282,
+        [anon_sym_SEMI] = 282,
         [sym_comment] = 8,
     },
     [348] = {
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 826,
+        [anon_sym_LF] = 826,
+        [anon_sym_SEMI] = 826,
         [sym_comment] = 8,
     },
     [349] = {
@@ -9263,7 +9311,8 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [sym_comment] = 8,
     },
     [371] = {
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 240,
+        [anon_sym_LF] = 240,
+        [anon_sym_SEMI] = 240,
         [sym_comment] = 8,
     },
     [372] = {
@@ -9278,11 +9327,13 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [sym_comment] = 8,
     },
     [374] = {
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 254,
+        [anon_sym_LF] = 254,
+        [anon_sym_SEMI] = 254,
         [sym_comment] = 8,
     },
     [375] = {
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 354,
+        [anon_sym_LF] = 354,
+        [anon_sym_SEMI] = 354,
         [sym_comment] = 8,
     },
     [376] = {
@@ -9299,11 +9350,13 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [sym_comment] = 8,
     },
     [378] = {
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 394,
+        [anon_sym_LF] = 394,
+        [anon_sym_SEMI] = 394,
         [sym_comment] = 8,
     },
     [379] = {
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 426,
+        [anon_sym_LF] = 426,
+        [anon_sym_SEMI] = 426,
         [sym_comment] = 8,
     },
     [380] = {
@@ -9353,7 +9406,8 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [sym_comment] = 8,
     },
     [382] = {
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 792,
+        [anon_sym_LF] = 792,
+        [anon_sym_SEMI] = 792,
         [sym_comment] = 8,
     },
     [383] = {
@@ -9379,11 +9433,13 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [sym_comment] = 8,
     },
     [384] = {
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 808,
+        [anon_sym_LF] = 808,
+        [anon_sym_SEMI] = 808,
         [sym_comment] = 8,
     },
     [385] = {
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 812,
+        [anon_sym_LF] = 812,
+        [anon_sym_SEMI] = 812,
         [sym_comment] = 8,
     },
     [386] = {
@@ -9398,7 +9454,8 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [sym_channel_type] = 100,
         [sym_function_type] = 100,
         [sym_qualified_identifier] = 100,
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 816,
+        [anon_sym_LF] = 816,
+        [anon_sym_SEMI] = 816,
         [anon_sym_LPAREN] = 262,
         [anon_sym_func] = 102,
         [anon_sym_STAR] = 104,
@@ -9412,11 +9469,13 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [sym_comment] = 8,
     },
     [387] = {
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 828,
+        [anon_sym_LF] = 828,
+        [anon_sym_SEMI] = 828,
         [sym_comment] = 8,
     },
     [388] = {
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 944,
+        [anon_sym_LF] = 944,
+        [anon_sym_SEMI] = 944,
         [sym_comment] = 8,
     },
     [389] = {
@@ -9424,11 +9483,13 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [sym_comment] = 8,
     },
     [390] = {
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 948,
+        [anon_sym_LF] = 948,
+        [anon_sym_SEMI] = 948,
         [sym_comment] = 8,
     },
     [391] = {
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 950,
+        [anon_sym_LF] = 950,
+        [anon_sym_SEMI] = 950,
         [sym_comment] = 8,
     },
     [392] = {
@@ -9471,7 +9532,8 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [sym_function_type] = 970,
         [sym_block] = 972,
         [sym_qualified_identifier] = 970,
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 974,
+        [anon_sym_LF] = 974,
+        [anon_sym_SEMI] = 974,
         [anon_sym_LPAREN] = 976,
         [anon_sym_func] = 978,
         [anon_sym_STAR] = 980,
@@ -9509,7 +9571,8 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [sym_function_type] = 282,
         [sym_block] = 282,
         [sym_qualified_identifier] = 282,
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 282,
+        [anon_sym_LF] = 282,
+        [anon_sym_SEMI] = 282,
         [anon_sym_LPAREN] = 282,
         [anon_sym_func] = 282,
         [anon_sym_STAR] = 282,
@@ -9536,7 +9599,8 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [sym_function_type] = 826,
         [sym_block] = 826,
         [sym_qualified_identifier] = 826,
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 826,
+        [anon_sym_LF] = 826,
+        [anon_sym_SEMI] = 826,
         [anon_sym_LPAREN] = 826,
         [anon_sym_func] = 826,
         [anon_sym_STAR] = 826,
@@ -9552,18 +9616,21 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     },
     [402] = {
         [sym_block] = 1004,
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 1006,
+        [anon_sym_LF] = 1006,
+        [anon_sym_SEMI] = 1006,
         [anon_sym_LBRACE] = 986,
         [sym_comment] = 8,
     },
     [403] = {
         [sym_block] = 122,
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 122,
+        [anon_sym_LF] = 122,
+        [anon_sym_SEMI] = 122,
         [anon_sym_LBRACE] = 122,
         [sym_comment] = 8,
     },
     [404] = {
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 1006,
+        [anon_sym_LF] = 1006,
+        [anon_sym_SEMI] = 1006,
         [sym_comment] = 8,
     },
     [405] = {
@@ -9705,7 +9772,8 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     },
     [415] = {
         [sym_block] = 122,
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 122,
+        [anon_sym_LF] = 122,
+        [anon_sym_SEMI] = 122,
         [anon_sym_DOT] = 1056,
         [anon_sym_LBRACE] = 122,
         [sym_comment] = 8,
@@ -9716,7 +9784,8 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     },
     [417] = {
         [sym_block] = 168,
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 168,
+        [anon_sym_LF] = 168,
+        [anon_sym_SEMI] = 168,
         [anon_sym_LBRACE] = 168,
         [sym_comment] = 8,
     },
@@ -9744,13 +9813,15 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     },
     [419] = {
         [sym_block] = 172,
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 172,
+        [anon_sym_LF] = 172,
+        [anon_sym_SEMI] = 172,
         [anon_sym_LBRACE] = 172,
         [sym_comment] = 8,
     },
     [420] = {
         [sym_block] = 174,
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 174,
+        [anon_sym_LF] = 174,
+        [anon_sym_SEMI] = 174,
         [anon_sym_LBRACE] = 174,
         [sym_comment] = 8,
     },
@@ -9778,7 +9849,8 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     },
     [422] = {
         [sym_block] = 178,
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 178,
+        [anon_sym_LF] = 178,
+        [anon_sym_SEMI] = 178,
         [anon_sym_LBRACE] = 178,
         [sym_comment] = 8,
     },
@@ -9832,7 +9904,8 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     },
     [426] = {
         [sym_block] = 240,
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 240,
+        [anon_sym_LF] = 240,
+        [anon_sym_SEMI] = 240,
         [anon_sym_LBRACE] = 240,
         [sym_comment] = 8,
     },
@@ -9849,18 +9922,21 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     },
     [429] = {
         [sym_block] = 254,
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 254,
+        [anon_sym_LF] = 254,
+        [anon_sym_SEMI] = 254,
         [anon_sym_LBRACE] = 254,
         [sym_comment] = 8,
     },
     [430] = {
         [sym_block] = 354,
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 354,
+        [anon_sym_LF] = 354,
+        [anon_sym_SEMI] = 354,
         [anon_sym_LBRACE] = 354,
         [sym_comment] = 8,
     },
     [431] = {
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 1076,
+        [anon_sym_LF] = 1076,
+        [anon_sym_SEMI] = 1076,
         [sym_comment] = 8,
     },
     [432] = {
@@ -9874,12 +9950,14 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [sym_comment] = 8,
     },
     [434] = {
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 1086,
+        [anon_sym_LF] = 1086,
+        [anon_sym_SEMI] = 1086,
         [sym_comment] = 8,
     },
     [435] = {
         [aux_sym_expression_list_repeat1] = 1088,
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 1076,
+        [anon_sym_LF] = 1076,
+        [anon_sym_SEMI] = 1076,
         [anon_sym_LPAREN] = 1090,
         [anon_sym_COMMA] = 1092,
         [anon_sym_STAR] = 1094,
@@ -9910,7 +9988,8 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     },
     [436] = {
         [aux_sym_expression_list_repeat1] = 500,
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 500,
+        [anon_sym_LF] = 500,
+        [anon_sym_SEMI] = 500,
         [anon_sym_LPAREN] = 500,
         [anon_sym_COMMA] = 500,
         [anon_sym_STAR] = 500,
@@ -9941,7 +10020,8 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     },
     [437] = {
         [aux_sym_expression_list_repeat1] = 502,
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 502,
+        [anon_sym_LF] = 502,
+        [anon_sym_SEMI] = 502,
         [anon_sym_LPAREN] = 502,
         [anon_sym_COMMA] = 502,
         [anon_sym_STAR] = 502,
@@ -9975,13 +10055,15 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [sym_comment] = 8,
     },
     [439] = {
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 1112,
+        [anon_sym_LF] = 1112,
+        [anon_sym_SEMI] = 1112,
         [sym_comment] = 8,
     },
     [440] = {
         [sym_literal_value] = 1082,
         [aux_sym_expression_list_repeat1] = 502,
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 502,
+        [anon_sym_LF] = 502,
+        [anon_sym_SEMI] = 502,
         [anon_sym_LPAREN] = 502,
         [anon_sym_COMMA] = 502,
         [anon_sym_STAR] = 502,
@@ -10013,7 +10095,8 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     },
     [441] = {
         [aux_sym_expression_list_repeat1] = 414,
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 414,
+        [anon_sym_LF] = 414,
+        [anon_sym_SEMI] = 414,
         [anon_sym_LPAREN] = 414,
         [anon_sym_COMMA] = 414,
         [anon_sym_STAR] = 414,
@@ -10044,7 +10127,8 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     },
     [442] = {
         [aux_sym_expression_list_repeat1] = 512,
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 512,
+        [anon_sym_LF] = 512,
+        [anon_sym_SEMI] = 512,
         [anon_sym_LPAREN] = 512,
         [anon_sym_COMMA] = 512,
         [anon_sym_STAR] = 512,
@@ -10075,7 +10159,8 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     },
     [443] = {
         [aux_sym_expression_list_repeat1] = 514,
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 514,
+        [anon_sym_LF] = 514,
+        [anon_sym_SEMI] = 514,
         [anon_sym_LPAREN] = 514,
         [anon_sym_COMMA] = 514,
         [anon_sym_STAR] = 514,
@@ -10139,7 +10224,8 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     },
     [446] = {
         [aux_sym_expression_list_repeat1] = 570,
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 570,
+        [anon_sym_LF] = 570,
+        [anon_sym_SEMI] = 570,
         [anon_sym_LPAREN] = 570,
         [anon_sym_COMMA] = 570,
         [anon_sym_STAR] = 570,
@@ -10170,7 +10256,8 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     },
     [447] = {
         [aux_sym_expression_list_repeat1] = 578,
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 578,
+        [anon_sym_LF] = 578,
+        [anon_sym_SEMI] = 578,
         [anon_sym_LPAREN] = 578,
         [anon_sym_COMMA] = 578,
         [anon_sym_STAR] = 578,
@@ -10200,7 +10287,8 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [sym_comment] = 8,
     },
     [448] = {
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 1120,
+        [anon_sym_LF] = 1120,
+        [anon_sym_SEMI] = 1120,
         [sym_comment] = 8,
     },
     [449] = {
@@ -10306,11 +10394,13 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [sym_comment] = 8,
     },
     [454] = {
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 1154,
+        [anon_sym_LF] = 1154,
+        [anon_sym_SEMI] = 1154,
         [sym_comment] = 8,
     },
     [455] = {
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 1156,
+        [anon_sym_LF] = 1156,
+        [anon_sym_SEMI] = 1156,
         [sym_comment] = 8,
     },
     [456] = {
@@ -10411,7 +10501,8 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     },
     [460] = {
         [aux_sym_expression_list_repeat1] = 662,
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 662,
+        [anon_sym_LF] = 662,
+        [anon_sym_SEMI] = 662,
         [anon_sym_LPAREN] = 662,
         [anon_sym_COMMA] = 662,
         [anon_sym_STAR] = 1094,
@@ -10442,7 +10533,8 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     },
     [461] = {
         [aux_sym_expression_list_repeat1] = 662,
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 662,
+        [anon_sym_LF] = 662,
+        [anon_sym_SEMI] = 662,
         [anon_sym_LPAREN] = 662,
         [anon_sym_COMMA] = 662,
         [anon_sym_STAR] = 1094,
@@ -10473,7 +10565,8 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     },
     [462] = {
         [aux_sym_expression_list_repeat1] = 662,
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 662,
+        [anon_sym_LF] = 662,
+        [anon_sym_SEMI] = 662,
         [anon_sym_LPAREN] = 662,
         [anon_sym_COMMA] = 662,
         [anon_sym_STAR] = 1094,
@@ -10504,7 +10597,8 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     },
     [463] = {
         [aux_sym_expression_list_repeat1] = 662,
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 662,
+        [anon_sym_LF] = 662,
+        [anon_sym_SEMI] = 662,
         [anon_sym_LPAREN] = 662,
         [anon_sym_COMMA] = 662,
         [anon_sym_STAR] = 1094,
@@ -10535,7 +10629,8 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     },
     [464] = {
         [aux_sym_expression_list_repeat1] = 664,
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 664,
+        [anon_sym_LF] = 664,
+        [anon_sym_SEMI] = 664,
         [anon_sym_LPAREN] = 664,
         [anon_sym_COMMA] = 664,
         [anon_sym_STAR] = 664,
@@ -10570,7 +10665,8 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [sym_comment] = 8,
     },
     [466] = {
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 1170,
+        [anon_sym_LF] = 1170,
+        [anon_sym_SEMI] = 1170,
         [anon_sym_LPAREN] = 1172,
         [anon_sym_STAR] = 1174,
         [anon_sym_SLASH] = 1174,
@@ -10594,7 +10690,8 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [sym_comment] = 8,
     },
     [467] = {
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 500,
+        [anon_sym_LF] = 500,
+        [anon_sym_SEMI] = 500,
         [anon_sym_LPAREN] = 500,
         [anon_sym_STAR] = 500,
         [anon_sym_SLASH] = 500,
@@ -10618,7 +10715,8 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [sym_comment] = 8,
     },
     [468] = {
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 502,
+        [anon_sym_LF] = 502,
+        [anon_sym_SEMI] = 502,
         [anon_sym_LPAREN] = 502,
         [anon_sym_STAR] = 502,
         [anon_sym_SLASH] = 502,
@@ -10643,7 +10741,8 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     },
     [469] = {
         [sym_literal_value] = 1166,
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 502,
+        [anon_sym_LF] = 502,
+        [anon_sym_SEMI] = 502,
         [anon_sym_LPAREN] = 502,
         [anon_sym_STAR] = 502,
         [anon_sym_LBRACE] = 1168,
@@ -10668,7 +10767,8 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [sym_comment] = 8,
     },
     [470] = {
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 414,
+        [anon_sym_LF] = 414,
+        [anon_sym_SEMI] = 414,
         [anon_sym_LPAREN] = 414,
         [anon_sym_STAR] = 414,
         [anon_sym_SLASH] = 414,
@@ -10692,7 +10792,8 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [sym_comment] = 8,
     },
     [471] = {
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 512,
+        [anon_sym_LF] = 512,
+        [anon_sym_SEMI] = 512,
         [anon_sym_LPAREN] = 512,
         [anon_sym_STAR] = 512,
         [anon_sym_SLASH] = 512,
@@ -10716,7 +10817,8 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [sym_comment] = 8,
     },
     [472] = {
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 514,
+        [anon_sym_LF] = 514,
+        [anon_sym_SEMI] = 514,
         [anon_sym_LPAREN] = 514,
         [anon_sym_STAR] = 514,
         [anon_sym_SLASH] = 514,
@@ -10773,7 +10875,8 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [sym_comment] = 8,
     },
     [475] = {
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 570,
+        [anon_sym_LF] = 570,
+        [anon_sym_SEMI] = 570,
         [anon_sym_LPAREN] = 570,
         [anon_sym_STAR] = 570,
         [anon_sym_SLASH] = 570,
@@ -10797,7 +10900,8 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [sym_comment] = 8,
     },
     [476] = {
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 578,
+        [anon_sym_LF] = 578,
+        [anon_sym_SEMI] = 578,
         [anon_sym_LPAREN] = 578,
         [anon_sym_STAR] = 578,
         [anon_sym_SLASH] = 578,
@@ -10966,7 +11070,8 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [sym_comment] = 8,
     },
     [483] = {
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 662,
+        [anon_sym_LF] = 662,
+        [anon_sym_SEMI] = 662,
         [anon_sym_LPAREN] = 662,
         [anon_sym_STAR] = 1174,
         [anon_sym_SLASH] = 1174,
@@ -10990,7 +11095,8 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [sym_comment] = 8,
     },
     [484] = {
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 662,
+        [anon_sym_LF] = 662,
+        [anon_sym_SEMI] = 662,
         [anon_sym_LPAREN] = 662,
         [anon_sym_STAR] = 1174,
         [anon_sym_SLASH] = 1174,
@@ -11014,7 +11120,8 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [sym_comment] = 8,
     },
     [485] = {
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 662,
+        [anon_sym_LF] = 662,
+        [anon_sym_SEMI] = 662,
         [anon_sym_LPAREN] = 662,
         [anon_sym_STAR] = 1174,
         [anon_sym_SLASH] = 1174,
@@ -11038,7 +11145,8 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [sym_comment] = 8,
     },
     [486] = {
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 662,
+        [anon_sym_LF] = 662,
+        [anon_sym_SEMI] = 662,
         [anon_sym_LPAREN] = 662,
         [anon_sym_STAR] = 1174,
         [anon_sym_SLASH] = 1174,
@@ -11062,7 +11170,8 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [sym_comment] = 8,
     },
     [487] = {
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 664,
+        [anon_sym_LF] = 664,
+        [anon_sym_SEMI] = 664,
         [anon_sym_LPAREN] = 664,
         [anon_sym_STAR] = 664,
         [anon_sym_SLASH] = 664,
@@ -11090,7 +11199,8 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [sym_comment] = 8,
     },
     [489] = {
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 720,
+        [anon_sym_LF] = 720,
+        [anon_sym_SEMI] = 720,
         [anon_sym_LPAREN] = 720,
         [anon_sym_STAR] = 720,
         [anon_sym_SLASH] = 720,
@@ -11718,7 +11828,8 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     },
     [517] = {
         [aux_sym_expression_list_repeat1] = 720,
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 720,
+        [anon_sym_LF] = 720,
+        [anon_sym_SEMI] = 720,
         [anon_sym_LPAREN] = 720,
         [anon_sym_COMMA] = 720,
         [anon_sym_STAR] = 720,
@@ -11842,7 +11953,8 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [sym_comment] = 8,
     },
     [522] = {
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 1268,
+        [anon_sym_LF] = 1268,
+        [anon_sym_SEMI] = 1268,
         [sym_comment] = 8,
     },
     [523] = {
@@ -11852,7 +11964,8 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     },
     [524] = {
         [aux_sym_expression_list_repeat1] = 1274,
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 676,
+        [anon_sym_LF] = 676,
+        [anon_sym_SEMI] = 676,
         [anon_sym_LPAREN] = 1276,
         [anon_sym_COMMA] = 1278,
         [anon_sym_STAR] = 1280,
@@ -11878,7 +11991,8 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     },
     [525] = {
         [aux_sym_expression_list_repeat1] = 500,
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 500,
+        [anon_sym_LF] = 500,
+        [anon_sym_SEMI] = 500,
         [anon_sym_LPAREN] = 500,
         [anon_sym_COMMA] = 500,
         [anon_sym_STAR] = 500,
@@ -11904,7 +12018,8 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     },
     [526] = {
         [aux_sym_expression_list_repeat1] = 502,
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 502,
+        [anon_sym_LF] = 502,
+        [anon_sym_SEMI] = 502,
         [anon_sym_LPAREN] = 502,
         [anon_sym_COMMA] = 502,
         [anon_sym_STAR] = 502,
@@ -11931,7 +12046,8 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [527] = {
         [sym_literal_value] = 1270,
         [aux_sym_expression_list_repeat1] = 502,
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 502,
+        [anon_sym_LF] = 502,
+        [anon_sym_SEMI] = 502,
         [anon_sym_LPAREN] = 502,
         [anon_sym_COMMA] = 502,
         [anon_sym_STAR] = 502,
@@ -11958,7 +12074,8 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     },
     [528] = {
         [aux_sym_expression_list_repeat1] = 414,
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 414,
+        [anon_sym_LF] = 414,
+        [anon_sym_SEMI] = 414,
         [anon_sym_LPAREN] = 414,
         [anon_sym_COMMA] = 414,
         [anon_sym_STAR] = 414,
@@ -11984,7 +12101,8 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     },
     [529] = {
         [aux_sym_expression_list_repeat1] = 512,
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 512,
+        [anon_sym_LF] = 512,
+        [anon_sym_SEMI] = 512,
         [anon_sym_LPAREN] = 512,
         [anon_sym_COMMA] = 512,
         [anon_sym_STAR] = 512,
@@ -12010,7 +12128,8 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     },
     [530] = {
         [aux_sym_expression_list_repeat1] = 514,
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 514,
+        [anon_sym_LF] = 514,
+        [anon_sym_SEMI] = 514,
         [anon_sym_LPAREN] = 514,
         [anon_sym_COMMA] = 514,
         [anon_sym_STAR] = 514,
@@ -12069,7 +12188,8 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     },
     [533] = {
         [aux_sym_expression_list_repeat1] = 570,
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 570,
+        [anon_sym_LF] = 570,
+        [anon_sym_SEMI] = 570,
         [anon_sym_LPAREN] = 570,
         [anon_sym_COMMA] = 570,
         [anon_sym_STAR] = 570,
@@ -12095,7 +12215,8 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     },
     [534] = {
         [aux_sym_expression_list_repeat1] = 578,
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 578,
+        [anon_sym_LF] = 578,
+        [anon_sym_SEMI] = 578,
         [anon_sym_LPAREN] = 578,
         [anon_sym_COMMA] = 578,
         [anon_sym_STAR] = 578,
@@ -12120,7 +12241,8 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [sym_comment] = 8,
     },
     [535] = {
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 696,
+        [anon_sym_LF] = 696,
+        [anon_sym_SEMI] = 696,
         [sym_comment] = 8,
     },
     [536] = {
@@ -12294,7 +12416,8 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     },
     [543] = {
         [aux_sym_expression_list_repeat1] = 662,
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 662,
+        [anon_sym_LF] = 662,
+        [anon_sym_SEMI] = 662,
         [anon_sym_LPAREN] = 662,
         [anon_sym_COMMA] = 662,
         [anon_sym_STAR] = 1280,
@@ -12320,7 +12443,8 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     },
     [544] = {
         [aux_sym_expression_list_repeat1] = 662,
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 662,
+        [anon_sym_LF] = 662,
+        [anon_sym_SEMI] = 662,
         [anon_sym_LPAREN] = 662,
         [anon_sym_COMMA] = 662,
         [anon_sym_STAR] = 1280,
@@ -12346,7 +12470,8 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     },
     [545] = {
         [aux_sym_expression_list_repeat1] = 662,
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 662,
+        [anon_sym_LF] = 662,
+        [anon_sym_SEMI] = 662,
         [anon_sym_LPAREN] = 662,
         [anon_sym_COMMA] = 662,
         [anon_sym_STAR] = 1280,
@@ -12372,7 +12497,8 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     },
     [546] = {
         [aux_sym_expression_list_repeat1] = 662,
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 662,
+        [anon_sym_LF] = 662,
+        [anon_sym_SEMI] = 662,
         [anon_sym_LPAREN] = 662,
         [anon_sym_COMMA] = 662,
         [anon_sym_STAR] = 1280,
@@ -12398,7 +12524,8 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     },
     [547] = {
         [aux_sym_expression_list_repeat1] = 664,
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 664,
+        [anon_sym_LF] = 664,
+        [anon_sym_SEMI] = 664,
         [anon_sym_LPAREN] = 664,
         [anon_sym_COMMA] = 664,
         [anon_sym_STAR] = 664,
@@ -12424,7 +12551,8 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     },
     [548] = {
         [aux_sym_expression_list_repeat1] = 1310,
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 714,
+        [anon_sym_LF] = 714,
+        [anon_sym_SEMI] = 714,
         [anon_sym_LPAREN] = 1276,
         [anon_sym_COMMA] = 1278,
         [anon_sym_STAR] = 1280,
@@ -12449,7 +12577,8 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [sym_comment] = 8,
     },
     [549] = {
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 716,
+        [anon_sym_LF] = 716,
+        [anon_sym_SEMI] = 716,
         [sym_comment] = 8,
     },
     [550] = {
@@ -12458,7 +12587,8 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     },
     [551] = {
         [aux_sym_expression_list_repeat1] = 720,
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 720,
+        [anon_sym_LF] = 720,
+        [anon_sym_SEMI] = 720,
         [anon_sym_LPAREN] = 720,
         [anon_sym_COMMA] = 720,
         [anon_sym_STAR] = 720,
@@ -12483,7 +12613,8 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [sym_comment] = 8,
     },
     [552] = {
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 1314,
+        [anon_sym_LF] = 1314,
+        [anon_sym_SEMI] = 1314,
         [sym_comment] = 8,
     },
     [553] = {
@@ -12501,13 +12632,15 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     },
     [555] = {
         [sym_block] = 394,
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 394,
+        [anon_sym_LF] = 394,
+        [anon_sym_SEMI] = 394,
         [anon_sym_LBRACE] = 394,
         [sym_comment] = 8,
     },
     [556] = {
         [sym_block] = 426,
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 426,
+        [anon_sym_LF] = 426,
+        [anon_sym_SEMI] = 426,
         [anon_sym_LBRACE] = 426,
         [sym_comment] = 8,
     },
@@ -12559,7 +12692,8 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     },
     [559] = {
         [sym_block] = 792,
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 792,
+        [anon_sym_LF] = 792,
+        [anon_sym_SEMI] = 792,
         [anon_sym_LBRACE] = 792,
         [sym_comment] = 8,
     },
@@ -12587,13 +12721,15 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     },
     [561] = {
         [sym_block] = 808,
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 808,
+        [anon_sym_LF] = 808,
+        [anon_sym_SEMI] = 808,
         [anon_sym_LBRACE] = 808,
         [sym_comment] = 8,
     },
     [562] = {
         [sym_block] = 812,
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 812,
+        [anon_sym_LF] = 812,
+        [anon_sym_SEMI] = 812,
         [anon_sym_LBRACE] = 812,
         [sym_comment] = 8,
     },
@@ -12610,7 +12746,8 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [sym_function_type] = 970,
         [sym_block] = 816,
         [sym_qualified_identifier] = 970,
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 816,
+        [anon_sym_LF] = 816,
+        [anon_sym_SEMI] = 816,
         [anon_sym_LPAREN] = 976,
         [anon_sym_func] = 978,
         [anon_sym_STAR] = 980,
@@ -12626,7 +12763,8 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     },
     [564] = {
         [sym_block] = 828,
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 828,
+        [anon_sym_LF] = 828,
+        [anon_sym_SEMI] = 828,
         [anon_sym_LBRACE] = 828,
         [sym_comment] = 8,
     },
@@ -12636,18 +12774,21 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     },
     [566] = {
         [sym_block] = 282,
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 282,
+        [anon_sym_LF] = 282,
+        [anon_sym_SEMI] = 282,
         [anon_sym_LBRACE] = 282,
         [sym_comment] = 8,
     },
     [567] = {
         [sym_block] = 826,
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 826,
+        [anon_sym_LF] = 826,
+        [anon_sym_SEMI] = 826,
         [anon_sym_LBRACE] = 826,
         [sym_comment] = 8,
     },
     [568] = {
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 1332,
+        [anon_sym_LF] = 1332,
+        [anon_sym_SEMI] = 1332,
         [sym_comment] = 8,
     },
     [569] = {
@@ -12680,7 +12821,8 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [sym_function_type] = 970,
         [sym_block] = 1340,
         [sym_qualified_identifier] = 970,
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 1342,
+        [anon_sym_LF] = 1342,
+        [anon_sym_SEMI] = 1342,
         [anon_sym_LPAREN] = 976,
         [anon_sym_func] = 978,
         [anon_sym_STAR] = 980,
@@ -12696,20 +12838,24 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     },
     [574] = {
         [sym_block] = 1344,
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 1346,
+        [anon_sym_LF] = 1346,
+        [anon_sym_SEMI] = 1346,
         [anon_sym_LBRACE] = 986,
         [sym_comment] = 8,
     },
     [575] = {
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 1346,
+        [anon_sym_LF] = 1346,
+        [anon_sym_SEMI] = 1346,
         [sym_comment] = 8,
     },
     [576] = {
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 1348,
+        [anon_sym_LF] = 1348,
+        [anon_sym_SEMI] = 1348,
         [sym_comment] = 8,
     },
     [577] = {
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 1350,
+        [anon_sym_LF] = 1350,
+        [anon_sym_SEMI] = 1350,
         [sym_comment] = 8,
     },
     [578] = {
@@ -12844,7 +12990,8 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [sym_comment] = 8,
     },
     [585] = {
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 1390,
+        [anon_sym_LF] = 1390,
+        [anon_sym_SEMI] = 1390,
         [sym_comment] = 8,
     },
     [586] = {
@@ -12852,11 +12999,13 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [sym_comment] = 8,
     },
     [587] = {
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 1394,
+        [anon_sym_LF] = 1394,
+        [anon_sym_SEMI] = 1394,
         [sym_comment] = 8,
     },
     [588] = {
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 1396,
+        [anon_sym_LF] = 1396,
+        [anon_sym_SEMI] = 1396,
         [sym_comment] = 8,
     },
     [589] = {
@@ -12872,12 +13021,14 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [sym_comment] = 8,
     },
     [591] = {
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 1404,
+        [anon_sym_LF] = 1404,
+        [anon_sym_SEMI] = 1404,
         [anon_sym_EQ] = 1406,
         [sym_comment] = 8,
     },
     [592] = {
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 122,
+        [anon_sym_LF] = 122,
+        [anon_sym_SEMI] = 122,
         [anon_sym_EQ] = 122,
         [sym_comment] = 8,
     },
@@ -12997,7 +13148,8 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [sym_comment] = 8,
     },
     [602] = {
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 122,
+        [anon_sym_LF] = 122,
+        [anon_sym_SEMI] = 122,
         [anon_sym_DOT] = 1432,
         [anon_sym_EQ] = 122,
         [sym_comment] = 8,
@@ -13007,7 +13159,8 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [sym_comment] = 8,
     },
     [604] = {
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 168,
+        [anon_sym_LF] = 168,
+        [anon_sym_SEMI] = 168,
         [anon_sym_EQ] = 168,
         [sym_comment] = 8,
     },
@@ -13034,12 +13187,14 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [sym_comment] = 8,
     },
     [606] = {
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 172,
+        [anon_sym_LF] = 172,
+        [anon_sym_SEMI] = 172,
         [anon_sym_EQ] = 172,
         [sym_comment] = 8,
     },
     [607] = {
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 174,
+        [anon_sym_LF] = 174,
+        [anon_sym_SEMI] = 174,
         [anon_sym_EQ] = 174,
         [sym_comment] = 8,
     },
@@ -13066,7 +13221,8 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [sym_comment] = 8,
     },
     [609] = {
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 178,
+        [anon_sym_LF] = 178,
+        [anon_sym_SEMI] = 178,
         [anon_sym_EQ] = 178,
         [sym_comment] = 8,
     },
@@ -13119,7 +13275,8 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [sym_comment] = 8,
     },
     [613] = {
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 240,
+        [anon_sym_LF] = 240,
+        [anon_sym_SEMI] = 240,
         [anon_sym_EQ] = 240,
         [sym_comment] = 8,
     },
@@ -13135,12 +13292,14 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [sym_comment] = 8,
     },
     [616] = {
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 254,
+        [anon_sym_LF] = 254,
+        [anon_sym_SEMI] = 254,
         [anon_sym_EQ] = 254,
         [sym_comment] = 8,
     },
     [617] = {
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 354,
+        [anon_sym_LF] = 354,
+        [anon_sym_SEMI] = 354,
         [anon_sym_EQ] = 354,
         [sym_comment] = 8,
     },
@@ -13158,12 +13317,14 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [sym_comment] = 8,
     },
     [620] = {
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 394,
+        [anon_sym_LF] = 394,
+        [anon_sym_SEMI] = 394,
         [anon_sym_EQ] = 394,
         [sym_comment] = 8,
     },
     [621] = {
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 426,
+        [anon_sym_LF] = 426,
+        [anon_sym_SEMI] = 426,
         [anon_sym_EQ] = 426,
         [sym_comment] = 8,
     },
@@ -13214,7 +13375,8 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [sym_comment] = 8,
     },
     [624] = {
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 792,
+        [anon_sym_LF] = 792,
+        [anon_sym_SEMI] = 792,
         [anon_sym_EQ] = 792,
         [sym_comment] = 8,
     },
@@ -13241,12 +13403,14 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [sym_comment] = 8,
     },
     [626] = {
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 808,
+        [anon_sym_LF] = 808,
+        [anon_sym_SEMI] = 808,
         [anon_sym_EQ] = 808,
         [sym_comment] = 8,
     },
     [627] = {
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 812,
+        [anon_sym_LF] = 812,
+        [anon_sym_SEMI] = 812,
         [anon_sym_EQ] = 812,
         [sym_comment] = 8,
     },
@@ -13262,7 +13426,8 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [sym_channel_type] = 1354,
         [sym_function_type] = 1354,
         [sym_qualified_identifier] = 1354,
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 816,
+        [anon_sym_LF] = 816,
+        [anon_sym_SEMI] = 816,
         [anon_sym_LPAREN] = 1466,
         [anon_sym_EQ] = 816,
         [anon_sym_func] = 1358,
@@ -13299,7 +13464,8 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [sym_channel_type] = 282,
         [sym_function_type] = 282,
         [sym_qualified_identifier] = 282,
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 282,
+        [anon_sym_LF] = 282,
+        [anon_sym_SEMI] = 282,
         [anon_sym_LPAREN] = 282,
         [anon_sym_EQ] = 282,
         [anon_sym_func] = 282,
@@ -13325,7 +13491,8 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [sym_channel_type] = 826,
         [sym_function_type] = 826,
         [sym_qualified_identifier] = 826,
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 826,
+        [anon_sym_LF] = 826,
+        [anon_sym_SEMI] = 826,
         [anon_sym_LPAREN] = 826,
         [anon_sym_EQ] = 826,
         [anon_sym_func] = 826,
@@ -13340,7 +13507,8 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [sym_comment] = 8,
     },
     [633] = {
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 828,
+        [anon_sym_LF] = 828,
+        [anon_sym_SEMI] = 828,
         [anon_sym_EQ] = 828,
         [sym_comment] = 8,
     },
@@ -13356,17 +13524,20 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [sym_comment] = 8,
     },
     [636] = {
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 282,
+        [anon_sym_LF] = 282,
+        [anon_sym_SEMI] = 282,
         [anon_sym_EQ] = 282,
         [sym_comment] = 8,
     },
     [637] = {
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 826,
+        [anon_sym_LF] = 826,
+        [anon_sym_SEMI] = 826,
         [anon_sym_EQ] = 826,
         [sym_comment] = 8,
     },
     [638] = {
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 1480,
+        [anon_sym_LF] = 1480,
+        [anon_sym_SEMI] = 1480,
         [sym_comment] = 8,
     },
     [639] = {
@@ -13395,11 +13566,13 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [sym_comment] = 8,
     },
     [640] = {
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 1484,
+        [anon_sym_LF] = 1484,
+        [anon_sym_SEMI] = 1484,
         [sym_comment] = 8,
     },
     [641] = {
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 1486,
+        [anon_sym_LF] = 1486,
+        [anon_sym_SEMI] = 1486,
         [sym_comment] = 8,
     },
     [642] = {
@@ -13434,7 +13607,8 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [sym_comment] = 8,
     },
     [644] = {
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 1518,
+        [anon_sym_LF] = 1518,
+        [anon_sym_SEMI] = 1518,
         [sym_comment] = 8,
     },
     [645] = {
@@ -13442,11 +13616,13 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [sym_comment] = 8,
     },
     [646] = {
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 1522,
+        [anon_sym_LF] = 1522,
+        [anon_sym_SEMI] = 1522,
         [sym_comment] = 8,
     },
     [647] = {
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 1524,
+        [anon_sym_LF] = 1524,
+        [anon_sym_SEMI] = 1524,
         [sym_comment] = 8,
     },
     [648] = {
@@ -13935,7 +14111,8 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [sym_comment] = 8,
     },
     [697] = {
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 1606,
+        [anon_sym_LF] = 1606,
+        [anon_sym_SEMI] = 1606,
         [sym_comment] = 8,
     },
     [698] = {
@@ -13964,7 +14141,8 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [sym_comment] = 8,
     },
     [699] = {
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 1610,
+        [anon_sym_LF] = 1610,
+        [anon_sym_SEMI] = 1610,
         [sym_comment] = 8,
     },
     [700] = {
@@ -14061,11 +14239,13 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [sym_comment] = 8,
     },
     [706] = {
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 1630,
+        [anon_sym_LF] = 1630,
+        [anon_sym_SEMI] = 1630,
         [sym_comment] = 8,
     },
     [707] = {
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 1614,
+        [anon_sym_LF] = 1614,
+        [anon_sym_SEMI] = 1614,
         [sym_comment] = 8,
     },
     [708] = {
@@ -14098,7 +14278,8 @@ static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
         [sym_comment] = 8,
     },
     [711] = {
-        [aux_sym_SLASH_LPAREN_LF_PIPE_SEMI_RPAREN_SLASH] = 1628,
+        [anon_sym_LF] = 1628,
+        [anon_sym_SEMI] = 1628,
         [sym_comment] = 8,
     },
     [712] = {
