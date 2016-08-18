@@ -92,3 +92,22 @@ func main() {
     (call_expression
       (selector_expression (identifier) (identifier))
       (expression_list (identifier))))))
+
+============================================
+Unary expressions
+============================================
+
+package main
+
+func main() {
+  !<-a
+  *foo()
+}
+
+---
+
+(source_file
+  (package_clause (identifier))
+  (function_declaration (identifier) (parameters) (block
+    (unary_expression (unary_expression (identifier)))
+    (call_expression (unary_expression (identifier))))))

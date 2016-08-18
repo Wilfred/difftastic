@@ -1,5 +1,6 @@
 const
   PREC = {
+    unary: 6,
     multiplicative: 5,
     additive: 4,
     comparative: 3,
@@ -214,7 +215,7 @@ module.exports = grammar({
       seq('(', $._type, ')')
     ),
 
-    pointer_type: $ => seq('*', $._type),
+    pointer_type: $ => prec(PREC.unary, seq('*', $._type)),
 
     array_type: $ => seq(
       '[',
@@ -438,7 +439,10 @@ module.exports = grammar({
       $.block
     ),
 
-    unary_expression: $ => NOT_IMPLEMENTED,
+    unary_expression: $ => prec(PREC.unary, seq(
+      choice('+', '-', '!', '^', '*', '&', '<-'),
+      $._expression
+    )),
 
     binary_expression: $ => choice(
       prec.left(PREC.multiplicative, seq($._expression, multiplicative_operator, $._expression)),
