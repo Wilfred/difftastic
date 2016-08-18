@@ -719,6 +719,10 @@
         {
           "type": "SYMBOL",
           "name": "map_type"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "channel_type"
         }
       ]
     },
@@ -984,6 +988,62 @@
         {
           "type": "SYMBOL",
           "name": "_type"
+        }
+      ]
+    },
+    "channel_type": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "PREC",
+          "value": 5,
+          "content": {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "chan"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "_type"
+              }
+            ]
+          }
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "chan"
+            },
+            {
+              "type": "STRING",
+              "value": "<-"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_type"
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "<-"
+            },
+            {
+              "type": "STRING",
+              "value": "chan"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_type"
+            }
+          ]
         }
       ]
     },

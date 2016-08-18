@@ -172,3 +172,30 @@ type (
     (type_spec
       (identifier)
       (pointer_type (pointer_type (identifier))))))
+
+============================================
+Channel types
+============================================
+
+package main
+
+type (
+  c1 chan<- chan int
+  c2 chan<- chan<- struct{}
+  c3 chan<- <-chan int
+)
+
+---
+
+(source_file
+  (package_clause (identifier))
+  (type_declaration
+    (type_spec
+      (identifier)
+      (channel_type (channel_type (identifier))))
+    (type_spec
+      (identifier)
+      (channel_type (channel_type (struct_type))))
+    (type_spec
+      (identifier)
+      (channel_type (channel_type (identifier))))))

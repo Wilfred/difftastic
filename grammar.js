@@ -197,7 +197,8 @@ module.exports = grammar({
       $.interface_type,
       $.array_type,
       $.slice_type,
-      $.map_type
+      $.map_type,
+      $.channel_type
     ),
 
     pointer_type: $ => seq('*', $._type),
@@ -252,6 +253,12 @@ module.exports = grammar({
       $._type,
       ']',
       $._type
+    ),
+
+    channel_type: $ => choice(
+      prec(5, seq('chan', $._type)),
+      seq('chan', '<-', $._type),
+      seq('<-', 'chan', $._type)
     ),
 
     qualified_identifier: $ => seq(
