@@ -115,3 +115,22 @@ func main() {
     (assignment_statement
       (expression_list (identifier))
       (expression_list (int_literal))))))
+
+============================================
+Short var declarations
+============================================
+
+package main
+
+func main() {
+  a, b := 1, 2
+}
+
+---
+
+(source_file
+  (package_clause (identifier))
+  (function_declaration (identifier) (parameters) (block
+    (short_var_declaration
+      (expression_list (identifier) (identifier))
+      (expression_list (int_literal) (int_literal))))))

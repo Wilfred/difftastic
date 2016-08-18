@@ -278,7 +278,8 @@ module.exports = grammar({
       $.send_statement,
       $.inc_statement,
       $.dec_statement,
-      $.assignment_statement
+      $.assignment_statement,
+      $.short_var_declaration
     ),
 
     send_statement: $ => seq(
@@ -303,6 +304,14 @@ module.exports = grammar({
         optional(choice(multiplicative_operator, additive_operator)),
         '='
       )),
+      $.expression_list
+    ),
+
+    short_var_declaration: $ => seq(
+      // TODO: this should really only allow identifier lists, but that causes
+      // conflicts between identifiers as expressions vs identifiers here.
+      $.expression_list,
+      ':=',
       $.expression_list
     ),
 
