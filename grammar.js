@@ -364,6 +364,7 @@ module.exports = grammar({
       $._expression,
       '(',
       optional($.expression_list),
+      optional(seq('...', optional(','))),
       ')'
     ),
 

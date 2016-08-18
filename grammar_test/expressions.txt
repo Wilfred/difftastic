@@ -1,4 +1,34 @@
 ============================================
+Call expressions
+============================================
+
+package main
+
+func main() {
+  a(b, c...)
+  d(
+    e,
+    f...,
+  )
+}
+
+---
+
+(source_file
+  (package_clause (identifier))
+  (function_declaration (identifier) (parameters) (block
+    (call_expression
+      (identifier)
+      (expression_list
+        (identifier)
+        (identifier)))
+    (call_expression
+      (identifier)
+      (expression_list
+        (identifier)
+        (identifier))))))
+
+============================================
 Selector expressions
 ============================================
 
