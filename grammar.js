@@ -274,6 +274,13 @@ module.exports = grammar({
 
     _statement: $ => choice(
       $._declaration,
+      $._expression,
+      $.send_statement
+    ),
+
+    send_statement: $ => seq(
+      $._expression,
+      '<-',
       $._expression
     ),
 

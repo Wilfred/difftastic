@@ -35,3 +35,37 @@ func main() {
   (package_clause (identifier))
   (function_declaration (identifier) (parameters) (block
     (call_expression (identifier) (expression_list (int_literal))))))
+
+============================================
+Expression statements
+============================================
+
+package main
+
+func main() {
+  foo(5)
+}
+
+---
+
+(source_file
+  (package_clause (identifier))
+  (function_declaration (identifier) (parameters) (block
+    (call_expression (identifier) (expression_list (int_literal))))))
+
+============================================
+Send statements
+============================================
+
+package main
+
+func main() {
+  foo <- 5
+}
+
+---
+
+(source_file
+  (package_clause (identifier))
+  (function_declaration (identifier) (parameters) (block
+    (send_statement (identifier) (int_literal)))))
