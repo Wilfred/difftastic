@@ -26,20 +26,24 @@ const
   octalByteValue = seq('\\', octalDigit, octalDigit, octalDigit)
   byteValue = choice(octalByteValue, hexByteValue),
 
-  hexLiteral = token(seq('0', choice('x', 'X'), repeat1(hexDigit))),
-  octalLiteral = token(seq('0', repeat(octalDigit))),
-  decimalLiteral = token(seq(/[1-9]/, repeat(decimalDigit))),
-
   newline = '\n',
   letter = choice(unicodeLetter, '_'),
 
+  decimals = repeat1(decimalDigit),
   exponent = seq(
     choice('e', 'E'),
     optional(choice('+', '-')),
     repeat1(decimalDigit)
   ),
 
-  decimals = repeat1(decimalDigit),
+  hexLiteral = seq('0', choice('x', 'X'), repeat1(hexDigit)),
+  octalLiteral = seq('0', repeat(octalDigit)),
+  decimalLiteral = seq(/[1-9]/, repeat(decimalDigit)),
+  floatLiteral = choice(
+    seq(decimals, '.', optional(decimals), optional(exponent)),
+    seq(decimals, exponent),
+    seq('.', decimals, optional(exponent))
+  ),
 
   terminator = choice(newline, ';')
 
@@ -489,6 +493,7 @@ module.exports = grammar({
       $._string_literal,
       $.int_literal,
       $.float_literal,
+      $.imaginary_literal,
       $.rune_literal,
       seq('(', $._expression, ')')
     ),
@@ -642,12 +647,13 @@ module.exports = grammar({
       '"'
     )),
 
-    int_literal: $ => choice(decimalLiteral, octalLiteral, hexLiteral),
+    int_literal: $ => token(choice(decimalLiteral, octalLiteral, hexLiteral)),
 
-    float_literal: $ => token(choice(
-      seq(decimals, '.', optional(decimals), optional(exponent)),
-      seq(decimals, exponent),
-      seq('.', decimals, optional(exponent))
+    float_literal: $ => token(floatLiteral),
+
+    imaginary_literal: $ => token(seq(
+      choice(floatLiteral, repeat1(decimalDigit)),
+      'i'
     )),
 
     rune_literal: $ => token(seq(

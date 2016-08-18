@@ -74,6 +74,25 @@ const (
     (const_spec (identifier_list (identifier)) (expression_list (rune_literal)))))
 
 ============================================
+Imaginary literals
+============================================
+
+package main
+
+const (
+  a = 01i
+  b = 1.e+100i
+)
+
+---
+
+(source_file
+  (package_clause (identifier))
+  (const_declaration
+    (const_spec (identifier_list (identifier)) (expression_list (imaginary_literal)))
+    (const_spec (identifier_list (identifier)) (expression_list (imaginary_literal)))))
+
+============================================
 String literals
 ============================================
 
