@@ -4,15 +4,30 @@ Slice literals
 
 package main
 
-const s = []string{
+const s1 = []string{}
+
+const s2 = []string{"hi"}
+
+const s3 = []string{
   "hi",
-  "hello"
+  "hello",
 }
 
 ---
 
 (source_file
   (package_clause (identifier))
+  (const_declaration (const_spec
+    (identifier_list (identifier))
+    (expression_list (composite_literal
+      (slice_type (identifier))
+      (literal_value)))))
+  (const_declaration (const_spec
+    (identifier_list (identifier))
+    (expression_list (composite_literal
+      (slice_type (identifier))
+      (literal_value
+        (element (interpreted_string_literal)))))))
   (const_declaration (const_spec
     (identifier_list (identifier))
     (expression_list (composite_literal
@@ -29,7 +44,7 @@ package main
 
 const s = map[string]string{
   "hi": "hello",
-  "bye": "goodbye"
+  "bye": "goodbye",
 }
 
 ---

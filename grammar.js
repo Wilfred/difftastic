@@ -422,5 +422,5 @@ module.exports = grammar({
 })
 
 function commaSepTrailing (recurSymbol, rule) {
-  return choice(rule, seq(recurSymbol, ',', rule))
+  return choice(rule, seq(rule, ',', optional(recurSymbol)))
 }

@@ -534,8 +534,17 @@
           "type": "SEQ",
           "members": [
             {
-              "type": "SYMBOL",
-              "name": "_parameter_list"
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "identifier"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "parameter_declaration"
+                }
+              ]
             },
             {
               "type": "STRING",
@@ -546,11 +555,10 @@
               "members": [
                 {
                   "type": "SYMBOL",
-                  "name": "identifier"
+                  "name": "_parameter_list"
                 },
                 {
-                  "type": "SYMBOL",
-                  "name": "parameter_declaration"
+                  "type": "BLANK"
                 }
               ]
             }
@@ -1432,15 +1440,23 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "_element_list"
+              "name": "element"
             },
             {
               "type": "STRING",
               "value": ","
             },
             {
-              "type": "SYMBOL",
-              "name": "element"
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "_element_list"
+                },
+                {
+                  "type": "BLANK"
+                }
+              ]
             }
           ]
         }
