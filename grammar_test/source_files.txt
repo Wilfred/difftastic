@@ -47,3 +47,18 @@ import (
     (import_spec (interpreted_string_literal))
     (import_spec (interpreted_string_literal))
     (import_spec (identifier) (interpreted_string_literal))))
+
+============================================
+Block comments
+============================================
+
+/*
+ * This is a great package
+ */
+package a
+
+----
+
+(source_file
+  (comment)
+  (package_clause (identifier)))

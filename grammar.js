@@ -675,9 +675,9 @@ module.exports = grammar({
       "'"
     )),
 
-    comment: $ => token(seq(
-      '//',
-      /.*/
+    comment: $ => token(choice(
+      seq('//', /.*/),
+      seq('/*', repeat(choice(/[^\*]/, /\*[^\/]/)), '*/')
     ))
   }
 })
