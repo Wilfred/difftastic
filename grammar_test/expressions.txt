@@ -1,0 +1,46 @@
+============================================
+Selector expressions
+============================================
+
+package main
+
+func main() {
+  a.b.c()
+}
+
+---
+
+(source_file
+  (package_clause (identifier))
+  (function_declaration (identifier) (parameters) (block
+    (call_expression
+      (selector_expression
+        (selector_expression (identifier) (identifier))
+        (identifier))))))
+
+============================================
+Indexing expressions
+============================================
+
+package main
+
+func main() {
+  a[1]
+  b[:]
+  c[1:]
+  d[1:2]
+  e[:2:3]
+  f[1:2:3]
+}
+
+---
+
+(source_file
+  (package_clause (identifier))
+  (function_declaration (identifier) (parameters) (block
+    (index_expression (identifier) (int_literal))
+    (slice_expression (identifier))
+    (slice_expression (identifier) (int_literal))
+    (slice_expression (identifier) (int_literal) (int_literal))
+    (slice_expression (identifier) (int_literal) (int_literal))
+    (slice_expression (identifier) (int_literal) (int_literal) (int_literal)))))
