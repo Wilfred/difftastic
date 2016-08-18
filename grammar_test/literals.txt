@@ -1,4 +1,27 @@
 ============================================
+Int literals
+============================================
+
+package main
+
+const (
+  i1 = 42
+  i2 = 0600
+  i3 = 0xBadFace
+  i4 = 170141183460469231731687303715884105727
+)
+
+---
+
+(source_file
+  (package_clause (identifier))
+  (const_declaration
+    (const_spec (identifier_list (identifier)) (expression_list (int_literal)))
+    (const_spec (identifier_list (identifier)) (expression_list (int_literal)))
+    (const_spec (identifier_list (identifier)) (expression_list (int_literal)))
+    (const_spec (identifier_list (identifier)) (expression_list (int_literal)))))
+
+============================================
 Float literals
 ============================================
 

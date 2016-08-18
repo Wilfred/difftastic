@@ -43,8 +43,6 @@ const
 
   terminator = choice(newline, ';')
 
-const NOT_IMPLEMENTED = choice()
-
 module.exports = grammar({
   name: 'go',
 
