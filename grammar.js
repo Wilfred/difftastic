@@ -280,7 +280,15 @@ module.exports = grammar({
     _expression: $ => choice(
       $.unary_expression,
       $.binary_expression,
-      $._primary_expression
+      $._primary_expression,
+      $.call_expression
+    ),
+
+    call_expression: $ => seq(
+      $._expression,
+      '(',
+      $.expression_list,
+      ')'
     ),
 
     unary_expression: $ => NOT_IMPLEMENTED,

@@ -1161,6 +1161,31 @@
         {
           "type": "SYMBOL",
           "name": "_primary_expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "call_expression"
+        }
+      ]
+    },
+    "call_expression": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_expression"
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "SYMBOL",
+          "name": "expression_list"
+        },
+        {
+          "type": "STRING",
+          "value": ")"
         }
       ]
     },

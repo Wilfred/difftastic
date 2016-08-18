@@ -18,3 +18,20 @@ func main() {
       (var_spec (identifier_list (identifier)) (expression_list (identifier))))
     (const_declaration
       (const_spec (identifier_list (identifier)) (expression_list (int_literal)))))))
+
+============================================
+Expression statements
+============================================
+
+package main
+
+func main() {
+  foo(5)
+}
+
+---
+
+(source_file
+  (package_clause (identifier))
+  (function_declaration (identifier) (parameters) (block
+    (call_expression (identifier) (expression_list (int_literal))))))
