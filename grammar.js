@@ -19,7 +19,7 @@ const
   unicodeChar = /./,
   unicodeValue = unicodeChar,
 
-  hexDigit = /[0-7]/,
+  hexDigit = /[0-9a-fA-F]/,
   octalDigit = /[0-7]/,
   decimalDigit = /[0-9]/,
   hexByteValue = seq('\\', 'x', hexDigit, hexDigit),
