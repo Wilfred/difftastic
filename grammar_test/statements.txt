@@ -99,6 +99,7 @@ func main() {
   a = 1
   b, c += 2, 3
   d *= 3
+  e += 1
 }
 
 ---
@@ -112,6 +113,9 @@ func main() {
     (assignment_statement
       (expression_list (identifier) (identifier))
       (expression_list (int_literal) (int_literal)))
+    (assignment_statement
+      (expression_list (identifier))
+      (expression_list (int_literal)))
     (assignment_statement
       (expression_list (identifier))
       (expression_list (int_literal))))))

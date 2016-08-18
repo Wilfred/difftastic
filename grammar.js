@@ -8,9 +8,9 @@ const
     or: 1
   },
 
-  multiplicative_operator = choice('*', '/', '%', '<<', '>>', '&', '&^'),
-  additive_operator = choice('+', '-', '|', '^'),
-  comparative_operator = choice('==', '!=', '<', '<=', '>', '>='),
+  multiplicative_operator = token(choice('*', '/', '%', '<<', '>>', '&', '&^')),
+  additive_operator = token(choice('+', '-', '|', '^')),
+  comparative_operator = token(choice('==', '!=', '<', '<=', '>', '>=')),
   and_operator = '&&',
   or_operator = '||',
 
@@ -58,14 +58,14 @@ module.exports = grammar({
   conflicts: $ => [
     // A(b)
     //    ^-- type conversion or function call?
-    [$._type, $._expression],
+    [$._simple_type, $._expression],
     [$.qualified_identifier, $._expression],
     [$.func_literal, $.function_type],
     [$.function_type],
 
     // func() (a)
     //          ^-- parameter list or type?
-    [$._parameter_list, $._type],
+    [$._parameter_list, $._simple_type],
 
     // if foo{}
     //     ^-- expression or type?
@@ -162,7 +162,7 @@ module.exports = grammar({
       'func',
       $.identifier,
       $.parameters,
-      optional(choice($.parameters, $._type)),
+      optional(choice($.parameters, $._simple_type)),
       optional($.block)
     ),
 
@@ -171,7 +171,7 @@ module.exports = grammar({
       $.parameters,
       $.identifier,
       $.parameters,
-      optional(choice($.parameters, $._type)),
+      optional(choice($.parameters, $._simple_type)),
       optional($.block)
     ),
 
@@ -187,7 +187,8 @@ module.exports = grammar({
     )),
 
     parameter_declaration: $ => seq(
-      $.identifier,
+      optional($.identifier),
+      optional('...'),
       $._type
     ),
 
@@ -216,6 +217,11 @@ module.exports = grammar({
     ),
 
     _type: $ => choice(
+      $._simple_type,
+      seq('(', $._type, ')')
+    ),
+
+    _simple_type: $ => choice(
       $.identifier,
       $.qualified_identifier,
       $.pointer_type,
@@ -225,8 +231,7 @@ module.exports = grammar({
       $.slice_type,
       $.map_type,
       $.channel_type,
-      $.function_type,
-      seq('(', $._type, ')')
+      $.function_type
     ),
 
     pointer_type: $ => prec(PREC.unary, seq('*', $._type)),
@@ -272,7 +277,7 @@ module.exports = grammar({
     method_spec: $ => seq(
       $.identifier,
       $.parameters,
-      optional(choice($.parameters, $._type))
+      optional(choice($.parameters, $._simple_type))
     ),
 
     map_type: $ => seq(
@@ -292,7 +297,7 @@ module.exports = grammar({
     function_type: $ => seq(
       'func',
       $.parameters,
-      optional(choice($.parameters, $._type))
+      optional(choice($.parameters, $._simple_type))
     ),
 
     block: $ => seq(
@@ -600,7 +605,7 @@ module.exports = grammar({
     func_literal: $ => seq(
       'func',
       $.parameters,
-      optional(choice($.parameters, $._type)),
+      optional(choice($.parameters, $._simple_type)),
       $.block
     ),
 

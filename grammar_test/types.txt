@@ -219,10 +219,15 @@ type (
     (type_spec
       (identifier)
       (function_type
-        (parameters (identifier))
+        (parameters
+          (parameter_declaration (identifier)))
         (identifier)))
     (type_spec
       (identifier)
       (function_type
-        (parameters (identifier) (identifier))
-        (parameters (identifier) (identifier))))))
+        (parameters
+          (parameter_declaration (identifier))
+          (parameter_declaration (identifier)))
+        (parameters
+          (parameter_declaration (identifier))
+          (parameter_declaration (identifier)))))))
