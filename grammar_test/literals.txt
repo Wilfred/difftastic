@@ -185,6 +185,8 @@ const s1 = Person{
 
 const s2 = struct{i int;}{i: 5}
 
+const s3 = time.Time{}
+
 ---
 
 (source_file
@@ -202,7 +204,12 @@ const s2 = struct{i int;}{i: 5}
       (struct_type
         (field_declaration (identifier_list (identifier)) (identifier)))
       (literal_value
-        (element (identifier) (int_literal))))))))
+        (element (identifier) (int_literal)))))))
+  (const_declaration (const_spec
+    (identifier_list (identifier))
+    (expression_list (composite_literal
+      (qualified_identifier (identifier) (identifier))
+      (literal_value))))))
 
 ============================================
 Function literals

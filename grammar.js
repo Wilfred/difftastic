@@ -569,7 +569,8 @@ module.exports = grammar({
         $.slice_type,
         $.array_type,
         $.struct_type,
-        $.identifier
+        $.identifier,
+        $.qualified_identifier
       ),
       $.literal_value
     ),
@@ -634,7 +635,7 @@ module.exports = grammar({
 
     raw_string_literal: $ => token(seq(
       '`',
-      repeat(/[^`\n]/),
+      repeat(/[^`]/),
       '`'
     )),
 
