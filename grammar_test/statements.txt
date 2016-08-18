@@ -332,3 +332,22 @@ func main() {
       (communication_clause
         (communication_case)
         (return_statement))))))
+
+============================================
+Go and defer statements
+============================================
+
+package main
+
+func main() {
+  defer x.y()
+  go x.y()
+}
+
+---
+
+(source_file
+  (package_clause (identifier))
+  (function_declaration (identifier) (parameters) (block
+    (defer_statement (call_expression (selector_expression (identifier) (identifier))))
+    (go_statement (call_expression (selector_expression (identifier) (identifier)))))))
