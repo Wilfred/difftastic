@@ -61,3 +61,34 @@ func main() {
   (package_clause (identifier))
   (function_declaration (identifier) (parameters) (block
     (type_assertion_expression (identifier) (qualified_identifier (identifier) (identifier))))))
+
+============================================
+Type conversion expressions
+============================================
+
+package main
+
+func main() {
+  []a.b(c.d)
+  ([]a.b)(c.d)
+  e.f(g)
+  (e.f)(g)
+}
+
+---
+
+(source_file
+  (package_clause (identifier))
+  (function_declaration (identifier) (parameters) (block
+    (type_conversion_expression
+      (slice_type (qualified_identifier (identifier) (identifier)))
+      (selector_expression (identifier) (identifier)))
+    (type_conversion_expression
+      (slice_type (qualified_identifier (identifier) (identifier)))
+      (selector_expression (identifier) (identifier)))
+    (call_expression
+      (selector_expression (identifier) (identifier))
+      (expression_list (identifier)))
+    (call_expression
+      (selector_expression (identifier) (identifier))
+      (expression_list (identifier))))))

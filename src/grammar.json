@@ -728,6 +728,23 @@
         {
           "type": "SYMBOL",
           "name": "function_type"
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "("
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_type"
+            },
+            {
+              "type": "STRING",
+              "value": ")"
+            }
+          ]
         }
       ]
     },
@@ -1353,6 +1370,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "type_conversion_expression"
+        },
+        {
+          "type": "SYMBOL",
           "name": "identifier"
         },
         {
@@ -1374,6 +1395,23 @@
         {
           "type": "SYMBOL",
           "name": "float_literal"
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "("
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_expression"
+            },
+            {
+              "type": "STRING",
+              "value": ")"
+            }
+          ]
         }
       ]
     },
@@ -1550,6 +1588,39 @@
         {
           "type": "SYMBOL",
           "name": "_type"
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "type_conversion_expression": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_type"
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_expression"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": ","
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         },
         {
           "type": "STRING",
@@ -2145,5 +2216,25 @@
       "value": "\\s"
     }
   ],
-  "conflicts": []
+  "conflicts": [
+    [
+      "_type",
+      "_expression"
+    ],
+    [
+      "qualified_identifier",
+      "_expression"
+    ],
+    [
+      "func_literal",
+      "function_type"
+    ],
+    [
+      "function_type"
+    ],
+    [
+      "_parameter_list",
+      "_type"
+    ]
+  ]
 }

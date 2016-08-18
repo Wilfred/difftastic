@@ -44,6 +44,19 @@ module.exports = grammar({
     /\s/
   ],
 
+  conflicts: $ => [
+    // A(b)
+    //    ^-- type conversion or function call?
+    [$._type, $._expression],
+    [$.qualified_identifier, $._expression],
+    [$.func_literal, $.function_type],
+    [$.function_type],
+
+    // func() (a)
+    //          ^-- parameter list or type?
+    [$._parameter_list, $._type]
+  ],
+
   rules: {
     source_file: $ => seq(
       $.package_clause,
@@ -197,7 +210,8 @@ module.exports = grammar({
       $.slice_type,
       $.map_type,
       $.channel_type,
-      $.function_type
+      $.function_type,
+      seq('(', $._type, ')')
     ),
 
     pointer_type: $ => seq('*', $._type),
@@ -329,12 +343,14 @@ module.exports = grammar({
       $.slice_expression,
       $.call_expression,
       $.type_assertion_expression,
+      $.type_conversion_expression,
       $.identifier,
       $.composite_literal,
       $.func_literal,
       $._string_literal,
       $.int_literal,
-      $.float_literal
+      $.float_literal,
+      seq('(', $._expression, ')')
     ),
 
     call_expression: $ => seq(
@@ -372,6 +388,14 @@ module.exports = grammar({
       '.',
       '(',
       $._type,
+      ')'
+    ),
+
+    type_conversion_expression: $ => seq(
+      $._type,
+      '(',
+      $._expression,
+      optional(','),
       ')'
     ),
 
