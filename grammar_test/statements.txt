@@ -191,8 +191,10 @@ func main() {
     a()
   }
 
+loop:
   for i := 0; i < 5; i++ {
     a()
+    break loop
   }
 
   for ; i < 10; i++ {
@@ -216,14 +218,17 @@ func main() {
   (function_declaration (identifier) (parameters) (block
     (for_statement
       (block (call_expression (identifier))))
-    (for_statement
-      (for_clause
-        (short_var_declaration
-          (expression_list (identifier))
-          (expression_list (int_literal)))
-        (binary_expression (identifier) (int_literal))
-        (inc_statement (identifier)))
-      (block (call_expression (identifier))))
+    (labeled_statement (identifier)
+      (for_statement
+        (for_clause
+          (short_var_declaration
+            (expression_list (identifier))
+            (expression_list (int_literal)))
+          (binary_expression (identifier) (int_literal))
+          (inc_statement (identifier)))
+        (block
+          (call_expression (identifier))
+          (break_statement (identifier)))))
     (for_statement
       (for_clause
         (binary_expression (identifier) (int_literal))

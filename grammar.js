@@ -325,6 +325,7 @@ module.exports = grammar({
       $.expression_switch_statement,
       $.type_switch_statement,
       $.select_statement,
+      $.labeled_statement,
       $.fallthrough_statement,
       $.break_statement,
       $.continue_statement
@@ -379,6 +380,12 @@ module.exports = grammar({
       $.expression_list,
       ':=',
       $.expression_list
+    ),
+
+    labeled_statement: $ => seq(
+      $.identifier,
+      ':',
+      $._statement
     ),
 
     fallthrough_statement: $ => 'fallthrough',
