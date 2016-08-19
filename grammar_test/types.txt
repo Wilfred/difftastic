@@ -70,7 +70,7 @@ type s2 struct {
 
 type s3 struct {
   // an embedded struct
-  s1
+  p.s1
 
   // a tag
   h int `json:"h"`
@@ -97,7 +97,7 @@ type s3 struct {
       (struct_type
         (comment)
         (field_declaration
-          (identifier))
+          (qualified_identifier (identifier) (identifier)))
         (comment)
         (field_declaration
           (identifier_list (identifier))

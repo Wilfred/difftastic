@@ -259,7 +259,7 @@ module.exports = grammar({
     field_declaration: $ => seq(
       choice(
         seq($.identifier_list, $._type),
-        seq(optional('*'), $.identifier)
+        seq(optional('*'), choice($.identifier, $.qualified_identifier))
       ),
       optional($._string_literal)
     ),
