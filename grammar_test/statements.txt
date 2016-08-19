@@ -197,17 +197,20 @@ loop:
     break loop
   }
 
+loop2:
   for ; i < 10; i++ {
     a()
-    continue
+    continue loop2
   }
 
   for ;; {
     a()
+    continue
   }
 
   for x := range y {
     a(x)
+    break
   }
 }
 
@@ -229,19 +232,24 @@ loop:
         (block
           (call_expression (identifier))
           (break_statement (identifier)))))
+    (labeled_statement (identifier)
+      (for_statement
+        (for_clause
+          (binary_expression (identifier) (int_literal))
+          (inc_statement (identifier)))
+        (block
+          (call_expression (identifier))
+          (continue_statement (identifier)))))
     (for_statement
-      (for_clause
-        (binary_expression (identifier) (int_literal))
-        (inc_statement (identifier)))
+      (for_clause)
       (block
         (call_expression (identifier))
         (continue_statement)))
     (for_statement
-      (for_clause)
-      (block (call_expression (identifier))))
-    (for_statement
       (range_clause (expression_list (identifier)) (identifier))
-      (block (call_expression (identifier) (expression_list (identifier))))))))
+      (block
+        (call_expression (identifier) (expression_list (identifier)))
+        (break_statement))))))
 
 ============================================
 Switch statements

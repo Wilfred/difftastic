@@ -392,7 +392,7 @@ module.exports = grammar({
 
     break_statement: $ => seq('break', optional($.identifier)),
 
-    continue_statement: $ => 'continue',
+    continue_statement: $ => seq('continue', optional($.identifier)),
 
     return_statement: $ => seq('return', optional($.expression_list)),
 
