@@ -114,6 +114,7 @@ type i1 interface {}
 
 type i2 interface {
   i1
+  io.Reader
   SomeMethod(s string) error
 }
 
@@ -128,6 +129,7 @@ type i2 interface {
     (identifier)
     (interface_type
       (identifier)
+      (qualified_identifier (identifier) (identifier))
       (method_spec
         (identifier)
         (parameters (parameter_declaration (identifier) (identifier)))

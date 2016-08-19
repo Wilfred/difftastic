@@ -270,7 +270,11 @@ module.exports = grammar({
       'interface',
       '{',
       repeat(seq(
-        choice($.identifier, $.method_spec),
+        choice(
+          $.identifier,
+          $.qualified_identifier,
+          $.method_spec
+        ),
         terminator
       )),
       '}'
