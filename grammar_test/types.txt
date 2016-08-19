@@ -64,6 +64,8 @@ package main
 
 type s1 struct {}
 
+type s2 struct { Person }
+
 type s2 struct {
   f, g int
 }
@@ -84,6 +86,10 @@ type s3 struct {
     (type_spec
       (identifier)
       (struct_type)))
+  (type_declaration
+    (type_spec
+      (identifier)
+      (struct_type (field_declaration (identifier)))))
   (type_declaration
     (type_spec
       (identifier)
@@ -112,6 +118,8 @@ package main
 
 type i1 interface {}
 
+type i1 interface { io.Reader }
+
 type i2 interface {
   i1
   io.Reader
@@ -125,6 +133,10 @@ type i2 interface {
   (type_declaration (type_spec
     (identifier)
     (interface_type)))
+  (type_declaration (type_spec
+    (identifier)
+    (interface_type
+      (qualified_identifier (identifier) (identifier)))))
   (type_declaration (type_spec
     (identifier)
     (interface_type

@@ -254,9 +254,11 @@ module.exports = grammar({
     struct_type: $ => seq(
       'struct',
       '{',
-      repeat(seq($.field_declaration, terminator)),
+      optional($._field_declaration_list),
       '}'
     ),
+
+    _field_declaration_list: $ => sepTrailing(terminator, $._field_declaration_list, $.field_declaration),
 
     field_declaration: $ => seq(
       choice(
@@ -269,16 +271,15 @@ module.exports = grammar({
     interface_type: $ => seq(
       'interface',
       '{',
-      repeat(seq(
-        choice(
-          $.identifier,
-          $.qualified_identifier,
-          $.method_spec
-        ),
-        terminator
-      )),
+      optional($._method_spec_list),
       '}'
     ),
+
+    _method_spec_list: $ => sepTrailing(terminator, $._method_spec_list, choice(
+      $.identifier,
+      $.qualified_identifier,
+      $.method_spec
+    )),
 
     method_spec: $ => seq(
       $.identifier,
