@@ -246,6 +246,13 @@ module.exports = grammar({
       $._type
     ),
 
+    implicit_length_array_type: $ => seq(
+      '[',
+      '...',
+      ']',
+      $._type
+    ),
+
     slice_type: $ => seq(
       '[',
       ']',
@@ -594,6 +601,7 @@ module.exports = grammar({
         $.map_type,
         $.slice_type,
         $.array_type,
+        $.implicit_length_array_type,
         $.struct_type,
         $.identifier,
         $.qualified_identifier

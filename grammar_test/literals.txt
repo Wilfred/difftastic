@@ -150,6 +150,27 @@ const s3 = []string{
         (element (interpreted_string_literal))))))))
 
 ============================================
+Array literals with implicit length
+============================================
+
+package main
+
+const a1 = [...]int{1, 2, 3}
+
+---
+
+(source_file
+  (package_clause (identifier))
+  (const_declaration (const_spec
+    (identifier_list (identifier))
+    (expression_list (composite_literal
+      (implicit_length_array_type (identifier))
+      (literal_value
+        (element (int_literal))
+        (element (int_literal))
+        (element (int_literal))))))))
+
+============================================
 Map literals
 ============================================
 
