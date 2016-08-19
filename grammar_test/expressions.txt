@@ -194,4 +194,4 @@ func main() {
   (package_clause (identifier))
   (function_declaration (identifier) (parameters) (block
     (unary_expression (unary_expression (identifier)))
-    (call_expression (unary_expression (identifier))))))
+    (unary_expression (call_expression (identifier))))))

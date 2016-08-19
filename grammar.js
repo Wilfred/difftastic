@@ -1,5 +1,6 @@
 const
   PREC = {
+    primary: 7,
     unary: 6,
     multiplicative: 5,
     additive: 4,
@@ -349,8 +350,10 @@ module.exports = grammar({
     ),
 
     receive_statement: $ => seq(
-      $.expression_list,
-      choice('=', ':='),
+      optional(seq(
+        $.expression_list,
+        choice('=', ':=')
+      )),
       $._expression
     ),
 
@@ -430,8 +433,10 @@ module.exports = grammar({
     ),
 
     range_clause: $ => seq(
-      $.expression_list,
-      choice('=', ':='),
+      optional(seq(
+        $.expression_list,
+        choice('=', ':=')
+      )),
       'range',
       $._expression
     ),
@@ -521,7 +526,7 @@ module.exports = grammar({
       seq('(', $._expression, ')')
     ),
 
-    call_expression: $ => seq(
+    call_expression: $ => prec(PREC.primary, seq(
       $._expression,
       '(',
       choice(
@@ -542,22 +547,22 @@ module.exports = grammar({
         )
       ),
       ')'
-    ),
+    )),
 
-    selector_expression: $ => seq(
+    selector_expression: $ => prec(PREC.primary, seq(
       $._expression,
       '.',
       $.identifier
-    ),
+    )),
 
-    index_expression: $ => seq(
+    index_expression: $ => prec(PREC.primary, seq(
       $._expression,
       '[',
       $._expression,
       ']'
-    ),
+    )),
 
-    slice_expression: $ => seq(
+    slice_expression: $ => prec(PREC.primary, seq(
       $._expression,
       '[',
       choice(
@@ -565,15 +570,15 @@ module.exports = grammar({
         seq(optional($._expression), ':', $._expression, ':', $._expression)
       ),
       ']'
-    ),
+    )),
 
-    type_assertion_expression: $ => seq(
+    type_assertion_expression: $ => prec(PREC.primary, seq(
       $._expression,
       '.',
       '(',
       $._type,
       ')'
-    ),
+    )),
 
     type_conversion_expression: $ => seq(
       $._type,

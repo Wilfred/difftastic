@@ -335,8 +335,10 @@ func main() {
   select {
     case x := <-c:
       println(x)
-    case y <- 5:
+    case y <- c:
       println(5)
+    case <-time.After(1):
+      println(6)
     default:
       return
   }
@@ -356,8 +358,14 @@ func main() {
         (call_expression (identifier) (expression_list (identifier))))
       (communication_clause
         (communication_case
-          (send_statement (identifier) (int_literal)))
-          (call_expression (identifier) (expression_list (int_literal))))
+          (send_statement (identifier) (identifier)))
+        (call_expression (identifier) (expression_list (int_literal))))
+      (communication_clause
+        (communication_case
+          (receive_statement (unary_expression (call_expression
+            (selector_expression (identifier) (identifier))
+            (expression_list (int_literal))))))
+        (call_expression (identifier) (expression_list (int_literal))))
       (communication_clause
         (communication_case)
         (return_statement))))))
