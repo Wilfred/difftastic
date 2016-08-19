@@ -275,6 +275,9 @@ func main() {
     case true:
       return
   }
+
+  switch f := y(); f {
+  }
 }
 
 ---
@@ -295,7 +298,12 @@ func main() {
     (expression_switch_statement
       (expression_case_clause
         (expression_case (expression_list (identifier)))
-        (return_statement))))))
+        (return_statement)))
+    (expression_switch_statement
+      (short_var_declaration
+        (expression_list (identifier))
+        (expression_list (call_expression (identifier))))
+      (identifier)))))
 
 ============================================
 Type switch statements

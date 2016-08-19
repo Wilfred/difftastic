@@ -443,6 +443,7 @@ module.exports = grammar({
 
     expression_switch_statement: $ => seq(
       'switch',
+      optional(seq($._simple_statement, ';')),
       optional($._expression),
       '{',
       repeat($.expression_case_clause),
