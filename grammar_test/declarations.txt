@@ -68,6 +68,31 @@ const (
       (expression_list (int_literal)))))
 
 ============================================
+Const declarations with implicit values
+============================================
+
+package main
+
+const (
+  zero = iota
+  one
+  two
+)
+
+----
+
+(source_file
+  (package_clause (identifier))
+  (const_declaration
+    (const_spec
+      (identifier_list (identifier))
+      (expression_list (identifier)))
+    (const_spec
+      (identifier_list (identifier)))
+    (const_spec
+      (identifier_list (identifier)))))
+
+============================================
 Var declarations without types
 ============================================
 

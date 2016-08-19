@@ -130,9 +130,11 @@ module.exports = grammar({
 
     const_spec: $ => seq(
       $.identifier_list,
-      optional($._type),
-      '=',
-      $.expression_list
+      optional(seq(
+        optional($._type),
+        '=',
+        $.expression_list
+      ))
     ),
 
     var_declaration: $ => seq(
