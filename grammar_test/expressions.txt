@@ -6,9 +6,15 @@ package main
 
 func main() {
   a(b, c...)
-  d(
-    e,
-    f...,
+
+  a(
+    b,
+    c,
+  )
+
+  a(
+    b,
+    c...,
   )
 }
 
@@ -19,14 +25,16 @@ func main() {
   (function_declaration (identifier) (parameters) (block
     (call_expression
       (identifier)
-      (expression_list
-        (identifier)
-        (identifier)))
+      (identifier)
+      (identifier))
     (call_expression
       (identifier)
-      (expression_list
-        (identifier)
-        (identifier))))))
+      (identifier)
+      (identifier))
+    (call_expression
+      (identifier)
+      (identifier)
+      (identifier)))))
 
 ============================================
 Nested call expressions
@@ -43,10 +51,10 @@ func main() {
 (source_file
   (package_clause (identifier))
   (function_declaration (identifier) (parameters) (block
-    (call_expression (identifier) (expression_list
-      (call_expression (identifier) (expression_list
-        (call_expression (identifier) (expression_list
-          (identifier))))))))))
+    (call_expression (identifier)
+      (call_expression (identifier)
+        (call_expression (identifier)
+          (identifier)))))))
 
 ============================================
 Calls to 'make' and 'new'
@@ -172,10 +180,10 @@ func main() {
       (selector_expression (identifier) (identifier)))
     (call_expression
       (selector_expression (identifier) (identifier))
-      (expression_list (identifier)))
+      (identifier))
     (call_expression
       (selector_expression (identifier) (identifier))
-      (expression_list (identifier))))))
+      (identifier)))))
 
 ============================================
 Unary expressions

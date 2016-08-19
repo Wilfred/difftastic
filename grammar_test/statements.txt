@@ -34,7 +34,7 @@ func main() {
 (source_file
   (package_clause (identifier))
   (function_declaration (identifier) (parameters) (block
-    (call_expression (identifier) (expression_list (int_literal))))))
+    (call_expression (identifier) (int_literal)))))
 
 ============================================
 Expression statements
@@ -51,7 +51,7 @@ func main() {
 (source_file
   (package_clause (identifier))
   (function_declaration (identifier) (parameters) (block
-    (call_expression (identifier) (expression_list (int_literal))))))
+    (call_expression (identifier) (int_literal)))))
 
 ============================================
 Send statements
@@ -251,7 +251,7 @@ loop2:
     (for_statement
       (range_clause (expression_list (identifier)) (identifier))
       (block
-        (call_expression (identifier) (expression_list (identifier)))
+        (call_expression (identifier) (identifier))
         (break_statement))))))
 
 ============================================
@@ -363,17 +363,17 @@ func main() {
           (receive_statement
             (expression_list (identifier))
             (unary_expression (identifier))))
-        (call_expression (identifier) (expression_list (identifier))))
+        (call_expression (identifier) (identifier)))
       (communication_clause
         (communication_case
           (send_statement (identifier) (identifier)))
-        (call_expression (identifier) (expression_list (int_literal))))
+        (call_expression (identifier) (int_literal)))
       (communication_clause
         (communication_case
           (receive_statement (unary_expression (call_expression
             (selector_expression (identifier) (identifier))
-            (expression_list (int_literal))))))
-        (call_expression (identifier) (expression_list (int_literal))))
+            (int_literal)))))
+        (call_expression (identifier) (int_literal)))
       (communication_clause
         (communication_case)
         (return_statement))))))

@@ -192,7 +192,7 @@ module.exports = grammar({
     parameter_declaration: $ => seq(
       optional($.identifier),
       optional('...'),
-      $._type
+      $._simple_type
     ),
 
     type_declaration: $ => seq(
@@ -539,7 +539,7 @@ module.exports = grammar({
       '(',
       choice(
         seq(
-          optional($.expression_list),
+          optional($._argument_list),
           optional(seq('...', optional(',')))
         ),
         seq(
@@ -556,6 +556,8 @@ module.exports = grammar({
       ),
       ')'
     )),
+
+    _argument_list: $ => sepTrailing(',', $._argument_list, $._expression),
 
     selector_expression: $ => prec(PREC.primary, seq(
       $._expression,
