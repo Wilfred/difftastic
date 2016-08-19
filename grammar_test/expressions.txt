@@ -29,6 +29,26 @@ func main() {
         (identifier))))))
 
 ============================================
+Nested call expressions
+============================================
+
+package main
+
+func main() {
+  a(b(c(d)))
+}
+
+---
+
+(source_file
+  (package_clause (identifier))
+  (function_declaration (identifier) (parameters) (block
+    (call_expression (identifier) (expression_list
+      (call_expression (identifier) (expression_list
+        (call_expression (identifier) (expression_list
+          (identifier))))))))))
+
+============================================
 Calls to 'make' and 'new'
 ============================================
 
