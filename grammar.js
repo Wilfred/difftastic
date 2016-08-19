@@ -522,7 +522,11 @@ module.exports = grammar({
       $._type,
       optional(seq(
         ',',
-        $._expression
+        $._expression,
+        optional(seq(
+          ',',
+          $._expression
+        ))
       )),
       ')'
     ),

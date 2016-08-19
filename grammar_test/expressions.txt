@@ -55,8 +55,9 @@ Calls to 'make' and 'new'
 package main
 
 func main() {
-  make(chan<- int, 5)
   make(chan<- int)
+  make(chan<- int, 5)
+  make(chan<- int, 5, 10)
   new(map[string]string)
 }
 
@@ -65,8 +66,9 @@ func main() {
 (source_file
   (package_clause (identifier))
   (function_declaration (identifier) (parameters) (block
-    (make_expression (channel_type (identifier)) (int_literal))
     (make_expression (channel_type (identifier)))
+    (make_expression (channel_type (identifier)) (int_literal))
+    (make_expression (channel_type (identifier)) (int_literal) (int_literal))
     (new_expression (map_type (identifier) (identifier))))))
 
 ============================================
