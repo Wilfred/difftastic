@@ -189,6 +189,7 @@ package main
 func main() {
   for {
     a()
+    goto loop
   }
 
 loop:
@@ -220,7 +221,9 @@ loop2:
   (package_clause (identifier))
   (function_declaration (identifier) (parameters) (block
     (for_statement
-      (block (call_expression (identifier))))
+      (block
+        (call_expression (identifier))
+        (goto_statement (identifier))))
     (labeled_statement (identifier)
       (for_statement
         (for_clause
