@@ -68,7 +68,8 @@ module.exports = grammar({
       $.break_statement,
       $.return_statement,
       $.yield_statement,
-      $.throw_statement
+      $.throw_statement,
+      $.empty_statement
     ),
 
     expression_statement: $ => seq(
@@ -204,6 +205,8 @@ module.exports = grammar({
       'throw',
       $._expression
     ),
+
+    empty_statement: $ => ';',
 
     //
     // Statement components

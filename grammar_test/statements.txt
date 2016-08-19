@@ -353,3 +353,18 @@ try { f; } catch { g; } finally { h; }
       (statement_block (expression_statement (identifier))))
     (finally
       (statement_block (expression_statement (identifier))))))
+
+============================================
+Empty statements
+============================================
+
+if (true) { ; };;;
+
+---
+
+(program
+  (if_statement (true) (statement_block
+    (empty_statement)))
+  (empty_statement)
+  (empty_statement)
+  (empty_statement))

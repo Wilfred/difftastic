@@ -126,6 +126,10 @@
         {
           "type": "SYMBOL",
           "name": "throw_statement"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "empty_statement"
         }
       ]
     },
@@ -863,6 +867,10 @@
           "name": "_expression"
         }
       ]
+    },
+    "empty_statement": {
+      "type": "STRING",
+      "value": ";"
     },
     "case": {
       "type": "SEQ",
