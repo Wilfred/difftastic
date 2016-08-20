@@ -15,7 +15,7 @@ const
   and_operator = '&&',
   or_operator = '||',
 
-  unicodeLetter = /[a-zA-Z]/,
+  unicodeLetter = /[a-zA-Zα-ωΑ-Ωµ]/,
   unicodeDigit = /[0-9]/,
   unicodeChar = /./,
   unicodeValue = unicodeChar,

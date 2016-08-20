@@ -62,3 +62,32 @@ package a
 (source_file
   (comment)
   (package_clause (identifier)))
+
+============================================
+Non-ascii variable names
+============================================
+
+package main
+
+const (
+  α
+  Α
+  µs  // micro sign (not mu)
+  δ1
+  ΔΔΔ
+  ω_omega
+  Ω_OMEGA
+)
+
+---
+
+(source_file
+  (package_clause (identifier))
+  (const_declaration
+    (const_spec (identifier_list (identifier)))
+    (const_spec (identifier_list (identifier)))
+    (const_spec (identifier_list (identifier))) (comment)
+    (const_spec (identifier_list (identifier)))
+    (const_spec (identifier_list (identifier)))
+    (const_spec (identifier_list (identifier)))
+    (const_spec (identifier_list (identifier)))))
