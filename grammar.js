@@ -378,10 +378,7 @@ module.exports = grammar({
     assignment_statement: $ => seq(
       $.expression_list,
       choice(
-        token(seq(
-          optional(choice(multiplicative_operator, additive_operator)),
-          '='
-        )),
+        $._assignment_operator,
         '='
       ),
       $.expression_list
@@ -706,6 +703,11 @@ module.exports = grammar({
         )
       ),
       "'"
+    )),
+
+    _assignment_operator: $ => token(seq(
+      optional(choice(multiplicative_operator, additive_operator)),
+      '='
     )),
 
     comment: $ => token(choice(
