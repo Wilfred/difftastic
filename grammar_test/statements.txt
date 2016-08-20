@@ -224,25 +224,25 @@ loop2:
       (block
         (call_expression (identifier))
         (goto_statement (identifier))))
-    (labeled_statement (identifier)
-      (for_statement
-        (for_clause
-          (short_var_declaration
-            (expression_list (identifier))
-            (expression_list (int_literal)))
-          (binary_expression (identifier) (int_literal))
-          (inc_statement (identifier)))
-        (block
-          (call_expression (identifier))
-          (break_statement (identifier)))))
-    (labeled_statement (identifier)
-      (for_statement
-        (for_clause
-          (binary_expression (identifier) (int_literal))
-          (inc_statement (identifier)))
-        (block
-          (call_expression (identifier))
-          (continue_statement (identifier)))))
+    (label_statement (identifier))
+    (for_statement
+      (for_clause
+        (short_var_declaration
+          (expression_list (identifier))
+          (expression_list (int_literal)))
+        (binary_expression (identifier) (int_literal))
+        (inc_statement (identifier)))
+      (block
+        (call_expression (identifier))
+        (break_statement (identifier))))
+    (label_statement (identifier))
+    (for_statement
+      (for_clause
+        (binary_expression (identifier) (int_literal))
+        (inc_statement (identifier)))
+      (block
+        (call_expression (identifier))
+        (continue_statement (identifier))))
     (for_statement
       (for_clause)
       (block
@@ -419,3 +419,22 @@ func main() {
   (function_declaration (identifier) (parameters) (block
     (block (call_expression (identifier) (interpreted_string_literal)))
     (block (call_expression (identifier) (interpreted_string_literal))))))
+
+============================================
+Labels at the ends of statement blocks
+============================================
+
+package main
+
+func main() {
+  {
+  end_of_block:
+  }
+}
+
+---
+
+(source_file
+  (package_clause (identifier))
+  (function_declaration (identifier) (parameters) (block
+    (block (label_statement (identifier))))))
