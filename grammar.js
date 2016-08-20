@@ -338,7 +338,8 @@ module.exports = grammar({
       $.fallthrough_statement,
       $.break_statement,
       $.continue_statement,
-      $.goto_statement
+      $.goto_statement,
+      $.block
     ),
 
     _simple_statement: $ => choice(

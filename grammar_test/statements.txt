@@ -396,3 +396,26 @@ func main() {
   (function_declaration (identifier) (parameters) (block
     (defer_statement (call_expression (selector_expression (identifier) (identifier))))
     (go_statement (call_expression (selector_expression (identifier) (identifier)))))))
+
+============================================
+Nested statement blocks
+============================================
+
+package main
+
+func main() {
+  {
+    println("hi")
+  }
+  {
+    println("bye")
+  }
+}
+
+---
+
+(source_file
+  (package_clause (identifier))
+  (function_declaration (identifier) (parameters) (block
+    (block (call_expression (identifier) (interpreted_string_literal)))
+    (block (call_expression (identifier) (interpreted_string_literal))))))
