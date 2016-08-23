@@ -2660,23 +2660,6 @@
       }
     },
     "identifier": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "_normal_identifier"
-        },
-        {
-          "type": "STRING",
-          "value": "get"
-        },
-        {
-          "type": "STRING",
-          "value": "set"
-        }
-      ]
-    },
-    "_normal_identifier": {
       "type": "PATTERN",
       "value": "[\\a_$][\\a\\d_$]*"
     },
@@ -2879,6 +2862,10 @@
             },
             {
               "type": "SYMBOL",
+              "name": "get_set_identifier"
+            },
+            {
+              "type": "SYMBOL",
               "name": "string"
             },
             {
@@ -2894,6 +2881,19 @@
         {
           "type": "SYMBOL",
           "name": "_expression"
+        }
+      ]
+    },
+    "get_set_identifier": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "get"
+        },
+        {
+          "type": "STRING",
+          "value": "set"
         }
       ]
     },

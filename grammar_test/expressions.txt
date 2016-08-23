@@ -173,8 +173,8 @@ Objects with reserved words for keys
 
 (program
   (expression_statement (object
-    (pair (identifier) (function (statement_block)))
-    (pair (identifier) (function (statement_block)))
+    (pair (get_set_identifier) (function (statement_block)))
+    (pair (get_set_identifier) (function (statement_block)))
     (pair (identifier) (true)))))
 
 ============================================
