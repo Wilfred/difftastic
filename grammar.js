@@ -331,6 +331,7 @@ module.exports = grammar({
       $.generator_function,
       $.function_call,
       $.new_expression,
+      $.await_expression,
       $.member_access,
       $.subscript_access,
       $.assignment,
@@ -384,6 +385,7 @@ module.exports = grammar({
     ),
 
     function: $ => seq(
+      optional('async'),
       'function',
       optional($.identifier),
       '(', optional($.formal_parameters), ')',
@@ -391,6 +393,7 @@ module.exports = grammar({
     ),
 
     arrow_function: $ => seq(
+      optional('async'),
       choice(
         $.identifier,
         seq('(', optional($.formal_parameters), ')')
@@ -419,6 +422,11 @@ module.exports = grammar({
       'new',
       $._expression
     )),
+
+    await_expression: $ => seq(
+      'await',
+      $._expression
+    ),
 
     member_access: $ => prec(PREC.MEMBER, seq(
       $._expression,
@@ -582,6 +590,7 @@ module.exports = grammar({
     formal_parameters: $ => commaSep1($.identifier),
 
     method_definition: $ => seq(
+      optional('async'),
       optional(choice('get', 'set', '*')),
       $.identifier,
       '(',
@@ -591,12 +600,12 @@ module.exports = grammar({
     ),
 
     pair: $ => seq(
-      choice($.identifier, $.get_set_identifier, $.string, $.number),
+      choice($.identifier, $.reserved_identifier, $.string, $.number),
       ':',
       $._expression
     ),
 
-    get_set_identifier: $ => choice('get', 'set'),
+    reserved_identifier: $ => choice('get', 'set', 'async'),
 
     _line_break: $ => '\n'
   }

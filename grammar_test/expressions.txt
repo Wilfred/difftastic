@@ -166,16 +166,19 @@ Objects with reserved words for keys
 
   set: function () {},
 
-  static: true
+  static: true,
+
+  async: true
 };
 
 ---
 
 (program
   (expression_statement (object
-    (pair (get_set_identifier) (function (statement_block)))
-    (pair (get_set_identifier) (function (statement_block)))
-    (pair (identifier) (true)))))
+    (pair (reserved_identifier) (function (statement_block)))
+    (pair (reserved_identifier) (function (statement_block)))
+    (pair (identifier) (true))
+    (pair (reserved_identifier) (true)))))
 
 ============================================
 Classes
@@ -406,6 +409,50 @@ new Thing;
     (arguments (number) (string)))))
   (expression_statement (new_expression
     (identifier))))
+
+============================================
+Await Expressions
+============================================
+
+await asyncFun();
+await asyncPromise;
+
+---
+
+(program
+  (expression_statement
+    (await_expression
+      (function_call (identifier))))
+        (expression_statement (await_expression (identifier))))
+
+============================================
+Async Functions and Methods
+============================================
+
+async function foo() {}
+
+{
+  async bar() {
+  }
+}
+
+class Foo {
+  async bar() {}
+}
+
+async (a) => { return foo; };
+
+---
+
+ (program
+   (expression_statement
+    (function (identifier) (statement_block)))
+  (expression_statement
+    (object (method_definition (identifier) (statement_block))))
+  (expression_statement
+    (class (identifier) (class_body (method_definition (identifier) (statement_block)))))
+  (expression_statement
+    (arrow_function (formal_parameters (identifier)) (statement_block (return_statement (identifier))))))
 
 ============================================
 Math operators
