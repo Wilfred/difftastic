@@ -4,15 +4,15 @@
       "target_name": "ts_language_javascript_binding",
       "include_dirs": [
         "<!(node -e \"require('nan')\")",
-        "<!(node -e \"require('tree-sitter-compiler/include_path')\")",
+        "src"
       ],
       "sources": [
         "src/parser.c",
-        "src/binding.cc",
+        "src/binding.cc"
       ],
       "cflags_c": [
         "-std=c99",
-      ],
-    },
-  ],
+      ]
+    }
+  ]
 }
