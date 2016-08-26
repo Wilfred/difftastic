@@ -52,28 +52,28 @@ export { import1 as name1, import2 as name2, nameN } from 'foo';
 ----
 (program
 
-	(export_statement
-		(export_clause (export_specifier (identifier)) (export_specifier (identifier)) (export_specifier (identifier)) (export_specifier (identifier))))
-	(export_statement
-		(export_clause (export_specifier (identifier) (identifier)) (export_specifier (identifier) (identifier)) (export_specifier (identifier))))
-	(export_statement
-		(var_declaration (identifier) (identifier) (identifier)))
-	(export_statement
-		(var_declaration (var_assignment (identifier) (identifier)) (var_assignment (identifier) (identifier)) (identifier) (identifier)))
-	(export_statement
-		(identifier))
-	(export_statement
-		(function (statement_block)))
-	(export_statement
-		(function (identifier) (statement_block)))
-	(export_statement
-		(export_clause (export_specifier (identifier) (identifier))))
-	(export_statement
-		(string))
-	(export_statement
-		(export_clause (export_specifier (identifier)) (export_specifier (identifier)) (export_specifier (identifier))) (string))
-	(export_statement
-		(export_clause (export_specifier (identifier) (identifier)) (export_specifier (identifier) (identifier)) (export_specifier (identifier))) (string)))
+  (export_statement
+    (export_clause (export_specifier (identifier)) (export_specifier (identifier)) (export_specifier (identifier)) (export_specifier (identifier))))
+  (export_statement
+    (export_clause (export_specifier (identifier) (identifier)) (export_specifier (identifier) (identifier)) (export_specifier (identifier))))
+  (export_statement
+    (var_declaration (identifier) (identifier) (identifier)))
+  (export_statement
+    (var_declaration (var_assignment (identifier) (identifier)) (var_assignment (identifier) (identifier)) (identifier) (identifier)))
+  (export_statement
+    (identifier))
+  (export_statement
+    (function (statement_block)))
+  (export_statement
+    (function (identifier) (statement_block)))
+  (export_statement
+    (export_clause (export_specifier (identifier) (identifier))))
+  (export_statement
+    (string))
+  (export_statement
+    (export_clause (export_specifier (identifier)) (export_specifier (identifier)) (export_specifier (identifier))) (string))
+  (export_statement
+    (export_clause (export_specifier (identifier) (identifier)) (export_specifier (identifier) (identifier)) (export_specifier (identifier))) (string)))
 
 
 ============================================
