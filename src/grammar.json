@@ -1435,7 +1435,7 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "identifier"
+          "name": "_assignment_pattern"
         },
         {
           "type": "STRING",
@@ -2109,15 +2109,15 @@
             "members": [
               {
                 "type": "SYMBOL",
-                "name": "identifier"
-              },
-              {
-                "type": "SYMBOL",
                 "name": "member_access"
               },
               {
                 "type": "SYMBOL",
                 "name": "subscript_access"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "_assignment_pattern"
               }
             ]
           },
@@ -2182,6 +2182,173 @@
           }
         ]
       }
+    },
+    "_assignment_pattern": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "identifier"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "object_assignment_pattern"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "array_assignment_pattern"
+        }
+      ]
+    },
+    "object_assignment_pattern": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "{"
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "identifier"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "assignment_property"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "assignment_rest_element"
+                }
+              ]
+            },
+            {
+              "type": "REPEAT",
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "STRING",
+                    "value": ","
+                  },
+                  {
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "SYMBOL",
+                        "name": "identifier"
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "assignment_property"
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "assignment_rest_element"
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": "}"
+        }
+      ]
+    },
+    "array_assignment_pattern": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "["
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "_assignment_pattern"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "assignment_rest_element"
+                }
+              ]
+            },
+            {
+              "type": "REPEAT",
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "STRING",
+                    "value": ","
+                  },
+                  {
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "SYMBOL",
+                        "name": "_assignment_pattern"
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "assignment_rest_element"
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": "]"
+        }
+      ]
+    },
+    "assignment_property": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "identifier"
+        },
+        {
+          "type": "STRING",
+          "value": ":"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_assignment_pattern"
+        }
+      ]
+    },
+    "assignment_rest_element": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "..."
+        },
+        {
+          "type": "SYMBOL",
+          "name": "identifier"
+        }
+      ]
     },
     "ternary": {
       "type": "PREC_RIGHT",
@@ -3292,8 +3459,17 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "identifier"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "identifier"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "object_assignment_pattern"
+            }
+          ]
         },
         {
           "type": "REPEAT",
@@ -3305,8 +3481,17 @@
                 "value": ","
               },
               {
-                "type": "SYMBOL",
-                "name": "identifier"
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "identifier"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "object_assignment_pattern"
+                  }
+                ]
               }
             ]
           }
@@ -3461,6 +3646,18 @@
     [
       "_expression",
       "formal_parameters"
+    ],
+    [
+      "_expression",
+      "object_assignment_pattern"
+    ],
+    [
+      "_expression",
+      "_assignment_pattern"
+    ],
+    [
+      "_expression",
+      "array_assignment_pattern"
     ]
   ]
 }
