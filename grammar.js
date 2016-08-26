@@ -366,8 +366,7 @@ module.exports = grammar({
       '[', commaSep(err($._expression)), ']'
     ),
 
-    // Anonymous class declarations only occur in exports,
-    // so let's use `class_declaration` in exports
+    // Anonymous class declarations only occur in exports
     anonymous_class: $ => choice(
       seq('class', $._class_tail)
     ),
