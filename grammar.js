@@ -52,6 +52,7 @@ module.exports = grammar({
     //
 
     _statement: $ => choice(
+      $.import_statement,
       $.expression_statement,
       $.var_declaration,
       $.statement_block,
@@ -70,6 +71,40 @@ module.exports = grammar({
       $.yield_statement,
       $.throw_statement,
       $.empty_statement
+    ),
+
+    import_statement: $ => seq(
+      'import',
+      choice(
+        seq($.import_clause, $.from_clause),
+        $.string
+      ),
+      terminator()
+    ),
+
+    import_clause: $ => choice(
+      $.namespace_import,
+      $.named_imports,
+      seq($.identifier, ",", $.namespace_import),
+      seq($.identifier, ",", $.named_imports),
+      $.identifier
+    ),
+
+    from_clause: $ => seq(
+      "from", $.string
+    ),
+
+    namespace_import: $ => seq(
+      "*", "as", $.identifier
+    ),
+
+    named_imports: $ => seq(
+      '{', commaSep($.import_specifier), '}'
+    ),
+
+    import_specifier: $ => choice(
+      $.identifier,
+      seq($.identifier, 'as', $.identifier)
     ),
 
     expression_statement: $ => seq(
