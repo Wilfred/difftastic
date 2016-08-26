@@ -48,10 +48,81 @@ module.exports = grammar({
     ),
 
     //
+    // Export declarations
+    //
+
+    export_statement: $ => choice(
+      seq('export', '*', $._from_clause, terminator()),
+      seq('export', $.export_clause, $._from_clause, terminator()),
+      seq('export', $.export_clause, terminator()),
+      seq('export', $._declaration),
+      seq('export', 'default', $.anonymous_class),
+      seq('export', 'default', $._expression, terminator())
+    ),
+
+    export_clause: $ => seq(
+      '{', commaSep($.export_specifier), '}'
+    ),
+
+    export_specifier: $ => choice(
+      $.identifier,
+      seq($.identifier, "as", $.identifier)
+    ),
+
+    // A function, generator, class, or variable declaration
+    _declaration: $ => choice(
+      $.function,
+      $.generator_function,
+      $.anonymous_class,
+      $.class,
+      $.var_declaration
+    ),
+
+    //
+    // Import declarations
+    //
+
+    import_statement: $ => seq(
+      'import',
+      choice(
+        seq($.import_clause, $._from_clause),
+        $.string
+      ),
+      terminator()
+    ),
+
+    import_clause: $ => choice(
+      $.namespace_import,
+      $.named_imports,
+      seq($.identifier, ",", $.namespace_import),
+      seq($.identifier, ",", $.named_imports),
+      $.identifier
+    ),
+
+    _from_clause: $ => seq(
+      "from", $.string
+    ),
+
+    namespace_import: $ => seq(
+      "*", "as", $.identifier
+    ),
+
+    named_imports: $ => seq(
+      '{', commaSep($.import_specifier), '}'
+    ),
+
+    import_specifier: $ => choice(
+      $.identifier,
+      seq($.identifier, 'as', $.identifier)
+    ),
+
+
+    //
     // Statements
     //
 
     _statement: $ => choice(
+      $.export_statement,
       $.import_statement,
       $.expression_statement,
       $.var_declaration,
@@ -71,40 +142,6 @@ module.exports = grammar({
       $.yield_statement,
       $.throw_statement,
       $.empty_statement
-    ),
-
-    import_statement: $ => seq(
-      'import',
-      choice(
-        seq($.import_clause, $.from_clause),
-        $.string
-      ),
-      terminator()
-    ),
-
-    import_clause: $ => choice(
-      $.namespace_import,
-      $.named_imports,
-      seq($.identifier, ",", $.namespace_import),
-      seq($.identifier, ",", $.named_imports),
-      $.identifier
-    ),
-
-    from_clause: $ => seq(
-      "from", $.string
-    ),
-
-    namespace_import: $ => seq(
-      "*", "as", $.identifier
-    ),
-
-    named_imports: $ => seq(
-      '{', commaSep($.import_specifier), '}'
-    ),
-
-    import_specifier: $ => choice(
-      $.identifier,
-      seq($.identifier, 'as', $.identifier)
     ),
 
     expression_statement: $ => seq(
@@ -328,9 +365,21 @@ module.exports = grammar({
       '[', commaSep(err($._expression)), ']'
     ),
 
+    // Anonymous class declarations only occur in exports,
+    // so let's use `class_declaration` in exports
+    anonymous_class: $ => choice(
+      seq('class', $._class_tail)
+    ),
+
+    // An identifiable class.
     class: $ => seq(
       'class',
       $.identifier,
+      $._class_tail
+    ),
+
+    // The superclass and body of a class.
+    _class_tail: $ => seq(
       optional(seq('extends', $._expression)),
       $.class_body
     ),
