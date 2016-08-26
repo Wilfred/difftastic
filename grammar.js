@@ -393,6 +393,7 @@ module.exports = grammar({
     ),
 
     arrow_function: $ => seq(
+      optional('async'),
       choice(
         $.identifier,
         seq('(', optional($.formal_parameters), ')')
@@ -589,6 +590,7 @@ module.exports = grammar({
     formal_parameters: $ => commaSep1($.identifier),
 
     method_definition: $ => seq(
+      optional('async'),
       optional(choice('get', 'set', '*')),
       $.identifier,
       '(',
@@ -598,12 +600,12 @@ module.exports = grammar({
     ),
 
     pair: $ => seq(
-      choice($.identifier, $.get_set_identifier, $.string, $.number),
+      choice($.identifier, $.reserved_identifier, $.string, $.number),
       ':',
       $._expression
     ),
 
-    get_set_identifier: $ => choice('get', 'set'),
+    reserved_identifier: $ => choice('get', 'set', 'async'),
 
     _line_break: $ => '\n'
   }
