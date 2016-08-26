@@ -331,6 +331,7 @@ module.exports = grammar({
       $.generator_function,
       $.function_call,
       $.new_expression,
+      $.await_expression,
       $.member_access,
       $.subscript_access,
       $.assignment,
@@ -385,6 +386,7 @@ module.exports = grammar({
     ),
 
     function: $ => seq(
+      optional('async'),
       'function',
       optional($.identifier),
       '(', optional($.formal_parameters), ')',
@@ -420,6 +422,11 @@ module.exports = grammar({
       'new',
       $._expression
     )),
+
+    await_expression: $ => seq(
+      'await',
+      $._expression
+    ),
 
     member_access: $ => prec(PREC.MEMBER, seq(
       $._expression,
