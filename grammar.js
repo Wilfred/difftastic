@@ -30,7 +30,16 @@ module.exports = grammar({
 
   conflicts: $ => [
     [$._expression, $.method_definition],
-    [$._expression, $.formal_parameters]
+    [$._expression, $.formal_parameters],
+
+    // {a: b}
+    //  ^-- object literal or object destructuring pattern?
+    [$._expression, $.object_assignment_pattern],
+    [$._expression, $._assignment_pattern],
+
+    // [a]
+    //  ^-- array literal or array destructuring pattern?
+    [$._expression, $.array_assignment_pattern]
   ],
 
   rules: {
@@ -309,7 +318,7 @@ module.exports = grammar({
     ),
 
     var_assignment: $ => seq(
-      $.identifier,
+      $._assignment_pattern,
       '=',
       $._expression
     ),
@@ -441,9 +450,9 @@ module.exports = grammar({
 
     assignment: $ => prec.right(PREC.ASSIGN, seq(
       choice(
-        $.identifier,
         $.member_access,
-        $.subscript_access
+        $.subscript_access,
+        $._assignment_pattern
       ),
       '=',
       $._expression
@@ -458,6 +467,39 @@ module.exports = grammar({
       choice('+=', '-=', '*=', '/='),
       $._expression
     )),
+
+    _assignment_pattern: $ => choice(
+      $.identifier,
+      $.object_assignment_pattern,
+      $.array_assignment_pattern
+    ),
+
+    object_assignment_pattern: $ => seq(
+      '{',
+      commaSep1(choice(
+        $.identifier,
+        $.assignment_property,
+        $.assignment_rest_element
+      )),
+      '}'
+    ),
+
+    array_assignment_pattern: $ => seq(
+      '[',
+      commaSep1(choice(
+        $._assignment_pattern,
+        $.assignment_rest_element
+      )),
+      ']'
+    ),
+
+    assignment_property: $ => seq(
+      $.identifier,
+      ':',
+      $._assignment_pattern
+    ),
+
+    assignment_rest_element: $ => seq('...', $.identifier),
 
     ternary: $ => prec.right(PREC.TERNARY, seq(
       $._expression, '?', $._expression, ':', $._expression
@@ -587,7 +629,10 @@ module.exports = grammar({
       '}'
     ),
 
-    formal_parameters: $ => commaSep1($.identifier),
+    formal_parameters: $ => commaSep1(choice(
+      $.identifier,
+      $.object_assignment_pattern
+    )),
 
     method_definition: $ => seq(
       optional('async'),
