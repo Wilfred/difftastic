@@ -164,7 +164,7 @@ module.exports = grammar({
     var_declaration: $ => seq(
       variableType(),
       commaSep1(err(choice(
-        $.identifier,
+        $._assignment_pattern,
         $.var_assignment
       ))),
       terminator()

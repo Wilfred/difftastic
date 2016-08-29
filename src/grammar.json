@@ -668,7 +668,7 @@
                 "members": [
                   {
                     "type": "SYMBOL",
-                    "name": "identifier"
+                    "name": "_assignment_pattern"
                   },
                   {
                     "type": "SYMBOL",
@@ -693,7 +693,7 @@
                       "members": [
                         {
                           "type": "SYMBOL",
-                          "name": "identifier"
+                          "name": "_assignment_pattern"
                         },
                         {
                           "type": "SYMBOL",
