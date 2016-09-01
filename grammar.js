@@ -154,7 +154,8 @@ module.exports = grammar({
     ),
 
     expression_statement: $ => seq(
-      err(choice($._expression, $.comma_op)), terminator()
+      choice($._expression, $.comma_op),
+      terminator()
     ),
 
     trailing_expression_statement: $ => seq(
@@ -163,15 +164,15 @@ module.exports = grammar({
 
     var_declaration: $ => seq(
       variableType(),
-      commaSep1(err(choice(
+      commaSep1(choice(
         $._assignment_pattern,
         $.var_assignment
-      ))),
+      )),
       terminator()
     ),
 
     statement_block: $ => seq(
-      '{', err(optional($._statements)), '}'
+      '{', optional($._statements), '}'
     ),
 
     if_statement: $ => prec.right(seq(
@@ -195,11 +196,11 @@ module.exports = grammar({
       '(',
       choice(
         $.var_declaration,
-        seq(err(commaSep1($._expression)), ';'),
+        seq(commaSep1($._expression), ';'),
         ';'
       ),
-      optional(err($._expression)), ';',
-      optional(err($._expression)),
+      optional($._expression), ';',
+      optional($._expression),
       ')',
       $._statement
     ),
@@ -324,7 +325,7 @@ module.exports = grammar({
     ),
 
     _paren_expression: $ => seq(
-      '(', err(choice($._expression, $.comma_op)), ')'
+      '(', choice($._expression, $.comma_op), ')'
     ),
 
     //
@@ -368,11 +369,11 @@ module.exports = grammar({
     ),
 
     object: $ => prec(PREC.OBJECT, seq(
-      '{', commaSep(err(choice($.pair, $.method_definition))), '}'
+      '{', commaSep(choice($.pair, $.method_definition)), '}'
     )),
 
     array: $ => seq(
-      '[', commaSep(err($._expression)), ']'
+      '[', commaSep($._expression), ']'
     ),
 
     // Anonymous class declarations only occur in exports
@@ -424,7 +425,7 @@ module.exports = grammar({
 
     function_call: $ => prec(PREC.CALL, seq(
       choice($._expression, $.super),
-      '(', err(optional($.arguments)), ')'
+      '(', optional($.arguments), ')'
     )),
 
     new_expression: $ => prec(PREC.NEW, seq(
@@ -445,7 +446,7 @@ module.exports = grammar({
 
     subscript_access: $ => prec.right(PREC.MEMBER, seq(
       $._expression,
-      '[', err($._expression), ']'
+      '[', $._expression, ']'
     )),
 
     assignment: $ => prec.right(PREC.ASSIGN, seq(
@@ -617,7 +618,7 @@ module.exports = grammar({
     // Expression components
     //
 
-    arguments: $ => commaSep1(err($._expression)),
+    arguments: $ => commaSep1($._expression),
 
     class_body: $ => seq(
       '{',
