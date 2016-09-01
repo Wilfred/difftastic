@@ -18,7 +18,7 @@
     "tree-sitter-compiler": ">= 0.0.30"
   },
   "scripts": {
-    "prepublish": "tree-sitter compile && node-gyp build",
+    "build": "tree-sitter compile && node-gyp build",
     "test": "tree-sitter test"
   }
 }
