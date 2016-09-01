@@ -90,11 +90,11 @@ module.exports = grammar({
     preproc_ifdef: $ => seq(
       choice('#ifdef', '#ifndef'),
       $.identifier,
-      err(repeat(choice(
+      repeat(choice(
         $._preproc_statement,
         $.function_definition,
         $.declaration
-      ))),
+      )),
       optional($.preproc_else),
       '#endif'
     ),
@@ -120,12 +120,12 @@ module.exports = grammar({
     ),
 
     declaration: $ => seq(
-      err(seq(
-        optional($._declaration_specifiers),
-        $._type_specifier,
-        commaSep1(choice(
-          $._declarator,
-          $.init_declarator)))),
+      optional($._declaration_specifiers),
+      $._type_specifier,
+      commaSep1(choice(
+        $._declarator,
+        $.init_declarator
+      )),
       ';'
     ),
 
@@ -201,7 +201,11 @@ module.exports = grammar({
 
     compound_statement: $ => seq(
       '{',
-      err(repeat(choice($.declaration, $._empty_declaration, $._statement))),
+      repeat(choice(
+        $.declaration,
+        $._empty_declaration,
+        $._statement
+      )),
       '}'
     ),
 
@@ -427,7 +431,7 @@ module.exports = grammar({
       $.number_literal,
       $.string_literal,
       $.char_literal,
-      seq('(', err($._expression), ')')
+      seq('(', $._expression, ')')
     ),
 
     conditional_expression: $ => prec.right(PREC.CONDITIONAL, seq(
