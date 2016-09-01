@@ -17,7 +17,7 @@ module.exports = grammar({
     ),
 
     object: $ => seq(
-      "{", commaSep(err($.pair)), "}"
+      "{", commaSep($.pair), "}"
     ),
 
     pair: $ => seq(
@@ -27,7 +27,7 @@ module.exports = grammar({
     ),
 
     array: $ => seq(
-      "[", commaSep(err($._value)), "]"
+      "[", commaSep($._value), "]"
     ),
 
     string: $ => token(seq('"', repeat(choice(/[^\\"\n]/, /\\./)), '"')),

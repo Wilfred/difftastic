@@ -48,11 +48,8 @@
               "type": "SEQ",
               "members": [
                 {
-                  "type": "ERROR",
-                  "content": {
-                    "type": "SYMBOL",
-                    "name": "pair"
-                  }
+                  "type": "SYMBOL",
+                  "name": "pair"
                 },
                 {
                   "type": "REPEAT",
@@ -64,11 +61,8 @@
                         "value": ","
                       },
                       {
-                        "type": "ERROR",
-                        "content": {
-                          "type": "SYMBOL",
-                          "name": "pair"
-                        }
+                        "type": "SYMBOL",
+                        "name": "pair"
                       }
                     ]
                   }
@@ -126,11 +120,8 @@
               "type": "SEQ",
               "members": [
                 {
-                  "type": "ERROR",
-                  "content": {
-                    "type": "SYMBOL",
-                    "name": "_value"
-                  }
+                  "type": "SYMBOL",
+                  "name": "_value"
                 },
                 {
                   "type": "REPEAT",
@@ -142,11 +133,8 @@
                         "value": ","
                       },
                       {
-                        "type": "ERROR",
-                        "content": {
-                          "type": "SYMBOL",
-                          "name": "_value"
-                        }
+                        "type": "SYMBOL",
+                        "name": "_value"
                       }
                     ]
                   }
