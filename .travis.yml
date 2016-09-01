@@ -1,7 +1,7 @@
 language: node_js
 sudo: false
 node_js:
-  - 4
+  - "node"
 compiler: clang-3.6
 env:
   - CXX=clang-3.6
