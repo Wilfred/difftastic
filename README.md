@@ -1,6 +1,6 @@
 tree-sitter-cpp
 ==================
 
-[![Build Status](https://travis-ci.org/maxbrunsfeld/tree-sitter-cpp.svg?branch=master)](https://travis-ci.org/maxbrunsfeld/tree-sitter-cpp)
+[![Build Status](https://travis-ci.org/tree-sitter/tree-sitter-cpp.svg?branch=master)](https://travis-ci.org/tree-sitter/tree-sitter-cpp)
 
-C++ grammar for [tree-sitter](https://github.com/maxbrunsfeld/tree-sitter).
+C++ grammar for [tree-sitter](https://github.com/tree-sitter/tree-sitter).
