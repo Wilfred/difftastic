@@ -148,6 +148,7 @@ Objects with method definitions
         (return_statement (math_op (identifier) (identifier)))))
     (method_definition
       (identifier)
+      (formal_parameters)
       (statement_block
         (return_statement (identifier))))
     (method_definition
@@ -155,7 +156,11 @@ Objects with method definitions
       (formal_parameters (identifier))
       (statement_block
         (expression_statement (assignment (identifier) (identifier)))))
-    (method_definition (identifier) (statement_block (yield_statement (identifier)))))))
+    (method_definition
+      (identifier)
+      (formal_parameters)
+      (statement_block
+        (yield_statement (identifier)))))))
 
 ============================================
 Objects with reserved words for keys
@@ -175,8 +180,12 @@ Objects with reserved words for keys
 
 (program
   (expression_statement (object
-    (pair (reserved_identifier) (function (statement_block)))
-    (pair (reserved_identifier) (function (statement_block)))
+    (pair
+      (reserved_identifier)
+      (function (formal_parameters) (statement_block)))
+    (pair
+      (reserved_identifier)
+      (function (formal_parameters) (statement_block)))
     (pair (identifier) (true))
     (pair (reserved_identifier) (true)))))
 
@@ -223,8 +232,9 @@ class Foo extends require('another-class') {
       (class_body
         (method_definition
           (identifier)
+          (formal_parameters)
           (statement_block
-            (expression_statement (function_call (super)))))))))
+            (expression_statement (function_call (super) (arguments)))))))))
 
 ============================================
 Arrays
@@ -254,13 +264,16 @@ function stuff() {}
 ---
 
 (program
-  (expression_statement (function (statement_block)))
+  (expression_statement (function
+    (formal_parameters)
+    (statement_block)))
   (expression_statement (function
     (formal_parameters (identifier) (identifier))
     (statement_block
       (expression_statement (identifier)))))
   (expression_statement (function
     (identifier)
+    (formal_parameters)
     (statement_block))))
 
 ===================================================
@@ -278,11 +291,14 @@ a => 1;
 
 (program
   (expression_statement (arrow_function
-    (identifier) (number)))
-  (expression_statement (arrow_function
+    (identifier)
     (number)))
   (expression_statement (arrow_function
-    (formal_parameters (identifier) (identifier)) (number)))
+    (formal_parameters)
+    (number)))
+  (expression_statement (arrow_function
+    (formal_parameters (identifier) (identifier))
+    (number)))
   (expression_statement (arrow_function
     (formal_parameters (identifier) (identifier))
     (statement_block
@@ -301,7 +317,9 @@ function *generateStuff(arg1, arg2) {
 ---
 
 (program
-  (expression_statement (generator_function (statement_block)))
+  (expression_statement (generator_function
+    (formal_parameters)
+    (statement_block)))
   (expression_statement (generator_function
     (identifier)
     (formal_parameters (identifier) (identifier))
@@ -339,7 +357,9 @@ return returned.promise()
     (member_access
       (function_call
         (member_access
-          (function_call (member_access (identifier) (identifier)))
+          (function_call
+            (member_access (identifier) (identifier))
+            (arguments))
           (identifier))
         (arguments (member_access (identifier) (identifier))))
       (identifier))
@@ -414,7 +434,7 @@ new Thing;
 Await Expressions
 ============================================
 
-await asyncFun();
+await asyncFunction();
 await asyncPromise;
 
 ---
@@ -422,8 +442,8 @@ await asyncPromise;
 (program
   (expression_statement
     (await_expression
-      (function_call (identifier))))
-        (expression_statement (await_expression (identifier))))
+      (function_call (identifier) (arguments))))
+  (expression_statement (await_expression (identifier))))
 
 ============================================
 Async Functions and Methods
@@ -444,15 +464,29 @@ async (a) => { return foo; };
 
 ---
 
- (program
-   (expression_statement
-    (function (identifier) (statement_block)))
+(program
   (expression_statement
-    (object (method_definition (identifier) (statement_block))))
+    (function
+      (identifier)
+      (formal_parameters)
+      (statement_block)))
   (expression_statement
-    (class (identifier) (class_body (method_definition (identifier) (statement_block)))))
+    (object
+      (method_definition
+        (identifier)
+        (formal_parameters)
+        (statement_block))))
   (expression_statement
-    (arrow_function (formal_parameters (identifier)) (statement_block (return_statement (identifier))))))
+    (class (identifier) (class_body
+      (method_definition
+        (identifier)
+        (formal_parameters)
+        (statement_block)))))
+  (expression_statement
+    (arrow_function
+      (formal_parameters (identifier))
+      (statement_block
+        (return_statement (identifier))))))
 
 ============================================
 Math operators
@@ -645,7 +679,7 @@ a = void b()
 
 (program (expression_statement (assignment
   (identifier)
-  (void_op (function_call (identifier))))))
+  (void_op (function_call (identifier) (arguments))))))
 
 ==============================================
 Math assignment operators

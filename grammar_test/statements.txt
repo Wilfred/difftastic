@@ -50,8 +50,8 @@ export { name1, name2, nameN } from 'foo';
 export { import1 as name1, import2 as name2, nameN } from 'foo';
 
 ----
-(program
 
+(program
   (export_statement
     (export_clause (export_specifier (identifier)) (export_specifier (identifier)) (export_specifier (identifier)) (export_specifier (identifier))))
   (export_statement
@@ -63,9 +63,9 @@ export { import1 as name1, import2 as name2, nameN } from 'foo';
   (export_statement
     (identifier))
   (export_statement
-    (function (statement_block)))
+    (function (formal_parameters) (statement_block)))
   (export_statement
-    (function (identifier) (statement_block)))
+    (function (identifier) (formal_parameters) (statement_block)))
   (export_statement
     (export_clause (export_specifier (identifier) (identifier))))
   (export_statement
@@ -74,7 +74,6 @@ export { import1 as name1, import2 as name2, nameN } from 'foo';
     (export_clause (export_specifier (identifier)) (export_specifier (identifier)) (export_specifier (identifier))) (string))
   (export_statement
     (export_clause (export_specifier (identifier) (identifier)) (export_specifier (identifier) (identifier)) (export_specifier (identifier))) (string)))
-
 
 ============================================
 If statements
@@ -155,7 +154,7 @@ for (;;) {
 
   (for_statement
     (assignment (identifier) (number))
-    (function_call (identifier))
+    (function_call (identifier) (arguments))
     (rel_op (identifier) (number))
     (math_op (identifier))
     (expression_statement (function_call (identifier) (arguments (identifier)))))
@@ -178,9 +177,9 @@ for (item in items)
 
 (program
   (for_in_statement (identifier) (identifier)
-    (expression_statement (function_call (identifier))))
+    (expression_statement (function_call (identifier) (arguments))))
   (for_in_statement (identifier) (identifier)
-    (expression_statement (function_call (identifier)))))
+    (expression_statement (function_call (identifier) (arguments)))))
 
 ==========================================
 For loops beginning with an in-expression
@@ -198,7 +197,8 @@ for (key in something && i = 0; i < n; i++) {
     (assignment (identifier) (number)))
   (rel_op (identifier) (identifier))
   (math_op (identifier))
-  (statement_block (expression_statement (function_call (identifier))))))
+  (statement_block
+    (expression_statement (function_call (identifier) (arguments))))))
 
 ============================================
 For-of statements
@@ -224,7 +224,7 @@ while (a)
 
 (program
   (while_statement (identifier)
-    (expression_statement (function_call (identifier)))))
+    (expression_statement (function_call (identifier) (arguments)))))
 
 ============================================
 Do statements
@@ -294,7 +294,7 @@ Comments
     (comment)
     (pair (identifier) (number))
     (comment)
-    (pair (identifier) (function (statement_block))))))
+    (pair (identifier) (function (formal_parameters) (statement_block))))))
 
 ==========================================
 Comments between statements
@@ -325,12 +325,14 @@ var thing = {
       (comment)
       (comment)
       (pair (identifier) (function
-        (formal_parameters (identifier)) (comment)
+        (formal_parameters (identifier) (comment))
         (statement_block
           (comment)
-          (expression_statement (function_call (identifier)))
+          (expression_statement
+            (function_call (identifier) (arguments)))
           (comment)
-          (expression_statement (function_call (identifier))))))))))
+          (expression_statement
+            (function_call (identifier) (arguments))))))))))
 
 ==========================================
 Comments within expressions
@@ -343,26 +345,6 @@ y // comment
 
 (program (expression_statement
   (math_op (identifier) (comment) (identifier))))
-
-============================================
-Automatic semicolon insertion
-============================================
-
-if (a) {
-  var b = c
-  d()
-  e()
-  return f
-}
-
----
-
-(program
-  (if_statement (identifier) (statement_block
-    (var_declaration (var_assignment (identifier) (identifier)))
-    (expression_statement (function_call (identifier)))
-    (expression_statement (function_call (identifier)))
-    (return_statement (identifier)))))
 
 ============================================
 Switch statements
@@ -386,10 +368,10 @@ switch (x) {
   (switch_statement (identifier)
     (case (number))
     (case (number)
-      (expression_statement (function_call (identifier)))
+      (expression_statement (function_call (identifier) (arguments)))
       (break_statement))
     (case (string)
-      (expression_statement (function_call (identifier)))
+      (expression_statement (function_call (identifier) (arguments)))
       (break_statement))
     (default
       (return_statement (number)))))

@@ -398,7 +398,7 @@ module.exports = grammar({
       optional('async'),
       'function',
       optional($.identifier),
-      '(', optional($.formal_parameters), ')',
+      $.formal_parameters,
       $.statement_block
     ),
 
@@ -406,7 +406,7 @@ module.exports = grammar({
       optional('async'),
       choice(
         $.identifier,
-        seq('(', optional($.formal_parameters), ')')
+        $.formal_parameters
       ),
       '=>',
       choice(
@@ -419,13 +419,13 @@ module.exports = grammar({
       'function',
       '*',
       optional($.identifier),
-      '(', optional($.formal_parameters), ')',
+      $.formal_parameters,
       $.statement_block
     ),
 
     function_call: $ => prec(PREC.CALL, seq(
       choice($._expression, $.super),
-      '(', optional($.arguments), ')'
+      $.arguments
     )),
 
     new_expression: $ => prec(PREC.NEW, seq(
@@ -618,7 +618,11 @@ module.exports = grammar({
     // Expression components
     //
 
-    arguments: $ => commaSep1($._expression),
+    arguments: $ => prec(PREC.CALL, seq(
+      '(',
+      commaSep($._expression),
+      ')'
+    )),
 
     class_body: $ => seq(
       '{',
@@ -630,18 +634,20 @@ module.exports = grammar({
       '}'
     ),
 
-    formal_parameters: $ => commaSep1(choice(
-      $.identifier,
-      $.object_assignment_pattern
-    )),
+    formal_parameters: $ => seq(
+      '(',
+      commaSep(choice(
+        $.identifier,
+        $.object_assignment_pattern
+      )),
+      ')'
+    ),
 
     method_definition: $ => seq(
       optional('async'),
       optional(choice('get', 'set', '*')),
       $.identifier,
-      '(',
-      optional($.formal_parameters),
-      ')',
+      $.formal_parameters,
       $.statement_block
     ),
 
