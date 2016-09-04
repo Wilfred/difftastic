@@ -1267,7 +1267,7 @@ static const TSSymbolMetadata ts_symbol_metadata[SYMBOL_COUNT] = {
     },
 };
 
-static bool ts_lex(TSLexer *lexer, TSStateId state, bool error_mode) {
+static bool ts_lex(TSLexer *lexer, TSStateId state) {
     START_LEXER();
     switch (state) {
         case 0:
