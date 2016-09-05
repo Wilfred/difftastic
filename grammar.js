@@ -29,21 +29,26 @@ module.exports = grammar({
   ],
 
   conflicts: $ => [
+    // { foo (
+    //    ^--- method definition or function call in block?
     [$._expression, $.method_definition],
-    [$._expression, $.formal_parameters],
 
     // { async (
-    //      ^--- method name or async arrow function?
+    //    ^--- method definition or async arrow function?
     [$.reserved_identifier, $.arrow_function],
 
-    // {a:
-    //  ^-- object literal or object destructuring pattern?
-    [$._expression, $.object_assignment_pattern],
-    [$._expression, $._assignment_pattern],
+    // ( foo ,
+    //    ^--- arrow function parameters or comma expression?
+    [$.formal_parameters, $._expression],
 
-    // [a
-    //  ^-- array literal or array destructuring pattern?
-    [$._expression, $.array_assignment_pattern]
+    // ( {foo} )
+    // ( [foo] )
+    //    ^-- destructured arrow function parameters or parenthesized expression?
+    [$.assignment_pattern, $._expression],
+
+    // { key ,
+    //    ^--- shorthand object property or comma expression in block?
+    [$._expression, $.object]
   ],
 
   rules: {
@@ -168,7 +173,8 @@ module.exports = grammar({
     var_declaration: $ => seq(
       variableType(),
       commaSep1(choice(
-        $._assignment_pattern,
+        $.identifier,
+        $.assignment_pattern,
         $.var_assignment
       )),
       terminator()
@@ -322,7 +328,10 @@ module.exports = grammar({
     ),
 
     var_assignment: $ => seq(
-      $._assignment_pattern,
+      choice(
+        $.assignment_pattern,
+        $.identifier
+      ),
       '=',
       $._expression
     ),
@@ -372,11 +381,19 @@ module.exports = grammar({
     ),
 
     object: $ => prec(PREC.OBJECT, seq(
-      '{', commaSep(choice($.pair, $.method_definition)), '}'
+      '{',
+      commaSep(choice(
+        $.pair,
+        $.method_definition,
+        $.identifier,
+        $.reserved_identifier,
+        $.spread_element
+      )),
+      '}'
     )),
 
     array: $ => seq(
-      '[', commaSep($._expression), ']'
+      '[', commaSep(choice($._expression, $.spread_element)), ']'
     ),
 
     // Anonymous class declarations only occur in exports
@@ -456,7 +473,8 @@ module.exports = grammar({
       choice(
         $.member_access,
         $.subscript_access,
-        $._assignment_pattern
+        $.identifier,
+        $.assignment_pattern
       ),
       '=',
       $._expression
@@ -472,38 +490,12 @@ module.exports = grammar({
       $._expression
     )),
 
-    _assignment_pattern: $ => choice(
-      $.identifier,
-      $.object_assignment_pattern,
-      $.array_assignment_pattern
+    assignment_pattern: $ => choice(
+      $.object,
+      $.array
     ),
 
-    object_assignment_pattern: $ => seq(
-      '{',
-      commaSep1(choice(
-        $.identifier,
-        $.assignment_property,
-        $.assignment_rest_element
-      )),
-      '}'
-    ),
-
-    array_assignment_pattern: $ => seq(
-      '[',
-      commaSep1(choice(
-        $._assignment_pattern,
-        $.assignment_rest_element
-      )),
-      ']'
-    ),
-
-    assignment_property: $ => seq(
-      $.identifier,
-      ':',
-      $._assignment_pattern
-    ),
-
-    assignment_rest_element: $ => seq('...', $.identifier),
+    spread_element: $ => seq('...', $._expression),
 
     ternary: $ => prec.right(PREC.TERNARY, seq(
       $._expression, '?', $._expression, ':', $._expression
@@ -641,7 +633,7 @@ module.exports = grammar({
       '(',
       commaSep(choice(
         $.identifier,
-        $.object_assignment_pattern
+        $.assignment_pattern
       )),
       ')'
     ),
