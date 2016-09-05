@@ -17,7 +17,7 @@ const PREC = {
   CAST: 13,
   UNARY: 14,
   FIELD: 15,
-  SUBSCRIPT: 16,
+  SUBSCRIPT: 16
 };
 
 module.exports = grammar({
@@ -520,8 +520,8 @@ module.exports = grammar({
     ),
 
     field_expression: $ => choice(
-      prec.left(PREC.FIELD, seq($._expression, '.', $._expression)),
-      prec.left(PREC.FIELD, seq($._expression, '->', $._expression))
+      prec.left(PREC.FIELD, seq($._expression, '.', $.identifier)),
+      prec.left(PREC.FIELD, seq($._expression, '->', $.identifier))
     ),
 
     compound_literal_expression: $ => seq(
@@ -613,7 +613,7 @@ module.exports = grammar({
         repeat(choice(/[^\*]/, /\*[^/]/)),
         '*/'
       )
-    )),
+    ))
   }
 });
 

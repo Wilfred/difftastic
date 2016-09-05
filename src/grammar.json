@@ -2595,7 +2595,7 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "_expression"
+                "name": "identifier"
               }
             ]
           }
@@ -2616,7 +2616,7 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "_expression"
+                "name": "identifier"
               }
             ]
           }
