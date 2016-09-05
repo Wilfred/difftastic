@@ -2737,15 +2737,33 @@
       "type": "CHOICE",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "element"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "element"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "keyed_element"
+            }
+          ]
         },
         {
           "type": "SEQ",
           "members": [
             {
-              "type": "SYMBOL",
-              "name": "element"
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "element"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "keyed_element"
+                }
+              ]
             },
             {
               "type": "STRING",
@@ -2767,38 +2785,25 @@
         }
       ]
     },
-    "element": {
+    "keyed_element": {
       "type": "SEQ",
       "members": [
         {
           "type": "CHOICE",
           "members": [
             {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "CHOICE",
-                  "members": [
-                    {
-                      "type": "SYMBOL",
-                      "name": "_expression"
-                    },
-                    {
-                      "type": "SYMBOL",
-                      "name": "literal_value"
-                    }
-                  ]
-                },
-                {
-                  "type": "STRING",
-                  "value": ":"
-                }
-              ]
+              "type": "SYMBOL",
+              "name": "_expression"
             },
             {
-              "type": "BLANK"
+              "type": "SYMBOL",
+              "name": "literal_value"
             }
           ]
+        },
+        {
+          "type": "STRING",
+          "value": ":"
         },
         {
           "type": "CHOICE",
@@ -2812,6 +2817,19 @@
               "name": "literal_value"
             }
           ]
+        }
+      ]
+    },
+    "element": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "literal_value"
         }
       ]
     },

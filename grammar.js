@@ -611,20 +611,26 @@ module.exports = grammar({
       '}'
     ),
 
-    _element_list: $ => sepTrailing(',', $._element_list, $.element),
+    _element_list: $ => sepTrailing(',', $._element_list, choice(
+      $.element,
+      $.keyed_element
+    )),
 
-    element: $ => seq(
-      optional(seq(
-        choice(
-          $._expression,
-          $.literal_value
-        ),
-        ':'
-      )),
+    keyed_element: $ => seq(
+      choice(
+        $._expression,
+        $.literal_value
+      ),
+      ':',
       choice(
         $._expression,
         $.literal_value
       )
+    ),
+
+    element: $ => choice(
+      $._expression,
+      $.literal_value
     ),
 
     func_literal: $ => seq(

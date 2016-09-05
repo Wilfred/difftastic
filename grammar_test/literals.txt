@@ -190,8 +190,8 @@ const s = map[string]string{
     (expression_list (composite_literal
       (map_type (identifier) (identifier))
       (literal_value
-        (element (interpreted_string_literal) (interpreted_string_literal))
-        (element (interpreted_string_literal) (interpreted_string_literal))))))))
+        (keyed_element (interpreted_string_literal) (interpreted_string_literal))
+        (keyed_element (interpreted_string_literal) (interpreted_string_literal))))))))
 
 ============================================
 Struct literals
@@ -217,15 +217,15 @@ const s3 = time.Time{}
     (expression_list (composite_literal
       (identifier)
       (literal_value
-        (element (identifier) (interpreted_string_literal))
-        (element (identifier) (interpreted_string_literal)))))))
+        (keyed_element (identifier) (interpreted_string_literal))
+        (keyed_element (identifier) (interpreted_string_literal)))))))
   (const_declaration (const_spec
     (identifier_list (identifier))
     (expression_list (composite_literal
       (struct_type
         (field_declaration (identifier_list (identifier)) (identifier)))
       (literal_value
-        (element (identifier) (int_literal)))))))
+        (keyed_element (identifier) (int_literal)))))))
   (const_declaration (const_spec
     (identifier_list (identifier))
     (expression_list (composite_literal
