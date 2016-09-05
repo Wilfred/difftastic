@@ -10,24 +10,24 @@ const {a, b: {c, d}} = object
 
 (program
   (expression_statement (assignment
-    (object_assignment_pattern
+    (assignment_pattern (object
       (identifier)
-      (identifier))
+      (identifier)))
     (identifier)))
   (var_declaration (var_assignment
-    (object_assignment_pattern
+    (assignment_pattern (object
       (identifier)
       (identifier)
-      (assignment_rest_element (identifier)))
+      (spread_element (identifier))))
     (identifier)))
   (var_declaration (var_assignment
-    (object_assignment_pattern
+    (assignment_pattern (object
       (identifier)
-      (assignment_property
+      (pair
         (identifier)
-        (object_assignment_pattern
+        (object
           (identifier)
-          (identifier))))
+          (identifier)))))
     (identifier))))
 
 ============================================
@@ -42,8 +42,8 @@ function a ({b, c}, {d}) {}
   (expression_statement
     (function (identifier)
       (formal_parameters
-        (object_assignment_pattern (identifier) (identifier))
-        (object_assignment_pattern (identifier)))
+        (assignment_pattern (object (identifier) (identifier)))
+        (assignment_pattern (object (identifier))))
       (statement_block))))
 
 ============================================
@@ -57,13 +57,13 @@ Array destructuring assignments
 
 (program
   (expression_statement (assignment
-    (array_assignment_pattern
+    (assignment_pattern (array
       (identifier)
-      (identifier))
+      (identifier)))
     (identifier)))
   (expression_statement (assignment
-    (array_assignment_pattern
+    (assignment_pattern (array
       (identifier)
       (identifier)
-      (assignment_rest_element (identifier)))
+      (spread_element (identifier))))
     (identifier))))

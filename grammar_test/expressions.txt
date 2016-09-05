@@ -119,6 +119,19 @@ Objects
     (pair (identifier) (number)))))
 
 ============================================
+Objects with shorthand properties
+============================================
+
+x = {a, b, get};
+
+---
+
+(program
+  (expression_statement (assignment
+    (identifier)
+    (object (identifier) (identifier) (reserved_identifier)))))
+
+============================================
 Objects with method definitions
 ============================================
 
@@ -167,7 +180,7 @@ Objects with method definitions
       (reserved_identifier)
       (formal_parameters)
       (statement_block
-        (return_statement  (number  )))))))
+        (return_statement (number)))))))
 
 ============================================
 Objects with reserved words for keys
