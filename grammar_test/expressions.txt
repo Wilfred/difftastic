@@ -133,7 +133,9 @@ Objects with method definitions
 
   set bar(a) { c = a; },
 
-  *barGenerator() { yield c; }
+  *barGenerator() { yield c; },
+
+  get() { return 1; }
 };
 
 ---
@@ -160,7 +162,12 @@ Objects with method definitions
       (identifier)
       (formal_parameters)
       (statement_block
-        (yield_statement (identifier)))))))
+        (yield_statement (identifier))))
+    (method_definition
+      (reserved_identifier)
+      (formal_parameters)
+      (statement_block
+        (return_statement  (number  )))))))
 
 ============================================
 Objects with reserved words for keys

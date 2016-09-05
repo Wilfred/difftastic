@@ -3468,8 +3468,17 @@
           ]
         },
         {
-          "type": "SYMBOL",
-          "name": "identifier"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "identifier"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "reserved_identifier"
+            }
+          ]
         },
         {
           "type": "SYMBOL",
@@ -3559,6 +3568,10 @@
     [
       "_expression",
       "formal_parameters"
+    ],
+    [
+      "reserved_identifier",
+      "arrow_function"
     ],
     [
       "_expression",
