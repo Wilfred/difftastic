@@ -32,12 +32,16 @@ module.exports = grammar({
     [$._expression, $.method_definition],
     [$._expression, $.formal_parameters],
 
-    // {a: b}
+    // { async (
+    //      ^--- method name or async arrow function?
+    [$.reserved_identifier, $.arrow_function],
+
+    // {a:
     //  ^-- object literal or object destructuring pattern?
     [$._expression, $.object_assignment_pattern],
     [$._expression, $._assignment_pattern],
 
-    // [a]
+    // [a
     //  ^-- array literal or array destructuring pattern?
     [$._expression, $.array_assignment_pattern]
   ],
@@ -124,7 +128,6 @@ module.exports = grammar({
       $.identifier,
       seq($.identifier, 'as', $.identifier)
     ),
-
 
     //
     // Statements
@@ -646,7 +649,7 @@ module.exports = grammar({
     method_definition: $ => seq(
       optional('async'),
       optional(choice('get', 'set', '*')),
-      $.identifier,
+      choice($.identifier, $.reserved_identifier),
       $.formal_parameters,
       $.statement_block
     ),
