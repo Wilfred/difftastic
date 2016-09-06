@@ -155,6 +155,7 @@ module.exports = grammar({
       $.try_statement,
 
       $.break_statement,
+      $.continue_statement,
       $.return_statement,
       $.yield_statement,
       $.throw_statement,
@@ -259,6 +260,11 @@ module.exports = grammar({
 
     break_statement: $ => seq(
       'break',
+      terminator()
+    ),
+
+    continue_statement: $ => seq(
+      'continue',
       terminator()
     ),
 
