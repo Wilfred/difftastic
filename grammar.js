@@ -48,7 +48,7 @@ module.exports = grammar({
 
     // { key ,
     //    ^--- shorthand object property or comma expression in block?
-    [$._expression, $.object]
+    [$._expression, $._property_definition_list]
   ],
 
   rules: {
@@ -382,19 +382,26 @@ module.exports = grammar({
 
     object: $ => prec(PREC.OBJECT, seq(
       '{',
-      commaSep(choice(
-        $.pair,
-        $.method_definition,
-        $.identifier,
-        $.reserved_identifier,
-        $.spread_element
-      )),
+      optional($._property_definition_list),
       '}'
     )),
 
+    _property_definition_list: $ => commaSep1Trailing($._property_definition_list, choice(
+      $.pair,
+      $.method_definition,
+      $.identifier,
+      $.reserved_identifier,
+      $.spread_element
+    )),
+
     array: $ => seq(
-      '[', commaSep(choice($._expression, $.spread_element)), ']'
+      '[', optional($._element_list), ']'
     ),
+
+    _element_list: $ => commaSep1Trailing($._element_list, choice(
+      $._expression,
+      $.spread_element
+    )),
 
     // Anonymous class declarations only occur in exports
     anonymous_class: $ => choice(
@@ -657,6 +664,10 @@ module.exports = grammar({
     _line_break: $ => '\n'
   }
 });
+
+function commaSep1Trailing(recurSymbol, rule) {
+  return seq(rule, optional(seq(',', optional(recurSymbol))))
+}
 
 function commaSep1 (rule) {
   return seq(rule, repeat(seq(',', rule)));
