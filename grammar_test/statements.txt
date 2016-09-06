@@ -141,6 +141,7 @@ for (i = 0, init(); i < 10; i++)
 
 for (;;) {
   z;
+  continue;
 }
 
 ---
@@ -161,7 +162,8 @@ for (;;) {
 
   (for_statement
     (statement_block
-      (expression_statement (identifier)))))
+      (expression_statement (identifier))
+      (continue_statement))))
 
 ============================================
 For-in statements
