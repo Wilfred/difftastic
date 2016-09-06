@@ -123,13 +123,17 @@ Objects with shorthand properties
 ============================================
 
 x = {a, b, get};
+y = {a,};
 
 ---
 
 (program
   (expression_statement (assignment
     (identifier)
-    (object (identifier) (identifier) (reserved_identifier)))))
+    (object (identifier) (identifier) (reserved_identifier))))
+  (expression_statement (assignment
+    (identifier)
+    (object (identifier)))))
 
 ============================================
 Objects with method definitions
@@ -262,12 +266,14 @@ Arrays
 
 [];
 [ "item1" ];
+[ "item1", ];
 [ "item1", item2 ];
 
 ---
 
 (program
   (expression_statement (array))
+  (expression_statement (array (string)))
   (expression_statement (array (string)))
   (expression_statement (array (string) (identifier))))
 
