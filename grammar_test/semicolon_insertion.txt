@@ -65,3 +65,26 @@ function c() {return d}
   (expression_statement
     (function (identifier) (formal_parameters) (statement_block
       (trailing_return_statement (identifier))))))
+
+==============================================
+Multi-line chained expressions in var declarations
+==============================================
+
+var a = new A()
+  .b({c: 'd'})
+  .e()
+
+---
+
+(program
+  (var_declaration (var_assignment
+    (identifier)
+    (function_call
+      (member_access
+        (function_call
+          (member_access
+            (new_expression (function_call (identifier) (arguments)))
+            (identifier))
+          (arguments (object (pair (identifier) (string)))))
+        (identifier))
+      (arguments)))))
