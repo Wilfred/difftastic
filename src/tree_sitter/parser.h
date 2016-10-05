@@ -43,7 +43,7 @@ typedef struct TSLexer {
   TSSymbol result_symbol;
 
   TSInput input;
-  TSDebugger debugger;
+  TSLogger logger;
   char debug_buffer[TS_DEBUG_BUFFER_SIZE];
 } TSLexer;
 
@@ -134,14 +134,6 @@ struct TSLanguage {
 #define SHIFT_EXTRA()                                 \
   {                                                   \
     { .type = TSParseActionTypeShift, .extra = true } \
-  }
-
-#define REDUCE_EXTRA(symbol_val)                                               \
-  {                                                                            \
-    {                                                                          \
-      .type = TSParseActionTypeReduce, .symbol = symbol_val, .child_count = 1, \
-      .extra = true,                                                           \
-    }                                                                          \
   }
 
 #define REDUCE(symbol_val, child_count_val)                  \
