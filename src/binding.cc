@@ -1,4 +1,4 @@
-#include "tree_sitter/runtime.h"
+#include "tree_sitter/parser.h"
 #include <node.h>
 #include "nan.h"
 
