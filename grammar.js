@@ -31,8 +31,7 @@ module.exports = grammar({
 
   extras: $ => [
     $.comment,
-    $._line_break,
-    /[ \t\r]/
+    /\s/
   ],
 
   conflicts: $ => [
@@ -46,12 +45,14 @@ module.exports = grammar({
   ],
 
   rules: {
-    program: $ => seq(sep($._statement, $._terminator), optional(seq('\n__END__', $.uninterpreted))),
+    program: $ => seq(optional($._statements), optional(seq('\n__END__', $.uninterpreted))),
     uninterpreted: $ => (/.*/),
+
+    _statements: $ => sepTrailing($._statements, $._statement, $._terminator),
 
     _statement: $ => choice(
       $._declaration,
-      // seq($._call, "do", optional("|", commaSep($._block_variable), "|"), sep($._statement, $._terminator), "end"),
+      // seq($._call, "do", optional("|", commaSep($._block_variable), "|"), optional($._statements), "end"),
       seq("undef", $._function_name),
       seq("alias", $._function_name, $._function_name),
       $.while_statement,
@@ -77,15 +78,15 @@ module.exports = grammar({
 
     method_declaration: $ => seq(
       "def", $._function_name, choice(seq("(", optional($.formal_parameters), ")"), seq(optional($.formal_parameters), $._terminator)),
-      sep($._statement, $._terminator),
+      optional($._statements),
       "end"
     ),
 
     formal_parameters: $ => commaSep1(seq(optional(choice("*", "&")), $.identifier)),
 
-    class_declaration: $ => seq("class", $.identifier, optional(seq("<", sep1($.identifier, "::"))), $._terminator, sep($._statement, $._terminator), "end"),
+    class_declaration: $ => seq("class", $.identifier, optional(seq("<", sep1($.identifier, "::"))), $._terminator, optional($._statements), "end"),
 
-    module_declaration: $ => seq("module", $.identifier, $._terminator, sep($._statement, $._terminator), "end"),
+    module_declaration: $ => seq("module", $.identifier, $._terminator, optional($._statements), "end"),
 
     while_statement: $ => seq("while", $.condition, $._statement_block),
     until_statement: $ => seq("until", $.condition, $._statement_block),
@@ -94,7 +95,7 @@ module.exports = grammar({
     for_statement: $ => seq("for", $._lhs, "in", $._expression, $._statement_block),
     begin_statement: $ => seq(
       "begin",
-      sep($._statement, $._terminator),
+      optional($._statements),
       repeat($.rescue_block),
       optional($.else_block),
       optional($.ensure_block),
@@ -122,14 +123,14 @@ module.exports = grammar({
 
     _statement_block: $ => choice(
       $._do_block,
-      seq($._terminator, sep($._statement, $._terminator), "end")
+      seq($._terminator, optional($._statements), "end")
     ),
-    _do_block: $ => seq("do", sep($._statement, $._terminator), "end"),
+    _do_block: $ => seq("do", optional($._statements), "end"),
 
-    then_block: $ => seq(choice("then", $._terminator), sep($._statement, $._terminator)),
-    else_block: $ => seq("else", sep($._statement, $._terminator)),
-    rescue_block: $ => seq("rescue", commaSep($._primary), choice("do", $._terminator), sep($._statement, $._terminator)),
-    ensure_block: $ => seq("ensure", sep($._statement, $._terminator)),
+    then_block: $ => seq(choice("then", $._terminator), optional($._statements)),
+    else_block: $ => seq("else", optional($._statements)),
+    rescue_block: $ => seq("rescue", commaSep($._primary), choice("do", $._terminator), optional($._statements)),
+    ensure_block: $ => seq("ensure", optional($._statements)),
 
     _then_else_block: $ => seq($.then_block, optional($.else_block), "end"),
     _then_elsif_else_block: $ => seq(
@@ -169,7 +170,7 @@ module.exports = grammar({
     ),
 
     _primary: $ => choice(
-      seq("(", sep($._statement, $._terminator), ")"),
+      seq("(", optional($._statements), ")"),
       $._lhs
     ),
 
@@ -366,7 +367,7 @@ module.exports = grammar({
     _regex_interpolated_paren: $ => regexBody('(', ')', $.interpolation, $._regex_interpolated_paren),
     _regex_interpolated_brace: $ => regexBody('{', '}', $.interpolation, $._regex_interpolated_brace),
 
-    function: $ => seq('->', optional(choice(seq('(', optional($.formal_parameters), ')'), $.identifier)), '{', sep($._statement, $._terminator), '}'),
+    function: $ => seq('->', optional(choice(seq('(', optional($.formal_parameters), ')'), $.identifier)), '{', optional($._statements), '}'),
 
     _function_name: $ => choice($.identifier, choice.apply(null, operators)),
 
@@ -405,12 +406,12 @@ function regexBody (open, close, interpolation, me) {
   );
 }
 
-function sep1 (rule, separator) {
-  return seq(rule, repeat(seq(separator, rule)));
+function sepTrailing (self, rule, separator) {
+  return choice(rule, seq(rule, separator, optional(self)))
 }
 
-function sep (rule, separator) {
-  return optional(sep1(rule, separator));
+function sep1 (rule, separator) {
+  return seq(rule, repeat(seq(separator, rule)));
 }
 
 function commaSep1 (rule) {
