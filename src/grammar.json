@@ -2101,8 +2101,25 @@
               {
                 "type": "REPEAT",
                 "content": {
-                  "type": "PATTERN",
-                  "value": ".*\\n"
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "PATTERN",
+                      "value": "[^=]"
+                    },
+                    {
+                      "type": "PATTERN",
+                      "value": "=[^e]"
+                    },
+                    {
+                      "type": "PATTERN",
+                      "value": "=e[^n]"
+                    },
+                    {
+                      "type": "PATTERN",
+                      "value": "=en[^d]"
+                    }
+                  ]
                 }
               },
               {

@@ -240,7 +240,12 @@ module.exports = grammar({
       seq('#', /.*/),
       seq(
         '=begin\n',
-        repeat(/.*\n/),
+        repeat(choice(
+          /[^=]/,
+          /=[^e]/,
+          /=e[^n]/,
+          /=en[^d]/
+        )),
         '=end\n'
       )
     )),
