@@ -1,4 +1,5 @@
 const PREC = {
+  COMMENT: -1,
   AND: -1,
   OR: -1,
   NOT: 5,
@@ -241,7 +242,7 @@ module.exports = grammar({
 
     identifier: $ => token(seq(repeat(choice('@', '$')), identifierPattern)),
 
-    comment: $ => token(choice(
+    comment: $ => token(prec(PREC.COMMENT, choice(
       seq('#', /.*/),
       seq(
         '=begin\n',
@@ -253,7 +254,7 @@ module.exports = grammar({
         )),
         '=end\n'
       )
-    )),
+    ))),
 
     _literal: $ => choice(
       $.symbol,
@@ -320,7 +321,7 @@ module.exports = grammar({
     _uninterpolated_bracket: $ => balancedStringBody($._uninterpolated_bracket, '[', ']'),
     _uninterpolated_paren: $ => balancedStringBody($._uninterpolated_paren, '(', ')'),
     _uninterpolated_brace: $ => balancedStringBody($._uninterpolated_brace, '{', '}'),
-    interpolation: $ => seq(token(prec(PREC.LITERAL, '#{')), $._expression, '}'),
+    interpolation: $ => seq('#{', $._expression, '}'),
 
     subshell: $ => choice(
       stringBody('`', '`'),
@@ -386,33 +387,58 @@ module.exports = grammar({
   }
 });
 
-/// Describes the body of a string literal bounded by `open` and `close`, and optionally containing (potentially recursive) references to `insert`.
-function stringBody (open, close, insert) {
-  var contents = [ /\\./, RegExp('[^\\\\\\' + close + ']') ];
-  if (typeof insert !== 'undefined') contents.push(insert);
+/// Describes the body of a string literal bounded by `open` and `close`, and optionally containing (potentially recursive) references to `interpolation`.
+function stringBody (open, close, interpolation) {
   return seq(
     open,
-    repeat(choice.apply(null, contents)),
+    repeat(
+      choice(
+        interpolation || choice(),
+        token(repeat1(choice(
+          seq('\\', /./),                // escaped character
+          noneOf(close, '#', '\\', '\n') // any character besides close, '\', '\n'
+        ))),
+        interpolation ? /#[^{]/ : '#' // '#' not followed by '{' (if we have interpolation).
+      )
+    ),
     close
   );
 }
 
-function balancedStringBody (me, open, close, insert) {
-  var contents = [ /\\./, me, RegExp('[^\\\\\\' + open + '\\' + close + ']') ];
-  if (typeof insert !== 'undefined') contents.push(insert);
-  return seq(open, repeat(choice.apply(null, contents)), close);
+function balancedStringBody (me, open, close, interpolation) {
+  return seq(
+    open,
+    repeat(
+      choice(
+        interpolation || choice(),
+        me,
+        token(repeat1(choice(
+          seq('\\', /./),                      // escaped character
+          noneOf(open, close, '#', '\\', '\n') // any character besides open, close, '\', '\n'
+        ))),
+        interpolation ? /#[^{]/ : '#' // '#' not followed by '{' (if we have interpolation).
+      )
+    ),
+    close
+  );
 }
 
 function regexBody (open, close, interpolation, me) {
-  var contents = [
-    RegExp('\\[[^\\]\\n]*\\]|\\\\.|[^\\' + close + '\\\\\\[\\n]'),
-    interpolation
-  ];
-  if (typeof me !== 'undefined') contents.push(me);
   return seq(
     open,
-    repeat(choice.apply(null, contents)),
-    token(seq(close, /[a-z]*/))
+    repeat(
+      choice(
+        me || choice(),
+        interpolation,
+        token(repeat1(choice(
+          seq('[', /[^\]\n]*/, ']'),                // square-bracket-delimited character class
+          seq('\\', /./),                           // escaped character
+          noneOf(open, close, '#', '\\', '[', '\n') // any character besides open, close, '#', '\', '[', '\n'
+        ))),
+        /#[^{]/ // '#' not followed by '{'
+      )
+    ),
+    token(seq(close, /[a-z]*/)) // Close of regex with optional regex flags (e.g /[^\n]/gi)
   );
 }
 
@@ -430,4 +456,12 @@ function commaSep1 (rule) {
 
 function commaSep (rule) {
   return optional(commaSep1(rule));
+}
+
+function noneOf (...characters) {
+  var pattern = '[^'
+  for (let character of characters) {
+    pattern += '\\' + character;
+  }
+  return RegExp(pattern + ']')
 }
