@@ -322,14 +322,42 @@ complement
 (program (complement (identifier)))
 
 ===============================
-function call with empty parens
+function call
 ===============================
 
+foo
 foo()
+print "hello"
+print("hello")
 
 ---
 
-(program (function_call (identifier) (argument_list)))
+(program
+  (function_call (identifier) (argument_list))
+  (function_call (identifier) (argument_list))
+  (function_call (identifier) (argument_list (string)))
+  (function_call (identifier) (argument_list (string))))
+
+===============================
+function call
+===============================
+
+foo.bar
+foo.bar()
+foo.bar "hi"
+foo.bar "hi", 2
+foo.bar("hi")
+foo.bar("hi", 2)
+
+---
+
+(program
+  (member_access (identifier) (identifier))
+  (function_call (member_access (identifier) (identifier)) (argument_list))
+  (function_call (member_access (identifier) (identifier)) (argument_list (string)))
+  (function_call (member_access (identifier) (identifier)) (argument_list (string) (fixnum)))
+  (function_call (member_access (identifier) (identifier)) (argument_list (string)))
+  (function_call (member_access (identifier) (identifier)) (argument_list (string) (fixnum))))
 
 ============================
 function call without parens
