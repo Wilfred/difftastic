@@ -57,3 +57,16 @@ multiple lines of whatever
 ---
 
 (program (comment) (comment))
+
+=========================
+multi-line block comments with almost =end
+=========================
+
+=begin
+=e
+=en
+=end
+
+---
+
+(program (comment))
