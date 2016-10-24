@@ -89,47 +89,47 @@ percent symbol with balanced delimiters
 (program (symbol) (symbol) (symbol) (symbol))
 
 =======
-integer
+fixnum
 =======
 
 1234
 
 ---
 
-(program (integer))
+(program (fixnum))
 
 =======================
-integer with underscore
+fixnum with underscore
 =======================
 
 1_234
 
 ---
 
-(program (integer))
+(program (fixnum))
 
 ===========================
-integer with decimal prefix
+fixnum with decimal prefix
 ===========================
 
 0d1_234
 
 ---
 
-(program (integer))
+(program (fixnum))
 
 ===============================
-integer with hexadecimal prefix
+fixnum with hexadecimal prefix
 ===============================
 
 0xa_bcd_ef0_123_456_789
 
 ---
 
-(program (integer))
+(program (fixnum))
 
 =========================
-integer with octal prefix
+fixnum with octal prefix
 =========================
 
 01234567
@@ -137,17 +137,17 @@ integer with octal prefix
 
 ---
 
-(program (integer) (integer))
+(program (fixnum) (fixnum))
 
 ==========================
-integer with binary prefix
+fixnum with binary prefix
 ==========================
 
 0b1_0
 
 ---
 
-(program (integer))
+(program (fixnum))
 
 =====
 float
@@ -591,7 +591,7 @@ hash with expression keys
 
 ---
 
-(program (hash (pair (string) (integer)) (pair (string) (integer))))
+(program (hash (pair (string) (fixnum)) (pair (string) (fixnum))))
 
 ======================
 hash with keyword keys
@@ -601,7 +601,7 @@ hash with keyword keys
 
 ---
 
-(program (hash (pair (identifier) (integer)) (pair (identifier) (integer))))
+(program (hash (pair (identifier) (fixnum)) (pair (identifier) (fixnum))))
 
 ========================
 hash with trailing comma
@@ -611,7 +611,7 @@ hash with trailing comma
 
 ---
 
-(program (hash (pair (identifier) (integer))))
+(program (hash (pair (identifier) (fixnum))))
 
 ==================
 regular expression
@@ -731,7 +731,7 @@ function with an arg
 
 ---
 
-(program (function (identifier) (integer)))
+(program (function (identifier) (fixnum)))
 
 ===========================
 function with multiple args
@@ -744,4 +744,4 @@ function with multiple args
 
 ---
 
-(program (function (formal_parameters (identifier) (identifier) (identifier)) (integer) (integer)))
+(program (function (formal_parameters (identifier) (identifier) (identifier)) (fixnum) (fixnum)))
