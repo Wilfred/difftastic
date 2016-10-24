@@ -391,9 +391,9 @@ function stringBody (open, close, insert) {
   var contents = [ /\\./, RegExp('[^\\\\\\' + close + ']') ];
   if (typeof insert !== 'undefined') contents.push(insert);
   return seq(
-    (typeof open === 'string') ? token(prec(PREC.LITERAL, open)) : open,
+    open,
     repeat(choice.apply(null, contents)),
-    token(prec(PREC.LITERAL, close))
+    close
   );
 }
 
@@ -410,9 +410,9 @@ function regexBody (open, close, interpolation, me) {
   ];
   if (typeof me !== 'undefined') contents.push(me);
   return seq(
-    (typeof open === 'string') ? token(prec(PREC.LITERAL, open)) : open,
+    open,
     repeat(choice.apply(null, contents)),
-    token(prec(PREC.LITERAL, RegExp('\\' + close + '[a-z]*')))
+    token(seq(close, /[a-z]*/))
   );
 }
 
