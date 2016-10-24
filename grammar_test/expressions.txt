@@ -194,21 +194,39 @@ a && b
 relational
 ==========
 
+a == b
+a != b
+a === b
 a <=> b
+a =~ b
+a !~ b
 
 ---
 
-(program (relational (identifier) (identifier)))
+(program
+  (relational (identifier) (identifier))
+  (relational (identifier) (identifier))
+  (relational (identifier) (identifier))
+  (relational (identifier) (identifier))
+  (relational (identifier) (identifier))
+  (relational (identifier) (identifier)))
 
 ==========
 comparison
 ==========
 
 a < b
+a <= b
+a > b
+a >= b
 
 ---
 
-(program (comparison (identifier) (identifier)))
+(program
+  (comparison (identifier) (identifier))
+  (comparison (identifier) (identifier))
+  (comparison (identifier) (identifier))
+  (comparison (identifier) (identifier)))
 
 ==========
 bitwise or
@@ -245,10 +263,13 @@ shift
 =====
 
 a >> b
+a << b
 
 ---
 
-(program (shift (identifier) (identifier)))
+(program
+  (shift (identifier) (identifier))
+  (shift (identifier) (identifier)))
 
 ========
 additive
