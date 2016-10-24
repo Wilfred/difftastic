@@ -152,6 +152,8 @@ module.exports = grammar({
       $.not,
       $.defined,
       $.assignment,
+      $.math_assignment,
+      $.conditional_assignment,
       $.conditional,
       $.range,
       $.boolean_or,
@@ -197,6 +199,9 @@ module.exports = grammar({
     not: $ => prec.right(PREC.NOT, seq("not", $._expression)),
     defined: $ => prec(PREC.DEFINED, seq("defined?", $._expression)),
     assignment: $ => prec.right(PREC.ASSIGN, seq($._lhs, '=', $._expression)),
+    math_assignment: $ => prec.right(PREC.ASSIGN, seq($._lhs, choice('+=', '-=', '*=', '**=', '/='), $._expression)),
+    conditional_assignment: $ => prec.right(PREC.ASSIGN, seq($._lhs, choice('||=', '&&='), $._expression)),
+
     conditional: $ => prec.right(PREC.CONDITIONAL, seq($._expression, '?', $._expression, ':', $._expression)),
     range: $ => prec.right(PREC.RANGE, seq($._expression, choice('..', '...'), $._expression)),
 

@@ -108,6 +108,38 @@ x = y
 
 (program (assignment (identifier) (identifier)))
 
+==========
+math assignment
+==========
+
+x += y
+x -= y
+x *= y
+x **= y
+x /= y
+
+---
+
+(program
+  (math_assignment (identifier) (identifier))
+  (math_assignment (identifier) (identifier))
+  (math_assignment (identifier) (identifier))
+  (math_assignment (identifier) (identifier))
+  (math_assignment (identifier) (identifier)))
+
+==========
+conditional assignment
+==========
+
+x ||= y
+x &&= y
+
+---
+
+(program
+  (conditional_assignment (identifier) (identifier))
+  (conditional_assignment (identifier) (identifier)))
+
 ===========
 conditional
 ===========
