@@ -258,7 +258,7 @@ module.exports = grammar({
 
     _literal: $ => choice(
       $.symbol,
-      $.fixnum,
+      $.integer,
       $.float,
       $.boolean,
       $.nil,
@@ -283,7 +283,7 @@ module.exports = grammar({
       ))
     ),
 
-    fixnum: $ => (/0b[01](_?[01])*|0[oO]?[0-7](_?[0-7])*|(0d)?\d(_?\d)*|0x[0-9a-fA-F](_?[0-9a-fA-F])*/),
+    integer: $ => (/0b[01](_?[01])*|0[oO]?[0-7](_?[0-7])*|(0d)?\d(_?\d)*|0x[0-9a-fA-F](_?[0-9a-fA-F])*/),
     float: $ => (/\d(_?\d)*\.\d(_?\d)*([eE]\d(_?\d)*)?/),
     boolean: $ => choice('true', 'false', 'TRUE', 'FALSE'),
     nil: $ => choice('nil', 'NIL'),

@@ -355,9 +355,9 @@ foo.bar("hi", 2)
   (member_access (identifier) (identifier))
   (function_call (member_access (identifier) (identifier)) (argument_list))
   (function_call (member_access (identifier) (identifier)) (argument_list (string)))
-  (function_call (member_access (identifier) (identifier)) (argument_list (string) (fixnum)))
+  (function_call (member_access (identifier) (identifier)) (argument_list (string) (integer)))
   (function_call (member_access (identifier) (identifier)) (argument_list (string)))
-  (function_call (member_access (identifier) (identifier)) (argument_list (string) (fixnum))))
+  (function_call (member_access (identifier) (identifier)) (argument_list (string) (integer))))
 
 ============================
 function call without parens
