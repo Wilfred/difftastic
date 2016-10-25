@@ -432,21 +432,37 @@ function stringBody (open, close, interpolation, self) {
 }
 
 function regexBody (open, close, interpolation, self) {
+  var escapedChar = seq('\\', /./)
+  var allowedContentPattern = choice()
+  var disallowedContentChars = [open, close, '[', '\\', '\n']
+
+  if (close == '\\') {
+    escapedChar = choice()
+  }
+
+  if (close == '#') {
+    interpolation = null
+  }
+
+  if (interpolation) {
+    disallowedContentChars.push('#')
+    allowedContentPattern = /#[^{]/
+  }
   return seq(
     open,
     repeat(
       choice(
         self || choice(),
-        interpolation,
-        choice(
-          seq('[', /[^\]\n]*/, ']'),                // square-bracket-delimited character class
-          seq('\\', /./),                           // escaped character
-          noneOf(open, close, '#', '\\', '[', '\n') // any character besides open, close, '#', '\', '[', '\n'
-        ),
-        /#[^{]/ // '#' not followed by '{'
+        interpolation || choice(),
+        token(repeat1(choice(
+          seq('[', /[^\]\n]*/, ']'), // square-bracket-delimited character class
+          escapedChar,
+          noneOf(...disallowedContentChars)
+        ))),
+        allowedContentPattern
       )
     ),
-    token(prec(PREC.REGEX, seq(close, /[a-z]*/))) // Close of regex with optional regex flags (e.g. /./gi)
+    token(seq(close, /[a-z]*/)) // Close of regex with optional regex flags (e.g. /./gi)
   );
 }
 

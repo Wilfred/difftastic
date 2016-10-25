@@ -4648,43 +4648,49 @@
                       "name": "interpolation"
                     },
                     {
-                      "type": "CHOICE",
-                      "members": [
-                        {
-                          "type": "SEQ",
+                      "type": "TOKEN",
+                      "content": {
+                        "type": "REPEAT1",
+                        "content": {
+                          "type": "CHOICE",
                           "members": [
                             {
-                              "type": "STRING",
-                              "value": "["
+                              "type": "SEQ",
+                              "members": [
+                                {
+                                  "type": "STRING",
+                                  "value": "["
+                                },
+                                {
+                                  "type": "PATTERN",
+                                  "value": "[^\\]\\n]*"
+                                },
+                                {
+                                  "type": "STRING",
+                                  "value": "]"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "SEQ",
+                              "members": [
+                                {
+                                  "type": "STRING",
+                                  "value": "\\"
+                                },
+                                {
+                                  "type": "PATTERN",
+                                  "value": "."
+                                }
+                              ]
                             },
                             {
                               "type": "PATTERN",
-                              "value": "[^\\]\\n]*"
-                            },
-                            {
-                              "type": "STRING",
-                              "value": "]"
+                              "value": "[^\\/\\/\\[\\\\\\\n\\#]"
                             }
                           ]
-                        },
-                        {
-                          "type": "SEQ",
-                          "members": [
-                            {
-                              "type": "STRING",
-                              "value": "\\"
-                            },
-                            {
-                              "type": "PATTERN",
-                              "value": "."
-                            }
-                          ]
-                        },
-                        {
-                          "type": "PATTERN",
-                          "value": "[^\\/\\/\\#\\\\\\[\\\n]"
                         }
-                      ]
+                      }
                     },
                     {
                       "type": "PATTERN",
@@ -4696,21 +4702,17 @@
               {
                 "type": "TOKEN",
                 "content": {
-                  "type": "PREC",
-                  "value": 100,
-                  "content": {
-                    "type": "SEQ",
-                    "members": [
-                      {
-                        "type": "STRING",
-                        "value": "/"
-                      },
-                      {
-                        "type": "PATTERN",
-                        "value": "[a-z]*"
-                      }
-                    ]
-                  }
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "STRING",
+                      "value": "/"
+                    },
+                    {
+                      "type": "PATTERN",
+                      "value": "[a-z]*"
+                    }
+                  ]
                 }
               }
             ]
@@ -4745,51 +4747,57 @@
                                   "members": []
                                 },
                                 {
-                                  "type": "SYMBOL",
-                                  "name": "interpolation"
+                                  "type": "CHOICE",
+                                  "members": []
+                                },
+                                {
+                                  "type": "TOKEN",
+                                  "content": {
+                                    "type": "REPEAT1",
+                                    "content": {
+                                      "type": "CHOICE",
+                                      "members": [
+                                        {
+                                          "type": "SEQ",
+                                          "members": [
+                                            {
+                                              "type": "STRING",
+                                              "value": "["
+                                            },
+                                            {
+                                              "type": "PATTERN",
+                                              "value": "[^\\]\\n]*"
+                                            },
+                                            {
+                                              "type": "STRING",
+                                              "value": "]"
+                                            }
+                                          ]
+                                        },
+                                        {
+                                          "type": "SEQ",
+                                          "members": [
+                                            {
+                                              "type": "STRING",
+                                              "value": "\\"
+                                            },
+                                            {
+                                              "type": "PATTERN",
+                                              "value": "."
+                                            }
+                                          ]
+                                        },
+                                        {
+                                          "type": "PATTERN",
+                                          "value": "[^\\#\\#\\[\\\\\\\n]"
+                                        }
+                                      ]
+                                    }
+                                  }
                                 },
                                 {
                                   "type": "CHOICE",
-                                  "members": [
-                                    {
-                                      "type": "SEQ",
-                                      "members": [
-                                        {
-                                          "type": "STRING",
-                                          "value": "["
-                                        },
-                                        {
-                                          "type": "PATTERN",
-                                          "value": "[^\\]\\n]*"
-                                        },
-                                        {
-                                          "type": "STRING",
-                                          "value": "]"
-                                        }
-                                      ]
-                                    },
-                                    {
-                                      "type": "SEQ",
-                                      "members": [
-                                        {
-                                          "type": "STRING",
-                                          "value": "\\"
-                                        },
-                                        {
-                                          "type": "PATTERN",
-                                          "value": "."
-                                        }
-                                      ]
-                                    },
-                                    {
-                                      "type": "PATTERN",
-                                      "value": "[^\\#\\#\\#\\\\\\[\\\n]"
-                                    }
-                                  ]
-                                },
-                                {
-                                  "type": "PATTERN",
-                                  "value": "#[^{]"
+                                  "members": []
                                 }
                               ]
                             }
@@ -4797,21 +4805,17 @@
                           {
                             "type": "TOKEN",
                             "content": {
-                              "type": "PREC",
-                              "value": 100,
-                              "content": {
-                                "type": "SEQ",
-                                "members": [
-                                  {
-                                    "type": "STRING",
-                                    "value": "#"
-                                  },
-                                  {
-                                    "type": "PATTERN",
-                                    "value": "[a-z]*"
-                                  }
-                                ]
-                              }
+                              "type": "SEQ",
+                              "members": [
+                                {
+                                  "type": "STRING",
+                                  "value": "#"
+                                },
+                                {
+                                  "type": "PATTERN",
+                                  "value": "[a-z]*"
+                                }
+                              ]
                             }
                           }
                         ]
@@ -4837,43 +4841,49 @@
                                   "name": "interpolation"
                                 },
                                 {
-                                  "type": "CHOICE",
-                                  "members": [
-                                    {
-                                      "type": "SEQ",
+                                  "type": "TOKEN",
+                                  "content": {
+                                    "type": "REPEAT1",
+                                    "content": {
+                                      "type": "CHOICE",
                                       "members": [
                                         {
-                                          "type": "STRING",
-                                          "value": "["
+                                          "type": "SEQ",
+                                          "members": [
+                                            {
+                                              "type": "STRING",
+                                              "value": "["
+                                            },
+                                            {
+                                              "type": "PATTERN",
+                                              "value": "[^\\]\\n]*"
+                                            },
+                                            {
+                                              "type": "STRING",
+                                              "value": "]"
+                                            }
+                                          ]
+                                        },
+                                        {
+                                          "type": "SEQ",
+                                          "members": [
+                                            {
+                                              "type": "STRING",
+                                              "value": "\\"
+                                            },
+                                            {
+                                              "type": "PATTERN",
+                                              "value": "."
+                                            }
+                                          ]
                                         },
                                         {
                                           "type": "PATTERN",
-                                          "value": "[^\\]\\n]*"
-                                        },
-                                        {
-                                          "type": "STRING",
-                                          "value": "]"
+                                          "value": "[^\\/\\/\\[\\\\\\\n\\#]"
                                         }
                                       ]
-                                    },
-                                    {
-                                      "type": "SEQ",
-                                      "members": [
-                                        {
-                                          "type": "STRING",
-                                          "value": "\\"
-                                        },
-                                        {
-                                          "type": "PATTERN",
-                                          "value": "."
-                                        }
-                                      ]
-                                    },
-                                    {
-                                      "type": "PATTERN",
-                                      "value": "[^\\/\\/\\#\\\\\\[\\\n]"
                                     }
-                                  ]
+                                  }
                                 },
                                 {
                                   "type": "PATTERN",
@@ -4885,21 +4895,17 @@
                           {
                             "type": "TOKEN",
                             "content": {
-                              "type": "PREC",
-                              "value": 100,
-                              "content": {
-                                "type": "SEQ",
-                                "members": [
-                                  {
-                                    "type": "STRING",
-                                    "value": "/"
-                                  },
-                                  {
-                                    "type": "PATTERN",
-                                    "value": "[a-z]*"
-                                  }
-                                ]
-                              }
+                              "type": "SEQ",
+                              "members": [
+                                {
+                                  "type": "STRING",
+                                  "value": "/"
+                                },
+                                {
+                                  "type": "PATTERN",
+                                  "value": "[a-z]*"
+                                }
+                              ]
                             }
                           }
                         ]
@@ -4925,43 +4931,40 @@
                                   "name": "interpolation"
                                 },
                                 {
-                                  "type": "CHOICE",
-                                  "members": [
-                                    {
-                                      "type": "SEQ",
+                                  "type": "TOKEN",
+                                  "content": {
+                                    "type": "REPEAT1",
+                                    "content": {
+                                      "type": "CHOICE",
                                       "members": [
                                         {
-                                          "type": "STRING",
-                                          "value": "["
+                                          "type": "SEQ",
+                                          "members": [
+                                            {
+                                              "type": "STRING",
+                                              "value": "["
+                                            },
+                                            {
+                                              "type": "PATTERN",
+                                              "value": "[^\\]\\n]*"
+                                            },
+                                            {
+                                              "type": "STRING",
+                                              "value": "]"
+                                            }
+                                          ]
+                                        },
+                                        {
+                                          "type": "CHOICE",
+                                          "members": []
                                         },
                                         {
                                           "type": "PATTERN",
-                                          "value": "[^\\]\\n]*"
-                                        },
-                                        {
-                                          "type": "STRING",
-                                          "value": "]"
+                                          "value": "[^\\\\\\\\\\[\\\\\\\n\\#]"
                                         }
                                       ]
-                                    },
-                                    {
-                                      "type": "SEQ",
-                                      "members": [
-                                        {
-                                          "type": "STRING",
-                                          "value": "\\"
-                                        },
-                                        {
-                                          "type": "PATTERN",
-                                          "value": "."
-                                        }
-                                      ]
-                                    },
-                                    {
-                                      "type": "PATTERN",
-                                      "value": "[^\\\\\\\\\\#\\\\\\[\\\n]"
                                     }
-                                  ]
+                                  }
                                 },
                                 {
                                   "type": "PATTERN",
@@ -4973,21 +4976,17 @@
                           {
                             "type": "TOKEN",
                             "content": {
-                              "type": "PREC",
-                              "value": 100,
-                              "content": {
-                                "type": "SEQ",
-                                "members": [
-                                  {
-                                    "type": "STRING",
-                                    "value": "\\"
-                                  },
-                                  {
-                                    "type": "PATTERN",
-                                    "value": "[a-z]*"
-                                  }
-                                ]
-                              }
+                              "type": "SEQ",
+                              "members": [
+                                {
+                                  "type": "STRING",
+                                  "value": "\\"
+                                },
+                                {
+                                  "type": "PATTERN",
+                                  "value": "[a-z]*"
+                                }
+                              ]
                             }
                           }
                         ]
@@ -5038,43 +5037,49 @@
                 "name": "interpolation"
               },
               {
-                "type": "CHOICE",
-                "members": [
-                  {
-                    "type": "SEQ",
+                "type": "TOKEN",
+                "content": {
+                  "type": "REPEAT1",
+                  "content": {
+                    "type": "CHOICE",
                     "members": [
                       {
-                        "type": "STRING",
-                        "value": "["
+                        "type": "SEQ",
+                        "members": [
+                          {
+                            "type": "STRING",
+                            "value": "["
+                          },
+                          {
+                            "type": "PATTERN",
+                            "value": "[^\\]\\n]*"
+                          },
+                          {
+                            "type": "STRING",
+                            "value": "]"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "SEQ",
+                        "members": [
+                          {
+                            "type": "STRING",
+                            "value": "\\"
+                          },
+                          {
+                            "type": "PATTERN",
+                            "value": "."
+                          }
+                        ]
                       },
                       {
                         "type": "PATTERN",
-                        "value": "[^\\]\\n]*"
-                      },
-                      {
-                        "type": "STRING",
-                        "value": "]"
+                        "value": "[^\\<\\>\\[\\\\\\\n\\#]"
                       }
                     ]
-                  },
-                  {
-                    "type": "SEQ",
-                    "members": [
-                      {
-                        "type": "STRING",
-                        "value": "\\"
-                      },
-                      {
-                        "type": "PATTERN",
-                        "value": "."
-                      }
-                    ]
-                  },
-                  {
-                    "type": "PATTERN",
-                    "value": "[^\\<\\>\\#\\\\\\[\\\n]"
                   }
-                ]
+                }
               },
               {
                 "type": "PATTERN",
@@ -5086,21 +5091,17 @@
         {
           "type": "TOKEN",
           "content": {
-            "type": "PREC",
-            "value": 100,
-            "content": {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "STRING",
-                  "value": ">"
-                },
-                {
-                  "type": "PATTERN",
-                  "value": "[a-z]*"
-                }
-              ]
-            }
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "STRING",
+                "value": ">"
+              },
+              {
+                "type": "PATTERN",
+                "value": "[a-z]*"
+              }
+            ]
           }
         }
       ]
@@ -5126,43 +5127,49 @@
                 "name": "interpolation"
               },
               {
-                "type": "CHOICE",
-                "members": [
-                  {
-                    "type": "SEQ",
+                "type": "TOKEN",
+                "content": {
+                  "type": "REPEAT1",
+                  "content": {
+                    "type": "CHOICE",
                     "members": [
                       {
-                        "type": "STRING",
-                        "value": "["
+                        "type": "SEQ",
+                        "members": [
+                          {
+                            "type": "STRING",
+                            "value": "["
+                          },
+                          {
+                            "type": "PATTERN",
+                            "value": "[^\\]\\n]*"
+                          },
+                          {
+                            "type": "STRING",
+                            "value": "]"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "SEQ",
+                        "members": [
+                          {
+                            "type": "STRING",
+                            "value": "\\"
+                          },
+                          {
+                            "type": "PATTERN",
+                            "value": "."
+                          }
+                        ]
                       },
                       {
                         "type": "PATTERN",
-                        "value": "[^\\]\\n]*"
-                      },
-                      {
-                        "type": "STRING",
-                        "value": "]"
+                        "value": "[^\\[\\]\\[\\\\\\\n\\#]"
                       }
                     ]
-                  },
-                  {
-                    "type": "SEQ",
-                    "members": [
-                      {
-                        "type": "STRING",
-                        "value": "\\"
-                      },
-                      {
-                        "type": "PATTERN",
-                        "value": "."
-                      }
-                    ]
-                  },
-                  {
-                    "type": "PATTERN",
-                    "value": "[^\\[\\]\\#\\\\\\[\\\n]"
                   }
-                ]
+                }
               },
               {
                 "type": "PATTERN",
@@ -5174,21 +5181,17 @@
         {
           "type": "TOKEN",
           "content": {
-            "type": "PREC",
-            "value": 100,
-            "content": {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "STRING",
-                  "value": "]"
-                },
-                {
-                  "type": "PATTERN",
-                  "value": "[a-z]*"
-                }
-              ]
-            }
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "]"
+              },
+              {
+                "type": "PATTERN",
+                "value": "[a-z]*"
+              }
+            ]
           }
         }
       ]
@@ -5214,43 +5217,49 @@
                 "name": "interpolation"
               },
               {
-                "type": "CHOICE",
-                "members": [
-                  {
-                    "type": "SEQ",
+                "type": "TOKEN",
+                "content": {
+                  "type": "REPEAT1",
+                  "content": {
+                    "type": "CHOICE",
                     "members": [
                       {
-                        "type": "STRING",
-                        "value": "["
+                        "type": "SEQ",
+                        "members": [
+                          {
+                            "type": "STRING",
+                            "value": "["
+                          },
+                          {
+                            "type": "PATTERN",
+                            "value": "[^\\]\\n]*"
+                          },
+                          {
+                            "type": "STRING",
+                            "value": "]"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "SEQ",
+                        "members": [
+                          {
+                            "type": "STRING",
+                            "value": "\\"
+                          },
+                          {
+                            "type": "PATTERN",
+                            "value": "."
+                          }
+                        ]
                       },
                       {
                         "type": "PATTERN",
-                        "value": "[^\\]\\n]*"
-                      },
-                      {
-                        "type": "STRING",
-                        "value": "]"
+                        "value": "[^\\(\\)\\[\\\\\\\n\\#]"
                       }
                     ]
-                  },
-                  {
-                    "type": "SEQ",
-                    "members": [
-                      {
-                        "type": "STRING",
-                        "value": "\\"
-                      },
-                      {
-                        "type": "PATTERN",
-                        "value": "."
-                      }
-                    ]
-                  },
-                  {
-                    "type": "PATTERN",
-                    "value": "[^\\(\\)\\#\\\\\\[\\\n]"
                   }
-                ]
+                }
               },
               {
                 "type": "PATTERN",
@@ -5262,21 +5271,17 @@
         {
           "type": "TOKEN",
           "content": {
-            "type": "PREC",
-            "value": 100,
-            "content": {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "STRING",
-                  "value": ")"
-                },
-                {
-                  "type": "PATTERN",
-                  "value": "[a-z]*"
-                }
-              ]
-            }
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "STRING",
+                "value": ")"
+              },
+              {
+                "type": "PATTERN",
+                "value": "[a-z]*"
+              }
+            ]
           }
         }
       ]
@@ -5302,43 +5307,49 @@
                 "name": "interpolation"
               },
               {
-                "type": "CHOICE",
-                "members": [
-                  {
-                    "type": "SEQ",
+                "type": "TOKEN",
+                "content": {
+                  "type": "REPEAT1",
+                  "content": {
+                    "type": "CHOICE",
                     "members": [
                       {
-                        "type": "STRING",
-                        "value": "["
+                        "type": "SEQ",
+                        "members": [
+                          {
+                            "type": "STRING",
+                            "value": "["
+                          },
+                          {
+                            "type": "PATTERN",
+                            "value": "[^\\]\\n]*"
+                          },
+                          {
+                            "type": "STRING",
+                            "value": "]"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "SEQ",
+                        "members": [
+                          {
+                            "type": "STRING",
+                            "value": "\\"
+                          },
+                          {
+                            "type": "PATTERN",
+                            "value": "."
+                          }
+                        ]
                       },
                       {
                         "type": "PATTERN",
-                        "value": "[^\\]\\n]*"
-                      },
-                      {
-                        "type": "STRING",
-                        "value": "]"
+                        "value": "[^\\{\\}\\[\\\\\\\n\\#]"
                       }
                     ]
-                  },
-                  {
-                    "type": "SEQ",
-                    "members": [
-                      {
-                        "type": "STRING",
-                        "value": "\\"
-                      },
-                      {
-                        "type": "PATTERN",
-                        "value": "."
-                      }
-                    ]
-                  },
-                  {
-                    "type": "PATTERN",
-                    "value": "[^\\{\\}\\#\\\\\\[\\\n]"
                   }
-                ]
+                }
               },
               {
                 "type": "PATTERN",
@@ -5350,21 +5361,17 @@
         {
           "type": "TOKEN",
           "content": {
-            "type": "PREC",
-            "value": 100,
-            "content": {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "STRING",
-                  "value": "}"
-                },
-                {
-                  "type": "PATTERN",
-                  "value": "[a-z]*"
-                }
-              ]
-            }
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "}"
+              },
+              {
+                "type": "PATTERN",
+                "value": "[a-z]*"
+              }
+            ]
           }
         }
       ]
