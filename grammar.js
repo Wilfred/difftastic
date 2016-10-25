@@ -317,14 +317,14 @@ module.exports = grammar({
     _single_quoted_continuation: $ => stringBody(blank(), "'"),
     _double_quoted_continuation: $ => stringBody(blank(), '"', $.interpolation),
 
-    _interpolated_angle: $ => balancedStringBody($._interpolated_angle, '<', '>', $.interpolation),
-    _interpolated_bracket: $ => balancedStringBody($._interpolated_bracket, '[', ']', $.interpolation),
-    _interpolated_paren: $ => balancedStringBody($._interpolated_paren, '(', ')', $.interpolation),
-    _interpolated_brace: $ => balancedStringBody($._interpolated_brace, '{', '}', $.interpolation),
-    _uninterpolated_angle: $ => balancedStringBody($._uninterpolated_angle, '<', '>'),
-    _uninterpolated_bracket: $ => balancedStringBody($._uninterpolated_bracket, '[', ']'),
-    _uninterpolated_paren: $ => balancedStringBody($._uninterpolated_paren, '(', ')'),
-    _uninterpolated_brace: $ => balancedStringBody($._uninterpolated_brace, '{', '}'),
+    _interpolated_angle: $ => stringBody('<', '>', $.interpolation, $._interpolated_angle),
+    _interpolated_bracket: $ => stringBody('[', ']', $.interpolation, $._interpolated_bracket),
+    _interpolated_paren: $ => stringBody('(', ')', $.interpolation, $._interpolated_paren),
+    _interpolated_brace: $ => stringBody('{', '}', $.interpolation, $._interpolated_brace),
+    _uninterpolated_angle: $ => stringBody('<', '>', null, $._uninterpolated_angle),
+    _uninterpolated_bracket: $ => stringBody('[', ']', null, $._uninterpolated_bracket),
+    _uninterpolated_paren: $ => stringBody('(', ')', null, $._uninterpolated_paren),
+    _uninterpolated_brace: $ => stringBody('{', '}', null, $._uninterpolated_brace),
     interpolation: $ => seq('#{', $._expression, '}'),
 
     subshell: $ => choice(
@@ -392,47 +392,51 @@ module.exports = grammar({
 });
 
 /// Describes the body of a string literal bounded by `open` and `close`, and optionally containing (potentially recursive) references to `interpolation`.
-function stringBody (open, close, interpolation) {
-  return seq(
-    open,
-    repeat(
-      choice(
-        interpolation || choice(),
-        choice(
-          seq('\\', /./),                // escaped character
-          noneOf(close, '#', '\\', '\n') // any character besides close, '\', '\n'
-        ),
-        interpolation ? /#[^{]/ : '#' // '#' not followed by '{' (if we have interpolation).
-      )
-    ),
-    token(prec(PREC.LITERAL, close))
-  );
-}
+function stringBody (open, close, interpolation, self) {
+  var escapedChar = seq('\\', /./)
+  var allowedContentPattern = choice()
+  var disallowedContentChars = [close, '\n', '\\']
 
-function balancedStringBody (me, open, close, interpolation) {
+  if (close == '\\') {
+    escapedChar = choice()
+  }
+
+  if (close == '#') {
+    interpolation = null
+  }
+
+  if (interpolation) {
+    disallowedContentChars.push('#')
+    allowedContentPattern = /#[^{]/
+  }
+
+  if (self) {
+    disallowedContentChars.push(open)
+  }
+
   return seq(
     open,
     repeat(
       choice(
+        self || choice(),
         interpolation || choice(),
-        me,
-        choice(
-          seq('\\', /./),                      // escaped character
-          noneOf(open, close, '#', '\\', '\n') // any character besides open, close, '\', '\n'
-        ),
-        interpolation ? /#[^{]/ : '#' // '#' not followed by '{' (if we have interpolation).
+        token(repeat1(choice(
+          escapedChar,
+          noneOf(...disallowedContentChars)
+        ))),
+        allowedContentPattern
       )
     ),
     close
   );
 }
 
-function regexBody (open, close, interpolation, me) {
+function regexBody (open, close, interpolation, self) {
   return seq(
     open,
     repeat(
       choice(
-        me || choice(),
+        self || choice(),
         interpolation,
         choice(
           seq('[', /[^\]\n]*/, ']'),                // square-bracket-delimited character class
