@@ -20,7 +20,7 @@ const PREC = {
   EXPONENTIAL: 80,
   COMPLEMENT: 85,
   UNARY_PLUS: 85,
-  LITERAL: 100,
+  REGEX: 100,
 };
 
 // TODO: Enable rest of unbalanced delimiters. These are rarely used in real
@@ -366,7 +366,7 @@ module.exports = grammar({
       seq($.identifier, ':')
     ), $._expression),
 
-    regex: $ => prec(PREC.LITERAL, choice(
+    regex: $ => prec(PREC.REGEX, choice(
       regexBody('/', '/', $.interpolation),
       seq('%r', choice(
         choice.apply(null, unbalancedDelimiters.map(d => regexBody(d, d, $.interpolation))),
@@ -442,7 +442,7 @@ function regexBody (open, close, interpolation, me) {
         /#[^{]/ // '#' not followed by '{'
       )
     ),
-    token(prec(PREC.LITERAL, seq(close, /[a-z]*/))) // Close of regex with optional regex flags (e.g. /./gi)
+    token(prec(PREC.REGEX, seq(close, /[a-z]*/))) // Close of regex with optional regex flags (e.g. /./gi)
   );
 }
 
