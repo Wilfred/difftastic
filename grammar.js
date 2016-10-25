@@ -394,14 +394,14 @@ function stringBody (open, close, interpolation) {
     repeat(
       choice(
         interpolation || choice(),
-        token(repeat1(choice(
+        choice(
           seq('\\', /./),                // escaped character
           noneOf(close, '#', '\\', '\n') // any character besides close, '\', '\n'
-        ))),
+        ),
         interpolation ? /#[^{]/ : '#' // '#' not followed by '{' (if we have interpolation).
       )
     ),
-    close
+    token(prec(PREC.LITERAL, close))
   );
 }
 
@@ -412,10 +412,10 @@ function balancedStringBody (me, open, close, interpolation) {
       choice(
         interpolation || choice(),
         me,
-        token(repeat1(choice(
+        choice(
           seq('\\', /./),                      // escaped character
           noneOf(open, close, '#', '\\', '\n') // any character besides open, close, '\', '\n'
-        ))),
+        ),
         interpolation ? /#[^{]/ : '#' // '#' not followed by '{' (if we have interpolation).
       )
     ),
@@ -430,15 +430,15 @@ function regexBody (open, close, interpolation, me) {
       choice(
         me || choice(),
         interpolation,
-        token(repeat1(choice(
+        choice(
           seq('[', /[^\]\n]*/, ']'),                // square-bracket-delimited character class
           seq('\\', /./),                           // escaped character
           noneOf(open, close, '#', '\\', '[', '\n') // any character besides open, close, '#', '\', '[', '\n'
-        ))),
+        ),
         /#[^{]/ // '#' not followed by '{'
       )
     ),
-    token(seq(close, /[a-z]*/)) // Close of regex with optional regex flags (e.g /[^\n]/gi)
+    token(prec(PREC.LITERAL, seq(close, /[a-z]*/))) // Close of regex with optional regex flags (e.g. /./gi)
   );
 }
 
