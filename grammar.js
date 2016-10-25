@@ -23,7 +23,11 @@ const PREC = {
   LITERAL: 100,
 };
 
-const unbalancedDelimiters = '!@#$%^&*)]}>|\\=/+-~`\'",.?:;_'.split('');
+// TODO: Enable rest of unbalanced delimiters. These are rarely used in real
+// Ruby code and cause an explosion of lex and parse states along with 20+ min
+// generate/build times.
+// const unbalancedDelimiters = '!@#$%^&*)]}>|\\=/+-~`\'",.?:;_'.split('');
+const unbalancedDelimiters = '#/\\'.split('');
 const identifierPattern = /[a-zA-Z_][a-zA-Z0-9_]*\??/;
 const operators = ['..', '|', '^', '&', '<=>', '==', '===', '=~', '>', '>=', '<', '<=', '+', '-', '*', '/', '%', '**', '<<', '>>', '~', '+@', '-@', '[]', '[]='];
 
