@@ -422,7 +422,7 @@ function stringBody (open, close, interpolation, self) {
         interpolation || choice(),
         token(repeat1(choice(
           escapedChar,
-          noneOf(...disallowedContentChars)
+          noneOf(disallowedContentChars)
         ))),
         allowedContentPattern
       )
@@ -457,7 +457,7 @@ function regexBody (open, close, interpolation, self) {
         token(repeat1(choice(
           seq('[', /[^\]\n]*/, ']'), // square-bracket-delimited character class
           escapedChar,
-          noneOf(...disallowedContentChars)
+          noneOf(disallowedContentChars)
         ))),
         allowedContentPattern
       )
@@ -482,7 +482,7 @@ function commaSep (rule) {
   return optional(commaSep1(rule));
 }
 
-function noneOf (...characters) {
+function noneOf (characters) {
   var pattern = '[^'
   for (let character of characters) {
     pattern += '\\' + character;
