@@ -2445,44 +2445,8 @@
                             "type": "CHOICE",
                             "members": [
                               {
-                                "type": "CHOICE",
-                                "members": []
-                              },
-                              {
-                                "type": "CHOICE",
-                                "members": []
-                              },
-                              {
-                                "type": "TOKEN",
-                                "content": {
-                                  "type": "REPEAT1",
-                                  "content": {
-                                    "type": "CHOICE",
-                                    "members": [
-                                      {
-                                        "type": "SEQ",
-                                        "members": [
-                                          {
-                                            "type": "STRING",
-                                            "value": "\\"
-                                          },
-                                          {
-                                            "type": "PATTERN",
-                                            "value": "."
-                                          }
-                                        ]
-                                      },
-                                      {
-                                        "type": "PATTERN",
-                                        "value": "[^\\#\\\n\\\\]"
-                                      }
-                                    ]
-                                  }
-                                }
-                              },
-                              {
-                                "type": "CHOICE",
-                                "members": []
+                                "type": "PATTERN",
+                                "value": "\\\\.|[^\\#\\\\\\\n]"
                               }
                             ]
                           }
@@ -2506,44 +2470,8 @@
                             "type": "CHOICE",
                             "members": [
                               {
-                                "type": "CHOICE",
-                                "members": []
-                              },
-                              {
-                                "type": "CHOICE",
-                                "members": []
-                              },
-                              {
-                                "type": "TOKEN",
-                                "content": {
-                                  "type": "REPEAT1",
-                                  "content": {
-                                    "type": "CHOICE",
-                                    "members": [
-                                      {
-                                        "type": "SEQ",
-                                        "members": [
-                                          {
-                                            "type": "STRING",
-                                            "value": "\\"
-                                          },
-                                          {
-                                            "type": "PATTERN",
-                                            "value": "."
-                                          }
-                                        ]
-                                      },
-                                      {
-                                        "type": "PATTERN",
-                                        "value": "[^\\/\\\n\\\\]"
-                                      }
-                                    ]
-                                  }
-                                }
-                              },
-                              {
-                                "type": "CHOICE",
-                                "members": []
+                                "type": "PATTERN",
+                                "value": "\\\\.|[^\\/\\\\\\\n]"
                               }
                             ]
                           }
@@ -2567,35 +2495,8 @@
                             "type": "CHOICE",
                             "members": [
                               {
-                                "type": "CHOICE",
-                                "members": []
-                              },
-                              {
-                                "type": "CHOICE",
-                                "members": []
-                              },
-                              {
-                                "type": "TOKEN",
-                                "content": {
-                                  "type": "REPEAT1",
-                                  "content": {
-                                    "type": "CHOICE",
-                                    "members": [
-                                      {
-                                        "type": "CHOICE",
-                                        "members": []
-                                      },
-                                      {
-                                        "type": "PATTERN",
-                                        "value": "[^\\\\\\\n\\\\]"
-                                      }
-                                    ]
-                                  }
-                                }
-                              },
-                              {
-                                "type": "CHOICE",
-                                "members": []
+                                "type": "PATTERN",
+                                "value": "[^\\\\\\\\\\\n]"
                               }
                             ]
                           }
@@ -2714,44 +2615,8 @@
                                 "type": "CHOICE",
                                 "members": [
                                   {
-                                    "type": "CHOICE",
-                                    "members": []
-                                  },
-                                  {
-                                    "type": "CHOICE",
-                                    "members": []
-                                  },
-                                  {
-                                    "type": "TOKEN",
-                                    "content": {
-                                      "type": "REPEAT1",
-                                      "content": {
-                                        "type": "CHOICE",
-                                        "members": [
-                                          {
-                                            "type": "SEQ",
-                                            "members": [
-                                              {
-                                                "type": "STRING",
-                                                "value": "\\"
-                                              },
-                                              {
-                                                "type": "PATTERN",
-                                                "value": "."
-                                              }
-                                            ]
-                                          },
-                                          {
-                                            "type": "PATTERN",
-                                            "value": "[^\\#\\\n\\\\]"
-                                          }
-                                        ]
-                                      }
-                                    }
-                                  },
-                                  {
-                                    "type": "CHOICE",
-                                    "members": []
+                                    "type": "PATTERN",
+                                    "value": "\\\\.|[^\\#\\\\\\\n]"
                                   }
                                 ]
                               }
@@ -2775,44 +2640,16 @@
                                 "type": "CHOICE",
                                 "members": [
                                   {
-                                    "type": "CHOICE",
-                                    "members": []
-                                  },
-                                  {
                                     "type": "SYMBOL",
                                     "name": "interpolation"
                                   },
                                   {
-                                    "type": "TOKEN",
-                                    "content": {
-                                      "type": "REPEAT1",
-                                      "content": {
-                                        "type": "CHOICE",
-                                        "members": [
-                                          {
-                                            "type": "SEQ",
-                                            "members": [
-                                              {
-                                                "type": "STRING",
-                                                "value": "\\"
-                                              },
-                                              {
-                                                "type": "PATTERN",
-                                                "value": "."
-                                              }
-                                            ]
-                                          },
-                                          {
-                                            "type": "PATTERN",
-                                            "value": "[^\\/\\\n\\\\\\#]"
-                                          }
-                                        ]
-                                      }
-                                    }
+                                    "type": "PATTERN",
+                                    "value": "#[^{}]"
                                   },
                                   {
                                     "type": "PATTERN",
-                                    "value": "#[^{]"
+                                    "value": "\\\\.|[^\\/\\\\\\\n\\#]"
                                   }
                                 ]
                               }
@@ -2836,35 +2673,16 @@
                                 "type": "CHOICE",
                                 "members": [
                                   {
-                                    "type": "CHOICE",
-                                    "members": []
-                                  },
-                                  {
                                     "type": "SYMBOL",
                                     "name": "interpolation"
                                   },
                                   {
-                                    "type": "TOKEN",
-                                    "content": {
-                                      "type": "REPEAT1",
-                                      "content": {
-                                        "type": "CHOICE",
-                                        "members": [
-                                          {
-                                            "type": "CHOICE",
-                                            "members": []
-                                          },
-                                          {
-                                            "type": "PATTERN",
-                                            "value": "[^\\\\\\\n\\\\\\#]"
-                                          }
-                                        ]
-                                      }
-                                    }
+                                    "type": "PATTERN",
+                                    "value": "#[^{}]"
                                   },
                                   {
                                     "type": "PATTERN",
-                                    "value": "#[^{]"
+                                    "value": "[^\\\\\\\\\\\n\\#]"
                                   }
                                 ]
                               }
@@ -2923,44 +2741,8 @@
                                 "type": "CHOICE",
                                 "members": [
                                   {
-                                    "type": "CHOICE",
-                                    "members": []
-                                  },
-                                  {
-                                    "type": "CHOICE",
-                                    "members": []
-                                  },
-                                  {
-                                    "type": "TOKEN",
-                                    "content": {
-                                      "type": "REPEAT1",
-                                      "content": {
-                                        "type": "CHOICE",
-                                        "members": [
-                                          {
-                                            "type": "SEQ",
-                                            "members": [
-                                              {
-                                                "type": "STRING",
-                                                "value": "\\"
-                                              },
-                                              {
-                                                "type": "PATTERN",
-                                                "value": "."
-                                              }
-                                            ]
-                                          },
-                                          {
-                                            "type": "PATTERN",
-                                            "value": "[^\\#\\\n\\\\]"
-                                          }
-                                        ]
-                                      }
-                                    }
-                                  },
-                                  {
-                                    "type": "CHOICE",
-                                    "members": []
+                                    "type": "PATTERN",
+                                    "value": "\\\\.|[^\\#\\\\\\\n]"
                                   }
                                 ]
                               }
@@ -2984,44 +2766,8 @@
                                 "type": "CHOICE",
                                 "members": [
                                   {
-                                    "type": "CHOICE",
-                                    "members": []
-                                  },
-                                  {
-                                    "type": "CHOICE",
-                                    "members": []
-                                  },
-                                  {
-                                    "type": "TOKEN",
-                                    "content": {
-                                      "type": "REPEAT1",
-                                      "content": {
-                                        "type": "CHOICE",
-                                        "members": [
-                                          {
-                                            "type": "SEQ",
-                                            "members": [
-                                              {
-                                                "type": "STRING",
-                                                "value": "\\"
-                                              },
-                                              {
-                                                "type": "PATTERN",
-                                                "value": "."
-                                              }
-                                            ]
-                                          },
-                                          {
-                                            "type": "PATTERN",
-                                            "value": "[^\\/\\\n\\\\]"
-                                          }
-                                        ]
-                                      }
-                                    }
-                                  },
-                                  {
-                                    "type": "CHOICE",
-                                    "members": []
+                                    "type": "PATTERN",
+                                    "value": "\\\\.|[^\\/\\\\\\\n]"
                                   }
                                 ]
                               }
@@ -3045,35 +2791,8 @@
                                 "type": "CHOICE",
                                 "members": [
                                   {
-                                    "type": "CHOICE",
-                                    "members": []
-                                  },
-                                  {
-                                    "type": "CHOICE",
-                                    "members": []
-                                  },
-                                  {
-                                    "type": "TOKEN",
-                                    "content": {
-                                      "type": "REPEAT1",
-                                      "content": {
-                                        "type": "CHOICE",
-                                        "members": [
-                                          {
-                                            "type": "CHOICE",
-                                            "members": []
-                                          },
-                                          {
-                                            "type": "PATTERN",
-                                            "value": "[^\\\\\\\n\\\\]"
-                                          }
-                                        ]
-                                      }
-                                    }
-                                  },
-                                  {
-                                    "type": "CHOICE",
-                                    "members": []
+                                    "type": "PATTERN",
+                                    "value": "[^\\\\\\\\\\\n]"
                                   }
                                 ]
                               }
@@ -3160,44 +2879,8 @@
             "type": "CHOICE",
             "members": [
               {
-                "type": "CHOICE",
-                "members": []
-              },
-              {
-                "type": "CHOICE",
-                "members": []
-              },
-              {
-                "type": "TOKEN",
-                "content": {
-                  "type": "REPEAT1",
-                  "content": {
-                    "type": "CHOICE",
-                    "members": [
-                      {
-                        "type": "SEQ",
-                        "members": [
-                          {
-                            "type": "STRING",
-                            "value": "\\"
-                          },
-                          {
-                            "type": "PATTERN",
-                            "value": "."
-                          }
-                        ]
-                      },
-                      {
-                        "type": "PATTERN",
-                        "value": "[^\\'\\\n\\\\]"
-                      }
-                    ]
-                  }
-                }
-              },
-              {
-                "type": "CHOICE",
-                "members": []
+                "type": "PATTERN",
+                "value": "\\\\.|[^\\'\\\\\\\n]"
               }
             ]
           }
@@ -3220,44 +2903,16 @@
             "type": "CHOICE",
             "members": [
               {
-                "type": "CHOICE",
-                "members": []
-              },
-              {
                 "type": "SYMBOL",
                 "name": "interpolation"
               },
               {
-                "type": "TOKEN",
-                "content": {
-                  "type": "REPEAT1",
-                  "content": {
-                    "type": "CHOICE",
-                    "members": [
-                      {
-                        "type": "SEQ",
-                        "members": [
-                          {
-                            "type": "STRING",
-                            "value": "\\"
-                          },
-                          {
-                            "type": "PATTERN",
-                            "value": "."
-                          }
-                        ]
-                      },
-                      {
-                        "type": "PATTERN",
-                        "value": "[^\\\"\\\n\\\\\\#]"
-                      }
-                    ]
-                  }
-                }
+                "type": "PATTERN",
+                "value": "#[^{}]"
               },
               {
                 "type": "PATTERN",
-                "value": "#[^{]"
+                "value": "\\\\.|[^\\\"\\\\\\\n\\#]"
               }
             ]
           }
@@ -3282,43 +2937,19 @@
             "members": [
               {
                 "type": "SYMBOL",
-                "name": "_interpolated_angle"
-              },
-              {
-                "type": "SYMBOL",
                 "name": "interpolation"
               },
               {
-                "type": "TOKEN",
-                "content": {
-                  "type": "REPEAT1",
-                  "content": {
-                    "type": "CHOICE",
-                    "members": [
-                      {
-                        "type": "SEQ",
-                        "members": [
-                          {
-                            "type": "STRING",
-                            "value": "\\"
-                          },
-                          {
-                            "type": "PATTERN",
-                            "value": "."
-                          }
-                        ]
-                      },
-                      {
-                        "type": "PATTERN",
-                        "value": "[^\\>\\\n\\\\\\#\\<]"
-                      }
-                    ]
-                  }
-                }
+                "type": "PATTERN",
+                "value": "#[^{}]"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "_interpolated_angle"
               },
               {
                 "type": "PATTERN",
-                "value": "#[^{]"
+                "value": "\\\\.|[^\\>\\\\\\\n\\#\\<]"
               }
             ]
           }
@@ -3343,43 +2974,19 @@
             "members": [
               {
                 "type": "SYMBOL",
-                "name": "_interpolated_bracket"
-              },
-              {
-                "type": "SYMBOL",
                 "name": "interpolation"
               },
               {
-                "type": "TOKEN",
-                "content": {
-                  "type": "REPEAT1",
-                  "content": {
-                    "type": "CHOICE",
-                    "members": [
-                      {
-                        "type": "SEQ",
-                        "members": [
-                          {
-                            "type": "STRING",
-                            "value": "\\"
-                          },
-                          {
-                            "type": "PATTERN",
-                            "value": "."
-                          }
-                        ]
-                      },
-                      {
-                        "type": "PATTERN",
-                        "value": "[^\\]\\\n\\\\\\#\\[]"
-                      }
-                    ]
-                  }
-                }
+                "type": "PATTERN",
+                "value": "#[^{}]"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "_interpolated_bracket"
               },
               {
                 "type": "PATTERN",
-                "value": "#[^{]"
+                "value": "\\\\.|[^\\]\\\\\\\n\\#\\[]"
               }
             ]
           }
@@ -3404,43 +3011,19 @@
             "members": [
               {
                 "type": "SYMBOL",
-                "name": "_interpolated_paren"
-              },
-              {
-                "type": "SYMBOL",
                 "name": "interpolation"
               },
               {
-                "type": "TOKEN",
-                "content": {
-                  "type": "REPEAT1",
-                  "content": {
-                    "type": "CHOICE",
-                    "members": [
-                      {
-                        "type": "SEQ",
-                        "members": [
-                          {
-                            "type": "STRING",
-                            "value": "\\"
-                          },
-                          {
-                            "type": "PATTERN",
-                            "value": "."
-                          }
-                        ]
-                      },
-                      {
-                        "type": "PATTERN",
-                        "value": "[^\\)\\\n\\\\\\#\\(]"
-                      }
-                    ]
-                  }
-                }
+                "type": "PATTERN",
+                "value": "#[^{}]"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "_interpolated_paren"
               },
               {
                 "type": "PATTERN",
-                "value": "#[^{]"
+                "value": "\\\\.|[^\\)\\\\\\\n\\#\\(]"
               }
             ]
           }
@@ -3465,43 +3048,19 @@
             "members": [
               {
                 "type": "SYMBOL",
-                "name": "_interpolated_brace"
-              },
-              {
-                "type": "SYMBOL",
                 "name": "interpolation"
               },
               {
-                "type": "TOKEN",
-                "content": {
-                  "type": "REPEAT1",
-                  "content": {
-                    "type": "CHOICE",
-                    "members": [
-                      {
-                        "type": "SEQ",
-                        "members": [
-                          {
-                            "type": "STRING",
-                            "value": "\\"
-                          },
-                          {
-                            "type": "PATTERN",
-                            "value": "."
-                          }
-                        ]
-                      },
-                      {
-                        "type": "PATTERN",
-                        "value": "[^\\}\\\n\\\\\\#\\{]"
-                      }
-                    ]
-                  }
-                }
+                "type": "PATTERN",
+                "value": "#[^{}]"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "_interpolated_brace"
               },
               {
                 "type": "PATTERN",
-                "value": "#[^{]"
+                "value": "\\\\.|[^\\}\\\\\\\n\\#\\{]"
               }
             ]
           }
@@ -3529,40 +3088,8 @@
                 "name": "_uninterpolated_angle"
               },
               {
-                "type": "CHOICE",
-                "members": []
-              },
-              {
-                "type": "TOKEN",
-                "content": {
-                  "type": "REPEAT1",
-                  "content": {
-                    "type": "CHOICE",
-                    "members": [
-                      {
-                        "type": "SEQ",
-                        "members": [
-                          {
-                            "type": "STRING",
-                            "value": "\\"
-                          },
-                          {
-                            "type": "PATTERN",
-                            "value": "."
-                          }
-                        ]
-                      },
-                      {
-                        "type": "PATTERN",
-                        "value": "[^\\>\\\n\\\\\\<]"
-                      }
-                    ]
-                  }
-                }
-              },
-              {
-                "type": "CHOICE",
-                "members": []
+                "type": "PATTERN",
+                "value": "\\\\.|[^\\>\\\\\\\n\\<]"
               }
             ]
           }
@@ -3590,40 +3117,8 @@
                 "name": "_uninterpolated_bracket"
               },
               {
-                "type": "CHOICE",
-                "members": []
-              },
-              {
-                "type": "TOKEN",
-                "content": {
-                  "type": "REPEAT1",
-                  "content": {
-                    "type": "CHOICE",
-                    "members": [
-                      {
-                        "type": "SEQ",
-                        "members": [
-                          {
-                            "type": "STRING",
-                            "value": "\\"
-                          },
-                          {
-                            "type": "PATTERN",
-                            "value": "."
-                          }
-                        ]
-                      },
-                      {
-                        "type": "PATTERN",
-                        "value": "[^\\]\\\n\\\\\\[]"
-                      }
-                    ]
-                  }
-                }
-              },
-              {
-                "type": "CHOICE",
-                "members": []
+                "type": "PATTERN",
+                "value": "\\\\.|[^\\]\\\\\\\n\\[]"
               }
             ]
           }
@@ -3651,40 +3146,8 @@
                 "name": "_uninterpolated_paren"
               },
               {
-                "type": "CHOICE",
-                "members": []
-              },
-              {
-                "type": "TOKEN",
-                "content": {
-                  "type": "REPEAT1",
-                  "content": {
-                    "type": "CHOICE",
-                    "members": [
-                      {
-                        "type": "SEQ",
-                        "members": [
-                          {
-                            "type": "STRING",
-                            "value": "\\"
-                          },
-                          {
-                            "type": "PATTERN",
-                            "value": "."
-                          }
-                        ]
-                      },
-                      {
-                        "type": "PATTERN",
-                        "value": "[^\\)\\\n\\\\\\(]"
-                      }
-                    ]
-                  }
-                }
-              },
-              {
-                "type": "CHOICE",
-                "members": []
+                "type": "PATTERN",
+                "value": "\\\\.|[^\\)\\\\\\\n\\(]"
               }
             ]
           }
@@ -3712,40 +3175,8 @@
                 "name": "_uninterpolated_brace"
               },
               {
-                "type": "CHOICE",
-                "members": []
-              },
-              {
-                "type": "TOKEN",
-                "content": {
-                  "type": "REPEAT1",
-                  "content": {
-                    "type": "CHOICE",
-                    "members": [
-                      {
-                        "type": "SEQ",
-                        "members": [
-                          {
-                            "type": "STRING",
-                            "value": "\\"
-                          },
-                          {
-                            "type": "PATTERN",
-                            "value": "."
-                          }
-                        ]
-                      },
-                      {
-                        "type": "PATTERN",
-                        "value": "[^\\}\\\n\\\\\\{]"
-                      }
-                    ]
-                  }
-                }
-              },
-              {
-                "type": "CHOICE",
-                "members": []
+                "type": "PATTERN",
+                "value": "\\\\.|[^\\}\\\\\\\n\\{]"
               }
             ]
           }
@@ -3789,44 +3220,8 @@
                 "type": "CHOICE",
                 "members": [
                   {
-                    "type": "CHOICE",
-                    "members": []
-                  },
-                  {
-                    "type": "CHOICE",
-                    "members": []
-                  },
-                  {
-                    "type": "TOKEN",
-                    "content": {
-                      "type": "REPEAT1",
-                      "content": {
-                        "type": "CHOICE",
-                        "members": [
-                          {
-                            "type": "SEQ",
-                            "members": [
-                              {
-                                "type": "STRING",
-                                "value": "\\"
-                              },
-                              {
-                                "type": "PATTERN",
-                                "value": "."
-                              }
-                            ]
-                          },
-                          {
-                            "type": "PATTERN",
-                            "value": "[^\\`\\\n\\\\]"
-                          }
-                        ]
-                      }
-                    }
-                  },
-                  {
-                    "type": "CHOICE",
-                    "members": []
+                    "type": "PATTERN",
+                    "value": "\\\\.|[^\\`\\\\\\\n]"
                   }
                 ]
               }
@@ -3863,44 +3258,8 @@
                             "type": "CHOICE",
                             "members": [
                               {
-                                "type": "CHOICE",
-                                "members": []
-                              },
-                              {
-                                "type": "CHOICE",
-                                "members": []
-                              },
-                              {
-                                "type": "TOKEN",
-                                "content": {
-                                  "type": "REPEAT1",
-                                  "content": {
-                                    "type": "CHOICE",
-                                    "members": [
-                                      {
-                                        "type": "SEQ",
-                                        "members": [
-                                          {
-                                            "type": "STRING",
-                                            "value": "\\"
-                                          },
-                                          {
-                                            "type": "PATTERN",
-                                            "value": "."
-                                          }
-                                        ]
-                                      },
-                                      {
-                                        "type": "PATTERN",
-                                        "value": "[^\\#\\\n\\\\]"
-                                      }
-                                    ]
-                                  }
-                                }
-                              },
-                              {
-                                "type": "CHOICE",
-                                "members": []
+                                "type": "PATTERN",
+                                "value": "\\\\.|[^\\#\\\\\\\n]"
                               }
                             ]
                           }
@@ -3924,44 +3283,16 @@
                             "type": "CHOICE",
                             "members": [
                               {
-                                "type": "CHOICE",
-                                "members": []
-                              },
-                              {
                                 "type": "SYMBOL",
                                 "name": "interpolation"
                               },
                               {
-                                "type": "TOKEN",
-                                "content": {
-                                  "type": "REPEAT1",
-                                  "content": {
-                                    "type": "CHOICE",
-                                    "members": [
-                                      {
-                                        "type": "SEQ",
-                                        "members": [
-                                          {
-                                            "type": "STRING",
-                                            "value": "\\"
-                                          },
-                                          {
-                                            "type": "PATTERN",
-                                            "value": "."
-                                          }
-                                        ]
-                                      },
-                                      {
-                                        "type": "PATTERN",
-                                        "value": "[^\\/\\\n\\\\\\#]"
-                                      }
-                                    ]
-                                  }
-                                }
+                                "type": "PATTERN",
+                                "value": "#[^{}]"
                               },
                               {
                                 "type": "PATTERN",
-                                "value": "#[^{]"
+                                "value": "\\\\.|[^\\/\\\\\\\n\\#]"
                               }
                             ]
                           }
@@ -3985,35 +3316,16 @@
                             "type": "CHOICE",
                             "members": [
                               {
-                                "type": "CHOICE",
-                                "members": []
-                              },
-                              {
                                 "type": "SYMBOL",
                                 "name": "interpolation"
                               },
                               {
-                                "type": "TOKEN",
-                                "content": {
-                                  "type": "REPEAT1",
-                                  "content": {
-                                    "type": "CHOICE",
-                                    "members": [
-                                      {
-                                        "type": "CHOICE",
-                                        "members": []
-                                      },
-                                      {
-                                        "type": "PATTERN",
-                                        "value": "[^\\\\\\\n\\\\\\#]"
-                                      }
-                                    ]
-                                  }
-                                }
+                                "type": "PATTERN",
+                                "value": "#[^{}]"
                               },
                               {
                                 "type": "PATTERN",
-                                "value": "#[^{]"
+                                "value": "[^\\\\\\\\\\\n\\#]"
                               }
                             ]
                           }
@@ -4094,44 +3406,8 @@
                             "type": "CHOICE",
                             "members": [
                               {
-                                "type": "CHOICE",
-                                "members": []
-                              },
-                              {
-                                "type": "CHOICE",
-                                "members": []
-                              },
-                              {
-                                "type": "TOKEN",
-                                "content": {
-                                  "type": "REPEAT1",
-                                  "content": {
-                                    "type": "CHOICE",
-                                    "members": [
-                                      {
-                                        "type": "SEQ",
-                                        "members": [
-                                          {
-                                            "type": "STRING",
-                                            "value": "\\"
-                                          },
-                                          {
-                                            "type": "PATTERN",
-                                            "value": "."
-                                          }
-                                        ]
-                                      },
-                                      {
-                                        "type": "PATTERN",
-                                        "value": "[^\\#\\\n\\\\]"
-                                      }
-                                    ]
-                                  }
-                                }
-                              },
-                              {
-                                "type": "CHOICE",
-                                "members": []
+                                "type": "PATTERN",
+                                "value": "\\\\.|[^\\#\\\\\\\n]"
                               }
                             ]
                           }
@@ -4155,44 +3431,8 @@
                             "type": "CHOICE",
                             "members": [
                               {
-                                "type": "CHOICE",
-                                "members": []
-                              },
-                              {
-                                "type": "CHOICE",
-                                "members": []
-                              },
-                              {
-                                "type": "TOKEN",
-                                "content": {
-                                  "type": "REPEAT1",
-                                  "content": {
-                                    "type": "CHOICE",
-                                    "members": [
-                                      {
-                                        "type": "SEQ",
-                                        "members": [
-                                          {
-                                            "type": "STRING",
-                                            "value": "\\"
-                                          },
-                                          {
-                                            "type": "PATTERN",
-                                            "value": "."
-                                          }
-                                        ]
-                                      },
-                                      {
-                                        "type": "PATTERN",
-                                        "value": "[^\\/\\\n\\\\]"
-                                      }
-                                    ]
-                                  }
-                                }
-                              },
-                              {
-                                "type": "CHOICE",
-                                "members": []
+                                "type": "PATTERN",
+                                "value": "\\\\.|[^\\/\\\\\\\n]"
                               }
                             ]
                           }
@@ -4216,35 +3456,8 @@
                             "type": "CHOICE",
                             "members": [
                               {
-                                "type": "CHOICE",
-                                "members": []
-                              },
-                              {
-                                "type": "CHOICE",
-                                "members": []
-                              },
-                              {
-                                "type": "TOKEN",
-                                "content": {
-                                  "type": "REPEAT1",
-                                  "content": {
-                                    "type": "CHOICE",
-                                    "members": [
-                                      {
-                                        "type": "CHOICE",
-                                        "members": []
-                                      },
-                                      {
-                                        "type": "PATTERN",
-                                        "value": "[^\\\\\\\n\\\\]"
-                                      }
-                                    ]
-                                  }
-                                }
-                              },
-                              {
-                                "type": "CHOICE",
-                                "members": []
+                                "type": "PATTERN",
+                                "value": "[^\\\\\\\\\\\n]"
                               }
                             ]
                           }
@@ -4303,44 +3516,8 @@
                             "type": "CHOICE",
                             "members": [
                               {
-                                "type": "CHOICE",
-                                "members": []
-                              },
-                              {
-                                "type": "CHOICE",
-                                "members": []
-                              },
-                              {
-                                "type": "TOKEN",
-                                "content": {
-                                  "type": "REPEAT1",
-                                  "content": {
-                                    "type": "CHOICE",
-                                    "members": [
-                                      {
-                                        "type": "SEQ",
-                                        "members": [
-                                          {
-                                            "type": "STRING",
-                                            "value": "\\"
-                                          },
-                                          {
-                                            "type": "PATTERN",
-                                            "value": "."
-                                          }
-                                        ]
-                                      },
-                                      {
-                                        "type": "PATTERN",
-                                        "value": "[^\\#\\\n\\\\]"
-                                      }
-                                    ]
-                                  }
-                                }
-                              },
-                              {
-                                "type": "CHOICE",
-                                "members": []
+                                "type": "PATTERN",
+                                "value": "\\\\.|[^\\#\\\\\\\n]"
                               }
                             ]
                           }
@@ -4364,44 +3541,16 @@
                             "type": "CHOICE",
                             "members": [
                               {
-                                "type": "CHOICE",
-                                "members": []
-                              },
-                              {
                                 "type": "SYMBOL",
                                 "name": "interpolation"
                               },
                               {
-                                "type": "TOKEN",
-                                "content": {
-                                  "type": "REPEAT1",
-                                  "content": {
-                                    "type": "CHOICE",
-                                    "members": [
-                                      {
-                                        "type": "SEQ",
-                                        "members": [
-                                          {
-                                            "type": "STRING",
-                                            "value": "\\"
-                                          },
-                                          {
-                                            "type": "PATTERN",
-                                            "value": "."
-                                          }
-                                        ]
-                                      },
-                                      {
-                                        "type": "PATTERN",
-                                        "value": "[^\\/\\\n\\\\\\#]"
-                                      }
-                                    ]
-                                  }
-                                }
+                                "type": "PATTERN",
+                                "value": "#[^{}]"
                               },
                               {
                                 "type": "PATTERN",
-                                "value": "#[^{]"
+                                "value": "\\\\.|[^\\/\\\\\\\n\\#]"
                               }
                             ]
                           }
@@ -4425,35 +3574,16 @@
                             "type": "CHOICE",
                             "members": [
                               {
-                                "type": "CHOICE",
-                                "members": []
-                              },
-                              {
                                 "type": "SYMBOL",
                                 "name": "interpolation"
                               },
                               {
-                                "type": "TOKEN",
-                                "content": {
-                                  "type": "REPEAT1",
-                                  "content": {
-                                    "type": "CHOICE",
-                                    "members": [
-                                      {
-                                        "type": "CHOICE",
-                                        "members": []
-                                      },
-                                      {
-                                        "type": "PATTERN",
-                                        "value": "[^\\\\\\\n\\\\\\#]"
-                                      }
-                                    ]
-                                  }
-                                }
+                                "type": "PATTERN",
+                                "value": "#[^{}]"
                               },
                               {
                                 "type": "PATTERN",
-                                "value": "#[^{]"
+                                "value": "[^\\\\\\\\\\\n\\#]"
                               }
                             ]
                           }
@@ -4640,80 +3770,23 @@
                   "type": "CHOICE",
                   "members": [
                     {
-                      "type": "CHOICE",
-                      "members": []
-                    },
-                    {
                       "type": "SYMBOL",
                       "name": "interpolation"
                     },
                     {
-                      "type": "TOKEN",
-                      "content": {
-                        "type": "REPEAT1",
-                        "content": {
-                          "type": "CHOICE",
-                          "members": [
-                            {
-                              "type": "SEQ",
-                              "members": [
-                                {
-                                  "type": "STRING",
-                                  "value": "["
-                                },
-                                {
-                                  "type": "PATTERN",
-                                  "value": "[^\\]\\n]*"
-                                },
-                                {
-                                  "type": "STRING",
-                                  "value": "]"
-                                }
-                              ]
-                            },
-                            {
-                              "type": "SEQ",
-                              "members": [
-                                {
-                                  "type": "STRING",
-                                  "value": "\\"
-                                },
-                                {
-                                  "type": "PATTERN",
-                                  "value": "."
-                                }
-                              ]
-                            },
-                            {
-                              "type": "PATTERN",
-                              "value": "[^\\/\\/\\[\\\\\\\n\\#]"
-                            }
-                          ]
-                        }
-                      }
+                      "type": "PATTERN",
+                      "value": "#[^{}]"
                     },
                     {
                       "type": "PATTERN",
-                      "value": "#[^{]"
+                      "value": "\\[[^\\]\\n]*\\]|\\\\.|[^\\/\\/\\[\\\\\\\n\\#]"
                     }
                   ]
                 }
               },
               {
-                "type": "TOKEN",
-                "content": {
-                  "type": "SEQ",
-                  "members": [
-                    {
-                      "type": "STRING",
-                      "value": "/"
-                    },
-                    {
-                      "type": "PATTERN",
-                      "value": "[a-z]*"
-                    }
-                  ]
-                }
+                "type": "PATTERN",
+                "value": "\\/[a-z]*"
               }
             ]
           },
@@ -4743,80 +3816,15 @@
                               "type": "CHOICE",
                               "members": [
                                 {
-                                  "type": "CHOICE",
-                                  "members": []
-                                },
-                                {
-                                  "type": "CHOICE",
-                                  "members": []
-                                },
-                                {
-                                  "type": "TOKEN",
-                                  "content": {
-                                    "type": "REPEAT1",
-                                    "content": {
-                                      "type": "CHOICE",
-                                      "members": [
-                                        {
-                                          "type": "SEQ",
-                                          "members": [
-                                            {
-                                              "type": "STRING",
-                                              "value": "["
-                                            },
-                                            {
-                                              "type": "PATTERN",
-                                              "value": "[^\\]\\n]*"
-                                            },
-                                            {
-                                              "type": "STRING",
-                                              "value": "]"
-                                            }
-                                          ]
-                                        },
-                                        {
-                                          "type": "SEQ",
-                                          "members": [
-                                            {
-                                              "type": "STRING",
-                                              "value": "\\"
-                                            },
-                                            {
-                                              "type": "PATTERN",
-                                              "value": "."
-                                            }
-                                          ]
-                                        },
-                                        {
-                                          "type": "PATTERN",
-                                          "value": "[^\\#\\#\\[\\\\\\\n]"
-                                        }
-                                      ]
-                                    }
-                                  }
-                                },
-                                {
-                                  "type": "CHOICE",
-                                  "members": []
+                                  "type": "PATTERN",
+                                  "value": "\\[[^\\]\\n]*\\]|\\\\.|[^\\#\\#\\[\\\\\\\n]"
                                 }
                               ]
                             }
                           },
                           {
-                            "type": "TOKEN",
-                            "content": {
-                              "type": "SEQ",
-                              "members": [
-                                {
-                                  "type": "STRING",
-                                  "value": "#"
-                                },
-                                {
-                                  "type": "PATTERN",
-                                  "value": "[a-z]*"
-                                }
-                              ]
-                            }
+                            "type": "PATTERN",
+                            "value": "\\#[a-z]*"
                           }
                         ]
                       },
@@ -4833,80 +3841,23 @@
                               "type": "CHOICE",
                               "members": [
                                 {
-                                  "type": "CHOICE",
-                                  "members": []
-                                },
-                                {
                                   "type": "SYMBOL",
                                   "name": "interpolation"
                                 },
                                 {
-                                  "type": "TOKEN",
-                                  "content": {
-                                    "type": "REPEAT1",
-                                    "content": {
-                                      "type": "CHOICE",
-                                      "members": [
-                                        {
-                                          "type": "SEQ",
-                                          "members": [
-                                            {
-                                              "type": "STRING",
-                                              "value": "["
-                                            },
-                                            {
-                                              "type": "PATTERN",
-                                              "value": "[^\\]\\n]*"
-                                            },
-                                            {
-                                              "type": "STRING",
-                                              "value": "]"
-                                            }
-                                          ]
-                                        },
-                                        {
-                                          "type": "SEQ",
-                                          "members": [
-                                            {
-                                              "type": "STRING",
-                                              "value": "\\"
-                                            },
-                                            {
-                                              "type": "PATTERN",
-                                              "value": "."
-                                            }
-                                          ]
-                                        },
-                                        {
-                                          "type": "PATTERN",
-                                          "value": "[^\\/\\/\\[\\\\\\\n\\#]"
-                                        }
-                                      ]
-                                    }
-                                  }
+                                  "type": "PATTERN",
+                                  "value": "#[^{}]"
                                 },
                                 {
                                   "type": "PATTERN",
-                                  "value": "#[^{]"
+                                  "value": "\\[[^\\]\\n]*\\]|\\\\.|[^\\/\\/\\[\\\\\\\n\\#]"
                                 }
                               ]
                             }
                           },
                           {
-                            "type": "TOKEN",
-                            "content": {
-                              "type": "SEQ",
-                              "members": [
-                                {
-                                  "type": "STRING",
-                                  "value": "/"
-                                },
-                                {
-                                  "type": "PATTERN",
-                                  "value": "[a-z]*"
-                                }
-                              ]
-                            }
+                            "type": "PATTERN",
+                            "value": "\\/[a-z]*"
                           }
                         ]
                       },
@@ -4923,71 +3874,23 @@
                               "type": "CHOICE",
                               "members": [
                                 {
-                                  "type": "CHOICE",
-                                  "members": []
-                                },
-                                {
                                   "type": "SYMBOL",
                                   "name": "interpolation"
                                 },
                                 {
-                                  "type": "TOKEN",
-                                  "content": {
-                                    "type": "REPEAT1",
-                                    "content": {
-                                      "type": "CHOICE",
-                                      "members": [
-                                        {
-                                          "type": "SEQ",
-                                          "members": [
-                                            {
-                                              "type": "STRING",
-                                              "value": "["
-                                            },
-                                            {
-                                              "type": "PATTERN",
-                                              "value": "[^\\]\\n]*"
-                                            },
-                                            {
-                                              "type": "STRING",
-                                              "value": "]"
-                                            }
-                                          ]
-                                        },
-                                        {
-                                          "type": "CHOICE",
-                                          "members": []
-                                        },
-                                        {
-                                          "type": "PATTERN",
-                                          "value": "[^\\\\\\\\\\[\\\\\\\n\\#]"
-                                        }
-                                      ]
-                                    }
-                                  }
+                                  "type": "PATTERN",
+                                  "value": "#[^{}]"
                                 },
                                 {
                                   "type": "PATTERN",
-                                  "value": "#[^{]"
+                                  "value": "\\[[^\\]\\n]*\\]|[^\\\\\\\\\\[\\\\\\\n\\#]"
                                 }
                               ]
                             }
                           },
                           {
-                            "type": "TOKEN",
-                            "content": {
-                              "type": "SEQ",
-                              "members": [
-                                {
-                                  "type": "STRING",
-                                  "value": "\\"
-                                },
-                                {
-                                  "type": "PATTERN",
-                                  "value": "[a-z]*"
-                                }
-                              ]
-                            }
+                            "type": "PATTERN",
+                            "value": "\\\\[a-z]*"
                           }
                         ]
                       }
@@ -5030,79 +3933,26 @@
             "members": [
               {
                 "type": "SYMBOL",
-                "name": "_regex_interpolated_angle"
-              },
-              {
-                "type": "SYMBOL",
                 "name": "interpolation"
               },
               {
-                "type": "TOKEN",
-                "content": {
-                  "type": "REPEAT1",
-                  "content": {
-                    "type": "CHOICE",
-                    "members": [
-                      {
-                        "type": "SEQ",
-                        "members": [
-                          {
-                            "type": "STRING",
-                            "value": "["
-                          },
-                          {
-                            "type": "PATTERN",
-                            "value": "[^\\]\\n]*"
-                          },
-                          {
-                            "type": "STRING",
-                            "value": "]"
-                          }
-                        ]
-                      },
-                      {
-                        "type": "SEQ",
-                        "members": [
-                          {
-                            "type": "STRING",
-                            "value": "\\"
-                          },
-                          {
-                            "type": "PATTERN",
-                            "value": "."
-                          }
-                        ]
-                      },
-                      {
-                        "type": "PATTERN",
-                        "value": "[^\\<\\>\\[\\\\\\\n\\#]"
-                      }
-                    ]
-                  }
-                }
+                "type": "PATTERN",
+                "value": "#[^{}]"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "_regex_interpolated_angle"
               },
               {
                 "type": "PATTERN",
-                "value": "#[^{]"
+                "value": "\\[[^\\]\\n]*\\]|\\\\.|[^\\<\\>\\[\\\\\\\n\\#]"
               }
             ]
           }
         },
         {
-          "type": "TOKEN",
-          "content": {
-            "type": "SEQ",
-            "members": [
-              {
-                "type": "STRING",
-                "value": ">"
-              },
-              {
-                "type": "PATTERN",
-                "value": "[a-z]*"
-              }
-            ]
-          }
+          "type": "PATTERN",
+          "value": "\\>[a-z]*"
         }
       ]
     },
@@ -5120,79 +3970,26 @@
             "members": [
               {
                 "type": "SYMBOL",
-                "name": "_regex_interpolated_bracket"
-              },
-              {
-                "type": "SYMBOL",
                 "name": "interpolation"
               },
               {
-                "type": "TOKEN",
-                "content": {
-                  "type": "REPEAT1",
-                  "content": {
-                    "type": "CHOICE",
-                    "members": [
-                      {
-                        "type": "SEQ",
-                        "members": [
-                          {
-                            "type": "STRING",
-                            "value": "["
-                          },
-                          {
-                            "type": "PATTERN",
-                            "value": "[^\\]\\n]*"
-                          },
-                          {
-                            "type": "STRING",
-                            "value": "]"
-                          }
-                        ]
-                      },
-                      {
-                        "type": "SEQ",
-                        "members": [
-                          {
-                            "type": "STRING",
-                            "value": "\\"
-                          },
-                          {
-                            "type": "PATTERN",
-                            "value": "."
-                          }
-                        ]
-                      },
-                      {
-                        "type": "PATTERN",
-                        "value": "[^\\[\\]\\[\\\\\\\n\\#]"
-                      }
-                    ]
-                  }
-                }
+                "type": "PATTERN",
+                "value": "#[^{}]"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "_regex_interpolated_bracket"
               },
               {
                 "type": "PATTERN",
-                "value": "#[^{]"
+                "value": "\\[[^\\]\\n]*\\]|\\\\.|[^\\[\\]\\[\\\\\\\n\\#]"
               }
             ]
           }
         },
         {
-          "type": "TOKEN",
-          "content": {
-            "type": "SEQ",
-            "members": [
-              {
-                "type": "STRING",
-                "value": "]"
-              },
-              {
-                "type": "PATTERN",
-                "value": "[a-z]*"
-              }
-            ]
-          }
+          "type": "PATTERN",
+          "value": "\\][a-z]*"
         }
       ]
     },
@@ -5210,79 +4007,26 @@
             "members": [
               {
                 "type": "SYMBOL",
-                "name": "_regex_interpolated_paren"
-              },
-              {
-                "type": "SYMBOL",
                 "name": "interpolation"
               },
               {
-                "type": "TOKEN",
-                "content": {
-                  "type": "REPEAT1",
-                  "content": {
-                    "type": "CHOICE",
-                    "members": [
-                      {
-                        "type": "SEQ",
-                        "members": [
-                          {
-                            "type": "STRING",
-                            "value": "["
-                          },
-                          {
-                            "type": "PATTERN",
-                            "value": "[^\\]\\n]*"
-                          },
-                          {
-                            "type": "STRING",
-                            "value": "]"
-                          }
-                        ]
-                      },
-                      {
-                        "type": "SEQ",
-                        "members": [
-                          {
-                            "type": "STRING",
-                            "value": "\\"
-                          },
-                          {
-                            "type": "PATTERN",
-                            "value": "."
-                          }
-                        ]
-                      },
-                      {
-                        "type": "PATTERN",
-                        "value": "[^\\(\\)\\[\\\\\\\n\\#]"
-                      }
-                    ]
-                  }
-                }
+                "type": "PATTERN",
+                "value": "#[^{}]"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "_regex_interpolated_paren"
               },
               {
                 "type": "PATTERN",
-                "value": "#[^{]"
+                "value": "\\[[^\\]\\n]*\\]|\\\\.|[^\\(\\)\\[\\\\\\\n\\#]"
               }
             ]
           }
         },
         {
-          "type": "TOKEN",
-          "content": {
-            "type": "SEQ",
-            "members": [
-              {
-                "type": "STRING",
-                "value": ")"
-              },
-              {
-                "type": "PATTERN",
-                "value": "[a-z]*"
-              }
-            ]
-          }
+          "type": "PATTERN",
+          "value": "\\)[a-z]*"
         }
       ]
     },
@@ -5300,79 +4044,26 @@
             "members": [
               {
                 "type": "SYMBOL",
-                "name": "_regex_interpolated_brace"
-              },
-              {
-                "type": "SYMBOL",
                 "name": "interpolation"
               },
               {
-                "type": "TOKEN",
-                "content": {
-                  "type": "REPEAT1",
-                  "content": {
-                    "type": "CHOICE",
-                    "members": [
-                      {
-                        "type": "SEQ",
-                        "members": [
-                          {
-                            "type": "STRING",
-                            "value": "["
-                          },
-                          {
-                            "type": "PATTERN",
-                            "value": "[^\\]\\n]*"
-                          },
-                          {
-                            "type": "STRING",
-                            "value": "]"
-                          }
-                        ]
-                      },
-                      {
-                        "type": "SEQ",
-                        "members": [
-                          {
-                            "type": "STRING",
-                            "value": "\\"
-                          },
-                          {
-                            "type": "PATTERN",
-                            "value": "."
-                          }
-                        ]
-                      },
-                      {
-                        "type": "PATTERN",
-                        "value": "[^\\{\\}\\[\\\\\\\n\\#]"
-                      }
-                    ]
-                  }
-                }
+                "type": "PATTERN",
+                "value": "#[^{}]"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "_regex_interpolated_brace"
               },
               {
                 "type": "PATTERN",
-                "value": "#[^{]"
+                "value": "\\[[^\\]\\n]*\\]|\\\\.|[^\\{\\}\\[\\\\\\\n\\#]"
               }
             ]
           }
         },
         {
-          "type": "TOKEN",
-          "content": {
-            "type": "SEQ",
-            "members": [
-              {
-                "type": "STRING",
-                "value": "}"
-              },
-              {
-                "type": "PATTERN",
-                "value": "[a-z]*"
-              }
-            ]
-          }
+          "type": "PATTERN",
+          "value": "\\}[a-z]*"
         }
       ]
     },

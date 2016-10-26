@@ -391,79 +391,92 @@ module.exports = grammar({
   }
 });
 
-/// Describes the body of a string literal bounded by `open` and `close`, and optionally containing (potentially recursive) references to `interpolation`.
+// Describes the body of a string literal.
+// open          - String opening character delimiter (e.g. '/', or '{').
+// close         - String closing character delimiter (e.g. '/', or '}').
+// interpolation - $.interpolation (optional, potentially recursive).
+// self          - Recursive stringBody (optional).
+//
+// Returns a sequence.
 function stringBody (open, close, interpolation, self) {
-  var escapedChar = seq('\\', /./)
-  var allowedContentPattern = choice()
-  var disallowedContentChars = [close, '\n', '\\']
+  var disallowedContentChars = [close, '\\', '\n']
+  var contentPatterns = []
+  var contents = []
 
-  if (close == '\\') {
-    escapedChar = choice()
+  // If the string is delimited by `\`, don't allow `\` as an escape character.
+  // E.g %q\abc\
+  if (close != '\\') {
+    contentPatterns.push('\\\\.')
   }
 
+  // If the string is delimited by `#`, interpolation isn't allowed.
   if (close == '#') {
     interpolation = null
   }
 
   if (interpolation) {
+    contents.push(interpolation)
     disallowedContentChars.push('#')
-    allowedContentPattern = /#[^{]/
+    contents.push(/#[^{}]/)
   }
 
   if (self) {
+    contents.push(self)
     disallowedContentChars.push(open)
   }
 
+  contentPatterns.push(noneOf(disallowedContentChars))
+  contents.push(RegExp(contentPatterns.join('|')))
+
   return seq(
     open,
-    repeat(
-      choice(
-        self || choice(),
-        interpolation || choice(),
-        token(repeat1(choice(
-          escapedChar,
-          noneOf(disallowedContentChars)
-        ))),
-        allowedContentPattern
-      )
-    ),
+    repeat(choice(...contents)),
     close
-  );
+  )
 }
 
+// Describes the body of a regex.
+// open          - String opening character delimiter (e.g. '/', or '{').
+// close         - String closing character delimiter (e.g. '/', or '}').
+// interpolation - $.interpolation (optional).
+// self          - Recursive regexBody (optional).
+//
+// Returns a sequence.
 function regexBody (open, close, interpolation, self) {
-  var escapedChar = seq('\\', /./)
-  var allowedContentPattern = choice()
   var disallowedContentChars = [open, close, '[', '\\', '\n']
+  var contentPatterns = ['\\[[^\\]\\n]*\\]']
+  var contents = []
 
-  if (close == '\\') {
-    escapedChar = choice()
+  // If the regex is delimited by `\`, don't allow `\` as an escape character.
+  // E.g. %r\abc\
+  if (close != '\\') {
+    contentPatterns.push('\\\\.')
   }
 
+  // If the regex is delimited by `#`, interpolation isn't allowed.
+  // E.g. %r#abc#
   if (close == '#') {
     interpolation = null
   }
 
   if (interpolation) {
+    contents.push(interpolation)
     disallowedContentChars.push('#')
-    allowedContentPattern = /#[^{]/
+    contents.push(/#[^{}]/)
   }
+
+  if (self) {
+    contents.push(self)
+  }
+
+  contentPatterns.push(noneOf(disallowedContentChars))
+  contents.push(RegExp(contentPatterns.join('|')))
+
   return seq(
     open,
-    repeat(
-      choice(
-        self || choice(),
-        interpolation || choice(),
-        token(repeat1(choice(
-          seq('[', /[^\]\n]*/, ']'), // square-bracket-delimited character class
-          escapedChar,
-          noneOf(disallowedContentChars)
-        ))),
-        allowedContentPattern
-      )
-    ),
-    token(seq(close, /[a-z]*/)) // Close of regex with optional regex flags (e.g. /./gi)
-  );
+    repeat(choice(...contents)),
+    RegExp('\\' + close + '[a-z]*')
+  )
 }
 
 function sepTrailing (self, rule, separator) {
@@ -482,10 +495,10 @@ function commaSep (rule) {
   return optional(commaSep1(rule));
 }
 
-function noneOf (characters) {
+function noneOf (characterArray) {
   var pattern = '[^'
-  for (let character of characters) {
+  for (let character of characterArray) {
     pattern += '\\' + character;
   }
-  return RegExp(pattern + ']')
+  return pattern + ']'
 }
