@@ -93,10 +93,10 @@ module.exports = grammar({
 
     module_declaration: $ => seq("module", $.identifier, $._terminator, optional($._statements), "end"),
 
-    while_statement: $ => seq("while", $.condition, $._statement_block),
-    until_statement: $ => seq("until", $.condition, $._statement_block),
-    if_statement: $ => seq("if", $.condition, $._then_elsif_else_block),
-    unless_statement: $ => seq("unless", $.condition, $._then_else_block),
+    while_statement: $ => seq("while", $._expression, $._statement_block),
+    until_statement: $ => seq("until", $._expression, $._statement_block),
+    if_statement: $ => seq("if", $._expression, $._then_elsif_else_block),
+    unless_statement: $ => seq("unless", $._expression, $._then_else_block),
     for_statement: $ => seq("for", $._lhs, "in", $._expression, $._statement_block),
     begin_statement: $ => seq(
       "begin",
@@ -124,8 +124,6 @@ module.exports = grammar({
     while_modifier: $ => seq($._statement, "while", $._expression),
     until_modifier: $ => seq($._statement, "until", $._expression),
 
-    condition: $ => $._expression,
-
     _statement_block: $ => choice(
       $._do_block,
       seq($._terminator, optional($._statements), "end")
@@ -133,6 +131,7 @@ module.exports = grammar({
     _do_block: $ => seq("do", optional($._statements), "end"),
 
     then_block: $ => seq(choice("then", $._terminator), optional($._statements)),
+    elsif_block: $ => seq("elsif", $._expression, $.then_block),
     else_block: $ => seq("else", optional($._statements)),
     rescue_block: $ => seq("rescue", commaSep($._primary), choice("do", $._terminator), optional($._statements)),
     ensure_block: $ => seq("ensure", optional($._statements)),
@@ -140,10 +139,7 @@ module.exports = grammar({
     _then_else_block: $ => seq($.then_block, optional($.else_block), "end"),
     _then_elsif_else_block: $ => seq(
       $.then_block,
-      repeat(seq(
-        "elsif", $.condition,
-        $.then_block
-      )),
+      repeat($.elsif_block),
       optional($.else_block),
       "end"
     ),
