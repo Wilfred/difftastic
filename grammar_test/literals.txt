@@ -589,30 +589,30 @@ empty function
 
 ---
 
-(program (function))
+(program (lambda_literal))
 
 ==================
-function with body
+lambda literal with body
 ==================
 
 -> { foo }
 
 ---
 
-(program (function (identifier)))
+(program (lambda_literal (identifier)))
 
 ====================
-function with an arg
+lambda literal with an arg
 ====================
 
 -> foo { 1 }
 
 ---
 
-(program (function (identifier) (integer)))
+(program (lambda_literal (identifier) (integer)))
 
 ===========================
-function with multiple args
+lambda literal with multiple args
 ===========================
 
 -> (a, b, c) {
@@ -622,4 +622,4 @@ function with multiple args
 
 ---
 
-(program (function (formal_parameters (identifier) (identifier) (identifier)) (integer) (integer)))
+(program (lambda_literal (formal_parameters (identifier) (identifier) (identifier)) (integer) (integer)))

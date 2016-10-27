@@ -267,7 +267,8 @@ module.exports = grammar({
       $.array,
       $.hash,
       $.regex,
-      $.function
+      $.lambda_literal,
+      $.lambda_expression
     ),
 
     symbol: $ => choice(
@@ -378,7 +379,24 @@ module.exports = grammar({
     _regex_interpolated_paren: $ => regexBody('(', ')', $.interpolation, $._regex_interpolated_paren),
     _regex_interpolated_brace: $ => regexBody('{', '}', $.interpolation, $._regex_interpolated_brace),
 
-    function: $ => seq('->', optional(choice(seq('(', optional($.formal_parameters), ')'), $.identifier)), '{', optional($._statements), '}'),
+    lambda_literal: $ => seq(
+      '->',
+      optional(choice(
+        seq('(', optional($.formal_parameters), ')'),
+        $.identifier
+      )),
+      '{',
+      optional($._statements),
+      '}'
+    ),
+
+    lambda_expression: $ => seq(
+      'lambda',
+      '{',
+      optional(seq('|', optional($.formal_parameters), '|')),
+      optional($._statements),
+      '}'
+    ),
 
     _function_name: $ => choice($.identifier, choice.apply(null, operators)),
 

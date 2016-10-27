@@ -368,3 +368,46 @@ include D::E.f
 ---
 
 (program (function_call (identifier) (argument_list (member_access (scope_resolution_expression (identifier) (identifier)) (identifier)))))
+
+==============
+empty lambda expression
+==============
+
+lambda {}
+
+---
+
+(program (lambda_expression))
+
+==================
+lambda expression with body
+==================
+
+lambda { foo }
+
+---
+
+(program (lambda_expression (identifier)))
+
+====================
+lambda expression with an arg
+====================
+
+lambda { |foo| 1 }
+
+---
+
+(program (lambda_expression (formal_parameters (identifier)) (integer)))
+
+===========================
+lambda expression with multiple args
+===========================
+
+lambda { |a, b, c|
+	1
+	2
+}
+
+---
+
+(program (lambda_expression (formal_parameters (identifier) (identifier) (identifier)) (integer) (integer)))
