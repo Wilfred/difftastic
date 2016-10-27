@@ -82,7 +82,10 @@ module.exports = grammar({
     ),
 
     method_declaration: $ => seq(
-      "def", $._function_name, choice(seq("(", optional($.formal_parameters), ")"), seq(optional($.formal_parameters), $._terminator)),
+      "def",
+      optional(seq($.identifier,'.')),
+      $._function_name,
+      choice(seq("(", optional($.formal_parameters), ")"), seq(optional($.formal_parameters), $._terminator)),
       optional($._statements),
       "end"
     ),
