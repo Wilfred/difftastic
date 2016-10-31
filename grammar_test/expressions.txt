@@ -9,14 +9,34 @@ Foo::bar
 (program (scope_resolution_expression (identifier) (identifier)))
 
 ============
-subscripting
+element reference
 ============
 
 foo[bar]
 
 ---
 
-(program (subscript_expression (identifier) (identifier)))
+(program (element_reference (identifier) (identifier)))
+
+============
+element reference with string
+============
+
+foo["bar"]
+
+---
+
+(program (element_reference (identifier) (string)))
+
+============
+element reference with symbol
+============
+
+foo[:bar]
+
+---
+
+(program (element_reference (identifier) (symbol)))
 
 ===============
 vacuous literal

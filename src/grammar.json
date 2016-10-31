@@ -1210,7 +1210,7 @@
         ]
       }
     },
-    "subscript_expression": {
+    "element_reference": {
       "type": "PREC_LEFT",
       "value": 0,
       "content": {
@@ -1225,37 +1225,8 @@
             "value": "["
           },
           {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SEQ",
-                "members": [
-                  {
-                    "type": "SYMBOL",
-                    "name": "_primary"
-                  },
-                  {
-                    "type": "REPEAT",
-                    "content": {
-                      "type": "SEQ",
-                      "members": [
-                        {
-                          "type": "STRING",
-                          "value": ","
-                        },
-                        {
-                          "type": "SYMBOL",
-                          "name": "_primary"
-                        }
-                      ]
-                    }
-                  }
-                ]
-              },
-              {
-                "type": "BLANK"
-              }
-            ]
+            "type": "SYMBOL",
+            "name": "_argument_list"
           },
           {
             "type": "STRING",
@@ -2125,7 +2096,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "subscript_expression"
+          "name": "element_reference"
         },
         {
           "type": "SYMBOL",
