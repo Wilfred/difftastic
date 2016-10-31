@@ -38,6 +38,16 @@ foo[:bar]
 
 (program (element_reference (identifier) (symbol)))
 
+============
+element assignment
+============
+
+foo[bar] = 1
+
+---
+
+(program (assignment (element_reference (identifier) (identifier)) (integer)))
+
 ===============
 vacuous literal
 ===============
