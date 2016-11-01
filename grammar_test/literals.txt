@@ -42,38 +42,13 @@ double quoted symbol with interpolation
 percent symbol with unbalanced delimiters
 =========================================
 
-%s=a=
-%s!a!
-%s@a@
-%s$a$
-%s%a%
-%s^a^
-%s&a&
-%s*a*
-%s-a-
-%s+a+
 %s/a/
-%s|a|
-%s?a?
 %s\a\
-%s.a.
-%s,a,
-%s:a:
-%s;a;
-%s'a'
-%s"a"
-%s)a)
-%s]a]
-%s}a}
-%s>a>
-%s`a`
-%s~a~
-%s_a_
 %s#a#
 
 ---
 
-(program (symbol) (symbol) (symbol) (symbol) (symbol) (symbol) (symbol) (symbol) (symbol) (symbol) (symbol) (symbol) (symbol) (symbol) (symbol) (symbol) (symbol) (symbol) (symbol) (symbol) (symbol) (symbol) (symbol) (symbol) (symbol) (symbol) (symbol) (symbol))
+(program (symbol) (symbol) (symbol))
 
 =======================================
 percent symbol with balanced delimiters
@@ -287,38 +262,13 @@ escaped interpolation
 percent q string with unbalanced delimiters
 ===========================================
 
-%q=a=
-%q!a!
-%q@a@
-%q$a$
-%q%a%
-%q^a^
-%q&a&
-%q*a*
-%q-a-
-%q+a+
 %q/a/
-%q|a|
-%q?a?
 %q\a\
-%q.a.
-%q,a,
-%q:a:
-%q;a;
-%q'a'
-%q"a"
-%q)a)
-%q]a]
-%q}a}
-%q>a>
-%q`a`
-%q~a~
-%q_a_
 %q#a#
 
 ---
 
-(program (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string))
+(program (string) (string) (string))
 
 =========================================
 percent q string with balanced delimiters
@@ -337,75 +287,25 @@ percent q string with balanced delimiters
 percent string with unbalanced delimiters
 =========================================
 
-%=a=
-%!a!
-%@a@
-%$a$
-%%a%
-%^a^
-%&a&
-%*a*
-%-a-
-%+a+
 %/a/
-%|a|
-%?a?
 %\a\
-%.a.
-%,a,
-%:a:
-%;a;
-%'a'
-%"a"
-%)a)
-%]a]
-%}a}
-%>a>
-%`a`
-%~a~
-%_a_
 %#a#
 
 ---
 
-(program (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string))
+(program (string) (string) (string))
 
 ===========================================
 percent Q string with unbalanced delimiters
 ===========================================
 
-%Q=a=
-%Q!a!
-%Q@a@
-%Q$a$
-%Q%a%
-%Q^a^
-%Q&a&
-%Q*a*
-%Q-a-
-%Q+a+
-%Q/a/
-%Q|a|
-%Q?a?
-%Q\a\
-%Q.a.
-%Q,a,
-%Q:a:
-%Q;a;
-%Q'a'
-%Q"a"
-%Q)a)
-%Q]a]
-%Q}a}
-%Q>a>
-%Q`a`
-%Q~a~
-%Q_a_
 %Q#a#
+%Q/a/
+%Q\a\
 
 ---
 
-(program (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string))
+(program (string) (string) (string))
 
 =========================================
 percent string with balanced delimiters
@@ -517,7 +417,7 @@ percent w array
 unbalanced percent w array
 ==========================
 
-%w|one two|
+%w/one two/
 
 ---
 
@@ -557,7 +457,7 @@ percent i array
 unbalanced percent i array
 ==========================
 
-%i|one two|
+%i/one two/
 
 ---
 
@@ -628,47 +528,25 @@ regular expression with interpolation
 =====================================
 
 /word#{foo}word/
+/word#word/
 
 ---
 
-(program (regex (interpolation (identifier))))
+(program
+	(regex (interpolation (identifier)))
+	(regex))
 
 =======================================================
 percent r regular expression with unbalanced delimiters
 =======================================================
 
-%r=a=
-%r!a!
-%r@a@
-%r$a$
-%r%a%
-%r^a^
-%r&a&
-%r*a*
-%r-a-
-%r+a+
 %r/a/
-%r|a|
-%r?a?
 %r\a\
-%r.a.
-%r,a,
-%r:a:
-%r;a;
-%r'a'
-%r"a"
-%r)a)
-%r]a]
-%r}a}
-%r>a>
-%r`a`
-%r~a~
-%r_a_
 %r#a#
 
 ---
 
-(program (regex) (regex) (regex) (regex) (regex) (regex) (regex) (regex) (regex) (regex) (regex) (regex) (regex) (regex) (regex) (regex) (regex) (regex) (regex) (regex) (regex) (regex) (regex) (regex) (regex) (regex) (regex) (regex))
+(program (regex) (regex) (regex))
 
 =====================================================
 percent r regular expression with balanced delimiters
@@ -687,7 +565,7 @@ percent r regular expression with balanced delimiters
 percent r regular expression with unbalanced delimiters and interpolation
 =========================================================================
 
-%r|a#{b}c|
+%r/a#{b}c/
 
 ---
 
@@ -711,30 +589,30 @@ empty function
 
 ---
 
-(program (function))
+(program (lambda_literal))
 
 ==================
-function with body
+lambda literal with body
 ==================
 
 -> { foo }
 
 ---
 
-(program (function (identifier)))
+(program (lambda_literal (identifier)))
 
 ====================
-function with an arg
+lambda literal with an arg
 ====================
 
 -> foo { 1 }
 
 ---
 
-(program (function (identifier) (integer)))
+(program (lambda_literal (identifier) (integer)))
 
 ===========================
-function with multiple args
+lambda literal with multiple args
 ===========================
 
 -> (a, b, c) {
@@ -744,4 +622,4 @@ function with multiple args
 
 ---
 
-(program (function (formal_parameters (identifier) (identifier) (identifier)) (integer) (integer)))
+(program (lambda_literal (formal_parameters (identifier) (identifier) (identifier)) (integer) (integer)))

@@ -9,14 +9,44 @@ Foo::bar
 (program (scope_resolution_expression (identifier) (identifier)))
 
 ============
-subscripting
+element reference
 ============
 
 foo[bar]
 
 ---
 
-(program (subscript_expression (identifier) (identifier)))
+(program (element_reference (identifier) (identifier)))
+
+============
+element reference with string
+============
+
+foo["bar"]
+
+---
+
+(program (element_reference (identifier) (string)))
+
+============
+element reference with symbol
+============
+
+foo[:bar]
+
+---
+
+(program (element_reference (identifier) (symbol)))
+
+============
+element assignment
+============
+
+foo[bar] = 1
+
+---
+
+(program (assignment (element_reference (identifier) (identifier)) (integer)))
 
 ===============
 vacuous literal
@@ -108,6 +138,38 @@ x = y
 
 (program (assignment (identifier) (identifier)))
 
+==========
+math assignment
+==========
+
+x += y
+x -= y
+x *= y
+x **= y
+x /= y
+
+---
+
+(program
+  (math_assignment (identifier) (identifier))
+  (math_assignment (identifier) (identifier))
+  (math_assignment (identifier) (identifier))
+  (math_assignment (identifier) (identifier))
+  (math_assignment (identifier) (identifier)))
+
+==========
+conditional assignment
+==========
+
+x ||= y
+x &&= y
+
+---
+
+(program
+  (conditional_assignment (identifier) (identifier))
+  (conditional_assignment (identifier) (identifier)))
+
 ===========
 conditional
 ===========
@@ -162,21 +224,39 @@ a && b
 relational
 ==========
 
+a == b
+a != b
+a === b
 a <=> b
+a =~ b
+a !~ b
 
 ---
 
-(program (relational (identifier) (identifier)))
+(program
+  (relational (identifier) (identifier))
+  (relational (identifier) (identifier))
+  (relational (identifier) (identifier))
+  (relational (identifier) (identifier))
+  (relational (identifier) (identifier))
+  (relational (identifier) (identifier)))
 
 ==========
 comparison
 ==========
 
 a < b
+a <= b
+a > b
+a >= b
 
 ---
 
-(program (comparison (identifier) (identifier)))
+(program
+  (comparison (identifier) (identifier))
+  (comparison (identifier) (identifier))
+  (comparison (identifier) (identifier))
+  (comparison (identifier) (identifier)))
 
 ==========
 bitwise or
@@ -213,10 +293,13 @@ shift
 =====
 
 a >> b
+a << b
 
 ---
 
-(program (shift (identifier) (identifier)))
+(program
+  (shift (identifier) (identifier))
+  (shift (identifier) (identifier)))
 
 ========
 additive
@@ -269,14 +352,42 @@ complement
 (program (complement (identifier)))
 
 ===============================
-function call with empty parens
+function call
 ===============================
 
+foo
 foo()
+print "hello"
+print("hello")
 
 ---
 
-(program (function_call (identifier) (argument_list)))
+(program
+  (function_call (identifier) (argument_list))
+  (function_call (identifier) (argument_list))
+  (function_call (identifier) (argument_list (string)))
+  (function_call (identifier) (argument_list (string))))
+
+===============================
+function call
+===============================
+
+foo.bar
+foo.bar()
+foo.bar "hi"
+foo.bar "hi", 2
+foo.bar("hi")
+foo.bar("hi", 2)
+
+---
+
+(program
+  (member_access (identifier) (identifier))
+  (function_call (member_access (identifier) (identifier)) (argument_list))
+  (function_call (member_access (identifier) (identifier)) (argument_list (string)))
+  (function_call (member_access (identifier) (identifier)) (argument_list (string) (integer)))
+  (function_call (member_access (identifier) (identifier)) (argument_list (string)))
+  (function_call (member_access (identifier) (identifier)) (argument_list (string) (integer))))
 
 ============================
 function call without parens
@@ -287,3 +398,46 @@ include D::E.f
 ---
 
 (program (function_call (identifier) (argument_list (member_access (scope_resolution_expression (identifier) (identifier)) (identifier)))))
+
+==============
+empty lambda expression
+==============
+
+lambda {}
+
+---
+
+(program (lambda_expression))
+
+==================
+lambda expression with body
+==================
+
+lambda { foo }
+
+---
+
+(program (lambda_expression (identifier)))
+
+====================
+lambda expression with an arg
+====================
+
+lambda { |foo| 1 }
+
+---
+
+(program (lambda_expression (formal_parameters (identifier)) (integer)))
+
+===========================
+lambda expression with multiple args
+===========================
+
+lambda { |a, b, c|
+	1
+	2
+}
+
+---
+
+(program (lambda_expression (formal_parameters (identifier) (identifier) (identifier)) (integer) (integer)))

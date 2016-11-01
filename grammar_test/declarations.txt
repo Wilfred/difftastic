@@ -65,6 +65,75 @@ end
 
 (program (method_declaration (identifier) (formal_parameters (identifier) (identifier))))
 
+=========================================
+singleton method
+=========================================
+
+def self.foo
+end
+
+---
+
+(program (method_declaration (identifier) (identifier)))
+
+=========================================
+singleton method with body
+=========================================
+
+def self.foo
+  bar
+end
+
+---
+
+(program (method_declaration (identifier) (identifier) (identifier)))
+
+
+=========================================
+singleton method with arg
+=========================================
+
+def self.foo(bar)
+end
+
+---
+
+(program (method_declaration (identifier) (identifier) (formal_parameters (identifier))))
+
+=========================================
+singleton method with un-parenthesized arg
+=========================================
+
+def self.foo bar
+end
+
+---
+
+(program (method_declaration (identifier) (identifier) (formal_parameters (identifier))))
+
+=========================================
+singleton method with args
+=========================================
+
+def self.foo(bar, baz)
+end
+
+---
+
+(program (method_declaration (identifier) (identifier) (formal_parameters (identifier) (identifier))))
+
+
+=========================================
+singleton method with un-parenthesized args
+=========================================
+
+def self.foo bar, baz
+end
+
+---
+
+(program (method_declaration (identifier) (identifier) (formal_parameters (identifier) (identifier))))
+
 ===========
 empty class
 ===========
@@ -161,6 +230,9 @@ module A
     def j
       k
     end
+
+    def self.l
+    end
   end
 end
 
@@ -178,4 +250,5 @@ end
     (function_call (identifier) (argument_list (symbol)))
 
     (comment)
+    (method_declaration (identifier) (identifier))
     (method_declaration (identifier) (identifier)))))

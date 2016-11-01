@@ -43,3 +43,30 @@ multiple lines of whatever
 ---
 
 (program (comment))
+
+=========================
+multi-line block comments followed by standard comment
+=========================
+
+=begin
+whatever
+multiple lines of whatever
+=end
+# Another comment
+
+---
+
+(program (comment) (comment))
+
+=========================
+multi-line block comments with almost end
+=========================
+
+=begin
+=e
+=en
+=end
+
+---
+
+(program (comment))
