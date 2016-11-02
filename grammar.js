@@ -136,8 +136,15 @@ module.exports = grammar({
     _then_block: $ => seq(choice("then", $._terminator), optional($._statements)),
     elsif_block: $ => seq("elsif", $._expression, $._then_block),
     else_block: $ => seq("else", optional($._statements)),
-    rescue_block: $ => seq("rescue", commaSep($._primary), choice("do", $._terminator), optional($._statements)),
     ensure_block: $ => seq("ensure", optional($._statements)),
+
+    rescue_block: $ => seq(
+      "rescue",
+      optional($.argument_list),
+      optional(seq("=>", $.identifier)),
+      choice("then", $._terminator),
+      optional($._statements)
+    ),
 
     _then_else_block: $ => seq($._then_block, optional($.else_block), "end"),
     _then_elsif_else_block: $ => seq(
@@ -241,7 +248,7 @@ module.exports = grammar({
       $.element_reference,
       $.member_access
     ),
-    _variable: $ => choice($.identifier , 'self'),
+    _variable: $ => choice($.identifier, 'self'),
 
     identifier: $ => token(seq(repeat(choice('@', '$')), identifierPattern)),
 

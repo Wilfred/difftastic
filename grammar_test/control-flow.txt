@@ -216,7 +216,9 @@ end
 
 ---
 
-(program (begin_statement (identifier) (else_block (identifier))))
+(program
+  (begin_statement (identifier)
+    (else_block (identifier))))
 
 ===============
 begin with ensure
@@ -230,7 +232,9 @@ end
 
 ---
 
-(program (begin_statement (identifier) (ensure_block (identifier))))
+(program
+  (begin_statement (identifier)
+    (ensure_block (identifier))))
 
 =======================
 begin with empty rescue
@@ -252,9 +256,44 @@ begin
 rescue x
 end
 
+begin
+rescue x then
+end
+
+begin
+rescue
+  bar
+end
+
+begin
+rescue x
+  bar
+end
+
+begin
+rescue x, y
+  bar
+end
+
+begin
+rescue Error => x
+end
+
+begin
+rescue Error => x
+  bar
+end
+
 ---
 
-(program (begin_statement (rescue_block (identifier))))
+(program
+  (begin_statement (rescue_block (argument_list (identifier))))
+  (begin_statement (rescue_block (argument_list (identifier))))
+  (begin_statement (rescue_block (identifier)))
+  (begin_statement (rescue_block (argument_list (identifier)) (identifier)))
+  (begin_statement (rescue_block (argument_list (identifier) (identifier)) (identifier)))
+  (begin_statement (rescue_block (argument_list (identifier)) (identifier)))
+  (begin_statement (rescue_block (argument_list (identifier)) (identifier) (identifier))))
 
 ============================
 begin with all the trimmings
@@ -272,7 +311,11 @@ end
 
 ---
 
-(program (begin_statement (identifier) (rescue_block (identifier) (identifier)) (else_block (identifier)) (ensure_block (identifier))))
+(program
+  (begin_statement (identifier)
+    (rescue_block (argument_list (identifier)) (identifier))
+    (else_block (identifier))
+    (ensure_block (identifier))))
 
 ======
 return
@@ -304,7 +347,9 @@ end
 
 ---
 
-(program (case_statement (identifier) (when_block (pattern (identifier)))))
+(program
+  (case_statement (identifier)
+  (when_block (pattern (identifier)))))
 
 ==============
 case with else
@@ -317,7 +362,10 @@ end
 
 ---
 
-(program (case_statement (identifier) (when_block (pattern (identifier))) (else_block)))
+(program
+  (case_statement (identifier)
+    (when_block (pattern (identifier)))
+    (else_block)))
 
 ==============================
 case with multiple when blocks
@@ -334,4 +382,8 @@ end
 
 ---
 
-(program (case_statement (identifier) (when_block (pattern (identifier)) (identifier)) (when_block (pattern (identifier)) (identifier)) (else_block (identifier))))
+(program
+  (case_statement (identifier)
+    (when_block (pattern (identifier)) (identifier))
+    (when_block (pattern (identifier)) (identifier))
+    (else_block (identifier))))
