@@ -694,7 +694,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "then_block"
+          "name": "_then_block"
         }
       ]
     },
@@ -829,7 +829,7 @@
         }
       ]
     },
-    "then_block": {
+    "_then_block": {
       "type": "SEQ",
       "members": [
         {
@@ -872,7 +872,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "then_block"
+          "name": "_then_block"
         }
       ]
     },
@@ -990,7 +990,7 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "then_block"
+          "name": "_then_block"
         },
         {
           "type": "CHOICE",
@@ -1015,7 +1015,7 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "then_block"
+          "name": "_then_block"
         },
         {
           "type": "REPEAT",

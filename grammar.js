@@ -118,7 +118,7 @@ module.exports = grammar({
       optional($.else_block),
       "end"
     ),
-    when_block: $ => seq("when", $.pattern, $.then_block),
+    when_block: $ => seq("when", $.pattern, $._then_block),
 
     pattern: $ => $._statement,
 
@@ -133,15 +133,15 @@ module.exports = grammar({
     ),
     _do_block: $ => seq("do", optional($._statements), "end"),
 
-    then_block: $ => seq(choice("then", $._terminator), optional($._statements)),
-    elsif_block: $ => seq("elsif", $._expression, $.then_block),
+    _then_block: $ => seq(choice("then", $._terminator), optional($._statements)),
+    elsif_block: $ => seq("elsif", $._expression, $._then_block),
     else_block: $ => seq("else", optional($._statements)),
     rescue_block: $ => seq("rescue", commaSep($._primary), choice("do", $._terminator), optional($._statements)),
     ensure_block: $ => seq("ensure", optional($._statements)),
 
-    _then_else_block: $ => seq($.then_block, optional($.else_block), "end"),
+    _then_else_block: $ => seq($._then_block, optional($.else_block), "end"),
     _then_elsif_else_block: $ => seq(
-      $.then_block,
+      $._then_block,
       repeat($.elsif_block),
       optional($.else_block),
       "end"
