@@ -292,8 +292,8 @@ end
   (begin_statement (rescue_block (identifier)))
   (begin_statement (rescue_block (argument_list (identifier)) (identifier)))
   (begin_statement (rescue_block (argument_list (identifier) (identifier)) (identifier)))
-  (begin_statement (rescue_block (argument_list (identifier)) (identifier)))
-  (begin_statement (rescue_block (argument_list (identifier)) (identifier) (identifier))))
+  (begin_statement (rescue_block (argument_list (identifier)) (last_exception (identifier))))
+  (begin_statement (rescue_block (argument_list (identifier)) (last_exception (identifier)) (identifier))))
 
 ============================
 begin with all the trimmings
