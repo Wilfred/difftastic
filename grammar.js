@@ -5,6 +5,7 @@ const PREC = {
   NOT: 5,
   DEFINED: 10,
   ASSIGN: 15,
+  RESCUE: 16,
   CONDITIONAL: 20,
   RANGE: 25,
   BOOLEAN_OR: 30,
@@ -72,6 +73,7 @@ module.exports = grammar({
       $.unless_modifier,
       $.while_modifier,
       $.until_modifier,
+      $.rescue_modifier,
       $._expression
     ),
 
@@ -126,6 +128,7 @@ module.exports = grammar({
     unless_modifier: $ => seq($._statement, "unless", $._expression),
     while_modifier: $ => seq($._statement, "while", $._expression),
     until_modifier: $ => seq($._statement, "until", $._expression),
+    rescue_modifier: $ => prec(PREC.RESCUE, seq($._statement, "rescue", $._expression)),
 
     _statement_block: $ => choice(
       $._do_block,

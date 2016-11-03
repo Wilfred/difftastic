@@ -295,6 +295,16 @@ end
   (begin_statement (rescue_block (argument_list (identifier)) (last_exception (identifier))))
   (begin_statement (rescue_block (argument_list (identifier)) (last_exception (identifier)) (identifier))))
 
+=================
+rescue modifier
+=================
+
+foo rescue nil
+
+---
+
+(program (rescue_modifier (identifier) (nil)))
+
 ============================
 begin with all the trimmings
 ============================
