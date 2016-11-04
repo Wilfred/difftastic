@@ -5,6 +5,7 @@ const PREC = {
   NOT: 5,
   DEFINED: 10,
   ASSIGN: 15,
+  RESCUE: 16,
   CONDITIONAL: 20,
   RANGE: 25,
   BOOLEAN_OR: 30,
@@ -72,6 +73,7 @@ module.exports = grammar({
       $.unless_modifier,
       $.while_modifier,
       $.until_modifier,
+      $.rescue_modifier,
       $._expression
     ),
 
@@ -118,7 +120,7 @@ module.exports = grammar({
       optional($.else_block),
       "end"
     ),
-    when_block: $ => seq("when", $.pattern, $.then_block),
+    when_block: $ => seq("when", $.pattern, $._then_block),
 
     pattern: $ => $._statement,
 
@@ -126,6 +128,7 @@ module.exports = grammar({
     unless_modifier: $ => seq($._statement, "unless", $._expression),
     while_modifier: $ => seq($._statement, "while", $._expression),
     until_modifier: $ => seq($._statement, "until", $._expression),
+    rescue_modifier: $ => prec(PREC.RESCUE, seq($._statement, "rescue", $._expression)),
 
     _statement_block: $ => choice(
       $._do_block,
@@ -133,15 +136,24 @@ module.exports = grammar({
     ),
     _do_block: $ => seq("do", optional($._statements), "end"),
 
-    then_block: $ => seq(choice("then", $._terminator), optional($._statements)),
-    elsif_block: $ => seq("elsif", $._expression, $.then_block),
+    _then_block: $ => seq(choice("then", $._terminator), optional($._statements)),
+    elsif_block: $ => seq("elsif", $._expression, $._then_block),
     else_block: $ => seq("else", optional($._statements)),
-    rescue_block: $ => seq("rescue", commaSep($._primary), choice("do", $._terminator), optional($._statements)),
     ensure_block: $ => seq("ensure", optional($._statements)),
 
-    _then_else_block: $ => seq($.then_block, optional($.else_block), "end"),
+    rescue_block: $ => seq(
+      "rescue",
+      optional($.argument_list),
+      optional($.last_exception),
+      choice("then", $._terminator),
+      optional($._statements)
+    ),
+
+    last_exception: $ => seq("=>", $.identifier),
+
+    _then_else_block: $ => seq($._then_block, optional($.else_block), "end"),
     _then_elsif_else_block: $ => seq(
-      $.then_block,
+      $._then_block,
       repeat($.elsif_block),
       optional($.else_block),
       "end"
@@ -241,7 +253,7 @@ module.exports = grammar({
       $.element_reference,
       $.member_access
     ),
-    _variable: $ => choice($.identifier , 'self'),
+    _variable: $ => choice($.identifier, 'self'),
 
     identifier: $ => token(seq(repeat(choice('@', '$')), identifierPattern)),
 
