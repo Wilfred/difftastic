@@ -149,7 +149,7 @@ module.exports = grammar({
       optional($._statements)
     ),
 
-    last_exception: $ => seq("=>", $.identifier),
+    last_exception: $ => seq("=>", /[a-zA-Z0-9_]*/),
 
     _then_else_block: $ => seq($._then_block, optional($.else_block), "end"),
     _then_elsif_else_block: $ => seq(

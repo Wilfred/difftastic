@@ -271,6 +271,11 @@ rescue x
 end
 
 begin
+rescue => x
+  bar
+end
+
+begin
 rescue x, y
   bar
 end
@@ -291,9 +296,10 @@ end
   (begin_statement (rescue_block (argument_list (identifier))))
   (begin_statement (rescue_block (identifier)))
   (begin_statement (rescue_block (argument_list (identifier)) (identifier)))
+  (begin_statement (rescue_block (last_exception) (identifier)))
   (begin_statement (rescue_block (argument_list (identifier) (identifier)) (identifier)))
-  (begin_statement (rescue_block (argument_list (identifier)) (last_exception (identifier))))
-  (begin_statement (rescue_block (argument_list (identifier)) (last_exception (identifier)) (identifier))))
+  (begin_statement (rescue_block (argument_list (identifier)) (last_exception)))
+  (begin_statement (rescue_block (argument_list (identifier)) (last_exception) (identifier))))
 
 =================
 rescue modifier
