@@ -144,12 +144,12 @@ module.exports = grammar({
     rescue_block: $ => seq(
       "rescue",
       optional($.argument_list),
-      optional($.last_exception),
+      optional(seq("=>", $.last_exception)),
       choice("then", $._terminator),
       optional($._statements)
     ),
 
-    last_exception: $ => seq("=>", /[a-zA-Z0-9_]*/),
+    last_exception: $ => (/[a-zA-Z_][a-zA-Z0-9_]*/),
 
     _then_else_block: $ => seq($._then_block, optional($.else_block), "end"),
     _then_elsif_else_block: $ => seq(
