@@ -29,7 +29,7 @@ const PREC = {
 // generate/build times.
 // const unbalancedDelimiters = '!@#$%^&*)]}>|\\=/+-~`\'",.?:;_'.split('');
 const unbalancedDelimiters = '#/\\'.split('');
-const identifierPattern = /[a-zA-Z_][a-zA-Z0-9_]*\??/;
+const identifierPattern = /[a-zA-Z_][a-zA-Z0-9_]*/;
 const operators = ['..', '|', '^', '&', '<=>', '==', '===', '=~', '>', '>=', '<', '<=', '+', '-', '*', '/', '%', '**', '<<', '>>', '~', '+@', '-@', '[]', '[]='];
 
 module.exports = grammar({
@@ -144,12 +144,11 @@ module.exports = grammar({
     rescue_block: $ => seq(
       "rescue",
       optional($.argument_list),
-      optional(seq("=>", $.last_exception)),
-      choice("then", $._terminator),
-      optional($._statements)
+      optional(seq("=>", $.rescued_exception)),
+      $._then_block
     ),
 
-    last_exception: $ => (/[a-zA-Z_][a-zA-Z0-9_]*/),
+    rescued_exception: $ => (identifierPattern),
 
     _then_else_block: $ => seq($._then_block, optional($.else_block), "end"),
     _then_elsif_else_block: $ => seq(
@@ -413,7 +412,7 @@ module.exports = grammar({
       '}'
     ),
 
-    _function_name: $ => choice($.identifier, choice.apply(null, operators)),
+    _function_name: $ => choice(seq($.identifier, optional(choice('?', '!'))), choice.apply(null, operators)),
 
     _line_break: $ => '\n',
     _terminator: $ => choice($._line_break, ';'),

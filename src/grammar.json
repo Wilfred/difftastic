@@ -974,7 +974,7 @@
                 },
                 {
                   "type": "SYMBOL",
-                  "name": "last_exception"
+                  "name": "rescued_exception"
                 }
               ]
             },
@@ -984,33 +984,12 @@
           ]
         },
         {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "STRING",
-              "value": "then"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "_terminator"
-            }
-          ]
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "_statements"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
+          "type": "SYMBOL",
+          "name": "_then_block"
         }
       ]
     },
-    "last_exception": {
+    "rescued_exception": {
       "type": "PATTERN",
       "value": "[a-zA-Z_][a-zA-Z0-9_]*"
     },
@@ -2169,7 +2148,7 @@
           },
           {
             "type": "PATTERN",
-            "value": "[a-zA-Z_][a-zA-Z0-9_]*\\??"
+            "value": "[a-zA-Z_][a-zA-Z0-9_]*"
           }
         ]
       }
@@ -2306,7 +2285,7 @@
                 "members": [
                   {
                     "type": "PATTERN",
-                    "value": "[a-zA-Z_][a-zA-Z0-9_]*\\??"
+                    "value": "[a-zA-Z_][a-zA-Z0-9_]*"
                   },
                   {
                     "type": "CHOICE",
@@ -4229,8 +4208,34 @@
       "type": "CHOICE",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "identifier"
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "identifier"
+            },
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "STRING",
+                      "value": "?"
+                    },
+                    {
+                      "type": "STRING",
+                      "value": "!"
+                    }
+                  ]
+                },
+                {
+                  "type": "BLANK"
+                }
+              ]
+            }
+          ]
         },
         {
           "type": "CHOICE",

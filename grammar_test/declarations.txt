@@ -9,6 +9,28 @@ end
 
 (program (method_declaration (identifier)))
 
+============
+method ending in question mark
+============
+
+def foo?
+end
+
+---
+
+(program (method_declaration (identifier)))
+
+============
+method ending in exclamation point
+============
+
+def foo!
+end
+
+---
+
+(program (method_declaration (identifier)))
+
 ================
 method with body
 ================
