@@ -29,7 +29,7 @@ const PREC = {
 // generate/build times.
 // const unbalancedDelimiters = '!@#$%^&*)]}>|\\=/+-~`\'",.?:;_'.split('');
 const unbalancedDelimiters = '#/\\'.split('');
-const identifierPattern = /[a-zA-Z_][a-zA-Z0-9_]*/;
+const identifierPattern = /[a-zA-Z_][a-zA-Z0-9_]*(\?|\!)?/;
 const operators = ['..', '|', '^', '&', '<=>', '==', '===', '=~', '>', '>=', '<', '<=', '+', '-', '*', '/', '%', '**', '<<', '>>', '~', '+@', '-@', '[]', '[]='];
 
 module.exports = grammar({
@@ -286,7 +286,7 @@ module.exports = grammar({
     ),
 
     symbol: $ => choice(
-      token(seq(':', choice(seq(identifierPattern, optional(choice('?', '!'))), choice.apply(null, operators)))),
+      token(seq(':', choice(identifierPattern, choice.apply(null, operators)))),
       seq(":'", $._single_quoted_continuation),
       seq(':"', $._double_quoted_continuation),
       seq('%s', choice(
@@ -412,7 +412,7 @@ module.exports = grammar({
       '}'
     ),
 
-    _function_name: $ => choice(seq($.identifier, optional(choice('?', '!'))), choice.apply(null, operators)),
+    _function_name: $ => choice($.identifier, choice.apply(null, operators)),
 
     _line_break: $ => '\n',
     _terminator: $ => choice($._line_break, ';'),
