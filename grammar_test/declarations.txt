@@ -5,9 +5,18 @@ empty method
 def foo
 end
 
+def foo?
+end
+
+def foo!
+end
+
 ---
 
-(program (method_declaration (identifier)))
+(program
+  (method_declaration (identifier))
+  (method_declaration (identifier))
+  (method_declaration (identifier)))
 
 ================
 method with body

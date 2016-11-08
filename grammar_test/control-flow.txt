@@ -244,9 +244,22 @@ begin
 rescue
 end
 
+begin
+rescue then
+end
+
+begin
+rescue
+  bar
+end
+
+
 ---
 
-(program (begin_statement (rescue_block)))
+(program
+  (begin_statement (rescue_block))
+  (begin_statement (rescue_block))
+  (begin_statement (rescue_block (identifier))))
 
 ===========================
 begin with rescue with args
@@ -261,12 +274,12 @@ rescue x then
 end
 
 begin
-rescue
+rescue x
   bar
 end
 
 begin
-rescue x
+rescue => x
   bar
 end
 
@@ -289,11 +302,11 @@ end
 (program
   (begin_statement (rescue_block (argument_list (identifier))))
   (begin_statement (rescue_block (argument_list (identifier))))
-  (begin_statement (rescue_block (identifier)))
   (begin_statement (rescue_block (argument_list (identifier)) (identifier)))
+  (begin_statement (rescue_block (rescued_exception) (identifier)))
   (begin_statement (rescue_block (argument_list (identifier) (identifier)) (identifier)))
-  (begin_statement (rescue_block (argument_list (identifier)) (last_exception (identifier))))
-  (begin_statement (rescue_block (argument_list (identifier)) (last_exception (identifier)) (identifier))))
+  (begin_statement (rescue_block (argument_list (identifier)) (rescued_exception)))
+  (begin_statement (rescue_block (argument_list (identifier)) (rescued_exception) (identifier))))
 
 =================
 rescue modifier

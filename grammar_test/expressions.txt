@@ -363,13 +363,13 @@ print("hello")
 ---
 
 (program
-  (function_call (identifier) (argument_list))
+  (identifier)
   (function_call (identifier) (argument_list))
   (function_call (identifier) (argument_list (string)))
   (function_call (identifier) (argument_list (string))))
 
 ===============================
-function call
+method call with receiver
 ===============================
 
 foo.bar

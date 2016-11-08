@@ -3,10 +3,15 @@ symbol
 ======
 
 :foo
+:foo!
+:foo?
 
 ---
 
-(program (symbol))
+(program
+	(symbol)
+	(symbol)
+	(symbol))
 
 ====================
 single quoted symbol
