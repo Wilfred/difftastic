@@ -30,7 +30,7 @@ const PREC = {
 // generate/build times.
 // const unbalancedDelimiters = '!@#$%^&*)]}>|\\=/+-~`\'",.?:;_'.split('');
 const unbalancedDelimiters = '#/\\'.split('');
-const identifierPattern = /[a-zA-Z_][a-zA-Z0-9_]*\??/;
+const identifierPattern = /[a-zA-Z_][a-zA-Z0-9_]*(\?|\!)?/;
 const operators = ['..', '|', '^', '&', '<=>', '==', '===', '=~', '>', '>=', '<', '<=', '+', '-', '*', '/', '%', '**', '<<', '>>', '~', '+@', '-@', '[]', '[]='];
 
 module.exports = grammar({
@@ -156,13 +156,13 @@ module.exports = grammar({
 
     rescue_block: $ => seq(
       "rescue",
-      optional($.argument_list),
-      optional($.last_exception),
-      choice("then", $._terminator),
-      optional($._statements)
+      optional($.rescue_arguments),
+      optional(seq("=>", $.rescued_exception)),
+      $._then_block
     ),
 
-    last_exception: $ => seq("=>", $.identifier),
+    rescue_arguments: $ => commaSep1($._expression),
+    rescued_exception: $ => (identifierPattern),
 
     _then_else_block: $ => seq($._then_block, optional($.else_block), "end"),
     _then_elsif_else_block: $ => seq(
