@@ -363,13 +363,13 @@ print("hello")
 ---
 
 (program
-  (function_call (identifier) (argument_list))
+  (identifier)
   (function_call (identifier) (argument_list))
   (function_call (identifier) (argument_list (string)))
   (function_call (identifier) (argument_list (string))))
 
 ===============================
-function call
+method call with receiver
 ===============================
 
 foo.bar
@@ -388,6 +388,32 @@ foo.bar("hi", 2)
   (function_call (member_access (identifier) (identifier)) (argument_list (string) (integer)))
   (function_call (member_access (identifier) (identifier)) (argument_list (string)))
   (function_call (member_access (identifier) (identifier)) (argument_list (string) (integer))))
+
+===============================
+method call with hash arg
+===============================
+
+foo(a => true)
+foo a => true, c => 1
+
+---
+
+(program
+  (function_call (identifier) (argument_list (argument_pair (identifier) (boolean))))
+  (function_call (identifier) (argument_list (argument_pair (identifier) (boolean)) (argument_pair (identifier) (integer)))))
+
+===============================
+method call with keyword args
+===============================
+
+foo(a: true)
+foo a: true
+
+---
+
+(program
+  (function_call (identifier) (argument_list (argument_pair (identifier) (boolean))))
+  (function_call (identifier) (argument_list (argument_pair (identifier) (boolean)))))
 
 ============================
 function call without parens

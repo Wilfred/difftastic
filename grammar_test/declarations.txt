@@ -66,6 +66,71 @@ end
 (program (method_declaration (identifier) (formal_parameters (identifier) (identifier))))
 
 =========================================
+method with keyword parameters
+=========================================
+
+def foo(bar: nil, baz:)
+end
+
+---
+
+(program
+  (method_declaration (identifier)
+    (formal_parameters
+      (keyword_parameter (identifier) (nil))
+      (required_keyword_parameter (identifier)))))
+
+=========================================
+method with default parameters
+=========================================
+
+def foo(bar = nil)
+end
+
+def foo(bar=nil)
+end
+
+---
+
+(program
+  (method_declaration (identifier)
+    (formal_parameters (parameter_with_default (identifier) (nil))))
+  (method_declaration (identifier)
+    (formal_parameters (parameter_with_default (identifier) (nil)))))
+
+=========================================
+method with interesting params
+=========================================
+
+def foo(*options)
+end
+
+def foo(x, *options)
+end
+
+def foo(x, *options, y)
+end
+
+def foo(**options)
+end
+
+def foo(name:, **)
+end
+
+def foo(&block)
+end
+
+---
+
+(program
+  (method_declaration (identifier) (formal_parameters (identifier)))
+  (method_declaration (identifier) (formal_parameters (identifier) (identifier)))
+  (method_declaration (identifier) (formal_parameters (identifier) (identifier) (identifier)))
+  (method_declaration (identifier) (formal_parameters (identifier)))
+  (method_declaration (identifier) (formal_parameters (required_keyword_parameter (identifier)) (unnamed_parameter)))
+  (method_declaration (identifier) (formal_parameters (identifier))))
+
+=========================================
 singleton method
 =========================================
 
