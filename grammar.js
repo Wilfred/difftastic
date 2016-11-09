@@ -94,18 +94,20 @@ module.exports = grammar({
     ),
 
     formal_parameters: $ => commaSep1(choice(
-      $._parameter,
       $.keyword_parameter,
-      $.required_keyword_parameter,
-      $.parameter_with_default,
-      $.unnamed_parameter
+      $._positional_parameter
     )),
 
-    _parameter: $ => seq(optional(choice("*", "**", "&")), $.identifier),
-    required_keyword_parameter: $ => seq($.identifier, ":"),
-    keyword_parameter: $ => seq($.identifier, ":", $._literal),
-    parameter_with_default: $ => seq($._parameter, "=", $._literal),
-    unnamed_parameter: $ => choice("*", "**"),
+    keyword_parameter: $ => seq($.identifier, ":", optional($._literal)),
+    positional_parameter: $ => choice(
+      "*",
+      "**",
+      seq($.identifier, "=", $._literal)
+    ),
+    _positional_parameter: $ => choice(
+      seq(optional(choice("*", "**", "&")), $.identifier),
+      $.positional_parameter
+    ),
 
     class_declaration: $ => seq("class", $.identifier, optional(seq("<", sep1($.identifier, "::"))), $._terminator, optional($._statements), "end"),
 

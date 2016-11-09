@@ -87,7 +87,7 @@ end
   (method_declaration (identifier)
     (formal_parameters
       (keyword_parameter (identifier) (nil))
-      (required_keyword_parameter (identifier)))))
+      (keyword_parameter (identifier)))))
 
 =========================================
 method with default parameters
@@ -103,9 +103,9 @@ end
 
 (program
   (method_declaration (identifier)
-    (formal_parameters (parameter_with_default (identifier) (nil))))
+    (formal_parameters (positional_parameter (identifier) (nil))))
   (method_declaration (identifier)
-    (formal_parameters (parameter_with_default (identifier) (nil)))))
+    (formal_parameters (positional_parameter (identifier) (nil)))))
 
 =========================================
 method with interesting params
@@ -136,7 +136,7 @@ end
   (method_declaration (identifier) (formal_parameters (identifier) (identifier)))
   (method_declaration (identifier) (formal_parameters (identifier) (identifier) (identifier)))
   (method_declaration (identifier) (formal_parameters (identifier)))
-  (method_declaration (identifier) (formal_parameters (required_keyword_parameter (identifier)) (unnamed_parameter)))
+  (method_declaration (identifier) (formal_parameters (keyword_parameter (identifier)) (positional_parameter)))
   (method_declaration (identifier) (formal_parameters (identifier))))
 
 =========================================

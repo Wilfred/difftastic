@@ -298,23 +298,11 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "_parameter"
-            },
-            {
-              "type": "SYMBOL",
               "name": "keyword_parameter"
             },
             {
               "type": "SYMBOL",
-              "name": "required_keyword_parameter"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "parameter_with_default"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "unnamed_parameter"
+              "name": "_positional_parameter"
             }
           ]
         },
@@ -332,75 +320,16 @@
                 "members": [
                   {
                     "type": "SYMBOL",
-                    "name": "_parameter"
-                  },
-                  {
-                    "type": "SYMBOL",
                     "name": "keyword_parameter"
                   },
                   {
                     "type": "SYMBOL",
-                    "name": "required_keyword_parameter"
-                  },
-                  {
-                    "type": "SYMBOL",
-                    "name": "parameter_with_default"
-                  },
-                  {
-                    "type": "SYMBOL",
-                    "name": "unnamed_parameter"
+                    "name": "_positional_parameter"
                   }
                 ]
               }
             ]
           }
-        }
-      ]
-    },
-    "_parameter": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "STRING",
-                  "value": "*"
-                },
-                {
-                  "type": "STRING",
-                  "value": "**"
-                },
-                {
-                  "type": "STRING",
-                  "value": "&"
-                }
-              ]
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        },
-        {
-          "type": "SYMBOL",
-          "name": "identifier"
-        }
-      ]
-    },
-    "required_keyword_parameter": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "identifier"
-        },
-        {
-          "type": "STRING",
-          "value": ":"
         }
       ]
     },
@@ -416,29 +345,20 @@
           "value": ":"
         },
         {
-          "type": "SYMBOL",
-          "name": "_literal"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_literal"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         }
       ]
     },
-    "parameter_with_default": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "_parameter"
-        },
-        {
-          "type": "STRING",
-          "value": "="
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_literal"
-        }
-      ]
-    },
-    "unnamed_parameter": {
+    "positional_parameter": {
       "type": "CHOICE",
       "members": [
         {
@@ -448,6 +368,66 @@
         {
           "type": "STRING",
           "value": "**"
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "identifier"
+            },
+            {
+              "type": "STRING",
+              "value": "="
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_literal"
+            }
+          ]
+        }
+      ]
+    },
+    "_positional_parameter": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "STRING",
+                      "value": "*"
+                    },
+                    {
+                      "type": "STRING",
+                      "value": "**"
+                    },
+                    {
+                      "type": "STRING",
+                      "value": "&"
+                    }
+                  ]
+                },
+                {
+                  "type": "BLANK"
+                }
+              ]
+            },
+            {
+              "type": "SYMBOL",
+              "name": "identifier"
+            }
+          ]
+        },
+        {
+          "type": "SYMBOL",
+          "name": "positional_parameter"
         }
       ]
     },
