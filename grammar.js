@@ -225,7 +225,7 @@ module.exports = grammar({
     ))),
 
     argument_pair: $ => prec(PREC.KW_ARG, seq(choice(
-      seq($.identifier, '=>'),
+      seq($.symbol, '=>'),
       seq($.identifier, ':')
     ), $._expression)),
 

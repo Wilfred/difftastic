@@ -1502,7 +1502,7 @@
                 "members": [
                   {
                     "type": "SYMBOL",
-                    "name": "identifier"
+                    "name": "symbol"
                   },
                   {
                     "type": "STRING",
