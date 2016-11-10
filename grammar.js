@@ -1,12 +1,11 @@
 const PREC = {
-  COMMENT: -1,
-  AND: -1,
-  OR: -1,
+  COMMENT: -2,
+  AND: -2,
+  OR: -2,
   NOT: 5,
   DEFINED: 10,
   ASSIGN: 15,
   RESCUE: 16,
-  KW_ARG: 17,
   CONDITIONAL: 20,
   RANGE: 25,
   BOOLEAN_OR: 30,
@@ -94,20 +93,19 @@ module.exports = grammar({
     ),
 
     formal_parameters: $ => commaSep1(choice(
+      $.identifier,
+      $.splat_parameter,
+      $.hash_splat_parameter,
+      $.block_parameter,
       $.keyword_parameter,
-      $._positional_parameter
+      $.optional_parameter
     )),
 
-    keyword_parameter: $ => seq($.identifier, ":", optional($._literal)),
-    positional_parameter: $ => choice(
-      "*",
-      "**",
-      seq($.identifier, "=", $._literal)
-    ),
-    _positional_parameter: $ => choice(
-      seq(optional(choice("*", "**", "&")), $.identifier),
-      $.positional_parameter
-    ),
+    splat_parameter: $ => seq("*", optional($.identifier)),
+    hash_splat_parameter: $ => seq("**", optional($.identifier)),
+    block_parameter: $ => seq("&", $.identifier),
+    keyword_parameter: $ => seq($.identifier, ":", optional($._expression)),
+    optional_parameter: $ => seq($.identifier, "=", $._expression),
 
     class_declaration: $ => seq("class", $.identifier, optional(seq("<", sep1($.identifier, "::"))), $._terminator, optional($._statements), "end"),
 
@@ -211,7 +209,7 @@ module.exports = grammar({
     element_reference: $ => prec.left(seq($._primary, "[", $._argument_list, "]")),
     member_access: $ => prec.left(seq($._primary, ".", $.identifier)),
 
-    function_call: $ => prec.left(-1, seq(
+    function_call: $ => prec.left(-2, seq(
       choice($._variable, $.scope_resolution_expression, $.member_access),
       $.argument_list
     )),
@@ -226,7 +224,7 @@ module.exports = grammar({
       $.argument_pair
     ))),
 
-    argument_pair: $ => prec(PREC.KW_ARG, seq(choice(
+    argument_pair: $ => prec(-1, seq(choice(
       seq($.symbol, '=>'),
       seq($.identifier, ':')
     ), $._expression)),
@@ -396,10 +394,10 @@ module.exports = grammar({
     hash: $ => seq('{', $._hash_items, '}'),
     _hash_items: $ => optional(seq($.pair, optional(seq(',', $._hash_items)))),
 
-    pair: $ => seq(choice(
+    pair: $ => prec(-1, seq(choice(
       seq($._expression, '=>'),
       seq($.identifier, ':')
-    ), $._expression),
+    ), $._expression)),
 
     regex: $ => prec(PREC.REGEX, choice(
       regexBody('/', '/', $.interpolation),
