@@ -6,6 +6,7 @@ const PREC = {
   DEFINED: 10,
   ASSIGN: 15,
   RESCUE: 16,
+  KW_ARG: 17,
   CONDITIONAL: 20,
   RANGE: 25,
   BOOLEAN_OR: 30,
@@ -92,7 +93,21 @@ module.exports = grammar({
       "end"
     ),
 
-    formal_parameters: $ => commaSep1(seq(optional(choice("*", "&")), $.identifier)),
+    formal_parameters: $ => commaSep1(choice(
+      $.keyword_parameter,
+      $._positional_parameter
+    )),
+
+    keyword_parameter: $ => seq($.identifier, ":", optional($._literal)),
+    positional_parameter: $ => choice(
+      "*",
+      "**",
+      seq($.identifier, "=", $._literal)
+    ),
+    _positional_parameter: $ => choice(
+      seq(optional(choice("*", "**", "&")), $.identifier),
+      $.positional_parameter
+    ),
 
     class_declaration: $ => seq("class", $.identifier, optional(seq("<", sep1($.identifier, "::"))), $._terminator, optional($._statements), "end"),
 
@@ -143,11 +158,12 @@ module.exports = grammar({
 
     rescue_block: $ => seq(
       "rescue",
-      optional($.argument_list),
+      optional($.rescue_arguments),
       optional(seq("=>", $.rescued_exception)),
       $._then_block
     ),
 
+    rescue_arguments: $ => commaSep1($._expression),
     rescued_exception: $ => (identifierPattern),
 
     _then_else_block: $ => seq($._then_block, optional($.else_block), "end"),
@@ -205,7 +221,15 @@ module.exports = grammar({
       $._argument_list
     )),
 
-    _argument_list: $ => prec.left(seq($._expression, optional(seq(',', $._argument_list)))),
+    _argument_list: $ => prec.left(commaSep1(choice(
+      $._expression,
+      $.argument_pair
+    ))),
+
+    argument_pair: $ => prec(PREC.KW_ARG, seq(choice(
+      seq($.symbol, '=>'),
+      seq($.identifier, ':')
+    ), $._expression)),
 
     yield: $ => seq("yield", optional($._expression)),
 

@@ -389,6 +389,32 @@ foo.bar("hi", 2)
   (function_call (member_access (identifier) (identifier)) (argument_list (string)))
   (function_call (member_access (identifier) (identifier)) (argument_list (string) (integer))))
 
+===============================
+method call with hash args
+===============================
+
+foo(:a => true)
+foo :a => true, :c => 1
+
+---
+
+(program
+  (function_call (identifier) (argument_list (argument_pair (symbol) (boolean))))
+  (function_call (identifier) (argument_list (argument_pair (symbol) (boolean)) (argument_pair (symbol) (integer)))))
+
+===============================
+method call with keyword args
+===============================
+
+foo(a: true)
+foo a: true
+
+---
+
+(program
+  (function_call (identifier) (argument_list (argument_pair (identifier) (boolean))))
+  (function_call (identifier) (argument_list (argument_pair (identifier) (boolean)))))
+
 ============================
 function call without parens
 ============================
