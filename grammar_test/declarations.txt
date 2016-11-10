@@ -103,9 +103,9 @@ end
 
 (program
   (method_declaration (identifier)
-    (formal_parameters (positional_parameter (identifier) (nil))))
+    (formal_parameters (optional_parameter (identifier) (nil))))
   (method_declaration (identifier)
-    (formal_parameters (positional_parameter (identifier) (nil)))))
+    (formal_parameters (optional_parameter (identifier) (nil)))))
 
 =========================================
 method with interesting params
@@ -132,12 +132,12 @@ end
 ---
 
 (program
-  (method_declaration (identifier) (formal_parameters (identifier)))
-  (method_declaration (identifier) (formal_parameters (identifier) (identifier)))
-  (method_declaration (identifier) (formal_parameters (identifier) (identifier) (identifier)))
-  (method_declaration (identifier) (formal_parameters (identifier)))
-  (method_declaration (identifier) (formal_parameters (keyword_parameter (identifier)) (positional_parameter)))
-  (method_declaration (identifier) (formal_parameters (identifier))))
+  (method_declaration (identifier) (formal_parameters (splat_parameter (identifier))))
+  (method_declaration (identifier) (formal_parameters (identifier) (splat_parameter (identifier))))
+  (method_declaration (identifier) (formal_parameters (identifier) (splat_parameter (identifier)) (identifier)))
+  (method_declaration (identifier) (formal_parameters (hash_splat_parameter (identifier))))
+  (method_declaration (identifier) (formal_parameters (keyword_parameter (identifier)) (hash_splat_parameter)))
+  (method_declaration (identifier) (formal_parameters (block_parameter (identifier)))))
 
 =========================================
 singleton method
