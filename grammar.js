@@ -42,12 +42,8 @@ module.exports = grammar({
 
   conflicts: $ => [
     [$.function_call, $._lhs],
-    [$.argument_list, $._primary],
-    [$.argument_list, $._statement],
-    [$.argument_list],
     [$._argument_list],
     [$._argument_list, $._statement],
-    // [$.function_call, $.scope_resolution_expression],
   ],
 
   rules: {
@@ -214,7 +210,7 @@ module.exports = grammar({
       $.argument_list
     )),
 
-    argument_list: $ => prec.left(choice(
+    argument_list: $ => prec.left(-1, choice(
       seq("(", optional($._argument_list), ")"),
       $._argument_list
     )),

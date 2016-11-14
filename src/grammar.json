@@ -1416,7 +1416,7 @@
     },
     "argument_list": {
       "type": "PREC_LEFT",
-      "value": 0,
+      "value": -1,
       "content": {
         "type": "CHOICE",
         "members": [
@@ -4531,17 +4531,6 @@
     [
       "function_call",
       "_lhs"
-    ],
-    [
-      "argument_list",
-      "_primary"
-    ],
-    [
-      "argument_list",
-      "_statement"
-    ],
-    [
-      "argument_list"
     ],
     [
       "_argument_list"
