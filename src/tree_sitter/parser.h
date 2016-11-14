@@ -14,7 +14,6 @@ typedef unsigned short TSStateId;
 
 #define ts_builtin_sym_error ((TSSymbol)-1)
 #define ts_builtin_sym_end 0
-#define ts_builtin_sym_start 1
 
 typedef struct {
   bool visible : 1;
@@ -43,7 +42,7 @@ typedef struct {
       TSSymbol symbol;
       unsigned short child_count;
     };
-  };
+  } params;
   TSParseActionType type : 4;
   bool extra : 1;
   bool fragile : 1;
@@ -59,7 +58,8 @@ typedef union {
 } TSParseActionEntry;
 
 typedef struct TSLanguage {
-  size_t symbol_count;
+  uint32_t symbol_count;
+  uint32_t token_count;
   const char **symbol_names;
   const TSSymbolMetadata *symbol_metadata;
   const unsigned short *parse_table;
@@ -103,14 +103,21 @@ typedef struct TSLanguage {
  *  Parse Table Macros
  */
 
-#define SHIFT(to_state_value)                                      \
-  {                                                                \
-    { .type = TSParseActionTypeShift, .to_state = to_state_value } \
+#define STATE(id) id
+#define ACTIONS(id) id
+
+#define SHIFT(to_state_value)                                                 \
+  {                                                                           \
+    {                                                                         \
+      .type = TSParseActionTypeShift, .params = {.to_state = to_state_value } \
+    }                                                                         \
   }
 
-#define RECOVER(to_state_value)                                      \
-  {                                                                  \
-    { .type = TSParseActionTypeRecover, .to_state = to_state_value } \
+#define RECOVER(to_state_value)                                                 \
+  {                                                                             \
+    {                                                                           \
+      .type = TSParseActionTypeRecover, .params = {.to_state = to_state_value } \
+    }                                                                           \
   }
 
 #define SHIFT_EXTRA()                                 \
@@ -118,20 +125,20 @@ typedef struct TSLanguage {
     { .type = TSParseActionTypeShift, .extra = true } \
   }
 
-#define REDUCE(symbol_val, child_count_val)                  \
-  {                                                          \
-    {                                                        \
-      .type = TSParseActionTypeReduce, .symbol = symbol_val, \
-      .child_count = child_count_val,                        \
-    }                                                        \
+#define REDUCE(symbol_val, child_count_val)                             \
+  {                                                                     \
+    {                                                                   \
+      .type = TSParseActionTypeReduce,                                  \
+      .params = {.symbol = symbol_val, .child_count = child_count_val } \
+    }                                                                   \
   }
 
-#define REDUCE_FRAGILE(symbol_val, child_count_val)          \
-  {                                                          \
-    {                                                        \
-      .type = TSParseActionTypeReduce, .symbol = symbol_val, \
-      .child_count = child_count_val, .fragile = true,       \
-    }                                                        \
+#define REDUCE_FRAGILE(symbol_val, child_count_val)                     \
+  {                                                                     \
+    {                                                                   \
+      .type = TSParseActionTypeReduce, .fragile = true,                 \
+      .params = {.symbol = symbol_val, .child_count = child_count_val } \
+    }                                                                   \
   }
 
 #define ACCEPT_INPUT()                  \
@@ -142,6 +149,7 @@ typedef struct TSLanguage {
 #define EXPORT_LANGUAGE(language_name)                     \
   static TSLanguage language = {                           \
     .symbol_count = SYMBOL_COUNT,                          \
+    .token_count = TOKEN_COUNT,                            \
     .symbol_metadata = ts_symbol_metadata,                 \
     .parse_table = (const unsigned short *)ts_parse_table, \
     .parse_actions = ts_parse_actions,                     \

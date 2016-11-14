@@ -222,7 +222,7 @@ package main
 
 type (
   a func(int) int
-  b func(int, string) (bool, error)
+  b func(int, *string) (bool, error)
 )
 
 ---
@@ -234,14 +234,14 @@ type (
       (identifier)
       (function_type
         (parameters
-          (parameter_declaration (identifier)))
+          (identifier))
         (identifier)))
     (type_spec
       (identifier)
       (function_type
         (parameters
-          (parameter_declaration (identifier))
-          (parameter_declaration (identifier)))
+          (identifier)
+          (parameter_declaration (pointer_type (identifier))))
         (parameters
-          (parameter_declaration (identifier))
-          (parameter_declaration (identifier)))))))
+          (identifier)
+          (identifier))))))
