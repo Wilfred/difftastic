@@ -74,7 +74,7 @@ namespace A {
     internal static class D<T1> {
     }
 
-    private class E<T2, T3> {
+    class E<T2, T3> {
     }
   }
 }
@@ -87,10 +87,13 @@ class F {}
   (namespace_declaration
     (identifier_name)
     (class_declaration
+      (class_modifiers)
       (identifier_name)
       (class_declaration
+        (class_modifiers)
         (identifier_name))
       (class_declaration
+        (class_modifiers)
         (identifier_name)
         (type_parameter_list
           (type_parameter (identifier_name))))
@@ -118,4 +121,5 @@ struct A<T> {
     (type_parameter_list
       (type_parameter (identifier_name)))
     (struct_declaration
+      (struct_modifiers)
       (identifier_name))))

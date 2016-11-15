@@ -1,3 +1,12 @@
+const COMMON_MODIFIERS = [
+  'new',
+  'public',
+  'protected',
+  'internal',
+  'private',
+  'unsafe'
+]
+
 module.exports = grammar({
   name: 'c_sharp',
 
@@ -45,20 +54,21 @@ module.exports = grammar({
     ),
 
     class_declaration: $ => seq(
-      optional($._type_modifiers),
+      optional($.class_modifiers),
       'class',
       $.identifier_name,
       optional($.type_parameter_list),
       '{',
       repeat(choice(
         $.class_declaration,
-        $.struct_declaration
+        $.struct_declaration,
+        $.field_declaration
       )),
       '}'
     ),
 
     struct_declaration: $ => seq(
-      optional($._type_modifiers),
+      optional($.struct_modifiers),
       'struct',
       $.identifier_name,
       optional($.type_parameter_list),
@@ -70,17 +80,69 @@ module.exports = grammar({
       '}'
     ),
 
-    _type_modifiers: $ => repeat1(choice(
-      'new',
-      'public',
-      'protected',
-      'internal',
-      'private',
-      'abstract',
-      'sealed',
-      'static',
-      'unsafe'
-    )),
+    field_declaration: $ => seq(
+      optional($.field_modifiers),
+      $.variable_declaration,
+      ';'
+    ),
+
+    variable_declaration: $ => seq(
+      $._type,
+      $.variable_declarator
+    ),
+
+    _type: $ => choice(
+      $.predefined_type,
+      $.identifier_name
+    ),
+
+    variable_declarator: $ => $.identifier_name,
+
+    class_modifiers: $ => $._class_modifiers,
+    _class_modifiers: $ => seq(
+      choice(
+        'abstract',
+        'sealed',
+        'static',
+        ...COMMON_MODIFIERS
+      ),
+      optional($._class_modifiers)
+    ),
+
+    struct_modifiers: $ => $._struct_modifiers,
+    _struct_modifiers: $ => seq(
+      choice(...COMMON_MODIFIERS),
+      optional($._struct_modifiers)
+    ),
+
+    field_modifiers: $ => $._field_modifiers,
+    _field_modifiers: $ => seq(
+      choice(
+        'readonly',
+        'volatile',
+        'static',
+        ...COMMON_MODIFIERS
+      ),
+      optional($._field_modifiers)
+    ),
+
+    predefined_type: $ => choice(
+      'bool',
+      'byte',
+      'char',
+      'decimal',
+      'double',
+      'float',
+      'int',
+      'long',
+      'object',
+      'sbyte',
+      'short',
+      'string',
+      'uint',
+      'ulong',
+      'ushort'
+    ),
 
     type_parameter_list: $ => seq(
       '<',

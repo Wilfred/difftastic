@@ -1,0 +1,29 @@
+=======================================
+Field declarations
+=======================================
+
+class A {
+  public readonly int B;
+  private Int32 C;
+  Int64 D;
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier_name)
+    (field_declaration
+      (field_modifiers)
+      (variable_declaration
+        (predefined_type)
+        (variable_declarator (identifier_name))))
+    (field_declaration
+      (field_modifiers)
+      (variable_declaration
+        (identifier_name)
+        (variable_declarator (identifier_name))))
+    (field_declaration
+      (variable_declaration
+        (identifier_name)
+        (variable_declarator (identifier_name))))))
