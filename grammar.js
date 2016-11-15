@@ -41,7 +41,8 @@ module.exports = grammar({
   ],
 
   conflicts: $ => [
-    [$.function_call, $._lhs],
+    [$.function_call, $.function_call_with_do_block, $._lhs],
+    [$.function_call_with_do_block, $._lhs],
     [$._argument_list],
     [$._argument_list, $._statement],
   ],
@@ -54,7 +55,6 @@ module.exports = grammar({
 
     _statement: $ => choice(
       $._declaration,
-      // seq($._call, "do", optional("|", commaSep($._block_variable), "|"), optional($._statements), "end"),
       seq("undef", $._function_name),
       seq("alias", $._function_name, $._function_name),
       $.while_statement,
@@ -70,7 +70,7 @@ module.exports = grammar({
       $.while_modifier,
       $.until_modifier,
       $.rescue_modifier,
-      $._expression
+      expression($)
     ),
 
     _declaration: $ => choice(
@@ -100,18 +100,18 @@ module.exports = grammar({
     splat_parameter: $ => seq("*", optional($.identifier)),
     hash_splat_parameter: $ => seq("**", optional($.identifier)),
     block_parameter: $ => seq("&", $.identifier),
-    keyword_parameter: $ => seq($.identifier, ":", optional($._expression)),
-    optional_parameter: $ => seq($.identifier, "=", $._expression),
+    keyword_parameter: $ => seq($.identifier, ":", optional($._simple_expression)),
+    optional_parameter: $ => seq($.identifier, "=", $._simple_expression),
 
     class_declaration: $ => seq("class", $.identifier, optional(seq("<", sep1($.identifier, "::"))), $._terminator, optional($._statements), "end"),
 
     module_declaration: $ => seq("module", $.identifier, $._terminator, optional($._statements), "end"),
 
-    while_statement: $ => seq("while", $._expression, $._statement_block),
-    until_statement: $ => seq("until", $._expression, $._statement_block),
-    if_statement: $ => seq("if", $._expression, $._then_elsif_else_block),
-    unless_statement: $ => seq("unless", $._expression, $._then_else_block),
-    for_statement: $ => seq("for", $._lhs, "in", $._expression, $._statement_block),
+    while_statement: $ => seq("while", expression($), $._statement_block),
+    until_statement: $ => seq("until", expression($), $._statement_block),
+    if_statement: $ => seq("if", expression($), $._then_elsif_else_block),
+    unless_statement: $ => seq("unless", expression($), $._then_else_block),
+    for_statement: $ => seq("for", $._lhs, "in", expression($), $._statement_block),
     begin_statement: $ => seq(
       "begin",
       optional($._statements),
@@ -121,7 +121,7 @@ module.exports = grammar({
       "end"
     ),
 
-    return_statement: $ => seq("return", optional($._expression)),
+    return_statement: $ => seq("return", optional(expression($))),
 
     case_statement: $ => seq(
       "case", $._statement, $._line_break,
@@ -133,11 +133,11 @@ module.exports = grammar({
 
     pattern: $ => $._statement,
 
-    if_modifier: $ => seq($._statement, "if", $._expression),
-    unless_modifier: $ => seq($._statement, "unless", $._expression),
-    while_modifier: $ => seq($._statement, "while", $._expression),
-    until_modifier: $ => seq($._statement, "until", $._expression),
-    rescue_modifier: $ => prec(PREC.RESCUE, seq($._statement, "rescue", $._expression)),
+    if_modifier: $ => seq($._statement, "if", expression($)),
+    unless_modifier: $ => seq($._statement, "unless", expression($)),
+    while_modifier: $ => seq($._statement, "while", expression($)),
+    until_modifier: $ => seq($._statement, "until", expression($)),
+    rescue_modifier: $ => prec(PREC.RESCUE, seq($._statement, "rescue", expression($))),
 
     _statement_block: $ => choice(
       $._do_block,
@@ -146,7 +146,7 @@ module.exports = grammar({
     _do_block: $ => seq("do", optional($._statements), "end"),
 
     _then_block: $ => seq(choice("then", $._terminator), optional($._statements)),
-    elsif_block: $ => seq("elsif", $._expression, $._then_block),
+    elsif_block: $ => seq("elsif", expression($), $._then_block),
     else_block: $ => seq("else", optional($._statements)),
     ensure_block: $ => seq("ensure", optional($._statements)),
 
@@ -157,7 +157,7 @@ module.exports = grammar({
       $._then_block
     ),
 
-    rescue_arguments: $ => commaSep1($._expression),
+    rescue_arguments: $ => commaSep1($._simple_expression),
     rescued_exception: $ => (identifierPattern),
 
     _then_else_block: $ => seq($._then_block, optional($.else_block), "end"),
@@ -168,7 +168,7 @@ module.exports = grammar({
       "end"
     ),
 
-    _expression: $ => choice(
+    _simple_expression: $ => choice(
       $._primary,
       $.function_call,
       $.yield,
@@ -205,9 +205,21 @@ module.exports = grammar({
     element_reference: $ => prec.left(seq($._primary, "[", $._argument_list, "]")),
     member_access: $ => prec.left(seq($._primary, ".", $.identifier)),
 
+    function_call_with_do_block: $ => prec.left(-2, seq(
+      choice($._variable, $.scope_resolution_expression, $.member_access),
+      choice(
+        seq($.argument_list, $.do_block),
+        $.do_block
+      )
+    )),
+
     function_call: $ => prec.left(-2, seq(
       choice($._variable, $.scope_resolution_expression, $.member_access),
-      $.argument_list
+      choice(
+        seq($.argument_list, $.block),
+        $.argument_list,
+        $.block
+      )
     )),
 
     argument_list: $ => prec.left(-1, choice(
@@ -216,54 +228,62 @@ module.exports = grammar({
     )),
 
     _argument_list: $ => prec.left(commaSep1(choice(
-      $._expression,
+      $._simple_expression,
       $.argument_pair
     ))),
 
     argument_pair: $ => prec(-1, seq(choice(
       seq($.symbol, '=>'),
       seq($.identifier, ':')
-    ), $._expression)),
+    ), $._simple_expression)),
 
-    yield: $ => seq("yield", optional($._expression)),
-
-    and: $ => prec.left(PREC.AND, seq($._expression, "and", $._expression)),
-    or: $ => prec.left(PREC.OR, seq($._expression, "or", $._expression)),
-    not: $ => prec.right(PREC.NOT, seq("not", $._expression)),
-    defined: $ => prec(PREC.DEFINED, seq("defined?", $._expression)),
-    assignment: $ => prec.right(PREC.ASSIGN, seq($._lhs, '=', $._expression)),
-    math_assignment: $ => prec.right(PREC.ASSIGN, seq($._lhs, choice('+=', '-=', '*=', '**=', '/='), $._expression)),
-    conditional_assignment: $ => prec.right(PREC.ASSIGN, seq($._lhs, choice('||=', '&&='), $._expression)),
-
-    conditional: $ => prec.right(PREC.CONDITIONAL, seq($._expression, '?', $._expression, ':', $._expression)),
-    range: $ => prec.right(PREC.RANGE, seq($._expression, choice('..', '...'), $._expression)),
-
-    boolean_or: $ => prec.left(PREC.BOOLEAN_OR, seq($._expression, '||', $._expression)),
-    boolean_and: $ => prec.left(PREC.BOOLEAN_OR, seq($._expression, '&&', $._expression)),
-
-    relational: $ => prec.right(PREC.RELATIONAL, seq($._expression, choice('==', '!=', '===', '<=>', '=~', '!~'), $._expression)),
-    comparison: $ => prec.left(PREC.COMPARISON, seq($._expression, choice('<', '<=', '>', '>='), $._expression)),
-
-    bitwise_or: $ => prec.left(PREC.BITWISE_OR, seq($._expression, choice('^', '|'), $._expression)),
-    bitwise_and: $ => prec.left(PREC.BITWISE_AND, seq($._expression, '&', $._expression)),
-    shift: $ => prec.left(PREC.SHIFT, seq($._expression, choice('<<', '>>'), $._expression)),
-
-    additive: $ => prec.left(PREC.ADDITIVE, seq($._expression, choice('-', '+'), $._expression)),
-    multiplicative: $ => prec.left(PREC.MULTIPLICATIVE, seq($._expression, choice('*', '/', '%'), $._expression)),
-
-    unary_minus: $ => prec.right(PREC.UNARY_MINUS, seq('-', $._expression)),
-
-    exponential: $ => prec.right(PREC.EXPONENTIAL, seq($._expression, '**', $._expression)),
-
-    unary_plus: $ => prec.right(PREC.UNARY_PLUS, seq('+', $._expression)),
-    complement: $ => prec.right(PREC.COMPLEMENT, seq(choice('!', '~'), $._expression)),
-
-    _block_variable: $ => choice($._lhs, $._mlhs),
-    _mlhs: $ => choice(
-      seq(commaSep1($._mlhs_item), optional(seq("*", optional($._lhs)))),
-      seq("*", optional($._lhs))
+    do_block: $ => seq(
+      "do",
+      optional(seq("|", optional($.formal_parameters), "|")),
+      optional($._statements),
+      "end"
     ),
-    _mlhs_item: $ => choice($._lhs, seq("(", $._mlhs, ")")),
+
+    block: $ => seq(
+      "{",
+      optional(seq("|", optional($.formal_parameters), "|")),
+      optional($._statements),
+      "}"
+    ),
+
+    yield: $ => seq("yield", optional($.argument_list)),
+
+    and: $ => prec.left(PREC.AND, seq(expression($), "and", expression($))),
+    or: $ => prec.left(PREC.OR, seq(expression($), "or", expression($))),
+    not: $ => prec.right(PREC.NOT, seq("not", expression($))),
+    defined: $ => prec(PREC.DEFINED, seq("defined?", expression($))),
+    assignment: $ => prec.right(PREC.ASSIGN, seq($._lhs, '=', expression($))),
+    math_assignment: $ => prec.right(PREC.ASSIGN, seq($._lhs, choice('+=', '-=', '*=', '**=', '/='), expression($))),
+    conditional_assignment: $ => prec.right(PREC.ASSIGN, seq($._lhs, choice('||=', '&&='), expression($))),
+
+    conditional: $ => prec.right(PREC.CONDITIONAL, seq(expression($), '?', expression($), ':', expression($))),
+    range: $ => prec.right(PREC.RANGE, seq(expression($), choice('..', '...'), expression($))),
+
+    boolean_or: $ => prec.left(PREC.BOOLEAN_OR, seq(expression($), '||', expression($))),
+    boolean_and: $ => prec.left(PREC.BOOLEAN_OR, seq(expression($), '&&', expression($))),
+
+    relational: $ => prec.right(PREC.RELATIONAL, seq(expression($), choice('==', '!=', '===', '<=>', '=~', '!~'), expression($))),
+    comparison: $ => prec.left(PREC.COMPARISON, seq(expression($), choice('<', '<=', '>', '>='), expression($))),
+
+    bitwise_or: $ => prec.left(PREC.BITWISE_OR, seq(expression($), choice('^', '|'), expression($))),
+    bitwise_and: $ => prec.left(PREC.BITWISE_AND, seq(expression($), '&', expression($))),
+    shift: $ => prec.left(PREC.SHIFT, seq(expression($), choice('<<', '>>'), expression($))),
+
+    additive: $ => prec.left(PREC.ADDITIVE, seq(expression($), choice('-', '+'), expression($))),
+    multiplicative: $ => prec.left(PREC.MULTIPLICATIVE, seq(expression($), choice('*', '/', '%'), expression($))),
+
+    unary_minus: $ => prec.right(PREC.UNARY_MINUS, seq('-', expression($))),
+
+    exponential: $ => prec.right(PREC.EXPONENTIAL, seq(expression($), '**', expression($))),
+
+    unary_plus: $ => prec.right(PREC.UNARY_PLUS, seq('+', expression($))),
+    complement: $ => prec.right(PREC.COMPLEMENT, seq(choice('!', '~'), expression($))),
+
     _lhs: $ => choice(
       $._variable,
       $.scope_resolution_expression,
@@ -354,7 +374,7 @@ module.exports = grammar({
     _uninterpolated_bracket: $ => stringBody('[', ']', null, $._uninterpolated_bracket),
     _uninterpolated_paren: $ => stringBody('(', ')', null, $._uninterpolated_paren),
     _uninterpolated_brace: $ => stringBody('{', '}', null, $._uninterpolated_brace),
-    interpolation: $ => seq('#{', $._expression, '}'),
+    interpolation: $ => seq('#{', expression($), '}'),
 
     subshell: $ => choice(
       stringBody('`', '`'),
@@ -385,15 +405,15 @@ module.exports = grammar({
       ))
     ),
 
-    _array_items: $ => optional(seq($._expression, optional(seq(',', $._array_items)))),
+    _array_items: $ => optional(seq(expression($), optional(seq(',', $._array_items)))),
 
-    hash: $ => seq('{', $._hash_items, '}'),
-    _hash_items: $ => optional(seq($.pair, optional(seq(',', $._hash_items)))),
+    hash: $ => prec(1, seq('{', optional($._hash_items), '}')),
+    _hash_items: $ => seq($.pair, optional(seq(',', optional($._hash_items)))),
 
     pair: $ => prec(-1, seq(choice(
-      seq($._expression, '=>'),
+      seq(expression($), '=>'),
       seq($.identifier, ':')
-    ), $._expression)),
+    ), expression($))),
 
     regex: $ => prec(PREC.REGEX, choice(
       regexBody('/', '/', $.interpolation),
@@ -522,6 +542,13 @@ function regexBody (open, close, interpolation, self) {
     open,
     repeat(choice(...contents)),
     RegExp('\\' + close + '[a-z]*')
+  )
+}
+
+function expression ($) {
+  return choice(
+    $._simple_expression,
+    $.function_call_with_do_block
   )
 }
 
