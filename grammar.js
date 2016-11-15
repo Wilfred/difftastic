@@ -22,6 +22,7 @@ const PREC = {
   COMPLEMENT: 85,
   UNARY_PLUS: 85,
   REGEX: 100,
+  PRIMARY: 101,
 };
 
 // TODO: Enable rest of unbalanced delimiters. These are rarely used in real
@@ -41,8 +42,9 @@ module.exports = grammar({
   ],
 
   conflicts: $ => [
-    [$.function_call, $.function_call_with_do_block, $._lhs],
-    [$.function_call_with_do_block, $._lhs],
+    [$._lhs, $.function_call, $.function_call_with_do_block],
+    [$._lhs, $.function_call],
+    [$._lhs, $.function_call_with_do_block],
     [$._argument_list],
     [$._argument_list, $._statement],
   ],
@@ -170,7 +172,6 @@ module.exports = grammar({
 
     _simple_expression: $ => choice(
       $._primary,
-      $.function_call,
       $.yield,
       $.and,
       $.or,
@@ -201,9 +202,10 @@ module.exports = grammar({
       $._lhs
     ),
 
-    scope_resolution_expression: $ => prec.left(seq(optional($._primary), '::', $.identifier)),
-    element_reference: $ => prec.left(seq($._primary, "[", $._argument_list, "]")),
-    member_access: $ => prec.left(seq($._primary, ".", $.identifier)),
+    // TODO _primary is optional
+    scope_resolution_expression: $ => prec.left(PREC.PRIMARY, seq($._primary, '::', $.identifier)),
+    element_reference: $ => prec.left(PREC.PRIMARY, seq($._primary, "[", $._argument_list, "]")),
+    member_access: $ => prec.left(PREC.PRIMARY, seq($._primary, ".", $.identifier)),
 
     function_call_with_do_block: $ => prec.left(-2, seq(
       choice($._variable, $.scope_resolution_expression, $.member_access),
@@ -251,6 +253,7 @@ module.exports = grammar({
       "}"
     ),
 
+    // TODO argument_list is optional
     yield: $ => seq("yield", optional($.argument_list)),
 
     and: $ => prec.left(PREC.AND, seq(expression($), "and", expression($))),
@@ -288,7 +291,8 @@ module.exports = grammar({
       $._variable,
       $.scope_resolution_expression,
       $.element_reference,
-      $.member_access
+      $.member_access,
+      $.function_call
     ),
     _variable: $ => choice($.identifier, 'self'),
 
