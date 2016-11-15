@@ -1,0 +1,63 @@
+=====================================
+Using directives
+=====================================
+
+using A;
+using B.C;
+using global::E.F;
+using G = H.I;
+using static J.K;
+
+---
+
+(compilation_unit
+  (using_directive
+    (identifier_name))
+  (using_directive
+    (qualified_name (identifier_name) (identifier_name)))
+  (using_directive
+    (qualified_name
+      (alias_qualified_name (global) (identifier_name))
+      (identifier_name)))
+  (using_directive
+    (name_equals (identifier_name))
+    (qualified_name (identifier_name) (identifier_name)))
+  (using_directive
+    (static)
+    (qualified_name (identifier_name) (identifier_name))))
+
+=====================================
+Comments
+=====================================
+
+// I'm a single-line comment
+
+/*
+ *  I'm a block comment: a * b / c
+ */
+
+---
+
+(compilation_unit (comment) (comment))
+
+=====================================
+Namespaces
+=====================================
+
+namespace A {
+  namespace B.C.D {
+  }
+
+  namespace E.F {
+  }
+}
+
+---
+
+(compilation_unit
+  (namespace_declaration
+    (identifier_name)
+    (namespace_declaration
+      (qualified_name (qualified_name (identifier_name) (identifier_name)) (identifier_name)))
+    (namespace_declaration
+      (qualified_name (identifier_name) (identifier_name)))))
