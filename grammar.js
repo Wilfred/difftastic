@@ -284,12 +284,6 @@ module.exports = grammar({
     unary_plus: $ => prec.right(PREC.UNARY_PLUS, seq('+', expression($))),
     complement: $ => prec.right(PREC.COMPLEMENT, seq(choice('!', '~'), expression($))),
 
-    // _block_variable: $ => choice($._lhs, $._mlhs),
-    // _mlhs: $ => choice(
-    //   seq(commaSep1($._mlhs_item), optional(seq("*", optional($._lhs)))),
-    //   seq("*", optional($._lhs))
-    // ),
-    // _mlhs_item: $ => choice($._lhs, seq("(", $._mlhs, ")")),
     _lhs: $ => choice(
       $._variable,
       $.scope_resolution_expression,
