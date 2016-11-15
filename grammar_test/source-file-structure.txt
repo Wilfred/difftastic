@@ -61,3 +61,42 @@ namespace A {
       (qualified_name (qualified_name (identifier_name) (identifier_name)) (identifier_name)))
     (namespace_declaration
       (qualified_name (identifier_name) (identifier_name)))))
+
+=====================================
+Classes
+=====================================
+
+namespace A {
+  public sealed class B {
+    protected class C {
+    }
+
+    internal static class D<T1> {
+    }
+
+    private class E<T2, T3> {
+    }
+  }
+}
+
+class F {}
+
+---
+
+(compilation_unit
+  (namespace_declaration
+    (identifier_name)
+    (class_declaration
+      (identifier_name)
+      (class_declaration
+        (identifier_name))
+      (class_declaration
+        (identifier_name)
+        (type_parameter_list
+          (type_parameter (identifier_name))))
+      (class_declaration
+        (identifier_name)
+        (type_parameter_list
+          (type_parameter (identifier_name))
+          (type_parameter (identifier_name))))))
+  (class_declaration (identifier_name)))

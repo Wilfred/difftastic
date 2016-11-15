@@ -9,7 +9,10 @@ module.exports = grammar({
   rules: {
     compilation_unit: $ => seq(
       repeat($.using_directive),
-      repeat($.namespace_declaration)
+      repeat(choice(
+        $.namespace_declaration,
+        $.class_declaration
+      ))
     ),
 
     using_directive: $ => seq(
@@ -32,9 +35,41 @@ module.exports = grammar({
         $.identifier_name
       ),
       '{',
-      repeat($.namespace_declaration),
+      repeat(choice(
+        $.namespace_declaration,
+        $.class_declaration
+      )),
       '}'
     ),
+
+    class_declaration: $ => seq(
+      repeat(choice(
+        'new',
+        'public',
+        'protected',
+        'internal',
+        'private',
+        'abstract',
+        'sealed',
+        'static'
+      )),
+      'class',
+      $.identifier_name,
+      optional($.type_parameter_list),
+      '{',
+      repeat(choice(
+        $.class_declaration
+      )),
+      '}'
+    ),
+
+    type_parameter_list: $ => seq(
+      '<',
+      commaSep1($.type_parameter),
+      '>'
+    ),
+
+    type_parameter: $ => $.identifier_name,
 
     qualified_name: $ => seq(
       choice(
@@ -76,3 +111,13 @@ module.exports = grammar({
     ))
   }
 })
+
+function commaSep1 (rule) {
+  return seq(
+    rule,
+    repeat(seq(
+      ',',
+      rule
+    ))
+  )
+}
