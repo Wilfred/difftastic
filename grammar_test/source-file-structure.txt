@@ -100,3 +100,22 @@ class F {}
           (type_parameter (identifier_name))
           (type_parameter (identifier_name))))))
   (class_declaration (identifier_name)))
+
+=====================================
+Structs
+=====================================
+
+struct A<T> {
+  private struct B {
+  }
+}
+
+---
+
+(compilation_unit
+  (struct_declaration
+    (identifier_name)
+    (type_parameter_list
+      (type_parameter (identifier_name)))
+    (struct_declaration
+      (identifier_name))))

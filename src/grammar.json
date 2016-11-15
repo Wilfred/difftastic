@@ -23,6 +23,10 @@
               {
                 "type": "SYMBOL",
                 "name": "class_declaration"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "struct_declaration"
               }
             ]
           }
@@ -112,6 +116,10 @@
               {
                 "type": "SYMBOL",
                 "name": "class_declaration"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "struct_declaration"
               }
             ]
           }
@@ -126,44 +134,16 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "REPEAT",
-          "content": {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "STRING",
-                "value": "new"
-              },
-              {
-                "type": "STRING",
-                "value": "public"
-              },
-              {
-                "type": "STRING",
-                "value": "protected"
-              },
-              {
-                "type": "STRING",
-                "value": "internal"
-              },
-              {
-                "type": "STRING",
-                "value": "private"
-              },
-              {
-                "type": "STRING",
-                "value": "abstract"
-              },
-              {
-                "type": "STRING",
-                "value": "sealed"
-              },
-              {
-                "type": "STRING",
-                "value": "static"
-              }
-            ]
-          }
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_type_modifiers"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         },
         {
           "type": "STRING",
@@ -197,6 +177,10 @@
               {
                 "type": "SYMBOL",
                 "name": "class_declaration"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "struct_declaration"
               }
             ]
           }
@@ -206,6 +190,111 @@
           "value": "}"
         }
       ]
+    },
+    "struct_declaration": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_type_modifiers"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": "struct"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "identifier_name"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "type_parameter_list"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": "{"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "class_declaration"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "struct_declaration"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "}"
+        }
+      ]
+    },
+    "_type_modifiers": {
+      "type": "REPEAT1",
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "new"
+          },
+          {
+            "type": "STRING",
+            "value": "public"
+          },
+          {
+            "type": "STRING",
+            "value": "protected"
+          },
+          {
+            "type": "STRING",
+            "value": "internal"
+          },
+          {
+            "type": "STRING",
+            "value": "private"
+          },
+          {
+            "type": "STRING",
+            "value": "abstract"
+          },
+          {
+            "type": "STRING",
+            "value": "sealed"
+          },
+          {
+            "type": "STRING",
+            "value": "static"
+          },
+          {
+            "type": "STRING",
+            "value": "unsafe"
+          }
+        ]
+      }
     },
     "type_parameter_list": {
       "type": "SEQ",

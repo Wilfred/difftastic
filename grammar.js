@@ -11,7 +11,8 @@ module.exports = grammar({
       repeat($.using_directive),
       repeat(choice(
         $.namespace_declaration,
-        $.class_declaration
+        $.class_declaration,
+        $.struct_declaration
       ))
     ),
 
@@ -37,31 +38,49 @@ module.exports = grammar({
       '{',
       repeat(choice(
         $.namespace_declaration,
-        $.class_declaration
+        $.class_declaration,
+        $.struct_declaration
       )),
       '}'
     ),
 
     class_declaration: $ => seq(
-      repeat(choice(
-        'new',
-        'public',
-        'protected',
-        'internal',
-        'private',
-        'abstract',
-        'sealed',
-        'static'
-      )),
+      optional($._type_modifiers),
       'class',
       $.identifier_name,
       optional($.type_parameter_list),
       '{',
       repeat(choice(
-        $.class_declaration
+        $.class_declaration,
+        $.struct_declaration
       )),
       '}'
     ),
+
+    struct_declaration: $ => seq(
+      optional($._type_modifiers),
+      'struct',
+      $.identifier_name,
+      optional($.type_parameter_list),
+      '{',
+      repeat(choice(
+        $.class_declaration,
+        $.struct_declaration
+      )),
+      '}'
+    ),
+
+    _type_modifiers: $ => repeat1(choice(
+      'new',
+      'public',
+      'protected',
+      'internal',
+      'private',
+      'abstract',
+      'sealed',
+      'static',
+      'unsafe'
+    )),
 
     type_parameter_list: $ => seq(
       '<',
