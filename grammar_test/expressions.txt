@@ -72,11 +72,14 @@ yield
 yield
 =====
 
+yield foo
 yield foo, bar
 
 ---
 
-(program (yield (argument_list (identifier) (identifier))))
+(program
+  (yield (argument_list (identifier)))
+  (yield (argument_list (identifier) (identifier))))
 
 ===
 not
