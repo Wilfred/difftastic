@@ -47,6 +47,7 @@ module.exports = grammar({
     [$._lhs, $.function_call_with_do_block],
     [$._argument_list],
     [$._argument_list, $._statement],
+    [$.yield]
   ],
 
   rules: {
@@ -253,7 +254,6 @@ module.exports = grammar({
       "}"
     ),
 
-    // TODO argument_list is optional
     yield: $ => seq("yield", optional($.argument_list)),
 
     and: $ => prec.left(PREC.AND, seq(expression($), "and", expression($))),
@@ -288,7 +288,7 @@ module.exports = grammar({
     complement: $ => prec.right(PREC.COMPLEMENT, seq(choice('!', '~'), expression($))),
 
     _lhs: $ => choice(
-      $._variable,
+      prec(PREC.PRIMARY, $._variable),
       $.scope_resolution_expression,
       $.element_reference,
       $.member_access,

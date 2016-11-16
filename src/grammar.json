@@ -1296,10 +1296,6 @@
         },
         {
           "type": "SYMBOL",
-          "name": "function_call"
-        },
-        {
-          "type": "SYMBOL",
           "name": "yield"
         },
         {
@@ -1428,21 +1424,13 @@
     },
     "scope_resolution_expression": {
       "type": "PREC_LEFT",
-      "value": 0,
+      "value": 101,
       "content": {
         "type": "SEQ",
         "members": [
           {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "_primary"
-              },
-              {
-                "type": "BLANK"
-              }
-            ]
+            "type": "SYMBOL",
+            "name": "_primary"
           },
           {
             "type": "STRING",
@@ -1457,7 +1445,7 @@
     },
     "element_reference": {
       "type": "PREC_LEFT",
-      "value": 0,
+      "value": 101,
       "content": {
         "type": "SEQ",
         "members": [
@@ -1482,7 +1470,7 @@
     },
     "member_access": {
       "type": "PREC_LEFT",
-      "value": 0,
+      "value": 101,
       "content": {
         "type": "SEQ",
         "members": [
@@ -2784,8 +2772,12 @@
       "type": "CHOICE",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "_variable"
+          "type": "PREC",
+          "value": 101,
+          "content": {
+            "type": "SYMBOL",
+            "name": "_variable"
+          }
         },
         {
           "type": "SYMBOL",
@@ -2798,6 +2790,10 @@
         {
           "type": "SYMBOL",
           "name": "member_access"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "function_call"
         }
       ]
     },
@@ -5089,13 +5085,17 @@
   ],
   "conflicts": [
     [
+      "_lhs",
       "function_call",
-      "function_call_with_do_block",
-      "_lhs"
+      "function_call_with_do_block"
     ],
     [
-      "function_call_with_do_block",
-      "_lhs"
+      "_lhs",
+      "function_call"
+    ],
+    [
+      "_lhs",
+      "function_call_with_do_block"
     ],
     [
       "_argument_list"
@@ -5103,6 +5103,9 @@
     [
       "_argument_list",
       "_statement"
+    ],
+    [
+      "yield"
     ]
   ]
 }

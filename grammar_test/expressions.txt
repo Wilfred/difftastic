@@ -6,7 +6,8 @@ Foo::bar
 
 ---
 
-(program (scope_resolution_expression (identifier) (identifier)))
+(program
+  (scope_resolution_expression (identifier) (identifier)))
 
 ============
 element reference
