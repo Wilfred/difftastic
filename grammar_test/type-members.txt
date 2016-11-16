@@ -5,8 +5,7 @@ Field declarations
 class A {
   public readonly int _B;
   private Int32 c_;
-  Int64 D_e_f;
-  int a,b;
+  Int64 D_e_f, g;
 }
 
 ---
@@ -27,9 +26,25 @@ class A {
     (field_declaration
       (variable_declaration
         (identifier_name)
-        (variable_declarator (identifier_name))))
-    (field_declaration
-      (variable_declaration
-        (predefined_type)
         (variable_declarator (identifier_name))
         (variable_declarator (identifier_name))))))
+
+=======================================
+Generic field declarations
+=======================================
+
+class A {
+  Tuple<char, Nullable<int>> z;
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier_name)
+    (field_declaration
+      (variable_declaration
+        (generic_name (identifier_name) (type_parameter_list
+          (type_parameter (predefined_type))
+          (type_parameter (generic_name (identifier_name) (type_parameter_list (type_parameter (predefined_type)))))))
+          (variable_declarator (identifier_name))))))

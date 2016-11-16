@@ -93,7 +93,13 @@ module.exports = grammar({
 
     _type: $ => choice(
       $.predefined_type,
-      $.identifier_name
+      $.identifier_name,
+      $.generic_name
+    ),
+
+    generic_name: $ => seq(
+      $.identifier_name,
+      $.type_parameter_list
     ),
 
     variable_declarator: $ => $.identifier_name,
@@ -150,7 +156,7 @@ module.exports = grammar({
       '>'
     ),
 
-    type_parameter: $ => $.identifier_name,
+    type_parameter: $ => $._type,
 
     qualified_name: $ => seq(
       choice(

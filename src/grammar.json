@@ -325,6 +325,23 @@
         {
           "type": "SYMBOL",
           "name": "identifier_name"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "generic_name"
+        }
+      ]
+    },
+    "generic_name": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "identifier_name"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "type_parameter_list"
         }
       ]
     },
@@ -611,7 +628,7 @@
     },
     "type_parameter": {
       "type": "SYMBOL",
-      "name": "identifier_name"
+      "name": "_type"
     },
     "qualified_name": {
       "type": "SEQ",
