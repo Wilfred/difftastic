@@ -50,6 +50,7 @@ class A {
   char hex = '\xf09a';
   char uni16 = '\ua0bf';
   char uni32 = '\UA0BFf9ca';
+  string x = null;
 }
 
 ---
@@ -92,4 +93,8 @@ class A {
     (field_declaration
       (variable_declaration
         (predefined_type)
-        (variable_declarator (identifier_name) (equals_value_clause (character_literal)))))))
+        (variable_declarator (identifier_name) (equals_value_clause (character_literal)))))
+    (field_declaration
+      (variable_declaration
+        (predefined_type)
+        (variable_declarator (identifier_name) (equals_value_clause (null_literal)))))))

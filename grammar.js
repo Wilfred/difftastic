@@ -118,7 +118,8 @@ module.exports = grammar({
     _literal: $ => choice(
       $.boolean_literal,
       $.character_literal,
-      $.integer_literal
+      $.integer_literal,
+      $.null_literal
     ),
 
     boolean_literal: $ => choice(
@@ -136,6 +137,8 @@ module.exports = grammar({
       ),
       "'"
     ),
+
+    null_literal: $ => 'null',
 
     integer_literal: $ => seq(
       choice(
