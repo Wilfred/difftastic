@@ -6,6 +6,7 @@ class A {
   public readonly int _B;
   private Int32 c_;
   Int64 D_e_f, g;
+  Tuple<char, Nullable<int>> z;
 }
 
 ---
@@ -27,14 +28,21 @@ class A {
       (variable_declaration
         (identifier_name)
         (variable_declarator (identifier_name))
-        (variable_declarator (identifier_name))))))
+        (variable_declarator (identifier_name))))
+    (field_declaration
+      (variable_declaration
+        (generic_name (identifier_name) (type_parameter_list
+          (type_parameter (predefined_type))
+          (type_parameter (generic_name (identifier_name) (type_parameter_list (type_parameter (predefined_type)))))))
+          (variable_declarator (identifier_name))))))
 
 =======================================
-Generic field declarations
+Field declaration literal assignment
 =======================================
 
 class A {
-  Tuple<char, Nullable<int>> z;
+  int dec = 1;
+  long hex = 0x01l;
 }
 
 ---
@@ -44,7 +52,9 @@ class A {
     (identifier_name)
     (field_declaration
       (variable_declaration
-        (generic_name (identifier_name) (type_parameter_list
-          (type_parameter (predefined_type))
-          (type_parameter (generic_name (identifier_name) (type_parameter_list (type_parameter (predefined_type)))))))
-          (variable_declarator (identifier_name))))))
+        (predefined_type)
+        (variable_declarator (identifier_name) (equals_value_clause (integer_literal)))))
+    (field_declaration
+      (variable_declaration
+        (predefined_type)
+        (variable_declarator (identifier_name) (equals_value_clause (integer_literal)))))))

@@ -102,7 +102,29 @@ module.exports = grammar({
       $.type_parameter_list
     ),
 
-    variable_declarator: $ => $.identifier_name,
+    variable_declarator: $ => seq(
+      $.identifier_name,
+      optional($.equals_value_clause)
+    ),
+
+    equals_value_clause: $ => seq(
+      '=',
+      $._literal
+    ),
+
+    _literal: $ => choice(
+      $.integer_literal
+    ),
+
+    integer_literal: $ => seq(
+      choice(
+        (/[0-9]+/),
+        (/0x[0-9a-f]+/i)
+      ),
+      optional($._integer_type_suffix)
+    ),
+
+    _integer_type_suffix: $ => (/u|l|ul|lu/i),
 
     class_modifiers: $ => $._class_modifiers,
     _class_modifiers: $ => seq(
