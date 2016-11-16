@@ -177,7 +177,7 @@ module.exports = grammar({
 
     static: $ => 'static',
 
-    identifier_name: $ => (/[a-zA-Z][a-zA-Z-0-9]*/),
+    identifier_name: $ => (/[a-zA-Z_][a-zA-Z_0-9]*/),
 
     comment: $ => token(choice(
       seq('//', /.*/),

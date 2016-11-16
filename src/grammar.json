@@ -662,7 +662,7 @@
     },
     "identifier_name": {
       "type": "PATTERN",
-      "value": "[a-zA-Z][a-zA-Z-0-9]*"
+      "value": "[a-zA-Z_][a-zA-Z_0-9]*"
     },
     "comment": {
       "type": "TOKEN",
