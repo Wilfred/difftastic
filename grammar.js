@@ -113,7 +113,13 @@ module.exports = grammar({
     ),
 
     _literal: $ => choice(
+      $.boolean_literal,
       $.integer_literal
+    ),
+
+    boolean_literal: $ => choice(
+      'true',
+      'false'
     ),
 
     integer_literal: $ => seq(

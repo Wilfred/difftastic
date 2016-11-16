@@ -43,6 +43,8 @@ Field declaration literal assignment
 class A {
   int dec = 1;
   long hex = 0x01l;
+  UInt64 dec = 1ul;
+  bool t = true;
 }
 
 ---
@@ -57,4 +59,12 @@ class A {
     (field_declaration
       (variable_declaration
         (predefined_type)
-        (variable_declarator (identifier_name) (equals_value_clause (integer_literal)))))))
+        (variable_declarator (identifier_name) (equals_value_clause (integer_literal)))))
+    (field_declaration
+      (variable_declaration
+        (identifier_name)
+        (variable_declarator (identifier_name) (equals_value_clause (integer_literal)))))
+    (field_declaration
+      (variable_declaration
+        (predefined_type)
+        (variable_declarator (identifier_name) (equals_value_clause (boolean_literal)))))))
