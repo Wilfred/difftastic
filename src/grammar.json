@@ -388,6 +388,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "character_literal"
+        },
+        {
+          "type": "SYMBOL",
           "name": "integer_literal"
         }
       ]
@@ -405,6 +409,40 @@
         }
       ]
     },
+    "character_literal": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "'"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "PATTERN",
+              "value": "[^']"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_simple_escape_sequence"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_hexadecimal_escape_sequence"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_unicode_escape_sequence"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": "'"
+        }
+      ]
+    },
     "integer_literal": {
       "type": "SEQ",
       "members": [
@@ -417,7 +455,7 @@
             },
             {
               "type": "PATTERN",
-              "value": "0x[0-9a-f]+"
+              "value": "0x[0-9a-fA-F]+"
             }
           ]
         },
@@ -432,6 +470,72 @@
               "type": "BLANK"
             }
           ]
+        }
+      ]
+    },
+    "_hexadecimal_escape_sequence": {
+      "type": "PATTERN",
+      "value": "\\\\x[0-9a-fA-F][0-9a-fA-F]?[0-9a-fA-F]?[0-9a-fA-F]?"
+    },
+    "_unicode_escape_sequence": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "PATTERN",
+          "value": "\\\\u[0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F]"
+        },
+        {
+          "type": "PATTERN",
+          "value": "\\\\U[0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F]"
+        }
+      ]
+    },
+    "_simple_escape_sequence": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "\\'"
+        },
+        {
+          "type": "STRING",
+          "value": "\\\""
+        },
+        {
+          "type": "STRING",
+          "value": "\\\\"
+        },
+        {
+          "type": "STRING",
+          "value": "\\0"
+        },
+        {
+          "type": "STRING",
+          "value": "\\a"
+        },
+        {
+          "type": "STRING",
+          "value": "\\b"
+        },
+        {
+          "type": "STRING",
+          "value": "\\f"
+        },
+        {
+          "type": "STRING",
+          "value": "\\n"
+        },
+        {
+          "type": "STRING",
+          "value": "\\r"
+        },
+        {
+          "type": "STRING",
+          "value": "\\t"
+        },
+        {
+          "type": "STRING",
+          "value": "\\v"
         }
       ]
     },

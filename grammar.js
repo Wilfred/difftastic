@@ -1,11 +1,14 @@
-const COMMON_MODIFIERS = [
-  'new',
-  'public',
-  'protected',
-  'internal',
-  'private',
-  'unsafe'
-]
+const
+  COMMON_MODIFIERS = [
+    'new',
+    'public',
+    'protected',
+    'internal',
+    'private',
+    'unsafe'
+  ],
+
+  hexDigit = /[0-9a-fA-F]/
 
 module.exports = grammar({
   name: 'c_sharp',
@@ -114,6 +117,7 @@ module.exports = grammar({
 
     _literal: $ => choice(
       $.boolean_literal,
+      $.character_literal,
       $.integer_literal
     ),
 
@@ -122,12 +126,45 @@ module.exports = grammar({
       'false'
     ),
 
+    character_literal: $ => seq(
+      "'",
+      choice(
+        /[^']/,
+        $._simple_escape_sequence,
+        $._hexadecimal_escape_sequence,
+        $._unicode_escape_sequence
+      ),
+      "'"
+    ),
+
     integer_literal: $ => seq(
       choice(
         (/[0-9]+/),
-        (/0x[0-9a-f]+/i)
+        (/0x[0-9a-fA-F]+/)
       ),
       optional($._integer_type_suffix)
+    ),
+
+    _hexadecimal_escape_sequence: $ =>
+      (/\\x[0-9a-fA-F][0-9a-fA-F]?[0-9a-fA-F]?[0-9a-fA-F]?/),
+
+    _unicode_escape_sequence: $ => choice(
+      (/\\u[0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F]/),
+      (/\\U[0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F]/)
+    ),
+
+    _simple_escape_sequence: $ => choice(
+      "\\'",
+      '\\"',
+      '\\\\',
+      '\\0',
+      '\\a',
+      '\\b',
+      '\\f',
+      '\\n',
+      '\\r',
+      '\\t',
+      '\\v'
     ),
 
     _integer_type_suffix: $ => (/u|l|ul|lu/i),
