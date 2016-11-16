@@ -6,6 +6,7 @@ class A {
   public readonly int _B;
   private Int32 c_;
   Int64 D_e_f;
+  int a,b;
 }
 
 ---
@@ -26,4 +27,9 @@ class A {
     (field_declaration
       (variable_declaration
         (identifier_name)
+        (variable_declarator (identifier_name))))
+    (field_declaration
+      (variable_declaration
+        (predefined_type)
+        (variable_declarator (identifier_name))
         (variable_declarator (identifier_name))))))

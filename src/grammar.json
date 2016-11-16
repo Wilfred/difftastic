@@ -289,8 +289,29 @@
           "name": "_type"
         },
         {
-          "type": "SYMBOL",
-          "name": "variable_declarator"
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "variable_declarator"
+            },
+            {
+              "type": "REPEAT",
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "STRING",
+                    "value": ","
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "variable_declarator"
+                  }
+                ]
+              }
+            }
+          ]
         }
       ]
     },

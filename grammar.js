@@ -88,7 +88,7 @@ module.exports = grammar({
 
     variable_declaration: $ => seq(
       $._type,
-      $.variable_declarator
+      commaSep1($.variable_declarator)
     ),
 
     _type: $ => choice(
