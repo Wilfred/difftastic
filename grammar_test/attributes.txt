@@ -1,0 +1,84 @@
+=======================================
+Global attributes
+=======================================
+
+[assembly: Single]
+[module: A, C()]
+
+---
+
+(compilation_unit
+  (attribute_list (attribute (identifier_name)))
+  (attribute_list
+    (attribute (identifier_name))
+    (attribute (identifier_name) (attribute_argument_list))))
+
+
+=======================================
+Attributes on classes
+=======================================
+
+[Single]
+class A { }
+
+[One][Two]
+[Three]
+class A { }
+
+[One]
+[Two,Three()]
+class A { }
+
+---
+
+(compilation_unit
+  (class_declaration
+    (attribute_list (attribute (identifier_name)))
+    (identifier_name))
+
+  (class_declaration
+    (attribute_list (attribute (identifier_name)))
+    (attribute_list (attribute (identifier_name)))
+    (attribute_list (attribute (identifier_name)))
+    (identifier_name))
+
+  (class_declaration
+    (attribute_list (attribute (identifier_name)))
+    (attribute_list (attribute (identifier_name)) (attribute (identifier_name) (attribute_argument_list)))
+    (identifier_name)))
+
+
+=======================================
+Attributes on structs
+=======================================
+
+[A,B()][C]
+struct A { }
+
+---
+
+(compilation_unit
+  (struct_declaration
+    (attribute_list (attribute (identifier_name)) (attribute (identifier_name) (attribute_argument_list)))
+    (attribute_list (attribute (identifier_name)))
+    (identifier_name)))
+
+
+=======================================
+Attributes on fields
+=======================================
+
+class Zzz {
+  [A,B()][C]
+  public int Z;
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier_name)
+    (field_declaration
+      (attribute_list (attribute (identifier_name)) (attribute (identifier_name) (attribute_argument_list)))
+      (attribute_list (attribute (identifier_name)))
+      (field_modifiers) (variable_declaration (predefined_type) (variable_declarator (identifier_name))))))

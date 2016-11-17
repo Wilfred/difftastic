@@ -6,9 +6,7 @@ const
     'internal',
     'private',
     'unsafe'
-  ],
-
-  hexDigit = /[0-9a-fA-F]/
+  ]
 
 module.exports = grammar({
   name: 'c_sharp',
@@ -22,6 +20,7 @@ module.exports = grammar({
     compilation_unit: $ => seq(
       repeat($.using_directive),
       repeat(choice(
+        $._global_attributes,
         $.namespace_declaration,
         $.class_declaration,
         $.struct_declaration
@@ -57,6 +56,7 @@ module.exports = grammar({
     ),
 
     class_declaration: $ => seq(
+      optional($._attributes),
       optional($.class_modifiers),
       'class',
       $.identifier_name,
@@ -71,6 +71,7 @@ module.exports = grammar({
     ),
 
     struct_declaration: $ => seq(
+      optional($._attributes),
       optional($.struct_modifiers),
       'struct',
       $.identifier_name,
@@ -84,7 +85,41 @@ module.exports = grammar({
       '}'
     ),
 
+    _global_attributes: $ => seq(
+      '[',
+      $._global_attribute_target_specifier,
+      $.attribute_list,
+      ']'
+    ),
+
+    _global_attribute_target_specifier: $ => seq(
+      choice('assembly', 'module'),
+      ':'
+    ),
+
+    _attributes: $ => repeat1($._attribute_section),
+
+    _attribute_section: $ => seq(
+      '[',
+      $.attribute_list,
+      ']'
+    ),
+
+    attribute_list: $ => commaSep1($.attribute),
+
+    attribute: $ => seq(
+      $.identifier_name,
+      optional($.attribute_argument_list)
+    ),
+
+    attribute_argument_list: $ => seq(
+      '(',
+      // TODO: attribute_arguments
+      ')'
+    ),
+
     field_declaration: $ => seq(
+      optional($._attributes),
       optional($.field_modifiers),
       $.variable_declaration,
       ';'
