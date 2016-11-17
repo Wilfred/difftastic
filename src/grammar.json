@@ -26,15 +26,7 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "class_declaration"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "struct_declaration"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "enum_declaration"
+                "name": "_type_declaration"
               }
             ]
           }
@@ -88,6 +80,23 @@
         }
       ]
     },
+    "_type_declaration": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "class_declaration"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "struct_declaration"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "enum_declaration"
+        }
+      ]
+    },
     "namespace_declaration": {
       "type": "SEQ",
       "members": [
@@ -123,15 +132,7 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "class_declaration"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "struct_declaration"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "enum_declaration"
+                "name": "_type_declaration"
               }
             ]
           }
@@ -200,15 +201,7 @@
             "members": [
               {
                 "type": "SYMBOL",
-                "name": "class_declaration"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "struct_declaration"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "enum_declaration"
+                "name": "_type_declaration"
               },
               {
                 "type": "SYMBOL",
@@ -281,15 +274,7 @@
             "members": [
               {
                 "type": "SYMBOL",
-                "name": "class_declaration"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "struct_declaration"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "enum_declaration"
+                "name": "_type_declaration"
               },
               {
                 "type": "SYMBOL",

@@ -21,9 +21,7 @@ module.exports = grammar({
       repeat(choice(
         $._global_attributes,
         $.namespace_declaration,
-        $.class_declaration,
-        $.struct_declaration,
-        $.enum_declaration
+        $._type_declaration
       ))
     ),
 
@@ -40,6 +38,12 @@ module.exports = grammar({
       ';'
     ),
 
+    _type_declaration: $ => choice(
+      $.class_declaration,
+      $.struct_declaration,
+      $.enum_declaration
+    ),
+
     namespace_declaration: $ => seq(
       'namespace',
       choice(
@@ -49,9 +53,7 @@ module.exports = grammar({
       '{',
       repeat(choice(
         $.namespace_declaration,
-        $.class_declaration,
-        $.struct_declaration,
-        $.enum_declaration
+        $._type_declaration
       )),
       '}'
     ),
@@ -64,9 +66,7 @@ module.exports = grammar({
       optional($.type_parameter_list),
       '{',
       repeat(choice(
-        $.class_declaration,
-        $.struct_declaration,
-        $.enum_declaration,
+        $._type_declaration,
         $.field_declaration
       )),
       '}'
@@ -80,9 +80,7 @@ module.exports = grammar({
       optional($.type_parameter_list),
       '{',
       repeat(choice(
-        $.class_declaration,
-        $.struct_declaration,
-        $.enum_declaration,
+        $._type_declaration,
         $.field_declaration
       )),
       '}'
