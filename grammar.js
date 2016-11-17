@@ -120,7 +120,8 @@ module.exports = grammar({
       $.character_literal,
       $.integer_literal,
       $.null_literal,
-      $.real_literal
+      $.real_literal,
+      $.string_literal
     ),
 
     boolean_literal: $ => choice(
@@ -201,6 +202,30 @@ module.exports = grammar({
     _real_type_suffix: $ => (/[fFdDmm]/),
 
     _exponent_part: $ => (/[eE][+-]?[0-9]+/),
+
+    string_literal: $ => choice(
+      $._regular_string_literal,
+      $._verbatim_string_literal
+    ),
+
+    _regular_string_literal: $ => seq(
+      '"',
+      repeat($._regular_string_literal_character),
+      '"'
+    ),
+
+    _regular_string_literal_character: $ => choice(
+      /[^"\\\n]/,
+      $._simple_escape_sequence,
+      $._hexadecimal_escape_sequence,
+      $._unicode_escape_sequence
+    ),
+
+    _verbatim_string_literal: $ => seq(
+      '@"',
+      /[^"]*/,
+      '"'
+    ),
 
     class_modifiers: $ => $._class_modifiers,
     _class_modifiers: $ => seq(

@@ -36,6 +36,7 @@ class A {
           (type_parameter (generic_name (identifier_name) (type_parameter_list (type_parameter (predefined_type)))))))
           (variable_declarator (identifier_name))))))
 
+
 =======================================
 Field declaration integer literal assignment
 =======================================
@@ -64,6 +65,7 @@ class A {
         (identifier_name)
         (variable_declarator (identifier_name) (equals_value_clause (integer_literal)))))))
 
+
 =======================================
 Field declaration boolean literal assignment
 =======================================
@@ -86,6 +88,7 @@ class A {
           (variable_declaration
             (predefined_type)
             (variable_declarator (identifier_name) (equals_value_clause (boolean_literal)))))))
+
 
 =======================================
 Field declaration char literal assignment
@@ -124,6 +127,7 @@ class A {
       (variable_declaration
         (predefined_type)
         (variable_declarator (identifier_name) (equals_value_clause (character_literal)))))))
+
 
 =======================================
 Field declaration real literal assignment
@@ -191,3 +195,67 @@ class A {
       (variable_declaration
         (predefined_type)
         (variable_declarator (identifier_name) (equals_value_clause (null_literal)))))))
+
+
+=======================================
+Field declaration string literal assignment
+=======================================
+
+class A {
+  String e = "";
+  string s = "a";
+  string m = "abc";
+  string esc = "ab\"\t";
+  string hex = "ab\x22r";
+  string hex2 = "\x22r\x00";
+  string u16 = "\ub0d0ok";
+  string u32 = "\uF1D20ff0test";
+  string ve = @"";
+  string v = @"abcde\ef";
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier_name)
+    (field_declaration
+      (variable_declaration
+        (identifier_name)
+        (variable_declarator (identifier_name) (equals_value_clause (string_literal)))))
+    (field_declaration
+      (variable_declaration
+        (predefined_type)
+        (variable_declarator (identifier_name) (equals_value_clause (string_literal)))))
+    (field_declaration
+      (variable_declaration
+        (predefined_type)
+        (variable_declarator (identifier_name) (equals_value_clause (string_literal)))))
+    (field_declaration
+      (variable_declaration
+        (predefined_type)
+        (variable_declarator (identifier_name) (equals_value_clause (string_literal)))))
+    (field_declaration
+      (variable_declaration
+        (predefined_type)
+        (variable_declarator (identifier_name) (equals_value_clause (string_literal)))))
+    (field_declaration
+      (variable_declaration
+        (predefined_type)
+        (variable_declarator (identifier_name) (equals_value_clause (string_literal)))))
+    (field_declaration
+      (variable_declaration
+        (predefined_type)
+        (variable_declarator (identifier_name) (equals_value_clause (string_literal)))))
+    (field_declaration
+      (variable_declaration
+        (predefined_type)
+        (variable_declarator (identifier_name) (equals_value_clause (string_literal)))))
+    (field_declaration
+      (variable_declaration
+        (predefined_type)
+        (variable_declarator (identifier_name) (equals_value_clause (string_literal)))))
+    (field_declaration
+      (variable_declaration
+        (predefined_type)
+        (variable_declarator (identifier_name) (equals_value_clause (string_literal)))))))
