@@ -297,6 +297,12 @@ module.exports = grammar({
 
     equals_value_clause: $ => seq(
       '=',
+      $._expression
+    ),
+
+    // expressions
+
+    _expression: $ => choice(
       $._literal
     ),
 
