@@ -19,12 +19,20 @@ module.exports = grammar({
     compilation_unit: $ => seq(
       repeat($.extern_alias_directive),
       repeat($.using_directive),
+      repeat($._global_attributes),
       repeat(choice(
-        $._global_attributes,
         $.namespace_declaration,
         $._type_declaration
       ))
     ),
+
+    _type_declaration: $ => choice(
+      $.class_declaration,
+      $.struct_declaration,
+      $.enum_declaration
+    ),
+
+    // extern
 
     extern_alias_directive: $ => seq(
       'extern',
@@ -32,6 +40,8 @@ module.exports = grammar({
       $.identifier_name,
       ';'
     ),
+
+    // using
 
     using_directive: $ => seq(
       'using',
@@ -46,11 +56,7 @@ module.exports = grammar({
       ';'
     ),
 
-    _type_declaration: $ => choice(
-      $.class_declaration,
-      $.struct_declaration,
-      $.enum_declaration
-    ),
+    // namespace
 
     namespace_declaration: $ => seq(
       'namespace',
@@ -66,6 +72,8 @@ module.exports = grammar({
       '}'
     ),
 
+    // class
+
     class_declaration: $ => seq(
       optional($._attributes),
       optional($.class_modifiers),
@@ -79,6 +87,20 @@ module.exports = grammar({
       )),
       '}'
     ),
+
+    class_modifiers: $ => $._class_modifiers,
+    _class_modifiers: $ => seq(
+      choice(
+        'unsafe',
+        'abstract',
+        'sealed',
+        'static',
+        ...COMMON_MODIFIERS
+      ),
+      optional($._class_modifiers)
+    ),
+
+    // struct
 
     struct_declaration: $ => seq(
       optional($._attributes),
@@ -94,39 +116,24 @@ module.exports = grammar({
       '}'
     ),
 
-    _global_attributes: $ => seq(
-      '[',
-      $._global_attribute_target_specifier,
-      $.attribute_list,
-      ']'
+    struct_modifiers: $ => $._struct_modifiers,
+    _struct_modifiers: $ => seq(
+      choice('unsafe', ...COMMON_MODIFIERS),
+      optional($._struct_modifiers)
     ),
 
-    _global_attribute_target_specifier: $ => seq(
-      choice('assembly', 'module'),
-      ':'
-    ),
-
-    _attributes: $ => repeat1($._attribute_section),
+    // enum
 
     enum_declaration: $ => seq(
       optional($._attributes),
       optional($.enum_modifier),
       'enum',
       $.identifier_name,
-      optional($._enum_base),
-      $._enum_body,
-      optional(';')
-    ),
-
-    _enum_base: $ => seq(
-      ':',
-      $._integral_type
-    ),
-
-    _enum_body: $ => seq(
+      optional(seq(':', $._integral_type)),
       '{',
       commaSep1($.enum_member_declaration),
-      '}'
+      '}',
+      optional(';')
     ),
 
     enum_member_declaration: $ => seq(
@@ -136,6 +143,14 @@ module.exports = grammar({
     ),
 
     enum_modifier: $ => choice(...COMMON_MODIFIERS),
+
+    enum_modifier: $ => choice(
+      'new',
+      'public',
+      'protected',
+      'internal',
+      'private'
+    ),
 
     _integral_type: $ => choice(
       'sbyte',
@@ -149,13 +164,9 @@ module.exports = grammar({
       'char'
     ),
 
-    enum_modifier: $ => choice(
-      'new',
-      'public',
-      'protected',
-      'internal',
-      'private'
-    ),
+    // attributes
+
+    _attributes: $ => repeat1($._attribute_section),
 
     _attribute_section: $ => seq(
       '[',
@@ -176,11 +187,33 @@ module.exports = grammar({
       ')'
     ),
 
+    _global_attributes: $ => seq(
+      '[',
+      choice('assembly', 'module'),
+      ':',
+      $.attribute_list,
+      ']'
+    ),
+
+    // fields
+
     field_declaration: $ => seq(
       optional($._attributes),
       optional($.field_modifiers),
       $.variable_declaration,
       ';'
+    ),
+
+    field_modifiers: $ => $._field_modifiers,
+    _field_modifiers: $ => seq(
+      choice(
+        'unsafe',
+        'readonly',
+        'volatile',
+        'static',
+        ...COMMON_MODIFIERS
+      ),
+      optional($._field_modifiers)
     ),
 
     variable_declaration: $ => seq(
@@ -208,6 +241,8 @@ module.exports = grammar({
       '=',
       $._literal
     ),
+
+    // literals
 
     _literal: $ => choice(
       $.boolean_literal,
@@ -321,36 +356,6 @@ module.exports = grammar({
       '"'
     ),
 
-    class_modifiers: $ => $._class_modifiers,
-    _class_modifiers: $ => seq(
-      choice(
-        'unsafe',
-        'abstract',
-        'sealed',
-        'static',
-        ...COMMON_MODIFIERS
-      ),
-      optional($._class_modifiers)
-    ),
-
-    struct_modifiers: $ => $._struct_modifiers,
-    _struct_modifiers: $ => seq(
-      choice('unsafe', ...COMMON_MODIFIERS),
-      optional($._struct_modifiers)
-    ),
-
-    field_modifiers: $ => $._field_modifiers,
-    _field_modifiers: $ => seq(
-      choice(
-        'unsafe',
-        'readonly',
-        'volatile',
-        'static',
-        ...COMMON_MODIFIERS
-      ),
-      optional($._field_modifiers)
-    ),
-
     predefined_type: $ => choice(
       'bool',
       'byte',
@@ -403,6 +408,8 @@ module.exports = grammar({
     static: $ => 'static',
 
     identifier_name: $ => (/[a-zA-Z_][a-zA-Z_0-9]*/),
+
+    // commments
 
     comment: $ => token(choice(
       seq('//', /.*/),
