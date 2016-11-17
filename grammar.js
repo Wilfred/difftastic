@@ -179,8 +179,14 @@ module.exports = grammar({
 
     parameter_list: $ => seq(
       '(',
-      optional(commaSep1($.parameter)),
+      optional($._formal_parameter_list),
       ')'
+    ),
+
+    _formal_parameter_list: $ => choice(
+      commaSep1($.parameter),
+      seq(commaSep1($.parameter), $.parameter_array),
+      $.parameter_array
     ),
 
     parameter: $ => seq(
@@ -192,6 +198,26 @@ module.exports = grammar({
     ),
 
     parameter_modifier: $ => choice('ref', 'out', 'this'),
+
+    parameter_array: $ => seq(
+      optional($._attributes),
+      $.params_keyword,
+      $.array_type,
+      $.identifier_name
+    ),
+
+    params_keyword: $ => 'params',
+
+    array_type: $ => seq(
+      $._type,
+      $.array_rank_specifier
+    ),
+
+    array_rank_specifier: $ => seq(
+      '[',
+      repeat(','),
+      ']'
+    ),
 
     // attributes
 

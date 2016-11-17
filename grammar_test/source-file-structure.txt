@@ -143,6 +143,7 @@ Delegate
 =====================================
 
 public delegate int Global(ref char a);
+delegate void A(params int [] test);
 
 class Z {
   delegate void Zed();
@@ -153,5 +154,7 @@ class Z {
 (compilation_unit
   (delegate_declaration (delegate_modifier) (predefined_type) (identifier_name)
     (parameter_list (parameter (parameter_modifier) (predefined_type) (identifier_name))))
+  (delegate_declaration (void_keyword) (identifier_name)
+    (parameter_list (parameter_array (params_keyword) (array_type (predefined_type) (array_rank_specifier)) (identifier_name))))
   (class_declaration (identifier_name)
     (delegate_declaration (void_keyword) (identifier_name) (parameter_list))))
