@@ -246,6 +246,10 @@
               {
                 "type": "SYMBOL",
                 "name": "struct_declaration"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "field_declaration"
               }
             ]
           }

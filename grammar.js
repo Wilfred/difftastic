@@ -78,7 +78,8 @@ module.exports = grammar({
       '{',
       repeat(choice(
         $.class_declaration,
-        $.struct_declaration
+        $.struct_declaration,
+        $.field_declaration
       )),
       '}'
     ),

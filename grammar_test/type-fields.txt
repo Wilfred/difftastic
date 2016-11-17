@@ -1,5 +1,5 @@
 =======================================
-Field declarations
+Class field declarations
 =======================================
 
 class A {
@@ -35,6 +35,26 @@ class A {
           (type_parameter (predefined_type))
           (type_parameter (generic_name (identifier_name) (type_parameter_list (type_parameter (predefined_type)))))))
           (variable_declarator (identifier_name))))))
+
+
+=======================================
+Struct field declarations
+=======================================
+
+struct A {
+  private readonly int c_;
+}
+
+---
+
+(compilation_unit
+  (struct_declaration
+    (identifier_name)
+    (field_declaration
+      (field_modifiers)
+      (variable_declaration
+        (predefined_type)
+        (variable_declarator (identifier_name))))))
 
 
 =======================================
