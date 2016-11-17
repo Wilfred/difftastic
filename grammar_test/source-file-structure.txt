@@ -142,7 +142,7 @@ extern alias A;
 Delegate
 =====================================
 
-public delegate int Global(ref char a);
+public delegate int Global(ref char a = '\n');
 delegate void A(params int [] test);
 
 class Z {
@@ -153,7 +153,7 @@ class Z {
 
 (compilation_unit
   (delegate_declaration (delegate_modifier) (predefined_type) (identifier_name)
-    (parameter_list (parameter (parameter_modifier) (predefined_type) (identifier_name))))
+    (parameter_list (parameter (parameter_modifier) (predefined_type) (identifier_name) (equals_value_clause (character_literal)))))
   (delegate_declaration (void_keyword) (identifier_name)
     (parameter_list (parameter_array (params_keyword) (array_type (predefined_type) (array_rank_specifier)) (identifier_name))))
   (class_declaration (identifier_name)

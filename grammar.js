@@ -193,8 +193,8 @@ module.exports = grammar({
       optional($._attributes),
       optional($.parameter_modifier),
       $._type,
-      $.identifier_name
-      // TODO: Default argument
+      $.identifier_name,
+      optional($.equals_value_clause)
     ),
 
     parameter_modifier: $ => choice('ref', 'out', 'this'),

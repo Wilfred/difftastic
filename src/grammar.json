@@ -860,6 +860,18 @@
         {
           "type": "SYMBOL",
           "name": "identifier_name"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "equals_value_clause"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         }
       ]
     },
