@@ -4,7 +4,7 @@ Class field declarations
 
 class A {
   public readonly int _B;
-  private Int32 c_;
+  private const Int32 c_;
   Int64 D_e_f, g;
   Tuple<char, Nullable<int>> z;
 }
@@ -21,6 +21,7 @@ class A {
         (variable_declarator (identifier_name))))
     (field_declaration
       (field_modifiers)
+      (const_keyword)
       (variable_declaration
         (identifier_name)
         (variable_declarator (identifier_name))))

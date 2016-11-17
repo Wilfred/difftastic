@@ -250,11 +250,14 @@ module.exports = grammar({
       ']'
     ),
 
+    const_keyword: $ => 'const',
+
     // fields
 
     field_declaration: $ => seq(
       optional($._attributes),
       optional($.field_modifiers),
+      optional($.const_keyword),
       $.variable_declaration,
       ';'
     ),
