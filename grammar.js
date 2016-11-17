@@ -21,8 +21,7 @@ const PREC = {
   EXPONENTIAL: 80,
   COMPLEMENT: 85,
   UNARY_PLUS: 85,
-  REGEX: 100,
-  PRIMARY: 101,
+  REGEX: 100
 };
 
 // TODO: Enable rest of unbalanced delimiters. These are rarely used in real
@@ -45,8 +44,6 @@ module.exports = grammar({
     [$._lhs, $.function_call, $.function_call_with_do_block],
     [$._lhs, $.function_call],
     [$._lhs, $.function_call_with_do_block],
-    [$._argument_list],
-    [$._argument_list, $._statement],
     [$.yield]
   ],
 
@@ -206,12 +203,11 @@ module.exports = grammar({
       $._lhs
     ),
 
-    // TODO _primary is optional
-    scope_resolution_expression: $ => prec.left(PREC.PRIMARY, seq($._primary, '::', $.identifier)),
-    element_reference: $ => prec.left(PREC.PRIMARY, seq($._primary, "[", $._argument_list, "]")),
-    member_access: $ => prec.left(PREC.PRIMARY, seq($._primary, ".", $.identifier)),
+    scope_resolution_expression: $ => prec.left(1, seq(optional($._primary), '::', $.identifier)),
+    element_reference: $ => prec.left(1, seq($._primary, "[", $._argument_list, "]")),
+    member_access: $ => prec.left(1, seq($._primary, ".", $.identifier)),
 
-    function_call_with_do_block: $ => prec.left(-2, seq(
+    function_call_with_do_block: $ => prec.left(0, seq(
       choice($._variable, $.scope_resolution_expression, $.member_access),
       choice(
         seq($.argument_list, $.do_block),
@@ -219,7 +215,7 @@ module.exports = grammar({
       )
     )),
 
-    function_call: $ => prec.left(-2, seq(
+    function_call: $ => prec.left(0, seq(
       choice($._variable, $.scope_resolution_expression, $.member_access),
       choice(
         seq($.argument_list, $.block),
@@ -228,20 +224,22 @@ module.exports = grammar({
       )
     )),
 
-    argument_list: $ => prec.left(-1, choice(
-      seq("(", optional($._argument_list), ")"),
-      $._argument_list
+    argument_list: $ => prec.left(1, choice(
+      seq("(", optional($._argument_list), optional($.block_argument), ")"),
+      seq($._argument_list, optional($.block_argument))
     )),
 
-    _argument_list: $ => prec.left(commaSep1(choice(
+    _argument_list: $ => prec.left(1, commaSep1(choice(
       $._simple_expression,
       $.argument_pair
     ))),
 
-    argument_pair: $ => prec(-1, seq(choice(
+    argument_pair: $ => prec.left(1, seq(choice(
       seq($.symbol, '=>'),
       seq($.identifier, ':')
     ), $._simple_expression)),
+
+    block_argument: $ => seq("&", $._simple_expression),
 
     do_block: $ => seq(
       "do",

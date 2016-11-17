@@ -1465,13 +1465,21 @@
     },
     "scope_resolution_expression": {
       "type": "PREC_LEFT",
-      "value": 101,
+      "value": 1,
       "content": {
         "type": "SEQ",
         "members": [
           {
-            "type": "SYMBOL",
-            "name": "_primary"
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "_primary"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
           },
           {
             "type": "STRING",
@@ -1486,7 +1494,7 @@
     },
     "element_reference": {
       "type": "PREC_LEFT",
-      "value": 101,
+      "value": 1,
       "content": {
         "type": "SEQ",
         "members": [
@@ -1511,7 +1519,7 @@
     },
     "member_access": {
       "type": "PREC_LEFT",
-      "value": 101,
+      "value": 1,
       "content": {
         "type": "SEQ",
         "members": [
@@ -1532,7 +1540,7 @@
     },
     "function_call_with_do_block": {
       "type": "PREC_LEFT",
-      "value": -2,
+      "value": 0,
       "content": {
         "type": "SEQ",
         "members": [
@@ -1580,7 +1588,7 @@
     },
     "function_call": {
       "type": "PREC_LEFT",
-      "value": -2,
+      "value": 0,
       "content": {
         "type": "SEQ",
         "members": [
@@ -1632,7 +1640,7 @@
     },
     "argument_list": {
       "type": "PREC_LEFT",
-      "value": -1,
+      "value": 1,
       "content": {
         "type": "CHOICE",
         "members": [
@@ -1656,21 +1664,50 @@
                 ]
               },
               {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "block_argument"
+                  },
+                  {
+                    "type": "BLANK"
+                  }
+                ]
+              },
+              {
                 "type": "STRING",
                 "value": ")"
               }
             ]
           },
           {
-            "type": "SYMBOL",
-            "name": "_argument_list"
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "_argument_list"
+              },
+              {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "block_argument"
+                  },
+                  {
+                    "type": "BLANK"
+                  }
+                ]
+              }
+            ]
           }
         ]
       }
     },
     "_argument_list": {
       "type": "PREC_LEFT",
-      "value": 0,
+      "value": 1,
       "content": {
         "type": "SEQ",
         "members": [
@@ -1716,8 +1753,8 @@
       }
     },
     "argument_pair": {
-      "type": "PREC",
-      "value": -1,
+      "type": "PREC_LEFT",
+      "value": 1,
       "content": {
         "type": "SEQ",
         "members": [
@@ -1758,6 +1795,19 @@
           }
         ]
       }
+    },
+    "block_argument": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "&"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_simple_expression"
+        }
+      ]
     },
     "do_block": {
       "type": "SEQ",
@@ -5133,13 +5183,6 @@
     [
       "_lhs",
       "function_call_with_do_block"
-    ],
-    [
-      "_argument_list"
-    ],
-    [
-      "_argument_list",
-      "_statement"
     ],
     [
       "yield"

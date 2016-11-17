@@ -3,11 +3,13 @@ scope resolution
 ================
 
 Foo::bar
+::Bar
 
 ---
 
 (program
-  (scope_resolution_expression (identifier) (identifier)))
+  (scope_resolution_expression (identifier) (identifier))
+  (scope_resolution_expression (identifier)))
 
 ============
 element reference
@@ -419,6 +421,19 @@ foo a: true
   (function_call (identifier) (argument_list (argument_pair (identifier) (boolean))))
   (function_call (identifier) (argument_list (argument_pair (identifier) (boolean)))))
 
+===============================
+method call with block argument
+===============================
+
+foo(&:sort)
+foo(&bar)
+
+---
+
+(program
+  (function_call (identifier) (argument_list (block_argument (symbol))))
+  (function_call (identifier) (argument_list (block_argument (identifier)))))
+
 ============================
 function call without parens
 ============================
@@ -430,7 +445,7 @@ include D::E.f
 (program (function_call (identifier) (argument_list (member_access (scope_resolution_expression (identifier) (identifier)) (identifier)))))
 
 ===============================
-method call with block parameter do end
+method call with block argument do end
 ===============================
 
 foo do |i|
@@ -468,7 +483,7 @@ end
     (do_block (formal_parameters (keyword_parameter (identifier) (identifier)) (splat_parameter (identifier))))))
 
 ===============================
-method call with block parameter curly
+method call with block argument curly
 ===============================
 
 foo { |i| foo }
