@@ -79,6 +79,7 @@ module.exports = grammar({
     _declaration: $ => choice(
       $.method_declaration,
       $.class_declaration,
+      $.singleton_class_declaration,
       $.module_declaration
     ),
 
@@ -107,6 +108,8 @@ module.exports = grammar({
     optional_parameter: $ => seq($.identifier, "=", $._simple_expression),
 
     class_declaration: $ => seq("class", $.identifier, optional(seq("<", sep1($.identifier, "::"))), $._terminator, optional($._statements), "end"),
+
+    singleton_class_declaration: $ => seq("class", "<<", $.identifier, $._terminator, optional($._statements), "end"),
 
     module_declaration: $ => seq("module", $.identifier, $._terminator, optional($._statements), "end"),
 

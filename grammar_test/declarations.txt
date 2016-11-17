@@ -254,6 +254,23 @@ end
 
 (program (class_declaration (identifier) (method_declaration (identifier))))
 
+===============
+singleton class
+===============
+
+class << self
+end
+
+class << Foo
+end
+
+---
+
+(program
+  (singleton_class_declaration (identifier))
+  (singleton_class_declaration (identifier)))
+
+
 ============
 empty module
 ============

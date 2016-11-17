@@ -194,6 +194,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "singleton_class_declaration"
+        },
+        {
+          "type": "SYMBOL",
           "name": "module_declaration"
         }
       ]
@@ -523,6 +527,43 @@
               "type": "BLANK"
             }
           ]
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_terminator"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_statements"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": "end"
+        }
+      ]
+    },
+    "singleton_class_declaration": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "class"
+        },
+        {
+          "type": "STRING",
+          "value": "<<"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "identifier"
         },
         {
           "type": "SYMBOL",
@@ -2772,12 +2813,8 @@
       "type": "CHOICE",
       "members": [
         {
-          "type": "PREC",
-          "value": 101,
-          "content": {
-            "type": "SYMBOL",
-            "name": "_variable"
-          }
+          "type": "SYMBOL",
+          "name": "_variable"
         },
         {
           "type": "SYMBOL",
