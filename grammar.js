@@ -288,7 +288,7 @@ module.exports = grammar({
     complement: $ => prec.right(PREC.COMPLEMENT, seq(choice('!', '~'), expression($))),
 
     _lhs: $ => choice(
-      prec(PREC.PRIMARY, $._variable),
+      $._variable,
       $.scope_resolution_expression,
       $.element_reference,
       $.member_access,
