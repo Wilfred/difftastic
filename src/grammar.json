@@ -941,6 +941,10 @@
           "members": [
             {
               "type": "STRING",
+              "value": "unsafe"
+            },
+            {
+              "type": "STRING",
               "value": "abstract"
             },
             {
@@ -970,10 +974,6 @@
             {
               "type": "STRING",
               "value": "private"
-            },
-            {
-              "type": "STRING",
-              "value": "unsafe"
             }
           ]
         },
@@ -1003,6 +1003,10 @@
           "members": [
             {
               "type": "STRING",
+              "value": "unsafe"
+            },
+            {
+              "type": "STRING",
               "value": "new"
             },
             {
@@ -1020,10 +1024,6 @@
             {
               "type": "STRING",
               "value": "private"
-            },
-            {
-              "type": "STRING",
-              "value": "unsafe"
             }
           ]
         },
@@ -1051,6 +1051,10 @@
         {
           "type": "CHOICE",
           "members": [
+            {
+              "type": "STRING",
+              "value": "unsafe"
+            },
             {
               "type": "STRING",
               "value": "readonly"
@@ -1082,10 +1086,6 @@
             {
               "type": "STRING",
               "value": "private"
-            },
-            {
-              "type": "STRING",
-              "value": "unsafe"
             }
           ]
         },

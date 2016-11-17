@@ -4,8 +4,7 @@ const
     'public',
     'protected',
     'internal',
-    'private',
-    'unsafe'
+    'private'
   ]
 
 module.exports = grammar({
@@ -266,6 +265,7 @@ module.exports = grammar({
     class_modifiers: $ => $._class_modifiers,
     _class_modifiers: $ => seq(
       choice(
+        'unsafe',
         'abstract',
         'sealed',
         'static',
@@ -276,13 +276,14 @@ module.exports = grammar({
 
     struct_modifiers: $ => $._struct_modifiers,
     _struct_modifiers: $ => seq(
-      choice(...COMMON_MODIFIERS),
+      choice('unsafe', ...COMMON_MODIFIERS),
       optional($._struct_modifiers)
     ),
 
     field_modifiers: $ => $._field_modifiers,
     _field_modifiers: $ => seq(
       choice(
+        'unsafe',
         'readonly',
         'volatile',
         'static',
