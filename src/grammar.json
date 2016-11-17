@@ -396,6 +396,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "real_literal"
+        },
+        {
+          "type": "SYMBOL",
           "name": "null_literal"
         }
       ]
@@ -446,6 +450,135 @@
           "value": "'"
         }
       ]
+    },
+    "real_literal": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "PATTERN",
+              "value": "[0-9]+"
+            },
+            {
+              "type": "STRING",
+              "value": "."
+            },
+            {
+              "type": "PATTERN",
+              "value": "[0-9]+"
+            },
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "_exponent_part"
+                },
+                {
+                  "type": "BLANK"
+                }
+              ]
+            },
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "_real_type_suffix"
+                },
+                {
+                  "type": "BLANK"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "."
+            },
+            {
+              "type": "PATTERN",
+              "value": "[0-9]+"
+            },
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "_exponent_part"
+                },
+                {
+                  "type": "BLANK"
+                }
+              ]
+            },
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "_real_type_suffix"
+                },
+                {
+                  "type": "BLANK"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "PATTERN",
+              "value": "[0-9]+"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_exponent_part"
+            },
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "_real_type_suffix"
+                },
+                {
+                  "type": "BLANK"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "PATTERN",
+              "value": "[0-9]+"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_real_type_suffix"
+            }
+          ]
+        }
+      ]
+    },
+    "_real_type_suffix": {
+      "type": "PATTERN",
+      "value": "[fFdDmm]"
+    },
+    "_exponent_part": {
+      "type": "PATTERN",
+      "value": "[eE][+-]?[0-9]+"
     },
     "null_literal": {
       "type": "STRING",
@@ -549,7 +682,7 @@
     },
     "_integer_type_suffix": {
       "type": "PATTERN",
-      "value": "u|l|ul|lu"
+      "value": "u|U|l|L|ul|UL|uL|Ul|lu|LU|Lu|lU"
     },
     "class_modifiers": {
       "type": "SYMBOL",

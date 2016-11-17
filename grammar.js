@@ -119,6 +119,7 @@ module.exports = grammar({
       $.boolean_literal,
       $.character_literal,
       $.integer_literal,
+      $.real_literal,
       $.null_literal
     ),
 
@@ -137,6 +138,35 @@ module.exports = grammar({
       ),
       "'"
     ),
+
+    real_literal: $ => choice(
+      seq(
+        (/[0-9]+/),
+        '.',
+        (/[0-9]+/),
+        optional($._exponent_part),
+        optional($._real_type_suffix)
+      ),
+      seq(
+        '.',
+        (/[0-9]+/),
+        optional($._exponent_part),
+        optional($._real_type_suffix)
+      ),
+      seq(
+        (/[0-9]+/),
+        $._exponent_part,
+        optional($._real_type_suffix)
+      ),
+      seq(
+        (/[0-9]+/),
+        $._real_type_suffix
+      )
+    ),
+
+    _real_type_suffix: $ => (/[fFdDmm]/),
+
+    _exponent_part: $ => (/[eE][+-]?[0-9]+/),
 
     null_literal: $ => 'null',
 
@@ -170,7 +200,7 @@ module.exports = grammar({
       '\\v'
     ),
 
-    _integer_type_suffix: $ => (/u|l|ul|lu/i),
+    _integer_type_suffix: $ => (/u|U|l|L|ul|UL|uL|Ul|lu|LU|Lu|lU/),
 
     class_modifiers: $ => $._class_modifiers,
     _class_modifiers: $ => seq(

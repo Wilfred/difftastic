@@ -37,20 +37,13 @@ class A {
           (variable_declarator (identifier_name))))))
 
 =======================================
-Field declaration literal assignment
+Field declaration integer literal assignment
 =======================================
 
 class A {
   int dec = 1;
   long hex = 0xf1l;
-  UInt64 dec = 1ul;
-  bool t = true;
-  char c = 'a';
-  char esc = '\n';
-  char hex = '\xf09a';
-  char uni16 = '\ua0bf';
-  char uni32 = '\UA0BFf9ca';
-  string x = null;
+  UInt64 dec = 1uL;
 }
 
 ---
@@ -69,11 +62,48 @@ class A {
     (field_declaration
       (variable_declaration
         (identifier_name)
-        (variable_declarator (identifier_name) (equals_value_clause (integer_literal)))))
+        (variable_declarator (identifier_name) (equals_value_clause (integer_literal)))))))
+
+=======================================
+Field declaration boolean literal assignment
+=======================================
+
+class A {
+  bool t = true;
+  bool f = false;
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier_name)
     (field_declaration
       (variable_declaration
         (predefined_type)
         (variable_declarator (identifier_name) (equals_value_clause (boolean_literal)))))
+        (field_declaration
+          (variable_declaration
+            (predefined_type)
+            (variable_declarator (identifier_name) (equals_value_clause (boolean_literal)))))))
+
+=======================================
+Field declaration char literal assignment
+=======================================
+
+class A {
+  char c = 'a';
+  char esc = '\n';
+  char hex = '\xf09a';
+  char uni16 = '\ua0bf';
+  char uni32 = '\UA0BFf9ca';
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier_name)
     (field_declaration
       (variable_declaration
         (predefined_type)
@@ -93,7 +123,70 @@ class A {
     (field_declaration
       (variable_declaration
         (predefined_type)
-        (variable_declarator (identifier_name) (equals_value_clause (character_literal)))))
+        (variable_declarator (identifier_name) (equals_value_clause (character_literal)))))))
+
+=======================================
+Field declaration real literal assignment
+=======================================
+
+class A {
+  float s = 012.23F;
+  float e = 1e6f;
+  Single en = 0e-1f;
+  Single ep = 1e+12f;
+  double d = 0.9d;
+  decimal m = 0.9m;
+  Decimal m2 = 102.349m;
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier_name)
+    (field_declaration
+      (variable_declaration
+        (predefined_type)
+        (variable_declarator (identifier_name) (equals_value_clause (real_literal)))))
+    (field_declaration
+      (variable_declaration
+        (predefined_type)
+        (variable_declarator (identifier_name) (equals_value_clause (real_literal)))))
+    (field_declaration
+      (variable_declaration
+        (identifier_name)
+        (variable_declarator (identifier_name) (equals_value_clause (real_literal)))))
+    (field_declaration
+      (variable_declaration
+        (identifier_name)
+        (variable_declarator (identifier_name) (equals_value_clause (real_literal)))))
+    (field_declaration
+      (variable_declaration
+        (predefined_type)
+        (variable_declarator (identifier_name) (equals_value_clause (real_literal)))))
+    (field_declaration
+      (variable_declaration
+        (predefined_type)
+        (variable_declarator (identifier_name) (equals_value_clause (real_literal)))))
+    (field_declaration
+      (variable_declaration
+        (identifier_name)
+        (variable_declarator (identifier_name) (equals_value_clause (real_literal)))))))
+
+
+=======================================
+Field declaration null literal assignment
+=======================================
+
+class A {
+  string x = null;
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier_name)
     (field_declaration
       (variable_declaration
         (predefined_type)
