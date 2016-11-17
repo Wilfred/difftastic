@@ -1,0 +1,68 @@
+=======================================
+global enum with one option
+=======================================
+
+enum A { One }
+
+---
+
+(compilation_unit
+  (enum_declaration
+    (identifier_name)
+    (enum_member_declaration (identifier_name))))
+
+=======================================
+enum in class with two options
+=======================================
+
+class A {
+  enum B { One, Two }
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier_name)
+    (enum_declaration
+      (identifier_name)
+      (enum_member_declaration (identifier_name))
+      (enum_member_declaration (identifier_name)))))
+
+
+=======================================
+enum in struct with integer values
+=======================================
+
+struct A {
+  enum B { Ten = 10, Twenty = 20 }
+}
+
+---
+
+(compilation_unit
+  (struct_declaration
+    (identifier_name)
+    (enum_declaration
+      (identifier_name)
+      (enum_member_declaration (identifier_name) (equals_value_clause (integer_literal)))
+      (enum_member_declaration (identifier_name) (equals_value_clause (integer_literal))))))
+
+
+=======================================
+enum in namespace with byte base
+=======================================
+
+namespace A {
+  enum B : byte { Five = 0x05, Fifteen = 0x0F }
+}
+
+---
+
+(compilation_unit
+  (namespace_declaration
+    (identifier_name)
+    (enum_declaration
+      (identifier_name)
+      (enum_member_declaration (identifier_name) (equals_value_clause (integer_literal)))
+      (enum_member_declaration (identifier_name) (equals_value_clause (integer_literal))))))

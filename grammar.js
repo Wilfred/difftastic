@@ -22,7 +22,8 @@ module.exports = grammar({
         $._global_attributes,
         $.namespace_declaration,
         $.class_declaration,
-        $.struct_declaration
+        $.struct_declaration,
+        $.enum_declaration
       ))
     ),
 
@@ -49,7 +50,8 @@ module.exports = grammar({
       repeat(choice(
         $.namespace_declaration,
         $.class_declaration,
-        $.struct_declaration
+        $.struct_declaration,
+        $.enum_declaration
       )),
       '}'
     ),
@@ -64,6 +66,7 @@ module.exports = grammar({
       repeat(choice(
         $.class_declaration,
         $.struct_declaration,
+        $.enum_declaration,
         $.field_declaration
       )),
       '}'
@@ -79,6 +82,7 @@ module.exports = grammar({
       repeat(choice(
         $.class_declaration,
         $.struct_declaration,
+        $.enum_declaration,
         $.field_declaration
       )),
       '}'
@@ -97,6 +101,55 @@ module.exports = grammar({
     ),
 
     _attributes: $ => repeat1($._attribute_section),
+
+    enum_declaration: $ => seq(
+      optional($._attributes),
+      optional($.enum_modifier),
+      'enum',
+      $.identifier_name,
+      optional($._enum_base),
+      $._enum_body,
+      optional(';')
+    ),
+
+    _enum_base: $ => seq(
+      ':',
+      $._integral_type
+    ),
+
+    _enum_body: $ => seq(
+      '{',
+      commaSep1($.enum_member_declaration),
+      '}'
+    ),
+
+    enum_member_declaration: $ => seq(
+      optional($._attributes),
+      $.identifier_name,
+      optional($.equals_value_clause)
+    ),
+
+    enum_modifier: $ => choice(...COMMON_MODIFIERS),
+
+    _integral_type: $ => choice(
+      'sbyte',
+      'byte',
+      'short',
+      'ushort',
+      'int',
+      'uint',
+      'long',
+      'ulong',
+      'char'
+    ),
+
+    enum_modifier: $ => choice(
+      'new',
+      'public',
+      'protected',
+      'internal',
+      'private'
+    ),
 
     _attribute_section: $ => seq(
       '[',
