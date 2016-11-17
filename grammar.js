@@ -17,12 +17,20 @@ module.exports = grammar({
 
   rules: {
     compilation_unit: $ => seq(
+      repeat($.extern_alias_directive),
       repeat($.using_directive),
       repeat(choice(
         $._global_attributes,
         $.namespace_declaration,
         $._type_declaration
       ))
+    ),
+
+    extern_alias_directive: $ => seq(
+      'extern',
+      'alias',
+      $.identifier_name,
+      ';'
     ),
 
     using_directive: $ => seq(

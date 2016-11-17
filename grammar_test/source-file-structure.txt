@@ -123,3 +123,16 @@ struct A<T> {
     (struct_declaration
       (struct_modifiers)
       (identifier_name))))
+
+
+=====================================
+Externs
+=====================================
+
+extern alias A;
+
+---
+
+(compilation_unit
+  (extern_alias_directive
+    (identifier_name)))
