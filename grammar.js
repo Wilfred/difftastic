@@ -29,7 +29,8 @@ module.exports = grammar({
     _type_declaration: $ => choice(
       $.class_declaration,
       $.struct_declaration,
-      $.enum_declaration
+      $.enum_declaration,
+      $.delegate_declaration
     ),
 
     // extern
@@ -144,14 +145,6 @@ module.exports = grammar({
 
     enum_modifier: $ => choice(...COMMON_MODIFIERS),
 
-    enum_modifier: $ => choice(
-      'new',
-      'public',
-      'protected',
-      'internal',
-      'private'
-    ),
-
     _integral_type: $ => choice(
       'sbyte',
       'byte',
@@ -163,6 +156,42 @@ module.exports = grammar({
       'ulong',
       'char'
     ),
+
+    // delegate
+
+    delegate_declaration: $ => seq(
+      optional($._attributes),
+      optional($.delegate_modifier),
+      'delegate',
+      $._return_type,
+      $.identifier_name,
+      // TODO: Variant type parameters
+      $.parameter_list,
+      ';'
+    ),
+
+    delegate_modifier: $ => choice('unsafe', ...COMMON_MODIFIERS),
+
+    _return_type: $ => choice($._type, $.void_keyword),
+    void_keyword: $ => 'void',
+
+    // parameters
+
+    parameter_list: $ => seq(
+      '(',
+      optional(commaSep1($.parameter)),
+      ')'
+    ),
+
+    parameter: $ => seq(
+      optional($._attributes),
+      optional($.parameter_modifier),
+      $._type,
+      $.identifier_name
+      // TODO: Default argument
+    ),
+
+    parameter_modifier: $ => choice('ref', 'out', 'this'),
 
     // attributes
 

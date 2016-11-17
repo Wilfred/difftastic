@@ -136,3 +136,22 @@ extern alias A;
 (compilation_unit
   (extern_alias_directive
     (identifier_name)))
+
+
+=====================================
+Delegate
+=====================================
+
+public delegate int Global(ref char a);
+
+class Z {
+  delegate void Zed();
+}
+
+---
+
+(compilation_unit
+  (delegate_declaration (delegate_modifier) (predefined_type) (identifier_name)
+    (parameter_list (parameter (parameter_modifier) (predefined_type) (identifier_name))))
+  (class_declaration (identifier_name)
+    (delegate_declaration (void_keyword) (identifier_name) (parameter_list))))
