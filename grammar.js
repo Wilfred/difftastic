@@ -119,8 +119,8 @@ module.exports = grammar({
       $.boolean_literal,
       $.character_literal,
       $.integer_literal,
-      $.real_literal,
-      $.null_literal
+      $.null_literal,
+      $.real_literal
     ),
 
     boolean_literal: $ => choice(
@@ -138,6 +138,40 @@ module.exports = grammar({
       ),
       "'"
     ),
+
+    _hexadecimal_escape_sequence: $ =>
+      (/\\x[0-9a-fA-F][0-9a-fA-F]?[0-9a-fA-F]?[0-9a-fA-F]?/),
+
+    _unicode_escape_sequence: $ => choice(
+      (/\\u[0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F]/),
+      (/\\U[0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F]/)
+    ),
+
+    _simple_escape_sequence: $ => choice(
+      "\\'",
+      '\\"',
+      '\\\\',
+      '\\0',
+      '\\a',
+      '\\b',
+      '\\f',
+      '\\n',
+      '\\r',
+      '\\t',
+      '\\v'
+    ),
+
+    integer_literal: $ => seq(
+      choice(
+        (/[0-9]+/),
+        (/0x[0-9a-fA-F]+/)
+      ),
+      optional($._integer_type_suffix)
+    ),
+
+    _integer_type_suffix: $ => (/u|U|l|L|ul|UL|uL|Ul|lu|LU|Lu|lU/),
+
+    null_literal: $ => 'null',
 
     real_literal: $ => choice(
       seq(
@@ -167,40 +201,6 @@ module.exports = grammar({
     _real_type_suffix: $ => (/[fFdDmm]/),
 
     _exponent_part: $ => (/[eE][+-]?[0-9]+/),
-
-    null_literal: $ => 'null',
-
-    integer_literal: $ => seq(
-      choice(
-        (/[0-9]+/),
-        (/0x[0-9a-fA-F]+/)
-      ),
-      optional($._integer_type_suffix)
-    ),
-
-    _hexadecimal_escape_sequence: $ =>
-      (/\\x[0-9a-fA-F][0-9a-fA-F]?[0-9a-fA-F]?[0-9a-fA-F]?/),
-
-    _unicode_escape_sequence: $ => choice(
-      (/\\u[0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F]/),
-      (/\\U[0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F]/)
-    ),
-
-    _simple_escape_sequence: $ => choice(
-      "\\'",
-      '\\"',
-      '\\\\',
-      '\\0',
-      '\\a',
-      '\\b',
-      '\\f',
-      '\\n',
-      '\\r',
-      '\\t',
-      '\\v'
-    ),
-
-    _integer_type_suffix: $ => (/u|U|l|L|ul|UL|uL|Ul|lu|LU|Lu|lU/),
 
     class_modifiers: $ => $._class_modifiers,
     _class_modifiers: $ => seq(
