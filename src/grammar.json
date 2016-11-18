@@ -519,38 +519,46 @@
       ]
     },
     "pointer_declarator": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "*"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_declarator"
-        }
-      ]
+      "type": "PREC_RIGHT",
+      "value": 0,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "*"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_declarator"
+          }
+        ]
+      }
     },
     "abstract_pointer_declarator": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "*"
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "_abstract_declarator"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        }
-      ]
+      "type": "PREC_RIGHT",
+      "value": 0,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "*"
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "_abstract_declarator"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        ]
+      }
     },
     "function_declarator": {
       "type": "PREC",
@@ -2613,7 +2621,7 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "_expression"
+                "name": "identifier"
               }
             ]
           }
@@ -2634,7 +2642,7 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "_expression"
+                "name": "identifier"
               }
             ]
           }
