@@ -150,14 +150,14 @@ module.exports = grammar({
       prec(1, seq('(', $._abstract_declarator, ')'))
     ),
 
-    pointer_declarator: $ => seq(
+    pointer_declarator: $ => prec.right(seq(
       '*', $._declarator
-    ),
+    )),
 
-    abstract_pointer_declarator: $ => seq(
+    abstract_pointer_declarator: $ => prec.right(seq(
       '*',
       optional($._abstract_declarator)
-    ),
+    )),
 
     function_declarator: $ => prec(1, seq(
       $._declarator,
