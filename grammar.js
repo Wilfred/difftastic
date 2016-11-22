@@ -132,8 +132,7 @@ module.exports = grammar({
       optional($.else_block),
       "end"
     ),
-    when_block: $ => seq("when", $.pattern, $._then_block),
-
+    when_block: $ => seq("when", commaSep1($.pattern), $._then_block),
     pattern: $ => $._statement,
 
     if_modifier: $ => seq($._statement, "if", expression($)),
