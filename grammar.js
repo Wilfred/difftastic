@@ -4,6 +4,7 @@ const PREC = {
   OR: -2,
   NOT: 5,
   DEFINED: 10,
+  ALIAS: 11,
   ASSIGN: 15,
   RESCUE: 16,
   CONDITIONAL: 20,
@@ -55,8 +56,8 @@ module.exports = grammar({
 
     _statement: $ => choice(
       $._declaration,
-      seq("undef", $._function_name),
-      seq("alias", $._function_name, $._function_name),
+      $.undef,
+      $.alias,
       $.while_statement,
       $.until_statement,
       $.if_statement,
@@ -298,6 +299,11 @@ module.exports = grammar({
     _variable: $ => choice($.identifier, 'self'),
 
     identifier: $ => token(seq(repeat(choice('@', '$')), identifierPattern)),
+
+    undef: $ => seq("undef", $._name_symbol_or_operator),
+    alias: $ => seq("alias", $._name_symbol_or_operator, $._name_symbol_or_operator),
+    _name_symbol_or_operator: $ => prec(PREC.ALIAS, choice($.identifier, $.symbol, $.operator)),
+    operator: $ => choice(...operators),
 
     comment: $ => token(prec(PREC.COMMENT, choice(
       seq('#', /.*/),

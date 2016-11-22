@@ -611,10 +611,13 @@ lambda literal with an arg
 ====================
 
 -> foo { 1 }
+-> (foo) { 1 }
 
 ---
 
-(program (lambda_literal (identifier) (integer)))
+(program
+	(lambda_literal (identifier) (integer))
+	(lambda_literal (formal_parameters (identifier)) (integer)))
 
 ===========================
 lambda literal with multiple args

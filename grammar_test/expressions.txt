@@ -129,10 +129,19 @@ defined?
 ========
 
 defined? foo
+defined? Foo.bar
+defined?(foo)
+defined?($foo)
+defined?(@foo)
 
 ---
 
-(program (defined (identifier)))
+(program
+  (defined (identifier))
+  (defined (member_access (identifier) (identifier)))
+  (defined (identifier))
+  (defined (identifier))
+  (defined (identifier)))
 
 ==========
 assignment
@@ -433,6 +442,41 @@ foo(&bar)
 (program
   (function_call (identifier) (argument_list (block_argument (symbol))))
   (function_call (identifier) (argument_list (block_argument (identifier)))))
+
+===============================
+method call lambda argument
+===============================
+
+foo :bar, -> (a) { 1 }
+foo :bar, -> (a) { where(:c => b) }
+
+---
+
+(program
+  (function_call (identifier)
+    (argument_list
+      (symbol)
+      (lambda_literal (formal_parameters (identifier)) (integer))))
+  (function_call (identifier)
+    (argument_list
+      (symbol)
+      (lambda_literal
+        (formal_parameters (identifier))
+        (function_call (identifier) (argument_list (argument_pair (symbol) (identifier))))))))
+
+===============================
+method call lambda argument and do block
+===============================
+
+foo :bar, -> (a) { 1 } do
+end
+
+---
+
+(program
+  (function_call_with_do_block (identifier)
+    (argument_list (symbol) (lambda_literal (formal_parameters (identifier)) (integer)))
+    (do_block)))
 
 ============================
 function call without parens
