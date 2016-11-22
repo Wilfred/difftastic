@@ -423,3 +423,16 @@ end
 ---
 
 (program (assignment (identifier) (case_expression (identifier) (when_block (pattern (identifier))) (else_block))))
+
+==============
+case with expression
+==============
+
+x = case foo = bar | baz
+when bar
+else
+end
+
+---
+
+(program (assignment (identifier) (case_expression (assignment (identifier) (bitwise_or (identifier) (identifier))) (when_block (pattern (identifier))) (else_block))))

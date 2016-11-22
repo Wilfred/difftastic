@@ -127,7 +127,7 @@ module.exports = grammar({
     return_statement: $ => seq("return", optional(expression($))),
 
     case_expression: $ => seq(
-      "case", $._statement, $._line_break,
+      "case", $._simple_expression, $._terminator,
       repeat($.when_block),
       optional($.else_block),
       "end"
