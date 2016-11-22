@@ -207,7 +207,7 @@ module.exports = grammar({
     element_reference: $ => prec.left(1, seq($._primary, "[", $._argument_list, "]")),
     member_access: $ => prec.left(1, seq($._primary, ".", $.identifier)),
 
-    function_call_with_do_block: $ => prec.left(0, seq(
+    function_call_with_do_block: $ => prec.left(seq(
       choice($._variable, $.scope_resolution_expression, $.member_access),
       choice(
         seq($.argument_list, $.do_block),
@@ -215,7 +215,7 @@ module.exports = grammar({
       )
     )),
 
-    function_call: $ => prec.left(0, seq(
+    function_call: $ => prec.left(seq(
       choice($._variable, $.scope_resolution_expression, $.member_access),
       choice(
         seq($.argument_list, $.block),
