@@ -827,11 +827,11 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_statement"
+          "name": "_simple_expression"
         },
         {
           "type": "SYMBOL",
-          "name": "_line_break"
+          "name": "_terminator"
         },
         {
           "type": "REPEAT",
@@ -1017,8 +1017,29 @@
       "type": "CHOICE",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "_do_block"
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "do"
+            },
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "_statements"
+                },
+                {
+                  "type": "BLANK"
+                }
+              ]
+            },
+            {
+              "type": "STRING",
+              "value": "end"
+            }
+          ]
         },
         {
           "type": "SEQ",
@@ -1044,31 +1065,6 @@
               "value": "end"
             }
           ]
-        }
-      ]
-    },
-    "_do_block": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "do"
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "_statements"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        },
-        {
-          "type": "STRING",
-          "value": "end"
         }
       ]
     },
@@ -1788,6 +1784,10 @@
       ]
     },
     "do_block": {
+      "type": "SYMBOL",
+      "name": "_do_block"
+    },
+    "_do_block": {
       "type": "SEQ",
       "members": [
         {
@@ -1846,6 +1846,10 @@
       ]
     },
     "block": {
+      "type": "SYMBOL",
+      "name": "_block"
+    },
+    "_block": {
       "type": "SEQ",
       "members": [
         {
@@ -5079,6 +5083,24 @@
           ]
         },
         {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_lambda_block"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_lambda_do_block"
+            }
+          ]
+        }
+      ]
+    },
+    "_lambda_block": {
+      "type": "SEQ",
+      "members": [
+        {
           "type": "STRING",
           "value": "{"
         },
@@ -5100,49 +5122,12 @@
         }
       ]
     },
-    "lambda_expression": {
+    "_lambda_do_block": {
       "type": "SEQ",
       "members": [
         {
           "type": "STRING",
-          "value": "lambda"
-        },
-        {
-          "type": "STRING",
-          "value": "{"
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "STRING",
-                  "value": "|"
-                },
-                {
-                  "type": "CHOICE",
-                  "members": [
-                    {
-                      "type": "SYMBOL",
-                      "name": "formal_parameters"
-                    },
-                    {
-                      "type": "BLANK"
-                    }
-                  ]
-                },
-                {
-                  "type": "STRING",
-                  "value": "|"
-                }
-              ]
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
+          "value": "do"
         },
         {
           "type": "CHOICE",
@@ -5158,7 +5143,29 @@
         },
         {
           "type": "STRING",
-          "value": "}"
+          "value": "end"
+        }
+      ]
+    },
+    "lambda_expression": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "lambda"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_block"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_do_block"
+            }
+          ]
         }
       ]
     },

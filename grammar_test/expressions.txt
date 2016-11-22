@@ -583,3 +583,15 @@ lambda { |a, b, c|
 ---
 
 (program (lambda_expression (formal_parameters (identifier) (identifier) (identifier)) (integer) (integer)))
+
+====================
+lambda expression with do end
+====================
+
+lambda do |foo|
+  1
+end
+
+---
+
+(program (lambda_expression (formal_parameters (identifier)) (integer)))

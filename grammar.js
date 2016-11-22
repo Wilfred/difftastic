@@ -143,10 +143,9 @@ module.exports = grammar({
     rescue_modifier: $ => prec(PREC.RESCUE, seq($._statement, "rescue", expression($))),
 
     _statement_block: $ => choice(
-      $._do_block,
+      seq("do", optional($._statements), "end"),
       seq($._terminator, optional($._statements), "end")
     ),
-    _do_block: $ => seq("do", optional($._statements), "end"),
 
     _then_block: $ => seq(choice("then", $._terminator), optional($._statements)),
     elsif_block: $ => seq("elsif", expression($), $._then_block),
@@ -242,14 +241,16 @@ module.exports = grammar({
 
     block_argument: $ => seq("&", $._simple_expression),
 
-    do_block: $ => seq(
+    do_block: $ => $._do_block,
+    _do_block: $ => seq(
       "do",
       optional(seq("|", optional($.formal_parameters), "|")),
       optional($._statements),
       "end"
     ),
 
-    block: $ => seq(
+    block: $ => $._block,
+    _block: $ => seq(
       "{",
       optional(seq("|", optional($.formal_parameters), "|")),
       optional($._statements),
@@ -448,20 +449,18 @@ module.exports = grammar({
         seq('(', optional($.formal_parameters), ')'),
         $.identifier
       )),
-      '{',
-      optional($._statements),
-      '}'
+      choice($._lambda_block, $._lambda_do_block)
     ),
+
+    _lambda_block: $ => seq("{", optional($._statements), "}"),
+    _lambda_do_block: $ => seq("do", optional($._statements), "end"),
 
     lambda_expression: $ => seq(
       'lambda',
-      '{',
-      optional(seq('|', optional($.formal_parameters), '|')),
-      optional($._statements),
-      '}'
+      choice($._block, $._do_block)
     ),
 
-    _function_name: $ => choice($.identifier, choice.apply(null, operators)),
+    _function_name: $ => choice($.identifier, choice(...operators)),
 
     _line_break: $ => '\n',
     _terminator: $ => choice($._line_break, ';'),

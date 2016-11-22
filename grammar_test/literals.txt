@@ -631,3 +631,15 @@ lambda literal with multiple args
 ---
 
 (program (lambda_literal (formal_parameters (identifier) (identifier) (identifier)) (integer) (integer)))
+
+====================
+lambda literal with do end
+====================
+
+-> (foo) do
+	1
+end
+
+---
+
+(program (lambda_literal (formal_parameters (identifier)) (integer)))
