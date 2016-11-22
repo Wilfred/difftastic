@@ -371,7 +371,7 @@ end
 ---
 
 (program
-  (case_statement (identifier)
+  (case_expression (identifier)
   (when_block (pattern (identifier)))))
 
 ==============
@@ -386,7 +386,7 @@ end
 ---
 
 (program
-  (case_statement (identifier)
+  (case_expression (identifier)
     (when_block (pattern (identifier)))
     (else_block)))
 
@@ -406,7 +406,20 @@ end
 ---
 
 (program
-  (case_statement (identifier)
+  (case_expression (identifier)
     (when_block (pattern (identifier)) (identifier))
     (when_block (pattern (identifier)) (identifier))
     (else_block (identifier))))
+
+==============
+case with assignment
+==============
+
+x = case foo
+when bar
+else
+end
+
+---
+
+(program (assignment (identifier) (case_expression (identifier) (when_block (pattern (identifier))) (else_block))))

@@ -122,10 +122,6 @@
         },
         {
           "type": "SYMBOL",
-          "name": "case_statement"
-        },
-        {
-          "type": "SYMBOL",
           "name": "if_modifier"
         },
         {
@@ -822,7 +818,7 @@
         }
       ]
     },
-    "case_statement": {
+    "case_expression": {
       "type": "SEQ",
       "members": [
         {
@@ -1360,6 +1356,10 @@
         {
           "type": "SYMBOL",
           "name": "boolean_and"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "case_expression"
         },
         {
           "type": "SYMBOL",

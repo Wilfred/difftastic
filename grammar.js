@@ -65,7 +65,6 @@ module.exports = grammar({
       $.for_statement,
       $.begin_statement,
       $.return_statement,
-      $.case_statement,
       $.if_modifier,
       $.unless_modifier,
       $.while_modifier,
@@ -127,7 +126,7 @@ module.exports = grammar({
 
     return_statement: $ => seq("return", optional(expression($))),
 
-    case_statement: $ => seq(
+    case_expression: $ => seq(
       "case", $._statement, $._line_break,
       repeat($.when_block),
       optional($.else_block),
@@ -186,6 +185,7 @@ module.exports = grammar({
       $.range,
       $.boolean_or,
       $.boolean_and,
+      $.case_expression,
       $.relational,
       $.comparison,
       $.bitwise_or,
