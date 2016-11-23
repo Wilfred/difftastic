@@ -249,12 +249,14 @@ Return statements
 
 return;
 return 5;
+return 1,2;
 
 ---
 
 (program
   (return_statement)
-  (return_statement (number)))
+  (return_statement (number))
+  (return_statement (number) (number)))
 
 ============================================
 Var declarations
