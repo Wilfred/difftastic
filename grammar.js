@@ -4,6 +4,7 @@ const PREC = {
   OR: -2,
   NOT: 5,
   DEFINED: 10,
+  ALIAS: 11,
   ASSIGN: 15,
   RESCUE: 16,
   CONDITIONAL: 20,
@@ -21,7 +22,7 @@ const PREC = {
   EXPONENTIAL: 80,
   COMPLEMENT: 85,
   UNARY_PLUS: 85,
-  REGEX: 100,
+  REGEX: 100
 };
 
 // TODO: Enable rest of unbalanced delimiters. These are rarely used in real
@@ -41,10 +42,10 @@ module.exports = grammar({
   ],
 
   conflicts: $ => [
-    [$.function_call, $.function_call_with_do_block, $._lhs],
-    [$.function_call_with_do_block, $._lhs],
-    [$._argument_list],
-    [$._argument_list, $._statement],
+    [$._lhs, $.function_call, $.function_call_with_do_block],
+    [$._lhs, $.function_call],
+    [$._lhs, $.function_call_with_do_block],
+    [$.yield]
   ],
 
   rules: {
@@ -55,8 +56,8 @@ module.exports = grammar({
 
     _statement: $ => choice(
       $._declaration,
-      seq("undef", $._function_name),
-      seq("alias", $._function_name, $._function_name),
+      $.undef,
+      $.alias,
       $.while_statement,
       $.until_statement,
       $.if_statement,
@@ -64,7 +65,6 @@ module.exports = grammar({
       $.for_statement,
       $.begin_statement,
       $.return_statement,
-      $.case_statement,
       $.if_modifier,
       $.unless_modifier,
       $.while_modifier,
@@ -76,6 +76,7 @@ module.exports = grammar({
     _declaration: $ => choice(
       $.method_declaration,
       $.class_declaration,
+      $.singleton_class_declaration,
       $.module_declaration
     ),
 
@@ -105,6 +106,8 @@ module.exports = grammar({
 
     class_declaration: $ => seq("class", $.identifier, optional(seq("<", sep1($.identifier, "::"))), $._terminator, optional($._statements), "end"),
 
+    singleton_class_declaration: $ => seq("class", "<<", $.identifier, $._terminator, optional($._statements), "end"),
+
     module_declaration: $ => seq("module", $.identifier, $._terminator, optional($._statements), "end"),
 
     while_statement: $ => seq("while", expression($), $._statement_block),
@@ -123,14 +126,13 @@ module.exports = grammar({
 
     return_statement: $ => seq("return", optional(expression($))),
 
-    case_statement: $ => seq(
-      "case", $._statement, $._line_break,
+    case_expression: $ => seq(
+      "case", $._simple_expression, $._terminator,
       repeat($.when_block),
       optional($.else_block),
       "end"
     ),
-    when_block: $ => seq("when", $.pattern, $._then_block),
-
+    when_block: $ => seq("when", commaSep1($.pattern), $._then_block),
     pattern: $ => $._statement,
 
     if_modifier: $ => seq($._statement, "if", expression($)),
@@ -140,10 +142,9 @@ module.exports = grammar({
     rescue_modifier: $ => prec(PREC.RESCUE, seq($._statement, "rescue", expression($))),
 
     _statement_block: $ => choice(
-      $._do_block,
+      seq("do", optional($._statements), "end"),
       seq($._terminator, optional($._statements), "end")
     ),
-    _do_block: $ => seq("do", optional($._statements), "end"),
 
     _then_block: $ => seq(choice("then", $._terminator), optional($._statements)),
     elsif_block: $ => seq("elsif", expression($), $._then_block),
@@ -170,7 +171,6 @@ module.exports = grammar({
 
     _simple_expression: $ => choice(
       $._primary,
-      $.function_call,
       $.yield,
       $.and,
       $.or,
@@ -183,6 +183,7 @@ module.exports = grammar({
       $.range,
       $.boolean_or,
       $.boolean_and,
+      $.case_expression,
       $.relational,
       $.comparison,
       $.bitwise_or,
@@ -201,11 +202,11 @@ module.exports = grammar({
       $._lhs
     ),
 
-    scope_resolution_expression: $ => prec.left(seq(optional($._primary), '::', $.identifier)),
-    element_reference: $ => prec.left(seq($._primary, "[", $._argument_list, "]")),
-    member_access: $ => prec.left(seq($._primary, ".", $.identifier)),
+    scope_resolution_expression: $ => prec.left(1, seq(optional($._primary), '::', $.identifier)),
+    element_reference: $ => prec.left(1, seq($._primary, "[", $._argument_list, "]")),
+    member_access: $ => prec.left(1, seq($._primary, ".", $.identifier)),
 
-    function_call_with_do_block: $ => prec.left(-2, seq(
+    function_call_with_do_block: $ => prec.left(seq(
       choice($._variable, $.scope_resolution_expression, $.member_access),
       choice(
         seq($.argument_list, $.do_block),
@@ -213,7 +214,7 @@ module.exports = grammar({
       )
     )),
 
-    function_call: $ => prec.left(-2, seq(
+    function_call: $ => prec.left(seq(
       choice($._variable, $.scope_resolution_expression, $.member_access),
       choice(
         seq($.argument_list, $.block),
@@ -222,29 +223,33 @@ module.exports = grammar({
       )
     )),
 
-    argument_list: $ => prec.left(-1, choice(
-      seq("(", optional($._argument_list), ")"),
-      $._argument_list
+    argument_list: $ => prec.left(1, choice(
+      seq("(", optional($._argument_list), optional($.block_argument), ")"),
+      seq($._argument_list, optional($.block_argument))
     )),
 
-    _argument_list: $ => prec.left(commaSep1(choice(
+    _argument_list: $ => prec.left(1, commaSep1(choice(
       $._simple_expression,
       $.argument_pair
     ))),
 
-    argument_pair: $ => prec(-1, seq(choice(
+    argument_pair: $ => prec.left(1, seq(choice(
       seq($.symbol, '=>'),
       seq($.identifier, ':')
     ), $._simple_expression)),
 
-    do_block: $ => seq(
+    block_argument: $ => seq("&", $._simple_expression),
+
+    do_block: $ => $._do_block,
+    _do_block: $ => seq(
       "do",
       optional(seq("|", optional($.formal_parameters), "|")),
       optional($._statements),
       "end"
     ),
 
-    block: $ => seq(
+    block: $ => $._block,
+    _block: $ => seq(
       "{",
       optional(seq("|", optional($.formal_parameters), "|")),
       optional($._statements),
@@ -288,11 +293,17 @@ module.exports = grammar({
       $._variable,
       $.scope_resolution_expression,
       $.element_reference,
-      $.member_access
+      $.member_access,
+      $.function_call
     ),
     _variable: $ => choice($.identifier, 'self'),
 
     identifier: $ => token(seq(repeat(choice('@', '$')), identifierPattern)),
+
+    undef: $ => seq("undef", $._name_symbol_or_operator),
+    alias: $ => seq("alias", $._name_symbol_or_operator, $._name_symbol_or_operator),
+    _name_symbol_or_operator: $ => prec(PREC.ALIAS, choice($.identifier, $.symbol, $.operator)),
+    operator: $ => choice(...operators),
 
     comment: $ => token(prec(PREC.COMMENT, choice(
       seq('#', /.*/),
@@ -437,20 +448,18 @@ module.exports = grammar({
         seq('(', optional($.formal_parameters), ')'),
         $.identifier
       )),
-      '{',
-      optional($._statements),
-      '}'
+      choice($._lambda_block, $._lambda_do_block)
     ),
+
+    _lambda_block: $ => seq("{", optional($._statements), "}"),
+    _lambda_do_block: $ => seq("do", optional($._statements), "end"),
 
     lambda_expression: $ => seq(
       'lambda',
-      '{',
-      optional(seq('|', optional($.formal_parameters), '|')),
-      optional($._statements),
-      '}'
+      choice($._block, $._do_block)
     ),
 
-    _function_name: $ => choice($.identifier, choice.apply(null, operators)),
+    _function_name: $ => choice($.identifier, choice(...operators)),
 
     _line_break: $ => '\n',
     _terminator: $ => choice($._line_break, ';'),

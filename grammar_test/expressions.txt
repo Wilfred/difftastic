@@ -3,10 +3,13 @@ scope resolution
 ================
 
 Foo::bar
+::Bar
 
 ---
 
-(program (scope_resolution_expression (identifier) (identifier)))
+(program
+  (scope_resolution_expression (identifier) (identifier))
+  (scope_resolution_expression (identifier)))
 
 ============
 element reference
@@ -126,10 +129,19 @@ defined?
 ========
 
 defined? foo
+defined? Foo.bar
+defined?(foo)
+defined?($foo)
+defined?(@foo)
 
 ---
 
-(program (defined (identifier)))
+(program
+  (defined (identifier))
+  (defined (member_access (identifier) (identifier)))
+  (defined (identifier))
+  (defined (identifier))
+  (defined (identifier)))
 
 ==========
 assignment
@@ -418,6 +430,54 @@ foo a: true
   (function_call (identifier) (argument_list (argument_pair (identifier) (boolean))))
   (function_call (identifier) (argument_list (argument_pair (identifier) (boolean)))))
 
+===============================
+method call with block argument
+===============================
+
+foo(&:sort)
+foo(&bar)
+
+---
+
+(program
+  (function_call (identifier) (argument_list (block_argument (symbol))))
+  (function_call (identifier) (argument_list (block_argument (identifier)))))
+
+===============================
+method call lambda argument
+===============================
+
+foo :bar, -> (a) { 1 }
+foo :bar, -> (a) { where(:c => b) }
+
+---
+
+(program
+  (function_call (identifier)
+    (argument_list
+      (symbol)
+      (lambda_literal (formal_parameters (identifier)) (integer))))
+  (function_call (identifier)
+    (argument_list
+      (symbol)
+      (lambda_literal
+        (formal_parameters (identifier))
+        (function_call (identifier) (argument_list (argument_pair (symbol) (identifier))))))))
+
+===============================
+method call lambda argument and do block
+===============================
+
+foo :bar, -> (a) { 1 } do
+end
+
+---
+
+(program
+  (function_call_with_do_block (identifier)
+    (argument_list (symbol) (lambda_literal (formal_parameters (identifier)) (integer)))
+    (do_block)))
+
 ============================
 function call without parens
 ============================
@@ -429,7 +489,7 @@ include D::E.f
 (program (function_call (identifier) (argument_list (member_access (scope_resolution_expression (identifier) (identifier)) (identifier)))))
 
 ===============================
-method call with block parameter do end
+method call with block argument do end
 ===============================
 
 foo do |i|
@@ -467,7 +527,7 @@ end
     (do_block (formal_parameters (keyword_parameter (identifier) (identifier)) (splat_parameter (identifier))))))
 
 ===============================
-method call with block parameter curly
+method call with block argument curly
 ===============================
 
 foo { |i| foo }
@@ -523,3 +583,15 @@ lambda { |a, b, c|
 ---
 
 (program (lambda_expression (formal_parameters (identifier) (identifier) (identifier)) (integer) (integer)))
+
+====================
+lambda expression with do end
+====================
+
+lambda do |foo|
+  1
+end
+
+---
+
+(program (lambda_expression (formal_parameters (identifier)) (integer)))

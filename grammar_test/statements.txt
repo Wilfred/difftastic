@@ -37,3 +37,28 @@ foo until bar
 ---
 
 (program (until_modifier (identifier) (identifier)))
+
+========
+alias
+========
+
+alias :foo :bar
+alias foo bar
+alias foo +
+
+---
+
+(program (alias (symbol) (symbol)) (alias (identifier) (identifier)) (alias (identifier) (operator)))
+
+========
+undef
+========
+
+undef :foo
+undef foo
+
+---
+
+(program
+  (undef (symbol))
+  (undef (identifier)))
