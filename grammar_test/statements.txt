@@ -256,7 +256,7 @@ return 1,2;
 (program
   (return_statement)
   (return_statement (number))
-  (return_statement (number) (number)))
+  (return_statement (comma_op (number) (number))))
 
 ============================================
 Var declarations
