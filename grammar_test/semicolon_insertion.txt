@@ -88,3 +88,41 @@ var a = new A()
           (arguments (object (pair (identifier) (string)))))
         (identifier))
       (arguments)))))
+
+==============================================
+if/for/while/do statements without semicolons
+==============================================
+
+if (a) { if (b) return c }
+if (d) { for (;;) break }
+if (e) { for (f in g) break }
+if (h) { for (i of j) break }
+if (k) { while (l) break }
+if (m) { do { n; } while (o) }
+if (p) { var q }
+
+---
+
+(program
+  (if_statement (identifier) (statement_block
+    (trailing_if_statement
+      (identifier)
+      (trailing_return_statement (identifier)))))
+  (if_statement (identifier) (statement_block
+    (trailing_for_statement
+      (trailing_break_statement))))
+  (if_statement (identifier) (statement_block
+    (trailing_for_in_statement (identifier) (identifier)
+      (trailing_break_statement))))
+  (if_statement (identifier) (statement_block
+    (trailing_for_of_statement (identifier) (identifier)
+      (trailing_break_statement))))
+  (if_statement (identifier) (statement_block
+    (trailing_while_statement (identifier)
+      (trailing_break_statement))))
+  (if_statement (identifier) (statement_block
+    (trailing_do_statement
+      (statement_block (expression_statement (identifier)))
+      (identifier))))
+  (if_statement (identifier) (statement_block
+    (trailing_var_declaration (identifier)))))
