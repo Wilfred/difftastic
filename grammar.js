@@ -272,7 +272,7 @@ module.exports = grammar({
 
     return_statement: $ => seq(
       'return',
-      choice($._expression, $.comma_op),
+      optional(choice($._expression, $.comma_op)),
       terminator()
     ),
 
