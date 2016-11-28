@@ -1196,12 +1196,20 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "SYMBOL",
-              "name": "_expression"
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "_expression"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "comma_op"
+                }
+              ]
             },
             {
-              "type": "SYMBOL",
-              "name": "comma_op"
+              "type": "BLANK"
             }
           ]
         },
