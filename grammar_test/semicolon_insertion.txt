@@ -61,7 +61,8 @@ function c() {return d}
 (program
   (expression_statement
     (function (identifier) (formal_parameters) (statement_block
-      (trailing_expression_statement (identifier))))
+      (trailing_expression_statement (identifier)))))
+  (expression_statement
     (function (identifier) (formal_parameters) (statement_block
       (trailing_return_statement (identifier))))))
 
@@ -126,17 +127,16 @@ if (p) { var q }
   (if_statement (identifier) (statement_block
     (trailing_var_declaration (identifier)))))
 
-==============================================
-multiple function declarations
-==============================================
+=====================================================
+Single-line declarations without semicolons
+=====================================================
 
-function i () { return true; } function j () { return false; }
-
+function a () { function b () {} function *c () {} class D {} return }
 ---
 
 (program
-  (expression_statement
-    (function (identifier) (formal_parameters)
-      (statement_block (return_statement (true))))
-    (function (identifier) (formal_parameters)
-      (statement_block (return_statement (false))))))
+  (function (identifier) (formal_parameters) (statement_block
+    (function (identifier) (formal_parameters) (statement_block))
+    (generator_function (identifier) (formal_parameters) (statement_block))
+    (class (identifier) (class_body))
+    (trailing_return_statement))))
