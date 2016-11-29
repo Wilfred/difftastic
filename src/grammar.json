@@ -653,6 +653,27 @@
         }
       ]
     },
+    "_functions": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "function"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_functions"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        }
+      ]
+    },
     "trailing_expression_statement": {
       "type": "SEQ",
       "members": [
@@ -1929,7 +1950,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "function"
+          "name": "_functions"
         },
         {
           "type": "SYMBOL",
