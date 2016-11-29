@@ -590,7 +590,7 @@ module.exports = grammar({
         $.member_access,
         $.subscript_access
       ),
-      choice('+=', '-=', '*=', '/='),
+      choice('+=', '-=', '*=', '/=', '^='),
       $._expression
     )),
 
