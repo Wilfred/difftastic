@@ -1,5 +1,6 @@
 const PREC = {
   COMMA: -1,
+  DECLARATION: 1,
   ASSIGN: 0,
   OBJECT: 1,
   TERNARY: 1,
@@ -82,13 +83,12 @@ module.exports = grammar({
     ),
 
     // A function, generator, class, or variable declaration
-    _declaration: $ => choice(
+    _declaration: $ => prec(PREC.DECLARATION, choice(
       $.function,
       $.generator_function,
-      $.anonymous_class,
       $.class,
       $.var_declaration
-    ),
+    )),
 
     //
     // Import declarations
@@ -136,7 +136,7 @@ module.exports = grammar({
       $.export_statement,
       $.import_statement,
       $.expression_statement,
-      $.var_declaration,
+      $._declaration,
       $.statement_block,
 
       $.if_statement,
@@ -158,6 +158,7 @@ module.exports = grammar({
 
     _trailing_statement: $ => choice(
       $.trailing_break_statement,
+      $.trailing_continue_statement,
       $.trailing_yield_statement,
       $.trailing_throw_statement,
       $.trailing_return_statement,
@@ -174,6 +175,11 @@ module.exports = grammar({
     expression_statement: $ => seq(
       choice($._expression, $.comma_op),
       terminator()
+    ),
+
+    _statements: $ => choice(
+      seq($._statement, optional($._statements)),
+      $._trailing_statement
     ),
 
     trailing_expression_statement: $ => seq(
@@ -346,12 +352,14 @@ module.exports = grammar({
       terminator()
     ),
 
+    trailing_break_statement: $ => 'break',
+
     continue_statement: $ => seq(
       'continue',
       terminator()
     ),
 
-    trailing_break_statement: $ => 'break',
+    trailing_continue_statement: $ => 'continue',
 
     return_statement: $ => seq(
       'return',
@@ -540,7 +548,7 @@ module.exports = grammar({
     ),
 
     function_call: $ => prec(PREC.CALL, seq(
-      choice($._expression, $.super),
+      choice($._expression, $.super, $.function),
       $.arguments
     )),
 
@@ -582,7 +590,7 @@ module.exports = grammar({
         $.member_access,
         $.subscript_access
       ),
-      choice('+=', '-=', '*=', '/='),
+      choice('+=', '-=', '*=', '/=', '^='),
       $._expression
     )),
 

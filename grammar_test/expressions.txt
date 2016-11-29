@@ -281,26 +281,29 @@ Arrays
 Functions
 ============================================
 
-function() {};
-function(arg1, arg2) {
-  arg2;
-};
-function stuff() {}
+[
+  function() {},
+  function(arg1, arg2) {
+    arg2;
+  },
+  function stuff() {}
+]
 
 ---
 
 (program
-  (expression_statement (function
-    (formal_parameters)
-    (statement_block)))
-  (expression_statement (function
-    (formal_parameters (identifier) (identifier))
-    (statement_block
-      (expression_statement (identifier)))))
-  (expression_statement (function
-    (identifier)
-    (formal_parameters)
-    (statement_block))))
+  (expression_statement (array
+    (function
+      (formal_parameters)
+      (statement_block))
+    (function
+      (formal_parameters (identifier) (identifier))
+      (statement_block
+        (expression_statement (identifier))))
+    (function
+      (identifier)
+      (formal_parameters)
+      (statement_block)))))
 
 ===================================================
 Arrow functions
@@ -334,24 +337,27 @@ a => 1;
 Generator Functions
 ============================================
 
-function *() {};
-function *generateStuff(arg1, arg2) {
-  yield;
-  yield arg2;
-};
+[
+  function *() {},
+  function *generateStuff(arg1, arg2) {
+    yield;
+    yield arg2;
+  }
+]
 
 ---
 
 (program
-  (expression_statement (generator_function
-    (formal_parameters)
-    (statement_block)))
-  (expression_statement (generator_function
-    (identifier)
-    (formal_parameters (identifier) (identifier))
-    (statement_block
-      (yield_statement)
-      (yield_statement (identifier))))))
+  (expression_statement (array
+    (generator_function
+      (formal_parameters)
+      (statement_block))
+    (generator_function
+      (identifier)
+      (formal_parameters (identifier) (identifier))
+      (statement_block
+        (yield_statement)
+        (yield_statement (identifier)))))))
 
 ============================================
 Property access
@@ -711,12 +717,15 @@ a = void b()
 Math assignment operators
 ==============================================
 
-x += 1;
+w ^= 1;
+x += 2;
 y.z *= 3;
 
 ---
 
 (program
+  (expression_statement
+    (math_assignment (identifier) (number)))
   (expression_statement
     (math_assignment (identifier) (number)))
   (expression_statement

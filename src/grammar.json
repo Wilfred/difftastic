@@ -267,29 +267,29 @@
       ]
     },
     "_declaration": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "function"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "generator_function"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "anonymous_class"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "class"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "var_declaration"
-        }
-      ]
+      "type": "PREC",
+      "value": 1,
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "function"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "generator_function"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "class"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "var_declaration"
+          }
+        ]
+      }
     },
     "import_statement": {
       "type": "SEQ",
@@ -505,7 +505,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "var_declaration"
+          "name": "_declaration"
         },
         {
           "type": "SYMBOL",
@@ -575,6 +575,10 @@
         {
           "type": "SYMBOL",
           "name": "trailing_break_statement"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "trailing_continue_statement"
         },
         {
           "type": "SYMBOL",
@@ -1558,6 +1562,10 @@
         }
       ]
     },
+    "trailing_break_statement": {
+      "type": "STRING",
+      "value": "break"
+    },
     "continue_statement": {
       "type": "SEQ",
       "members": [
@@ -1580,9 +1588,9 @@
         }
       ]
     },
-    "trailing_break_statement": {
+    "trailing_continue_statement": {
       "type": "STRING",
-      "value": "break"
+      "value": "continue"
     },
     "return_statement": {
       "type": "SEQ",
@@ -2407,6 +2415,10 @@
               {
                 "type": "SYMBOL",
                 "name": "super"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "function"
               }
             ]
           },
@@ -2572,6 +2584,10 @@
               {
                 "type": "STRING",
                 "value": "/="
+              },
+              {
+                "type": "STRING",
+                "value": "^="
               }
             ]
           },

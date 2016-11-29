@@ -96,7 +96,7 @@ if/for/while/do statements without semicolons
 if (a) { if (b) return c }
 if (d) { for (;;) break }
 if (e) { for (f in g) break }
-if (h) { for (i of j) break }
+if (h) { for (i of j) continue }
 if (k) { while (l) break }
 if (m) { do { n; } while (o) }
 if (p) { var q }
@@ -116,7 +116,7 @@ if (p) { var q }
       (trailing_break_statement))))
   (if_statement (identifier) (statement_block
     (trailing_for_of_statement (identifier) (identifier)
-      (trailing_break_statement))))
+      (trailing_continue_statement))))
   (if_statement (identifier) (statement_block
     (trailing_while_statement (identifier)
       (trailing_break_statement))))
@@ -126,3 +126,17 @@ if (p) { var q }
       (identifier))))
   (if_statement (identifier) (statement_block
     (trailing_var_declaration (identifier)))))
+
+=====================================================
+Single-line declarations without semicolons
+=====================================================
+
+function a () { function b () {} function *c () {} class D {} return }
+---
+
+(program
+  (function (identifier) (formal_parameters) (statement_block
+    (function (identifier) (formal_parameters) (statement_block))
+    (generator_function (identifier) (formal_parameters) (statement_block))
+    (class (identifier) (class_body))
+    (trailing_return_statement))))
