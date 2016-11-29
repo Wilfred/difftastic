@@ -176,6 +176,16 @@ module.exports = grammar({
       terminator()
     ),
 
+    _statements: $ => choice(
+      seq($._statement, optional($._statements)),
+      $._trailing_statement
+    ),
+
+    _functions: $ => seq(
+      $.function,
+      optional($._functions)
+    ),
+
     trailing_expression_statement: $ => seq(
       choice($._expression, $.comma_op)
     ),
@@ -437,7 +447,7 @@ module.exports = grammar({
       $.object,
       $.array,
       $.class,
-      $.function,
+      $._functions,
       $.arrow_function,
       $.generator_function,
       $.function_call,
