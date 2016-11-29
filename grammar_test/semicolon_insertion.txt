@@ -126,3 +126,18 @@ if (p) { var q }
       (identifier))))
   (if_statement (identifier) (statement_block
     (trailing_var_declaration (identifier)))))
+
+==============================================
+multiple function declarations
+==============================================
+
+function i () { return true; } function j () { return false; }
+
+---
+
+(program
+  (expression_statement
+    (function (identifier) (formal_parameters)
+      (statement_block (return_statement (true))))
+    (function (identifier) (formal_parameters)
+      (statement_block (return_statement (false))))))
