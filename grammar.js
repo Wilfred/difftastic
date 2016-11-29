@@ -158,6 +158,7 @@ module.exports = grammar({
 
     _trailing_statement: $ => choice(
       $.trailing_break_statement,
+      $.trailing_continue_statement,
       $.trailing_yield_statement,
       $.trailing_throw_statement,
       $.trailing_return_statement,
@@ -351,12 +352,14 @@ module.exports = grammar({
       terminator()
     ),
 
+    trailing_break_statement: $ => 'break',
+
     continue_statement: $ => seq(
       'continue',
       terminator()
     ),
 
-    trailing_break_statement: $ => 'break',
+    trailing_continue_statement: $ => 'continue',
 
     return_statement: $ => seq(
       'return',
