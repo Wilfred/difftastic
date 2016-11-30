@@ -72,7 +72,7 @@ module.exports = grammar({
         choice($._variable, seq('(', $._arg, ')')),
         choice('.', '::')
       )),
-      $._function_name,
+      $._method_name,
       choice(
         seq('(', optional($.formal_parameters), ')'),
         seq(optional($.formal_parameters), $._terminator)
@@ -383,10 +383,10 @@ module.exports = grammar({
       $.constant
     ),
 
-    _function_name: $ => choice($._identifier, $.symbol, $.operator),
-    _undef_list: $ => choice($._function_name, prec(1, seq($._undef_list, ',', $._function_name))),
-    undef: $ => seq("undef", $._undef_list),
-    alias: $ => seq("alias", $._function_name, $._function_name),
+    _method_name: $ => choice($._identifier, $.symbol, $.operator),
+    _undef_list: $ => choice($._method_name, prec(1, seq($._undef_list, ',', $._method_name))),
+    undef: $ => seq('undef', $._undef_list),
+    alias: $ => seq('alias', $._method_name, $._method_name),
 
     comment: $ => token(prec(PREC.COMMENT, choice(
       seq('#', /.*/),
@@ -449,7 +449,7 @@ module.exports = grammar({
     ),
 
     array: $ => choice(
-      seq('[', $._array_function_names, ']'),
+      seq('[', $._array_items, ']'),
       seq(/%[wi]/, choice(
         $._uninterpolated_paren
       )),
@@ -458,10 +458,10 @@ module.exports = grammar({
       ))
     ),
 
-    _array_function_names: $ => optional(seq(expression($), optional(seq(',', $._array_function_names)))),
+    _array_items: $ => optional(seq(expression($), optional(seq(',', $._array_items)))),
 
-    hash: $ => prec(1, seq('{', optional($._hash_function_names), '}')),
-    _hash_function_names: $ => seq($.pair, optional(seq(',', optional($._hash_function_names)))),
+    hash: $ => prec(1, seq('{', optional($._hash_items), '}')),
+    _hash_items: $ => seq($.pair, optional(seq(',', optional($._hash_items)))),
 
     pair: $ => prec(-1, seq(choice(
       seq(expression($), '=>'),
