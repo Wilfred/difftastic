@@ -329,7 +329,7 @@ array
 (program (array (identifier) (identifier)))
 
 =====
-array
+array as object
 =====
 
 [1, 2].any? { |i| i > 1 }
