@@ -348,7 +348,7 @@ return foo
 
 ---
 
-(program (return_statement (identifier)))
+(program (return (argument_list (identifier))))
 
 ====================
 return without value
@@ -358,7 +358,7 @@ return
 
 ---
 
-(program (return_statement))
+(program (return))
 
 ====
 case

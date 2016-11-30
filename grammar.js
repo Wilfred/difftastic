@@ -46,8 +46,7 @@ module.exports = grammar({
   conflicts: $ => [
     [$._lhs, $.function_call, $.function_call_with_do_block],
     [$._lhs, $.function_call],
-    [$._lhs, $.function_call_with_do_block],
-    [$.yield]
+    [$._lhs, $.function_call_with_do_block]
   ],
 
   rules: {
@@ -63,12 +62,6 @@ module.exports = grammar({
       $.module_declaration,
       $.undef,
       $.alias,
-      $.while,
-      $.until,
-      $.if,
-      $.unless,
-      $.for,
-      $.return_statement,
       $.if_modifier,
       $.unless_modifier,
       $.while_modifier,
@@ -108,8 +101,8 @@ module.exports = grammar({
 
     module_declaration: $ => seq("module", $._identifier, $._terminator, optional($._statements), "end"),
 
-    return_statement: $ => seq("return", optional(expression($))),
-    yield: $ => seq("yield", optional($.argument_list)),
+    return: $ => prec.right(seq('return', optional($.argument_list))),
+    yield: $ => prec.right(seq('yield', optional($.argument_list))),
 
     if_modifier: $ => seq($._statement, "if", expression($)),
     unless_modifier: $ => seq($._statement, "unless", expression($)),
@@ -123,12 +116,15 @@ module.exports = grammar({
     _do: $ => choice('do', $._terminator),
 
     case: $ => seq(
-      'case', optional($._simple_expression), repeat($._terminator),
+      'case',
+      optional($._simple_expression),
+      repeat($._terminator),
       $.when,
       'end'
     ),
     when: $ => seq(
-      'when', commaSep1($.pattern),
+      'when',
+      commaSep1($.pattern),
       $._then,
       optional($._statements),
       choice(optional($.else), $.when)
@@ -159,9 +155,7 @@ module.exports = grammar({
       optional($._if_tail)
     ),
     else: $ => seq('else', optional($._statements)),
-
     _then: $ => choice($._terminator, 'then', seq($._terminator, 'then')),
-    // _then: $ => seq(optional($._terminator), optional('then')),
     _if_tail: $ => choice(
       $.else,
       $.elsif
@@ -183,7 +177,6 @@ module.exports = grammar({
     // TODO: Make this look a little more like arg
     _simple_expression: $ => choice(
       $._primary,
-      $.yield,
       $.and,
       $.or,
       $.not,
@@ -195,7 +188,6 @@ module.exports = grammar({
       $.range,
       $.boolean_or,
       $.boolean_and,
-      $.case,
       $.relational,
       $.comparison,
       $.bitwise_or,
@@ -209,8 +201,6 @@ module.exports = grammar({
       $.symbol,
       $.integer,
       $.float,
-      $.boolean,
-      $.nil,
       $.string,
       $.subshell,
       $.hash,
@@ -221,9 +211,17 @@ module.exports = grammar({
     _primary: $ => choice(
       seq("(", optional($._statements), ")"),
       $._lhs,
-      $.begin,
       $.lambda,
-      $.array
+      $.array,
+      $.begin,
+      $.while,
+      $.until,
+      $.if,
+      $.unless,
+      $.for,
+      $.case,
+      $.return,
+      $.yield
     ),
 
     scope_resolution_expression: $ => prec.left(1, seq(optional($._primary), '::', $._identifier)),
@@ -320,7 +318,15 @@ module.exports = grammar({
       $.member_access,
       $.function_call
     ),
-    _variable: $ => choice($._identifier, 'self'),
+    _variable: $ => choice(
+      $._identifier,
+      $.nil,
+      $.self,
+      $.boolean,
+      $.keyword__FILE__,
+      $.keyword__LINE__,
+      $.keyword__ENCODING__
+    ),
 
     instance_variable: $ => (instanceVariablePattern),
     class_variable: $ => (classVariablePattern),
@@ -367,7 +373,11 @@ module.exports = grammar({
     integer: $ => (/0b[01](_?[01])*|0[oO]?[0-7](_?[0-7])*|(0d)?\d(_?\d)*|0x[0-9a-fA-F](_?[0-9a-fA-F])*/),
     float: $ => (/\d(_?\d)*\.\d(_?\d)*([eE]\d(_?\d)*)?/),
     boolean: $ => token(choice('true', 'false', 'TRUE', 'FALSE')),
+    self: $ => 'self',
     nil: $ => token(choice('nil', 'NIL')),
+    keyword__FILE__: $ => '__FILE__',
+    keyword__LINE__: $ => '__LINE__',
+    keyword__ENCODING__: $ => '__ENCODING__',
 
     string: $ => seq(choice(
       $._quoted_string,
