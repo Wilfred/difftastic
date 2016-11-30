@@ -22,7 +22,6 @@ const PREC = {
   EXPONENTIAL: 80,
   COMPLEMENT: 85,
   UNARY_PLUS: 85,
-  REGEX: 100
 };
 
 const identifierPattern = /[a-zA-Z_][a-zA-Z0-9_]*(\?|\!)?/;
@@ -383,7 +382,7 @@ module.exports = grammar({
       seq($.identifier, ':')
     ), expression($))),
 
-    regex: $ => prec(PREC.REGEX, choice(
+    regex: $ => choice(
       regexBody('/', '/', $.interpolation),
       seq('%r', choice(
         $._regex_interpolated_paren
