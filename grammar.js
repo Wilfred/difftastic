@@ -63,12 +63,11 @@ module.exports = grammar({
       $.module_declaration,
       $.undef,
       $.alias,
-      $.while_statement,
-      $.until_statement,
-      $.if_statement,
-      $.unless_statement,
-      $.for_statement,
-      $.begin_statement,
+      $.while,
+      $.until,
+      $.if,
+      $.unless,
+      $.for,
       $.return_statement,
       $.if_modifier,
       $.unless_modifier,
@@ -109,30 +108,8 @@ module.exports = grammar({
 
     module_declaration: $ => seq("module", $._identifier, $._terminator, optional($._statements), "end"),
 
-    while_statement: $ => seq("while", expression($), $._statement_block),
-    until_statement: $ => seq("until", expression($), $._statement_block),
-    if_statement: $ => seq("if", expression($), $._then_elsif_else_block),
-    unless_statement: $ => seq("unless", expression($), $._then_else_block),
-    for_statement: $ => seq("for", $._lhs, "in", expression($), $._statement_block),
-    begin_statement: $ => seq(
-      "begin",
-      optional($._statements),
-      repeat($.rescue_block),
-      optional($.else_block),
-      optional($.ensure_block),
-      "end"
-    ),
-
     return_statement: $ => seq("return", optional(expression($))),
-
-    case_expression: $ => seq(
-      "case", $._simple_expression, $._terminator,
-      repeat($.when_block),
-      optional($.else_block),
-      "end"
-    ),
-    when_block: $ => seq("when", commaSep1($.pattern), $._then_block),
-    pattern: $ => $._statement,
+    yield: $ => seq("yield", optional($.argument_list)),
 
     if_modifier: $ => seq($._statement, "if", expression($)),
     unless_modifier: $ => seq($._statement, "unless", expression($)),
@@ -140,33 +117,68 @@ module.exports = grammar({
     until_modifier: $ => seq($._statement, "until", expression($)),
     rescue_modifier: $ => prec(PREC.RESCUE, seq($._statement, "rescue", expression($))),
 
-    _statement_block: $ => choice(
-      seq("do", optional($._statements), "end"),
-      seq($._terminator, optional($._statements), "end")
+    while: $ => seq('while', expression($), $._do, optional($._statements), 'end'),
+    until: $ => seq('until', expression($), $._do, optional($._statements), 'end'),
+    for: $ => seq('for', $._lhs, 'in', expression($), $._do, optional($._statements), 'end'),
+    _do: $ => choice('do', $._terminator),
+
+    case: $ => seq(
+      'case', optional($._simple_expression), repeat($._terminator),
+      $.when,
+      'end'
+    ),
+    when: $ => seq(
+      'when', commaSep1($.pattern),
+      $._then,
+      optional($._statements),
+      choice(optional($.else), $.when)
+    ),
+    pattern: $ => $._statement,
+
+    if: $ => seq(
+      'if',
+      expression($),
+      $._then,
+      optional($._statements),
+      optional($._if_tail),
+      'end'
+    ),
+    unless: $ => seq(
+      'unless',
+      expression($),
+      $._then,
+      optional($._statements),
+      optional($.else),
+      'end'
+    ),
+    elsif: $ => seq(
+      'elsif',
+      expression($),
+      $._then,
+      optional($._statements),
+      optional($._if_tail)
+    ),
+    else: $ => seq('else', optional($._statements)),
+
+    _then: $ => choice($._terminator, 'then', seq($._terminator, 'then')),
+    // _then: $ => seq(optional($._terminator), optional('then')),
+    _if_tail: $ => choice(
+      $.else,
+      $.elsif
     ),
 
-    _then_block: $ => seq(choice("then", $._terminator), optional($._statements)),
-    elsif_block: $ => seq("elsif", expression($), $._then_block),
-    else_block: $ => seq("else", optional($._statements)),
-    ensure_block: $ => seq("ensure", optional($._statements)),
-
-    rescue_block: $ => seq(
-      "rescue",
+    begin: $ => seq('begin', bodyStatement($), 'end'),
+    ensure: $ => seq('ensure', optional($._statements)),
+    rescue: $ => seq(
+      'rescue',
       optional($.rescue_arguments),
-      optional(seq("=>", $.rescued_exception)),
-      $._then_block
+      optional(seq('=>', $.rescued_exception)),
+      $._then,
+      optional($._statements),
+      optional($.rescue)
     ),
-
     rescue_arguments: $ => commaSep1($._simple_expression),
     rescued_exception: $ => (identifierPattern),
-
-    _then_else_block: $ => seq($._then_block, optional($.else_block), "end"),
-    _then_elsif_else_block: $ => seq(
-      $._then_block,
-      repeat($.elsif_block),
-      optional($.else_block),
-      "end"
-    ),
 
     // TODO: Make this look a little more like arg
     _simple_expression: $ => choice(
@@ -183,7 +195,7 @@ module.exports = grammar({
       $.range,
       $.boolean_or,
       $.boolean_and,
-      $.case_expression,
+      $.case,
       $.relational,
       $.comparison,
       $.bitwise_or,
@@ -209,6 +221,7 @@ module.exports = grammar({
     _primary: $ => choice(
       seq("(", optional($._statements), ")"),
       $._lhs,
+      $.begin,
       $.lambda,
       $.array
     ),
@@ -268,8 +281,6 @@ module.exports = grammar({
       optional($._statements),
       "}"
     ),
-
-    yield: $ => seq("yield", optional($.argument_list)),
 
     and: $ => prec.left(PREC.AND, seq(expression($), "and", expression($))),
     or: $ => prec.left(PREC.OR, seq(expression($), "or", expression($))),
@@ -554,4 +565,13 @@ function noneOf (characterArray) {
     pattern += '\\' + character;
   }
   return pattern + ']'
+}
+
+function bodyStatement($) {
+  return seq(
+    optional($._statements),
+    optional($.rescue),
+    optional($.else),
+    optional($.ensure)
+  )
 }

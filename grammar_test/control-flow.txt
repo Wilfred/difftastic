@@ -7,7 +7,7 @@ end
 
 ---
 
-(program (while_statement (identifier)))
+(program (while (identifier)))
 
 ================
 while without do
@@ -18,7 +18,7 @@ end
 
 ---
 
-(program (while_statement (identifier)))
+(program (while (identifier)))
 
 =========================
 while statement with body
@@ -30,7 +30,7 @@ end
 
 ---
 
-(program (while_statement (identifier) (identifier)))
+(program (while (identifier) (identifier)))
 
 =====================
 empty until statement
@@ -41,7 +41,7 @@ end
 
 ---
 
-(program (until_statement (identifier)))
+(program (until (identifier)))
 
 =========================
 until statement with body
@@ -53,7 +53,7 @@ end
 
 ---
 
-(program (until_statement (identifier) (identifier)))
+(program (until (identifier) (identifier)))
 
 ==================
 empty if statement
@@ -64,7 +64,7 @@ end
 
 ---
 
-(program (if_statement (identifier)))
+(program (if (identifier)))
 
 =======================
 empty if/else statement
@@ -76,7 +76,7 @@ end
 
 ---
 
-(program (if_statement (identifier) (else_block)))
+(program (if (identifier) (else)))
 
 ==================================
 single-line if then else statement
@@ -86,7 +86,7 @@ if foo then bar else quux end
 
 ---
 
-(program (if_statement (identifier) (identifier) (else_block (identifier))))
+(program (if (identifier) (identifier) (else (identifier))))
 
 ========
 if elsif
@@ -101,8 +101,8 @@ end
 ---
 
 (program
-  (if_statement (identifier) (identifier)
-  (elsif_block (identifier) (identifier))))
+  (if (identifier) (identifier)
+  (elsif (identifier) (identifier))))
 
 =============
 if elsif else
@@ -119,9 +119,9 @@ end
 ---
 
 (program
-  (if_statement (identifier) (identifier)
-  (elsif_block (identifier) (identifier))
-  (else_block (identifier))))
+  (if (identifier) (identifier)
+    (elsif (identifier) (identifier)
+      (else (identifier)))))
 
 ======================
 empty unless statement
@@ -132,7 +132,7 @@ end
 
 ---
 
-(program (unless_statement (identifier)))
+(program (unless (identifier)))
 
 ================================
 empty unless statement with then
@@ -143,7 +143,7 @@ end
 
 ---
 
-(program (unless_statement (identifier)))
+(program (unless (identifier)))
 
 ================================
 empty unless statement with else
@@ -155,7 +155,7 @@ end
 
 ---
 
-(program (unless_statement (identifier) (else_block)))
+(program (unless (identifier) (else)))
 
 ===
 for
@@ -167,7 +167,7 @@ end
 
 ---
 
-(program (for_statement (identifier) (identifier) (identifier)))
+(program (for (identifier) (identifier) (identifier)))
 
 ==============
 for without do
@@ -179,7 +179,7 @@ end
 
 ---
 
-(program (for_statement (identifier) (identifier) (identifier)))
+(program (for (identifier) (identifier) (identifier)))
 
 ===========
 empty begin
@@ -190,7 +190,7 @@ end
 
 ---
 
-(program (begin_statement))
+(program (begin))
 
 ===============
 begin with body
@@ -202,7 +202,7 @@ end
 
 ---
 
-(program (begin_statement (identifier)))
+(program (begin (identifier)))
 
 ===============
 begin with else
@@ -217,8 +217,8 @@ end
 ---
 
 (program
-  (begin_statement (identifier)
-    (else_block (identifier))))
+  (begin (identifier)
+    (else (identifier))))
 
 ===============
 begin with ensure
@@ -233,8 +233,8 @@ end
 ---
 
 (program
-  (begin_statement (identifier)
-    (ensure_block (identifier))))
+  (begin (identifier)
+    (ensure (identifier))))
 
 =======================
 begin with empty rescue
@@ -257,9 +257,9 @@ end
 ---
 
 (program
-  (begin_statement (rescue_block))
-  (begin_statement (rescue_block))
-  (begin_statement (rescue_block (identifier))))
+  (begin (rescue))
+  (begin (rescue))
+  (begin (rescue (identifier))))
 
 ===========================
 begin with rescue with args
@@ -300,13 +300,13 @@ end
 ---
 
 (program
-  (begin_statement (rescue_block (rescue_arguments (identifier))))
-  (begin_statement (rescue_block (rescue_arguments (identifier))))
-  (begin_statement (rescue_block (rescue_arguments (identifier)) (identifier)))
-  (begin_statement (rescue_block (rescued_exception) (identifier)))
-  (begin_statement (rescue_block (rescue_arguments (identifier) (identifier)) (identifier)))
-  (begin_statement (rescue_block (rescue_arguments (identifier)) (rescued_exception)))
-  (begin_statement (rescue_block (rescue_arguments (identifier)) (rescued_exception) (identifier))))
+  (begin (rescue (rescue_arguments (identifier))))
+  (begin (rescue (rescue_arguments (identifier))))
+  (begin (rescue (rescue_arguments (identifier)) (identifier)))
+  (begin (rescue (rescued_exception) (identifier)))
+  (begin (rescue (rescue_arguments (identifier) (identifier)) (identifier)))
+  (begin (rescue (rescue_arguments (identifier)) (rescued_exception)))
+  (begin (rescue (rescue_arguments (identifier)) (rescued_exception) (identifier))))
 
 =================
 rescue modifier
@@ -335,10 +335,10 @@ end
 ---
 
 (program
-  (begin_statement (identifier)
-    (rescue_block (rescue_arguments (identifier)) (identifier))
-    (else_block (identifier))
-    (ensure_block (identifier))))
+  (begin (identifier)
+    (rescue (rescue_arguments (identifier)) (identifier))
+    (else (identifier))
+    (ensure (identifier))))
 
 ======
 return
@@ -371,8 +371,8 @@ end
 ---
 
 (program
-  (case_expression (identifier)
-  (when_block (pattern (identifier)))))
+  (case (identifier)
+  (when (pattern (identifier)))))
 
 ==============
 case with else
@@ -386,9 +386,9 @@ end
 ---
 
 (program
-  (case_expression (identifier)
-    (when_block (pattern (identifier)))
-    (else_block)))
+  (case (identifier)
+    (when (pattern (identifier))
+      (else))))
 
 ==============================
 case with multiple when blocks
@@ -406,10 +406,10 @@ end
 ---
 
 (program
-  (case_expression (identifier)
-    (when_block (pattern (identifier)) (identifier))
-    (when_block (pattern (identifier)) (identifier))
-    (else_block (identifier))))
+  (case (identifier)
+    (when (pattern (identifier)) (identifier)
+      (when (pattern (identifier)) (identifier)
+        (else (identifier))))))
 
 ==============
 case with assignment
@@ -422,7 +422,10 @@ end
 
 ---
 
-(program (assignment (identifier) (case_expression (identifier) (when_block (pattern (identifier))) (else_block))))
+(program (assignment (identifier)
+  (case (identifier)
+    (when (pattern (identifier))
+      (else)))))
 
 ==============
 case with expression
@@ -435,4 +438,7 @@ end
 
 ---
 
-(program (assignment (identifier) (case_expression (assignment (identifier) (bitwise_or (identifier) (identifier))) (when_block (pattern (identifier))) (else_block))))
+(program (assignment (identifier)
+  (case (assignment (identifier) (bitwise_or (identifier) (identifier)))
+    (when (pattern (identifier))
+      (else)))))
