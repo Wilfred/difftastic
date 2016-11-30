@@ -130,11 +130,11 @@ module.exports = grammar({
     redo: $ => 'redo',
     retry: $ => 'retry',
 
-    if_modifier: $ => seq($._statement, "if", expression($)),
-    unless_modifier: $ => seq($._statement, "unless", expression($)),
-    while_modifier: $ => seq($._statement, "while", expression($)),
-    until_modifier: $ => seq($._statement, "until", expression($)),
-    rescue_modifier: $ => prec(PREC.RESCUE, seq($._statement, "rescue", expression($))),
+    if_modifier: $ => seq($._statement, 'if', expression($)),
+    unless_modifier: $ => seq($._statement, 'unless', expression($)),
+    while_modifier: $ => seq($._statement, 'while', expression($)),
+    until_modifier: $ => seq($._statement, 'until', expression($)),
+    rescue_modifier: $ => prec(PREC.RESCUE, seq($._statement, 'rescue', expression($))),
 
     while: $ => seq('while', expression($), $._do, optional($._statements), 'end'),
     until: $ => seq('until', expression($), $._do, optional($._statements), 'end'),
@@ -227,7 +227,7 @@ module.exports = grammar({
     ),
 
     _primary: $ => choice(
-      seq("(", optional($._statements), ")"),
+      seq('(', optional($._statements), ')'),
       $._lhs,
       $.array,
       $.hash,
@@ -257,9 +257,9 @@ module.exports = grammar({
       $.retry
     ),
 
-    element_reference: $ => prec.left(1, seq($._primary, "[", $._argument_list, "]")),
+    element_reference: $ => prec.left(1, seq($._primary, '[', $._argument_list, ']')),
     scope_resolution: $ => prec.left(1, seq(optional($._primary), '::', $._identifier)),
-    call: $ => prec.left(PREC.BITWISE_AND + 1, seq($._primary, choice(".", "&."), $._identifier)),
+    call: $ => prec.left(PREC.BITWISE_AND + 1, seq($._primary, choice('.', '&.'), $._identifier)),
 
     method_call_with_do_block: $ => prec.left(seq(
       choice($._variable, $.scope_resolution, $.call),
@@ -279,7 +279,7 @@ module.exports = grammar({
     )),
 
     argument_list: $ => prec.left(1, choice(
-      seq("(", optional($._argument_list), optional($.block_argument), ")"),
+      seq('(', optional($._argument_list), optional($.block_argument), ')'),
       seq($._argument_list, optional($.block_argument))
     )),
 
@@ -293,7 +293,7 @@ module.exports = grammar({
       seq($._identifier, ':')
     ), $._arg)),
 
-    block_argument: $ => seq("&", $._arg),
+    block_argument: $ => seq('&', $._arg),
 
     do_block: $ => $._do_block,
     _do_block: $ => seq(
@@ -321,10 +321,10 @@ module.exports = grammar({
       '}'
     ),
 
-    and: $ => prec.left(PREC.AND, seq(expression($), "and", expression($))),
-    or: $ => prec.left(PREC.OR, seq(expression($), "or", expression($))),
-    not: $ => prec.right(PREC.NOT, seq("not", expression($))),
-    defined: $ => prec(PREC.DEFINED, seq("defined?", expression($))),
+    and: $ => prec.left(PREC.AND, seq(expression($), 'and', expression($))),
+    or: $ => prec.left(PREC.OR, seq(expression($), 'or', expression($))),
+    not: $ => prec.right(PREC.NOT, seq('not', expression($))),
+    defined: $ => prec(PREC.DEFINED, seq('defined?', expression($))),
     assignment: $ => prec.right(PREC.ASSIGN, seq($._lhs, '=', expression($))),
     math_assignment: $ => prec.right(PREC.ASSIGN, seq($._lhs, choice('+=', '-=', '*=', '**=', '/='), expression($))),
     conditional_assignment: $ => prec.right(PREC.ASSIGN, seq($._lhs, choice('||=', '&&='), expression($))),
@@ -487,8 +487,8 @@ module.exports = grammar({
           // $._formal_parameter
         )),
         choice(
-          seq("{", optional($._statements), "}"),
-          seq("do", optional($._statements), "end")
+          seq('{', optional($._statements), '}'),
+          seq('do', optional($._statements), 'end')
         )
       ),
       seq('lambda', choice($._block, $._do_block))
