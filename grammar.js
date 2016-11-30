@@ -56,7 +56,6 @@ module.exports = grammar({
     _statements: $ => sepTrailing($._statements, $._statement, $._terminator),
 
     _statement: $ => choice(
-      $.method_declaration,
       $.class_declaration,
       $.singleton_class_declaration,
       $.module_declaration,
@@ -70,13 +69,19 @@ module.exports = grammar({
       expression($)
     ),
 
-    method_declaration: $ => seq(
-      "def",
-      optional(seq($._identifier,'.')),
+    method: $ => seq(
+      'def',
+      optional(seq(
+        choice($._variable, seq('(', $._simple_expression, ')')),
+        choice('.', '::')
+      )),
       $._function_name,
-      choice(seq("(", optional($.formal_parameters), ")"), seq(optional($.formal_parameters), $._terminator)),
-      optional($._statements),
-      "end"
+      choice(
+        seq('(', optional($.formal_parameters), ')'),
+        seq(optional($.formal_parameters), $._terminator)
+      ),
+      bodyStatement($),
+      'end'
     ),
 
     formal_parameters: $ => commaSep1($._formal_parameter),
@@ -213,6 +218,7 @@ module.exports = grammar({
       $._lhs,
       $.lambda,
       $.array,
+      $.method,
       $.begin,
       $.while,
       $.until,

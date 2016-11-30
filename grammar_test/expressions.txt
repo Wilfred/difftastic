@@ -191,9 +191,14 @@ conditional
 
 a ? b : c
 
+a ? b
+  : c
+
 ---
 
-(program (conditional (identifier) (identifier) (identifier)))
+(program
+  (conditional (identifier) (identifier) (identifier))
+  (conditional (identifier) (identifier) (identifier)))
 
 ===============
 inclusive range
