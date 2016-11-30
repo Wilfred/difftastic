@@ -181,6 +181,54 @@ end
 
 (program (for (identifier) (identifier) (identifier)))
 
+==============
+next
+==============
+
+for x in y
+  next
+end
+
+---
+
+(program (for (identifier) (identifier) (next)))
+
+==============
+retry
+==============
+
+for x in y
+  retry
+end
+
+---
+
+(program (for (identifier) (identifier) (retry)))
+
+==============
+break
+==============
+
+while b
+  break
+end
+
+---
+
+(program (while (identifier) (break)))
+
+==============
+redo
+==============
+
+while b
+  redo
+end
+
+---
+
+(program (while (identifier) (redo)))
+
 ===========
 empty begin
 ===========
@@ -325,7 +373,7 @@ begin with all the trimmings
 begin
 	foo
 rescue x
-  bar
+  retry
 else
 	quux
 ensure
@@ -336,7 +384,7 @@ end
 
 (program
   (begin (identifier)
-    (rescue (rescue_arguments (identifier)) (identifier))
+    (rescue (rescue_arguments (identifier)) (retry))
     (else (identifier))
     (ensure (identifier))))
 

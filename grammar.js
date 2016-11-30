@@ -69,7 +69,7 @@ module.exports = grammar({
     method: $ => seq(
       'def',
       optional(seq(
-        choice($._variable, seq('(', $._simple_expression, ')')),
+        choice($._variable, seq('(', $._arg, ')')),
         choice('.', '::')
       )),
       $._function_name,
@@ -94,8 +94,8 @@ module.exports = grammar({
     splat_parameter: $ => seq('*', optional($._identifier)),
     hash_splat_parameter: $ => seq('**', optional($._identifier)),
     block_parameter: $ => seq('&', $._identifier),
-    keyword_parameter: $ => seq($._identifier, ':', optional($._simple_expression)),
-    optional_parameter: $ => seq($._identifier, '=', $._simple_expression),
+    keyword_parameter: $ => seq($._identifier, ':', optional($._arg)),
+    optional_parameter: $ => seq($._identifier, '=', $._arg),
 
     class: $ => seq(
       'class',
@@ -122,8 +122,13 @@ module.exports = grammar({
       'end'
     ),
 
+    super: $ => prec.right(seq('super', optional($.argument_list))),
     return: $ => prec.right(seq('return', optional($.argument_list))),
     yield: $ => prec.right(seq('yield', optional($.argument_list))),
+    break: $ => prec.right(seq('break', optional($.argument_list))),
+    next: $ => prec.right(seq('next', optional($.argument_list))),
+    redo: $ => 'redo',
+    retry: $ => 'retry',
 
     if_modifier: $ => seq($._statement, "if", expression($)),
     unless_modifier: $ => seq($._statement, "unless", expression($)),
@@ -138,7 +143,7 @@ module.exports = grammar({
 
     case: $ => seq(
       'case',
-      optional($._simple_expression),
+      optional($._arg),
       repeat($._terminator),
       $.when,
       'end'
@@ -192,11 +197,10 @@ module.exports = grammar({
       optional($._statements),
       optional($.rescue)
     ),
-    rescue_arguments: $ => commaSep1($._simple_expression),
+    rescue_arguments: $ => commaSep1($._arg),
     rescued_exception: $ => (identifierPattern),
 
-    // TODO: Make this look a little more like arg
-    _simple_expression: $ => choice(
+    _arg: $ => choice(
       $._primary,
       $.and,
       $.or,
@@ -219,21 +223,21 @@ module.exports = grammar({
       $.unary_minus,
       $.exponential,
       $.complement,
+      $.super
+    ),
+
+    _primary: $ => choice(
+      seq("(", optional($._statements), ")"),
+      $._lhs,
+      $.array,
+      $.hash,
+      $.subshell,
       $.symbol,
       $.integer,
       $.float,
       $.string,
-      $.subshell,
-      $.hash,
-      $.regex
-    ),
-
-    // TODO: Make this look a little more like primary
-    _primary: $ => choice(
-      seq("(", optional($._statements), ")"),
-      $._lhs,
+      $.regex,
       $.lambda,
-      $.array,
       $.method,
       $.class,
       $.singleton_class,
@@ -246,7 +250,11 @@ module.exports = grammar({
       $.for,
       $.case,
       $.return,
-      $.yield
+      $.yield,
+      $.break,
+      $.next,
+      $.redo,
+      $.retry
     ),
 
     scope_resolution_expression: $ => prec.left(1, seq(optional($._primary), '::', $._identifier)),
@@ -278,16 +286,16 @@ module.exports = grammar({
     )),
 
     _argument_list: $ => prec.left(1, commaSep1(choice(
-      $._simple_expression,
+      $._arg,
       $.argument_pair
     ))),
 
     argument_pair: $ => prec.left(1, seq(choice(
       seq($.symbol, '=>'),
       seq($._identifier, ':')
-    ), $._simple_expression)),
+    ), $._arg)),
 
-    block_argument: $ => seq("&", $._simple_expression),
+    block_argument: $ => seq("&", $._arg),
 
     do_block: $ => $._do_block,
     _do_block: $ => seq(
@@ -573,8 +581,17 @@ function regexBody (open, close, interpolation, self) {
 
 function expression ($) {
   return choice(
-    $._simple_expression,
+    $._arg,
     $.function_call_with_do_block
+  )
+}
+
+function bodyStatement($) {
+  return seq(
+    optional($._statements),
+    optional($.rescue),
+    optional($.else),
+    optional($.ensure)
   )
 }
 
@@ -600,13 +617,4 @@ function noneOf (characterArray) {
     pattern += '\\' + character;
   }
   return pattern + ']'
-}
-
-function bodyStatement($) {
-  return seq(
-    optional($._statements),
-    optional($.rescue),
-    optional($.else),
-    optional($.ensure)
-  )
 }

@@ -31,6 +31,18 @@ end
 (program (method (identifier) (identifier)))
 
 ================
+method with call to super
+================
+
+def foo
+  super
+end
+
+---
+
+(program (method (identifier) (super)))
+
+================
 method with args
 ================
 
