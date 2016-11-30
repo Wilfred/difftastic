@@ -43,30 +43,15 @@ double quoted symbol with interpolation
 
 (program (symbol (interpolation (identifier))))
 
-=========================================
-percent symbol with unbalanced delimiters
-=========================================
-
-%s/a/
-%s\a\
-%s#a#
-
----
-
-(program (symbol) (symbol) (symbol))
-
 =======================================
 percent symbol with balanced delimiters
 =======================================
 
-%s{a{b}c}
-%s<a<b>c>
 %s(a(b)c)
-%s[a[b]c]
 
 ---
 
-(program (symbol) (symbol) (symbol) (symbol))
+(program (symbol))
 
 =======
 integer
@@ -263,86 +248,41 @@ escaped interpolation
 
 (program (string))
 
-===========================================
-percent q string with unbalanced delimiters
-===========================================
-
-%q/a/
-%q\a\
-%q#a#
-
----
-
-(program (string) (string) (string))
-
 =========================================
 percent q string with balanced delimiters
 =========================================
 
-%q<a<b>c>
-%q{a{b}c}
-%q[a[b]c]
 %q(a(b)c)
 
 ---
 
-(program (string) (string) (string) (string))
-
-=========================================
-percent string with unbalanced delimiters
-=========================================
-
-%/a/
-%\a\
-%#a#
-
----
-
-(program (string) (string) (string))
-
-===========================================
-percent Q string with unbalanced delimiters
-===========================================
-
-%Q#a#
-%Q/a/
-%Q\a\
-
----
-
-(program (string) (string) (string))
+(program (string))
 
 =========================================
 percent string with balanced delimiters
 =========================================
 
-%<a<b>c>
-%{a{b}c}
-%[a[b]c]
 %(a(b)c)
 
 ---
 
-(program (string) (string) (string) (string))
+(program (string))
 
 =========================================
 percent Q string with balanced delimiters
 =========================================
 
-%Q<a<b>c>
-%Q{a{b}c}
-%Q[a[b]c]
 %Q(a(b)c)
 
 ---
 
-(program (string) (string) (string) (string))
+(program (string))
 
 ===============
 string chaining
 ===============
 
-%q{a} "b" "c"
+%q(a) "b" "c"
 
 ---
 
@@ -429,16 +369,6 @@ percent w array
 
 (program (array))
 
-==========================
-unbalanced percent w array
-==========================
-
-%w/one two/
-
----
-
-(program (array))
-
 ===================================
 percent W array with interpolations
 ===================================
@@ -464,16 +394,6 @@ percent i array
 ===============
 
 %i(word word)
-
----
-
-(program (array))
-
-==========================
-unbalanced percent i array
-==========================
-
-%i/one two/
 
 ---
 
@@ -552,46 +472,21 @@ regular expression with interpolation
 	(regex (interpolation (identifier)))
 	(regex))
 
-=======================================================
-percent r regular expression with unbalanced delimiters
-=======================================================
-
-%r/a/
-%r\a\
-%r#a#
-
----
-
-(program (regex) (regex) (regex))
-
 =====================================================
 percent r regular expression with balanced delimiters
 =====================================================
 
-%r<a<b>c>
-%r{a{b}c}
-%r[a[b]c]
 %r(a(b)c)
 
 ---
 
-(program (regex) (regex) (regex) (regex))
-
-=========================================================================
-percent r regular expression with unbalanced delimiters and interpolation
-=========================================================================
-
-%r/a#{b}c/
-
----
-
-(program (regex (interpolation (identifier))))
+(program (regex))
 
 =======================================================================
 percent r regular expression with balanced delimiters and interpolation
 =======================================================================
 
-%r[a#{b}c]
+%r(a#{b}c)
 
 ---
 

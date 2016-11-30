@@ -25,11 +25,6 @@ const PREC = {
   REGEX: 100
 };
 
-// TODO: Enable rest of unbalanced delimiters. These are rarely used in real
-// Ruby code and cause an explosion of lex and parse states along with 20+ min
-// generate/build times.
-// const unbalancedDelimiters = '!@#$%^&*)]}>|\\=/+-~`\'",.?:;_'.split('');
-const unbalancedDelimiters = '#/\\'.split('');
 const identifierPattern = /[a-zA-Z_][a-zA-Z0-9_]*(\?|\!)?/;
 const operators = ['..', '|', '^', '&', '<=>', '==', '===', '=~', '>', '>=', '<', '<=', '+', '-', '*', '/', '%', '**', '<<', '>>', '~', '+@', '-@', '[]', '[]='];
 
@@ -335,11 +330,7 @@ module.exports = grammar({
       seq(":'", $._single_quoted_continuation),
       seq(':"', $._double_quoted_continuation),
       seq('%s', choice(
-        choice.apply(null, unbalancedDelimiters.map(d => stringBody(d, d))),
-        $._uninterpolated_angle,
-        $._uninterpolated_bracket,
-        $._uninterpolated_paren,
-        $._uninterpolated_brace
+        $._uninterpolated_paren
       ))
     ),
 
@@ -351,18 +342,10 @@ module.exports = grammar({
     string: $ => seq(choice(
       $._quoted_string,
       seq(/%Q?/, choice(
-        choice.apply(null, unbalancedDelimiters.map(d => stringBody(d, d, $.interpolation))),
-        $._interpolated_angle,
-        $._interpolated_bracket,
-        $._interpolated_paren,
-        $._interpolated_brace
+        $._interpolated_paren
       )),
       seq(/%q/, choice(
-        choice.apply(null, unbalancedDelimiters.map(d => stringBody(d, d))),
-        $._uninterpolated_angle,
-        $._uninterpolated_bracket,
-        $._uninterpolated_paren,
-        $._uninterpolated_brace
+        $._uninterpolated_paren
       ))
     ), repeat($._quoted_string)),
 
@@ -373,42 +356,24 @@ module.exports = grammar({
     _single_quoted_continuation: $ => stringBody(blank(), "'"),
     _double_quoted_continuation: $ => stringBody(blank(), '"', $.interpolation),
 
-    _interpolated_angle: $ => stringBody('<', '>', $.interpolation, $._interpolated_angle),
-    _interpolated_bracket: $ => stringBody('[', ']', $.interpolation, $._interpolated_bracket),
     _interpolated_paren: $ => stringBody('(', ')', $.interpolation, $._interpolated_paren),
-    _interpolated_brace: $ => stringBody('{', '}', $.interpolation, $._interpolated_brace),
-    _uninterpolated_angle: $ => stringBody('<', '>', null, $._uninterpolated_angle),
-    _uninterpolated_bracket: $ => stringBody('[', ']', null, $._uninterpolated_bracket),
     _uninterpolated_paren: $ => stringBody('(', ')', null, $._uninterpolated_paren),
-    _uninterpolated_brace: $ => stringBody('{', '}', null, $._uninterpolated_brace),
     interpolation: $ => seq('#{', expression($), '}'),
 
     subshell: $ => choice(
       stringBody('`', '`'),
       seq('%x', choice(
-        choice.apply(null, unbalancedDelimiters.map(d => stringBody(d, d, $.interpolation))),
-        $._interpolated_angle,
-        $._interpolated_bracket,
-        $._interpolated_paren,
-        $._interpolated_brace
+        $._interpolated_paren
       ))
     ),
 
     array: $ => choice(
       seq('[', $._array_items, ']'),
       seq(/%[wi]/, choice(
-        choice.apply(null, unbalancedDelimiters.map(d => stringBody(d, d))),
-        $._uninterpolated_angle,
-        $._uninterpolated_bracket,
-        $._uninterpolated_paren,
-        $._uninterpolated_brace
+        $._uninterpolated_paren
       )),
       seq(/%[WI]/, choice(
-        choice.apply(null, unbalancedDelimiters.map(d => stringBody(d, d, $.interpolation))),
-        $._interpolated_angle,
-        $._interpolated_bracket,
-        $._interpolated_paren,
-        $._interpolated_brace
+        $._interpolated_paren
       ))
     ),
 
@@ -425,18 +390,11 @@ module.exports = grammar({
     regex: $ => prec(PREC.REGEX, choice(
       regexBody('/', '/', $.interpolation),
       seq('%r', choice(
-        choice.apply(null, unbalancedDelimiters.map(d => regexBody(d, d, $.interpolation))),
-        $._regex_interpolated_angle,
-        $._regex_interpolated_bracket,
-        $._regex_interpolated_paren,
-        $._regex_interpolated_brace
+        $._regex_interpolated_paren
       ))
     )),
 
-    _regex_interpolated_angle: $ => regexBody('<', '>', $.interpolation, $._regex_interpolated_angle),
-    _regex_interpolated_bracket: $ => regexBody('[', ']', $.interpolation, $._regex_interpolated_bracket),
     _regex_interpolated_paren: $ => regexBody('(', ')', $.interpolation, $._regex_interpolated_paren),
-    _regex_interpolated_brace: $ => regexBody('{', '}', $.interpolation, $._regex_interpolated_brace),
 
     lambda_literal: $ => seq(
       '->',
