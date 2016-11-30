@@ -259,9 +259,8 @@ module.exports = grammar({
 
     scope_resolution_expression: $ => prec.left(1, seq(optional($._primary), '::', $._identifier)),
     element_reference: $ => prec.left(1, seq($._primary, "[", $._argument_list, "]")),
-
-    // TODO: Needs a new name. send? but then you'd want to include args
-    member_access: $ => prec.left(1, seq($._primary, ".", $._identifier)),
+    // TODO: Needs a new name
+    member_access: $ => prec.left(PREC.BITWISE_AND + 1, seq($._primary, choice(".", "&."), $._identifier)),
 
     function_call_with_do_block: $ => prec.left(seq(
       choice($._variable, $.scope_resolution_expression, $.member_access),
@@ -299,18 +298,28 @@ module.exports = grammar({
 
     do_block: $ => $._do_block,
     _do_block: $ => seq(
-      "do",
-      optional(seq("|", optional($.formal_parameters), "|")),
+      'do',
+      optional(seq(
+        '|',
+        optional($.formal_parameters),
+        optional(seq(';', sep1($._identifier, ','))), // Block shadow args e.g. {|; a, b| ...}
+        '|')
+      ),
       optional($._statements),
-      "end"
+      'end'
     ),
 
     block: $ => $._block,
     _block: $ => seq(
-      "{",
-      optional(seq("|", optional($.formal_parameters), "|")),
+      '{',
+      optional(seq(
+        '|',
+        optional($.formal_parameters),
+        optional(seq(';', sep1($._identifier, ','))), // Block shadow args e.g. {|; a, b| ...}
+        '|')
+      ),
       optional($._statements),
-      "}"
+      '}'
     ),
 
     and: $ => prec.left(PREC.AND, seq(expression($), "and", expression($))),

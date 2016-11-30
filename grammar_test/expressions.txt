@@ -410,6 +410,16 @@ foo.bar("hi", 2)
   (function_call (member_access (identifier) (identifier)) (argument_list (string) (integer))))
 
 ===============================
+method call with safe navigation operator
+===============================
+
+foo&.bar
+
+---
+
+(program (member_access (identifier) (identifier)))
+
+===============================
 method call with hash args
 ===============================
 
@@ -545,6 +555,16 @@ foo items.any? { |i| i > 0 }
   (function_call (identifier) (argument_list (function_call
     (member_access (identifier) (identifier))
     (block (formal_parameters (identifier)) (comparison (identifier) (integer)))))))
+
+===============================
+method call with block shadow arguments
+===============================
+
+foo { |; i, j| }
+
+---
+
+(program (function_call (identifier) (block (identifier) (identifier))))
 
 ==============
 empty lambda expression
