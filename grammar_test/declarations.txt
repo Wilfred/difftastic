@@ -217,7 +217,7 @@ end
 
 ---
 
-(program (class_declaration (identifier)))
+(program (class (identifier)))
 
 ==============
 empty subclass
@@ -228,7 +228,7 @@ end
 
 ---
 
-(program (class_declaration (identifier) (identifier)))
+(program (class (identifier) (identifier)))
 
 ==================================
 empty subclass of namespaced class
@@ -239,7 +239,7 @@ end
 
 ---
 
-(program (class_declaration (identifier) (identifier) (identifier)))
+(program (class (identifier) (identifier) (identifier)))
 
 ===============
 class with body
@@ -252,7 +252,7 @@ end
 
 ---
 
-(program (class_declaration (identifier) (method (identifier))))
+(program (class (identifier) (method (identifier))))
 
 ===============
 singleton class
@@ -267,8 +267,8 @@ end
 ---
 
 (program
-  (singleton_class_declaration (identifier))
-  (singleton_class_declaration (identifier)))
+  (singleton_class (identifier))
+  (singleton_class (identifier)))
 
 
 ============
@@ -280,7 +280,7 @@ end
 
 ---
 
-(program (module_declaration (identifier)))
+(program (module (identifier)))
 
 ================
 module with body
@@ -293,7 +293,7 @@ end
 
 ---
 
-(program (module_declaration (identifier) (method (identifier))))
+(program (module (identifier) (method (identifier))))
 
 =======
 __END__
@@ -329,8 +329,8 @@ end
 
 ---
 
-(program (module_declaration (identifier)
-  (class_declaration (identifier) (identifier)
+(program (module (identifier)
+  (class (identifier) (identifier)
     (function_call (identifier) (argument_list
       (member_access
         (member_access

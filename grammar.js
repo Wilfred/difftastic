@@ -56,9 +56,6 @@ module.exports = grammar({
     _statements: $ => sepTrailing($._statements, $._statement, $._terminator),
 
     _statement: $ => choice(
-      $.class_declaration,
-      $.singleton_class_declaration,
-      $.module_declaration,
       $.undef,
       $.alias,
       $.if_modifier,
@@ -94,17 +91,36 @@ module.exports = grammar({
       $.optional_parameter
     ),
 
-    splat_parameter: $ => seq("*", optional($._identifier)),
-    hash_splat_parameter: $ => seq("**", optional($._identifier)),
-    block_parameter: $ => seq("&", $._identifier),
-    keyword_parameter: $ => seq($._identifier, ":", optional($._simple_expression)),
-    optional_parameter: $ => seq($._identifier, "=", $._simple_expression),
+    splat_parameter: $ => seq('*', optional($._identifier)),
+    hash_splat_parameter: $ => seq('**', optional($._identifier)),
+    block_parameter: $ => seq('&', $._identifier),
+    keyword_parameter: $ => seq($._identifier, ':', optional($._simple_expression)),
+    optional_parameter: $ => seq($._identifier, '=', $._simple_expression),
 
-    class_declaration: $ => seq("class", $._identifier, optional(seq("<", sep1($._identifier, "::"))), $._terminator, optional($._statements), "end"),
+    class: $ => seq(
+      'class',
+      sep1($._identifier, '::'),
+      optional(seq('<', sep1($._identifier, '::'), $._terminator)),
+      bodyStatement($),
+      'end'
+    ),
 
-    singleton_class_declaration: $ => seq("class", "<<", $._identifier, $._terminator, optional($._statements), "end"),
+    singleton_class: $ => seq(
+      'class',
+      '<<',
+      $._identifier,
+      $._terminator,
+      bodyStatement($),
+      'end'
+    ),
 
-    module_declaration: $ => seq("module", $._identifier, $._terminator, optional($._statements), "end"),
+    module: $ => seq(
+      'module',
+      sep1($._identifier, '::'),
+      $._terminator,
+      bodyStatement($),
+      'end'
+    ),
 
     return: $ => prec.right(seq('return', optional($.argument_list))),
     yield: $ => prec.right(seq('yield', optional($.argument_list))),
@@ -219,6 +235,9 @@ module.exports = grammar({
       $.lambda,
       $.array,
       $.method,
+      $.class,
+      $.singleton_class,
+      $.module,
       $.begin,
       $.while,
       $.until,
