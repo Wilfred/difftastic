@@ -155,7 +155,7 @@ module.exports = grammar({
       optional($._statements),
       choice(optional($.else), $.when)
     ),
-    pattern: $ => $._statement,
+    pattern: $ => $._arg,
 
     if: $ => seq(
       'if',
