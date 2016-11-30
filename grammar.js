@@ -25,7 +25,6 @@ const PREC = {
 };
 
 const identifierPattern = /[a-zA-Z_][a-zA-Z0-9_]*(\?|\!)?/;
-const constantPattern = /[A-Z_][a-zA-Z0-9_]*/; // (e.g. FOO)
 // Global variables start with $ and can be:
 // - Regex back references (e.g. $&, $', $', and $+)
 // - Number global references (e.g. $1)
@@ -372,15 +371,13 @@ module.exports = grammar({
     instance_variable: $ => (instanceVariablePattern),
     class_variable: $ => (classVariablePattern),
     global_variable: $ => (globalVariablePattern),
-    constant: $ => (constantPattern),
     identifier: $ => (identifierPattern),
     operator: $ => choice(...operators),
     _identifier: $ => choice(
       $.instance_variable,
       $.class_variable,
       $.global_variable,
-      $.identifier,
-      $.constant
+      $.identifier
     ),
 
     _method_name: $ => choice($._identifier, $.symbol, $.operator),
