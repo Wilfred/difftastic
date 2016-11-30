@@ -456,11 +456,11 @@ foo :bar, -> (a) { where(:c => b) }
   (function_call (identifier)
     (argument_list
       (symbol)
-      (lambda_literal (formal_parameters (identifier)) (integer))))
+      (lambda (formal_parameters (identifier)) (integer))))
   (function_call (identifier)
     (argument_list
       (symbol)
-      (lambda_literal
+      (lambda
         (formal_parameters (identifier))
         (function_call (identifier) (argument_list (argument_pair (symbol) (identifier))))))))
 
@@ -475,7 +475,7 @@ end
 
 (program
   (function_call_with_do_block (identifier)
-    (argument_list (symbol) (lambda_literal (formal_parameters (identifier)) (integer)))
+    (argument_list (symbol) (lambda (formal_parameters (identifier)) (integer)))
     (do_block)))
 
 ============================
@@ -549,7 +549,7 @@ lambda {}
 
 ---
 
-(program (lambda_expression))
+(program (lambda))
 
 ==================
 lambda expression with body
@@ -559,7 +559,7 @@ lambda { foo }
 
 ---
 
-(program (lambda_expression (identifier)))
+(program (lambda (identifier)))
 
 ====================
 lambda expression with an arg
@@ -569,7 +569,7 @@ lambda { |foo| 1 }
 
 ---
 
-(program (lambda_expression (formal_parameters (identifier)) (integer)))
+(program (lambda (formal_parameters (identifier)) (integer)))
 
 ===========================
 lambda expression with multiple args
@@ -582,7 +582,7 @@ lambda { |a, b, c|
 
 ---
 
-(program (lambda_expression (formal_parameters (identifier) (identifier) (identifier)) (integer) (integer)))
+(program (lambda (formal_parameters (identifier) (identifier) (identifier)) (integer) (integer)))
 
 ====================
 lambda expression with do end
@@ -594,4 +594,4 @@ end
 
 ---
 
-(program (lambda_expression (formal_parameters (identifier)) (integer)))
+(program (lambda (formal_parameters (identifier)) (integer)))

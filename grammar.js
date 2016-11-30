@@ -79,14 +79,15 @@ module.exports = grammar({
       "end"
     ),
 
-    formal_parameters: $ => commaSep1(choice(
+    formal_parameters: $ => commaSep1($._formal_parameter),
+    _formal_parameter: $ => choice(
       $.identifier,
       $.splat_parameter,
       $.hash_splat_parameter,
       $.block_parameter,
       $.keyword_parameter,
       $.optional_parameter
-    )),
+    ),
 
     splat_parameter: $ => seq("*", optional($.identifier)),
     hash_splat_parameter: $ => seq("**", optional($.identifier)),
@@ -192,14 +193,13 @@ module.exports = grammar({
       $.string,
       $.subshell,
       $.hash,
-      $.regex,
-      $.lambda_literal,
-      $.lambda_expression
+      $.regex
     ),
 
     _primary: $ => choice(
       seq("(", optional($._statements), ")"),
       $._lhs,
+      $.lambda,
       $.array
     ),
 
@@ -387,25 +387,25 @@ module.exports = grammar({
       seq('%r', choice(
         $._regex_interpolated_paren
       ))
-    )),
+    ),
 
     _regex_interpolated_paren: $ => regexBody('(', ')', $.interpolation, $._regex_interpolated_paren),
 
-    lambda_literal: $ => seq(
-      '->',
-      optional(choice(
-        seq('(', optional($.formal_parameters), ')'),
-        $.identifier
-      )),
-      choice($._lambda_block, $._lambda_do_block)
-    ),
-
-    _lambda_block: $ => seq("{", optional($._statements), "}"),
-    _lambda_do_block: $ => seq("do", optional($._statements), "end"),
-
-    lambda_expression: $ => seq(
-      'lambda',
-      choice($._block, $._do_block)
+    lambda: $ => choice(
+      seq(
+        '->',
+        optional(choice(
+          seq('(', optional($.formal_parameters), ')'),
+          $.identifier
+          // TODO: can be any single formal_parameter
+          // $._formal_parameter
+        )),
+        choice(
+          seq("{", optional($._statements), "}"),
+          seq("do", optional($._statements), "end")
+        )
+      ),
+      seq('lambda', choice($._block, $._do_block))
     ),
 
     _function_name: $ => choice($.identifier, choice(...operators)),

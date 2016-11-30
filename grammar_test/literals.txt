@@ -500,7 +500,7 @@ empty function
 
 ---
 
-(program (lambda_literal))
+(program (lambda))
 
 ==================
 lambda literal with body
@@ -510,7 +510,7 @@ lambda literal with body
 
 ---
 
-(program (lambda_literal (identifier)))
+(program (lambda (identifier)))
 
 ====================
 lambda literal with an arg
@@ -522,8 +522,8 @@ lambda literal with an arg
 ---
 
 (program
-	(lambda_literal (identifier) (integer))
-	(lambda_literal (formal_parameters (identifier)) (integer)))
+	(lambda (identifier) (integer))
+	(lambda (formal_parameters (identifier)) (integer)))
 
 ===========================
 lambda literal with multiple args
@@ -536,7 +536,7 @@ lambda literal with multiple args
 
 ---
 
-(program (lambda_literal (formal_parameters (identifier) (identifier) (identifier)) (integer) (integer)))
+(program (lambda (formal_parameters (identifier) (identifier) (identifier)) (integer) (integer)))
 
 ====================
 lambda literal with do end
@@ -548,4 +548,4 @@ end
 
 ---
 
-(program (lambda_literal (formal_parameters (identifier)) (integer)))
+(program (lambda (formal_parameters (identifier)) (integer)))
