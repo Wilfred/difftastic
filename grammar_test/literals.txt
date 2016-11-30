@@ -388,6 +388,17 @@ array
 
 (program (array (identifier) (identifier)))
 
+=====
+array
+=====
+
+[1, 2].any? { |i| i > 1 }
+
+---
+(program
+	(function_call (member_access (array (integer) (integer)) (identifier))
+		(block (formal_parameters (identifier)) (comparison (identifier) (integer)))))
+
 =========================
 array with trailing comma
 =========================

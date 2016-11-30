@@ -194,12 +194,23 @@ module.exports = grammar({
       $.unary_minus,
       $.exponential,
       $.complement,
-      $._literal
+      $.symbol,
+      $.integer,
+      $.float,
+      $.boolean,
+      $.nil,
+      $.string,
+      $.subshell,
+      $.hash,
+      $.regex,
+      $.lambda_literal,
+      $.lambda_expression
     ),
 
     _primary: $ => choice(
       seq("(", optional($._statements), ")"),
-      $._lhs
+      $._lhs,
+      $.array
     ),
 
     scope_resolution_expression: $ => prec.left(1, seq(optional($._primary), '::', $.identifier)),
@@ -318,21 +329,6 @@ module.exports = grammar({
         '=end\n'
       )
     ))),
-
-    _literal: $ => choice(
-      $.symbol,
-      $.integer,
-      $.float,
-      $.boolean,
-      $.nil,
-      $.string,
-      $.subshell,
-      $.array,
-      $.hash,
-      $.regex,
-      $.lambda_literal,
-      $.lambda_expression
-    ),
 
     symbol: $ => choice(
       token(seq(':', choice(identifierPattern, choice.apply(null, operators)))),
