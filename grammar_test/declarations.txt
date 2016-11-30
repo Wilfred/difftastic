@@ -343,14 +343,14 @@ end
 
 (program (module (identifier)
   (class (identifier) (identifier)
-    (function_call (identifier) (argument_list
-      (member_access
-        (member_access
-          (scope_resolution_expression (identifier) (identifier))
+    (method_call (identifier) (argument_list
+      (call
+        (call
+          (scope_resolution (identifier) (identifier))
           (identifier))
         (identifier))))
 
-    (function_call (identifier) (argument_list (symbol)))
+    (method_call (identifier) (argument_list (symbol)))
 
     (comment)
     (method (identifier) (identifier))

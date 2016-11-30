@@ -44,9 +44,9 @@ module.exports = grammar({
   ],
 
   conflicts: $ => [
-    [$._lhs, $.function_call, $.function_call_with_do_block],
-    [$._lhs, $.function_call],
-    [$._lhs, $.function_call_with_do_block]
+    [$._lhs, $.method_call, $.method_call_with_do_block],
+    [$._lhs, $.method_call],
+    [$._lhs, $.method_call_with_do_block]
   ],
 
   rules: {
@@ -257,21 +257,20 @@ module.exports = grammar({
       $.retry
     ),
 
-    scope_resolution_expression: $ => prec.left(1, seq(optional($._primary), '::', $._identifier)),
     element_reference: $ => prec.left(1, seq($._primary, "[", $._argument_list, "]")),
-    // TODO: Needs a new name
-    member_access: $ => prec.left(PREC.BITWISE_AND + 1, seq($._primary, choice(".", "&."), $._identifier)),
+    scope_resolution: $ => prec.left(1, seq(optional($._primary), '::', $._identifier)),
+    call: $ => prec.left(PREC.BITWISE_AND + 1, seq($._primary, choice(".", "&."), $._identifier)),
 
-    function_call_with_do_block: $ => prec.left(seq(
-      choice($._variable, $.scope_resolution_expression, $.member_access),
+    method_call_with_do_block: $ => prec.left(seq(
+      choice($._variable, $.scope_resolution, $.call),
       choice(
         seq($.argument_list, $.do_block),
         $.do_block
       )
     )),
 
-    function_call: $ => prec.left(seq(
-      choice($._variable, $.scope_resolution_expression, $.member_access),
+    method_call: $ => prec.left(seq(
+      choice($._variable, $.scope_resolution, $.call),
       choice(
         seq($.argument_list, $.block),
         $.argument_list,
@@ -355,10 +354,10 @@ module.exports = grammar({
 
     _lhs: $ => choice(
       $._variable,
-      $.scope_resolution_expression,
+      $.scope_resolution,
       $.element_reference,
-      $.member_access,
-      $.function_call
+      $.call,
+      $.method_call
     ),
     _variable: $ => choice(
       $._identifier,
@@ -591,7 +590,7 @@ function regexBody (open, close, interpolation, self) {
 function expression ($) {
   return choice(
     $._arg,
-    $.function_call_with_do_block
+    $.method_call_with_do_block
   )
 }
 

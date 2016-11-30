@@ -117,7 +117,7 @@
             },
             {
               "type": "SYMBOL",
-              "name": "function_call_with_do_block"
+              "name": "method_call_with_do_block"
             }
           ]
         }
@@ -910,7 +910,7 @@
             },
             {
               "type": "SYMBOL",
-              "name": "function_call_with_do_block"
+              "name": "method_call_with_do_block"
             }
           ]
         }
@@ -936,7 +936,7 @@
             },
             {
               "type": "SYMBOL",
-              "name": "function_call_with_do_block"
+              "name": "method_call_with_do_block"
             }
           ]
         }
@@ -962,7 +962,7 @@
             },
             {
               "type": "SYMBOL",
-              "name": "function_call_with_do_block"
+              "name": "method_call_with_do_block"
             }
           ]
         }
@@ -988,7 +988,7 @@
             },
             {
               "type": "SYMBOL",
-              "name": "function_call_with_do_block"
+              "name": "method_call_with_do_block"
             }
           ]
         }
@@ -1017,7 +1017,7 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "function_call_with_do_block"
+                "name": "method_call_with_do_block"
               }
             ]
           }
@@ -1040,7 +1040,7 @@
             },
             {
               "type": "SYMBOL",
-              "name": "function_call_with_do_block"
+              "name": "method_call_with_do_block"
             }
           ]
         },
@@ -1082,7 +1082,7 @@
             },
             {
               "type": "SYMBOL",
-              "name": "function_call_with_do_block"
+              "name": "method_call_with_do_block"
             }
           ]
         },
@@ -1132,7 +1132,7 @@
             },
             {
               "type": "SYMBOL",
-              "name": "function_call_with_do_block"
+              "name": "method_call_with_do_block"
             }
           ]
         },
@@ -1298,7 +1298,7 @@
             },
             {
               "type": "SYMBOL",
-              "name": "function_call_with_do_block"
+              "name": "method_call_with_do_block"
             }
           ]
         },
@@ -1352,7 +1352,7 @@
             },
             {
               "type": "SYMBOL",
-              "name": "function_call_with_do_block"
+              "name": "method_call_with_do_block"
             }
           ]
         },
@@ -1406,7 +1406,7 @@
             },
             {
               "type": "SYMBOL",
-              "name": "function_call_with_do_block"
+              "name": "method_call_with_do_block"
             }
           ]
         },
@@ -1921,7 +1921,32 @@
         }
       ]
     },
-    "scope_resolution_expression": {
+    "element_reference": {
+      "type": "PREC_LEFT",
+      "value": 1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_primary"
+          },
+          {
+            "type": "STRING",
+            "value": "["
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_argument_list"
+          },
+          {
+            "type": "STRING",
+            "value": "]"
+          }
+        ]
+      }
+    },
+    "scope_resolution": {
       "type": "PREC_LEFT",
       "value": 1,
       "content": {
@@ -1950,32 +1975,7 @@
         ]
       }
     },
-    "element_reference": {
-      "type": "PREC_LEFT",
-      "value": 1,
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "SYMBOL",
-            "name": "_primary"
-          },
-          {
-            "type": "STRING",
-            "value": "["
-          },
-          {
-            "type": "SYMBOL",
-            "name": "_argument_list"
-          },
-          {
-            "type": "STRING",
-            "value": "]"
-          }
-        ]
-      }
-    },
-    "member_access": {
+    "call": {
       "type": "PREC_LEFT",
       "value": 56,
       "content": {
@@ -2005,7 +2005,7 @@
         ]
       }
     },
-    "function_call_with_do_block": {
+    "method_call_with_do_block": {
       "type": "PREC_LEFT",
       "value": 0,
       "content": {
@@ -2020,11 +2020,11 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "scope_resolution_expression"
+                "name": "scope_resolution"
               },
               {
                 "type": "SYMBOL",
-                "name": "member_access"
+                "name": "call"
               }
             ]
           },
@@ -2053,7 +2053,7 @@
         ]
       }
     },
-    "function_call": {
+    "method_call": {
       "type": "PREC_LEFT",
       "value": 0,
       "content": {
@@ -2068,11 +2068,11 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "scope_resolution_expression"
+                "name": "scope_resolution"
               },
               {
                 "type": "SYMBOL",
-                "name": "member_access"
+                "name": "call"
               }
             ]
           },
@@ -2499,7 +2499,7 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "function_call_with_do_block"
+                "name": "method_call_with_do_block"
               }
             ]
           },
@@ -2516,7 +2516,7 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "function_call_with_do_block"
+                "name": "method_call_with_do_block"
               }
             ]
           }
@@ -2538,7 +2538,7 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "function_call_with_do_block"
+                "name": "method_call_with_do_block"
               }
             ]
           },
@@ -2555,7 +2555,7 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "function_call_with_do_block"
+                "name": "method_call_with_do_block"
               }
             ]
           }
@@ -2581,7 +2581,7 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "function_call_with_do_block"
+                "name": "method_call_with_do_block"
               }
             ]
           }
@@ -2607,7 +2607,7 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "function_call_with_do_block"
+                "name": "method_call_with_do_block"
               }
             ]
           }
@@ -2637,7 +2637,7 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "function_call_with_do_block"
+                "name": "method_call_with_do_block"
               }
             ]
           }
@@ -2688,7 +2688,7 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "function_call_with_do_block"
+                "name": "method_call_with_do_block"
               }
             ]
           }
@@ -2727,7 +2727,7 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "function_call_with_do_block"
+                "name": "method_call_with_do_block"
               }
             ]
           }
@@ -2749,7 +2749,7 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "function_call_with_do_block"
+                "name": "method_call_with_do_block"
               }
             ]
           },
@@ -2766,7 +2766,7 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "function_call_with_do_block"
+                "name": "method_call_with_do_block"
               }
             ]
           },
@@ -2783,7 +2783,7 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "function_call_with_do_block"
+                "name": "method_call_with_do_block"
               }
             ]
           }
@@ -2805,7 +2805,7 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "function_call_with_do_block"
+                "name": "method_call_with_do_block"
               }
             ]
           },
@@ -2831,7 +2831,7 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "function_call_with_do_block"
+                "name": "method_call_with_do_block"
               }
             ]
           }
@@ -2853,7 +2853,7 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "function_call_with_do_block"
+                "name": "method_call_with_do_block"
               }
             ]
           },
@@ -2870,7 +2870,7 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "function_call_with_do_block"
+                "name": "method_call_with_do_block"
               }
             ]
           }
@@ -2892,7 +2892,7 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "function_call_with_do_block"
+                "name": "method_call_with_do_block"
               }
             ]
           },
@@ -2909,7 +2909,7 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "function_call_with_do_block"
+                "name": "method_call_with_do_block"
               }
             ]
           }
@@ -2931,7 +2931,7 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "function_call_with_do_block"
+                "name": "method_call_with_do_block"
               }
             ]
           },
@@ -2973,7 +2973,7 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "function_call_with_do_block"
+                "name": "method_call_with_do_block"
               }
             ]
           }
@@ -2995,7 +2995,7 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "function_call_with_do_block"
+                "name": "method_call_with_do_block"
               }
             ]
           },
@@ -3029,7 +3029,7 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "function_call_with_do_block"
+                "name": "method_call_with_do_block"
               }
             ]
           }
@@ -3051,7 +3051,7 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "function_call_with_do_block"
+                "name": "method_call_with_do_block"
               }
             ]
           },
@@ -3077,7 +3077,7 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "function_call_with_do_block"
+                "name": "method_call_with_do_block"
               }
             ]
           }
@@ -3099,7 +3099,7 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "function_call_with_do_block"
+                "name": "method_call_with_do_block"
               }
             ]
           },
@@ -3116,7 +3116,7 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "function_call_with_do_block"
+                "name": "method_call_with_do_block"
               }
             ]
           }
@@ -3138,7 +3138,7 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "function_call_with_do_block"
+                "name": "method_call_with_do_block"
               }
             ]
           },
@@ -3164,7 +3164,7 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "function_call_with_do_block"
+                "name": "method_call_with_do_block"
               }
             ]
           }
@@ -3186,7 +3186,7 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "function_call_with_do_block"
+                "name": "method_call_with_do_block"
               }
             ]
           },
@@ -3212,7 +3212,7 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "function_call_with_do_block"
+                "name": "method_call_with_do_block"
               }
             ]
           }
@@ -3234,7 +3234,7 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "function_call_with_do_block"
+                "name": "method_call_with_do_block"
               }
             ]
           },
@@ -3264,7 +3264,7 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "function_call_with_do_block"
+                "name": "method_call_with_do_block"
               }
             ]
           }
@@ -3290,7 +3290,7 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "function_call_with_do_block"
+                "name": "method_call_with_do_block"
               }
             ]
           }
@@ -3312,7 +3312,7 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "function_call_with_do_block"
+                "name": "method_call_with_do_block"
               }
             ]
           },
@@ -3329,7 +3329,7 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "function_call_with_do_block"
+                "name": "method_call_with_do_block"
               }
             ]
           }
@@ -3355,7 +3355,7 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "function_call_with_do_block"
+                "name": "method_call_with_do_block"
               }
             ]
           }
@@ -3390,7 +3390,7 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "function_call_with_do_block"
+                "name": "method_call_with_do_block"
               }
             ]
           }
@@ -3406,7 +3406,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "scope_resolution_expression"
+          "name": "scope_resolution"
         },
         {
           "type": "SYMBOL",
@@ -3414,11 +3414,11 @@
         },
         {
           "type": "SYMBOL",
-          "name": "member_access"
+          "name": "call"
         },
         {
           "type": "SYMBOL",
-          "name": "function_call"
+          "name": "method_call"
         }
       ]
     },
@@ -4209,7 +4209,7 @@
             },
             {
               "type": "SYMBOL",
-              "name": "function_call_with_do_block"
+              "name": "method_call_with_do_block"
             }
           ]
         },
@@ -4340,7 +4340,7 @@
                 },
                 {
                   "type": "SYMBOL",
-                  "name": "function_call_with_do_block"
+                  "name": "method_call_with_do_block"
                 }
               ]
             },
@@ -4460,7 +4460,7 @@
                       },
                       {
                         "type": "SYMBOL",
-                        "name": "function_call_with_do_block"
+                        "name": "method_call_with_do_block"
                       }
                     ]
                   },
@@ -4494,7 +4494,7 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "function_call_with_do_block"
+                "name": "method_call_with_do_block"
               }
             ]
           }
@@ -4758,16 +4758,16 @@
   "conflicts": [
     [
       "_lhs",
-      "function_call",
-      "function_call_with_do_block"
+      "method_call",
+      "method_call_with_do_block"
     ],
     [
       "_lhs",
-      "function_call"
+      "method_call"
     ],
     [
       "_lhs",
-      "function_call_with_do_block"
+      "method_call_with_do_block"
     ]
   ]
 }
