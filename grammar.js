@@ -300,11 +300,12 @@ module.exports = grammar({
     _variable: $ => choice($.identifier, 'self'),
 
     identifier: $ => token(seq(repeat(choice('@', '$')), identifierPattern)),
-
-    undef: $ => seq("undef", $._name_symbol_or_operator),
-    alias: $ => seq("alias", $._name_symbol_or_operator, $._name_symbol_or_operator),
-    _name_symbol_or_operator: $ => prec(PREC.ALIAS, choice($.identifier, $.symbol, $.operator)),
     operator: $ => choice(...operators),
+    _item: $ => choice($.identifier, $.symbol, $.operator),
+
+    _undef_list: $ => choice($._item, prec(1, seq($._undef_list, ',', $._item))),
+    undef: $ => seq("undef", $._undef_list),
+    alias: $ => seq("alias", $._item, $._item),
 
     comment: $ => token(prec(PREC.COMMENT, choice(
       seq('#', /.*/),

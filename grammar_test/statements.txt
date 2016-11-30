@@ -56,9 +56,13 @@ undef
 
 undef :foo
 undef foo
+undef +
+undef :foo, :bar
 
 ---
 
 (program
   (undef (symbol))
-  (undef (identifier)))
+  (undef (identifier))
+  (undef (operator))
+  (undef (symbol) (symbol)))
