@@ -50,7 +50,10 @@ module.exports = grammar({
     _statements: $ => sepTrailing($._statements, $._statement, $._terminator),
 
     _statement: $ => choice(
-      $._declaration,
+      $.method_declaration,
+      $.class_declaration,
+      $.singleton_class_declaration,
+      $.module_declaration,
       $.undef,
       $.alias,
       $.while_statement,
@@ -66,13 +69,6 @@ module.exports = grammar({
       $.until_modifier,
       $.rescue_modifier,
       expression($)
-    ),
-
-    _declaration: $ => choice(
-      $.method_declaration,
-      $.class_declaration,
-      $.singleton_class_declaration,
-      $.module_declaration
     ),
 
     method_declaration: $ => seq(
