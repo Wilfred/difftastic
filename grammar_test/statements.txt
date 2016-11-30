@@ -44,11 +44,16 @@ alias
 
 alias :foo :bar
 alias foo bar
+alias $FOO $&
 alias foo +
 
 ---
 
-(program (alias (symbol) (symbol)) (alias (identifier) (identifier)) (alias (identifier) (operator)))
+(program
+  (alias (symbol) (symbol))
+  (alias (identifier) (identifier))
+  (alias (global_variable) (global_variable))
+  (alias (identifier) (operator)))
 
 ========
 undef

@@ -140,8 +140,8 @@ defined?(@foo)
   (defined (identifier))
   (defined (member_access (identifier) (identifier)))
   (defined (identifier))
-  (defined (identifier))
-  (defined (identifier)))
+  (defined (global_variable))
+  (defined (instance_variable)))
 
 ==========
 assignment
