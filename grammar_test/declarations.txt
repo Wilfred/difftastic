@@ -14,9 +14,9 @@ end
 ---
 
 (program
-  (method_declaration (identifier))
-  (method_declaration (identifier))
-  (method_declaration (identifier)))
+  (method (identifier))
+  (method (identifier))
+  (method (identifier)))
 
 ================
 method with body
@@ -28,7 +28,19 @@ end
 
 ---
 
-(program (method_declaration (identifier) (identifier)))
+(program (method (identifier) (identifier)))
+
+================
+method with call to super
+================
+
+def foo
+  super
+end
+
+---
+
+(program (method (identifier) (super)))
 
 ================
 method with args
@@ -39,7 +51,7 @@ end
 
 ---
 
-(program (method_declaration (identifier) (formal_parameters (identifier))))
+(program (method (identifier) (formal_parameters (identifier))))
 
 ================================
 method with unparenthesized args
@@ -50,7 +62,7 @@ end
 
 ---
 
-(program (method_declaration (identifier) (formal_parameters (identifier))))
+(program (method (identifier) (formal_parameters (identifier))))
 
 =========================
 method with multiple args
@@ -61,7 +73,7 @@ end
 
 ---
 
-(program (method_declaration (identifier) (formal_parameters (identifier) (identifier))))
+(program (method (identifier) (formal_parameters (identifier) (identifier))))
 
 =========================================
 method with multiple unparenthesized args
@@ -72,7 +84,7 @@ end
 
 ---
 
-(program (method_declaration (identifier) (formal_parameters (identifier) (identifier))))
+(program (method (identifier) (formal_parameters (identifier) (identifier))))
 
 =========================================
 method with keyword parameters
@@ -84,7 +96,7 @@ end
 ---
 
 (program
-  (method_declaration (identifier)
+  (method (identifier)
     (formal_parameters
       (keyword_parameter (identifier) (nil))
       (keyword_parameter (identifier)))))
@@ -102,9 +114,9 @@ end
 ---
 
 (program
-  (method_declaration (identifier)
+  (method (identifier)
     (formal_parameters (optional_parameter (identifier) (nil))))
-  (method_declaration (identifier)
+  (method (identifier)
     (formal_parameters (optional_parameter (identifier) (nil)))))
 
 =========================================
@@ -132,12 +144,12 @@ end
 ---
 
 (program
-  (method_declaration (identifier) (formal_parameters (splat_parameter (identifier))))
-  (method_declaration (identifier) (formal_parameters (identifier) (splat_parameter (identifier))))
-  (method_declaration (identifier) (formal_parameters (identifier) (splat_parameter (identifier)) (identifier)))
-  (method_declaration (identifier) (formal_parameters (hash_splat_parameter (identifier))))
-  (method_declaration (identifier) (formal_parameters (keyword_parameter (identifier)) (hash_splat_parameter)))
-  (method_declaration (identifier) (formal_parameters (block_parameter (identifier)))))
+  (method (identifier) (formal_parameters (splat_parameter (identifier))))
+  (method (identifier) (formal_parameters (identifier) (splat_parameter (identifier))))
+  (method (identifier) (formal_parameters (identifier) (splat_parameter (identifier)) (identifier)))
+  (method (identifier) (formal_parameters (hash_splat_parameter (identifier))))
+  (method (identifier) (formal_parameters (keyword_parameter (identifier)) (hash_splat_parameter)))
+  (method (identifier) (formal_parameters (block_parameter (identifier)))))
 
 =========================================
 singleton method
@@ -148,7 +160,7 @@ end
 
 ---
 
-(program (method_declaration (identifier) (identifier)))
+(program (method (self) (identifier)))
 
 =========================================
 singleton method with body
@@ -160,7 +172,7 @@ end
 
 ---
 
-(program (method_declaration (identifier) (identifier) (identifier)))
+(program (method (self) (identifier) (identifier)))
 
 
 =========================================
@@ -172,7 +184,7 @@ end
 
 ---
 
-(program (method_declaration (identifier) (identifier) (formal_parameters (identifier))))
+(program (method (self) (identifier) (formal_parameters (identifier))))
 
 =========================================
 singleton method with un-parenthesized arg
@@ -183,7 +195,7 @@ end
 
 ---
 
-(program (method_declaration (identifier) (identifier) (formal_parameters (identifier))))
+(program (method (self) (identifier) (formal_parameters (identifier))))
 
 =========================================
 singleton method with args
@@ -194,7 +206,7 @@ end
 
 ---
 
-(program (method_declaration (identifier) (identifier) (formal_parameters (identifier) (identifier))))
+(program (method (self) (identifier) (formal_parameters (identifier) (identifier))))
 
 
 =========================================
@@ -206,7 +218,7 @@ end
 
 ---
 
-(program (method_declaration (identifier) (identifier) (formal_parameters (identifier) (identifier))))
+(program (method (self) (identifier) (formal_parameters (identifier) (identifier))))
 
 ===========
 empty class
@@ -217,7 +229,7 @@ end
 
 ---
 
-(program (class_declaration (identifier)))
+(program (class (identifier)))
 
 ==============
 empty subclass
@@ -228,7 +240,7 @@ end
 
 ---
 
-(program (class_declaration (identifier) (identifier)))
+(program (class (identifier) (identifier)))
 
 ==================================
 empty subclass of namespaced class
@@ -239,7 +251,7 @@ end
 
 ---
 
-(program (class_declaration (identifier) (identifier) (identifier)))
+(program (class (identifier) (identifier) (identifier)))
 
 ===============
 class with body
@@ -252,7 +264,7 @@ end
 
 ---
 
-(program (class_declaration (identifier) (method_declaration (identifier))))
+(program (class (identifier) (method (identifier))))
 
 ===============
 singleton class
@@ -267,8 +279,8 @@ end
 ---
 
 (program
-  (singleton_class_declaration (identifier))
-  (singleton_class_declaration (identifier)))
+  (singleton_class (identifier))
+  (singleton_class (identifier)))
 
 
 ============
@@ -280,7 +292,7 @@ end
 
 ---
 
-(program (module_declaration (identifier)))
+(program (module (identifier)))
 
 ================
 module with body
@@ -293,7 +305,7 @@ end
 
 ---
 
-(program (module_declaration (identifier) (method_declaration (identifier))))
+(program (module (identifier) (method (identifier))))
 
 =======
 __END__
@@ -329,17 +341,17 @@ end
 
 ---
 
-(program (module_declaration (identifier)
-  (class_declaration (identifier) (identifier)
-    (function_call (identifier) (argument_list
-      (member_access
-        (member_access
-          (scope_resolution_expression (identifier) (identifier))
+(program (module (identifier)
+  (class (identifier) (identifier)
+    (method_call (identifier) (argument_list
+      (call
+        (call
+          (scope_resolution (identifier) (identifier))
           (identifier))
         (identifier))))
 
-    (function_call (identifier) (argument_list (symbol)))
+    (method_call (identifier) (argument_list (symbol)))
 
     (comment)
-    (method_declaration (identifier) (identifier))
-    (method_declaration (identifier) (identifier)))))
+    (method (identifier) (identifier))
+    (method (self) (identifier)))))

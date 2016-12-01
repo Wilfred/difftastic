@@ -8,8 +8,8 @@ Foo::bar
 ---
 
 (program
-  (scope_resolution_expression (identifier) (identifier))
-  (scope_resolution_expression (identifier)))
+  (scope_resolution (identifier) (identifier))
+  (scope_resolution (identifier)))
 
 ============
 element reference
@@ -138,10 +138,10 @@ defined?(@foo)
 
 (program
   (defined (identifier))
-  (defined (member_access (identifier) (identifier)))
+  (defined (call (identifier) (identifier)))
   (defined (identifier))
-  (defined (identifier))
-  (defined (identifier)))
+  (defined (global_variable))
+  (defined (instance_variable)))
 
 ==========
 assignment
@@ -191,9 +191,14 @@ conditional
 
 a ? b : c
 
+a ? b
+  : c
+
 ---
 
-(program (conditional (identifier) (identifier) (identifier)))
+(program
+  (conditional (identifier) (identifier) (identifier))
+  (conditional (identifier) (identifier) (identifier)))
 
 ===============
 inclusive range
@@ -367,7 +372,7 @@ complement
 (program (complement (identifier)))
 
 ===============================
-function call
+method call
 ===============================
 
 foo
@@ -379,9 +384,9 @@ print("hello")
 
 (program
   (identifier)
-  (function_call (identifier) (argument_list))
-  (function_call (identifier) (argument_list (string)))
-  (function_call (identifier) (argument_list (string))))
+  (method_call (identifier) (argument_list))
+  (method_call (identifier) (argument_list (string)))
+  (method_call (identifier) (argument_list (string))))
 
 ===============================
 method call with receiver
@@ -397,12 +402,22 @@ foo.bar("hi", 2)
 ---
 
 (program
-  (member_access (identifier) (identifier))
-  (function_call (member_access (identifier) (identifier)) (argument_list))
-  (function_call (member_access (identifier) (identifier)) (argument_list (string)))
-  (function_call (member_access (identifier) (identifier)) (argument_list (string) (integer)))
-  (function_call (member_access (identifier) (identifier)) (argument_list (string)))
-  (function_call (member_access (identifier) (identifier)) (argument_list (string) (integer))))
+  (call (identifier) (identifier))
+  (method_call (call (identifier) (identifier)) (argument_list))
+  (method_call (call (identifier) (identifier)) (argument_list (string)))
+  (method_call (call (identifier) (identifier)) (argument_list (string) (integer)))
+  (method_call (call (identifier) (identifier)) (argument_list (string)))
+  (method_call (call (identifier) (identifier)) (argument_list (string) (integer))))
+
+===============================
+method call with safe navigation operator
+===============================
+
+foo&.bar
+
+---
+
+(program (call (identifier) (identifier)))
 
 ===============================
 method call with hash args
@@ -414,8 +429,8 @@ foo :a => true, :c => 1
 ---
 
 (program
-  (function_call (identifier) (argument_list (argument_pair (symbol) (boolean))))
-  (function_call (identifier) (argument_list (argument_pair (symbol) (boolean)) (argument_pair (symbol) (integer)))))
+  (method_call (identifier) (argument_list (argument_pair (symbol) (boolean))))
+  (method_call (identifier) (argument_list (argument_pair (symbol) (boolean)) (argument_pair (symbol) (integer)))))
 
 ===============================
 method call with keyword args
@@ -427,8 +442,8 @@ foo a: true
 ---
 
 (program
-  (function_call (identifier) (argument_list (argument_pair (identifier) (boolean))))
-  (function_call (identifier) (argument_list (argument_pair (identifier) (boolean)))))
+  (method_call (identifier) (argument_list (argument_pair (identifier) (boolean))))
+  (method_call (identifier) (argument_list (argument_pair (identifier) (boolean)))))
 
 ===============================
 method call with block argument
@@ -440,8 +455,8 @@ foo(&bar)
 ---
 
 (program
-  (function_call (identifier) (argument_list (block_argument (symbol))))
-  (function_call (identifier) (argument_list (block_argument (identifier)))))
+  (method_call (identifier) (argument_list (block_argument (symbol))))
+  (method_call (identifier) (argument_list (block_argument (identifier)))))
 
 ===============================
 method call lambda argument
@@ -453,16 +468,16 @@ foo :bar, -> (a) { where(:c => b) }
 ---
 
 (program
-  (function_call (identifier)
+  (method_call (identifier)
     (argument_list
       (symbol)
-      (lambda_literal (formal_parameters (identifier)) (integer))))
-  (function_call (identifier)
+      (lambda (formal_parameters (identifier)) (integer))))
+  (method_call (identifier)
     (argument_list
       (symbol)
-      (lambda_literal
+      (lambda
         (formal_parameters (identifier))
-        (function_call (identifier) (argument_list (argument_pair (symbol) (identifier))))))))
+        (method_call (identifier) (argument_list (argument_pair (symbol) (identifier))))))))
 
 ===============================
 method call lambda argument and do block
@@ -474,19 +489,19 @@ end
 ---
 
 (program
-  (function_call_with_do_block (identifier)
-    (argument_list (symbol) (lambda_literal (formal_parameters (identifier)) (integer)))
+  (method_call (identifier)
+    (argument_list (symbol) (lambda (formal_parameters (identifier)) (integer)))
     (do_block)))
 
 ============================
-function call without parens
+method call without parens
 ============================
 
 include D::E.f
 
 ---
 
-(program (function_call (identifier) (argument_list (member_access (scope_resolution_expression (identifier) (identifier)) (identifier)))))
+(program (method_call (identifier) (argument_list (call (scope_resolution (identifier) (identifier)) (identifier)))))
 
 ===============================
 method call with block argument do end
@@ -510,18 +525,18 @@ end
 ---
 
 (program
-  (function_call_with_do_block
+  (method_call
     (identifier)
     (do_block (formal_parameters (identifier)) (identifier)))
-  (function_call_with_do_block
+  (method_call
     (identifier)
     (argument_list (identifier))
     (do_block (formal_parameters (identifier)) (identifier)))
-  (function_call_with_do_block
-    (member_access (identifier) (identifier))
+  (method_call
+    (call (identifier) (identifier))
     (argument_list (identifier))
     (do_block (formal_parameters (identifier)) (identifier)))
-  (function_call_with_do_block
+  (method_call
     (identifier)
     (argument_list (identifier))
     (do_block (formal_parameters (keyword_parameter (identifier) (identifier)) (splat_parameter (identifier))))))
@@ -532,14 +547,30 @@ method call with block argument curly
 
 foo { |i| foo }
 foo items.any? { |i| i > 0 }
+foo(bar, baz) { quux }
 
 ---
 
 (program
-  (function_call (identifier) (block (formal_parameters (identifier)) (identifier)))
-  (function_call (identifier) (argument_list (function_call
-    (member_access (identifier) (identifier))
-    (block (formal_parameters (identifier)) (comparison (identifier) (integer)))))))
+  (method_call (identifier) (block (formal_parameters (identifier)) (identifier)))
+  (method_call (identifier) (argument_list (method_call
+    (call (identifier) (identifier))
+    (block (formal_parameters (identifier)) (comparison (identifier) (integer))))))
+
+  (method_call
+    (identifier)
+    (argument_list (identifier) (identifier))
+    (block (identifier))))
+
+===============================
+method call with block shadow arguments
+===============================
+
+foo { |; i, j| }
+
+---
+
+(program (method_call (identifier) (block (identifier) (identifier))))
 
 ==============
 empty lambda expression
@@ -549,7 +580,7 @@ lambda {}
 
 ---
 
-(program (lambda_expression))
+(program (lambda))
 
 ==================
 lambda expression with body
@@ -559,7 +590,7 @@ lambda { foo }
 
 ---
 
-(program (lambda_expression (identifier)))
+(program (lambda (identifier)))
 
 ====================
 lambda expression with an arg
@@ -569,7 +600,7 @@ lambda { |foo| 1 }
 
 ---
 
-(program (lambda_expression (formal_parameters (identifier)) (integer)))
+(program (lambda (formal_parameters (identifier)) (integer)))
 
 ===========================
 lambda expression with multiple args
@@ -582,7 +613,7 @@ lambda { |a, b, c|
 
 ---
 
-(program (lambda_expression (formal_parameters (identifier) (identifier) (identifier)) (integer) (integer)))
+(program (lambda (formal_parameters (identifier) (identifier) (identifier)) (integer) (integer)))
 
 ====================
 lambda expression with do end
@@ -594,4 +625,4 @@ end
 
 ---
 
-(program (lambda_expression (formal_parameters (identifier)) (integer)))
+(program (lambda (formal_parameters (identifier)) (integer)))

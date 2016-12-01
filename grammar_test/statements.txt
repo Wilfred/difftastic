@@ -3,10 +3,13 @@ conditional modifier
 ====================
 
 foo if bar
+return if false
 
 ---
 
-(program (if_modifier (identifier) (identifier)))
+(program
+  (if_modifier (identifier) (identifier))
+  (if_modifier (return) (boolean)))
 
 ==============
 while modifier
@@ -44,11 +47,16 @@ alias
 
 alias :foo :bar
 alias foo bar
+alias $FOO $&
 alias foo +
 
 ---
 
-(program (alias (symbol) (symbol)) (alias (identifier) (identifier)) (alias (identifier) (operator)))
+(program
+  (alias (symbol) (symbol))
+  (alias (identifier) (identifier))
+  (alias (global_variable) (global_variable))
+  (alias (identifier) (operator)))
 
 ========
 undef
@@ -56,9 +64,13 @@ undef
 
 undef :foo
 undef foo
+undef +
+undef :foo, :bar
 
 ---
 
 (program
   (undef (symbol))
-  (undef (identifier)))
+  (undef (identifier))
+  (undef (operator))
+  (undef (symbol) (symbol)))
