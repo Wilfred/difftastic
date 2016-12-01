@@ -489,7 +489,7 @@ end
 ---
 
 (program
-  (method_call_with_do_block (identifier)
+  (method_call (identifier)
     (argument_list (symbol) (lambda (formal_parameters (identifier)) (integer)))
     (do_block)))
 
@@ -525,18 +525,18 @@ end
 ---
 
 (program
-  (method_call_with_do_block
+  (method_call
     (identifier)
     (do_block (formal_parameters (identifier)) (identifier)))
-  (method_call_with_do_block
+  (method_call
     (identifier)
     (argument_list (identifier))
     (do_block (formal_parameters (identifier)) (identifier)))
-  (method_call_with_do_block
+  (method_call
     (call (identifier) (identifier))
     (argument_list (identifier))
     (do_block (formal_parameters (identifier)) (identifier)))
-  (method_call_with_do_block
+  (method_call
     (identifier)
     (argument_list (identifier))
     (do_block (formal_parameters (keyword_parameter (identifier) (identifier)) (splat_parameter (identifier))))))
@@ -547,6 +547,7 @@ method call with block argument curly
 
 foo { |i| foo }
 foo items.any? { |i| i > 0 }
+foo(bar, baz) { quux }
 
 ---
 
@@ -554,7 +555,12 @@ foo items.any? { |i| i > 0 }
   (method_call (identifier) (block (formal_parameters (identifier)) (identifier)))
   (method_call (identifier) (argument_list (method_call
     (call (identifier) (identifier))
-    (block (formal_parameters (identifier)) (comparison (identifier) (integer)))))))
+    (block (formal_parameters (identifier)) (comparison (identifier) (integer))))))
+
+  (method_call
+    (identifier)
+    (argument_list (identifier) (identifier))
+    (block (identifier))))
 
 ===============================
 method call with block shadow arguments
