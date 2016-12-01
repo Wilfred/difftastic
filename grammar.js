@@ -422,7 +422,10 @@ module.exports = grammar({
       seq(":'", $._single_quoted_continuation),
       seq(':"', $._double_quoted_continuation),
       seq('%s', choice(
-        $._uninterpolated_paren
+        $._uninterpolated_angle,
+        $._uninterpolated_bracket,
+        $._uninterpolated_paren,
+        $._uninterpolated_brace
       ))
     ),
 
@@ -438,10 +441,16 @@ module.exports = grammar({
     string: $ => seq(choice(
       $._quoted_string,
       seq(/%Q?/, choice(
-        $._interpolated_paren
+        $._interpolated_angle,
+        $._interpolated_bracket,
+        $._interpolated_paren,
+        $._interpolated_brace
       )),
       seq(/%q/, choice(
-        $._uninterpolated_paren
+        $._uninterpolated_angle,
+        $._uninterpolated_bracket,
+        $._uninterpolated_paren,
+        $._uninterpolated_brace
       ))
     ), repeat($._quoted_string)),
 
@@ -452,24 +461,39 @@ module.exports = grammar({
     _single_quoted_continuation: $ => stringBody(blank(), "'"),
     _double_quoted_continuation: $ => stringBody(blank(), '"', $.interpolation),
 
+    _interpolated_angle: $ => stringBody('<', '>', $.interpolation, $._interpolated_angle),
+    _interpolated_bracket: $ => stringBody('[', ']', $.interpolation, $._interpolated_bracket),
     _interpolated_paren: $ => stringBody('(', ')', $.interpolation, $._interpolated_paren),
+    _interpolated_brace: $ => stringBody('{', '}', $.interpolation, $._interpolated_brace),
+    _uninterpolated_angle: $ => stringBody('<', '>', null, $._uninterpolated_angle),
+    _uninterpolated_bracket: $ => stringBody('[', ']', null, $._uninterpolated_bracket),
     _uninterpolated_paren: $ => stringBody('(', ')', null, $._uninterpolated_paren),
+    _uninterpolated_brace: $ => stringBody('{', '}', null, $._uninterpolated_brace),
     interpolation: $ => seq('#{', $._arg, '}'),
 
     subshell: $ => choice(
       stringBody('`', '`'),
       seq('%x', choice(
-        $._interpolated_paren
+        $._interpolated_angle,
+        $._interpolated_bracket,
+        $._interpolated_paren,
+        $._interpolated_brace
       ))
     ),
 
     array: $ => choice(
       seq('[', optional($._array_items), ']'),
       seq(/%[wi]/, choice(
-        $._uninterpolated_paren
+        $._uninterpolated_angle,
+        $._uninterpolated_bracket,
+        $._uninterpolated_paren,
+        $._uninterpolated_brace
       )),
       seq(/%[WI]/, choice(
-        $._interpolated_paren
+        $._interpolated_angle,
+        $._interpolated_bracket,
+        $._interpolated_paren,
+        $._interpolated_brace
       ))
     ),
 
@@ -486,11 +510,17 @@ module.exports = grammar({
     regex: $ => choice(
       regexBody('/', '/', $.interpolation),
       seq('%r', choice(
-        $._regex_interpolated_paren
+        $._regex_interpolated_angle,
+        $._regex_interpolated_bracket,
+        $._regex_interpolated_paren,
+        $._regex_interpolated_brace
       ))
     ),
 
+    _regex_interpolated_angle: $ => regexBody('<', '>', $.interpolation, $._regex_interpolated_angle),
+    _regex_interpolated_bracket: $ => regexBody('[', ']', $.interpolation, $._regex_interpolated_bracket),
     _regex_interpolated_paren: $ => regexBody('(', ')', $.interpolation, $._regex_interpolated_paren),
+    _regex_interpolated_brace: $ => regexBody('{', '}', $.interpolation, $._regex_interpolated_brace),
 
     lambda: $ => choice(
       seq(

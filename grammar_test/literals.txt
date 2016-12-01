@@ -53,11 +53,14 @@ double quoted symbol with interpolation
 percent symbol with balanced delimiters
 =======================================
 
+%s{a{b}c}
+%s<a<b>c>
 %s(a(b)c)
+%s[a[b]c]
 
 ---
 
-(program (symbol))
+(program (symbol) (symbol) (symbol) (symbol))
 
 =======
 integer
@@ -258,31 +261,40 @@ escaped interpolation
 percent q string with balanced delimiters
 =========================================
 
+%q<a<b>c>
+%q{a{b}c}
+%q[a[b]c]
 %q(a(b)c)
 
 ---
 
-(program (string))
+(program (string) (string) (string) (string))
 
 =========================================
 percent string with balanced delimiters
 =========================================
 
+%<a<b>c>
+%{a{b}c}
+%[a[b]c]
 %(a(b)c)
 
 ---
 
-(program (string))
+(program (string) (string) (string) (string))
 
 =========================================
 percent Q string with balanced delimiters
 =========================================
 
+%Q<a<b>c>
+%Q{a{b}c}
+%Q[a[b]c]
 %Q(a(b)c)
 
 ---
 
-(program (string))
+(program (string) (string) (string) (string))
 
 ===============
 string chaining
