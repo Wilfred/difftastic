@@ -31,6 +31,17 @@ end
 (program (method (identifier) (identifier)))
 
 ================
+method as attribute setter
+================
+
+def foo=
+end
+
+---
+
+(program (method (setter (identifier))))
+
+================
 method with call to super
 ================
 

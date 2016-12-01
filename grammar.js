@@ -387,12 +387,14 @@ module.exports = grammar({
 
     _method_name: $ => choice(
       $.identifier,
+      $.setter,
       $.symbol,
       $.operator,
       $.instance_variable,
       $.class_variable,
       $.global_variable
     ),
+    setter: $ => seq($.identifier, '='),
 
     undef: $ => seq('undef', commaSep1($._method_name)),
     alias: $ => seq('alias', $._method_name, $._method_name),
