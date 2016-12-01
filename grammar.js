@@ -446,7 +446,7 @@ module.exports = grammar({
     ),
 
     array: $ => choice(
-      seq('[', $._array_items, ']'),
+      seq('[', optional($._array_items), ']'),
       seq(/%[wi]/, choice(
         $._uninterpolated_paren
       )),
@@ -455,7 +455,7 @@ module.exports = grammar({
       ))
     ),
 
-    _array_items: $ => optional(seq(expression($), optional(seq(',', $._array_items)))),
+    _array_items: $ => sepTrailing($._array_items, $._arg, ','),
 
     hash: $ => prec(1, seq('{', optional($._hash_items), '}')),
     _hash_items: $ => seq($.pair, optional(seq(',', optional($._hash_items)))),
