@@ -79,7 +79,7 @@ module.exports = grammar({
 
     formal_parameters: $ => commaSep1($._formal_parameter),
     _formal_parameter: $ => choice(
-      $._identifier,
+      $.identifier,
       $.splat_parameter,
       $.hash_splat_parameter,
       $.block_parameter,
@@ -87,16 +87,16 @@ module.exports = grammar({
       $.optional_parameter
     ),
 
-    splat_parameter: $ => seq('*', optional($._identifier)),
-    hash_splat_parameter: $ => seq('**', optional($._identifier)),
-    block_parameter: $ => seq('&', $._identifier),
-    keyword_parameter: $ => seq($._identifier, ':', optional($._arg)),
-    optional_parameter: $ => seq($._identifier, '=', $._arg),
+    splat_parameter: $ => seq('*', optional($.identifier)),
+    hash_splat_parameter: $ => seq('**', optional($.identifier)),
+    block_parameter: $ => seq('&', $.identifier),
+    keyword_parameter: $ => prec.right(seq($.identifier, ':', optional($._arg))),
+    optional_parameter: $ => seq($.identifier, '=', $._arg),
 
     class: $ => seq(
       'class',
-      sep1($._identifier, '::'),
-      optional(seq('<', sep1($._identifier, '::'), $._terminator)),
+      sep1($.identifier, '::'),
+      optional(seq('<', sep1($.identifier, '::'), $._terminator)),
       optional($._body_statement),
       'end'
     ),
@@ -104,7 +104,7 @@ module.exports = grammar({
     singleton_class: $ => seq(
       'class',
       '<<',
-      $._identifier,
+      $.identifier,
       $._terminator,
       optional($._body_statement),
       'end'
@@ -112,7 +112,7 @@ module.exports = grammar({
 
     module: $ => seq(
       'module',
-      sep1($._identifier, '::'),
+      sep1($.identifier, '::'),
       $._terminator,
       optional($._body_statement),
       'end'
@@ -273,8 +273,8 @@ module.exports = grammar({
     ),
 
     element_reference: $ => prec.left(1, seq($._primary, '[', $._argument_list, ']')),
-    scope_resolution: $ => prec.left(1, seq(optional($._primary), '::', $._identifier)),
-    call: $ => prec.left(PREC.BITWISE_AND + 1, seq($._primary, choice('.', '&.'), $._identifier)),
+    scope_resolution: $ => prec.left(1, seq(optional($._primary), '::', $.identifier)),
+    call: $ => prec.left(PREC.BITWISE_AND + 1, seq($._primary, choice('.', '&.'), $.identifier)),
 
     method_call: $ => {
       const receiver = choice($._variable, $.scope_resolution, $.call)
@@ -300,7 +300,7 @@ module.exports = grammar({
 
     argument_pair: $ => prec.left(1, seq(choice(
       seq($.symbol, '=>'),
-      seq($._identifier, ':')
+      seq($.identifier, ':')
     ), $._arg)),
 
     block_argument: $ => seq('&', $._arg),
@@ -324,7 +324,7 @@ module.exports = grammar({
     _block_parameters: $ => seq(
       '|',
       optional($.formal_parameters),
-      optional(seq(';', sep1($._identifier, ','))), // Block shadow args e.g. {|; a, b| ...}
+      optional(seq(';', sep1($.identifier, ','))), // Block shadow args e.g. {|; a, b| ...}
       '|'
     ),
 
@@ -367,10 +367,13 @@ module.exports = grammar({
       $.method_call
     )),
     _variable: $ => choice(
-      $._identifier,
       $.nil,
       $.self,
       $.boolean,
+      $.instance_variable,
+      $.class_variable,
+      $.global_variable,
+      $.identifier,
       $.keyword__FILE__,
       $.keyword__LINE__,
       $.keyword__ENCODING__
@@ -381,16 +384,17 @@ module.exports = grammar({
     global_variable: $ => (globalVariablePattern),
     identifier: $ => (identifierPattern),
     operator: $ => choice(...operators),
-    _identifier: $ => choice(
+
+    _method_name: $ => choice(
+      $.identifier,
+      $.symbol,
+      $.operator,
       $.instance_variable,
       $.class_variable,
-      $.global_variable,
-      $.identifier
+      $.global_variable
     ),
 
-    _method_name: $ => choice($._identifier, $.symbol, $.operator),
-    _undef_list: $ => choice($._method_name, prec(1, seq($._undef_list, ',', $._method_name))),
-    undef: $ => seq('undef', $._undef_list),
+    undef: $ => seq('undef', commaSep1($._method_name)),
     alias: $ => seq('alias', $._method_name, $._method_name),
 
     comment: $ => token(prec(PREC.COMMENT, choice(
@@ -470,7 +474,7 @@ module.exports = grammar({
 
     pair: $ => prec(-1, seq(choice(
       seq($._arg, '=>'),
-      seq($._identifier, ':')
+      seq($.identifier, ':')
     ), $._arg)),
 
     regex: $ => choice(
