@@ -27,6 +27,7 @@ const PREC = {
   UNARY_PLUS: 85,
 };
 
+const integerPattern = /0b[01](_?[01])*|0[oO]?[0-7](_?[0-7])*|(0d)?\d(_?\d)*|0x[0-9a-fA-F](_?[0-9a-fA-F])*/;
 const identifierPattern = /[a-zA-Z_][a-zA-Z0-9_]*(\?|\!)?/;
 // Global variables start with $ and can be:
 // - Regex back references (e.g. $&, $', $', and $+)
@@ -43,6 +44,11 @@ module.exports = grammar({
   extras: $ => [
     $.comment,
     /\s/
+  ],
+
+  conflicts: $ => [
+    // Temporary fix until we can backtrack to parse things like `3.times`
+    [$.integer, $.float],
   ],
 
   rules: {
@@ -431,8 +437,10 @@ module.exports = grammar({
       ))
     ),
 
-    integer: $ => (/0b[01](_?[01])*|0[oO]?[0-7](_?[0-7])*|(0d)?\d(_?\d)*|0x[0-9a-fA-F](_?[0-9a-fA-F])*/),
-    float: $ => (/\d(_?\d)*\.\d(_?\d)*([eE]\d(_?\d)*)?/),
+    integer: $ => (integerPattern),
+    // TODO: When we can backtrack, redefine float as regex instead of seq.
+    // float: $ => (/\d(_?\d)*\.\d(_?\d)*([eE]\d(_?\d)*)?/),
+    float: $ => seq(integerPattern, '.' ,/\d(_?\d)*([eE]\d(_?\d)*)?/),
     boolean: $ => token(choice('true', 'false', 'TRUE', 'FALSE')),
     self: $ => 'self',
     nil: $ => token(choice('nil', 'NIL')),
