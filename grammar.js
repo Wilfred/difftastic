@@ -316,12 +316,7 @@ module.exports = grammar({
     do_block: $ => $._do_block,
     _do_block: $ => seq(
       'do',
-      optional(seq(
-        '|',
-        optional($.formal_parameters),
-        optional(seq(';', sep1($._identifier, ','))), // Block shadow args e.g. {|; a, b| ...}
-        '|')
-      ),
+      optional($._block_parameters),
       optional($._statements),
       'end'
     ),
@@ -329,12 +324,7 @@ module.exports = grammar({
     block: $ => $._block,
     _block: $ => seq(
       '{',
-      optional(seq(
-        '|',
-        optional($.formal_parameters),
-        optional(seq(';', sep1($._identifier, ','))), // Block shadow args e.g. {|; a, b| ...}
-        '|')
-      ),
+      optional($._block_parameters),
       optional($._statements),
       '}'
     ),
@@ -346,6 +336,13 @@ module.exports = grammar({
     assignment: $ => prec.right(PREC.ASSIGN, seq($._lhs, '=', expression($))),
     math_assignment: $ => prec.right(PREC.ASSIGN, seq($._lhs, choice('+=', '-=', '*=', '**=', '/='), expression($))),
     conditional_assignment: $ => prec.right(PREC.ASSIGN, seq($._lhs, choice('||=', '&&='), expression($))),
+    _block_parameters: $ => seq(
+      '|',
+      optional($.formal_parameters),
+      optional(seq(';', sep1($._identifier, ','))), // Block shadow args e.g. {|; a, b| ...}
+      '|'
+    ),
+
 
     conditional: $ => prec.right(PREC.CONDITIONAL, seq(expression($), '?', expression($), ':', expression($))),
     range: $ => prec.right(PREC.RANGE, seq(expression($), choice('..', '...'), expression($))),
