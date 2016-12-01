@@ -193,14 +193,14 @@ module.exports = grammar({
     ensure: $ => seq('ensure', optional($._statements)),
     rescue: $ => seq(
       'rescue',
-      optional($.rescue_arguments),
-      optional(seq('=>', $.rescued_exception)),
+      optional($.exceptions),
+      optional($.exception_variable),
       $._then,
       optional($._statements),
       optional($.rescue)
     ),
-    rescue_arguments: $ => commaSep1($._arg),
-    rescued_exception: $ => (identifierPattern),
+    exceptions: $ => commaSep1($._arg),
+    exception_variable: $ => seq('=>', $._lhs),
 
     _body_statement: $ => choice(
       seq(
