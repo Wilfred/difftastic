@@ -118,18 +118,18 @@ module.exports = grammar({
       'end'
     ),
 
-    super: $ => prec.right(seq('super', optional($.argument_list))),
-    return: $ => prec.right(seq('return', optional($.argument_list))),
-    yield: $ => prec.right(seq('yield', optional($.argument_list))),
-    break: $ => prec.right(seq('break', optional($.argument_list))),
-    next: $ => prec.right(seq('next', optional($.argument_list))),
+    super: $ => prec.left(seq('super', optional($.argument_list))),
+    return: $ => prec.left(seq('return', optional($.argument_list))),
+    yield: $ => prec.left(seq('yield', optional($.argument_list))),
+    break: $ => prec.left(seq('break', optional($.argument_list))),
+    next: $ => prec.left(seq('next', optional($.argument_list))),
     redo: $ => 'redo',
     retry: $ => 'retry',
 
-    if_modifier: $ => seq($._statement, 'if', $._arg),
-    unless_modifier: $ => seq($._statement, 'unless', $._arg),
-    while_modifier: $ => seq($._statement, 'while', $._arg),
-    until_modifier: $ => seq($._statement, 'until', $._arg),
+    if_modifier: $ => prec(PREC.RESCUE, seq($._statement, 'if', $._arg)),
+    unless_modifier: $ => prec(PREC.RESCUE, seq($._statement, 'unless', $._arg)),
+    while_modifier: $ => prec(PREC.RESCUE, seq($._statement, 'while', $._arg)),
+    until_modifier: $ => prec(PREC.RESCUE, seq($._statement, 'until', $._arg)),
     rescue_modifier: $ => prec(PREC.RESCUE, seq($._statement, 'rescue', $._arg)),
 
     while: $ => seq('while', $._arg, $._do, optional($._statements), 'end'),
@@ -293,10 +293,10 @@ module.exports = grammar({
       seq($._argument_list, optional($.block_argument))
     )),
 
-    _argument_list: $ => prec.left(1, commaSep1(choice(
+    _argument_list: $ => prec.left(1, sepTrailing($._argument_list, choice(
       $._arg,
       $.argument_pair
-    ))),
+    ), ',')),
 
     argument_pair: $ => prec.left(1, seq(choice(
       seq($.symbol, '=>'),

@@ -3,10 +3,13 @@ conditional modifier
 ====================
 
 foo if bar
+return if false
 
 ---
 
-(program (if_modifier (identifier) (identifier)))
+(program
+  (if_modifier (identifier) (identifier))
+  (if_modifier (return) (boolean)))
 
 ==============
 while modifier
