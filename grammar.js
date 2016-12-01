@@ -491,9 +491,7 @@ module.exports = grammar({
         '->',
         optional(choice(
           seq('(', optional($.formal_parameters), ')'),
-          $._identifier
-          // TODO: can be any single formal_parameter
-          // $._formal_parameter
+          $._formal_parameter
         )),
         choice(
           seq('{', optional($._statements), '}'),

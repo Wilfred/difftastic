@@ -518,12 +518,16 @@ lambda literal with an arg
 
 -> foo { 1 }
 -> (foo) { 1 }
+-> *foo { 1 }
+-> foo: 1 { 2 }
 
 ---
 
 (program
 	(lambda (identifier) (integer))
-	(lambda (formal_parameters (identifier)) (integer)))
+	(lambda (formal_parameters (identifier)) (integer))
+	(lambda (splat_parameter (identifier)) (integer))
+	(lambda (keyword_parameter (identifier) (integer)) (integer)))
 
 ===========================
 lambda literal with multiple args
