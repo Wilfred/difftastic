@@ -76,7 +76,7 @@ module.exports = grammar({
         seq('(', optional($.formal_parameters), ')'),
         seq(optional($.formal_parameters), $._terminator)
       ),
-      bodyStatement($),
+      optional($._body_statement),
       'end'
     ),
 
@@ -100,7 +100,7 @@ module.exports = grammar({
       'class',
       sep1($._identifier, '::'),
       optional(seq('<', sep1($._identifier, '::'), $._terminator)),
-      bodyStatement($),
+      optional($._body_statement),
       'end'
     ),
 
@@ -109,7 +109,7 @@ module.exports = grammar({
       '<<',
       $._identifier,
       $._terminator,
-      bodyStatement($),
+      optional($._body_statement),
       'end'
     ),
 
@@ -117,7 +117,7 @@ module.exports = grammar({
       'module',
       sep1($._identifier, '::'),
       $._terminator,
-      bodyStatement($),
+      optional($._body_statement),
       'end'
     ),
 
@@ -186,7 +186,7 @@ module.exports = grammar({
       $.elsif
     ),
 
-    begin: $ => seq('begin', bodyStatement($), 'end'),
+    begin: $ => seq('begin', optional($._body_statement), 'end'),
     ensure: $ => seq('ensure', optional($._statements)),
     rescue: $ => seq(
       'rescue',
@@ -198,6 +198,25 @@ module.exports = grammar({
     ),
     rescue_arguments: $ => commaSep1($._arg),
     rescued_exception: $ => (identifierPattern),
+
+    _body_statement: $ => choice(
+      seq(
+        $._statements,
+        optional($.rescue),
+        optional($.else),
+        optional($.ensure)
+      ),
+      seq(
+        $.rescue,
+        optional($.else),
+        optional($.ensure)
+      ),
+      seq(
+        $.else,
+        optional($.ensure)
+      ),
+      $.ensure
+    ),
 
     _arg: $ => choice(
       $._primary,
@@ -588,15 +607,6 @@ function expression ($) {
   return choice(
     $._arg,
     $.method_call_with_do_block
-  )
-}
-
-function bodyStatement($) {
-  return seq(
-    optional($._statements),
-    optional($.rescue),
-    optional($.else),
-    optional($.ensure)
   )
 }
 
