@@ -278,7 +278,7 @@ module.exports = grammar({
       $.retry
     ),
 
-    element_reference: $ => prec.left(1, seq($._primary, '[', $._argument_list, ']')),
+    element_reference: $ => prec.left(1, seq($._primary, '[', $._argument_list_with_trailing_comma, ']')),
     scope_resolution: $ => prec.left(1, seq(optional($._primary), '::', $.identifier)),
     call: $ => prec.left(PREC.BITWISE_AND + 1, seq($._primary, choice('.', '&.'), $.identifier)),
 
@@ -295,14 +295,16 @@ module.exports = grammar({
     },
 
     argument_list: $ => prec.left(1, choice(
-      seq('(', optional($._argument_list), optional($.block_argument), ')'),
+      seq('(', optional($._argument_list_with_trailing_comma), optional($.block_argument), ')'),
       seq($._argument_list, optional($.block_argument))
     )),
 
-    _argument_list: $ => prec.left(1, sepTrailing($._argument_list, choice(
-      $._arg,
-      $.argument_pair
-    ), ',')),
+    _argument_list_with_trailing_comma: $ => prec.left(1, sepTrailing(
+      $._argument_list_with_trailing_comma,
+      choice($._arg, $.argument_pair),
+      ','
+    )),
+    _argument_list: $ => prec.left(1, commaSep1(choice($._arg, $.argument_pair))),
 
     argument_pair: $ => prec.left(1, seq(choice(
       seq($.symbol, '=>'),
