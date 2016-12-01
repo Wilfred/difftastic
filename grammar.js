@@ -412,7 +412,13 @@ module.exports = grammar({
     ))),
 
     symbol: $ => choice(
-      token(seq(':', choice(identifierPattern, choice.apply(null, operators)))),
+      token(seq(':', choice(
+        identifierPattern,
+        instanceVariablePattern,
+        classVariablePattern,
+        globalVariablePattern,
+        ...operators
+      ))),
       seq(":'", $._single_quoted_continuation),
       seq(':"', $._double_quoted_continuation),
       seq('%s', choice(

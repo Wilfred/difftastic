@@ -5,10 +5,16 @@ symbol
 :foo
 :foo!
 :foo?
+:@foo
+:@@foo
+:$foo
 
 ---
 
 (program
+	(symbol)
+	(symbol)
+	(symbol)
 	(symbol)
 	(symbol)
 	(symbol))
