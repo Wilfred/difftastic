@@ -340,7 +340,7 @@ module.exports = grammar({
     or: $ => prec.left(PREC.OR, seq($._arg, 'or', $._arg)),
     not: $ => prec.right(PREC.NOT, seq('not', $._arg)),
     defined: $ => prec(PREC.DEFINED, seq('defined?', $._arg)),
-    assignment: $ => prec.right(PREC.ASSIGN, seq($._lhs, '=', $._arg)),
+    assignment: $ => prec.right(PREC.ASSIGN, seq(choice($.assignment_list, $._lhs), '=', $._arg)),
     math_assignment: $ => prec.right(PREC.ASSIGN, seq($._lhs, choice('+=', '-=', '*=', '**=', '/='), $._arg)),
     conditional_assignment: $ => prec.right(PREC.ASSIGN, seq($._lhs, choice('||=', '&&='), $._arg)),
 
@@ -367,6 +367,16 @@ module.exports = grammar({
     unary_plus: $ => prec.right(PREC.UNARY_PLUS, seq('+', $._arg)),
     complement: $ => prec.right(PREC.COMPLEMENT, seq(choice('!', '~'), $._arg)),
 
+    assignment_list: $ => $._mlhs,
+    _mlhs: $ => prec.left(-1, sepTrailing(
+      $._mlhs,
+      choice(
+        $._variable,
+        $.rest_assignment
+      ),
+      ','
+    )),
+    rest_assignment: $ => seq('*', optional($._variable)),
     _lhs: $ => prec.left(choice(
       $._variable,
       $.scope_resolution,

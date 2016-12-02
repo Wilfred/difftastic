@@ -154,6 +154,34 @@ x = y
 (program (assignment (identifier) (identifier)))
 
 ==========
+multiple assignment
+==========
+
+x, y = [1, 2]
+x, * = [1, 2]
+x, *args = [1, 2]
+
+---
+
+(program
+  (assignment (assignment_list (identifier) (identifier)) (array (integer) (integer)))
+  (assignment (assignment_list (identifier) (rest_assignment)) (array (integer) (integer)))
+  (assignment (assignment_list (identifier) (rest_assignment (identifier))) (array (integer) (integer))))
+
+==========
+assignment from method call
+==========
+
+x = foo a, b
+
+---
+
+(program
+  (assignment (identifier)
+    (method_call (identifier)
+      (argument_list (identifier) (identifier)))))
+
+==========
 math assignment
 ==========
 
