@@ -389,6 +389,33 @@ print("hello")
   (method_call (identifier) (argument_list (string))))
 
 ===============================
+method call with arguments on multiple lines
+===============================
+
+foo a,
+  b, c
+
+---
+
+(program
+  (method_call
+    (identifier)
+    (argument_list (identifier) (identifier) (identifier))))
+
+===============================
+method call with training comma
+===============================
+
+foo(a, b,)
+
+---
+
+(program
+  (method_call
+    (identifier)
+    (argument_list (identifier) (identifier))))
+
+===============================
 method call with receiver
 ===============================
 
@@ -626,3 +653,21 @@ end
 ---
 
 (program (lambda (formal_parameters (identifier)) (integer)))
+
+===============================
+backslash-newline as line continuation
+===============================
+
+foo \
+  a, b
+
+"abc \
+de"
+
+---
+
+(program
+  (method_call
+    (identifier)
+    (argument_list (identifier) (identifier)))
+  (string))

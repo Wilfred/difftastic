@@ -27,6 +27,7 @@ const PREC = {
   UNARY_PLUS: 85,
 };
 
+const integerPattern = /0b[01](_?[01])*|0[oO]?[0-7](_?[0-7])*|(0d)?\d(_?\d)*|0x[0-9a-fA-F](_?[0-9a-fA-F])*/;
 const identifierPattern = /[a-zA-Z_][a-zA-Z0-9_]*(\?|\!)?/;
 // Global variables start with $ and can be:
 // - Regex back references (e.g. $&, $', $', and $+)
@@ -42,7 +43,12 @@ module.exports = grammar({
 
   extras: $ => [
     $.comment,
-    /\s/
+    /\s|\\\n/
+  ],
+
+  conflicts: $ => [
+    // Temporary fix until we can backtrack to parse things like `3.times`
+    [$.integer, $.float],
   ],
 
   rules: {
@@ -187,14 +193,14 @@ module.exports = grammar({
     ensure: $ => seq('ensure', optional($._statements)),
     rescue: $ => seq(
       'rescue',
-      optional($.rescue_arguments),
-      optional(seq('=>', $.rescued_exception)),
+      optional($.exceptions),
+      optional($.exception_variable),
       $._then,
       optional($._statements),
       optional($.rescue)
     ),
-    rescue_arguments: $ => commaSep1($._arg),
-    rescued_exception: $ => (identifierPattern),
+    exceptions: $ => commaSep1($._arg),
+    exception_variable: $ => seq('=>', $._lhs),
 
     _body_statement: $ => choice(
       seq(
@@ -272,7 +278,7 @@ module.exports = grammar({
       $.retry
     ),
 
-    element_reference: $ => prec.left(1, seq($._primary, '[', $._argument_list, ']')),
+    element_reference: $ => prec.left(1, seq($._primary, '[', $._argument_list_with_trailing_comma, ']')),
     scope_resolution: $ => prec.left(1, seq(optional($._primary), '::', $.identifier)),
     call: $ => prec.left(PREC.BITWISE_AND + 1, seq($._primary, choice('.', '&.'), $.identifier)),
 
@@ -289,14 +295,16 @@ module.exports = grammar({
     },
 
     argument_list: $ => prec.left(1, choice(
-      seq('(', optional($._argument_list), optional($.block_argument), ')'),
+      seq('(', optional($._argument_list_with_trailing_comma), optional($.block_argument), ')'),
       seq($._argument_list, optional($.block_argument))
     )),
 
-    _argument_list: $ => prec.left(1, sepTrailing($._argument_list, choice(
-      $._arg,
-      $.argument_pair
-    ), ',')),
+    _argument_list_with_trailing_comma: $ => prec.left(1, sepTrailing(
+      $._argument_list_with_trailing_comma,
+      choice($._arg, $.argument_pair),
+      ','
+    )),
+    _argument_list: $ => prec.left(1, commaSep1(choice($._arg, $.argument_pair))),
 
     argument_pair: $ => prec.left(1, seq(choice(
       seq($.symbol, '=>'),
@@ -387,12 +395,14 @@ module.exports = grammar({
 
     _method_name: $ => choice(
       $.identifier,
+      $.setter,
       $.symbol,
       $.operator,
       $.instance_variable,
       $.class_variable,
       $.global_variable
     ),
+    setter: $ => seq($.identifier, '='),
 
     undef: $ => seq('undef', commaSep1($._method_name)),
     alias: $ => seq('alias', $._method_name, $._method_name),
@@ -421,13 +431,19 @@ module.exports = grammar({
       ))),
       seq(":'", $._single_quoted_continuation),
       seq(':"', $._double_quoted_continuation),
+      ':"#"', // TODO: Remove this hack
       seq('%s', choice(
-        $._uninterpolated_paren
+        $._uninterpolated_angle,
+        $._uninterpolated_bracket,
+        $._uninterpolated_paren,
+        $._uninterpolated_brace
       ))
     ),
 
-    integer: $ => (/0b[01](_?[01])*|0[oO]?[0-7](_?[0-7])*|(0d)?\d(_?\d)*|0x[0-9a-fA-F](_?[0-9a-fA-F])*/),
-    float: $ => (/\d(_?\d)*\.\d(_?\d)*([eE]\d(_?\d)*)?/),
+    integer: $ => (integerPattern),
+    // TODO: When we can backtrack, redefine float as regex instead of seq.
+    // float: $ => (/\d(_?\d)*\.\d(_?\d)*([eE]\d(_?\d)*)?/),
+    float: $ => seq(integerPattern, '.' ,/\d(_?\d)*([eE]\d(_?\d)*)?/),
     boolean: $ => token(choice('true', 'false', 'TRUE', 'FALSE')),
     self: $ => 'self',
     nil: $ => token(choice('nil', 'NIL')),
@@ -438,38 +454,59 @@ module.exports = grammar({
     string: $ => seq(choice(
       $._quoted_string,
       seq(/%Q?/, choice(
-        $._interpolated_paren
+        $._interpolated_angle,
+        $._interpolated_bracket,
+        $._interpolated_paren,
+        $._interpolated_brace
       )),
       seq(/%q/, choice(
-        $._uninterpolated_paren
+        $._uninterpolated_angle,
+        $._uninterpolated_bracket,
+        $._uninterpolated_paren,
+        $._uninterpolated_brace
       ))
     ), repeat($._quoted_string)),
 
     _quoted_string: $ => choice(
       seq("'", $._single_quoted_continuation),
-      seq('"', $._double_quoted_continuation)
+      seq('"', choice($._double_quoted_continuation, '#"')) // TODO: Remove this hack
     ),
     _single_quoted_continuation: $ => stringBody(blank(), "'"),
     _double_quoted_continuation: $ => stringBody(blank(), '"', $.interpolation),
 
+    _interpolated_angle: $ => stringBody('<', '>', $.interpolation, $._interpolated_angle),
+    _interpolated_bracket: $ => stringBody('[', ']', $.interpolation, $._interpolated_bracket),
     _interpolated_paren: $ => stringBody('(', ')', $.interpolation, $._interpolated_paren),
+    _interpolated_brace: $ => stringBody('{', '}', $.interpolation, $._interpolated_brace),
+    _uninterpolated_angle: $ => stringBody('<', '>', null, $._uninterpolated_angle),
+    _uninterpolated_bracket: $ => stringBody('[', ']', null, $._uninterpolated_bracket),
     _uninterpolated_paren: $ => stringBody('(', ')', null, $._uninterpolated_paren),
+    _uninterpolated_brace: $ => stringBody('{', '}', null, $._uninterpolated_brace),
     interpolation: $ => seq('#{', $._arg, '}'),
 
     subshell: $ => choice(
       stringBody('`', '`'),
       seq('%x', choice(
-        $._interpolated_paren
+        $._interpolated_angle,
+        $._interpolated_bracket,
+        $._interpolated_paren,
+        $._interpolated_brace
       ))
     ),
 
     array: $ => choice(
       seq('[', optional($._array_items), ']'),
       seq(/%[wi]/, choice(
-        $._uninterpolated_paren
+        $._uninterpolated_angle,
+        $._uninterpolated_bracket,
+        $._uninterpolated_paren,
+        $._uninterpolated_brace
       )),
       seq(/%[WI]/, choice(
-        $._interpolated_paren
+        $._interpolated_angle,
+        $._interpolated_bracket,
+        $._interpolated_paren,
+        $._interpolated_brace
       ))
     ),
 
@@ -485,12 +522,20 @@ module.exports = grammar({
 
     regex: $ => choice(
       regexBody('/', '/', $.interpolation),
+      '/#/', // TODO: Remove this hack
       seq('%r', choice(
-        $._regex_interpolated_paren
+        $._regex_interpolated_angle,
+        $._regex_interpolated_bracket,
+        $._regex_interpolated_paren,
+        $._regex_interpolated_brace,
+        '<#>', '[#]', '(#)', '{#}' // TODO: Remove this hack
       ))
     ),
 
+    _regex_interpolated_angle: $ => regexBody('<', '>', $.interpolation, $._regex_interpolated_angle),
+    _regex_interpolated_bracket: $ => regexBody('[', ']', $.interpolation, $._regex_interpolated_bracket),
     _regex_interpolated_paren: $ => regexBody('(', ')', $.interpolation, $._regex_interpolated_paren),
+    _regex_interpolated_brace: $ => regexBody('{', '}', $.interpolation, $._regex_interpolated_brace),
 
     lambda: $ => choice(
       seq(
@@ -538,7 +583,7 @@ function stringBody (open, close, interpolation, self) {
   if (interpolation) {
     contents.push(interpolation)
     disallowedContentChars.push('#')
-    contents.push(/#[^{}]/)
+    contents.push(/#[^{]/)
   }
 
   if (self) {
@@ -583,7 +628,7 @@ function regexBody (open, close, interpolation, self) {
   if (interpolation) {
     contents.push(interpolation)
     disallowedContentChars.push('#')
-    contents.push(/#[^{}]/)
+    contents.push(/#[^{]/)
   }
 
   if (self) {
