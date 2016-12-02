@@ -580,7 +580,7 @@ function stringBody (open, close, interpolation, self) {
   if (interpolation) {
     contents.push(interpolation)
     disallowedContentChars.push('#')
-    contents.push(/#[^{}]/)
+    contents.push(/#[^{]/)
   }
 
   if (self) {
@@ -625,7 +625,7 @@ function regexBody (open, close, interpolation, self) {
   if (interpolation) {
     contents.push(interpolation)
     disallowedContentChars.push('#')
-    contents.push(/#[^{}]/)
+    contents.push(/#[^{]/)
   }
 
   if (self) {
