@@ -34,10 +34,11 @@ double quoted symbol
 ====================
 
 :"foo bar"
+:"#"
 
 ---
 
-(program (symbol))
+(program (symbol) (symbol))
 
 =======================================
 double quoted symbol with interpolation
@@ -242,6 +243,16 @@ double-quoted string with backslash and character
 =================================================
 
 "\d"
+
+---
+
+(program (string))
+
+=================================
+double-quoted string with just pound
+=================================
+
+"#"
 
 ---
 
@@ -493,11 +504,13 @@ regular expression with interpolation
 
 /word#{foo}word/
 /word#word/
+/#/
 
 ---
 
 (program
 	(regex (interpolation (identifier)))
+	(regex)
 	(regex))
 
 =====================================================
@@ -505,10 +518,11 @@ percent r regular expression with balanced delimiters
 =====================================================
 
 %r(a(b)c)
+%r(#)
 
 ---
 
-(program (regex))
+(program (regex) (regex))
 
 =======================================================================
 percent r regular expression with balanced delimiters and interpolation

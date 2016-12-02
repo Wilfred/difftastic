@@ -3462,6 +3462,10 @@
           ]
         },
         {
+          "type": "STRING",
+          "value": ":\"#\""
+        },
+        {
           "type": "SEQ",
           "members": [
             {
@@ -3675,8 +3679,17 @@
               "value": "\""
             },
             {
-              "type": "SYMBOL",
-              "name": "_double_quoted_continuation"
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "_double_quoted_continuation"
+                },
+                {
+                  "type": "STRING",
+                  "value": "#\""
+                }
+              ]
             }
           ]
         }
@@ -3723,7 +3736,7 @@
               },
               {
                 "type": "PATTERN",
-                "value": "#[^{}]"
+                "value": "#[^{]"
               },
               {
                 "type": "PATTERN",
@@ -3756,7 +3769,7 @@
               },
               {
                 "type": "PATTERN",
-                "value": "#[^{}]"
+                "value": "#[^{]"
               },
               {
                 "type": "SYMBOL",
@@ -3793,7 +3806,7 @@
               },
               {
                 "type": "PATTERN",
-                "value": "#[^{}]"
+                "value": "#[^{]"
               },
               {
                 "type": "SYMBOL",
@@ -3830,7 +3843,7 @@
               },
               {
                 "type": "PATTERN",
-                "value": "#[^{}]"
+                "value": "#[^{]"
               },
               {
                 "type": "SYMBOL",
@@ -3867,7 +3880,7 @@
               },
               {
                 "type": "PATTERN",
-                "value": "#[^{}]"
+                "value": "#[^{]"
               },
               {
                 "type": "SYMBOL",
@@ -4335,7 +4348,7 @@
                   },
                   {
                     "type": "PATTERN",
-                    "value": "#[^{}]"
+                    "value": "#[^{]"
                   },
                   {
                     "type": "PATTERN",
@@ -4349,6 +4362,10 @@
               "value": "\\/[a-z]*"
             }
           ]
+        },
+        {
+          "type": "STRING",
+          "value": "/#/"
         },
         {
           "type": "SEQ",
@@ -4375,6 +4392,22 @@
                 {
                   "type": "SYMBOL",
                   "name": "_regex_interpolated_brace"
+                },
+                {
+                  "type": "STRING",
+                  "value": "<#>"
+                },
+                {
+                  "type": "STRING",
+                  "value": "[#]"
+                },
+                {
+                  "type": "STRING",
+                  "value": "(#)"
+                },
+                {
+                  "type": "STRING",
+                  "value": "{#}"
                 }
               ]
             }
@@ -4400,7 +4433,7 @@
               },
               {
                 "type": "PATTERN",
-                "value": "#[^{}]"
+                "value": "#[^{]"
               },
               {
                 "type": "SYMBOL",
@@ -4437,7 +4470,7 @@
               },
               {
                 "type": "PATTERN",
-                "value": "#[^{}]"
+                "value": "#[^{]"
               },
               {
                 "type": "SYMBOL",
@@ -4474,7 +4507,7 @@
               },
               {
                 "type": "PATTERN",
-                "value": "#[^{}]"
+                "value": "#[^{]"
               },
               {
                 "type": "SYMBOL",
@@ -4511,7 +4544,7 @@
               },
               {
                 "type": "PATTERN",
-                "value": "#[^{}]"
+                "value": "#[^{]"
               },
               {
                 "type": "SYMBOL",

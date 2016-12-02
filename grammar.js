@@ -431,6 +431,7 @@ module.exports = grammar({
       ))),
       seq(":'", $._single_quoted_continuation),
       seq(':"', $._double_quoted_continuation),
+      ':"#"', // TODO: Remove this hack
       seq('%s', choice(
         $._uninterpolated_angle,
         $._uninterpolated_bracket,
@@ -468,7 +469,7 @@ module.exports = grammar({
 
     _quoted_string: $ => choice(
       seq("'", $._single_quoted_continuation),
-      seq('"', $._double_quoted_continuation)
+      seq('"', choice($._double_quoted_continuation, '#"')) // TODO: Remove this hack
     ),
     _single_quoted_continuation: $ => stringBody(blank(), "'"),
     _double_quoted_continuation: $ => stringBody(blank(), '"', $.interpolation),
@@ -521,11 +522,13 @@ module.exports = grammar({
 
     regex: $ => choice(
       regexBody('/', '/', $.interpolation),
+      '/#/', // TODO: Remove this hack
       seq('%r', choice(
         $._regex_interpolated_angle,
         $._regex_interpolated_bracket,
         $._regex_interpolated_paren,
-        $._regex_interpolated_brace
+        $._regex_interpolated_brace,
+        '<#>', '[#]', '(#)', '{#}' // TODO: Remove this hack
       ))
     ),
 
