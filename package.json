@@ -14,7 +14,7 @@
     "nan": "^2.4.0"
   },
   "devDependencies": {
-    "tree-sitter-cli": ">= 0.2.0"
+    "tree-sitter-cli": ">= 0.3.6"
   },
   "scripts": {
     "build": "tree-sitter generate && node-gyp build",
