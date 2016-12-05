@@ -48,7 +48,7 @@ double quoted symbol with interpolation
 
 ---
 
-(program (symbol (interpolation (identifier))))
+(program (symbol (identifier)))
 
 =======================================
 percent symbol with balanced delimiters
@@ -266,7 +266,7 @@ interpolation
 
 ---
 
-(program (string (interpolation (identifier))))
+(program (string (identifier)))
 
 =====================
 escaped interpolation
@@ -416,7 +416,7 @@ percent W array with interpolations
 
 ---
 
-(program (array (interpolation (identifier))))
+(program (array (identifier)))
 
 =====================
 empty percent i array
@@ -446,7 +446,7 @@ percent I array with captures
 
 ---
 
-(program (array (interpolation (identifier))))
+(program (array (identifier)))
 
 ==========
 empty hash
@@ -509,7 +509,7 @@ regular expression with interpolation
 ---
 
 (program
-	(regex (interpolation (identifier)))
+	(regex (identifier))
 	(regex)
 	(regex))
 
@@ -532,7 +532,7 @@ percent r regular expression with balanced delimiters and interpolation
 
 ---
 
-(program (regex (interpolation (identifier))))
+(program (regex (identifier)))
 
 ==============
 empty function
