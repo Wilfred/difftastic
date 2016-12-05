@@ -24,7 +24,6 @@ const PREC = {
   UNARY_MINUS: 75,
   EXPONENTIAL: 80,
   COMPLEMENT: 85,
-  UNARY_PLUS: 85,
 };
 
 const integerPattern = /0b[01](_?[01])*|0[oO]?[0-7](_?[0-7])*|(0d)?\d(_?\d)*|0x[0-9a-fA-F](_?[0-9a-fA-F])*/;
@@ -223,27 +222,12 @@ module.exports = grammar({
 
     _arg: $ => choice(
       $._primary,
-      $.and,
-      $.or,
-      $.not,
-      $.defined,
       $.assignment,
-      $.math_assignment,
-      $.conditional_assignment,
+      $.operator_assignment,
       $.conditional,
       $.range,
-      $.boolean_or,
-      $.boolean_and,
-      $.relational,
-      $.comparison,
-      $.bitwise_or,
-      $.bitwise_and,
-      $.shift,
-      $.additive,
-      $.multiplicative,
-      $.unary_minus,
-      $.exponential,
-      $.complement,
+      $.binary,
+      $.unary,
       $.super
     ),
 
@@ -336,36 +320,43 @@ module.exports = grammar({
       '|'
     ),
 
-    and: $ => prec.left(PREC.AND, seq($._arg, 'and', $._arg)),
-    or: $ => prec.left(PREC.OR, seq($._arg, 'or', $._arg)),
-    not: $ => prec.right(PREC.NOT, seq('not', $._arg)),
-    defined: $ => prec(PREC.DEFINED, seq('defined?', $._arg)),
-    assignment: $ => prec.right(PREC.ASSIGN, seq(choice($.assignment_list, $._lhs), '=', $._arg)),
-    math_assignment: $ => prec.right(PREC.ASSIGN, seq($._lhs, choice('+=', '-=', '*=', '**=', '/='), $._arg)),
-    conditional_assignment: $ => prec.right(PREC.ASSIGN, seq($._lhs, choice('||=', '&&='), $._arg)),
+    assignment: $ => prec.right(PREC.ASSIGN, seq(
+      choice($.assignment_list, $._lhs),
+      '=',
+      $._arg
+    )),
+
+    operator_assignment: $ => prec.right(PREC.ASSIGN, seq(
+      $._lhs,
+      choice('+=', '-=', '*=', '**=', '/=', '||=', '&&='),
+      $._arg)
+    ),
 
     conditional: $ => prec.right(PREC.CONDITIONAL, seq($._arg, '?', $._arg, ':', $._arg)),
+
     range: $ => prec.right(PREC.RANGE, seq($._arg, choice('..', '...'), $._arg)),
 
-    boolean_or: $ => prec.left(PREC.BOOLEAN_OR, seq($._arg, '||', $._arg)),
-    boolean_and: $ => prec.left(PREC.BOOLEAN_OR, seq($._arg, '&&', $._arg)),
+    binary: $ => choice(
+      prec.left(PREC.AND, seq($._arg, 'and', $._arg)),
+      prec.left(PREC.OR, seq($._arg, 'or', $._arg)),
+      prec.left(PREC.BOOLEAN_OR, seq($._arg, '||', $._arg)),
+      prec.left(PREC.BOOLEAN_OR, seq($._arg, '&&', $._arg)),
+      prec.left(PREC.SHIFT, seq($._arg, choice('<<', '>>'), $._arg)),
+      prec.right(PREC.RELATIONAL, seq($._arg, choice('==', '!=', '===', '<=>', '=~', '!~'), $._arg)),
+      prec.left(PREC.COMPARISON, seq($._arg, choice('<', '<=', '>', '>='), $._arg)),
+      prec.left(PREC.BITWISE_AND, seq($._arg, '&', $._arg)),
+      prec.left(PREC.BITWISE_OR, seq($._arg, choice('^', '|'), $._arg)),
+      prec.left(PREC.ADDITIVE, seq($._arg, choice('-', '+'), $._arg)),
+      prec.left(PREC.MULTIPLICATIVE, seq($._arg, choice('*', '/', '%'), $._arg)),
+      prec.right(PREC.EXPONENTIAL, seq($._arg, '**', $._arg))
+    ),
 
-    relational: $ => prec.right(PREC.RELATIONAL, seq($._arg, choice('==', '!=', '===', '<=>', '=~', '!~'), $._arg)),
-    comparison: $ => prec.left(PREC.COMPARISON, seq($._arg, choice('<', '<=', '>', '>='), $._arg)),
-
-    bitwise_or: $ => prec.left(PREC.BITWISE_OR, seq($._arg, choice('^', '|'), $._arg)),
-    bitwise_and: $ => prec.left(PREC.BITWISE_AND, seq($._arg, '&', $._arg)),
-    shift: $ => prec.left(PREC.SHIFT, seq($._arg, choice('<<', '>>'), $._arg)),
-
-    additive: $ => prec.left(PREC.ADDITIVE, seq($._arg, choice('-', '+'), $._arg)),
-    multiplicative: $ => prec.left(PREC.MULTIPLICATIVE, seq($._arg, choice('*', '/', '%'), $._arg)),
-
-    unary_minus: $ => prec.right(PREC.UNARY_MINUS, seq('-', $._arg)),
-
-    exponential: $ => prec.right(PREC.EXPONENTIAL, seq($._arg, '**', $._arg)),
-
-    unary_plus: $ => prec.right(PREC.UNARY_PLUS, seq('+', $._arg)),
-    complement: $ => prec.right(PREC.COMPLEMENT, seq(choice('!', '~'), $._arg)),
+    unary: $ => choice(
+      prec(PREC.DEFINED, seq('defined?', $._arg)),
+      prec.right(PREC.NOT, seq('not', $._arg)),
+      prec.right(PREC.UNARY_MINUS, seq(choice('-', '+'), $._arg)),
+      prec.right(PREC.COMPLEMENT, seq(choice('!', '~'), $._arg))
+    ),
 
     assignment_list: $ => $._mlhs,
     _mlhs: $ => prec.left(-1, sepTrailing(
