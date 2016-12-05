@@ -41,6 +41,21 @@ const operators = ['..', '|', '^', '&', '<=>', '==', '===', '=~', '>', '>=', '<'
 module.exports = grammar({
   name: 'ruby',
 
+  externals: $ => [
+    $._simple_string,
+    $._simple_symbol,
+    $._simple_subshell,
+    $._simple_regex,
+    $._simple_word_list,
+    $._string_beginning,
+    $._symbol_beginning,
+    $._subshell_beginning,
+    $._regex_beginning,
+    $._word_list_beginning,
+    $._string_middle,
+    $._string_end
+  ],
+
   extras: $ => [
     $.comment,
     /\s|\\\n/
@@ -422,22 +437,13 @@ module.exports = grammar({
     ))),
 
     symbol: $ => choice(
-      token(seq(':', choice(
-        identifierPattern,
-        instanceVariablePattern,
-        classVariablePattern,
-        globalVariablePattern,
-        ...operators
-      ))),
-      seq(":'", $._single_quoted_continuation),
-      seq(':"', $._double_quoted_continuation),
-      ':"#"', // TODO: Remove this hack
-      seq('%s', choice(
-        $._uninterpolated_angle,
-        $._uninterpolated_bracket,
-        $._uninterpolated_paren,
-        $._uninterpolated_brace
-      ))
+      $._simple_symbol,
+      seq(
+        $._symbol_beginning,
+        repeat(seq($._arg, $._string_middle)),
+        $._arg,
+        $._string_end
+      )
     ),
 
     integer: $ => (integerPattern),
@@ -451,63 +457,35 @@ module.exports = grammar({
     keyword__LINE__: $ => '__LINE__',
     keyword__ENCODING__: $ => '__ENCODING__',
 
-    string: $ => seq(choice(
-      $._quoted_string,
-      seq(/%Q?/, choice(
-        $._interpolated_angle,
-        $._interpolated_bracket,
-        $._interpolated_paren,
-        $._interpolated_brace
-      )),
-      seq(/%q/, choice(
-        $._uninterpolated_angle,
-        $._uninterpolated_bracket,
-        $._uninterpolated_paren,
-        $._uninterpolated_brace
-      ))
-    ), repeat($._quoted_string)),
-
-    _quoted_string: $ => choice(
-      seq("'", $._single_quoted_continuation),
-      seq('"', choice($._double_quoted_continuation, '#"')) // TODO: Remove this hack
+    string: $ => choice(
+      $._simple_string,
+      seq(
+        $._string_beginning,
+        repeat(seq($._arg, $._string_middle)),
+        $._arg,
+        $._string_end
+      )
     ),
-    _single_quoted_continuation: $ => stringBody(blank(), "'"),
-    _double_quoted_continuation: $ => stringBody(blank(), '"', $.interpolation),
-
-    _interpolated_angle: $ => stringBody('<', '>', $.interpolation, $._interpolated_angle),
-    _interpolated_bracket: $ => stringBody('[', ']', $.interpolation, $._interpolated_bracket),
-    _interpolated_paren: $ => stringBody('(', ')', $.interpolation, $._interpolated_paren),
-    _interpolated_brace: $ => stringBody('{', '}', $.interpolation, $._interpolated_brace),
-    _uninterpolated_angle: $ => stringBody('<', '>', null, $._uninterpolated_angle),
-    _uninterpolated_bracket: $ => stringBody('[', ']', null, $._uninterpolated_bracket),
-    _uninterpolated_paren: $ => stringBody('(', ')', null, $._uninterpolated_paren),
-    _uninterpolated_brace: $ => stringBody('{', '}', null, $._uninterpolated_brace),
-    interpolation: $ => seq('#{', $._arg, '}'),
 
     subshell: $ => choice(
-      stringBody('`', '`'),
-      seq('%x', choice(
-        $._interpolated_angle,
-        $._interpolated_bracket,
-        $._interpolated_paren,
-        $._interpolated_brace
-      ))
+      $._simple_subshell,
+      seq(
+        $._subshell_beginning,
+        repeat(seq($._arg, $._string_middle)),
+        $._arg,
+        $._string_end
+      )
     ),
 
     array: $ => choice(
       seq('[', optional($._array_items), ']'),
-      seq(/%[wi]/, choice(
-        $._uninterpolated_angle,
-        $._uninterpolated_bracket,
-        $._uninterpolated_paren,
-        $._uninterpolated_brace
-      )),
-      seq(/%[WI]/, choice(
-        $._interpolated_angle,
-        $._interpolated_bracket,
-        $._interpolated_paren,
-        $._interpolated_brace
-      ))
+      $._simple_word_list,
+      seq(
+        $._word_list_beginning,
+        repeat(seq($._arg, $._string_middle)),
+        $._arg,
+        $._string_end
+      )
     ),
 
     _array_items: $ => sepTrailing($._array_items, $._arg, ','),
@@ -521,21 +499,14 @@ module.exports = grammar({
     ), $._arg)),
 
     regex: $ => choice(
-      regexBody('/', '/', $.interpolation),
-      '/#/', // TODO: Remove this hack
-      seq('%r', choice(
-        $._regex_interpolated_angle,
-        $._regex_interpolated_bracket,
-        $._regex_interpolated_paren,
-        $._regex_interpolated_brace,
-        '<#>', '[#]', '(#)', '{#}' // TODO: Remove this hack
-      ))
+      $._simple_regex,
+      seq(
+        $._regex_beginning,
+        repeat(seq($._arg, $._string_middle)),
+        $._arg,
+        $._string_end
+      )
     ),
-
-    _regex_interpolated_angle: $ => regexBody('<', '>', $.interpolation, $._regex_interpolated_angle),
-    _regex_interpolated_bracket: $ => regexBody('[', ']', $.interpolation, $._regex_interpolated_bracket),
-    _regex_interpolated_paren: $ => regexBody('(', ')', $.interpolation, $._regex_interpolated_paren),
-    _regex_interpolated_brace: $ => regexBody('{', '}', $.interpolation, $._regex_interpolated_brace),
 
     lambda: $ => choice(
       seq(
@@ -557,94 +528,6 @@ module.exports = grammar({
   }
 });
 
-// Describes the body of a string literal.
-// open          - String opening character delimiter (e.g. '/', or '{').
-// close         - String closing character delimiter (e.g. '/', or '}').
-// interpolation - $.interpolation (optional, potentially recursive).
-// self          - Recursive stringBody (optional).
-//
-// Returns a sequence.
-function stringBody (open, close, interpolation, self) {
-  var disallowedContentChars = [close, '\\', '\n']
-  var contentPatterns = []
-  var contents = []
-
-  // If the string is delimited by `\`, don't allow `\` as an escape character.
-  // E.g %q\abc\
-  if (close != '\\') {
-    contentPatterns.push('\\\\.')
-  }
-
-  // If the string is delimited by `#`, interpolation isn't allowed.
-  if (close == '#') {
-    interpolation = null
-  }
-
-  if (interpolation) {
-    contents.push(interpolation)
-    disallowedContentChars.push('#')
-    contents.push(/#[^{]/)
-  }
-
-  if (self) {
-    contents.push(self)
-    disallowedContentChars.push(open)
-  }
-
-  contentPatterns.push(noneOf(disallowedContentChars))
-  contents.push(RegExp(contentPatterns.join('|')))
-
-  return seq(
-    open,
-    repeat(choice(...contents)),
-    close
-  )
-}
-
-// Describes the body of a regex.
-// open          - String opening character delimiter (e.g. '/', or '{').
-// close         - String closing character delimiter (e.g. '/', or '}').
-// interpolation - $.interpolation (optional).
-// self          - Recursive regexBody (optional).
-//
-// Returns a sequence.
-function regexBody (open, close, interpolation, self) {
-  var disallowedContentChars = [open, close, '[', '\\', '\n']
-  var contentPatterns = ['\\[[^\\]\\n]*\\]']
-  var contents = []
-
-  // If the regex is delimited by `\`, don't allow `\` as an escape character.
-  // E.g. %r\abc\
-  if (close != '\\') {
-    contentPatterns.push('\\\\.')
-  }
-
-  // If the regex is delimited by `#`, interpolation isn't allowed.
-  // E.g. %r#abc#
-  if (close == '#') {
-    interpolation = null
-  }
-
-  if (interpolation) {
-    contents.push(interpolation)
-    disallowedContentChars.push('#')
-    contents.push(/#[^{]/)
-  }
-
-  if (self) {
-    contents.push(self)
-  }
-
-  contentPatterns.push(noneOf(disallowedContentChars))
-  contents.push(RegExp(contentPatterns.join('|')))
-
-  return seq(
-    open,
-    repeat(choice(...contents)),
-    RegExp('\\' + close + '[a-z]*')
-  )
-}
-
 function sepTrailing (self, rule, separator) {
   return choice(rule, seq(rule, separator, optional(self)))
 }
@@ -659,12 +542,4 @@ function commaSep1 (rule) {
 
 function commaSep (rule) {
   return optional(commaSep1(rule));
-}
-
-function noneOf (characterArray) {
-  var pattern = '[^'
-  for (let character of characterArray) {
-    pattern += '\\' + character;
-  }
-  return pattern + ']'
 }
