@@ -2448,8 +2448,17 @@
         "type": "SEQ",
         "members": [
           {
-            "type": "SYMBOL",
-            "name": "_lhs"
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "assignment_list"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "_lhs"
+              }
+            ]
           },
           {
             "type": "STRING",
@@ -2944,6 +2953,87 @@
           }
         ]
       }
+    },
+    "assignment_list": {
+      "type": "SYMBOL",
+      "name": "_mlhs"
+    },
+    "_mlhs": {
+      "type": "PREC_LEFT",
+      "value": -1,
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "_variable"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "rest_assignment"
+              }
+            ]
+          },
+          {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "_variable"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "rest_assignment"
+                  }
+                ]
+              },
+              {
+                "type": "STRING",
+                "value": ","
+              },
+              {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "_mlhs"
+                  },
+                  {
+                    "type": "BLANK"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "rest_assignment": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "*"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_variable"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        }
+      ]
     },
     "_lhs": {
       "type": "PREC_LEFT",
