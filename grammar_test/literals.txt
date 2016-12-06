@@ -376,7 +376,7 @@ array as object
 ---
 (program
 	(method_call (call (array (integer) (integer)) (identifier))
-		(block (formal_parameters (identifier)) (comparison (identifier) (integer)))))
+		(block (formal_parameters (identifier)) (binary (identifier) (integer)))))
 
 =========================
 array with trailing comma

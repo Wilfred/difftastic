@@ -487,6 +487,6 @@ end
 ---
 
 (program (assignment (identifier)
-  (case (assignment (identifier) (bitwise_or (identifier) (identifier)))
+  (case (assignment (identifier) (binary (identifier) (identifier)))
     (when (pattern (identifier))
       (else)))))

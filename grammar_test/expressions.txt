@@ -92,7 +92,7 @@ not foo
 
 ---
 
-(program (not (identifier)))
+(program (unary (identifier)))
 
 ===
 and
@@ -102,7 +102,7 @@ foo and bar
 
 ---
 
-(program (and (identifier) (identifier)))
+(program (binary (identifier) (identifier)))
 
 ===
 or
@@ -112,7 +112,7 @@ foo or bar
 
 ---
 
-(program (or (identifier) (identifier)))
+(program (binary (identifier) (identifier)))
 
 ====================
 and or associativity
@@ -122,7 +122,7 @@ a or b and c
 
 ---
 
-(program (and (or (identifier) (identifier)) (identifier)))
+(program (binary (binary (identifier) (identifier)) (identifier)))
 
 ========
 defined?
@@ -137,11 +137,11 @@ defined?(@foo)
 ---
 
 (program
-  (defined (identifier))
-  (defined (call (identifier) (identifier)))
-  (defined (identifier))
-  (defined (global_variable))
-  (defined (instance_variable)))
+  (unary (identifier))
+  (unary (call (identifier) (identifier)))
+  (unary (identifier))
+  (unary (global_variable))
+  (unary (instance_variable)))
 
 ==========
 assignment
@@ -152,6 +152,34 @@ x = y
 ---
 
 (program (assignment (identifier) (identifier)))
+
+==========
+multiple assignment
+==========
+
+x, y = [1, 2]
+x, * = [1, 2]
+x, *args = [1, 2]
+
+---
+
+(program
+  (assignment (assignment_list (identifier) (identifier)) (array (integer) (integer)))
+  (assignment (assignment_list (identifier) (rest_assignment)) (array (integer) (integer)))
+  (assignment (assignment_list (identifier) (rest_assignment (identifier))) (array (integer) (integer))))
+
+==========
+assignment from method call
+==========
+
+x = foo a, b
+
+---
+
+(program
+  (assignment (identifier)
+    (method_call (identifier)
+      (argument_list (identifier) (identifier)))))
 
 ==========
 math assignment
@@ -166,11 +194,11 @@ x /= y
 ---
 
 (program
-  (math_assignment (identifier) (identifier))
-  (math_assignment (identifier) (identifier))
-  (math_assignment (identifier) (identifier))
-  (math_assignment (identifier) (identifier))
-  (math_assignment (identifier) (identifier)))
+  (operator_assignment (identifier) (identifier))
+  (operator_assignment (identifier) (identifier))
+  (operator_assignment (identifier) (identifier))
+  (operator_assignment (identifier) (identifier))
+  (operator_assignment (identifier) (identifier)))
 
 ==========
 conditional assignment
@@ -182,8 +210,8 @@ x &&= y
 ---
 
 (program
-  (conditional_assignment (identifier) (identifier))
-  (conditional_assignment (identifier) (identifier)))
+  (operator_assignment (identifier) (identifier))
+  (operator_assignment (identifier) (identifier)))
 
 ===========
 conditional
@@ -228,7 +256,7 @@ a || b
 
 ---
 
-(program (boolean_or (identifier) (identifier)))
+(program (binary (identifier) (identifier)))
 
 ===========
 boolean and
@@ -238,7 +266,7 @@ a && b
 
 ---
 
-(program (boolean_and (identifier) (identifier)))
+(program (binary (identifier) (identifier)))
 
 ==========
 relational
@@ -254,12 +282,12 @@ a !~ b
 ---
 
 (program
-  (relational (identifier) (identifier))
-  (relational (identifier) (identifier))
-  (relational (identifier) (identifier))
-  (relational (identifier) (identifier))
-  (relational (identifier) (identifier))
-  (relational (identifier) (identifier)))
+  (binary (identifier) (identifier))
+  (binary (identifier) (identifier))
+  (binary (identifier) (identifier))
+  (binary (identifier) (identifier))
+  (binary (identifier) (identifier))
+  (binary (identifier) (identifier)))
 
 ==========
 comparison
@@ -273,10 +301,10 @@ a >= b
 ---
 
 (program
-  (comparison (identifier) (identifier))
-  (comparison (identifier) (identifier))
-  (comparison (identifier) (identifier))
-  (comparison (identifier) (identifier)))
+  (binary (identifier) (identifier))
+  (binary (identifier) (identifier))
+  (binary (identifier) (identifier))
+  (binary (identifier) (identifier)))
 
 ==========
 bitwise or
@@ -286,7 +314,7 @@ a | b
 
 ---
 
-(program (bitwise_or (identifier) (identifier)))
+(program (binary (identifier) (identifier)))
 
 ===========
 bitwise xor
@@ -296,7 +324,7 @@ a ^ b
 
 ---
 
-(program (bitwise_or (identifier) (identifier)))
+(program (binary (identifier) (identifier)))
 
 ===========
 bitwise and
@@ -306,7 +334,7 @@ a & b
 
 ---
 
-(program (bitwise_and (identifier) (identifier)))
+(program (binary (identifier) (identifier)))
 
 =====
 shift
@@ -318,8 +346,8 @@ a << b
 ---
 
 (program
-  (shift (identifier) (identifier))
-  (shift (identifier) (identifier)))
+  (binary (identifier) (identifier))
+  (binary (identifier) (identifier)))
 
 ========
 additive
@@ -329,7 +357,7 @@ a + b
 
 ---
 
-(program (additive (identifier) (identifier)))
+(program (binary (identifier) (identifier)))
 
 ==============
 multiplicative
@@ -339,7 +367,7 @@ a * b
 
 ---
 
-(program (multiplicative (identifier) (identifier)))
+(program (binary (identifier) (identifier)))
 
 ===========
 unary minus
@@ -349,7 +377,7 @@ unary minus
 
 ---
 
-(program (unary_minus (identifier)))
+(program (unary (identifier)))
 
 ===========
 exponential
@@ -359,7 +387,7 @@ a ** b
 
 ---
 
-(program (exponential (identifier) (identifier)))
+(program (binary (identifier) (identifier)))
 
 ==========
 complement
@@ -369,7 +397,7 @@ complement
 
 ---
 
-(program (complement (identifier)))
+(program (unary (identifier)))
 
 ===============================
 method call
@@ -582,7 +610,7 @@ foo(bar, baz) { quux }
   (method_call (identifier) (block (formal_parameters (identifier)) (identifier)))
   (method_call (identifier) (argument_list (method_call
     (call (identifier) (identifier))
-    (block (formal_parameters (identifier)) (comparison (identifier) (integer))))))
+    (block (formal_parameters (identifier)) (binary (identifier) (integer))))))
 
   (method_call
     (identifier)

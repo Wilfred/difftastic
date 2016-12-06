@@ -45,7 +45,7 @@ struct Scanner {
     literal_type{STRING}, open_delimiter{0}, close_delimiter{0}, depth{0} {}
 
   void advance(TSLexer *lexer, bool is_whitespace = false) {
-    lexer->advance(lexer, 0, is_whitespace);
+    lexer->advance(lexer, is_whitespace);
   }
 
   bool scan_whitespace(TSLexer *lexer) {
