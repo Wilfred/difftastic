@@ -256,7 +256,7 @@ end
 
 ---
 
-(program (class (constant (identifier)) (superclass (identifier))))
+(program (class (constant (identifier)) (superclass (constant (identifier)))))
 
 ==================================
 empty subclass of namespaced class
@@ -267,7 +267,7 @@ end
 
 ---
 
-(program (class (constant (identifier)) (superclass (identifier) (identifier))))
+(program (class (constant (identifier)) (superclass (constant (identifier) (identifier)))))
 
 ===============
 class with body
@@ -363,7 +363,7 @@ end
 ---
 
 (program (module (constant (identifier))
-  (class (constant (identifier)) (superclass (identifier))
+  (class (constant (identifier)) (superclass (constant (identifier)))
     (method_call (identifier) (argument_list
       (call
         (call
