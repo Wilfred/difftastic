@@ -238,9 +238,14 @@ empty class
 class Foo
 end
 
+class Foo::Bar
+end
+
 ---
 
-(program (class (identifier)))
+(program
+  (class (constant (identifier)))
+  (class (constant (identifier) (identifier))))
 
 ==============
 empty subclass
@@ -251,7 +256,7 @@ end
 
 ---
 
-(program (class (identifier) (identifier)))
+(program (class (constant (identifier)) (superclass (constant (identifier)))))
 
 ==================================
 empty subclass of namespaced class
@@ -262,7 +267,7 @@ end
 
 ---
 
-(program (class (identifier) (identifier) (identifier)))
+(program (class (constant (identifier)) (superclass (constant (identifier) (identifier)))))
 
 ===============
 class with body
@@ -275,7 +280,7 @@ end
 
 ---
 
-(program (class (identifier) (method (identifier))))
+(program (class (constant (identifier)) (method (identifier))))
 
 ===============
 singleton class
@@ -301,9 +306,14 @@ empty module
 module Foo
 end
 
+module Foo::Bar
+end
+
 ---
 
-(program (module (identifier)))
+(program
+  (module (constant (identifier)))
+  (module (constant (identifier) (identifier))))
 
 ================
 module with body
@@ -316,7 +326,7 @@ end
 
 ---
 
-(program (module (identifier) (method (identifier))))
+(program (module (constant (identifier)) (method (identifier))))
 
 =======
 __END__
@@ -352,8 +362,8 @@ end
 
 ---
 
-(program (module (identifier)
-  (class (identifier) (identifier)
+(program (module (constant (identifier))
+  (class (constant (identifier)) (superclass (constant (identifier)))
     (method_call (identifier) (argument_list
       (call
         (call
