@@ -100,11 +100,13 @@ module.exports = grammar({
 
     class: $ => seq(
       'class',
-      sep1($.identifier, '::'),
-      optional(seq('<', sep1($.identifier, '::'), $._terminator)),
+      $.constant,
+      optional($.superclass),
       optional($._body_statement),
       'end'
     ),
+    constant: $ => prec.right(sep1($.identifier, '::')),
+    superclass: $ => seq('<', sep1($.identifier, '::'), $._terminator),
 
     singleton_class: $ => seq(
       'class',
@@ -117,7 +119,7 @@ module.exports = grammar({
 
     module: $ => seq(
       'module',
-      sep1($.identifier, '::'),
+      $.constant,
       $._terminator,
       optional($._body_statement),
       'end'
