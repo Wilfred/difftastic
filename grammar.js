@@ -52,7 +52,8 @@ module.exports = grammar({
     $._regex_beginning,
     $._word_list_beginning,
     $._string_middle,
-    $._string_end
+    $._string_end,
+    $._line_break
   ],
 
   extras: $ => [
@@ -66,7 +67,7 @@ module.exports = grammar({
   ],
 
   rules: {
-    program: $ => seq(optional($._statements), optional(seq('\n__END__', $.uninterpreted))),
+    program: $ => seq(optional($._statements), optional(seq('__END__', $.uninterpreted))),
     uninterpreted: $ => (/.*/),
 
     _statements: $ => sepTrailing($._statements, $._statement, $._terminator),

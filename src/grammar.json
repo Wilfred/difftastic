@@ -24,7 +24,7 @@
               "members": [
                 {
                   "type": "STRING",
-                  "value": "\n__END__"
+                  "value": "__END__"
                 },
                 {
                   "type": "SYMBOL",
@@ -3945,6 +3945,7 @@
     "_regex_beginning",
     "_word_list_beginning",
     "_string_middle",
-    "_string_end"
+    "_string_end",
+    "_line_break"
   ]
 }

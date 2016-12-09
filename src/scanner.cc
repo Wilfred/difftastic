@@ -13,7 +13,8 @@ enum TokenType : TSSymbol {
   REGEX_BEGINNING,
   WORD_LIST_BEGINNING,
   STRING_MIDDLE,
-  STRING_END
+  STRING_END,
+  LINE_BREAK
 };
 
 enum LiteralType {
@@ -48,14 +49,30 @@ struct Scanner {
     lexer->advance(lexer, is_whitespace);
   }
 
-  bool scan_whitespace(TSLexer *lexer) {
-    while (lexer->lookahead == ' ' ||
-           lexer->lookahead == '\t' ||
-           lexer->lookahead == '\n') {
-      if (lexer->lookahead == 0) return false;
-      advance(lexer, true);
+  bool scan_whitespace(TSLexer *lexer, const bool *valid_symbols) {
+    for (;;) {
+      switch (lexer->lookahead) {
+        case ' ':
+        case '\t':
+          advance(lexer, true);
+          break;
+        case '\n':
+          if (valid_symbols[LINE_BREAK]) {
+            advance(lexer);
+            lexer->result_symbol = LINE_BREAK;
+            return true;
+          } else {
+            advance(lexer, true);
+            break;
+          }
+
+        case 0:
+          return false;
+
+        default:
+          return true;
+      }
     }
-    return true;
   }
 
   bool scan_identifier(TSLexer *lexer) {
@@ -252,7 +269,8 @@ struct Scanner {
   }
 
   bool scan(TSLexer *lexer, const bool *valid_symbols) {
-    if (!scan_whitespace(lexer)) return false;
+    if (!scan_whitespace(lexer, valid_symbols)) return false;
+    if (lexer->result_symbol == LINE_BREAK) return true;
 
     if (valid_symbols[STRING_MIDDLE]) {
       if (scan_interpolation_close(lexer)) {
