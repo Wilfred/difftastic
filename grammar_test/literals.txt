@@ -24,10 +24,13 @@ single quoted symbol
 ====================
 
 :'foo bar'
+:'#{'
 
 ---
 
-(program (symbol))
+(program
+  (symbol)
+  (symbol))
 
 ====================
 double quoted symbol
@@ -201,6 +204,16 @@ single-quoted string with backslash and character
 =================================================
 
 '\d'
+
+---
+
+(program (string))
+
+=================================================
+single-quoted string with pound and curly brace
+=================================================
+
+'#{hello'
 
 ---
 

@@ -43,10 +43,15 @@ TokenType SIMPLE_TOKEN_TYPES[] = {
 
 struct Scanner {
   Scanner() :
-    literal_type{STRING}, open_delimiter{0}, close_delimiter{0}, depth{0} {}
+    literal_type{STRING}, open_delimiter{0}, close_delimiter{0}, depth{0},
+    allows_interpolation{false} {}
 
-  void advance(TSLexer *lexer, bool is_whitespace = false) {
-    lexer->advance(lexer, is_whitespace);
+  void skip(TSLexer *lexer) {
+    lexer->advance(lexer, true);
+  }
+
+  void advance(TSLexer *lexer) {
+    lexer->advance(lexer, false);
   }
 
   bool scan_whitespace(TSLexer *lexer, const bool *valid_symbols) {
@@ -54,7 +59,7 @@ struct Scanner {
       switch (lexer->lookahead) {
         case ' ':
         case '\t':
-          advance(lexer, true);
+          skip(lexer);
           break;
         case '\n':
           if (valid_symbols[LINE_BREAK]) {
@@ -62,7 +67,7 @@ struct Scanner {
             lexer->result_symbol = LINE_BREAK;
             return true;
           } else {
-            advance(lexer, true);
+            skip(lexer);
             break;
           }
 
@@ -111,6 +116,7 @@ struct Scanner {
         literal_type = STRING;
         open_delimiter = close_delimiter = lexer->lookahead;
         depth = 1;
+        allows_interpolation = true;
         advance(lexer);
         return true;
 
@@ -118,6 +124,7 @@ struct Scanner {
         literal_type = STRING;
         open_delimiter = close_delimiter = lexer->lookahead;
         depth = 1;
+        allows_interpolation = false;
         advance(lexer);
         return true;
 
@@ -125,6 +132,7 @@ struct Scanner {
         literal_type = SUBSHELL;
         open_delimiter = close_delimiter = lexer->lookahead;
         depth = 1;
+        allows_interpolation = true;
         advance(lexer);
         return true;
 
@@ -132,11 +140,13 @@ struct Scanner {
         literal_type = REGEX;
         open_delimiter = close_delimiter = lexer->lookahead;
         depth = 1;
+        allows_interpolation = true;
         advance(lexer);
         return true;
 
       case '%':
         advance(lexer);
+        allows_interpolation = true;
 
         switch (lexer->lookahead) {
           case 's':
@@ -249,7 +259,7 @@ struct Scanner {
       } else if (lexer->lookahead == open_delimiter) {
         depth++;
         advance(lexer);
-      } else if (lexer->lookahead == '#') {
+      } else if (allows_interpolation && lexer->lookahead == '#') {
         advance(lexer);
         if (lexer->lookahead == '{') {
           advance(lexer);
@@ -288,6 +298,7 @@ struct Scanner {
             open_delimiter = '"';
             close_delimiter = '"';
             depth = 1;
+            allows_interpolation = true;
             advance(lexer);
             break;
 
@@ -295,6 +306,7 @@ struct Scanner {
             open_delimiter = '\'';
             close_delimiter = '\'';
             depth = 1;
+            allows_interpolation = false;
             advance(lexer);
             break;
 
@@ -315,6 +327,7 @@ struct Scanner {
   int32_t open_delimiter;
   int32_t close_delimiter;
   uint32_t depth;
+  bool allows_interpolation;
 };
 
 extern "C" {
