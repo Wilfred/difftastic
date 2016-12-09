@@ -322,10 +322,13 @@ string chaining
 ===============
 
 %q(a) "b" "c"
+"d" "e"
 
 ---
 
-(program (string))
+(program
+	(chained_string (string) (string) (string))
+	(chained_string (string) (string)))
 
 ==================
 backticks subshell

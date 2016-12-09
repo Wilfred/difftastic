@@ -259,6 +259,7 @@ module.exports = grammar({
       $.integer,
       $.float,
       $.string,
+      $.chained_string,
       $.regex,
       $.lambda,
       $.method,
@@ -460,6 +461,8 @@ module.exports = grammar({
     keyword__FILE__: $ => '__FILE__',
     keyword__LINE__: $ => '__LINE__',
     keyword__ENCODING__: $ => '__ENCODING__',
+
+    chained_string: $ => seq($.string, repeat1($.string)),
 
     string: $ => choice(
       $._simple_string,

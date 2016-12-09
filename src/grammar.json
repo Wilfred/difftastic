@@ -1570,6 +1570,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "chained_string"
+        },
+        {
+          "type": "SYMBOL",
           "name": "regex"
         },
         {
@@ -3397,6 +3401,22 @@
     "keyword__ENCODING__": {
       "type": "STRING",
       "value": "__ENCODING__"
+    },
+    "chained_string": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "string"
+        },
+        {
+          "type": "REPEAT1",
+          "content": {
+            "type": "SYMBOL",
+            "name": "string"
+          }
+        }
+      ]
     },
     "string": {
       "type": "CHOICE",
