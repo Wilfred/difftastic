@@ -6,12 +6,14 @@ symbol
 :foo!
 :foo?
 :@foo
+:@foo_0123_bar
 :@@foo
 :$foo
 
 ---
 
 (program
+	(symbol)
 	(symbol)
 	(symbol)
 	(symbol)

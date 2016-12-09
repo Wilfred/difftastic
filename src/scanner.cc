@@ -98,7 +98,9 @@ struct Scanner {
     }
 
     while ((lexer->lookahead >= 'A' && lexer->lookahead <= 'Z') ||
-           (lexer->lookahead >= 'a' && lexer->lookahead <= 'z')) {
+           (lexer->lookahead >= 'a' && lexer->lookahead <= 'z') ||
+           (lexer->lookahead >= '0' && lexer->lookahead <= '9') ||
+           (lexer->lookahead == '_')) {
       advance(lexer);
     }
 
