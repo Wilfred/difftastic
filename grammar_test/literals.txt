@@ -345,6 +345,22 @@ string chaining
 	(chained_string (string) (string) (string))
 	(chained_string (string) (string)))
 
+========================================
+nested strings with different delimiters
+========================================
+
+"abc#{
+	%r(def(ghi#{
+		`whoami`
+	})klm)
+}nop"
+
+
+---
+
+(program
+	(string (regex (subshell))))
+
 ==================
 backticks subshell
 ==================

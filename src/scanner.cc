@@ -1,5 +1,5 @@
 #include <tree_sitter/parser.h>
-#include <stdio.h>
+#include <vector>
 
 enum TokenType : TSSymbol {
   SIMPLE_STRING,
@@ -17,12 +17,20 @@ enum TokenType : TSSymbol {
   LINE_BREAK
 };
 
-enum LiteralType {
-  STRING,
-  SYMBOL,
-  SUBSHELL,
-  REGEX,
-  WORD_LIST
+struct Literal {
+  enum Type {
+    STRING,
+    SYMBOL,
+    SUBSHELL,
+    REGEX,
+    WORD_LIST
+  };
+
+  Type type;
+  int32_t open_delimiter;
+  int32_t close_delimiter;
+  uint32_t nesting_depth;
+  bool allows_interpolation;
 };
 
 TokenType BEGINNING_TOKEN_TYPES[] = {
@@ -42,10 +50,6 @@ TokenType SIMPLE_TOKEN_TYPES[] = {
 };
 
 struct Scanner {
-  Scanner() :
-    literal_type{STRING}, open_delimiter{0}, close_delimiter{0}, depth{0},
-    allows_interpolation{false} {}
-
   void skip(TSLexer *lexer) {
     lexer->advance(lexer, true);
   }
@@ -70,10 +74,6 @@ struct Scanner {
             skip(lexer);
             break;
           }
-
-        case 0:
-          return false;
-
         default:
           return true;
       }
@@ -108,71 +108,70 @@ struct Scanner {
       advance(lexer);
     }
 
-    lexer->result_symbol = SIMPLE_SYMBOL;
     return true;
   }
 
-  bool scan_open_delimiter(TSLexer *lexer) {
+  bool scan_open_delimiter(TSLexer *lexer, Literal &literal) {
     switch (lexer->lookahead) {
       case '"':
-        literal_type = STRING;
-        open_delimiter = close_delimiter = lexer->lookahead;
-        depth = 1;
-        allows_interpolation = true;
+        literal.type = Literal::Type::STRING;
+        literal.open_delimiter = literal.close_delimiter = lexer->lookahead;
+        literal.nesting_depth = 1;
+        literal.allows_interpolation = true;
         advance(lexer);
         return true;
 
       case '\'':
-        literal_type = STRING;
-        open_delimiter = close_delimiter = lexer->lookahead;
-        depth = 1;
-        allows_interpolation = false;
+        literal.type = Literal::Type::STRING;
+        literal.open_delimiter = literal.close_delimiter = lexer->lookahead;
+        literal.nesting_depth = 1;
+        literal.allows_interpolation = false;
         advance(lexer);
         return true;
 
       case '`':
-        literal_type = SUBSHELL;
-        open_delimiter = close_delimiter = lexer->lookahead;
-        depth = 1;
-        allows_interpolation = true;
+        literal.type = Literal::Type::SUBSHELL;
+        literal.open_delimiter = literal.close_delimiter = lexer->lookahead;
+        literal.nesting_depth = 1;
+        literal.allows_interpolation = true;
         advance(lexer);
         return true;
 
       case '/':
-        literal_type = REGEX;
-        open_delimiter = close_delimiter = lexer->lookahead;
-        depth = 1;
-        allows_interpolation = true;
+        literal.type = Literal::Type::REGEX;
+        literal.open_delimiter = literal.close_delimiter = lexer->lookahead;
+        literal.nesting_depth = 1;
+        literal.allows_interpolation = true;
         advance(lexer);
         return true;
 
       case '%':
         advance(lexer);
-        allows_interpolation = true;
+        literal.allows_interpolation = true;
 
         switch (lexer->lookahead) {
           case 's':
-            literal_type = SYMBOL;
+            literal.type = Literal::Type::SYMBOL;
             advance(lexer);
             break;
 
           case 'r':
-            literal_type = REGEX;
+            literal.type = Literal::Type::REGEX;
             advance(lexer);
             break;
 
           case 'x':
-            literal_type = SUBSHELL;
+            literal.type = Literal::Type::SUBSHELL;
             advance(lexer);
             break;
 
           case 'q':
-            literal_type = STRING;
+            literal.type = Literal::Type::STRING;
             advance(lexer);
             break;
 
           case 'Q':
-            literal_type = STRING;
+            literal.type = Literal::Type::STRING;
             advance(lexer);
             break;
 
@@ -180,46 +179,46 @@ struct Scanner {
           case 'W':
           case 'i':
           case 'I':
-            literal_type = WORD_LIST;
+            literal.type = Literal::Type::WORD_LIST;
             advance(lexer);
             break;
 
           default:
-            literal_type = STRING;
+            literal.type = Literal::Type::STRING;
             break;
         }
 
         switch (lexer->lookahead) {
           case '(':
-            open_delimiter = '(';
-            close_delimiter = ')';
-            depth = 1;
+            literal.open_delimiter = '(';
+            literal.close_delimiter = ')';
+            literal.nesting_depth = 1;
             break;
 
           case '[':
-            open_delimiter = '[';
-            close_delimiter = ']';
-            depth = 1;
+            literal.open_delimiter = '[';
+            literal.close_delimiter = ']';
+            literal.nesting_depth = 1;
             break;
 
           case '{':
-            open_delimiter = '{';
-            close_delimiter = '}';
-            depth = 1;
+            literal.open_delimiter = '{';
+            literal.close_delimiter = '}';
+            literal.nesting_depth = 1;
             break;
 
           case '<':
-            open_delimiter = '<';
-            close_delimiter = '>';
-            depth = 1;
+            literal.open_delimiter = '<';
+            literal.close_delimiter = '>';
+            literal.nesting_depth = 1;
             break;
 
           case '|':
           case '!':
           case '#':
-            open_delimiter = lexer->lookahead;
-            close_delimiter = lexer->lookahead;
-            depth = 1;
+            literal.open_delimiter = lexer->lookahead;
+            literal.close_delimiter = lexer->lookahead;
+            literal.nesting_depth = 1;
             break;
           default:
             return false;
@@ -242,38 +241,41 @@ struct Scanner {
     }
   }
 
-  bool scan_content(TSLexer *lexer, TSSymbol middle_symbol, TSSymbol end_symbol) {
+  enum ScanContentResult {
+    Error,
+    Interpolation,
+    End
+  };
+
+  ScanContentResult scan_content(TSLexer *lexer, Literal &literal) {
     for (;;) {
-      if (depth == 0) {
-        if (literal_type == REGEX) {
+      if (literal.nesting_depth == 0) {
+        if (literal.type == Literal::Type::REGEX) {
           while ('a' <= lexer->lookahead && lexer->lookahead <= 'z') {
             advance(lexer);
           }
         }
-
-        lexer->result_symbol = end_symbol;
-        return true;
+        return End;
       }
 
-      if (lexer->lookahead == close_delimiter) {
-        depth--;
+      if (lexer->lookahead == literal.close_delimiter) {
+        literal.nesting_depth--;
         advance(lexer);
-      } else if (lexer->lookahead == open_delimiter) {
-        depth++;
+      } else if (lexer->lookahead == literal.open_delimiter) {
+        literal.nesting_depth++;
         advance(lexer);
-      } else if (allows_interpolation && lexer->lookahead == '#') {
+      } else if (literal.allows_interpolation && lexer->lookahead == '#') {
         advance(lexer);
         if (lexer->lookahead == '{') {
           advance(lexer);
-          lexer->result_symbol = middle_symbol;
-          return true;
+          return Interpolation;
         }
       } else if (lexer->lookahead == '\\') {
         advance(lexer);
         advance(lexer);
       } else if (lexer->lookahead == 0) {
         advance(lexer);
-        return false;
+        return Error;
       } else {
         advance(lexer);
       }
@@ -285,51 +287,73 @@ struct Scanner {
     if (lexer->result_symbol == LINE_BREAK) return true;
 
     if (valid_symbols[STRING_MIDDLE]) {
+      Literal &literal = literal_stack.back();
+
       if (scan_interpolation_close(lexer)) {
-        return scan_content(lexer, STRING_MIDDLE, STRING_END);
+        switch (scan_content(lexer, literal)) {
+          case Error:
+            return false;
+          case Interpolation:
+            lexer->result_symbol = STRING_MIDDLE;
+            return true;
+          case End:
+            literal_stack.pop_back();
+            lexer->result_symbol = STRING_END;
+            return true;
+        }
       }
     }
 
     if (valid_symbols[SIMPLE_STRING] || valid_symbols[SIMPLE_SYMBOL]) {
+      Literal literal;
+
       if (lexer->lookahead == ':') {
-        literal_type = SYMBOL;
+        literal.type = Literal::Type::SYMBOL;
         advance(lexer);
 
         switch (lexer->lookahead) {
           case '"':
-            open_delimiter = '"';
-            close_delimiter = '"';
-            depth = 1;
-            allows_interpolation = true;
+            literal.open_delimiter = '"';
+            literal.close_delimiter = '"';
+            literal.nesting_depth = 1;
+            literal.allows_interpolation = true;
             advance(lexer);
             break;
 
           case '\'':
-            open_delimiter = '\'';
-            close_delimiter = '\'';
-            depth = 1;
-            allows_interpolation = false;
+            literal.open_delimiter = '\'';
+            literal.close_delimiter = '\'';
+            literal.nesting_depth = 1;
+            literal.allows_interpolation = false;
             advance(lexer);
             break;
 
           default:
-            return scan_identifier(lexer);
+            if (!scan_identifier(lexer)) return false;
+            lexer->result_symbol = SIMPLE_SYMBOL;
+            return true;
         }
       } else {
-        if (!scan_open_delimiter(lexer)) return false;
+        if (!scan_open_delimiter(lexer, literal)) return false;
       }
 
-      return scan_content(lexer, BEGINNING_TOKEN_TYPES[literal_type], SIMPLE_TOKEN_TYPES[literal_type]);
+      switch (scan_content(lexer, literal)) {
+        case Error:
+          return false;
+        case Interpolation:
+          literal_stack.push_back(literal);
+          lexer->result_symbol = BEGINNING_TOKEN_TYPES[literal.type];
+          return true;
+        case End:
+          lexer->result_symbol = SIMPLE_TOKEN_TYPES[literal.type];
+          return true;
+      }
     }
 
     return false;
   }
 
-  LiteralType literal_type;
-  int32_t open_delimiter;
-  int32_t close_delimiter;
-  uint32_t depth;
-  bool allows_interpolation;
+  std::vector<Literal> literal_stack;
 };
 
 extern "C" {
