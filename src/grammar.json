@@ -58,8 +58,20 @@
               "name": "_statement"
             },
             {
-              "type": "SYMBOL",
-              "name": "_terminator"
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "_terminator"
+                },
+                {
+                  "type": "REPEAT",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "heredoc_end"
+                  }
+                }
+              ]
             },
             {
               "type": "CHOICE",
@@ -1647,6 +1659,10 @@
         {
           "type": "SYMBOL",
           "name": "retry"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "heredoc_beginning"
         }
       ]
     },
@@ -3936,6 +3952,8 @@
     "_word_list_beginning",
     "_string_middle",
     "_string_end",
+    "heredoc_beginning",
+    "heredoc_end",
     "_line_break"
   ]
 }

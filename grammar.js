@@ -53,7 +53,9 @@ module.exports = grammar({
     $._word_list_beginning,
     $._string_middle,
     $._string_end,
-    $._line_break
+    $.heredoc_beginning,
+    $.heredoc_end,
+    $._line_break,
   ],
 
   extras: $ => [
@@ -70,7 +72,11 @@ module.exports = grammar({
     program: $ => seq(optional($._statements), optional(seq('__END__', $.uninterpreted))),
     uninterpreted: $ => (/.*/),
 
-    _statements: $ => sepTrailing($._statements, $._statement, $._terminator),
+    _statements: $ => sepTrailing(
+      $._statements,
+      $._statement,
+      seq($._terminator, repeat($.heredoc_end))
+    ),
 
     _statement: $ => choice(
       $.undef,
@@ -278,7 +284,8 @@ module.exports = grammar({
       $.break,
       $.next,
       $.redo,
-      $.retry
+      $.retry,
+      $.heredoc_beginning
     ),
 
     element_reference: $ => prec.left(1, seq($._primary, '[', $._argument_list_with_trailing_comma, ']')),

@@ -1,5 +1,10 @@
 #include <tree_sitter/parser.h>
 #include <vector>
+#include <string>
+#include <cctype>
+
+using std::vector;
+using std::string;
 
 enum TokenType : TSSymbol {
   SIMPLE_STRING,
@@ -14,6 +19,8 @@ enum TokenType : TSSymbol {
   WORD_LIST_BEGINNING,
   STRING_MIDDLE,
   STRING_END,
+  HEREDOC_BEGINNING,
+  HEREDOC_END,
   LINE_BREAK
 };
 
@@ -90,17 +97,13 @@ struct Scanner {
       advance(lexer);
     }
 
-    if ((lexer->lookahead >= 'A' && lexer->lookahead <= 'Z') ||
-        (lexer->lookahead >= 'a' && lexer->lookahead <= 'z')) {
+    if (isalpha(lexer->lookahead)) {
       advance(lexer);
     } else {
       return false;
     }
 
-    while ((lexer->lookahead >= 'A' && lexer->lookahead <= 'Z') ||
-           (lexer->lookahead >= 'a' && lexer->lookahead <= 'z') ||
-           (lexer->lookahead >= '0' && lexer->lookahead <= '9') ||
-           (lexer->lookahead == '_')) {
+    while (isalnum(lexer->lookahead) || (lexer->lookahead == '_')) {
       advance(lexer);
     }
 
@@ -241,6 +244,49 @@ struct Scanner {
     }
   }
 
+  string scan_heredoc_word(TSLexer *lexer) {
+    string result;
+    if (isupper(lexer->lookahead)) {
+      result += lexer->lookahead;
+      advance(lexer);
+      while (isupper(lexer->lookahead)) {
+        result += lexer->lookahead;
+        advance(lexer);
+      }
+    }
+    return result;
+  }
+
+  bool scan_heredoc_end(TSLexer *lexer) {
+    if (open_heredoc_words.empty()) return false;
+    string word = open_heredoc_words.front();
+    open_heredoc_words.erase(open_heredoc_words.begin());
+    size_t position_in_word = 0;
+
+    for (;;) {
+      for (;;) {
+        if (position_in_word == word.size() || lexer->lookahead == 0) {
+          return true;
+        }
+
+        if (lexer->lookahead == word[position_in_word]) {
+          advance(lexer);
+          position_in_word++;
+        } else {
+          break;
+        }
+      }
+
+      while (lexer->lookahead != '\n') {
+        advance(lexer);
+      }
+
+      advance(lexer);
+    }
+
+    return true;
+  }
+
   enum ScanContentResult {
     Error,
     Interpolation,
@@ -251,7 +297,7 @@ struct Scanner {
     for (;;) {
       if (literal.nesting_depth == 0) {
         if (literal.type == Literal::Type::REGEX) {
-          while ('a' <= lexer->lookahead && lexer->lookahead <= 'z') {
+          while (islower(lexer->lookahead)) {
             advance(lexer);
           }
         }
@@ -304,6 +350,13 @@ struct Scanner {
       }
     }
 
+    if (valid_symbols[HEREDOC_END] && !open_heredoc_words.empty()) {
+      if (scan_heredoc_end(lexer)) {
+        lexer->result_symbol = HEREDOC_END;
+        return true;
+      }
+    }
+
     if (valid_symbols[SIMPLE_STRING] || valid_symbols[SIMPLE_SYMBOL]) {
       Literal literal;
 
@@ -333,6 +386,16 @@ struct Scanner {
             lexer->result_symbol = SIMPLE_SYMBOL;
             return true;
         }
+      } else if (lexer->lookahead == '<') {
+        advance(lexer);
+        if (lexer->lookahead != '<') return false;
+        advance(lexer);
+        if (lexer->lookahead == '-') advance(lexer);
+        string heredoc_word = scan_heredoc_word(lexer);
+        if (heredoc_word.empty()) return false;
+        open_heredoc_words.push_back(heredoc_word);
+        lexer->result_symbol = HEREDOC_BEGINNING;
+        return true;
       } else {
         if (!scan_open_delimiter(lexer, literal)) return false;
       }
@@ -353,7 +416,8 @@ struct Scanner {
     return false;
   }
 
-  std::vector<Literal> literal_stack;
+  vector<Literal> literal_stack;
+  vector<string> open_heredoc_words;
 };
 
 extern "C" {

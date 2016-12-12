@@ -361,6 +361,37 @@ nested strings with different delimiters
 (program
 	(string (regex (subshell))))
 
+========================================
+Heredocs
+========================================
+
+puts <<-ONE.two, <<-THREE.four
+first heredoc content
+ONE
+second heredoc content
+THREE
+
+---
+
+(program
+  (method_call (identifier) (argument_list
+    (call (heredoc_beginning) (identifier))
+    (call (heredoc_beginning) (identifier))))
+  (heredoc_end)
+  (heredoc_end))
+
+========================================
+Un-terminated heredocs
+========================================
+
+<<-ONE
+
+---
+
+(program
+  (heredoc_beginning)
+  (heredoc_end))
+
 ==================
 backticks subshell
 ==================
