@@ -376,3 +376,56 @@ end
     (comment)
     (method (identifier) (identifier))
     (method (self) (identifier)))))
+
+
+===========
+empty BEGIN block
+===========
+
+BEGIN {
+
+}
+
+---
+
+(program (begin_block))
+
+===========
+BEGIN block
+===========
+
+baz
+BEGIN {
+foo
+}
+bar
+
+---
+
+(program (identifier) (begin_block (identifier)) (identifier))
+
+===========
+empty END block
+===========
+
+END {
+
+}
+
+---
+
+(program (end_block))
+
+===========
+END block
+===========
+
+baz
+END {
+foo
+}
+bar
+
+---
+
+(program (identifier) (end_block (identifier)) (identifier))

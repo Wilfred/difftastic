@@ -54,7 +54,16 @@ module.exports = grammar({
     program: $ => seq(optional($._statements), optional(seq('\n__END__', $.uninterpreted))),
     uninterpreted: $ => (/.*/),
 
-    _statements: $ => sepTrailing($._statements, $._statement, $._terminator),
+    _statements: $ => sepTrailing($._statements, $._top_level_statement, $._terminator),
+
+    _top_level_statement: $ => choice(
+      $._statement,
+      $.begin_block,
+      $.end_block
+    ),
+
+    begin_block: $ => seq("BEGIN", "{", optional($._statements), "}"),
+    end_block: $ => seq("END", "{", optional($._statements), "}"),
 
     _statement: $ => choice(
       $.undef,
