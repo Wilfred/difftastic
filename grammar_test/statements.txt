@@ -165,3 +165,17 @@ finally:
     (expression_statement (identifier))
     (finally_clause
       (expression_statement (identifier)))))
+
+=====================================
+With statements
+=====================================
+
+with a as b:
+  c
+
+---
+
+(module
+  (with_statement
+    (with_item (identifier) (identifier))
+    (expression_statement (identifier))))

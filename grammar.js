@@ -44,7 +44,8 @@ module.exports = grammar({
       $.if_statement,
       $.for_statement,
       $.while_statement,
-      $.try_statement
+      $.try_statement,
+      $.with_statement
     ),
 
     if_statement: $ => seq(
@@ -116,6 +117,21 @@ module.exports = grammar({
       'finally',
       ':',
       $._suite
+    ),
+
+    with_statement: $ => seq(
+      'with',
+      commaSep1($.with_item),
+      ':',
+      $._suite
+    ),
+
+    with_item: $ => seq(
+      $._expression,
+      optional(seq(
+        'as',
+        $._expression
+      ))
     ),
 
     _suite: $ => choice(
