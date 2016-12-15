@@ -70,7 +70,7 @@ module.exports = grammar({
       $._simple_statement,
       seq(
         $._indent,
-        optional(sep1($._statement, choice(';', $._newline))),
+        repeat($._statement),
         $._dedent
       )
     ),

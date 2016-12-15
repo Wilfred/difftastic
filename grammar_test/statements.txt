@@ -30,11 +30,13 @@ If statements
 
 if a:
   b
+  c
 
 ---
 
 (module
   (if_statement (identifier)
+    (expression_statement (identifier))
     (expression_statement (identifier))))
 
 ======================================
@@ -57,3 +59,26 @@ else:
       (expression_statement (identifier)))
     (else_clause
       (expression_statement (identifier)))))
+
+======================================
+Nested if statements
+=====================================
+
+if a:
+  if b:
+    c
+  else:
+    if e:
+      f
+g
+
+---
+
+(module
+  (if_statement (identifier)
+    (if_statement (identifier)
+      (expression_statement (identifier))
+      (else_clause
+        (if_statement (identifier)
+          (expression_statement (identifier))))))
+  (expression_statement (identifier)))
