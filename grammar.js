@@ -176,6 +176,7 @@ module.exports = grammar({
     // Expressions
 
     _expression: $ => choice(
+      $.number,
       $.identifier,
       $.binary_operator
     ),
@@ -183,6 +184,14 @@ module.exports = grammar({
     binary_operator: $ => choice(
       prec.left(seq($._expression, '+', $._expression))
     ),
+
+    number: $ => token(seq(
+      /\d+/,
+      optional(seq(
+        '.',
+        /\d*/
+      ))
+    )),
 
     identifier: $ => /\a\w*/,
 

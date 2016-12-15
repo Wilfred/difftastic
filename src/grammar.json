@@ -670,6 +670,10 @@
       "members": [
         {
           "type": "SYMBOL",
+          "name": "number"
+        },
+        {
+          "type": "SYMBOL",
           "name": "identifier"
         },
         {
@@ -703,6 +707,39 @@
           }
         }
       ]
+    },
+    "number": {
+      "type": "TOKEN",
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "PATTERN",
+            "value": "\\d+"
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "STRING",
+                    "value": "."
+                  },
+                  {
+                    "type": "PATTERN",
+                    "value": "\\d*"
+                  }
+                ]
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        ]
+      }
     },
     "identifier": {
       "type": "PATTERN",

@@ -208,3 +208,20 @@ def g(g, h,):
     (identifier)
     (parameters (identifier) (identifier))
     (expression_statement (identifier))))
+
+==============================================
+Function definitions with default parameters
+==============================================
+
+def a(b = 1, c = 2,):
+  d
+
+---
+
+(module
+  (function_definition
+    (identifier)
+    (parameters
+      (default_parameter (identifier) (number))
+      (default_parameter (identifier) (number)))
+    (expression_statement (identifier)))) 
