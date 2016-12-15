@@ -106,3 +106,28 @@ else:
     (else_clause
       (expression_statement (identifier))
       (expression_statement (identifier)))))
+
+======================================
+For statements
+=====================================
+
+for line, i in lines:
+  print line
+  for character, j in line:
+    print character
+else:
+  print x
+
+---
+
+(module
+  (for_statement
+    (expression_list (identifier) (identifier))
+    (expression_list (identifier))
+    (print_statement (identifier))
+    (for_statement
+      (expression_list (identifier) (identifier))
+      (expression_list (identifier))
+      (print_statement (identifier)))
+    (else_clause
+      (print_statement (identifier)))))

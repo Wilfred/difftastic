@@ -41,8 +41,9 @@ module.exports = grammar({
     // Compount statements
 
     _compound_statement: $ => choice(
-      $.while_statement,
-      $.if_statement
+      $.if_statement,
+      $.for_statement,
+      $.while_statement
     ),
 
     if_statement: $ => seq(
@@ -67,6 +68,16 @@ module.exports = grammar({
       $._suite
     ),
 
+    for_statement: $ => seq(
+      'for',
+      $.expression_list,
+      'in',
+      $.expression_list,
+      ':',
+      $._suite,
+      optional($.else_clause)
+    ),
+
     while_statement: $ => seq(
       'while',
       $._expression,
@@ -83,6 +94,8 @@ module.exports = grammar({
         $._dedent
       )
     ),
+
+    expression_list: $ => commaSep1($._expression),
 
     // Expressions
 
@@ -104,6 +117,6 @@ module.exports = grammar({
   }
 })
 
-function sep1(rule, separator) {
-  return seq(rule, repeat(seq(separator, rule)))
+function commaSep1 (rule) {
+  return seq(rule, repeat(seq(',', rule)))
 }
