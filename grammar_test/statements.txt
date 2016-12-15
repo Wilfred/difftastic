@@ -1,0 +1,59 @@
+======================================
+Print statements
+=====================================
+
+print a
+print b, c
+
+---
+
+(module
+  (print_statement (identifier))
+  (print_statement (identifier) (identifier)))
+
+======================================
+Expression statements
+=====================================
+
+a
+b + c
+
+---
+
+(module
+  (expression_statement (identifier))
+  (expression_statement (binary_operator (identifier) (identifier))))
+
+======================================
+If statements
+=====================================
+
+if a:
+  b
+
+---
+
+(module
+  (if_statement (identifier)
+    (expression_statement (identifier))))
+
+======================================
+If else statements
+=====================================
+
+if a:
+  b
+elif c:
+  d
+else:
+  f
+
+---
+
+(module
+  (if_statement (identifier)
+    (expression_statement (identifier))
+    (elif_clause (identifier)
+      (expression_statement (identifier)))
+    (else_clause
+      (expression_statement (identifier)))))
