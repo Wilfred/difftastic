@@ -45,7 +45,9 @@ struct Scanner {
       indent_length_stack.push_back(indent_length);
       lexer->result_symbol = INDENT;
       return true;
-    } else if (indent_length < indent_length_stack.back()) {
+    }
+
+    if (indent_length < indent_length_stack.back()) {
       indent_length_stack.pop_back();
       while (indent_length < indent_length_stack.back()) {
         indent_length_stack.pop_back();
@@ -54,17 +56,14 @@ struct Scanner {
 
       if (valid_symbols[DEDENT]) {
         lexer->result_symbol = DEDENT;
+        return true;
       } else {
         queued_dedent_count++;
-        lexer->result_symbol = NEWLINE;
       }
-      return true;
-    } else if (valid_symbols[NEWLINE]) {
-      lexer->result_symbol = NEWLINE;
-      return true;
     }
 
-    return false;
+    lexer->result_symbol = NEWLINE;
+    return true;
   }
 
   vector<uint16_t> indent_length_stack;
