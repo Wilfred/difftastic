@@ -131,3 +131,37 @@ else:
       (print_statement (identifier)))
     (else_clause
       (print_statement (identifier)))))
+
+=====================================
+Try statements
+=====================================
+
+try:
+  a
+except b:
+  c
+except d as e:
+  f
+except g, h:
+  i
+
+try:
+  a
+finally:
+  b
+
+---
+
+(module
+  (try_statement
+    (expression_statement (identifier))
+    (except_clause (identifier)
+      (expression_statement (identifier)))
+    (except_clause (identifier) (identifier)
+      (expression_statement (identifier)))
+    (except_clause (identifier) (identifier)
+      (expression_statement (identifier))))
+  (try_statement
+    (expression_statement (identifier))
+    (finally_clause
+      (expression_statement (identifier)))))

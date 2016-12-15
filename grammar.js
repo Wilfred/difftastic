@@ -43,7 +43,8 @@ module.exports = grammar({
     _compound_statement: $ => choice(
       $.if_statement,
       $.for_statement,
-      $.while_statement
+      $.while_statement,
+      $.try_statement
     ),
 
     if_statement: $ => seq(
@@ -84,6 +85,37 @@ module.exports = grammar({
       ':',
       $._suite,
       optional($.else_clause)
+    ),
+
+    try_statement: $ => seq(
+      'try',
+      ':',
+      $._suite,
+      choice(
+        seq(
+          repeat1($.except_clause),
+          optional($.else_clause),
+          optional($.finally_clause)
+        ),
+        $.finally_clause
+      )
+    ),
+
+    except_clause: $ => seq(
+      'except',
+      $._expression,
+      optional(seq(
+        choice('as', ','),
+        $._expression
+      )),
+      ':',
+      $._suite
+    ),
+
+    finally_clause: $ => seq(
+      'finally',
+      ':',
+      $._suite
     ),
 
     _suite: $ => choice(
