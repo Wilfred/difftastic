@@ -41,6 +41,7 @@ module.exports = grammar({
     // Compount statements
 
     _compound_statement: $ => choice(
+      $.while_statement,
       $.if_statement
     ),
 
@@ -64,6 +65,14 @@ module.exports = grammar({
       'else',
       ':',
       $._suite
+    ),
+
+    while_statement: $ => seq(
+      'while',
+      $._expression,
+      ':',
+      $._suite,
+      optional($.else_clause)
     ),
 
     _suite: $ => choice(

@@ -82,3 +82,27 @@ g
         (if_statement (identifier)
           (expression_statement (identifier))))))
   (expression_statement (identifier)))
+
+======================================
+While statements
+=====================================
+
+while a:
+  b
+
+while c:
+  d
+else:
+  e
+  f
+
+---
+
+(module
+  (while_statement (identifier)
+    (expression_statement (identifier)))
+  (while_statement (identifier)
+    (expression_statement (identifier))
+    (else_clause
+      (expression_statement (identifier))
+      (expression_statement (identifier)))))
