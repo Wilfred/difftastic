@@ -45,7 +45,8 @@ module.exports = grammar({
       $.for_statement,
       $.while_statement,
       $.try_statement,
-      $.with_statement
+      $.with_statement,
+      $.function_definition
     ),
 
     if_statement: $ => seq(
@@ -132,6 +133,33 @@ module.exports = grammar({
         'as',
         $._expression
       ))
+    ),
+
+    function_definition: $ => seq(
+      'def',
+      $.identifier,
+      $.parameters,
+      ':',
+      $._suite
+    ),
+
+    parameters: $ => seq(
+      '(',
+      optional(seq(
+        repeat(seq(
+          choice($.identifier, $.default_parameter),
+          ','
+        )),
+        choice($.identifier, $.default_parameter),
+        optional(',')
+      )),
+      ')'
+    ),
+
+    default_parameter: $ => seq(
+      $.identifier,
+      '=',
+      $._expression
     ),
 
     _suite: $ => choice(

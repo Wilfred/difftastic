@@ -179,3 +179,32 @@ with a as b:
   (with_statement
     (with_item (identifier) (identifier))
     (expression_statement (identifier))))
+
+=====================================
+Function definitions
+=====================================
+
+def a():
+  b
+
+def c(d):
+  e
+
+def g(g, h,):
+  i
+
+---
+
+(module
+  (function_definition
+    (identifier)
+    (parameters)
+    (expression_statement (identifier)))
+  (function_definition
+    (identifier)
+    (parameters (identifier))
+    (expression_statement (identifier)))
+  (function_definition
+    (identifier)
+    (parameters (identifier) (identifier))
+    (expression_statement (identifier))))
