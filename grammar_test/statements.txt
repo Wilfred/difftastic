@@ -224,4 +224,23 @@ def a(b = 1, c = 2,):
     (parameters
       (default_parameter (identifier) (number))
       (default_parameter (identifier) (number)))
-    (expression_statement (identifier)))) 
+    (expression_statement (identifier))))
+
+==============================================
+Function definitions with list splat parameters
+==============================================
+
+def a(b, *c):
+  d
+  e
+
+---
+
+(module
+  (function_definition
+    (identifier)
+    (parameters
+      (identifier)
+      (list_splat_parameter (identifier)))
+    (expression_statement (identifier))
+    (expression_statement (identifier))))
