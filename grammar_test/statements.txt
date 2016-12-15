@@ -1,4 +1,4 @@
-======================================
+=====================================
 Print statements
 =====================================
 
@@ -11,7 +11,7 @@ print b, c
   (print_statement (identifier))
   (print_statement (identifier) (identifier)))
 
-======================================
+=====================================
 Expression statements
 =====================================
 
@@ -24,7 +24,7 @@ b + c
   (expression_statement (identifier))
   (expression_statement (binary_operator (identifier) (identifier))))
 
-======================================
+=====================================
 If statements
 =====================================
 
@@ -39,7 +39,7 @@ if a:
     (expression_statement (identifier))
     (expression_statement (identifier))))
 
-======================================
+=====================================
 If else statements
 =====================================
 
@@ -60,7 +60,7 @@ else:
     (else_clause
       (expression_statement (identifier)))))
 
-======================================
+=====================================
 Nested if statements
 =====================================
 
@@ -83,7 +83,7 @@ g
           (expression_statement (identifier))))))
   (expression_statement (identifier)))
 
-======================================
+=====================================
 While statements
 =====================================
 
@@ -107,7 +107,7 @@ else:
       (expression_statement (identifier))
       (expression_statement (identifier)))))
 
-======================================
+=====================================
 For statements
 =====================================
 
