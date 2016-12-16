@@ -591,7 +591,28 @@
                     },
                     {
                       "type": "SYMBOL",
-                      "name": "splat_parameter"
+                      "name": "list_splat_parameter"
+                    },
+                    {
+                      "type": "SYMBOL",
+                      "name": "dictionary_splat_parameter"
+                    },
+                    {
+                      "type": "SEQ",
+                      "members": [
+                        {
+                          "type": "SYMBOL",
+                          "name": "list_splat_parameter"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": ","
+                        },
+                        {
+                          "type": "SYMBOL",
+                          "name": "dictionary_splat_parameter"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -625,9 +646,26 @@
         }
       ]
     },
-    "splat_parameter": {
+    "list_splat_parameter": {
       "type": "SEQ",
       "members": [
+        {
+          "type": "STRING",
+          "value": "*"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "identifier"
+        }
+      ]
+    },
+    "dictionary_splat_parameter": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "*"
+        },
         {
           "type": "STRING",
           "value": "*"

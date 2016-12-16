@@ -155,7 +155,13 @@ module.exports = grammar({
             choice($.identifier, $.default_parameter),
             optional(',')
           ),
-          $.list_splat_parameter
+          $.list_splat_parameter,
+          $.dictionary_splat_parameter,
+          seq(
+            $.list_splat_parameter,
+            ',',
+            $.dictionary_splat_parameter
+          )
         )
       )),
       ')'
@@ -168,6 +174,12 @@ module.exports = grammar({
     ),
 
     list_splat_parameter: $ => seq(
+      '*',
+      $.identifier
+    ),
+
+    dictionary_splat_parameter: $ => seq(
+      '*',
       '*',
       $.identifier
     ),

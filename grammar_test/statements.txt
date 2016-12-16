@@ -244,3 +244,30 @@ def a(b, *c):
       (list_splat_parameter (identifier)))
     (expression_statement (identifier))
     (expression_statement (identifier))))
+
+======================================================
+Function definitions with dictionary splat parameters
+======================================================
+
+def a(b, **c):
+  print d
+
+def e(*f, **g):
+  print h
+
+---
+
+(module
+  (function_definition
+    (identifier)
+    (parameters
+      (identifier)
+      (dictionary_splat_parameter (identifier)))
+    (print_statement (identifier)))
+
+  (function_definition
+    (identifier)
+    (parameters
+      (list_splat_parameter (identifier))
+      (dictionary_splat_parameter (identifier)))
+    (print_statement (identifier))))
