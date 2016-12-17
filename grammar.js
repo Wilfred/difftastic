@@ -536,7 +536,7 @@ module.exports = grammar({
     ),
 
     string: $ => token(seq(
-      repeat(choice('u', 'r')),
+      repeat(choice('u', 'r', 'b')),
       choice(
         seq(
           '"',

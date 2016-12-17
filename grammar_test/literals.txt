@@ -19,10 +19,12 @@ Strings
 '"ok"'
 r'hi'
 ur"bye"
+b'sup'
 
 ---
 
 (module
+  (expression_statement (string))
   (expression_statement (string))
   (expression_statement (string))
   (expression_statement (string))
