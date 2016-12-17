@@ -115,3 +115,21 @@ not d
   (expression_statement
     (unary_operator
       (identifier))))
+
+=====================================
+Comparison operators
+=====================================
+
+a < b <= c == d >= e > f
+
+---
+
+(module
+  (expression_statement
+    (comparison_operator
+      (identifier)
+      (identifier)
+      (identifier)
+      (identifier)
+      (identifier)
+      (identifier))))

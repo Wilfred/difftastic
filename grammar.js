@@ -1,15 +1,16 @@
 const PREC = {
-  or: 0,
-  and: 1,
-  bitwise_or: 0,
-  bitwise_and: 1,
-  xor: 2,
-  shift: 3,
-  plus: 3,
-  times: 4,
-  power: 5,
-  not: 6,
-  call: 10,
+  compare: 1,
+  or: 10,
+  and: 11,
+  bitwise_or: 12,
+  bitwise_and: 13,
+  xor: 14,
+  shift: 15,
+  plus: 16,
+  times: 17,
+  power: 18,
+  not: 19,
+  call: 20,
 }
 
 module.exports = grammar({
@@ -304,17 +305,22 @@ module.exports = grammar({
       ')'
     ),
 
-    expression_list: $ => commaSep1($._expression),
+    expression_list: $ => commaSep1($._primary_expression),
 
     dotted_name: $ => sep1($.identifier, '.'),
 
     // Expressions
 
     _expression: $ => choice(
+      $.comparison_operator,
+      $._primary_expression
+    ),
+
+    _primary_expression: $ => choice(
+      $.binary_operator,
       $.identifier,
       $.string,
       $.number,
-      $.binary_operator,
       $.unary_operator,
       $.subscript,
       $.call,
@@ -327,34 +333,54 @@ module.exports = grammar({
     ),
 
     binary_operator: $ => choice(
-      prec.left(PREC.plus, seq($._expression, '+', $._expression)),
-      prec.left(PREC.plus, seq($._expression, '-', $._expression)),
-      prec.left(PREC.times, seq($._expression, '*', $._expression)),
-      prec.left(PREC.times, seq($._expression, '/', $._expression)),
-      prec.left(PREC.power, seq($._expression, '**', $._expression)),
-      prec.left(PREC.bitwise_or, seq($._expression, '|', $._expression)),
-      prec.left(PREC.bitwise_and, seq($._expression, '&', $._expression)),
-      prec.left(PREC.xor, seq($._expression, '^', $._expression)),
-      prec.left(PREC.shift, seq($._expression, '<<', $._expression)),
-      prec.left(PREC.shift, seq($._expression, '>>', $._expression)),
-      prec.left(PREC.and, seq($._expression, 'and', $._expression)),
-      prec.left(PREC.or, seq($._expression, 'or', $._expression))
+      prec.left(PREC.plus, seq($._primary_expression, '+', $._primary_expression)),
+      prec.left(PREC.plus, seq($._primary_expression, '-', $._primary_expression)),
+      prec.left(PREC.times, seq($._primary_expression, '*', $._primary_expression)),
+      prec.left(PREC.times, seq($._primary_expression, '/', $._primary_expression)),
+      prec.left(PREC.power, seq($._primary_expression, '**', $._primary_expression)),
+      prec.left(PREC.bitwise_or, seq($._primary_expression, '|', $._primary_expression)),
+      prec.left(PREC.bitwise_and, seq($._primary_expression, '&', $._primary_expression)),
+      prec.left(PREC.xor, seq($._primary_expression, '^', $._primary_expression)),
+      prec.left(PREC.shift, seq($._primary_expression, '<<', $._primary_expression)),
+      prec.left(PREC.shift, seq($._primary_expression, '>>', $._primary_expression)),
+      prec.left(PREC.and, seq($._primary_expression, 'and', $._primary_expression)),
+      prec.left(PREC.or, seq($._primary_expression, 'or', $._primary_expression))
     ),
 
     unary_operator: $ => choice(
-      prec(PREC.not, seq('not', $._expression))
+      prec(PREC.not, seq('not', $._primary_expression))
     ),
 
-    subscript: $ => seq(
-      $._expression,
+    comparison_operator: $ => prec.left(PREC.compare, seq(
+      $._primary_expression,
+      repeat1(seq(
+        choice(
+          '<',
+          '<=',
+          '==',
+          '!=',
+          '>=',
+          '>',
+          '<>',
+          'in',
+          seq('not', 'in'),
+          'is',
+          seq('is', 'not')
+        ),
+        $._primary_expression
+      ))
+    )),
+
+    subscript: $ => prec(PREC.call, seq(
+      $._primary_expression,
       '[',
       commaSep1(choice($._expression, '...')),
       optional(','),
       ']'
-    ),
+    )),
 
     call: $ => prec(PREC.call, seq(
-      $._expression,
+      $._primary_expression,
       '(',
       repeat(seq(
         choice($._expression, $.keyword_argument),
