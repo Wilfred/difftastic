@@ -227,6 +227,8 @@ except d as e:
   f
 except g, h:
   i
+except:
+  j
 
 try:
   a
@@ -243,6 +245,8 @@ finally:
     (except_clause (identifier) (identifier)
       (expression_statement (identifier)))
     (except_clause (identifier) (identifier)
+      (expression_statement (identifier)))
+    (except_clause
       (expression_statement (identifier))))
   (try_statement
     (expression_statement (identifier))
@@ -420,10 +424,12 @@ class C:
 Raise statements
 ====================================================
 
+raise
 raise RuntimeError('NO')
 
 ---
 
 (module
+  (raise_statement)
   (raise_statement (expression_list
     (call (identifier) (string)))))

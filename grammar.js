@@ -116,7 +116,7 @@ module.exports = grammar({
 
     raise_statement: $ => seq(
       'raise',
-      $.expression_list
+      optional($.expression_list)
     ),
 
     pass_statement: $ => 'pass',
@@ -192,10 +192,12 @@ module.exports = grammar({
 
     except_clause: $ => seq(
       'except',
-      $._expression,
       optional(seq(
-        choice('as', ','),
-        $._expression
+        $._expression,
+        optional(seq(
+          choice('as', ','),
+          $._expression
+        ))
       )),
       ':',
       $._suite
