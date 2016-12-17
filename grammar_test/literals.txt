@@ -37,13 +37,15 @@ Dictionaries
 =====================================
 
 {a: 1, b: 2}
+{}
 
 ---
 
 (module
   (expression_statement (dictionary
     (pair (identifier) (number))
-    (pair (identifier) (number)))))
+    (pair (identifier) (number))))
+  (expression_statement (dictionary)))
 
 =====================================
 Dictionary comprehensions
@@ -57,4 +59,18 @@ Dictionary comprehensions
   (expression_statement (dictionary_comprehension
     (pair (identifier) (identifier))
     (expression_list (identifier) (identifier))
+    (identifier))))
+
+=====================================
+Sets
+=====================================
+
+{a, b, c,}
+
+---
+
+(module
+  (expression_statement (set
+    (identifier)
+    (identifier)
     (identifier))))
