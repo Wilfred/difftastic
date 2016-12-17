@@ -25,6 +25,19 @@ b + c
   (expression_statement (binary_operator (identifier) (identifier))))
 
 =====================================
+Return statements
+=====================================
+
+return a + b, c
+
+---
+
+(module
+  (return_statement (expression_list
+    (binary_operator (identifier) (identifier))
+    (identifier))))
+
+=====================================
 If statements
 =====================================
 
@@ -331,4 +344,4 @@ class C:
       (decorated_definition
         (decorator (dotted_name (identifier)) (arguments (number)))
         (decorator (dotted_name (identifier)) (arguments (number) (number)))
-        (function_definition (identifier) (parameters) (expression_statement (identifier))))))) 
+        (function_definition (identifier) (parameters) (expression_statement (identifier)))))))
