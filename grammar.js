@@ -1,7 +1,11 @@
 const PREC = {
-  plus: 1,
-  times: 2,
-  power: 3
+  bitwise_or: 0,
+  bitwise_and: 1,
+  xor: 2,
+  shift: 3,
+  plus: 3,
+  times: 4,
+  power: 5,
 }
 
 module.exports = grammar({
@@ -281,7 +285,12 @@ module.exports = grammar({
       prec.left(PREC.plus, seq($._expression, '-', $._expression)),
       prec.left(PREC.times, seq($._expression, '*', $._expression)),
       prec.left(PREC.times, seq($._expression, '/', $._expression)),
-      prec.left(PREC.power, seq($._expression, '**', $._expression))
+      prec.left(PREC.power, seq($._expression, '**', $._expression)),
+      prec.left(PREC.bitwise_or, seq($._expression, '|', $._expression)),
+      prec.left(PREC.bitwise_and, seq($._expression, '&', $._expression)),
+      prec.left(PREC.xor, seq($._expression, '^', $._expression)),
+      prec.left(PREC.shift, seq($._expression, '<<', $._expression)),
+      prec.left(PREC.shift, seq($._expression, '>>', $._expression))
     ),
 
     subscript: $ => seq(

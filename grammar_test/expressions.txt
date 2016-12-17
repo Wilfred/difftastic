@@ -75,3 +75,23 @@ a + b * c ** d - e / 5
       (binary_operator
         (identifier)
         (number)))))
+
+=====================================
+Bitwise operators
+=====================================
+
+a << b | c >> d & e
+
+---
+
+(module
+  (expression_statement
+    (binary_operator
+      (binary_operator
+        (identifier)
+        (identifier))
+      (binary_operator
+        (binary_operator
+          (identifier)
+          (identifier))
+        (identifier)))))
