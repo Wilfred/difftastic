@@ -564,7 +564,7 @@ module.exports = grammar({
       ))
     )),
 
-    identifier: $ => /\a\w*/,
+    identifier: $ => /[\a_]\w*/,
 
     comment: $ => token(seq(
       '#',

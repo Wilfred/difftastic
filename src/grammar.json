@@ -2498,7 +2498,7 @@
     },
     "identifier": {
       "type": "PATTERN",
-      "value": "\\a\\w*"
+      "value": "[\\a_]\\w*"
     },
     "comment": {
       "type": "TOKEN",
