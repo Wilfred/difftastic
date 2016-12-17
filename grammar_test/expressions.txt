@@ -53,3 +53,25 @@ c(d, *e, f, **g)
     (list_splat_argument (identifier))
     (identifier)
     (dictionary_splat_argument (identifier)))))
+
+=====================================
+Math operators
+=====================================
+
+a + b * c ** d - e / 5
+
+---
+
+(module
+  (expression_statement
+    (binary_operator
+      (binary_operator
+        (identifier)
+        (binary_operator
+          (identifier)
+          (binary_operator
+            (identifier)
+            (identifier))))
+      (binary_operator
+        (identifier)
+        (number)))))

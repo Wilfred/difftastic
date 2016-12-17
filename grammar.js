@@ -1,3 +1,9 @@
+const PREC = {
+  plus: 1,
+  times: 2,
+  power: 3
+}
+
 module.exports = grammar({
   name: 'python',
 
@@ -271,7 +277,11 @@ module.exports = grammar({
     ),
 
     binary_operator: $ => choice(
-      prec.left(seq($._expression, '+', $._expression))
+      prec.left(PREC.plus, seq($._expression, '+', $._expression)),
+      prec.left(PREC.plus, seq($._expression, '-', $._expression)),
+      prec.left(PREC.times, seq($._expression, '*', $._expression)),
+      prec.left(PREC.times, seq($._expression, '/', $._expression)),
+      prec.left(PREC.power, seq($._expression, '**', $._expression))
     ),
 
     subscript: $ => seq(
