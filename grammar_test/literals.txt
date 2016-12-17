@@ -44,3 +44,17 @@ Dictionaries
   (expression_statement (dictionary
     (pair (identifier) (number))
     (pair (identifier) (number)))))
+
+=====================================
+Dictionary comprehensions
+=====================================
+
+{a: b for a, b in items}
+
+---
+
+(module
+  (expression_statement (dictionary_comprehension
+    (pair (identifier) (identifier))
+    (expression_list (identifier) (identifier))
+    (identifier))))
