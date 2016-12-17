@@ -17,6 +17,28 @@ import b.c as d
       (identifier))))
 
 =====================================
+Import-from statements
+=====================================
+
+from a import b
+from a import *
+from a import (b, c)
+
+---
+
+(module
+  (import_from_statement
+    (dotted_name (identifier))
+    (dotted_name (identifier)))
+  (import_from_statement
+    (dotted_name (identifier))
+    (wildcard_import))
+  (import_from_statement
+    (dotted_name (identifier))
+    (dotted_name (identifier))
+    (dotted_name (identifier))))
+
+=====================================
 Print statements
 =====================================
 

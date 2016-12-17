@@ -41,6 +41,7 @@ module.exports = grammar({
 
     _simple_statement: $ => choice(
       $.import_statement,
+      $.import_from_statement,
       $.print_statement,
       $.expression_statement,
       $.return_statement,
@@ -52,20 +53,41 @@ module.exports = grammar({
 
     import_statement: $ => seq(
       'import',
-      seq(
-        commaSep1(choice(
-          $.dotted_name,
-          $.aliased_import
-        )),
-        optional(',')
+      $._import_list
+    ),
+
+    import_from_statement: $ => seq(
+      'from',
+      choice(
+        seq(
+          repeat('.'),
+          $.dotted_name
+        ),
+        repeat1('.')
+      ),
+      'import',
+      choice(
+        $.wildcard_import,
+        $._import_list,
+        seq('(', $._import_list, ')')
       )
     ),
 
+    _import_list: $ => seq(
+      commaSep1(choice(
+        $.dotted_name,
+        $.aliased_import
+      )),
+      optional(',')
+    ),
+
     aliased_import: $ => seq(
-      choice($.dotted_name),
+      $.dotted_name,
       'as',
       $.identifier
     ),
+
+    wildcard_import: $ => '*',
 
     print_statement: $ => seq(
       'print',
