@@ -38,6 +38,23 @@ del a[1], b[2]
     (subscript (identifier) (number)))))
 
 =====================================
+Control-flow statements
+=====================================
+
+while true:
+  pass
+  break
+  continue
+
+---
+
+(module
+  (while_statement (identifier)
+    (pass_statement)
+    (break_statement)
+    (continue_statement)))
+
+=====================================
 Return statements
 =====================================
 

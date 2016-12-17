@@ -82,6 +82,18 @@
         {
           "type": "SYMBOL",
           "name": "delete_statement"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "pass_statement"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "break_statement"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "continue_statement"
         }
       ]
     },
@@ -143,6 +155,18 @@
           "name": "expression_list"
         }
       ]
+    },
+    "pass_statement": {
+      "type": "STRING",
+      "value": "pass"
+    },
+    "break_statement": {
+      "type": "STRING",
+      "value": "break"
+    },
+    "continue_statement": {
+      "type": "STRING",
+      "value": "continue"
     },
     "_compound_statement": {
       "type": "CHOICE",

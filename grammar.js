@@ -29,7 +29,10 @@ module.exports = grammar({
       $.print_statement,
       $.expression_statement,
       $.return_statement,
-      $.delete_statement
+      $.delete_statement,
+      $.pass_statement,
+      $.break_statement,
+      $.continue_statement
     ),
 
     print_statement: $ => seq(
@@ -49,6 +52,10 @@ module.exports = grammar({
       'del',
       $.expression_list
     ),
+
+    pass_statement: $ => 'pass',
+    break_statement: $ => 'break',
+    continue_statement: $ => 'continue',
 
     // Compount statements
 
