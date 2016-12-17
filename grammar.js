@@ -28,7 +28,8 @@ module.exports = grammar({
     _simple_statement: $ => choice(
       $.print_statement,
       $.expression_statement,
-      $.return_statement
+      $.return_statement,
+      $.delete_statement
     ),
 
     print_statement: $ => seq(
@@ -41,6 +42,11 @@ module.exports = grammar({
 
     return_statement: $ => seq(
       'return',
+      $.expression_list
+    ),
+
+    delete_statement: $ => seq(
+      'del',
       $.expression_list
     ),
 
@@ -243,11 +249,20 @@ module.exports = grammar({
     _expression: $ => choice(
       $.number,
       $.identifier,
-      $.binary_operator
+      $.binary_operator,
+      $.subscript
     ),
 
     binary_operator: $ => choice(
       prec.left(seq($._expression, '+', $._expression))
+    ),
+
+    subscript: $ => seq(
+      $._expression,
+      '[',
+      commaSep1(choice($._expression, '...')),
+      optional(','),
+      ']'
     ),
 
     number: $ => token(seq(

@@ -1,0 +1,14 @@
+=====================================
+Subscript expressions
+=====================================
+
+a[1]
+a[2, 3]
+a[4, 5,]
+
+---
+
+(module
+  (expression_statement (subscript (identifier) (number)))
+  (expression_statement (subscript (identifier) (number) (number)))
+  (expression_statement (subscript (identifier) (number) (number))))

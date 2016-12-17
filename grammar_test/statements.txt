@@ -25,6 +25,19 @@ b + c
   (expression_statement (binary_operator (identifier) (identifier))))
 
 =====================================
+Delete statements
+=====================================
+
+del a[1], b[2]
+
+---
+
+(module
+  (delete_statement (expression_list
+    (subscript (identifier) (number))
+    (subscript (identifier) (number)))))
+
+=====================================
 Return statements
 =====================================
 
