@@ -13,3 +13,21 @@ Lists
     (list
       (identifier)
       (identifier)))))
+
+=====================================
+List comprehensions
+=====================================
+
+[a + b for a, b in items]
+
+---
+
+(module
+  (expression_statement (list_comprehension
+    (binary_operator
+      (identifier)
+      (identifier))
+    (expression_list
+      (identifier)
+      (identifier))
+    (identifier))))
