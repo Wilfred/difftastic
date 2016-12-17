@@ -308,3 +308,27 @@ class A(B, C):
       (identifier)
       (parameters)
       (expression_statement (identifier)))))
+
+====================================================
+Decorated definitions
+====================================================
+
+@a.b
+class C:
+
+  @d(1)
+  @e(2, 3)
+  def f():
+    g
+
+---
+
+(module
+  (decorated_definition
+    (decorator (dotted_name (identifier) (identifier)))
+    (class_definition
+      (identifier)
+      (decorated_definition
+        (decorator (dotted_name (identifier)) (arguments (number)))
+        (decorator (dotted_name (identifier)) (arguments (number) (number)))
+        (function_definition (identifier) (parameters) (expression_statement (identifier))))))) 

@@ -53,7 +53,8 @@ module.exports = grammar({
       $.try_statement,
       $.with_statement,
       $.function_definition,
-      $.class_definition
+      $.class_definition,
+      $.decorated_definition
     ),
 
     if_statement: $ => seq(
@@ -203,6 +204,21 @@ module.exports = grammar({
       $._suite
     ),
 
+    decorated_definition: $ => seq(
+      repeat1($.decorator),
+      choice(
+        $.class_definition,
+        $.function_definition
+      )
+    ),
+
+    decorator: $ => seq(
+      '@',
+      $.dotted_name,
+      optional($.arguments),
+      $._newline
+    ),
+
     _suite: $ => choice(
       $._simple_statement,
       seq(
@@ -212,7 +228,15 @@ module.exports = grammar({
       )
     ),
 
+    arguments: $ => seq(
+      '(',
+      commaSep1($._expression),
+      ')'
+    ),
+
     expression_list: $ => commaSep1($._expression),
+
+    dotted_name: $ => sep1($.identifier, '.'),
 
     // Expressions
 
@@ -244,5 +268,9 @@ module.exports = grammar({
 })
 
 function commaSep1 (rule) {
-  return seq(rule, repeat(seq(',', rule)))
+  return sep1(rule, ',')
+}
+
+function sep1 (rule, separator) {
+  return seq(rule, repeat(seq(separator, rule)))
 }
