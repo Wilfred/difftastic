@@ -564,19 +564,26 @@ module.exports = grammar({
       )
     )),
 
-    number: $ => token(seq(
-      /\d+/,
-      optional(seq(
-        '.',
-        /\d*/
-      ))
+    number: $ => token(choice(
+      seq(
+        '0x',
+        /[A-Fa-f0-9]+/
+      ),
+      seq(
+        /\d+/,
+        optional(seq(
+          '.',
+          /\d*/
+        ))
+      )
     )),
 
     identifier: $ => /[\a_]\w*/,
 
     comment: $ => token(seq(
       '#',
-      /.+/
+      /.+/,
+      '\n'
     ))
   }
 })
