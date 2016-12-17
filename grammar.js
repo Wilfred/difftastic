@@ -263,7 +263,8 @@ module.exports = grammar({
       $.subscript,
       $.call,
       $.list,
-      $.list_comprehension
+      $.list_comprehension,
+      $.dictionary
     ),
 
     binary_operator: $ => choice(
@@ -335,6 +336,21 @@ module.exports = grammar({
       'in',
       $._expression,
       ']'
+    ),
+
+    dictionary: $ => seq(
+      '{',
+      optional(seq(
+        commaSep1($.pair),
+        optional(',')
+      )),
+      '}'
+    ),
+
+    pair: $ => seq(
+      $._expression,
+      ':',
+      $._expression
     ),
 
     number: $ => token(seq(

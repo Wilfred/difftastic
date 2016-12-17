@@ -31,3 +31,16 @@ List comprehensions
       (identifier)
       (identifier))
     (identifier))))
+
+=====================================
+Dictionaries
+=====================================
+
+{a: 1, b: 2}
+
+---
+
+(module
+  (expression_statement (dictionary
+    (pair (identifier) (number))
+    (pair (identifier) (number)))))
