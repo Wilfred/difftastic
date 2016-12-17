@@ -516,22 +516,25 @@ module.exports = grammar({
       ')'
     ),
 
-    string: $ => token(choice(
-      seq(
-        '"',
-        repeat(choice(
-          /[^\\"]/,
-          /\\./
-        )),
-        '"'
-      ),
-      seq(
-        '\'',
-        repeat(choice(
-          /[^\\']/,
-          /\\./
-        )),
-        '\''
+    string: $ => token(seq(
+      repeat(choice('u', 'r')),
+      choice(
+        seq(
+          '"',
+          repeat(choice(
+            /[^\\"]/,
+            /\\./
+          )),
+          '"'
+        ),
+        seq(
+          '\'',
+          repeat(choice(
+            /[^\\']/,
+            /\\./
+          )),
+          '\''
+        )
       )
     )),
 

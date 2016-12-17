@@ -4,10 +4,14 @@ Strings
 
 "I'm ok"
 '"ok"'
+r'hi'
+ur"bye"
 
 ---
 
 (module
+  (expression_statement (string))
+  (expression_statement (string))
   (expression_statement (string))
   (expression_statement (string)))
 
