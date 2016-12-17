@@ -12,3 +12,24 @@ a[4, 5,]
   (expression_statement (subscript (identifier) (number)))
   (expression_statement (subscript (identifier) (number) (number)))
   (expression_statement (subscript (identifier) (number) (number))))
+
+=====================================
+Call expressions
+=====================================
+
+a(1)
+c(e, f=g, h)
+i(j, 5,)
+
+---
+
+(module
+  (expression_statement (call
+    (identifier)
+    (number)))
+  (expression_statement (call
+    (identifier)
+    (identifier)
+    (keyword_argument (identifier) (identifier))
+    (identifier)))
+  (expression_statement (call (identifier) (identifier) (number))))

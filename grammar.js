@@ -257,7 +257,8 @@ module.exports = grammar({
       $.number,
       $.identifier,
       $.binary_operator,
-      $.subscript
+      $.subscript,
+      $.call
     ),
 
     binary_operator: $ => choice(
@@ -270,6 +271,23 @@ module.exports = grammar({
       commaSep1(choice($._expression, '...')),
       optional(','),
       ']'
+    ),
+
+    call: $ => seq(
+      $._expression,
+      '(',
+      commaSep1(choice(
+        $._expression,
+        $.keyword_argument
+      )),
+      optional(','),
+      ')'
+    ),
+
+    keyword_argument: $ => seq(
+      $.identifier,
+      '=',
+      $._expression
     ),
 
     number: $ => token(seq(
