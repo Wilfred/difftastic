@@ -154,3 +154,29 @@ a < b <= c == d >= e > f
       (identifier)
       (identifier)
       (identifier))))
+
+====================================================
+Assignments
+====================================================
+
+a, b = 1, 2
+a[b] = c = d
+
+---
+
+(module
+  (expression_statement
+    (assignment
+      (expression_list
+        (identifier)
+        (identifier))
+      (expression_list
+        (number)
+        (number))))
+  (expression_statement
+    (assignment
+      (expression_list
+        (subscript (identifier) (identifier)))
+      (assignment
+        (expression_list (identifier))
+        (expression_list (identifier))))))

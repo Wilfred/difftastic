@@ -47,7 +47,6 @@ module.exports = grammar({
       $.import_from_statement,
       $.print_statement,
       $.expression_statement,
-      $.assignment_statement,
       $.return_statement,
       $.delete_statement,
       $.raise_statement,
@@ -100,12 +99,9 @@ module.exports = grammar({
       repeat(seq(',', $._expression))
     ),
 
-    expression_statement: $ => $._expression,
-
-    assignment_statement: $ => seq(
-      $.expression_list,
-      '=',
-      $.expression_list
+    expression_statement: $ => choice(
+      $._expression,
+      $.assignment
     ),
 
     return_statement: $ => seq(
@@ -390,6 +386,12 @@ module.exports = grammar({
         $._primary_expression
       ))
     )),
+
+    assignment: $ => seq(
+      $.expression_list,
+      '=',
+      choice($.expression_list, $.assignment)
+    ),
 
     attribute: $ => prec(PREC.attribute, seq(
       $._primary_expression,
