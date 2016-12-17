@@ -402,10 +402,19 @@ module.exports = grammar({
     subscript: $ => prec(PREC.call, seq(
       $._primary_expression,
       '[',
-      commaSep1(choice($._expression, '...')),
+      commaSep1(choice($._expression, $.slice, $.ellipsis)),
       optional(','),
       ']'
     )),
+
+    slice: $ => seq(
+      optional($._expression),
+      ':',
+      optional($._expression),
+      optional(seq(':', $._expression))
+    ),
+
+    ellipsis: $ => '...',
 
     call: $ => prec(PREC.call, seq(
       $._primary_expression,

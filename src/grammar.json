@@ -1726,8 +1726,12 @@
                     "name": "_expression"
                   },
                   {
-                    "type": "STRING",
-                    "value": "..."
+                    "type": "SYMBOL",
+                    "name": "slice"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "ellipsis"
                   }
                 ]
               },
@@ -1748,8 +1752,12 @@
                           "name": "_expression"
                         },
                         {
-                          "type": "STRING",
-                          "value": "..."
+                          "type": "SYMBOL",
+                          "name": "slice"
+                        },
+                        {
+                          "type": "SYMBOL",
+                          "name": "ellipsis"
                         }
                       ]
                     }
@@ -1776,6 +1784,64 @@
           }
         ]
       }
+    },
+    "slice": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_expression"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": ":"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_expression"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": ":"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "_expression"
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        }
+      ]
+    },
+    "ellipsis": {
+      "type": "STRING",
+      "value": "..."
     },
     "call": {
       "type": "PREC",
