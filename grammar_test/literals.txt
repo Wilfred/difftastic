@@ -16,6 +16,20 @@ ur"bye"
   (expression_statement (string)))
 
 =====================================
+Concatenated strings
+=====================================
+
+"one" "two" "three"
+
+---
+
+(module
+  (expression_statement (concatenated_string
+    (string)
+    (string)
+    (string))))
+
+=====================================
 Multi-line strings
 =====================================
 

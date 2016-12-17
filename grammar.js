@@ -335,6 +335,7 @@ module.exports = grammar({
       $.binary_operator,
       $.identifier,
       $.string,
+      $.concatenated_string,
       $.number,
       $.unary_operator,
       $.attribute,
@@ -514,6 +515,11 @@ module.exports = grammar({
         optional(',')
       )),
       ')'
+    ),
+
+    concatenated_string: $ => seq(
+      $.string,
+      repeat1($.string)
     ),
 
     string: $ => token(seq(
