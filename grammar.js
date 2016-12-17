@@ -40,6 +40,7 @@ module.exports = grammar({
     // Simple statements
 
     _simple_statement: $ => choice(
+      $.import_statement,
       $.print_statement,
       $.expression_statement,
       $.return_statement,
@@ -47,6 +48,23 @@ module.exports = grammar({
       $.pass_statement,
       $.break_statement,
       $.continue_statement
+    ),
+
+    import_statement: $ => seq(
+      'import',
+      seq(
+        commaSep1(choice(
+          $.dotted_name,
+          $.aliased_import
+        )),
+        optional(',')
+      )
+    ),
+
+    aliased_import: $ => seq(
+      choice($.dotted_name),
+      'as',
+      $.identifier
     ),
 
     print_statement: $ => seq(

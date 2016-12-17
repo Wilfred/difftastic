@@ -1,4 +1,22 @@
 =====================================
+Import statements
+=====================================
+
+import a, b
+import b.c as d
+
+---
+
+(module
+  (import_statement
+    (dotted_name (identifier))
+    (dotted_name (identifier)))
+  (import_statement
+    (aliased_import
+      (dotted_name (identifier) (identifier))
+      (identifier))))
+
+=====================================
 Print statements
 =====================================
 
