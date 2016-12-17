@@ -11,6 +11,7 @@ const PREC = {
   power: 18,
   not: 19,
   call: 20,
+  attribute: 20
 }
 
 module.exports = grammar({
@@ -329,6 +330,7 @@ module.exports = grammar({
       $.string,
       $.number,
       $.unary_operator,
+      $.attribute,
       $.subscript,
       $.call,
       $.list,
@@ -379,6 +381,12 @@ module.exports = grammar({
       ))
     )),
 
+    attribute: $ => prec(PREC.attribute, seq(
+      $._primary_expression,
+      '.',
+      $.identifier
+    )),
+
     subscript: $ => prec(PREC.call, seq(
       $._primary_expression,
       '[',
@@ -394,7 +402,7 @@ module.exports = grammar({
         choice($._expression, $.keyword_argument),
         ','
       )),
-      choice(
+      optional(choice(
         seq(
           choice($._expression, $.keyword_argument),
           optional(',')
@@ -405,7 +413,7 @@ module.exports = grammar({
           optional(seq(',', $.dictionary_splat_argument))
         ),
         $.dictionary_splat_argument
-      ),
+      )),
       ')'
     )),
 

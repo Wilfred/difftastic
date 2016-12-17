@@ -14,16 +14,33 @@ a[4, 5,]
   (expression_statement (subscript (identifier) (number) (number))))
 
 =====================================
+Attribute references
+=====================================
+
+a.b.c
+
+---
+
+(module
+  (expression_statement
+    (attribute
+      (attribute (identifier) (identifier))
+      (identifier))))
+
+=====================================
 Call expressions
 =====================================
 
-a(1)
+a()
+b(1)
 c(e, f=g, h)
 i(j, 5,)
 
 ---
 
 (module
+  (expression_statement (call
+    (identifier)))
   (expression_statement (call
     (identifier)
     (number)))
