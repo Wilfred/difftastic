@@ -1,1 +1,1 @@
-if True: print "hi" [1, 2, 3]
+if True: print "hi"

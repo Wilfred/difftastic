@@ -311,8 +311,9 @@ module.exports = grammar({
     // Expressions
 
     _expression: $ => choice(
-      $.number,
       $.identifier,
+      $.string,
+      $.number,
       $.binary_operator,
       $.unary_operator,
       $.subscript,
@@ -454,6 +455,25 @@ module.exports = grammar({
       $._expression,
       '}'
     ),
+
+    string: $ => token(choice(
+      seq(
+        '"',
+        repeat(choice(
+          /[^\\"]/,
+          /\\./
+        )),
+        '"'
+      ),
+      seq(
+        '\'',
+        repeat(choice(
+          /[^\\']/,
+          /\\./
+        )),
+        '\''
+      )
+    )),
 
     number: $ => token(seq(
       /\d+/,
