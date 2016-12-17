@@ -101,3 +101,16 @@ Set comprehensions
     (subscript (subscript (identifier) (identifier)) (identifier))
     (expression_list (identifier) (identifier) (identifier))
     (identifier))))
+
+=====================================
+Tuples
+=====================================
+
+(a, b)
+(a, b, c,)
+
+---
+
+(module
+  (expression_statement (tuple (identifier) (identifier)))
+  (expression_statement (tuple (identifier) (identifier) (identifier))))

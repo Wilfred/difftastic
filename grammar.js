@@ -329,7 +329,8 @@ module.exports = grammar({
       $.dictionary,
       $.dictionary_comprehension,
       $.set,
-      $.set_comprehension
+      $.set_comprehension,
+      $.tuple
     ),
 
     binary_operator: $ => choice(
@@ -480,6 +481,15 @@ module.exports = grammar({
       'in',
       $._expression,
       '}'
+    ),
+
+    tuple: $ => seq(
+      '(',
+      optional(seq(
+        commaSep1($._expression),
+        optional(',')
+      )),
+      ')'
     ),
 
     string: $ => token(choice(
