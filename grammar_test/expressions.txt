@@ -101,6 +101,7 @@ Boolean operators
 =====================================
 
 a or b and c
+not d
 
 ---
 
@@ -110,4 +111,7 @@ a or b and c
       (identifier)
       (binary_operator
         (identifier)
-        (identifier)))))
+        (identifier))))
+  (expression_statement
+    (unary_operator
+      (identifier))))

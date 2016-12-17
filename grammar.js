@@ -8,6 +8,8 @@ const PREC = {
   plus: 3,
   times: 4,
   power: 5,
+  not: 6,
+  call: 10,
 }
 
 module.exports = grammar({
@@ -272,6 +274,7 @@ module.exports = grammar({
       $.number,
       $.identifier,
       $.binary_operator,
+      $.unary_operator,
       $.subscript,
       $.call,
       $.list,
@@ -297,6 +300,10 @@ module.exports = grammar({
       prec.left(PREC.or, seq($._expression, 'or', $._expression))
     ),
 
+    unary_operator: $ => choice(
+      prec(PREC.not, seq('not', $._expression))
+    ),
+
     subscript: $ => seq(
       $._expression,
       '[',
@@ -305,7 +312,7 @@ module.exports = grammar({
       ']'
     ),
 
-    call: $ => seq(
+    call: $ => prec(PREC.call, seq(
       $._expression,
       '(',
       repeat(seq(
@@ -325,7 +332,7 @@ module.exports = grammar({
         $.dictionary_splat_argument
       ),
       ')'
-    ),
+    )),
 
     keyword_argument: $ => seq(
       $.identifier,
