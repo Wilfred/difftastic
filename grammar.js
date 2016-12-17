@@ -10,6 +10,7 @@ const PREC = {
   times: 17,
   power: 18,
   not: 19,
+  negative: 19,
   call: 20,
   attribute: 20
 }
@@ -358,7 +359,9 @@ module.exports = grammar({
     ),
 
     unary_operator: $ => choice(
-      prec(PREC.not, seq('not', $._primary_expression))
+      prec(PREC.not, seq('not', $._primary_expression)),
+      prec(PREC.negative, seq('-', $._primary_expression)),
+      prec(PREC.negative, seq('+', $._primary_expression))
     ),
 
     comparison_operator: $ => prec.left(PREC.compare, seq(
