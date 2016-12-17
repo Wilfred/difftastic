@@ -276,17 +276,38 @@ module.exports = grammar({
     call: $ => seq(
       $._expression,
       '(',
-      commaSep1(choice(
-        $._expression,
-        $.keyword_argument
+      repeat(seq(
+        choice($._expression, $.keyword_argument),
+        ','
       )),
-      optional(','),
+      choice(
+        seq(
+          choice($._expression, $.keyword_argument),
+          optional(',')
+        ),
+        seq(
+          $.list_splat_argument,
+          repeat(seq(',', choice($._expression, $.keyword_argument))),
+          optional(seq(',', $.dictionary_splat_argument))
+        ),
+        $.dictionary_splat_argument
+      ),
       ')'
     ),
 
     keyword_argument: $ => seq(
       $.identifier,
       '=',
+      $._expression
+    ),
+
+    list_splat_argument: $ => seq(
+      '*',
+      $._expression
+    ),
+
+    dictionary_splat_argument: $ => seq(
+      '**',
       $._expression
     ),
 
