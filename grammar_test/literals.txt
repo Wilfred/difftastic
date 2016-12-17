@@ -16,6 +16,26 @@ ur"bye"
   (expression_statement (string)))
 
 =====================================
+Multi-line strings
+=====================================
+
+"""
+Hi "hello"
+This is documentation
+"""
+
+'''
+Hello again.
+It is me.
+'''
+
+---
+
+(module
+  (expression_statement (string))
+  (expression_statement (string)))
+
+=====================================
 Lists
 =====================================
 
