@@ -85,6 +85,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "assignment_statement"
+        },
+        {
+          "type": "SYMBOL",
           "name": "return_statement"
         },
         {
@@ -302,6 +306,23 @@
     "expression_statement": {
       "type": "SYMBOL",
       "name": "_expression"
+    },
+    "assignment_statement": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "expression_list"
+        },
+        {
+          "type": "STRING",
+          "value": "="
+        },
+        {
+          "type": "SYMBOL",
+          "name": "expression_list"
+        }
+      ]
     },
     "return_statement": {
       "type": "SEQ",

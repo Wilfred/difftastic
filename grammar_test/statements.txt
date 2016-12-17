@@ -415,3 +415,20 @@ class C:
         (decorator (dotted_name (identifier)) (arguments (number)))
         (decorator (dotted_name (identifier)) (arguments (number) (number)))
         (function_definition (identifier) (parameters) (expression_statement (identifier)))))))
+
+====================================================
+Assignments
+====================================================
+
+a, b = 1, 2
+
+---
+
+(module
+  (assignment_statement
+    (expression_list
+      (identifier)
+      (identifier))
+    (expression_list
+      (number)
+      (number))))

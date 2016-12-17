@@ -45,6 +45,7 @@ module.exports = grammar({
       $.import_from_statement,
       $.print_statement,
       $.expression_statement,
+      $.assignment_statement,
       $.return_statement,
       $.delete_statement,
       $.pass_statement,
@@ -97,6 +98,12 @@ module.exports = grammar({
     ),
 
     expression_statement: $ => $._expression,
+
+    assignment_statement: $ => seq(
+      $.expression_list,
+      '=',
+      $.expression_list
+    ),
 
     return_statement: $ => seq(
       'return',
