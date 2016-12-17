@@ -27,7 +27,8 @@ module.exports = grammar({
 
     _simple_statement: $ => choice(
       $.print_statement,
-      $.expression_statement
+      $.expression_statement,
+      $.return_statement
     ),
 
     print_statement: $ => seq(
@@ -38,6 +39,11 @@ module.exports = grammar({
 
     expression_statement: $ => $._expression,
 
+    return_statement: $ => seq(
+      'return',
+      $.expression_list
+    ),
+
     // Compount statements
 
     _compound_statement: $ => choice(
@@ -46,7 +52,8 @@ module.exports = grammar({
       $.while_statement,
       $.try_statement,
       $.with_statement,
-      $.function_definition
+      $.function_definition,
+      $.class_definition
     ),
 
     if_statement: $ => seq(
@@ -182,6 +189,18 @@ module.exports = grammar({
       '*',
       '*',
       $.identifier
+    ),
+
+    class_definition: $ => seq(
+      'class',
+      $.identifier,
+      optional(seq(
+        '(',
+        $.expression_list,
+        ')'
+      )),
+      ':',
+      $._suite
     ),
 
     _suite: $ => choice(

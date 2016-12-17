@@ -271,3 +271,40 @@ def e(*f, **g):
       (list_splat_parameter (identifier))
       (dictionary_splat_parameter (identifier)))
     (print_statement (identifier))))
+
+====================================================
+Class definitions
+====================================================
+
+class A:
+  def b(self):
+    return c
+
+---
+
+(module
+  (class_definition
+    (identifier)
+    (function_definition
+      (identifier)
+      (parameters (identifier))
+      (return_statement (expression_list (identifier))))))
+
+====================================================
+Class definitions with superclasses
+====================================================
+
+class A(B, C):
+  def d():
+    e
+
+---
+
+(module
+  (class_definition
+    (identifier)
+    (expression_list (identifier) (identifier))
+    (function_definition
+      (identifier)
+      (parameters)
+      (expression_statement (identifier)))))
