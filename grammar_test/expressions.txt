@@ -95,3 +95,19 @@ a << b | c >> d & e
           (identifier)
           (identifier))
         (identifier)))))
+
+=====================================
+Boolean operators
+=====================================
+
+a or b and c
+
+---
+
+(module
+  (expression_statement
+    (binary_operator
+      (identifier)
+      (binary_operator
+        (identifier)
+        (identifier)))))

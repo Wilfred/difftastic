@@ -1,4 +1,6 @@
 const PREC = {
+  or: 0,
+  and: 1,
   bitwise_or: 0,
   bitwise_and: 1,
   xor: 2,
@@ -290,7 +292,9 @@ module.exports = grammar({
       prec.left(PREC.bitwise_and, seq($._expression, '&', $._expression)),
       prec.left(PREC.xor, seq($._expression, '^', $._expression)),
       prec.left(PREC.shift, seq($._expression, '<<', $._expression)),
-      prec.left(PREC.shift, seq($._expression, '>>', $._expression))
+      prec.left(PREC.shift, seq($._expression, '>>', $._expression)),
+      prec.left(PREC.and, seq($._expression, 'and', $._expression)),
+      prec.left(PREC.or, seq($._expression, 'or', $._expression))
     ),
 
     subscript: $ => seq(
