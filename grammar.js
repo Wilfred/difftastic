@@ -50,6 +50,7 @@ module.exports = grammar({
       $.assignment_statement,
       $.return_statement,
       $.delete_statement,
+      $.raise_statement,
       $.pass_statement,
       $.break_statement,
       $.continue_statement
@@ -114,6 +115,11 @@ module.exports = grammar({
 
     delete_statement: $ => seq(
       'del',
+      $.expression_list
+    ),
+
+    raise_statement: $ => seq(
+      'raise',
       $.expression_list
     ),
 

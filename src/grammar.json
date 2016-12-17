@@ -97,6 +97,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "raise_statement"
+        },
+        {
+          "type": "SYMBOL",
           "name": "pass_statement"
         },
         {
@@ -343,6 +347,19 @@
         {
           "type": "STRING",
           "value": "del"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "expression_list"
+        }
+      ]
+    },
+    "raise_statement": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "raise"
         },
         {
           "type": "SYMBOL",

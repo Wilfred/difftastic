@@ -432,3 +432,15 @@ a, b = 1, 2
     (expression_list
       (number)
       (number))))
+
+====================================================
+Raise statements
+====================================================
+
+raise RuntimeError('NO')
+
+---
+
+(module
+  (raise_statement (expression_list
+    (call (identifier) (string)))))
