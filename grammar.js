@@ -266,7 +266,8 @@ module.exports = grammar({
       $.list_comprehension,
       $.dictionary,
       $.dictionary_comprehension,
-      $.set
+      $.set,
+      $.set_comprehension
     ),
 
     binary_operator: $ => choice(
@@ -359,6 +360,12 @@ module.exports = grammar({
       '}'
     ),
 
+    pair: $ => seq(
+      $._expression,
+      ':',
+      $._expression
+    ),
+
     set: $ => seq(
       '{',
       seq(
@@ -368,10 +375,14 @@ module.exports = grammar({
       '}'
     ),
 
-    pair: $ => seq(
+    set_comprehension: $ => seq(
+      '{',
       $._expression,
-      ':',
-      $._expression
+      'for',
+      $.expression_list,
+      'in',
+      $._expression,
+      '}'
     ),
 
     number: $ => token(seq(

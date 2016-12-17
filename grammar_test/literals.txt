@@ -74,3 +74,17 @@ Sets
     (identifier)
     (identifier)
     (identifier))))
+
+=====================================
+Set comprehensions
+=====================================
+
+{a[b][c] for a, b, c in items}
+
+---
+
+(module
+  (expression_statement (set_comprehension
+    (subscript (subscript (identifier) (identifier)) (identifier))
+    (expression_list (identifier) (identifier) (identifier))
+    (identifier))))
