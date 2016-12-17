@@ -233,7 +233,10 @@ module.exports = grammar({
     ),
 
     _suite: $ => choice(
-      $._simple_statement,
+      seq(
+        $._simple_statement,
+        $._newline
+      ),
       seq(
         $._indent,
         repeat($._statement),
@@ -258,7 +261,8 @@ module.exports = grammar({
       $.identifier,
       $.binary_operator,
       $.subscript,
-      $.call
+      $.call,
+      $.list
     ),
 
     binary_operator: $ => choice(
@@ -309,6 +313,25 @@ module.exports = grammar({
     dictionary_splat_argument: $ => seq(
       '**',
       $._expression
+    ),
+
+    // Literals
+
+    list: $ => seq(
+      '[',
+      optional(seq(
+        $._expression,
+        choice(
+          seq(
+            repeat(seq(
+              ',',
+              $._expression
+            )),
+            optional(',')
+          )
+        )
+      )),
+      ']'
     ),
 
     number: $ => token(seq(

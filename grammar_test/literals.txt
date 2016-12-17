@@ -1,0 +1,15 @@
+=====================================
+Lists
+=====================================
+
+[a, b, [c, d]]
+
+---
+
+(module
+  (expression_statement (list
+    (identifier)
+    (identifier)
+    (list
+      (identifier)
+      (identifier)))))
