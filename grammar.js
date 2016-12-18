@@ -1,5 +1,5 @@
 const PREC = {
-  compare: 1,
+  compare: 2,
   or: 10,
   and: 11,
   bitwise_or: 12,
@@ -9,7 +9,7 @@ const PREC = {
   plus: 16,
   times: 17,
   power: 18,
-  not: 19,
+  not: 1,
   negative: 19,
   call: 20,
   attribute: 20
@@ -160,7 +160,7 @@ module.exports = grammar({
 
     for_statement: $ => seq(
       'for',
-      $.expression_list,
+      $.identifier_list,
       'in',
       $.expression_list,
       ':',
@@ -318,7 +318,9 @@ module.exports = grammar({
       ')'
     ),
 
-    expression_list: $ => commaSep1($._primary_expression),
+    identifier_list: $ => commaSep1($.identifier),
+
+    expression_list: $ => commaSep1($._expression),
 
     dotted_name: $ => sep1($.identifier, '.'),
 
@@ -326,6 +328,8 @@ module.exports = grammar({
 
     _expression: $ => choice(
       $.comparison_operator,
+      $.not_operator,
+      $.boolean_operator,
       $._primary_expression
     ),
 
@@ -348,23 +352,31 @@ module.exports = grammar({
       $.tuple
     ),
 
+    not_operator: $ => choice(
+      seq('not', $._expression)
+    ),
+
+    boolean_operator: $ => choice(
+      prec.left(PREC.and, seq($._expression, 'and', $._expression)),
+      prec.left(PREC.or, seq($._expression, 'or', $._expression))
+    ),
+
     binary_operator: $ => choice(
       prec.left(PREC.plus, seq($._primary_expression, '+', $._primary_expression)),
       prec.left(PREC.plus, seq($._primary_expression, '-', $._primary_expression)),
       prec.left(PREC.times, seq($._primary_expression, '*', $._primary_expression)),
       prec.left(PREC.times, seq($._primary_expression, '/', $._primary_expression)),
+      prec.left(PREC.times, seq($._primary_expression, '%', $._primary_expression)),
+      prec.left(PREC.times, seq($._primary_expression, '//', $._primary_expression)),
       prec.left(PREC.power, seq($._primary_expression, '**', $._primary_expression)),
       prec.left(PREC.bitwise_or, seq($._primary_expression, '|', $._primary_expression)),
       prec.left(PREC.bitwise_and, seq($._primary_expression, '&', $._primary_expression)),
       prec.left(PREC.xor, seq($._primary_expression, '^', $._primary_expression)),
       prec.left(PREC.shift, seq($._primary_expression, '<<', $._primary_expression)),
-      prec.left(PREC.shift, seq($._primary_expression, '>>', $._primary_expression)),
-      prec.left(PREC.and, seq($._primary_expression, 'and', $._primary_expression)),
-      prec.left(PREC.or, seq($._primary_expression, 'or', $._primary_expression))
+      prec.left(PREC.shift, seq($._primary_expression, '>>', $._primary_expression))
     ),
 
     unary_operator: $ => choice(
-      prec(PREC.not, seq('not', $._primary_expression)),
       prec(PREC.negative, seq('-', $._primary_expression)),
       prec(PREC.negative, seq('+', $._primary_expression))
     ),
@@ -471,7 +483,7 @@ module.exports = grammar({
       '[',
       $._expression,
       'for',
-      $.expression_list,
+      $.identifier_list,
       'in',
       $._expression,
       ']'
@@ -490,7 +502,7 @@ module.exports = grammar({
       '{',
       $.pair,
       'for',
-      $.expression_list,
+      $.identifier_list,
       'in',
       $._expression,
       '}'
@@ -515,7 +527,7 @@ module.exports = grammar({
       '{',
       $._expression,
       'for',
-      $.expression_list,
+      $.identifier_list,
       'in',
       $._expression,
       '}'
@@ -591,11 +603,7 @@ module.exports = grammar({
 
     identifier: $ => /[\a_]\w*/,
 
-    comment: $ => token(seq(
-      '#',
-      /.+/,
-      '\n'
-    ))
+    comment: $ => token(seq('#', /.*/, '\n'))
   }
 })
 

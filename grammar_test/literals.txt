@@ -93,7 +93,7 @@ List comprehensions
     (binary_operator
       (identifier)
       (identifier))
-    (expression_list
+    (identifier_list
       (identifier)
       (identifier))
     (identifier))))
@@ -124,7 +124,7 @@ Dictionary comprehensions
 (module
   (expression_statement (dictionary_comprehension
     (pair (identifier) (identifier))
-    (expression_list (identifier) (identifier))
+    (identifier_list (identifier) (identifier))
     (identifier))))
 
 =====================================
@@ -152,7 +152,7 @@ Set comprehensions
 (module
   (expression_statement (set_comprehension
     (subscript (subscript (identifier) (identifier)) (identifier))
-    (expression_list (identifier) (identifier) (identifier))
+    (identifier_list (identifier) (identifier) (identifier))
     (identifier))))
 
 =====================================

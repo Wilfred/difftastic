@@ -99,13 +99,15 @@ Return statements
 =====================================
 
 return a + b, c
+return not b
 
 ---
 
 (module
   (return_statement (expression_list
     (binary_operator (identifier) (identifier))
-    (identifier))))
+    (identifier)))
+  (return_statement (expression_list (not_operator (identifier)))))
 
 =====================================
 If statements
@@ -205,11 +207,11 @@ else:
 
 (module
   (for_statement
-    (expression_list (identifier) (identifier))
+    (identifier_list (identifier) (identifier))
     (expression_list (identifier))
     (print_statement (identifier))
     (for_statement
-      (expression_list (identifier) (identifier))
+      (identifier_list (identifier) (identifier))
       (expression_list (identifier))
       (print_statement (identifier)))
     (else_clause

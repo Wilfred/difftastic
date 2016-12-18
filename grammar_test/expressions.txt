@@ -151,20 +151,20 @@ not d
 
 (module
   (expression_statement
-    (binary_operator
+    (boolean_operator
       (identifier)
-      (binary_operator
+      (boolean_operator
         (identifier)
         (identifier))))
   (expression_statement
-    (unary_operator
-      (identifier))))
+    (not_operator (identifier))))
 
 =====================================
 Comparison operators
 =====================================
 
 a < b <= c == d >= e > f
+not a == b or c == d
 
 ---
 
@@ -176,7 +176,11 @@ a < b <= c == d >= e > f
       (identifier)
       (identifier)
       (identifier)
-      (identifier))))
+      (identifier)))
+  (expression_statement
+    (not_operator (boolean_operator
+      (comparison_operator (identifier) (identifier))
+      (comparison_operator (identifier) (identifier))))))
 
 ====================================================
 Assignments
