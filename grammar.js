@@ -350,7 +350,8 @@ module.exports = grammar({
       $.dictionary_comprehension,
       $.set,
       $.set_comprehension,
-      $.tuple
+      $.tuple,
+      $.generator_expression
     ),
 
     not_operator: $ => choice(
@@ -439,24 +440,29 @@ module.exports = grammar({
 
     call: $ => prec(PREC.call, seq(
       $._primary_expression,
-      '(',
-      repeat(seq(
-        choice($._expression, $.keyword_argument),
-        ','
-      )),
-      optional(choice(
+      choice(
+        $.generator_expression,
         seq(
-          choice($._expression, $.keyword_argument),
-          optional(',')
-        ),
-        seq(
-          $.list_splat_argument,
-          repeat(seq(',', choice($._expression, $.keyword_argument))),
-          optional(seq(',', $.dictionary_splat_argument))
-        ),
-        $.dictionary_splat_argument
-      )),
-      ')'
+          '(',
+          repeat(seq(
+            choice($._expression, $.keyword_argument),
+            ','
+          )),
+          optional(choice(
+            seq(
+              choice($._expression, $.keyword_argument),
+              optional(',')
+            ),
+            seq(
+              $.list_splat_argument,
+              repeat(seq(',', choice($._expression, $.keyword_argument))),
+              optional(seq(',', $.dictionary_splat_argument))
+            ),
+            $.dictionary_splat_argument
+          )),
+          ')'
+        )
+      )
     )),
 
     keyword_argument: $ => seq(
@@ -546,6 +552,16 @@ module.exports = grammar({
         commaSep1($._expression),
         optional(',')
       )),
+      ')'
+    ),
+
+    generator_expression: $ => seq(
+      '(',
+      $._expression,
+      'for',
+      $.identifier_list,
+      'in',
+      $._expression,
       ')'
     ),
 

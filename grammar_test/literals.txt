@@ -167,3 +167,24 @@ Tuples
 (module
   (expression_statement (tuple (identifier) (identifier)))
   (expression_statement (tuple (identifier) (identifier) (identifier))))
+
+=====================================
+Generator expression
+=====================================
+
+(a[b][c] for a, b, c in items)
+dict((a, b) for a, b in d)
+
+---
+
+(module
+  (expression_statement (generator_expression
+    (subscript (subscript (identifier) (identifier)) (identifier))
+    (identifier_list (identifier) (identifier) (identifier))
+    (identifier)))
+  (expression_statement (call
+    (identifier)
+    (generator_expression
+      (tuple (identifier) (identifier))
+      (identifier_list (identifier) (identifier))
+      (identifier)))))
