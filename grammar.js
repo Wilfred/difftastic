@@ -101,7 +101,8 @@ module.exports = grammar({
 
     expression_statement: $ => choice(
       $._expression,
-      $.assignment
+      $.assignment,
+      $.augmented_assignment
     ),
 
     return_statement: $ => seq(
@@ -404,7 +405,13 @@ module.exports = grammar({
     assignment: $ => seq(
       $.expression_list,
       '=',
-      choice($.expression_list, $.assignment)
+      choice($.expression_list, $.assignment, $.augmented_assignment)
+    ),
+
+    augmented_assignment: $ => seq(
+      $.expression_list,
+      choice('+=', '-=', '*=', '/=', '%=', '**=', '>>=', '<<=', '&=', '^=', '|='),
+      choice($.expression_list, $.assignment, $.augmented_assignment)
     ),
 
     attribute: $ => prec(PREC.attribute, seq(

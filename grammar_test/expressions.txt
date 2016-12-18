@@ -207,3 +207,22 @@ a[b] = c = d
       (assignment
         (expression_list (identifier))
         (expression_list (identifier))))))
+
+====================================================
+Augmented assignments
+====================================================
+
+a += 1
+b >>= 2
+
+---
+
+(module
+  (expression_statement
+    (augmented_assignment
+      (expression_list (identifier))
+      (expression_list (number))))
+  (expression_statement
+    (augmented_assignment
+      (expression_list (identifier))
+      (expression_list (number)))))
