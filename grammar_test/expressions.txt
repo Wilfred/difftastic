@@ -226,3 +226,21 @@ b >>= 2
     (augmented_assignment
       (expression_list (identifier))
       (expression_list (number)))))
+
+====================================================
+Yield expressions
+====================================================
+
+yield
+yield 1
+x = yield 2
+
+---
+
+(module
+  (expression_statement (yield))
+  (expression_statement (yield (expression_list (number))))
+  (expression_statement
+    (assignment
+      (expression_list (identifier))
+      (yield (expression_list (number))))))
