@@ -98,12 +98,14 @@ while true:
 Return statements
 =====================================
 
+return
 return a + b, c
 return not b
 
 ---
 
 (module
+  (return_statement)
   (return_statement (expression_list
     (binary_operator (identifier) (identifier))
     (identifier)))

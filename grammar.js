@@ -107,7 +107,7 @@ module.exports = grammar({
 
     return_statement: $ => seq(
       'return',
-      $.expression_list
+      optional($.expression_list)
     ),
 
     delete_statement: $ => seq(
