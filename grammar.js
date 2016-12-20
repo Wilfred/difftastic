@@ -159,7 +159,7 @@ module.exports = grammar({
 
     for_statement: $ => seq(
       'for',
-      $.identifier_list,
+      $.variables,
       'in',
       $.expression_list,
       ':',
@@ -317,7 +317,7 @@ module.exports = grammar({
       ')'
     ),
 
-    identifier_list: $ => commaSep1($.identifier),
+    variables: $ => commaSep1($._primary_expression),
 
     expression_list: $ => commaSep1($._expression),
 
@@ -496,7 +496,7 @@ module.exports = grammar({
       '[',
       $._expression,
       'for',
-      $.identifier_list,
+      $.variables,
       'in',
       $._expression,
       ']'
@@ -515,7 +515,7 @@ module.exports = grammar({
       '{',
       $.pair,
       'for',
-      $.identifier_list,
+      $.variables,
       'in',
       $._expression,
       '}'
@@ -540,7 +540,7 @@ module.exports = grammar({
       '{',
       $._expression,
       'for',
-      $.identifier_list,
+      $.variables,
       'in',
       $._expression,
       '}'
@@ -559,7 +559,7 @@ module.exports = grammar({
       '(',
       $._expression,
       'for',
-      $.identifier_list,
+      $.variables,
       'in',
       $._expression,
       ')'

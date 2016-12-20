@@ -209,11 +209,11 @@ else:
 
 (module
   (for_statement
-    (identifier_list (identifier) (identifier))
+    (variables (identifier) (identifier))
     (expression_list (identifier))
     (print_statement (identifier))
     (for_statement
-      (identifier_list (identifier) (identifier))
+      (variables (identifier) (identifier))
       (expression_list (identifier))
       (print_statement (identifier)))
     (else_clause

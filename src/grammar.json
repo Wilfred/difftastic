@@ -484,7 +484,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "identifier_list"
+          "name": "variables"
         },
         {
           "type": "STRING",
@@ -1123,12 +1123,12 @@
         }
       ]
     },
-    "identifier_list": {
+    "variables": {
       "type": "SEQ",
       "members": [
         {
           "type": "SYMBOL",
-          "name": "identifier"
+          "name": "_primary_expression"
         },
         {
           "type": "REPEAT",
@@ -1141,7 +1141,7 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "identifier"
+                "name": "_primary_expression"
               }
             ]
           }
@@ -2327,7 +2327,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "identifier_list"
+          "name": "variables"
         },
         {
           "type": "STRING",
@@ -2423,7 +2423,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "identifier_list"
+          "name": "variables"
         },
         {
           "type": "STRING",
@@ -2528,7 +2528,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "identifier_list"
+          "name": "variables"
         },
         {
           "type": "STRING",
@@ -2624,7 +2624,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "identifier_list"
+          "name": "variables"
         },
         {
           "type": "STRING",
