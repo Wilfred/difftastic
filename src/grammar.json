@@ -2,45 +2,11 @@
   "name": "python",
   "rules": {
     "module": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "REPEAT1",
-              "content": {
-                "type": "SYMBOL",
-                "name": "_statement"
-              }
-            },
-            {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "CHOICE",
-                  "members": [
-                    {
-                      "type": "STRING",
-                      "value": ";"
-                    },
-                    {
-                      "type": "SYMBOL",
-                      "name": "_newline"
-                    }
-                  ]
-                },
-                {
-                  "type": "BLANK"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "type": "BLANK"
-        }
-      ]
+      "type": "REPEAT",
+      "content": {
+        "type": "SYMBOL",
+        "name": "_statement"
+      }
     },
     "_statement": {
       "type": "CHOICE",
@@ -53,8 +19,11 @@
               "name": "_simple_statement"
             },
             {
-              "type": "SYMBOL",
-              "name": "_newline"
+              "type": "REPEAT1",
+              "content": {
+                "type": "SYMBOL",
+                "name": "_newline"
+              }
             }
           ]
         },
@@ -317,6 +286,10 @@
         {
           "type": "SYMBOL",
           "name": "augmented_assignment"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "yield"
         }
       ]
     },
@@ -328,8 +301,16 @@
           "value": "return"
         },
         {
-          "type": "SYMBOL",
-          "name": "expression_list"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "expression_list"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         }
       ]
     },
@@ -1789,6 +1770,10 @@
             {
               "type": "SYMBOL",
               "name": "augmented_assignment"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "yield"
             }
           ]
         }
@@ -1864,6 +1849,31 @@
             {
               "type": "SYMBOL",
               "name": "augmented_assignment"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "yield"
+            }
+          ]
+        }
+      ]
+    },
+    "yield": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "yield"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "expression_list"
+            },
+            {
+              "type": "BLANK"
             }
           ]
         }
@@ -2870,10 +2880,6 @@
           {
             "type": "PATTERN",
             "value": ".*"
-          },
-          {
-            "type": "STRING",
-            "value": "\n"
           }
         ]
       }

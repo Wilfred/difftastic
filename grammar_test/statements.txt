@@ -437,3 +437,21 @@ raise RuntimeError('NO')
   (raise_statement)
   (raise_statement (expression_list
     (call (identifier) (string)))))
+
+====================================================
+Comments
+====================================================
+
+print a
+# hi
+print b # bye
+print c
+
+---
+
+(module
+  (print_statement (identifier))
+  (comment)
+  (print_statement (identifier))
+  (comment)
+  (print_statement (identifier)))

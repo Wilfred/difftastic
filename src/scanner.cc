@@ -62,8 +62,12 @@ struct Scanner {
       }
     }
 
-    lexer->result_symbol = NEWLINE;
-    return true;
+    if (valid_symbols[NEWLINE]) {
+      lexer->result_symbol = NEWLINE;
+      return true;
+    }
+
+    return false;
   }
 
   vector<uint16_t> indent_length_stack;

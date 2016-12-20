@@ -30,13 +30,10 @@ module.exports = grammar({
   ],
 
   rules: {
-    module: $ => optional(seq(
-      repeat1($._statement),
-      optional(choice(';', $._newline))
-    )),
+    module: $ => repeat($._statement),
 
     _statement: $ => choice(
-      seq($._simple_statement, $._newline),
+      seq($._simple_statement, repeat1($._newline)),
       $._compound_statement
     ),
 
@@ -629,7 +626,7 @@ module.exports = grammar({
 
     identifier: $ => /[\a_]\w*/,
 
-    comment: $ => token(seq('#', /.*/, '\n'))
+    comment: $ => token(seq('#', /.*/))
   }
 })
 
