@@ -1,6 +1,9 @@
 #include <tree_sitter/parser.h>
-#include <limits>
 #include <vector>
+
+#ifndef UINT8_MAX
+#define UINT8_MAX (255)
+#endif
 
 using std::vector;
 
