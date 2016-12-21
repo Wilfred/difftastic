@@ -1,4 +1,5 @@
 #include <tree_sitter/parser.h>
+#include <climits>
 #include <vector>
 
 using std::vector;
