@@ -1,9 +1,9 @@
-#include "tree_sitter/parser.h"
+#include <tree_sitter/parser.h>
 #include <vector>
 
 using std::vector;
 
-enum TokenType : TSSymbol {
+enum TokenType {
   NEWLINE,
   INDENT,
   DEDENT
@@ -12,6 +12,44 @@ enum TokenType : TSSymbol {
 struct Scanner {
   Scanner() : queued_dedent_count(0) {
     indent_length_stack.push_back(0);
+  }
+
+  void reset() {
+    queued_dedent_count = 0;
+    indent_length_stack.clear();
+    indent_length_stack.push_back(0);
+  }
+
+  bool serialize(TSExternalTokenState state) {
+    size_t i = 0;
+
+    if (queued_dedent_count > UINT8_MAX) return false;
+    state[i++] = queued_dedent_count;
+
+    if (indent_length_stack.size() > UINT8_MAX) return false;
+    state[i++] = indent_length_stack.size();
+
+    vector<uint16_t>::iterator iter = indent_length_stack.begin(),
+      end = indent_length_stack.end();
+
+    for (; iter != end; ++iter) {
+      if (*iter > UINT8_MAX) return false;
+      state[i++] = *iter;
+    }
+
+    return true;
+  }
+
+  void deserialize(TSExternalTokenState state) {
+    size_t i = 0;
+
+    queued_dedent_count = state[i++];
+
+    size_t indent_length_stack_size = state[i++];
+    indent_length_stack.clear();
+    for (size_t j = 0; j < indent_length_stack_size; j++) {
+      indent_length_stack.push_back(state[i++]);
+    }
   }
 
   void advance(TSLexer *lexer) {
@@ -84,6 +122,21 @@ bool ts_language_python_external_scanner_scan(void *payload, TSLexer *lexer,
                                             const bool *valid_symbols) {
   Scanner *scanner = static_cast<Scanner *>(payload);
   return scanner->scan(lexer, valid_symbols);
+}
+
+void ts_language_python_external_scanner_reset(void *payload) {
+  Scanner *scanner = static_cast<Scanner *>(payload);
+  scanner->reset();
+}
+
+bool ts_language_python_external_scanner_serialize(void *payload, TSExternalTokenState state) {
+  Scanner *scanner = static_cast<Scanner *>(payload);
+  return scanner->serialize(state);
+}
+
+void ts_language_python_external_scanner_deserialize(void *payload, TSExternalTokenState state) {
+  Scanner *scanner = static_cast<Scanner *>(payload);
+  scanner->deserialize(state);
 }
 
 void ts_language_python_external_scanner_destroy(void *payload) {
