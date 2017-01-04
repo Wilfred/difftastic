@@ -410,7 +410,31 @@ nested strings with different delimiters
 	(string (regex (subshell))))
 
 ========================================
-Heredocs
+Basic here documents
+========================================
+
+<<SQL
+heredoc content
+SQL
+
+<<"SQL"
+heredoc content
+SQL
+
+<<'SQL'
+heredoc content
+SQL
+
+---
+
+(program
+	(heredoc_beginning) (heredoc_end)
+	(heredoc_beginning) (heredoc_end)
+	(heredoc_beginning) (heredoc_end))
+
+
+========================================
+Multiple Here documents
 ========================================
 
 puts <<-ONE.two, <<-THREE.four

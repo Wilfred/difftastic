@@ -40,6 +40,11 @@ struct Literal {
   bool allows_interpolation;
 };
 
+struct Heredoc {
+  string word;
+  int32_t quote;
+};
+
 TokenType BEGINNING_TOKEN_TYPES[] = {
   STRING_BEGINNING,
   SYMBOL_BEGINNING,
@@ -297,17 +302,17 @@ struct Scanner {
 
   bool scan_heredoc_end(TSLexer *lexer) {
     if (open_heredoc_words.empty()) return false;
-    string word = open_heredoc_words.front();
+    Heredoc heredoc = open_heredoc_words.front();
     open_heredoc_words.erase(open_heredoc_words.begin());
     size_t position_in_word = 0;
 
     for (;;) {
       for (;;) {
-        if (position_in_word == word.size() || lexer->lookahead == 0) {
+        if (position_in_word == heredoc.word.size() || lexer->lookahead == 0) {
           return true;
         }
 
-        if (lexer->lookahead == word[position_in_word]) {
+        if (lexer->lookahead == heredoc.word[position_in_word]) {
           advance(lexer);
           position_in_word++;
         } else {
@@ -427,11 +432,30 @@ struct Scanner {
       } else if (lexer->lookahead == '<') {
         advance(lexer);
         if (lexer->lookahead != '<') return false;
+
         advance(lexer);
         if (lexer->lookahead == '-') advance(lexer);
-        string heredoc_word = scan_heredoc_word(lexer);
-        if (heredoc_word.empty()) return false;
-        open_heredoc_words.push_back(heredoc_word);
+
+        Heredoc heredoc;
+        literal.allows_interpolation = true;
+        switch (lexer->lookahead) {
+          case '\'':
+            heredoc.quote = '\'';
+            literal.allows_interpolation = false;
+            advance(lexer);
+            break;
+          case '"':
+            heredoc.quote = '"';
+            advance(lexer);
+            break;
+        }
+
+        heredoc.word = scan_heredoc_word(lexer);
+        if (heredoc.word.empty()) return false;
+
+        if(heredoc.quote == lexer->lookahead) advance(lexer);
+
+        open_heredoc_words.push_back(heredoc);
         lexer->result_symbol = HEREDOC_BEGINNING;
         return true;
       } else {
@@ -455,7 +479,7 @@ struct Scanner {
   }
 
   vector<Literal> literal_stack;
-  vector<string> open_heredoc_words;
+  vector<Heredoc> open_heredoc_words;
 };
 
 extern "C" {
