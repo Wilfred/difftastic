@@ -154,44 +154,55 @@ struct Scanner {
 
       case '%':
         advance(lexer);
-        literal.allows_interpolation = true;
 
         switch (lexer->lookahead) {
           case 's':
             literal.type = Literal::Type::SYMBOL;
+            literal.allows_interpolation = false;
             advance(lexer);
             break;
 
           case 'r':
             literal.type = Literal::Type::REGEX;
+            literal.allows_interpolation = true;
             advance(lexer);
             break;
 
           case 'x':
             literal.type = Literal::Type::SUBSHELL;
+            literal.allows_interpolation = true;
             advance(lexer);
             break;
 
           case 'q':
             literal.type = Literal::Type::STRING;
+            literal.allows_interpolation = false;
             advance(lexer);
             break;
 
           case 'Q':
             literal.type = Literal::Type::STRING;
+            literal.allows_interpolation = true;
             advance(lexer);
             break;
 
           case 'w':
-          case 'W':
           case 'i':
+            literal.type = Literal::Type::WORD_LIST;
+            literal.allows_interpolation = false;
+            advance(lexer);
+            break;
+
+          case 'W':
           case 'I':
             literal.type = Literal::Type::WORD_LIST;
+            literal.allows_interpolation = true;
             advance(lexer);
             break;
 
           default:
             literal.type = Literal::Type::STRING;
+            literal.allows_interpolation = true;
             break;
         }
 
@@ -223,6 +234,29 @@ struct Scanner {
           case '|':
           case '!':
           case '#':
+          case '/':
+          case '\\':
+          case '@':
+          case '$':
+          case '%':
+          case '^':
+          case '&':
+          case '*':
+          case ')':
+          case ']':
+          case '}':
+          case '>':
+          case '=':
+          case '+':
+          case '-':
+          case '~':
+          case '`':
+          case ',':
+          case '.':
+          case '?':
+          case ':':
+          case ';':
+          case '_':
             literal.open_delimiter = lexer->lookahead;
             literal.close_delimiter = lexer->lookahead;
             literal.nesting_depth = 1;
