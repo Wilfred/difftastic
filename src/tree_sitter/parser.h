@@ -12,6 +12,8 @@ extern "C" {
 typedef unsigned short TSSymbol;
 typedef unsigned short TSStateId;
 
+typedef uint8_t TSExternalTokenState[16];
+
 #define ts_builtin_sym_error ((TSSymbol)-1)
 #define ts_builtin_sym_end 0
 
@@ -50,7 +52,7 @@ typedef struct {
 
 typedef struct {
   uint16_t lex_state;
-  uint16_t external_tokens;
+  uint16_t external_lex_state;
 } TSLexMode;
 
 typedef union {
@@ -72,12 +74,15 @@ typedef struct TSLanguage {
   const TSParseActionEntry *parse_actions;
   const TSLexMode *lex_modes;
   bool (*lex_fn)(TSLexer *, TSStateId);
-  const TSSymbol *external_token_symbol_map;
-  const bool *external_token_lists;
   struct {
-    void * (*create)();
-    bool (*scan)(void *, TSLexer *, const bool *symbol_whitelist);
+    const bool *states;
+    const TSSymbol *symbol_map;
+    void *(*create)();
     void (*destroy)(void *);
+    void (*reset)(void *);
+    bool (*scan)(void *, TSLexer *, const bool *symbol_whitelist);
+    bool (*serialize)(void *, TSExternalTokenState);
+    void (*deserialize)(void *, const TSExternalTokenState);
   } external_scanner;
 } TSLanguage;
 
@@ -170,8 +175,6 @@ typedef struct TSLanguage {
     .symbol_names = ts_symbol_names,                               \
     .lex_fn = ts_lex,                                              \
     .external_token_count = EXTERNAL_TOKEN_COUNT,                  \
-    .external_token_lists = (const bool *)ts_external_token_lists, \
-    .external_token_symbol_map = ts_external_token_symbol_map,     \
     .external_scanner = {__VA_ARGS__}                              \
   };                                                               \
   return &language                                                 \

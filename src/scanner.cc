@@ -61,6 +61,10 @@ struct Scanner {
     lexer->advance(lexer, true);
   }
 
+  void reset() {}
+  bool serialize(TSExternalTokenState state) { return true; }
+  void deserialize(TSExternalTokenState state) {}
+
   void advance(TSLexer *lexer) {
     lexer->advance(lexer, false);
   }
@@ -430,6 +434,21 @@ bool ts_language_ruby_external_scanner_scan(void *payload, TSLexer *lexer,
                                             const bool *valid_symbols) {
   Scanner *scanner = static_cast<Scanner *>(payload);
   return scanner->scan(lexer, valid_symbols);
+}
+
+void ts_language_ruby_external_scanner_reset(void *payload) {
+  Scanner *scanner = static_cast<Scanner *>(payload);
+  scanner->reset();
+}
+
+bool ts_language_ruby_external_scanner_serialize(void *payload, TSExternalTokenState state) {
+  Scanner *scanner = static_cast<Scanner *>(payload);
+  return scanner->serialize(state);
+}
+
+void ts_language_ruby_external_scanner_deserialize(void *payload, TSExternalTokenState state) {
+  Scanner *scanner = static_cast<Scanner *>(payload);
+  scanner->deserialize(state);
 }
 
 void ts_language_ruby_external_scanner_destroy(void *payload) {
