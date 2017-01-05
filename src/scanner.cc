@@ -289,10 +289,10 @@ struct Scanner {
 
   string scan_heredoc_word(TSLexer *lexer) {
     string result;
-    if (isupper(lexer->lookahead)) {
+    if (isalpha(lexer->lookahead)) {
       result += lexer->lookahead;
       advance(lexer);
-      while (isupper(lexer->lookahead)) {
+      while (isalpha(lexer->lookahead)) {
         result += lexer->lookahead;
         advance(lexer);
       }
