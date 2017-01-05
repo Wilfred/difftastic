@@ -40,11 +40,6 @@ struct Literal {
   bool allows_interpolation;
 };
 
-struct Heredoc {
-  string word;
-  int32_t quote;
-};
-
 TokenType BEGINNING_TOKEN_TYPES[] = {
   STRING_BEGINNING,
   SYMBOL_BEGINNING,
@@ -302,17 +297,17 @@ struct Scanner {
 
   bool scan_heredoc_end(TSLexer *lexer) {
     if (open_heredoc_words.empty()) return false;
-    Heredoc heredoc = open_heredoc_words.front();
+    string word = open_heredoc_words.front();
     open_heredoc_words.erase(open_heredoc_words.begin());
     size_t position_in_word = 0;
 
     for (;;) {
       for (;;) {
-        if (position_in_word == heredoc.word.size() || lexer->lookahead == 0) {
+        if (position_in_word == word.size() || lexer->lookahead == 0) {
           return true;
         }
 
-        if (lexer->lookahead == heredoc.word[position_in_word]) {
+        if (lexer->lookahead == word[position_in_word]) {
           advance(lexer);
           position_in_word++;
         } else {
@@ -432,30 +427,34 @@ struct Scanner {
       } else if (lexer->lookahead == '<') {
         advance(lexer);
         if (lexer->lookahead != '<') return false;
-
         advance(lexer);
         if (lexer->lookahead == '-') advance(lexer);
 
-        Heredoc heredoc;
+        literal.type = Literal::Type::STRING;
+        literal.nesting_depth = 1;
         literal.allows_interpolation = true;
+        int32_t quote;
         switch (lexer->lookahead) {
           case '\'':
-            heredoc.quote = '\'';
+            quote = '\'';
             literal.allows_interpolation = false;
             advance(lexer);
             break;
+
           case '"':
-            heredoc.quote = '"';
+            quote = '"';
+            advance(lexer);
+            break;
+
+          case '`':
+            quote = '`';
             advance(lexer);
             break;
         }
-
-        heredoc.word = scan_heredoc_word(lexer);
-        if (heredoc.word.empty()) return false;
-
-        if(heredoc.quote == lexer->lookahead) advance(lexer);
-
-        open_heredoc_words.push_back(heredoc);
+        string word = scan_heredoc_word(lexer);
+        if (word.empty()) return false;
+        if(quote == lexer->lookahead) advance(lexer);
+        open_heredoc_words.push_back(word);
         lexer->result_symbol = HEREDOC_BEGINNING;
         return true;
       } else {
@@ -479,7 +478,7 @@ struct Scanner {
   }
 
   vector<Literal> literal_stack;
-  vector<Heredoc> open_heredoc_words;
+  vector<string> open_heredoc_words;
 };
 
 extern "C" {
