@@ -75,13 +75,14 @@ module.exports = grammar({
     _statements: $ => sepTrailing(
       $._statements,
       $._top_level_statement,
-      seq($._terminator, repeat($.heredoc_end))
+      $._terminator
     ),
 
     _top_level_statement: $ => choice(
       $._statement,
       $.begin_block,
-      $.end_block
+      $.end_block,
+      $.heredoc_end
     ),
 
     begin_block: $ => seq("BEGIN", "{", optional($._statements), "}"),

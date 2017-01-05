@@ -58,20 +58,8 @@
               "name": "_top_level_statement"
             },
             {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "SYMBOL",
-                  "name": "_terminator"
-                },
-                {
-                  "type": "REPEAT",
-                  "content": {
-                    "type": "SYMBOL",
-                    "name": "heredoc_end"
-                  }
-                }
-              ]
+              "type": "SYMBOL",
+              "name": "_terminator"
             },
             {
               "type": "CHOICE",
@@ -103,6 +91,10 @@
         {
           "type": "SYMBOL",
           "name": "end_block"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "heredoc_end"
         }
       ]
     },
