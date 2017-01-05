@@ -441,9 +441,9 @@ heredocs with interpolation
 
 <<TEXT
 a
-b #{1} c
-#{2} d #{3}
-e
+b #{[1, "c #{2} d", 3]} e
+#{4} f #{5}
+g
 TEXT
 
 return
@@ -452,7 +452,10 @@ return
 
 (program
   (heredoc_beginning)
-  (heredoc_end (integer) (integer) (integer))
+  (heredoc_end
+    (array (integer) (string (integer)) (integer))
+    (integer)
+    (integer))
   (return))
 
 ========================================
