@@ -410,16 +410,16 @@ nested strings with different delimiters
 	(string (regex (subshell))))
 
 ========================================
-Basic here documents
+basic heredocs
 ========================================
 
 <<SQL
 heredoc content
 SQL
 
-<<"SQL"
+<<"sql"
 heredoc content
-SQL
+sql
 
 <<'SQL'
 heredoc content
@@ -432,16 +432,27 @@ SQL
 	(heredoc_beginning) (heredoc_end)
 	(heredoc_beginning) (heredoc_end))
 
+========================================
+heredocs with interpolation
+========================================
+
+<<SQL
+heredoc content #{a}
+SQL
+
+---
+
+(program (heredoc_beginning) (heredoc_end))
 
 ========================================
-Multiple Here documents
+multiple heredocs
 ========================================
 
-puts <<-ONE.two, <<-THREE.four
+puts <<-ONE.size, <<-TWO.size
 first heredoc content
 ONE
 second heredoc content
-THREE
+TWO
 
 ---
 
@@ -453,7 +464,7 @@ THREE
   (heredoc_end))
 
 ========================================
-Un-terminated heredocs
+un-terminated heredocs
 ========================================
 
 <<-ONE
