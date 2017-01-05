@@ -633,31 +633,6 @@
         }
       ]
     },
-    "super": {
-      "type": "PREC_LEFT",
-      "value": 0,
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "STRING",
-            "value": "super"
-          },
-          {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "argument_list"
-              },
-              {
-                "type": "BLANK"
-              }
-            ]
-          }
-        ]
-      }
-    },
     "return": {
       "type": "PREC_LEFT",
       "value": 0,
@@ -1576,10 +1551,6 @@
         {
           "type": "SYMBOL",
           "name": "unary"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "super"
         }
       ]
     },
