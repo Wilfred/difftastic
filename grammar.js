@@ -46,15 +46,18 @@ module.exports = grammar({
     $._simple_subshell,
     $._simple_regex,
     $._simple_word_list,
+    $._simple_heredoc_body,
     $._string_beginning,
     $._symbol_beginning,
     $._subshell_beginning,
     $._regex_beginning,
     $._word_list_beginning,
+    $._heredoc_body_beginning,
     $._string_middle,
+    $._heredoc_body_middle,
     $._string_end,
+    $._heredoc_body_end,
     $.heredoc_beginning,
-    $.heredoc_end,
     $._line_break,
   ],
 
@@ -498,6 +501,16 @@ module.exports = grammar({
         repeat(seq($._arg, $._string_middle)),
         $._arg,
         $._string_end
+      )
+    ),
+
+    heredoc_end: $ => choice(
+      $._simple_heredoc_body,
+      seq(
+        $._heredoc_body_beginning,
+        repeat(seq($._arg, $._heredoc_body_middle)),
+        $._arg,
+        $._heredoc_body_end
       )
     ),
 

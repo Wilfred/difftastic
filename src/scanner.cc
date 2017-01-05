@@ -12,15 +12,18 @@ enum TokenType : TSSymbol {
   SIMPLE_SUBSHELL,
   SIMPLE_REGEX,
   SIMPLE_WORD_LIST,
+  SIMPLE_HEREDOC_BODY,
   STRING_BEGINNING,
   SYMBOL_BEGINNING,
   SUBSHELL_BEGINNING,
   REGEX_BEGINNING,
   WORD_LIST_BEGINNING,
+  HEREDOC_BODY_BEGINNING,
   STRING_MIDDLE,
+  HEREDOC_BODY_MIDDLE,
   STRING_END,
+  HEREDOC_BODY_END,
   HEREDOC_BEGINNING,
-  HEREDOC_END,
   LINE_BREAK
 };
 
@@ -62,7 +65,9 @@ struct Scanner {
   }
 
   void reset() {}
+
   bool serialize(TSExternalTokenState state) { return true; }
+
   void deserialize(TSExternalTokenState state) {}
 
   void advance(TSLexer *lexer) {
@@ -295,44 +300,43 @@ struct Scanner {
     return result;
   }
 
-  bool scan_heredoc_end(TSLexer *lexer) {
-    if (open_heredoc_words.empty()) return false;
-    string word = open_heredoc_words.front();
-    open_heredoc_words.erase(open_heredoc_words.begin());
-    size_t position_in_word = 0;
-
-    for (;;) {
-      for (;;) {
-        if (position_in_word == word.size() || lexer->lookahead == 0) {
-          return true;
-        }
-
-        if (lexer->lookahead == word[position_in_word]) {
-          advance(lexer);
-          position_in_word++;
-        } else {
-          break;
-        }
-      }
-
-      while (lexer->lookahead != '\n') {
-        advance(lexer);
-      }
-
-      advance(lexer);
-      while (lexer->lookahead == ' ' || lexer->lookahead == '\t') {
-        advance(lexer);
-      }
-    }
-
-    return true;
-  }
-
   enum ScanContentResult {
     Error,
     Interpolation,
     End
   };
+
+  ScanContentResult scan_heredoc_content(TSLexer *lexer) {
+    if (open_heredoc_words.empty()) return Error;
+    string word = open_heredoc_words.front();
+    size_t position_in_word = 0;
+
+    for (;;) {
+      if (position_in_word == word.size() || lexer->lookahead == 0) {
+        open_heredoc_words.erase(open_heredoc_words.begin());
+        return End;
+      }
+
+      if (lexer->lookahead == word[position_in_word]) {
+        advance(lexer);
+        position_in_word++;
+      } else if (lexer->lookahead == '#') {
+        advance(lexer);
+        if (lexer->lookahead == '{') {
+          advance(lexer);
+          return Interpolation;
+        }
+      } else if (lexer->lookahead == '\n') {
+        advance(lexer);
+        while (lexer->lookahead == ' ' || lexer->lookahead == '\t') {
+          advance(lexer);
+        }
+        position_in_word = 0;
+      } else {
+        advance(lexer);
+      }
+    }
+  }
 
   ScanContentResult scan_content(TSLexer *lexer, Literal &literal) {
     for (;;) {
@@ -373,6 +377,34 @@ struct Scanner {
     if (!scan_whitespace(lexer, valid_symbols)) return false;
     if (lexer->result_symbol == LINE_BREAK) return true;
 
+    if (valid_symbols[HEREDOC_BODY_MIDDLE] && !open_heredoc_words.empty()) {
+      if (scan_interpolation_close(lexer)) {
+        switch (scan_heredoc_content(lexer)) {
+          case Error:
+            return false;
+          case Interpolation:
+            lexer->result_symbol = HEREDOC_BODY_MIDDLE;
+            return true;
+          case End:
+            lexer->result_symbol = HEREDOC_BODY_END;
+            return true;
+        }
+      }
+    }
+
+    if (valid_symbols[HEREDOC_BODY_BEGINNING] && !open_heredoc_words.empty()) {
+      switch (scan_heredoc_content(lexer)) {
+        case Error:
+          return false;
+        case Interpolation:
+          lexer->result_symbol = HEREDOC_BODY_BEGINNING;
+          return true;
+        case End:
+          lexer->result_symbol = SIMPLE_HEREDOC_BODY;
+          return true;
+      }
+    }
+
     if (valid_symbols[STRING_MIDDLE]) {
       Literal &literal = literal_stack.back();
 
@@ -388,13 +420,6 @@ struct Scanner {
             lexer->result_symbol = STRING_END;
             return true;
         }
-      }
-    }
-
-    if (valid_symbols[HEREDOC_END] && !open_heredoc_words.empty()) {
-      if (scan_heredoc_end(lexer)) {
-        lexer->result_symbol = HEREDOC_END;
-        return true;
       }
     }
 

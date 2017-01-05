@@ -439,13 +439,21 @@ SQL
 heredocs with interpolation
 ========================================
 
-<<SQL
-heredoc content #{a}
-SQL
+<<TEXT
+a
+b #{1} c
+#{2} d #{3}
+e
+TEXT
+
+return
 
 ---
 
-(program (heredoc_beginning) (heredoc_end))
+(program
+  (heredoc_beginning)
+  (heredoc_end (integer) (integer) (integer))
+  (return))
 
 ========================================
 multiple heredocs
