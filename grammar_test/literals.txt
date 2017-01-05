@@ -13,13 +13,13 @@ symbol
 ---
 
 (program
-	(symbol)
-	(symbol)
-	(symbol)
-	(symbol)
-	(symbol)
-	(symbol)
-	(symbol))
+  (symbol)
+  (symbol)
+  (symbol)
+  (symbol)
+  (symbol)
+  (symbol)
+  (symbol))
 
 ====================
 single quoted symbol
@@ -390,24 +390,24 @@ string chaining
 ---
 
 (program
-	(chained_string (string) (string) (string))
-	(chained_string (string) (string)))
+  (chained_string (string) (string) (string))
+  (chained_string (string) (string)))
 
 ========================================
 nested strings with different delimiters
 ========================================
 
 "abc#{
-	%r(def(ghi#{
-		`whoami`
-	})klm)
+  %r(def(ghi#{
+    `whoami`
+  })klm)
 }nop"
 
 
 ---
 
 (program
-	(string (regex (subshell))))
+  (string (regex (subshell))))
 
 ========================================
 basic heredocs
@@ -417,9 +417,11 @@ basic heredocs
 heredoc content
 SQL
 
-<<"sql"
-heredoc content
-sql
+if indentation_works?
+  <<"sql"
+  heredoc content
+  sql
+end
 
 <<'SQL'
 heredoc content
@@ -428,9 +430,10 @@ SQL
 ---
 
 (program
-	(heredoc_beginning) (heredoc_end)
-	(heredoc_beginning) (heredoc_end)
-	(heredoc_beginning) (heredoc_end))
+  (heredoc_beginning) (heredoc_end)
+  (if (identifier)
+    (heredoc_beginning) (heredoc_end))
+  (heredoc_beginning) (heredoc_end))
 
 ========================================
 heredocs with interpolation
@@ -523,8 +526,8 @@ array as object
 
 ---
 (program
-	(method_call (call (array (integer) (integer)) (identifier))
-		(block (formal_parameters (identifier)) (binary (identifier) (integer)))))
+  (method_call (call (array (integer) (integer)) (identifier))
+    (block (formal_parameters (identifier)) (binary (identifier) (integer)))))
 
 =========================
 array with trailing comma
@@ -760,18 +763,18 @@ lambda literal with an arg
 ---
 
 (program
-	(lambda (identifier) (integer))
-	(lambda (formal_parameters (identifier)) (integer))
-	(lambda (splat_parameter (identifier)) (integer))
-	(lambda (keyword_parameter (identifier) (integer)) (integer)))
+  (lambda (identifier) (integer))
+  (lambda (formal_parameters (identifier)) (integer))
+  (lambda (splat_parameter (identifier)) (integer))
+  (lambda (keyword_parameter (identifier) (integer)) (integer)))
 
 ===========================
 lambda literal with multiple args
 ===========================
 
 -> (a, b, c) {
-	1
-	2
+  1
+  2
 }
 
 ---
@@ -783,7 +786,7 @@ lambda literal with do end
 ====================
 
 -> (foo) do
-	1
+  1
 end
 
 ---

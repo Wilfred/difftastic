@@ -320,6 +320,9 @@ struct Scanner {
       }
 
       advance(lexer);
+      while (lexer->lookahead == ' ' || lexer->lookahead == '\t') {
+        advance(lexer);
+      }
     }
 
     return true;
