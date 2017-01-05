@@ -692,10 +692,16 @@ foo \
 "abc \
 de"
 
+foo \
+  "abc"
+
 ---
 
 (program
   (method_call
     (identifier)
     (argument_list (identifier) (identifier)))
-  (string))
+  (string)
+  (method_call
+    (identifier)
+    (argument_list (string))))

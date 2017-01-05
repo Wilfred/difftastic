@@ -90,6 +90,12 @@ struct Scanner {
             skip(lexer);
             break;
           }
+        case '\\':
+          skip(lexer);
+          if (lexer->lookahead == '\n') {
+            skip(lexer);
+          }
+          break;
         default:
           return true;
       }
