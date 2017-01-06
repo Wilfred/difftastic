@@ -23,6 +23,63 @@ symbol
   (symbol)
   (symbol))
 
+======
+symbol operators
+======
+
+:+
+:-
+:+@
+:-@
+:[]
+:[]=
+:&
+:^
+:|
+:~
+:/
+:%
+:*
+:**
+:==
+:===
+:=~
+:>
+:>=
+:>>
+:<
+:<=
+:<<
+:<=>
+
+---
+
+(program
+  (symbol)
+  (symbol)
+  (symbol)
+  (symbol)
+  (symbol)
+  (symbol)
+  (symbol)
+  (symbol)
+  (symbol)
+  (symbol)
+  (symbol)
+  (symbol)
+  (symbol)
+  (symbol)
+  (symbol)
+  (symbol)
+  (symbol)
+  (symbol)
+  (symbol)
+  (symbol)
+  (symbol)
+  (symbol)
+  (symbol)
+  (symbol))
+
 ====================
 single quoted symbol
 ====================

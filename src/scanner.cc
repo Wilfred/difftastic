@@ -102,7 +102,84 @@ struct Scanner {
     }
   }
 
-  bool scan_identifier(TSLexer *lexer) {
+  bool scan_operator(TSLexer *lexer) {
+    switch(lexer->lookahead) {
+      // <, <=, <<, <=>
+      case '<':
+        advance(lexer);
+        if (lexer->lookahead == '<') advance(lexer);
+        else if (lexer->lookahead == '=') {
+          advance(lexer);
+          if(lexer->lookahead == '>') advance(lexer);
+        }
+        return true;
+
+      // >, >=, >>
+      case '>':
+        advance(lexer);
+        if (lexer->lookahead == '>') advance(lexer);
+        else if (lexer->lookahead == '=') advance(lexer);
+        return true;
+
+      // ==, ===, =~
+      case '=':
+        advance(lexer);
+        if (lexer->lookahead == '~') {
+          advance(lexer);
+          return true;
+        } else if (lexer->lookahead == '=') {
+          advance(lexer);
+          if (lexer->lookahead == '=') advance(lexer);
+          return true;
+        }
+        return false;
+
+      // +, -, +@, -@
+      case '+':
+      case '-':
+        advance(lexer);
+        if (lexer->lookahead == '@') advance(lexer);
+        return true;
+
+      // ..
+      case '.':
+        advance(lexer);
+        if (lexer->lookahead == '.') {
+          advance(lexer);
+          return true;
+        }
+        return false;
+
+      // &, ^, |, ~, /, %
+      case '&':
+      case '^':
+      case '|':
+      case '~':
+      case '/':
+      case '%':
+        advance(lexer);
+        return true;
+
+      // *, **
+      case '*':
+        advance(lexer);
+        if (lexer->lookahead == '*') advance(lexer);
+        return true;
+
+      // [], []=
+      case '[':
+        advance(lexer);
+        if (lexer->lookahead == ']') advance(lexer);
+        else return false;
+        if (lexer->lookahead == '=') advance(lexer);
+        return true;
+
+      default:
+        return false;
+    }
+  }
+
+  bool scan_symbol_identifier(TSLexer *lexer) {
     if (lexer->lookahead == '@') {
       advance(lexer);
       if (lexer->lookahead == '@') {
@@ -114,7 +191,7 @@ struct Scanner {
 
     if (isalpha(lexer->lookahead) || (lexer->lookahead == '_')) {
       advance(lexer);
-    } else {
+    } else if (!scan_operator(lexer)) {
       return false;
     }
 
@@ -454,7 +531,7 @@ struct Scanner {
             break;
 
           default:
-            if (!scan_identifier(lexer)) return false;
+            if (!scan_symbol_identifier(lexer)) return false;
             lexer->result_symbol = SIMPLE_SYMBOL;
             return true;
         }
