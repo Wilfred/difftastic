@@ -49,9 +49,19 @@ def foo
   super
 end
 
+def foo
+  super.bar a, b
+end
+
 ---
 
-(program (method (identifier) (super)))
+(program
+  (method (identifier) (identifier))
+  (method
+    (identifier)
+    (method_call
+      (call (identifier) (identifier))
+      (argument_list (identifier) (identifier)))))
 
 ================
 method with args

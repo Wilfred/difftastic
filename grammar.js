@@ -134,7 +134,6 @@ module.exports = grammar({
       'end'
     ),
 
-    super: $ => prec.left(seq('super', optional($.argument_list))),
     return: $ => prec.left(seq('return', optional($.argument_list))),
     yield: $ => prec.left(seq('yield', optional($.argument_list))),
     break: $ => prec.left(seq('break', optional($.argument_list))),
@@ -238,8 +237,7 @@ module.exports = grammar({
       $.conditional,
       $.range,
       $.binary,
-      $.unary,
-      $.super
+      $.unary
     ),
 
     _primary: $ => choice(
