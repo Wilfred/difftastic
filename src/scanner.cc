@@ -112,7 +112,7 @@ struct Scanner {
       advance(lexer);
     }
 
-    if (isalpha(lexer->lookahead)) {
+    if (isalpha(lexer->lookahead) || (lexer->lookahead == '_')) {
       advance(lexer);
     } else {
       return false;

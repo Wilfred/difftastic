@@ -9,10 +9,12 @@ symbol
 :@foo_0123_bar
 :@@foo
 :$foo
+:_bar
 
 ---
 
 (program
+  (symbol)
   (symbol)
   (symbol)
   (symbol)
