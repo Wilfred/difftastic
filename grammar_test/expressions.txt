@@ -164,9 +164,21 @@ x, *args = [1, 2]
 ---
 
 (program
-  (assignment (assignment_list (identifier) (identifier)) (array (integer) (integer)))
-  (assignment (assignment_list (identifier) (rest_assignment)) (array (integer) (integer)))
-  (assignment (assignment_list (identifier) (rest_assignment (identifier))) (array (integer) (integer))))
+  (assignment (left_assignment_list (identifier) (identifier)) (array (integer) (integer)))
+  (assignment (left_assignment_list (identifier) (rest_assignment)) (array (integer) (integer)))
+  (assignment (left_assignment_list (identifier) (rest_assignment (identifier))) (array (integer) (integer))))
+
+==========
+multiple assignment with multiple right hand sides
+==========
+
+x, y = foo, bar
+
+---
+
+(program (assignment
+  (left_assignment_list (identifier) (identifier))
+  (right_assignment_list (identifier) (identifier))))
 
 ==========
 assignment from method call
