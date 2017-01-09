@@ -357,10 +357,10 @@ module.exports = grammar({
       '|'
     ),
 
-    assignment: $ => prec.right(PREC.ASSIGN, seq(
-      choice($.assignment_list, $._lhs),
-      '=',
-      $._arg
+    assignment: $ => prec.right(PREC.ASSIGN, choice(
+      seq($._lhs, '=', $._arg),
+      seq($.left_assignment_list, '=', $._arg),
+      seq($.left_assignment_list, '=', $.right_assignment_list)
     )),
 
     operator_assignment: $ => prec.right(PREC.ASSIGN, seq(
@@ -395,7 +395,9 @@ module.exports = grammar({
       prec.right(PREC.COMPLEMENT, seq(choice('!', '~'), $._arg))
     ),
 
-    assignment_list: $ => $._mlhs,
+    right_assignment_list: $ => prec.left(-1, commaSep1($._arg)),
+
+    left_assignment_list: $ => $._mlhs,
     _mlhs: $ => prec.left(-1, sepTrailing(
       $._mlhs,
       choice(
