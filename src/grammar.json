@@ -2325,28 +2325,58 @@
       "type": "PREC_RIGHT",
       "value": 15,
       "content": {
-        "type": "SEQ",
+        "type": "CHOICE",
         "members": [
           {
-            "type": "CHOICE",
+            "type": "SEQ",
             "members": [
               {
                 "type": "SYMBOL",
-                "name": "assignment_list"
+                "name": "_lhs"
+              },
+              {
+                "type": "STRING",
+                "value": "="
               },
               {
                 "type": "SYMBOL",
-                "name": "_lhs"
+                "name": "_arg"
               }
             ]
           },
           {
-            "type": "STRING",
-            "value": "="
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "left_assignment_list"
+              },
+              {
+                "type": "STRING",
+                "value": "="
+              },
+              {
+                "type": "SYMBOL",
+                "name": "_arg"
+              }
+            ]
           },
           {
-            "type": "SYMBOL",
-            "name": "_arg"
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "left_assignment_list"
+              },
+              {
+                "type": "STRING",
+                "value": "="
+              },
+              {
+                "type": "SYMBOL",
+                "name": "right_assignment_list"
+              }
+            ]
           }
         ]
       }
@@ -2890,7 +2920,36 @@
         }
       ]
     },
-    "assignment_list": {
+    "right_assignment_list": {
+      "type": "PREC_LEFT",
+      "value": -1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_arg"
+          },
+          {
+            "type": "REPEAT",
+            "content": {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": ","
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "_arg"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "left_assignment_list": {
       "type": "SYMBOL",
       "name": "_mlhs"
     },
