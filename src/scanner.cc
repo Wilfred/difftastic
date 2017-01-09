@@ -87,7 +87,7 @@ struct Scanner {
             while(lexer->lookahead == ' ' || lexer->lookahead == '\t') {
               skip(lexer);
             }
-            if (lexer->lookahead == '.' || lexer->lookahead == '&') {
+            if (lexer->lookahead == '.') {
               break;
             } else {
               lexer->result_symbol = LINE_BREAK;
