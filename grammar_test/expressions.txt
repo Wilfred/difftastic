@@ -244,3 +244,23 @@ x = yield 2
     (assignment
       (expression_list (identifier))
       (yield (expression_list (number))))))
+
+====================================================
+lambdas
+====================================================
+
+A = lambda b, c: d("e" % f)
+B = lambda: True
+
+---
+
+(module
+  (expression_statement (assignment
+    (expression_list (identifier))
+    (expression_list (lambda
+      (identifier)
+      (identifier)
+      (call (identifier) (binary_operator (string) (identifier)))))))
+  (expression_statement (assignment
+    (expression_list (identifier))
+    (expression_list (lambda (true))))))
