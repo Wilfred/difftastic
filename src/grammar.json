@@ -3985,10 +3985,6 @@
         }
       ]
     },
-    "_line_break": {
-      "type": "STRING",
-      "value": "\n"
-    },
     "_terminator": {
       "type": "CHOICE",
       "members": [

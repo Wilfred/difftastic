@@ -558,6 +558,23 @@ include D::E.f
 
 (program (method_call (identifier) (argument_list (call (scope_resolution (identifier) (identifier)) (identifier)))))
 
+============================
+method call with line break
+============================
+
+Foo
+  .bar
+  .baz
+
+Foo \
+  .bar
+
+---
+
+(program
+  (call (call (identifier) (identifier)) (identifier))
+  (call (identifier) (identifier)))
+
 ===============================
 method call with block argument do end
 ===============================

@@ -558,7 +558,6 @@ module.exports = grammar({
       seq('lambda', choice($._block, $._do_block))
     ),
 
-    _line_break: $ => '\n',
     _terminator: $ => choice($._line_break, ';'),
   }
 });

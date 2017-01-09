@@ -84,8 +84,15 @@ struct Scanner {
         case '\n':
           if (valid_symbols[LINE_BREAK]) {
             advance(lexer);
-            lexer->result_symbol = LINE_BREAK;
-            return true;
+            while(lexer->lookahead == ' ' || lexer->lookahead == '\t') {
+              skip(lexer);
+            }
+            if (lexer->lookahead == '.') {
+              break;
+            } else {
+              lexer->result_symbol = LINE_BREAK;
+              return true;
+            }
           } else {
             skip(lexer);
             break;
