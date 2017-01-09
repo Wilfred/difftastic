@@ -581,10 +581,14 @@ Foo
 Foo \
   .bar
 
+Foo
+  &.bar
+
 ---
 
 (program
   (call (call (identifier) (identifier)) (identifier))
+  (call (identifier) (identifier))
   (call (identifier) (identifier)))
 
 ===============================
