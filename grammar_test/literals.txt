@@ -583,10 +583,13 @@ array
 =====
 
 [ foo, bar ]
+[foo, *bar]
 
 ---
 
-(program (array (identifier) (identifier)))
+(program
+	(array (identifier) (identifier))
+	(array (identifier) (rest_argument (identifier))))
 
 =====
 array as object

@@ -402,11 +402,11 @@ module.exports = grammar({
       $._mlhs,
       choice(
         $._variable,
-        $.rest_assignment
+        $.rest_argument
       ),
       ','
     )),
-    rest_assignment: $ => seq('*', optional($._variable)),
+    rest_argument: $ => seq('*', optional($._variable)),
     _lhs: $ => prec.left(choice(
       $._variable,
       $.scope_resolution,
@@ -525,7 +525,7 @@ module.exports = grammar({
       )
     ),
 
-    _array_items: $ => sepTrailing($._array_items, $._arg, ','),
+    _array_items: $ => sepTrailing($._array_items, choice($.rest_argument, $._arg), ','),
 
     hash: $ => prec(1, seq('{', optional($._hash_items), '}')),
     _hash_items: $ => seq($.pair, optional(seq(',', optional($._hash_items)))),

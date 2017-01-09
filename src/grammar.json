@@ -2980,7 +2980,7 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "rest_assignment"
+                "name": "rest_argument"
               }
             ]
           },
@@ -2996,7 +2996,7 @@
                   },
                   {
                     "type": "SYMBOL",
-                    "name": "rest_assignment"
+                    "name": "rest_argument"
                   }
                 ]
               },
@@ -3021,7 +3021,7 @@
         ]
       }
     },
-    "rest_assignment": {
+    "rest_argument": {
       "type": "SEQ",
       "members": [
         {
@@ -3728,15 +3728,33 @@
       "type": "CHOICE",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "_arg"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "rest_argument"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_arg"
+            }
+          ]
         },
         {
           "type": "SEQ",
           "members": [
             {
-              "type": "SYMBOL",
-              "name": "_arg"
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "rest_argument"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "_arg"
+                }
+              ]
             },
             {
               "type": "STRING",
