@@ -31,6 +31,21 @@ b'sup'
   (expression_statement (string)))
 
 =====================================
+Other primitives
+=====================================
+
+True
+False
+None
+
+---
+
+(module
+  (expression_statement (true))
+  (expression_statement (false))
+  (expression_statement (none)))
+
+=====================================
 Concatenated strings
 =====================================
 

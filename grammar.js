@@ -338,6 +338,9 @@ module.exports = grammar({
       $.string,
       $.concatenated_string,
       $.number,
+      $.true,
+      $.false,
+      $.none,
       $.unary_operator,
       $.attribute,
       $.subscript,
@@ -625,6 +628,10 @@ module.exports = grammar({
     )),
 
     identifier: $ => /[\a_]\w*/,
+
+    true: $ => 'True',
+    false: $ => 'False',
+    none: $ => 'None',
 
     comment: $ => token(seq('#', /.*/))
   }

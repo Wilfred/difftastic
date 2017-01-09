@@ -1244,6 +1244,18 @@
         },
         {
           "type": "SYMBOL",
+          "name": "true"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "false"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "none"
+        },
+        {
+          "type": "SYMBOL",
           "name": "unary_operator"
         },
         {
@@ -2867,6 +2879,18 @@
     "identifier": {
       "type": "PATTERN",
       "value": "[\\a_]\\w*"
+    },
+    "true": {
+      "type": "STRING",
+      "value": "True"
+    },
+    "false": {
+      "type": "STRING",
+      "value": "False"
+    },
+    "none": {
+      "type": "STRING",
+      "value": "None"
     },
     "comment": {
       "type": "TOKEN",
