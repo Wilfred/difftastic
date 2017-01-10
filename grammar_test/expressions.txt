@@ -734,3 +734,57 @@ foo \
   (method_call
     (identifier)
     (argument_list (string))))
+
+===============================
+basic division
+===============================
+
+10 / 5
+
+---
+
+(program (binary (integer) (integer)))
+
+===============================
+regex as parameter
+===============================
+
+foo /bar/
+
+---
+
+(program
+  (method_call (identifier) (argument_list (regex))))
+
+===============================
+regex with opening space
+===============================
+
+foo
+/ bar/
+
+---
+
+(program (identifier) (regex))
+
+===============================
+forward slash operator as method
+===============================
+
+Foo / "bar"
+"/edit"
+
+---
+
+(program (binary (identifier) (string)) (string))
+
+===============================
+multiline regex
+===============================
+
+/ a
+  b/
+
+---
+
+(program (regex))

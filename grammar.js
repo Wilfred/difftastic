@@ -35,7 +35,6 @@ const identifierPattern = /[a-zA-Z_][a-zA-Z0-9_]*(\?|\!)?/;
 const globalVariablePattern = /\$(([&`'+])|([1-9][0-9]*)|([a-zA-Z_][a-zA-Z0-9_]*))/;
 const instanceVariablePattern = /@[a-zA-Z_][a-zA-Z0-9_]*/; // (e.g. @foo)
 const classVariablePattern = /@@[a-zA-Z_][a-zA-Z0-9_]*/; // (e.g. @@foo)
-const operators = ['..', '|', '^', '&', '<=>', '==', '===', '=~', '>', '>=', '<', '<=', '+', '-', '*', '/', '%', '**', '<<', '>>', '~', '+@', '-@', '[]', '[]='];
 
 module.exports = grammar({
   name: 'ruby',
@@ -59,6 +58,7 @@ module.exports = grammar({
     $._heredoc_body_end,
     $.heredoc_beginning,
     $._line_break,
+    $._forward_slash
   ],
 
   extras: $ => [
@@ -384,7 +384,7 @@ module.exports = grammar({
       prec.left(PREC.BITWISE_AND, seq($._arg, '&', $._arg)),
       prec.left(PREC.BITWISE_OR, seq($._arg, choice('^', '|'), $._arg)),
       prec.left(PREC.ADDITIVE, seq($._arg, choice('-', '+'), $._arg)),
-      prec.left(PREC.MULTIPLICATIVE, seq($._arg, choice('*', '/', '%'), $._arg)),
+      prec.left(PREC.MULTIPLICATIVE, seq($._arg, choice('*', $._forward_slash, '%'), $._arg)),
       prec.right(PREC.EXPONENTIAL, seq($._arg, '**', $._arg))
     ),
 
@@ -427,11 +427,15 @@ module.exports = grammar({
       $.keyword__ENCODING__
     ),
 
-    instance_variable: $ => (instanceVariablePattern),
-    class_variable: $ => (classVariablePattern),
-    global_variable: $ => (globalVariablePattern),
-    identifier: $ => (identifierPattern),
-    operator: $ => choice(...operators),
+    instance_variable: $ => instanceVariablePattern,
+    class_variable: $ => classVariablePattern,
+    global_variable: $ => globalVariablePattern,
+    identifier: $ => identifierPattern,
+    operator: $ => choice(
+      $._forward_slash,
+      '..', '|', '^', '&', '<=>', '==', '===', '=~', '>', '>=', '<', '<=', '+',
+      '-', '*', '%', '**', '<<', '>>', '~', '+@', '-@', '[]', '[]='
+    ),
 
     _method_name: $ => choice(
       $.identifier,
@@ -560,6 +564,7 @@ module.exports = grammar({
       seq('lambda', choice($._block, $._do_block))
     ),
 
+    _forward_slash: $ => '/',
     _terminator: $ => choice($._line_break, ';'),
   }
 });

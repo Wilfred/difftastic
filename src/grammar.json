@@ -2802,8 +2802,8 @@
                     "value": "*"
                   },
                   {
-                    "type": "STRING",
-                    "value": "/"
+                    "type": "SYMBOL",
+                    "name": "_forward_slash"
                   },
                   {
                     "type": "STRING",
@@ -3136,6 +3136,10 @@
       "type": "CHOICE",
       "members": [
         {
+          "type": "SYMBOL",
+          "name": "_forward_slash"
+        },
+        {
           "type": "STRING",
           "value": ".."
         },
@@ -3194,10 +3198,6 @@
         {
           "type": "STRING",
           "value": "*"
-        },
-        {
-          "type": "STRING",
-          "value": "/"
         },
         {
           "type": "STRING",
@@ -4062,6 +4062,10 @@
         }
       ]
     },
+    "_forward_slash": {
+      "type": "STRING",
+      "value": "/"
+    },
     "_terminator": {
       "type": "CHOICE",
       "members": [
@@ -4110,6 +4114,7 @@
     "_string_end",
     "_heredoc_body_end",
     "heredoc_beginning",
-    "_line_break"
+    "_line_break",
+    "_forward_slash"
   ]
 }

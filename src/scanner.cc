@@ -24,7 +24,8 @@ enum TokenType : TSSymbol {
   STRING_END,
   HEREDOC_BODY_END,
   HEREDOC_BEGINNING,
-  LINE_BREAK
+  LINE_BREAK,
+  FORWARD_SLASH
 };
 
 struct Literal {
@@ -213,7 +214,7 @@ struct Scanner {
     return true;
   }
 
-  bool scan_open_delimiter(TSLexer *lexer, Literal &literal) {
+  bool scan_open_delimiter(TSLexer *lexer, Literal &literal, const bool *valid_symbols) {
     switch (lexer->lookahead) {
       case '"':
         literal.type = Literal::Type::STRING;
@@ -245,6 +246,9 @@ struct Scanner {
         literal.nesting_depth = 1;
         literal.allows_interpolation = true;
         advance(lexer);
+        if (valid_symbols[FORWARD_SLASH] && (lexer->lookahead == ' ' || lexer->lookahead == '\t')) {
+          return false;
+        }
         return true;
 
       case '%':
@@ -576,7 +580,7 @@ struct Scanner {
         lexer->result_symbol = HEREDOC_BEGINNING;
         return true;
       } else {
-        if (!scan_open_delimiter(lexer, literal)) return false;
+        if (!scan_open_delimiter(lexer, literal, valid_symbols)) return false;
       }
 
       switch (scan_content(lexer, literal)) {
