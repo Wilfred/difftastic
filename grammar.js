@@ -370,7 +370,7 @@ module.exports = grammar({
 
     operator_assignment: $ => prec.right(PREC.ASSIGN, seq(
       $._lhs,
-      choice('+=', '-=', '*=', '**=', '/=', '||=', '&&='),
+      choice('+=', '-=', '*=', '**=', '/=', '||=', '|=', '&&=', '&=', '%=', '>>=', '<<='),
       $._arg)
     ),
 

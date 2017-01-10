@@ -346,7 +346,8 @@ struct Scanner {
           case ']':
           case '}':
           case '>':
-          case '=':
+          // TODO: Implement %= as external rule.
+          // case '=':
           case '+':
           case '-':
           case '~':
