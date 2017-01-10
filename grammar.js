@@ -294,16 +294,25 @@ module.exports = grammar({
 
     _argument_list_with_trailing_comma: $ => prec.left(1, sepTrailing(
       $._argument_list_with_trailing_comma,
-      choice($._arg, $.argument_pair),
+      choice(
+        $._arg,
+        $.rest_argument,
+        $.argument_pair
+      ),
       ','
     )),
-    _argument_list: $ => prec.left(1, commaSep1(choice($._arg, $.argument_pair))),
+    _argument_list: $ => prec.left(1, commaSep1(choice(
+      $._arg,
+      $.rest_argument,
+      $.argument_pair
+    ))),
 
     argument_pair: $ => prec.left(1, seq(choice(
       seq($.symbol, '=>'),
       seq($.identifier, ':')
     ), $._arg)),
 
+    rest_argument: $ => seq('*', $._arg),
     block_argument: $ => seq('&', $._arg),
 
     do_block: $ => $._do_block,
@@ -374,11 +383,11 @@ module.exports = grammar({
       $._mlhs,
       choice(
         $._variable,
-        $.rest_argument
+        $.rest_assignment
       ),
       ','
     )),
-    rest_argument: $ => seq('*', optional($._variable)),
+    rest_assignment: $ => prec(-1, seq('*', optional($._variable))),
     _lhs: $ => prec.left(choice(
       $._variable,
       $.scope_resolution,
