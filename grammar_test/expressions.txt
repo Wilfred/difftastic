@@ -213,15 +213,25 @@ x /= y
   (operator_assignment (identifier) (identifier)))
 
 ==========
-conditional assignment
+operator assignment
 ==========
 
 x ||= y
 x &&= y
+x &= y
+x |= y
+x %= y
+x >>= y
+x <<= y
 
 ---
 
 (program
+  (operator_assignment (identifier) (identifier))
+  (operator_assignment (identifier) (identifier))
+  (operator_assignment (identifier) (identifier))
+  (operator_assignment (identifier) (identifier))
+  (operator_assignment (identifier) (identifier))
   (operator_assignment (identifier) (identifier))
   (operator_assignment (identifier) (identifier)))
 
