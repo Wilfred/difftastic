@@ -466,10 +466,15 @@ hash with expression keys
 =========================
 
 { "a" => 1, "b" => 2 }
+{ [] => 1 }
+{ foo => 1 }
 
 ---
 
-(program (hash (pair (string) (integer)) (pair (string) (integer))))
+(program
+	(hash (pair (string) (integer)) (pair (string) (integer)))
+	(hash (pair (array) (integer)))
+	(hash (pair (identifier) (integer))))
 
 ======================
 hash with keyword keys

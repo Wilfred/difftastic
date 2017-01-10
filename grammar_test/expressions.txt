@@ -491,13 +491,17 @@ method call with hash args
 ===============================
 
 foo(:a => true)
+foo([] => 1)
+foo(bar => 1)
 foo :a => true, :c => 1
 
 ---
 
 (program
-  (method_call (identifier) (argument_list (argument_pair (symbol) (boolean))))
-  (method_call (identifier) (argument_list (argument_pair (symbol) (boolean)) (argument_pair (symbol) (integer)))))
+  (method_call (identifier) (argument_list (pair (symbol) (boolean))))
+  (method_call (identifier) (argument_list (pair (array) (integer))))
+  (method_call (identifier) (argument_list (pair (identifier) (integer))))
+  (method_call (identifier) (argument_list (pair (symbol) (boolean)) (pair (symbol) (integer)))))
 
 ===============================
 method call with keyword args
@@ -509,8 +513,8 @@ foo a: true
 ---
 
 (program
-  (method_call (identifier) (argument_list (argument_pair (identifier) (boolean))))
-  (method_call (identifier) (argument_list (argument_pair (identifier) (boolean)))))
+  (method_call (identifier) (argument_list (pair (identifier) (boolean))))
+  (method_call (identifier) (argument_list (pair (identifier) (boolean)))))
 
 ===============================
 method call with block argument
@@ -544,7 +548,7 @@ foo :bar, -> (a) { where(:c => b) }
       (symbol)
       (lambda
         (formal_parameters (identifier))
-        (method_call (identifier) (argument_list (argument_pair (symbol) (identifier))))))))
+        (method_call (identifier) (argument_list (pair (symbol) (identifier))))))))
 
 ===============================
 method call lambda argument and do block
