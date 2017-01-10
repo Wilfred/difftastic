@@ -297,20 +297,15 @@ module.exports = grammar({
       choice(
         $._arg,
         $.rest_argument,
-        $.argument_pair
+        $.pair
       ),
       ','
     )),
     _argument_list: $ => prec.left(1, commaSep1(choice(
       $._arg,
       $.rest_argument,
-      $.argument_pair
+      $.pair
     ))),
-
-    argument_pair: $ => prec.left(1, seq(choice(
-      seq($.symbol, '=>'),
-      seq($.identifier, ':')
-    ), $._arg)),
 
     rest_argument: $ => seq('*', $._arg),
     block_argument: $ => seq('&', $._arg),

@@ -2031,7 +2031,7 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "argument_pair"
+                "name": "pair"
               }
             ]
           },
@@ -2051,7 +2051,7 @@
                   },
                   {
                     "type": "SYMBOL",
-                    "name": "argument_pair"
+                    "name": "pair"
                   }
                 ]
               },
@@ -2095,7 +2095,7 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "argument_pair"
+                "name": "pair"
               }
             ]
           },
@@ -2121,56 +2121,12 @@
                     },
                     {
                       "type": "SYMBOL",
-                      "name": "argument_pair"
+                      "name": "pair"
                     }
                   ]
                 }
               ]
             }
-          }
-        ]
-      }
-    },
-    "argument_pair": {
-      "type": "PREC_LEFT",
-      "value": 1,
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SEQ",
-                "members": [
-                  {
-                    "type": "SYMBOL",
-                    "name": "symbol"
-                  },
-                  {
-                    "type": "STRING",
-                    "value": "=>"
-                  }
-                ]
-              },
-              {
-                "type": "SEQ",
-                "members": [
-                  {
-                    "type": "SYMBOL",
-                    "name": "identifier"
-                  },
-                  {
-                    "type": "STRING",
-                    "value": ":"
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "type": "SYMBOL",
-            "name": "_arg"
           }
         ]
       }
