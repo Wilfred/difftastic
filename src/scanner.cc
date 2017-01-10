@@ -25,7 +25,8 @@ enum TokenType : TSSymbol {
   HEREDOC_BODY_END,
   HEREDOC_BEGINNING,
   LINE_BREAK,
-  FORWARD_SLASH
+  FORWARD_SLASH,
+  ELEMENT_REFERENCE_LEFT_BRACKET
 };
 
 struct Literal {
@@ -468,6 +469,12 @@ struct Scanner {
   }
 
   bool scan(TSLexer *lexer, const bool *valid_symbols) {
+    if (valid_symbols[ELEMENT_REFERENCE_LEFT_BRACKET] && lexer->lookahead == '[') {
+      advance(lexer);
+      lexer->result_symbol = ELEMENT_REFERENCE_LEFT_BRACKET;
+      return true;
+    }
+
     if (!scan_whitespace(lexer, valid_symbols)) return false;
     if (lexer->result_symbol == LINE_BREAK) return true;
 

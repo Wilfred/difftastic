@@ -58,7 +58,8 @@ module.exports = grammar({
     $._heredoc_body_end,
     $.heredoc_beginning,
     $._line_break,
-    $._forward_slash
+    $._forward_slash,
+    $._element_reference_left_bracket,
   ],
 
   extras: $ => [
@@ -299,7 +300,7 @@ module.exports = grammar({
       $.heredoc_beginning
     ),
 
-    element_reference: $ => prec.left(1, seq($._primary, '[', $._argument_list_with_trailing_comma, ']')),
+    element_reference: $ => prec.left(1, seq($._primary, $._element_reference_left_bracket, $._argument_list_with_trailing_comma, ']')),
     scope_resolution: $ => prec.left(1, seq(optional($._primary), '::', $.identifier)),
     call: $ => prec.left(PREC.BITWISE_AND + 1, seq($._primary, choice('.', '&.'), $.identifier)),
 

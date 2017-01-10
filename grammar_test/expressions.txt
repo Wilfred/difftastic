@@ -675,6 +675,21 @@ foo { |; i, j| }
 
 (program (method_call (identifier) (block (identifier) (identifier))))
 
+===============================
+method call with array arguments
+===============================
+
+foo []
+foo [1]
+foo[1]
+
+---
+
+(program
+  (method_call (identifier) (argument_list (array)))
+  (method_call (identifier) (argument_list (array (integer))))
+  (element_reference (identifier) (integer)))
+
 ==============
 empty lambda expression
 ==============

@@ -1715,8 +1715,8 @@
             "name": "_primary"
           },
           {
-            "type": "STRING",
-            "value": "["
+            "type": "SYMBOL",
+            "name": "_element_reference_left_bracket"
           },
           {
             "type": "SYMBOL",
@@ -4104,6 +4104,7 @@
     "_heredoc_body_end",
     "heredoc_beginning",
     "_line_break",
-    "_forward_slash"
+    "_forward_slash",
+    "_element_reference_left_bracket"
   ]
 }
