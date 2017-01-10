@@ -165,8 +165,8 @@ x, *args = [1, 2]
 
 (program
   (assignment (left_assignment_list (identifier) (identifier)) (array (integer) (integer)))
-  (assignment (left_assignment_list (identifier) (rest_argument)) (array (integer) (integer)))
-  (assignment (left_assignment_list (identifier) (rest_argument (identifier))) (array (integer) (integer))))
+  (assignment (left_assignment_list (identifier) (rest_assignment)) (array (integer) (integer)))
+  (assignment (left_assignment_list (identifier) (rest_assignment (identifier))) (array (integer) (integer))))
 
 ==========
 multiple assignment with multiple right hand sides
@@ -491,13 +491,17 @@ method call with hash args
 ===============================
 
 foo(:a => true)
+foo([] => 1)
+foo(bar => 1)
 foo :a => true, :c => 1
 
 ---
 
 (program
-  (method_call (identifier) (argument_list (argument_pair (symbol) (boolean))))
-  (method_call (identifier) (argument_list (argument_pair (symbol) (boolean)) (argument_pair (symbol) (integer)))))
+  (method_call (identifier) (argument_list (pair (symbol) (boolean))))
+  (method_call (identifier) (argument_list (pair (array) (integer))))
+  (method_call (identifier) (argument_list (pair (identifier) (integer))))
+  (method_call (identifier) (argument_list (pair (symbol) (boolean)) (pair (symbol) (integer)))))
 
 ===============================
 method call with keyword args
@@ -509,8 +513,8 @@ foo a: true
 ---
 
 (program
-  (method_call (identifier) (argument_list (argument_pair (identifier) (boolean))))
-  (method_call (identifier) (argument_list (argument_pair (identifier) (boolean)))))
+  (method_call (identifier) (argument_list (pair (identifier) (boolean))))
+  (method_call (identifier) (argument_list (pair (identifier) (boolean)))))
 
 ===============================
 method call with block argument
@@ -544,7 +548,7 @@ foo :bar, -> (a) { where(:c => b) }
       (symbol)
       (lambda
         (formal_parameters (identifier))
-        (method_call (identifier) (argument_list (argument_pair (symbol) (identifier))))))))
+        (method_call (identifier) (argument_list (pair (symbol) (identifier))))))))
 
 ===============================
 method call lambda argument and do block
@@ -559,6 +563,21 @@ end
   (method_call (identifier)
     (argument_list (symbol) (lambda (formal_parameters (identifier)) (integer)))
     (do_block)))
+
+===============================
+method calls with rest argument
+===============================
+
+foo(*bar)
+foo(x, *bar)
+foo(*bar.baz)
+
+---
+
+(program
+  (method_call (identifier) (argument_list (rest_argument (identifier))))
+  (method_call (identifier) (argument_list (identifier) (rest_argument (identifier))))
+  (method_call (identifier) (argument_list (rest_argument (call (identifier) (identifier))))))
 
 ============================
 method call without parens

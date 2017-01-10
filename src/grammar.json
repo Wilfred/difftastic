@@ -2039,7 +2039,11 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "argument_pair"
+                "name": "rest_argument"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "pair"
               }
             ]
           },
@@ -2055,7 +2059,11 @@
                   },
                   {
                     "type": "SYMBOL",
-                    "name": "argument_pair"
+                    "name": "rest_argument"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "pair"
                   }
                 ]
               },
@@ -2095,7 +2103,11 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "argument_pair"
+                "name": "rest_argument"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "pair"
               }
             ]
           },
@@ -2117,7 +2129,11 @@
                     },
                     {
                       "type": "SYMBOL",
-                      "name": "argument_pair"
+                      "name": "rest_argument"
+                    },
+                    {
+                      "type": "SYMBOL",
+                      "name": "pair"
                     }
                   ]
                 }
@@ -2127,49 +2143,18 @@
         ]
       }
     },
-    "argument_pair": {
-      "type": "PREC_LEFT",
-      "value": 1,
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SEQ",
-                "members": [
-                  {
-                    "type": "SYMBOL",
-                    "name": "symbol"
-                  },
-                  {
-                    "type": "STRING",
-                    "value": "=>"
-                  }
-                ]
-              },
-              {
-                "type": "SEQ",
-                "members": [
-                  {
-                    "type": "SYMBOL",
-                    "name": "identifier"
-                  },
-                  {
-                    "type": "STRING",
-                    "value": ":"
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "type": "SYMBOL",
-            "name": "_arg"
-          }
-        ]
-      }
+    "rest_argument": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "*"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_arg"
+        }
+      ]
     },
     "block_argument": {
       "type": "SEQ",
@@ -2980,7 +2965,7 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "rest_argument"
+                "name": "rest_assignment"
               }
             ]
           },
@@ -2996,7 +2981,7 @@
                   },
                   {
                     "type": "SYMBOL",
-                    "name": "rest_argument"
+                    "name": "rest_assignment"
                   }
                 ]
               },
@@ -3021,26 +3006,30 @@
         ]
       }
     },
-    "rest_argument": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "*"
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "_variable"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        }
-      ]
+    "rest_assignment": {
+      "type": "PREC",
+      "value": -1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "*"
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "_variable"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        ]
+      }
     },
     "_lhs": {
       "type": "PREC_LEFT",
