@@ -346,8 +346,11 @@ struct Scanner {
           case ']':
           case '}':
           case '>':
-          // TODO: Implement %= as external rule.
-          // case '=':
+          // TODO: Implement %= as external rule and re-enable = as a valid
+          // unbalanced delimiter. That will be necessary due to ambiguity
+          // between &= assignment operator and %=...= as string
+          // content delimiter.
+          //case '=':
           case '+':
           case '-':
           case '~':
