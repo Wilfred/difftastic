@@ -349,10 +349,13 @@ interpolation
 =============
 
 "#{foo}"
+"#{':foo' unless bar}"
 
 ---
 
-(program (string (identifier)))
+(program
+  (string (identifier))
+  (string (unless_modifier (string) (identifier))))
 
 =====================
 escaped interpolation

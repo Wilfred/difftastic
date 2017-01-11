@@ -475,8 +475,8 @@ module.exports = grammar({
       $._simple_symbol,
       seq(
         $._symbol_beginning,
-        repeat(seq($._arg, $._string_middle)),
-        $._arg,
+        repeat(seq($._statement, $._string_middle)),
+        $._statement,
         $._string_end
       )
     ),
@@ -498,8 +498,8 @@ module.exports = grammar({
       $._simple_string,
       seq(
         $._string_beginning,
-        repeat(seq($._arg, $._string_middle)),
-        $._arg,
+        repeat(seq($._statement, $._string_middle)),
+        $._statement,
         $._string_end
       )
     ),
@@ -508,8 +508,8 @@ module.exports = grammar({
       $._simple_subshell,
       seq(
         $._subshell_beginning,
-        repeat(seq($._arg, $._string_middle)),
-        $._arg,
+        repeat(seq($._statement, $._string_middle)),
+        $._statement,
         $._string_end
       )
     ),
@@ -529,8 +529,8 @@ module.exports = grammar({
       $._simple_word_list,
       seq(
         $._word_list_beginning,
-        repeat(seq($._arg, $._string_middle)),
-        $._arg,
+        repeat(seq($._statement, $._string_middle)),
+        $._statement,
         $._string_end
       )
     ),
@@ -549,8 +549,8 @@ module.exports = grammar({
       $._simple_regex,
       seq(
         $._regex_beginning,
-        repeat(seq($._arg, $._string_middle)),
-        $._arg,
+        repeat(seq($._statement, $._string_middle)),
+        $._statement,
         $._string_end
       )
     ),
