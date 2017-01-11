@@ -62,7 +62,10 @@ TokenType SIMPLE_TOKEN_TYPES[] = {
 };
 
 struct Scanner {
+  Scanner() : has_leading_whitespace(false) {}
+
   void skip(TSLexer *lexer) {
+    has_leading_whitespace = true;
     lexer->advance(lexer, true);
   }
 
@@ -247,8 +250,9 @@ struct Scanner {
         literal.nesting_depth = 1;
         literal.allows_interpolation = true;
         advance(lexer);
-        if (valid_symbols[FORWARD_SLASH] && (lexer->lookahead == ' ' || lexer->lookahead == '\t')) {
-          return false;
+        if (valid_symbols[FORWARD_SLASH]) {
+          if (!has_leading_whitespace) return false;
+          if (lexer->lookahead == ' ' || lexer->lookahead == '\t') return false;
         }
         return true;
 
@@ -473,6 +477,8 @@ struct Scanner {
   }
 
   bool scan(TSLexer *lexer, const bool *valid_symbols) {
+    has_leading_whitespace = false;
+
     if (valid_symbols[ELEMENT_REFERENCE_LEFT_BRACKET] && lexer->lookahead == '[') {
       advance(lexer);
       lexer->result_symbol = ELEMENT_REFERENCE_LEFT_BRACKET;
@@ -610,6 +616,7 @@ struct Scanner {
     return false;
   }
 
+  bool has_leading_whitespace;
   vector<Literal> literal_stack;
   vector<string> open_heredoc_words;
 };

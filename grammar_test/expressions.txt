@@ -812,6 +812,17 @@ basic division
 (program (binary (integer) (integer)))
 
 ===============================
+division without spaces
+===============================
+
+h/w
+"#{foo}"
+
+---
+
+(program (binary (identifier) (identifier)) (string (identifier)))
+
+===============================
 regex as parameter
 ===============================
 
