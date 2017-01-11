@@ -118,8 +118,9 @@ module.exports = grammar({
       'end'
     ),
 
-    formal_parameters: $ => commaSep1($._formal_parameter),
+    formal_parameters: $ => prec(1, commaSep1($._formal_parameter)),
     _formal_parameter: $ => choice(
+      seq('(', commaSep1($._formal_parameter), ')'),
       $.identifier,
       $.splat_parameter,
       $.hash_splat_parameter,

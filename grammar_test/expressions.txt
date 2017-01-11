@@ -686,6 +686,28 @@ foo { |; i, j| }
 (program (method_call (identifier) (block (identifier) (identifier))))
 
 ===============================
+method call block and destructured parameters
+===============================
+
+foo do |a, (c, d, *f, (x, y)), *e|
+end
+
+---
+
+(program
+  (method_call
+    (identifier)
+    (do_block
+      (formal_parameters
+        (identifier)
+        (identifier)
+        (identifier)
+        (splat_parameter (identifier))
+        (identifier)
+        (identifier)
+        (splat_parameter (identifier))))))
+
+===============================
 method call with array arguments
 ===============================
 
