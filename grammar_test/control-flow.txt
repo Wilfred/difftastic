@@ -459,6 +459,19 @@ end
       (when (pattern (identifier)) (identifier)
         (else (identifier))))))
 
+==============================
+case with splat parameter in when
+==============================
+
+case a
+when *foo
+  c
+end
+
+---
+
+(program (case (identifier) (when (pattern (splat_argument (identifier))) (identifier))))
+
 ==============
 case with assignment
 ==============

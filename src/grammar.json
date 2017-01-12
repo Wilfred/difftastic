@@ -1315,8 +1315,17 @@
       ]
     },
     "pattern": {
-      "type": "SYMBOL",
-      "name": "_arg"
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_arg"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "splat_argument"
+        }
+      ]
     },
     "if": {
       "type": "SEQ",
