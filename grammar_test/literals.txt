@@ -590,6 +590,8 @@ array
 
 [ foo, bar ]
 [foo, *bar]
+[foo, *@bar]
+[foo, *$bar]
 [foo, :bar => 1]
 
 ---
@@ -597,6 +599,8 @@ array
 (program
   (array (identifier) (identifier))
   (array (identifier) (splat_argument (identifier)))
+  (array (identifier) (splat_argument (instance_variable)))
+  (array (identifier) (splat_argument (global_variable)))
   (array (identifier) (pair (symbol) (integer))))
 
 =====
