@@ -211,7 +211,7 @@ struct Scanner {
       advance(lexer);
     }
 
-    if (lexer->lookahead == '?' || lexer->lookahead == '!') {
+    if (lexer->lookahead == '?' || lexer->lookahead == '!' || lexer->lookahead == '=') {
       advance(lexer);
     }
 

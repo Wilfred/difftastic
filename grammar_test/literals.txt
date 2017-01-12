@@ -5,6 +5,7 @@ symbol
 :foo
 :foo!
 :foo?
+:foo=
 :@foo
 :@foo_0123_bar
 :@@foo
@@ -14,6 +15,7 @@ symbol
 ---
 
 (program
+  (symbol)
   (symbol)
   (symbol)
   (symbol)
