@@ -91,10 +91,6 @@
         {
           "type": "SYMBOL",
           "name": "end_block"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "heredoc_end"
         }
       ]
     },
@@ -4256,8 +4252,20 @@
       "type": "CHOICE",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "_line_break"
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_line_break"
+            },
+            {
+              "type": "REPEAT",
+              "content": {
+                "type": "SYMBOL",
+                "name": "heredoc_end"
+              }
+            }
+          ]
         },
         {
           "type": "STRING",

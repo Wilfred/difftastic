@@ -85,8 +85,7 @@ module.exports = grammar({
     _top_level_statement: $ => choice(
       $._statement,
       $.begin_block,
-      $.end_block,
-      $.heredoc_end
+      $.end_block
     ),
 
     begin_block: $ => seq("BEGIN", "{", optional($._statements), "}"),
@@ -583,7 +582,11 @@ module.exports = grammar({
     ),
 
     _forward_slash: $ => '/',
-    _terminator: $ => choice($._line_break, ';'),
+    _terminator: $ => choice(
+      // Heredoc bodies always begin after a line break and can appear anywhere.
+      seq($._line_break, repeat($.heredoc_end)),
+      ';'
+    ),
   }
 });
 
