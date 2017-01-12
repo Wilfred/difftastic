@@ -552,12 +552,12 @@ foo :bar, -> (a) { where(:c => b) }
   (method_call (identifier)
     (argument_list
       (symbol)
-      (lambda (formal_parameters (identifier)) (integer))))
+      (lambda (lambda_parameters (identifier)) (integer))))
   (method_call (identifier)
     (argument_list
       (symbol)
       (lambda
-        (formal_parameters (identifier))
+        (lambda_parameters (identifier))
         (method_call (identifier) (argument_list (pair (symbol) (identifier))))))))
 
 ===============================
@@ -571,7 +571,7 @@ end
 
 (program
   (method_call (identifier)
-    (argument_list (symbol) (lambda (formal_parameters (identifier)) (integer)))
+    (argument_list (symbol) (lambda (lambda_parameters (identifier)) (integer)))
     (do_block)))
 
 ===============================
@@ -640,19 +640,19 @@ end
 (program
   (method_call
     (identifier)
-    (do_block (formal_parameters (identifier)) (identifier)))
+    (do_block (block_parameters (identifier)) (identifier)))
   (method_call
     (identifier)
     (argument_list (identifier))
-    (do_block (formal_parameters (identifier)) (identifier)))
+    (do_block (block_parameters (identifier)) (identifier)))
   (method_call
     (call (identifier) (identifier))
     (argument_list (identifier))
-    (do_block (formal_parameters (identifier)) (identifier)))
+    (do_block (block_parameters (identifier)) (identifier)))
   (method_call
     (identifier)
     (argument_list (identifier))
-    (do_block (formal_parameters (keyword_parameter (identifier) (identifier)) (splat_parameter (identifier))))))
+    (do_block (block_parameters (keyword_parameter (identifier) (identifier)) (splat_parameter (identifier))))))
 
 ===============================
 method call with block argument curly
@@ -665,10 +665,10 @@ foo(bar, baz) { quux }
 ---
 
 (program
-  (method_call (identifier) (block (formal_parameters (identifier)) (identifier)))
+  (method_call (identifier) (block (block_parameters (identifier)) (identifier)))
   (method_call (identifier) (argument_list (method_call
     (call (identifier) (identifier))
-    (block (formal_parameters (identifier)) (binary (identifier) (integer))))))
+    (block (block_parameters (identifier)) (binary (identifier) (integer))))))
 
   (method_call
     (identifier)
@@ -683,11 +683,19 @@ foo { |; i, j| }
 
 ---
 
-(program (method_call (identifier) (block (identifier) (identifier))))
+(program (method_call (identifier) (block (block_parameters (identifier) (identifier)))))
 
 ===============================
-method call block and destructured parameters
+destructured parameters
 ===============================
+
+-> (d, *f, (x, y)) {}
+
+def foo(d, *f, (x, y))
+end
+
+def foo d, *f, (x, y)
+end
 
 foo do |a, (c, d, *f, (x, y)), *e|
 end
@@ -695,17 +703,17 @@ end
 ---
 
 (program
-  (method_call
-    (identifier)
-    (do_block
-      (formal_parameters
-        (identifier)
-        (identifier)
-        (identifier)
-        (splat_parameter (identifier))
-        (identifier)
-        (identifier)
-        (splat_parameter (identifier))))))
+  (lambda
+    (lambda_parameters (identifier) (splat_parameter (identifier)) (destructured_parameter (identifier) (identifier))))
+  (method (identifier)
+    (method_parameters (identifier) (splat_parameter (identifier)) (destructured_parameter (identifier) (identifier))))
+  (method (identifier)
+    (method_parameters (identifier) (splat_parameter (identifier)) (destructured_parameter (identifier) (identifier))))
+  (method_call (identifier) (do_block
+    (block_parameters
+      (identifier)
+      (destructured_parameter (identifier) (identifier) (splat_parameter (identifier)) (destructured_parameter (identifier) (identifier)))
+      (splat_parameter (identifier))))))
 
 ===============================
 method call with array arguments
@@ -750,7 +758,7 @@ lambda { |foo| 1 }
 
 ---
 
-(program (lambda (formal_parameters (identifier)) (integer)))
+(program (lambda (block_parameters (identifier)) (integer)))
 
 ===========================
 lambda expression with multiple args
@@ -763,7 +771,7 @@ lambda { |a, b, c|
 
 ---
 
-(program (lambda (formal_parameters (identifier) (identifier) (identifier)) (integer) (integer)))
+(program (lambda (block_parameters (identifier) (identifier) (identifier)) (integer) (integer)))
 
 ====================
 lambda expression with do end
@@ -775,7 +783,7 @@ end
 
 ---
 
-(program (lambda (formal_parameters (identifier)) (integer)))
+(program (lambda (block_parameters (identifier)) (integer)))
 
 ===============================
 backslash-newline as line continuation

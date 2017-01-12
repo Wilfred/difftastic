@@ -110,17 +110,31 @@ module.exports = grammar({
         choice('.', '::')
       )),
       $._method_name,
-      choice(
-        seq('(', optional($.formal_parameters), ')'),
-        seq(optional($.formal_parameters), $._terminator)
-      ),
+      choice($.method_parameters, $._terminator),
       optional($._body_statement),
       'end'
     ),
 
-    formal_parameters: $ => prec(1, commaSep1($._formal_parameter)),
-    _formal_parameter: $ => choice(
-      seq('(', commaSep1($._formal_parameter), ')'),
+    method_parameters: $ => choice(
+      seq('(', commaSep($._formal_parameter), ')'),
+      seq($._simple_formal_parameter, $._terminator),
+      seq($._simple_formal_parameter, ',', commaSep1($._formal_parameter), $._terminator)
+    ),
+
+    lambda_parameters: $ => choice(
+      seq('(', commaSep($._formal_parameter), ')'),
+      $._simple_formal_parameter
+    ),
+
+    block_parameters: $ => seq(
+      '|',
+      commaSep($._formal_parameter),
+      optional(seq(';', sep1($.identifier, ','))), // Block shadow args e.g. {|; a, b| ...}
+      '|'
+    ),
+
+    _formal_parameter: $ => choice($._simple_formal_parameter, $.destructured_parameter),
+    _simple_formal_parameter: $ => choice(
       $.identifier,
       $.splat_parameter,
       $.hash_splat_parameter,
@@ -129,6 +143,7 @@ module.exports = grammar({
       $.optional_parameter
     ),
 
+    destructured_parameter: $ => seq('(', commaSep1($._formal_parameter), ')'),
     splat_parameter: $ => seq('*', optional($.identifier)),
     hash_splat_parameter: $ => seq('**', optional($.identifier)),
     block_parameter: $ => seq('&', $.identifier),
@@ -343,7 +358,7 @@ module.exports = grammar({
     do_block: $ => $._do_block,
     _do_block: $ => seq(
       'do',
-      optional($._block_parameters),
+      optional($.block_parameters),
       optional($._statements),
       'end'
     ),
@@ -351,16 +366,9 @@ module.exports = grammar({
     block: $ => $._block,
     _block: $ => seq(
       '{',
-      optional($._block_parameters),
+      optional($.block_parameters),
       optional($._statements),
       '}'
-    ),
-
-    _block_parameters: $ => seq(
-      '|',
-      optional($.formal_parameters),
-      optional(seq(';', sep1($.identifier, ','))), // Block shadow args e.g. {|; a, b| ...}
-      '|'
     ),
 
     assignment: $ => prec.right(PREC.ASSIGN, choice(
@@ -558,10 +566,7 @@ module.exports = grammar({
     lambda: $ => choice(
       seq(
         '->',
-        optional(choice(
-          seq('(', optional($.formal_parameters), ')'),
-          $._formal_parameter
-        )),
+        optional($.lambda_parameters),
         choice(
           seq('{', optional($._statements), '}'),
           seq('do', optional($._statements), 'end')

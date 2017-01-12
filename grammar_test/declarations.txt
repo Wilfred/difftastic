@@ -72,7 +72,7 @@ end
 
 ---
 
-(program (method (identifier) (formal_parameters (identifier))))
+(program (method (identifier) (method_parameters (identifier))))
 
 ================================
 method with unparenthesized args
@@ -83,7 +83,7 @@ end
 
 ---
 
-(program (method (identifier) (formal_parameters (identifier))))
+(program (method (identifier) (method_parameters (identifier))))
 
 =========================
 method with multiple args
@@ -94,7 +94,7 @@ end
 
 ---
 
-(program (method (identifier) (formal_parameters (identifier) (identifier))))
+(program (method (identifier) (method_parameters (identifier) (identifier))))
 
 =========================================
 method with multiple unparenthesized args
@@ -105,7 +105,7 @@ end
 
 ---
 
-(program (method (identifier) (formal_parameters (identifier) (identifier))))
+(program (method (identifier) (method_parameters (identifier) (identifier))))
 
 =========================================
 method with keyword parameters
@@ -118,7 +118,7 @@ end
 
 (program
   (method (identifier)
-    (formal_parameters
+    (method_parameters
       (keyword_parameter (identifier) (nil))
       (keyword_parameter (identifier)))))
 
@@ -136,9 +136,9 @@ end
 
 (program
   (method (identifier)
-    (formal_parameters (optional_parameter (identifier) (nil))))
+    (method_parameters (optional_parameter (identifier) (nil))))
   (method (identifier)
-    (formal_parameters (optional_parameter (identifier) (nil)))))
+    (method_parameters (optional_parameter (identifier) (nil)))))
 
 =========================================
 method with interesting params
@@ -165,12 +165,12 @@ end
 ---
 
 (program
-  (method (identifier) (formal_parameters (splat_parameter (identifier))))
-  (method (identifier) (formal_parameters (identifier) (splat_parameter (identifier))))
-  (method (identifier) (formal_parameters (identifier) (splat_parameter (identifier)) (identifier)))
-  (method (identifier) (formal_parameters (hash_splat_parameter (identifier))))
-  (method (identifier) (formal_parameters (keyword_parameter (identifier)) (hash_splat_parameter)))
-  (method (identifier) (formal_parameters (block_parameter (identifier)))))
+  (method (identifier) (method_parameters (splat_parameter (identifier))))
+  (method (identifier) (method_parameters (identifier) (splat_parameter (identifier))))
+  (method (identifier) (method_parameters (identifier) (splat_parameter (identifier)) (identifier)))
+  (method (identifier) (method_parameters (hash_splat_parameter (identifier))))
+  (method (identifier) (method_parameters (keyword_parameter (identifier)) (hash_splat_parameter)))
+  (method (identifier) (method_parameters (block_parameter (identifier)))))
 
 =========================================
 singleton method
@@ -205,7 +205,7 @@ end
 
 ---
 
-(program (method (self) (identifier) (formal_parameters (identifier))))
+(program (method (self) (identifier) (method_parameters (identifier))))
 
 =========================================
 singleton method with un-parenthesized arg
@@ -216,7 +216,7 @@ end
 
 ---
 
-(program (method (self) (identifier) (formal_parameters (identifier))))
+(program (method (self) (identifier) (method_parameters (identifier))))
 
 =========================================
 singleton method with args
@@ -227,7 +227,7 @@ end
 
 ---
 
-(program (method (self) (identifier) (formal_parameters (identifier) (identifier))))
+(program (method (self) (identifier) (method_parameters (identifier) (identifier))))
 
 
 =========================================
@@ -239,7 +239,7 @@ end
 
 ---
 
-(program (method (self) (identifier) (formal_parameters (identifier) (identifier))))
+(program (method (self) (identifier) (method_parameters (identifier) (identifier))))
 
 ===========
 empty class

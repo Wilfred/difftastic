@@ -603,7 +603,7 @@ array as object
 ---
 (program
   (method_call (call (array (integer) (integer)) (identifier))
-    (block (formal_parameters (identifier)) (binary (identifier) (integer)))))
+    (block (block_parameters (identifier)) (binary (identifier) (integer)))))
 
 =========================
 array with trailing comma
@@ -844,10 +844,10 @@ lambda literal with an arg
 ---
 
 (program
-  (lambda (identifier) (integer))
-  (lambda (formal_parameters (identifier)) (integer))
-  (lambda (splat_parameter (identifier)) (integer))
-  (lambda (keyword_parameter (identifier) (integer)) (integer)))
+  (lambda (lambda_parameters (identifier)) (integer))
+  (lambda (lambda_parameters (identifier)) (integer))
+  (lambda (lambda_parameters (splat_parameter (identifier))) (integer))
+  (lambda (lambda_parameters (keyword_parameter (identifier) (integer))) (integer)))
 
 ===========================
 lambda literal with multiple args
@@ -860,7 +860,7 @@ lambda literal with multiple args
 
 ---
 
-(program (lambda (formal_parameters (identifier) (identifier) (identifier)) (integer) (integer)))
+(program (lambda (lambda_parameters (identifier) (identifier) (identifier)) (integer) (integer)))
 
 ====================
 lambda literal with do end
@@ -872,4 +872,4 @@ end
 
 ---
 
-(program (lambda (formal_parameters (identifier)) (integer)))
+(program (lambda (lambda_parameters (identifier)) (integer)))
