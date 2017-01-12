@@ -217,10 +217,11 @@ float
 =====
 
 1.234_5e678_90
+1E30
 
 ---
 
-(program (float))
+(program (float) (float))
 
 =======
 boolean
