@@ -575,19 +575,21 @@ end
     (do_block)))
 
 ===============================
-method calls with rest argument
+method calls with splat argument
 ===============================
 
 foo(*bar)
 foo(x, *bar)
 foo(*bar.baz)
+foo(**baz)
 
 ---
 
 (program
-  (method_call (identifier) (argument_list (rest_argument (identifier))))
-  (method_call (identifier) (argument_list (identifier) (rest_argument (identifier))))
-  (method_call (identifier) (argument_list (rest_argument (call (identifier) (identifier))))))
+  (method_call (identifier) (argument_list (splat_argument (identifier))))
+  (method_call (identifier) (argument_list (identifier) (splat_argument (identifier))))
+  (method_call (identifier) (argument_list (splat_argument (call (identifier) (identifier)))))
+  (method_call (identifier) (argument_list (hash_splat_argument (identifier)))))
 
 ============================
 method call without parens

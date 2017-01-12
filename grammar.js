@@ -341,18 +341,21 @@ module.exports = grammar({
       $._argument_list_with_trailing_comma,
       choice(
         $._arg,
-        $.rest_argument,
+        $.splat_argument,
+        $.hash_splat_argument,
         $.pair
       ),
       ','
     )),
     _argument_list: $ => prec.left(1, commaSep1(choice(
       $._arg,
-      $.rest_argument,
+      $.splat_argument,
+      $.hash_splat_argument,
       $.pair
     ))),
 
-    rest_argument: $ => seq('*', $._arg),
+    splat_argument: $ => seq('*', $._arg),
+    hash_splat_argument: $ => seq('**', $._arg),
     block_argument: $ => seq('&', $._arg),
 
     do_block: $ => $._do_block,
@@ -543,7 +546,11 @@ module.exports = grammar({
       )
     ),
 
-    _array_items: $ => sepTrailing($._array_items, choice($.rest_argument, $._arg), ','),
+    _array_items: $ => sepTrailing($._array_items, choice(
+      $._arg,
+      $.splat_argument,
+      $.hash_splat_argument
+    ), ','),
 
     hash: $ => prec(1, seq('{', optional($._hash_items), '}')),
     _hash_items: $ => seq($.pair, optional(seq(',', optional($._hash_items)))),

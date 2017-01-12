@@ -592,7 +592,7 @@ array
 
 (program
 	(array (identifier) (identifier))
-	(array (identifier) (rest_argument (identifier))))
+	(array (identifier) (splat_argument (identifier))))
 
 =====
 array as object
