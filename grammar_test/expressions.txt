@@ -786,13 +786,25 @@ lambda expression with multiple args
 ===========================
 
 lambda { |a, b, c|
-	1
-	2
+  1
+  2
 }
 
 ---
 
 (program (lambda (block_parameters (identifier) (identifier) (identifier)) (integer) (integer)))
+
+===========================
+lambda expression with optional arg
+===========================
+
+lambda { |a, b=nil|
+  1
+}
+
+---
+
+(program (lambda (block_parameters (identifier) (optional_parameter (identifier) (nil))) (integer)))
 
 ====================
 lambda expression with do end

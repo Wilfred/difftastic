@@ -150,7 +150,7 @@ module.exports = grammar({
     hash_splat_parameter: $ => seq('**', optional($.identifier)),
     block_parameter: $ => seq('&', $.identifier),
     keyword_parameter: $ => prec.right(seq($.identifier, ':', optional($._arg))),
-    optional_parameter: $ => seq($.identifier, '=', $._arg),
+    optional_parameter: $ => prec(PREC.BITWISE_OR + 1, seq($.identifier, '=', $._arg)),
 
     class: $ => seq(
       'class',
