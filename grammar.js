@@ -332,26 +332,22 @@ module.exports = grammar({
     },
 
     argument_list: $ => prec.left(1, choice(
-      seq('(', optional($._argument_list_with_trailing_comma), optional($.block_argument), ')'),
-      seq($._argument_list, optional($.block_argument))
+      seq('(', optional($._argument_list_with_trailing_comma), ')'),
+      commaSep1($._arguments)
     )),
 
     _argument_list_with_trailing_comma: $ => prec.left(1, sepTrailing(
       $._argument_list_with_trailing_comma,
-      choice(
-        $._arg,
-        $.splat_argument,
-        $.hash_splat_argument,
-        $.pair
-      ),
+      $._arguments,
       ','
     )),
-    _argument_list: $ => prec.left(1, commaSep1(choice(
+    _arguments: $ => prec.left(1, choice(
       $._arg,
       $.splat_argument,
       $.hash_splat_argument,
+      $.block_argument,
       $.pair
-    ))),
+    )),
 
     splat_argument: $ => seq('*', $._arg),
     hash_splat_argument: $ => seq('**', $._arg),
@@ -535,7 +531,7 @@ module.exports = grammar({
     ),
 
     array: $ => choice(
-      seq('[', optional($._array_items), ']'),
+      seq('[', optional($._argument_list_with_trailing_comma), ']'),
       $._simple_word_list,
       seq(
         $._word_list_beginning,
@@ -544,12 +540,6 @@ module.exports = grammar({
         $._string_end
       )
     ),
-
-    _array_items: $ => sepTrailing($._array_items, choice(
-      $._arg,
-      $.splat_argument,
-      $.hash_splat_argument
-    ), ','),
 
     hash: $ => prec(1, seq('{', optional($._hash_items), '}')),
     _hash_items: $ => seq($.pair, optional(seq(',', optional($._hash_items)))),

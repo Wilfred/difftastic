@@ -589,12 +589,14 @@ array
 
 [ foo, bar ]
 [foo, *bar]
+[foo, :bar => 1]
 
 ---
 
 (program
-	(array (identifier) (identifier))
-	(array (identifier) (splat_argument (identifier))))
+  (array (identifier) (identifier))
+  (array (identifier) (splat_argument (identifier)))
+  (array (identifier) (pair (symbol) (integer))))
 
 =====
 array as object
