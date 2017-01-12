@@ -532,12 +532,31 @@ method call with block argument
 
 foo(&:sort)
 foo(&bar)
+foo(&bar, 1)
+foo &bar
+foo &bar, 1
 
 ---
 
 (program
   (method_call (identifier) (argument_list (block_argument (symbol))))
-  (method_call (identifier) (argument_list (block_argument (identifier)))))
+  (method_call (identifier) (argument_list (block_argument (identifier))))
+  (method_call (identifier) (argument_list (block_argument (identifier)) (integer)))
+  (method_call (identifier) (argument_list (block_argument (identifier))))
+  (method_call (identifier) (argument_list (block_argument (identifier)) (integer))))
+
+===============================
+method call with splat argument
+===============================
+
+foo(*bar)
+foo *bar
+
+---
+
+(program
+  (method_call (identifier) (argument_list (splat_argument (identifier))))
+  (method_call (identifier) (argument_list (splat_argument (identifier)))))
 
 ===============================
 method call lambda argument

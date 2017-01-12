@@ -26,7 +26,9 @@ enum TokenType : TSSymbol {
   HEREDOC_BEGINNING,
   LINE_BREAK,
   FORWARD_SLASH,
-  ELEMENT_REFERENCE_LEFT_BRACKET
+  ELEMENT_REFERENCE_LEFT_BRACKET,
+  BLOCK_AMPERSAND,
+  SPLAT_STAR
 };
 
 struct Literal {
@@ -487,6 +489,26 @@ struct Scanner {
 
     if (!scan_whitespace(lexer, valid_symbols)) return false;
     if (lexer->result_symbol == LINE_BREAK) return true;
+
+    if (valid_symbols[BLOCK_AMPERSAND] && lexer->lookahead == '&') {
+      advance(lexer);
+      if (isalpha(lexer->lookahead) || lexer->lookahead == ':') {
+        lexer->result_symbol = BLOCK_AMPERSAND;
+        return true;
+      } else {
+        return false;
+      }
+    }
+
+    if (valid_symbols[SPLAT_STAR] && lexer->lookahead == '*') {
+      advance(lexer);
+      if (isalpha(lexer->lookahead)) {
+        lexer->result_symbol = SPLAT_STAR;
+        return true;
+      } else {
+        return false;
+      }
+    }
 
     if (valid_symbols[HEREDOC_BODY_MIDDLE] && !open_heredoc_words.empty()) {
       if (scan_interpolation_close(lexer)) {

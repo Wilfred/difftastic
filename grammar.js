@@ -60,6 +60,8 @@ module.exports = grammar({
     $._line_break,
     $._forward_slash,
     $._element_reference_left_bracket,
+    $._block_ampersand,
+    $._splat_star
   ],
 
   extras: $ => [
@@ -349,9 +351,9 @@ module.exports = grammar({
       $.pair
     )),
 
-    splat_argument: $ => seq('*', $._arg),
+    splat_argument: $ => seq($._splat_star, $._arg),
     hash_splat_argument: $ => seq('**', $._arg),
-    block_argument: $ => seq('&', $._arg),
+    block_argument: $ => seq($._block_ampersand, $._arg),
 
     do_block: $ => $._do_block,
     _do_block: $ => seq(
