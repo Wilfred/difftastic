@@ -30,10 +30,10 @@ const integerPattern = /0b[01](_?[01])*|0[oO]?[0-7](_?[0-7])*|(0d)?\d(_?\d)*|0x[
 const floatPattern = /\d(_?\d)*([eE]\d(_?\d)*)?/;
 const identifierPattern = /[a-zA-Z_][a-zA-Z0-9_]*(\?|\!)?/;
 // Global variables start with $ and can be:
-// - Regex back references (e.g. $&, $', $', and $+)
+// - Regex back references (e.g. $$, $&, $`, $', and $+)
 // - Number global references (e.g. $1)
 // - User defined (e.g. $FOO)
-const globalVariablePattern = /\$(([&`'+])|([1-9][0-9]*)|([a-zA-Z_][a-zA-Z0-9_]*))/;
+const globalVariablePattern = /\$(([\$&`'+])|([0-9]*)|([a-zA-Z_][a-zA-Z0-9_]*))/;
 const instanceVariablePattern = /@[a-zA-Z_][a-zA-Z0-9_]*/; // (e.g. @foo)
 const classVariablePattern = /@@[a-zA-Z_][a-zA-Z0-9_]*/; // (e.g. @@foo)
 

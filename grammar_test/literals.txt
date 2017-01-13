@@ -141,6 +141,49 @@ percent symbol with balanced delimiters
 
 (program (symbol) (symbol) (symbol) (symbol))
 
+=======================================
+global variables
+=======================================
+
+$foo
+$$
+$&
+$`
+$'
+$+
+$1
+$2
+$3
+$4
+$5
+$6
+$7
+$8
+$9
+$0
+$10
+
+---
+
+ (program
+  (global_variable)
+  (global_variable)
+  (global_variable)
+  (global_variable)
+  (global_variable)
+  (global_variable)
+  (global_variable)
+  (global_variable)
+  (global_variable)
+  (global_variable)
+  (global_variable)
+  (global_variable)
+  (global_variable)
+  (global_variable)
+  (global_variable)
+  (global_variable)
+  (global_variable))
+
 =======
 integer
 =======
