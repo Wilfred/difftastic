@@ -172,13 +172,16 @@ x, *args = [1, 2]
 multiple assignment with multiple right hand sides
 ==========
 
+foo = 1, 2
 x, y = foo, bar
 
 ---
 
-(program (assignment
-  (left_assignment_list (identifier) (identifier))
-  (right_assignment_list (identifier) (identifier))))
+(program
+  (assignment (identifier) (right_assignment_list (integer) (integer)))
+  (assignment
+    (left_assignment_list (identifier) (identifier))
+    (right_assignment_list (identifier) (identifier))))
 
 ==========
 assignment from method call

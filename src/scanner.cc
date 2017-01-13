@@ -94,7 +94,8 @@ struct Scanner {
             while(lexer->lookahead == ' ' || lexer->lookahead == '\t') {
               skip(lexer);
             }
-            if (lexer->lookahead == '.') {
+            // TODO
+            if (lexer->lookahead == '.' /*&& open_heredoc_words.empty()*/) {
               break;
             } else {
               lexer->result_symbol = LINE_BREAK;

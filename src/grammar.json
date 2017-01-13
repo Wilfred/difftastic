@@ -2204,7 +2204,7 @@
       ]
     },
     "argument_list": {
-      "type": "PREC_LEFT",
+      "type": "PREC_RIGHT",
       "value": 1,
       "content": {
         "type": "CHOICE",
@@ -2239,7 +2239,7 @@
             "members": [
               {
                 "type": "SYMBOL",
-                "name": "_arguments"
+                "name": "_argument"
               },
               {
                 "type": "REPEAT",
@@ -2252,7 +2252,7 @@
                     },
                     {
                       "type": "SYMBOL",
-                      "name": "_arguments"
+                      "name": "_argument"
                     }
                   ]
                 }
@@ -2263,21 +2263,21 @@
       }
     },
     "_argument_list_with_trailing_comma": {
-      "type": "PREC_LEFT",
+      "type": "PREC_RIGHT",
       "value": 1,
       "content": {
         "type": "CHOICE",
         "members": [
           {
             "type": "SYMBOL",
-            "name": "_arguments"
+            "name": "_argument"
           },
           {
             "type": "SEQ",
             "members": [
               {
                 "type": "SYMBOL",
-                "name": "_arguments"
+                "name": "_argument"
               },
               {
                 "type": "STRING",
@@ -2300,7 +2300,7 @@
         ]
       }
     },
-    "_arguments": {
+    "_argument": {
       "type": "PREC_LEFT",
       "value": 1,
       "content": {
@@ -2451,12 +2451,12 @@
       ]
     },
     "assignment": {
-      "type": "PREC_RIGHT",
-      "value": 15,
-      "content": {
-        "type": "CHOICE",
-        "members": [
-          {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "PREC",
+          "value": 1,
+          "content": {
             "type": "SEQ",
             "members": [
               {
@@ -2472,43 +2472,60 @@
                 "name": "_arg"
               }
             ]
-          },
-          {
-            "type": "SEQ",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "left_assignment_list"
-              },
-              {
-                "type": "STRING",
-                "value": "="
-              },
-              {
-                "type": "SYMBOL",
-                "name": "_arg"
-              }
-            ]
-          },
-          {
-            "type": "SEQ",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "left_assignment_list"
-              },
-              {
-                "type": "STRING",
-                "value": "="
-              },
-              {
-                "type": "SYMBOL",
-                "name": "right_assignment_list"
-              }
-            ]
           }
-        ]
-      }
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "left_assignment_list"
+            },
+            {
+              "type": "STRING",
+              "value": "="
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_arg"
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "left_assignment_list"
+            },
+            {
+              "type": "STRING",
+              "value": "="
+            },
+            {
+              "type": "SYMBOL",
+              "name": "right_assignment_list"
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_lhs"
+            },
+            {
+              "type": "STRING",
+              "value": "="
+            },
+            {
+              "type": "SYMBOL",
+              "name": "right_assignment_list"
+            }
+          ]
+        }
+      ]
     },
     "operator_assignment": {
       "type": "PREC_RIGHT",

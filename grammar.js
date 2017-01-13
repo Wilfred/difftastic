@@ -334,17 +334,17 @@ module.exports = grammar({
       )
     },
 
-    argument_list: $ => prec.left(1, choice(
+    argument_list: $ => prec.right(1, choice(
       seq('(', optional($._argument_list_with_trailing_comma), ')'),
-      commaSep1($._arguments)
+      commaSep1($._argument)
     )),
 
-    _argument_list_with_trailing_comma: $ => prec.left(1, sepTrailing(
+    _argument_list_with_trailing_comma: $ => prec.right(1, sepTrailing(
       $._argument_list_with_trailing_comma,
-      $._arguments,
+      $._argument,
       ','
     )),
-    _arguments: $ => prec.left(1, choice(
+    _argument: $ => prec.left(1, choice(
       $._arg,
       $.splat_argument,
       $.hash_splat_argument,
@@ -372,11 +372,12 @@ module.exports = grammar({
       '}'
     ),
 
-    assignment: $ => prec.right(PREC.ASSIGN, choice(
-      seq($._lhs, '=', $._arg),
+    assignment: $ => choice(
+      prec(1, seq($._lhs, '=', $._arg)),
       seq($.left_assignment_list, '=', $._arg),
-      seq($.left_assignment_list, '=', $.right_assignment_list)
-    )),
+      seq($.left_assignment_list, '=', $.right_assignment_list),
+      seq($._lhs, '=', $.right_assignment_list)
+    ),
 
     operator_assignment: $ => prec.right(PREC.ASSIGN, seq(
       $._lhs,
