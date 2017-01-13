@@ -544,6 +544,21 @@ SQL
   (heredoc_beginning) (heredoc_end))
 
 ========================================
+heredocs in context starting with dot
+========================================
+
+def foo
+  select(<<-SQL)
+  .
+  SQL
+end
+
+---
+
+(program (method (identifier)
+  (method_call (identifier) (argument_list (heredoc_beginning))) (heredoc_end)))
+
+========================================
 heredocs with interpolation
 ========================================
 
