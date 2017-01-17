@@ -554,12 +554,14 @@ method call with splat argument
 
 foo(*bar)
 foo *bar
+foo *(bar.baz)
 
 ---
 
 (program
   (method_call (identifier) (argument_list (splat_argument (identifier))))
-  (method_call (identifier) (argument_list (splat_argument (identifier)))))
+  (method_call (identifier) (argument_list (splat_argument (identifier))))
+  (method_call (identifier) (argument_list (splat_argument (call (identifier) (identifier))))))
 
 ===============================
 method call lambda argument
