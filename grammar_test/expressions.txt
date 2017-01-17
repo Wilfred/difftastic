@@ -188,13 +188,17 @@ assignment from method call
 ==========
 
 x = foo a, b
+x = foo a, :b => 1, :c => 2
 
 ---
 
 (program
   (assignment (identifier)
     (method_call (identifier)
-      (argument_list (identifier) (identifier)))))
+      (argument_list (identifier) (identifier))))
+  (assignment (identifier)
+    (method_call (identifier)
+      (argument_list (identifier) (pair (symbol) (integer)) (pair (symbol) (integer))))))
 
 ==========
 math assignment
