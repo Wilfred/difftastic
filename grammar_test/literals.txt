@@ -621,6 +621,20 @@ TWO
   (heredoc_end))
 
 ========================================
+heredoc content that starts with a dot
+========================================
+
+-> {
+  select(<<-SQL)
+  .
+  SQL
+}
+
+---
+
+(program (lambda (method_call (identifier) (argument_list (heredoc_beginning))) (heredoc_end)))
+
+========================================
 un-terminated heredocs
 ========================================
 
