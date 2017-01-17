@@ -534,6 +534,16 @@ foo a: true
   (method_call (identifier) (argument_list (pair (identifier) (boolean)))))
 
 ===============================
+method call with paren args
+===============================
+
+foo (b), a
+
+---
+
+(program (method_call (identifier) (argument_list (identifier) (identifier))))
+
+===============================
 method call with block argument
 ===============================
 
