@@ -543,6 +543,19 @@ SQL
     (heredoc_beginning) (heredoc_end))
   (heredoc_beginning) (heredoc_end))
 
+
+========================================
+heredoc with interspersed end word
+========================================
+
+<<-eos
+  repositories
+eos
+
+---
+
+(program (heredoc_beginning) (heredoc_end))
+
 ========================================
 heredocs in context starting with dot
 ========================================

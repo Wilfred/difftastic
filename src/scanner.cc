@@ -440,20 +440,22 @@ struct Scanner {
       if (lexer->lookahead == heredoc.word[position_in_word]) {
         advance(lexer);
         position_in_word++;
-      } else if (lexer->lookahead == '#') {
-        advance(lexer);
-        if (lexer->lookahead == '{') {
-          advance(lexer);
-          return Interpolation;
-        }
-      } else if (lexer->lookahead == '\n') {
-        advance(lexer);
-        while (lexer->lookahead == ' ' || lexer->lookahead == '\t') {
-          advance(lexer);
-        }
-        position_in_word = 0;
       } else {
-        advance(lexer);
+        position_in_word = 0;
+        if (lexer->lookahead == '#') {
+          advance(lexer);
+          if (lexer->lookahead == '{') {
+            advance(lexer);
+            return Interpolation;
+          }
+        } else if (lexer->lookahead == '\n') {
+          advance(lexer);
+          while (lexer->lookahead == ' ' || lexer->lookahead == '\t') {
+            advance(lexer);
+          }
+        } else {
+          advance(lexer);
+        }
       }
     }
   }
