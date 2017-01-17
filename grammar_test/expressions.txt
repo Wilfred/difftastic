@@ -456,17 +456,17 @@ foo a,
     (argument_list (identifier) (identifier) (identifier))))
 
 ===============================
-method call with training comma
+method call with trailing comma
 ===============================
 
 foo(a, b,)
+foo(bar(a),)
 
 ---
 
 (program
-  (method_call
-    (identifier)
-    (argument_list (identifier) (identifier))))
+  (method_call (identifier) (argument_list (identifier) (identifier)))
+  (method_call (identifier) (argument_list (method_call (identifier) (argument_list (identifier))))))
 
 ===============================
 method call with receiver
