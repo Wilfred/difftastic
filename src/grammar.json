@@ -2547,23 +2547,6 @@
               "name": "right_assignment_list"
             }
           ]
-        },
-        {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "_lhs"
-            },
-            {
-              "type": "STRING",
-              "value": "="
-            },
-            {
-              "type": "SYMBOL",
-              "name": "right_assignment_list"
-            }
-          ]
         }
       ]
     },

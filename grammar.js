@@ -376,8 +376,7 @@ module.exports = grammar({
     assignment: $ => choice(
       prec(1, seq($._lhs, '=', $._arg)),
       seq($.left_assignment_list, '=', $._arg),
-      seq($.left_assignment_list, '=', $.right_assignment_list),
-      seq($._lhs, '=', $.right_assignment_list)
+      seq($.left_assignment_list, '=', $.right_assignment_list)
     ),
 
     operator_assignment: $ => prec.right(PREC.ASSIGN, seq(
