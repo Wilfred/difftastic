@@ -537,9 +537,7 @@ struct Scanner {
             return true;
         }
       }
-    }
-
-    if (valid_symbols[HEREDOC_BODY_BEGINNING] && !open_heredocs.empty() && open_heredocs.front().found_starting_linebreak) {
+    } else if (valid_symbols[HEREDOC_BODY_BEGINNING] && !open_heredocs.empty() && open_heredocs.front().found_starting_linebreak) {
       switch (scan_heredoc_content(lexer)) {
         case Error:
           return false;

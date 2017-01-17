@@ -585,7 +585,7 @@ heredocs with interpolation
 <<TEXT
 a
 b #{[1, "c #{2} d", 3]} e
-#{4} f #{5}
+#{4} f #{foo.bar}
 g
 TEXT
 
@@ -598,7 +598,7 @@ return
   (heredoc_end
     (array (integer) (string (integer)) (integer))
     (integer)
-    (integer))
+    (call (identifier) (identifier)))
   (return))
 
 ========================================
