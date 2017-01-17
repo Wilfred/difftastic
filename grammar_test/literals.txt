@@ -559,6 +559,26 @@ end
   (method_call (identifier) (argument_list (heredoc_beginning))) (heredoc_end)))
 
 ========================================
+heredocs with method continuation
+========================================
+
+select(<<-SQL)
+ab
+SQL
+  .join()
+
+---
+
+(program (method_call
+  (call
+    (method_call
+      (identifier)
+      (argument_list (heredoc_beginning)))
+    (heredoc_end)
+    (identifier))
+  (argument_list)))
+
+========================================
 heredocs with interpolation
 ========================================
 
