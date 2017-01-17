@@ -993,8 +993,8 @@
             "name": "_statement"
           },
           {
-            "type": "STRING",
-            "value": "if"
+            "type": "SYMBOL",
+            "name": "_if"
           },
           {
             "type": "SYMBOL",
@@ -1331,8 +1331,8 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "STRING",
-          "value": "if"
+          "type": "SYMBOL",
+          "name": "_if"
         },
         {
           "type": "SYMBOL",
@@ -4227,6 +4227,7 @@
     "_element_reference_left_bracket",
     "_block_ampersand",
     "_splat_star",
-    "_call_line_break"
+    "_call_line_break",
+    "_if"
   ]
 }

@@ -29,7 +29,8 @@ enum TokenType : TSSymbol {
   ELEMENT_REFERENCE_LEFT_BRACKET,
   BLOCK_AMPERSAND,
   SPLAT_STAR,
-  CALL_LINE_BREAK
+  CALL_LINE_BREAK,
+  IF
 };
 
 struct Literal {
@@ -521,6 +522,18 @@ struct Scanner {
         return true;
       } else {
         return false;
+      }
+    }
+
+    // TODO: Fix for full list of reserved words.
+    if (valid_symbols[IF] && lexer->lookahead == 'i') {
+      advance(lexer);
+      if (lexer->lookahead == 'f') {
+        advance(lexer);
+        if (lexer->lookahead != ':') {
+          lexer->result_symbol = IF;
+          return true;
+        }
       }
     }
 
