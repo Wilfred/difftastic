@@ -599,6 +599,7 @@ heredocs with interpolation
 a
 b #{[1, "c #{2} d", 3]} e
 #{4} f #{foo.bar}
+#{a if b}
 g
 TEXT
 
@@ -611,7 +612,8 @@ return
   (heredoc_end
     (array (integer) (string (integer)) (integer))
     (integer)
-    (call (identifier) (identifier)))
+    (call (identifier) (identifier))
+    (if_modifier (identifier) (identifier)))
   (return))
 
 ========================================

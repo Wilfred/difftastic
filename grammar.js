@@ -532,8 +532,8 @@ module.exports = grammar({
       $._simple_heredoc_body,
       seq(
         $._heredoc_body_beginning,
-        repeat(seq($._arg, $._heredoc_body_middle)),
-        $._arg,
+        repeat(seq($._statement, $._heredoc_body_middle)),
+        $._statement,
         $._heredoc_body_end
       )
     ),
