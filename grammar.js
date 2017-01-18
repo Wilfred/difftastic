@@ -337,23 +337,23 @@ module.exports = grammar({
       )
     },
 
-    argument_list: $ => prec.right(1, choice(
+    argument_list: $ => prec.right(choice(
       seq($._argument_list_left_paren, optional($._argument_list_with_trailing_comma), ')'),
       commaSep1($._argument)
     )),
 
-    _argument_list_with_trailing_comma: $ => prec.right(1, sepTrailing(
+    _argument_list_with_trailing_comma: $ => sepTrailing(
       $._argument_list_with_trailing_comma,
       $._argument,
       ','
-    )),
-    _argument: $ => prec.left(1, choice(
+    ),
+    _argument: $ => choice(
       $._arg,
       $.splat_argument,
       $.hash_splat_argument,
       $.block_argument,
       $.pair
-    )),
+    ),
 
     splat_argument: $ => seq($._splat_star, $._arg),
     hash_splat_argument: $ => seq('**', $._arg),
@@ -376,9 +376,9 @@ module.exports = grammar({
     ),
 
     assignment: $ => choice(
-      prec(1, seq($._lhs, '=', choice($._arg, $.splat_argument))),
-      seq($.left_assignment_list, '=', choice($._arg, $.splat_argument)),
-      seq($.left_assignment_list, '=', $.right_assignment_list)
+      prec(1, seq($._lhs, '=', $._arg_or_splat_arg)),
+      seq($._lhs, '=', $.right_assignment_list),
+      seq($.left_assignment_list, '=', choice($._arg_or_splat_arg, $.right_assignment_list))
     ),
 
     operator_assignment: $ => prec.right(PREC.ASSIGN, seq(
@@ -413,7 +413,8 @@ module.exports = grammar({
       prec.right(PREC.COMPLEMENT, seq(choice('!', '~'), $._arg))
     ),
 
-    right_assignment_list: $ => prec.left(-1, commaSep1($._arg)),
+    right_assignment_list: $ => prec(-1, commaSep1($._arg_or_splat_arg)),
+    _arg_or_splat_arg: $ => choice($._arg, $.splat_argument),
 
     left_assignment_list: $ => $._mlhs,
     _mlhs: $ => prec.left(-1, sepTrailing(
