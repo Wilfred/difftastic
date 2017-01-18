@@ -586,7 +586,7 @@ module.exports = grammar({
 });
 
 function sepTrailing (self, rule, separator) {
-  return choice(rule, seq(rule, separator, optional(self)))
+  return choice(rule, seq(rule, separator, optional(self)));
 }
 
 function sep1 (rule, separator) {
@@ -594,7 +594,7 @@ function sep1 (rule, separator) {
 }
 
 function commaSep1 (rule) {
-  return sep1(rule, ',')
+  return sep1(rule, ',');
 }
 
 function commaSep (rule) {
