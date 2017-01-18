@@ -148,10 +148,13 @@ assignment
 ==========
 
 x = y
+x = *args
 
 ---
 
-(program (assignment (identifier) (identifier)))
+(program
+  (assignment (identifier) (identifier))
+  (assignment (identifier) (splat_argument (identifier))))
 
 ==========
 multiple assignment
@@ -160,13 +163,15 @@ multiple assignment
 x, y = [1, 2]
 x, * = [1, 2]
 x, *args = [1, 2]
+x, y = *foo
 
 ---
 
 (program
   (assignment (left_assignment_list (identifier) (identifier)) (array (integer) (integer)))
   (assignment (left_assignment_list (identifier) (rest_assignment)) (array (integer) (integer)))
-  (assignment (left_assignment_list (identifier) (rest_assignment (identifier))) (array (integer) (integer))))
+  (assignment (left_assignment_list (identifier) (rest_assignment (identifier))) (array (integer) (integer)))
+  (assignment (left_assignment_list (identifier) (identifier)) (splat_argument (identifier))))
 
 ==========
 multiple assignment with multiple right hand sides

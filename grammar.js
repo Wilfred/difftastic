@@ -375,8 +375,8 @@ module.exports = grammar({
     ),
 
     assignment: $ => choice(
-      prec(1, seq($._lhs, '=', $._arg)),
-      seq($.left_assignment_list, '=', $._arg),
+      prec(1, seq($._lhs, '=', choice($._arg, $.splat_argument))),
+      seq($.left_assignment_list, '=', choice($._arg, $.splat_argument)),
       seq($.left_assignment_list, '=', $.right_assignment_list)
     ),
 
