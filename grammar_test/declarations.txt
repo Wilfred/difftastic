@@ -18,9 +18,9 @@ end
   (method (identifier))
   (method (identifier)))
 
-================
+=====================
 method with body
-================
+=====================
 
 def foo
   bar
@@ -30,9 +30,9 @@ end
 
 (program (method (identifier) (identifier)))
 
-================
+===========================
 method as attribute setter
-================
+===========================
 
 def foo=
 end
@@ -41,9 +41,26 @@ end
 
 (program (method (setter (identifier))))
 
-================
+=================================
+method with operator method name
+=================================
+
+def /(name)
+end
+
+def / name
+end
+
+---
+
+(program
+  (method (operator) (method_parameters (identifier)))
+  (method (operator) (method_parameters (identifier))))
+
+
+===========================
 method with call to super
-================
+===========================
 
 def foo
   super
@@ -63,9 +80,9 @@ end
       (call (identifier) (identifier))
       (argument_list (identifier) (identifier)))))
 
-================
+===========================
 method with args
-================
+===========================
 
 def foo(bar)
 end
