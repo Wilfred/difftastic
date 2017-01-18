@@ -64,7 +64,8 @@ module.exports = grammar({
     $._block_ampersand,
     $._splat_star,
     $._call_line_break,
-    $._if
+    $._if,
+    $._argument_list_left_paren
   ],
 
   extras: $ => [
@@ -337,7 +338,7 @@ module.exports = grammar({
     },
 
     argument_list: $ => prec.right(1, choice(
-      seq('(', optional($._argument_list_with_trailing_comma), ')'),
+      seq($._argument_list_left_paren, optional($._argument_list_with_trailing_comma), ')'),
       commaSep1($._argument)
     )),
 

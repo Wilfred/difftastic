@@ -2253,8 +2253,8 @@
             "type": "SEQ",
             "members": [
               {
-                "type": "STRING",
-                "value": "("
+                "type": "SYMBOL",
+                "name": "_argument_list_left_paren"
               },
               {
                 "type": "CHOICE",
@@ -4246,6 +4246,7 @@
     "_block_ampersand",
     "_splat_star",
     "_call_line_break",
-    "_if"
+    "_if",
+    "_argument_list_left_paren"
   ]
 }

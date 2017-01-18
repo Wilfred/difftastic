@@ -30,7 +30,8 @@ enum TokenType : TSSymbol {
   BLOCK_AMPERSAND,
   SPLAT_STAR,
   CALL_LINE_BREAK,
-  IF
+  IF,
+  ARGUMENT_LIST_LEFT_PAREN
 };
 
 struct Literal {
@@ -537,6 +538,12 @@ struct Scanner {
           return true;
         }
       }
+    }
+
+    if (valid_symbols[ARGUMENT_LIST_LEFT_PAREN] && lexer->lookahead == '(' && !has_leading_whitespace) {
+      advance(lexer);
+      lexer->result_symbol = ARGUMENT_LIST_LEFT_PAREN;
+      return true;
     }
 
     if (valid_symbols[HEREDOC_BODY_MIDDLE] && !open_heredocs.empty() && open_heredocs.front().found_starting_linebreak) {
