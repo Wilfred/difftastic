@@ -819,6 +819,18 @@ lambda { |a, b, c|
 (program (lambda (block_parameters (identifier) (identifier) (identifier)) (integer) (integer)))
 
 ===========================
+lambda expression with trailing comma
+===========================
+
+lambda { |a, b,|
+  1
+}
+
+---
+
+(program (lambda (block_parameters (identifier) (identifier)) (integer)))
+
+===========================
 lambda expression with optional arg
 ===========================
 
