@@ -292,9 +292,14 @@ empty subclass of namespaced class
 class Foo < Bar::Quux
 end
 
+class Foo < ::Bar
+end
+
 ---
 
-(program (class (constant (identifier)) (superclass (constant (identifier) (identifier)))))
+(program
+  (class (constant (identifier)) (superclass (constant (identifier) (identifier))))
+  (class (constant (identifier)) (superclass (constant (identifier)))))
 
 ===============
 class with body

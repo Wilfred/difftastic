@@ -162,7 +162,7 @@ module.exports = grammar({
       optional($._body_statement),
       'end'
     ),
-    constant: $ => prec.right(sep1($.identifier, '::')),
+    constant: $ => prec.right(seq(optional('::'), sep1($.identifier, '::'))),
     superclass: $ => seq('<', $.constant, $._terminator),
 
     singleton_class: $ => seq(
