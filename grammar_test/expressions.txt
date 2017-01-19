@@ -830,6 +830,18 @@ lambda { |a, b=nil|
 
 (program (lambda (block_parameters (identifier) (optional_parameter (identifier) (nil))) (integer)))
 
+===========================
+lambda expression with keyword arg
+===========================
+
+lambda { |a, b: nil|
+  1
+}
+
+---
+
+(program (lambda (block_parameters (identifier) (keyword_parameter (identifier) (nil))) (integer)))
+
 ====================
 lambda expression with do end
 ====================

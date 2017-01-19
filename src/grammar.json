@@ -669,7 +669,7 @@
     },
     "keyword_parameter": {
       "type": "PREC_RIGHT",
-      "value": 0,
+      "value": 51,
       "content": {
         "type": "SEQ",
         "members": [
