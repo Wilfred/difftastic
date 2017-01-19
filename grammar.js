@@ -66,7 +66,8 @@ module.exports = grammar({
     $._if,
     $._unless,
     $._argument_list_left_paren,
-    $._method_name
+    $._method_name,
+    $._scope_double_colon
   ],
 
   extras: $ => [
@@ -323,7 +324,10 @@ module.exports = grammar({
     ),
 
     element_reference: $ => prec.left(1, seq($._primary, $._element_reference_left_bracket, $._argument_list_with_trailing_comma, ']')),
-    scope_resolution: $ => prec.left(1, seq(optional($._primary), '::', $.identifier)),
+    scope_resolution: $ => prec.left(1, choice(
+      seq('::', $.identifier),
+      seq($._primary, $._scope_double_colon, $.identifier)
+    )),
     call: $ => prec.left(PREC.BITWISE_AND + 1, seq($._primary, choice('.', '&.'), $.identifier)),
 
     method_call: $ => {

@@ -2013,27 +2013,37 @@
       "type": "PREC_LEFT",
       "value": 1,
       "content": {
-        "type": "SEQ",
+        "type": "CHOICE",
         "members": [
           {
-            "type": "CHOICE",
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "::"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "identifier"
+              }
+            ]
+          },
+          {
+            "type": "SEQ",
             "members": [
               {
                 "type": "SYMBOL",
                 "name": "_primary"
               },
               {
-                "type": "BLANK"
+                "type": "SYMBOL",
+                "name": "_scope_double_colon"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "identifier"
               }
             ]
-          },
-          {
-            "type": "STRING",
-            "value": "::"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "identifier"
           }
         ]
       }
@@ -4254,6 +4264,7 @@
     "_if",
     "_unless",
     "_argument_list_left_paren",
-    "_method_name"
+    "_method_name",
+    "_scope_double_colon"
   ]
 }

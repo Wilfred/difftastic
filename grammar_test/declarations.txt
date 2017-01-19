@@ -268,10 +268,14 @@ end
 class Foo::Bar
 end
 
+class ::Foo::Bar
+end
+
 ---
 
 (program
   (class (constant (identifier)))
+  (class (constant (identifier) (identifier)))
   (class (constant (identifier) (identifier))))
 
 ==============

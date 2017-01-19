@@ -32,7 +32,8 @@ enum TokenType : TSSymbol {
   IF,
   UNLESS,
   ARGUMENT_LIST_LEFT_PAREN,
-  METHOD_NAME
+  METHOD_NAME,
+  SCOPE_DOUBLE_COLON
 };
 
 struct Literal {
@@ -553,6 +554,17 @@ struct Scanner {
           } else {
             break;
           }
+        }
+      }
+    }
+
+    if (valid_symbols[SCOPE_DOUBLE_COLON] && lexer->lookahead == ':' && !has_leading_whitespace) {
+      advance(lexer);
+      if (lexer->lookahead == ':') {
+        advance(lexer);
+        if (lexer->lookahead != ' ' && lexer->lookahead != '\t' && lexer->lookahead != '\n') {
+          lexer->result_symbol = SCOPE_DOUBLE_COLON;
+          return true;
         }
       }
     }

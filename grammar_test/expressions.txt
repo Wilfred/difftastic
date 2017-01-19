@@ -5,11 +5,14 @@ scope resolution
 Foo::bar
 ::Bar
 
+puts ::Foo::Bar
+
 ---
 
 (program
   (scope_resolution (identifier) (identifier))
-  (scope_resolution (identifier)))
+  (scope_resolution (identifier))
+  (method_call (identifier) (argument_list (scope_resolution (scope_resolution (identifier)) (identifier)))))
 
 ============
 element reference
