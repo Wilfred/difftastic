@@ -64,6 +64,7 @@ module.exports = grammar({
     $._block_ampersand,
     $._splat_star,
     $._if,
+    $._unless,
     $._argument_list_left_paren,
     $._method_name
   ],
@@ -190,7 +191,7 @@ module.exports = grammar({
     retry: $ => 'retry',
 
     if_modifier: $ => prec(PREC.RESCUE, seq($._statement, $._if, $._arg)),
-    unless_modifier: $ => prec(PREC.RESCUE, seq($._statement, 'unless', $._arg)),
+    unless_modifier: $ => prec(PREC.RESCUE, seq($._statement, $._unless, $._arg)),
     while_modifier: $ => prec(PREC.RESCUE, seq($._statement, 'while', $._arg)),
     until_modifier: $ => prec(PREC.RESCUE, seq($._statement, 'until', $._arg)),
     rescue_modifier: $ => prec(PREC.RESCUE, seq($._statement, 'rescue', $._arg)),
@@ -225,7 +226,7 @@ module.exports = grammar({
       'end'
     ),
     unless: $ => seq(
-      'unless',
+      $._unless,
       $._arg,
       $._then,
       optional($._statements),

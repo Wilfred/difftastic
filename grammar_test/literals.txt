@@ -843,10 +843,13 @@ hash with reserved word key
 =========================
 
 { if: :foo }
+{ unless: :foo }
 
 ---
 
-(program (hash (pair (identifier) (symbol))))
+(program
+  (hash (pair (identifier) (symbol)))
+  (hash (pair (identifier) (symbol))))
 
 ======================
 hash with keyword keys

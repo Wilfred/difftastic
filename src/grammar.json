@@ -1031,8 +1031,8 @@
             "name": "_statement"
           },
           {
-            "type": "STRING",
-            "value": "unless"
+            "type": "SYMBOL",
+            "name": "_unless"
           },
           {
             "type": "SYMBOL",
@@ -1393,8 +1393,8 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "STRING",
-          "value": "unless"
+          "type": "SYMBOL",
+          "name": "_unless"
         },
         {
           "type": "SYMBOL",
@@ -4235,6 +4235,7 @@
     "_block_ampersand",
     "_splat_star",
     "_if",
+    "_unless",
     "_argument_list_left_paren",
     "_method_name"
   ]

@@ -30,6 +30,7 @@ enum TokenType : TSSymbol {
   BLOCK_AMPERSAND,
   SPLAT_STAR,
   IF,
+  UNLESS,
   ARGUMENT_LIST_LEFT_PAREN,
   METHOD_NAME
 };
@@ -69,6 +70,16 @@ TokenType SIMPLE_TOKEN_TYPES[] = {
   SIMPLE_SUBSHELL,
   SIMPLE_REGEX,
   SIMPLE_WORD_LIST,
+};
+
+struct ReservedWord {
+  string word;
+  TokenType type;
+};
+
+ReservedWord RESERVED_WORDS[] = {
+  { "if", IF },
+  { "unless", UNLESS },
 };
 
 struct Scanner {
@@ -528,14 +539,20 @@ struct Scanner {
       }
     }
 
-    // TODO: Fix for full list of reserved words.
-    if (valid_symbols[IF] && lexer->lookahead == 'i') {
-      advance(lexer);
-      if (lexer->lookahead == 'f') {
-        advance(lexer);
-        if (lexer->lookahead != ':') {
-          lexer->result_symbol = IF;
-          return true;
+    // Reserved words like if and unless can be symbol keys (e.g. { if: 1}).
+    for(auto reserved_word : RESERVED_WORDS) {
+      if (valid_symbols[reserved_word.type]) {
+        for(size_t i = 0; i < reserved_word.word.size(); i++) {
+          if (lexer->lookahead == 0) break;
+          if (lexer->lookahead == reserved_word.word[i]) {
+            advance(lexer);
+            if (i == reserved_word.word.size() - 1 && lexer->lookahead != ':') {
+              lexer->result_symbol = reserved_word.type;
+              return true;
+            }
+          } else {
+            break;
+          }
         }
       }
     }
