@@ -63,7 +63,6 @@ module.exports = grammar({
     $._element_reference_left_bracket,
     $._block_ampersand,
     $._splat_star,
-    $._call_line_break,
     $._if,
     $._argument_list_left_paren,
     $._method_name
@@ -289,9 +288,9 @@ module.exports = grammar({
       $.unary
     ),
 
-    _primary: $ => prec.left(choice(
+    _primary: $ => choice(
       seq('(', optional($._statements), ')'),
-      seq($._lhs, repeat($.heredoc_end)),
+      $._lhs,
       $.array,
       $.hash,
       $.subshell,
@@ -319,12 +318,12 @@ module.exports = grammar({
       $.next,
       $.redo,
       $.retry,
-      seq($.heredoc_beginning, repeat($.heredoc_end))
-    )),
+      $.heredoc_beginning
+    ),
 
     element_reference: $ => prec.left(1, seq($._primary, $._element_reference_left_bracket, $._argument_list_with_trailing_comma, ']')),
     scope_resolution: $ => prec.left(1, seq(optional($._primary), '::', $.identifier)),
-    call: $ => prec.left(PREC.BITWISE_AND + 1, seq($._primary, optional($._call_line_break), choice('.', '&.'), $.identifier)),
+    call: $ => prec.left(PREC.BITWISE_AND + 1, seq($._primary, choice('.', '&.'), $.identifier)),
 
     method_call: $ => {
       const receiver = choice($._variable, $.scope_resolution, $.call)
@@ -338,10 +337,10 @@ module.exports = grammar({
       )
     },
 
-    argument_list: $ => prec.right(choice(
+    argument_list: $ => prec.right(seq(choice(
       seq($._argument_list_left_paren, optional($._argument_list_with_trailing_comma), ')'),
       commaSep1($._argument)
-    )),
+    ), repeat($.heredoc_end))),
 
     _argument_list_with_trailing_comma: $ => sepTrailing(
       $._argument_list_with_trailing_comma,
@@ -583,7 +582,11 @@ module.exports = grammar({
     ),
 
     _forward_slash: $ => '/',
-    _terminator: $ => choice($._line_break, ';'),
+    _terminator: $ => choice(
+      $.heredoc_end,
+      $._line_break,
+      ';'
+    ),
   }
 });
 

@@ -569,7 +569,7 @@ end
 ---
 
 (program (method (identifier)
-  (method_call (identifier) (argument_list (heredoc_beginning))) (heredoc_end)))
+  (method_call (identifier) (argument_list (heredoc_beginning) (heredoc_end)))))
 
 ========================================
 heredocs with method continuation
@@ -586,8 +586,7 @@ SQL
   (call
     (method_call
       (identifier)
-      (argument_list (heredoc_beginning)))
-    (heredoc_end)
+      (argument_list (heredoc_beginning) (heredoc_end)))
     (identifier))
   (argument_list)))
 
@@ -600,6 +599,7 @@ a
 b #{[1, "c #{2} d", 3]} e
 #{4} f #{foo.bar}
 #{a if b}
+#{foo(1, bar)}
 g
 TEXT
 
@@ -613,7 +613,8 @@ return
     (array (integer) (string (integer)) (integer))
     (integer)
     (call (identifier) (identifier))
-    (if_modifier (identifier) (identifier)))
+    (if_modifier (identifier) (identifier))
+    (method_call (identifier) (argument_list (integer) (identifier))))
   (return))
 
 ========================================
@@ -629,11 +630,12 @@ TWO
 ---
 
 (program
-  (method_call (identifier) (argument_list
-    (call (heredoc_beginning) (identifier))
-    (call (heredoc_beginning) (identifier))))
-  (heredoc_end)
-  (heredoc_end))
+  (method_call
+    (identifier)
+    (argument_list
+      (call (heredoc_beginning) (identifier))
+      (call (heredoc_beginning) (identifier))
+      (heredoc_end) (heredoc_end))))
 
 ========================================
 heredoc content that starts with a dot
@@ -647,7 +649,7 @@ heredoc content that starts with a dot
 
 ---
 
-(program (lambda (method_call (identifier) (argument_list (heredoc_beginning))) (heredoc_end)))
+(program (lambda (method_call (identifier) (argument_list (heredoc_beginning) (heredoc_end)))))
 
 ========================================
 un-terminated heredocs

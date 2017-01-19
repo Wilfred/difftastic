@@ -29,7 +29,6 @@ enum TokenType : TSSymbol {
   ELEMENT_REFERENCE_LEFT_BRACKET,
   BLOCK_AMPERSAND,
   SPLAT_STAR,
-  CALL_LINE_BREAK,
   IF,
   ARGUMENT_LIST_LEFT_PAREN,
   METHOD_NAME
@@ -98,7 +97,7 @@ struct Scanner {
           skip(lexer);
           break;
         case '\n':
-          if (valid_symbols[LINE_BREAK] || valid_symbols[CALL_LINE_BREAK]) {
+          if (valid_symbols[LINE_BREAK]) {
             advance(lexer);
 
             while (lexer->lookahead == ' ' || lexer->lookahead == '\t') { skip(lexer); }
@@ -106,9 +105,8 @@ struct Scanner {
             if (!open_heredocs.empty() && !open_heredocs.front().found_starting_linebreak) {
               open_heredocs.front().found_starting_linebreak = true;
               break;
-            } else if (valid_symbols[CALL_LINE_BREAK] && lexer->lookahead == '.') {
-              lexer->result_symbol = CALL_LINE_BREAK;
-              return true;
+            } else if (lexer->lookahead == '.') {
+              break;
             }
             else if (valid_symbols[LINE_BREAK]) {
               lexer->result_symbol = LINE_BREAK;
@@ -561,7 +559,8 @@ struct Scanner {
             return true;
         }
       }
-    } else if (valid_symbols[HEREDOC_BODY_BEGINNING] && !open_heredocs.empty() && open_heredocs.front().found_starting_linebreak) {
+    }
+    if (valid_symbols[HEREDOC_BODY_BEGINNING] && !open_heredocs.empty() && open_heredocs.front().found_starting_linebreak) {
       switch (scan_heredoc_content(lexer)) {
         case Error:
           return false;
