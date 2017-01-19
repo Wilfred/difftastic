@@ -65,7 +65,8 @@ module.exports = grammar({
     $._splat_star,
     $._call_line_break,
     $._if,
-    $._argument_list_left_paren
+    $._argument_list_left_paren,
+    $._method_name
   ],
 
   extras: $ => [

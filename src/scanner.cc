@@ -31,7 +31,8 @@ enum TokenType : TSSymbol {
   SPLAT_STAR,
   CALL_LINE_BREAK,
   IF,
-  ARGUMENT_LIST_LEFT_PAREN
+  ARGUMENT_LIST_LEFT_PAREN,
+  METHOD_NAME
 };
 
 struct Literal {
@@ -270,8 +271,8 @@ struct Scanner {
         advance(lexer);
         if (valid_symbols[FORWARD_SLASH]) {
           if (!has_leading_whitespace) return false;
-          // TODO: Regexes that start with '(' or ' ' will fail to parse (e.g `foo /(/`).
-          if (lexer->lookahead == ' ' || lexer->lookahead == '\t' || lexer->lookahead == '(') return false;
+          if (lexer->lookahead == ' ' || lexer->lookahead == '\t') return false;
+          if (!valid_symbols[METHOD_NAME] && lexer->lookahead == '(') return false;
         }
         return true;
 
