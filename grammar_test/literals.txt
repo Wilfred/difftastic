@@ -599,7 +599,7 @@ a
 b #{[1, "c #{2} d", 3]} e
 #{4} f #{foo.bar}
 #{a if b}
-#{foo(1, bar)}
+#{foo(1, bar).baz}
 g
 TEXT
 
@@ -614,7 +614,7 @@ return
     (integer)
     (call (identifier) (identifier))
     (if_modifier (identifier) (identifier))
-    (method_call (identifier) (argument_list (integer) (identifier))))
+    (call (method_call (identifier) (argument_list (integer) (identifier))) (identifier)))
   (return))
 
 ========================================
