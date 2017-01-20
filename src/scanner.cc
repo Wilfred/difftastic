@@ -569,7 +569,7 @@ struct Scanner {
       size_t i = 0;
       for(auto reserved : RESERVED_WORDS) {
         if (!valid_symbols[reserved.type]) break;
-        if (positions[i] == reserved.word.size() && lexer->lookahead != ':') {
+        if (positions[i] == reserved.word.size() && (lexer->lookahead == ' ' || lexer->lookahead == '\t' || lexer->lookahead == '\n')) {
           lexer->result_symbol = reserved.type;
           return true;
         }
