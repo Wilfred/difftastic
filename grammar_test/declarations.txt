@@ -87,9 +87,15 @@ method with args
 def foo(bar)
 end
 
+def foo(bar); end
+def foo(bar) end
+
 ---
 
-(program (method (identifier) (method_parameters (identifier))))
+(program
+  (method (identifier) (method_parameters (identifier)))
+  (method (identifier) (method_parameters (identifier)))
+  (method (identifier) (method_parameters (identifier))))
 
 ================================
 method with unparenthesized args

@@ -123,7 +123,7 @@ module.exports = grammar({
     ),
 
     method_parameters: $ => choice(
-      seq('(', commaSep($._formal_parameter), ')'),
+      seq('(', commaSep($._formal_parameter), ')', optional($._terminator)),
       seq($._simple_formal_parameter, $._terminator),
       seq($._simple_formal_parameter, ',', commaSep1($._formal_parameter), $._terminator)
     ),
