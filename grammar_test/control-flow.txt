@@ -431,12 +431,20 @@ when bar
 else
 end
 
+case key
+when bar
+else; leaf
+end
+
 ---
 
 (program
-  (case (identifier)
-    (when (pattern (identifier))
-      (else))))
+  (case
+    (identifier)
+    (when (pattern (identifier)) (else)))
+  (case
+    (identifier)
+    (when (pattern (identifier)) (else (identifier)))))
 
 ==============================
 case with multiple when blocks

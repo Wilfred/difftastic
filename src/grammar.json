@@ -1081,8 +1081,8 @@
             "name": "_statement"
           },
           {
-            "type": "STRING",
-            "value": "while"
+            "type": "SYMBOL",
+            "name": "_while"
           },
           {
             "type": "SYMBOL",
@@ -1102,8 +1102,8 @@
             "name": "_statement"
           },
           {
-            "type": "STRING",
-            "value": "until"
+            "type": "SYMBOL",
+            "name": "_until"
           },
           {
             "type": "SYMBOL",
@@ -1137,8 +1137,8 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "STRING",
-          "value": "while"
+          "type": "SYMBOL",
+          "name": "_while"
         },
         {
           "type": "SYMBOL",
@@ -1170,8 +1170,8 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "STRING",
-          "value": "until"
+          "type": "SYMBOL",
+          "name": "_until"
         },
         {
           "type": "SYMBOL",
@@ -1510,6 +1510,18 @@
         {
           "type": "STRING",
           "value": "else"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_terminator"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         },
         {
           "type": "CHOICE",
@@ -4275,6 +4287,8 @@
     "_splat_star",
     "_if",
     "_unless",
+    "_until",
+    "_while",
     "_argument_list_left_paren",
     "_method_name",
     "_scope_double_colon"
