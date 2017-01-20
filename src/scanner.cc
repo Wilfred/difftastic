@@ -286,7 +286,7 @@ struct Scanner {
         if (valid_symbols[FORWARD_SLASH]) {
           if (!has_leading_whitespace) return false;
           if (lexer->lookahead == ' ' || lexer->lookahead == '\t') return false;
-          if (!valid_symbols[METHOD_NAME] && lexer->lookahead == '(') return false;
+          if (valid_symbols[METHOD_NAME] && lexer->lookahead == '(') return false;
         }
         return true;
 
