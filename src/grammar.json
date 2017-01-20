@@ -3193,8 +3193,30 @@
       ]
     },
     "left_assignment_list": {
-      "type": "SYMBOL",
-      "name": "_mlhs"
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_mlhs"
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "("
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_mlhs"
+            },
+            {
+              "type": "STRING",
+              "value": ")"
+            }
+          ]
+        }
+      ]
     },
     "_mlhs": {
       "type": "PREC_LEFT",

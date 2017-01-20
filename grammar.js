@@ -423,7 +423,10 @@ module.exports = grammar({
     right_assignment_list: $ => prec(-1, commaSep1($._arg_or_splat_arg)),
     _arg_or_splat_arg: $ => choice($._arg, $.splat_argument),
 
-    left_assignment_list: $ => $._mlhs,
+    left_assignment_list: $ => choice(
+      $._mlhs,
+      seq('(', $._mlhs, ')')
+    ),
     _mlhs: $ => prec.left(-1, sepTrailing(
       $._mlhs,
       choice(
