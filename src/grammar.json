@@ -3195,7 +3195,7 @@
             "members": [
               {
                 "type": "SYMBOL",
-                "name": "_variable"
+                "name": "_lhs"
               },
               {
                 "type": "SYMBOL",
@@ -3211,7 +3211,7 @@
                 "members": [
                   {
                     "type": "SYMBOL",
-                    "name": "_variable"
+                    "name": "_lhs"
                   },
                   {
                     "type": "SYMBOL",

@@ -425,7 +425,7 @@ module.exports = grammar({
     _mlhs: $ => prec.left(-1, sepTrailing(
       $._mlhs,
       choice(
-        $._variable,
+        $._lhs,
         $.rest_assignment
       ),
       ','
