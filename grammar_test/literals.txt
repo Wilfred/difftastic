@@ -844,10 +844,14 @@ hash with reserved word key
 
 { if: :foo }
 { unless: :foo }
+{ until: :foo }
+{ while: :foo }
 
 ---
 
 (program
+  (hash (pair (identifier) (symbol)))
+  (hash (pair (identifier) (symbol)))
   (hash (pair (identifier) (symbol)))
   (hash (pair (identifier) (symbol))))
 

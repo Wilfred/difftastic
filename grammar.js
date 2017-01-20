@@ -65,6 +65,8 @@ module.exports = grammar({
     $._splat_star,
     $._if,
     $._unless,
+    $._until,
+    $._while,
     $._argument_list_left_paren,
     $._method_name,
     $._scope_double_colon
@@ -193,12 +195,12 @@ module.exports = grammar({
 
     if_modifier: $ => prec(PREC.RESCUE, seq($._statement, $._if, $._arg)),
     unless_modifier: $ => prec(PREC.RESCUE, seq($._statement, $._unless, $._arg)),
-    while_modifier: $ => prec(PREC.RESCUE, seq($._statement, 'while', $._arg)),
-    until_modifier: $ => prec(PREC.RESCUE, seq($._statement, 'until', $._arg)),
+    while_modifier: $ => prec(PREC.RESCUE, seq($._statement, $._while, $._arg)),
+    until_modifier: $ => prec(PREC.RESCUE, seq($._statement, $._until, $._arg)),
     rescue_modifier: $ => prec(PREC.RESCUE, seq($._statement, 'rescue', $._arg)),
 
-    while: $ => seq('while', $._arg, $._do, optional($._statements), 'end'),
-    until: $ => seq('until', $._arg, $._do, optional($._statements), 'end'),
+    while: $ => seq($._while, $._arg, $._do, optional($._statements), 'end'),
+    until: $ => seq($._until, $._arg, $._do, optional($._statements), 'end'),
     for: $ => seq('for', $._lhs, 'in', $._arg, $._do, optional($._statements), 'end'),
     _do: $ => choice('do', $._terminator),
 
