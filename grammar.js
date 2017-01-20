@@ -68,7 +68,7 @@ module.exports = grammar({
     $._until,
     $._while,
     $._argument_list_left_paren,
-    $._method_name,
+    $._def,
     $._scope_double_colon
   ],
 
@@ -113,7 +113,7 @@ module.exports = grammar({
     ),
 
     method: $ => seq(
-      'def',
+      $._def,
       optional(seq(
         choice($._variable, seq('(', $._arg, ')')),
         choice('.', '::')

@@ -193,8 +193,8 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "STRING",
-          "value": "def"
+          "type": "SYMBOL",
+          "name": "_def"
         },
         {
           "type": "CHOICE",
@@ -4312,7 +4312,7 @@
     "_until",
     "_while",
     "_argument_list_left_paren",
-    "_method_name",
+    "_def",
     "_scope_double_colon"
   ]
 }

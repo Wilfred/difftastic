@@ -41,9 +41,11 @@ end
 
 (program (method (setter (identifier))))
 
-=================================
-method with operator method name
-=================================
+===================================================
+method with forward slash name and regex ambiguity
+===================================================
+
+puts /(/
 
 def /(name)
 end
@@ -54,6 +56,7 @@ end
 ---
 
 (program
+  (method_call (identifier) (argument_list (regex)))
   (method (operator) (method_parameters (identifier)))
   (method (operator) (method_parameters (identifier))))
 
