@@ -67,6 +67,7 @@ module.exports = grammar({
     $._unless,
     $._until,
     $._while,
+    $._class,
     $._argument_list_left_paren,
     $._def,
     $._scope_double_colon
@@ -160,7 +161,7 @@ module.exports = grammar({
     optional_parameter: $ => prec(PREC.BITWISE_OR + 1, seq($.identifier, '=', $._arg)),
 
     class: $ => seq(
-      'class',
+      $._class,
       $.constant,
       optional($.superclass),
       optional($._body_statement),
@@ -170,7 +171,7 @@ module.exports = grammar({
     superclass: $ => seq('<', $._arg, $._terminator),
 
     singleton_class: $ => seq(
-      'class',
+      $._class,
       '<<',
       $.identifier,
       $._terminator,

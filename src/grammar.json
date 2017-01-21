@@ -750,8 +750,8 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "STRING",
-          "value": "class"
+          "type": "SYMBOL",
+          "name": "_class"
         },
         {
           "type": "SYMBOL",
@@ -854,8 +854,8 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "STRING",
-          "value": "class"
+          "type": "SYMBOL",
+          "name": "_class"
         },
         {
           "type": "STRING",
@@ -4311,6 +4311,7 @@
     "_unless",
     "_until",
     "_while",
+    "_class",
     "_argument_list_left_paren",
     "_def",
     "_scope_double_colon"

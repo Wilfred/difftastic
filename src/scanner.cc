@@ -33,6 +33,7 @@ enum TokenType : TSSymbol {
   UNLESS,
   UNTIL,
   WHILE,
+  CLASS,
   ARGUMENT_LIST_LEFT_PAREN,
   DEF,
   SCOPE_DOUBLE_COLON
@@ -85,6 +86,7 @@ ReservedWord RESERVED_WORDS[] = {
   { "unless", UNLESS },
   { "until", UNTIL },
   { "while", WHILE },
+  { "class", CLASS },
 };
 
 struct Scanner {

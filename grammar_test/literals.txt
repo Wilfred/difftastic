@@ -917,10 +917,12 @@ hash with reserved word key
 { unless: :foo }
 { until: :foo }
 { while: :foo }
+{ class: :foo }
 
 ---
 
 (program
+  (hash (pair (identifier) (symbol)))
   (hash (pair (identifier) (symbol)))
   (hash (pair (identifier) (symbol)))
   (hash (pair (identifier) (symbol)))
