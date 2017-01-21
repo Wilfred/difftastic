@@ -113,23 +113,18 @@ struct Scanner {
           skip(lexer);
           break;
         case '\n':
-          if (valid_symbols[LINE_BREAK]) {
+          if (!open_heredocs.empty() && !open_heredocs.front().found_starting_linebreak) {
+            skip(lexer);
+            open_heredocs.front().found_starting_linebreak = true;
+            break;
+          } else if (valid_symbols[LINE_BREAK]) {
             advance(lexer);
-
             while (lexer->lookahead == ' ' || lexer->lookahead == '\t') { skip(lexer); }
-
-            if (!open_heredocs.empty() && !open_heredocs.front().found_starting_linebreak) {
-              open_heredocs.front().found_starting_linebreak = true;
+            if (lexer->lookahead == '.') { // Method continuation ignores newline.
               break;
-            } else if (lexer->lookahead == '.') {
-              break;
-            }
-            else if (valid_symbols[LINE_BREAK]) {
+            } else {
               lexer->result_symbol = LINE_BREAK;
               return true;
-            }
-            else {
-              break;
             }
           } else {
             skip(lexer);

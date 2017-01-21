@@ -669,6 +669,25 @@ return
     (call (method_call (identifier) (argument_list (integer) (identifier))) (identifier)))
   (return))
 
+==============================================================
+heredocs with method calls and interpolation with method calls
+==============================================================
+
+foo(<<-STR.strip_heredoc.tr()
+    content #{bar().foo}
+  STR
+)
+
+---
+
+(program
+  (method_call
+    (identifier)
+    (argument_list
+      (method_call
+        (call (call (heredoc_beginning) (identifier)) (identifier))
+        (argument_list (heredoc_end (call (method_call (identifier) (argument_list)) (identifier))))))))
+
 ========================================
 multiple heredocs
 ========================================
