@@ -539,7 +539,7 @@ struct Scanner {
 
     if (valid_symbols[SPLAT_STAR] && lexer->lookahead == '*') {
       advance(lexer);
-      if (isalpha(lexer->lookahead) || lexer->lookahead == '@' || lexer->lookahead == '$' || lexer->lookahead == '(' || lexer->lookahead == ':') {
+      if (isalpha(lexer->lookahead) || lexer->lookahead == '@' || lexer->lookahead == '$' || lexer->lookahead == '(' || lexer->lookahead == ':' || lexer->lookahead == '[') {
         lexer->result_symbol = SPLAT_STAR;
         return true;
       } else {
