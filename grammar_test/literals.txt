@@ -147,10 +147,29 @@ global variables
 
 $foo
 $$
+$!
+$@
 $&
 $`
 $'
 $+
+$~
+$=
+$/
+$\
+$,
+$;
+$.
+$<
+$>
+$_
+$0
+$*
+$$
+$?
+$:
+$"
+$0
 $1
 $2
 $3
@@ -162,10 +181,43 @@ $8
 $9
 $0
 $10
+$stdin
+$stdout
+$stderr
+$DEBUG
+$FILENAME
+$LOAD_PATH
+$VERBOSE
 
 ---
 
  (program
+  (global_variable)
+  (global_variable)
+  (global_variable)
+  (global_variable)
+  (global_variable)
+  (global_variable)
+  (global_variable)
+  (global_variable)
+  (global_variable)
+  (global_variable)
+  (global_variable)
+  (global_variable)
+  (global_variable)
+  (global_variable)
+  (global_variable)
+  (global_variable)
+  (global_variable)
+  (global_variable)
+  (global_variable)
+  (global_variable)
+  (global_variable)
+  (global_variable)
+  (global_variable)
+  (global_variable)
+  (global_variable)
+  (global_variable)
   (global_variable)
   (global_variable)
   (global_variable)

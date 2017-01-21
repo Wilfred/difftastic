@@ -3383,7 +3383,7 @@
     },
     "global_variable": {
       "type": "PATTERN",
-      "value": "\\$(([\\$&`'+])|([0-9]*)|([a-zA-Z_][a-zA-Z0-9_]*))"
+      "value": "\\$((-[0adFiIlpv])|(std(in|out|err))|(DEBUG|FILENAME|LOAD_PATH|VERBOSE)|([!@&`'+~=\\/\\\\,;.<>_*\\$\\?:\"])|([0-9]*)|([a-zA-Z_][a-zA-Z0-9_]*))"
     },
     "identifier": {
       "type": "PATTERN",

@@ -33,7 +33,7 @@ const identifierPattern = /[a-zA-Z_][a-zA-Z0-9_]*(\?|\!)?/;
 // - Regex back references (e.g. $$, $&, $`, $', and $+)
 // - Number global references (e.g. $1)
 // - User defined (e.g. $FOO)
-const globalVariablePattern = /\$(([\$&`'+])|([0-9]*)|([a-zA-Z_][a-zA-Z0-9_]*))/;
+const globalVariablePattern = /\$((-[0adFiIlpv])|(std(in|out|err))|(DEBUG|FILENAME|LOAD_PATH|VERBOSE)|([!@&`'+~=/\\,;.<>_*\$\?:"])|([0-9]*)|([a-zA-Z_][a-zA-Z0-9_]*))/;
 const instanceVariablePattern = /@[a-zA-Z_][a-zA-Z0-9_]*/; // (e.g. @foo)
 const classVariablePattern = /@@[a-zA-Z_][a-zA-Z0-9_]*/; // (e.g. @@foo)
 
