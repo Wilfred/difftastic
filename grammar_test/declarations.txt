@@ -296,7 +296,7 @@ end
 
 ---
 
-(program (class (constant (identifier)) (superclass (constant (identifier)))))
+(program (class (constant (identifier)) (superclass (identifier))))
 
 ==================================
 empty subclass of namespaced class
@@ -308,11 +308,21 @@ end
 class Foo < ::Bar
 end
 
+class Foo < Bar::Baz.new(foo)
+end
+
 ---
 
 (program
-  (class (constant (identifier)) (superclass (constant (identifier) (identifier))))
-  (class (constant (identifier)) (superclass (constant (identifier)))))
+  (class
+    (constant (identifier))
+    (superclass (scope_resolution (identifier) (identifier))))
+  (class
+    (constant (identifier))
+    (superclass (scope_resolution (identifier))))
+  (class
+    (constant (identifier))
+    (superclass (method_call (call (scope_resolution (identifier) (identifier)) (identifier)) (argument_list (identifier))))))
 
 ===============
 class with body
@@ -408,7 +418,7 @@ end
 ---
 
 (program (module (constant (identifier))
-  (class (constant (identifier)) (superclass (constant (identifier)))
+  (class (constant (identifier)) (superclass (identifier))
     (method_call (identifier) (argument_list
       (call
         (call

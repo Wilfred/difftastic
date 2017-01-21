@@ -842,7 +842,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "constant"
+          "name": "_arg"
         },
         {
           "type": "SYMBOL",
