@@ -349,7 +349,6 @@ module.exports = grammar({
       choice(
         seq(
           $._argument_list_left_paren,
-          optional($.heredoc_end),
           optional($._argument_list_with_trailing_comma),
           optional($.heredoc_end),
           ')'
@@ -573,7 +572,6 @@ module.exports = grammar({
 
     hash: $ => prec(1, seq(
       '{',
-      optional($.heredoc_end),
       optional($._hash_items),
       optional($.heredoc_end),
       '}'
