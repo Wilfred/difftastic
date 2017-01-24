@@ -251,7 +251,7 @@ module.exports = grammar({
       $.elsif
     ),
 
-    begin: $ => seq('begin', optional($._body_statement), 'end'),
+    begin: $ => seq('begin', optional($._terminator), optional($._body_statement), 'end'),
     ensure: $ => seq('ensure', optional($._statements)),
     rescue: $ => seq(
       'rescue',
