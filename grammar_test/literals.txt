@@ -985,6 +985,25 @@ hash with trailing comma
 
 (program (hash (pair (identifier) (integer))))
 
+========================
+hash with line breaks and inline comments
+========================
+
+{
+  :pusher => pusher,
+
+  # Only warm caches if there are fewer than 10 tags and branches.
+  :should_warm_caches_after => 10,
+}
+
+---
+
+(program
+  (hash
+    (pair (symbol) (identifier))
+    (comment)
+    (pair (symbol) (integer))))
+
 ==================
 regular expression
 ==================

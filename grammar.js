@@ -613,7 +613,7 @@ module.exports = grammar({
     _forward_slash: $ => '/',
 
     _line_break_or_heredoc_end: $ => prec.right(choice(
-      $._line_break,
+      repeat1($._line_break),
       $.heredoc_end,
       seq($.heredoc_end, $._line_break)
     )),
@@ -624,6 +624,10 @@ module.exports = grammar({
     ),
   }
 });
+
+function repeat1 (rule) {
+  return seq(rule, repeat(rule));
+}
 
 function sepTrailing (self, rule, separator) {
   return choice(rule, seq(rule, separator, optional(self)));

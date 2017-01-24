@@ -122,7 +122,7 @@ struct Scanner {
             break;
           } else if (valid_symbols[LINE_BREAK]) {
             advance(lexer);
-            while (lexer->lookahead == ' ' || lexer->lookahead == '\t') { skip(lexer); }
+            while (lexer->lookahead == ' ' || lexer->lookahead == '\t' || lexer->lookahead == '\n') { skip(lexer); }
             if (lexer->lookahead == '.') { // Method continuation ignores newline.
               break;
             } else {
