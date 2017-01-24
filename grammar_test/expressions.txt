@@ -221,6 +221,7 @@ x -= y
 x *= y
 x **= y
 x /= y
+puts "/hi"
 
 ---
 
@@ -229,7 +230,8 @@ x /= y
   (operator_assignment (identifier) (identifier))
   (operator_assignment (identifier) (identifier))
   (operator_assignment (identifier) (identifier))
-  (operator_assignment (identifier) (identifier)))
+  (operator_assignment (identifier) (identifier))
+  (method_call (identifier) (argument_list (string))))
 
 ==========
 operator assignment
