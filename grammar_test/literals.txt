@@ -669,6 +669,43 @@ return
     (call (method_call (identifier) (argument_list (integer) (identifier))) (identifier)))
   (return))
 
+========================================
+heredocs with in args and pairs
+========================================
+
+foo.new(
+  select: <<-TEXT,
+    heredoc content,
+  TEXT
+  conditions: <<-TEXT
+    heredoc content
+  TEXT
+)
+{
+  select: <<-TEXT,
+    heredoc content,
+  TEXT
+  conditions: <<-TEXT
+    heredoc content
+  TEXT
+}
+
+---
+
+(program
+  (method_call
+    (call (identifier) (identifier))
+    (argument_list
+      (pair (identifier) (heredoc_beginning))
+      (heredoc_end)
+      (pair (identifier) (heredoc_beginning))
+      (heredoc_end)))
+  (hash
+    (pair (identifier) (heredoc_beginning))
+    (heredoc_end)
+    (pair (identifier) (heredoc_beginning))
+    (heredoc_end)))
+
 ==============================================================
 heredocs with method calls and interpolation with method calls
 ==============================================================

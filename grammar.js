@@ -345,15 +345,24 @@ module.exports = grammar({
       )
     },
 
-    argument_list: $ => prec.right(seq(choice(
-      seq($._argument_list_left_paren, optional($._argument_list_with_trailing_comma), ')'),
-      commaSep1($._argument)
-    ), repeat($.heredoc_end))),
+    argument_list: $ => prec.right(seq(
+      choice(
+        seq(
+          $._argument_list_left_paren,
+          optional($._line_break_or_heredoc_end),
+          optional($._argument_list_with_trailing_comma),
+          optional($._line_break_or_heredoc_end),
+          ')'
+        ),
+        sep1($._argument, seq(',', optional($._line_break_or_heredoc_end)))
+      ),
+      repeat($.heredoc_end)
+    )),
 
     _argument_list_with_trailing_comma: $ => sepTrailing(
       $._argument_list_with_trailing_comma,
       $._argument,
-      ','
+      prec.right(seq(',', optional($._line_break_or_heredoc_end)))
     ),
     _argument: $ => choice(
       $._arg,
@@ -562,8 +571,17 @@ module.exports = grammar({
       )
     ),
 
-    hash: $ => prec(1, seq('{', optional($._hash_items), '}')),
-    _hash_items: $ => seq($.pair, optional(seq(',', optional($._hash_items)))),
+    hash: $ => prec(1, seq(
+      '{',
+      optional($._line_break_or_heredoc_end),
+      optional($._hash_items),
+      optional($._line_break_or_heredoc_end),
+      '}'
+    )),
+    _hash_items: $ => seq(
+      $.pair,
+      optional(prec.right(seq(',', optional($._line_break_or_heredoc_end), optional($._hash_items))))
+    ),
 
     pair: $ => prec(-1, seq(choice(
       seq($._arg, '=>'),
@@ -593,9 +611,15 @@ module.exports = grammar({
     ),
 
     _forward_slash: $ => '/',
-    _terminator: $ => choice(
-      $.heredoc_end,
+
+    _line_break_or_heredoc_end: $ => prec.right(choice(
       $._line_break,
+      $.heredoc_end,
+      seq($.heredoc_end, $._line_break)
+    )),
+
+    _terminator: $ => choice(
+      $._line_break_or_heredoc_end,
       ';'
     ),
   }

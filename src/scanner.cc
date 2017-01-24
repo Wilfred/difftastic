@@ -58,6 +58,7 @@ struct Literal {
 struct Heredoc {
   string word;
   bool found_starting_linebreak;
+  vector<bool> interpolation_stack;
 };
 
 TokenType BEGINNING_TOKEN_TYPES[] = {
@@ -460,6 +461,7 @@ struct Scanner {
           advance(lexer);
           if (lexer->lookahead == '{') {
             advance(lexer);
+            open_heredocs.front().interpolation_stack.push_back(true);
             return Interpolation;
           }
         } else if (lexer->lookahead == '\n') {
@@ -615,16 +617,19 @@ struct Scanner {
             return true;
         }
       }
-    } else if (valid_symbols[HEREDOC_BODY_BEGINNING] && !open_heredocs.empty() && open_heredocs.front().found_starting_linebreak) {
-      switch (scan_heredoc_content(lexer)) {
-        case Error:
-          return false;
-        case Interpolation:
-          lexer->result_symbol = HEREDOC_BODY_BEGINNING;
-          return true;
-        case End:
-          lexer->result_symbol = SIMPLE_HEREDOC_BODY;
-          return true;
+    }
+    if (valid_symbols[HEREDOC_BODY_BEGINNING] && !open_heredocs.empty() && open_heredocs.front().found_starting_linebreak) {
+      if(open_heredocs.front().interpolation_stack.empty()) {
+        switch (scan_heredoc_content(lexer)) {
+          case Error:
+            return false;
+          case Interpolation:
+            lexer->result_symbol = HEREDOC_BODY_BEGINNING;
+            return true;
+          case End:
+            lexer->result_symbol = SIMPLE_HEREDOC_BODY;
+            return true;
+        }
       }
     }
 
