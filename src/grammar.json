@@ -1688,7 +1688,7 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "_arg"
+          "name": "_arg_or_splat_arg"
         },
         {
           "type": "REPEAT",
@@ -1701,7 +1701,7 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "_arg"
+                "name": "_arg_or_splat_arg"
               }
             ]
           }

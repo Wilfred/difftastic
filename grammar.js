@@ -261,7 +261,7 @@ module.exports = grammar({
       optional($._statements),
       optional($.rescue)
     ),
-    exceptions: $ => commaSep1($._arg),
+    exceptions: $ => commaSep1($._arg_or_splat_arg),
     exception_variable: $ => seq('=>', $._lhs),
 
     _body_statement: $ => choice(

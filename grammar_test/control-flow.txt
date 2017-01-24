@@ -356,6 +356,18 @@ end
   (begin (rescue (exceptions (identifier)) (exception_variable (identifier))))
   (begin (rescue (exceptions (identifier)) (exception_variable (identifier)) (identifier))))
 
+===========================
+begin with rescue with splat args
+===========================
+
+begin
+rescue *args
+end
+
+---
+
+(program (begin (rescue (exceptions (splat_argument (identifier))))))
+
 =================
 rescue modifier
 =================
