@@ -374,9 +374,19 @@ rescue modifier
 
 foo rescue nil
 
+if foo rescue nil
+elsif bar rescue nil
+end
+
+unless foo rescue nil
+end
+
 ---
 
-(program (rescue_modifier (identifier) (nil)))
+(program
+  (rescue_modifier (identifier) (nil))
+  (if (rescue_modifier (identifier) (nil)) (elsif (rescue_modifier (identifier) (nil))))
+  (unless (rescue_modifier (identifier) (nil))))
 
 ============================
 begin with all the trimmings

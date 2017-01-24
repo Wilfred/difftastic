@@ -223,7 +223,7 @@ module.exports = grammar({
 
     if: $ => seq(
       $._if,
-      $._arg,
+      $._statement,
       $._then,
       optional($._statements),
       optional($._if_tail),
@@ -231,7 +231,7 @@ module.exports = grammar({
     ),
     unless: $ => seq(
       $._unless,
-      $._arg,
+      $._statement,
       $._then,
       optional($._statements),
       optional($.else),
@@ -239,7 +239,7 @@ module.exports = grammar({
     ),
     elsif: $ => seq(
       'elsif',
-      $._arg,
+      $._statement,
       $._then,
       optional($._statements),
       optional($._if_tail)
