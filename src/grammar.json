@@ -3351,7 +3351,7 @@
             "members": [
               {
                 "type": "SYMBOL",
-                "name": "_variable"
+                "name": "_lhs"
               },
               {
                 "type": "BLANK"

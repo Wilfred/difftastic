@@ -438,7 +438,8 @@ module.exports = grammar({
       ),
       ','
     )),
-    rest_assignment: $ => prec(-1, seq('*', optional($._variable))),
+    // TODO: should be *, _lhs for rest_assignment.
+    rest_assignment: $ => prec(-1, seq('*', optional($._lhs))),
     _lhs: $ => prec.left(choice(
       $._variable,
       $.scope_resolution,
