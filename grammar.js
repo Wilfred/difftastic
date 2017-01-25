@@ -64,7 +64,6 @@ module.exports = grammar({
     $._block_ampersand,
     $._splat_star,
     $._argument_list_left_paren,
-    $._def,
     $._scope_double_colon
   ],
 
@@ -109,7 +108,7 @@ module.exports = grammar({
     ),
 
     method: $ => seq(
-      $._def,
+      'def',
       optional(seq(
         choice($._variable, seq('(', $._arg, ')')),
         choice('.', '::')

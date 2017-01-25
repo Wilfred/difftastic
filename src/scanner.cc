@@ -30,7 +30,6 @@ enum TokenType : TSSymbol {
   BLOCK_AMPERSAND,
   SPLAT_STAR,
   ARGUMENT_LIST_LEFT_PAREN,
-  DEF,
   SCOPE_DOUBLE_COLON
 };
 
@@ -73,7 +72,7 @@ TokenType SIMPLE_TOKEN_TYPES[] = {
 };
 
 struct Scanner {
-  Scanner() : has_leading_whitespace(false), has_leading_method_def(false) {}
+  Scanner() : has_leading_whitespace(false) {}
 
   void skip(TSLexer *lexer) {
     has_leading_whitespace = true;
@@ -258,6 +257,7 @@ struct Scanner {
         return true;
 
       case '/':
+        if (!valid_symbols[SIMPLE_REGEX]) return false;
         literal.type = Literal::Type::REGEX;
         literal.open_delimiter = literal.close_delimiter = lexer->lookahead;
         literal.nesting_depth = 1;
@@ -267,7 +267,6 @@ struct Scanner {
           if (!has_leading_whitespace) return false;
           if (lexer->lookahead == ' ' || lexer->lookahead == '\t') return false;
           if (lexer->lookahead == '=') return false;
-          if (has_leading_method_def && lexer->lookahead == '(') return false;
         }
         return true;
 
@@ -504,10 +503,7 @@ struct Scanner {
     }
 
     if (!scan_whitespace(lexer, valid_symbols)) return false;
-    if (lexer->result_symbol == LINE_BREAK) {
-      has_leading_method_def = false;
-      return true;
-    }
+    if (lexer->result_symbol == LINE_BREAK) return true;
 
     if (valid_symbols[BLOCK_AMPERSAND] && lexer->lookahead == '&') {
       advance(lexer);
@@ -526,21 +522,6 @@ struct Scanner {
         return true;
       } else {
         return false;
-      }
-    }
-
-    if (valid_symbols[DEF] && lexer->lookahead == 'd') {
-      advance(lexer);
-      if (lexer->lookahead == 'e') {
-        advance(lexer);
-        if (lexer->lookahead == 'f') {
-          advance(lexer);
-          if (lexer->lookahead == ' ') {
-            has_leading_method_def = true;
-            lexer->result_symbol = DEF;
-            return true;
-          }
-        }
       }
     }
 
@@ -693,7 +674,6 @@ struct Scanner {
   }
 
   bool has_leading_whitespace;
-  bool has_leading_method_def;
   vector<Literal> literal_stack;
   vector<Heredoc> open_heredocs;
 };
