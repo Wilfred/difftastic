@@ -51,7 +51,6 @@ struct Literal {
 
 struct Heredoc {
   string word;
-  bool found_starting_linebreak;
   vector<bool> interpolation_stack;
 };
 
@@ -72,7 +71,7 @@ TokenType SIMPLE_TOKEN_TYPES[] = {
 };
 
 struct Scanner {
-  Scanner() : has_leading_whitespace(false) {}
+  Scanner() : has_leading_whitespace(false), found_heredoc_starting_linebreak(false) {}
 
   void skip(TSLexer *lexer) {
     has_leading_whitespace = true;
@@ -97,9 +96,9 @@ struct Scanner {
           skip(lexer);
           break;
         case '\n':
-          if (!open_heredocs.empty() && !open_heredocs.front().found_starting_linebreak) {
+          if (!open_heredocs.empty() && !found_heredoc_starting_linebreak) {
             skip(lexer);
-            open_heredocs.front().found_starting_linebreak = true;
+            found_heredoc_starting_linebreak = true;
             break;
           } else if (valid_symbols[LINE_BREAK]) {
             advance(lexer);
@@ -495,6 +494,7 @@ struct Scanner {
 
   bool scan(TSLexer *lexer, const bool *valid_symbols) {
     has_leading_whitespace = false;
+    found_heredoc_starting_linebreak = false;
 
     if (valid_symbols[ELEMENT_REFERENCE_LEFT_BRACKET] && lexer->lookahead == '[') {
       advance(lexer);
@@ -542,7 +542,7 @@ struct Scanner {
       return true;
     }
 
-    if (valid_symbols[HEREDOC_BODY_MIDDLE] && !open_heredocs.empty() && open_heredocs.front().found_starting_linebreak) {
+    if (valid_symbols[HEREDOC_BODY_MIDDLE] && !open_heredocs.empty()) {
       if (scan_interpolation_close(lexer)) {
         switch (scan_heredoc_content(lexer)) {
           case Error:
@@ -556,7 +556,7 @@ struct Scanner {
         }
       }
     }
-    if (valid_symbols[HEREDOC_BODY_BEGINNING] && !open_heredocs.empty() && open_heredocs.front().found_starting_linebreak) {
+    if (valid_symbols[HEREDOC_BODY_BEGINNING] && !open_heredocs.empty() && found_heredoc_starting_linebreak) {
       if(open_heredocs.front().interpolation_stack.empty()) {
         switch (scan_heredoc_content(lexer)) {
           case Error:
@@ -647,7 +647,6 @@ struct Scanner {
         }
         Heredoc heredoc;
         heredoc.word = scan_heredoc_word(lexer);
-        heredoc.found_starting_linebreak = false;
         if (heredoc.word.empty()) return false;
         if (quote == lexer->lookahead) advance(lexer);
         open_heredocs.push_back(heredoc);
@@ -674,6 +673,7 @@ struct Scanner {
   }
 
   bool has_leading_whitespace;
+  bool found_heredoc_starting_linebreak;
   vector<Literal> literal_stack;
   vector<Heredoc> open_heredocs;
 };
