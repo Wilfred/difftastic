@@ -464,10 +464,10 @@ module.exports = grammar({
     global_variable: $ => globalVariablePattern,
     identifier: $ => identifierPattern,
     reserved_identifier: $ => choice(
-      'alias', 'and', 'begin', /*'break',*/ 'case', 'class', 'def', 'defined', 'do',
-      'else', 'elsif', 'end', 'ensure', 'false', 'for', 'in', 'module', /*'next',*/
-      'nil', 'not', 'or', /*$.redo,*/ 'rescue', /*$.retry, 'return', $.self,*/ 'super',
-      'then', 'true', 'undef', 'when', /*'yield',*/ 'if', 'unless', 'while', 'until'
+      /*'alias', 'and', 'begin', 'break', 'case',*/ 'class', /*'def', 'defined', 'do',
+      'else', 'elsif', 'end', 'ensure', 'false', 'for', 'in', 'module', 'next',
+      'nil', 'not', 'or', 'redo', 'rescue', 'retry', 'return', 'self', 'super',
+      'then', 'true', 'undef', 'when', 'yield',*/ 'if', 'unless', 'while', 'until'
     ),
     operator: $ => choice(
       $._forward_slash,
