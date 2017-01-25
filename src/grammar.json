@@ -193,8 +193,8 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "_def"
+          "type": "STRING",
+          "value": "def"
         },
         {
           "type": "CHOICE",
@@ -750,8 +750,8 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "_class"
+          "type": "STRING",
+          "value": "class"
         },
         {
           "type": "SYMBOL",
@@ -854,8 +854,8 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "_class"
+          "type": "STRING",
+          "value": "class"
         },
         {
           "type": "STRING",
@@ -1039,8 +1039,8 @@
             "name": "_statement"
           },
           {
-            "type": "SYMBOL",
-            "name": "_if"
+            "type": "STRING",
+            "value": "if"
           },
           {
             "type": "SYMBOL",
@@ -1060,8 +1060,8 @@
             "name": "_statement"
           },
           {
-            "type": "SYMBOL",
-            "name": "_unless"
+            "type": "STRING",
+            "value": "unless"
           },
           {
             "type": "SYMBOL",
@@ -1081,8 +1081,8 @@
             "name": "_statement"
           },
           {
-            "type": "SYMBOL",
-            "name": "_while"
+            "type": "STRING",
+            "value": "while"
           },
           {
             "type": "SYMBOL",
@@ -1102,8 +1102,8 @@
             "name": "_statement"
           },
           {
-            "type": "SYMBOL",
-            "name": "_until"
+            "type": "STRING",
+            "value": "until"
           },
           {
             "type": "SYMBOL",
@@ -1137,8 +1137,8 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "_while"
+          "type": "STRING",
+          "value": "while"
         },
         {
           "type": "SYMBOL",
@@ -1170,8 +1170,8 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "_until"
+          "type": "STRING",
+          "value": "until"
         },
         {
           "type": "SYMBOL",
@@ -1377,8 +1377,8 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "_if"
+          "type": "STRING",
+          "value": "if"
         },
         {
           "type": "SYMBOL",
@@ -1422,8 +1422,8 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "_unless"
+          "type": "STRING",
+          "value": "unless"
         },
         {
           "type": "SYMBOL",
@@ -3445,11 +3445,36 @@
     },
     "global_variable": {
       "type": "PATTERN",
-      "value": "\\$((-[0adFiIlpv])|(std(in|out|err))|(DEBUG|FILENAME|LOAD_PATH|VERBOSE)|([!@&`'+~=\\/\\\\,;.<>_*\\$\\?:\"])|([0-9]*)|([a-zA-Z_][a-zA-Z0-9_]*))"
+      "value": "\\$-?(([!@&`'+~=\\/\\\\,;.<>*$?:\"])|([0-9]*)|([a-zA-Z_][a-zA-Z0-9_]*))"
     },
     "identifier": {
       "type": "PATTERN",
       "value": "[a-zA-Z_][a-zA-Z0-9_]*(\\?|\\!)?"
+    },
+    "reserved_identifier": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "class"
+        },
+        {
+          "type": "STRING",
+          "value": "if"
+        },
+        {
+          "type": "STRING",
+          "value": "unless"
+        },
+        {
+          "type": "STRING",
+          "value": "while"
+        },
+        {
+          "type": "STRING",
+          "value": "until"
+        }
+      ]
     },
     "operator": {
       "type": "CHOICE",
@@ -3851,20 +3876,11 @@
           "name": "string"
         },
         {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "string"
-            },
-            {
-              "type": "REPEAT",
-              "content": {
-                "type": "SYMBOL",
-                "name": "string"
-              }
-            }
-          ]
+          "type": "REPEAT1",
+          "content": {
+            "type": "SYMBOL",
+            "name": "string"
+          }
         }
       ]
     },
@@ -4182,8 +4198,17 @@
                 "type": "SEQ",
                 "members": [
                   {
-                    "type": "SYMBOL",
-                    "name": "identifier"
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "SYMBOL",
+                        "name": "identifier"
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "reserved_identifier"
+                      }
+                    ]
                   },
                   {
                     "type": "STRING",
@@ -4406,13 +4431,7 @@
     "_element_reference_left_bracket",
     "_block_ampersand",
     "_splat_star",
-    "_if",
-    "_unless",
-    "_until",
-    "_while",
-    "_class",
     "_argument_list_left_paren",
-    "_def",
     "_scope_double_colon"
   ]
 }
