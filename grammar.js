@@ -617,10 +617,6 @@ module.exports = grammar({
   }
 });
 
-function repeat1 (rule) {
-  return seq(rule, repeat(rule));
-}
-
 function sepTrailing (self, rule, separator) {
   return choice(rule, seq(rule, separator, optional(self)));
 }
