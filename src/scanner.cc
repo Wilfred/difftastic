@@ -29,11 +29,6 @@ enum TokenType : TSSymbol {
   ELEMENT_REFERENCE_LEFT_BRACKET,
   BLOCK_AMPERSAND,
   SPLAT_STAR,
-  IF,
-  UNLESS,
-  UNTIL,
-  WHILE,
-  CLASS,
   ARGUMENT_LIST_LEFT_PAREN,
   DEF,
   SCOPE_DOUBLE_COLON
@@ -75,19 +70,6 @@ TokenType SIMPLE_TOKEN_TYPES[] = {
   SIMPLE_SUBSHELL,
   SIMPLE_REGEX,
   SIMPLE_WORD_LIST,
-};
-
-struct ReservedWord {
-  string word;
-  TokenType type;
-};
-
-ReservedWord RESERVED_WORDS[] = {
-  { "if", IF },
-  { "unless", UNLESS },
-  { "until", UNTIL },
-  { "while", WHILE },
-  { "class", CLASS },
 };
 
 struct Scanner {
@@ -560,32 +542,6 @@ struct Scanner {
           }
         }
       }
-    }
-
-    // Reserved words like if and unless can be symbol keys (e.g. { if: 1}).
-    size_t positions[sizeof(RESERVED_WORDS)/sizeof(RESERVED_WORDS[0])] = { 0 };
-    for (;;) {
-      size_t matched = 0;
-      size_t i = 0;
-      for(auto reserved : RESERVED_WORDS) {
-        if (!valid_symbols[reserved.type]) break;
-        if (positions[i] == reserved.word.size() && (lexer->lookahead == ' ' || lexer->lookahead == '\t' || lexer->lookahead == '\n')) {
-          lexer->result_symbol = reserved.type;
-          return true;
-        }
-
-        if (lexer->lookahead == reserved.word[positions[i]]) {
-          positions[i]++;
-          matched++;
-        } else {
-          positions[i] = 0;
-        }
-
-        i++;
-      }
-
-      if (matched > 0) advance(lexer);
-      else break;
     }
 
     if (valid_symbols[SCOPE_DOUBLE_COLON] && lexer->lookahead == ':' && !has_leading_whitespace) {
