@@ -561,7 +561,7 @@ module.exports = grammar({
     ),
 
     array: $ => choice(
-      seq('[', optional($._argument_list_with_trailing_comma), ']'),
+      seq('[', optional($._argument_list_with_trailing_comma), optional($.heredoc_end), ']'),
       $._simple_word_list,
       seq(
         $._word_list_beginning,

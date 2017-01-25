@@ -670,7 +670,7 @@ return
   (return))
 
 ========================================
-heredocs with in args and pairs
+heredocs with in args, pairs, and arrays
 ========================================
 
 foo.new(
@@ -690,6 +690,15 @@ foo.new(
   TEXT
 }
 
+[
+  <<-TEXT,
+  a
+  TEXT
+  <<-TEXT
+  b
+  TEXT
+]
+
 ---
 
 (program
@@ -704,7 +713,8 @@ foo.new(
     (pair (identifier) (heredoc_beginning))
     (heredoc_end)
     (pair (identifier) (heredoc_beginning))
-    (heredoc_end)))
+    (heredoc_end))
+  (array (heredoc_beginning) (heredoc_end) (heredoc_beginning) (heredoc_end)))
 
 ==============================================================
 heredocs with method calls and interpolation with method calls
