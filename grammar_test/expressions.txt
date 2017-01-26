@@ -271,6 +271,19 @@ a ? b
   (conditional (identifier) (identifier) (identifier))
   (conditional (identifier) (identifier) (identifier)))
 
+===========
+conditional with reserved identifiers
+===========
+
+foo ? true: false
+foo ? return: false
+
+---
+
+(program
+  (conditional (identifier) (boolean) (boolean))
+  (conditional (identifier) (return) (boolean)))
+
 ===============
 inclusive range
 ===============
