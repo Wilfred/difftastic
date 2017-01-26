@@ -320,7 +320,13 @@ module.exports = grammar({
       $.heredoc_beginning
     ),
 
-    element_reference: $ => prec.left(1, seq($._primary, $._element_reference_left_bracket, $._argument_list_with_trailing_comma, ']')),
+    element_reference: $ => prec.left(1, seq(
+      $._primary,
+      $._element_reference_left_bracket,
+      $._argument_list_with_trailing_comma,
+      optional($.heredoc_end),
+      ']'
+    )),
     scope_resolution: $ => prec.left(1, choice(
       seq('::', $.identifier),
       seq($._primary, $._scope_double_colon, $.identifier)

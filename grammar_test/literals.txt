@@ -699,6 +699,13 @@ foo.new(
   TEXT
 ]
 
+foo[
+  1,
+  <<-TEXT
+  hi
+  TEXT
+  ] = 3
+
 ---
 
 (program
@@ -714,7 +721,10 @@ foo.new(
     (heredoc_end)
     (pair (identifier) (heredoc_beginning))
     (heredoc_end))
-  (array (heredoc_beginning) (heredoc_end) (heredoc_beginning) (heredoc_end)))
+  (array (heredoc_beginning) (heredoc_end) (heredoc_beginning) (heredoc_end))
+  (assignment
+    (element_reference (identifier) (integer) (heredoc_beginning) (heredoc_end))
+    (integer)))
 
 ==============================================================
 heredocs with method calls and interpolation with method calls
