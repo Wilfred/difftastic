@@ -457,7 +457,8 @@ module.exports = grammar({
     _variable: $ => choice(
       $.nil,
       $.self,
-      $.boolean,
+      $.true,
+      $.false,
       $.instance_variable,
       $.class_variable,
       $.global_variable,
@@ -528,9 +529,10 @@ module.exports = grammar({
       seq(integerPattern, '.', floatPattern),
       floatPattern
     ),
-    boolean: $ => token(choice('true', 'false', 'TRUE', 'FALSE')),
+    true: $ => choice('true', 'TRUE'),
+    false: $ => choice('false', 'FALSE'),
     self: $ => 'self',
-    nil: $ => token(choice('nil', 'NIL')),
+    nil: $ => choice('nil', 'NIL'),
     keyword__FILE__: $ => '__FILE__',
     keyword__LINE__: $ => '__LINE__',
     keyword__ENCODING__: $ => '__ENCODING__',

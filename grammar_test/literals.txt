@@ -323,10 +323,11 @@ boolean
 =======
 
 true
+false
 
 ---
 
-(program (boolean))
+(program (true) (false))
 
 ===
 nil

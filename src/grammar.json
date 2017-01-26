@@ -3415,7 +3415,11 @@
         },
         {
           "type": "SYMBOL",
-          "name": "boolean"
+          "name": "true"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "false"
         },
         {
           "type": "SYMBOL",
@@ -3948,49 +3952,48 @@
         }
       ]
     },
-    "boolean": {
-      "type": "TOKEN",
-      "content": {
-        "type": "CHOICE",
-        "members": [
-          {
-            "type": "STRING",
-            "value": "true"
-          },
-          {
-            "type": "STRING",
-            "value": "false"
-          },
-          {
-            "type": "STRING",
-            "value": "TRUE"
-          },
-          {
-            "type": "STRING",
-            "value": "FALSE"
-          }
-        ]
-      }
+    "true": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "true"
+        },
+        {
+          "type": "STRING",
+          "value": "TRUE"
+        }
+      ]
+    },
+    "false": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "false"
+        },
+        {
+          "type": "STRING",
+          "value": "FALSE"
+        }
+      ]
     },
     "self": {
       "type": "STRING",
       "value": "self"
     },
     "nil": {
-      "type": "TOKEN",
-      "content": {
-        "type": "CHOICE",
-        "members": [
-          {
-            "type": "STRING",
-            "value": "nil"
-          },
-          {
-            "type": "STRING",
-            "value": "NIL"
-          }
-        ]
-      }
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "nil"
+        },
+        {
+          "type": "STRING",
+          "value": "NIL"
+        }
+      ]
     },
     "keyword__FILE__": {
       "type": "STRING",

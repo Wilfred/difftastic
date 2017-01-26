@@ -281,8 +281,8 @@ foo ? return: false
 ---
 
 (program
-  (conditional (identifier) (boolean) (boolean))
-  (conditional (identifier) (return) (boolean)))
+  (conditional (identifier) (true) (false))
+  (conditional (identifier) (return) (false)))
 
 ===============
 inclusive range
@@ -542,10 +542,10 @@ foo :a => true, :c => 1
 ---
 
 (program
-  (method_call (identifier) (argument_list (pair (symbol) (boolean))))
+  (method_call (identifier) (argument_list (pair (symbol) (true))))
   (method_call (identifier) (argument_list (pair (array) (integer))))
   (method_call (identifier) (argument_list (pair (identifier) (integer))))
-  (method_call (identifier) (argument_list (pair (symbol) (boolean)) (pair (symbol) (integer)))))
+  (method_call (identifier) (argument_list (pair (symbol) (true)) (pair (symbol) (integer)))))
 
 ===============================
 method call with keyword args
@@ -557,8 +557,8 @@ foo a: true
 ---
 
 (program
-  (method_call (identifier) (argument_list (pair (identifier) (boolean))))
-  (method_call (identifier) (argument_list (pair (identifier) (boolean)))))
+  (method_call (identifier) (argument_list (pair (identifier) (true))))
+  (method_call (identifier) (argument_list (pair (identifier) (true)))))
 
 ===============================
 method call with paren args
