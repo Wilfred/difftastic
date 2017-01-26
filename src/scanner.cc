@@ -49,11 +49,6 @@ struct Literal {
   bool allows_interpolation;
 };
 
-struct Heredoc {
-  string word;
-  vector<bool> interpolation_stack;
-};
-
 TokenType BEGINNING_TOKEN_TYPES[] = {
   STRING_BEGINNING,
   SYMBOL_BEGINNING,
@@ -71,7 +66,7 @@ TokenType SIMPLE_TOKEN_TYPES[] = {
 };
 
 struct Scanner {
-  Scanner() : has_leading_whitespace(false), found_heredoc_starting_linebreak(false) {}
+  Scanner() : has_leading_whitespace(false) {}
 
   void skip(TSLexer *lexer) {
     has_leading_whitespace = true;
@@ -88,7 +83,7 @@ struct Scanner {
     lexer->advance(lexer, false);
   }
 
-  bool scan_whitespace(TSLexer *lexer, const bool *valid_symbols) {
+  bool scan_whitespace(TSLexer *lexer, const bool *valid_symbols, bool *found_heredoc_starting_linebreak) {
     for (;;) {
       switch (lexer->lookahead) {
         case ' ':
@@ -96,9 +91,9 @@ struct Scanner {
           skip(lexer);
           break;
         case '\n':
-          if (!open_heredocs.empty() && !found_heredoc_starting_linebreak) {
+          if (!open_heredoc_words.empty() && !*found_heredoc_starting_linebreak) {
             skip(lexer);
-            found_heredoc_starting_linebreak = true;
+            *found_heredoc_starting_linebreak = true;
             break;
           } else if (valid_symbols[LINE_BREAK]) {
             advance(lexer);
@@ -423,17 +418,17 @@ struct Scanner {
   };
 
   ScanContentResult scan_heredoc_content(TSLexer *lexer) {
-    if (open_heredocs.empty()) return Error;
-    Heredoc heredoc = open_heredocs.front();
+    if (open_heredoc_words.empty()) return Error;
+    string word = open_heredoc_words.front();
     size_t position_in_word = 0;
 
     for (;;) {
-      if (position_in_word == heredoc.word.size() || lexer->lookahead == 0) {
-        open_heredocs.erase(open_heredocs.begin());
+      if (position_in_word == word.size() || lexer->lookahead == 0) {
+        open_heredoc_words.erase(open_heredoc_words.begin());
         return End;
       }
 
-      if (lexer->lookahead == heredoc.word[position_in_word]) {
+      if (lexer->lookahead == word[position_in_word]) {
         advance(lexer);
         position_in_word++;
       } else {
@@ -442,7 +437,6 @@ struct Scanner {
           advance(lexer);
           if (lexer->lookahead == '{') {
             advance(lexer);
-            open_heredocs.front().interpolation_stack.push_back(true);
             return Interpolation;
           }
         } else if (lexer->lookahead == '\n') {
@@ -494,7 +488,7 @@ struct Scanner {
 
   bool scan(TSLexer *lexer, const bool *valid_symbols) {
     has_leading_whitespace = false;
-    found_heredoc_starting_linebreak = false;
+    bool found_heredoc_starting_linebreak = false;
 
     if (valid_symbols[ELEMENT_REFERENCE_LEFT_BRACKET] && lexer->lookahead == '[') {
       advance(lexer);
@@ -502,9 +496,10 @@ struct Scanner {
       return true;
     }
 
-    if (!scan_whitespace(lexer, valid_symbols)) return false;
+    if (!scan_whitespace(lexer, valid_symbols, &found_heredoc_starting_linebreak)) return false;
     if (lexer->result_symbol == LINE_BREAK) return true;
 
+    // TODO: check for trailing whitespace instead?
     if (valid_symbols[BLOCK_AMPERSAND] && lexer->lookahead == '&') {
       advance(lexer);
       if (isalpha(lexer->lookahead) || lexer->lookahead == ':') {
@@ -515,6 +510,7 @@ struct Scanner {
       }
     }
 
+    // TODO: check for trailing whitespace instead?
     if (valid_symbols[SPLAT_STAR] && lexer->lookahead == '*') {
       advance(lexer);
       if (isalpha(lexer->lookahead) || lexer->lookahead == '@' || lexer->lookahead == '$' || lexer->lookahead == '(' || lexer->lookahead == ':' || lexer->lookahead == '[') {
@@ -542,7 +538,7 @@ struct Scanner {
       return true;
     }
 
-    if (valid_symbols[HEREDOC_BODY_MIDDLE] && !open_heredocs.empty()) {
+    if (valid_symbols[HEREDOC_BODY_MIDDLE] && !open_heredoc_words.empty()) {
       if (scan_interpolation_close(lexer)) {
         switch (scan_heredoc_content(lexer)) {
           case Error:
@@ -556,8 +552,8 @@ struct Scanner {
         }
       }
     }
-    if (valid_symbols[HEREDOC_BODY_BEGINNING] && !open_heredocs.empty() && found_heredoc_starting_linebreak) {
-      if(open_heredocs.front().interpolation_stack.empty()) {
+    if (valid_symbols[HEREDOC_BODY_BEGINNING] && !open_heredoc_words.empty() && found_heredoc_starting_linebreak) {
+      if (literal_stack.empty()) {
         switch (scan_heredoc_content(lexer)) {
           case Error:
             return false;
@@ -645,11 +641,10 @@ struct Scanner {
             advance(lexer);
             break;
         }
-        Heredoc heredoc;
-        heredoc.word = scan_heredoc_word(lexer);
-        if (heredoc.word.empty()) return false;
+        string word = scan_heredoc_word(lexer);
+        if (word.empty()) return false;
         if (quote == lexer->lookahead) advance(lexer);
-        open_heredocs.push_back(heredoc);
+        open_heredoc_words.push_back(word);
         lexer->result_symbol = HEREDOC_BEGINNING;
         return true;
       } else {
@@ -673,9 +668,8 @@ struct Scanner {
   }
 
   bool has_leading_whitespace;
-  bool found_heredoc_starting_linebreak;
   vector<Literal> literal_stack;
-  vector<Heredoc> open_heredocs;
+  vector<string> open_heredoc_words;
 };
 
 extern "C" {
