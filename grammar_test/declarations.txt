@@ -70,18 +70,23 @@ def foo
 end
 
 def foo
+  bar.baz { super }
+end
+
+def foo
   super.bar a, b
 end
 
 ---
 
 (program
-  (method (identifier) (identifier))
+  (method (identifier) (super))
   (method
     (identifier)
-    (method_call
-      (call (identifier) (identifier))
-      (argument_list (identifier) (identifier)))))
+    (method_call (call (identifier) (identifier)) (block (super))))
+  (method
+    (identifier)
+    (method_call (call (super) (identifier)) (argument_list (identifier) (identifier)))))
 
 ===========================
 method with args

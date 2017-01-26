@@ -3423,6 +3423,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "super"
+        },
+        {
+          "type": "SYMBOL",
           "name": "instance_variable"
         },
         {
@@ -3951,6 +3955,10 @@
           "value": "\\d(_?\\d)*([eE]\\d(_?\\d)*)?"
         }
       ]
+    },
+    "super": {
+      "type": "STRING",
+      "value": "super"
     },
     "true": {
       "type": "CHOICE",

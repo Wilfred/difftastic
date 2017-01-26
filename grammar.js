@@ -459,6 +459,7 @@ module.exports = grammar({
       $.self,
       $.true,
       $.false,
+      $.super,
       $.instance_variable,
       $.class_variable,
       $.global_variable,
@@ -529,6 +530,7 @@ module.exports = grammar({
       seq(integerPattern, '.', floatPattern),
       floatPattern
     ),
+    super: $ => 'super',
     true: $ => choice('true', 'TRUE'),
     false: $ => choice('false', 'FALSE'),
     self: $ => 'self',
