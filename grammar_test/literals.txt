@@ -36,6 +36,7 @@ symbol operators
 :[]
 :[]=
 :&
+:!
 :^
 :|
 :~
@@ -57,6 +58,7 @@ symbol operators
 ---
 
 (program
+  (symbol)
   (symbol)
   (symbol)
   (symbol)

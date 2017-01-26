@@ -169,13 +169,14 @@ struct Scanner {
         }
         return false;
 
-      // &, ^, |, ~, /, %
+      // &, ^, |, ~, /, %, !
       case '&':
       case '^':
       case '|':
       case '~':
       case '/':
       case '%':
+      case '!':
         advance(lexer);
         return true;
 
