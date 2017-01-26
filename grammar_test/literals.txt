@@ -970,20 +970,84 @@ hash with expression keys
 hash with reserved word key
 =========================
 
-{ if: :foo }
-{ unless: :foo }
-{ until: :foo }
-{ while: :foo }
-{ class: :foo }
+{
+  alias: :foo,
+  and: :foo,
+  begin: :foo,
+  break: :foo,
+  case: :foo,
+  class: :foo,
+  def: :foo,
+  defined: :foo,
+  do: :foo,
+  else: :foo,
+  elsif: :foo,
+  end: :foo,
+  ensure: :foo,
+  false: :foo,
+  for: :foo,
+  in: :foo,
+  module: :foo,
+  next: :foo,
+  nil: :foo,
+  not: :foo,
+  or: :foo,
+  redo: :foo,
+  rescue: :foo,
+  retry: :foo,
+  return: :foo,
+  self: :foo,
+  super: :foo,
+  then: :foo,
+  true: :foo,
+  undef: :foo,
+  when: :foo,
+  yield: :foo,
+  if: :foo,
+  unless: :foo,
+  while: :foo,
+  until: :foo
+}
 
 ---
 
-(program
-  (hash (pair (reserved_identifier) (symbol)))
-  (hash (pair (reserved_identifier) (symbol)))
-  (hash (pair (reserved_identifier) (symbol)))
-  (hash (pair (reserved_identifier) (symbol)))
-  (hash (pair (reserved_identifier) (symbol))))
+(program (hash
+  (pair (reserved_identifier) (symbol))
+  (pair (reserved_identifier) (symbol))
+  (pair (reserved_identifier) (symbol))
+  (pair (reserved_identifier) (symbol))
+  (pair (reserved_identifier) (symbol))
+  (pair (reserved_identifier) (symbol))
+  (pair (reserved_identifier) (symbol))
+  (pair (reserved_identifier) (symbol))
+  (pair (reserved_identifier) (symbol))
+  (pair (reserved_identifier) (symbol))
+  (pair (reserved_identifier) (symbol))
+  (pair (reserved_identifier) (symbol))
+  (pair (reserved_identifier) (symbol))
+  (pair (reserved_identifier) (symbol))
+  (pair (reserved_identifier) (symbol))
+  (pair (reserved_identifier) (symbol))
+  (pair (reserved_identifier) (symbol))
+  (pair (reserved_identifier) (symbol))
+  (pair (reserved_identifier) (symbol))
+  (pair (reserved_identifier) (symbol))
+  (pair (reserved_identifier) (symbol))
+  (pair (reserved_identifier) (symbol))
+  (pair (reserved_identifier) (symbol))
+  (pair (reserved_identifier) (symbol))
+  (pair (reserved_identifier) (symbol))
+  (pair (reserved_identifier) (symbol))
+  (pair (reserved_identifier) (symbol))
+  (pair (reserved_identifier) (symbol))
+  (pair (reserved_identifier) (symbol))
+  (pair (reserved_identifier) (symbol))
+  (pair (reserved_identifier) (symbol))
+  (pair (reserved_identifier) (symbol))
+  (pair (reserved_identifier) (symbol))
+  (pair (reserved_identifier) (symbol))
+  (pair (reserved_identifier) (symbol))
+  (pair (reserved_identifier) (symbol))))
 
 ======================
 hash with keyword keys

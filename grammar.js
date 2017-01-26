@@ -64,7 +64,8 @@ module.exports = grammar({
     $._block_ampersand,
     $._splat_star,
     $._argument_list_left_paren,
-    $._scope_double_colon
+    $._scope_double_colon,
+    $._keyword_colon
   ],
 
   extras: $ => [
@@ -151,7 +152,7 @@ module.exports = grammar({
     splat_parameter: $ => seq('*', optional($.identifier)),
     hash_splat_parameter: $ => seq('**', optional($.identifier)),
     block_parameter: $ => seq('&', $.identifier),
-    keyword_parameter: $ => prec.right(PREC.BITWISE_OR + 1, seq($.identifier, ':', optional($._arg))),
+    keyword_parameter: $ => prec.right(PREC.BITWISE_OR + 1, seq($.identifier, $._keyword_colon, optional($._arg))),
     optional_parameter: $ => prec(PREC.BITWISE_OR + 1, seq($.identifier, '=', $._arg)),
 
     class: $ => seq(
@@ -471,10 +472,10 @@ module.exports = grammar({
     global_variable: $ => globalVariablePattern,
     identifier: $ => identifierPattern,
     reserved_identifier: $ => choice(
-      /*'alias', 'and', 'begin', 'break', 'case',*/ 'class', /*'def', 'defined', 'do',
+      'alias', 'and', 'begin', 'break', 'case', 'class', 'def', 'defined', 'do',
       'else', 'elsif', 'end', 'ensure', 'false', 'for', 'in', 'module', 'next',
       'nil', 'not', 'or', 'redo', 'rescue', 'retry', 'return', 'self', 'super',
-      'then', 'true', 'undef', 'when', 'yield',*/ 'if', 'unless', 'while', 'until'
+      'then', 'true', 'undef', 'when', 'yield', 'if', 'unless', 'while', 'until'
     ),
     operator: $ => choice(
       $._forward_slash,
@@ -590,7 +591,7 @@ module.exports = grammar({
 
     pair: $ => prec(-1, seq(choice(
       seq($._arg, '=>'),
-      seq(choice($.identifier, $.reserved_identifier), ':')
+      seq(choice($.identifier, $.reserved_identifier), $._keyword_colon)
     ), $._arg)),
 
     regex: $ => choice(

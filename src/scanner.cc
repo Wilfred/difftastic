@@ -30,7 +30,8 @@ enum TokenType : TSSymbol {
   BLOCK_AMPERSAND,
   SPLAT_STAR,
   ARGUMENT_LIST_LEFT_PAREN,
-  SCOPE_DOUBLE_COLON
+  SCOPE_DOUBLE_COLON,
+  KEYWORD_COLON
 };
 
 struct Literal {
@@ -521,14 +522,18 @@ struct Scanner {
       }
     }
 
-    if (valid_symbols[SCOPE_DOUBLE_COLON] && lexer->lookahead == ':' && !has_leading_whitespace) {
+    if ((valid_symbols[KEYWORD_COLON] || valid_symbols[SCOPE_DOUBLE_COLON]) && lexer->lookahead == ':' && !has_leading_whitespace) {
       advance(lexer);
-      if (lexer->lookahead == ':') {
+
+      if (valid_symbols[SCOPE_DOUBLE_COLON] && lexer->lookahead == ':') {
         advance(lexer);
         if (lexer->lookahead != ' ' && lexer->lookahead != '\t' && lexer->lookahead != '\n') {
           lexer->result_symbol = SCOPE_DOUBLE_COLON;
           return true;
         }
+      } else if (valid_symbols[KEYWORD_COLON]) {
+        lexer->result_symbol = KEYWORD_COLON;
+        return true;
       }
     }
 
