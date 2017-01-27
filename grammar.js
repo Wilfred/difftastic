@@ -65,7 +65,9 @@ module.exports = grammar({
     $._splat_star,
     $._argument_list_left_paren,
     $._scope_double_colon,
-    $._keyword_colon
+    $._keyword_colon,
+    $._unary_minus,
+    $._binary_minus
   ],
 
   extras: $ => [
@@ -418,7 +420,7 @@ module.exports = grammar({
       prec.left(PREC.COMPARISON, seq($._arg, choice('<', '<=', '>', '>='), $._arg)),
       prec.left(PREC.BITWISE_AND, seq($._arg, '&', $._arg)),
       prec.left(PREC.BITWISE_OR, seq($._arg, choice('^', '|'), $._arg)),
-      prec.left(PREC.ADDITIVE, seq($._arg, choice('-', '+'), $._arg)),
+      prec.left(PREC.ADDITIVE, seq($._arg, choice($._binary_minus, '+'), $._arg)),
       prec.left(PREC.MULTIPLICATIVE, seq($._arg, choice('*', $._forward_slash, '%'), $._arg)),
       prec.right(PREC.EXPONENTIAL, seq($._arg, '**', $._arg))
     ),
@@ -426,7 +428,7 @@ module.exports = grammar({
     unary: $ => choice(
       prec(PREC.DEFINED, seq('defined?', $._arg)),
       prec.right(PREC.NOT, seq('not', $._arg)),
-      prec.right(PREC.UNARY_MINUS, seq(choice('-', '+'), $._arg)),
+      prec.right(PREC.UNARY_MINUS, seq(choice($._unary_minus, '+'), $._arg)),
       prec.right(PREC.COMPLEMENT, seq(choice('!', '~'), $._arg))
     ),
 

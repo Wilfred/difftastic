@@ -3060,8 +3060,8 @@
                 "type": "CHOICE",
                 "members": [
                   {
-                    "type": "STRING",
-                    "value": "-"
+                    "type": "SYMBOL",
+                    "name": "_binary_minus"
                   },
                   {
                     "type": "STRING",
@@ -3180,8 +3180,8 @@
                 "type": "CHOICE",
                 "members": [
                   {
-                    "type": "STRING",
-                    "value": "-"
+                    "type": "SYMBOL",
+                    "name": "_unary_minus"
                   },
                   {
                     "type": "STRING",
@@ -4600,6 +4600,8 @@
     "_splat_star",
     "_argument_list_left_paren",
     "_scope_double_colon",
-    "_keyword_colon"
+    "_keyword_colon",
+    "_unary_minus",
+    "_binary_minus"
   ]
 }

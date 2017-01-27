@@ -31,7 +31,9 @@ enum TokenType : TSSymbol {
   SPLAT_STAR,
   ARGUMENT_LIST_LEFT_PAREN,
   SCOPE_DOUBLE_COLON,
-  KEYWORD_COLON
+  KEYWORD_COLON,
+  UNARY_MINUS,
+  BINARY_MINUS
 };
 
 struct Literal {
@@ -544,6 +546,22 @@ struct Scanner {
         return true;
       } else {
         return false;
+      }
+    }
+
+    if ((valid_symbols[UNARY_MINUS] || valid_symbols[BINARY_MINUS]) && lexer->lookahead == '-') {
+      advance(lexer);
+      if (lexer->lookahead != '=') {
+        if (valid_symbols[UNARY_MINUS] && lexer->lookahead != ' ' && lexer->lookahead != '\t') {
+          lexer->result_symbol = UNARY_MINUS;
+          return true;
+        } else if (valid_symbols[BINARY_MINUS]) {
+          lexer->result_symbol = BINARY_MINUS;
+          return true;
+        } else {
+          lexer->result_symbol = UNARY_MINUS;
+          return true;
+        }
       }
     }
 

@@ -430,10 +430,13 @@ unary minus
 ===========
 
 -a
+foo -a, bar
 
 ---
 
-(program (unary (identifier)))
+(program
+  (unary (identifier))
+  (method_call (identifier) (argument_list (unary (identifier)) (identifier))))
 
 ===========
 exponential
