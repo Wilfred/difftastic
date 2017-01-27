@@ -624,7 +624,7 @@ struct Scanner {
       }
     }
 
-    if (valid_symbols[STRING_MIDDLE]) {
+    if (valid_symbols[STRING_MIDDLE] && ! literal_stack.empty()) {
       Literal &literal = literal_stack.back();
 
       if (scan_interpolation_close(lexer)) {
