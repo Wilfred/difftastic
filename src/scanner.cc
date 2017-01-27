@@ -444,6 +444,7 @@ struct Scanner {
     if (open_heredoc_words.empty()) return Error;
     string word = open_heredoc_words.front();
     size_t position_in_word = 0;
+    bool look_for_heredoc_end = true;
 
     for (;;) {
       if (position_in_word == word.size() || lexer->lookahead == 0) {
@@ -451,11 +452,12 @@ struct Scanner {
         return End;
       }
 
-      if (lexer->lookahead == word[position_in_word]) {
+      if (lexer->lookahead == word[position_in_word] && look_for_heredoc_end) {
         advance(lexer);
         position_in_word++;
       } else {
         position_in_word = 0;
+        look_for_heredoc_end = false;
         if (lexer->lookahead == '#') {
           advance(lexer);
           if (lexer->lookahead == '{') {
@@ -467,6 +469,7 @@ struct Scanner {
           while (lexer->lookahead == ' ' || lexer->lookahead == '\t') {
             advance(lexer);
           }
+          look_for_heredoc_end = true;
         } else {
           advance(lexer);
         }

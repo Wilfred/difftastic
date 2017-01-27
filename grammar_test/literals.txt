@@ -614,6 +614,20 @@ eos
 (program (heredoc_beginning) (heredoc_end))
 
 ========================================
+heredoc with end word in content
+========================================
+
+<<HTML
+<HTML>
+  <HEAD></HEAD><BODY></BODY>
+</HTML>
+HTML
+
+---
+
+(program (heredoc_beginning) (heredoc_end))
+
+========================================
 heredocs in context starting with dot
 ========================================
 
