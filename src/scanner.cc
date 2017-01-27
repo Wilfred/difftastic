@@ -422,10 +422,10 @@ struct Scanner {
         break;
 
       default:
-        if (isalpha(lexer->lookahead)) {
+        if (isalpha(lexer->lookahead) || lexer->lookahead == '_') {
           result += lexer->lookahead;
           advance(lexer);
-          while (isalpha(lexer->lookahead)) {
+          while (isalpha(lexer->lookahead) || lexer->lookahead == '_') {
             result += lexer->lookahead;
             advance(lexer);
           }

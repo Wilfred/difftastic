@@ -582,6 +582,10 @@ basic heredocs
 heredoc content
 TEXT
 
+<<TEXT_B
+heredoc content
+TEXT_B
+
 <<~TEXT
 content
 TEXT
@@ -599,6 +603,7 @@ heredoc content
 ---
 
 (program
+  (heredoc_beginning) (heredoc_end)
   (heredoc_beginning) (heredoc_end)
   (heredoc_beginning) (heredoc_end)
   (if (identifier)
