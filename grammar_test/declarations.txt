@@ -49,9 +49,14 @@ def `(a)
   "`"
 end
 
+def -@(a)
+end
+
 ---
 
-(program (method (operator) (method_parameters (identifier)) (string)))
+(program
+  (method (operator) (method_parameters (identifier)) (string))
+  (method (operator) (method_parameters (identifier))))
 
 ===================================================
 method with forward slash name and regex ambiguity
