@@ -554,22 +554,6 @@ struct Scanner {
       }
     }
 
-    if ((valid_symbols[UNARY_MINUS] || valid_symbols[BINARY_MINUS]) && lexer->lookahead == '-') {
-      advance(lexer);
-      if (lexer->lookahead != '=' && lexer->lookahead != '@' && lexer->lookahead != '>') {
-        if (valid_symbols[UNARY_MINUS] && lexer->lookahead != ' ' && lexer->lookahead != '\t') {
-          lexer->result_symbol = UNARY_MINUS;
-          return true;
-        } else if (valid_symbols[BINARY_MINUS]) {
-          lexer->result_symbol = BINARY_MINUS;
-          return true;
-        } else {
-          lexer->result_symbol = UNARY_MINUS;
-          return true;
-        }
-      }
-    }
-
     if ((valid_symbols[KEYWORD_COLON] || valid_symbols[SCOPE_DOUBLE_COLON]) && lexer->lookahead == ':' && !has_leading_whitespace) {
       advance(lexer);
 
@@ -616,6 +600,22 @@ struct Scanner {
           case End:
             lexer->result_symbol = SIMPLE_HEREDOC_BODY;
             return true;
+        }
+      }
+    }
+
+    if ((valid_symbols[UNARY_MINUS] || valid_symbols[BINARY_MINUS]) && lexer->lookahead == '-') {
+      advance(lexer);
+      if (lexer->lookahead != '=' && lexer->lookahead != '@' && lexer->lookahead != '>') {
+        if (valid_symbols[UNARY_MINUS] && lexer->lookahead != ' ' && lexer->lookahead != '\t') {
+          lexer->result_symbol = UNARY_MINUS;
+          return true;
+        } else if (valid_symbols[BINARY_MINUS]) {
+          lexer->result_symbol = BINARY_MINUS;
+          return true;
+        } else {
+          lexer->result_symbol = UNARY_MINUS;
+          return true;
         }
       }
     }
