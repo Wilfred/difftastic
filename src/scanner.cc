@@ -404,14 +404,33 @@ struct Scanner {
 
   string scan_heredoc_word(TSLexer *lexer) {
     string result;
-    if (isalpha(lexer->lookahead)) {
-      result += lexer->lookahead;
-      advance(lexer);
-      while (isalpha(lexer->lookahead)) {
-        result += lexer->lookahead;
+    int32_t quote;
+
+    switch (lexer->lookahead) {
+      case '\'':
+      case '"':
+      case '`':
+        quote = lexer->lookahead;
         advance(lexer);
-      }
+        while (lexer->lookahead != quote) {
+          result += lexer->lookahead;
+          advance(lexer);
+        }
+        advance(lexer);
+        break;
+
+      default:
+        if (isalpha(lexer->lookahead)) {
+          result += lexer->lookahead;
+          advance(lexer);
+          while (isalpha(lexer->lookahead)) {
+            result += lexer->lookahead;
+            advance(lexer);
+          }
+        }
+        break;
     }
+
     return result;
   }
 
@@ -628,30 +647,8 @@ struct Scanner {
         advance(lexer);
         if (lexer->lookahead == '-') advance(lexer);
 
-        literal.type = Literal::Type::STRING;
-        literal.nesting_depth = 1;
-        literal.allows_interpolation = true;
-        int32_t quote;
-        switch (lexer->lookahead) {
-          case '\'':
-            quote = '\'';
-            literal.allows_interpolation = false;
-            advance(lexer);
-            break;
-
-          case '"':
-            quote = '"';
-            advance(lexer);
-            break;
-
-          case '`':
-            quote = '`';
-            advance(lexer);
-            break;
-        }
         string word = scan_heredoc_word(lexer);
         if (word.empty()) return false;
-        if (quote == lexer->lookahead) advance(lexer);
         open_heredoc_words.push_back(word);
         lexer->result_symbol = HEREDOC_BEGINNING;
         return true;

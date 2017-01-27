@@ -588,9 +588,9 @@ if indentation_works?
   sql
 end
 
-<<'SQL'
+<<'..end src/parser.c modeval..id7a99570e05'
 heredoc content
-SQL
+..end src/parser.c modeval..id7a99570e05
 
 ---
 
