@@ -526,6 +526,17 @@ module.exports = grammar({
       )
     ),
 
+    // Fallback to catch :name
+    _simple_symbol: $ => token(seq(
+      ':',
+      choice(
+        identifierPattern,
+        instanceVariablePattern,
+        classVariablePattern,
+        globalVariablePattern
+      )
+    )),
+
     integer: $ => integerPattern,
     // TODO: When we can backtrack, redefine float as regex instead of seq.
     // float: $ => (/\d(_?\d)*(\.\d)?(_?\d)*([eE]\d(_?\d)*)?/),

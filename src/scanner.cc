@@ -222,8 +222,12 @@ struct Scanner {
       advance(lexer);
     }
 
-    if (lexer->lookahead == '?' || lexer->lookahead == '!' || lexer->lookahead == '=') {
+    if (lexer->lookahead == '?' || lexer->lookahead == '!') {
       advance(lexer);
+    }
+    if (lexer->lookahead == '=') {
+      advance(lexer);
+      if (lexer->lookahead == '>') return false;
     }
 
     return true;

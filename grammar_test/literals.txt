@@ -987,6 +987,16 @@ empty hash
 (program (hash))
 
 =========================
+hash with no spaces
+=========================
+
+{:name=>"foo"}
+
+---
+
+(program (hash (pair (symbol) (string))))
+
+=========================
 hash with expression keys
 =========================
 
