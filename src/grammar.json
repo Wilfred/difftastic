@@ -863,7 +863,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "identifier"
+          "name": "_arg"
         },
         {
           "type": "SYMBOL",

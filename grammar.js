@@ -168,7 +168,7 @@ module.exports = grammar({
     singleton_class: $ => seq(
       'class',
       '<<',
-      $.identifier,
+      $._arg,
       $._terminator,
       optional($._body_statement),
       'end'

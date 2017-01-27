@@ -352,11 +352,15 @@ end
 class << Foo
 end
 
+class << Foo::Bar
+end
+
 ---
 
 (program
+  (singleton_class (self))
   (singleton_class (identifier))
-  (singleton_class (identifier)))
+  (singleton_class (scope_resolution (identifier) (identifier))))
 
 
 ============
