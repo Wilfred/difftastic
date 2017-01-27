@@ -671,7 +671,7 @@ struct Scanner {
         advance(lexer);
         if (lexer->lookahead != '<') return false;
         advance(lexer);
-        if (lexer->lookahead == '-') advance(lexer);
+        if (lexer->lookahead == '-' || lexer->lookahead == '~') advance(lexer);
 
         string word = scan_heredoc_word(lexer);
         if (word.empty()) return false;

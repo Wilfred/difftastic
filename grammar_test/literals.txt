@@ -578,9 +578,13 @@ nested strings with different delimiters
 basic heredocs
 ========================================
 
-<<SQL
+<<TEXT
 heredoc content
-SQL
+TEXT
+
+<<~TEXT
+content
+TEXT
 
 if indentation_works?
   <<"sql"
@@ -595,6 +599,7 @@ heredoc content
 ---
 
 (program
+  (heredoc_beginning) (heredoc_end)
   (heredoc_beginning) (heredoc_end)
   (if (identifier)
     (heredoc_beginning) (heredoc_end))
