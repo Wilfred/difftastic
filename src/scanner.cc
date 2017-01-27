@@ -169,7 +169,7 @@ struct Scanner {
         }
         return false;
 
-      // &, ^, |, ~, /, %, !
+      // &, ^, |, ~, /, %, !,`
       case '&':
       case '^':
       case '|':
@@ -177,6 +177,7 @@ struct Scanner {
       case '/':
       case '%':
       case '!':
+      case '`':
         advance(lexer);
         return true;
 
@@ -245,6 +246,7 @@ struct Scanner {
         return true;
 
       case '`':
+        if (!valid_symbols[SIMPLE_SUBSHELL]) return false;
         literal.type = Literal::Type::SUBSHELL;
         literal.open_delimiter = literal.close_delimiter = lexer->lookahead;
         literal.nesting_depth = 1;

@@ -41,6 +41,18 @@ end
 
 (program (method (setter (identifier))))
 
+==============================
+method definition of operators
+==============================
+
+def `(a)
+  "`"
+end
+
+---
+
+(program (method (operator) (method_parameters (identifier)) (string)))
+
 ===================================================
 method with forward slash name and regex ambiguity
 ===================================================
