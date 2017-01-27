@@ -598,7 +598,7 @@ module.exports = grammar({
 
     pair: $ => prec(-1, seq(choice(
       seq($._arg, '=>'),
-      seq(choice($.identifier, $.reserved_identifier), $._keyword_colon)
+      seq(choice($.identifier, $.reserved_identifier, $.string), $._keyword_colon)
     ), $._arg)),
 
     regex: $ => choice(

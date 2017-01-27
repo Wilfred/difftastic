@@ -4386,6 +4386,10 @@
                       {
                         "type": "SYMBOL",
                         "name": "reserved_identifier"
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "string"
                       }
                     ]
                   },
