@@ -612,7 +612,7 @@ struct Scanner {
 
     if ((valid_symbols[UNARY_MINUS] || valid_symbols[BINARY_MINUS]) && lexer->lookahead == '-') {
       advance(lexer);
-      if (lexer->lookahead != '=' && lexer->lookahead != '@' && lexer->lookahead != '>') {
+      if (lexer->lookahead != '=' && lexer->lookahead != '>') {
         if (valid_symbols[UNARY_MINUS] && lexer->lookahead != ' ' && lexer->lookahead != '\t') {
           lexer->result_symbol = UNARY_MINUS;
           return true;
