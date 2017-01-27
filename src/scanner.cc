@@ -570,6 +570,8 @@ struct Scanner {
       } else if (valid_symbols[KEYWORD_COLON]) {
         lexer->result_symbol = KEYWORD_COLON;
         return true;
+      } else {
+        return false;
       }
     }
 
@@ -645,7 +647,7 @@ struct Scanner {
     if (valid_symbols[SIMPLE_STRING] || valid_symbols[SIMPLE_SYMBOL]) {
       Literal literal;
 
-      if (lexer->lookahead == ':') {
+      if (lexer->lookahead == ':' && valid_symbols[SIMPLE_SYMBOL]) {
         literal.type = Literal::Type::SYMBOL;
         advance(lexer);
 

@@ -262,6 +262,8 @@ conditional
 
 a ? b : c
 
+true ?"a":"c"
+
 a ? b
   : c
 
@@ -269,6 +271,7 @@ a ? b
 
 (program
   (conditional (identifier) (identifier) (identifier))
+  (conditional (true) (string) (string))
   (conditional (identifier) (identifier) (identifier)))
 
 ===========
