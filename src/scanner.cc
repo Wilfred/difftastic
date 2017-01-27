@@ -95,7 +95,7 @@ struct Scanner {
           if (!open_heredoc_words.empty() && !*found_heredoc_starting_linebreak) {
             skip(lexer);
             *found_heredoc_starting_linebreak = true;
-            break;
+            return true;
           } else if (valid_symbols[LINE_BREAK]) {
             advance(lexer);
             while (lexer->lookahead == ' ' || lexer->lookahead == '\t' || lexer->lookahead == '\n') { skip(lexer); }
