@@ -623,9 +623,15 @@ heredoc with end word in content
 </HTML>
 HTML
 
+<<a
+attr_accessor
+a
+
 ---
 
-(program (heredoc_beginning) (heredoc_end))
+(program
+  (heredoc_beginning) (heredoc_end)
+  (heredoc_beginning) (heredoc_end))
 
 ========================================
 heredocs in context starting with dot

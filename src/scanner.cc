@@ -449,7 +449,14 @@ struct Scanner {
     bool look_for_heredoc_end = true;
 
     for (;;) {
-      if (position_in_word == word.size() || lexer->lookahead == 0) {
+      if (position_in_word == word.size()) {
+        while (lexer->lookahead == ' ' || lexer->lookahead == '\t') advance(lexer);
+        if (lexer->lookahead == '\n') {
+          open_heredoc_words.erase(open_heredoc_words.begin());
+          return End;
+        }
+      }
+      if (lexer->lookahead == 0) {
         open_heredoc_words.erase(open_heredoc_words.begin());
         return End;
       }
@@ -468,9 +475,7 @@ struct Scanner {
           }
         } else if (lexer->lookahead == '\n') {
           advance(lexer);
-          while (lexer->lookahead == ' ' || lexer->lookahead == '\t') {
-            advance(lexer);
-          }
+          while (lexer->lookahead == ' ' || lexer->lookahead == '\t') advance(lexer);
           look_for_heredoc_end = true;
         } else {
           advance(lexer);
