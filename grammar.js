@@ -161,6 +161,7 @@ module.exports = grammar({
       'class',
       $.constant,
       optional($.superclass),
+      optional($._terminator),
       optional($._body_statement),
       'end'
     ),

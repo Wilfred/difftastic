@@ -291,6 +291,8 @@ empty class
 class Foo
 end
 
+class Foo; end
+
 class Foo::Bar
 end
 
@@ -300,6 +302,7 @@ end
 ---
 
 (program
+  (class (constant (identifier)))
   (class (constant (identifier)))
   (class (constant (identifier) (identifier)))
   (class (constant (identifier) (identifier))))
