@@ -4138,5 +4138,6 @@
       "composite_literal",
       "_expression"
     ]
-  ]
+  ],
+  "externals": []
 }

@@ -4,9 +4,9 @@
 
 using namespace v8;
 
-extern "C" TSLanguage * ts_language_go();
+extern "C" TSLanguage * tree_sitter_go();
 
-namespace tree_sitter_go {
+namespace {
 
 NAN_METHOD(New) {}
 
@@ -16,13 +16,13 @@ void Init(Handle<Object> exports, Handle<Object> module) {
   tpl->InstanceTemplate()->SetInternalFieldCount(1);
 
   Local<Function> constructor = tpl->GetFunction();
-  Local<Object> instance = constructor->NewInstance(0, NULL);
-  Nan::SetInternalFieldPointer(instance, 0, ts_language_go());
+  Local<Object> instance = constructor->NewInstance(Nan::GetCurrentContext()).ToLocalChecked();
+  Nan::SetInternalFieldPointer(instance, 0, tree_sitter_go());
 
   instance->Set(Nan::New("name").ToLocalChecked(), Nan::New("go").ToLocalChecked());
   module->Set(Nan::New("exports").ToLocalChecked(), instance);
 }
 
-NODE_MODULE(ts_language_go_binding, Init)
+NODE_MODULE(tree_sitter_go_binding, Init)
 
-}  // namespace tree_sitter_go
+}  // namespace
