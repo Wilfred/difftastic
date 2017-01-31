@@ -3,6 +3,7 @@
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wmissing-field-initializers"
 
+#define LANGUAGE_VERSION 1
 #define STATE_COUNT 1678
 #define SYMBOL_COUNT 165
 #define TOKEN_COUNT 81
@@ -58456,22 +58457,22 @@ static TSParseActionEntry ts_parse_actions[] = {
     [4197] = {.count = 2, .reusable = true, .depends_on_lookahead = false}, REDUCE(aux_sym_dotted_name_repeat1, 2), REDUCE(aux_sym_dotted_name_repeat1, 3),
 };
 
-void *ts_language_python_external_scanner_create();
-void ts_language_python_external_scanner_destroy();
-void ts_language_python_external_scanner_reset(void *);
-bool ts_language_python_external_scanner_scan(void *, TSLexer *, const bool *);
-bool ts_language_python_external_scanner_serialize(void *, TSExternalTokenState);
-void ts_language_python_external_scanner_deserialize(void *, const TSExternalTokenState);
+void *tree_sitter_python_external_scanner_create();
+void tree_sitter_python_external_scanner_destroy();
+void tree_sitter_python_external_scanner_reset(void *);
+bool tree_sitter_python_external_scanner_scan(void *, TSLexer *, const bool *);
+bool tree_sitter_python_external_scanner_serialize(void *, TSExternalTokenState);
+void tree_sitter_python_external_scanner_deserialize(void *, const TSExternalTokenState);
 
-const TSLanguage *ts_language_python() {
+const TSLanguage *tree_sitter_python() {
     GET_LANGUAGE(
         (const bool *)ts_external_scanner_states,
         ts_external_scanner_symbol_map,
-        ts_language_python_external_scanner_create,
-        ts_language_python_external_scanner_destroy,
-        ts_language_python_external_scanner_reset,
-        ts_language_python_external_scanner_scan,
-        ts_language_python_external_scanner_serialize,
-        ts_language_python_external_scanner_deserialize,
+        tree_sitter_python_external_scanner_create,
+        tree_sitter_python_external_scanner_destroy,
+        tree_sitter_python_external_scanner_reset,
+        tree_sitter_python_external_scanner_scan,
+        tree_sitter_python_external_scanner_serialize,
+        tree_sitter_python_external_scanner_deserialize,
     );
 }

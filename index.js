@@ -1,1 +1,1 @@
-module.exports = require("./build/Release/ts_language_python_binding");
+module.exports = require("./build/Release/tree_sitter_python_binding");
