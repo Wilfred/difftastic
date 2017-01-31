@@ -23,6 +23,6 @@ void Init(Handle<Object> exports, Handle<Object> module) {
   module->Set(Nan::New("exports").ToLocalChecked(), instance);
 }
 
-NODE_MODULE(ts_language_ruby_binding, Init)
+NODE_MODULE(tree_sitter_ruby_binding, Init)
 
 }  // namespace
