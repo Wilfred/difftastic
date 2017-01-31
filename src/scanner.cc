@@ -6,7 +6,7 @@
 using std::vector;
 using std::string;
 
-enum TokenType : TSSymbol {
+enum TokenType {
   SIMPLE_STRING,
   SIMPLE_SYMBOL,
   SIMPLE_SUBSHELL,
@@ -236,7 +236,7 @@ struct Scanner {
   bool scan_open_delimiter(TSLexer *lexer, Literal &literal, const bool *valid_symbols) {
     switch (lexer->lookahead) {
       case '"':
-        literal.type = Literal::Type::STRING;
+        literal.type = Literal::STRING;
         literal.open_delimiter = literal.close_delimiter = lexer->lookahead;
         literal.nesting_depth = 1;
         literal.allows_interpolation = true;
@@ -244,7 +244,7 @@ struct Scanner {
         return true;
 
       case '\'':
-        literal.type = Literal::Type::STRING;
+        literal.type = Literal::STRING;
         literal.open_delimiter = literal.close_delimiter = lexer->lookahead;
         literal.nesting_depth = 1;
         literal.allows_interpolation = false;
@@ -253,7 +253,7 @@ struct Scanner {
 
       case '`':
         if (!valid_symbols[SIMPLE_SUBSHELL]) return false;
-        literal.type = Literal::Type::SUBSHELL;
+        literal.type = Literal::SUBSHELL;
         literal.open_delimiter = literal.close_delimiter = lexer->lookahead;
         literal.nesting_depth = 1;
         literal.allows_interpolation = true;
@@ -262,7 +262,7 @@ struct Scanner {
 
       case '/':
         if (!valid_symbols[SIMPLE_REGEX]) return false;
-        literal.type = Literal::Type::REGEX;
+        literal.type = Literal::REGEX;
         literal.open_delimiter = literal.close_delimiter = lexer->lookahead;
         literal.nesting_depth = 1;
         literal.allows_interpolation = true;
@@ -279,51 +279,51 @@ struct Scanner {
 
         switch (lexer->lookahead) {
           case 's':
-            literal.type = Literal::Type::SYMBOL;
+            literal.type = Literal::SYMBOL;
             literal.allows_interpolation = false;
             advance(lexer);
             break;
 
           case 'r':
-            literal.type = Literal::Type::REGEX;
+            literal.type = Literal::REGEX;
             literal.allows_interpolation = true;
             advance(lexer);
             break;
 
           case 'x':
-            literal.type = Literal::Type::SUBSHELL;
+            literal.type = Literal::SUBSHELL;
             literal.allows_interpolation = true;
             advance(lexer);
             break;
 
           case 'q':
-            literal.type = Literal::Type::STRING;
+            literal.type = Literal::STRING;
             literal.allows_interpolation = false;
             advance(lexer);
             break;
 
           case 'Q':
-            literal.type = Literal::Type::STRING;
+            literal.type = Literal::STRING;
             literal.allows_interpolation = true;
             advance(lexer);
             break;
 
           case 'w':
           case 'i':
-            literal.type = Literal::Type::WORD_LIST;
+            literal.type = Literal::WORD_LIST;
             literal.allows_interpolation = false;
             advance(lexer);
             break;
 
           case 'W':
           case 'I':
-            literal.type = Literal::Type::WORD_LIST;
+            literal.type = Literal::WORD_LIST;
             literal.allows_interpolation = true;
             advance(lexer);
             break;
 
           default:
-            literal.type = Literal::Type::STRING;
+            literal.type = Literal::STRING;
             literal.allows_interpolation = true;
             break;
         }
@@ -491,7 +491,7 @@ struct Scanner {
   ScanContentResult scan_content(TSLexer *lexer, Literal &literal) {
     for (;;) {
       if (literal.nesting_depth == 0) {
-        if (literal.type == Literal::Type::REGEX) {
+        if (literal.type == Literal::REGEX) {
           while (islower(lexer->lookahead)) {
             advance(lexer);
           }
@@ -648,7 +648,7 @@ struct Scanner {
       Literal literal;
 
       if (lexer->lookahead == ':' && valid_symbols[SIMPLE_SYMBOL]) {
-        literal.type = Literal::Type::SYMBOL;
+        literal.type = Literal::SYMBOL;
         advance(lexer);
 
         switch (lexer->lookahead) {
