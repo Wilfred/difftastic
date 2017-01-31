@@ -711,32 +711,32 @@ struct Scanner {
 
 extern "C" {
 
-void *ts_language_ruby_external_scanner_create() {
+void *tree_sitter_ruby_external_scanner_create() {
   return new Scanner();
 }
 
-bool ts_language_ruby_external_scanner_scan(void *payload, TSLexer *lexer,
+bool tree_sitter_ruby_external_scanner_scan(void *payload, TSLexer *lexer,
                                             const bool *valid_symbols) {
   Scanner *scanner = static_cast<Scanner *>(payload);
   return scanner->scan(lexer, valid_symbols);
 }
 
-void ts_language_ruby_external_scanner_reset(void *payload) {
+void tree_sitter_ruby_external_scanner_reset(void *payload) {
   Scanner *scanner = static_cast<Scanner *>(payload);
   scanner->reset();
 }
 
-bool ts_language_ruby_external_scanner_serialize(void *payload, TSExternalTokenState state) {
+bool tree_sitter_ruby_external_scanner_serialize(void *payload, TSExternalTokenState state) {
   Scanner *scanner = static_cast<Scanner *>(payload);
   return scanner->serialize(state);
 }
 
-void ts_language_ruby_external_scanner_deserialize(void *payload, TSExternalTokenState state) {
+void tree_sitter_ruby_external_scanner_deserialize(void *payload, TSExternalTokenState state) {
   Scanner *scanner = static_cast<Scanner *>(payload);
   scanner->deserialize(state);
 }
 
-void ts_language_ruby_external_scanner_destroy(void *payload) {
+void tree_sitter_ruby_external_scanner_destroy(void *payload) {
   Scanner *scanner = static_cast<Scanner *>(payload);
   delete scanner;
 }
