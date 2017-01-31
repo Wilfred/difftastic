@@ -254,5 +254,6 @@
       "value": "\\s"
     }
   ],
-  "conflicts": []
+  "conflicts": [],
+  "externals": []
 }

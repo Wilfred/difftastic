@@ -1,8 +1,13 @@
-#include "tree_sitter/parser.h"
+#include <tree_sitter/parser.h>
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wmissing-field-initializers"
+
+#define LANGUAGE_VERSION 1
 #define STATE_COUNT 35
 #define SYMBOL_COUNT 18
 #define TOKEN_COUNT 12
+#define EXTERNAL_TOKEN_COUNT 0
 
 enum {
     anon_sym_LBRACE = 1,
@@ -453,46 +458,43 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
     }
 }
 
-static TSStateId ts_lex_states[STATE_COUNT] = {
-    [0] = 0,
-    [1] = 29,
-    [2] = 30,
-    [3] = 31,
-    [4] = 32,
-    [5] = 33,
-    [6] = 32,
-    [7] = 34,
-    [8] = 29,
-    [9] = 32,
-    [10] = 34,
-    [11] = 29,
-    [12] = 32,
-    [13] = 34,
-    [14] = 34,
-    [15] = 32,
-    [16] = 35,
-    [17] = 36,
-    [18] = 37,
-    [19] = 32,
-    [20] = 36,
-    [21] = 37,
-    [22] = 32,
-    [23] = 36,
-    [24] = 36,
-    [25] = 29,
-    [26] = 36,
-    [27] = 29,
-    [28] = 32,
-    [29] = 32,
-    [30] = 38,
-    [31] = 32,
-    [32] = 36,
-    [33] = 34,
-    [34] = 36,
+static TSLexMode ts_lex_modes[STATE_COUNT] = {
+    [0] = {.lex_state = 0},
+    [1] = {.lex_state = 29},
+    [2] = {.lex_state = 30},
+    [3] = {.lex_state = 31},
+    [4] = {.lex_state = 32},
+    [5] = {.lex_state = 33},
+    [6] = {.lex_state = 32},
+    [7] = {.lex_state = 34},
+    [8] = {.lex_state = 29},
+    [9] = {.lex_state = 32},
+    [10] = {.lex_state = 34},
+    [11] = {.lex_state = 29},
+    [12] = {.lex_state = 32},
+    [13] = {.lex_state = 34},
+    [14] = {.lex_state = 34},
+    [15] = {.lex_state = 32},
+    [16] = {.lex_state = 35},
+    [17] = {.lex_state = 36},
+    [18] = {.lex_state = 37},
+    [19] = {.lex_state = 32},
+    [20] = {.lex_state = 36},
+    [21] = {.lex_state = 37},
+    [22] = {.lex_state = 32},
+    [23] = {.lex_state = 36},
+    [24] = {.lex_state = 36},
+    [25] = {.lex_state = 29},
+    [26] = {.lex_state = 36},
+    [27] = {.lex_state = 29},
+    [28] = {.lex_state = 32},
+    [29] = {.lex_state = 32},
+    [30] = {.lex_state = 38},
+    [31] = {.lex_state = 32},
+    [32] = {.lex_state = 36},
+    [33] = {.lex_state = 34},
+    [34] = {.lex_state = 36},
 };
-
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wmissing-field-initializers"
 
 static unsigned short ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [0] = {
@@ -786,6 +788,6 @@ static TSParseActionEntry ts_parse_actions[] = {
     [113] = {.count = 2, .reusable = true, .depends_on_lookahead = false}, REDUCE(aux_sym_object_repeat1, 2), REDUCE(aux_sym_object_repeat1, 3),
 };
 
-#pragma GCC diagnostic pop
-
-EXPORT_LANGUAGE(ts_language_json);
+const TSLanguage *tree_sitter_json() {
+    GET_LANGUAGE();
+}
