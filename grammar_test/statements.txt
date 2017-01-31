@@ -4,12 +4,16 @@ conditional modifier
 
 foo if bar
 return if false
+return true if foo
+return nil if foo
 
 ---
 
 (program
   (if_modifier (identifier) (identifier))
-  (if_modifier (return) (boolean)))
+  (if_modifier (return) (false))
+  (if_modifier (return (argument_list (true))) (identifier))
+  (if_modifier (return (argument_list (nil))) (identifier)))
 
 ==============
 while modifier

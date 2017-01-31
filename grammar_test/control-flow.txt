@@ -356,15 +356,37 @@ end
   (begin (rescue (exceptions (identifier)) (exception_variable (identifier))))
   (begin (rescue (exceptions (identifier)) (exception_variable (identifier)) (identifier))))
 
+===========================
+begin with rescue with splat args
+===========================
+
+begin
+rescue *args
+end
+
+---
+
+(program (begin (rescue (exceptions (splat_argument (identifier))))))
+
 =================
 rescue modifier
 =================
 
 foo rescue nil
 
+if foo rescue nil
+elsif bar rescue nil
+end
+
+unless foo rescue nil
+end
+
 ---
 
-(program (rescue_modifier (identifier) (nil)))
+(program
+  (rescue_modifier (identifier) (nil))
+  (if (rescue_modifier (identifier) (nil)) (elsif (rescue_modifier (identifier) (nil))))
+  (unless (rescue_modifier (identifier) (nil))))
 
 ============================
 begin with all the trimmings
@@ -431,12 +453,20 @@ when bar
 else
 end
 
+case key
+when bar
+else; leaf
+end
+
 ---
 
 (program
-  (case (identifier)
-    (when (pattern (identifier))
-      (else))))
+  (case
+    (identifier)
+    (when (pattern (identifier)) (else)))
+  (case
+    (identifier)
+    (when (pattern (identifier)) (else (identifier)))))
 
 ==============================
 case with multiple when blocks
@@ -458,6 +488,19 @@ end
     (when (pattern (identifier)) (identifier)
       (when (pattern (identifier)) (identifier)
         (else (identifier))))))
+
+==============================
+case with splat parameter in when
+==============================
+
+case a
+when *foo
+  c
+end
+
+---
+
+(program (case (identifier) (when (pattern (splat_argument (identifier))) (identifier))))
 
 ==============
 case with assignment

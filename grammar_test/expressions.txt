@@ -5,11 +5,14 @@ scope resolution
 Foo::bar
 ::Bar
 
+puts ::Foo::Bar
+
 ---
 
 (program
   (scope_resolution (identifier) (identifier))
-  (scope_resolution (identifier)))
+  (scope_resolution (identifier))
+  (method_call (identifier) (argument_list (scope_resolution (scope_resolution (identifier)) (identifier)))))
 
 ============
 element reference
@@ -148,50 +151,66 @@ assignment
 ==========
 
 x = y
+x = *args
 
 ---
 
-(program (assignment (identifier) (identifier)))
+(program
+  (assignment (identifier) (identifier))
+  (assignment (identifier) (splat_argument (identifier))))
 
-==========
+=====================
 multiple assignment
-==========
+=====================
 
 x, y = [1, 2]
 x, * = [1, 2]
 x, *args = [1, 2]
+x, y = *foo
+self.foo, self.bar = target.a?, target.b
+(x, y) = foo
 
 ---
 
 (program
   (assignment (left_assignment_list (identifier) (identifier)) (array (integer) (integer)))
   (assignment (left_assignment_list (identifier) (rest_assignment)) (array (integer) (integer)))
-  (assignment (left_assignment_list (identifier) (rest_assignment (identifier))) (array (integer) (integer))))
+  (assignment (left_assignment_list (identifier) (rest_assignment (identifier))) (array (integer) (integer)))
+  (assignment (left_assignment_list (identifier) (identifier)) (splat_argument (identifier)))
+  (assignment (left_assignment_list (call (self) (identifier)) (call (self) (identifier))) (right_assignment_list (call (identifier) (identifier)) (call (identifier) (identifier))))
+  (assignment (left_assignment_list (identifier) (identifier)) (identifier)))
 
 ==========
 multiple assignment with multiple right hand sides
 ==========
 
+foo = 1, 2
 x, y = foo, bar
 
 ---
 
-(program (assignment
-  (left_assignment_list (identifier) (identifier))
-  (right_assignment_list (identifier) (identifier))))
+(program
+  (assignment (identifier) (right_assignment_list (integer) (integer)))
+  (assignment
+    (left_assignment_list (identifier) (identifier))
+    (right_assignment_list (identifier) (identifier))))
 
 ==========
 assignment from method call
 ==========
 
 x = foo a, b
+x = foo a, :b => 1, :c => 2
 
 ---
 
 (program
   (assignment (identifier)
     (method_call (identifier)
-      (argument_list (identifier) (identifier)))))
+      (argument_list (identifier) (identifier))))
+  (assignment (identifier)
+    (method_call (identifier)
+      (argument_list (identifier) (pair (symbol) (integer)) (pair (symbol) (integer))))))
 
 ==========
 math assignment
@@ -202,6 +221,7 @@ x -= y
 x *= y
 x **= y
 x /= y
+puts "/hi"
 
 ---
 
@@ -210,7 +230,8 @@ x /= y
   (operator_assignment (identifier) (identifier))
   (operator_assignment (identifier) (identifier))
   (operator_assignment (identifier) (identifier))
-  (operator_assignment (identifier) (identifier)))
+  (operator_assignment (identifier) (identifier))
+  (method_call (identifier) (argument_list (string))))
 
 ==========
 operator assignment
@@ -223,10 +244,12 @@ x |= y
 x %= y
 x >>= y
 x <<= y
+x ^= y
 
 ---
 
 (program
+  (operator_assignment (identifier) (identifier))
   (operator_assignment (identifier) (identifier))
   (operator_assignment (identifier) (identifier))
   (operator_assignment (identifier) (identifier))
@@ -241,6 +264,8 @@ conditional
 
 a ? b : c
 
+true ?"a":"c"
+
 a ? b
   : c
 
@@ -248,7 +273,21 @@ a ? b
 
 (program
   (conditional (identifier) (identifier) (identifier))
+  (conditional (true) (string) (string))
   (conditional (identifier) (identifier) (identifier)))
+
+===========
+conditional with reserved identifiers
+===========
+
+foo ? true: false
+foo ? return: false
+
+---
+
+(program
+  (conditional (identifier) (true) (false))
+  (conditional (identifier) (return) (false)))
 
 ===============
 inclusive range
@@ -396,10 +435,13 @@ unary minus
 ===========
 
 -a
+foo -a, bar
 
 ---
 
-(program (unary (identifier)))
+(program
+  (unary (identifier))
+  (method_call (identifier) (argument_list (unary (identifier)) (identifier))))
 
 ===========
 exponential
@@ -453,17 +495,17 @@ foo a,
     (argument_list (identifier) (identifier) (identifier))))
 
 ===============================
-method call with training comma
+method call with trailing comma
 ===============================
 
 foo(a, b,)
+foo(bar(a),)
 
 ---
 
 (program
-  (method_call
-    (identifier)
-    (argument_list (identifier) (identifier))))
+  (method_call (identifier) (argument_list (identifier) (identifier)))
+  (method_call (identifier) (argument_list (method_call (identifier) (argument_list (identifier))))))
 
 ===============================
 method call with receiver
@@ -508,10 +550,10 @@ foo :a => true, :c => 1
 ---
 
 (program
-  (method_call (identifier) (argument_list (pair (symbol) (boolean))))
+  (method_call (identifier) (argument_list (pair (symbol) (true))))
   (method_call (identifier) (argument_list (pair (array) (integer))))
   (method_call (identifier) (argument_list (pair (identifier) (integer))))
-  (method_call (identifier) (argument_list (pair (symbol) (boolean)) (pair (symbol) (integer)))))
+  (method_call (identifier) (argument_list (pair (symbol) (true)) (pair (symbol) (integer)))))
 
 ===============================
 method call with keyword args
@@ -523,8 +565,18 @@ foo a: true
 ---
 
 (program
-  (method_call (identifier) (argument_list (pair (identifier) (boolean))))
-  (method_call (identifier) (argument_list (pair (identifier) (boolean)))))
+  (method_call (identifier) (argument_list (pair (identifier) (true))))
+  (method_call (identifier) (argument_list (pair (identifier) (true)))))
+
+===============================
+method call with paren args
+===============================
+
+foo (b), a
+
+---
+
+(program (method_call (identifier) (argument_list (identifier) (identifier))))
 
 ===============================
 method call with block argument
@@ -532,12 +584,33 @@ method call with block argument
 
 foo(&:sort)
 foo(&bar)
+foo(&bar, 1)
+foo &bar
+foo &bar, 1
 
 ---
 
 (program
   (method_call (identifier) (argument_list (block_argument (symbol))))
-  (method_call (identifier) (argument_list (block_argument (identifier)))))
+  (method_call (identifier) (argument_list (block_argument (identifier))))
+  (method_call (identifier) (argument_list (block_argument (identifier)) (integer)))
+  (method_call (identifier) (argument_list (block_argument (identifier))))
+  (method_call (identifier) (argument_list (block_argument (identifier)) (integer))))
+
+===============================
+method call with splat argument
+===============================
+
+foo(*bar)
+foo *bar
+foo *(bar.baz)
+
+---
+
+(program
+  (method_call (identifier) (argument_list (splat_argument (identifier))))
+  (method_call (identifier) (argument_list (splat_argument (identifier))))
+  (method_call (identifier) (argument_list (splat_argument (call (identifier) (identifier))))))
 
 ===============================
 method call lambda argument
@@ -552,12 +625,12 @@ foo :bar, -> (a) { where(:c => b) }
   (method_call (identifier)
     (argument_list
       (symbol)
-      (lambda (formal_parameters (identifier)) (integer))))
+      (lambda (lambda_parameters (identifier)) (integer))))
   (method_call (identifier)
     (argument_list
       (symbol)
       (lambda
-        (formal_parameters (identifier))
+        (lambda_parameters (identifier))
         (method_call (identifier) (argument_list (pair (symbol) (identifier))))))))
 
 ===============================
@@ -571,23 +644,27 @@ end
 
 (program
   (method_call (identifier)
-    (argument_list (symbol) (lambda (formal_parameters (identifier)) (integer)))
+    (argument_list (symbol) (lambda (lambda_parameters (identifier)) (integer)))
     (do_block)))
 
 ===============================
-method calls with rest argument
+method calls with splat argument
 ===============================
 
 foo(*bar)
+foo(*[bar, baz].quoz)
 foo(x, *bar)
 foo(*bar.baz)
+foo(**baz)
 
 ---
 
 (program
-  (method_call (identifier) (argument_list (rest_argument (identifier))))
-  (method_call (identifier) (argument_list (identifier) (rest_argument (identifier))))
-  (method_call (identifier) (argument_list (rest_argument (call (identifier) (identifier))))))
+  (method_call (identifier) (argument_list (splat_argument (identifier))))
+  (method_call (identifier) (argument_list (splat_argument (call (array (identifier) (identifier)) (identifier)))))
+  (method_call (identifier) (argument_list (identifier) (splat_argument (identifier))))
+  (method_call (identifier) (argument_list (splat_argument (call (identifier) (identifier)))))
+  (method_call (identifier) (argument_list (hash_splat_argument (identifier)))))
 
 ============================
 method call without parens
@@ -598,6 +675,23 @@ include D::E.f
 ---
 
 (program (method_call (identifier) (argument_list (call (scope_resolution (identifier) (identifier)) (identifier)))))
+
+============================
+method call with line break
+============================
+
+Foo
+  .bar
+  .baz
+
+Foo \
+  .bar
+
+---
+
+(program
+  (call (call (identifier) (identifier)) (identifier))
+  (call (identifier) (identifier)))
 
 ===============================
 method call with block argument do end
@@ -623,19 +717,19 @@ end
 (program
   (method_call
     (identifier)
-    (do_block (formal_parameters (identifier)) (identifier)))
+    (do_block (block_parameters (identifier)) (identifier)))
   (method_call
     (identifier)
     (argument_list (identifier))
-    (do_block (formal_parameters (identifier)) (identifier)))
+    (do_block (block_parameters (identifier)) (identifier)))
   (method_call
     (call (identifier) (identifier))
     (argument_list (identifier))
-    (do_block (formal_parameters (identifier)) (identifier)))
+    (do_block (block_parameters (identifier)) (identifier)))
   (method_call
     (identifier)
     (argument_list (identifier))
-    (do_block (formal_parameters (keyword_parameter (identifier) (identifier)) (splat_parameter (identifier))))))
+    (do_block (block_parameters (keyword_parameter (identifier) (identifier)) (splat_parameter (identifier))))))
 
 ===============================
 method call with block argument curly
@@ -648,10 +742,10 @@ foo(bar, baz) { quux }
 ---
 
 (program
-  (method_call (identifier) (block (formal_parameters (identifier)) (identifier)))
+  (method_call (identifier) (block (block_parameters (identifier)) (identifier)))
   (method_call (identifier) (argument_list (method_call
     (call (identifier) (identifier))
-    (block (formal_parameters (identifier)) (binary (identifier) (integer))))))
+    (block (block_parameters (identifier)) (binary (identifier) (integer))))))
 
   (method_call
     (identifier)
@@ -666,7 +760,52 @@ foo { |; i, j| }
 
 ---
 
-(program (method_call (identifier) (block (identifier) (identifier))))
+(program (method_call (identifier) (block (block_parameters (identifier) (identifier)))))
+
+===============================
+destructured parameters
+===============================
+
+-> (d, *f, (x, y)) {}
+
+def foo(d, *f, (x, y))
+end
+
+def foo d, *f, (x, y)
+end
+
+foo do |a, (c, d, *f, (x, y)), *e|
+end
+
+---
+
+(program
+  (lambda
+    (lambda_parameters (identifier) (splat_parameter (identifier)) (destructured_parameter (identifier) (identifier))))
+  (method (identifier)
+    (method_parameters (identifier) (splat_parameter (identifier)) (destructured_parameter (identifier) (identifier))))
+  (method (identifier)
+    (method_parameters (identifier) (splat_parameter (identifier)) (destructured_parameter (identifier) (identifier))))
+  (method_call (identifier) (do_block
+    (block_parameters
+      (identifier)
+      (destructured_parameter (identifier) (identifier) (splat_parameter (identifier)) (destructured_parameter (identifier) (identifier)))
+      (splat_parameter (identifier))))))
+
+===============================
+method call with array arguments
+===============================
+
+foo []
+foo [1]
+foo[1]
+
+---
+
+(program
+  (method_call (identifier) (argument_list (array)))
+  (method_call (identifier) (argument_list (array (integer))))
+  (element_reference (identifier) (integer)))
 
 ==============
 empty lambda expression
@@ -696,20 +835,56 @@ lambda { |foo| 1 }
 
 ---
 
-(program (lambda (formal_parameters (identifier)) (integer)))
+(program (lambda (block_parameters (identifier)) (integer)))
 
 ===========================
 lambda expression with multiple args
 ===========================
 
 lambda { |a, b, c|
-	1
-	2
+  1
+  2
 }
 
 ---
 
-(program (lambda (formal_parameters (identifier) (identifier) (identifier)) (integer) (integer)))
+(program (lambda (block_parameters (identifier) (identifier) (identifier)) (integer) (integer)))
+
+===========================
+lambda expression with trailing comma
+===========================
+
+lambda { |a, b,|
+  1
+}
+
+---
+
+(program (lambda (block_parameters (identifier) (identifier)) (integer)))
+
+===========================
+lambda expression with optional arg
+===========================
+
+lambda { |a, b=nil|
+  1
+}
+
+---
+
+(program (lambda (block_parameters (identifier) (optional_parameter (identifier) (nil))) (integer)))
+
+===========================
+lambda expression with keyword arg
+===========================
+
+lambda { |a, b: nil|
+  1
+}
+
+---
+
+(program (lambda (block_parameters (identifier) (keyword_parameter (identifier) (nil))) (integer)))
 
 ====================
 lambda expression with do end
@@ -721,7 +896,7 @@ end
 
 ---
 
-(program (lambda (formal_parameters (identifier)) (integer)))
+(program (lambda (block_parameters (identifier)) (integer)))
 
 ===============================
 backslash-newline as line continuation
@@ -733,10 +908,81 @@ foo \
 "abc \
 de"
 
+foo \
+  "abc"
+
 ---
 
 (program
   (method_call
     (identifier)
     (argument_list (identifier) (identifier)))
-  (string))
+  (string)
+  (method_call
+    (identifier)
+    (argument_list (string))))
+
+===============================
+basic division
+===============================
+
+10 / 5
+
+---
+
+(program (binary (integer) (integer)))
+
+===============================
+division without spaces
+===============================
+
+h/w
+"#{foo}"
+
+---
+
+(program (binary (identifier) (identifier)) (string (identifier)))
+
+===============================
+regex as parameter
+===============================
+
+foo /bar/
+
+---
+
+(program
+  (method_call (identifier) (argument_list (regex))))
+
+===============================
+regex with opening space
+===============================
+
+foo
+/ bar/
+
+---
+
+(program (identifier) (regex))
+
+===============================
+forward slash operator as method
+===============================
+
+Foo / "bar"
+"/edit"
+
+---
+
+(program (binary (identifier) (string)) (string))
+
+===============================
+multiline regex
+===============================
+
+/ a
+  b/
+
+---
+
+(program (regex))

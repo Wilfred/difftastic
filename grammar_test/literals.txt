@@ -5,29 +5,99 @@ symbol
 :foo
 :foo!
 :foo?
+:foo=
 :@foo
+:@foo_0123_bar
 :@@foo
 :$foo
+:_bar
 
 ---
 
 (program
-	(symbol)
-	(symbol)
-	(symbol)
-	(symbol)
-	(symbol)
-	(symbol))
+  (symbol)
+  (symbol)
+  (symbol)
+  (symbol)
+  (symbol)
+  (symbol)
+  (symbol)
+  (symbol)
+  (symbol))
+
+======
+symbol operators
+======
+
+:+
+:-
+:+@
+:-@
+:[]
+:[]=
+:&
+:!
+:`
+:^
+:|
+:~
+:/
+:%
+:*
+:**
+:==
+:===
+:=~
+:>
+:>=
+:>>
+:<
+:<=
+:<<
+:<=>
+
+---
+
+(program
+  (symbol)
+  (symbol)
+  (symbol)
+  (symbol)
+  (symbol)
+  (symbol)
+  (symbol)
+  (symbol)
+  (symbol)
+  (symbol)
+  (symbol)
+  (symbol)
+  (symbol)
+  (symbol)
+  (symbol)
+  (symbol)
+  (symbol)
+  (symbol)
+  (symbol)
+  (symbol)
+  (symbol)
+  (symbol)
+  (symbol)
+  (symbol)
+  (symbol)
+  (symbol))
 
 ====================
 single quoted symbol
 ====================
 
 :'foo bar'
+:'#{'
 
 ---
 
-(program (symbol))
+(program
+  (symbol)
+  (symbol))
 
 ====================
 double quoted symbol
@@ -48,7 +118,19 @@ double quoted symbol with interpolation
 
 ---
 
-(program (symbol (interpolation (identifier))))
+(program (symbol (identifier)))
+
+=========================================
+percent symbol with unbalanced delimiters
+=========================================
+
+%s/a/
+%s\a\
+%s#a#
+
+---
+
+(program (symbol) (symbol) (symbol))
 
 =======================================
 percent symbol with balanced delimiters
@@ -62,6 +144,101 @@ percent symbol with balanced delimiters
 ---
 
 (program (symbol) (symbol) (symbol) (symbol))
+
+=======================================
+global variables
+=======================================
+
+$foo
+$$
+$!
+$@
+$&
+$`
+$'
+$+
+$~
+$=
+$/
+$\
+$,
+$;
+$.
+$<
+$>
+$_
+$0
+$*
+$$
+$?
+$:
+$"
+$0
+$1
+$2
+$3
+$4
+$5
+$6
+$7
+$8
+$9
+$0
+$10
+$stdin
+$stdout
+$stderr
+$DEBUG
+$FILENAME
+$LOAD_PATH
+$VERBOSE
+
+---
+
+ (program
+  (global_variable)
+  (global_variable)
+  (global_variable)
+  (global_variable)
+  (global_variable)
+  (global_variable)
+  (global_variable)
+  (global_variable)
+  (global_variable)
+  (global_variable)
+  (global_variable)
+  (global_variable)
+  (global_variable)
+  (global_variable)
+  (global_variable)
+  (global_variable)
+  (global_variable)
+  (global_variable)
+  (global_variable)
+  (global_variable)
+  (global_variable)
+  (global_variable)
+  (global_variable)
+  (global_variable)
+  (global_variable)
+  (global_variable)
+  (global_variable)
+  (global_variable)
+  (global_variable)
+  (global_variable)
+  (global_variable)
+  (global_variable)
+  (global_variable)
+  (global_variable)
+  (global_variable)
+  (global_variable)
+  (global_variable)
+  (global_variable)
+  (global_variable)
+  (global_variable)
+  (global_variable)
+  (global_variable)
+  (global_variable))
 
 =======
 integer
@@ -139,20 +316,22 @@ float
 =====
 
 1.234_5e678_90
+1E30
 
 ---
 
-(program (float))
+(program (float) (float))
 
 =======
 boolean
 =======
 
 true
+false
 
 ---
 
-(program (boolean))
+(program (true) (false))
 
 ===
 nil
@@ -201,6 +380,16 @@ single-quoted string with backslash and character
 =================================================
 
 '\d'
+
+---
+
+(program (string))
+
+=================================================
+single-quoted string with pound and curly brace
+=================================================
+
+'#{hello'
 
 ---
 
@@ -263,10 +452,13 @@ interpolation
 =============
 
 "#{foo}"
+"#{':foo' unless bar}"
 
 ---
 
-(program (string (interpolation (identifier))))
+(program
+  (string (identifier))
+  (string (unless_modifier (string) (identifier))))
 
 =====================
 escaped interpolation
@@ -277,6 +469,18 @@ escaped interpolation
 ---
 
 (program (string))
+
+===========================================
+percent q string with unbalanced delimiters
+===========================================
+
+%q/a/
+%q\a\
+%q#a#
+
+---
+
+(program (string) (string) (string))
 
 =========================================
 percent q string with balanced delimiters
@@ -292,6 +496,18 @@ percent q string with balanced delimiters
 (program (string) (string) (string) (string))
 
 =========================================
+percent string with unbalanced delimiters
+=========================================
+
+%/a/
+%\a\
+%#a#
+
+---
+
+(program (string) (string) (string))
+
+=========================================
 percent string with balanced delimiters
 =========================================
 
@@ -303,6 +519,18 @@ percent string with balanced delimiters
 ---
 
 (program (string) (string) (string) (string))
+
+===========================================
+percent Q string with unbalanced delimiters
+===========================================
+
+%Q#a#
+%Q/a/
+%Q\a\
+
+---
+
+(program (string) (string) (string))
 
 =========================================
 percent Q string with balanced delimiters
@@ -322,10 +550,308 @@ string chaining
 ===============
 
 %q(a) "b" "c"
+"d" "e"
 
 ---
 
-(program (string))
+(program
+  (chained_string (string) (string) (string))
+  (chained_string (string) (string)))
+
+========================================
+Single character string literals
+========================================
+
+?a
+??
+?\n
+?\\
+?\u{41}
+?\M-a
+?\C-a
+?\M-\C-a
+?あ
+
+---
+
+(program (chained_string
+  (string) 
+  (string)
+  (string)
+  (string)
+  (string)
+  (string)
+  (string)
+  (string)
+  (string)))
+
+========================================
+nested strings with different delimiters
+========================================
+
+"abc#{
+  %r(def(ghi#{
+    `whoami`
+  })klm)
+}nop"
+
+
+---
+
+(program
+  (string (regex (subshell))))
+
+========================================
+basic heredocs
+========================================
+
+<<TEXT
+heredoc content
+TEXT
+
+<<TEXT_B
+heredoc content
+TEXT_B
+
+<<~TEXT
+content
+TEXT
+
+if indentation_works?
+  <<"sql"
+  heredoc content
+  sql
+end
+
+<<'..end src/parser.c modeval..id7a99570e05'
+heredoc content
+..end src/parser.c modeval..id7a99570e05
+
+---
+
+(program
+  (heredoc_beginning) (heredoc_end)
+  (heredoc_beginning) (heredoc_end)
+  (heredoc_beginning) (heredoc_end)
+  (if (identifier)
+    (heredoc_beginning) (heredoc_end))
+  (heredoc_beginning) (heredoc_end))
+
+
+========================================
+heredoc with interspersed end word
+========================================
+
+<<-eos
+  repositories
+eos
+
+---
+
+(program (heredoc_beginning) (heredoc_end))
+
+========================================
+heredoc with end word in content
+========================================
+
+<<HTML
+<HTML>
+  <HEAD></HEAD><BODY></BODY>
+</HTML>
+HTML
+
+<<a
+attr_accessor
+a
+
+---
+
+(program
+  (heredoc_beginning) (heredoc_end)
+  (heredoc_beginning) (heredoc_end))
+
+========================================
+heredocs in context starting with dot
+========================================
+
+def foo
+  select(<<-SQL)
+  .
+  SQL
+end
+
+---
+
+(program (method (identifier)
+  (method_call (identifier) (argument_list (heredoc_beginning) (heredoc_end)))))
+
+========================================
+heredocs with method continuation
+========================================
+
+select(<<-SQL)
+ab
+SQL
+  .join()
+
+---
+
+(program (method_call
+  (call
+    (method_call
+      (identifier)
+      (argument_list (heredoc_beginning) (heredoc_end)))
+    (identifier))
+  (argument_list)))
+
+========================================
+heredocs with interpolation
+========================================
+
+<<TEXT
+a
+b #{[1, "c #{2} d", 3]} e
+#{4} f #{foo.bar}
+#{a if b}
+#{foo(1, bar).baz}
+g
+TEXT
+
+return
+
+---
+
+(program
+  (heredoc_beginning)
+  (heredoc_end
+    (array (integer) (string (integer)) (integer))
+    (integer)
+    (call (identifier) (identifier))
+    (if_modifier (identifier) (identifier))
+    (call (method_call (identifier) (argument_list (integer) (identifier))) (identifier)))
+  (return))
+
+========================================
+heredocs with in args, pairs, and arrays
+========================================
+
+foo.new(
+  select: <<-TEXT,
+    heredoc content,
+  TEXT
+  conditions: <<-TEXT
+    heredoc content
+  TEXT
+)
+{
+  select: <<-TEXT,
+    heredoc content,
+  TEXT
+  conditions: <<-TEXT
+    heredoc content
+  TEXT
+}
+
+[
+  <<-TEXT,
+  a
+  TEXT
+  <<-TEXT
+  b
+  TEXT
+]
+
+foo[
+  1,
+  <<-TEXT
+  hi
+  TEXT
+  ] = 3
+
+---
+
+(program
+  (method_call
+    (call (identifier) (identifier))
+    (argument_list
+      (pair (identifier) (heredoc_beginning))
+      (heredoc_end)
+      (pair (identifier) (heredoc_beginning))
+      (heredoc_end)))
+  (hash
+    (pair (identifier) (heredoc_beginning))
+    (heredoc_end)
+    (pair (identifier) (heredoc_beginning))
+    (heredoc_end))
+  (array (heredoc_beginning) (heredoc_end) (heredoc_beginning) (heredoc_end))
+  (assignment
+    (element_reference (identifier) (integer) (heredoc_beginning) (heredoc_end))
+    (integer)))
+
+==============================================================
+heredocs with method calls and interpolation with method calls
+==============================================================
+
+foo(<<-STR.strip_heredoc.tr()
+    content #{bar().foo}
+  STR
+)
+
+---
+
+(program
+  (method_call
+    (identifier)
+    (argument_list
+      (method_call
+        (call (call (heredoc_beginning) (identifier)) (identifier))
+        (argument_list (heredoc_end (call (method_call (identifier) (argument_list)) (identifier))))))))
+
+========================================
+multiple heredocs
+========================================
+
+puts <<-ONE.size, <<-TWO.size
+first heredoc content
+ONE
+second heredoc content
+TWO
+
+---
+
+(program
+  (method_call
+    (identifier)
+    (argument_list
+      (call (heredoc_beginning) (identifier))
+      (call (heredoc_beginning) (identifier))
+      (heredoc_end) (heredoc_end))))
+
+========================================
+heredoc content that starts with a dot
+========================================
+
+-> {
+  select(<<-SQL)
+  .
+  SQL
+}
+
+---
+
+(program (lambda (method_call (identifier) (argument_list (heredoc_beginning) (heredoc_end)))))
+
+========================================
+un-terminated heredocs
+========================================
+
+<<-ONE
+
+---
+
+(program
+  (heredoc_beginning)
+  (heredoc_end))
 
 ==================
 backticks subshell
@@ -363,12 +889,18 @@ array
 
 [ foo, bar ]
 [foo, *bar]
+[foo, *@bar]
+[foo, *$bar]
+[foo, :bar => 1]
 
 ---
 
 (program
-	(array (identifier) (identifier))
-	(array (identifier) (rest_argument (identifier))))
+  (array (identifier) (identifier))
+  (array (identifier) (splat_argument (identifier)))
+  (array (identifier) (splat_argument (instance_variable)))
+  (array (identifier) (splat_argument (global_variable)))
+  (array (identifier) (pair (symbol) (integer))))
 
 =====
 array as object
@@ -378,8 +910,8 @@ array as object
 
 ---
 (program
-	(method_call (call (array (integer) (integer)) (identifier))
-		(block (formal_parameters (identifier)) (binary (identifier) (integer)))))
+  (method_call (call (array (integer) (integer)) (identifier))
+    (block (block_parameters (identifier)) (binary (identifier) (integer)))))
 
 =========================
 array with trailing comma
@@ -396,6 +928,16 @@ empty percent w array
 =====================
 
 %w()
+
+---
+
+(program (array))
+
+==========================
+unbalanced percent w array
+==========================
+
+%w/one two/
 
 ---
 
@@ -419,13 +961,23 @@ percent W array with interpolations
 
 ---
 
-(program (array (interpolation (identifier))))
+(program (array (identifier)))
 
 =====================
 empty percent i array
 =====================
 
 %i()
+
+---
+
+(program (array))
+
+==========================
+unbalanced percent i array
+==========================
+
+%i/one two/
 
 ---
 
@@ -449,7 +1001,7 @@ percent I array with captures
 
 ---
 
-(program (array (interpolation (identifier))))
+(program (array (identifier)))
 
 ==========
 empty hash
@@ -460,6 +1012,16 @@ empty hash
 ---
 
 (program (hash))
+
+=========================
+hash with no spaces
+=========================
+
+{:name=>"foo"}
+
+---
+
+(program (hash (pair (symbol) (string))))
 
 =========================
 hash with expression keys
@@ -476,15 +1038,102 @@ hash with expression keys
 	(hash (pair (array) (integer)))
 	(hash (pair (identifier) (integer))))
 
+=========================
+hash with reserved word key
+=========================
+
+{
+  alias: :foo,
+  and: :foo,
+  begin: :foo,
+  break: :foo,
+  case: :foo,
+  class: :foo,
+  def: :foo,
+  defined: :foo,
+  do: :foo,
+  else: :foo,
+  elsif: :foo,
+  end: :foo,
+  ensure: :foo,
+  false: :foo,
+  for: :foo,
+  in: :foo,
+  module: :foo,
+  next: :foo,
+  nil: :foo,
+  not: :foo,
+  or: :foo,
+  redo: :foo,
+  rescue: :foo,
+  retry: :foo,
+  return: :foo,
+  self: :foo,
+  super: :foo,
+  then: :foo,
+  true: :foo,
+  undef: :foo,
+  when: :foo,
+  yield: :foo,
+  if: :foo,
+  unless: :foo,
+  while: :foo,
+  until: :foo
+}
+
+---
+
+(program (hash
+  (pair (reserved_identifier) (symbol))
+  (pair (reserved_identifier) (symbol))
+  (pair (reserved_identifier) (symbol))
+  (pair (reserved_identifier) (symbol))
+  (pair (reserved_identifier) (symbol))
+  (pair (reserved_identifier) (symbol))
+  (pair (reserved_identifier) (symbol))
+  (pair (reserved_identifier) (symbol))
+  (pair (reserved_identifier) (symbol))
+  (pair (reserved_identifier) (symbol))
+  (pair (reserved_identifier) (symbol))
+  (pair (reserved_identifier) (symbol))
+  (pair (reserved_identifier) (symbol))
+  (pair (reserved_identifier) (symbol))
+  (pair (reserved_identifier) (symbol))
+  (pair (reserved_identifier) (symbol))
+  (pair (reserved_identifier) (symbol))
+  (pair (reserved_identifier) (symbol))
+  (pair (reserved_identifier) (symbol))
+  (pair (reserved_identifier) (symbol))
+  (pair (reserved_identifier) (symbol))
+  (pair (reserved_identifier) (symbol))
+  (pair (reserved_identifier) (symbol))
+  (pair (reserved_identifier) (symbol))
+  (pair (reserved_identifier) (symbol))
+  (pair (reserved_identifier) (symbol))
+  (pair (reserved_identifier) (symbol))
+  (pair (reserved_identifier) (symbol))
+  (pair (reserved_identifier) (symbol))
+  (pair (reserved_identifier) (symbol))
+  (pair (reserved_identifier) (symbol))
+  (pair (reserved_identifier) (symbol))
+  (pair (reserved_identifier) (symbol))
+  (pair (reserved_identifier) (symbol))
+  (pair (reserved_identifier) (symbol))
+  (pair (reserved_identifier) (symbol))))
+
 ======================
 hash with keyword keys
 ======================
 
-{ a: 1, b: 2 }
+{ a: 1, b: 2, "c": 3 }
 
 ---
 
-(program (hash (pair (identifier) (integer)) (pair (identifier) (integer))))
+(program
+  (hash
+    (pair (identifier) (integer))
+    (pair (identifier) (integer))
+    (pair (string) (integer))))
 
 ========================
 hash with trailing comma
@@ -495,6 +1144,25 @@ hash with trailing comma
 ---
 
 (program (hash (pair (identifier) (integer))))
+
+========================
+hash with line breaks and inline comments
+========================
+
+{
+  :pusher => pusher,
+
+  # Only warm caches if there are fewer than 10 tags and branches.
+  :should_warm_caches_after => 10,
+}
+
+---
+
+(program
+  (hash
+    (pair (symbol) (identifier))
+    (comment)
+    (pair (symbol) (integer))))
 
 ==================
 regular expression
@@ -517,20 +1185,46 @@ regular expression with interpolation
 ---
 
 (program
-	(regex (interpolation (identifier)))
-	(regex)
-	(regex))
+  (regex (identifier))
+  (regex)
+  (regex))
+
+=======================================================
+percent r regular expression with unbalanced delimiters
+=======================================================
+
+%r/a/
+%r\a\
+%r#a#
+
+---
+
+(program (regex) (regex) (regex))
+
 
 =====================================================
 percent r regular expression with balanced delimiters
 =====================================================
 
+%r<a<b>c>
+%r{a{b}c}
+%r[a[b]c]
 %r(a(b)c)
 %r(#)
 
 ---
 
-(program (regex) (regex))
+(program (regex) (regex) (regex) (regex) (regex))
+
+=========================================================================
+percent r regular expression with unbalanced delimiters and interpolation
+=========================================================================
+
+%r/a#{b}c/
+
+---
+
+(program (regex (identifier)))
 
 =======================================================================
 percent r regular expression with balanced delimiters and interpolation
@@ -540,7 +1234,7 @@ percent r regular expression with balanced delimiters and interpolation
 
 ---
 
-(program (regex (interpolation (identifier))))
+(program (regex (identifier)))
 
 ==============
 empty function
@@ -574,32 +1268,32 @@ lambda literal with an arg
 ---
 
 (program
-	(lambda (identifier) (integer))
-	(lambda (formal_parameters (identifier)) (integer))
-	(lambda (splat_parameter (identifier)) (integer))
-	(lambda (keyword_parameter (identifier) (integer)) (integer)))
+  (lambda (lambda_parameters (identifier)) (integer))
+  (lambda (lambda_parameters (identifier)) (integer))
+  (lambda (lambda_parameters (splat_parameter (identifier))) (integer))
+  (lambda (lambda_parameters (keyword_parameter (identifier) (integer))) (integer)))
 
 ===========================
 lambda literal with multiple args
 ===========================
 
 -> (a, b, c) {
-	1
-	2
+  1
+  2
 }
 
 ---
 
-(program (lambda (formal_parameters (identifier) (identifier) (identifier)) (integer) (integer)))
+(program (lambda (lambda_parameters (identifier) (identifier) (identifier)) (integer) (integer)))
 
 ====================
 lambda literal with do end
 ====================
 
 -> (foo) do
-	1
+  1
 end
 
 ---
 
-(program (lambda (formal_parameters (identifier)) (integer)))
+(program (lambda (lambda_parameters (identifier)) (integer)))
