@@ -3214,5 +3214,6 @@
       "template_call",
       "relational_expression"
     ]
-  ]
+  ],
+  "externals": []
 }
