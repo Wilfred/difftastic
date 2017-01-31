@@ -4088,12 +4088,20 @@
         }
       ]
     },
+    "_character_literal": {
+      "type": "PATTERN",
+      "value": "\\?(\\\\[^ \\t\\n]({[0-9]*}|-[^ \\t\\n]([MC]-[^ \\t\\n])?)?|[^ \\t\\n])[\\s]"
+    },
     "string": {
       "type": "CHOICE",
       "members": [
         {
           "type": "SYMBOL",
           "name": "_simple_string"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_character_literal"
         },
         {
           "type": "SEQ",
