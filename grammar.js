@@ -555,7 +555,7 @@ module.exports = grammar({
 
     chained_string: $ => seq($.string, repeat1($.string)),
 
-    _character_literal: $ => /\?(\\[^ \t\n]({[0-9]*}|-[^ \t\n]([MC]-[^ \t\n])?)?|[^ \t\n])[\s]/,
+    _character_literal: $ => /\?(\\\S({[0-9]*}|-\S([MC]-\S)?)?|\S)[\s]/,
 
     string: $ => choice(
       $._simple_string,

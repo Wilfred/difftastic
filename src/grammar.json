@@ -4090,7 +4090,7 @@
     },
     "_character_literal": {
       "type": "PATTERN",
-      "value": "\\?(\\\\[^ \\t\\n]({[0-9]*}|-[^ \\t\\n]([MC]-[^ \\t\\n])?)?|[^ \\t\\n])[\\s]"
+      "value": "\\?(\\\\\\S({[0-9]*}|-\\S([MC]-\\S)?)?|\\S)[\\s]"
     },
     "string": {
       "type": "CHOICE",
