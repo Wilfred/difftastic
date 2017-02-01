@@ -571,11 +571,11 @@ Single character string literals
 ?\C-a
 ?\M-\C-a
 ?あ
+foo(?/)
 
 ---
 
-(program (chained_string
-  (string) 
+(program
   (string)
   (string)
   (string)
@@ -583,7 +583,9 @@ Single character string literals
   (string)
   (string)
   (string)
-  (string)))
+  (string)
+  (string)
+  (method_call (identifier) (argument_list (string))))
 
 ========================================
 nested strings with different delimiters

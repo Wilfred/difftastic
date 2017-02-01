@@ -264,8 +264,6 @@ conditional
 
 a ? b : c
 
-true ?"a":"c"
-
 a ? b
   : c
 
@@ -273,12 +271,20 @@ a ? b
 
 (program
   (conditional (identifier) (identifier) (identifier))
-  (conditional (true) (string) (string))
   (conditional (identifier) (identifier) (identifier)))
 
-===========
+===========================================
+conditional and character literal ambiguity
+===========================================
+
+true ?")":"c"
+
+---
+(program (conditional (true) (string) (string)))
+
+===========================================
 conditional with reserved identifiers
-===========
+===========================================
 
 foo ? true: false
 foo ? return: false
