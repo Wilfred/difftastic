@@ -1952,6 +1952,30 @@
         },
         {
           "type": "SYMBOL",
+          "name": "true"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "false"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "nil"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "keyword__FILE__"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "keyword__LINE__"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "keyword__ENCODING__"
+        },
+        {
+          "type": "SYMBOL",
           "name": "regex"
         },
         {
@@ -3423,19 +3447,7 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "nil"
-        },
-        {
-          "type": "SYMBOL",
           "name": "self"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "true"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "false"
         },
         {
           "type": "SYMBOL",
@@ -3456,18 +3468,6 @@
         {
           "type": "SYMBOL",
           "name": "identifier"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "keyword__FILE__"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "keyword__LINE__"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "keyword__ENCODING__"
         }
       ]
     },

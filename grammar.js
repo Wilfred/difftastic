@@ -302,6 +302,12 @@ module.exports = grammar({
       $.float,
       $.string,
       $.chained_string,
+      $.true,
+      $.false,
+      $.nil,
+      $.keyword__FILE__,
+      $.keyword__LINE__,
+      $.keyword__ENCODING__,
       $.regex,
       $.lambda,
       $.method,
@@ -458,18 +464,12 @@ module.exports = grammar({
       $.method_call
     )),
     _variable: $ => choice(
-      $.nil,
       $.self,
-      $.true,
-      $.false,
       $.super,
       $.instance_variable,
       $.class_variable,
       $.global_variable,
-      $.identifier,
-      $.keyword__FILE__,
-      $.keyword__LINE__,
-      $.keyword__ENCODING__
+      $.identifier
     ),
 
     instance_variable: $ => instanceVariablePattern,
