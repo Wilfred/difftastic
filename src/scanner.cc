@@ -383,6 +383,8 @@ struct Scanner {
           case ':':
           case ';':
           case '_':
+          case '"':
+          case '\'':
             literal.open_delimiter = lexer->lookahead;
             literal.close_delimiter = lexer->lookahead;
             literal.nesting_depth = 1;
