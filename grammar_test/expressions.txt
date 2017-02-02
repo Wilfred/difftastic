@@ -152,12 +152,18 @@ assignment
 
 x = y
 x = *args
+FALSE = "false"
+TRUE = "true"
+NIL = "nil"
 
 ---
 
 (program
   (assignment (identifier) (identifier))
-  (assignment (identifier) (splat_argument (identifier))))
+  (assignment (identifier) (splat_argument (identifier)))
+  (assignment (false) (string))
+  (assignment (true) (string))
+  (assignment (nil) (string)))
 
 =====================
 multiple assignment

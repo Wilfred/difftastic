@@ -1952,18 +1952,6 @@
         },
         {
           "type": "SYMBOL",
-          "name": "true"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "false"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "nil"
-        },
-        {
-          "type": "SYMBOL",
           "name": "keyword__FILE__"
         },
         {
@@ -3422,6 +3410,18 @@
           {
             "type": "SYMBOL",
             "name": "_variable"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "true"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "false"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "nil"
           },
           {
             "type": "SYMBOL",
