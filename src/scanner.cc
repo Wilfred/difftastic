@@ -86,6 +86,19 @@ struct Scanner {
     lexer->advance(lexer, false);
   }
 
+  bool lookahead_is_line_end(TSLexer *lexer) {
+    if (lexer->lookahead == '\n') {
+      return true;
+    } else if (lexer->lookahead == '\r') {
+      skip(lexer);
+      if (lexer->lookahead == '\n') {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
   bool scan_whitespace(TSLexer *lexer, const bool *valid_symbols, bool *found_heredoc_starting_linebreak) {
     for (;;) {
       switch (lexer->lookahead) {
@@ -93,6 +106,8 @@ struct Scanner {
         case '\t':
           skip(lexer);
           break;
+        case '\r':
+          if (lexer->lookahead == '\n') skip(lexer);
         case '\n':
           if (!open_heredoc_words.empty() && !*found_heredoc_starting_linebreak) {
             skip(lexer);
@@ -100,7 +115,7 @@ struct Scanner {
             return true;
           } else if (valid_symbols[LINE_BREAK]) {
             advance(lexer);
-            while (lexer->lookahead == ' ' || lexer->lookahead == '\t' || lexer->lookahead == '\n') { skip(lexer); }
+            while (lexer->lookahead == ' ' || lexer->lookahead == '\t' || lookahead_is_line_end(lexer)) { skip(lexer); }
             if (lexer->lookahead == '.') { // Method continuation ignores newline.
               break;
             } else {
@@ -113,7 +128,7 @@ struct Scanner {
           }
         case '\\':
           skip(lexer);
-          if (lexer->lookahead == '\n') {
+          if (lexer->lookahead == '\n' || lexer->lookahead == '\r') {
             skip(lexer);
           }
           break;
@@ -457,7 +472,7 @@ struct Scanner {
     for (;;) {
       if (position_in_word == word.size()) {
         while (lexer->lookahead == ' ' || lexer->lookahead == '\t') advance(lexer);
-        if (lexer->lookahead == '\n') {
+        if (lookahead_is_line_end(lexer)) {
           open_heredoc_words.erase(open_heredoc_words.begin());
           return End;
         }
@@ -479,7 +494,7 @@ struct Scanner {
             advance(lexer);
             return Interpolation;
           }
-        } else if (lexer->lookahead == '\n') {
+        } else if (lookahead_is_line_end(lexer)) {
           advance(lexer);
           while (lexer->lookahead == ' ' || lexer->lookahead == '\t') advance(lexer);
           look_for_heredoc_end = true;
@@ -565,7 +580,7 @@ struct Scanner {
 
       if (valid_symbols[SCOPE_DOUBLE_COLON] && lexer->lookahead == ':') {
         advance(lexer);
-        if (lexer->lookahead != ' ' && lexer->lookahead != '\t' && lexer->lookahead != '\n') {
+        if (lexer->lookahead != ' ' && lexer->lookahead != '\t' && lexer->lookahead != '\n' && lexer->lookahead != '\r') {
           lexer->result_symbol = SCOPE_DOUBLE_COLON;
           return true;
         }
