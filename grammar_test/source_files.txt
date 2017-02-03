@@ -64,6 +64,39 @@ package a
   (package_clause (identifier)))
 
 ============================================
+Comments with asterisks
+============================================
+
+package main
+
+/* a */
+const a
+
+/* b **/
+const b
+
+/* c ***/
+const c
+
+/* d
+
+***/
+const d
+
+---
+
+(source_file
+  (package_clause (identifier))
+  (comment)
+  (const_declaration (const_spec (identifier_list (identifier))))
+  (comment)
+  (const_declaration (const_spec (identifier_list (identifier))))
+  (comment)
+  (const_declaration (const_spec (identifier_list (identifier))))
+  (comment)
+  (const_declaration (const_spec (identifier_list (identifier)))))
+
+============================================
 Non-ascii variable names
 ============================================
 

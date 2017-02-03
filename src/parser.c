@@ -1614,9 +1614,12 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
                 ADVANCE(42);
             LEX_ERROR();
         case 43:
+            if (lookahead == '*')
+                ADVANCE(43);
             if (lookahead == '/')
                 ADVANCE(44);
             if (!((lookahead == 0) ||
+                (lookahead == '*') ||
                 (lookahead == '/')))
                 ADVANCE(42);
             LEX_ERROR();
