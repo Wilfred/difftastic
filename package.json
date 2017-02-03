@@ -1,6 +1,6 @@
 {
   "name": "tree-sitter-javascript",
-  "version": "0.0.9",
+  "version": "0.1.5",
   "description": "Javascript grammar for node-tree-sitter",
   "main": "index.js",
   "keywords": [
@@ -10,17 +10,16 @@
   "author": "Max Brunsfeld",
   "license": "MIT",
   "dependencies": {
-    "bindings": "1.2.x",
-    "nan": "^2.0.0"
+    "nan": "^2.4.0"
   },
   "devDependencies": {
     "acorn": "^2.6.4",
     "babylon": "^6.3.26",
     "esprima": "^2.7.1",
-    "tree-sitter-compiler": ">= 0.0.21"
+    "tree-sitter-cli": "^0.4.0"
   },
   "scripts": {
-    "prepublish": "tree-sitter compile && node-gyp build",
+    "build": "tree-sitter generate && node-gyp build",
     "test": "tree-sitter test && tree-sitter parse benchmarks/jquery.js"
   }
 }

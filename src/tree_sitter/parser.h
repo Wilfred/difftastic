@@ -5,23 +5,17 @@
 extern "C" {
 #endif
 
-#include <stdint.h>
 #include <stdbool.h>
-#include "tree_sitter/runtime.h"
+#include <stdint.h>
+#include <stdlib.h>
 
-#define ts_lex_state_error 0
-#define TS_DEBUG_BUFFER_SIZE 512
-
-typedef struct TSTree TSTree;
-
+typedef unsigned short TSSymbol;
 typedef unsigned short TSStateId;
 
-typedef struct {
-  size_t bytes;
-  size_t chars;
-  size_t rows;
-  size_t columns;
-} TSLength;
+typedef uint8_t TSExternalTokenState[16];
+
+#define ts_builtin_sym_error ((TSSymbol)-1)
+#define ts_builtin_sym_end 0
 
 typedef struct {
   bool visible : 1;
@@ -30,35 +24,17 @@ typedef struct {
   bool structural : 1;
 } TSSymbolMetadata;
 
-typedef struct TSLexer {
-  void (*start_fn)(struct TSLexer *, TSStateId);
-  void (*start_token_fn)(struct TSLexer *);
-  bool (*advance_fn)(struct TSLexer *, TSStateId);
-  TSTree *(*accept_fn)(struct TSLexer *, TSSymbol, TSSymbolMetadata,
-                       const char *, bool fragile);
-
-  const char *chunk;
-  size_t chunk_start;
-  size_t chunk_size;
-
-  TSLength current_position;
-  TSLength token_end_position;
-  TSLength token_start_position;
-
-  size_t lookahead_size;
+typedef struct {
+  void (*advance)(void *, bool);
   int32_t lookahead;
-  TSStateId starting_state;
-
-  TSInput input;
-  TSDebugger debugger;
-  char debug_buffer[TS_DEBUG_BUFFER_SIZE];
+  TSSymbol result_symbol;
 } TSLexer;
 
 typedef enum {
-  TSParseActionTypeError,
   TSParseActionTypeShift,
   TSParseActionTypeReduce,
   TSParseActionTypeAccept,
+  TSParseActionTypeRecover,
 } TSParseActionType;
 
 typedef struct {
@@ -68,90 +44,99 @@ typedef struct {
       TSSymbol symbol;
       unsigned short child_count;
     };
-  } data;
-  TSParseActionType type : 3;
+  } params;
+  TSParseActionType type : 4;
   bool extra : 1;
   bool fragile : 1;
-  bool can_hide_split : 1;
 } TSParseAction;
+
+typedef struct {
+  uint16_t lex_state;
+  uint16_t external_lex_state;
+} TSLexMode;
 
 typedef union {
   TSParseAction action;
-  unsigned int count;
+  struct {
+    unsigned short count;
+    bool reusable : 1;
+    bool depends_on_lookahead : 1;
+  };
 } TSParseActionEntry;
 
-struct TSLanguage {
-  size_t symbol_count;
+typedef struct TSLanguage {
+  uint32_t version;
+  uint32_t symbol_count;
+  uint32_t token_count;
+  uint32_t external_token_count;
   const char **symbol_names;
   const TSSymbolMetadata *symbol_metadata;
   const unsigned short *parse_table;
   const TSParseActionEntry *parse_actions;
-  const TSStateId *lex_states;
-  TSTree *(*lex_fn)(TSLexer *, TSStateId, bool);
-};
+  const TSLexMode *lex_modes;
+  bool (*lex_fn)(TSLexer *, TSStateId);
+  struct {
+    const bool *states;
+    const TSSymbol *symbol_map;
+    void *(*create)();
+    void (*destroy)(void *);
+    void (*reset)(void *);
+    bool (*scan)(void *, TSLexer *, const bool *symbol_whitelist);
+    bool (*serialize)(void *, TSExternalTokenState);
+    void (*deserialize)(void *, const TSExternalTokenState);
+  } external_scanner;
+} TSLanguage;
 
 /*
  *  Lexer Macros
  */
 
-#define START_LEXER()            \
-  lexer->start_fn(lexer, state); \
-  int32_t lookahead;             \
-  next_state:                    \
+#define START_LEXER() \
+  int32_t lookahead;  \
+  next_state:         \
   lookahead = lexer->lookahead;
 
-#define START_TOKEN() lexer->start_token_fn(lexer);
-
-#define GO_TO_STATE(state_value) \
-  {                              \
-    state = state_value;         \
-    goto next_state;             \
+#define ADVANCE(state_value)                   \
+  {                                            \
+    lexer->advance(lexer, false); \
+    state = state_value;                       \
+    goto next_state;                           \
   }
 
-#define ADVANCE(state_value)               \
-  {                                        \
-    lexer->advance_fn(lexer, state_value); \
-    GO_TO_STATE(state_value);              \
+#define SKIP(state_value)                     \
+  {                                           \
+    lexer->advance(lexer, true); \
+    state = state_value;                      \
+    goto next_state;                          \
   }
 
-#define ACCEPT_FRAGILE_TOKEN(symbol)                                 \
-  return lexer->accept_fn(lexer, symbol, ts_symbol_metadata[symbol], \
-                          ts_symbol_names[symbol], true);
-
-#define ACCEPT_TOKEN(symbol)                                         \
-  return lexer->accept_fn(lexer, symbol, ts_symbol_metadata[symbol], \
-                          ts_symbol_names[symbol], false);
-
-#define LEX_ERROR()                    \
-  if (error_mode) {                    \
-    if (state == ts_lex_state_error)   \
-      lexer->advance_fn(lexer, state); \
-    GO_TO_STATE(ts_lex_state_error)    \
-  } else {                             \
-    ACCEPT_TOKEN(ts_builtin_sym_error) \
+#define ACCEPT_TOKEN(symbol_value)       \
+  {                                      \
+    lexer->result_symbol = symbol_value; \
+    return true;                         \
   }
+
+#define LEX_ERROR() return false
 
 /*
  *  Parse Table Macros
  */
 
-enum {
-  FRAGILE = 1,
-  CAN_HIDE_SPLIT = 2,
-};
+#define STATE(id) id
+#define ACTIONS(id) id
 
-#define ERROR()                        \
-  {                                    \
-    { .type = TSParseActionTypeError } \
+#define SHIFT(to_state_value)                                                 \
+  {                                                                           \
+    {                                                                         \
+      .type = TSParseActionTypeShift, .params = {.to_state = to_state_value } \
+    }                                                                         \
   }
 
-#define SHIFT(to_state_value, flags)                   \
-  {                                                    \
-    {                                                  \
-      .type = TSParseActionTypeShift,                  \
-      .can_hide_split = (flags & CAN_HIDE_SPLIT) != 0, \
-      .data = {.to_state = to_state_value }            \
-    }                                                  \
+#define RECOVER(to_state_value)                                                 \
+  {                                                                             \
+    {                                                                           \
+      .type = TSParseActionTypeRecover, .params = {.to_state = to_state_value } \
+    }                                                                           \
   }
 
 #define SHIFT_EXTRA()                                 \
@@ -159,21 +144,20 @@ enum {
     { .type = TSParseActionTypeShift, .extra = true } \
   }
 
-#define REDUCE_EXTRA(symbol_val)                        \
-  {                                                     \
-    {                                                   \
-      .type = TSParseActionTypeReduce, .extra = true,   \
-      .data = {.symbol = symbol_val, .child_count = 1 } \
-    }                                                   \
+#define REDUCE(symbol_val, child_count_val)                             \
+  {                                                                     \
+    {                                                                   \
+      .type = TSParseActionTypeReduce,                                  \
+      .params = {.symbol = symbol_val, .child_count = child_count_val } \
+    }                                                                   \
   }
 
-#define REDUCE(symbol_val, child_count_val, flags)                        \
-  {                                                                       \
-    {                                                                     \
-      .type = TSParseActionTypeReduce, .fragile = (flags & FRAGILE) != 0, \
-      .can_hide_split = (flags & CAN_HIDE_SPLIT) != 0,                    \
-      .data = {.symbol = symbol_val, .child_count = child_count_val }     \
-    }                                                                     \
+#define REDUCE_FRAGILE(symbol_val, child_count_val)                     \
+  {                                                                     \
+    {                                                                   \
+      .type = TSParseActionTypeReduce, .fragile = true,                 \
+      .params = {.symbol = symbol_val, .child_count = child_count_val } \
+    }                                                                   \
   }
 
 #define ACCEPT_INPUT()                  \
@@ -181,20 +165,21 @@ enum {
     { .type = TSParseActionTypeAccept } \
   }
 
-#define EXPORT_LANGUAGE(language_name)                     \
-  static TSLanguage language = {                           \
-    .symbol_count = SYMBOL_COUNT,                          \
-    .symbol_metadata = ts_symbol_metadata,                 \
-    .parse_table = (const unsigned short *)ts_parse_table, \
-    .parse_actions = ts_parse_actions,                     \
-    .lex_states = ts_lex_states,                           \
-    .symbol_names = ts_symbol_names,                       \
-    .lex_fn = ts_lex,                                      \
-  };                                                       \
-                                                           \
-  const TSLanguage *language_name() {                      \
-    return &language;                                      \
-  }
+#define GET_LANGUAGE(...)                                          \
+  static TSLanguage language = {                                   \
+    .version = LANGUAGE_VERSION,                                   \
+    .symbol_count = SYMBOL_COUNT,                                  \
+    .token_count = TOKEN_COUNT,                                    \
+    .symbol_metadata = ts_symbol_metadata,                         \
+    .parse_table = (const unsigned short *)ts_parse_table,         \
+    .parse_actions = ts_parse_actions,                             \
+    .lex_modes = ts_lex_modes,                                     \
+    .symbol_names = ts_symbol_names,                               \
+    .lex_fn = ts_lex,                                              \
+    .external_token_count = EXTERNAL_TOKEN_COUNT,                  \
+    .external_scanner = {__VA_ARGS__}                              \
+  };                                                               \
+  return &language                                                 \
 
 #ifdef __cplusplus
 }
