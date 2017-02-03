@@ -338,6 +338,39 @@ var thing = {
           (expression_statement
             (function_call (identifier) (arguments))))))))))
 
+============================================
+Comments with asterisks
+============================================
+
+/* a */
+const a = 1
+
+/* b **/
+const b = 1
+
+/* c ***/
+const c = 1
+
+/* d
+
+***/
+const d = 1
+
+---
+
+============================================
+
+(program
+  (comment)
+  (var_declaration
+    (var_assignment (identifier) (number)))
+   (comment)
+   (var_declaration (var_assignment (identifier) (number)))
+   (comment)
+   (var_declaration (var_assignment (identifier) (number)))
+   (comment)
+   (var_declaration (var_assignment (identifier) (number))))
+
 ==========================================
 Comments within expressions
 ==========================================
