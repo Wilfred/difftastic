@@ -386,6 +386,7 @@ module.exports = grammar({
     _do_block: $ => seq(
       'do',
       optional($.block_parameters),
+      optional($._terminator),
       optional($._statements),
       'end'
     ),
@@ -631,7 +632,7 @@ module.exports = grammar({
         optional($.lambda_parameters),
         choice(
           seq('{', optional($._statements), '}'),
-          seq('do', optional($._statements), 'end')
+          seq('do', optional($._terminator), optional($._statements), 'end')
         )
       ),
       seq('lambda', choice($._block, $._do_block))

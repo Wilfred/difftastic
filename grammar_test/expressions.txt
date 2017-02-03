@@ -705,13 +705,15 @@ Foo \
   (call (call (identifier) (identifier)) (identifier))
   (call (identifier) (identifier)))
 
-===============================
+======================================
 method call with block argument do end
-===============================
+======================================
 
 foo do |i|
   foo
 end
+
+foo do; end
 
 foo(a) do |i|
   foo
@@ -730,6 +732,7 @@ end
   (method_call
     (identifier)
     (do_block (block_parameters (identifier)) (identifier)))
+  (method_call (identifier) (do_block))
   (method_call
     (identifier)
     (argument_list (identifier))
