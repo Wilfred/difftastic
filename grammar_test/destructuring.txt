@@ -1,0 +1,69 @@
+============================================
+Object destructuring assignments
+============================================
+
+{a, b} = object
+let {a, b, ...c} = object
+const {a, b: {c, d}} = object
+
+---
+
+(program
+  (expression_statement (assignment
+    (assignment_pattern (object
+      (identifier)
+      (identifier)))
+    (identifier)))
+  (var_declaration (var_assignment
+    (assignment_pattern (object
+      (identifier)
+      (identifier)
+      (spread_element (identifier))))
+    (identifier)))
+  (var_declaration (var_assignment
+    (assignment_pattern (object
+      (identifier)
+      (pair
+        (identifier)
+        (object
+          (identifier)
+          (identifier)))))
+    (identifier))))
+
+============================================
+Object destructuring parameters
+============================================
+
+function a ({b, c}, {d}) {}
+
+---
+
+(program
+  (expression_statement
+    (function (identifier)
+      (formal_parameters
+        (assignment_pattern (object (identifier) (identifier)))
+        (assignment_pattern (object (identifier))))
+      (statement_block))))
+
+============================================
+Array destructuring assignments
+============================================
+
+[a, b] = array
+[a, b, ...c] = array
+
+---
+
+(program
+  (expression_statement (assignment
+    (assignment_pattern (array
+      (identifier)
+      (identifier)))
+    (identifier)))
+  (expression_statement (assignment
+    (assignment_pattern (array
+      (identifier)
+      (identifier)
+      (spread_element (identifier))))
+    (identifier))))

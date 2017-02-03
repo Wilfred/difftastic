@@ -1,3 +1,23 @@
+============================================
+Automatic semicolon insertion
+============================================
+
+if (a) {
+  var b = c
+  d()
+  e()
+  return f
+}
+
+---
+
+(program
+  (if_statement (identifier) (statement_block
+    (var_declaration (var_assignment (identifier) (identifier)))
+    (expression_statement (function_call (identifier) (arguments)))
+    (expression_statement (function_call (identifier) (arguments)))
+    (return_statement (identifier)))))
+
 ==========================================
 property access across lines
 ==========================================
@@ -23,8 +43,10 @@ indented code after blocks
 ---
 
 (program
-  (expression_statement
-    (function (identifier) (statement_block)))
+  (expression_statement (function
+    (identifier)
+    (formal_parameters)
+    (statement_block)))
   (return_statement (identifier)))
 
 ===========================================
@@ -38,8 +60,83 @@ function c() {return d}
 
 (program
   (expression_statement
-    (function (identifier) (statement_block
+    (function (identifier) (formal_parameters) (statement_block
       (trailing_expression_statement (identifier)))))
   (expression_statement
-    (function (identifier) (statement_block
+    (function (identifier) (formal_parameters) (statement_block
       (trailing_return_statement (identifier))))))
+
+==============================================
+Multi-line chained expressions in var declarations
+==============================================
+
+var a = new A()
+  .b({c: 'd'})
+  .e()
+
+---
+
+(program
+  (var_declaration (var_assignment
+    (identifier)
+    (function_call
+      (member_access
+        (function_call
+          (member_access
+            (new_expression (function_call (identifier) (arguments)))
+            (identifier))
+          (arguments (object (pair (identifier) (string)))))
+        (identifier))
+      (arguments)))))
+
+==============================================
+if/for/while/do statements without semicolons
+==============================================
+
+if (a) { if (b) return c }
+if (d) { for (;;) break }
+if (e) { for (f in g) break }
+if (h) { for (i of j) continue }
+if (k) { while (l) break }
+if (m) { do { n; } while (o) }
+if (p) { var q }
+
+---
+
+(program
+  (if_statement (identifier) (statement_block
+    (trailing_if_statement
+      (identifier)
+      (trailing_return_statement (identifier)))))
+  (if_statement (identifier) (statement_block
+    (trailing_for_statement
+      (trailing_break_statement))))
+  (if_statement (identifier) (statement_block
+    (trailing_for_in_statement (identifier) (identifier)
+      (trailing_break_statement))))
+  (if_statement (identifier) (statement_block
+    (trailing_for_of_statement (identifier) (identifier)
+      (trailing_continue_statement))))
+  (if_statement (identifier) (statement_block
+    (trailing_while_statement (identifier)
+      (trailing_break_statement))))
+  (if_statement (identifier) (statement_block
+    (trailing_do_statement
+      (statement_block (expression_statement (identifier)))
+      (identifier))))
+  (if_statement (identifier) (statement_block
+    (trailing_var_declaration (identifier)))))
+
+=====================================================
+Single-line declarations without semicolons
+=====================================================
+
+function a () { function b () {} function *c () {} class D {} return }
+---
+
+(program
+  (function (identifier) (formal_parameters) (statement_block
+    (function (identifier) (formal_parameters) (statement_block))
+    (generator_function (identifier) (formal_parameters) (statement_block))
+    (class (identifier) (class_body))
+    (trailing_return_statement))))

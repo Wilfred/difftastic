@@ -119,6 +119,23 @@ Objects
     (pair (identifier) (number)))))
 
 ============================================
+Objects with shorthand properties
+============================================
+
+x = {a, b, get};
+y = {a,};
+
+---
+
+(program
+  (expression_statement (assignment
+    (identifier)
+    (object (identifier) (identifier) (reserved_identifier))))
+  (expression_statement (assignment
+    (identifier)
+    (object (identifier)))))
+
+============================================
 Objects with method definitions
 ============================================
 
@@ -133,7 +150,9 @@ Objects with method definitions
 
   set bar(a) { c = a; },
 
-  *barGenerator() { yield c; }
+  *barGenerator() { yield c; },
+
+  get() { return 1; }
 };
 
 ---
@@ -148,6 +167,7 @@ Objects with method definitions
         (return_statement (math_op (identifier) (identifier)))))
     (method_definition
       (identifier)
+      (formal_parameters)
       (statement_block
         (return_statement (identifier))))
     (method_definition
@@ -155,7 +175,16 @@ Objects with method definitions
       (formal_parameters (identifier))
       (statement_block
         (expression_statement (assignment (identifier) (identifier)))))
-    (method_definition (identifier) (statement_block (yield_statement (identifier)))))))
+    (method_definition
+      (identifier)
+      (formal_parameters)
+      (statement_block
+        (yield_statement (identifier))))
+    (method_definition
+      (reserved_identifier)
+      (formal_parameters)
+      (statement_block
+        (return_statement (number)))))))
 
 ============================================
 Objects with reserved words for keys
@@ -166,16 +195,23 @@ Objects with reserved words for keys
 
   set: function () {},
 
-  static: true
+  static: true,
+
+  async: true
 };
 
 ---
 
 (program
   (expression_statement (object
-    (pair (get_set_identifier) (function (statement_block)))
-    (pair (get_set_identifier) (function (statement_block)))
-    (pair (identifier) (true)))))
+    (pair
+      (reserved_identifier)
+      (function (formal_parameters) (statement_block)))
+    (pair
+      (reserved_identifier)
+      (function (formal_parameters) (statement_block)))
+    (pair (identifier) (true))
+    (pair (reserved_identifier) (true)))))
 
 ============================================
 Classes
@@ -220,8 +256,9 @@ class Foo extends require('another-class') {
       (class_body
         (method_definition
           (identifier)
+          (formal_parameters)
           (statement_block
-            (expression_statement (function_call (super)))))))))
+            (expression_statement (function_call (super) (arguments)))))))))
 
 ============================================
 Arrays
@@ -229,6 +266,7 @@ Arrays
 
 [];
 [ "item1" ];
+[ "item1", ];
 [ "item1", item2 ];
 
 ---
@@ -236,29 +274,36 @@ Arrays
 (program
   (expression_statement (array))
   (expression_statement (array (string)))
+  (expression_statement (array (string)))
   (expression_statement (array (string) (identifier))))
 
 ============================================
 Functions
 ============================================
 
-function() {};
-function(arg1, arg2) {
-  arg2;
-};
-function stuff() {}
+[
+  function() {},
+  function(arg1, arg2) {
+    arg2;
+  },
+  function stuff() {}
+]
 
 ---
 
 (program
-  (expression_statement (function (statement_block)))
-  (expression_statement (function
-    (formal_parameters (identifier) (identifier))
-    (statement_block
-      (expression_statement (identifier)))))
-  (expression_statement (function
-    (identifier)
-    (statement_block))))
+  (expression_statement (array
+    (function
+      (formal_parameters)
+      (statement_block))
+    (function
+      (formal_parameters (identifier) (identifier))
+      (statement_block
+        (expression_statement (identifier))))
+    (function
+      (identifier)
+      (formal_parameters)
+      (statement_block)))))
 
 ===================================================
 Arrow functions
@@ -275,11 +320,14 @@ a => 1;
 
 (program
   (expression_statement (arrow_function
-    (identifier) (number)))
-  (expression_statement (arrow_function
+    (identifier)
     (number)))
   (expression_statement (arrow_function
-    (formal_parameters (identifier) (identifier)) (number)))
+    (formal_parameters)
+    (number)))
+  (expression_statement (arrow_function
+    (formal_parameters (identifier) (identifier))
+    (number)))
   (expression_statement (arrow_function
     (formal_parameters (identifier) (identifier))
     (statement_block
@@ -289,22 +337,27 @@ a => 1;
 Generator Functions
 ============================================
 
-function *() {};
-function *generateStuff(arg1, arg2) {
-  yield;
-  yield arg2;
-};
+[
+  function *() {},
+  function *generateStuff(arg1, arg2) {
+    yield;
+    yield arg2;
+  }
+]
 
 ---
 
 (program
-  (expression_statement (generator_function (statement_block)))
-  (expression_statement (generator_function
-    (identifier)
-    (formal_parameters (identifier) (identifier))
-    (statement_block
-      (yield_statement)
-      (yield_statement (identifier))))))
+  (expression_statement (array
+    (generator_function
+      (formal_parameters)
+      (statement_block))
+    (generator_function
+      (identifier)
+      (formal_parameters (identifier) (identifier))
+      (statement_block
+        (yield_statement)
+        (yield_statement (identifier)))))))
 
 ============================================
 Property access
@@ -336,7 +389,9 @@ return returned.promise()
     (member_access
       (function_call
         (member_access
-          (function_call (member_access (identifier) (identifier)))
+          (function_call
+            (member_access (identifier) (identifier))
+            (arguments))
           (identifier))
         (arguments (member_access (identifier) (identifier))))
       (identifier))
@@ -406,6 +461,64 @@ new Thing;
     (arguments (number) (string)))))
   (expression_statement (new_expression
     (identifier))))
+
+============================================
+Await Expressions
+============================================
+
+await asyncFunction();
+await asyncPromise;
+
+---
+
+(program
+  (expression_statement
+    (await_expression
+      (function_call (identifier) (arguments))))
+  (expression_statement (await_expression (identifier))))
+
+============================================
+Async Functions and Methods
+============================================
+
+async function foo() {}
+
+{
+  async bar() {
+  }
+}
+
+class Foo {
+  async bar() {}
+}
+
+async (a) => { return foo; };
+
+---
+
+(program
+  (expression_statement
+    (function
+      (identifier)
+      (formal_parameters)
+      (statement_block)))
+  (expression_statement
+    (object
+      (method_definition
+        (identifier)
+        (formal_parameters)
+        (statement_block))))
+  (expression_statement
+    (class (identifier) (class_body
+      (method_definition
+        (identifier)
+        (formal_parameters)
+        (statement_block)))))
+  (expression_statement
+    (arrow_function
+      (formal_parameters (identifier))
+      (statement_block
+        (return_statement (identifier))))))
 
 ============================================
 Math operators
@@ -598,18 +711,21 @@ a = void b()
 
 (program (expression_statement (assignment
   (identifier)
-  (void_op (function_call (identifier))))))
+  (void_op (function_call (identifier) (arguments))))))
 
 ==============================================
 Math assignment operators
 ==============================================
 
-x += 1;
+w ^= 1;
+x += 2;
 y.z *= 3;
 
 ---
 
 (program
+  (expression_statement
+    (math_assignment (identifier) (number)))
   (expression_statement
     (math_assignment (identifier) (number)))
   (expression_statement

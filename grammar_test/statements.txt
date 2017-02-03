@@ -1,4 +1,81 @@
 ============================================
+Imports
+============================================
+
+import defaultMember from "module-name";
+import * as name from "module-name";
+import { member } from "module-name";
+import { member1 , member2 } from "module-name";
+import { member1 , member2 as alias2 } from "module-name";
+import defaultMember, { member1, member2 as alias2 } from "module-name";
+import defaultMember, * as name from "module-name";
+import "module-name";
+
+----
+
+(program
+  (import_statement
+    (import_clause (identifier)) (string))
+  (import_statement
+    (import_clause (namespace_import (identifier))) (string))
+  (import_statement
+    (import_clause (named_imports (import_specifier (identifier)))) (string))
+  (import_statement
+    (import_clause (named_imports (import_specifier (identifier)) (import_specifier (identifier)))) (string))
+  (import_statement
+    (import_clause (named_imports (import_specifier (identifier)) (import_specifier (identifier) (identifier)))) (string))
+  (import_statement
+    (import_clause (identifier) (named_imports (import_specifier (identifier)) (import_specifier (identifier) (identifier)))) (string))
+  (import_statement
+    (import_clause (identifier) (namespace_import (identifier))) (string))
+  (import_statement
+    (string)))
+
+============================================
+Exports
+============================================
+
+export { name1, name2, name3, nameN };
+export { variable1 as name1, variable2 as name2, nameN };
+export let name1, name2, nameN;
+export let name1 = value1, name2 = value2, name3, nameN;
+
+export default expression;
+export default function () { }
+export default function name1() { }
+export { name1 as default };
+
+export * from 'foo';
+export { name1, name2, nameN } from 'foo';
+export { import1 as name1, import2 as name2, nameN } from 'foo';
+
+----
+
+(program
+  (export_statement
+    (export_clause (export_specifier (identifier)) (export_specifier (identifier)) (export_specifier (identifier)) (export_specifier (identifier))))
+  (export_statement
+    (export_clause (export_specifier (identifier) (identifier)) (export_specifier (identifier) (identifier)) (export_specifier (identifier))))
+  (export_statement
+    (var_declaration (identifier) (identifier) (identifier)))
+  (export_statement
+    (var_declaration (var_assignment (identifier) (identifier)) (var_assignment (identifier) (identifier)) (identifier) (identifier)))
+  (export_statement
+    (identifier))
+  (export_statement
+    (function (formal_parameters) (statement_block)))
+  (export_statement
+    (function (identifier) (formal_parameters) (statement_block)))
+  (export_statement
+    (export_clause (export_specifier (identifier) (identifier))))
+  (export_statement
+    (string))
+  (export_statement
+    (export_clause (export_specifier (identifier)) (export_specifier (identifier)) (export_specifier (identifier))) (string))
+  (export_statement
+    (export_clause (export_specifier (identifier) (identifier)) (export_specifier (identifier) (identifier)) (export_specifier (identifier))) (string)))
+
+============================================
 If statements
 ============================================
 
@@ -64,6 +141,7 @@ for (i = 0, init(); i < 10; i++)
 
 for (;;) {
   z;
+  continue;
 }
 
 ---
@@ -77,14 +155,15 @@ for (;;) {
 
   (for_statement
     (assignment (identifier) (number))
-    (function_call (identifier))
+    (function_call (identifier) (arguments))
     (rel_op (identifier) (number))
     (math_op (identifier))
     (expression_statement (function_call (identifier) (arguments (identifier)))))
 
   (for_statement
     (statement_block
-      (expression_statement (identifier)))))
+      (expression_statement (identifier))
+      (continue_statement))))
 
 ============================================
 For-in statements
@@ -100,9 +179,9 @@ for (item in items)
 
 (program
   (for_in_statement (identifier) (identifier)
-    (expression_statement (function_call (identifier))))
+    (expression_statement (function_call (identifier) (arguments))))
   (for_in_statement (identifier) (identifier)
-    (expression_statement (function_call (identifier)))))
+    (expression_statement (function_call (identifier) (arguments)))))
 
 ==========================================
 For loops beginning with an in-expression
@@ -120,7 +199,8 @@ for (key in something && i = 0; i < n; i++) {
     (assignment (identifier) (number)))
   (rel_op (identifier) (identifier))
   (math_op (identifier))
-  (statement_block (expression_statement (function_call (identifier))))))
+  (statement_block
+    (expression_statement (function_call (identifier) (arguments))))))
 
 ============================================
 For-of statements
@@ -146,7 +226,7 @@ while (a)
 
 (program
   (while_statement (identifier)
-    (expression_statement (function_call (identifier)))))
+    (expression_statement (function_call (identifier) (arguments)))))
 
 ============================================
 Do statements
@@ -169,12 +249,14 @@ Return statements
 
 return;
 return 5;
+return 1,2;
 
 ---
 
 (program
   (return_statement)
-  (return_statement (number)))
+  (return_statement (number))
+  (return_statement (comma_op (number) (number))))
 
 ============================================
 Var declarations
@@ -216,7 +298,7 @@ Comments
     (comment)
     (pair (identifier) (number))
     (comment)
-    (pair (identifier) (function (statement_block))))))
+    (pair (identifier) (function (formal_parameters) (statement_block))))))
 
 ==========================================
 Comments between statements
@@ -247,12 +329,14 @@ var thing = {
       (comment)
       (comment)
       (pair (identifier) (function
-        (formal_parameters (identifier)) (comment)
+        (formal_parameters (identifier) (comment))
         (statement_block
           (comment)
-          (expression_statement (function_call (identifier)))
+          (expression_statement
+            (function_call (identifier) (arguments)))
           (comment)
-          (expression_statement (function_call (identifier))))))))))
+          (expression_statement
+            (function_call (identifier) (arguments))))))))))
 
 ==========================================
 Comments within expressions
@@ -265,26 +349,6 @@ y // comment
 
 (program (expression_statement
   (math_op (identifier) (comment) (identifier))))
-
-============================================
-Automatic semicolon insertion
-============================================
-
-if (a) {
-  var b = c
-  d()
-  e()
-  return f
-}
-
----
-
-(program
-  (if_statement (identifier) (statement_block
-    (var_declaration (var_assignment (identifier) (identifier)))
-    (expression_statement (function_call (identifier)))
-    (expression_statement (function_call (identifier)))
-    (return_statement (identifier)))))
 
 ============================================
 Switch statements
@@ -308,10 +372,10 @@ switch (x) {
   (switch_statement (identifier)
     (case (number))
     (case (number)
-      (expression_statement (function_call (identifier)))
+      (expression_statement (function_call (identifier) (arguments)))
       (break_statement))
     (case (string)
-      (expression_statement (function_call (identifier)))
+      (expression_statement (function_call (identifier) (arguments)))
       (break_statement))
     (default
       (return_statement (number)))))
