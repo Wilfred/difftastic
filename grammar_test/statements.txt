@@ -369,8 +369,6 @@ const d = 1
    (comment)
    (var_declaration (var_assignment (identifier) (number))))
 
-============================================
-
 ==========================================
 Comments within expressions
 ==========================================
