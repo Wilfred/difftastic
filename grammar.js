@@ -200,7 +200,7 @@ module.exports = grammar({
 
     while: $ => seq('while', $._arg, $._do, optional($._statements), 'end'),
     until: $ => seq('until', $._arg, $._do, optional($._statements), 'end'),
-    for: $ => seq('for', $._lhs, 'in', $._arg, $._do, optional($._statements), 'end'),
+    for: $ => seq('for', choice($._mlhs, seq('(', $._mlhs, ')')), 'in', $._arg, $._do, optional($._statements), 'end'),
     _do: $ => choice('do', $._terminator),
 
     case: $ => seq(
