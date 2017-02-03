@@ -290,6 +290,7 @@ struct Scanner {
         return true;
 
       case '%':
+        if (!valid_symbols[SIMPLE_STRING]) return false;
         advance(lexer);
 
         switch (lexer->lookahead) {
