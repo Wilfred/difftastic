@@ -444,6 +444,8 @@ module.exports = grammar({
     _expression: $ => choice(
       $.object,
       $.array,
+      $.jsx_element,
+      $.jsx_self_closing_element,
       $.class,
       $.function,
       $.arrow_function,
@@ -493,6 +495,59 @@ module.exports = grammar({
 
     array: $ => seq(
       '[', optional($._element_list), ']'
+    ),
+
+    jsx_element: $ => seq(
+      $.jsx_opening_element,
+      repeat(choice(
+        $.jsx_element,
+        $.jsx_self_closing_element,
+        $.jsx_expression,
+        $.jsx_text
+      )),
+      $.jsx_closing_element
+    ),
+
+    jsx_text: $ => /[^{}<>]+/,
+
+    jsx_expression: $ => seq(
+      '{',
+      choice($._expression, $.comma_op, $.spread_element),
+      '}'
+    ),
+
+    jsx_opening_element: $ => seq(
+      '<',
+      $.identifier,
+      repeat($.jsx_attribute),
+      '>'
+    ),
+
+    jsx_closing_element: $ => seq(
+      '<',
+      '/',
+      $.identifier,
+      '>'
+    ),
+
+    jsx_self_closing_element: $ => seq(
+      '<',
+      $.identifier,
+      repeat($.jsx_attribute),
+      '/',
+      '>'
+    ),
+
+    jsx_attribute: $ => seq(
+      $.identifier,
+      optional(seq(
+        '=',
+        choice(
+          $.number,
+          $.string,
+          $.jsx_expression
+        )
+      ))
     ),
 
     _element_list: $ => commaSep1Trailing($._element_list, choice(
