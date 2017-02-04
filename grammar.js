@@ -540,11 +540,14 @@ module.exports = grammar({
 
     jsx_attribute: $ => seq(
       $.identifier,
-      '=',
-      choice(
-        $.number,
-        $.string
-      )
+      optional(seq(
+        '=',
+        choice(
+          $.number,
+          $.string,
+          $.jsx_expression
+        )
+      ))
     ),
 
     _element_list: $ => commaSep1Trailing($._element_list, choice(
