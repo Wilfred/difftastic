@@ -52,6 +52,13 @@ struct Literal {
   bool allows_interpolation;
 };
 
+struct Heredoc {
+  Heredoc() : end_word_indentation_allowed(false) {}
+
+  string word;
+  bool end_word_indentation_allowed;
+};
+
 TokenType BEGINNING_TOKEN_TYPES[] = {
   STRING_BEGINNING,
   SYMBOL_BEGINNING,
@@ -109,7 +116,7 @@ struct Scanner {
         case '\r':
           if (lexer->lookahead == '\n') skip(lexer);
         case '\n':
-          if (!open_heredoc_words.empty() && !*found_heredoc_starting_linebreak) {
+          if (!open_heredocs.empty() && !*found_heredoc_starting_linebreak) {
             skip(lexer);
             *found_heredoc_starting_linebreak = true;
             return true;
@@ -472,25 +479,25 @@ struct Scanner {
   };
 
   ScanContentResult scan_heredoc_content(TSLexer *lexer) {
-    if (open_heredoc_words.empty()) return Error;
-    string word = open_heredoc_words.front();
+    if (open_heredocs.empty()) return Error;
+    Heredoc heredoc = open_heredocs.front();
     size_t position_in_word = 0;
     bool look_for_heredoc_end = true;
 
     for (;;) {
-      if (position_in_word == word.size()) {
+      if (position_in_word == heredoc.word.size()) {
         while (lexer->lookahead == ' ' || lexer->lookahead == '\t') advance(lexer);
         if (lookahead_is_line_end(lexer)) {
-          open_heredoc_words.erase(open_heredoc_words.begin());
+          open_heredocs.erase(open_heredocs.begin());
           return End;
         }
       }
       if (lexer->lookahead == 0) {
-        open_heredoc_words.erase(open_heredoc_words.begin());
+        open_heredocs.erase(open_heredocs.begin());
         return End;
       }
 
-      if (lexer->lookahead == word[position_in_word] && look_for_heredoc_end) {
+      if (lexer->lookahead == heredoc.word[position_in_word] && look_for_heredoc_end) {
         advance(lexer);
         position_in_word++;
       } else {
@@ -504,8 +511,13 @@ struct Scanner {
           }
         } else if (lookahead_is_line_end(lexer)) {
           advance(lexer);
-          while (lexer->lookahead == ' ' || lexer->lookahead == '\t') advance(lexer);
           look_for_heredoc_end = true;
+          while (lexer->lookahead == ' ' || lexer->lookahead == '\t') {
+            advance(lexer);
+            if (!heredoc.end_word_indentation_allowed) {
+              look_for_heredoc_end = false;
+            }
+          }
         } else {
           advance(lexer);
         }
@@ -606,7 +618,7 @@ struct Scanner {
       return true;
     }
 
-    if (valid_symbols[HEREDOC_BODY_MIDDLE] && !open_heredoc_words.empty()) {
+    if (valid_symbols[HEREDOC_BODY_MIDDLE] && !open_heredocs.empty()) {
       if (scan_interpolation_close(lexer)) {
         switch (scan_heredoc_content(lexer)) {
           case Error:
@@ -620,7 +632,7 @@ struct Scanner {
         }
       }
     }
-    if (valid_symbols[HEREDOC_BODY_BEGINNING] && !open_heredoc_words.empty() && found_heredoc_starting_linebreak) {
+    if (valid_symbols[HEREDOC_BODY_BEGINNING] && !open_heredocs.empty() && found_heredoc_starting_linebreak) {
       if (literal_stack.empty()) {
         switch (scan_heredoc_content(lexer)) {
           case Error:
@@ -702,11 +714,17 @@ struct Scanner {
         advance(lexer);
         if (lexer->lookahead != '<') return false;
         advance(lexer);
-        if (lexer->lookahead == '-' || lexer->lookahead == '~') advance(lexer);
+        if (lexer->lookahead == '~') advance(lexer);
 
-        string word = scan_heredoc_word(lexer);
-        if (word.empty()) return false;
-        open_heredoc_words.push_back(word);
+        Heredoc heredoc;
+        if (lexer->lookahead == '-') {
+          advance(lexer);
+          heredoc.end_word_indentation_allowed = true;
+        }
+
+        heredoc.word = scan_heredoc_word(lexer);
+        if (heredoc.word.empty()) return false;
+        open_heredocs.push_back(heredoc);
         lexer->result_symbol = HEREDOC_BEGINNING;
         return true;
       } else {
@@ -731,7 +749,7 @@ struct Scanner {
 
   bool has_leading_whitespace;
   vector<Literal> literal_stack;
-  vector<string> open_heredoc_words;
+  vector<Heredoc> open_heredocs;
 };
 
 extern "C" {

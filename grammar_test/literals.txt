@@ -613,6 +613,10 @@ basic heredocs
 heredoc content
 TEXT
 
+<<TEXT
+  TEXT ok if indented
+TEXT
+
 <<TEXT_B
 heredoc content
 TEXT_B
@@ -622,7 +626,7 @@ content
 TEXT
 
 if indentation_works?
-  <<"sql"
+  <<-sql
   heredoc content
   sql
 end
@@ -634,6 +638,7 @@ heredoc content
 ---
 
 (program
+  (heredoc_beginning) (heredoc_end)
   (heredoc_beginning) (heredoc_end)
   (heredoc_beginning) (heredoc_end)
   (heredoc_beginning) (heredoc_end)
