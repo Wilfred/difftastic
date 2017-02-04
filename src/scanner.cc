@@ -33,7 +33,8 @@ enum TokenType {
   SCOPE_DOUBLE_COLON,
   KEYWORD_COLON,
   UNARY_MINUS,
-  BINARY_MINUS
+  BINARY_MINUS,
+  BINARY_STAR
 };
 
 struct Literal {
@@ -584,10 +585,17 @@ struct Scanner {
       }
     }
 
-    // TODO: check for trailing whitespace instead?
-    if (valid_symbols[SPLAT_STAR] && lexer->lookahead == '*') {
+    if ((valid_symbols[SPLAT_STAR] || valid_symbols[BINARY_STAR]) && lexer->lookahead == '*') {
       advance(lexer);
-      if (lexer->lookahead != '*' && lexer->lookahead != '=' && lexer->lookahead != ' ' && lexer->lookahead != '\t' && !lookahead_is_line_end(lexer)) {
+      if (lexer->lookahead == '*' || lexer->lookahead == '=') return false;
+
+      if (valid_symbols[SPLAT_STAR] && lexer->lookahead != ' ' && lexer->lookahead != '\t' && !lookahead_is_line_end(lexer)) {
+        lexer->result_symbol = SPLAT_STAR;
+        return true;
+      } else if (valid_symbols[BINARY_STAR]) {
+        lexer->result_symbol = BINARY_STAR;
+        return true;
+      } else if (valid_symbols[SPLAT_STAR]) {
         lexer->result_symbol = SPLAT_STAR;
         return true;
       } else {

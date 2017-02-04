@@ -3160,8 +3160,8 @@
                 "type": "CHOICE",
                 "members": [
                   {
-                    "type": "STRING",
-                    "value": "*"
+                    "type": "SYMBOL",
+                    "name": "_binary_star"
                   },
                   {
                     "type": "SYMBOL",
@@ -4717,6 +4717,7 @@
     "_scope_double_colon",
     "_keyword_colon",
     "_unary_minus",
-    "_binary_minus"
+    "_binary_minus",
+    "_binary_star"
   ]
 }

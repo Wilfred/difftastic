@@ -67,7 +67,8 @@ module.exports = grammar({
     $._scope_double_colon,
     $._keyword_colon,
     $._unary_minus,
-    $._binary_minus
+    $._binary_minus,
+    $._binary_star
   ],
 
   extras: $ => [
@@ -426,7 +427,7 @@ module.exports = grammar({
       prec.left(PREC.BITWISE_AND, seq($._arg, '&', $._arg)),
       prec.left(PREC.BITWISE_OR, seq($._arg, choice('^', '|'), $._arg)),
       prec.left(PREC.ADDITIVE, seq($._arg, choice($._binary_minus, '+'), $._arg)),
-      prec.left(PREC.MULTIPLICATIVE, seq($._arg, choice('*', $._forward_slash, '%'), $._arg)),
+      prec.left(PREC.MULTIPLICATIVE, seq($._arg, choice($._binary_star, $._forward_slash, '%'), $._arg)),
       prec.right(PREC.EXPONENTIAL, seq($._arg, '**', $._arg))
     ),
 

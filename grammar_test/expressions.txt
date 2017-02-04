@@ -19,12 +19,16 @@ element reference
 ============
 
 foo[bar]
+foo[*bar]
+foo[* bar]
 foo[]
 
 ---
 
 (program
   (element_reference (identifier) (identifier))
+  (element_reference (identifier) (splat_argument (identifier)))
+  (element_reference (identifier) (splat_argument (identifier)))
   (element_reference (identifier)))
 
 ============
