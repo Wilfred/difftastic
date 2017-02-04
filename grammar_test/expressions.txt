@@ -798,7 +798,8 @@ b = <div>a <span>b</span> c</div>;
 Expressions within JSX elements
 ==============================================
 
-c = <a b c={d}> e {f} g </a>
+a = <a b c={d}> e {f} g </a>
+h = <i>{...j}</i>
 
 ---
 
@@ -812,4 +813,10 @@ c = <a b c={d}> e {f} g </a>
       (jsx_text)
       (jsx_expression (identifier))
       (jsx_text)
+      (jsx_closing_element (identifier)))))
+  (expression_statement (assignment
+    (identifier)
+    (jsx_element
+      (jsx_opening_element (identifier))
+      (jsx_expression (spread_element (identifier)))
       (jsx_closing_element (identifier))))))

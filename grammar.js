@@ -512,7 +512,7 @@ module.exports = grammar({
 
     jsx_expression: $ => seq(
       '{',
-      choice($._expression, $.comma_op),
+      choice($._expression, $.comma_op, $.spread_element),
       '}'
     ),
 
