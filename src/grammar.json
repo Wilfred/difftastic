@@ -2081,8 +2081,16 @@
             "name": "_element_reference_left_bracket"
           },
           {
-            "type": "SYMBOL",
-            "name": "_argument_list_with_trailing_comma"
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "_argument_list_with_trailing_comma"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
           },
           {
             "type": "CHOICE",

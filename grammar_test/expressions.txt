@@ -19,10 +19,13 @@ element reference
 ============
 
 foo[bar]
+foo[]
 
 ---
 
-(program (element_reference (identifier) (identifier)))
+(program
+  (element_reference (identifier) (identifier))
+  (element_reference (identifier)))
 
 ============
 element reference with string

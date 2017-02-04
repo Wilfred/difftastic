@@ -330,7 +330,7 @@ module.exports = grammar({
     element_reference: $ => prec.left(1, seq(
       $._primary,
       $._element_reference_left_bracket,
-      $._argument_list_with_trailing_comma,
+      optional($._argument_list_with_trailing_comma),
       optional($.heredoc_end),
       ']'
     )),
