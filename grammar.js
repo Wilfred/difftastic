@@ -506,14 +506,14 @@ module.exports = grammar({
     comment: $ => token(prec(PREC.COMMENT, choice(
       seq('#', /.*/),
       seq(
-        '=begin\n',
+        /=begin.*\r?\n/,
         repeat(choice(
           /[^=]/,
           /=[^e]/,
           /=e[^n]/,
           /=en[^d]/
         )),
-        '=end\n'
+        /=end\r?\n/
       )
     ))),
 

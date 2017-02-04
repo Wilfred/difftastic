@@ -3905,8 +3905,8 @@
               "type": "SEQ",
               "members": [
                 {
-                  "type": "STRING",
-                  "value": "=begin\n"
+                  "type": "PATTERN",
+                  "value": "=begin.*\\r?\\n"
                 },
                 {
                   "type": "REPEAT",
@@ -3933,8 +3933,8 @@
                   }
                 },
                 {
-                  "type": "STRING",
-                  "value": "=end\n"
+                  "type": "PATTERN",
+                  "value": "=end\\r?\\n"
                 }
               ]
             }

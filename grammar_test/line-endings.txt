@@ -10,3 +10,14 @@ x = foo()
 (program
   (method_call (identifier) (argument_list (string)))
   (assignment (identifier) (method_call (identifier) (argument_list))))
+
+=======================
+CRLF multiline comments
+=======================
+
+=begin
+=end
+
+---
+
+(program (comment))
