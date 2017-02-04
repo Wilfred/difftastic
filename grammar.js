@@ -499,7 +499,21 @@ module.exports = grammar({
 
     jsx_element: $ => seq(
       $.jsx_opening_element,
+      repeat(choice(
+        $.jsx_element,
+        $.jsx_self_closing_element,
+        $.jsx_expression,
+        $.jsx_text
+      )),
       $.jsx_closing_element
+    ),
+
+    jsx_text: $ => /[^{}<>]+/,
+
+    jsx_expression: $ => seq(
+      '{',
+      choice($._expression, $.comma_op),
+      '}'
     ),
 
     jsx_opening_element: $ => seq(

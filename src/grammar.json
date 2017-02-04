@@ -2182,8 +2182,62 @@
           "name": "jsx_opening_element"
         },
         {
+          "type": "REPEAT",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "jsx_element"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "jsx_self_closing_element"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "jsx_expression"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "jsx_text"
+              }
+            ]
+          }
+        },
+        {
           "type": "SYMBOL",
           "name": "jsx_closing_element"
+        }
+      ]
+    },
+    "jsx_text": {
+      "type": "PATTERN",
+      "value": "[^{}<>]+"
+    },
+    "jsx_expression": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "{"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_expression"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "comma_op"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": "}"
         }
       ]
     },
