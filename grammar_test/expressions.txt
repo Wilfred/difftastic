@@ -765,3 +765,58 @@ typeof a == b && c instanceof d
       (type_op (identifier))
       (identifier))
     (type_op (identifier) (identifier)))))
+
+==============================================
+Simple JSX elements
+==============================================
+
+a = <div className='b' tabIndex=1 />;
+b = <div>a <span>b</span> c</div>;
+
+---
+
+(program
+  (expression_statement (assignment
+    (identifier)
+    (jsx_self_closing_element
+      (identifier)
+      (jsx_attribute (identifier) (string))
+      (jsx_attribute (identifier) (number)))))
+  (expression_statement (assignment
+    (identifier)
+    (jsx_element
+      (jsx_opening_element (identifier))
+      (jsx_text)
+      (jsx_element
+        (jsx_opening_element (identifier))
+        (jsx_text)
+        (jsx_closing_element (identifier)))
+      (jsx_text)
+      (jsx_closing_element (identifier))))))
+
+==============================================
+Expressions within JSX elements
+==============================================
+
+a = <a b c={d}> e {f} g </a>
+h = <i>{...j}</i>
+
+---
+
+(program
+  (expression_statement (assignment
+    (identifier)
+    (jsx_element
+      (jsx_opening_element (identifier)
+        (jsx_attribute (identifier))
+        (jsx_attribute (identifier) (jsx_expression (identifier))))
+      (jsx_text)
+      (jsx_expression (identifier))
+      (jsx_text)
+      (jsx_closing_element (identifier)))))
+  (expression_statement (assignment
+    (identifier)
+    (jsx_element
+      (jsx_opening_element (identifier))
+      (jsx_expression (spread_element (identifier)))
+      (jsx_closing_element (identifier))))))
