@@ -765,3 +765,26 @@ typeof a == b && c instanceof d
       (type_op (identifier))
       (identifier))
     (type_op (identifier) (identifier)))))
+
+==============================================
+JSX literals
+==============================================
+
+a = <div className='b' tabIndex=1 />;
+b = <div>
+</div>
+
+---
+
+(program
+  (expression_statement (assignment
+    (identifier)
+    (jsx_self_closing_element
+      (identifier)
+      (jsx_attribute (identifier) (string))
+      (jsx_attribute (identifier) (number)))))
+  (expression_statement (assignment
+    (identifier)
+    (jsx_element
+      (jsx_opening_element (identifier))
+      (jsx_closing_element (identifier))))))
