@@ -290,35 +290,39 @@ struct Scanner {
         return true;
 
       case '%':
-        if (!valid_symbols[SIMPLE_STRING]) return false;
         advance(lexer);
 
         switch (lexer->lookahead) {
           case 's':
+            if (!valid_symbols[SIMPLE_SYMBOL]) return false;
             literal.type = Literal::SYMBOL;
             literal.allows_interpolation = false;
             advance(lexer);
             break;
 
           case 'r':
+            if (!valid_symbols[SIMPLE_REGEX]) return false;
             literal.type = Literal::REGEX;
             literal.allows_interpolation = true;
             advance(lexer);
             break;
 
           case 'x':
+            if (!valid_symbols[SIMPLE_SUBSHELL]) return false;
             literal.type = Literal::SUBSHELL;
             literal.allows_interpolation = true;
             advance(lexer);
             break;
 
           case 'q':
+            if (!valid_symbols[SIMPLE_STRING]) return false;
             literal.type = Literal::STRING;
             literal.allows_interpolation = false;
             advance(lexer);
             break;
 
           case 'Q':
+            if (!valid_symbols[SIMPLE_STRING]) return false;
             literal.type = Literal::STRING;
             literal.allows_interpolation = true;
             advance(lexer);
@@ -326,6 +330,7 @@ struct Scanner {
 
           case 'w':
           case 'i':
+            if (!valid_symbols[SIMPLE_WORD_LIST]) return false;
             literal.type = Literal::WORD_LIST;
             literal.allows_interpolation = false;
             advance(lexer);
@@ -333,12 +338,14 @@ struct Scanner {
 
           case 'W':
           case 'I':
+            if (!valid_symbols[SIMPLE_WORD_LIST]) return false;
             literal.type = Literal::WORD_LIST;
             literal.allows_interpolation = true;
             advance(lexer);
             break;
 
           default:
+            if (!valid_symbols[SIMPLE_STRING]) return false;
             literal.type = Literal::STRING;
             literal.allows_interpolation = true;
             break;
