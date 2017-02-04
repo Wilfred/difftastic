@@ -339,7 +339,11 @@ module.exports = grammar({
       seq('::', $.identifier),
       seq($._primary, $._scope_double_colon, $.identifier)
     )),
-    call: $ => prec.left(PREC.BITWISE_AND + 1, seq($._primary, choice('.', '&.'), $.identifier)),
+    call: $ => prec.left(PREC.BITWISE_AND + 1, seq(
+      $._primary,
+      choice('.', '&.'),
+      choice($.identifier, $.operator)
+    )),
 
     method_call: $ => {
       const receiver = choice($._variable, $.scope_resolution, $.call)
