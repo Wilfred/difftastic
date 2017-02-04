@@ -771,8 +771,8 @@ JSX literals
 ==============================================
 
 a = <div className='b' tabIndex=1 />;
-b = <div>
-</div>
+b = <div>Stuff</div>;
+c = <a>b {c} <img/></a>
 
 ---
 
@@ -787,4 +787,14 @@ b = <div>
     (identifier)
     (jsx_element
       (jsx_opening_element (identifier))
+      (jsx_text)
+      (jsx_closing_element (identifier)))))
+  (expression_statement (assignment
+    (identifier)
+    (jsx_element
+      (jsx_opening_element (identifier))
+      (jsx_text)
+      (jsx_expression (identifier))
+      (jsx_text)
+      (jsx_self_closing_element (identifier))
       (jsx_closing_element (identifier))))))
