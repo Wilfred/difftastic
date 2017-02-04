@@ -564,7 +564,7 @@ struct Scanner {
     // TODO: check for trailing whitespace instead?
     if (valid_symbols[BLOCK_AMPERSAND] && lexer->lookahead == '&') {
       advance(lexer);
-      if (isalpha(lexer->lookahead) || lexer->lookahead == '_' || lexer->lookahead == '@' || lexer->lookahead == '$' || lexer->lookahead == '(' || lexer->lookahead == ':' || lexer->lookahead == '[') {
+      if (lexer->lookahead != '&' && lexer->lookahead != '.' && lexer->lookahead != '=' && lexer->lookahead != ' ' && lexer->lookahead != '\t' && !lookahead_is_line_end(lexer)) {
         lexer->result_symbol = BLOCK_AMPERSAND;
         return true;
       } else {
@@ -575,7 +575,7 @@ struct Scanner {
     // TODO: check for trailing whitespace instead?
     if (valid_symbols[SPLAT_STAR] && lexer->lookahead == '*') {
       advance(lexer);
-      if (isalpha(lexer->lookahead) || lexer->lookahead == '_' || lexer->lookahead == '@' || lexer->lookahead == '$' || lexer->lookahead == '(' || lexer->lookahead == ':' || lexer->lookahead == '[') {
+      if (lexer->lookahead != '*' && lexer->lookahead != '=' && lexer->lookahead != ' ' && lexer->lookahead != '\t' && !lookahead_is_line_end(lexer)) {
         lexer->result_symbol = SPLAT_STAR;
         return true;
       } else {
