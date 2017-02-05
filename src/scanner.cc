@@ -574,7 +574,36 @@ struct Scanner {
     if (!scan_whitespace(lexer, valid_symbols, &found_heredoc_starting_linebreak)) return false;
     if (lexer->result_symbol == LINE_BREAK) return true;
 
-    // TODO: check for trailing whitespace instead?
+    if (valid_symbols[HEREDOC_BODY_MIDDLE] && !open_heredocs.empty()) {
+      if (scan_interpolation_close(lexer)) {
+        switch (scan_heredoc_content(lexer)) {
+          case Error:
+            return false;
+          case Interpolation:
+            lexer->result_symbol = HEREDOC_BODY_MIDDLE;
+            return true;
+          case End:
+            lexer->result_symbol = HEREDOC_BODY_END;
+            return true;
+        }
+      }
+    }
+
+    if (valid_symbols[HEREDOC_BODY_BEGINNING] && !open_heredocs.empty() && found_heredoc_starting_linebreak) {
+      if (literal_stack.empty()) {
+        switch (scan_heredoc_content(lexer)) {
+          case Error:
+            return false;
+          case Interpolation:
+            lexer->result_symbol = HEREDOC_BODY_BEGINNING;
+            return true;
+          case End:
+            lexer->result_symbol = SIMPLE_HEREDOC_BODY;
+            return true;
+        }
+      }
+    }
+
     if (valid_symbols[BLOCK_AMPERSAND] && lexer->lookahead == '&') {
       advance(lexer);
       if (lexer->lookahead != '&' && lexer->lookahead != '.' && lexer->lookahead != '=' && lexer->lookahead != ' ' && lexer->lookahead != '\t' && !lookahead_is_line_end(lexer)) {
@@ -624,35 +653,6 @@ struct Scanner {
       advance(lexer);
       lexer->result_symbol = ARGUMENT_LIST_LEFT_PAREN;
       return true;
-    }
-
-    if (valid_symbols[HEREDOC_BODY_MIDDLE] && !open_heredocs.empty()) {
-      if (scan_interpolation_close(lexer)) {
-        switch (scan_heredoc_content(lexer)) {
-          case Error:
-            return false;
-          case Interpolation:
-            lexer->result_symbol = HEREDOC_BODY_MIDDLE;
-            return true;
-          case End:
-            lexer->result_symbol = HEREDOC_BODY_END;
-            return true;
-        }
-      }
-    }
-    if (valid_symbols[HEREDOC_BODY_BEGINNING] && !open_heredocs.empty() && found_heredoc_starting_linebreak) {
-      if (literal_stack.empty()) {
-        switch (scan_heredoc_content(lexer)) {
-          case Error:
-            return false;
-          case Interpolation:
-            lexer->result_symbol = HEREDOC_BODY_BEGINNING;
-            return true;
-          case End:
-            lexer->result_symbol = SIMPLE_HEREDOC_BODY;
-            return true;
-        }
-      }
     }
 
     if ((valid_symbols[UNARY_MINUS] || valid_symbols[BINARY_MINUS]) && lexer->lookahead == '-') {

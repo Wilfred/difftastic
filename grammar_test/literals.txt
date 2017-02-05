@@ -618,7 +618,7 @@ TEXT
 TEXT
 
 <<TEXT_B
-heredoc content
+* heredoc content
 TEXT_B
 
 <<~TEXT
