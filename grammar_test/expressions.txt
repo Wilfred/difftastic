@@ -71,6 +71,16 @@ vacuous literal
 
 (program)
 
+===============
+vacuous terminal
+===============
+
+;
+
+---
+
+(program)
+
 ===================
 yield without value
 ===================

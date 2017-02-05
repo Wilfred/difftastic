@@ -94,7 +94,8 @@ module.exports = grammar({
     _top_level_statement: $ => choice(
       $._statement,
       $.begin_block,
-      $.end_block
+      $.end_block,
+      ';'
     ),
 
     begin_block: $ => seq("BEGIN", "{", optional($._statements), "}"),
@@ -123,11 +124,11 @@ module.exports = grammar({
       'end'
     ),
 
-    method_parameters: $ => choice(
+    method_parameters: $ => prec.right(choice(
       seq('(', commaSep($._formal_parameter), ')', optional($._terminator)),
       seq($._simple_formal_parameter, $._terminator),
       seq($._simple_formal_parameter, ',', commaSep1($._formal_parameter), $._terminator)
-    ),
+    )),
 
     lambda_parameters: $ => choice(
       seq('(', commaSep($._formal_parameter), ')'),
@@ -644,11 +645,11 @@ module.exports = grammar({
     ),
 
     _forward_slash: $ => '/',
-    _terminator: $ => choice(
+    _terminator: $ => prec(-1, choice(
       $._line_break,
       $.heredoc_end,
       ';'
-    ),
+    )),
   }
 });
 
