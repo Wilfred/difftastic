@@ -567,8 +567,8 @@ foo.(1, 2)
 ---
 
 (program
-  (call (element_reference (identifier) (identifier)) (call_argument_list))
-  (call (identifier) (call_argument_list (integer) (integer))))
+  (call (element_reference (identifier) (identifier)) (argument_list_with_parens))
+  (call (identifier) (argument_list_with_parens (integer) (integer))))
 
 ===============================
 call with operator method name

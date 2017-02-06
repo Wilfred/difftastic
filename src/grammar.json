@@ -2194,16 +2194,12 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "call_argument_list"
+                "name": "argument_list_with_parens"
               }
             ]
           }
         ]
       }
-    },
-    "call_argument_list": {
-      "type": "SYMBOL",
-      "name": "_argument_list_with_parens"
     },
     "method_call": {
       "type": "CHOICE",
@@ -2440,6 +2436,10 @@
           }
         ]
       }
+    },
+    "argument_list_with_parens": {
+      "type": "SYMBOL",
+      "name": "_argument_list_with_parens"
     },
     "_argument_list_with_parens": {
       "type": "SEQ",
