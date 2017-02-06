@@ -391,6 +391,7 @@ module.exports = grammar({
     do_block: $ => $._do_block,
     _do_block: $ => seq(
       'do',
+      optional($._terminator),
       optional($.block_parameters),
       optional($._terminator),
       optional($._statements),

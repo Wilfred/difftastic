@@ -742,6 +742,10 @@ foo do |i|
   foo
 end
 
+foo do
+  |i| i
+end
+
 foo do; end
 
 foo(a) do |i|
@@ -758,6 +762,9 @@ end
 ---
 
 (program
+  (method_call
+    (identifier)
+    (do_block (block_parameters (identifier)) (identifier)))
   (method_call
     (identifier)
     (do_block (block_parameters (identifier)) (identifier)))
