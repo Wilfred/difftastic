@@ -568,6 +568,7 @@ Single character string literals
 ??
 ?\n
 ?\\
+?\377
 ?\u{41}
 ?\M-a
 ?\C-a
@@ -578,6 +579,7 @@ foo(?/)
 ---
 
 (program
+  (string)
   (string)
   (string)
   (string)
