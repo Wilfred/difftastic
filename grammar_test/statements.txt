@@ -438,3 +438,21 @@ func main() {
   (package_clause (identifier))
   (function_declaration (identifier) (parameters) (block
     (block (label_statement (identifier))))))
+
+============================================
+Empty statements
+============================================
+
+package main
+
+func main() {
+	;
+}
+
+---
+
+(source_file
+  (package_clause (identifier))
+  (function_declaration (identifier) (parameters) (block
+    (empty_statement))))
+
