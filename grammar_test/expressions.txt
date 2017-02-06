@@ -558,6 +558,19 @@ foo.bar("hi", 2)
   (method_call (call (identifier) (identifier)) (argument_list (string) (integer))))
 
 ===============================
+implicit call
+===============================
+
+foo[bar].()
+foo.(1, 2)
+
+---
+
+(program
+  (call (element_reference (identifier) (identifier)) (call_argument_list))
+  (call (identifier) (call_argument_list (integer) (integer))))
+
+===============================
 call with operator method name
 ===============================
 

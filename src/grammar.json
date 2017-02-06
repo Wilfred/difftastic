@@ -2191,11 +2191,19 @@
               {
                 "type": "SYMBOL",
                 "name": "operator"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "call_argument_list"
               }
             ]
           }
         ]
       }
+    },
+    "call_argument_list": {
+      "type": "SYMBOL",
+      "name": "_argument_list_with_parens"
     },
     "method_call": {
       "type": "CHOICE",
@@ -2376,41 +2384,8 @@
             "type": "CHOICE",
             "members": [
               {
-                "type": "SEQ",
-                "members": [
-                  {
-                    "type": "SYMBOL",
-                    "name": "_argument_list_left_paren"
-                  },
-                  {
-                    "type": "CHOICE",
-                    "members": [
-                      {
-                        "type": "SYMBOL",
-                        "name": "_argument_list_with_trailing_comma"
-                      },
-                      {
-                        "type": "BLANK"
-                      }
-                    ]
-                  },
-                  {
-                    "type": "CHOICE",
-                    "members": [
-                      {
-                        "type": "SYMBOL",
-                        "name": "heredoc_end"
-                      },
-                      {
-                        "type": "BLANK"
-                      }
-                    ]
-                  },
-                  {
-                    "type": "STRING",
-                    "value": ")"
-                  }
-                ]
+                "type": "SYMBOL",
+                "name": "_argument_list_with_parens"
               },
               {
                 "type": "SEQ",
@@ -2465,6 +2440,43 @@
           }
         ]
       }
+    },
+    "_argument_list_with_parens": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_argument_list_left_paren"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_argument_list_with_trailing_comma"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "heredoc_end"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
     },
     "_argument_list_with_trailing_comma": {
       "type": "CHOICE",

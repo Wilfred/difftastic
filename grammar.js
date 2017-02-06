@@ -343,8 +343,9 @@ module.exports = grammar({
     call: $ => prec.left(PREC.BITWISE_AND + 1, seq(
       $._primary,
       choice('.', '&.'),
-      choice($.identifier, $.operator)
+      choice($.identifier, $.operator, $.call_argument_list)
     )),
+    call_argument_list: $ => $._argument_list_with_parens,
 
     method_call: $ => {
       const receiver = choice($._variable, $.scope_resolution, $.call)
@@ -360,17 +361,17 @@ module.exports = grammar({
 
     argument_list: $ => prec.right(seq(
       choice(
-        seq(
-          $._argument_list_left_paren,
-          optional($._argument_list_with_trailing_comma),
-          optional($.heredoc_end),
-          ')'
-        ),
+        $._argument_list_with_parens,
         sep1($._argument, seq(',', optional($.heredoc_end)))
       ),
       repeat($.heredoc_end)
     )),
-
+    _argument_list_with_parens: $ => seq(
+      $._argument_list_left_paren,
+      optional($._argument_list_with_trailing_comma),
+      optional($.heredoc_end),
+      ')'
+    ),
     _argument_list_with_trailing_comma: $ => sepTrailing(
       $._argument_list_with_trailing_comma,
       $._argument,
