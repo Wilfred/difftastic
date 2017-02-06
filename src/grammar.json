@@ -1227,30 +1227,8 @@
           "value": "for"
         },
         {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "_mlhs"
-            },
-            {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "STRING",
-                  "value": "("
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "_mlhs"
-                },
-                {
-                  "type": "STRING",
-                  "value": ")"
-                }
-              ]
-            }
-          ]
+          "type": "SYMBOL",
+          "name": "_mlhs"
         },
         {
           "type": "STRING",
@@ -3378,30 +3356,8 @@
       ]
     },
     "left_assignment_list": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "_mlhs"
-        },
-        {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "STRING",
-              "value": "("
-            },
-            {
-              "type": "SYMBOL",
-              "name": "_mlhs"
-            },
-            {
-              "type": "STRING",
-              "value": ")"
-            }
-          ]
-        }
-      ]
+      "type": "SYMBOL",
+      "name": "_mlhs"
     },
     "_mlhs": {
       "type": "PREC_LEFT",
@@ -3414,11 +3370,11 @@
             "members": [
               {
                 "type": "SYMBOL",
-                "name": "_lhs"
+                "name": "_simple_mlhs"
               },
               {
                 "type": "SYMBOL",
-                "name": "rest_assignment"
+                "name": "destructured_left_assigment"
               }
             ]
           },
@@ -3430,11 +3386,11 @@
                 "members": [
                   {
                     "type": "SYMBOL",
-                    "name": "_lhs"
+                    "name": "_simple_mlhs"
                   },
                   {
                     "type": "SYMBOL",
-                    "name": "rest_assignment"
+                    "name": "destructured_left_assigment"
                   }
                 ]
               },
@@ -3455,6 +3411,65 @@
                 ]
               }
             ]
+          }
+        ]
+      }
+    },
+    "_simple_mlhs": {
+      "type": "PREC",
+      "value": -1,
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_lhs"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "rest_assignment"
+          }
+        ]
+      }
+    },
+    "destructured_left_assigment": {
+      "type": "PREC",
+      "value": -1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "("
+          },
+          {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "_mlhs"
+              },
+              {
+                "type": "REPEAT",
+                "content": {
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "STRING",
+                      "value": ","
+                    },
+                    {
+                      "type": "SYMBOL",
+                      "name": "_mlhs"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "type": "STRING",
+            "value": ")"
           }
         ]
       }

@@ -202,7 +202,7 @@ module.exports = grammar({
 
     while: $ => seq('while', $._arg, $._do, optional($._statements), 'end'),
     until: $ => seq('until', $._arg, $._do, optional($._statements), 'end'),
-    for: $ => seq('for', choice($._mlhs, seq('(', $._mlhs, ')')), 'in', $._arg, $._do, optional($._statements), 'end'),
+    for: $ => seq('for', $._mlhs, 'in', $._arg, $._do, optional($._statements), 'end'),
     _do: $ => choice('do', $._terminator),
 
     case: $ => seq(
@@ -448,19 +448,11 @@ module.exports = grammar({
     right_assignment_list: $ => prec(-1, commaSep1($._arg_or_splat_arg)),
     _arg_or_splat_arg: $ => choice($._arg, $.splat_argument),
 
-    left_assignment_list: $ => choice(
-      $._mlhs,
-      seq('(', $._mlhs, ')')
-    ),
-    _mlhs: $ => prec.left(-1, sepTrailing(
-      $._mlhs,
-      choice(
-        $._lhs,
-        $.rest_assignment
-      ),
-      ','
-    )),
-    // TODO: should be *, _lhs for rest_assignment.
+    left_assignment_list: $ => $._mlhs,
+    _mlhs: $ => prec.left(-1, sepTrailing($._mlhs, choice($._simple_mlhs, $.destructured_left_assigment), ',')),
+    _simple_mlhs: $ => prec(-1, choice($._lhs, $.rest_assignment)),
+    destructured_left_assigment: $ => prec(-1, seq('(', commaSep1($._mlhs), ')')),
+
     rest_assignment: $ => prec(-1, seq('*', optional($._lhs))),
     _lhs: $ => prec.left(choice(
       $._variable,

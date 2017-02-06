@@ -201,11 +201,11 @@ self.foo, self.bar = target.a?, target.b
   (assignment (left_assignment_list (identifier) (rest_assignment (identifier))) (array (integer) (integer)))
   (assignment (left_assignment_list (identifier) (identifier)) (splat_argument (identifier)))
   (assignment (left_assignment_list (call (self) (identifier)) (call (self) (identifier))) (right_assignment_list (call (identifier) (identifier)) (call (identifier) (identifier))))
-  (assignment (left_assignment_list (identifier) (identifier)) (identifier)))
+  (assignment (left_assignment_list (destructured_left_assigment (identifier) (identifier))) (identifier)))
 
-==========
+==================================================
 multiple assignment with multiple right hand sides
-==========
+==================================================
 
 foo = 1, 2
 x, y = foo, bar
@@ -217,6 +217,25 @@ x, y = foo, bar
   (assignment
     (left_assignment_list (identifier) (identifier))
     (right_assignment_list (identifier) (identifier))))
+
+==================================================
+destructured left hand side assignment
+==================================================
+
+a, (b, c), d, (e, (f, g)) = foo
+
+---
+
+(program
+  (assignment
+    (left_assignment_list
+      (identifier)
+      (destructured_left_assigment (identifier) (identifier))
+      (identifier)
+      (destructured_left_assigment
+        (identifier)
+        (destructured_left_assigment (identifier) (identifier))))
+    (identifier)))
 
 ==========
 assignment from method call
