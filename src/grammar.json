@@ -41,7 +41,7 @@
     },
     "uninterpreted": {
       "type": "PATTERN",
-      "value": ".*"
+      "value": "(.|\\s)*"
     },
     "_statements": {
       "type": "CHOICE",

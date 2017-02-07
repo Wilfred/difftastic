@@ -83,7 +83,7 @@ module.exports = grammar({
 
   rules: {
     program: $ => seq(optional($._statements), optional(seq('__END__', $.uninterpreted))),
-    uninterpreted: $ => (/.*/),
+    uninterpreted: $ => (/(.|\s)*/),
 
     _statements: $ => sepTrailing(
       $._statements,
