@@ -72,14 +72,14 @@ vacuous literal
 (program)
 
 ===============
-vacuous terminal
+empty statement
 ===============
 
 ;
 
 ---
 
-(program)
+(program (empty_statement))
 
 ===================
 yield without value

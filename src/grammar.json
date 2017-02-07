@@ -91,10 +91,6 @@
         {
           "type": "SYMBOL",
           "name": "end_block"
-        },
-        {
-          "type": "STRING",
-          "value": ";"
         }
       ]
     },
@@ -186,6 +182,10 @@
         {
           "type": "SYMBOL",
           "name": "rescue_modifier"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "empty_statement"
         },
         {
           "type": "SYMBOL",
@@ -4708,30 +4708,34 @@
         }
       ]
     },
+    "empty_statement": {
+      "type": "PREC",
+      "value": -1,
+      "content": {
+        "type": "STRING",
+        "value": ";"
+      }
+    },
     "_forward_slash": {
       "type": "STRING",
       "value": "/"
     },
     "_terminator": {
-      "type": "PREC",
-      "value": -1,
-      "content": {
-        "type": "CHOICE",
-        "members": [
-          {
-            "type": "SYMBOL",
-            "name": "_line_break"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "heredoc_end"
-          },
-          {
-            "type": "STRING",
-            "value": ";"
-          }
-        ]
-      }
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_line_break"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "heredoc_end"
+        },
+        {
+          "type": "STRING",
+          "value": ";"
+        }
+      ]
     }
   },
   "extras": [

@@ -94,8 +94,7 @@ module.exports = grammar({
     _top_level_statement: $ => choice(
       $._statement,
       $.begin_block,
-      $.end_block,
-      ';'
+      $.end_block
     ),
 
     begin_block: $ => seq("BEGIN", "{", optional($._statements), "}"),
@@ -109,6 +108,7 @@ module.exports = grammar({
       $.while_modifier,
       $.until_modifier,
       $.rescue_modifier,
+      $.empty_statement,
       $._arg
     ),
 
@@ -638,12 +638,14 @@ module.exports = grammar({
       seq('lambda', choice($._block, $._do_block))
     ),
 
+    empty_statement: $ => prec(-1, ';'),
+
     _forward_slash: $ => '/',
-    _terminator: $ => prec(-1, choice(
+    _terminator: $ => choice(
       $._line_break,
       $.heredoc_end,
       ';'
-    )),
+    ),
   }
 });
 
