@@ -1402,8 +1402,16 @@
         {
           "type": "SYMBOL",
           "name": "block"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "empty_statement"
         }
       ]
+    },
+    "empty_statement": {
+      "type": "STRING",
+      "value": ";"
     },
     "_simple_statement": {
       "type": "CHOICE",
@@ -4076,11 +4084,7 @@
             "members": [
               {
                 "type": "STRING",
-                "value": "/"
-              },
-              {
-                "type": "STRING",
-                "value": "*"
+                "value": "/*"
               },
               {
                 "type": "PATTERN",
