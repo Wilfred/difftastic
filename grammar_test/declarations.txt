@@ -294,6 +294,7 @@ Method declarations
 package main
 
 func (self Person) Equals(other Person) bool {}
+func (v *Value) ObjxMap(optionalDefault ...(Map)) Map {}
 
 ---
 
@@ -306,7 +307,14 @@ func (self Person) Equals(other Person) bool {}
     (parameters
       (parameter_declaration (identifier) (identifier)))
     (identifier)
-    (block)))
+    (block))
+  (method_declaration
+    (parameters
+      (parameter_declaration (identifier) (pointer_type (identifier))))
+      (identifier)
+      (parameters (parameter_declaration (identifier) (identifier)))
+      (identifier)
+      (block)))
 
 ============================================
 Type declarations

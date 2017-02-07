@@ -192,7 +192,7 @@ module.exports = grammar({
     parameter_declaration: $ => seq(
       optional($.identifier),
       optional('...'),
-      $._simple_type
+      $._type
     ),
 
     type_declaration: $ => seq(

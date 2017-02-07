@@ -614,7 +614,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_simple_type"
+          "name": "_type"
         }
       ]
     },
