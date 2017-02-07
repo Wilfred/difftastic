@@ -343,7 +343,7 @@ module.exports = grammar({
       $.empty_statement
     ),
 
-    empty_statement: $ => ',',
+    empty_statement: $ => ';',
 
     _simple_statement: $ => choice(
       $._expression,
