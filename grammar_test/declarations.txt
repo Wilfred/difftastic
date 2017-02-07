@@ -52,10 +52,14 @@ end
 def -@(a)
 end
 
+def %(a)
+end
+
 ---
 
 (program
   (method (operator) (method_parameters (identifier)) (string))
+  (method (operator) (method_parameters (identifier)))
   (method (operator) (method_parameters (identifier))))
 
 ===================================================
@@ -419,6 +423,9 @@ __END__
 word
 __END__
 word
+x
+ab
+d
 
 ---
 

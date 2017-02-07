@@ -165,9 +165,15 @@ for x in y do
 	f
 end
 
+for x, y in z do
+	f
+end
+
 ---
 
-(program (for (identifier) (identifier) (identifier)))
+(program
+  (for (identifier) (identifier) (identifier))
+  (for (identifier) (identifier) (identifier) (identifier)))
 
 ==============
 for without do

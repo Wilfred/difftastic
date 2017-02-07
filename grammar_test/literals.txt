@@ -317,10 +317,12 @@ float
 
 1.234_5e678_90
 1E30
+1.0e+6
+1.0e-6
 
 ---
 
-(program (float) (float))
+(program (float) (float) (float) (float))
 
 =======
 boolean
@@ -566,16 +568,17 @@ Single character string literals
 ??
 ?\n
 ?\\
+?\377
 ?\u{41}
 ?\M-a
 ?\C-a
 ?\M-\C-a
 ?あ
+foo(?/)
 
 ---
 
-(program (chained_string
-  (string) 
+(program
   (string)
   (string)
   (string)
@@ -583,7 +586,10 @@ Single character string literals
   (string)
   (string)
   (string)
-  (string)))
+  (string)
+  (string)
+  (string)
+  (method_call (identifier) (argument_list (string))))
 
 ========================================
 nested strings with different delimiters
@@ -609,8 +615,12 @@ basic heredocs
 heredoc content
 TEXT
 
+<<TEXT
+  TEXT ok if indented
+TEXT
+
 <<TEXT_B
-heredoc content
+* heredoc content
 TEXT_B
 
 <<~TEXT
@@ -618,9 +628,13 @@ content
 TEXT
 
 if indentation_works?
-  <<"sql"
+  <<-sql
   heredoc content
   sql
+
+  <<~EOF
+    content
+  EOF
 end
 
 <<'..end src/parser.c modeval..id7a99570e05'
@@ -633,7 +647,9 @@ heredoc content
   (heredoc_beginning) (heredoc_end)
   (heredoc_beginning) (heredoc_end)
   (heredoc_beginning) (heredoc_end)
+  (heredoc_beginning) (heredoc_end)
   (if (identifier)
+    (heredoc_beginning) (heredoc_end)
     (heredoc_beginning) (heredoc_end))
   (heredoc_beginning) (heredoc_end))
 

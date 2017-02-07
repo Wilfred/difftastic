@@ -19,10 +19,17 @@ element reference
 ============
 
 foo[bar]
+foo[*bar]
+foo[* bar]
+foo[]
 
 ---
 
-(program (element_reference (identifier) (identifier)))
+(program
+  (element_reference (identifier) (identifier))
+  (element_reference (identifier) (splat_argument (identifier)))
+  (element_reference (identifier) (splat_argument (identifier)))
+  (element_reference (identifier)))
 
 ============
 element reference with string
@@ -63,6 +70,16 @@ vacuous literal
 ---
 
 (program)
+
+===============
+empty statement
+===============
+
+;
+
+---
+
+(program (empty_statement))
 
 ===================
 yield without value
@@ -152,12 +169,18 @@ assignment
 
 x = y
 x = *args
+FALSE = "false"
+TRUE = "true"
+NIL = "nil"
 
 ---
 
 (program
   (assignment (identifier) (identifier))
-  (assignment (identifier) (splat_argument (identifier))))
+  (assignment (identifier) (splat_argument (identifier)))
+  (assignment (false) (string))
+  (assignment (true) (string))
+  (assignment (nil) (string)))
 
 =====================
 multiple assignment
@@ -178,11 +201,11 @@ self.foo, self.bar = target.a?, target.b
   (assignment (left_assignment_list (identifier) (rest_assignment (identifier))) (array (integer) (integer)))
   (assignment (left_assignment_list (identifier) (identifier)) (splat_argument (identifier)))
   (assignment (left_assignment_list (call (self) (identifier)) (call (self) (identifier))) (right_assignment_list (call (identifier) (identifier)) (call (identifier) (identifier))))
-  (assignment (left_assignment_list (identifier) (identifier)) (identifier)))
+  (assignment (left_assignment_list (destructured_left_assigment (identifier) (identifier))) (identifier)))
 
-==========
+==================================================
 multiple assignment with multiple right hand sides
-==========
+==================================================
 
 foo = 1, 2
 x, y = foo, bar
@@ -194,6 +217,25 @@ x, y = foo, bar
   (assignment
     (left_assignment_list (identifier) (identifier))
     (right_assignment_list (identifier) (identifier))))
+
+==================================================
+destructured left hand side assignment
+==================================================
+
+a, (b, c), d, (e, (f, g)) = foo
+
+---
+
+(program
+  (assignment
+    (left_assignment_list
+      (identifier)
+      (destructured_left_assigment (identifier) (identifier))
+      (identifier)
+      (destructured_left_assigment
+        (identifier)
+        (destructured_left_assigment (identifier) (identifier))))
+    (identifier)))
 
 ==========
 assignment from method call
@@ -264,8 +306,6 @@ conditional
 
 a ? b : c
 
-true ?"a":"c"
-
 a ? b
   : c
 
@@ -273,12 +313,20 @@ a ? b
 
 (program
   (conditional (identifier) (identifier) (identifier))
-  (conditional (true) (string) (string))
   (conditional (identifier) (identifier) (identifier)))
 
-===========
+===========================================
+conditional and character literal ambiguity
+===========================================
+
+true ?")":"c"
+
+---
+(program (conditional (true) (string) (string)))
+
+===========================================
 conditional with reserved identifiers
-===========
+===========================================
 
 foo ? true: false
 foo ? return: false
@@ -529,6 +577,29 @@ foo.bar("hi", 2)
   (method_call (call (identifier) (identifier)) (argument_list (string) (integer))))
 
 ===============================
+implicit call
+===============================
+
+foo[bar].()
+foo.(1, 2)
+
+---
+
+(program
+  (call (element_reference (identifier) (identifier)) (argument_list_with_parens))
+  (call (identifier) (argument_list_with_parens (integer) (integer))))
+
+===============================
+call with operator method name
+===============================
+
+foo.[]()
+
+---
+
+(program (method_call (call (identifier) (operator)) (argument_list)))
+
+===============================
 method call with safe navigation operator
 ===============================
 
@@ -603,6 +674,7 @@ method call with splat argument
 
 foo(*bar)
 foo *bar
+foo *%w{ .. lib }
 foo *(bar.baz)
 
 ---
@@ -610,6 +682,7 @@ foo *(bar.baz)
 (program
   (method_call (identifier) (argument_list (splat_argument (identifier))))
   (method_call (identifier) (argument_list (splat_argument (identifier))))
+  (method_call (identifier) (argument_list (splat_argument (array))))
   (method_call (identifier) (argument_list (splat_argument (call (identifier) (identifier))))))
 
 ===============================
@@ -693,13 +766,19 @@ Foo \
   (call (call (identifier) (identifier)) (identifier))
   (call (identifier) (identifier)))
 
-===============================
+======================================
 method call with block argument do end
-===============================
+======================================
 
 foo do |i|
   foo
 end
+
+foo do
+  |i| i
+end
+
+foo do; end
 
 foo(a) do |i|
   foo
@@ -718,6 +797,10 @@ end
   (method_call
     (identifier)
     (do_block (block_parameters (identifier)) (identifier)))
+  (method_call
+    (identifier)
+    (do_block (block_parameters (identifier)) (identifier)))
+  (method_call (identifier) (do_block))
   (method_call
     (identifier)
     (argument_list (identifier))
