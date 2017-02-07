@@ -631,6 +631,10 @@ if indentation_works?
   <<-sql
   heredoc content
   sql
+
+  <<~EOF
+    content
+  EOF
 end
 
 <<'..end src/parser.c modeval..id7a99570e05'
@@ -645,6 +649,7 @@ heredoc content
   (heredoc_beginning) (heredoc_end)
   (heredoc_beginning) (heredoc_end)
   (if (identifier)
+    (heredoc_beginning) (heredoc_end)
     (heredoc_beginning) (heredoc_end))
   (heredoc_beginning) (heredoc_end))
 

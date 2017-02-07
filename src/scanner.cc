@@ -722,10 +722,9 @@ struct Scanner {
         advance(lexer);
         if (lexer->lookahead != '<') return false;
         advance(lexer);
-        if (lexer->lookahead == '~') advance(lexer);
 
         Heredoc heredoc;
-        if (lexer->lookahead == '-') {
+        if (lexer->lookahead == '-' || lexer->lookahead == '~') {
           advance(lexer);
           heredoc.end_word_indentation_allowed = true;
         }
