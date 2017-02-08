@@ -459,10 +459,10 @@ struct Scanner {
         break;
 
       default:
-        if (isalpha(lexer->lookahead) || lexer->lookahead == '_') {
+        if (isalnum(lexer->lookahead) || lexer->lookahead == '_') {
           result += lexer->lookahead;
           advance(lexer);
-          while (isalpha(lexer->lookahead) || lexer->lookahead == '_') {
+          while (isalnum(lexer->lookahead) || lexer->lookahead == '_') {
             result += lexer->lookahead;
             advance(lexer);
           }
