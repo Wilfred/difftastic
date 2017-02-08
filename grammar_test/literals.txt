@@ -615,9 +615,9 @@ basic heredocs
 heredoc content
 TEXT
 
-<<TEXT
-  TEXT ok if indented
-TEXT
+<<TEXT1
+  TEXT1 ok if indented
+TEXT1
 
 <<TEXT_B
 * heredoc content
