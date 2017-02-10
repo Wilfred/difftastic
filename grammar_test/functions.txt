@@ -3,7 +3,7 @@ Functions with typed parameters
 ================================
 
 function greeter(person: string) {
-    return "Hello, " + person;
+  return "Hello, " + person;
 }
 
 ---
@@ -12,5 +12,5 @@ function greeter(person: string) {
   (expression_statement (function
     (identifier)
     (formal_parameters
-      (required_parameter (identifier) (type_annotation (type (primary_type (predefined_type))))))
+      (identifier) (type_annotation (predefined_type)))
     (statement_block (return_statement (math_op (string) (identifier)))))))

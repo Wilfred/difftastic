@@ -1,0 +1,58 @@
+=======================================
+Built-in types
+=======================================
+
+var x: string = 'hi';
+var y: number;
+
+---
+
+(program
+  (variable_declaration (variable_declarator
+    (identifier)
+    (type_annotation (predefined_type))
+    (string)))
+  (variable_declaration (variable_declarator
+    (identifier)
+    (type_annotation (predefined_type)))))
+
+=======================================
+Parenthesized types
+=======================================
+
+var x: (string);
+
+---
+
+(program
+  (variable_declaration (variable_declarator
+    (identifier)
+    (type_annotation (parenthesized_type (predefined_type))))))
+
+=======================================
+Object types
+=======================================
+
+let person: {name: string, age: number};
+
+---
+
+(program
+  (variable_declaration (variable_declarator
+    (identifier)
+    (type_annotation (object_type
+      (property_signature (identifier) (type_annotation (predefined_type)))
+      (property_signature (identifier) (type_annotation (predefined_type))))))))
+
+=======================================
+Array types
+=======================================
+
+let x: X[];
+
+---
+
+(program
+  (variable_declaration (variable_declarator
+    (identifier)
+    (type_annotation (array_type (identifier))))))

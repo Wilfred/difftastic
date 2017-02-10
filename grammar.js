@@ -1,57 +1,45 @@
+const PREC = {
+  union: 2,
+  intersection: 2
+};
+
 module.exports = grammar(require('../tree-sitter-javascript/grammar'), {
   name: 'typescript',
 
   conflicts: ($, previous) => previous.concat([
 
-    // TODO - Not sure why these signatures
-    [$._expression, $.property_signature],
-    [$._expression, $.property_signature, $._property_definition_list],
-    [$._expression, $.method_definition, $.method_signature],
-    [$._expression, $.method_signature],
-    [$._expression, $.method_signature, $.property_signature],
+    // TODO - Figure out why these are needed.
+    [$._pattern, $._type_reference],
+    [$._expression, $._type_reference],
+    [$._expression, $._pattern, $._type_reference],
+    [$._property_definition_list, $.property_signature],
 
   ]),
 
   rules: {
-    _formal_parameter: ($, oldRule) => choice(
-      oldRule,
-      $.required_parameter
+
+    // Overrides
+
+    _pattern: ($, previous) => seq(
+      previous,
+      optional($.type_annotation)
     ),
 
-    required_parameter: $ => seq(
-      optional($.accessibility_modifier),
-      $.identifier,
-      $.type_annotation
-    ),
-
-    accessibility_modifier: $ => choice(
-      'public',
-      'private',
-      'protected'
-    ),
+    // Additions
 
     type_annotation: $ => seq(
-      ':', $.type
+      ':', $._type
     ),
 
-    type: $ => choice(
-      $.primary_type
-      // $.union_or_intersection_type,
+    _type: $ => choice(
+      $._primary_type,
+      $.union_type,
+      $.intersection_type
       // $.function_type
       // $.constructor_type
     ),
 
-    union_or_intersection_type: $ => choice(
-      $.union_type,
-      $.intersection_or_primary_type
-    ),
-
-    intersection_or_primary_type: $ => choice(
-      $.intersection_type,
-      $.primary_type
-    ),
-
-    primary_type: $ => choice(
+    _primary_type: $ => choice(
       $.parenthesized_type,
       $.predefined_type,
       $._type_reference,
@@ -63,7 +51,7 @@ module.exports = grammar(require('../tree-sitter-javascript/grammar'), {
     ),
 
     parenthesized_type: $ => seq(
-      '(', $.type, ')'
+      '(', $._type, ')'
     ),
 
     predefined_type: $ => choice(
@@ -81,7 +69,7 @@ module.exports = grammar(require('../tree-sitter-javascript/grammar'), {
     ),
 
     type_arguments: $ => seq(
-      '<', commaSep1($.type), '>'
+      '<', commaSep1($._type), '>'
     ),
 
     qualified_type_name: $ => choice(
@@ -89,21 +77,21 @@ module.exports = grammar(require('../tree-sitter-javascript/grammar'), {
     ),
 
     object_type: $ => seq(
-      '{', optional($.type_body), '}'
+      '{', optional($._type_body), '}'
     ),
 
-    type_body: $ => choice(
-      seq($.type_member_list, optional(';')),
-      seq($.type_member_list, optional(','))
+    _type_body: $ => choice(
+      seq($._type_member_list, optional(';')),
+      seq($._type_member_list, optional(','))
     ),
 
-    type_member_list: $ => choice(
-      $.type_member,
-      seq($.type_member_list, ';', $.type_member),
-      seq($.type_member_list, ',', $.type_member)
+    _type_member_list: $ => choice(
+      $._type_member,
+      seq($._type_member_list, ';', $._type_member),
+      seq($._type_member_list, ',', $._type_member)
     ),
 
-    type_member: $ => choice(
+    _type_member: $ => choice(
       $.property_signature,
       $.call_signature,
       $.construct_signature,
@@ -141,26 +129,20 @@ module.exports = grammar(require('../tree-sitter-javascript/grammar'), {
     ),
 
     array_type: $ => seq(
-      $.primary_type, '[', ']'
+      $._primary_type, '[', ']'
     ),
 
     tuple_type: $ => seq(
-      '[', $.tuple_element_types, ']'
+      '[', commaSep1($._type), ']'
     ),
 
-    tuple_element_types: $ => commaSep1(
-      $.tuple_element_type
-    ),
+    union_type: $ => prec.left(PREC.union, seq(
+      $._type, '|', $._type
+    )),
 
-    tuple_element_type: $ => $.type,
-
-    union_type: $ => seq(
-      $.union_or_intersection_type, '|', $.intersection_or_primary_type
-    ),
-
-    intersection_type: $ => seq(
-      $.intersection_or_primary_type, '&', $.primary_type
-    ),
+    intersection_type: $ => prec.left(PREC.intersection, seq(
+      $._type, '&', $._type
+    )),
 
     function_type: $ => seq(
       // optional($.type_parameters),
@@ -169,7 +151,7 @@ module.exports = grammar(require('../tree-sitter-javascript/grammar'), {
       // ')',
       $.formal_parameters,
       '=>',
-      $.type
+      $._type
     )
   }
 });
