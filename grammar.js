@@ -42,6 +42,11 @@ module.exports = grammar({
     //    ^--- arrow function parameters or comma expression?
     [$.formal_parameters, $._expression],
 
+    // ( foo
+    // ( foo
+    //    ^-- arrow function parameter or parenthesized expression?
+    [$._formal_parameter, $._expression],
+
     // ( {foo} )
     // ( [foo] )
     //    ^-- destructured arrow function parameters or parenthesized expression?
@@ -795,11 +800,13 @@ module.exports = grammar({
 
     formal_parameters: $ => seq(
       '(',
-      commaSep(choice(
-        $.identifier,
-        $.assignment_pattern
-      )),
+      commaSep($._formal_parameter),
       ')'
+    ),
+
+    _formal_parameter: $ => choice(
+      $.identifier,
+      $.assignment_pattern
     ),
 
     method_definition: $ => seq(
