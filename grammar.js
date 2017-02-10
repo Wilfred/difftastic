@@ -45,7 +45,7 @@ module.exports = grammar({
     // ( foo
     // ( foo
     //    ^-- arrow function parameter or parenthesized expression?
-    [$._formal_parameter, $._expression],
+    [$._pattern, $._expression],
 
     // ( {foo} )
     // ( [foo] )
@@ -92,7 +92,7 @@ module.exports = grammar({
       $.function,
       $.generator_function,
       $.class,
-      $.var_declaration
+      $.variable_declaration
     )),
 
     //
@@ -174,7 +174,7 @@ module.exports = grammar({
       $.trailing_for_of_statement,
       $.trailing_while_statement,
       $.trailing_do_statement,
-      $.trailing_var_declaration
+      $.trailing_variable_declaration
     ),
 
     expression_statement: $ => seq(
@@ -191,22 +191,22 @@ module.exports = grammar({
       choice($._expression, $.comma_op)
     ),
 
-    var_declaration: $ => seq(
+    variable_declaration: $ => seq(
       variableType(),
-      commaSep1(choice(
-        $.identifier,
-        $.assignment_pattern,
-        $.var_assignment
-      )),
+      commaSep1($.variable_declarator),
       terminator()
     ),
 
-    trailing_var_declaration: $ => seq(
+    trailing_variable_declaration: $ => seq(
       variableType(),
-      commaSep1(choice(
-        $.identifier,
-        $.assignment_pattern,
-        $.var_assignment
+      commaSep1($.variable_declarator)
+    ),
+
+    variable_declarator: $ => seq(
+      $._pattern,
+      optional(seq(
+        '=',
+        $._expression
       ))
     ),
 
@@ -250,7 +250,7 @@ module.exports = grammar({
       'for',
       '(',
       choice(
-        $.var_declaration,
+        $.variable_declaration,
         seq(commaSep1($._expression), ';'),
         ';'
       ),
@@ -264,7 +264,7 @@ module.exports = grammar({
       'for',
       '(',
       choice(
-        $.var_declaration,
+        $.variable_declaration,
         seq(commaSep1($._expression), ';'),
         ';'
       ),
@@ -427,15 +427,6 @@ module.exports = grammar({
     finally: $ => seq(
       'finally',
       $.statement_block
-    ),
-
-    var_assignment: $ => seq(
-      choice(
-        $.assignment_pattern,
-        $.identifier
-      ),
-      '=',
-      $._expression
     ),
 
     _paren_expression: $ => seq(
@@ -637,8 +628,7 @@ module.exports = grammar({
       choice(
         $.member_access,
         $.subscript_access,
-        $.identifier,
-        $.assignment_pattern
+        $._pattern
       ),
       '=',
       $._expression
@@ -653,6 +643,11 @@ module.exports = grammar({
       choice('+=', '-=', '*=', '/=', '^='),
       $._expression
     )),
+
+    _pattern: $ => choice(
+      $.identifier,
+      $.assignment_pattern
+    ),
 
     assignment_pattern: $ => choice(
       $.object,
@@ -800,13 +795,8 @@ module.exports = grammar({
 
     formal_parameters: $ => seq(
       '(',
-      commaSep($._formal_parameter),
+      commaSep($._pattern),
       ')'
-    ),
-
-    _formal_parameter: $ => choice(
-      $.identifier,
-      $.assignment_pattern
     ),
 
     method_definition: $ => seq(
