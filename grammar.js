@@ -3,7 +3,7 @@ const PREC = {
   intersection: 2
 };
 
-module.exports = grammar(require('../tree-sitter-javascript/grammar'), {
+module.exports = grammar(require('tree-sitter-javascript/grammar'), {
   name: 'typescript',
 
   conflicts: ($, previous) => previous.concat([
