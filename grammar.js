@@ -112,12 +112,18 @@ module.exports = grammar({
       $._arg
     ),
 
-    method: $ => seq(
+    method: $ => seq('def', $._method_rest),
+
+    singleton_method: $ => seq(
       'def',
-      optional(seq(
+      seq(
         choice($._variable, seq('(', $._arg, ')')),
         choice('.', '::')
-      )),
+      ),
+      $._method_rest
+    ),
+
+    _method_rest: $ => seq(
       $._method_name,
       choice($.method_parameters, $._terminator),
       optional($._body_statement),
@@ -310,6 +316,7 @@ module.exports = grammar({
       $.regex,
       $.lambda,
       $.method,
+      $.singleton_method,
       $.class,
       $.singleton_class,
       $.module,

@@ -201,57 +201,71 @@
           "value": "def"
         },
         {
-          "type": "CHOICE",
+          "type": "SYMBOL",
+          "name": "_method_rest"
+        }
+      ]
+    },
+    "singleton_method": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "def"
+        },
+        {
+          "type": "SEQ",
           "members": [
             {
-              "type": "SEQ",
+              "type": "CHOICE",
               "members": [
                 {
-                  "type": "CHOICE",
-                  "members": [
-                    {
-                      "type": "SYMBOL",
-                      "name": "_variable"
-                    },
-                    {
-                      "type": "SEQ",
-                      "members": [
-                        {
-                          "type": "STRING",
-                          "value": "("
-                        },
-                        {
-                          "type": "SYMBOL",
-                          "name": "_arg"
-                        },
-                        {
-                          "type": "STRING",
-                          "value": ")"
-                        }
-                      ]
-                    }
-                  ]
+                  "type": "SYMBOL",
+                  "name": "_variable"
                 },
                 {
-                  "type": "CHOICE",
+                  "type": "SEQ",
                   "members": [
                     {
                       "type": "STRING",
-                      "value": "."
+                      "value": "("
+                    },
+                    {
+                      "type": "SYMBOL",
+                      "name": "_arg"
                     },
                     {
                       "type": "STRING",
-                      "value": "::"
+                      "value": ")"
                     }
                   ]
                 }
               ]
             },
             {
-              "type": "BLANK"
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "."
+                },
+                {
+                  "type": "STRING",
+                  "value": "::"
+                }
+              ]
             }
           ]
         },
+        {
+          "type": "SYMBOL",
+          "name": "_method_rest"
+        }
+      ]
+    },
+    "_method_rest": {
+      "type": "SEQ",
+      "members": [
         {
           "type": "SYMBOL",
           "name": "_method_name"
@@ -1981,6 +1995,10 @@
         {
           "type": "SYMBOL",
           "name": "method"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "singleton_method"
         },
         {
           "type": "SYMBOL",
