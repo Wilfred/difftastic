@@ -366,6 +366,17 @@ end
 
 (program (class (constant) (method (identifier))))
 
+=========================================
+class within dynamically-computed module
+=========================================
+
+class foo()::Bar
+end
+
+---
+
+(program (class (scope_resolution (method_call (identifier) (argument_list)) (constant))))
+
 ===============
 singleton class
 ===============
