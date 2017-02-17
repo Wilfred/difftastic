@@ -55,10 +55,14 @@ end
 def %(a)
 end
 
+def ..(a)
+end
+
 ---
 
 (program
   (method (operator) (method_parameters (identifier)) (string))
+  (method (operator) (method_parameters (identifier)))
   (method (operator) (method_parameters (identifier)))
   (method (operator) (method_parameters (identifier))))
 
@@ -311,10 +315,10 @@ end
 ---
 
 (program
-  (class (constant (identifier)))
-  (class (constant (identifier)))
-  (class (constant (identifier) (identifier)))
-  (class (constant (identifier) (identifier))))
+  (class (constant))
+  (class (constant))
+  (class (scope_resolution (constant) (constant)))
+  (class (scope_resolution (scope_resolution (constant)) (constant))))
 
 ==============
 empty subclass
@@ -325,7 +329,7 @@ end
 
 ---
 
-(program (class (constant (identifier)) (superclass (identifier))))
+(program (class (constant) (superclass (constant))))
 
 ==================================
 empty subclass of namespaced class
@@ -344,14 +348,14 @@ end
 
 (program
   (class
-    (constant (identifier))
-    (superclass (scope_resolution (identifier) (identifier))))
+    (constant)
+    (superclass (scope_resolution (constant) (constant))))
   (class
-    (constant (identifier))
-    (superclass (scope_resolution (identifier))))
+    (constant)
+    (superclass (scope_resolution (constant))))
   (class
-    (constant (identifier))
-    (superclass (method_call (call (scope_resolution (identifier) (identifier)) (identifier)) (argument_list (identifier))))))
+    (constant)
+    (superclass (method_call (call (scope_resolution (constant) (constant)) (identifier)) (argument_list (identifier))))))
 
 ===============
 class with body
@@ -364,7 +368,18 @@ end
 
 ---
 
-(program (class (constant (identifier)) (method (identifier))))
+(program (class (constant) (method (identifier))))
+
+=========================================
+class within dynamically-computed module
+=========================================
+
+class foo()::Bar
+end
+
+---
+
+(program (class (scope_resolution (method_call (identifier) (argument_list)) (constant))))
 
 ===============
 singleton class
@@ -383,8 +398,8 @@ end
 
 (program
   (singleton_class (self))
-  (singleton_class (identifier))
-  (singleton_class (scope_resolution (identifier) (identifier))))
+  (singleton_class (constant))
+  (singleton_class (scope_resolution (constant) (constant))))
 
 
 ============
@@ -400,8 +415,8 @@ end
 ---
 
 (program
-  (module (constant (identifier)))
-  (module (constant (identifier) (identifier))))
+  (module (constant))
+  (module (scope_resolution (constant) (constant))))
 
 ================
 module with body
@@ -414,7 +429,7 @@ end
 
 ---
 
-(program (module (constant (identifier)) (method (identifier))))
+(program (module (constant) (method (identifier))))
 
 =======
 __END__
@@ -453,12 +468,12 @@ end
 
 ---
 
-(program (module (constant (identifier))
-  (class (constant (identifier)) (superclass (identifier))
+(program (module (constant)
+  (class (constant) (superclass (constant))
     (method_call (identifier) (argument_list
       (call
         (call
-          (scope_resolution (identifier) (identifier))
+          (scope_resolution (constant) (constant))
           (identifier))
         (identifier))))
 

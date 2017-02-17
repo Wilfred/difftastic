@@ -10,9 +10,9 @@ puts ::Foo::Bar
 ---
 
 (program
-  (scope_resolution (identifier) (identifier))
-  (scope_resolution (identifier))
-  (method_call (identifier) (argument_list (scope_resolution (scope_resolution (identifier)) (identifier)))))
+  (scope_resolution (constant) (identifier))
+  (scope_resolution (constant))
+  (method_call (identifier) (argument_list (scope_resolution (scope_resolution (constant)) (constant)))))
 
 ============
 element reference
@@ -158,7 +158,7 @@ defined?(@foo)
 
 (program
   (unary (identifier))
-  (unary (call (identifier) (identifier)))
+  (unary (call (constant) (identifier)))
   (unary (identifier))
   (unary (global_variable))
   (unary (instance_variable)))
@@ -632,12 +632,14 @@ method call with keyword args
 
 foo(a: true)
 foo a: true
+foo B: true
 
 ---
 
 (program
   (method_call (identifier) (argument_list (pair (identifier) (true))))
-  (method_call (identifier) (argument_list (pair (identifier) (true)))))
+  (method_call (identifier) (argument_list (pair (identifier) (true))))
+  (method_call (identifier) (argument_list (pair (constant) (true)))))
 
 ===============================
 method call with paren args
@@ -747,7 +749,7 @@ include D::E.f
 
 ---
 
-(program (method_call (identifier) (argument_list (call (scope_resolution (identifier) (identifier)) (identifier)))))
+(program (method_call (identifier) (argument_list (call (scope_resolution (constant) (constant)) (identifier)))))
 
 ============================
 method call with line break
@@ -763,8 +765,8 @@ Foo \
 ---
 
 (program
-  (call (call (identifier) (identifier)) (identifier))
-  (call (identifier) (identifier)))
+  (call (call (constant) (identifier)) (identifier))
+  (call (constant) (identifier)))
 
 ======================================
 method call with block argument do end
@@ -1057,7 +1059,7 @@ Foo / "bar"
 
 ---
 
-(program (binary (identifier) (string)) (string))
+(program (binary (constant) (string)) (string))
 
 ===============================
 multiline regex
