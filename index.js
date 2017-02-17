@@ -1,1 +1,1 @@
-module.exports = require("./build/Debug/tree_sitter_ruby_binding");
+module.exports = require("./build/Release/tree_sitter_ruby_binding");
