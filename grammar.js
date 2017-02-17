@@ -171,7 +171,7 @@ module.exports = grammar({
       'class',
       choice($.constant, $.scope_resolution),
       optional($.superclass),
-      choice($._line_break, ';'),
+      $._terminator,
       optional($._body_statement),
       'end'
     ),
@@ -190,7 +190,7 @@ module.exports = grammar({
     module: $ => seq(
       'module',
       choice($.constant, $.scope_resolution),
-      choice(';', $._line_break),
+      $._terminator,
       optional($._body_statement),
       'end'
     ),
@@ -496,7 +496,7 @@ module.exports = grammar({
     ),
     operator: $ => choice(
       $._forward_slash,
-      '..', '|', '^', '&', '<=>', '==', '===', '=~', '>', '>=', '<', '<=', '+',
+      '..f', '|', '^', '&', '<=>', '==', '===', '=~', '>', '>=', '<', '<=', '+',
       '-', '*', '%', '!', '**', '<<', '>>', '~', '+@', '-@', '[]', '[]=', '`'
     ),
 
