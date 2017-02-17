@@ -233,7 +233,7 @@ end
 
 ---
 
-(program (method (self) (identifier)))
+(program (singleton_method (self) (identifier)))
 
 =========================================
 singleton method with body
@@ -245,7 +245,7 @@ end
 
 ---
 
-(program (method (self) (identifier) (identifier)))
+(program (singleton_method (self) (identifier) (identifier)))
 
 
 =========================================
@@ -257,7 +257,7 @@ end
 
 ---
 
-(program (method (self) (identifier) (method_parameters (identifier))))
+(program (singleton_method (self) (identifier) (method_parameters (identifier))))
 
 =========================================
 singleton method with un-parenthesized arg
@@ -268,7 +268,7 @@ end
 
 ---
 
-(program (method (self) (identifier) (method_parameters (identifier))))
+(program (singleton_method (self) (identifier) (method_parameters (identifier))))
 
 =========================================
 singleton method with args
@@ -279,7 +279,7 @@ end
 
 ---
 
-(program (method (self) (identifier) (method_parameters (identifier) (identifier))))
+(program (singleton_method (self) (identifier) (method_parameters (identifier) (identifier))))
 
 
 =========================================
@@ -291,7 +291,7 @@ end
 
 ---
 
-(program (method (self) (identifier) (method_parameters (identifier) (identifier))))
+(program (singleton_method (self) (identifier) (method_parameters (identifier) (identifier))))
 
 ===========
 empty class
@@ -466,7 +466,7 @@ end
 
     (comment)
     (method (identifier) (identifier))
-    (method (self) (identifier)))))
+    (singleton_method (self) (identifier)))))
 
 
 ===========
