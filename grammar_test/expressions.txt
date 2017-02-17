@@ -632,12 +632,14 @@ method call with keyword args
 
 foo(a: true)
 foo a: true
+foo B: true
 
 ---
 
 (program
   (method_call (identifier) (argument_list (pair (identifier) (true))))
-  (method_call (identifier) (argument_list (pair (identifier) (true)))))
+  (method_call (identifier) (argument_list (pair (identifier) (true))))
+  (method_call (identifier) (argument_list (pair (constant) (true)))))
 
 ===============================
 method call with paren args
