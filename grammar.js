@@ -28,7 +28,9 @@ const PREC = {
 
 const integerPattern = /0b[01](_?[01])*|0[oO]?[0-7](_?[0-7])*|(0d)?\d(_?\d)*|0x[0-9a-fA-F](_?[0-9a-fA-F])*/;
 const floatPattern = /\d(_?\d)*([eE][-+]?\d(_?\d)*)?/;
-const identifierPattern = /[a-zA-Z_][a-zA-Z0-9_]*(\?|\!)?/;
+const identifierPattern = /[a-z_][a-zA-Z0-9_]*(\?|\!)?/;
+const constantPattern = /[A-Z][a-zA-Z0-9_]*(\?|\!)?/;
+
 // Global variables start with $ and can be:
 // - Regex back references (e.g. $$, $&, $`, $', and $+)
 // - Number global references (e.g. $1)
@@ -161,14 +163,14 @@ module.exports = grammar({
 
     class: $ => seq(
       'class',
-      $.constant,
+      choice($.constant, $.scope_resolution),
       optional($.superclass),
-      optional($._terminator),
+      choice($._line_break, ';'),
       optional($._body_statement),
       'end'
     ),
-    constant: $ => prec.right(seq(optional('::'), sep1($.identifier, '::'))),
-    superclass: $ => seq('<', $._arg, $._terminator),
+
+    superclass: $ => seq('<', $._arg),
 
     singleton_class: $ => seq(
       'class',
@@ -181,8 +183,8 @@ module.exports = grammar({
 
     module: $ => seq(
       'module',
-      $.constant,
-      $._terminator,
+      choice($.constant, $.scope_resolution),
+      choice(';', $._line_break),
       optional($._body_statement),
       'end'
     ),
@@ -337,8 +339,8 @@ module.exports = grammar({
       ']'
     )),
     scope_resolution: $ => prec.left(1, choice(
-      seq('::', $.identifier),
-      seq($._primary, $._scope_double_colon, $.identifier)
+      seq('::', choice($.identifier, $.constant)),
+      seq($._primary, $._scope_double_colon, choice($.identifier, $.constant))
     )),
     call: $ => prec.left(PREC.BITWISE_AND + 1, seq(
       $._primary,
@@ -470,9 +472,11 @@ module.exports = grammar({
       $.instance_variable,
       $.class_variable,
       $.global_variable,
-      $.identifier
+      $.identifier,
+      $.constant
     ),
 
+    constant: $ => constantPattern,
     instance_variable: $ => instanceVariablePattern,
     class_variable: $ => classVariablePattern,
     global_variable: $ => globalVariablePattern,
@@ -491,6 +495,7 @@ module.exports = grammar({
 
     _method_name: $ => choice(
       $.identifier,
+      $.constant,
       $.setter,
       $.symbol,
       $.operator,
@@ -613,7 +618,7 @@ module.exports = grammar({
 
     pair: $ => prec(-1, seq(choice(
       seq($._arg, '=>'),
-      seq(choice($.identifier, $.reserved_identifier, $.string), $._keyword_colon)
+      seq(choice($.identifier, $.constant, $.reserved_identifier, $.string), $._keyword_colon)
     ), $._arg)),
 
     regex: $ => choice(
