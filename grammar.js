@@ -153,7 +153,8 @@ module.exports = grammar({
       $.return_statement,
       $.yield_statement,
       $.throw_statement,
-      $.empty_statement
+      $.empty_statement,
+      $.labeled_statement
     ),
 
     _trailing_statement: $ => choice(
@@ -349,17 +350,25 @@ module.exports = grammar({
 
     break_statement: $ => seq(
       'break',
+      optional($.identifier),
       terminator()
     ),
 
-    trailing_break_statement: $ => 'break',
+    trailing_break_statement: $ => seq(
+      'break',
+      optional($.identifier)
+    ),
 
     continue_statement: $ => seq(
       'continue',
+      optional($.identifier),
       terminator()
     ),
 
-    trailing_continue_statement: $ => 'continue',
+    trailing_continue_statement: $ => seq(
+      'continue',
+      optional($.identifier)
+    ),
 
     return_statement: $ => seq(
       'return',
@@ -395,6 +404,12 @@ module.exports = grammar({
     ),
 
     empty_statement: $ => ';',
+
+    labeled_statement: $ => seq(
+      $.identifier,
+      ':',
+      $._statement
+    ),
 
     //
     // Statement components

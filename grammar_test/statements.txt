@@ -463,3 +463,25 @@ if (true) { ; };;;
   (empty_statement)
   (empty_statement)
   (empty_statement))
+
+============================================
+Labeled statements
+============================================
+
+theLoop:
+for (;;) {
+  if (a) {
+    break theLoop;
+  } else {
+    continue theLoop;
+  }
+}
+
+---
+
+(program
+  (labeled_statement (identifier)
+    (for_statement (statement_block
+      (if_statement (identifier)
+        (statement_block (break_statement (identifier)))
+        (statement_block (continue_statement (identifier))))))))
