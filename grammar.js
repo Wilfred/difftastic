@@ -352,7 +352,7 @@ module.exports = grammar({
     call: $ => prec.left(PREC.BITWISE_AND + 1, seq(
       $._primary,
       choice('.', '&.'),
-      choice($.identifier, $.operator, $.argument_list_with_parens)
+      choice($.identifier, $.operator, $.constant, $.argument_list_with_parens)
     )),
 
     method_call: $ => {

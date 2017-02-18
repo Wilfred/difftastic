@@ -848,6 +848,16 @@ foo { |; i, j| }
 (program (method_call (identifier) (block (block_parameters (identifier) (identifier)))))
 
 ===============================
+method call with capitalized name
+===============================
+
+request.GET
+
+---
+
+(program (call (identifier) (constant)))
+
+===============================
 destructured parameters
 ===============================
 
