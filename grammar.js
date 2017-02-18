@@ -394,13 +394,13 @@ module.exports = grammar({
 
     throw_statement: $ => seq(
       'throw',
-      $._expression,
+      choice($._expression, $.comma_op),
       terminator()
     ),
 
     trailing_throw_statement: $ => seq(
       'throw',
-      $._expression
+      choice($._expression, $.comma_op)
     ),
 
     empty_statement: $ => ';',

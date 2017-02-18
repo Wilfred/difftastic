@@ -424,6 +424,20 @@ throw new Error("uh oh");
     (new_expression (function_call (identifier) (arguments (string))))))
 
 ============================================
+Throw statements with sequence expressions
+============================================
+
+throw f = 1, f;
+throw g = 2, g
+---
+
+(program
+  (throw_statement
+    (comma_op (assignment (identifier) (number)) (identifier)))
+  (trailing_throw_statement
+    (comma_op (assignment (identifier) (number)) (identifier))))
+
+============================================
 Try catch finally statements
 ============================================
 
