@@ -14,13 +14,13 @@ const {a, b: {c, d}} = object
       (identifier)
       (identifier)))
     (identifier)))
-  (var_declaration (var_assignment
+  (variable_declaration (variable_declarator
     (assignment_pattern (object
       (identifier)
       (identifier)
       (spread_element (identifier))))
     (identifier)))
-  (var_declaration (var_assignment
+  (variable_declaration (variable_declarator
     (assignment_pattern (object
       (identifier)
       (pair
