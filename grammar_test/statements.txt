@@ -433,6 +433,20 @@ throw new Error("uh oh");
     (new_expression (function_call (identifier) (arguments (string))))))
 
 ============================================
+Throw statements with sequence expressions
+============================================
+
+throw f = 1, f;
+throw g = 2, g
+---
+
+(program
+  (throw_statement
+    (comma_op (assignment (identifier) (number)) (identifier)))
+  (trailing_throw_statement
+    (comma_op (assignment (identifier) (number)) (identifier))))
+
+============================================
 Try catch finally statements
 ============================================
 
@@ -472,3 +486,25 @@ if (true) { ; };;;
   (empty_statement)
   (empty_statement)
   (empty_statement))
+
+============================================
+Labeled statements
+============================================
+
+theLoop:
+for (;;) {
+  if (a) {
+    break theLoop;
+  } else {
+    continue theLoop;
+  }
+}
+
+---
+
+(program
+  (labeled_statement (identifier)
+    (for_statement (statement_block
+      (if_statement (identifier)
+        (statement_block (break_statement (identifier)))
+        (statement_block (continue_statement (identifier))))))))
