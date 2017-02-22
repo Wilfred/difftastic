@@ -57,9 +57,16 @@ export { import1 as name1, import2 as name2, nameN } from 'foo';
   (export_statement
     (export_clause (export_specifier (identifier) (identifier)) (export_specifier (identifier) (identifier)) (export_specifier (identifier))))
   (export_statement
-    (var_declaration (identifier) (identifier) (identifier)))
+    (variable_declaration
+      (variable_declarator (identifier))
+      (variable_declarator (identifier))
+      (variable_declarator (identifier))))
   (export_statement
-    (var_declaration (var_assignment (identifier) (identifier)) (var_assignment (identifier) (identifier)) (identifier) (identifier)))
+    (variable_declaration
+      (variable_declarator (identifier) (identifier))
+      (variable_declarator (identifier) (identifier))
+      (variable_declarator (identifier))
+      (variable_declarator (identifier))))
   (export_statement
     (identifier))
   (export_statement
@@ -148,7 +155,9 @@ for (;;) {
 
 (program
   (for_statement
-    (var_declaration (identifier) (identifier))
+    (variable_declaration
+      (variable_declarator (identifier))
+      (variable_declarator (identifier)))
     (identifier)
     (identifier)
     (expression_statement (identifier)))
@@ -259,7 +268,7 @@ return 1,2;
   (return_statement (comma_op (number) (number))))
 
 ============================================
-Var declarations
+Variable declarations
 ============================================
 
 var x = 1;
@@ -268,12 +277,12 @@ var x, y = {}, z;
 ---
 
 (program
-  (var_declaration
-    (var_assignment (identifier) (number)))
-  (var_declaration
-    (identifier)
-    (var_assignment (identifier) (object))
-    (identifier)))
+  (variable_declaration
+    (variable_declarator (identifier) (number)))
+  (variable_declaration
+    (variable_declarator (identifier))
+    (variable_declarator (identifier) (object))
+    (variable_declarator (identifier))))
 
 ============================================
 Comments
@@ -323,7 +332,7 @@ var thing = {
 (program
   (comment)
   (comment)
-  (var_declaration (var_assignment
+  (variable_declaration (variable_declarator
     (identifier)
     (object
       (comment)
@@ -360,14 +369,14 @@ const d = 1
 
 (program
   (comment)
-  (var_declaration
-    (var_assignment (identifier) (number)))
+  (variable_declaration
+    (variable_declarator (identifier) (number)))
    (comment)
-   (var_declaration (var_assignment (identifier) (number)))
+   (variable_declaration (variable_declarator (identifier) (number)))
    (comment)
-   (var_declaration (var_assignment (identifier) (number)))
+   (variable_declaration (variable_declarator (identifier) (number)))
    (comment)
-   (var_declaration (var_assignment (identifier) (number))))
+   (variable_declaration (variable_declarator (identifier) (number))))
 
 ==========================================
 Comments within expressions

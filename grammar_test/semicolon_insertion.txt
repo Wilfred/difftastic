@@ -13,7 +13,7 @@ if (a) {
 
 (program
   (if_statement (identifier) (statement_block
-    (var_declaration (var_assignment (identifier) (identifier)))
+    (variable_declaration (variable_declarator (identifier) (identifier)))
     (expression_statement (function_call (identifier) (arguments)))
     (expression_statement (function_call (identifier) (arguments)))
     (return_statement (identifier)))))
@@ -77,7 +77,7 @@ var a = new A()
 ---
 
 (program
-  (var_declaration (var_assignment
+  (variable_declaration (variable_declarator
     (identifier)
     (function_call
       (member_access
@@ -125,7 +125,7 @@ if (p) { var q }
       (statement_block (expression_statement (identifier)))
       (identifier))))
   (if_statement (identifier) (statement_block
-    (trailing_var_declaration (identifier)))))
+    (trailing_variable_declaration (variable_declarator (identifier))))))
 
 =====================================================
 Single-line declarations without semicolons
