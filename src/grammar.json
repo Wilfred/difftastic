@@ -3977,8 +3977,17 @@
                 ]
               },
               {
-                "type": "SYMBOL",
-                "name": "method_definition"
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "method_definition"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "_public_field_definition"
+                  }
+                ]
               },
               {
                 "type": "CHOICE",
@@ -4000,6 +4009,10 @@
           "value": "}"
         }
       ]
+    },
+    "_public_field_definition": {
+      "type": "SYMBOL",
+      "name": "variable_declarator"
     },
     "formal_parameters": {
       "type": "SEQ",

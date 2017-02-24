@@ -802,11 +802,17 @@ module.exports = grammar({
       '{',
       repeat(seq(
         optional('static'),
-        $.method_definition,
+        choice(
+          $.method_definition,
+          $._public_field_definition
+        ),
         optional(';')
       )),
       '}'
     ),
+
+    // TODO this should be a property_name
+    _public_field_definition: $ => $.variable_declarator,
 
     formal_parameters: $ => seq(
       '(',
