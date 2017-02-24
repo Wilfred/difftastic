@@ -261,6 +261,23 @@ class Foo extends require('another-class') {
             (expression_statement (function_call (super) (arguments)))))))))
 
 ============================================
+Class Property Definitions
+============================================
+
+class Foo {
+	static foo = 2
+}
+
+---
+
+(program
+  (expression_statement
+    (class
+      (identifier)
+      (class_body
+        (variable_declarator (identifier) (number))))))
+
+============================================
 Arrays
 ============================================
 
