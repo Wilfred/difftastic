@@ -261,7 +261,7 @@ class Foo extends require('another-class') {
             (expression_statement (function_call (super) (arguments)))))))))
 
 ============================================
-Class Property Definitions
+Class Property Fields
 ============================================
 
 class Foo {
