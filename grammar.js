@@ -9,11 +9,21 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
   conflicts: ($, previous) => previous.concat([
 
     // TODO - Figure out why these are needed.
-    [$._pattern, $._type_reference],
     [$._expression, $._type_reference],
     [$._expression, $._pattern, $._type_reference],
     [$._property_definition_list, $.property_signature],
+    [$.required_parameter, $.assignment],
+    [$.required_parameter, $._expression],
 
+    // ( foo ) =>
+    // ( foo )
+    //   ^-- parenthesized expression or arrow function?
+    [$._expression, $.required_parameter, $.required_string_parameter],
+
+
+    // ( foo ? )
+    //       ^-- ternary or optional parameter?
+    [$._expression, $.optional_parameter, $.optional_string_parameter]
   ]),
 
   rules: {
@@ -21,7 +31,7 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
     // Overrides
 
     variable_declarator: ($, previous) => seq(
-      $._pattern,
+      pattern($),
       optional($.type_annotation),
       optional(seq(
         '=',
@@ -29,11 +39,79 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       ))
     ),
 
-    _paren_expression: $ => seq(
+    _paren_expression: ($, previous) => seq(
       '(', choice(seq($._expression, optional($.type_annotation)), $.comma_op), ')'
     ),
 
+    formal_parameters: ($, previous) => seq(
+      '(',
+      commaSep($._parameter),
+      ')'
+    ),
+
+
+    // x = (a ? b : d);
+    // x = (a? : SomeType, b : d) => z;
+
+    function: ($, previous) => seq(
+      optional('async'),
+      'function',
+      optional($.identifier),
+      $.call_signature,
+      $.statement_block
+    ),
+
     // Additions
+
+    _accessibility_modifier: $ => choice(
+      'public',
+      'private',
+      'protected'
+    ),
+
+    _parameter: $ => choice(
+      $.required_parameter,
+      $.rest_parameter,
+      $.optional_parameter,
+      $.required_string_parameter,
+      $.optional_string_parameter
+    ),
+
+    required_parameter: $ => choice(
+      seq(
+        optional($._accessibility_modifier),
+        pattern($),
+        optional($.type_annotation)),
+      seq(
+        optional($._accessibility_modifier),
+        pattern($),
+        optional($.type_annotation),
+        $._initializer)
+    ),
+
+    required_string_parameter: $ => seq($.identifier, ':', $.string),
+
+    optional_parameter: $ => choice(
+      seq(
+        optional($._accessibility_modifier),
+        pattern($),
+        '?',
+        optional($.type_annotation)),
+      seq(
+        optional($._accessibility_modifier),
+        pattern($),
+        '?',
+        optional($.type_annotation),
+        $._initializer)
+    ),
+
+    optional_string_parameter: $ => seq($.identifier, '?', ':', $.string),
+
+    rest_parameter: $ => seq(
+      '...',
+      $.identifier,
+      optional($.type_annotation)
+    ),
 
     type_annotation: $ => seq(
       ':', $._type
@@ -113,7 +191,8 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
 
     call_signature: $ => seq(
       optional($.type_parameters),
-      $.formal_parameters, optional($.type_annotation)
+      $.formal_parameters,
+      optional($.type_annotation)
     ),
 
     type_parameters: $ => seq(
@@ -168,10 +247,18 @@ function commaSep1 (rule) {
   return sepBy1(',', rule);
 }
 
+function commaSep (rule) {
+  return optional(commaSep1(rule));
+}
+
 function sepBy1 (sep, rule) {
   return seq(rule, repeat(seq(sep, rule)));
 }
 
 function sepBy (sep, rule) {
   return optional(sepBy1(sep, rule));
+}
+
+function pattern ($) {
+  return choice($.identifier, $.assignment_pattern)
 }
