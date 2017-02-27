@@ -20,10 +20,15 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
 
     // Overrides
 
-    _pattern: ($, previous) => seq(
-      previous,
-      optional($.type_annotation)
+    variable_declarator: ($, previous) => seq(
+      $._pattern,
+      optional($.type_annotation),
+      optional(seq(
+        '=',
+        $._expression
+      ))
     ),
+
 
     // Additions
 
