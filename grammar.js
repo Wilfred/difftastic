@@ -811,7 +811,7 @@ module.exports = grammar({
       '}'
     ),
 
-    // TODO this should be a property_name
+    // TODO this should be a property_name http://www.ecma-international.org/ecma-262/6.0/#sec-object-initializer
     _public_field_definition: $ => $.variable_declarator,
 
     formal_parameters: $ => seq(
