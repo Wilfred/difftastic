@@ -29,6 +29,9 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       ))
     ),
 
+    _paren_expression: $ => seq(
+      '(', choice(seq($._expression, optional($.type_annotation)), $.comma_op), ')'
+    ),
 
     // Additions
 

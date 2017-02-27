@@ -56,3 +56,21 @@ let x: X[];
   (variable_declaration (variable_declarator
     (identifier)
     (type_annotation (array_type (identifier))))))
+
+
+=======================================
+Type annotations in parenthesized expressions
+=======================================
+
+const range = (document: any).selection.createRange()
+
+---
+
+(program
+  (variable_declaration (variable_declarator
+    (identifier)
+  (function_call
+  (member_access
+    (member_access (identifier) (type_annotation (predefined_type)) (identifier))
+    (identifier))
+  (arguments)))))
