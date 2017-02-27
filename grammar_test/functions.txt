@@ -6,11 +6,42 @@ function greeter(person: string) {
   return "Hello, " + person;
 }
 
+function foo<T>(x: T): T {
+
+}
+
+function foo<T, U>(a: T[], f: (x: T) => U): U[] {
+
+}
+
 ---
 
 (program
-  (expression_statement (function
-    (identifier)
-    (formal_parameters
-      (identifier) (type_annotation (predefined_type)))
-    (statement_block (return_statement (math_op (string) (identifier)))))))
+  (expression_statement
+    (function
+      (identifier)
+      (call_signature (formal_parameters (required_parameter (identifier) (type_annotation (predefined_type)))))
+      (statement_block
+        (return_statement (math_op (string) (identifier))))))
+  (expression_statement
+    (function
+      (identifier)
+      (call_signature
+        (type_parameters (identifier))
+        (formal_parameters (required_parameter (identifier) (type_annotation (identifier))))
+        (type_annotation (identifier)))
+        (statement_block)))
+  (expression_statement
+    (function
+      (identifier)
+      (call_signature
+        (type_parameters (identifier) (identifier))
+        (formal_parameters
+          (required_parameter (identifier) (type_annotation (array_type (identifier))))
+          (required_parameter
+            (identifier)
+            (type_annotation
+              (function_type
+                (formal_parameters (required_parameter (identifier) (type_annotation (identifier)))) (identifier)))))
+        (type_annotation (array_type (identifier)))) 
+      (statement_block))))

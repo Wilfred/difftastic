@@ -58,6 +58,23 @@ let x: X[];
     (type_annotation (array_type (identifier))))))
 
 =======================================
+Function types
+=======================================
+
+let x: (result: string) => any;
+
+---
+
+(program
+  (variable_declaration (variable_declarator
+    (identifier)
+    (type_annotation
+      (function_type
+        (formal_parameters
+          (required_parameter (identifier) (type_annotation (predefined_type))))
+        (predefined_type))))))
+
+=======================================
 Type annotations in parenthesized expressions
 =======================================
 
