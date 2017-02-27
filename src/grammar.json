@@ -790,8 +790,17 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "_pattern"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "identifier"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "assignment_pattern"
+            }
+          ]
         },
         {
           "type": "CHOICE",
@@ -2767,21 +2776,39 @@
                 "name": "subscript_access"
               },
               {
-                "type": "SYMBOL",
-                "name": "_pattern"
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "identifier"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "assignment_pattern"
+                  }
+                ]
               }
             ]
           },
           {
-            "type": "STRING",
-            "value": "="
-          },
-          {
             "type": "SYMBOL",
-            "name": "_expression"
+            "name": "_initializer"
           }
         ]
       }
+    },
+    "_initializer": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "="
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_expression"
+        }
+      ]
     },
     "math_assignment": {
       "type": "PREC_RIGHT",
@@ -2849,19 +2876,6 @@
           }
         ]
       }
-    },
-    "_pattern": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "identifier"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "assignment_pattern"
-        }
-      ]
     },
     "assignment_pattern": {
       "type": "CHOICE",
@@ -4028,8 +4042,17 @@
               "type": "SEQ",
               "members": [
                 {
-                  "type": "SYMBOL",
-                  "name": "_pattern"
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "SYMBOL",
+                      "name": "identifier"
+                    },
+                    {
+                      "type": "SYMBOL",
+                      "name": "assignment_pattern"
+                    }
+                  ]
                 },
                 {
                   "type": "REPEAT",
@@ -4041,8 +4064,17 @@
                         "value": ","
                       },
                       {
-                        "type": "SYMBOL",
-                        "name": "_pattern"
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "SYMBOL",
+                            "name": "identifier"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "assignment_pattern"
+                          }
+                        ]
                       }
                     ]
                   }
@@ -4204,10 +4236,6 @@
     ],
     [
       "formal_parameters",
-      "_expression"
-    ],
-    [
-      "_pattern",
       "_expression"
     ],
     [
