@@ -42,11 +42,6 @@ module.exports = grammar({
     //    ^--- arrow function parameters or comma expression?
     [$.formal_parameters, $._expression],
 
-    // ( foo
-    // ( foo
-    //    ^-- arrow function parameter or parenthesized expression?
-    [$._pattern, $._expression],
-
     // ( {foo} )
     // ( [foo] )
     //    ^-- destructured arrow function parameters or parenthesized expression?
@@ -204,7 +199,7 @@ module.exports = grammar({
     ),
 
     variable_declarator: $ => seq(
-      $._pattern,
+      pattern($),
       optional(seq(
         '=',
         $._expression
@@ -643,11 +638,14 @@ module.exports = grammar({
       choice(
         $.member_access,
         $.subscript_access,
-        $._pattern
+        pattern($)
       ),
-      '=',
-      $._expression
+      $._initializer
     )),
+
+    _initializer: $ => seq(
+      '=', $._expression
+    ),
 
     math_assignment: $ => prec.right(PREC.ASSIGN, seq(
       choice(
@@ -658,11 +656,6 @@ module.exports = grammar({
       choice('+=', '-=', '*=', '/=', '%=', '^=', '&=', '|='),
       $._expression
     )),
-
-    _pattern: $ => choice(
-      $.identifier,
-      $.assignment_pattern
-    ),
 
     assignment_pattern: $ => choice(
       $.object,
@@ -816,7 +809,7 @@ module.exports = grammar({
 
     formal_parameters: $ => seq(
       '(',
-      commaSep($._pattern),
+      commaSep(pattern($)),
       ')'
     ),
 
@@ -858,4 +851,8 @@ function terminator () {
 
 function variableType () {
   return choice('var', 'let', 'const');
+}
+
+function pattern ($) {
+  return choice($.identifier, $.assignment_pattern)
 }
