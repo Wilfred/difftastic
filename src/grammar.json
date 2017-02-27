@@ -4648,39 +4648,61 @@
       "type": "CHOICE",
       "members": [
         {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "_type_member_list"
-            },
-            {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "STRING",
-                  "value": ";"
-                },
-                {
-                  "type": "BLANK"
-                }
-              ]
-            }
-          ]
+          "type": "SYMBOL",
+          "name": "_type_member"
         },
         {
           "type": "SEQ",
           "members": [
             {
-              "type": "SYMBOL",
-              "name": "_type_member_list"
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "_type_member"
+                },
+                {
+                  "type": "REPEAT",
+                  "content": {
+                    "type": "SEQ",
+                    "members": [
+                      {
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "STRING",
+                            "value": ","
+                          },
+                          {
+                            "type": "STRING",
+                            "value": ";"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "_type_member"
+                      }
+                    ]
+                  }
+                }
+              ]
             },
             {
               "type": "CHOICE",
               "members": [
                 {
-                  "type": "STRING",
-                  "value": ","
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "STRING",
+                      "value": ","
+                    },
+                    {
+                      "type": "STRING",
+                      "value": ";"
+                    }
+                  ]
                 },
                 {
                   "type": "BLANK"
@@ -4690,69 +4712,6 @@
           ]
         }
       ]
-    },
-    "_type_member_list": {
-      "type": "PREC_RIGHT",
-      "value": 0,
-      "content": {
-        "type": "CHOICE",
-        "members": [
-          {
-            "type": "SYMBOL",
-            "name": "_type_member"
-          },
-          {
-            "type": "SEQ",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "_type_member"
-              },
-              {
-                "type": "REPEAT",
-                "content": {
-                  "type": "SEQ",
-                  "members": [
-                    {
-                      "type": "STRING",
-                      "value": ";"
-                    },
-                    {
-                      "type": "SYMBOL",
-                      "name": "_type_member"
-                    }
-                  ]
-                }
-              }
-            ]
-          },
-          {
-            "type": "SEQ",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "_type_member"
-              },
-              {
-                "type": "REPEAT",
-                "content": {
-                  "type": "SEQ",
-                  "members": [
-                    {
-                      "type": "STRING",
-                      "value": ","
-                    },
-                    {
-                      "type": "SYMBOL",
-                      "name": "_type_member"
-                    }
-                  ]
-                }
-              }
-            ]
-          }
-        ]
-      }
     },
     "_type_member": {
       "type": "PREC_RIGHT",
@@ -5195,19 +5154,6 @@
       "_expression",
       "optional_parameter",
       "optional_string_parameter"
-    ],
-    [
-      "_type_member",
-      "_expression"
-    ],
-    [
-      "_type_member",
-      "_expression",
-      "_property_definition_list"
-    ],
-    [
-      "_type_member",
-      "_property_definition_list"
     ],
     [
       "method_signature",

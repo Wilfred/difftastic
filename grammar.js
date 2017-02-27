@@ -23,27 +23,16 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
     //       ^-- ternary or optional parameter?
     [$._expression, $.optional_parameter, $.optional_string_parameter],
 
-    // [$._type_member, $._expression, $._property_definition_list],
-
-    // type Flags = { option1: boolean; }
-    //                                ^ expression or type member?
-    [$._type_member, $._expression],
-
-    // type Flags = { option1: boolean, option2: boolean }
-    //                                ^ type_member or property_definition_list?
-    [$._type_member, $._expression, $._property_definition_list],
-
-    [$._type_member, $._property_definition_list],
-
     [$.method_signature, $.method_definition, $._expression],
 
     [$._expression, $._type_member, $.method_signature],
 
+    // parenthesized_type starting with object type or function type starting with a destructuring pattern?
     [$._expression, $._primary_type],
 
     [$._expression, $._primary_type, $.qualified_type_name],
-    [$._expression, $.qualified_type_name],
 
+    [$._expression, $.qualified_type_name],
 
     [$._expression, $.required_parameter, $._primary_type],
 
@@ -52,6 +41,7 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
     [$._expression, $.property_signature, $.method_signature],
 
     [$._expression, $.property_signature, $._property_definition_list],
+
     [$.property_signature, $._property_definition_list]
   ]),
 
@@ -77,10 +67,6 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       commaSep($._parameter),
       ')'
     ),
-
-
-    // x = (a ? b : d);
-    // x = (a? : SomeType, b : d) => z;
 
     function: ($, previous) => seq(
       optional('async'),
@@ -186,7 +172,6 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       'void'
     ),
 
-
     type_arguments: $ => seq(
       '<', commaSep1($._type), '>'
     ),
@@ -200,15 +185,9 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
     ),
 
     _type_body: $ => choice(
-      seq($._type_member_list, optional(';')),
-      seq($._type_member_list, optional(','))
-    ),
-
-    _type_member_list: $ => prec.right(choice(
       $._type_member,
-      sepBy1(';', $._type_member),
-      sepBy1(',', $._type_member)
-    )),
+      seq(sepBy1(choice(',',';'), $._type_member), optional(choice(',',';')))
+    ),
 
     _type_member: $ => prec.right(choice(
       $.property_signature,
