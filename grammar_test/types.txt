@@ -124,4 +124,3 @@ import typeof {jimiguitar as GuitarT} from "./User.js";
   (import_statement
     (import_clause
       (named_imports (import_specifier (identifier) (identifier)))) (string)))
-
