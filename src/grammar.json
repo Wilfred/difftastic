@@ -302,6 +302,27 @@
           "type": "CHOICE",
           "members": [
             {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "type"
+                },
+                {
+                  "type": "STRING",
+                  "value": "typeof"
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
               "type": "SEQ",
               "members": [
                 {

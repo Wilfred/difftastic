@@ -107,3 +107,20 @@ const miscArray: ?T[]
   (variable_declaration (variable_declarator
     (identifier)
     (type_annotation (flow_maybe_type (array_type (identifier)))))))
+
+=======================================
+Flow Import Types
+=======================================
+
+import type {UserID, User} from "./User.js";
+import typeof {jimiguitar as GuitarT} from "./User.js";
+
+---
+
+(program
+  (import_statement
+    (import_clause
+      (named_imports (import_specifier (identifier)) (import_specifier (identifier)))) (string))
+  (import_statement
+    (import_clause
+      (named_imports (import_specifier (identifier) (identifier)))) (string)))
