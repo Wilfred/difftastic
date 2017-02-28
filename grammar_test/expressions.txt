@@ -35,11 +35,19 @@ Numbers
 
 101;
 3.14;
+3.14e+1;
 0x1ABCDEFabcdef;
+0o7632157312;
+0b1010101001;
+1e+3;
 
 ---
 
 (program
+  (expression_statement (number))
+  (expression_statement (number))
+  (expression_statement (number))
+  (expression_statement (number))
   (expression_statement (number))
   (expression_statement (number))
   (expression_statement (number)))
