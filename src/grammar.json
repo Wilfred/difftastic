@@ -4753,6 +4753,43 @@
         {
           "type": "SYMBOL",
           "name": "function_type"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "constructor_type"
+        }
+      ]
+    },
+    "constructor_type": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "new"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "type_parameters"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "SYMBOL",
+          "name": "formal_parameters"
+        },
+        {
+          "type": "STRING",
+          "value": "=>"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_type"
         }
       ]
     },
@@ -4812,8 +4849,24 @@
         {
           "type": "SYMBOL",
           "name": "flow_maybe_type"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "this_type"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "existential_type"
         }
       ]
+    },
+    "existential_type": {
+      "type": "STRING",
+      "value": "*"
+    },
+    "this_type": {
+      "type": "STRING",
+      "value": "this"
     },
     "flow_maybe_type": {
       "type": "PREC_RIGHT",
@@ -5583,6 +5636,10 @@
     [
       "jsx_opening_element",
       "type_parameter"
+    ],
+    [
+      "this_type",
+      "this_expression"
     ]
   ],
   "externals": []

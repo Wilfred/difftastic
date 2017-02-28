@@ -45,3 +45,12 @@ function foo<T, U>(a: T[], f: (x: T) => U): U[] {
                 (formal_parameters (required_parameter (identifier) (type_annotation (identifier)))) (identifier)))))
         (type_annotation (array_type (identifier))))
       (statement_block))))
+
+==================================
+Functions with Flow typed parameters
+================================
+
+function findAndMarkConflicts(contents: { document: Doc, conflicts: Array<*> }) {
+}
+
+---
