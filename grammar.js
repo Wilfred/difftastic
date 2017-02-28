@@ -18,7 +18,6 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
     //   ^-- parenthesized expression or arrow function?
     [$._expression, $.required_parameter, $.required_string_parameter],
 
-
     // ( foo ? )
     //       ^-- ternary or optional parameter?
     [$._expression, $.optional_parameter, $.optional_string_parameter],
@@ -44,12 +43,12 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
 
     [$.property_signature, $._property_definition_list]
   ]),
-  rule: {
+  rules: {
 
     // Overrides
 
     // Override import and export to support Flow 'import type' statements
-    import_statement: $ => seq(
+    import_statement: ($, previous) => seq(
       'import',
       optional('type'),
       choice(
@@ -57,19 +56,6 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
         $.string
       ),
       terminator()
-    ),
-
-    export_statement: $ => seq(
-      'export',
-      optional('type'),
-      choice(
-        seq('*', $._from_clause, terminator()),
-        seq($.export_clause, $._from_clause, terminator()),
-        seq($.export_clause, terminator()),
-        seq($._declaration),
-        seq('default', $.anonymous_class),
-        seq('default', $._expression, terminator())
-      )
     ),
 
     variable_declarator: ($, previous) => seq(
@@ -301,4 +287,8 @@ function type_reference($) {
       choice($.identifier, $.qualified_type_name),
       optional($.type_arguments)
     )
+}
+
+function terminator () {
+  return choice(';', sym('_line_break'));
 }
