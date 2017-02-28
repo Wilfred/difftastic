@@ -216,8 +216,16 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       $._primary_type,
       $.union_type,
       $.intersection_type,
-      $.function_type
-      // $.constructor_type
+      $.function_type,
+      $.constructor_type
+    ),
+
+    constructor_type: $ => seq(
+      'new',
+      optional($.type_parameters),
+      $.formal_parameters,
+      '=>',
+      $._type
     ),
 
     _primary_type: $ => choice(
