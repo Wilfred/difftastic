@@ -491,9 +491,6 @@ module.exports = grammar({
       '}'
     )),
 
-    // let x : ({a: b});
-    // let x : ({a: b}: SomeT) => any;
-
     _property_definition_list: $ => commaSep1Trailing($._property_definition_list, choice(
       $.pair,
       $.method_definition,
