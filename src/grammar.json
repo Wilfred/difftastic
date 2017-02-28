@@ -4484,8 +4484,29 @@
         {
           "type": "SYMBOL",
           "name": "tuple_type"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "flow_maybe_type"
         }
       ]
+    },
+    "flow_maybe_type": {
+      "type": "PREC_RIGHT",
+      "value": 0,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "?"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_primary_type"
+          }
+        ]
+      }
     },
     "parenthesized_type": {
       "type": "SEQ",
