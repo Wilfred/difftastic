@@ -1,6 +1,7 @@
 const PREC = {
   union: 2,
-  intersection: 2
+  intersection: 2,
+  declaration: 1
 };
 
 module.exports = grammar(require('tree-sitter-javascript/grammar'), {
@@ -93,7 +94,26 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       $.statement_block
     ),
 
+    // A function, generator, class, or variable declaration
+    _declaration: ($, previous) => prec(PREC.declaration, choice(
+      $.function,
+      $.generator_function,
+      $.class,
+      $.variable_declaration,
+      $.type_alias_declaration
+    )),
+
+
     // Additions
+
+    type_alias_declaration: $ => seq(
+      'type',
+      $.identifier,
+      optional($.type_parameters),
+      '=',
+      $._type,
+      terminator()
+    ),
 
     _accessibility_modifier: $ => choice(
       'public',

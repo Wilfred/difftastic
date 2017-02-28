@@ -124,3 +124,38 @@ import typeof {jimiguitar as GuitarT} from "./User.js";
   (import_statement
     (import_clause
       (named_imports (import_specifier (identifier) (identifier)))) (string)))
+
+=======================================
+Type alias declarations
+=======================================
+
+type FileMergeData = {
+  document: Doc,
+  headDocument: Doc,
+  baseDocument: Doc,
+  conflicts: ConflictInfo[]
+}
+
+type ConflictInfo = {
+  start?: LineHandle,
+  middle?: LineHandle,
+  end?: LineHandle
+}
+
+---
+
+(program
+  (type_alias_declaration
+    (identifier)
+    (object_type
+      (property_signature (identifier) (type_annotation (identifier)))
+      (property_signature (identifier) (type_annotation (identifier)))
+      (property_signature (identifier) (type_annotation (identifier)))
+      (property_signature (identifier) (type_annotation (array_type (identifier))))))
+
+  (type_alias_declaration
+    (identifier)
+    (object_type
+      (property_signature (identifier) (type_annotation (identifier)))
+      (property_signature (identifier) (type_annotation (identifier)))
+      (property_signature (identifier) (type_annotation (identifier))))))

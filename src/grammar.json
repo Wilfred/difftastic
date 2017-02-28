@@ -287,6 +287,10 @@
           {
             "type": "SYMBOL",
             "name": "variable_declaration"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "type_alias_declaration"
           }
         ]
       }
@@ -4119,6 +4123,52 @@
     "_line_break": {
       "type": "STRING",
       "value": "\n"
+    },
+    "type_alias_declaration": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "type"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "identifier"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "type_parameters"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": "="
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_type"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": ";"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_line_break"
+            }
+          ]
+        }
+      ]
     },
     "_accessibility_modifier": {
       "type": "CHOICE",
