@@ -154,10 +154,13 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       type_reference($),
       $.object_type,
       $.array_type,
-      $.tuple_type
+      $.tuple_type,
+      $.flow_maybe_type
       // $.type_query,
       // $.this_type
     ),
+
+    flow_maybe_type: $ => prec.right(seq( '?', $._primary_type )),
 
     parenthesized_type: $ => seq(
       '(', $._type, ')'

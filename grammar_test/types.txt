@@ -90,3 +90,20 @@ const range = (document: any).selection.createRange()
     (member_access (identifier) (type_annotation (predefined_type)) (identifier))
     (identifier))
   (arguments)))))
+
+=======================================
+Flow Maybe Types
+=======================================
+
+const editor: ?CodeEditor
+const miscArray: ?T[]
+
+---
+
+(program
+  (variable_declaration (variable_declarator
+    (identifier)
+    (type_annotation (flow_maybe_type (identifier)))))
+  (variable_declaration (variable_declarator
+    (identifier)
+    (type_annotation (flow_maybe_type (array_type (identifier)))))))
