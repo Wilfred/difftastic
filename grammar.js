@@ -46,7 +46,9 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
 
     // < Type >
     //       ^ jsx_opening_element or type_parameter?
-    [$.jsx_opening_element, $.type_parameter]
+    [$.jsx_opening_element, $.type_parameter],
+
+    [$.this_type, $.this_expression]
   ]),
   rules: {
 
@@ -235,10 +237,15 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       $.object_type,
       $.array_type,
       $.tuple_type,
-      $.flow_maybe_type
+      $.flow_maybe_type,
       // $.type_query,
-      // $.this_type
+      $.this_type,
+      $.existential_type
     ),
+
+    existential_type: $ => '*',
+
+    this_type: $ => 'this',
 
     flow_maybe_type: $ => prec.right(seq( '?', $._primary_type )),
 

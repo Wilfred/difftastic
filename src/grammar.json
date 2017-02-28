@@ -4849,8 +4849,24 @@
         {
           "type": "SYMBOL",
           "name": "flow_maybe_type"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "this_type"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "existential_type"
         }
       ]
+    },
+    "existential_type": {
+      "type": "STRING",
+      "value": "*"
+    },
+    "this_type": {
+      "type": "STRING",
+      "value": "this"
     },
     "flow_maybe_type": {
       "type": "PREC_RIGHT",
@@ -5620,6 +5636,10 @@
     [
       "jsx_opening_element",
       "type_parameter"
+    ],
+    [
+      "this_type",
+      "this_expression"
     ]
   ],
   "externals": []
