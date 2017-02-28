@@ -50,13 +50,27 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
     // Override import and export to support Flow 'import type' statements
     import_statement: ($, previous) => seq(
       'import',
-      optional('type'),
+      optional(choice('type', 'typeof')),
       choice(
         seq($.import_clause, $._from_clause),
         $.string
       ),
       terminator()
     ),
+
+    export_statement: $ => seq(
+      'export',
+      optional('type'),
+      choice(
+        seq('*', $._from_clause, terminator()),
+        seq($.export_clause, $._from_clause, terminator()),
+        seq($.export_clause, terminator()),
+        seq($._declaration),
+        seq('default', $.anonymous_class),
+        seq('default', $._expression, terminator()))
+    ),
+
+
 
     variable_declarator: ($, previous) => seq(
       pattern($),

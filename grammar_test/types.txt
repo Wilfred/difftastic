@@ -112,12 +112,16 @@ const miscArray: ?T[]
 Flow Import Types
 =======================================
 
-import {UserID, User} from "./User.js";
+import type {UserID, User} from "./User.js";
+import typeof {jimiguitar as GuitarT} from "./User.js";
 
 ---
 
 (program
   (import_statement
     (import_clause
-      (named_imports (import_specifier (identifier)) (import_specifier (identifier)))) (string)))
+      (named_imports (import_specifier (identifier)) (import_specifier (identifier)))) (string))
+  (import_statement
+    (import_clause
+      (named_imports (import_specifier (identifier) (identifier)))) (string)))
 
