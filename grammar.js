@@ -100,11 +100,36 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       $.generator_function,
       $.class,
       $.variable_declaration,
-      $.type_alias_declaration
+      $.type_alias_declaration,
+      $.enum_declaration
     )),
 
 
     // Additions
+
+    enum_declaration: $ => seq(
+      optional('const'),
+      'enum',
+      $.identifier,
+      '{',
+      optional($._enum_body),
+      '}'
+    ),
+
+    _enum_body: $ => seq(
+      seq(sepBy1(',', $._enum_member), optional(','))
+    ),
+
+    _enum_member: $ => choice(
+      // TODO this should be a PropertyName
+      $.identifier,
+      $.enum_assignment
+    ),
+
+    enum_assignment: $ => seq(
+      $.identifier,
+      $._initializer
+    ),
 
     type_alias_declaration: $ => seq(
       'type',
