@@ -786,7 +786,6 @@ module.exports = grammar({
         seq(decimal_integer_literal, optional(exponent_part))
       )
 
-
       return token(choice(
         hex_literal,
         decimal_literal,
