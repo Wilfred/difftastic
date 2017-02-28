@@ -203,3 +203,43 @@ enum Style {
     (enum_assignment (identifier) (number))
     (enum_assignment (identifier) (bitwise_op (identifier) (identifier)))
     (enum_assignment (identifier) (bitwise_op (identifier) (identifier)))))
+
+=======================================
+Interface declarations
+=======================================
+
+interface A { a: string; }
+
+interface B extends A { b: string; }
+
+interface Friend {
+    name: string;
+    favoriteColor?: string;
+}
+
+interface G<T, U extends B> {
+    x: T;
+    y: U;
+}
+
+---
+
+(program
+  (interface_declaration
+    (identifier)
+    (object_type (property_signature (identifier) (type_annotation (predefined_type)))))
+  (interface_declaration
+    (identifier)
+    (interface_extends_clause (identifier))
+    (object_type (property_signature (identifier) (type_annotation (predefined_type)))))
+  (interface_declaration
+    (identifier)
+    (object_type
+      (property_signature (identifier) (type_annotation (predefined_type)))
+      (property_signature (identifier) (type_annotation (predefined_type)))))
+  (interface_declaration
+    (identifier)
+    (type_parameters (type_parameter (identifier)) (type_parameter (identifier) (constraint (identifier))))
+    (object_type
+      (property_signature (identifier) (type_annotation (identifier)))
+      (property_signature (identifier) (type_annotation (identifier))))))

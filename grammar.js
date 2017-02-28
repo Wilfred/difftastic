@@ -42,7 +42,11 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
 
     [$._expression, $.property_signature, $._property_definition_list],
 
-    [$.property_signature, $._property_definition_list]
+    [$.property_signature, $._property_definition_list],
+
+    // < Type >
+    //       ^ jsx_opening_element or type_parameter?
+    [$.jsx_opening_element, $.type_parameter]
   ]),
   rules: {
 
@@ -101,11 +105,25 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       $.class,
       $.variable_declaration,
       $.type_alias_declaration,
-      $.enum_declaration
+      $.enum_declaration,
+      $.interface_declaration
     )),
 
 
     // Additions
+
+    interface_declaration: $ => seq(
+      'interface',
+      $.identifier,
+      optional($.type_parameters),
+      optional($.interface_extends_clause),
+      $.object_type
+    ),
+
+    interface_extends_clause: $ => seq(
+      'extends',
+      sepBy1(',', type_reference($))
+    ),
 
     enum_declaration: $ => seq(
       optional('const'),
@@ -263,7 +281,16 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
     ),
 
     type_parameters: $ => seq(
-      '<', commaSep1($.identifier), '>'
+      '<', commaSep1($.type_parameter), '>'
+    ),
+
+    type_parameter: $ => seq(
+      $.identifier,
+      optional($.constraint)
+    ),
+
+    constraint: $ => seq(
+      'extends', $._type
     ),
 
     construct_signature: $ => seq(
