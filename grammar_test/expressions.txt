@@ -851,3 +851,16 @@ h = <i>{...j}</i>
       (jsx_opening_element (identifier))
       (jsx_expression (spread_element (identifier)))
       (jsx_closing_element (identifier))))))
+
+
+==============================================
+Expressions within rest elements
+==============================================
+
+foo(...rest)
+
+---
+
+(program
+  (expression_statement
+    (function_call (identifier) (arguments (identifier)))))

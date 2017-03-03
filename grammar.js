@@ -809,7 +809,7 @@ module.exports = grammar({
 
     arguments: $ => prec(PREC.CALL, seq(
       '(',
-      commaSep($._expression),
+      commaSep(choice($._expression, seq('...', $._expression))),
       ')'
     )),
 
