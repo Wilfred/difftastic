@@ -14,7 +14,7 @@
   },
   "devDependencies": {
     "tree-sitter-cli": "^0.4.0",
-    "tree-sitter-javascript": "tree-sitter/tree-sitter-javascript"
+    "tree-sitter-javascript": "tree-sitter/tree-sitter-javascript#add-lexical-declaration"
   },
   "scripts": {
     "test": "tree-sitter test"
