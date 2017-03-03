@@ -108,6 +108,10 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       $.interface_declaration
     )),
 
+    class_heritage: ($, previous) => choice(
+      $.extends_clause,
+      $.implements_clause
+    ),
 
     // Additions
 
