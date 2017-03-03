@@ -65,13 +65,9 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       terminator()
     ),
 
-    variable_declarator: ($, previous) => seq(
-      pattern($),
-      optional($.type_annotation),
-      optional(seq(
-        '=',
-        $._expression
-      ))
+    variable_declarator: ($, previous) => choice(
+      seq($.identifier, optional($.type_annotation), optional($._initializer)),
+      seq($.assignment_pattern, optional($.type_annotation), $._initializer)
     ),
 
     _paren_expression: ($, previous) => seq(
