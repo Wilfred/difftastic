@@ -30,10 +30,6 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
     // parenthesized_type starting with object type or function type starting with a destructuring pattern?
     [$._expression, $._primary_type],
 
-    [$._expression, $._primary_type, $.qualified_type_name],
-
-    [$._expression, $.qualified_type_name],
-
     [$._expression, $.required_parameter, $._primary_type],
 
     [$._expression, $.property_signature],
@@ -49,7 +45,10 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
     [$.jsx_opening_element, $.type_parameter],
 
     [$.this_type, $.this_expression],
-    [$._type, $.array_type]
+
+    [$.required_parameter, $.type_reference],
+    [$._expression, $.required_parameter, $.type_reference],
+    [$._expression, $.type_reference]
   ]),
   rules: {
 
@@ -125,7 +124,7 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
 
     interface_extends_clause: $ => seq(
       'extends',
-      sepBy1(',', type_reference($))
+      sepBy1(',', $.type_reference)
     ),
 
     enum_declaration: $ => seq(
@@ -234,7 +233,7 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
     _primary_type: $ => choice(
       $.parenthesized_type,
       $.predefined_type,
-      type_reference($),
+      $.type_reference,
       $.object_type,
       $.array_type,
       $.tuple_type,
@@ -267,8 +266,9 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       '<', commaSep1($._type), '>'
     ),
 
-    qualified_type_name: $ => choice(
-      seq(type_reference($), '.', $.identifier)
+    type_reference: $ => seq(
+      sepBy1('.', $.identifier),
+      optional($.type_arguments)
     ),
 
     object_type: $ => seq(
@@ -368,13 +368,6 @@ function sepBy (sep, rule) {
 
 function pattern ($) {
   return choice($.identifier, $.assignment_pattern)
-}
-
-function type_reference($) {
-    return seq(
-      choice($.identifier, $.qualified_type_name),
-      optional($.type_arguments)
-    )
 }
 
 function terminator () {
