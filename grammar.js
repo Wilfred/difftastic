@@ -48,7 +48,9 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
 
     [$.required_parameter, $.type_reference],
     [$._expression, $.required_parameter, $.type_reference],
-    [$._expression, $.type_reference]
+    [$._expression, $.type_reference],
+
+    [$.ambient_binding, $.variable_declarator]
   ]),
   rules: {
 
@@ -160,7 +162,7 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
     _ambient_class_body_element: $ => choice(
       $.ambient_constructor,
       $.ambient_property_member,
-      $.index_signature
+      seq($.index_signature, terminator())
     ),
 
     ambient_constructor: $ => seq(
