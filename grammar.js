@@ -102,6 +102,7 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       $.generator_function,
       $.class,
       $.variable_declaration,
+      $.lexical_declaration,
       $.type_alias_declaration,
       $.enum_declaration,
       $.interface_declaration
