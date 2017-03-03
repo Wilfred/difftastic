@@ -4235,17 +4235,8 @@
                         "name": "_expression"
                       },
                       {
-                        "type": "SEQ",
-                        "members": [
-                          {
-                            "type": "STRING",
-                            "value": "..."
-                          },
-                          {
-                            "type": "SYMBOL",
-                            "name": "_expression"
-                          }
-                        ]
+                        "type": "SYMBOL",
+                        "name": "rest_argument"
                       }
                     ]
                   },
@@ -4266,17 +4257,8 @@
                               "name": "_expression"
                             },
                             {
-                              "type": "SEQ",
-                              "members": [
-                                {
-                                  "type": "STRING",
-                                  "value": "..."
-                                },
-                                {
-                                  "type": "SYMBOL",
-                                  "name": "_expression"
-                                }
-                              ]
+                              "type": "SYMBOL",
+                              "name": "rest_argument"
                             }
                           ]
                         }
@@ -4296,6 +4278,19 @@
           }
         ]
       }
+    },
+    "rest_argument": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "..."
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_expression"
+        }
+      ]
     },
     "class_body": {
       "type": "SEQ",

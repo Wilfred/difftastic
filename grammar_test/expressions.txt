@@ -854,7 +854,7 @@ h = <i>{...j}</i>
 
 
 ==============================================
-Expressions within rest elements
+Expressions with rest elements
 ==============================================
 
 foo(...rest)
@@ -863,4 +863,4 @@ foo(...rest)
 
 (program
   (expression_statement
-    (function_call (identifier) (arguments (identifier)))))
+    (function_call (identifier) (arguments (rest_argument (identifier))))))
