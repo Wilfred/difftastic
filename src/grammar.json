@@ -4866,10 +4866,6 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "ambient_constructor"
-        },
-        {
-          "type": "SYMBOL",
           "name": "ambient_property_member"
         },
         {
@@ -4891,32 +4887,6 @@
                   "name": "_line_break"
                 }
               ]
-            }
-          ]
-        }
-      ]
-    },
-    "ambient_constructor": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "constructor"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "formal_parameters"
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "STRING",
-              "value": ";"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "_line_break"
             }
           ]
         }

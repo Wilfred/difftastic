@@ -2,6 +2,10 @@
 Ambient declarations
 ================================
 
+declare class Error {
+  constructor: Function
+}
+
 declare var foo: number;
 
 declare function greet(greeting: string): void;
@@ -30,6 +34,11 @@ declare class Greeter {
 ---
 
 (program
+  (ambient_declaration
+    (ambient_class
+      (identifier)
+      (ambient_class_body
+        (ambient_property_member (identifier) (type_annotation (type_reference (identifier)))))))
   (ambient_declaration
     (ambient_variable (ambient_binding (identifier) (type_annotation (predefined_type)))))
   (ambient_declaration
@@ -68,8 +77,8 @@ declare class Greeter {
     (ambient_class
       (identifier)
       (ambient_class_body
-        (ambient_constructor
-          (formal_parameters (required_parameter (identifier) (type_annotation (predefined_type)))))
+        (ambient_property_member
+          (identifier) (call_signature (formal_parameters (required_parameter (identifier) (type_annotation (predefined_type))))))
         (ambient_property_member (identifier) (type_annotation (predefined_type)))
         (ambient_property_member (identifier) (call_signature (formal_parameters) (type_annotation (predefined_type))))))))
 

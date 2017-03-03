@@ -160,13 +160,8 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
     ambient_class_body: $ => repeat1($._ambient_class_body_element),
 
     _ambient_class_body_element: $ => choice(
-      $.ambient_constructor,
       $.ambient_property_member,
       seq($.index_signature, terminator())
-    ),
-
-    ambient_constructor: $ => seq(
-      'constructor', $.formal_parameters, terminator()
     ),
 
     ambient_property_member: $ => seq(
