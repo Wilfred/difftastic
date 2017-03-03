@@ -119,11 +119,11 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       'interface',
       $.identifier,
       optional($.type_parameters),
-      optional($.interface_extends_clause),
+      optional($.extends_clause),
       $.object_type
     ),
 
-    interface_extends_clause: $ => seq(
+    extends_clause: $ => seq(
       'extends',
       sepBy1(',', $.type_reference)
     ),
