@@ -87,7 +87,8 @@ module.exports = grammar({
       $.function,
       $.generator_function,
       $.class,
-      $.lexical_declaration
+      $.lexical_declaration,
+      $.variable_declaration
     )),
 
     //
@@ -139,7 +140,6 @@ module.exports = grammar({
       $._declaration,
       $.statement_block,
 
-      $.variable_statement,
       $.if_statement,
       $.switch_statement,
       $.for_statement,
@@ -188,7 +188,7 @@ module.exports = grammar({
       choice($._expression, $.comma_op)
     ),
 
-    variable_statement: $ => seq(
+    variable_declaration: $ => seq(
       'var',
       commaSep1($.variable_declarator),
       terminator()
@@ -196,11 +196,11 @@ module.exports = grammar({
 
     lexical_declaration: $ => seq(
       letOrConst(),
-      commaSep1($.lexical_binding),
+      commaSep1($.variable_declarator),
       terminator()
     ),
 
-    lexical_binding: $ => choice(
+    variable_declarator: $ => choice(
       seq($.identifier, optional($._initializer)),
       seq($.assignment_pattern, $._initializer)
     ),
@@ -208,14 +208,6 @@ module.exports = grammar({
     trailing_variable_statement: $ => seq(
       'var',
       commaSep1($.variable_declarator)
-    ),
-
-    variable_declarator: $ => seq(
-      pattern($),
-      optional(seq(
-        '=',
-        $._expression
-      ))
     ),
 
     statement_block: $ => seq(
@@ -256,7 +248,7 @@ module.exports = grammar({
 
     _for_declaration: $ => choice(
       $.lexical_declaration,
-      $.variable_statement
+      $.variable_declaration
     ),
 
     for_statement: $ => seq(
@@ -837,10 +829,9 @@ module.exports = grammar({
       repeat(seq(
         optional('static'),
         choice(
-          $.method_definition,
-          $._public_field_definition
-        ),
-        optional(';')
+          seq($.method_definition, optional(';')),
+          seq($._public_field_definition, terminator())
+        )
       )),
       '}'
     ),
