@@ -275,3 +275,42 @@ let x: Array<*>
   (lexical_declaration (variable_declarator
     (identifier)
     (type_annotation (type_reference (identifier) (type_arguments (existential_type)))))))
+
+=======================================
+Flow Union types
+=======================================
+
+type U = number | string;
+
+---
+
+(program
+  (type_alias_declaration (identifier) (union_type (predefined_type) (predefined_type))))
+
+=======================================
+Flow Intersection types
+=======================================
+
+type BrowserStats$ResourceTiming = number & string;
+
+---
+
+(program (type_alias_declaration (identifier) (intersection_type (predefined_type) (predefined_type))))
+
+=======================================
+Flow exact object types
+=======================================
+
+type BrowserStats = {|
+  url: string,
+  ms: number
+|}
+
+---
+
+(program
+  (type_alias_declaration
+    (identifier)
+    (object_type
+      (property_signature (identifier) (type_annotation (predefined_type)))
+      (property_signature (identifier) (type_annotation (predefined_type))))))
