@@ -1,0 +1,84 @@
+==================================
+Ambient declarations
+================================
+
+declare class Error {
+  constructor: Function
+}
+
+declare var foo: number;
+
+declare function greet(greeting: string): void;
+
+declare namespace myLib {
+    function makeGreeting(s: string): string;
+    let numberOfGreetings: number;
+
+    interface LogOptions {
+      verbose?: boolean;
+    }
+    interface AlertOptions {
+      modal: boolean;
+      title?: string;
+      color?: string;
+    }
+}
+
+declare class Greeter {
+  constructor(greeting: string);
+
+  greeting: string;
+  showGreeting(): void;
+}
+
+---
+
+(program
+  (ambient_declaration
+    (ambient_class
+      (identifier)
+      (ambient_class_body
+        (ambient_property_member (identifier) (type_annotation (type_reference (identifier)))))))
+  (ambient_declaration
+    (ambient_variable (ambient_binding (identifier) (type_annotation (predefined_type)))))
+  (ambient_declaration
+    (ambient_function
+      (identifier)
+      (call_signature
+        (formal_parameters (required_parameter (identifier) (type_annotation (predefined_type))))
+        (type_annotation (predefined_type)))))
+
+  (ambient_declaration
+    (ambient_namespace
+      (identifier)
+      (ambient_namespace_body
+        (ambient_namespace_element
+          (ambient_function
+            (identifier)
+            (call_signature
+              (formal_parameters (required_parameter (identifier) (type_annotation (predefined_type))))
+              (type_annotation (predefined_type)))))
+        (ambient_namespace_element
+          (lexical_declaration (variable_declarator (identifier) (type_annotation (predefined_type)))))
+        (ambient_namespace_element
+          (interface_declaration
+            (identifier)
+            (object_type
+              (property_signature (identifier) (type_annotation (predefined_type))))))
+        (ambient_namespace_element
+          (interface_declaration
+            (identifier)
+            (object_type
+              (property_signature (identifier) (type_annotation (predefined_type)))
+              (property_signature (identifier) (type_annotation (predefined_type)))
+              (property_signature (identifier) (type_annotation (predefined_type)))))))))
+
+  (ambient_declaration
+    (ambient_class
+      (identifier)
+      (ambient_class_body
+        (ambient_property_member
+          (identifier) (call_signature (formal_parameters (required_parameter (identifier) (type_annotation (predefined_type))))))
+        (ambient_property_member (identifier) (type_annotation (predefined_type)))
+        (ambient_property_member (identifier) (call_signature (formal_parameters) (type_annotation (predefined_type))))))))
+

@@ -28,8 +28,8 @@ function foo<T, U>(a: T[], f: (x: T) => U): U[] {
       (identifier)
       (call_signature
         (type_parameters (type_parameter (identifier)))
-        (formal_parameters (required_parameter (identifier) (type_annotation (identifier))))
-        (type_annotation (identifier)))
+        (formal_parameters (required_parameter (identifier) (type_annotation (type_reference (identifier)))))
+        (type_annotation (type_reference (identifier))))
         (statement_block)))
   (expression_statement
     (function
@@ -37,11 +37,11 @@ function foo<T, U>(a: T[], f: (x: T) => U): U[] {
       (call_signature
         (type_parameters (type_parameter (identifier)) (type_parameter (identifier)))
         (formal_parameters
-          (required_parameter (identifier) (type_annotation (array_type (identifier))))
+          (required_parameter (identifier) (type_annotation (array_type (type_reference (identifier)))))
           (required_parameter
             (identifier)
             (type_annotation
               (function_type
-                (formal_parameters (required_parameter (identifier) (type_annotation (identifier)))) (identifier)))))
-        (type_annotation (array_type (identifier))))
+                (formal_parameters (required_parameter (identifier) (type_annotation (type_reference (identifier))))) (type_reference (identifier))))))
+        (type_annotation (array_type (type_reference (identifier)))))
       (statement_block))))
