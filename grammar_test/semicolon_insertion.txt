@@ -125,7 +125,7 @@ if (p) { var q }
       (statement_block (expression_statement (identifier)))
       (identifier))))
   (if_statement (identifier) (statement_block
-    (trailing_variable_declaration (variable_declarator (identifier))))))
+    (trailing_variable_statement (variable_declarator (identifier))))))
 
 =====================================================
 Single-line declarations without semicolons

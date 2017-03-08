@@ -87,6 +87,7 @@ module.exports = grammar({
       $.function,
       $.generator_function,
       $.class,
+      $.lexical_declaration,
       $.variable_declaration
     )),
 
@@ -170,7 +171,7 @@ module.exports = grammar({
       $.trailing_for_of_statement,
       $.trailing_while_statement,
       $.trailing_do_statement,
-      $.trailing_variable_declaration
+      $.trailing_variable_statement
     ),
 
     expression_statement: $ => seq(
@@ -188,22 +189,25 @@ module.exports = grammar({
     ),
 
     variable_declaration: $ => seq(
-      variableType(),
+      'var',
       commaSep1($.variable_declarator),
       terminator()
     ),
 
-    trailing_variable_declaration: $ => seq(
-      variableType(),
-      commaSep1($.variable_declarator)
+    lexical_declaration: $ => seq(
+      letOrConst(),
+      commaSep1($.variable_declarator),
+      terminator()
     ),
 
-    variable_declarator: $ => seq(
-      pattern($),
-      optional(seq(
-        '=',
-        $._expression
-      ))
+    variable_declarator: $ => choice(
+      seq($.identifier, optional($._initializer)),
+      seq($.assignment_pattern, $._initializer)
+    ),
+
+    trailing_variable_statement: $ => seq(
+      'var',
+      commaSep1($.variable_declarator)
     ),
 
     statement_block: $ => seq(
@@ -242,11 +246,16 @@ module.exports = grammar({
       '{', repeat(choice($.case, $.default)), '}'
     ),
 
+    _for_declaration: $ => choice(
+      $.lexical_declaration,
+      $.variable_declaration
+    ),
+
     for_statement: $ => seq(
       'for',
       '(',
       choice(
-        $.variable_declaration,
+        $._for_declaration,
         seq(commaSep1($._expression), ';'),
         ';'
       ),
@@ -260,7 +269,7 @@ module.exports = grammar({
       'for',
       '(',
       choice(
-        $.variable_declaration,
+        $._for_declaration,
         seq(commaSep1($._expression), ';'),
         ';'
       ),
@@ -575,9 +584,11 @@ module.exports = grammar({
 
     // The superclass and body of a class.
     _class_tail: $ => seq(
-      optional(seq('extends', $._expression)),
+      optional($.class_heritage),
       $.class_body
     ),
+
+    class_heritage: $ => seq('extends', $._expression),
 
     function: $ => seq(
       optional('async'),
@@ -818,10 +829,9 @@ module.exports = grammar({
       repeat(seq(
         optional('static'),
         choice(
-          $.method_definition,
-          $._public_field_definition
-        ),
-        optional(';')
+          seq($.method_definition, optional(';')),
+          seq($._public_field_definition, terminator())
+        )
       )),
       '}'
     ),
@@ -873,6 +883,10 @@ function terminator () {
 
 function variableType () {
   return choice('var', 'let', 'const');
+}
+
+function letOrConst () {
+  return choice('let', 'const');
 }
 
 function pattern ($) {
