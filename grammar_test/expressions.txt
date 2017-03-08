@@ -260,7 +260,7 @@ class Foo extends require('another-class') {
   (expression_statement
     (class
       (identifier)
-      (function_call (identifier) (arguments (string)))
+      (class_heritage (function_call (identifier) (arguments (string))))
       (class_body
         (method_definition
           (identifier)
