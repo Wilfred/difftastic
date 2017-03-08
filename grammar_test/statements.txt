@@ -57,12 +57,12 @@ export { import1 as name1, import2 as name2, nameN } from 'foo';
   (export_statement
     (export_clause (export_specifier (identifier) (identifier)) (export_specifier (identifier) (identifier)) (export_specifier (identifier))))
   (export_statement
-    (variable_declaration
+    (lexical_declaration
       (variable_declarator (identifier))
       (variable_declarator (identifier))
       (variable_declarator (identifier))))
   (export_statement
-    (variable_declaration
+    (lexical_declaration
       (variable_declarator (identifier) (identifier))
       (variable_declarator (identifier) (identifier))
       (variable_declarator (identifier))
@@ -369,14 +369,14 @@ const d = 1
 
 (program
   (comment)
-  (variable_declaration
+  (lexical_declaration
     (variable_declarator (identifier) (number)))
    (comment)
-   (variable_declaration (variable_declarator (identifier) (number)))
+   (lexical_declaration (variable_declarator (identifier) (number)))
    (comment)
-   (variable_declaration (variable_declarator (identifier) (number)))
+   (lexical_declaration (variable_declarator (identifier) (number)))
    (comment)
-   (variable_declaration (variable_declarator (identifier) (number))))
+   (lexical_declaration (variable_declarator (identifier) (number))))
 
 ==========================================
 Comments within expressions
