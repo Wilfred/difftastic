@@ -314,3 +314,23 @@ type BrowserStats = {|
     (object_type
       (property_signature (identifier) (type_annotation (predefined_type)))
       (property_signature (identifier) (type_annotation (predefined_type))))))
+
+
+=======================================
+Literal types
+=======================================
+
+let x: 2
+let x: 2 | 3 | 4
+let x: "string"
+let x: false
+
+---
+
+(program
+  (lexical_declaration
+    (variable_declarator (identifier) (type_annotation (literal_type (number)))))
+  (lexical_declaration
+    (variable_declarator (identifier) (type_annotation (union_type (union_type (literal_type (number)) (literal_type (number))) (literal_type (number))))))
+  (lexical_declaration
+    (variable_declarator (identifier) (type_annotation (literal_type (string))))) (lexical_declaration (variable_declarator (identifier) (type_annotation (literal_type (false))))))

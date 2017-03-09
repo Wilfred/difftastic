@@ -14,14 +14,13 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
     [$.required_parameter, $._expression],
     [$.required_parameter, $._primary_type],
 
-    // ( foo ) =>
-    // ( foo )
-    //   ^-- parenthesized expression or arrow function?
-    [$._expression, $.required_parameter, $.required_string_parameter],
-
     // ( foo ? )
-    //       ^-- ternary or optional parameter?
-    [$._expression, $.optional_parameter, $.optional_string_parameter],
+    //       ^ expression or optional parameter?
+    [$._expression, $.optional_parameter],
+
+    // foo: "string"
+    //      ^ expression or literal type?
+    [$._expression, $.literal_type],
 
     [$.method_signature, $.method_definition, $._expression],
 
@@ -282,9 +281,7 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
     _parameter: $ => choice(
       $.required_parameter,
       $.rest_parameter,
-      $.optional_parameter,
-      $.required_string_parameter,
-      $.optional_string_parameter
+      $.optional_parameter
     ),
 
     required_parameter: $ => choice(
@@ -299,8 +296,6 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
         $._initializer)
     ),
 
-    required_string_parameter: $ => seq($.identifier, ':', $.string),
-
     optional_parameter: $ => choice(
       seq(
         optional($._accessibility_modifier),
@@ -314,8 +309,6 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
         optional($.type_annotation),
         $._initializer)
     ),
-
-    optional_string_parameter: $ => seq($.identifier, '?', ':', $.string),
 
     rest_parameter: $ => seq(
       '...',
@@ -353,8 +346,11 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       $.flow_maybe_type,
       // $.type_query,
       $.this_type,
-      $.existential_type
+      $.existential_type,
+      $.literal_type
     ),
+
+    literal_type: $ => choice($.number, $.string, $.true, $.false),
 
     existential_type: $ => '*',
 

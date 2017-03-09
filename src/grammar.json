@@ -5493,14 +5493,6 @@
         {
           "type": "SYMBOL",
           "name": "optional_parameter"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "required_string_parameter"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "optional_string_parameter"
         }
       ]
     },
@@ -5594,23 +5586,6 @@
               "name": "_initializer"
             }
           ]
-        }
-      ]
-    },
-    "required_string_parameter": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "identifier"
-        },
-        {
-          "type": "STRING",
-          "value": ":"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "string"
         }
       ]
     },
@@ -5712,27 +5687,6 @@
               "name": "_initializer"
             }
           ]
-        }
-      ]
-    },
-    "optional_string_parameter": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "identifier"
-        },
-        {
-          "type": "STRING",
-          "value": "?"
-        },
-        {
-          "type": "STRING",
-          "value": ":"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "string"
         }
       ]
     },
@@ -5870,6 +5824,31 @@
         {
           "type": "SYMBOL",
           "name": "existential_type"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "literal_type"
+        }
+      ]
+    },
+    "literal_type": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "number"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "string"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "true"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "false"
         }
       ]
     },
@@ -6604,13 +6583,11 @@
     ],
     [
       "_expression",
-      "required_parameter",
-      "required_string_parameter"
+      "optional_parameter"
     ],
     [
       "_expression",
-      "optional_parameter",
-      "optional_string_parameter"
+      "literal_type"
     ],
     [
       "method_signature",
