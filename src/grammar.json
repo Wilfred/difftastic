@@ -209,7 +209,7 @@
             },
             {
               "type": "SYMBOL",
-              "name": "identifier"
+              "name": "_expression"
             },
             {
               "type": "CHOICE",
@@ -6673,6 +6673,14 @@
     [
       "ambient_binding",
       "variable_declarator"
+    ],
+    [
+      "variable_declarator",
+      "ambient_property_member"
+    ],
+    [
+      "ambient_class",
+      "class_body"
     ]
   ],
   "externals": []
