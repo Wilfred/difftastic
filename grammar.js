@@ -50,7 +50,10 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
     [$._expression, $.required_parameter, $.type_reference],
     [$._expression, $.type_reference],
 
-    [$.ambient_binding, $.variable_declarator]
+    [$.ambient_binding, $.variable_declarator],
+
+    [$.variable_declarator, $.ambient_property_member],
+    [$.ambient_class, $.class_body]
   ]),
   rules: {
 
@@ -65,6 +68,17 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
         $.string
       ),
       terminator()
+    ),
+
+    export_statement: ($, previous) => choice(
+      seq('export', '*', $._from_clause, terminator()),
+      seq('export', $.export_clause, $._from_clause, terminator()),
+      seq('export', $.export_clause, terminator()),
+      seq('export', $._declaration),
+      seq('export', 'default', $.anonymous_class),
+      seq('export', 'default', $.ambient_class),
+      seq('export', 'default', $.ambient_function),
+      seq('export', 'default', $._expression, terminator())
     ),
 
     variable_declarator: ($, previous) => choice(
@@ -371,7 +385,7 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
     ),
 
     object_type: $ => seq(
-      '{', optional($._type_body), '}'
+      choice('{', '{|'), optional($._type_body), choice('}','|}')
     ),
 
     _type_body: $ => choice(
