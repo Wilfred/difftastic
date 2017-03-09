@@ -293,6 +293,7 @@ Arrays
 [ "item1" ];
 [ "item1", ];
 [ "item1", item2 ];
+[ , item2 ];
 
 ---
 
@@ -300,7 +301,8 @@ Arrays
   (expression_statement (array))
   (expression_statement (array (string)))
   (expression_statement (array (string)))
-  (expression_statement (array (string) (identifier))))
+  (expression_statement (array (string) (identifier)))
+  (expression_statement (array (identifier))))
 
 ============================================
 Functions
