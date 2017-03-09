@@ -334,3 +334,17 @@ let x: false
     (variable_declarator (identifier) (type_annotation (union_type (union_type (literal_type (number)) (literal_type (number))) (literal_type (number))))))
   (lexical_declaration
     (variable_declarator (identifier) (type_annotation (literal_type (string))))) (lexical_declaration (variable_declarator (identifier) (type_annotation (literal_type (false))))))
+
+=======================================
+Flow type parameter constraint syntax
+=======================================
+
+type HandlerFunction<T: Element> = void
+
+---
+
+(program
+  (type_alias_declaration
+    (identifier)
+    (type_parameters (type_parameter (identifier) (constraint (type_reference (identifier)))))
+  (predefined_type)))

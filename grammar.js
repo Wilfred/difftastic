@@ -415,7 +415,8 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
     ),
 
     constraint: $ => seq(
-      'extends', $._type
+      choice('extends', ':'),
+      $._type
     ),
 
     construct_signature: $ => seq(
