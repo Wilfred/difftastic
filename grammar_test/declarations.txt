@@ -82,3 +82,26 @@ declare class Greeter {
         (ambient_property_member (identifier) (type_annotation (predefined_type)))
         (ambient_property_member (identifier) (call_signature (formal_parameters) (type_annotation (predefined_type))))))))
 
+==================================
+Ambient exports
+================================
+
+export default function point(x: number, y: number) {
+    return { x, y };
+}
+
+export default class A {}
+
+---
+
+(program
+  (export_statement
+    (function
+      (identifier)
+      (call_signature
+        (formal_parameters
+          (required_parameter (identifier) (type_annotation (predefined_type)))
+          (required_parameter (identifier) (type_annotation (predefined_type)))))
+          (statement_block
+            (return_statement (object (identifier) (identifier))))))
+  (export_statement (class (identifier) (class_body))))
