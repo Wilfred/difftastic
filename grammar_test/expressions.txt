@@ -866,3 +866,15 @@ foo(...rest)
 (program
   (expression_statement
     (function_call (identifier) (arguments (rest_argument (identifier))))))
+
+==============================================
+Math expressions
+==============================================
+
+(foo - bar) / baz
+
+---
+
+(program
+  (expression_statement
+    (math_op (math_op (identifier) (identifier)) (identifier))))
