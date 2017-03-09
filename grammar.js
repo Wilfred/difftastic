@@ -565,10 +565,12 @@ module.exports = grammar({
       ))
     ),
 
-    _element_list: $ => commaSep1Trailing($._element_list, choice(
-      $._expression,
-      $.spread_element
-    )),
+    _element_list: $ => seq(
+      optional(','),
+      commaSep1Trailing($._element_list, choice(
+        $._expression,
+        $.spread_element
+      ))),
 
     // Anonymous class declarations only occur in exports
     anonymous_class: $ => choice(
