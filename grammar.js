@@ -865,7 +865,7 @@ module.exports = grammar({
 
     reserved_identifier: $ => choice('get', 'set', 'async'),
 
-    _line_break: $ => '\n'
+    _line_break: $ => choice('\n', '\r\n')
   }
 });
 
