@@ -4624,20 +4624,8 @@
       ]
     },
     "_line_break": {
-      "type": "TOKEN",
-      "content": {
-        "type": "CHOICE",
-        "members": [
-          {
-            "type": "STRING",
-            "value": "\n"
-          },
-          {
-            "type": "STRING",
-            "value": "\r\n"
-          }
-        ]
-      }
+      "type": "STRING",
+      "value": "\n"
     }
   },
   "extras": [
