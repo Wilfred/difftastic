@@ -26,7 +26,7 @@ module.exports = grammar({
   extras: $ => [
     $.comment,
     $._line_break,
-    /[ \t\r\uFEFF]/
+    /[ \t\r\uFEFF\u2060\u200B]/
   ],
 
   conflicts: $ => [
