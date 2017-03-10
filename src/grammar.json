@@ -4651,7 +4651,7 @@
     },
     {
       "type": "PATTERN",
-      "value": "[ \\t\\r]"
+      "value": "[ \\t\\r﻿]"
     }
   ],
   "conflicts": [
