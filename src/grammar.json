@@ -4747,8 +4747,20 @@
       ]
     },
     "_line_break": {
-      "type": "STRING",
-      "value": "\n"
+      "type": "TOKEN",
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "\n"
+          },
+          {
+            "type": "STRING",
+            "value": "\r\n"
+          }
+        ]
+      }
     },
     "implements_clause": {
       "type": "SEQ",

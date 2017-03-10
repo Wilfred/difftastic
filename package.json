@@ -14,7 +14,7 @@
   },
   "devDependencies": {
     "tree-sitter-cli": "^0.4.8",
-    "tree-sitter-javascript": "tree-sitter/tree-sitter-javascript"
+    "tree-sitter-javascript": "tree-sitter/tree-sitter-javascript#crlf"
   },
   "scripts": {
     "test": "tree-sitter test"
