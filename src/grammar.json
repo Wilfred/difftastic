@@ -4368,7 +4368,27 @@
       "members": [
         {
           "type": "STRING",
+          "value": "any"
+        },
+        {
+          "type": "STRING",
+          "value": "number"
+        },
+        {
+          "type": "STRING",
+          "value": "boolean"
+        },
+        {
+          "type": "STRING",
           "value": "string"
+        },
+        {
+          "type": "STRING",
+          "value": "symbol"
+        },
+        {
+          "type": "STRING",
+          "value": "void"
         },
         {
           "type": "PATTERN",
