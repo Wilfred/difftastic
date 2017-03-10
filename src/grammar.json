@@ -4364,8 +4364,17 @@
       }
     },
     "identifier": {
-      "type": "PATTERN",
-      "value": "[\\a_$][\\a\\d_$]*"
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "string"
+        },
+        {
+          "type": "PATTERN",
+          "value": "[\\a_$][\\a\\d_$]*"
+        }
+      ]
     },
     "this_expression": {
       "type": "STRING",
@@ -6606,6 +6615,10 @@
     [
       "required_parameter",
       "_primary_type"
+    ],
+    [
+      "identifier",
+      "predefined_type"
     ],
     [
       "_expression",
