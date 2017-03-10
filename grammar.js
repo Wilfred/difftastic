@@ -14,6 +14,8 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
     [$.required_parameter, $._expression],
     [$.required_parameter, $._primary_type],
 
+    [$.identifier, $.predefined_type],
+
     // ( foo ? )
     //       ^ expression or optional parameter?
     [$._expression, $.optional_parameter],
@@ -57,6 +59,16 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
   rules: {
 
     // Overrides
+
+    identifier: ($, previous) => choice(
+      'any',
+      'number',
+      'boolean',
+      'string',
+      'symbol',
+      'void',
+      previous
+    ),
 
     // Override import and export to support Flow 'import type' statements
     import_statement: ($, previous) => seq(
