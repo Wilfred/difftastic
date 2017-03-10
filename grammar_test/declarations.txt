@@ -124,3 +124,13 @@ declare class Linter {
         (ambient_property_member
           (identifier)
           (type_annotation (type_query (identifier))))))))
+
+==================================
+Export assignments
+================================
+
+export = Linter;
+
+---
+
+(program (export_statement (identifier)))
