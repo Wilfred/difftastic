@@ -4747,20 +4747,8 @@
       ]
     },
     "_line_break": {
-      "type": "TOKEN",
-      "content": {
-        "type": "CHOICE",
-        "members": [
-          {
-            "type": "STRING",
-            "value": "\n"
-          },
-          {
-            "type": "STRING",
-            "value": "\r\n"
-          }
-        ]
-      }
+      "type": "STRING",
+      "value": "\n"
     },
     "implements_clause": {
       "type": "SEQ",
@@ -6612,7 +6600,7 @@
     },
     {
       "type": "PATTERN",
-      "value": "[ \\t\\r]"
+      "value": "[ \\t\\r﻿⁠​]"
     }
   ],
   "conflicts": [
