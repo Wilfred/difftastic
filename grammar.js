@@ -54,7 +54,9 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
     [$.ambient_binding, $.variable_declarator],
 
     [$.variable_declarator, $.ambient_property_member],
-    [$.ambient_class, $.class_body]
+    [$.ambient_class, $.class_body],
+
+    [$._expression, $.type_query]
   ]),
   rules: {
 
@@ -356,10 +358,15 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       $.array_type,
       $.tuple_type,
       $.flow_maybe_type,
-      // $.type_query,
+      $.type_query,
       $.this_type,
       $.existential_type,
       $.literal_type
+    ),
+
+    type_query: $ => seq(
+      'typeof',
+      sepBy1('.', $.identifier)
     ),
 
     literal_type: $ => choice($.number, $.string, $.true, $.false),
