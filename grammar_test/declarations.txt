@@ -151,6 +151,6 @@ export interface IAppState {
       (identifier)
       (object_type
         (property_signature
-          (accessibility_modifier)
+          (readonly)
           (identifier)
           (type_annotation (type_reference (identifier) (type_arguments (type_reference (identifier))))))))))

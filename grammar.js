@@ -287,9 +287,10 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
     accessibility_modifier: $ => choice(
       'public',
       'private',
-      'protected',
-      'readonly'
+      'protected'
     ),
+
+    readonly: $ => 'readonly',
 
     _parameter: $ => choice(
       $.required_parameter,
@@ -505,6 +506,6 @@ function variableType() {
 }
 
 function propertyName($) {
-  return seq(optional($.accessibility_modifier), optional('static'), $.identifier)
+  return seq(optional($.accessibility_modifier), optional('static'), optional($.readonly), $.identifier)
 }
 
