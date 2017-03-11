@@ -193,10 +193,7 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
     ),
 
     ambient_property_member: $ => seq(
-      optional($._accessibility_modifier),
-      optional('static'),
-      // TODO: Should be property_name
-      $.identifier,
+      propertyName($),
       choice(
         optional($.type_annotation),
         $.call_signature
@@ -290,7 +287,8 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
     _accessibility_modifier: $ => choice(
       'public',
       'private',
-      'protected'
+      'protected',
+      'readonly'
     ),
 
     _parameter: $ => choice(
@@ -417,7 +415,7 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       $.method_signature
     )),
 
-    property_signature: $ => seq($.identifier, optional('?'), optional($.type_annotation)),
+    property_signature: $ => seq(propertyName($), optional('?'), optional($.type_annotation)),
 
     call_signature: $ => seq(
       optional($.type_parameters),
@@ -451,9 +449,7 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       seq('[', $.identifier, ':', 'number', ']', $.type_annotation)
     ),
 
-    method_signature: $ => seq(
-      $.identifier, optional('?'), $.call_signature
-    ),
+    method_signature: $ => seq(propertyName($), optional('?'), $.call_signature),
 
     array_type: $ => seq(
       $._primary_type, '[', ']'
@@ -507,3 +503,8 @@ function terminator () {
 function variableType() {
   return choice('var','let','const')
 }
+
+function propertyName($) {
+  return seq(optional($._accessibility_modifier), optional('static'), $.identifier)
+}
+

@@ -134,3 +134,13 @@ export = Linter;
 ---
 
 (program (export_statement (identifier)))
+
+==================================
+Property signatures with accessibility modifiers
+================================
+
+export interface IAppState {
+  readonly users: ReadonlyArray<User>
+}
+
+---
