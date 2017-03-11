@@ -140,7 +140,7 @@ Property signatures with accessibility modifiers
 ================================
 
 export interface IAppState {
-  readonly users: ReadonlyArray<User>
+  public readonly users: ReadonlyArray<User>
 }
 
 ---
@@ -151,6 +151,7 @@ export interface IAppState {
       (identifier)
       (object_type
         (property_signature
+          (accessibility_modifier)
           (readonly)
           (identifier)
           (type_annotation (type_reference (identifier) (type_arguments (type_reference (identifier))))))))))
