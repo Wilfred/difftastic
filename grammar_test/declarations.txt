@@ -144,3 +144,11 @@ export interface IAppState {
 }
 
 ---
+
+(program
+  (export_statement
+    (interface_declaration
+      (identifier)
+      (object_type
+        (property_signature
+          (identifier) (type_annotation (type_reference (identifier) (type_arguments (type_reference (identifier))))))))))
