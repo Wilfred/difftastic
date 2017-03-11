@@ -5044,7 +5044,7 @@
               "members": [
                 {
                   "type": "SYMBOL",
-                  "name": "_accessibility_modifier"
+                  "name": "accessibility_modifier"
                 },
                 {
                   "type": "BLANK"
@@ -5543,7 +5543,7 @@
         }
       ]
     },
-    "_accessibility_modifier": {
+    "accessibility_modifier": {
       "type": "CHOICE",
       "members": [
         {
@@ -5592,7 +5592,7 @@
               "members": [
                 {
                   "type": "SYMBOL",
-                  "name": "_accessibility_modifier"
+                  "name": "accessibility_modifier"
                 },
                 {
                   "type": "BLANK"
@@ -5634,7 +5634,7 @@
               "members": [
                 {
                   "type": "SYMBOL",
-                  "name": "_accessibility_modifier"
+                  "name": "accessibility_modifier"
                 },
                 {
                   "type": "BLANK"
@@ -5685,7 +5685,7 @@
               "members": [
                 {
                   "type": "SYMBOL",
-                  "name": "_accessibility_modifier"
+                  "name": "accessibility_modifier"
                 },
                 {
                   "type": "BLANK"
@@ -5731,7 +5731,7 @@
               "members": [
                 {
                   "type": "SYMBOL",
-                  "name": "_accessibility_modifier"
+                  "name": "accessibility_modifier"
                 },
                 {
                   "type": "BLANK"
@@ -6278,7 +6278,7 @@
               "members": [
                 {
                   "type": "SYMBOL",
-                  "name": "_accessibility_modifier"
+                  "name": "accessibility_modifier"
                 },
                 {
                   "type": "BLANK"
@@ -6554,7 +6554,7 @@
               "members": [
                 {
                   "type": "SYMBOL",
-                  "name": "_accessibility_modifier"
+                  "name": "accessibility_modifier"
                 },
                 {
                   "type": "BLANK"
