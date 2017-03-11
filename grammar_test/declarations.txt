@@ -35,10 +35,10 @@ declare class Greeter {
 
 (program
   (ambient_declaration
-    (ambient_class
+    (class
       (identifier)
-      (ambient_class_body
-        (ambient_property_member (identifier) (type_annotation (type_reference (identifier)))))))
+      (class_body
+        (public_field_definition (variable_declarator (identifier) (type_annotation (type_reference (identifier))))))))
   (ambient_declaration
     (ambient_variable (ambient_binding (identifier) (type_annotation (predefined_type)))))
   (ambient_declaration
@@ -74,13 +74,13 @@ declare class Greeter {
               (property_signature (identifier) (type_annotation (predefined_type)))))))))
 
   (ambient_declaration
-    (ambient_class
+    (class
       (identifier)
-      (ambient_class_body
-        (ambient_property_member
+      (class_body
+        (ambient_method_declaration
           (identifier) (call_signature (formal_parameters (required_parameter (identifier) (type_annotation (predefined_type))))))
-        (ambient_property_member (identifier) (type_annotation (predefined_type)))
-        (ambient_property_member (identifier) (call_signature (formal_parameters) (type_annotation (predefined_type))))))))
+        (public_field_definition (variable_declarator (identifier) (type_annotation (predefined_type))))
+        (ambient_method_declaration (identifier) (call_signature (formal_parameters) (type_annotation (predefined_type))))))))
 
 ==================================
 Ambient exports
@@ -118,12 +118,13 @@ declare class Linter {
 
 (program
   (ambient_declaration
-    (ambient_class
+    (class
       (identifier)
-      (ambient_class_body
-        (ambient_property_member
+      (class_body
+        (public_field_definition
+          (variable_declarator
           (identifier)
-          (type_annotation (type_query (identifier))))))))
+          (type_annotation (type_query (identifier)))))))))
 
 ==================================
 Export assignments
@@ -164,6 +165,7 @@ export class CloningRepository {
     (class
       (identifier)
       (class_body
+        (public_field_definition
         (accessibility_modifier)
         (readonly)
-        (variable_declarator (identifier) (math_op (identifier)))))))
+        (variable_declarator (identifier) (math_op (identifier))))))))

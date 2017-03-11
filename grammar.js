@@ -53,8 +53,6 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
 
     [$.ambient_binding, $.variable_declarator],
 
-    [$.variable_declarator, $.ambient_property_member],
-
     [$._expression, $.type_query]
   ]),
   rules: {
@@ -98,6 +96,13 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       seq($.assignment_pattern, optional($.type_annotation), $._initializer)
     ),
 
+
+    ambient_method_declaration: $ => seq(
+      propertyName($),
+      $.call_signature,
+      terminator()
+    ),
+
     _paren_expression: ($, previous) => seq(
       '(', choice(seq($._expression, optional($.type_annotation)), $.comma_op), ')'
     ),
@@ -121,7 +126,7 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       repeat(
         choice(
           seq($.method_definition, optional(';')),
-          $.ambient_property_member,
+          $.ambient_method_declaration,
           seq($.public_field_definition, terminator()),
           seq($.index_signature, terminator())
         )
@@ -202,15 +207,6 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       optional($.type_parameters),
       optional($.class_heritage),
       $.class_body
-    ),
-
-    ambient_property_member: $ => seq(
-      propertyName($),
-      choice(
-        optional($.type_annotation),
-        $.call_signature
-      ),
-      terminator()
     ),
 
     _ambient_enum: $ => $.enum_declaration,
