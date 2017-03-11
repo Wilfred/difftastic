@@ -143,6 +143,11 @@ export interface IAppState {
   public readonly users: ReadonlyArray<User>
 }
 
+export class CloningRepository {
+  public readonly id = CloningRepositoryID++
+}
+
+
 ---
 
 (program
@@ -154,4 +159,11 @@ export interface IAppState {
           (accessibility_modifier)
           (readonly)
           (identifier)
-          (type_annotation (type_reference (identifier) (type_arguments (type_reference (identifier))))))))))
+          (type_annotation (type_reference (identifier) (type_arguments (type_reference (identifier)))))))))
+  (export_statement
+    (class
+      (identifier)
+      (class_body
+        (accessibility_modifier)
+        (readonly)
+        (variable_declarator (identifier) (math_op (identifier)))))))

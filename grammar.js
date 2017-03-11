@@ -54,7 +54,6 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
     [$.ambient_binding, $.variable_declarator],
 
     [$.variable_declarator, $.ambient_property_member],
-    [$.ambient_class, $.class_body],
 
     [$._expression, $.type_query]
   ]),
@@ -89,7 +88,6 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       seq('export', $.export_clause, terminator()),
       seq('export', $._declaration),
       seq('export', 'default', $.anonymous_class),
-      seq('export', 'default', $.ambient_class),
       seq('export', 'default', $.ambient_function),
       seq('export', 'default', $._expression, terminator()),
       seq('export', '=', $.identifier, terminator())
@@ -118,7 +116,30 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       $.statement_block
     ),
 
+    class_body: ($, previous) => seq(
+      '{',
+      repeat(
+        choice(
+          seq($.method_definition, optional(';')),
+          $.ambient_property_member,
+          seq($.public_field_definition, terminator()),
+          seq($.index_signature, terminator())
+        )
+      ),
+      '}'
+    ),
+
+    public_field_definition: $ => seq(
+      optional($.accessibility_modifier),
+      optional('static'),
+      optional($.readonly),
+      $.variable_declarator
+    ),
+
     method_definition: $ => seq(
+      optional($.accessibility_modifier),
+      optional('static'),
+      optional($.readonly),
       optional('async'),
       optional(choice('get', 'set', '*')),
       choice($.identifier, $.reserved_identifier),
@@ -156,7 +177,7 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       choice(
         $.ambient_variable,
         $.ambient_function,
-        $.ambient_class,
+        $.class,
         $._ambient_enum,
         $.ambient_namespace
       )
@@ -175,21 +196,12 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       terminator()
     ),
 
-    ambient_class: $ => seq(
+    class: ($, previous) => seq(
       'class',
       $.identifier,
       optional($.type_parameters),
       optional($.class_heritage),
-      '{',
-      optional($.ambient_class_body),
-      '}'
-    ),
-
-    ambient_class_body: $ => repeat1($._ambient_class_body_element),
-
-    _ambient_class_body_element: $ => choice(
-      $.ambient_property_member,
-      seq($.index_signature, terminator())
+      $.class_body
     ),
 
     ambient_property_member: $ => seq(
@@ -215,7 +227,7 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
         $.ambient_variable,
         $.lexical_declaration,
         $.ambient_function,
-        $.ambient_class,
+        $.class,
         $.interface_declaration,
         $._ambient_enum,
         $.ambient_namespace,
