@@ -45,7 +45,7 @@ module.exports = grammar({
     // ( {foo} )
     // ( [foo] )
     //    ^-- destructured arrow function parameters or parenthesized expression?
-    [$.assignment_pattern, $._expression],
+    [$.destructuring_pattern, $._expression],
 
     // { key ,
     //    ^--- shorthand object property or comma expression in block?
@@ -206,7 +206,7 @@ module.exports = grammar({
 
     variable_declarator: $ => choice(
       seq($.identifier, optional($._initializer)),
-      seq($.assignment_pattern, $._initializer)
+      seq($.destructuring_pattern, $._initializer)
     ),
 
     trailing_variable_statement: $ => seq(
@@ -680,7 +680,7 @@ module.exports = grammar({
       $._expression
     )),
 
-    assignment_pattern: $ => choice(
+    destructuring_pattern: $ => choice(
       $.object,
       $.array
     ),
@@ -904,5 +904,5 @@ function letOrConst () {
 }
 
 function pattern ($) {
-  return choice($.identifier, $.assignment_pattern)
+  return choice($.identifier, $.destructuring_pattern)
 }
