@@ -189,3 +189,14 @@ declare type IndexableType = string | number | Date | Array<string | number | Da
             (type_reference
               (identifier)
               (type_arguments (union_type (union_type (predefined_type) (predefined_type)) (type_reference (identifier)))))))))
+
+==================================
+Ambient module declarations
+================================
+
+declare module Dexie {
+}
+
+---
+
+(program (ambient_declaration (module (identifier))))

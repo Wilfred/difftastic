@@ -241,6 +241,12 @@ interface G<T, U extends B> {
     y: U;
 }
 
+interface X {
+  hook: {
+  }
+  get(key: Key): Promise<T>;
+}
+
 ---
 
 (program
@@ -261,7 +267,18 @@ interface G<T, U extends B> {
     (type_parameters (type_parameter (identifier)) (type_parameter (identifier) (constraint (type_reference (identifier)))))
     (object_type
       (property_signature (identifier) (type_annotation (type_reference (identifier))))
-      (property_signature (identifier) (type_annotation (type_reference (identifier)))))))
+      (property_signature (identifier) (type_annotation (type_reference (identifier))))))
+  (interface_declaration
+    (identifier)
+    (object_type
+      (property_signature (identifier) (type_annotation (object_type)))
+      (method_signature
+        (identifier)
+        (call_signature
+          (formal_parameters
+            (required_parameter (identifier) (type_annotation (type_reference (identifier)))))
+          (type_annotation
+            (type_reference (identifier) (type_arguments (type_reference (identifier))))))))))
 
 =======================================
 Existential types
@@ -348,3 +365,46 @@ type HandlerFunction<T: Element> = void
     (identifier)
     (type_parameters (type_parameter (identifier) (constraint (type_reference (identifier)))))
   (predefined_type)))
+
+
+=======================================
+Nested type arguments
+=======================================
+
+interface X {
+  x(): Promise<Array<Foo>>;
+}
+
+---
+
+(program
+  (interface_declaration
+    (identifier)
+    (object_type
+      (method_signature
+        (identifier)
+        (call_signature
+          (formal_parameters)
+          (type_annotation
+            (type_reference
+              (identifier)
+              (type_arguments
+                (type_reference (identifier) (type_arguments (type_reference (identifier))))))))))))
+
+=======================================
+predefined types as identifiers
+=======================================
+
+let score: (string: string, query: string) => number
+
+---
+
+(program
+  (lexical_declaration (variable_declarator
+    (identifier)
+    (type_annotation
+    (function_type
+      (formal_parameters
+        (required_parameter (parameter_identifier) (type_annotation (predefined_type)))
+        (required_parameter (identifier) (type_annotation (predefined_type))))
+      (predefined_type))))))

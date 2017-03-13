@@ -53,21 +53,15 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
 
     [$.ambient_binding, $.variable_declarator],
 
-    [$._expression, $.type_query]
+    [$._expression, $.type_query],
+
+    // let x: (string)
+    //               ^ parenthesized_type or function_type
+    [$.parameter_identifier, $.predefined_type]
   ]),
   rules: {
 
     // Overrides
-
-    identifier: ($, previous) => choice(
-      'any',
-      'number',
-      'boolean',
-      'string',
-      'symbol',
-      'void',
-      previous
-    ),
 
     // Override import and export to support Flow 'import type' statements
     import_statement: ($, previous) => seq(
@@ -157,6 +151,7 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       $.function,
       $.generator_function,
       $.class,
+      $.module,
       $.variable_declaration,
       $.lexical_declaration,
       $.type_alias_declaration,
@@ -185,6 +180,7 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
         $.class,
         $._ambient_enum,
         $.ambient_namespace,
+        $.module,
         $.type_alias_declaration
       )
     ),
@@ -214,6 +210,17 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
 
     ambient_namespace: $ => seq(
       'namespace', sepBy1('.', $.identifier), '{', optional($.ambient_namespace_body), '}'
+    ),
+
+    module: $ => seq(
+      'module',
+      choice($.string, $.identifier),
+      '{',
+        repeat(choice(
+          $.import_statement,
+          $.export_statement,
+          $._declaration)),
+      '}'
     ),
 
     ambient_namespace_body: $ => repeat1($.ambient_namespace_element),
@@ -307,16 +314,21 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       $.optional_parameter
     ),
 
+    parameter_identifier: $ => choice(
+      'any',
+      'number',
+      'boolean',
+      'string',
+      'symbol',
+      'void'
+      ),
+
     required_parameter: $ => choice(
       seq(
         optional($.accessibility_modifier),
-        pattern($),
-        optional($.type_annotation)),
-      seq(
-        optional($.accessibility_modifier),
-        pattern($),
+        choice(pattern($), $.parameter_identifier),
         optional($.type_annotation),
-        $._initializer)
+        optional($._initializer))
     ),
 
     optional_parameter: $ => choice(
@@ -414,7 +426,7 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
 
     _type_body: $ => choice(
       $._type_member,
-      seq(sepBy1(choice(',',';'), $._type_member), optional(choice(',',';')))
+      seq(sepBy1(choice(',',';', $._line_break), $._type_member), optional(choice(',',';')))
     ),
 
     _type_member: $ => prec.right(choice(
