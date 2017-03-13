@@ -216,10 +216,13 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       'module',
       choice($.string, $.identifier),
       '{',
-        repeat(choice(
-          $.import_statement,
-          $.export_statement,
-          $._declaration)),
+        repeat(seq(
+          choice(
+            $.import_statement,
+            $.export_statement,
+            $.ambient_function,
+            $._declaration),
+          optional(terminator()))),
       '}'
     ),
 

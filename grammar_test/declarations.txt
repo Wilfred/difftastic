@@ -194,9 +194,25 @@ declare type IndexableType = string | number | Date | Array<string | number | Da
 Ambient module declarations
 ================================
 
-declare module Dexie {
+module Promise {
+    var on: {}
+    function resolve<R>(value?: Thenable<R>): Promise<R>;
 }
 
 ---
+(program
+  (module
+    (identifier)
+    (variable_declaration (variable_declarator
+      (identifier)
+      (type_annotation (object_type))))
+    (ambient_function
+      (identifier)
+      (call_signature
+        (type_parameters (type_parameter (identifier)))
+        (formal_parameters
+          (optional_parameter
+            (identifier)
+            (type_annotation (type_reference (identifier) (type_arguments (type_reference (identifier)))))))
+        (type_annotation (type_reference (identifier) (type_arguments (type_reference (identifier)))))))))
 
-(program (ambient_declaration (module (identifier))))
