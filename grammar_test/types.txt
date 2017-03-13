@@ -372,7 +372,7 @@ Nested type arguments
 =======================================
 
 interface X {
-  x(): Promise<Array<Foo>>;
+  x(): Promise<Array<Foo> >;
 }
 
 ---

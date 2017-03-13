@@ -2167,139 +2167,152 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "object"
+          "name": "type_assertion"
         },
         {
           "type": "SYMBOL",
-          "name": "array"
+          "name": "as_expression"
         },
         {
-          "type": "SYMBOL",
-          "name": "jsx_element"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "jsx_self_closing_element"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "class"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "function"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "arrow_function"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "generator_function"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "function_call"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "new_expression"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "await_expression"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "member_access"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "subscript_access"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "assignment"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "math_assignment"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "ternary"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "bool_op"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "math_op"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "bitwise_op"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "rel_op"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "type_op"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "delete_op"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "void_op"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_paren_expression"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "this_expression"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "identifier"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "number"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "string"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "template_string"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "regex"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "true"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "false"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "null"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "undefined"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "object"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "array"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "jsx_element"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "jsx_self_closing_element"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "class"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "function"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "arrow_function"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "generator_function"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "function_call"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "new_expression"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "await_expression"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "member_access"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "subscript_access"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "assignment"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "math_assignment"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "ternary"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "bool_op"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "math_op"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "bitwise_op"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "rel_op"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "type_op"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "delete_op"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "void_op"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_paren_expression"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "this_expression"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "identifier"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "number"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "string"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "template_string"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "regex"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "true"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "false"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "null"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "undefined"
+            }
+          ]
         }
       ]
     },
@@ -4953,6 +4966,44 @@
         }
       ]
     },
+    "type_assertion": {
+      "type": "PREC",
+      "value": 15,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "type_arguments"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_expression"
+          }
+        ]
+      }
+    },
+    "as_expression": {
+      "type": "PREC",
+      "value": 14,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_expression"
+          },
+          {
+            "type": "STRING",
+            "value": "as"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_type"
+          }
+        ]
+      }
+    },
     "implements_clause": {
       "type": "SEQ",
       "members": [
@@ -5131,29 +5182,8 @@
           "value": "namespace"
         },
         {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "identifier"
-            },
-            {
-              "type": "REPEAT",
-              "content": {
-                "type": "SEQ",
-                "members": [
-                  {
-                    "type": "STRING",
-                    "value": "."
-                  },
-                  {
-                    "type": "SYMBOL",
-                    "name": "identifier"
-                  }
-                ]
-              }
-            }
-          ]
+          "type": "SYMBOL",
+          "name": "entity_name"
         },
         {
           "type": "STRING",
@@ -5353,29 +5383,33 @@
       ]
     },
     "entity_name": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "identifier"
-        },
-        {
-          "type": "REPEAT",
-          "content": {
-            "type": "SEQ",
-            "members": [
-              {
-                "type": "STRING",
-                "value": "."
-              },
-              {
-                "type": "SYMBOL",
-                "name": "identifier"
-              }
-            ]
+      "type": "PREC_RIGHT",
+      "value": 0,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "identifier"
+          },
+          {
+            "type": "REPEAT",
+            "content": {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "."
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "identifier"
+                }
+              ]
+            }
           }
-        }
-      ]
+        ]
+      }
     },
     "ambient_binding": {
       "type": "SEQ",
@@ -6026,29 +6060,8 @@
           "value": "typeof"
         },
         {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "identifier"
-            },
-            {
-              "type": "REPEAT",
-              "content": {
-                "type": "SEQ",
-                "members": [
-                  {
-                    "type": "STRING",
-                    "value": "."
-                  },
-                  {
-                    "type": "SYMBOL",
-                    "name": "identifier"
-                  }
-                ]
-              }
-            }
-          ]
+          "type": "SYMBOL",
+          "name": "entity_name"
         }
       ]
     },
@@ -6186,29 +6199,8 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "identifier"
-            },
-            {
-              "type": "REPEAT",
-              "content": {
-                "type": "SEQ",
-                "members": [
-                  {
-                    "type": "STRING",
-                    "value": "."
-                  },
-                  {
-                    "type": "SYMBOL",
-                    "name": "identifier"
-                  }
-                ]
-              }
-            }
-          ]
+          "type": "SYMBOL",
+          "name": "entity_name"
         },
         {
           "type": "CHOICE",
@@ -6724,21 +6716,25 @@
       ]
     },
     "array_type": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "_primary_type"
-        },
-        {
-          "type": "STRING",
-          "value": "["
-        },
-        {
-          "type": "STRING",
-          "value": "]"
-        }
-      ]
+      "type": "PREC_RIGHT",
+      "value": 13,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_primary_type"
+          },
+          {
+            "type": "STRING",
+            "value": "["
+          },
+          {
+            "type": "STRING",
+            "value": "]"
+          }
+        ]
+      }
     },
     "tuple_type": {
       "type": "SEQ",
@@ -6960,16 +6956,16 @@
     ],
     [
       "required_parameter",
-      "type_reference"
+      "entity_name"
     ],
     [
       "_expression",
       "required_parameter",
-      "type_reference"
+      "entity_name"
     ],
     [
       "_expression",
-      "type_reference"
+      "entity_name"
     ],
     [
       "ambient_binding",
@@ -6982,6 +6978,22 @@
     [
       "parameter_identifier",
       "predefined_type"
+    ],
+    [
+      "entity_name",
+      "type_parameter"
+    ],
+    [
+      "jsx_opening_element",
+      "entity_name"
+    ],
+    [
+      "jsx_opening_element",
+      "entity_name",
+      "type_parameter"
+    ],
+    [
+      "type_reference"
     ]
   ],
   "externals": []
