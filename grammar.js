@@ -45,11 +45,15 @@ module.exports = grammar({
     // ( {foo} )
     // ( [foo] )
     //    ^-- destructured arrow function parameters or parenthesized expression?
-    [$.assignment_pattern, $._expression],
+    [$.destructuring_pattern, $._expression],
 
     // { key ,
     //    ^--- shorthand object property or comma expression in block?
-    [$._expression, $._property_definition_list]
+    [$._expression, $._property_definition_list],
+
+    // { key = 5,
+    //         ^ comma expression assignment in a block or assignment_pattern in an object?
+    [$.assignment_pattern, $.assignment]
   ],
 
   rules: {
@@ -202,7 +206,7 @@ module.exports = grammar({
 
     variable_declarator: $ => choice(
       seq($.identifier, optional($._initializer)),
-      seq($.assignment_pattern, $._initializer)
+      seq($.destructuring_pattern, $._initializer)
     ),
 
     trailing_variable_statement: $ => seq(
@@ -505,8 +509,14 @@ module.exports = grammar({
       $.method_definition,
       $.identifier,
       $.reserved_identifier,
-      $.spread_element
+      $.spread_element,
+      $.assignment_pattern
     )),
+
+    assignment_pattern: $ => seq(
+      $.identifier,
+      $._initializer
+    ),
 
     array: $ => seq(
       '[', optional($._element_list), ']'
@@ -670,7 +680,7 @@ module.exports = grammar({
       $._expression
     )),
 
-    assignment_pattern: $ => choice(
+    destructuring_pattern: $ => choice(
       $.object,
       $.array
     ),
@@ -894,5 +904,5 @@ function letOrConst () {
 }
 
 function pattern ($) {
-  return choice($.identifier, $.assignment_pattern)
+  return choice($.identifier, $.destructuring_pattern)
 }
