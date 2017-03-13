@@ -5183,7 +5183,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "entity_name"
+          "name": "_entity_name"
         },
         {
           "type": "STRING",
@@ -5365,7 +5365,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "entity_name"
+          "name": "_entity_name"
         },
         {
           "type": "CHOICE",
@@ -5382,7 +5382,7 @@
         }
       ]
     },
-    "entity_name": {
+    "_entity_name": {
       "type": "PREC_RIGHT",
       "value": 0,
       "content": {
@@ -6061,7 +6061,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "entity_name"
+          "name": "_entity_name"
         }
       ]
     },
@@ -6200,7 +6200,7 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "entity_name"
+          "name": "_entity_name"
         },
         {
           "type": "CHOICE",
@@ -6956,16 +6956,16 @@
     ],
     [
       "required_parameter",
-      "entity_name"
+      "_entity_name"
     ],
     [
       "_expression",
       "required_parameter",
-      "entity_name"
+      "_entity_name"
     ],
     [
       "_expression",
-      "entity_name"
+      "_entity_name"
     ],
     [
       "ambient_binding",
@@ -6980,16 +6980,16 @@
       "predefined_type"
     ],
     [
-      "entity_name",
+      "_entity_name",
       "type_parameter"
     ],
     [
       "jsx_opening_element",
-      "entity_name"
+      "_entity_name"
     ],
     [
       "jsx_opening_element",
-      "entity_name",
+      "_entity_name",
       "type_parameter"
     ],
     [

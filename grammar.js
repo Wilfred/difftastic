@@ -50,9 +50,9 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
 
     [$.this_type, $.this_expression],
 
-    [$.required_parameter, $.entity_name],
-    [$._expression, $.required_parameter, $.entity_name],
-    [$._expression, $.entity_name],
+    [$.required_parameter, $._entity_name],
+    [$._expression, $.required_parameter, $._entity_name],
+    [$._expression, $._entity_name],
 
     [$.ambient_binding, $.variable_declarator],
 
@@ -62,10 +62,10 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
     //               ^ parenthesized_type or function_type
     [$.parameter_identifier, $.predefined_type],
 
-    [$.entity_name, $.type_parameter],
+    [$._entity_name, $.type_parameter],
 
-    [$.jsx_opening_element, $.entity_name],
-    [$.jsx_opening_element, $.entity_name, $.type_parameter],
+    [$.jsx_opening_element, $._entity_name],
+    [$.jsx_opening_element, $._entity_name, $.type_parameter],
 
     [$.type_reference]
   ]),
@@ -242,7 +242,7 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
     _ambient_enum: $ => $.enum_declaration,
 
     ambient_namespace: $ => seq(
-      'namespace', $.entity_name, '{', optional($.ambient_namespace_body), '}'
+      'namespace', $._entity_name, '{', optional($.ambient_namespace_body), '}'
     ),
 
     module: $ => seq(
@@ -279,11 +279,11 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       'import',
       $.identifier,
       '=',
-      $.entity_name,
+      $._entity_name,
       terminator()
     ),
 
-    entity_name: $ => prec.right(sepBy1('.', $.identifier)),
+    _entity_name: $ => prec.right(sepBy1('.', $.identifier)),
 
     ambient_binding: $ => seq(
       $.identifier,
@@ -423,7 +423,7 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
 
     type_query: $ => seq(
       'typeof',
-      $.entity_name
+      $._entity_name
     ),
 
     literal_type: $ => choice($.number, $.string, $.true, $.false),
@@ -452,7 +452,7 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
     ),
 
     type_reference: $ => seq(
-      $.entity_name,
+      $._entity_name,
       optional($.type_arguments)
     ),
 

@@ -250,4 +250,8 @@ foo as any as Array<number>
 
 ---
 
-(program (expression_statement (type_assertion (type_arguments (predefined_type)) (identifier))) (expression_statement (as_expression (as_expression (identifier) (predefined_type)) (type_reference (entity_name (identifier)) (type_arguments (predefined_type))))))
+(program
+  (expression_statement
+    (type_assertion (type_arguments (predefined_type)) (identifier)))
+  (expression_statement
+    (as_expression (as_expression (identifier) (predefined_type)) (type_reference (identifier) (type_arguments (predefined_type))))))
