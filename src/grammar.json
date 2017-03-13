@@ -2511,6 +2511,10 @@
                 {
                   "type": "SYMBOL",
                   "name": "spread_element"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "cover_initialized_name"
                 }
               ]
             },
