@@ -39,18 +39,17 @@ function a ({b, c}, {d}) {}
 ---
 
 (program
-  (expression_statement
-    (function (identifier)
-      (formal_parameters
-        (assignment_pattern (object (identifier) (identifier)))
-        (assignment_pattern (object (identifier))))
-      (statement_block))))
+  (function (identifier)
+    (formal_parameters
+      (assignment_pattern (object (identifier) (identifier)))
+      (assignment_pattern (object (identifier))))
+    (statement_block)))
 
 ============================================
 Array destructuring assignments
 ============================================
 
-[a, b] = array
+[a, b] = array;
 [a, b, ...c] = array
 
 ---

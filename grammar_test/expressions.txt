@@ -240,33 +240,31 @@ class Foo extends require('another-class') {
 ---
 
 (program
-  (expression_statement
-    (class
-      (identifier)
-      (class_body
-        (method_definition
-          (identifier)
-          (formal_parameters (identifier))
-          (statement_block (return_statement (identifier))))
-        (method_definition
-          (identifier)
-          (formal_parameters (identifier))
-          (statement_block (return_statement (identifier))))
-        (method_definition
-          (identifier)
-          (formal_parameters (identifier))
-          (statement_block (return_statement (identifier)))))))
+  (class
+    (identifier)
+    (class_body
+      (method_definition
+        (identifier)
+        (formal_parameters (identifier))
+        (statement_block (return_statement (identifier))))
+      (method_definition
+        (identifier)
+        (formal_parameters (identifier))
+        (statement_block (return_statement (identifier))))
+      (method_definition
+        (identifier)
+        (formal_parameters (identifier))
+        (statement_block (return_statement (identifier))))))
 
-  (expression_statement
-    (class
-      (identifier)
-      (class_heritage (function_call (identifier) (arguments (string))))
-      (class_body
-        (method_definition
-          (identifier)
-          (formal_parameters)
-          (statement_block
-            (expression_statement (function_call (super) (arguments)))))))))
+  (class
+    (identifier)
+    (class_heritage (function_call (identifier) (arguments (string))))
+    (class_body
+      (method_definition
+        (identifier)
+        (formal_parameters)
+        (statement_block
+          (expression_statement (function_call (super) (arguments))))))))
 
 ============================================
 Class Property Fields
@@ -279,11 +277,10 @@ class Foo {
 ---
 
 (program
-  (expression_statement
-    (class
-      (identifier)
-      (class_body
-        (variable_declarator (identifier) (number))))))
+  (class
+    (identifier)
+    (class_body
+      (variable_declarator (identifier) (number)))))
 
 ============================================
 Arrays
@@ -524,23 +521,21 @@ async (a) => { return foo; };
 ---
 
 (program
-  (expression_statement
-    (function
-      (identifier)
-      (formal_parameters)
-      (statement_block)))
+  (function
+    (identifier)
+    (formal_parameters)
+    (statement_block))
   (expression_statement
     (object
       (method_definition
         (identifier)
         (formal_parameters)
         (statement_block))))
-  (expression_statement
-    (class (identifier) (class_body
-      (method_definition
-        (identifier)
-        (formal_parameters)
-        (statement_block)))))
+  (class (identifier) (class_body
+    (method_definition
+      (identifier)
+      (formal_parameters)
+      (statement_block))))
   (expression_statement
     (arrow_function
       (formal_parameters (identifier))
