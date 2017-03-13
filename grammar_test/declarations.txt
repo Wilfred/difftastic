@@ -169,3 +169,23 @@ export class CloningRepository {
         (accessibility_modifier)
         (readonly)
         (variable_declarator (identifier) (math_op (identifier))))))))
+
+==================================
+Ambient type declarations
+================================
+
+declare type IndexableType = string | number | Date | Array<string | number | Date>;
+
+---
+
+(program
+  (ambient_declaration
+    (type_alias_declaration
+      (identifier)
+        (union_type
+          (union_type
+            (union_type (predefined_type) (predefined_type))
+            (type_reference (identifier)))
+            (type_reference
+              (identifier)
+              (type_arguments (union_type (union_type (predefined_type) (predefined_type)) (type_reference (identifier)))))))))

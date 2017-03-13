@@ -184,7 +184,8 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
         $.ambient_function,
         $.class,
         $._ambient_enum,
-        $.ambient_namespace
+        $.ambient_namespace,
+        $.type_alias_declaration
       )
     ),
 

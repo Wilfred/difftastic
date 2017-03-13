@@ -5007,6 +5007,10 @@
             {
               "type": "SYMBOL",
               "name": "ambient_namespace"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "type_alias_declaration"
             }
           ]
         }
