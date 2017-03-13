@@ -52,8 +52,8 @@ module.exports = grammar({
     [$._expression, $._property_definition_list],
 
     // { key = 5,
-    //         ^ comma expression assignment in a block or cover_initialized_name in an object?
-    [$.cover_initialized_name, $.assignment]
+    //         ^ comma expression assignment in a block or assignment_pattern in an object?
+    [$.assignment_pattern, $.assignment]
   ],
 
   rules: {
@@ -510,10 +510,10 @@ module.exports = grammar({
       $.identifier,
       $.reserved_identifier,
       $.spread_element,
-      $.cover_initialized_name
+      $.assignment_pattern
     )),
 
-    cover_initialized_name: $ => seq(
+    assignment_pattern: $ => seq(
       $.identifier,
       $._initializer
     ),

@@ -127,7 +127,7 @@ Objects
     (pair (string) (identifier))
     (pair (identifier) (number))))
   (expression_statement (object
-    (cover_initialized_name (identifier) (number)))))
+    (assignment_pattern (identifier) (number)))))
 
 ============================================
 Objects with shorthand properties
