@@ -297,6 +297,7 @@ Arrays
 [ "item1", ];
 [ "item1", item2 ];
 [ , item2 ];
+[ item2 = 5 ];
 
 ---
 
@@ -305,7 +306,8 @@ Arrays
   (expression_statement (array (string)))
   (expression_statement (array (string)))
   (expression_statement (array (string) (identifier)))
-  (expression_statement (array (identifier))))
+  (expression_statement (array (identifier)))
+  (expression_statement (array (assignment (identifier) (number)))))
 
 ============================================
 Functions
