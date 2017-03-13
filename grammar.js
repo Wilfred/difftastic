@@ -80,7 +80,7 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       seq('export', $.export_clause, terminator()),
       seq('export', $._declaration),
       seq('export', 'default', $.anonymous_class),
-      seq('export', 'default', $.ambient_function),
+      seq('export', optional('default'), $.ambient_function),
       seq('export', 'default', $._expression, terminator()),
       seq('export', '=', $.identifier, terminator())
     ),
