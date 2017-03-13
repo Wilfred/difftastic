@@ -49,7 +49,11 @@ module.exports = grammar({
 
     // { key ,
     //    ^--- shorthand object property or comma expression in block?
-    [$._expression, $._property_definition_list]
+    [$._expression, $._property_definition_list],
+
+    // { key = 5,
+    //         ^ comma expression assignment in a block or cover_initialized_name in an object?
+    [$.cover_initialized_name, $.assignment]
   ],
 
   rules: {
@@ -505,8 +509,14 @@ module.exports = grammar({
       $.method_definition,
       $.identifier,
       $.reserved_identifier,
-      $.spread_element
+      $.spread_element,
+      $.cover_initialized_name
     )),
+
+    cover_initialized_name: $ => seq(
+      $.identifier,
+      $._initializer
+    ),
 
     array: $ => seq(
       '[', optional($._element_list), ']'
