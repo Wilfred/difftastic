@@ -1,1 +1,1 @@
-module.exports = require("./build/Release/tree_sitter_javascript_binding");
+module.exports = require("./build/Debug/tree_sitter_javascript_binding");

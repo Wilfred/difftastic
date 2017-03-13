@@ -43,10 +43,10 @@ indented code after blocks
 ---
 
 (program
-  (expression_statement (function
+  (function
     (identifier)
     (formal_parameters)
-    (statement_block)))
+    (statement_block))
   (return_statement (identifier)))
 
 ===========================================
@@ -59,12 +59,10 @@ function c() {return d}
 ---
 
 (program
-  (expression_statement
-    (function (identifier) (formal_parameters) (statement_block
-      (trailing_expression_statement (identifier)))))
-  (expression_statement
-    (function (identifier) (formal_parameters) (statement_block
-      (trailing_return_statement (identifier))))))
+  (function (identifier) (formal_parameters) (statement_block
+    (expression_statement (identifier))))
+  (function (identifier) (formal_parameters) (statement_block
+    (return_statement (identifier)))))
 
 ==============================================
 Multi-line chained expressions in var declarations
@@ -79,15 +77,15 @@ var a = new A()
 (program
   (variable_declaration (variable_declarator
     (identifier)
-    (function_call
+    (new_expression (function_call
       (member_access
         (function_call
           (member_access
-            (new_expression (function_call (identifier) (arguments)))
+            (function_call (identifier) (arguments))
             (identifier))
           (arguments (object (pair (identifier) (string)))))
         (identifier))
-      (arguments)))))
+      (arguments))))))
 
 ==============================================
 if/for/while/do statements without semicolons
@@ -105,27 +103,27 @@ if (p) { var q }
 
 (program
   (if_statement (identifier) (statement_block
-    (trailing_if_statement
+    (if_statement
       (identifier)
-      (trailing_return_statement (identifier)))))
+      (return_statement (identifier)))))
   (if_statement (identifier) (statement_block
-    (trailing_for_statement
-      (trailing_break_statement))))
+    (for_statement
+      (break_statement))))
   (if_statement (identifier) (statement_block
-    (trailing_for_in_statement (identifier) (identifier)
-      (trailing_break_statement))))
+    (for_in_statement (identifier) (identifier)
+      (break_statement))))
   (if_statement (identifier) (statement_block
-    (trailing_for_of_statement (identifier) (identifier)
-      (trailing_continue_statement))))
+    (for_of_statement (identifier) (identifier)
+      (continue_statement))))
   (if_statement (identifier) (statement_block
-    (trailing_while_statement (identifier)
-      (trailing_break_statement))))
+    (while_statement (identifier)
+      (break_statement))))
   (if_statement (identifier) (statement_block
-    (trailing_do_statement
+    (do_statement
       (statement_block (expression_statement (identifier)))
       (identifier))))
   (if_statement (identifier) (statement_block
-    (trailing_variable_statement (variable_declarator (identifier))))))
+    (variable_declaration (variable_declarator (identifier))))))
 
 =====================================================
 Single-line declarations without semicolons
@@ -139,4 +137,4 @@ function a () { function b () {} function *c () {} class D {} return }
     (function (identifier) (formal_parameters) (statement_block))
     (generator_function (identifier) (formal_parameters) (statement_block))
     (class (identifier) (class_body))
-    (trailing_return_statement))))
+    (return_statement))))

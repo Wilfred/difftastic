@@ -368,14 +368,13 @@ const d = 1
 
 (program
   (comment)
-  (lexical_declaration
-    (variable_declarator (identifier) (number)))
-   (comment)
-   (lexical_declaration (variable_declarator (identifier) (number)))
-   (comment)
-   (lexical_declaration (variable_declarator (identifier) (number)))
-   (comment)
-   (lexical_declaration (variable_declarator (identifier) (number))))
+  (lexical_declaration (variable_declarator (identifier) (number)))
+  (comment)
+  (lexical_declaration (variable_declarator (identifier) (number)))
+  (comment)
+  (lexical_declaration (variable_declarator (identifier) (number)))
+  (comment)
+  (lexical_declaration (variable_declarator (identifier) (number))))
 
 ==========================================
 Comments within expressions
@@ -442,7 +441,7 @@ throw g = 2, g
 (program
   (throw_statement
     (comma_op (assignment (identifier) (number)) (identifier)))
-  (trailing_throw_statement
+  (throw_statement
     (comma_op (assignment (identifier) (number)) (identifier))))
 
 ============================================
