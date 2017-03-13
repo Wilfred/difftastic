@@ -815,7 +815,7 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "assignment_pattern"
+              "name": "destructuring_pattern"
             },
             {
               "type": "SYMBOL",
@@ -2220,6 +2220,10 @@
             {
               "type": "SYMBOL",
               "name": "spread_element"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "assignment_pattern"
             }
           ]
         },
@@ -2251,6 +2255,19 @@
               "type": "BLANK"
             }
           ]
+        }
+      ]
+    },
+    "assignment_pattern": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "identifier"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_initializer"
         }
       ]
     },
@@ -2852,7 +2869,7 @@
                   },
                   {
                     "type": "SYMBOL",
-                    "name": "assignment_pattern"
+                    "name": "destructuring_pattern"
                   }
                 ]
               }
@@ -2945,7 +2962,7 @@
         ]
       }
     },
-    "assignment_pattern": {
+    "destructuring_pattern": {
       "type": "CHOICE",
       "members": [
         {
@@ -4467,7 +4484,7 @@
                     },
                     {
                       "type": "SYMBOL",
-                      "name": "assignment_pattern"
+                      "name": "destructuring_pattern"
                     }
                   ]
                 },
@@ -4489,7 +4506,7 @@
                           },
                           {
                             "type": "SYMBOL",
-                            "name": "assignment_pattern"
+                            "name": "destructuring_pattern"
                           }
                         ]
                       }
@@ -4656,12 +4673,16 @@
       "_expression"
     ],
     [
-      "assignment_pattern",
+      "destructuring_pattern",
       "_expression"
     ],
     [
       "_expression",
       "_property_definition_list"
+    ],
+    [
+      "assignment_pattern",
+      "assignment"
     ]
   ],
   "externals": []
