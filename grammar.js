@@ -62,6 +62,12 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
   rules: {
 
     // Overrides
+    pair: ($, previous) => seq(
+      seq(
+        choice($.identifier, $.reserved_identifier, $.string, $.number, $.accessibility_modifier)),
+      ':',
+      $._expression
+    ),
 
     // Override import and export to support Flow 'import type' statements
     import_statement: ($, previous) => seq(
@@ -87,7 +93,7 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
 
     variable_declarator: ($, previous) => choice(
       seq($.identifier, optional($.type_annotation), optional($._initializer)),
-      seq($.assignment_pattern, optional($.type_annotation), $._initializer)
+      seq($.destructuring_pattern, optional($.type_annotation), $._initializer)
     ),
 
 
@@ -518,7 +524,7 @@ function sepBy (sep, rule) {
 }
 
 function pattern ($) {
-  return choice($.identifier, $.assignment_pattern)
+  return choice($.identifier, $.destructuring_pattern)
 }
 
 function terminator () {

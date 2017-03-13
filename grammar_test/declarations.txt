@@ -216,3 +216,12 @@ module Promise {
             (type_annotation (type_reference (identifier) (type_arguments (type_reference (identifier)))))))
         (type_annotation (type_reference (identifier) (type_arguments (type_reference (identifier))))))))))
 
+=================================
+Accessibility modifiers as pair keywords
+=================================
+
+{ name, description, private: private_ }
+
+---
+
+(program (expression_statement (object (identifier) (identifier) (pair (accessibility_modifier) (identifier)))))
