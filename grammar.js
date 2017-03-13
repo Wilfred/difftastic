@@ -579,8 +579,7 @@ module.exports = grammar({
       optional(','),
       commaSep1Trailing($._element_list, choice(
         $._expression,
-        $.spread_element,
-        $.cover_initialized_name
+        $.spread_element
       ))),
 
     // Anonymous class declarations only occur in exports
