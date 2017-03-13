@@ -114,6 +114,7 @@ Objects
 {};
 { key1: "value1" };
 { key1: "value1", "key2": value2, key3: 3.0 };
+{ x = 5 };
 
 ---
 
@@ -124,7 +125,9 @@ Objects
   (expression_statement (object
     (pair (identifier) (string))
     (pair (string) (identifier))
-    (pair (identifier) (number)))))
+    (pair (identifier) (number))))
+  (expression_statement (object
+    (cover_initialized_name (identifier) (number)))))
 
 ============================================
 Objects with shorthand properties

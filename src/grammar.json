@@ -2220,6 +2220,10 @@
             {
               "type": "SYMBOL",
               "name": "spread_element"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "cover_initialized_name"
             }
           ]
         },
@@ -2251,6 +2255,19 @@
               "type": "BLANK"
             }
           ]
+        }
+      ]
+    },
+    "cover_initialized_name": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "identifier"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_initializer"
         }
       ]
     },
@@ -4662,6 +4679,10 @@
     [
       "_expression",
       "_property_definition_list"
+    ],
+    [
+      "cover_initialized_name",
+      "assignment"
     ]
   ],
   "externals": []
