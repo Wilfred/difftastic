@@ -67,7 +67,9 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
     [$.jsx_opening_element, $._entity_name],
     [$.jsx_opening_element, $._entity_name, $.type_parameter],
 
-    [$.type_reference]
+    [$.type_reference],
+
+    [$.export_statement, $.ambient_export_declaration]
   ]),
   rules: {
 
@@ -105,6 +107,12 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       seq('export', optional('default'), $.ambient_function),
       seq('export', 'default', $._expression, terminator()),
       seq('export', '=', $.identifier, terminator())
+    ),
+
+    // Exports that can appear in object types, namespace elements, modules, and interfaces
+    ambient_export_declaration: $ => seq(
+      'export',
+      $.ambient_function
     ),
 
     variable_declarator: ($, previous) => choice(
@@ -466,6 +474,7 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
     ),
 
     _type_member: $ => prec.right(choice(
+      $.ambient_export_declaration,
       $.property_signature,
       $.call_signature,
       $.construct_signature,

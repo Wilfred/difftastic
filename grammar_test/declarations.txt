@@ -255,3 +255,33 @@ foo as any as Array<number>
     (type_assertion (type_arguments (predefined_type)) (identifier)))
   (expression_statement
     (as_expression (as_expression (identifier) (predefined_type)) (type_reference (identifier) (type_arguments (predefined_type))))))
+
+=================================
+Ambient export function declarations
+=================================
+
+export interface Foo {
+  export function OrderedMap<K, V>(iter: Iterable.Keyed<K, V>): OrderedMap<K, V>;
+}
+
+---
+
+(program
+  (export_statement
+    (interface_declaration
+      (identifier)
+      (object_type
+        (ambient_export_declaration
+          (ambient_function
+            (identifier)
+            (call_signature
+              (type_parameters (type_parameter (identifier)) (type_parameter (identifier)))
+              (formal_parameters
+                (required_parameter
+                  (identifier)
+                  (type_annotation
+                    (type_reference
+                      (identifier)
+                      (identifier)
+                      (type_arguments (type_reference (identifier)) (type_reference (identifier)))))))
+                      (type_annotation (type_reference (identifier) (type_arguments (type_reference (identifier)) (type_reference (identifier))))))))))))

@@ -4854,6 +4854,19 @@
       "type": "STRING",
       "value": "\n"
     },
+    "ambient_export_declaration": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "export"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "ambient_function"
+        }
+      ]
+    },
     "ambient_method_declaration": {
       "type": "SEQ",
       "members": [
@@ -6340,6 +6353,10 @@
         "members": [
           {
             "type": "SYMBOL",
+            "name": "ambient_export_declaration"
+          },
+          {
+            "type": "SYMBOL",
             "name": "property_signature"
           },
           {
@@ -6994,6 +7011,10 @@
     ],
     [
       "type_reference"
+    ],
+    [
+      "export_statement",
+      "ambient_export_declaration"
     ]
   ],
   "externals": []
