@@ -4,7 +4,13 @@ const PREC = {
   declaration: 1,
   type_assertion: 15,
   as_expression: 14,
-  array_type: 13
+  array_type: 13,
+  function_call: 12,
+  NEG: 9,
+  INC: 10,
+  PLUS: 4,
+  REL: 5,
+  TIMES: 6
 };
 
 module.exports = grammar(require('tree-sitter-javascript/grammar'), {
@@ -69,11 +75,50 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
 
     [$.type_reference],
 
-    [$.export_statement, $.ambient_export_declaration]
+    [$.export_statement, $.ambient_export_declaration],
+
+    [$.function_call, $.math_op, $.rel_op],
+    [$.function_call, $.bitwise_op, $.rel_op],
+    [$.function_call, $.void_op, $.rel_op],
+    [$.function_call, $.new_expression, $.rel_op],
+    [$.function_call, $.bool_op, $.rel_op],
+    [$.function_call, $.rel_op, $.type_op]
   ]),
   rules: {
 
     // Overrides
+
+    math_op: ($, previous) => choice(
+      prec.left(PREC.NEG, seq('-', $._expression)),
+      prec.left(PREC.NEG, seq('+', $._expression)),
+      prec.left(PREC.INC, seq($._expression, '++')),
+      prec.left(PREC.INC, seq($._expression, '--')),
+      prec.left(PREC.INC, seq('++', $._expression)),
+      prec.left(PREC.INC, seq('--', $._expression)),
+      prec.left(PREC.PLUS, seq($._expression, '+', $._expression)),
+      prec.left(PREC.PLUS, seq($._expression, '-', $._expression)),
+      prec.left(PREC.TIMES, seq($._expression, '*', $._expression)),
+      prec.left(PREC.TIMES, seq($._expression, '/', $._expression)),
+      prec.left(PREC.TIMES, seq($._expression, '%', $._expression))
+    ),
+
+    rel_op: ($, previous) => prec.left(PREC.REL, choice(
+      seq($._expression, '<', $._expression),
+      seq($._expression, '<=', $._expression),
+      seq($._expression, '==', $._expression),
+      seq($._expression, '===', $._expression),
+      seq($._expression, '!=', $._expression),
+      seq($._expression, '!==', $._expression),
+      seq($._expression, '>=', $._expression),
+      seq($._expression, '>', $._expression)
+    )),
+
+    function_call: ($, previous) => prec(PREC.function_call, seq(
+      choice($._expression, $.super, $.function),
+      optional($.type_arguments),
+      $.arguments
+    )),
+
     pair: ($, previous) => seq(
       seq(
         choice($.identifier, $.reserved_identifier, $.string, $.number, $.accessibility_modifier)),
