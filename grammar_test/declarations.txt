@@ -293,6 +293,13 @@ Ambient type alias declarations in namespaces
 
 declare namespace moment {
   type formatFunction = () => string;
+
+  export var x: string;
+  export class foo {
+
+  }
+  export function utc(): Moment;
+  export const enum Blah { Blaz, Bloz, Bleez }
 }
 
 ---
@@ -302,4 +309,5 @@ declare namespace moment {
     (ambient_namespace
       (identifier)
       (ambient_namespace_body
-        (ambient_namespace_element (type_alias_declaration (identifier) (function_type (formal_parameters) (predefined_type))))))))
+      (ambient_namespace_element (type_alias_declaration (identifier) (function_type (formal_parameters) (predefined_type)))) (ambient_namespace_element (ambient_export_declaration (ambient_variable (ambient_binding (identifier) (type_annotation (predefined_type)))))) (ambient_namespace_element (ambient_export_declaration (class (identifier) (class_body)))) (ambient_namespace_element (ambient_export_declaration (ambient_function (identifier) (call_signature (formal_parameters) (type_annotation (type_reference (identifier))))))) (ambient_namespace_element (ambient_export_declaration (enum_declaration (identifier) (identifier) (identifier) (identifier))))))))
+

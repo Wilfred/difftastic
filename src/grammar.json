@@ -4862,8 +4862,37 @@
           "value": "export"
         },
         {
-          "type": "SYMBOL",
-          "name": "ambient_function"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "ambient_variable"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "ambient_function"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "class"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_ambient_enum"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "ambient_namespace"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "module"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "type_alias_declaration"
+            }
+          ]
         }
       ]
     },
@@ -5303,55 +5332,50 @@
     "ambient_namespace_body": {
       "type": "REPEAT1",
       "content": {
-        "type": "SYMBOL",
-        "name": "ambient_namespace_element"
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "ambient_export_declaration"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "ambient_variable"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "lexical_declaration"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "ambient_function"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "class"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "interface_declaration"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_ambient_enum"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "ambient_namespace"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "import_alias"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "type_alias_declaration"
+          }
+        ]
       }
-    },
-    "ambient_namespace_element": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "ambient_variable"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "lexical_declaration"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "ambient_function"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "class"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "interface_declaration"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "_ambient_enum"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "ambient_namespace"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "import_alias"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "type_alias_declaration"
-            }
-          ]
-        }
-      ]
     },
     "import_alias": {
       "type": "SEQ",
@@ -6025,6 +6049,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "type_predicate"
+        },
+        {
+          "type": "SYMBOL",
           "name": "object_type"
         },
         {
@@ -6054,6 +6082,23 @@
         {
           "type": "SYMBOL",
           "name": "literal_type"
+        }
+      ]
+    },
+    "type_predicate": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "identifier"
+        },
+        {
+          "type": "STRING",
+          "value": "is"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_type"
         }
       ]
     },

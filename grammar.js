@@ -112,7 +112,14 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
     // Exports that can appear in object types, namespace elements, modules, and interfaces
     ambient_export_declaration: $ => seq(
       'export',
-      $.ambient_function
+      choice(
+        $.ambient_variable,
+        $.ambient_function,
+        $.class,
+        $._ambient_enum,
+        $.ambient_namespace,
+        $.module,
+        $.type_alias_declaration)
     ),
 
     variable_declarator: ($, previous) => choice(
@@ -267,21 +274,18 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       '}'
     ),
 
-    ambient_namespace_body: $ => repeat1($.ambient_namespace_element),
-
-    ambient_namespace_element: $ => seq(
-      choice(
-        $.ambient_variable,
-        $.lexical_declaration,
-        $.ambient_function,
-        $.class,
-        $.interface_declaration,
-        $._ambient_enum,
-        $.ambient_namespace,
-        $.import_alias,
-        $.type_alias_declaration
-      )
-    ),
+    ambient_namespace_body: $ => repeat1(choice(
+      $.ambient_export_declaration,
+      $.ambient_variable,
+      $.lexical_declaration,
+      $.ambient_function,
+      $.class,
+      $.interface_declaration,
+      $._ambient_enum,
+      $.ambient_namespace,
+      $.import_alias,
+      $.type_alias_declaration
+    )),
 
     import_alias: $ => seq(
       'import',
@@ -419,6 +423,7 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       $.parenthesized_type,
       $.predefined_type,
       $.type_reference,
+      $.type_predicate,
       $.object_type,
       $.array_type,
       $.tuple_type,
@@ -427,6 +432,12 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       $.this_type,
       $.existential_type,
       $.literal_type
+    ),
+
+    type_predicate: $ => seq(
+      $.identifier,
+      'is',
+      $._type
     ),
 
     type_query: $ => seq(
