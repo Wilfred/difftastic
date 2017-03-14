@@ -5314,18 +5314,6 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "STRING",
-              "value": "export"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
               "type": "SYMBOL",
               "name": "ambient_variable"
             },
@@ -5356,6 +5344,10 @@
             {
               "type": "SYMBOL",
               "name": "import_alias"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "type_alias_declaration"
             }
           ]
         }

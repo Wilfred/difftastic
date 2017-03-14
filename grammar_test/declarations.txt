@@ -285,3 +285,21 @@ export interface Foo {
                       (identifier)
                       (type_arguments (type_reference (identifier)) (type_reference (identifier)))))))
                       (type_annotation (type_reference (identifier) (type_arguments (type_reference (identifier)) (type_reference (identifier))))))))))))
+
+
+=================================
+Ambient type alias declarations in namespaces
+=================================
+
+declare namespace moment {
+  type formatFunction = () => string;
+}
+
+---
+
+(program
+  (ambient_declaration
+    (ambient_namespace
+      (identifier)
+      (ambient_namespace_body
+        (ambient_namespace_element (type_alias_declaration (identifier) (function_type (formal_parameters) (predefined_type))))))))

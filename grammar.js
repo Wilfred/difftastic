@@ -270,7 +270,6 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
     ambient_namespace_body: $ => repeat1($.ambient_namespace_element),
 
     ambient_namespace_element: $ => seq(
-      optional('export'),
       choice(
         $.ambient_variable,
         $.lexical_declaration,
@@ -279,7 +278,8 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
         $.interface_declaration,
         $._ambient_enum,
         $.ambient_namespace,
-        $.import_alias
+        $.import_alias,
+        $.type_alias_declaration
       )
     ),
 
