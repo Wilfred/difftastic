@@ -45,3 +45,18 @@ function foo<T, U>(a: T[], f: (x: T) => U): U[] {
                 (formal_parameters (required_parameter (identifier) (type_annotation (type_reference (identifier))))) (type_reference (identifier))))))
         (type_annotation (array_type (type_reference (identifier)))))
       (statement_block))))
+
+==================================
+Function calls with type arguments
+================================
+
+const lines = new Array<DiffLine>()
+
+---
+
+(program
+  (lexical_declaration
+    (variable_declarator
+      (identifier)
+      (function_call (new_expression (identifier)) (type_arguments (type_reference (identifier))) (arguments)))))
+

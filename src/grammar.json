@@ -2935,6 +2935,18 @@
             ]
           },
           {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "type_arguments"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          },
+          {
             "type": "SYMBOL",
             "name": "arguments"
           }
@@ -3668,12 +3680,12 @@
       }
     },
     "rel_op": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "PREC_LEFT",
-          "value": 5,
-          "content": {
+      "type": "PREC_LEFT",
+      "value": 5,
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
             "type": "SEQ",
             "members": [
               {
@@ -3689,12 +3701,8 @@
                 "name": "_expression"
               }
             ]
-          }
-        },
-        {
-          "type": "PREC_LEFT",
-          "value": 5,
-          "content": {
+          },
+          {
             "type": "SEQ",
             "members": [
               {
@@ -3710,12 +3718,8 @@
                 "name": "_expression"
               }
             ]
-          }
-        },
-        {
-          "type": "PREC_LEFT",
-          "value": 5,
-          "content": {
+          },
+          {
             "type": "SEQ",
             "members": [
               {
@@ -3731,12 +3735,8 @@
                 "name": "_expression"
               }
             ]
-          }
-        },
-        {
-          "type": "PREC_LEFT",
-          "value": 5,
-          "content": {
+          },
+          {
             "type": "SEQ",
             "members": [
               {
@@ -3752,12 +3752,8 @@
                 "name": "_expression"
               }
             ]
-          }
-        },
-        {
-          "type": "PREC_LEFT",
-          "value": 5,
-          "content": {
+          },
+          {
             "type": "SEQ",
             "members": [
               {
@@ -3773,12 +3769,8 @@
                 "name": "_expression"
               }
             ]
-          }
-        },
-        {
-          "type": "PREC_LEFT",
-          "value": 5,
-          "content": {
+          },
+          {
             "type": "SEQ",
             "members": [
               {
@@ -3794,12 +3786,8 @@
                 "name": "_expression"
               }
             ]
-          }
-        },
-        {
-          "type": "PREC_LEFT",
-          "value": 5,
-          "content": {
+          },
+          {
             "type": "SEQ",
             "members": [
               {
@@ -3815,12 +3803,8 @@
                 "name": "_expression"
               }
             ]
-          }
-        },
-        {
-          "type": "PREC_LEFT",
-          "value": 5,
-          "content": {
+          },
+          {
             "type": "SEQ",
             "members": [
               {
@@ -3837,8 +3821,8 @@
               }
             ]
           }
-        }
-      ]
+        ]
+      }
     },
     "type_op": {
       "type": "CHOICE",
@@ -7052,6 +7036,36 @@
     [
       "export_statement",
       "ambient_export_declaration"
+    ],
+    [
+      "function_call",
+      "math_op",
+      "rel_op"
+    ],
+    [
+      "function_call",
+      "bitwise_op",
+      "rel_op"
+    ],
+    [
+      "function_call",
+      "void_op",
+      "rel_op"
+    ],
+    [
+      "function_call",
+      "new_expression",
+      "rel_op"
+    ],
+    [
+      "function_call",
+      "bool_op",
+      "rel_op"
+    ],
+    [
+      "function_call",
+      "rel_op",
+      "type_op"
     ]
   ],
   "externals": []
