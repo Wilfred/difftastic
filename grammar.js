@@ -138,6 +138,7 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       optional(choice('type', 'typeof')),
       choice(
         seq($.import_clause, $._from_clause),
+        $.import_require_clause,
         $.string
       ),
       terminator()
@@ -259,6 +260,8 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
     ),
 
     // Additions
+
+    import_require_clause: $ => seq($.identifier, '=', 'require', '(', $.string, ')'),
 
     implements_clause: $ => seq(
       'implements',

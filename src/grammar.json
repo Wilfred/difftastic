@@ -416,6 +416,10 @@
             },
             {
               "type": "SYMBOL",
+              "name": "import_require_clause"
+            },
+            {
+              "type": "SYMBOL",
               "name": "string"
             }
           ]
@@ -5029,6 +5033,35 @@
           }
         ]
       }
+    },
+    "import_require_clause": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "identifier"
+        },
+        {
+          "type": "STRING",
+          "value": "="
+        },
+        {
+          "type": "STRING",
+          "value": "require"
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "SYMBOL",
+          "name": "string"
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
     },
     "implements_clause": {
       "type": "SEQ",
