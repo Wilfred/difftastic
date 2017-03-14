@@ -561,6 +561,18 @@
           ]
         },
         {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": ","
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
           "type": "STRING",
           "value": "}"
         }
@@ -2176,6 +2188,10 @@
         {
           "type": "SYMBOL",
           "name": "as_expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "non_null_assertion_op"
         },
         {
           "type": "CHOICE",
@@ -4841,6 +4857,23 @@
     "_line_break": {
       "type": "STRING",
       "value": "\n"
+    },
+    "non_null_assertion_op": {
+      "type": "PREC_LEFT",
+      "value": 10,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_expression"
+          },
+          {
+            "type": "STRING",
+            "value": "!"
+          }
+        ]
+      }
     },
     "ambient_export_declaration": {
       "type": "SEQ",

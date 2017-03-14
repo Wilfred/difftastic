@@ -408,3 +408,14 @@ let score: (string: string, query: string) => number
         (required_parameter (parameter_identifier) (type_annotation (predefined_type)))
         (required_parameter (identifier) (type_annotation (predefined_type))))
       (predefined_type))))))
+
+=======================================
+Non-null assertion operator
+=======================================
+
+const repository = foo++!
+
+---
+
+(program (lexical_declaration (variable_declarator (identifier) (non_null_assertion_op (math_op (identifier))))))
+
