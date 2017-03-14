@@ -10,6 +10,7 @@ import { member1 , member2 as alias2 } from "module-name";
 import defaultMember, { member1, member2 as alias2 } from "module-name";
 import defaultMember, * as name from "module-name";
 import "module-name";
+import { member1 , member2 as alias2, } from "module-name";
 
 ----
 
@@ -29,7 +30,9 @@ import "module-name";
   (import_statement
     (import_clause (identifier) (namespace_import (identifier))) (string))
   (import_statement
-    (string)))
+    (string))
+  (import_statement
+    (import_clause (named_imports (import_specifier (identifier)) (import_specifier (identifier) (identifier)))) (string)))
 
 ============================================
 Exports
