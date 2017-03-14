@@ -10,7 +10,8 @@ const PREC = {
   INC: 10,
   PLUS: 4,
   REL: 5,
-  TIMES: 6
+  TIMES: 6,
+  non_null_assertion_op: 10
 };
 
 module.exports = grammar(require('tree-sitter-javascript/grammar'), {
@@ -129,6 +130,7 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
     _expression: ($, previous) => choice(
       $.type_assertion,
       $.as_expression,
+      $.non_null_assertion_op,
       previous
     ),
 
@@ -143,6 +145,10 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       ),
       terminator()
     ),
+
+    non_null_assertion_op: $ => prec.left(PREC.non_null_assertion_op, seq(
+      $._expression, '!'
+    )),
 
     export_statement: ($, previous) => choice(
       seq('export', '*', $._from_clause, terminator()),
