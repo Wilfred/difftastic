@@ -125,7 +125,7 @@ module.exports = grammar({
     ),
 
     named_imports: $ => seq(
-      '{', commaSep($.import_specifier), '}'
+      '{', commaSep($.import_specifier), optional(','), '}'
     ),
 
     import_specifier: $ => choice(
