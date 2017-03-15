@@ -53,7 +53,9 @@ module.exports = grammar({
 
     // { key = 5,
     //         ^ comma expression assignment in a block or assignment_pattern in an object?
-    [$.assignment_pattern, $.assignment]
+    [$.assignment_pattern, $.assignment],
+
+    [$.yield_expression]
   ],
 
   rules: {
@@ -156,7 +158,6 @@ module.exports = grammar({
       $.break_statement,
       $.continue_statement,
       $.return_statement,
-      $.yield_statement,
       $.throw_statement,
       $.empty_statement,
       $.labeled_statement
@@ -165,7 +166,6 @@ module.exports = grammar({
     _trailing_statement: $ => choice(
       $.trailing_break_statement,
       $.trailing_continue_statement,
-      $.trailing_yield_statement,
       $.trailing_throw_statement,
       $.trailing_return_statement,
       $.trailing_expression_statement,
@@ -400,11 +400,6 @@ module.exports = grammar({
       terminator()
     ),
 
-    trailing_yield_statement: $ => seq(
-      'yield',
-      optional($._expression)
-    ),
-
     throw_statement: $ => seq(
       'throw',
       choice($._expression, $.comma_op),
@@ -495,8 +490,11 @@ module.exports = grammar({
       $.true,
       $.false,
       $.null,
-      $.undefined
+      $.undefined,
+      $.yield_expression
     ),
+
+    yield_expression: $ => seq('yield', optional($._expression)),
 
     object: $ => prec(PREC.OBJECT, seq(
       '{',
