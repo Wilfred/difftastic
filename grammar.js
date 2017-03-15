@@ -844,14 +844,13 @@ module.exports = grammar({
         optional('static'),
         choice(
           seq($.method_definition, optional(';')),
-          seq($._public_field_definition, terminator())
+          seq($.public_field_definition, terminator())
         )
       )),
       '}'
     ),
 
-    // TODO this should be a property_name http://www.ecma-international.org/ecma-262/6.0/#sec-object-initializer
-    _public_field_definition: $ => $.variable_declarator,
+    public_field_definition: $ => seq($._property_name, optional($._initializer)),
 
     formal_parameters: $ => seq(
       '(',

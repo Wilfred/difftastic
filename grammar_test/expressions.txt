@@ -286,7 +286,7 @@ class Foo {
     (class
       (identifier)
       (class_body
-        (variable_declarator (identifier) (number))))))
+        (public_field_definition (identifier) (number))))))
 
 ============================================
 Arrays
