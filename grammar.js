@@ -31,8 +31,10 @@ module.exports = grammar({
 
   conflicts: $ => [
     // { foo (
-    //    ^--- method definition or function call in block?
-    [$._expression, $.method_definition],
+    //    ^--- property name or function call in block?
+    [$._expression, $._property_name],
+
+    [$.labeled_statement, $._property_name],
 
     // { async (
     //    ^--- method definition or async arrow function?
@@ -860,16 +862,18 @@ module.exports = grammar({
     method_definition: $ => seq(
       optional('async'),
       optional(choice('get', 'set', '*')),
-      choice($.identifier, $.reserved_identifier),
+      $._property_name,
       $.formal_parameters,
       $.statement_block
     ),
 
     pair: $ => seq(
-      choice($.identifier, $.reserved_identifier, $.string, $.number),
+      $._property_name,
       ':',
       $._expression
     ),
+
+    _property_name: $ => choice($.identifier, $.reserved_identifier, $.string, $.number),
 
     reserved_identifier: $ => choice('get', 'set', 'async'),
 
