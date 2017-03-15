@@ -190,7 +190,7 @@ Objects with method definitions
       (identifier)
       (formal_parameters)
       (statement_block
-        (yield_statement (identifier))))
+        (expression_statement (yield_expression (identifier)))))
     (method_definition
       (reserved_identifier)
       (formal_parameters)
@@ -388,8 +388,8 @@ Generator Functions
       (identifier)
       (formal_parameters (identifier) (identifier))
       (statement_block
-        (yield_statement)
-        (yield_statement (identifier)))))))
+        (expression_statement (yield_expression))
+        (expression_statement (yield_expression (identifier))))))))
 
 ============================================
 Property access
@@ -897,3 +897,16 @@ Non-breaking spaces as whitespace
 ---
 
 (program (comment) (comment) (comment) (comment))
+
+==============================================
+Yield expressions
+==============================================
+
+yield db.users.where('[endpoint+email]')
+
+---
+
+(program
+  (expression_statement
+    (yield_expression
+      (function_call (member_access (member_access (identifier) (identifier)) (identifier)) (arguments (string))))))
