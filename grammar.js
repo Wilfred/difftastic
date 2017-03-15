@@ -83,7 +83,10 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
     [$.function_call, $.void_op, $.rel_op],
     [$.function_call, $.new_expression, $.rel_op],
     [$.function_call, $.bool_op, $.rel_op],
-    [$.function_call, $.rel_op, $.type_op]
+    [$.function_call, $.rel_op, $.type_op],
+
+    [$.reserved_identifier, $.property_name_identifier],
+    [$.reserved_identifier, $.property_name_identifier, $.arrow_function]
   ]),
   rules: {
 
@@ -584,7 +587,9 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       $.formal_parameters,
       '=>',
       $._type
-    )
+    ),
+
+    property_name_identifier: $ => choice('get', 'set', 'async')
   }
 });
 
@@ -617,7 +622,7 @@ function variableType() {
 }
 
 function propertyName($) {
-  return seq(optional($.accessibility_modifier), optional('static'), optional($.readonly), $.identifier)
+  return seq(optional($.accessibility_modifier), optional('static'), optional($.readonly), choice($.identifier, $.property_name_identifier))
 }
 
 function ambientDeclaration($) {

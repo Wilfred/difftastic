@@ -5011,8 +5011,17 @@
               ]
             },
             {
-              "type": "SYMBOL",
-              "name": "identifier"
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "identifier"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "property_name_identifier"
+                }
+              ]
             }
           ]
         },
@@ -6605,8 +6614,17 @@
               ]
             },
             {
-              "type": "SYMBOL",
-              "name": "identifier"
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "identifier"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "property_name_identifier"
+                }
+              ]
             }
           ]
         },
@@ -6893,8 +6911,17 @@
               ]
             },
             {
-              "type": "SYMBOL",
-              "name": "identifier"
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "identifier"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "property_name_identifier"
+                }
+              ]
             }
           ]
         },
@@ -7043,6 +7070,23 @@
         {
           "type": "SYMBOL",
           "name": "_type"
+        }
+      ]
+    },
+    "property_name_identifier": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "get"
+        },
+        {
+          "type": "STRING",
+          "value": "set"
+        },
+        {
+          "type": "STRING",
+          "value": "async"
         }
       ]
     }
@@ -7232,6 +7276,15 @@
       "function_call",
       "rel_op",
       "type_op"
+    ],
+    [
+      "reserved_identifier",
+      "property_name_identifier"
+    ],
+    [
+      "reserved_identifier",
+      "property_name_identifier",
+      "arrow_function"
     ]
   ],
   "externals": []

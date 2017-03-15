@@ -273,7 +273,7 @@ interface X {
     (object_type
       (property_signature (identifier) (type_annotation (object_type)))
       (method_signature
-        (identifier)
+        (property_name_identifier)
         (call_signature
           (formal_parameters
             (required_parameter (identifier) (type_annotation (type_reference (identifier)))))

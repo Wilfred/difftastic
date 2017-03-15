@@ -329,3 +329,28 @@ declare namespace Foo {
       (identifier)
       (ambient_namespace_body (ambient_export_declaration (interface_declaration (identifier) (object_type)))))))
 
+=======================================
+Method signatures with reserved identifiers
+=======================================
+
+class Foo {
+  private async();
+  get(): Result;
+  private set(plugin);
+}
+
+---
+
+(program
+  (expression_statement
+    (class
+      (identifier)
+      (class_body
+        (ambient_method_declaration (accessibility_modifier) (property_name_identifier) (call_signature (formal_parameters)))
+        (ambient_method_declaration
+          (property_name_identifier)
+          (call_signature (formal_parameters) (type_annotation (type_reference (identifier)))))
+        (ambient_method_declaration
+          (accessibility_modifier)
+          (property_name_identifier)
+          (call_signature (formal_parameters (required_parameter (identifier)))))))))
