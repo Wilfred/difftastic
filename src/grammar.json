@@ -4438,7 +4438,7 @@
                     "members": [
                       {
                         "type": "SYMBOL",
-                        "name": "_public_field_definition"
+                        "name": "public_field_definition"
                       },
                       {
                         "type": "CHOICE",
@@ -4466,9 +4466,26 @@
         }
       ]
     },
-    "_public_field_definition": {
-      "type": "SYMBOL",
-      "name": "variable_declarator"
+    "public_field_definition": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_property_name"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_initializer"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        }
+      ]
     },
     "formal_parameters": {
       "type": "SEQ",
