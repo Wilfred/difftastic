@@ -5214,36 +5214,70 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "SYMBOL",
-              "name": "interface_declaration"
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "interface_declaration"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "ambient_variable"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "ambient_function"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "class"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "_ambient_enum"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "ambient_namespace"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "module"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "type_alias_declaration"
+                }
+              ]
             },
             {
-              "type": "SYMBOL",
-              "name": "ambient_variable"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "ambient_function"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "class"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "_ambient_enum"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "ambient_namespace"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "module"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "type_alias_declaration"
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "global"
+                },
+                {
+                  "type": "STRING",
+                  "value": "{"
+                },
+                {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "SYMBOL",
+                      "name": "ambient_namespace_body"
+                    },
+                    {
+                      "type": "BLANK"
+                    }
+                  ]
+                },
+                {
+                  "type": "STRING",
+                  "value": "}"
+                }
+              ]
             }
           ]
         }
@@ -7057,23 +7091,6 @@
           "name": "_type"
         }
       ]
-    },
-    "property_name_identifier": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "get"
-        },
-        {
-          "type": "STRING",
-          "value": "set"
-        },
-        {
-          "type": "STRING",
-          "value": "async"
-        }
-      ]
     }
   },
   "extras": [
@@ -7265,15 +7282,6 @@
       "function_call",
       "rel_op",
       "type_op"
-    ],
-    [
-      "reserved_identifier",
-      "property_name_identifier"
-    ],
-    [
-      "reserved_identifier",
-      "property_name_identifier",
-      "arrow_function"
     ],
     [
       "_expression",

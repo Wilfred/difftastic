@@ -118,9 +118,8 @@ declare class Linter {
       (identifier)
       (class_body
         (public_field_definition
-          (variable_declarator
           (identifier)
-          (type_annotation (type_query (identifier)))))))))
+          (type_annotation (type_query (identifier))))))))
 
 ==================================
 Export assignments
@@ -164,7 +163,7 @@ export class CloningRepository {
         (public_field_definition
         (accessibility_modifier)
         (readonly)
-        (variable_declarator (identifier) (math_op (identifier))))))))
+        (identifier) (math_op (identifier)))))))
 
 ==================================
 Ambient type declarations
@@ -346,13 +345,13 @@ class Foo {
     (class
       (identifier)
       (class_body
-        (ambient_method_declaration (accessibility_modifier) (property_name_identifier) (call_signature (formal_parameters)))
+        (ambient_method_declaration (accessibility_modifier) (reserved_identifier) (call_signature (formal_parameters)))
         (ambient_method_declaration
-          (property_name_identifier)
+          (reserved_identifier)
           (call_signature (formal_parameters) (type_annotation (type_reference (identifier)))))
         (ambient_method_declaration
           (accessibility_modifier)
-          (property_name_identifier)
+          (reserved_identifier)
           (call_signature (formal_parameters (required_parameter (identifier)))))))))
 
 =======================================
@@ -379,3 +378,15 @@ class Foo {
       (public_field_definition (accessibility_modifier) (readonly) (string) (type_annotation (type_reference (identifier))) (string))
       (public_field_definition (readonly) (string) (type_annotation (type_reference (identifier))) (string))
       (public_field_definition (readonly) (string) (type_annotation (type_reference (identifier))) (string))))))
+
+=======================================
+Global namespace declarations
+=======================================
+
+declare global {
+
+}
+
+---
+
+(program (ambient_declaration))
