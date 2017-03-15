@@ -354,3 +354,28 @@ class Foo {
           (accessibility_modifier)
           (property_name_identifier)
           (call_signature (formal_parameters (required_parameter (identifier)))))))))
+
+=======================================
+Classes with property names as strings or numbers
+=======================================
+
+class Foo {
+  static 2: string;
+  public static 2: string = 'string';
+  public static readonly 'hello'?: int = 'string';
+  static readonly 'hello'?: int = 'string';
+  readonly 'hello'?: int = 'string';
+}
+
+---
+
+(program
+  (expression_statement
+  (class
+    (identifier)
+    (class_body
+      (public_field_definition (number) (type_annotation (predefined_type)))
+      (public_field_definition (accessibility_modifier) (number) (type_annotation (predefined_type)) (string))
+      (public_field_definition (accessibility_modifier) (readonly) (string) (type_annotation (type_reference (identifier))) (string))
+      (public_field_definition (readonly) (string) (type_annotation (type_reference (identifier))) (string))
+      (public_field_definition (readonly) (string) (type_annotation (type_reference (identifier))) (string))))))

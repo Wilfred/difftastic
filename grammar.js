@@ -86,12 +86,26 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
     [$.function_call, $.rel_op, $.type_op],
 
     [$.reserved_identifier, $.property_name_identifier],
-    [$.reserved_identifier, $.property_name_identifier, $.arrow_function]
+    [$.reserved_identifier, $.property_name_identifier, $.arrow_function],
+
+    [$._expression, $.method_signature],
+
+    [$._property_definition_list, $._property_name],
+    [$._property_definition_list, $._property_name, $._expression]
   ]),
   rules: {
 
     // Overrides
+    public_field_definition: ($, previous) => seq(
+      optional($.accessibility_modifier),
+      optional('static'),
+      optional($.readonly),
+      $._property_name,
+      optional('?'),
+      optional($.type_annotation),
+      optional($._initializer)),
 
+    // TODO: Maybe remove this?
     math_op: ($, previous) => choice(
       prec.left(PREC.NEG, seq('-', $._expression)),
       prec.left(PREC.NEG, seq('+', $._expression)),
@@ -124,8 +138,7 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
     )),
 
     pair: ($, previous) => seq(
-      seq(
-        choice($.identifier, $.reserved_identifier, $.string, $.number, $.accessibility_modifier)),
+      choice($._property_name, $.accessibility_modifier),
       ':',
       $._expression
     ),
@@ -176,9 +189,11 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       seq($.destructuring_pattern, optional($.type_annotation), $._initializer)
     ),
 
-
     ambient_method_declaration: $ => seq(
-      propertyName($),
+      optional($.accessibility_modifier),
+      optional('static'),
+      optional($.readonly),
+      $._property_name,
       $.call_signature,
       terminator()
     ),
@@ -214,20 +229,13 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       '}'
     ),
 
-    public_field_definition: $ => seq(
-      optional($.accessibility_modifier),
-      optional('static'),
-      optional($.readonly),
-      $.variable_declarator
-    ),
-
     method_definition: $ => seq(
       optional($.accessibility_modifier),
       optional('static'),
       optional($.readonly),
       optional('async'),
       optional(choice('get', 'set', '*')),
-      choice($.identifier, $.reserved_identifier),
+      $._property_name,
       $.call_signature,
       $.statement_block
     ),
@@ -530,7 +538,13 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       $.method_signature
     )),
 
-    property_signature: $ => seq(propertyName($), optional('?'), optional($.type_annotation)),
+    property_signature: $ => seq(
+      optional($.accessibility_modifier),
+      optional('static'),
+      optional($.readonly),
+      $._property_name,
+      optional('?'),
+      optional($.type_annotation)),
 
     call_signature: $ => seq(
       optional($.type_parameters),
@@ -564,7 +578,13 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       seq('[', $.identifier, ':', 'number', ']', $.type_annotation)
     ),
 
-    method_signature: $ => seq(propertyName($), optional('?'), $.call_signature),
+    method_signature: $ => seq(
+      optional($.accessibility_modifier),
+      optional('static'),
+      optional($.readonly),
+      $._property_name,
+      optional('?'),
+      $.call_signature),
 
     array_type: $ => prec.right(PREC.array_type, seq(
       $._primary_type, '[', ']'
@@ -619,10 +639,6 @@ function terminator () {
 
 function variableType() {
   return choice('var','let','const')
-}
-
-function propertyName($) {
-  return seq(optional($.accessibility_modifier), optional('static'), optional($.readonly), choice($.identifier, $.property_name_identifier))
 }
 
 function ambientDeclaration($) {

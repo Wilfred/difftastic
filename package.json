@@ -14,7 +14,7 @@
   },
   "devDependencies": {
     "tree-sitter-cli": "^0.4.8",
-    "tree-sitter-javascript": "tree-sitter/tree-sitter-javascript#yield-expressions"
+    "tree-sitter-javascript": "tree-sitter/tree-sitter-javascript#public-field-definitions"
   },
   "scripts": {
     "test": "tree-sitter test"
