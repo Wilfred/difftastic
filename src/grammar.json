@@ -4438,7 +4438,7 @@
                     "members": [
                       {
                         "type": "SYMBOL",
-                        "name": "_public_field_definition"
+                        "name": "public_field_definition"
                       },
                       {
                         "type": "CHOICE",
@@ -4466,9 +4466,26 @@
         }
       ]
     },
-    "_public_field_definition": {
-      "type": "SYMBOL",
-      "name": "variable_declarator"
+    "public_field_definition": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_property_name"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_initializer"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        }
+      ]
     },
     "formal_parameters": {
       "type": "SEQ",
@@ -4575,17 +4592,8 @@
           ]
         },
         {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "identifier"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "reserved_identifier"
-            }
-          ]
+          "type": "SYMBOL",
+          "name": "_property_name"
         },
         {
           "type": "SYMBOL",
@@ -4601,25 +4609,8 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "identifier"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "reserved_identifier"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "string"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "number"
-            }
-          ]
+          "type": "SYMBOL",
+          "name": "_property_name"
         },
         {
           "type": "STRING",
@@ -4628,6 +4619,27 @@
         {
           "type": "SYMBOL",
           "name": "_expression"
+        }
+      ]
+    },
+    "_property_name": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "identifier"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "reserved_identifier"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "string"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "number"
         }
       ]
     },
@@ -4670,7 +4682,11 @@
   "conflicts": [
     [
       "_expression",
-      "method_definition"
+      "_property_name"
+    ],
+    [
+      "labeled_statement",
+      "_property_name"
     ],
     [
       "reserved_identifier",
