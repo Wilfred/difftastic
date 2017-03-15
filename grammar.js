@@ -297,6 +297,7 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
     ),
 
     class: ($, previous) => seq(
+      optional('abstract'),
       'class',
       $.identifier,
       optional($.type_parameters),

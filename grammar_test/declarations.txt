@@ -38,7 +38,7 @@ declare class Greeter {
     (class
       (identifier)
       (class_body
-        (public_field_definition (variable_declarator (identifier) (type_annotation (type_reference (identifier))))))))
+        (public_field_definition (identifier) (type_annotation (type_reference (identifier)))))))
   (ambient_declaration
     (ambient_variable (ambient_binding (identifier) (type_annotation (predefined_type)))))
   (ambient_declaration
@@ -75,7 +75,7 @@ declare class Greeter {
       (class_body
         (ambient_method_declaration
           (identifier) (call_signature (formal_parameters (required_parameter (identifier) (type_annotation (predefined_type))))))
-        (public_field_definition (variable_declarator (identifier) (type_annotation (predefined_type))))
+        (public_field_definition (identifier) (type_annotation (predefined_type)))
         (ambient_method_declaration (identifier) (call_signature (formal_parameters) (type_annotation (predefined_type))))))))
 
 ==================================
@@ -390,3 +390,16 @@ declare global {
 ---
 
 (program (ambient_declaration))
+
+
+=======================================
+Abstract classes
+=======================================
+
+abstract class Foo {
+
+}
+
+---
+
+(program (expression_statement (class (identifier) (class_body))))
