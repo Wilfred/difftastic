@@ -4883,6 +4883,10 @@
           "members": [
             {
               "type": "SYMBOL",
+              "name": "interface_declaration"
+            },
+            {
+              "type": "SYMBOL",
               "name": "ambient_variable"
             },
             {

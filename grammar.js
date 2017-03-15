@@ -165,6 +165,7 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
     ambient_export_declaration: $ => seq(
       'export',
       choice(
+        $.interface_declaration,
         $.ambient_variable,
         $.ambient_function,
         $.class,
