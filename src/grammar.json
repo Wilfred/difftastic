@@ -246,6 +246,40 @@
               ]
             }
           ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "export"
+            },
+            {
+              "type": "STRING",
+              "value": "as"
+            },
+            {
+              "type": "STRING",
+              "value": "namespace"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "identifier"
+            },
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": ";"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "_line_break"
+                }
+              ]
+            }
+          ]
         }
       ]
     },
@@ -2797,8 +2831,25 @@
       "type": "CHOICE",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "extends_clause"
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "extends_clause"
+            },
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "implements_clause"
+                },
+                {
+                  "type": "BLANK"
+                }
+              ]
+            }
+          ]
         },
         {
           "type": "SYMBOL",
@@ -5142,6 +5193,10 @@
           "members": [
             {
               "type": "SYMBOL",
+              "name": "interface_declaration"
+            },
+            {
+              "type": "SYMBOL",
               "name": "ambient_variable"
             },
             {
@@ -5340,8 +5395,41 @@
                     "name": "export_statement"
                   },
                   {
-                    "type": "SYMBOL",
-                    "name": "ambient_function"
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "SYMBOL",
+                        "name": "interface_declaration"
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "ambient_variable"
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "ambient_function"
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "class"
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "_ambient_enum"
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "ambient_namespace"
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "module"
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "type_alias_declaration"
+                      }
+                    ]
                   },
                   {
                     "type": "SYMBOL",
@@ -5389,8 +5477,41 @@
             "name": "ambient_export_declaration"
           },
           {
-            "type": "SYMBOL",
-            "name": "ambient_variable"
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "interface_declaration"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "ambient_variable"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "ambient_function"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "class"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "_ambient_enum"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "ambient_namespace"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "module"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "type_alias_declaration"
+              }
+            ]
           },
           {
             "type": "SYMBOL",
@@ -5398,31 +5519,7 @@
           },
           {
             "type": "SYMBOL",
-            "name": "ambient_function"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "class"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "interface_declaration"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "_ambient_enum"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "ambient_namespace"
-          },
-          {
-            "type": "SYMBOL",
             "name": "import_alias"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "type_alias_declaration"
           }
         ]
       }

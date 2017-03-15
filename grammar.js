@@ -158,21 +158,14 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       seq('export', 'default', $.anonymous_class),
       seq('export', optional('default'), $.ambient_function),
       seq('export', 'default', $._expression, terminator()),
-      seq('export', '=', $.identifier, terminator())
+      seq('export', '=', $.identifier, terminator()),
+      seq('export', 'as', 'namespace', $.identifier, terminator())
     ),
 
     // Exports that can appear in object types, namespace elements, modules, and interfaces
     ambient_export_declaration: $ => seq(
       'export',
-      choice(
-        $.interface_declaration,
-        $.ambient_variable,
-        $.ambient_function,
-        $.class,
-        $._ambient_enum,
-        $.ambient_namespace,
-        $.module,
-        $.type_alias_declaration)
+      ambientDeclaration($)
     ),
 
     variable_declarator: ($, previous) => choice(
@@ -262,7 +255,7 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
     )),
 
     class_heritage: ($, previous) => choice(
-      $.extends_clause,
+      seq($.extends_clause, optional($.implements_clause)),
       $.implements_clause
     ),
 
@@ -277,15 +270,7 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
 
     ambient_declaration: $ => seq(
       'declare',
-      choice(
-        $.ambient_variable,
-        $.ambient_function,
-        $.class,
-        $._ambient_enum,
-        $.ambient_namespace,
-        $.module,
-        $.type_alias_declaration
-      )
+      ambientDeclaration($)
     ),
 
     ambient_variable: $ => seq(
@@ -323,7 +308,7 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
           choice(
             $.import_statement,
             $.export_statement,
-            $.ambient_function,
+            ambientDeclaration($),
             $._declaration),
           optional(terminator()))),
       '}'
@@ -331,15 +316,9 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
 
     ambient_namespace_body: $ => repeat1(choice(
       $.ambient_export_declaration,
-      $.ambient_variable,
+      ambientDeclaration($),
       $.lexical_declaration,
-      $.ambient_function,
-      $.class,
-      $.interface_declaration,
-      $._ambient_enum,
-      $.ambient_namespace,
-      $.import_alias,
-      $.type_alias_declaration
+      $.import_alias
     )),
 
     import_alias: $ => seq(
@@ -641,3 +620,15 @@ function propertyName($) {
   return seq(optional($.accessibility_modifier), optional('static'), optional($.readonly), $.identifier)
 }
 
+function ambientDeclaration($) {
+  return choice(
+    $.interface_declaration,
+    $.ambient_variable,
+    $.ambient_function,
+    $.class,
+    $._ambient_enum,
+    $.ambient_namespace,
+    $.module,
+    $.type_alias_declaration
+  )
+}
