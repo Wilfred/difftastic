@@ -38,7 +38,7 @@ declare class Greeter {
     (class
       (identifier)
       (class_body
-        (public_field_definition (variable_declarator (identifier) (type_annotation (type_reference (identifier))))))))
+        (public_field_definition (identifier) (type_annotation (type_reference (identifier)))))))
   (ambient_declaration
     (ambient_variable (ambient_binding (identifier) (type_annotation (predefined_type)))))
   (ambient_declaration
@@ -75,7 +75,7 @@ declare class Greeter {
       (class_body
         (ambient_method_declaration
           (identifier) (call_signature (formal_parameters (required_parameter (identifier) (type_annotation (predefined_type))))))
-        (public_field_definition (variable_declarator (identifier) (type_annotation (predefined_type))))
+        (public_field_definition (identifier) (type_annotation (predefined_type)))
         (ambient_method_declaration (identifier) (call_signature (formal_parameters) (type_annotation (predefined_type))))))))
 
 ==================================
@@ -118,9 +118,8 @@ declare class Linter {
       (identifier)
       (class_body
         (public_field_definition
-          (variable_declarator
           (identifier)
-          (type_annotation (type_query (identifier)))))))))
+          (type_annotation (type_query (identifier))))))))
 
 ==================================
 Export assignments
@@ -164,7 +163,7 @@ export class CloningRepository {
         (public_field_definition
         (accessibility_modifier)
         (readonly)
-        (variable_declarator (identifier) (math_op (identifier))))))))
+        (identifier) (math_op (identifier)))))))
 
 ==================================
 Ambient type declarations
@@ -312,3 +311,95 @@ declare namespace moment {
           (ambient_function (identifier) (call_signature (formal_parameters) (type_annotation (type_reference (identifier))))))
         (ambient_export_declaration (enum_declaration (identifier) (identifier) (identifier) (identifier)))))))
 
+
+=================================
+Export interfaces in namespaces
+=================================
+declare namespace Foo {
+  export interface Bar {
+  }
+}
+
+---
+
+(program
+  (ambient_declaration
+    (ambient_namespace
+      (identifier)
+      (ambient_namespace_body (ambient_export_declaration (interface_declaration (identifier) (object_type)))))))
+
+=======================================
+Method signatures with reserved identifiers
+=======================================
+
+class Foo {
+  private async();
+  get(): Result;
+  private set(plugin);
+}
+
+---
+
+(program
+  (expression_statement
+    (class
+      (identifier)
+      (class_body
+        (ambient_method_declaration (accessibility_modifier) (reserved_identifier) (call_signature (formal_parameters)))
+        (ambient_method_declaration
+          (reserved_identifier)
+          (call_signature (formal_parameters) (type_annotation (type_reference (identifier)))))
+        (ambient_method_declaration
+          (accessibility_modifier)
+          (reserved_identifier)
+          (call_signature (formal_parameters (required_parameter (identifier)))))))))
+
+=======================================
+Classes with property names as strings or numbers
+=======================================
+
+class Foo {
+  static 2: string;
+  public static 2: string = 'string';
+  public static readonly 'hello'?: int = 'string';
+  static readonly 'hello'?: int = 'string';
+  readonly 'hello'?: int = 'string';
+}
+
+---
+
+(program
+  (expression_statement
+  (class
+    (identifier)
+    (class_body
+      (public_field_definition (number) (type_annotation (predefined_type)))
+      (public_field_definition (accessibility_modifier) (number) (type_annotation (predefined_type)) (string))
+      (public_field_definition (accessibility_modifier) (readonly) (string) (type_annotation (type_reference (identifier))) (string))
+      (public_field_definition (readonly) (string) (type_annotation (type_reference (identifier))) (string))
+      (public_field_definition (readonly) (string) (type_annotation (type_reference (identifier))) (string))))))
+
+=======================================
+Global namespace declarations
+=======================================
+
+declare global {
+
+}
+
+---
+
+(program (ambient_declaration))
+
+
+=======================================
+Abstract classes
+=======================================
+
+abstract class Foo {
+
+}
+
+---
+
+(program (expression_statement (class (identifier) (class_body))))
