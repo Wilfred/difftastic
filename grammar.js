@@ -769,9 +769,22 @@ module.exports = grammar({
       seq("'", repeat(choice(/[^\\'\n]/, /\\./)), "'")
     )),
 
-    template_string: $ => token(seq(
-      '`', repeat(/[^`]/), '`'
-    )),
+    template_string: $ => seq(
+      '`',
+      repeat(choice(
+        $.template_chars,
+        $.template_substitution
+      )),
+      '`'),
+
+      template_chars: $ => prec.right(repeat1(choice(
+        /[^`\$]/, /\$[^{]/))),
+
+    template_substitution: $ => seq(
+      '${',
+      choice($._expression, $.comma_op),
+      '}'
+    ),
 
     regex: $ => token(seq(
       '/',
