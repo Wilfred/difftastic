@@ -2958,8 +2958,17 @@
   ],
   "conflicts": [],
   "externals": [
-    "_newline",
-    "_indent",
-    "_dedent"
+    {
+      "type": "SYMBOL",
+      "name": "_newline"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_indent"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_dedent"
+    }
   ]
 }

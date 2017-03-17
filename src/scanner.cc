@@ -69,6 +69,7 @@ struct Scanner {
 
     if (lexer->lookahead != '\n') return false;
     advance(lexer);
+    lexer->mark_end(lexer);
 
     uint32_t indent_length = 0;
     for (;;) {
