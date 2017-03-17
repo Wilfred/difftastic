@@ -12,18 +12,13 @@ enum TokenType {
   SIMPLE_SUBSHELL,
   SIMPLE_REGEX,
   SIMPLE_WORD_LIST,
-  SIMPLE_HEREDOC_BODY,
   STRING_BEGINNING,
   SYMBOL_BEGINNING,
   SUBSHELL_BEGINNING,
   REGEX_BEGINNING,
   WORD_LIST_BEGINNING,
-  HEREDOC_BODY_BEGINNING,
   STRING_MIDDLE,
-  HEREDOC_BODY_MIDDLE,
   STRING_END,
-  HEREDOC_BODY_END,
-  HEREDOC_BEGINNING,
   LINE_BREAK,
   FORWARD_SLASH,
   ELEMENT_REFERENCE_LEFT_BRACKET,
@@ -51,13 +46,6 @@ struct Literal {
   int32_t close_delimiter;
   uint32_t nesting_depth;
   bool allows_interpolation;
-};
-
-struct Heredoc {
-  Heredoc() : end_word_indentation_allowed(false) {}
-
-  string word;
-  bool end_word_indentation_allowed;
 };
 
 TokenType BEGINNING_TOKEN_TYPES[] = {
@@ -479,53 +467,6 @@ struct Scanner {
     End
   };
 
-  ScanContentResult scan_heredoc_content(TSLexer *lexer) {
-    if (open_heredocs.empty()) return Error;
-    Heredoc heredoc = open_heredocs.front();
-    size_t position_in_word = 0;
-    bool look_for_heredoc_end = true;
-
-    for (;;) {
-      if (position_in_word == heredoc.word.size()) {
-        while (lexer->lookahead == ' ' || lexer->lookahead == '\t') advance(lexer);
-        if (lookahead_is_line_end(lexer)) {
-          open_heredocs.erase(open_heredocs.begin());
-          return End;
-        }
-      }
-      if (lexer->lookahead == 0) {
-        open_heredocs.erase(open_heredocs.begin());
-        return End;
-      }
-
-      if (lexer->lookahead == heredoc.word[position_in_word] && look_for_heredoc_end) {
-        advance(lexer);
-        position_in_word++;
-      } else {
-        position_in_word = 0;
-        look_for_heredoc_end = false;
-        if (lexer->lookahead == '#') {
-          advance(lexer);
-          if (lexer->lookahead == '{') {
-            advance(lexer);
-            return Interpolation;
-          }
-        } else if (lookahead_is_line_end(lexer)) {
-          advance(lexer);
-          look_for_heredoc_end = true;
-          while (lexer->lookahead == ' ' || lexer->lookahead == '\t') {
-            advance(lexer);
-            if (!heredoc.end_word_indentation_allowed) {
-              look_for_heredoc_end = false;
-            }
-          }
-        } else {
-          advance(lexer);
-        }
-      }
-    }
-  }
-
   ScanContentResult scan_content(TSLexer *lexer, Literal &literal) {
     for (;;) {
       if (literal.nesting_depth == 0) {
@@ -573,36 +514,6 @@ struct Scanner {
 
     if (!scan_whitespace(lexer, valid_symbols, &found_heredoc_starting_linebreak)) return false;
     if (lexer->result_symbol == LINE_BREAK) return true;
-
-    if (valid_symbols[HEREDOC_BODY_MIDDLE] && !open_heredocs.empty()) {
-      if (scan_interpolation_close(lexer)) {
-        switch (scan_heredoc_content(lexer)) {
-          case Error:
-            return false;
-          case Interpolation:
-            lexer->result_symbol = HEREDOC_BODY_MIDDLE;
-            return true;
-          case End:
-            lexer->result_symbol = HEREDOC_BODY_END;
-            return true;
-        }
-      }
-    }
-
-    if (valid_symbols[HEREDOC_BODY_BEGINNING] && !open_heredocs.empty() && found_heredoc_starting_linebreak) {
-      if (literal_stack.empty()) {
-        switch (scan_heredoc_content(lexer)) {
-          case Error:
-            return false;
-          case Interpolation:
-            lexer->result_symbol = HEREDOC_BODY_BEGINNING;
-            return true;
-          case End:
-            lexer->result_symbol = SIMPLE_HEREDOC_BODY;
-            return true;
-        }
-      }
-    }
 
     if (valid_symbols[BLOCK_AMPERSAND] && lexer->lookahead == '&') {
       advance(lexer);
@@ -718,22 +629,6 @@ struct Scanner {
             lexer->result_symbol = SIMPLE_SYMBOL;
             return true;
         }
-      } else if (lexer->lookahead == '<') {
-        advance(lexer);
-        if (lexer->lookahead != '<') return false;
-        advance(lexer);
-
-        Heredoc heredoc;
-        if (lexer->lookahead == '-' || lexer->lookahead == '~') {
-          advance(lexer);
-          heredoc.end_word_indentation_allowed = true;
-        }
-
-        heredoc.word = scan_heredoc_word(lexer);
-        if (heredoc.word.empty()) return false;
-        open_heredocs.push_back(heredoc);
-        lexer->result_symbol = HEREDOC_BEGINNING;
-        return true;
       } else {
         if (!scan_open_delimiter(lexer, literal, valid_symbols)) return false;
       }
@@ -756,7 +651,6 @@ struct Scanner {
 
   bool has_leading_whitespace;
   vector<Literal> literal_stack;
-  vector<Heredoc> open_heredocs;
 };
 
 extern "C" {
