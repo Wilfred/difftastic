@@ -472,6 +472,7 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       $.tuple_type,
       $.flow_maybe_type,
       $.type_query,
+      $.index_type_query,
       $.this_type,
       $.existential_type,
       $.literal_type
@@ -485,6 +486,11 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
 
     type_query: $ => seq(
       'typeof',
+      $._entity_name
+    ),
+
+    index_type_query: $ => seq(
+      'keyof',
       $._entity_name
     ),
 

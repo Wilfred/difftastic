@@ -6288,6 +6288,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "index_type_query"
+        },
+        {
+          "type": "SYMBOL",
           "name": "this_type"
         },
         {
@@ -6323,6 +6327,19 @@
         {
           "type": "STRING",
           "value": "typeof"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_entity_name"
+        }
+      ]
+    },
+    "index_type_query": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "keyof"
         },
         {
           "type": "SYMBOL",
