@@ -3183,8 +3183,8 @@
                     "name": "_binary_star"
                   },
                   {
-                    "type": "SYMBOL",
-                    "name": "_forward_slash"
+                    "type": "STRING",
+                    "value": "/"
                   },
                   {
                     "type": "STRING",
@@ -3746,10 +3746,6 @@
       "type": "CHOICE",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "_forward_slash"
-        },
-        {
           "type": "STRING",
           "value": ".."
         },
@@ -3808,6 +3804,10 @@
         {
           "type": "STRING",
           "value": "*"
+        },
+        {
+          "type": "STRING",
+          "value": "/"
         },
         {
           "type": "STRING",
@@ -4060,68 +4060,13 @@
         }
       ]
     },
-    "_simple_symbol": {
-      "type": "TOKEN",
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "STRING",
-            "value": ":"
-          },
-          {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "PATTERN",
-                "value": "[a-z_][a-zA-Z0-9_]*(\\?|\\!)?"
-              },
-              {
-                "type": "PATTERN",
-                "value": "@[a-zA-Z_][a-zA-Z0-9_]*"
-              },
-              {
-                "type": "PATTERN",
-                "value": "@@[a-zA-Z_][a-zA-Z0-9_]*"
-              },
-              {
-                "type": "PATTERN",
-                "value": "\\$-?(([!@&`'+~=\\/\\\\,;.<>*$?:\"])|([0-9]*)|([a-zA-Z_][a-zA-Z0-9_]*))"
-              }
-            ]
-          }
-        ]
-      }
-    },
     "integer": {
       "type": "PATTERN",
       "value": "0b[01](_?[01])*|0[oO]?[0-7](_?[0-7])*|(0d)?\\d(_?\\d)*|0x[0-9a-fA-F](_?[0-9a-fA-F])*"
     },
     "float": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "PATTERN",
-              "value": "0b[01](_?[01])*|0[oO]?[0-7](_?[0-7])*|(0d)?\\d(_?\\d)*|0x[0-9a-fA-F](_?[0-9a-fA-F])*"
-            },
-            {
-              "type": "STRING",
-              "value": "."
-            },
-            {
-              "type": "PATTERN",
-              "value": "\\d(_?\\d)*([eE][-+]?\\d(_?\\d)*)?"
-            }
-          ]
-        },
-        {
-          "type": "PATTERN",
-          "value": "\\d(_?\\d)*([eE][-+]?\\d(_?\\d)*)?"
-        }
-      ]
+      "type": "PATTERN",
+      "value": "\\d(_?\\d)*(\\.\\d)?(_?\\d)*([eE]?[\\+-]?\\d(_?\\d)*)?"
     },
     "super": {
       "type": "STRING",
@@ -4732,10 +4677,6 @@
         "value": ";"
       }
     },
-    "_forward_slash": {
-      "type": "STRING",
-      "value": "/"
-    },
     "_terminator": {
       "type": "CHOICE",
       "members": [
@@ -4764,40 +4705,119 @@
       "value": "\\s|\\\\\\n"
     }
   ],
-  "conflicts": [
-    [
-      "integer",
-      "float"
-    ]
-  ],
+  "conflicts": [],
   "externals": [
-    "_simple_string",
-    "_simple_symbol",
-    "_simple_subshell",
-    "_simple_regex",
-    "_simple_word_list",
-    "_simple_heredoc_body",
-    "_string_beginning",
-    "_symbol_beginning",
-    "_subshell_beginning",
-    "_regex_beginning",
-    "_word_list_beginning",
-    "_heredoc_body_beginning",
-    "_string_middle",
-    "_heredoc_body_middle",
-    "_string_end",
-    "_heredoc_body_end",
-    "heredoc_beginning",
-    "_line_break",
-    "_forward_slash",
-    "_element_reference_left_bracket",
-    "_block_ampersand",
-    "_splat_star",
-    "_argument_list_left_paren",
-    "_scope_double_colon",
-    "_keyword_colon",
-    "_unary_minus",
-    "_binary_minus",
-    "_binary_star"
+    {
+      "type": "SYMBOL",
+      "name": "_simple_string"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_simple_symbol"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_simple_subshell"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_simple_regex"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_simple_word_list"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_simple_heredoc_body"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_string_beginning"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_symbol_beginning"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_subshell_beginning"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_regex_beginning"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_word_list_beginning"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_heredoc_body_beginning"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_string_middle"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_heredoc_body_middle"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_string_end"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_heredoc_body_end"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "heredoc_beginning"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_line_break"
+    },
+    {
+      "type": "STRING",
+      "value": "/"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_element_reference_left_bracket"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_block_ampersand"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_splat_star"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_argument_list_left_paren"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_scope_double_colon"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_keyword_colon"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_unary_minus"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_binary_minus"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_binary_star"
+    }
   ]
 }

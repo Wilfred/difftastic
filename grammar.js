@@ -26,8 +26,6 @@ const PREC = {
   COMPLEMENT: 85,
 };
 
-const integerPattern = /0b[01](_?[01])*|0[oO]?[0-7](_?[0-7])*|(0d)?\d(_?\d)*|0x[0-9a-fA-F](_?[0-9a-fA-F])*/;
-const floatPattern = /\d(_?\d)*([eE][-+]?\d(_?\d)*)?/;
 const identifierPattern = /[a-z_][a-zA-Z0-9_]*(\?|\!)?/;
 const constantPattern = /[A-Z][a-zA-Z0-9_]*(\?|\!)?/;
 
@@ -61,7 +59,7 @@ module.exports = grammar({
     $._heredoc_body_end,
     $.heredoc_beginning,
     $._line_break,
-    $._forward_slash,
+    '/',
     $._element_reference_left_bracket,
     $._block_ampersand,
     $._splat_star,
@@ -76,11 +74,6 @@ module.exports = grammar({
   extras: $ => [
     $.comment,
     /\s|\\\n/
-  ],
-
-  conflicts: $ => [
-    // Temporary fix until we can backtrack to parse things like `3.times`
-    [$.integer, $.float],
   ],
 
   rules: {
@@ -443,7 +436,7 @@ module.exports = grammar({
       prec.left(PREC.BITWISE_AND, seq($._arg, '&', $._arg)),
       prec.left(PREC.BITWISE_OR, seq($._arg, choice('^', '|'), $._arg)),
       prec.left(PREC.ADDITIVE, seq($._arg, choice($._binary_minus, '+'), $._arg)),
-      prec.left(PREC.MULTIPLICATIVE, seq($._arg, choice($._binary_star, $._forward_slash, '%'), $._arg)),
+      prec.left(PREC.MULTIPLICATIVE, seq($._arg, choice($._binary_star, '/', '%'), $._arg)),
       prec.right(PREC.EXPONENTIAL, seq($._arg, '**', $._arg))
     ),
 
@@ -495,9 +488,8 @@ module.exports = grammar({
       'then', 'true', 'undef', 'when', 'yield', 'if', 'unless', 'while', 'until'
     ),
     operator: $ => choice(
-      $._forward_slash,
       '..', '|', '^', '&', '<=>', '==', '===', '=~', '>', '>=', '<', '<=', '+',
-      '-', '*', '%', '!', '**', '<<', '>>', '~', '+@', '-@', '[]', '[]=', '`'
+      '-', '*', '/', '%', '!', '**', '<<', '>>', '~', '+@', '-@', '[]', '[]=', '`'
     ),
 
     _method_name: $ => choice(
@@ -539,24 +531,9 @@ module.exports = grammar({
       )
     ),
 
-    // Fallback to catch :name
-    _simple_symbol: $ => token(seq(
-      ':',
-      choice(
-        identifierPattern,
-        instanceVariablePattern,
-        classVariablePattern,
-        globalVariablePattern
-      )
-    )),
+    integer: $ => /0b[01](_?[01])*|0[oO]?[0-7](_?[0-7])*|(0d)?\d(_?\d)*|0x[0-9a-fA-F](_?[0-9a-fA-F])*/,
 
-    integer: $ => integerPattern,
-    // TODO: When we can backtrack, redefine float as regex instead of seq.
-    // float: $ => (/\d(_?\d)*(\.\d)?(_?\d)*([eE]\d(_?\d)*)?/),
-    float: $ => choice(
-      seq(integerPattern, '.', floatPattern),
-      floatPattern
-    ),
+    float: $ => /\d(_?\d)*(\.\d)?(_?\d)*([eE]?[\+-]?\d(_?\d)*)?/,
     super: $ => 'super',
     true: $ => choice('true', 'TRUE'),
     false: $ => choice('false', 'FALSE'),
@@ -652,7 +629,6 @@ module.exports = grammar({
 
     empty_statement: $ => prec(-1, ';'),
 
-    _forward_slash: $ => '/',
     _terminator: $ => choice(
       $._line_break,
       $.heredoc_end,
