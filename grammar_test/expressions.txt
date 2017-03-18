@@ -114,6 +114,7 @@ Objects
 {};
 { key1: "value1" };
 { key1: "value1", "key2": value2, key3: 3.0 };
+{ x = 5 };
 
 ---
 
@@ -124,7 +125,9 @@ Objects
   (expression_statement (object
     (pair (identifier) (string))
     (pair (string) (identifier))
-    (pair (identifier) (number)))))
+    (pair (identifier) (number))))
+  (expression_statement (object
+    (assignment_pattern (identifier) (number)))))
 
 ============================================
 Objects with shorthand properties
@@ -187,7 +190,7 @@ Objects with method definitions
       (identifier)
       (formal_parameters)
       (statement_block
-        (yield_statement (identifier))))
+        (expression_statement (yield_expression (identifier)))))
     (method_definition
       (reserved_identifier)
       (formal_parameters)
@@ -280,7 +283,7 @@ class Foo {
   (class
     (identifier)
     (class_body
-      (variable_declarator (identifier) (number)))))
+      (public_field_definition (identifier) (number)))))
 
 ============================================
 Arrays
@@ -291,6 +294,7 @@ Arrays
 [ "item1", ];
 [ "item1", item2 ];
 [ , item2 ];
+[ item2 = 5 ];
 
 ---
 
@@ -299,7 +303,8 @@ Arrays
   (expression_statement (array (string)))
   (expression_statement (array (string)))
   (expression_statement (array (string) (identifier)))
-  (expression_statement (array (identifier))))
+  (expression_statement (array (identifier)))
+  (expression_statement (array (assignment (identifier) (number)))))
 
 ============================================
 Functions
@@ -380,8 +385,8 @@ Generator Functions
       (identifier)
       (formal_parameters (identifier) (identifier))
       (statement_block
-        (yield_statement)
-        (yield_statement (identifier)))))))
+        (expression_statement (yield_expression))
+        (expression_statement (yield_expression (identifier))))))))
 
 ============================================
 Property access
@@ -887,3 +892,16 @@ Non-breaking spaces as whitespace
 ---
 
 (program (comment) (comment) (comment) (comment))
+
+==============================================
+Yield expressions
+==============================================
+
+yield db.users.where('[endpoint+email]')
+
+---
+
+(program
+  (expression_statement
+    (yield_expression
+      (function_call (member_access (member_access (identifier) (identifier)) (identifier)) (arguments (string))))))

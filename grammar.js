@@ -35,8 +35,10 @@ module.exports = grammar({
 
   conflicts: $ => [
     // { foo (
-    //    ^--- method definition or function call in block?
-    [$._expression, $.method_definition],
+    //    ^--- property name or function call in block?
+    [$._expression, $._property_name],
+
+    [$.labeled_statement, $._property_name],
 
     // { async (
     //    ^--- method definition or async arrow function?
@@ -49,11 +51,17 @@ module.exports = grammar({
     // ( {foo} )
     // ( [foo] )
     //    ^-- destructured arrow function parameters or parenthesized expression?
-    [$.assignment_pattern, $._expression],
+    [$.destructuring_pattern, $._expression],
 
     // { key ,
     //    ^--- shorthand object property or comma expression in block?
-    [$._expression, $._property_definition_list]
+    [$._expression, $._property_definition_list],
+
+    // { key = 5,
+    //         ^ comma expression assignment in a block or assignment_pattern in an object?
+    [$.assignment_pattern, $.assignment],
+
+    [$.yield_expression]
   ],
 
   rules: {
@@ -125,7 +133,7 @@ module.exports = grammar({
     ),
 
     named_imports: $ => seq(
-      '{', commaSep($.import_specifier), '}'
+      '{', commaSep($.import_specifier), optional(','), '}'
     ),
 
     import_specifier: $ => choice(
@@ -156,7 +164,6 @@ module.exports = grammar({
       $.break_statement,
       $.continue_statement,
       $.return_statement,
-      $.yield_statement,
       $.throw_statement,
       $.empty_statement,
       $.labeled_statement
@@ -181,7 +188,7 @@ module.exports = grammar({
 
     variable_declarator: $ => choice(
       seq($.identifier, optional($._initializer)),
-      seq($.assignment_pattern, $._initializer)
+      seq($.destructuring_pattern, $._initializer)
     ),
 
     statement_block: $ => seq(
@@ -287,12 +294,6 @@ module.exports = grammar({
       semicolon($)
     ),
 
-    yield_statement: $ => seq(
-      'yield',
-      optional($._expression),
-      semicolon($)
-    ),
-
     throw_statement: $ => seq(
       'throw',
       choice($._expression, $.comma_op),
@@ -378,8 +379,11 @@ module.exports = grammar({
       $.true,
       $.false,
       $.null,
-      $.undefined
+      $.undefined,
+      $.yield_expression
     ),
+
+    yield_expression: $ => seq('yield', optional($._expression)),
 
     object: $ => prec(PREC.OBJECT, seq(
       '{',
@@ -392,8 +396,14 @@ module.exports = grammar({
       $.method_definition,
       $.identifier,
       $.reserved_identifier,
-      $.spread_element
+      $.spread_element,
+      $.assignment_pattern
     )),
+
+    assignment_pattern: $ => seq(
+      $.identifier,
+      $._initializer
+    ),
 
     array: $ => seq(
       '[', optional($._element_list), ']'
@@ -558,7 +568,7 @@ module.exports = grammar({
       $._expression
     )),
 
-    assignment_pattern: $ => choice(
+    destructuring_pattern: $ => choice(
       $.object,
       $.array
     ),
@@ -722,14 +732,13 @@ module.exports = grammar({
         optional('static'),
         choice(
           seq($.method_definition, optional(';')),
-          seq($._public_field_definition, semicolon($))
+          seq($.public_field_definition, semicolon($))
         )
       )),
       '}'
     ),
 
-    // TODO this should be a property_name http://www.ecma-international.org/ecma-262/6.0/#sec-object-initializer
-    _public_field_definition: $ => $.variable_declarator,
+    public_field_definition: $ => seq($._property_name, optional($._initializer)),
 
     formal_parameters: $ => seq(
       '(',
@@ -740,16 +749,18 @@ module.exports = grammar({
     method_definition: $ => seq(
       optional('async'),
       optional(choice('get', 'set', '*')),
-      choice($.identifier, $.reserved_identifier),
+      $._property_name,
       $.formal_parameters,
       $.statement_block
     ),
 
     pair: $ => seq(
-      choice($.identifier, $.reserved_identifier, $.string, $.number),
+      $._property_name,
       ':',
       $._expression
     ),
+
+    _property_name: $ => choice($.identifier, $.reserved_identifier, $.string, $.number),
 
     reserved_identifier: $ => choice('get', 'set', 'async')
   }
@@ -780,5 +791,5 @@ function letOrConst () {
 }
 
 function pattern ($) {
-  return choice($.identifier, $.assignment_pattern)
+  return choice($.identifier, $.destructuring_pattern)
 }
