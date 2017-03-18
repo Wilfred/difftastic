@@ -4060,39 +4060,6 @@
         }
       ]
     },
-    "_simple_symbol": {
-      "type": "TOKEN",
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "STRING",
-            "value": ":"
-          },
-          {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "PATTERN",
-                "value": "[a-z_][a-zA-Z0-9_]*(\\?|\\!)?"
-              },
-              {
-                "type": "PATTERN",
-                "value": "@[a-zA-Z_][a-zA-Z0-9_]*"
-              },
-              {
-                "type": "PATTERN",
-                "value": "@@[a-zA-Z_][a-zA-Z0-9_]*"
-              },
-              {
-                "type": "PATTERN",
-                "value": "\\$-?(([!@&`'+~=\\/\\\\,;.<>*$?:\"])|([0-9]*)|([a-zA-Z_][a-zA-Z0-9_]*))"
-              }
-            ]
-          }
-        ]
-      }
-    },
     "integer": {
       "type": "PATTERN",
       "value": "0b[01](_?[01])*|0[oO]?[0-7](_?[0-7])*|(0d)?\\d(_?\\d)*|0x[0-9a-fA-F](_?[0-9a-fA-F])*"

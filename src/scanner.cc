@@ -252,9 +252,13 @@ struct Scanner {
     if (lexer->lookahead == '?' || lexer->lookahead == '!') {
       advance(lexer);
     }
+
     if (lexer->lookahead == '=') {
+      lexer->mark_end(lexer);
       advance(lexer);
-      if (lexer->lookahead == '>') return false;
+      if (lexer->lookahead != '>') {
+        lexer->mark_end(lexer);
+      }
     }
 
     return true;
