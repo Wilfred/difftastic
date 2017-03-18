@@ -2,19 +2,7 @@
   "name": "javascript",
   "rules": {
     "program": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "_statements"
-        },
-        {
-          "type": "BLANK"
-        }
-      ]
-    },
-    "_statements": {
-      "type": "REPEAT1",
+      "type": "REPEAT",
       "content": {
         "type": "SYMBOL",
         "name": "_statement"
@@ -757,16 +745,11 @@
           "value": "{"
         },
         {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "_statements"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_statement"
+          }
         },
         {
           "type": "STRING",
@@ -1392,16 +1375,11 @@
           "value": ":"
         },
         {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "_statements"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_statement"
+          }
         }
       ]
     },
@@ -1417,16 +1395,11 @@
           "value": ":"
         },
         {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "_statements"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_statement"
+          }
         }
       ]
     },
@@ -4113,7 +4086,7 @@
     },
     {
       "type": "PATTERN",
-      "value": "[ \\t\\n\\r﻿⁠​]"
+      "value": "[\\s﻿⁠​]"
     }
   ],
   "conflicts": [
@@ -4139,6 +4112,13 @@
     ]
   ],
   "externals": [
-    "_automatic_semicolon"
+    {
+      "type": "SYMBOL",
+      "name": "_automatic_semicolon"
+    },
+    {
+      "type": "STRING",
+      "value": "}"
+    }
   ]
 }
