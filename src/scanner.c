@@ -46,6 +46,10 @@ bool tree_sitter_javascript_external_scanner_scan(void *payload, TSLexer *lexer,
     case '=':
     case '[':
     case '(':
+    case '?':
+    case '^':
+    case '|':
+    case '&':
       return false;
 
     case '/':
