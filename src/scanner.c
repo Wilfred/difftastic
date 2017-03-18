@@ -4,6 +4,7 @@
 
 enum TokenType {
   AUTOMATIC_SEMICOLON,
+  RIGHT_CURLY_BRACE,
 };
 
 void *tree_sitter_javascript_external_scanner_create() {
@@ -26,7 +27,7 @@ bool tree_sitter_javascript_external_scanner_scan(void *payload, TSLexer *lexer,
 
   for (;;) {
     if (lexer->lookahead == 0) return true;
-    if (lexer->lookahead == '}') return true;
+    if (lexer->lookahead == '}') return !valid_symbols[RIGHT_CURLY_BRACE];
     if (!iswspace(lexer->lookahead)) return false;
     if (lexer->lookahead == '\n') break;
     lexer->advance(lexer, true);

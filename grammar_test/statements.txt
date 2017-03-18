@@ -351,18 +351,18 @@ Comments with asterisks
 ============================================
 
 /* a */
-const a = 1
+const a = 1;
 
 /* b **/
-const b = 1
+const b = 1;
 
 /* c ***/
-const c = 1
+const c = 1;
 
 /* d
 
 ***/
-const d = 1
+const d = 1;
 
 ---
 

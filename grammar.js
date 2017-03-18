@@ -24,12 +24,13 @@ module.exports = grammar({
   name: 'javascript',
 
   externals: $ => [
-    $._automatic_semicolon
+    $._automatic_semicolon,
+    '}'
   ],
 
   extras: $ => [
     $.comment,
-    /[ \t\n\r\uFEFF\u2060\u200B]/
+    /[\s\uFEFF\u2060\u200B]/
   ],
 
   conflicts: $ => [
