@@ -23,10 +23,14 @@ const PREC = {
 module.exports = grammar({
   name: 'javascript',
 
+  externals: $ => [
+    $._automatic_semicolon,
+    '}'
+  ],
+
   extras: $ => [
     $.comment,
-    $._line_break,
-    /[ \t\r\uFEFF\u2060\u200B]/
+    /[\s\uFEFF\u2060\u200B]/
   ],
 
   conflicts: $ => [
@@ -61,24 +65,19 @@ module.exports = grammar({
   ],
 
   rules: {
-    program: $ => optional($._statements),
-
-    _statements: $ => choice(
-      seq($._statement, optional($._statements)),
-      $._trailing_statement
-    ),
+    program: $ => repeat($._statement),
 
     //
     // Export declarations
     //
 
     export_statement: $ => choice(
-      seq('export', '*', $._from_clause, terminator()),
-      seq('export', $.export_clause, $._from_clause, terminator()),
-      seq('export', $.export_clause, terminator()),
+      seq('export', '*', $._from_clause, semicolon($)),
+      seq('export', $.export_clause, $._from_clause, semicolon($)),
+      seq('export', $.export_clause, semicolon($)),
       seq('export', $._declaration),
       seq('export', 'default', $.anonymous_class),
-      seq('export', 'default', $._expression, terminator())
+      seq('export', 'default', $._expression, semicolon($))
     ),
 
     export_clause: $ => seq(
@@ -92,9 +91,14 @@ module.exports = grammar({
 
     // A function, generator, class, or variable declaration
     _declaration: $ => prec(PREC.DECLARATION, choice(
-      $.function,
-      $.generator_function,
-      $.class,
+      seq(
+        choice(
+          $.function,
+          $.generator_function,
+          $.class
+        ),
+        optional($._automatic_semicolon)
+      ),
       $.lexical_declaration,
       $.variable_declaration
     )),
@@ -109,7 +113,7 @@ module.exports = grammar({
         seq($.import_clause, $._from_clause),
         $.string
       ),
-      terminator()
+      semicolon($)
     ),
 
     import_clause: $ => choice(
@@ -165,45 +169,21 @@ module.exports = grammar({
       $.labeled_statement
     ),
 
-    _trailing_statement: $ => choice(
-      $.trailing_break_statement,
-      $.trailing_continue_statement,
-      $.trailing_throw_statement,
-      $.trailing_return_statement,
-      $.trailing_expression_statement,
-      $.trailing_if_statement,
-      $.trailing_for_statement,
-      $.trailing_for_in_statement,
-      $.trailing_for_of_statement,
-      $.trailing_while_statement,
-      $.trailing_do_statement,
-      $.trailing_variable_statement
-    ),
-
     expression_statement: $ => seq(
       choice($._expression, $.comma_op),
-      terminator()
-    ),
-
-    _statements: $ => choice(
-      seq($._statement, optional($._statements)),
-      $._trailing_statement
-    ),
-
-    trailing_expression_statement: $ => seq(
-      choice($._expression, $.comma_op)
+      semicolon($)
     ),
 
     variable_declaration: $ => seq(
       'var',
       commaSep1($.variable_declarator),
-      terminator()
+      semicolon($)
     ),
 
     lexical_declaration: $ => seq(
       letOrConst(),
       commaSep1($.variable_declarator),
-      terminator()
+      semicolon($)
     ),
 
     variable_declarator: $ => choice(
@@ -211,13 +191,8 @@ module.exports = grammar({
       seq($.destructuring_pattern, $._initializer)
     ),
 
-    trailing_variable_statement: $ => seq(
-      'var',
-      commaSep1($.variable_declarator)
-    ),
-
     statement_block: $ => seq(
-      '{', optional($._statements), '}'
+      '{', repeat($._statement), '}'
     ),
 
     if_statement: $ => prec.right(seq(
@@ -229,19 +204,6 @@ module.exports = grammar({
           $._statement,
           'else',
           $._statement
-        )
-      )
-    )),
-
-    trailing_if_statement: $ => prec.right(seq(
-      'if',
-      $._paren_expression,
-      choice(
-        $._trailing_statement,
-        seq(
-          $._statement,
-          'else',
-          $._trailing_statement
         )
       )
     )),
@@ -271,20 +233,6 @@ module.exports = grammar({
       $._statement
     ),
 
-    trailing_for_statement: $ => seq(
-      'for',
-      '(',
-      choice(
-        $._for_declaration,
-        seq(commaSep1($._expression), ';'),
-        ';'
-      ),
-      optional($._expression), ';',
-      optional($._expression),
-      ')',
-      $._trailing_statement
-    ),
-
     for_in_statement: $ => seq(
       'for',
       '(',
@@ -294,17 +242,6 @@ module.exports = grammar({
       $._expression,
       ')',
       $._statement
-    ),
-
-    trailing_for_in_statement: $ => seq(
-      'for',
-      '(',
-      optional(variableType()),
-      $._expression,
-      'in',
-      $._expression,
-      ')',
-      $._trailing_statement
     ),
 
     for_of_statement: $ => seq(
@@ -318,27 +255,10 @@ module.exports = grammar({
       $._statement
     ),
 
-    trailing_for_of_statement: $ => seq(
-      'for',
-      '(',
-      optional(variableType()),
-      $._expression,
-      'of',
-      $._expression,
-      ')',
-      $._trailing_statement
-    ),
-
     while_statement: $ => seq(
       'while',
       $._paren_expression,
       $._statement
-    ),
-
-    trailing_while_statement: $ => seq(
-      'while',
-      $._paren_expression,
-      $._trailing_statement
     ),
 
     do_statement: $ => seq(
@@ -346,14 +266,7 @@ module.exports = grammar({
       $.statement_block,
       'while',
       $._paren_expression,
-      terminator()
-    ),
-
-    trailing_do_statement: $ => seq(
-      'do',
-      $.statement_block,
-      'while',
-      $._paren_expression
+      semicolon($)
     ),
 
     try_statement: $ => seq(
@@ -366,51 +279,25 @@ module.exports = grammar({
     break_statement: $ => seq(
       'break',
       optional($.identifier),
-      terminator()
-    ),
-
-    trailing_break_statement: $ => seq(
-      'break',
-      optional($.identifier)
+      semicolon($)
     ),
 
     continue_statement: $ => seq(
       'continue',
       optional($.identifier),
-      terminator()
-    ),
-
-    trailing_continue_statement: $ => seq(
-      'continue',
-      optional($.identifier)
+      semicolon($)
     ),
 
     return_statement: $ => seq(
       'return',
       optional(choice($._expression, $.comma_op)),
-      terminator()
-    ),
-
-    trailing_return_statement: $ => seq(
-      'return',
-      optional(choice($._expression, $.comma_op))
-    ),
-
-    yield_statement: $ => seq(
-      'yield',
-      optional($._expression),
-      terminator()
+      semicolon($)
     ),
 
     throw_statement: $ => seq(
       'throw',
       choice($._expression, $.comma_op),
-      terminator()
-    ),
-
-    trailing_throw_statement: $ => seq(
-      'throw',
-      choice($._expression, $.comma_op)
+      semicolon($)
     ),
 
     empty_statement: $ => ';',
@@ -429,13 +316,13 @@ module.exports = grammar({
       'case',
       $._expression,
       ':',
-      optional($._statements)
+      repeat($._statement)
     ),
 
     default: $ => seq(
       'default',
       ':',
-      optional($._statements)
+      repeat($._statement)
     ),
 
     catch: $ => seq(
@@ -639,6 +526,7 @@ module.exports = grammar({
     new_expression: $ => prec(PREC.NEW, seq(
       'new',
       $._expression
+      // optional($.arguments)
     )),
 
     await_expression: $ => seq(
@@ -844,7 +732,7 @@ module.exports = grammar({
         optional('static'),
         choice(
           seq($.method_definition, optional(';')),
-          seq($.public_field_definition, terminator())
+          seq($.public_field_definition, semicolon($))
         )
       )),
       '}'
@@ -874,11 +762,13 @@ module.exports = grammar({
 
     _property_name: $ => choice($.identifier, $.reserved_identifier, $.string, $.number),
 
-    reserved_identifier: $ => choice('get', 'set', 'async'),
-
-    _line_break: $ => '\n'
+    reserved_identifier: $ => choice('get', 'set', 'async')
   }
 });
+
+function semicolon($) {
+  return choice($._automatic_semicolon, ';')
+}
 
 function commaSep1Trailing(recurSymbol, rule) {
   return seq(rule, optional(seq(',', optional(recurSymbol))))
@@ -890,10 +780,6 @@ function commaSep1 (rule) {
 
 function commaSep (rule) {
   return optional(commaSep1(rule));
-}
-
-function terminator () {
-  return choice(';', sym('_line_break'));
 }
 
 function variableType () {
