@@ -7,18 +7,13 @@ enum TokenType {
   RIGHT_CURLY_BRACE,
 };
 
-void *tree_sitter_javascript_external_scanner_create() {
-  return NULL;
-}
+static inline void skip(TSLexer *lexer) { lexer->advance(lexer, true); }
+static inline void advance(TSLexer *lexer) { lexer->advance(lexer, false); }
 
+void *tree_sitter_javascript_external_scanner_create() { return NULL; }
 void tree_sitter_javascript_external_scanner_destroy(void *payload) {}
-
 void tree_sitter_javascript_external_scanner_reset(void *payload) {}
-
-bool tree_sitter_javascript_external_scanner_serialize(void *payload, TSExternalTokenState state) {
-  return true;
-}
-
+bool tree_sitter_javascript_external_scanner_serialize(void *payload, TSExternalTokenState state) { return true; }
 void tree_sitter_javascript_external_scanner_deserialize(void *payload, TSExternalTokenState state) {}
 
 bool tree_sitter_javascript_external_scanner_scan(void *payload, TSLexer *lexer,
@@ -30,14 +25,14 @@ bool tree_sitter_javascript_external_scanner_scan(void *payload, TSLexer *lexer,
     if (lexer->lookahead == '}') return !valid_symbols[RIGHT_CURLY_BRACE];
     if (!iswspace(lexer->lookahead)) return false;
     if (lexer->lookahead == '\n') break;
-    lexer->advance(lexer, true);
+    skip(lexer);
   }
 
   lexer->mark_end(lexer);
-  lexer->advance(lexer, false);
+  advance(lexer);
 
   while (iswspace(lexer->lookahead)) {
-    lexer->advance(lexer, false);
+    advance(lexer);
   }
 
   switch (lexer->lookahead) {
@@ -54,14 +49,31 @@ bool tree_sitter_javascript_external_scanner_scan(void *payload, TSLexer *lexer,
       return false;
 
     case '/':
-      lexer->advance(lexer, false);
+      advance(lexer);
       return lexer->lookahead != '*' && lexer->lookahead != '/';
 
     case '!':
-      lexer->advance(lexer, false);
+      advance(lexer);
       return lexer->lookahead != '=';
 
-    default:
-      return true;
+    // Don't insert a semicolon if the next token is `in` or `instanceof`.
+    case 'i':
+      advance(lexer);
+
+      if (lexer->lookahead != 'n') return true;
+      advance(lexer);
+
+      if (!iswalpha(lexer->lookahead)) return false;
+
+      for (unsigned i = 0; i < 8; i++) {
+        if (lexer->lookahead != "stanceof"[i]) return true;
+        advance(lexer);
+      }
+
+      if (!iswalpha(lexer->lookahead)) return false;
+
+      break;
   }
+
+  return true;
 }
