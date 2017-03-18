@@ -50,6 +50,37 @@ indented code after blocks
   (return_statement (identifier)))
 
 ================================================
+operator expressions split across lines
+================================================
+
+a
+  ? b
+  : c
+
+a
+  || b
+
+a
+  ^ b
+
+a
+  !== b
+
+a
+  !b; // standalone statement
+
+---
+
+(program
+  (expression_statement (ternary (identifier) (identifier) (identifier)))
+  (expression_statement (bool_op (identifier) (identifier)))
+  (expression_statement (bitwise_op (identifier) (identifier)))
+  (expression_statement (rel_op (identifier) (identifier)))
+  (expression_statement (identifier))
+  (expression_statement (bool_op (identifier)))
+  (comment))
+
+================================================
 Alphabetical infix operators split across lines
 ================================================
 
