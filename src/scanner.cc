@@ -84,7 +84,11 @@ struct Scanner {
     lexer->advance(lexer, true);
   }
 
-  void reset() {}
+  void reset() {
+    has_leading_whitespace = false;
+    literal_stack.clear();
+    open_heredocs.clear();
+  }
 
   bool serialize(TSExternalTokenState state) { return true; }
 
