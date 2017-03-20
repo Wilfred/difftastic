@@ -34,13 +34,16 @@ Template strings
 
 `\ `
 
+`The command \`git ${args.join(' ')}\` exited with an unexpected code: ${exitCode}. The caller should either handle this error, or expect that exit code.`
+
 ----
 
 (program
   (expression_statement (template_string (template_chars)))
   (expression_statement (template_string (template_chars)))
   (expression_statement (template_string (template_chars) (template_substitution (math_op (number) (number))) (template_chars) (template_substitution (comma_op (math_op (number) (number)) (math_op (number) (number)))) (template_chars)))
-  (expression_statement (template_string (template_chars))) (expression_statement (template_string (template_chars) (template_substitution (number)))))
+  (expression_statement (template_string (template_chars))) (expression_statement (template_string (template_chars) (template_substitution (number))))
+	(expression_statement (template_string (template_chars))) (expression_statement (template_string (template_chars) (template_substitution (function_call (member_access (identifier) (identifier)) (arguments (string)))) (template_chars) (template_substitution (identifier)) (template_chars))))
 
 ============================================
 Numbers
