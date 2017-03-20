@@ -122,6 +122,19 @@ a
   (expression_statement (identifier)))
 
 ===========================================
+Single-line if/else statements
+===========================================
+
+if (a) {b} else {c}
+
+---
+
+(program
+  (if_statement (identifier)
+    (statement_block (expression_statement (identifier)))
+    (statement_block (expression_statement (identifier)))))
+
+===========================================
 single-line blocks without semicolons
 ===========================================
 
