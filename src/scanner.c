@@ -1,19 +1,18 @@
 #include "tree_sitter/parser.h"
 #include <wctype.h>
-#include <stdio.h>
 
 enum TokenType {
   AUTOMATIC_SEMICOLON,
 };
-
-static inline void skip(TSLexer *lexer) { lexer->advance(lexer, true); }
-static inline void advance(TSLexer *lexer) { lexer->advance(lexer, false); }
 
 void *tree_sitter_javascript_external_scanner_create() { return NULL; }
 void tree_sitter_javascript_external_scanner_destroy(void *payload) {}
 void tree_sitter_javascript_external_scanner_reset(void *payload) {}
 bool tree_sitter_javascript_external_scanner_serialize(void *payload, TSExternalTokenState state) { return true; }
 void tree_sitter_javascript_external_scanner_deserialize(void *payload, TSExternalTokenState state) {}
+
+static inline void skip(TSLexer *lexer) { lexer->advance(lexer, true); }
+static inline void advance(TSLexer *lexer) { lexer->advance(lexer, false); }
 
 bool tree_sitter_javascript_external_scanner_scan(void *payload, TSLexer *lexer,
                                                   const bool *valid_symbols) {
@@ -49,17 +48,16 @@ bool tree_sitter_javascript_external_scanner_scan(void *payload, TSLexer *lexer,
     case '^':
     case '|':
     case '&':
+    case '/':
       return false;
 
-    case '/':
-      advance(lexer);
-      return lexer->lookahead != '*' && lexer->lookahead != '/';
-
+    // Don't insert a semicolon before `!=`, but do insert one before a unary `!`.
     case '!':
       advance(lexer);
       return lexer->lookahead != '=';
 
-    // Don't insert a semicolon if the next token is `in` or `instanceof`.
+    // Don't insert a semicolon before `in` or `instanceof`, but do insert one
+    // before an identifier.
     case 'i':
       advance(lexer);
 
@@ -74,7 +72,6 @@ bool tree_sitter_javascript_external_scanner_scan(void *payload, TSLexer *lexer,
       }
 
       if (!iswalpha(lexer->lookahead)) return false;
-
       break;
   }
 
