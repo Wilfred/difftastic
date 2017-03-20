@@ -112,9 +112,11 @@ Objects
 ============================================
 
 {};
-{ key1: "value1" };
-{ key1: "value1", "key2": value2, key3: 3.0 };
-{ x = 5 };
+{ a: "b" };
+{ c: "d", "e": f, 1: 2 };
+{
+  g: h
+}
 
 ---
 
@@ -125,9 +127,9 @@ Objects
   (expression_statement (object
     (pair (identifier) (string))
     (pair (string) (identifier))
-    (pair (identifier) (number))))
+    (pair (number) (number))))
   (expression_statement (object
-    (assignment_pattern (identifier) (number)))))
+    (pair (identifier) (identifier)))))
 
 ============================================
 Objects with shorthand properties

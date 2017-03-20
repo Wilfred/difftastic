@@ -24,8 +24,7 @@ module.exports = grammar({
   name: 'javascript',
 
   externals: $ => [
-    $._automatic_semicolon,
-    '}'
+    $._automatic_semicolon
   ],
 
   extras: $ => [

@@ -66,3 +66,18 @@ Array destructuring assignments
       (identifier)
       (spread_element (identifier))))
     (identifier))))
+
+================================================
+Object destructuring patterns w/ default values
+================================================
+
+function a({b = true}, [c, d = false]) {}
+
+---
+
+(program
+  (function (identifier)
+    (formal_parameters
+      (destructuring_pattern (object (assignment_pattern (identifier) (true))))
+      (destructuring_pattern (array (identifier) (assignment (identifier) (false)))))
+    (statement_block)))
