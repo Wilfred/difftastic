@@ -52,6 +52,19 @@ print b, c
   (print_statement (identifier) (identifier)))
 
 =====================================
+Assert statements
+=====================================
+
+assert a
+assert b, c
+
+---
+
+(module
+  (assert_statement (identifier))
+  (assert_statement (identifier) (identifier)))
+
+=====================================
 Expression statements
 =====================================
 
