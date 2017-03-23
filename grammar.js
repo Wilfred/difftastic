@@ -664,9 +664,9 @@ module.exports = grammar({
       )),
       '`'),
 
-      template_chars: $ => prec.right(repeat1(
+      template_chars: $ => token(prec.right(repeat1(
         /[^`\$]|\$[^{]|\\`/
-        )),
+        ))),
 
     template_substitution: $ => seq(
       '${',
