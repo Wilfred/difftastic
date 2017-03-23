@@ -3318,13 +3318,16 @@
       ]
     },
     "template_chars": {
-      "type": "PREC_RIGHT",
-      "value": 0,
+      "type": "TOKEN",
       "content": {
-        "type": "REPEAT1",
+        "type": "PREC_RIGHT",
+        "value": 0,
         "content": {
-          "type": "PATTERN",
-          "value": "[^`\\$]|\\$[^{]|\\\\`"
+          "type": "REPEAT1",
+          "content": {
+            "type": "PATTERN",
+            "value": "[^`\\$]|\\$[^{]|\\\\`"
+          }
         }
       }
     },
