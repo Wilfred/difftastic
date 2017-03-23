@@ -4072,27 +4072,79 @@
       }
     },
     "template_string": {
-      "type": "TOKEN",
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "STRING",
-            "value": "`"
-          },
-          {
-            "type": "REPEAT",
-            "content": {
-              "type": "PATTERN",
-              "value": "[^`]"
-            }
-          },
-          {
-            "type": "STRING",
-            "value": "`"
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "`"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "template_chars"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "template_substitution"
+              }
+            ]
           }
-        ]
+        },
+        {
+          "type": "STRING",
+          "value": "`"
+        }
+      ]
+    },
+    "template_chars": {
+      "type": "PREC_RIGHT",
+      "value": 0,
+      "content": {
+        "type": "REPEAT1",
+        "content": {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "PATTERN",
+              "value": "[^`\\$]"
+            },
+            {
+              "type": "PATTERN",
+              "value": "\\$[^{]"
+            }
+          ]
+        }
       }
+    },
+    "template_substitution": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "${"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_expression"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "comma_op"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": "}"
+        }
+      ]
     },
     "regex": {
       "type": "TOKEN",
@@ -6288,6 +6340,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "index_type_query"
+        },
+        {
+          "type": "SYMBOL",
           "name": "this_type"
         },
         {
@@ -6323,6 +6379,19 @@
         {
           "type": "STRING",
           "value": "typeof"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_entity_name"
+        }
+      ]
+    },
+    "index_type_query": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "keyof"
         },
         {
           "type": "SYMBOL",
