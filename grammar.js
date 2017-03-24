@@ -533,7 +533,7 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
 
     _type_body: $ => choice(
       $._type_member,
-      seq(sepBy1(choice(',', semicolon($)), $._type_member), optional(choice(',',';')))
+      seq(sepBy1(choice(',', semicolon($)), $._type_member), optional(choice(',', semicolon($))))
     ),
 
     _type_member: $ => prec.right(choice(

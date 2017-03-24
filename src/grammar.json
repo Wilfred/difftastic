@@ -6071,8 +6071,17 @@
                       "value": ","
                     },
                     {
-                      "type": "STRING",
-                      "value": ";"
+                      "type": "CHOICE",
+                      "members": [
+                        {
+                          "type": "SYMBOL",
+                          "name": "_automatic_semicolon"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": ";"
+                        }
+                      ]
                     }
                   ]
                 },
