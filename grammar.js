@@ -17,6 +17,10 @@ const PREC = {
 module.exports = grammar(require('tree-sitter-javascript/grammar'), {
   name: 'typescript',
 
+  externals: $ => [
+    $._automatic_semicolon
+  ],
+
   conflicts: ($, previous) => previous.concat([
 
     // TODO - Figure out why these are needed.
@@ -156,7 +160,7 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
         $.import_require_clause,
         $.string
       ),
-      terminator()
+      semicolon($)
     ),
 
     non_null_assertion_op: $ => prec.left(PREC.non_null_assertion_op, seq(
@@ -164,15 +168,15 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
     )),
 
     export_statement: ($, previous) => choice(
-      seq('export', '*', $._from_clause, terminator()),
-      seq('export', $.export_clause, $._from_clause, terminator()),
-      seq('export', $.export_clause, terminator()),
+      seq('export', '*', $._from_clause, semicolon($)),
+      seq('export', $.export_clause, $._from_clause, semicolon($)),
+      seq('export', $.export_clause, semicolon($)),
       seq('export', $._declaration),
       seq('export', 'default', $.anonymous_class),
       seq('export', optional('default'), $.ambient_function),
-      seq('export', 'default', $._expression, terminator()),
-      seq('export', '=', $.identifier, terminator()),
-      seq('export', 'as', 'namespace', $.identifier, terminator())
+      seq('export', 'default', $._expression, semicolon($)),
+      seq('export', '=', $.identifier, semicolon($)),
+      seq('export', 'as', 'namespace', $.identifier, semicolon($))
     ),
 
     // Exports that can appear in object types, namespace elements, modules, and interfaces
@@ -192,7 +196,7 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       optional($.readonly),
       $._property_name,
       $.call_signature,
-      terminator()
+      semicolon($)
     ),
 
     _paren_expression: ($, previous) => seq(
@@ -219,8 +223,8 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
         choice(
           seq($.method_definition, optional(';')),
           $.ambient_method_declaration,
-          seq($.public_field_definition, terminator()),
-          seq($.index_signature, terminator())
+          seq($.public_field_definition, semicolon($)),
+          seq($.index_signature, semicolon($))
         )
       ),
       '}'
@@ -286,14 +290,13 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
     ambient_variable: $ => seq(
       variableType(),
       commaSep1($.ambient_binding),
-      terminator()
-    ),
+      semicolon($)),
 
     ambient_function: $ => seq(
       'function',
       $.identifier,
       $.call_signature,
-      terminator()
+      semicolon($)
     ),
 
     class: ($, previous) => seq(
@@ -319,7 +322,7 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
             $.export_statement,
             ambientDeclaration($),
             $._declaration),
-          optional(terminator()))),
+          optional(semicolon($)))),
       '}'
     ),
 
@@ -335,7 +338,7 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       $.identifier,
       '=',
       $._entity_name,
-      terminator()
+      semicolon($)
     ),
 
     _entity_name: $ => prec.right(sepBy1('.', $.identifier)),
@@ -388,7 +391,7 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       optional($.type_parameters),
       '=',
       $._type,
-      terminator()
+      semicolon($)
     ),
 
     accessibility_modifier: $ => choice(
@@ -530,7 +533,7 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
 
     _type_body: $ => choice(
       $._type_member,
-      seq(sepBy1(choice(',',';', $._line_break), $._type_member), optional(choice(',',';')))
+      seq(sepBy1(choice(',', semicolon($)), $._type_member), optional(choice(',', semicolon($))))
     ),
 
     _type_member: $ => prec.right(choice(
@@ -635,10 +638,6 @@ function pattern ($) {
   return choice($.identifier, $.destructuring_pattern)
 }
 
-function terminator () {
-  return choice(';', sym('_line_break'));
-}
-
 function variableType() {
   return choice('var','let','const')
 }
@@ -654,4 +653,8 @@ function ambientDeclaration($) {
     $.module,
     $.type_alias_declaration
   )
+}
+
+function semicolon($) {
+  return choice($._automatic_semicolon, ';')
 }
