@@ -1,0 +1,81 @@
+============================================
+Identifiers
+============================================
+
+fn main() {
+  abc;
+}
+
+---
+
+(source_file
+  (function_item (identifier) (parameters) (block
+    (identifier))))
+
+============================================
+Unary operator expressions
+============================================
+
+-num;
+!bits;
+*boxed_thing;
+
+---
+
+(source_file
+  (unary_expression (identifier))
+  (unary_expression (identifier))
+  (unary_expression (identifier)))
+
+============================================
+Binary operator expressions
+============================================
+
+a * b;
+a / b;
+a % b;
+a + b;
+a - b;
+a >> b;
+a << b;
+a == b;
+a && b;
+a || b;
+
+---
+
+(source_file
+  (binary_expression (identifier) (identifier))
+  (binary_expression (identifier) (identifier))
+  (binary_expression (identifier) (identifier))
+  (binary_expression (identifier) (identifier))
+  (binary_expression (identifier) (identifier))
+  (binary_expression (identifier) (identifier))
+  (binary_expression (identifier) (identifier))
+  (binary_expression (identifier) (identifier))
+  (binary_expression (identifier) (identifier))
+  (binary_expression (identifier) (identifier)))
+
+============================================
+Assignment expressions
+============================================
+
+x = y;
+
+---
+
+(source_file
+  (binary_expression (assignment_expression (identifier) (identifier))))
+
+============================================
+Call expressions
+============================================
+
+foo();
+add(1i32, 2i32);
+
+---
+
+(source_file
+  (call_expression (identifier) (arguments))
+  (call_expression (identifier) (arguments (number_literal) (number_literal))))

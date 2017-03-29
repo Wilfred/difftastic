@@ -1,0 +1,22 @@
+{
+  "name": "tree-sitter-rust",
+  "version": "0.1.0",
+  "description": "Rust grammar for node-tree-sitter",
+  "main": "index.js",
+  "keywords": [
+    "parser",
+    "lexer"
+  ],
+  "author": "Maxim Sokolov <maxim0xff@gmail.com> (https://github.com/MaximSokolov)",
+  "license": "MIT",
+  "dependencies": {
+    "nan": "^2.4.0"
+  },
+  "devDependencies": {
+    "tree-sitter-cli": "^0.5.0"
+  },
+  "scripts": {
+    "build": "tree-sitter generate && node-gyp build",
+    "test": "tree-sitter test"
+  }
+}
