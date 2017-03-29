@@ -79,3 +79,20 @@ add(1i32, 2i32);
 (source_file
   (call_expression (identifier) (arguments))
   (call_expression (identifier) (arguments (number_literal) (number_literal))))
+
+============================================
+Array expressions
+============================================
+
+[];
+[1, 2, 3];
+["a", "b", "c"];
+[0; 128];
+
+---
+
+(source_file
+  (array_expression)
+  (array_expression (number_literal) (number_literal) (number_literal))
+  (array_expression (string_literal) (string_literal) (string_literal))
+  (array_expression (number_literal) (number_literal)))
