@@ -90,6 +90,7 @@ module.exports = grammar({
       $.return_expression,
       $._literal,
       $.identifier,
+      $.array_expression,
       seq('(', $._expression, ')')
     ),
 
@@ -123,6 +124,15 @@ module.exports = grammar({
       '(',
       commaSep($._expression),
       ')'
+    ),
+
+    array_expression: $ => seq(
+      '[',
+      choice(
+        seq($._expression, ';', $._expression),
+        commaSep($._expression)
+      ),
+      ']'
     ),
 
     _literal: $ => choice(
