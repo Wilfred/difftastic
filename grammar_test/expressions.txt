@@ -96,3 +96,49 @@ Array expressions
   (array_expression (number_literal) (number_literal) (number_literal))
   (array_expression (string_literal) (string_literal) (string_literal))
   (array_expression (number_literal) (number_literal)))
+
+============================================
+If expressions
+============================================
+
+fn main() {
+  if n == 1 {
+  } else if n == 2 {
+  } else {
+  }
+}
+
+let y = if x == 5 { 10 } else { 15 };
+
+---
+
+(source_file
+  (function_item (identifier) (parameters) (block
+    (if_expression (binary_expression (identifier) (number_literal)) (block)
+    (else_tail (if_expression (binary_expression (identifier) (number_literal)) (block)
+    (else_tail (block)))))))
+  (let_declaration (identifier)
+    (if_expression (binary_expression (identifier) (number_literal)) (block (number_literal))
+    (else_tail (block (number_literal))))))
+
+============================================
+If let expressions
+============================================
+
+if let ("Bacon", b) = dish {
+}
+
+if let Some(x) = option {
+    foo(x);
+} else {
+    bar();
+}
+
+---
+
+(source_file
+  (if_let_expression (string_literal) (identifier) (identifier) (block))
+  (if_let_expression (call_expression (identifier) (arguments (identifier))) (identifier)
+    (block (call_expression (identifier) (arguments (identifier))))
+  (else_tail (block
+    (call_expression (identifier) (arguments))))))

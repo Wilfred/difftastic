@@ -1,4 +1,5 @@
 const PREC = {
+  primary: 12,
   unary: 11,
   multiplicative: 10,
   additive: 9,
@@ -29,12 +30,18 @@ module.exports = grammar({
     _statement: $ => choice(
       $._declaration_statement,
       $._expression_statement,
+      $._control_flow_statement,
       $.empty_statement
     ),
 
     _declaration_statement: $ => choice(
       $._item,
       $.let_declaration
+    ),
+
+    _control_flow_statement: $ => choice(
+      $.if_expression,
+      $.if_let_expression
     ),
 
     _item: $ => choice(
@@ -67,7 +74,14 @@ module.exports = grammar({
       ';'
     ),
 
-    _pattern: $ => $.identifier,
+    _pattern: $ => prec.left(seq(
+      choice(
+        $._expression,
+        seq('(', commaSep($._expression), ')'),
+        '_'
+      ),
+      optional(seq('|'), $._pattern)
+    )),
 
     type_expression: $ => choice(
       $.boolean_literal,
@@ -83,7 +97,7 @@ module.exports = grammar({
       ';'
     ),
 
-    _expression: $ => choice(
+    _expression: $ => prec(PREC.primary, choice(
       $.unary_expression,
       $.binary_expression,
       $.call_expression,
@@ -91,8 +105,9 @@ module.exports = grammar({
       $._literal,
       $.identifier,
       $.array_expression,
+      $.if_expression,
       seq('(', $._expression, ')')
-    ),
+    )),
 
     unary_expression: $ => prec(PREC.unary, seq(
       token(choice('-', '*', '!')),
@@ -133,6 +148,28 @@ module.exports = grammar({
         commaSep($._expression)
       ),
       ']'
+    ),
+
+    if_expression: $ => seq(
+      'if',
+      $._expression,
+      $.block,
+      optional($.else_tail)
+    ),
+
+    if_let_expression: $ => seq(
+      'if',
+      'let',
+      $._pattern,
+      '=',
+      $._expression,
+      $.block,
+      optional($.else_tail)
+    ),
+
+    else_tail: $ => seq(
+      'else',
+      choice($.block, $.if_expression, $.if_let_expression)
     ),
 
     _literal: $ => choice(
