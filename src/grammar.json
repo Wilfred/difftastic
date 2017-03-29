@@ -2358,7 +2358,7 @@
             },
             {
               "type": "SYMBOL",
-              "name": "formal_parameters"
+              "name": "call_signature"
             }
           ]
         },
@@ -2406,7 +2406,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "formal_parameters"
+          "name": "call_signature"
         },
         {
           "type": "SYMBOL",
@@ -6800,6 +6800,14 @@
       "_property_definition_list",
       "_property_name",
       "_expression"
+    ],
+    [
+      "call_signature",
+      "function_type"
+    ],
+    [
+      "constructor_type",
+      "call_signature"
     ]
   ],
   "externals": [
