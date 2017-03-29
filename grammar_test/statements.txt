@@ -1,0 +1,53 @@
+============================================
+Function declarations
+============================================
+
+fn main() {}
+
+fn add(x: i32, y: i32) -> i32 {
+    return x + y;
+}
+
+---
+
+(source_file
+  (function_item (identifier) (parameters) (block))
+  (function_item (identifier)
+    (parameters
+      (identifier) (type_expression) (identifier) (type_expression))
+    (type_expression)
+    (block
+      (return_expression (binary_expression (identifier) (identifier))))))
+
+============================================
+Variable bindings
+============================================
+
+let x;
+let x = 42;
+let x: i32;
+let x: i8 = 42;
+let mut x = 5;
+
+---
+
+(source_file
+  (let_declaration (identifier))
+  (let_declaration (identifier) (number_literal))
+  (let_declaration (identifier) (type_expression))
+  (let_declaration (identifier) (type_expression) (number_literal))
+  (let_declaration (mutable_specifier) (identifier) (number_literal)))
+
+============================================
+Empty statements
+============================================
+
+fn main() {
+    ;
+}
+
+---
+
+(source_file
+  (function_item (identifier) (parameters) (block
+    (empty_statement))))

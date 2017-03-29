@@ -1,0 +1,27 @@
+============================================
+Block comments
+============================================
+
+/*
+ * Block comments
+ */
+
+/* Comment with asterisks **/
+
+----
+
+(source_file
+  (block_comment)
+  (block_comment))
+
+
+============================================
+Line comments
+============================================
+
+// Comment
+
+----
+
+(source_file
+  (line_comment))
