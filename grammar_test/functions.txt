@@ -60,3 +60,25 @@ const lines = new Array<DiffLine>()
       (identifier)
       (function_call (new_expression (identifier)) (type_arguments (type_reference (identifier))) (arguments)))))
 
+==================================
+Arrow functions and generators with call signatures
+================================
+
+<A>(amount, interestRate, duration): number => 2
+
+function* foo<A>(amount, interestRate, duration): number {
+	yield amount * interestRate * duration / 12
+}
+
+---
+
+(program
+  (expression_statement
+    (arrow_function
+      (call_signature (type_parameters (type_parameter (identifier))) (formal_parameters (required_parameter (identifier)) (required_parameter (identifier)) (required_parameter (identifier))) (type_annotation (predefined_type)))
+      (number)))
+  (expression_statement
+    (generator_function
+      (identifier)
+      (call_signature (type_parameters (type_parameter (identifier))) (formal_parameters (required_parameter (identifier)) (required_parameter (identifier)) (required_parameter (identifier))) (type_annotation (predefined_type)))
+      (statement_block (expression_statement (yield_expression (math_op (math_op (math_op (identifier) (identifier)) (identifier)) (number))))))))

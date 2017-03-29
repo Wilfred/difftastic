@@ -92,7 +92,10 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
     [$._expression, $.method_signature],
 
     [$._property_definition_list, $._property_name],
-    [$._property_definition_list, $._property_name, $._expression]
+    [$._property_definition_list, $._property_name, $._expression],
+
+    [$.call_signature, $.function_type],
+    [$.constructor_type, $.call_signature]
   ]),
   rules: {
 
@@ -215,6 +218,27 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       optional($.identifier),
       $.call_signature,
       $.statement_block
+    ),
+
+    generator_function: ($, prev) => seq(
+      'function',
+      '*',
+      optional($.identifier),
+      $.call_signature,
+      $.statement_block
+    ),
+
+    arrow_function: $ => seq(
+      optional('async'),
+      choice(
+        $.identifier,
+        $.call_signature
+      ),
+      '=>',
+      choice(
+        $._expression,
+        $.statement_block
+      )
     ),
 
     class_body: ($, previous) => seq(
