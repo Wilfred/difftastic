@@ -236,10 +236,23 @@ for i in 0..256 {
   bar(i);
 }
 
+'outer: for x in 0..10 {
+    'inner: for y in 0..10 {
+        if x % 2 == 0 { continue 'outer; }
+        if y % 2 == 0 { continue 'inner; }
+    }
+}
+
 ---
 
 (source_file
   (for_expression (identifier) (identifier) (block
     (call_expression (identifier) (arguments (identifier)))))
   (for_expression (identifier) (range_expression (number_literal) (number_literal)) (block
-    (call_expression (identifier) (arguments (identifier))))))
+    (call_expression (identifier) (arguments (identifier)))))
+  (for_expression (loop_label (identifier)) (identifier) (range_expression (number_literal) (number_literal)) (block
+    (for_expression (loop_label (identifier)) (identifier) (range_expression (number_literal) (number_literal)) (block
+      (if_expression (binary_expression (binary_expression (identifier) (number_literal)) (number_literal)) (block
+        (continue_expression (loop_label (identifier)))))
+      (if_expression (binary_expression (binary_expression (identifier) (number_literal)) (number_literal)) (block
+        (continue_expression (loop_label (identifier))))))))))
