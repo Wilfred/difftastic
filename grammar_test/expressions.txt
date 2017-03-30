@@ -181,6 +181,7 @@ let msg = match x {
     y if y == 200 => "200 (but this is not very stylish)",
     _ => "something else",
 };
+
 ---
 
 (source_file
@@ -218,7 +219,9 @@ Loop expressions
     break 'outer;
   }
 }
+
 ---
+
 (source_file
   (loop_expression (loop_label (identifier)) (block
     (loop_expression (loop_label (identifier)) (block
