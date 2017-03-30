@@ -125,15 +125,15 @@ module.exports = grammar({
     )),
 
     unary_expression: $ => prec(PREC.unary, seq(
-      token(choice('-', '*', '!')),
+      choice('-', '*', '!'),
       $._expression
     )),
 
     binary_expression: $ => choice(
-      prec.left(PREC.multiplicative, seq($._expression, token(choice('*', '/', '%')), $._expression)),
-      prec.left(PREC.additive, seq($._expression, token(choice('+', '-')), $._expression)),
-      prec.left(PREC.comparative, seq($._expression,  token(choice('==', '!=', '<', '<=', '>', '>=')), $._expression)),
-      prec.left(PREC.shift, seq($._expression, token(choice('<<', '>>')), $._expression)),
+      prec.left(PREC.multiplicative, seq($._expression, choice('*', '/', '%'), $._expression)),
+      prec.left(PREC.additive, seq($._expression, choice('+', '-'), $._expression)),
+      prec.left(PREC.comparative, seq($._expression,  choice('==', '!=', '<', '<=', '>', '>='), $._expression)),
+      prec.left(PREC.shift, seq($._expression, choice('<<', '>>'), $._expression)),
       prec.left(PREC.and, seq($._expression, '&&', $._expression)),
       prec.left(PREC.or, seq($._expression, '||', $._expression)),
       $.assignment_expression
@@ -273,10 +273,10 @@ module.exports = grammar({
         optional(float_type)
       )
 
-      return choice(
+      return prec.right(choice(
         integer_literal,
         floating_point_literal
-      )
+      ))
     },
 
     string_literal: $ => seq(
