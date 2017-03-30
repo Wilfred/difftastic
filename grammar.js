@@ -106,6 +106,7 @@ module.exports = grammar({
       $.identifier,
       $.array_expression,
       $.if_expression,
+      $.if_let_expression,
       $.match_expression,
       $.while_expression,
       $.loop_expression,
