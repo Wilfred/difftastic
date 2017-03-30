@@ -1692,8 +1692,40 @@
       }
     },
     "identifier": {
-      "type": "PATTERN",
-      "value": "[\\a_$][\\a\\d_$]*"
+      "type": "TOKEN",
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "PATTERN",
+            "value": "[a-zA-Z_]"
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "REPEAT",
+                "content": {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "PATTERN",
+                      "value": "[a-zA-Z_]"
+                    },
+                    {
+                      "type": "PATTERN",
+                      "value": "[0-9]"
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        ]
+      }
     },
     "parameters": {
       "type": "SEQ",

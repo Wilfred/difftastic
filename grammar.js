@@ -292,7 +292,15 @@ module.exports = grammar({
       '/'
     )),
 
-    identifier: $ => (/[\a_$][\a\d_$]*/),
+    identifier: $ => {
+      const letter = /[a-zA-Z_]/
+      const digit = /[0-9]/
+
+      return token(seq(
+        letter,
+        optional(repeat(choice(letter, digit)))
+      ))
+    },
 
     parameters: $ => seq(
       '(',
