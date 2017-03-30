@@ -44,7 +44,8 @@ module.exports = grammar({
       $.if_let_expression,
       $.match_expression,
       $.while_expression,
-      $.loop_expression
+      $.loop_expression,
+      $.for_expression
     ),
 
     _item: $ => choice(
@@ -100,6 +101,7 @@ module.exports = grammar({
     _expression: $ => prec(PREC.primary, choice(
       $.unary_expression,
       $.binary_expression,
+      $.range_expression,
       $.call_expression,
       $.return_expression,
       $._literal,
@@ -110,8 +112,16 @@ module.exports = grammar({
       $.match_expression,
       $.while_expression,
       $.loop_expression,
+      $.for_expression,
       $.break_expression,
       seq('(', $._expression, ')')
+    )),
+
+    range_expression: $ => prec.left(PREC.range, choice(
+      seq($._expression, '..', $._expression),
+      seq($._expression, '..'),
+      seq('..', $._expression),
+      '..'
     )),
 
     unary_expression: $ => prec(PREC.unary, seq(
@@ -213,6 +223,15 @@ module.exports = grammar({
       $.block
     ),
 
+    for_expression: $ => seq(
+      optional(seq($.loop_label, ':')),
+      'for',
+      $._pattern,
+      'in',
+      $._expression,
+      $.block
+    ),
+
     loop_label: $ => seq('\'', $.identifier),
 
     break_expression: $ => seq('break', optional($.loop_label)),
@@ -254,10 +273,10 @@ module.exports = grammar({
         optional(float_type)
       )
 
-      return token(choice(
+      return choice(
         integer_literal,
         floating_point_literal
-      ))
+      )
     },
 
     string_literal: $ => seq(

@@ -57,6 +57,27 @@ a || b;
   (binary_expression (identifier) (identifier)))
 
 ============================================
+Range expressions
+============================================
+
+1..2;
+3..;
+..4;
+..;
+1..b;
+a..b;
+
+---
+
+(source_file
+  (range_expression (number_literal) (number_literal))
+  (range_expression (number_literal))
+  (range_expression (number_literal))
+  (range_expression)
+  (range_expression (number_literal) (identifier))
+  (range_expression (identifier) (identifier)))
+
+============================================
 Assignment expressions
 ============================================
 
@@ -202,3 +223,23 @@ Loop expressions
   (loop_expression (loop_label (identifier)) (block
     (loop_expression (loop_label (identifier)) (block
       (break_expression (loop_label (identifier))))))))
+
+============================================
+For expressions
+============================================
+
+for e in v {
+  bar(e);
+}
+
+for i in 0..256 {
+  bar(i);
+}
+
+---
+
+(source_file
+  (for_expression (identifier) (identifier) (block
+    (call_expression (identifier) (arguments (identifier)))))
+  (for_expression (identifier) (range_expression (number_literal) (number_literal)) (block
+    (call_expression (identifier) (arguments (identifier))))))
