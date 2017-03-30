@@ -265,6 +265,7 @@ module.exports = grammar({
       optional(repeat(choice(
         $.byte_escape,
         '\\"',
+        '\\\n',
         /[^"]/
       ))),
       '"'
@@ -289,14 +290,12 @@ module.exports = grammar({
     byte_escape: $ => {
       const hex_digit = /[0-9a-fA-F]/;
 
-      return token(seq(
+      return seq(
         '\\', choice('n', 'r', 't', '0', '\\', seq('x', hex_digit, hex_digit))
-      ))
+      )
     },
 
-    boolean_literal: $ => token(choice(
-      'true', 'false'
-    )),
+    boolean_literal: $ => choice('true', 'false'),
 
     comment: $ => choice(
       $.line_comment,
