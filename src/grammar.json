@@ -1579,6 +1579,10 @@
                     "value": "\\\""
                   },
                   {
+                    "type": "STRING",
+                    "value": "\\\n"
+                  },
+                  {
                     "type": "PATTERN",
                     "value": "[^\"]"
                   }
@@ -1703,74 +1707,68 @@
       ]
     },
     "byte_escape": {
-      "type": "TOKEN",
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "STRING",
-            "value": "\\"
-          },
-          {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "STRING",
-                "value": "n"
-              },
-              {
-                "type": "STRING",
-                "value": "r"
-              },
-              {
-                "type": "STRING",
-                "value": "t"
-              },
-              {
-                "type": "STRING",
-                "value": "0"
-              },
-              {
-                "type": "STRING",
-                "value": "\\"
-              },
-              {
-                "type": "SEQ",
-                "members": [
-                  {
-                    "type": "STRING",
-                    "value": "x"
-                  },
-                  {
-                    "type": "PATTERN",
-                    "value": "[0-9a-fA-F]"
-                  },
-                  {
-                    "type": "PATTERN",
-                    "value": "[0-9a-fA-F]"
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      }
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "\\"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "n"
+            },
+            {
+              "type": "STRING",
+              "value": "r"
+            },
+            {
+              "type": "STRING",
+              "value": "t"
+            },
+            {
+              "type": "STRING",
+              "value": "0"
+            },
+            {
+              "type": "STRING",
+              "value": "\\"
+            },
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "x"
+                },
+                {
+                  "type": "PATTERN",
+                  "value": "[0-9a-fA-F]"
+                },
+                {
+                  "type": "PATTERN",
+                  "value": "[0-9a-fA-F]"
+                }
+              ]
+            }
+          ]
+        }
+      ]
     },
     "boolean_literal": {
-      "type": "TOKEN",
-      "content": {
-        "type": "CHOICE",
-        "members": [
-          {
-            "type": "STRING",
-            "value": "true"
-          },
-          {
-            "type": "STRING",
-            "value": "false"
-          }
-        ]
-      }
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "true"
+        },
+        {
+          "type": "STRING",
+          "value": "false"
+        }
+      ]
     },
     "comment": {
       "type": "CHOICE",
