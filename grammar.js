@@ -114,6 +114,7 @@ module.exports = grammar({
       $.loop_expression,
       $.for_expression,
       $.break_expression,
+      $.continue_expression,
       seq('(', $._expression, ')')
     )),
 
@@ -235,6 +236,8 @@ module.exports = grammar({
     loop_label: $ => seq('\'', $.identifier),
 
     break_expression: $ => seq('break', optional($.loop_label)),
+
+    continue_expression: $ => seq('continue', optional($.loop_label)),
 
     _literal: $ => choice(
       $.string_literal,

@@ -463,6 +463,10 @@
             "name": "break_expression"
           },
           {
+            "type": "SYMBOL",
+            "name": "continue_expression"
+          },
+          {
             "type": "SEQ",
             "members": [
               {
@@ -1290,6 +1294,27 @@
         {
           "type": "STRING",
           "value": "break"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "loop_label"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        }
+      ]
+    },
+    "continue_expression": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "continue"
         },
         {
           "type": "CHOICE",
