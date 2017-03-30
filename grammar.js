@@ -1,4 +1,5 @@
 const PREC = {
+  primary: 12,
   unary: 11,
   multiplicative: 10,
   additive: 9,
@@ -29,12 +30,22 @@ module.exports = grammar({
     _statement: $ => choice(
       $._declaration_statement,
       $._expression_statement,
+      $._control_flow_statement,
       $.empty_statement
     ),
 
     _declaration_statement: $ => choice(
       $._item,
       $.let_declaration
+    ),
+
+    _control_flow_statement: $ => choice(
+      $.if_expression,
+      $.if_let_expression,
+      $.match_expression,
+      $.while_expression,
+      $.loop_expression,
+      $.for_expression
     ),
 
     _item: $ => choice(
@@ -67,7 +78,11 @@ module.exports = grammar({
       ';'
     ),
 
-    _pattern: $ => $.identifier,
+    _pattern: $ => prec.left(choice(
+      $._expression,
+      seq('(', commaSep($._expression), ')'),
+      '_'
+    )),
 
     type_expression: $ => choice(
       $.boolean_literal,
@@ -83,26 +98,43 @@ module.exports = grammar({
       ';'
     ),
 
-    _expression: $ => choice(
+    _expression: $ => prec(PREC.primary, choice(
       $.unary_expression,
       $.binary_expression,
+      $.range_expression,
       $.call_expression,
       $.return_expression,
       $._literal,
       $.identifier,
+      $.array_expression,
+      $.if_expression,
+      $.if_let_expression,
+      $.match_expression,
+      $.while_expression,
+      $.loop_expression,
+      $.for_expression,
+      $.break_expression,
+      $.continue_expression,
       seq('(', $._expression, ')')
-    ),
+    )),
+
+    range_expression: $ => prec.left(PREC.range, choice(
+      seq($._expression, '..', $._expression),
+      seq($._expression, '..'),
+      seq('..', $._expression),
+      '..'
+    )),
 
     unary_expression: $ => prec(PREC.unary, seq(
-      token(choice('-', '*', '!')),
+      choice('-', '*', '!'),
       $._expression
     )),
 
     binary_expression: $ => choice(
-      prec.left(PREC.multiplicative, seq($._expression, token(choice('*', '/', '%')), $._expression)),
-      prec.left(PREC.additive, seq($._expression, token(choice('+', '-')), $._expression)),
-      prec.left(PREC.comparative, seq($._expression,  token(choice('==', '!=', '<', '<=', '>', '>=')), $._expression)),
-      prec.left(PREC.shift, seq($._expression, token(choice('<<', '>>')), $._expression)),
+      prec.left(PREC.multiplicative, seq($._expression, choice('*', '/', '%'), $._expression)),
+      prec.left(PREC.additive, seq($._expression, choice('+', '-'), $._expression)),
+      prec.left(PREC.comparative, seq($._expression,  choice('==', '!=', '<', '<=', '>', '>='), $._expression)),
+      prec.left(PREC.shift, seq($._expression, choice('<<', '>>'), $._expression)),
       prec.left(PREC.and, seq($._expression, '&&', $._expression)),
       prec.left(PREC.or, seq($._expression, '||', $._expression)),
       $.assignment_expression
@@ -124,6 +156,88 @@ module.exports = grammar({
       commaSep($._expression),
       ')'
     ),
+
+    array_expression: $ => seq(
+      '[',
+      choice(
+        seq($._expression, ';', $._expression),
+        commaSep($._expression)
+      ),
+      ']'
+    ),
+
+    if_expression: $ => seq(
+      'if',
+      $._expression,
+      $.block,
+      optional($.else_tail)
+    ),
+
+    if_let_expression: $ => seq(
+      'if',
+      'let',
+      $._pattern,
+      '=',
+      $._expression,
+      $.block,
+      optional($.else_tail)
+    ),
+
+    else_tail: $ => seq(
+      'else',
+      choice($.block, $.if_expression, $.if_let_expression)
+    ),
+
+    match_expression: $ => seq(
+      'match',
+      $._expression,
+      '{',
+      optional(repeat($.match_arm)),
+      '}'
+    ),
+
+    match_arm: $ => seq(
+      $.match_pattern,
+      '=>',
+      choice(
+        seq($._expression, ','),
+        $.block
+      )
+    ),
+
+    match_pattern: $ => seq(
+      $._pattern,
+      optional(repeat(seq('|', $._pattern))),
+      optional(seq('if', $._expression))
+    ),
+
+    while_expression: $ => seq(
+      optional(seq($.loop_label, ':')),
+      'while',
+      $._expression,
+      $.block
+    ),
+
+    loop_expression: $ => seq(
+      optional(seq($.loop_label, ':')),
+      'loop',
+      $.block
+    ),
+
+    for_expression: $ => seq(
+      optional(seq($.loop_label, ':')),
+      'for',
+      $._pattern,
+      'in',
+      $._expression,
+      $.block
+    ),
+
+    loop_label: $ => seq('\'', $.identifier),
+
+    break_expression: $ => seq('break', optional($.loop_label)),
+
+    continue_expression: $ => seq('continue', optional($.loop_label)),
 
     _literal: $ => choice(
       $.string_literal,
@@ -162,7 +276,7 @@ module.exports = grammar({
         optional(float_type)
       )
 
-      return token(choice(
+      return prec.right(choice(
         integer_literal,
         floating_point_literal
       ))
@@ -173,6 +287,7 @@ module.exports = grammar({
       optional(repeat(choice(
         $.byte_escape,
         '\\"',
+        '\\\n',
         /[^"]/
       ))),
       '"'
@@ -197,14 +312,12 @@ module.exports = grammar({
     byte_escape: $ => {
       const hex_digit = /[0-9a-fA-F]/;
 
-      return token(seq(
+      return seq(
         '\\', choice('n', 'r', 't', '0', '\\', seq('x', hex_digit, hex_digit))
-      ))
+      )
     },
 
-    boolean_literal: $ => token(choice(
-      'true', 'false'
-    )),
+    boolean_literal: $ => choice('true', 'false'),
 
     comment: $ => choice(
       $.line_comment,
@@ -223,7 +336,15 @@ module.exports = grammar({
       '/'
     )),
 
-    identifier: $ => (/[\a_$][\a\d_$]*/),
+    identifier: $ => {
+      const letter = /[a-zA-Z_]/
+      const digit = /[0-9]/
+
+      return token(seq(
+        letter,
+        optional(repeat(choice(letter, digit)))
+      ))
+    },
 
     parameters: $ => seq(
       '(',

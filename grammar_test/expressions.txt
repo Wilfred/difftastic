@@ -57,6 +57,27 @@ a || b;
   (binary_expression (identifier) (identifier)))
 
 ============================================
+Range expressions
+============================================
+
+1..2;
+3..;
+..4;
+..;
+1..b;
+a..b;
+
+---
+
+(source_file
+  (range_expression (number_literal) (number_literal))
+  (range_expression (number_literal))
+  (range_expression (number_literal))
+  (range_expression)
+  (range_expression (number_literal) (identifier))
+  (range_expression (identifier) (identifier)))
+
+============================================
 Assignment expressions
 ============================================
 
@@ -79,3 +100,162 @@ add(1i32, 2i32);
 (source_file
   (call_expression (identifier) (arguments))
   (call_expression (identifier) (arguments (number_literal) (number_literal))))
+
+============================================
+Array expressions
+============================================
+
+[];
+[1, 2, 3];
+["a", "b", "c"];
+[0; 128];
+
+---
+
+(source_file
+  (array_expression)
+  (array_expression (number_literal) (number_literal) (number_literal))
+  (array_expression (string_literal) (string_literal) (string_literal))
+  (array_expression (number_literal) (number_literal)))
+
+============================================
+If expressions
+============================================
+
+fn main() {
+  if n == 1 {
+  } else if n == 2 {
+  } else {
+  }
+}
+
+let y = if x == 5 { 10 } else { 15 };
+
+---
+
+(source_file
+  (function_item (identifier) (parameters) (block
+    (if_expression (binary_expression (identifier) (number_literal)) (block)
+    (else_tail (if_expression (binary_expression (identifier) (number_literal)) (block)
+    (else_tail (block)))))))
+  (let_declaration (identifier)
+    (if_expression (binary_expression (identifier) (number_literal)) (block (number_literal))
+    (else_tail (block (number_literal))))))
+
+============================================
+If let expressions
+============================================
+
+if let ("Bacon", b) = dish {
+}
+
+if let Some(x) = option {
+    foo(x);
+} else {
+    bar();
+}
+
+---
+
+(source_file
+  (if_let_expression (string_literal) (identifier) (identifier) (block))
+  (if_let_expression (call_expression (identifier) (arguments (identifier))) (identifier)
+    (block (call_expression (identifier) (arguments (identifier))))
+  (else_tail (block
+    (call_expression (identifier) (arguments))))))
+
+============================================
+Match expressions
+============================================
+
+match x {
+    1 => "one",
+    2 => "two",
+    3 => "three",
+    _ => "something else",
+}
+
+let msg = match x {
+    0 | 1 | 10 => "one of zero, one, or ten",
+    y if y < 20 => "less than 20, but not zero, one, or ten",
+    y if y == 200 => "200 (but this is not very stylish)",
+    _ => "something else",
+};
+
+---
+
+(source_file
+  (match_expression (identifier)
+    (match_arm (match_pattern (number_literal)) (string_literal))
+    (match_arm (match_pattern (number_literal)) (string_literal))
+    (match_arm (match_pattern (number_literal)) (string_literal))
+    (match_arm (match_pattern) (string_literal)))
+  (let_declaration (identifier) (match_expression (identifier)
+    (match_arm (match_pattern (number_literal) (number_literal) (number_literal)) (string_literal))
+    (match_arm (match_pattern (identifier) (binary_expression (identifier) (number_literal))) (string_literal))
+    (match_arm (match_pattern (identifier) (binary_expression (identifier) (number_literal))) (string_literal))
+    (match_arm (match_pattern) (string_literal)))))
+
+============================================
+While expressions
+============================================
+
+while !done {
+  done = true;
+}
+
+---
+
+(source_file
+  (while_expression (unary_expression (identifier)) (block
+    (binary_expression (assignment_expression (identifier) (boolean_literal))))))
+
+============================================
+Loop expressions
+============================================
+
+'outer: loop {
+  'inner: loop {
+    break 'outer;
+  }
+}
+
+---
+
+(source_file
+  (loop_expression (loop_label (identifier)) (block
+    (loop_expression (loop_label (identifier)) (block
+      (break_expression (loop_label (identifier))))))))
+
+============================================
+For expressions
+============================================
+
+for e in v {
+  bar(e);
+}
+
+for i in 0..256 {
+  bar(i);
+}
+
+'outer: for x in 0..10 {
+    'inner: for y in 0..10 {
+        if x % 2 == 0 { continue 'outer; }
+        if y % 2 == 0 { continue 'inner; }
+    }
+}
+
+---
+
+(source_file
+  (for_expression (identifier) (identifier) (block
+    (call_expression (identifier) (arguments (identifier)))))
+  (for_expression (identifier) (range_expression (number_literal) (number_literal)) (block
+    (call_expression (identifier) (arguments (identifier)))))
+  (for_expression (loop_label (identifier)) (identifier) (range_expression (number_literal) (number_literal)) (block
+    (for_expression (loop_label (identifier)) (identifier) (range_expression (number_literal) (number_literal)) (block
+      (if_expression (binary_expression (binary_expression (identifier) (number_literal)) (number_literal)) (block
+        (continue_expression (loop_label (identifier)))))
+      (if_expression (binary_expression (binary_expression (identifier) (number_literal)) (number_literal)) (block
+        (continue_expression (loop_label (identifier))))))))))
