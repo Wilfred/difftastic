@@ -41,7 +41,8 @@ module.exports = grammar({
 
     _control_flow_statement: $ => choice(
       $.if_expression,
-      $.if_let_expression
+      $.if_let_expression,
+      $.match_expression
     ),
 
     _item: $ => choice(
@@ -74,13 +75,10 @@ module.exports = grammar({
       ';'
     ),
 
-    _pattern: $ => prec.left(seq(
-      choice(
-        $._expression,
-        seq('(', commaSep($._expression), ')'),
-        '_'
-      ),
-      optional(seq('|'), $._pattern)
+    _pattern: $ => prec.left(choice(
+      $._expression,
+      seq('(', commaSep($._expression), ')'),
+      '_'
     )),
 
     type_expression: $ => choice(
@@ -106,6 +104,7 @@ module.exports = grammar({
       $.identifier,
       $.array_expression,
       $.if_expression,
+      $.match_expression,
       seq('(', $._expression, ')')
     )),
 
@@ -170,6 +169,29 @@ module.exports = grammar({
     else_tail: $ => seq(
       'else',
       choice($.block, $.if_expression, $.if_let_expression)
+    ),
+
+    match_expression: $ => seq(
+      'match',
+      $._expression,
+      '{',
+      optional(repeat($.match_arm)),
+      '}'
+    ),
+
+    match_arm: $ => seq(
+      $.match_pattern,
+      '=>',
+      choice(
+        seq($._expression, ','),
+        $.block
+      )
+    ),
+
+    match_pattern: $ => seq(
+      $._pattern,
+      optional(repeat(seq('|', $._pattern))),
+      optional(seq('if', $._expression))
     ),
 
     _literal: $ => choice(
