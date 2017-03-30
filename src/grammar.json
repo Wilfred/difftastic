@@ -432,6 +432,10 @@
           },
           {
             "type": "SYMBOL",
+            "name": "if_let_expression"
+          },
+          {
+            "type": "SYMBOL",
             "name": "match_expression"
           },
           {
