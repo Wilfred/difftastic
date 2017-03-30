@@ -173,3 +173,32 @@ let msg = match x {
     (match_arm (match_pattern (identifier) (binary_expression (identifier) (number_literal))) (string_literal))
     (match_arm (match_pattern (identifier) (binary_expression (identifier) (number_literal))) (string_literal))
     (match_arm (match_pattern) (string_literal)))))
+
+============================================
+While expressions
+============================================
+
+while !done {
+  done = true;
+}
+
+---
+
+(source_file
+  (while_expression (unary_expression (identifier)) (block
+    (binary_expression (assignment_expression (identifier) (boolean_literal))))))
+
+============================================
+Loop expressions
+============================================
+
+'outer: loop {
+  'inner: loop {
+    break 'outer;
+  }
+}
+---
+(source_file
+  (loop_expression (loop_label (identifier)) (block
+    (loop_expression (loop_label (identifier)) (block
+      (break_expression (loop_label (identifier))))))))

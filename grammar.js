@@ -42,7 +42,9 @@ module.exports = grammar({
     _control_flow_statement: $ => choice(
       $.if_expression,
       $.if_let_expression,
-      $.match_expression
+      $.match_expression,
+      $.while_expression,
+      $.loop_expression
     ),
 
     _item: $ => choice(
@@ -105,6 +107,9 @@ module.exports = grammar({
       $.array_expression,
       $.if_expression,
       $.match_expression,
+      $.while_expression,
+      $.loop_expression,
+      $.break_expression,
       seq('(', $._expression, ')')
     )),
 
@@ -193,6 +198,23 @@ module.exports = grammar({
       optional(repeat(seq('|', $._pattern))),
       optional(seq('if', $._expression))
     ),
+
+    while_expression: $ => seq(
+      optional(seq($.loop_label, ':')),
+      'while',
+      $._expression,
+      $.block
+    ),
+
+    loop_expression: $ => seq(
+      optional(seq($.loop_label, ':')),
+      'loop',
+      $.block
+    ),
+
+    loop_label: $ => seq('\'', $.identifier),
+
+    break_expression: $ => seq('break', optional($.loop_label)),
 
     _literal: $ => choice(
       $.string_literal,
