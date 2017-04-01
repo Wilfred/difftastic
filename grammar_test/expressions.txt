@@ -162,20 +162,10 @@ If let expressions
 if let ("Bacon", b) = dish {
 }
 
-if let Some(x) = option {
-    foo(x);
-} else {
-    bar();
-}
-
 ---
 
 (source_file
-  (if_let_expression (string_literal) (identifier) (identifier) (block))
-  (if_let_expression (call_expression (identifier) (arguments (identifier))) (identifier)
-    (block (call_expression (identifier) (arguments (identifier))))
-  (else_tail (block
-    (call_expression (identifier) (arguments))))))
+  (if_let_expression (string_literal) (identifier) (identifier) (block)))
 
 ============================================
 Match expressions
