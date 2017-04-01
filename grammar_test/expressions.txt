@@ -285,3 +285,18 @@ mystruct.foo();
 ---
 
 (source_file (identifier) (call_expression (identifier) (arguments)))
+
+============================================
+Index expressions
+============================================
+
+([1, 2, 3, 4])[0];
+arr[10];
+arr[n];
+
+---
+
+(source_file
+  (array_expression (number_literal) (number_literal) (number_literal) (number_literal)) (number_literal)
+  (identifier) (number_literal)
+  (identifier) (identifier))

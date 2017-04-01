@@ -787,6 +787,10 @@
             "name": "continue_expression"
           },
           {
+            "type": "SYMBOL",
+            "name": "_index_expression"
+          },
+          {
             "type": "SEQ",
             "members": [
               {
@@ -1776,6 +1780,27 @@
               "type": "BLANK"
             }
           ]
+        }
+      ]
+    },
+    "_index_expression": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_expression"
+        },
+        {
+          "type": "STRING",
+          "value": "["
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_expression"
+        },
+        {
+          "type": "STRING",
+          "value": "]"
         }
       ]
     },
