@@ -31,8 +31,29 @@ module.exports = grammar({
       $._declaration_statement,
       $._expression_statement,
       $._control_flow_statement,
+      $.macro_invocation,
       $.empty_statement
     ),
+
+    macro_invocation: $ => prec.right(seq(
+      $.identifier,
+      '!',
+      $.macro_arguments,
+      optional(';')
+    )),
+
+    macro_arguments: $ => {
+      const args = choice(
+        sepBy(',', $._expression),
+        sepBy(';', $._expression)
+      )
+
+      return choice(
+        seq('{', args, '}'),
+        seq('(', args, ')'),
+        seq('[', args, ']')
+      )
+    },
 
     _declaration_statement: $ => choice(
       $._item,
@@ -80,7 +101,7 @@ module.exports = grammar({
 
     _pattern: $ => prec.left(choice(
       $._expression,
-      seq('(', commaSep($._expression), ')'),
+      seq('(', sepBy(',', $._expression), ')'),
       '_'
     )),
 
@@ -153,7 +174,7 @@ module.exports = grammar({
 
     arguments: $ => seq(
       '(',
-      commaSep($._expression),
+      sepBy(',', $._expression),
       ')'
     ),
 
@@ -161,7 +182,7 @@ module.exports = grammar({
       '[',
       choice(
         seq($._expression, ';', $._expression),
-        commaSep($._expression)
+        sepBy(',' ,$._expression)
       ),
       ']'
     ),
@@ -348,7 +369,7 @@ module.exports = grammar({
 
     parameters: $ => seq(
       '(',
-      commaSep(seq($.identifier, ':', $.type_expression)),
+      sepBy(',', seq($.identifier, ':', $.type_expression)),
       ')'
     ),
 
@@ -369,10 +390,10 @@ function sepTrailing (separator, recurSymbol, rule) {
   return choice(rule, seq(rule, separator, optional(recurSymbol)))
 }
 
-function commaSep1 (rule) {
-  return seq(rule, repeat(seq(',', rule)));
+function sepBy1 (sep, rule) {
+  return seq(rule, repeat(seq(sep, rule)));
 }
 
-function commaSep (rule) {
-  return optional(commaSep1(rule));
+function sepBy (sep, rule) {
+  return optional(sepBy1(sep, rule));
 }
