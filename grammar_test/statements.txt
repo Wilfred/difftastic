@@ -20,6 +20,31 @@ fn add(x: i32, y: i32) -> i32 {
       (return_expression (binary_expression (identifier) (identifier))))))
 
 ============================================
+Use declarations
+============================================
+
+use abc;
+use phrases::japanese;
+use sayings::english::greetings;
+use sayings::english::greetings as en_greetings ;
+use phrases::english::{greetings,farewells};
+use sayings::japanese::farewells::*;
+pub use self::greetings::hello;
+use sayings::english::{self, greetings as en_greetings, farewells as en_farewells};
+
+---
+
+(source_file
+  (use_declaration (identifier))
+  (use_declaration (path (identifier)) (identifier))
+  (use_declaration (path (identifier)) (path (identifier)) (identifier))
+  (use_declaration (path (identifier)) (path (identifier)) (identifier) (identifier))
+  (use_declaration (path (identifier)) (path (identifier)) (identifier) (identifier))
+  (use_declaration (path (identifier)) (path (identifier)) (path (identifier)))
+  (use_declaration (path (self)) (path (identifier)) (identifier))
+  (use_declaration (path (identifier)) (path (identifier)) (self) (identifier) (identifier) (identifier) (identifier)))
+
+============================================
 Variable bindings
 ============================================
 

@@ -57,7 +57,8 @@ module.exports = grammar({
 
     _declaration_statement: $ => choice(
       $._item,
-      $.let_declaration
+      $.let_declaration,
+      $.use_declaration
     ),
 
     _control_flow_statement: $ => choice(
@@ -96,6 +97,31 @@ module.exports = grammar({
         '=',
         $._expression
       )),
+      ';'
+    ),
+
+    use_declaration: $ => seq(
+      optional('pub'),
+      'use',
+      seq(
+        optional(repeat($.path)),
+        choice(
+          choice(
+            $.identifier,
+            seq($.identifier, 'as', $.identifier)
+          ),
+          seq(
+            '{',
+            sepBy(',', choice(
+              $.identifier,
+              $.self,
+              seq($.identifier, 'as', $.identifier)
+            )),
+            '}'
+          ),
+          '*'
+        )
+      ),
       ';'
     ),
 
@@ -405,6 +431,15 @@ module.exports = grammar({
       ),
       '}'
     ),
+
+    path: $ => seq(
+      choice($.identifier, $.self),
+      '::'
+    ),
+
+    self: $ => 'self',
+
+    super: $ => 'super',
 
     empty_statement: $ => ';'
   }
