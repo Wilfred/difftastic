@@ -132,6 +132,8 @@ module.exports = grammar({
       $.return_expression,
       $._literal,
       $.identifier,
+      $.method_call_expression,
+      $._field_expression,
       $.array_expression,
       $.if_expression,
       $.if_let_expression,
@@ -381,6 +383,10 @@ module.exports = grammar({
         optional(repeat(choice(letter, digit)))
       ))
     },
+
+    _field_expression: $ => prec.right(seq($._expression, '.', $._expression)),
+
+    method_call_expression: $ => seq($._expression, '.', $.identifier, $.arguments),
 
     parameters: $ => seq(
       '(',
