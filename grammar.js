@@ -99,11 +99,16 @@ module.exports = grammar({
       ';'
     ),
 
-    _pattern: $ => prec.left(choice(
-      $._expression,
-      seq('(', sepBy(',', $._expression), ')'),
+    _pattern: $ => choice(
+      $._literal,
+      $.identifier,
+      seq(
+        '(',
+        sepBy(',', choice($._literal, $.identifier)),
+        ')'
+      ),
       '_'
-    )),
+    ),
 
     type_expression: $ => choice(
       $.boolean_literal,
@@ -158,6 +163,9 @@ module.exports = grammar({
       prec.left(PREC.shift, seq($._expression, choice('<<', '>>'), $._expression)),
       prec.left(PREC.and, seq($._expression, '&&', $._expression)),
       prec.left(PREC.or, seq($._expression, '||', $._expression)),
+      prec.left(PREC.bitor, seq($._expression, '|', $._expression)),
+      prec.left(PREC.bitand, seq($._expression, '&', $._expression)),
+      prec.left(PREC.bitxor, seq($._expression, '^', $._expression)),
       $.assignment_expression,
       $.compound_assignment_expr
     ),
