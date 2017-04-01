@@ -89,6 +89,19 @@ x = y;
   (binary_expression (assignment_expression (identifier) (identifier))))
 
 ============================================
+Compound assignment expressions
+============================================
+
+x += 1;
+x += y;
+
+---
+
+(source_file
+  (binary_expression (compound_assignment_expr (identifier) (number_literal)))
+  (binary_expression (compound_assignment_expr (identifier) (identifier))))
+
+============================================
 Call expressions
 ============================================
 

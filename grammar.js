@@ -158,10 +158,17 @@ module.exports = grammar({
       prec.left(PREC.shift, seq($._expression, choice('<<', '>>'), $._expression)),
       prec.left(PREC.and, seq($._expression, '&&', $._expression)),
       prec.left(PREC.or, seq($._expression, '||', $._expression)),
-      $.assignment_expression
+      $.assignment_expression,
+      $.compound_assignment_expr
     ),
 
     assignment_expression: $ => prec.left(PREC.assign, seq($._expression, '=', $._expression)),
+
+    compound_assignment_expr: $ => prec.left(seq(
+      $._expression,
+      choice('+=', '-=', '*=', '/=', '%=', '&=', '|=', '^=', '<<=', '>>='),
+      $._expression
+    )),
 
     return_expression: $ => prec.left(seq(
       'return', optional($._expression))
