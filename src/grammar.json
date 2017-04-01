@@ -744,6 +744,14 @@
           },
           {
             "type": "SYMBOL",
+            "name": "method_call_expression"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_field_expression"
+          },
+          {
+            "type": "SYMBOL",
             "name": "array_expression"
           },
           {
@@ -2420,6 +2428,48 @@
           }
         ]
       }
+    },
+    "_field_expression": {
+      "type": "PREC_RIGHT",
+      "value": 0,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_expression"
+          },
+          {
+            "type": "STRING",
+            "value": "."
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_expression"
+          }
+        ]
+      }
+    },
+    "method_call_expression": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_expression"
+        },
+        {
+          "type": "STRING",
+          "value": "."
+        },
+        {
+          "type": "SYMBOL",
+          "name": "identifier"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "arguments"
+        }
+      ]
     },
     "parameters": {
       "type": "SEQ",
