@@ -25,3 +25,23 @@ Line comments
 
 (source_file
   (line_comment))
+
+============================================
+Macro invocation
+============================================
+
+println!();
+println!("format {} arguments", "some")
+vec![1, 2, 3];
+vec![0; 100];
+
+----
+
+(source_file
+  (macro_invocation (identifier) (macro_arguments))
+  (macro_invocation (identifier) (macro_arguments
+    (string_literal) (string_literal)))
+  (macro_invocation (identifier) (macro_arguments
+    (number_literal) (number_literal) (number_literal)))
+  (macro_invocation (identifier) (macro_arguments
+    (number_literal) (number_literal))))
