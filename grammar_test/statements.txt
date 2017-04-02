@@ -24,6 +24,20 @@ pub mod english;
   (mod_item (visibility_modifier) (identifier)))
 
 ============================================
+Extern crate declarations
+============================================
+
+extern crate std;
+
+extern crate std as ruststd;
+
+---
+
+(source_file
+  (extern_crate_declaration (identifier))
+  (extern_crate_declaration (identifier) (identifier)))
+
+============================================
 Function declarations
 ============================================
 

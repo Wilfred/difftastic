@@ -60,7 +60,8 @@ module.exports = grammar({
     _declaration_statement: $ => choice(
       $._item,
       $.let_declaration,
-      $.use_declaration
+      $.use_declaration,
+      $.extern_crate_declaration
     ),
 
     _control_flow_statement: $ => choice(
@@ -87,11 +88,22 @@ module.exports = grammar({
           '{',
           optional(repeat(choice(
             $._item,
-            $.use_declaration
+            $.use_declaration,
+            $.extern_crate_declaration
           ))),
           '}'
         )
       )
+    ),
+
+    extern_crate_declaration: $ => seq(
+      'extern',
+      'crate',
+      choice(
+        $.identifier,
+        seq($.identifier, 'as', $.identifier)
+      ),
+      ';'
     ),
 
     function_item: $ => seq(
