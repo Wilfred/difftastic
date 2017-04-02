@@ -421,13 +421,100 @@
       "members": [
         {
           "type": "SYMBOL",
+          "name": "mod_item"
+        },
+        {
+          "type": "SYMBOL",
           "name": "function_item"
+        }
+      ]
+    },
+    "mod_item": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "visibility_modifier"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": "mod"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "identifier"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": ";"
+            },
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "{"
+                },
+                {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "REPEAT",
+                      "content": {
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "SYMBOL",
+                            "name": "_item"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "use_declaration"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "BLANK"
+                    }
+                  ]
+                },
+                {
+                  "type": "STRING",
+                  "value": "}"
+                }
+              ]
+            }
+          ]
         }
       ]
     },
     "function_item": {
       "type": "SEQ",
       "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "visibility_modifier"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
         {
           "type": "STRING",
           "value": "fn"
@@ -550,8 +637,8 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "STRING",
-              "value": "pub"
+              "type": "SYMBOL",
+              "name": "visibility_modifier"
             },
             {
               "type": "BLANK"
@@ -2885,6 +2972,10 @@
           "value": "::"
         }
       ]
+    },
+    "visibility_modifier": {
+      "type": "STRING",
+      "value": "pub"
     },
     "self": {
       "type": "STRING",

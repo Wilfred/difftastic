@@ -1,4 +1,29 @@
 ============================================
+Modules
+============================================
+
+mod english;
+
+mod english {}
+
+mod english {
+    mod greetings {}
+    mod farewells {}
+}
+
+pub mod english;
+
+---
+
+(source_file
+  (mod_item (identifier))
+  (mod_item (identifier))
+  (mod_item (identifier)
+    (mod_item (identifier))
+    (mod_item (identifier)))
+  (mod_item (visibility_modifier) (identifier)))
+
+============================================
 Function declarations
 ============================================
 
@@ -41,7 +66,7 @@ use sayings::english::{self, greetings as en_greetings, farewells as en_farewell
   (use_declaration (path (identifier)) (path (identifier)) (identifier) (identifier))
   (use_declaration (path (identifier)) (path (identifier)) (identifier) (identifier))
   (use_declaration (path (identifier)) (path (identifier)) (path (identifier)))
-  (use_declaration (path (self)) (path (identifier)) (identifier))
+  (use_declaration (visibility_modifier) (path (self)) (path (identifier)) (identifier))
   (use_declaration (path (identifier)) (path (identifier)) (self) (identifier) (identifier) (identifier) (identifier)))
 
 ============================================

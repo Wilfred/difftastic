@@ -73,10 +73,29 @@ module.exports = grammar({
     ),
 
     _item: $ => choice(
+      $.mod_item,
       $.function_item
     ),
 
+    mod_item: $ => seq(
+      optional($.visibility_modifier),
+      'mod',
+      $.identifier,
+      choice(
+        ';',
+        seq(
+          '{',
+          optional(repeat(choice(
+            $._item,
+            $.use_declaration
+          ))),
+          '}'
+        )
+      )
+    ),
+
     function_item: $ => seq(
+      optional($.visibility_modifier),
       'fn',
       $.identifier,
       $.parameters,
@@ -103,7 +122,7 @@ module.exports = grammar({
     ),
 
     use_declaration: $ => seq(
-      optional('pub'),
+      optional($.visibility_modifier),
       'use',
       seq(
         optional(repeat($.path)),
@@ -448,6 +467,8 @@ module.exports = grammar({
       choice($.identifier, $.self),
       '::'
     ),
+
+    visibility_modifier: $ => 'pub',
 
     self: $ => 'self',
 
