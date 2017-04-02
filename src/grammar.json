@@ -2637,8 +2637,8 @@
       }
     },
     "_field_expression": {
-      "type": "PREC_RIGHT",
-      "value": 0,
+      "type": "PREC",
+      "value": 13,
       "content": {
         "type": "SEQ",
         "members": [
@@ -2652,31 +2652,35 @@
           },
           {
             "type": "SYMBOL",
-            "name": "_expression"
+            "name": "identifier"
           }
         ]
       }
     },
     "method_call_expression": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "_expression"
-        },
-        {
-          "type": "STRING",
-          "value": "."
-        },
-        {
-          "type": "SYMBOL",
-          "name": "identifier"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "arguments"
-        }
-      ]
+      "type": "PREC",
+      "value": 14,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_expression"
+          },
+          {
+            "type": "STRING",
+            "value": "."
+          },
+          {
+            "type": "SYMBOL",
+            "name": "identifier"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "arguments"
+          }
+        ]
+      }
     },
     "parameters": {
       "type": "SEQ",
