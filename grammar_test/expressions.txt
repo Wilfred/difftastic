@@ -284,7 +284,7 @@ mystruct.foo();
 
 ---
 
-(source_file (identifier) (call_expression (identifier) (arguments)))
+(source_file (method_call_expression (identifier) (identifier) (arguments)))
 
 ============================================
 Index expressions

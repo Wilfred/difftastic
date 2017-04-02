@@ -1,4 +1,6 @@
 const PREC = {
+  method_call: 14,
+  field: 13,
   primary: 12,
   unary: 11,
   multiplicative: 10,
@@ -413,9 +415,9 @@ module.exports = grammar({
       ))
     },
 
-    _field_expression: $ => prec.right(seq($._expression, '.', $._expression)),
+    _field_expression: $ => prec(PREC.field, seq($._expression, '.', $.identifier)),
 
-    method_call_expression: $ => seq($._expression, '.', $.identifier, $.arguments),
+    method_call_expression: $ => prec(PREC.method_call, seq($._expression, '.', $.identifier, $.arguments)),
 
     parameters: $ => seq(
       '(',
