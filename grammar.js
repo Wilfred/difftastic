@@ -163,6 +163,7 @@ module.exports = grammar({
       $.method_call_expression,
       $._field_expression,
       $.array_expression,
+      $.tuple_expression,
       $.if_expression,
       $.if_let_expression,
       $.match_expression,
@@ -231,6 +232,15 @@ module.exports = grammar({
         sepBy(',' ,$._expression)
       ),
       ']'
+    ),
+
+    tuple_expression: $ => seq(
+      '(',
+      choice(
+        sepBy(',', $._expression),
+        seq($._expression, ',')
+      ),
+      ')'
     ),
 
     if_expression: $ => seq(

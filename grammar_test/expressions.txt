@@ -57,6 +57,19 @@ a || b;
   (binary_expression (identifier) (identifier)))
 
 ============================================
+Grouped expressions
+============================================
+
+(0);
+(2 * (3 + 4));
+
+---
+
+(source_file
+  (number_literal)
+  (binary_expression (number_literal) (binary_expression (number_literal) (number_literal))))
+
+============================================
 Range expressions
 ============================================
 
@@ -130,6 +143,21 @@ Array expressions
   (array_expression (number_literal) (number_literal) (number_literal))
   (array_expression (string_literal) (string_literal) (string_literal))
   (array_expression (number_literal) (number_literal)))
+
+============================================
+Tuple expressions
+============================================
+
+(0,);
+let (x, y, z) = (1, 2, 3);
+
+---
+
+(source_file
+  (tuple_expression (number_literal))
+  (let_declaration
+    (identifier) (identifier) (identifier)
+    (tuple_expression (number_literal) (number_literal) (number_literal))))
 
 ============================================
 If expressions
