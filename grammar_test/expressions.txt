@@ -181,6 +181,30 @@ let (x, y, z) = (1, 2, 3);
     (tuple_expression (number_literal) (number_literal) (number_literal))))
 
 ============================================
+Struct expressions
+============================================
+
+NothingInMe {};
+Point {x: 10.0, y: 20.0};
+let a = SomeStruct { field1, field2: expression, field3 };
+let u = game::User {name: "Joe", age: 35, score: 100_000};
+
+---
+(source_file
+  (struct_expression (identifier))
+  (struct_expression (identifier)
+    (identifier) (number_literal)
+    (identifier) (number_literal))
+  (let_declaration (identifier) (struct_expression (identifier)
+    (identifier)
+    (identifier) (identifier)
+    (identifier)))
+  (let_declaration (identifier) (struct_expression (path (identifier)) (identifier)
+    (identifier) (string_literal)
+    (identifier) (number_literal)
+    (identifier) (number_literal))))
+
+============================================
 If expressions
 ============================================
 
