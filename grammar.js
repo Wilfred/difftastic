@@ -173,7 +173,8 @@ module.exports = grammar({
       $.boolean_literal,
       integer_type,
       float_type,
-      $.identifier
+      $.identifier,
+      'char'
     ),
 
     mutable_specifier: $ => 'mut',
@@ -230,7 +231,8 @@ module.exports = grammar({
       prec.left(PREC.bitand, seq($._expression, '&', $._expression)),
       prec.left(PREC.bitxor, seq($._expression, '^', $._expression)),
       $.assignment_expression,
-      $.compound_assignment_expr
+      $.compound_assignment_expr,
+      $.type_cast_expression
     ),
 
     assignment_expression: $ => prec.left(PREC.assign, seq($._expression, '=', $._expression)),
@@ -240,6 +242,10 @@ module.exports = grammar({
       choice('+=', '-=', '*=', '/=', '%=', '&=', '|=', '^=', '<<=', '>>='),
       $._expression
     )),
+
+    type_cast_expression: $ => seq(
+      $._expression, 'as', $.type_expression
+    ),
 
     return_expression: $ => prec.left(seq(
       'return', optional($._expression))
