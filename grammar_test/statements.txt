@@ -112,6 +112,28 @@ let y: bool = false;
   (let_declaration (identifier) (type_expression) (boolean_literal)))
 
 ============================================
+Structs
+============================================
+
+struct Proton;
+struct Electron {}
+struct Point {x: i32, y: i32}
+struct Color(i32, i32, i32);
+struct Inches(i32);
+
+---
+
+(source_file
+  (struct_item (identifier))
+  (struct_item (identifier))
+  (struct_item (identifier)
+    (identifier) (type_expression)
+    (identifier) (type_expression))
+  (struct_item (identifier)
+    (type_expression) (type_expression) (type_expression))
+  (struct_item (identifier) (type_expression)))
+
+============================================
 Empty statements
 ============================================
 

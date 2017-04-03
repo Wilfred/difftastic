@@ -75,6 +75,7 @@ module.exports = grammar({
 
     _item: $ => choice(
       $.mod_item,
+      $.struct_item,
       $.function_item
     ),
 
@@ -92,6 +93,26 @@ module.exports = grammar({
             $.extern_crate_declaration
           ))),
           '}'
+        )
+      )
+    ),
+
+    struct_item: $ => seq(
+      optional($.visibility_modifier),
+      'struct',
+      $.identifier,
+      choice(
+        ';',
+        seq(
+          '{',
+          sepBy(',', seq($.identifier, ':', $.type_expression)),
+          '}'
+        ),
+        seq(
+          '(',
+          sepBy(',', $.type_expression),
+          ')',
+          ';'
         )
       )
     ),
