@@ -1282,6 +1282,10 @@
           },
           {
             "type": "SYMBOL",
+            "name": "unit_expression"
+          },
+          {
+            "type": "SYMBOL",
             "name": "if_expression"
           },
           {
@@ -2007,6 +2011,10 @@
           "value": ")"
         }
       ]
+    },
+    "unit_expression": {
+      "type": "STRING",
+      "value": "()"
     },
     "struct_expression": {
       "type": "SEQ",

@@ -227,6 +227,7 @@ module.exports = grammar({
       $._field_expression,
       $.array_expression,
       $.tuple_expression,
+      $.unit_expression,
       $.if_expression,
       $.if_let_expression,
       $.match_expression,
@@ -310,6 +311,8 @@ module.exports = grammar({
       ),
       ')'
     ),
+
+    unit_expression: $ => '()',
 
     struct_expression: $ =>seq(
       optional(repeat($.path)),
