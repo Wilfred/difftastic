@@ -1008,6 +1008,10 @@
         {
           "type": "SYMBOL",
           "name": "identifier"
+        },
+        {
+          "type": "STRING",
+          "value": "char"
         }
       ]
     },
@@ -1483,6 +1487,10 @@
         {
           "type": "SYMBOL",
           "name": "compound_assignment_expr"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "type_cast_expression"
         }
       ]
     },
@@ -1568,6 +1576,23 @@
           }
         ]
       }
+    },
+    "type_cast_expression": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_expression"
+        },
+        {
+          "type": "STRING",
+          "value": "as"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "type_expression"
+        }
+      ]
     },
     "return_expression": {
       "type": "PREC_LEFT",

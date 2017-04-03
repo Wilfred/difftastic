@@ -119,6 +119,23 @@ x += y;
   (binary_expression (compound_assignment_expr (identifier) (identifier))))
 
 ============================================
+Type cast expressions
+============================================
+
+1000 as u8;
+let character = integer as char;
+let size: f64 = len(values) as f64;
+
+---
+
+(source_file
+  (binary_expression (type_cast_expression (number_literal) (type_expression)))
+  (let_declaration (identifier) (binary_expression
+    (type_cast_expression (identifier) (type_expression))))
+  (let_declaration (identifier) (type_expression) (binary_expression
+    (type_cast_expression (call_expression (identifier) (arguments (identifier))) (type_expression)))))
+
+============================================
 Call expressions
 ============================================
 
