@@ -211,6 +211,11 @@ module.exports = grammar({
     ),
 
     _expression: $ => prec(PREC.primary, choice(
+      $._no_struct_literal_expr,
+      $.struct_expression
+    )),
+
+    _no_struct_literal_expr: $ => prec(PREC.primary, choice(
       $.unary_expression,
       $.binary_expression,
       $.range_expression,
@@ -306,9 +311,22 @@ module.exports = grammar({
       ')'
     ),
 
+    struct_expression: $ =>seq(
+      optional(repeat($.path)),
+      $.identifier,
+      seq(
+        '{',
+        sepBy(',', choice(
+          $.identifier,
+          seq($.identifier, ':', $._expression)
+        )),
+        '}'
+      )
+    ),
+
     if_expression: $ => seq(
       'if',
-      $._expression,
+      $._no_struct_literal_expr,
       $.block,
       optional($.else_tail)
     ),
@@ -330,7 +348,7 @@ module.exports = grammar({
 
     match_expression: $ => seq(
       'match',
-      $._expression,
+      $._no_struct_literal_expr,
       '{',
       optional(repeat($.match_arm)),
       '}'
@@ -354,7 +372,7 @@ module.exports = grammar({
     while_expression: $ => seq(
       optional(seq($.loop_label, ':')),
       'while',
-      $._expression,
+      $._no_struct_literal_expr,
       $.block
     ),
 
@@ -369,7 +387,7 @@ module.exports = grammar({
       'for',
       $._pattern,
       'in',
-      $._expression,
+      $._no_struct_literal_expr,
       $.block
     ),
 

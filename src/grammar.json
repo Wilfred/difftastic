@@ -1221,6 +1221,23 @@
         "members": [
           {
             "type": "SYMBOL",
+            "name": "_no_struct_literal_expr"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "struct_expression"
+          }
+        ]
+      }
+    },
+    "_no_struct_literal_expr": {
+      "type": "PREC",
+      "value": 12,
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "SYMBOL",
             "name": "unary_expression"
           },
           {
@@ -1991,6 +2008,120 @@
         }
       ]
     },
+    "struct_expression": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "REPEAT",
+              "content": {
+                "type": "SYMBOL",
+                "name": "path"
+              }
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "SYMBOL",
+          "name": "identifier"
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "{"
+            },
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "CHOICE",
+                      "members": [
+                        {
+                          "type": "SYMBOL",
+                          "name": "identifier"
+                        },
+                        {
+                          "type": "SEQ",
+                          "members": [
+                            {
+                              "type": "SYMBOL",
+                              "name": "identifier"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": ":"
+                            },
+                            {
+                              "type": "SYMBOL",
+                              "name": "_expression"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "REPEAT",
+                      "content": {
+                        "type": "SEQ",
+                        "members": [
+                          {
+                            "type": "STRING",
+                            "value": ","
+                          },
+                          {
+                            "type": "CHOICE",
+                            "members": [
+                              {
+                                "type": "SYMBOL",
+                                "name": "identifier"
+                              },
+                              {
+                                "type": "SEQ",
+                                "members": [
+                                  {
+                                    "type": "SYMBOL",
+                                    "name": "identifier"
+                                  },
+                                  {
+                                    "type": "STRING",
+                                    "value": ":"
+                                  },
+                                  {
+                                    "type": "SYMBOL",
+                                    "name": "_expression"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "BLANK"
+                }
+              ]
+            },
+            {
+              "type": "STRING",
+              "value": "}"
+            }
+          ]
+        }
+      ]
+    },
     "if_expression": {
       "type": "SEQ",
       "members": [
@@ -2000,7 +2131,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_expression"
+          "name": "_no_struct_literal_expr"
         },
         {
           "type": "SYMBOL",
@@ -2096,7 +2227,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_expression"
+          "name": "_no_struct_literal_expr"
         },
         {
           "type": "STRING",
@@ -2242,7 +2373,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_expression"
+          "name": "_no_struct_literal_expr"
         },
         {
           "type": "SYMBOL",
@@ -2322,7 +2453,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_expression"
+          "name": "_no_struct_literal_expr"
         },
         {
           "type": "SYMBOL",
