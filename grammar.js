@@ -169,12 +169,16 @@ module.exports = grammar({
       '_'
     ),
 
-    type_expression: $ => choice(
-      $.boolean_literal,
-      integer_type,
-      float_type,
-      $.identifier,
-      'char'
+    type_expression: $ => seq(
+      optional('&'),
+      choice(
+        integer_type,
+        float_type,
+        $.identifier,
+        'bool',
+        'str',
+        'char'
+      )
     ),
 
     mutable_specifier: $ => 'mut',

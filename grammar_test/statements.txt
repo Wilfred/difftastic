@@ -47,6 +47,10 @@ fn add(x: i32, y: i32) -> i32 {
     return x + y;
 }
 
+fn takes_slice(slice: &str) {
+    println!("Got: {}", slice);
+}
+
 ---
 
 (source_file
@@ -56,7 +60,10 @@ fn add(x: i32, y: i32) -> i32 {
       (identifier) (type_expression) (identifier) (type_expression))
     (type_expression)
     (block
-      (return_expression (binary_expression (identifier) (identifier))))))
+      (return_expression (binary_expression (identifier) (identifier)))))
+  (function_item (identifier)
+    (parameters (identifier) (type_expression))
+    (block (macro_invocation (identifier) (macro_arguments (string_literal) (identifier))))))
 
 ============================================
 Use declarations
@@ -92,6 +99,7 @@ let x = 42;
 let x: i32;
 let x: i8 = 42;
 let mut x = 5;
+let y: bool = false;
 
 ---
 
@@ -100,7 +108,8 @@ let mut x = 5;
   (let_declaration (identifier) (number_literal))
   (let_declaration (identifier) (type_expression))
   (let_declaration (identifier) (type_expression) (number_literal))
-  (let_declaration (mutable_specifier) (identifier) (number_literal)))
+  (let_declaration (mutable_specifier) (identifier) (number_literal))
+  (let_declaration (identifier) (type_expression) (boolean_literal)))
 
 ============================================
 Empty statements
