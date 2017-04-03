@@ -19,10 +19,14 @@ Unary operator expressions
 -num;
 !bits;
 *boxed_thing;
+&T;
+&mut T;
 
 ---
 
 (source_file
+  (unary_expression (identifier))
+  (unary_expression (identifier))
   (unary_expression (identifier))
   (unary_expression (identifier))
   (unary_expression (identifier)))
