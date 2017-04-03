@@ -63,7 +63,7 @@ fn takes_slice(slice: &str) {
       (return_expression (binary_expression (identifier) (identifier)))))
   (function_item (identifier)
     (parameters (identifier) (type_expression))
-    (block (macro_invocation (identifier) (macro_arguments (string_literal) (identifier))))))
+    (block (macro_invocation (macro_name) (macro_arguments (string_literal) (identifier))))))
 
 ============================================
 Use declarations

@@ -88,11 +88,7 @@
         "members": [
           {
             "type": "SYMBOL",
-            "name": "identifier"
-          },
-          {
-            "type": "STRING",
-            "value": "!"
+            "name": "macro_name"
           },
           {
             "type": "SYMBOL",
@@ -112,6 +108,10 @@
           }
         ]
       }
+    },
+    "macro_name": {
+      "type": "PATTERN",
+      "value": "[a-zA-Z_][\\w]+!"
     },
     "macro_arguments": {
       "type": "CHOICE",

@@ -38,10 +38,10 @@ vec![0; 100];
 ----
 
 (source_file
-  (macro_invocation (identifier) (macro_arguments))
-  (macro_invocation (identifier) (macro_arguments
+  (macro_invocation (macro_name) (macro_arguments))
+  (macro_invocation (macro_name) (macro_arguments
     (string_literal) (string_literal)))
-  (macro_invocation (identifier) (macro_arguments
+  (macro_invocation (macro_name) (macro_arguments
     (number_literal) (number_literal) (number_literal)))
-  (macro_invocation (identifier) (macro_arguments
+  (macro_invocation (macro_name) (macro_arguments
     (number_literal) (number_literal))))

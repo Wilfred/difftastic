@@ -38,11 +38,12 @@ module.exports = grammar({
     ),
 
     macro_invocation: $ => prec.right(seq(
-      $.identifier,
-      '!',
+      $.macro_name,
       $.macro_arguments,
       optional(';')
     )),
+
+    macro_name: $ => /[a-zA-Z_][\w]+!/,
 
     macro_arguments: $ => {
       const args = choice(
