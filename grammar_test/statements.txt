@@ -134,6 +134,26 @@ struct Inches(i32);
   (struct_item (identifier) (type_expression)))
 
 ============================================
+Constant items
+============================================
+
+const N: i32 = 5;
+
+---
+
+(source_file (const_item (identifier) (type_expression) (number_literal)))
+
+============================================
+Static items
+============================================
+
+static N: i32 = 5;
+
+---
+
+(source_file (static_item (identifier) (type_expression) (number_literal)))
+
+============================================
 Empty statements
 ============================================
 

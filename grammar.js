@@ -62,7 +62,9 @@ module.exports = grammar({
       $._item,
       $.let_declaration,
       $.use_declaration,
-      $.extern_crate_declaration
+      $.extern_crate_declaration,
+      $.const_item,
+      $.static_item
     ),
 
     _control_flow_statement: $ => choice(
@@ -125,6 +127,28 @@ module.exports = grammar({
         $.identifier,
         seq($.identifier, 'as', $.identifier)
       ),
+      ';'
+    ),
+
+    const_item: $ => seq(
+      optional($.visibility_modifier),
+      'const',
+      $.identifier,
+      ':',
+      $.type_expression,
+      '=',
+      $._expression,
+      ';'
+    ),
+
+    static_item: $ => seq(
+      optional($.visibility_modifier),
+      'static',
+      $.identifier,
+      ':',
+      $.type_expression,
+      '=',
+      $._expression,
       ';'
     ),
 
