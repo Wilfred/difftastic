@@ -79,6 +79,7 @@ module.exports = grammar({
     _item: $ => choice(
       $.mod_item,
       $.struct_item,
+      $.type_item,
       $.function_item
     ),
 
@@ -149,6 +150,14 @@ module.exports = grammar({
       $.type_expression,
       '=',
       $._expression,
+      ';'
+    ),
+
+    type_item: $ => seq(
+      'type',
+      $.identifier,
+      '=',
+      $.type_expression,
       ';'
     ),
 
