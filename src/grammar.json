@@ -3182,32 +3182,8 @@
       }
     },
     "identifier": {
-      "type": "TOKEN",
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "PATTERN",
-            "value": "[a-zA-Z_]"
-          },
-          {
-            "type": "REPEAT",
-            "content": {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "PATTERN",
-                  "value": "[a-zA-Z_]"
-                },
-                {
-                  "type": "PATTERN",
-                  "value": "[0-9]"
-                }
-              ]
-            }
-          }
-        ]
-      }
+      "type": "PATTERN",
+      "value": "[a-zA-Z_][\\w]*"
     },
     "_field_expression": {
       "type": "PREC",
