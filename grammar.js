@@ -529,15 +529,7 @@ module.exports = grammar({
       '/'
     )),
 
-    identifier: $ => {
-      const letter = /[a-zA-Z_]/
-      const digit = /[0-9]/
-
-      return token(seq(
-        letter,
-        repeat(choice(letter, digit))
-      ))
-    },
+    identifier: $ => /[a-zA-Z_][\w]*/,
 
     _field_expression: $ => prec(PREC.field, seq($._expression, '.', $.identifier)),
 
