@@ -1,7 +1,7 @@
 const PREC = {
   method_call: 14,
   field: 13,
-  primary: 12,
+  control_flow_statement: 12,
   unary: 11,
   multiplicative: 10,
   additive: 9,
@@ -25,9 +25,7 @@ module.exports = grammar({
   extras: $ => [/\s/, $.line_comment, $.block_comment],
 
   rules: {
-    source_file: $ => repeat($._statement_list),
-
-    _statement_list: $ => prec.left(sepTrailing(choice('\n', ';'), $._statement_list, $._statement)),
+    source_file: $ => repeat($._statement),
 
     _statement: $ => choice(
       $._declaration_statement,
@@ -67,14 +65,14 @@ module.exports = grammar({
       $.static_item
     ),
 
-    _control_flow_statement: $ => choice(
+    _control_flow_statement: $ => prec(PREC.control_flow_statement, choice(
       $.if_expression,
       $.if_let_expression,
       $.match_expression,
       $.while_expression,
       $.loop_expression,
       $.for_expression
-    ),
+    )),
 
     _item: $ => choice(
       $.mod_item,
@@ -91,11 +89,11 @@ module.exports = grammar({
         ';',
         seq(
           '{',
-          optional(repeat(choice(
+          repeat(choice(
             $._item,
             $.use_declaration,
             $.extern_crate_declaration
-          ))),
+          )),
           '}'
         )
       )
@@ -192,7 +190,7 @@ module.exports = grammar({
       optional($.visibility_modifier),
       'use',
       seq(
-        optional(repeat($.path)),
+        repeat($.path),
         choice(
           choice(
             $.identifier,
@@ -243,12 +241,12 @@ module.exports = grammar({
       ';'
     ),
 
-    _expression: $ => prec(PREC.primary, choice(
+    _expression: $ => choice(
       $._no_struct_literal_expr,
       $.struct_expression
-    )),
+    ),
 
-    _no_struct_literal_expr: $ => prec(PREC.primary, choice(
+    _no_struct_literal_expr: $ => prec.left(choice(
       $.unary_expression,
       $.binary_expression,
       $.range_expression,
@@ -338,17 +336,16 @@ module.exports = grammar({
 
     tuple_expression: $ => seq(
       '(',
-      choice(
-        sepBy(',', $._expression),
-        seq($._expression, ',')
-      ),
+      seq($._expression, ','),
+      repeat(seq($._expression, ',')),
+      optional($._expression),
       ')'
     ),
 
     unit_expression: $ => '()',
 
     struct_expression: $ => seq(
-      optional(repeat($.path)),
+      repeat($.path),
       $.identifier,
       seq(
         '{',
@@ -386,7 +383,7 @@ module.exports = grammar({
       'match',
       $._no_struct_literal_expr,
       '{',
-      optional(repeat($.match_arm)),
+      repeat($.match_arm),
       '}'
     ),
 
@@ -401,7 +398,7 @@ module.exports = grammar({
 
     match_pattern: $ => seq(
       $._pattern,
-      optional(repeat(seq('|', $._pattern))),
+      repeat(seq('|', $._pattern)),
       optional(seq('if', $._expression))
     ),
 
@@ -480,12 +477,12 @@ module.exports = grammar({
 
     string_literal: $ => seq(
       '"',
-      optional(repeat(choice(
+      repeat(choice(
         $.byte_escape,
         '\\"',
         '\\\n',
         /[^"]/
-      ))),
+      )),
       '"'
     ),
 
@@ -538,7 +535,7 @@ module.exports = grammar({
 
       return token(seq(
         letter,
-        optional(repeat(choice(letter, digit)))
+        repeat(choice(letter, digit))
       ))
     },
 
@@ -554,10 +551,8 @@ module.exports = grammar({
 
     block: $ => seq(
       '{',
-      choice(
-        optional($._statement_list),
-        optional($._expression)
-      ),
+      repeat($._statement),
+      optional($._expression),
       '}'
     ),
 
@@ -575,10 +570,6 @@ module.exports = grammar({
     empty_statement: $ => ';'
   }
 });
-
-function sepTrailing (separator, recurSymbol, rule) {
-  return choice(rule, seq(rule, separator, optional(recurSymbol)))
-}
 
 function sepBy1 (sep, rule) {
   return seq(rule, repeat(seq(sep, rule)));
