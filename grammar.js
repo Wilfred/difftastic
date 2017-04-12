@@ -347,7 +347,7 @@ module.exports = grammar({
 
     unit_expression: $ => '()',
 
-    struct_expression: $ =>seq(
+    struct_expression: $ => seq(
       optional(repeat($.path)),
       $.identifier,
       seq(
