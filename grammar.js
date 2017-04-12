@@ -302,7 +302,7 @@ module.exports = grammar({
 
     assignment_expression: $ => prec.left(PREC.assign, seq($._expression, '=', $._expression)),
 
-    compound_assignment_expr: $ => prec.left(seq(
+    compound_assignment_expr: $ => prec.left(PREC.assign, seq(
       $._expression,
       choice('+=', '-=', '*=', '/=', '%=', '&=', '|=', '^=', '<<=', '>>='),
       $._expression
