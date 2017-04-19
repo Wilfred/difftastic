@@ -14,7 +14,7 @@ const PREC = {
   or: 2,
   range: 1,
   assign: 0
-};
+}
 
 const integer_type = choice('u8', 'i8', 'u16', 'i16', 'u32', 'i32', 'u64', 'i64', 'isize', 'usize')
 const float_type = choice('f32', 'f64')
@@ -41,7 +41,7 @@ module.exports = grammar({
       optional(';')
     )),
 
-    macro_name: $ => /[a-zA-Z_][\w]+!/,
+    macro_name: $abc => /[a-zA-Z_][\w]+!/,
 
     macro_arguments: $ => {
       const args = choice(
@@ -164,8 +164,8 @@ module.exports = grammar({
       'fn',
       $.identifier,
       $.parameters,
-      optional(choice
-        (seq('->', $.type_expression)),
+      optional(choice(
+        seq('->', $.type_expression)),
         '!'
       ),
       $.block
@@ -503,7 +503,7 @@ module.exports = grammar({
     ),
 
     byte_escape: $ => {
-      const hex_digit = /[0-9a-fA-F]/;
+      const hex_digit = /[0-9a-fA-F]/
 
       return seq(
         '\\', choice('n', 'r', 't', '0', '\\', seq('x', hex_digit, hex_digit))
@@ -561,12 +561,12 @@ module.exports = grammar({
 
     empty_statement: $ => ';'
   }
-});
+})
 
-function sepBy1 (sep, rule) {
-  return seq(rule, repeat(seq(sep, rule)));
+function sepBy1(sep, rule) {
+  return seq(rule, repeat(seq(sep, rule)))
 }
 
-function sepBy (sep, rule) {
-  return optional(sepBy1(sep, rule));
+function sepBy(sep, rule) {
+  return optional(sepBy1(sep, rule))
 }
