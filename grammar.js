@@ -631,7 +631,10 @@ module.exports = grammar({
       seq(
         /\d+/,
         optional(seq(
-          '.',
+          choice(
+            '.',
+            /[eE][\+-]?/
+          ),
           /\d*/
         ))
       )

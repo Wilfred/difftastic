@@ -12,6 +12,23 @@ Numbers
   (expression_statement (number)))
 
 =====================================
+Scientific Notation
+=====================================
+
+1e322
+1e-3
+1e+3
+-1e10
+
+---
+
+(module
+  (expression_statement (number))
+  (expression_statement (number))
+  (expression_statement (number))
+  (expression_statement (unary_operator (number))))
+
+=====================================
 Strings
 =====================================
 
