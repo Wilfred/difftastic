@@ -2,6 +2,7 @@
 Numbers
 =====================================
 
+-.6
 -1
 123.4123
 0xDEAD
@@ -9,6 +10,7 @@ Numbers
 ---
 
 (module
+  (expression_statement (unary_operator (number)))
   (expression_statement (unary_operator (number)))
   (expression_statement (number))
   (expression_statement (number)))

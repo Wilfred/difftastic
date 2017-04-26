@@ -2884,6 +2884,19 @@
             "type": "SEQ",
             "members": [
               {
+                "type": "STRING",
+                "value": "."
+              },
+              {
+                "type": "PATTERN",
+                "value": "\\d+"
+              }
+            ]
+          },
+          {
+            "type": "SEQ",
+            "members": [
+              {
                 "type": "PATTERN",
                 "value": "\\d+"
               },
@@ -2894,8 +2907,17 @@
                     "type": "SEQ",
                     "members": [
                       {
-                        "type": "STRING",
-                        "value": "."
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "STRING",
+                            "value": "."
+                          },
+                          {
+                            "type": "PATTERN",
+                            "value": "[eE][\\+-]?"
+                          }
+                        ]
                       },
                       {
                         "type": "PATTERN",

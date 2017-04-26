@@ -629,6 +629,10 @@ module.exports = grammar({
         /[A-Fa-f0-9]+/
       ),
       seq(
+        '.',
+        /\d+/
+      ),
+      seq(
         /\d+/,
         optional(seq(
           choice(
@@ -636,8 +640,9 @@ module.exports = grammar({
             /[eE][\+-]?/
           ),
           /\d*/
-        ))
+        )
       )
+    )
     )),
 
     identifier: $ => /[\a_]\w*/,
