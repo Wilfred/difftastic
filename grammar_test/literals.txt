@@ -22,11 +22,15 @@ Scientific Notation
 1e322
 1e-3
 1e+3
+1.8e10
+1.e10
 -1e10
 
 ---
 
 (module
+  (expression_statement (number))
+  (expression_statement (number))
   (expression_statement (number))
   (expression_statement (number))
   (expression_statement (number))

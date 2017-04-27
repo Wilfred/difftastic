@@ -657,14 +657,12 @@ module.exports = grammar({
       seq(
         /\d+/,
         optional(seq(
-          choice(
-            '.',
-            /[eE][\+-]?/
-          ),
+          '.',
           /\d*/
-        )
+        )),
+        optional(/[eE][\+-]?/),
+        /\d*/
       )
-    )
     )),
 
     identifier: $ => /[\a_]\w*/,

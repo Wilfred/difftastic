@@ -3017,17 +3017,8 @@
                     "type": "SEQ",
                     "members": [
                       {
-                        "type": "CHOICE",
-                        "members": [
-                          {
-                            "type": "STRING",
-                            "value": "."
-                          },
-                          {
-                            "type": "PATTERN",
-                            "value": "[eE][\\+-]?"
-                          }
-                        ]
+                        "type": "STRING",
+                        "value": "."
                       },
                       {
                         "type": "PATTERN",
@@ -3039,6 +3030,22 @@
                     "type": "BLANK"
                   }
                 ]
+              },
+              {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "PATTERN",
+                    "value": "[eE][\\+-]?"
+                  },
+                  {
+                    "type": "BLANK"
+                  }
+                ]
+              },
+              {
+                "type": "PATTERN",
+                "value": "\\d*"
               }
             ]
           }
