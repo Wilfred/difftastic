@@ -455,3 +455,16 @@ print c
   (print_statement (identifier))
   (comment)
   (print_statement (identifier)))
+
+====================================================
+Global statements
+====================================================
+
+global a
+global a, b
+
+---
+
+(module
+  (global_statement (identifier))
+  (global_statement (identifier) (identifier)))

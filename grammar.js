@@ -49,7 +49,8 @@ module.exports = grammar({
       $.raise_statement,
       $.pass_statement,
       $.break_statement,
-      $.continue_statement
+      $.continue_statement,
+      $.global_statement
     ),
 
     import_statement: $ => seq(
@@ -272,6 +273,11 @@ module.exports = grammar({
       '*',
       '*',
       $.identifier
+    ),
+
+    global_statement: $ => seq(
+      'global',
+      commaSep1($.identifier)
     ),
 
     class_definition: $ => seq(
