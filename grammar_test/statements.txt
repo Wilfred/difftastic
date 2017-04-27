@@ -409,6 +409,7 @@ class C:
 
   @d(1)
   @e(2, 3)
+  @a(b=True)
   def f():
     g
 
@@ -422,6 +423,11 @@ class C:
       (decorated_definition
         (decorator (dotted_name (identifier)) (arguments (number)))
         (decorator (dotted_name (identifier)) (arguments (number) (number)))
+        (decorator
+          (dotted_name (identifier))
+          (arguments
+            (keyword_argument
+              (identifier) (true))))
         (function_definition (identifier) (parameters) (expression_statement (identifier)))))))
 
 ====================================================

@@ -321,7 +321,7 @@ module.exports = grammar({
 
     arguments: $ => seq(
       '(',
-      commaSep1($._expression),
+      commaSep1(choice($._expression, $.keyword_argument)),
       ')'
     ),
 
