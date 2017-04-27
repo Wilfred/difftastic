@@ -186,12 +186,19 @@ not a == b or c == d
 Assignments
 ====================================================
 
+a = 1
 a, b = 1, 2
 a[b] = c = d
 
 ---
 
 (module
+  (expression_statement
+    (assignment
+      (expression_list
+        (identifier))
+      (expression_list
+        (number))))
   (expression_statement
     (assignment
       (expression_list
