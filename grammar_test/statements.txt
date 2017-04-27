@@ -406,7 +406,7 @@ Decorated definitions
 
 @a.b
 class C:
-
+  @f()
   @d(1)
   @e(2, 3)
   @a(b=True)
@@ -421,6 +421,7 @@ class C:
     (class_definition
       (identifier)
       (decorated_definition
+        (decorator (dotted_name (identifier)) (arguments))
         (decorator (dotted_name (identifier)) (arguments (number)))
         (decorator (dotted_name (identifier)) (arguments (number) (number)))
         (decorator
