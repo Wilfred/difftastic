@@ -279,3 +279,15 @@ B = lambda: True
   (expression_statement (assignment
     (expression_list (identifier))
     (expression_list (lambda (true))))))
+
+=====================================
+Conditional if expressions
+=====================================
+
+if a else b
+
+---
+
+(module
+  (expression_statement
+    (conditional_expression (identifier) (identifier))))

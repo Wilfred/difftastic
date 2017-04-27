@@ -368,7 +368,8 @@ module.exports = grammar({
       $.set,
       $.set_comprehension,
       $.tuple,
-      $.generator_expression
+      $.generator_expression,
+      $.conditional_expression
     ),
 
     not_operator: $ => choice(
@@ -589,6 +590,13 @@ module.exports = grammar({
       'in',
       $._expression,
       ')'
+    ),
+
+    conditional_expression: $ => seq(
+      'if',
+      $._expression,
+      'else',
+      $._expression
     ),
 
     concatenated_string: $ => seq(
