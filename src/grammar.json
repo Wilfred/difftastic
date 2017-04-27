@@ -2194,6 +2194,10 @@
                 "name": "generator_expression"
               },
               {
+                "type": "SYMBOL",
+                "name": "conditional_expression"
+              },
+              {
                 "type": "SEQ",
                 "members": [
                   {

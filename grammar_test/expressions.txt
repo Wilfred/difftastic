@@ -58,6 +58,7 @@ __a__()
 b(1)
 c(e, f=g, h)
 i(j, 5,)
+slice(1, 2, 1) if a else b
 
 ---
 
@@ -72,7 +73,10 @@ i(j, 5,)
     (identifier)
     (keyword_argument (identifier) (identifier))
     (identifier)))
-  (expression_statement (call (identifier) (identifier) (number))))
+  (expression_statement (call (identifier) (identifier) (number)))
+  (expression_statement (call (call
+    (identifier) (number) (number) (number))
+		(conditional_expression (identifier) (identifier)))))
 
 =====================================
 Calls with splats

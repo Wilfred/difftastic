@@ -469,6 +469,7 @@ module.exports = grammar({
       $._primary_expression,
       choice(
         $.generator_expression,
+        $.conditional_expression,
         seq(
           '(',
           repeat(seq(
