@@ -188,6 +188,7 @@ Assignments
 
 a = 1
 a, b = 1, 2
+a, = 1, 2
 a[b] = c = d
 
 ---
@@ -203,6 +204,13 @@ a[b] = c = d
     (assignment
       (expression_list
         (identifier)
+        (identifier))
+      (expression_list
+        (number)
+        (number))))
+  (expression_statement
+    (assignment
+      (expression_list
         (identifier))
       (expression_list
         (number)

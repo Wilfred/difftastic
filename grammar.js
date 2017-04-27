@@ -331,7 +331,10 @@ module.exports = grammar({
 
     variables: $ => commaSep1($._primary_expression),
 
-    expression_list: $ => commaSep1($._expression),
+    expression_list: $ => seq(
+      commaSep1($._expression),
+      optional(',')
+    ),
 
     dotted_name: $ => sep1($.identifier, '.'),
 
