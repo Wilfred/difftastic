@@ -74,9 +74,9 @@ slice(1, 2, 1) if a else b
     (keyword_argument (identifier) (identifier))
     (identifier)))
   (expression_statement (call (identifier) (identifier) (number)))
-  (expression_statement (call (call
-    (identifier) (number) (number) (number))
-		(conditional_expression (identifier) (identifier)))))
+  (expression_statement (conditional_expression
+    (call (identifier) (number) (number) (number))
+		(identifier) (identifier))))
 
 =====================================
 Calls with splats

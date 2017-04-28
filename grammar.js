@@ -470,7 +470,6 @@ module.exports = grammar({
       $._primary_expression,
       choice(
         $.generator_expression,
-        $.conditional_expression,
         seq(
           '(',
           repeat(seq(
@@ -595,6 +594,7 @@ module.exports = grammar({
     ),
 
     conditional_expression: $ => prec.left(PREC.conditional, seq(
+      optional($._primary_expression),
       'if',
       $._expression,
       optional(seq(
