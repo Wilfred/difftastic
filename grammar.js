@@ -1,5 +1,6 @@
 const PREC = {
   compare: 2,
+  conditional: 2,
   or: 10,
   and: 11,
   bitwise_or: 12,
@@ -593,11 +594,13 @@ module.exports = grammar({
       ')'
     ),
 
-    conditional_expression: $ => seq(
+    conditional_expression: $ => prec.left(PREC.conditional, seq(
       'if',
       $._expression,
-      'else',
-      $._expression
+      optional(seq(
+        'else',
+        $._expression
+      )))
     ),
 
     concatenated_string: $ => seq(

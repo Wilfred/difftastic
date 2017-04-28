@@ -288,10 +288,13 @@ B = lambda: True
 Conditional if expressions
 =====================================
 
+if a
 if a else b
 
 ---
 
 (module
+  (expression_statement
+    (conditional_expression (identifier)))
   (expression_statement
     (conditional_expression (identifier) (identifier))))
