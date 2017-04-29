@@ -44,6 +44,7 @@ module.exports = grammar({
       $.import_statement,
       $.import_from_statement,
       $.print_statement,
+      $.assert_statement,
       $.expression_statement,
       $.return_statement,
       $.delete_statement,
@@ -94,6 +95,12 @@ module.exports = grammar({
 
     print_statement: $ => seq(
       'print',
+      $._expression,
+      repeat(seq(',', $._expression))
+    ),
+
+    assert_statement: $ => seq(
+      'assert',
       $._expression,
       repeat(seq(',', $._expression))
     ),
