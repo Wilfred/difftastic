@@ -608,12 +608,12 @@ module.exports = grammar({
     ),
 
     conditional_expression: $ => prec.right(PREC.conditional, seq(
-      choice($.assignment, $._primary_expression),
+      choice($.assignment, $._expression),
       'if',
-      $._primary_expression,
+      $._expression,
       optional(seq(
         'else',
-        $._primary_expression
+        $._expression
       )))
     ),
 
