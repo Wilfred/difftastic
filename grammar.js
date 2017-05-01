@@ -537,7 +537,7 @@ module.exports = grammar({
 
     list_comprehension: $ => seq(
       '[',
-      $._expression,
+      choice($._expression, $.conditional_expression),
       'for',
       $.variables,
       'in',
@@ -581,7 +581,7 @@ module.exports = grammar({
 
     set_comprehension: $ => seq(
       '{',
-      $._expression,
+      choice($._expression, $.conditional_expression),
       'for',
       $.variables,
       'in',
@@ -600,7 +600,7 @@ module.exports = grammar({
 
     generator_expression: $ => seq(
       '(',
-      $._expression,
+      choice($._expression, $.conditional_expression),
       'for',
       $.variables,
       'in',
