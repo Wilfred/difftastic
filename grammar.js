@@ -669,7 +669,8 @@ module.exports = grammar({
       ),
       seq(
         '.',
-        /\d+/
+        /\d+/,
+        optional('j')
       ),
       seq(
         /\d+/,
@@ -678,7 +679,8 @@ module.exports = grammar({
           /\d*/
         )),
         optional(/[eE][\+-]?/),
-        /\d*/
+        /\d*/,
+        optional('j')
       )
     )),
 

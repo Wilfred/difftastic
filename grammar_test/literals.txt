@@ -6,6 +6,9 @@ Numbers
 -1
 123.4123
 0xDEAD
+1j
+-1j
+123.123j
 
 ---
 
@@ -13,6 +16,9 @@ Numbers
   (expression_statement (unary_operator (number)))
   (expression_statement (unary_operator (number)))
   (expression_statement (number))
+  (expression_statement (number))
+  (expression_statement (number))
+  (expression_statement (unary_operator (number)))
   (expression_statement (number)))
 
 =====================================
