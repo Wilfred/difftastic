@@ -439,20 +439,21 @@ module.exports = grammar({
     assignment: $ => seq(
       $.expression_list,
       '=',
-      $._assignment
+      $._right_hand_side
     ),
 
     augmented_assignment: $ => seq(
       $.expression_list,
       choice('+=', '-=', '*=', '/=', '%=', '**=', '>>=', '<<=', '&=', '^=', '|='),
-      $._assignment
+      $._right_hand_side
     ),
 
-    _assignment: $ => choice(
+    _right_hand_side: $ => choice(
       $.expression_list,
       $.assignment,
       $.augmented_assignment,
-      $.yield
+      $.yield,
+      $.conditional_expression
     ),
 
     yield: $ => seq('yield', optional($.expression_list)),
