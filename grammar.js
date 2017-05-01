@@ -609,7 +609,7 @@ module.exports = grammar({
     ),
 
     conditional_expression: $ => prec.right(PREC.conditional, seq(
-      choice($.assignment, $._expression),
+      $._expression,
       'if',
       $._expression,
       optional(seq(
