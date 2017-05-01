@@ -327,6 +327,10 @@
         {
           "type": "SYMBOL",
           "name": "yield"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "conditional_expression"
         }
       ]
     },
@@ -1423,10 +1427,6 @@
         {
           "type": "SYMBOL",
           "name": "generator_expression"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "conditional_expression"
         }
       ]
     },
@@ -2808,7 +2808,7 @@
       ]
     },
     "conditional_expression": {
-      "type": "PREC_LEFT",
+      "type": "PREC_RIGHT",
       "value": 2,
       "content": {
         "type": "SEQ",
@@ -2818,10 +2818,11 @@
             "members": [
               {
                 "type": "SYMBOL",
-                "name": "_primary_expression"
+                "name": "assignment"
               },
               {
-                "type": "BLANK"
+                "type": "SYMBOL",
+                "name": "_primary_expression"
               }
             ]
           },
@@ -2831,7 +2832,7 @@
           },
           {
             "type": "SYMBOL",
-            "name": "_expression"
+            "name": "_primary_expression"
           },
           {
             "type": "CHOICE",
@@ -2845,7 +2846,7 @@
                   },
                   {
                     "type": "SYMBOL",
-                    "name": "_expression"
+                    "name": "_primary_expression"
                   }
                 ]
               },

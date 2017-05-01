@@ -109,7 +109,8 @@ module.exports = grammar({
       $._expression,
       $.assignment,
       $.augmented_assignment,
-      $.yield
+      $.yield,
+      $.conditional_expression
     ),
 
     return_statement: $ => seq(
@@ -376,8 +377,7 @@ module.exports = grammar({
       $.set,
       $.set_comprehension,
       $.tuple,
-      $.generator_expression,
-      $.conditional_expression
+      $.generator_expression
     ),
 
     not_operator: $ => choice(
@@ -600,13 +600,13 @@ module.exports = grammar({
       ')'
     ),
 
-    conditional_expression: $ => prec.left(PREC.conditional, seq(
-      optional($._primary_expression),
+    conditional_expression: $ => prec.right(PREC.conditional, seq(
+      choice($.assignment, $._primary_expression),
       'if',
-      $._expression,
+      $._primary_expression,
       optional(seq(
         'else',
-        $._expression
+        $._primary_expression
       )))
     ),
 
