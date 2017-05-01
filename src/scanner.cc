@@ -459,7 +459,7 @@ struct Scanner {
       case '`':
         quote = lexer->lookahead;
         advance(lexer);
-        while (lexer->lookahead != quote) {
+        while (lexer->lookahead != quote && lexer->lookahead != 0) {
           result += lexer->lookahead;
           advance(lexer);
         }
