@@ -109,8 +109,7 @@ module.exports = grammar({
       $._expression,
       $.assignment,
       $.augmented_assignment,
-      $.yield,
-      $.conditional_expression
+      $.yield
     ),
 
     return_statement: $ => seq(
@@ -354,7 +353,8 @@ module.exports = grammar({
       $.not_operator,
       $.boolean_operator,
       $.lambda,
-      $._primary_expression
+      $._primary_expression,
+      $.conditional_expression
     ),
 
     _primary_expression: $ => choice(
@@ -452,8 +452,7 @@ module.exports = grammar({
       $.expression_list,
       $.assignment,
       $.augmented_assignment,
-      $.yield,
-      $.conditional_expression
+      $.yield
     ),
 
     yield: $ => seq('yield', optional($.expression_list)),
@@ -537,7 +536,7 @@ module.exports = grammar({
 
     list_comprehension: $ => seq(
       '[',
-      choice($._expression, $.conditional_expression),
+      $._expression,
       'for',
       $.variables,
       'in',
@@ -567,7 +566,7 @@ module.exports = grammar({
     pair: $ => seq(
       $._expression,
       ':',
-      choice($._expression, $.conditional_expression)
+      $._expression
     ),
 
     set: $ => seq(
@@ -581,7 +580,7 @@ module.exports = grammar({
 
     set_comprehension: $ => seq(
       '{',
-      choice($._expression, $.conditional_expression),
+      $._expression,
       'for',
       $.variables,
       'in',
@@ -600,7 +599,7 @@ module.exports = grammar({
 
     generator_expression: $ => seq(
       '(',
-      choice($._expression, $.conditional_expression),
+      $._expression,
       'for',
       $.variables,
       'in',

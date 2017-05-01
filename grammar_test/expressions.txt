@@ -296,12 +296,14 @@ slice(1,1,1) if a else d
   (expression_statement
     (assignment
       (expression_list (identifier))
-      (conditional_expression (identifier) (identifier))))
+      (expression_list
+        (conditional_expression (identifier) (identifier)))))
   (expression_statement
     (assignment
       (expression_list (identifier))
-      (conditional_expression
-        (identifier) (identifier) (identifier))))
+      (expression_list
+        (conditional_expression
+          (identifier) (identifier) (identifier)))))
   (expression_statement
     (conditional_expression (call (identifier)) (identifier)))
   (expression_statement
