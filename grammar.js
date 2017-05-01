@@ -567,7 +567,7 @@ module.exports = grammar({
     pair: $ => seq(
       $._expression,
       ':',
-      $._expression
+      choice($._expression, $.conditional_expression)
     ),
 
     set: $ => seq(

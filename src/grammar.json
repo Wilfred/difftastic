@@ -1924,25 +1924,8 @@
           "value": "="
         },
         {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "expression_list"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "assignment"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "augmented_assignment"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "yield"
-            }
-          ]
+          "type": "SYMBOL",
+          "name": "_right_hand_side"
         }
       ]
     },
@@ -2003,25 +1986,33 @@
           ]
         },
         {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "expression_list"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "assignment"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "augmented_assignment"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "yield"
-            }
-          ]
+          "type": "SYMBOL",
+          "name": "_right_hand_side"
+        }
+      ]
+    },
+    "_right_hand_side": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "expression_list"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "assignment"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "augmented_assignment"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "yield"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "conditional_expression"
         }
       ]
     },
@@ -2618,8 +2609,17 @@
           "value": ":"
         },
         {
-          "type": "SYMBOL",
-          "name": "_expression"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_expression"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "conditional_expression"
+            }
+          ]
         }
       ]
     },
@@ -2814,17 +2814,8 @@
         "type": "SEQ",
         "members": [
           {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "assignment"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "_primary_expression"
-              }
-            ]
+            "type": "SYMBOL",
+            "name": "_expression"
           },
           {
             "type": "STRING",
@@ -2832,7 +2823,7 @@
           },
           {
             "type": "SYMBOL",
-            "name": "_primary_expression"
+            "name": "_expression"
           },
           {
             "type": "CHOICE",
@@ -2846,7 +2837,7 @@
                   },
                   {
                     "type": "SYMBOL",
-                    "name": "_primary_expression"
+                    "name": "_expression"
                   }
                 ]
               },
