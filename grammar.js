@@ -475,7 +475,7 @@ module.exports = grammar({
       optional($._expression),
       ':',
       optional($._expression),
-      optional(seq(':', $._expression))
+      optional(seq(':', optional($._expression)))
     ),
 
     ellipsis: $ => '...',

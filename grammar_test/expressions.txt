@@ -21,6 +21,7 @@ Subscript slice expressions
 a[:]
 b[5:]
 b[5:6, ...]
+c[::]
 
 ---
 
@@ -34,7 +35,10 @@ b[5:6, ...]
   (expression_statement (subscript
     (identifier)
     (slice (number) (number))
-    (ellipsis))))
+    (ellipsis)))
+  (expression_statement (subscript
+    (identifier)
+    (slice))))
 
 =====================================
 Attribute references
