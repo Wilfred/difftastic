@@ -131,6 +131,7 @@ List comprehensions
 =====================================
 
 [a + b for (a, b) in items]
+[a for b in c for a in b]
 
 ---
 
@@ -141,6 +142,12 @@ List comprehensions
       (identifier))
     (variables
       (tuple (identifier) (identifier)))
+    (identifier)))
+  (expression_statement (list_comprehension
+    (identifier)
+    (variables (identifier))
+    (identifier)
+    (variables (identifier))
     (identifier))))
 
 =====================================

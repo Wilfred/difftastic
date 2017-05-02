@@ -536,12 +536,16 @@ module.exports = grammar({
 
     list_comprehension: $ => seq(
       '[',
+      $._list_comprehension,
+      ']'
+    ),
+
+    _list_comprehension: $ => seq(
       $._expression,
       'for',
       $.variables,
       'in',
-      $._expression,
-      ']'
+      choice($._list_comprehension, $._expression)
     ),
 
     dictionary: $ => seq(
