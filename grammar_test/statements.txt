@@ -477,6 +477,39 @@ print c
   (print_statement (identifier)))
 
 ====================================================
+Comments at different indentation levels
+====================================================
+
+if a:
+  # one
+# two
+    # three
+  b
+    # four
+  c
+
+---
+
+(module
+  (if_statement (identifier)
+    (comment)
+    (comment)
+    (comment)
+    (expression_statement (identifier))
+    (comment)
+    (expression_statement (identifier))))
+
+====================================================
+Newline tokens followed by comments
+====================================================
+
+print "a"
+  # We need to recognize the newline *preceding* this comment, because there's no newline after it
+---
+
+(module (print_statement (string)) (comment))
+
+====================================================
 Global statements
 ====================================================
 

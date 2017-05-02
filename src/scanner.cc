@@ -71,6 +71,7 @@ struct Scanner {
     advance(lexer);
     lexer->mark_end(lexer);
 
+    bool next_token_is_comment = false;
     uint32_t indent_length = 0;
     for (;;) {
       if (lexer->lookahead == '\n') {
@@ -80,28 +81,31 @@ struct Scanner {
         indent_length++;
         advance(lexer);
       } else {
+        next_token_is_comment = lexer->lookahead == '#';
         break;
       }
     }
 
-    if (indent_length > indent_length_stack.back()) {
-      indent_length_stack.push_back(indent_length);
-      lexer->result_symbol = INDENT;
-      return true;
-    }
-
-    if (indent_length < indent_length_stack.back()) {
-      indent_length_stack.pop_back();
-      while (indent_length < indent_length_stack.back()) {
-        indent_length_stack.pop_back();
-        queued_dedent_count++;
+    if (!next_token_is_comment) {
+      if (indent_length > indent_length_stack.back()) {
+        indent_length_stack.push_back(indent_length);
+        lexer->result_symbol = INDENT;
+        return true;
       }
 
-      if (valid_symbols[DEDENT]) {
-        lexer->result_symbol = DEDENT;
-        return true;
-      } else {
-        queued_dedent_count++;
+      if (indent_length < indent_length_stack.back()) {
+        indent_length_stack.pop_back();
+        while (indent_length < indent_length_stack.back()) {
+          indent_length_stack.pop_back();
+          queued_dedent_count++;
+        }
+
+        if (valid_symbols[DEDENT]) {
+          lexer->result_symbol = DEDENT;
+          return true;
+        } else {
+          queued_dedent_count++;
+        }
       }
     }
 
