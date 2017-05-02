@@ -95,18 +95,42 @@ Multi-line strings
 =====================================
 
 """
-Hi "hello"
-This is documentation
+A double quote hello,
+without double or single quotes.
+"""
+
+"""
+A double quote "hello",
+with double quotes.
+"""
+
+"""
+A double quote 'hello',
+with single quotes.
 """
 
 '''
-Hello again.
-It is me.
+A single quote hello,
+without double or single quotes.
+'''
+
+'''
+A single quote 'hello',
+with single quotes.
+'''
+
+'''
+A single quote "hello",
+with double quotes.
 '''
 
 ---
 
 (module
+  (expression_statement (string))
+  (expression_statement (string))
+  (expression_statement (string))
+  (expression_statement (string))
   (expression_statement (string))
   (expression_statement (string)))
 

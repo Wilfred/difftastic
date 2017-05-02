@@ -1626,22 +1626,25 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
         ADVANCE(19);
       END_STATE();
     case 19:
-      if (lookahead == '\"')
-        ADVANCE(19);
       if (lookahead == '\'')
         ADVANCE(20);
       if (!((lookahead == 0) ||
-          (lookahead == '\"') ||
           (lookahead == '\'')))
         ADVANCE(19);
       END_STATE();
     case 20:
       if (lookahead == '\'')
         ADVANCE(21);
+      if (!((lookahead == 0) ||
+          (lookahead == '\'')))
+        ADVANCE(19);
       END_STATE();
     case 21:
       if (lookahead == '\'')
         ADVANCE(9);
+      if (!((lookahead == 0) ||
+          (lookahead == '\'')))
+        ADVANCE(19);
       END_STATE();
     case 22:
       if (!((lookahead == 0) ||
