@@ -105,6 +105,7 @@ Math operators
 a + b * c ** d - e / 5
 -5
 +x
+~x
 
 ---
 
@@ -122,6 +123,7 @@ a + b * c ** d - e / 5
         (identifier)
         (number))))
   (expression_statement (unary_operator (number)))
+  (expression_statement (unary_operator (identifier)))
   (expression_statement (unary_operator (identifier))))
 
 =====================================

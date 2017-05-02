@@ -1788,6 +1788,23 @@
               }
             ]
           }
+        },
+        {
+          "type": "PREC",
+          "value": 19,
+          "content": {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "~"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "_primary_expression"
+              }
+            ]
+          }
         }
       ]
     },
