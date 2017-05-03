@@ -303,7 +303,7 @@ module.exports = grammar({
       $.identifier,
       optional(seq(
         '(',
-        $.expression_list,
+        optional($.expression_list),
         ')'
       )),
       ':',
