@@ -455,7 +455,7 @@ module.exports = grammar({
 
     augmented_assignment: $ => seq(
       $.expression_list,
-      choice('+=', '-=', '*=', '/=', '%=', '**=', '>>=', '<<=', '&=', '^=', '|='),
+      choice('+=', '-=', '*=', '/=', '//=', '%=', '**=', '>>=', '<<=', '&=', '^=', '|='),
       $._right_hand_side
     ),
 
