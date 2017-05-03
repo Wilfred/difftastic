@@ -451,6 +451,9 @@ class C:
   @d(1)
   @e(2, 3)
   @a(b=True)
+  @a(*b)
+  @a(**c)
+  @a(1, b=True, *b, **c)
   def f():
     g
 
@@ -462,14 +465,36 @@ class C:
     (class_definition
       (identifier)
       (decorated_definition
-        (decorator (dotted_name (identifier)) (arguments))
-        (decorator (dotted_name (identifier)) (arguments (number)))
-        (decorator (dotted_name (identifier)) (arguments (number) (number)))
+        (decorator
+          (dotted_name (identifier))
+          (arguments))
         (decorator
           (dotted_name (identifier))
           (arguments
-            (keyword_argument
-              (identifier) (true))))
+            (number)))
+        (decorator
+          (dotted_name (identifier))
+          (arguments
+            (number) (number)))
+        (decorator
+          (dotted_name (identifier))
+          (arguments
+            (keyword_argument (identifier) (true))))
+        (decorator
+          (dotted_name (identifier))
+          (arguments
+            (list_splat_argument (identifier))))
+        (decorator
+          (dotted_name (identifier))
+          (arguments
+            (dictionary_splat_argument (identifier))))
+        (decorator
+          (dotted_name (identifier))
+          (arguments
+            (number)
+            (keyword_argument (identifier) (true))
+            (list_splat_argument (identifier))
+            (dictionary_splat_argument (identifier))))
         (function_definition (identifier) (parameters) (expression_statement (identifier)))))))
 
 ====================================================

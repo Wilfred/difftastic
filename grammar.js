@@ -341,7 +341,7 @@ module.exports = grammar({
       '(',
       optional(
         commaSep1(
-          choice($._expression, $.keyword_argument)
+          choice($._expression, $.keyword_argument, $.list_splat_argument, $.dictionary_splat_argument)
         )
       ),
       ')'
