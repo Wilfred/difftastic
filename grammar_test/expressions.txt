@@ -60,7 +60,7 @@ Call expressions
 
 __a__()
 b(1)
-c(e, f=g, h)
+c(e, f=g)
 i(j, 5,)
 
 ---
@@ -74,16 +74,36 @@ i(j, 5,)
   (expression_statement (call
     (identifier)
     (identifier)
-    (keyword_argument (identifier) (identifier))
-    (identifier)))
+    (keyword_argument (identifier) (identifier))))
   (expression_statement (call (identifier) (identifier) (number))))
+
+=====================================
+Print used as a function
+=====================================
+
+print(a, b=c)
+print(d, *e)
+print(*f, **g,)
+
+---
+
+(module
+  (expression_statement (call
+    (identifier)
+    (keyword_argument (identifier) (identifier))))
+  (expression_statement (call
+    (identifier)
+    (list_splat_argument (identifier))))
+  (expression_statement (call
+    (list_splat_argument (identifier))
+    (dictionary_splat_argument (identifier)))))
 
 =====================================
 Calls with splats
 =====================================
 
 a(*b)
-c(d, *e, f, **g)
+c(d, *e, **g)
 
 ---
 
@@ -95,7 +115,6 @@ c(d, *e, f, **g)
     (identifier)
     (identifier)
     (list_splat_argument (identifier))
-    (identifier)
     (dictionary_splat_argument (identifier)))))
 
 =====================================

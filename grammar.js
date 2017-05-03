@@ -99,8 +99,7 @@ module.exports = grammar({
         $.chevron,
         seq(
           optional(seq($.chevron, ',')),
-          $._expression,
-          repeat(seq(',', $._expression))
+          commaSep1($._expression)
         )
       )
     ),
@@ -493,27 +492,21 @@ module.exports = grammar({
     ellipsis: $ => '...',
 
     call: $ => prec(PREC.call, seq(
-      $._primary_expression,
+      choice($._primary_expression, 'print'),
       choice(
         $.generator_expression,
         seq(
           '(',
+          optional(commaSep1($._expression)),
           repeat(seq(
-            choice($._expression, $.keyword_argument),
-            ','
-          )),
-          optional(choice(
-            seq(
-              choice($._expression, $.keyword_argument),
-              optional(',')
-            ),
-            seq(
+            optional(','),
+            choice(
+              $.keyword_argument,
               $.list_splat_argument,
-              repeat(seq(',', choice($._expression, $.keyword_argument))),
-              optional(seq(',', $.dictionary_splat_argument))
-            ),
-            $.dictionary_splat_argument
+              $.dictionary_splat_argument
+            )
           )),
+          optional(','),
           ')'
         )
       )
