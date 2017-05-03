@@ -608,12 +608,16 @@ module.exports = grammar({
 
     generator_expression: $ => seq(
       '(',
+      $._generator_expression,
+      ')'
+    ),
+
+    _generator_expression: $ => seq(
       $._expression,
       'for',
       $.variables,
       'in',
-      $._expression,
-      ')'
+      choice($._expression, $._generator_expression)
     ),
 
     conditional_expression: $ => prec.right(PREC.conditional, seq(

@@ -250,6 +250,7 @@ Generator expression
 
 (a[b][c] for a, b, c in items)
 dict((a, b) for a, b in d)
+(a for b in c for d in e)
 
 ---
 
@@ -263,4 +264,10 @@ dict((a, b) for a, b in d)
     (generator_expression
       (tuple (identifier) (identifier))
       (variables (identifier) (identifier))
-      (identifier)))))
+      (identifier))))
+  (expression_statement (generator_expression
+    (identifier)
+    (variables (identifier))
+    (identifier)
+    (variables (identifier))
+    (identifier))))

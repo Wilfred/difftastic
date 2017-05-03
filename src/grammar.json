@@ -2830,6 +2830,19 @@
         },
         {
           "type": "SYMBOL",
+          "name": "_generator_expression"
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "_generator_expression": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
           "name": "_expression"
         },
         {
@@ -2845,12 +2858,17 @@
           "value": "in"
         },
         {
-          "type": "SYMBOL",
-          "name": "_expression"
-        },
-        {
-          "type": "STRING",
-          "value": ")"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_expression"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_generator_expression"
+            }
+          ]
         }
       ]
     },
