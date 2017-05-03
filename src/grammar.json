@@ -3169,8 +3169,8 @@
                 "type": "CHOICE",
                 "members": [
                   {
-                    "type": "STRING",
-                    "value": "j"
+                    "type": "PATTERN",
+                    "value": "[jJ]"
                   },
                   {
                     "type": "BLANK"
@@ -3227,8 +3227,8 @@
                 "type": "CHOICE",
                 "members": [
                   {
-                    "type": "STRING",
-                    "value": "j"
+                    "type": "PATTERN",
+                    "value": "[jJ]"
                   },
                   {
                     "type": "BLANK"

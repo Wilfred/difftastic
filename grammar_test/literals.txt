@@ -8,7 +8,7 @@ Numbers
 0xDEAD
 1j
 -1j
-123.123j
+123.123J
 
 ---
 

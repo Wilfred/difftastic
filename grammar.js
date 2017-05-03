@@ -687,7 +687,7 @@ module.exports = grammar({
       seq(
         '.',
         /\d+/,
-        optional('j')
+        optional(/[jJ]/) // complex numbers
       ),
       seq(
         /\d+/,
@@ -697,7 +697,7 @@ module.exports = grammar({
         )),
         optional(/[eE][\+-]?/),
         /\d*/,
-        optional('j')
+        optional(/[jJ]/) // complex numbers
       )
     )),
 
