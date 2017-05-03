@@ -52,6 +52,19 @@ print b, c
   (print_statement (identifier) (identifier)))
 
 =====================================
+Print statements with redirection
+=====================================
+
+print >> a
+print >> a, "b", "c"
+
+---
+
+(module
+  (print_statement (chevron (identifier)))
+  (print_statement (chevron (identifier)) (string) (string)))
+
+=====================================
 Assert statements
 =====================================
 

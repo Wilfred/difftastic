@@ -95,8 +95,19 @@ module.exports = grammar({
 
     print_statement: $ => seq(
       'print',
-      $._expression,
-      repeat(seq(',', $._expression))
+      choice(
+        $.chevron,
+        seq(
+          optional(seq($.chevron, ',')),
+          $._expression,
+          repeat(seq(',', $._expression))
+        )
+      )
+    ),
+
+    chevron: $ => seq(
+      '>>',
+      $._expression
     ),
 
     assert_statement: $ => seq(
