@@ -252,28 +252,16 @@ module.exports = grammar({
 
     parameters: $ => seq(
       '(',
-      optional($._parameter_list),
-      ')'
-    ),
-
-    _parameter_list: $ => seq(
-      repeat(seq(
-        choice($.identifier, $.default_parameter),
-        ','
-      )),
-      choice(
-        seq(
-          choice($.identifier, $.default_parameter),
-          optional(',')
-        ),
-        $.list_splat_parameter,
-        $.dictionary_splat_parameter,
-        seq(
+      optional(commaSep1(
+        choice(
+          $.identifier,
+          $.default_parameter,
           $.list_splat_parameter,
-          ',',
           $.dictionary_splat_parameter
         )
-      )
+      )),
+      optional(','),
+      ')'
     ),
 
     default_parameter: $ => seq(
@@ -442,7 +430,15 @@ module.exports = grammar({
 
     lambda: $ => seq(
       'lambda',
-      optional($._parameter_list),
+      optional(commaSep1(
+        choice(
+          $.identifier,
+          $.default_parameter,
+          $.list_splat_parameter,
+          $.dictionary_splat_parameter
+        )
+      )),
+      optional(','),
       ':',
       $._expression
     ),

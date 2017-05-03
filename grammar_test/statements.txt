@@ -310,6 +310,9 @@ def c(d):
 def g(g, h,):
   i
 
+def i(a, b=c, *c, **d):
+  a
+
 ---
 
 (module
@@ -324,6 +327,14 @@ def g(g, h,):
   (function_definition
     (identifier)
     (parameters (identifier) (identifier))
+    (expression_statement (identifier)))
+  (function_definition
+    (identifier)
+    (parameters
+      (identifier)
+      (default_parameter (identifier) (identifier))
+      (list_splat_parameter (identifier))
+      (dictionary_splat_parameter (identifier)))
     (expression_statement (identifier))))
 
 ==============================================

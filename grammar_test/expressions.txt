@@ -296,6 +296,7 @@ lambdas
 
 A = lambda b, c: d("e" % f)
 B = lambda: True
+C = lambda a, b = c, *d, **e: a
 
 ---
 
@@ -308,7 +309,15 @@ B = lambda: True
       (call (identifier) (binary_operator (string) (identifier)))))))
   (expression_statement (assignment
     (expression_list (identifier))
-    (expression_list (lambda (true))))))
+    (expression_list (lambda (true)))))
+  (expression_statement (assignment
+    (expression_list (identifier))
+    (expression_list (lambda
+      (identifier)
+      (default_parameter (identifier) (identifier))
+      (list_splat_parameter (identifier))
+      (dictionary_splat_parameter (identifier))
+      (identifier))))))
 
 =====================================
 Conditional if expressions
