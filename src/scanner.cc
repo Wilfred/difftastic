@@ -67,6 +67,10 @@ struct Scanner {
       return true;
     }
 
+    while (lexer->lookahead == ' ' || lexer->lookahead == '\t') {
+      lexer->advance(lexer, true);
+    }
+
     if (lexer->lookahead != '\n') return false;
     advance(lexer);
     lexer->mark_end(lexer);
