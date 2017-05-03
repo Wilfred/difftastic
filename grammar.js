@@ -555,20 +555,16 @@ module.exports = grammar({
 
     dictionary: $ => seq(
       '{',
-      optional(seq(
-        commaSep1($.pair),
-        optional(',')
-      )),
+      optional(commaSep1($.pair)),
+      optional(','),
       '}'
     ),
 
     dictionary_comprehension: $ => seq(
       '{',
-      $.pair,
-      'for',
-      $.variables,
-      'in',
       $._expression,
+      ':',
+      $._dictionary_comprehension,
       '}'
     ),
 
@@ -576,6 +572,14 @@ module.exports = grammar({
       $._expression,
       ':',
       $._expression
+    ),
+
+    _dictionary_comprehension: $ => seq(
+      $._expression,
+      'for',
+      $.variables,
+      'in',
+      choice($._expression, $._dictionary_comprehension)
     ),
 
     set: $ => seq(

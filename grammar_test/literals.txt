@@ -194,14 +194,17 @@ Dictionary comprehensions
 =====================================
 
 {a: b for a, b in items}
+{a: b for c in d for e in items}
 
 ---
 
 (module
   (expression_statement (dictionary_comprehension
-    (pair (identifier) (identifier))
-    (variables (identifier) (identifier))
-    (identifier))))
+    (identifier)
+    (identifier) (variables (identifier) (identifier)) (identifier)))
+  (expression_statement (dictionary_comprehension
+    (identifier)
+    (identifier) (variables (identifier)) (identifier) (variables (identifier)) (identifier))))
 
 =====================================
 Sets
