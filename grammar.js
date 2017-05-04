@@ -21,7 +21,7 @@ module.exports = grammar({
 
   extras: $ => [
     $.comment,
-    /\s|\\\n/
+    /[\s\uFEFF\u2060\u200B]|\\\n/
   ],
 
   externals: $ => [
