@@ -252,6 +252,12 @@ module.exports = grammar({
       'def',
       $.identifier,
       $.parameters,
+      optional(
+        seq(
+          /->/,
+          $.identifier
+        )
+      ),
       ':',
       $._suite
     ),
@@ -274,6 +280,14 @@ module.exports = grammar({
 
     default_parameter: $ => seq(
       choice($.identifier, $.keyword_identifier),
+      '=',
+      $._expression
+    ),
+
+    typed_default_parameter: $ => seq(
+      choice($.identifier, $.keyword_identifier),
+      ':',
+      choice($.identifier, $.generic_identifier),
       '=',
       $._expression
     ),
