@@ -2516,17 +2516,8 @@
           "value": ":"
         },
         {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "identifier"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "generic_identifier"
-            }
-          ]
+          "type": "SYMBOL",
+          "name": "_primary_expression"
         }
       ]
     },

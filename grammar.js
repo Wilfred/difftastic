@@ -529,7 +529,7 @@ module.exports = grammar({
     typed_parameter: $ => seq(
       $.identifier,
       ':',
-      choice($.identifier, $.generic_identifier)
+      $._primary_expression
     ),
 
     keyword_argument: $ => seq(

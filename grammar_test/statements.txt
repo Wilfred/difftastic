@@ -313,6 +313,9 @@ def g(g, h,):
 def c(a: str):
   a
 
+def c(a: b.c):
+  a
+
 def d(a: Sequence[T]) -> T:
   a
 
@@ -337,6 +340,10 @@ def i(a, b=c, *c, **d):
   (function_definition
     (identifier)
     (parameters (typed_parameter (identifier) (identifier)))
+    (expression_statement (identifier)))
+  (function_definition
+    (identifier)
+    (parameters (typed_parameter (identifier) (attribute (identifier) (identifier))))
     (expression_statement (identifier)))
   (function_definition
     (identifier)
