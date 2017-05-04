@@ -905,6 +905,10 @@
                     },
                     {
                       "type": "SYMBOL",
+                      "name": "typed_parameter"
+                    },
+                    {
+                      "type": "SYMBOL",
                       "name": "keyword_identifier"
                     },
                     {
@@ -936,6 +940,10 @@
                           {
                             "type": "SYMBOL",
                             "name": "identifier"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "typed_parameter"
                           },
                           {
                             "type": "SYMBOL",
@@ -2415,6 +2423,23 @@
           }
         ]
       }
+    },
+    "typed_parameter": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "identifier"
+        },
+        {
+          "type": "STRING",
+          "value": ":"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "identifier"
+        }
+      ]
     },
     "keyword_argument": {
       "type": "SEQ",

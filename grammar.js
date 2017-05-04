@@ -261,6 +261,7 @@ module.exports = grammar({
       optional(commaSep1(
         choice(
           $.identifier,
+          $.typed_parameter,
           $.keyword_identifier,
           $.default_parameter,
           $.list_splat_parameter,
@@ -507,6 +508,12 @@ module.exports = grammar({
         $.arguments
       )
     )),
+
+    typed_parameter: $ => seq(
+      $.identifier,
+      ':',
+      $.identifier
+    ),
 
     keyword_argument: $ => seq(
       choice($.identifier, $.keyword_identifier),
