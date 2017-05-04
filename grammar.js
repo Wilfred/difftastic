@@ -30,6 +30,10 @@ module.exports = grammar({
     $._dedent
   ],
 
+  conflicts: $ => [
+    [$.keyword_identifier, $.print_statement]
+  ],
+
   rules: {
     module: $ => repeat($._statement),
 
@@ -54,6 +58,8 @@ module.exports = grammar({
       $.continue_statement,
       $.global_statement
     ),
+
+    keyword_identifier: $ => 'print',
 
     import_statement: $ => seq(
       'import',
@@ -255,6 +261,7 @@ module.exports = grammar({
       optional(commaSep1(
         choice(
           $.identifier,
+          $.keyword_identifier,
           $.default_parameter,
           $.list_splat_parameter,
           $.dictionary_splat_parameter
@@ -265,7 +272,7 @@ module.exports = grammar({
     ),
 
     default_parameter: $ => seq(
-      $.identifier,
+      choice($.identifier, $.keyword_identifier),
       '=',
       $._expression
     ),
@@ -358,6 +365,7 @@ module.exports = grammar({
     _primary_expression: $ => choice(
       $.binary_operator,
       $.identifier,
+      $.keyword_identifier,
       $.string,
       $.concatenated_string,
       $.number,
@@ -488,7 +496,7 @@ module.exports = grammar({
     ellipsis: $ => '...',
 
     call: $ => prec(PREC.call, seq(
-      choice($._primary_expression, 'print'),
+      $._primary_expression,
       choice(
         $.generator_expression,
         seq(
@@ -509,7 +517,7 @@ module.exports = grammar({
     )),
 
     keyword_argument: $ => seq(
-      $.identifier,
+      choice($.identifier, $.keyword_identifier),
       '=',
       $._expression
     ),

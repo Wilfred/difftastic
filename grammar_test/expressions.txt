@@ -78,25 +78,61 @@ i(j, 5,)
   (expression_statement (call (identifier) (identifier) (number))))
 
 =====================================
-Print used as a function
+Print used as an identifier
 =====================================
 
 print(a, b=c)
 print(d, *e)
 print(*f, **g,)
+a(print)
+def a(print):
+  b
+def a(printer=print):
+  c
+def a(*print):
+  b
+def a(**print):
+  b
+def print():
+  a
 
 ---
 
 (module
   (expression_statement (call
+    (keyword_identifier)
     (identifier)
     (keyword_argument (identifier) (identifier))))
   (expression_statement (call
+    (keyword_identifier)
     (identifier)
     (list_splat_argument (identifier))))
   (expression_statement (call
+    (keyword_identifier)
     (list_splat_argument (identifier))
-    (dictionary_splat_argument (identifier)))))
+    (dictionary_splat_argument (identifier))))
+  (expression_statement (call
+    (identifier) (keyword_identifier)))
+  (function_definition
+    (identifier)
+    (parameters (keyword_identifier))
+    (expression_statement (identifier)))
+  (function_definition
+    (identifier)
+    (parameters (default_parameter (identifier) (keyword_identifier)))
+    (expression_statement (identifier)))
+  (function_definition
+    (identifier)
+    (parameters (list_splat_parameter (identifier)))
+    (expression_statement (identifier)))
+  (function_definition
+    (identifier)
+    (parameters (dictionary_splat_parameter (identifier)))
+    (expression_statement (identifier)))
+  (function_definition
+    (identifier)
+    (parameters)
+    (expression_statement (identifier))))
 
 =====================================
 Calls with splats
