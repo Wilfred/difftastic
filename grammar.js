@@ -332,15 +332,20 @@ module.exports = grammar({
       )
     ),
 
-    arguments: $ => seq(
+    arguments: $ => prec(PREC.call, seq(
       '(',
-      optional(
-        commaSep1(
-          choice($._expression, $.keyword_argument, $.list_splat_argument, $.dictionary_splat_argument)
+      optional(commaSep1($._expression)),
+      repeat(seq(
+        optional(','),
+        choice(
+          $.keyword_argument,
+          $.list_splat_argument,
+          $.dictionary_splat_argument
         )
-      ),
+      )),
+      optional(','),
       ')'
-    ),
+    )),
 
     variables: $ => commaSep1($._primary_expression),
 
@@ -499,20 +504,7 @@ module.exports = grammar({
       $._primary_expression,
       choice(
         $.generator_expression,
-        seq(
-          '(',
-          optional(commaSep1($._expression)),
-          repeat(seq(
-            optional(','),
-            choice(
-              $.keyword_argument,
-              $.list_splat_argument,
-              $.dictionary_splat_argument
-            )
-          )),
-          optional(','),
-          ')'
-        )
+        $.arguments
       )
     )),
 

@@ -520,7 +520,7 @@ raise RuntimeError('NO')
 (module
   (raise_statement)
   (raise_statement (expression_list
-    (call (identifier) (string)))))
+    (call (identifier) (arguments (string))))))
 
 ====================================================
 Comments

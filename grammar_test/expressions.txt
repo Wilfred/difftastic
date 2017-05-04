@@ -67,15 +67,19 @@ i(j, 5,)
 
 (module
   (expression_statement (call
-    (identifier)))
+    (identifier)
+    (arguments)))
   (expression_statement (call
     (identifier)
-    (number)))
+    (arguments (number))))
   (expression_statement (call
     (identifier)
+    (arguments
+      (identifier)
+      (keyword_argument (identifier) (identifier)))))
+  (expression_statement (call
     (identifier)
-    (keyword_argument (identifier) (identifier))))
-  (expression_statement (call (identifier) (identifier) (number))))
+    (arguments (identifier) (number)))))
 
 =====================================
 Print used as an identifier
@@ -101,18 +105,22 @@ def print():
 (module
   (expression_statement (call
     (keyword_identifier)
-    (identifier)
-    (keyword_argument (identifier) (identifier))))
+    (arguments
+      (identifier)
+      (keyword_argument (identifier) (identifier)))))
   (expression_statement (call
     (keyword_identifier)
-    (identifier)
-    (list_splat_argument (identifier))))
+    (arguments
+      (identifier)
+      (list_splat_argument (identifier)))))
   (expression_statement (call
     (keyword_identifier)
-    (list_splat_argument (identifier))
-    (dictionary_splat_argument (identifier))))
+    (arguments
+      (list_splat_argument (identifier))
+      (dictionary_splat_argument (identifier)))))
   (expression_statement (call
-    (identifier) (keyword_identifier)))
+    (identifier)
+    (arguments (keyword_identifier))))
   (function_definition
     (identifier)
     (parameters (keyword_identifier))
@@ -146,12 +154,14 @@ c(d, *e, **g)
 (module
   (expression_statement (call
     (identifier)
-    (list_splat_argument (identifier))))
+    (arguments
+      (list_splat_argument (identifier)))))
   (expression_statement (call
     (identifier)
-    (identifier)
-    (list_splat_argument (identifier))
-    (dictionary_splat_argument (identifier)))))
+    (arguments
+      (identifier)
+      (list_splat_argument (identifier))
+      (dictionary_splat_argument (identifier))))))
 
 =====================================
 Math operators
@@ -342,7 +352,10 @@ C = lambda a, b = c, *d, **e: a
     (expression_list (lambda
       (identifier)
       (identifier)
-      (call (identifier) (binary_operator (string) (identifier)))))))
+      (call
+        (identifier)
+        (arguments
+          (binary_operator (string) (identifier))))))))
   (expression_statement (assignment
     (expression_list (identifier))
     (expression_list (lambda (true)))))
@@ -380,9 +393,9 @@ slice(1,1,1) if a else d
         (conditional_expression
           (identifier) (identifier) (identifier)))))
   (expression_statement
-    (conditional_expression (call (identifier)) (identifier)))
+    (conditional_expression (call (identifier) (arguments)) (identifier)))
   (expression_statement
-    (conditional_expression (call (identifier)) (identifier) (identifier)))
+    (conditional_expression (call (identifier) (arguments)) (identifier) (identifier)))
   (expression_statement (conditional_expression
-    (call (identifier) (number) (number) (number))
+    (call (identifier) (arguments (number) (number) (number)))
 		(identifier) (identifier))))
