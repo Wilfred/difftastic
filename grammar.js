@@ -705,6 +705,7 @@ module.exports = grammar({
     )),
 
     identifier: $ => /[\a_]\w*/,
+    generic_identifier: $ => /[A-Z+]\w*\[\w*\]/,
 
     true: $ => 'True',
     false: $ => 'False',
