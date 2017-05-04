@@ -501,13 +501,13 @@ module.exports = grammar({
       $.identifier
     )),
 
-    subscript: $ => prec(PREC.call, seq(
+    subscript: $ => seq(
       $._primary_expression,
       '[',
       commaSep1(choice($._expression, $.slice, $.ellipsis)),
       optional(','),
       ']'
-    )),
+    ),
 
     slice: $ => seq(
       optional($._expression),
