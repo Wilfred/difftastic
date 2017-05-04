@@ -270,6 +270,7 @@ module.exports = grammar({
           $.typed_parameter,
           $.keyword_identifier,
           $.default_parameter,
+          $.typed_default_parameter,
           $.list_splat_parameter,
           $.dictionary_splat_parameter
         )
@@ -385,6 +386,7 @@ module.exports = grammar({
     _primary_expression: $ => choice(
       $.binary_operator,
       $.identifier,
+      $.generic_identifier,
       $.keyword_identifier,
       $.string,
       $.concatenated_string,
@@ -461,6 +463,7 @@ module.exports = grammar({
       optional(commaSep1(
         choice(
           $.identifier,
+          $.generic_identifier,
           $.default_parameter,
           $.list_splat_parameter,
           $.dictionary_splat_parameter
@@ -526,7 +529,7 @@ module.exports = grammar({
     typed_parameter: $ => seq(
       $.identifier,
       ':',
-      $.identifier
+      choice($.identifier, $.generic_identifier)
     ),
 
     keyword_argument: $ => seq(

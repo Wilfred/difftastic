@@ -427,6 +427,8 @@ class B():
 class B(method1):
   def method1(self):
     return
+class C(method1, Sequence[T]):
+  pass
 
 ---
 
@@ -446,7 +448,11 @@ class B(method1):
     (function_definition
       (identifier)
       (parameters (identifier))
-      (return_statement))))
+      (return_statement)))
+ (class_definition
+    (identifier)
+    (expression_list (identifier) (generic_identifier))
+    (pass_statement)))
 
 ====================================================
 Class definitions with superclasses
