@@ -436,6 +436,8 @@ class B(method1):
     return
 class C(method1, Sequence[T]):
   pass
+class D(Sequence[T, U]):
+  pass
 
 ---
 
@@ -459,6 +461,10 @@ class C(method1, Sequence[T]):
  (class_definition
     (identifier)
     (expression_list (identifier) (generic_identifier))
+    (pass_statement))
+ (class_definition
+    (identifier)
+    (expression_list (generic_identifier))
     (pass_statement)))
 
 ====================================================

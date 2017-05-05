@@ -3348,7 +3348,7 @@
     },
     "generic_identifier": {
       "type": "PATTERN",
-      "value": "[A-Z+]\\w*\\[\\w*\\]"
+      "value": "[A-Z+]\\w*\\[[,\\s\\w]*\\]"
     },
     "true": {
       "type": "STRING",

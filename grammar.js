@@ -722,7 +722,7 @@ module.exports = grammar({
     )),
 
     identifier: $ => /[\a_]\w*/,
-    generic_identifier: $ => /[A-Z+]\w*\[\w*\]/,
+    generic_identifier: $ => /[A-Z+]\w*\[[,\s\w]*\]/,
 
     true: $ => 'True',
     false: $ => 'False',
