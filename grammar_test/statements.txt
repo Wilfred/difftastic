@@ -516,6 +516,10 @@ class C:
   def f():
     g
 
+  @f()
+  async def f():
+    g
+
 ---
 
 (module
@@ -554,7 +558,12 @@ class C:
             (keyword_argument (identifier) (true))
             (list_splat_argument (identifier))
             (dictionary_splat_argument (identifier))))
-        (function_definition (identifier) (parameters) (expression_statement (identifier)))))))
+        (function_definition (identifier) (parameters) (expression_statement (identifier))))
+      (decorated_definition
+        (decorator
+          (dotted_name (identifier))
+          (argument_list))
+        (async_function_definition (identifier) (parameters) (expression_statement (identifier)))))))
 
 ====================================================
 Raise statements

@@ -342,7 +342,8 @@ module.exports = grammar({
       repeat1($.decorator),
       choice(
         $.class_definition,
-        $.function_definition
+        $.function_definition,
+        $.async_function_definition
       )
     ),
 
