@@ -12,7 +12,6 @@ const PREC = {
   power: 18,
   not: 1,
   unary: 19,
-  call: 20,
   attribute: 20
 }
 
@@ -348,7 +347,7 @@ module.exports = grammar({
       )
     ),
 
-    arguments: $ => prec(PREC.call, seq(
+    arguments: $ => seq(
       '(',
       optional(commaSep1($._expression)),
       repeat(seq(
@@ -361,7 +360,7 @@ module.exports = grammar({
       )),
       optional(','),
       ')'
-    )),
+    ),
 
     variables: $ => commaSep1($._primary_expression),
 
