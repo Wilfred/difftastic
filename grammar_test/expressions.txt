@@ -55,6 +55,26 @@ a.b.c
       (identifier))))
 
 =====================================
+Await expressions
+=====================================
+
+await i(j, 5)
+return await i(j, 5)
+
+---
+
+(module
+  (expression_statement
+    (await (call
+      (identifier)
+      (argument_list (identifier) (number)))))
+  (return_statement
+    (expression_list
+      (await (call
+        (identifier)
+        (argument_list (identifier) (number)))))))
+
+=====================================
 Call expressions
 =====================================
 

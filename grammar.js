@@ -380,6 +380,7 @@ module.exports = grammar({
       $.comparison_operator,
       $.not_operator,
       $.boolean_operator,
+      $.await,
       $.lambda,
       $._primary_expression,
       $.conditional_expression
@@ -729,6 +730,11 @@ module.exports = grammar({
     false: $ => 'False',
 
     none: $ => 'None',
+
+    await: $ => seq(
+      'await',
+      $._expression
+    ),
 
     comment: $ => token(seq('#', /.*/))
   }

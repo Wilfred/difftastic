@@ -1310,6 +1310,10 @@
             {
               "type": "SYMBOL",
               "name": "function_definition"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "async_function_definition"
             }
           ]
         }
@@ -1488,6 +1492,10 @@
         {
           "type": "SYMBOL",
           "name": "boolean_operator"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "await"
         },
         {
           "type": "SYMBOL",
@@ -3329,6 +3337,19 @@
     "none": {
       "type": "STRING",
       "value": "None"
+    },
+    "await": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "await"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_expression"
+        }
+      ]
     },
     "comment": {
       "type": "TOKEN",
