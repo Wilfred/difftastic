@@ -12,7 +12,7 @@ const PREC = {
   power: 18,
   not: 1,
   unary: 19,
-  attribute: 20
+  call: 20
 }
 
 module.exports = grammar({
@@ -492,11 +492,11 @@ module.exports = grammar({
 
     yield: $ => seq('yield', optional($.expression_list)),
 
-    attribute: $ => prec(PREC.attribute, seq(
+    attribute: $ => seq(
       $._primary_expression,
       '.',
       $.identifier
-    )),
+    ),
 
     subscript: $ => seq(
       $._primary_expression,
