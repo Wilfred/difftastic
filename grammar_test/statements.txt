@@ -322,6 +322,9 @@ def d(a: Sequence[T]) -> T:
 def i(a, b=c, *c, **d):
   a
 
+def d(a: str) -> None:
+  return None
+
 ---
 
 (module
@@ -357,7 +360,12 @@ def i(a, b=c, *c, **d):
       (default_parameter (identifier) (identifier))
       (list_splat_parameter (identifier))
       (dictionary_splat_parameter (identifier)))
-    (expression_statement (identifier))))
+    (expression_statement (identifier)))
+  (function_definition
+    (identifier)
+    (parameters (typed_parameter (identifier) (identifier)))
+    (none)
+    (return_statement (expression_list (none)))))
 
 ==============================================
 Function definitions with default parameters

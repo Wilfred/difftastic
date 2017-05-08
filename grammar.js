@@ -255,7 +255,7 @@ module.exports = grammar({
       optional(
         seq(
           /->/,
-          $.identifier
+          choice($.identifier, $.none)
         )
       ),
       ':',
