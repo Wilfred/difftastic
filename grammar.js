@@ -725,6 +725,7 @@ module.exports = grammar({
 
     true: $ => 'True',
     false: $ => 'False',
+
     none: $ => 'None',
 
     comment: $ => token(seq('#', /.*/))
