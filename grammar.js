@@ -154,6 +154,7 @@ module.exports = grammar({
       $.while_statement,
       $.try_statement,
       $.with_statement,
+      $.async_function_definition,
       $.function_definition,
       $.class_definition,
       $.decorated_definition
@@ -247,7 +248,14 @@ module.exports = grammar({
       ))
     ),
 
-    function_definition: $ => seq(
+    async_function_definition: $ => seq(
+      'async',
+      $._function_definition
+    ),
+
+    function_definition: $ => $._function_definition,
+
+    _function_definition: $ => seq(
       'def',
       $.identifier,
       $.parameters,

@@ -479,6 +479,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "async_function_definition"
+        },
+        {
+          "type": "SYMBOL",
           "name": "function_definition"
         },
         {
@@ -858,7 +862,24 @@
         }
       ]
     },
+    "async_function_definition": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "async"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_function_definition"
+        }
+      ]
+    },
     "function_definition": {
+      "type": "SYMBOL",
+      "name": "_function_definition"
+    },
+    "_function_definition": {
       "type": "SEQ",
       "members": [
         {
