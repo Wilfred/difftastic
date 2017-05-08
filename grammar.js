@@ -311,13 +311,23 @@ module.exports = grammar({
     class_definition: $ => seq(
       'class',
       $.identifier,
-      optional(seq(
-        '(',
-        optional($.expression_list),
-        ')'
-      )),
+      optional($.argument_list),
       ':',
       $._suite
+    ),
+
+    argument_list: $ => seq(
+      '(',
+      optional(commaSep1(
+        choice(
+          $._expression,
+          $.keyword_argument,
+          $.list_splat_argument,
+          $.dictionary_splat_argument
+        )
+      )),
+      optional(','),
+      ')'
     ),
 
     decorated_definition: $ => seq(
@@ -331,7 +341,7 @@ module.exports = grammar({
     decorator: $ => seq(
       '@',
       $.dotted_name,
-      optional($.arguments),
+      optional($.argument_list),
       $._newline
     ),
 
@@ -345,21 +355,6 @@ module.exports = grammar({
         repeat($._statement),
         $._dedent
       )
-    ),
-
-    arguments: $ => seq(
-      '(',
-      optional(commaSep1($._expression)),
-      repeat(seq(
-        optional(','),
-        choice(
-          $.keyword_argument,
-          $.list_splat_argument,
-          $.dictionary_splat_argument
-        )
-      )),
-      optional(','),
-      ')'
     ),
 
     variables: $ => commaSep1($._primary_expression),
@@ -519,7 +514,7 @@ module.exports = grammar({
       $._primary_expression,
       choice(
         $.generator_expression,
-        $.arguments
+        $.argument_list
       )
     )),
 

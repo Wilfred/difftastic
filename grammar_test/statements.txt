@@ -457,21 +457,22 @@ class D(Sequence[T, U]):
       (return_statement (expression_list (identifier)))))
  (class_definition
     (identifier)
+    (argument_list)
     (pass_statement))
  (class_definition
     (identifier)
-    (expression_list (identifier))
+    (argument_list (identifier))
     (function_definition
       (identifier)
       (parameters (identifier))
       (return_statement)))
  (class_definition
     (identifier)
-    (expression_list (identifier) (subscript (identifier) (identifier)))
+    (argument_list (identifier) (subscript (identifier) (identifier)))
     (pass_statement))
  (class_definition
     (identifier)
-    (expression_list (subscript (identifier) (identifier) (identifier)))
+    (argument_list (subscript (identifier) (identifier) (identifier)))
     (pass_statement)))
 
 ====================================================
@@ -487,7 +488,7 @@ class A(B, C):
 (module
   (class_definition
     (identifier)
-    (expression_list (identifier) (identifier))
+    (argument_list (identifier) (identifier))
     (function_definition
       (identifier)
       (parameters)
@@ -519,30 +520,30 @@ class C:
       (decorated_definition
         (decorator
           (dotted_name (identifier))
-          (arguments))
+          (argument_list))
         (decorator
           (dotted_name (identifier))
-          (arguments
+          (argument_list
             (number)))
         (decorator
           (dotted_name (identifier))
-          (arguments
+          (argument_list
             (number) (number)))
         (decorator
           (dotted_name (identifier))
-          (arguments
+          (argument_list
             (keyword_argument (identifier) (true))))
         (decorator
           (dotted_name (identifier))
-          (arguments
+          (argument_list
             (list_splat_argument (identifier))))
         (decorator
           (dotted_name (identifier))
-          (arguments
+          (argument_list
             (dictionary_splat_argument (identifier))))
         (decorator
           (dotted_name (identifier))
-          (arguments
+          (argument_list
             (number)
             (keyword_argument (identifier) (true))
             (list_splat_argument (identifier))
@@ -561,7 +562,7 @@ raise RuntimeError('NO')
 (module
   (raise_statement)
   (raise_statement (expression_list
-    (call (identifier) (arguments (string))))))
+    (call (identifier) (argument_list (string))))))
 
 ====================================================
 Comments
