@@ -254,8 +254,8 @@ module.exports = grammar({
       $.parameters,
       optional(
         seq(
-          /->/,
-          choice($.identifier, $.none)
+          '->',
+          $.type
         )
       ),
       ':',
@@ -288,7 +288,7 @@ module.exports = grammar({
     typed_default_parameter: $ => seq(
       choice($.identifier, $.keyword_identifier),
       ':',
-      choice($.identifier, $.generic_identifier),
+      $.type,
       '=',
       $._expression
     ),
@@ -386,7 +386,6 @@ module.exports = grammar({
     _primary_expression: $ => choice(
       $.binary_operator,
       $.identifier,
-      $.generic_identifier,
       $.keyword_identifier,
       $.string,
       $.concatenated_string,
@@ -463,7 +462,6 @@ module.exports = grammar({
       optional(commaSep1(
         choice(
           $.identifier,
-          $.generic_identifier,
           $.default_parameter,
           $.list_splat_parameter,
           $.dictionary_splat_parameter
@@ -529,8 +527,10 @@ module.exports = grammar({
     typed_parameter: $ => seq(
       $.identifier,
       ':',
-      $._primary_expression
+      $.type
     ),
+
+    type: $ => $._expression,
 
     keyword_argument: $ => seq(
       choice($.identifier, $.keyword_identifier),
@@ -722,7 +722,6 @@ module.exports = grammar({
     )),
 
     identifier: $ => /[\a_]\w*/,
-    generic_identifier: $ => /[A-Z+]\w*\[[,\s\w]*\]/,
 
     true: $ => 'True',
     false: $ => 'False',

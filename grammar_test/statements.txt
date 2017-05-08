@@ -328,8 +328,7 @@ def d(a: str) -> None:
 ---
 
 (module
-  (function_definition
-    (identifier)
+  (function_definition (identifier)
     (parameters)
     (expression_statement (identifier)))
   (function_definition
@@ -342,16 +341,16 @@ def d(a: str) -> None:
     (expression_statement (identifier)))
   (function_definition
     (identifier)
-    (parameters (typed_parameter (identifier) (identifier)))
+    (parameters (typed_parameter (identifier) (type (identifier))))
     (expression_statement (identifier)))
   (function_definition
     (identifier)
-    (parameters (typed_parameter (identifier) (attribute (identifier) (identifier))))
+    (parameters (typed_parameter (identifier) (type (attribute (identifier) (identifier)))))
     (expression_statement (identifier)))
   (function_definition
     (identifier)
-    (parameters (typed_parameter (identifier) (generic_identifier)))
-    (identifier)
+    (parameters (typed_parameter (identifier) (type (subscript (identifier) (identifier)))))
+    (type (identifier))
     (expression_statement (identifier)))
   (function_definition
     (identifier)
@@ -363,8 +362,8 @@ def d(a: str) -> None:
     (expression_statement (identifier)))
   (function_definition
     (identifier)
-    (parameters (typed_parameter (identifier) (identifier)))
-    (none)
+    (parameters (typed_parameter (identifier) (type (identifier))))
+    (type (none))
     (return_statement (expression_list (none)))))
 
 ==============================================
@@ -468,11 +467,11 @@ class D(Sequence[T, U]):
       (return_statement)))
  (class_definition
     (identifier)
-    (expression_list (identifier) (generic_identifier))
+    (expression_list (identifier) (subscript (identifier) (identifier)))
     (pass_statement))
  (class_definition
     (identifier)
-    (expression_list (generic_identifier))
+    (expression_list (subscript (identifier) (identifier) (identifier)))
     (pass_statement)))
 
 ====================================================

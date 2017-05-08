@@ -880,21 +880,12 @@
               "type": "SEQ",
               "members": [
                 {
-                  "type": "PATTERN",
+                  "type": "STRING",
                   "value": "->"
                 },
                 {
-                  "type": "CHOICE",
-                  "members": [
-                    {
-                      "type": "SYMBOL",
-                      "name": "identifier"
-                    },
-                    {
-                      "type": "SYMBOL",
-                      "name": "none"
-                    }
-                  ]
+                  "type": "SYMBOL",
+                  "name": "type"
                 }
               ]
             },
@@ -1076,17 +1067,8 @@
           "value": ":"
         },
         {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "identifier"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "generic_identifier"
-            }
-          ]
+          "type": "SYMBOL",
+          "name": "type"
         },
         {
           "type": "STRING",
@@ -1538,10 +1520,6 @@
         {
           "type": "SYMBOL",
           "name": "identifier"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "generic_identifier"
         },
         {
           "type": "SYMBOL",
@@ -2113,10 +2091,6 @@
                     },
                     {
                       "type": "SYMBOL",
-                      "name": "generic_identifier"
-                    },
-                    {
-                      "type": "SYMBOL",
                       "name": "default_parameter"
                     },
                     {
@@ -2144,10 +2118,6 @@
                           {
                             "type": "SYMBOL",
                             "name": "identifier"
-                          },
-                          {
-                            "type": "SYMBOL",
-                            "name": "generic_identifier"
                           },
                           {
                             "type": "SYMBOL",
@@ -2526,9 +2496,13 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_primary_expression"
+          "name": "type"
         }
       ]
+    },
+    "type": {
+      "type": "SYMBOL",
+      "name": "_expression"
     },
     "keyword_argument": {
       "type": "SEQ",
@@ -3354,10 +3328,6 @@
     "identifier": {
       "type": "PATTERN",
       "value": "[\\a_]\\w*"
-    },
-    "generic_identifier": {
-      "type": "PATTERN",
-      "value": "[A-Z+]\\w*\\[[,\\s\\w]*\\]"
     },
     "true": {
       "type": "STRING",
