@@ -717,3 +717,18 @@ global a, b
 (module
   (global_statement (identifier))
   (global_statement (identifier) (identifier)))
+
+====================================================
+Exec statements
+====================================================
+
+exec '1+1'
+exec 'x+=1' in None
+exec 'x+=1' in a
+
+---
+
+(module
+  (exec_statement (string))
+  (exec_statement (string) (none))
+  (exec_statement (string) (identifier)))

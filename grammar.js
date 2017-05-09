@@ -56,7 +56,8 @@ module.exports = grammar({
       $.break_statement,
       $.continue_statement,
       $.global_statement,
-      $.nonlocal_statement
+      $.nonlocal_statement,
+      $.exec_statement
     ),
 
     keyword_identifier: $ => 'print',
@@ -326,6 +327,24 @@ module.exports = grammar({
     nonlocal_statement: $ => seq(
       'nonlocal',
       commaSep1($.identifier)
+    ),
+
+    exec_statement: $ => seq(
+      'exec',
+      choice(
+        $.string,
+        seq(
+          $.string,
+          'in',
+          $._primary_expression,
+          optional(
+            seq(
+              ',',
+              commaSep1($._primary_expression)
+            )
+          )
+        )
+      )
     ),
 
     class_definition: $ => seq(
