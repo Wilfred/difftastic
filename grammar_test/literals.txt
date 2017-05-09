@@ -10,6 +10,7 @@ Numbers
 -1j
 123.123J
 0o123
+0b001
 
 ---
 
@@ -20,6 +21,7 @@ Numbers
   (expression_statement (number))
   (expression_statement (number))
   (expression_statement (unary_operator (number)))
+  (expression_statement (number))
   (expression_statement (number))
   (expression_statement (number)))
 

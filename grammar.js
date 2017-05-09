@@ -728,6 +728,10 @@ module.exports = grammar({
         /[0-7]+/
       ),
       seq(
+        '0b',
+        /[0-1]+/
+      ),
+      seq(
         '.',
         /\d+/,
         optional(/[jJ]/) // complex numbers
