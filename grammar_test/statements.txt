@@ -418,6 +418,12 @@ def e((a,b)):
 def e(*):
   pass
 
+def e(*list: str):
+  pass
+
+def e(**list: str):
+  pass
+
 ---
 
 (module
@@ -465,6 +471,14 @@ def e(*):
   (function_definition
     (identifier)
     (parameters (list_splat_parameter))
+    (pass_statement))
+  (function_definition
+    (identifier)
+    (parameters (typed_parameter (list_splat_parameter (identifier)) (type (identifier))))
+    (pass_statement))
+  (function_definition
+    (identifier)
+    (parameters (typed_parameter (dictionary_splat_parameter (identifier)) (type (identifier))))
     (pass_statement)))
 
 ====================================================

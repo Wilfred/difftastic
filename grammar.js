@@ -544,7 +544,11 @@ module.exports = grammar({
     )),
 
     typed_parameter: $ => seq(
-      $.identifier,
+      choice(
+        $.identifier,
+        $.list_splat_parameter,
+        $.dictionary_splat_parameter
+      ),
       ':',
       $.type
     ),

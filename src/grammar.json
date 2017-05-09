@@ -2615,8 +2615,21 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "identifier"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "identifier"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "list_splat_parameter"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "dictionary_splat_parameter"
+            }
+          ]
         },
         {
           "type": "STRING",
