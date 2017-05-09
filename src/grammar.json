@@ -1706,6 +1706,10 @@
         {
           "type": "SYMBOL",
           "name": "generator_expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "ellipsis"
         }
       ]
     },
@@ -2467,10 +2471,6 @@
                 {
                   "type": "SYMBOL",
                   "name": "slice"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "ellipsis"
                 }
               ]
             },
@@ -2493,10 +2493,6 @@
                       {
                         "type": "SYMBOL",
                         "name": "slice"
-                      },
-                      {
-                        "type": "SYMBOL",
-                        "name": "ellipsis"
                       }
                     ]
                   }
@@ -3446,6 +3442,30 @@
               {
                 "type": "PATTERN",
                 "value": "[0-9_]+"
+              },
+              {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "PATTERN",
+                    "value": "[eE][\\+-]?"
+                  },
+                  {
+                    "type": "BLANK"
+                  }
+                ]
+              },
+              {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "PATTERN",
+                    "value": "[0-9_]+"
+                  },
+                  {
+                    "type": "BLANK"
+                  }
+                ]
               },
               {
                 "type": "CHOICE",

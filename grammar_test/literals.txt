@@ -21,6 +21,7 @@ Numbers
 0B1_1
 0O1_1
 1e+3_4j
+.3e1_4
 
 ---
 
@@ -32,6 +33,7 @@ Numbers
   (expression_statement (number))
   (expression_statement (number))
   (expression_statement (unary_operator (number)))
+  (expression_statement (number))
   (expression_statement (number))
   (expression_statement (number))
   (expression_statement (number))

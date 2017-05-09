@@ -734,6 +734,8 @@ module.exports = grammar({
       seq(
         '.',
         /[0-9_]+/,
+        optional(/[eE][\+-]?/),
+        optional(/[0-9_]+/),
         optional(/[jJ]/) // complex numbers
       ),
       seq(
