@@ -163,6 +163,13 @@ elif c:
 else:
   f
 
+if a:
+  b
+else:
+  f
+
+if a: b
+
 ---
 
 (module
@@ -171,7 +178,13 @@ else:
     (elif_clause (identifier)
       (expression_statement (identifier)))
     (else_clause
-      (expression_statement (identifier)))))
+      (expression_statement (identifier))))
+  (if_statement (identifier)
+    (expression_statement (identifier))
+    (else_clause
+      (expression_statement (identifier))))
+  (if_statement (identifier)
+    (expression_statement (identifier))))
 
 =====================================
 Nested if statements
