@@ -3388,7 +3388,7 @@
               },
               {
                 "type": "PATTERN",
-                "value": "[A-Fa-f0-9]+"
+                "value": "[A-Fa-f0-9_]+"
               }
             ]
           },
@@ -3410,7 +3410,7 @@
               },
               {
                 "type": "PATTERN",
-                "value": "[0-7]+"
+                "value": "[0-7_]+"
               }
             ]
           },
@@ -3432,7 +3432,7 @@
               },
               {
                 "type": "PATTERN",
-                "value": "[0-1]+"
+                "value": "[0-1_]+"
               }
             ]
           },
@@ -3445,7 +3445,7 @@
               },
               {
                 "type": "PATTERN",
-                "value": "\\d+"
+                "value": "[0-9_]+"
               },
               {
                 "type": "CHOICE",
@@ -3466,23 +3466,26 @@
             "members": [
               {
                 "type": "PATTERN",
-                "value": "\\d+"
+                "value": "[0-9_]+"
               },
               {
                 "type": "CHOICE",
                 "members": [
                   {
-                    "type": "SEQ",
-                    "members": [
-                      {
-                        "type": "STRING",
-                        "value": "."
-                      },
-                      {
-                        "type": "PATTERN",
-                        "value": "\\d*"
-                      }
-                    ]
+                    "type": "STRING",
+                    "value": "."
+                  },
+                  {
+                    "type": "BLANK"
+                  }
+                ]
+              },
+              {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "PATTERN",
+                    "value": "[0-9_]+"
                   },
                   {
                     "type": "BLANK"
@@ -3502,8 +3505,16 @@
                 ]
               },
               {
-                "type": "PATTERN",
-                "value": "\\d*"
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "PATTERN",
+                    "value": "[0-9_]+"
+                  },
+                  {
+                    "type": "BLANK"
+                  }
+                ]
               },
               {
                 "type": "CHOICE",
