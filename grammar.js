@@ -304,7 +304,7 @@ module.exports = grammar({
 
     list_splat_parameter: $ => seq(
       '*',
-      $.identifier
+      optional($.identifier)
     ),
 
     dictionary_splat_parameter: $ => seq(

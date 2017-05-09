@@ -415,6 +415,9 @@ def d(a: str) -> None:
 def e((a,b)):
   return (a,b)
 
+def e(*):
+  pass
+
 ---
 
 (module
@@ -458,7 +461,11 @@ def e((a,b)):
   (function_definition
     (identifier)
     (parameters (tuple (identifier) (identifier)))
-    (return_statement (expression_list (tuple (identifier) (identifier))))))
+    (return_statement (expression_list (tuple (identifier) (identifier)))))
+  (function_definition
+    (identifier)
+    (parameters (list_splat_parameter))
+    (pass_statement)))
 
 ====================================================
 Class definitions
