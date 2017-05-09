@@ -170,6 +170,8 @@ else:
 
 if a: b
 
+if a: b; c
+
 ---
 
 (module
@@ -184,6 +186,9 @@ if a: b
     (else_clause
       (expression_statement (identifier))))
   (if_statement (identifier)
+    (expression_statement (identifier)))
+  (if_statement (identifier)
+    (expression_statement (identifier))
     (expression_statement (identifier))))
 
 =====================================
