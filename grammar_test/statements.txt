@@ -253,6 +253,9 @@ for line, i in lines:
 else:
   print x
 
+for x, in [(1,), (2,), (3,)]:
+  x
+
 ---
 
 (module
@@ -265,7 +268,11 @@ else:
       (expression_list (identifier))
       (print_statement (identifier)))
     (else_clause
-      (print_statement (identifier)))))
+      (print_statement (identifier))))
+  (for_statement
+    (variables (identifier))
+    (expression_list (list (tuple (number)) (tuple (number)) (tuple (number))))
+    (expression_statement (identifier))))
 
 =====================================
 Try statements
