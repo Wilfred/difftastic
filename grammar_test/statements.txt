@@ -44,12 +44,16 @@ Print statements
 
 print a
 print b, c
+print 0 or 1, 1 or 0
 
 ---
 
 (module
   (print_statement (identifier))
-  (print_statement (identifier) (identifier)))
+  (print_statement (identifier) (identifier))
+  (print_statement
+    (boolean_operator (number) (number))
+    (boolean_operator (number) (number))))
 
 =====================================
 Print statements with redirection

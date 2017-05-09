@@ -106,7 +106,8 @@ module.exports = grammar({
         seq(
           optional(seq($.chevron, ',')),
           commaSep1($._expression)
-        )
+        ),
+        commaSep1($._expression)
       )
     ),
 
