@@ -274,6 +274,7 @@ module.exports = grammar({
       optional(commaSep1(
         choice(
           $.identifier,
+          $.tuple,
           $.typed_parameter,
           $.keyword_identifier,
           $.default_parameter,

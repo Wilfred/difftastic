@@ -412,6 +412,9 @@ def i(a, b=c, *c, **d):
 def d(a: str) -> None:
   return None
 
+def e((a,b)):
+  return (a,b)
+
 ---
 
 (module
@@ -451,7 +454,11 @@ def d(a: str) -> None:
     (identifier)
     (parameters (typed_parameter (identifier) (type (identifier))))
     (type (none))
-    (return_statement (expression_list (none)))))
+    (return_statement (expression_list (none))))
+  (function_definition
+    (identifier)
+    (parameters (tuple (identifier) (identifier)))
+    (return_statement (expression_list (tuple (identifier) (identifier))))))
 
 ====================================================
 Class definitions

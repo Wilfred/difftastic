@@ -983,6 +983,10 @@
                     },
                     {
                       "type": "SYMBOL",
+                      "name": "tuple"
+                    },
+                    {
+                      "type": "SYMBOL",
                       "name": "typed_parameter"
                     },
                     {
@@ -1022,6 +1026,10 @@
                           {
                             "type": "SYMBOL",
                             "name": "identifier"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "tuple"
                           },
                           {
                             "type": "SYMBOL",
