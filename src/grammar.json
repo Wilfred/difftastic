@@ -3495,6 +3495,18 @@
               {
                 "type": "PATTERN",
                 "value": "[A-Fa-f0-9_]+"
+              },
+              {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "PATTERN",
+                    "value": "[Ll]"
+                  },
+                  {
+                    "type": "BLANK"
+                  }
+                ]
               }
             ]
           },
@@ -3517,6 +3529,18 @@
               {
                 "type": "PATTERN",
                 "value": "[0-7_]+"
+              },
+              {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "PATTERN",
+                    "value": "[Ll]"
+                  },
+                  {
+                    "type": "BLANK"
+                  }
+                ]
               }
             ]
           },
@@ -3539,6 +3563,18 @@
               {
                 "type": "PATTERN",
                 "value": "[0-1_]+"
+              },
+              {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "PATTERN",
+                    "value": "[Ll]"
+                  },
+                  {
+                    "type": "BLANK"
+                  }
+                ]
               }
             ]
           },
@@ -3581,11 +3617,28 @@
                 "type": "CHOICE",
                 "members": [
                   {
-                    "type": "PATTERN",
-                    "value": "[jJ]"
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "PATTERN",
+                        "value": "[Ll]"
+                      },
+                      {
+                        "type": "BLANK"
+                      }
+                    ]
                   },
                   {
-                    "type": "BLANK"
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "PATTERN",
+                        "value": "[jJ]"
+                      },
+                      {
+                        "type": "BLANK"
+                      }
+                    ]
                   }
                 ]
               }
@@ -3650,11 +3703,28 @@
                 "type": "CHOICE",
                 "members": [
                   {
-                    "type": "PATTERN",
-                    "value": "[jJ]"
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "PATTERN",
+                        "value": "[Ll]"
+                      },
+                      {
+                        "type": "BLANK"
+                      }
+                    ]
                   },
                   {
-                    "type": "BLANK"
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "PATTERN",
+                        "value": "[jJ]"
+                      },
+                      {
+                        "type": "BLANK"
+                      }
+                    ]
                   }
                 ]
               }

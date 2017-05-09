@@ -736,22 +736,28 @@ module.exports = grammar({
     number: $ => token(choice(
       seq(
         choice('0x', '0X'),
-        /[A-Fa-f0-9_]+/
+        /[A-Fa-f0-9_]+/,
+        optional(/[Ll]/)
       ),
       seq(
         choice('0o', '0O'),
-        /[0-7_]+/
+        /[0-7_]+/,
+        optional(/[Ll]/)
       ),
       seq(
         choice('0b', '0B'),
-        /[0-1_]+/
+        /[0-1_]+/,
+        optional(/[Ll]/)
       ),
       seq(
         '.',
         /[0-9_]+/,
         optional(/[eE][\+-]?/),
         optional(/[0-9_]+/),
-        optional(/[jJ]/) // complex numbers
+        choice(
+          optional(/[Ll]/), // long numbers
+          optional(/[jJ]/) // complex numbers
+        )
       ),
       seq(
         /[0-9_]+/,
@@ -759,7 +765,10 @@ module.exports = grammar({
         optional(/[0-9_]+/),
         optional(/[eE][\+-]?/),
         optional(/[0-9_]+/),
-        optional(/[jJ]/) // complex numbers
+        choice(
+          optional(/[Ll]/), // long numbers
+          optional(/[jJ]/) // complex numbers
+        )
       )
     )),
 
