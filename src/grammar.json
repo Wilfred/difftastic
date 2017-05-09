@@ -3388,6 +3388,19 @@
             "members": [
               {
                 "type": "STRING",
+                "value": "0o"
+              },
+              {
+                "type": "PATTERN",
+                "value": "[0-9]+"
+              }
+            ]
+          },
+          {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "STRING",
                 "value": "."
               },
               {
