@@ -428,6 +428,9 @@ def e(*list: str):
 def e(**list: str):
   pass
 
+def f():
+  nonlocal a
+
 ---
 
 (module
@@ -483,7 +486,11 @@ def e(**list: str):
   (function_definition
     (identifier)
     (parameters (typed_parameter (dictionary_splat_parameter (identifier)) (type (identifier))))
-    (pass_statement)))
+    (pass_statement))
+  (function_definition
+    (identifier)
+    (parameters)
+    (nonlocal_statement (identifier))))
 
 ====================================================
 Class definitions

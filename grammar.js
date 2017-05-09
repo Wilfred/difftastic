@@ -55,7 +55,8 @@ module.exports = grammar({
       $.pass_statement,
       $.break_statement,
       $.continue_statement,
-      $.global_statement
+      $.global_statement,
+      $.nonlocal_statement
     ),
 
     keyword_identifier: $ => 'print',
@@ -316,6 +317,11 @@ module.exports = grammar({
 
     global_statement: $ => seq(
       'global',
+      commaSep1($.identifier)
+    ),
+
+    nonlocal_statement: $ => seq(
+      'nonlocal',
       commaSep1($.identifier)
     ),
 
