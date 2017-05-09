@@ -412,7 +412,8 @@ module.exports = grammar({
       $.set,
       $.set_comprehension,
       $.tuple,
-      $.generator_expression
+      $.generator_expression,
+      $.ellipsis
     ),
 
     not_operator: $ => choice(
@@ -520,7 +521,7 @@ module.exports = grammar({
     subscript: $ => seq(
       $._primary_expression,
       '[',
-      commaSep1(choice($._expression, $.slice, $.ellipsis)),
+      commaSep1(choice($._expression, $.slice)),
       optional(','),
       ']'
     ),
