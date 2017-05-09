@@ -345,6 +345,7 @@ Yield expressions
 yield
 yield 1
 x = yield 2
+yield from a
 
 ---
 
@@ -354,7 +355,9 @@ x = yield 2
   (expression_statement
     (assignment
       (expression_list (identifier))
-      (yield (expression_list (number))))))
+      (yield (expression_list (number)))))
+  (expression_statement
+    (yield (identifier))))
 
 ====================================================
 lambdas

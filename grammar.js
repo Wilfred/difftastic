@@ -500,7 +500,16 @@ module.exports = grammar({
       $.yield
     ),
 
-    yield: $ => seq('yield', optional($.expression_list)),
+    yield: $ => seq(
+      'yield',
+      choice(
+        seq(
+          'from',
+          $._expression
+        ),
+        optional($.expression_list)
+      )
+    ),
 
     attribute: $ => seq(
       $._primary_expression,
