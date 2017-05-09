@@ -642,6 +642,7 @@ module.exports = grammar({
     generator_expression: $ => seq(
       '(',
       $._generator_expression,
+      optional(','),
       ')'
     ),
 

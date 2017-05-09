@@ -253,7 +253,7 @@ Generator expression
 
 (a[b][c] for a, b, c in items)
 dict((a, b) for a, b in d)
-(a for b in c for d in e)
+(a for b in c for d in e,)
 
 ---
 
