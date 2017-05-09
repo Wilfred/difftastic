@@ -83,12 +83,16 @@ Expression statements
 
 a
 b + c
+1, 2, 3
+1, 2, 3,
 
 ---
 
 (module
   (expression_statement (identifier))
-  (expression_statement (binary_operator (identifier) (identifier))))
+  (expression_statement (binary_operator (identifier) (identifier)))
+  (expression_statement (number) (number) (number))
+  (expression_statement (number) (number) (number)))
 
 =====================================
 Delete statements
