@@ -363,6 +363,7 @@ lambdas
 A = lambda b, c: d("e" % f)
 B = lambda: True
 C = lambda a, b = c, *d, **e: a
+D = lambda (a,b): (a, b)
 
 ---
 
@@ -386,7 +387,12 @@ C = lambda a, b = c, *d, **e: a
       (default_parameter (identifier) (identifier))
       (list_splat_parameter (identifier))
       (dictionary_splat_parameter (identifier))
-      (identifier))))))
+      (identifier)))))
+  (expression_statement (assignment
+    (expression_list (identifier))
+    (expression_list (lambda
+      (tuple (identifier) (identifier))
+      (tuple (identifier) (identifier)))))))
 
 =====================================
 Conditional if expressions

@@ -43,6 +43,18 @@
               ]
             },
             {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "_semicolon"
+                },
+                {
+                  "type": "BLANK"
+                }
+              ]
+            },
+            {
               "type": "REPEAT1",
               "content": {
                 "type": "SYMBOL",
@@ -1407,6 +1419,18 @@
               ]
             },
             {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "_semicolon"
+                },
+                {
+                  "type": "BLANK"
+                }
+              ]
+            },
+            {
               "type": "SYMBOL",
               "name": "_newline"
             }
@@ -2140,6 +2164,10 @@
                     },
                     {
                       "type": "SYMBOL",
+                      "name": "tuple"
+                    },
+                    {
+                      "type": "SYMBOL",
                       "name": "default_parameter"
                     },
                     {
@@ -2167,6 +2195,10 @@
                           {
                             "type": "SYMBOL",
                             "name": "identifier"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "tuple"
                           },
                           {
                             "type": "SYMBOL",

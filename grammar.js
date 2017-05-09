@@ -467,6 +467,7 @@ module.exports = grammar({
       optional(commaSep1(
         choice(
           $.identifier,
+          $.tuple,
           $.default_parameter,
           $.list_splat_parameter,
           $.dictionary_splat_parameter
