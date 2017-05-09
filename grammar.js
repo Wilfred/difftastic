@@ -107,8 +107,10 @@ module.exports = grammar({
           optional(seq($.chevron, ',')),
           commaSep1($._expression)
         ),
+        $._expression,
         commaSep1($._expression)
-      )
+      ),
+      optional(',')
     ),
 
     chevron: $ => seq(

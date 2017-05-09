@@ -44,7 +44,8 @@ Print statements
 
 print a
 print b, c
-print 0 or 1, 1 or 0
+print 0 or 1, 1 or 0,
+print 0 or 1
 
 ---
 
@@ -53,6 +54,8 @@ print 0 or 1, 1 or 0
   (print_statement (identifier) (identifier))
   (print_statement
     (boolean_operator (number) (number))
+    (boolean_operator (number) (number)))
+  (print_statement
     (boolean_operator (number) (number))))
 
 =====================================
