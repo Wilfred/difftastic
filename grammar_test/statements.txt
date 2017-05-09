@@ -596,13 +596,17 @@ Raise statements
 
 raise
 raise RuntimeError('NO')
+raise RunTimeError('NO') from e
 
 ---
 
 (module
   (raise_statement)
-  (raise_statement (expression_list
-    (call (identifier) (argument_list (string))))))
+  (raise_statement
+    (expression_list (call (identifier) (argument_list (string)))))
+  (raise_statement
+    (expression_list (call (identifier) (argument_list (string))))
+    (identifier)))
 
 ====================================================
 Comments

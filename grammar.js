@@ -139,7 +139,8 @@ module.exports = grammar({
 
     raise_statement: $ => seq(
       'raise',
-      optional($.expression_list)
+      optional($.expression_list),
+      optional(seq('from', $._expression))
     ),
 
     pass_statement: $ => 'pass',
