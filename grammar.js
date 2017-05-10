@@ -714,13 +714,14 @@ module.exports = grammar({
       choice(
         seq(
           '`',
-          repeat(/[^\\`]/, /\\./),
+          repeat(/[^\\`]/, /\\/, /\\./),
           '`'
         ),
         seq(
           '"',
           repeat(choice(
             /[^\\"]/,
+            /\\/,
             /\\./
           )),
           '"'
@@ -729,6 +730,7 @@ module.exports = grammar({
           "'",
           repeat(choice(
             /[^\\']/,
+            /\\/,
             /\\./
           )),
           "'"

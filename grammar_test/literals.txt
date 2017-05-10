@@ -84,10 +84,13 @@ r'hi'
 ur"bye"
 b'sup'
 `1`
+"multiline \
+string"
 
 ---
 
 (module
+  (expression_statement (string))
   (expression_statement (string))
   (expression_statement (string))
   (expression_statement (string))
@@ -158,9 +161,16 @@ A single quote "hello",
 with double quotes.
 '''
 
+"""
+A double quote hello\n\
+with an escaped newline\n\
+and another escaped newline\n\
+"""
+
 ---
 
 (module
+  (expression_statement (string))
   (expression_statement (string))
   (expression_statement (string))
   (expression_statement (string))
