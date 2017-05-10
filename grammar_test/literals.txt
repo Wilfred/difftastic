@@ -190,6 +190,7 @@ List comprehensions
 
 [a + b for (a, b) in items]
 [a for b in c for a in b]
+[a for b in lambda: True, lambda: False if True]
 
 ---
 
@@ -206,7 +207,12 @@ List comprehensions
     (variables (identifier))
     (identifier)
     (variables (identifier))
-    (identifier))))
+    (identifier)))
+  (expression_statement (list_comprehension
+    (identifier)
+    (variables (identifier))
+    (lambda (true))
+    (lambda (conditional_expression (false) (true))))))
 
 =====================================
 Dictionaries

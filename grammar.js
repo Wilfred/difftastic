@@ -625,7 +625,7 @@ module.exports = grammar({
       'for',
       $.variables,
       'in',
-      choice($._list_comprehension, $._expression)
+      choice($._list_comprehension, commaSep1($._expression))
     ),
 
     dictionary: $ => seq(
