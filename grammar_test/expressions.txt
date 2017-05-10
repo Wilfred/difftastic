@@ -164,7 +164,7 @@ def print():
 
 
 =====================================
-Print used as an identifier
+Exec used as an identifier
 =====================================
 
 exec("print \"'%s' has %i characters\" % (public_function(), len(public_function()))", {"__builtins__" : None}, safe_dict)
