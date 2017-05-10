@@ -83,10 +83,12 @@ Strings
 r'hi'
 ur"bye"
 b'sup'
+`1`
 
 ---
 
 (module
+  (expression_statement (string))
   (expression_statement (string))
   (expression_statement (string))
   (expression_statement (string))

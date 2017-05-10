@@ -719,6 +719,11 @@ module.exports = grammar({
       repeat(choice('u', 'r', 'b')),
       choice(
         seq(
+          '`',
+          repeat(/[^\\`]/, /\\./),
+          '`'
+        ),
+        seq(
           '"',
           repeat(choice(
             /[^\\"]/,
