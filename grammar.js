@@ -332,11 +332,11 @@ module.exports = grammar({
 
     exec_statement: $ => seq(
       'exec',
-      $._expression,
+      $.string,
       optional(
         seq(
           'in',
-          $._expression
+          commaSep1($._expression)
         )
       )
     ),

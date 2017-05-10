@@ -1381,7 +1381,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_expression"
+          "name": "string"
         },
         {
           "type": "CHOICE",
@@ -1394,8 +1394,29 @@
                   "value": "in"
                 },
                 {
-                  "type": "SYMBOL",
-                  "name": "_expression"
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "SYMBOL",
+                      "name": "_expression"
+                    },
+                    {
+                      "type": "REPEAT",
+                      "content": {
+                        "type": "SEQ",
+                        "members": [
+                          {
+                            "type": "STRING",
+                            "value": ","
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "_expression"
+                          }
+                        ]
+                      }
+                    }
+                  ]
                 }
               ]
             },
@@ -3507,10 +3528,6 @@
                         },
                         {
                           "type": "PATTERN",
-                          "value": "\\\\"
-                        },
-                        {
-                          "type": "PATTERN",
                           "value": "\\\\."
                         }
                       ]
@@ -3537,10 +3554,6 @@
                         {
                           "type": "PATTERN",
                           "value": "[^\\\\']"
-                        },
-                        {
-                          "type": "PATTERN",
-                          "value": "\\\\"
                         },
                         {
                           "type": "PATTERN",

@@ -724,11 +724,11 @@ Exec statements
 
 exec '1+1'
 exec 'x+=1' in None
-exec 'x+=1' in a
+exec 'x+=1' in a, b
 
 ---
 
 (module
   (exec_statement (string))
-  (exec_statement (comparison_operator (string) (none)))
-  (exec_statement (comparison_operator (string) (identifier))))
+  (exec_statement (string) (none))
+  (exec_statement (string) (identifier) (identifier)))
