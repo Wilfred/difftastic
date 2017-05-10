@@ -730,5 +730,5 @@ exec 'x+=1' in a
 
 (module
   (exec_statement (string))
-  (exec_statement (string) (none))
-  (exec_statement (string) (identifier)))
+  (exec_statement (comparison_operator (string) (none)))
+  (exec_statement (comparison_operator (string) (identifier))))

@@ -30,7 +30,8 @@ module.exports = grammar({
   ],
 
   conflicts: $ => [
-    [$.keyword_identifier, $.print_statement]
+    [$.keyword_identifier, $.print_statement],
+    [$.keyword_identifier, $.exec_statement]
   ],
 
   rules: {
@@ -60,7 +61,7 @@ module.exports = grammar({
       $.exec_statement
     ),
 
-    keyword_identifier: $ => 'print',
+    keyword_identifier: $ => choice('print', 'exec'),
 
     import_statement: $ => seq(
       'import',
@@ -331,18 +332,11 @@ module.exports = grammar({
 
     exec_statement: $ => seq(
       'exec',
-      choice(
-        $.string,
+      $._expression,
+      optional(
         seq(
-          $.string,
           'in',
-          $._primary_expression,
-          optional(
-            seq(
-              ',',
-              commaSep1($._primary_expression)
-            )
-          )
+          $._expression
         )
       )
     ),
