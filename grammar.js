@@ -662,12 +662,16 @@ module.exports = grammar({
 
     set_comprehension: $ => seq(
       '{',
+      $._set_comprehension,
+      '}'
+    ),
+
+    _set_comprehension: $ => seq(
       $._expression,
       'for',
       $.variables,
       'in',
-      $._expression,
-      '}'
+      choice($._expression, $._set_comprehension)
     ),
 
     tuple: $ => seq(

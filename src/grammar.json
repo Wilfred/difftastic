@@ -3215,6 +3215,19 @@
         },
         {
           "type": "SYMBOL",
+          "name": "_set_comprehension"
+        },
+        {
+          "type": "STRING",
+          "value": "}"
+        }
+      ]
+    },
+    "_set_comprehension": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
           "name": "_expression"
         },
         {
@@ -3230,12 +3243,17 @@
           "value": "in"
         },
         {
-          "type": "SYMBOL",
-          "name": "_expression"
-        },
-        {
-          "type": "STRING",
-          "value": "}"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_expression"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_set_comprehension"
+            }
+          ]
         }
       ]
     },
