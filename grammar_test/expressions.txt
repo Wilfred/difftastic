@@ -168,6 +168,7 @@ Print used as an identifier
 =====================================
 
 exec("print \"'%s' has %i characters\" % (public_function(), len(public_function()))", {"__builtins__" : None}, safe_dict)
+exec("""exec _code_ in _globs_, _locs_""")
 
 ---
 
@@ -178,7 +179,9 @@ exec("print \"'%s' has %i characters\" % (public_function(), len(public_function
       (argument_list
         (string)
         (dictionary (pair (string) (none)))
-        (identifier)))))
+        (identifier))))
+  (expression_statement
+    (call (keyword_identifier) (argument_list (string)))))
 
 =====================================
 Calls with splats
