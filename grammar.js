@@ -1,4 +1,8 @@
 const PREC = {
+  // this resolves a conflict between the usage of ':' in a lambda vs in a
+  // typed parameter. In the case of a lambda, we don't allow typed parameters.
+  typed_parameter: -1,
+
   compare: 2,
   conditional: 2,
   or: 10,
@@ -12,7 +16,7 @@ const PREC = {
   power: 18,
   not: 1,
   unary: 19,
-  call: 20
+  call: 20,
 }
 
 module.exports = grammar({
@@ -279,20 +283,22 @@ module.exports = grammar({
 
     parameters: $ => seq(
       '(',
-      optional(commaSep1(
-        choice(
-          $.identifier,
-          $.tuple,
-          $.typed_parameter,
-          $.keyword_identifier,
-          $.default_parameter,
-          $.typed_default_parameter,
-          $.list_splat_parameter,
-          $.dictionary_splat_parameter
-        )
-      )),
-      optional(','),
+      optional($._parameters),
       ')'
+    ),
+
+    _parameters: $ => seq(
+      commaSep1(choice(
+        $.identifier,
+        $.tuple,
+        $.typed_parameter,
+        $.keyword_identifier,
+        $.default_parameter,
+        $.typed_default_parameter,
+        $.list_splat_parameter,
+        $.dictionary_splat_parameter
+      )),
+      optional(',')
     ),
 
     default_parameter: $ => seq(
@@ -301,13 +307,13 @@ module.exports = grammar({
       $._expression
     ),
 
-    typed_default_parameter: $ => seq(
+    typed_default_parameter: $ => prec(PREC.typed_parameter, seq(
       choice($.identifier, $.keyword_identifier),
       ':',
       $.type,
       '=',
       $._expression
-    ),
+    )),
 
     list_splat_parameter: $ => seq(
       '*',
@@ -494,16 +500,7 @@ module.exports = grammar({
 
     lambda: $ => seq(
       'lambda',
-      optional(commaSep1(
-        choice(
-          $.identifier,
-          $.tuple,
-          $.default_parameter,
-          $.list_splat_parameter,
-          $.dictionary_splat_parameter
-        )
-      )),
-      optional(','),
+      optional($._parameters),
       ':',
       $._expression
     ),
@@ -569,7 +566,7 @@ module.exports = grammar({
       )
     )),
 
-    typed_parameter: $ => seq(
+    typed_parameter: $ => prec(PREC.typed_parameter, seq(
       choice(
         $.identifier,
         $.list_splat_parameter,
@@ -577,7 +574,7 @@ module.exports = grammar({
       ),
       ':',
       $.type
-    ),
+    )),
 
     type: $ => $._expression,
 

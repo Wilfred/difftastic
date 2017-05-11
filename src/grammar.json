@@ -1093,98 +1093,111 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "SEQ",
+              "type": "SYMBOL",
+              "name": "_parameters"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "_parameters": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "CHOICE",
               "members": [
                 {
-                  "type": "CHOICE",
-                  "members": [
-                    {
-                      "type": "SYMBOL",
-                      "name": "identifier"
-                    },
-                    {
-                      "type": "SYMBOL",
-                      "name": "tuple"
-                    },
-                    {
-                      "type": "SYMBOL",
-                      "name": "typed_parameter"
-                    },
-                    {
-                      "type": "SYMBOL",
-                      "name": "keyword_identifier"
-                    },
-                    {
-                      "type": "SYMBOL",
-                      "name": "default_parameter"
-                    },
-                    {
-                      "type": "SYMBOL",
-                      "name": "typed_default_parameter"
-                    },
-                    {
-                      "type": "SYMBOL",
-                      "name": "list_splat_parameter"
-                    },
-                    {
-                      "type": "SYMBOL",
-                      "name": "dictionary_splat_parameter"
-                    }
-                  ]
+                  "type": "SYMBOL",
+                  "name": "identifier"
                 },
                 {
-                  "type": "REPEAT",
-                  "content": {
-                    "type": "SEQ",
-                    "members": [
-                      {
-                        "type": "STRING",
-                        "value": ","
-                      },
-                      {
-                        "type": "CHOICE",
-                        "members": [
-                          {
-                            "type": "SYMBOL",
-                            "name": "identifier"
-                          },
-                          {
-                            "type": "SYMBOL",
-                            "name": "tuple"
-                          },
-                          {
-                            "type": "SYMBOL",
-                            "name": "typed_parameter"
-                          },
-                          {
-                            "type": "SYMBOL",
-                            "name": "keyword_identifier"
-                          },
-                          {
-                            "type": "SYMBOL",
-                            "name": "default_parameter"
-                          },
-                          {
-                            "type": "SYMBOL",
-                            "name": "typed_default_parameter"
-                          },
-                          {
-                            "type": "SYMBOL",
-                            "name": "list_splat_parameter"
-                          },
-                          {
-                            "type": "SYMBOL",
-                            "name": "dictionary_splat_parameter"
-                          }
-                        ]
-                      }
-                    ]
-                  }
+                  "type": "SYMBOL",
+                  "name": "tuple"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "typed_parameter"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "keyword_identifier"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "default_parameter"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "typed_default_parameter"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "list_splat_parameter"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "dictionary_splat_parameter"
                 }
               ]
             },
             {
-              "type": "BLANK"
+              "type": "REPEAT",
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "STRING",
+                    "value": ","
+                  },
+                  {
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "SYMBOL",
+                        "name": "identifier"
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "tuple"
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "typed_parameter"
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "keyword_identifier"
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "default_parameter"
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "typed_default_parameter"
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "list_splat_parameter"
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "dictionary_splat_parameter"
+                      }
+                    ]
+                  }
+                ]
+              }
             }
           ]
         },
@@ -1199,10 +1212,6 @@
               "type": "BLANK"
             }
           ]
-        },
-        {
-          "type": "STRING",
-          "value": ")"
         }
       ]
     },
@@ -1233,38 +1242,42 @@
       ]
     },
     "typed_default_parameter": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "identifier"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "keyword_identifier"
-            }
-          ]
-        },
-        {
-          "type": "STRING",
-          "value": ":"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "type"
-        },
-        {
-          "type": "STRING",
-          "value": "="
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_expression"
-        }
-      ]
+      "type": "PREC",
+      "value": -1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "identifier"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "keyword_identifier"
+              }
+            ]
+          },
+          {
+            "type": "STRING",
+            "value": ":"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "type"
+          },
+          {
+            "type": "STRING",
+            "value": "="
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_expression"
+          }
+        ]
+      }
     },
     "list_splat_parameter": {
       "type": "SEQ",
@@ -2400,83 +2413,8 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "CHOICE",
-                  "members": [
-                    {
-                      "type": "SYMBOL",
-                      "name": "identifier"
-                    },
-                    {
-                      "type": "SYMBOL",
-                      "name": "tuple"
-                    },
-                    {
-                      "type": "SYMBOL",
-                      "name": "default_parameter"
-                    },
-                    {
-                      "type": "SYMBOL",
-                      "name": "list_splat_parameter"
-                    },
-                    {
-                      "type": "SYMBOL",
-                      "name": "dictionary_splat_parameter"
-                    }
-                  ]
-                },
-                {
-                  "type": "REPEAT",
-                  "content": {
-                    "type": "SEQ",
-                    "members": [
-                      {
-                        "type": "STRING",
-                        "value": ","
-                      },
-                      {
-                        "type": "CHOICE",
-                        "members": [
-                          {
-                            "type": "SYMBOL",
-                            "name": "identifier"
-                          },
-                          {
-                            "type": "SYMBOL",
-                            "name": "tuple"
-                          },
-                          {
-                            "type": "SYMBOL",
-                            "name": "default_parameter"
-                          },
-                          {
-                            "type": "SYMBOL",
-                            "name": "list_splat_parameter"
-                          },
-                          {
-                            "type": "SYMBOL",
-                            "name": "dictionary_splat_parameter"
-                          }
-                        ]
-                      }
-                    ]
-                  }
-                }
-              ]
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "STRING",
-              "value": ","
+              "type": "SYMBOL",
+              "name": "_parameters"
             },
             {
               "type": "BLANK"
@@ -2818,34 +2756,38 @@
       }
     },
     "typed_parameter": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "identifier"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "list_splat_parameter"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "dictionary_splat_parameter"
-            }
-          ]
-        },
-        {
-          "type": "STRING",
-          "value": ":"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "type"
-        }
-      ]
+      "type": "PREC",
+      "value": -1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "identifier"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "list_splat_parameter"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "dictionary_splat_parameter"
+              }
+            ]
+          },
+          {
+            "type": "STRING",
+            "value": ":"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "type"
+          }
+        ]
+      }
     },
     "type": {
       "type": "SYMBOL",
