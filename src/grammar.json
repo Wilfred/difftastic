@@ -3509,6 +3509,10 @@
                         {
                           "type": "PATTERN",
                           "value": "\\\\."
+                        },
+                        {
+                          "type": "PATTERN",
+                          "value": "\\\\\\n"
                         }
                       ]
                     }
@@ -3538,6 +3542,10 @@
                         {
                           "type": "PATTERN",
                           "value": "\\\\."
+                        },
+                        {
+                          "type": "PATTERN",
+                          "value": "\\\\\\n"
                         }
                       ]
                     }
@@ -3567,6 +3575,10 @@
                         {
                           "type": "PATTERN",
                           "value": "\\\\."
+                        },
+                        {
+                          "type": "PATTERN",
+                          "value": "\\\\\\n"
                         }
                       ]
                     }
@@ -3967,11 +3979,7 @@
     },
     {
       "type": "PATTERN",
-      "value": "\\\\\\n"
-    },
-    {
-      "type": "PATTERN",
-      "value": "[\\s﻿⁠​]"
+      "value": "[\\s﻿⁠​]|\\\\\\n"
     }
   ],
   "conflicts": [
