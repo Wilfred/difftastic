@@ -756,8 +756,12 @@ module.exports = grammar({
       seq(
         '.',
         repeat1(/[0-9]+_?/),
-        optional(/[eE]/),
-        optional(/[\+-]/),
+        optional(
+          seq(
+            /[eE]/,
+            optional(/[\+-]/)
+          )
+        ),
         optional(repeat(/[0-9]+_?/)),
         choice(
           optional(/[Ll]/), // long numbers
@@ -768,8 +772,12 @@ module.exports = grammar({
         repeat1(/[0-9]+_?/),
         optional('.'),
         optional(repeat(/[0-9]+_?/)),
-        optional(/[eE]/),
-        optional(/[\+-]/),
+        optional(
+          seq(
+            /[eE]/,
+            optional(/[\+-]/)
+          )
+        ),
         optional(repeat(/[0-9]+_?/)),
         choice(
           optional(/[Ll]/), // long numbers
