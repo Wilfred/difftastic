@@ -17,7 +17,7 @@
   },
   "scripts": {
     "build": "tree-sitter generate && node-gyp build",
-    "test": "tree-sitter test && tree-sitter parse examples/trailing-whitespace.py -q && tree-sitter parse examples/python2-grammar.py -q && tree-sitter parse examples/python3-grammar.py -q"
+    "test": "./scripts/test"
   },
   "repository": "https://github.com/tree-sitter/tree-sitter-python"
 }
