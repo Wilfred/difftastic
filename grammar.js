@@ -740,17 +740,17 @@ module.exports = grammar({
     number: $ => token(choice(
       seq(
         choice('0x', '0X'),
-        repeat1(/[A-Fa-f0-9]+_?/),
+        repeat1(/_?[A-Fa-f0-9]+/),
         optional(/[Ll]/)
       ),
       seq(
         choice('0o', '0O'),
-        repeat1(/[0-7]+_?/),
+        repeat1(/_?[0-7]+/),
         optional(/[Ll]/)
       ),
       seq(
         choice('0b', '0B'),
-        repeat1(/[0-1]+_?/),
+        repeat1(/_?[0-1]+/),
         optional(/[Ll]/)
       ),
       seq(

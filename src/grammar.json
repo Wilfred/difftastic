@@ -3627,7 +3627,7 @@
                 "type": "REPEAT1",
                 "content": {
                   "type": "PATTERN",
-                  "value": "[A-Fa-f0-9]+_?"
+                  "value": "_?[A-Fa-f0-9]+"
                 }
               },
               {
@@ -3664,7 +3664,7 @@
                 "type": "REPEAT1",
                 "content": {
                   "type": "PATTERN",
-                  "value": "[0-7]+_?"
+                  "value": "_?[0-7]+"
                 }
               },
               {
@@ -3701,7 +3701,7 @@
                 "type": "REPEAT1",
                 "content": {
                   "type": "PATTERN",
-                  "value": "[0-1]+_?"
+                  "value": "_?[0-1]+"
                 }
               },
               {
