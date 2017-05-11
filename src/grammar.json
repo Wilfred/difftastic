@@ -3624,8 +3624,11 @@
                 ]
               },
               {
-                "type": "PATTERN",
-                "value": "[A-Fa-f0-9_]+"
+                "type": "REPEAT1",
+                "content": {
+                  "type": "PATTERN",
+                  "value": "[A-Fa-f0-9]+_?"
+                }
               },
               {
                 "type": "CHOICE",
@@ -3658,8 +3661,11 @@
                 ]
               },
               {
-                "type": "PATTERN",
-                "value": "[0-7_]+"
+                "type": "REPEAT1",
+                "content": {
+                  "type": "PATTERN",
+                  "value": "[0-7]+_?"
+                }
               },
               {
                 "type": "CHOICE",
@@ -3692,8 +3698,11 @@
                 ]
               },
               {
-                "type": "PATTERN",
-                "value": "[0-1_]+"
+                "type": "REPEAT1",
+                "content": {
+                  "type": "PATTERN",
+                  "value": "[0-1]+_?"
+                }
               },
               {
                 "type": "CHOICE",
@@ -3717,15 +3726,18 @@
                 "value": "."
               },
               {
-                "type": "PATTERN",
-                "value": "[0-9_]+"
+                "type": "REPEAT1",
+                "content": {
+                  "type": "PATTERN",
+                  "value": "[0-9]+_?"
+                }
               },
               {
                 "type": "CHOICE",
                 "members": [
                   {
                     "type": "PATTERN",
-                    "value": "[eE][\\+-]?"
+                    "value": "[eE]"
                   },
                   {
                     "type": "BLANK"
@@ -3737,7 +3749,22 @@
                 "members": [
                   {
                     "type": "PATTERN",
-                    "value": "[0-9_]+"
+                    "value": "[\\+-]"
+                  },
+                  {
+                    "type": "BLANK"
+                  }
+                ]
+              },
+              {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "REPEAT",
+                    "content": {
+                      "type": "PATTERN",
+                      "value": "[0-9]+_?"
+                    }
                   },
                   {
                     "type": "BLANK"
@@ -3779,8 +3806,11 @@
             "type": "SEQ",
             "members": [
               {
-                "type": "PATTERN",
-                "value": "[0-9_]+"
+                "type": "REPEAT1",
+                "content": {
+                  "type": "PATTERN",
+                  "value": "[0-9]+_?"
+                }
               },
               {
                 "type": "CHOICE",
@@ -3798,8 +3828,11 @@
                 "type": "CHOICE",
                 "members": [
                   {
-                    "type": "PATTERN",
-                    "value": "[0-9_]+"
+                    "type": "REPEAT",
+                    "content": {
+                      "type": "PATTERN",
+                      "value": "[0-9]+_?"
+                    }
                   },
                   {
                     "type": "BLANK"
@@ -3811,7 +3844,7 @@
                 "members": [
                   {
                     "type": "PATTERN",
-                    "value": "[eE][\\+-]?"
+                    "value": "[eE]"
                   },
                   {
                     "type": "BLANK"
@@ -3823,7 +3856,22 @@
                 "members": [
                   {
                     "type": "PATTERN",
-                    "value": "[0-9_]+"
+                    "value": "[\\+-]"
+                  },
+                  {
+                    "type": "BLANK"
+                  }
+                ]
+              },
+              {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "REPEAT",
+                    "content": {
+                      "type": "PATTERN",
+                      "value": "[0-9]+_?"
+                    }
                   },
                   {
                     "type": "BLANK"

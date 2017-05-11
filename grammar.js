@@ -740,35 +740,37 @@ module.exports = grammar({
     number: $ => token(choice(
       seq(
         choice('0x', '0X'),
-        /[A-Fa-f0-9_]+/,
+        repeat1(/[A-Fa-f0-9]+_?/),
         optional(/[Ll]/)
       ),
       seq(
         choice('0o', '0O'),
-        /[0-7_]+/,
+        repeat1(/[0-7]+_?/),
         optional(/[Ll]/)
       ),
       seq(
         choice('0b', '0B'),
-        /[0-1_]+/,
+        repeat1(/[0-1]+_?/),
         optional(/[Ll]/)
       ),
       seq(
         '.',
-        /[0-9_]+/,
-        optional(/[eE][\+-]?/),
-        optional(/[0-9_]+/),
+        repeat1(/[0-9]+_?/),
+        optional(/[eE]/),
+        optional(/[\+-]/),
+        optional(repeat(/[0-9]+_?/)),
         choice(
           optional(/[Ll]/), // long numbers
           optional(/[jJ]/) // complex numbers
         )
       ),
       seq(
-        /[0-9_]+/,
+        repeat1(/[0-9]+_?/),
         optional('.'),
-        optional(/[0-9_]+/),
-        optional(/[eE][\+-]?/),
-        optional(/[0-9_]+/),
+        optional(repeat(/[0-9]+_?/)),
+        optional(/[eE]/),
+        optional(/[\+-]/),
+        optional(repeat(/[0-9]+_?/)),
         choice(
           optional(/[Ll]/), // long numbers
           optional(/[jJ]/) // complex numbers
