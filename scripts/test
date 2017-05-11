@@ -1,0 +1,18 @@
+#!/bin/bash
+
+EXIT_STATUS=0
+
+function check_command {
+    "$@"
+    local STATUS=$?
+    if [ $STATUS -ne 0 ]; then
+        echo "error with $1 ($STATUS)" >&2
+        EXIT_STATUS=$STATUS
+    fi
+}
+
+check_command tree-sitter test
+check_command tree-sitter parse examples/trailing-whitespace.py -q
+check_command tree-sitter parse examples/python2-grammar.py -q
+check_command tree-sitter parse examples/python3-grammar.py -q
+exit $EXIT_STATUS

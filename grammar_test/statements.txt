@@ -44,12 +44,32 @@ Print statements
 
 print a
 print b, c
+print 0 or 1, 1 or 0,
+print 0 or 1
 
 ---
 
 (module
   (print_statement (identifier))
-  (print_statement (identifier) (identifier)))
+  (print_statement (identifier) (identifier))
+  (print_statement
+    (boolean_operator (number) (number))
+    (boolean_operator (number) (number)))
+  (print_statement
+    (boolean_operator (number) (number))))
+
+=====================================
+Print statements with redirection
+=====================================
+
+print >> a
+print >> a, "b", "c"
+
+---
+
+(module
+  (print_statement (chevron (identifier)))
+  (print_statement (chevron (identifier)) (string) (string)))
 
 =====================================
 Assert statements
@@ -70,12 +90,16 @@ Expression statements
 
 a
 b + c
+1, 2, 3
+1, 2, 3,
 
 ---
 
 (module
   (expression_statement (identifier))
-  (expression_statement (binary_operator (identifier) (identifier))))
+  (expression_statement (binary_operator (identifier) (identifier)))
+  (expression_statement (number) (number) (number))
+  (expression_statement (number) (number) (number)))
 
 =====================================
 Delete statements
@@ -150,6 +174,15 @@ elif c:
 else:
   f
 
+if a:
+  b
+else:
+  f
+
+if a: b
+
+if a: b; c
+
 ---
 
 (module
@@ -158,7 +191,16 @@ else:
     (elif_clause (identifier)
       (expression_statement (identifier)))
     (else_clause
-      (expression_statement (identifier)))))
+      (expression_statement (identifier))))
+  (if_statement (identifier)
+    (expression_statement (identifier))
+    (else_clause
+      (expression_statement (identifier))))
+  (if_statement (identifier)
+    (expression_statement (identifier)))
+  (if_statement (identifier)
+    (expression_statement (identifier))
+    (expression_statement (identifier))))
 
 =====================================
 Nested if statements
@@ -218,6 +260,9 @@ for line, i in lines:
 else:
   print x
 
+for x, in [(1,), (2,), (3,)]:
+  x
+
 ---
 
 (module
@@ -230,7 +275,11 @@ else:
       (expression_list (identifier))
       (print_statement (identifier)))
     (else_clause
-      (print_statement (identifier)))))
+      (print_statement (identifier))))
+  (for_statement
+    (variables (identifier))
+    (expression_list (list (tuple (number)) (tuple (number)) (tuple (number))))
+    (expression_statement (identifier))))
 
 =====================================
 Try statements
@@ -285,6 +334,75 @@ with a as b:
     (expression_statement (identifier))))
 
 =====================================
+Async Function definitions
+=====================================
+
+async def a():
+  b
+
+async def c(d):
+  e
+
+async def g(g, h,):
+  i
+
+async def c(a: str):
+  a
+
+async def c(a: b.c):
+  a
+
+async def d(a: Sequence[T]) -> T:
+  a
+
+async def i(a, b=c, *c, **d):
+  a
+
+async def d(a: str) -> None:
+  return None
+
+---
+
+(module
+  (async_function_definition (identifier)
+    (parameters)
+    (expression_statement (identifier)))
+  (async_function_definition
+    (identifier)
+    (parameters (identifier))
+    (expression_statement (identifier)))
+  (async_function_definition
+    (identifier)
+    (parameters (identifier) (identifier))
+    (expression_statement (identifier)))
+  (async_function_definition
+    (identifier)
+    (parameters (typed_parameter (identifier) (type (identifier))))
+    (expression_statement (identifier)))
+  (async_function_definition
+    (identifier)
+    (parameters (typed_parameter (identifier) (type (attribute (identifier) (identifier)))))
+    (expression_statement (identifier)))
+  (async_function_definition
+    (identifier)
+    (parameters (typed_parameter (identifier) (type (subscript (identifier) (identifier)))))
+    (type (identifier))
+    (expression_statement (identifier)))
+  (async_function_definition
+    (identifier)
+    (parameters
+      (identifier)
+      (default_parameter (identifier) (identifier))
+      (list_splat_parameter (identifier))
+      (dictionary_splat_parameter (identifier)))
+    (expression_statement (identifier)))
+  (async_function_definition
+    (identifier)
+    (parameters (typed_parameter (identifier) (type (identifier))))
+    (type (none))
+    (return_statement (expression_list (none)))))
+
+=====================================
 Function definitions
 =====================================
 
@@ -297,11 +415,40 @@ def c(d):
 def g(g, h,):
   i
 
+def c(a: str):
+  a
+
+def c(a: b.c):
+  a
+
+def d(a: Sequence[T]) -> T:
+  a
+
+def i(a, b=c, *c, **d):
+  a
+
+def d(a: str) -> None:
+  return None
+
+def e((a,b)):
+  return (a,b)
+
+def e(*):
+  pass
+
+def e(*list: str):
+  pass
+
+def e(**list: str):
+  pass
+
+def f():
+  nonlocal a
+
 ---
 
 (module
-  (function_definition
-    (identifier)
+  (function_definition (identifier)
     (parameters)
     (expression_statement (identifier)))
   (function_definition
@@ -311,70 +458,53 @@ def g(g, h,):
   (function_definition
     (identifier)
     (parameters (identifier) (identifier))
-    (expression_statement (identifier))))
-
-==============================================
-Function definitions with default parameters
-==============================================
-
-def a(b = 1, c = 2,):
-  d
-
----
-
-(module
+    (expression_statement (identifier)))
   (function_definition
     (identifier)
-    (parameters
-      (default_parameter (identifier) (number))
-      (default_parameter (identifier) (number)))
-    (expression_statement (identifier))))
-
-==============================================
-Function definitions with list splat parameters
-==============================================
-
-def a(b, *c):
-  d
-  e
-
----
-
-(module
+    (parameters (typed_parameter (identifier) (type (identifier))))
+    (expression_statement (identifier)))
+  (function_definition
+    (identifier)
+    (parameters (typed_parameter (identifier) (type (attribute (identifier) (identifier)))))
+    (expression_statement (identifier)))
+  (function_definition
+    (identifier)
+    (parameters (typed_parameter (identifier) (type (subscript (identifier) (identifier)))))
+    (type (identifier))
+    (expression_statement (identifier)))
   (function_definition
     (identifier)
     (parameters
       (identifier)
-      (list_splat_parameter (identifier)))
-    (expression_statement (identifier))
-    (expression_statement (identifier))))
-
-======================================================
-Function definitions with dictionary splat parameters
-======================================================
-
-def a(b, **c):
-  print d
-
-def e(*f, **g):
-  print h
-
----
-
-(module
-  (function_definition
-    (identifier)
-    (parameters
-      (identifier)
-      (dictionary_splat_parameter (identifier)))
-    (print_statement (identifier)))
-
-  (function_definition
-    (identifier)
-    (parameters
+      (default_parameter (identifier) (identifier))
       (list_splat_parameter (identifier))
       (dictionary_splat_parameter (identifier)))
-    (print_statement (identifier))))
+    (expression_statement (identifier)))
+  (function_definition
+    (identifier)
+    (parameters (typed_parameter (identifier) (type (identifier))))
+    (type (none))
+    (return_statement (expression_list (none))))
+  (function_definition
+    (identifier)
+    (parameters (tuple (identifier) (identifier)))
+    (return_statement (expression_list (tuple (identifier) (identifier)))))
+  (function_definition
+    (identifier)
+    (parameters (list_splat_parameter))
+    (pass_statement))
+  (function_definition
+    (identifier)
+    (parameters (typed_parameter (list_splat_parameter (identifier)) (type (identifier))))
+    (pass_statement))
+  (function_definition
+    (identifier)
+    (parameters (typed_parameter (dictionary_splat_parameter (identifier)) (type (identifier))))
+    (pass_statement))
+  (function_definition
+    (identifier)
+    (parameters)
+    (nonlocal_statement (identifier))))
 
 ====================================================
 Class definitions
@@ -383,6 +513,15 @@ Class definitions
 class A:
   def b(self):
     return c
+class B():
+  pass
+class B(method1):
+  def method1(self):
+    return
+class C(method1, Sequence[T]):
+  pass
+class D(Sequence[T, U]):
+  pass
 
 ---
 
@@ -392,7 +531,26 @@ class A:
     (function_definition
       (identifier)
       (parameters (identifier))
-      (return_statement (expression_list (identifier))))))
+      (return_statement (expression_list (identifier)))))
+ (class_definition
+    (identifier)
+    (argument_list)
+    (pass_statement))
+ (class_definition
+    (identifier)
+    (argument_list (identifier))
+    (function_definition
+      (identifier)
+      (parameters (identifier))
+      (return_statement)))
+ (class_definition
+    (identifier)
+    (argument_list (identifier) (subscript (identifier) (identifier)))
+    (pass_statement))
+ (class_definition
+    (identifier)
+    (argument_list (subscript (identifier) (identifier) (identifier)))
+    (pass_statement)))
 
 ====================================================
 Class definitions with superclasses
@@ -407,7 +565,7 @@ class A(B, C):
 (module
   (class_definition
     (identifier)
-    (expression_list (identifier) (identifier))
+    (argument_list (identifier) (identifier))
     (function_definition
       (identifier)
       (parameters)
@@ -419,10 +577,18 @@ Decorated definitions
 
 @a.b
 class C:
-
+  @f()
   @d(1)
   @e(2, 3)
+  @a(b=True)
+  @a(*b)
+  @a(**c)
+  @a(1, b=True, *b, **c)
   def f():
+    g
+
+  @f()
+  async def f():
     g
 
 ---
@@ -433,9 +599,42 @@ class C:
     (class_definition
       (identifier)
       (decorated_definition
-        (decorator (dotted_name (identifier)) (arguments (number)))
-        (decorator (dotted_name (identifier)) (arguments (number) (number)))
-        (function_definition (identifier) (parameters) (expression_statement (identifier)))))))
+        (decorator
+          (dotted_name (identifier))
+          (argument_list))
+        (decorator
+          (dotted_name (identifier))
+          (argument_list
+            (number)))
+        (decorator
+          (dotted_name (identifier))
+          (argument_list
+            (number) (number)))
+        (decorator
+          (dotted_name (identifier))
+          (argument_list
+            (keyword_argument (identifier) (true))))
+        (decorator
+          (dotted_name (identifier))
+          (argument_list
+            (list_splat_argument (identifier))))
+        (decorator
+          (dotted_name (identifier))
+          (argument_list
+            (dictionary_splat_argument (identifier))))
+        (decorator
+          (dotted_name (identifier))
+          (argument_list
+            (number)
+            (keyword_argument (identifier) (true))
+            (list_splat_argument (identifier))
+            (dictionary_splat_argument (identifier))))
+        (function_definition (identifier) (parameters) (expression_statement (identifier))))
+      (decorated_definition
+        (decorator
+          (dotted_name (identifier))
+          (argument_list))
+        (async_function_definition (identifier) (parameters) (expression_statement (identifier)))))))
 
 ====================================================
 Raise statements
@@ -443,13 +642,17 @@ Raise statements
 
 raise
 raise RuntimeError('NO')
+raise RunTimeError('NO') from e
 
 ---
 
 (module
   (raise_statement)
-  (raise_statement (expression_list
-    (call (identifier) (string)))))
+  (raise_statement
+    (expression_list (call (identifier) (argument_list (string)))))
+  (raise_statement
+    (expression_list (call (identifier) (argument_list (string))))
+    (identifier)))
 
 ====================================================
 Comments
@@ -468,3 +671,64 @@ print c
   (print_statement (identifier))
   (comment)
   (print_statement (identifier)))
+
+====================================================
+Comments at different indentation levels
+====================================================
+
+if a:
+  # one
+# two
+    # three
+  b
+    # four
+  c
+
+---
+
+(module
+  (if_statement (identifier)
+    (comment)
+    (comment)
+    (comment)
+    (expression_statement (identifier))
+    (comment)
+    (expression_statement (identifier))))
+
+====================================================
+Newline tokens followed by comments
+====================================================
+
+print "a"
+  # We need to recognize the newline *preceding* this comment, because there's no newline after it
+---
+
+(module (print_statement (string)) (comment))
+
+====================================================
+Global statements
+====================================================
+
+global a
+global a, b
+
+---
+
+(module
+  (global_statement (identifier))
+  (global_statement (identifier) (identifier)))
+
+====================================================
+Exec statements
+====================================================
+
+exec '1+1'
+exec 'x+=1' in None
+exec 'x+=1' in a, b
+
+---
+
+(module
+  (exec_statement (string))
+  (exec_statement (string) (none))
+  (exec_statement (string) (identifier) (identifier)))
