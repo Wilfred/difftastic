@@ -86,10 +86,14 @@ b'sup'
 `1`
 "multiline \
 string"
+"\\"
+"/"
 
 ---
 
 (module
+  (expression_statement (string))
+  (expression_statement (string))
   (expression_statement (string))
   (expression_statement (string))
   (expression_statement (string))
