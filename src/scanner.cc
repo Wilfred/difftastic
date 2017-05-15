@@ -5,6 +5,8 @@
 #define UINT8_MAX (255)
 #endif
 
+namespace {
+
 using std::vector;
 
 enum TokenType {
@@ -124,6 +126,8 @@ struct Scanner {
   vector<uint16_t> indent_length_stack;
   uint32_t queued_dedent_count;
 };
+
+}
 
 extern "C" {
 
