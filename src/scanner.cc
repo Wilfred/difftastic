@@ -3,7 +3,7 @@
 #include <string>
 #include <cctype>
 
-namespace Ruby {
+namespace {
 
 using std::vector;
 using std::string;
@@ -774,32 +774,32 @@ struct Scanner {
 extern "C" {
 
 void *tree_sitter_ruby_external_scanner_create() {
-  return new Ruby::Scanner();
+  return new Scanner();
 }
 
 bool tree_sitter_ruby_external_scanner_scan(void *payload, TSLexer *lexer,
                                             const bool *valid_symbols) {
-  Ruby::Scanner *scanner = static_cast<Ruby::Scanner *>(payload);
+  Scanner *scanner = static_cast<Scanner *>(payload);
   return scanner->scan(lexer, valid_symbols);
 }
 
 void tree_sitter_ruby_external_scanner_reset(void *payload) {
-  Ruby::Scanner *scanner = static_cast<Ruby::Scanner *>(payload);
+  Scanner *scanner = static_cast<Scanner *>(payload);
   scanner->reset();
 }
 
 bool tree_sitter_ruby_external_scanner_serialize(void *payload, TSExternalTokenState state) {
-  Ruby::Scanner *scanner = static_cast<Ruby::Scanner *>(payload);
+  Scanner *scanner = static_cast<Scanner *>(payload);
   return scanner->serialize(state);
 }
 
 void tree_sitter_ruby_external_scanner_deserialize(void *payload, TSExternalTokenState state) {
-  Ruby::Scanner *scanner = static_cast<Ruby::Scanner *>(payload);
+  Scanner *scanner = static_cast<Scanner *>(payload);
   scanner->deserialize(state);
 }
 
 void tree_sitter_ruby_external_scanner_destroy(void *payload) {
-  Ruby::Scanner *scanner = static_cast<Ruby::Scanner *>(payload);
+  Scanner *scanner = static_cast<Scanner *>(payload);
   delete scanner;
 }
 
