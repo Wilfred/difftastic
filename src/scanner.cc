@@ -5,7 +5,7 @@
 #define UINT8_MAX (255)
 #endif
 
-namespace Python {
+namespace {
 
 using std::vector;
 
@@ -132,32 +132,32 @@ struct Scanner {
 extern "C" {
 
 void *tree_sitter_python_external_scanner_create() {
-  return new Python::Scanner();
+  return new Scanner();
 }
 
 bool tree_sitter_python_external_scanner_scan(void *payload, TSLexer *lexer,
                                             const bool *valid_symbols) {
-  Python::Scanner *scanner = static_cast<Python::Scanner *>(payload);
+  Scanner *scanner = static_cast<Scanner *>(payload);
   return scanner->scan(lexer, valid_symbols);
 }
 
 void tree_sitter_python_external_scanner_reset(void *payload) {
-  Python::Scanner *scanner = static_cast<Python::Scanner *>(payload);
+  Scanner *scanner = static_cast<Scanner *>(payload);
   scanner->reset();
 }
 
 bool tree_sitter_python_external_scanner_serialize(void *payload, TSExternalTokenState state) {
-  Python::Scanner *scanner = static_cast<Python::Scanner *>(payload);
+  Scanner *scanner = static_cast<Scanner *>(payload);
   return scanner->serialize(state);
 }
 
 void tree_sitter_python_external_scanner_deserialize(void *payload, TSExternalTokenState state) {
-  Python::Scanner *scanner = static_cast<Python::Scanner *>(payload);
+  Scanner *scanner = static_cast<Scanner *>(payload);
   scanner->deserialize(state);
 }
 
 void tree_sitter_python_external_scanner_destroy(void *payload) {
-  Python::Scanner *scanner = static_cast<Python::Scanner *>(payload);
+  Scanner *scanner = static_cast<Scanner *>(payload);
   delete scanner;
 }
 
