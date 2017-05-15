@@ -3,6 +3,8 @@
 #include <string>
 #include <cctype>
 
+namespace {
+
 using std::vector;
 using std::string;
 
@@ -766,6 +768,8 @@ struct Scanner {
   vector<Literal> literal_stack;
   vector<Heredoc> open_heredocs;
 };
+
+}
 
 extern "C" {
 
