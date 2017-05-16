@@ -1,60 +1,70 @@
 =====================================
-Numbers
+Integers
 =====================================
 
--.6
 -1
-123.4123
 0xDEAD
 0XDEAD
 1j
 -1j
-123.123J
 0o123
 0O123
 0b001
 0B001
 1_1
-1_1.3_1
-1_1.
-.1_1
 0B1_1
 0O1_1
+0L
+
+---
+
+(module
+  (expression_statement (unary_operator (integer)))
+  (expression_statement (integer))
+  (expression_statement (integer))
+  (expression_statement (integer))
+  (expression_statement (unary_operator (integer)))
+  (expression_statement (integer))
+  (expression_statement (integer))
+  (expression_statement (integer))
+  (expression_statement (integer))
+  (expression_statement (integer))
+  (expression_statement (integer))
+  (expression_statement (integer))
+  (expression_statement (integer)))
+
+=====================================
+Floats
+=====================================
+
+-.6_6
++.1_1
+123.4123
+123.123J
+1_1.3_1
+1_1.
 1e+3_4j
 .3e1_4
-0L
 1_0.l
 .1l
 
 ---
 
 (module
-  (expression_statement (unary_operator (number)))
-  (expression_statement (unary_operator (number)))
-  (expression_statement (number))
-  (expression_statement (number))
-  (expression_statement (number))
-  (expression_statement (number))
-  (expression_statement (unary_operator (number)))
-  (expression_statement (number))
-  (expression_statement (number))
-  (expression_statement (number))
-  (expression_statement (number))
-  (expression_statement (number))
-  (expression_statement (number))
-  (expression_statement (number))
-  (expression_statement (number))
-  (expression_statement (number))
-  (expression_statement (number))
-  (expression_statement (number))
-  (expression_statement (number))
-  (expression_statement (number))
-  (expression_statement (number))
-  (expression_statement (number))
-  (expression_statement (number)))
+  (expression_statement (unary_operator (float)))
+  (expression_statement (unary_operator (float)))
+  (expression_statement (float))
+  (expression_statement (float))
+  (expression_statement (float))
+  (expression_statement (float))
+  (expression_statement (float))
+  (expression_statement (float))
+  (expression_statement (float))
+  (expression_statement (float)))
+
 
 =====================================
-Scientific Notation
+Scientific Notation Floats
 =====================================
 
 1e322
@@ -67,12 +77,12 @@ Scientific Notation
 ---
 
 (module
-  (expression_statement (number))
-  (expression_statement (number))
-  (expression_statement (number))
-  (expression_statement (number))
-  (expression_statement (number))
-  (expression_statement (unary_operator (number))))
+  (expression_statement (float))
+  (expression_statement (float))
+  (expression_statement (float))
+  (expression_statement (float))
+  (expression_statement (float))
+  (expression_statement (unary_operator (float))))
 
 =====================================
 Strings
@@ -239,8 +249,8 @@ Dictionaries
 
 (module
   (expression_statement (dictionary
-    (pair (identifier) (number))
-    (pair (identifier) (number))))
+    (pair (identifier) (integer))
+    (pair (identifier) (integer))))
   (expression_statement (dictionary)))
 
 =====================================

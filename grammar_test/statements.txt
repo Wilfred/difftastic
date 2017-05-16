@@ -53,10 +53,10 @@ print 0 or 1
   (print_statement (identifier))
   (print_statement (identifier) (identifier))
   (print_statement
-    (boolean_operator (number) (number))
-    (boolean_operator (number) (number)))
+    (boolean_operator (integer) (integer))
+    (boolean_operator (integer) (integer)))
   (print_statement
-    (boolean_operator (number) (number))))
+    (boolean_operator (integer) (integer))))
 
 =====================================
 Print statements with redirection
@@ -98,8 +98,8 @@ b + c
 (module
   (expression_statement (identifier))
   (expression_statement (binary_operator (identifier) (identifier)))
-  (expression_statement (number) (number) (number))
-  (expression_statement (number) (number) (number)))
+  (expression_statement (integer) (integer) (integer))
+  (expression_statement (integer) (integer) (integer)))
 
 =====================================
 Delete statements
@@ -111,8 +111,8 @@ del a[1], b[2]
 
 (module
   (delete_statement (expression_list
-    (subscript (identifier) (number))
-    (subscript (identifier) (number)))))
+    (subscript (identifier) (integer))
+    (subscript (identifier) (integer)))))
 
 =====================================
 Control-flow statements
@@ -278,7 +278,7 @@ for x, in [(1,), (2,), (3,)]:
       (print_statement (identifier))))
   (for_statement
     (variables (identifier))
-    (expression_list (list (tuple (number)) (tuple (number)) (tuple (number))))
+    (expression_list (list (tuple (integer)) (tuple (integer)) (tuple (integer))))
     (expression_statement (identifier))))
 
 =====================================
@@ -605,11 +605,11 @@ class C:
         (decorator
           (dotted_name (identifier))
           (argument_list
-            (number)))
+            (integer)))
         (decorator
           (dotted_name (identifier))
           (argument_list
-            (number) (number)))
+            (integer) (integer)))
         (decorator
           (dotted_name (identifier))
           (argument_list
@@ -625,7 +625,7 @@ class C:
         (decorator
           (dotted_name (identifier))
           (argument_list
-            (number)
+            (integer)
             (keyword_argument (identifier) (true))
             (list_splat_argument (identifier))
             (dictionary_splat_argument (identifier))))

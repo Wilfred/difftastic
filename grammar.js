@@ -429,7 +429,8 @@ module.exports = grammar({
       $.keyword_identifier,
       $.string,
       $.concatenated_string,
-      $.number,
+      $.integer,
+      $.float,
       $.true,
       $.false,
       $.none,
@@ -737,7 +738,7 @@ module.exports = grammar({
       )
     )),
 
-    number: $ => token(choice(
+    integer: $ => token(choice(
       seq(
         choice('0x', '0X'),
         repeat1(/_?[A-Fa-f0-9]+/),
@@ -754,37 +755,28 @@ module.exports = grammar({
         optional(/[Ll]/)
       ),
       seq(
-        '.',
         repeat1(/[0-9]+_?/),
-        optional(
-          seq(
-            /[eE]/,
-            optional(/[\+-]/)
-          )
-        ),
-        optional(repeat(/[0-9]+_?/)),
-        choice(
-          optional(/[Ll]/), // long numbers
-          optional(/[jJ]/) // complex numbers
-        )
-      ),
-      seq(
-        repeat1(/[0-9]+_?/),
-        optional('.'),
-        optional(repeat(/[0-9]+_?/)),
-        optional(
-          seq(
-            /[eE]/,
-            optional(/[\+-]/)
-          )
-        ),
-        optional(repeat(/[0-9]+_?/)),
         choice(
           optional(/[Ll]/), // long numbers
           optional(/[jJ]/) // complex numbers
         )
       )
     )),
+
+    float: $ => token(
+      seq(
+        choice(
+          seq(repeat(/[0-9]+_?/), '.', repeat(/[0-9]+_?/), optional(/[eE]/), optional(/[\+-]/), repeat(/[0-9]+_?/)),
+          seq(repeat(/[0-9]+_?/), /[eE]/, optional(/[\+-]/), repeat1(/[0-9]+_?/))
+        ),
+        optional(
+          choice(
+            optional(/[Ll]/), // long numbers
+            optional(/[jJ]/) // complex numbers
+          )
+        )
+      )
+    ),
 
     identifier: $ => /[\a_]\w*/,
 
