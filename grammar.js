@@ -1,17 +1,17 @@
 const PREC = {
-  union: 2,
-  intersection: 2,
-  declaration: 1,
-  type_assertion: 15,
-  as_expression: 14,
-  array_type: 13,
-  function_call: 12,
-  NEG: 9,
-  INC: 10,
+  DECLARATION: 1,
+  UNION: 2,
+  INTERSECTION: 2,
   PLUS: 4,
   REL: 5,
   TIMES: 6,
-  non_null_assertion_op: 10
+  NEG: 9,
+  INC: 10,
+  NON_NULL_ASSERTION_OP: 10,
+  FUNCTION_CALL: 12,
+  ARRAY_TYPE: 13,
+  AS_EXPRESSION: 14,
+  TYPE_ASSERTION: 15
 };
 
 module.exports = grammar(require('tree-sitter-javascript/grammar'), {
@@ -135,7 +135,7 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       seq($._expression, '>', $._expression)
     )),
 
-    function_call: ($, previous) => prec(PREC.function_call, seq(
+    function_call: ($, previous) => prec(PREC.FUNCTION_CALL, seq(
       choice($._expression, $.super, $.function),
       optional($.type_arguments),
       $.arguments
@@ -166,7 +166,7 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       semicolon($)
     ),
 
-    non_null_assertion_op: $ => prec.left(PREC.non_null_assertion_op, seq(
+    non_null_assertion_op: $ => prec.left(PREC.NON_NULL_ASSERTION_OP, seq(
       $._expression, '!'
     )),
 
@@ -266,7 +266,7 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
     ),
 
     // A function, generator, class, or variable declaration
-    _declaration: ($, previous) => prec(PREC.declaration, choice(
+    _declaration: ($, previous) => prec(PREC.DECLARATION, choice(
       $.function,
       $.generator_function,
       $.class,
@@ -279,12 +279,12 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       $.ambient_declaration
     )),
 
-    type_assertion: $ => prec(PREC.type_assertion, seq(
+    type_assertion: $ => prec(PREC.TYPE_ASSERTION, seq(
       $.type_arguments,
       $._expression
     )),
 
-    as_expression: $ => prec(PREC.as_expression, seq(
+    as_expression: $ => prec(PREC.AS_EXPRESSION, seq(
       $._expression,
       'as',
       $._type
@@ -617,7 +617,7 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       optional('?'),
       $.call_signature),
 
-    array_type: $ => prec.right(PREC.array_type, seq(
+    array_type: $ => prec.right(PREC.ARRAY_TYPE, seq(
       $._primary_type, '[', ']'
     )),
 
@@ -625,11 +625,11 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       '[', commaSep1($._type), ']'
     ),
 
-    union_type: $ => prec.left(PREC.union, seq(
+    union_type: $ => prec.left(PREC.UNION, seq(
       $._type, '|', $._type
     )),
 
-    intersection_type: $ => prec.left(PREC.intersection, seq(
+    intersection_type: $ => prec.left(PREC.INTERSECTION, seq(
       $._type, '&', $._type
     )),
 
