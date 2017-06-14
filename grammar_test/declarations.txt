@@ -8,6 +8,8 @@ declare class Error {
 
 declare var foo: number;
 
+declare const bar = "baz";
+
 declare function greet(greeting: string): void;
 
 declare namespace myLib {
@@ -41,6 +43,8 @@ declare class Greeter {
         (public_field_definition (identifier) (type_annotation (type_reference (identifier)))))))
   (ambient_declaration
     (ambient_variable (ambient_binding (identifier) (type_annotation (predefined_type)))))
+  (ambient_declaration
+    (ambient_variable (ambient_binding (identifier)) (string)))
   (ambient_declaration
     (ambient_function
       (identifier)
