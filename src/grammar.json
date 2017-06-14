@@ -245,6 +245,19 @@
               ]
             }
           ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "export"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "import_alias"
+            }
+          ]
         }
       ]
     },

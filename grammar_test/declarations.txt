@@ -132,6 +132,23 @@ export = Linter;
 (program (export_statement (identifier)))
 
 ==================================
+Export import aliases
+================================
+
+module M {
+    export module N {
+    }
+    export import X = N;
+}
+
+---
+
+(program
+  (module (identifier)
+    (export_statement (module (identifier)))
+    (export_statement (import_alias (identifier) (identifier)))))
+
+==================================
 Property signatures with accessibility modifiers
 ================================
 

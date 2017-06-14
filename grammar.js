@@ -180,7 +180,8 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       seq('export', optional('default'), $.ambient_function),
       seq('export', 'default', $._expression, semicolon($)),
       seq('export', '=', $.identifier, semicolon($)),
-      seq('export', 'as', 'namespace', $.identifier, semicolon($))
+      seq('export', 'as', 'namespace', $.identifier, semicolon($)),
+      seq('export', $.import_alias)
     ),
 
     // Exports that can appear in object types, namespace elements, modules, and interfaces
