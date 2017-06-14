@@ -152,6 +152,7 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       $.type_assertion,
       $.as_expression,
       $.non_null_assertion_op,
+      $.import_alias,
       previous
     ),
 

@@ -132,6 +132,18 @@ export = Linter;
 (program (export_statement (identifier)))
 
 ==================================
+Import aliases
+================================
+
+import r = X.N;
+
+---
+
+(program
+  (expression_statement
+    (import_alias (identifier) (identifier) (identifier))))
+
+==================================
 Export import aliases
 ================================
 

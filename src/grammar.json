@@ -1636,6 +1636,10 @@
           "name": "non_null_assertion_op"
         },
         {
+          "type": "SYMBOL",
+          "name": "import_alias"
+        },
+        {
           "type": "CHOICE",
           "members": [
             {
