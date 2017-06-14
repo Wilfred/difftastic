@@ -4194,7 +4194,7 @@
           "members": [
             {
               "type": "STRING",
-              "value": "static"
+              "value": "abstract"
             },
             {
               "type": "BLANK"
@@ -4206,7 +4206,7 @@
           "members": [
             {
               "type": "STRING",
-              "value": "abstract"
+              "value": "static"
             },
             {
               "type": "BLANK"
@@ -4563,6 +4563,31 @@
             {
               "type": "STRING",
               "value": "static"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "get"
+                },
+                {
+                  "type": "STRING",
+                  "value": "set"
+                },
+                {
+                  "type": "STRING",
+                  "value": "*"
+                }
+              ]
             },
             {
               "type": "BLANK"
