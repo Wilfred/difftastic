@@ -400,6 +400,8 @@ abstract class Foo {
 }
 
 abstract class Animal {
+    abstract prop: string;
+    otherProp: string;
     abstract makeSound(): void;
     move(): void {
         console.log("roaming the earth...");
@@ -411,6 +413,8 @@ abstract class Animal {
     (class (identifier) (class_body)))
   (expression_statement
     (class (identifier) (class_body
+      (public_field_definition (identifier) (type_annotation (predefined_type)))
+      (public_field_definition (identifier) (type_annotation (predefined_type)))
       (ambient_method_declaration
         (identifier)
         (call_signature (formal_parameters) (type_annotation (predefined_type))))

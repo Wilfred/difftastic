@@ -4205,6 +4205,18 @@
           "type": "CHOICE",
           "members": [
             {
+              "type": "STRING",
+              "value": "abstract"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
               "type": "SYMBOL",
               "name": "readonly"
             },
