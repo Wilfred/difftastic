@@ -4967,6 +4967,10 @@
             {
               "type": "SYMBOL",
               "name": "identifier"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_entity_name"
             }
           ]
         },

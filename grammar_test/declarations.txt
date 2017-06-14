@@ -33,6 +33,8 @@ declare class Greeter {
   showGreeting(): void;
 }
 
+declare module Foo.Bar { export var foo; };
+
 ---
 
 (program
@@ -80,7 +82,14 @@ declare class Greeter {
         (ambient_method_declaration
           (identifier) (call_signature (formal_parameters (required_parameter (identifier) (type_annotation (predefined_type))))))
         (public_field_definition (identifier) (type_annotation (predefined_type)))
-        (ambient_method_declaration (identifier) (call_signature (formal_parameters) (type_annotation (predefined_type))))))))
+        (ambient_method_declaration (identifier) (call_signature (formal_parameters) (type_annotation (predefined_type)))))))
+
+  (ambient_declaration
+    (module
+      (identifier)
+      (identifier)
+      (export_statement (variable_declaration (variable_declarator (identifier))))))
+      (empty_statement))
 
 ==================================
 Ambient exports

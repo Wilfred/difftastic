@@ -338,7 +338,7 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
 
     module: $ => seq(
       'module',
-      choice($.string, $.identifier),
+      choice($.string, $.identifier, $._entity_name),
       '{',
         repeat(seq(
           choice(
