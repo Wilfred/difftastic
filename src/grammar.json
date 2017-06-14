@@ -4554,8 +4554,8 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "STRING",
-              "value": "abstract"
+              "type": "SYMBOL",
+              "name": "accessibility_modifier"
             },
             {
               "type": "BLANK"
@@ -4566,8 +4566,8 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "SYMBOL",
-              "name": "accessibility_modifier"
+              "type": "STRING",
+              "value": "abstract"
             },
             {
               "type": "BLANK"
