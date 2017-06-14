@@ -256,6 +256,7 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
 
     method_definition: $ => seq(
       optional($.accessibility_modifier),
+      optional('abstract'),
       optional('static'),
       optional($.readonly),
       optional('async'),
