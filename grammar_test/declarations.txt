@@ -397,11 +397,25 @@ Abstract classes
 =======================================
 
 abstract class Foo {
-  abstract makeSound(): void;
 }
 
+abstract class Animal {
+    abstract makeSound(): void;
+    move(): void {
+        console.log("roaming the earth...");
+    }
+}
 ---
 (program
   (expression_statement
+    (class (identifier) (class_body)))
+  (expression_statement
     (class (identifier) (class_body
-      (ambient_method_declaration (identifier) (call_signature (formal_parameters) (type_annotation (predefined_type))))))))
+      (ambient_method_declaration
+        (identifier)
+        (call_signature (formal_parameters) (type_annotation (predefined_type))))
+      (method_definition
+        (identifier)
+        (call_signature (formal_parameters) (type_annotation (predefined_type)))
+        (statement_block
+          (expression_statement (function_call (member_access (identifier) (identifier)) (arguments (string))))))))))
