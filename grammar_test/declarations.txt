@@ -397,9 +397,11 @@ Abstract classes
 =======================================
 
 abstract class Foo {
-
+  abstract makeSound(): void;
 }
 
 ---
-
-(program (expression_statement (class (identifier) (class_body))))
+(program
+  (expression_statement
+    (class (identifier) (class_body
+      (ambient_method_declaration (identifier) (call_signature (formal_parameters) (type_annotation (predefined_type))))))))
