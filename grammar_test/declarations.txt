@@ -46,7 +46,7 @@ declare class Greeter {
   (ambient_declaration
     (ambient_variable (ambient_binding (identifier)) (string)))
   (ambient_declaration
-    (ambient_function
+    (function
       (identifier)
       (call_signature
         (formal_parameters (required_parameter (identifier) (type_annotation (predefined_type))))
@@ -56,7 +56,7 @@ declare class Greeter {
     (ambient_namespace
       (identifier)
       (ambient_namespace_body
-        (ambient_function
+        (function
           (identifier)
           (call_signature
             (formal_parameters (required_parameter (identifier) (type_annotation (predefined_type))))
@@ -234,7 +234,7 @@ module Promise {
     (variable_declaration (variable_declarator
       (identifier)
       (type_annotation (object_type))))
-    (export_statement (ambient_function
+    (export_statement (function
       (identifier)
       (call_signature
         (type_parameters (type_parameter (identifier)))
@@ -300,7 +300,7 @@ export interface Foo {
       (identifier)
       (object_type
         (ambient_export_declaration
-          (ambient_function
+          (function
             (identifier)
             (call_signature
               (type_parameters (type_parameter (identifier)) (type_parameter (identifier)))
@@ -341,7 +341,7 @@ declare namespace moment {
         (ambient_export_declaration (ambient_variable (ambient_binding (identifier) (type_annotation (predefined_type)))))
         (ambient_export_declaration (class (identifier) (class_body)))
         (ambient_export_declaration
-          (ambient_function (identifier) (call_signature (formal_parameters) (type_annotation (type_reference (identifier))))))
+          (function (identifier) (call_signature (formal_parameters) (type_annotation (type_reference (identifier))))))
         (ambient_export_declaration (enum_declaration (identifier) (identifier) (identifier) (identifier)))))))
 
 
