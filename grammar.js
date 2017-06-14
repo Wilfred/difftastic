@@ -178,7 +178,6 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       seq('export', $.export_clause, semicolon($)),
       seq('export', $._declaration),
       seq('export', 'default', $.anonymous_class),
-      seq('export', optional('default'), $.ambient_function),
       seq('export', 'default', $._expression, semicolon($)),
       seq('export', '=', $.identifier, semicolon($)),
       seq('export', 'as', 'namespace', $.identifier, semicolon($)),
@@ -222,7 +221,8 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       'function',
       optional($.identifier),
       $.call_signature,
-      $.statement_block
+      optional($.statement_block),
+      semicolon($)
     ),
 
     generator_function: ($, prev) => seq(
@@ -320,13 +320,6 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       variableType(),
       commaSep1($.ambient_binding),
       optional(seq("=", $._expression)),
-      semicolon($)
-    ),
-
-    ambient_function: $ => seq(
-      'function',
-      $.identifier,
-      $.call_signature,
       semicolon($)
     ),
 
@@ -677,7 +670,7 @@ function ambientDeclaration($) {
   return choice(
     $.interface_declaration,
     $.ambient_variable,
-    $.ambient_function,
+    $.function,
     $.class,
     $._ambient_enum,
     $.ambient_namespace,

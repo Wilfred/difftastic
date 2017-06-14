@@ -135,31 +135,6 @@
               "value": "export"
             },
             {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "STRING",
-                  "value": "default"
-                },
-                {
-                  "type": "BLANK"
-                }
-              ]
-            },
-            {
-              "type": "SYMBOL",
-              "name": "ambient_function"
-            }
-          ]
-        },
-        {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "STRING",
-              "value": "export"
-            },
-            {
               "type": "STRING",
               "value": "default"
             },
@@ -2346,8 +2321,29 @@
           "name": "call_signature"
         },
         {
-          "type": "SYMBOL",
-          "name": "statement_block"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "statement_block"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_automatic_semicolon"
+            },
+            {
+              "type": "STRING",
+              "value": ";"
+            }
+          ]
         }
       ]
     },
@@ -4530,7 +4526,7 @@
             },
             {
               "type": "SYMBOL",
-              "name": "ambient_function"
+              "name": "function"
             },
             {
               "type": "SYMBOL",
@@ -4779,7 +4775,7 @@
                 },
                 {
                   "type": "SYMBOL",
-                  "name": "ambient_function"
+                  "name": "function"
                 },
                 {
                   "type": "SYMBOL",
@@ -4917,36 +4913,6 @@
         }
       ]
     },
-    "ambient_function": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "function"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "identifier"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "call_signature"
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "_automatic_semicolon"
-            },
-            {
-              "type": "STRING",
-              "value": ";"
-            }
-          ]
-        }
-      ]
-    },
     "_ambient_enum": {
       "type": "SYMBOL",
       "name": "enum_declaration"
@@ -5037,7 +5003,7 @@
                       },
                       {
                         "type": "SYMBOL",
-                        "name": "ambient_function"
+                        "name": "function"
                       },
                       {
                         "type": "SYMBOL",
@@ -5119,7 +5085,7 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "ambient_function"
+                "name": "function"
               },
               {
                 "type": "SYMBOL",
