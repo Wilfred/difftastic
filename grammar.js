@@ -102,8 +102,8 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
     // Overrides
     public_field_definition: ($, previous) => seq(
       optional($.accessibility_modifier),
-      optional('static'),
       optional('abstract'),
+      optional('static'),
       optional($.readonly),
       $._property_name,
       optional('?'),
