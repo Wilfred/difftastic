@@ -314,7 +314,8 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
     ambient_variable: $ => seq(
       variableType(),
       commaSep1($.ambient_binding),
-      semicolon($)),
+      semicolon($)
+    ),
 
     ambient_function: $ => seq(
       'function',
