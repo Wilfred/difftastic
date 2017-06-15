@@ -11,6 +11,7 @@ const PREC = {
   NON_NULL_ASSERTION_OP: 10,
   FUNCTION_CALL: 12,
   ARRAY_TYPE: 13,
+  MEMBER: 13,
   AS_EXPRESSION: 14,
   TYPE_ASSERTION: 15
 };
@@ -159,7 +160,7 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
     ),
 
     type_op: ($, previous) => choice(
-      prec(PREC.TYPEOF, seq('typeof', $.anonymous_class)),
+      prec(PREC.TYPEOF, seq('typeof', choice($.anonymous_class, 'module'))),
       previous
     ),
 
@@ -363,6 +364,12 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
           optional(semicolon($)))),
       '}'
     ),
+
+    member_access: $ => prec(PREC.MEMBER, seq(
+      choice($._expression, 'module'),
+      '.',
+      $.identifier
+    )),
 
     _initializer: $ => seq(
       '=', choice($._expression, $.anonymous_class)
