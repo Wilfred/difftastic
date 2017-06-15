@@ -157,6 +157,7 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       $.super,
       $.rel_op,
       $.function,
+      $.function_call,
       previous
     ),
 

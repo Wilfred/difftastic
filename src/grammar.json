@@ -1627,6 +1627,10 @@
           "name": "function"
         },
         {
+          "type": "SYMBOL",
+          "name": "function_call"
+        },
+        {
           "type": "CHOICE",
           "members": [
             {
