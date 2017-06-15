@@ -138,7 +138,7 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
     )),
 
     function_call: ($, previous) => prec(PREC.FUNCTION_CALL, seq(
-      $._expression,
+      choice($._expression, $.super, $.function),
       optional($.type_arguments),
       $.arguments
     )),
