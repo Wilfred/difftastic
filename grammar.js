@@ -138,6 +138,17 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       seq($._expression, '>', $._expression)
     )),
 
+    _element_list: $ => seq(
+      optional(','),
+      commaSep1Trailing($._element_list, choice(
+        $._expression,
+        $.spread_element,
+        $._empty_element
+      ))
+    ),
+
+    _empty_element: $ => seq(''),
+
     bitwise_op: ($, previous) => choice(
       prec.left(PREC.TIMES, seq($._expression, '>>>', $._expression)),
       previous
@@ -711,4 +722,8 @@ function ambientDeclaration($) {
 
 function semicolon($) {
   return choice($._automatic_semicolon, ';')
+}
+
+function commaSep1Trailing(recurSymbol, rule) {
+  return seq(rule, optional(seq(',', optional(recurSymbol))))
 }

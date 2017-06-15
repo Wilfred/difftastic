@@ -29,3 +29,13 @@ a >>> a;
 
 (program
   (expression_statement (bitwise_op (identifier) (identifier))))
+
+==================================
+Array with empty elements
+==================================
+
+[, a, , b, , , , s, , , ]
+
+(program
+  (expression_statement
+    (array (identifier) (identifier) (identifier))))

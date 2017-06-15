@@ -2135,6 +2135,10 @@
                 {
                   "type": "SYMBOL",
                   "name": "spread_element"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "_empty_element"
                 }
               ]
             },
@@ -4539,6 +4543,15 @@
         {
           "type": "STRING",
           "value": "async"
+        }
+      ]
+    },
+    "_empty_element": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": ""
         }
       ]
     },
