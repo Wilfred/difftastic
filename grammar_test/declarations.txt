@@ -48,7 +48,7 @@ declare module Foo.Bar { export var foo; };
   (ambient_declaration
     (ambient_variable (ambient_binding (identifier)) (string)))
   (ambient_declaration
-    (function
+    (ambient_function
       (identifier)
       (call_signature
         (formal_parameters (required_parameter (identifier) (type_annotation (predefined_type))))
@@ -58,7 +58,7 @@ declare module Foo.Bar { export var foo; };
     (ambient_namespace
       (identifier)
       (ambient_namespace_body
-        (function
+        (ambient_function
           (identifier)
           (call_signature
             (formal_parameters (required_parameter (identifier) (type_annotation (predefined_type))))
@@ -243,7 +243,7 @@ module Promise {
     (variable_declaration (variable_declarator
       (identifier)
       (type_annotation (object_type))))
-    (export_statement (function
+    (export_statement (ambient_function
       (identifier)
       (call_signature
         (type_parameters (type_parameter (identifier)))
@@ -309,7 +309,7 @@ export interface Foo {
       (identifier)
       (object_type
         (ambient_export_declaration
-          (function
+          (ambient_function
             (identifier)
             (call_signature
               (type_parameters (type_parameter (identifier)) (type_parameter (identifier)))
@@ -350,7 +350,7 @@ declare namespace moment {
         (ambient_export_declaration (ambient_variable (ambient_binding (identifier) (type_annotation (predefined_type)))))
         (ambient_export_declaration (class (identifier) (class_body)))
         (ambient_export_declaration
-          (function (identifier) (call_signature (formal_parameters) (type_annotation (type_reference (identifier))))))
+          (ambient_function (identifier) (call_signature (formal_parameters) (type_annotation (type_reference (identifier))))))
         (ambient_export_declaration (enum_declaration (identifier) (identifier) (identifier) (identifier)))))))
 
 
@@ -450,7 +450,9 @@ abstract class Animal {
         console.log("roaming the earth...");
     }
 }
+
 ---
+
 (program
   (expression_statement
     (class (identifier) (class_body)))
