@@ -3342,7 +3342,7 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "_expression"
+                "name": "anonymous_class"
               }
             ]
           }
