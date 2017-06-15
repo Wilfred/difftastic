@@ -1615,6 +1615,10 @@
           "name": "import_alias"
         },
         {
+          "type": "SYMBOL",
+          "name": "super"
+        },
+        {
           "type": "CHOICE",
           "members": [
             {
@@ -2442,10 +2446,6 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "super"
-              },
-              {
-                "type": "SYMBOL",
                 "name": "function"
               }
             ]
@@ -2506,17 +2506,8 @@
         "type": "SEQ",
         "members": [
           {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "_expression"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "super"
-              }
-            ]
+            "type": "SYMBOL",
+            "name": "_expression"
           },
           {
             "type": "STRING",
