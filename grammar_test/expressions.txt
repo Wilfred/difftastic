@@ -4,10 +4,18 @@ Typeof expressions
 
 typeof class {} === "function";
 
+typeof module === "object" && typeof module.exports === "object"
+
 ---
 
 (program
   (expression_statement
     (rel_op
       (type_op (anonymous_class (class_body)))
-      (string))))
+      (string)))
+
+  (expression_statement
+    (bool_op
+      (rel_op (type_op) (string))
+      (rel_op (type_op (member_access (identifier))) (string)))))
+
