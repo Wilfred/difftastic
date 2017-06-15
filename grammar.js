@@ -238,8 +238,7 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       'function',
       optional($.identifier),
       $.call_signature,
-      optional($.statement_block),
-      semicolon($)
+      $.statement_block
     ),
 
     generator_function: ($, prev) => seq(
