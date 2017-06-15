@@ -159,7 +159,7 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
     ),
 
     type_op: ($, previous) => choice(
-      prec(PREC.TYPEOF, seq('typeof', $._expression)),
+      prec(PREC.TYPEOF, seq('typeof', $.anonymous_class)),
       previous
     ),
 
