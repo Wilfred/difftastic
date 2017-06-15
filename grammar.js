@@ -511,7 +511,7 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
     ),
 
     type_annotation: $ => seq(
-      ':', $._type
+      ':', choice($._type, $._empty_element)
     ),
 
     _type: $ => choice(

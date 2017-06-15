@@ -36,6 +36,20 @@ Array with empty elements
 
 [, a, , b, , , , s, , , ]
 
+---
+
 (program
   (expression_statement
     (array (identifier) (identifier) (identifier))))
+
+==================================
+Array with empty elements
+==================================
+
+(a: ) => { }
+
+---
+
+(program
+  (expression_statement
+    (arrow_function (call_signature (formal_parameters (required_parameter (identifier) (type_annotation)))) (object))))
