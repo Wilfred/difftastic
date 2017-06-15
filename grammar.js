@@ -487,7 +487,8 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
         optional($.accessibility_modifier),
         choice(pattern($), $.parameter_identifier),
         optional($.type_annotation),
-        optional($._initializer))
+        optional($._initializer)
+      )
     ),
 
     optional_parameter: $ => choice(
