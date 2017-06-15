@@ -364,6 +364,10 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       '}'
     ),
 
+    _initializer: $ => seq(
+      '=', choice($._expression, $.anonymous_class)
+    ),
+
     ambient_namespace_body: $ => repeat1(choice(
       $.ambient_export_declaration,
       ambientDeclaration($),
