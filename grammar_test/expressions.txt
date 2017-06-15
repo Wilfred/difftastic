@@ -1,0 +1,13 @@
+==================================
+Typeof expressions
+================================
+
+typeof class {} === "function";
+
+---
+
+(program
+  (expression_statement
+    (rel_op
+      (type_op (anonymous_class (class_body)))
+      (string))))
