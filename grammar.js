@@ -5,6 +5,7 @@ const PREC = {
   PLUS: 4,
   REL: 5,
   TIMES: 6,
+  TYPEOF: 7,
   NEG: 9,
   INC: 10,
   NON_NULL_ASSERTION_OP: 10,
@@ -137,7 +138,7 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
     )),
 
     function_call: ($, previous) => prec(PREC.FUNCTION_CALL, seq(
-      choice($._expression, $.function),
+      $._expression,
       optional($.type_arguments),
       $.arguments
     )),
@@ -154,6 +155,13 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       $.non_null_assertion_op,
       $.import_alias,
       $.super,
+      $.rel_op,
+      $.function,
+      previous
+    ),
+
+    type_op: ($, previous) => choice(
+      prec(PREC.TYPEOF, seq('typeof', $._expression)),
       previous
     ),
 
