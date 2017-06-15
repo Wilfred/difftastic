@@ -1,6 +1,6 @@
 ==================================
 Typeof expressions
-================================
+==================================
 
 typeof class {} === "function";
 
@@ -19,3 +19,13 @@ typeof module === "object" && typeof module.exports === "object"
       (rel_op (type_op) (string))
       (rel_op (type_op (member_access (identifier))) (string)))))
 
+==================================
+Bitwise operator
+==================================
+
+a >>> a;
+
+---
+
+(program
+  (expression_statement (bitwise_op (identifier) (identifier))))
