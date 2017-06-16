@@ -4915,82 +4915,60 @@
         {
           "type": "REPEAT",
           "content": {
-            "type": "SEQ",
+            "type": "CHOICE",
             "members": [
               {
-                "type": "CHOICE",
-                "members": [
-                  {
-                    "type": "SYMBOL",
-                    "name": "import_statement"
-                  },
-                  {
-                    "type": "SYMBOL",
-                    "name": "export_statement"
-                  },
-                  {
-                    "type": "CHOICE",
-                    "members": [
-                      {
-                        "type": "SYMBOL",
-                        "name": "interface_declaration"
-                      },
-                      {
-                        "type": "SYMBOL",
-                        "name": "ambient_variable"
-                      },
-                      {
-                        "type": "SYMBOL",
-                        "name": "ambient_function"
-                      },
-                      {
-                        "type": "SYMBOL",
-                        "name": "class"
-                      },
-                      {
-                        "type": "SYMBOL",
-                        "name": "_ambient_enum"
-                      },
-                      {
-                        "type": "SYMBOL",
-                        "name": "ambient_namespace"
-                      },
-                      {
-                        "type": "SYMBOL",
-                        "name": "module"
-                      },
-                      {
-                        "type": "SYMBOL",
-                        "name": "type_alias_declaration"
-                      }
-                    ]
-                  },
-                  {
-                    "type": "SYMBOL",
-                    "name": "_declaration"
-                  }
-                ]
+                "type": "SYMBOL",
+                "name": "import_statement"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "export_statement"
               },
               {
                 "type": "CHOICE",
                 "members": [
                   {
-                    "type": "CHOICE",
-                    "members": [
-                      {
-                        "type": "SYMBOL",
-                        "name": "_automatic_semicolon"
-                      },
-                      {
-                        "type": "STRING",
-                        "value": ";"
-                      }
-                    ]
+                    "type": "SYMBOL",
+                    "name": "interface_declaration"
                   },
                   {
-                    "type": "BLANK"
+                    "type": "SYMBOL",
+                    "name": "ambient_variable"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "ambient_function"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "class"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "_ambient_enum"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "ambient_namespace"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "module"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "type_alias_declaration"
                   }
                 ]
+              },
+              {
+                "type": "SYMBOL",
+                "name": "_declaration"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "empty_statement"
               }
             ]
           }
