@@ -11,22 +11,21 @@ void tree_sitter_javascript_external_scanner_reset(void *payload) {}
 bool tree_sitter_javascript_external_scanner_serialize(void *payload, TSExternalTokenState state) { return true; }
 void tree_sitter_javascript_external_scanner_deserialize(void *payload, TSExternalTokenState state) {}
 
-static inline void skip(TSLexer *lexer) { lexer->advance(lexer, true); }
 static inline void advance(TSLexer *lexer) { lexer->advance(lexer, false); }
 
 bool tree_sitter_javascript_external_scanner_scan(void *payload, TSLexer *lexer,
                                                   const bool *valid_symbols) {
   lexer->result_symbol = AUTOMATIC_SEMICOLON;
+  lexer->mark_end(lexer);
 
   for (;;) {
     if (lexer->lookahead == 0) return true;
     if (lexer->lookahead == '}') return true;
     if (!iswspace(lexer->lookahead)) return false;
     if (lexer->lookahead == '\n') break;
-    skip(lexer);
+    advance(lexer);
   }
 
-  lexer->mark_end(lexer);
   advance(lexer);
 
   while (iswspace(lexer->lookahead)) {
