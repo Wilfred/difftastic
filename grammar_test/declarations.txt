@@ -370,6 +370,7 @@ declare namespace moment {
 =================================
 Export interfaces in namespaces
 =================================
+
 declare namespace Foo {
   export interface Bar {
   }
@@ -382,6 +383,27 @@ declare namespace Foo {
     (ambient_namespace
       (identifier)
       (ambient_namespace_body (ambient_export_declaration (interface_declaration (identifier) (object_type)))))))
+
+=================================
+Namespaces as internal modules
+=================================
+
+namespace Foo {
+}
+
+namespace Bar {
+  var x;
+}
+
+---
+
+(program
+  (expression_statement
+    (internal_module (identifier) (statement_block)))
+
+  (expression_statement
+    (internal_module (identifier)
+    (statement_block (variable_declaration (variable_declarator (identifier)))))))
 
 =======================================
 Method signatures with reserved identifiers

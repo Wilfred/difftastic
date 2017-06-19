@@ -1620,6 +1620,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "internal_module"
+        },
+        {
+          "type": "SYMBOL",
           "name": "super"
         },
         {
@@ -4571,6 +4575,23 @@
           }
         ]
       }
+    },
+    "internal_module": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "namespace"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "identifier"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "statement_block"
+        }
+      ]
     },
     "ambient_export_declaration": {
       "type": "SEQ",

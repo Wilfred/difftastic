@@ -171,6 +171,7 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       $.as_expression,
       $.non_null_assertion_op,
       $.import_alias,
+      $.internal_module,
       $.super,
       previous
     ),
@@ -206,6 +207,13 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       seq('export', '=', $.identifier, semicolon($)),
       seq('export', 'as', 'namespace', $.identifier, semicolon($)),
       seq('export', $.import_alias)
+    ),
+
+    // namespace D { var x; }
+    internal_module: $ => seq(
+      "namespace",
+      $.identifier,
+      $.statement_block
     ),
 
     // Exports that can appear in object types, namespace elements, modules, and interfaces
