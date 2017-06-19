@@ -616,7 +616,7 @@ module.exports = grammar({
     macro_type_specifier: $ => seq(
       $.identifier,
       '(',
-      $._type_specifier,
+      $.type_name,
       ')'
     ),
 

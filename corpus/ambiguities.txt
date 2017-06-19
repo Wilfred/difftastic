@@ -65,14 +65,14 @@ function-like type macros vs function calls
 ========================================================================
 
 // this is a macro
-GIT_INLINE(int) x = 5;
+GIT_INLINE(int *) x = 5;
 
 ---
 
 (translation_unit
   (comment)
   (declaration
-    (macro_type_specifier (identifier) (identifier))
+    (macro_type_specifier (identifier) (type_name (identifier) (abstract_pointer_declarator)))
     (init_declarator (identifier) (number_literal))))
 
 ========================================================================
