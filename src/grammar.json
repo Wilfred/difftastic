@@ -5156,6 +5156,10 @@
                 "name": "export_statement"
               },
               {
+                "type": "SYMBOL",
+                "name": "break_statement"
+              },
+              {
                 "type": "CHOICE",
                 "members": [
                   {

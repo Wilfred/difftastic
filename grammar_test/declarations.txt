@@ -35,6 +35,10 @@ declare class Greeter {
 
 declare module Foo.Bar { export var foo; };
 
+declare module Foo {
+  break;
+}
+
 ---
 
 (program
@@ -89,7 +93,10 @@ declare module Foo.Bar { export var foo; };
       (identifier)
       (identifier)
       (export_statement (variable_declaration (variable_declarator (identifier))))))
-      (empty_statement))
+      (empty_statement)
+
+  (ambient_declaration
+    (module (identifier) (break_statement))))
 
 ==================================
 Ambient exports
