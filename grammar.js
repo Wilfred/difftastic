@@ -372,6 +372,7 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       choice($.string, $.identifier, $._entity_name),
       '{',
       repeat(choice(
+        $.import_alias,
         $.import_statement,
         $.export_statement,
         ambientDeclaration($),

@@ -157,6 +157,19 @@ import r = X.N;
     (import_alias (identifier) (identifier) (identifier))))
 
 ==================================
+Import aliases in modules
+================================
+
+module C {
+  import r = X.N;
+}
+
+---
+
+(program
+  (module (identifier) (import_alias (identifier) (identifier) (identifier))))
+
+==================================
 Export import aliases
 ================================
 

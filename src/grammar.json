@@ -5098,6 +5098,10 @@
             "members": [
               {
                 "type": "SYMBOL",
+                "name": "import_alias"
+              },
+              {
+                "type": "SYMBOL",
                 "name": "import_statement"
               },
               {
