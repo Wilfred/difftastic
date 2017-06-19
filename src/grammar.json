@@ -608,6 +608,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "debugger_statement"
+        },
+        {
+          "type": "SYMBOL",
           "name": "expression_statement"
         },
         {
@@ -1346,6 +1350,28 @@
               "type": "BLANK"
             }
           ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_automatic_semicolon"
+            },
+            {
+              "type": "STRING",
+              "value": ";"
+            }
+          ]
+        }
+      ]
+    },
+    "debugger_statement": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "debugger"
         },
         {
           "type": "CHOICE",
@@ -5162,6 +5188,10 @@
               {
                 "type": "SYMBOL",
                 "name": "continue_statement"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "debugger_statement"
               },
               {
                 "type": "CHOICE",

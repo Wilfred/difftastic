@@ -38,6 +38,7 @@ declare module Foo.Bar { export var foo; };
 declare module Foo {
   break;
   continue;
+  debugger;
 }
 
 ---
@@ -100,7 +101,8 @@ declare module Foo {
     (module
       (identifier)
       (break_statement)
-      (continue_statement))))
+      (continue_statement)
+      (debugger_statement))))
 
 ==================================
 Ambient exports
