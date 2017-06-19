@@ -4576,23 +4576,6 @@
         ]
       }
     },
-    "internal_module": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "namespace"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "identifier"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "statement_block"
-        }
-      ]
-    },
     "ambient_export_declaration": {
       "type": "SEQ",
       "members": [
@@ -5091,6 +5074,28 @@
           "type": "STRING",
           "value": "module"
         },
+        {
+          "type": "SYMBOL",
+          "name": "_module"
+        }
+      ]
+    },
+    "internal_module": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "namespace"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_module"
+        }
+      ]
+    },
+    "_module": {
+      "type": "SEQ",
+      "members": [
         {
           "type": "CHOICE",
           "members": [

@@ -209,13 +209,6 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       seq('export', $.import_alias)
     ),
 
-    // namespace D { var x; }
-    internal_module: $ => seq(
-      "namespace",
-      $.identifier,
-      $.statement_block
-    ),
-
     // Exports that can appear in object types, namespace elements, modules, and interfaces
     ambient_export_declaration: $ => seq(
       'export',
@@ -377,6 +370,15 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
 
     module: $ => seq(
       'module',
+      $._module
+    ),
+
+    internal_module: $ => seq(
+      'namespace',
+      $._module
+    ),
+
+    _module: $ => seq(
       choice($.string, $.identifier, $._entity_name),
       '{',
       repeat(choice(

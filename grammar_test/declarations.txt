@@ -399,11 +399,11 @@ namespace Bar {
 
 (program
   (expression_statement
-    (internal_module (identifier) (statement_block)))
+    (internal_module (identifier)))
 
   (expression_statement
     (internal_module (identifier)
-    (statement_block (variable_declaration (variable_declarator (identifier)))))))
+    (variable_declaration (variable_declarator (identifier))))))
 
 =======================================
 Method signatures with reserved identifiers
