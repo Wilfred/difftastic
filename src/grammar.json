@@ -4,26 +4,34 @@
     "translation_unit": {
       "type": "REPEAT",
       "content": {
-        "type": "CHOICE",
-        "members": [
-          {
-            "type": "SYMBOL",
-            "name": "_preproc_statement"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "function_definition"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "declaration"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "_empty_declaration"
-          }
-        ]
+        "type": "SYMBOL",
+        "name": "_top_level_item"
       }
+    },
+    "_top_level_item": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_preproc_statement"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "function_definition"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "declaration"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_empty_declaration"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "linkage_specification"
+        }
+      ]
     },
     "_preproc_statement": {
       "type": "CHOICE",
@@ -257,21 +265,8 @@
         {
           "type": "REPEAT",
           "content": {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "_preproc_statement"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "function_definition"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "declaration"
-              }
-            ]
+            "type": "SYMBOL",
+            "name": "_top_level_item"
           }
         },
         {
@@ -302,21 +297,8 @@
         {
           "type": "REPEAT",
           "content": {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "_preproc_statement"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "function_definition"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "declaration"
-              }
-            ]
+            "type": "SYMBOL",
+            "name": "_top_level_item"
           }
         }
       ]
@@ -441,6 +423,56 @@
           }
         ]
       }
+    },
+    "linkage_specification": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "extern"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "string_literal"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "function_definition"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "declaration"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "declaration_list"
+            }
+          ]
+        }
+      ]
+    },
+    "declaration_list": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "{"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_top_level_item"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "}"
+        }
+      ]
     },
     "_declarator": {
       "type": "CHOICE",

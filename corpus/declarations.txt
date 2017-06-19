@@ -208,3 +208,42 @@ void * do_stuff(int arg1) {
         (parameter_type_list
           (parameter_declaration (identifier) (identifier)))))
     (compound_statement (return_statement (number_literal)))))
+
+============================================
+Linkage specifications
+============================================
+
+extern "C" int foo();
+
+extern "C" int foo() { return 0; }
+
+extern "C" {
+  int bar();
+  int baz();
+}
+
+---
+
+(translation_unit
+  (linkage_specification
+    (string_literal)
+    (declaration
+      (identifier)
+      (function_declarator (identifier))))
+  (linkage_specification
+    (string_literal)
+    (function_definition
+      (identifier)
+      (function_declarator
+        (identifier))
+      (compound_statement (return_statement (number_literal)))))
+  (linkage_specification
+    (string_literal)
+    (declaration_list
+      (declaration
+        (identifier)
+        (function_declarator (identifier)))
+      (declaration
+        (identifier)
+        (function_declarator (identifier))))))
+

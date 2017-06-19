@@ -37,12 +37,15 @@ module.exports = grammar({
   ],
 
   rules: {
-    translation_unit: $ => repeat(choice(
+    translation_unit: $ => repeat($._top_level_item),
+
+    _top_level_item: $ => choice(
       $._preproc_statement,
       $.function_definition,
       $.declaration,
-      $._empty_declaration
-    )),
+      $._empty_declaration,
+      $.linkage_specification
+    ),
 
     // Preprocesser
 
@@ -91,22 +94,14 @@ module.exports = grammar({
     preproc_ifdef: $ => seq(
       choice('#ifdef', '#ifndef'),
       $.identifier,
-      repeat(choice(
-        $._preproc_statement,
-        $.function_definition,
-        $.declaration
-      )),
+      repeat($._top_level_item),
       optional($.preproc_else),
       '#endif'
     ),
 
     preproc_else: $ => seq(
       '#else',
-      repeat(choice(
-        $._preproc_statement,
-        $.function_definition,
-        $.declaration
-      ))
+      repeat($._top_level_item)
     ),
 
     preproc_directive: $ => (/#\a\w*/),
@@ -135,6 +130,22 @@ module.exports = grammar({
       $.type_qualifier,
       $.function_specifier
     )),
+
+    linkage_specification: $ => seq(
+      'extern',
+      $.string_literal,
+      choice(
+        $.function_definition,
+        $.declaration,
+        $.declaration_list
+      )
+    ),
+
+    declaration_list: $ => seq(
+      '{',
+      repeat($._top_level_item),
+      '}'
+    ),
 
     _declarator: $ => choice(
       $.pointer_declarator,
