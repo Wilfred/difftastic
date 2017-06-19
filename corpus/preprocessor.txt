@@ -21,7 +21,7 @@ Object-like macro definitions
   c == d ? \
   e : \
   f
-#define FOUR mno
+#define FOUR (mno * pq)
 
 ---
 

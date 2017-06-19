@@ -68,7 +68,10 @@ module.exports = grammar({
     preproc_def: $ => seq(
       '#define',
       $.identifier,
-      optional($.preproc_arg),
+      optional(seq(
+        /[ \t]+/,
+        $.preproc_arg
+      )),
       '\n'
     ),
 
