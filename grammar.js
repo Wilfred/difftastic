@@ -33,6 +33,7 @@ module.exports = grammar({
     [$.sizeof_expression, $.cast_expression],
     [$._type_specifier, $._expression, $.macro_type_specifier],
     [$._type_specifier, $.macro_type_specifier],
+    [$.sized_type_specifier],
   ],
 
   rules: {
@@ -240,7 +241,7 @@ module.exports = grammar({
         'long',
         'short'
       )),
-      $.identifier
+      optional($.identifier)
     ),
 
     enum_specifier: $ => seq(

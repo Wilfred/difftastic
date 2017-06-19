@@ -70,6 +70,8 @@ Primitive-typed variable declarations
 unsigned short int a;
 long int b, c = 5, d;
 float d, e;
+unsigned f;
+short g, h;
 
 ---
 
@@ -80,7 +82,9 @@ float d, e;
     (identifier)
     (init_declarator (identifier) (number_literal))
     (identifier))
-  (declaration (identifier) (identifier) (identifier)))
+  (declaration (identifier) (identifier) (identifier))
+  (declaration (sized_type_specifier) (identifier))
+  (declaration (sized_type_specifier) (identifier) (identifier)))
 
 ============================================
 Variable storage classes

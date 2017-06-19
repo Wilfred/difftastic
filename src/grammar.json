@@ -956,8 +956,16 @@
           }
         },
         {
-          "type": "SYMBOL",
-          "name": "identifier"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "identifier"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         }
       ]
     },
@@ -3157,6 +3165,9 @@
     [
       "_type_specifier",
       "macro_type_specifier"
+    ],
+    [
+      "sized_type_specifier"
     ]
   ],
   "externals": []
