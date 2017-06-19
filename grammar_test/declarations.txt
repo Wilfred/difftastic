@@ -249,7 +249,12 @@ module Promise {
     export function resolve<R>(value?: Thenable<R>): Promise<R>;
 }
 
+declare module "example"
+
+declare module "example" { }
+
 ---
+
 (program
   (module
     (identifier)
@@ -264,7 +269,10 @@ module Promise {
           (optional_parameter
             (identifier)
             (type_annotation (type_reference (identifier) (type_arguments (type_reference (identifier)))))))
-        (type_annotation (type_reference (identifier) (type_arguments (type_reference (identifier))))))))))
+        (type_annotation (type_reference (identifier) (type_arguments (type_reference (identifier)))))))))
+
+  (ambient_declaration (module (string)))
+  (ambient_declaration (module (string))))
 
 =================================
 Accessibility modifiers as pair keywords

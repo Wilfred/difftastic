@@ -97,7 +97,9 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
     [$._property_definition_list, $._property_name, $._expression],
 
     [$.call_signature, $.function_type],
-    [$.constructor_type, $.call_signature]
+    [$.constructor_type, $.call_signature],
+
+    [$._module, $._entity_name]
   ]),
   rules: {
 
@@ -378,8 +380,12 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       $._module
     ),
 
-    _module: $ => seq(
+    _module: $ => prec.right(seq(
       choice($.string, $.identifier, $._entity_name),
+      optional($._module_body))
+    ),
+
+    _module_body: $ => seq(
       '{',
       repeat(choice(
         $.import_alias,
