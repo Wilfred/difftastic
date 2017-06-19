@@ -549,8 +549,10 @@ module.exports = grammar({
 
     initializer_list: $ => seq(
       '{',
-      $._initializer_list_contents,
-      optional(','),
+      optional(seq(
+        $._initializer_list_contents,
+        optional(',')
+      )),
       '}'
     ),
 

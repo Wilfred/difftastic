@@ -246,7 +246,7 @@ Compound literals
 ============================================
 
 int main() {
-  x = (SomeType) { .f1 = 5, .f2 = 6 };
+  x = (SomeType) { .f1 = 5, .f2 = 6, .f3 = {} };
   y = (struct SomeStruct) { 7, 8 };
 }
 
@@ -263,7 +263,8 @@ int main() {
           (type_name (identifier))
           (initializer_list
             (designator (identifier)) (number_literal)
-            (designator (identifier)) (number_literal)))))
+            (designator (identifier)) (number_literal)
+            (designator (identifier)) (initializer_list)))))
       (expression_statement (assignment_expression
         (identifier)
         (compound_literal_expression
