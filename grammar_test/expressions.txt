@@ -1,4 +1,15 @@
 ==================================
+As expressions
+==================================
+
+as `hello`
+
+---
+
+(program
+  (expression_statement (as_expression (template_string (template_chars)))))
+
+==================================
 Typeof expressions
 ==================================
 

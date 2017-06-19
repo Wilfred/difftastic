@@ -320,10 +320,10 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       $._expression
     )),
 
-    as_expression: $ => prec(PREC.AS_EXPRESSION, seq(
-      $._expression,
+    as_expression: $ => prec.left(PREC.AS_EXPRESSION, seq(
+      optional($._expression),
       'as',
-      $._type
+      choice($._type, $.template_string)
     )),
 
     class_heritage: ($, previous) => choice(
