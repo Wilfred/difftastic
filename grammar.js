@@ -147,6 +147,7 @@ module.exports = grammar({
     _statement: $ => choice(
       $.export_statement,
       $.import_statement,
+      $.debugger_statement,
       $.expression_statement,
       $._declaration,
       $.statement_block,
@@ -284,6 +285,11 @@ module.exports = grammar({
     continue_statement: $ => seq(
       'continue',
       optional($.identifier),
+      semicolon($)
+    ),
+
+    debugger_statement: $ => seq(
+      'debugger',
       semicolon($)
     ),
 

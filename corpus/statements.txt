@@ -509,3 +509,14 @@ for (;;) {
       (if_statement (identifier)
         (statement_block (break_statement (identifier)))
         (statement_block (continue_statement (identifier))))))))
+
+============================================
+Debugger statements
+============================================
+
+debugger;
+debugger
+
+---
+
+(program (debugger_statement) (debugger_statement))
