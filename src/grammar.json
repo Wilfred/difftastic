@@ -5160,6 +5160,10 @@
                 "name": "break_statement"
               },
               {
+                "type": "SYMBOL",
+                "name": "continue_statement"
+              },
+              {
                 "type": "CHOICE",
                 "members": [
                   {

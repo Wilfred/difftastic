@@ -37,6 +37,7 @@ declare module Foo.Bar { export var foo; };
 
 declare module Foo {
   break;
+  continue;
 }
 
 ---
@@ -96,7 +97,10 @@ declare module Foo {
       (empty_statement)
 
   (ambient_declaration
-    (module (identifier) (break_statement))))
+    (module
+      (identifier)
+      (break_statement)
+      (continue_statement))))
 
 ==================================
 Ambient exports
