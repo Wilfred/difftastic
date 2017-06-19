@@ -1,6 +1,6 @@
 ==================================
 Functions with typed parameters
-================================
+==================================
 
 function greeter(person: string) {
   return "Hello, " + person;
@@ -48,7 +48,7 @@ function foo<T, U>(a: T[], f: (x: T) => U): U[] {
 
 ==================================
 Function calls with type arguments
-================================
+==================================
 
 const lines = new Array<DiffLine>()
 
@@ -62,7 +62,7 @@ const lines = new Array<DiffLine>()
 
 ==================================
 Arrow functions and generators with call signatures
-================================
+==================================
 
 <A>(amount, interestRate, duration): number => 2
 
@@ -85,7 +85,7 @@ function* foo<A>(amount, interestRate, duration): number {
 
 ==================================
 Super
-================================
+==================================
 
 class A extends B {
     constructor(x: number, y: number) {

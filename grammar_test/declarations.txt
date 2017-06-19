@@ -1,6 +1,6 @@
 ==================================
 Ambient declarations
-================================
+==================================
 
 declare class Error {
   constructor: Function
@@ -93,7 +93,7 @@ declare module Foo.Bar { export var foo; };
 
 ==================================
 Ambient exports
-================================
+==================================
 
 export default function point(x: number, y: number) {
     return { x, y };
@@ -117,7 +117,7 @@ export default class A {}
 
 ==================================
 Typeof types
-================================
+==================================
 
 declare class Linter {
     static findConfiguration: typeof findConfiguration;
@@ -136,7 +136,7 @@ declare class Linter {
 
 ==================================
 Export assignments
-================================
+==================================
 
 export = Linter;
 
@@ -146,7 +146,7 @@ export = Linter;
 
 ==================================
 Import aliases
-================================
+==================================
 
 import r = X.N;
 
@@ -158,7 +158,7 @@ import r = X.N;
 
 ==================================
 Import aliases in modules
-================================
+==================================
 
 module C {
   import r = X.N;
@@ -171,7 +171,7 @@ module C {
 
 ==================================
 Export import aliases
-================================
+==================================
 
 module M {
     export module N {
@@ -188,7 +188,7 @@ module M {
 
 ==================================
 Property signatures with accessibility modifiers
-================================
+==================================
 
 export interface IAppState {
   public readonly users: ReadonlyArray<User>
@@ -222,7 +222,7 @@ export class CloningRepository {
 
 ==================================
 Ambient type declarations
-================================
+==================================
 
 declare type IndexableType = string | number | Date | Array<string | number | Date>;
 
@@ -242,7 +242,7 @@ declare type IndexableType = string | number | Date | Array<string | number | Da
 
 ==================================
 Ambient module declarations
-================================
+==================================
 
 module Promise {
     var on: {}
