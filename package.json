@@ -13,11 +13,11 @@
     "nan": "^2.4.0"
   },
   "devDependencies": {
-    "tree-sitter-cli": "^0.5"
+    "tree-sitter-cli": "^0.5.3"
   },
   "scripts": {
     "build": "tree-sitter generate && node-gyp build",
-    "test": "./scripts/test"
+    "test": "tree-sitter test && tree-sitter parse examples/* --quiet --time"
   },
   "repository": "https://github.com/tree-sitter/tree-sitter-python"
 }
