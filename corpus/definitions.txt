@@ -30,12 +30,29 @@ T::T() : f1(0), f2(1, 2) {
 ---
 
 (translation_unit
-  (constructor_definition
+  (function_definition
     (function_declarator (scoped_identifier (identifier) (identifier)))
     (compound_statement))
-  (constructor_definition
+  (function_definition
     (function_declarator (scoped_identifier (identifier) (identifier)))
     (member_initializer_list
       (member_initializer (identifier) (argument_list (number_literal)))
       (member_initializer (identifier) (argument_list (number_literal) (number_literal))))
     (compound_statement (expression_statement (call_expression (identifier) (argument_list (string_literal)))))))
+
+=====================================
+Destructor definitions
+=====================================
+
+~T() {}
+T::~T() {}
+
+---
+
+(translation_unit
+  (function_definition
+    (function_declarator (destructor_name (identifier)))
+    (compound_statement))
+  (function_definition
+    (function_declarator (scoped_identifier (identifier) (destructor_name (identifier))))
+    (compound_statement)))

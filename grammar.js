@@ -28,8 +28,7 @@ module.exports = grammar(C, {
     _top_level_item: ($, original) => choice(
       original,
       $.namespace_definition,
-      $.using_declaration,
-      $.constructor_definition
+      $.using_declaration
     ),
 
     // Types
@@ -50,10 +49,13 @@ module.exports = grammar(C, {
 
     // Declarations
 
-    constructor_definition: $ => seq(
-      $.function_declarator,
-      optional($.member_initializer_list),
-      $.compound_statement
+    function_definition: ($, original) => choice(
+      original,
+      seq(
+        $.function_declarator,
+        optional($.member_initializer_list),
+        $.compound_statement
+      )
     ),
 
     member_initializer_list: $ => seq(
@@ -76,7 +78,8 @@ module.exports = grammar(C, {
       original,
       $.reference_declarator,
       $.scoped_identifier,
-      $.operator_name
+      $.operator_name,
+      $.destructor_name
     ),
 
     function_declarator: ($, original) => seq(
@@ -201,10 +204,10 @@ module.exports = grammar(C, {
       prec.left(PREC.FIELD, seq($._expression, '->', $.destructor_name))
     ),
 
-    destructor_name: $ => seq(
+    destructor_name: $ => prec(1, seq(
       '~',
       $.identifier
-    ),
+    )),
 
     compound_literal_expression: ($, original) => choice(
       original,
@@ -225,7 +228,8 @@ module.exports = grammar(C, {
       '::',
       choice(
         $.identifier,
-        $.operator_name
+        $.operator_name,
+        $.destructor_name
       )
     )),
 
