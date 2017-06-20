@@ -55,6 +55,7 @@ declare module Foo {
   try { }
   catch (e) { }
   finally { }
+  with (x) { }
 }
 
 ---
@@ -130,7 +131,8 @@ declare module Foo {
       (try_statement
         (statement_block)
         (catch (identifier) (statement_block))
-        (finally (statement_block))))))
+        (finally (statement_block)))
+      (with_statement (identifier) (statement_block)))))
 
 ==================================
 Ambient exports
