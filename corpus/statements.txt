@@ -14,3 +14,35 @@ T main() {
     (function_declarator (identifier))
     (compound_statement
       (return_statement (initializer_list (number_literal) (number_literal))))))
+
+===========================================
+Range-based for loops
+===========================================
+
+T main() {
+  for (Value &value : values) {
+    cout << value;
+  }
+
+  for (const auto &value : values) {
+    cout << value;
+  }
+}
+
+---
+
+(translation_unit
+  (function_definition
+    (identifier)
+    (function_declarator (identifier))
+    (compound_statement
+      (for_range_loop
+        (for_range_declaration (identifier) (reference_declarator (identifier)))
+        (identifier)
+        (compound_statement
+          (expression_statement (shift_expression (identifier) (identifier)))))
+      (for_range_loop
+        (for_range_declaration (type_qualifier) (auto) (reference_declarator (identifier)))
+        (identifier)
+        (compound_statement
+          (expression_statement (shift_expression (identifier) (identifier))))))))

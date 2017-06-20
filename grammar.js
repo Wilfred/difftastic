@@ -127,6 +127,27 @@ module.exports = grammar(require("tree-sitter-c/grammar"), {
 
     // Statements
 
+    _statement: ($, original) => choice(
+      original,
+      $.for_range_loop
+    ),
+
+    for_range_loop: $ => seq(
+      'for',
+      '(',
+      $.for_range_declaration,
+      ':',
+      $._expression,
+      ')',
+      $._statement
+    ),
+
+    for_range_declaration: $ => seq(
+      optional($._declaration_specifiers),
+      $._type_specifier,
+      $._declarator
+    ),
+
     return_statement: ($, original) => choice(
       original,
       seq(
