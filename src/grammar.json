@@ -5198,6 +5198,14 @@
                 "name": "do_statement"
               },
               {
+                "type": "SYMBOL",
+                "name": "for_statement"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "for_in_statement"
+              },
+              {
                 "type": "CHOICE",
                 "members": [
                   {

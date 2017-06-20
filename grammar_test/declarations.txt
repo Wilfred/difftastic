@@ -40,6 +40,8 @@ declare module Foo {
   continue;
   debugger;
   do { } while (true);
+  for (x in null) { }
+  for (;;) { }
 }
 
 ---
@@ -104,7 +106,9 @@ declare module Foo {
       (break_statement)
       (continue_statement)
       (debugger_statement)
-      (do_statement (statement_block) (true)))))
+      (do_statement (statement_block) (true))
+      (for_in_statement (identifier) (null) (expression_statement (object)))
+      (for_statement (expression_statement (object))))))
 
 ==================================
 Ambient exports
