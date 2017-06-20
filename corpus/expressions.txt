@@ -5,10 +5,12 @@ Number literals
 int a = 0xAC00;
 int b = 0.123;
 int c = 0b1010001;
+int d = 0xabc00ull;
 
 ---
 
 (translation_unit
+  (declaration (identifier) (init_declarator (identifier) (number_literal)))
   (declaration (identifier) (init_declarator (identifier) (number_literal)))
   (declaration (identifier) (init_declarator (identifier) (number_literal)))
   (declaration (identifier) (init_declarator (identifier) (number_literal))))

@@ -601,11 +601,14 @@ module.exports = grammar({
       $.initializer_list
     ),
 
-    number_literal: $ => token(choice(
-      /\d+(\.\d+)?/,
-      /\d+u/,
-      seq('0x', /[0-9a-fA-f]+/),
-      seq('0b', /[01]+/)
+    number_literal: $ => token(seq(
+      choice(
+        /\d+(\.\d+)?/,
+        /\d+u/,
+        seq('0x', /[0-9a-fA-f]+/),
+        seq('0b', /[01]+/)
+      ),
+      repeat(choice('u', 'l', 'U', 'L'))
     )),
 
     char_literal: $ => token(seq(
