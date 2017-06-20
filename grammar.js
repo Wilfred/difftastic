@@ -16,6 +16,7 @@ module.exports = grammar(require("tree-sitter-c/grammar"), {
 
     _type_specifier: ($, original) => choice(
       original,
+      $.scoped_identifier,
       $.template_call,
       $.auto
     ),

@@ -1040,6 +1040,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "scoped_identifier"
+        },
+        {
+          "type": "SYMBOL",
           "name": "template_call"
         },
         {
