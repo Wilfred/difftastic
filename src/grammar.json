@@ -5252,6 +5252,10 @@
               },
               {
                 "type": "SYMBOL",
+                "name": "number"
+              },
+              {
+                "type": "SYMBOL",
                 "name": "empty_statement"
               }
             ]
@@ -7083,6 +7087,10 @@
     [
       "_module",
       "_entity_name"
+    ],
+    [
+      "_expression",
+      "import_alias"
     ]
   ],
   "externals": [

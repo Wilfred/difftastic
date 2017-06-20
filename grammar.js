@@ -99,7 +99,9 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
     [$.call_signature, $.function_type],
     [$.constructor_type, $.call_signature],
 
-    [$._module, $._entity_name]
+    [$._module, $._entity_name],
+
+    [$._expression, $.import_alias]
   ]),
   rules: {
 
@@ -400,6 +402,7 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
         $._declaration,
         $.if_statement,
         ambientDeclaration($),
+        $.number,
         $.empty_statement
       )),
       '}'
