@@ -112,7 +112,7 @@ declare module Foo {
       (for_in_statement (identifier) (null) (expression_statement (object)))
       (for_statement (expression_statement (object)))
       (if_statement (true) (statement_block) (expression_statement (object)))
-      (expression_statement (number)))))
+      (expression_statement (number))
 
 ==================================
 Ambient exports
