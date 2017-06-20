@@ -736,6 +736,10 @@
               {
                 "type": "SYMBOL",
                 "name": "type_qualifier"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "noexcept"
               }
             ]
           }
@@ -3569,6 +3573,10 @@
           ]
         }
       ]
+    },
+    "noexcept": {
+      "type": "STRING",
+      "value": "noexcept"
     },
     "reference_declarator": {
       "type": "PREC_RIGHT",

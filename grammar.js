@@ -78,9 +78,12 @@ module.exports = grammar(require("tree-sitter-c/grammar"), {
     function_declarator: ($, original) => seq(
       original,
       repeat(choice(
-        $.type_qualifier
+        $.type_qualifier,
+        $.noexcept
       ))
     ),
+
+    noexcept: $ => 'noexcept',
 
     _abstract_declarator: ($, original) => choice(
       original,
