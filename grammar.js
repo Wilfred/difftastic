@@ -20,8 +20,15 @@ module.exports = grammar(require("tree-sitter-c/grammar"), {
     template_call: $ => seq(
       $.identifier,
       '<',
-      choice($._expression, $.type_name),
+      commaSep1(choice(
+        $.type_name,
+        $.parenthesized_expression
+      )),
       '>'
     )
   }
 });
+
+function commaSep1(rule) {
+  return seq(rule, repeat(seq(',', rule)))
+}

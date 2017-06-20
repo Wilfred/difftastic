@@ -13,11 +13,10 @@
     "nan": "^2.4.0"
   },
   "devDependencies": {
-    "tree-sitter-cli": "^0.4.0",
-    "tree-sitter-c": "*"
+    "tree-sitter-cli": "^0.5.3",
+    "tree-sitter-c": "^0.2.1"
   },
   "scripts": {
-    "build": "tree-sitter generate && node-gyp build",
-    "test": "tree-sitter test"
+    "test": "tree-sitter test && tree-sitter parse examples/* --quiet --time"
   }
 }
