@@ -666,6 +666,8 @@ module.exports = grammar({
   }
 });
 
+module.exports.PREC = PREC
+
 function commaSep (rule) {
   return optional(commaSep1(rule))
 }
