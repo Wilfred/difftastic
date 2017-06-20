@@ -165,6 +165,17 @@ module.exports = grammar(require("tree-sitter-c/grammar"), {
       $.scoped_identifier
     ),
 
+    compound_literal_expression: ($, original) => choice(
+      original,
+      seq(
+        choice(
+          $.identifier,
+          $.scoped_identifier
+        ),
+        $.initializer_list
+      )
+    ),
+
     scoped_identifier: $ => prec(1, seq(
       optional(choice(
         $.scoped_identifier,

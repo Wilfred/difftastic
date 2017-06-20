@@ -17,3 +17,18 @@ int main() {
       (argument_list
         (string_literal)
         (string_literal)))))))
+
+=================================================
+Compound literals without parentheses
+=================================================
+
+T x = T{0};
+
+---
+
+(translation_unit
+  (declaration
+    (identifier)
+    (init_declarator
+      (identifier)
+      (compound_literal_expression (identifier) (initializer_list (number_literal))))))

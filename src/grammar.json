@@ -2868,32 +2868,59 @@
       ]
     },
     "compound_literal_expression": {
-      "type": "SEQ",
+      "type": "CHOICE",
       "members": [
         {
-          "type": "PREC",
-          "value": 13,
-          "content": {
-            "type": "SEQ",
-            "members": [
-              {
-                "type": "STRING",
-                "value": "("
-              },
-              {
-                "type": "SYMBOL",
-                "name": "type_name"
-              },
-              {
-                "type": "STRING",
-                "value": ")"
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "PREC",
+              "value": 13,
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "STRING",
+                    "value": "("
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "type_name"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": ")"
+                  }
+                ]
               }
-            ]
-          }
+            },
+            {
+              "type": "SYMBOL",
+              "name": "initializer_list"
+            }
+          ]
         },
         {
-          "type": "SYMBOL",
-          "name": "initializer_list"
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "identifier"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "scoped_identifier"
+                }
+              ]
+            },
+            {
+              "type": "SYMBOL",
+              "name": "initializer_list"
+            }
+          ]
         }
       ]
     },
