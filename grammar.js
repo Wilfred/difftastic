@@ -6,8 +6,15 @@ module.exports = grammar(require("tree-sitter-c/grammar"), {
     //  ^-- template name or expression?
     [$.template_call, $._expression],
 
+    // A::A (b) ...
+    //   ^-- constructor definition, return type of function w/ parenthesized name,
+    //       or function call?
     [$._declarator, $._type_specifier],
     [$._declarator, $._type_specifier, $._expression],
+
+    // A (b)
+    // ^-- constructor definition, return type of function w/ parenthesized name,
+    //     function call, or macro that defines a type?
     [$._declarator, $._type_specifier, $.macro_type_specifier],
     [$._declarator, $._type_specifier, $._expression, $.macro_type_specifier],
     [$._declarator, $._expression],
