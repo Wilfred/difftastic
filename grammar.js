@@ -2,8 +2,9 @@ module.exports = grammar(require("tree-sitter-c/grammar"), {
   name: 'cpp',
 
   conflicts: ($, original) => original.concat([
+    // foo < b
+    //  ^-- template name or expression?
     [$.template_call, $._expression],
-    [$.template_call, $.relational_expression]
   ]),
 
   rules: {

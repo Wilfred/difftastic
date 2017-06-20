@@ -3436,10 +3436,6 @@
     [
       "template_call",
       "_expression"
-    ],
-    [
-      "template_call",
-      "relational_expression"
     ]
   ],
   "externals": []
