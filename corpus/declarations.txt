@@ -86,3 +86,35 @@ bool A::operator!=(const A &other) const;
       (parameter_type_list
         (parameter_declaration (type_qualifier) (identifier) (reference_declarator (identifier))))
       (type_qualifier))))
+
+=========================================
+Template declarations
+=========================================
+
+template <typename T>
+void foo(T &t);
+
+template <typename T, int u>
+int bar(T &t) { return u; }
+
+---
+
+(translation_unit
+  (template_declaration
+    (template_parameter_list
+      (type_parameter_declaration (identifier)))
+    (declaration
+      (identifier)
+      (function_declarator
+        (identifier)
+        (parameter_type_list (parameter_declaration (identifier) (reference_declarator (identifier)))))))
+  (template_declaration
+    (template_parameter_list
+      (type_parameter_declaration (identifier))
+      (parameter_declaration (identifier) (identifier)))
+    (function_definition
+      (identifier)
+      (function_declarator
+        (identifier)
+        (parameter_type_list (parameter_declaration (identifier) (reference_declarator (identifier)))))
+      (compound_statement (return_statement (identifier))))))

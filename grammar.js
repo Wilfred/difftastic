@@ -28,7 +28,8 @@ module.exports = grammar(C, {
     _top_level_item: ($, original) => choice(
       original,
       $.namespace_definition,
-      $.using_declaration
+      $.using_declaration,
+      $.template_declaration
     ),
 
     // Types
@@ -48,6 +49,32 @@ module.exports = grammar(C, {
     auto: $ => 'auto',
 
     // Declarations
+
+    template_declaration: $ => seq(
+      'template',
+      $.template_parameter_list,
+      choice(
+        $.declaration,
+        $.function_definition
+      )
+    ),
+
+    template_parameter_list: $ => seq(
+      '<',
+      commaSep(choice(
+        $.parameter_declaration,
+        $.type_parameter_declaration
+      )),
+      '>'
+    ),
+
+    type_parameter_declaration: $ => seq(
+      choice(
+        'class',
+        'typename'
+      ),
+      $.identifier
+    ),
 
     function_definition: ($, original) => choice(
       original,
@@ -253,6 +280,10 @@ module.exports = grammar(C, {
   }
 });
 
+function commaSep(rule) {
+  return optional(commaSep1(rule));
+}
+
 function commaSep1(rule) {
-  return seq(rule, repeat(seq(',', rule)))
+  return seq(rule, repeat(seq(',', rule)));
 }
