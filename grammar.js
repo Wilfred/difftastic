@@ -548,9 +548,9 @@ module.exports = grammar({
       $._expression, '[', $._expression, ']')
     ),
 
-    call_expression: $ => prec(PREC.CALL, seq(
-      $._expression, '(', commaSep($._expression), ')')
-    ),
+    call_expression: $ => prec(PREC.CALL, seq($._expression, $.argument_list)),
+
+    argument_list: $ => seq('(', commaSep($._expression), ')'),
 
     field_expression: $ => choice(
       prec.left(PREC.FIELD, seq($._expression, '.', $.identifier)),

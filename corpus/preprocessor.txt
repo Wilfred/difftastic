@@ -107,7 +107,9 @@ General if blocks
 
 (translation_unit
   (preproc_if
-    (logical_expression (call_expression (identifier) (identifier)) (call_expression (identifier) (identifier)))
+    (logical_expression
+      (call_expression (identifier) (argument_list (identifier)))
+      (call_expression (identifier) (argument_list (identifier))))
     (preproc_def (identifier) (preproc_arg))))
 
 ============================================

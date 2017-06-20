@@ -49,7 +49,9 @@ int main() {
     (identifier)
     (function_declarator (identifier))
     (compound_statement
-      (expression_statement (call_expression (identifier) (string_literal) (identifier))))))
+      (expression_statement (call_expression
+        (identifier)
+        (argument_list (string_literal) (identifier)))))))
 
 ============================================
 String literals
@@ -243,9 +245,11 @@ int main() {
     (identifier)
     (function_declarator (identifier))
     (compound_statement
-      (expression_statement (call_expression (identifier)
-        (pointer_expression (identifier))
-        (pointer_expression (identifier)))))))
+      (expression_statement (call_expression
+        (identifier)
+        (argument_list
+          (pointer_expression (identifier))
+          (pointer_expression (identifier))))))))
 
 ============================================
 Type-casts

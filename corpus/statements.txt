@@ -56,13 +56,13 @@ int main() {
       (for_statement
         (declaration (identifier) (init_declarator (identifier) (number_literal)))
         (relational_expression (identifier) (number_literal))
-        (call_expression (identifier))
+        (call_expression (identifier) (argument_list))
         (math_expression (identifier))
         (compound_statement (expression_statement (number_literal))))
       (for_statement
-        (call_expression (identifier))
-        (call_expression (identifier))
-        (call_expression (identifier))
+        (call_expression (identifier) (argument_list))
+        (call_expression (identifier) (argument_list))
+        (call_expression (identifier) (argument_list))
         (expression_statement (number_literal))))))
 
 ============================================
@@ -82,4 +82,6 @@ int main() {
     (function_declarator (identifier))
     (compound_statement
       (while_statement (identifier)
-        (expression_statement (call_expression (identifier) (string_literal)))))))
+        (expression_statement (call_expression
+          (identifier)
+          (argument_list (string_literal))))))))
