@@ -169,7 +169,30 @@ module.exports = grammar(C, {
     _expression: ($, original) => choice(
       original,
       $.template_call,
-      $.scoped_identifier
+      $.scoped_identifier,
+      $.new_expression,
+      $.delete_expression
+    ),
+
+    new_expression: $ => seq(
+      'new',
+      optional($.parenthesized_expression),
+      choice(
+        $.identifier,
+        $.scoped_identifier
+      ),
+      optional($._abstract_declarator),
+      choice(
+        $.argument_list,
+        $.initializer_list
+      )
+    ),
+
+    delete_expression: $ => seq(
+      optional('::'),
+      'delete',
+      optional(seq('[', ']')),
+      $._expression
     ),
 
     field_expression: ($, original) => choice(

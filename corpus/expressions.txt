@@ -55,3 +55,46 @@ int main() {
       (expression_statement (call_expression
         (field_expression (identifier) (destructor_name (identifier)))
         (argument_list))))))
+
+=================================================
+New and Delete expressions
+=================================================
+
+int main() {
+  auto a = new T();
+  auto b = new U::V{};
+  auto c = new (&d) T();
+  auto c = new T[]();
+  delete a;
+  ::delete[] c;
+}
+
+---
+
+(translation_unit
+  (function_definition
+    (identifier)
+    (function_declarator (identifier))
+    (compound_statement
+      (declaration
+        (auto)
+        (init_declarator
+          (identifier)
+          (new_expression (identifier) (argument_list))))
+      (declaration
+        (auto)
+        (init_declarator
+          (identifier)
+          (new_expression (scoped_identifier (identifier) (identifier)) (initializer_list))))
+      (declaration
+        (auto)
+        (init_declarator
+          (identifier)
+          (new_expression (parenthesized_expression (pointer_expression (identifier))) (identifier) (argument_list))))
+      (declaration
+        (auto)
+        (init_declarator
+          (identifier)
+          (new_expression (identifier) (abstract_array_declarator) (argument_list))))
+      (expression_statement (delete_expression (identifier)))
+      (expression_statement (delete_expression (identifier))))))
