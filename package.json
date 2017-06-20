@@ -1,6 +1,6 @@
 {
   "name": "tree-sitter-c",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "C grammar for node-tree-sitter",
   "main": "index.js",
   "keywords": [
