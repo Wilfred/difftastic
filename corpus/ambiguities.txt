@@ -58,7 +58,7 @@ int main() {
       (comment)
       (expression_statement (call_expression
         (identifier)
-        (math_expression (identifier) (identifier)))))))
+        (parenthesized_expression (math_expression (identifier) (identifier))))))))
 
 ========================================================================
 function-like type macros vs function calls

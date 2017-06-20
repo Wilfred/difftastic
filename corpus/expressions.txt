@@ -147,6 +147,32 @@ int main() {
           (math_expression (identifier)))))))
 
 ============================================
+The comma operator
+============================================
+
+int main() {
+  i--, j--;
+  (i--, j--);
+}
+
+---
+
+(translation_unit
+  (function_definition
+    (identifier)
+    (function_declarator (identifier))
+    (compound_statement
+      (expression_statement
+        (comma_expression
+          (math_expression (identifier))
+          (math_expression (identifier))))
+      (expression_statement
+        (parenthesized_expression
+          (comma_expression
+            (math_expression (identifier))
+            (math_expression (identifier))))))))
+
+============================================
 Assignments
 ============================================
 
@@ -237,7 +263,7 @@ int main() {
     (function_declarator (identifier))
     (compound_statement
       (expression_statement (sizeof_expression (field_expression (identifier) (identifier))))
-      (expression_statement (sizeof_expression (field_expression (identifier) (identifier))))
+      (expression_statement (sizeof_expression (parenthesized_expression (field_expression (identifier) (identifier)))))
       (expression_statement (sizeof_expression
         (type_name (type_qualifier) (identifier) (abstract_pointer_declarator (abstract_pointer_declarator))))))))
 

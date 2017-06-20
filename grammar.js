@@ -352,7 +352,11 @@ module.exports = grammar({
     ),
 
     expression_statement: $ => seq(
-      optional($._expression), ';'
+      optional(choice(
+        $._expression,
+        $.comma_expression
+      )),
+      ';'
     ),
 
     if_statement: $ => prec.right(seq(
@@ -446,7 +450,13 @@ module.exports = grammar({
       $.number_literal,
       $.string_literal,
       $.char_literal,
-      seq('(', $._expression, ')')
+      $.parenthesized_expression
+    ),
+
+    comma_expression: $ => seq(
+      $._expression,
+      ',',
+      choice($._expression, $.comma_expression)
     ),
 
     conditional_expression: $ => prec.right(PREC.CONDITIONAL, seq(
@@ -542,6 +552,12 @@ module.exports = grammar({
     compound_literal_expression: $ => seq(
       prec(PREC.CAST, seq('(', $.type_name, ')')),
       $.initializer_list
+    ),
+
+    parenthesized_expression: $ => seq(
+      '(',
+      choice($._expression, $.comma_expression),
+      ')'
     ),
 
     type_name: $ => seq(
