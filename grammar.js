@@ -273,7 +273,15 @@ module.exports = grammar({
       'try',
       $.statement_block,
       optional($.catch),
-      optional($.finally)
+      optional($.finally),
+      optional($.with_statement)
+    ),
+
+    with_statement: $ => seq(
+      'with',
+      optional(seq('(', $.identifier, ')')),
+      $.statement_block,
+      semicolon($)
     ),
 
     break_statement: $ => seq(

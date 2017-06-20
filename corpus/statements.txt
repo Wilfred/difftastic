@@ -454,6 +454,7 @@ Try catch finally statements
 try { a; } catch (b) { c; }
 try { d; } finally { e; }
 try { f; } catch { g; } finally { h; }
+try { f; } catch { g; } finally { h; } with (x) { i; };
 
 ---
 
@@ -471,7 +472,15 @@ try { f; } catch { g; } finally { h; }
     (catch
       (statement_block (expression_statement (identifier))))
     (finally
-      (statement_block (expression_statement (identifier))))))
+      (statement_block (expression_statement (identifier)))))
+  (try_statement
+    (statement_block (expression_statement (identifier)))
+    (catch
+      (statement_block (expression_statement (identifier))))
+    (finally
+      (statement_block (expression_statement (identifier))))
+    (with_statement
+      (identifier) (statement_block (expression_statement (identifier))))))
 
 ============================================
 Empty statements
