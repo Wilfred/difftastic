@@ -94,3 +94,18 @@ int b;
       (preproc_ifdef
         (identifier)
         (preproc_else)))))
+
+===============================================================
+General if blocks
+==========================================
+
+#if defined(__GNUC__) && defined(__PIC__)
+#define inline inline __attribute__((always_inline))
+#endif
+
+---
+
+(translation_unit
+  (preproc_if
+    (logical_expression (call_expression (identifier) (identifier)) (call_expression (identifier) (identifier)))
+    (preproc_def (identifier) (preproc_arg))))

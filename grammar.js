@@ -50,6 +50,7 @@ module.exports = grammar({
     // Preprocesser
 
     _preproc_statement: $ => choice(
+      $.preproc_if,
       $.preproc_ifdef,
       $.preproc_include,
       $.preproc_def,
@@ -93,6 +94,14 @@ module.exports = grammar({
     ),
 
     preproc_arg: $ => token(prec(-1, repeat1(choice(/./, '\\\n')))),
+
+    preproc_if: $ => seq(
+      '#if',
+      $._expression,
+      repeat($._top_level_item),
+      optional($.preproc_else),
+      '#endif'
+    ),
 
     preproc_ifdef: $ => seq(
       choice('#ifdef', '#ifndef'),
