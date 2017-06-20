@@ -56,6 +56,7 @@ String literals
 int main() {
   "a";
   "b" "c" "d";
+  "\"hi\"";
 }
 
 ---
@@ -66,7 +67,8 @@ int main() {
     (function_declarator (identifier))
     (compound_statement
       (expression_statement (string_literal))
-      (expression_statement (concatenated_string (string_literal) (string_literal) (string_literal))))))
+      (expression_statement (concatenated_string (string_literal) (string_literal) (string_literal)))
+      (expression_statement (string_literal)))))
 
 ============================================
 Character literals

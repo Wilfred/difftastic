@@ -3111,11 +3111,11 @@
               "members": [
                 {
                   "type": "PATTERN",
-                  "value": "[^\"]"
+                  "value": "[^\\\\\"\\n]"
                 },
                 {
-                  "type": "STRING",
-                  "value": "\\\""
+                  "type": "PATTERN",
+                  "value": "\\\\."
                 }
               ]
             }

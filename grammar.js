@@ -617,7 +617,7 @@ module.exports = grammar({
 
     string_literal: $ => token(seq(
       '"',
-      repeat(choice(/[^"]/, '\\"')),
+      repeat(choice(/[^\\"\n]/, /\\./)),
       '"')
     ),
 
