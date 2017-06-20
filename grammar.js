@@ -1,4 +1,8 @@
-module.exports = grammar(require("tree-sitter-c/grammar"), {
+const C = require("tree-sitter-c/grammar")
+
+const PREC = C.PREC;
+
+module.exports = grammar(C, {
   name: 'cpp',
 
   conflicts: ($, original) => original.concat([
@@ -166,6 +170,17 @@ module.exports = grammar(require("tree-sitter-c/grammar"), {
       original,
       $.template_call,
       $.scoped_identifier
+    ),
+
+    field_expression: ($, original) => choice(
+      original,
+      prec.left(PREC.FIELD, seq($._expression, '.', $.destructor_name)),
+      prec.left(PREC.FIELD, seq($._expression, '->', $.destructor_name))
+    ),
+
+    destructor_name: $ => seq(
+      '~',
+      $.identifier
     ),
 
     compound_literal_expression: ($, original) => choice(

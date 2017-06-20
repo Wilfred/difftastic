@@ -2828,6 +2828,53 @@
       "type": "CHOICE",
       "members": [
         {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "PREC_LEFT",
+              "value": 15,
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "_expression"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "."
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "identifier"
+                  }
+                ]
+              }
+            },
+            {
+              "type": "PREC_LEFT",
+              "value": 15,
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "_expression"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "->"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "identifier"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
           "type": "PREC_LEFT",
           "value": 15,
           "content": {
@@ -2843,7 +2890,7 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "identifier"
+                "name": "destructor_name"
               }
             ]
           }
@@ -2864,7 +2911,7 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "identifier"
+                "name": "destructor_name"
               }
             ]
           }
@@ -3795,6 +3842,19 @@
         {
           "type": "SYMBOL",
           "name": "_declarator"
+        }
+      ]
+    },
+    "destructor_name": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "~"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "identifier"
         }
       ]
     },

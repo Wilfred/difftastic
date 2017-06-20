@@ -32,3 +32,26 @@ T x = T{0};
     (init_declarator
       (identifier)
       (compound_literal_expression (identifier) (initializer_list (number_literal))))))
+
+=================================================
+Explicit destructor calls
+=================================================
+
+int main() {
+  foo.~Foo();
+  bar->~Bar();
+}
+
+---
+
+(translation_unit
+  (function_definition
+    (identifier)
+    (function_declarator (identifier))
+    (compound_statement
+      (expression_statement (call_expression
+        (field_expression (identifier) (destructor_name (identifier)))
+        (argument_list)))
+      (expression_statement (call_expression
+        (field_expression (identifier) (destructor_name (identifier)))
+        (argument_list))))))
