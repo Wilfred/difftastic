@@ -1,0 +1,16 @@
+===========================================
+Returning braced initializer lists
+===========================================
+
+T main() {
+  return {0, 5};
+}
+
+---
+
+(translation_unit
+  (function_definition
+    (identifier)
+    (function_declarator (identifier))
+    (compound_statement
+      (return_statement (initializer_list (number_literal) (number_literal))))))

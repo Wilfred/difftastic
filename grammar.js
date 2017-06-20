@@ -34,6 +34,15 @@ module.exports = grammar(require("tree-sitter-c/grammar"), {
       '>'
     ),
 
+    return_statement: ($, original) => choice(
+      original,
+      seq(
+        'return',
+        $.initializer_list,
+        ';'
+      )
+    ),
+
     namespace_definition: $ => seq(
       'namespace',
       optional($.identifier),
