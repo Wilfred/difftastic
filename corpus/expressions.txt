@@ -98,3 +98,22 @@ int main() {
           (new_expression (identifier) (abstract_array_declarator) (argument_list))))
       (expression_statement (delete_expression (identifier)))
       (expression_statement (delete_expression (identifier))))))
+
+====================================================
+Initializer lists as arguments
+====================================================
+
+int main() {
+  pairs.push_back({true, false});
+}
+
+---
+
+(translation_unit
+  (function_definition
+    (identifier)
+    (function_declarator (identifier))
+    (compound_statement
+      (expression_statement (call_expression
+        (field_expression (identifier) (identifier))
+        (argument_list (initializer_list (identifier) (identifier))))))))

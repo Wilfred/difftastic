@@ -232,6 +232,8 @@ module.exports = grammar(C, {
       prec.left(PREC.FIELD, seq($._expression, '->', $.destructor_name))
     ),
 
+    argument_list: $ => seq('(', commaSep(choice($._expression, $.initializer_list)), ')'),
+
     destructor_name: $ => prec(1, seq(
       '~',
       $.identifier
