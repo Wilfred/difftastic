@@ -16,3 +16,23 @@ int x;
     (declaration_list
       (declaration (identifier) (identifier))))
   (comment))
+
+=========================================
+Using declarations
+=========================================
+
+using a;
+using ::b;
+using c::d;
+using ::e::f::g;
+
+---
+
+(translation_unit
+  (using_declaration (identifier))
+  (using_declaration (scoped_identifier (identifier)))
+  (using_declaration (scoped_identifier (identifier) (identifier)))
+  (using_declaration
+    (scoped_identifier
+      (scoped_identifier (scoped_identifier (identifier)) (identifier))
+      (identifier))))

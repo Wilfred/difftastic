@@ -10,7 +10,8 @@ module.exports = grammar(require("tree-sitter-c/grammar"), {
   rules: {
     _top_level_item: ($, original) => choice(
       original,
-      $.namespace_definition
+      $.namespace_definition,
+      $.using_declaration
     ),
 
     _type_specifier: ($, original) => choice(
@@ -37,6 +38,24 @@ module.exports = grammar(require("tree-sitter-c/grammar"), {
       'namespace',
       optional($.identifier),
       $.declaration_list
+    ),
+
+    using_declaration: $ => seq(
+      'using',
+      choice(
+        $.identifier,
+        $.scoped_identifier
+      ),
+      ';'
+    ),
+
+    scoped_identifier: $ => seq(
+      optional(choice(
+        $.scoped_identifier,
+        $.identifier
+      )),
+      '::',
+      $.identifier
     )
   }
 });
