@@ -45,6 +45,12 @@ declare module Foo {
   if (true) { } else { }
   1;
   return;
+  switch (x) {
+      case 1:
+          break;
+      default:
+          break;
+  }
 }
 
 ---
@@ -115,6 +121,7 @@ declare module Foo {
       (if_statement (true) (statement_block) (expression_statement (object)))
       (expression_statement (number))
       (return_statement)
+      (switch_statement (identifier) (case (number) (break_statement)) (default (break_statement))))))
 
 ==================================
 Ambient exports
