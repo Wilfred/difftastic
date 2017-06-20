@@ -5206,6 +5206,14 @@
                 "name": "for_in_statement"
               },
               {
+                "type": "SYMBOL",
+                "name": "_declaration"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "if_statement"
+              },
+              {
                 "type": "CHOICE",
                 "members": [
                   {
@@ -5241,10 +5249,6 @@
                     "name": "type_alias_declaration"
                   }
                 ]
-              },
-              {
-                "type": "SYMBOL",
-                "name": "_declaration"
               },
               {
                 "type": "SYMBOL",
