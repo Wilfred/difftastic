@@ -552,6 +552,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "with_statement"
+        },
+        {
+          "type": "SYMBOL",
           "name": "break_statement"
         },
         {
@@ -1162,18 +1166,6 @@
             {
               "type": "SYMBOL",
               "name": "finally"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "with_statement"
             },
             {
               "type": "BLANK"
