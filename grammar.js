@@ -160,6 +160,7 @@ module.exports = grammar({
       $.while_statement,
       $.do_statement,
       $.try_statement,
+      $.with_statement,
 
       $.break_statement,
       $.continue_statement,
@@ -192,7 +193,9 @@ module.exports = grammar({
     ),
 
     statement_block: $ => seq(
-      '{', repeat($._statement), '}'
+      '{',
+      repeat($._statement),
+      '}'
     ),
 
     if_statement: $ => prec.right(seq(
@@ -273,8 +276,7 @@ module.exports = grammar({
       'try',
       $.statement_block,
       optional($.catch),
-      optional($.finally),
-      optional($.with_statement)
+      optional($.finally)
     ),
 
     with_statement: $ => seq(
