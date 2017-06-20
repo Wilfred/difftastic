@@ -21,11 +21,15 @@ module.exports = grammar(require("tree-sitter-c/grammar"), {
 
     _expression: ($, original) => choice(
       original,
-      $.template_call
+      $.template_call,
+      $.scoped_identifier
     ),
 
     template_call: $ => seq(
-      $.identifier,
+      choice(
+        $.identifier,
+        $.scoped_identifier
+      ),
       '<',
       commaSep1(choice(
         $.type_name,
