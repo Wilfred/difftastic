@@ -118,3 +118,21 @@ int bar(T &t) { return u; }
         (identifier)
         (parameter_type_list (parameter_declaration (identifier) (reference_declarator (identifier)))))
       (compound_statement (return_statement (identifier))))))
+
+=========================================
+Template specializations
+=========================================
+
+template <>
+void foo<T>(T &t);
+
+---
+
+(translation_unit
+  (template_declaration
+    (template_parameter_list)
+    (declaration
+      (identifier)
+      (function_declarator
+        (template_call (identifier) (type_name (identifier)))
+        (parameter_type_list (parameter_declaration (identifier) (reference_declarator (identifier))))))))

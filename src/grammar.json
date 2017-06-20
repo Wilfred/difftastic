@@ -629,6 +629,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "template_call"
+        },
+        {
+          "type": "SYMBOL",
           "name": "operator_name"
         },
         {

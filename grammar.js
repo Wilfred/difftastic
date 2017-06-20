@@ -105,6 +105,7 @@ module.exports = grammar(C, {
       original,
       $.reference_declarator,
       $.scoped_identifier,
+      $.template_call,
       $.operator_name,
       $.destructor_name
     ),
