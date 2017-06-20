@@ -43,6 +43,7 @@ module.exports = grammar({
       $._preproc_statement,
       $.function_definition,
       $.declaration,
+      $._statement,
       $._empty_declaration,
       $.linkage_specification
     ),
@@ -98,6 +99,7 @@ module.exports = grammar({
     preproc_if: $ => seq(
       '#if',
       $._expression,
+      '\n',
       repeat($._top_level_item),
       optional($.preproc_else),
       '#endif'
@@ -225,11 +227,7 @@ module.exports = grammar({
 
     compound_statement: $ => seq(
       '{',
-      repeat(choice(
-        $.declaration,
-        $._empty_declaration,
-        $._statement
-      )),
+      repeat($._top_level_item),
       '}'
     ),
 

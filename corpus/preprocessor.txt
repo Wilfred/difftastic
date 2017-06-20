@@ -109,3 +109,27 @@ General if blocks
   (preproc_if
     (logical_expression (call_expression (identifier) (identifier)) (call_expression (identifier) (identifier)))
     (preproc_def (identifier) (preproc_arg))))
+
+============================================
+Preprocessor conditionals in functions
+============================================
+
+int main() {
+  #if a
+    return 0;
+  #else
+    return 1;
+  #endif
+}
+
+---
+
+(translation_unit
+  (function_definition
+    (identifier)
+    (function_declarator (identifier))
+    (compound_statement
+      (preproc_if (identifier)
+        (return_statement (number_literal))
+        (preproc_else
+          (return_statement (number_literal)))))))
