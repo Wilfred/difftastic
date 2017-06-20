@@ -33,6 +33,28 @@ module.exports = grammar(require("tree-sitter-c/grammar"), {
       $.scoped_identifier
     ),
 
+    // Declarators
+
+    _declarator: ($, original) => choice(
+      original,
+      $.reference_declarator
+    ),
+
+    _abstract_declarator: ($, original) => choice(
+      original,
+      $.abstract_reference_declarator
+    ),
+
+    reference_declarator: $ => prec.right(seq(
+      '&',
+      $._declarator
+    )),
+
+    abstract_reference_declarator: $ => prec.right(seq(
+      '&',
+      optional($._abstract_declarator)
+    )),
+
     template_call: $ => seq(
       choice(
         $.identifier,

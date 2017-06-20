@@ -36,3 +36,24 @@ using ::e::f::g;
     (scoped_identifier
       (scoped_identifier (scoped_identifier (identifier)) (identifier))
       (identifier))))
+
+=========================================
+Reference declarations
+=========================================
+
+int main() {
+  T &x = y<T &>();
+}
+
+---
+
+(translation_unit
+  (function_definition
+    (identifier)
+    (function_declarator (identifier))
+    (compound_statement
+      (declaration
+        (identifier)
+        (init_declarator
+          (reference_declarator (identifier))
+          (call_expression (template_call (identifier) (type_name (identifier) (abstract_reference_declarator)))))))))
