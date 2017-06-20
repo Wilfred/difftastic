@@ -963,10 +963,6 @@
         },
         {
           "type": "STRING",
-          "value": "auto"
-        },
-        {
-          "type": "STRING",
           "value": "register"
         }
       ]
@@ -1027,6 +1023,10 @@
         {
           "type": "SYMBOL",
           "name": "template_call"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "auto"
         }
       ]
     },
@@ -3379,6 +3379,10 @@
           }
         ]
       }
+    },
+    "auto": {
+      "type": "STRING",
+      "value": "auto"
     },
     "template_call": {
       "type": "SEQ",

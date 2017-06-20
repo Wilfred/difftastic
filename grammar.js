@@ -16,8 +16,16 @@ module.exports = grammar(require("tree-sitter-c/grammar"), {
 
     _type_specifier: ($, original) => choice(
       original,
-      $.template_call
+      $.template_call,
+      $.auto
     ),
+
+    // The `auto` storage class is removed in C++0x in order to allow for the `auto` type.
+    storage_class_specifier: ($, original) => choice(
+      ...original.members.filter(member => member.value !== 'auto')
+    ),
+
+    auto: $ => 'auto',
 
     _expression: ($, original) => choice(
       original,
