@@ -51,6 +51,7 @@ declare module Foo {
       default:
           break;
   }
+  throw "hello";
 }
 
 ---
@@ -121,7 +122,8 @@ declare module Foo {
       (if_statement (true) (statement_block) (expression_statement (object)))
       (expression_statement (number))
       (return_statement)
-      (switch_statement (identifier) (case (number) (break_statement)) (default (break_statement))))))
+      (switch_statement (identifier) (case (number) (break_statement)) (default (break_statement)))
+      (throw_statement (string)))))
 
 ==================================
 Ambient exports
