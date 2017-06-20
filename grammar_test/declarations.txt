@@ -44,6 +44,7 @@ declare module Foo {
   for (;;) { }
   if (true) { } else { }
   1;
+  return;
 }
 
 ---
@@ -113,6 +114,7 @@ declare module Foo {
       (for_statement (expression_statement (object)))
       (if_statement (true) (statement_block) (expression_statement (object)))
       (expression_statement (number))
+      (return_statement)
 
 ==================================
 Ambient exports
