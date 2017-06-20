@@ -449,6 +449,7 @@ module.exports = grammar({
       $.identifier,
       $.number_literal,
       $.string_literal,
+      $.concatenated_string,
       $.char_literal,
       $.parenthesized_expression
     ),
@@ -608,6 +609,11 @@ module.exports = grammar({
       ),
       '\''
     )),
+
+    concatenated_string: $ => seq(
+      $.string_literal,
+      repeat1($.string_literal)
+    ),
 
     string_literal: $ => token(seq(
       '"',
