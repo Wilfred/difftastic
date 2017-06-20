@@ -8,6 +8,11 @@ module.exports = grammar(require("tree-sitter-c/grammar"), {
   ]),
 
   rules: {
+    _top_level_item: ($, original) => choice(
+      original,
+      $.namespace_definition
+    ),
+
     _type_specifier: ($, original) => choice(
       original,
       $.template_call
@@ -26,6 +31,12 @@ module.exports = grammar(require("tree-sitter-c/grammar"), {
         $.parenthesized_expression
       )),
       '>'
+    ),
+
+    namespace_definition: $ => seq(
+      'namespace',
+      optional($.identifier),
+      $.declaration_list
     )
   }
 });

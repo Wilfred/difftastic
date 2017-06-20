@@ -1,0 +1,18 @@
+=========================================
+Namespace definitions
+=========================================
+
+namespace std {
+
+int x;
+
+}  // namespace std
+
+---
+
+(translation_unit
+  (namespace_definition
+    (identifier)
+    (declaration_list
+      (declaration (identifier) (identifier))))
+  (comment))
