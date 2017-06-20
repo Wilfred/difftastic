@@ -64,7 +64,8 @@ module.exports = grammar(require("tree-sitter-c/grammar"), {
     _declarator: ($, original) => choice(
       original,
       $.reference_declarator,
-      $.scoped_identifier
+      $.scoped_identifier,
+      $.operator_name
     ),
 
     function_declarator: ($, original) => seq(
@@ -142,7 +143,28 @@ module.exports = grammar(require("tree-sitter-c/grammar"), {
         $.identifier
       )),
       '::',
-      $.identifier
+      choice(
+        $.identifier,
+        $.operator_name
+      )
+    )),
+
+    operator_name: $ => token(seq(
+      'operator',
+      choice(
+        '+', '-', '*', '/', '%',
+        '^', '&', '|', '~',
+        '!', '=', '<', '>',
+        '+=', '-=', '*=', '/=', '%=', '^=', '&=', '|=',
+        '<<', '>>', '>>=', '<<=',
+        '==', '!=', '<=', '>=',
+        '&&', '||',
+        '++', '--',
+        ',',
+        '->*',
+        '->',
+        '()', '[]'
+      )
     ))
   }
 });

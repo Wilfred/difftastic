@@ -59,3 +59,30 @@ int main() {
           (call_expression
             (template_call (identifier) (type_name (identifier) (abstract_reference_declarator)))
             (argument_list)))))))
+
+=========================================
+Operator overload declarations
+=========================================
+
+ostream &operator<<(ostream &, const A &a);
+
+bool A::operator!=(const A &other) const;
+
+---
+
+(translation_unit
+  (declaration
+    (identifier)
+    (reference_declarator
+      (function_declarator
+        (operator_name)
+        (parameter_type_list
+          (parameter_declaration (identifier) (abstract_reference_declarator))
+          (parameter_declaration (type_qualifier) (identifier) (reference_declarator (identifier)))))))
+  (declaration
+    (identifier)
+    (function_declarator
+      (scoped_identifier (identifier) (operator_name))
+      (parameter_type_list
+        (parameter_declaration (type_qualifier) (identifier) (reference_declarator (identifier))))
+      (type_qualifier))))
