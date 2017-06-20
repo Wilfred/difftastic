@@ -16,8 +16,9 @@ int main() {
     (expression_statement (relational_expression (relational_expression (identifier) (identifier)) (number_literal)))
     (expression_statement (call_expression
       (template_call (identifier) (type_name (identifier)) (type_name (identifier)))
-      (number_literal)
-      (number_literal))))))
+      (argument_list
+        (number_literal)
+        (number_literal)))))))
 
 ================================================
 template classes vs relational expressions

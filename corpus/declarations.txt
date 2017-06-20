@@ -56,4 +56,6 @@ int main() {
         (identifier)
         (init_declarator
           (reference_declarator (identifier))
-          (call_expression (template_call (identifier) (type_name (identifier) (abstract_reference_declarator)))))))))
+          (call_expression
+            (template_call (identifier) (type_name (identifier) (abstract_reference_declarator)))
+            (argument_list)))))))

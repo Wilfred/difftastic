@@ -1,0 +1,41 @@
+=====================================
+Scoped function definitions
+=====================================
+
+int T::foo() { return 1; }
+int T::foo() const { return 0; }
+
+---
+
+(translation_unit
+  (function_definition
+    (identifier)
+    (function_declarator (scoped_identifier (identifier) (identifier)))
+    (compound_statement (return_statement (number_literal))))
+  (function_definition
+    (identifier)
+    (function_declarator (scoped_identifier (identifier) (identifier)) (type_qualifier))
+    (compound_statement (return_statement (number_literal)))))
+
+=====================================
+Constructor definitions
+=====================================
+
+T::T() {}
+
+T::T() : f1(0), f2(1, 2) {
+  puts("HI");
+}
+
+---
+
+(translation_unit
+  (constructor_definition
+    (function_declarator (scoped_identifier (identifier) (identifier)))
+    (compound_statement))
+  (constructor_definition
+    (function_declarator (scoped_identifier (identifier) (identifier)))
+    (member_initializer_list
+      (member_initializer (identifier) (argument_list (number_literal)))
+      (member_initializer (identifier) (argument_list (number_literal) (number_literal))))
+    (compound_statement (expression_statement (call_expression (identifier) (argument_list (string_literal)))))))

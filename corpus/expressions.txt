@@ -14,5 +14,6 @@ int main() {
   (compound_statement
     (expression_statement (call_expression
       (scoped_identifier (identifier) (identifier))
-      (string_literal)
-      (string_literal))))))
+      (argument_list
+        (string_literal)
+        (string_literal)))))))

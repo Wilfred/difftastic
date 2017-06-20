@@ -5,14 +5,23 @@ module.exports = grammar(require("tree-sitter-c/grammar"), {
     // foo < b
     //  ^-- template name or expression?
     [$.template_call, $._expression],
+
+    [$._declarator, $._type_specifier],
+    [$._declarator, $._type_specifier, $._expression],
+    [$._declarator, $._type_specifier, $.macro_type_specifier],
+    [$._declarator, $._type_specifier, $._expression, $.macro_type_specifier],
+    [$._declarator, $._expression],
   ]),
 
   rules: {
     _top_level_item: ($, original) => choice(
       original,
       $.namespace_definition,
-      $.using_declaration
+      $.using_declaration,
+      $.constructor_definition
     ),
+
+    // Types
 
     _type_specifier: ($, original) => choice(
       original,
@@ -28,17 +37,41 @@ module.exports = grammar(require("tree-sitter-c/grammar"), {
 
     auto: $ => 'auto',
 
-    _expression: ($, original) => choice(
-      original,
-      $.template_call,
-      $.scoped_identifier
+    // Declarations
+
+    constructor_definition: $ => seq(
+      $.function_declarator,
+      optional($.member_initializer_list),
+      $.compound_statement
     ),
 
-    // Declarators
+    member_initializer_list: $ => seq(
+      ':',
+      commaSep1($.member_initializer)
+    ),
+
+    member_initializer: $ => seq(
+      choice(
+        $.identifier,
+        $.scoped_identifier
+      ),
+      choice(
+        $.initializer_list,
+        $.argument_list
+      )
+    ),
 
     _declarator: ($, original) => choice(
       original,
-      $.reference_declarator
+      $.reference_declarator,
+      $.scoped_identifier
+    ),
+
+    function_declarator: ($, original) => seq(
+      original,
+      repeat(choice(
+        $.type_qualifier
+      ))
     ),
 
     _abstract_declarator: ($, original) => choice(
@@ -69,15 +102,6 @@ module.exports = grammar(require("tree-sitter-c/grammar"), {
       '>'
     ),
 
-    return_statement: ($, original) => choice(
-      original,
-      seq(
-        'return',
-        $.initializer_list,
-        ';'
-      )
-    ),
-
     namespace_definition: $ => seq(
       'namespace',
       optional($.identifier),
@@ -93,14 +117,33 @@ module.exports = grammar(require("tree-sitter-c/grammar"), {
       ';'
     ),
 
-    scoped_identifier: $ => seq(
+    // Statements
+
+    return_statement: ($, original) => choice(
+      original,
+      seq(
+        'return',
+        $.initializer_list,
+        ';'
+      )
+    ),
+
+    // Expressions
+
+    _expression: ($, original) => choice(
+      original,
+      $.template_call,
+      $.scoped_identifier
+    ),
+
+    scoped_identifier: $ => prec(1, seq(
       optional(choice(
         $.scoped_identifier,
         $.identifier
       )),
       '::',
       $.identifier
-    )
+    ))
   }
 });
 
