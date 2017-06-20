@@ -394,6 +394,7 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
         $.break_statement,
         $.continue_statement,
         $.debugger_statement,
+        $.do_statement,
         ambientDeclaration($),
         $._declaration,
         $.empty_statement

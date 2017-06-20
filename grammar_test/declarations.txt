@@ -39,6 +39,7 @@ declare module Foo {
   break;
   continue;
   debugger;
+  do { } while (true);
 }
 
 ---
@@ -102,7 +103,8 @@ declare module Foo {
       (identifier)
       (break_statement)
       (continue_statement)
-      (debugger_statement))))
+      (debugger_statement)
+      (do_statement (statement_block) (true)))))
 
 ==================================
 Ambient exports

@@ -5194,6 +5194,10 @@
                 "name": "debugger_statement"
               },
               {
+                "type": "SYMBOL",
+                "name": "do_statement"
+              },
+              {
                 "type": "CHOICE",
                 "members": [
                   {
