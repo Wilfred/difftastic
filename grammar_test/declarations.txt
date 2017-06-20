@@ -53,6 +53,7 @@ declare module Foo {
   }
   throw "hello";
   try { }
+  catch (e) { }
 }
 
 ---
@@ -125,7 +126,9 @@ declare module Foo {
       (return_statement)
       (switch_statement (identifier) (case (number) (break_statement)) (default (break_statement)))
       (throw_statement (string))
-      (try_statement (statement_block)))))
+      (try_statement
+        (statement_block)
+        (catch (identifier) (statement_block))))))
 
 ==================================
 Ambient exports
