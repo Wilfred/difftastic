@@ -389,22 +389,7 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
 
     _module_body: $ => seq(
       '{',
-      repeat(choice(
-        $.import_alias,
-        $.import_statement,
-        $.export_statement,
-        $.break_statement,
-        $.continue_statement,
-        $.debugger_statement,
-        $.do_statement,
-        $.for_statement,
-        $.for_in_statement,
-        $._declaration,
-        $.if_statement,
-        ambientDeclaration($),
-        $.number,
-        $.empty_statement
-      )),
+      repeat($._statement),
       '}'
     ),
 

@@ -112,7 +112,7 @@ declare module Foo {
       (for_in_statement (identifier) (null) (expression_statement (object)))
       (for_statement (expression_statement (object)))
       (if_statement (true) (statement_block) (expression_statement (object)))
-      (number) (empty_statement))))
+      (expression_statement (number)))))
 
 ==================================
 Ambient exports
@@ -190,7 +190,7 @@ module C {
 ---
 
 (program
-  (module (identifier) (import_alias (identifier) (identifier) (identifier))))
+  (module (identifier) (expression_statement (import_alias (identifier) (identifier) (identifier)))))
 
 ==================================
 Export import aliases
