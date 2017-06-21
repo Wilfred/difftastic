@@ -228,20 +228,16 @@ module.exports = grammar({
     array_declarator: $ => prec(1, seq(
       $._declarator,
       '[',
-      choice(
-        seq(optional('static'), repeat($.type_qualifier), optional($._expression)),
-        seq(repeat($.type_qualifier), 'static', $._expression)
-      ),
+      optional($._declaration_specifiers),
+      optional($._expression),
       ']'
     )),
 
     abstract_array_declarator: $ => prec(1, seq(
       optional($._abstract_declarator),
       '[',
-      choice(
-        seq(optional('static'), repeat($.type_qualifier), optional($._expression)),
-        seq(repeat($.type_qualifier), 'static', $._expression)
-      ),
+      optional($._declaration_specifiers),
+      optional($._expression),
       ']'
     )),
 
@@ -339,7 +335,7 @@ module.exports = grammar({
     ),
 
     member_declaration: $ => seq(
-      repeat($.type_qualifier),
+      optional($._declaration_specifiers),
       $._type_specifier,
       commaSep($._declarator),
       optional(seq(':', $._expression)),
