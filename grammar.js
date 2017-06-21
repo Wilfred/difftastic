@@ -111,6 +111,14 @@ module.exports = grammar(C, {
       )
     ),
 
+    parameter_declaration: ($, original) => choice(
+      original,
+      seq(
+        $._declaration_specifiers,
+        $.init_declarator
+      )
+    ),
+
     member_initializer_list: $ => seq(
       ':',
       commaSep1($.member_initializer)

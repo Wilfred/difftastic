@@ -1522,30 +1522,48 @@
       ]
     },
     "parameter_declaration": {
-      "type": "SEQ",
+      "type": "CHOICE",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "_declaration_specifiers"
-        },
-        {
-          "type": "CHOICE",
+          "type": "SEQ",
           "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_declaration_specifiers"
+            },
             {
               "type": "CHOICE",
               "members": [
                 {
-                  "type": "SYMBOL",
-                  "name": "_declarator"
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "SYMBOL",
+                      "name": "_declarator"
+                    },
+                    {
+                      "type": "SYMBOL",
+                      "name": "_abstract_declarator"
+                    }
+                  ]
                 },
                 {
-                  "type": "SYMBOL",
-                  "name": "_abstract_declarator"
+                  "type": "BLANK"
                 }
               ]
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_declaration_specifiers"
             },
             {
-              "type": "BLANK"
+              "type": "SYMBOL",
+              "name": "init_declarator"
             }
           ]
         }
@@ -4595,13 +4613,8 @@
   ],
   "conflicts": [
     [
-      "_type_specifier",
+      "_declarator",
       "_expression"
-    ],
-    [
-      "_type_specifier",
-      "_expression",
-      "macro_type_specifier"
     ],
     [
       "_declarator",
@@ -4610,12 +4623,17 @@
     ],
     [
       "_declarator",
-      "_expression"
+      "_expression",
+      "_type_specifier",
+      "macro_type_specifier"
     ],
     [
-      "_declarator",
-      "_type_specifier",
       "_expression",
+      "_type_specifier"
+    ],
+    [
+      "_expression",
+      "_type_specifier",
       "macro_type_specifier"
     ],
     [

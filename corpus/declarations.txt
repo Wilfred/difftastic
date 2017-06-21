@@ -93,7 +93,7 @@ struct S {
       (compound_statement (return_statement (identifier)))))))
 
 =========================================
-Constructor and destructor declarations;
+Constructor and destructor declarations
 =========================================
 
 class C {
@@ -116,6 +116,23 @@ class C {
       (parameter_declaration (identifier))
       (parameter_declaration (identifier)))))
     (member_declaration (function_declarator (destructor_name (identifier)))))))
+
+=========================================
+Function parameters with default values
+=========================================
+
+int foo(bool x = 5) {}
+
+---
+
+(translation_unit
+  (function_definition
+    (identifier)
+    (function_declarator
+      (identifier)
+      (parameter_type_list
+        (parameter_declaration (identifier) (init_declarator (identifier) (number_literal)))))
+    (compound_statement)))
 
 =========================================
 Operator overload declarations
