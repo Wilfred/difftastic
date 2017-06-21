@@ -39,6 +39,7 @@ module.exports = grammar(C, {
       original,
       $.namespace_definition,
       $.using_declaration,
+      $.alias_declaration,
       $.template_declaration
     ),
 
@@ -192,6 +193,14 @@ module.exports = grammar(C, {
         $.identifier,
         $.scoped_identifier
       ),
+      ';'
+    ),
+
+    alias_declaration: $ => seq(
+      'using',
+      $.identifier,
+      '=',
+      $.type_name,
       ';'
     ),
 

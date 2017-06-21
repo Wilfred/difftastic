@@ -25,6 +25,7 @@ using a;
 using ::b;
 using c::d;
 using ::e::f::g;
+using h = i::j;
 
 ---
 
@@ -35,7 +36,10 @@ using ::e::f::g;
   (using_declaration
     (scoped_identifier
       (scoped_identifier (scoped_identifier (identifier)) (identifier))
-      (identifier))))
+      (identifier)))
+  (alias_declaration
+    (identifier)
+    (type_name (scoped_identifier (identifier) (identifier)))))
 
 =========================================
 Reference declarations
