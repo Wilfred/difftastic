@@ -3082,6 +3082,10 @@
                 },
                 {
                   "type": "SYMBOL",
+                  "name": "template_call"
+                },
+                {
+                  "type": "SYMBOL",
                   "name": "scoped_identifier"
                 }
               ]

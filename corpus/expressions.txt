@@ -23,6 +23,7 @@ Compound literals without parentheses
 =================================================
 
 T x = T{0};
+U<V> y = U<V>{0};
 
 ---
 
@@ -31,7 +32,16 @@ T x = T{0};
     (identifier)
     (init_declarator
       (identifier)
-      (compound_literal_expression (identifier) (initializer_list (number_literal))))))
+      (compound_literal_expression
+        (identifier)
+        (initializer_list (number_literal)))))
+  (declaration
+    (template_call (identifier) (type_name (identifier)))
+    (init_declarator
+      (identifier)
+      (compound_literal_expression
+        (template_call (identifier) (type_name (identifier)))
+        (initializer_list (number_literal))))))
 
 =================================================
 Explicit destructor calls

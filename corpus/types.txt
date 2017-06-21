@@ -20,8 +20,16 @@ Namespaced types
 ==========================================
 
 std::string my_string;
+std::vector<int>::size_typ my_string;
 
 ---
 
 (translation_unit
-  (declaration (scoped_identifier (identifier) (identifier)) (identifier)))
+  (declaration
+    (scoped_identifier (identifier) (identifier))
+    (identifier))
+  (declaration
+    (scoped_identifier
+      (template_call (scoped_identifier (identifier) (identifier)) (type_name (identifier)))
+      (identifier))
+    (identifier)))

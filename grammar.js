@@ -306,6 +306,7 @@ module.exports = grammar(C, {
       seq(
         choice(
           $.identifier,
+          $.template_call,
           $.scoped_identifier
         ),
         $.initializer_list
