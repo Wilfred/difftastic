@@ -129,8 +129,7 @@ module.exports = grammar({
 
     preproc_if: $ => seq(
       '#if',
-      $._expression,
-      '\n',
+      $.preproc_arg,
       repeat($._top_level_item),
       optional($.preproc_else),
       '#endif'

@@ -107,9 +107,7 @@ General if blocks
 
 (translation_unit
   (preproc_if
-    (logical_expression
-      (call_expression (identifier) (argument_list (identifier)))
-      (call_expression (identifier) (argument_list (identifier))))
+    (preproc_arg)
     (preproc_def (identifier) (preproc_arg))))
 
 ============================================
@@ -131,7 +129,7 @@ int main() {
     (identifier)
     (function_declarator (identifier))
     (compound_statement
-      (preproc_if (identifier)
+      (preproc_if (preproc_arg)
         (return_statement (number_literal))
         (preproc_else
           (return_statement (number_literal)))))))
