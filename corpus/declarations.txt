@@ -93,6 +93,31 @@ struct S {
       (compound_statement (return_statement (identifier)))))))
 
 =========================================
+Constructor and destructor declarations;
+=========================================
+
+class C {
+  void *data_;
+
+ public:
+  C();
+  C(int, float);
+  ~C();
+};
+
+---
+
+(translation_unit
+  (class_specifier (identifier) (member_declaration_list
+    (member_declaration (identifier) (pointer_declarator (identifier)))
+    (access_specifier)
+    (member_declaration (function_declarator (identifier)))
+    (member_declaration (function_declarator (identifier) (parameter_type_list
+      (parameter_declaration (identifier))
+      (parameter_declaration (identifier)))))
+    (member_declaration (function_declarator (destructor_name (identifier)))))))
+
+=========================================
 Operator overload declarations
 =========================================
 

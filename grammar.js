@@ -32,6 +32,9 @@ module.exports = grammar(C, {
     [$._declarator, $._expression],
     [$._declarator, $._type_specifier, $._expression],
     [$._declarator, $._type_specifier, $._expression, $.macro_type_specifier],
+
+    [$._declarator, $.compound_literal_expression],
+    [$._declarator, $.labeled_statement],
   ]),
 
   rules: {
@@ -99,8 +102,11 @@ module.exports = grammar(C, {
     function_definition: ($, original) => choice(
       original,
       seq(
-        $.function_declarator,
-        optional($.member_initializer_list),
+        optional($._declaration_specifiers),
+        prec(1, seq(
+          $._declarator,
+          $.member_initializer_list
+        )),
         $.compound_statement
       )
     ),
@@ -110,7 +116,7 @@ module.exports = grammar(C, {
       commaSep1($.member_initializer)
     ),
 
-    member_initializer: $ => seq(
+    member_initializer: $ => prec(1, seq(
       choice(
         $.identifier,
         $.scoped_identifier
@@ -119,7 +125,7 @@ module.exports = grammar(C, {
         $.initializer_list,
         $.argument_list
       )
-    ),
+    )),
 
     member_declaration_list: $ => seq(
       '{',
@@ -250,8 +256,7 @@ module.exports = grammar(C, {
     ),
 
     for_range_declaration: $ => seq(
-      optional($._declaration_specifiers),
-      $._type_specifier,
+      $._declaration_specifiers,
       $._declarator
     ),
 
