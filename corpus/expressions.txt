@@ -64,7 +64,7 @@ int main() {
   auto a = new T();
   auto b = new U::V{};
   auto c = new (&d) T();
-  auto c = new T[]();
+  auto c = new T[5][3]();
   delete a;
   ::delete[] c;
 }
@@ -95,7 +95,10 @@ int main() {
         (auto)
         (init_declarator
           (identifier)
-          (new_expression (identifier) (abstract_array_declarator) (argument_list))))
+          (new_expression
+            (identifier)
+            (new_declarator (number_literal) (new_declarator (number_literal)))
+            (argument_list))))
       (expression_statement (delete_expression (identifier)))
       (expression_statement (delete_expression (identifier))))))
 
@@ -117,3 +120,25 @@ int main() {
       (expression_statement (call_expression
         (field_expression (identifier) (identifier))
         (argument_list (initializer_list (identifier) (identifier))))))))
+
+====================================================
+Lambda expressions
+====================================================
+
+auto f = [&](int x) -> bool {
+  return true;
+};
+
+---
+
+(translation_unit
+  (declaration
+    (auto)
+    (init_declarator
+      (identifier)
+      (lambda_expression
+        (lambda_capture_specifier (lambda_default_capture))
+        (abstract_function_declarator
+          (parameter_type_list (parameter_declaration (identifier) (identifier)))
+          (trailing_return_type (identifier)))
+        (compound_statement (return_statement (identifier)))))))

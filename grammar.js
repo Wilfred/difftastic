@@ -1,27 +1,37 @@
 const C = require("tree-sitter-c/grammar")
 
-const PREC = C.PREC;
+const PREC = Object.assign(C.PREC, {
+  LAMBDA: 18
+})
 
 module.exports = grammar(C, {
   name: 'cpp',
 
   conflicts: ($, original) => original.concat([
-    // foo < b
-    //  ^-- template name or expression?
+    // foo < bar
+    //  ^
+    // This could be:
+    //   * a template name in a declaration:
+    //       vector<int> x;
+    //   * the name of a variable being compared:
+    //       a < b ? a : b;
     [$.template_call, $._expression],
+    [$.template_call, $.field_expression],
 
-    // A::A (b) ...
-    //   ^-- constructor definition, return type of function w/ parenthesized name,
-    //       or function call?
-    [$._declarator, $._type_specifier],
-    [$._declarator, $._type_specifier, $._expression],
-
-    // A (b)
-    // ^-- constructor definition, return type of function w/ parenthesized name,
-    //     function call, or macro that defines a type?
-    [$._declarator, $._type_specifier, $.macro_type_specifier],
-    [$._declarator, $._type_specifier, $._expression, $.macro_type_specifier],
+    // Foo (b) ...
+    //  ^
+    // This could be:
+    //   * the constructor name in a constructor definition:
+    //       Foo() {}
+    //   * the name of a function being called:
+    //       Foo("hi");
+    //   * the type name in a declaration with a parenthesized name:
+    //       Foo (x) = 1;
+    //   * the name of a macro that defines a type:
+    //       Array(int) x;
     [$._declarator, $._expression],
+    [$._declarator, $._type_specifier, $._expression],
+    [$._declarator, $._type_specifier, $._expression, $.macro_type_specifier],
   ]),
 
   rules: {
@@ -114,9 +124,25 @@ module.exports = grammar(C, {
       original,
       repeat(choice(
         $.type_qualifier,
-        $.noexcept
+        $.noexcept,
+        $.trailing_return_type
       ))
     ),
+
+    abstract_function_declarator: ($, original) => prec.right(seq(
+      original,
+      repeat(choice(
+        $.type_qualifier,
+        $.noexcept
+      )),
+      optional($.trailing_return_type)
+    )),
+
+    trailing_return_type: $ => prec.right(seq(
+      '->',
+      $._type_specifier,
+      optional($._abstract_declarator)
+    )),
 
     noexcept: $ => 'noexcept',
 
@@ -124,6 +150,12 @@ module.exports = grammar(C, {
       original,
       $.abstract_reference_declarator
     ),
+
+    // When used in a trailing return type, these specifiers can now occur immediately before
+    // a compound statement. This introduces a conflict
+    union_specifier: ($, original) => prec.left(original),
+    struct_specifier: ($, original) => prec.left(original),
+    enum_specifier: ($, original) => prec.left(original),
 
     reference_declarator: $ => prec.right(seq(
       '&',
@@ -202,7 +234,8 @@ module.exports = grammar(C, {
       $.template_call,
       $.scoped_identifier,
       $.new_expression,
-      $.delete_expression
+      $.delete_expression,
+      $.lambda_expression
     ),
 
     new_expression: $ => seq(
@@ -212,11 +245,18 @@ module.exports = grammar(C, {
         $.identifier,
         $.scoped_identifier
       ),
-      optional($._abstract_declarator),
+      optional($.new_declarator),
       choice(
         $.argument_list,
         $.initializer_list
       )
+    ),
+
+    new_declarator: $ => seq(
+      '[',
+      $._expression,
+      ']',
+      optional($.new_declarator)
     ),
 
     delete_expression: $ => seq(
@@ -228,9 +268,31 @@ module.exports = grammar(C, {
 
     field_expression: ($, original) => choice(
       original,
-      prec.left(PREC.FIELD, seq($._expression, '.', $.destructor_name)),
-      prec.left(PREC.FIELD, seq($._expression, '->', $.destructor_name))
+      seq(
+        prec(PREC.FIELD, seq(
+          $._expression,
+          choice('.', '->')
+        )),
+        choice($.destructor_name, $.template_call)
+      )
     ),
+
+    lambda_expression: $ => seq(
+      $.lambda_capture_specifier,
+      $.abstract_function_declarator,
+      $.compound_statement
+    ),
+
+    lambda_capture_specifier: $ => prec(PREC.LAMBDA, seq(
+      '[',
+      choice(
+        $.lambda_default_capture,
+        commaSep($._expression)
+      ),
+      ']'
+    )),
+
+    lambda_default_capture: $ => choice('=', '&'),
 
     argument_list: $ => seq('(', commaSep(choice($._expression, $.initializer_list)), ')'),
 
@@ -253,7 +315,8 @@ module.exports = grammar(C, {
     scoped_identifier: $ => prec(1, seq(
       optional(choice(
         $.scoped_identifier,
-        $.identifier
+        $.identifier,
+        $.template_call
       )),
       '::',
       choice(
