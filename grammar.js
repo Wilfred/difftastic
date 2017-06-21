@@ -47,10 +47,22 @@ module.exports = grammar(C, {
 
     _type_specifier: ($, original) => choice(
       original,
+      $.class_specifier,
       $.scoped_identifier,
       $.template_call,
       $.auto
     ),
+
+    class_specifier: $ => prec.left(seq(
+      'class',
+      choice(
+        $.identifier,
+        seq(
+          optional($.identifier),
+          $.member_declaration_list
+        )
+      )
+    )),
 
     // The `auto` storage class is removed in C++0x in order to allow for the `auto` type.
     storage_class_specifier: ($, original) => choice(
@@ -80,10 +92,7 @@ module.exports = grammar(C, {
     ),
 
     type_parameter_declaration: $ => seq(
-      choice(
-        'class',
-        'typename'
-      ),
+      'typename',
       $.identifier
     ),
 
@@ -110,6 +119,25 @@ module.exports = grammar(C, {
         $.initializer_list,
         $.argument_list
       )
+    ),
+
+    member_declaration_list: $ => seq(
+      '{',
+      repeat(choice(
+        $.member_declaration,
+        $.function_definition,
+        $.access_specifier
+      )),
+      '}'
+    ),
+
+    access_specifier: $ => seq(
+      choice(
+        'public',
+        'private',
+        'protected'
+      ),
+      ':'
     ),
 
     _declarator: ($, original) => choice(

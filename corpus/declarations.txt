@@ -65,6 +65,34 @@ int main() {
             (argument_list)))))))
 
 =========================================
+Inline method definitions
+=========================================
+
+struct S {
+  int f;
+
+  S() : f(0) {}
+
+ private:
+  int getF() const { return f; }
+};
+
+---
+
+(translation_unit
+  (struct_specifier (identifier) (member_declaration_list
+    (member_declaration (identifier) (identifier))
+    (function_definition
+      (function_declarator (identifier))
+      (member_initializer_list (member_initializer (identifier) (argument_list (number_literal))))
+      (compound_statement))
+    (access_specifier)
+    (function_definition
+      (identifier)
+      (function_declarator (identifier) (type_qualifier))
+      (compound_statement (return_statement (identifier)))))))
+
+=========================================
 Operator overload declarations
 =========================================
 
