@@ -14,7 +14,7 @@
   },
   "devDependencies": {
     "tree-sitter-cli": "^0.5.3",
-    "tree-sitter-c": "^0.2.1"
+    "tree-sitter-c": "^0.2.4"
   },
   "scripts": {
     "test": "tree-sitter test && tree-sitter parse examples/* --quiet --time"

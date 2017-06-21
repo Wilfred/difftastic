@@ -26,6 +26,7 @@ using ::b;
 using c::d;
 using ::e::f::g;
 using h = i::j;
+using namespace std;
 
 ---
 
@@ -39,7 +40,8 @@ using h = i::j;
       (identifier)))
   (alias_declaration
     (identifier)
-    (type_name (scoped_identifier (identifier) (identifier)))))
+    (type_name (scoped_identifier (identifier) (identifier))))
+  (using_declaration (identifier)))
 
 =========================================
 Reference declarations
@@ -224,6 +226,9 @@ Template specializations
 template <>
 void foo<T>(T &t);
 
+template <>
+struct foo::bar<T> {};
+
 ---
 
 (translation_unit
@@ -233,4 +238,9 @@ void foo<T>(T &t);
       (identifier)
       (function_declarator
         (template_call (identifier) (type_name (identifier)))
-        (parameter_type_list (parameter_declaration (identifier) (reference_declarator (identifier))))))))
+        (parameter_type_list (parameter_declaration (identifier) (reference_declarator (identifier)))))))
+  (template_declaration
+    (template_parameter_list)
+    (struct_specifier
+      (template_call (scoped_identifier (identifier) (identifier)) (type_name (identifier)))
+      (member_declaration_list))))

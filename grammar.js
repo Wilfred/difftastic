@@ -62,16 +62,55 @@ module.exports = grammar(C, {
       'friend'
     ),
 
+    // When used in a trailing return type, these specifiers can now occur immediately before
+    // a compound statement. This introduces a shift/reduce conflict that needs to be resolved
+    // with an associativity.
     class_specifier: $ => prec.left(seq(
       'class',
       choice(
         $.identifier,
         seq(
-          optional($.identifier),
+          optional(choice(
+            $.identifier,
+            $.scoped_identifier,
+            $.template_call
+          )),
           $.member_declaration_list
         )
       )
     )),
+
+    union_specifier: $ => prec.left(seq(
+      'union',
+      choice(
+        $.identifier,
+        seq(
+          optional(choice(
+            $.identifier,
+            $.scoped_identifier,
+            $.template_call
+          )),
+          $.member_declaration_list
+        )
+      )
+    )),
+
+    struct_specifier: $ => prec.left(seq(
+      'struct',
+      choice(
+        $.identifier,
+        seq(
+          optional(choice(
+            $.identifier,
+            $.scoped_identifier,
+            $.template_call
+          )),
+          $.member_declaration_list
+        )
+      )
+    )),
+
+    enum_specifier: ($, original) => prec.left(original),
 
     // The `auto` storage class is removed in C++0x in order to allow for the `auto` type.
     storage_class_specifier: ($, original) => choice(
@@ -204,12 +243,6 @@ module.exports = grammar(C, {
       $.abstract_reference_declarator
     ),
 
-    // When used in a trailing return type, these specifiers can now occur immediately before
-    // a compound statement. This introduces a conflict
-    union_specifier: ($, original) => prec.left(original),
-    struct_specifier: ($, original) => prec.left(original),
-    enum_specifier: ($, original) => prec.left(original),
-
     reference_declarator: $ => prec.right(seq(
       '&',
       $._declarator
@@ -241,6 +274,7 @@ module.exports = grammar(C, {
 
     using_declaration: $ => seq(
       'using',
+      optional('namespace'),
       choice(
         $.identifier,
         $.scoped_identifier

@@ -1295,8 +1295,21 @@
                     "type": "CHOICE",
                     "members": [
                       {
-                        "type": "SYMBOL",
-                        "name": "identifier"
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "SYMBOL",
+                            "name": "identifier"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "scoped_identifier"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "template_call"
+                          }
+                        ]
                       },
                       {
                         "type": "BLANK"
@@ -1338,8 +1351,21 @@
                     "type": "CHOICE",
                     "members": [
                       {
-                        "type": "SYMBOL",
-                        "name": "identifier"
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "SYMBOL",
+                            "name": "identifier"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "scoped_identifier"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "template_call"
+                          }
+                        ]
                       },
                       {
                         "type": "BLANK"
@@ -3674,8 +3700,21 @@
                     "type": "CHOICE",
                     "members": [
                       {
-                        "type": "SYMBOL",
-                        "name": "identifier"
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "SYMBOL",
+                            "name": "identifier"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "scoped_identifier"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "template_call"
+                          }
+                        ]
                       },
                       {
                         "type": "BLANK"
@@ -4074,6 +4113,18 @@
         {
           "type": "STRING",
           "value": "using"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "namespace"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         },
         {
           "type": "CHOICE",
