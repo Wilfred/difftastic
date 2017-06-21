@@ -13,9 +13,9 @@ struct s2 {
 
 (translation_unit
   (struct_specifier (identifier))
-  (struct_specifier (identifier)
-    (struct_declaration (identifier) (identifier))
-    (struct_declaration (identifier) (identifier) (number_literal))))
+  (struct_specifier (identifier) (member_declaration_list
+    (member_declaration (identifier) (identifier))
+    (member_declaration (identifier) (identifier) (number_literal)))))
 
 ============================================
 Union declarations
@@ -32,9 +32,9 @@ union s2 {
 
 (translation_unit
   (union_specifier (identifier))
-  (union_specifier (identifier)
-    (struct_declaration (identifier) (identifier))
-    (struct_declaration (identifier) (identifier))))
+  (union_specifier (identifier) (member_declaration_list
+    (member_declaration (identifier) (identifier))
+    (member_declaration (identifier) (identifier)))))
 
 ============================================
 Enum declarations
@@ -120,7 +120,7 @@ enum { g, h } i;
     (struct_specifier (identifier))
     (identifier))
   (declaration
-    (union_specifier (struct_declaration (identifier) (identifier)))
+    (union_specifier (member_declaration_list (member_declaration (identifier) (identifier))))
     (identifier))
   (declaration
     (enum_specifier (enumerator (identifier)) (enumerator (identifier)))
@@ -156,7 +156,7 @@ typedef struct {
   (declaration (storage_class_specifier) (identifier) (identifier))
   (declaration
     (storage_class_specifier)
-    (struct_specifier (struct_declaration (identifier) (identifier)))
+    (struct_specifier (member_declaration_list (member_declaration (identifier) (identifier))))
     (pointer_declarator (identifier))))
 
 ============================================
@@ -246,4 +246,3 @@ extern "C" {
       (declaration
         (identifier)
         (function_declarator (identifier))))))
-

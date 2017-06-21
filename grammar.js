@@ -316,9 +316,7 @@ module.exports = grammar({
         $.identifier,
         seq(
           optional($.identifier),
-          '{',
-          repeat($.struct_declaration),
-          '}'
+          $.member_declaration_list
         )
       )
     ),
@@ -329,14 +327,18 @@ module.exports = grammar({
         $.identifier,
         seq(
           optional($.identifier),
-          '{',
-          repeat($.struct_declaration),
-          '}'
+          $.member_declaration_list
         )
       )
     ),
 
-    struct_declaration: $ => seq(
+    member_declaration_list: $ => seq(
+      '{',
+      repeat($.member_declaration),
+      '}'
+    ),
+
+    member_declaration: $ => seq(
       repeat($.type_qualifier),
       $._type_specifier,
       commaSep($._declarator),
@@ -414,7 +416,10 @@ module.exports = grammar({
         'default'
       ),
       ':',
-      $._statement
+      choice(
+        $._statement,
+        $.declaration
+      )
     ),
 
     while_statement: $ => seq(
