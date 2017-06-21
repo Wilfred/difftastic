@@ -614,7 +614,11 @@ Bitwise operators
 ============================================
 
 i >> j;
+i >>= j;
+i >>> j;
+i >>>= j;
 i << j;
+i <<= j;
 i & j;
 i | j;
 ~i ^ ~j
@@ -622,6 +626,10 @@ i | j;
 ---
 
 (program
+  (expression_statement (bitwise_op (identifier) (identifier)))
+  (expression_statement (bitwise_op (identifier) (identifier)))
+  (expression_statement (bitwise_op (identifier) (identifier)))
+  (expression_statement (bitwise_op (identifier) (identifier)))
   (expression_statement (bitwise_op (identifier) (identifier)))
   (expression_statement (bitwise_op (identifier) (identifier)))
   (expression_statement (bitwise_op (identifier) (identifier)))

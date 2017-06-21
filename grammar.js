@@ -603,7 +603,11 @@ module.exports = grammar({
     bitwise_op: $ => choice(
       prec.left(PREC.NOT, seq('~', $._expression)),
       prec.left(PREC.TIMES, seq($._expression, '>>', $._expression)),
+      prec.left(PREC.TIMES, seq($._expression, '>>=', $._expression)),
+      prec.left(PREC.TIMES, seq($._expression, '>>>', $._expression)),
+      prec.left(PREC.TIMES, seq($._expression, '>>>=', $._expression)),
       prec.left(PREC.TIMES, seq($._expression, '<<', $._expression)),
+      prec.left(PREC.TIMES, seq($._expression, '<<=', $._expression)),
       prec.left(PREC.AND, seq($._expression, '&', $._expression)),
       prec.left(PREC.OR, seq($._expression, '^', $._expression)),
       prec.left(PREC.OR, seq($._expression, '|', $._expression))
