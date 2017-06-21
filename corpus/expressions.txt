@@ -280,6 +280,7 @@ int main() {
   sizeof x.a;
   sizeof(x.a);
   sizeof(const char **);
+  sizeof(char * ());
 }
 
 ---
@@ -292,7 +293,9 @@ int main() {
       (expression_statement (sizeof_expression (field_expression (identifier) (identifier))))
       (expression_statement (sizeof_expression (parenthesized_expression (field_expression (identifier) (identifier)))))
       (expression_statement (sizeof_expression
-        (type_name (type_qualifier) (identifier) (abstract_pointer_declarator (abstract_pointer_declarator))))))))
+        (type_name (type_qualifier) (identifier) (abstract_pointer_declarator (abstract_pointer_declarator)))))
+      (expression_statement (sizeof_expression
+        (type_name (identifier) (abstract_pointer_declarator (abstract_function_declarator))))))))
 
 ============================================
 Compound literals

@@ -689,8 +689,16 @@
         "type": "SEQ",
         "members": [
           {
-            "type": "SYMBOL",
-            "name": "_abstract_declarator"
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "_abstract_declarator"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
           },
           {
             "type": "STRING",
@@ -2704,10 +2712,10 @@
       ]
     },
     "field_expression": {
-      "type": "CHOICE",
+      "type": "SEQ",
       "members": [
         {
-          "type": "PREC_LEFT",
+          "type": "PREC",
           "value": 15,
           "content": {
             "type": "SEQ",
@@ -2717,36 +2725,24 @@
                 "name": "_expression"
               },
               {
-                "type": "STRING",
-                "value": "."
-              },
-              {
-                "type": "SYMBOL",
-                "name": "identifier"
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "STRING",
+                    "value": "."
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "->"
+                  }
+                ]
               }
             ]
           }
         },
         {
-          "type": "PREC_LEFT",
-          "value": 15,
-          "content": {
-            "type": "SEQ",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "_expression"
-              },
-              {
-                "type": "STRING",
-                "value": "->"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "identifier"
-              }
-            ]
-          }
+          "type": "SYMBOL",
+          "name": "identifier"
         }
       ]
     },
@@ -3349,10 +3345,6 @@
       "_expression"
     ],
     [
-      "sizeof_expression",
-      "cast_expression"
-    ],
-    [
       "_type_specifier",
       "_expression",
       "macro_type_specifier"
@@ -3363,7 +3355,37 @@
     ],
     [
       "sized_type_specifier"
+    ],
+    [
+      "_declarator",
+      "_type_specifier"
+    ],
+    [
+      "_declarator",
+      "_type_specifier",
+      "macro_type_specifier"
     ]
   ],
-  "externals": []
+  "externals": [],
+  "PREC": {
+    "ASSIGNMENT": -1,
+    "CONDITIONAL": -2,
+    "DEFAULT": 0,
+    "LOGICAL_OR": 1,
+    "LOGICAL_AND": 2,
+    "INCLUSIVE_OR": 3,
+    "EXCLUSIVE_OR": 4,
+    "BITWISE_AND": 5,
+    "EQUAL": 6,
+    "RELATIONAL": 7,
+    "SIZEOF": 8,
+    "SHIFT": 9,
+    "ADD": 10,
+    "MULTIPLY": 11,
+    "CALL": 12,
+    "CAST": 13,
+    "UNARY": 14,
+    "FIELD": 15,
+    "SUBSCRIPT": 16
+  }
 }

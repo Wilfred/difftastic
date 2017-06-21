@@ -29,11 +29,37 @@ module.exports = grammar({
   ],
 
   conflicts: $ => [
+    // Thing (
+    //   ^
+    // This could be:
+    //   * a type name in a declaration with a parenthesized variable name:
+    //       int (b) = 0;
+    //   * a function name in a function call:
+    //       puts("hi");
+    //   * the name of a macro that defines a type:
+    //       Array(int) x;
     [$._type_specifier, $._expression],
-    [$.sizeof_expression, $.cast_expression],
     [$._type_specifier, $._expression, $.macro_type_specifier],
     [$._type_specifier, $.macro_type_specifier],
+
+    // unsigned x
+    //    ^
+    // This could be:
+    //   * a modifier for the type that follows:
+    //       unsigned int x = 5;
+    //   * a type in itself:
+    //       unsigned x = 5;
     [$.sized_type_specifier],
+
+    // void foo(int (bar)
+    //                ^
+    // This could be:
+    //   * the type of the first parameter to a callback function:
+    //       void foo(int (int), bool);
+    //   * a parenthesized name for the first parameter:
+    //       void foo(int (some_int), bool);
+    [$._declarator, $._type_specifier],
+    [$._declarator, $._type_specifier, $.macro_type_specifier],
   ],
 
   rules: {
@@ -193,7 +219,7 @@ module.exports = grammar({
     )),
 
     abstract_function_declarator: $ => prec(1, seq(
-      $._abstract_declarator,
+      optional($._abstract_declarator),
       '(',
       optional($.parameter_type_list),
       ')'
@@ -552,9 +578,12 @@ module.exports = grammar({
 
     argument_list: $ => seq('(', commaSep($._expression), ')'),
 
-    field_expression: $ => choice(
-      prec.left(PREC.FIELD, seq($._expression, '.', $.identifier)),
-      prec.left(PREC.FIELD, seq($._expression, '->', $.identifier))
+    field_expression: $ => seq(
+      prec(PREC.FIELD, seq(
+        $._expression,
+        choice('.', '->')
+      )),
+      $.identifier
     ),
 
     compound_literal_expression: $ => seq(
