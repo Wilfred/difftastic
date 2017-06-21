@@ -153,11 +153,6 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
 
     _empty_element: $ => seq(''),
 
-    bitwise_op: ($, previous) => choice(
-      prec.left(PREC.TIMES, seq($._expression, '>>>', $._expression)),
-      previous
-    ),
-
     function_call: ($, previous) => prec(PREC.FUNCTION_CALL, seq(
       choice($._expression, $.super, $.function),
       optional($.type_arguments),
