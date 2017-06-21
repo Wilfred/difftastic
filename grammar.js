@@ -34,12 +34,17 @@ module.exports = grammar({
     // This could be:
     //   * a type name in a declaration with a parenthesized variable name:
     //       int (b) = 0;
+    //   * a variable name in a function definition with no return type:
+    //       main () {}
     //   * a function name in a function call:
     //       puts("hi");
     //   * the name of a macro that defines a type:
     //       Array(int) x;
-    [$._type_specifier, $._expression],
-    [$._type_specifier, $._expression, $.macro_type_specifier],
+    [$._declarator, $._expression],
+    [$._declarator, $._expression, $._type_specifier],
+    [$._declarator, $._expression, $._type_specifier, $.macro_type_specifier],
+    [$._expression, $._type_specifier],
+    [$._expression, $._type_specifier, $.macro_type_specifier],
     [$._type_specifier, $.macro_type_specifier],
 
     // unsigned x
@@ -150,14 +155,12 @@ module.exports = grammar({
 
     function_definition: $ => seq(
       optional($._declaration_specifiers),
-      $._type_specifier,
       $._declarator,
       $.compound_statement
     ),
 
     declaration: $ => seq(
-      optional($._declaration_specifiers),
-      $._type_specifier,
+      $._declaration_specifiers,
       commaSep1(choice(
         $._declarator,
         $.init_declarator
@@ -165,11 +168,19 @@ module.exports = grammar({
       ';'
     ),
 
-    _declaration_specifiers: $ => repeat1(choice(
-      $.storage_class_specifier,
-      $.type_qualifier,
-      $.function_specifier
-    )),
+    _declaration_specifiers: $ => seq(
+      repeat(choice(
+        $.storage_class_specifier,
+        $.type_qualifier,
+        $.function_specifier
+      )),
+      $._type_specifier,
+      repeat(choice(
+        $.storage_class_specifier,
+        $.type_qualifier,
+        $.function_specifier
+      ))
+    ),
 
     linkage_specification: $ => seq(
       'extern',
@@ -336,7 +347,6 @@ module.exports = grammar({
 
     member_declaration: $ => seq(
       optional($._declaration_specifiers),
-      $._type_specifier,
       commaSep($._declarator),
       optional(seq(':', $._expression)),
       ';'
@@ -353,8 +363,7 @@ module.exports = grammar({
     )),
 
     parameter_declaration: $ => seq(
-      optional($._declaration_specifiers),
-      $._type_specifier,
+      $._declaration_specifiers,
       optional(choice($._declarator, $._abstract_declarator))
     ),
 
@@ -670,8 +679,7 @@ module.exports = grammar({
     identifier: $ => (/[\a_][\a\d_]*/),
 
     _empty_declaration: $ => seq(
-      optional($._declaration_specifiers),
-      $._type_specifier,
+      $._declaration_specifiers,
       ';'
     ),
 

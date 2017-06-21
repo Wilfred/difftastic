@@ -210,6 +210,26 @@ void * do_stuff(int arg1) {
     (compound_statement (return_statement (number_literal)))))
 
 ============================================
+Function specifiers after types
+============================================
+
+int static inline do_stuff(int arg1) {
+  return 5;
+}
+
+---
+
+(translation_unit
+  (function_definition
+    (identifier)
+    (storage_class_specifier)
+    (function_specifier)
+    (function_declarator
+      (identifier)
+      (parameter_type_list (parameter_declaration (identifier) (identifier))))
+    (compound_statement (return_statement (number_literal)))))
+
+============================================
 Linkage specifications
 ============================================
 
