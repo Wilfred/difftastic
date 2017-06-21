@@ -1065,16 +1065,29 @@
       "type": "CHOICE",
       "members": [
         {
-          "type": "STRING",
-          "value": "const"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "const"
+            },
+            {
+              "type": "STRING",
+              "value": "restrict"
+            },
+            {
+              "type": "STRING",
+              "value": "volatile"
+            }
+          ]
         },
         {
           "type": "STRING",
-          "value": "restrict"
+          "value": "mutable"
         },
         {
           "type": "STRING",
-          "value": "volatile"
+          "value": "friend"
         }
       ]
     },
@@ -1362,11 +1375,23 @@
               },
               {
                 "type": "SYMBOL",
+                "name": "template_declaration"
+              },
+              {
+                "type": "SYMBOL",
                 "name": "function_definition"
               },
               {
                 "type": "SYMBOL",
                 "name": "access_specifier"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "alias_declaration"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "using_declaration"
               }
             ]
           }

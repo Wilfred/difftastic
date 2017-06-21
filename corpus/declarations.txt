@@ -118,6 +118,24 @@ class C {
     (member_declaration (function_declarator (destructor_name (identifier)))))))
 
 =========================================
+Friend declarations
+=========================================
+
+struct C {
+  friend class D;
+  friend int f(C &);
+};
+
+---
+
+(translation_unit
+  (struct_specifier (identifier) (member_declaration_list
+    (member_declaration (type_qualifier) (class_specifier (identifier)))
+    (member_declaration (type_qualifier) (identifier) (function_declarator
+      (identifier)
+      (parameter_type_list (parameter_declaration (identifier) (abstract_reference_declarator))))))))
+
+=========================================
 Function parameters with default values
 =========================================
 

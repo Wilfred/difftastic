@@ -56,6 +56,12 @@ module.exports = grammar(C, {
       $.auto
     ),
 
+    type_qualifier: ($, original) => choice(
+      original,
+      'mutable',
+      'friend'
+    ),
+
     class_specifier: $ => prec.left(seq(
       'class',
       choice(
@@ -140,8 +146,11 @@ module.exports = grammar(C, {
       '{',
       repeat(choice(
         $.member_declaration,
+        $.template_declaration,
         $.function_definition,
-        $.access_specifier
+        $.access_specifier,
+        $.alias_declaration,
+        $.using_declaration
       )),
       '}'
     ),
