@@ -81,6 +81,7 @@ module.exports = grammar(C, {
       $.template_parameter_list,
       choice(
         $.declaration,
+        $._empty_declaration,
         $.function_definition
       )
     ),

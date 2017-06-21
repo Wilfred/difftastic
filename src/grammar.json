@@ -3692,6 +3692,10 @@
             },
             {
               "type": "SYMBOL",
+              "name": "_empty_declaration"
+            },
+            {
+              "type": "SYMBOL",
               "name": "function_definition"
             }
           ]

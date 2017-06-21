@@ -171,6 +171,9 @@ void foo(T &t);
 template <typename T, int u>
 int bar(T &t) { return u; }
 
+template <typename T>
+class Foo {};
+
 ---
 
 (translation_unit
@@ -191,7 +194,10 @@ int bar(T &t) { return u; }
       (function_declarator
         (identifier)
         (parameter_type_list (parameter_declaration (identifier) (reference_declarator (identifier)))))
-      (compound_statement (return_statement (identifier))))))
+      (compound_statement (return_statement (identifier)))))
+  (template_declaration
+    (template_parameter_list (type_parameter_declaration (identifier)))
+    (class_specifier (identifier) (member_declaration_list))))
 
 =========================================
 Template specializations
