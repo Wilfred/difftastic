@@ -289,11 +289,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_expression"
-        },
-        {
-          "type": "STRING",
-          "value": "\n"
+          "name": "preproc_arg"
         },
         {
           "type": "REPEAT",

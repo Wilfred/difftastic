@@ -152,3 +152,44 @@ auto f = [&](int x) -> bool {
           (parameter_type_list (parameter_declaration (identifier) (identifier)))
           (trailing_return_type (identifier)))
         (compound_statement (return_statement (identifier)))))))
+
+====================================================
+Nested template calls
+====================================================
+
+class A {
+  B<C::D<E, F>>::G field;
+
+  H<I<J>> method() {
+    K::L<M<N>> variable1 = K::L<M<N>>{};
+  }
+};
+
+---
+
+(translation_unit
+  (class_specifier (identifier) (member_declaration_list
+    (member_declaration
+      (scoped_identifier
+        (template_call
+          (identifier)
+          (type_name (template_call
+            (scoped_identifier (identifier) (identifier))
+            (type_name (identifier)) (type_name (identifier)))))
+        (identifier))
+      (identifier))
+    (function_definition
+      (template_call (identifier) (type_name (template_call (identifier) (type_name (identifier)))))
+      (function_declarator (identifier))
+      (compound_statement
+        (declaration
+          (template_call
+            (scoped_identifier (identifier) (identifier))
+            (type_name (template_call (identifier) (type_name (identifier)))))
+          (init_declarator
+            (identifier)
+            (compound_literal_expression
+              (template_call
+                (scoped_identifier (identifier) (identifier))
+                (type_name (template_call (identifier) (type_name (identifier)))))
+              (initializer_list)))))))))
