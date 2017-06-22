@@ -262,13 +262,17 @@ Return statements
 return;
 return 5;
 return 1,2;
+return async;
+return a;
 
 ---
 
 (program
   (return_statement)
   (return_statement (number))
-  (return_statement (comma_op (number) (number))))
+  (return_statement (comma_op (number) (number)))
+  (return_statement (reserved_identifier))
+  (return_statement (identifier)))
 
 ============================================
 Variable declarations
