@@ -35,6 +35,15 @@ module.exports = grammar(C, {
 
     [$._declarator, $.compound_literal_expression],
     [$._declarator, $.labeled_statement],
+
+    // A b {c, d}
+    //       ^
+    // This could be:
+    //   * a comma expression in a statement block
+    //       int main() { a(), b(); }
+    //   * an initializer list for a variable
+    //       std::vector a {b(), c()};
+    [$.comma_expression, $._initializer_list_contents],
   ]),
 
   rules: {
@@ -164,6 +173,21 @@ module.exports = grammar(C, {
         $.init_declarator
       )
     ),
+
+    init_declarator: ($, original) => choice(
+      original,
+      seq(
+        $._declarator,
+        choice(
+          $.argument_list,
+          $.initializer_list
+        )
+      )
+    ),
+
+    // Avoid ambiguity between compound statement and initializer list in a construct like:
+    //   A b {};
+    compound_statement: ($, original) => prec(-1, original),
 
     member_initializer_list: $ => seq(
       ':',

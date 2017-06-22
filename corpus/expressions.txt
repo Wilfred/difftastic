@@ -193,3 +193,20 @@ class A {
                 (scoped_identifier (identifier) (identifier))
                 (type_name (template_call (identifier) (type_name (identifier)))))
               (initializer_list)))))))))
+
+====================================================
+Comma expressions at the start of blocks
+====================================================
+
+int main() { a(), b(); }
+
+---
+
+(translation_unit
+  (function_definition
+    (identifier)
+    (function_declarator (identifier))
+    (compound_statement
+      (expression_statement (comma_expression
+        (call_expression (identifier) (argument_list))
+        (call_expression (identifier) (argument_list)))))))

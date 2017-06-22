@@ -244,3 +244,27 @@ struct foo::bar<T> {};
     (struct_specifier
       (template_call (scoped_identifier (identifier) (identifier)) (type_name (identifier)))
       (member_declaration_list))))
+
+==========================================
+Declarations with braced initializer lists
+==========================================
+
+A foo{1, 2};
+
+---
+
+(translation_unit
+  (declaration
+    (identifier)
+    (init_declarator (identifier) (initializer_list (number_literal) (number_literal)))))
+
+===========================================
+Empty function bodies
+===========================================
+
+int main() {}
+
+---
+
+(translation_unit
+  (function_definition (identifier) (function_declarator (identifier)) (compound_statement)))
