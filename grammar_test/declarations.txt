@@ -473,7 +473,10 @@ class Foo {
     (class
       (identifier)
       (class_body
-        (ambient_method_declaration (accessibility_modifier) (reserved_identifier) (call_signature (formal_parameters)))
+        (ambient_method_declaration
+          (accessibility_modifier)
+          (reserved_identifier)
+          (call_signature (formal_parameters)))
         (ambient_method_declaration
           (reserved_identifier)
           (call_signature (formal_parameters) (type_annotation (type_reference (identifier)))))

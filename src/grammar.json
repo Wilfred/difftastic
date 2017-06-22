@@ -2430,24 +2430,24 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "STRING",
-              "value": "async"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
               "type": "SYMBOL",
               "name": "identifier"
             },
             {
               "type": "SYMBOL",
               "name": "call_signature"
+            },
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "async"
+                },
+                {
+                  "type": "BLANK"
+                }
+              ]
             }
           ]
         },
@@ -2465,6 +2465,10 @@
             {
               "type": "SYMBOL",
               "name": "statement_block"
+            },
+            {
+              "type": "STRING",
+              "value": "async"
             }
           ]
         }

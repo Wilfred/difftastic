@@ -84,6 +84,17 @@ function* foo<A>(amount, interestRate, duration): number {
       (statement_block (expression_statement (yield_expression (math_op (math_op (math_op (identifier) (identifier)) (identifier)) (number))))))))
 
 ==================================
+Arrow function with parameter named async
+==================================
+
+const x = async => async;
+
+---
+
+(program
+  (lexical_declaration (variable_declarator (identifier) (arrow_function))))
+
+==================================
 Super
 ==================================
 

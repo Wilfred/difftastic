@@ -264,15 +264,16 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
     ),
 
     arrow_function: $ => seq(
-      optional('async'),
       choice(
         $.identifier,
-        $.call_signature
+        $.call_signature,
+        optional('async')
       ),
       '=>',
       choice(
         $._expression,
-        $.statement_block
+        $.statement_block,
+        'async'
       )
     ),
 
