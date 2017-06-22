@@ -1335,6 +1335,10 @@
                 {
                   "type": "SYMBOL",
                   "name": "comma_op"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "reserved_identifier"
                 }
               ]
             },
