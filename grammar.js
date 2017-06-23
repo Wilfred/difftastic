@@ -782,12 +782,20 @@ module.exports = grammar({
       ')'
     ),
 
-    method_definition: $ => seq(
-      optional('async'),
-      optional(choice('get', 'set', '*')),
-      $._property_name,
-      $.formal_parameters,
-      $.statement_block
+    method_definition: $ => choice(
+      seq(
+        optional('async'),
+        optional(choice('get', 'set', '*')),
+        $._property_name,
+        $.formal_parameters,
+        $.statement_block
+      ),
+      seq(
+        optional('async'),
+        optional(choice('get', 'set', '*')),
+        $._property_name,
+        $.formal_parameters
+      )
     ),
 
     pair: $ => seq(
