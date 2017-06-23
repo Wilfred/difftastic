@@ -4222,56 +4222,111 @@
       ]
     },
     "method_definition": {
-      "type": "SEQ",
+      "type": "CHOICE",
       "members": [
         {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "STRING",
-              "value": "async"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        },
-        {
-          "type": "CHOICE",
+          "type": "SEQ",
           "members": [
             {
               "type": "CHOICE",
               "members": [
                 {
                   "type": "STRING",
-                  "value": "get"
+                  "value": "async"
                 },
                 {
-                  "type": "STRING",
-                  "value": "set"
-                },
-                {
-                  "type": "STRING",
-                  "value": "*"
+                  "type": "BLANK"
                 }
               ]
             },
             {
-              "type": "BLANK"
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "STRING",
+                      "value": "get"
+                    },
+                    {
+                      "type": "STRING",
+                      "value": "set"
+                    },
+                    {
+                      "type": "STRING",
+                      "value": "*"
+                    }
+                  ]
+                },
+                {
+                  "type": "BLANK"
+                }
+              ]
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_property_name"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "formal_parameters"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "statement_block"
             }
           ]
         },
         {
-          "type": "SYMBOL",
-          "name": "_property_name"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "formal_parameters"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "statement_block"
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "async"
+                },
+                {
+                  "type": "BLANK"
+                }
+              ]
+            },
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "STRING",
+                      "value": "get"
+                    },
+                    {
+                      "type": "STRING",
+                      "value": "set"
+                    },
+                    {
+                      "type": "STRING",
+                      "value": "*"
+                    }
+                  ]
+                },
+                {
+                  "type": "BLANK"
+                }
+              ]
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_property_name"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "formal_parameters"
+            }
+          ]
         }
       ]
     },
