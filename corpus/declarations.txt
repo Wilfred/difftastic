@@ -120,6 +120,28 @@ class C {
     (member_declaration (function_declarator (destructor_name (identifier)))))))
 
 =========================================
+Classes with inheritance
+=========================================
+
+class A : public B {
+};
+
+class C : C::D, public E {
+};
+
+---
+
+(translation_unit
+  (class_specifier
+    (identifier)
+    (base_class_clause (identifier))
+    (member_declaration_list))
+  (class_specifier
+    (identifier)
+    (base_class_clause (scoped_identifier (identifier) (identifier)) (identifier))
+    (member_declaration_list)))
+
+=========================================
 Friend declarations
 =========================================
 

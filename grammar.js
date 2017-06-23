@@ -78,13 +78,10 @@ module.exports = grammar(C, {
     class_specifier: $ => prec.left(seq(
       'class',
       choice(
-        $.identifier,
+        $._class_name,
         seq(
-          optional(choice(
-            $.identifier,
-            $.scoped_identifier,
-            $.template_call
-          )),
+          optional($._class_name),
+          optional($.base_class_clause),
           $.member_declaration_list
         )
       )
@@ -93,13 +90,10 @@ module.exports = grammar(C, {
     union_specifier: $ => prec.left(seq(
       'union',
       choice(
-        $.identifier,
+        $._class_name,
         seq(
-          optional(choice(
-            $.identifier,
-            $.scoped_identifier,
-            $.template_call
-          )),
+          optional($._class_name),
+          optional($.base_class_clause),
           $.member_declaration_list
         )
       )
@@ -108,17 +102,28 @@ module.exports = grammar(C, {
     struct_specifier: $ => prec.left(seq(
       'struct',
       choice(
-        $.identifier,
+        $._class_name,
         seq(
-          optional(choice(
-            $.identifier,
-            $.scoped_identifier,
-            $.template_call
-          )),
+          optional($._class_name),
+          optional($.base_class_clause),
           $.member_declaration_list
         )
       )
     )),
+
+    _class_name: $ => choice(
+      $.identifier,
+      $.scoped_identifier,
+      $.template_call
+    ),
+
+    base_class_clause: $ => seq(
+      ':',
+      commaSep1(seq(
+        optional('public'),
+        $._class_name
+      ))
+    ),
 
     enum_specifier: ($, original) => prec.left(original),
 
