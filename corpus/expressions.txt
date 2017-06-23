@@ -46,6 +46,17 @@ Template strings
 	(expression_statement (template_string (template_chars))) (expression_statement (template_string (template_chars) (template_substitution (function_call (member_access (identifier) (identifier)) (arguments (string)))) (template_chars) (template_substitution (identifier)) (template_chars))))
 
 ============================================
+Function calls with template strings
+============================================
+
+f `hello`;
+
+---
+
+(program
+  (expression_statement (function_call (identifier) (template_string (template_chars)))))
+
+============================================
 Numbers
 ============================================
 
