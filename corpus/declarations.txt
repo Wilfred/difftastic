@@ -67,6 +67,35 @@ int main() {
             (argument_list)))))))
 
 =========================================
+R-value reference declarations
+=========================================
+
+int main(T &&);
+
+int main(T &&t) {
+  const U &&u = v;
+}
+
+---
+
+(translation_unit
+  (declaration
+    (identifier)
+    (function_declarator
+      (identifier)
+      (parameter_type_list (parameter_declaration (identifier) (abstract_reference_declarator)))))
+  (function_definition
+    (identifier)
+    (function_declarator
+      (identifier)
+      (parameter_type_list (parameter_declaration (identifier) (reference_declarator (identifier)))))
+    (compound_statement
+      (declaration
+        (type_qualifier)
+        (identifier)
+        (init_declarator (reference_declarator (identifier)) (identifier))))))
+
+=========================================
 Inline method definitions
 =========================================
 

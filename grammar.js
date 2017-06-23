@@ -279,12 +279,12 @@ module.exports = grammar(C, {
     ),
 
     reference_declarator: $ => prec.right(seq(
-      '&',
+      choice('&', '&&'),
       $._declarator
     )),
 
     abstract_reference_declarator: $ => prec.right(seq(
-      '&',
+      choice('&', '&&'),
       optional($._abstract_declarator)
     )),
 
