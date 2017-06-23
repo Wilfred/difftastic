@@ -755,7 +755,6 @@ function ambientDeclaration($) {
     $.interface_declaration,
     $.ambient_variable,
     $.ambient_function,
-    $.ambient_method,
     $.class,
     $._ambient_enum,
     $.ambient_namespace,
