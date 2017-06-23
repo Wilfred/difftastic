@@ -1335,10 +1335,6 @@
                 {
                   "type": "SYMBOL",
                   "name": "comma_op"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "reserved_identifier"
                 }
               ]
             },
@@ -1681,6 +1677,10 @@
         {
           "type": "SYMBOL",
           "name": "yield_expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "reserved_identifier"
         }
       ]
     },
@@ -4363,6 +4363,10 @@
     ],
     [
       "yield_expression"
+    ],
+    [
+      "method_definition",
+      "reserved_identifier"
     ]
   ],
   "externals": [

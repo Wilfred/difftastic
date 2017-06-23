@@ -60,7 +60,9 @@ module.exports = grammar({
     //         ^ comma expression assignment in a block or assignment_pattern in an object?
     [$.assignment_pattern, $.assignment],
 
-    [$.yield_expression]
+    [$.yield_expression],
+
+    [$.method_definition, $.reserved_identifier]
   ],
 
   rules: {
@@ -305,7 +307,7 @@ module.exports = grammar({
 
     return_statement: $ => seq(
       'return',
-      optional(choice($._expression, $.comma_op, $.reserved_identifier)),
+      optional(choice($._expression, $.comma_op)),
       semicolon($)
     ),
 
@@ -395,7 +397,8 @@ module.exports = grammar({
       $.false,
       $.null,
       $.undefined,
-      $.yield_expression
+      $.yield_expression,
+      $.reserved_identifier
     ),
 
     yield_expression: $ => seq('yield', optional($._expression)),
