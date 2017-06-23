@@ -538,7 +538,7 @@ module.exports = grammar({
 
     function_call: $ => prec(PREC.CALL, seq(
       choice($._expression, $.super, $.function),
-      $.arguments
+      choice($.arguments, $.template_string)
     )),
 
     new_expression: $ => prec(PREC.NEW, seq(

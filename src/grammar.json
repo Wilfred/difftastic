@@ -2300,8 +2300,17 @@
             ]
           },
           {
-            "type": "SYMBOL",
-            "name": "arguments"
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "arguments"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "template_string"
+              }
+            ]
           }
         ]
       }
