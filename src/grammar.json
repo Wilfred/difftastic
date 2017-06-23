@@ -4688,6 +4688,10 @@
           "value": "namespace"
         },
         {
+          "type": "STRING",
+          "value": "type"
+        },
+        {
           "type": "CHOICE",
           "members": [
             {
@@ -7185,6 +7189,10 @@
     [
       "reserved_identifier",
       "internal_module"
+    ],
+    [
+      "reserved_identifier",
+      "type_alias_declaration"
     ]
   ],
   "externals": [
