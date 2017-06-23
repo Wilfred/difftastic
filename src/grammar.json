@@ -1849,6 +1849,10 @@
             {
               "type": "SYMBOL",
               "name": "yield_expression"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "reserved_identifier"
             }
           ]
         }
@@ -2389,8 +2393,8 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "STRING",
-              "value": "async"
+              "type": "SYMBOL",
+              "name": "reserved_identifier"
             },
             {
               "type": "BLANK"
@@ -2441,8 +2445,8 @@
               "type": "CHOICE",
               "members": [
                 {
-                  "type": "STRING",
-                  "value": "async"
+                  "type": "SYMBOL",
+                  "name": "reserved_identifier"
                 },
                 {
                   "type": "BLANK"
@@ -2465,10 +2469,6 @@
             {
               "type": "SYMBOL",
               "name": "statement_block"
-            },
-            {
-              "type": "STRING",
-              "value": "async"
             }
           ]
         }
@@ -4582,8 +4582,8 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "STRING",
-              "value": "async"
+              "type": "SYMBOL",
+              "name": "reserved_identifier"
             },
             {
               "type": "BLANK"
@@ -6947,6 +6947,10 @@
       "yield_expression"
     ],
     [
+      "method_definition",
+      "reserved_identifier"
+    ],
+    [
       "required_parameter",
       "assignment"
     ],
@@ -7118,6 +7122,15 @@
     [
       "_expression",
       "import_alias"
+    ],
+    [
+      "_expression",
+      "method_definition"
+    ],
+    [
+      "method_definition",
+      "reserved_identifier",
+      "ambient_method_declaration"
     ]
   ],
   "externals": [

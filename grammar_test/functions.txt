@@ -92,7 +92,7 @@ const x = async => async;
 ---
 
 (program
-  (lexical_declaration (variable_declarator (identifier) (arrow_function))))
+  (lexical_declaration (variable_declarator (identifier) (arrow_function (reserved_identifier) (reserved_identifier)))))
 
 ==================================
 Super
