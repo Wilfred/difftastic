@@ -102,10 +102,10 @@ declare module Foo {
     (class
       (identifier)
       (class_body
-        (ambient_method_declaration
+        (method_definition
           (identifier) (call_signature (formal_parameters (required_parameter (identifier) (type_annotation (predefined_type))))))
         (public_field_definition (identifier) (type_annotation (predefined_type)))
-        (ambient_method_declaration (identifier) (call_signature (formal_parameters) (type_annotation (predefined_type)))))))
+        (method_definition (identifier) (call_signature (formal_parameters) (type_annotation (predefined_type)))))))
 
   (ambient_declaration
     (module
@@ -473,14 +473,14 @@ class Foo {
     (class
       (identifier)
       (class_body
-        (ambient_method_declaration
+        (method_definition
           (accessibility_modifier)
           (reserved_identifier)
           (call_signature (formal_parameters)))
-        (ambient_method_declaration
+        (method_definition
           (reserved_identifier)
           (call_signature (formal_parameters) (type_annotation (type_reference (identifier)))))
-        (ambient_method_declaration
+        (method_definition
           (accessibility_modifier)
           (reserved_identifier)
           (call_signature (formal_parameters (required_parameter (identifier)))))))))
@@ -549,10 +549,10 @@ abstract class Animal {
     (abstract_class (identifier) (class_body
       (public_field_definition (identifier) (type_annotation (predefined_type)))
       (public_field_definition (identifier) (type_annotation (predefined_type)))
-      (ambient_method_declaration
+      (abstract_method_definition
         (identifier)
         (call_signature (formal_parameters) (type_annotation (predefined_type))))
-      (ambient_method_declaration
+      (abstract_method_definition
         (identifier)
         (call_signature (formal_parameters) (type_annotation (predefined_type))))
       (method_definition

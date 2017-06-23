@@ -106,14 +106,13 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
 
     [$._expression, $.method_definition],
 
-    [$.method_definition, $.reserved_identifier, $.ambient_method_declaration],
-    [$.reserved_identifier, $.ambient_method_declaration],
     [$.reserved_identifier, $.module],
     [$.reserved_identifier, $.reserved_identifier],
     [$.reserved_identifier, $.ambient_declaration],
-    [$.public_field_definition, $.reserved_identifier, $.ambient_method_declaration],
     [$.reserved_identifier, $.interface_declaration],
     [$.reserved_identifier, $.internal_module],
+    [$.reserved_identifier, $.abstract_method_definition],
+    [$.reserved_identifier, $.public_field_definition, $.abstract_method_definition],
 
     [$.reserved_identifier, $.type_alias_declaration]
   ]),
@@ -234,9 +233,9 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       seq($.destructuring_pattern, optional($.type_annotation), $._initializer)
     ),
 
-    ambient_method_declaration: $ => seq(
+    abstract_method_definition: $ => seq(
       optional($.accessibility_modifier),
-      optional('abstract'),
+      'abstract',
       optional('static'),
       optional(choice('get', 'set', '*')),
       optional($.readonly),
@@ -296,7 +295,7 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       repeat(
         choice(
           seq($.method_definition, optional(';')),
-          $.ambient_method_declaration,
+          $.abstract_method_definition,
           seq($.public_field_definition, semicolon($)),
           seq($.index_signature, semicolon($))
         )
@@ -304,16 +303,27 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       '}'
     ),
 
-    method_definition: $ => seq(
-      optional($.accessibility_modifier),
-      optional('static'),
-      optional($.readonly),
-      optional($.reserved_identifier),
-      optional(choice('get', 'set', '*')),
-      $._property_name,
-      $.call_signature,
-      $.statement_block
-    ),
+    method_definition: $ => prec.left(1, choice(
+      seq(
+        optional($.accessibility_modifier),
+        optional('static'),
+        optional($.readonly),
+        optional($.reserved_identifier),
+        optional(choice('get', 'set', '*')),
+        $._property_name,
+        $.call_signature,
+        $.statement_block
+      ),
+      seq(
+        optional($.accessibility_modifier),
+        optional('static'),
+        optional($.readonly),
+        optional($.reserved_identifier),
+        optional(choice('get', 'set', '*')),
+        $._property_name,
+        $.call_signature
+      )
+    )),
 
     // A function, generator, class, or variable declaration
     _declaration: ($, previous) => prec(PREC.DECLARATION, choice(
@@ -745,6 +755,7 @@ function ambientDeclaration($) {
     $.interface_declaration,
     $.ambient_variable,
     $.ambient_function,
+    $.ambient_method,
     $.class,
     $._ambient_enum,
     $.ambient_namespace,
