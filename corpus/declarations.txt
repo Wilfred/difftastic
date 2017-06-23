@@ -268,3 +268,22 @@ int main() {}
 
 (translation_unit
   (function_definition (identifier) (function_declarator (identifier)) (compound_statement)))
+
+==========================================
+Explicit template instantiations
+==========================================
+
+template A<int, bool>::A(char *, size_t);
+
+---
+
+(translation_unit
+  (template_instantiation
+    (member_declaration
+      (function_declarator
+        (scoped_identifier
+          (template_call (identifier) (type_name (identifier)) (type_name (identifier)))
+          (identifier))
+        (parameter_type_list
+          (parameter_declaration (identifier) (abstract_pointer_declarator))
+          (parameter_declaration (identifier)))))))

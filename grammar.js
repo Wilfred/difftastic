@@ -52,7 +52,8 @@ module.exports = grammar(C, {
       $.namespace_definition,
       $.using_declaration,
       $.alias_declaration,
-      $.template_declaration
+      $.template_declaration,
+      $.template_instantiation
     ),
 
     // Types
@@ -138,6 +139,11 @@ module.exports = grammar(C, {
         $._empty_declaration,
         $.function_definition
       )
+    ),
+
+    template_instantiation: $ => seq(
+      'template',
+      $.member_declaration
     ),
 
     template_parameter_list: $ => seq(
