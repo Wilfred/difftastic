@@ -1,5 +1,6 @@
 const PREC = {
   DECLARATION: 1,
+  ACCESSIBILITY: 1,
   UNION: 2,
   INTERSECTION: 2,
   PLUS: 4,
@@ -113,6 +114,7 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
     [$.public_field_definition, $.reserved_identifier, $.ambient_method_declaration],
     [$.reserved_identifier, $.interface_declaration],
     [$.reserved_identifier, $.internal_module],
+
     [$.reserved_identifier, $.type_alias_declaration]
   ]),
   rules: {
@@ -478,11 +480,11 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       semicolon($)
     ),
 
-    accessibility_modifier: $ => choice(
+    accessibility_modifier: $ => prec.left(PREC.ACCESSIBILITY, choice(
       'public',
       'private',
       'protected'
-    ),
+    )),
 
     readonly: $ => 'readonly',
 
@@ -701,7 +703,7 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       $._type
     ),
 
-    reserved_identifier: ($, previous) => choice('declare', 'namespace', 'type', previous)
+    reserved_identifier: ($, previous) => choice('declare', 'namespace', 'type', 'public', 'private', 'protected', previous)
   }
 });
 
