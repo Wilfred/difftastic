@@ -4685,7 +4685,7 @@
         },
         {
           "type": "STRING",
-          "value": "identifier"
+          "value": "namespace"
         },
         {
           "type": "CHOICE",
@@ -7181,6 +7181,10 @@
     [
       "reserved_identifier",
       "interface_declaration"
+    ],
+    [
+      "reserved_identifier",
+      "internal_module"
     ]
   ],
   "externals": [
