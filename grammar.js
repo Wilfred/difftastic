@@ -106,11 +106,7 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
     [$._expression, $.method_definition],
 
     [$.method_definition, $.reserved_identifier, $.ambient_method_declaration],
-
     [$.reserved_identifier, $.ambient_method_declaration],
-
-    [$.class, $.reserved_identifier],
-
     [$.reserved_identifier, $.module],
     [$.reserved_identifier, $.reserved_identifier],
     [$.reserved_identifier, $.ambient_declaration],

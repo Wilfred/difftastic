@@ -7154,10 +7154,6 @@
       "ambient_method_declaration"
     ],
     [
-      "class",
-      "reserved_identifier"
-    ],
-    [
       "reserved_identifier",
       "module"
     ],
