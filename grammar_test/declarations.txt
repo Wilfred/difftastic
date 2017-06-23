@@ -544,9 +544,9 @@ abstract class Animal {
 
 (program
   (expression_statement
-    (class (identifier) (class_body)))
+    (abstract_class (identifier) (class_body)))
   (expression_statement
-    (class (identifier) (class_body
+    (abstract_class (identifier) (class_body
       (public_field_definition (identifier) (type_annotation (predefined_type)))
       (public_field_definition (identifier) (type_annotation (predefined_type)))
       (ambient_method_declaration

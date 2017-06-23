@@ -186,6 +186,7 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       $.import_alias,
       $.internal_module,
       $.super,
+      $.abstract_class,
       previous
     ),
 
@@ -368,8 +369,16 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       semicolon($)
     ),
 
+    abstract_class: ($, previous) => seq(
+      'abstract',
+      'class',
+      $.identifier,
+      optional($.type_parameters),
+      optional($.class_heritage),
+      $.class_body
+    ),
+
     class: ($, previous) => seq(
-      optional('abstract'),
       'class',
       $.identifier,
       optional($.type_parameters),
