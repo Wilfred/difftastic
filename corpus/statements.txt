@@ -536,7 +536,7 @@ with (x) { i; }
 (program (with_statement (identifier) (statement_block (expression_statement (identifier)))))
 
 ============================================
-Top level abstract statements
+Abstract as identifier
 ============================================
 
 abstract
@@ -544,3 +544,27 @@ abstract
 ---
 
 (program (expression_statement (reserved_identifier)))
+
+
+============================================
+Module as identifier
+============================================
+
+module
+
+---
+
+(program (expression_statement (reserved_identifier)))
+
+
+============================================
+Interface as identifier
+============================================
+
+interface
+
+---
+
+(program (expression_statement (reserved_identifier)))
+
+
