@@ -110,7 +110,8 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
     [$.reserved_identifier, $.module],
     [$.reserved_identifier, $.reserved_identifier],
     [$.reserved_identifier, $.ambient_declaration],
-    [$.public_field_definition, $.reserved_identifier, $.ambient_method_declaration]
+    [$.public_field_definition, $.reserved_identifier, $.ambient_method_declaration],
+    [$.reserved_identifier, $.interface_declaration]
   ]),
   rules: {
 
@@ -698,7 +699,7 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       $._type
     ),
 
-    reserved_identifier: ($, previous) => choice('declare', previous)
+    reserved_identifier: ($, previous) => choice('declare', 'identifier', previous)
   }
 });
 

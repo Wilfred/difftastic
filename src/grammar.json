@@ -4684,6 +4684,10 @@
           "value": "declare"
         },
         {
+          "type": "STRING",
+          "value": "identifier"
+        },
+        {
           "type": "CHOICE",
           "members": [
             {
@@ -4705,6 +4709,10 @@
             {
               "type": "STRING",
               "value": "module"
+            },
+            {
+              "type": "STRING",
+              "value": "interface"
             }
           ]
         }
@@ -7169,6 +7177,10 @@
       "public_field_definition",
       "reserved_identifier",
       "ambient_method_declaration"
+    ],
+    [
+      "reserved_identifier",
+      "interface_declaration"
     ]
   ],
   "externals": [
