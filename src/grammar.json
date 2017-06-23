@@ -4322,6 +4322,10 @@
         {
           "type": "STRING",
           "value": "abstract"
+        },
+        {
+          "type": "STRING",
+          "value": "module"
         }
       ]
     }
