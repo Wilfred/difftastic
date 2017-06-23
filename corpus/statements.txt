@@ -534,3 +534,13 @@ with (x) { i; }
 ---
 
 (program (with_statement (identifier) (statement_block (expression_statement (identifier)))))
+
+============================================
+Top level abstract statements
+============================================
+
+abstract
+
+---
+
+(program (expression_statement (reserved_identifier)))
