@@ -798,7 +798,7 @@ module.exports = grammar({
 
     _property_name: $ => choice($.identifier, $.reserved_identifier, $.string, $.number),
 
-    reserved_identifier: $ => choice('get', 'set', 'async')
+    reserved_identifier: $ => choice('get', 'set', 'async', 'abstract'),
   }
 });
 

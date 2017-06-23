@@ -4318,6 +4318,10 @@
         {
           "type": "STRING",
           "value": "async"
+        },
+        {
+          "type": "STRING",
+          "value": "abstract"
         }
       ]
     }
