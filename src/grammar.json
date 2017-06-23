@@ -2289,8 +2289,8 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "SYMBOL",
-              "name": "reserved_identifier"
+              "type": "STRING",
+              "value": "abstract"
             },
             {
               "type": "BLANK"
@@ -4419,8 +4419,8 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "SYMBOL",
-              "name": "reserved_identifier"
+              "type": "STRING",
+              "value": "abstract"
             },
             {
               "type": "BLANK"
@@ -4681,19 +4681,32 @@
       "members": [
         {
           "type": "STRING",
-          "value": "get"
+          "value": "declare"
         },
         {
-          "type": "STRING",
-          "value": "set"
-        },
-        {
-          "type": "STRING",
-          "value": "async"
-        },
-        {
-          "type": "STRING",
-          "value": "abstract"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "get"
+            },
+            {
+              "type": "STRING",
+              "value": "set"
+            },
+            {
+              "type": "STRING",
+              "value": "async"
+            },
+            {
+              "type": "STRING",
+              "value": "abstract"
+            },
+            {
+              "type": "STRING",
+              "value": "module"
+            }
+          ]
         }
       ]
     },
@@ -4788,8 +4801,8 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "SYMBOL",
-              "name": "reserved_identifier"
+              "type": "STRING",
+              "value": "abstract"
             },
             {
               "type": "BLANK"
@@ -7137,6 +7150,27 @@
       "ambient_method_declaration"
     ],
     [
+      "reserved_identifier",
+      "ambient_method_declaration"
+    ],
+    [
+      "class",
+      "reserved_identifier"
+    ],
+    [
+      "reserved_identifier",
+      "module"
+    ],
+    [
+      "reserved_identifier",
+      "reserved_identifier"
+    ],
+    [
+      "reserved_identifier",
+      "ambient_declaration"
+    ],
+    [
+      "public_field_definition",
       "reserved_identifier",
       "ambient_method_declaration"
     ]
