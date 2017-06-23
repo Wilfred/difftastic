@@ -68,9 +68,9 @@ int b;
 
 #ifdef DEFINE2
 #else
-#ifdef DEFINE3
-#else
-#endif
+#  ifdef DEFINE3
+#  else
+#  endif
 #endif
 
 ---

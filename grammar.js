@@ -91,7 +91,7 @@ module.exports = grammar({
     ),
 
     preproc_include: $ => seq(
-      '#include',
+      /#[ \t]*include/,
       choice(
         $.string_literal,
         $.system_lib_string
@@ -99,7 +99,7 @@ module.exports = grammar({
     ),
 
     preproc_def: $ => seq(
-      '#define',
+      /#[ \t]*define/,
       $.identifier,
       optional(seq(
         /[ \t]+/,
@@ -109,7 +109,7 @@ module.exports = grammar({
     ),
 
     preproc_function_def: $ => seq(
-      '#define',
+      /#[ \t]*define/,
       $.identifier,
       $.preproc_params,
       optional($.preproc_arg),
@@ -128,27 +128,30 @@ module.exports = grammar({
     preproc_arg: $ => token(prec(-1, repeat1(choice(/./, '\\\n')))),
 
     preproc_if: $ => seq(
-      '#if',
+      /#[ \t]*if/,
       $.preproc_arg,
       repeat($._top_level_item),
       optional($.preproc_else),
-      '#endif'
+      /#[ \t]*endif/
     ),
 
     preproc_ifdef: $ => seq(
-      choice('#ifdef', '#ifndef'),
+      choice(
+        /#[ \t]*ifdef/,
+        /#[ \t]*ifndef/
+      ),
       $.identifier,
       repeat($._top_level_item),
       optional($.preproc_else),
-      '#endif'
+      /#[ \t]*endif/
     ),
 
     preproc_else: $ => seq(
-      '#else',
+      /#[ \t]*else/,
       repeat($._top_level_item)
     ),
 
-    preproc_directive: $ => (/#\a\w*/),
+    preproc_directive: $ => /#[ \t]*\a\w*/,
 
     // Main Grammar
 

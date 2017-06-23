@@ -70,8 +70,8 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "STRING",
-          "value": "#include"
+          "type": "PATTERN",
+          "value": "#[ \\t]*include"
         },
         {
           "type": "CHOICE",
@@ -92,8 +92,8 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "STRING",
-          "value": "#define"
+          "type": "PATTERN",
+          "value": "#[ \\t]*define"
         },
         {
           "type": "SYMBOL",
@@ -130,8 +130,8 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "STRING",
-          "value": "#define"
+          "type": "PATTERN",
+          "value": "#[ \\t]*define"
         },
         {
           "type": "SYMBOL",
@@ -263,8 +263,8 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "STRING",
-          "value": "#if"
+          "type": "PATTERN",
+          "value": "#[ \\t]*if"
         },
         {
           "type": "SYMBOL",
@@ -290,8 +290,8 @@
           ]
         },
         {
-          "type": "STRING",
-          "value": "#endif"
+          "type": "PATTERN",
+          "value": "#[ \\t]*endif"
         }
       ]
     },
@@ -302,12 +302,12 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "STRING",
-              "value": "#ifdef"
+              "type": "PATTERN",
+              "value": "#[ \\t]*ifdef"
             },
             {
-              "type": "STRING",
-              "value": "#ifndef"
+              "type": "PATTERN",
+              "value": "#[ \\t]*ifndef"
             }
           ]
         },
@@ -335,8 +335,8 @@
           ]
         },
         {
-          "type": "STRING",
-          "value": "#endif"
+          "type": "PATTERN",
+          "value": "#[ \\t]*endif"
         }
       ]
     },
@@ -344,8 +344,8 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "STRING",
-          "value": "#else"
+          "type": "PATTERN",
+          "value": "#[ \\t]*else"
         },
         {
           "type": "REPEAT",
@@ -358,7 +358,7 @@
     },
     "preproc_directive": {
       "type": "PATTERN",
-      "value": "#\\a\\w*"
+      "value": "#[ \\t]*\\a\\w*"
     },
     "function_definition": {
       "type": "SEQ",
