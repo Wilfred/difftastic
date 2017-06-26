@@ -825,8 +825,17 @@
           "type": "SEQ",
           "members": [
             {
-              "type": "SYMBOL",
-              "name": "identifier"
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "identifier"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "reserved_identifier"
+                }
+              ]
             },
             {
               "type": "CHOICE",
@@ -4800,6 +4809,10 @@
           "value": "protected"
         },
         {
+          "type": "STRING",
+          "value": "module"
+        },
+        {
           "type": "CHOICE",
           "members": [
             {
@@ -4817,10 +4830,6 @@
             {
               "type": "STRING",
               "value": "abstract"
-            },
-            {
-              "type": "STRING",
-              "value": "module"
             },
             {
               "type": "STRING",

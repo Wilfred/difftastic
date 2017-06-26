@@ -229,7 +229,7 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
     ),
 
     variable_declarator: ($, previous) => choice(
-      seq($.identifier, optional($.type_annotation), optional($._initializer)),
+      seq(choice($.identifier, $.reserved_identifier), optional($.type_annotation), optional($._initializer)),
       seq($.destructuring_pattern, optional($.type_annotation), $._initializer)
     ),
 
@@ -722,7 +722,7 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       $._type
     ),
 
-    reserved_identifier: ($, previous) => choice('declare', 'namespace', 'type', 'public', 'private', 'protected', previous)
+    reserved_identifier: ($, previous) => choice('declare', 'namespace', 'type', 'public', 'private', 'protected', 'module', previous)
   }
 });
 

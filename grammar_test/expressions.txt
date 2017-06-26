@@ -53,3 +53,17 @@ Array with empty elements
 (program
   (expression_statement
     (arrow_function (call_signature (formal_parameters (required_parameter (identifier) (type_annotation)))) (object))))
+
+
+==================================
+Module as reserved identifier
+==================================
+
+var module;
+module;
+
+---
+
+(program
+  (variable_declaration (variable_declarator (reserved_identifier)))
+  (expression_statement (reserved_identifier)))
