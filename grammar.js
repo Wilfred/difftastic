@@ -60,7 +60,9 @@ module.exports = grammar({
     //         ^ comma expression assignment in a block or assignment_pattern in an object?
     [$.assignment_pattern, $.assignment],
 
-    [$.yield_expression]
+    [$.yield_expression],
+
+    [$.method_definition, $.reserved_identifier]
   ],
 
   rules: {
@@ -147,6 +149,7 @@ module.exports = grammar({
     _statement: $ => choice(
       $.export_statement,
       $.import_statement,
+      $.debugger_statement,
       $.expression_statement,
       $._declaration,
       $.statement_block,
@@ -159,6 +162,7 @@ module.exports = grammar({
       $.while_statement,
       $.do_statement,
       $.try_statement,
+      $.with_statement,
 
       $.break_statement,
       $.continue_statement,
@@ -191,7 +195,9 @@ module.exports = grammar({
     ),
 
     statement_block: $ => seq(
-      '{', repeat($._statement), '}'
+      '{',
+      repeat($._statement),
+      '}'
     ),
 
     if_statement: $ => prec.right(seq(
@@ -275,6 +281,13 @@ module.exports = grammar({
       optional($.finally)
     ),
 
+    with_statement: $ => seq(
+      'with',
+      optional(seq('(', $.identifier, ')')),
+      $.statement_block,
+      semicolon($)
+    ),
+
     break_statement: $ => seq(
       'break',
       optional($.identifier),
@@ -284,6 +297,11 @@ module.exports = grammar({
     continue_statement: $ => seq(
       'continue',
       optional($.identifier),
+      semicolon($)
+    ),
+
+    debugger_statement: $ => seq(
+      'debugger',
       semicolon($)
     ),
 
@@ -379,7 +397,8 @@ module.exports = grammar({
       $.false,
       $.null,
       $.undefined,
-      $.yield_expression
+      $.yield_expression,
+      $.reserved_identifier
     ),
 
     yield_expression: $ => seq('yield', optional($._expression)),
@@ -519,7 +538,7 @@ module.exports = grammar({
 
     function_call: $ => prec(PREC.CALL, seq(
       choice($._expression, $.super, $.function),
-      $.arguments
+      choice($.arguments, $.template_string)
     )),
 
     new_expression: $ => prec(PREC.NEW, seq(
@@ -587,7 +606,11 @@ module.exports = grammar({
     bitwise_op: $ => choice(
       prec.left(PREC.NOT, seq('~', $._expression)),
       prec.left(PREC.TIMES, seq($._expression, '>>', $._expression)),
+      prec.left(PREC.TIMES, seq($._expression, '>>=', $._expression)),
+      prec.left(PREC.TIMES, seq($._expression, '>>>', $._expression)),
+      prec.left(PREC.TIMES, seq($._expression, '>>>=', $._expression)),
       prec.left(PREC.TIMES, seq($._expression, '<<', $._expression)),
+      prec.left(PREC.TIMES, seq($._expression, '<<=', $._expression)),
       prec.left(PREC.AND, seq($._expression, '&', $._expression)),
       prec.left(PREC.OR, seq($._expression, '^', $._expression)),
       prec.left(PREC.OR, seq($._expression, '|', $._expression))
@@ -759,12 +782,20 @@ module.exports = grammar({
       ')'
     ),
 
-    method_definition: $ => seq(
-      optional('async'),
-      optional(choice('get', 'set', '*')),
-      $._property_name,
-      $.formal_parameters,
-      $.statement_block
+    method_definition: $ => choice(
+      seq(
+        optional('async'),
+        optional(choice('get', 'set', '*')),
+        $._property_name,
+        $.formal_parameters,
+        $.statement_block
+      ),
+      seq(
+        optional('async'),
+        optional(choice('get', 'set', '*')),
+        $._property_name,
+        $.formal_parameters
+      )
     ),
 
     pair: $ => seq(
@@ -775,7 +806,7 @@ module.exports = grammar({
 
     _property_name: $ => choice($.identifier, $.reserved_identifier, $.string, $.number),
 
-    reserved_identifier: $ => choice('get', 'set', 'async')
+    reserved_identifier: $ => choice('get', 'set', 'async', 'abstract', 'interface'),
   }
 });
 

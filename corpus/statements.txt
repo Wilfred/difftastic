@@ -262,13 +262,17 @@ Return statements
 return;
 return 5;
 return 1,2;
+return async;
+return a;
 
 ---
 
 (program
   (return_statement)
   (return_statement (number))
-  (return_statement (comma_op (number) (number))))
+  (return_statement (comma_op (number) (number)))
+  (return_statement (reserved_identifier))
+  (return_statement (identifier)))
 
 ============================================
 Variable declarations
@@ -509,3 +513,47 @@ for (;;) {
       (if_statement (identifier)
         (statement_block (break_statement (identifier)))
         (statement_block (continue_statement (identifier))))))))
+
+============================================
+Debugger statements
+============================================
+
+debugger;
+debugger
+
+---
+
+(program (debugger_statement) (debugger_statement))
+
+============================================
+With statements
+============================================
+
+with (x) { i; }
+
+---
+
+(program (with_statement (identifier) (statement_block (expression_statement (identifier)))))
+
+============================================
+Abstract as identifier
+============================================
+
+abstract
+
+---
+
+(program (expression_statement (reserved_identifier)))
+
+
+============================================
+Interface as identifier
+============================================
+
+interface
+
+---
+
+(program (expression_statement (reserved_identifier)))
+
+
