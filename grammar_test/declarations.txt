@@ -1,12 +1,14 @@
 ==================================
 Ambient declarations
-================================
+==================================
 
 declare class Error {
   constructor: Function
 }
 
 declare var foo: number;
+
+declare const bar = "baz";
 
 declare function greet(greeting: string): void;
 
@@ -31,6 +33,31 @@ declare class Greeter {
   showGreeting(): void;
 }
 
+declare module Foo.Bar { export var foo; };
+
+declare module Foo {
+  break;
+  continue;
+  debugger;
+  do { } while (true);
+  for (x in null) { }
+  for (;;) { }
+  if (true) { } else { }
+  1;
+  return;
+  switch (x) {
+      case 1:
+          break;
+      default:
+          break;
+  }
+  throw "hello";
+  try { }
+  catch (e) { }
+  finally { }
+  with (x) { }
+}
+
 ---
 
 (program
@@ -41,6 +68,8 @@ declare class Greeter {
         (public_field_definition (identifier) (type_annotation (type_reference (identifier)))))))
   (ambient_declaration
     (ambient_variable (ambient_binding (identifier) (type_annotation (predefined_type)))))
+  (ambient_declaration
+    (ambient_variable (ambient_binding (identifier)) (string)))
   (ambient_declaration
     (ambient_function
       (identifier)
@@ -73,14 +102,41 @@ declare class Greeter {
     (class
       (identifier)
       (class_body
-        (ambient_method_declaration
+        (method_definition
           (identifier) (call_signature (formal_parameters (required_parameter (identifier) (type_annotation (predefined_type))))))
         (public_field_definition (identifier) (type_annotation (predefined_type)))
-        (ambient_method_declaration (identifier) (call_signature (formal_parameters) (type_annotation (predefined_type))))))))
+        (method_definition (identifier) (call_signature (formal_parameters) (type_annotation (predefined_type)))))))
+
+  (ambient_declaration
+    (module
+      (identifier)
+      (identifier)
+      (export_statement (variable_declaration (variable_declarator (identifier))))))
+      (empty_statement)
+
+  (ambient_declaration
+    (module
+      (identifier)
+      (break_statement)
+      (continue_statement)
+      (debugger_statement)
+      (do_statement (statement_block) (true))
+      (for_in_statement (identifier) (null) (expression_statement (object)))
+      (for_statement (expression_statement (object)))
+      (if_statement (true) (statement_block) (expression_statement (object)))
+      (expression_statement (number))
+      (return_statement)
+      (switch_statement (identifier) (case (number) (break_statement)) (default (break_statement)))
+      (throw_statement (string))
+      (try_statement
+        (statement_block)
+        (catch (identifier) (statement_block))
+        (finally (statement_block)))
+      (with_statement (identifier) (statement_block)))))
 
 ==================================
 Ambient exports
-================================
+==================================
 
 export default function point(x: number, y: number) {
     return { x, y };
@@ -104,7 +160,7 @@ export default class A {}
 
 ==================================
 Typeof types
-================================
+==================================
 
 declare class Linter {
     static findConfiguration: typeof findConfiguration;
@@ -123,7 +179,7 @@ declare class Linter {
 
 ==================================
 Export assignments
-================================
+==================================
 
 export = Linter;
 
@@ -132,8 +188,50 @@ export = Linter;
 (program (export_statement (identifier)))
 
 ==================================
+Import aliases
+==================================
+
+import r = X.N;
+
+---
+
+(program
+  (expression_statement
+    (import_alias (identifier) (identifier) (identifier))))
+
+==================================
+Import aliases in modules
+==================================
+
+module C {
+  import r = X.N;
+}
+
+---
+
+(program
+  (module (identifier) (expression_statement (import_alias (identifier) (identifier) (identifier)))))
+
+==================================
+Export import aliases
+==================================
+
+module M {
+    export module N {
+    }
+    export import X = N;
+}
+
+---
+
+(program
+  (module (identifier)
+    (export_statement (module (identifier)))
+    (export_statement (import_alias (identifier) (identifier)))))
+
+==================================
 Property signatures with accessibility modifiers
-================================
+==================================
 
 export interface IAppState {
   public readonly users: ReadonlyArray<User>
@@ -167,7 +265,7 @@ export class CloningRepository {
 
 ==================================
 Ambient type declarations
-================================
+==================================
 
 declare type IndexableType = string | number | Date | Array<string | number | Date>;
 
@@ -187,14 +285,19 @@ declare type IndexableType = string | number | Date | Array<string | number | Da
 
 ==================================
 Ambient module declarations
-================================
+==================================
 
 module Promise {
     var on: {}
     export function resolve<R>(value?: Thenable<R>): Promise<R>;
 }
 
+declare module "example"
+
+declare module "example" { }
+
 ---
+
 (program
   (module
     (identifier)
@@ -209,7 +312,10 @@ module Promise {
           (optional_parameter
             (identifier)
             (type_annotation (type_reference (identifier) (type_arguments (type_reference (identifier)))))))
-        (type_annotation (type_reference (identifier) (type_arguments (type_reference (identifier))))))))))
+        (type_annotation (type_reference (identifier) (type_arguments (type_reference (identifier)))))))))
+
+  (ambient_declaration (module (string)))
+  (ambient_declaration (module (string))))
 
 =================================
 Accessibility modifiers as pair keywords
@@ -315,6 +421,7 @@ declare namespace moment {
 =================================
 Export interfaces in namespaces
 =================================
+
 declare namespace Foo {
   export interface Bar {
   }
@@ -327,6 +434,27 @@ declare namespace Foo {
     (ambient_namespace
       (identifier)
       (ambient_namespace_body (ambient_export_declaration (interface_declaration (identifier) (object_type)))))))
+
+=================================
+Namespaces as internal modules
+=================================
+
+namespace Foo {
+}
+
+namespace Bar {
+  var x;
+}
+
+---
+
+(program
+  (expression_statement
+    (internal_module (identifier)))
+
+  (expression_statement
+    (internal_module (identifier)
+    (variable_declaration (variable_declarator (identifier))))))
 
 =======================================
 Method signatures with reserved identifiers
@@ -345,11 +473,14 @@ class Foo {
     (class
       (identifier)
       (class_body
-        (ambient_method_declaration (accessibility_modifier) (reserved_identifier) (call_signature (formal_parameters)))
-        (ambient_method_declaration
+        (method_definition
+          (accessibility_modifier)
+          (reserved_identifier)
+          (call_signature (formal_parameters)))
+        (method_definition
           (reserved_identifier)
           (call_signature (formal_parameters) (type_annotation (type_reference (identifier)))))
-        (ambient_method_declaration
+        (method_definition
           (accessibility_modifier)
           (reserved_identifier)
           (call_signature (formal_parameters (required_parameter (identifier)))))))))
@@ -397,9 +528,35 @@ Abstract classes
 =======================================
 
 abstract class Foo {
+}
 
+abstract class Animal {
+    abstract prop: string;
+    otherProp: string;
+    abstract makeSound(): void;
+    abstract get readonlyProp(): string;
+    move(): void {
+        console.log("roaming the earth...");
+    }
 }
 
 ---
 
-(program (expression_statement (class (identifier) (class_body))))
+(program
+  (expression_statement
+    (abstract_class (identifier) (class_body)))
+  (expression_statement
+    (abstract_class (identifier) (class_body
+      (public_field_definition (identifier) (type_annotation (predefined_type)))
+      (public_field_definition (identifier) (type_annotation (predefined_type)))
+      (abstract_method_definition
+        (identifier)
+        (call_signature (formal_parameters) (type_annotation (predefined_type))))
+      (abstract_method_definition
+        (identifier)
+        (call_signature (formal_parameters) (type_annotation (predefined_type))))
+      (method_definition
+        (identifier)
+        (call_signature (formal_parameters) (type_annotation (predefined_type)))
+        (statement_block
+          (expression_statement (function_call (member_access (identifier) (identifier)) (arguments (string))))))))))

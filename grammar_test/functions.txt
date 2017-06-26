@@ -1,6 +1,6 @@
 ==================================
 Functions with typed parameters
-================================
+==================================
 
 function greeter(person: string) {
   return "Hello, " + person;
@@ -48,7 +48,7 @@ function foo<T, U>(a: T[], f: (x: T) => U): U[] {
 
 ==================================
 Function calls with type arguments
-================================
+==================================
 
 const lines = new Array<DiffLine>()
 
@@ -62,7 +62,7 @@ const lines = new Array<DiffLine>()
 
 ==================================
 Arrow functions and generators with call signatures
-================================
+==================================
 
 <A>(amount, interestRate, duration): number => 2
 
@@ -82,3 +82,53 @@ function* foo<A>(amount, interestRate, duration): number {
       (identifier)
       (call_signature (type_parameters (type_parameter (identifier))) (formal_parameters (required_parameter (identifier)) (required_parameter (identifier)) (required_parameter (identifier))) (type_annotation (predefined_type)))
       (statement_block (expression_statement (yield_expression (math_op (math_op (math_op (identifier) (identifier)) (identifier)) (number))))))))
+
+==================================
+Arrow function with parameter named async
+==================================
+
+const x = async => async;
+
+---
+
+(program
+  (lexical_declaration (variable_declarator (identifier) (arrow_function (reserved_identifier) (reserved_identifier)))))
+
+==================================
+Super
+==================================
+
+class A extends B {
+    constructor(x: number, y: number) {
+        super(x);
+    }
+    public toString() {
+        return super.toString() + " y=" + this.y;
+    }
+}
+
+---
+
+(program
+  (expression_statement
+    (class
+      (identifier)
+      (class_heritage (extends_clause (type_reference (identifier))))
+      (class_body
+        (method_definition
+          (identifier)
+          (call_signature
+            (formal_parameters
+              (required_parameter (identifier) (type_annotation (predefined_type)))
+              (required_parameter (identifier) (type_annotation (predefined_type)))))
+          (statement_block
+            (expression_statement (function_call (super) (arguments (identifier))))))
+        (method_definition
+          (accessibility_modifier)
+          (identifier)
+          (call_signature (formal_parameters))
+          (statement_block
+            (return_statement
+              (math_op
+                (math_op (function_call (member_access (super) (identifier)) (arguments)) (string))
+                (member_access (this_expression) (identifier))))))))))

@@ -1,0 +1,69 @@
+==================================
+As expressions
+==================================
+
+as `hello`
+
+---
+
+(program
+  (expression_statement (as_expression (template_string (template_chars)))))
+
+==================================
+Typeof expressions
+==================================
+
+typeof class {} === "function";
+
+typeof module === "object" && typeof module.exports === "object"
+
+---
+
+(program
+  (expression_statement
+    (rel_op
+      (type_op (anonymous_class (class_body)))
+      (string)))
+
+  (expression_statement
+    (bool_op
+      (rel_op (type_op) (string))
+      (rel_op (type_op (member_access (identifier))) (string)))))
+
+==================================
+Array with empty elements
+==================================
+
+[, a, , b, , , , s, , , ]
+
+---
+
+(program
+  (expression_statement
+    (array (identifier) (identifier) (identifier))))
+
+==================================
+Array with empty elements
+==================================
+
+(a: ) => { }
+
+---
+
+(program
+  (expression_statement
+    (arrow_function (call_signature (formal_parameters (required_parameter (identifier) (type_annotation)))) (object))))
+
+
+==================================
+Module as reserved identifier
+==================================
+
+var module;
+module;
+
+---
+
+(program
+  (variable_declaration (variable_declarator (reserved_identifier)))
+  (expression_statement (reserved_identifier)))
