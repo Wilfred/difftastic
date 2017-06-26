@@ -1,8 +1,9 @@
 const PREC = {
-  DECLARATION: 1,
   ACCESSIBILITY: 1,
-  UNION: 2,
+  DEFINITION: 1,
+  DECLARATION: 1,
   INTERSECTION: 2,
+  UNION: 2,
   PLUS: 4,
   REL: 5,
   TIMES: 6,
@@ -303,26 +304,15 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       '}'
     ),
 
-    method_definition: $ => prec.left(1, choice(
-      seq(
-        optional($.accessibility_modifier),
-        optional('static'),
-        optional($.readonly),
-        optional($.reserved_identifier),
-        optional(choice('get', 'set', '*')),
-        $._property_name,
-        $.call_signature,
-        $.statement_block
-      ),
-      seq(
-        optional($.accessibility_modifier),
-        optional('static'),
-        optional($.readonly),
-        optional($.reserved_identifier),
-        optional(choice('get', 'set', '*')),
-        $._property_name,
-        $.call_signature
-      )
+    method_definition: $ => prec.left(PREC.DEFINITION, seq(
+      optional($.accessibility_modifier),
+      optional('static'),
+      optional($.readonly),
+      optional($.reserved_identifier),
+      optional(choice('get', 'set', '*')),
+      $._property_name,
+      $.call_signature,
+      optional($.statement_block)
     )),
 
     // A function, generator, class, or variable declaration
