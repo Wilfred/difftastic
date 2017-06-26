@@ -515,7 +515,7 @@ new Thing;
 
 (program
   (expression_statement (new_expression (function_call
-    (member_access (reserved_identifier) (identifier))
+    (member_access (identifier) (identifier))
     (arguments (number) (string)))))
   (expression_statement (new_expression
     (identifier))))

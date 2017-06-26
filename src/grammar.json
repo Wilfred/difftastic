@@ -4389,10 +4389,6 @@
         },
         {
           "type": "STRING",
-          "value": "module"
-        },
-        {
-          "type": "STRING",
           "value": "interface"
         }
       ]

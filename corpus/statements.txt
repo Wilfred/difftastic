@@ -547,17 +547,6 @@ abstract
 
 
 ============================================
-Module as identifier
-============================================
-
-module
-
----
-
-(program (expression_statement (reserved_identifier)))
-
-
-============================================
 Interface as identifier
 ============================================
 
