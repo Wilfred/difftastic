@@ -27,8 +27,8 @@ typeof module === "object" && typeof module.exports === "object"
 
   (expression_statement
     (bool_op
-      (rel_op (type_op) (string))
-      (rel_op (type_op (member_access (identifier))) (string)))))
+      (rel_op (type_op (reserved_identifier)) (string))
+      (rel_op (type_op (member_access (reserved_identifier) (identifier))) (string)))))
 
 ==================================
 Array with empty elements
