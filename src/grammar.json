@@ -622,17 +622,8 @@
           "type": "SEQ",
           "members": [
             {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "SYMBOL",
-                  "name": "variable_declarator"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "variable_declarator"
-                }
-              ]
+              "type": "SYMBOL",
+              "name": "variable_declarator"
             },
             {
               "type": "REPEAT",
@@ -644,17 +635,8 @@
                     "value": ","
                   },
                   {
-                    "type": "CHOICE",
-                    "members": [
-                      {
-                        "type": "SYMBOL",
-                        "name": "variable_declarator"
-                      },
-                      {
-                        "type": "SYMBOL",
-                        "name": "variable_declarator"
-                      }
-                    ]
+                    "type": "SYMBOL",
+                    "name": "variable_declarator"
                   }
                 ]
               }
@@ -662,45 +644,15 @@
           ]
         },
         {
-          "type": "SEQ",
+          "type": "CHOICE",
           "members": [
             {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "SYMBOL",
-                  "name": "_automatic_semicolon"
-                },
-                {
-                  "type": "STRING",
-                  "value": ";"
-                }
-              ]
+              "type": "SYMBOL",
+              "name": "_automatic_semicolon"
             },
             {
-              "type": "REPEAT",
-              "content": {
-                "type": "SEQ",
-                "members": [
-                  {
-                    "type": "STRING",
-                    "value": ","
-                  },
-                  {
-                    "type": "CHOICE",
-                    "members": [
-                      {
-                        "type": "SYMBOL",
-                        "name": "_automatic_semicolon"
-                      },
-                      {
-                        "type": "STRING",
-                        "value": ";"
-                      }
-                    ]
-                  }
-                ]
-              }
+              "type": "STRING",
+              "value": ";"
             }
           ]
         }
