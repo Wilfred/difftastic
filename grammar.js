@@ -175,8 +175,8 @@ module.exports = grammar({
 
     variable_declaration: $ => seq(
       'var',
-      commaSep1($.variable_declarator),
-      semicolon($)
+      commaSep1(choice($.variable_declarator, $.variable_declarator)),
+      commaSep1(semicolon($))
     ),
 
     lexical_declaration: $ => seq(

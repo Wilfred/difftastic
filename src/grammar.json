@@ -614,8 +614,17 @@
           "type": "SEQ",
           "members": [
             {
-              "type": "SYMBOL",
-              "name": "variable_declarator"
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "variable_declarator"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "variable_declarator"
+                }
+              ]
             },
             {
               "type": "REPEAT",
@@ -627,8 +636,17 @@
                     "value": ","
                   },
                   {
-                    "type": "SYMBOL",
-                    "name": "variable_declarator"
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "SYMBOL",
+                        "name": "variable_declarator"
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "variable_declarator"
+                      }
+                    ]
                   }
                 ]
               }
@@ -636,15 +654,45 @@
           ]
         },
         {
-          "type": "CHOICE",
+          "type": "SEQ",
           "members": [
             {
-              "type": "SYMBOL",
-              "name": "_automatic_semicolon"
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "_automatic_semicolon"
+                },
+                {
+                  "type": "STRING",
+                  "value": ";"
+                }
+              ]
             },
             {
-              "type": "STRING",
-              "value": ";"
+              "type": "REPEAT",
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "STRING",
+                    "value": ","
+                  },
+                  {
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "SYMBOL",
+                        "name": "_automatic_semicolon"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": ";"
+                      }
+                    ]
+                  }
+                ]
+              }
             }
           ]
         }
