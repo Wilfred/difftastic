@@ -67,3 +67,16 @@ module;
 (program
   (variable_declaration (variable_declarator (reserved_identifier)))
   (expression_statement (reserved_identifier)))
+
+==================================
+Multi-line variable declarations
+==================================
+
+var a = b
+  , c = d
+  , e = f
+
+---
+
+(program (variable_declaration (variable_declarator (identifier) (identifier)) (variable_declarator (identifier) (identifier)) (variable_declarator (identifier) (identifier))))
+
