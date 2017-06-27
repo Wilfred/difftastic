@@ -2603,8 +2603,8 @@
                 "name": "_expression"
               },
               {
-                "type": "STRING",
-                "value": "module"
+                "type": "SYMBOL",
+                "name": "reserved_identifier"
               }
             ]
           },
@@ -3553,8 +3553,8 @@
                     "name": "anonymous_class"
                   },
                   {
-                    "type": "STRING",
-                    "value": "module"
+                    "type": "SYMBOL",
+                    "name": "reserved_identifier"
                   }
                 ]
               }

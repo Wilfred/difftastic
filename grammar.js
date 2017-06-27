@@ -191,7 +191,7 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
     ),
 
     type_op: ($, previous) => choice(
-      prec(PREC.TYPEOF, seq('typeof', choice($.anonymous_class, 'module'))),
+      prec(PREC.TYPEOF, seq('typeof', choice($.anonymous_class, $.reserved_identifier))),
       previous
     ),
 
@@ -412,7 +412,7 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
     ),
 
     member_access: $ => prec(PREC.MEMBER, seq(
-      choice($._expression, 'module'),
+      choice($._expression, $.reserved_identifier),
       '.',
       $.identifier
     )),
@@ -510,7 +510,7 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       'string',
       'symbol',
       'void'
-      ),
+    ),
 
     required_parameter: $ => choice(
       seq(
