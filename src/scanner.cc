@@ -241,13 +241,13 @@ struct Scanner {
       advance(lexer);
     }
 
-    if (isalpha(lexer->lookahead) || (lexer->lookahead == '_')) {
+    if (iswalpha(lexer->lookahead) || (lexer->lookahead == '_')) {
       advance(lexer);
     } else if (!scan_operator(lexer)) {
       return false;
     }
 
-    while (isalnum(lexer->lookahead) || (lexer->lookahead == '_')) {
+    while (iswalnum(lexer->lookahead) || (lexer->lookahead == '_')) {
       advance(lexer);
     }
 
@@ -469,10 +469,10 @@ struct Scanner {
         break;
 
       default:
-        if (isalnum(lexer->lookahead) || lexer->lookahead == '_') {
+        if (iswalnum(lexer->lookahead) || lexer->lookahead == '_') {
           result += lexer->lookahead;
           advance(lexer);
-          while (isalnum(lexer->lookahead) || lexer->lookahead == '_') {
+          while (iswalnum(lexer->lookahead) || lexer->lookahead == '_') {
             result += lexer->lookahead;
             advance(lexer);
           }
@@ -540,7 +540,7 @@ struct Scanner {
     for (;;) {
       if (literal.nesting_depth == 0) {
         if (literal.type == Literal::REGEX) {
-          while (islower(lexer->lookahead)) {
+          while (iswlower(lexer->lookahead)) {
             advance(lexer);
           }
         }
