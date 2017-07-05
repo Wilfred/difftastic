@@ -19,10 +19,14 @@ Unary operator expressions
 -num;
 !bits;
 *boxed_thing;
+&T;
+&mut T;
 
 ---
 
 (source_file
+  (unary_expression (identifier))
+  (unary_expression (identifier))
   (unary_expression (identifier))
   (unary_expression (identifier))
   (unary_expression (identifier)))
@@ -57,6 +61,19 @@ a || b;
   (binary_expression (identifier) (identifier)))
 
 ============================================
+Grouped expressions
+============================================
+
+(0);
+(2 * (3 + 4));
+
+---
+
+(source_file
+  (number_literal)
+  (binary_expression (number_literal) (binary_expression (number_literal) (number_literal))))
+
+============================================
 Range expressions
 ============================================
 
@@ -89,6 +106,36 @@ x = y;
   (binary_expression (assignment_expression (identifier) (identifier))))
 
 ============================================
+Compound assignment expressions
+============================================
+
+x += 1;
+x += y;
+
+---
+
+(source_file
+  (binary_expression (compound_assignment_expr (identifier) (number_literal)))
+  (binary_expression (compound_assignment_expr (identifier) (identifier))))
+
+============================================
+Type cast expressions
+============================================
+
+1000 as u8;
+let character = integer as char;
+let size: f64 = len(values) as f64;
+
+---
+
+(source_file
+  (binary_expression (type_cast_expression (number_literal) (type_expression)))
+  (let_declaration (identifier) (binary_expression
+    (type_cast_expression (identifier) (type_expression))))
+  (let_declaration (identifier) (type_expression) (binary_expression
+    (type_cast_expression (call_expression (identifier) (arguments (identifier))) (type_expression)))))
+
+============================================
 Call expressions
 ============================================
 
@@ -117,6 +164,47 @@ Array expressions
   (array_expression (number_literal) (number_literal) (number_literal))
   (array_expression (string_literal) (string_literal) (string_literal))
   (array_expression (number_literal) (number_literal)))
+
+============================================
+Tuple expressions
+============================================
+
+();
+(0,);
+let (x, y, z) = (1, 2, 3);
+
+---
+
+(source_file
+  (unit_expression)
+  (tuple_expression (number_literal))
+  (let_declaration
+    (identifier) (identifier) (identifier)
+    (tuple_expression (number_literal) (number_literal) (number_literal))))
+
+============================================
+Struct expressions
+============================================
+
+NothingInMe {};
+Point {x: 10.0, y: 20.0};
+let a = SomeStruct { field1, field2: expression, field3 };
+let u = game::User {name: "Joe", age: 35, score: 100_000};
+
+---
+(source_file
+  (struct_expression (identifier))
+  (struct_expression (identifier)
+    (identifier) (number_literal)
+    (identifier) (number_literal))
+  (let_declaration (identifier) (struct_expression (identifier)
+    (identifier)
+    (identifier) (identifier)
+    (identifier)))
+  (let_declaration (identifier) (struct_expression (path (identifier)) (identifier)
+    (identifier) (string_literal)
+    (identifier) (number_literal)
+    (identifier) (number_literal))))
 
 ============================================
 If expressions
@@ -149,20 +237,10 @@ If let expressions
 if let ("Bacon", b) = dish {
 }
 
-if let Some(x) = option {
-    foo(x);
-} else {
-    bar();
-}
-
 ---
 
 (source_file
-  (if_let_expression (string_literal) (identifier) (identifier) (block))
-  (if_let_expression (call_expression (identifier) (arguments (identifier))) (identifier)
-    (block (call_expression (identifier) (arguments (identifier))))
-  (else_tail (block
-    (call_expression (identifier) (arguments))))))
+  (if_let_expression (string_literal) (identifier) (identifier) (block)))
 
 ============================================
 Match expressions
@@ -259,3 +337,41 @@ for i in 0..256 {
         (continue_expression (loop_label (identifier)))))
       (if_expression (binary_expression (binary_expression (identifier) (number_literal)) (number_literal)) (block
         (continue_expression (loop_label (identifier))))))))))
+
+============================================
+Field expressions
+============================================
+
+mystruct.myfield;
+foo().x;
+
+---
+
+(source_file
+  (identifier) (identifier)
+  (call_expression (identifier) (arguments)) (identifier))
+
+============================================
+Method-call expressions
+============================================
+
+mystruct.foo();
+
+---
+
+(source_file (method_call_expression (identifier) (identifier) (arguments)))
+
+============================================
+Index expressions
+============================================
+
+([1, 2, 3, 4])[0];
+arr[10];
+arr[n];
+
+---
+
+(source_file
+  (array_expression (number_literal) (number_literal) (number_literal) (number_literal)) (number_literal)
+  (identifier) (number_literal)
+  (identifier) (identifier))
