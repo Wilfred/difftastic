@@ -45,3 +45,50 @@ vec![0; 100];
     (number_literal) (number_literal) (number_literal)))
   (macro_invocation (macro_name) (macro_arguments
     (number_literal) (number_literal))))
+
+============================================
+Macro definition
+============================================
+
+macro_rules! say_hello {
+    () => (
+        println!("Hello!");
+    )
+}
+
+macro_rules! four {
+    () => {1 + 3};
+}
+
+macro_rules! foo {
+    (x => $e:expr) => (println!("mode X: {}", $e));
+    (y => $e:expr) => (println!("mode Y: {}", $e))
+}
+
+macro_rules! o_O {
+    (
+      $($x:expr; [ $( $y:expr ),* ]);*
+    ) => {
+      $($($x + $e),*),*
+    }
+}
+
+----
+
+(source_file
+  (expr_macro_rules (identifier) (macro_rule
+    (matcher)
+    (transcriber (non_special_token) (non_special_token) (non_special_token))))
+  (expr_macro_rules (identifier) (macro_rule
+    (matcher)
+    (transcriber (non_special_token))))
+  (expr_macro_rules (identifier)
+    (macro_rule
+      (matcher (non_special_token) (metavariable) (fragment_specifier))
+      (transcriber (non_special_token) (non_special_token) (non_special_token) (metavariable)))
+    (macro_rule
+      (matcher (non_special_token) (metavariable) (fragment_specifier))
+      (transcriber (non_special_token) (non_special_token) (non_special_token) (metavariable))))
+  (expr_macro_rules (identifier) (macro_rule
+    (matcher (non_special_token) (metavariable) (fragment_specifier) (non_special_token) (non_special_token) (non_special_token) (metavariable) (fragment_specifier) (non_special_token) (non_special_token) (non_special_token))
+    (transcriber (non_special_token) (metavariable) (non_special_token) (metavariable) (non_special_token)))))
