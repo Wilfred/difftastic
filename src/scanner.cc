@@ -118,10 +118,9 @@ struct Scanner {
       switch (lexer->lookahead) {
         case ' ':
         case '\t':
+        case '\r':
           skip(lexer);
           break;
-        case '\r':
-          if (lexer->lookahead == '\n') skip(lexer);
         case '\n':
           if (!open_heredocs.empty() && !*found_heredoc_starting_linebreak) {
             skip(lexer);
