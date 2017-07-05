@@ -1,4 +1,43 @@
 ============================================
+Modules
+============================================
+
+mod english;
+
+mod english {}
+
+mod english {
+    mod greetings {}
+    mod farewells {}
+}
+
+pub mod english;
+
+---
+
+(source_file
+  (mod_item (identifier))
+  (mod_item (identifier))
+  (mod_item (identifier)
+    (mod_item (identifier))
+    (mod_item (identifier)))
+  (mod_item (visibility_modifier) (identifier)))
+
+============================================
+Extern crate declarations
+============================================
+
+extern crate std;
+
+extern crate std as ruststd;
+
+---
+
+(source_file
+  (extern_crate_declaration (identifier))
+  (extern_crate_declaration (identifier) (identifier)))
+
+============================================
 Function declarations
 ============================================
 
@@ -6,6 +45,10 @@ fn main() {}
 
 fn add(x: i32, y: i32) -> i32 {
     return x + y;
+}
+
+fn takes_slice(slice: &str) {
+    println!("Got: {}", slice);
 }
 
 ---
@@ -17,7 +60,35 @@ fn add(x: i32, y: i32) -> i32 {
       (identifier) (type_expression) (identifier) (type_expression))
     (type_expression)
     (block
-      (return_expression (binary_expression (identifier) (identifier))))))
+      (return_expression (binary_expression (identifier) (identifier)))))
+  (function_item (identifier)
+    (parameters (identifier) (type_expression))
+    (block (macro_invocation (macro_name) (macro_arguments (string_literal) (identifier))))))
+
+============================================
+Use declarations
+============================================
+
+use abc;
+use phrases::japanese;
+use sayings::english::greetings;
+use sayings::english::greetings as en_greetings ;
+use phrases::english::{greetings,farewells};
+use sayings::japanese::farewells::*;
+pub use self::greetings::hello;
+use sayings::english::{self, greetings as en_greetings, farewells as en_farewells};
+
+---
+
+(source_file
+  (use_declaration (identifier))
+  (use_declaration (path (identifier)) (identifier))
+  (use_declaration (path (identifier)) (path (identifier)) (identifier))
+  (use_declaration (path (identifier)) (path (identifier)) (identifier) (identifier))
+  (use_declaration (path (identifier)) (path (identifier)) (identifier) (identifier))
+  (use_declaration (path (identifier)) (path (identifier)) (path (identifier)))
+  (use_declaration (visibility_modifier) (path (self)) (path (identifier)) (identifier))
+  (use_declaration (path (identifier)) (path (identifier)) (self) (identifier) (identifier) (identifier) (identifier)))
 
 ============================================
 Variable bindings
@@ -28,6 +99,7 @@ let x = 42;
 let x: i32;
 let x: i8 = 42;
 let mut x = 5;
+let y: bool = false;
 
 ---
 
@@ -36,7 +108,63 @@ let mut x = 5;
   (let_declaration (identifier) (number_literal))
   (let_declaration (identifier) (type_expression))
   (let_declaration (identifier) (type_expression) (number_literal))
-  (let_declaration (mutable_specifier) (identifier) (number_literal)))
+  (let_declaration (mutable_specifier) (identifier) (number_literal))
+  (let_declaration (identifier) (type_expression) (boolean_literal)))
+
+============================================
+Structs
+============================================
+
+struct Proton;
+struct Electron {}
+struct Point {x: i32, y: i32}
+struct Color(i32, i32, i32);
+struct Inches(i32);
+
+---
+
+(source_file
+  (struct_item (identifier))
+  (struct_item (identifier))
+  (struct_item (identifier)
+    (identifier) (type_expression)
+    (identifier) (type_expression))
+  (struct_item (identifier)
+    (type_expression) (type_expression) (type_expression))
+  (struct_item (identifier) (type_expression)))
+
+============================================
+Constant items
+============================================
+
+const N: i32 = 5;
+
+---
+
+(source_file (const_item (identifier) (type_expression) (number_literal)))
+
+============================================
+Static items
+============================================
+
+static N: i32 = 5;
+
+---
+
+(source_file (static_item (identifier) (type_expression) (number_literal)))
+
+============================================
+Type aliases
+============================================
+
+type Inch = u64;
+type Name = String;
+
+---
+
+(source_file
+  (type_item (identifier) (type_expression))
+  (type_item (identifier) (type_expression (identifier))))
 
 ============================================
 Empty statements
