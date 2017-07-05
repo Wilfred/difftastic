@@ -298,8 +298,12 @@ except:
 
 try:
   a
+except b:
+  c
+else:
+  d
 finally:
-  b
+  e
 
 ---
 
@@ -316,6 +320,8 @@ finally:
       (expression_statement (identifier))))
   (try_statement
     (expression_statement (identifier))
+    (except_clause (identifier) (expression_statement (identifier)))
+    (else_clause (expression_statement (identifier)))
     (finally_clause
       (expression_statement (identifier)))))
 
