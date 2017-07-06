@@ -451,9 +451,9 @@ module.exports = grammar({
     _arg_or_splat_arg: $ => choice($._arg, $.splat_argument),
 
     left_assignment_list: $ => $._mlhs,
-    _mlhs: $ => prec.left(-1, sepTrailing($._mlhs, choice($._simple_mlhs, $.destructured_left_assigment), ',')),
+    _mlhs: $ => prec.left(-1, sepTrailing($._mlhs, choice($._simple_mlhs, $.destructured_left_assignment), ',')),
     _simple_mlhs: $ => prec(-1, choice($._lhs, $.rest_assignment)),
-    destructured_left_assigment: $ => prec(-1, seq('(', commaSep1($._mlhs), ')')),
+    destructured_left_assignment: $ => prec(-1, seq('(', commaSep1($._mlhs), ')')),
 
     rest_assignment: $ => prec(-1, seq('*', optional($._lhs))),
     _lhs: $ => prec.left(choice(
