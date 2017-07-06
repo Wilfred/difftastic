@@ -1,6 +1,6 @@
 # tree-sitter-rust
 
-[![Build Status](https://travis-ci.org/MaximSokolov/tree-sitter-rust.svg?branch=master)](https://travis-ci.org/MaximSokolov/tree-sitter-rust)
+[![Build Status](https://travis-ci.org/tree-sitter/tree-sitter-rust.svg?branch=master)](https://travis-ci.org/MaximSokolov/tree-sitter-rust)
 
 Rust grammar for [tree-sitter](https://github.com/tree-sitter/tree-sitter)
 
