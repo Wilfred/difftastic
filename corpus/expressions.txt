@@ -384,39 +384,38 @@ yield from a
 lambdas
 ====================================================
 
-A = lambda b, c: d("e" % f)
-B = lambda: True
-C = lambda a, b = c, *d, **e: a
-D = lambda (a,b): (a, b)
+lambda b, c: d("e" % f)
+lambda: True
+lambda a, b = c, *d, **e: a
+lambda (a,b): (a, b)
 
 ---
 
 (module
-  (expression_statement (assignment
-    (expression_list (identifier))
-    (expression_list (lambda
-      (identifier)
-      (identifier)
+  (expression_statement
+    (lambda
+      (lambda_parameters
+        (identifier)
+        (identifier))
       (call
         (identifier)
         (argument_list
-          (binary_operator (string) (identifier))))))))
-  (expression_statement (assignment
-    (expression_list (identifier))
-    (expression_list (lambda (true)))))
-  (expression_statement (assignment
-    (expression_list (identifier))
-    (expression_list (lambda
-      (identifier)
-      (default_parameter (identifier) (identifier))
-      (list_splat_parameter (identifier))
-      (dictionary_splat_parameter (identifier))
-      (identifier)))))
-  (expression_statement (assignment
-    (expression_list (identifier))
-    (expression_list (lambda
-      (tuple (identifier) (identifier))
-      (tuple (identifier) (identifier)))))))
+          (binary_operator (string) (identifier))))))
+  (expression_statement
+    (lambda (true)))
+  (expression_statement
+    (lambda
+      (lambda_parameters
+        (identifier)
+        (default_parameter (identifier) (identifier))
+        (list_splat_parameter (identifier))
+        (dictionary_splat_parameter (identifier)))
+      (identifier)))
+  (expression_statement
+    (lambda
+      (lambda_parameters
+        (tuple (identifier) (identifier)))
+      (tuple (identifier) (identifier)))))
 
 =====================================
 Conditional if expressions

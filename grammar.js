@@ -287,6 +287,8 @@ module.exports = grammar({
       ')'
     ),
 
+    lambda_parameters: $ => $._parameters,
+
     _parameters: $ => seq(
       commaSep1(choice(
         $.identifier,
@@ -501,7 +503,7 @@ module.exports = grammar({
 
     lambda: $ => seq(
       'lambda',
-      optional($._parameters),
+      optional($.lambda_parameters),
       ':',
       $._expression
     ),

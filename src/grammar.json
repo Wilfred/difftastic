@@ -1107,6 +1107,10 @@
         }
       ]
     },
+    "lambda_parameters": {
+      "type": "SYMBOL",
+      "name": "_parameters"
+    },
     "_parameters": {
       "type": "SEQ",
       "members": [
@@ -2418,7 +2422,7 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "_parameters"
+              "name": "lambda_parameters"
             },
             {
               "type": "BLANK"
