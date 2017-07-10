@@ -367,6 +367,9 @@ async def i(a, b=c, *c, **d):
 async def d(a: str) -> None:
   return None
 
+async def d(a:str="default", b=c) -> None:
+  return None
+
 ---
 
 (module
@@ -405,6 +408,13 @@ async def d(a: str) -> None:
   (async_function_definition
     (identifier)
     (parameters (typed_parameter (identifier) (type (identifier))))
+    (type (none))
+    (return_statement (expression_list (none))))
+  (async_function_definition
+    (identifier)
+    (parameters
+      (typed_default_parameter (identifier) (type (identifier)) (string))
+      (default_parameter (identifier) (identifier)))
     (type (none))
     (return_statement (expression_list (none)))))
 
