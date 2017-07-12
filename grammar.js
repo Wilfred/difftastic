@@ -32,36 +32,19 @@ module.exports = grammar({
     /[\s\uFEFF\u2060\u200B]/
   ],
 
+  inline: $ => [
+    $._statement,
+    $._semicolon
+  ],
+
   conflicts: $ => [
-    // { foo (
-    //    ^--- property name or function call in block?
     [$._expression, $._property_name],
-
     [$.labeled_statement, $._property_name],
-
-    // { async (
-    //    ^--- method definition or async arrow function?
     [$.reserved_identifier, $.arrow_function],
-
-    // ( foo ,
-    //    ^--- arrow function parameters or comma expression?
     [$.formal_parameters, $._expression],
-
-    // ( {foo} )
-    // ( [foo] )
-    //    ^-- destructured arrow function parameters or parenthesized expression?
     [$.destructuring_pattern, $._expression],
-
-    // { key ,
-    //    ^--- shorthand object property or comma expression in block?
     [$._expression, $._property_definition_list],
-
-    // { key = 5,
-    //         ^ comma expression assignment in a block or assignment_pattern in an object?
     [$.assignment_pattern, $.assignment],
-
-    [$.yield_expression],
-
     [$.method_definition, $.reserved_identifier]
   ],
 
@@ -73,12 +56,12 @@ module.exports = grammar({
     //
 
     export_statement: $ => choice(
-      seq('export', '*', $._from_clause, semicolon($)),
-      seq('export', $.export_clause, $._from_clause, semicolon($)),
-      seq('export', $.export_clause, semicolon($)),
+      seq('export', '*', $._from_clause, $._semicolon),
+      seq('export', $.export_clause, $._from_clause, $._semicolon),
+      seq('export', $.export_clause, $._semicolon),
       seq('export', $._declaration),
       seq('export', 'default', $.anonymous_class),
-      seq('export', 'default', $._expression, semicolon($))
+      seq('export', 'default', $._expression, $._semicolon)
     ),
 
     export_clause: $ => seq(
@@ -114,7 +97,7 @@ module.exports = grammar({
         seq($.import_clause, $._from_clause),
         $.string
       ),
-      semicolon($)
+      $._semicolon
     ),
 
     import_clause: $ => choice(
@@ -174,19 +157,19 @@ module.exports = grammar({
 
     expression_statement: $ => seq(
       choice($._expression, $.comma_op),
-      semicolon($)
+      $._semicolon
     ),
 
     variable_declaration: $ => seq(
       'var',
       commaSep1($.variable_declarator),
-      semicolon($)
+      $._semicolon
     ),
 
     lexical_declaration: $ => seq(
-      letOrConst(),
+      choice('let', 'const'),
       commaSep1($.variable_declarator),
-      semicolon($)
+      $._semicolon
     ),
 
     variable_declarator: $ => choice(
@@ -241,7 +224,7 @@ module.exports = grammar({
     for_in_statement: $ => seq(
       'for',
       '(',
-      optional(variableType()),
+      optional(choice('var', 'let', 'const')),
       $._expression,
       'in',
       $._expression,
@@ -252,7 +235,7 @@ module.exports = grammar({
     for_of_statement: $ => seq(
       'for',
       '(',
-      optional(variableType()),
+      optional(choice('var', 'let', 'const')),
       $._expression,
       'of',
       $._expression,
@@ -271,7 +254,7 @@ module.exports = grammar({
       $.statement_block,
       'while',
       $._paren_expression,
-      semicolon($)
+      $._semicolon
     ),
 
     try_statement: $ => seq(
@@ -285,36 +268,36 @@ module.exports = grammar({
       'with',
       optional(seq('(', $.identifier, ')')),
       $.statement_block,
-      semicolon($)
+      $._semicolon
     ),
 
     break_statement: $ => seq(
       'break',
       optional($.identifier),
-      semicolon($)
+      $._semicolon
     ),
 
     continue_statement: $ => seq(
       'continue',
       optional($.identifier),
-      semicolon($)
+      $._semicolon
     ),
 
     debugger_statement: $ => seq(
       'debugger',
-      semicolon($)
+      $._semicolon
     ),
 
     return_statement: $ => seq(
       'return',
       optional(choice($._expression, $.comma_op)),
-      semicolon($)
+      $._semicolon
     ),
 
     throw_statement: $ => seq(
       'throw',
       choice($._expression, $.comma_op),
-      semicolon($)
+      $._semicolon
     ),
 
     empty_statement: $ => ';',
@@ -401,7 +384,10 @@ module.exports = grammar({
       $.reserved_identifier
     ),
 
-    yield_expression: $ => seq('yield', optional($._expression)),
+    yield_expression: $ => prec.right(seq(
+      'yield',
+      optional($._expression)
+    )),
 
     object: $ => prec(PREC.OBJECT, seq(
       '{',
@@ -487,19 +473,16 @@ module.exports = grammar({
         $.spread_element
       ))),
 
-    // Anonymous class declarations only occur in exports
     anonymous_class: $ => choice(
       seq('class', $._class_tail)
     ),
 
-    // An identifiable class.
     class: $ => seq(
       'class',
       $.identifier,
       $._class_tail
     ),
 
-    // The superclass and body of a class.
     _class_tail: $ => seq(
       optional($.class_heritage),
       $.class_body
@@ -567,7 +550,8 @@ module.exports = grammar({
       choice(
         $.member_access,
         $.subscript_access,
-        pattern($)
+        $.identifier,
+        $.destructuring_pattern
       ),
       $._initializer
     )),
@@ -768,7 +752,7 @@ module.exports = grammar({
         optional('static'),
         choice(
           seq($.method_definition, optional(';')),
-          seq($.public_field_definition, semicolon($))
+          seq($.public_field_definition, $._semicolon)
         )
       )),
       '}'
@@ -778,7 +762,7 @@ module.exports = grammar({
 
     formal_parameters: $ => seq(
       '(',
-      commaSep(pattern($)),
+      commaSep(choice($.identifier, $.destructuring_pattern)),
       ')'
     ),
 
@@ -807,12 +791,10 @@ module.exports = grammar({
     _property_name: $ => choice($.identifier, $.reserved_identifier, $.string, $.number),
 
     reserved_identifier: $ => choice('get', 'set', 'async', 'abstract', 'interface'),
+
+    _semicolon: $ => choice($._automatic_semicolon, ';')
   }
 });
-
-function semicolon($) {
-  return choice($._automatic_semicolon, ';')
-}
 
 function commaSep1Trailing(recurSymbol, rule) {
   return seq(rule, optional(seq(',', optional(recurSymbol))))
@@ -824,16 +806,4 @@ function commaSep1 (rule) {
 
 function commaSep (rule) {
   return optional(commaSep1(rule));
-}
-
-function variableType () {
-  return choice('var', 'let', 'const');
-}
-
-function letOrConst () {
-  return choice('let', 'const');
-}
-
-function pattern ($) {
-  return choice($.identifier, $.destructuring_pattern)
 }
