@@ -102,6 +102,29 @@ cat a b 2> /dev/null
     (command_name))))
 
 ===============================
+Heredoc redirects
+===============================
+
+node <<JS
+console.log("hi")
+JS
+
+bash -c <<JS
+echo hi
+JS
+
+---
+
+(program
+  (command (simple_command
+    (command_name)
+    (heredoc_redirect (heredoc))))
+  (command (simple_command
+    (command_name)
+    (argument)
+    (heredoc_redirect (heredoc)))))
+
+===============================
 Variable expansions
 ===============================
 

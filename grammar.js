@@ -3,6 +3,10 @@ module.exports = grammar({
 
   inline: $ => [$.control_operator],
 
+  externals: $ => [
+    $.heredoc
+  ],
+
   rules: {
     program: $ => repeat($.command),
 
@@ -29,9 +33,10 @@ module.exports = grammar({
           $.operator_expansion
         ))
       )),
-      repeat(
-        $.file_redirect
-      )
+      repeat(choice(
+        $.file_redirect,
+        $.heredoc_redirect
+      ))
     ),
 
     pipeline: $ => prec.left(seq(
@@ -81,6 +86,11 @@ module.exports = grammar({
         $.file_descriptor,
         rename($.word, 'file_name')
       )
+    ),
+
+    heredoc_redirect: $ => seq(
+      choice('<<', '<<-'),
+      $.heredoc
     ),
 
     file_descriptor: $ => token(prec(1, /\d+/)),

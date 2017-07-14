@@ -105,8 +105,17 @@
         {
           "type": "REPEAT",
           "content": {
-            "type": "SYMBOL",
-            "name": "file_redirect"
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "file_redirect"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "heredoc_redirect"
+              }
+            ]
           }
         }
       ]
@@ -349,6 +358,28 @@
         }
       ]
     },
+    "heredoc_redirect": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "<<"
+            },
+            {
+              "type": "STRING",
+              "value": "<<-"
+            }
+          ]
+        },
+        {
+          "type": "SYMBOL",
+          "name": "heredoc"
+        }
+      ]
+    },
     "file_descriptor": {
       "type": "TOKEN",
       "content": {
@@ -389,7 +420,12 @@
     }
   ],
   "conflicts": [],
-  "externals": [],
+  "externals": [
+    {
+      "type": "SYMBOL",
+      "name": "heredoc"
+    }
+  ],
   "inline": [
     "control_operator"
   ]
