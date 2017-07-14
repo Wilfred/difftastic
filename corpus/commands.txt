@@ -77,3 +77,26 @@ a | b && c; d e f | e g
     (pipeline
       (simple_command (command_name) (argument) (argument))
       (simple_command (command_name) (argument))))))
+
+===============================
+File redirects
+===============================
+
+whoami > /dev/null
+cat a b 2> /dev/null
+2>&1 whoami
+
+---
+
+(program
+  (command (simple_command
+    (command_name)
+    (file_redirect (file_name))))
+  (command (simple_command
+    (command_name)
+    (argument)
+    (argument)
+    (file_redirect (file_descriptor) (file_name))))
+  (command (simple_command
+    (file_redirect (file_descriptor) (file_descriptor))
+    (command_name))))

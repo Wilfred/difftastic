@@ -16,12 +16,18 @@ module.exports = grammar({
     ),
 
     simple_command: $ => seq(
-      repeat($.environment_variable_assignment),
+      repeat(choice(
+        $.environment_variable_assignment,
+        $.file_redirect
+      )),
       rename($.leading_word, 'command_name'),
       optional(seq(
         /\s+/,
         repeat(rename($.word, 'argument'))
-      ))
+      )),
+      repeat(
+        $.file_redirect
+      )
     ),
 
     pipeline: $ => prec.left(seq(
@@ -49,9 +55,20 @@ module.exports = grammar({
       rename($.word, 'argument')
     ),
 
+    file_redirect: $ => seq(
+      optional($.file_descriptor),
+      choice('<', '>', '<&', '>&'),
+      choice(
+        $.file_descriptor,
+        rename($.word, 'file_name')
+      )
+    ),
+
+    file_descriptor: $ => token(prec(1, /\d+/)),
+
     leading_word: $ => /[^\s=|;]+/,
 
-    word: $ => /[^\s]+/,
+    word: $ => /[^\s<>&]+/,
 
     control_operator: $ => choice(
       '\n',

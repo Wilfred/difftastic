@@ -40,8 +40,17 @@
         {
           "type": "REPEAT",
           "content": {
-            "type": "SYMBOL",
-            "name": "environment_variable_assignment"
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "environment_variable_assignment"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "file_redirect"
+              }
+            ]
           }
         },
         {
@@ -79,6 +88,13 @@
               "type": "BLANK"
             }
           ]
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "file_redirect"
+          }
         }
       ]
     },
@@ -189,13 +205,79 @@
         }
       ]
     },
+    "file_redirect": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "file_descriptor"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "<"
+            },
+            {
+              "type": "STRING",
+              "value": ">"
+            },
+            {
+              "type": "STRING",
+              "value": "<&"
+            },
+            {
+              "type": "STRING",
+              "value": ">&"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "file_descriptor"
+            },
+            {
+              "type": "RENAME",
+              "content": {
+                "type": "SYMBOL",
+                "name": "word"
+              },
+              "value": "file_name"
+            }
+          ]
+        }
+      ]
+    },
+    "file_descriptor": {
+      "type": "TOKEN",
+      "content": {
+        "type": "PREC",
+        "value": 1,
+        "content": {
+          "type": "PATTERN",
+          "value": "\\d+"
+        }
+      }
+    },
     "leading_word": {
       "type": "PATTERN",
       "value": "[^\\s=|;]+"
     },
     "word": {
       "type": "PATTERN",
-      "value": "[^\\s]+"
+      "value": "[^\\s<>&]+"
     },
     "control_operator": {
       "type": "CHOICE",
