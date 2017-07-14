@@ -7,7 +7,7 @@ whoami
 ---
 
 (program
-  (command (simple_command (command_name))))
+  (command (command_name)))
 
 ===============================
 Commands with arguments
@@ -19,8 +19,8 @@ cat -n file1.txt file2.txt
 ---
 
 (program
-  (command (simple_command (command_name) (argument)))
-  (command (simple_command (command_name) (argument) (argument) (argument))))
+  (command (command_name) (argument))
+  (command (command_name) (argument) (argument) (argument)))
 
 ===================================
 Commands with environment variables
@@ -32,15 +32,15 @@ VAR1=a VAR2="ok" git diff --word-diff=color
 ---
 
 (program
-  (command (simple_command
+  (command
     (environment_variable_assignment (variable_name) (argument))
-    (command_name)))
-  (command (simple_command
+    (command_name))
+  (command
     (environment_variable_assignment (variable_name) (argument))
     (environment_variable_assignment (variable_name) (argument))
     (command_name)
     (argument)
-    (argument))))
+    (argument)))
 
 ===================================
 Pipelines
@@ -52,31 +52,32 @@ cat foo | grep -v bar
 ---
 
 (program
-  (command (pipeline
-    (simple_command (command_name))
-    (simple_command (command_name))))
-  (command (pipeline
-    (simple_command (command_name) (argument))
-    (simple_command (command_name) (argument) (argument)))))
+  (pipeline
+    (command (command_name))
+    (command (command_name)))
+  (pipeline
+    (command (command_name) (argument))
+    (command (command_name) (argument) (argument))))
 
 ===================================
 Lists
 ===================================
 
-a | b && c; d e f | e g
+a | b && c && d; d e f || e g
 
 ---
 
 (program
-  (command (list
+  (list
     (list
       (pipeline
-        (simple_command (command_name))
-        (simple_command (command_name)))
-      (simple_command (command_name)))
-    (pipeline
-      (simple_command (command_name) (argument) (argument))
-      (simple_command (command_name) (argument))))))
+        (command (command_name))
+        (command (command_name)))
+      (command (command_name)))
+    (command (command_name)))
+  (list
+    (command (command_name) (argument) (argument))
+    (command (command_name) (argument))))
 
 ===============================
 File redirects
@@ -89,17 +90,45 @@ cat a b 2> /dev/null
 ---
 
 (program
-  (command (simple_command
+  (command
     (command_name)
-    (file_redirect (file_name))))
-  (command (simple_command
+    (file_redirect (file_name)))
+  (command
     (command_name)
     (argument)
     (argument)
-    (file_redirect (file_descriptor) (file_name))))
-  (command (simple_command
+    (file_redirect (file_descriptor) (file_name)))
+  (command
     (file_redirect (file_descriptor) (file_descriptor))
-    (command_name))))
+    (command_name)))
+
+===============================
+Variable expansions
+===============================
+
+cat $FOO
+
+---
+
+(program
+  (command
+    (command_name)
+    (expansion (variable_name))))
+
+===============================
+Variable expansion operators
+===============================
+
+cat ${BAR} ${ABC=def} ${GHI:?jkl}
+
+---
+
+(program
+  (command
+    (command_name)
+    (operator_expansion (variable_name))
+    (operator_expansion (variable_name) (argument))
+    (operator_expansion (variable_name) (argument))))
 
 ===============================
 Heredoc redirects
@@ -116,13 +145,13 @@ JS
 ---
 
 (program
-  (command (simple_command
+  (command
     (command_name)
-    (heredoc_redirect (heredoc))))
-  (command (simple_command
+    (heredoc_redirect (heredoc)))
+  (command
     (command_name)
     (argument)
-    (heredoc_redirect (heredoc)))))
+    (heredoc_redirect (heredoc))))
 
 ===============================
 Heredocs with variables
@@ -137,37 +166,9 @@ exit
 ---
 
 (program
-  (command (simple_command
+  (command
     (command_name)
     (heredoc_redirect (heredoc
       (expansion (variable_name))
-      (operator_expansion (variable_name))))))
-  (command (simple_command (command_name))))
-
-===============================
-Variable expansions
-===============================
-
-cat $FOO
-
----
-
-(program
-  (command (simple_command
-    (command_name)
-    (expansion (variable_name)))))
-
-===============================
-Variable expansion operators
-===============================
-
-cat ${BAR} ${ABC=def} ${GHI:?jkl}
-
----
-
-(program
-  (command (simple_command
-    (command_name)
-    (operator_expansion (variable_name))
-    (operator_expansion (variable_name) (argument))
-    (operator_expansion (variable_name) (argument)))))
+      (operator_expansion (variable_name)))))
+  (command (command_name)))

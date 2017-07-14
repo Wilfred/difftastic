@@ -1,7 +1,7 @@
 module.exports = grammar({
   name: 'bash',
 
-  inline: $ => [$.control_operator],
+  inline: $ => [$.statement],
 
   externals: $ => [
     $._simple_heredoc,
@@ -16,18 +16,33 @@ module.exports = grammar({
   ],
 
   rules: {
-    program: $ => repeat($.command),
+    program: $ => repeat($._terminated_statement),
 
-    command: $ => seq(
-      choice(
-        $.simple_command,
-        $.pipeline,
-        $.list
-      ),
-      $.control_operator
+    _terminated_statement: $ => seq(
+      $.statement,
+      choice(';', ';;', '\n')
     ),
 
-    simple_command: $ => seq(
+    statement: $ => choice(
+      $.command,
+      $.while_statement,
+      $.pipeline,
+      $.list
+    ),
+
+    while_statement: $ => seq(
+      'while',
+      $._terminated_statement,
+      $.do_group
+    ),
+
+    do_group: $ => seq(
+      'do',
+      repeat($._terminated_statement),
+      'done'
+    ),
+
+    command: $ => seq(
       repeat(choice(
         $.environment_variable_assignment,
         $.file_redirect
@@ -47,23 +62,16 @@ module.exports = grammar({
       ))
     ),
 
-    pipeline: $ => prec.left(seq(
-      $.simple_command,
+    pipeline: $ => prec.left(1, seq(
+      $.statement,
       choice('|', '|&'),
-      $.simple_command
+      $.statement
     )),
 
     list: $ => prec.left(seq(
-      choice(
-        $.simple_command,
-        $.list,
-        $.pipeline
-      ),
-      choice('&&', ';'),
-      choice(
-        $.simple_command,
-        $.pipeline
-      )
+      $.statement,
+      choice('&&', '||'),
+      $.statement
     )),
 
     environment_variable_assignment: $ => seq(
@@ -118,12 +126,7 @@ module.exports = grammar({
 
     leading_word: $ => /[^\\\s#=|;:{}]+/,
 
-    word: $ => /[^#\\\s$<>{}&]+/,
-
-    control_operator: $ => choice(
-      '\n',
-      ';;'
-    ),
+    word: $ => /[^#\\\s$<>{}&;]+/,
 
     comment: $ => /#.*/,
   }

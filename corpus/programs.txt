@@ -27,11 +27,11 @@ f=g   \
 ---
 
 (program
-  (command (simple_command
+  (command
     (command_name)
     (argument)
-    (argument)))
-  (command (simple_command
+    (argument))
+  (command
     (environment_variable_assignment
       (variable_name)
       (argument))
@@ -39,4 +39,4 @@ f=g   \
       (variable_name)
       (argument))
     (command_name)
-    (argument))))
+    (argument)))

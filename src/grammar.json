@@ -5,36 +5,94 @@
       "type": "REPEAT",
       "content": {
         "type": "SYMBOL",
-        "name": "command"
+        "name": "_terminated_statement"
       }
     },
-    "command": {
+    "_terminated_statement": {
       "type": "SEQ",
       "members": [
+        {
+          "type": "SYMBOL",
+          "name": "statement"
+        },
         {
           "type": "CHOICE",
           "members": [
             {
-              "type": "SYMBOL",
-              "name": "simple_command"
+              "type": "STRING",
+              "value": ";"
             },
             {
-              "type": "SYMBOL",
-              "name": "pipeline"
+              "type": "STRING",
+              "value": ";;"
             },
             {
-              "type": "SYMBOL",
-              "name": "list"
+              "type": "STRING",
+              "value": "\n"
             }
           ]
-        },
-        {
-          "type": "SYMBOL",
-          "name": "control_operator"
         }
       ]
     },
-    "simple_command": {
+    "statement": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "command"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "while_statement"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "pipeline"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "list"
+        }
+      ]
+    },
+    "while_statement": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "while"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_terminated_statement"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "do_group"
+        }
+      ]
+    },
+    "do_group": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "do"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_terminated_statement"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "done"
+        }
+      ]
+    },
+    "command": {
       "type": "SEQ",
       "members": [
         {
@@ -122,13 +180,13 @@
     },
     "pipeline": {
       "type": "PREC_LEFT",
-      "value": 0,
+      "value": 1,
       "content": {
         "type": "SEQ",
         "members": [
           {
             "type": "SYMBOL",
-            "name": "simple_command"
+            "name": "statement"
           },
           {
             "type": "CHOICE",
@@ -145,7 +203,7 @@
           },
           {
             "type": "SYMBOL",
-            "name": "simple_command"
+            "name": "statement"
           }
         ]
       }
@@ -157,21 +215,8 @@
         "type": "SEQ",
         "members": [
           {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "simple_command"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "list"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "pipeline"
-              }
-            ]
+            "type": "SYMBOL",
+            "name": "statement"
           },
           {
             "type": "CHOICE",
@@ -182,22 +227,13 @@
               },
               {
                 "type": "STRING",
-                "value": ";"
+                "value": "||"
               }
             ]
           },
           {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "simple_command"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "pipeline"
-              }
-            ]
+            "type": "SYMBOL",
+            "name": "statement"
           }
         ]
       }
@@ -439,20 +475,7 @@
     },
     "word": {
       "type": "PATTERN",
-      "value": "[^#\\\\\\s$<>{}&]+"
-    },
-    "control_operator": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "\n"
-        },
-        {
-          "type": "STRING",
-          "value": ";;"
-        }
-      ]
+      "value": "[^#\\\\\\s$<>{}&;]+"
     },
     "comment": {
       "type": "PATTERN",
@@ -501,6 +524,6 @@
     }
   ],
   "inline": [
-    "control_operator"
+    "statement"
   ]
 }

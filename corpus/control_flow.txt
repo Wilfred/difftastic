@@ -1,0 +1,17 @@
+====================================
+While statements
+====================================
+
+while something happens; do
+  echo a
+  echo b
+done
+
+---
+
+(program
+  (while_statement
+    (command (command_name) (argument))
+    (do_group
+      (command (command_name) (argument))
+      (command (command_name) (argument)))))
