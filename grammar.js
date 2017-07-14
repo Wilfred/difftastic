@@ -10,6 +10,11 @@ module.exports = grammar({
     $._heredoc_end
   ],
 
+  extras: $ => [
+    $.comment,
+    /\s/
+  ],
+
   rules: {
     program: $ => repeat($.command),
 
@@ -111,13 +116,15 @@ module.exports = grammar({
 
     file_descriptor: $ => token(prec(1, /\d+/)),
 
-    leading_word: $ => /[^\s=|;:{}]+/,
+    leading_word: $ => /[^\s#=|;:{}]+/,
 
-    word: $ => /[^\s$<>{}&]+/,
+    word: $ => /[^# \s$<>{}&]+/,
 
     control_operator: $ => choice(
       '\n',
       ';;'
-    )
+    ),
+
+    comment: $ => /#.*/,
   }
 });

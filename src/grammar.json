@@ -435,11 +435,11 @@
     },
     "leading_word": {
       "type": "PATTERN",
-      "value": "[^\\s=|;:{}]+"
+      "value": "[^\\s#=|;:{}]+"
     },
     "word": {
       "type": "PATTERN",
-      "value": "[^\\s$<>{}&]+"
+      "value": "[^# \\s$<>{}&]+"
     },
     "control_operator": {
       "type": "CHOICE",
@@ -453,9 +453,17 @@
           "value": ";;"
         }
       ]
+    },
+    "comment": {
+      "type": "PATTERN",
+      "value": "#.*"
     }
   },
   "extras": [
+    {
+      "type": "SYMBOL",
+      "name": "comment"
+    },
     {
       "type": "PATTERN",
       "value": "\\s"
