@@ -1,0 +1,79 @@
+===============================
+Commands
+===============================
+
+whoami
+
+---
+
+(program
+  (command (simple_command (command_name))))
+
+===============================
+Commands with arguments
+===============================
+
+cat file1.txt
+cat -n file1.txt file2.txt
+
+---
+
+(program
+  (command (simple_command (command_name) (argument)))
+  (command (simple_command (command_name) (argument) (argument) (argument))))
+
+===================================
+Commands with environment variables
+===================================
+
+VAR1=1 ./script/test
+VAR1=a VAR2="ok" git diff --word-diff=color
+
+---
+
+(program
+  (command (simple_command
+    (environment_variable_assignment (variable_name) (argument))
+    (command_name)))
+  (command (simple_command
+    (environment_variable_assignment (variable_name) (argument))
+    (environment_variable_assignment (variable_name) (argument))
+    (command_name)
+    (argument)
+    (argument))))
+
+===================================
+Pipelines
+===================================
+
+whoami | cat
+cat foo | grep -v bar
+
+---
+
+(program
+  (command (pipeline
+    (simple_command (command_name))
+    (simple_command (command_name))))
+  (command (pipeline
+    (simple_command (command_name) (argument))
+    (simple_command (command_name) (argument) (argument)))))
+
+===================================
+Lists
+===================================
+
+a | b && c; d e f | e g
+
+---
+
+(program
+  (command (list
+    (list
+      (pipeline
+        (simple_command (command_name))
+        (simple_command (command_name)))
+      (simple_command (command_name)))
+    (pipeline
+      (simple_command (command_name) (argument) (argument))
+      (simple_command (command_name) (argument))))))
