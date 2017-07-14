@@ -15,3 +15,31 @@ done
     (do_group
       (command (command_name) (argument))
       (command (command_name) (argument)))))
+
+====================================
+If statements
+====================================
+
+if cat some_file | grep -v ok; then
+  echo one
+elif cat other_file | grep -v ok; then
+  echo two
+else
+  exit
+fi
+
+---
+
+(program
+  (if_statement
+    (pipeline
+      (command (command_name) (argument))
+      (command (command_name) (argument) (argument)))
+    (command (command_name) (argument))
+    (elif_clause
+      (pipeline
+        (command (command_name) (argument))
+        (command (command_name) (argument) (argument)))
+      (command (command_name) (argument)))
+    (else_clause
+      (command (command_name)))))

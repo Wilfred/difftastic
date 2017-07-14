@@ -26,6 +26,7 @@ module.exports = grammar({
     statement: $ => choice(
       $.command,
       $.while_statement,
+      $.if_statement,
       $.pipeline,
       $.list
     ),
@@ -34,6 +35,28 @@ module.exports = grammar({
       'while',
       $._terminated_statement,
       $.do_group
+    ),
+
+    if_statement: $ => seq(
+      'if',
+      $._terminated_statement,
+      'then',
+      repeat($._terminated_statement),
+      repeat($.elif_clause),
+      optional($.else_clause),
+      'fi'
+    ),
+
+    elif_clause: $ => seq(
+      'elif',
+      $._terminated_statement,
+      'then',
+      repeat($._terminated_statement)
+    ),
+
+    else_clause: $ => seq(
+      'else',
+      repeat($._terminated_statement)
     ),
 
     do_group: $ => seq(
