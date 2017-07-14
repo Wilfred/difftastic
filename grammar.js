@@ -1,7 +1,7 @@
 module.exports = grammar({
   name: 'bash',
 
-  inline: $ => [$.statement, $.terminator],
+  inline: $ => [$.statement, $.terminator, $.value],
 
   externals: $ => [
     $._simple_heredoc,
@@ -24,7 +24,9 @@ module.exports = grammar({
     ),
 
     statement: $ => choice(
+      $.environment_variable_assignment,
       $.command,
+      $.bracket_command,
       $.while_statement,
       $.if_statement,
       $.case_statement,
@@ -68,7 +70,7 @@ module.exports = grammar({
 
     case_statement: $ => seq(
       'case',
-      rename($.word, 'argument'),
+      $.value,
       optional($.terminator),
       'in',
       $.terminator,
@@ -77,10 +79,15 @@ module.exports = grammar({
     ),
 
     case_item: $ => seq(
-      rename($.word, 'argument'),
+      $.value,
       ')',
       repeat($._terminated_statement),
       optional(';;')
+    ),
+
+    bracket_command: $ => choice(
+      seq('[', repeat1($.value), ']'),
+      seq('[[', repeat1($.value), ']]')
     ),
 
     command: $ => seq(
@@ -91,11 +98,7 @@ module.exports = grammar({
       rename($.leading_word, 'command_name'),
       optional(seq(
         /\s+/,
-        repeat(choice(
-          rename($.word, 'argument'),
-          $.expansion,
-          $.operator_expansion
-        ))
+        repeat($.value)
       )),
       repeat(choice(
         $.file_redirect,
@@ -118,8 +121,32 @@ module.exports = grammar({
     environment_variable_assignment: $ => seq(
       rename($.leading_word, 'variable_name'),
       '=',
-      rename($.word, 'argument')
+      $.value
     ),
+
+    value: $ => choice(
+      rename($.word, 'argument'),
+      $.command_substitution,
+      $.quoted_argument,
+      $.single_quoted_argument,
+      $.expansion,
+      $.operator_expansion
+    ),
+
+    quoted_argument: $ => seq(
+      '"',
+      repeat(choice(
+        $._quoted_chars,
+        $.expansion,
+        $.operator_expansion,
+        $.command_substitution
+      )),
+      '"'
+    ),
+
+    _quoted_chars: $ => /[^"$]+/,
+
+    single_quoted_argument: $ => /'[^']*'/,
 
     expansion: $ => seq(
       '$',
@@ -131,9 +158,15 @@ module.exports = grammar({
       rename($.leading_word, 'variable_name'),
       optional(seq(
         choice(':', ':?', '='),
-        rename($.word, 'argument')
+        $.value
       )),
       '}'
+    ),
+
+    command_substitution: $ => seq(
+      '$(',
+      $.command,
+      ')'
     ),
 
     file_redirect: $ => seq(
@@ -165,9 +198,9 @@ module.exports = grammar({
 
     file_descriptor: $ => token(prec(1, /\d+/)),
 
-    leading_word: $ => /[^\\\s#=|;:{}]+/,
+    leading_word: $ => /[^"\\\s#=|;:{}()]+/,
 
-    word: $ => /[^#\\\s$<>{}&;)]+/,
+    word: $ => /[^"#\\\s$<>{}&;()]+/,
 
     comment: $ => /#.*/,
 

@@ -26,7 +26,15 @@
       "members": [
         {
           "type": "SYMBOL",
+          "name": "environment_variable_assignment"
+        },
+        {
+          "type": "SYMBOL",
           "name": "command"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "bracket_command"
         },
         {
           "type": "SYMBOL",
@@ -182,12 +190,8 @@
           "value": "case"
         },
         {
-          "type": "RENAME",
-          "content": {
-            "type": "SYMBOL",
-            "name": "word"
-          },
-          "value": "argument"
+          "type": "SYMBOL",
+          "name": "value"
         },
         {
           "type": "CHOICE",
@@ -226,12 +230,8 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "RENAME",
-          "content": {
-            "type": "SYMBOL",
-            "name": "word"
-          },
-          "value": "argument"
+          "type": "SYMBOL",
+          "name": "value"
         },
         {
           "type": "STRING",
@@ -253,6 +253,51 @@
             },
             {
               "type": "BLANK"
+            }
+          ]
+        }
+      ]
+    },
+    "bracket_command": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "["
+            },
+            {
+              "type": "REPEAT1",
+              "content": {
+                "type": "SYMBOL",
+                "name": "value"
+              }
+            },
+            {
+              "type": "STRING",
+              "value": "]"
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "[["
+            },
+            {
+              "type": "REPEAT1",
+              "content": {
+                "type": "SYMBOL",
+                "name": "value"
+              }
+            },
+            {
+              "type": "STRING",
+              "value": "]]"
             }
           ]
         }
@@ -298,25 +343,8 @@
                 {
                   "type": "REPEAT",
                   "content": {
-                    "type": "CHOICE",
-                    "members": [
-                      {
-                        "type": "RENAME",
-                        "content": {
-                          "type": "SYMBOL",
-                          "name": "word"
-                        },
-                        "value": "argument"
-                      },
-                      {
-                        "type": "SYMBOL",
-                        "name": "expansion"
-                      },
-                      {
-                        "type": "SYMBOL",
-                        "name": "operator_expansion"
-                      }
-                    ]
+                    "type": "SYMBOL",
+                    "name": "value"
                   }
                 }
               ]
@@ -420,14 +448,88 @@
           "value": "="
         },
         {
+          "type": "SYMBOL",
+          "name": "value"
+        }
+      ]
+    },
+    "value": {
+      "type": "CHOICE",
+      "members": [
+        {
           "type": "RENAME",
           "content": {
             "type": "SYMBOL",
             "name": "word"
           },
           "value": "argument"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "command_substitution"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "quoted_argument"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "single_quoted_argument"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "expansion"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "operator_expansion"
         }
       ]
+    },
+    "quoted_argument": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "\""
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "_quoted_chars"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "expansion"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "operator_expansion"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "command_substitution"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "\""
+        }
+      ]
+    },
+    "_quoted_chars": {
+      "type": "PATTERN",
+      "value": "[^\"$]+"
+    },
+    "single_quoted_argument": {
+      "type": "PATTERN",
+      "value": "'[^']*'"
     },
     "expansion": {
       "type": "SEQ",
@@ -485,12 +587,8 @@
                   ]
                 },
                 {
-                  "type": "RENAME",
-                  "content": {
-                    "type": "SYMBOL",
-                    "name": "word"
-                  },
-                  "value": "argument"
+                  "type": "SYMBOL",
+                  "name": "value"
                 }
               ]
             },
@@ -502,6 +600,23 @@
         {
           "type": "STRING",
           "value": "}"
+        }
+      ]
+    },
+    "command_substitution": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "$("
+        },
+        {
+          "type": "SYMBOL",
+          "name": "command"
+        },
+        {
+          "type": "STRING",
+          "value": ")"
         }
       ]
     },
@@ -637,11 +752,11 @@
     },
     "leading_word": {
       "type": "PATTERN",
-      "value": "[^\\\\\\s#=|;:{}]+"
+      "value": "[^\"\\\\\\s#=|;:{}()]+"
     },
     "word": {
       "type": "PATTERN",
-      "value": "[^#\\\\\\s$<>{}&;)]+"
+      "value": "[^\"#\\\\\\s$<>{}&;()]+"
     },
     "comment": {
       "type": "PATTERN",
@@ -708,6 +823,7 @@
   ],
   "inline": [
     "statement",
-    "terminator"
+    "terminator",
+    "value"
   ]
 }
