@@ -100,3 +100,31 @@ cat a b 2> /dev/null
   (command (simple_command
     (file_redirect (file_descriptor) (file_descriptor))
     (command_name))))
+
+===============================
+Variable expansions
+===============================
+
+cat $FOO
+
+---
+
+(program
+  (command (simple_command
+    (command_name)
+    (expansion (variable_name)))))
+
+===============================
+Variable expansion operators
+===============================
+
+cat ${BAR} ${ABC=def} ${GHI:?jkl}
+
+---
+
+(program
+  (command (simple_command
+    (command_name)
+    (operator_expansion (variable_name))
+    (operator_expansion (variable_name) (argument))
+    (operator_expansion (variable_name) (argument)))))

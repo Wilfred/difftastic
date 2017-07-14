@@ -23,7 +23,11 @@ module.exports = grammar({
       rename($.leading_word, 'command_name'),
       optional(seq(
         /\s+/,
-        repeat(rename($.word, 'argument'))
+        repeat(choice(
+          rename($.word, 'argument'),
+          $.expansion,
+          $.operator_expansion
+        ))
       )),
       repeat(
         $.file_redirect
@@ -55,6 +59,21 @@ module.exports = grammar({
       rename($.word, 'argument')
     ),
 
+    expansion: $ => seq(
+      '$',
+      rename($.word, 'variable_name')
+    ),
+
+    operator_expansion: $ => seq(
+      '${',
+      rename($.leading_word, 'variable_name'),
+      optional(seq(
+        choice(':', ':?', '='),
+        rename($.word, 'argument')
+      )),
+      '}'
+    ),
+
     file_redirect: $ => seq(
       optional($.file_descriptor),
       choice('<', '>', '<&', '>&'),
@@ -66,9 +85,9 @@ module.exports = grammar({
 
     file_descriptor: $ => token(prec(1, /\d+/)),
 
-    leading_word: $ => /[^\s=|;]+/,
+    leading_word: $ => /[^\s=|;:{}]+/,
 
-    word: $ => /[^\s<>&]+/,
+    word: $ => /[^\s$<>{}&]+/,
 
     control_operator: $ => choice(
       '\n',

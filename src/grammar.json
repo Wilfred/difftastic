@@ -74,12 +74,25 @@
                 {
                   "type": "REPEAT",
                   "content": {
-                    "type": "RENAME",
-                    "content": {
-                      "type": "SYMBOL",
-                      "name": "word"
-                    },
-                    "value": "argument"
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "RENAME",
+                        "content": {
+                          "type": "SYMBOL",
+                          "name": "word"
+                        },
+                        "value": "argument"
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "expansion"
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "operator_expansion"
+                      }
+                    ]
                   }
                 }
               ]
@@ -205,6 +218,82 @@
         }
       ]
     },
+    "expansion": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "$"
+        },
+        {
+          "type": "RENAME",
+          "content": {
+            "type": "SYMBOL",
+            "name": "word"
+          },
+          "value": "variable_name"
+        }
+      ]
+    },
+    "operator_expansion": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "${"
+        },
+        {
+          "type": "RENAME",
+          "content": {
+            "type": "SYMBOL",
+            "name": "leading_word"
+          },
+          "value": "variable_name"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "STRING",
+                      "value": ":"
+                    },
+                    {
+                      "type": "STRING",
+                      "value": ":?"
+                    },
+                    {
+                      "type": "STRING",
+                      "value": "="
+                    }
+                  ]
+                },
+                {
+                  "type": "RENAME",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "word"
+                  },
+                  "value": "argument"
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": "}"
+        }
+      ]
+    },
     "file_redirect": {
       "type": "SEQ",
       "members": [
@@ -273,11 +362,11 @@
     },
     "leading_word": {
       "type": "PATTERN",
-      "value": "[^\\s=|;]+"
+      "value": "[^\\s=|;:{}]+"
     },
     "word": {
       "type": "PATTERN",
-      "value": "[^\\s<>&]+"
+      "value": "[^\\s$<>{}&]+"
     },
     "control_operator": {
       "type": "CHOICE",
