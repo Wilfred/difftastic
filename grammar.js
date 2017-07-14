@@ -12,7 +12,7 @@ module.exports = grammar({
 
   extras: $ => [
     $.comment,
-    /\s/
+    token(choice(/\s/, '\\\n')),
   ],
 
   rules: {
@@ -116,9 +116,9 @@ module.exports = grammar({
 
     file_descriptor: $ => token(prec(1, /\d+/)),
 
-    leading_word: $ => /[^\s#=|;:{}]+/,
+    leading_word: $ => /[^\\\s#=|;:{}]+/,
 
-    word: $ => /[^# \s$<>{}&]+/,
+    word: $ => /[^#\\\s$<>{}&]+/,
 
     control_operator: $ => choice(
       '\n',

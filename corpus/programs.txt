@@ -10,3 +10,33 @@ Comments
 (program
   (comment)
   (comment))
+
+===============================
+Escaped newlines
+===============================
+
+abc \
+  d \
+  e
+
+f=g   \
+  h=i \
+  j   \
+  --k
+
+---
+
+(program
+  (command (simple_command
+    (command_name)
+    (argument)
+    (argument)))
+  (command (simple_command
+    (environment_variable_assignment
+      (variable_name)
+      (argument))
+    (environment_variable_assignment
+      (variable_name)
+      (argument))
+    (command_name)
+    (argument))))
