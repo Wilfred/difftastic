@@ -125,6 +125,26 @@ JS
     (heredoc_redirect (heredoc)))))
 
 ===============================
+Heredocs with variables
+===============================
+
+node <<JS
+a $B ${C}
+JS
+
+exit
+
+---
+
+(program
+  (command (simple_command
+    (command_name)
+    (heredoc_redirect (heredoc
+      (expansion (variable_name))
+      (operator_expansion (variable_name))))))
+  (command (simple_command (command_name))))
+
+===============================
 Variable expansions
 ===============================
 

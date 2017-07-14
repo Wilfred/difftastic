@@ -4,7 +4,10 @@ module.exports = grammar({
   inline: $ => [$.control_operator],
 
   externals: $ => [
-    $.heredoc
+    $._simple_heredoc,
+    $._heredoc_beginning,
+    $._heredoc_middle,
+    $._heredoc_end
   ],
 
   rules: {
@@ -91,6 +94,19 @@ module.exports = grammar({
     heredoc_redirect: $ => seq(
       choice('<<', '<<-'),
       $.heredoc
+    ),
+
+    heredoc: $ => choice(
+      $._simple_heredoc,
+      seq(
+        $._heredoc_beginning,
+        repeat(choice(
+          $.expansion,
+          $.operator_expansion,
+          $._heredoc_middle
+        )),
+        $._heredoc_end
+      )
     ),
 
     file_descriptor: $ => token(prec(1, /\d+/)),
