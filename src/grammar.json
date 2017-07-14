@@ -16,21 +16,8 @@
           "name": "statement"
         },
         {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "STRING",
-              "value": ";"
-            },
-            {
-              "type": "STRING",
-              "value": ";;"
-            },
-            {
-              "type": "STRING",
-              "value": "\n"
-            }
-          ]
+          "type": "SYMBOL",
+          "name": "terminator"
         }
       ]
     },
@@ -48,6 +35,10 @@
         {
           "type": "SYMBOL",
           "name": "if_statement"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "case_statement"
         },
         {
           "type": "SYMBOL",
@@ -73,6 +64,26 @@
         {
           "type": "SYMBOL",
           "name": "do_group"
+        }
+      ]
+    },
+    "do_group": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "do"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_terminated_statement"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "done"
         }
       ]
     },
@@ -163,12 +174,68 @@
         }
       ]
     },
-    "do_group": {
+    "case_statement": {
       "type": "SEQ",
       "members": [
         {
           "type": "STRING",
-          "value": "do"
+          "value": "case"
+        },
+        {
+          "type": "RENAME",
+          "content": {
+            "type": "SYMBOL",
+            "name": "word"
+          },
+          "value": "argument"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "terminator"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": "in"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "terminator"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "case_item"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "esac"
+        }
+      ]
+    },
+    "case_item": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "RENAME",
+          "content": {
+            "type": "SYMBOL",
+            "name": "word"
+          },
+          "value": "argument"
+        },
+        {
+          "type": "STRING",
+          "value": ")"
         },
         {
           "type": "REPEAT",
@@ -178,8 +245,16 @@
           }
         },
         {
-          "type": "STRING",
-          "value": "done"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": ";;"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         }
       ]
     },
@@ -566,11 +641,28 @@
     },
     "word": {
       "type": "PATTERN",
-      "value": "[^#\\\\\\s$<>{}&;]+"
+      "value": "[^#\\\\\\s$<>{}&;)]+"
     },
     "comment": {
       "type": "PATTERN",
       "value": "#.*"
+    },
+    "terminator": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": ";"
+        },
+        {
+          "type": "STRING",
+          "value": ";;"
+        },
+        {
+          "type": "STRING",
+          "value": "\n"
+        }
+      ]
     }
   },
   "extras": [
@@ -615,6 +707,7 @@
     }
   ],
   "inline": [
-    "statement"
+    "statement",
+    "terminator"
   ]
 }

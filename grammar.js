@@ -1,7 +1,7 @@
 module.exports = grammar({
   name: 'bash',
 
-  inline: $ => [$.statement],
+  inline: $ => [$.statement, $.terminator],
 
   externals: $ => [
     $._simple_heredoc,
@@ -20,13 +20,14 @@ module.exports = grammar({
 
     _terminated_statement: $ => seq(
       $.statement,
-      choice(';', ';;', '\n')
+      $.terminator
     ),
 
     statement: $ => choice(
       $.command,
       $.while_statement,
       $.if_statement,
+      $.case_statement,
       $.pipeline,
       $.list
     ),
@@ -35,6 +36,12 @@ module.exports = grammar({
       'while',
       $._terminated_statement,
       $.do_group
+    ),
+
+    do_group: $ => seq(
+      'do',
+      repeat($._terminated_statement),
+      'done'
     ),
 
     if_statement: $ => seq(
@@ -59,10 +66,21 @@ module.exports = grammar({
       repeat($._terminated_statement)
     ),
 
-    do_group: $ => seq(
-      'do',
+    case_statement: $ => seq(
+      'case',
+      rename($.word, 'argument'),
+      optional($.terminator),
+      'in',
+      $.terminator,
+      repeat($.case_item),
+      'esac'
+    ),
+
+    case_item: $ => seq(
+      rename($.word, 'argument'),
+      ')',
       repeat($._terminated_statement),
-      'done'
+      optional(';;')
     ),
 
     command: $ => seq(
@@ -149,8 +167,10 @@ module.exports = grammar({
 
     leading_word: $ => /[^\\\s#=|;:{}]+/,
 
-    word: $ => /[^#\\\s$<>{}&;]+/,
+    word: $ => /[^#\\\s$<>{}&;)]+/,
 
     comment: $ => /#.*/,
+
+    terminator: $ => choice(';', ';;', '\n'),
   }
 });

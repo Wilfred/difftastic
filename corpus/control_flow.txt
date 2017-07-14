@@ -43,3 +43,26 @@ fi
       (command (command_name) (argument)))
     (else_clause
       (command (command_name)))))
+
+====================================
+Case statements
+====================================
+
+case "opt" in
+  a)
+    echo a
+    ;;
+
+  b)
+    echo b
+    ;;
+esac
+
+---
+
+(program
+  (case_statement (argument)
+    (case_item (argument)
+      (command (command_name) (argument)))
+    (case_item (argument)
+      (command (command_name) (argument)))))
