@@ -7,7 +7,8 @@ module.exports = grammar({
     $._simple_heredoc,
     $._heredoc_beginning,
     $._heredoc_middle,
-    $._heredoc_end
+    $._heredoc_end,
+    $.file_descriptor
   ],
 
   extras: $ => [
@@ -171,11 +172,8 @@ module.exports = grammar({
 
     file_redirect: $ => seq(
       optional($.file_descriptor),
-      choice('<', '>', '<&', '>&'),
-      choice(
-        $.file_descriptor,
-        rename($.word, 'file_name')
-      )
+      choice('<', '>', '>>', '&>', '&>>', '<&', '>&'),
+      $.value
     ),
 
     heredoc_redirect: $ => seq(
@@ -195,8 +193,6 @@ module.exports = grammar({
         $._heredoc_end
       )
     ),
-
-    file_descriptor: $ => token(prec(1, /\d+/)),
 
     leading_word: $ => /[^"\\\s#=|;:{}()]+/,
 

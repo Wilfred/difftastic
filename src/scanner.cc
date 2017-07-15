@@ -11,6 +11,7 @@ enum TokenType {
   HEREDOC_BEGINNING,
   HEREDOC_MIDDLE,
   HEREDOC_END,
+  FILE_DESCRIPTOR,
 };
 
 struct Scanner {
@@ -74,23 +75,35 @@ struct Scanner {
   bool scan(TSLexer *lexer, const bool *valid_symbols) {
     if (valid_symbols[HEREDOC_MIDDLE]) {
       return scan_heredoc_content(lexer, HEREDOC_MIDDLE, HEREDOC_END);
-    }
+    } else if (valid_symbols[HEREDOC_BEGINNING]) {
+      heredoc_identifier.clear();
+      while (iswalpha(lexer->lookahead)) {
+        heredoc_identifier += lexer->lookahead;
+        advance(lexer);
+      }
 
-    heredoc_identifier.clear();
-    while (iswalpha(lexer->lookahead)) {
-      heredoc_identifier += lexer->lookahead;
+      if (lexer->lookahead != '\n') return false;
       advance(lexer);
+
+      if (scan_heredoc_end_identifier(lexer)) {
+        lexer->result_symbol = SIMPLE_HEREDOC;
+        return true;
+      }
+
+      return scan_heredoc_content(lexer, HEREDOC_BEGINNING, SIMPLE_HEREDOC);
+    } else if (valid_symbols[FILE_DESCRIPTOR]) {
+      while (lexer->lookahead == ' ' || lexer->lookahead == '\t') skip(lexer);
+      if (iswdigit(lexer->lookahead)) {
+        advance(lexer);
+        while (iswdigit(lexer->lookahead)) advance(lexer);
+        if (lexer->lookahead == '>' || lexer->lookahead == '<') {
+          lexer->result_symbol = FILE_DESCRIPTOR;
+          return true;
+        }
+      }
     }
 
-    if (lexer->lookahead != '\n') return false;
-    advance(lexer);
-
-    if (scan_heredoc_end_identifier(lexer)) {
-      lexer->result_symbol = SIMPLE_HEREDOC;
-      return true;
-    }
-
-    return scan_heredoc_content(lexer, HEREDOC_BEGINNING, SIMPLE_HEREDOC);
+    return false;
   }
 
   wstring heredoc_identifier;

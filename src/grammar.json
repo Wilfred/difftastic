@@ -648,6 +648,18 @@
             },
             {
               "type": "STRING",
+              "value": ">>"
+            },
+            {
+              "type": "STRING",
+              "value": "&>"
+            },
+            {
+              "type": "STRING",
+              "value": "&>>"
+            },
+            {
+              "type": "STRING",
               "value": "<&"
             },
             {
@@ -657,21 +669,8 @@
           ]
         },
         {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "file_descriptor"
-            },
-            {
-              "type": "RENAME",
-              "content": {
-                "type": "SYMBOL",
-                "name": "word"
-              },
-              "value": "file_name"
-            }
-          ]
+          "type": "SYMBOL",
+          "name": "value"
         }
       ]
     },
@@ -738,17 +737,6 @@
           ]
         }
       ]
-    },
-    "file_descriptor": {
-      "type": "TOKEN",
-      "content": {
-        "type": "PREC",
-        "value": 1,
-        "content": {
-          "type": "PATTERN",
-          "value": "\\d+"
-        }
-      }
     },
     "leading_word": {
       "type": "PATTERN",
@@ -819,6 +807,10 @@
     {
       "type": "SYMBOL",
       "name": "_heredoc_end"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "file_descriptor"
     }
   ],
   "inline": [
