@@ -80,6 +80,19 @@ VAR1=a VAR2="ok" git diff --word-diff=color
     (argument)))
 
 ===================================
+Empty environment variables
+===================================
+
+VAR1=
+VAR2= echo
+
+---
+
+(program
+  (environment_variable_assignment (variable_name))
+  (command (environment_variable_assignment (variable_name)) (command_name)))
+
+===================================
 Pipelines
 ===================================
 

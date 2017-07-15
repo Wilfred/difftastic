@@ -547,8 +547,17 @@
           "value": "="
         },
         {
-          "type": "SYMBOL",
-          "name": "value"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "value"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_empty_value"
+            }
+          ]
         }
       ]
     },
@@ -927,6 +936,10 @@
     {
       "type": "SYMBOL",
       "name": "file_descriptor"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_empty_value"
     }
   ],
   "inline": [

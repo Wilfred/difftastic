@@ -12,6 +12,7 @@ enum TokenType {
   HEREDOC_MIDDLE,
   HEREDOC_END,
   FILE_DESCRIPTOR,
+  EMPTY_VALUE,
 };
 
 struct Scanner {
@@ -75,7 +76,9 @@ struct Scanner {
   bool scan(TSLexer *lexer, const bool *valid_symbols) {
     if (valid_symbols[HEREDOC_MIDDLE]) {
       return scan_heredoc_content(lexer, HEREDOC_MIDDLE, HEREDOC_END);
-    } else if (valid_symbols[HEREDOC_BEGINNING]) {
+    }
+
+    if (valid_symbols[HEREDOC_BEGINNING]) {
       heredoc_identifier.clear();
       while (iswalpha(lexer->lookahead)) {
         heredoc_identifier += lexer->lookahead;
@@ -91,7 +94,9 @@ struct Scanner {
       }
 
       return scan_heredoc_content(lexer, HEREDOC_BEGINNING, SIMPLE_HEREDOC);
-    } else if (valid_symbols[FILE_DESCRIPTOR]) {
+    }
+
+    if (valid_symbols[FILE_DESCRIPTOR]) {
       while (lexer->lookahead == ' ' || lexer->lookahead == '\t') skip(lexer);
       if (iswdigit(lexer->lookahead)) {
         advance(lexer);
@@ -100,6 +105,13 @@ struct Scanner {
           lexer->result_symbol = FILE_DESCRIPTOR;
           return true;
         }
+      }
+    }
+
+    if (valid_symbols[EMPTY_VALUE]) {
+      if (iswspace(lexer->lookahead)) {
+        lexer->result_symbol = EMPTY_VALUE;
+        return true;
       }
     }
 

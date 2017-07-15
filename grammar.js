@@ -8,7 +8,8 @@ module.exports = grammar({
     $._heredoc_beginning,
     $._heredoc_middle,
     $._heredoc_end,
-    $.file_descriptor
+    $.file_descriptor,
+    $._empty_value
   ],
 
   extras: $ => [
@@ -149,7 +150,10 @@ module.exports = grammar({
     environment_variable_assignment: $ => seq(
       rename($.leading_word, 'variable_name'),
       '=',
-      $.value
+      choice(
+        $.value,
+        $._empty_value
+      )
     ),
 
     value: $ => choice(
