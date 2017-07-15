@@ -38,6 +38,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "for_statement"
+        },
+        {
+          "type": "SYMBOL",
           "name": "while_statement"
         },
         {
@@ -63,6 +67,35 @@
         {
           "type": "SYMBOL",
           "name": "function_definition"
+        }
+      ]
+    },
+    "for_statement": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "for"
+        },
+        {
+          "type": "RENAME",
+          "content": {
+            "type": "SYMBOL",
+            "name": "word"
+          },
+          "value": "argument"
+        },
+        {
+          "type": "STRING",
+          "value": "in"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_terminated_statement"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "do_group"
         }
       ]
     },
@@ -406,6 +439,10 @@
             {
               "type": "SYMBOL",
               "name": "single_quoted_argument"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "command_substitution"
             }
           ]
         },

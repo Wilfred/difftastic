@@ -29,6 +29,7 @@ module.exports = grammar({
       $.environment_variable_assignment,
       $.command,
       $.bracket_command,
+      $.for_statement,
       $.while_statement,
       $.if_statement,
       $.case_statement,
@@ -36,6 +37,14 @@ module.exports = grammar({
       $.list,
       $.subshell,
       $.function_definition
+    ),
+
+    for_statement: $ => seq(
+      'for',
+      rename($.word, 'argument'),
+      'in',
+      $._terminated_statement,
+      $.do_group
     ),
 
     while_statement: $ => seq(
@@ -117,7 +126,8 @@ module.exports = grammar({
         rename(choice($.leading_word), 'command_name'),
         ':',
         $.quoted_argument,
-        $.single_quoted_argument
+        $.single_quoted_argument,
+        $.command_substitution
       ),
       optional(seq(
         /\s+/,
