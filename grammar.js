@@ -33,7 +33,8 @@ module.exports = grammar({
       $.case_statement,
       $.pipeline,
       $.list,
-      $.subshell
+      $.subshell,
+      $.function_definition
     ),
 
     while_statement: $ => seq(
@@ -85,6 +86,20 @@ module.exports = grammar({
       ')',
       repeat($._terminated_statement),
       ';;'
+    ),
+
+    function_definition: $ => seq(
+      optional('function'),
+      rename($.leading_word, 'command_name'),
+      '(',
+      ')',
+      $.compound_command
+    ),
+
+    compound_command: $ => seq(
+      '{',
+      repeat($._terminated_statement),
+      '}'
     ),
 
     bracket_command: $ => choice(

@@ -97,3 +97,21 @@ Subshells
 
 (program
   (subshell (command (command_name) (argument))))
+
+===============================
+Function definitions
+===============================
+
+do_something() {
+  echo ok
+}
+
+function do_something_else() {
+  echo ok
+}
+
+---
+
+(program
+  (function_definition (command_name) (compound_command (command (command_name) (argument))))
+  (function_definition (command_name) (compound_command (command (command_name) (argument)))))
