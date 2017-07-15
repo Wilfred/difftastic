@@ -55,6 +55,10 @@
         {
           "type": "SYMBOL",
           "name": "list"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "subshell"
         }
       ]
     },
@@ -245,16 +249,8 @@
           }
         },
         {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "STRING",
-              "value": ";;"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
+          "type": "STRING",
+          "value": ";;"
         }
       ]
     },
@@ -323,12 +319,34 @@
           }
         },
         {
-          "type": "RENAME",
-          "content": {
-            "type": "SYMBOL",
-            "name": "leading_word"
-          },
-          "value": "command_name"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "RENAME",
+              "content": {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "leading_word"
+                  }
+                ]
+              },
+              "value": "command_name"
+            },
+            {
+              "type": "STRING",
+              "value": ":"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "quoted_argument"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "single_quoted_argument"
+            }
+          ]
         },
         {
           "type": "CHOICE",
@@ -431,6 +449,26 @@
           }
         ]
       }
+    },
+    "subshell": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_terminated_statement"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
     },
     "environment_variable_assignment": {
       "type": "SEQ",
@@ -539,12 +577,21 @@
           "value": "$"
         },
         {
-          "type": "RENAME",
-          "content": {
-            "type": "SYMBOL",
-            "name": "word"
-          },
-          "value": "variable_name"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "RENAME",
+              "content": {
+                "type": "SYMBOL",
+                "name": "word"
+              },
+              "value": "variable_name"
+            },
+            {
+              "type": "STRING",
+              "value": "$"
+            }
+          ]
         }
       ]
     },
@@ -583,6 +630,10 @@
                     {
                       "type": "STRING",
                       "value": "="
+                    },
+                    {
+                      "type": "STRING",
+                      "value": ":-"
                     }
                   ]
                 },
@@ -764,6 +815,10 @@
         {
           "type": "STRING",
           "value": "\n"
+        },
+        {
+          "type": "STRING",
+          "value": "&"
         }
       ]
     }

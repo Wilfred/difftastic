@@ -38,6 +38,17 @@ echo 'hi'
   (command (command_name) (single_quoted_argument)))
 
 ===============================
+Quoted command names
+===============================
+
+"$a/$b" c
+
+---
+
+(program
+  (command (quoted_argument (expansion (variable_name)) (expansion (variable_name))) (argument)))
+
+===============================
 Commands with numeric arguments
 ===============================
 

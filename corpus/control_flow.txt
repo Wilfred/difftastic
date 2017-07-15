@@ -84,3 +84,16 @@ esac
       (command (command_name) (argument)))
     (case_item (argument)
       (command (command_name) (argument)))))
+
+===============================
+Subshells
+===============================
+
+(
+  ./start-server --port=80
+) &
+
+---
+
+(program
+  (subshell (command (command_name) (argument))))

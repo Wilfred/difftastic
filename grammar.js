@@ -32,7 +32,8 @@ module.exports = grammar({
       $.if_statement,
       $.case_statement,
       $.pipeline,
-      $.list
+      $.list,
+      $.subshell
     ),
 
     while_statement: $ => seq(
@@ -83,7 +84,7 @@ module.exports = grammar({
       $.value,
       ')',
       repeat($._terminated_statement),
-      optional(';;')
+      ';;'
     ),
 
     bracket_command: $ => choice(
@@ -96,7 +97,12 @@ module.exports = grammar({
         $.environment_variable_assignment,
         $.file_redirect
       )),
-      rename($.leading_word, 'command_name'),
+      choice(
+        rename(choice($.leading_word), 'command_name'),
+        ':',
+        $.quoted_argument,
+        $.single_quoted_argument
+      ),
       optional(seq(
         /\s+/,
         repeat($.value)
@@ -118,6 +124,12 @@ module.exports = grammar({
       choice('&&', '||'),
       $.statement
     )),
+
+    subshell: $ => seq(
+      '(',
+      repeat($._terminated_statement),
+      ')'
+    ),
 
     environment_variable_assignment: $ => seq(
       rename($.leading_word, 'variable_name'),
@@ -151,14 +163,17 @@ module.exports = grammar({
 
     expansion: $ => seq(
       '$',
-      rename($.word, 'variable_name')
+      choice(
+        rename($.word, 'variable_name'),
+        '$'
+      )
     ),
 
     operator_expansion: $ => seq(
       '${',
       rename($.leading_word, 'variable_name'),
       optional(seq(
-        choice(':', ':?', '='),
+        choice(':', ':?', '=', ':-'),
         $.value
       )),
       '}'
@@ -200,6 +215,6 @@ module.exports = grammar({
 
     comment: $ => /#.*/,
 
-    terminator: $ => choice(';', ';;', '\n'),
+    terminator: $ => choice(';', ';;', '\n', '&'),
   }
 });
