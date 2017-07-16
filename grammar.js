@@ -207,7 +207,8 @@ module.exports = grammar({
       $.raw_string,
       $.expansion,
       $.simple_expansion,
-      $.command_substitution
+      $.command_substitution,
+      $.process_substitution
     ),
 
     string: $ => seq(
@@ -249,6 +250,13 @@ module.exports = grammar({
     command_substitution: $ => choice(
       seq('$(', $.command, ')'),
       seq('`', $.command, '`')
+    ),
+
+    process_substitution: $ => seq(
+      choice('<', '>'),
+      '(',
+      $.statement,
+      ')'
     ),
 
     leading_word: $ => /[^`"\\\s#=|;:{}()]+/,
