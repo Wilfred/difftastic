@@ -131,7 +131,7 @@ module.exports = grammar({
       $._statement
     )),
 
-    list: $ => prec.left(seq(
+    list: $ => prec.left(-1, seq(
       $._statement,
       choice('&&', '||'),
       $._statement
@@ -204,6 +204,7 @@ module.exports = grammar({
     _expression: $ => choice(
       $.word,
       $.string,
+      $.array,
       $.raw_string,
       $.expansion,
       $.simple_expansion,
@@ -214,12 +215,18 @@ module.exports = grammar({
     string: $ => seq(
       '"',
       repeat(choice(
-        /[^"$]+/,
+        /[^"`$]+/,
         $.expansion,
         $.simple_expansion,
         $.command_substitution
       )),
       '"'
+    ),
+
+    array: $ => seq(
+      '(',
+      repeat($.word),
+      ')'
     ),
 
     raw_string: $ => /'[^']*'/,
@@ -248,8 +255,8 @@ module.exports = grammar({
     ),
 
     command_substitution: $ => choice(
-      seq('$(', $.command, ')'),
-      seq('`', $.command, '`')
+      seq('$(', $._statement, ')'),
+      prec(1, seq('`', $._statement, '`'))
     ),
 
     process_substitution: $ => seq(
