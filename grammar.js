@@ -2,9 +2,9 @@ module.exports = grammar({
   name: 'bash',
 
   inline: $ => [
-    $.statement,
-    $.terminator,
-    $.expression,
+    $._statement,
+    $._terminator,
+    $._expression,
     $._variable_name
   ],
 
@@ -26,13 +26,13 @@ module.exports = grammar({
     program: $ => repeat($._terminated_statement),
 
     _terminated_statement: $ => seq(
-      $.statement,
-      $.terminator
+      $._statement,
+      $._terminator
     ),
 
     // Statements
 
-    statement: $ => choice(
+    _statement: $ => choice(
       $.environment_variable_assignment,
       $.command,
       $.bracket_command,
@@ -90,16 +90,16 @@ module.exports = grammar({
 
     case_statement: $ => seq(
       'case',
-      $.expression,
-      optional($.terminator),
+      $._expression,
+      optional($._terminator),
       'in',
-      $.terminator,
+      $._terminator,
       repeat($.case_item),
       'esac'
     ),
 
     case_item: $ => seq(
-      $.expression,
+      $._expression,
       ')',
       repeat($._terminated_statement),
       ';;'
@@ -126,20 +126,20 @@ module.exports = grammar({
     ),
 
     pipeline: $ => prec.left(1, seq(
-      $.statement,
+      $._statement,
       choice('|', '|&'),
-      $.statement
+      $._statement
     )),
 
     list: $ => prec.left(seq(
-      $.statement,
+      $._statement,
       choice('&&', '||'),
-      $.statement
+      $._statement
     )),
 
     bracket_command: $ => choice(
-      seq('[', repeat1($.expression), ']'),
-      seq('[[', repeat1($.expression), ']]')
+      seq('[', repeat1($._expression), ']'),
+      seq('[[', repeat1($._expression), ']]')
     ),
 
     // Commands
@@ -158,7 +158,7 @@ module.exports = grammar({
       ),
       optional(seq(
         /\s+/,
-        repeat($.expression)
+        repeat($._expression)
       )),
       repeat(choice(
         $.file_redirect,
@@ -170,7 +170,7 @@ module.exports = grammar({
       rename($.leading_word, 'variable_name'),
       '=',
       choice(
-        $.expression,
+        $._expression,
         $._empty_value
       )
     ),
@@ -178,7 +178,7 @@ module.exports = grammar({
     file_redirect: $ => seq(
       optional($.file_descriptor),
       choice('<', '>', '>>', '&>', '&>>', '<&', '>&'),
-      $.expression
+      $._expression
     ),
 
     heredoc_redirect: $ => seq(
@@ -201,7 +201,7 @@ module.exports = grammar({
 
     // Expressions
 
-    expression: $ => choice(
+    _expression: $ => choice(
       $.word,
       $.string,
       $.raw_string,
@@ -237,7 +237,7 @@ module.exports = grammar({
       $._variable_name,
       optional(seq(
         choice(':', ':?', '=', ':-'),
-        $.expression
+        $._expression
       )),
       '}'
     ),
@@ -255,7 +255,7 @@ module.exports = grammar({
     process_substitution: $ => seq(
       choice('<', '>'),
       '(',
-      $.statement,
+      $._statement,
       ')'
     ),
 
@@ -269,6 +269,6 @@ module.exports = grammar({
 
     special_variable_name: $ => choice('*', '@', '#', '?', '-', '$', '!', '0', '_'),
 
-    terminator: $ => choice(';', ';;', '\n', '&'),
+    _terminator: $ => choice(';', ';;', '\n', '&'),
   }
 });
