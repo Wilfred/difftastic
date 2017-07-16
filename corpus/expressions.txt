@@ -1,0 +1,100 @@
+=============================
+Literal words
+=============================
+
+echo a
+echo a b
+
+---
+
+(program
+  (command (command_name) (word))
+  (command (command_name) (word) (word)))
+
+=============================
+Simple variable expansions
+=============================
+
+echo $abc
+
+---
+
+(program
+  (command (command_name) (simple_expansion (variable_name))))
+
+=============================
+Variable expansions
+=============================
+
+echo ${abc}
+echo ${abc:-def}
+
+---
+
+(program
+  (command (command_name) (expansion (variable_name)))
+  (command (command_name) (expansion (variable_name) (word))))
+
+===================================
+Other variable expansion operators
+===================================
+
+cat ${BAR} ${ABC=def} ${GHI:?jkl}
+
+---
+
+(program
+  (command
+    (command_name)
+    (expansion (variable_name))
+    (expansion (variable_name) (word))
+    (expansion (variable_name) (word))))
+
+=============================
+Command substitutions
+=============================
+
+echo `echo hi`
+echo $(echo $(echo hi))
+
+---
+
+(program
+  (command
+    (command_name)
+    (command_substitution (command (command_name) (word))))
+  (command
+    (command_name)
+    (command_substitution (command
+      (command_name)
+      (command_substitution (command
+        (command_name)
+        (word)))))))
+
+=============================
+Single quoted strings
+=============================
+
+echo 'a b' 'c d'
+
+---
+
+(program
+  (command (command_name) (raw_string) (raw_string)))
+
+=============================
+Double quoted strings
+=============================
+
+echo "a" "b"
+echo "a ${b} c" "d $e"
+
+---
+
+(program
+  (command (command_name)
+    (string)
+    (string))
+  (command (command_name)
+    (string (expansion (variable_name)))
+    (string (simple_expansion (variable_name)))))

@@ -29,14 +29,14 @@ f=g   \
 (program
   (command
     (command_name)
-    (argument)
-    (argument))
+    (word)
+    (word))
   (command
     (environment_variable_assignment
       (variable_name)
-      (argument))
+      (word))
     (environment_variable_assignment
       (variable_name)
-      (argument))
+      (word))
     (command_name)
-    (argument)))
+    (word)))

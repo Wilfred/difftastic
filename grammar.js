@@ -1,7 +1,12 @@
 module.exports = grammar({
   name: 'bash',
 
-  inline: $ => [$.statement, $.terminator, $.value],
+  inline: $ => [
+    $.statement,
+    $.terminator,
+    $.expression,
+    $._variable_name
+  ],
 
   externals: $ => [
     $._simple_heredoc,
@@ -25,6 +30,8 @@ module.exports = grammar({
       $.terminator
     ),
 
+    // Statements
+
     statement: $ => choice(
       $.environment_variable_assignment,
       $.command,
@@ -41,7 +48,7 @@ module.exports = grammar({
 
     for_statement: $ => seq(
       'for',
-      rename($.word, 'argument'),
+      $.word,
       'in',
       $._terminated_statement,
       $.do_group
@@ -83,7 +90,7 @@ module.exports = grammar({
 
     case_statement: $ => seq(
       'case',
-      $.value,
+      $.expression,
       optional($.terminator),
       'in',
       $.terminator,
@@ -92,7 +99,7 @@ module.exports = grammar({
     ),
 
     case_item: $ => seq(
-      $.value,
+      $.expression,
       ')',
       repeat($._terminated_statement),
       ';;'
@@ -103,40 +110,19 @@ module.exports = grammar({
       rename($.leading_word, 'command_name'),
       '(',
       ')',
-      $.compound_command
+      $.compound_statement
     ),
 
-    compound_command: $ => seq(
+    compound_statement: $ => seq(
       '{',
       repeat($._terminated_statement),
       '}'
     ),
 
-    bracket_command: $ => choice(
-      seq('[', repeat1($.value), ']'),
-      seq('[[', repeat1($.value), ']]')
-    ),
-
-    command: $ => seq(
-      repeat(choice(
-        $.environment_variable_assignment,
-        $.file_redirect
-      )),
-      choice(
-        rename(choice($.leading_word), 'command_name'),
-        ':',
-        $.quoted_argument,
-        $.single_quoted_argument,
-        $.command_substitution
-      ),
-      optional(seq(
-        /\s+/,
-        repeat($.value)
-      )),
-      repeat(choice(
-        $.file_redirect,
-        $.heredoc_redirect
-      ))
+    subshell: $ => seq(
+      '(',
+      repeat($._terminated_statement),
+      ')'
     ),
 
     pipeline: $ => prec.left(1, seq(
@@ -151,73 +137,48 @@ module.exports = grammar({
       $.statement
     )),
 
-    subshell: $ => seq(
-      '(',
-      repeat($._terminated_statement),
-      ')'
+    bracket_command: $ => choice(
+      seq('[', repeat1($.expression), ']'),
+      seq('[[', repeat1($.expression), ']]')
     ),
+
+    // Commands
+
+    command: $ => prec.left(seq(
+      repeat(choice(
+        $.environment_variable_assignment,
+        $.file_redirect
+      )),
+      choice(
+        rename(choice($.leading_word), 'command_name'),
+        ':',
+        $.string,
+        $.raw_string,
+        $.command_substitution
+      ),
+      optional(seq(
+        /\s+/,
+        repeat($.expression)
+      )),
+      repeat(choice(
+        $.file_redirect,
+        $.heredoc_redirect
+      ))
+    )),
 
     environment_variable_assignment: $ => seq(
       rename($.leading_word, 'variable_name'),
       '=',
       choice(
-        $.value,
+        $.expression,
         $._empty_value
       )
-    ),
-
-    value: $ => choice(
-      rename($.word, 'argument'),
-      $.command_substitution,
-      $.quoted_argument,
-      $.single_quoted_argument,
-      $.expansion,
-      $.operator_expansion
-    ),
-
-    quoted_argument: $ => seq(
-      '"',
-      repeat(choice(
-        $._quoted_chars,
-        $.expansion,
-        $.operator_expansion,
-        $.command_substitution
-      )),
-      '"'
-    ),
-
-    _quoted_chars: $ => /[^"$]+/,
-
-    single_quoted_argument: $ => /'[^']*'/,
-
-    expansion: $ => seq(
-      '$',
-      choice(
-        rename($.word, 'variable_name'),
-        '$'
-      )
-    ),
-
-    operator_expansion: $ => seq(
-      '${',
-      rename($.leading_word, 'variable_name'),
-      optional(seq(
-        choice(':', ':?', '=', ':-'),
-        $.value
-      )),
-      '}'
-    ),
-
-    command_substitution: $ => seq(
-      '$(',
-      $.command,
-      ')'
     ),
 
     file_redirect: $ => seq(
       optional($.file_descriptor),
       choice('<', '>', '>>', '&>', '&>>', '<&', '>&'),
-      $.value
+      $.expression
     ),
 
     heredoc_redirect: $ => seq(
@@ -231,18 +192,74 @@ module.exports = grammar({
         $._heredoc_beginning,
         repeat(choice(
           $.expansion,
-          $.operator_expansion,
+          $.simple_expansion,
           $._heredoc_middle
         )),
         $._heredoc_end
       )
     ),
 
-    leading_word: $ => /[^"\\\s#=|;:{}()]+/,
+    // Expressions
 
-    word: $ => /[^"#\\\s$<>{}&;()]+/,
+    expression: $ => choice(
+      $.word,
+      $.string,
+      $.raw_string,
+      $.expansion,
+      $.simple_expansion,
+      $.command_substitution
+    ),
+
+    string: $ => seq(
+      '"',
+      repeat(choice(
+        /[^"$]+/,
+        $.expansion,
+        $.simple_expansion,
+        $.command_substitution
+      )),
+      '"'
+    ),
+
+    raw_string: $ => /'[^']*'/,
+
+    simple_expansion: $ => seq(
+      '$',
+      choice(
+        rename($.simple_variable_name, 'variable_name'),
+        $.special_variable_name
+      )
+    ),
+
+    expansion: $ => seq(
+      '${',
+      $._variable_name,
+      optional(seq(
+        choice(':', ':?', '=', ':-'),
+        $.expression
+      )),
+      '}'
+    ),
+
+    _variable_name: $ => choice(
+      rename($.leading_word, 'variable_name'),
+      $.special_variable_name
+    ),
+
+    command_substitution: $ => choice(
+      seq('$(', $.command, ')'),
+      seq('`', $.command, '`')
+    ),
+
+    leading_word: $ => /[^`"\\\s#=|;:{}()]+/,
+
+    word: $ => /[^"`#\\\s$<>{}&;()]+/,
 
     comment: $ => /#.*/,
+
+    simple_variable_name: $ => /\w+/,
+
+    special_variable_name: $ => choice('*', '@', '#', '?', '-', '$', '!', '0', '_'),
 
     terminator: $ => choice(';', ';;', '\n', '&'),
   }

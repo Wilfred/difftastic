@@ -36,7 +36,7 @@ struct Scanner {
       current_leading_word += lexer->lookahead;
       advance(lexer);
     }
-    return current_leading_word == heredoc_identifier;
+    return current_leading_word == heredoc_delimiter;
   }
 
   bool scan_heredoc_content(TSLexer *lexer, TokenType middle_type, TokenType end_type) {
@@ -74,14 +74,14 @@ struct Scanner {
   }
 
   bool scan(TSLexer *lexer, const bool *valid_symbols) {
-    if (valid_symbols[HEREDOC_MIDDLE]) {
+    if (valid_symbols[HEREDOC_MIDDLE] && !heredoc_delimiter.empty()) {
       return scan_heredoc_content(lexer, HEREDOC_MIDDLE, HEREDOC_END);
     }
 
     if (valid_symbols[HEREDOC_BEGINNING]) {
-      heredoc_identifier.clear();
+      heredoc_delimiter.clear();
       while (iswalpha(lexer->lookahead)) {
-        heredoc_identifier += lexer->lookahead;
+        heredoc_delimiter += lexer->lookahead;
         advance(lexer);
       }
 
@@ -118,7 +118,7 @@ struct Scanner {
     return false;
   }
 
-  wstring heredoc_identifier;
+  wstring heredoc_delimiter;
   wstring current_leading_word;
 };
 

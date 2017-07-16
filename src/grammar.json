@@ -78,12 +78,8 @@
           "value": "for"
         },
         {
-          "type": "RENAME",
-          "content": {
-            "type": "SYMBOL",
-            "name": "word"
-          },
-          "value": "argument"
+          "type": "SYMBOL",
+          "name": "word"
         },
         {
           "type": "STRING",
@@ -232,7 +228,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "value"
+          "name": "expression"
         },
         {
           "type": "CHOICE",
@@ -272,7 +268,7 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "value"
+          "name": "expression"
         },
         {
           "type": "STRING",
@@ -324,11 +320,11 @@
         },
         {
           "type": "SYMBOL",
-          "name": "compound_command"
+          "name": "compound_statement"
         }
       ]
     },
-    "compound_command": {
+    "compound_statement": {
       "type": "SEQ",
       "members": [
         {
@@ -362,7 +358,7 @@
               "type": "REPEAT1",
               "content": {
                 "type": "SYMBOL",
-                "name": "value"
+                "name": "expression"
               }
             },
             {
@@ -382,7 +378,7 @@
               "type": "REPEAT1",
               "content": {
                 "type": "SYMBOL",
-                "name": "value"
+                "name": "expression"
               }
             },
             {
@@ -394,99 +390,103 @@
       ]
     },
     "command": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "REPEAT",
-          "content": {
+      "type": "PREC_LEFT",
+      "value": 0,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "REPEAT",
+            "content": {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "environment_variable_assignment"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "file_redirect"
+                }
+              ]
+            }
+          },
+          {
             "type": "CHOICE",
             "members": [
               {
-                "type": "SYMBOL",
-                "name": "environment_variable_assignment"
+                "type": "RENAME",
+                "content": {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "SYMBOL",
+                      "name": "leading_word"
+                    }
+                  ]
+                },
+                "value": "command_name"
+              },
+              {
+                "type": "STRING",
+                "value": ":"
               },
               {
                 "type": "SYMBOL",
-                "name": "file_redirect"
+                "name": "string"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "raw_string"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "command_substitution"
               }
             ]
-          }
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "RENAME",
-              "content": {
-                "type": "CHOICE",
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SEQ",
                 "members": [
                   {
-                    "type": "SYMBOL",
-                    "name": "leading_word"
+                    "type": "PATTERN",
+                    "value": "\\s+"
+                  },
+                  {
+                    "type": "REPEAT",
+                    "content": {
+                      "type": "SYMBOL",
+                      "name": "expression"
+                    }
                   }
                 ]
               },
-              "value": "command_name"
-            },
-            {
-              "type": "STRING",
-              "value": ":"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "quoted_argument"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "single_quoted_argument"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "command_substitution"
-            }
-          ]
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "PATTERN",
-                  "value": "\\s+"
-                },
-                {
-                  "type": "REPEAT",
-                  "content": {
-                    "type": "SYMBOL",
-                    "name": "value"
-                  }
-                }
-              ]
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        },
-        {
-          "type": "REPEAT",
-          "content": {
-            "type": "CHOICE",
-            "members": [
               {
-                "type": "SYMBOL",
-                "name": "file_redirect"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "heredoc_redirect"
+                "type": "BLANK"
               }
             ]
+          },
+          {
+            "type": "REPEAT",
+            "content": {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "file_redirect"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "heredoc_redirect"
+                }
+              ]
+            }
           }
-        }
-      ]
+        ]
+      }
     },
     "pipeline": {
       "type": "PREC_LEFT",
@@ -588,7 +588,7 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "value"
+              "name": "expression"
             },
             {
               "type": "SYMBOL",
@@ -598,28 +598,20 @@
         }
       ]
     },
-    "value": {
+    "expression": {
       "type": "CHOICE",
       "members": [
         {
-          "type": "RENAME",
-          "content": {
-            "type": "SYMBOL",
-            "name": "word"
-          },
-          "value": "argument"
+          "type": "SYMBOL",
+          "name": "word"
         },
         {
           "type": "SYMBOL",
-          "name": "command_substitution"
+          "name": "string"
         },
         {
           "type": "SYMBOL",
-          "name": "quoted_argument"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "single_quoted_argument"
+          "name": "raw_string"
         },
         {
           "type": "SYMBOL",
@@ -627,11 +619,15 @@
         },
         {
           "type": "SYMBOL",
-          "name": "operator_expansion"
+          "name": "simple_expansion"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "command_substitution"
         }
       ]
     },
-    "quoted_argument": {
+    "string": {
       "type": "SEQ",
       "members": [
         {
@@ -653,7 +649,7 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "operator_expansion"
+                "name": "simple_expansion"
               },
               {
                 "type": "SYMBOL",
@@ -672,11 +668,11 @@
       "type": "PATTERN",
       "value": "[^\"$]+"
     },
-    "single_quoted_argument": {
+    "raw_string": {
       "type": "PATTERN",
       "value": "'[^']*'"
     },
-    "expansion": {
+    "simple_expansion": {
       "type": "SEQ",
       "members": [
         {
@@ -690,19 +686,19 @@
               "type": "RENAME",
               "content": {
                 "type": "SYMBOL",
-                "name": "word"
+                "name": "simple_variable_name"
               },
               "value": "variable_name"
             },
             {
-              "type": "STRING",
-              "value": "$"
+              "type": "SYMBOL",
+              "name": "special_variable_name"
             }
           ]
         }
       ]
     },
-    "operator_expansion": {
+    "expansion": {
       "type": "SEQ",
       "members": [
         {
@@ -710,12 +706,8 @@
           "value": "${"
         },
         {
-          "type": "RENAME",
-          "content": {
-            "type": "SYMBOL",
-            "name": "leading_word"
-          },
-          "value": "variable_name"
+          "type": "SYMBOL",
+          "name": "_variable_name"
         },
         {
           "type": "CHOICE",
@@ -746,7 +738,7 @@
                 },
                 {
                   "type": "SYMBOL",
-                  "name": "value"
+                  "name": "expression"
                 }
               ]
             },
@@ -761,20 +753,59 @@
         }
       ]
     },
-    "command_substitution": {
-      "type": "SEQ",
+    "_variable_name": {
+      "type": "CHOICE",
       "members": [
         {
-          "type": "STRING",
-          "value": "$("
+          "type": "RENAME",
+          "content": {
+            "type": "SYMBOL",
+            "name": "leading_word"
+          },
+          "value": "variable_name"
         },
         {
           "type": "SYMBOL",
-          "name": "command"
+          "name": "special_variable_name"
+        }
+      ]
+    },
+    "command_substitution": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "$("
+            },
+            {
+              "type": "SYMBOL",
+              "name": "command"
+            },
+            {
+              "type": "STRING",
+              "value": ")"
+            }
+          ]
         },
         {
-          "type": "STRING",
-          "value": ")"
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "`"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "command"
+            },
+            {
+              "type": "STRING",
+              "value": "`"
+            }
+          ]
         }
       ]
     },
@@ -828,7 +859,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "value"
+          "name": "expression"
         }
       ]
     },
@@ -879,7 +910,7 @@
                   },
                   {
                     "type": "SYMBOL",
-                    "name": "operator_expansion"
+                    "name": "simple_expansion"
                   },
                   {
                     "type": "SYMBOL",
@@ -898,15 +929,60 @@
     },
     "leading_word": {
       "type": "PATTERN",
-      "value": "[^\"\\\\\\s#=|;:{}()]+"
+      "value": "[^`\"\\\\\\s#=|;:{}()]+"
     },
     "word": {
       "type": "PATTERN",
-      "value": "[^\"#\\\\\\s$<>{}&;()]+"
+      "value": "[^\"`#\\\\\\s$<>{}&;()]+"
     },
     "comment": {
       "type": "PATTERN",
       "value": "#.*"
+    },
+    "simple_variable_name": {
+      "type": "PATTERN",
+      "value": "\\w+"
+    },
+    "special_variable_name": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "*"
+        },
+        {
+          "type": "STRING",
+          "value": "@"
+        },
+        {
+          "type": "STRING",
+          "value": "#"
+        },
+        {
+          "type": "STRING",
+          "value": "?"
+        },
+        {
+          "type": "STRING",
+          "value": "-"
+        },
+        {
+          "type": "STRING",
+          "value": "$"
+        },
+        {
+          "type": "STRING",
+          "value": "!"
+        },
+        {
+          "type": "STRING",
+          "value": "0"
+        },
+        {
+          "type": "STRING",
+          "value": "_"
+        }
+      ]
     },
     "terminator": {
       "type": "CHOICE",
@@ -982,6 +1058,7 @@
   "inline": [
     "statement",
     "terminator",
-    "value"
+    "expression",
+    "_variable_name"
   ]
 }
