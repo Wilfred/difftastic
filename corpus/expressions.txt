@@ -136,3 +136,21 @@ find "`dirname $file`" -name "$base"'*'
     (word)
     (string (simple_expansion (variable_name)))
     (raw_string)))
+
+=========================================
+Arrays and array expansions
+=========================================
+
+a=()
+b=(1 2 3)
+
+echo ${a[@]}
+echo ${#b[@]}
+
+---
+
+(program
+  (environment_variable_assignment (variable_name) (array))
+  (environment_variable_assignment (variable_name) (array (word) (word) (word)))
+  (command (command_name) (expansion (variable_name)))
+  (command (command_name) (expansion (variable_name))))

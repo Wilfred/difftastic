@@ -848,15 +848,32 @@
           "value": "${"
         },
         {
-          "type": "SYMBOL",
-          "name": "_variable_name"
-        },
-        {
           "type": "CHOICE",
           "members": [
             {
+              "type": "SYMBOL",
+              "name": "_variable_name"
+            },
+            {
               "type": "SEQ",
               "members": [
+                {
+                  "type": "STRING",
+                  "value": "#"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "_variable_name"
+                }
+              ]
+            },
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "_variable_name"
+                },
                 {
                   "type": "CHOICE",
                   "members": [
@@ -883,9 +900,6 @@
                   "name": "_expression"
                 }
               ]
-            },
-            {
-              "type": "BLANK"
             }
           ]
         },
@@ -1111,6 +1125,10 @@
     {
       "type": "SYMBOL",
       "name": "_empty_value"
+    },
+    {
+      "type": "STRING",
+      "value": "#"
     }
   ],
   "inline": [

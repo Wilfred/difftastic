@@ -14,7 +14,8 @@ module.exports = grammar({
     $._heredoc_middle,
     $._heredoc_end,
     $.file_descriptor,
-    $._empty_value
+    $._empty_value,
+    '#'
   ],
 
   extras: $ => [
@@ -241,11 +242,15 @@ module.exports = grammar({
 
     expansion: $ => seq(
       '${',
-      $._variable_name,
-      optional(seq(
-        choice(':', ':?', '=', ':-'),
-        $._expression
-      )),
+      choice(
+        $._variable_name,
+        seq('#', $._variable_name),
+        seq(
+          $._variable_name,
+          choice(':', ':?', '=', ':-'),
+          $._expression
+        )
+      ),
       '}'
     ),
 

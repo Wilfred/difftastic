@@ -13,6 +13,7 @@ enum TokenType {
   HEREDOC_END,
   FILE_DESCRIPTOR,
   EMPTY_VALUE,
+  LENGTH_OPERATOR
 };
 
 struct Scanner {
@@ -112,6 +113,16 @@ struct Scanner {
       if (iswspace(lexer->lookahead)) {
         lexer->result_symbol = EMPTY_VALUE;
         return true;
+      }
+    }
+
+    if (valid_symbols[LENGTH_OPERATOR]) {
+      if (lexer->lookahead == '#') {
+        advance(lexer);
+        if (iswalpha(lexer->lookahead)) {
+          lexer->result_symbol = LENGTH_OPERATOR;
+          return true;
+        }
       }
     }
 
