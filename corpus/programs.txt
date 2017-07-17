@@ -28,7 +28,7 @@ f=g   \
 
 (program
   (command
-    (command_name)
+    (command_name (word))
     (word)
     (word))
   (command
@@ -38,5 +38,5 @@ f=g   \
     (environment_variable_assignment
       (variable_name)
       (word))
-    (command_name)
+    (command_name (word))
     (word)))

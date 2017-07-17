@@ -13,7 +13,9 @@ enum TokenType {
   HEREDOC_END,
   FILE_DESCRIPTOR,
   EMPTY_VALUE,
-  LENGTH_OPERATOR
+  CONCAT,
+  VARIABLE_NAME,
+  NEWLINE,
 };
 
 struct Scanner {
@@ -75,6 +77,32 @@ struct Scanner {
   }
 
   bool scan(TSLexer *lexer, const bool *valid_symbols) {
+    if (valid_symbols[CONCAT]) {
+      if (!(
+        iswspace(lexer->lookahead) ||
+        lexer->lookahead == '>' ||
+        lexer->lookahead == '<' ||
+        lexer->lookahead == ')' ||
+        lexer->lookahead == '(' ||
+        lexer->lookahead == '[' ||
+        lexer->lookahead == ']' ||
+        lexer->lookahead == '}' ||
+        lexer->lookahead == ';' ||
+        lexer->lookahead == '&' ||
+        lexer->lookahead == '`'
+      )) {
+        lexer->result_symbol = CONCAT;
+        return true;
+      }
+    }
+
+    if (valid_symbols[EMPTY_VALUE]) {
+      if (iswspace(lexer->lookahead)) {
+        lexer->result_symbol = EMPTY_VALUE;
+        return true;
+      }
+    }
+
     if (valid_symbols[HEREDOC_MIDDLE] && !heredoc_delimiter.empty()) {
       return scan_heredoc_content(lexer, HEREDOC_MIDDLE, HEREDOC_END);
     }
@@ -97,33 +125,58 @@ struct Scanner {
       return scan_heredoc_content(lexer, HEREDOC_BEGINNING, SIMPLE_HEREDOC);
     }
 
-    if (valid_symbols[FILE_DESCRIPTOR]) {
-      while (lexer->lookahead == ' ' || lexer->lookahead == '\t') skip(lexer);
+    if (valid_symbols[VARIABLE_NAME] || valid_symbols[FILE_DESCRIPTOR]) {
+      for (;;) {
+        if (
+          lexer->lookahead == ' ' ||
+          lexer->lookahead == '\t' ||
+          (lexer->lookahead == '\n' && !valid_symbols[NEWLINE])
+        ) {
+          skip(lexer);
+        } else if (lexer->lookahead == '\\') {
+          skip(lexer);
+          if (lexer->lookahead == '\n') {
+            skip(lexer);
+          } else {
+            return false;
+          }
+        } else {
+          break;
+        }
+      }
+
+      bool is_number = true;
       if (iswdigit(lexer->lookahead)) {
         advance(lexer);
-        while (iswdigit(lexer->lookahead)) advance(lexer);
-        if (lexer->lookahead == '>' || lexer->lookahead == '<') {
-          lexer->result_symbol = FILE_DESCRIPTOR;
-          return true;
+      } else if (iswalpha(lexer->lookahead) || lexer->lookahead == '_') {
+        is_number = false;
+        advance(lexer);
+      } else {
+        return false;
+      }
+
+      for (;;) {
+        if (iswdigit(lexer->lookahead)) {
+          advance(lexer);
+        } else if (iswalpha(lexer->lookahead) || lexer->lookahead == '_') {
+          is_number = false;
+          advance(lexer);
+        } else {
+          break;
         }
       }
-    }
 
-    if (valid_symbols[EMPTY_VALUE]) {
-      if (iswspace(lexer->lookahead)) {
-        lexer->result_symbol = EMPTY_VALUE;
+      if (is_number && valid_symbols[FILE_DESCRIPTOR] && (lexer->lookahead == '>' || lexer->lookahead == '<')) {
+        lexer->result_symbol = FILE_DESCRIPTOR;
         return true;
       }
-    }
 
-    if (valid_symbols[LENGTH_OPERATOR]) {
-      if (lexer->lookahead == '#') {
-        advance(lexer);
-        if (iswalpha(lexer->lookahead)) {
-          lexer->result_symbol = LENGTH_OPERATOR;
-          return true;
-        }
+      if (valid_symbols[VARIABLE_NAME] && (lexer->lookahead == '=' || lexer->lookahead == '[')) {
+        lexer->result_symbol = VARIABLE_NAME;
+        return true;
       }
+
+      return false;
     }
 
     return false;

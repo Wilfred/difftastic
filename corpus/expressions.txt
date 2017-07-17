@@ -8,8 +8,8 @@ echo a b
 ---
 
 (program
-  (command (command_name) (word))
-  (command (command_name) (word) (word)))
+  (command (command_name (word)) (word))
+  (command (command_name (word)) (word) (word)))
 
 =============================
 Simple variable expansions
@@ -20,7 +20,7 @@ echo $abc
 ---
 
 (program
-  (command (command_name) (simple_expansion (variable_name))))
+  (command (command_name (word)) (simple_expansion (variable_name))))
 
 =============================
 Variable expansions
@@ -32,8 +32,8 @@ echo ${abc:-def}
 ---
 
 (program
-  (command (command_name) (expansion (variable_name)))
-  (command (command_name) (expansion (variable_name) (word))))
+  (command (command_name (word)) (expansion (variable_name)))
+  (command (command_name (word)) (expansion (variable_name) (word))))
 
 ===================================
 Other variable expansion operators
@@ -45,7 +45,7 @@ cat ${BAR} ${ABC=def} ${GHI:?jkl}
 
 (program
   (command
-    (command_name)
+    (command_name (word))
     (expansion (variable_name))
     (expansion (variable_name) (word))
     (expansion (variable_name) (word))))
@@ -61,14 +61,14 @@ echo $(echo $(echo hi))
 
 (program
   (command
-    (command_name)
-    (command_substitution (command (command_name) (word))))
+    (command_name (word))
+    (command_substitution (command (command_name (word)) (word))))
   (command
-    (command_name)
+    (command_name (word))
     (command_substitution (command
-      (command_name)
+      (command_name (word))
       (command_substitution (command
-        (command_name)
+        (command_name (word))
         (word)))))))
 
 =============================
@@ -82,16 +82,16 @@ echo abc > >(wc -c)
 
 (program
   (command
-    (command_name)
+    (command_name (word))
     (word)
     (process_substitution (list
-      (command (command_name) (word))
-      (command (command_name) (word)))))
+      (command (command_name (word)) (word))
+      (command (command_name (word)) (word)))))
   (command
-    (command_name)
+    (command_name (word))
     (word)
     (file_redirect (process_substitution
-      (command (command_name) (word))))))
+      (command (command_name (word)) (word))))))
 
 =============================
 Single quoted strings
@@ -102,7 +102,7 @@ echo 'a b' 'c d'
 ---
 
 (program
-  (command (command_name) (raw_string) (raw_string)))
+  (command (command_name (word)) (raw_string) (raw_string)))
 
 =============================
 Double quoted strings
@@ -114,10 +114,10 @@ echo "a ${b} c" "d $e"
 ---
 
 (program
-  (command (command_name)
+  (command (command_name (word))
     (string)
     (string))
-  (command (command_name)
+  (command (command_name (word))
     (string (expansion (variable_name)))
     (string (simple_expansion (variable_name)))))
 
@@ -131,11 +131,12 @@ find "`dirname $file`" -name "$base"'*'
 
 (program
   (command
-    (command_name)
-    (string (command_substitution (command (command_name) (simple_expansion (variable_name)))))
+    (command_name (word))
+    (string (command_substitution (command (command_name (word)) (simple_expansion (variable_name)))))
     (word)
-    (string (simple_expansion (variable_name)))
-    (raw_string)))
+    (concatenation
+      (string (simple_expansion (variable_name)))
+      (raw_string))))
 
 =========================================
 Arrays and array expansions
@@ -147,10 +148,15 @@ b=(1 2 3)
 echo ${a[@]}
 echo ${#b[@]}
 
+a[$i]=50
+
 ---
 
 (program
   (environment_variable_assignment (variable_name) (array))
   (environment_variable_assignment (variable_name) (array (word) (word) (word)))
-  (command (command_name) (expansion (variable_name)))
-  (command (command_name) (expansion (variable_name))))
+  (command (command_name (word)) (expansion (variable_name)))
+  (command (command_name (word)) (expansion (variable_name)))
+  (environment_variable_assignment
+    (subscript (variable_name) (simple_expansion (variable_name)))
+    (word)))
