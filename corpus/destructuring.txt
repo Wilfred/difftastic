@@ -10,24 +10,24 @@ const {a, b: {c, d}} = object
 
 (program
   (expression_statement (assignment
-    (destructuring_pattern (object
+    (object_pattern
       (identifier)
-      (identifier)))
+      (identifier))
     (identifier)))
   (lexical_declaration (variable_declarator
-    (destructuring_pattern (object
+    (object_pattern
       (identifier)
       (identifier)
-      (spread_element (identifier))))
+      (spread_element (identifier)))
     (identifier)))
   (lexical_declaration (variable_declarator
-    (destructuring_pattern (object
+    (object_pattern
       (identifier)
       (pair
         (identifier)
         (object
           (identifier)
-          (identifier)))))
+          (identifier))))
     (identifier))))
 
 ============================================
@@ -41,8 +41,8 @@ function a ({b, c}, {d}) {}
 (program
   (function (identifier)
     (formal_parameters
-      (destructuring_pattern (object (identifier) (identifier)))
-      (destructuring_pattern (object (identifier))))
+      (object_pattern (identifier) (identifier))
+      (object_pattern (identifier)))
     (statement_block)))
 
 ============================================
@@ -56,15 +56,15 @@ Array destructuring assignments
 
 (program
   (expression_statement (assignment
-    (destructuring_pattern (array
+    (array_pattern
       (identifier)
-      (identifier)))
+      (identifier))
     (identifier)))
   (expression_statement (assignment
-    (destructuring_pattern (array
+    (array_pattern
       (identifier)
       (identifier)
-      (spread_element (identifier))))
+      (spread_element (identifier)))
     (identifier))))
 
 ================================================
@@ -78,6 +78,6 @@ function a({b = true}, [c, d = false]) {}
 (program
   (function (identifier)
     (formal_parameters
-      (destructuring_pattern (object (assignment_pattern (identifier) (true))))
-      (destructuring_pattern (array (identifier) (assignment (identifier) (false)))))
+      (object_pattern (assignment_pattern (identifier) (true)))
+      (array_pattern (identifier) (assignment (identifier) (false))))
     (statement_block)))
