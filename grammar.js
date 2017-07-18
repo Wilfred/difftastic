@@ -34,7 +34,8 @@ module.exports = grammar({
 
   inline: $ => [
     $._statement,
-    $._semicolon
+    $._semicolon,
+    $._destructuring_pattern,
   ],
 
   conflicts: $ => [
@@ -42,7 +43,6 @@ module.exports = grammar({
     [$.labeled_statement, $._property_name],
     [$.reserved_identifier, $.arrow_function],
     [$.formal_parameters, $._expression],
-    [$.destructuring_pattern, $._expression],
     [$._expression, $._property_definition_list],
     [$.assignment_pattern, $.assignment],
     [$.method_definition, $.reserved_identifier]
@@ -174,7 +174,7 @@ module.exports = grammar({
 
     variable_declarator: $ => choice(
       seq($.identifier, optional($._initializer)),
-      seq($.destructuring_pattern, $._initializer)
+      seq($._destructuring_pattern, $._initializer)
     ),
 
     statement_block: $ => seq(
@@ -551,7 +551,7 @@ module.exports = grammar({
         $.member_access,
         $.subscript_access,
         $.identifier,
-        $.destructuring_pattern
+        $._destructuring_pattern
       ),
       $._initializer
     )),
@@ -570,9 +570,9 @@ module.exports = grammar({
       $._expression
     )),
 
-    destructuring_pattern: $ => choice(
-      $.object,
-      $.array
+    _destructuring_pattern: $ => choice(
+      rename($.object, 'object_pattern'),
+      rename($.array, 'array_pattern')
     ),
 
     spread_element: $ => seq('...', $._expression),
@@ -762,7 +762,7 @@ module.exports = grammar({
 
     formal_parameters: $ => seq(
       '(',
-      commaSep(choice($.identifier, $.destructuring_pattern)),
+      commaSep(choice($.identifier, $._destructuring_pattern)),
       ')'
     ),
 

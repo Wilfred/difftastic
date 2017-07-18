@@ -671,7 +671,7 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "destructuring_pattern"
+              "name": "_destructuring_pattern"
             },
             {
               "type": "SYMBOL",
@@ -2283,7 +2283,7 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "destructuring_pattern"
+                "name": "_destructuring_pattern"
               }
             ]
           },
@@ -2374,16 +2374,24 @@
         ]
       }
     },
-    "destructuring_pattern": {
+    "_destructuring_pattern": {
       "type": "CHOICE",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "object"
+          "type": "RENAME",
+          "content": {
+            "type": "SYMBOL",
+            "name": "object"
+          },
+          "value": "object_pattern"
         },
         {
-          "type": "SYMBOL",
-          "name": "array"
+          "type": "RENAME",
+          "content": {
+            "type": "SYMBOL",
+            "name": "array"
+          },
+          "value": "array_pattern"
         }
       ]
     },
@@ -4034,7 +4042,7 @@
                     },
                     {
                       "type": "SYMBOL",
-                      "name": "destructuring_pattern"
+                      "name": "_destructuring_pattern"
                     }
                   ]
                 },
@@ -4056,7 +4064,7 @@
                           },
                           {
                             "type": "SYMBOL",
-                            "name": "destructuring_pattern"
+                            "name": "_destructuring_pattern"
                           }
                         ]
                       }
@@ -4290,10 +4298,6 @@
       "_expression"
     ],
     [
-      "destructuring_pattern",
-      "_expression"
-    ],
-    [
       "_expression",
       "_property_definition_list"
     ],
@@ -4314,6 +4318,7 @@
   ],
   "inline": [
     "_statement",
-    "_semicolon"
+    "_semicolon",
+    "_destructuring_pattern"
   ]
 }
