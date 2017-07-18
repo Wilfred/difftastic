@@ -6,10 +6,10 @@ enum TokenType {
 };
 
 void *tree_sitter_javascript_external_scanner_create() { return NULL; }
-void tree_sitter_javascript_external_scanner_destroy(void *payload) {}
-void tree_sitter_javascript_external_scanner_reset(void *payload) {}
-bool tree_sitter_javascript_external_scanner_serialize(void *payload, TSExternalTokenState state) { return true; }
-void tree_sitter_javascript_external_scanner_deserialize(void *payload, TSExternalTokenState state) {}
+void tree_sitter_javascript_external_scanner_destroy(void *p) {}
+void tree_sitter_javascript_external_scanner_reset(void *p) {}
+unsigned tree_sitter_javascript_external_scanner_serialize(void *p, char *buffer) { return 0; }
+void tree_sitter_javascript_external_scanner_deserialize(void *p, const char *b, unsigned n) {}
 
 static inline void advance(TSLexer *lexer) { lexer->advance(lexer, false); }
 
