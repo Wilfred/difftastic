@@ -12,10 +12,10 @@ struct s2 {
 ---
 
 (translation_unit
-  (struct_specifier (identifier))
-  (struct_specifier (identifier) (member_declaration_list
-    (member_declaration (identifier) (identifier))
-    (member_declaration (identifier) (identifier) (number_literal)))))
+  (struct_specifier (struct_name))
+  (struct_specifier (struct_name) (field_declaration_list
+    (field_declaration (type_name) (field_name))
+    (field_declaration (type_name) (field_name) (number_literal)))))
 
 ============================================
 Union declarations
@@ -31,10 +31,10 @@ union s2 {
 ---
 
 (translation_unit
-  (union_specifier (identifier))
-  (union_specifier (identifier) (member_declaration_list
-    (member_declaration (identifier) (identifier))
-    (member_declaration (identifier) (identifier)))))
+  (union_specifier (union_name))
+  (union_specifier (union_name) (field_declaration_list
+    (field_declaration (type_name) (field_name))
+    (field_declaration (type_name) (field_name)))))
 
 ============================================
 Enum declarations
@@ -55,13 +55,13 @@ enum e3 {
 ---
 
 (translation_unit
-  (enum_specifier (identifier))
-  (enum_specifier (identifier)
-    (enumerator (identifier))
-    (enumerator (identifier) (number_literal))
-    (enumerator (identifier)))
-  (enum_specifier (identifier)
-    (enumerator (identifier))))
+  (enum_specifier (enum_name))
+  (enum_specifier (enum_name) (enumerator_list
+    (enumerator (variable_name))
+    (enumerator (variable_name) (number_literal))
+    (enumerator (variable_name))))
+  (enum_specifier (enum_name) (enumerator_list
+    (enumerator (variable_name)))))
 
 ============================================
 Primitive-typed variable declarations
@@ -76,15 +76,15 @@ short g, h;
 ---
 
 (translation_unit
-  (declaration (sized_type_specifier (identifier)) (identifier))
+  (declaration (sized_type_specifier (type_name)) (variable_name))
   (declaration
-    (sized_type_specifier (identifier))
-    (identifier)
-    (init_declarator (identifier) (number_literal))
-    (identifier))
-  (declaration (identifier) (identifier) (identifier))
-  (declaration (sized_type_specifier) (identifier))
-  (declaration (sized_type_specifier) (identifier) (identifier)))
+    (sized_type_specifier (type_name))
+    (variable_name)
+    (init_declarator (variable_name) (number_literal))
+    (variable_name))
+  (declaration (type_name) (variable_name) (variable_name))
+  (declaration (sized_type_specifier) (variable_name))
+  (declaration (sized_type_specifier) (variable_name) (variable_name)))
 
 ============================================
 Variable storage classes
@@ -99,11 +99,11 @@ static int f;
 ---
 
 (translation_unit
-  (declaration (identifier) (identifier))
-  (declaration (storage_class_specifier) (identifier) (identifier) (identifier))
-  (declaration (storage_class_specifier) (identifier) (identifier))
-  (declaration (storage_class_specifier) (identifier) (identifier))
-  (declaration (storage_class_specifier) (identifier) (identifier)))
+  (declaration (type_name) (variable_name))
+  (declaration (storage_class_specifier) (type_name) (variable_name) (variable_name))
+  (declaration (storage_class_specifier) (type_name) (variable_name))
+  (declaration (storage_class_specifier) (type_name) (variable_name))
+  (declaration (storage_class_specifier) (type_name) (variable_name)))
 
 ============================================
 Composite-typed variable declarations
@@ -117,14 +117,17 @@ enum { g, h } i;
 
 (translation_unit
   (declaration
-    (struct_specifier (identifier))
-    (identifier))
+    (struct_specifier (struct_name))
+    (variable_name))
   (declaration
-    (union_specifier (member_declaration_list (member_declaration (identifier) (identifier))))
-    (identifier))
+    (union_specifier (field_declaration_list
+      (field_declaration (type_name) (field_name))))
+    (variable_name))
   (declaration
-    (enum_specifier (enumerator (identifier)) (enumerator (identifier)))
-    (identifier)))
+    (enum_specifier (enumerator_list
+      (enumerator (variable_name))
+      (enumerator (variable_name))))
+    (variable_name)))
 
 ============================================
 Pointer variable declarations
@@ -136,9 +139,13 @@ const char **the_strings;
 ---
 
 (translation_unit
-  (declaration (identifier) (pointer_declarator (identifier)))
-  (declaration (type_qualifier) (identifier)
-    (pointer_declarator (pointer_declarator (identifier)))))
+  (declaration
+    (type_name)
+    (pointer_declarator (variable_name)))
+  (declaration
+    (type_qualifier)
+    (type_name)
+    (pointer_declarator (pointer_declarator (variable_name)))))
 
 ============================================
 Typedefs
@@ -153,11 +160,11 @@ typedef struct {
 ---
 
 (translation_unit
-  (declaration (storage_class_specifier) (identifier) (identifier))
+  (declaration (storage_class_specifier) (type_name) (variable_name))
   (declaration
     (storage_class_specifier)
-    (struct_specifier (member_declaration_list (member_declaration (identifier) (identifier))))
-    (pointer_declarator (identifier))))
+    (struct_specifier (field_declaration_list (field_declaration (type_name) (field_name))))
+    (pointer_declarator (variable_name))))
 
 ============================================
 Function declarations
@@ -171,24 +178,27 @@ static baz quux(...);
 
 (translation_unit
   (declaration
-    (identifier)
+    (type_name)
     (function_declarator
-      (identifier)
-      (parameter_type_list
-        (parameter_declaration (identifier) (identifier))
-        (parameter_declaration (type_qualifier) (identifier) (pointer_declarator (pointer_declarator (identifier)))))))
+      (variable_name)
+      (parameter_list
+        (parameter_declaration
+          (type_name)
+          (variable_name))
+        (parameter_declaration
+          (type_qualifier)
+          (type_name)
+          (pointer_declarator (pointer_declarator (variable_name)))))))
 
   (declaration
     (storage_class_specifier)
-    (identifier)
-    (function_declarator (identifier)))
+    (type_name)
+    (function_declarator (variable_name) (parameter_list)))
 
   (declaration
     (storage_class_specifier)
-    (identifier)
-    (function_declarator
-      (identifier)
-      (parameter_type_list))))
+    (type_name)
+    (function_declarator (variable_name) (parameter_list))))
 
 ============================================
 Function definitions
@@ -202,11 +212,11 @@ void * do_stuff(int arg1) {
 
 (translation_unit
   (function_definition
-    (identifier)
+    (type_name)
     (pointer_declarator
-      (function_declarator (identifier)
-        (parameter_type_list
-          (parameter_declaration (identifier) (identifier)))))
+      (function_declarator (variable_name)
+        (parameter_list
+          (parameter_declaration (type_name) (variable_name)))))
     (compound_statement (return_statement (number_literal)))))
 
 ============================================
@@ -221,12 +231,12 @@ int static inline do_stuff(int arg1) {
 
 (translation_unit
   (function_definition
-    (identifier)
+    (type_name)
     (storage_class_specifier)
     (function_specifier)
     (function_declarator
-      (identifier)
-      (parameter_type_list (parameter_declaration (identifier) (identifier))))
+      (variable_name)
+      (parameter_list (parameter_declaration (type_name) (variable_name))))
     (compound_statement (return_statement (number_literal)))))
 
 ============================================
@@ -248,21 +258,20 @@ extern "C" {
   (linkage_specification
     (string_literal)
     (declaration
-      (identifier)
-      (function_declarator (identifier))))
+      (type_name)
+      (function_declarator (variable_name) (parameter_list))))
   (linkage_specification
     (string_literal)
     (function_definition
-      (identifier)
-      (function_declarator
-        (identifier))
+      (type_name)
+      (function_declarator (variable_name) (parameter_list))
       (compound_statement (return_statement (number_literal)))))
   (linkage_specification
     (string_literal)
     (declaration_list
       (declaration
-        (identifier)
-        (function_declarator (identifier)))
+        (type_name)
+        (function_declarator (variable_name) (parameter_list)))
       (declaration
-        (identifier)
-        (function_declarator (identifier))))))
+        (type_name)
+        (function_declarator (variable_name) (parameter_list))))))

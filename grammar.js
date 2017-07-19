@@ -28,43 +28,22 @@ module.exports = grammar({
     $.comment,
   ],
 
+  inline: $ => [
+    $._statement
+  ],
+
   conflicts: $ => [
-    // Thing (
-    //   ^
-    // This could be:
-    //   * a type name in a declaration with a parenthesized variable name:
-    //       int (b) = 0;
-    //   * a variable name in a function definition with no return type:
-    //       main () {}
-    //   * a function name in a function call:
-    //       puts("hi");
-    //   * the name of a macro that defines a type:
-    //       Array(int) x;
-    [$._declarator, $._expression],
-    [$._declarator, $._expression, $._type_specifier],
-    [$._declarator, $._expression, $._type_specifier, $.macro_type_specifier],
-    [$._expression, $._type_specifier],
-    [$._expression, $._type_specifier, $.macro_type_specifier],
-    [$._type_specifier, $.macro_type_specifier],
-
-    // unsigned x
-    //    ^
-    // This could be:
-    //   * a modifier for the type that follows:
-    //       unsigned int x = 5;
-    //   * a type in itself:
-    //       unsigned x = 5;
-    [$.sized_type_specifier],
-
-    // void foo(int (bar)
-    //                ^
-    // This could be:
-    //   * the type of the first parameter to a callback function:
-    //       void foo(int (int), bool);
-    //   * a parenthesized name for the first parameter:
-    //       void foo(int (some_int), bool);
-    [$._declarator, $._type_specifier],
+    [$._declarator, $._type_specifier, $._expression, $.macro_type_specifier],
+    [$._type_specifier, $._expression, $.macro_type_specifier],
     [$._declarator, $._type_specifier, $.macro_type_specifier],
+    [$._field_declarator, $._type_specifier, $.macro_type_specifier],
+    [$._declarator, $._type_specifier, $._expression],
+    [$._field_declarator, $._type_specifier],
+    [$._declarator, $._type_specifier],
+    [$._type_specifier, $.macro_type_specifier],
+    [$._type_specifier, $._expression],
+    [$._declarator, $._expression],
+    [$.sized_type_specifier],
   ],
 
   rules: {
@@ -205,7 +184,15 @@ module.exports = grammar({
       $.function_declarator,
       $.array_declarator,
       seq('(', $._declarator, ')'),
-      $.identifier
+      rename($.identifier, 'variable_name')
+    ),
+
+    _field_declarator: $ => choice(
+      rename($.pointer_field_declarator, 'pointer_declarator'),
+      rename($.function_field_declarator, 'function_declarator'),
+      rename($.array_field_declarator, 'array_declarator'),
+      seq('(', $._field_declarator, ')'),
+      rename($.identifier, 'field_name')
     ),
 
     _abstract_declarator: $ => choice(
@@ -215,31 +202,26 @@ module.exports = grammar({
       prec(1, seq('(', $._abstract_declarator, ')'))
     ),
 
-    pointer_declarator: $ => prec.right(seq(
-      '*', $._declarator
-    )),
+    pointer_declarator: $ => prec.right(seq('*', $._declarator)),
 
-    abstract_pointer_declarator: $ => prec.right(seq(
-      '*',
-      optional($._abstract_declarator)
-    )),
+    pointer_field_declarator: $ => prec.right(seq('*', $._field_declarator)),
 
-    function_declarator: $ => prec(1, seq(
-      $._declarator,
-      '(',
-      optional($.parameter_type_list),
-      ')'
-    )),
+    abstract_pointer_declarator: $ => prec.right(seq('*', optional($._abstract_declarator))),
 
-    abstract_function_declarator: $ => prec(1, seq(
-      optional($._abstract_declarator),
-      '(',
-      optional($.parameter_type_list),
-      ')'
-    )),
+    function_declarator: $ => prec(1, seq($._declarator, $.parameter_list)),
+    function_field_declarator: $ => prec(1, seq($._field_declarator, $.parameter_list)),
+    abstract_function_declarator: $ => prec(1, seq(optional($._abstract_declarator), $.parameter_list)),
 
     array_declarator: $ => prec(1, seq(
       $._declarator,
+      '[',
+      optional($._declaration_specifiers),
+      optional($._expression),
+      ']'
+    )),
+
+    array_field_declarator: $ => prec(1, seq(
+      $._field_declarator,
       '[',
       optional($._declaration_specifiers),
       optional($._expression),
@@ -288,7 +270,7 @@ module.exports = grammar({
       $.enum_specifier,
       $.macro_type_specifier,
       $.sized_type_specifier,
-      $.identifier
+      rename($.identifier, 'type_name')
     ),
 
     sized_type_specifier: $ => seq(
@@ -297,72 +279,72 @@ module.exports = grammar({
         'long',
         'short'
       )),
-      optional($.identifier)
+      optional(rename($.identifier, 'type_name'))
     ),
 
     enum_specifier: $ => seq(
       'enum',
       choice(
-        $.identifier,
         seq(
-          optional($.identifier),
-          '{',
-          $._enum_specifier_contents,
-          optional(','),
-          '}'
-        )
+          rename($.identifier, 'enum_name'),
+          optional($.enumerator_list)
+        ),
+        $.enumerator_list
       )
     ),
 
-    _enum_specifier_contents: $ => commaSepTrailing(
-      $._enum_specifier_contents,
-      $.enumerator
+    enumerator_list: $ => seq(
+      '{',
+      commaSep($.enumerator),
+      optional(','),
+      '}'
     ),
 
     struct_specifier: $ => seq(
       'struct',
       choice(
-        $.identifier,
         seq(
-          optional($.identifier),
-          $.member_declaration_list
-        )
+          rename($.identifier, 'struct_name'),
+          optional($.field_declaration_list)
+        ),
+        $.field_declaration_list
       )
     ),
 
     union_specifier: $ => seq(
       'union',
       choice(
-        $.identifier,
         seq(
-          optional($.identifier),
-          $.member_declaration_list
-        )
+          rename($.identifier, 'union_name'),
+          optional($.field_declaration_list)
+        ),
+        $.field_declaration_list
       )
     ),
 
-    member_declaration_list: $ => seq(
+    field_declaration_list: $ => seq(
       '{',
-      repeat($.member_declaration),
+      repeat($.field_declaration),
       '}'
     ),
 
-    member_declaration: $ => seq(
+    field_declaration: $ => seq(
       optional($._declaration_specifiers),
-      commaSep($._declarator),
+      commaSep($._field_declarator),
       optional(seq(':', $._expression)),
       ';'
     ),
 
-    enumerator: $ => choice(
-      $.identifier,
-      seq($.identifier, '=', $._expression)
+    enumerator: $ => seq(
+      rename($.identifier, 'variable_name'),
+      optional(seq('=', $._expression))
     ),
 
-    parameter_type_list: $ => commaSep1(choice(
-      $.parameter_declaration,
-      '...'
-    )),
+    parameter_list: $ => seq(
+      '(',
+      commaSep(choice($.parameter_declaration, '...')),
+      ')'
+    ),
 
     parameter_declaration: $ => seq(
       $._declaration_specifiers,
@@ -388,7 +370,7 @@ module.exports = grammar({
     ),
 
     labeled_statement: $ => seq(
-      $.identifier,
+      rename($.identifier, 'label_name'),
       ':',
       $._statement
     ),
@@ -470,7 +452,9 @@ module.exports = grammar({
     ),
 
     goto_statement: $ => seq(
-      'goto', $.identifier, ';'
+      'goto',
+      rename($.identifier, 'label_name'),
+      ';'
     ),
 
     // Expressions
@@ -491,7 +475,7 @@ module.exports = grammar({
       $.call_expression,
       $.field_expression,
       $.compound_literal_expression,
-      $.identifier,
+      rename($.identifier, 'variable_name'),
       $.number_literal,
       $.string_literal,
       $.concatenated_string,
@@ -574,13 +558,22 @@ module.exports = grammar({
     ),
 
     cast_expression: $ => prec(PREC.CAST, seq(
-      '(', $.type_name, ')', $._expression
+      $.type_clause,
+      $._expression
     )),
 
-    sizeof_expression: $ => choice(
-      prec(PREC.SIZEOF, seq('sizeof', $._expression)),
-      prec(PREC.SIZEOF, seq('sizeof', '(', $.type_name, ')'))
+    type_clause: $ => seq(
+      '(',
+      repeat($.type_qualifier),
+      $._type_specifier,
+      optional($._abstract_declarator),
+      ')'
     ),
+
+    sizeof_expression: $ => prec(PREC.SIZEOF, seq(
+      'sizeof',
+      choice($._expression, $.type_clause)
+    )),
 
     subscript_expression: $ => prec(PREC.SUBSCRIPT, seq(
       $._expression, '[', $._expression, ']')
@@ -595,11 +588,11 @@ module.exports = grammar({
         $._expression,
         choice('.', '->')
       )),
-      $.identifier
+      rename($.identifier, 'field_name')
     ),
 
     compound_literal_expression: $ => seq(
-      prec(PREC.CAST, seq('(', $.type_name, ')')),
+      $.type_clause,
       $.initializer_list
     ),
 
@@ -607,12 +600,6 @@ module.exports = grammar({
       '(',
       choice($._expression, $.comma_expression),
       ')'
-    ),
-
-    type_name: $ => seq(
-      repeat($.type_qualifier),
-      $._type_specifier,
-      optional($._abstract_declarator)
     ),
 
     initializer_list: $ => seq(
@@ -634,7 +621,7 @@ module.exports = grammar({
 
     designator: $ => choice(
       seq('[', $._expression, ']'),
-      seq('.', $.identifier)
+      seq('.', rename($.identifier, 'field_name'))
     ),
 
     initializer: $ => choice(
@@ -687,9 +674,7 @@ module.exports = grammar({
 
     macro_type_specifier: $ => seq(
       $.identifier,
-      '(',
-      $.type_name,
-      ')'
+      $.type_clause
     ),
 
     comment: $ => token(choice(

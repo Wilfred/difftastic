@@ -17,12 +17,12 @@ int main() {
 
 (translation_unit
   (function_definition
-    (identifier)
-    (function_declarator (identifier))
+    (type_name)
+    (function_declarator (variable_name) (parameter_list))
     (compound_statement
-      (if_statement (identifier)
+      (if_statement (variable_name)
         (expression_statement (number_literal)))
-      (if_statement (logical_expression (identifier))
+      (if_statement (logical_expression (variable_name))
         (compound_statement
           (expression_statement (number_literal)))
         (compound_statement
@@ -48,21 +48,21 @@ int main() {
 
 (translation_unit
   (function_definition
-    (identifier)
-    (function_declarator (identifier))
+    (type_name)
+    (function_declarator (variable_name) (parameter_list))
     (compound_statement
       (for_statement
         (expression_statement (number_literal)))
       (for_statement
-        (declaration (identifier) (init_declarator (identifier) (number_literal)))
-        (relational_expression (identifier) (number_literal))
-        (call_expression (identifier) (argument_list))
-        (math_expression (identifier))
+        (declaration (type_name) (init_declarator (variable_name) (number_literal)))
+        (relational_expression (variable_name) (number_literal))
+        (call_expression (variable_name) (argument_list))
+        (math_expression (variable_name))
         (compound_statement (expression_statement (number_literal))))
       (for_statement
-        (call_expression (identifier) (argument_list))
-        (call_expression (identifier) (argument_list))
-        (call_expression (identifier) (argument_list))
+        (call_expression (variable_name) (argument_list))
+        (call_expression (variable_name) (argument_list))
+        (call_expression (variable_name) (argument_list))
         (expression_statement (number_literal))))))
 
 ============================================
@@ -78,10 +78,34 @@ int main() {
 
 (translation_unit
   (function_definition
-    (identifier)
-    (function_declarator (identifier))
+    (type_name)
+    (function_declarator (variable_name) (parameter_list))
     (compound_statement
-      (while_statement (identifier)
+      (while_statement (variable_name)
         (expression_statement (call_expression
-          (identifier)
+          (variable_name)
           (argument_list (string_literal))))))))
+
+============================================
+Labeled statements
+============================================
+
+void foo(T *t) {
+recur:
+  t = t->next();
+  if (t) goto recur;
+}
+
+---
+
+(translation_unit
+  (function_definition
+    (type_name)
+    (function_declarator (variable_name) (parameter_list
+      (parameter_declaration (type_name) (pointer_declarator (variable_name)))))
+    (compound_statement
+      (labeled_statement (label_name)
+        (expression_statement (assignment_expression
+          (variable_name)
+          (call_expression (field_expression (variable_name) (field_name)) (argument_list)))))
+      (if_statement (variable_name) (goto_statement (label_name))))))

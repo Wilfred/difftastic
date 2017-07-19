@@ -13,19 +13,19 @@ int main() {
 ---
 
 (translation_unit (function_definition
-  (identifier)
-  (function_declarator (identifier))
+  (type_name)
+  (function_declarator (variable_name) (parameter_list))
   (compound_statement
     (comment)
     (declaration
-      (identifier)
+      (type_name)
       (pointer_declarator (function_declarator
-        (identifier)
-        (parameter_type_list (parameter_declaration (identifier) (identifier))))))
+        (variable_name)
+        (parameter_list (parameter_declaration (type_name) (variable_name))))))
     (comment)
     (expression_statement (math_expression
-      (identifier)
-      (call_expression (identifier) (argument_list (number_literal))))))))
+      (variable_name)
+      (call_expression (variable_name) (argument_list (number_literal))))))))
 
 ========================================================================
 casts vs multiplications
@@ -48,17 +48,17 @@ int main() {
 (translation_unit
   (comment)
   (function_definition
-    (identifier)
-    (function_declarator (identifier))
+    (type_name)
+    (function_declarator (variable_name) (parameter_list))
     (compound_statement
       (comment)
       (expression_statement (call_expression
-        (identifier)
-        (argument_list (cast_expression (type_name (identifier) (abstract_pointer_declarator)) (identifier)))))
+        (variable_name)
+        (argument_list (cast_expression (type_clause (type_name) (abstract_pointer_declarator)) (variable_name)))))
       (comment)
       (expression_statement (call_expression
-        (identifier)
-        (argument_list (parenthesized_expression (math_expression (identifier) (identifier)))))))))
+        (variable_name)
+        (argument_list (parenthesized_expression (math_expression (variable_name) (variable_name)))))))))
 
 ========================================================================
 function-like type macros vs function calls
@@ -72,8 +72,8 @@ GIT_INLINE(int *) x = 5;
 (translation_unit
   (comment)
   (declaration
-    (macro_type_specifier (identifier) (type_name (identifier) (abstract_pointer_declarator)))
-    (init_declarator (identifier) (number_literal))))
+    (macro_type_specifier (identifier) (type_clause (type_name) (abstract_pointer_declarator)))
+    (init_declarator (variable_name) (number_literal))))
 
 ========================================================================
 function calls vs parenthesized declarators vs macro types
@@ -98,13 +98,13 @@ int main() {
 
 (translation_unit
   (function_definition
-    (identifier)
-    (function_declarator (identifier))
+    (type_name)
+    (function_declarator (variable_name) (parameter_list))
     (compound_statement
       (comment)
-      (declaration (identifier) (identifier))
+      (declaration (type_name) (variable_name))
       (comment)
-      (declaration (identifier) (identifier)))))
+      (declaration (type_name) (variable_name)))))
 
 ========================================================================
 Comments after for loops with ambiguities
@@ -123,16 +123,16 @@ int main() {
 ---
 
 (translation_unit (function_definition
-  (identifier)
-  (function_declarator (identifier))
+  (type_name)
+  (function_declarator (variable_name) (parameter_list))
   (compound_statement
     (for_statement
-      (declaration (identifier) (init_declarator
-        (pointer_declarator (identifier))
-        (identifier)))
-      (identifier)
-      (identifier)
+      (declaration (type_name) (init_declarator
+        (pointer_declarator (variable_name))
+        (variable_name)))
+      (variable_name)
+      (variable_name)
       (compound_statement
-        (expression_statement (identifier))))
+        (expression_statement (variable_name))))
     (comment)
-    (expression_statement (identifier)))))
+    (expression_statement (variable_name)))))
