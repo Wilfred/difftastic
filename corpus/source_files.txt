@@ -7,7 +7,7 @@ package main
 ----
 
 (source_file
-  (package_clause (identifier)))
+  (package_clause (package_name)))
 
 ============================================
 Single import declarations
@@ -22,10 +22,10 @@ import alias "some/package"
 ----
 
 (source_file
-  (package_clause (identifier))
+  (package_clause (package_name))
   (import_declaration (import_spec (interpreted_string_literal)))
   (import_declaration (import_spec (interpreted_string_literal)))
-  (import_declaration (import_spec (identifier) (interpreted_string_literal))))
+  (import_declaration (import_spec (package_name) (interpreted_string_literal))))
 
 ============================================
 Grouped import declarations
@@ -42,11 +42,11 @@ import (
 ----
 
 (source_file
-  (package_clause (identifier))
+  (package_clause (package_name))
   (import_declaration
     (import_spec (interpreted_string_literal))
     (import_spec (interpreted_string_literal))
-    (import_spec (identifier) (interpreted_string_literal))))
+    (import_spec (package_name) (interpreted_string_literal))))
 
 ============================================
 Block comments
@@ -61,7 +61,7 @@ package a
 
 (source_file
   (comment)
-  (package_clause (identifier)))
+  (package_clause (package_name)))
 
 ============================================
 Comments with asterisks
@@ -86,15 +86,15 @@ const d
 ---
 
 (source_file
-  (package_clause (identifier))
+  (package_clause (package_name))
   (comment)
-  (const_declaration (const_spec (identifier_list (identifier))))
+  (const_declaration (const_spec (variable_name)))
   (comment)
-  (const_declaration (const_spec (identifier_list (identifier))))
+  (const_declaration (const_spec (variable_name)))
   (comment)
-  (const_declaration (const_spec (identifier_list (identifier))))
+  (const_declaration (const_spec (variable_name)))
   (comment)
-  (const_declaration (const_spec (identifier_list (identifier)))))
+  (const_declaration (const_spec (variable_name))))
 
 ============================================
 Non-ascii variable names
@@ -115,12 +115,12 @@ const (
 ---
 
 (source_file
-  (package_clause (identifier))
+  (package_clause (package_name))
   (const_declaration
-    (const_spec (identifier_list (identifier)))
-    (const_spec (identifier_list (identifier)))
-    (const_spec (identifier_list (identifier))) (comment)
-    (const_spec (identifier_list (identifier)))
-    (const_spec (identifier_list (identifier)))
-    (const_spec (identifier_list (identifier)))
-    (const_spec (identifier_list (identifier)))))
+    (const_spec (variable_name))
+    (const_spec (variable_name))
+    (const_spec (variable_name)) (comment)
+    (const_spec (variable_name))
+    (const_spec (variable_name))
+    (const_spec (variable_name))
+    (const_spec (variable_name))))

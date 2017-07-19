@@ -21,20 +21,20 @@ func main() {
 ---
 
 (source_file
-  (package_clause (identifier))
-  (function_declaration (identifier) (parameters) (block
+  (package_clause (package_name))
+  (function_declaration (variable_name) (parameters) (block
     (call_expression
-      (identifier)
-      (identifier)
-      (identifier))
+      (variable_name)
+      (variable_name)
+      (variable_name))
     (call_expression
-      (identifier)
-      (identifier)
-      (identifier))
+      (variable_name)
+      (variable_name)
+      (variable_name))
     (call_expression
-      (identifier)
-      (identifier)
-      (identifier)))))
+      (variable_name)
+      (variable_name)
+      (variable_name)))))
 
 ============================================
 Nested call expressions
@@ -49,12 +49,12 @@ func main() {
 ---
 
 (source_file
-  (package_clause (identifier))
-  (function_declaration (identifier) (parameters) (block
-    (call_expression (identifier)
-      (call_expression (identifier)
-        (call_expression (identifier)
-          (identifier)))))))
+  (package_clause (package_name))
+  (function_declaration (variable_name) (parameters) (block
+    (call_expression (variable_name)
+      (call_expression (variable_name)
+        (call_expression (variable_name)
+          (variable_name)))))))
 
 ============================================
 Calls to 'make' and 'new'
@@ -64,7 +64,10 @@ package main
 
 func main() {
   make(chan<- int)
-  make(chan<- int, (new - old))
+
+  // `new` and `make` can also be used as variable names
+  make(chan<- int, (new - old), make.stuff)
+
   make(chan<- int, 5, 10)
   new(map[string]string)
 }
@@ -72,23 +75,25 @@ func main() {
 ---
 
 (source_file
-  (package_clause (identifier))
-  (function_declaration (identifier) (parameters) (block
+  (package_clause (package_name))
+  (function_declaration (variable_name) (parameters) (block
     (call_expression
-      (identifier)
-      (channel_type (identifier)))
+      (variable_name)
+      (channel_type (type_name)))
+    (comment)
     (call_expression
-      (identifier)
-      (channel_type (identifier))
-      (binary_expression (identifier) (identifier)))
+      (variable_name)
+      (channel_type (type_name))
+      (parenthesized_expression (binary_expression (variable_name) (variable_name)))
+      (selector_expression (variable_name) (field_name)))
     (call_expression
-      (identifier)
-      (channel_type (identifier))
+      (variable_name)
+      (channel_type (type_name))
       (int_literal)
       (int_literal))
     (call_expression
-      (identifier)
-      (map_type (identifier) (identifier))))))
+      (variable_name)
+      (map_type (type_name) (type_name))))))
 
 ============================================
 Selector expressions
@@ -103,12 +108,12 @@ func main() {
 ---
 
 (source_file
-  (package_clause (identifier))
-  (function_declaration (identifier) (parameters) (block
+  (package_clause (package_name))
+  (function_declaration (variable_name) (parameters) (block
     (call_expression
       (selector_expression
-        (selector_expression (identifier) (identifier))
-        (identifier))))))
+        (selector_expression (variable_name) (field_name))
+        (field_name))))))
 
 ============================================
 Indexing expressions
@@ -128,14 +133,14 @@ func main() {
 ---
 
 (source_file
-  (package_clause (identifier))
-  (function_declaration (identifier) (parameters) (block
-    (index_expression (identifier) (int_literal))
-    (slice_expression (identifier))
-    (slice_expression (identifier) (int_literal))
-    (slice_expression (identifier) (int_literal) (int_literal))
-    (slice_expression (identifier) (int_literal) (int_literal))
-    (slice_expression (identifier) (int_literal) (int_literal) (int_literal)))))
+  (package_clause (package_name))
+  (function_declaration (variable_name) (parameters) (block
+    (index_expression (variable_name) (int_literal))
+    (slice_expression (variable_name))
+    (slice_expression (variable_name) (int_literal))
+    (slice_expression (variable_name) (int_literal) (int_literal))
+    (slice_expression (variable_name) (int_literal) (int_literal))
+    (slice_expression (variable_name) (int_literal) (int_literal) (int_literal)))))
 
 ============================================
 Type assertion expressions
@@ -150,9 +155,11 @@ func main() {
 ---
 
 (source_file
-  (package_clause (identifier))
-  (function_declaration (identifier) (parameters) (block
-    (type_assertion_expression (identifier) (qualified_identifier (identifier) (identifier))))))
+  (package_clause (package_name))
+  (function_declaration (variable_name) (parameters) (block
+    (type_assertion_expression
+      (variable_name)
+      (qualified_type (package_name) (type_name))))))
 
 ============================================
 Type conversion expressions
@@ -170,20 +177,20 @@ func main() {
 ---
 
 (source_file
-  (package_clause (identifier))
-  (function_declaration (identifier) (parameters) (block
+  (package_clause (package_name))
+  (function_declaration (variable_name) (parameters) (block
     (type_conversion_expression
-      (slice_type (qualified_identifier (identifier) (identifier)))
-      (selector_expression (identifier) (identifier)))
+      (slice_type (qualified_type (package_name) (type_name)))
+      (selector_expression (variable_name) (field_name)))
     (type_conversion_expression
-      (slice_type (qualified_identifier (identifier) (identifier)))
-      (selector_expression (identifier) (identifier)))
+      (parenthesized_type (slice_type (qualified_type (package_name) (type_name))))
+      (selector_expression (variable_name) (field_name)))
     (call_expression
-      (selector_expression (identifier) (identifier))
-      (identifier))
+      (selector_expression (variable_name) (field_name))
+      (variable_name))
     (call_expression
-      (selector_expression (identifier) (identifier))
-      (identifier)))))
+      (parenthesized_expression (selector_expression (variable_name) (field_name)))
+      (variable_name)))))
 
 ============================================
 Unary expressions
@@ -199,7 +206,7 @@ func main() {
 ---
 
 (source_file
-  (package_clause (identifier))
-  (function_declaration (identifier) (parameters) (block
-    (unary_expression (unary_expression (identifier)))
-    (unary_expression (call_expression (identifier))))))
+  (package_clause (package_name))
+  (function_declaration (variable_name) (parameters) (block
+    (unary_expression (unary_expression (variable_name)))
+    (unary_expression (call_expression (variable_name))))))

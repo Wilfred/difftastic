@@ -56,20 +56,16 @@ module.exports = grammar({
     /\s/
   ],
 
+  inline: $ => [
+    $._type,
+  ],
+
   conflicts: $ => [
-    // A(b)
-    //    ^-- type conversion or function call?
     [$._simple_type, $._expression],
-    [$.qualified_identifier, $._expression],
+    [$.qualified_type, $._expression],
     [$.func_literal, $.function_type],
     [$.function_type],
-
-    // func() (a)
-    //          ^-- parameter list or type?
     [$._parameter_list, $._simple_type],
-
-    // if foo{}
-    //     ^-- expression or type?
     [$.composite_literal, $._expression]
   ],
 
@@ -82,7 +78,7 @@ module.exports = grammar({
 
     package_clause: $ => seq(
       'package',
-      $.identifier
+      rename($.identifier, 'package_name')
     ),
 
     import_declaration: $ => seq(
@@ -101,7 +97,10 @@ module.exports = grammar({
     ),
 
     import_spec: $ => seq(
-      optional(choice($.identifier, '.')),
+      optional(choice(
+        rename($.identifier, 'package_name'),
+        '.'
+      )),
       $._string_literal
     ),
 
@@ -130,7 +129,7 @@ module.exports = grammar({
     ),
 
     const_spec: $ => seq(
-      $.identifier_list,
+      commaSep1(rename($.identifier, 'variable_name')),
       optional(seq(
         optional($._type),
         '=',
@@ -151,7 +150,7 @@ module.exports = grammar({
     ),
 
     var_spec: $ => seq(
-      $.identifier_list,
+      commaSep1(rename($.identifier, 'variable_name')),
       choice(
         seq(
           $._type,
@@ -163,7 +162,7 @@ module.exports = grammar({
 
     function_declaration: $ => seq(
       'func',
-      $.identifier,
+      rename($.identifier, 'variable_name'),
       $.parameters,
       optional(choice($.parameters, $._simple_type)),
       optional($.block)
@@ -172,7 +171,7 @@ module.exports = grammar({
     method_declaration: $ => seq(
       'func',
       $.parameters,
-      $.identifier,
+      rename($.identifier, 'field_name'),
       $.parameters,
       optional(choice($.parameters, $._simple_type)),
       optional($.block)
@@ -185,12 +184,12 @@ module.exports = grammar({
     ),
 
     _parameter_list: $ => sepTrailing(',', $._parameter_list, choice(
-      $.identifier,
+      rename($.identifier, 'variable_name'),
       $.parameter_declaration
     )),
 
     parameter_declaration: $ => seq(
-      optional($.identifier),
+      optional(rename($.identifier, 'variable_name')),
       optional('...'),
       $._type
     ),
@@ -207,26 +206,25 @@ module.exports = grammar({
       )
     ),
 
-    type_spec: $ => seq($.identifier, $._type),
-
-    identifier_list: $ => seq(
-      $.identifier,
-      repeat(seq(',', $.identifier))
+    type_spec: $ => seq(
+      rename($.identifier, 'type_name'),
+      $._type
     ),
 
-    expression_list: $ => seq(
-      $._expression,
-      repeat(seq(',', $._expression))
-    ),
+    field_name_list: $ => commaSep1(rename($.identifier, 'field_name')),
+
+    expression_list: $ => commaSep1($._expression),
 
     _type: $ => choice(
       $._simple_type,
-      seq('(', $._type, ')')
+      $.parenthesized_type
     ),
 
+    parenthesized_type: $ => seq('(', $._type, ')'),
+
     _simple_type: $ => choice(
-      $.identifier,
-      $.qualified_identifier,
+      rename($.identifier, 'type_name'),
+      $.qualified_type,
       $.pointer_type,
       $.struct_type,
       $.interface_type,
@@ -270,8 +268,17 @@ module.exports = grammar({
 
     field_declaration: $ => seq(
       choice(
-        seq($.identifier_list, $._type),
-        seq(optional('*'), choice($.identifier, $.qualified_identifier))
+        seq(
+          commaSep1(rename($.identifier, 'field_name')),
+          $._type
+        ),
+        seq(
+          optional('*'),
+          choice(
+            rename($.identifier, 'type_name'),
+            $.qualified_type
+          )
+        )
       ),
       optional($._string_literal)
     ),
@@ -284,13 +291,13 @@ module.exports = grammar({
     ),
 
     _method_spec_list: $ => sepTrailing(terminator, $._method_spec_list, choice(
-      $.identifier,
-      $.qualified_identifier,
+      rename($.identifier, 'type_name'),
+      $.qualified_type,
       $.method_spec
     )),
 
     method_spec: $ => seq(
-      $.identifier,
+      rename($.identifier, 'field_name'),
       $.parameters,
       optional(choice($.parameters, $._simple_type))
     ),
@@ -395,15 +402,15 @@ module.exports = grammar({
       $.expression_list
     ),
 
-    label_statement: $ => seq($.identifier, ':'),
+    label_statement: $ => seq(rename($.identifier, 'label_name'), ':'),
 
     fallthrough_statement: $ => 'fallthrough',
 
-    break_statement: $ => seq('break', optional($.identifier)),
+    break_statement: $ => seq('break', optional(rename($.identifier, 'label_name'))),
 
-    continue_statement: $ => seq('continue', optional($.identifier)),
+    continue_statement: $ => seq('continue', optional(rename($.identifier, 'label_name'))),
 
-    goto_statement: $ => seq('goto', $.identifier),
+    goto_statement: $ => seq('goto', rename($.identifier, 'label_name')),
 
     return_statement: $ => seq('return', optional($.expression_list)),
 
@@ -520,7 +527,11 @@ module.exports = grammar({
       $.call_expression,
       $.type_assertion_expression,
       $.type_conversion_expression,
-      $.identifier,
+      rename(choice(
+        $.identifier,
+        'new',
+        'make'
+      ), 'variable_name'),
       $.composite_literal,
       $.func_literal,
       $._string_literal,
@@ -528,30 +539,33 @@ module.exports = grammar({
       $.float_literal,
       $.imaginary_literal,
       $.rune_literal,
-      seq('(', $._expression, ')')
+      $.parenthesized_expression
     ),
 
-    call_expression: $ => prec(PREC.primary, seq(
-      $._expression,
+    parenthesized_expression: $ => seq(
       '(',
-      choice(
-        seq(
-          optional($._argument_list),
-          optional(seq('...', optional(',')))
-        ),
-        seq(
-          $._type,
-          optional(seq(
-            ',',
-            $._expression,
-            optional(seq(
-              ',',
-              $._expression
-            ))
-          ))
-        )
-      ),
+      $._expression,
       ')'
+    ),
+
+    call_expression: $ => prec(PREC.primary, choice(
+      seq(
+        rename(choice(
+          'new',
+          'make'
+        ), 'variable_name'),
+        '(',
+        $._type,
+        optional(seq(',', commaSep1($._expression))),
+        ')'
+      ),
+      seq(
+        $._expression,
+        '(',
+        optional($._argument_list),
+        optional(seq('...', optional(','))),
+        ')'
+      )
     )),
 
     _argument_list: $ => sepTrailing(',', $._argument_list, $._expression),
@@ -559,7 +573,7 @@ module.exports = grammar({
     selector_expression: $ => prec(PREC.primary, seq(
       $._expression,
       '.',
-      $.identifier
+      rename($.identifier, 'field_name')
     )),
 
     index_expression: $ => prec(PREC.primary, seq(
@@ -602,8 +616,8 @@ module.exports = grammar({
         $.array_type,
         $.implicit_length_array_type,
         $.struct_type,
-        $.identifier,
-        $.qualified_identifier
+        rename($.identifier, 'type_name'),
+        $.qualified_type
       ),
       $.literal_value
     ),
@@ -621,10 +635,10 @@ module.exports = grammar({
 
     keyed_element: $ => seq(
       choice(
-        $._expression,
-        $.literal_value
+        seq($._expression, ':'),
+        seq($.literal_value, ':'),
+        prec(1, seq(rename($.identifier, 'field_name'), ':'))
       ),
-      ':',
       choice(
         $._expression,
         $.literal_value
@@ -656,10 +670,10 @@ module.exports = grammar({
       prec.left(PREC.or, seq($._expression, or_operator, $._expression))
     ),
 
-    qualified_identifier: $ => seq(
-      $.identifier,
+    qualified_type: $ => seq(
+      rename($.identifier, 'package_name'),
       '.',
-      $.identifier
+      rename($.identifier, 'type_name')
     ),
 
     identifier: $ => token(seq(
