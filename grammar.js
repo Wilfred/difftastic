@@ -40,12 +40,13 @@ module.exports = grammar({
 
   conflicts: $ => [
     [$._expression, $._property_name],
-    [$.labeled_statement, $._property_name],
-    [$.reserved_identifier, $.arrow_function],
-    [$.formal_parameters, $._expression],
+    [$._expression, $._property_name, $.arrow_function],
+    [$._expression, $.arrow_function],
+    [$._expression, $.method_definition],
+    [$._expression, $.formal_parameters],
     [$._expression, $._property_definition_list],
+    [$.labeled_statement, $._property_name],
     [$.assignment_pattern, $.assignment],
-    [$.method_definition, $.reserved_identifier]
   ],
 
   rules: {
@@ -65,15 +66,19 @@ module.exports = grammar({
     ),
 
     export_clause: $ => seq(
-      '{', commaSep($.export_specifier), '}'
+      '{',
+      commaSep(rename($._import_export_specifier, 'export_specifier')),
+      '}'
     ),
 
-    export_specifier: $ => choice(
-      $.identifier,
-      seq($.identifier, "as", $.identifier)
+    _import_export_specifier: $ => seq(
+      rename($.identifier, 'variable_name'),
+      optional(seq(
+        'as',
+        rename($.identifier, 'variable_name')
+      ))
     ),
 
-    // A function, generator, class, or variable declaration
     _declaration: $ => prec(PREC.DECLARATION, choice(
       seq(
         choice(
@@ -103,9 +108,16 @@ module.exports = grammar({
     import_clause: $ => choice(
       $.namespace_import,
       $.named_imports,
-      seq($.identifier, ",", $.namespace_import),
-      seq($.identifier, ",", $.named_imports),
-      $.identifier
+      seq(
+        rename($.identifier, 'variable_name'),
+        optional(seq(
+          ',',
+          choice(
+            $.namespace_import,
+            $.named_imports
+          )
+        ))
+      )
     ),
 
     _from_clause: $ => seq(
@@ -113,16 +125,14 @@ module.exports = grammar({
     ),
 
     namespace_import: $ => seq(
-      "*", "as", $.identifier
+      "*", "as", rename($.identifier, 'variable_name')
     ),
 
     named_imports: $ => seq(
-      '{', commaSep($.import_specifier), optional(','), '}'
-    ),
-
-    import_specifier: $ => choice(
-      $.identifier,
-      seq($.identifier, 'as', $.identifier)
+      '{',
+      commaSep(rename($._import_export_specifier, 'import_specifier')),
+      optional(','),
+      '}'
     ),
 
     //
@@ -173,8 +183,14 @@ module.exports = grammar({
     ),
 
     variable_declarator: $ => choice(
-      seq($.identifier, optional($._initializer)),
-      seq($._destructuring_pattern, $._initializer)
+      seq(
+        rename($.identifier, 'variable_name'),
+        optional($._initializer)
+      ),
+      seq(
+        $._destructuring_pattern,
+        $._initializer
+      )
     ),
 
     statement_block: $ => seq(
@@ -266,20 +282,20 @@ module.exports = grammar({
 
     with_statement: $ => seq(
       'with',
-      optional(seq('(', $.identifier, ')')),
+      optional(seq('(', $._expression, ')')),
       $.statement_block,
       $._semicolon
     ),
 
     break_statement: $ => seq(
       'break',
-      optional($.identifier),
+      optional(rename($.identifier, 'label_name')),
       $._semicolon
     ),
 
     continue_statement: $ => seq(
       'continue',
-      optional($.identifier),
+      optional(rename($.identifier, 'label_name')),
       $._semicolon
     ),
 
@@ -303,7 +319,7 @@ module.exports = grammar({
     empty_statement: $ => ';',
 
     labeled_statement: $ => seq(
-      $.identifier,
+      rename($.identifier, 'label_name'),
       ':',
       $._statement
     ),
@@ -327,7 +343,7 @@ module.exports = grammar({
 
     catch: $ => seq(
       'catch',
-      optional(seq('(', $.identifier, ')')),
+      optional(seq('(', rename($.identifier, 'variable_name'), ')')),
       $.statement_block
     ),
 
@@ -371,7 +387,6 @@ module.exports = grammar({
       $._paren_expression,
 
       $.this_expression,
-      $.identifier,
       $.number,
       $.string,
       $.template_string,
@@ -381,7 +396,12 @@ module.exports = grammar({
       $.null,
       $.undefined,
       $.yield_expression,
-      $.reserved_identifier
+      rename(choice(
+        $.identifier,
+        'get',
+        'set',
+        'async'
+      ), 'variable_name')
     ),
 
     yield_expression: $ => prec.right(seq(
@@ -398,14 +418,18 @@ module.exports = grammar({
     _property_definition_list: $ => commaSep1Trailing($._property_definition_list, choice(
       $.pair,
       $.method_definition,
-      $.identifier,
-      $.reserved_identifier,
+      rename(choice(
+        $.identifier,
+        'get',
+        'set',
+        'async'
+      ), 'shorthand_property_name'),
       $.spread_element,
       $.assignment_pattern
     )),
 
     assignment_pattern: $ => seq(
-      $.identifier,
+      rename($.identifier, 'shorthand_property_name'),
       $._initializer
     ),
 
@@ -479,7 +503,7 @@ module.exports = grammar({
 
     class: $ => seq(
       'class',
-      $.identifier,
+      rename($.identifier, 'variable_name'),
       $._class_tail
     ),
 
@@ -493,7 +517,7 @@ module.exports = grammar({
     function: $ => seq(
       optional('async'),
       'function',
-      optional($.identifier),
+      optional(rename($.identifier, 'variable_name')),
       $.formal_parameters,
       $.statement_block
     ),
@@ -501,7 +525,7 @@ module.exports = grammar({
     arrow_function: $ => seq(
       optional('async'),
       choice(
-        $.identifier,
+        optional(rename($.identifier, 'variable_name')),
         $.formal_parameters
       ),
       '=>',
@@ -514,7 +538,7 @@ module.exports = grammar({
     generator_function: $ => seq(
       'function',
       '*',
-      optional($.identifier),
+      optional(rename($.identifier, 'variable_name')),
       $.formal_parameters,
       $.statement_block
     ),
@@ -527,7 +551,6 @@ module.exports = grammar({
     new_expression: $ => prec(PREC.NEW, seq(
       'new',
       $._expression
-      // optional($.arguments)
     )),
 
     await_expression: $ => seq(
@@ -538,7 +561,7 @@ module.exports = grammar({
     member_access: $ => prec(PREC.MEMBER, seq(
       $._expression,
       '.',
-      $.identifier
+      rename($.identifier, 'property_name')
     )),
 
     subscript_access: $ => prec.right(PREC.MEMBER, seq(
@@ -550,7 +573,7 @@ module.exports = grammar({
       choice(
         $.member_access,
         $.subscript_access,
-        $.identifier,
+        rename($.identifier, 'variable_name'),
         $._destructuring_pattern
       ),
       $._initializer
@@ -562,7 +585,7 @@ module.exports = grammar({
 
     math_assignment: $ => prec.right(PREC.ASSIGN, seq(
       choice(
-        $.identifier,
+        rename($.identifier, 'variable_name'),
         $.member_access,
         $.subscript_access
       ),
@@ -666,14 +689,17 @@ module.exports = grammar({
     template_string: $ => seq(
       '`',
       repeat(choice(
-        $.template_chars,
+        $._template_chars,
         $.template_substitution
       )),
-      '`'),
+      '`'
+    ),
 
-      template_chars: $ => token(prec.right(repeat1(
-        /[^`\$]|\$[^{]|\\`/
-        ))),
+    _template_chars: $ => token(repeat1(choice(
+      /[^`\$]/,
+      /\$[^{]/,
+      /\\`/
+    ))),
 
     template_substitution: $ => seq(
       '${',
@@ -725,7 +751,7 @@ module.exports = grammar({
       ))
     },
 
-    identifier: $ => (/[\a_$][\a\d_$]*/),
+    identifier: $ => /[\a_$][\a\d_$]*/,
 
     this_expression: $ => 'this',
     super: $ => 'super',
@@ -762,7 +788,10 @@ module.exports = grammar({
 
     formal_parameters: $ => seq(
       '(',
-      commaSep(choice($.identifier, $._destructuring_pattern)),
+      commaSep(choice(
+        rename($.identifier, 'variable_name'),
+        $._destructuring_pattern
+      )),
       ')'
     ),
 
@@ -788,9 +817,16 @@ module.exports = grammar({
       $._expression
     ),
 
-    _property_name: $ => choice($.identifier, $.reserved_identifier, $.string, $.number),
-
-    reserved_identifier: $ => choice('get', 'set', 'async', 'abstract', 'interface'),
+    _property_name: $ => choice(
+      rename(choice(
+        $.identifier,
+        'get',
+        'set',
+        'async'
+      ), 'property_name'),
+      $.string,
+      $.number
+    ),
 
     _semicolon: $ => choice($._automatic_semicolon, ';')
   }

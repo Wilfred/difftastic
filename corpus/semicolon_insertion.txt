@@ -12,11 +12,11 @@ if (a) {
 ---
 
 (program
-  (if_statement (identifier) (statement_block
-    (variable_declaration (variable_declarator (identifier) (identifier)))
-    (expression_statement (function_call (identifier) (arguments)))
-    (expression_statement (function_call (identifier) (arguments)))
-    (return_statement (identifier)))))
+  (if_statement (variable_name) (statement_block
+    (variable_declaration (variable_declarator (variable_name) (variable_name)))
+    (expression_statement (function_call (variable_name) (arguments)))
+    (expression_statement (function_call (variable_name) (arguments)))
+    (return_statement (variable_name)))))
 
 ==========================================
 property access across lines
@@ -30,8 +30,8 @@ object
 
 (program (expression_statement
   (member_access
-    (member_access (identifier) (identifier))
-    (identifier))))
+    (member_access (variable_name) (property_name))
+    (property_name))))
 
 ===========================================
 indented code after blocks
@@ -44,10 +44,10 @@ indented code after blocks
 
 (program
   (function
-    (identifier)
+    (variable_name)
     (formal_parameters)
     (statement_block))
-  (return_statement (identifier)))
+  (return_statement (variable_name)))
 
 ================================================
 operator expressions split across lines
@@ -72,12 +72,12 @@ a
 ---
 
 (program
-  (expression_statement (ternary (identifier) (identifier) (identifier)))
-  (expression_statement (bool_op (identifier) (identifier)))
-  (expression_statement (bitwise_op (identifier) (identifier)))
-  (expression_statement (rel_op (identifier) (identifier)))
-  (expression_statement (identifier))
-  (expression_statement (bool_op (identifier)))
+  (expression_statement (ternary (variable_name) (variable_name) (variable_name)))
+  (expression_statement (bool_op (variable_name) (variable_name)))
+  (expression_statement (bitwise_op (variable_name) (variable_name)))
+  (expression_statement (rel_op (variable_name) (variable_name)))
+  (expression_statement (variable_name))
+  (expression_statement (bool_op (variable_name)))
   (comment))
 
 ================================================
@@ -105,21 +105,21 @@ a
 ---
 
 (program
-  (expression_statement (identifier))
-  (expression_statement (identifier))
+  (expression_statement (variable_name))
+  (expression_statement (variable_name))
 
-  (expression_statement (type_op (identifier) (identifier)))
+  (expression_statement (type_op (variable_name) (variable_name)))
 
-  (expression_statement (identifier))
-  (expression_statement (identifier))
+  (expression_statement (variable_name))
+  (expression_statement (variable_name))
 
-  (expression_statement (identifier))
-  (expression_statement (identifier))
+  (expression_statement (variable_name))
+  (expression_statement (variable_name))
 
-  (expression_statement (type_op (identifier) (identifier)))
+  (expression_statement (type_op (variable_name) (variable_name)))
 
-  (expression_statement (identifier))
-  (expression_statement (identifier)))
+  (expression_statement (variable_name))
+  (expression_statement (variable_name)))
 
 ===========================================
 Single-line if/else statements
@@ -130,9 +130,9 @@ if (a) {b} else {c}
 ---
 
 (program
-  (if_statement (identifier)
-    (statement_block (expression_statement (identifier)))
-    (statement_block (expression_statement (identifier)))))
+  (if_statement (variable_name)
+    (statement_block (expression_statement (variable_name)))
+    (statement_block (expression_statement (variable_name)))))
 
 ===========================================
 single-line blocks without semicolons
@@ -144,10 +144,10 @@ function c() {return d}
 ---
 
 (program
-  (function (identifier) (formal_parameters) (statement_block
-    (expression_statement (identifier))))
-  (function (identifier) (formal_parameters) (statement_block
-    (return_statement (identifier)))))
+  (function (variable_name) (formal_parameters) (statement_block
+    (expression_statement (variable_name))))
+  (function (variable_name) (formal_parameters) (statement_block
+    (return_statement (variable_name)))))
 
 ==============================================
 Multi-line chained expressions in var declarations
@@ -161,15 +161,15 @@ var a = new A()
 
 (program
   (variable_declaration (variable_declarator
-    (identifier)
+    (variable_name)
     (new_expression (function_call
       (member_access
         (function_call
           (member_access
-            (function_call (identifier) (arguments))
-            (identifier))
-          (arguments (object (pair (identifier) (string)))))
-        (identifier))
+            (function_call (variable_name) (arguments))
+            (property_name))
+          (arguments (object (pair (property_name) (string)))))
+        (property_name))
       (arguments))))))
 
 ==============================================
@@ -187,28 +187,28 @@ if (p) { var q }
 ---
 
 (program
-  (if_statement (identifier) (statement_block
+  (if_statement (variable_name) (statement_block
     (if_statement
-      (identifier)
-      (return_statement (identifier)))))
-  (if_statement (identifier) (statement_block
+      (variable_name)
+      (return_statement (variable_name)))))
+  (if_statement (variable_name) (statement_block
     (for_statement
       (break_statement))))
-  (if_statement (identifier) (statement_block
-    (for_in_statement (identifier) (identifier)
+  (if_statement (variable_name) (statement_block
+    (for_in_statement (variable_name) (variable_name)
       (break_statement))))
-  (if_statement (identifier) (statement_block
-    (for_of_statement (identifier) (identifier)
+  (if_statement (variable_name) (statement_block
+    (for_of_statement (variable_name) (variable_name)
       (continue_statement))))
-  (if_statement (identifier) (statement_block
-    (while_statement (identifier)
+  (if_statement (variable_name) (statement_block
+    (while_statement (variable_name)
       (break_statement))))
-  (if_statement (identifier) (statement_block
+  (if_statement (variable_name) (statement_block
     (do_statement
-      (statement_block (expression_statement (identifier)))
-      (identifier))))
-  (if_statement (identifier) (statement_block
-    (variable_declaration (variable_declarator (identifier))))))
+      (statement_block (expression_statement (variable_name)))
+      (variable_name))))
+  (if_statement (variable_name) (statement_block
+    (variable_declaration (variable_declarator (variable_name))))))
 
 =====================================================
 Single-line declarations without semicolons
@@ -218,8 +218,8 @@ function a () { function b () {} function *c () {} class D {} return }
 ---
 
 (program
-  (function (identifier) (formal_parameters) (statement_block
-    (function (identifier) (formal_parameters) (statement_block))
-    (generator_function (identifier) (formal_parameters) (statement_block))
-    (class (identifier) (class_body))
+  (function (variable_name) (formal_parameters) (statement_block
+    (function (variable_name) (formal_parameters) (statement_block))
+    (generator_function (variable_name) (formal_parameters) (statement_block))
+    (class (variable_name) (class_body))
     (return_statement))))
