@@ -269,7 +269,7 @@ int main() {
       (expression_statement (assignment_expression
         (variable_name)
         (cast_expression
-          (type_clause (type_qualifier) (type_name) (abstract_pointer_declarator))
+          (type_descriptor (type_qualifier) (type_name) (abstract_pointer_declarator))
           (variable_name)))))))
 
 ============================================
@@ -293,9 +293,9 @@ int main() {
       (expression_statement (sizeof_expression (field_expression (variable_name) (field_name))))
       (expression_statement (sizeof_expression (parenthesized_expression (field_expression (variable_name) (field_name)))))
       (expression_statement (sizeof_expression
-        (type_clause (type_qualifier) (type_name) (abstract_pointer_declarator (abstract_pointer_declarator)))))
+        (type_descriptor (type_qualifier) (type_name) (abstract_pointer_declarator (abstract_pointer_declarator)))))
       (expression_statement (sizeof_expression
-        (type_clause (type_name) (abstract_pointer_declarator (abstract_function_declarator (parameter_list)))))))))
+        (type_descriptor (type_name) (abstract_pointer_declarator (abstract_function_declarator (parameter_list)))))))))
 
 ============================================
 Compound literals
@@ -316,7 +316,7 @@ int main() {
       (expression_statement (assignment_expression
         (variable_name)
         (compound_literal_expression
-          (type_clause (type_name))
+          (type_descriptor (type_name))
           (initializer_list
             (designator (field_name)) (number_literal)
             (designator (field_name)) (number_literal)
@@ -324,7 +324,7 @@ int main() {
       (expression_statement (assignment_expression
         (variable_name)
         (compound_literal_expression
-          (type_clause (struct_specifier (struct_name)))
+          (type_descriptor (struct_specifier (struct_name)))
           (initializer_list
             (number_literal)
             (number_literal))))))))
@@ -348,14 +348,14 @@ int main() {
       (expression_statement (assignment_expression
         (variable_name)
         (compound_literal_expression
-          (type_clause (type_name))
+          (type_descriptor (type_name))
           (initializer_list
             (designator (field_name)) (number_literal)
             (designator (field_name)) (number_literal)))))
       (expression_statement (assignment_expression
         (variable_name)
         (compound_literal_expression
-          (type_clause (struct_specifier (struct_name)))
+          (type_descriptor (struct_specifier (struct_name)))
           (initializer_list
             (number_literal)
             (number_literal))))))))

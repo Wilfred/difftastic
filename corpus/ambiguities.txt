@@ -54,7 +54,7 @@ int main() {
       (comment)
       (expression_statement (call_expression
         (variable_name)
-        (argument_list (cast_expression (type_clause (type_name) (abstract_pointer_declarator)) (variable_name)))))
+        (argument_list (cast_expression (type_descriptor (type_name) (abstract_pointer_declarator)) (variable_name)))))
       (comment)
       (expression_statement (call_expression
         (variable_name)
@@ -72,7 +72,7 @@ GIT_INLINE(int *) x = 5;
 (translation_unit
   (comment)
   (declaration
-    (macro_type_specifier (identifier) (type_clause (type_name) (abstract_pointer_declarator)))
+    (macro_type_specifier (identifier) (type_descriptor (type_name) (abstract_pointer_declarator)))
     (init_declarator (variable_name) (number_literal))))
 
 ========================================================================

@@ -558,21 +558,24 @@ module.exports = grammar({
     ),
 
     cast_expression: $ => prec(PREC.CAST, seq(
-      $.type_clause,
+      '(',
+      $.type_descriptor,
+      ')',
       $._expression
     )),
 
-    type_clause: $ => seq(
-      '(',
+    type_descriptor: $ => seq(
       repeat($.type_qualifier),
       $._type_specifier,
-      optional($._abstract_declarator),
-      ')'
+      optional($._abstract_declarator)
     ),
 
     sizeof_expression: $ => prec(PREC.SIZEOF, seq(
       'sizeof',
-      choice($._expression, $.type_clause)
+      choice(
+        $._expression,
+        seq('(', $.type_descriptor, ')')
+      )
     )),
 
     subscript_expression: $ => prec(PREC.SUBSCRIPT, seq(
@@ -592,7 +595,9 @@ module.exports = grammar({
     ),
 
     compound_literal_expression: $ => seq(
-      $.type_clause,
+      '(',
+      $.type_descriptor,
+      ')',
       $.initializer_list
     ),
 
@@ -674,7 +679,9 @@ module.exports = grammar({
 
     macro_type_specifier: $ => seq(
       $.identifier,
-      $.type_clause
+      '(',
+      $.type_descriptor,
+      ')'
     ),
 
     comment: $ => token(choice(

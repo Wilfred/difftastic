@@ -2667,8 +2667,16 @@
         "type": "SEQ",
         "members": [
           {
+            "type": "STRING",
+            "value": "("
+          },
+          {
             "type": "SYMBOL",
-            "name": "type_clause"
+            "name": "type_descriptor"
+          },
+          {
+            "type": "STRING",
+            "value": ")"
           },
           {
             "type": "SYMBOL",
@@ -2677,13 +2685,9 @@
         ]
       }
     },
-    "type_clause": {
+    "type_descriptor": {
       "type": "SEQ",
       "members": [
-        {
-          "type": "STRING",
-          "value": "("
-        },
         {
           "type": "REPEAT",
           "content": {
@@ -2706,10 +2710,6 @@
               "type": "BLANK"
             }
           ]
-        },
-        {
-          "type": "STRING",
-          "value": ")"
         }
       ]
     },
@@ -2731,8 +2731,21 @@
                 "name": "_expression"
               },
               {
-                "type": "SYMBOL",
-                "name": "type_clause"
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "STRING",
+                    "value": "("
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "type_descriptor"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": ")"
+                  }
+                ]
               }
             ]
           }
@@ -2870,8 +2883,16 @@
       "type": "SEQ",
       "members": [
         {
+          "type": "STRING",
+          "value": "("
+        },
+        {
           "type": "SYMBOL",
-          "name": "type_clause"
+          "name": "type_descriptor"
+        },
+        {
+          "type": "STRING",
+          "value": ")"
         },
         {
           "type": "SYMBOL",
@@ -3332,8 +3353,16 @@
           "name": "identifier"
         },
         {
+          "type": "STRING",
+          "value": "("
+        },
+        {
           "type": "SYMBOL",
-          "name": "type_clause"
+          "name": "type_descriptor"
+        },
+        {
+          "type": "STRING",
+          "value": ")"
         }
       ]
     },
