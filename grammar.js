@@ -29,20 +29,17 @@ module.exports = grammar({
   ],
 
   inline: $ => [
-    $._statement
+    $._statement,
+    $._top_level_item,
+    $._compound_statement_item
   ],
 
   conflicts: $ => [
-    [$._declarator, $._type_specifier, $._expression, $.macro_type_specifier],
-    [$._type_specifier, $._expression, $.macro_type_specifier],
-    [$._declarator, $._type_specifier, $.macro_type_specifier],
-    [$._field_declarator, $._type_specifier, $.macro_type_specifier],
-    [$._declarator, $._type_specifier, $._expression],
-    [$._field_declarator, $._type_specifier],
-    [$._declarator, $._type_specifier],
-    [$._type_specifier, $.macro_type_specifier],
+    [$._type_specifier, $._declarator],
+    [$._type_specifier, $._declarator, $.macro_type_specifier],
     [$._type_specifier, $._expression],
-    [$._declarator, $._expression],
+    [$._type_specifier, $._expression, $.macro_type_specifier],
+    [$._type_specifier, $.macro_type_specifier],
     [$.sized_type_specifier],
   ],
 
@@ -50,17 +47,10 @@ module.exports = grammar({
     translation_unit: $ => repeat($._top_level_item),
 
     _top_level_item: $ => choice(
-      $._preproc_statement,
       $.function_definition,
+      $.linkage_specification,
       $.declaration,
-      $._statement,
       $._empty_declaration,
-      $.linkage_specification
-    ),
-
-    // Preprocesser
-
-    _preproc_statement: $ => choice(
       $.preproc_if,
       $.preproc_ifdef,
       $.preproc_include,
@@ -69,26 +59,34 @@ module.exports = grammar({
       $.preproc_call
     ),
 
+    _compound_statement_item: $ => choice(
+      $._statement,
+      $.declaration,
+      $._empty_declaration,
+      rename($.preproc_if_in_compound_statement, 'preproc_if'),
+      rename($.preproc_ifdef_in_compound_statement, 'preproc_ifdef'),
+      $.preproc_include,
+      $.preproc_def,
+      $.preproc_function_def,
+      $.preproc_call
+    ),
+
+    // Preprocesser
+
     preproc_include: $ => seq(
-      /#[ \t]*include/,
-      choice(
-        $.string_literal,
-        $.system_lib_string
-      )
+      $._pound_include,
+      choice($.string_literal, $.system_lib_string)
     ),
 
     preproc_def: $ => seq(
-      /#[ \t]*define/,
+      $._pound_define,
       $.identifier,
-      optional(seq(
-        /[ \t]+/,
-        $.preproc_arg
-      )),
+      optional(seq(/[ \t]+/, $.preproc_arg)),
       '\n'
     ),
 
     preproc_function_def: $ => seq(
-      /#[ \t]*define/,
+      $._pound_define,
       $.identifier,
       $.preproc_params,
       optional($.preproc_arg),
@@ -104,38 +102,61 @@ module.exports = grammar({
       $.preproc_arg
     ),
 
-    preproc_arg: $ => token(prec(-1, repeat1(choice(/./, '\\\n')))),
-
     preproc_if: $ => seq(
-      /#[ \t]*if/,
+      $._pound_if,
       $.preproc_arg,
       repeat($._top_level_item),
       optional($.preproc_else),
-      /#[ \t]*endif/
+      $._pound_endif
+    ),
+
+    preproc_if_in_compound_statement: $ => seq(
+      $._pound_if,
+      $.preproc_arg,
+      repeat($._compound_statement_item),
+      optional(rename($.preproc_else_in_compound_statement, 'preproc_else')),
+      $._pound_endif
     ),
 
     preproc_ifdef: $ => seq(
-      choice(
-        /#[ \t]*ifdef/,
-        /#[ \t]*ifndef/
-      ),
+      $._pound_ifdef,
       $.identifier,
       repeat($._top_level_item),
       optional($.preproc_else),
-      /#[ \t]*endif/
+      $._pound_endif
+    ),
+
+    preproc_ifdef_in_compound_statement: $ => seq(
+      $._pound_ifdef,
+      $.identifier,
+      repeat($._compound_statement_item),
+      optional(rename($.preproc_else_in_compound_statement, 'preproc_else')),
+      $._pound_endif
     ),
 
     preproc_else: $ => seq(
-      /#[ \t]*else/,
+      $._pound_else,
       repeat($._top_level_item)
     ),
 
-    preproc_directive: $ => /#[ \t]*\a\w*/,
+    preproc_else_in_compound_statement: $ => seq(
+      $._pound_else,
+      repeat($._compound_statement_item)
+    ),
+
+    _pound_include: $ => preprocessor('include'),
+    _pound_define: $ => preprocessor('define'),
+    _pound_if: $ => preprocessor('if'),
+    _pound_ifdef: $ => preprocessor('ifn?def'),
+    _pound_endif: $ => preprocessor('endif'),
+    _pound_else: $ => preprocessor('else'),
+    preproc_directive: $ => preprocessor('\\a\\w*'),
+    preproc_arg: $ => token(prec(-1, repeat1(choice(/./, '\\\n')))),
 
     // Main Grammar
 
     function_definition: $ => seq(
-      optional($._declaration_specifiers),
+      $._declaration_specifiers,
       $._declarator,
       $.compound_statement
     ),
@@ -244,7 +265,7 @@ module.exports = grammar({
 
     compound_statement: $ => seq(
       '{',
-      repeat($._top_level_item),
+      repeat($._compound_statement_item),
       '}'
     ),
 
@@ -329,7 +350,7 @@ module.exports = grammar({
     ),
 
     field_declaration: $ => seq(
-      optional($._declaration_specifiers),
+      $._declaration_specifiers,
       commaSep($._field_declarator),
       optional(seq(':', $._expression)),
       ';'
@@ -699,6 +720,10 @@ module.exports = grammar({
 });
 
 module.exports.PREC = PREC
+
+function preprocessor (pattern) {
+  return new RegExp('#[ \t]*' + pattern)
+}
 
 function commaSep (rule) {
   return optional(commaSep1(rule))
