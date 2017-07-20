@@ -9,12 +9,17 @@ int T::foo() const { return 0; }
 
 (translation_unit
   (function_definition
-    (identifier)
-    (function_declarator (scoped_identifier (identifier) (identifier)))
+    (type_name)
+    (function_declarator
+      (scoped_identifier (identifier) (identifier))
+      (parameter_list))
     (compound_statement (return_statement (number_literal))))
   (function_definition
-    (identifier)
-    (function_declarator (scoped_identifier (identifier) (identifier)) (type_qualifier))
+    (type_name)
+    (function_declarator
+      (scoped_identifier (identifier) (identifier))
+      (parameter_list)
+      (type_qualifier))
     (compound_statement (return_statement (number_literal)))))
 
 =====================================
@@ -31,14 +36,19 @@ T::T() : f1(0), f2(1, 2) {
 
 (translation_unit
   (function_definition
-    (function_declarator (scoped_identifier (identifier) (identifier)))
+    (function_declarator
+      (scoped_identifier (identifier) (identifier))
+      (parameter_list))
     (compound_statement))
   (function_definition
-    (function_declarator (scoped_identifier (identifier) (identifier)))
-    (member_initializer_list
-      (member_initializer (identifier) (argument_list (number_literal)))
-      (member_initializer (identifier) (argument_list (number_literal) (number_literal))))
-    (compound_statement (expression_statement (call_expression (identifier) (argument_list (string_literal)))))))
+    (function_declarator
+      (scoped_identifier (identifier) (identifier))
+      (parameter_list))
+    (field_initializer_list
+      (field_initializer (identifier) (argument_list (number_literal)))
+      (field_initializer (identifier) (argument_list (number_literal) (number_literal))))
+    (compound_statement
+      (expression_statement (call_expression (variable_name) (argument_list (string_literal)))))))
 
 =====================================
 Destructor definitions
@@ -51,8 +61,9 @@ T::~T() {}
 
 (translation_unit
   (function_definition
-    (function_declarator (destructor_name (identifier)))
+    (function_declarator (destructor_name (variable_name)) (parameter_list))
     (compound_statement))
   (function_definition
-    (function_declarator (scoped_identifier (identifier) (destructor_name (identifier))))
+    (function_declarator
+      (scoped_identifier (identifier) (destructor_name (variable_name))) (parameter_list))
     (compound_statement)))
