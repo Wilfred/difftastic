@@ -34,15 +34,26 @@ module.exports = grammar({
   ],
 
   conflicts: $ => [
-    [$.keyword_identifier, $.print_statement],
-    [$.keyword_identifier, $.exec_statement]
+    [$._primary_expression, $.print_statement],
+    [$._primary_expression, $.exec_statement]
+  ],
+
+  inline: $ => [
+    $._simple_statement,
+    $._compound_statement,
+    $.keyword_identifier,
   ],
 
   rules: {
     module: $ => repeat($._statement),
 
     _statement: $ => choice(
-      seq($._simple_statement, optional(repeat(seq($._semicolon, $._simple_statement))), optional($._semicolon), repeat1($._newline)),
+      seq(
+        $._simple_statement,
+        optional(repeat(seq($._semicolon, $._simple_statement))),
+        optional($._semicolon),
+        $._newline
+      ),
       $._compound_statement
     ),
 
@@ -64,8 +75,6 @@ module.exports = grammar({
       $.nonlocal_statement,
       $.exec_statement
     ),
-
-    keyword_identifier: $ => choice('print', 'exec'),
 
     import_statement: $ => seq(
       'import',
@@ -782,9 +791,10 @@ module.exports = grammar({
 
     identifier: $ => /[\a_]\w*/,
 
+    keyword_identifier: $ => rename(choice('print', 'exec'), 'identifier'),
+
     true: $ => 'True',
     false: $ => 'False',
-
     none: $ => 'None',
 
     await: $ => seq(
