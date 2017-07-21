@@ -26,17 +26,6 @@ const PREC = {
   COMPLEMENT: 85,
 };
 
-const identifierPattern = /[a-z_][a-zA-Z0-9_]*(\?|\!)?/;
-const constantPattern = /[A-Z][a-zA-Z0-9_]*(\?|\!)?/;
-
-// Global variables start with $ and can be:
-// - Regex back references (e.g. $$, $&, $`, $', and $+)
-// - Number global references (e.g. $1)
-// - User defined (e.g. $FOO)
-const globalVariablePattern = /\$-?(([!@&`'+~=/\\,;.<>*$?:"])|([0-9]*)|([a-zA-Z_][a-zA-Z0-9_]*))/;
-const instanceVariablePattern = /@[a-zA-Z_][a-zA-Z0-9_]*/; // (e.g. @foo)
-const classVariablePattern = /@@[a-zA-Z_][a-zA-Z0-9_]*/; // (e.g. @@foo)
-
 module.exports = grammar({
   name: 'ruby',
 
@@ -76,14 +65,24 @@ module.exports = grammar({
     /\s|\\\n/
   ],
 
-  rules: {
-    program: $ => seq(optional($._statements), optional(seq('__END__', $.uninterpreted))),
-    uninterpreted: $ => (/(.|\s)*/),
+  inline: $ => [
+    $._top_level_arg,
+  ],
 
-    _statements: $ => sepTrailing(
-      $._statements,
-      $._top_level_statement,
-      $._terminator
+  rules: {
+    program: $ => seq(
+      optional($._statements),
+      optional(seq(
+        '__END__',
+        $.uninterpreted)
+      )
+    ),
+
+    uninterpreted: $ => /(.|\s)*/,
+
+    _statements: $ => seq(
+      sep1($._top_level_statement, $._terminator),
+      optional($._terminator)
     ),
 
     _top_level_statement: $ => choice(
@@ -230,6 +229,7 @@ module.exports = grammar({
       optional($._if_tail),
       'end'
     ),
+
     unless: $ => seq(
       'unless',
       $._statement,
@@ -238,6 +238,7 @@ module.exports = grammar({
       optional($.else),
       'end'
     ),
+
     elsif: $ => seq(
       'elsif',
       $._statement,
@@ -245,8 +246,11 @@ module.exports = grammar({
       optional($._statements),
       optional($._if_tail)
     ),
+
     else: $ => seq('else', optional($._terminator), optional($._statements)),
+
     _then: $ => choice($._terminator, 'then', seq($._terminator, 'then')),
+
     _if_tail: $ => choice(
       $.else,
       $.elsif
@@ -338,10 +342,12 @@ module.exports = grammar({
       optional($.heredoc_end),
       ']'
     )),
+
     scope_resolution: $ => prec.left(1, choice(
       seq('::', choice($.identifier, $.constant)),
       seq($._primary, $._scope_double_colon, choice($.identifier, $.constant))
     )),
+
     call: $ => prec.left(PREC.BITWISE_AND + 1, seq(
       $._primary,
       choice('.', '&.'),
@@ -367,18 +373,22 @@ module.exports = grammar({
       ),
       repeat($.heredoc_end)
     )),
+
     argument_list_with_parens: $ => $._argument_list_with_parens,
+
     _argument_list_with_parens: $ => seq(
       $._argument_list_left_paren,
       optional($._argument_list_with_trailing_comma),
       optional($.heredoc_end),
       ')'
     ),
+
     _argument_list_with_trailing_comma: $ => sepTrailing(
       $._argument_list_with_trailing_comma,
       $._argument,
       prec.right(seq(',', optional($.heredoc_end)))
     ),
+
     _argument: $ => choice(
       $._arg,
       $.splat_argument,
@@ -391,8 +401,7 @@ module.exports = grammar({
     hash_splat_argument: $ => seq('**', $._arg),
     block_argument: $ => seq($._block_ampersand, $._arg),
 
-    do_block: $ => $._do_block,
-    _do_block: $ => seq(
+    do_block: $ => seq(
       'do',
       optional($._terminator),
       optional($.block_parameters),
@@ -401,8 +410,7 @@ module.exports = grammar({
       'end'
     ),
 
-    block: $ => $._block,
-    _block: $ => seq(
+    block: $ => seq(
       '{',
       optional($.block_parameters),
       optional($._statements),
@@ -456,6 +464,7 @@ module.exports = grammar({
     destructured_left_assignment: $ => prec(-1, seq('(', commaSep1($._mlhs), ')')),
 
     rest_assignment: $ => prec(-1, seq('*', optional($._lhs))),
+
     _lhs: $ => prec.left(choice(
       $._variable,
       $.true,
@@ -466,6 +475,7 @@ module.exports = grammar({
       $.call,
       $.method_call
     )),
+
     _variable: $ => choice(
       $.self,
       $.super,
@@ -476,17 +486,23 @@ module.exports = grammar({
       $.constant
     ),
 
-    constant: $ => constantPattern,
-    instance_variable: $ => instanceVariablePattern,
-    class_variable: $ => classVariablePattern,
-    global_variable: $ => globalVariablePattern,
-    identifier: $ => identifierPattern,
+    constant: $ => /[A-Z][a-zA-Z0-9_]*(\?|\!)?/,
+
+    identifier: $ => /[a-z_][a-zA-Z0-9_]*(\?|\!)?/,
+
+    instance_variable: $ => /@[a-zA-Z_][a-zA-Z0-9_]*/,
+
+    class_variable: $ => /@@[a-zA-Z_][a-zA-Z0-9_]*/,
+
+    global_variable: $ => /\$-?(([!@&`'+~=/\\,;.<>*$?:"])|([0-9]*)|([a-zA-Z_][a-zA-Z0-9_]*))/,
+
     reserved_identifier: $ => choice(
       'alias', 'and', 'begin', 'break', 'case', 'class', 'def', 'defined', 'do',
       'else', 'elsif', 'end', 'ensure', 'false', 'for', 'in', 'module', 'next',
       'nil', 'not', 'or', 'redo', 'rescue', 'retry', 'return', 'self', 'super',
       'then', 'true', 'undef', 'when', 'yield', 'if', 'unless', 'while', 'until'
     ),
+
     operator: $ => choice(
       '..', '|', '^', '&', '<=>', '==', '===', '=~', '>', '>=', '<', '<=', '+',
       '-', '*', '/', '%', '!', '**', '<<', '>>', '~', '+@', '-@', '[]', '[]=', '`'
@@ -600,10 +616,21 @@ module.exports = grammar({
       optional(prec.right(seq(',', optional($.heredoc_end), optional($._hash_items))))
     ),
 
-    pair: $ => prec(-1, seq(choice(
-      seq($._arg, '=>'),
-      seq(choice($.identifier, $.constant, $.reserved_identifier, $.string), $._keyword_colon)
-    ), $._arg)),
+    pair: $ => prec(-1, seq(
+      choice(
+        seq($._arg, '=>'),
+        seq(
+          choice(
+            $.identifier,
+            $.constant,
+            rename($.reserved_identifier, 'identifier'),
+            $.string
+          ),
+          $._keyword_colon
+        )
+      ),
+      $._arg
+    )),
 
     regex: $ => choice(
       $._simple_regex,
@@ -624,7 +651,7 @@ module.exports = grammar({
           seq('do', optional($._terminator), optional($._statements), 'end')
         )
       ),
-      seq('lambda', choice($._block, $._do_block))
+      seq('lambda', choice($.block, $.do_block))
     ),
 
     empty_statement: $ => prec(-1, ';'),
@@ -639,6 +666,10 @@ module.exports = grammar({
 
 function sepTrailing (self, rule, separator) {
   return choice(rule, seq(rule, separator, optional(self)));
+}
+
+function sep (rule, separator) {
+  return optional(sep1(rule, separator));
 }
 
 function sep1 (rule, separator) {
