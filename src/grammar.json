@@ -44,12 +44,8 @@
       "value": "(.|\\s)*"
     },
     "_statements": {
-      "type": "CHOICE",
+      "type": "SEQ",
       "members": [
-        {
-          "type": "SYMBOL",
-          "name": "_top_level_statement"
-        },
         {
           "type": "SEQ",
           "members": [
@@ -58,20 +54,32 @@
               "name": "_top_level_statement"
             },
             {
+              "type": "REPEAT",
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "_terminator"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "_top_level_statement"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
               "type": "SYMBOL",
               "name": "_terminator"
             },
             {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "SYMBOL",
-                  "name": "_statements"
-                },
-                {
-                  "type": "BLANK"
-                }
-              ]
+              "type": "BLANK"
             }
           ]
         }
@@ -2576,10 +2584,6 @@
       ]
     },
     "do_block": {
-      "type": "SYMBOL",
-      "name": "_do_block"
-    },
-    "_do_block": {
       "type": "SEQ",
       "members": [
         {
@@ -2641,10 +2645,6 @@
       ]
     },
     "block": {
-      "type": "SYMBOL",
-      "name": "_block"
-    },
-    "_block": {
       "type": "SEQ",
       "members": [
         {
@@ -3577,6 +3577,10 @@
       "type": "PATTERN",
       "value": "[A-Z][a-zA-Z0-9_]*(\\?|\\!)?"
     },
+    "identifier": {
+      "type": "PATTERN",
+      "value": "[a-z_][a-zA-Z0-9_]*(\\?|\\!)?"
+    },
     "instance_variable": {
       "type": "PATTERN",
       "value": "@[a-zA-Z_][a-zA-Z0-9_]*"
@@ -3588,10 +3592,6 @@
     "global_variable": {
       "type": "PATTERN",
       "value": "\\$-?(([!@&`'+~=\\/\\\\,;.<>*$?:\"])|([0-9]*)|([a-zA-Z_][a-zA-Z0-9_]*))"
-    },
-    "identifier": {
-      "type": "PATTERN",
-      "value": "[a-z_][a-zA-Z0-9_]*(\\?|\\!)?"
     },
     "reserved_identifier": {
       "type": "CHOICE",
@@ -4488,8 +4488,12 @@
                         "name": "constant"
                       },
                       {
-                        "type": "SYMBOL",
-                        "name": "reserved_identifier"
+                        "type": "RENAME",
+                        "content": {
+                          "type": "SYMBOL",
+                          "name": "reserved_identifier"
+                        },
+                        "value": "identifier"
                       },
                       {
                         "type": "SYMBOL",
@@ -4657,11 +4661,11 @@
               "members": [
                 {
                   "type": "SYMBOL",
-                  "name": "_block"
+                  "name": "block"
                 },
                 {
                   "type": "SYMBOL",
-                  "name": "_do_block"
+                  "name": "do_block"
                 }
               ]
             }
@@ -4819,5 +4823,8 @@
       "type": "SYMBOL",
       "name": "_binary_star"
     }
+  ],
+  "inline": [
+    "ReferenceError"
   ]
 }
