@@ -65,10 +65,6 @@ module.exports = grammar({
     /\s|\\\n/
   ],
 
-  inline: $ => [
-    $._top_level_arg,
-  ],
-
   rules: {
     program: $ => seq(
       optional($._statements),
@@ -642,16 +638,12 @@ module.exports = grammar({
       )
     ),
 
-    lambda: $ => choice(
-      seq(
-        '->',
-        optional($.lambda_parameters),
-        choice(
-          seq('{', optional($._statements), '}'),
-          seq('do', optional($._terminator), optional($._statements), 'end')
-        )
+    lambda: $ => seq(
+      choice(
+        'lambda',
+        seq('->', optional($.lambda_parameters))
       ),
-      seq('lambda', choice($.block, $.do_block))
+      choice($.block, $.do_block)
     ),
 
     empty_statement: $ => prec(-1, ';'),

@@ -700,13 +700,13 @@ foo :bar, -> (a) { where(:c => b) }
   (method_call (identifier)
     (argument_list
       (symbol)
-      (lambda (lambda_parameters (identifier)) (integer))))
+      (lambda (lambda_parameters (identifier)) (block (integer)))))
   (method_call (identifier)
     (argument_list
       (symbol)
       (lambda
         (lambda_parameters (identifier))
-        (method_call (identifier) (argument_list (pair (symbol) (identifier))))))))
+        (block (method_call (identifier) (argument_list (pair (symbol) (identifier)))))))))
 
 ===============================
 method call lambda argument and do block
@@ -719,7 +719,7 @@ end
 
 (program
   (method_call (identifier)
-    (argument_list (symbol) (lambda (lambda_parameters (identifier)) (integer)))
+    (argument_list (symbol) (lambda (lambda_parameters (identifier)) (block (integer))))
     (do_block)))
 
 ===============================
@@ -876,7 +876,8 @@ end
 
 (program
   (lambda
-    (lambda_parameters (identifier) (splat_parameter (identifier)) (destructured_parameter (identifier) (identifier))))
+    (lambda_parameters (identifier) (splat_parameter (identifier)) (destructured_parameter (identifier) (identifier)))
+    (block))
   (method (identifier)
     (method_parameters (identifier) (splat_parameter (identifier)) (destructured_parameter (identifier) (identifier))))
   (method (identifier)
