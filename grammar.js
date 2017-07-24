@@ -26,16 +26,16 @@ const PREC = {
   COMPLEMENT: 85,
 };
 
-const identifierPattern = /[a-z_][a-zA-Z0-9_]*(\?|\!)?/;
-const constantPattern = /[A-Z][a-zA-Z0-9_]*(\?|\!)?/;
+const identifierPattern = /[a-z_](\w)*(\?|\!)?/;
+const constantPattern = /[A-Z](\w)*(\?|\!)?/;
 
 // Global variables start with $ and can be:
 // - Regex back references (e.g. $$, $&, $`, $', and $+)
 // - Number global references (e.g. $1)
 // - User defined (e.g. $FOO)
-const globalVariablePattern = /\$-?(([!@&`'+~=/\\,;.<>*$?:"])|([0-9]*)|([a-zA-Z_][a-zA-Z0-9_]*))/;
-const instanceVariablePattern = /@[a-zA-Z_][a-zA-Z0-9_]*/; // (e.g. @foo)
-const classVariablePattern = /@@[a-zA-Z_][a-zA-Z0-9_]*/; // (e.g. @@foo)
+const globalVariablePattern = /\$-?(([!@&`'+~=/\\,;.<>*$?:"])|([0-9]*)|([a-zA-Z_](\w)*))/;
+const instanceVariablePattern = /@[a-zA-Z_](\w)*/; // (e.g. @foo)
+const classVariablePattern = /@@[a-zA-Z_](\w)*/; // (e.g. @@foo)
 
 module.exports = grammar({
   name: 'ruby',
