@@ -1,0 +1,34 @@
+sudo: false
+language: ruby
+install:
+  - git clone https://github.com/ruby/mspec.git ../mspec
+script:
+  - if [ -n "$RUBOCOP" ]; then gem install rubocop -v 0.49.1 && rubocop; fi
+  - ../mspec/bin/mspec $MSPEC_OPTS
+matrix:
+  include:
+    - os: osx
+      rvm: 2.4.0
+    - os: linux
+      rvm: 2.4.1
+      env: MSPEC_OPTS="-R2 -ff"
+    - os: linux
+      rvm: 2.2.7
+    - os: linux
+      rvm: 2.3.4
+    - os: linux
+      rvm: 2.4.1
+      env: CHECK_LEAKS=true RUBOCOP=true
+    - os: linux
+      rvm: ruby-head
+  allow_failures:
+    - os: linux
+      rvm: ruby-head
+branches:
+  only:
+    - master
+    - /^try/
+notifications:
+  email:
+    on_success: change
+    on_failure: change
