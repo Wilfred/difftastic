@@ -74,9 +74,13 @@ if foo then
 else
 end
 
+if true then ; 123; end
+
 ---
 
-(program (if (identifier) (else)))
+(program
+  (if (identifier) (else))
+  (if (true) (integer)))
 
 ==================================
 single-line if then else statement

@@ -227,6 +227,7 @@ module.exports = grammar({
       'if',
       $._statement,
       $._then,
+      optional($._terminator),
       optional($._statements),
       optional($._if_tail),
       'end'
@@ -246,8 +247,11 @@ module.exports = grammar({
       optional($._statements),
       optional($._if_tail)
     ),
+
     else: $ => seq('else', optional($._terminator), optional($._statements)),
+
     _then: $ => choice($._terminator, 'then', seq($._terminator, 'then')),
+
     _if_tail: $ => choice(
       $.else,
       $.elsif
