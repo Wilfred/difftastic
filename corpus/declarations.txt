@@ -431,6 +431,16 @@ end
 
 (program (module (constant) (method (identifier))))
 
+========================
+module without semicolon
+========================
+
+module Foo end
+
+---
+
+(program (module (constant)))
+
 =======
 __END__
 =======

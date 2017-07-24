@@ -893,24 +893,38 @@
           ]
         },
         {
-          "type": "SYMBOL",
-          "name": "_terminator"
-        },
-        {
           "type": "CHOICE",
           "members": [
             {
-              "type": "SYMBOL",
-              "name": "_body_statement"
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "_terminator"
+                },
+                {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "SYMBOL",
+                      "name": "_body_statement"
+                    },
+                    {
+                      "type": "BLANK"
+                    }
+                  ]
+                },
+                {
+                  "type": "STRING",
+                  "value": "end"
+                }
+              ]
             },
             {
-              "type": "BLANK"
+              "type": "STRING",
+              "value": "end"
             }
           ]
-        },
-        {
-          "type": "STRING",
-          "value": "end"
         }
       ]
     },
@@ -3545,57 +3559,61 @@
       }
     },
     "_variable": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "self"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "super"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "instance_variable"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "class_variable"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "global_variable"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "identifier"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "constant"
-        }
-      ]
+      "type": "PREC_RIGHT",
+      "value": 0,
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "self"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "super"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "instance_variable"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "class_variable"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "global_variable"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "identifier"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "constant"
+          }
+        ]
+      }
     },
     "constant": {
       "type": "PATTERN",
-      "value": "[A-Z](\\w)*(\\?|\\!)?"
+      "value": "[A-Z][a-zA-Z0-9_]*(\\?|\\!)?"
     },
     "instance_variable": {
       "type": "PATTERN",
-      "value": "@[a-zA-Z_](\\w)*"
+      "value": "@[a-zA-Z_][a-zA-Z0-9_]*"
     },
     "class_variable": {
       "type": "PATTERN",
-      "value": "@@[a-zA-Z_](\\w)*"
+      "value": "@@[a-zA-Z_][a-zA-Z0-9_]*"
     },
     "global_variable": {
       "type": "PATTERN",
-      "value": "\\$-?(([!@&`'+~=\\/\\\\,;.<>*$?:\"])|([0-9]*)|([a-zA-Z_](\\w)*))"
+      "value": "\\$-?(([!@&`'+~=\\/\\\\,;.<>*$?:\"])|([0-9]*)|([a-zA-Z_][a-zA-Z0-9_]*))"
     },
     "identifier": {
       "type": "PATTERN",
-      "value": "[a-z_](\\w)*(\\?|\\!)?"
+      "value": "[a-z_][a-zA-Z0-9_]*(\\?|\\!)?"
     },
     "reserved_identifier": {
       "type": "CHOICE",

@@ -183,9 +183,10 @@ module.exports = grammar({
     module: $ => seq(
       'module',
       choice($.constant, $.scope_resolution),
-      $._terminator,
-      optional($._body_statement),
-      'end'
+      choice(
+        seq($._terminator, optional($._body_statement), 'end'),
+        'end'
+      )
     ),
 
     return: $ => prec.left(seq('return', optional($.argument_list))),
@@ -467,7 +468,7 @@ module.exports = grammar({
       $.call,
       $.method_call
     )),
-    _variable: $ => choice(
+    _variable: $ => prec.right(choice(
       $.self,
       $.super,
       $.instance_variable,
@@ -475,7 +476,7 @@ module.exports = grammar({
       $.global_variable,
       $.identifier,
       $.constant
-    ),
+    )),
 
     constant: $ => constantPattern,
     instance_variable: $ => instanceVariablePattern,
