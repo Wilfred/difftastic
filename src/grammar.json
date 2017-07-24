@@ -4455,59 +4455,73 @@
       "type": "PREC",
       "value": -1,
       "content": {
-        "type": "SEQ",
+        "type": "CHOICE",
         "members": [
           {
-            "type": "CHOICE",
+            "type": "SEQ",
             "members": [
               {
-                "type": "SEQ",
+                "type": "CHOICE",
                 "members": [
                   {
-                    "type": "SYMBOL",
-                    "name": "_arg"
-                  },
-                  {
-                    "type": "STRING",
-                    "value": "=>"
-                  }
-                ]
-              },
-              {
-                "type": "SEQ",
-                "members": [
-                  {
-                    "type": "CHOICE",
+                    "type": "SEQ",
                     "members": [
                       {
                         "type": "SYMBOL",
-                        "name": "identifier"
+                        "name": "_arg"
                       },
                       {
-                        "type": "SYMBOL",
-                        "name": "constant"
-                      },
-                      {
-                        "type": "SYMBOL",
-                        "name": "reserved_identifier"
-                      },
-                      {
-                        "type": "SYMBOL",
-                        "name": "string"
+                        "type": "STRING",
+                        "value": "=>"
                       }
                     ]
                   },
                   {
-                    "type": "SYMBOL",
-                    "name": "_keyword_colon"
+                    "type": "SEQ",
+                    "members": [
+                      {
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "SYMBOL",
+                            "name": "identifier"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "constant"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "reserved_identifier"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "string"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "_keyword_colon"
+                      }
+                    ]
                   }
                 ]
+              },
+              {
+                "type": "SYMBOL",
+                "name": "_arg"
               }
             ]
           },
           {
-            "type": "SYMBOL",
-            "name": "_arg"
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "hash_splat_argument"
+              }
+            ]
           }
         ]
       }

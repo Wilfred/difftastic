@@ -1162,6 +1162,18 @@ hash with trailing comma
 (program (hash (pair (identifier) (integer))))
 
 ========================
+hash initialization with hash splat
+========================
+
+{a: 1, **{b: 2}}
+
+---
+
+(program (hash
+  (pair (identifier) (integer))
+  (pair (hash_splat_argument (hash (pair (identifier) (integer)))))))
+
+========================
 hash with line breaks and inline comments
 ========================
 

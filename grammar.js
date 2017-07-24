@@ -600,10 +600,13 @@ module.exports = grammar({
       optional(prec.right(seq(',', optional($.heredoc_end), optional($._hash_items))))
     ),
 
-    pair: $ => prec(-1, seq(choice(
-      seq($._arg, '=>'),
-      seq(choice($.identifier, $.constant, $.reserved_identifier, $.string), $._keyword_colon)
-    ), $._arg)),
+    pair: $ => prec(-1, choice(
+      seq(choice(
+        seq($._arg, '=>'),
+        seq(choice($.identifier, $.constant, $.reserved_identifier, $.string), $._keyword_colon)
+      ), $._arg),
+      choice($.hash_splat_argument)
+    )),
 
     regex: $ => choice(
       $._simple_regex,
