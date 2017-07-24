@@ -1,0 +1,40 @@
+inherit_from: .rubocop_todo.yml
+
+AllCops:
+  TargetRubyVersion: 2.4
+  DisplayCopNames: true
+  Exclude:
+    - command_line/fixtures/bad_syntax.rb
+  DisabledByDefault: true
+
+Lint:
+  Enabled: true
+
+Lint/AssignmentInCondition:
+  Enabled: false
+
+Lint/LiteralInCondition:
+  Enabled: false
+
+Lint/UnifiedInteger:
+  Enabled: false
+
+Lint/UnusedBlockArgument:
+  Enabled: false
+
+Lint/UnusedMethodArgument:
+  Enabled: false
+
+Lint/UselessAssignment:
+  Enabled: false
+
+Lint/UselessComparison:
+  Enabled: false
+
+# The cop registers too many false positives to `.should == something`
+Lint/Void:
+  Enabled: false
+
+Lint/EmptyExpression:
+  Exclude:
+    - 'language/**/*.rb'

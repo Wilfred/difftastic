@@ -1,0 +1,8 @@
+* Decide a way to test methods that are only visible given a specific
+  command-line option. For example, Kernel#gsub with -n/-p on 1.9.
+* Look at automating discovery of guarded bugs which have been fixed.
+* Use mocks for all Math functions that coerce with #to_f; currently a fixture
+  is used.
+* investigate slow specs (run with -fp) and make them faster.
+* restore some caller specs from 642bf529
+* restore refinements specs and update. See 56c5528f and f20a62e8.

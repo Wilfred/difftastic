@@ -1,0 +1,1 @@
+print Dir.pwd

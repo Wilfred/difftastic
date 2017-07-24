@@ -1,0 +1,30 @@
+There are numerous possible way of categorizing the entities and concepts that
+make up a programming language. Ruby has a fairly large number of reserved
+words. These words significantly describe major elements of the language,
+including flow control constructs like 'for' and 'while', conditional
+execution like 'if' and 'unless', exceptional execution control like 'rescue',
+etc. There are also literals for the basic "types" like String, Regexp, Array
+and Fixnum.
+
+Behavorial specifications describe the behavior of concrete entities. Rather
+than using concepts of computation to organize these spec files, we use
+entities of the Ruby language. Consider looking at any syntactic element of a
+Ruby program. With (almost) no ambiguity, one can identify it as a literal,
+reserved word, variable, etc. There is a spec file that corresponds to each
+literal construct and most reserved words, with the exceptions noted below.
+There are also several files that are more difficult to classify: all
+predefined variables, constants, and objects (predefined_spec.rb), the
+precedence of all operators (precedence_spec.rb), the behavior of assignment
+to variables (variables_spec.rb), the behavior of subprocess execution
+(execution_spec.rb), the behavior of the raise method as it impacts the
+execution of a Ruby program (raise_spec.rb), and the block entities like
+'begin', 'do', ' { ... }' (block_spec.rb).
+
+Several reserved words and other entities are combined with the primary
+reserved word or entity to which they are related:
+
+false, true, nil, self              predefined_spec.rb
+in                                  for_spec.rb
+then, elsif                         if_spec.rb
+when                                case_spec.rb
+catch                               throw_spec.rb
