@@ -324,6 +324,21 @@ float
 
 (program (float) (float) (float) (float))
 
+=====
+complex
+=====
+
+-2i
++2i
+1+1i
+1-10i
+10+3i
+12-34i
+
+---
+
+(program (unary (complex)) (complex) (complex) (complex) (complex) (complex))
+
 =======
 boolean
 =======

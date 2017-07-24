@@ -303,6 +303,7 @@ module.exports = grammar({
       $.symbol,
       $.integer,
       $.float,
+      $.complex,
       $.string,
       $.chained_string,
       $.keyword__FILE__,
@@ -534,6 +535,7 @@ module.exports = grammar({
     integer: $ => /0b[01](_?[01])*|0[oO]?[0-7](_?[0-7])*|(0d)?\d(_?\d)*|0x[0-9a-fA-F](_?[0-9a-fA-F])*/,
 
     float: $ => /\d(_?\d)*(\.\d)?(_?\d)*([eE]?[\+-]?\d(_?\d)*)?/,
+    complex: $ => prec.right(PREC.UNARY_MINUS + 1, /(\d+)?(\+|-)?(\d+)i/),
     super: $ => 'super',
     true: $ => choice('true', 'TRUE'),
     false: $ => choice('false', 'FALSE'),
