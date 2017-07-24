@@ -1926,6 +1926,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "complex"
+        },
+        {
+          "type": "SYMBOL",
           "name": "string"
         },
         {
@@ -3575,23 +3579,23 @@
     },
     "constant": {
       "type": "PATTERN",
-      "value": "[A-Z][a-zA-Z0-9_]*(\\?|\\!)?"
+      "value": "[A-Z](\\w)*(\\?|\\!)?"
     },
     "instance_variable": {
       "type": "PATTERN",
-      "value": "@[a-zA-Z_][a-zA-Z0-9_]*"
+      "value": "@[a-zA-Z_](\\w)*"
     },
     "class_variable": {
       "type": "PATTERN",
-      "value": "@@[a-zA-Z_][a-zA-Z0-9_]*"
+      "value": "@@[a-zA-Z_](\\w)*"
     },
     "global_variable": {
       "type": "PATTERN",
-      "value": "\\$-?(([!@&`'+~=\\/\\\\,;.<>*$?:\"])|([0-9]*)|([a-zA-Z_][a-zA-Z0-9_]*))"
+      "value": "\\$-?(([!@&`'+~=\\/\\\\,;.<>*$?:\"])|([0-9]*)|([a-zA-Z_](\\w)*))"
     },
     "identifier": {
       "type": "PATTERN",
-      "value": "[a-z_][a-zA-Z0-9_]*(\\?|\\!)?"
+      "value": "[a-z_](\\w)*(\\?|\\!)?"
     },
     "reserved_identifier": {
       "type": "CHOICE",
@@ -4067,6 +4071,14 @@
     "float": {
       "type": "PATTERN",
       "value": "\\d(_?\\d)*(\\.\\d)?(_?\\d)*([eE]?[\\+-]?\\d(_?\\d)*)?"
+    },
+    "complex": {
+      "type": "PREC_RIGHT",
+      "value": 76,
+      "content": {
+        "type": "PATTERN",
+        "value": "(\\d+)?(\\+|-)?(\\d+)i"
+      }
     },
     "super": {
       "type": "STRING",
