@@ -625,7 +625,7 @@ module.exports = grammar({
       )
     ),
 
-    lambda: $ => choice(
+    lambda: $ => prec.left(choice(
       seq(
         '->',
         optional($.lambda_parameters),
@@ -634,8 +634,8 @@ module.exports = grammar({
           seq('do', optional($._terminator), optional($._statements), 'end')
         )
       ),
-      seq('lambda', choice($._block, $._do_block))
-    ),
+      seq('lambda', optional(choice($._block, $._do_block)))
+    )),
 
     empty_statement: $ => prec(-1, ';'),
 

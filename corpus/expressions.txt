@@ -907,10 +907,11 @@ empty lambda expression
 ==============
 
 lambda {}
+lambda { lambda }
 
 ---
 
-(program (lambda))
+(program (lambda) (lambda (lambda)))
 
 ==================
 lambda expression with body
