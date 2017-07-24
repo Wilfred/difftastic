@@ -144,7 +144,7 @@ struct Scanner {
       Heredoc heredoc;
       heredoc.end_word_indentation_allowed = buffer[i++];
       uint8_t word_length = buffer[i++];
-      heredoc.word.assign(buffer, buffer + word_length);
+      heredoc.word.assign(buffer + i, buffer + i + word_length);
       i += word_length;
       open_heredocs.push_back(heredoc);
     }
