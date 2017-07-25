@@ -32,7 +32,7 @@ struct Scanner {
     if (queued_dedent_count > UINT8_MAX) return false;
     state[i++] = queued_dedent_count;
 
-    if (indent_length_stack.size() > 14) return false;
+    if (indent_length_stack.size() > 112) return false;
     state[i++] = indent_length_stack.size();
 
     vector<uint16_t>::iterator iter = indent_length_stack.begin(),
@@ -83,8 +83,11 @@ struct Scanner {
       if (lexer->lookahead == '\n') {
         indent_length = 0;
         advance(lexer);
-      } else if (lexer->lookahead == ' ' || lexer->lookahead == '\t') {
+      } else if (lexer->lookahead == ' ') {
         indent_length++;
+        advance(lexer);
+      } else if (lexer->lookahead == '\t') {
+        indent_length += 8;
         advance(lexer);
       } else {
         next_token_is_comment = lexer->lookahead == '#';
