@@ -32,7 +32,7 @@ struct Scanner {
     if (queued_dedent_count > UINT8_MAX) return false;
     state[i++] = queued_dedent_count;
 
-    if (indent_length_stack.size() > 112) return false;
+    if (indent_length_stack.size() > 14) return false;
     state[i++] = indent_length_stack.size();
 
     vector<uint16_t>::iterator iter = indent_length_stack.begin(),
