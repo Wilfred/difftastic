@@ -192,6 +192,7 @@ x, *args = [1, 2]
 x, y = *foo
 self.foo, self.bar = target.a?, target.b
 (x, y) = foo
+(a, b, c = 1)
 
 ---
 
@@ -201,7 +202,8 @@ self.foo, self.bar = target.a?, target.b
   (assignment (left_assignment_list (identifier) (rest_assignment (identifier))) (array (integer) (integer)))
   (assignment (left_assignment_list (identifier) (identifier)) (splat_argument (identifier)))
   (assignment (left_assignment_list (call (self) (identifier)) (call (self) (identifier))) (right_assignment_list (call (identifier) (identifier)) (call (identifier) (identifier))))
-  (assignment (left_assignment_list (destructured_left_assignment (identifier) (identifier))) (identifier)))
+  (assignment (left_assignment_list (destructured_left_assignment (identifier) (identifier))) (identifier))
+  (assignment (left_assignment_list (identifier) (identifier) (identifier)) (integer)))
 
 ==================================================
 multiple assignment with multiple right hand sides

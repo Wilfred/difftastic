@@ -459,7 +459,7 @@ module.exports = grammar({
     left_assignment_list: $ => $._mlhs,
     _mlhs: $ => prec.left(-1, sepTrailing($._mlhs, choice($._simple_mlhs, $.destructured_left_assignment), ',')),
     _simple_mlhs: $ => prec(-1, choice($._lhs, $.rest_assignment)),
-    destructured_left_assignment: $ => prec(-1, seq('(', commaSep1($._mlhs), ')')),
+    destructured_left_assignment: $ => prec(-1, seq('(', $._mlhs, ')')),
 
     rest_assignment: $ => prec(-1, seq('*', optional($._lhs))),
     _lhs: $ => prec.left(choice(
