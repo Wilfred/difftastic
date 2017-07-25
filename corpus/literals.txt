@@ -11,10 +11,12 @@ symbol
 :@@foo
 :$foo
 :_bar
+:åäö
 
 ---
 
 (program
+  (symbol)
   (symbol)
   (symbol)
   (symbol)

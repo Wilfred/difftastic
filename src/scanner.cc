@@ -2,6 +2,7 @@
 #include <vector>
 #include <string>
 #include <cwctype>
+#include <tree_sitter/utf8proc.h>
 
 namespace {
 
@@ -230,6 +231,11 @@ struct Scanner {
     }
   }
 
+  bool is_unicode_letter(utf8proc_int32_t codepoint) {
+    utf8proc_category_t c = utf8proc_category(codepoint);
+    return c >= UTF8PROC_CATEGORY_LU && c <= UTF8PROC_CATEGORY_LO;
+  }
+
   bool scan_symbol_identifier(TSLexer *lexer) {
     if (lexer->lookahead == '@') {
       advance(lexer);
@@ -240,13 +246,13 @@ struct Scanner {
       advance(lexer);
     }
 
-    if (iswalpha(lexer->lookahead) || (lexer->lookahead == '_')) {
+    if (iswalpha(lexer->lookahead) || (lexer->lookahead == '_') || is_unicode_letter(lexer->lookahead)) {
       advance(lexer);
     } else if (!scan_operator(lexer)) {
       return false;
     }
 
-    while (iswalnum(lexer->lookahead) || (lexer->lookahead == '_')) {
+    while (iswalnum(lexer->lookahead) || (lexer->lookahead == '_') || is_unicode_letter(lexer->lookahead)) {
       advance(lexer);
     }
 
