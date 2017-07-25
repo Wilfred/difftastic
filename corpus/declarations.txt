@@ -58,10 +58,14 @@ end
 def ..(a)
 end
 
+def !~(a)
+end
+
 ---
 
 (program
   (method (operator) (method_parameters (identifier)) (string))
+  (method (operator) (method_parameters (identifier)))
   (method (operator) (method_parameters (identifier)))
   (method (operator) (method_parameters (identifier)))
   (method (operator) (method_parameters (identifier))))
