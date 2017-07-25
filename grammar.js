@@ -31,7 +31,11 @@ module.exports = grammar({
   inline: $ => [
     $._statement,
     $._top_level_item,
-    $._compound_statement_item
+    $._compound_statement_item,
+    $._type_name,
+    $._variable_name,
+    $._field_name,
+    $._label,
   ],
 
   conflicts: $ => [
@@ -205,7 +209,7 @@ module.exports = grammar({
       $.function_declarator,
       $.array_declarator,
       seq('(', $._declarator, ')'),
-      rename($.identifier, 'variable_name')
+      $._variable_name
     ),
 
     _field_declarator: $ => choice(
@@ -213,7 +217,7 @@ module.exports = grammar({
       rename($.function_field_declarator, 'function_declarator'),
       rename($.array_field_declarator, 'array_declarator'),
       seq('(', $._field_declarator, ')'),
-      rename($.identifier, 'field_name')
+      $._field_name
     ),
 
     _abstract_declarator: $ => choice(
@@ -291,7 +295,7 @@ module.exports = grammar({
       $.enum_specifier,
       $.macro_type_specifier,
       $.sized_type_specifier,
-      rename($.identifier, 'type_name')
+      $._type_name
     ),
 
     sized_type_specifier: $ => seq(
@@ -300,7 +304,7 @@ module.exports = grammar({
         'long',
         'short'
       )),
-      optional(rename($.identifier, 'type_name'))
+      optional($._type_name)
     ),
 
     enum_specifier: $ => seq(
@@ -357,7 +361,7 @@ module.exports = grammar({
     ),
 
     enumerator: $ => seq(
-      rename($.identifier, 'variable_name'),
+      $._variable_name,
       optional(seq('=', $._expression))
     ),
 
@@ -391,7 +395,7 @@ module.exports = grammar({
     ),
 
     labeled_statement: $ => seq(
-      rename($.identifier, 'label_name'),
+      $._label,
       ':',
       $._statement
     ),
@@ -474,7 +478,7 @@ module.exports = grammar({
 
     goto_statement: $ => seq(
       'goto',
-      rename($.identifier, 'label_name'),
+      $._label,
       ';'
     ),
 
@@ -496,7 +500,7 @@ module.exports = grammar({
       $.call_expression,
       $.field_expression,
       $.compound_literal_expression,
-      rename($.identifier, 'variable_name'),
+      $._variable_name,
       $.number_literal,
       $.string_literal,
       $.concatenated_string,
@@ -605,14 +609,14 @@ module.exports = grammar({
 
     call_expression: $ => prec(PREC.CALL, seq($._expression, $.argument_list)),
 
-    argument_list: $ => seq('(', commaSep($._expression), ')'),
+    argument_list: $ => prec.dynamic(1, seq('(', commaSep($._expression), ')')),
 
     field_expression: $ => seq(
       prec(PREC.FIELD, seq(
         $._expression,
         choice('.', '->')
       )),
-      rename($.identifier, 'field_name')
+      $._field_name
     ),
 
     compound_literal_expression: $ => seq(
@@ -647,7 +651,7 @@ module.exports = grammar({
 
     designator: $ => choice(
       seq('[', $._expression, ']'),
-      seq('.', rename($.identifier, 'field_name'))
+      seq('.', $._field_name)
     ),
 
     initializer: $ => choice(
@@ -691,7 +695,12 @@ module.exports = grammar({
       '>')
     ),
 
-    identifier: $ => (/[\a_][\a\d_]*/),
+    identifier: $ => /[\a_][\a\d_]*/,
+
+    _type_name: $ => rename($.identifier, 'type_name'),
+    _variable_name: $ => rename($.identifier, 'variable_name'),
+    _field_name: $ => rename($.identifier, 'field_name'),
+    _label: $ => rename($.identifier, 'label'),
 
     _empty_declaration: $ => seq(
       $._declaration_specifiers,

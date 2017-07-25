@@ -104,8 +104,8 @@ recur:
     (function_declarator (variable_name) (parameter_list
       (parameter_declaration (type_name) (pointer_declarator (variable_name)))))
     (compound_statement
-      (labeled_statement (label_name)
+      (labeled_statement (label)
         (expression_statement (assignment_expression
           (variable_name)
           (call_expression (field_expression (variable_name) (field_name)) (argument_list)))))
-      (if_statement (variable_name) (goto_statement (label_name))))))
+      (if_statement (variable_name) (goto_statement (label))))))

@@ -102,7 +102,7 @@ int main() {
     (function_declarator (variable_name) (parameter_list))
     (compound_statement
       (comment)
-      (declaration (type_name) (variable_name))
+      (expression_statement (call_expression (variable_name) (argument_list (variable_name))))
       (comment)
       (declaration (type_name) (variable_name)))))
 
