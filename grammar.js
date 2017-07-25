@@ -8,8 +8,11 @@ module.exports = grammar(C, {
   name: 'cpp',
 
   conflicts: ($, original) => original.concat([
-    [$.template_call, $._expression],
-    [$.template_call, $.field_expression],
+    [$.template_function, $.template_type],
+    [$.template_function, $.template_type, $._expression],
+    [$.template_function, $._expression],
+    [$.template_function, $.template_type, $.field_expression],
+    [$.scoped_type_name, $.scoped_variable_name],
     [$.comma_expression, $._initializer_list_contents],
     [$.parameter_list, $.argument_list],
   ]),
@@ -30,12 +33,16 @@ module.exports = grammar(C, {
     _type_specifier: ($, original) => choice(
       original,
       $.class_specifier,
-      $.scoped_identifier,
-      rename($.template_call, 'template_type_expansion'),
+      $.scoped_type_name,
+      $.template_type,
       $.auto
     ),
 
-    type_qualifier: ($, original) => choice(original, 'mutable'),
+    type_qualifier: ($, original) => choice(
+      original,
+      'mutable',
+      'explicit'
+    ),
 
     // When used in a trailing return type, these specifiers can now occur immediately before
     // a compound statement. This introduces a shift/reduce conflict that needs to be resolved
@@ -77,9 +84,9 @@ module.exports = grammar(C, {
     )),
 
     _class_name: $ => choice(
-      rename($.identifier, 'type_name'),
-      $.scoped_identifier,
-      rename($.template_call, 'template_type_expansion')
+      $._type_name,
+      $.scoped_type_name,
+      $.template_type
     ),
 
     base_class_clause: $ => seq(
@@ -129,7 +136,7 @@ module.exports = grammar(C, {
 
     type_parameter_declaration: $ => seq(
       'typename',
-      rename($.identifier, 'type_name')
+      $._type_name
     ),
 
     parameter_declaration: ($, original) => choice(
@@ -161,14 +168,8 @@ module.exports = grammar(C, {
     ),
 
     field_initializer: $ => prec(1, seq(
-      choice(
-        $.identifier,
-        $.scoped_identifier
-      ),
-      choice(
-        $.initializer_list,
-        $.argument_list
-      )
+      choice($._field_name, $.scoped_field_name),
+      choice($.initializer_list, $.argument_list)
     )),
 
     field_declaration_list: $ => seq(
@@ -227,8 +228,8 @@ module.exports = grammar(C, {
     _declarator: ($, original) => choice(
       original,
       $.reference_declarator,
-      $.scoped_identifier,
-      rename($.template_call, 'template_function_expansion'),
+      $.scoped_variable_name,
+      $.template_function,
       $.operator_name,
       $.destructor_name
     ),
@@ -236,7 +237,7 @@ module.exports = grammar(C, {
     _field_declarator: ($, original) => choice(
       original,
       rename($.reference_field_declarator, 'reference_declarator'),
-      rename($.template_call, 'template_function_expansion'),
+      $.template_function,
       $.operator_name
     ),
 
@@ -284,11 +285,17 @@ module.exports = grammar(C, {
 
     noexcept: $ => 'noexcept',
 
-    template_call: $ => seq(
-      choice(
-        rename($.identifier, 'template_name'),
-        $.scoped_identifier
-      ),
+    template_type: $ => seq(
+      choice($._type_name, $.scoped_type_name),
+      $.template_argument_list
+    ),
+
+    template_function: $ => seq(
+      choice($._variable_name, $.scoped_variable_name),
+      $.template_argument_list
+    ),
+
+    template_argument_list: $ => seq(
       '<',
       commaSep1(choice(
         $.type_descriptor,
@@ -308,14 +315,14 @@ module.exports = grammar(C, {
       optional('namespace'),
       choice(
         $.identifier,
-        $.scoped_identifier
+        $.scoped_type_name
       ),
       ';'
     ),
 
     alias_declaration: $ => seq(
       'using',
-      $.identifier,
+      $._type_name,
       '=',
       $.type_descriptor,
       ';'
@@ -356,8 +363,8 @@ module.exports = grammar(C, {
 
     _expression: ($, original) => choice(
       original,
-      rename($.template_call, 'template_function_expansion'),
-      $.scoped_identifier,
+      $.template_function,
+      $.scoped_variable_name,
       $.new_expression,
       $.delete_expression,
       $.lambda_expression
@@ -367,8 +374,8 @@ module.exports = grammar(C, {
       'new',
       optional($.parenthesized_expression),
       choice(
-        rename($.identifier, 'type_name'),
-        $.scoped_identifier
+        $._type_name,
+        $.scoped_type_name
       ),
       optional($.new_declarator),
       choice(
@@ -400,7 +407,7 @@ module.exports = grammar(C, {
         )),
         choice(
           $.destructor_name,
-          rename($.template_call, 'template_function_expansion')
+          $.template_function
         )
       )
     ),
@@ -424,35 +431,48 @@ module.exports = grammar(C, {
 
     argument_list: $ => seq('(', commaSep(choice($._expression, $.initializer_list)), ')'),
 
-    destructor_name: $ => prec(1, seq(
-      '~',
-      rename($.identifier, 'variable_name')
-    )),
+    destructor_name: $ => prec(1, seq('~', $._variable_name)),
 
     compound_literal_expression: ($, original) => choice(
       original,
       seq(
         choice(
-          rename($.identifier, 'type_name'),
-          rename($.template_call, 'template_type_expansion'),
-          $.scoped_identifier
+          $._type_name,
+          $.template_type,
+          $.scoped_type_name
         ),
         $.initializer_list
       )
     ),
 
-    scoped_identifier: $ => prec(1, seq(
+    scoped_field_name: $ => prec(1, seq(
       optional(choice(
-        $.scoped_identifier,
         $.identifier,
-        rename($.template_call, 'template_type_expansion')
+        $.template_type,
+        $.scoped_type_name
       )),
       '::',
-      choice(
+      choice($._variable_name, $.operator_name, $.destructor_name)
+    )),
+
+    scoped_variable_name: $ => prec(1, seq(
+      optional(choice(
         $.identifier,
-        $.operator_name,
-        $.destructor_name
-      )
+        $.template_type,
+        $.scoped_type_name
+      )),
+      '::',
+      choice($._variable_name, $.operator_name, $.destructor_name)
+    )),
+
+    scoped_type_name: $ => prec(1, seq(
+      optional(choice(
+        $.identifier,
+        $.template_type,
+        $.scoped_type_name
+      )),
+      '::',
+      $._type_name
     )),
 
     operator_name: $ => token(seq(

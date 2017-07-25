@@ -26,12 +26,12 @@ std::vector<int>::size_typ my_string;
 
 (translation_unit
   (declaration
-    (scoped_identifier (identifier) (identifier))
+    (scoped_type_name (identifier) (type_name))
     (variable_name))
   (declaration
-    (scoped_identifier
-      (template_type_expansion
-        (scoped_identifier (identifier) (identifier))
-        (type_descriptor (type_name)))
-      (identifier))
+    (scoped_type_name
+      (template_type
+        (scoped_type_name (identifier) (type_name))
+        (template_argument_list (type_descriptor (type_name))))
+      (type_name))
     (variable_name)))

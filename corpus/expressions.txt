@@ -13,7 +13,7 @@ int main() {
   (function_declarator (variable_name) (parameter_list))
   (compound_statement
     (expression_statement (call_expression
-      (scoped_identifier (identifier) (identifier))
+      (scoped_variable_name (identifier) (variable_name))
       (argument_list
         (string_literal)
         (string_literal)))))))
@@ -36,11 +36,11 @@ U<V> y = U<V>{0};
         (type_name)
         (initializer_list (number_literal)))))
   (declaration
-    (template_type_expansion (template_name) (type_descriptor (type_name)))
+    (template_type (type_name) (template_argument_list (type_descriptor (type_name))))
     (init_declarator
       (variable_name)
       (compound_literal_expression
-        (template_type_expansion (template_name) (type_descriptor (type_name)))
+        (template_type (type_name) (template_argument_list (type_descriptor (type_name))))
         (initializer_list (number_literal))))))
 
 =================================================
@@ -95,7 +95,7 @@ int main() {
         (auto)
         (init_declarator
           (variable_name)
-          (new_expression (scoped_identifier (identifier) (identifier)) (initializer_list))))
+          (new_expression (scoped_type_name (identifier) (type_name)) (initializer_list))))
       (declaration
         (auto)
         (init_declarator
@@ -173,37 +173,39 @@ class A {
 (translation_unit
   (class_specifier (type_name) (field_declaration_list
     (field_declaration
-      (scoped_identifier
-        (template_type_expansion
-          (template_name)
-          (type_descriptor (template_type_expansion
-            (scoped_identifier (identifier) (identifier))
-            (type_descriptor (type_name)) (type_descriptor (type_name)))))
-        (identifier))
+      (scoped_type_name
+        (template_type
+          (type_name)
+          (template_argument_list
+            (type_descriptor (template_type
+              (scoped_type_name (identifier) (type_name))
+              (template_argument_list
+                (type_descriptor (type_name)) (type_descriptor (type_name)))))))
+        (type_name))
       (field_name))
     (function_definition
-      (template_type_expansion
-        (template_name)
-        (type_descriptor
-          (template_type_expansion
-            (template_name)
-            (type_descriptor (type_name)))))
+      (template_type
+        (type_name)
+        (template_argument_list (type_descriptor
+          (template_type
+            (type_name)
+            (template_argument_list (type_descriptor (type_name)))))))
       (function_declarator (field_name) (parameter_list))
       (compound_statement
         (declaration
-          (template_type_expansion
-            (scoped_identifier (identifier) (identifier))
-            (type_descriptor
-              (template_type_expansion (template_name) (type_descriptor (type_name)))))
+          (template_type
+            (scoped_type_name (identifier) (type_name))
+            (template_argument_list (type_descriptor
+              (template_type (type_name) (template_argument_list (type_descriptor (type_name)))))))
           (init_declarator
             (variable_name)
             (compound_literal_expression
-              (template_type_expansion
-                (scoped_identifier (identifier) (identifier))
-                (type_descriptor
-                  (template_type_expansion
-                    (template_name)
-                    (type_descriptor (type_name)))))
+              (template_type
+                (scoped_type_name (identifier) (type_name))
+                (template_argument_list (type_descriptor
+                  (template_type
+                    (type_name)
+                    (template_argument_list (type_descriptor (type_name)))))))
               (initializer_list)))))))))
 
 ====================================================

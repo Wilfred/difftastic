@@ -32,15 +32,15 @@ using namespace std;
 
 (translation_unit
   (using_declaration (identifier))
-  (using_declaration (scoped_identifier (identifier)))
-  (using_declaration (scoped_identifier (identifier) (identifier)))
+  (using_declaration (scoped_type_name (type_name)))
+  (using_declaration (scoped_type_name (identifier) (type_name)))
   (using_declaration
-    (scoped_identifier
-      (scoped_identifier (scoped_identifier (identifier)) (identifier))
-      (identifier)))
+    (scoped_type_name
+      (scoped_type_name (scoped_type_name (type_name)) (type_name))
+      (type_name)))
   (alias_declaration
-    (identifier)
-    (type_descriptor (scoped_identifier (identifier) (identifier))))
+    (type_name)
+    (type_descriptor (scoped_type_name (identifier) (type_name))))
   (using_declaration (identifier)))
 
 =========================================
@@ -63,9 +63,10 @@ int main() {
         (init_declarator
           (reference_declarator (variable_name))
           (call_expression
-            (template_function_expansion
-              (template_name)
-              (type_descriptor (type_name) (abstract_reference_declarator)))
+            (template_function
+              (variable_name)
+              (template_argument_list
+                (type_descriptor (type_name) (abstract_reference_declarator))))
             (argument_list)))))))
 
 =========================================
@@ -117,7 +118,7 @@ struct S {
     (field_declaration (type_name) (field_name))
     (function_definition
       (function_declarator (variable_name) (parameter_list))
-      (field_initializer_list (field_initializer (identifier) (argument_list (number_literal))))
+      (field_initializer_list (field_initializer (field_name) (argument_list (number_literal))))
       (compound_statement))
     (access_specifier)
     (function_definition
@@ -169,7 +170,7 @@ class C : C::D, public E {
     (field_declaration_list))
   (class_specifier
     (type_name)
-    (base_class_clause (scoped_identifier (identifier) (identifier)) (type_name))
+    (base_class_clause (scoped_type_name (identifier) (type_name)) (type_name))
     (field_declaration_list)))
 
 =========================================
@@ -229,7 +230,7 @@ bool A::operator!=(const A &other) const;
   (declaration
     (type_name)
     (function_declarator
-      (scoped_identifier (identifier) (operator_name))
+      (scoped_variable_name (identifier) (operator_name))
       (parameter_list
         (parameter_declaration (type_qualifier) (type_name) (reference_declarator (variable_name))))
       (type_qualifier))))
@@ -292,13 +293,15 @@ struct foo::bar<T> {};
     (declaration
       (type_name)
       (function_declarator
-        (template_function_expansion (template_name) (type_descriptor (type_name)))
+        (template_function (variable_name) (template_argument_list (type_descriptor (type_name))))
         (parameter_list
           (parameter_declaration (type_name) (reference_declarator (variable_name)))))))
   (template_declaration
     (template_parameter_list)
     (struct_specifier
-      (template_type_expansion (scoped_identifier (identifier) (identifier)) (type_descriptor (type_name)))
+      (template_type
+        (scoped_type_name (identifier) (type_name))
+        (template_argument_list (type_descriptor (type_name))))
       (field_declaration_list))))
 
 ==========================================
@@ -339,12 +342,13 @@ template A<int, bool>::A(char *, size_t);
 (translation_unit
   (template_instantiation
     (function_declarator
-      (scoped_identifier
-        (template_type_expansion
-          (template_name)
-          (type_descriptor (type_name))
-          (type_descriptor (type_name)))
-        (identifier))
+      (scoped_variable_name
+        (template_type
+          (type_name)
+          (template_argument_list
+            (type_descriptor (type_name))
+            (type_descriptor (type_name))))
+        (variable_name))
       (parameter_list
         (parameter_declaration (type_name) (abstract_pointer_declarator))
         (parameter_declaration (type_name))))))

@@ -17,10 +17,11 @@ int main() {
       (relational_expression (relational_expression (variable_name) (variable_name))
       (number_literal)))
     (expression_statement (call_expression
-      (template_function_expansion
-        (template_name)
-        (type_descriptor (type_name))
-        (type_descriptor (type_name)))
+      (template_function
+        (variable_name)
+        (template_argument_list
+          (type_descriptor (type_name))
+          (type_descriptor (type_name))))
       (argument_list
         (variable_name)
         (variable_name)))))))
@@ -40,5 +41,6 @@ int main() {
   (function_declarator (variable_name) (parameter_list))
   (compound_statement
     (declaration
-      (template_type_expansion (template_name) (type_descriptor (type_name)))
+      (template_type (type_name)
+        (template_argument_list (type_descriptor (type_name))))
       (init_declarator (variable_name) (number_literal))))))
