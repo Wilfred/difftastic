@@ -1,0 +1,14 @@
+#!/bin/bash
+#
+# Parse examples from ruby/spec.
+
+
+set -e
+
+echo "Parsing ruby examples from https://github/ruby/spec"
+for f in $(find examples/ruby_spec/language -name "*.rb"); do
+  tree-sitter parse $f -q -t
+done
+
+# FIXME: Running in batch gives inconsistent results between runs but is much fast.
+# printf '%s\0' $(find examples/ruby_spec/language -name "*.rb") | xargs -0 tree-sitter parse -q -t
