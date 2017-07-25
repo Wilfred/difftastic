@@ -42,10 +42,10 @@ module.exports = grammar({
   rules: {
     module: $ => repeat($._statement),
 
-    _statement: $ => choice(
-      seq($._simple_statement, optional(repeat(seq($._semicolon, $._simple_statement))), optional($._semicolon), choice(repeat1($._newline), $._eof_newline)),
+    _statement: $ => prec.right(choice(
+      seq($._simple_statement, optional(repeat(seq($._semicolon, $._simple_statement))), optional($._semicolon), optional(repeat($._newline)), optional($._eof_newline)),
       $._compound_statement
-    ),
+    )),
 
     // Simple statements
 
