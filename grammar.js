@@ -30,7 +30,8 @@ module.exports = grammar({
   externals: $ => [
     $._newline,
     $._indent,
-    $._dedent
+    $._dedent,
+    $._eof_newline
   ],
 
   conflicts: $ => [
@@ -42,7 +43,7 @@ module.exports = grammar({
     module: $ => repeat($._statement),
 
     _statement: $ => choice(
-      seq($._simple_statement, optional(repeat(seq($._semicolon, $._simple_statement))), optional($._semicolon), repeat1($._newline)),
+      seq($._simple_statement, optional(repeat(seq($._semicolon, $._simple_statement))), optional($._semicolon), choice(repeat1($._newline), $._eof_newline)),
       $._compound_statement
     ),
 
@@ -392,12 +393,12 @@ module.exports = grammar({
         $._simple_statement,
         optional(repeat(seq($._semicolon, $._simple_statement))),
         optional($._semicolon),
-        $._newline
+        choice($._newline, $._eof_newline)
       ),
       seq(
         $._indent,
         repeat($._statement),
-        $._dedent
+        choice($._dedent, $._eof_newline)
       )
     ),
 

@@ -12,7 +12,8 @@ using std::vector;
 enum TokenType {
   NEWLINE,
   INDENT,
-  DEDENT
+  DEDENT,
+  EOF_NEWLINE
 };
 
 struct Scanner {
@@ -71,6 +72,11 @@ struct Scanner {
 
     while (lexer->lookahead == ' ' || lexer->lookahead == '\t') {
       lexer->advance(lexer, true);
+    }
+
+    if (lexer->lookahead == 0) {
+      lexer->result_symbol = EOF_NEWLINE;
+      return true;
     }
 
     if (lexer->lookahead != '\n') return false;
