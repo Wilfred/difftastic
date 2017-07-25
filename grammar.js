@@ -13,9 +13,9 @@ const PREC = {
   SHIFT: 9,
   ADD: 10,
   MULTIPLY: 11,
-  CALL: 12,
-  CAST: 13,
-  UNARY: 14,
+  CAST: 12,
+  UNARY: 13,
+  CALL: 14,
   FIELD: 15,
   SUBSCRIPT: 16
 };
