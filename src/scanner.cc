@@ -86,6 +86,9 @@ struct Scanner {
       } else if (lexer->lookahead == ' ') {
         indent_length++;
         advance(lexer);
+      } else if (lexer->lookahead == '\t') {
+        indent_length += 8;
+        advance(lexer);
       } else {
         next_token_is_comment = lexer->lookahead == '#';
         break;
