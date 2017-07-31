@@ -13,7 +13,6 @@ enum TokenType {
   NEWLINE,
   INDENT,
   DEDENT,
-  EOF_NEWLINE
 };
 
 struct Scanner {
@@ -75,7 +74,11 @@ struct Scanner {
     }
 
     if (lexer->lookahead == 0) {
-      lexer->result_symbol = EOF_NEWLINE;
+      if (valid_symbols[DEDENT]) {
+        lexer->result_symbol = DEDENT;
+      } else {
+        lexer->result_symbol = NEWLINE;
+      }
       return true;
     }
 

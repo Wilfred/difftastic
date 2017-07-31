@@ -5,7 +5,6 @@ const PREC = {
 
   compare: 2,
   conditional: 2,
-  subscript: 7,
   or: 10,
   and: 11,
   bitwise_or: 12,
@@ -32,23 +31,29 @@ module.exports = grammar({
     $._newline,
     $._indent,
     $._dedent,
-    $._eof_newline
   ],
 
   conflicts: $ => [
     [$.keyword_identifier, $.print_statement],
-    [$.keyword_identifier, $.exec_statement]
+    [$.keyword_identifier, $.exec_statement],
   ],
 
   rules: {
     module: $ => repeat($._statement),
 
-    _statement: $ => prec.right(choice(
-      seq($._simple_statement, optional(repeat(seq($._semicolon, $._simple_statement))), optional($._semicolon), optional(repeat($._newline)), optional($._eof_newline)),
+    _statement: $ => choice(
+      $._simple_statements,
       $._compound_statement
-    )),
+    ),
 
     // Simple statements
+
+    _simple_statements: $ => seq(
+      $._simple_statement,
+      optional(repeat(seq($._semicolon, $._simple_statement))),
+      optional($._semicolon),
+      $._newline
+    ),
 
     _simple_statement: $ => choice(
       $.import_statement,
@@ -91,13 +96,13 @@ module.exports = grammar({
       )
     ),
 
-    _import_list: $ => prec.right(seq(
+    _import_list: $ => seq(
       commaSep1(choice(
         $.dotted_name,
         $.aliased_import
       )),
       optional(',')
-    )),
+    ),
 
     aliased_import: $ => seq(
       $.dotted_name,
@@ -107,7 +112,7 @@ module.exports = grammar({
 
     wildcard_import: $ => '*',
 
-    print_statement: $ => prec.right(seq(
+    print_statement: $ => seq(
       'print',
       choice(
         $.chevron,
@@ -119,7 +124,7 @@ module.exports = grammar({
         commaSep1($._expression)
       ),
       optional(',')
-    )),
+    ),
 
     chevron: $ => seq(
       '>>',
@@ -132,29 +137,29 @@ module.exports = grammar({
       repeat(seq(',', $._expression))
     ),
 
-    expression_statement: $ => prec.right(choice(
+    expression_statement: $ => choice(
       $._expression,
       seq(commaSep1($._expression), optional(',')),
       $.assignment,
       $.augmented_assignment,
       $.yield
-    )),
+    ),
 
-    return_statement: $ => prec.right(seq(
+    return_statement: $ => seq(
       'return',
       optional($.expression_list)
-    )),
+    ),
 
     delete_statement: $ => seq(
       'del',
       $.expression_list
     ),
 
-    raise_statement: $ => prec.right(seq(
+    raise_statement: $ => seq(
       'raise',
       optional($.expression_list),
       optional(seq('from', $._expression))
-    )),
+    ),
 
     pass_statement: $ => 'pass',
     break_statement: $ => 'break',
@@ -390,16 +395,11 @@ module.exports = grammar({
     ),
 
     _suite: $ => choice(
-      seq(
-        $._simple_statement,
-        optional(repeat(seq($._semicolon, $._simple_statement))),
-        optional($._semicolon),
-        choice($._newline, $._eof_newline)
-      ),
+      $._simple_statements,
       seq(
         $._indent,
         repeat($._statement),
-        choice($._dedent, $._eof_newline)
+        $._dedent
       )
     ),
 
@@ -408,10 +408,10 @@ module.exports = grammar({
       optional(',')
     ),
 
-    expression_list: $ => prec.right(seq(
+    expression_list: $ => seq(
       commaSep1($._expression),
       optional(',')
-    )),
+    ),
 
     dotted_name: $ => sep1($.identifier, '.'),
 
@@ -427,7 +427,7 @@ module.exports = grammar({
       $.conditional_expression
     ),
 
-    _primary_expression: $ => prec.right(choice(
+    _primary_expression: $ => choice(
       $.binary_operator,
       $.identifier,
       $.keyword_identifier,
@@ -451,7 +451,7 @@ module.exports = grammar({
       $.tuple,
       $.generator_expression,
       $.ellipsis
-    )),
+    ),
 
     not_operator: $ => choice(
       seq('not', $._expression)
@@ -529,7 +529,7 @@ module.exports = grammar({
       $.yield
     ),
 
-    yield: $ => prec.right(seq(
+    yield: $ => seq(
       'yield',
       choice(
         seq(
@@ -538,7 +538,7 @@ module.exports = grammar({
         ),
         optional($.expression_list)
       )
-    )),
+    ),
 
     attribute: $ => seq(
       $._primary_expression,
@@ -546,13 +546,13 @@ module.exports = grammar({
       $.identifier
     ),
 
-    subscript: $ => prec.right(PREC.subscript, seq(
+    subscript: $ => seq(
       $._primary_expression,
       '[',
       commaSep1(choice($._expression, $.slice)),
       optional(','),
       ']'
-    )),
+    ),
 
     slice: $ => seq(
       optional($._expression),
@@ -710,10 +710,10 @@ module.exports = grammar({
       )))
     ),
 
-    concatenated_string: $ => prec.right(seq(
+    concatenated_string: $ => seq(
       $.string,
       repeat1($.string)
-    )),
+    ),
 
     string: $ => token(seq(
       repeat(choice('u', 'r', 'b')),
