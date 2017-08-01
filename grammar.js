@@ -78,7 +78,7 @@ module.exports = grammar({
 
     package_clause: $ => seq(
       'package',
-      rename($.identifier, 'package_name')
+      alias($.identifier, $.package_name)
     ),
 
     import_declaration: $ => seq(
@@ -98,7 +98,7 @@ module.exports = grammar({
 
     import_spec: $ => seq(
       optional(choice(
-        rename($.identifier, 'package_name'),
+        alias($.identifier, $.package_name),
         '.'
       )),
       $._string_literal
@@ -129,7 +129,7 @@ module.exports = grammar({
     ),
 
     const_spec: $ => seq(
-      commaSep1(rename($.identifier, 'variable_name')),
+      commaSep1(alias($.identifier, $.variable_name)),
       optional(seq(
         optional($._type),
         '=',
@@ -150,7 +150,7 @@ module.exports = grammar({
     ),
 
     var_spec: $ => seq(
-      commaSep1(rename($.identifier, 'variable_name')),
+      commaSep1(alias($.identifier, $.variable_name)),
       choice(
         seq(
           $._type,
@@ -162,7 +162,7 @@ module.exports = grammar({
 
     function_declaration: $ => seq(
       'func',
-      rename($.identifier, 'variable_name'),
+      alias($.identifier, $.variable_name),
       $.parameters,
       optional(choice($.parameters, $._simple_type)),
       optional($.block)
@@ -171,7 +171,7 @@ module.exports = grammar({
     method_declaration: $ => seq(
       'func',
       $.parameters,
-      rename($.identifier, 'field_name'),
+      alias($.identifier, $.field_name),
       $.parameters,
       optional(choice($.parameters, $._simple_type)),
       optional($.block)
@@ -184,12 +184,12 @@ module.exports = grammar({
     ),
 
     _parameter_list: $ => sepTrailing(',', $._parameter_list, choice(
-      rename($.identifier, 'variable_name'),
+      alias($.identifier, $.variable_name),
       $.parameter_declaration
     )),
 
     parameter_declaration: $ => seq(
-      optional(rename($.identifier, 'variable_name')),
+      optional(alias($.identifier, $.variable_name)),
       optional('...'),
       $._type
     ),
@@ -207,11 +207,11 @@ module.exports = grammar({
     ),
 
     type_spec: $ => seq(
-      rename($.identifier, 'type_name'),
+      alias($.identifier, $.type_name),
       $._type
     ),
 
-    field_name_list: $ => commaSep1(rename($.identifier, 'field_name')),
+    field_name_list: $ => commaSep1(alias($.identifier, $.field_name)),
 
     expression_list: $ => commaSep1($._expression),
 
@@ -223,7 +223,7 @@ module.exports = grammar({
     parenthesized_type: $ => seq('(', $._type, ')'),
 
     _simple_type: $ => choice(
-      rename($.identifier, 'type_name'),
+      alias($.identifier, $.type_name),
       $.qualified_type,
       $.pointer_type,
       $.struct_type,
@@ -269,13 +269,13 @@ module.exports = grammar({
     field_declaration: $ => seq(
       choice(
         seq(
-          commaSep1(rename($.identifier, 'field_name')),
+          commaSep1(alias($.identifier, $.field_name)),
           $._type
         ),
         seq(
           optional('*'),
           choice(
-            rename($.identifier, 'type_name'),
+            alias($.identifier, $.type_name),
             $.qualified_type
           )
         )
@@ -291,13 +291,13 @@ module.exports = grammar({
     ),
 
     _method_spec_list: $ => sepTrailing(terminator, $._method_spec_list, choice(
-      rename($.identifier, 'type_name'),
+      alias($.identifier, $.type_name),
       $.qualified_type,
       $.method_spec
     )),
 
     method_spec: $ => seq(
-      rename($.identifier, 'field_name'),
+      alias($.identifier, $.field_name),
       $.parameters,
       optional(choice($.parameters, $._simple_type))
     ),
@@ -402,15 +402,15 @@ module.exports = grammar({
       $.expression_list
     ),
 
-    label_statement: $ => seq(rename($.identifier, 'label_name'), ':'),
+    label_statement: $ => seq(alias($.identifier, $.label_name), ':'),
 
     fallthrough_statement: $ => 'fallthrough',
 
-    break_statement: $ => seq('break', optional(rename($.identifier, 'label_name'))),
+    break_statement: $ => seq('break', optional(alias($.identifier, $.label_name))),
 
-    continue_statement: $ => seq('continue', optional(rename($.identifier, 'label_name'))),
+    continue_statement: $ => seq('continue', optional(alias($.identifier, $.label_name))),
 
-    goto_statement: $ => seq('goto', rename($.identifier, 'label_name')),
+    goto_statement: $ => seq('goto', alias($.identifier, $.label_name)),
 
     return_statement: $ => seq('return', optional($.expression_list)),
 
@@ -527,11 +527,11 @@ module.exports = grammar({
       $.call_expression,
       $.type_assertion_expression,
       $.type_conversion_expression,
-      rename(choice(
+      alias(choice(
         $.identifier,
         'new',
         'make'
-      ), 'variable_name'),
+      ), $.variable_name),
       $.composite_literal,
       $.func_literal,
       $._string_literal,
@@ -550,10 +550,10 @@ module.exports = grammar({
 
     call_expression: $ => prec(PREC.primary, choice(
       seq(
-        rename(choice(
+        alias(choice(
           'new',
           'make'
-        ), 'variable_name'),
+        ), $.variable_name),
         '(',
         $._type,
         optional(seq(',', commaSep1($._expression))),
@@ -573,7 +573,7 @@ module.exports = grammar({
     selector_expression: $ => prec(PREC.primary, seq(
       $._expression,
       '.',
-      rename($.identifier, 'field_name')
+      alias($.identifier, $.field_name)
     )),
 
     index_expression: $ => prec(PREC.primary, seq(
@@ -616,7 +616,7 @@ module.exports = grammar({
         $.array_type,
         $.implicit_length_array_type,
         $.struct_type,
-        rename($.identifier, 'type_name'),
+        alias($.identifier, $.type_name),
         $.qualified_type
       ),
       $.literal_value
@@ -637,7 +637,7 @@ module.exports = grammar({
       choice(
         seq($._expression, ':'),
         seq($.literal_value, ':'),
-        prec(1, seq(rename($.identifier, 'field_name'), ':'))
+        prec(1, seq(alias($.identifier, $.field_name), ':'))
       ),
       choice(
         $._expression,
@@ -671,9 +671,9 @@ module.exports = grammar({
     ),
 
     qualified_type: $ => seq(
-      rename($.identifier, 'package_name'),
+      alias($.identifier, $.package_name),
       '.',
-      rename($.identifier, 'type_name')
+      alias($.identifier, $.type_name)
     ),
 
     identifier: $ => token(seq(
