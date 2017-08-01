@@ -67,8 +67,8 @@ module.exports = grammar({
       $._statement,
       $.declaration,
       $._empty_declaration,
-      rename($.preproc_if_in_compound_statement, 'preproc_if'),
-      rename($.preproc_ifdef_in_compound_statement, 'preproc_ifdef'),
+      alias($.preproc_if_in_compound_statement, $.preproc_if),
+      alias($.preproc_ifdef_in_compound_statement, $.preproc_ifdef),
       $.preproc_include,
       $.preproc_def,
       $.preproc_function_def,
@@ -78,19 +78,19 @@ module.exports = grammar({
     // Preprocesser
 
     preproc_include: $ => seq(
-      $._pound_include,
+      preprocessor('include'),
       choice($.string_literal, $.system_lib_string)
     ),
 
     preproc_def: $ => seq(
-      $._pound_define,
+      preprocessor('define'),
       $.identifier,
       optional(seq(/[ \t]+/, $.preproc_arg)),
       '\n'
     ),
 
     preproc_function_def: $ => seq(
-      $._pound_define,
+      preprocessor('define'),
       $.identifier,
       $.preproc_params,
       optional($.preproc_arg),
@@ -107,54 +107,48 @@ module.exports = grammar({
     ),
 
     preproc_if: $ => seq(
-      $._pound_if,
+      preprocessor('if'),
       $.preproc_arg,
       repeat($._top_level_item),
       optional($.preproc_else),
-      $._pound_endif
+      preprocessor('endif')
     ),
 
     preproc_if_in_compound_statement: $ => seq(
-      $._pound_if,
+      preprocessor('if'),
       $.preproc_arg,
       repeat($._compound_statement_item),
-      optional(rename($.preproc_else_in_compound_statement, 'preproc_else')),
-      $._pound_endif
+      optional(alias($.preproc_else_in_compound_statement, $.preproc_else)),
+      preprocessor('endif')
     ),
 
     preproc_ifdef: $ => seq(
-      $._pound_ifdef,
+      choice(preprocessor('ifdef'), preprocessor('ifndef')),
       $.identifier,
       repeat($._top_level_item),
       optional($.preproc_else),
-      $._pound_endif
+      preprocessor('endif')
     ),
 
     preproc_ifdef_in_compound_statement: $ => seq(
-      $._pound_ifdef,
+      choice(preprocessor('ifdef'), preprocessor('ifndef')),
       $.identifier,
       repeat($._compound_statement_item),
-      optional(rename($.preproc_else_in_compound_statement, 'preproc_else')),
-      $._pound_endif
+      optional(alias($.preproc_else_in_compound_statement, $.preproc_else)),
+      preprocessor('endif')
     ),
 
     preproc_else: $ => seq(
-      $._pound_else,
+      preprocessor('else'),
       repeat($._top_level_item)
     ),
 
     preproc_else_in_compound_statement: $ => seq(
-      $._pound_else,
+      preprocessor('else'),
       repeat($._compound_statement_item)
     ),
 
-    _pound_include: $ => preprocessor('include'),
-    _pound_define: $ => preprocessor('define'),
-    _pound_if: $ => preprocessor('if'),
-    _pound_ifdef: $ => preprocessor('ifn?def'),
-    _pound_endif: $ => preprocessor('endif'),
-    _pound_else: $ => preprocessor('else'),
-    preproc_directive: $ => preprocessor('\\a\\w*'),
+    preproc_directive: $ => /#[ \t]+\a\w*/,
     preproc_arg: $ => token(prec(-1, repeat1(choice(/./, '\\\n')))),
 
     // Main Grammar
@@ -213,9 +207,9 @@ module.exports = grammar({
     ),
 
     _field_declarator: $ => choice(
-      rename($.pointer_field_declarator, 'pointer_declarator'),
-      rename($.function_field_declarator, 'function_declarator'),
-      rename($.array_field_declarator, 'array_declarator'),
+      alias($.pointer_field_declarator, $.pointer_declarator),
+      alias($.function_field_declarator, $.function_declarator),
+      alias($.array_field_declarator, $.array_declarator),
       seq('(', $._field_declarator, ')'),
       $._field_name
     ),
@@ -311,7 +305,7 @@ module.exports = grammar({
       'enum',
       choice(
         seq(
-          rename($.identifier, 'enum_name'),
+          alias($.identifier, $.enum_name),
           optional($.enumerator_list)
         ),
         $.enumerator_list
@@ -329,7 +323,7 @@ module.exports = grammar({
       'struct',
       choice(
         seq(
-          rename($.identifier, 'struct_name'),
+          alias($.identifier, $.struct_name),
           optional($.field_declaration_list)
         ),
         $.field_declaration_list
@@ -340,7 +334,7 @@ module.exports = grammar({
       'union',
       choice(
         seq(
-          rename($.identifier, 'union_name'),
+          alias($.identifier, $.union_name),
           optional($.field_declaration_list)
         ),
         $.field_declaration_list
@@ -697,10 +691,10 @@ module.exports = grammar({
 
     identifier: $ => /[\a_][\a\d_]*/,
 
-    _type_name: $ => rename($.identifier, 'type_name'),
-    _variable_name: $ => rename($.identifier, 'variable_name'),
-    _field_name: $ => rename($.identifier, 'field_name'),
-    _label: $ => rename($.identifier, 'label'),
+    _type_name: $ => alias($.identifier, $.type_name),
+    _variable_name: $ => alias($.identifier, $.variable_name),
+    _field_name: $ => alias($.identifier, $.field_name),
+    _label: $ => alias($.identifier, $.label),
 
     _empty_declaration: $ => seq(
       $._declaration_specifiers,
@@ -730,8 +724,8 @@ module.exports = grammar({
 
 module.exports.PREC = PREC
 
-function preprocessor (pattern) {
-  return new RegExp('#[ \t]*' + pattern)
+function preprocessor (command) {
+  return alias(new RegExp('#[ \t]*' + command), '#' + command)
 }
 
 function commaSep (rule) {
