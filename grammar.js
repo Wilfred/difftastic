@@ -67,15 +67,15 @@ module.exports = grammar({
 
     export_clause: $ => seq(
       '{',
-      commaSep(rename($._import_export_specifier, 'export_specifier')),
+      commaSep(alias($._import_export_specifier, $.export_specifier)),
       '}'
     ),
 
     _import_export_specifier: $ => seq(
-      rename($.identifier, 'variable_name'),
+      alias($.identifier, $.variable_name),
       optional(seq(
         'as',
-        rename($.identifier, 'variable_name')
+        alias($.identifier, $.variable_name)
       ))
     ),
 
@@ -109,7 +109,7 @@ module.exports = grammar({
       $.namespace_import,
       $.named_imports,
       seq(
-        rename($.identifier, 'variable_name'),
+        alias($.identifier, $.variable_name),
         optional(seq(
           ',',
           choice(
@@ -125,12 +125,12 @@ module.exports = grammar({
     ),
 
     namespace_import: $ => seq(
-      "*", "as", rename($.identifier, 'variable_name')
+      "*", "as", alias($.identifier, $.variable_name)
     ),
 
     named_imports: $ => seq(
       '{',
-      commaSep(rename($._import_export_specifier, 'import_specifier')),
+      commaSep(alias($._import_export_specifier, $.import_specifier)),
       optional(','),
       '}'
     ),
@@ -184,7 +184,7 @@ module.exports = grammar({
 
     variable_declarator: $ => choice(
       seq(
-        rename($.identifier, 'variable_name'),
+        alias($.identifier, $.variable_name),
         optional($._initializer)
       ),
       seq(
@@ -289,13 +289,13 @@ module.exports = grammar({
 
     break_statement: $ => seq(
       'break',
-      optional(rename($.identifier, 'label_name')),
+      optional(alias($.identifier, $.label_name)),
       $._semicolon
     ),
 
     continue_statement: $ => seq(
       'continue',
-      optional(rename($.identifier, 'label_name')),
+      optional(alias($.identifier, $.label_name)),
       $._semicolon
     ),
 
@@ -319,7 +319,7 @@ module.exports = grammar({
     empty_statement: $ => ';',
 
     labeled_statement: $ => seq(
-      rename($.identifier, 'label_name'),
+      alias($.identifier, $.label_name),
       ':',
       $._statement
     ),
@@ -343,7 +343,7 @@ module.exports = grammar({
 
     catch: $ => seq(
       'catch',
-      optional(seq('(', rename($.identifier, 'variable_name'), ')')),
+      optional(seq('(', alias($.identifier, $.variable_name), ')')),
       $.statement_block
     ),
 
@@ -396,12 +396,12 @@ module.exports = grammar({
       $.null,
       $.undefined,
       $.yield_expression,
-      rename(choice(
+      alias(choice(
         $.identifier,
         'get',
         'set',
         'async'
-      ), 'variable_name')
+      ), $.variable_name)
     ),
 
     yield_expression: $ => prec.right(seq(
@@ -418,18 +418,18 @@ module.exports = grammar({
     _property_definition_list: $ => commaSep1Trailing($._property_definition_list, choice(
       $.pair,
       $.method_definition,
-      rename(choice(
+      alias(choice(
         $.identifier,
         'get',
         'set',
         'async'
-      ), 'shorthand_property_name'),
+      ), $.shorthand_property_name),
       $.spread_element,
       $.assignment_pattern
     )),
 
     assignment_pattern: $ => seq(
-      rename($.identifier, 'shorthand_property_name'),
+      alias($.identifier, $.shorthand_property_name),
       $._initializer
     ),
 
@@ -503,7 +503,7 @@ module.exports = grammar({
 
     class: $ => seq(
       'class',
-      rename($.identifier, 'variable_name'),
+      alias($.identifier, $.variable_name),
       $._class_tail
     ),
 
@@ -517,7 +517,7 @@ module.exports = grammar({
     function: $ => seq(
       optional('async'),
       'function',
-      optional(rename($.identifier, 'variable_name')),
+      optional(alias($.identifier, $.variable_name)),
       $.formal_parameters,
       $.statement_block
     ),
@@ -525,7 +525,7 @@ module.exports = grammar({
     arrow_function: $ => seq(
       optional('async'),
       choice(
-        optional(rename($.identifier, 'variable_name')),
+        optional(alias($.identifier, $.variable_name)),
         $.formal_parameters
       ),
       '=>',
@@ -538,7 +538,7 @@ module.exports = grammar({
     generator_function: $ => seq(
       'function',
       '*',
-      optional(rename($.identifier, 'variable_name')),
+      optional(alias($.identifier, $.variable_name)),
       $.formal_parameters,
       $.statement_block
     ),
@@ -561,7 +561,7 @@ module.exports = grammar({
     member_access: $ => prec(PREC.MEMBER, seq(
       $._expression,
       '.',
-      rename($.identifier, 'property_name')
+      alias($.identifier, $.property_name)
     )),
 
     subscript_access: $ => prec.right(PREC.MEMBER, seq(
@@ -573,7 +573,7 @@ module.exports = grammar({
       choice(
         $.member_access,
         $.subscript_access,
-        rename($.identifier, 'variable_name'),
+        alias($.identifier, $.variable_name),
         $._destructuring_pattern
       ),
       $._initializer
@@ -585,7 +585,7 @@ module.exports = grammar({
 
     math_assignment: $ => prec.right(PREC.ASSIGN, seq(
       choice(
-        rename($.identifier, 'variable_name'),
+        alias($.identifier, $.variable_name),
         $.member_access,
         $.subscript_access
       ),
@@ -594,8 +594,8 @@ module.exports = grammar({
     )),
 
     _destructuring_pattern: $ => choice(
-      rename($.object, 'object_pattern'),
-      rename($.array, 'array_pattern')
+      alias($.object, $.object_pattern),
+      alias($.array, $.array_pattern)
     ),
 
     spread_element: $ => seq('...', $._expression),
@@ -789,7 +789,7 @@ module.exports = grammar({
     formal_parameters: $ => seq(
       '(',
       commaSep(choice(
-        rename($.identifier, 'variable_name'),
+        alias($.identifier, $.variable_name),
         $._destructuring_pattern
       )),
       ')'
@@ -818,12 +818,12 @@ module.exports = grammar({
     ),
 
     _property_name: $ => choice(
-      rename(choice(
+      alias(choice(
         $.identifier,
         'get',
         'set',
         'async'
-      ), 'property_name'),
+      ), $.property_name),
       $.string,
       $.number
     ),
