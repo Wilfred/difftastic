@@ -11,24 +11,24 @@ const {a, b: {c, d}} = object
 (program
   (expression_statement (assignment
     (object_pattern
-      (shorthand_property_name)
-      (shorthand_property_name))
-    (variable_name)))
+      (shorthand_property_identifier)
+      (shorthand_property_identifier))
+    (identifier)))
   (lexical_declaration (variable_declarator
     (object_pattern
-      (shorthand_property_name)
-      (shorthand_property_name)
-      (spread_element (variable_name)))
-    (variable_name)))
+      (shorthand_property_identifier)
+      (shorthand_property_identifier)
+      (spread_element (identifier)))
+    (identifier)))
   (lexical_declaration (variable_declarator
     (object_pattern
-      (shorthand_property_name)
+      (shorthand_property_identifier)
       (pair
-        (property_name)
+        (property_identifier)
         (object
-          (shorthand_property_name)
-          (shorthand_property_name))))
-    (variable_name))))
+          (shorthand_property_identifier)
+          (shorthand_property_identifier))))
+    (identifier))))
 
 ============================================
 Object destructuring parameters
@@ -39,10 +39,10 @@ function a ({b, c}, {d}) {}
 ---
 
 (program
-  (function (variable_name)
+  (function (identifier)
     (formal_parameters
-      (object_pattern (shorthand_property_name) (shorthand_property_name))
-      (object_pattern (shorthand_property_name)))
+      (object_pattern (shorthand_property_identifier) (shorthand_property_identifier))
+      (object_pattern (shorthand_property_identifier)))
     (statement_block)))
 
 ============================================
@@ -57,15 +57,15 @@ Array destructuring assignments
 (program
   (expression_statement (assignment
     (array_pattern
-      (variable_name)
-      (variable_name))
-    (variable_name)))
+      (identifier)
+      (identifier))
+    (identifier)))
   (expression_statement (assignment
     (array_pattern
-      (variable_name)
-      (variable_name)
-      (spread_element (variable_name)))
-    (variable_name))))
+      (identifier)
+      (identifier)
+      (spread_element (identifier)))
+    (identifier))))
 
 ================================================
 Object destructuring patterns w/ default values
@@ -76,8 +76,8 @@ function a({b = true}, [c, d = false]) {}
 ---
 
 (program
-  (function (variable_name)
+  (function (identifier)
     (formal_parameters
-      (object_pattern (assignment_pattern (shorthand_property_name) (true)))
-      (array_pattern (variable_name) (assignment (variable_name) (false))))
+      (object_pattern (assignment_pattern (shorthand_property_identifier) (true)))
+      (array_pattern (identifier) (assignment (identifier) (false))))
     (statement_block)))
