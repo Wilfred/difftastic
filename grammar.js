@@ -32,10 +32,9 @@ module.exports = grammar({
     $._statement,
     $._top_level_item,
     $._compound_statement_item,
-    $._type_name,
-    $._variable_name,
-    $._field_name,
-    $._label,
+    $._type_identifier,
+    $._field_identifier,
+    $._statement_identifier,
   ],
 
   conflicts: $ => [
@@ -203,7 +202,7 @@ module.exports = grammar({
       $.function_declarator,
       $.array_declarator,
       seq('(', $._declarator, ')'),
-      $._variable_name
+      $.identifier
     ),
 
     _field_declarator: $ => choice(
@@ -211,7 +210,7 @@ module.exports = grammar({
       alias($.function_field_declarator, $.function_declarator),
       alias($.array_field_declarator, $.array_declarator),
       seq('(', $._field_declarator, ')'),
-      $._field_name
+      $._field_identifier
     ),
 
     _abstract_declarator: $ => choice(
@@ -289,7 +288,7 @@ module.exports = grammar({
       $.enum_specifier,
       $.macro_type_specifier,
       $.sized_type_specifier,
-      $._type_name
+      $._type_identifier
     ),
 
     sized_type_specifier: $ => seq(
@@ -298,14 +297,14 @@ module.exports = grammar({
         'long',
         'short'
       )),
-      optional($._type_name)
+      optional($._type_identifier)
     ),
 
     enum_specifier: $ => seq(
       'enum',
       choice(
         seq(
-          alias($.identifier, $.enum_name),
+          $._type_identifier,
           optional($.enumerator_list)
         ),
         $.enumerator_list
@@ -323,7 +322,7 @@ module.exports = grammar({
       'struct',
       choice(
         seq(
-          alias($.identifier, $.struct_name),
+          $._type_identifier,
           optional($.field_declaration_list)
         ),
         $.field_declaration_list
@@ -334,7 +333,7 @@ module.exports = grammar({
       'union',
       choice(
         seq(
-          alias($.identifier, $.union_name),
+          $._type_identifier,
           optional($.field_declaration_list)
         ),
         $.field_declaration_list
@@ -355,7 +354,7 @@ module.exports = grammar({
     ),
 
     enumerator: $ => seq(
-      $._variable_name,
+      $.identifier,
       optional(seq('=', $._expression))
     ),
 
@@ -389,7 +388,7 @@ module.exports = grammar({
     ),
 
     labeled_statement: $ => seq(
-      $._label,
+      $._statement_identifier,
       ':',
       $._statement
     ),
@@ -472,7 +471,7 @@ module.exports = grammar({
 
     goto_statement: $ => seq(
       'goto',
-      $._label,
+      $._statement_identifier,
       ';'
     ),
 
@@ -494,7 +493,7 @@ module.exports = grammar({
       $.call_expression,
       $.field_expression,
       $.compound_literal_expression,
-      $._variable_name,
+      $.identifier,
       $.number_literal,
       $.string_literal,
       $.concatenated_string,
@@ -610,7 +609,7 @@ module.exports = grammar({
         $._expression,
         choice('.', '->')
       )),
-      $._field_name
+      $._field_identifier
     ),
 
     compound_literal_expression: $ => seq(
@@ -645,7 +644,7 @@ module.exports = grammar({
 
     designator: $ => choice(
       seq('[', $._expression, ']'),
-      seq('.', $._field_name)
+      seq('.', $._field_identifier)
     ),
 
     initializer: $ => choice(
@@ -691,10 +690,9 @@ module.exports = grammar({
 
     identifier: $ => /[\a_][\a\d_]*/,
 
-    _type_name: $ => alias($.identifier, $.type_name),
-    _variable_name: $ => alias($.identifier, $.variable_name),
-    _field_name: $ => alias($.identifier, $.field_name),
-    _label: $ => alias($.identifier, $.label),
+    _type_identifier: $ => alias($.identifier, $.type_identifier),
+    _field_identifier: $ => alias($.identifier, $.field_identifier),
+    _statement_identifier: $ => alias($.identifier, $.statement_identifier),
 
     _empty_declaration: $ => seq(
       $._declaration_specifiers,

@@ -13,19 +13,19 @@ int main() {
 ---
 
 (translation_unit (function_definition
-  (type_name)
-  (function_declarator (variable_name) (parameter_list))
+  (type_identifier)
+  (function_declarator (identifier) (parameter_list))
   (compound_statement
     (comment)
     (declaration
-      (type_name)
+      (type_identifier)
       (pointer_declarator (function_declarator
-        (variable_name)
-        (parameter_list (parameter_declaration (type_name) (variable_name))))))
+        (identifier)
+        (parameter_list (parameter_declaration (type_identifier) (identifier))))))
     (comment)
     (expression_statement (math_expression
-      (variable_name)
-      (call_expression (variable_name) (argument_list (number_literal))))))))
+      (identifier)
+      (call_expression (identifier) (argument_list (number_literal))))))))
 
 ========================================================================
 casts vs multiplications
@@ -48,17 +48,17 @@ int main() {
 (translation_unit
   (comment)
   (function_definition
-    (type_name)
-    (function_declarator (variable_name) (parameter_list))
+    (type_identifier)
+    (function_declarator (identifier) (parameter_list))
     (compound_statement
       (comment)
       (expression_statement (call_expression
-        (variable_name)
-        (argument_list (cast_expression (type_descriptor (type_name) (abstract_pointer_declarator)) (variable_name)))))
+        (identifier)
+        (argument_list (cast_expression (type_descriptor (type_identifier) (abstract_pointer_declarator)) (identifier)))))
       (comment)
       (expression_statement (call_expression
-        (variable_name)
-        (argument_list (parenthesized_expression (math_expression (variable_name) (variable_name)))))))))
+        (identifier)
+        (argument_list (parenthesized_expression (math_expression (identifier) (identifier)))))))))
 
 ========================================================================
 function-like type macros vs function calls
@@ -72,8 +72,8 @@ GIT_INLINE(int *) x = 5;
 (translation_unit
   (comment)
   (declaration
-    (macro_type_specifier (identifier) (type_descriptor (type_name) (abstract_pointer_declarator)))
-    (init_declarator (variable_name) (number_literal))))
+    (macro_type_specifier (identifier) (type_descriptor (type_identifier) (abstract_pointer_declarator)))
+    (init_declarator (identifier) (number_literal))))
 
 ========================================================================
 function calls vs parenthesized declarators vs macro types
@@ -98,13 +98,13 @@ int main() {
 
 (translation_unit
   (function_definition
-    (type_name)
-    (function_declarator (variable_name) (parameter_list))
+    (type_identifier)
+    (function_declarator (identifier) (parameter_list))
     (compound_statement
       (comment)
-      (expression_statement (call_expression (variable_name) (argument_list (variable_name))))
+      (expression_statement (call_expression (identifier) (argument_list (identifier))))
       (comment)
-      (declaration (type_name) (variable_name)))))
+      (declaration (type_identifier) (identifier)))))
 
 ========================================================================
 Comments after for loops with ambiguities
@@ -123,16 +123,16 @@ int main() {
 ---
 
 (translation_unit (function_definition
-  (type_name)
-  (function_declarator (variable_name) (parameter_list))
+  (type_identifier)
+  (function_declarator (identifier) (parameter_list))
   (compound_statement
     (for_statement
-      (declaration (type_name) (init_declarator
-        (pointer_declarator (variable_name))
-        (variable_name)))
-      (variable_name)
-      (variable_name)
+      (declaration (type_identifier) (init_declarator
+        (pointer_declarator (identifier))
+        (identifier)))
+      (identifier)
+      (identifier)
       (compound_statement
-        (expression_statement (variable_name))))
+        (expression_statement (identifier))))
     (comment)
-    (expression_statement (variable_name)))))
+    (expression_statement (identifier)))))

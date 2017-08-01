@@ -17,12 +17,12 @@ int main() {
 
 (translation_unit
   (function_definition
-    (type_name)
-    (function_declarator (variable_name) (parameter_list))
+    (type_identifier)
+    (function_declarator (identifier) (parameter_list))
     (compound_statement
-      (if_statement (variable_name)
+      (if_statement (identifier)
         (expression_statement (number_literal)))
-      (if_statement (logical_expression (variable_name))
+      (if_statement (logical_expression (identifier))
         (compound_statement
           (expression_statement (number_literal)))
         (compound_statement
@@ -48,21 +48,21 @@ int main() {
 
 (translation_unit
   (function_definition
-    (type_name)
-    (function_declarator (variable_name) (parameter_list))
+    (type_identifier)
+    (function_declarator (identifier) (parameter_list))
     (compound_statement
       (for_statement
         (expression_statement (number_literal)))
       (for_statement
-        (declaration (type_name) (init_declarator (variable_name) (number_literal)))
-        (relational_expression (variable_name) (number_literal))
-        (call_expression (variable_name) (argument_list))
-        (math_expression (variable_name))
+        (declaration (type_identifier) (init_declarator (identifier) (number_literal)))
+        (relational_expression (identifier) (number_literal))
+        (call_expression (identifier) (argument_list))
+        (math_expression (identifier))
         (compound_statement (expression_statement (number_literal))))
       (for_statement
-        (call_expression (variable_name) (argument_list))
-        (call_expression (variable_name) (argument_list))
-        (call_expression (variable_name) (argument_list))
+        (call_expression (identifier) (argument_list))
+        (call_expression (identifier) (argument_list))
+        (call_expression (identifier) (argument_list))
         (expression_statement (number_literal))))))
 
 ============================================
@@ -78,12 +78,12 @@ int main() {
 
 (translation_unit
   (function_definition
-    (type_name)
-    (function_declarator (variable_name) (parameter_list))
+    (type_identifier)
+    (function_declarator (identifier) (parameter_list))
     (compound_statement
-      (while_statement (variable_name)
+      (while_statement (identifier)
         (expression_statement (call_expression
-          (variable_name)
+          (identifier)
           (argument_list (string_literal))))))))
 
 ============================================
@@ -100,12 +100,12 @@ recur:
 
 (translation_unit
   (function_definition
-    (type_name)
-    (function_declarator (variable_name) (parameter_list
-      (parameter_declaration (type_name) (pointer_declarator (variable_name)))))
+    (type_identifier)
+    (function_declarator (identifier) (parameter_list
+      (parameter_declaration (type_identifier) (pointer_declarator (identifier)))))
     (compound_statement
-      (labeled_statement (label)
+      (labeled_statement (statement_identifier)
         (expression_statement (assignment_expression
-          (variable_name)
-          (call_expression (field_expression (variable_name) (field_name)) (argument_list)))))
-      (if_statement (variable_name) (goto_statement (label))))))
+          (identifier)
+          (call_expression (field_expression (identifier) (field_identifier)) (argument_list)))))
+      (if_statement (identifier) (goto_statement (statement_identifier))))))

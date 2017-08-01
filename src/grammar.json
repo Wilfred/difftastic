@@ -786,7 +786,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_variable_name"
+          "name": "identifier"
         }
       ]
     },
@@ -839,7 +839,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_field_name"
+          "name": "_field_identifier"
         }
       ]
     },
@@ -1259,7 +1259,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_type_name"
+          "name": "_type_identifier"
         }
       ]
     },
@@ -1291,7 +1291,7 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "_type_name"
+              "name": "_type_identifier"
             },
             {
               "type": "BLANK"
@@ -1314,13 +1314,8 @@
               "type": "SEQ",
               "members": [
                 {
-                  "type": "ALIAS",
-                  "content": {
-                    "type": "SYMBOL",
-                    "name": "identifier"
-                  },
-                  "named": true,
-                  "value": "enum_name"
+                  "type": "SYMBOL",
+                  "name": "_type_identifier"
                 },
                 {
                   "type": "CHOICE",
@@ -1416,13 +1411,8 @@
               "type": "SEQ",
               "members": [
                 {
-                  "type": "ALIAS",
-                  "content": {
-                    "type": "SYMBOL",
-                    "name": "identifier"
-                  },
-                  "named": true,
-                  "value": "struct_name"
+                  "type": "SYMBOL",
+                  "name": "_type_identifier"
                 },
                 {
                   "type": "CHOICE",
@@ -1460,13 +1450,8 @@
               "type": "SEQ",
               "members": [
                 {
-                  "type": "ALIAS",
-                  "content": {
-                    "type": "SYMBOL",
-                    "name": "identifier"
-                  },
-                  "named": true,
-                  "value": "union_name"
+                  "type": "SYMBOL",
+                  "name": "_type_identifier"
                 },
                 {
                   "type": "CHOICE",
@@ -1582,7 +1567,7 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "_variable_name"
+          "name": "identifier"
         },
         {
           "type": "CHOICE",
@@ -1763,7 +1748,7 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "_label"
+          "name": "_statement_identifier"
         },
         {
           "type": "STRING",
@@ -2138,7 +2123,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_label"
+          "name": "_statement_identifier"
         },
         {
           "type": "STRING",
@@ -2211,7 +2196,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_variable_name"
+          "name": "identifier"
         },
         {
           "type": "SYMBOL",
@@ -3053,7 +3038,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_field_name"
+          "name": "_field_identifier"
         }
       ]
     },
@@ -3277,7 +3262,7 @@
             },
             {
               "type": "SYMBOL",
-              "name": "_field_name"
+              "name": "_field_identifier"
             }
           ]
         }
@@ -3506,41 +3491,32 @@
       "type": "PATTERN",
       "value": "[\\a_][\\a\\d_]*"
     },
-    "_type_name": {
+    "_type_identifier": {
       "type": "ALIAS",
       "content": {
         "type": "SYMBOL",
         "name": "identifier"
       },
       "named": true,
-      "value": "type_name"
+      "value": "type_identifier"
     },
-    "_variable_name": {
+    "_field_identifier": {
       "type": "ALIAS",
       "content": {
         "type": "SYMBOL",
         "name": "identifier"
       },
       "named": true,
-      "value": "variable_name"
+      "value": "field_identifier"
     },
-    "_field_name": {
+    "_statement_identifier": {
       "type": "ALIAS",
       "content": {
         "type": "SYMBOL",
         "name": "identifier"
       },
       "named": true,
-      "value": "field_name"
-    },
-    "_label": {
-      "type": "ALIAS",
-      "content": {
-        "type": "SYMBOL",
-        "name": "identifier"
-      },
-      "named": true,
-      "value": "label"
+      "value": "statement_identifier"
     },
     "_empty_declaration": {
       "type": "SEQ",
@@ -3669,10 +3645,9 @@
     "_statement",
     "_top_level_item",
     "_compound_statement_item",
-    "_type_name",
-    "_variable_name",
-    "_field_name",
-    "_label"
+    "_type_identifier",
+    "_field_identifier",
+    "_statement_identifier"
   ],
   "PREC": {
     "ASSIGNMENT": -1,
