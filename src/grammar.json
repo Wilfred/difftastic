@@ -1216,15 +1216,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_mlhs"
-        },
-        {
-          "type": "STRING",
-          "value": "in"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_arg"
+          "name": "in"
         },
         {
           "type": "SYMBOL",
@@ -1245,6 +1237,23 @@
         {
           "type": "STRING",
           "value": "end"
+        }
+      ]
+    },
+    "in": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_mlhs"
+        },
+        {
+          "type": "STRING",
+          "value": "in"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_arg"
         }
       ]
     },

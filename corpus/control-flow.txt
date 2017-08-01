@@ -176,8 +176,8 @@ end
 ---
 
 (program
-  (for (identifier) (identifier) (identifier))
-  (for (identifier) (identifier) (identifier) (identifier)))
+  (for (in (identifier) (identifier)) (identifier))
+  (for (in (identifier) (identifier) (identifier)) (identifier)))
 
 ==============
 for without do
@@ -189,7 +189,7 @@ end
 
 ---
 
-(program (for (identifier) (identifier) (identifier)))
+(program (for (in (identifier) (identifier)) (identifier)))
 
 ==============
 next
@@ -201,7 +201,7 @@ end
 
 ---
 
-(program (for (identifier) (identifier) (next)))
+(program (for (in (identifier) (identifier)) (next)))
 
 ==============
 retry
@@ -213,7 +213,7 @@ end
 
 ---
 
-(program (for (identifier) (identifier) (retry)))
+(program (for (in (identifier) (identifier)) (retry)))
 
 ==============
 break
