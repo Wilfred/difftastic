@@ -333,7 +333,7 @@ module.exports = grammar({
 
     element_reference: $ => prec.left(1, seq(
       $._primary,
-      $._element_reference_left_bracket,
+      alias($._element_reference_left_bracket, '['),
       optional($._argument_list_with_trailing_comma),
       optional($.heredoc_end),
       ']'
@@ -373,7 +373,7 @@ module.exports = grammar({
     argument_list_with_parens: $ => $._argument_list_with_parens,
 
     _argument_list_with_parens: $ => seq(
-      $._argument_list_left_paren,
+      alias($._argument_list_left_paren, '('),
       optional($._argument_list_with_trailing_comma),
       optional($.heredoc_end),
       ')'
@@ -439,7 +439,14 @@ module.exports = grammar({
       prec.left(PREC.COMPARISON, seq($._arg, choice('<', '<=', '>', '>='), $._arg)),
       prec.left(PREC.BITWISE_AND, seq($._arg, '&', $._arg)),
       prec.left(PREC.BITWISE_OR, seq($._arg, choice('^', '|'), $._arg)),
-      prec.left(PREC.ADDITIVE, seq($._arg, choice($._binary_minus, '+'), $._arg)),
+      prec.left(PREC.ADDITIVE, seq(
+        $._arg,
+        choice(
+          '+',
+          alias($._binary_minus, '-')
+        ),
+        $._arg
+      )),
       prec.left(PREC.MULTIPLICATIVE, seq($._arg, choice($._binary_star, '/', '%'), $._arg)),
       prec.right(PREC.EXPONENTIAL, seq($._arg, '**', $._arg))
     ),
@@ -447,7 +454,7 @@ module.exports = grammar({
     unary: $ => choice(
       prec(PREC.DEFINED, seq('defined?', $._arg)),
       prec.right(PREC.NOT, seq('not', $._arg)),
-      prec.right(PREC.UNARY_MINUS, seq(choice($._unary_minus, '+'), $._arg)),
+      prec.right(PREC.UNARY_MINUS, seq(choice(alias($._unary_minus, '-'), '+'), $._arg)),
       prec.right(PREC.COMPLEMENT, seq(choice('!', '~'), $._arg))
     ),
 
@@ -619,7 +626,7 @@ module.exports = grammar({
           choice(
             $.identifier,
             $.constant,
-            rename($.reserved_identifier, 'identifier'),
+            alias($.reserved_identifier, $.identifier),
             $.string
           ),
           $._keyword_colon

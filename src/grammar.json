@@ -2049,8 +2049,13 @@
             "name": "_primary"
           },
           {
-            "type": "SYMBOL",
-            "name": "_element_reference_left_bracket"
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_element_reference_left_bracket"
+            },
+            "named": false,
+            "value": "["
           },
           {
             "type": "CHOICE",
@@ -2431,8 +2436,13 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "_argument_list_left_paren"
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_argument_list_left_paren"
+          },
+          "named": false,
+          "value": "("
         },
         {
           "type": "CHOICE",
@@ -3149,12 +3159,17 @@
                 "type": "CHOICE",
                 "members": [
                   {
-                    "type": "SYMBOL",
-                    "name": "_binary_minus"
-                  },
-                  {
                     "type": "STRING",
                     "value": "+"
+                  },
+                  {
+                    "type": "ALIAS",
+                    "content": {
+                      "type": "SYMBOL",
+                      "name": "_binary_minus"
+                    },
+                    "named": false,
+                    "value": "-"
                   }
                 ]
               },
@@ -3269,8 +3284,13 @@
                 "type": "CHOICE",
                 "members": [
                   {
-                    "type": "SYMBOL",
-                    "name": "_unary_minus"
+                    "type": "ALIAS",
+                    "content": {
+                      "type": "SYMBOL",
+                      "name": "_unary_minus"
+                    },
+                    "named": false,
+                    "value": "-"
                   },
                   {
                     "type": "STRING",
@@ -4488,11 +4508,12 @@
                         "name": "constant"
                       },
                       {
-                        "type": "RENAME",
+                        "type": "ALIAS",
                         "content": {
                           "type": "SYMBOL",
                           "name": "reserved_identifier"
                         },
+                        "named": true,
                         "value": "identifier"
                       },
                       {
@@ -4757,7 +4778,5 @@
       "name": "_binary_star"
     }
   ],
-  "inline": [
-    "ReferenceError"
-  ]
+  "inline": []
 }
