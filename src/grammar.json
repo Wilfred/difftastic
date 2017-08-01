@@ -183,13 +183,8 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "ALIAS",
-          "content": {
-            "type": "SYMBOL",
-            "name": "identifier"
-          },
-          "named": true,
-          "value": "variable_name"
+          "type": "SYMBOL",
+          "name": "identifier"
         },
         {
           "type": "CHOICE",
@@ -202,13 +197,8 @@
                   "value": "as"
                 },
                 {
-                  "type": "ALIAS",
-                  "content": {
-                    "type": "SYMBOL",
-                    "name": "identifier"
-                  },
-                  "named": true,
-                  "value": "variable_name"
+                  "type": "SYMBOL",
+                  "name": "identifier"
                 }
               ]
             },
@@ -320,13 +310,8 @@
           "type": "SEQ",
           "members": [
             {
-              "type": "ALIAS",
-              "content": {
-                "type": "SYMBOL",
-                "name": "identifier"
-              },
-              "named": true,
-              "value": "variable_name"
+              "type": "SYMBOL",
+              "name": "identifier"
             },
             {
               "type": "CHOICE",
@@ -387,13 +372,8 @@
           "value": "as"
         },
         {
-          "type": "ALIAS",
-          "content": {
-            "type": "SYMBOL",
-            "name": "identifier"
-          },
-          "named": true,
-          "value": "variable_name"
+          "type": "SYMBOL",
+          "name": "identifier"
         }
       ]
     },
@@ -668,13 +648,8 @@
           "type": "SEQ",
           "members": [
             {
-              "type": "ALIAS",
-              "content": {
-                "type": "SYMBOL",
-                "name": "identifier"
-              },
-              "named": true,
-              "value": "variable_name"
+              "type": "SYMBOL",
+              "name": "identifier"
             },
             {
               "type": "CHOICE",
@@ -1176,7 +1151,7 @@
                 "name": "identifier"
               },
               "named": true,
-              "value": "label_name"
+              "value": "statement_identifier"
             },
             {
               "type": "BLANK"
@@ -1206,7 +1181,7 @@
                 "name": "identifier"
               },
               "named": true,
-              "value": "label_name"
+              "value": "statement_identifier"
             },
             {
               "type": "BLANK"
@@ -1306,7 +1281,7 @@
             "name": "identifier"
           },
           "named": true,
-          "value": "label_name"
+          "value": "statement_identifier"
         },
         {
           "type": "STRING",
@@ -1380,13 +1355,8 @@
                   "value": "("
                 },
                 {
-                  "type": "ALIAS",
-                  "content": {
-                    "type": "SYMBOL",
-                    "name": "identifier"
-                  },
-                  "named": true,
-                  "value": "variable_name"
+                  "type": "SYMBOL",
+                  "name": "identifier"
                 },
                 {
                   "type": "STRING",
@@ -1584,14 +1554,14 @@
           "name": "yield_expression"
         },
         {
+          "type": "SYMBOL",
+          "name": "identifier"
+        },
+        {
           "type": "ALIAS",
           "content": {
             "type": "CHOICE",
             "members": [
-              {
-                "type": "SYMBOL",
-                "name": "identifier"
-              },
               {
                 "type": "STRING",
                 "value": "get"
@@ -1607,7 +1577,7 @@
             ]
           },
           "named": true,
-          "value": "variable_name"
+          "value": "identifier"
         }
       ]
     },
@@ -1703,7 +1673,7 @@
                 ]
               },
               "named": true,
-              "value": "shorthand_property_name"
+              "value": "shorthand_property_identifier"
             },
             {
               "type": "SYMBOL",
@@ -1756,7 +1726,7 @@
             "name": "identifier"
           },
           "named": true,
-          "value": "shorthand_property_name"
+          "value": "shorthand_property_identifier"
         },
         {
           "type": "SYMBOL",
@@ -1937,8 +1907,13 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "identifier"
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "identifier"
+          },
+          "named": true,
+          "value": "property_identifier"
         },
         {
           "type": "CHOICE",
@@ -2066,13 +2041,8 @@
           "value": "class"
         },
         {
-          "type": "ALIAS",
-          "content": {
-            "type": "SYMBOL",
-            "name": "identifier"
-          },
-          "named": true,
-          "value": "variable_name"
+          "type": "SYMBOL",
+          "name": "identifier"
         },
         {
           "type": "SYMBOL",
@@ -2137,13 +2107,8 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "ALIAS",
-              "content": {
-                "type": "SYMBOL",
-                "name": "identifier"
-              },
-              "named": true,
-              "value": "variable_name"
+              "type": "SYMBOL",
+              "name": "identifier"
             },
             {
               "type": "BLANK"
@@ -2182,13 +2147,8 @@
               "type": "CHOICE",
               "members": [
                 {
-                  "type": "ALIAS",
-                  "content": {
-                    "type": "SYMBOL",
-                    "name": "identifier"
-                  },
-                  "named": true,
-                  "value": "variable_name"
+                  "type": "SYMBOL",
+                  "name": "identifier"
                 },
                 {
                   "type": "BLANK"
@@ -2235,13 +2195,8 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "ALIAS",
-              "content": {
-                "type": "SYMBOL",
-                "name": "identifier"
-              },
-              "named": true,
-              "value": "variable_name"
+              "type": "SYMBOL",
+              "name": "identifier"
             },
             {
               "type": "BLANK"
@@ -2348,7 +2303,7 @@
               "name": "identifier"
             },
             "named": true,
-            "value": "property_name"
+            "value": "property_identifier"
           }
         ]
       }
@@ -2396,13 +2351,8 @@
                 "name": "subscript_access"
               },
               {
-                "type": "ALIAS",
-                "content": {
-                  "type": "SYMBOL",
-                  "name": "identifier"
-                },
-                "named": true,
-                "value": "variable_name"
+                "type": "SYMBOL",
+                "name": "identifier"
               },
               {
                 "type": "SYMBOL",
@@ -2440,13 +2390,8 @@
             "type": "CHOICE",
             "members": [
               {
-                "type": "ALIAS",
-                "content": {
-                  "type": "SYMBOL",
-                  "name": "identifier"
-                },
-                "named": true,
-                "value": "variable_name"
+                "type": "SYMBOL",
+                "name": "identifier"
               },
               {
                 "type": "SYMBOL",
@@ -4176,13 +4121,8 @@
                   "type": "CHOICE",
                   "members": [
                     {
-                      "type": "ALIAS",
-                      "content": {
-                        "type": "SYMBOL",
-                        "name": "identifier"
-                      },
-                      "named": true,
-                      "value": "variable_name"
+                      "type": "SYMBOL",
+                      "name": "identifier"
                     },
                     {
                       "type": "SYMBOL",
@@ -4203,13 +4143,8 @@
                         "type": "CHOICE",
                         "members": [
                           {
-                            "type": "ALIAS",
-                            "content": {
-                              "type": "SYMBOL",
-                              "name": "identifier"
-                            },
-                            "named": true,
-                            "value": "variable_name"
+                            "type": "SYMBOL",
+                            "name": "identifier"
                           },
                           {
                             "type": "SYMBOL",
@@ -4386,7 +4321,7 @@
             ]
           },
           "named": true,
-          "value": "property_name"
+          "value": "property_identifier"
         },
         {
           "type": "SYMBOL",
