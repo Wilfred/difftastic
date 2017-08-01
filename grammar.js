@@ -30,12 +30,12 @@ module.exports = grammar({
   externals: $ => [
     $._newline,
     $._indent,
-    $._dedent
+    $._dedent,
   ],
 
   conflicts: $ => [
     [$._primary_expression, $.print_statement],
-    [$._primary_expression, $.exec_statement]
+    [$._primary_expression, $.exec_statement],
   ],
 
   inline: $ => [
@@ -48,16 +48,18 @@ module.exports = grammar({
     module: $ => repeat($._statement),
 
     _statement: $ => choice(
-      seq(
-        $._simple_statement,
-        optional(repeat(seq($._semicolon, $._simple_statement))),
-        optional($._semicolon),
-        $._newline
-      ),
+      $._simple_statements,
       $._compound_statement
     ),
 
     // Simple statements
+
+    _simple_statements: $ => seq(
+      $._simple_statement,
+      optional(repeat(seq($._semicolon, $._simple_statement))),
+      optional($._semicolon),
+      $._newline
+    ),
 
     _simple_statement: $ => choice(
       $.import_statement,
@@ -397,12 +399,7 @@ module.exports = grammar({
     ),
 
     _suite: $ => choice(
-      seq(
-        $._simple_statement,
-        optional(repeat(seq($._semicolon, $._simple_statement))),
-        optional($._semicolon),
-        $._newline
-      ),
+      $._simple_statements,
       seq(
         $._indent,
         repeat($._statement),
@@ -791,7 +788,7 @@ module.exports = grammar({
 
     identifier: $ => /[\a_]\w*/,
 
-    keyword_identifier: $ => rename(choice('print', 'exec'), 'identifier'),
+    keyword_identifier: $ => alias(choice('print', 'exec'), $.identifier),
 
     true: $ => 'True',
     false: $ => 'False',

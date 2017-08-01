@@ -748,3 +748,34 @@ exec 'x+=1' in a, b
   (exec_statement (string))
   (exec_statement (string) (none))
   (exec_statement (string) (identifier) (identifier)))
+
+==================================================
+Extra newlines
+==================================================
+
+if a:
+
+
+    b()
+
+
+    c()
+
+
+    def d():
+
+
+        e()
+
+
+    f()
+
+---
+
+(module
+  (if_statement (identifier)
+    (expression_statement (call (identifier) (argument_list)))
+    (expression_statement (call (identifier) (argument_list)))
+    (function_definition (identifier) (parameters)
+      (expression_statement (call (identifier) (argument_list))))
+    (expression_statement (call (identifier) (argument_list)))))
