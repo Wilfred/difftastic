@@ -299,7 +299,7 @@ module.exports = grammar({
     ),
 
     _variable_name: $ => choice(
-      rename($.simple_variable_name, 'variable_name'),
+      alias($.simple_variable_name, $.variable_name),
       $.special_variable_name
     ),
 

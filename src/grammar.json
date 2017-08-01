@@ -1067,11 +1067,12 @@
       "type": "CHOICE",
       "members": [
         {
-          "type": "RENAME",
+          "type": "ALIAS",
           "content": {
             "type": "SYMBOL",
             "name": "simple_variable_name"
           },
+          "named": true,
           "value": "variable_name"
         },
         {
