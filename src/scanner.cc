@@ -28,7 +28,7 @@ struct Scanner {
   }
 
   unsigned serialize(char *buffer) {
-    memcpy(buffer, heredoc_delimiter.c_str(), heredoc_delimiter.length());
+    heredoc_delimiter.copy(buffer, heredoc_delimiter.length());
     return heredoc_delimiter.length();
   }
 
