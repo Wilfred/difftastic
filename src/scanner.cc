@@ -4,7 +4,7 @@
 
 namespace {
 
-using std::wstring;
+using std::string;
 
 enum TokenType {
   SIMPLE_HEREDOC,
@@ -27,11 +27,15 @@ struct Scanner {
     lexer->advance(lexer, false);
   }
 
-  void reset() {}
+  unsigned serialize(char *buffer) {
+    memcpy(buffer, heredoc_delimiter.c_str(), heredoc_delimiter.length());
+    return heredoc_delimiter.length();
+  }
 
-  bool serialize(TSExternalTokenState state) { return true; }
-
-  void deserialize(TSExternalTokenState state) {}
+  void deserialize(const char *buffer, unsigned length) {
+    if (length == 0) heredoc_delimiter.clear();
+    else heredoc_delimiter.assign(buffer, buffer + length);
+  }
 
   bool scan_heredoc_end_identifier(TSLexer *lexer) {
     current_leading_word.clear();
@@ -49,7 +53,7 @@ struct Scanner {
       switch (lexer->lookahead) {
         case '\0': {
           lexer->result_symbol = end_type;
-          return true;
+          return did_advance;
         }
 
         case '$': {
@@ -182,8 +186,8 @@ struct Scanner {
     return false;
   }
 
-  wstring heredoc_delimiter;
-  wstring current_leading_word;
+  string heredoc_delimiter;
+  string current_leading_word;
 };
 
 }
@@ -200,19 +204,14 @@ bool tree_sitter_bash_external_scanner_scan(void *payload, TSLexer *lexer,
   return scanner->scan(lexer, valid_symbols);
 }
 
-void tree_sitter_bash_external_scanner_reset(void *payload) {
-  Scanner *scanner = static_cast<Scanner *>(payload);
-  scanner->reset();
-}
-
-bool tree_sitter_bash_external_scanner_serialize(void *payload, TSExternalTokenState state) {
+unsigned tree_sitter_bash_external_scanner_serialize(void *payload, char *state) {
   Scanner *scanner = static_cast<Scanner *>(payload);
   return scanner->serialize(state);
 }
 
-void tree_sitter_bash_external_scanner_deserialize(void *payload, TSExternalTokenState state) {
+void tree_sitter_bash_external_scanner_deserialize(void *payload, const char *state, unsigned length) {
   Scanner *scanner = static_cast<Scanner *>(payload);
-  scanner->deserialize(state);
+  scanner->deserialize(state, length);
 }
 
 void tree_sitter_bash_external_scanner_destroy(void *payload) {
