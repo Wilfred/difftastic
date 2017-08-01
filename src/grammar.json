@@ -2092,53 +2092,45 @@
       "type": "PREC_LEFT",
       "value": 1,
       "content": {
-        "type": "CHOICE",
+        "type": "SEQ",
         "members": [
           {
-            "type": "SEQ",
+            "type": "CHOICE",
             "members": [
               {
                 "type": "STRING",
                 "value": "::"
               },
               {
-                "type": "CHOICE",
+                "type": "SEQ",
                 "members": [
                   {
                     "type": "SYMBOL",
-                    "name": "identifier"
+                    "name": "_primary"
                   },
                   {
-                    "type": "SYMBOL",
-                    "name": "constant"
+                    "type": "ALIAS",
+                    "content": {
+                      "type": "SYMBOL",
+                      "name": "_scope_double_colon"
+                    },
+                    "named": false,
+                    "value": "::"
                   }
                 ]
               }
             ]
           },
           {
-            "type": "SEQ",
+            "type": "CHOICE",
             "members": [
               {
                 "type": "SYMBOL",
-                "name": "_primary"
+                "name": "identifier"
               },
               {
                 "type": "SYMBOL",
-                "name": "_scope_double_colon"
-              },
-              {
-                "type": "CHOICE",
-                "members": [
-                  {
-                    "type": "SYMBOL",
-                    "name": "identifier"
-                  },
-                  {
-                    "type": "SYMBOL",
-                    "name": "constant"
-                  }
-                ]
+                "name": "constant"
               }
             ]
           }
@@ -3194,16 +3186,21 @@
                 "type": "CHOICE",
                 "members": [
                   {
-                    "type": "SYMBOL",
-                    "name": "_binary_star"
-                  },
-                  {
                     "type": "STRING",
                     "value": "/"
                   },
                   {
                     "type": "STRING",
                     "value": "%"
+                  },
+                  {
+                    "type": "ALIAS",
+                    "content": {
+                      "type": "SYMBOL",
+                      "name": "_binary_star"
+                    },
+                    "named": false,
+                    "value": "*"
                   }
                 ]
               },

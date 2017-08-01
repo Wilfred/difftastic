@@ -339,9 +339,12 @@ module.exports = grammar({
       ']'
     )),
 
-    scope_resolution: $ => prec.left(1, choice(
-      seq('::', choice($.identifier, $.constant)),
-      seq($._primary, $._scope_double_colon, choice($.identifier, $.constant))
+    scope_resolution: $ => prec.left(1, seq(
+      choice(
+        '::',
+        seq($._primary, alias($._scope_double_colon, '::'))
+      ),
+      choice($.identifier, $.constant)
     )),
 
     call: $ => prec.left(PREC.BITWISE_AND + 1, seq(
@@ -441,13 +444,14 @@ module.exports = grammar({
       prec.left(PREC.BITWISE_OR, seq($._arg, choice('^', '|'), $._arg)),
       prec.left(PREC.ADDITIVE, seq(
         $._arg,
-        choice(
-          '+',
-          alias($._binary_minus, '-')
-        ),
+        choice('+', alias($._binary_minus, '-')),
         $._arg
       )),
-      prec.left(PREC.MULTIPLICATIVE, seq($._arg, choice($._binary_star, '/', '%'), $._arg)),
+      prec.left(PREC.MULTIPLICATIVE, seq(
+        $._arg,
+        choice('/', '%', alias($._binary_star, '*')),
+        $._arg
+      )),
       prec.right(PREC.EXPONENTIAL, seq($._arg, '**', $._arg))
     ),
 
