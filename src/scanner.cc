@@ -58,12 +58,18 @@ struct Scanner {
     }
 
     if (lexer->lookahead == 0) {
-      if (valid_symbols[DEDENT]) {
+      if (valid_symbols[DEDENT] && indent_length_stack.size() > 1) {
+        indent_length_stack.pop_back();
         lexer->result_symbol = DEDENT;
-      } else {
-        lexer->result_symbol = NEWLINE;
+        return true;
       }
-      return true;
+
+      if (valid_symbols[NEWLINE]) {
+        lexer->result_symbol = NEWLINE;
+        return true;
+      }
+
+      return false;
     }
 
     if (lexer->lookahead != '\n') return false;
