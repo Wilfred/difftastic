@@ -77,11 +77,12 @@
           "name": "template_instantiation"
         },
         {
-          "type": "RENAME",
+          "type": "ALIAS",
           "content": {
             "type": "SYMBOL",
             "name": "constructor_or_destructor_definition"
           },
+          "named": true,
           "value": "function_definition"
         }
       ]
@@ -102,19 +103,21 @@
           "name": "_empty_declaration"
         },
         {
-          "type": "RENAME",
+          "type": "ALIAS",
           "content": {
             "type": "SYMBOL",
             "name": "preproc_if_in_compound_statement"
           },
+          "named": true,
           "value": "preproc_if"
         },
         {
-          "type": "RENAME",
+          "type": "ALIAS",
           "content": {
             "type": "SYMBOL",
             "name": "preproc_ifdef_in_compound_statement"
           },
+          "named": true,
           "value": "preproc_ifdef"
         },
         {
@@ -139,8 +142,13 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "_pound_include"
+          "type": "ALIAS",
+          "content": {
+            "type": "PATTERN",
+            "value": "#[ \t]*include"
+          },
+          "named": false,
+          "value": "#include"
         },
         {
           "type": "CHOICE",
@@ -161,8 +169,13 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "_pound_define"
+          "type": "ALIAS",
+          "content": {
+            "type": "PATTERN",
+            "value": "#[ \t]*define"
+          },
+          "named": false,
+          "value": "#define"
         },
         {
           "type": "SYMBOL",
@@ -199,8 +212,13 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "_pound_define"
+          "type": "ALIAS",
+          "content": {
+            "type": "PATTERN",
+            "value": "#[ \t]*define"
+          },
+          "named": false,
+          "value": "#define"
         },
         {
           "type": "SYMBOL",
@@ -309,8 +327,13 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "_pound_if"
+          "type": "ALIAS",
+          "content": {
+            "type": "PATTERN",
+            "value": "#[ \t]*if"
+          },
+          "named": false,
+          "value": "#if"
         },
         {
           "type": "SYMBOL",
@@ -336,8 +359,13 @@
           ]
         },
         {
-          "type": "SYMBOL",
-          "name": "_pound_endif"
+          "type": "ALIAS",
+          "content": {
+            "type": "PATTERN",
+            "value": "#[ \t]*endif"
+          },
+          "named": false,
+          "value": "#endif"
         }
       ]
     },
@@ -345,8 +373,13 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "_pound_if"
+          "type": "ALIAS",
+          "content": {
+            "type": "PATTERN",
+            "value": "#[ \t]*if"
+          },
+          "named": false,
+          "value": "#if"
         },
         {
           "type": "SYMBOL",
@@ -363,11 +396,12 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "RENAME",
+              "type": "ALIAS",
               "content": {
                 "type": "SYMBOL",
                 "name": "preproc_else_in_compound_statement"
               },
+              "named": true,
               "value": "preproc_else"
             },
             {
@@ -376,8 +410,13 @@
           ]
         },
         {
-          "type": "SYMBOL",
-          "name": "_pound_endif"
+          "type": "ALIAS",
+          "content": {
+            "type": "PATTERN",
+            "value": "#[ \t]*endif"
+          },
+          "named": false,
+          "value": "#endif"
         }
       ]
     },
@@ -385,8 +424,27 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "_pound_ifdef"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "PATTERN",
+                "value": "#[ \t]*ifdef"
+              },
+              "named": false,
+              "value": "#ifdef"
+            },
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "PATTERN",
+                "value": "#[ \t]*ifndef"
+              },
+              "named": false,
+              "value": "#ifndef"
+            }
+          ]
         },
         {
           "type": "SYMBOL",
@@ -412,8 +470,13 @@
           ]
         },
         {
-          "type": "SYMBOL",
-          "name": "_pound_endif"
+          "type": "ALIAS",
+          "content": {
+            "type": "PATTERN",
+            "value": "#[ \t]*endif"
+          },
+          "named": false,
+          "value": "#endif"
         }
       ]
     },
@@ -421,8 +484,27 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "_pound_ifdef"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "PATTERN",
+                "value": "#[ \t]*ifdef"
+              },
+              "named": false,
+              "value": "#ifdef"
+            },
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "PATTERN",
+                "value": "#[ \t]*ifndef"
+              },
+              "named": false,
+              "value": "#ifndef"
+            }
+          ]
         },
         {
           "type": "SYMBOL",
@@ -439,11 +521,12 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "RENAME",
+              "type": "ALIAS",
               "content": {
                 "type": "SYMBOL",
                 "name": "preproc_else_in_compound_statement"
               },
+              "named": true,
               "value": "preproc_else"
             },
             {
@@ -452,8 +535,13 @@
           ]
         },
         {
-          "type": "SYMBOL",
-          "name": "_pound_endif"
+          "type": "ALIAS",
+          "content": {
+            "type": "PATTERN",
+            "value": "#[ \t]*endif"
+          },
+          "named": false,
+          "value": "#endif"
         }
       ]
     },
@@ -461,8 +549,13 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "_pound_else"
+          "type": "ALIAS",
+          "content": {
+            "type": "PATTERN",
+            "value": "#[ \t]*else"
+          },
+          "named": false,
+          "value": "#else"
         },
         {
           "type": "REPEAT",
@@ -477,8 +570,13 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "_pound_else"
+          "type": "ALIAS",
+          "content": {
+            "type": "PATTERN",
+            "value": "#[ \t]*else"
+          },
+          "named": false,
+          "value": "#else"
         },
         {
           "type": "REPEAT",
@@ -489,33 +587,9 @@
         }
       ]
     },
-    "_pound_include": {
-      "type": "PATTERN",
-      "value": "#[ \t]*include"
-    },
-    "_pound_define": {
-      "type": "PATTERN",
-      "value": "#[ \t]*define"
-    },
-    "_pound_if": {
-      "type": "PATTERN",
-      "value": "#[ \t]*if"
-    },
-    "_pound_ifdef": {
-      "type": "PATTERN",
-      "value": "#[ \t]*ifn?def"
-    },
-    "_pound_endif": {
-      "type": "PATTERN",
-      "value": "#[ \t]*endif"
-    },
-    "_pound_else": {
-      "type": "PATTERN",
-      "value": "#[ \t]*else"
-    },
     "preproc_directive": {
       "type": "PATTERN",
-      "value": "#[ \t]*\\a\\w*"
+      "value": "#[ \\t]+\\a\\w*"
     },
     "preproc_arg": {
       "type": "TOKEN",
@@ -782,27 +856,30 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "RENAME",
+              "type": "ALIAS",
               "content": {
                 "type": "SYMBOL",
                 "name": "pointer_field_declarator"
               },
+              "named": true,
               "value": "pointer_declarator"
             },
             {
-              "type": "RENAME",
+              "type": "ALIAS",
               "content": {
                 "type": "SYMBOL",
                 "name": "function_field_declarator"
               },
+              "named": true,
               "value": "function_declarator"
             },
             {
-              "type": "RENAME",
+              "type": "ALIAS",
               "content": {
                 "type": "SYMBOL",
                 "name": "array_field_declarator"
               },
+              "named": true,
               "value": "array_declarator"
             },
             {
@@ -829,11 +906,12 @@
           ]
         },
         {
-          "type": "RENAME",
+          "type": "ALIAS",
           "content": {
             "type": "SYMBOL",
             "name": "reference_field_declarator"
           },
+          "named": true,
           "value": "reference_declarator"
         },
         {
@@ -1477,11 +1555,12 @@
                 "type": "SEQ",
                 "members": [
                   {
-                    "type": "RENAME",
+                    "type": "ALIAS",
                     "content": {
                       "type": "SYMBOL",
                       "name": "identifier"
                     },
+                    "named": true,
                     "value": "enum_name"
                   },
                   {
@@ -1696,27 +1775,30 @@
                 "name": "template_declaration"
               },
               {
-                "type": "RENAME",
+                "type": "ALIAS",
                 "content": {
                   "type": "SYMBOL",
                   "name": "inline_method_definition"
                 },
+                "named": true,
                 "value": "function_definition"
               },
               {
-                "type": "RENAME",
+                "type": "ALIAS",
                 "content": {
                   "type": "SYMBOL",
                   "name": "constructor_or_destructor_definition"
                 },
+                "named": true,
                 "value": "function_definition"
               },
               {
-                "type": "RENAME",
+                "type": "ALIAS",
                 "content": {
                   "type": "SYMBOL",
                   "name": "constructor_or_destructor_declaration"
                 },
+                "named": true,
                 "value": "declaration"
               },
               {
@@ -3909,35 +3991,39 @@
       "value": "[\\a_][\\a\\d_]*"
     },
     "_type_name": {
-      "type": "RENAME",
+      "type": "ALIAS",
       "content": {
         "type": "SYMBOL",
         "name": "identifier"
       },
+      "named": true,
       "value": "type_name"
     },
     "_variable_name": {
-      "type": "RENAME",
+      "type": "ALIAS",
       "content": {
         "type": "SYMBOL",
         "name": "identifier"
       },
+      "named": true,
       "value": "variable_name"
     },
     "_field_name": {
-      "type": "RENAME",
+      "type": "ALIAS",
       "content": {
         "type": "SYMBOL",
         "name": "identifier"
       },
+      "named": true,
       "value": "field_name"
     },
     "_label": {
-      "type": "RENAME",
+      "type": "ALIAS",
       "content": {
         "type": "SYMBOL",
         "name": "identifier"
       },
+      "named": true,
       "value": "label"
     },
     "_empty_declaration": {

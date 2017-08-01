@@ -25,7 +25,7 @@ module.exports = grammar(C, {
       $.alias_declaration,
       $.template_declaration,
       $.template_instantiation,
-      rename($.constructor_or_destructor_definition, 'function_definition')
+      alias($.constructor_or_destructor_definition, $.function_definition)
     ),
 
     // Types
@@ -177,9 +177,9 @@ module.exports = grammar(C, {
       repeat(choice(
         $.field_declaration,
         $.template_declaration,
-        rename($.inline_method_definition, 'function_definition'),
-        rename($.constructor_or_destructor_definition, 'function_definition'),
-        rename($.constructor_or_destructor_declaration, 'declaration'),
+        alias($.inline_method_definition, $.function_definition),
+        alias($.constructor_or_destructor_definition, $.function_definition),
+        alias($.constructor_or_destructor_declaration, $.declaration),
         $.friend_declaration,
         $.access_specifier,
         $.alias_declaration,
@@ -236,7 +236,7 @@ module.exports = grammar(C, {
 
     _field_declarator: ($, original) => choice(
       original,
-      rename($.reference_field_declarator, 'reference_declarator'),
+      alias($.reference_field_declarator, $.reference_declarator),
       $.template_function,
       $.operator_name
     ),
