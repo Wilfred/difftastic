@@ -13,15 +13,15 @@ int main() {
 ---
 
 (translation_unit (function_definition
-  (identifier)
-  (function_declarator (identifier))
+  (type_identifier)
+  (function_declarator (identifier) (parameter_list))
   (compound_statement
     (comment)
     (declaration
-      (identifier)
+      (type_identifier)
       (pointer_declarator (function_declarator
         (identifier)
-        (parameter_type_list (parameter_declaration (identifier) (identifier))))))
+        (parameter_list (parameter_declaration (type_identifier) (identifier))))))
     (comment)
     (expression_statement (math_expression
       (identifier)
@@ -48,13 +48,13 @@ int main() {
 (translation_unit
   (comment)
   (function_definition
-    (identifier)
-    (function_declarator (identifier))
+    (type_identifier)
+    (function_declarator (identifier) (parameter_list))
     (compound_statement
       (comment)
       (expression_statement (call_expression
         (identifier)
-        (argument_list (cast_expression (type_name (identifier) (abstract_pointer_declarator)) (identifier)))))
+        (argument_list (cast_expression (type_descriptor (type_identifier) (abstract_pointer_declarator)) (identifier)))))
       (comment)
       (expression_statement (call_expression
         (identifier)
@@ -72,7 +72,7 @@ GIT_INLINE(int *) x = 5;
 (translation_unit
   (comment)
   (declaration
-    (macro_type_specifier (identifier) (type_name (identifier) (abstract_pointer_declarator)))
+    (macro_type_specifier (identifier) (type_descriptor (type_identifier) (abstract_pointer_declarator)))
     (init_declarator (identifier) (number_literal))))
 
 ========================================================================
@@ -98,13 +98,13 @@ int main() {
 
 (translation_unit
   (function_definition
-    (identifier)
-    (function_declarator (identifier))
+    (type_identifier)
+    (function_declarator (identifier) (parameter_list))
     (compound_statement
       (comment)
-      (declaration (identifier) (identifier))
+      (expression_statement (call_expression (identifier) (argument_list (identifier))))
       (comment)
-      (declaration (identifier) (identifier)))))
+      (declaration (type_identifier) (identifier)))))
 
 ========================================================================
 Comments after for loops with ambiguities
@@ -123,11 +123,11 @@ int main() {
 ---
 
 (translation_unit (function_definition
-  (identifier)
-  (function_declarator (identifier))
+  (type_identifier)
+  (function_declarator (identifier) (parameter_list))
   (compound_statement
     (for_statement
-      (declaration (identifier) (init_declarator
+      (declaration (type_identifier) (init_declarator
         (pointer_declarator (identifier))
         (identifier)))
       (identifier)

@@ -78,14 +78,14 @@ int b;
 (translation_unit
   (preproc_ifdef
     (identifier)
-    (declaration (identifier) (identifier)))
+    (declaration (type_identifier) (identifier)))
 
   (preproc_ifdef
     (identifier)
-    (declaration (identifier) (identifier))
+    (declaration (type_identifier) (identifier))
     (preproc_def (identifier) (preproc_arg))
     (preproc_else
-      (declaration (identifier) (identifier))
+      (declaration (type_identifier) (identifier))
       (preproc_def (identifier) (preproc_arg))))
 
   (preproc_ifdef
@@ -126,8 +126,8 @@ int main() {
 
 (translation_unit
   (function_definition
-    (identifier)
-    (function_declarator (identifier))
+    (type_identifier)
+    (function_declarator (identifier) (parameter_list))
     (compound_statement
       (preproc_if (preproc_arg)
         (return_statement (number_literal))

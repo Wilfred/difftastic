@@ -17,8 +17,8 @@ int main() {
 
 (translation_unit
   (function_definition
-    (identifier)
-    (function_declarator (identifier))
+    (type_identifier)
+    (function_declarator (identifier) (parameter_list))
     (compound_statement
       (if_statement (identifier)
         (expression_statement (number_literal)))
@@ -48,13 +48,13 @@ int main() {
 
 (translation_unit
   (function_definition
-    (identifier)
-    (function_declarator (identifier))
+    (type_identifier)
+    (function_declarator (identifier) (parameter_list))
     (compound_statement
       (for_statement
         (expression_statement (number_literal)))
       (for_statement
-        (declaration (identifier) (init_declarator (identifier) (number_literal)))
+        (declaration (type_identifier) (init_declarator (identifier) (number_literal)))
         (relational_expression (identifier) (number_literal))
         (call_expression (identifier) (argument_list))
         (math_expression (identifier))
@@ -78,10 +78,34 @@ int main() {
 
 (translation_unit
   (function_definition
-    (identifier)
-    (function_declarator (identifier))
+    (type_identifier)
+    (function_declarator (identifier) (parameter_list))
     (compound_statement
       (while_statement (identifier)
         (expression_statement (call_expression
           (identifier)
           (argument_list (string_literal))))))))
+
+============================================
+Labeled statements
+============================================
+
+void foo(T *t) {
+recur:
+  t = t->next();
+  if (t) goto recur;
+}
+
+---
+
+(translation_unit
+  (function_definition
+    (type_identifier)
+    (function_declarator (identifier) (parameter_list
+      (parameter_declaration (type_identifier) (pointer_declarator (identifier)))))
+    (compound_statement
+      (labeled_statement (statement_identifier)
+        (expression_statement (assignment_expression
+          (identifier)
+          (call_expression (field_expression (identifier) (field_identifier)) (argument_list)))))
+      (if_statement (identifier) (goto_statement (statement_identifier))))))
