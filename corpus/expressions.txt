@@ -26,7 +26,7 @@ Template strings
 `multi
   ${2 + 2}
   hello
-  ${1 + 1,2 + 2}
+  ${1 + 1, 2 + 2}
   line`;
 
 `$$$$`;
@@ -39,11 +39,24 @@ Template strings
 ----
 
 (program
-  (expression_statement (template_string (template_chars)))
-  (expression_statement (template_string (template_chars)))
-  (expression_statement (template_string (template_chars) (template_substitution (math_op (number) (number))) (template_chars) (template_substitution (comma_op (math_op (number) (number)) (math_op (number) (number)))) (template_chars)))
-  (expression_statement (template_string (template_chars))) (expression_statement (template_string (template_chars) (template_substitution (number))))
-	(expression_statement (template_string (template_chars))) (expression_statement (template_string (template_chars) (template_substitution (function_call (member_access (identifier) (identifier)) (arguments (string)))) (template_chars) (template_substitution (identifier)) (template_chars))))
+  (expression_statement (template_string))
+  (expression_statement (template_string))
+  (expression_statement (template_string
+    (template_substitution (math_op
+      (number)
+      (number)))
+    (template_substitution (comma_op
+      (math_op (number) (number))
+      (math_op (number) (number))))))
+  (expression_statement (template_string))
+  (expression_statement (template_string
+    (template_substitution (number))))
+	(expression_statement (template_string))
+  (expression_statement (template_string
+    (template_substitution (function_call
+      (member_access (identifier) (property_identifier))
+      (arguments (string))))
+    (template_substitution (identifier)))))
 
 ============================================
 Function calls with template strings
@@ -54,7 +67,7 @@ f `hello`;
 ---
 
 (program
-  (expression_statement (function_call (identifier) (template_string (template_chars)))))
+  (expression_statement (function_call (identifier) (template_string))))
 
 ============================================
 Numbers
@@ -166,13 +179,13 @@ Objects
 (program
   (expression_statement (object))
   (expression_statement (object
-    (pair (identifier) (string))))
+    (pair (property_identifier) (string))))
   (expression_statement (object
-    (pair (identifier) (string))
+    (pair (property_identifier) (string))
     (pair (string) (identifier))
     (pair (number) (number))))
   (expression_statement (object
-    (pair (identifier) (identifier)))))
+    (pair (property_identifier) (identifier)))))
 
 ============================================
 Objects with shorthand properties
@@ -186,10 +199,10 @@ y = {a,};
 (program
   (expression_statement (assignment
     (identifier)
-    (object (identifier) (identifier) (reserved_identifier))))
+    (object (shorthand_property_identifier) (shorthand_property_identifier) (shorthand_property_identifier))))
   (expression_statement (assignment
     (identifier)
-    (object (identifier)))))
+    (object (shorthand_property_identifier)))))
 
 ============================================
 Objects with method definitions
@@ -215,29 +228,29 @@ Objects with method definitions
 
 (program
   (expression_statement (object
-    (pair (identifier) (true))
+    (pair (property_identifier) (true))
     (method_definition
-      (identifier)
+      (property_identifier)
       (formal_parameters (identifier) (identifier))
       (statement_block
         (return_statement (math_op (identifier) (identifier)))))
     (method_definition
-      (identifier)
+      (property_identifier)
       (formal_parameters)
       (statement_block
         (return_statement (identifier))))
     (method_definition
-      (identifier)
+      (property_identifier)
       (formal_parameters (identifier))
       (statement_block
         (expression_statement (assignment (identifier) (identifier)))))
     (method_definition
-      (identifier)
+      (property_identifier)
       (formal_parameters)
       (statement_block
         (expression_statement (yield_expression (identifier)))))
     (method_definition
-      (reserved_identifier)
+      (property_identifier)
       (formal_parameters)
       (statement_block
         (return_statement (number)))))))
@@ -261,13 +274,13 @@ Objects with reserved words for keys
 (program
   (expression_statement (object
     (pair
-      (reserved_identifier)
+      (property_identifier)
       (function (formal_parameters) (statement_block)))
     (pair
-      (reserved_identifier)
+      (property_identifier)
       (function (formal_parameters) (statement_block)))
-    (pair (identifier) (true))
-    (pair (reserved_identifier) (true)))))
+    (pair (property_identifier) (true))
+    (pair (property_identifier) (true)))))
 
 ============================================
 Classes
@@ -292,15 +305,15 @@ class Foo extends require('another-class') {
     (identifier)
     (class_body
       (method_definition
-        (identifier)
+        (property_identifier)
         (formal_parameters (identifier))
         (statement_block (return_statement (identifier))))
       (method_definition
-        (identifier)
+        (property_identifier)
         (formal_parameters (identifier))
         (statement_block (return_statement (identifier))))
       (method_definition
-        (identifier)
+        (property_identifier)
         (formal_parameters (identifier))
         (statement_block (return_statement (identifier))))))
 
@@ -309,7 +322,7 @@ class Foo extends require('another-class') {
     (class_heritage (function_call (identifier) (arguments (string))))
     (class_body
       (method_definition
-        (identifier)
+        (property_identifier)
         (formal_parameters)
         (statement_block
           (expression_statement (function_call (super) (arguments))))))))
@@ -328,7 +341,7 @@ class Foo {
   (class
     (identifier)
     (class_body
-      (public_field_definition (identifier) (number)))))
+      (public_field_definition (property_identifier) (number)))))
 
 ============================================
 Arrays
@@ -444,7 +457,7 @@ x["some-string"];
 ---
 
 (program
-  (expression_statement (member_access (identifier) (identifier)))
+  (expression_statement (member_access (identifier) (property_identifier)))
   (expression_statement (subscript_access (identifier) (identifier)))
   (expression_statement (subscript_access (identifier) (string))))
 
@@ -464,12 +477,12 @@ return returned.promise()
       (function_call
         (member_access
           (function_call
-            (member_access (identifier) (identifier))
+            (member_access (identifier) (property_identifier))
             (arguments))
-          (identifier))
-        (arguments (member_access (identifier) (identifier))))
-      (identifier))
-  (arguments (member_access (identifier) (identifier))))))
+          (property_identifier))
+        (arguments (member_access (identifier) (property_identifier))))
+      (property_identifier))
+  (arguments (member_access (identifier) (property_identifier))))))
 
 ============================================
 Chained callbacks
@@ -478,7 +491,9 @@ Chained callbacks
 return this.map(function (a) {
   return a.b;
 })
+
 // a comment
+
 .filter(function (c) {
   return c.d;
 })
@@ -490,14 +505,14 @@ return this.map(function (a) {
   (function_call
     (member_access
       (function_call
-        (member_access (this_expression) (identifier))
+        (member_access (this_expression) (property_identifier))
         (arguments
           (function (formal_parameters (identifier)) (statement_block
-            (return_statement (member_access (identifier) (identifier)))))))
+            (return_statement (member_access (identifier) (property_identifier)))))))
         (comment)
-      (identifier))
+      (property_identifier))
       (arguments (function (formal_parameters (identifier)) (statement_block
-        (return_statement (member_access (identifier) (identifier)))))))))
+        (return_statement (member_access (identifier) (property_identifier)))))))))
 
 ============================================
 Function calls
@@ -512,7 +527,7 @@ function(x, y) {
 
 (program
   (expression_statement (function_call
-    (member_access (identifier) (identifier))
+    (member_access (identifier) (property_identifier))
     (arguments (identifier) (string))))
   (expression_statement (function_call
     (function
@@ -531,7 +546,7 @@ new Thing;
 
 (program
   (expression_statement (new_expression (function_call
-    (member_access (identifier) (identifier))
+    (member_access (identifier) (property_identifier))
     (arguments (number) (string)))))
   (expression_statement (new_expression
     (identifier))))
@@ -578,12 +593,12 @@ async (a) => { return foo; };
   (expression_statement
     (object
       (method_definition
-        (identifier)
+        (property_identifier)
         (formal_parameters)
         (statement_block))))
   (class (identifier) (class_body
     (method_definition
-      (identifier)
+      (property_identifier)
       (formal_parameters)
       (statement_block))))
   (expression_statement
@@ -705,7 +720,7 @@ x["y"] = 0;
     (identifier)
     (number)))
   (expression_statement (assignment
-    (member_access (identifier) (identifier))
+    (member_access (identifier) (property_identifier))
     (number)))
   (expression_statement (assignment
     (subscript_access (identifier) (string))
@@ -727,7 +742,7 @@ c = {d: (3, 4 + 5, 6)};
   (expression_statement
     (assignment (identifier) (object
       (pair
-        (identifier)
+        (property_identifier)
         (comma_op (number) (comma_op (math_op (number) (number)) (number))))))))
 
 ==============================================
@@ -745,11 +760,11 @@ x.y = some.condition ?
   (expression_statement (ternary
     (identifier) (identifier) (identifier)))
   (expression_statement (assignment
-    (member_access (identifier) (identifier))
+    (member_access (identifier) (property_identifier))
     (ternary
-      (member_access (identifier) (identifier))
-      (member_access (identifier) (identifier))
-      (member_access (member_access (identifier) (identifier)) (identifier))))))
+      (member_access (identifier) (property_identifier))
+      (member_access (identifier) (property_identifier))
+      (member_access (member_access (identifier) (property_identifier)) (property_identifier))))))
 
 ==============================================
 Type operators
@@ -778,7 +793,7 @@ true ? delete thing.prop : null;
     (delete_op (subscript_access (identifier) (string))))
   (expression_statement
     (ternary (true)
-      (delete_op (member_access (identifier) (identifier)))
+      (delete_op (member_access (identifier) (property_identifier)))
       (null))))
 
 ============================================
@@ -815,7 +830,7 @@ y.z *= 5;
   (expression_statement
     (math_assignment (identifier) (number)))
   (expression_statement
-    (math_assignment (member_access (identifier) (identifier)) (number))))
+    (math_assignment (member_access (identifier) (property_identifier)) (number))))
 
 ==============================================
 Operator precedence
@@ -834,7 +849,7 @@ typeof a == b && c instanceof d
     (rel_op (identifier) (identifier))
     (rel_op (identifier) (identifier))))
   (expression_statement (assignment
-    (member_access (identifier) (identifier))
+    (member_access (identifier) (property_identifier))
     (ternary (identifier) (identifier) (identifier))))
   (expression_statement (bool_op
     (bool_op
@@ -866,8 +881,8 @@ b = <div>a <span>b</span> c</div>;
     (identifier)
     (jsx_self_closing_element
       (identifier)
-      (jsx_attribute (identifier) (string))
-      (jsx_attribute (identifier) (number)))))
+      (jsx_attribute (property_identifier) (string))
+      (jsx_attribute (property_identifier) (number)))))
   (expression_statement (assignment
     (identifier)
     (jsx_element
@@ -894,8 +909,8 @@ h = <i>{...j}</i>
     (identifier)
     (jsx_element
       (jsx_opening_element (identifier)
-        (jsx_attribute (identifier))
-        (jsx_attribute (identifier) (jsx_expression (identifier))))
+        (jsx_attribute (property_identifier))
+        (jsx_attribute (property_identifier) (jsx_expression (identifier))))
       (jsx_text)
       (jsx_expression (identifier))
       (jsx_text)
@@ -932,7 +947,6 @@ Math expressions
   (expression_statement
     (math_op (math_op (identifier) (identifier)) (identifier))))
 
-
 ==============================================
 Non-breaking spaces as whitespace
 ==============================================
@@ -957,4 +971,8 @@ yield db.users.where('[endpoint+email]')
 (program
   (expression_statement
     (yield_expression
-      (function_call (member_access (member_access (identifier) (identifier)) (identifier)) (arguments (string))))))
+      (function_call
+        (member_access
+          (member_access (identifier) (property_identifier))
+          (property_identifier))
+        (arguments (string))))))

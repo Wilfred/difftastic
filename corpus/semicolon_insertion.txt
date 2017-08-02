@@ -30,8 +30,8 @@ object
 
 (program (expression_statement
   (member_access
-    (member_access (identifier) (identifier))
-    (identifier))))
+    (member_access (identifier) (property_identifier))
+    (property_identifier))))
 
 ===========================================
 indented code after blocks
@@ -167,9 +167,9 @@ var a = new A()
         (function_call
           (member_access
             (function_call (identifier) (arguments))
-            (identifier))
-          (arguments (object (pair (identifier) (string)))))
-        (identifier))
+            (property_identifier))
+          (arguments (object (pair (property_identifier) (string)))))
+        (property_identifier))
       (arguments))))))
 
 ==============================================
