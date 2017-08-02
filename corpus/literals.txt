@@ -14,12 +14,12 @@ const (
 ---
 
 (source_file
-  (package_clause (identifier))
+  (package_clause (package_identifier))
   (const_declaration
-    (const_spec (identifier_list (identifier)) (expression_list (int_literal)))
-    (const_spec (identifier_list (identifier)) (expression_list (int_literal)))
-    (const_spec (identifier_list (identifier)) (expression_list (int_literal)))
-    (const_spec (identifier_list (identifier)) (expression_list (int_literal)))))
+    (const_spec (identifier) (expression_list (int_literal)))
+    (const_spec (identifier) (expression_list (int_literal)))
+    (const_spec (identifier) (expression_list (int_literal)))
+    (const_spec (identifier) (expression_list (int_literal)))))
 
 ============================================
 Float literals
@@ -38,13 +38,13 @@ const (
 ---
 
 (source_file
-  (package_clause (identifier))
+  (package_clause (package_identifier))
   (const_declaration
-    (const_spec (identifier_list (identifier)) (expression_list (float_literal)))
-    (const_spec (identifier_list (identifier)) (expression_list (float_literal)))
-    (const_spec (identifier_list (identifier)) (expression_list (float_literal)))
-    (const_spec (identifier_list (identifier)) (expression_list (float_literal)))
-    (const_spec (identifier_list (identifier)) (expression_list (float_literal)))))
+    (const_spec (identifier) (expression_list (float_literal)))
+    (const_spec (identifier) (expression_list (float_literal)))
+    (const_spec (identifier) (expression_list (float_literal)))
+    (const_spec (identifier) (expression_list (float_literal)))
+    (const_spec (identifier) (expression_list (float_literal)))))
 
 ============================================
 Rune literals
@@ -64,14 +64,14 @@ const (
 ---
 
 (source_file
-  (package_clause (identifier))
+  (package_clause (package_identifier))
   (const_declaration
-    (const_spec (identifier_list (identifier)) (expression_list (rune_literal)))
-    (const_spec (identifier_list (identifier)) (expression_list (rune_literal)))
-    (const_spec (identifier_list (identifier)) (expression_list (rune_literal)))
-    (const_spec (identifier_list (identifier)) (expression_list (rune_literal)))
-    (const_spec (identifier_list (identifier)) (expression_list (rune_literal)))
-    (const_spec (identifier_list (identifier)) (expression_list (rune_literal)))))
+    (const_spec (identifier) (expression_list (rune_literal)))
+    (const_spec (identifier) (expression_list (rune_literal)))
+    (const_spec (identifier) (expression_list (rune_literal)))
+    (const_spec (identifier) (expression_list (rune_literal)))
+    (const_spec (identifier) (expression_list (rune_literal)))
+    (const_spec (identifier) (expression_list (rune_literal)))))
 
 ============================================
 Imaginary literals
@@ -87,10 +87,10 @@ const (
 ---
 
 (source_file
-  (package_clause (identifier))
+  (package_clause (package_identifier))
   (const_declaration
-    (const_spec (identifier_list (identifier)) (expression_list (imaginary_literal)))
-    (const_spec (identifier_list (identifier)) (expression_list (imaginary_literal)))))
+    (const_spec (identifier) (expression_list (imaginary_literal)))
+    (const_spec (identifier) (expression_list (imaginary_literal)))))
 
 ============================================
 String literals
@@ -106,10 +106,10 @@ const (
 ---
 
 (source_file
-  (package_clause (identifier))
+  (package_clause (package_identifier))
   (const_declaration
-    (const_spec (identifier_list (identifier)) (expression_list (interpreted_string_literal)))
-    (const_spec (identifier_list (identifier)) (expression_list (interpreted_string_literal)))))
+    (const_spec (identifier) (expression_list (interpreted_string_literal)))
+    (const_spec (identifier) (expression_list (interpreted_string_literal)))))
 
 ============================================
 Slice literals
@@ -129,22 +129,22 @@ const s3 = []string{
 ---
 
 (source_file
-  (package_clause (identifier))
+  (package_clause (package_identifier))
   (const_declaration (const_spec
-    (identifier_list (identifier))
+    (identifier)
     (expression_list (composite_literal
-      (slice_type (identifier))
+      (slice_type (type_identifier))
       (literal_value)))))
   (const_declaration (const_spec
-    (identifier_list (identifier))
+    (identifier)
     (expression_list (composite_literal
-      (slice_type (identifier))
+      (slice_type (type_identifier))
       (literal_value
         (element (interpreted_string_literal)))))))
   (const_declaration (const_spec
-    (identifier_list (identifier))
+    (identifier)
     (expression_list (composite_literal
-      (slice_type (identifier))
+      (slice_type (type_identifier))
       (literal_value
         (element (interpreted_string_literal))
         (element (interpreted_string_literal))))))))
@@ -160,11 +160,11 @@ const a1 = [...]int{1, 2, 3}
 ---
 
 (source_file
-  (package_clause (identifier))
+  (package_clause (package_identifier))
   (const_declaration (const_spec
-    (identifier_list (identifier))
+    (identifier)
     (expression_list (composite_literal
-      (implicit_length_array_type (identifier))
+      (implicit_length_array_type (type_identifier))
       (literal_value
         (element (int_literal))
         (element (int_literal))
@@ -184,11 +184,11 @@ const s = map[string]string{
 ---
 
 (source_file
-  (package_clause (identifier))
+  (package_clause (package_identifier))
   (const_declaration (const_spec
-    (identifier_list (identifier))
+    (identifier)
     (expression_list (composite_literal
-      (map_type (identifier) (identifier))
+      (map_type (type_identifier) (type_identifier))
       (literal_value
         (keyed_element (interpreted_string_literal) (interpreted_string_literal))
         (keyed_element (interpreted_string_literal) (interpreted_string_literal))))))))
@@ -211,25 +211,25 @@ const s3 = time.Time{}
 ---
 
 (source_file
-  (package_clause (identifier))
+  (package_clause (package_identifier))
   (const_declaration (const_spec
-    (identifier_list (identifier))
+    (identifier)
     (expression_list (composite_literal
-      (identifier)
+      (type_identifier)
       (literal_value
-        (keyed_element (identifier) (interpreted_string_literal))
-        (keyed_element (identifier) (interpreted_string_literal)))))))
+        (keyed_element (field_identifier) (interpreted_string_literal))
+        (keyed_element (field_identifier) (interpreted_string_literal)))))))
   (const_declaration (const_spec
-    (identifier_list (identifier))
+    (identifier)
     (expression_list (composite_literal
       (struct_type
-        (field_declaration (identifier_list (identifier)) (identifier)))
+        (field_declaration (field_identifier) (type_identifier)))
       (literal_value
-        (keyed_element (identifier) (int_literal)))))))
+        (keyed_element (field_identifier) (int_literal)))))))
   (const_declaration (const_spec
-    (identifier_list (identifier))
+    (identifier)
     (expression_list (composite_literal
-      (qualified_identifier (identifier) (identifier))
+      (qualified_type (package_identifier) (type_identifier))
       (literal_value))))))
 
 ============================================
@@ -245,13 +245,13 @@ const s1 = func(s string) (int, int) {
 ---
 
 (source_file
-  (package_clause (identifier))
+  (package_clause (package_identifier))
   (const_declaration (const_spec
-    (identifier_list (identifier))
+    (identifier)
     (expression_list
       (func_literal
         (parameters
-          (parameter_declaration (identifier) (identifier)))
+          (parameter_declaration (identifier) (type_identifier)))
         (parameters
           (identifier)
           (identifier))

@@ -21,7 +21,7 @@ func main() {
 ---
 
 (source_file
-  (package_clause (identifier))
+  (package_clause (package_identifier))
   (function_declaration (identifier) (parameters) (block
     (call_expression
       (identifier)
@@ -49,7 +49,7 @@ func main() {
 ---
 
 (source_file
-  (package_clause (identifier))
+  (package_clause (package_identifier))
   (function_declaration (identifier) (parameters) (block
     (call_expression (identifier)
       (call_expression (identifier)
@@ -64,7 +64,10 @@ package main
 
 func main() {
   make(chan<- int)
-  make(chan<- int, (new - old))
+
+  // `new` and `make` can also be used as variable names
+  make(chan<- int, (new - old), make.stuff)
+
   make(chan<- int, 5, 10)
   new(map[string]string)
 }
@@ -72,23 +75,25 @@ func main() {
 ---
 
 (source_file
-  (package_clause (identifier))
+  (package_clause (package_identifier))
   (function_declaration (identifier) (parameters) (block
     (call_expression
       (identifier)
-      (channel_type (identifier)))
+      (channel_type (type_identifier)))
+    (comment)
     (call_expression
       (identifier)
-      (channel_type (identifier))
-      (binary_expression (identifier) (identifier)))
+      (channel_type (type_identifier))
+      (parenthesized_expression (binary_expression (identifier) (identifier)))
+      (selector_expression (identifier) (field_identifier)))
     (call_expression
       (identifier)
-      (channel_type (identifier))
+      (channel_type (type_identifier))
       (int_literal)
       (int_literal))
     (call_expression
       (identifier)
-      (map_type (identifier) (identifier))))))
+      (map_type (type_identifier) (type_identifier))))))
 
 ============================================
 Selector expressions
@@ -103,12 +108,12 @@ func main() {
 ---
 
 (source_file
-  (package_clause (identifier))
+  (package_clause (package_identifier))
   (function_declaration (identifier) (parameters) (block
     (call_expression
       (selector_expression
-        (selector_expression (identifier) (identifier))
-        (identifier))))))
+        (selector_expression (identifier) (field_identifier))
+        (field_identifier))))))
 
 ============================================
 Indexing expressions
@@ -128,7 +133,7 @@ func main() {
 ---
 
 (source_file
-  (package_clause (identifier))
+  (package_clause (package_identifier))
   (function_declaration (identifier) (parameters) (block
     (index_expression (identifier) (int_literal))
     (slice_expression (identifier))
@@ -150,9 +155,11 @@ func main() {
 ---
 
 (source_file
-  (package_clause (identifier))
+  (package_clause (package_identifier))
   (function_declaration (identifier) (parameters) (block
-    (type_assertion_expression (identifier) (qualified_identifier (identifier) (identifier))))))
+    (type_assertion_expression
+      (identifier)
+      (qualified_type (package_identifier) (type_identifier))))))
 
 ============================================
 Type conversion expressions
@@ -170,19 +177,19 @@ func main() {
 ---
 
 (source_file
-  (package_clause (identifier))
+  (package_clause (package_identifier))
   (function_declaration (identifier) (parameters) (block
     (type_conversion_expression
-      (slice_type (qualified_identifier (identifier) (identifier)))
-      (selector_expression (identifier) (identifier)))
+      (slice_type (qualified_type (package_identifier) (type_identifier)))
+      (selector_expression (identifier) (field_identifier)))
     (type_conversion_expression
-      (slice_type (qualified_identifier (identifier) (identifier)))
-      (selector_expression (identifier) (identifier)))
+      (parenthesized_type (slice_type (qualified_type (package_identifier) (type_identifier))))
+      (selector_expression (identifier) (field_identifier)))
     (call_expression
-      (selector_expression (identifier) (identifier))
+      (selector_expression (identifier) (field_identifier))
       (identifier))
     (call_expression
-      (selector_expression (identifier) (identifier))
+      (parenthesized_expression (selector_expression (identifier) (field_identifier)))
       (identifier)))))
 
 ============================================
@@ -199,7 +206,7 @@ func main() {
 ---
 
 (source_file
-  (package_clause (identifier))
+  (package_clause (package_identifier))
   (function_declaration (identifier) (parameters) (block
     (unary_expression (unary_expression (identifier)))
     (unary_expression (call_expression (identifier))))))

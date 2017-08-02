@@ -9,11 +9,11 @@ type a b.c
 ---
 
 (source_file
-  (package_clause (identifier))
+  (package_clause (package_identifier))
   (type_declaration
     (type_spec
-      (identifier)
-      (qualified_identifier (identifier) (identifier)))))
+      (type_identifier)
+      (qualified_type (package_identifier) (type_identifier)))))
 
 ============================================
 Array types
@@ -26,13 +26,13 @@ type a [2+2]c
 ---
 
 (source_file
-  (package_clause (identifier))
+  (package_clause (package_identifier))
   (type_declaration
     (type_spec
-      (identifier)
+      (type_identifier)
       (array_type
         (binary_expression (int_literal) (int_literal))
-        (identifier)))))
+        (type_identifier)))))
 
 ============================================
 Slice types
@@ -46,15 +46,15 @@ type b [][]d
 ---
 
 (source_file
-  (package_clause (identifier))
+  (package_clause (package_identifier))
   (type_declaration
     (type_spec
-      (identifier)
-      (slice_type (identifier))))
+      (type_identifier)
+      (slice_type (type_identifier))))
   (type_declaration
     (type_spec
-      (identifier)
-      (slice_type (slice_type (identifier))))))
+      (type_identifier)
+      (slice_type (slice_type (type_identifier))))))
 
 ============================================
 Struct types
@@ -81,33 +81,34 @@ type s3 struct {
 ---
 
 (source_file
-  (package_clause (identifier))
+  (package_clause (package_identifier))
   (type_declaration
     (type_spec
-      (identifier)
+      (type_identifier)
       (struct_type)))
   (type_declaration
     (type_spec
-      (identifier)
-      (struct_type (field_declaration (identifier)))))
+      (type_identifier)
+      (struct_type (field_declaration (type_identifier)))))
   (type_declaration
     (type_spec
-      (identifier)
+      (type_identifier)
       (struct_type
         (field_declaration
-          (identifier_list (identifier) (identifier))
-          (identifier)))))
+          (field_identifier)
+          (field_identifier)
+          (type_identifier)))))
   (type_declaration
     (type_spec
-      (identifier)
+      (type_identifier)
       (struct_type
         (comment)
         (field_declaration
-          (qualified_identifier (identifier) (identifier)))
+          (qualified_type (package_identifier) (type_identifier)))
         (comment)
         (field_declaration
-          (identifier_list (identifier))
-          (identifier)
+          (field_identifier)
+          (type_identifier)
           (raw_string_literal))))))
 
 ============================================
@@ -129,23 +130,23 @@ type i2 interface {
 ---
 
 (source_file
-  (package_clause (identifier))
+  (package_clause (package_identifier))
   (type_declaration (type_spec
-    (identifier)
+    (type_identifier)
     (interface_type)))
   (type_declaration (type_spec
-    (identifier)
+    (type_identifier)
     (interface_type
-      (qualified_identifier (identifier) (identifier)))))
+      (qualified_type (package_identifier) (type_identifier)))))
   (type_declaration (type_spec
-    (identifier)
+    (type_identifier)
     (interface_type
-      (identifier)
-      (qualified_identifier (identifier) (identifier))
+      (type_identifier)
+      (qualified_type (package_identifier) (type_identifier))
       (method_spec
-        (identifier)
-        (parameters (parameter_declaration (identifier) (identifier)))
-        (identifier))))))
+        (field_identifier)
+        (parameters (parameter_declaration (identifier) (type_identifier)))
+        (type_identifier))))))
 
 ============================================
 Map types
@@ -158,11 +159,11 @@ type m1 map[string]error
 ---
 
 (source_file
-  (package_clause (identifier))
+  (package_clause (package_identifier))
   (type_declaration
     (type_spec
-      (identifier)
-      (map_type (identifier) (identifier)))))
+      (type_identifier)
+      (map_type (type_identifier) (type_identifier)))))
 
 ============================================
 Pointer types
@@ -178,14 +179,14 @@ type (
 ---
 
 (source_file
-  (package_clause (identifier))
+  (package_clause (package_identifier))
   (type_declaration
     (type_spec
-      (identifier)
-      (pointer_type (identifier)))
+      (type_identifier)
+      (pointer_type (type_identifier)))
     (type_spec
-      (identifier)
-      (pointer_type (pointer_type (identifier))))))
+      (type_identifier)
+      (pointer_type (pointer_type (type_identifier))))))
 
 ============================================
 Channel types
@@ -202,17 +203,17 @@ type (
 ---
 
 (source_file
-  (package_clause (identifier))
+  (package_clause (package_identifier))
   (type_declaration
     (type_spec
-      (identifier)
-      (channel_type (channel_type (identifier))))
+      (type_identifier)
+      (channel_type (channel_type (type_identifier))))
     (type_spec
-      (identifier)
+      (type_identifier)
       (channel_type (channel_type (struct_type))))
     (type_spec
-      (identifier)
-      (channel_type (channel_type (identifier))))))
+      (type_identifier)
+      (channel_type (channel_type (type_identifier))))))
 
 ============================================
 Function types
@@ -228,20 +229,20 @@ type (
 ---
 
 (source_file
-  (package_clause (identifier))
+  (package_clause (package_identifier))
   (type_declaration
     (type_spec
-      (identifier)
+      (type_identifier)
       (function_type
         (parameters
           (identifier))
-        (identifier)))
+        (type_identifier)))
     (type_spec
-      (identifier)
+      (type_identifier)
       (function_type
         (parameters
           (identifier)
-          (parameter_declaration (pointer_type (identifier))))
+          (parameter_declaration (pointer_type (type_identifier))))
         (parameters
           (identifier)
           (identifier))))))

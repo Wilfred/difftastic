@@ -11,15 +11,18 @@ const three, four, five = 3, 4, 5
 ----
 
 (source_file
-  (package_clause (identifier))
+  (package_clause (package_identifier))
   (const_declaration (const_spec
-    (identifier_list (identifier))
+    (identifier)
     (expression_list (int_literal))))
   (const_declaration (const_spec
-    (identifier_list (identifier) (identifier))
+    (identifier)
+    (identifier)
     (expression_list (int_literal) (int_literal))))
   (const_declaration (const_spec
-    (identifier_list (identifier) (identifier) (identifier))
+    (identifier)
+    (identifier)
+    (identifier)
     (expression_list (int_literal) (int_literal) (int_literal)))))
 
 ============================================
@@ -34,14 +37,15 @@ const one, two uint64 = 1, 2
 ----
 
 (source_file
-  (package_clause (identifier))
+  (package_clause (package_identifier))
   (const_declaration (const_spec
-    (identifier_list (identifier))
     (identifier)
+    (type_identifier)
     (expression_list (int_literal))))
   (const_declaration (const_spec
-    (identifier_list (identifier) (identifier))
     (identifier)
+    (identifier)
+    (type_identifier)
     (expression_list (int_literal) (int_literal)))))
 
 ============================================
@@ -58,13 +62,13 @@ const (
 ----
 
 (source_file
-  (package_clause (identifier))
+  (package_clause (package_identifier))
   (const_declaration
     (const_spec
-      (identifier_list (identifier))
+      (identifier)
       (expression_list (int_literal)))
     (const_spec
-      (identifier_list (identifier))
+      (identifier)
       (expression_list (int_literal)))))
 
 ============================================
@@ -82,15 +86,15 @@ const (
 ----
 
 (source_file
-  (package_clause (identifier))
+  (package_clause (package_identifier))
   (const_declaration
     (const_spec
-      (identifier_list (identifier))
+      (identifier)
       (expression_list (identifier)))
     (const_spec
-      (identifier_list (identifier)))
+      (identifier))
     (const_spec
-      (identifier_list (identifier)))))
+      (identifier))))
 
 ============================================
 Var declarations without types
@@ -105,15 +109,18 @@ var three, four, five = 3, 4, 5
 ----
 
 (source_file
-  (package_clause (identifier))
+  (package_clause (package_identifier))
   (var_declaration (var_spec
-    (identifier_list (identifier))
+    (identifier)
     (expression_list (int_literal))))
   (var_declaration (var_spec
-    (identifier_list (identifier) (identifier))
+    (identifier)
+    (identifier)
     (expression_list (int_literal) (int_literal))))
   (var_declaration (var_spec
-    (identifier_list (identifier) (identifier) (identifier))
+    (identifier)
+    (identifier)
+    (identifier)
     (expression_list (int_literal) (int_literal) (int_literal)))))
 
 ============================================
@@ -128,14 +135,15 @@ var one, two uint64 = 1, 2
 ----
 
 (source_file
-  (package_clause (identifier))
+  (package_clause (package_identifier))
   (var_declaration (var_spec
-    (identifier_list (identifier))
     (identifier)
+    (type_identifier)
     (expression_list (int_literal))))
   (var_declaration (var_spec
-    (identifier_list (identifier) (identifier))
     (identifier)
+    (identifier)
+    (type_identifier)
     (expression_list (int_literal) (int_literal)))))
 
 ============================================
@@ -150,13 +158,14 @@ var one, two uint64
 ----
 
 (source_file
-  (package_clause (identifier))
+  (package_clause (package_identifier))
   (var_declaration (var_spec
-    (identifier_list (identifier))
-    (identifier)))
+    (identifier)
+    (type_identifier)))
   (var_declaration (var_spec
-    (identifier_list (identifier) (identifier))
-    (identifier))))
+    (identifier)
+    (identifier)
+    (type_identifier))))
 
 ============================================
 Grouped var declarations
@@ -172,13 +181,13 @@ var (
 ----
 
 (source_file
-  (package_clause (identifier))
+  (package_clause (package_identifier))
   (var_declaration
     (var_spec
-      (identifier_list (identifier))
+      (identifier)
       (expression_list (int_literal)))
     (var_spec
-      (identifier_list (identifier))
+      (identifier)
       (expression_list (int_literal)))))
 
 ============================================
@@ -195,7 +204,7 @@ func f2() (result int, err error) {}
 ---
 
 (source_file
-  (package_clause (identifier))
+  (package_clause (package_identifier))
   (function_declaration
     (identifier)
     (parameters)
@@ -203,11 +212,11 @@ func f2() (result int, err error) {}
   (function_declaration
     (identifier)
     (parameters
-      (parameter_declaration (identifier) (identifier))
+      (parameter_declaration (identifier) (type_identifier))
       (identifier)
       (identifier)
-      (parameter_declaration (identifier) (identifier)))
-    (identifier)
+      (parameter_declaration (identifier) (type_identifier)))
+    (type_identifier)
     (block))
   (function_declaration
     (identifier)
@@ -220,8 +229,8 @@ func f2() (result int, err error) {}
     (identifier)
     (parameters)
     (parameters
-      (parameter_declaration (identifier) (identifier))
-      (parameter_declaration (identifier) (identifier)))
+      (parameter_declaration (identifier) (type_identifier))
+      (parameter_declaration (identifier) (type_identifier)))
     (block)))
 
 ============================================
@@ -237,7 +246,7 @@ func f3() { a(); b(); }
 ---
 
 (source_file
-  (package_clause (identifier))
+  (package_clause (package_identifier))
   (function_declaration
     (identifier)
     (parameters)
@@ -269,22 +278,22 @@ func f3(a, ...bool) {}
 ---
 
 (source_file
-  (package_clause (identifier))
+  (package_clause (package_identifier))
   (function_declaration
     (identifier)
     (parameters
-      (parameter_declaration (identifier) (pointer_type (identifier))))
+      (parameter_declaration (identifier) (pointer_type (type_identifier))))
     (block))
   (function_declaration
     (identifier)
     (parameters
-      (parameter_declaration (identifier)))
+      (parameter_declaration (type_identifier)))
     (block))
   (function_declaration
     (identifier)
     (parameters
       (identifier)
-      (parameter_declaration (identifier)))
+      (parameter_declaration (type_identifier)))
     (block)))
 
 ============================================
@@ -299,22 +308,22 @@ func (v *Value) ObjxMap(optionalDefault ...(Map)) Map {}
 ---
 
 (source_file
-  (package_clause (identifier))
+  (package_clause (package_identifier))
   (method_declaration
     (parameters
-      (parameter_declaration (identifier) (identifier)))
-    (identifier)
+      (parameter_declaration (identifier) (type_identifier)))
+    (field_identifier)
     (parameters
-      (parameter_declaration (identifier) (identifier)))
-    (identifier)
+      (parameter_declaration (identifier) (type_identifier)))
+    (type_identifier)
     (block))
   (method_declaration
     (parameters
-      (parameter_declaration (identifier) (pointer_type (identifier))))
-      (identifier)
-      (parameters (parameter_declaration (identifier) (identifier)))
-      (identifier)
-      (block)))
+      (parameter_declaration (identifier) (pointer_type (type_identifier))))
+    (field_identifier)
+    (parameters (parameter_declaration (identifier) (parenthesized_type (type_identifier))))
+    (type_identifier)
+    (block)))
 
 ============================================
 Type declarations
@@ -331,9 +340,9 @@ type (
 ---
 
 (source_file
-  (package_clause (identifier))
+  (package_clause (package_identifier))
   (type_declaration
-    (type_spec (identifier) (identifier)))
+    (type_spec (type_identifier) (type_identifier)))
   (type_declaration
-    (type_spec (identifier) (identifier))
-    (type_spec (identifier) (identifier))))
+    (type_spec (type_identifier) (type_identifier))
+    (type_spec (type_identifier) (type_identifier))))
