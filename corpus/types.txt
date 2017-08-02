@@ -41,8 +41,8 @@ let person: {name: string, age: number};
   (lexical_declaration (variable_declarator
     (identifier)
     (type_annotation (object_type
-      (property_signature (identifier) (type_annotation (predefined_type)))
-      (property_signature (identifier) (type_annotation (predefined_type))))))))
+      (property_signature (property_identifier) (type_annotation (predefined_type)))
+      (property_signature (property_identifier) (type_annotation (predefined_type))))))))
 
 =======================================
 Array types
@@ -55,7 +55,7 @@ let x: X[];
 (program
   (lexical_declaration (variable_declarator
     (identifier)
-    (type_annotation (array_type (type_reference (identifier)))))))
+    (type_annotation (array_type (type_identifier))))))
 
 =======================================
 Function types
@@ -90,7 +90,7 @@ let x: new < T1, T2 > ( p1, p2 ) => R;
         (type_parameters (type_parameter (identifier)) (type_parameter (identifier)))
         (formal_parameters
           (required_parameter (identifier)) (required_parameter (identifier)))
-        (type_reference (identifier)))))))
+        (type_identifier))))))
 
 
 =======================================
@@ -106,8 +106,8 @@ const range = (document: any).selection.createRange()
     (identifier)
   (function_call
   (member_access
-    (member_access (identifier) (type_annotation (predefined_type)) (identifier))
-    (identifier))
+    (member_access (identifier) (type_annotation (predefined_type)) (property_identifier))
+    (property_identifier))
   (arguments)))))
 
 =======================================
@@ -122,10 +122,10 @@ const miscArray: ?T[]
 (program
   (lexical_declaration (variable_declarator
     (identifier)
-    (type_annotation (flow_maybe_type (type_reference (identifier))))))
+    (type_annotation (flow_maybe_type (type_identifier)))))
   (lexical_declaration (variable_declarator
     (identifier)
-    (type_annotation (flow_maybe_type (array_type (type_reference (identifier))))))))
+    (type_annotation (flow_maybe_type (array_type (type_identifier)))))))
 
 =======================================
 Flow Import Types
@@ -167,17 +167,17 @@ type ConflictInfo = {
   (type_alias_declaration
     (identifier)
     (object_type
-      (property_signature (identifier) (type_annotation (type_reference (identifier))))
-      (property_signature (identifier) (type_annotation (type_reference (identifier))))
-      (property_signature (identifier) (type_annotation (type_reference (identifier))))
-      (property_signature (identifier) (type_annotation (array_type (type_reference (identifier)))))))
+      (property_signature (property_identifier) (type_annotation (type_identifier)))
+      (property_signature (property_identifier) (type_annotation (type_identifier)))
+      (property_signature (property_identifier) (type_annotation (type_identifier)))
+      (property_signature (property_identifier) (type_annotation (array_type (type_identifier))))))
 
   (type_alias_declaration
     (identifier)
     (object_type
-      (property_signature (identifier) (type_annotation (type_reference (identifier))))
-      (property_signature (identifier) (type_annotation (type_reference (identifier))))
-      (property_signature (identifier) (type_annotation (type_reference (identifier)))))))
+      (property_signature (property_identifier) (type_annotation (type_identifier)))
+      (property_signature (property_identifier) (type_annotation (type_identifier)))
+      (property_signature (property_identifier) (type_annotation (type_identifier))))))
 
 =======================================
 Enum declarations
@@ -185,8 +185,8 @@ Enum declarations
 
 enum Test {
     A,
-    B,
-    C = Math.floor(Math.random() * 1000),
+    'B',
+    'C' = Math.floor(Math.random() * 1000),
     D = 10,
     E
 }
@@ -203,25 +203,23 @@ enum Style {
 ---
 
 (program
-  (enum_declaration
-    (identifier)
-    (identifier)
-    (identifier)
+  (enum_declaration (identifier) (enum_body
+    (property_identifier)
+    (string)
     (enum_assignment
-      (identifier)
+      (string)
       (function_call
-        (member_access (identifier) (identifier))
-        (arguments (math_op (function_call (member_access (identifier) (identifier)) (arguments)) (number)))))
-    (enum_assignment (identifier) (number))
-    (identifier))
-  (enum_declaration
-    (identifier)
-    (enum_assignment (identifier) (number))
-    (enum_assignment (identifier) (number))
-    (enum_assignment (identifier) (number))
-    (enum_assignment (identifier) (number))
-    (enum_assignment (identifier) (bitwise_op (identifier) (identifier)))
-    (enum_assignment (identifier) (bitwise_op (identifier) (identifier)))))
+        (member_access (identifier) (property_identifier))
+        (arguments (math_op (function_call (member_access (identifier) (property_identifier)) (arguments)) (number)))))
+    (enum_assignment (property_identifier) (number))
+    (property_identifier)))
+  (enum_declaration (identifier) (enum_body
+    (enum_assignment (property_identifier) (number))
+    (enum_assignment (property_identifier) (number))
+    (enum_assignment (property_identifier) (number))
+    (enum_assignment (property_identifier) (number))
+    (enum_assignment (property_identifier) (bitwise_op (identifier) (identifier)))
+    (enum_assignment (property_identifier) (bitwise_op (identifier) (identifier))))))
 
 =======================================
 Interface declarations
@@ -252,33 +250,33 @@ interface X {
 (program
   (interface_declaration
     (identifier)
-    (object_type (property_signature (identifier) (type_annotation (predefined_type)))))
+    (object_type (property_signature (property_identifier) (type_annotation (predefined_type)))))
   (interface_declaration
     (identifier)
-    (extends_clause (type_reference (identifier)))
-    (object_type (property_signature (identifier) (type_annotation (predefined_type)))))
-  (interface_declaration
-    (identifier)
-    (object_type
-      (property_signature (identifier) (type_annotation (predefined_type)))
-      (property_signature (identifier) (type_annotation (predefined_type)))))
-  (interface_declaration
-    (identifier)
-    (type_parameters (type_parameter (identifier)) (type_parameter (identifier) (constraint (type_reference (identifier)))))
-    (object_type
-      (property_signature (identifier) (type_annotation (type_reference (identifier))))
-      (property_signature (identifier) (type_annotation (type_reference (identifier))))))
+    (extends_clause (type_identifier))
+    (object_type (property_signature (property_identifier) (type_annotation (predefined_type)))))
   (interface_declaration
     (identifier)
     (object_type
-      (property_signature (identifier) (type_annotation (object_type)))
+      (property_signature (property_identifier) (type_annotation (predefined_type)))
+      (property_signature (property_identifier) (type_annotation (predefined_type)))))
+  (interface_declaration
+    (identifier)
+    (type_parameters (type_parameter (identifier)) (type_parameter (identifier) (constraint (type_identifier))))
+    (object_type
+      (property_signature (property_identifier) (type_annotation (type_identifier)))
+      (property_signature (property_identifier) (type_annotation (type_identifier)))))
+  (interface_declaration
+    (identifier)
+    (object_type
+      (property_signature (property_identifier) (type_annotation (object_type)))
       (method_signature
-        (reserved_identifier)
+        (property_identifier)
         (call_signature
           (formal_parameters
-            (required_parameter (identifier) (type_annotation (type_reference (identifier)))))
+            (required_parameter (identifier) (type_annotation (type_identifier))))
           (type_annotation
-            (type_reference (identifier) (type_arguments (type_reference (identifier))))))))))
+            (generic_type (type_identifier) (type_arguments (type_identifier)))))))))
 
 =======================================
 Existential types
@@ -291,7 +289,7 @@ let x: Array<*>
 (program
   (lexical_declaration (variable_declarator
     (identifier)
-    (type_annotation (type_reference (identifier) (type_arguments (existential_type)))))))
+    (type_annotation (generic_type (type_identifier) (type_arguments (existential_type)))))))
 
 =======================================
 Flow Union types
@@ -329,8 +327,8 @@ type BrowserStats = {|
   (type_alias_declaration
     (identifier)
     (object_type
-      (property_signature (identifier) (type_annotation (predefined_type)))
-      (property_signature (identifier) (type_annotation (predefined_type))))))
+      (property_signature (property_identifier) (type_annotation (predefined_type)))
+      (property_signature (property_identifier) (type_annotation (predefined_type))))))
 
 
 =======================================
@@ -363,7 +361,7 @@ type HandlerFunction<T: Element> = void
 (program
   (type_alias_declaration
     (identifier)
-    (type_parameters (type_parameter (identifier) (constraint (type_reference (identifier)))))
+    (type_parameters (type_parameter (identifier) (constraint (type_identifier))))
   (predefined_type)))
 
 
@@ -372,8 +370,10 @@ Nested type arguments
 =======================================
 
 interface X {
-  x(): Promise<Array<Foo> >;
+  x(): Promise<Array<Foo>>;
 }
+
+var y: Map<number, Promise<Map<bool, Map<Foo, Bar>>>>
 
 ---
 
@@ -382,14 +382,31 @@ interface X {
     (identifier)
     (object_type
       (method_signature
-        (identifier)
+        (property_identifier)
         (call_signature
           (formal_parameters)
           (type_annotation
-            (type_reference
-              (identifier)
+            (generic_type
+              (type_identifier)
               (type_arguments
-                (type_reference (identifier) (type_arguments (type_reference (identifier))))))))))))
+                (generic_type (type_identifier) (type_arguments (type_identifier))))))))))
+  (variable_declaration (variable_declarator
+    (identifier)
+    (type_annotation (generic_type
+      (type_identifier)
+      (type_arguments
+        (predefined_type)
+        (generic_type
+          (type_identifier)
+          (type_arguments (generic_type
+            (type_identifier)
+            (type_arguments
+              (type_identifier)
+              (generic_type
+                (type_identifier)
+                (type_arguments
+                  (type_identifier)
+                  (type_identifier)))))))))))))
 
 =======================================
 predefined types as identifiers
@@ -405,7 +422,7 @@ let score: (string: string, query: string) => number
     (type_annotation
     (function_type
       (formal_parameters
-        (required_parameter (parameter_identifier) (type_annotation (predefined_type)))
+        (required_parameter (identifier) (type_annotation (predefined_type)))
         (required_parameter (identifier) (type_annotation (predefined_type))))
       (predefined_type))))))
 

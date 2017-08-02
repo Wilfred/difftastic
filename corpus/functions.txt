@@ -28,8 +28,8 @@ function foo<T, U>(a: T[], f: (x: T) => U): U[] {
       (identifier)
       (call_signature
         (type_parameters (type_parameter (identifier)))
-        (formal_parameters (required_parameter (identifier) (type_annotation (type_reference (identifier)))))
-        (type_annotation (type_reference (identifier))))
+        (formal_parameters (required_parameter (identifier) (type_annotation (type_identifier))))
+        (type_annotation (type_identifier)))
         (statement_block)))
   (expression_statement
     (function
@@ -37,13 +37,13 @@ function foo<T, U>(a: T[], f: (x: T) => U): U[] {
       (call_signature
         (type_parameters (type_parameter (identifier)) (type_parameter (identifier)))
         (formal_parameters
-          (required_parameter (identifier) (type_annotation (array_type (type_reference (identifier)))))
+          (required_parameter (identifier) (type_annotation (array_type (type_identifier))))
           (required_parameter
             (identifier)
             (type_annotation
               (function_type
-                (formal_parameters (required_parameter (identifier) (type_annotation (type_reference (identifier))))) (type_reference (identifier))))))
-        (type_annotation (array_type (type_reference (identifier)))))
+                (formal_parameters (required_parameter (identifier) (type_annotation (type_identifier)))) (type_identifier)))))
+        (type_annotation (array_type (type_identifier))))
       (statement_block))))
 
 ==================================
@@ -58,7 +58,7 @@ const lines = new Array<DiffLine>()
   (lexical_declaration
     (variable_declarator
       (identifier)
-      (function_call (new_expression (identifier)) (type_arguments (type_reference (identifier))) (arguments)))))
+      (function_call (new_expression (identifier)) (type_arguments (type_identifier)) (arguments)))))
 
 ==================================
 Arrow functions and generators with call signatures
@@ -92,7 +92,7 @@ const x = async => async;
 ---
 
 (program
-  (lexical_declaration (variable_declarator (identifier) (arrow_function (reserved_identifier) (reserved_identifier)))))
+  (lexical_declaration (variable_declarator (identifier) (arrow_function (identifier) (identifier)))))
 
 ==================================
 Super
@@ -113,10 +113,10 @@ class A extends B {
   (expression_statement
     (class
       (identifier)
-      (class_heritage (extends_clause (type_reference (identifier))))
+      (class_heritage (extends_clause (type_identifier)))
       (class_body
         (method_definition
-          (identifier)
+          (property_identifier)
           (call_signature
             (formal_parameters
               (required_parameter (identifier) (type_annotation (predefined_type)))
@@ -125,10 +125,10 @@ class A extends B {
             (expression_statement (function_call (super) (arguments (identifier))))))
         (method_definition
           (accessibility_modifier)
-          (identifier)
+          (property_identifier)
           (call_signature (formal_parameters))
           (statement_block
             (return_statement
               (math_op
-                (math_op (function_call (member_access (super) (identifier)) (arguments)) (string))
-                (member_access (this_expression) (identifier))))))))))
+                (math_op (function_call (member_access (super) (property_identifier)) (arguments)) (string))
+                (member_access (this_expression) (property_identifier))))))))))
