@@ -301,7 +301,7 @@ module.exports = grammar({
     ),
 
     _primary: $ => choice(
-      seq('(', optional($._statements), ')'),
+      $.parenthesized_statements,
       $._lhs,
       $.array,
       $.hash,
@@ -337,6 +337,8 @@ module.exports = grammar({
       $.retry,
       $.heredoc_beginning
     ),
+
+    parenthesized_statements: $ => seq('(', optional($._statements), ')'),
 
     element_reference: $ => prec.left(1, seq(
       $._primary,
