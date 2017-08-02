@@ -1216,6 +1216,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "_mlhs"
+        },
+        {
+          "type": "SYMBOL",
           "name": "in"
         },
         {
@@ -1243,10 +1247,6 @@
     "in": {
       "type": "SEQ",
       "members": [
-        {
-          "type": "SYMBOL",
-          "name": "_mlhs"
-        },
         {
           "type": "STRING",
           "value": "in"
