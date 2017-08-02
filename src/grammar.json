@@ -1560,21 +1560,8 @@
         {
           "type": "ALIAS",
           "content": {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "STRING",
-                "value": "get"
-              },
-              {
-                "type": "STRING",
-                "value": "set"
-              },
-              {
-                "type": "STRING",
-                "value": "async"
-              }
-            ]
+            "type": "SYMBOL",
+            "name": "_reserved_identifier"
           },
           "named": true,
           "value": "identifier"
@@ -1659,16 +1646,8 @@
                     "name": "identifier"
                   },
                   {
-                    "type": "STRING",
-                    "value": "get"
-                  },
-                  {
-                    "type": "STRING",
-                    "value": "set"
-                  },
-                  {
-                    "type": "STRING",
-                    "value": "async"
+                    "type": "SYMBOL",
+                    "name": "_reserved_identifier"
                   }
                 ]
               },
@@ -4307,16 +4286,8 @@
                 "name": "identifier"
               },
               {
-                "type": "STRING",
-                "value": "get"
-              },
-              {
-                "type": "STRING",
-                "value": "set"
-              },
-              {
-                "type": "STRING",
-                "value": "async"
+                "type": "SYMBOL",
+                "name": "_reserved_identifier"
               }
             ]
           },
@@ -4330,6 +4301,23 @@
         {
           "type": "SYMBOL",
           "name": "number"
+        }
+      ]
+    },
+    "_reserved_identifier": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "get"
+        },
+        {
+          "type": "STRING",
+          "value": "set"
+        },
+        {
+          "type": "STRING",
+          "value": "async"
         }
       ]
     },
@@ -4401,6 +4389,7 @@
   "inline": [
     "_statement",
     "_semicolon",
-    "_destructuring_pattern"
+    "_destructuring_pattern",
+    "_reserved_identifier"
   ]
 }
