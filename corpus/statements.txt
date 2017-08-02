@@ -56,9 +56,16 @@ export { import1 as name1, import2 as name2, nameN } from 'foo';
 
 (program
   (export_statement
-    (export_clause (export_specifier (identifier)) (export_specifier (identifier)) (export_specifier (identifier)) (export_specifier (identifier))))
+    (export_clause
+      (export_specifier (identifier))
+      (export_specifier (identifier))
+      (export_specifier (identifier))
+      (export_specifier (identifier))))
   (export_statement
-    (export_clause (export_specifier (identifier) (identifier)) (export_specifier (identifier) (identifier)) (export_specifier (identifier))))
+    (export_clause
+      (export_specifier (identifier) (identifier))
+      (export_specifier (identifier) (identifier))
+      (export_specifier (identifier))))
   (export_statement
     (lexical_declaration
       (variable_declarator (identifier))
@@ -81,9 +88,17 @@ export { import1 as name1, import2 as name2, nameN } from 'foo';
   (export_statement
     (string))
   (export_statement
-    (export_clause (export_specifier (identifier)) (export_specifier (identifier)) (export_specifier (identifier))) (string))
+    (export_clause
+      (export_specifier (identifier))
+      (export_specifier (identifier))
+      (export_specifier (identifier)))
+    (string))
   (export_statement
-    (export_clause (export_specifier (identifier) (identifier)) (export_specifier (identifier) (identifier)) (export_specifier (identifier))) (string)))
+    (export_clause
+      (export_specifier (identifier) (identifier))
+      (export_specifier (identifier) (identifier))
+      (export_specifier (identifier)))
+    (string)))
 
 ============================================
 If statements
@@ -103,7 +118,7 @@ if (a.b) {
   (if_statement (identifier)
     (expression_statement (function_call
       (identifier) (arguments (identifier)))))
-  (if_statement (member_access (identifier) (identifier))
+  (if_statement (member_access (identifier) (property_identifier))
     (statement_block
       (expression_statement (function_call
         (identifier) (arguments (identifier))))
@@ -271,7 +286,7 @@ return a;
   (return_statement)
   (return_statement (number))
   (return_statement (comma_op (number) (number)))
-  (return_statement (reserved_identifier))
+  (return_statement (identifier))
   (return_statement (identifier)))
 
 ============================================
@@ -311,9 +326,9 @@ Comments
 (program
   (expression_statement (object
     (comment)
-    (pair (identifier) (number))
+    (pair (property_identifier) (number))
     (comment)
-    (pair (identifier) (function (formal_parameters) (statement_block))))))
+    (pair (property_identifier) (function (formal_parameters) (statement_block))))))
 
 ==========================================
 Comments between statements
@@ -343,7 +358,7 @@ var thing = {
     (object
       (comment)
       (comment)
-      (pair (identifier) (function
+      (pair (property_identifier) (function
         (formal_parameters (identifier) (comment))
         (statement_block
           (comment)
@@ -508,11 +523,11 @@ for (;;) {
 ---
 
 (program
-  (labeled_statement (identifier)
+  (labeled_statement (statement_identifier)
     (for_statement (statement_block
       (if_statement (identifier)
-        (statement_block (break_statement (identifier)))
-        (statement_block (continue_statement (identifier))))))))
+        (statement_block (break_statement (statement_identifier)))
+        (statement_block (continue_statement (statement_identifier))))))))
 
 ============================================
 Debugger statements
@@ -534,26 +549,3 @@ with (x) { i; }
 ---
 
 (program (with_statement (identifier) (statement_block (expression_statement (identifier)))))
-
-============================================
-Abstract as identifier
-============================================
-
-abstract
-
----
-
-(program (expression_statement (reserved_identifier)))
-
-
-============================================
-Interface as identifier
-============================================
-
-interface
-
----
-
-(program (expression_statement (reserved_identifier)))
-
-
