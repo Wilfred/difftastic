@@ -2,12 +2,12 @@
 As expressions
 ==================================
 
-as `hello`
+h as `hello`
 
 ---
 
 (program
-  (expression_statement (as_expression (template_string))))
+  (expression_statement (as_expression (identifier) (template_string))))
 
 ==================================
 Typeof expressions

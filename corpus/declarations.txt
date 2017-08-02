@@ -65,7 +65,7 @@ declare module Foo {
     (class
       (identifier)
       (class_body
-        (public_field_definition (property_identifier) (type_annotation (type_reference (identifier)))))))
+        (public_field_definition (property_identifier) (type_annotation (type_identifier))))))
   (ambient_declaration
     (variable_declaration (variable_declarator (identifier) (type_annotation (predefined_type)))))
   (ambient_declaration
@@ -108,7 +108,7 @@ declare module Foo {
         (method_definition (property_identifier) (call_signature (formal_parameters) (type_annotation (predefined_type)))))))
 
   (ambient_declaration
-    (module (identifier) (identifier) (statement_block
+    (module (nested_identifier (identifier) (identifier)) (statement_block
       (export_statement (variable_declaration (variable_declarator (identifier)))))))
 
   (empty_statement)
@@ -195,7 +195,7 @@ import r = X.N;
 
 (program
   (expression_statement
-    (import_alias (identifier) (identifier) (identifier))))
+    (import_alias (identifier) (nested_identifier (identifier) (identifier)))))
 
 ==================================
 Import aliases in modules
@@ -209,7 +209,8 @@ module C {
 
 (program
   (module (identifier) (statement_block
-    (expression_statement (import_alias (identifier) (identifier) (identifier))))))
+    (expression_statement
+      (import_alias (identifier) (nested_identifier (identifier) (identifier)))))))
 
 ==================================
 Export import aliases
@@ -252,7 +253,7 @@ export class CloningRepository {
           (accessibility_modifier)
           (readonly)
           (property_identifier)
-          (type_annotation (type_reference (identifier) (type_arguments (type_reference (identifier)))))))))
+          (type_annotation (generic_type (type_identifier) (type_arguments (type_identifier))))))))
   (export_statement
     (class
       (identifier)
@@ -277,10 +278,10 @@ declare type IndexableType = string | number | Date | Array<string | number | Da
         (union_type
           (union_type
             (union_type (predefined_type) (predefined_type))
-            (type_reference (identifier)))
-            (type_reference
-              (identifier)
-              (type_arguments (union_type (union_type (predefined_type) (predefined_type)) (type_reference (identifier)))))))))
+            (type_identifier))
+            (generic_type
+              (type_identifier)
+              (type_arguments (union_type (union_type (predefined_type) (predefined_type)) (type_identifier))))))))
 
 ==================================
 Ambient module declarations
@@ -309,8 +310,8 @@ declare module "example" { }
         (formal_parameters
           (optional_parameter
             (identifier)
-            (type_annotation (type_reference (identifier) (type_arguments (type_reference (identifier)))))))
-        (type_annotation (type_reference (identifier) (type_arguments (type_reference (identifier))))))))))
+            (type_annotation (generic_type (type_identifier) (type_arguments (type_identifier))))))
+        (type_annotation (generic_type (type_identifier) (type_arguments (type_identifier)))))))))
 
   (ambient_declaration (module (string)))
   (ambient_declaration (module (string) (statement_block))))
@@ -376,7 +377,7 @@ foo as any as Array<number>
   (expression_statement
     (type_assertion (type_arguments (predefined_type)) (identifier)))
   (expression_statement
-    (as_expression (as_expression (identifier) (predefined_type)) (type_reference (identifier) (type_arguments (predefined_type))))))
+    (as_expression (as_expression (identifier) (predefined_type)) (generic_type (type_identifier) (type_arguments (predefined_type))))))
 
 =================================
 Ambient export function declarations
@@ -402,11 +403,10 @@ export interface Foo {
                 (required_parameter
                   (identifier)
                   (type_annotation
-                    (type_reference
-                      (identifier)
-                      (identifier)
-                      (type_arguments (type_reference (identifier)) (type_reference (identifier)))))))
-                      (type_annotation (type_reference (identifier) (type_arguments (type_reference (identifier)) (type_reference (identifier))))))))))))
+                    (generic_type
+                      (nested_type_identifier (identifier) (type_identifier))
+                      (type_arguments (type_identifier) (type_identifier))))))
+                      (type_annotation (generic_type (type_identifier) (type_arguments (type_identifier) (type_identifier)))))))))))
 
 
 =================================
@@ -435,7 +435,7 @@ declare namespace moment {
       (export_statement
         (ambient_function
           (identifier)
-          (call_signature (formal_parameters) (type_annotation (type_reference (identifier))))))
+          (call_signature (formal_parameters) (type_annotation (type_identifier)))))
       (export_statement (enum_declaration (identifier) (enum_body
         (property_identifier)
         (property_identifier)
@@ -503,7 +503,7 @@ class Foo {
           (call_signature (formal_parameters)))
         (method_definition
           (property_identifier)
-          (call_signature (formal_parameters) (type_annotation (type_reference (identifier)))))
+          (call_signature (formal_parameters) (type_annotation (type_identifier))))
         (method_definition
           (accessibility_modifier)
           (property_identifier)
@@ -530,9 +530,9 @@ class Foo {
     (class_body
       (public_field_definition (number) (type_annotation (predefined_type)))
       (public_field_definition (accessibility_modifier) (number) (type_annotation (predefined_type)) (string))
-      (public_field_definition (accessibility_modifier) (readonly) (string) (type_annotation (type_reference (identifier))) (string))
-      (public_field_definition (readonly) (string) (type_annotation (type_reference (identifier))) (string))
-      (public_field_definition (readonly) (string) (type_annotation (type_reference (identifier))) (string))))))
+      (public_field_definition (accessibility_modifier) (readonly) (string) (type_annotation (type_identifier)) (string))
+      (public_field_definition (readonly) (string) (type_annotation (type_identifier)) (string))
+      (public_field_definition (readonly) (string) (type_annotation (type_identifier)) (string))))))
 
 =======================================
 Global namespace declarations
