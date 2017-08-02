@@ -12,9 +12,13 @@ module.exports = grammar(C, {
     [$.template_function, $.template_type, $._expression],
     [$.template_function, $._expression],
     [$.template_function, $.template_type, $.field_expression],
-    [$.scoped_type_name, $.scoped_variable_name],
+    [$.scoped_type_identifier, $.scoped_identifier],
     [$.comma_expression, $._initializer_list_contents],
     [$.parameter_list, $.argument_list],
+  ]),
+
+  inline: ($, original) => original.concat([
+    $._namespace_identifier,
   ]),
 
   rules: {
@@ -33,7 +37,7 @@ module.exports = grammar(C, {
     _type_specifier: ($, original) => choice(
       original,
       $.class_specifier,
-      $.scoped_type_name,
+      $.scoped_type_identifier,
       $.template_type,
       $.auto
     ),
@@ -84,8 +88,8 @@ module.exports = grammar(C, {
     )),
 
     _class_name: $ => choice(
-      $._type_name,
-      $.scoped_type_name,
+      $._type_identifier,
+      $.scoped_type_identifier,
       $.template_type
     ),
 
@@ -136,7 +140,7 @@ module.exports = grammar(C, {
 
     type_parameter_declaration: $ => seq(
       'typename',
-      $._type_name
+      $._type_identifier
     ),
 
     parameter_declaration: ($, original) => choice(
@@ -168,7 +172,7 @@ module.exports = grammar(C, {
     ),
 
     field_initializer: $ => prec(1, seq(
-      choice($._field_name, $.scoped_field_name),
+      choice($._field_identifier, $.scoped_field_identifier),
       choice($.initializer_list, $.argument_list)
     )),
 
@@ -228,7 +232,7 @@ module.exports = grammar(C, {
     _declarator: ($, original) => choice(
       original,
       $.reference_declarator,
-      $.scoped_variable_name,
+      $.scoped_identifier,
       $.template_function,
       $.operator_name,
       $.destructor_name
@@ -286,12 +290,12 @@ module.exports = grammar(C, {
     noexcept: $ => 'noexcept',
 
     template_type: $ => seq(
-      choice($._type_name, $.scoped_type_name),
+      choice($._type_identifier, $.scoped_type_identifier),
       $.template_argument_list
     ),
 
     template_function: $ => seq(
-      choice($._variable_name, $.scoped_variable_name),
+      choice($.identifier, $.scoped_identifier),
       $.template_argument_list
     ),
 
@@ -315,14 +319,14 @@ module.exports = grammar(C, {
       optional('namespace'),
       choice(
         $.identifier,
-        $.scoped_type_name
+        $.scoped_identifier
       ),
       ';'
     ),
 
     alias_declaration: $ => seq(
       'using',
-      $._type_name,
+      $._type_identifier,
       '=',
       $.type_descriptor,
       ';'
@@ -364,7 +368,7 @@ module.exports = grammar(C, {
     _expression: ($, original) => choice(
       original,
       $.template_function,
-      $.scoped_variable_name,
+      $.scoped_identifier,
       $.new_expression,
       $.delete_expression,
       $.lambda_expression
@@ -374,8 +378,8 @@ module.exports = grammar(C, {
       'new',
       optional($.parenthesized_expression),
       choice(
-        $._type_name,
-        $.scoped_type_name
+        $._type_identifier,
+        $.scoped_type_identifier
       ),
       optional($.new_declarator),
       choice(
@@ -431,48 +435,58 @@ module.exports = grammar(C, {
 
     argument_list: $ => seq('(', commaSep(choice($._expression, $.initializer_list)), ')'),
 
-    destructor_name: $ => prec(1, seq('~', $._variable_name)),
+    destructor_name: $ => prec(1, seq('~', $.identifier)),
 
     compound_literal_expression: ($, original) => choice(
       original,
       seq(
         choice(
-          $._type_name,
+          $._type_identifier,
           $.template_type,
-          $.scoped_type_name
+          $.scoped_type_identifier
         ),
         $.initializer_list
       )
     ),
 
-    scoped_field_name: $ => prec(1, seq(
+    scoped_field_identifier: $ => prec(1, seq(
       optional(choice(
-        $.identifier,
+        $._namespace_identifier,
         $.template_type,
-        $.scoped_type_name
+        $.scoped_namespace_identifier
       )),
       '::',
-      choice($._variable_name, $.operator_name, $.destructor_name)
+      choice($._field_identifier, $.operator_name, $.destructor_name)
     )),
 
-    scoped_variable_name: $ => prec(1, seq(
+    scoped_identifier: $ => prec(1, seq(
       optional(choice(
-        $.identifier,
+        $._namespace_identifier,
         $.template_type,
-        $.scoped_type_name
+        $.scoped_namespace_identifier
       )),
       '::',
-      choice($._variable_name, $.operator_name, $.destructor_name)
+      choice($.identifier, $.operator_name, $.destructor_name)
     )),
 
-    scoped_type_name: $ => prec(1, seq(
+    scoped_type_identifier: $ => prec(1, seq(
       optional(choice(
-        $.identifier,
+        $._namespace_identifier,
         $.template_type,
-        $.scoped_type_name
+        $.scoped_namespace_identifier
       )),
       '::',
-      $._type_name
+      $._type_identifier
+    )),
+
+    scoped_namespace_identifier: $ => prec(2, seq(
+      optional(choice(
+        $._namespace_identifier,
+        $.template_type,
+        $.scoped_namespace_identifier
+      )),
+      '::',
+      $._namespace_identifier
     )),
 
     operator_name: $ => token(seq(
@@ -492,6 +506,8 @@ module.exports = grammar(C, {
         '()', '[]'
       )
     )),
+
+    _namespace_identifier: $ => alias($.identifier, $.namespace_identifier),
 
     macro_type_specifier: $ => choice(),
   }

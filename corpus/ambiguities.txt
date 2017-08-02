@@ -10,21 +10,21 @@ int main() {
 ---
 
 (translation_unit (function_definition
-  (type_name)
-  (function_declarator (variable_name) (parameter_list))
+  (type_identifier)
+  (function_declarator (identifier) (parameter_list))
   (compound_statement
     (expression_statement
-      (relational_expression (relational_expression (variable_name) (variable_name))
+      (relational_expression (relational_expression (identifier) (identifier))
       (number_literal)))
     (expression_statement (call_expression
       (template_function
-        (variable_name)
+        (identifier)
         (template_argument_list
-          (type_descriptor (type_name))
-          (type_descriptor (type_name))))
+          (type_descriptor (type_identifier))
+          (type_descriptor (type_identifier))))
       (argument_list
-        (variable_name)
-        (variable_name)))))))
+        (identifier)
+        (identifier)))))))
 
 ================================================
 template classes vs relational expressions
@@ -37,10 +37,10 @@ int main() {
 ---
 
 (translation_unit (function_definition
-  (type_name)
-  (function_declarator (variable_name) (parameter_list))
+  (type_identifier)
+  (function_declarator (identifier) (parameter_list))
   (compound_statement
     (declaration
-      (template_type (type_name)
-        (template_argument_list (type_descriptor (type_name))))
-      (init_declarator (variable_name) (number_literal))))))
+      (template_type (type_identifier)
+        (template_argument_list (type_descriptor (type_identifier))))
+      (init_declarator (identifier) (number_literal))))))

@@ -10,10 +10,10 @@ void foo() {
 
 (translation_unit
   (function_definition
-    (type_name)
-    (function_declarator (variable_name) (parameter_list))
+    (type_identifier)
+    (function_declarator (identifier) (parameter_list))
     (compound_statement
-      (declaration (auto) (init_declarator (variable_name) (number_literal))))))
+      (declaration (auto) (init_declarator (identifier) (number_literal))))))
 
 ==========================================
 Namespaced types
@@ -26,12 +26,12 @@ std::vector<int>::size_typ my_string;
 
 (translation_unit
   (declaration
-    (scoped_type_name (identifier) (type_name))
-    (variable_name))
+    (scoped_type_identifier (namespace_identifier) (type_identifier))
+    (identifier))
   (declaration
-    (scoped_type_name
+    (scoped_type_identifier
       (template_type
-        (scoped_type_name (identifier) (type_name))
-        (template_argument_list (type_descriptor (type_name))))
-      (type_name))
-    (variable_name)))
+        (scoped_type_identifier (namespace_identifier) (type_identifier))
+        (template_argument_list (type_descriptor (type_identifier))))
+      (type_identifier))
+    (identifier)))
