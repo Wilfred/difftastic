@@ -12,12 +12,12 @@ func main() {
 ---
 
 (source_file
-  (package_clause (package_name))
-  (function_declaration (variable_name) (parameters) (block
+  (package_clause (package_identifier))
+  (function_declaration (identifier) (parameters) (block
     (var_declaration
-      (var_spec (variable_name) (expression_list (variable_name))))
+      (var_spec (identifier) (expression_list (identifier))))
     (const_declaration
-      (const_spec (variable_name) (expression_list (int_literal)))))))
+      (const_spec (identifier) (expression_list (int_literal)))))))
 
 ============================================
 Expression statements
@@ -32,9 +32,9 @@ func main() {
 ---
 
 (source_file
-  (package_clause (package_name))
-  (function_declaration (variable_name) (parameters) (block
-    (call_expression (variable_name) (int_literal)))))
+  (package_clause (package_identifier))
+  (function_declaration (identifier) (parameters) (block
+    (call_expression (identifier) (int_literal)))))
 
 ============================================
 Expression statements
@@ -49,9 +49,9 @@ func main() {
 ---
 
 (source_file
-  (package_clause (package_name))
-  (function_declaration (variable_name) (parameters) (block
-    (call_expression (variable_name) (int_literal)))))
+  (package_clause (package_identifier))
+  (function_declaration (identifier) (parameters) (block
+    (call_expression (identifier) (int_literal)))))
 
 ============================================
 Send statements
@@ -66,9 +66,9 @@ func main() {
 ---
 
 (source_file
-  (package_clause (package_name))
-  (function_declaration (variable_name) (parameters) (block
-    (send_statement (variable_name) (int_literal)))))
+  (package_clause (package_identifier))
+  (function_declaration (identifier) (parameters) (block
+    (send_statement (identifier) (int_literal)))))
 
 ============================================
 Increment/Decrement statements
@@ -84,10 +84,10 @@ func main() {
 ---
 
 (source_file
-  (package_clause (package_name))
-  (function_declaration (variable_name) (parameters) (block
-    (inc_statement (variable_name))
-    (dec_statement (variable_name)))))
+  (package_clause (package_identifier))
+  (function_declaration (identifier) (parameters) (block
+    (inc_statement (identifier))
+    (dec_statement (identifier)))))
 
 ============================================
 Assignment statements
@@ -105,19 +105,19 @@ func main() {
 ---
 
 (source_file
-  (package_clause (package_name))
-  (function_declaration (variable_name) (parameters) (block
+  (package_clause (package_identifier))
+  (function_declaration (identifier) (parameters) (block
     (assignment_statement
-      (expression_list (variable_name))
+      (expression_list (identifier))
       (expression_list (int_literal)))
     (assignment_statement
-      (expression_list (variable_name) (variable_name))
+      (expression_list (identifier) (identifier))
       (expression_list (int_literal) (int_literal)))
     (assignment_statement
-      (expression_list (variable_name))
+      (expression_list (identifier))
       (expression_list (int_literal)))
     (assignment_statement
-      (expression_list (variable_name))
+      (expression_list (identifier))
       (expression_list (int_literal))))))
 
 ============================================
@@ -133,10 +133,10 @@ func main() {
 ---
 
 (source_file
-  (package_clause (package_name))
-  (function_declaration (variable_name) (parameters) (block
+  (package_clause (package_identifier))
+  (function_declaration (identifier) (parameters) (block
     (short_var_declaration
-      (expression_list (variable_name) (variable_name))
+      (expression_list (identifier) (identifier))
       (expression_list (int_literal) (int_literal))))))
 
 ============================================
@@ -164,21 +164,21 @@ func main() {
 ---
 
 (source_file
-  (package_clause (package_name))
-  (function_declaration (variable_name) (parameters) (block
+  (package_clause (package_identifier))
+  (function_declaration (identifier) (parameters) (block
     (if_statement
-      (call_expression (variable_name))
-      (block (call_expression (variable_name))))
+      (call_expression (identifier))
+      (block (call_expression (identifier))))
     (if_statement
       (short_var_declaration
-        (expression_list (variable_name))
-        (expression_list (call_expression (variable_name))))
-      (variable_name)
-      (block (call_expression (variable_name))))
+        (expression_list (identifier))
+        (expression_list (call_expression (identifier))))
+      (identifier)
+      (block (call_expression (identifier))))
     (if_statement
-      (call_expression (variable_name))
-      (block (call_expression (variable_name)))
-      (block (call_expression (variable_name)))))))
+      (call_expression (identifier))
+      (block (call_expression (identifier)))
+      (block (call_expression (identifier)))))))
 
 ============================================
 For statements
@@ -218,40 +218,40 @@ loop2:
 ---
 
 (source_file
-  (package_clause (package_name))
-  (function_declaration (variable_name) (parameters) (block
+  (package_clause (package_identifier))
+  (function_declaration (identifier) (parameters) (block
     (for_statement
       (block
-        (call_expression (variable_name))
+        (call_expression (identifier))
         (goto_statement (label_name))))
     (label_statement (label_name))
     (for_statement
       (for_clause
         (short_var_declaration
-          (expression_list (variable_name))
+          (expression_list (identifier))
           (expression_list (int_literal)))
-        (binary_expression (variable_name) (int_literal))
-        (inc_statement (variable_name)))
+        (binary_expression (identifier) (int_literal))
+        (inc_statement (identifier)))
       (block
-        (call_expression (variable_name))
+        (call_expression (identifier))
         (break_statement (label_name))))
     (label_statement (label_name))
     (for_statement
       (for_clause
-        (binary_expression (variable_name) (int_literal))
-        (inc_statement (variable_name)))
+        (binary_expression (identifier) (int_literal))
+        (inc_statement (identifier)))
       (block
-        (call_expression (variable_name))
+        (call_expression (identifier))
         (continue_statement (label_name))))
     (for_statement
       (for_clause)
       (block
-        (call_expression (variable_name))
+        (call_expression (identifier))
         (continue_statement)))
     (for_statement
-      (range_clause (expression_list (variable_name)) (variable_name))
+      (range_clause (expression_list (identifier)) (identifier))
       (block
-        (call_expression (variable_name) (variable_name))
+        (call_expression (identifier) (identifier))
         (break_statement))))))
 
 ============================================
@@ -283,27 +283,27 @@ func main() {
 ---
 
 (source_file
-  (package_clause (package_name))
-  (function_declaration (variable_name) (parameters) (block
-    (expression_switch_statement (variable_name)
+  (package_clause (package_identifier))
+  (function_declaration (identifier) (parameters) (block
+    (expression_switch_statement (identifier)
       (expression_case_clause
         (expression_case (expression_list (int_literal) (int_literal)))
-        (call_expression (variable_name))
-        (call_expression (variable_name))
+        (call_expression (identifier))
+        (call_expression (identifier))
         (fallthrough_statement))
       (expression_case_clause
         (expression_case)
-        (call_expression (variable_name))
+        (call_expression (identifier))
         (break_statement)))
     (expression_switch_statement
       (expression_case_clause
-        (expression_case (expression_list (variable_name)))
+        (expression_case (expression_list (identifier)))
         (return_statement)))
     (expression_switch_statement
       (short_var_declaration
-        (expression_list (variable_name))
-        (expression_list (call_expression (variable_name))))
-      (variable_name)))))
+        (expression_list (identifier))
+        (expression_list (call_expression (identifier))))
+      (identifier)))))
 
 ============================================
 Type switch statements
@@ -323,14 +323,14 @@ func main() {
 ---
 
 (source_file
-  (package_clause (package_name))
-  (function_declaration (variable_name) (parameters) (block
-    (type_switch_statement (variable_name)
+  (package_clause (package_identifier))
+  (function_declaration (identifier) (parameters) (block
+    (type_switch_statement (identifier)
       (type_case_clause
-        (type_case (slice_type (type_name)))
-        (call_expression (variable_name)))
+        (type_case (slice_type (type_identifier)))
+        (call_expression (identifier)))
       (type_case_clause
-        (type_case (pointer_type (type_name)))
+        (type_case (pointer_type (type_identifier)))
         (break_statement))))))
 
 ============================================
@@ -355,25 +355,25 @@ func main() {
 ---
 
 (source_file
-  (package_clause (package_name))
-  (function_declaration (variable_name) (parameters) (block
+  (package_clause (package_identifier))
+  (function_declaration (identifier) (parameters) (block
     (select_statement
       (communication_clause
         (communication_case
           (receive_statement
-            (expression_list (variable_name))
-            (unary_expression (variable_name))))
-        (call_expression (variable_name) (variable_name)))
+            (expression_list (identifier))
+            (unary_expression (identifier))))
+        (call_expression (identifier) (identifier)))
       (communication_clause
         (communication_case
-          (send_statement (variable_name) (variable_name)))
-        (call_expression (variable_name) (int_literal)))
+          (send_statement (identifier) (identifier)))
+        (call_expression (identifier) (int_literal)))
       (communication_clause
         (communication_case
           (receive_statement (unary_expression (call_expression
-            (selector_expression (variable_name) (field_name))
+            (selector_expression (identifier) (field_identifier))
             (int_literal)))))
-        (call_expression (variable_name) (int_literal)))
+        (call_expression (identifier) (int_literal)))
       (communication_clause
         (communication_case)
         (return_statement))))))
@@ -392,10 +392,10 @@ func main() {
 ---
 
 (source_file
-  (package_clause (package_name))
-  (function_declaration (variable_name) (parameters) (block
-    (defer_statement (call_expression (selector_expression (variable_name) (field_name))))
-    (go_statement (call_expression (selector_expression (variable_name) (field_name)))))))
+  (package_clause (package_identifier))
+  (function_declaration (identifier) (parameters) (block
+    (defer_statement (call_expression (selector_expression (identifier) (field_identifier))))
+    (go_statement (call_expression (selector_expression (identifier) (field_identifier)))))))
 
 ============================================
 Nested statement blocks
@@ -415,10 +415,10 @@ func main() {
 ---
 
 (source_file
-  (package_clause (package_name))
-  (function_declaration (variable_name) (parameters) (block
-    (block (call_expression (variable_name) (interpreted_string_literal)))
-    (block (call_expression (variable_name) (interpreted_string_literal))))))
+  (package_clause (package_identifier))
+  (function_declaration (identifier) (parameters) (block
+    (block (call_expression (identifier) (interpreted_string_literal)))
+    (block (call_expression (identifier) (interpreted_string_literal))))))
 
 ============================================
 Labels at the ends of statement blocks
@@ -435,8 +435,8 @@ func main() {
 ---
 
 (source_file
-  (package_clause (package_name))
-  (function_declaration (variable_name) (parameters) (block
+  (package_clause (package_identifier))
+  (function_declaration (identifier) (parameters) (block
     (block (label_statement (label_name))))))
 
 ============================================
@@ -452,6 +452,6 @@ func main() {
 ---
 
 (source_file
-  (package_clause (package_name))
-  (function_declaration (variable_name) (parameters) (block
+  (package_clause (package_identifier))
+  (function_declaration (identifier) (parameters) (block
     (empty_statement))))

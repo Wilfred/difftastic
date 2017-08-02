@@ -58,6 +58,9 @@ module.exports = grammar({
 
   inline: $ => [
     $._type,
+    $._type_identifier,
+    $._field_identifier,
+    $._package_identifier,
   ],
 
   conflicts: $ => [
@@ -66,7 +69,7 @@ module.exports = grammar({
     [$.func_literal, $.function_type],
     [$.function_type],
     [$._parameter_list, $._simple_type],
-    [$.composite_literal, $._expression]
+    [$.composite_literal, $._expression],
   ],
 
   rules: {
@@ -78,7 +81,7 @@ module.exports = grammar({
 
     package_clause: $ => seq(
       'package',
-      alias($.identifier, $.package_name)
+      $._package_identifier
     ),
 
     import_declaration: $ => seq(
@@ -98,7 +101,7 @@ module.exports = grammar({
 
     import_spec: $ => seq(
       optional(choice(
-        alias($.identifier, $.package_name),
+        $._package_identifier,
         '.'
       )),
       $._string_literal
@@ -129,7 +132,7 @@ module.exports = grammar({
     ),
 
     const_spec: $ => seq(
-      commaSep1(alias($.identifier, $.variable_name)),
+      commaSep1($.identifier),
       optional(seq(
         optional($._type),
         '=',
@@ -150,7 +153,7 @@ module.exports = grammar({
     ),
 
     var_spec: $ => seq(
-      commaSep1(alias($.identifier, $.variable_name)),
+      commaSep1($.identifier),
       choice(
         seq(
           $._type,
@@ -162,7 +165,7 @@ module.exports = grammar({
 
     function_declaration: $ => seq(
       'func',
-      alias($.identifier, $.variable_name),
+      $.identifier,
       $.parameters,
       optional(choice($.parameters, $._simple_type)),
       optional($.block)
@@ -171,7 +174,7 @@ module.exports = grammar({
     method_declaration: $ => seq(
       'func',
       $.parameters,
-      alias($.identifier, $.field_name),
+      $._field_identifier,
       $.parameters,
       optional(choice($.parameters, $._simple_type)),
       optional($.block)
@@ -184,12 +187,12 @@ module.exports = grammar({
     ),
 
     _parameter_list: $ => sepTrailing(',', $._parameter_list, choice(
-      alias($.identifier, $.variable_name),
+      $.identifier,
       $.parameter_declaration
     )),
 
     parameter_declaration: $ => seq(
-      optional(alias($.identifier, $.variable_name)),
+      optional($.identifier),
       optional('...'),
       $._type
     ),
@@ -207,11 +210,11 @@ module.exports = grammar({
     ),
 
     type_spec: $ => seq(
-      alias($.identifier, $.type_name),
+      $._type_identifier,
       $._type
     ),
 
-    field_name_list: $ => commaSep1(alias($.identifier, $.field_name)),
+    field_name_list: $ => commaSep1($._field_identifier),
 
     expression_list: $ => commaSep1($._expression),
 
@@ -223,7 +226,7 @@ module.exports = grammar({
     parenthesized_type: $ => seq('(', $._type, ')'),
 
     _simple_type: $ => choice(
-      alias($.identifier, $.type_name),
+      $._type_identifier,
       $.qualified_type,
       $.pointer_type,
       $.struct_type,
@@ -269,13 +272,13 @@ module.exports = grammar({
     field_declaration: $ => seq(
       choice(
         seq(
-          commaSep1(alias($.identifier, $.field_name)),
+          commaSep1($._field_identifier),
           $._type
         ),
         seq(
           optional('*'),
           choice(
-            alias($.identifier, $.type_name),
+            $._type_identifier,
             $.qualified_type
           )
         )
@@ -291,13 +294,13 @@ module.exports = grammar({
     ),
 
     _method_spec_list: $ => sepTrailing(terminator, $._method_spec_list, choice(
-      alias($.identifier, $.type_name),
+      $._type_identifier,
       $.qualified_type,
       $.method_spec
     )),
 
     method_spec: $ => seq(
-      alias($.identifier, $.field_name),
+      $._field_identifier,
       $.parameters,
       optional(choice($.parameters, $._simple_type))
     ),
@@ -527,11 +530,8 @@ module.exports = grammar({
       $.call_expression,
       $.type_assertion_expression,
       $.type_conversion_expression,
-      alias(choice(
-        $.identifier,
-        'new',
-        'make'
-      ), $.variable_name),
+      $.identifier,
+      alias(choice('new', 'make'), $.identifier),
       $.composite_literal,
       $.func_literal,
       $._string_literal,
@@ -550,10 +550,7 @@ module.exports = grammar({
 
     call_expression: $ => prec(PREC.primary, choice(
       seq(
-        alias(choice(
-          'new',
-          'make'
-        ), $.variable_name),
+        alias(choice('new', 'make'), $.identifier),
         '(',
         $._type,
         optional(seq(',', commaSep1($._expression))),
@@ -573,7 +570,7 @@ module.exports = grammar({
     selector_expression: $ => prec(PREC.primary, seq(
       $._expression,
       '.',
-      alias($.identifier, $.field_name)
+      $._field_identifier
     )),
 
     index_expression: $ => prec(PREC.primary, seq(
@@ -616,7 +613,7 @@ module.exports = grammar({
         $.array_type,
         $.implicit_length_array_type,
         $.struct_type,
-        alias($.identifier, $.type_name),
+        $._type_identifier,
         $.qualified_type
       ),
       $.literal_value
@@ -637,7 +634,7 @@ module.exports = grammar({
       choice(
         seq($._expression, ':'),
         seq($.literal_value, ':'),
-        prec(1, seq(alias($.identifier, $.field_name), ':'))
+        prec(1, seq($._field_identifier, ':'))
       ),
       choice(
         $._expression,
@@ -670,16 +667,16 @@ module.exports = grammar({
       prec.left(PREC.or, seq($._expression, or_operator, $._expression))
     ),
 
-    qualified_type: $ => seq(
-      alias($.identifier, $.package_name),
-      '.',
-      alias($.identifier, $.type_name)
-    ),
+    qualified_type: $ => seq($._package_identifier, '.', $._type_identifier),
 
     identifier: $ => token(seq(
       letter,
       repeat(choice(letter, unicodeDigit))
     )),
+
+    _type_identifier: $ => alias($.identifier, $.type_identifier),
+    _field_identifier: $ => alias($.identifier, $.field_identifier),
+    _package_identifier: $ => alias($.identifier, $.package_identifier),
 
     _string_literal: $ => choice(
       $.raw_string_literal,
