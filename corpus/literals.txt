@@ -855,7 +855,7 @@ heredoc content that starts with a dot
 
 ---
 
-(program (lambda (method_call (identifier) (argument_list (heredoc_beginning) (heredoc_end)))))
+(program (lambda (block (method_call (identifier) (argument_list (heredoc_beginning) (heredoc_end))))))
 
 ========================================
 un-terminated heredocs
@@ -1100,42 +1100,42 @@ hash with reserved word key
 ---
 
 (program (hash
-  (pair (reserved_identifier) (symbol))
-  (pair (reserved_identifier) (symbol))
-  (pair (reserved_identifier) (symbol))
-  (pair (reserved_identifier) (symbol))
-  (pair (reserved_identifier) (symbol))
-  (pair (reserved_identifier) (symbol))
-  (pair (reserved_identifier) (symbol))
-  (pair (reserved_identifier) (symbol))
-  (pair (reserved_identifier) (symbol))
-  (pair (reserved_identifier) (symbol))
-  (pair (reserved_identifier) (symbol))
-  (pair (reserved_identifier) (symbol))
-  (pair (reserved_identifier) (symbol))
-  (pair (reserved_identifier) (symbol))
-  (pair (reserved_identifier) (symbol))
-  (pair (reserved_identifier) (symbol))
-  (pair (reserved_identifier) (symbol))
-  (pair (reserved_identifier) (symbol))
-  (pair (reserved_identifier) (symbol))
-  (pair (reserved_identifier) (symbol))
-  (pair (reserved_identifier) (symbol))
-  (pair (reserved_identifier) (symbol))
-  (pair (reserved_identifier) (symbol))
-  (pair (reserved_identifier) (symbol))
-  (pair (reserved_identifier) (symbol))
-  (pair (reserved_identifier) (symbol))
-  (pair (reserved_identifier) (symbol))
-  (pair (reserved_identifier) (symbol))
-  (pair (reserved_identifier) (symbol))
-  (pair (reserved_identifier) (symbol))
-  (pair (reserved_identifier) (symbol))
-  (pair (reserved_identifier) (symbol))
-  (pair (reserved_identifier) (symbol))
-  (pair (reserved_identifier) (symbol))
-  (pair (reserved_identifier) (symbol))
-  (pair (reserved_identifier) (symbol))))
+  (pair (identifier) (symbol))
+  (pair (identifier) (symbol))
+  (pair (identifier) (symbol))
+  (pair (identifier) (symbol))
+  (pair (identifier) (symbol))
+  (pair (identifier) (symbol))
+  (pair (identifier) (symbol))
+  (pair (identifier) (symbol))
+  (pair (identifier) (symbol))
+  (pair (identifier) (symbol))
+  (pair (identifier) (symbol))
+  (pair (identifier) (symbol))
+  (pair (identifier) (symbol))
+  (pair (identifier) (symbol))
+  (pair (identifier) (symbol))
+  (pair (identifier) (symbol))
+  (pair (identifier) (symbol))
+  (pair (identifier) (symbol))
+  (pair (identifier) (symbol))
+  (pair (identifier) (symbol))
+  (pair (identifier) (symbol))
+  (pair (identifier) (symbol))
+  (pair (identifier) (symbol))
+  (pair (identifier) (symbol))
+  (pair (identifier) (symbol))
+  (pair (identifier) (symbol))
+  (pair (identifier) (symbol))
+  (pair (identifier) (symbol))
+  (pair (identifier) (symbol))
+  (pair (identifier) (symbol))
+  (pair (identifier) (symbol))
+  (pair (identifier) (symbol))
+  (pair (identifier) (symbol))
+  (pair (identifier) (symbol))
+  (pair (identifier) (symbol))
+  (pair (identifier) (symbol))))
 
 ======================
 hash with keyword keys
@@ -1260,7 +1260,7 @@ empty function
 
 ---
 
-(program (lambda))
+(program (lambda (block)))
 
 ==================
 lambda literal with body
@@ -1270,7 +1270,7 @@ lambda literal with body
 
 ---
 
-(program (lambda (identifier)))
+(program (lambda (block (identifier))))
 
 ====================
 lambda literal with an arg
@@ -1284,10 +1284,10 @@ lambda literal with an arg
 ---
 
 (program
-  (lambda (lambda_parameters (identifier)) (integer))
-  (lambda (lambda_parameters (identifier)) (integer))
-  (lambda (lambda_parameters (splat_parameter (identifier))) (integer))
-  (lambda (lambda_parameters (keyword_parameter (identifier) (integer))) (integer)))
+  (lambda (lambda_parameters (identifier)) (block (integer)))
+  (lambda (lambda_parameters (identifier)) (block (integer)))
+  (lambda (lambda_parameters (splat_parameter (identifier))) (block (integer)))
+  (lambda (lambda_parameters (keyword_parameter (identifier) (integer))) (block (integer))))
 
 ===========================
 lambda literal with multiple args
@@ -1300,7 +1300,9 @@ lambda literal with multiple args
 
 ---
 
-(program (lambda (lambda_parameters (identifier) (identifier) (identifier)) (integer) (integer)))
+(program (lambda (lambda_parameters (identifier) (identifier) (identifier)) (block
+  (integer)
+  (integer))))
 
 ====================
 lambda literal with do end
@@ -1312,4 +1314,4 @@ end
 
 ---
 
-(program (lambda (lambda_parameters (identifier)) (integer)))
+(program (lambda (lambda_parameters (identifier)) (do_block (integer))))
