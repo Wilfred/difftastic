@@ -255,5 +255,6 @@
     }
   ],
   "conflicts": [],
-  "externals": []
+  "externals": [],
+  "inline": []
 }
