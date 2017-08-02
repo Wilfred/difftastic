@@ -67,9 +67,9 @@ declare module Foo {
       (class_body
         (public_field_definition (property_identifier) (type_annotation (type_reference (identifier)))))))
   (ambient_declaration
-    (ambient_variable (ambient_binding (identifier) (type_annotation (predefined_type)))))
+    (variable_declaration (variable_declarator (identifier) (type_annotation (predefined_type)))))
   (ambient_declaration
-    (ambient_variable (ambient_binding (identifier)) (string)))
+    (lexical_declaration (variable_declarator (identifier) (string))))
   (ambient_declaration
     (ambient_function
       (identifier)
@@ -78,9 +78,9 @@ declare module Foo {
         (type_annotation (predefined_type)))))
 
   (ambient_declaration
-    (ambient_namespace
+    (internal_module
       (identifier)
-      (ambient_namespace_body
+      (statement_block
         (ambient_function
           (identifier)
           (call_signature
@@ -393,7 +393,7 @@ export interface Foo {
     (interface_declaration
       (identifier)
       (object_type
-        (ambient_export_declaration
+        (export_statement
           (ambient_function
             (identifier)
             (call_signature
@@ -428,15 +428,15 @@ declare namespace moment {
 
 (program
   (ambient_declaration
-    (ambient_namespace (identifier) (ambient_namespace_body
+    (internal_module (identifier) (statement_block
       (type_alias_declaration (identifier) (function_type (formal_parameters) (predefined_type)))
-      (ambient_export_declaration (ambient_variable (ambient_binding (identifier) (type_annotation (predefined_type)))))
-      (ambient_export_declaration (class (identifier) (class_body)))
-      (ambient_export_declaration
+      (export_statement (variable_declaration (variable_declarator (identifier) (type_annotation (predefined_type)))))
+      (export_statement (class (identifier) (class_body)))
+      (export_statement
         (ambient_function
           (identifier)
           (call_signature (formal_parameters) (type_annotation (type_reference (identifier))))))
-      (ambient_export_declaration (enum_declaration (identifier) (enum_body
+      (export_statement (enum_declaration (identifier) (enum_body
         (property_identifier)
         (property_identifier)
         (property_identifier))))))))
@@ -455,9 +455,9 @@ declare namespace Foo {
 
 (program
   (ambient_declaration
-    (ambient_namespace
+    (internal_module
       (identifier)
-      (ambient_namespace_body (ambient_export_declaration (interface_declaration (identifier) (object_type)))))))
+      (statement_block (export_statement (interface_declaration (identifier) (object_type)))))))
 
 =================================
 Namespaces as internal modules
@@ -543,7 +543,7 @@ declare global {
 
 ---
 
-(program (ambient_declaration (ambient_namespace_body)))
+(program (ambient_declaration (statement_block)))
 
 =======================================
 Abstract classes
