@@ -69,7 +69,7 @@ vacuous literal
 
 ---
 
-(program)
+(program (parenthesized_statements))
 
 ===============
 empty statement
@@ -159,9 +159,9 @@ defined?(@foo)
 (program
   (unary (identifier))
   (unary (call (constant) (identifier)))
-  (unary (identifier))
-  (unary (global_variable))
-  (unary (instance_variable)))
+  (unary (parenthesized_statements (identifier)))
+  (unary (parenthesized_statements (global_variable)))
+  (unary (parenthesized_statements (instance_variable))))
 
 ==========
 assignment
@@ -649,7 +649,7 @@ foo (b), a
 
 ---
 
-(program (method_call (identifier) (argument_list (identifier) (identifier))))
+(program (method_call (identifier) (argument_list (parenthesized_statements (identifier)) (identifier))))
 
 ===============================
 method call with block argument
@@ -685,7 +685,7 @@ foo *(bar.baz)
   (method_call (identifier) (argument_list (splat_argument (identifier))))
   (method_call (identifier) (argument_list (splat_argument (identifier))))
   (method_call (identifier) (argument_list (splat_argument (array))))
-  (method_call (identifier) (argument_list (splat_argument (call (identifier) (identifier))))))
+  (method_call (identifier) (argument_list (splat_argument (parenthesized_statements (call (identifier) (identifier)))))))
 
 ===============================
 method call lambda argument
