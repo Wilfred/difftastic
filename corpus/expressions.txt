@@ -7,7 +7,7 @@ as `hello`
 ---
 
 (program
-  (expression_statement (as_expression (template_string (template_chars)))))
+  (expression_statement (as_expression (template_string))))
 
 ==================================
 Typeof expressions
@@ -27,8 +27,8 @@ typeof module === "object" && typeof module.exports === "object"
 
   (expression_statement
     (bool_op
-      (rel_op (type_op (reserved_identifier)) (string))
-      (rel_op (type_op (member_access (reserved_identifier) (identifier))) (string)))))
+      (rel_op (type_op (identifier)) (string))
+      (rel_op (type_op (member_access (identifier) (property_identifier))) (string)))))
 
 ==================================
 Array with empty elements
@@ -56,7 +56,7 @@ Array with empty elements
 
 
 ==================================
-Module as reserved identifier
+Variable named 'module'
 ==================================
 
 var module;
@@ -65,8 +65,8 @@ module;
 ---
 
 (program
-  (variable_declaration (variable_declarator (reserved_identifier)))
-  (expression_statement (reserved_identifier)))
+  (variable_declaration (variable_declarator (identifier)))
+  (expression_statement (identifier)))
 
 ==================================
 Multi-line variable declarations

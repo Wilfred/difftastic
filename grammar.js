@@ -106,17 +106,8 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
     [$._expression, $.import_alias],
 
     [$._expression, $.method_definition],
-
-    [$.reserved_identifier, $.module],
-    [$.reserved_identifier, $.reserved_identifier],
-    [$.reserved_identifier, $.ambient_declaration],
-    [$.reserved_identifier, $.interface_declaration],
-    [$.reserved_identifier, $.internal_module],
-    [$.reserved_identifier, $.abstract_method_definition],
-    [$.reserved_identifier, $.public_field_definition, $.abstract_method_definition],
-
-    [$.reserved_identifier, $.type_alias_declaration]
   ]),
+
   rules: {
 
     // Overrides
@@ -128,33 +119,8 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       $._property_name,
       optional('?'),
       optional($.type_annotation),
-      optional($._initializer)),
-
-    // TODO: Maybe remove this?
-    math_op: ($, previous) => choice(
-      prec.left(PREC.NEG, seq('-', $._expression)),
-      prec.left(PREC.NEG, seq('+', $._expression)),
-      prec.left(PREC.INC, seq($._expression, '++')),
-      prec.left(PREC.INC, seq($._expression, '--')),
-      prec.left(PREC.INC, seq('++', $._expression)),
-      prec.left(PREC.INC, seq('--', $._expression)),
-      prec.left(PREC.PLUS, seq($._expression, '+', $._expression)),
-      prec.left(PREC.PLUS, seq($._expression, '-', $._expression)),
-      prec.left(PREC.TIMES, seq($._expression, '*', $._expression)),
-      prec.left(PREC.TIMES, seq($._expression, '/', $._expression)),
-      prec.left(PREC.TIMES, seq($._expression, '%', $._expression))
+      optional($._initializer)
     ),
-
-    rel_op: ($, previous) => prec.left(PREC.REL, choice(
-      seq($._expression, '<', $._expression),
-      seq($._expression, '<=', $._expression),
-      seq($._expression, '==', $._expression),
-      seq($._expression, '===', $._expression),
-      seq($._expression, '!=', $._expression),
-      seq($._expression, '!==', $._expression),
-      seq($._expression, '>=', $._expression),
-      seq($._expression, '>', $._expression)
-    )),
 
     _element_list: $ => seq(
       optional(','),
@@ -173,12 +139,6 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       choice($.arguments, $.template_string)
     )),
 
-    pair: ($, previous) => seq(
-      choice($._property_name, $.accessibility_modifier),
-      ':',
-      $._expression
-    ),
-
     _expression: ($, previous) => choice(
       $.type_assertion,
       $.as_expression,
@@ -191,7 +151,7 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
     ),
 
     type_op: ($, previous) => choice(
-      prec(PREC.TYPEOF, seq('typeof', choice($.anonymous_class, $.reserved_identifier))),
+      prec(PREC.TYPEOF, seq('typeof', $.anonymous_class)),
       previous
     ),
 
@@ -230,8 +190,8 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
     ),
 
     variable_declarator: ($, previous) => choice(
-      seq(choice($.identifier, $.reserved_identifier), optional($.type_annotation), optional($._initializer)),
-      seq($.destructuring_pattern, optional($.type_annotation), $._initializer)
+      seq($.identifier, optional($.type_annotation), optional($._initializer)),
+      seq($._destructuring_pattern, optional($.type_annotation), $._initializer)
     ),
 
     abstract_method_definition: $ => seq(
@@ -263,7 +223,7 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
     ),
 
     function: ($, previous) => seq(
-      optional($.reserved_identifier),
+      optional('async'),
       'function',
       optional($.identifier),
       $.call_signature,
@@ -282,7 +242,7 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       choice(
         $.identifier,
         $.call_signature,
-        optional($.reserved_identifier)
+        alias($._reserved_identifier, $.identifier)
       ),
       '=>',
       choice(
@@ -308,7 +268,7 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       optional($.accessibility_modifier),
       optional('static'),
       optional($.readonly),
-      optional($.reserved_identifier),
+      optional('async'),
       optional(choice('get', 'set', '*')),
       $._property_name,
       $.call_signature,
@@ -359,7 +319,8 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       'declare',
       choice(
         ambientDeclaration($),
-        seq( 'global', '{', optional($.ambient_namespace_body), '}'))
+        seq('global', $.ambient_namespace_body)
+      )
     ),
 
     ambient_variable: $ => seq(
@@ -388,7 +349,7 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
 
     _ambient_enum: $ => $.enum_declaration,
 
-    ambient_namespace: $ => seq('namespace', $._entity_name, '{', optional($.ambient_namespace_body), '}'),
+    ambient_namespace: $ => seq('namespace', $._entity_name, $.ambient_namespace_body),
 
     module: $ => seq(
       'module',
@@ -402,31 +363,23 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
 
     _module: $ => prec.right(seq(
       choice($.string, $.identifier, $._entity_name),
-      optional($._module_body))
-    ),
-
-    _module_body: $ => seq(
-      '{',
-      repeat($._statement),
-      '}'
-    ),
-
-    member_access: $ => prec(PREC.MEMBER, seq(
-      choice($._expression, $.reserved_identifier),
-      '.',
-      $.identifier
+      optional($.statement_block)
     )),
 
     _initializer: $ => seq(
       '=', choice($._expression, $.anonymous_class)
     ),
 
-    ambient_namespace_body: $ => repeat1(choice(
-      $.ambient_export_declaration,
-      ambientDeclaration($),
-      $.lexical_declaration,
-      $.import_alias
-    )),
+    ambient_namespace_body: $ => seq(
+      '{',
+      repeat(choice(
+        $.ambient_export_declaration,
+        ambientDeclaration($),
+        $.lexical_declaration,
+        $.import_alias
+      )),
+      '}'
+    ),
 
     import_alias: $ => seq(
       'import',
@@ -460,23 +413,22 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       optional('const'),
       'enum',
       $.identifier,
+      $.enum_body
+    ),
+
+    enum_body: $ => seq(
       '{',
-      optional($._enum_body),
+      optional(seq(sepBy1(',', $._enum_member), optional(','))),
       '}'
     ),
 
-    _enum_body: $ => seq(
-      seq(sepBy1(',', $._enum_member), optional(','))
-    ),
-
     _enum_member: $ => choice(
-      // TODO this should be a PropertyName
-      $.identifier,
+      $._property_name,
       $.enum_assignment
     ),
 
     enum_assignment: $ => seq(
-      $.identifier,
+      $._property_name,
       $._initializer
     ),
 
@@ -712,7 +664,7 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       $._type
     ),
 
-    reserved_identifier: ($, previous) => choice('declare', 'namespace', 'type', 'public', 'private', 'protected', 'module', previous)
+    _reserved_identifier: ($, previous) => choice('declare', 'namespace', 'type', 'public', 'private', 'protected', 'module', previous)
   }
 });
 
@@ -733,7 +685,7 @@ function sepBy (sep, rule) {
 }
 
 function pattern ($) {
-  return choice($.identifier, $.destructuring_pattern)
+  return choice($.identifier, $._destructuring_pattern)
 }
 
 function variableType() {

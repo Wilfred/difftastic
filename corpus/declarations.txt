@@ -65,7 +65,7 @@ declare module Foo {
     (class
       (identifier)
       (class_body
-        (public_field_definition (identifier) (type_annotation (type_reference (identifier)))))))
+        (public_field_definition (property_identifier) (type_annotation (type_reference (identifier)))))))
   (ambient_declaration
     (ambient_variable (ambient_binding (identifier) (type_annotation (predefined_type)))))
   (ambient_declaration
@@ -90,33 +90,31 @@ declare module Foo {
         (interface_declaration
           (identifier)
           (object_type
-            (property_signature (identifier) (type_annotation (predefined_type)))))
+            (property_signature (property_identifier) (type_annotation (predefined_type)))))
         (interface_declaration
           (identifier)
           (object_type
-            (property_signature (identifier) (type_annotation (predefined_type)))
-            (property_signature (identifier) (type_annotation (predefined_type)))
-            (property_signature (identifier) (type_annotation (predefined_type))))))))
+            (property_signature (property_identifier) (type_annotation (predefined_type)))
+            (property_signature (property_identifier) (type_annotation (predefined_type)))
+            (property_signature (property_identifier) (type_annotation (predefined_type))))))))
 
   (ambient_declaration
     (class
       (identifier)
       (class_body
         (method_definition
-          (identifier) (call_signature (formal_parameters (required_parameter (identifier) (type_annotation (predefined_type))))))
-        (public_field_definition (identifier) (type_annotation (predefined_type)))
-        (method_definition (identifier) (call_signature (formal_parameters) (type_annotation (predefined_type)))))))
+          (property_identifier) (call_signature (formal_parameters (required_parameter (identifier) (type_annotation (predefined_type))))))
+        (public_field_definition (property_identifier) (type_annotation (predefined_type)))
+        (method_definition (property_identifier) (call_signature (formal_parameters) (type_annotation (predefined_type)))))))
 
   (ambient_declaration
-    (module
-      (identifier)
-      (identifier)
-      (export_statement (variable_declaration (variable_declarator (identifier))))))
-      (empty_statement)
+    (module (identifier) (identifier) (statement_block
+      (export_statement (variable_declaration (variable_declarator (identifier)))))))
+
+  (empty_statement)
 
   (ambient_declaration
-    (module
-      (identifier)
+    (module (identifier) (statement_block
       (break_statement)
       (continue_statement)
       (debugger_statement)
@@ -132,7 +130,7 @@ declare module Foo {
         (statement_block)
         (catch (identifier) (statement_block))
         (finally (statement_block)))
-      (with_statement (identifier) (statement_block)))))
+      (with_statement (identifier) (statement_block))))))
 
 ==================================
 Ambient exports
@@ -155,7 +153,7 @@ export default class A {}
           (required_parameter (identifier) (type_annotation (predefined_type)))
           (required_parameter (identifier) (type_annotation (predefined_type)))))
           (statement_block
-            (return_statement (object (identifier) (identifier))))))
+            (return_statement (object (shorthand_property_identifier) (shorthand_property_identifier))))))
   (export_statement (class (identifier) (class_body))))
 
 ==================================
@@ -174,7 +172,7 @@ declare class Linter {
       (identifier)
       (class_body
         (public_field_definition
-          (identifier)
+          (property_identifier)
           (type_annotation (type_query (identifier))))))))
 
 ==================================
@@ -210,7 +208,8 @@ module C {
 ---
 
 (program
-  (module (identifier) (expression_statement (import_alias (identifier) (identifier) (identifier)))))
+  (module (identifier) (statement_block
+    (expression_statement (import_alias (identifier) (identifier) (identifier))))))
 
 ==================================
 Export import aliases
@@ -225,9 +224,9 @@ module M {
 ---
 
 (program
-  (module (identifier)
-    (export_statement (module (identifier)))
-    (export_statement (import_alias (identifier) (identifier)))))
+  (module (identifier) (statement_block
+    (export_statement (module (identifier) (statement_block)))
+    (export_statement (import_alias (identifier) (identifier))))))
 
 ==================================
 Property signatures with accessibility modifiers
@@ -252,7 +251,7 @@ export class CloningRepository {
         (property_signature
           (accessibility_modifier)
           (readonly)
-          (identifier)
+          (property_identifier)
           (type_annotation (type_reference (identifier) (type_arguments (type_reference (identifier)))))))))
   (export_statement
     (class
@@ -261,7 +260,7 @@ export class CloningRepository {
         (public_field_definition
         (accessibility_modifier)
         (readonly)
-        (identifier) (math_op (identifier)))))))
+        (property_identifier) (math_op (identifier)))))))
 
 ==================================
 Ambient type declarations
@@ -299,8 +298,7 @@ declare module "example" { }
 ---
 
 (program
-  (module
-    (identifier)
+  (module (identifier) (statement_block
     (variable_declaration (variable_declarator
       (identifier)
       (type_annotation (object_type))))
@@ -312,10 +310,10 @@ declare module "example" { }
           (optional_parameter
             (identifier)
             (type_annotation (type_reference (identifier) (type_arguments (type_reference (identifier)))))))
-        (type_annotation (type_reference (identifier) (type_arguments (type_reference (identifier)))))))))
+        (type_annotation (type_reference (identifier) (type_arguments (type_reference (identifier))))))))))
 
   (ambient_declaration (module (string)))
-  (ambient_declaration (module (string))))
+  (ambient_declaration (module (string) (statement_block))))
 
 =================================
 Accessibility modifiers as pair keywords
@@ -325,7 +323,10 @@ Accessibility modifiers as pair keywords
 
 ---
 
-(program (expression_statement (object (identifier) (identifier) (pair (accessibility_modifier) (identifier)))))
+(program (expression_statement (object
+  (shorthand_property_identifier)
+  (shorthand_property_identifier)
+  (pair (property_identifier) (identifier)))))
 
 =================================
 JSX and type assertions
@@ -339,7 +340,27 @@ b = <div>{ <string>a } <span>b</span> c</div>;
 ---
 
 (program
-  (expression_statement (type_assertion (type_arguments (predefined_type)) (identifier))) (expression_statement (assignment (identifier) (jsx_self_closing_element (identifier) (jsx_attribute (identifier) (string)) (jsx_attribute (identifier) (number))))) (expression_statement (assignment (identifier) (jsx_element (jsx_opening_element (identifier)) (jsx_expression (type_assertion (type_arguments (predefined_type)) (identifier))) (jsx_text) (jsx_element (jsx_opening_element (identifier)) (jsx_text) (jsx_closing_element (identifier))) (jsx_text) (jsx_closing_element (identifier))))))
+  (expression_statement (type_assertion
+    (type_arguments (predefined_type))
+    (identifier)))
+  (expression_statement (assignment
+    (identifier)
+    (jsx_self_closing_element
+      (identifier)
+      (jsx_attribute (property_identifier) (string))
+      (jsx_attribute (property_identifier) (number)))))
+  (expression_statement (assignment
+    (identifier)
+    (jsx_element
+      (jsx_opening_element (identifier))
+      (jsx_expression (type_assertion (type_arguments (predefined_type)) (identifier)))
+      (jsx_text)
+      (jsx_element
+        (jsx_opening_element (identifier))
+        (jsx_text)
+        (jsx_closing_element (identifier)))
+      (jsx_text)
+      (jsx_closing_element (identifier))))))
 
 =================================
 Type assertions
@@ -407,15 +428,18 @@ declare namespace moment {
 
 (program
   (ambient_declaration
-    (ambient_namespace
-      (identifier)
-      (ambient_namespace_body
-        (type_alias_declaration (identifier) (function_type (formal_parameters) (predefined_type)))
-        (ambient_export_declaration (ambient_variable (ambient_binding (identifier) (type_annotation (predefined_type)))))
-        (ambient_export_declaration (class (identifier) (class_body)))
-        (ambient_export_declaration
-          (ambient_function (identifier) (call_signature (formal_parameters) (type_annotation (type_reference (identifier))))))
-        (ambient_export_declaration (enum_declaration (identifier) (identifier) (identifier) (identifier)))))))
+    (ambient_namespace (identifier) (ambient_namespace_body
+      (type_alias_declaration (identifier) (function_type (formal_parameters) (predefined_type)))
+      (ambient_export_declaration (ambient_variable (ambient_binding (identifier) (type_annotation (predefined_type)))))
+      (ambient_export_declaration (class (identifier) (class_body)))
+      (ambient_export_declaration
+        (ambient_function
+          (identifier)
+          (call_signature (formal_parameters) (type_annotation (type_reference (identifier))))))
+      (ambient_export_declaration (enum_declaration (identifier) (enum_body
+        (property_identifier)
+        (property_identifier)
+        (property_identifier))))))))
 
 
 =================================
@@ -450,15 +474,15 @@ namespace Bar {
 
 (program
   (expression_statement
-    (internal_module (identifier)))
+    (internal_module (identifier) (statement_block)))
 
   (expression_statement
-    (internal_module (identifier)
-    (variable_declaration (variable_declarator (identifier))))))
+    (internal_module (identifier) (statement_block
+    (variable_declaration (variable_declarator (identifier)))))))
 
-=======================================
-Method signatures with reserved identifiers
-=======================================
+===========================================
+Method declarations with keywords as names
+===========================================
 
 class Foo {
   private async();
@@ -475,14 +499,14 @@ class Foo {
       (class_body
         (method_definition
           (accessibility_modifier)
-          (reserved_identifier)
+          (property_identifier)
           (call_signature (formal_parameters)))
         (method_definition
-          (reserved_identifier)
+          (property_identifier)
           (call_signature (formal_parameters) (type_annotation (type_reference (identifier)))))
         (method_definition
           (accessibility_modifier)
-          (reserved_identifier)
+          (property_identifier)
           (call_signature (formal_parameters (required_parameter (identifier)))))))))
 
 =======================================
@@ -515,13 +539,11 @@ Global namespace declarations
 =======================================
 
 declare global {
-
 }
 
 ---
 
-(program (ambient_declaration))
-
+(program (ambient_declaration (ambient_namespace_body)))
 
 =======================================
 Abstract classes
@@ -547,16 +569,18 @@ abstract class Animal {
     (abstract_class (identifier) (class_body)))
   (expression_statement
     (abstract_class (identifier) (class_body
-      (public_field_definition (identifier) (type_annotation (predefined_type)))
-      (public_field_definition (identifier) (type_annotation (predefined_type)))
+      (public_field_definition (property_identifier) (type_annotation (predefined_type)))
+      (public_field_definition (property_identifier) (type_annotation (predefined_type)))
       (abstract_method_definition
-        (identifier)
+        (property_identifier)
         (call_signature (formal_parameters) (type_annotation (predefined_type))))
       (abstract_method_definition
-        (identifier)
+        (property_identifier)
         (call_signature (formal_parameters) (type_annotation (predefined_type))))
       (method_definition
-        (identifier)
+        (property_identifier)
         (call_signature (formal_parameters) (type_annotation (predefined_type)))
         (statement_block
-          (expression_statement (function_call (member_access (identifier) (identifier)) (arguments (string))))))))))
+          (expression_statement (function_call
+            (member_access (identifier) (property_identifier))
+            (arguments (string))))))))))

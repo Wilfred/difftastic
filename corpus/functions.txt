@@ -92,7 +92,7 @@ const x = async => async;
 ---
 
 (program
-  (lexical_declaration (variable_declarator (identifier) (arrow_function (reserved_identifier) (reserved_identifier)))))
+  (lexical_declaration (variable_declarator (identifier) (arrow_function (identifier) (identifier)))))
 
 ==================================
 Super
@@ -116,7 +116,7 @@ class A extends B {
       (class_heritage (extends_clause (type_reference (identifier))))
       (class_body
         (method_definition
-          (identifier)
+          (property_identifier)
           (call_signature
             (formal_parameters
               (required_parameter (identifier) (type_annotation (predefined_type)))
@@ -125,10 +125,10 @@ class A extends B {
             (expression_statement (function_call (super) (arguments (identifier))))))
         (method_definition
           (accessibility_modifier)
-          (identifier)
+          (property_identifier)
           (call_signature (formal_parameters))
           (statement_block
             (return_statement
               (math_op
-                (math_op (function_call (member_access (super) (identifier)) (arguments)) (string))
-                (member_access (this_expression) (identifier))))))))))
+                (math_op (function_call (member_access (super) (property_identifier)) (arguments)) (string))
+                (member_access (this_expression) (property_identifier))))))))))
