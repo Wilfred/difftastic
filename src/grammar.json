@@ -131,19 +131,6 @@
         }
       ]
     },
-    "keyword_identifier": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "print"
-        },
-        {
-          "type": "STRING",
-          "value": "exec"
-        }
-      ]
-    },
     "import_statement": {
       "type": "SEQ",
       "members": [
@@ -3869,6 +3856,24 @@
       "type": "PATTERN",
       "value": "[\\a_]\\w*"
     },
+    "keyword_identifier": {
+      "type": "ALIAS",
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "print"
+          },
+          {
+            "type": "STRING",
+            "value": "exec"
+          }
+        ]
+      },
+      "named": true,
+      "value": "identifier"
+    },
     "true": {
       "type": "STRING",
       "value": "True"
@@ -3927,11 +3932,11 @@
   ],
   "conflicts": [
     [
-      "keyword_identifier",
+      "_primary_expression",
       "print_statement"
     ],
     [
-      "keyword_identifier",
+      "_primary_expression",
       "exec_statement"
     ]
   ],
@@ -3948,5 +3953,10 @@
       "type": "SYMBOL",
       "name": "_dedent"
     }
+  ],
+  "inline": [
+    "_simple_statement",
+    "_compound_statement",
+    "keyword_identifier"
   ]
 }

@@ -1,10 +1,6 @@
 #include <tree_sitter/parser.h>
 #include <vector>
 
-#ifndef UINT8_MAX
-#define UINT8_MAX (255)
-#endif
-
 namespace {
 
 using std::vector;
@@ -16,45 +12,33 @@ enum TokenType {
 };
 
 struct Scanner {
-  Scanner() : queued_dedent_count(0) {
-    indent_length_stack.push_back(0);
+  Scanner() {
+    deserialize(NULL, 0);
   }
 
-  void reset() {
+  unsigned serialize(char *buffer) {
+    size_t i = 0;
+    buffer[i++] = queued_dedent_count;
+
+    vector<uint16_t>::iterator
+      iter = indent_length_stack.begin() + 1,
+      end = indent_length_stack.end();
+    for (; iter != end && i < TREE_SITTER_SERIALIZATION_BUFFER_SIZE; ++iter) {
+      buffer[i++] = *iter;
+    }
+
+    return i;
+  }
+
+  void deserialize(const char *buffer, unsigned length) {
     queued_dedent_count = 0;
     indent_length_stack.clear();
     indent_length_stack.push_back(0);
-  }
 
-  bool serialize(TSExternalTokenState state) {
-    size_t i = 0;
-
-    if (queued_dedent_count > UINT8_MAX) return false;
-    state[i++] = queued_dedent_count;
-
-    if (indent_length_stack.size() > 14) return false;
-    state[i++] = indent_length_stack.size();
-
-    vector<uint16_t>::iterator iter = indent_length_stack.begin(),
-      end = indent_length_stack.end();
-
-    for (; iter != end; ++iter) {
-      if (*iter > UINT8_MAX) return false;
-      state[i++] = *iter;
-    }
-
-    return true;
-  }
-
-  void deserialize(TSExternalTokenState state) {
-    size_t i = 0;
-
-    queued_dedent_count = state[i++];
-
-    size_t indent_length_stack_size = state[i++];
-    indent_length_stack.clear();
-    for (size_t j = 0; j < indent_length_stack_size; j++) {
-      indent_length_stack.push_back(state[i++]);
+    if (length > 0) {
+      size_t i = 0;
+      queued_dedent_count = buffer[i++];
+      while (i < length) indent_length_stack.push_back(buffer[i++]);
     }
   }
 
@@ -74,12 +58,18 @@ struct Scanner {
     }
 
     if (lexer->lookahead == 0) {
-      if (valid_symbols[DEDENT]) {
+      if (valid_symbols[DEDENT] && indent_length_stack.size() > 1) {
+        indent_length_stack.pop_back();
         lexer->result_symbol = DEDENT;
-      } else {
-        lexer->result_symbol = NEWLINE;
+        return true;
       }
-      return true;
+
+      if (valid_symbols[NEWLINE]) {
+        lexer->result_symbol = NEWLINE;
+        return true;
+      }
+
+      return false;
     }
 
     if (lexer->lookahead != '\n') return false;
@@ -153,19 +143,14 @@ bool tree_sitter_python_external_scanner_scan(void *payload, TSLexer *lexer,
   return scanner->scan(lexer, valid_symbols);
 }
 
-void tree_sitter_python_external_scanner_reset(void *payload) {
+unsigned tree_sitter_python_external_scanner_serialize(void *payload, char *buffer) {
   Scanner *scanner = static_cast<Scanner *>(payload);
-  scanner->reset();
+  return scanner->serialize(buffer);
 }
 
-bool tree_sitter_python_external_scanner_serialize(void *payload, TSExternalTokenState state) {
+void tree_sitter_python_external_scanner_deserialize(void *payload, const char *buffer, unsigned length) {
   Scanner *scanner = static_cast<Scanner *>(payload);
-  return scanner->serialize(state);
-}
-
-void tree_sitter_python_external_scanner_deserialize(void *payload, TSExternalTokenState state) {
-  Scanner *scanner = static_cast<Scanner *>(payload);
-  scanner->deserialize(state);
+  scanner->deserialize(buffer, length);
 }
 
 void tree_sitter_python_external_scanner_destroy(void *payload) {
