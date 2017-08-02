@@ -14,7 +14,7 @@ int x;
   (namespace_definition
     (identifier)
     (declaration_list
-      (declaration (identifier) (identifier))))
+      (declaration (type_identifier) (identifier))))
   (comment))
 
 =========================================
@@ -33,14 +33,16 @@ using namespace std;
 (translation_unit
   (using_declaration (identifier))
   (using_declaration (scoped_identifier (identifier)))
-  (using_declaration (scoped_identifier (identifier) (identifier)))
+  (using_declaration (scoped_identifier (namespace_identifier) (identifier)))
   (using_declaration
     (scoped_identifier
-      (scoped_identifier (scoped_identifier (identifier)) (identifier))
+      (scoped_namespace_identifier
+        (scoped_namespace_identifier (namespace_identifier))
+        (namespace_identifier))
       (identifier)))
   (alias_declaration
-    (identifier)
-    (type_name (scoped_identifier (identifier) (identifier))))
+    (type_identifier)
+    (type_descriptor (scoped_type_identifier (namespace_identifier) (type_identifier))))
   (using_declaration (identifier)))
 
 =========================================
@@ -55,15 +57,18 @@ int main() {
 
 (translation_unit
   (function_definition
-    (identifier)
-    (function_declarator (identifier))
+    (type_identifier)
+    (function_declarator (identifier) (parameter_list))
     (compound_statement
       (declaration
-        (identifier)
+        (type_identifier)
         (init_declarator
           (reference_declarator (identifier))
           (call_expression
-            (template_call (identifier) (type_name (identifier) (abstract_reference_declarator)))
+            (template_function
+              (identifier)
+              (template_argument_list
+                (type_descriptor (type_identifier) (abstract_reference_declarator))))
             (argument_list)))))))
 
 =========================================
@@ -80,19 +85,19 @@ int main(T &&t) {
 
 (translation_unit
   (declaration
-    (identifier)
+    (type_identifier)
     (function_declarator
       (identifier)
-      (parameter_type_list (parameter_declaration (identifier) (abstract_reference_declarator)))))
+      (parameter_list (parameter_declaration (type_identifier) (abstract_reference_declarator)))))
   (function_definition
-    (identifier)
+    (type_identifier)
     (function_declarator
       (identifier)
-      (parameter_type_list (parameter_declaration (identifier) (reference_declarator (identifier)))))
+      (parameter_list (parameter_declaration (type_identifier) (reference_declarator (identifier)))))
     (compound_statement
       (declaration
         (type_qualifier)
-        (identifier)
+        (type_identifier)
         (init_declarator (reference_declarator (identifier)) (identifier))))))
 
 =========================================
@@ -111,16 +116,16 @@ struct S {
 ---
 
 (translation_unit
-  (struct_specifier (identifier) (member_declaration_list
-    (member_declaration (identifier) (identifier))
+  (struct_specifier (type_identifier) (field_declaration_list
+    (field_declaration (type_identifier) (field_identifier))
     (function_definition
-      (function_declarator (identifier))
-      (member_initializer_list (member_initializer (identifier) (argument_list (number_literal))))
+      (function_declarator (identifier) (parameter_list))
+      (field_initializer_list (field_initializer (field_identifier) (argument_list (number_literal))))
       (compound_statement))
     (access_specifier)
     (function_definition
-      (identifier)
-      (function_declarator (identifier) (type_qualifier))
+      (type_identifier)
+      (function_declarator (field_identifier) (parameter_list) (type_qualifier))
       (compound_statement (return_statement (identifier)))))))
 
 =========================================
@@ -139,14 +144,14 @@ class C {
 ---
 
 (translation_unit
-  (class_specifier (identifier) (member_declaration_list
-    (member_declaration (identifier) (pointer_declarator (identifier)))
+  (class_specifier (type_identifier) (field_declaration_list
+    (field_declaration (type_identifier) (pointer_declarator (field_identifier)))
     (access_specifier)
-    (member_declaration (function_declarator (identifier)))
-    (member_declaration (function_declarator (identifier) (parameter_type_list
-      (parameter_declaration (identifier))
-      (parameter_declaration (identifier)))))
-    (member_declaration (function_declarator (destructor_name (identifier)))))))
+    (declaration (function_declarator (identifier) (parameter_list)))
+    (declaration (function_declarator (identifier) (parameter_list
+      (parameter_declaration (type_identifier))
+      (parameter_declaration (type_identifier)))))
+    (declaration (function_declarator (destructor_name (identifier)) (parameter_list))))))
 
 =========================================
 Classes with inheritance
@@ -162,13 +167,15 @@ class C : C::D, public E {
 
 (translation_unit
   (class_specifier
-    (identifier)
-    (base_class_clause (identifier))
-    (member_declaration_list))
+    (type_identifier)
+    (base_class_clause (type_identifier))
+    (field_declaration_list))
   (class_specifier
-    (identifier)
-    (base_class_clause (scoped_identifier (identifier) (identifier)) (identifier))
-    (member_declaration_list)))
+    (type_identifier)
+    (base_class_clause
+      (scoped_type_identifier (namespace_identifier) (type_identifier))
+      (type_identifier))
+    (field_declaration_list)))
 
 =========================================
 Friend declarations
@@ -182,11 +189,11 @@ struct C {
 ---
 
 (translation_unit
-  (struct_specifier (identifier) (member_declaration_list
-    (member_declaration (type_qualifier) (class_specifier (identifier)))
-    (member_declaration (type_qualifier) (identifier) (function_declarator
+  (struct_specifier (type_identifier) (field_declaration_list
+    (friend_declaration (class_specifier (type_identifier)))
+    (friend_declaration (declaration (type_identifier) (function_declarator
       (identifier)
-      (parameter_type_list (parameter_declaration (identifier) (abstract_reference_declarator))))))))
+      (parameter_list (parameter_declaration (type_identifier) (abstract_reference_declarator)))))))))
 
 =========================================
 Function parameters with default values
@@ -198,11 +205,11 @@ int foo(bool x = 5) {}
 
 (translation_unit
   (function_definition
-    (identifier)
+    (type_identifier)
     (function_declarator
       (identifier)
-      (parameter_type_list
-        (parameter_declaration (identifier) (init_declarator (identifier) (number_literal)))))
+      (parameter_list
+        (parameter_declaration (type_identifier) (init_declarator (identifier) (number_literal)))))
     (compound_statement)))
 
 =========================================
@@ -217,19 +224,19 @@ bool A::operator!=(const A &other) const;
 
 (translation_unit
   (declaration
-    (identifier)
+    (type_identifier)
     (reference_declarator
       (function_declarator
         (operator_name)
-        (parameter_type_list
-          (parameter_declaration (identifier) (abstract_reference_declarator))
-          (parameter_declaration (type_qualifier) (identifier) (reference_declarator (identifier)))))))
+        (parameter_list
+          (parameter_declaration (type_identifier) (abstract_reference_declarator))
+          (parameter_declaration (type_qualifier) (type_identifier) (reference_declarator (identifier)))))))
   (declaration
-    (identifier)
+    (type_identifier)
     (function_declarator
-      (scoped_identifier (identifier) (operator_name))
-      (parameter_type_list
-        (parameter_declaration (type_qualifier) (identifier) (reference_declarator (identifier))))
+      (scoped_identifier (namespace_identifier) (operator_name))
+      (parameter_list
+        (parameter_declaration (type_qualifier) (type_identifier) (reference_declarator (identifier))))
       (type_qualifier))))
 
 =========================================
@@ -250,25 +257,27 @@ class Foo {};
 (translation_unit
   (template_declaration
     (template_parameter_list
-      (type_parameter_declaration (identifier)))
+      (type_parameter_declaration (type_identifier)))
     (declaration
-      (identifier)
+      (type_identifier)
       (function_declarator
         (identifier)
-        (parameter_type_list (parameter_declaration (identifier) (reference_declarator (identifier)))))))
+        (parameter_list
+          (parameter_declaration (type_identifier) (reference_declarator (identifier)))))))
   (template_declaration
     (template_parameter_list
-      (type_parameter_declaration (identifier))
-      (parameter_declaration (identifier) (identifier)))
+      (type_parameter_declaration (type_identifier))
+      (parameter_declaration (type_identifier) (identifier)))
     (function_definition
-      (identifier)
+      (type_identifier)
       (function_declarator
         (identifier)
-        (parameter_type_list (parameter_declaration (identifier) (reference_declarator (identifier)))))
+        (parameter_list (parameter_declaration (type_identifier) (reference_declarator (identifier)))))
       (compound_statement (return_statement (identifier)))))
   (template_declaration
-    (template_parameter_list (type_parameter_declaration (identifier)))
-    (class_specifier (identifier) (member_declaration_list))))
+    (template_parameter_list
+      (type_parameter_declaration (type_identifier)))
+    (class_specifier (type_identifier) (field_declaration_list))))
 
 =========================================
 Template specializations
@@ -286,15 +295,20 @@ struct foo::bar<T> {};
   (template_declaration
     (template_parameter_list)
     (declaration
-      (identifier)
+      (type_identifier)
       (function_declarator
-        (template_call (identifier) (type_name (identifier)))
-        (parameter_type_list (parameter_declaration (identifier) (reference_declarator (identifier)))))))
+        (template_function
+          (identifier)
+          (template_argument_list (type_descriptor (type_identifier))))
+        (parameter_list
+          (parameter_declaration (type_identifier) (reference_declarator (identifier)))))))
   (template_declaration
     (template_parameter_list)
     (struct_specifier
-      (template_call (scoped_identifier (identifier) (identifier)) (type_name (identifier)))
-      (member_declaration_list))))
+      (template_type
+        (scoped_type_identifier (namespace_identifier) (type_identifier))
+        (template_argument_list (type_descriptor (type_identifier))))
+      (field_declaration_list))))
 
 ==========================================
 Declarations with braced initializer lists
@@ -306,7 +320,7 @@ A foo{1, 2};
 
 (translation_unit
   (declaration
-    (identifier)
+    (type_identifier)
     (init_declarator (identifier) (initializer_list (number_literal) (number_literal)))))
 
 ===========================================
@@ -318,7 +332,10 @@ int main() {}
 ---
 
 (translation_unit
-  (function_definition (identifier) (function_declarator (identifier)) (compound_statement)))
+  (function_definition
+    (type_identifier)
+    (function_declarator (identifier) (parameter_list))
+    (compound_statement)))
 
 ==========================================
 Explicit template instantiations
@@ -330,11 +347,14 @@ template A<int, bool>::A(char *, size_t);
 
 (translation_unit
   (template_instantiation
-    (member_declaration
-      (function_declarator
-        (scoped_identifier
-          (template_call (identifier) (type_name (identifier)) (type_name (identifier)))
-          (identifier))
-        (parameter_type_list
-          (parameter_declaration (identifier) (abstract_pointer_declarator))
-          (parameter_declaration (identifier)))))))
+    (function_declarator
+      (scoped_identifier
+        (template_type
+          (type_identifier)
+          (template_argument_list
+            (type_descriptor (type_identifier))
+            (type_descriptor (type_identifier))))
+        (identifier))
+      (parameter_list
+        (parameter_declaration (type_identifier) (abstract_pointer_declarator))
+        (parameter_declaration (type_identifier))))))

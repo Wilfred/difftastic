@@ -10,8 +10,8 @@ void foo() {
 
 (translation_unit
   (function_definition
-    (identifier)
-    (function_declarator (identifier))
+    (type_identifier)
+    (function_declarator (identifier) (parameter_list))
     (compound_statement
       (declaration (auto) (init_declarator (identifier) (number_literal))))))
 
@@ -26,10 +26,12 @@ std::vector<int>::size_typ my_string;
 
 (translation_unit
   (declaration
-    (scoped_identifier (identifier) (identifier))
+    (scoped_type_identifier (namespace_identifier) (type_identifier))
     (identifier))
   (declaration
-    (scoped_identifier
-      (template_call (scoped_identifier (identifier) (identifier)) (type_name (identifier)))
-      (identifier))
+    (scoped_type_identifier
+      (template_type
+        (scoped_type_identifier (namespace_identifier) (type_identifier))
+        (template_argument_list (type_descriptor (type_identifier))))
+      (type_identifier))
     (identifier)))

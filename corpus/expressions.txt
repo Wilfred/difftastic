@@ -9,11 +9,11 @@ int main() {
 ---
 
 (translation_unit (function_definition
-  (identifier)
-  (function_declarator (identifier))
+  (type_identifier)
+  (function_declarator (identifier) (parameter_list))
   (compound_statement
     (expression_statement (call_expression
-      (scoped_identifier (identifier) (identifier))
+      (scoped_identifier (namespace_identifier) (identifier))
       (argument_list
         (string_literal)
         (string_literal)))))))
@@ -29,18 +29,18 @@ U<V> y = U<V>{0};
 
 (translation_unit
   (declaration
-    (identifier)
+    (type_identifier)
     (init_declarator
       (identifier)
       (compound_literal_expression
-        (identifier)
+        (type_identifier)
         (initializer_list (number_literal)))))
   (declaration
-    (template_call (identifier) (type_name (identifier)))
+    (template_type (type_identifier) (template_argument_list (type_descriptor (type_identifier))))
     (init_declarator
       (identifier)
       (compound_literal_expression
-        (template_call (identifier) (type_name (identifier)))
+        (template_type (type_identifier) (template_argument_list (type_descriptor (type_identifier))))
         (initializer_list (number_literal))))))
 
 =================================================
@@ -56,8 +56,8 @@ int main() {
 
 (translation_unit
   (function_definition
-    (identifier)
-    (function_declarator (identifier))
+    (type_identifier)
+    (function_declarator (identifier) (parameter_list))
     (compound_statement
       (expression_statement (call_expression
         (field_expression (identifier) (destructor_name (identifier)))
@@ -83,30 +83,35 @@ int main() {
 
 (translation_unit
   (function_definition
-    (identifier)
-    (function_declarator (identifier))
+    (type_identifier)
+    (function_declarator (identifier) (parameter_list))
     (compound_statement
       (declaration
         (auto)
         (init_declarator
           (identifier)
-          (new_expression (identifier) (argument_list))))
-      (declaration
-        (auto)
-        (init_declarator
-          (identifier)
-          (new_expression (scoped_identifier (identifier) (identifier)) (initializer_list))))
-      (declaration
-        (auto)
-        (init_declarator
-          (identifier)
-          (new_expression (parenthesized_expression (pointer_expression (identifier))) (identifier) (argument_list))))
+          (new_expression (type_identifier) (argument_list))))
       (declaration
         (auto)
         (init_declarator
           (identifier)
           (new_expression
-            (identifier)
+            (scoped_type_identifier (namespace_identifier) (type_identifier))
+            (initializer_list))))
+      (declaration
+        (auto)
+        (init_declarator
+          (identifier)
+          (new_expression
+            (parenthesized_expression (pointer_expression (identifier)))
+            (type_identifier)
+            (argument_list))))
+      (declaration
+        (auto)
+        (init_declarator
+          (identifier)
+          (new_expression
+            (type_identifier)
             (new_declarator (number_literal) (new_declarator (number_literal)))
             (argument_list))))
       (expression_statement (delete_expression (identifier)))
@@ -124,11 +129,11 @@ int main() {
 
 (translation_unit
   (function_definition
-    (identifier)
-    (function_declarator (identifier))
+    (type_identifier)
+    (function_declarator (identifier) (parameter_list))
     (compound_statement
       (expression_statement (call_expression
-        (field_expression (identifier) (identifier))
+        (field_expression (identifier) (field_identifier))
         (argument_list (initializer_list (identifier) (identifier))))))))
 
 ====================================================
@@ -149,8 +154,8 @@ auto f = [&](int x) -> bool {
       (lambda_expression
         (lambda_capture_specifier (lambda_default_capture))
         (abstract_function_declarator
-          (parameter_type_list (parameter_declaration (identifier) (identifier)))
-          (trailing_return_type (identifier)))
+          (parameter_list (parameter_declaration (type_identifier) (identifier)))
+          (trailing_return_type (type_identifier)))
         (compound_statement (return_statement (identifier)))))))
 
 ====================================================
@@ -168,30 +173,41 @@ class A {
 ---
 
 (translation_unit
-  (class_specifier (identifier) (member_declaration_list
-    (member_declaration
-      (scoped_identifier
-        (template_call
-          (identifier)
-          (type_name (template_call
-            (scoped_identifier (identifier) (identifier))
-            (type_name (identifier)) (type_name (identifier)))))
-        (identifier))
-      (identifier))
+  (class_specifier (type_identifier) (field_declaration_list
+    (field_declaration
+      (scoped_type_identifier
+        (template_type
+          (type_identifier)
+          (template_argument_list
+            (type_descriptor (template_type
+              (scoped_type_identifier (namespace_identifier) (type_identifier))
+              (template_argument_list
+                (type_descriptor (type_identifier)) (type_descriptor (type_identifier)))))))
+        (type_identifier))
+      (field_identifier))
     (function_definition
-      (template_call (identifier) (type_name (template_call (identifier) (type_name (identifier)))))
-      (function_declarator (identifier))
+      (template_type
+        (type_identifier)
+        (template_argument_list (type_descriptor
+          (template_type
+            (type_identifier)
+            (template_argument_list (type_descriptor (type_identifier)))))))
+      (function_declarator (field_identifier) (parameter_list))
       (compound_statement
         (declaration
-          (template_call
-            (scoped_identifier (identifier) (identifier))
-            (type_name (template_call (identifier) (type_name (identifier)))))
+          (template_type
+            (scoped_type_identifier (namespace_identifier) (type_identifier))
+            (template_argument_list (type_descriptor
+              (template_type (type_identifier) (template_argument_list (type_descriptor (type_identifier)))))))
           (init_declarator
             (identifier)
             (compound_literal_expression
-              (template_call
-                (scoped_identifier (identifier) (identifier))
-                (type_name (template_call (identifier) (type_name (identifier)))))
+              (template_type
+                (scoped_type_identifier (namespace_identifier) (type_identifier))
+                (template_argument_list (type_descriptor
+                  (template_type
+                    (type_identifier)
+                    (template_argument_list (type_descriptor (type_identifier)))))))
               (initializer_list)))))))))
 
 ====================================================
@@ -204,8 +220,8 @@ int main() { a(), b(); }
 
 (translation_unit
   (function_definition
-    (identifier)
-    (function_declarator (identifier))
+    (type_identifier)
+    (function_declarator (identifier) (parameter_list))
     (compound_statement
       (expression_statement (comma_expression
         (call_expression (identifier) (argument_list))

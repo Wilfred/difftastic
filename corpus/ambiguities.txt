@@ -4,21 +4,27 @@ template functions vs relational expressions
 
 int main() {
   someVariable < someValue > 0.0;
-  someTemplate<Type1, Type2>(0, 0);
+  someTemplate<Type1, Type2>(a, b);
 }
 
 ---
 
 (translation_unit (function_definition
-  (identifier)
-  (function_declarator (identifier))
+  (type_identifier)
+  (function_declarator (identifier) (parameter_list))
   (compound_statement
-    (expression_statement (relational_expression (relational_expression (identifier) (identifier)) (number_literal)))
+    (expression_statement
+      (relational_expression (relational_expression (identifier) (identifier))
+      (number_literal)))
     (expression_statement (call_expression
-      (template_call (identifier) (type_name (identifier)) (type_name (identifier)))
+      (template_function
+        (identifier)
+        (template_argument_list
+          (type_descriptor (type_identifier))
+          (type_descriptor (type_identifier))))
       (argument_list
-        (number_literal)
-        (number_literal)))))))
+        (identifier)
+        (identifier)))))))
 
 ================================================
 template classes vs relational expressions
@@ -31,9 +37,10 @@ int main() {
 ---
 
 (translation_unit (function_definition
-  (identifier)
-  (function_declarator (identifier))
+  (type_identifier)
+  (function_declarator (identifier) (parameter_list))
   (compound_statement
     (declaration
-      (template_call (identifier) (type_name (identifier)))
+      (template_type (type_identifier)
+        (template_argument_list (type_descriptor (type_identifier))))
       (init_declarator (identifier) (number_literal))))))
