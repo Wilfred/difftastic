@@ -36,6 +36,7 @@ module.exports = grammar({
     $._statement,
     $._semicolon,
     $._destructuring_pattern,
+    $._reserved_identifier,
   ],
 
   conflicts: $ => [
@@ -397,11 +398,7 @@ module.exports = grammar({
       $.undefined,
       $.yield_expression,
       $.identifier,
-      alias(choice(
-        'get',
-        'set',
-        'async'
-      ), $.identifier)
+      alias($._reserved_identifier, $.identifier)
     ),
 
     yield_expression: $ => prec.right(seq(
@@ -420,9 +417,7 @@ module.exports = grammar({
       $.method_definition,
       alias(choice(
         $.identifier,
-        'get',
-        'set',
-        'async'
+        $._reserved_identifier
       ), $.shorthand_property_identifier),
       $.spread_element,
       $.assignment_pattern
@@ -820,12 +815,16 @@ module.exports = grammar({
     _property_name: $ => choice(
       alias(choice(
         $.identifier,
-        'get',
-        'set',
-        'async'
+        $._reserved_identifier
       ), $.property_identifier),
       $.string,
       $.number
+    ),
+
+    _reserved_identifier: $ => choice(
+      'get',
+      'set',
+      'async'
     ),
 
     _semicolon: $ => choice($._automatic_semicolon, ';')
