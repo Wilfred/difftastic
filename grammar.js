@@ -61,7 +61,6 @@ module.exports = grammar({
       seq('export', $.export_clause, $._from_clause, $._semicolon),
       seq('export', $.export_clause, $._semicolon),
       seq('export', $._declaration),
-      seq('export', 'default', $.anonymous_class),
       seq('export', 'default', $._expression, $._semicolon)
     ),
 
@@ -366,6 +365,7 @@ module.exports = grammar({
       $.jsx_element,
       $.jsx_self_closing_element,
       $.class,
+      $.anonymous_class,
       $.function,
       $.arrow_function,
       $.generator_function,
