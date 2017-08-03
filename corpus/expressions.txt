@@ -702,13 +702,13 @@ foo :bar, -> (a) { where(:c => b) }
   (method_call (identifier)
     (argument_list
       (symbol)
-      (lambda (lambda_parameters (identifier)) (integer))))
+      (lambda (lambda_parameters (identifier)) (block (integer)))))
   (method_call (identifier)
     (argument_list
       (symbol)
       (lambda
         (lambda_parameters (identifier))
-        (method_call (identifier) (argument_list (pair (symbol) (identifier))))))))
+        (block (method_call (identifier) (argument_list (pair (symbol) (identifier)))))))))
 
 ===============================
 method call lambda argument and do block
@@ -721,7 +721,7 @@ end
 
 (program
   (method_call (identifier)
-    (argument_list (symbol) (lambda (lambda_parameters (identifier)) (integer)))
+    (argument_list (symbol) (lambda (lambda_parameters (identifier)) (block (integer))))
     (do_block)))
 
 ===============================
@@ -878,7 +878,8 @@ end
 
 (program
   (lambda
-    (lambda_parameters (identifier) (splat_parameter (identifier)) (destructured_parameter (identifier) (identifier))))
+    (lambda_parameters (identifier) (splat_parameter (identifier)) (destructured_parameter (identifier) (identifier)))
+    (block))
   (method (identifier)
     (method_parameters (identifier) (splat_parameter (identifier)) (destructured_parameter (identifier) (identifier))))
   (method (identifier)
@@ -913,7 +914,9 @@ lambda { lambda }
 
 ---
 
-(program (lambda) (lambda (lambda)))
+(program
+  (lambda (block))
+  (lambda (block (lambda))))
 
 ==================
 lambda expression with body
@@ -923,7 +926,7 @@ lambda { foo }
 
 ---
 
-(program (lambda (identifier)))
+(program (lambda (block (identifier))))
 
 ====================
 lambda expression with an arg
@@ -933,7 +936,7 @@ lambda { |foo| 1 }
 
 ---
 
-(program (lambda (block_parameters (identifier)) (integer)))
+(program (lambda (block (block_parameters (identifier)) (integer))))
 
 ===========================
 lambda expression with multiple args
@@ -946,7 +949,10 @@ lambda { |a, b, c|
 
 ---
 
-(program (lambda (block_parameters (identifier) (identifier) (identifier)) (integer) (integer)))
+(program (lambda (block
+  (block_parameters (identifier) (identifier) (identifier))
+  (integer)
+  (integer))))
 
 ===========================
 lambda expression with trailing comma
@@ -958,7 +964,9 @@ lambda { |a, b,|
 
 ---
 
-(program (lambda (block_parameters (identifier) (identifier)) (integer)))
+(program (lambda (block
+  (block_parameters (identifier) (identifier))
+  (integer))))
 
 ===========================
 lambda expression with optional arg
@@ -970,7 +978,9 @@ lambda { |a, b=nil|
 
 ---
 
-(program (lambda (block_parameters (identifier) (optional_parameter (identifier) (nil))) (integer)))
+(program (lambda (block
+  (block_parameters (identifier) (optional_parameter (identifier) (nil)))
+  (integer))))
 
 ===========================
 lambda expression with keyword arg
@@ -982,7 +992,9 @@ lambda { |a, b: nil|
 
 ---
 
-(program (lambda (block_parameters (identifier) (keyword_parameter (identifier) (nil))) (integer)))
+(program (lambda (block
+  (block_parameters (identifier) (keyword_parameter (identifier) (nil)))
+  (integer))))
 
 ====================
 lambda expression with do end
@@ -994,7 +1006,9 @@ end
 
 ---
 
-(program (lambda (block_parameters (identifier)) (integer)))
+(program (lambda (do_block
+  (block_parameters (identifier))
+  (integer))))
 
 ===============================
 backslash-newline as line continuation
