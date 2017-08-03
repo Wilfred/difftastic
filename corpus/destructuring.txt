@@ -9,7 +9,7 @@ const {a, b: {c, d}} = object
 ---
 
 (program
-  (expression_statement (assignment
+  (expression_statement (assignment_expression
     (object_pattern
       (shorthand_property_identifier)
       (shorthand_property_identifier))
@@ -50,21 +50,27 @@ Array destructuring assignments
 ============================================
 
 [a, b] = array;
-[a, b, ...c] = array
+[a, b, ...c] = array;
+[,, c,, d,] = array;
 
 ---
 
 (program
-  (expression_statement (assignment
+  (expression_statement (assignment_expression
     (array_pattern
       (identifier)
       (identifier))
     (identifier)))
-  (expression_statement (assignment
+  (expression_statement (assignment_expression
     (array_pattern
       (identifier)
       (identifier)
       (spread_element (identifier)))
+    (identifier)))
+  (expression_statement (assignment_expression
+    (array_pattern
+      (identifier)
+      (identifier))
     (identifier))))
 
 ================================================
@@ -79,5 +85,5 @@ function a({b = true}, [c, d = false]) {}
   (function (identifier)
     (formal_parameters
       (object_pattern (assignment_pattern (shorthand_property_identifier) (true)))
-      (array_pattern (identifier) (assignment (identifier) (false))))
+      (array_pattern (identifier) (assignment_expression (identifier) (false))))
     (statement_block)))
