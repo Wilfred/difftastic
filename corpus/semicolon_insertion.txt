@@ -12,10 +12,10 @@ if (a) {
 ---
 
 (program
-  (if_statement (identifier) (statement_block
+  (if_statement (parenthesized_expression (identifier)) (statement_block
     (variable_declaration (variable_declarator (identifier) (identifier)))
-    (expression_statement (function_call (identifier) (arguments)))
-    (expression_statement (function_call (identifier) (arguments)))
+    (expression_statement (call_expression (identifier) (arguments)))
+    (expression_statement (call_expression (identifier) (arguments)))
     (return_statement (identifier)))))
 
 ==========================================
@@ -29,8 +29,8 @@ object
 ---
 
 (program (expression_statement
-  (member_access
-    (member_access (identifier) (property_identifier))
+  (member_expression
+    (member_expression (identifier) (property_identifier))
     (property_identifier))))
 
 ===========================================
@@ -72,12 +72,12 @@ a
 ---
 
 (program
-  (expression_statement (ternary (identifier) (identifier) (identifier)))
-  (expression_statement (bool_op (identifier) (identifier)))
-  (expression_statement (bitwise_op (identifier) (identifier)))
-  (expression_statement (rel_op (identifier) (identifier)))
+  (expression_statement (ternary_expression (identifier) (identifier) (identifier)))
+  (expression_statement (binary_expression (identifier) (identifier)))
+  (expression_statement (binary_expression (identifier) (identifier)))
+  (expression_statement (binary_expression (identifier) (identifier)))
   (expression_statement (identifier))
-  (expression_statement (bool_op (identifier)))
+  (expression_statement (unary_expression (identifier)))
   (comment))
 
 ================================================
@@ -108,7 +108,7 @@ a
   (expression_statement (identifier))
   (expression_statement (identifier))
 
-  (expression_statement (type_op (identifier) (identifier)))
+  (expression_statement (binary_expression (identifier) (identifier)))
 
   (expression_statement (identifier))
   (expression_statement (identifier))
@@ -116,7 +116,7 @@ a
   (expression_statement (identifier))
   (expression_statement (identifier))
 
-  (expression_statement (type_op (identifier) (identifier)))
+  (expression_statement (binary_expression (identifier) (identifier)))
 
   (expression_statement (identifier))
   (expression_statement (identifier)))
@@ -130,7 +130,7 @@ if (a) {b} else {c}
 ---
 
 (program
-  (if_statement (identifier)
+  (if_statement (parenthesized_expression (identifier))
     (statement_block (expression_statement (identifier)))
     (statement_block (expression_statement (identifier)))))
 
@@ -162,11 +162,11 @@ var a = new A()
 (program
   (variable_declaration (variable_declarator
     (identifier)
-    (new_expression (function_call
-      (member_access
-        (function_call
-          (member_access
-            (function_call (identifier) (arguments))
+    (new_expression (call_expression
+      (member_expression
+        (call_expression
+          (member_expression
+            (call_expression (identifier) (arguments))
             (property_identifier))
           (arguments (object (pair (property_identifier) (string)))))
         (property_identifier))
@@ -187,27 +187,29 @@ if (p) { var q }
 ---
 
 (program
-  (if_statement (identifier) (statement_block
+  (if_statement (parenthesized_expression (identifier)) (statement_block
     (if_statement
-      (identifier)
+      (parenthesized_expression (identifier))
       (return_statement (identifier)))))
-  (if_statement (identifier) (statement_block
+  (if_statement (parenthesized_expression (identifier)) (statement_block
     (for_statement
+      (empty_statement)
+      (empty_statement)
       (break_statement))))
-  (if_statement (identifier) (statement_block
+  (if_statement (parenthesized_expression (identifier)) (statement_block
     (for_in_statement (identifier) (identifier)
       (break_statement))))
-  (if_statement (identifier) (statement_block
+  (if_statement (parenthesized_expression (identifier)) (statement_block
     (for_of_statement (identifier) (identifier)
       (continue_statement))))
-  (if_statement (identifier) (statement_block
-    (while_statement (identifier)
+  (if_statement (parenthesized_expression (identifier)) (statement_block
+    (while_statement (parenthesized_expression (identifier))
       (break_statement))))
-  (if_statement (identifier) (statement_block
+  (if_statement (parenthesized_expression (identifier)) (statement_block
     (do_statement
       (statement_block (expression_statement (identifier)))
-      (identifier))))
-  (if_statement (identifier) (statement_block
+      (parenthesized_expression (identifier)))))
+  (if_statement (parenthesized_expression (identifier)) (statement_block
     (variable_declaration (variable_declarator (identifier))))))
 
 =====================================================
