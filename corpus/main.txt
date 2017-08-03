@@ -4,6 +4,9 @@ arrays
 
 [
   345,
+  10.1,
+  10,
+  -10,
   null,
   true,
   false,
@@ -13,6 +16,9 @@ arrays
 ---
 
 (array
+  (number)
+  (number)
+  (number)
   (number)
   (null)
   (true)

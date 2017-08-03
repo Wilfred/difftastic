@@ -207,7 +207,7 @@
             "members": [
               {
                 "type": "PATTERN",
-                "value": "\\d+"
+                "value": "-?\\d+"
               },
               {
                 "type": "CHOICE",
