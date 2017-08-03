@@ -38,7 +38,7 @@ module.exports = grammar({
         /[\da-fA-F]+/
       ),
       seq(
-        /\d+/,
+        /-?\d+/,
         optional(seq(".", /\d*/))
       )
     )),
