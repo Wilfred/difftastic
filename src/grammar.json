@@ -96,23 +96,6 @@
             },
             {
               "type": "SYMBOL",
-              "name": "anonymous_class"
-            }
-          ]
-        },
-        {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "STRING",
-              "value": "export"
-            },
-            {
-              "type": "STRING",
-              "value": "default"
-            },
-            {
-              "type": "SYMBOL",
               "name": "_expression"
             },
             {
@@ -1361,6 +1344,10 @@
         {
           "type": "SYMBOL",
           "name": "class"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "anonymous_class"
         },
         {
           "type": "SYMBOL",
