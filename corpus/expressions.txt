@@ -936,7 +936,7 @@ foo(...rest)
 
 (program
   (expression_statement
-    (call_expression (identifier) (arguments (rest_argument (identifier))))))
+    (call_expression (identifier) (arguments (spread_element (identifier))))))
 
 ==============================================
 Forward slashes after parenthesized expressions

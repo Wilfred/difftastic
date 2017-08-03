@@ -739,11 +739,9 @@ module.exports = grammar({
 
     arguments: $ => prec(PREC.CALL, seq(
       '(',
-      commaSep(choice($._expression, $.rest_argument)),
+      commaSep(optional(choice($._expression, $.spread_element))),
       ')'
     )),
-
-    rest_argument: $ => seq('...', $._expression),
 
     class_body: $ => seq(
       '{',

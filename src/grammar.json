@@ -3830,12 +3830,20 @@
                     "type": "CHOICE",
                     "members": [
                       {
-                        "type": "SYMBOL",
-                        "name": "_expression"
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "SYMBOL",
+                            "name": "_expression"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "spread_element"
+                          }
+                        ]
                       },
                       {
-                        "type": "SYMBOL",
-                        "name": "rest_argument"
+                        "type": "BLANK"
                       }
                     ]
                   },
@@ -3852,12 +3860,20 @@
                           "type": "CHOICE",
                           "members": [
                             {
-                              "type": "SYMBOL",
-                              "name": "_expression"
+                              "type": "CHOICE",
+                              "members": [
+                                {
+                                  "type": "SYMBOL",
+                                  "name": "_expression"
+                                },
+                                {
+                                  "type": "SYMBOL",
+                                  "name": "spread_element"
+                                }
+                              ]
                             },
                             {
-                              "type": "SYMBOL",
-                              "name": "rest_argument"
+                              "type": "BLANK"
                             }
                           ]
                         }
@@ -3877,19 +3893,6 @@
           }
         ]
       }
-    },
-    "rest_argument": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "..."
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_expression"
-        }
-      ]
     },
     "class_body": {
       "type": "SEQ",
