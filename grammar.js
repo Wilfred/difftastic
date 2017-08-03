@@ -45,7 +45,6 @@ module.exports = grammar({
     [$._expression, $.arrow_function],
     [$._expression, $.method_definition],
     [$._expression, $.formal_parameters],
-    [$._expression, $._property_definition_list],
     [$.labeled_statement, $._property_name],
     [$.assignment_pattern, $.assignment_expression],
   ],
@@ -405,19 +404,14 @@ module.exports = grammar({
 
     object: $ => prec(PREC.OBJECT, seq(
       '{',
-      optional($._property_definition_list),
+      commaSep(optional(choice(
+        $.pair,
+        $.spread_element,
+        $.method_definition,
+        $.assignment_pattern,
+        alias(choice($.identifier, $._reserved_identifier), $.shorthand_property_identifier)
+      ))),
       '}'
-    )),
-
-    _property_definition_list: $ => commaSep1Trailing($._property_definition_list, choice(
-      $.pair,
-      $.method_definition,
-      alias(choice(
-        $.identifier,
-        $._reserved_identifier
-      ), $.shorthand_property_identifier),
-      $.spread_element,
-      $.assignment_pattern
     )),
 
     assignment_pattern: $ => seq(
@@ -426,7 +420,12 @@ module.exports = grammar({
     ),
 
     array: $ => seq(
-      '[', optional($._element_list), ']'
+      '[',
+      commaSep(optional(choice(
+        $._expression,
+        $.spread_element
+      ))),
+      ']'
     ),
 
     jsx_element: $ => seq(
@@ -481,13 +480,6 @@ module.exports = grammar({
         )
       ))
     ),
-
-    _element_list: $ => seq(
-      optional(','),
-      commaSep1Trailing($._element_list, choice(
-        $._expression,
-        $.spread_element
-      ))),
 
     anonymous_class: $ => seq(
       'class',
@@ -816,10 +808,6 @@ module.exports = grammar({
     _semicolon: $ => choice($._automatic_semicolon, ';')
   }
 });
-
-function commaSep1Trailing(recurSymbol, rule) {
-  return seq(rule, optional(seq(',', optional(recurSymbol))))
-}
 
 function commaSep1 (rule) {
   return seq(rule, repeat(seq(',', rule)));
