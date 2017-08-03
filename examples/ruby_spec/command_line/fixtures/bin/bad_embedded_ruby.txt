@@ -1,3 +1,0 @@
-@@@This line is not value Ruby
-#!rub_y
-puts 'success'

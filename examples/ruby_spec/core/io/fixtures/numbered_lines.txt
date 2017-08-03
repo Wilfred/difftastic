@@ -1,5 +1,0 @@
-Line 1: One
-Line 2: Two
-Line 3: Three
-Line 4: Four
-Line 5: Five

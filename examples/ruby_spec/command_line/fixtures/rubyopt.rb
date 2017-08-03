@@ -1,1 +1,0 @@
-puts "rubyopt.rb required"

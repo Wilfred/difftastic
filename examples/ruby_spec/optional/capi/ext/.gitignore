@@ -1,9 +1,0 @@
-# signature of implementation that
-# last compiled an extension
-*.sig
-
-# build artifacts
-*.o
-*.so
-*.bundle
-*.dll

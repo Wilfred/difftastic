@@ -1,6 +1,0 @@
-Line one
-
-Line three
-Line four
-
-Line last

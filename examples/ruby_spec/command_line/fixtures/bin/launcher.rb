@@ -1,2 +1,0 @@
-#!ruby
-puts 'success'

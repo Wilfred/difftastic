@@ -1,3 +1,0 @@
-alice
-bob
-james
