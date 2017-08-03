@@ -104,9 +104,11 @@ const range = (document: any).selection.createRange()
 (program
   (lexical_declaration (variable_declarator
     (identifier)
-  (function_call
-  (member_access
-    (member_access (identifier) (type_annotation (predefined_type)) (property_identifier))
+  (call_expression
+  (member_expression
+    (member_expression
+      (parenthesized_expression (identifier) (type_annotation (predefined_type)))
+      (property_identifier))
     (property_identifier))
   (arguments)))))
 
@@ -208,9 +210,9 @@ enum Style {
     (string)
     (enum_assignment
       (string)
-      (function_call
-        (member_access (identifier) (property_identifier))
-        (arguments (math_op (function_call (member_access (identifier) (property_identifier)) (arguments)) (number)))))
+      (call_expression
+        (member_expression (identifier) (property_identifier))
+        (arguments (binary_expression (call_expression (member_expression (identifier) (property_identifier)) (arguments)) (number)))))
     (enum_assignment (property_identifier) (number))
     (property_identifier)))
   (enum_declaration (identifier) (enum_body
@@ -218,8 +220,8 @@ enum Style {
     (enum_assignment (property_identifier) (number))
     (enum_assignment (property_identifier) (number))
     (enum_assignment (property_identifier) (number))
-    (enum_assignment (property_identifier) (bitwise_op (identifier) (identifier)))
-    (enum_assignment (property_identifier) (bitwise_op (identifier) (identifier))))))
+    (enum_assignment (property_identifier) (binary_expression (identifier) (identifier)))
+    (enum_assignment (property_identifier) (binary_expression (identifier) (identifier))))))
 
 =======================================
 Interface declarations
@@ -434,7 +436,10 @@ const repository = foo++!
 
 ---
 
-(program (lexical_declaration (variable_declarator (identifier) (non_null_assertion_op (math_op (identifier))))))
+(program
+  (lexical_declaration (variable_declarator
+    (identifier)
+    (non_null_expression (update_expression (identifier))))))
 
 =======================================
 Type query and index type query types
