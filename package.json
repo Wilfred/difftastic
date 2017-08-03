@@ -17,7 +17,7 @@
   },
   "scripts": {
     "build": "tree-sitter generate && node-gyp build",
-    "test": "tree-sitter test && tree-sitter parse $(find examples/ruby_spec/language -name *.rb) -q -t"
+    "test": "tree-sitter test && script/parse-examples"
   },
   "repository": "https://github.com/tree-sitter/tree-sitter-ruby"
 }

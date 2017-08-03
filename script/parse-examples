@@ -1,0 +1,8 @@
+#!/bin/bash
+
+set -e
+
+# tree-sitter parse $(find examples/ruby_spec/language -name *.rb) -q -t
+for f in $(find examples/ruby_spec/language -name *.rb); do
+  tree-sitter parse $f -q -t
+done
