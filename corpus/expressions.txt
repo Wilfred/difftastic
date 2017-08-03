@@ -21,14 +21,14 @@ typeof module === "object" && typeof module.exports === "object"
 
 (program
   (expression_statement
-    (rel_op
-      (type_op (anonymous_class (class_body)))
+    (binary_expression
+      (unary_expression (anonymous_class (class_body)))
       (string)))
 
   (expression_statement
-    (bool_op
-      (rel_op (type_op (identifier)) (string))
-      (rel_op (type_op (member_access (identifier) (property_identifier))) (string)))))
+    (binary_expression
+      (binary_expression (unary_expression (identifier)) (string))
+      (binary_expression (unary_expression (member_expression (identifier) (property_identifier))) (string)))))
 
 ==================================
 Array with empty elements
@@ -41,19 +41,6 @@ Array with empty elements
 (program
   (expression_statement
     (array (identifier) (identifier) (identifier))))
-
-==================================
-Array with empty elements
-==================================
-
-(a: ) => { }
-
----
-
-(program
-  (expression_statement
-    (arrow_function (call_signature (formal_parameters (required_parameter (identifier) (type_annotation)))) (object))))
-
 
 ==================================
 Variable named 'module'

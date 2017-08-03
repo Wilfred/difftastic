@@ -22,7 +22,7 @@ function foo<T, U>(a: T[], f: (x: T) => U): U[] {
       (identifier)
       (call_signature (formal_parameters (required_parameter (identifier) (type_annotation (predefined_type)))))
       (statement_block
-        (return_statement (math_op (string) (identifier))))))
+        (return_statement (binary_expression (string) (identifier))))))
   (expression_statement
     (function
       (identifier)
@@ -58,7 +58,7 @@ const lines = new Array<DiffLine>()
   (lexical_declaration
     (variable_declarator
       (identifier)
-      (function_call (new_expression (identifier)) (type_arguments (type_identifier)) (arguments)))))
+      (call_expression (new_expression (identifier)) (type_arguments (type_identifier)) (arguments)))))
 
 ==================================
 Arrow functions and generators with call signatures
@@ -80,8 +80,17 @@ function* foo<A>(amount, interestRate, duration): number {
   (expression_statement
     (generator_function
       (identifier)
-      (call_signature (type_parameters (type_parameter (identifier))) (formal_parameters (required_parameter (identifier)) (required_parameter (identifier)) (required_parameter (identifier))) (type_annotation (predefined_type)))
-      (statement_block (expression_statement (yield_expression (math_op (math_op (math_op (identifier) (identifier)) (identifier)) (number))))))))
+      (call_signature
+        (type_parameters (type_parameter (identifier)))
+        (formal_parameters
+          (required_parameter (identifier))
+          (required_parameter (identifier))
+          (required_parameter (identifier)))
+        (type_annotation (predefined_type)))
+      (statement_block
+        (expression_statement (yield_expression (binary_expression
+          (binary_expression (binary_expression (identifier) (identifier)) (identifier))
+          (number))))))))
 
 ==================================
 Arrow function with parameter named async
@@ -122,13 +131,13 @@ class A extends B {
               (required_parameter (identifier) (type_annotation (predefined_type)))
               (required_parameter (identifier) (type_annotation (predefined_type)))))
           (statement_block
-            (expression_statement (function_call (super) (arguments (identifier))))))
+            (expression_statement (call_expression (super) (arguments (identifier))))))
         (method_definition
           (accessibility_modifier)
           (property_identifier)
           (call_signature (formal_parameters))
           (statement_block
             (return_statement
-              (math_op
-                (math_op (function_call (member_access (super) (property_identifier)) (arguments)) (string))
-                (member_access (this_expression) (property_identifier))))))))))
+              (binary_expression
+                (binary_expression (call_expression (member_expression (super) (property_identifier)) (arguments)) (string))
+                (member_expression (this_expression) (property_identifier))))))))))
