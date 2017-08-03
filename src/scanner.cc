@@ -113,7 +113,7 @@ struct Scanner {
       buffer[i++] = iter->end_word_indentation_allowed;
       buffer[i++] = iter->word.size();
       iter->word.copy(&buffer[i], iter->word.size());
-      i +=  iter->word.size();
+      i += iter->word.size();
     }
 
     return i;
