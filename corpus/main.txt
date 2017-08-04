@@ -15,7 +15,7 @@ arrays
 
 ---
 
-(array
+(value (array
   (number)
   (number)
   (number)
@@ -23,7 +23,7 @@ arrays
   (null)
   (true)
   (false)
-  (object (pair (string) (string))))
+  (object (pair (string) (string)))))
 
 ===================
 long objects
@@ -36,6 +36,6 @@ long objects
 
 ---
 
-(object
+(value (object
   (pair (string) (string))
-  (pair (string) (number)))
+  (pair (string) (number))))

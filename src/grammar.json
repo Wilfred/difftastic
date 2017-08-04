@@ -1,6 +1,10 @@
 {
   "name": "json",
   "rules": {
+    "value": {
+      "type": "SYMBOL",
+      "name": "_value"
+    },
     "_value": {
       "type": "CHOICE",
       "members": [

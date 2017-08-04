@@ -6,6 +6,8 @@ module.exports = grammar({
   ],
 
   rules: {
+    value: $ => $._value,
+
     _value: $ => choice(
       $.object,
       $.array,
