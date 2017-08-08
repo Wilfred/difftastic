@@ -1753,7 +1753,7 @@
         }
       ]
     },
-    "_iterator_expression": {
+    "_expression_within_for_in_clause": {
       "type": "PREC",
       "value": 1,
       "content": {
@@ -1779,7 +1779,7 @@
             "type": "ALIAS",
             "content": {
               "type": "SYMBOL",
-              "name": "old_lambda"
+              "name": "lambda_within_for_in_clause"
             },
             "named": true,
             "value": "lambda"
@@ -2423,38 +2423,34 @@
         ]
       }
     },
-    "old_lambda": {
-      "type": "PREC",
-      "value": 0,
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "STRING",
-            "value": "lambda"
-          },
-          {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "lambda_parameters"
-              },
-              {
-                "type": "BLANK"
-              }
-            ]
-          },
-          {
-            "type": "STRING",
-            "value": ":"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "_iterator_expression"
-          }
-        ]
-      }
+    "lambda_within_for_in_clause": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "lambda"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "lambda_parameters"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": ":"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_expression_within_for_in_clause"
+        }
+      ]
     },
     "assignment": {
       "type": "SEQ",
@@ -3250,7 +3246,7 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "_iterator_expression"
+              "name": "_expression_within_for_in_clause"
             },
             {
               "type": "REPEAT",
@@ -3263,7 +3259,7 @@
                   },
                   {
                     "type": "SYMBOL",
-                    "name": "_iterator_expression"
+                    "name": "_expression_within_for_in_clause"
                   }
                 ]
               }
@@ -3929,10 +3925,6 @@
     [
       "_primary_expression",
       "exec_statement"
-    ],
-    [
-      "old_lambda",
-      "_expression"
     ]
   ],
   "externals": [

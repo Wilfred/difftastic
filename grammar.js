@@ -1,6 +1,7 @@
 const PREC = {
   // this resolves a conflict between the usage of ':' in a lambda vs in a
   // typed parameter. In the case of a lambda, we don't allow typed parameters.
+  lambda: -2,
   typed_parameter: -1,
   conditional: -1,
 
@@ -36,7 +37,6 @@ module.exports = grammar({
   conflicts: $ => [
     [$._primary_expression, $.print_statement],
     [$._primary_expression, $.exec_statement],
-    [$.old_lambda, $._expression],
   ],
 
   inline: $ => [
@@ -421,12 +421,12 @@ module.exports = grammar({
     dotted_name: $ => sep1($.identifier, '.'),
 
     // Expressions
-    _iterator_expression: $ => prec(1, choice(
+    _expression_within_for_in_clause: $ => prec(1, choice(
       $.comparison_operator,
       $.not_operator,
       $.boolean_operator,
       $.await,
-      alias($.old_lambda, $.lambda),
+      alias($.lambda_within_for_in_clause, $.lambda),
       $._primary_expression
     )),
     
@@ -514,19 +514,19 @@ module.exports = grammar({
       ))
     )),
 
-    lambda: $ => prec(-2, seq(
+    lambda: $ => prec(PREC.lambda, seq(
       'lambda',
       optional($.lambda_parameters),
       ':',
       $._expression
     )),
     
-    old_lambda: $ => prec(0, seq(
+    lambda_within_for_in_clause: $ => seq(
       'lambda',
       optional($.lambda_parameters),
       ':',
-      $._iterator_expression
-    )),
+      $._expression_within_for_in_clause
+    ),
 
     assignment: $ => seq(
       $.expression_list,
@@ -698,7 +698,7 @@ module.exports = grammar({
       'for',
       $.variables,
       'in',
-      commaSep1($._iterator_expression),
+      commaSep1($._expression_within_for_in_clause),
       optional(',')
     ),
     
