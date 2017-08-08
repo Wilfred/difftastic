@@ -214,7 +214,7 @@ List comprehensions
 
 [a + b for (a, b) in items]
 [a for b in c for a in b]
-[a for b in lambda: True, lambda: False if True]
+[a for a in lambda: True, lambda: False if a()]
 
 ---
 
@@ -223,20 +223,26 @@ List comprehensions
     (binary_operator
       (identifier)
       (identifier))
-    (variables
-      (tuple (identifier) (identifier)))
-    (identifier)))
+    (for_in_clause
+      (variables
+        (tuple (identifier) (identifier)))
+      (identifier))))
   (expression_statement (list_comprehension
     (identifier)
-    (variables (identifier))
-    (identifier)
-    (variables (identifier))
-    (identifier)))
-  (expression_statement (list_comprehension
-    (identifier)
-    (variables (identifier))
-    (lambda (true))
-    (lambda (conditional_expression (false) (true))))))
+    (for_in_clause
+      (variables (identifier))
+      (identifier))
+    (for_in_clause
+      (variables (identifier))
+      (identifier))))
+  (expression_statement (list_comprehension 
+        (identifier) 
+        (for_in_clause
+          (variables (identifier)) 
+          (lambda (true)) 
+          (lambda (false)))
+          (if_clause
+            (call (identifier) (argument_list))))))
 
 =====================================
 Dictionaries
@@ -264,11 +270,14 @@ Dictionary comprehensions
 
 (module
   (expression_statement (dictionary_comprehension
-    (identifier)
-    (identifier) (variables (identifier) (identifier)) (identifier)))
+    (pair (identifier) (identifier))
+    (for_in_clause
+      (variables (identifier) (identifier)) (identifier))))
   (expression_statement (dictionary_comprehension
-    (identifier)
-    (identifier) (variables (identifier)) (identifier) (variables (identifier)) (identifier))))
+    (pair (identifier) (identifier))
+    (for_in_clause
+      (variables (identifier)) (identifier)) 
+    (for_in_clause (variables (identifier)) (identifier)))))
 
 =====================================
 Sets
@@ -296,10 +305,15 @@ Set comprehensions
 (module
   (expression_statement (set_comprehension
     (subscript (subscript (identifier) (identifier)) (identifier))
-    (variables (identifier) (identifier) (identifier))
-    (identifier)))
+    (for_in_clause
+      (variables (identifier) (identifier) (identifier))
+      (identifier))))
   (expression_statement (set_comprehension
-    (identifier) (variables (identifier)) (identifier) (variables (identifier)) (identifier))))
+    (identifier) 
+    (for_in_clause
+      (variables (identifier)) (identifier))
+    (for_in_clause 
+      (variables (identifier)) (identifier)))))
 
 =====================================
 Tuples
@@ -327,17 +341,21 @@ dict((a, b) for a, b in d)
 (module
   (expression_statement (generator_expression
     (subscript (subscript (identifier) (identifier)) (identifier))
-    (variables (identifier) (identifier) (identifier))
-    (identifier)))
+    (for_in_clause
+      (variables (identifier) (identifier) (identifier))
+      (identifier))))
   (expression_statement (call
     (identifier)
     (generator_expression
       (tuple (identifier) (identifier))
-      (variables (identifier) (identifier))
-      (identifier))))
+      (for_in_clause
+        (variables (identifier) (identifier))
+        (identifier)))))
   (expression_statement (generator_expression
     (identifier)
-    (variables (identifier))
-    (identifier)
-    (variables (identifier))
-    (identifier))))
+    (for_in_clause
+      (variables (identifier))
+      (identifier))
+    (for_in_clause
+      (variables (identifier))
+      (identifier)))))

@@ -421,9 +421,7 @@ lambda (a,b): (a, b)
 Conditional if expressions
 =====================================
 
-a = b if c
 a = b if c else d
-something() if a
 something() if a else d
 slice(1,1,1) if a else d
 
@@ -434,15 +432,7 @@ slice(1,1,1) if a else d
     (assignment
       (expression_list (identifier))
       (expression_list
-        (conditional_expression (identifier) (identifier)))))
-  (expression_statement
-    (assignment
-      (expression_list (identifier))
-      (expression_list
-        (conditional_expression
-          (identifier) (identifier) (identifier)))))
-  (expression_statement
-    (conditional_expression (call (identifier) (argument_list)) (identifier)))
+        (conditional_expression (identifier) (identifier) (identifier)))))
   (expression_statement
     (conditional_expression (call (identifier) (argument_list)) (identifier) (identifier)))
   (expression_statement (conditional_expression
