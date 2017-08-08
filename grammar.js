@@ -1,10 +1,12 @@
 const PREC = {
   // this resolves a conflict between the usage of ':' in a lambda vs in a
   // typed parameter. In the case of a lambda, we don't allow typed parameters.
+  lambda: -2,
   typed_parameter: -1,
+  conditional: -1,
 
+  not: 1,
   compare: 2,
-  conditional: 2,
   or: 10,
   and: 11,
   bitwise_or: 12,
@@ -14,7 +16,6 @@ const PREC = {
   plus: 16,
   times: 17,
   power: 18,
-  not: 1,
   unary: 19,
   call: 20,
 }
@@ -420,7 +421,15 @@ module.exports = grammar({
     dotted_name: $ => sep1($.identifier, '.'),
 
     // Expressions
-
+    _expression_within_for_in_clause: $ => prec(1, choice(
+      $.comparison_operator,
+      $.not_operator,
+      $.boolean_operator,
+      $.await,
+      alias($.lambda_within_for_in_clause, $.lambda),
+      $._primary_expression
+    )),
+    
     _expression: $ => choice(
       $.comparison_operator,
       $.not_operator,
@@ -457,9 +466,7 @@ module.exports = grammar({
       $.ellipsis
     ),
 
-    not_operator: $ => choice(
-      seq('not', $._expression)
-    ),
+    not_operator: $ => prec(PREC.not, seq('not', $._expression)),
 
     boolean_operator: $ => choice(
       prec.left(PREC.and, seq($._expression, 'and', $._expression)),
@@ -507,11 +514,18 @@ module.exports = grammar({
       ))
     )),
 
-    lambda: $ => seq(
+    lambda: $ => prec(PREC.lambda, seq(
       'lambda',
       optional($.lambda_parameters),
       ':',
       $._expression
+    )),
+    
+    lambda_within_for_in_clause: $ => seq(
+      'lambda',
+      optional($.lambda_parameters),
+      ':',
+      $._expression_within_for_in_clause
     ),
 
     assignment: $ => seq(
@@ -607,25 +621,24 @@ module.exports = grammar({
 
     list: $ => seq(
       '[',
-      optional(seq(
-        commaSep1($._expression),
-        optional(',')
-      )),
+      optional(commaSep1($._expression)),
+      optional(','),
       ']'
+    ),
+    
+    _comprehension_body: $ => seq(
+      $.for_in_clause,
+      repeat(choice(
+        $.for_in_clause,
+        $.if_clause
+      ))
     ),
 
     list_comprehension: $ => seq(
       '[',
-      $._list_comprehension,
-      ']'
-    ),
-
-    _list_comprehension: $ => seq(
       $._expression,
-      'for',
-      $.variables,
-      'in',
-      choice($._list_comprehension, commaSep1($._expression))
+      $._comprehension_body,
+      ']'
     ),
 
     dictionary: $ => seq(
@@ -637,9 +650,8 @@ module.exports = grammar({
 
     dictionary_comprehension: $ => seq(
       '{',
-      $._expression,
-      ':',
-      $._dictionary_comprehension,
+      $.pair,
+      $._comprehension_body,
       '}'
     ),
 
@@ -647,14 +659,6 @@ module.exports = grammar({
       $._expression,
       ':',
       $._expression
-    ),
-
-    _dictionary_comprehension: $ => seq(
-      $._expression,
-      'for',
-      $.variables,
-      'in',
-      choice($._expression, $._dictionary_comprehension)
     ),
 
     set: $ => seq(
@@ -668,16 +672,9 @@ module.exports = grammar({
 
     set_comprehension: $ => seq(
       '{',
-      $._set_comprehension,
-      '}'
-    ),
-
-    _set_comprehension: $ => seq(
       $._expression,
-      'for',
-      $.variables,
-      'in',
-      choice($._expression, $._set_comprehension)
+      $._comprehension_body,
+      '}'
     ),
 
     tuple: $ => seq(
@@ -691,29 +688,32 @@ module.exports = grammar({
 
     generator_expression: $ => seq(
       '(',
-      $._generator_expression,
-      optional(','),
+      $._expression,
+      $._comprehension_body,
       ')'
     ),
-
-    _generator_expression: $ => seq(
-      $._expression,
+    
+    for_in_clause: $ => seq(
       'for',
       $.variables,
       'in',
-      choice($._expression, $._generator_expression)
+      commaSep1($._expression_within_for_in_clause),
+      optional(',')
+    ),
+    
+    if_clause: $ => seq(
+      'if',
+      $._expression
     ),
 
     conditional_expression: $ => prec.right(PREC.conditional, seq(
       $._expression,
       'if',
       $._expression,
-      optional(seq(
-        'else',
-        $._expression
-      )))
-    ),
-
+      'else',
+      $._expression
+    )),
+    
     concatenated_string: $ => seq(
       $.string,
       repeat1($.string)
@@ -794,10 +794,10 @@ module.exports = grammar({
     false: $ => 'False',
     none: $ => 'None',
 
-    await: $ => seq(
+    await: $ => prec(PREC.unary, seq(
       'await',
       $._expression
-    ),
+    )),
 
     comment: $ => token(seq('#', /.*/)),
 
