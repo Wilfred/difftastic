@@ -634,7 +634,6 @@ module.exports = grammar({
       ))
     ),
 
-    // [ x for x in [[1,2,3],[4,5,6],[7,8,9]] for y in [1,2,3] if True ]    
     list_comprehension: $ => seq(
       '[',
       $._expression,

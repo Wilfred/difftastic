@@ -214,35 +214,41 @@ List comprehensions
 
 [a + b for (a, b) in items]
 [a for b in c for a in b]
+[(x,y) for x in [1,2,3] for y in [1,2,3] if True]    
 [a for a in lambda: True, lambda: False if a()]
 
 ---
 
-(module
-  (expression_statement (list_comprehension
-    (binary_operator
-      (identifier)
-      (identifier))
-    (for_in_clause
-      (variables
-        (tuple (identifier) (identifier)))
-      (identifier))))
-  (expression_statement (list_comprehension
-    (identifier)
-    (for_in_clause
-      (variables (identifier))
-      (identifier))
-    (for_in_clause
-      (variables (identifier))
-      (identifier))))
-  (expression_statement (list_comprehension 
-        (identifier) 
-        (for_in_clause
-          (variables (identifier)) 
-          (lambda (true)) 
-          (lambda (false)))
-          (if_clause
-            (call (identifier) (argument_list))))))
+(module 
+  (expression_statement 
+    (list_comprehension 
+      (binary_operator (identifier) (identifier)) 
+      (for_in_clause 
+        (variables (tuple (identifier) (identifier))) (identifier)))) 
+  (expression_statement 
+    (list_comprehension 
+      (identifier) 
+      (for_in_clause 
+        (variables (identifier)) 
+        (identifier)) 
+      (for_in_clause 
+        (variables (identifier)) 
+        (identifier)))) 
+  (expression_statement 
+    (list_comprehension 
+      (tuple (identifier) (identifier)) 
+      (for_in_clause (variables (identifier)) 
+        (list (integer) (integer) (integer))) 
+      (for_in_clause (variables (identifier)) 
+        (list (integer) (integer) (integer))) 
+      (if_clause (true)))) 
+  (expression_statement 
+    (list_comprehension 
+      (identifier) 
+      (for_in_clause (variables (identifier)) 
+        (lambda (true)) 
+        (lambda (false))) 
+      (if_clause (call (identifier) (argument_list))))))
 
 =====================================
 Dictionaries
