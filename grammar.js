@@ -2,10 +2,10 @@ const PREC = {
   // this resolves a conflict between the usage of ':' in a lambda vs in a
   // typed parameter. In the case of a lambda, we don't allow typed parameters.
   typed_parameter: -1,
+  conditional: -1,
 
   not: 1,
   compare: 2,
-  conditional: 2,
   or: 10,
   and: 11,
   bitwise_or: 12,
@@ -707,7 +707,7 @@ module.exports = grammar({
       $._expression
     ),
 
-    conditional_expression: $ => prec.right(-1, seq(
+    conditional_expression: $ => prec.right(PREC.conditional, seq(
       $._expression,
       'if',
       $._expression,
