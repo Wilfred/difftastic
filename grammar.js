@@ -178,9 +178,10 @@ module.exports = grammar({
     module: $ => seq(
       'module',
       choice($.constant, $.scope_resolution),
-      $._terminator,
-      optional($._body_statement),
-      'end'
+      choice(
+        seq($._terminator, optional($._body_statement), 'end'),
+        'end'
+      )
     ),
 
     return: $ => prec.left(seq('return', optional($.argument_list))),
@@ -198,7 +199,8 @@ module.exports = grammar({
 
     while: $ => seq('while', $._arg, $._do, optional($._statements), 'end'),
     until: $ => seq('until', $._arg, $._do, optional($._statements), 'end'),
-    for: $ => seq('for', $._mlhs, 'in', $._arg, $._do, optional($._statements), 'end'),
+    for: $ => seq('for', $._mlhs, $.in, $._do, optional($._statements), 'end'),
+    in: $ => seq('in', $._arg),
     _do: $ => choice('do', $._terminator),
 
     case: $ => seq(
@@ -221,6 +223,7 @@ module.exports = grammar({
       'if',
       $._statement,
       $._then,
+      optional($._terminator),
       optional($._statements),
       optional($._if_tail),
       'end'
@@ -295,7 +298,7 @@ module.exports = grammar({
     ),
 
     _primary: $ => choice(
-      seq('(', optional($._statements), ')'),
+      $.parenthesized_statements,
       $._lhs,
       $.array,
       $.hash,
@@ -303,6 +306,7 @@ module.exports = grammar({
       $.symbol,
       $.integer,
       $.float,
+      $.complex,
       $.string,
       $.chained_string,
       $.keyword__FILE__,
@@ -330,6 +334,8 @@ module.exports = grammar({
       $.retry,
       $.heredoc_beginning
     ),
+
+    parenthesized_statements: $ => seq('(', optional($._statements), ')'),
 
     element_reference: $ => prec.left(1, seq(
       $._primary,
@@ -468,7 +474,7 @@ module.exports = grammar({
     left_assignment_list: $ => $._mlhs,
     _mlhs: $ => prec.left(-1, sepTrailing($._mlhs, choice($._simple_mlhs, $.destructured_left_assignment), ',')),
     _simple_mlhs: $ => prec(-1, choice($._lhs, $.rest_assignment)),
-    destructured_left_assignment: $ => prec(-1, seq('(', commaSep1($._mlhs), ')')),
+    destructured_left_assignment: $ => prec(-1, seq('(', $._mlhs, ')')),
 
     rest_assignment: $ => prec(-1, seq('*', optional($._lhs))),
 
@@ -483,7 +489,7 @@ module.exports = grammar({
       $.method_call
     )),
 
-    _variable: $ => choice(
+    _variable: $ => prec.right(choice(
       $.self,
       $.super,
       $.instance_variable,
@@ -491,7 +497,7 @@ module.exports = grammar({
       $.global_variable,
       $.identifier,
       $.constant
-    ),
+    )),
 
     constant: $ => /[A-Z][a-zA-Z0-9_]*(\?|\!)?/,
 
@@ -512,7 +518,7 @@ module.exports = grammar({
 
     operator: $ => choice(
       '..', '|', '^', '&', '<=>', '==', '===', '=~', '>', '>=', '<', '<=', '+',
-      '-', '*', '/', '%', '!', '**', '<<', '>>', '~', '+@', '-@', '[]', '[]=', '`'
+      '-', '*', '/', '%', '!', '!~', '**', '<<', '>>', '~', '+@', '-@', '[]', '[]=', '`'
     ),
 
     _method_name: $ => choice(
@@ -557,6 +563,7 @@ module.exports = grammar({
     integer: $ => /0b[01](_?[01])*|0[oO]?[0-7](_?[0-7])*|(0d)?\d(_?\d)*|0x[0-9a-fA-F](_?[0-9a-fA-F])*/,
 
     float: $ => /\d(_?\d)*(\.\d)?(_?\d)*([eE]?[\+-]?\d(_?\d)*)?/,
+    complex: $ => prec.right(PREC.UNARY_MINUS + 1, /(\d+)?(\+|-)?(\d+)i/),
     super: $ => 'super',
     true: $ => choice('true', 'TRUE'),
     false: $ => choice('false', 'FALSE'),
@@ -623,20 +630,23 @@ module.exports = grammar({
       optional(prec.right(seq(',', optional($.heredoc_end), optional($._hash_items))))
     ),
 
-    pair: $ => prec(-1, seq(
-      choice(
-        seq($._arg, '=>'),
-        seq(
-          choice(
-            $.identifier,
-            $.constant,
-            alias($.reserved_identifier, $.identifier),
-            $.string
-          ),
-          $._keyword_colon
-        )
+    pair: $ => prec(-1, choice(
+      seq(
+        choice(
+          seq($._arg, '=>'),
+          seq(
+            choice(
+              $.identifier,
+              $.constant,
+              alias($.reserved_identifier, $.identifier),
+              $.string
+            ),
+            $._keyword_colon
+          )
+        ),
+        $._arg
       ),
-      $._arg
+      choice($.hash_splat_argument)
     )),
 
     regex: $ => choice(
@@ -649,12 +659,9 @@ module.exports = grammar({
       )
     ),
 
-    lambda: $ => seq(
-      choice(
-        'lambda',
-        seq('->', optional($.lambda_parameters))
-      ),
-      choice($.block, $.do_block)
+    lambda: $ => choice(
+      prec.left(seq('lambda', optional(choice($.block, $.do_block)))),
+      seq('->', optional($.lambda_parameters), choice($.block, $.do_block))
     ),
 
     empty_statement: $ => prec(-1, ';'),

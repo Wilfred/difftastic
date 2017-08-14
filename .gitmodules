@@ -1,0 +1,3 @@
+[submodule "examples/ruby_spec"]
+	path = examples/ruby_spec
+	url = https://github.com/ruby/spec

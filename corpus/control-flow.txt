@@ -74,9 +74,13 @@ if foo then
 else
 end
 
+if true then ; 123; end
+
 ---
 
-(program (if (identifier) (else)))
+(program
+  (if (identifier) (else))
+  (if (true) (integer)))
 
 ==================================
 single-line if then else statement
@@ -172,8 +176,8 @@ end
 ---
 
 (program
-  (for (identifier) (identifier) (identifier))
-  (for (identifier) (identifier) (identifier) (identifier)))
+  (for (identifier) (in (identifier)) (identifier))
+  (for (identifier) (identifier) (in (identifier)) (identifier)))
 
 ==============
 for without do
@@ -185,7 +189,7 @@ end
 
 ---
 
-(program (for (identifier) (identifier) (identifier)))
+(program (for (identifier) (in (identifier)) (identifier)))
 
 ==============
 next
@@ -197,7 +201,7 @@ end
 
 ---
 
-(program (for (identifier) (identifier) (next)))
+(program (for (identifier) (in (identifier)) (next)))
 
 ==============
 retry
@@ -209,7 +213,7 @@ end
 
 ---
 
-(program (for (identifier) (identifier) (retry)))
+(program (for (identifier) (in (identifier)) (retry)))
 
 ==============
 break
