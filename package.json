@@ -16,7 +16,7 @@
     "tree-sitter-cli": "^0.6.6"
   },
   "scripts": {
-    "build": "tree-sitter generate && node-gyp build",
+    "build": "tree-sitter generate && node-gyp build --debug",
     "test": "tree-sitter test && script/parse-examples"
   },
   "repository": "https://github.com/tree-sitter/tree-sitter-ruby"

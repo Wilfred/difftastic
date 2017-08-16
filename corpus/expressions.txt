@@ -910,23 +910,25 @@ empty lambda expression
 ==============
 
 lambda {}
-lambda { lambda }
+
+---
+
+(program (method_call (identifier) (argument_list (hash))))
+
+==================
+lambda expressions
+==================
+
+lambda { foo }
+lambda(&block) { foo }
+lambda(&lambda{})
 
 ---
 
 (program
-  (lambda (block))
-  (lambda (block (lambda))))
-
-==================
-lambda expression with body
-==================
-
-lambda { foo }
-
----
-
-(program (lambda (block (identifier))))
+  (method_call (identifier) (block (identifier)))
+  (method_call (identifier) (argument_list (block_argument (identifier))) (block (identifier)))
+  (method_call (identifier) (argument_list (block_argument (method_call (identifier) (argument_list (hash)))))))
 
 ====================
 lambda expression with an arg
@@ -936,7 +938,7 @@ lambda { |foo| 1 }
 
 ---
 
-(program (lambda (block (block_parameters (identifier)) (integer))))
+(program (method_call (identifier) (block (block_parameters (identifier)) (integer))))
 
 ===========================
 lambda expression with multiple args
@@ -949,10 +951,7 @@ lambda { |a, b, c|
 
 ---
 
-(program (lambda (block
-  (block_parameters (identifier) (identifier) (identifier))
-  (integer)
-  (integer))))
+(program (method_call (identifier) (block (block_parameters (identifier) (identifier) (identifier)) (integer) (integer))))
 
 ===========================
 lambda expression with trailing comma
@@ -964,9 +963,7 @@ lambda { |a, b,|
 
 ---
 
-(program (lambda (block
-  (block_parameters (identifier) (identifier))
-  (integer))))
+(program (method_call (identifier) (block (block_parameters (identifier) (identifier)) (integer))))
 
 ===========================
 lambda expression with optional arg
@@ -978,9 +975,7 @@ lambda { |a, b=nil|
 
 ---
 
-(program (lambda (block
-  (block_parameters (identifier) (optional_parameter (identifier) (nil)))
-  (integer))))
+(program (method_call (identifier) (block (block_parameters (identifier) (optional_parameter (identifier) (nil))) (integer))))
 
 ===========================
 lambda expression with keyword arg
@@ -992,9 +987,9 @@ lambda { |a, b: nil|
 
 ---
 
-(program (lambda (block
-  (block_parameters (identifier) (keyword_parameter (identifier) (nil)))
-  (integer))))
+(program (method_call
+  (identifier)
+  (block (block_parameters (identifier) (keyword_parameter (identifier) (nil))) (integer))))
 
 ====================
 lambda expression with do end
@@ -1006,9 +1001,22 @@ end
 
 ---
 
-(program (lambda (do_block
-  (block_parameters (identifier))
-  (integer))))
+(program (method_call (identifier) (do_block (block_parameters (identifier)) (integer))))
+
+============================
+lambda and proc as variables
+============================
+
+proc = Proc.new
+lambda = lambda {}
+proc = proc {}
+
+---
+
+(program
+  (assignment (identifier) (call (constant) (identifier)))
+  (assignment (identifier) (method_call (identifier) (argument_list (hash))))
+  (assignment (identifier) (method_call (identifier) (argument_list (hash)))))
 
 ===============================
 backslash-newline as line continuation

@@ -10,11 +10,13 @@ symbol
 :@foo_0123_bar
 :@@foo
 :$foo
+:$0
 :_bar
 
 ---
 
 (program
+  (symbol)
   (symbol)
   (symbol)
   (symbol)
@@ -338,6 +340,16 @@ complex
 ---
 
 (program (unary (complex)) (complex) (complex) (complex) (complex) (complex))
+
+========
+rational
+========
+
+2/3r
+
+---
+
+(program (binary (integer) (rational (integer))))
 
 =======
 boolean
@@ -1307,6 +1319,7 @@ lambda literal with an arg
 -> (foo) { 1 }
 -> *foo { 1 }
 -> foo: 1 { 2 }
+-> foo, bar { 2 }
 
 ---
 
@@ -1314,7 +1327,8 @@ lambda literal with an arg
   (lambda (lambda_parameters (identifier)) (block (integer)))
   (lambda (lambda_parameters (identifier)) (block (integer)))
   (lambda (lambda_parameters (splat_parameter (identifier))) (block (integer)))
-  (lambda (lambda_parameters (keyword_parameter (identifier) (integer))) (block (integer))))
+  (lambda (lambda_parameters (keyword_parameter (identifier) (integer))) (block (integer)))
+  (lambda (lambda_parameters (identifier) (identifier)) (block (integer))))
 
 ===========================
 lambda literal with multiple args

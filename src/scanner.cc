@@ -300,7 +300,7 @@ struct Scanner {
       advance(lexer);
     }
 
-    if (iswalpha(lexer->lookahead) || (lexer->lookahead == '_')) {
+    if (iswalnum(lexer->lookahead) || (lexer->lookahead == '_')) {
       advance(lexer);
     } else if (!scan_operator(lexer)) {
       return false;

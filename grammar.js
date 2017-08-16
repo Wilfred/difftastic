@@ -126,10 +126,10 @@ module.exports = grammar({
       seq($._simple_formal_parameter, ',', commaSep1($._formal_parameter), $._terminator)
     )),
 
-    lambda_parameters: $ => choice(
+    lambda_parameters: $ => prec.right(choice(
       seq('(', commaSep($._formal_parameter), ')'),
-      $._simple_formal_parameter
-    ),
+      commaSep1($._simple_formal_parameter)
+    )),
 
     block_parameters: $ => seq(
       '|',
@@ -151,7 +151,7 @@ module.exports = grammar({
     destructured_parameter: $ => seq('(', commaSep1($._formal_parameter), ')'),
     splat_parameter: $ => seq('*', optional($.identifier)),
     hash_splat_parameter: $ => seq('**', optional($.identifier)),
-    block_parameter: $ => seq('&', $.identifier),
+    block_parameter: $ => seq('&', choice($.identifier, $.lambda)),
     keyword_parameter: $ => prec.right(PREC.BITWISE_OR + 1, seq($.identifier, $._keyword_colon, optional($._arg))),
     optional_parameter: $ => prec(PREC.BITWISE_OR + 1, seq($.identifier, '=', $._arg)),
 
@@ -307,6 +307,7 @@ module.exports = grammar({
       $.integer,
       $.float,
       $.complex,
+      $.rational,
       $.string,
       $.chained_string,
       $.keyword__FILE__,
@@ -564,6 +565,7 @@ module.exports = grammar({
 
     float: $ => /\d(_?\d)*(\.\d)?(_?\d)*([eE]?[\+-]?\d(_?\d)*)?/,
     complex: $ => prec.right(PREC.UNARY_MINUS + 1, /(\d+)?(\+|-)?(\d+)i/),
+    rational: $ => seq($.integer, 'r'),
     super: $ => 'super',
     true: $ => choice('true', 'TRUE'),
     false: $ => choice('false', 'FALSE'),
@@ -659,10 +661,7 @@ module.exports = grammar({
       )
     ),
 
-    lambda: $ => choice(
-      prec.left(seq('lambda', optional(choice($.block, $.do_block)))),
-      seq('->', optional($.lambda_parameters), choice($.block, $.do_block))
-    ),
+    lambda: $ => seq('->', optional($.lambda_parameters), choice($.block, $.do_block)),
 
     empty_statement: $ => prec(-1, ';'),
 
