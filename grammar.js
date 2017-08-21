@@ -34,11 +34,6 @@ module.exports = grammar({
     $._dedent,
   ],
 
-  conflicts: $ => [
-    [$._primary_expression, $.print_statement],
-    [$._primary_expression, $.exec_statement],
-  ],
-
   inline: $ => [
     $._simple_statement,
     $._compound_statement,
@@ -117,18 +112,18 @@ module.exports = grammar({
 
     wildcard_import: $ => '*',
 
-    print_statement: $ => seq(
-      'print',
-      choice(
+    print_statement: $ => choice(
+      prec(1, seq(
+        'print',
         $.chevron,
-        seq(
-          optional(seq($.chevron, ',')),
-          commaSep1($._expression)
-        ),
-        $._expression,
-        commaSep1($._expression)
+        repeat(seq(',', $._expression)),
+        optional(','))
       ),
-      optional(',')
+      prec(-1, seq(
+        'print',
+        commaSep1($._expression),
+        optional(','))
+      )
     ),
 
     chevron: $ => seq(
@@ -429,7 +424,7 @@ module.exports = grammar({
       alias($.lambda_within_for_in_clause, $.lambda),
       $._primary_expression
     )),
-    
+
     _expression: $ => choice(
       $.comparison_operator,
       $.not_operator,
@@ -520,7 +515,7 @@ module.exports = grammar({
       ':',
       $._expression
     )),
-    
+
     lambda_within_for_in_clause: $ => seq(
       'lambda',
       optional($.lambda_parameters),
@@ -625,7 +620,7 @@ module.exports = grammar({
       optional(','),
       ']'
     ),
-    
+
     _comprehension_body: $ => seq(
       $.for_in_clause,
       repeat(choice(
@@ -692,7 +687,7 @@ module.exports = grammar({
       $._comprehension_body,
       ')'
     ),
-    
+
     for_in_clause: $ => seq(
       'for',
       $.variables,
@@ -700,7 +695,7 @@ module.exports = grammar({
       commaSep1($._expression_within_for_in_clause),
       optional(',')
     ),
-    
+
     if_clause: $ => seq(
       'if',
       $._expression
@@ -713,7 +708,7 @@ module.exports = grammar({
       'else',
       $._expression
     )),
-    
+
     concatenated_string: $ => seq(
       $.string,
       repeat1($.string)

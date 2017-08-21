@@ -105,6 +105,7 @@ i(j, 5,)
 Print used as an identifier
 =====================================
 
+print()
 print(a, b=c)
 print(d, *e)
 print(*f, **g,)
@@ -123,6 +124,9 @@ def print():
 ---
 
 (module
+  (expression_statement (call
+    (identifier)
+    (argument_list)))
   (expression_statement (call
     (identifier)
     (argument_list
