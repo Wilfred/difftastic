@@ -320,8 +320,10 @@ finally:
       (expression_statement (identifier))))
   (try_statement
     (expression_statement (identifier))
-    (except_clause (identifier) (expression_statement (identifier)))
-    (else_clause (expression_statement (identifier)))
+    (except_clause (identifier)
+      (expression_statement (identifier)))
+    (else_clause
+      (expression_statement (identifier)))
     (finally_clause
       (expression_statement (identifier)))))
 
@@ -402,8 +404,8 @@ async def d(a:str="default", b=c) -> None:
     (parameters
       (identifier)
       (default_parameter (identifier) (identifier))
-      (list_splat_parameter (identifier))
-      (dictionary_splat_parameter (identifier)))
+      (list_splat (identifier))
+      (dictionary_splat (identifier)))
     (expression_statement (identifier)))
   (async_function_definition
     (identifier)
@@ -449,9 +451,6 @@ def d(a: str) -> None:
 def e((a,b)):
   return (a,b)
 
-def e(*):
-  pass
-
 def e(*list: str):
   pass
 
@@ -460,6 +459,9 @@ def e(**list: str):
 
 def f():
   nonlocal a
+
+def g(h, i, *, j, k=100, **kwarg):
+  return h,i,j,k,kwarg
 
 ---
 
@@ -493,8 +495,8 @@ def f():
     (parameters
       (identifier)
       (default_parameter (identifier) (identifier))
-      (list_splat_parameter (identifier))
-      (dictionary_splat_parameter (identifier)))
+      (list_splat (identifier))
+      (dictionary_splat (identifier)))
     (expression_statement (identifier)))
   (function_definition
     (identifier)
@@ -507,20 +509,32 @@ def f():
     (return_statement (expression_list (tuple (identifier) (identifier)))))
   (function_definition
     (identifier)
-    (parameters (list_splat_parameter))
+    (parameters (typed_parameter (list_splat (identifier)) (type (identifier))))
     (pass_statement))
   (function_definition
     (identifier)
-    (parameters (typed_parameter (list_splat_parameter (identifier)) (type (identifier))))
-    (pass_statement))
-  (function_definition
-    (identifier)
-    (parameters (typed_parameter (dictionary_splat_parameter (identifier)) (type (identifier))))
+    (parameters (typed_parameter (dictionary_splat (identifier)) (type (identifier))))
     (pass_statement))
   (function_definition
     (identifier)
     (parameters)
-    (nonlocal_statement (identifier))))
+    (nonlocal_statement (identifier)))
+  (function_definition
+    (identifier)
+    (parameters
+      (identifier)
+      (identifier)
+      (list_splat)
+      (identifier)
+      (default_parameter (identifier) (integer))
+      (dictionary_splat (identifier)))
+    (return_statement
+      (expression_list
+        (identifier)
+        (identifier)
+        (identifier)
+        (identifier)
+        (identifier)))))
 
 ====================================================
 Class definitions
@@ -633,18 +647,18 @@ class C:
         (decorator
           (dotted_name (identifier))
           (argument_list
-            (list_splat_argument (identifier))))
+            (list_splat (identifier))))
         (decorator
           (dotted_name (identifier))
           (argument_list
-            (dictionary_splat_argument (identifier))))
+            (dictionary_splat (identifier))))
         (decorator
           (dotted_name (identifier))
           (argument_list
             (integer)
             (keyword_argument (identifier) (true))
-            (list_splat_argument (identifier))
-            (dictionary_splat_argument (identifier))))
+            (list_splat (identifier))
+            (dictionary_splat (identifier))))
         (function_definition (identifier) (parameters) (expression_statement (identifier))))
       (decorated_definition
         (decorator

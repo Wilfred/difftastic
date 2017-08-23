@@ -136,10 +136,11 @@ Concatenated strings
 ---
 
 (module
-  (expression_statement (concatenated_string
-    (string)
-    (string)
-    (string))))
+  (expression_statement
+    (concatenated_string
+      (string)
+      (string)
+      (string))))
 
 =====================================
 Multi-line strings
@@ -197,16 +198,29 @@ Lists
 =====================================
 
 [a, b, [c, d]]
+[*()]
+[*[]]
+[*a]
+[*a.b]
+[*a[b].c]
+[*a()]
 
 ---
 
 (module
-  (expression_statement (list
-    (identifier)
-    (identifier)
+  (expression_statement
     (list
       (identifier)
-      (identifier)))))
+      (identifier)
+      (list
+        (identifier)
+        (identifier))))
+  (expression_statement (list (list_splat (tuple))))
+  (expression_statement (list (list_splat (list))))
+  (expression_statement (list (list_splat (identifier))))
+  (expression_statement (list (list_splat (attribute (identifier) (identifier)))))
+  (expression_statement (list (list_splat (attribute (subscript (identifier) (identifier)) (identifier)))))
+  (expression_statement (list (list_splat (call (identifier) (argument_list))))))
 
 =====================================
 List comprehensions
@@ -214,40 +228,40 @@ List comprehensions
 
 [a + b for (a, b) in items]
 [a for b in c for a in b]
-[(x,y) for x in [1,2,3] for y in [1,2,3] if True]    
+[(x,y) for x in [1,2,3] for y in [1,2,3] if True]
 [a for a in lambda: True, lambda: False if a()]
 
 ---
 
-(module 
-  (expression_statement 
-    (list_comprehension 
-      (binary_operator (identifier) (identifier)) 
-      (for_in_clause 
-        (variables (tuple (identifier) (identifier))) (identifier)))) 
-  (expression_statement 
-    (list_comprehension 
-      (identifier) 
-      (for_in_clause 
-        (variables (identifier)) 
-        (identifier)) 
-      (for_in_clause 
-        (variables (identifier)) 
-        (identifier)))) 
-  (expression_statement 
-    (list_comprehension 
-      (tuple (identifier) (identifier)) 
-      (for_in_clause (variables (identifier)) 
-        (list (integer) (integer) (integer))) 
-      (for_in_clause (variables (identifier)) 
-        (list (integer) (integer) (integer))) 
-      (if_clause (true)))) 
-  (expression_statement 
-    (list_comprehension 
-      (identifier) 
-      (for_in_clause (variables (identifier)) 
-        (lambda (true)) 
-        (lambda (false))) 
+(module
+  (expression_statement
+    (list_comprehension
+      (binary_operator (identifier) (identifier))
+      (for_in_clause
+        (variables (tuple (identifier) (identifier))) (identifier))))
+  (expression_statement
+    (list_comprehension
+      (identifier)
+      (for_in_clause
+        (variables (identifier))
+        (identifier))
+      (for_in_clause
+        (variables (identifier))
+        (identifier))))
+  (expression_statement
+    (list_comprehension
+      (tuple (identifier) (identifier))
+      (for_in_clause (variables (identifier))
+        (list (integer) (integer) (integer)))
+      (for_in_clause (variables (identifier))
+        (list (integer) (integer) (integer)))
+      (if_clause (true))))
+  (expression_statement
+    (list_comprehension
+      (identifier)
+      (for_in_clause (variables (identifier))
+        (lambda (true))
+        (lambda (false)))
       (if_clause (call (identifier) (argument_list))))))
 
 =====================================
@@ -256,14 +270,31 @@ Dictionaries
 
 {a: 1, b: 2}
 {}
+{**{}}
+{**a}
+{**a.b}
+{**a[b].c}
+{**a()}
 
 ---
 
 (module
-  (expression_statement (dictionary
-    (pair (identifier) (integer))
-    (pair (identifier) (integer))))
-  (expression_statement (dictionary)))
+  (expression_statement
+    (dictionary
+      (pair (identifier) (integer))
+      (pair (identifier) (integer))))
+  (expression_statement
+    (dictionary))
+  (expression_statement
+    (dictionary (dictionary_splat (dictionary))))
+  (expression_statement
+    (dictionary (dictionary_splat (identifier))))
+  (expression_statement
+    (dictionary (dictionary_splat (attribute (identifier) (identifier)))))
+  (expression_statement
+    (dictionary (dictionary_splat (attribute (subscript (identifier) (identifier)) (identifier)))))
+  (expression_statement
+    (dictionary (dictionary_splat (call (identifier) (argument_list))))))
 
 =====================================
 Dictionary comprehensions
@@ -275,29 +306,30 @@ Dictionary comprehensions
 ---
 
 (module
-  (expression_statement (dictionary_comprehension
-    (pair (identifier) (identifier))
-    (for_in_clause
-      (variables (identifier) (identifier)) (identifier))))
-  (expression_statement (dictionary_comprehension
-    (pair (identifier) (identifier))
-    (for_in_clause
-      (variables (identifier)) (identifier)) 
-    (for_in_clause (variables (identifier)) (identifier)))))
+  (expression_statement
+    (dictionary_comprehension
+      (pair (identifier) (identifier))
+      (for_in_clause
+        (variables (identifier) (identifier)) (identifier))))
+  (expression_statement
+    (dictionary_comprehension
+      (pair (identifier) (identifier))
+      (for_in_clause
+        (variables (identifier)) (identifier))
+      (for_in_clause (variables (identifier)) (identifier)))))
 
 =====================================
 Sets
 =====================================
 
 {a, b, c,}
+{*{}}
 
 ---
 
 (module
-  (expression_statement (set
-    (identifier)
-    (identifier)
-    (identifier))))
+  (expression_statement (set (identifier) (identifier) (identifier)))
+  (expression_statement (set (list_splat (dictionary)))))
 
 =====================================
 Set comprehensions
@@ -309,30 +341,36 @@ Set comprehensions
 ---
 
 (module
-  (expression_statement (set_comprehension
-    (subscript (subscript (identifier) (identifier)) (identifier))
-    (for_in_clause
-      (variables (identifier) (identifier) (identifier))
-      (identifier))))
-  (expression_statement (set_comprehension
-    (identifier) 
-    (for_in_clause
-      (variables (identifier)) (identifier))
-    (for_in_clause 
-      (variables (identifier)) (identifier)))))
+  (expression_statement
+    (set_comprehension
+      (subscript (subscript (identifier) (identifier)) (identifier))
+      (for_in_clause
+        (variables (identifier) (identifier) (identifier))
+        (identifier))))
+  (expression_statement
+    (set_comprehension
+      (identifier)
+      (for_in_clause
+        (variables (identifier)) (identifier))
+      (for_in_clause
+        (variables (identifier)) (identifier)))))
 
 =====================================
 Tuples
 =====================================
 
+()
 (a, b)
 (a, b, c,)
+(print, exec)
 
 ---
 
 (module
+  (expression_statement (tuple))
   (expression_statement (tuple (identifier) (identifier)))
-  (expression_statement (tuple (identifier) (identifier) (identifier))))
+  (expression_statement (tuple (identifier) (identifier) (identifier)))
+  (expression_statement (tuple (identifier) (identifier))))
 
 =====================================
 Generator expression
@@ -341,27 +379,37 @@ Generator expression
 (a[b][c] for a, b, c in items)
 dict((a, b) for a, b in d)
 (a for b in c for d in e,)
+(x for x in range(1, 10))
 
 ---
 
 (module
-  (expression_statement (generator_expression
-    (subscript (subscript (identifier) (identifier)) (identifier))
-    (for_in_clause
-      (variables (identifier) (identifier) (identifier))
-      (identifier))))
-  (expression_statement (call
-    (identifier)
+  (expression_statement
     (generator_expression
-      (tuple (identifier) (identifier))
+      (subscript (subscript (identifier) (identifier)) (identifier))
       (for_in_clause
-        (variables (identifier) (identifier))
-        (identifier)))))
-  (expression_statement (generator_expression
-    (identifier)
-    (for_in_clause
-      (variables (identifier))
-      (identifier))
-    (for_in_clause
-      (variables (identifier))
-      (identifier)))))
+        (variables (identifier) (identifier) (identifier))
+        (identifier))))
+  (expression_statement
+    (call
+      (identifier)
+      (generator_expression
+        (tuple (identifier) (identifier))
+        (for_in_clause
+          (variables (identifier) (identifier))
+          (identifier)))))
+  (expression_statement
+    (generator_expression
+      (identifier)
+      (for_in_clause
+        (variables (identifier))
+        (identifier))
+      (for_in_clause
+        (variables (identifier))
+        (identifier))))
+  (expression_statement
+    (generator_expression
+      (identifier)
+      (for_in_clause
+        (variables (identifier))
+        (call (identifier) (argument_list (integer) (integer)))))))
