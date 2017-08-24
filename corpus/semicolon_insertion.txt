@@ -225,3 +225,33 @@ function a () { function b () {} function *c () {} class D {} return }
     (generator_function (identifier) (formal_parameters) (statement_block))
     (class (identifier) (class_body))
     (return_statement))))
+
+=====================================================
+Comments after statements without semicolons
+=====================================================
+
+let a // comment at end of declaration
+
+// comment outside of declaration
+let b /* comment between declarators */, c
+
+/** comment with *stars* **/ /* comment with /slashes/ */
+/* third comment in a row */
+
+let d
+
+---
+
+(program
+  (lexical_declaration
+    (variable_declarator (identifier))
+    (comment))
+  (comment)
+  (lexical_declaration
+    (variable_declarator (identifier))
+    (comment)
+    (variable_declarator (identifier)))
+  (comment)
+  (comment)
+  (comment)
+  (lexical_declaration (variable_declarator (identifier))))
