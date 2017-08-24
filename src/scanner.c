@@ -13,6 +13,42 @@ void tree_sitter_javascript_external_scanner_deserialize(void *p, const char *b,
 
 static inline void advance(TSLexer *lexer) { lexer->advance(lexer, false); }
 
+static bool scan_whitespace_and_comments(TSLexer *lexer) {
+  for (;;) {
+    while (iswspace(lexer->lookahead)) {
+      advance(lexer);
+    }
+
+    if (lexer->lookahead == '/') {
+      advance(lexer);
+
+      if (lexer->lookahead == '/') {
+        advance(lexer);
+        while (lexer->lookahead != 0 && lexer->lookahead != '\n') {
+          advance(lexer);
+        }
+      } else if (lexer->lookahead == '*') {
+        advance(lexer);
+        while (lexer->lookahead != 0) {
+          if (lexer->lookahead == '*') {
+            advance(lexer);
+            if (lexer->lookahead == '/') {
+              advance(lexer);
+              break;
+            }
+          } else {
+            advance(lexer);
+          }
+        }
+      } else {
+        return false;
+      }
+    } else {
+      return true;
+    }
+  }
+}
+
 bool tree_sitter_javascript_external_scanner_scan(void *payload, TSLexer *lexer,
                                                   const bool *valid_symbols) {
   lexer->result_symbol = AUTOMATIC_SEMICOLON;
@@ -28,9 +64,7 @@ bool tree_sitter_javascript_external_scanner_scan(void *payload, TSLexer *lexer,
 
   advance(lexer);
 
-  while (iswspace(lexer->lookahead)) {
-    advance(lexer);
-  }
+  if (!scan_whitespace_and_comments(lexer)) return false;
 
   switch (lexer->lookahead) {
     case ',':
