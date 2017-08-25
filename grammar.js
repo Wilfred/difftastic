@@ -129,7 +129,11 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
 
     formal_parameters: ($, previous) => seq(
       '(',
-      commaSep($._parameter),
+      commaSep(choice(
+        $.required_parameter,
+        $.rest_parameter,
+        $.optional_parameter
+      )),
       ')'
     ),
 
@@ -345,12 +349,6 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
     )),
 
     readonly: $ => 'readonly',
-
-    _parameter: $ => choice(
-      $.required_parameter,
-      $.rest_parameter,
-      $.optional_parameter
-    ),
 
     required_parameter: $ => choice(
       seq(

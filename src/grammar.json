@@ -4276,8 +4276,21 @@
               "type": "SEQ",
               "members": [
                 {
-                  "type": "SYMBOL",
-                  "name": "_parameter"
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "SYMBOL",
+                      "name": "required_parameter"
+                    },
+                    {
+                      "type": "SYMBOL",
+                      "name": "rest_parameter"
+                    },
+                    {
+                      "type": "SYMBOL",
+                      "name": "optional_parameter"
+                    }
+                  ]
                 },
                 {
                   "type": "REPEAT",
@@ -4289,8 +4302,21 @@
                         "value": ","
                       },
                       {
-                        "type": "SYMBOL",
-                        "name": "_parameter"
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "SYMBOL",
+                            "name": "required_parameter"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "rest_parameter"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "optional_parameter"
+                          }
+                        ]
                       }
                     ]
                   }
@@ -5244,23 +5270,6 @@
     "readonly": {
       "type": "STRING",
       "value": "readonly"
-    },
-    "_parameter": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "required_parameter"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "rest_parameter"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "optional_parameter"
-        }
-      ]
     },
     "required_parameter": {
       "type": "CHOICE",
