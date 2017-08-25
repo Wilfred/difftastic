@@ -13,11 +13,12 @@
     "nan": "^2.4.0"
   },
   "devDependencies": {
-    "tree-sitter-cli": "^0.6.6"
+    "tree-sitter-cli": "^0.6.9"
   },
   "scripts": {
     "build": "tree-sitter generate && node-gyp build --debug",
-    "test": "tree-sitter test && script/parse-examples"
+    "test": "tree-sitter test && script/parse-examples",
+    "test-windows": "tree-sitter test"
   },
   "repository": "https://github.com/tree-sitter/tree-sitter-ruby"
 }
