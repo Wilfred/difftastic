@@ -140,6 +140,8 @@ export default function point(x: number, y: number) {
     return { x, y };
 }
 
+// a comment
+
 export default class A {}
 
 ---
@@ -154,6 +156,7 @@ export default class A {}
           (required_parameter (identifier) (type_annotation (predefined_type)))))
           (statement_block
             (return_statement (object (shorthand_property_identifier) (shorthand_property_identifier))))))
+  (comment)
   (export_statement (class (identifier) (class_body))))
 
 ==================================
