@@ -1,7 +1,8 @@
 tree-sitter-python
-================
+==================
 
 [![Build Status](https://travis-ci.org/tree-sitter/tree-sitter-python.svg?branch=master)](https://travis-ci.org/tree-sitter/tree-sitter-python)
+[![Build status](https://ci.appveyor.com/api/projects/status/ddxtf154nsck4wbe/branch/master?svg=true)](https://ci.appveyor.com/project/maxbrunsfeld/tree-sitter-python/branch/master)
 
 Python grammar for [tree-sitter][].
 
