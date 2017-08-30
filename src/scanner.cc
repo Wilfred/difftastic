@@ -36,7 +36,8 @@ enum TokenType {
   KEYWORD_COLON,
   UNARY_MINUS,
   BINARY_MINUS,
-  BINARY_STAR
+  BINARY_STAR,
+  SINGLETON_CLASS_LEFT_ANGLE_LEFT_ANGLE
 };
 
 struct Literal {
@@ -677,6 +678,17 @@ struct Scanner {
       advance(lexer);
       if (lexer->lookahead != '&' && lexer->lookahead != '.' && lexer->lookahead != '=' && lexer->lookahead != ' ' && lexer->lookahead != '\t' && !lookahead_is_line_end(lexer)) {
         lexer->result_symbol = BLOCK_AMPERSAND;
+        return true;
+      } else {
+        return false;
+      }
+    }
+
+    if (valid_symbols[SINGLETON_CLASS_LEFT_ANGLE_LEFT_ANGLE] && lexer->lookahead == '<') {
+      advance(lexer);
+      if (lexer->lookahead == '<') {
+        advance(lexer);
+        lexer->result_symbol = SINGLETON_CLASS_LEFT_ANGLE_LEFT_ANGLE;
         return true;
       } else {
         return false;

@@ -57,7 +57,8 @@ module.exports = grammar({
     $._keyword_colon,
     $._unary_minus,
     $._binary_minus,
-    $._binary_star
+    $._binary_star,
+    $._singleton_class_left_angle_left_langle
   ],
 
   extras: $ => [
@@ -168,7 +169,7 @@ module.exports = grammar({
 
     singleton_class: $ => seq(
       'class',
-      '<<',
+      alias($._singleton_class_left_angle_left_langle, '<<'),
       $._arg,
       $._terminator,
       optional($._body_statement),

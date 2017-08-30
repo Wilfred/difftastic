@@ -392,6 +392,9 @@ singleton class
 class << self
 end
 
+class <<self
+end
+
 class << Foo
 end
 
@@ -401,6 +404,7 @@ end
 ---
 
 (program
+  (singleton_class (self))
   (singleton_class (self))
   (singleton_class (constant))
   (singleton_class (scope_resolution (constant) (constant))))
