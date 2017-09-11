@@ -4422,8 +4422,16 @@
             "name": "call_signature"
           },
           {
-            "type": "SYMBOL",
-            "name": "statement_block"
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "statement_block"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
           }
         ]
       }

@@ -194,7 +194,7 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       optional(choice('get', 'set', '*')),
       $._property_name,
       $.call_signature,
-      $.statement_block
+      optional($.statement_block)
     )),
 
     _declaration: ($, previous) => prec(PREC.DECLARATION, choice(
