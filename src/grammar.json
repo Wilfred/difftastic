@@ -4087,16 +4087,8 @@
           "name": "formal_parameters"
         },
         {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "statement_block"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
+          "type": "SYMBOL",
+          "name": "statement_block"
         }
       ]
     },

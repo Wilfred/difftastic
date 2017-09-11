@@ -771,7 +771,7 @@ module.exports = grammar({
       optional(choice('get', 'set', '*')),
       $._property_name,
       $.formal_parameters,
-      optional($.statement_block)
+      $.statement_block
     ),
 
     pair: $ => seq(
