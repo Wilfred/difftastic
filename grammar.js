@@ -177,10 +177,11 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       '{',
       repeat(
         choice(
-          seq($.method_definition, optional(';')),
+          $.method_definition,
           $.abstract_method_definition,
-          seq($.public_field_definition, $._semicolon),
-          seq($.index_signature, $._semicolon)
+          seq($.index_signature, $._semicolon),
+          seq($.method_signature, $._semicolon),
+          seq($.public_field_definition, $._semicolon)
         )
       ),
       '}'
@@ -194,7 +195,7 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       optional(choice('get', 'set', '*')),
       $._property_name,
       $.call_signature,
-      optional($.statement_block)
+      $.statement_block
     )),
 
     _declaration: ($, previous) => prec(PREC.DECLARATION, choice(
