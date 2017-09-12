@@ -4110,25 +4110,8 @@
             "type": "CHOICE",
             "members": [
               {
-                "type": "SEQ",
-                "members": [
-                  {
-                    "type": "SYMBOL",
-                    "name": "method_definition"
-                  },
-                  {
-                    "type": "CHOICE",
-                    "members": [
-                      {
-                        "type": "STRING",
-                        "value": ";"
-                      },
-                      {
-                        "type": "BLANK"
-                      }
-                    ]
-                  }
-                ]
+                "type": "SYMBOL",
+                "name": "method_definition"
               },
               {
                 "type": "SYMBOL",
@@ -4139,7 +4122,7 @@
                 "members": [
                   {
                     "type": "SYMBOL",
-                    "name": "public_field_definition"
+                    "name": "index_signature"
                   },
                   {
                     "type": "SYMBOL",
@@ -4152,7 +4135,20 @@
                 "members": [
                   {
                     "type": "SYMBOL",
-                    "name": "index_signature"
+                    "name": "method_signature"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "_semicolon"
+                  }
+                ]
+              },
+              {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "public_field_definition"
                   },
                   {
                     "type": "SYMBOL",
@@ -4422,16 +4418,8 @@
             "name": "call_signature"
           },
           {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "statement_block"
-              },
-              {
-                "type": "BLANK"
-              }
-            ]
+            "type": "SYMBOL",
+            "name": "statement_block"
           }
         ]
       }
