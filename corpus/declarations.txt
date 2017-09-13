@@ -541,6 +541,34 @@ class Foo {
       (public_field_definition (readonly) (string) (type_annotation (type_identifier)) (string))))))
 
 =======================================
+Classes with methods with and without trailing semicolons on one line
+=======================================
+
+class Foo<Bar> extends Baz { bar = 5; static one(a) { return a; }; two(b) { return b; } three(c) { return c; } }
+
+---
+
+(program
+  (expression_statement
+    (class
+      (identifier)
+      (type_parameters (type_parameter (identifier)))
+      (class_heritage (extends_clause (type_identifier)))
+      (class_body
+        (public_field_definition (property_identifier) (number))
+        (method_definition (property_identifier)
+          (call_signature (formal_parameters (required_parameter (identifier))))
+          (statement_block (return_statement (identifier))))
+        (method_definition
+          (property_identifier)
+          (call_signature (formal_parameters (required_parameter (identifier))))
+          (statement_block (return_statement (identifier))))
+        (method_definition
+          (property_identifier)
+          (call_signature (formal_parameters (required_parameter (identifier))))
+          (statement_block (return_statement (identifier))))))))
+
+=======================================
 Global namespace declarations
 =======================================
 

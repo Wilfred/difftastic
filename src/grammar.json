@@ -4110,8 +4110,25 @@
             "type": "CHOICE",
             "members": [
               {
-                "type": "SYMBOL",
-                "name": "method_definition"
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "method_definition"
+                  },
+                  {
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "SYMBOL",
+                        "name": "_semicolon"
+                      },
+                      {
+                        "type": "BLANK"
+                      }
+                    ]
+                  }
+                ]
               },
               {
                 "type": "SYMBOL",
@@ -4420,10 +4437,6 @@
           {
             "type": "SYMBOL",
             "name": "statement_block"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "_semicolon"
           }
         ]
       }
