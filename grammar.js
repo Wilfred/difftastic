@@ -107,6 +107,16 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       seq($._destructuring_pattern, optional($.type_annotation), $._initializer)
     ),
 
+    method_signature: $ => seq(
+      optional($.accessibility_modifier),
+      optional('static'),
+      optional($.readonly),
+      $._property_name,
+      optional('?'),
+      $.call_signature
+    ),
+
+
     abstract_method_definition: $ => seq(
       optional($.accessibility_modifier),
       'abstract',
@@ -195,7 +205,8 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       optional(choice('get', 'set', '*')),
       $._property_name,
       $.call_signature,
-      $.statement_block
+      $.statement_block,
+      $._semicolon
     )),
 
     _declaration: ($, previous) => prec(PREC.DECLARATION, choice(
@@ -528,15 +539,6 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
     index_signature: $ => choice(
       seq('[', $.identifier, ':', 'string', ']', $.type_annotation),
       seq('[', $.identifier, ':', 'number', ']', $.type_annotation)
-    ),
-
-    method_signature: $ => seq(
-      optional($.accessibility_modifier),
-      optional('static'),
-      optional($.readonly),
-      $._property_name,
-      optional('?'),
-      $.call_signature
     ),
 
     array_type: $ => prec.right(PREC.ARRAY_TYPE, seq(
