@@ -29,11 +29,14 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
 
     [$.generic_type, $._primary_type],
 
+    [$.member_expression, $.nested_identifier],
+
     [$.required_parameter, $._expression],
     [$.required_parameter, $._expression, $._primary_type],
     [$.required_parameter, $.assignment_expression],
     [$.optional_parameter, $._expression],
 
+    [$.required_parameter, $.predefined_type, $._expression],
     [$.required_parameter, $.predefined_type],
     [$.required_parameter, $._primary_type],
 
@@ -43,6 +46,7 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
     [$._expression, $.literal_type],
     [$._expression, $._primary_type],
     [$._expression, $.generic_type],
+    [$._expression, $.predefined_type],
     [$.this_type, $.this_expression],
     [$.function_type, $.call_signature],
     [$.constructor_type, $.call_signature],
@@ -563,7 +567,22 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       $._type
     ),
 
-    _reserved_identifier: ($, previous) => choice('declare', 'namespace', 'type', 'public', 'private', 'protected', 'module', previous)
+    _reserved_identifier: ($, previous) => choice(
+      'declare',
+      'namespace',
+      'type',
+      'public',
+      'private',
+      'protected',
+      'module',
+      'any',
+      'number',
+      'boolean',
+      'string',
+      'symbol',
+      'void',
+      previous
+    )
   }
 });
 

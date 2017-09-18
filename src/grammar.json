@@ -2403,8 +2403,26 @@
         "type": "SEQ",
         "members": [
           {
-            "type": "SYMBOL",
-            "name": "_expression"
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "_expression"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "identifier"
+              },
+              {
+                "type": "ALIAS",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "_reserved_identifier"
+                },
+                "named": true,
+                "value": "identifier"
+              }
+            ]
           },
           {
             "type": "STRING",
@@ -2469,6 +2487,15 @@
                 "name": "identifier"
               },
               {
+                "type": "ALIAS",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "_reserved_identifier"
+                },
+                "named": true,
+                "value": "identifier"
+              },
+              {
                 "type": "SYMBOL",
                 "name": "_destructuring_pattern"
               }
@@ -2497,6 +2524,15 @@
               {
                 "type": "SYMBOL",
                 "name": "subscript_expression"
+              },
+              {
+                "type": "ALIAS",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "_reserved_identifier"
+                },
+                "named": true,
+                "value": "identifier"
               },
               {
                 "type": "SYMBOL",
@@ -4521,6 +4557,30 @@
           "value": "module"
         },
         {
+          "type": "STRING",
+          "value": "any"
+        },
+        {
+          "type": "STRING",
+          "value": "number"
+        },
+        {
+          "type": "STRING",
+          "value": "boolean"
+        },
+        {
+          "type": "STRING",
+          "value": "string"
+        },
+        {
+          "type": "STRING",
+          "value": "symbol"
+        },
+        {
+          "type": "STRING",
+          "value": "void"
+        },
+        {
           "type": "CHOICE",
           "members": [
             {
@@ -6524,6 +6584,10 @@
       "_primary_type"
     ],
     [
+      "member_expression",
+      "nested_identifier"
+    ],
+    [
       "required_parameter",
       "_expression"
     ],
@@ -6538,6 +6602,11 @@
     ],
     [
       "optional_parameter",
+      "_expression"
+    ],
+    [
+      "required_parameter",
+      "predefined_type",
       "_expression"
     ],
     [
@@ -6568,6 +6637,10 @@
     [
       "_expression",
       "generic_type"
+    ],
+    [
+      "_expression",
+      "predefined_type"
     ],
     [
       "this_type",

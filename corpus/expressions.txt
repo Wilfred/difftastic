@@ -67,3 +67,18 @@ var a = b
 
 (program (variable_declaration (variable_declarator (identifier) (identifier)) (variable_declarator (identifier) (identifier)) (variable_declarator (identifier) (identifier))))
 
+
+=====================================
+The 'less than' operator
+=====================================
+
+i < foo.length;
+i < type.length;
+i < string.length;
+
+---
+
+(program
+  (expression_statement (binary_expression (identifier) (member_expression (identifier) (property_identifier))))
+  (expression_statement (binary_expression (identifier) (member_expression (identifier) (property_identifier))))
+  (expression_statement (binary_expression (identifier) (member_expression (identifier) (property_identifier)))))
