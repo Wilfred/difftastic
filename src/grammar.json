@@ -4110,6 +4110,10 @@
             "type": "CHOICE",
             "members": [
               {
+                "type": "SYMBOL",
+                "name": "abstract_method_definition"
+              },
+              {
                 "type": "SEQ",
                 "members": [
                   {
@@ -4129,10 +4133,6 @@
                     ]
                   }
                 ]
-              },
-              {
-                "type": "SYMBOL",
-                "name": "abstract_method_definition"
               },
               {
                 "type": "SEQ",

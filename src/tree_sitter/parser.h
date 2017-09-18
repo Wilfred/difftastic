@@ -19,8 +19,6 @@ typedef uint16_t TSStateId;
 typedef struct {
   bool visible : 1;
   bool named : 1;
-  bool extra : 1;
-  bool structural : 1;
 } TSSymbolMetadata;
 
 typedef struct {
@@ -139,12 +137,9 @@ typedef struct TSLanguage {
     }                                   \
   }
 
-#define RECOVER(state_value)            \
-  {                                     \
-    {                                   \
-      .type = TSParseActionTypeRecover, \
-      .params = {.state = state_value}  \
-    }                                   \
+#define RECOVER()                        \
+  {                                      \
+    { .type = TSParseActionTypeRecover } \
   }
 
 #define SHIFT_EXTRA()                 \
