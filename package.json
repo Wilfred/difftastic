@@ -1,6 +1,6 @@
 {
   "name": "tree-sitter-typescript",
-  "version": "0.2.0",
+  "version": "0.4.0",
   "description": "Typescript grammar for tree-sitter",
   "main": "index.js",
   "keywords": [
@@ -13,7 +13,7 @@
     "nan": "^2.4.0"
   },
   "devDependencies": {
-    "tree-sitter-cli": "^0.7.1",
+    "tree-sitter-cli": "^0.7.2",
     "tree-sitter-javascript": "tree-sitter/tree-sitter-javascript"
   },
   "scripts": {
