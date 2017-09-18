@@ -1,6 +1,6 @@
 {
   "name": "tree-sitter-javascript",
-  "version": "0.4.2",
+  "version": "0.4.3",
   "description": "Javascript grammar for node-tree-sitter",
   "main": "index.js",
   "keywords": [
@@ -16,7 +16,7 @@
     "acorn": "^2.6.4",
     "babylon": "^6.3.26",
     "esprima": "^2.7.1",
-    "tree-sitter-cli": "^0.7.1"
+    "tree-sitter-cli": "^0.7.2"
   },
   "scripts": {
     "build": "tree-sitter generate && node-gyp build",
