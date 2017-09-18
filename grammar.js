@@ -541,7 +541,11 @@ module.exports = grammar({
     ),
 
     member_expression: $ => prec(PREC.MEMBER, seq(
-      $._expression,
+      choice(
+        $._expression,
+        $.identifier,
+        alias($._reserved_identifier, $.identifier)
+      ),
       '.',
       alias($.identifier, $.property_identifier)
     )),
