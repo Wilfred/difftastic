@@ -711,6 +711,7 @@ Assignments
 x = 0;
 x.y = 0;
 x["y"] = 0;
+async = 0;
 
 ---
 
@@ -723,6 +724,9 @@ x["y"] = 0;
     (number)))
   (expression_statement (assignment_expression
     (subscript_expression (identifier) (string))
+    (number)))
+  (expression_statement (assignment_expression
+    (identifier)
     (number))))
 
 ==============================================
@@ -812,7 +816,7 @@ a = void b()
   (unary_expression (call_expression (identifier) (arguments))))))
 
 ==============================================
-Math assignment_expression operators
+Augmented assignments
 ==============================================
 
 s |= 1;
@@ -820,6 +824,7 @@ t %= 2;
 w ^= 3;
 x += 4;
 y.z *= 5;
+async += 1;
 
 ---
 
@@ -833,7 +838,9 @@ y.z *= 5;
   (expression_statement
     (augmented_assignment_expression (identifier) (number)))
   (expression_statement
-    (augmented_assignment_expression (member_expression (identifier) (property_identifier)) (number))))
+    (augmented_assignment_expression (member_expression (identifier) (property_identifier)) (number)))
+  (expression_statement
+    (augmented_assignment_expression (identifier) (number))))
 
 ==============================================
 Operator precedence
