@@ -560,6 +560,7 @@ module.exports = grammar({
         $.member_expression,
         $.subscript_expression,
         $.identifier,
+        alias($._reserved_identifier, $.identifier),
         $._destructuring_pattern
       ),
       $._initializer
@@ -569,6 +570,7 @@ module.exports = grammar({
       choice(
         $.member_expression,
         $.subscript_expression,
+        alias($._reserved_identifier, $.identifier),
         $.identifier
       ),
       choice('+=', '-=', '*=', '/=', '%=', '^=', '&=', '|='),
