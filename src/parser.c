@@ -1,7 +1,9 @@
 #include <tree_sitter/parser.h>
 
+#if defined(__GNUC__) || defined(__clang__)
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wmissing-field-initializers"
+#endif
 
 #define LANGUAGE_VERSION 3
 #define STATE_COUNT 36
@@ -169,9 +171,6 @@ static const TSSymbolMetadata ts_symbol_metadata[] = {
     .structural = true,
     .extra = false,
   },
-};
-
-static TSSymbol ts_alias_sequences[1][MAX_ALIAS_SEQUENCE_LENGTH] = {
 };
 
 static bool ts_lex(TSLexer *lexer, TSStateId state) {
@@ -835,6 +834,24 @@ static TSParseActionEntry ts_parse_actions[] = {
   [115] = {.count = 2, .reusable = true, .depends_on_lookahead = false}, REDUCE(aux_sym_object_repeat1, 2), REDUCE(aux_sym_object_repeat1, 3),
 };
 
-const TSLanguage *tree_sitter_json() {
-  GET_LANGUAGE();
+#ifdef _WIN32
+#define extern __declspec(dllexport)
+#endif
+
+extern const TSLanguage *tree_sitter_json() {
+  static TSLanguage language = {
+    .version = LANGUAGE_VERSION,
+    .symbol_count = SYMBOL_COUNT,
+    .alias_count = ALIAS_COUNT,
+    .token_count = TOKEN_COUNT,
+    .symbol_metadata = ts_symbol_metadata,
+    .parse_table = (const unsigned short *)ts_parse_table,
+    .parse_actions = ts_parse_actions,
+    .lex_modes = ts_lex_modes,
+    .symbol_names = ts_symbol_names,
+    .max_alias_sequence_length = MAX_ALIAS_SEQUENCE_LENGTH,
+    .lex_fn = ts_lex,
+    .external_token_count = EXTERNAL_TOKEN_COUNT,
+  };
+  return &language;
 }
