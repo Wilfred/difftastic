@@ -911,6 +911,9 @@ Expressions within JSX elements
 
 a = <a b c={d}> e {f} g </a>
 h = <i>{...j}</i>
+b = <Text {...j} />
+b = <Text {...j}></Text>
+
 
 ---
 
@@ -930,6 +933,18 @@ h = <i>{...j}</i>
     (jsx_element
       (jsx_opening_element (identifier))
       (jsx_expression (spread_element (identifier)))
+      (jsx_closing_element (identifier)))))
+  (expression_statement (assignment_expression
+    (identifier)
+    (jsx_self_closing_element
+      (identifier)
+      (jsx_expression (spread_element (identifier))))))
+  (expression_statement (assignment_expression
+    (identifier)
+    (jsx_element
+      (jsx_opening_element
+        (identifier)
+        (jsx_expression (spread_element (identifier))))
       (jsx_closing_element (identifier))))))
 
 
