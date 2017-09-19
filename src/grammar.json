@@ -1994,8 +1994,17 @@
         {
           "type": "REPEAT",
           "content": {
-            "type": "SYMBOL",
-            "name": "jsx_attribute"
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "jsx_attribute"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "jsx_expression"
+              }
+            ]
           }
         },
         {
@@ -2039,8 +2048,17 @@
         {
           "type": "REPEAT",
           "content": {
-            "type": "SYMBOL",
-            "name": "jsx_attribute"
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "jsx_attribute"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "jsx_expression"
+              }
+            ]
           }
         },
         {
