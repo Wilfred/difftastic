@@ -450,7 +450,7 @@ module.exports = grammar({
     jsx_opening_element: $ => seq(
       '<',
       $.identifier,
-      repeat($.jsx_attribute),
+      repeat(choice($.jsx_attribute, $.jsx_expression)),
       '>'
     ),
 
@@ -464,7 +464,7 @@ module.exports = grammar({
     jsx_self_closing_element: $ => seq(
       '<',
       $.identifier,
-      repeat($.jsx_attribute),
+      repeat(choice($.jsx_attribute, $.jsx_expression)),
       '/',
       '>'
     ),
