@@ -4191,6 +4191,27 @@
         {
           "type": "SYMBOL",
           "name": "number"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_computed_property_name"
+        }
+      ]
+    },
+    "_computed_property_name": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "["
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_expression"
+        },
+        {
+          "type": "STRING",
+          "value": "]"
         }
       ]
     },
@@ -4264,6 +4285,10 @@
     [
       "assignment_pattern",
       "assignment_expression"
+    ],
+    [
+      "_computed_property_name",
+      "array"
     ]
   ],
   "externals": [
