@@ -47,6 +47,7 @@ module.exports = grammar({
     [$._expression, $.formal_parameters],
     [$.labeled_statement, $._property_name],
     [$.assignment_pattern, $.assignment_expression],
+    [$._computed_property_name, $.array]
   ],
 
   rules: {
@@ -792,7 +793,14 @@ module.exports = grammar({
         $._reserved_identifier
       ), $.property_identifier),
       $.string,
-      $.number
+      $.number,
+      $._computed_property_name
+    ),
+
+    _computed_property_name: $ => seq(
+      '[',
+      $._expression,
+      ']'
     ),
 
     _reserved_identifier: $ => choice(

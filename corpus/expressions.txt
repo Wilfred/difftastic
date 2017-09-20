@@ -173,6 +173,11 @@ Objects
   g: h
 }
 
+{
+  [methodNameStats]() {
+  }
+}
+
 ---
 
 (program
@@ -184,7 +189,9 @@ Objects
     (pair (string) (identifier))
     (pair (number) (number))))
   (expression_statement (object
-    (pair (property_identifier) (identifier)))))
+    (pair (property_identifier) (identifier))))
+  (expression_statement (object
+    (method_definition (identifier) (formal_parameters) (statement_block)))))
 
 ============================================
 Objects with shorthand properties
