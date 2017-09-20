@@ -4194,11 +4194,11 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_computed_property_name"
+          "name": "computed_property_name"
         }
       ]
     },
-    "_computed_property_name": {
+    "computed_property_name": {
       "type": "SEQ",
       "members": [
         {
@@ -4287,7 +4287,7 @@
       "assignment_expression"
     ],
     [
-      "_computed_property_name",
+      "computed_property_name",
       "array"
     ]
   ],
