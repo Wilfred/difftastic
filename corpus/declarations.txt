@@ -197,8 +197,7 @@ import r = X.N;
 ---
 
 (program
-  (expression_statement
-    (import_alias (identifier) (nested_identifier (identifier) (identifier)))))
+  (import_alias (identifier) (nested_identifier (identifier) (identifier))))
 
 ==================================
 Import aliases in modules
@@ -212,8 +211,7 @@ module C {
 
 (program
   (module (identifier) (statement_block
-    (expression_statement
-      (import_alias (identifier) (nested_identifier (identifier) (identifier)))))))
+		(import_alias (identifier) (nested_identifier (identifier) (identifier))))))
 
 ==================================
 Export import aliases
