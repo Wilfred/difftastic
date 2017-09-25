@@ -32,7 +32,13 @@ Template strings
 `$$$$`;
 `$$$$${ 1 }`;
 
-`\ `
+`(a|b)$`;
+
+`$`;
+
+`$${'$'}$$${'$'}$$$$`;
+
+`\ `;
 
 `The command \`git ${args.join(' ')}\` exited with an unexpected code: ${exitCode}. The caller should either handle this error, or expect that exit code.`
 
@@ -51,6 +57,11 @@ Template strings
   (expression_statement (template_string
     (template_substitution (number))))
 	(expression_statement (template_string))
+	(expression_statement (template_string))
+  (expression_statement (template_string
+    (template_substitution (string))
+    (template_substitution (string))))
+  (expression_statement (template_string))
   (expression_statement (template_string
     (template_substitution (call_expression
       (member_expression (identifier) (property_identifier))
