@@ -768,7 +768,8 @@ module.exports = grammar({
       '(',
       commaSep(choice(
         $.identifier,
-        $._destructuring_pattern
+        $._destructuring_pattern,
+        $.assignment_pattern
       )),
       ')'
     ),

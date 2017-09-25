@@ -453,6 +453,24 @@ Generator Functions
         (expression_statement (yield_expression (identifier))))))))
 
 ============================================
+Function parameters with default values
+============================================
+
+function a({b}, c = d, e = f) {
+}
+
+---
+
+(program
+  (function
+    (identifier)
+    (formal_parameters
+      (object_pattern (shorthand_property_identifier))
+      (assignment_pattern (shorthand_property_identifier) (identifier))
+      (assignment_pattern (shorthand_property_identifier) (identifier)))
+    (statement_block)))
+
+============================================
 Property access
 ============================================
 
