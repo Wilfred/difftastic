@@ -4051,6 +4051,10 @@
                     {
                       "type": "SYMBOL",
                       "name": "_destructuring_pattern"
+                    },
+                    {
+                      "type": "SYMBOL",
+                      "name": "assignment_pattern"
                     }
                   ]
                 },
@@ -4073,6 +4077,10 @@
                           {
                             "type": "SYMBOL",
                             "name": "_destructuring_pattern"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "assignment_pattern"
                           }
                         ]
                       }
