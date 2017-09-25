@@ -675,11 +675,14 @@ module.exports = grammar({
       '`'
     ),
 
-    _template_chars: $ => token(repeat1(choice(
-      /[^`\$]/,
-      /\$[^{]/,
-      /\\`/
-    ))),
+    _template_chars: $ => token(choice(
+      repeat1(choice(
+        /[^`\$]/,
+        /\$[^{`$]/,
+        /\\[`$]/
+      )),
+      '$'
+    )),
 
     template_substitution: $ => seq(
       '${',

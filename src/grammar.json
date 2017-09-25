@@ -3366,24 +3366,33 @@
     "_template_chars": {
       "type": "TOKEN",
       "content": {
-        "type": "REPEAT1",
-        "content": {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "PATTERN",
-              "value": "[^`\\$]"
-            },
-            {
-              "type": "PATTERN",
-              "value": "\\$[^{]"
-            },
-            {
-              "type": "PATTERN",
-              "value": "\\\\`"
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "REPEAT1",
+            "content": {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "PATTERN",
+                  "value": "[^`\\$]"
+                },
+                {
+                  "type": "PATTERN",
+                  "value": "\\$[^{`$]"
+                },
+                {
+                  "type": "PATTERN",
+                  "value": "\\\\[`$]"
+                }
+              ]
             }
-          ]
-        }
+          },
+          {
+            "type": "STRING",
+            "value": "$"
+          }
+        ]
       }
     },
     "template_substitution": {
