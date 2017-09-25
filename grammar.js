@@ -77,7 +77,6 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       $.type_assertion,
       $.as_expression,
       $.non_null_expression,
-      $.import_alias,
       $.internal_module,
       $.super,
       $.abstract_class,
@@ -226,6 +225,7 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       $.type_alias_declaration,
       $.enum_declaration,
       $.interface_declaration,
+      $.import_alias,
       $.ambient_declaration
     )),
 

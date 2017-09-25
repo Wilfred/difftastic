@@ -316,6 +316,10 @@
           },
           {
             "type": "SYMBOL",
+            "name": "import_alias"
+          },
+          {
+            "type": "SYMBOL",
             "name": "ambient_declaration"
           }
         ]
@@ -1489,10 +1493,6 @@
         {
           "type": "SYMBOL",
           "name": "non_null_expression"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "import_alias"
         },
         {
           "type": "SYMBOL",
