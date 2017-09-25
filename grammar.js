@@ -22,6 +22,8 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
   name: 'typescript',
 
   conflicts: ($, previous) => previous.concat([
+    [$._expression, $.export_statement],
+    [$._expression, $.import_statement],
     [$.call_expression, $.binary_expression],
     [$.call_expression, $.binary_expression, $.unary_expression],
     [$.call_expression, $.binary_expression, $.new_expression],
@@ -213,7 +215,6 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
 
     _declaration: ($, previous) => prec(PREC.DECLARATION, choice(
       $.export_statement,
-      $.import_alias,
       $.function,
       $.internal_module,
       $.ambient_function,
@@ -581,6 +582,8 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       'string',
       'symbol',
       'void',
+      'import',
+      'export',
       previous
     )
   }

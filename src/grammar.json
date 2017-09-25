@@ -268,10 +268,6 @@
           },
           {
             "type": "SYMBOL",
-            "name": "import_alias"
-          },
-          {
-            "type": "SYMBOL",
             "name": "function"
           },
           {
@@ -4620,6 +4616,14 @@
           "value": "void"
         },
         {
+          "type": "STRING",
+          "value": "import"
+        },
+        {
+          "type": "STRING",
+          "value": "export"
+        },
+        {
           "type": "CHOICE",
           "members": [
             {
@@ -6602,6 +6606,14 @@
     [
       "computed_property_name",
       "array"
+    ],
+    [
+      "_expression",
+      "export_statement"
+    ],
+    [
+      "_expression",
+      "import_statement"
     ],
     [
       "call_expression",
