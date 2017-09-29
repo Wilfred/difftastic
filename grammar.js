@@ -214,6 +214,8 @@ module.exports = grammar({
       $._type
     ),
 
+    blank_identifier: $ => seq('_'),
+
     field_name_list: $ => commaSep1($._field_identifier),
 
     expression_list: $ => commaSep1($._expression),
