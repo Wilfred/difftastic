@@ -197,10 +197,17 @@ module.exports = grammar({
       $._type
     ),
 
+    type_alias: $ => seq(
+      choice($._type_identifier, $.blank_identifier),
+      '=',
+      $._type_identifier
+    ),
+
     type_declaration: $ => seq(
       'type',
       choice(
         $.type_spec,
+        $.type_alias,
         seq(
           '(',
           repeat(seq($.type_spec, terminator)),

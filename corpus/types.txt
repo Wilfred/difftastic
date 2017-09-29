@@ -246,3 +246,25 @@ type (
         (parameters
           (identifier)
           (identifier))))))
+
+============================================
+Type Aliases
+============================================
+
+package main
+
+type H1 = G1
+type _ = G2
+
+---
+
+(source_file
+  (package_clause (package_identifier))
+  (type_declaration
+    (type_alias
+      (type_identifier)
+      (type_identifier)))
+   (type_declaration
+    (type_alias
+      (blank_identifier)
+      (type_identifier))))
