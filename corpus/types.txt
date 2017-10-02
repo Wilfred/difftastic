@@ -272,9 +272,9 @@ type (
   (type_declaration
     (type_alias (type_identifier) (type_identifier)))
   (type_declaration
-    (type_alias (blank_identifier) (type_identifier)))
+    (type_alias (type_identifier) (type_identifier)))
   (type_declaration
-    (type_alias (blank_identifier) (struct_type)))
+    (type_alias (type_identifier) (struct_type)))
 	(type_declaration
     (type_alias (type_identifier) (type_identifier))
     (type_alias (type_identifier) (type_identifier))

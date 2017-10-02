@@ -198,7 +198,7 @@ module.exports = grammar({
     ),
 
     type_alias: $ => seq(
-      choice($._type_identifier, $.blank_identifier),
+      $._type_identifier,
       '=',
       $._type
     ),
@@ -220,8 +220,6 @@ module.exports = grammar({
       $._type_identifier,
       $._type
     ),
-
-    blank_identifier: $ => seq('_'),
 
     field_name_list: $ => commaSep1($._field_identifier),
 
