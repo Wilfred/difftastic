@@ -210,7 +210,7 @@ module.exports = grammar({
         $.type_alias,
         seq(
           '(',
-          repeat(seq($.type_spec, terminator)),
+          repeat(seq(choice($.type_spec, $.type_alias), terminator)),
           ')'
         )
       )

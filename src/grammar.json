@@ -717,8 +717,17 @@
                     "type": "SEQ",
                     "members": [
                       {
-                        "type": "SYMBOL",
-                        "name": "type_spec"
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "SYMBOL",
+                            "name": "type_spec"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "type_alias"
+                          }
+                        ]
                       },
                       {
                         "type": "CHOICE",

@@ -256,20 +256,29 @@ package main
 type H1 = G1
 type _ = G2
 type _ = struct{}
+type (
+	A0 = T0
+	A1 = int
+	A2 = struct{}
+	A3 = reflect.Value
+	A4 = Value
+	A5 = Value
+)
 
 ---
 
 (source_file
   (package_clause (package_identifier))
   (type_declaration
-    (type_alias
-      (type_identifier)
-      (type_identifier)))
-   (type_declaration
-    (type_alias
-      (blank_identifier)
-      (type_identifier)))
-   (type_declaration
-    (type_alias
-      (blank_identifier)
-      (struct_type))))
+    (type_alias (type_identifier) (type_identifier)))
+  (type_declaration
+    (type_alias (blank_identifier) (type_identifier)))
+  (type_declaration
+    (type_alias (blank_identifier) (struct_type)))
+	(type_declaration
+    (type_alias (type_identifier) (type_identifier))
+    (type_alias (type_identifier) (type_identifier))
+    (type_alias (type_identifier) (struct_type))
+    (type_alias (type_identifier) (qualified_type (package_identifier) (type_identifier)))
+    (type_alias (type_identifier) (type_identifier))
+    (type_alias (type_identifier) (type_identifier))))
