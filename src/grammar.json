@@ -682,7 +682,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_type_identifier"
+          "name": "_type"
         }
       ]
     },
@@ -750,17 +750,8 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "_type_identifier"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "blank_identifier"
-            }
-          ]
+          "type": "SYMBOL",
+          "name": "_type_identifier"
         },
         {
           "type": "SYMBOL",

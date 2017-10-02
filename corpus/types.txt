@@ -255,6 +255,7 @@ package main
 
 type H1 = G1
 type _ = G2
+type _ = struct{}
 
 ---
 
@@ -267,4 +268,8 @@ type _ = G2
    (type_declaration
     (type_alias
       (blank_identifier)
-      (type_identifier))))
+      (type_identifier)))
+   (type_declaration
+    (type_alias
+      (blank_identifier)
+      (struct_type))))

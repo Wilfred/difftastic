@@ -200,7 +200,7 @@ module.exports = grammar({
     type_alias: $ => seq(
       choice($._type_identifier, $.blank_identifier),
       '=',
-      $._type_identifier
+      $._type
     ),
 
     type_declaration: $ => seq(
