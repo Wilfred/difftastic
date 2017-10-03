@@ -162,10 +162,12 @@ Regexps
 /one/gim;
 /on\/e/gim;
 /on[^/]afe/gim;
+/[\]/]/;
 
 ---
 
 (program
+  (expression_statement (regex))
   (expression_statement (regex))
   (expression_statement (regex))
   (expression_statement (regex))
