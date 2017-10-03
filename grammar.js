@@ -75,8 +75,8 @@ module.exports = grammar({
   rules: {
     source_file: $ => seq(
       $.package_clause,
-      repeat(seq($.import_declaration, terminator)),
-      repeat(seq($._top_level_declaration, terminator))
+      repeat(seq($.import_declaration, optional(terminator))),
+      repeat(seq($._top_level_declaration, optional(terminator)))
     ),
 
     package_clause: $ => seq(
@@ -131,14 +131,14 @@ module.exports = grammar({
       )
     ),
 
-    const_spec: $ => seq(
+    const_spec: $ => prec.left(seq(
       commaSep1($.identifier),
       optional(seq(
         optional($._type),
         '=',
         $.expression_list
       ))
-    ),
+    )),
 
     var_declaration: $ => seq(
       'var',
@@ -163,22 +163,22 @@ module.exports = grammar({
       )
     ),
 
-    function_declaration: $ => seq(
+    function_declaration: $ => prec.right(seq(
       'func',
       $.identifier,
       $.parameters,
       optional(choice($.parameters, $._simple_type)),
       optional($.block)
-    ),
+    )),
 
-    method_declaration: $ => seq(
+    method_declaration: $ => prec.right(seq(
       'func',
       $.parameters,
       $._field_identifier,
       $.parameters,
       optional(choice($.parameters, $._simple_type)),
       optional($.block)
-    ),
+    )),
 
     parameters: $ => seq(
       '(',
@@ -197,13 +197,20 @@ module.exports = grammar({
       $._type
     ),
 
+    type_alias: $ => seq(
+      $._type_identifier,
+      '=',
+      $._type
+    ),
+
     type_declaration: $ => seq(
       'type',
       choice(
         $.type_spec,
+        $.type_alias,
         seq(
           '(',
-          repeat(seq($.type_spec, terminator)),
+          repeat(seq(choice($.type_spec, $.type_alias), terminator)),
           ')'
         )
       )
