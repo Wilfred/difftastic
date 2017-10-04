@@ -295,7 +295,10 @@ module.exports = grammar({
         'long',
         'short'
       )),
-      optional(choice($._type_identifier, $.primitive_type))
+      optional(choice(
+        prec.dynamic(-1, $._type_identifier),
+        $.primitive_type
+      ))
     ),
 
     primitive_type: $ => token(prec(1, choice(
