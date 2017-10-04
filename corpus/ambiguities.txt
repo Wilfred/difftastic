@@ -77,7 +77,7 @@ int main() {
 ---
 
 (translation_unit (function_definition
-  (type_identifier)
+  (primitive_type)
   (function_declarator (identifier) (parameter_list))
   (compound_statement
     (declaration

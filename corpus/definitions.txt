@@ -9,13 +9,13 @@ int T::foo() const { return 0; }
 
 (translation_unit
   (function_definition
-    (type_identifier)
+    (primitive_type)
     (function_declarator
       (scoped_identifier (namespace_identifier) (identifier))
       (parameter_list))
     (compound_statement (return_statement (number_literal))))
   (function_definition
-    (type_identifier)
+    (primitive_type)
     (function_declarator
       (scoped_identifier (namespace_identifier) (identifier))
       (parameter_list)

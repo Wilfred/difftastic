@@ -14,7 +14,7 @@ int x;
   (namespace_definition
     (identifier)
     (declaration_list
-      (declaration (type_identifier) (identifier))))
+      (declaration (primitive_type) (identifier))))
   (comment))
 
 =========================================
@@ -57,7 +57,7 @@ int main() {
 
 (translation_unit
   (function_definition
-    (type_identifier)
+    (primitive_type)
     (function_declarator (identifier) (parameter_list))
     (compound_statement
       (declaration
@@ -85,12 +85,12 @@ int main(T &&t) {
 
 (translation_unit
   (declaration
-    (type_identifier)
+    (primitive_type)
     (function_declarator
       (identifier)
       (parameter_list (parameter_declaration (type_identifier) (abstract_reference_declarator)))))
   (function_definition
-    (type_identifier)
+    (primitive_type)
     (function_declarator
       (identifier)
       (parameter_list (parameter_declaration (type_identifier) (reference_declarator (identifier)))))
@@ -117,14 +117,14 @@ struct S {
 
 (translation_unit
   (struct_specifier (type_identifier) (field_declaration_list
-    (field_declaration (type_identifier) (field_identifier))
+    (field_declaration (primitive_type) (field_identifier))
     (function_definition
       (function_declarator (identifier) (parameter_list))
       (field_initializer_list (field_initializer (field_identifier) (argument_list (number_literal))))
       (compound_statement))
     (access_specifier)
     (function_definition
-      (type_identifier)
+      (primitive_type)
       (function_declarator (field_identifier) (parameter_list) (type_qualifier))
       (compound_statement (return_statement (identifier)))))))
 
@@ -145,12 +145,12 @@ class C {
 
 (translation_unit
   (class_specifier (type_identifier) (field_declaration_list
-    (field_declaration (type_identifier) (pointer_declarator (field_identifier)))
+    (field_declaration (primitive_type) (pointer_declarator (field_identifier)))
     (access_specifier)
     (declaration (function_declarator (identifier) (parameter_list)))
     (declaration (function_declarator (identifier) (parameter_list
-      (parameter_declaration (type_identifier))
-      (parameter_declaration (type_identifier)))))
+      (parameter_declaration (primitive_type))
+      (parameter_declaration (primitive_type)))))
     (declaration (function_declarator (destructor_name (identifier)) (parameter_list))))))
 
 =========================================
@@ -191,7 +191,7 @@ struct C {
 (translation_unit
   (struct_specifier (type_identifier) (field_declaration_list
     (friend_declaration (class_specifier (type_identifier)))
-    (friend_declaration (declaration (type_identifier) (function_declarator
+    (friend_declaration (declaration (primitive_type) (function_declarator
       (identifier)
       (parameter_list (parameter_declaration (type_identifier) (abstract_reference_declarator)))))))))
 
@@ -205,11 +205,11 @@ int foo(bool x = 5) {}
 
 (translation_unit
   (function_definition
-    (type_identifier)
+    (primitive_type)
     (function_declarator
       (identifier)
       (parameter_list
-        (parameter_declaration (type_identifier) (init_declarator (identifier) (number_literal)))))
+        (parameter_declaration (primitive_type) (init_declarator (identifier) (number_literal)))))
     (compound_statement)))
 
 =========================================
@@ -232,7 +232,7 @@ bool A::operator!=(const A &other) const;
           (parameter_declaration (type_identifier) (abstract_reference_declarator))
           (parameter_declaration (type_qualifier) (type_identifier) (reference_declarator (identifier)))))))
   (declaration
-    (type_identifier)
+    (primitive_type)
     (function_declarator
       (scoped_identifier (namespace_identifier) (operator_name))
       (parameter_list
@@ -259,7 +259,7 @@ class Foo {};
     (template_parameter_list
       (type_parameter_declaration (type_identifier)))
     (declaration
-      (type_identifier)
+      (primitive_type)
       (function_declarator
         (identifier)
         (parameter_list
@@ -267,9 +267,9 @@ class Foo {};
   (template_declaration
     (template_parameter_list
       (type_parameter_declaration (type_identifier))
-      (parameter_declaration (type_identifier) (identifier)))
+      (parameter_declaration (primitive_type) (identifier)))
     (function_definition
-      (type_identifier)
+      (primitive_type)
       (function_declarator
         (identifier)
         (parameter_list (parameter_declaration (type_identifier) (reference_declarator (identifier)))))
@@ -295,7 +295,7 @@ struct foo::bar<T> {};
   (template_declaration
     (template_parameter_list)
     (declaration
-      (type_identifier)
+      (primitive_type)
       (function_declarator
         (template_function
           (identifier)
@@ -333,7 +333,7 @@ int main() {}
 
 (translation_unit
   (function_definition
-    (type_identifier)
+    (primitive_type)
     (function_declarator (identifier) (parameter_list))
     (compound_statement)))
 
@@ -352,9 +352,9 @@ template A<int, bool>::A(char *, size_t);
         (template_type
           (type_identifier)
           (template_argument_list
-            (type_descriptor (type_identifier))
-            (type_descriptor (type_identifier))))
+            (type_descriptor (primitive_type))
+            (type_descriptor (primitive_type))))
         (identifier))
       (parameter_list
-        (parameter_declaration (type_identifier) (abstract_pointer_declarator))
-        (parameter_declaration (type_identifier))))))
+        (parameter_declaration (primitive_type) (abstract_pointer_declarator))
+        (parameter_declaration (primitive_type))))))

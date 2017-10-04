@@ -371,7 +371,8 @@ module.exports = grammar(C, {
       $.scoped_identifier,
       $.new_expression,
       $.delete_expression,
-      $.lambda_expression
+      $.lambda_expression,
+      $.nullptr
     ),
 
     new_expression: $ => seq(
@@ -510,6 +511,8 @@ module.exports = grammar(C, {
         '()', '[]'
       )
     )),
+
+    nullptr: $ => 'nullptr',
 
     _namespace_identifier: $ => alias($.identifier, $.namespace_identifier),
 
