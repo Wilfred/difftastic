@@ -101,6 +101,18 @@ export { import1 as name1, import2 as name2, nameN } from 'foo';
     (string)))
 
 ============================================
+Decorators before exports
+============================================
+
+@injectable()
+export class Foo {
+}
+
+---
+
+(program (export_statement (decorator (call_expression (identifier) (arguments))) (class (identifier) (class_body))))
+
+============================================
 If statements
 ============================================
 

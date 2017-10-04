@@ -61,8 +61,8 @@ module.exports = grammar({
       seq('export', '*', $._from_clause, $._semicolon),
       seq('export', $.export_clause, $._from_clause, $._semicolon),
       seq('export', $.export_clause, $._semicolon),
-      seq('export', $._declaration),
-      seq('export', 'default', $._expression, $._semicolon)
+      seq(repeat($.decorator), 'export', $._declaration),
+      seq(repeat($.decorator), 'export', 'default', $._expression, $._semicolon)
     ),
 
     export_clause: $ => seq(
@@ -765,7 +765,7 @@ module.exports = grammar({
     decorator: $ => seq(
       '@',
       choice(
-        prec(-1, $._identifier_reference),
+        $._identifier_reference,
         alias($.decorator_member_expression, $.member_expression),
         alias($.decorator_call_expression, $.call_expression))
     ),
@@ -783,7 +783,7 @@ module.exports = grammar({
     )),
 
     decorator_call_expression: $ => prec(PREC.CALL, seq(
-      alias($.decorator_member_expression, $.member_expression),
+      choice($._identifier_reference, alias($.decorator_member_expression, $.member_expression)),
       $.arguments
     )),
 
