@@ -144,11 +144,13 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
 
     formal_parameters: ($, previous) => seq(
       '(',
-      commaSep(choice(
-        $.required_parameter,
-        $.rest_parameter,
-        $.optional_parameter
-      )),
+      commaSep(seq(
+        repeat($.decorator),
+        choice(
+          $.required_parameter,
+          $.rest_parameter,
+          $.optional_parameter
+      ))),
       ')'
     ),
 
@@ -193,10 +195,10 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       repeat(
         choice(
           $.abstract_method_definition,
-          seq($.method_definition, optional($._semicolon)),
+          seq(repeat($.decorator), $.method_definition, optional($._semicolon)),
           seq($.index_signature, $._semicolon),
           seq($.method_signature, $._semicolon),
-          seq($.public_field_definition, $._semicolon)
+          seq(repeat($.decorator), $.public_field_definition, $._semicolon)
         )
       ),
       '}'
@@ -271,6 +273,7 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
     ),
 
     class: ($, previous) => seq(
+      repeat($.decorator),
       'class',
       $.identifier,
       optional($.type_parameters),
