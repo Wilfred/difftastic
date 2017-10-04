@@ -539,6 +539,47 @@ class Foo {
       (public_field_definition (readonly) (string) (type_annotation (type_identifier)) (string))))))
 
 =======================================
+Classes with decorators
+=======================================
+
+@baz @bam class Foo {
+  @foo static 2: string;
+  @bar.buzz(grue) public static 2: string = 'string';
+  @readonly readonly 'hello'?: int = 'string';
+  @readonly fooBar(@required param: any, @optional param2?: any) {
+
+  }
+}
+
+---
+
+(program (expression_statement
+  (class
+    (decorator (identifier))
+    (decorator (identifier))
+    (identifier)
+    (class_body
+      (decorator (identifier))
+      (public_field_definition (number) (type_annotation (predefined_type)))
+
+      (decorator (call_expression (member_expression (identifier) (property_identifier)) (arguments (identifier))))
+      (public_field_definition (accessibility_modifier) (number) (type_annotation (predefined_type)) (string))
+
+      (decorator (identifier))
+      (public_field_definition (readonly) (string) (type_annotation (type_identifier)) (string))
+
+      (decorator (identifier))
+      (method_definition
+        (property_identifier)
+        (call_signature
+          (formal_parameters
+            (decorator (identifier))
+            (required_parameter (identifier) (type_annotation (predefined_type)))
+            (decorator (identifier))
+            (optional_parameter (identifier) (type_annotation (predefined_type)))))
+        (statement_block))))))
+
+=======================================
 Classes with methods with and without trailing semicolons on one line
 =======================================
 
