@@ -408,7 +408,7 @@ module.exports = grammar({
       commaSep(optional(choice(
         $.pair,
         $.spread_element,
-        $.method_definition,
+        seq(repeat($.decorator), $.method_definition),
         $.assignment_pattern,
         alias(choice($.identifier, $._reserved_identifier), $.shorthand_property_identifier)
       ))),
@@ -483,12 +483,14 @@ module.exports = grammar({
     ),
 
     anonymous_class: $ => seq(
+      repeat($.decorator),
       'class',
       optional($.class_heritage),
       $.class_body
     ),
 
     class: $ => seq(
+      repeat($.decorator),
       'class',
       $.identifier,
       optional($.class_heritage),
@@ -760,9 +762,35 @@ module.exports = grammar({
       ')'
     )),
 
+    decorator: $ => seq(
+      '@',
+      choice(
+        prec(-1, $._identifier_reference),
+        alias($.decorator_member_expression, $.member_expression),
+        alias($.decorator_call_expression, $.call_expression))
+    ),
+
+    _identifier_reference: $ => choice(
+      $.identifier,
+      alias($._reserved_identifier, $.identifier)
+    ),
+
+    decorator_member_expression: $ => prec(PREC.MEMBER, seq(
+      seq(
+        choice($._identifier_reference, alias($.decorator_member_expression, $.member_expression)),
+        '.',
+        alias($.identifier, $.property_identifier))
+    )),
+
+    decorator_call_expression: $ => prec(PREC.CALL, seq(
+      alias($.decorator_member_expression, $.member_expression),
+      $.arguments
+    )),
+
     class_body: $ => seq(
       '{',
       repeat(seq(
+        repeat($.decorator),
         optional('static'),
         choice(
           seq($.method_definition, optional(';')),

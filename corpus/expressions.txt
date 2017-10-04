@@ -363,6 +363,28 @@ class Foo {
       (public_field_definition (property_identifier) (number)))))
 
 ============================================
+Class Decorators
+============================================
+@reload
+@eval
+class Foo {
+	@foo.bar(baz) static foo() {
+
+	}
+}
+
+---
+
+(program
+  (class
+    (decorator (identifier))
+    (decorator (identifier))
+    (identifier)
+    (class_body
+      (decorator (call_expression (member_expression (identifier) (property_identifier)) (arguments (identifier))))
+      (method_definition (property_identifier) (formal_parameters) (statement_block)))))
+
+============================================
 Arrays
 ============================================
 
