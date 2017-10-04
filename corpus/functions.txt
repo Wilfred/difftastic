@@ -70,6 +70,8 @@ function* foo<A>(amount, interestRate, duration): number {
 	yield amount * interestRate * duration / 12
 }
 
+(module: any): number => 2
+
 ---
 
 (program
@@ -77,7 +79,6 @@ function* foo<A>(amount, interestRate, duration): number {
     (arrow_function
       (call_signature (type_parameters (type_parameter (identifier))) (formal_parameters (required_parameter (identifier)) (required_parameter (identifier)) (required_parameter (identifier))) (type_annotation (predefined_type)))
       (number)))
-  (expression_statement
     (generator_function
       (identifier)
       (call_signature
@@ -90,7 +91,8 @@ function* foo<A>(amount, interestRate, duration): number {
       (statement_block
         (expression_statement (yield_expression (binary_expression
           (binary_expression (binary_expression (identifier) (identifier)) (identifier))
-          (number))))))))
+          (number))))))
+  (expression_statement (arrow_function (call_signature (formal_parameters (required_parameter (identifier) (type_annotation (predefined_type)))) (type_annotation (predefined_type))) (number))))
 
 ==================================
 Arrow function with parameter named async
