@@ -2053,6 +2053,8 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
         ADVANCE(94);
       END_STATE();
     case 95:
+      if (lookahead == '*')
+        ADVANCE(95);
       if (lookahead == '/')
         ADVANCE(96);
       if (lookahead != 0)
@@ -3866,6 +3868,8 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
       ACCEPT_TOKEN(sym_preproc_arg);
       if (lookahead == '\n')
         ADVANCE(94);
+      if (lookahead == '*')
+        ADVANCE(287);
       if (lookahead == '/')
         ADVANCE(96);
       if (lookahead == '\\')

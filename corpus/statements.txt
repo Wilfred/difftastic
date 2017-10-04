@@ -109,3 +109,25 @@ recur:
           (identifier)
           (call_expression (field_expression (identifier) (field_identifier)) (argument_list)))))
       (if_statement (identifier) (goto_statement (statement_identifier))))))
+
+============================================
+Comments with asterisks
+============================================
+
+/*************************
+ * odd number of asterisks
+ *************************/
+int a;
+
+/**************************
+ * even number of asterisks
+ **************************/
+int b;
+
+---
+
+(translation_unit
+  (comment)
+  (declaration (type_identifier) (identifier))
+  (comment)
+  (declaration (type_identifier) (identifier)))
