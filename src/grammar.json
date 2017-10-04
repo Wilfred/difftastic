@@ -668,10 +668,6 @@
               {
                 "type": "SYMBOL",
                 "name": "type_qualifier"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "function_specifier"
               }
             ]
           }
@@ -692,10 +688,6 @@
               {
                 "type": "SYMBOL",
                 "name": "type_qualifier"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "function_specifier"
               }
             ]
           }
@@ -1210,6 +1202,10 @@
         {
           "type": "STRING",
           "value": "register"
+        },
+        {
+          "type": "STRING",
+          "value": "inline"
         }
       ]
     },
@@ -1229,10 +1225,6 @@
           "value": "volatile"
         }
       ]
-    },
-    "function_specifier": {
-      "type": "STRING",
-      "value": "inline"
     },
     "_type_specifier": {
       "type": "CHOICE",

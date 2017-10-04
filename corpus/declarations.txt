@@ -233,7 +233,7 @@ int static inline do_stuff(int arg1) {
   (function_definition
     (type_identifier)
     (storage_class_specifier)
-    (function_specifier)
+    (storage_class_specifier)
     (function_declarator
       (identifier)
       (parameter_list (parameter_declaration (type_identifier) (identifier))))

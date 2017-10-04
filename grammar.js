@@ -170,14 +170,12 @@ module.exports = grammar({
     _declaration_specifiers: $ => seq(
       repeat(choice(
         $.storage_class_specifier,
-        $.type_qualifier,
-        $.function_specifier
+        $.type_qualifier
       )),
       $._type_specifier,
       repeat(choice(
         $.storage_class_specifier,
-        $.type_qualifier,
-        $.function_specifier
+        $.type_qualifier
       ))
     ),
 
@@ -271,7 +269,8 @@ module.exports = grammar({
       'extern',
       'static' ,
       'auto',
-      'register'
+      'register',
+      'inline'
     ),
 
     type_qualifier: $ => choice(
@@ -279,8 +278,6 @@ module.exports = grammar({
       'restrict',
       'volatile'
     ),
-
-    function_specifier: $ => 'inline',
 
     _type_specifier: $ => choice(
       $.struct_specifier,
