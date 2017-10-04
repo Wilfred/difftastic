@@ -355,11 +355,11 @@ module.exports = grammar({
       optional(seq('=', $._expression))
     ),
 
-    parameter_list: $ => seq(
+    parameter_list: $ => prec.dynamic(1, seq(
       '(',
       commaSep(choice($.parameter_declaration, '...')),
       ')'
-    ),
+    )),
 
     parameter_declaration: $ => seq(
       $._declaration_specifiers,
