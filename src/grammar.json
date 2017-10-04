@@ -4055,24 +4055,12 @@
                 "value": "/*"
               },
               {
-                "type": "REPEAT",
-                "content": {
-                  "type": "CHOICE",
-                  "members": [
-                    {
-                      "type": "PATTERN",
-                      "value": "[^\\*]"
-                    },
-                    {
-                      "type": "PATTERN",
-                      "value": "\\*[^\\/]"
-                    }
-                  ]
-                }
+                "type": "PATTERN",
+                "value": "[^*]*\\*+([^\\/*][^*]*\\*+)*"
               },
               {
                 "type": "STRING",
-                "value": "*/"
+                "value": "/"
               }
             ]
           }
