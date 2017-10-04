@@ -14,8 +14,8 @@ struct s2 {
 (translation_unit
   (struct_specifier (type_identifier))
   (struct_specifier (type_identifier) (field_declaration_list
-    (field_declaration (type_identifier) (field_identifier))
-    (field_declaration (type_identifier) (field_identifier) (number_literal)))))
+    (field_declaration (primitive_type) (field_identifier))
+    (field_declaration (primitive_type) (field_identifier) (number_literal)))))
 
 ============================================
 Union declarations
@@ -33,8 +33,8 @@ union s2 {
 (translation_unit
   (union_specifier (type_identifier))
   (union_specifier (type_identifier) (field_declaration_list
-    (field_declaration (type_identifier) (field_identifier))
-    (field_declaration (type_identifier) (field_identifier)))))
+    (field_declaration (primitive_type) (field_identifier))
+    (field_declaration (primitive_type) (field_identifier)))))
 
 ============================================
 Enum declarations
@@ -76,13 +76,13 @@ short g, h;
 ---
 
 (translation_unit
-  (declaration (sized_type_specifier (type_identifier)) (identifier))
+  (declaration (sized_type_specifier (primitive_type)) (identifier))
   (declaration
-    (sized_type_specifier (type_identifier))
+    (sized_type_specifier (primitive_type))
     (identifier)
     (init_declarator (identifier) (number_literal))
     (identifier))
-  (declaration (type_identifier) (identifier) (identifier))
+  (declaration (primitive_type) (identifier) (identifier))
   (declaration (sized_type_specifier) (identifier))
   (declaration (sized_type_specifier) (identifier) (identifier)))
 
@@ -99,11 +99,11 @@ static int f;
 ---
 
 (translation_unit
-  (declaration (type_identifier) (identifier))
-  (declaration (storage_class_specifier) (type_identifier) (identifier) (identifier))
-  (declaration (storage_class_specifier) (type_identifier) (identifier))
-  (declaration (storage_class_specifier) (type_identifier) (identifier))
-  (declaration (storage_class_specifier) (type_identifier) (identifier)))
+  (declaration (primitive_type) (identifier))
+  (declaration (storage_class_specifier) (primitive_type) (identifier) (identifier))
+  (declaration (storage_class_specifier) (primitive_type) (identifier))
+  (declaration (storage_class_specifier) (primitive_type) (identifier))
+  (declaration (storage_class_specifier) (primitive_type) (identifier)))
 
 ============================================
 Composite-typed variable declarations
@@ -121,7 +121,7 @@ enum { g, h } i;
     (identifier))
   (declaration
     (union_specifier (field_declaration_list
-      (field_declaration (type_identifier) (field_identifier))))
+      (field_declaration (primitive_type) (field_identifier))))
     (identifier))
   (declaration
     (enum_specifier (enumerator_list
@@ -140,11 +140,11 @@ const char **the_strings;
 
 (translation_unit
   (declaration
-    (type_identifier)
+    (primitive_type)
     (pointer_declarator (identifier)))
   (declaration
     (type_qualifier)
-    (type_identifier)
+    (primitive_type)
     (pointer_declarator (pointer_declarator (identifier)))))
 
 ============================================
@@ -160,10 +160,10 @@ typedef struct {
 ---
 
 (translation_unit
-  (declaration (storage_class_specifier) (type_identifier) (identifier))
+  (declaration (storage_class_specifier) (primitive_type) (identifier))
   (declaration
     (storage_class_specifier)
-    (struct_specifier (field_declaration_list (field_declaration (type_identifier) (field_identifier))))
+    (struct_specifier (field_declaration_list (field_declaration (primitive_type) (field_identifier))))
     (pointer_declarator (identifier))))
 
 ============================================
@@ -178,16 +178,16 @@ static baz quux(...);
 
 (translation_unit
   (declaration
-    (type_identifier)
+    (primitive_type)
     (function_declarator
       (identifier)
       (parameter_list
         (parameter_declaration
-          (type_identifier)
+          (primitive_type)
           (identifier))
         (parameter_declaration
           (type_qualifier)
-          (type_identifier)
+          (primitive_type)
           (pointer_declarator (pointer_declarator (identifier)))))))
 
   (declaration
@@ -212,11 +212,11 @@ void * do_stuff(int arg1) {
 
 (translation_unit
   (function_definition
-    (type_identifier)
+    (primitive_type)
     (pointer_declarator
       (function_declarator (identifier)
         (parameter_list
-          (parameter_declaration (type_identifier) (identifier)))))
+          (parameter_declaration (primitive_type) (identifier)))))
     (compound_statement (return_statement (number_literal)))))
 
 ============================================
@@ -231,12 +231,12 @@ int static inline do_stuff(int arg1) {
 
 (translation_unit
   (function_definition
-    (type_identifier)
+    (primitive_type)
     (storage_class_specifier)
     (storage_class_specifier)
     (function_declarator
       (identifier)
-      (parameter_list (parameter_declaration (type_identifier) (identifier))))
+      (parameter_list (parameter_declaration (primitive_type) (identifier))))
     (compound_statement (return_statement (number_literal)))))
 
 ============================================
@@ -258,20 +258,20 @@ extern "C" {
   (linkage_specification
     (string_literal)
     (declaration
-      (type_identifier)
+      (primitive_type)
       (function_declarator (identifier) (parameter_list))))
   (linkage_specification
     (string_literal)
     (function_definition
-      (type_identifier)
+      (primitive_type)
       (function_declarator (identifier) (parameter_list))
       (compound_statement (return_statement (number_literal)))))
   (linkage_specification
     (string_literal)
     (declaration_list
       (declaration
-        (type_identifier)
+        (primitive_type)
         (function_declarator (identifier) (parameter_list)))
       (declaration
-        (type_identifier)
+        (primitive_type)
         (function_declarator (identifier) (parameter_list))))))

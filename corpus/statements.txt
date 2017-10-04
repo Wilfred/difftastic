@@ -17,7 +17,7 @@ int main() {
 
 (translation_unit
   (function_definition
-    (type_identifier)
+    (primitive_type)
     (function_declarator (identifier) (parameter_list))
     (compound_statement
       (if_statement (identifier)
@@ -48,13 +48,13 @@ int main() {
 
 (translation_unit
   (function_definition
-    (type_identifier)
+    (primitive_type)
     (function_declarator (identifier) (parameter_list))
     (compound_statement
       (for_statement
         (expression_statement (number_literal)))
       (for_statement
-        (declaration (type_identifier) (init_declarator (identifier) (number_literal)))
+        (declaration (primitive_type) (init_declarator (identifier) (number_literal)))
         (relational_expression (identifier) (number_literal))
         (call_expression (identifier) (argument_list))
         (math_expression (identifier))
@@ -78,7 +78,7 @@ int main() {
 
 (translation_unit
   (function_definition
-    (type_identifier)
+    (primitive_type)
     (function_declarator (identifier) (parameter_list))
     (compound_statement
       (while_statement (identifier)
@@ -100,7 +100,7 @@ recur:
 
 (translation_unit
   (function_definition
-    (type_identifier)
+    (primitive_type)
     (function_declarator (identifier) (parameter_list
       (parameter_declaration (type_identifier) (pointer_declarator (identifier)))))
     (compound_statement
@@ -128,6 +128,6 @@ int b;
 
 (translation_unit
   (comment)
-  (declaration (type_identifier) (identifier))
+  (declaration (primitive_type) (identifier))
   (comment)
-  (declaration (type_identifier) (identifier)))
+  (declaration (primitive_type) (identifier)))

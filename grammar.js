@@ -285,6 +285,7 @@ module.exports = grammar({
       $.enum_specifier,
       $.macro_type_specifier,
       $.sized_type_specifier,
+      $.primitive_type,
       $._type_identifier
     ),
 
@@ -294,8 +295,19 @@ module.exports = grammar({
         'long',
         'short'
       )),
-      optional($._type_identifier)
+      optional(choice($._type_identifier, $.primitive_type))
     ),
+
+    primitive_type: $ => token(prec(1, choice(
+      'bool',
+      'char',
+      'int',
+      'float',
+      'double',
+      'void',
+      /u?int(8|16|32|64|ptr)_t/,
+      /s?size_t/
+    ))),
 
     enum_specifier: $ => seq(
       'enum',
@@ -493,6 +505,9 @@ module.exports = grammar({
       $.identifier,
       $.number_literal,
       $.string_literal,
+      $.true,
+      $.false,
+      $.null,
       $.concatenated_string,
       $.char_literal,
       $.parenthesized_expression
@@ -686,6 +701,10 @@ module.exports = grammar({
     ),
 
     identifier: $ => /[\a_][\a\d_]*/,
+
+    true: $ => token(prec(1, choice('TRUE', 'true'))),
+    false: $ => token(prec(1, choice('FALSE', 'false'))),
+    null: $ => 'NULL',
 
     _type_identifier: $ => alias($.identifier, $.type_identifier),
     _field_identifier: $ => alias($.identifier, $.field_identifier),

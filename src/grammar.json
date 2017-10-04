@@ -1251,6 +1251,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "primitive_type"
+        },
+        {
+          "type": "SYMBOL",
           "name": "_type_identifier"
         }
       ]
@@ -1282,8 +1286,17 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "SYMBOL",
-              "name": "_type_identifier"
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "_type_identifier"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "primitive_type"
+                }
+              ]
             },
             {
               "type": "BLANK"
@@ -1291,6 +1304,50 @@
           ]
         }
       ]
+    },
+    "primitive_type": {
+      "type": "TOKEN",
+      "content": {
+        "type": "PREC",
+        "value": 1,
+        "content": {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "bool"
+            },
+            {
+              "type": "STRING",
+              "value": "char"
+            },
+            {
+              "type": "STRING",
+              "value": "int"
+            },
+            {
+              "type": "STRING",
+              "value": "float"
+            },
+            {
+              "type": "STRING",
+              "value": "double"
+            },
+            {
+              "type": "STRING",
+              "value": "void"
+            },
+            {
+              "type": "PATTERN",
+              "value": "u?int(8|16|32|64|ptr)_t"
+            },
+            {
+              "type": "PATTERN",
+              "value": "s?size_t"
+            }
+          ]
+        }
+      }
     },
     "enum_specifier": {
       "type": "SEQ",
@@ -2201,6 +2258,18 @@
         {
           "type": "SYMBOL",
           "name": "string_literal"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "true"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "false"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "null"
         },
         {
           "type": "SYMBOL",
@@ -3486,6 +3555,50 @@
     "identifier": {
       "type": "PATTERN",
       "value": "[\\a_][\\a\\d_]*"
+    },
+    "true": {
+      "type": "TOKEN",
+      "content": {
+        "type": "PREC",
+        "value": 1,
+        "content": {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "TRUE"
+            },
+            {
+              "type": "STRING",
+              "value": "true"
+            }
+          ]
+        }
+      }
+    },
+    "false": {
+      "type": "TOKEN",
+      "content": {
+        "type": "PREC",
+        "value": 1,
+        "content": {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "FALSE"
+            },
+            {
+              "type": "STRING",
+              "value": "false"
+            }
+          ]
+        }
+      }
+    },
+    "null": {
+      "type": "STRING",
+      "value": "NULL"
     },
     "_type_identifier": {
       "type": "ALIAS",

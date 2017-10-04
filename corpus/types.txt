@@ -1,0 +1,36 @@
+========================================
+Primitive types
+========================================
+
+int a;
+uint8_t a;
+uint16_t a;
+uint32_t a;
+uint64_t a;
+uintptr_t a;
+
+int8_t a;
+int16_t a;
+int32_t a;
+int64_t a;
+intptr_t a;
+
+size_t a;
+ssize_t a;
+
+---
+
+(translation_unit
+  (declaration (primitive_type) (identifier))
+  (declaration (primitive_type) (identifier))
+  (declaration (primitive_type) (identifier))
+  (declaration (primitive_type) (identifier))
+  (declaration (primitive_type) (identifier))
+  (declaration (primitive_type) (identifier))
+  (declaration (primitive_type) (identifier))
+  (declaration (primitive_type) (identifier))
+  (declaration (primitive_type) (identifier))
+  (declaration (primitive_type) (identifier))
+  (declaration (primitive_type) (identifier))
+  (declaration (primitive_type) (identifier))
+  (declaration (primitive_type) (identifier)))
