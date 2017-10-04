@@ -5468,33 +5468,8 @@
                 {
                   "type": "ALIAS",
                   "content": {
-                    "type": "CHOICE",
-                    "members": [
-                      {
-                        "type": "STRING",
-                        "value": "any"
-                      },
-                      {
-                        "type": "STRING",
-                        "value": "number"
-                      },
-                      {
-                        "type": "STRING",
-                        "value": "boolean"
-                      },
-                      {
-                        "type": "STRING",
-                        "value": "string"
-                      },
-                      {
-                        "type": "STRING",
-                        "value": "symbol"
-                      },
-                      {
-                        "type": "STRING",
-                        "value": "void"
-                      }
-                    ]
+                    "type": "SYMBOL",
+                    "name": "_reserved_identifier"
                   },
                   "named": true,
                   "value": "identifier"
@@ -5554,6 +5529,15 @@
             {
               "type": "SYMBOL",
               "name": "identifier"
+            },
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "SYMBOL",
+                "name": "_reserved_identifier"
+              },
+              "named": true,
+              "value": "identifier"
             },
             {
               "type": "SYMBOL",
