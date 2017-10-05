@@ -330,7 +330,8 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
 
     extends_clause: $ => seq(
       'extends',
-      sepBy1(',', $._type)
+      $._expression,
+      optional($.type_arguments)
     ),
 
     enum_declaration: $ => seq(
@@ -527,7 +528,13 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
 
     type_parameter: $ => seq(
       $.identifier,
-      optional($.constraint)
+      optional($.constraint),
+      optional($.default_type)
+    ),
+
+    default_type: $ => seq(
+      '=',
+      $._type
     ),
 
     constraint: $ => seq(
