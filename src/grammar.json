@@ -298,6 +298,10 @@
           },
           {
             "type": "SYMBOL",
+            "name": "abstract_class"
+          },
+          {
+            "type": "SYMBOL",
             "name": "class"
           },
           {
@@ -1511,10 +1515,6 @@
         {
           "type": "SYMBOL",
           "name": "super"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "abstract_class"
         },
         {
           "type": "CHOICE",
@@ -4642,6 +4642,18 @@
           ]
         },
         {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": ","
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
           "type": "STRING",
           "value": ")"
         }
@@ -5402,7 +5414,7 @@
     },
     "nested_type_identifier": {
       "type": "PREC",
-      "value": 12,
+      "value": 13,
       "content": {
         "type": "SEQ",
         "members": [
@@ -5477,38 +5489,47 @@
       ]
     },
     "extends_clause": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "extends"
-        },
-        {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "_type"
-            },
-            {
-              "type": "REPEAT",
-              "content": {
-                "type": "SEQ",
-                "members": [
-                  {
-                    "type": "STRING",
-                    "value": ","
-                  },
-                  {
-                    "type": "SYMBOL",
-                    "name": "_type"
-                  }
-                ]
+      "type": "PREC",
+      "value": 7,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "extends"
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "ALIAS",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "identifier"
+                },
+                "named": true,
+                "value": "type_identifier"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "_expression"
               }
-            }
-          ]
-        }
-      ]
+            ]
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "type_arguments"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        ]
+      }
     },
     "enum_declaration": {
       "type": "SEQ",
@@ -5713,6 +5734,18 @@
               "members": [
                 {
                   "type": "SYMBOL",
+                  "name": "readonly"
+                },
+                {
+                  "type": "BLANK"
+                }
+              ]
+            },
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
                   "name": "identifier"
                 },
                 {
@@ -5767,6 +5800,18 @@
             {
               "type": "SYMBOL",
               "name": "accessibility_modifier"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "readonly"
             },
             {
               "type": "BLANK"
@@ -6541,6 +6586,31 @@
               "type": "BLANK"
             }
           ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "default_type"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        }
+      ]
+    },
+    "default_type": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "="
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_type"
         }
       ]
     },
@@ -6804,7 +6874,7 @@
     },
     {
       "type": "PATTERN",
-      "value": "[\\s﻿⁠​]"
+      "value": "[\\s﻿⁠​ ]"
     }
   ],
   "conflicts": [
@@ -6867,6 +6937,14 @@
       "call_expression",
       "binary_expression",
       "update_expression"
+    ],
+    [
+      "nested_type_identifier",
+      "nested_identifier"
+    ],
+    [
+      "nested_type_identifier",
+      "member_expression"
     ],
     [
       "generic_type",

@@ -8,6 +8,7 @@ const PREC = {
   REL: 5,
   TIMES: 6,
   TYPEOF: 7,
+  EXTENDS: 7,
   NEG: 9,
   INC: 10,
   NON_NULL: 10,
@@ -28,6 +29,9 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
     [$.call_expression, $.binary_expression, $.unary_expression],
     [$.call_expression, $.binary_expression, $.new_expression],
     [$.call_expression, $.binary_expression, $.update_expression],
+
+    [$.nested_type_identifier, $.nested_identifier],
+    [$.nested_type_identifier, $.member_expression],
 
     [$.generic_type, $._primary_type],
 
@@ -81,7 +85,6 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       $.non_null_expression,
       $.internal_module,
       $.super,
-      $.abstract_class,
       previous
     ),
 
@@ -151,6 +154,7 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
           $.rest_parameter,
           $.optional_parameter
       ))),
+      optional(','),
       ')'
     ),
 
@@ -221,6 +225,7 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       $.internal_module,
       $.ambient_function,
       $.generator_function,
+      $.abstract_class,
       $.class,
       $.module,
       $.variable_declaration,
@@ -310,7 +315,7 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       $.identifier
     )),
 
-    nested_type_identifier: $ => prec(PREC.MEMBER - 1, seq(
+    nested_type_identifier: $ => prec(PREC.MEMBER, seq(
       choice($.identifier, $.nested_identifier),
       '.',
       alias($.identifier, $.type_identifier)
@@ -324,10 +329,11 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       $.object_type
     ),
 
-    extends_clause: $ => seq(
+    extends_clause: $ => prec(PREC.EXTENDS, seq(
       'extends',
-      sepBy1(',', $._type)
-    ),
+      choice(alias($.identifier, $.type_identifier), $._expression),
+      optional($.type_arguments)
+    )),
 
     enum_declaration: $ => seq(
       optional('const'),
@@ -372,6 +378,7 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
     required_parameter: $ => choice(
       seq(
         optional($.accessibility_modifier),
+        optional($.readonly),
         choice(
           $.identifier,
           alias($._reserved_identifier, $.identifier),
@@ -384,6 +391,7 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
 
     optional_parameter: $ => seq(
       optional($.accessibility_modifier),
+      optional($.readonly),
       choice($.identifier, alias($._reserved_identifier, $.identifier), $._destructuring_pattern),
       '?',
       optional($.type_annotation),
@@ -521,7 +529,13 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
 
     type_parameter: $ => seq(
       $.identifier,
-      optional($.constraint)
+      optional($.constraint),
+      optional($.default_type)
+    ),
+
+    default_type: $ => seq(
+      '=',
+      $._type
     ),
 
     constraint: $ => seq(
