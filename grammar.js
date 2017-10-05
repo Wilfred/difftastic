@@ -664,8 +664,8 @@ module.exports = grammar({
     )),
 
     string: $ => token(choice(
-      seq('"', repeat(choice(/[^\\"\n]/, /\\./)), '"'),
-      seq("'", repeat(choice(/[^\\'\n]/, /\\./)), "'")
+      seq('"', repeat(choice(/[^\\"\n]/, /\\(.|\n)/)), '"'),
+      seq("'", repeat(choice(/[^\\'\n]/, /\\(.|\n)/)), "'")
     )),
 
     template_string: $ => seq(
