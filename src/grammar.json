@@ -298,6 +298,10 @@
           },
           {
             "type": "SYMBOL",
+            "name": "abstract_class"
+          },
+          {
+            "type": "SYMBOL",
             "name": "class"
           },
           {
@@ -1511,10 +1515,6 @@
         {
           "type": "SYMBOL",
           "name": "super"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "abstract_class"
         },
         {
           "type": "CHOICE",

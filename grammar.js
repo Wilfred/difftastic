@@ -81,7 +81,6 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       $.non_null_expression,
       $.internal_module,
       $.super,
-      $.abstract_class,
       previous
     ),
 
@@ -221,6 +220,7 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       $.internal_module,
       $.ambient_function,
       $.generator_function,
+      $.abstract_class,
       $.class,
       $.module,
       $.variable_declaration,
