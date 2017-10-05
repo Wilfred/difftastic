@@ -5414,7 +5414,7 @@
     },
     "nested_type_identifier": {
       "type": "PREC",
-      "value": 12,
+      "value": 13,
       "content": {
         "type": "SEQ",
         "members": [
@@ -6879,6 +6879,14 @@
       "call_expression",
       "binary_expression",
       "update_expression"
+    ],
+    [
+      "nested_type_identifier",
+      "nested_identifier"
+    ],
+    [
+      "nested_type_identifier",
+      "member_expression"
     ],
     [
       "generic_type",

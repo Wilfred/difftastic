@@ -29,6 +29,9 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
     [$.call_expression, $.binary_expression, $.new_expression],
     [$.call_expression, $.binary_expression, $.update_expression],
 
+    [$.nested_type_identifier, $.nested_identifier],
+    [$.nested_type_identifier, $.member_expression],
+
     [$.generic_type, $._primary_type],
 
     [$.member_expression, $.nested_identifier],
@@ -311,7 +314,7 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       $.identifier
     )),
 
-    nested_type_identifier: $ => prec(PREC.MEMBER - 1, seq(
+    nested_type_identifier: $ => prec(PREC.MEMBER, seq(
       choice($.identifier, $.nested_identifier),
       '.',
       alias($.identifier, $.type_identifier)
