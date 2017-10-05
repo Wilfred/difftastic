@@ -150,6 +150,7 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
           $.rest_parameter,
           $.optional_parameter
       ))),
+      optional(','),
       ')'
     ),
 
