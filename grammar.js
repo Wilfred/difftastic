@@ -29,7 +29,7 @@ module.exports = grammar({
 
   extras: $ => [
     $.comment,
-    /[\s\uFEFF\u2060\u200B]/
+    /[\s\uFEFF\u2060\u200B\u00A0]/
   ],
 
   inline: $ => [
