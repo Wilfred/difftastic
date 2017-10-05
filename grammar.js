@@ -8,6 +8,7 @@ const PREC = {
   REL: 5,
   TIMES: 6,
   TYPEOF: 7,
+  EXTENDS: 7,
   NEG: 9,
   INC: 10,
   NON_NULL: 10,
@@ -328,11 +329,11 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       $.object_type
     ),
 
-    extends_clause: $ => seq(
+    extends_clause: $ => prec(PREC.EXTENDS, seq(
       'extends',
-      $._expression,
+      choice(alias($.identifier, $.type_identifier), $._expression),
       optional($.type_arguments)
-    ),
+    )),
 
     enum_declaration: $ => seq(
       optional('const'),

@@ -638,22 +638,20 @@ abstract class Animal {
 ---
 
 (program
-  (expression_statement
-    (abstract_class (identifier) (class_body)))
-  (expression_statement
-    (abstract_class (identifier) (class_body
-      (public_field_definition (property_identifier) (type_annotation (predefined_type)))
-      (public_field_definition (property_identifier) (type_annotation (predefined_type)))
-      (abstract_method_definition
-        (property_identifier)
-        (call_signature (formal_parameters) (type_annotation (predefined_type))))
-      (abstract_method_definition
-        (property_identifier)
-        (call_signature (formal_parameters) (type_annotation (predefined_type))))
-      (method_definition
-        (property_identifier)
-        (call_signature (formal_parameters) (type_annotation (predefined_type)))
-        (statement_block
-          (expression_statement (call_expression
-            (member_expression (identifier) (property_identifier))
-            (arguments (string))))))))))
+  (abstract_class (identifier) (class_body))
+  (abstract_class (identifier) (class_body
+    (public_field_definition (property_identifier) (type_annotation (predefined_type)))
+    (public_field_definition (property_identifier) (type_annotation (predefined_type)))
+    (abstract_method_definition
+      (property_identifier)
+      (call_signature (formal_parameters) (type_annotation (predefined_type))))
+    (abstract_method_definition
+      (property_identifier)
+      (call_signature (formal_parameters) (type_annotation (predefined_type))))
+    (method_definition
+      (property_identifier)
+      (call_signature (formal_parameters) (type_annotation (predefined_type)))
+      (statement_block
+        (expression_statement (call_expression
+          (member_expression (identifier) (property_identifier))
+          (arguments (string)))))))))
