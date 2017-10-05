@@ -53,6 +53,7 @@ module.exports = grammar({
       $.function_definition,
       $.linkage_specification,
       $.declaration,
+      $.type_definition,
       $._empty_declaration,
       $.preproc_if,
       $.preproc_ifdef,
@@ -65,6 +66,7 @@ module.exports = grammar({
     _compound_statement_item: $ => choice(
       $._statement,
       $.declaration,
+      $.type_definition,
       $._empty_declaration,
       alias($.preproc_if_in_compound_statement, $.preproc_if),
       alias($.preproc_ifdef_in_compound_statement, $.preproc_ifdef),
@@ -167,6 +169,14 @@ module.exports = grammar({
       ';'
     ),
 
+    type_definition: $ => seq(
+      'typedef',
+      repeat($.type_qualifier),
+      $._type_specifier,
+      $._type_declarator,
+      ';'
+    ),
+
     _declaration_specifiers: $ => seq(
       repeat(choice(
         $.storage_class_specifier,
@@ -211,6 +221,14 @@ module.exports = grammar({
       $._field_identifier
     ),
 
+    _type_declarator: $ => choice(
+      alias($.pointer_type_declarator, $.pointer_declarator),
+      alias($.function_type_declarator, $.function_declarator),
+      alias($.array_type_declarator, $.array_declarator),
+      seq('(', $._type_declarator, ')'),
+      $._type_identifier
+    ),
+
     _abstract_declarator: $ => choice(
       $.abstract_pointer_declarator,
       $.abstract_function_declarator,
@@ -219,13 +237,13 @@ module.exports = grammar({
     ),
 
     pointer_declarator: $ => prec.right(seq('*', $._declarator)),
-
     pointer_field_declarator: $ => prec.right(seq('*', $._field_declarator)),
-
+    pointer_type_declarator: $ => prec.right(seq('*', $._type_declarator)),
     abstract_pointer_declarator: $ => prec.right(seq('*', optional($._abstract_declarator))),
 
     function_declarator: $ => prec(1, seq($._declarator, $.parameter_list)),
     function_field_declarator: $ => prec(1, seq($._field_declarator, $.parameter_list)),
+    function_type_declarator: $ => prec(1, seq($._type_declarator, $.parameter_list)),
     abstract_function_declarator: $ => prec(1, seq(optional($._abstract_declarator), $.parameter_list)),
 
     array_declarator: $ => prec(1, seq(
@@ -235,7 +253,6 @@ module.exports = grammar({
       optional($._expression),
       ']'
     )),
-
     array_field_declarator: $ => prec(1, seq(
       $._field_declarator,
       '[',
@@ -243,7 +260,13 @@ module.exports = grammar({
       optional($._expression),
       ']'
     )),
-
+    array_type_declarator: $ => prec(1, seq(
+      $._type_declarator,
+      '[',
+      optional($._declaration_specifiers),
+      optional($._expression),
+      ']'
+    )),
     abstract_array_declarator: $ => prec(1, seq(
       optional($._abstract_declarator),
       '[',
@@ -265,7 +288,6 @@ module.exports = grammar({
     ),
 
     storage_class_specifier: $ => choice(
-      'typedef',
       'extern',
       'static' ,
       'auto',
@@ -437,7 +459,8 @@ module.exports = grammar({
       ':',
       choice(
         $._statement,
-        $.declaration
+        $.declaration,
+        $.type_definition
       )
     ),
 

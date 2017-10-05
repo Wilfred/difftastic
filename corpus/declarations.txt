@@ -157,14 +157,22 @@ typedef struct {
   int x;
 } *a;
 
+typedef void my_callback(void *, size_t);
+
 ---
 
 (translation_unit
-  (declaration (storage_class_specifier) (primitive_type) (identifier))
-  (declaration
-    (storage_class_specifier)
+  (type_definition (primitive_type) (type_identifier))
+  (type_definition
     (struct_specifier (field_declaration_list (field_declaration (primitive_type) (field_identifier))))
-    (pointer_declarator (identifier))))
+    (pointer_declarator (type_identifier)))
+  (type_definition
+    (primitive_type)
+    (function_declarator
+      (type_identifier)
+      (parameter_list
+        (parameter_declaration (primitive_type) (abstract_pointer_declarator))
+        (parameter_declaration (primitive_type))))))
 
 ============================================
 Function declarations
