@@ -7,13 +7,17 @@ Strings
 '\\'
 "\\"
 
+'A string with new \
+line';
+
 ----
 
 (program
   (expression_statement (string))
   (expression_statement (string))
   (expression_statement (string))
-  (expression_statement (string)))
+  (expression_statement (string))
+	(expression_statement (string)))
 
 ============================================
 Template strings
