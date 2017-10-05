@@ -1477,6 +1477,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           lookahead == '\n' ||
           lookahead == '\r' ||
           lookahead == ' ' ||
+          lookahead == 160 ||
           lookahead == 8203 ||
           lookahead == 8288 ||
           lookahead == 65279)
@@ -3920,6 +3921,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           lookahead == '\n' ||
           lookahead == '\r' ||
           lookahead == ' ' ||
+          lookahead == 160 ||
           lookahead == 8203 ||
           lookahead == 8288 ||
           lookahead == 65279)
@@ -4429,6 +4431,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           lookahead == '\n' ||
           lookahead == '\r' ||
           lookahead == ' ' ||
+          lookahead == 160 ||
           lookahead == 8203 ||
           lookahead == 8288 ||
           lookahead == 65279)
@@ -4763,6 +4766,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           lookahead == '\n' ||
           lookahead == '\r' ||
           lookahead == ' ' ||
+          lookahead == 160 ||
           lookahead == 8203 ||
           lookahead == 8288 ||
           lookahead == 65279)
@@ -4852,6 +4856,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           lookahead == '\n' ||
           lookahead == '\r' ||
           lookahead == ' ' ||
+          lookahead == 160 ||
           lookahead == 8203 ||
           lookahead == 8288 ||
           lookahead == 65279)
@@ -4979,6 +4984,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           lookahead == '\n' ||
           lookahead == '\r' ||
           lookahead == ' ' ||
+          lookahead == 160 ||
           lookahead == 8203 ||
           lookahead == 8288 ||
           lookahead == 65279)
@@ -5004,6 +5010,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           lookahead == '\n' ||
           lookahead == '\r' ||
           lookahead == ' ' ||
+          lookahead == 160 ||
           lookahead == 8203 ||
           lookahead == 8288 ||
           lookahead == 65279)
@@ -5070,6 +5077,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           lookahead == '\n' ||
           lookahead == '\r' ||
           lookahead == ' ' ||
+          lookahead == 160 ||
           lookahead == 8203 ||
           lookahead == 8288 ||
           lookahead == 65279)
@@ -5160,6 +5168,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           lookahead == '\n' ||
           lookahead == '\r' ||
           lookahead == ' ' ||
+          lookahead == 160 ||
           lookahead == 8203 ||
           lookahead == 8288 ||
           lookahead == 65279)
@@ -5218,6 +5227,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           lookahead == '\n' ||
           lookahead == '\r' ||
           lookahead == ' ' ||
+          lookahead == 160 ||
           lookahead == 8203 ||
           lookahead == 8288 ||
           lookahead == 65279)
@@ -5297,6 +5307,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           lookahead == '\n' ||
           lookahead == '\r' ||
           lookahead == ' ' ||
+          lookahead == 160 ||
           lookahead == 8203 ||
           lookahead == 8288 ||
           lookahead == 65279)
@@ -5368,6 +5379,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           lookahead == '\n' ||
           lookahead == '\r' ||
           lookahead == ' ' ||
+          lookahead == 160 ||
           lookahead == 8203 ||
           lookahead == 8288 ||
           lookahead == 65279)
@@ -5390,6 +5402,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           lookahead == '\n' ||
           lookahead == '\r' ||
           lookahead == ' ' ||
+          lookahead == 160 ||
           lookahead == 8203 ||
           lookahead == 8288 ||
           lookahead == 65279)
@@ -5603,6 +5616,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           lookahead == '\n' ||
           lookahead == '\r' ||
           lookahead == ' ' ||
+          lookahead == 160 ||
           lookahead == 8203 ||
           lookahead == 8288 ||
           lookahead == 65279)
@@ -5658,6 +5672,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           lookahead == '\n' ||
           lookahead == '\r' ||
           lookahead == ' ' ||
+          lookahead == 160 ||
           lookahead == 8203 ||
           lookahead == 8288 ||
           lookahead == 65279)
@@ -5698,6 +5713,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           lookahead == '\n' ||
           lookahead == '\r' ||
           lookahead == ' ' ||
+          lookahead == 160 ||
           lookahead == 8203 ||
           lookahead == 8288 ||
           lookahead == 65279)
@@ -5777,6 +5793,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           lookahead == '\n' ||
           lookahead == '\r' ||
           lookahead == ' ' ||
+          lookahead == 160 ||
           lookahead == 8203 ||
           lookahead == 8288 ||
           lookahead == 65279)
@@ -5827,6 +5844,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           lookahead == '\n' ||
           lookahead == '\r' ||
           lookahead == ' ' ||
+          lookahead == 160 ||
           lookahead == 8203 ||
           lookahead == 8288 ||
           lookahead == 65279)
@@ -5877,6 +5895,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           lookahead == '\n' ||
           lookahead == '\r' ||
           lookahead == ' ' ||
+          lookahead == 160 ||
           lookahead == 8203 ||
           lookahead == 8288 ||
           lookahead == 65279)
@@ -5893,6 +5912,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           lookahead == '\n' ||
           lookahead == '\r' ||
           lookahead == ' ' ||
+          lookahead == 160 ||
           lookahead == 8203 ||
           lookahead == 8288 ||
           lookahead == 65279)
@@ -5970,6 +5990,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           lookahead == '\n' ||
           lookahead == '\r' ||
           lookahead == ' ' ||
+          lookahead == 160 ||
           lookahead == 8203 ||
           lookahead == 8288 ||
           lookahead == 65279)
@@ -6074,6 +6095,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           lookahead == '\n' ||
           lookahead == '\r' ||
           lookahead == ' ' ||
+          lookahead == 160 ||
           lookahead == 8203 ||
           lookahead == 8288 ||
           lookahead == 65279)
@@ -6118,6 +6140,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           lookahead == '\n' ||
           lookahead == '\r' ||
           lookahead == ' ' ||
+          lookahead == 160 ||
           lookahead == 8203 ||
           lookahead == 8288 ||
           lookahead == 65279)
@@ -6141,6 +6164,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           lookahead == '\n' ||
           lookahead == '\r' ||
           lookahead == ' ' ||
+          lookahead == 160 ||
           lookahead == 8203 ||
           lookahead == 8288 ||
           lookahead == 65279)
@@ -6227,6 +6251,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           lookahead == '\n' ||
           lookahead == '\r' ||
           lookahead == ' ' ||
+          lookahead == 160 ||
           lookahead == 8203 ||
           lookahead == 8288 ||
           lookahead == 65279)
@@ -6331,6 +6356,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           lookahead == '\n' ||
           lookahead == '\r' ||
           lookahead == ' ' ||
+          lookahead == 160 ||
           lookahead == 8203 ||
           lookahead == 8288 ||
           lookahead == 65279)
@@ -6405,6 +6431,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           lookahead == '\n' ||
           lookahead == '\r' ||
           lookahead == ' ' ||
+          lookahead == 160 ||
           lookahead == 8203 ||
           lookahead == 8288 ||
           lookahead == 65279)
@@ -6463,6 +6490,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           lookahead == '\n' ||
           lookahead == '\r' ||
           lookahead == ' ' ||
+          lookahead == 160 ||
           lookahead == 8203 ||
           lookahead == 8288 ||
           lookahead == 65279)
@@ -6517,6 +6545,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           lookahead == '\n' ||
           lookahead == '\r' ||
           lookahead == ' ' ||
+          lookahead == 160 ||
           lookahead == 8203 ||
           lookahead == 8288 ||
           lookahead == 65279)
@@ -6583,6 +6612,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           lookahead == '\n' ||
           lookahead == '\r' ||
           lookahead == ' ' ||
+          lookahead == 160 ||
           lookahead == 8203 ||
           lookahead == 8288 ||
           lookahead == 65279)
@@ -6607,6 +6637,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           lookahead == '\n' ||
           lookahead == '\r' ||
           lookahead == ' ' ||
+          lookahead == 160 ||
           lookahead == 8203 ||
           lookahead == 8288 ||
           lookahead == 65279)
@@ -6623,6 +6654,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           lookahead == '\n' ||
           lookahead == '\r' ||
           lookahead == ' ' ||
+          lookahead == 160 ||
           lookahead == 8203 ||
           lookahead == 8288 ||
           lookahead == 65279)
@@ -6691,6 +6723,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           lookahead == '\n' ||
           lookahead == '\r' ||
           lookahead == ' ' ||
+          lookahead == 160 ||
           lookahead == 8203 ||
           lookahead == 8288 ||
           lookahead == 65279)
@@ -6822,6 +6855,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           lookahead == '\n' ||
           lookahead == '\r' ||
           lookahead == ' ' ||
+          lookahead == 160 ||
           lookahead == 8203 ||
           lookahead == 8288 ||
           lookahead == 65279)
@@ -6888,6 +6922,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           lookahead == '\n' ||
           lookahead == '\r' ||
           lookahead == ' ' ||
+          lookahead == 160 ||
           lookahead == 8203 ||
           lookahead == 8288 ||
           lookahead == 65279)
@@ -6974,6 +7009,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           lookahead == '\n' ||
           lookahead == '\r' ||
           lookahead == ' ' ||
+          lookahead == 160 ||
           lookahead == 8203 ||
           lookahead == 8288 ||
           lookahead == 65279)
@@ -7056,6 +7092,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           lookahead == '\n' ||
           lookahead == '\r' ||
           lookahead == ' ' ||
+          lookahead == 160 ||
           lookahead == 8203 ||
           lookahead == 8288 ||
           lookahead == 65279)
@@ -7112,6 +7149,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           lookahead == '\n' ||
           lookahead == '\r' ||
           lookahead == ' ' ||
+          lookahead == 160 ||
           lookahead == 8203 ||
           lookahead == 8288 ||
           lookahead == 65279)
@@ -7152,6 +7190,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           lookahead == '\n' ||
           lookahead == '\r' ||
           lookahead == ' ' ||
+          lookahead == 160 ||
           lookahead == 8203 ||
           lookahead == 8288 ||
           lookahead == 65279)
@@ -7254,6 +7293,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           lookahead == '\n' ||
           lookahead == '\r' ||
           lookahead == ' ' ||
+          lookahead == 160 ||
           lookahead == 8203 ||
           lookahead == 8288 ||
           lookahead == 65279)
@@ -7310,6 +7350,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           lookahead == '\n' ||
           lookahead == '\r' ||
           lookahead == ' ' ||
+          lookahead == 160 ||
           lookahead == 8203 ||
           lookahead == 8288 ||
           lookahead == 65279)
@@ -7362,6 +7403,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           lookahead == '\n' ||
           lookahead == '\r' ||
           lookahead == ' ' ||
+          lookahead == 160 ||
           lookahead == 8203 ||
           lookahead == 8288 ||
           lookahead == 65279)
@@ -7410,6 +7452,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           lookahead == '\n' ||
           lookahead == '\r' ||
           lookahead == ' ' ||
+          lookahead == 160 ||
           lookahead == 8203 ||
           lookahead == 8288 ||
           lookahead == 65279)
@@ -7458,6 +7501,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           lookahead == '\n' ||
           lookahead == '\r' ||
           lookahead == ' ' ||
+          lookahead == 160 ||
           lookahead == 8203 ||
           lookahead == 8288 ||
           lookahead == 65279)
@@ -7506,6 +7550,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           lookahead == '\n' ||
           lookahead == '\r' ||
           lookahead == ' ' ||
+          lookahead == 160 ||
           lookahead == 8203 ||
           lookahead == 8288 ||
           lookahead == 65279)
@@ -7558,6 +7603,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           lookahead == '\n' ||
           lookahead == '\r' ||
           lookahead == ' ' ||
+          lookahead == 160 ||
           lookahead == 8203 ||
           lookahead == 8288 ||
           lookahead == 65279)
@@ -7640,6 +7686,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           lookahead == '\n' ||
           lookahead == '\r' ||
           lookahead == ' ' ||
+          lookahead == 160 ||
           lookahead == 8203 ||
           lookahead == 8288 ||
           lookahead == 65279)
@@ -7757,6 +7804,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           lookahead == '\n' ||
           lookahead == '\r' ||
           lookahead == ' ' ||
+          lookahead == 160 ||
           lookahead == 8203 ||
           lookahead == 8288 ||
           lookahead == 65279)
@@ -7849,6 +7897,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           lookahead == '\n' ||
           lookahead == '\r' ||
           lookahead == ' ' ||
+          lookahead == 160 ||
           lookahead == 8203 ||
           lookahead == 8288 ||
           lookahead == 65279)
@@ -7909,6 +7958,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           lookahead == '\n' ||
           lookahead == '\r' ||
           lookahead == ' ' ||
+          lookahead == 160 ||
           lookahead == 8203 ||
           lookahead == 8288 ||
           lookahead == 65279)
@@ -7965,6 +8015,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           lookahead == '\n' ||
           lookahead == '\r' ||
           lookahead == ' ' ||
+          lookahead == 160 ||
           lookahead == 8203 ||
           lookahead == 8288 ||
           lookahead == 65279)
@@ -8017,6 +8068,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           lookahead == '\n' ||
           lookahead == '\r' ||
           lookahead == ' ' ||
+          lookahead == 160 ||
           lookahead == 8203 ||
           lookahead == 8288 ||
           lookahead == 65279)
@@ -8069,6 +8121,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           lookahead == '\n' ||
           lookahead == '\r' ||
           lookahead == ' ' ||
+          lookahead == 160 ||
           lookahead == 8203 ||
           lookahead == 8288 ||
           lookahead == 65279)
@@ -8121,6 +8174,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           lookahead == '\n' ||
           lookahead == '\r' ||
           lookahead == ' ' ||
+          lookahead == 160 ||
           lookahead == 8203 ||
           lookahead == 8288 ||
           lookahead == 65279)
@@ -8203,6 +8257,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           lookahead == '\n' ||
           lookahead == '\r' ||
           lookahead == ' ' ||
+          lookahead == 160 ||
           lookahead == 8203 ||
           lookahead == 8288 ||
           lookahead == 65279)
@@ -8245,6 +8300,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           lookahead == '\n' ||
           lookahead == '\r' ||
           lookahead == ' ' ||
+          lookahead == 160 ||
           lookahead == 8203 ||
           lookahead == 8288 ||
           lookahead == 65279)
@@ -8270,6 +8326,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           lookahead == '\n' ||
           lookahead == '\r' ||
           lookahead == ' ' ||
+          lookahead == 160 ||
           lookahead == 8203 ||
           lookahead == 8288 ||
           lookahead == 65279)
@@ -8304,6 +8361,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           lookahead == '\n' ||
           lookahead == '\r' ||
           lookahead == ' ' ||
+          lookahead == 160 ||
           lookahead == 8203 ||
           lookahead == 8288 ||
           lookahead == 65279)
@@ -8367,6 +8425,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           lookahead == '\n' ||
           lookahead == '\r' ||
           lookahead == ' ' ||
+          lookahead == 160 ||
           lookahead == 8203 ||
           lookahead == 8288 ||
           lookahead == 65279)
@@ -8419,6 +8478,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           lookahead == '\n' ||
           lookahead == '\r' ||
           lookahead == ' ' ||
+          lookahead == 160 ||
           lookahead == 8203 ||
           lookahead == 8288 ||
           lookahead == 65279)
@@ -8505,6 +8565,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           lookahead == '\n' ||
           lookahead == '\r' ||
           lookahead == ' ' ||
+          lookahead == 160 ||
           lookahead == 8203 ||
           lookahead == 8288 ||
           lookahead == 65279)
@@ -8565,6 +8626,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           lookahead == '\n' ||
           lookahead == '\r' ||
           lookahead == ' ' ||
+          lookahead == 160 ||
           lookahead == 8203 ||
           lookahead == 8288 ||
           lookahead == 65279)
@@ -8621,6 +8683,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           lookahead == '\n' ||
           lookahead == '\r' ||
           lookahead == ' ' ||
+          lookahead == 160 ||
           lookahead == 8203 ||
           lookahead == 8288 ||
           lookahead == 65279)
@@ -8673,6 +8736,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           lookahead == '\n' ||
           lookahead == '\r' ||
           lookahead == ' ' ||
+          lookahead == 160 ||
           lookahead == 8203 ||
           lookahead == 8288 ||
           lookahead == 65279)
@@ -8725,6 +8789,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           lookahead == '\n' ||
           lookahead == '\r' ||
           lookahead == ' ' ||
+          lookahead == 160 ||
           lookahead == 8203 ||
           lookahead == 8288 ||
           lookahead == 65279)
@@ -8823,6 +8888,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           lookahead == '\n' ||
           lookahead == '\r' ||
           lookahead == ' ' ||
+          lookahead == 160 ||
           lookahead == 8203 ||
           lookahead == 8288 ||
           lookahead == 65279)
@@ -8911,6 +8977,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           lookahead == '\n' ||
           lookahead == '\r' ||
           lookahead == ' ' ||
+          lookahead == 160 ||
           lookahead == 8203 ||
           lookahead == 8288 ||
           lookahead == 65279)
@@ -8999,6 +9066,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           lookahead == '\n' ||
           lookahead == '\r' ||
           lookahead == ' ' ||
+          lookahead == 160 ||
           lookahead == 8203 ||
           lookahead == 8288 ||
           lookahead == 65279)
@@ -9085,6 +9153,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           lookahead == '\n' ||
           lookahead == '\r' ||
           lookahead == ' ' ||
+          lookahead == 160 ||
           lookahead == 8203 ||
           lookahead == 8288 ||
           lookahead == 65279)
@@ -9205,6 +9274,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           lookahead == '\n' ||
           lookahead == '\r' ||
           lookahead == ' ' ||
+          lookahead == 160 ||
           lookahead == 8203 ||
           lookahead == 8288 ||
           lookahead == 65279)
@@ -9267,6 +9337,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           lookahead == '\n' ||
           lookahead == '\r' ||
           lookahead == ' ' ||
+          lookahead == 160 ||
           lookahead == 8203 ||
           lookahead == 8288 ||
           lookahead == 65279)
@@ -9325,6 +9396,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           lookahead == '\n' ||
           lookahead == '\r' ||
           lookahead == ' ' ||
+          lookahead == 160 ||
           lookahead == 8203 ||
           lookahead == 8288 ||
           lookahead == 65279)
@@ -9379,6 +9451,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           lookahead == '\n' ||
           lookahead == '\r' ||
           lookahead == ' ' ||
+          lookahead == 160 ||
           lookahead == 8203 ||
           lookahead == 8288 ||
           lookahead == 65279)
@@ -9433,6 +9506,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           lookahead == '\n' ||
           lookahead == '\r' ||
           lookahead == ' ' ||
+          lookahead == 160 ||
           lookahead == 8203 ||
           lookahead == 8288 ||
           lookahead == 65279)
@@ -9487,6 +9561,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           lookahead == '\n' ||
           lookahead == '\r' ||
           lookahead == ' ' ||
+          lookahead == 160 ||
           lookahead == 8203 ||
           lookahead == 8288 ||
           lookahead == 65279)
@@ -9583,6 +9658,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           lookahead == '\n' ||
           lookahead == '\r' ||
           lookahead == ' ' ||
+          lookahead == 160 ||
           lookahead == 8203 ||
           lookahead == 8288 ||
           lookahead == 65279)
@@ -9685,6 +9761,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           lookahead == '\n' ||
           lookahead == '\r' ||
           lookahead == ' ' ||
+          lookahead == 160 ||
           lookahead == 8203 ||
           lookahead == 8288 ||
           lookahead == 65279)
@@ -9771,6 +9848,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           lookahead == '\n' ||
           lookahead == '\r' ||
           lookahead == ' ' ||
+          lookahead == 160 ||
           lookahead == 8203 ||
           lookahead == 8288 ||
           lookahead == 65279)
@@ -9857,6 +9935,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           lookahead == '\n' ||
           lookahead == '\r' ||
           lookahead == ' ' ||
+          lookahead == 160 ||
           lookahead == 8203 ||
           lookahead == 8288 ||
           lookahead == 65279)
@@ -9959,6 +10038,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           lookahead == '\n' ||
           lookahead == '\r' ||
           lookahead == ' ' ||
+          lookahead == 160 ||
           lookahead == 8203 ||
           lookahead == 8288 ||
           lookahead == 65279)
@@ -10045,6 +10125,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           lookahead == '\n' ||
           lookahead == '\r' ||
           lookahead == ' ' ||
+          lookahead == 160 ||
           lookahead == 8203 ||
           lookahead == 8288 ||
           lookahead == 65279)
@@ -10147,6 +10228,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           lookahead == '\n' ||
           lookahead == '\r' ||
           lookahead == ' ' ||
+          lookahead == 160 ||
           lookahead == 8203 ||
           lookahead == 8288 ||
           lookahead == 65279)
@@ -10233,6 +10315,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           lookahead == '\n' ||
           lookahead == '\r' ||
           lookahead == ' ' ||
+          lookahead == 160 ||
           lookahead == 8203 ||
           lookahead == 8288 ||
           lookahead == 65279)
@@ -10319,6 +10402,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           lookahead == '\n' ||
           lookahead == '\r' ||
           lookahead == ' ' ||
+          lookahead == 160 ||
           lookahead == 8203 ||
           lookahead == 8288 ||
           lookahead == 65279)
