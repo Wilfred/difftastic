@@ -5725,6 +5725,18 @@
               "members": [
                 {
                   "type": "SYMBOL",
+                  "name": "readonly"
+                },
+                {
+                  "type": "BLANK"
+                }
+              ]
+            },
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
                   "name": "identifier"
                 },
                 {
@@ -5779,6 +5791,18 @@
             {
               "type": "SYMBOL",
               "name": "accessibility_modifier"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "readonly"
             },
             {
               "type": "BLANK"

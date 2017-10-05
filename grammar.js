@@ -376,6 +376,7 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
     required_parameter: $ => choice(
       seq(
         optional($.accessibility_modifier),
+        optional($.readonly),
         choice(
           $.identifier,
           alias($._reserved_identifier, $.identifier),
@@ -388,6 +389,7 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
 
     optional_parameter: $ => seq(
       optional($.accessibility_modifier),
+      optional($.readonly),
       choice($.identifier, alias($._reserved_identifier, $.identifier), $._destructuring_pattern),
       '?',
       optional($.type_annotation),
