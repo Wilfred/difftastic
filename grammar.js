@@ -699,7 +699,7 @@ module.exports = grammar({
           '[',
           repeat(choice(
             seq('\\', /./), // escaped character
-            /[^\]\n]/,      // any character besides ']' or '\n'
+            /[^\]\n]/       // any character besides ']' or '\n'
           )),
           ']'
         ),              // square-bracket-delimited character class
