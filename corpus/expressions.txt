@@ -415,7 +415,7 @@ Functions
 
 [
   function() {},
-  function(arg1, arg2) {
+  function(arg1, ...arg2) {
     arg2;
   },
   function stuff() {}
@@ -429,7 +429,7 @@ Functions
       (formal_parameters)
       (statement_block))
     (function
-      (formal_parameters (identifier) (identifier))
+      (formal_parameters (identifier) (rest_parameter (identifier)))
       (statement_block
         (expression_statement (identifier))))
     (function

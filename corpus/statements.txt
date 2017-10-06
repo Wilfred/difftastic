@@ -279,12 +279,14 @@ do {
   a;
 } while (b)
 
+do a; while (b)
 ---
 
 (program
   (do_statement
     (statement_block (expression_statement (identifier)))
-    (parenthesized_expression (identifier))))
+    (parenthesized_expression (identifier)))
+  (do_statement (expression_statement (identifier)) (parenthesized_expression (identifier))))
 
 ============================================
 Return statements

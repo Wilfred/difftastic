@@ -68,6 +68,7 @@ module.exports = grammar({
     export_clause: $ => seq(
       '{',
       commaSep(alias($._import_export_specifier, $.export_specifier)),
+      optional(','),
       '}'
     ),
 
@@ -260,7 +261,7 @@ module.exports = grammar({
 
     do_statement: $ => seq(
       'do',
-      $.statement_block,
+      $._statement,
       'while',
       $.parenthesized_expression,
       $._semicolon
@@ -807,9 +808,15 @@ module.exports = grammar({
       commaSep(choice(
         $.identifier,
         $._destructuring_pattern,
-        $.assignment_pattern
+        $.assignment_pattern,
+        $.rest_parameter
       )),
       ')'
+    ),
+
+    rest_parameter: $ => seq(
+      '...',
+      $.identifier
     ),
 
     method_definition: $ => seq(
