@@ -4274,6 +4274,10 @@
                     {
                       "type": "SYMBOL",
                       "name": "assignment_pattern"
+                    },
+                    {
+                      "type": "SYMBOL",
+                      "name": "rest_parameter"
                     }
                   ]
                 },
@@ -4300,6 +4304,10 @@
                           {
                             "type": "SYMBOL",
                             "name": "assignment_pattern"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "rest_parameter"
                           }
                         ]
                       }
@@ -4316,6 +4324,19 @@
         {
           "type": "STRING",
           "value": ")"
+        }
+      ]
+    },
+    "rest_parameter": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "..."
+        },
+        {
+          "type": "SYMBOL",
+          "name": "identifier"
         }
       ]
     },
