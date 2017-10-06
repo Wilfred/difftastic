@@ -182,6 +182,7 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
     ),
 
     arrow_function: $ => seq(
+      optional('async'),
       choice(
         $.identifier,
         $.call_signature,

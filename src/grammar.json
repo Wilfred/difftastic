@@ -235,6 +235,18 @@
           ]
         },
         {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": ","
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
           "type": "STRING",
           "value": "}"
         }
@@ -1097,7 +1109,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "statement_block"
+          "name": "_statement"
         },
         {
           "type": "STRING",
@@ -2307,6 +2319,18 @@
     "arrow_function": {
       "type": "SEQ",
       "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "async"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
         {
           "type": "CHOICE",
           "members": [
@@ -3555,7 +3579,7 @@
                     },
                     {
                       "type": "PATTERN",
-                      "value": "\\\\."
+                      "value": "\\\\(.|\\n)"
                     }
                   ]
                 }
@@ -3584,7 +3608,7 @@
                     },
                     {
                       "type": "PATTERN",
-                      "value": "\\\\."
+                      "value": "\\\\(.|\\n)"
                     }
                   ]
                 }
@@ -4656,6 +4680,31 @@
         {
           "type": "STRING",
           "value": ")"
+        }
+      ]
+    },
+    "rest_parameter": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "..."
+        },
+        {
+          "type": "SYMBOL",
+          "name": "identifier"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "type_annotation"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         }
       ]
     },
@@ -5862,31 +5911,6 @@
             {
               "type": "SYMBOL",
               "name": "_initializer"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        }
-      ]
-    },
-    "rest_parameter": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "..."
-        },
-        {
-          "type": "SYMBOL",
-          "name": "identifier"
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "type_annotation"
             },
             {
               "type": "BLANK"
