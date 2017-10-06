@@ -807,9 +807,15 @@ module.exports = grammar({
       commaSep(choice(
         $.identifier,
         $._destructuring_pattern,
-        $.assignment_pattern
+        $.assignment_pattern,
+        $.rest_parameter
       )),
       ')'
+    ),
+
+    rest_parameter: $ => seq(
+      '...',
+      $.identifier
     ),
 
     method_definition: $ => seq(
