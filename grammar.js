@@ -1,6 +1,7 @@
 const PREC = {
   COMMA: -1,
   DECLARATION: 1,
+  COMMENT: 1,
   ASSIGN: 0,
   OBJECT: 1,
   TERNARY: 1,
@@ -655,14 +656,14 @@ module.exports = grammar({
     //
 
     // http://stackoverflow.com/questions/13014947/regex-to-match-a-c-style-multiline-comment/36328890#36328890
-    comment: $ => token(choice(
+    comment: $ => token(prec(PREC.COMMENT, choice(
       seq('//', /.*/),
       seq(
         '/*',
         /[^*]*\*+([^/*][^*]*\*+)*/,
         '/'
       )
-    )),
+    ))),
 
     string: $ => token(choice(
       seq('"', repeat(choice(/[^\\"\n]/, /\\(.|\n)/)), '"'),

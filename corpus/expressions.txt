@@ -180,6 +180,18 @@ Regexps
   (expression_statement (regex)))
 
 ============================================
+Comments take precedence over regexes
+============================================
+
+  foo
+    ? /* comment */bar
+    : baz
+
+---
+
+(program (expression_statement (ternary_expression (identifier) (comment) (identifier) (identifier))))
+
+============================================
 Objects
 ============================================
 
