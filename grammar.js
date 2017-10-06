@@ -68,6 +68,7 @@ module.exports = grammar({
     export_clause: $ => seq(
       '{',
       commaSep(alias($._import_export_specifier, $.export_specifier)),
+      optional(','),
       '}'
     ),
 
