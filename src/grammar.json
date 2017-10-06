@@ -957,7 +957,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "statement_block"
+          "name": "_statement"
         },
         {
           "type": "STRING",
