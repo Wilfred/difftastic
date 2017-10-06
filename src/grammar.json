@@ -235,6 +235,18 @@
           ]
         },
         {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": ","
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
           "type": "STRING",
           "value": "}"
         }
@@ -1097,7 +1109,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "statement_block"
+          "name": "_statement"
         },
         {
           "type": "STRING",
@@ -4671,6 +4683,31 @@
         }
       ]
     },
+    "rest_parameter": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "..."
+        },
+        {
+          "type": "SYMBOL",
+          "name": "identifier"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "type_annotation"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        }
+      ]
+    },
     "method_definition": {
       "type": "PREC_LEFT",
       "value": 1,
@@ -5874,31 +5911,6 @@
             {
               "type": "SYMBOL",
               "name": "_initializer"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        }
-      ]
-    },
-    "rest_parameter": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "..."
-        },
-        {
-          "type": "SYMBOL",
-          "name": "identifier"
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "type_annotation"
             },
             {
               "type": "BLANK"
