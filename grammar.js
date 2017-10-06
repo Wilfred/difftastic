@@ -694,7 +694,7 @@ module.exports = grammar({
     ),
 
     regex: $ => token(seq(
-      '/',
+      /\/[^*]/,
       repeat(choice(
         seq(
           '[',
