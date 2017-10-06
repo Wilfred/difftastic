@@ -260,7 +260,7 @@ module.exports = grammar({
 
     do_statement: $ => seq(
       'do',
-      $.statement_block,
+      $._statement,
       'while',
       $.parenthesized_expression,
       $._semicolon
