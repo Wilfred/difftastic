@@ -9,11 +9,10 @@ const
     or: 1
   },
 
-  multiplicative_operator = token(choice('*', '/', '%', '<<', '>>', '&', '&^')),
-  additive_operator = token(choice('+', '-', '|', '^')),
-  comparative_operator = token(choice('==', '!=', '<', '<=', '>', '>=')),
-  and_operator = '&&',
-  or_operator = '||',
+  multiplicative_operators = ['*', '/', '%', '<<', '>>', '&', '&^'],
+  additive_operators = ['+', '-', '|', '^'],
+  comparative_operators = ['==', '!=', '<', '<=', '>', '>='],
+  assignment_operators = multiplicative_operators.concat(additive_operators).map(operator => operator + '=').concat('='),
 
   unicodeLetter = /[a-zA-Zα-ωΑ-Ωµ]/,
   unicodeDigit = /[0-9]/,
@@ -397,10 +396,7 @@ module.exports = grammar({
 
     assignment_statement: $ => seq(
       $.expression_list,
-      choice(
-        $._assignment_operator,
-        '='
-      ),
+      choice(...assignment_operators),
       $.expression_list
     ),
 
@@ -667,11 +663,11 @@ module.exports = grammar({
     )),
 
     binary_expression: $ => choice(
-      prec.left(PREC.multiplicative, seq($._expression, multiplicative_operator, $._expression)),
-      prec.left(PREC.additive, seq($._expression, additive_operator, $._expression)),
-      prec.left(PREC.comparative, seq($._expression, comparative_operator, $._expression)),
-      prec.left(PREC.and, seq($._expression, and_operator, $._expression)),
-      prec.left(PREC.or, seq($._expression, or_operator, $._expression))
+      prec.left(PREC.multiplicative, seq($._expression, choice(...multiplicative_operators), $._expression)),
+      prec.left(PREC.additive, seq($._expression, choice(...additive_operators), $._expression)),
+      prec.left(PREC.comparative, seq($._expression, choice(...comparative_operators), $._expression)),
+      prec.left(PREC.and, seq($._expression, '&&', $._expression)),
+      prec.left(PREC.or, seq($._expression, '||', $._expression))
     ),
 
     qualified_type: $ => seq($._package_identifier, '.', $._type_identifier),
@@ -730,11 +726,6 @@ module.exports = grammar({
         )
       ),
       "'"
-    )),
-
-    _assignment_operator: $ => token(seq(
-      optional(choice(multiplicative_operator, additive_operator)),
-      '='
     )),
 
     // http://stackoverflow.com/questions/13014947/regex-to-match-a-c-style-multiline-comment/36328890#36328890
