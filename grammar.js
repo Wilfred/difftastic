@@ -168,7 +168,7 @@ module.exports = grammar({
     ),
 
     expression_statement: $ => seq(
-      choice($._expression, $.sequence_expression),
+      $._expressions,
       $._semicolon
     ),
 
@@ -227,7 +227,7 @@ module.exports = grammar({
         $.expression_statement,
         $.empty_statement
       ),
-      optional(choice($._expression, $.sequence_expression)),
+      optional($._expressions),
       ')',
       $._statement
     ),
@@ -238,7 +238,7 @@ module.exports = grammar({
       optional(choice('var', 'let', 'const')),
       $._expression,
       'in',
-      choice($._expression, $.sequence_expression),
+      $._expressions,
       ')',
       $._statement
     ),
@@ -300,13 +300,13 @@ module.exports = grammar({
 
     return_statement: $ => seq(
       'return',
-      optional(choice($._expression, $.sequence_expression)),
+      optional($._expressions),
       $._semicolon
     ),
 
     throw_statement: $ => seq(
       'throw',
-      choice($._expression, $.sequence_expression),
+      $._expressions,
       $._semicolon
     ),
 
@@ -330,7 +330,7 @@ module.exports = grammar({
 
     switch_case: $ => seq(
       'case',
-      choice($._expression, $.sequence_expression),
+      $._expressions,
       ':',
       repeat($._statement)
     ),
@@ -354,13 +354,17 @@ module.exports = grammar({
 
     parenthesized_expression: $ => seq(
       '(',
-      choice($._expression, $.sequence_expression),
+      $._expressions,
       ')'
     ),
 
     //
     // Expressions
     //
+    _expressions: $ => choice(
+      $._expression,
+      $.sequence_expression
+    ),
 
     _expression: $ => choice(
       $.object,
@@ -557,7 +561,7 @@ module.exports = grammar({
 
     subscript_expression: $ => prec.right(PREC.MEMBER, seq(
       $._expression,
-      '[', choice($._expression, $.sequence_expression) , ']'
+      '[', $._expressions , ']'
     )),
 
     assignment_expression: $ => prec.right(PREC.ASSIGN, seq(
@@ -690,7 +694,7 @@ module.exports = grammar({
 
     template_substitution: $ => seq(
       '${',
-      choice($._expression, $.sequence_expression),
+      $._expressions,
       '}'
     ),
 
