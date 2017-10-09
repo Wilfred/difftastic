@@ -41,6 +41,9 @@ module.exports = grammar({
   ],
 
   conflicts: $ => [
+    [$.variable_declarator, $._expression],
+    [$.variable_declarator, $.assignment_expression],
+    [$.sequence_expression],
     [$._expression, $._property_name],
     [$._expression, $._property_name, $.arrow_function],
     [$._expression, $.arrow_function],
@@ -168,7 +171,7 @@ module.exports = grammar({
     ),
 
     expression_statement: $ => seq(
-      choice($._expression, $.sequence_expression),
+      $._expression,
       $._semicolon
     ),
 
@@ -300,13 +303,13 @@ module.exports = grammar({
 
     return_statement: $ => seq(
       'return',
-      optional(choice($._expression, $.sequence_expression)),
+      optional($._expression),
       $._semicolon
     ),
 
     throw_statement: $ => seq(
       'throw',
-      choice($._expression, $.sequence_expression),
+      $._expression,
       $._semicolon
     ),
 
@@ -354,7 +357,7 @@ module.exports = grammar({
 
     parenthesized_expression: $ => seq(
       '(',
-      choice($._expression, $.sequence_expression),
+      $._expression,
       ')'
     ),
 
@@ -397,7 +400,8 @@ module.exports = grammar({
       $.null,
       $.undefined,
       $.identifier,
-      alias($._reserved_identifier, $.identifier)
+      alias($._reserved_identifier, $.identifier),
+      $.sequence_expression
     ),
 
     yield_expression: $ => prec.right(seq(
@@ -446,7 +450,7 @@ module.exports = grammar({
 
     jsx_expression: $ => seq(
       '{',
-      choice($._expression, $.sequence_expression, $.spread_element),
+      choice($._expression, $.spread_element),
       '}'
     ),
 
@@ -648,7 +652,7 @@ module.exports = grammar({
     )),
 
     sequence_expression: $ => prec(PREC.COMMA, seq(
-      $._expression, ',', choice($.sequence_expression, $._expression))
+      $._expression, ',', $._expression)
     ),
 
     //
@@ -690,7 +694,7 @@ module.exports = grammar({
 
     template_substitution: $ => seq(
       '${',
-      choice($._expression, $.sequence_expression),
+      $._expression,
       '}'
     ),
 
