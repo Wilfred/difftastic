@@ -426,13 +426,22 @@ module.exports = grammar({
 
     if_statement: $ => seq(
       'if',
+      $.if_condition,
+      alias($.block, $.then_block),
+      optional(
+        seq(
+          'else',
+          choice(
+            alias($.block, $.else_block),
+            alias($.if_statement, $.elsif_statement)
+          )
+        )
+      )
+    ),
+
+    if_condition: $ => seq(
       optional(seq($._simple_statement, ';')),
-      $._expression,
-      $.block,
-      optional(seq(
-        'else',
-        choice($.block, $.if_statement)
-      ))
+      $._expression
     ),
 
     for_statement: $ => seq(
