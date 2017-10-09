@@ -227,7 +227,7 @@ module.exports = grammar({
         $.expression_statement,
         $.empty_statement
       ),
-      optional($._expression),
+      optional(choice($._expression, $.sequence_expression)),
       ')',
       $._statement
     ),
@@ -238,7 +238,7 @@ module.exports = grammar({
       optional(choice('var', 'let', 'const')),
       $._expression,
       'in',
-      $._expression,
+      choice($._expression, $.sequence_expression),
       ')',
       $._statement
     ),
@@ -330,7 +330,7 @@ module.exports = grammar({
 
     switch_case: $ => seq(
       'case',
-      $._expression,
+      choice($._expression, $.sequence_expression),
       ':',
       repeat($._statement)
     ),
@@ -557,7 +557,7 @@ module.exports = grammar({
 
     subscript_expression: $ => prec.right(PREC.MEMBER, seq(
       $._expression,
-      '[', $._expression, ']'
+      '[', choice($._expression, $.sequence_expression) , ']'
     )),
 
     assignment_expression: $ => prec.right(PREC.ASSIGN, seq(
