@@ -210,27 +210,28 @@ func main() {
   (package_clause (package_identifier))
   (function_declaration (identifier) (parameters) (block
     (if_statement
-      (if_condition (call_expression (identifier)))
-      (then_block (call_expression (identifier))))
+      (call_expression (identifier))
+      (block (call_expression (identifier))))
 
     (if_statement
-      (if_condition
-        (short_var_declaration (expression_list (identifier)) (expression_list (call_expression (identifier))))
-        (identifier))
-      (then_block (call_expression (identifier))))
+      (if_initializer
+        (short_var_declaration (expression_list (identifier)) (expression_list (call_expression (identifier)))))
+      (identifier)
+      (block (call_expression (identifier))))
 
     (if_statement
-      (if_condition (call_expression (identifier)))
-      (then_block (call_expression (identifier)))
-      (else_block (call_expression (identifier))))
+      (call_expression (identifier))
+      (block (call_expression (identifier)))
+      (else_clause (block (call_expression (identifier)))))
 
     (if_statement
-      (if_condition (call_expression (identifier)))
-      (then_block (call_expression (identifier)))
-      (elsif_statement
-        (if_condition (call_expression (identifier)))
-        (then_block (call_expression (identifier)))
-        (else_block (call_expression (identifier))))))))
+      (call_expression (identifier))
+      (block (call_expression (identifier)))
+      (else_clause
+        (if_statement
+          (call_expression (identifier))
+          (block (call_expression (identifier)))
+          (else_clause (block (call_expression (identifier))))))))))
 
 ============================================
 For statements
