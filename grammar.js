@@ -41,9 +41,6 @@ module.exports = grammar({
   ],
 
   conflicts: $ => [
-    [$.variable_declarator, $._expression],
-    [$.variable_declarator, $.assignment_expression],
-    [$.sequence_expression],
     [$._expression, $._property_name],
     [$._expression, $._property_name, $.arrow_function],
     [$._expression, $.arrow_function],
@@ -171,7 +168,7 @@ module.exports = grammar({
     ),
 
     expression_statement: $ => seq(
-      $._expression,
+      choice($._expression, $.sequence_expression),
       $._semicolon
     ),
 
@@ -303,13 +300,13 @@ module.exports = grammar({
 
     return_statement: $ => seq(
       'return',
-      optional($._expression),
+      optional(choice($._expression, $.sequence_expression)),
       $._semicolon
     ),
 
     throw_statement: $ => seq(
       'throw',
-      $._expression,
+      choice($._expression, $.sequence_expression),
       $._semicolon
     ),
 
@@ -357,7 +354,7 @@ module.exports = grammar({
 
     parenthesized_expression: $ => seq(
       '(',
-      $._expression,
+      choice($._expression, $.sequence_expression),
       ')'
     ),
 
@@ -400,8 +397,7 @@ module.exports = grammar({
       $.null,
       $.undefined,
       $.identifier,
-      alias($._reserved_identifier, $.identifier),
-      $.sequence_expression
+      alias($._reserved_identifier, $.identifier)
     ),
 
     yield_expression: $ => prec.right(seq(
@@ -450,7 +446,7 @@ module.exports = grammar({
 
     jsx_expression: $ => seq(
       '{',
-      choice($._expression, $.spread_element),
+      choice($._expression, $.sequence_expression, $.spread_element),
       '}'
     ),
 
@@ -652,7 +648,7 @@ module.exports = grammar({
     )),
 
     sequence_expression: $ => prec(PREC.COMMA, seq(
-      $._expression, ',', $._expression)
+      $._expression, ',', choice($.sequence_expression, $._expression))
     ),
 
     //
@@ -694,7 +690,7 @@ module.exports = grammar({
 
     template_substitution: $ => seq(
       '${',
-      $._expression,
+      choice($._expression, $.sequence_expression),
       '}'
     ),
 
