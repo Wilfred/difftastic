@@ -1973,22 +1973,13 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "ALIAS",
-              "content": {
-                "type": "SYMBOL",
-                "name": "identifier"
-              },
-              "named": true,
-              "value": "property_identifier"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "nested_identifier"
-            }
-          ]
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "identifier"
+          },
+          "named": true,
+          "value": "property_identifier"
         },
         {
           "type": "CHOICE",
