@@ -310,12 +310,6 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       $._semicolon
     ),
 
-    nested_identifier: $ => prec(PREC.MEMBER, seq(
-      choice($.identifier, $.nested_identifier),
-      '.',
-      $.identifier
-    )),
-
     nested_type_identifier: $ => prec(PREC.MEMBER, seq(
       choice($.identifier, $.nested_identifier),
       '.',
