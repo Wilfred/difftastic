@@ -958,7 +958,7 @@ Simple JSX elements
 ==============================================
 
 a = <div className='b' tabIndex=1 />;
-b = <div>a <span>b</span> c</div>;
+b = <Foo.Bar>a <span>b</span> c</Foo.Bar>;
 
 ---
 
@@ -972,14 +972,14 @@ b = <div>a <span>b</span> c</div>;
   (expression_statement (assignment_expression
     (identifier)
     (jsx_element
-      (jsx_opening_element (identifier))
+      (jsx_opening_element (nested_identifier (identifier) (identifier)))
       (jsx_text)
       (jsx_element
         (jsx_opening_element (identifier))
         (jsx_text)
         (jsx_closing_element (identifier)))
       (jsx_text)
-      (jsx_closing_element (identifier))))))
+      (jsx_closing_element (nested_identifier (identifier) (identifier)))))))
 
 ==============================================
 Expressions within JSX elements
