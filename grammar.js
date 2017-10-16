@@ -483,9 +483,7 @@ module.exports = grammar({
     )),
 
     jsx_attribute: $ => seq(
-      choice(
-        alias($.identifier, $.property_identifier),
-        $.nested_identifier),
+      alias($.identifier, $.property_identifier),
       optional(seq(
         '=',
         choice(
