@@ -456,7 +456,7 @@ module.exports = grammar({
 
     jsx_opening_element: $ => seq(
       '<',
-      $.identifier,
+      choice($.identifier, $.nested_identifier),
       repeat(choice($.jsx_attribute, $.jsx_expression)),
       '>'
     ),
@@ -464,20 +464,28 @@ module.exports = grammar({
     jsx_closing_element: $ => seq(
       '<',
       '/',
-      $.identifier,
+      choice($.identifier, $.nested_identifier),
       '>'
     ),
 
     jsx_self_closing_element: $ => seq(
       '<',
-      $.identifier,
+      choice($.identifier, $.nested_identifier),
       repeat(choice($.jsx_attribute, $.jsx_expression)),
       '/',
       '>'
     ),
 
+    nested_identifier: $ => prec(PREC.MEMBER, seq(
+      choice($.identifier, $.nested_identifier),
+      '.',
+      $.identifier
+    )),
+
     jsx_attribute: $ => seq(
-      alias($.identifier, $.property_identifier),
+      choice(
+        alias($.identifier, $.property_identifier),
+        $.nested_identifier),
       optional(seq(
         '=',
         choice(
