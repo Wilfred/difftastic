@@ -185,10 +185,7 @@ module.exports = grammar({
       ')'
     ),
 
-    _parameter_list: $ => sepTrailing(',', $._parameter_list, choice(
-      $.identifier,
-      $.parameter_declaration
-    )),
+    _parameter_list: $ => sepTrailing(',', choice($.identifier, $.parameter_declaration), $._parameter_list),
 
     parameter_declaration: $ => seq(
       optional($.identifier),
@@ -273,7 +270,7 @@ module.exports = grammar({
       '}'
     ),
 
-    _field_declaration_list: $ => sepTrailing(terminator, $._field_declaration_list, $.field_declaration),
+    _field_declaration_list: $ => sepTrailing(terminator, $.field_declaration, $._field_declaration_list),
 
     field_declaration: $ => seq(
       choice(
@@ -299,11 +296,7 @@ module.exports = grammar({
       '}'
     ),
 
-    _method_spec_list: $ => sepTrailing(terminator, $._method_spec_list, choice(
-      $._type_identifier,
-      $.qualified_type,
-      $.method_spec
-    )),
+    _method_spec_list: $ => sepTrailing(terminator, choice($._type_identifier, $.qualified_type, $.method_spec), $._method_spec_list),
 
     method_spec: $ => seq(
       $._field_identifier,
@@ -337,7 +330,7 @@ module.exports = grammar({
       '}'
     ),
 
-    _statement_list: $ => sepTrailing(terminator, $._statement_list, $._statement),
+    _statement_list: $ => sepTrailing(terminator, $._statement, $._statement_list),
 
     _statement: $ => choice(
       $._declaration,
@@ -632,10 +625,7 @@ module.exports = grammar({
       '}'
     ),
 
-    _element_list: $ => sepTrailing(',', $._element_list, choice(
-      $.element,
-      $.keyed_element
-    )),
+    _element_list: $ => sepTrailing(',', choice($.element, $.keyed_element), $._element_list),
 
     keyed_element: $ => seq(
       choice(
@@ -748,6 +738,6 @@ function commaSep1(rule) {
   return seq(rule, repeat(seq(',', rule)))
 }
 
-function sepTrailing (separator, recurSymbol, rule) {
+function sepTrailing (separator, rule, recurSymbol) {
   return choice(rule, seq(rule, separator, optional(recurSymbol)))
 }
