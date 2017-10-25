@@ -112,7 +112,7 @@ enum {
   sym_parameters = 96,
   sym__parameter_list = 97,
   sym_parameter_declaration = 98,
-  sym_variadic_parameter = 99,
+  sym_variadic_parameter_declaration = 99,
   sym_type_alias = 100,
   sym_type_declaration = 101,
   sym_type_spec = 102,
@@ -306,7 +306,7 @@ static const char *ts_symbol_names[] = {
   [sym_parameters] = "parameters",
   [sym__parameter_list] = "_parameter_list",
   [sym_parameter_declaration] = "parameter_declaration",
-  [sym_variadic_parameter] = "variadic_parameter",
+  [sym_variadic_parameter_declaration] = "variadic_parameter_declaration",
   [sym_type_alias] = "type_alias",
   [sym_type_declaration] = "type_declaration",
   [sym_type_spec] = "type_spec",
@@ -797,7 +797,7 @@ static const TSSymbolMetadata ts_symbol_metadata[] = {
     .visible = true,
     .named = true,
   },
-  [sym_variadic_parameter] = {
+  [sym_variadic_parameter_declaration] = {
     .visible = true,
     .named = true,
   },
@@ -7276,7 +7276,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
   [29] = {
     [sym__parameter_list] = STATE(92),
     [sym_parameter_declaration] = STATE(93),
-    [sym_variadic_parameter] = STATE(94),
+    [sym_variadic_parameter_declaration] = STATE(93),
     [sym_parenthesized_type] = STATE(94),
     [sym__simple_type] = STATE(94),
     [sym_pointer_type] = STATE(62),
@@ -8286,7 +8286,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
   [95] = {
     [sym__parameter_list] = STATE(214),
     [sym_parameter_declaration] = STATE(93),
-    [sym_variadic_parameter] = STATE(94),
+    [sym_variadic_parameter_declaration] = STATE(93),
     [sym_parenthesized_type] = STATE(94),
     [sym__simple_type] = STATE(94),
     [sym_pointer_type] = STATE(62),
@@ -9304,7 +9304,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
   [146] = {
     [sym__parameter_list] = STATE(298),
     [sym_parameter_declaration] = STATE(93),
-    [sym_variadic_parameter] = STATE(94),
+    [sym_variadic_parameter_declaration] = STATE(93),
     [sym_parenthesized_type] = STATE(94),
     [sym__simple_type] = STATE(94),
     [sym_pointer_type] = STATE(62),
@@ -10674,7 +10674,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
   [209] = {
     [sym__parameter_list] = STATE(369),
     [sym_parameter_declaration] = STATE(93),
-    [sym_variadic_parameter] = STATE(94),
+    [sym_variadic_parameter_declaration] = STATE(93),
     [sym_parenthesized_type] = STATE(94),
     [sym__simple_type] = STATE(94),
     [sym_pointer_type] = STATE(62),
@@ -10771,7 +10771,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
   [215] = {
     [sym__parameter_list] = STATE(373),
     [sym_parameter_declaration] = STATE(93),
-    [sym_variadic_parameter] = STATE(94),
+    [sym_variadic_parameter_declaration] = STATE(93),
     [sym_parenthesized_type] = STATE(94),
     [sym__simple_type] = STATE(94),
     [sym_pointer_type] = STATE(62),
@@ -14098,7 +14098,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
   [341] = {
     [sym__parameter_list] = STATE(556),
     [sym_parameter_declaration] = STATE(93),
-    [sym_variadic_parameter] = STATE(94),
+    [sym_variadic_parameter_declaration] = STATE(93),
     [sym_parenthesized_type] = STATE(94),
     [sym__simple_type] = STATE(94),
     [sym_pointer_type] = STATE(62),
@@ -48198,7 +48198,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
   [1427] = {
     [sym__parameter_list] = STATE(1479),
     [sym_parameter_declaration] = STATE(93),
-    [sym_variadic_parameter] = STATE(94),
+    [sym_variadic_parameter_declaration] = STATE(93),
     [sym_parenthesized_type] = STATE(94),
     [sym__simple_type] = STATE(94),
     [sym_pointer_type] = STATE(62),
@@ -50213,7 +50213,7 @@ static TSParseActionEntry ts_parse_actions[] = {
   [711] = {.count = 1, .reusable = true, .depends_on_lookahead = true}, SHIFT(362),
   [713] = {.count = 1, .reusable = true, .depends_on_lookahead = true}, SHIFT(364),
   [715] = {.count = 1, .reusable = false, .depends_on_lookahead = false}, SHIFT(365),
-  [717] = {.count = 1, .reusable = true, .depends_on_lookahead = false}, REDUCE(sym_variadic_parameter, 2),
+  [717] = {.count = 1, .reusable = true, .depends_on_lookahead = false}, REDUCE(sym_variadic_parameter_declaration, 2),
   [719] = {.count = 1, .reusable = true, .depends_on_lookahead = false}, SHIFT(366),
   [721] = {.count = 1, .reusable = true, .depends_on_lookahead = true}, SHIFT(368),
   [723] = {.count = 1, .reusable = true, .depends_on_lookahead = false}, REDUCE(sym__parameter_list, 2),
@@ -50425,7 +50425,7 @@ static TSParseActionEntry ts_parse_actions[] = {
   [1137] = {.count = 1, .reusable = true, .depends_on_lookahead = true}, REDUCE(aux_sym_const_spec_repeat1, 3),
   [1139] = {.count = 1, .reusable = true, .depends_on_lookahead = false}, SHIFT(566),
   [1141] = {.count = 1, .reusable = true, .depends_on_lookahead = false}, REDUCE(sym__parameter_list, 3),
-  [1143] = {.count = 1, .reusable = true, .depends_on_lookahead = false}, REDUCE(sym_variadic_parameter, 3),
+  [1143] = {.count = 1, .reusable = true, .depends_on_lookahead = false}, REDUCE(sym_variadic_parameter_declaration, 3),
   [1145] = {.count = 1, .reusable = false, .depends_on_lookahead = false}, REDUCE(sym_parameters, 3),
   [1147] = {.count = 1, .reusable = true, .depends_on_lookahead = false}, SHIFT(567),
   [1149] = {.count = 2, .reusable = false, .depends_on_lookahead = false}, REDUCE(sym_function_type, 2, .fragile = true), SHIFT(216),

@@ -282,10 +282,9 @@ func f3(...bool) {}
   (function_declaration
     (identifier)
     (parameters
-      (parameter_declaration
-        (variadic_parameter
-          (identifier)
-          (pointer_type (type_identifier)))))
+      (variadic_parameter_declaration
+        (identifier)
+        (pointer_type (type_identifier))))
     (block))
   (function_declaration
     (identifier)
@@ -293,16 +292,14 @@ func f3(...bool) {}
       (parameter_declaration
         (identifier)
         (type_identifier))
-      (parameter_declaration
-        (variadic_parameter
-          (identifier)
-          (type_identifier))))
+      (variadic_parameter_declaration
+        (identifier)
+        (type_identifier)))
     (block))
   (function_declaration
     (identifier)
     (parameters
-      (parameter_declaration
-        (variadic_parameter (type_identifier))))
+      (variadic_parameter_declaration (type_identifier)))
     (block)))
 
 ============================================
@@ -331,10 +328,9 @@ func (v *Value) ObjxMap(optionalDefault ...(Map)) Map {}
       (parameter_declaration (identifier) (pointer_type (type_identifier))))
     (field_identifier)
     (parameters
-      (parameter_declaration
-        (variadic_parameter
-          (identifier)
-          (parenthesized_type (type_identifier)))))
+      (variadic_parameter_declaration
+        (identifier)
+        (parenthesized_type (type_identifier))))
     (type_identifier)
     (block)))
 

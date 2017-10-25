@@ -185,17 +185,14 @@ module.exports = grammar({
       ')'
     ),
 
-    _parameter_list: $ => sepTrailing(',', choice($.identifier, $.parameter_declaration), $._parameter_list),
+    _parameter_list: $ => sepTrailing(',', choice($.identifier, $.parameter_declaration, $.variadic_parameter_declaration), $._parameter_list),
 
-    parameter_declaration: $ => choice(
-      seq(
-        optional($.identifier),
-        $._type
-      ),
-      $.variadic_parameter
+    parameter_declaration: $ => seq(
+      optional($.identifier),
+      $._type
     ),
 
-    variadic_parameter: $ => seq(
+    variadic_parameter_declaration: $ => seq(
       optional($.identifier),
       '...',
       $._type
