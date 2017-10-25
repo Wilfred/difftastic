@@ -294,7 +294,9 @@ func f3(...bool) {}
         (identifier)
         (type_identifier))
       (parameter_declaration
-        (variadic_parameter (identifier) (type_identifier))))
+        (variadic_parameter
+          (identifier)
+          (type_identifier))))
     (block))
   (function_declaration
     (identifier)
@@ -330,7 +332,9 @@ func (v *Value) ObjxMap(optionalDefault ...(Map)) Map {}
     (field_identifier)
     (parameters
       (parameter_declaration
-        (variadic_parameter (identifier) (parenthesized_type (type_identifier)))))
+        (variadic_parameter
+          (identifier)
+          (parenthesized_type (type_identifier)))))
     (type_identifier)
     (block)))
 
