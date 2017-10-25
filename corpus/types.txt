@@ -125,6 +125,7 @@ type i2 interface {
   i1
   io.Reader
   SomeMethod(s string) error
+  OtherMethod(int, ...bool) bool
 }
 
 ---
@@ -146,7 +147,12 @@ type i2 interface {
       (method_spec
         (field_identifier)
         (parameters (parameter_declaration (identifier) (type_identifier)))
-        (type_identifier))))))
+        (type_identifier))
+      (method_spec
+        (field_identifier)
+          (parameters
+            (identifier)
+            (variadic_parameter_declaration (type_identifier))) (type_identifier))))))
 
 ============================================
 Map types
@@ -224,6 +230,7 @@ package main
 type (
   a func(int) int
   b func(int, *string) (bool, error)
+  c func(int, ...*string) bool
 )
 
 ---
@@ -245,7 +252,15 @@ type (
           (parameter_declaration (pointer_type (type_identifier))))
         (parameters
           (identifier)
-          (identifier))))))
+          (identifier))))
+    (type_spec
+      (type_identifier)
+      (function_type
+        (parameters
+          (identifier)
+          (variadic_parameter_declaration
+            (pointer_type (type_identifier))))
+        (type_identifier)))))
 
 ============================================
 Type Aliases
