@@ -560,12 +560,17 @@ module.exports = grammar({
         $._expression,
         '(',
         optional($._argument_list),
-        optional(seq('...', optional(','))),
         ')'
       )
     )),
 
-    _argument_list: $ => sepTrailing(',', $._argument_list, $._expression),
+    variadic_argument: $ => prec.right(seq(
+      $._expression,
+      '...',
+      optional(',')
+    )),
+
+    _argument_list: $ => sepTrailing(',', choice($._expression, $.variadic_argument), $._argument_list),
 
     selector_expression: $ => prec(PREC.primary, seq(
       $._expression,
