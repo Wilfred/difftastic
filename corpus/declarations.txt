@@ -273,7 +273,7 @@ package main
 
 func f1(a ...*int) {}
 func f2(...int) {}
-func f3(a, ...bool) {}
+func f2(a int, b ...int) {}
 
 ---
 
