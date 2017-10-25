@@ -272,8 +272,8 @@ Variadic function declarations
 package main
 
 func f1(a ...*int) {}
-func f2(...int) {}
-func f3(a, ...bool) {}
+func f2(a int, b ...int) {}
+func f3(...bool) {}
 
 ---
 
@@ -282,18 +282,24 @@ func f3(a, ...bool) {}
   (function_declaration
     (identifier)
     (parameters
-      (parameter_declaration (identifier) (pointer_type (type_identifier))))
+      (variadic_parameter_declaration
+        (identifier)
+        (pointer_type (type_identifier))))
     (block))
   (function_declaration
     (identifier)
     (parameters
-      (parameter_declaration (type_identifier)))
+      (parameter_declaration
+        (identifier)
+        (type_identifier))
+      (variadic_parameter_declaration
+        (identifier)
+        (type_identifier)))
     (block))
   (function_declaration
     (identifier)
     (parameters
-      (identifier)
-      (parameter_declaration (type_identifier)))
+      (variadic_parameter_declaration (type_identifier)))
     (block)))
 
 ============================================
@@ -321,7 +327,10 @@ func (v *Value) ObjxMap(optionalDefault ...(Map)) Map {}
     (parameters
       (parameter_declaration (identifier) (pointer_type (type_identifier))))
     (field_identifier)
-    (parameters (parameter_declaration (identifier) (parenthesized_type (type_identifier))))
+    (parameters
+      (variadic_parameter_declaration
+        (identifier)
+        (parenthesized_type (type_identifier))))
     (type_identifier)
     (block)))
 
