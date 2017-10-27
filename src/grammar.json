@@ -6846,26 +6846,16 @@
             ]
           },
           {
-            "type": "ALIAS",
-            "content": {
-              "type": "SYMBOL",
-              "name": "_nested_type"
-            },
-            "named": true,
-            "value": "_type"
+            "type": "SYMBOL",
+            "name": "_nested_type"
           },
           {
             "type": "STRING",
             "value": "|"
           },
           {
-            "type": "ALIAS",
-            "content": {
-              "type": "SYMBOL",
-              "name": "_nested_type"
-            },
-            "named": true,
-            "value": "_type"
+            "type": "SYMBOL",
+            "name": "_nested_type"
           }
         ]
       }
@@ -6889,26 +6879,16 @@
             ]
           },
           {
-            "type": "ALIAS",
-            "content": {
-              "type": "SYMBOL",
-              "name": "_nested_type"
-            },
-            "named": true,
-            "value": "_type"
+            "type": "SYMBOL",
+            "name": "_nested_type"
           },
           {
             "type": "STRING",
             "value": "&"
           },
           {
-            "type": "ALIAS",
-            "content": {
-              "type": "SYMBOL",
-              "name": "_nested_type"
-            },
-            "named": true,
-            "value": "_type"
+            "type": "SYMBOL",
+            "name": "_nested_type"
           }
         ]
       }
@@ -6920,26 +6900,16 @@
         "type": "SEQ",
         "members": [
           {
-            "type": "ALIAS",
-            "content": {
-              "type": "SYMBOL",
-              "name": "_nested_type"
-            },
-            "named": true,
-            "value": "_type"
+            "type": "SYMBOL",
+            "name": "_nested_type"
           },
           {
             "type": "STRING",
             "value": "|"
           },
           {
-            "type": "ALIAS",
-            "content": {
-              "type": "SYMBOL",
-              "name": "_nested_type"
-            },
-            "named": true,
-            "value": "_type"
+            "type": "SYMBOL",
+            "name": "_nested_type"
           }
         ]
       }
@@ -6951,26 +6921,16 @@
         "type": "SEQ",
         "members": [
           {
-            "type": "ALIAS",
-            "content": {
-              "type": "SYMBOL",
-              "name": "_nested_type"
-            },
-            "named": true,
-            "value": "_type"
+            "type": "SYMBOL",
+            "name": "_nested_type"
           },
           {
             "type": "STRING",
             "value": "&"
           },
           {
-            "type": "ALIAS",
-            "content": {
-              "type": "SYMBOL",
-              "name": "_nested_type"
-            },
-            "named": true,
-            "value": "_type"
+            "type": "SYMBOL",
+            "name": "_nested_type"
           }
         ]
       }

@@ -298,11 +298,13 @@ Flow Union types
 =======================================
 
 type U = number | string;
+type Z = | "foo" | "bar";
 
 ---
 
 (program
-  (type_alias_declaration (identifier) (union_type (predefined_type) (predefined_type))))
+  (type_alias_declaration (identifier) (union_type (predefined_type) (predefined_type)))
+  (type_alias_declaration (identifier) (union_type (literal_type (string)) (literal_type (string)))))
 
 =======================================
 Flow Intersection types
