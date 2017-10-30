@@ -247,6 +247,10 @@ interface X {
   get(key: Key): Promise<T>;
 }
 
+interface Enum extends Bar, Baz, funThatEvalsToInterface() {
+  public toEnum(): Int;
+}
+
 ---
 
 (program
@@ -278,7 +282,18 @@ interface X {
           (formal_parameters
             (required_parameter (identifier) (type_annotation (type_identifier))))
           (type_annotation
-            (generic_type (type_identifier) (type_arguments (type_identifier)))))))))
+            (generic_type (type_identifier) (type_arguments (type_identifier))))))))
+  (interface_declaration
+    (identifier)
+    (extends_clause
+      (type_identifier)
+      (type_identifier)
+      (call_expression (identifier) (arguments)))
+      (object_type
+        (method_signature
+          (accessibility_modifier)
+          (property_identifier)
+          (call_signature (formal_parameters) (type_annotation (type_identifier)))))))
 
 =======================================
 Existential types

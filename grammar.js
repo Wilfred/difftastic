@@ -336,7 +336,7 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
 
     extends_clause: $ => prec(PREC.EXTENDS, seq(
       'extends',
-      choice($._type_reference, $._expression)
+      commaSep1(choice($._type_reference, $._expression))
     )),
 
     enum_declaration: $ => seq(
