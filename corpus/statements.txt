@@ -319,6 +319,8 @@ func main() {
       a()
       b()
       fallthrough
+    case 3:
+      d()
     default:
       c()
       break
@@ -345,7 +347,10 @@ func main() {
         (call_expression (identifier))
         (fallthrough_statement))
       (expression_case_clause
-        (expression_case)
+        (expression_case (expression_list (int_literal)))
+        (call_expression (identifier)))
+      (expression_case_clause
+        (default_expression_case)
         (call_expression (identifier))
         (break_statement)))
     (expression_switch_statement
