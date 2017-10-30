@@ -119,6 +119,8 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       optional($.accessibility_modifier),
       optional('static'),
       optional($.readonly),
+      optional('async'),
+      optional(choice('get', 'set', '*')),
       $._property_name,
       optional('?'),
       $.call_signature
@@ -216,6 +218,7 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       optional('async'),
       optional(choice('get', 'set', '*')),
       $._property_name,
+      optional('?'),
       $.call_signature,
       $.statement_block
     )),
