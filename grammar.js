@@ -470,15 +470,17 @@ module.exports = grammar({
     ),
 
     expression_case_clause: $ => seq(
-      $.expression_case,
+      choice($.expression_case, $.default_expression_case),
       ':',
       optional($._statement_list)
     ),
 
-    expression_case: $ => choice(
-      seq('case', $.expression_list),
-      'default'
+    expression_case: $ => seq(
+      'case',
+      $.expression_list
     ),
+
+    default_expression_case: $ => 'default',
 
     type_switch_statement: $ => seq(
       'switch',

@@ -345,7 +345,7 @@ func main() {
         (call_expression (identifier))
         (fallthrough_statement))
       (expression_case_clause
-        (expression_case)
+        (default_expression_case)
         (call_expression (identifier))
         (break_statement)))
     (expression_switch_statement
