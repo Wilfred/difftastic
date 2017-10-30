@@ -16,7 +16,8 @@ const PREC = {
   ARRAY_TYPE: 13,
   MEMBER: 13,
   AS_EXPRESSION: 14,
-  TYPE_ASSERTION: 15
+  TYPE_ASSERTION: 15,
+  TYPE_REFERENCE: 15
 };
 
 module.exports = grammar(require('tree-sitter-javascript/grammar'), {
@@ -327,10 +328,15 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       $.object_type
     ),
 
+    _type_reference: $ => prec(PREC.TYPE_REFERENCE, choice(
+      alias($.identifier, $.type_identifier),
+      $.nested_type_identifier,
+      $.generic_type
+    )),
+
     extends_clause: $ => prec(PREC.EXTENDS, seq(
       'extends',
-      choice(alias($.identifier, $.type_identifier), $._expression),
-      optional($.type_arguments)
+      commaSep1(choice($._type_reference, $._expression))
     )),
 
     enum_declaration: $ => seq(
