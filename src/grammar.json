@@ -2159,8 +2159,17 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "expression_case"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "expression_case"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "default_expression_case"
+            }
+          ]
         },
         {
           "type": "STRING",
@@ -2181,26 +2190,21 @@
       ]
     },
     "expression_case": {
-      "type": "CHOICE",
+      "type": "SEQ",
       "members": [
         {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "STRING",
-              "value": "case"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "expression_list"
-            }
-          ]
+          "type": "STRING",
+          "value": "case"
         },
         {
-          "type": "STRING",
-          "value": "default"
+          "type": "SYMBOL",
+          "name": "expression_list"
         }
       ]
+    },
+    "default_expression_case": {
+      "type": "STRING",
+      "value": "default"
     },
     "type_switch_statement": {
       "type": "SEQ",
