@@ -559,27 +559,11 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
     ),
 
     union_type: $ => prec.left(PREC.UNION, seq(
-      optional('|'), $._nested_type, '|', $._nested_type
+      optional($._type), '|', $._type
     )),
 
     intersection_type: $ => prec.left(PREC.INTERSECTION, seq(
-      optional('|'), $._nested_type, '&', $._nested_type
-    )),
-
-    _nested_union_type: $ => prec.left(PREC.UNION - 1, seq(
-      $._nested_type, '|', $._nested_type
-    )),
-
-    _nested_intersection_type: $ => prec.left(PREC.INTERSECTION - 1, seq(
-      $._nested_type, '&', $._nested_type
-    )),
-
-    _nested_type: $ => prec(-1, choice(
-      $._primary_type,
-      alias($._nested_union_type, $.union_type),
-      alias($._nested_intersection_type, $.intersection_type),
-      $.function_type,
-      $.constructor_type
+      optional($._type), '&', $._type
     )),
 
     function_type: $ => seq(
