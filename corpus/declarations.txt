@@ -514,6 +514,30 @@ class Foo {
           (statement_block))))))
 
 =======================================
+Classes with method signatures
+=======================================
+
+class Foo {
+  public async waitFor<T>(func: () => T | Promise<T | undefined>, accept?: (result: T) => boolean | Promise<boolean>, timeoutMessage?: string, retryCount?: number): Promise<T>;
+
+  public readonly async bar?<T>();
+  private static bar();
+  private static async bar(): T;
+}
+
+---
+
+(program (expression_statement
+  (class
+    (identifier)
+    (class_body
+      (method_signature (accessibility_modifier) (property_identifier) (call_signature (type_parameters (type_parameter (identifier))) (formal_parameters (required_parameter (identifier) (type_annotation (function_type (formal_parameters) (union_type (type_identifier) (generic_type (type_identifier) (type_arguments (union_type (type_identifier) (type_identifier)))))))) (optional_parameter (identifier) (type_annotation (function_type (formal_parameters (required_parameter (identifier) (type_annotation (type_identifier)))) (union_type (predefined_type) (generic_type (type_identifier) (type_arguments (predefined_type))))))) (optional_parameter (identifier) (type_annotation (predefined_type))) (optional_parameter (identifier) (type_annotation (predefined_type)))) (type_annotation (generic_type (type_identifier) (type_arguments (type_identifier))))))
+      (method_signature (accessibility_modifier) (readonly) (property_identifier) (call_signature (type_parameters (type_parameter (identifier))) (formal_parameters)))
+      (method_signature (accessibility_modifier) (property_identifier) (call_signature (formal_parameters)))
+      (method_signature (accessibility_modifier) (property_identifier) (call_signature (formal_parameters) (type_annotation (type_identifier))))))))
+
+
+=======================================
 Classes with property names as strings or numbers
 =======================================
 
