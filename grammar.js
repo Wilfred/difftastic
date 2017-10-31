@@ -390,7 +390,7 @@ module.exports = grammar({
       $.parenthesized_expression,
       $.subscript_expression,
       $.yield_expression,
-      $.this_expression,
+      $.this,
 
       $.number,
       $.string,
@@ -757,7 +757,7 @@ module.exports = grammar({
 
     identifier: $ => /[\a_$][\a\d_$]*/,
 
-    this_expression: $ => 'this',
+    this: $ => 'this',
     super: $ => 'super',
     true: $ => 'true',
     false: $ => 'false',

@@ -150,7 +150,7 @@ false;
 ---
 
 (program
-  (expression_statement (this_expression))
+  (expression_statement (this))
   (expression_statement (null))
   (expression_statement (undefined))
   (expression_statement (true))
@@ -580,7 +580,7 @@ return this.map(function (a) {
   (call_expression
     (member_expression
       (call_expression
-        (member_expression (this_expression) (property_identifier))
+        (member_expression (this) (property_identifier))
         (arguments
           (function (formal_parameters (identifier)) (statement_block
             (return_statement (member_expression (identifier) (property_identifier)))))))
