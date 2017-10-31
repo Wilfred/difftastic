@@ -4985,6 +4985,10 @@
           "value": "export"
         },
         {
+          "type": "STRING",
+          "value": "this"
+        },
+        {
           "type": "CHOICE",
           "members": [
             {
@@ -7136,6 +7140,40 @@
     [
       "this_type",
       "this_expression"
+    ],
+    [
+      "_expression",
+      "this_expression"
+    ],
+    [
+      "_expression",
+      "this_expression",
+      "this_type"
+    ],
+    [
+      "_expression",
+      "this_expression",
+      "required_parameter",
+      "this_type"
+    ],
+    [
+      "_expression",
+      "this_expression",
+      "_property_name"
+    ],
+    [
+      "_expression",
+      "this_expression",
+      "required_parameter"
+    ],
+    [
+      "_expression",
+      "this_expression",
+      "optional_parameter"
+    ],
+    [
+      "this_type",
+      "required_parameter"
     ],
     [
       "function_type",

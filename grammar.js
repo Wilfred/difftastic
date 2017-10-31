@@ -55,6 +55,13 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
     [$._expression, $.generic_type],
     [$._expression, $.predefined_type],
     [$.this_type, $.this_expression],
+    [$._expression, $.this_expression],
+    [$._expression, $.this_expression, $.this_type],
+    [$._expression, $.this_expression, $.required_parameter, $.this_type],
+    [$._expression, $.this_expression, $._property_name],
+    [$._expression, $.this_expression, $.required_parameter],
+    [$._expression, $.this_expression, $.optional_parameter],
+    [$.this_type, $.required_parameter],
     [$.function_type, $.call_signature],
     [$.constructor_type, $.call_signature],
 
@@ -597,6 +604,7 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       'void',
       'import',
       'export',
+      'this',
       previous
     )
   }
