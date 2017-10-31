@@ -142,4 +142,4 @@ class A extends B {
             (return_statement
               (binary_expression
                 (binary_expression (call_expression (member_expression (super) (property_identifier)) (arguments)) (string))
-                (member_expression (this_expression) (property_identifier))))))))))
+                (member_expression (identifier) (property_identifier))))))))))
