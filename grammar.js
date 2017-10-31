@@ -128,13 +128,12 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
     ),
 
 
-    abstract_method_definition: $ => seq(
+    abstract_method_signature: $ => seq(
       optional($.accessibility_modifier),
       'abstract',
-      optional('static'),
       optional(choice('get', 'set', '*')),
-      optional($.readonly),
       $._property_name,
+      optional('?'),
       $.call_signature,
       $._semicolon
     ),
@@ -202,7 +201,7 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       '{',
       repeat(
         choice(
-          $.abstract_method_definition,
+          $.abstract_method_signature,
           seq(repeat($.decorator), $.method_definition, optional($._semicolon)),
           seq($.index_signature, $._semicolon),
           seq($.method_signature, $._semicolon),
