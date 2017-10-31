@@ -399,8 +399,7 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       choice(
         $.identifier,
         alias($._reserved_identifier, $.identifier),
-        $._destructuring_pattern,
-        $.this
+        $._destructuring_pattern
       ),
       '?',
       optional($.type_annotation),
