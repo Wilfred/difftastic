@@ -14,6 +14,10 @@ function foo<T, U>(a: T[], f: (x: T) => U): U[] {
 
 }
 
+function foo<T, U>(this: T[]): U[] {
+  return []
+}
+
 ---
 
 (program
@@ -44,7 +48,16 @@ function foo<T, U>(a: T[], f: (x: T) => U): U[] {
               (function_type
                 (formal_parameters (required_parameter (identifier) (type_annotation (type_identifier)))) (type_identifier)))))
         (type_annotation (array_type (type_identifier))))
-      (statement_block))))
+      (statement_block)))
+  (expression_statement
+    (function
+      (identifier)
+      (call_signature
+        (type_parameters (type_parameter (identifier)) (type_parameter (identifier)))
+        (formal_parameters
+          (required_parameter (this) (type_annotation (array_type (type_identifier)))))
+          (type_annotation (array_type (type_identifier))))
+      (statement_block (return_statement (array))))))
 
 ==================================
 Function calls with type arguments
