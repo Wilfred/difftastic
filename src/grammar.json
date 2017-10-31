@@ -1607,7 +1607,7 @@
             },
             {
               "type": "SYMBOL",
-              "name": "this_expression"
+              "name": "this"
             },
             {
               "type": "SYMBOL",
@@ -4183,7 +4183,7 @@
       "type": "PATTERN",
       "value": "[\\a_$][\\a\\d_$]*"
     },
-    "this_expression": {
+    "this": {
       "type": "STRING",
       "value": "this"
     },
@@ -5893,6 +5893,10 @@
                 {
                   "type": "SYMBOL",
                   "name": "_destructuring_pattern"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "this"
                 }
               ]
             },
@@ -7135,7 +7139,7 @@
     ],
     [
       "this_type",
-      "this_expression"
+      "this"
     ],
     [
       "function_type",

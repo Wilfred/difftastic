@@ -62,6 +62,8 @@ Function types
 =======================================
 
 let x: (result: string) => any;
+const foo: (this: Readable, size?: number) => any;
+
 
 ---
 
@@ -72,6 +74,14 @@ let x: (result: string) => any;
       (function_type
         (formal_parameters
           (required_parameter (identifier) (type_annotation (predefined_type))))
+        (predefined_type)))))
+  (lexical_declaration (variable_declarator
+    (identifier)
+    (type_annotation
+      (function_type
+        (formal_parameters
+          (required_parameter (this) (type_annotation (type_identifier)))
+          (optional_parameter (identifier) (type_annotation (predefined_type))))
         (predefined_type))))))
 
 =======================================
