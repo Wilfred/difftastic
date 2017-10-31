@@ -654,6 +654,7 @@ abstract class Animal {
     otherProp: string;
     abstract makeSound(): void;
     abstract get readonlyProp(): string;
+    protected abstract readonlyProp?(): string;
     move(): void {
         console.log("roaming the earth...");
     }
@@ -666,10 +667,14 @@ abstract class Animal {
   (abstract_class (identifier) (class_body
     (public_field_definition (property_identifier) (type_annotation (predefined_type)))
     (public_field_definition (property_identifier) (type_annotation (predefined_type)))
-    (abstract_method_definition
+    (abstract_method_signature
       (property_identifier)
       (call_signature (formal_parameters) (type_annotation (predefined_type))))
-    (abstract_method_definition
+    (abstract_method_signature
+      (property_identifier)
+      (call_signature (formal_parameters) (type_annotation (predefined_type))))
+    (abstract_method_signature
+      (accessibility_modifier)
       (property_identifier)
       (call_signature (formal_parameters) (type_annotation (predefined_type))))
     (method_definition

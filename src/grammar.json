@@ -4435,7 +4435,7 @@
             "members": [
               {
                 "type": "SYMBOL",
-                "name": "abstract_method_definition"
+                "name": "abstract_method_signature"
               },
               {
                 "type": "SEQ",
@@ -5131,7 +5131,7 @@
         }
       ]
     },
-    "abstract_method_definition": {
+    "abstract_method_signature": {
       "type": "SEQ",
       "members": [
         {
@@ -5149,18 +5149,6 @@
         {
           "type": "STRING",
           "value": "abstract"
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "STRING",
-              "value": "static"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
         },
         {
           "type": "CHOICE",
@@ -5188,20 +5176,20 @@
           ]
         },
         {
+          "type": "SYMBOL",
+          "name": "_property_name"
+        },
+        {
           "type": "CHOICE",
           "members": [
             {
-              "type": "SYMBOL",
-              "name": "readonly"
+              "type": "STRING",
+              "value": "?"
             },
             {
               "type": "BLANK"
             }
           ]
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_property_name"
         },
         {
           "type": "SYMBOL",
