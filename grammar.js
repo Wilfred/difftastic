@@ -518,15 +518,17 @@ module.exports = grammar({
     ),
 
     communication_clause: $ => seq(
-      $.communication_case,
+      choice($.communication_case, $.default_communication_case),
       ':',
       optional($._statement_list)
     ),
 
-    communication_case: $ => choice(
-      seq('case', choice($.send_statement, $.receive_statement)),
-      'default'
+    communication_case: $ => seq(
+      'case',
+      choice($.send_statement, $.receive_statement)
     ),
+
+    default_communication_case: $ => 'default',
 
     _expression: $ => choice(
       $.unary_expression,
