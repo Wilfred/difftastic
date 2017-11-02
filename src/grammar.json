@@ -2397,8 +2397,17 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "communication_case"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "communication_case"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "default_communication_case"
+            }
+          ]
         },
         {
           "type": "STRING",
@@ -2419,35 +2428,30 @@
       ]
     },
     "communication_case": {
-      "type": "CHOICE",
+      "type": "SEQ",
       "members": [
         {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "STRING",
-              "value": "case"
-            },
-            {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "SYMBOL",
-                  "name": "send_statement"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "receive_statement"
-                }
-              ]
-            }
-          ]
+          "type": "STRING",
+          "value": "case"
         },
         {
-          "type": "STRING",
-          "value": "default"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "send_statement"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "receive_statement"
+            }
+          ]
         }
       ]
+    },
+    "default_communication_case": {
+      "type": "STRING",
+      "value": "default"
     },
     "_expression": {
       "type": "CHOICE",
