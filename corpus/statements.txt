@@ -433,7 +433,7 @@ func main() {
             (int_literal)))))
         (call_expression (identifier) (int_literal)))
       (communication_clause
-        (communication_case)
+        (default_communication_case)
         (return_statement))))))
 
 ============================================
