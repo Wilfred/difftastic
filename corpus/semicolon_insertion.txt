@@ -18,6 +18,32 @@ if (a) {
     (expression_statement (call_expression (identifier) (arguments)))
     (return_statement (identifier)))))
 
+============================================
+Semicolon insertion before update expressions
+============================================
+
+if (a)
+  d()
+++b
+
+if (a)
+  d()
+--b
+
+---
+(program
+  (if_statement
+    (parenthesized_expression (identifier))
+    (expression_statement
+      (call_expression (identifier) (arguments))))
+  (expression_statement (update_expression (identifier)))
+
+  (if_statement
+    (parenthesized_expression (identifier))
+    (expression_statement
+      (call_expression (identifier) (arguments))))
+  (expression_statement (update_expression (identifier)))) 
+
 ==========================================
 property access across lines
 ==========================================
