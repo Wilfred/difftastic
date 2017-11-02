@@ -588,7 +588,7 @@ module.exports = grammar({
         alias($._reserved_identifier, $.identifier),
         $.identifier
       ),
-      choice('+=', '-=', '*=', '/=', '%=', '^=', '&=', '|='),
+      choice('+=', '-=', '*=', '/=', '%=', '^=', '&=', '|=', '>>=', '>>>=', '<<='),
       $._expression
     )),
 
@@ -611,11 +611,8 @@ module.exports = grammar({
       ['&&', PREC.AND],
       ['||', PREC.OR],
       ['>>', PREC.TIMES],
-      ['>>=', PREC.TIMES],
       ['>>>', PREC.TIMES],
-      ['>>>=', PREC.TIMES],
       ['<<', PREC.TIMES],
-      ['<<=', PREC.TIMES],
       ['&', PREC.AND],
       ['^', PREC.OR],
       ['|', PREC.OR],

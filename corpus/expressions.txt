@@ -731,11 +731,8 @@ Bitwise operators
 ============================================
 
 i >> j;
-i >>= j;
 i >>> j;
-i >>>= j;
 i << j;
-i <<= j;
 i & j;
 i | j;
 ~i ^ ~j
@@ -743,9 +740,6 @@ i | j;
 ---
 
 (program
-  (expression_statement (binary_expression (identifier) (identifier)))
-  (expression_statement (binary_expression (identifier) (identifier)))
-  (expression_statement (binary_expression (identifier) (identifier)))
   (expression_statement (binary_expression (identifier) (identifier)))
   (expression_statement (binary_expression (identifier) (identifier)))
   (expression_statement (binary_expression (identifier) (identifier)))
@@ -901,6 +895,9 @@ w ^= 3;
 x += 4;
 y.z *= 5;
 async += 1;
+a >>= 1;
+b >>>= 1;
+c <<= 1;
 
 ---
 
@@ -915,6 +912,12 @@ async += 1;
     (augmented_assignment_expression (identifier) (number)))
   (expression_statement
     (augmented_assignment_expression (member_expression (identifier) (property_identifier)) (number)))
+  (expression_statement
+    (augmented_assignment_expression (identifier) (number)))
+  (expression_statement
+    (augmented_assignment_expression (identifier) (number)))
+  (expression_statement
+    (augmented_assignment_expression (identifier) (number)))
   (expression_statement
     (augmented_assignment_expression (identifier) (number))))
 
