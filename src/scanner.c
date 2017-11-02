@@ -69,8 +69,6 @@ bool tree_sitter_javascript_external_scanner_scan(void *payload, TSLexer *lexer,
   switch (lexer->lookahead) {
     case ',':
     case '.':
-    case '+':
-    case '-':
     case '*':
     case '%':
     case '>':
@@ -84,6 +82,14 @@ bool tree_sitter_javascript_external_scanner_scan(void *payload, TSLexer *lexer,
     case '&':
     case '/':
       return false;
+
+    // Insert a semicolon before `--` and `++`, but not before binary `+` or `-`.
+    case '+':
+      advance(lexer);
+      return lexer->lookahead == '+';
+    case '-':
+      advance(lexer);
+      return lexer->lookahead == '-';
 
     // Don't insert a semicolon before `!=`, but do insert one before a unary `!`.
     case '!':
