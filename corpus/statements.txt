@@ -350,7 +350,7 @@ func main() {
         (expression_case (expression_list (int_literal)))
         (call_expression (identifier)))
       (expression_case_clause
-        (default_expression_case)
+        (default_case)
         (call_expression (identifier))
         (break_statement)))
     (expression_switch_statement
@@ -426,7 +426,7 @@ func main() {
         (type_case (type_identifier) (type_identifier))
         (call_expression (identifier) (interpreted_string_literal)))
       (type_case_clause
-        (default_type_case) (call_expression (identifier) (interpreted_string_literal)))))))
+        (default_case) (call_expression (identifier) (interpreted_string_literal)))))))
 
 ============================================
 Select statements
@@ -470,7 +470,7 @@ func main() {
             (int_literal)))))
         (call_expression (identifier) (int_literal)))
       (communication_clause
-        (default_communication_case)
+        (default_case)
         (return_statement))))))
 
 ============================================
