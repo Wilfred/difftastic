@@ -500,15 +500,17 @@ module.exports = grammar({
     ),
 
     type_case_clause: $ => seq(
-      $.type_case,
+      choice($.type_case, $.default_type_case),
       ':',
       optional($._statement_list)
     ),
 
-    type_case: $ => choice(
-      seq('case', commaSep1($._type)),
-      'default'
+    type_case: $ => seq(
+      'case',
+      commaSep1($._type)
     ),
+
+    default_type_case: $ => 'default',
 
     select_statement: $ => seq(
       'select',
