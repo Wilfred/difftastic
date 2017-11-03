@@ -82,3 +82,23 @@ i < string.length;
   (expression_statement (binary_expression (identifier) (member_expression (identifier) (property_identifier))))
   (expression_statement (binary_expression (identifier) (member_expression (identifier) (property_identifier))))
   (expression_statement (binary_expression (identifier) (member_expression (identifier) (property_identifier)))))
+
+=====================================
+Subscript expressions in if statements
+=====================================
+
+if ( foo ) {
+	set[ 1 ].apply()
+}
+
+---
+
+(program
+  (if_statement
+    (parenthesized_expression (identifier))
+    (statement_block
+      (expression_statement
+        (call_expression
+          (member_expression
+            (subscript_expression (identifier) (number)) (property_identifier))
+          (arguments))))))
