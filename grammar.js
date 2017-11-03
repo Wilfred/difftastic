@@ -470,7 +470,7 @@ module.exports = grammar({
     ),
 
     expression_case_clause: $ => seq(
-      choice($.expression_case, $.default_expression_case),
+      choice($.expression_case, $.default_case),
       ':',
       optional($._statement_list)
     ),
@@ -480,7 +480,7 @@ module.exports = grammar({
       $.expression_list
     ),
 
-    default_expression_case: $ => 'default',
+    default_case: $ => 'default',
 
     type_switch_statement: $ => seq(
       'switch',
@@ -500,7 +500,7 @@ module.exports = grammar({
     ),
 
     type_case_clause: $ => seq(
-      choice($.type_case, $.default_type_case),
+      choice($.type_case, $.default_case),
       ':',
       optional($._statement_list)
     ),
@@ -510,8 +510,6 @@ module.exports = grammar({
       commaSep1($._type)
     ),
 
-    default_type_case: $ => 'default',
-
     select_statement: $ => seq(
       'select',
       '{',
@@ -520,7 +518,7 @@ module.exports = grammar({
     ),
 
     communication_clause: $ => seq(
-      choice($.communication_case, $.default_communication_case),
+      choice($.communication_case, $.default_case),
       ':',
       optional($._statement_list)
     ),
@@ -529,8 +527,6 @@ module.exports = grammar({
       'case',
       choice($.send_statement, $.receive_statement)
     ),
-
-    default_communication_case: $ => 'default',
 
     _expression: $ => choice(
       $.unary_expression,
