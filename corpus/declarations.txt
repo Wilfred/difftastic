@@ -650,7 +650,9 @@ abstract class Foo {
 }
 
 abstract class Animal {
-    abstract prop: string;
+    abstract readonly prop: string;
+    readonly abstract prop: string;
+    static readonly prop: string;
     otherProp: string;
     abstract makeSound(): void;
     abstract get readonlyProp(): string;
@@ -665,8 +667,9 @@ abstract class Animal {
 (program
   (abstract_class (identifier) (class_body))
   (abstract_class (identifier) (class_body
-    (public_field_definition (property_identifier) (type_annotation (predefined_type)))
-    (public_field_definition (property_identifier) (type_annotation (predefined_type)))
+    (public_field_definition (readonly) (property_identifier) (type_annotation (predefined_type)))
+    (public_field_definition (readonly) (property_identifier) (type_annotation (predefined_type)))
+    (public_field_definition (readonly) (property_identifier) (type_annotation (predefined_type))) (public_field_definition (property_identifier) (type_annotation (predefined_type)))
     (abstract_method_signature
       (property_identifier)
       (call_signature (formal_parameters) (type_annotation (predefined_type))))
