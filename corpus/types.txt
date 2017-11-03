@@ -34,7 +34,7 @@ Object types
 =======================================
 
 let person: {name: string, age: number};
-
+let thing: { [type: string]: string };
 ---
 
 (program
@@ -42,7 +42,11 @@ let person: {name: string, age: number};
     (identifier)
     (type_annotation (object_type
       (property_signature (property_identifier) (type_annotation (predefined_type)))
-      (property_signature (property_identifier) (type_annotation (predefined_type))))))))
+      (property_signature (property_identifier) (type_annotation (predefined_type)))))))
+  (lexical_declaration (variable_declarator
+    (identifier)
+    (type_annotation (object_type
+      (index_signature (identifier) (type_annotation (predefined_type))))))))
 
 =======================================
 Array types
