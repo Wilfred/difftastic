@@ -35,6 +35,9 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
     [$.nested_type_identifier, $.member_expression],
 
     [$.generic_type, $._primary_type],
+    [$._expression, $._primary_type, $.lookup_type],
+    [$._primary_type, $.lookup_type],
+    [$.nested_identifier, $.member_expression, $.nested_type_identifier],
 
     [$.member_expression, $.nested_identifier],
 
@@ -445,7 +448,8 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       $.index_type_query,
       $.this_type,
       $.existential_type,
-      $.literal_type
+      $.literal_type,
+      $.lookup_type
     ),
 
     generic_type: $ => seq(
@@ -470,6 +474,13 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
     index_type_query: $ => seq(
       'keyof',
       choice($.identifier, $.nested_identifier)
+    ),
+
+    lookup_type: $ => seq(
+      choice($.identifier, $.nested_identifier),
+      '[',
+      $._type,
+      ']'
     ),
 
     literal_type: $ => choice($.number, $.string, $.true, $.false),
