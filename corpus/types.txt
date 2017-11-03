@@ -488,7 +488,7 @@ type K1 = typeof Person;
     (type_query (identifier))))
 
 =======================================
-Type query and index type query types
+Lookup types
 =======================================
 
 type K1 = Foo[bar]
@@ -502,4 +502,4 @@ type K1 = Foo['bar' | 'baz']
     (lookup_type (identifier) (type_identifier)))
   (type_alias_declaration
     (identifier)
-    (lookup_type (identifier) (union_type (literal_type (string)) (literal_type (string)))))) 
+    (lookup_type (identifier) (union_type (literal_type (string)) (literal_type (string))))))
