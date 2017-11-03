@@ -2236,7 +2236,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_type_switch_guard"
+          "name": "type_switch_guard"
         },
         {
           "type": "STRING",
@@ -2255,7 +2255,7 @@
         }
       ]
     },
-    "_type_switch_guard": {
+    "type_switch_guard": {
       "type": "SEQ",
       "members": [
         {

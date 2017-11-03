@@ -488,13 +488,13 @@ module.exports = grammar({
         $._simple_statement,
         ';'
       )),
-      $._type_switch_guard,
+      $.type_switch_guard,
       '{',
       repeat($.type_case_clause),
       '}'
     ),
 
-    _type_switch_guard: $ => seq(
+    type_switch_guard: $ => seq(
       optional(seq($.expression_list, ':=' )),
       $._expression, '.', '(', 'type', ')'
     ),
