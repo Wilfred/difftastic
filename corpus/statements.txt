@@ -376,6 +376,20 @@ func main() {
     case *Dog:
       break
   }
+  switch i := x.(type) {
+    case nil:
+    	printString("x is nil")
+    case int:
+    	printInt(i)
+    case float64:
+    	printFloat64(i)
+    case func(int) float64:
+    	printFunction(i)
+    case bool, string:
+    	printString("type is bool or string")
+    default:
+    	printString("don't know the type")
+  }
 }
 
 ---
@@ -383,13 +397,36 @@ func main() {
 (source_file
   (package_clause (package_identifier))
   (function_declaration (identifier) (parameters) (block
-    (type_switch_statement (identifier)
+    (type_switch_statement
+      (type_switch_guard (identifier))
       (type_case_clause
         (type_case (slice_type (type_identifier)))
         (call_expression (identifier)))
       (type_case_clause
         (type_case (pointer_type (type_identifier)))
-        (break_statement))))))
+        (break_statement)))
+    (type_switch_statement
+      (type_switch_guard
+        (expression_list (identifier))
+        (identifier))
+      (type_case_clause
+        (type_case (type_identifier))
+        (call_expression (identifier)
+          (interpreted_string_literal)))
+      (type_case_clause
+        (type_case (type_identifier))
+        (call_expression (identifier) (identifier)))
+      (type_case_clause
+        (type_case (type_identifier))
+        (call_expression (identifier) (identifier)))
+      (type_case_clause
+        (type_case (function_type (parameters (identifier)) (type_identifier)))
+        (call_expression (identifier) (identifier)))
+      (type_case_clause
+        (type_case (type_identifier) (type_identifier))
+        (call_expression (identifier) (interpreted_string_literal)))
+      (type_case_clause
+        (default_type_case) (call_expression (identifier) (interpreted_string_literal)))))))
 
 ============================================
 Select statements
