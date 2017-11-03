@@ -426,7 +426,7 @@ func main() {
         (type_case (type_identifier) (type_identifier))
         (call_expression (identifier) (interpreted_string_literal)))
       (type_case_clause
-        (type_case) (call_expression (identifier) (interpreted_string_literal)))))))
+        (default_type_case) (call_expression (identifier) (interpreted_string_literal)))))))
 
 ============================================
 Select statements

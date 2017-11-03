@@ -2305,8 +2305,17 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "type_case"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "type_case"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "default_type_case"
+            }
+          ]
         },
         {
           "type": "STRING",
@@ -2327,47 +2336,42 @@
       ]
     },
     "type_case": {
-      "type": "CHOICE",
+      "type": "SEQ",
       "members": [
+        {
+          "type": "STRING",
+          "value": "case"
+        },
         {
           "type": "SEQ",
           "members": [
             {
-              "type": "STRING",
-              "value": "case"
+              "type": "SYMBOL",
+              "name": "_type"
             },
             {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "SYMBOL",
-                  "name": "_type"
-                },
-                {
-                  "type": "REPEAT",
-                  "content": {
-                    "type": "SEQ",
-                    "members": [
-                      {
-                        "type": "STRING",
-                        "value": ","
-                      },
-                      {
-                        "type": "SYMBOL",
-                        "name": "_type"
-                      }
-                    ]
+              "type": "REPEAT",
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "STRING",
+                    "value": ","
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "_type"
                   }
-                }
-              ]
+                ]
+              }
             }
           ]
-        },
-        {
-          "type": "STRING",
-          "value": "default"
         }
       ]
+    },
+    "default_type_case": {
+      "type": "STRING",
+      "value": "default"
     },
     "select_statement": {
       "type": "SEQ",
