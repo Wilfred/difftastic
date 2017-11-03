@@ -381,7 +381,7 @@ let x: false
   (lexical_declaration
     (variable_declarator (identifier) (type_annotation (literal_type (number)))))
   (lexical_declaration
-    (variable_declarator (identifier) (type_annotation (union_type (union_type (literal_type (number)) (literal_type (number))) (literal_type (number))))))
+    (variable_declarator (identifier) (type_annotation (union_type (union_type (literal_type (number)) (literal_type (unary_expression (number)))) (literal_type (unary_expression (number)))))))
   (lexical_declaration
     (variable_declarator (identifier) (type_annotation (literal_type (string))))) (lexical_declaration (variable_declarator (identifier) (type_annotation (literal_type (false))))))
 

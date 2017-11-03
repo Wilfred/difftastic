@@ -483,7 +483,7 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       ']'
     ),
 
-    literal_type: $ => choice($._number, $.number, $.string, $.true, $.false),
+    literal_type: $ => choice(alias($._number, $.unary_expression), $.number, $.string, $.true, $.false),
 
     _number: $ => prec.left(PREC.NEG, seq(choice('-', '+'), $.number)),
 

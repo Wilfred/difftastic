@@ -6227,8 +6227,13 @@
       "type": "CHOICE",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "_number"
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_number"
+          },
+          "named": true,
+          "value": "unary_expression"
         },
         {
           "type": "SYMBOL",
