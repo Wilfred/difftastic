@@ -490,3 +490,20 @@ type K1 = typeof Person;
   (type_alias_declaration
     (identifier)
     (type_query (identifier))))
+
+=======================================
+Lookup types
+=======================================
+
+type K1 = Foo[bar]
+type K1 = Foo['bar' | 'baz']
+
+---
+
+(program
+  (type_alias_declaration
+    (identifier)
+    (lookup_type (identifier) (type_identifier)))
+  (type_alias_declaration
+    (identifier)
+    (lookup_type (identifier) (union_type (literal_type (string)) (literal_type (string))))))
