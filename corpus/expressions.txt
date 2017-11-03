@@ -170,6 +170,9 @@ package main
 func main() {
   []a.b(c.d)
   ([]a.b)(c.d)
+  // These type conversions cannot be distinguished from call expressions
+  T(x)
+  (*Point)(p)
   e.f(g)
   (e.f)(g)
 }
@@ -185,11 +188,18 @@ func main() {
     (type_conversion_expression
       (parenthesized_type (slice_type (qualified_type (package_identifier) (type_identifier))))
       (selector_expression (identifier) (field_identifier)))
+    (comment)
+    (call_expression
+      (identifier) (identifier))
+    (call_expression
+      (parenthesized_expression
+        (unary_expression (identifier))) (identifier))
     (call_expression
       (selector_expression (identifier) (field_identifier))
       (identifier))
     (call_expression
-      (parenthesized_expression (selector_expression (identifier) (field_identifier)))
+      (parenthesized_expression
+        (selector_expression (identifier) (field_identifier)))
       (identifier)))))
 
 ============================================
