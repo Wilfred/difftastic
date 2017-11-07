@@ -1328,21 +1328,17 @@
       "type": "CHOICE",
       "members": [
         {
-          "type": "PREC",
-          "value": 5,
-          "content": {
-            "type": "SEQ",
-            "members": [
-              {
-                "type": "STRING",
-                "value": "chan"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "_type"
-              }
-            ]
-          }
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "chan"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_type"
+            }
+          ]
         },
         {
           "type": "SEQ",
@@ -4376,6 +4372,9 @@
     [
       "composite_literal",
       "_expression"
+    ],
+    [
+      "channel_type"
     ]
   ],
   "externals": [],
