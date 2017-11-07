@@ -170,6 +170,7 @@ package main
 func main() {
   []a.b(c.d)
   ([]a.b)(c.d)
+  <-chan int(c)
   // These type conversions cannot be distinguished from call expressions
   T(x)
   (*Point)(p)
@@ -188,6 +189,8 @@ func main() {
     (type_conversion_expression
       (parenthesized_type (slice_type (qualified_type (package_identifier) (type_identifier))))
       (selector_expression (identifier) (field_identifier)))
+    (type_conversion_expression
+      (channel_type (type_identifier)) (identifier))
     (comment)
     (call_expression
       (identifier) (identifier))

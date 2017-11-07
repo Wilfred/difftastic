@@ -69,6 +69,7 @@ module.exports = grammar({
     [$.function_type],
     [$._parameter_list, $._simple_type],
     [$.composite_literal, $._expression],
+    [$.channel_type]
   ],
 
   rules: {
@@ -318,7 +319,7 @@ module.exports = grammar({
     ),
 
     channel_type: $ => choice(
-      prec(5, seq('chan', $._type)),
+      seq('chan', $._type),
       seq('chan', '<-', $._type),
       seq('<-', 'chan', $._type)
     ),
