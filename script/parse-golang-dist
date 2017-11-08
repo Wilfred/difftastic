@@ -25,5 +25,5 @@ for go_file in $GO_FILES; do
     continue
   fi
 
-  tree-sitter parse $go_file || exit 1
+  tree-sitter parse $go_file --quiet --time || exit 1
 done
