@@ -1328,11 +1328,45 @@
       "type": "CHOICE",
       "members": [
         {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "chan"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_type"
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "chan"
+            },
+            {
+              "type": "STRING",
+              "value": "<-"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_type"
+            }
+          ]
+        },
+        {
           "type": "PREC",
-          "value": 5,
+          "value": 6,
           "content": {
             "type": "SEQ",
             "members": [
+              {
+                "type": "STRING",
+                "value": "<-"
+              },
               {
                 "type": "STRING",
                 "value": "chan"
@@ -1343,40 +1377,6 @@
               }
             ]
           }
-        },
-        {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "STRING",
-              "value": "chan"
-            },
-            {
-              "type": "STRING",
-              "value": "<-"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "_type"
-            }
-          ]
-        },
-        {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "STRING",
-              "value": "<-"
-            },
-            {
-              "type": "STRING",
-              "value": "chan"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "_type"
-            }
-          ]
         }
       ]
     },
