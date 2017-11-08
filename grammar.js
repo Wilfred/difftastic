@@ -318,9 +318,9 @@ module.exports = grammar({
     ),
 
     channel_type: $ => choice(
-      prec(5, seq('chan', $._type)),
+      seq('chan', $._type),
       seq('chan', '<-', $._type),
-      seq('<-', 'chan', $._type)
+      prec(PREC.unary, seq('<-', 'chan', $._type))
     ),
 
     function_type: $ => seq(
