@@ -70,7 +70,7 @@ module.exports = grammar({
     ),
 
     _expression: $ => seq(
-      // $.assignment_expression,
+      $.assignment_expression,
       $.yield_expression,
       $.binary_expression,
       $.include_expression,
@@ -78,6 +78,58 @@ module.exports = grammar({
       $.require_expression,
       $.require_once_expression,
     ),
+
+    assignment_expression: $ => choice(
+      seq(choice($._variable, $.list_literal), '=', $.assignment_expression),
+      seq($._variable, '=', '&', $._variable),
+      choice(...[
+        ['**=', PREC.TIMES],
+        ['*=', PREC.TIMES],
+        ['/=', PREC.TIMES],
+        ['+=', PREC.PLUS],
+        ['-=', PREC.PLUS],
+        ['.=', PREC.PLUS],
+        ['<<=', PREC.SHIFT],
+        ['>>=', PREC.SHIFT],
+        ['&=', PREC.AND],
+        ['^=', PREC.AND],
+        ['|=', PREC.OR]
+      ].map(([operator, precedence]) =>
+        prec.left(precedence, seq($._variable, operator, $.assignment_expression)
+      )))
+    ),
+
+    _variable: $ => choice(
+      $._callable_variable,
+      // $.scoped_property_access_expression,
+      // $.member_access_expression
+    ),
+
+    list_literal: $ => seq(
+      'list',
+      '(',
+      commaSep(choice(
+        choice($.list_literal, $._variable),
+        seq($._expression, '=>', choice($.list_literal, $._variable))
+      )),
+      ')'
+    ),
+
+    _callable_variable: $ => choice(
+      $.simple_variable,
+      // $.subscript_expression,
+      // $.member_call_expression,
+      // $.scoped_call_expression,
+      // $.function_call_expression
+    ),
+
+    simple_variable: $ => choice(
+      $._variable_name,
+      seq('$', $.simple_variable),
+      seq('$', '{', $._expression, '}')
+    ),
+
+    _variable_name: $ => seq('$', $.name),
 
     yield_expression: $ => choice(
       seq('yield', $.array_element_initializer),
@@ -162,3 +214,11 @@ module.exports = grammar({
     )),
   }
 })
+
+function commaSep1 (rule) {
+  return seq(rule, repeat(seq(',', rule)));
+}
+
+function commaSep (rule) {
+  return optional(commaSep1(rule));
+}
