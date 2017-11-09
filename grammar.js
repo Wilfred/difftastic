@@ -117,11 +117,58 @@ module.exports = grammar({
 
     _callable_variable: $ => choice(
       $.simple_variable,
-      // $.subscript_expression,
+      $.subscript_expression,
       // $.member_call_expression,
       // $.scoped_call_expression,
       // $.function_call_expression
     ),
+
+    subscript_expression: $ => seq(
+      $.dereferencable_expression,
+      choice(
+        seq('[', optional($._expression), ']'),
+        seq('{', $._expression, '}')
+      )
+    ),
+
+    dereferencable_expression: $ => seq(
+      $._variable,
+      seq('(', $._expression, ')'),
+      $.array_creation_expression,
+      $.string
+    ),
+
+    array_creation_expression: $ => choice(
+      seq('array', '(', commaSep($.array_element_initializer), optional(','), ')'),
+      seq('[', commaSep($.array_element_initializer), optional(','), ']')
+    ),
+
+    string: $ => {
+      const b_prefix = /[bB]/
+      const single_quote_chars = repeat(/\\'|\\\\|\\?[^'\\]/)
+      const single_quote_string = seq(
+        optional(b_prefix), "'", single_quote_chars, "'"
+      )
+
+      const dq_simple_escapes = /\\"|\\\\|\\\$|\\e|\\f|\\n|\\r|\\t|\\v/
+      const octal_digit = /0-7/
+      const dq_octal_escapes = seq('\\', octal_digit, optional(octal_digit), optional(octal_digit))
+      const hex_digit = /\d|a-f|A-F/
+      const dq_hex_escapes = seq(
+        /\\[xX]/,
+        hex_digit,
+        optional(hex_digit)
+      )
+
+      const dq_unicode_escapes = seq('\\u{', repeat1(hex_digit), '}')
+      const dq_escapes = choice(dq_simple_escapes, dq_octal_escapes, dq_hex_escapes, dq_unicode_escapes)
+      const double_quote_chars = repeat(dq_escapes, /[^"\\]|\\[^"\\$efnrtvxX0-7]/)
+      const double_quote_string = seq(
+        optional(b_prefix), '"', double_quote_chars, '"'
+      )
+
+      return token(choice(single_quote_string, double_quote_string))
+    },
 
     simple_variable: $ => choice(
       $._variable_name,
