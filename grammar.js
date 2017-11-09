@@ -167,7 +167,12 @@ module.exports = grammar({
         optional(b_prefix), '"', double_quote_chars, '"'
       )
 
-      return token(choice(single_quote_string, double_quote_string))
+      return token(choice(
+        single_quote_string,
+        double_quote_string,
+        // heredoc_string,
+        // nowdoc_string,
+      ))
     },
 
     simple_variable: $ => choice(
