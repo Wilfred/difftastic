@@ -118,9 +118,24 @@ module.exports = grammar({
     _callable_variable: $ => choice(
       $.simple_variable,
       $.subscript_expression,
-      // $.member_call_expression,
+      $.member_call_expression,
       // $.scoped_call_expression,
       // $.function_call_expression
+    ),
+
+    member_call_expression: $ => seq(
+      $.dereferencable_expression,
+      '->',
+      $._member_name,
+      '(',
+      repeat($.variadic_unpacking, $._expression),
+      ')'
+    ),
+
+    variadic_unpacking: $ => seq('...', $._expression),
+
+    _member_name: $ => choice(
+      $.name, $.simple_variable, seq('{', $._expression, '}')
     ),
 
     subscript_expression: $ => seq(
