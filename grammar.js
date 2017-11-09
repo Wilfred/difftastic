@@ -119,17 +119,50 @@ module.exports = grammar({
       $.simple_variable,
       $.subscript_expression,
       $.member_call_expression,
-      // $.scoped_call_expression,
+      $.scoped_call_expression,
       // $.function_call_expression
+    ),
+
+    scoped_call_expression: $ => seq(
+      $._scope_resolution_qualifier, '::', $._member_name, $.arguments
+    ),
+
+    _scope_resolution_qualifier: $ => choice(
+      $.relative_scope,
+      $.qualified_name,
+      $.dereferencable_expression
+    ),
+
+    relative_scope: $ => choice(
+      'self',
+      'parent',
+      'static'
+    ),
+
+    qualified_name: $ => seq(
+      optional($.namespace_name_as_prefix), $.name
+    ),
+
+    namespace_name_as_prefix: $ => prec.right(choice(
+      '\\',
+      seq(optional('\\'), $.namespace_name, '\\'),
+      seq('namespace', '\\'),
+      seq('namespace', '\\', $.namespace_name, '\\')
+    )),
+
+    namespace_name: $ => prec.right(seq($.name, repeat(seq('\\', $.name)))),
+
+    arguments: $ => seq(
+      '(',
+      repeat($.variadic_unpacking, $._expression),
+      ')'
     ),
 
     member_call_expression: $ => seq(
       $.dereferencable_expression,
       '->',
       $._member_name,
-      '(',
-      repeat($.variadic_unpacking, $._expression),
-      ')'
+      $.arguments
     ),
 
     variadic_unpacking: $ => seq('...', $._expression),
