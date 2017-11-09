@@ -115,6 +115,22 @@
         {
           "type": "SYMBOL",
           "name": "binary_expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "include_expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "include_once_expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "require_expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "require_once_expression"
         }
       ]
     },
@@ -708,6 +724,58 @@
               }
             ]
           }
+        }
+      ]
+    },
+    "include_expression": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "include"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_expression"
+        }
+      ]
+    },
+    "include_once_expression": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "include_once"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_expression"
+        }
+      ]
+    },
+    "require_expression": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "include_once"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_expression"
+        }
+      ]
+    },
+    "require_once_expression": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "include_once"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_expression"
         }
       ]
     },

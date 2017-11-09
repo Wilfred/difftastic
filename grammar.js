@@ -71,10 +71,10 @@ module.exports = grammar({
 
     _expression: $ => seq(
       $.binary_expression,
-      // $.include_expression,
-      // $.include_once_expression,
-      // $.require_expression,
-      // $.require_once_expression,
+      $.include_expression,
+      $.include_once_expression,
+      $.require_expression,
+      $.require_once_expression,
     ),
 
     binary_expression: $ => choice(...[
@@ -109,6 +109,26 @@ module.exports = grammar({
     ].map(([operator, precedence]) =>
       prec.left(precedence, seq($._expression, operator, $._expression))
     )),
+
+    include_expression: $ => seq(
+      'include',
+      $._expression
+    ),
+
+    include_once_expression: $ => seq(
+      'include_once',
+      $._expression
+    ),
+
+    require_expression: $ => seq(
+      'include_once',
+      $._expression
+    ),
+
+    require_once_expression: $ => seq(
+      'include_once',
+      $._expression
+    ),
 
     name: $ => {
       var nondigit = /[_a-zA-Z\u0080-\u00ff]/
