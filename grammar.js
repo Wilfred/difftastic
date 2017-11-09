@@ -1,3 +1,19 @@
+const PREC = {
+  COMMA: -1,
+  DECLARATION: 1,
+  COMMENT: 1,
+  TERNARY: 1,
+  OR: 2,
+  AND: 3,
+  PLUS: 4,
+  MINUS: 4,
+  REL: 5,
+  TIMES: 6,
+  SHIFT: 6,
+  NOT: 8,
+  NEG: 9,
+};
+
 module.exports = grammar({
   name: 'php',
 
@@ -18,7 +34,7 @@ module.exports = grammar({
     statement: $ => choice(
       $.compound_statement,
       $.named_label_statement,
-      // $.expression_statement,
+      $.expression_statement,
       // $.selection_statement,
       // $.iteration_statement,
       // $.jump_statement,
@@ -47,6 +63,52 @@ module.exports = grammar({
       $.name,
       ':'
     ),
+
+    expression_statement: $ => seq(
+      optional($._expression),
+      ';'
+    ),
+
+    _expression: $ => seq(
+      $.binary_expression,
+      // $.include_expression,
+      // $.include_once_expression,
+      // $.require_expression,
+      // $.require_once_expression,
+    ),
+
+    binary_expression: $ => choice(...[
+      ['and', PREC.AND],
+      ['or', PREC.OR],
+      ['xor', PREC.OR],
+      ['||', PREC.OR],
+      ['&&', PREC.AND],
+      ['|', PREC.OR],
+      ['^', PREC.AND],
+      ['&', PREC.AND],
+      ['??', PREC.TERNARY],
+      ['==', PREC.REL],
+      ['!=', PREC.REL],
+      ['<>', PREC.REL],
+      ['===', PREC.REL],
+      ['!==', PREC.REL],
+      ['<', PREC.REL],
+      ['>', PREC.REL],
+      ['<=', PREC.REL],
+      ['>=', PREC.REL],
+      ['<=>', PREC.REL],
+      ['<<', PREC.SHIFT],
+      ['>>', PREC.SHIFT],
+      ['+', PREC.PLUS],
+      ['-', PREC.MINUS],
+      ['.', PREC.PLUS],
+      ['*', PREC.TIMES],
+      ['/', PREC.TIMES],
+      ['%', PREC.TIMES],
+      ['instanceof', PREC.REL]
+    ].map(([operator, precedence]) =>
+      prec.left(precedence, seq($._expression, operator, $._expression))
+    )),
 
     name: $ => {
       var nondigit = /[_a-zA-Z\u0080-\u00ff]/
