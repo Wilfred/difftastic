@@ -70,11 +70,23 @@ module.exports = grammar({
     ),
 
     _expression: $ => seq(
+      // $.assignment_expression,
+      $.yield_expression,
       $.binary_expression,
       $.include_expression,
       $.include_once_expression,
       $.require_expression,
       $.require_once_expression,
+    ),
+
+    yield_expression: $ => choice(
+      seq('yield', $.array_element_initializer),
+      seq('yield', 'from', $._expression),
+    ),
+
+    array_element_initializer: $ => choice(
+      seq(optional('&'), $._expression),
+      seq($._expression, '=>', optional('&'), $._expression)
     ),
 
     binary_expression: $ => choice(...[
