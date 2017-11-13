@@ -17,12 +17,15 @@ const PREC = {
 module.exports = grammar({
   name: 'php',
 
+  conflicts: $ => [
+    [$.function_call_expression, $._variable]
+  ],
   extras: $ => [
     $.comment,
     /[\s\uFEFF\u2060\u200B\u00A0]/
   ],
   rules: {
-    //
+
     program: $ => seq(
       // TODO: optional text
       choice('<?php', '<?='),
@@ -120,7 +123,12 @@ module.exports = grammar({
       $.subscript_expression,
       $.member_call_expression,
       $.scoped_call_expression,
-      // $.function_call_expression
+      $.function_call_expression
+    ),
+
+    function_call_expression: $ => seq(
+      choice($.qualified_name, $._callable_variable, seq('(', $._expression, ')'), $.array_creation_expression, $.string),
+      $.arguments
     ),
 
     scoped_call_expression: $ => seq(

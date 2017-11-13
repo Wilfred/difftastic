@@ -587,6 +587,57 @@
         {
           "type": "SYMBOL",
           "name": "scoped_call_expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "function_call_expression"
+        }
+      ]
+    },
+    "function_call_expression": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "qualified_name"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_callable_variable"
+            },
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "("
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "_expression"
+                },
+                {
+                  "type": "STRING",
+                  "value": ")"
+                }
+              ]
+            },
+            {
+              "type": "SYMBOL",
+              "name": "array_creation_expression"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "string"
+            }
+          ]
+        },
+        {
+          "type": "SYMBOL",
+          "name": "arguments"
         }
       ]
     },
@@ -2100,7 +2151,12 @@
       "value": "[\\s﻿⁠​ ]"
     }
   ],
-  "conflicts": [],
+  "conflicts": [
+    [
+      "function_call_expression",
+      "_variable"
+    ]
+  ],
   "externals": [],
   "inline": []
 }
