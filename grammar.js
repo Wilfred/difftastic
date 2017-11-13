@@ -19,7 +19,8 @@ module.exports = grammar({
 
   conflicts: $ => [
     [$.function_call_expression, $._variable],
-    [$.scoped_property_access_expression, $.scoped_call_expression]
+    [$.scoped_property_access_expression, $.scoped_call_expression],
+    [$.member_access_expression, $.member_call_expression]
   ],
   inline: $ => [
     $._member_name,
@@ -111,7 +112,11 @@ module.exports = grammar({
     _variable: $ => choice(
       $._callable_variable,
       $.scoped_property_access_expression,
-      // $.member_access_expression
+      $.member_access_expression
+    ),
+
+    member_access_expression: $ => seq(
+      $.dereferencable_expression, '->', $._member_name
     ),
 
     scoped_property_access_expression: $ => seq(

@@ -440,6 +440,27 @@
         {
           "type": "SYMBOL",
           "name": "scoped_property_access_expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "member_access_expression"
+        }
+      ]
+    },
+    "member_access_expression": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "dereferencable_expression"
+        },
+        {
+          "type": "STRING",
+          "value": "->"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_member_name"
         }
       ]
     },
@@ -2185,6 +2206,10 @@
     [
       "scoped_property_access_expression",
       "scoped_call_expression"
+    ],
+    [
+      "member_access_expression",
+      "member_call_expression"
     ]
   ],
   "externals": [],
