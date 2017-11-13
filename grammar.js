@@ -18,7 +18,13 @@ module.exports = grammar({
   name: 'php',
 
   conflicts: $ => [
-    [$.function_call_expression, $._variable]
+    [$.function_call_expression, $._variable],
+    [$.scoped_property_access_expression, $.scoped_call_expression]
+  ],
+  inline: $ => [
+    $._member_name,
+    $._variable,
+    $._callable_expression
   ],
   extras: $ => [
     $.comment,
@@ -104,8 +110,12 @@ module.exports = grammar({
 
     _variable: $ => choice(
       $._callable_variable,
-      // $.scoped_property_access_expression,
+      $.scoped_property_access_expression,
       // $.member_access_expression
+    ),
+
+    scoped_property_access_expression: $ => seq(
+      $._scope_resolution_qualifier, '::', $.simple_variable
     ),
 
     list_literal: $ => seq(
@@ -127,8 +137,15 @@ module.exports = grammar({
     ),
 
     function_call_expression: $ => seq(
-      choice($.qualified_name, $._callable_variable, seq('(', $._expression, ')'), $.array_creation_expression, $.string),
+      choice($.qualified_name, ),
       $.arguments
+    ),
+
+    _callable_expression: $ => choice(
+      $._callable_variable,
+      seq('(', $._expression, ')'),
+      $.array_creation_expression,
+      $.string
     ),
 
     scoped_call_expression: $ => seq(

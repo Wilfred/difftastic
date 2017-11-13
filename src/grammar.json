@@ -436,6 +436,27 @@
         {
           "type": "SYMBOL",
           "name": "_callable_variable"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "scoped_property_access_expression"
+        }
+      ]
+    },
+    "scoped_property_access_expression": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_scope_resolution_qualifier"
+        },
+        {
+          "type": "STRING",
+          "value": "::"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "simple_variable"
         }
       ]
     },
@@ -603,41 +624,46 @@
             {
               "type": "SYMBOL",
               "name": "qualified_name"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "_callable_variable"
-            },
-            {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "STRING",
-                  "value": "("
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "_expression"
-                },
-                {
-                  "type": "STRING",
-                  "value": ")"
-                }
-              ]
-            },
-            {
-              "type": "SYMBOL",
-              "name": "array_creation_expression"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "string"
             }
           ]
         },
         {
           "type": "SYMBOL",
           "name": "arguments"
+        }
+      ]
+    },
+    "_callable_expression": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_callable_variable"
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "("
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_expression"
+            },
+            {
+              "type": "STRING",
+              "value": ")"
+            }
+          ]
+        },
+        {
+          "type": "SYMBOL",
+          "name": "array_creation_expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "string"
         }
       ]
     },
@@ -2155,8 +2181,16 @@
     [
       "function_call_expression",
       "_variable"
+    ],
+    [
+      "scoped_property_access_expression",
+      "scoped_call_expression"
     ]
   ],
   "externals": [],
-  "inline": []
+  "inline": [
+    "_member_name",
+    "_variable",
+    "_callable_expression"
+  ]
 }
