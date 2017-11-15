@@ -75,9 +75,26 @@ module.exports = grammar({
     _iteration_statement: $ => choice(
       // $.while_statement,
       // $.do_statement,
-      // $.for_statement,
+      $.for_statement,
       $.foreach_statement,
     ),
+
+    for_statement: $ => seq(
+      'for', '(', $._expressions, ';', $._expressions, ';', $._expressions, ')',
+      choice(
+        $.statement,
+        seq(':', repeat1($.statement), 'endfor', ';')
+      )
+    ),
+
+    _expressions: $ => choice(
+      $._expression,
+      $.sequence_expression
+    ),
+
+    sequence_expression: $ => prec(PREC.COMMA, seq(
+     $._expression, ',', choice($.sequence_expression, $._expression))
+   ),
 
     foreach_statement: $ => seq(
       'foreach', '(', $._expression, 'as', optional(seq($._expression, '=>')), $._foreach_value, ')',
