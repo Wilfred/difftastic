@@ -25,6 +25,8 @@ module.exports = grammar({
     [$.simple_parameter, $.name],
     [$.variadic_parameter, $.name],
     [$.property_modifier, $._method_modifier],
+
+    // Do we need these?
     [$.qualified_name, $.namespace_name],
     [$.name, $.namespace_name],
     [$.qualified_name, $.name],
@@ -72,13 +74,17 @@ module.exports = grammar({
       $.trait_declaration,
       $.namespace_definition,
       $.namespace_use_declaration,
-      // $.global_declaration,
+      $.global_declaration,
       // $.function_static_declaration,
     ),
 
     _selection_statement: $ => choice(
       $.if_statement,
       $.switch_statement
+    ),
+
+    global_declaration: $ => seq(
+      'global', repeat1($.simple_variable), ';'
     ),
 
     namespace_definition: $ => seq(

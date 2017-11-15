@@ -108,6 +108,10 @@
         {
           "type": "SYMBOL",
           "name": "namespace_use_declaration"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "global_declaration"
         }
       ]
     },
@@ -121,6 +125,26 @@
         {
           "type": "SYMBOL",
           "name": "switch_statement"
+        }
+      ]
+    },
+    "global_declaration": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "global"
+        },
+        {
+          "type": "REPEAT1",
+          "content": {
+            "type": "SYMBOL",
+            "name": "simple_variable"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ";"
         }
       ]
     },
