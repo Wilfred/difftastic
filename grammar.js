@@ -24,7 +24,11 @@ module.exports = grammar({
     [$.simple_variable, $.name],
     [$.simple_parameter, $.name],
     [$.variadic_parameter, $.name],
-    [$.property_modifier, $._method_modifier]
+    [$.property_modifier, $._method_modifier],
+    [$.qualified_name, $.namespace_name],
+    [$.name, $.namespace_name],
+    [$.qualified_name, $.name],
+    [$.namespace_aliasing_clause, $.name]
   ],
   inline: $ => [
     $._expression,
@@ -67,7 +71,7 @@ module.exports = grammar({
       $.interface_declaration,
       $.trait_declaration,
       $.namespace_definition,
-      // $.namespace_use_declaration,
+      $.namespace_use_declaration,
       // $.global_declaration,
       // $.function_static_declaration,
     ),
@@ -83,6 +87,36 @@ module.exports = grammar({
         seq($.name, ';'),
         seq(optional($.name), $.compound_statement)
       )
+    ),
+
+    namespace_use_declaration: $ => seq(
+      'use',
+      choice(
+        seq(optional($.namespace_function_or_const), repeat1($.namespace_use_clause), ';'),
+        seq($.namespace_function_or_const, optional('\\'), $.namespace_name, '\\', '{', repeat1($.namespace_use_group_clause_1), '}', ';'),
+        seq(optional('\\'), $.namespace_name, '\\', '{', repeat1($.namespace_use_group_clause_2), '}', ';')
+      )
+    ),
+
+    namespace_function_or_const: $ => choice(
+      'function',
+      'const'
+    ),
+
+    namespace_use_clause: $ => seq(
+      $.qualified_name, optional($.namespace_aliasing_clause)
+    ),
+
+    namespace_aliasing_clause: $ => seq(
+      'as', $.name
+    ),
+
+    namespace_use_group_clause_1: $ => seq(
+      $.namespace_name, optional($.namespace_aliasing_clause)
+    ),
+
+    namespace_use_group_clause_2: $ => seq(
+      optional($.namespace_function_or_const), $.namespace_name, optional($.namespace_aliasing_clause)
     ),
 
     trait_declaration: $ => seq(
