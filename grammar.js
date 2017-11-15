@@ -103,12 +103,16 @@ module.exports = grammar({
     ),
 
     class_member_declaration: $ => choice(
-      // $.class_const_declaration,
+      $.class_const_declaration,
       $.property_declaration,
       $.method_declaration,
       $.constructor_declaration,
       $.destructor_declaration,
       $.trait_use_clause
+    ),
+
+    class_const_declaration: $ => seq(
+      optional($.visibility_modifier), 'const', repeat1($.const_element), ';'
     ),
 
     property_declaration: $ => seq(

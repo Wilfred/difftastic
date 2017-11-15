@@ -238,6 +238,10 @@
       "members": [
         {
           "type": "SYMBOL",
+          "name": "class_const_declaration"
+        },
+        {
+          "type": "SYMBOL",
           "name": "property_declaration"
         },
         {
@@ -255,6 +259,38 @@
         {
           "type": "SYMBOL",
           "name": "trait_use_clause"
+        }
+      ]
+    },
+    "class_const_declaration": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "visibility_modifier"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": "const"
+        },
+        {
+          "type": "REPEAT1",
+          "content": {
+            "type": "SYMBOL",
+            "name": "const_element"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ";"
         }
       ]
     },
