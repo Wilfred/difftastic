@@ -75,7 +75,14 @@ module.exports = grammar({
       $.namespace_definition,
       $.namespace_use_declaration,
       $.global_declaration,
-      // $.function_static_declaration,
+      $.function_static_declaration,
+    ),
+    function_static_declaration: $ => seq(
+      'static', commaSep1($.static_variable_declaration), ';'
+    ),
+
+    static_variable_declaration: $ => seq(
+      $._variable_name, optional(seq('=', $._expression))
     ),
 
     _selection_statement: $ => choice(
