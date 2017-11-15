@@ -552,7 +552,7 @@ module.exports = grammar({
       $.require_once_expression,
     ),
 
-    assignment_expression: $ => choice(
+    assignment_expression: $ => prec.right(choice(
       seq(choice($._variable, $.list_literal), '=', $.assignment_expression),
       seq($._variable, '=', '&', $._variable),
       choice(...[
@@ -570,7 +570,7 @@ module.exports = grammar({
       ].map(([operator, precedence]) =>
         prec.left(precedence, seq($._variable, operator, $.assignment_expression)
       )))
-    ),
+    )),
 
     _variable: $ => choice(
       $._callable_variable,
@@ -604,9 +604,9 @@ module.exports = grammar({
       $.function_call_expression
     ),
 
-    function_call_expression: $ => seq(
-      choice($.qualified_name, ),
-      $.arguments
+    function_call_expression: $ => choice(
+      seq($.qualified_name, $.arguments),
+      seq($._callable_expression, $.arguments)
     ),
 
     _callable_expression: $ => choice(
