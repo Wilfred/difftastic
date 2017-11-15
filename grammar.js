@@ -58,7 +58,7 @@ module.exports = grammar({
       $.declare_statement,
       $.echo_statement,
       $.unset_statement,
-      // $.const_declaration,
+      $.const_declaration,
       // $.function_definition,
       // $.class_declaration,
       // $.interface_declaration,
@@ -72,6 +72,14 @@ module.exports = grammar({
     _selection_statement: $ => choice(
       $.if_statement,
       $.switch_statement
+    ),
+
+    const_declaration: $ => seq(
+      'const', commaSep1($.const_element), ';'
+    ),
+
+    const_element: $ => seq(
+      $.name, '=', $._expression
     ),
 
     echo_statement: $ => seq(
