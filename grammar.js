@@ -106,10 +106,21 @@ module.exports = grammar({
       // $.property_declaration,
       // $.method_declaration,
       // $.constructor_declaration,
-      // $.destructor_declaration,
+      $.destructor_declaration,
       $.trait_use_clause
     ),
 
+    destructor_declaration: $ => seq(
+      repeat1($._method_modifier), 'function', optional('&'), '__destruct', '(', ')', $.compound_statement
+    ),
+
+    _method_modifier: $ => choice(
+      $.visibility_modifier,
+      $.class_modifier,
+      $.static_modifier
+    ),
+
+    static_modifier: $ => 'static',
 
     trait_use_clause: $ => seq(
       'use', commaSep1($.qualified_name), $.trait_use_specification
