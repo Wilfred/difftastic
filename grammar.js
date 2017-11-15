@@ -51,7 +51,7 @@ module.exports = grammar({
       $.expression_statement,
       $._selection_statement,
       $._iteration_statement,
-      // $.jump_statement,
+      $.jump_statement,
       // $.try_statement,
       // $.declare_statement,
       // $.echo_statement,
@@ -70,6 +70,44 @@ module.exports = grammar({
     _selection_statement: $ => choice(
       $.if_statement,
       $.switch_statement
+    ),
+
+    jump_statement: $ => choice(
+      // $.goto_statement,
+      // $.continue_statement,
+      $.break_statement,
+      $.return_statement,
+      $.throw_statement,
+    ),
+
+    break_statement: $ => seq(
+      'break', optional($._breakout_level), ';'
+    ),
+
+    _breakout_level: $ => choice(
+      $.integer,
+      seq('(', $._breakout_level, ')')
+    ),
+
+    integer: $ => {
+      const decimal = /1-9\d+/
+      const octal = /0[0-7]+/
+      const hex = /0[xX][0-9|a-f|A-F]+/
+      const binary = /0[bB][01]+/
+      return choice(
+        decimal,
+        octal,
+        hex,
+        binary
+      )
+  },
+
+    return_statement: $ => seq(
+      'return', optional($._expression), ';'
+    ),
+
+    throw_statement: $ => seq(
+      'throw', $._expression, ';'
     ),
 
     _iteration_statement: $ => choice(
