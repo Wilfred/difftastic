@@ -62,7 +62,7 @@ module.exports = grammar({
       $.unset_statement,
       $.const_declaration,
       $.function_definition,
-      // $.class_declaration,
+      $.class_declaration,
       // $.interface_declaration,
       // $.trait_declaration,
       // $.namespace_definition,
@@ -74,6 +74,74 @@ module.exports = grammar({
     _selection_statement: $ => choice(
       $.if_statement,
       $.switch_statement
+    ),
+
+    class_declaration: $ => seq(
+      optional($.class_modifier),
+      'class',
+      $.name,
+      optional($.class_base_clause),
+      optional($.class_interface_clause),
+      '{',
+      repeat($.class_member_declaration),
+      '}'
+    ),
+
+    class_modifier: $ => choice(
+      'abstract',
+      'final'
+    ),
+
+    class_base_clause: $ => seq(
+      'extends', $.qualified_name
+    ),
+
+    class_interface_clause: $ => choice(
+      seq('implements', $.qualified_name),
+      seq($.class_interface_clause, ',', $.qualified_name)
+    ),
+
+    class_member_declaration: $ => choice(
+      // $.class_const_declaration,
+      // $.property_declaration,
+      // $.method_declaration,
+      // $.constructor_declaration,
+      // $.destructor_declaration,
+      $.trait_use_clause
+    ),
+
+
+    trait_use_clause: $ => seq(
+      'use', commaSep1($.qualified_name), $.trait_use_specification
+    ),
+
+    trait_use_specification: $ => choice(
+      ';',
+      seq('{', repeat($._trait_select_and_alias_clause), '}')
+    ),
+
+    _trait_select_and_alias_clause: $ => choice(
+      $.trait_select_instead_of_clause,
+      $.trait_alias_as_clause
+    ),
+
+    trait_select_instead_of_clause: $ => prec.left(seq(
+      $.name, 'insteadof', $.name
+    )),
+
+    trait_alias_as_clause: $ => prec.right(seq(
+      $.name,
+      'as',
+      choice(
+        seq(optional($.visibility_modifier), $.name),
+        seq($.visibility_modifier, optional($.name))
+      )
+    )),
+
+    visibility_modifier: $ => choice(
+      'public',
+      'protected',
+      'private'
     ),
 
     function_definition: $ => seq(
