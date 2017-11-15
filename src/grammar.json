@@ -72,6 +72,10 @@
         {
           "type": "SYMBOL",
           "name": "declare_statement"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "echo_statement"
         }
       ]
     },
@@ -85,6 +89,26 @@
         {
           "type": "SYMBOL",
           "name": "switch_statement"
+        }
+      ]
+    },
+    "echo_statement": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "echo"
+        },
+        {
+          "type": "REPEAT1",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_expression"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ";"
         }
       ]
     },
@@ -1798,38 +1822,46 @@
       ]
     },
     "member_access_expression": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "dereferencable_expression"
-        },
-        {
-          "type": "STRING",
-          "value": "->"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_member_name"
-        }
-      ]
+      "type": "PREC",
+      "value": 13,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "dereferencable_expression"
+          },
+          {
+            "type": "STRING",
+            "value": "->"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_member_name"
+          }
+        ]
+      }
     },
     "scoped_property_access_expression": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "_scope_resolution_qualifier"
-        },
-        {
-          "type": "STRING",
-          "value": "::"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "simple_variable"
-        }
-      ]
+      "type": "PREC",
+      "value": 13,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_scope_resolution_qualifier"
+          },
+          {
+            "type": "STRING",
+            "value": "::"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "simple_variable"
+          }
+        ]
+      }
     },
     "list_literal": {
       "type": "SEQ",
@@ -3558,16 +3590,12 @@
       "_variable"
     ],
     [
-      "scoped_property_access_expression",
-      "scoped_call_expression"
-    ],
-    [
-      "member_access_expression",
-      "member_call_expression"
-    ],
-    [
       "declare_statement",
       "expression_statement"
+    ],
+    [
+      "simple_variable",
+      "name"
     ]
   ],
   "externals": [],
@@ -3575,6 +3603,7 @@
     "_expression",
     "_member_name",
     "_variable",
+    "_variable_name",
     "_callable_expression",
     "_selection_statement",
     "_iteration_statement",

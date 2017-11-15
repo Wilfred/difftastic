@@ -12,6 +12,7 @@ const PREC = {
   SHIFT: 6,
   NOT: 8,
   NEG: 9,
+  MEMBER: 13
 };
 
 module.exports = grammar({
@@ -19,14 +20,14 @@ module.exports = grammar({
 
   conflicts: $ => [
     [$.function_call_expression, $._variable],
-    [$.scoped_property_access_expression, $.scoped_call_expression],
-    [$.member_access_expression, $.member_call_expression],
-    [$.declare_statement, $.expression_statement]
+    [$.declare_statement, $.expression_statement],
+    [$.simple_variable, $.name]
   ],
   inline: $ => [
     $._expression,
     $._member_name,
     $._variable,
+    $._variable_name,
     $._callable_expression,
     $._selection_statement,
     $._iteration_statement,
@@ -55,7 +56,7 @@ module.exports = grammar({
       $._jump_statement,
       $.try_statement,
       $.declare_statement,
-      // $.echo_statement,
+      $.echo_statement,
       // $.unset_statement,
       // $.const_declaration,
       // $.function_definition,
@@ -71,6 +72,10 @@ module.exports = grammar({
     _selection_statement: $ => choice(
       $.if_statement,
       $.switch_statement
+    ),
+
+    echo_statement: $ => seq(
+      'echo', repeat1($._expression), ';'
     ),
 
     declare_statement: $ => seq(
@@ -314,13 +319,13 @@ module.exports = grammar({
       $.member_access_expression
     ),
 
-    member_access_expression: $ => seq(
+    member_access_expression: $ => prec(PREC.MEMBER, seq(
       $.dereferencable_expression, '->', $._member_name
-    ),
+    )),
 
-    scoped_property_access_expression: $ => seq(
+    scoped_property_access_expression: $ => prec(PREC.MEMBER, seq(
       $._scope_resolution_qualifier, '::', $.simple_variable
-    ),
+    )),
 
     list_literal: $ => seq(
       'list',
