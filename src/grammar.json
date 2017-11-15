@@ -102,13 +102,16 @@
                   "name": "statement"
                 },
                 {
-                  "type": "ALIAS",
+                  "type": "REPEAT",
                   "content": {
-                    "type": "SYMBOL",
-                    "name": "else_if_clause_1"
-                  },
-                  "named": true,
-                  "value": "else_if_clause"
+                    "type": "ALIAS",
+                    "content": {
+                      "type": "SYMBOL",
+                      "name": "else_if_clause_1"
+                    },
+                    "named": true,
+                    "value": "else_if_clause"
+                  }
                 },
                 {
                   "type": "ALIAS",
@@ -136,13 +139,16 @@
                   }
                 },
                 {
-                  "type": "ALIAS",
+                  "type": "REPEAT",
                   "content": {
-                    "type": "SYMBOL",
-                    "name": "else_if_clause_2"
-                  },
-                  "named": true,
-                  "value": "else_if_clause"
+                    "type": "ALIAS",
+                    "content": {
+                      "type": "SYMBOL",
+                      "name": "else_if_clause_2"
+                    },
+                    "named": true,
+                    "value": "else_if_clause"
+                  }
                 },
                 {
                   "type": "ALIAS",

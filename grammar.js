@@ -73,8 +73,8 @@ module.exports = grammar({
     if_statement: $ => seq(
       'if', '(', $._expression ,')',
       choice(
-        seq($.statement, alias($.else_if_clause_1, $.else_if_clause), alias($.else_clause_1, $.else_clause)),
-        seq(':', repeat1($.statement), alias($.else_if_clause_2, $.else_if_clause), alias($.else_clause_2, $.else_clause), 'endif', ';')
+        seq($.statement, repeat(alias($.else_if_clause_1, $.else_if_clause)), alias($.else_clause_1, $.else_clause)),
+        seq(':', repeat1($.statement), repeat(alias($.else_if_clause_2, $.else_if_clause)), alias($.else_clause_2, $.else_clause), 'endif', ';')
       ),
     ),
 
