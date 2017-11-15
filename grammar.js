@@ -74,9 +74,13 @@ module.exports = grammar({
 
     _iteration_statement: $ => choice(
       // $.while_statement,
-      // $.do_statement,
+      $.do_statement,
       $.for_statement,
       $.foreach_statement,
+    ),
+
+    do_statement: $ => seq(
+      'do', $.statement, 'while', '(', $._expression, ')', ';'
     ),
 
     for_statement: $ => seq(
