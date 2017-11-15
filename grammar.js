@@ -73,11 +73,19 @@ module.exports = grammar({
     ),
 
     jump_statement: $ => choice(
-      // $.goto_statement,
-      // $.continue_statement,
+      $.goto_statement,
+      $.continue_statement,
       $.break_statement,
       $.return_statement,
       $.throw_statement,
+    ),
+
+    goto_statement: $ => seq(
+      'goto', $.name, ';'
+    ),
+
+    continue_statement: $ => seq(
+      'continue', optional($._breakout_level), ';'
     ),
 
     break_statement: $ => seq(
