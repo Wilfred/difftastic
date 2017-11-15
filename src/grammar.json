@@ -238,6 +238,10 @@
       "members": [
         {
           "type": "SYMBOL",
+          "name": "method_declaration"
+        },
+        {
+          "type": "SYMBOL",
           "name": "constructor_declaration"
         },
         {
@@ -247,6 +251,47 @@
         {
           "type": "SYMBOL",
           "name": "trait_use_clause"
+        }
+      ]
+    },
+    "method_declaration": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "REPEAT",
+              "content": {
+                "type": "SYMBOL",
+                "name": "_method_modifier"
+              }
+            },
+            {
+              "type": "SYMBOL",
+              "name": "function_definition"
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "REPEAT1",
+              "content": {
+                "type": "SYMBOL",
+                "name": "_method_modifier"
+              }
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_function_definition_header"
+            },
+            {
+              "type": "STRING",
+              "value": ";"
+            }
+          ]
         }
       ]
     },

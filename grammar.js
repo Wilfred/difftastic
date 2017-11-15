@@ -104,10 +104,15 @@ module.exports = grammar({
     class_member_declaration: $ => choice(
       // $.class_const_declaration,
       // $.property_declaration,
-      // $.method_declaration,
+      $.method_declaration,
       $.constructor_declaration,
       $.destructor_declaration,
       $.trait_use_clause
+    ),
+
+    method_declaration: $ => choice(
+      seq(repeat($._method_modifier), $.function_definition),
+      seq(repeat1($._method_modifier), $._function_definition_header, ';')
     ),
 
     constructor_declaration: $ => seq(
