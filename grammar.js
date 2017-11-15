@@ -23,7 +23,8 @@ module.exports = grammar({
     [$.declare_statement, $.expression_statement],
     [$.simple_variable, $.name],
     [$.simple_parameter, $.name],
-    [$.variadic_parameter, $.name]
+    [$.variadic_parameter, $.name],
+    [$.property_modifier, $._method_modifier]
   ],
   inline: $ => [
     $._expression,
@@ -103,11 +104,29 @@ module.exports = grammar({
 
     class_member_declaration: $ => choice(
       // $.class_const_declaration,
-      // $.property_declaration,
+      $.property_declaration,
       $.method_declaration,
       $.constructor_declaration,
       $.destructor_declaration,
       $.trait_use_clause
+    ),
+
+    property_declaration: $ => seq(
+      $.property_modifier, repeat1($.property_element), ';'
+    ),
+
+    property_modifier: $ => choice(
+      'var',
+      seq($.visibility_modifier, optional($.static_modifier)),
+      seq($.static_modifier, optional($.visibility_modifier))
+    ),
+
+    property_element: $ => seq(
+      $._variable_name, optional($.property_initializer), ';'
+    ),
+
+    property_initializer: $ => seq(
+      '=', $._expression
     ),
 
     method_declaration: $ => choice(
