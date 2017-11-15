@@ -28,6 +28,8 @@ module.exports = grammar({
     $._variable,
     $._callable_expression,
     $._selection_statement,
+    $._iteration_statement,
+    $._foreach_value,
   ],
   extras: $ => [
     $.comment,
@@ -48,7 +50,7 @@ module.exports = grammar({
       $.named_label_statement,
       $.expression_statement,
       $._selection_statement,
-      // $.iteration_statement,
+      $._iteration_statement,
       // $.jump_statement,
       // $.try_statement,
       // $.declare_statement,
@@ -68,6 +70,26 @@ module.exports = grammar({
     _selection_statement: $ => choice(
       $.if_statement,
       $.switch_statement
+    ),
+
+    _iteration_statement: $ => choice(
+      // $.while_statement,
+      // $.do_statement,
+      // $.for_statement,
+      $.foreach_statement,
+    ),
+
+    foreach_statement: $ => seq(
+      'foreach', '(', $._expression, 'as', optional(seq($._expression, '=>')), $._foreach_value, ')',
+      choice(
+        $.statement,
+        seq(':', repeat1($.statement), 'endforeach', ';')
+      )
+    ),
+
+    _foreach_value: $ => choice(
+      seq(optional('&'), $._expression),
+      $.list_literal
     ),
 
     if_statement: $ => seq(
