@@ -65,7 +65,7 @@ module.exports = grammar({
       $.function_definition,
       $.class_declaration,
       $.interface_declaration,
-      // $.trait_declaration,
+      $.trait_declaration,
       // $.namespace_definition,
       // $.namespace_use_declaration,
       // $.global_declaration,
@@ -76,6 +76,18 @@ module.exports = grammar({
       $.if_statement,
       $.switch_statement
     ),
+
+    trait_declaration: $ => seq(
+      'trait', $.name, '{', repeat($._trait_member_declaration), '}'
+    ),
+
+    _trait_member_declaration: $ => prec.right(choice(
+      $.property_declaration,
+      $.method_declaration,
+      $.constructor_declaration,
+      $.destructor_declaration,
+      repeat1($.trait_use_clause)
+    )),
 
     interface_declaration: $ => seq(
       'interface', $.name, optional($.interface_base_clause), '{', repeat($._interface_member_declaration), '}'

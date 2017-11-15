@@ -96,6 +96,10 @@
         {
           "type": "SYMBOL",
           "name": "interface_declaration"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "trait_declaration"
         }
       ]
     },
@@ -111,6 +115,66 @@
           "name": "switch_statement"
         }
       ]
+    },
+    "trait_declaration": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "trait"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "name"
+        },
+        {
+          "type": "STRING",
+          "value": "{"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_trait_member_declaration"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "}"
+        }
+      ]
+    },
+    "_trait_member_declaration": {
+      "type": "PREC_RIGHT",
+      "value": 0,
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "property_declaration"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "method_declaration"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "constructor_declaration"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "destructor_declaration"
+          },
+          {
+            "type": "REPEAT1",
+            "content": {
+              "type": "SYMBOL",
+              "name": "trait_use_clause"
+            }
+          }
+        ]
+      }
     },
     "interface_declaration": {
       "type": "SEQ",
