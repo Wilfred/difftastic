@@ -20,7 +20,8 @@ module.exports = grammar({
   conflicts: $ => [
     [$.function_call_expression, $._variable],
     [$.scoped_property_access_expression, $.scoped_call_expression],
-    [$.member_access_expression, $.member_call_expression]
+    [$.member_access_expression, $.member_call_expression],
+    [$.declare_statement, $.expression_statement]
   ],
   inline: $ => [
     $._expression,
@@ -53,7 +54,7 @@ module.exports = grammar({
       $._iteration_statement,
       $._jump_statement,
       $.try_statement,
-      // $.declare_statement,
+      $.declare_statement,
       // $.echo_statement,
       // $.unset_statement,
       // $.const_declaration,
@@ -71,6 +72,43 @@ module.exports = grammar({
       $.if_statement,
       $.switch_statement
     ),
+
+    declare_statement: $ => seq(
+      'declare', '(', $.declare_directive, ')',
+      choice(
+        $.statement,
+        seq(':', repeat1($.statement), 'enddeclare', ';'),
+        ';')
+    ),
+
+    declare_directive: $ => seq(
+      choice('ticks', 'encoding', 'strict_types'),
+      '=',
+      $._literal
+    ),
+
+    _literal: $ => choice(
+      $.integer,
+      $.float,
+      $.string
+    ),
+
+    float: $ => {
+      const decimal_digits = /\d+/
+      const signed_integer = seq(optional(choice('-','+')), decimal_digits)
+      const exponent_part = seq(choice('e', 'E'), signed_integer)
+
+      const decimal_integer_literal = choice(
+        '0',
+        seq(/[1-9]/, optional(decimal_digits))
+      )
+
+      return choice(
+        seq(decimal_integer_literal, '.', optional(decimal_digits), optional(exponent_part)),
+        seq('.', decimal_digits, optional(exponent_part)),
+        seq(decimal_integer_literal, optional(exponent_part))
+      )
+    },
 
     try_statement:  $ => seq(
       'try',
