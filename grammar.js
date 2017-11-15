@@ -105,9 +105,13 @@ module.exports = grammar({
       // $.class_const_declaration,
       // $.property_declaration,
       // $.method_declaration,
-      // $.constructor_declaration,
+      $.constructor_declaration,
       $.destructor_declaration,
       $.trait_use_clause
+    ),
+
+    constructor_declaration: $ => seq(
+      repeat1($._method_modifier), 'function', optional('&'), '__construct', '(', repeat($.parameter), ')', $.compound_statement
     ),
 
     destructor_declaration: $ => seq(
