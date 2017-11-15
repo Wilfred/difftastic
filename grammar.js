@@ -23,9 +23,11 @@ module.exports = grammar({
     [$.member_access_expression, $.member_call_expression]
   ],
   inline: $ => [
+    $._expression,
     $._member_name,
     $._variable,
-    $._callable_expression
+    $._callable_expression,
+    $._selection_statement,
   ],
   extras: $ => [
     $.comment,
@@ -45,7 +47,7 @@ module.exports = grammar({
       $.compound_statement,
       $.named_label_statement,
       $.expression_statement,
-      // $.selection_statement,
+      $._selection_statement,
       // $.iteration_statement,
       // $.jump_statement,
       // $.try_statement,
@@ -63,6 +65,51 @@ module.exports = grammar({
       // $.function_static_declaration,
     ),
 
+    _selection_statement: $ => choice(
+      $.if_statement,
+      $.switch_statement
+    ),
+
+    if_statement: $ => seq(
+      'if', '(', $._expression ,')',
+      choice(
+        seq($.statement, alias($.else_if_clause_1, $.else_if_clause), alias($.else_clause_1, $.else_clause)),
+        seq(':', repeat1($.statement), alias($.else_if_clause_2, $.else_if_clause), alias($.else_clause_2, $.else_clause), 'endif', ';')
+      ),
+    ),
+
+    else_if_clause_1: $ => seq(
+      'elseif', '(', $._expression, ')', $.statement
+    ),
+
+    else_clause_1: $ => seq(
+      'else', $.statement
+    ),
+
+    else_if_clause_2: $ => seq(
+      'elseif', '(', $._expression, ')', seq(':', repeat1($.statement))
+    ),
+
+    else_clause_2: $ => seq(
+      'else', seq(':', repeat1($.statement))
+    ),
+
+    switch_statement: $ => seq(
+      'switch', '(', $._expression, ')',
+      choice('{', ':'),
+      repeat(choice($.case_statement, $.default_statement)),
+      choice('}', seq('endswitch', ';'))
+    ),
+
+    case_statement: $ => seq(
+      'case', $._expression, seq(':', ';'), repeat($.statement)
+    ),
+
+    default_statement: $ => seq(
+      'default', seq(':', ';'), repeat($.statement)
+    ),
+
+
     compound_statement: $ => seq(
       '{',
       repeat($.statement),
@@ -79,7 +126,7 @@ module.exports = grammar({
       ';'
     ),
 
-    _expression: $ => seq(
+    _expression: $ => choice(
       $.assignment_expression,
       $.yield_expression,
       $.binary_expression,
@@ -266,10 +313,10 @@ module.exports = grammar({
       seq('yield', 'from', $._expression),
     ),
 
-    array_element_initializer: $ => choice(
+    array_element_initializer: $ => prec.right(choice(
       seq(optional('&'), $._expression),
       seq($._expression, '=>', optional('&'), $._expression)
-    ),
+    )),
 
     binary_expression: $ => choice(...[
       ['and', PREC.AND],
@@ -315,12 +362,12 @@ module.exports = grammar({
     ),
 
     require_expression: $ => seq(
-      'include_once',
+      'require',
       $._expression
     ),
 
     require_once_expression: $ => seq(
-      'include_once',
+      'require_once',
       $._expression
     ),
 
