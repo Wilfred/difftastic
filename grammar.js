@@ -57,7 +57,7 @@ module.exports = grammar({
       $.try_statement,
       $.declare_statement,
       $.echo_statement,
-      // $.unset_statement,
+      $.unset_statement,
       // $.const_declaration,
       // $.function_definition,
       // $.class_declaration,
@@ -76,6 +76,10 @@ module.exports = grammar({
 
     echo_statement: $ => seq(
       'echo', repeat1($._expression), ';'
+    ),
+
+    unset_statement: $ => seq(
+      'unset', '(', commaSep1($._variable), ')', ';'
     ),
 
     declare_statement: $ => seq(
