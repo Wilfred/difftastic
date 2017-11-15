@@ -51,8 +51,8 @@ module.exports = grammar({
       $.expression_statement,
       $._selection_statement,
       $._iteration_statement,
-      $.jump_statement,
-      // $.try_statement,
+      $._jump_statement,
+      $.try_statement,
       // $.declare_statement,
       // $.echo_statement,
       // $.unset_statement,
@@ -72,7 +72,24 @@ module.exports = grammar({
       $.switch_statement
     ),
 
-    jump_statement: $ => choice(
+    try_statement:  $ => seq(
+      'try',
+      $.compound_statement,
+      choice(
+        seq(repeat1($.catch_clause), $.finally_clause),
+        repeat1($.catch_clause),
+        repeat1($.finally_clause))
+    ),
+
+    catch_clause: $ => seq(
+      'catch', '(', $.qualified_name, $._variable_name, ')', $.compound_statement
+    ),
+
+    finally_clause: $ => seq(
+      'finally', $.compound_statement
+    ),
+
+    _jump_statement: $ => choice(
       $.goto_statement,
       $.continue_statement,
       $.break_statement,
