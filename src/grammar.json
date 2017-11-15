@@ -100,6 +100,10 @@
         {
           "type": "SYMBOL",
           "name": "trait_declaration"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "namespace_definition"
         }
       ]
     },
@@ -113,6 +117,54 @@
         {
           "type": "SYMBOL",
           "name": "switch_statement"
+        }
+      ]
+    },
+    "namespace_definition": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "namespace"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "name"
+                },
+                {
+                  "type": "STRING",
+                  "value": ";"
+                }
+              ]
+            },
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "SYMBOL",
+                      "name": "name"
+                    },
+                    {
+                      "type": "BLANK"
+                    }
+                  ]
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "compound_statement"
+                }
+              ]
+            }
+          ]
         }
       ]
     },

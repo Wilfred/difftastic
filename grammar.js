@@ -66,7 +66,7 @@ module.exports = grammar({
       $.class_declaration,
       $.interface_declaration,
       $.trait_declaration,
-      // $.namespace_definition,
+      $.namespace_definition,
       // $.namespace_use_declaration,
       // $.global_declaration,
       // $.function_static_declaration,
@@ -75,6 +75,14 @@ module.exports = grammar({
     _selection_statement: $ => choice(
       $.if_statement,
       $.switch_statement
+    ),
+
+    namespace_definition: $ => seq(
+      'namespace',
+      choice(
+        seq($.name, ';'),
+        seq(optional($.name), $.compound_statement)
+      )
     ),
 
     trait_declaration: $ => seq(
