@@ -64,7 +64,7 @@ module.exports = grammar({
       $.const_declaration,
       $.function_definition,
       $.class_declaration,
-      // $.interface_declaration,
+      $.interface_declaration,
       // $.trait_declaration,
       // $.namespace_definition,
       // $.namespace_use_declaration,
@@ -75,6 +75,19 @@ module.exports = grammar({
     _selection_statement: $ => choice(
       $.if_statement,
       $.switch_statement
+    ),
+
+    interface_declaration: $ => seq(
+      'interface', $.name, optional($.interface_base_clause), '{', repeat($._interface_member_declaration), '}'
+    ),
+
+    interface_base_clause: $ => seq(
+      'extends', commaSep1($.qualified_name)
+    ),
+
+    _interface_member_declaration: $ => choice(
+      $.class_const_declaration,
+      $.method_declaration
     ),
 
     class_declaration: $ => seq(
