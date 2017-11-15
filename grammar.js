@@ -21,7 +21,9 @@ module.exports = grammar({
   conflicts: $ => [
     [$.function_call_expression, $._variable],
     [$.declare_statement, $.expression_statement],
-    [$.simple_variable, $.name]
+    [$.simple_variable, $.name],
+    [$.simple_parameter, $.name],
+    [$.variadic_parameter, $.name]
   ],
   inline: $ => [
     $._expression,
@@ -59,7 +61,7 @@ module.exports = grammar({
       $.echo_statement,
       $.unset_statement,
       $.const_declaration,
-      // $.function_definition,
+      $.function_definition,
       // $.class_declaration,
       // $.interface_declaration,
       // $.trait_declaration,
@@ -72,6 +74,60 @@ module.exports = grammar({
     _selection_statement: $ => choice(
       $.if_statement,
       $.switch_statement
+    ),
+
+    function_definition: $ => seq(
+      $._function_definition_header,
+      $.compound_statement
+    ),
+
+    _function_definition_header: $ => seq(
+      'function', optional('&'), $.name, '(', repeat($.parameter), ')', optional($.return_type)
+    ),
+
+    parameter: $ => choice(
+      commaSep1($.simple_parameter),
+      commaSep1($.variadic_parameter)
+    ),
+
+    simple_parameter: $ => seq(
+      optional($.type_declaration), optional('&'), $._variable_name, optional($.default_argument_specifier)
+    ),
+
+    type_declaration: $ => seq(
+      optional('?'),
+      $.base_type_declaration
+    ),
+
+    base_type_declaration: $ => choice(
+      'array',
+      'callable',
+      'iterable',
+      $.scalar_type,
+      $.qualified_name
+    ),
+
+    scalar_type: $ => choice(
+      'bool',
+      'float',
+      'int',
+      'string'
+    ),
+
+    return_type: $ => seq(
+      ':',
+      choice(
+        $.type_declaration,
+        'void'
+      )
+    ),
+
+    variadic_parameter: $ => seq(
+      optional($.type_declaration), optional('&'), '...', $._variable_name
+    ),
+
+    default_argument_specifier: $ => seq(
+      '=', $._expression
     ),
 
     const_declaration: $ => seq(
