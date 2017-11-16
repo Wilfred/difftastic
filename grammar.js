@@ -35,6 +35,17 @@ module.exports = grammar({
     [$.namespace_aliasing_clause, $.name],
 
     [$.dereferencable_expression, $.echo_statement],
+    [$.dereferencable_expression, $.clone_expression],
+    [$.dereferencable_expression, $.print_intrinsic],
+    [$.dereferencable_expression, $.error_control_expression],
+    [$.dereferencable_expression, $.array_element_initializer],
+    [$.dereferencable_expression, $.include_expression],
+    [$.dereferencable_expression, $.include_once_expression],
+    [$.dereferencable_expression, $.require_expression],
+    [$.dereferencable_expression, $.require_once_expression],
+    [$.dereferencable_expression, $.yield_expression],
+    [$.dereferencable_expression, $.cast_expression],
+    [$.dereferencable_expression, $.assignment_expression],
   ],
   inline: $ => [
     $._expression,
