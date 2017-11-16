@@ -13,6 +13,7 @@ const PREC = {
   NOT: 8,
   NEG: 9,
   NAMESPACE: 9,
+  INC: 10,
   CALL: 12,
   MEMBER: 13
 };
@@ -669,21 +670,21 @@ module.exports = grammar({
       seq($.new_variable, '::', $.simple_variable)
     ),
 
-    postfix_increment_expression: $ => seq(
+    postfix_increment_expression: $ => prec(PREC.INC, seq(
       $._variable, '++'
-    ),
+    )),
 
-    postfix_decrement_expression: $ => seq(
+    postfix_decrement_expression: $ => prec(PREC.INC, seq(
       $._variable, '--'
-    ),
+    )),
 
-    prefix_increment_expression: $ => seq(
+    prefix_increment_expression: $ => prec(PREC.INC, seq(
       '++', $._variable
-    ),
+    )),
 
-    prefix_decrement_expression: $ => seq(
+    prefix_decrement_expression: $ => prec(PREC.INC, seq(
       '--', $._variable
-    ),
+    )),
 
     shell_command_expression: $ => seq(
       '`', double_quote_chars(), '`'
