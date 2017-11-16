@@ -13,6 +13,7 @@ const PREC = {
   NOT: 8,
   NEG: 9,
   NAMESPACE: 9,
+  CALL: 12,
   MEMBER: 13
 };
 
@@ -20,7 +21,6 @@ module.exports = grammar({
   name: 'php',
 
   conflicts: $ => [
-    [$.function_call_expression, $._variable],
     [$.declare_statement, $.expression_statement],
     [$.simple_variable, $.name],
     [$.simple_parameter, $.name],
@@ -380,11 +380,11 @@ module.exports = grammar({
         seq(/[1-9]/, optional(decimal_digits))
       )
 
-      return choice(
+      return prec.right(choice(
         seq(decimal_integer_literal, '.', optional(decimal_digits), optional(exponent_part)),
         seq('.', decimal_digits, optional(exponent_part)),
         seq(decimal_integer_literal, optional(exponent_part))
-      )
+      ))
     },
 
     try_statement:  $ => seq(
@@ -551,7 +551,7 @@ module.exports = grammar({
     ),
 
     expression_statement: $ => seq(
-      optional($._expression),
+      $._expression,
       ';'
     ),
 
@@ -567,6 +567,7 @@ module.exports = grammar({
     ),
 
     unary_expression: $ => choice(
+      $.exponentiation_expression,
       $.unary_op_expression,
       $.error_control_expression,
       $.cast_expression,
@@ -758,10 +759,10 @@ module.exports = grammar({
       $.function_call_expression
     ),
 
-    function_call_expression: $ => choice(
+    function_call_expression: $ => prec(PREC.CALL, choice(
       seq($.qualified_name, $.arguments),
       seq($._callable_expression, $.arguments)
-    ),
+    )),
 
     _callable_expression: $ => choice(
       $._callable_variable,
