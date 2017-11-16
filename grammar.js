@@ -31,7 +31,9 @@ module.exports = grammar({
     // Do we need these?
     [$.qualified_name, $.namespace_name],
     [$.namespace_name],
-    [$.namespace_aliasing_clause, $.name]
+    [$.namespace_aliasing_clause, $.name],
+
+    [$.dereferencable_expression, $.echo_statement],
   ],
   inline: $ => [
     $._expression,
