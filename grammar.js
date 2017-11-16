@@ -794,9 +794,9 @@ module.exports = grammar({
       $.string
     ),
 
-    scoped_call_expression: $ => seq(
+    scoped_call_expression: $ => prec(PREC.CALL, seq(
       $._scope_resolution_qualifier, '::', $._member_name, $.arguments
-    ),
+    )),
 
     _scope_resolution_qualifier: $ => choice(
       $.relative_scope,
