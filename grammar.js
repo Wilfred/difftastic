@@ -575,9 +575,9 @@ module.exports = grammar({
 
     primary_expression: $ => choice(
       $._variable,
-      // $.class_constant_access_expression
-      // $.constant_access_expression
-      // $.literal
+      $.class_constant_access_expression,
+      $.qualified_name,
+      $._literal,
       $.array_creation_expression,
       $.intrinsic,
       $.anonymous_function_creation_expression,
@@ -588,6 +588,10 @@ module.exports = grammar({
       $.prefix_decrement_expression,
       $.shell_command_expression,
       seq('(', $._expression, ')')
+    ),
+
+    class_constant_access_expression: $ => seq(
+      $._scope_resolution_qualifier, '::', $.name
     ),
 
     intrinsic: $ => choice(

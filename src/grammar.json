@@ -3216,6 +3216,18 @@
         },
         {
           "type": "SYMBOL",
+          "name": "class_constant_access_expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "qualified_name"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_literal"
+        },
+        {
+          "type": "SYMBOL",
           "name": "array_creation_expression"
         },
         {
@@ -3266,6 +3278,23 @@
               "value": ")"
             }
           ]
+        }
+      ]
+    },
+    "class_constant_access_expression": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_scope_resolution_qualifier"
+        },
+        {
+          "type": "STRING",
+          "value": "::"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "name"
         }
       ]
     },
