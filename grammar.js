@@ -582,12 +582,20 @@ module.exports = grammar({
       // $.intrinsic
       // $.anonymous_function_creation_expression
       // $.object_creation_expression
-      // $.postfix_increment_expression
-      // $.postfix_decrement_expression
+      $.postfix_increment_expression,
+      $.postfix_decrement_expression,
       $.prefix_increment_expression,
       $.prefix_decrement_expression,
       $.shell_command_expression,
       seq('(', $._expression, ')')
+    ),
+
+    postfix_increment_expression: $ => seq(
+      $._variable, '++'
+    ),
+
+    postfix_decrement_expression: $ => seq(
+      $._variable, '--'
     ),
 
     prefix_increment_expression: $ => seq(
