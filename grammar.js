@@ -631,9 +631,9 @@ module.exports = grammar({
       'eval', '(', $._expression, ')'
     ),
 
-    exit_intrinsic: $ => seq(
+    exit_intrinsic: $ => prec.right(seq(
       choice('exit', 'die'), optional(seq('(', optional($._expression), ')'))
-    ),
+    )),
 
     isset_intrinsic: $ => seq(
       'isset', '(', commaSep1($._variable), ')'
