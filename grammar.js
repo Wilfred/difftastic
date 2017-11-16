@@ -584,10 +584,18 @@ module.exports = grammar({
       // $.object_creation_expression
       // $.postfix_increment_expression
       // $.postfix_decrement_expression
-      // $.prefix_increment_expression
-      // $.prefix_decrement_expression
+      $.prefix_increment_expression,
+      $.prefix_decrement_expression,
       $.shell_command_expression,
       seq('(', $._expression, ')')
+    ),
+
+    prefix_increment_expression: $ => seq(
+      '++', $._variable
+    ),
+
+    prefix_decrement_expression: $ => seq(
+      '--', $._variable
     ),
 
     shell_command_expression: $ => seq(
