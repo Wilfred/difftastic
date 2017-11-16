@@ -3216,6 +3216,14 @@
         },
         {
           "type": "SYMBOL",
+          "name": "array_creation_expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "intrinsic"
+        },
+        {
+          "type": "SYMBOL",
           "name": "anonymous_function_creation_expression"
         },
         {
@@ -3258,6 +3266,179 @@
               "value": ")"
             }
           ]
+        }
+      ]
+    },
+    "intrinsic": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "empty_intrinsic"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "eval_intrinsic"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "exit_intrinsic"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "isset_intrinsic"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "print_intrinsic"
+        }
+      ]
+    },
+    "empty_intrinsic": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "empty"
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_expression"
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "eval_intrinsic": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "eval"
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_expression"
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "exit_intrinsic": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "exit"
+            },
+            {
+              "type": "STRING",
+              "value": "die"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "("
+                },
+                {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "SYMBOL",
+                      "name": "_expression"
+                    },
+                    {
+                      "type": "BLANK"
+                    }
+                  ]
+                },
+                {
+                  "type": "STRING",
+                  "value": ")"
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        }
+      ]
+    },
+    "isset_intrinsic": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "isset"
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_variable"
+            },
+            {
+              "type": "REPEAT",
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "STRING",
+                    "value": ","
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "_variable"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "print_intrinsic": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "print"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_expression"
         }
       ]
     },

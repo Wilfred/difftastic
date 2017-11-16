@@ -578,8 +578,8 @@ module.exports = grammar({
       // $.class_constant_access_expression
       // $.constant_access_expression
       // $.literal
-      // $.array_creation_expression
-      // $.intrinsic
+      $.array_creation_expression,
+      $.intrinsic,
       $.anonymous_function_creation_expression,
       $.object_creation_expression,
       $.postfix_increment_expression,
@@ -588,6 +588,34 @@ module.exports = grammar({
       $.prefix_decrement_expression,
       $.shell_command_expression,
       seq('(', $._expression, ')')
+    ),
+
+    intrinsic: $ => choice(
+      $.empty_intrinsic,
+      $.eval_intrinsic,
+      $.exit_intrinsic,
+      $.isset_intrinsic,
+      $.print_intrinsic
+    ),
+
+    empty_intrinsic: $ => seq(
+      'empty', '(', $._expression, ')'
+    ),
+
+    eval_intrinsic: $ => seq(
+      'eval', '(', $._expression, ')'
+    ),
+
+    exit_intrinsic: $ => seq(
+      choice('exit', 'die'), optional(seq('(', optional($._expression), ')'))
+    ),
+
+    isset_intrinsic: $ => seq(
+      'isset', '(', commaSep1($._variable), ')'
+    ),
+
+    print_intrinsic: $ => seq(
+      'print', $._expression
     ),
 
     anonymous_function_creation_expression: $ => seq(
