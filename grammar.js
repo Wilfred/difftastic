@@ -554,7 +554,12 @@ module.exports = grammar({
     ),
 
     unary_expression: $ => choice(
-      $.cast_expression
+      $.error_control_expression,
+      $.cast_expression,
+    ),
+
+    error_control_expression: $ => seq(
+      '@', $.unary_expression
     ),
 
     cast_expression: $ => seq(

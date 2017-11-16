@@ -3122,7 +3122,24 @@
       "members": [
         {
           "type": "SYMBOL",
+          "name": "error_control_expression"
+        },
+        {
+          "type": "SYMBOL",
           "name": "cast_expression"
+        }
+      ]
+    },
+    "error_control_expression": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "@"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "unary_expression"
         }
       ]
     },
