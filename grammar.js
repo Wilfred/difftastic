@@ -554,8 +554,44 @@ module.exports = grammar({
     ),
 
     unary_expression: $ => choice(
+      $.unary_op_expression,
       $.error_control_expression,
       $.cast_expression,
+    ),
+
+    unary_op_expression: $ => seq(
+      choice('+', '-', '~'),
+      $.unary_expression
+    ),
+
+    exponentiation_expression: $ => seq(
+      $.clone_expression,
+      seq($.clone_expression, '**', $.exponentiation_expression)
+    ),
+
+    clone_expression: $ => seq(
+      optional('choice'), $.primary_expression
+    ),
+
+    primary_expression: $ => choice(
+      $._variable,
+      // $.class_constant_access_expression
+      // $.constant_access_expression
+      // $.literal
+      // $.array_creation_expression
+      // $.intrinsic
+      // $.anonymous_function_creation_expression
+      // $.object_creation_expression
+      // $.postfix_increment_expression
+      // $.postfix_decrement_expression
+      // $.prefix_increment_expression
+      // $.prefix_decrement_expression
+      $.shell_command_expression,
+      seq('(', $._expression, ')')
+    ),
+
+    shell_command_expression: $ => seq(
+      '`', double_quote_chars(), '`'
     ),
 
     error_control_expression: $ => seq(
@@ -720,21 +756,8 @@ module.exports = grammar({
         optional(b_prefix), "'", single_quote_chars, "'"
       )
 
-      const dq_simple_escapes = /\\"|\\\\|\\\$|\\e|\\f|\\n|\\r|\\t|\\v/
-      const octal_digit = /0-7/
-      const dq_octal_escapes = seq('\\', octal_digit, optional(octal_digit), optional(octal_digit))
-      const hex_digit = /\d|a-f|A-F/
-      const dq_hex_escapes = seq(
-        /\\[xX]/,
-        hex_digit,
-        optional(hex_digit)
-      )
-
-      const dq_unicode_escapes = seq('\\u{', repeat1(hex_digit), '}')
-      const dq_escapes = choice(dq_simple_escapes, dq_octal_escapes, dq_hex_escapes, dq_unicode_escapes)
-      const double_quote_chars = repeat(dq_escapes, /[^"\\]|\\[^"\\$efnrtvxX0-7]/)
       const double_quote_string = seq(
-        optional(b_prefix), '"', double_quote_chars, '"'
+        optional(b_prefix), '"', double_quote_chars(), '"'
       )
 
       return token(choice(
@@ -843,4 +866,20 @@ function commaSep1 (rule) {
 
 function commaSep (rule) {
   return optional(commaSep1(rule));
+}
+
+function double_quote_chars() {
+      const dq_simple_escapes = /\\"|\\\\|\\\$|\\e|\\f|\\n|\\r|\\t|\\v/
+      const octal_digit = /0-7/
+      const dq_octal_escapes = seq('\\', octal_digit, optional(octal_digit), optional(octal_digit))
+      const hex_digit = /\d|a-f|A-F/
+      const dq_hex_escapes = seq(
+        /\\[xX]/,
+        hex_digit,
+        optional(hex_digit)
+      )
+
+      const dq_unicode_escapes = seq('\\u{', repeat1(hex_digit), '}')
+      const dq_escapes = choice(dq_simple_escapes, dq_octal_escapes, dq_hex_escapes, dq_unicode_escapes)
+      return repeat(dq_escapes, /[^"\\]|\\[^"\\$efnrtvxX0-7]/)
 }
