@@ -581,13 +581,33 @@ module.exports = grammar({
       // $.array_creation_expression
       // $.intrinsic
       // $.anonymous_function_creation_expression
-      // $.object_creation_expression
+      $.object_creation_expression,
       $.postfix_increment_expression,
       $.postfix_decrement_expression,
       $.prefix_increment_expression,
       $.prefix_decrement_expression,
       $.shell_command_expression,
       seq('(', $._expression, ')')
+    ),
+
+    object_creation_expression: $ => choice(
+      seq('new', $.class_type_designator, optional($.arguments)),
+      seq('new', 'class', optional($.arguments), optional($.class_base_clause), optional($.class_interface_clause), '{', repeat($.class_member_declaration), '}'),
+    ),
+
+    class_type_designator: $ => choice(
+      $.qualified_name,
+      $.new_variable
+    ),
+
+    new_variable: $ => choice(
+      $.simple_variable,
+      seq($.new_variable, '[', optional($._expression), ']'),
+      seq($.new_variable, '{', $._expression, '}'),
+      seq($.new_variable, '->', $._member_name),
+      seq($.qualified_name, '::', $.simple_variable),
+      seq($.relative_scope, '::', $.simple_variable),
+      seq($.new_variable, '::', $.simple_variable)
     ),
 
     postfix_increment_expression: $ => seq(
