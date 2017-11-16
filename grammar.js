@@ -561,7 +561,7 @@ module.exports = grammar({
     _expression: $ => choice(
       $.assignment_expression,
       $.yield_expression,
-      $.unary_expression,
+      $._unary_expression,
       $.binary_expression,
       $.include_expression,
       $.include_once_expression,
@@ -569,7 +569,9 @@ module.exports = grammar({
       $.require_once_expression,
     ),
 
-    unary_expression: $ => choice(
+    _unary_expression: $ => choice(
+      $.clone_expression,
+      $._primary_expression,
       $.exponentiation_expression,
       $.unary_op_expression,
       $.error_control_expression,
@@ -578,7 +580,7 @@ module.exports = grammar({
 
     unary_op_expression: $ => seq(
       choice('+', '-', '~'),
-      $.unary_expression
+      $._unary_expression
     ),
 
     exponentiation_expression: $ => seq(
@@ -587,10 +589,10 @@ module.exports = grammar({
     ),
 
     clone_expression: $ => seq(
-      optional('choice'), $.primary_expression
+      'choice', $._primary_expression
     ),
 
-    primary_expression: $ => choice(
+    _primary_expression: $ => choice(
       $._variable,
       $.class_constant_access_expression,
       $.qualified_name,
