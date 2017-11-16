@@ -692,11 +692,11 @@ module.exports = grammar({
     ),
 
     error_control_expression: $ => seq(
-      '@', $.unary_expression
+      '@', $._unary_expression
     ),
 
     cast_expression: $ => seq(
-      '(', $.cast_type, ')', $.unary_expression
+      '(', $.cast_type, ')', $._unary_expression
     ),
 
     cast_type: $ => choice(
