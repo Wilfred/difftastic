@@ -12,6 +12,7 @@ const PREC = {
   SHIFT: 6,
   NOT: 8,
   NEG: 9,
+  NAMESPACE: 9,
   MEMBER: 13
 };
 
@@ -28,8 +29,7 @@ module.exports = grammar({
 
     // Do we need these?
     [$.qualified_name, $.namespace_name],
-    [$.name, $.namespace_name],
-    [$.qualified_name, $.name],
+    [$.namespace_name],
     [$.namespace_aliasing_clause, $.name]
   ],
   inline: $ => [
@@ -105,9 +105,9 @@ module.exports = grammar({
     namespace_use_declaration: $ => seq(
       'use',
       choice(
-        seq(optional($.namespace_function_or_const), repeat1($.namespace_use_clause), ';'),
-        seq($.namespace_function_or_const, optional('\\'), $.namespace_name, '\\', '{', repeat1($.namespace_use_group_clause_1), '}', ';'),
-        seq(optional('\\'), $.namespace_name, '\\', '{', repeat1($.namespace_use_group_clause_2), '}', ';')
+        seq(optional($.namespace_function_or_const), commaSep1($.namespace_use_clause), ';'),
+        seq($.namespace_function_or_const, optional('\\'), $.namespace_name, '\\', '{', commaSep1($.namespace_use_group_clause_1), '}', ';'),
+        seq(optional('\\'), $.namespace_name, '\\', '{', commaSep1($.namespace_use_group_clause_2), '}', ';')
       )
     ),
 
@@ -119,6 +119,19 @@ module.exports = grammar({
     namespace_use_clause: $ => seq(
       $.qualified_name, optional($.namespace_aliasing_clause)
     ),
+
+    qualified_name: $ => seq(
+      optional($.namespace_name_as_prefix), $.name
+    ),
+
+    namespace_name_as_prefix: $ => prec.right(choice(
+      '\\',
+      seq(optional('\\'), $.namespace_name, '\\'),
+      seq('namespace', '\\'),
+      seq('namespace', '\\', $.namespace_name, '\\')
+    )),
+
+    namespace_name: $ => seq($.name, repeat(seq('\\', $.name))),
 
     namespace_aliasing_clause: $ => seq(
       'as', $.name
@@ -773,19 +786,6 @@ module.exports = grammar({
       'static'
     ),
 
-    qualified_name: $ => seq(
-      optional($.namespace_name_as_prefix), $.name
-    ),
-
-    namespace_name_as_prefix: $ => prec.right(choice(
-      '\\',
-      seq(optional('\\'), $.namespace_name, '\\'),
-      seq('namespace', '\\'),
-      seq('namespace', '\\', $.namespace_name, '\\')
-    )),
-
-    namespace_name: $ => prec.right(seq($.name, repeat(seq('\\', $.name)))),
-
     arguments: $ => seq(
       '(',
       repeat($.variadic_unpacking, $._expression),
@@ -916,13 +916,7 @@ module.exports = grammar({
     ),
 
     name: $ => {
-      var nondigit = /[_a-zA-Z\u0080-\u00ff]/
-
-      return choice(
-        nondigit,
-        seq($.name, nondigit),
-        seq($.name, /\d/)
-      )
+      return /[_a-zA-Z\u0080-\u00ff][_a-zA-Z\u0080-\u00ff\d]+/
     },
 
     comment: $ => token(choice(
