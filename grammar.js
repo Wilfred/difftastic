@@ -41,6 +41,9 @@ module.exports = grammar({
     $._selection_statement,
     $._iteration_statement,
     $._foreach_value,
+    $._primary_expression,
+    $._unary_expression,
+    $._literal
   ],
   extras: $ => [
     $.comment,
