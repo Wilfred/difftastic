@@ -821,7 +821,7 @@ module.exports = grammar({
       )
     ),
 
-    dereferencable_expression: $ => seq(
+    dereferencable_expression: $ => choice(
       $._variable,
       seq('(', $._expression, ')'),
       $.array_creation_expression,
