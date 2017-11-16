@@ -14,6 +14,7 @@ const PREC = {
   NEG: 9,
   NAMESPACE: 9,
   INC: 10,
+  NEW: 11,
   CALL: 12,
   MEMBER: 13
 };
@@ -651,10 +652,10 @@ module.exports = grammar({
       'use', '(', commaSep1(seq(optional('&'), $._variable_name)), ')'
     ),
 
-    object_creation_expression: $ => choice(
-      seq('new', $.class_type_designator, optional($.arguments)),
+    object_creation_expression: $ => prec.right(PREC.NEW, choice(
+      seq('new', $._class_type_designator, optional($.arguments)),
       seq('new', 'class', optional($.arguments), optional($.class_base_clause), optional($.class_interface_clause), '{', repeat($.class_member_declaration), '}'),
-    ),
+    )),
 
     class_type_designator: $ => choice(
       $.qualified_name,
