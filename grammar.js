@@ -580,7 +580,7 @@ module.exports = grammar({
       // $.literal
       // $.array_creation_expression
       // $.intrinsic
-      // $.anonymous_function_creation_expression
+      $.anonymous_function_creation_expression,
       $.object_creation_expression,
       $.postfix_increment_expression,
       $.postfix_decrement_expression,
@@ -588,6 +588,14 @@ module.exports = grammar({
       $.prefix_decrement_expression,
       $.shell_command_expression,
       seq('(', $._expression, ')')
+    ),
+
+    anonymous_function_creation_expression: $ => seq(
+      optional('static'), 'function', optional('&'), '(', repeat($.parameter), ')', optional($.anonymous_function_use_clause), optional($.return_type), $.compound_statement
+    ),
+
+    anonymous_function_use_clause: $ => seq(
+      'use', '(', commaSep1(seq(optional('&'), $._variable_name)), ')'
     ),
 
     object_creation_expression: $ => choice(
