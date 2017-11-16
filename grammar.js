@@ -594,10 +594,13 @@ module.exports = grammar({
       $.cast_expression,
     ),
 
-    unary_op_expression: $ => seq(
-      choice('+', '-', '~'),
-      $._unary_expression
-    ),
+    unary_op_expression: $ => choice(...[
+      ['+', PREC.NEG],
+      ['-', PREC.NEG],
+      ['~', PREC.NEG],
+    ].map(([operator, precedence]) =>
+      prec.left(precedence, seq(operator, $._unary_expression))
+    )),
 
     exponentiation_expression: $ => prec(PREC.TIMES, seq(
       choice($.clone_expression, $._primary_expression), '**', $.exponentiation_expression
