@@ -607,7 +607,7 @@ module.exports = grammar({
     )),
 
     clone_expression: $ => seq(
-      'choice', $._primary_expression
+      'clone', $._primary_expression
     ),
 
     _primary_expression: $ => choice(
