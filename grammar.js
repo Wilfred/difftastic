@@ -672,7 +672,7 @@ module.exports = grammar({
       seq('new', 'class', optional($.arguments), optional($.class_base_clause), optional($.class_interface_clause), '{', repeat($.class_member_declaration), '}'),
     )),
 
-    class_type_designator: $ => choice(
+    _class_type_designator: $ => choice(
       $.qualified_name,
       $.new_variable
     ),
