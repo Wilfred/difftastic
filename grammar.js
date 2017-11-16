@@ -545,11 +545,35 @@ module.exports = grammar({
     _expression: $ => choice(
       $.assignment_expression,
       $.yield_expression,
+      $.unary_expression,
       $.binary_expression,
       $.include_expression,
       $.include_once_expression,
       $.require_expression,
       $.require_once_expression,
+    ),
+
+    unary_expression: $ => choice(
+      $.cast_expression
+    ),
+
+    cast_expression: $ => seq(
+      '(', $.cast_type, ')', $.unary_expression
+    ),
+
+    cast_type: $ => choice(
+      'array',
+      'binary',
+      'bool',
+      'boolean',
+      'double',
+      'int',
+      'integer',
+      'float',
+      'object',
+      'real',
+      'string',
+      'unset'
     ),
 
     assignment_expression: $ => prec.right(choice(
