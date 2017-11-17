@@ -2954,46 +2954,50 @@
       ]
     },
     "composite_literal": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "map_type"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "slice_type"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "array_type"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "implicit_length_array_type"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "struct_type"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "_type_identifier"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "qualified_type"
-            }
-          ]
-        },
-        {
-          "type": "SYMBOL",
-          "name": "literal_value"
-        }
-      ]
+      "type": "PREC",
+      "value": -1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "map_type"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "slice_type"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "array_type"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "implicit_length_array_type"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "struct_type"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "_type_identifier"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "qualified_type"
+              }
+            ]
+          },
+          {
+            "type": "SYMBOL",
+            "name": "literal_value"
+          }
+        ]
+      }
     },
     "literal_value": {
       "type": "SEQ",
@@ -4372,10 +4376,6 @@
     [
       "_parameter_list",
       "_simple_type"
-    ],
-    [
-      "composite_literal",
-      "_expression"
     ]
   ],
   "externals": [],
