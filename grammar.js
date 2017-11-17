@@ -896,7 +896,9 @@ module.exports = grammar({
       seq($._expression, '=>', optional('&'), $._expression)
     )),
 
-    binary_expression: $ => choice(...[
+    binary_expression: $ => choice(
+      prec.left(PREC.REL, seq($._unary_expression, 'instanceof', $._class_type_designator)),
+      ...[
       ['and', PREC.AND],
       ['or', PREC.OR],
       ['xor', PREC.OR],
@@ -924,7 +926,6 @@ module.exports = grammar({
       ['*', PREC.TIMES],
       ['/', PREC.TIMES],
       ['%', PREC.TIMES],
-      ['instanceof', PREC.REL]
     ].map(([operator, precedence]) =>
       prec.left(precedence, seq($._expression, operator, $._expression))
     )),
