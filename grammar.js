@@ -754,7 +754,6 @@ module.exports = grammar({
         ['^=', PREC.AND],
         ['|=', PREC.OR]
       ].map(([operator, precedence]) =>
-        // TODO: Allow unary expression here
         prec.left(precedence, seq($._variable, operator, choice($.assignment_expression, $.binary_expression, $._unary_expression))
       )))
     )),
