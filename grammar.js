@@ -734,7 +734,7 @@ module.exports = grammar({
     ),
 
     conditional_expression: $ => prec.right(PREC.TERNARY, seq(
-      choice($.binary_expression, $._unary_expression), '?', optional($._expression), choice($.binary_expression, $._unary_expression)
+      choice($.binary_expression, $._unary_expression), '?', optional($._expression), ':', choice($.assignment_expression, $.binary_expression, $._unary_expression)
     )),
 
     assignment_expression: $ => prec.right(choice(
