@@ -726,7 +726,7 @@ module.exports = grammar({
     ),
 
     _simple_assignment_expression: $ => seq(
-      seq(choice($._variable, $.list_literal), '=', choice($.assignment_expression, $.binary_expression, $._unary_expression)),
+      seq(choice($._variable, $.list_literal), '=', $._expression),
     ),
 
     _byref_assignment_expression: $ => seq(
@@ -734,7 +734,7 @@ module.exports = grammar({
     ),
 
     conditional_expression: $ => prec.right(PREC.TERNARY, seq(
-      choice($.binary_expression, $._unary_expression), '?', optional($._expression), ':', choice($.assignment_expression, $.binary_expression, $._unary_expression)
+      choice($.binary_expression, $._unary_expression), '?', optional($._expression), ':', $._expression
     )),
 
     assignment_expression: $ => prec.right(choice(
@@ -754,9 +754,8 @@ module.exports = grammar({
         ['^=', PREC.AND],
         ['|=', PREC.OR]
       ].map(([operator, precedence]) =>
-        prec.left(precedence, seq($._variable, operator, choice($.assignment_expression, $.binary_expression, $._unary_expression))
-      )))
-    )),
+        prec.left(precedence, seq($._variable, operator, $._expression))
+    )))),
 
     _variable: $ => choice(
       $._callable_variable,
