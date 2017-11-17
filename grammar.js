@@ -804,16 +804,16 @@ module.exports = grammar({
 
     arguments: $ => seq(
       '(',
-      commaSep1(choice($.variadic_unpacking, $._expression)),
+      commaSep(choice($.variadic_unpacking, $._expression)),
       ')'
     ),
 
-    member_call_expression: $ => seq(
+    member_call_expression: $ => prec(PREC.CALL, seq(
       $.dereferencable_expression,
       '->',
       $._member_name,
       $.arguments
-    ),
+    )),
 
     variadic_unpacking: $ => seq('...', $._expression),
 
