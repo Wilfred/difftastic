@@ -550,3 +550,39 @@ func main() {
   (package_clause (package_identifier))
   (function_declaration (identifier) (parameters) (block
     (empty_statement))))
+
+=============================================
+Nested control statements
+=============================================
+
+package main
+
+func main() {
+  for i, v := range vectors {
+    func() {
+      if v == v {
+        fmt.Println("something: %v", vectors[i])
+      }
+    }()
+  }
+}
+
+---
+
+(source_file
+  (package_clause (package_identifier))
+  (function_declaration (identifier) (parameters) (block
+    (for_statement
+      (range_clause (expression_list (identifier) (identifier)) (identifier))
+      (block
+        (call_expression
+          (func_literal
+            (parameters)
+            (block
+              (if_statement
+                (binary_expression (identifier) (identifier))
+                (block
+                  (call_expression
+                    (selector_expression (identifier) (field_identifier))
+                    (interpreted_string_literal)
+                    (index_expression (identifier) (identifier)))))))))))))
