@@ -16,7 +16,8 @@ const PREC = {
   INC: 10,
   NEW: 11,
   CALL: 12,
-  MEMBER: 13
+  MEMBER: 13,
+  DEREF: 14
 };
 
 module.exports = grammar({
@@ -33,19 +34,6 @@ module.exports = grammar({
     [$.qualified_name, $.namespace_name],
     [$.namespace_name],
     [$.namespace_aliasing_clause, $.name],
-
-    [$.dereferencable_expression, $.echo_statement],
-    [$.dereferencable_expression, $.clone_expression],
-    [$.dereferencable_expression, $.print_intrinsic],
-    [$.dereferencable_expression, $.error_control_expression],
-    [$.dereferencable_expression, $.array_element_initializer],
-    [$.dereferencable_expression, $.include_expression],
-    [$.dereferencable_expression, $.include_once_expression],
-    [$.dereferencable_expression, $.require_expression],
-    [$.dereferencable_expression, $.require_once_expression],
-    [$.dereferencable_expression, $.yield_expression],
-    [$.dereferencable_expression, $.cast_expression],
-    [$.dereferencable_expression, $.assignment_expression],
   ],
   inline: $ => [
     $._expression,
@@ -56,7 +44,6 @@ module.exports = grammar({
     $._selection_statement,
     $._iteration_statement,
     $._foreach_value,
-    $._primary_expression,
     $._unary_expression,
     $._literal,
     $._class_type_designator
@@ -837,12 +824,12 @@ module.exports = grammar({
       )
     ),
 
-    dereferencable_expression: $ => choice(
+    dereferencable_expression: $ => prec(PREC.DEREF, choice(
       $._variable,
       seq('(', $._expression, ')'),
       $.array_creation_expression,
       $.string
-    ),
+    )),
 
     array_creation_expression: $ => choice(
       seq('array', '(', commaSep($.array_element_initializer), optional(','), ')'),
