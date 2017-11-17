@@ -512,13 +512,13 @@ module.exports = grammar({
       $.list_literal
     ),
 
-    if_statement: $ => seq(
+    if_statement: $ => prec.right(seq(
       'if', '(', $._expression ,')',
       choice(
-        seq($.statement, repeat(alias($.else_if_clause_1, $.else_if_clause)), alias($.else_clause_1, $.else_clause)),
-        seq(':', repeat1($.statement), repeat(alias($.else_if_clause_2, $.else_if_clause)), alias($.else_clause_2, $.else_clause), 'endif', ';')
+        seq($.statement, repeat(alias($.else_if_clause_1, $.else_if_clause)), optional(alias($.else_clause_1, $.else_clause))),
+        seq(':', repeat1($.statement), repeat(alias($.else_if_clause_2, $.else_if_clause)), optional(alias($.else_clause_2, $.else_clause)), 'endif', ';')
       ),
-    ),
+    )),
 
     else_if_clause_1: $ => seq(
       'elseif', '(', $._expression, ')', $.statement
