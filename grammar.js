@@ -592,6 +592,7 @@ module.exports = grammar({
       ['+', PREC.NEG],
       ['-', PREC.NEG],
       ['~', PREC.NEG],
+      ['!', PREC.NEG],
     ].map(([operator, precedence]) =>
       prec.left(precedence, seq(operator, $._unary_expression))
     )),
