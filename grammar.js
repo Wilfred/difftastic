@@ -800,7 +800,7 @@ module.exports = grammar({
 
     arguments: $ => seq(
       '(',
-      repeat($.variadic_unpacking, $._expression),
+      commaSep1(choice($.variadic_unpacking, $._expression)),
       ')'
     ),
 
@@ -814,7 +814,9 @@ module.exports = grammar({
     variadic_unpacking: $ => seq('...', $._expression),
 
     _member_name: $ => choice(
-      $.name, $.simple_variable, seq('{', $._expression, '}')
+      $.name,
+      $.simple_variable,
+      seq('{', $._expression, '}')
     ),
 
     subscript_expression: $ => seq(
