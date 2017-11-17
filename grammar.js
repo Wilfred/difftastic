@@ -39,6 +39,7 @@ module.exports = grammar({
     $._expression,
     $._member_name,
     $._variable,
+    $._callable_variable,
     $._variable_name,
     $._callable_expression,
     $._selection_statement,
