@@ -6,7 +6,8 @@ const
     additive: 4,
     comparative: 3,
     and: 2,
-    or: 1
+    or: 1,
+    composite_literal: -1,
   },
 
   multiplicative_operators = ['*', '/', '%', '<<', '>>', '&', '&^'],
@@ -68,7 +69,6 @@ module.exports = grammar({
     [$.func_literal, $.function_type],
     [$.function_type],
     [$._parameter_list, $._simple_type],
-    [$.composite_literal, $._expression],
   ],
 
   rules: {
@@ -618,7 +618,7 @@ module.exports = grammar({
       ')'
     ),
 
-    composite_literal: $ => seq(
+    composite_literal: $ => prec(PREC.composite_literal, seq(
       choice(
         $.map_type,
         $.slice_type,
@@ -629,7 +629,7 @@ module.exports = grammar({
         $.qualified_type
       ),
       $.literal_value
-    ),
+    )),
 
     literal_value: $ => seq(
       '{',
