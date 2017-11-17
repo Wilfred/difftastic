@@ -214,11 +214,11 @@ module.exports = grammar({
     ),
 
     class_const_declaration: $ => seq(
-      optional($.visibility_modifier), 'const', repeat1($.const_element), ';'
+      optional($.visibility_modifier), 'const', commaSep1($.const_element), ';'
     ),
 
     property_declaration: $ => seq(
-      $.property_modifier, repeat1($.property_element), ';'
+      $.property_modifier, commaSep1($.property_element), ';'
     ),
 
     property_modifier: $ => choice(
