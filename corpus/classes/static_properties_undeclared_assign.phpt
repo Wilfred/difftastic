@@ -1,0 +1,9 @@
+<?php
+Class C {}
+C::$p = 1;
+?>
+--EXPECTF--
+Fatal error: Uncaught Error: Access to undeclared static property: C::$p in %s:3
+Stack trace:
+#0 {main}
+  thrown in %s on line 3

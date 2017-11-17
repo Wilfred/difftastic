@@ -1,0 +1,9 @@
+<?php
+	var_dump(
+		(float)"nanite",
+		(float)"nan",
+		(float)"inf",
+		(float)"infusorian"
+	);
+?>
+==DONE==
