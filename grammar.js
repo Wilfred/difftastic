@@ -47,7 +47,9 @@ module.exports = grammar({
     $._foreach_value,
     $._unary_expression,
     $._literal,
-    $._class_type_designator
+    $._class_type_designator,
+    $._simple_assignment_expression,
+    $._byref_assignment_expression,
   ],
   extras: $ => [
     $.comment,
@@ -722,9 +724,22 @@ module.exports = grammar({
       'unset'
     ),
 
+    _simple_assignment_expression: $ => seq(
+      seq(choice($._variable, $.list_literal), '=', choice($.assignment_expression, $.binary_expression, $.unary_expression)),
+    ),
+
+    _byref_assignment_expression: $ => seq(
+      $._variable, '=', '&', $._variable
+    ),
+
+    conditional_expression: $ => prec.right(PREC.TERNARY, seq(
+      choice($.binary_expression, $._unary_expression), '?', optional($._expression), choice($.binary_expression, $._unary_expression)
+    )),
+
     assignment_expression: $ => prec.right(choice(
-      seq(choice($._variable, $.list_literal), '=', $.assignment_expression),
-      seq($._variable, '=', '&', $._variable),
+      $.conditional_expression,
+      $._simple_assignment_expression,
+      $._byref_assignment_expression,
       choice(...[
         ['**=', PREC.TIMES],
         ['*=', PREC.TIMES],
@@ -738,7 +753,8 @@ module.exports = grammar({
         ['^=', PREC.AND],
         ['|=', PREC.OR]
       ].map(([operator, precedence]) =>
-        prec.left(precedence, seq($._variable, operator, $.assignment_expression)
+        // TODO: Allow unary expression here
+        prec.left(precedence, seq($._variable, operator, choice($.assignment_expression, $.binary_expression, $._unary_expression))
       )))
     )),
 
