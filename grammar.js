@@ -726,7 +726,7 @@ module.exports = grammar({
     ),
 
     _simple_assignment_expression: $ => seq(
-      seq(choice($._variable, $.list_literal), '=', choice($.assignment_expression, $.binary_expression, $.unary_expression)),
+      seq(choice($._variable, $.list_literal), '=', choice($.assignment_expression, $.binary_expression, $._unary_expression)),
     ),
 
     _byref_assignment_expression: $ => seq(
