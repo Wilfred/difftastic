@@ -885,7 +885,7 @@
           "type": "REPEAT",
           "content": {
             "type": "SYMBOL",
-            "name": "class_member_declaration"
+            "name": "_class_member_declaration"
           }
         },
         {
@@ -955,7 +955,7 @@
         }
       ]
     },
-    "class_member_declaration": {
+    "_class_member_declaration": {
       "type": "CHOICE",
       "members": [
         {
@@ -1105,10 +1105,6 @@
               "type": "BLANK"
             }
           ]
-        },
-        {
-          "type": "STRING",
-          "value": ";"
         }
       ]
     },
@@ -3957,7 +3953,7 @@
                 "type": "REPEAT",
                 "content": {
                   "type": "SYMBOL",
-                  "name": "class_member_declaration"
+                  "name": "_class_member_declaration"
                 }
               },
               {

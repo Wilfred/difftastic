@@ -186,7 +186,7 @@ module.exports = grammar({
       optional($.class_base_clause),
       optional($.class_interface_clause),
       '{',
-      repeat($.class_member_declaration),
+      repeat($._class_member_declaration),
       '}'
     ),
 
@@ -204,7 +204,7 @@ module.exports = grammar({
       seq($.class_interface_clause, ',', $.qualified_name)
     ),
 
-    class_member_declaration: $ => choice(
+    _class_member_declaration: $ => choice(
       $.class_const_declaration,
       $.property_declaration,
       $.method_declaration,
@@ -228,7 +228,7 @@ module.exports = grammar({
     ),
 
     property_element: $ => seq(
-      $._variable_name, optional($.property_initializer), ';'
+      $._variable_name, optional($.property_initializer)
     ),
 
     property_initializer: $ => seq(
@@ -664,7 +664,7 @@ module.exports = grammar({
 
     object_creation_expression: $ => prec.right(PREC.NEW, choice(
       seq('new', $._class_type_designator, optional($.arguments)),
-      seq('new', 'class', optional($.arguments), optional($.class_base_clause), optional($.class_interface_clause), '{', repeat($.class_member_declaration), '}'),
+      seq('new', 'class', optional($.arguments), optional($.class_base_clause), optional($.class_interface_clause), '{', repeat($._class_member_declaration), '}'),
     )),
 
     _class_type_designator: $ => choice(
