@@ -335,7 +335,17 @@ module.exports = grammar({
       '}'
     ),
 
-    _statement_list: $ => sepTrailing(terminator, $._statement, $._statement_list),
+    _statement_list: $ => choice(
+      seq(
+        $._statement,
+        repeat(seq(terminator, $._statement)),
+        optional(seq(
+          terminator,
+          optional(alias($.empty_labeled_statement, $.labeled_statement))
+        ))
+      ),
+      alias($.empty_labeled_statement, $.labeled_statement)
+    ),
 
     _statement: $ => choice(
       $._declaration,
@@ -348,7 +358,7 @@ module.exports = grammar({
       $.expression_switch_statement,
       $.type_switch_statement,
       $.select_statement,
-      $.label_statement,
+      $.labeled_statement,
       $.fallthrough_statement,
       $.break_statement,
       $.continue_statement,
@@ -406,7 +416,16 @@ module.exports = grammar({
       $.expression_list
     ),
 
-    label_statement: $ => seq(alias($.identifier, $.label_name), ':'),
+    labeled_statement: $ => seq(
+      alias($.identifier, $.label_name),
+      ':',
+      $._statement
+    ),
+
+    empty_labeled_statement: $ => seq(
+      alias($.identifier, $.label_name),
+      ':',
+    ),
 
     fallthrough_statement: $ => 'fallthrough',
 
