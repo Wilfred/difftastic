@@ -245,8 +245,7 @@ func main() {
     goto loop
   }
 
-loop:
-  for i := 0; i < 5; i++ {
+  loop: for i := 0; i < 5; i++ {
     a()
     break loop
   }
@@ -277,25 +276,25 @@ loop2:
       (block
         (call_expression (identifier))
         (goto_statement (label_name))))
-    (label_statement (label_name))
-    (for_statement
-      (for_clause
-        (short_var_declaration
-          (expression_list (identifier))
-          (expression_list (int_literal)))
-        (binary_expression (identifier) (int_literal))
-        (inc_statement (identifier)))
-      (block
-        (call_expression (identifier))
-        (break_statement (label_name))))
-    (label_statement (label_name))
-    (for_statement
-      (for_clause
-        (binary_expression (identifier) (int_literal))
-        (inc_statement (identifier)))
-      (block
-        (call_expression (identifier))
-        (continue_statement (label_name))))
+    (labeled_statement (label_name)
+      (for_statement
+        (for_clause
+          (short_var_declaration
+            (expression_list (identifier))
+            (expression_list (int_literal)))
+          (binary_expression (identifier) (int_literal))
+          (inc_statement (identifier)))
+        (block
+          (call_expression (identifier))
+          (break_statement (label_name)))))
+    (labeled_statement (label_name)
+      (for_statement
+        (for_clause
+          (binary_expression (identifier) (int_literal))
+          (inc_statement (identifier)))
+        (block
+          (call_expression (identifier))
+          (continue_statement (label_name)))))
     (for_statement
       (for_clause)
       (block
@@ -532,7 +531,7 @@ func main() {
 (source_file
   (package_clause (package_identifier))
   (function_declaration (identifier) (parameters) (block
-    (block (label_statement (label_name))))))
+    (block (labeled_statement (label_name))))))
 
 ============================================
 Empty statements
