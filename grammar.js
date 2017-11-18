@@ -68,7 +68,7 @@ module.exports = grammar({
     [$.qualified_type, $._expression],
     [$.func_literal, $.function_type],
     [$.function_type],
-    [$._parameter_list, $._simple_type],
+    [$.parameters, $._simple_type],
   ],
 
   rules: {
@@ -181,11 +181,13 @@ module.exports = grammar({
 
     parameters: $ => seq(
       '(',
-      optional($._parameter_list),
+      optional(seq(
+        choice($.identifier, $.parameter_declaration, $.variadic_parameter_declaration),
+        repeat(seq(',', choice($.identifier, $.parameter_declaration, $.variadic_parameter_declaration))),
+        optional(',')
+      )),
       ')'
     ),
-
-    _parameter_list: $ => sepTrailing(',', choice($.identifier, $.parameter_declaration, $.variadic_parameter_declaration), $._parameter_list),
 
     parameter_declaration: $ => seq(
       optional($.identifier),
@@ -270,12 +272,18 @@ module.exports = grammar({
 
     struct_type: $ => seq(
       'struct',
-      '{',
-      optional($._field_declaration_list),
-      '}'
+      $._field_declaration_list,
     ),
 
-    _field_declaration_list: $ => sepTrailing(terminator, $.field_declaration, $._field_declaration_list),
+    _field_declaration_list: $ => seq(
+      '{',
+      optional(seq(
+        $.field_declaration,
+        repeat(seq(terminator, $.field_declaration)),
+        optional(terminator)
+      )),
+      '}'
+    ),
 
     field_declaration: $ => seq(
       choice(
@@ -296,12 +304,18 @@ module.exports = grammar({
 
     interface_type: $ => seq(
       'interface',
-      '{',
-      optional($._method_spec_list),
-      '}'
+      $._method_spec_list,
     ),
 
-    _method_spec_list: $ => sepTrailing(terminator, choice($._type_identifier, $.qualified_type, $.method_spec), $._method_spec_list),
+    _method_spec_list: $ => seq(
+      '{',
+      optional(seq(
+        choice($._type_identifier, $.qualified_type, $.method_spec),
+        repeat(seq(terminator, choice($._type_identifier, $.qualified_type, $.method_spec))),
+        optional(terminator),
+      )),
+      '}'
+    ),
 
     method_spec: $ => seq(
       $._field_identifier,
@@ -584,19 +598,24 @@ module.exports = grammar({
       ),
       seq(
         $._expression,
-        '(',
-        optional($._argument_list),
-        ')'
+        $._argument_list
       )
     )),
 
     variadic_argument: $ => prec.right(seq(
       $._expression,
-      '...',
-      optional(',')
+      '...'
     )),
 
-    _argument_list: $ => sepTrailing(',', choice($._expression, $.variadic_argument), $._argument_list),
+    _argument_list: $ => seq(
+      '(',
+      optional(seq(
+        choice($._expression, $.variadic_argument),
+        repeat(seq(',', choice($._expression, $.variadic_argument))),
+        optional(',')
+      )),
+      ')'
+    ),
 
     selector_expression: $ => prec(PREC.primary, seq(
       $._expression,
@@ -652,11 +671,13 @@ module.exports = grammar({
 
     literal_value: $ => seq(
       '{',
-      optional($._element_list),
+      optional(seq(
+        choice($.element, $.keyed_element),
+        repeat(seq(',', choice($.element, $.keyed_element))),
+        optional(',')
+      )),
       '}'
     ),
-
-    _element_list: $ => sepTrailing(',', choice($.element, $.keyed_element), $._element_list),
 
     keyed_element: $ => seq(
       choice(
@@ -767,8 +788,4 @@ module.exports = grammar({
 
 function commaSep1(rule) {
   return seq(rule, repeat(seq(',', rule)))
-}
-
-function sepTrailing (separator, rule, recurSymbol) {
-  return choice(rule, seq(rule, separator, optional(recurSymbol)))
 }

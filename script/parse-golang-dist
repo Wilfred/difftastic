@@ -18,12 +18,10 @@ contains-match () {
 }
 
 for go_file in $GO_FILES; do
-  echo $go_file
-
   if contains-match $go_file $BAD_FILES[@]; then
     echo "PENDING"
     continue
   fi
 
-  tree-sitter parse $go_file --quiet --time || exit 1
+  tree-sitter parse $go_file --quiet --time
 done
