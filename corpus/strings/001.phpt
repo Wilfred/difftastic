@@ -1,3 +1,7 @@
+==========
+String functions
+==========
+
 <?php 
 
 error_reporting(0);
@@ -202,3 +206,5 @@ if (strlen($ui1) == strlen($ui2) && strlen($ui1) == $len && $ui1 != $ui2) {
 }
 
 ?>
+
+---

@@ -1,3 +1,7 @@
+==========
+ZE2 A private constructor cannot be called
+==========
+
 <?php
 
 class Test

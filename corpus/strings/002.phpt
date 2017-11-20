@@ -1,3 +1,7 @@
+==========
+Formatted print functions
+==========
+
 <?php 
 error_reporting(0);
 
@@ -42,3 +46,5 @@ vprintf("vprintf test 1:%2\$-2d %1\$2d\n", array(1, 2));
 
 
 ?>
+
+---

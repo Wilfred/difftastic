@@ -1,3 +1,7 @@
+==========
+print_r(Object)
+==========
+
 <?php
 class Foo {}
 $foo = new Foo;

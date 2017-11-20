@@ -1,3 +1,7 @@
+==========
+Static variables in methods & nested functions & evals.
+==========
+
 <?php
 
 Class C {

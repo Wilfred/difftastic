@@ -1,3 +1,7 @@
+==========
+Ensure instanceof does not trigger autoload.
+==========
+
 <?php
 spl_autoload_register(function ($name) {
   echo "In autoload: ";

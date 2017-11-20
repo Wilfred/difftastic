@@ -1,3 +1,7 @@
+==========
+Class private constant visibility
+==========
+
 <?php
 class A {
 	private const privateConst = 'privateConst';

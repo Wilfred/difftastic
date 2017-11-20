@@ -1,3 +1,7 @@
+==========
+Error case: duplicate class constant definition
+==========
+
 <?php
   class myclass
   {

@@ -1,3 +1,7 @@
+==========
+Bug #21669 ("$obj = new $this->var;" doesn't work)
+==========
+
 <?php
 class Test {
 	function say_hello() {
@@ -16,3 +20,5 @@ $factory = new Factory;
 $test = $factory->create();
 $test->say_hello();
 ?>
+
+---

@@ -1,3 +1,7 @@
+==========
+String conversion with multiple decimal points
+==========
+
 <?php
 function test($str) {
   echo "\n--> Testing $str:\n";

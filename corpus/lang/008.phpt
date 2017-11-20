@@ -1,3 +1,7 @@
+==========
+Testing recursive function
+==========
+
 <?php
 
 function Test()
@@ -11,3 +15,5 @@ function Test()
 Test();
 
 ?>
+
+---

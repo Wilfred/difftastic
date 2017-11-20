@@ -1,3 +1,7 @@
+==========
+Dynamic access of constants
+==========
+
 <?php
 class A {
     const B = 'foo';

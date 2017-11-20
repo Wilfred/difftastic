@@ -1,3 +1,7 @@
+==========
+Bug #44827 (Class error when trying to access :: as constant)
+==========
+
 <?php
 define('::', true);
 var_dump(constant('::'));

@@ -1,3 +1,7 @@
+==========
+ZE2 iterators and array wrapping
+==========
+
 <?php
 
 class ai implements Iterator {
@@ -66,3 +70,5 @@ foreach ($array as $property => $value) {
 
 ?>
 ===DONE===
+
+---

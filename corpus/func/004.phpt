@@ -1,3 +1,7 @@
+==========
+General function test
+==========
+
 <?php 
 
 echo "Before function declaration...\n";
@@ -30,3 +34,5 @@ echo "Returned from function call...\n";
 some_other_function();
 
 ?>
+
+---

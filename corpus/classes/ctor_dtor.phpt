@@ -1,3 +1,7 @@
+==========
+ZE2 The new constructor/destructor is called
+==========
+
 <?php
 
 class early {

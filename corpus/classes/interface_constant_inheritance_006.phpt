@@ -1,3 +1,7 @@
+==========
+Ensure a interface can not have protected constants
+==========
+
 <?php
 interface A {
 	protected const FOO = 10;

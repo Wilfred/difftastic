@@ -1,3 +1,7 @@
+==========
+Bug #71897 (ASCII 0x7F Delete control character permitted in identifiers)
+==========
+
 <?php
 
 eval("

@@ -1,3 +1,7 @@
+==========
+Bug #55500 (Corrupted $_FILES indices lead to security concern)
+==========
+
 <?php
 var_dump($_FILES);
 var_dump($_POST);

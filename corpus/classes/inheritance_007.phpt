@@ -1,3 +1,7 @@
+==========
+Ensure inherited old-style constructor doesn't block other methods
+==========
+
 <?php
 class A {
   public function B () { echo "In " . __METHOD__ . "\n"; }

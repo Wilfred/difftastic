@@ -1,3 +1,7 @@
+==========
+Redeclare inherited public property as public static.
+==========
+
 <?php
   class A
   {

@@ -1,3 +1,7 @@
+==========
+Test open_basedir configuration
+==========
+
 <?php
 chdir(__DIR__);
 ini_set("open_basedir", ".");

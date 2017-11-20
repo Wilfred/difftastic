@@ -1,3 +1,7 @@
+==========
+Test wrong number of arguments and wrong arg types for ob_start()
+==========
+
 <?php
 /* 
  * proto bool ob_start([ string|array user_function [, int chunk_size [, bool erase]]])

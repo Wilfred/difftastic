@@ -1,3 +1,7 @@
+==========
+$this in constructor test
+==========
+
 <?php
 class foo {
 	function __construct($name) {
@@ -30,3 +34,5 @@ $List->echoName();
 
 print ($names==array('constructor','outside','outside','constructor','outside','outside')) ? 'success':'failure';
 ?>
+
+---

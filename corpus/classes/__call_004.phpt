@@ -1,3 +1,7 @@
+==========
+When __call() is invoked via ::, ensure current scope's __call() is favoured over the specified class's  __call().
+==========
+
 <?php
 class A {
 	function __call($strMethod, $arrArgs) {

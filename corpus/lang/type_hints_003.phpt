@@ -1,3 +1,7 @@
+==========
+ZE2 type
+==========
+
 <?php
 class T {
 	function f(P $p = 42) {

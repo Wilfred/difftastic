@@ -1,3 +1,7 @@
+==========
+EXPECTREGEX_EXTERNAL
+==========
+
 abcde12314235xyz34264768286abcde
 --EXPECTREGEX_EXTERNAL--
 test013.txt

@@ -1,3 +1,7 @@
+==========
+rfc1867 array upload
+==========
+
 <?php
 var_dump($_FILES);
 var_dump($_POST);

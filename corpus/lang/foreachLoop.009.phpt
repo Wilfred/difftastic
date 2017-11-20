@@ -1,3 +1,7 @@
+==========
+Foreach loop tests - foreach operates on the original array if the array is referenced outside the loop.
+==========
+
 <?php
 // From php.net/foreach:
 // "Unless the array is referenced, foreach operates on a copy of the specified array."
@@ -47,3 +51,5 @@ foreach ($refedArray as $k=>&$v4) {
 }
 
 ?>
+
+---

@@ -1,3 +1,7 @@
+==========
+ZE2 __set() signature check
+==========
+
 <?php
 class Test {
 	function __set() {

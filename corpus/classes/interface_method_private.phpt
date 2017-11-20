@@ -1,3 +1,7 @@
+==========
+ZE2 An interface method cannot be private
+==========
+
 <?php
 
 interface if_a {

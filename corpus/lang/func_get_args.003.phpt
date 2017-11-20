@@ -1,3 +1,7 @@
+==========
+func_get_args() outside of a function declaration
+==========
+
 <?php
 
 var_dump(func_get_args());	

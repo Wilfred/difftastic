@@ -1,3 +1,7 @@
+==========
+PHP encoding setting test
+==========
+
 <?php
 var_dump(ini_get('default_charset'));
 var_dump(ini_get('input_encoding'));
@@ -17,3 +21,5 @@ var_dump(ini_get('input_encoding'));
 var_dump(ini_get('internal_encoding'));
 var_dump(ini_get('output_encoding'));
 
+
+---

@@ -1,3 +1,7 @@
+==========
+ZE2 class constants and scope
+==========
+
 <?php
 
 class ErrorCodes {

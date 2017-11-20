@@ -1,3 +1,7 @@
+==========
+Final constants are not allowed
+==========
+
 <?php
 class A {
 	final const X = 1;

@@ -1,3 +1,7 @@
+==========
+Bug #24926 (lambda function (create_function()) cannot be stored in a class property)
+==========
+
 <?php
 
 error_reporting (E_ALL);

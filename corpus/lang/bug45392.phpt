@@ -1,3 +1,7 @@
+==========
+Bug #45392 (ob_start()/ob_end_clean() and memory_limit)
+==========
+
 <?php
 echo __LINE__ . "\n";
 ini_set('memory_limit', 100);

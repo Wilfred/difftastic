@@ -1,3 +1,7 @@
+==========
+Test object compare when object handler different 
+==========
+
 
 <?php 
 

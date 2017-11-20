@@ -1,3 +1,7 @@
+==========
+Assigning & incrementing a non-existent static property
+==========
+
 <?php
 Class C {}
 C::$p += 1;

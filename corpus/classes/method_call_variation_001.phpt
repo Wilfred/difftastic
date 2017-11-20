@@ -1,3 +1,7 @@
+==========
+In $a->$b[Y]() and $a->X[Y]() both $a->$b[Y] and $a->X[Y] represent a global function name
+==========
+
 <?php
   class C {}
 

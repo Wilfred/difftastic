@@ -1,3 +1,7 @@
+==========
+Testing $argc and $argv handling (GET)
+==========
+
 <?php 
 $argc = $_SERVER['argc'];
 $argv = $_SERVER['argv'];
@@ -7,3 +11,5 @@ for ($i=0; $i<$argc; $i++) {
 }
 
 ?>
+
+---

@@ -1,3 +1,7 @@
+==========
+ZE2 A derived class can use the inherited constructor/destructor
+==========
+
 <?php
 
 // This test checks for:

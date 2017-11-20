@@ -1,3 +1,7 @@
+==========
+output buffering - handlers/status
+==========
+
 <?php
 function a($s){return $s;}
 function b($s){return $s;}

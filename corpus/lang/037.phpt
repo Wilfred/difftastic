@@ -1,3 +1,7 @@
+==========
+'Static' binding for private variables
+==========
+
 <?php
 
 class par {
@@ -23,3 +27,5 @@ $obj = new chld();
 $obj->displayMe();
 
 ?>
+
+---

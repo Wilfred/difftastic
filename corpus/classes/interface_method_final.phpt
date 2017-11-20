@@ -1,3 +1,7 @@
+==========
+ZE2 An interface method cannot be final
+==========
+
 <?php
 
 class if_a {

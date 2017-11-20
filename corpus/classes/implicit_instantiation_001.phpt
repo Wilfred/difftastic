@@ -1,3 +1,7 @@
+==========
+Implicit object instantiation when accessing properties of non-object.
+==========
+
 <?php
 class C {
 	// These values get implicitly converted to objects

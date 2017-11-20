@@ -1,3 +1,7 @@
+==========
+Returning a references returned by another function
+==========
+
 <?php
 
 

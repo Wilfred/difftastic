@@ -1,3 +1,7 @@
+==========
+Method override allows optional default argument
+==========
+
 <?php
 
 class A {

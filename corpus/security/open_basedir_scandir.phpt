@@ -1,3 +1,7 @@
+==========
+Test open_basedir configuration
+==========
+
 <?php
 require_once "open_basedir.inc";
 $initdir = getcwd();

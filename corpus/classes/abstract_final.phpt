@@ -1,3 +1,7 @@
+==========
+ZE2 A final method cannot be abstract
+==========
+
 <?php
 
 class fail {

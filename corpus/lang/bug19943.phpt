@@ -1,3 +1,7 @@
+==========
+Bug #19943 (memleaks)
+==========
+
 <?php
 	$ar = array();
 	for ($count = 0; $count < 10; $count++) {
@@ -12,3 +16,5 @@
 	$a[9] = $a[0];
 	var_dump($a);
 ?>
+
+---

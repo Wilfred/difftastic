@@ -1,3 +1,7 @@
+==========
+ZE2 A derived class does not know anything about inherited private methods
+==========
+
 <?php
 class base {
 	private function show() {

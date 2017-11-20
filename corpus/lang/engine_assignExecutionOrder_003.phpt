@@ -1,3 +1,7 @@
+==========
+Evaluation order during assignments.
+==========
+
 <?php
 $b = "bb";
 $a = "aa";
@@ -78,3 +82,5 @@ $x[mod($x1)][mod($x2)] = $bx[mod($x3)];
 
 var_dump($x);
 ?>
+
+---

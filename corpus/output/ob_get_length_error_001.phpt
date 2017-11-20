@@ -1,3 +1,7 @@
+==========
+Test wrong number of arguments for ob_get_length()
+==========
+
 <?php
 /* 
  * proto int ob_get_length(void)

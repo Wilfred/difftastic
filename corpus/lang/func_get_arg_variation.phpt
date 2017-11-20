@@ -1,3 +1,7 @@
+==========
+func_get_arg test
+==========
+
 <?php
 
 function foo($a)

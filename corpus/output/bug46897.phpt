@@ -1,3 +1,7 @@
+==========
+Bug #46897: ob_flush() should fail to flush unerasable buffers
+==========
+
 <?php
 function callback($string) {
     static $callback_invocations;

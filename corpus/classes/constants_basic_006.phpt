@@ -1,3 +1,7 @@
+==========
+Ensure class constants are not evaluated when a class is looked up to resolve inheritance during runtime.
+==========
+
 <?php
   class C
   {

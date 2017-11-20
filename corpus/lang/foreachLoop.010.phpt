@@ -1,3 +1,7 @@
+==========
+This test illustrates the impact of invoking destructors when refcount is decremented to 0 on foreach.
+==========
+
 <?php
 
 $a = array(1,2,3);

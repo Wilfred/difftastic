@@ -1,3 +1,7 @@
+==========
+Test open_basedir configuration for glob
+==========
+
 <?php
 $dir = "globtest1";
 $dir2 = "globtest2";
@@ -13,3 +17,5 @@ $dir2 = "globtest2";
 rmdir($dir);
 rmdir($dir2);
 ?>
+
+---

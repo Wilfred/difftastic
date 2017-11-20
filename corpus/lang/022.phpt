@@ -1,3 +1,7 @@
+==========
+Switch test 3
+==========
+
 <?php 
 
 function switchtest ($i, $j)
@@ -27,3 +31,5 @@ for ($i=0; $i<3; $i++) {
   }
 }
 ?>
+
+---

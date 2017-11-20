@@ -1,3 +1,7 @@
+==========
+Bug #24499 (bogus handling of a public property as a private one)
+==========
+
 <?php
 class Id {
         private $id="priv";
@@ -13,3 +17,5 @@ $id = new Id();
 $id->tester($obj);
 print_r($obj);
 ?>
+
+---

@@ -1,3 +1,7 @@
+==========
+Bug #24573 (debug_backtrace() crashes if $this is set to null)
+==========
+
 <?php
 
 class Foo {

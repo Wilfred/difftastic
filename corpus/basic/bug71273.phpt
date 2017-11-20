@@ -1,3 +1,7 @@
+==========
+Bug #71273 A wrong ext directory setup in php.ini leads to crash
+==========
+
 <?php
 	/* NOTE this file is required to be encoded in iso-8859-1 */
 

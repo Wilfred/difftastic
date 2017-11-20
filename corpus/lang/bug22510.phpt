@@ -1,3 +1,7 @@
+==========
+Bug #22510 (segfault among complex references)
+==========
+
 <?php
 class foo 
 {

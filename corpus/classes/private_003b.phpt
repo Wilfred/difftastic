@@ -1,3 +1,7 @@
+==========
+ZE2 A private method cannot be called in a derived class
+==========
+
 <?php
 
 class pass {

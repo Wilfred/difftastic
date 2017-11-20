@@ -1,3 +1,7 @@
+==========
+ZE2 catch exception thrown in destructor
+==========
+
 <?php
 
 class FailClass

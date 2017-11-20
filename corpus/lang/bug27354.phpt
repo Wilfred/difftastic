@@ -1,3 +1,7 @@
+==========
+Bug #27354 (Modulus operator crashes PHP)
+==========
+
 <?php
 	var_dump(-2147483647 % -1);
 	var_dump(-2147483649 % -1);

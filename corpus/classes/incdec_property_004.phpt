@@ -1,3 +1,7 @@
+==========
+ZE2 pre increment/decrement property of overloaded object with assignment
+==========
+
 <?php 
 
 class Test {
@@ -22,3 +26,5 @@ $t1 = ++$obj->a;
 var_dump($obj->a);
 echo "---Done---\n";
 ?>
+
+---

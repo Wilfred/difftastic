@@ -1,3 +1,7 @@
+==========
+ZE2 __set() and __get()
+==========
+
 <?php
 class Test
 {

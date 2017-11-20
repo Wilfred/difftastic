@@ -1,3 +1,7 @@
+==========
+Bug #21961 (get_parent_class() segfault)
+==========
+
 <?php
 
 class man
@@ -49,3 +53,5 @@ $x = new man;
 $x->getdrunk('The old Tavern');
 var_dump($x->bars[0]->whosdrunk());
 ?>
+
+---

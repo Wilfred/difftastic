@@ -1,3 +1,7 @@
+==========
+Class constant declarations
+==========
+
 <?php
   define('DEFINED', 1234);
   $def = 456;

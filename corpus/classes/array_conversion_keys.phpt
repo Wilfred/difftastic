@@ -1,3 +1,7 @@
+==========
+Verifies the correct conversion of objects to arrays
+==========
+
 <?php
 class foo
 {

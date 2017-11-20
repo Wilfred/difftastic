@@ -1,3 +1,7 @@
+==========
+Test ob_start() with callbacks in variables
+==========
+
 <?php 
 
 // Closure in variable
@@ -29,3 +33,5 @@ $a = 'my_strtoupper';
 ob_start($a);
 echo 'function via variable', "\n";
 ob_end_flush();
+
+---

@@ -1,3 +1,7 @@
+==========
+ZE2 Do not call destructors if constructor fails
+==========
+
 <?php
 
 class Test
@@ -24,3 +28,5 @@ catch (Exception $e)
 
 ?>
 ===DONE===
+
+---

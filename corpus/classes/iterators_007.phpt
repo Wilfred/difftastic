@@ -1,3 +1,7 @@
+==========
+ZE2 iterators and exceptions
+==========
+
 <?php
 class Test implements Iterator
 {
@@ -30,3 +34,5 @@ while($t->x < 5)
 }
 ?>
 ===DONE===
+
+---

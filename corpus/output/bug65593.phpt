@@ -1,3 +1,7 @@
+==========
+Bug #65593 (ob_start(function(){ob_start();});)
+==========
+
 <?php 
 echo "Test\n";
 

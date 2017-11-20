@@ -1,3 +1,7 @@
+==========
+Mean recursion test
+==========
+
 <?php 
 function RekTest ($nr) {
 	echo " $nr ";
@@ -13,3 +17,5 @@ function RekTest ($nr) {
 
 RekTest(0);
 ?>
+
+---

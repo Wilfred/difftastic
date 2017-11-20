@@ -28,3 +28,11 @@ int(3)
 Change from object to non iterable:
 int(1)
 int(2)
+rom array to non iterable:
+int(1)
+int(2)
+int(3)
+
+Change from object to non iterable:
+int(1)
+int(2)

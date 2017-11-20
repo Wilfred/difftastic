@@ -1,3 +1,7 @@
+==========
+ZE2 A static abstract methods
+==========
+
 <?php
 
 interface showable

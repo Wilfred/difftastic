@@ -1,3 +1,7 @@
+==========
+Class method registration
+==========
+
 <?php
 class A {
 	function foo() {}
@@ -28,3 +32,5 @@ class X {
 
 echo "OK\n";
 ?>
+
+---

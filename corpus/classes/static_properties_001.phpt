@@ -1,3 +1,7 @@
+==========
+ZE2 Initializing static properties to arrays
+==========
+
 <?php
 
 class test {

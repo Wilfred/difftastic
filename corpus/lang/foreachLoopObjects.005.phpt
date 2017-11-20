@@ -1,3 +1,7 @@
+==========
+Foreach loop tests - removing properties before and after the current property during the loop.
+==========
+
 <?php
 
 class C {

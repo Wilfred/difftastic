@@ -1,3 +1,7 @@
+==========
+Bug #25547 (error_handler and array index with function call)
+==========
+
 <?php
 
 function handler($errno, $errstr, $errfile, $errline, $context)
@@ -18,3 +22,5 @@ print_r($output);
 
 echo "Done";
 ?>
+
+---

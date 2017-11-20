@@ -1,3 +1,7 @@
+==========
+Ensure foreach splits the iterated entity from its cow reference set, for all sorts of iterated entities.
+==========
+
 <?php
   error_reporting(E_ALL & ~E_STRICT);
 

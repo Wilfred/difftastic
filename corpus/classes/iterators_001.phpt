@@ -1,3 +1,7 @@
+==========
+ZE2 iterators and foreach
+==========
+
 <?php
 class c_iter implements Iterator {
 
@@ -78,3 +82,5 @@ foreach($t as $i => $v) {
 print "Done\n";
 exit(0);
 ?>
+
+---

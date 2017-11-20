@@ -1,3 +1,7 @@
+==========
+ZE2 ArrayAccess::offsetSet without return
+==========
+
 <?php
 class ObjectOne implements ArrayAccess {
 

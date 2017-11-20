@@ -1,3 +1,7 @@
+==========
+Bug #24054 (Assignment operator *= broken)
+==========
+
 <?php // $Id$
 
 define('LONG_MAX', is_int(5000000000)? 9223372036854775807 : 0x7FFFFFFF);
@@ -16,3 +20,5 @@ TESTS;
 
 include(dirname(__FILE__) . '/../quicktester.inc');
 
+
+---

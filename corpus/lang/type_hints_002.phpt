@@ -1,3 +1,7 @@
+==========
+ZE2 type hinting
+==========
+
 <?php
 class P { }
 class T {
@@ -12,3 +16,5 @@ $o->f(new P);
 $o->f();
 $o->f(NULL);
 ?>
+
+---

@@ -1,3 +1,7 @@
+==========
+Evaluation order during assignments.
+==========
+
 <?php
 
 function i1() {
@@ -41,3 +45,5 @@ var_dump($b);
 var_dump($c);
 
 ?>
+
+---

@@ -1,3 +1,7 @@
+==========
+foreach with iterator and &$value reference
+==========
+
 <?php
 
 class MyIterator implements Iterator {

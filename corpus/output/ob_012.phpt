@@ -1,3 +1,7 @@
+==========
+output buffering - multiple
+==========
+
 <?php
 echo 0;
 	ob_start();
@@ -15,3 +19,5 @@ echo 0;
 	ob_end_flush();
 echo $ob;
 ?>
+
+---

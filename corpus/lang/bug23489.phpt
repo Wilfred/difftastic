@@ -1,3 +1,7 @@
+==========
+Bug #23489 (ob_start() is broken with method callbacks)
+==========
+
 <?php
 class Test {
   function __construct() {
@@ -16,3 +20,5 @@ class Test {
 $t = new Test;
 ?>
 failure
+
+---

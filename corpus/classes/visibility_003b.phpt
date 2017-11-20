@@ -1,3 +1,7 @@
+==========
+ZE2 A redeclared method must have the same or higher visibility
+==========
+
 <?php
 
 class father {

@@ -1,3 +1,7 @@
+==========
+Check key execution order with new. 
+==========
+
 <?php
 $a[2][3] = 'stdClass';
 $a[$i=0][++$i] = new $a[++$i][++$i];

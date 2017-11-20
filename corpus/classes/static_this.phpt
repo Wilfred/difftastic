@@ -1,3 +1,7 @@
+==========
+ZE2 $this can be an argument to a static function
+==========
+
 <?php
 
 class TestClass

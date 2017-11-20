@@ -1,3 +1,7 @@
+==========
+Bug #31875 get_defined_functions() should not list disabled functions
+==========
+
 <?php
 $disabled_function = 'dl';
 

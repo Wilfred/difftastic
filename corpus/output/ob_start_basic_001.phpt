@@ -1,3 +1,7 @@
+==========
+Test return type and value for ob_start()
+==========
+
 <?php
 /* 
  * proto bool ob_start([ string|array user_function [, int chunk_size [, bool erase]]])
@@ -7,3 +11,5 @@
 var_dump(ob_start());
 
 ?>
+
+---

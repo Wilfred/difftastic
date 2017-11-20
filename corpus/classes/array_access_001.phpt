@@ -1,3 +1,7 @@
+==========
+ZE2 ArrayAccess
+==========
+
 <?php
 class ObjectOne implements ArrayAccess {
 

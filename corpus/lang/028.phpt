@@ -1,3 +1,7 @@
+==========
+Testing calling user-level functions from C
+==========
+
 <?php
 
 error_reporting(1023);
@@ -50,3 +54,5 @@ print $name=call_user_func(array(&$dafna,"GetMyName"));
 print "\n";
 
 ?>
+
+---

@@ -1,3 +1,7 @@
+==========
+func_get_arg on non-existent arg
+==========
+
 <?php
 
 function foo($a)

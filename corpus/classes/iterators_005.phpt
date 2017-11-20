@@ -1,3 +1,7 @@
+==========
+ZE2 iterators cannot implement Traversable alone
+==========
+
 <?php
 
 class test implements Traversable {

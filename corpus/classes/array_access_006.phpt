@@ -1,3 +1,7 @@
+==========
+ZE2 ArrayAccess and ASSIGN_OP operators (+=)
+==========
+
 <?php 
 
 class OverloadedArray implements ArrayAccess {
@@ -29,3 +33,5 @@ $a[1] += 10;
 var_dump($a[1]);
 echo "---Done---\n";
 ?>
+
+---

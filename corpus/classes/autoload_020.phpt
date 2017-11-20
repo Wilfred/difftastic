@@ -1,3 +1,7 @@
+==========
+Ensure __autoload() is triggered during unserialization.
+==========
+
 <?php
 spl_autoload_register(function ($name) {
   echo "in autoload: $name\n";

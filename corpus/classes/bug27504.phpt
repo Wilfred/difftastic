@@ -1,3 +1,7 @@
+==========
+Bug #27504 (call_user_func_array allows calling of private/protected methods)
+==========
+
 <?php
 	class foo {
 		function __construct () {

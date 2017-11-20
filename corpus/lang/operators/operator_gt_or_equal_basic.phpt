@@ -1,3 +1,7 @@
+==========
+Test >= operator : different types
+==========
+
 <?php
 $valid_true = array(1, "1", "true", 1.0, array(1));
 $valid_false = array(0, "", 0.0, array(), NULL);
@@ -57,3 +61,5 @@ if ($failed == false) {
 }
 ?>
 ===DONE===
+
+---

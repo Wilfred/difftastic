@@ -1,3 +1,7 @@
+==========
+ZE2 cannot override final old style ctor
+==========
+
 <?php
 
 class Base

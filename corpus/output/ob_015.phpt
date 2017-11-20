@@ -1,3 +1,7 @@
+==========
+output buffering - failure
+==========
+
 <?php
 ob_start("str_rot13", 1);
 echo "foo\n";

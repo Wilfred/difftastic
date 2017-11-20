@@ -1,3 +1,7 @@
+==========
+Returning a reference from a method
+==========
+
 <?php
 Class C {
 	function returnConstantByValue() {

@@ -1,3 +1,7 @@
+==========
+Bug #45986 (wrong error message for a non existent file on rename)
+==========
+
 <?php
 rename('foo', 'bar');
 ?>

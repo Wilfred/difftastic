@@ -1,3 +1,7 @@
+==========
+Multiple declarations of the same static variable
+==========
+
 <?php
 
 $a = 5;
@@ -19,3 +23,5 @@ function foo() {
 foo();
 
 ?>
+
+---

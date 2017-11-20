@@ -1,3 +1,7 @@
+==========
+Pass uninitialised variables by reference and by value to test implicit initialisation.
+==========
+
 <?php
 
 function v($val) {

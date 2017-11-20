@@ -1,3 +1,7 @@
+==========
+output buffering - fatalism
+==========
+
 <?php
 function obh($s)
 {

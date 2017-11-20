@@ -1,3 +1,7 @@
+==========
+Evaluation order during assignments.
+==========
+
 <?php
 
 function f() {

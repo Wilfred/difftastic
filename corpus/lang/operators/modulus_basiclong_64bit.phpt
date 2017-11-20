@@ -1,3 +1,7 @@
+==========
+Test % operator : 64bit long tests
+==========
+
 <?php
  
 define("MAX_64Bit", 9223372036854775807);
@@ -39,3 +43,5 @@ foreach ($otherVals as $otherVal) {
    
 ?>
 ===DONE===
+
+---

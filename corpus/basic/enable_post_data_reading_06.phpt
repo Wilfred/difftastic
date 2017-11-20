@@ -1,3 +1,7 @@
+==========
+enable_post_data_reading: using multiple input streams (more than 8k data)
+==========
+
 <?php
 echo "Test\n";
 
@@ -11,3 +15,5 @@ while (!feof($f1) && !feof($f2)) {
 ?>
 
 Done
+
+---

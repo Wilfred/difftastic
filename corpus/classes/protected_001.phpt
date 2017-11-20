@@ -1,3 +1,7 @@
+==========
+ZE2 A protected method can only be called inside the class
+==========
+
 <?php
 
 class pass {

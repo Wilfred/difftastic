@@ -1,3 +1,7 @@
+==========
+Ensure implicit final inherited old-style constructor cannot be overridden.
+==========
+
 <?php
   class A {
       final function A() { }

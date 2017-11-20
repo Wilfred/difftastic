@@ -1,3 +1,7 @@
+==========
+foreach with iteratorAggregate
+==========
+
 <?php
 class EnglishMealIterator implements Iterator {
 	private $pos=0;

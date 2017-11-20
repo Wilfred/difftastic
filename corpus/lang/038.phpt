@@ -1,3 +1,7 @@
+==========
+Convert warnings to exceptions
+==========
+
 <?php
 
 class MyException extends Exception

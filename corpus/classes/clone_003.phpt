@@ -1,3 +1,7 @@
+==========
+ZE2 object cloning, 3
+==========
+
 <?php
 class base {
 	protected $p1 = 'base:1';
@@ -29,3 +33,5 @@ echo "Clown\n";
 print_r($copy);
 echo "Done\n";
 ?>
+
+---

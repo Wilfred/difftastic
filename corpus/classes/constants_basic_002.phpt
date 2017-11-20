@@ -1,3 +1,7 @@
+==========
+Basic class support - defining and reading a class constant.
+==========
+
 <?php
   class aclass
   {

@@ -1,3 +1,7 @@
+==========
+rfc1867 max_file_uploads - empty files shouldn't count
+==========
+
 <?php
 var_dump($_FILES);
 var_dump($_POST);

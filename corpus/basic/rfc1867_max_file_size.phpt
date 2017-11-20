@@ -1,3 +1,7 @@
+==========
+rfc1867 MAX_FILE_SIZE
+==========
+
 <?php
 var_dump($_FILES);
 var_dump($_POST);

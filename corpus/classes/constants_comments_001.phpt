@@ -1,3 +1,7 @@
+==========
+Class constants and doc comments
+==========
+
 <?php
 class X {
 	/** comment X1 */	
@@ -20,3 +24,5 @@ foreach ($r->getReflectionConstants() as $rc) {
 
 
 ?>
+
+---

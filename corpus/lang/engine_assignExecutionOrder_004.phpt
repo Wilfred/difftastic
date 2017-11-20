@@ -1,3 +1,7 @@
+==========
+Evaluation order during assignments.
+==========
+
 <?php
 
 function i1() {
@@ -21,3 +25,5 @@ list($a[i1()+i2()], , list($a[i3()], $a[])) = array(0, 1, array(30, 40), 3);
 var_dump($a);
 
 ?>
+
+---

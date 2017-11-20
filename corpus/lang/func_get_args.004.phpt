@@ -1,3 +1,7 @@
+==========
+Pass same variable by ref and by value (PHP7).
+==========
+
 <?php
 function valRef($x, &$y) {
 	var_dump($x, $y);

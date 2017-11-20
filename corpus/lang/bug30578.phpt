@@ -1,3 +1,7 @@
+==========
+Bug #30578 (Output buffers flushed before calling __desctruct functions) 
+==========
+
 <?php
 
 error_reporting(E_ALL);
@@ -23,3 +27,5 @@ class Example
 $obj = new Example;
 
 ?>
+
+---

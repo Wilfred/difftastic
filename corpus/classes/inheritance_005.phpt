@@ -1,3 +1,7 @@
+==========
+Check for inherited old-style constructor.
+==========
+
 <?php
   class A
   {

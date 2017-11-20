@@ -1,3 +1,7 @@
+==========
+Bug #29944 (function defined in switch crashes PHP)
+==========
+
 <?PHP
 $a = 1;
 $b = "1";
@@ -12,3 +16,5 @@ switch ($a) {
 ?>
 
 ===DONE===
+
+---

@@ -1,3 +1,7 @@
+==========
+ZE2 errors caught as exceptions
+==========
+
 <?php
 
 class MyException extends Exception {
@@ -36,3 +40,5 @@ try {
 }
 
 ?>
+
+---

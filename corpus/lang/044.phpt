@@ -1,3 +1,7 @@
+==========
+Dynamic call for static methods dynamically named
+==========
+
 <?php
 class A {
     static function foo() { return 'foo'; }

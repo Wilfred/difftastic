@@ -1,3 +1,7 @@
+==========
+ZE2 A method may be redeclared final
+==========
+
 <?php
 
 class first {

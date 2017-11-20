@@ -1,3 +1,7 @@
+==========
+Function call with global and static variables
+==========
+
 <?php
 error_reporting(0);
 $a = 10;
@@ -20,3 +24,5 @@ Test();
 echo "$a $b $c ";
 Test();
 ?>
+
+---

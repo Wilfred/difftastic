@@ -1,3 +1,7 @@
+==========
+ZE2 A protected method cannot be called in another class
+==========
+
 <?php
 
 class pass {

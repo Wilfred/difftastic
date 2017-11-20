@@ -1,3 +1,7 @@
+==========
+Attempt to pass a constant by reference
+==========
+
 <?php
 
 function f(&$arg1)

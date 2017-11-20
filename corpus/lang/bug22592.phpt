@@ -1,3 +1,7 @@
+==========
+Bug #22592 (cascading assignments to strings with curly braces broken)
+==========
+
 <?php
 function error_hdlr($errno, $errstr) {
 	echo "[$errstr]\n";
@@ -32,3 +36,5 @@ var_dump($a, $b, $c, $d, $e);
 $result[0] = $result[-4] = $result[-1] = 'a';
 var_dump($result);
 ?>
+
+---

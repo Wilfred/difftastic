@@ -1,3 +1,7 @@
+==========
+Bug #27535 (Objects pointing to each other cause Apache to crash)
+==========
+
 <?php
                                                                                                                                 
 class Class1
@@ -21,3 +25,5 @@ $foo = new Class2();
 
 ?>
 Alive!
+
+---

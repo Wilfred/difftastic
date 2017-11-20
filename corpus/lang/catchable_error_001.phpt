@@ -1,3 +1,7 @@
+==========
+Catchable fatal error [1]
+==========
+
 <?php
 	class Foo {
 	}

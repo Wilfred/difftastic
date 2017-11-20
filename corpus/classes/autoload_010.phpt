@@ -1,3 +1,7 @@
+==========
+Ensure implements does trigger autoload.
+==========
+
 <?php
 spl_autoload_register(function ($name) {
   echo "In autoload: ";

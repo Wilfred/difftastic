@@ -1,3 +1,7 @@
+==========
+ZE2 You cannot overload a non static method with a static method
+==========
+
 <?php
 
 class pass {

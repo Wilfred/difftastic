@@ -1,3 +1,7 @@
+==========
+Test ob_end_flush() function : error conditions 
+==========
+
 <?php
 /* Prototype  : proto bool ob_end_flush(void)
  * Description: Flush (send) the output buffer, and delete current output buffer 

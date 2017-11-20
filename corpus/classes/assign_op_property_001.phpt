@@ -1,3 +1,7 @@
+==========
+ZE2 assign_op property of overloaded object
+==========
+
 <?php 
 
 class Test {
@@ -22,3 +26,5 @@ $obj->a += 2;
 var_dump($obj->a);
 echo "---Done---\n";
 ?>
+
+---

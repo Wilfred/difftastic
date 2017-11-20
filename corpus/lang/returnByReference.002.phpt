@@ -1,3 +1,7 @@
+==========
+Returning a reference from a function.
+==========
+
 <?php
 function &returnRef() {
 		global $a;

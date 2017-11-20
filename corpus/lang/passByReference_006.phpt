@@ -1,3 +1,7 @@
+==========
+Pass uninitialised objects and arrays by reference to test implicit initialisation.
+==========
+
 <?php
 
 function refs(&$ref1, &$ref2, &$ref3, &$ref4, &$ref5) {

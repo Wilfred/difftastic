@@ -1,3 +1,7 @@
+==========
+Bug #26182 (Object properties created redundantly)
+==========
+
 <?php
 
 class A {
@@ -14,3 +18,5 @@ $t = new A ();
 print_r($t);
 
 ?>
+
+---

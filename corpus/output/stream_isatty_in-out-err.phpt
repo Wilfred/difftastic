@@ -1,3 +1,7 @@
+==========
+Test stream_isatty with redirected STDIN/STDOUT/STDERR
+==========
+
 <?php
 require dirname(__FILE__).'/stream_isatty.inc';
 testToStdOut();

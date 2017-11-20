@@ -1,3 +1,7 @@
+==========
+func_get_args with no args
+==========
+
 <?php
 
 function foo()
@@ -7,3 +11,5 @@ function foo()
 foo();
 
 ?>
+
+---

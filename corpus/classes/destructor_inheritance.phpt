@@ -1,3 +1,7 @@
+==========
+ZE2 The inherited destructor is called
+==========
+
 <?php
 class base {
    function __construct() {
@@ -18,3 +22,5 @@ unset($obj);
 
 echo 'Done';
 ?>
+
+---

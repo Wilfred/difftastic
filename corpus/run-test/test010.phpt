@@ -1,3 +1,7 @@
+==========
+STDIN input
+==========
+
 <?php
 var_dump(stream_get_contents(STDIN));
 var_dump(stream_get_contents(fopen('php://stdin', 'r')));

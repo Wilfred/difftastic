@@ -1,3 +1,7 @@
+==========
+Test properties with array default values using class constants as keys and values. 
+==========
+
 <?php
   class X
   {

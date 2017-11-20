@@ -1,3 +1,7 @@
+==========
+Ensure exceptions are handled properly when thrown in __call.  
+==========
+
 <?php
 class A {
 	function __call($strMethod, $arrArgs) {

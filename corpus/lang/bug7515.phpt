@@ -1,3 +1,7 @@
+==========
+Bug #7515 (weird & invisible referencing of objects)
+==========
+
 <?php
 class obj {
 	function method() {}

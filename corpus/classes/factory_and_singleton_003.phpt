@@ -1,3 +1,7 @@
+==========
+ZE2 factory and singleton, test 3
+==========
+
 <?php
 class test {
 

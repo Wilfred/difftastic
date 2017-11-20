@@ -1,3 +1,7 @@
+==========
+Ensure a interface can not have private constants
+==========
+
 <?php
 interface A {
 	private const FOO = 10;

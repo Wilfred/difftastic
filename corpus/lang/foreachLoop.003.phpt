@@ -1,3 +1,7 @@
+==========
+Foreach loop tests - error case: not an array.
+==========
+
 <?php
 echo "\nNot an array.\n";
 $a = TRUE;

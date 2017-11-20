@@ -1,3 +1,7 @@
+==========
+Unsetting and recreating protected properties.
+==========
+
 <?php
 class C {
 	protected $p = 'test';

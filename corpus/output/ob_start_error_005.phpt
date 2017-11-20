@@ -1,3 +1,7 @@
+==========
+ob_start(): ensure buffers can't be added from within callback.
+==========
+
 <?php
 
 /* 

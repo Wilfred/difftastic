@@ -1,3 +1,7 @@
+==========
+Bug #24652 (broken array_flip())
+==========
+
 <?php
   /* This works */
   $f = array('7' => 0);
@@ -12,3 +16,5 @@
   var_dump(array_key_exists(7, $f));
   var_dump(array_key_exists('7', $f));
 ?>
+
+---

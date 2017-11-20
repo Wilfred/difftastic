@@ -1,3 +1,7 @@
+==========
+ZE2 class type hinting with arrays
+==========
+
 <?php
 
 class Test

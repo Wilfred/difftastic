@@ -1,3 +1,7 @@
+==========
+ZE2 __toString()
+==========
+
 <?php
 
 function my_error_handler($errno, $errstr, $errfile, $errline) {

@@ -1,3 +1,7 @@
+==========
+Alternative syntaxes test
+==========
+
 <?php
 $a = 1;
 
@@ -36,3 +40,5 @@ endswitch;
 ?>
 
 ===DONE===
+
+---

@@ -1,3 +1,7 @@
+==========
+INI functions test
+==========
+
 <?php
 
 $ini1 =  ini_get('include_path'); 
@@ -14,3 +18,5 @@ else {
 }
 
 ?>
+
+---

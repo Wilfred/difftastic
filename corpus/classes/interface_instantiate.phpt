@@ -1,3 +1,7 @@
+==========
+ZE2 An interface cannot be instantiated
+==========
+
 <?php
 
 interface if_a {

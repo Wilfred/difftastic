@@ -1,3 +1,7 @@
+==========
+Foreach loop tests - substituting the entire iterated entity during the loop.
+==========
+
 <?php
 
 class C {

@@ -1,3 +1,7 @@
+==========
+ZE2 A class constructor must keep the signature of an interface
+==========
+
 <?php
 interface constr
 {

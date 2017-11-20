@@ -1,3 +1,7 @@
+==========
+ZE2 ArrayAccess and exceptions
+==========
+
 <?php
 
 class Test implements ArrayAccess
@@ -47,3 +51,5 @@ catch(Exception $e)
 }
 ?>
 ===DONE===
+
+---

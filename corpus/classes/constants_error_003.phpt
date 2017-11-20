@@ -1,3 +1,7 @@
+==========
+Basic class support - attempting to pass a class constant by reference.
+==========
+
 <?php
   class aclass
   {

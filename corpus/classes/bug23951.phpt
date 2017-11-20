@@ -1,3 +1,7 @@
+==========
+Bug #23951 (Defines not working in inherited classes)
+==========
+
 <?php
 
 define('FOO1', 1);
@@ -23,3 +27,5 @@ print_r($b->a_var);
 print_r($b->b_var);
 
 ?>
+
+---

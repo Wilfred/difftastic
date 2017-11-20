@@ -1,3 +1,7 @@
+==========
+ZE2 An abstract class cannot be instanciated
+==========
+
 <?php
 
 abstract class base {

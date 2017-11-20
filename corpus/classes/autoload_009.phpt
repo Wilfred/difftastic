@@ -1,3 +1,7 @@
+==========
+Ensure type hints for unknown types do not trigger autoload. 
+==========
+
 <?php
 spl_autoload_register(function ($name) {
   echo "In autoload: ";

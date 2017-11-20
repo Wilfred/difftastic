@@ -1,3 +1,7 @@
+==========
+Evaluation order during assignments.
+==========
+
 <?php
 
 // simple case with missing element

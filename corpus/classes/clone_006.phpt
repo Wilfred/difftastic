@@ -1,3 +1,7 @@
+==========
+ZE2 object cloning, 6
+==========
+
 <?php
 
 class MyCloneable {

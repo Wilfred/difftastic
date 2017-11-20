@@ -1,3 +1,7 @@
+==========
+Inherited static properties can be separated from their reference set. 
+==========
+
 <?php
 class C { public static $p = 'original'; }
 class D extends C {	}

@@ -1,3 +1,7 @@
+==========
+Test return type and value, as well as basic behaviour, for ob_end_clean()
+==========
+
 <?php
 /* 
  * proto bool ob_end_clean(void)

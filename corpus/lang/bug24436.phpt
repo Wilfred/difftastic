@@ -1,3 +1,7 @@
+==========
+Bug #24436 (isset() and empty() produce errors with non-existent variables in objects)
+==========
+
 <?php
 class test {
 	function __construct() {
@@ -8,3 +12,5 @@ class test {
 
 $test1 = new test();
 ?>
+
+---

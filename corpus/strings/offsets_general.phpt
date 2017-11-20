@@ -1,3 +1,7 @@
+==========
+testing the behavior of string offsets
+==========
+
 <?php
 $string = "foobar";
 var_dump($string[0]);

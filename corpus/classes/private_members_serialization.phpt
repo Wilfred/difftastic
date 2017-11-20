@@ -1,3 +1,7 @@
+==========
+Verifies that it is possible to return private member names of parent classes in __sleep
+==========
+
 <?php
 class foo
 {

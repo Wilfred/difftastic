@@ -1,3 +1,7 @@
+==========
+Execution ordering with comparison operators.
+==========
+
 <?php
 function f($x) {
 	echo "f($x) ";

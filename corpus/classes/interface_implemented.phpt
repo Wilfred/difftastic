@@ -1,3 +1,7 @@
+==========
+ZE2 An interface is inherited
+==========
+
 <?php
 
 interface if_a {

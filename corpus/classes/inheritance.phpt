@@ -1,3 +1,7 @@
+==========
+Classes inheritance test
+==========
+
 <?php 
 
 /* Inheritance test.  Pretty nifty if I do say so myself! */
@@ -40,3 +44,5 @@ $bar1->b = 3;
 $bar1->c = 12;
 $bar1->display();
 echo $bar1->mul()."\n";
+
+---

@@ -1,3 +1,7 @@
+==========
+Bug #23384 (use of class constants in statics)
+==========
+
 <?php
 define('TEN', 10);
 class Foo {

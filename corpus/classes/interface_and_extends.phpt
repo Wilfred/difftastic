@@ -1,3 +1,7 @@
+==========
+ZE2 a class cannot extend an interface 
+==========
+
 <?php
 
 interface Test

@@ -1,3 +1,7 @@
+==========
+ZE2 factory objects
+==========
+
 <?php
 
 class Circle {
@@ -25,3 +29,5 @@ ShapeFactoryMethod("Circle")->draw();
 ShapeFactoryMethod("Square")->draw();
 
 ?>
+
+---

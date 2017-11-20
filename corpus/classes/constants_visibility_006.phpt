@@ -1,3 +1,7 @@
+==========
+Abstract constants are not allowed
+==========
+
 <?php
 class A {
 	abstract const X = 1;

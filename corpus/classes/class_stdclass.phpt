@@ -1,3 +1,7 @@
+==========
+Instantiate stdClass
+==========
+
 <?php
 
 $obj = new stdClass;

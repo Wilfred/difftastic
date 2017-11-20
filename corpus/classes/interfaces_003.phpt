@@ -1,3 +1,7 @@
+==========
+ZE2 interface and __construct
+==========
+
 <?php
 
 class MyObject {}

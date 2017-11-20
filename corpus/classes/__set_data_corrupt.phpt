@@ -1,3 +1,7 @@
+==========
+ZE2 Data corruption in __set
+==========
+
 <?php
 $f = 'c="foo"';
 class foo {
@@ -20,3 +24,5 @@ class foo {
 $f = new foo;
 $f->bar();
 ?>
+
+---

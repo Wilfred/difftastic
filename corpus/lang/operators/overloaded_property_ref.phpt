@@ -1,3 +1,7 @@
+==========
+Operators on overlaoded property reference
+==========
+
 <?php
 class C {
 	function __construct() { $this->bar = str_repeat("1", 2); }
@@ -11,3 +15,5 @@ var_dump($x->foo++);
 $x = new C;
 var_dump($x->foo += 2);
 ?>
+
+---

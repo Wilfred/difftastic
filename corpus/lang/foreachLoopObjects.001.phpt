@@ -1,3 +1,7 @@
+==========
+Foreach loop on objects - basic loop with just value and key => value.
+==========
+
 <?php
 
 class C {

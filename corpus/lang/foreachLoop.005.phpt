@@ -1,3 +1,7 @@
+==========
+Foreach loop tests - modifying the array during the loop: special case. Behaviour is good since php 5.2.2.
+==========
+
 <?php
 $a = array("original.0","original.1","original.2");
 foreach ($a as $k=>&$v){
@@ -14,3 +18,5 @@ foreach ($a as $k=>&$v){
 //After changing $a directly, $v@2 is: original.2
 
 ?>
+
+---

@@ -1,3 +1,7 @@
+==========
+Class protected constant visibility error
+==========
+
 <?php
 class A {
 	protected const protectedConst = 'protectedConst';

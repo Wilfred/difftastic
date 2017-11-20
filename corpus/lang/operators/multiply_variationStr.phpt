@@ -1,3 +1,7 @@
+==========
+Test * operator : various numbers as strings
+==========
+
 <?php
 
 $strVals = array(
@@ -17,3 +21,5 @@ foreach ($strVals as $strVal) {
    
 ?>
 ===DONE===
+
+---

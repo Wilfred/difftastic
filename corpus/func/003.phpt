@@ -1,3 +1,7 @@
+==========
+General function test
+==========
+
 <?php 
 
 function a()
@@ -93,3 +97,5 @@ function andi($i, $j)
 }
 
 andi (3,10);
+
+---

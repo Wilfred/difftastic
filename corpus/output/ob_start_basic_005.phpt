@@ -1,3 +1,7 @@
+==========
+ob_start(): non-static method as static callbacks.
+==========
+
 <?php
 /* 
  * proto bool ob_start([ string|array user_function [, int chunk_size [, bool erase]]])

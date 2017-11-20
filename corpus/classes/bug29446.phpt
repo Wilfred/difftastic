@@ -1,3 +1,7 @@
+==========
+Bug #29446 (ZE allows multiple declarations of the same class constant)
+==========
+
 <?php
 
 class testClass {

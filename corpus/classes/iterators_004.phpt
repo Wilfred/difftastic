@@ -1,3 +1,7 @@
+==========
+ZE2 iterators must be implemented
+==========
+
 <?php
 
 echo "1st try\n";

@@ -1,3 +1,7 @@
+==========
+Check type hint compatibility in overrides with array hints.
+==========
+
 <?php
 Class C { function f($a) {} }
 

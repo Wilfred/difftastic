@@ -1,3 +1,7 @@
+==========
+Test wrong number of arguments for flush() (no impact)
+==========
+
 <?php
 /* 
  * proto void flush(void)

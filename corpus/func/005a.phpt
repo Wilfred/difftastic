@@ -1,3 +1,7 @@
+==========
+Testing register_shutdown_function() with timeout. (Bug: #21513)
+==========
+
 <?php
 
 ini_set('display_errors', 0);
@@ -20,3 +24,5 @@ for (;;) {}
 echo "End\n";
 
 ?>
+
+---

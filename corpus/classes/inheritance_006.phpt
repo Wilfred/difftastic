@@ -1,3 +1,7 @@
+==========
+Private property inheritance check
+==========
+
 <?php
 Class A {
 	private $c;

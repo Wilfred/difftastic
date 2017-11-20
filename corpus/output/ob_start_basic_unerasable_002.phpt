@@ -1,3 +1,7 @@
+==========
+ob_start(): Ensure unerasable buffer cannot be erased by ob_clean(), ob_end_clean() or ob_end_flush().
+==========
+
 <?php
 function callback($string) {
 	static $callback_invocations;

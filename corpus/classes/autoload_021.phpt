@@ -1,3 +1,7 @@
+==========
+Validation of class names in the autoload process
+==========
+
 <?php
 spl_autoload_register(function ($name) {
 	echo "$name\n";

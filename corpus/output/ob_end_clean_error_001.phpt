@@ -1,3 +1,7 @@
+==========
+Test wrong number of arguments for ob_end_clean()
+==========
+
 <?php
 /* 
  * proto bool ob_end_clean(void)

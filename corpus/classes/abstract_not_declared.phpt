@@ -1,3 +1,7 @@
+==========
+ZE2 An abstract class must be declared abstract
+==========
+
 <?php
 
 class fail {

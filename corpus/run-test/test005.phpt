@@ -1,3 +1,7 @@
+==========
+Error message handling (with ZendOpcache)
+==========
+
 <?php
 // If this test fails ask the developers of run-test.php
 //

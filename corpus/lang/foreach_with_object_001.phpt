@@ -1,3 +1,7 @@
+==========
+foreach() with foreach($o->mthd()->arr)
+==========
+
 <?php
 class Test {
    public $a = array(1,2,3,4,5); // removed, crash too
@@ -13,3 +17,5 @@ foreach ($obj->c()->a as $value) {
 
 ?>
 ===DONE===
+
+---

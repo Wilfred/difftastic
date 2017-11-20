@@ -1,3 +1,7 @@
+==========
+ZE2 ArrayAccess and ArrayAccessReferenceProxy with references to main array
+==========
+
 <?php 
 
 // NOTE: This will become part of SPL

@@ -1,3 +1,7 @@
+==========
+ZE2 class type hinting non existing class
+==========
+
 <?php
 
 class Foo {

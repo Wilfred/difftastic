@@ -1,3 +1,7 @@
+==========
+IteratorAggregate::getIterator bad return type
+==========
+
 <?php
 
 class bad1 implements IteratorAggregate {

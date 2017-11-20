@@ -1,3 +1,7 @@
+==========
+rfc1867 anonymous upload
+==========
+
 <?php
 var_dump($_FILES);
 var_dump($_POST);

@@ -1,3 +1,7 @@
+==========
+ob_start(): Ensure content of unerasable buffer can be accessed by ob_get_contents().
+==========
+
 <?php
 function callback($string) {
 	static $callback_invocations;

@@ -1,3 +1,7 @@
+==========
+php://input is empty when enable_post_data_reading=Off
+==========
+
 <?php
 require __DIR__."/../../sapi/cli/tests/php_cli_server.inc";
 
@@ -28,3 +32,5 @@ php_cli_server_start("exit(file_get_contents('php://input'));", false, "-d enabl
 
 var_dump(file_get_contents("http://" . PHP_CLI_SERVER_ADDRESS, false, $context));
 var_dump(file_get_contents("http://" . PHP_CLI_SERVER_ADDRESS, false, $context));
+
+---

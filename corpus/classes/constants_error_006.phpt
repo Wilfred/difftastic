@@ -1,3 +1,7 @@
+==========
+Basic class support - attempting to modify a class constant by assignment
+==========
+
 <?php
   class aclass
   {

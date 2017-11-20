@@ -1,3 +1,7 @@
+==========
+Foreach loop tests - modifying the object during the loop.
+==========
+
 <?php
 
 class C {

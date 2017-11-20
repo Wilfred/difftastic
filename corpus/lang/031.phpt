@@ -1,3 +1,7 @@
+==========
+Bug #16227 (Internal hash position bug on assignment)
+==========
+
 <?php
 // reported by php.net@alienbill.com
 $arrayOuter = array("key1","key2");

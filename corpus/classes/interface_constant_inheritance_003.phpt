@@ -1,3 +1,7 @@
+==========
+Ensure a class may not inherit two constants with the same name from two separate interfaces. 
+==========
+
 <?php
 interface I1 {
 	const FOO = 10;

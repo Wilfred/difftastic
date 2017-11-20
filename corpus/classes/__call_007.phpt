@@ -1,3 +1,7 @@
+==========
+Ensure exceptions are handled properly when thrown in a statically declared __call.  
+==========
+
 <?php
 class A {
 	static function __call($strMethod, $arrArgs) {

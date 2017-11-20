@@ -1,3 +1,7 @@
+==========
+Test script to verify that magic methods should be called only once when accessing an unset property.
+==========
+
 <?php
 class Test {
 	public    $publicProperty;

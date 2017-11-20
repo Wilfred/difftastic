@@ -1,3 +1,7 @@
+==========
+ZE2 ArrayAccess::offsetGet ambiguties
+==========
+
 <?php
 class ObjectOne implements ArrayAccess {
 

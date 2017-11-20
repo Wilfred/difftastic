@@ -1,3 +1,7 @@
+==========
+foreach with Iterator. 
+==========
+
 <?php
 
 class MealIterator implements Iterator {

@@ -1,3 +1,7 @@
+==========
+Bug #26696 (string index in a switch() crashes with multiple matches)
+==========
+
 <?php
 
 $str = 'asdd/?';
@@ -20,3 +24,5 @@ switch ($str[0]) {
 }
 
 ?>
+
+---

@@ -1,3 +1,7 @@
+==========
+Implicit initialisation when passing by reference 
+==========
+
 <?php
 function passbyVal($val) {
 	echo "\nInside passbyVal call:\n";

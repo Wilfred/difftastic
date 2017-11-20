@@ -1,3 +1,7 @@
+==========
+ob_start() chunk_size: confirm buffer is flushed after any output call that causes its length to equal or exceed chunk_size. 
+==========
+
 <?php
 /* 
  * proto bool ob_start([ string|array user_function [, int chunk_size [, bool erase]]])

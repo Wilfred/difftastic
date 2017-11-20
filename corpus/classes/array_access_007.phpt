@@ -1,3 +1,7 @@
+==========
+ZE2 ArrayAccess and [] assignment
+==========
+
 <?php 
 
 class OverloadedArray implements ArrayAccess {
@@ -40,3 +44,5 @@ $a[] = 4;
 $a->dump();
 ?>
 ===DONE===
+
+---

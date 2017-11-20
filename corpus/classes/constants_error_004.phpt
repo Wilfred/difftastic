@@ -1,3 +1,7 @@
+==========
+Class constant whose initial value references a non-existent class
+==========
+
 <?php
   class C
   {

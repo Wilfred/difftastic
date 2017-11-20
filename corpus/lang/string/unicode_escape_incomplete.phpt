@@ -1,3 +1,7 @@
+==========
+Invalid Unicode escape sequence: Incomplete
+==========
+
 <?php
 
 var_dump("\u{blah");

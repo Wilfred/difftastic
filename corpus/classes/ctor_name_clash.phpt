@@ -1,3 +1,7 @@
+==========
+ZE2 The child class can re-use the parent class name for a function member
+==========
+
 <?php
 class base {
   function base() {

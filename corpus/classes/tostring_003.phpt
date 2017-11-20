@@ -1,3 +1,7 @@
+==========
+ZE2 __toString() in __destruct/exception
+==========
+
 <?php
 
 class Test

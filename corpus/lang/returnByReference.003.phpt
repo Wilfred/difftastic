@@ -1,3 +1,7 @@
+==========
+Returning a reference from a function
+==========
+
 <?php
 function returnConstantByValue() {
 	return 100;

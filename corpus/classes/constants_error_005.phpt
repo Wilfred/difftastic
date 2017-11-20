@@ -1,3 +1,7 @@
+==========
+Error case: class constant as an encapsed containing a variable
+==========
+
 <?php
   class myclass
   {

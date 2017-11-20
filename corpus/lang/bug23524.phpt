@@ -1,3 +1,7 @@
+==========
+Bug #23524 (Improper handling of constants in array indices)
+==========
+
 <?php
   echo "Begin\n";
   define("THE_CONST",123);
@@ -9,3 +13,5 @@
   f();
   echo "Done";
 ?>
+
+---

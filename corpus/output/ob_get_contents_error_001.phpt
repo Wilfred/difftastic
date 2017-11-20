@@ -1,3 +1,7 @@
+==========
+Test ob_get_contents() function : error cases
+==========
+
 <?php
 /* Prototype  : proto string ob_get_contents(void)
  * Description: Return the contents of the output buffer 

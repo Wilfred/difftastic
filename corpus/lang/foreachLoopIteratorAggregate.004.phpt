@@ -1,3 +1,7 @@
+==========
+Duplicate of zend test tests/classes/iterators_002.phpt without expected output from destructor
+==========
+
 <?php
 class c_iter implements Iterator {
 
@@ -63,3 +67,5 @@ unset($t);
 
 ?>
 ===DONE===
+
+---

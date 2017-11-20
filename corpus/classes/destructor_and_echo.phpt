@@ -1,3 +1,7 @@
+==========
+ZE2 Destructors and echo
+==========
+
 <?php
 
 class Test
@@ -15,3 +19,5 @@ $o = new Test;
 
 ?>
 ===DONE===
+
+---

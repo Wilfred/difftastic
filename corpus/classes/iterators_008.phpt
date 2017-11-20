@@ -1,3 +1,7 @@
+==========
+Ensure plain userspace superclass does not override special iterator behaviour on child class.
+==========
+
 <?php
 Class C {}
 

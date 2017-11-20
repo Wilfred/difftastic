@@ -1,3 +1,7 @@
+==========
+ZE2 ArrayAccess cannot assign by reference
+==========
+
 <?php
 
 class ArrayAccessImpl implements ArrayAccess {

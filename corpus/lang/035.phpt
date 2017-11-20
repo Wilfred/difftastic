@@ -1,3 +1,7 @@
+==========
+ZE2: set_exception_handler()
+==========
+
 <?php
 class MyException extends Exception {
 	function __construct($_error) {
@@ -29,3 +33,5 @@ try {
 	print "\n";
 }
 ?>
+
+---

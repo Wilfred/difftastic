@@ -1,3 +1,7 @@
+==========
+passing the return value from a function by reference
+==========
+
 <?php
 
 function foo(&$ref)

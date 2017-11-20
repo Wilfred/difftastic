@@ -1,3 +1,7 @@
+==========
+Test constants with default values based on other constants. 
+==========
+
 <?php
   class C
   {

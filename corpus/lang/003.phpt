@@ -1,3 +1,7 @@
+==========
+Simple Switch Test
+==========
+
 <?php
 $a=1; 
 switch($a) {
@@ -12,3 +16,5 @@ switch($a) {
 		break;
 }
 ?>
+
+---

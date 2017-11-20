@@ -1,3 +1,7 @@
+==========
+Test pass by reference semantics
+==========
+
 <?php
 error_reporting(E_ALL | E_STRICT | E_NOTICE);
 

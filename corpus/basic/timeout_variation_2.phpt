@@ -1,3 +1,7 @@
+==========
+Timeout within array_walk
+==========
+
 <?php
 
 include dirname(__FILE__) . DIRECTORY_SEPARATOR . "timeout_config.inc";

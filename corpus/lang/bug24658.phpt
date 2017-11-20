@@ -1,3 +1,7 @@
+==========
+Bug #24658 (combo of typehint / reference causes crash)
+==========
+
 <?php
 class foo {}
 function no_typehint($a) {

@@ -1,3 +1,7 @@
+==========
+Returning a reference from a function
+==========
+
 <?php
 
 function &returnByRef(&$arg1)
@@ -12,3 +16,5 @@ $a++;
 var_dump($b);
 
 ?>
+
+---

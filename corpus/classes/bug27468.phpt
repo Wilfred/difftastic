@@ -1,3 +1,7 @@
+==========
+Bug #27468 (foreach in __destruct() causes segfault)
+==========
+
 <?php
 class foo {
 	function __destruct() {

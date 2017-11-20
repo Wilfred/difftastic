@@ -1,3 +1,7 @@
+==========
+Bug #24640 (var_export and var_dump can't output large float)
+==========
+
 <?php
 function test($v)
 {

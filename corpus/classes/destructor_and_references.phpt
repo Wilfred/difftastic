@@ -1,3 +1,7 @@
+==========
+ZE2 Destructing and references
+==========
+
 <?php
 
 class test1 {public $x;};
@@ -19,3 +23,5 @@ class once {}
 $o = new once;
 echo "Done\n";
 ?>
+
+---

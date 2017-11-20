@@ -1,3 +1,7 @@
+==========
+ZE2 A private method can be overwritten in a second derived class
+==========
+
 <?php
 
 class first {

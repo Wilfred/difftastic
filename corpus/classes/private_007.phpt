@@ -1,3 +1,7 @@
+==========
+ZE2 A derived class does not know about privates of ancestors
+==========
+
 <?php
 
 class Bar {

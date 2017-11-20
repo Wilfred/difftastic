@@ -1,3 +1,7 @@
+==========
+ZE2 foreach and property visibility
+==========
+
 <?php
 
 class base
@@ -37,3 +41,5 @@ foreach($o as $k=>$v) {
 }
 
 ?>
+
+---

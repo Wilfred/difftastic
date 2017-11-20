@@ -1,3 +1,7 @@
+==========
+A variable, which is referenced by another variable, is passed by value.
+==========
+
 <?php
 function refVal($x) {
 	global $a;

@@ -1,3 +1,7 @@
+==========
+ZE2 A class can only implement interfaces
+==========
+
 <?php
 class base {
 }

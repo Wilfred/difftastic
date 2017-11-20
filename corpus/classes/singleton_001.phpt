@@ -1,3 +1,7 @@
+==========
+ZE2 singleton
+==========
+
 <?php
 
 class Counter {
@@ -26,3 +30,5 @@ SingletonCounter::Instance()->increment_and_print();
 SingletonCounter::Instance()->increment_and_print();
 
 ?>
+
+---

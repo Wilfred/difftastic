@@ -1,3 +1,7 @@
+==========
+Class private constant visibility error
+==========
+
 <?php
 class A {
 	private const privateConst = 'privateConst';

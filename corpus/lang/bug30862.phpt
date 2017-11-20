@@ -1,3 +1,7 @@
+==========
+Bug #30862 (Static array with boolean indexes)
+==========
+
 <?php 
 class T {
 	static $a = array(false=>"false", true=>"true");
@@ -13,3 +17,5 @@ class T2 {
 }
 print_r(T2::$a);
 ?>
+
+---

@@ -1,3 +1,7 @@
+==========
+Static constants are not allowed
+==========
+
 <?php
 class A {
 	static const X = 1;

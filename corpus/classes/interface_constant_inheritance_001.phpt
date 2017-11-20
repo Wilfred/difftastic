@@ -1,3 +1,7 @@
+==========
+Ensure an interface may not shadow an inherited constant. 
+==========
+
 <?php
 interface I1 {
 	const FOO = 10;

@@ -1,3 +1,7 @@
+==========
+Child public element should not override parent private element in parent methods
+==========
+
 <?php
 class par {
 	private $id = "foo";
@@ -20,3 +24,5 @@ class chld extends par {
 $obj = new chld();
 $obj->displayHim();
 ?>
+
+---

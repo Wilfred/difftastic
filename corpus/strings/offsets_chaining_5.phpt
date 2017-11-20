@@ -1,3 +1,7 @@
+==========
+testing the behavior of string offset chaining
+==========
+
 <?php
 $array = array('expected_array' => "foobar");
 var_dump(isset($array['expected_array']));

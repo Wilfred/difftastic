@@ -1,3 +1,7 @@
+==========
+Test ob_flush() function : error conditions 
+==========
+
 <?php
 /* Prototype  : proto bool ob_flush(void)
  * Description: Flush (send) contents of the output buffer. The last buffer content is sent to next buffer 

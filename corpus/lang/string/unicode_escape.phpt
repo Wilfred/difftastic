@@ -1,3 +1,7 @@
+==========
+Valid Unicode escape sequences
+==========
+
 <?php
 
 var_dump("\u{61}"); // ASCII "a" - characters below U+007F just encode as ASCII, as it's UTF-8
@@ -8,3 +12,5 @@ var_dump("\u{1F602}"); // FACE WITH TEARS OF JOY emoji
 var_dump("\u{0000001F602}"); // Leading zeroes permitted
 
 
+
+---

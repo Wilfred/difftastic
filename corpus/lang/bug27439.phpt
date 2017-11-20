@@ -1,3 +1,7 @@
+==========
+Bug #27439 (foreach() with $this segfaults)
+==========
+
 <?php
 
 class test_props {

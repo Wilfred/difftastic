@@ -1,3 +1,7 @@
+==========
+ZE2 dereferencing of objects from methods
+==========
+
 <?php
 
 class Name {
@@ -26,3 +30,5 @@ $person = new Person("John", "New York");
 $person->getName()->display();
 
 ?>
+
+---

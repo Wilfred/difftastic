@@ -1,3 +1,7 @@
+==========
+Assigning a non-existent static property by reference
+==========
+
 <?php
 Class C {}
 $a = 'foo';

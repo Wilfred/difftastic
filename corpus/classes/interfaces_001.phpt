@@ -1,3 +1,7 @@
+==========
+ZE2 interfaces
+==========
+
 <?php
 
 interface ThrowableInterface {
@@ -16,3 +20,5 @@ $foo = new Exception_foo;
 echo $foo->getMessage() . "\n";
 
 ?>
+
+---

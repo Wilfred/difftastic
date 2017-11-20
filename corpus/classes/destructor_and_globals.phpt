@@ -1,3 +1,7 @@
+==========
+ZE2 accessing globals from destructor in shutdown
+==========
+
 <?php
 $test_cnt = 0;
 $test_num = 0;
@@ -43,3 +47,5 @@ Show();
 //counter::destroy($obj2);
 echo "Done\n";
 ?>
+
+---

@@ -1,3 +1,7 @@
+==========
+Bug #29566 (foreach/string handling strangeness)
+==========
+
 <?php
 $var="This is a string";
 

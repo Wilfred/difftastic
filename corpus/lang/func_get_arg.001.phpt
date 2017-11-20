@@ -1,3 +1,7 @@
+==========
+func_get_arg test (PHP7)
+==========
+
 <?php
 
 function foo($a)
@@ -8,3 +12,5 @@ function foo($a)
 foo(2);
 echo "\n";
 ?>
+
+---

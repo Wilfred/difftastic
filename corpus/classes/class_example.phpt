@@ -1,3 +1,7 @@
+==========
+Classes general test
+==========
+
 
 <?php 
 
@@ -45,3 +49,5 @@ $tmp = test($user2);
 $tmp->display();
 
 ?>
+
+---

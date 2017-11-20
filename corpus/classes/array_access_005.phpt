@@ -1,3 +1,7 @@
+==========
+ZE2 ArrayAccess and sub Arrays
+==========
+
 <?php 
 
 class Peoples implements ArrayAccess {

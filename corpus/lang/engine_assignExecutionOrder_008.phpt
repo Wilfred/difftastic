@@ -1,3 +1,7 @@
+==========
+Ensure by value assignments leave temporaries on the stack, for all sorts of assignees.
+==========
+
 <?php
 error_reporting(E_ALL & ~E_STRICT);
 

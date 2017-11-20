@@ -1,3 +1,7 @@
+==========
+ZE2 factory and singleton, test 2
+==========
+
 <?php
 class test {
   protected $x;
@@ -74,3 +78,5 @@ var_dump(test::count());
 
 echo "Done\n";
 ?>
+
+---

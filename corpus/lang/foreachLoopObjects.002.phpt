@@ -1,3 +1,7 @@
+==========
+Foreach loop tests - visibility.
+==========
+
 <?php
 
 class C {

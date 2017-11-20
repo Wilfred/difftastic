@@ -1,3 +1,7 @@
+==========
+Bug #25922 (SEGV in error_handler when context is destroyed)
+==========
+
 <?php
 function my_error_handler($error, $errmsg='', $errfile='', $errline=0, $errcontext='')
 {
@@ -13,3 +17,5 @@ function test()
 }
 test();
 ?>
+
+---

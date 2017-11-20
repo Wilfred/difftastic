@@ -1,3 +1,7 @@
+==========
+Bug #29893 (segfault when using array as index)
+==========
+
 <?php
 $base = 50;
 $base[$base] -= 0; 

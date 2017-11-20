@@ -1,3 +1,7 @@
+==========
+Test sapi_windows_vt100_support on newer Windows versions with redirected STDERR
+==========
+
 <?php
 require dirname(__FILE__).'/sapi_windows_vt100_support.inc';
 testToStdErr();

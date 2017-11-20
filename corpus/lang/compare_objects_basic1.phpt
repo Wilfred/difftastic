@@ -1,3 +1,7 @@
+==========
+Test standard 'compare' object handler 
+==========
+
 
 <?php
 
@@ -41,3 +45,5 @@ var_dump($obj5 == $obj3);
 
 ?>
 ===DONE===
+
+---

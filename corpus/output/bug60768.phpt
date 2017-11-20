@@ -1,3 +1,7 @@
+==========
+Bug #60768 Output buffer not discarded
+==========
+
 <?php
 
 global $storage;
@@ -16,3 +20,5 @@ printf("Output size: %d, expected %d\n", strlen($storage), 20 + 10 * 10);
 
 ?>
 DONE
+
+---

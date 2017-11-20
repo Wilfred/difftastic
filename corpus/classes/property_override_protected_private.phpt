@@ -1,3 +1,7 @@
+==========
+Redeclare inherited protected property as private (duplicates Zend/tests/errmsg_023.phpt).
+==========
+
 <?php
   class A
   {

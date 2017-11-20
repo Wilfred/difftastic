@@ -1,3 +1,7 @@
+==========
+rfc1867 garbled mime headers
+==========
+
 <?php
 var_dump($_FILES);
 var_dump($_POST);

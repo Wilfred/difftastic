@@ -1,3 +1,7 @@
+==========
+Directly modifying a REFERENCED array when foreach'ing over it while using &$value syntax.
+==========
+
 <?php
 
 define('MAX_LOOPS',5);
@@ -67,3 +71,5 @@ withRefValue(3, $transform);
 withRefValue(4, $transform);
 
 ?>
+
+---

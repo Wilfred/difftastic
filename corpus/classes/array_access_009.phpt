@@ -1,3 +1,7 @@
+==========
+ZE2 ArrayAccess and ArrayProxyAccess, ArrayProxy
+==========
+
 <?php 
 
 // NOTE: This will become part of SPL

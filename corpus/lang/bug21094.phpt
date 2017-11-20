@@ -1,3 +1,7 @@
+==========
+Bug #21094 (set_error_handler not accepting methods)
+==========
+
 <?php
 class test {
 	function hdlr($errno, $errstr, $errfile, $errline) {

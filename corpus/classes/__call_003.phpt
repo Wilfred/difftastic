@@ -1,3 +1,7 @@
+==========
+Force pass-by-reference to __call 
+==========
+
 <?php
   class C
   {

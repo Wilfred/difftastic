@@ -1,3 +1,7 @@
+==========
+Class public constant visibility
+==========
+
 <?php
 class A {
 	public const publicConst = 'publicConst';

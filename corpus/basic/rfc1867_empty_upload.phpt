@@ -1,3 +1,7 @@
+==========
+rfc1867 empty upload
+==========
+
 <?php
 var_dump($_FILES);
 var_dump($_POST);

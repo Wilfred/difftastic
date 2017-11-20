@@ -1,3 +1,7 @@
+==========
+Bug #23584 (error line numbers off by one when using #!php)
+==========
+
 #!php
 <?php
 

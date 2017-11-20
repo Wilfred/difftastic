@@ -1,3 +1,7 @@
+==========
+ob_start(): ensure even fatal error test is affected by output buffering.
+==========
+
 <?php
 
 function f() {

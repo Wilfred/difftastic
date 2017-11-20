@@ -1,3 +1,7 @@
+==========
+ZE2 An interface method allows additional default arguments
+==========
+
 <?php
 
 error_reporting(4095);
@@ -17,3 +21,5 @@ $foo = new foo;
 $foo->bar();
 
 ?>
+
+---

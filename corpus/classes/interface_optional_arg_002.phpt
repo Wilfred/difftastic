@@ -1,3 +1,7 @@
+==========
+default argument value in interface implementation
+==========
+
 <?php
 
 interface test {
@@ -15,3 +19,5 @@ $foo = new foo;
 $foo->bar();
 
 ?>
+
+---

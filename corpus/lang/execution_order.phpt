@@ -1,3 +1,7 @@
+==========
+Execution order of variables
+==========
+
 <?php
 
 /* strings and concat */
@@ -168,3 +172,5 @@ echo ($c->val=300) + $c->val;
 echo "\r\n";
  
 ?>
+
+---

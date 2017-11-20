@@ -1,3 +1,7 @@
+==========
+Bug #43958 (class name added into the error message)
+==========
+
 <?php
 class MyClass
 {

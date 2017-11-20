@@ -1,3 +1,7 @@
+==========
+ZE2 ArrayAccess and ASSIGN_OP operators (.=) 
+==========
+
 <?php 
 
 class Peoples implements ArrayAccess {

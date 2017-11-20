@@ -1,3 +1,7 @@
+==========
+Bug #75236: infinite loop when printing an error-message
+==========
+
 <?php
 
     ini_set('html_errors', true);

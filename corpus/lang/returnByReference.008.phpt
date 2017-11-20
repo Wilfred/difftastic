@@ -1,3 +1,7 @@
+==========
+Returning a reference from a non-static method via another non-static method
+==========
+
 <?php
 class C {
 	function returnConstantByValue() {

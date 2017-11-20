@@ -1,3 +1,7 @@
+==========
+Statics in nested functions & evals.
+==========
+
 <?php
 
 static $a = array(7,8,9);

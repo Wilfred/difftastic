@@ -1,3 +1,7 @@
+==========
+Bug #17115 (lambda functions produce segfault with static vars)
+==========
+
 <?php
 $func = create_function('','
 	static $foo = 0;

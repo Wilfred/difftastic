@@ -1,3 +1,7 @@
+==========
+Bug #25652 (Calling Global functions dynamically fails from Class scope)
+==========
+
 <?php
 
 	function testfunc ($var) {
@@ -15,3 +19,5 @@
 	$a->bar ();
 	
 ?>
+
+---

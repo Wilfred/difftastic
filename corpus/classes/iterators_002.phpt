@@ -1,3 +1,7 @@
+==========
+ZE2 iterators and break
+==========
+
 <?php
 class c_iter implements Iterator {
 
@@ -65,3 +69,5 @@ unset($t);
 
 print "Done\n";
 ?>
+
+---

@@ -1,3 +1,7 @@
+==========
+Invalid Unicode escape sequence: Whitespace
+==========
+
 <?php
 
 var_dump("\u{1F602 }");

@@ -1,3 +1,7 @@
+==========
+Ensure a class may implement two interfaces which include the same constant (due to inheritance). 
+==========
+
 <?php
 interface IA {
 	const FOO = 10;

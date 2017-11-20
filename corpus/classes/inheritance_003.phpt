@@ -1,3 +1,7 @@
+==========
+ZE2 method inheritance without interfaces
+==========
+
 <?php
 
 class A

@@ -1,3 +1,7 @@
+==========
+Timeout again inside register_shutdown_function
+==========
+
 <?php
 set_time_limit(1);
 register_shutdown_function("plop");

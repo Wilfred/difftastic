@@ -1,3 +1,7 @@
+==========
+precision setting test
+==========
+
 <?php
 $v = array(123456789.012345678901234567890, 10/3, 987e100, 10.0000001);
 
@@ -71,3 +75,5 @@ echo "OUTPUTS".PHP_EOL;
 echo join($v, ' ').PHP_EOL;
 var_dump(serialize($v));
 var_export($v);echo PHP_EOL;
+
+---

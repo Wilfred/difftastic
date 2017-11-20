@@ -1,3 +1,7 @@
+==========
+Regression test
+==========
+
 PHP Regression Test
 
 <?php 
@@ -19,3 +23,5 @@ if ($time_left>0) {
   echo "Limor Ullmann is now Limor Baruch :I\n";
 }
 ?>
+
+---

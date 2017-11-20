@@ -1,3 +1,7 @@
+==========
+Test ob_start() with non existent callback method.
+==========
+
 <?php
 /* 
  * proto bool ob_start([ string|array user_function [, int chunk_size [, bool erase]]])

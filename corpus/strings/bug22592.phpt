@@ -1,3 +1,7 @@
+==========
+Bug #22592 (Cascading assignments to strings with curly braces broken)
+==========
+
 <?php
 $wrong = $correct = 'abcdef';
 
@@ -17,3 +21,5 @@ var_dump($correct);
 var_dump($wrong);
 
 ?>
+
+---

@@ -1,3 +1,7 @@
+==========
+Binary safety of each() for both keys and values
+==========
+
 <?php
 error_reporting(E_ALL);
 $arr = array ("foo\0bar" => "foo\0bar");

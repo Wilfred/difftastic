@@ -1,3 +1,7 @@
+==========
+ZE2 An abstract method may not be called
+==========
+
 <?php
 
 abstract class fail {

@@ -1,3 +1,7 @@
+==========
+Timeout within function trowing exception before timeout reached
+==========
+
 <?php
 
 include dirname(__FILE__) . DIRECTORY_SEPARATOR . "timeout_config.inc";

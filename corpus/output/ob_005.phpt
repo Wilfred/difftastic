@@ -1,3 +1,7 @@
+==========
+output buffering - ob_end_clean
+==========
+
 <?php
 ob_start();
 echo "foo\n";
@@ -6,3 +10,5 @@ echo "bar\n";
 ob_end_clean();
 echo "baz\n";
 ?>
+
+---

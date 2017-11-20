@@ -1,3 +1,7 @@
+==========
+Ensure callback methods in unknown classes trigger autoload.
+==========
+
 <?php
 spl_autoload_register(function ($name) {
   echo "In autoload: ";

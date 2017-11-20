@@ -1,3 +1,7 @@
+==========
+Bug #73969: segfault on debug_print_backtrace with require() call
+==========
+
 <?php
 trait c2
 {

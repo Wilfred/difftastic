@@ -1,3 +1,7 @@
+==========
+ZE2 Autoload from destructor
+==========
+
 <?php
 
 spl_autoload_register(function ($class_name) {

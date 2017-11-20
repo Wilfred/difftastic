@@ -1,3 +1,7 @@
+==========
+A redeclared class constant must have the same or higher visibility
+==========
+
 <?php
 
 class A {

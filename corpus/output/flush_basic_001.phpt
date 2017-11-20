@@ -1,3 +1,7 @@
+==========
+Test basic functionality of flush()
+==========
+
 <?php
 /* 
  * proto void flush(void)
@@ -17,3 +21,5 @@ echo "Outside of any user buffers\n";
 var_dump(flush());
 
 ?>
+
+---

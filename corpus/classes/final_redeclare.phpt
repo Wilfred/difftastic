@@ -1,3 +1,7 @@
+==========
+ZE2 A final method may not be overwritten
+==========
+
 <?php
 
 class pass {

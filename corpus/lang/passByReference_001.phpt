@@ -1,3 +1,7 @@
+==========
+passing of function parameters by reference
+==========
+
 <?php
 function f($arg1, &$arg2)
 {
@@ -22,3 +26,5 @@ $c=array(1);
 g($c,$c[0]);
 
 ?>
+
+---

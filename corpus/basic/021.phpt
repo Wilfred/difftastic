@@ -1,3 +1,7 @@
+==========
+Bug #37276 (problems witch $_POST array)
+==========
+
 <?php
 var_dump($_FILES);
 var_dump($_POST);

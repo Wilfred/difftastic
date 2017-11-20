@@ -1,3 +1,7 @@
+==========
+Ensure catch blocks for unknown exception types do not trigger autoload.
+==========
+
 <?php
 spl_autoload_register(function ($name) {
   echo "In autoload: ";

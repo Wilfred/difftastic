@@ -1,3 +1,7 @@
+==========
+func_num_args with variable number of args
+==========
+
 <?php
 
 function foo($a)
@@ -7,3 +11,5 @@ function foo($a)
 foo(1, 2, 3);
 
 ?>
+
+---

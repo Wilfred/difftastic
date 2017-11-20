@@ -1,3 +1,7 @@
+==========
+ZE2 A derived class with an abstract method must be abstract
+==========
+
 <?php
 
 class base {

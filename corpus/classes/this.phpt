@@ -1,3 +1,7 @@
+==========
+ZE2 $this cannot be exchanged
+==========
+
 <?php
 
 /* please don't shorten this test. It shows what would happen if 

@@ -1,3 +1,7 @@
+==========
+enable_post_data_reading: always_populate_raw_post_data has no effect (2)
+==========
+
 <?php
 var_dump($_FILES);
 var_dump($_POST);

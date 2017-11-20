@@ -1,3 +1,7 @@
+==========
+ZE2 A final class cannot be inherited
+==========
+
 <?php
 
 final class base {

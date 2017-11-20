@@ -1,3 +1,7 @@
+==========
+Ensure the ReflectionClass constructor triggers autoload.
+==========
+
 <?php
 spl_autoload_register(function ($name) {
   echo "In autoload: ";

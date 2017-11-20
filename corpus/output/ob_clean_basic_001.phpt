@@ -1,3 +1,7 @@
+==========
+Test ob_clean() function : basic functionality 
+==========
+
 <?php
 /* Prototype  : proto bool ob_clean(void)
  * Description: Clean (delete) the current output buffer 

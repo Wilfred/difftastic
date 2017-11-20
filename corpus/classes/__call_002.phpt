@@ -1,3 +1,7 @@
+==========
+ZE2 __call() signature check
+==========
+
 <?php
 
 class Test {

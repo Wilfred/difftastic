@@ -1,3 +1,7 @@
+==========
+Looped regression test (may take a while)
+==========
+
 <?php 
 for ($jdk=0; $jdk<50; $jdk++) {
 ?><html>
@@ -367,3 +371,5 @@ while ($i<5) {
 }
 
 } ?>
+
+---

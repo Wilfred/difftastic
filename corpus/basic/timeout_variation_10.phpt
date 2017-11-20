@@ -1,3 +1,7 @@
+==========
+Timeout within shutdown function, variation
+==========
+
 <?php
 
 include dirname(__FILE__) . DIRECTORY_SEPARATOR . "timeout_config.inc";

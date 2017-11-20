@@ -1,3 +1,7 @@
+==========
+Test basic behaviour of ob_get_clean()
+==========
+
 <?php
 /* 
  * proto bool ob_get_clean(void)
@@ -13,3 +17,5 @@ $out = strtolower($out);
 
 var_dump($out);
 ?>
+
+---

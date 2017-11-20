@@ -1,3 +1,7 @@
+==========
+function with many parameters
+==========
+
 <?php
 
 // the stack size + some random constant
@@ -59,3 +63,5 @@ echo "Done\n";
 <?php
 @unlink(dirname(__FILE__).'/010-file.php');
 ?>
+
+---

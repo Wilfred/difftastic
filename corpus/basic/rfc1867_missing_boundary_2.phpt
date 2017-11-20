@@ -1,3 +1,7 @@
+==========
+rfc1867 missing boundary 2
+==========
+
 <?php
 var_dump($_FILES);
 var_dump($_POST);

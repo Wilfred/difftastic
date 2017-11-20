@@ -1,3 +1,7 @@
+==========
+Bug #23279 (exception handler stops after first function call)
+==========
+
 <?php
 ob_start();
 set_exception_handler('redirect_on_error');
@@ -9,3 +13,5 @@ function redirect_on_error($e) {
     echo "Goodbye Cruel World\n";
 }
 ?>
+
+---

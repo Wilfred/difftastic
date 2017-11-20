@@ -1,3 +1,7 @@
+==========
+Bug #53226 (file_exists fails on big filenames)
+==========
+
 <?php
 require_once "open_basedir.inc";
 create_directories();

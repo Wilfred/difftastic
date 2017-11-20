@@ -1,3 +1,7 @@
+==========
+Catch Interfaces
+==========
+
 <?php
 
 interface Catchable

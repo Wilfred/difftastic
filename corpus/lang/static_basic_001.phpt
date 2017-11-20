@@ -1,3 +1,7 @@
+==========
+Static keyword - basic tests
+==========
+
 <?php
 
 echo "\nSame variable used as static and non static.\n";
@@ -42,3 +46,5 @@ for ($i=0; $i<3; $i++) {
    $k++;
 }
 ?>
+
+---

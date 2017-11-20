@@ -1,3 +1,7 @@
+==========
+Tolerated Unicode escape sequences: Legacy compatibility
+==========
+
 <?php
 
 // These are ignored to avoid breaking JSON string literals

@@ -1,3 +1,7 @@
+==========
+Omitting optional arg in method inherited from abstract class 
+==========
+
 <?php
 
 abstract class A {

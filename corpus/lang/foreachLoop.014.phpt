@@ -1,3 +1,7 @@
+==========
+Directly modifying a REFERENCED array when foreach'ing over it.
+==========
+
 <?php
 
 define('MAX_LOOPS',5);

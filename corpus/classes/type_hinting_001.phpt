@@ -1,3 +1,7 @@
+==========
+ZE2 class type hinting
+==========
+
 <?php
 
 interface Foo {

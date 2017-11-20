@@ -1,3 +1,7 @@
+==========
+Only public and protected class constants should be inherited
+==========
+
 <?php
 class A {
 	public const X = 1;

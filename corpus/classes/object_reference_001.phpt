@@ -1,3 +1,7 @@
+==========
+ZE2 object references
+==========
+
 <?php
 
 class Foo {
@@ -17,3 +21,5 @@ $bar->name = "I'm Bar!\n";
 echo $foo->name;
 
 ?>
+
+---

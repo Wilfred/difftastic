@@ -1,3 +1,7 @@
+==========
+Testing do-while loop
+==========
+
 <?php 
 $i=3;
 do {
@@ -5,3 +9,5 @@ do {
 	$i--;
 } while($i>0);
 ?>
+
+---

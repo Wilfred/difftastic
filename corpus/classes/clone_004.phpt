@@ -1,3 +1,7 @@
+==========
+ZE2 object cloning, 4
+==========
+
 <?php
 abstract class base {
   public $a = 'base';
@@ -34,3 +38,5 @@ $o2->show();
 
 echo "Done\n";
 ?>
+
+---

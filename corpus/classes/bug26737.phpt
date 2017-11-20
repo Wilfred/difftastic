@@ -1,3 +1,7 @@
+==========
+Bug #26737 (Protected and private variables are not saved on serialization when a user defined __sleep is used)
+==========
+
 <?php
 class foo
 {

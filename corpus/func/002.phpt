@@ -1,3 +1,7 @@
+==========
+Static variables in functions
+==========
+
 <?php 
 function blah()
 {
@@ -12,3 +16,5 @@ blah();
 if (isset($hey) || isset($yo)) {
   echo "Local variables became global :(\n";
 }
+
+---

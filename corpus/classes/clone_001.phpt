@@ -1,3 +1,7 @@
+==========
+ZE2 object cloning, 1
+==========
+
 <?php
 class test {
 	public $p1 = 1;
@@ -16,3 +20,5 @@ echo "Clown\n";
 var_dump($copy);
 echo "Done\n";
 ?>
+
+---

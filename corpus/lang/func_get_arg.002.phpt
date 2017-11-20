@@ -1,3 +1,7 @@
+==========
+func_get_arg with variable number of args
+==========
+
 <?php
 
 function foo($a)
@@ -11,3 +15,5 @@ function foo($a)
 foo(2, 3);
 echo "\n";
 ?>
+
+---

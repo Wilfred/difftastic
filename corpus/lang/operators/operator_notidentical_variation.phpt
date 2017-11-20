@@ -1,3 +1,7 @@
+==========
+Test !== operator : max int 32bit range
+==========
+
 <?php
  
 define("MAX_64Bit", 9223372036854775807);
@@ -52,3 +56,5 @@ if ($failed == false) {
    
 ?>
 ===DONE===
+
+---

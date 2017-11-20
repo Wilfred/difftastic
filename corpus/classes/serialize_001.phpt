@@ -1,3 +1,7 @@
+==========
+ZE2 Serializable
+==========
+
 <?php
 
 class Test implements Serializable

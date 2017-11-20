@@ -1,3 +1,7 @@
+==========
+ZE2 type hinting
+==========
+
 <?php
 
 class Foo {

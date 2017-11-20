@@ -1,3 +1,7 @@
+==========
+Bug #35176 (include()/require()/*_once() produce wrong error messages about main())
+==========
+
 <?php
 require_once('nonexisiting.php');
 ?>

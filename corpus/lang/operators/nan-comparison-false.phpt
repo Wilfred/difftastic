@@ -1,3 +1,7 @@
+==========
+Comparisons with NAN should yield false, even at compile-time
+==========
+
 <?php
 
 echo "** CONST\n";
@@ -13,3 +17,5 @@ var_dump(0 <= $nan);
 var_dump(0 > $nan);
 var_dump(0 >= $nan);
 
+
+---

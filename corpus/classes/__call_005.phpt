@@ -1,3 +1,7 @@
+==========
+When __call() is invoked via ::, ensure private implementation of __call() in superclass is accessed without error. 
+==========
+
 <?php
 class A {
 	private function __call($strMethod, $arrArgs) {

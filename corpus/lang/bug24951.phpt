@@ -1,3 +1,7 @@
+==========
+Bug #24951 (ob_flush() destroys output handler)
+==========
+
 <?php
 function test($s, $mode)
 {
@@ -31,3 +35,5 @@ t1(); echo "\n";
 t2(); echo "\n"; 
 t3(); echo "\n";
 ?>
+
+---

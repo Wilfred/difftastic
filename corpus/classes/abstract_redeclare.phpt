@@ -1,3 +1,7 @@
+==========
+ZE2 A method cannot be redeclared abstract
+==========
+
 <?php
 
 class pass {

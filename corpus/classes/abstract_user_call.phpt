@@ -1,3 +1,7 @@
+==========
+ZE2 An abstrcat method cannot be called indirectly
+==========
+
 <?php
 
 abstract class test_base

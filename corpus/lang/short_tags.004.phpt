@@ -1,3 +1,7 @@
+==========
+short_open_tag: Off
+==========
+
 <%= 'so should this' %>
 
 <?php

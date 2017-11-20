@@ -1,3 +1,7 @@
+==========
+Bug #26866 (segfault when exception raised in __get)
+==========
+
 <?php
 class bar {
 	function get_name() {
@@ -18,3 +22,5 @@ catch (Exception $E) {
 	echo "Exception raised!\n";
 }
 ?>
+
+---

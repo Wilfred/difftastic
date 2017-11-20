@@ -1,3 +1,7 @@
+==========
+Redeclare inherited private property as public.
+==========
+
 <?php
   class A
   {

@@ -1,3 +1,7 @@
+==========
+Test to catch early assignment of $this
+==========
+
 <?php
 class first {
 
@@ -35,3 +39,5 @@ $b->who();
 echo "\n";
 ?>
 ===DONE===
+
+---

@@ -1,3 +1,7 @@
+==========
+Testing nested functions
+==========
+
 <?php 
 function F()
 {
@@ -16,3 +20,5 @@ function G()
 
 G();
 ?>
+
+---

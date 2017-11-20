@@ -1,3 +1,7 @@
+==========
+Unsetting and recreating private properties.
+==========
+
 <?php
 class C {
 	private $p = 'test';

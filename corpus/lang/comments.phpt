@@ -1,3 +1,7 @@
+==========
+#-style comments
+==========
+
 #teste
 #teste2
 <?php
@@ -13,3 +17,5 @@ echo "e este, # hein?";
 echo "\n";
 
 ?>
+
+---

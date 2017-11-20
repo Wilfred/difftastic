@@ -1,3 +1,7 @@
+==========
+ZE2 cannot override final __construct
+==========
+
 <?php
 
 class Base

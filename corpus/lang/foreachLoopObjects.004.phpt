@@ -1,3 +1,7 @@
+==========
+Foreach loop tests - Removing the current element from an iterated object.
+==========
+
 <?php
 
 class C {

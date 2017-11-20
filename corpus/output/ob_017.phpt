@@ -1,3 +1,7 @@
+==========
+output buffering - stati
+==========
+
 <?php
 $stati = array();
 function oh($str, $flags) {
@@ -16,3 +20,5 @@ echo "no";
 ob_end_clean();
 print_r($stati);
 ?>
+
+---

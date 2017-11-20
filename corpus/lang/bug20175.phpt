@@ -1,3 +1,7 @@
+==========
+Bug #20175 (Static vars can't store ref to new instance)
+==========
+
 <?php
 print zend_version()."\n";
 

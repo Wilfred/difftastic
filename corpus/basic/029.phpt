@@ -1,3 +1,7 @@
+==========
+Shift_JIS request
+==========
+
 <?php
 var_dump($_FILES);
 var_dump($_POST);

@@ -1,3 +1,7 @@
+==========
+ZE2 An interface extends base interfaces
+==========
+
 <?php
 
 interface if_a {

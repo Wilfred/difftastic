@@ -1,3 +1,7 @@
+==========
+Bug #65768: date_diff accepts only DateTime instance even though docs say about DateTimeInterface
+==========
+
 <?php
 
 $dt1 = new DateTime("2010-10-20");

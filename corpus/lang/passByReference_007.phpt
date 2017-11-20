@@ -1,3 +1,7 @@
+==========
+Pass function and method calls by reference and by value.
+==========
+
 <?php
 class C {
 	static function sreturnVal() {

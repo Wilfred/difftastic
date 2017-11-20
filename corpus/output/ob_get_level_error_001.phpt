@@ -1,3 +1,7 @@
+==========
+Test ob_get_level() function : error conditions 
+==========
+
 <?php
 /* Prototype  : proto int ob_get_level(void)
  * Description: Return the nesting level of the output buffer 

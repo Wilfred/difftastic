@@ -1,3 +1,7 @@
+==========
+ob_start(): Check behaviour with various callback return values.
+==========
+
 <?php
 function return_empty_string($string) {
 	return "";

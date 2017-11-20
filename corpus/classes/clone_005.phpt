@@ -1,3 +1,7 @@
+==========
+ZE2 object cloning, 5
+==========
+
 <?php
 abstract class base {
   public $a = 'base';

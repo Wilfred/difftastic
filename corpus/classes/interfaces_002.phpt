@@ -1,3 +1,7 @@
+==========
+ZE2 interface with an unimplemented method
+==========
+
 <?php
 
 interface ThrowableInterface {

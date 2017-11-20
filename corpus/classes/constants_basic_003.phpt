@@ -1,3 +1,7 @@
+==========
+Ensure class properties and constants can be defined in terms of constants that are not known at compile time.
+==========
+
 <?php
   include 'constants_basic_003.inc';
   class B

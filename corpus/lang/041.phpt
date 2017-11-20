@@ -1,3 +1,7 @@
+==========
+Dynamic access of static members
+==========
+
 <?php
 class A {
     public    static $b = 'foo';

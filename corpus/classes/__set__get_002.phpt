@@ -1,3 +1,7 @@
+==========
+ZE2 __get() signature check
+==========
+
 <?php
 class Test {
 	function __get($x,$y) {

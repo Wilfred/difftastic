@@ -1,3 +1,7 @@
+==========
+ZE2 Constructor precedence
+==========
+
 <?php
 class Base_php4 {
   function Base_php4() {

@@ -1,3 +1,7 @@
+==========
+ZE2 A private member is 
+==========
+
 <?php
 
 class base

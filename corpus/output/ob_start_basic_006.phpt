@@ -1,3 +1,7 @@
+==========
+ob_start(): ensure multiple buffer initialization with a single call using arrays is not supported on PHP6 (http://bugs.php.net/42641)
+==========
+
 <?php
 /* 
  * proto bool ob_start([ string|array user_function [, int chunk_size [, bool erase]]])

@@ -1,3 +1,7 @@
+==========
+Bug #74815 crash with a combination of INI entries at startup
+==========
+
 <?php
 
 $php = getenv("TEST_PHP_EXECUTABLE");

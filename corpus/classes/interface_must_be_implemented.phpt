@@ -1,3 +1,7 @@
+==========
+ZE2 An interface must be implemented
+==========
+
 <?php
 
 interface if_a {

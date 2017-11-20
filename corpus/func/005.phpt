@@ -1,3 +1,7 @@
+==========
+Testing register_shutdown_function()
+==========
+
 <?php 
 
 function foo()
@@ -10,3 +14,5 @@ register_shutdown_function("foo");
 print "foo() will be called on shutdown...\n";
 
 ?>
+
+---

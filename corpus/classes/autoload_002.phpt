@@ -1,3 +1,7 @@
+==========
+ZE2 Autoload and get_class_methods
+==========
+
 <?php
 
 spl_autoload_register(function ($class_name) {
@@ -9,3 +13,5 @@ var_dump(get_class_methods('autoload_root'));
 
 ?>
 ===DONE===
+
+---

@@ -1,3 +1,7 @@
+==========
+Foreach loop tests - modifying the array during the loop.
+==========
+
 <?php
 
 echo "\nDirectly changing array values.\n";
@@ -68,3 +72,5 @@ foreach ($a as &$v) {
 var_dump($a);
 
 ?>
+
+---

@@ -1,3 +1,7 @@
+==========
+Passing assignments by reference
+==========
+
 <?php
 
 function f(&$a) {

@@ -1,3 +1,7 @@
+==========
+Bug #70970 (Segfault when combining error handler with output buffering)
+==========
+
 <?php
 function exception_error_handler($severity, $message, $file, $line)
 {

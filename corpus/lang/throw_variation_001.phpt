@@ -1,3 +1,7 @@
+==========
+Catching an exception thrown from an included file
+==========
+
 <?php
 
 try {
@@ -7,3 +11,5 @@ try {
 }
 
 ?>
+
+---

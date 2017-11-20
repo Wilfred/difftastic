@@ -1,3 +1,7 @@
+==========
+enable_post_data_reading: rfc1867
+==========
+
 <?php
 var_dump($_FILES);
 var_dump($_POST);

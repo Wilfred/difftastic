@@ -1,3 +1,7 @@
+==========
+Bug #22231 (segfault when returning a global variable by reference)
+==========
+
 <?php
 class foo {
     public $fubar = 'fubar';

@@ -1,3 +1,7 @@
+==========
+dirname test
+==========
+
 <?php
 
 // Allow for either Win32 or Unix.
@@ -42,3 +46,5 @@ if ('/' == $s) {
 }
 
 ?>
+
+---

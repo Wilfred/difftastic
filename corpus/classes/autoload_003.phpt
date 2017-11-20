@@ -1,3 +1,7 @@
+==========
+ZE2 Autoload and derived classes
+==========
+
 <?php
 
 spl_autoload_register(function ($class_name) {
@@ -9,3 +13,5 @@ var_dump(class_exists('autoload_derived'));
 
 ?>
 ===DONE===
+
+---

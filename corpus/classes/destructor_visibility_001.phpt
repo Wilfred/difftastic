@@ -1,3 +1,7 @@
+==========
+ZE2 Ensuring destructor visibility
+==========
+
 <?php
 
 class Base {

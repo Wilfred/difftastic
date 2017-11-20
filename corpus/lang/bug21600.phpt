@@ -1,3 +1,7 @@
+==========
+Bug #21600 (assign by reference function call changes variable contents)
+==========
+
 <?php
 $tmp = array();
 $tmp['foo'] = "test";

@@ -1,3 +1,7 @@
+==========
+Foreach loop tests - basic loop with just value and key => value.
+==========
+
 <?php
 
 $a = array("a","b","c");
@@ -32,3 +36,5 @@ foreach ($a as &$v);
 var_dump(current($a));
 
 ?>
+
+---

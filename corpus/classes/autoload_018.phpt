@@ -1,3 +1,7 @@
+==========
+Ensure __autoload() allows for recursive calls if the class name differs.
+==========
+
 <?php
 spl_autoload_register(function ($name) {
   echo "IN:  autoload($name)\n";

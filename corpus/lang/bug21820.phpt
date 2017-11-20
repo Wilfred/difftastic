@@ -1,3 +1,7 @@
+==========
+Bug #21820 ("$arr['foo']" generates bogus E_NOTICE, should be E_PARSE)
+==========
+
 <?php
 
 error_reporting(E_ALL);

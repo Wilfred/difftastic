@@ -1,3 +1,7 @@
+==========
+Attempting to access static properties using instance property syntax 
+==========
+
 <?php
 class C {
     protected static $y = 'C::$y';
