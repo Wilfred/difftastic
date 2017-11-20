@@ -36,7 +36,6 @@ module.exports = grammar({
     [$.namespace_aliasing_clause, $.name],
   ],
   inline: $ => [
-    $._expression,
     $._member_name,
     $._variable,
     $._callable_variable,
@@ -45,7 +44,6 @@ module.exports = grammar({
     $._selection_statement,
     $._iteration_statement,
     $._foreach_value,
-    $._unary_expression,
     $._literal,
     $._class_type_designator,
     $._simple_assignment_expression,

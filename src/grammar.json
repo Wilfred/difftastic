@@ -28,8 +28,20 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "STRING",
-              "value": "?>"
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "?>"
+                },
+                {
+                  "type": "REPEAT",
+                  "content": {
+                    "type": "STRING",
+                    "value": "\n"
+                  }
+                }
+              ]
             },
             {
               "type": "BLANK"
@@ -6511,7 +6523,6 @@
   ],
   "externals": [],
   "inline": [
-    "_expression",
     "_member_name",
     "_variable",
     "_callable_variable",
@@ -6520,7 +6531,6 @@
     "_selection_statement",
     "_iteration_statement",
     "_foreach_value",
-    "_unary_expression",
     "_literal",
     "_class_type_designator",
     "_simple_assignment_expression",
