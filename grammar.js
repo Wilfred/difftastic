@@ -61,7 +61,7 @@ module.exports = grammar({
       // TODO: optional text
       choice('<?php', '<?='),
       repeat($.statement),
-      optional('?>'),
+      optional(seq('?>', repeat('\n')))
       // TODO: optional text
     ),
 
