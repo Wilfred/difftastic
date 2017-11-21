@@ -23,6 +23,10 @@ const PREC = {
 module.exports = grammar({
   name: 'php',
 
+  externals: $ => [
+    $._automatic_semicolon
+  ],
+
   conflicts: $ => [
     [$.declare_statement, $.expression_statement],
     [$.simple_variable, $.name],
@@ -54,16 +58,17 @@ module.exports = grammar({
     /[\s\uFEFF\u2060\u200B\u00A0]/
   ],
   rules: {
-
     program: $ => seq(
       // TODO: optional text
-      repeat(
-        seq($.text, $.script_section),
-        $.script_section,
-      ),
+      repeat(choice(
+          seq($.text, $.script_section),
+          $.script_section
+      )),
       optional($.text),
       optional(alias($.unterminated_script_section, $.script_section))
     ),
+
+    _semicolon: $ => choice($._automatic_semicolon, ';'),
 
     text: $ => choice('<', /[^<]+/),
 
@@ -100,7 +105,7 @@ module.exports = grammar({
       $.function_static_declaration,
     ),
     function_static_declaration: $ => seq(
-      'static', commaSep1($.static_variable_declaration), ';'
+      'static', commaSep1($.static_variable_declaration), $._semicolon
     ),
 
     static_variable_declaration: $ => seq(
@@ -113,13 +118,13 @@ module.exports = grammar({
     ),
 
     global_declaration: $ => seq(
-      'global', repeat1($.simple_variable), ';'
+      'global', repeat1($.simple_variable), $._semicolon
     ),
 
     namespace_definition: $ => seq(
       'namespace',
       choice(
-        seq($.name, ';'),
+        seq($.name, $._semicolon),
         seq(optional($.name), $.compound_statement)
       )
     ),
@@ -127,9 +132,9 @@ module.exports = grammar({
     namespace_use_declaration: $ => seq(
       'use',
       choice(
-        seq(optional($.namespace_function_or_const), commaSep1($.namespace_use_clause), ';'),
-        seq($.namespace_function_or_const, optional('\\'), $.namespace_name, '\\', '{', commaSep1($.namespace_use_group_clause_1), '}', ';'),
-        seq(optional('\\'), $.namespace_name, '\\', '{', commaSep1($.namespace_use_group_clause_2), '}', ';')
+        seq(optional($.namespace_function_or_const), commaSep1($.namespace_use_clause), $._semicolon),
+        seq($.namespace_function_or_const, optional('\\'), $.namespace_name, '\\', '{', commaSep1($.namespace_use_group_clause_1), '}', $._semicolon),
+        seq(optional('\\'), $.namespace_name, '\\', '{', commaSep1($.namespace_use_group_clause_2), '}', $._semicolon)
       )
     ),
 
@@ -227,11 +232,11 @@ module.exports = grammar({
     ),
 
     class_const_declaration: $ => seq(
-      optional($.visibility_modifier), 'const', commaSep1($.const_element), ';'
+      optional($.visibility_modifier), 'const', commaSep1($.const_element), $._semicolon
     ),
 
     property_declaration: $ => seq(
-      $.property_modifier, commaSep1($.property_element), ';'
+      $.property_modifier, commaSep1($.property_element), $._semicolon
     ),
 
     property_modifier: $ => choice(
@@ -250,7 +255,7 @@ module.exports = grammar({
 
     method_declaration: $ => choice(
       seq(repeat($._method_modifier), $.function_definition),
-      seq(repeat1($._method_modifier), $._function_definition_header, ';')
+      seq(repeat1($._method_modifier), $._function_definition_header, $._semicolon)
     ),
 
     constructor_declaration: $ => seq(
@@ -274,7 +279,7 @@ module.exports = grammar({
     ),
 
     trait_use_specification: $ => choice(
-      ';',
+      $._semicolon,
       seq('{', repeat($._trait_select_and_alias_clause), '}')
     ),
 
@@ -361,7 +366,7 @@ module.exports = grammar({
     ),
 
     const_declaration: $ => seq(
-      'const', commaSep1($.const_element), ';'
+      'const', commaSep1($.const_element), $._semicolon
     ),
 
     const_element: $ => seq(
@@ -369,19 +374,19 @@ module.exports = grammar({
     ),
 
     echo_statement: $ => seq(
-      'echo', repeat1($._expression), ';'
+      'echo', repeat1($._expression), $._semicolon
     ),
 
     unset_statement: $ => seq(
-      'unset', '(', commaSep1($._variable), ')', ';'
+      'unset', '(', commaSep1($._variable), ')', $._semicolon
     ),
 
     declare_statement: $ => seq(
       'declare', '(', $.declare_directive, ')',
       choice(
         $.statement,
-        seq(':', repeat1($.statement), 'enddeclare', ';'),
-        ';')
+        seq(':', repeat1($.statement), 'enddeclare', $._semicolon),
+        $._semicolon)
     ),
 
     declare_directive: $ => seq(
@@ -439,15 +444,15 @@ module.exports = grammar({
     ),
 
     goto_statement: $ => seq(
-      'goto', $.name, ';'
+      'goto', $.name, $._semicolon
     ),
 
     continue_statement: $ => seq(
-      'continue', optional($._breakout_level), ';'
+      'continue', optional($._breakout_level), $._semicolon
     ),
 
     break_statement: $ => seq(
-      'break', optional($._breakout_level), ';'
+      'break', optional($._breakout_level), $._semicolon
     ),
 
     _breakout_level: $ => choice(
@@ -469,11 +474,11 @@ module.exports = grammar({
   },
 
     return_statement: $ => seq(
-      'return', optional($._expression), ';'
+      'return', optional($._expression), $._semicolon
     ),
 
     throw_statement: $ => seq(
-      'throw', $._expression, ';'
+      'throw', $._expression, $._semicolon
     ),
 
     _iteration_statement: $ => choice(
@@ -487,19 +492,19 @@ module.exports = grammar({
       'while', '(', $._expression, ')',
       choice(
         $.statement,
-        seq(':', repeat1($.statement), 'endwhile', ';')
+        seq(':', repeat1($.statement), 'endwhile', $._semicolon)
       )
     ),
 
     do_statement: $ => seq(
-      'do', $.statement, 'while', '(', $._expression, ')', ';'
+      'do', $.statement, 'while', '(', $._expression, ')', $._semicolon
     ),
 
     for_statement: $ => seq(
       'for', '(', $._expressions, ';', $._expressions, ';', $._expressions, ')',
       choice(
         $.statement,
-        seq(':', repeat1($.statement), 'endfor', ';')
+        seq(':', repeat1($.statement), 'endfor', $._semicolon)
       )
     ),
 
@@ -516,7 +521,7 @@ module.exports = grammar({
       'foreach', '(', $._expression, 'as', optional(seq($._expression, '=>')), $._foreach_value, ')',
       choice(
         $.statement,
-        seq(':', repeat1($.statement), 'endforeach', ';')
+        seq(':', repeat1($.statement), 'endforeach', $._semicolon)
       )
     ),
 
@@ -529,7 +534,7 @@ module.exports = grammar({
       'if', '(', $._expression ,')',
       choice(
         seq($.statement, repeat(alias($.else_if_clause_1, $.else_if_clause)), optional(alias($.else_clause_1, $.else_clause))),
-        seq(':', repeat1($.statement), repeat(alias($.else_if_clause_2, $.else_if_clause)), optional(alias($.else_clause_2, $.else_clause)), 'endif', ';')
+        seq(':', repeat1($.statement), repeat(alias($.else_if_clause_2, $.else_if_clause)), optional(alias($.else_clause_2, $.else_clause)), 'endif', $._semicolon)
       ),
     )),
 
@@ -553,7 +558,7 @@ module.exports = grammar({
       'switch', '(', $._expression, ')',
       choice('{', ':'),
       repeat(choice($.case_statement, $.default_statement)),
-      choice('}', seq('endswitch', ';'))
+      choice('}', seq('endswitch', $._semicolon))
     ),
 
     case_statement: $ => seq(
@@ -578,7 +583,7 @@ module.exports = grammar({
 
     expression_statement: $ => seq(
       $._expression,
-      ';'
+      $._semicolon
     ),
 
     _expression: $ => choice(
