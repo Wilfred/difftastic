@@ -57,10 +57,25 @@ module.exports = grammar({
 
     program: $ => seq(
       // TODO: optional text
+      repeat(
+        seq($.text, $.script_section),
+        $.script_section,
+      ),
+      optional($.text),
+      optional(alias($.unterminated_script_section, $.script_section))
+    ),
+
+    text: $ => choice('<', /[^<]+/),
+
+    script_section: $ => seq(
       choice('<?php', '<?='),
       repeat($.statement),
-      optional(seq('?>', repeat('\n')))
-      // TODO: optional text
+      '?>'
+    ),
+
+    unterminated_script_section: $ => seq(
+      choice('<?php', '<?='),
+      repeat($.statement),
     ),
 
     statement: $ => choice(
