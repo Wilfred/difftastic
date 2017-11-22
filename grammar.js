@@ -24,7 +24,7 @@ module.exports = grammar({
   name: 'php',
 
   externals: $ => [
-    $._automatic_semicolon
+    $._automatic_semicolon,
   ],
 
   conflicts: $ => [
@@ -66,6 +66,9 @@ module.exports = grammar({
       optional(alias($.unterminated_script_section, $.script_section))
     ),
 
+
+    text: $ => repeat1(choice('<', /[^\s<]+[^<]*/)),
+
     statement: $ => choice(
       $.compound_statement,
       $.named_label_statement,
@@ -100,8 +103,6 @@ module.exports = grammar({
       repeat($.statement),
       '?>'
     ),
-
-    text: $ => repeat1(choice('<', /[^<]+/)),
 
     function_static_declaration: $ => seq(
       'static', commaSep1($.static_variable_declaration), $._semicolon
