@@ -60,6 +60,22 @@
         }
       ]
     },
+    "text": {
+      "type": "REPEAT1",
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "<"
+          },
+          {
+            "type": "PATTERN",
+            "value": "[^\\s<]+[^<]*"
+          }
+        ]
+      }
+    },
     "statement": {
       "type": "CHOICE",
       "members": [
@@ -207,22 +223,6 @@
           "value": "?>"
         }
       ]
-    },
-    "text": {
-      "type": "REPEAT1",
-      "content": {
-        "type": "CHOICE",
-        "members": [
-          {
-            "type": "STRING",
-            "value": "<"
-          },
-          {
-            "type": "PATTERN",
-            "value": "[^<]+"
-          }
-        ]
-      }
     },
     "function_static_declaration": {
       "type": "SEQ",
