@@ -6,4 +6,4 @@ Trivial "Hello World" test
 
 ---
 
-(program (script_section (statement (echo_statement (string)))))
+(program (script_section (echo_statement (string))))
