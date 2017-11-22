@@ -36,7 +36,6 @@ module.exports = grammar({
     [$.namespace_aliasing_clause, $.name],
   ],
   inline: $ => [
-    $._expression,
     $._member_name,
     $._variable,
     $._callable_variable,
@@ -45,7 +44,6 @@ module.exports = grammar({
     $._selection_statement,
     $._iteration_statement,
     $._foreach_value,
-    $._unary_expression,
     $._literal,
     $._class_type_designator,
     $._simple_assignment_expression,
@@ -58,12 +56,13 @@ module.exports = grammar({
   rules: {
 
     program: $ => seq(
-      // TODO: optional text
-      choice('<?php', '<?='),
-      repeat($.statement),
-      optional('?>'),
-      // TODO: optional text
-    ),
+        repeat(choice(
+          seq($.text,
+          $.script_section
+        ), $.script_section)),
+        optional($.text),
+        optional(alias($.unterminated_script_section, $.script_section))
+      ),
 
     statement: $ => choice(
       $.compound_statement,
@@ -84,8 +83,22 @@ module.exports = grammar({
       $.namespace_definition,
       $.namespace_use_declaration,
       $.global_declaration,
-      $.function_static_declaration,
+      $.function_static_declaration
     ),
+
+    unterminated_script_section: $ => seq(
+    '<?php',
+    repeat($.statement)
+    ),
+
+    script_section: $ =>  seq(
+      choice('<?php', '<?='),
+      repeat($.statement),
+      '?>'
+    ),
+
+    text: $ => repeat1(choice('<', /[^<]+/)),
+
     function_static_declaration: $ => seq(
       'static', commaSep1($.static_variable_declaration), ';'
     ),
@@ -422,7 +435,7 @@ module.exports = grammar({
       $.continue_statement,
       $.break_statement,
       $.return_statement,
-      $.throw_statement,
+      $.throw_statement
     ),
 
     goto_statement: $ => seq(
@@ -467,7 +480,7 @@ module.exports = grammar({
       $.while_statement,
       $.do_statement,
       $.for_statement,
-      $.foreach_statement,
+      $.foreach_statement
     ),
 
     while_statement: $ => seq(
@@ -517,7 +530,7 @@ module.exports = grammar({
       choice(
         seq($.statement, repeat(alias($.else_if_clause_1, $.else_if_clause)), optional(alias($.else_clause_1, $.else_clause))),
         seq(':', repeat1($.statement), repeat(alias($.else_if_clause_2, $.else_if_clause)), optional(alias($.else_clause_2, $.else_clause)), 'endif', ';')
-      ),
+      )
     )),
 
     else_if_clause_1: $ => seq(
@@ -576,7 +589,7 @@ module.exports = grammar({
       $.include_expression,
       $.include_once_expression,
       $.require_expression,
-      $.require_once_expression,
+      $.require_once_expression
     ),
 
     _unary_expression: $ => choice(
@@ -585,7 +598,7 @@ module.exports = grammar({
       $.exponentiation_expression,
       $.unary_op_expression,
       $.error_control_expression,
-      $.cast_expression,
+      $.cast_expression
     ),
 
     unary_op_expression: $ => choice(...[
@@ -664,7 +677,7 @@ module.exports = grammar({
 
     object_creation_expression: $ => prec.right(PREC.NEW, choice(
       seq('new', $._class_type_designator, optional($.arguments)),
-      seq('new', 'class', optional($.arguments), optional($.class_base_clause), optional($.class_interface_clause), '{', repeat($._class_member_declaration), '}'),
+      seq('new', 'class', optional($.arguments), optional($.class_base_clause), optional($.class_interface_clause), '{', repeat($._class_member_declaration), '}')
     )),
 
     _class_type_designator: $ => choice(
@@ -726,7 +739,7 @@ module.exports = grammar({
     ),
 
     _simple_assignment_expression: $ => seq(
-      seq(choice($._variable, $.list_literal), '=', $._expression),
+      seq(choice($._variable, $.list_literal), '=', $._expression)
     ),
 
     _byref_assignment_expression: $ => seq(
@@ -871,7 +884,7 @@ module.exports = grammar({
 
       return token(choice(
         single_quote_string,
-        double_quote_string,
+        double_quote_string
         // heredoc_string,
         // nowdoc_string,
       ))
@@ -887,7 +900,7 @@ module.exports = grammar({
 
     yield_expression: $ => choice(
       seq('yield', $.array_element_initializer),
-      seq('yield', 'from', $._expression),
+      seq('yield', 'from', $._expression)
     ),
 
     array_element_initializer: $ => prec.right(choice(
