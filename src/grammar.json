@@ -1917,5 +1917,7 @@
       "value": "\\s+"
     }
   ],
-  "conflicts": []
+  "conflicts": [],
+  "externals": [],
+  "inline": []
 }
