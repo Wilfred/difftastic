@@ -43,7 +43,6 @@ module.exports = grammar({
     $._member_name,
     $._variable,
     $._callable_variable,
-    $._variable_name,
     $._callable_expression,
     $._selection_statement,
     $._iteration_statement,
@@ -109,7 +108,7 @@ module.exports = grammar({
     ),
 
     static_variable_declaration: $ => seq(
-      $._variable_name, optional(seq('=', $._expression))
+      $.variable_name, optional(seq('=', $._expression))
     ),
 
     _selection_statement: $ => choice(
@@ -246,7 +245,7 @@ module.exports = grammar({
     ),
 
     property_element: $ => seq(
-      $._variable_name, optional($.property_initializer)
+      $.variable_name, optional($.property_initializer)
     ),
 
     property_initializer: $ => seq(
@@ -326,7 +325,7 @@ module.exports = grammar({
     ),
 
     simple_parameter: $ => seq(
-      optional($.type_declaration), optional('&'), $._variable_name, optional($.default_argument_specifier)
+      optional($.type_declaration), optional('&'), $.variable_name, optional($.default_argument_specifier)
     ),
 
     type_declaration: $ => seq(
@@ -358,7 +357,7 @@ module.exports = grammar({
     ),
 
     variadic_parameter: $ => seq(
-      optional($.type_declaration), optional('&'), '...', $._variable_name
+      optional($.type_declaration), optional('&'), '...', $.variable_name
     ),
 
     default_argument_specifier: $ => seq(
@@ -428,7 +427,7 @@ module.exports = grammar({
     ),
 
     catch_clause: $ => seq(
-      'catch', '(', $.qualified_name, $._variable_name, ')', $.compound_statement
+      'catch', '(', $.qualified_name, $.variable_name, ')', $.compound_statement
     ),
 
     finally_clause: $ => seq(
@@ -677,7 +676,7 @@ module.exports = grammar({
     ),
 
     anonymous_function_use_clause: $ => seq(
-      'use', '(', commaSep1(seq(optional('&'), $._variable_name)), ')'
+      'use', '(', commaSep1(seq(optional('&'), $.variable_name)), ')'
     ),
 
     object_creation_expression: $ => prec.right(PREC.NEW, choice(
@@ -755,7 +754,7 @@ module.exports = grammar({
       choice($.binary_expression, $._unary_expression), '?', optional($._expression), ':', $._expression
     )),
 
-    assignment_expression: $ => prec.right(choice(
+    assignment_expression: $ => choice(
       $.conditional_expression,
       $._simple_assignment_expression,
       $._byref_assignment_expression,
@@ -773,7 +772,7 @@ module.exports = grammar({
         ['|=', PREC.OR]
       ].map(([operator, precedence]) =>
         prec.left(precedence, seq($._variable, operator, $._expression))
-    )))),
+    ))),
 
     _variable: $ => choice(
       $._callable_variable,
@@ -896,12 +895,12 @@ module.exports = grammar({
     },
 
     simple_variable: $ => choice(
-      $._variable_name,
+      $.variable_name,
       seq('$', $.simple_variable),
       seq('$', '{', $._expression, '}')
     ),
 
-    _variable_name: $ => seq('$', $.name),
+    variable_name: $ => seq('$', $.name),
 
     yield_expression: $ => choice(
       seq('yield', $.array_element_initializer),
