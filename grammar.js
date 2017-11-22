@@ -40,6 +40,7 @@ module.exports = grammar({
     [$.namespace_aliasing_clause, $.name],
   ],
   inline: $ => [
+    $._statement,
     $._member_name,
     $._variable,
     $._callable_variable,
@@ -69,7 +70,7 @@ module.exports = grammar({
 
     text: $ => repeat1(choice('<', /[^\s<]+[^<]*/)),
 
-    statement: $ => choice(
+    _statement: $ => choice(
       $.compound_statement,
       $.named_label_statement,
       $.expression_statement,
@@ -95,12 +96,12 @@ module.exports = grammar({
 
     unterminated_script_section: $ => seq(
       choice('<?php', '<?='),
-      repeat($.statement),
+      repeat($._statement),
     ),
 
     script_section: $ => seq(
       choice('<?php', '<?='),
-      repeat($.statement),
+      repeat($._statement),
       '?>'
     ),
 
@@ -384,8 +385,8 @@ module.exports = grammar({
     declare_statement: $ => seq(
       'declare', '(', $.declare_directive, ')',
       choice(
-        $.statement,
-        seq(':', repeat1($.statement), 'enddeclare', $._semicolon),
+        $._statement,
+        seq(':', repeat1($._statement), 'enddeclare', $._semicolon),
         $._semicolon)
     ),
 
@@ -491,20 +492,20 @@ module.exports = grammar({
     while_statement: $ => seq(
       'while', '(', $._expression, ')',
       choice(
-        $.statement,
-        seq(':', repeat1($.statement), 'endwhile', $._semicolon)
+        $._statement,
+        seq(':', repeat1($._statement), 'endwhile', $._semicolon)
       )
     ),
 
     do_statement: $ => seq(
-      'do', $.statement, 'while', '(', $._expression, ')', $._semicolon
+      'do', $._statement, 'while', '(', $._expression, ')', $._semicolon
     ),
 
     for_statement: $ => seq(
       'for', '(', $._expressions, ';', $._expressions, ';', $._expressions, ')',
       choice(
-        $.statement,
-        seq(':', repeat1($.statement), 'endfor', $._semicolon)
+        $._statement,
+        seq(':', repeat1($._statement), 'endfor', $._semicolon)
       )
     ),
 
@@ -520,8 +521,8 @@ module.exports = grammar({
     foreach_statement: $ => seq(
       'foreach', '(', $._expression, 'as', optional(seq($._expression, '=>')), $._foreach_value, ')',
       choice(
-        $.statement,
-        seq(':', repeat1($.statement), 'endforeach', $._semicolon)
+        $._statement,
+        seq(':', repeat1($._statement), 'endforeach', $._semicolon)
       )
     ),
 
@@ -533,25 +534,25 @@ module.exports = grammar({
     if_statement: $ => prec.right(seq(
       'if', '(', $._expression ,')',
       choice(
-        seq($.statement, repeat(alias($.else_if_clause_1, $.else_if_clause)), optional(alias($.else_clause_1, $.else_clause))),
-        seq(':', repeat1($.statement), repeat(alias($.else_if_clause_2, $.else_if_clause)), optional(alias($.else_clause_2, $.else_clause)), 'endif', $._semicolon)
+        seq($._statement, repeat(alias($.else_if_clause_1, $.else_if_clause)), optional(alias($.else_clause_1, $.else_clause))),
+        seq(':', repeat1($._statement), repeat(alias($.else_if_clause_2, $.else_if_clause)), optional(alias($.else_clause_2, $.else_clause)), 'endif', $._semicolon)
       )
     )),
 
     else_if_clause_1: $ => seq(
-      'elseif', '(', $._expression, ')', $.statement
+      'elseif', '(', $._expression, ')', $._statement
     ),
 
     else_clause_1: $ => seq(
-      'else', $.statement
+      'else', $._statement
     ),
 
     else_if_clause_2: $ => seq(
-      'elseif', '(', $._expression, ')', seq(':', repeat1($.statement))
+      'elseif', '(', $._expression, ')', seq(':', repeat1($._statement))
     ),
 
     else_clause_2: $ => seq(
-      'else', seq(':', repeat1($.statement))
+      'else', seq(':', repeat1($._statement))
     ),
 
     switch_statement: $ => seq(
@@ -562,17 +563,17 @@ module.exports = grammar({
     ),
 
     case_statement: $ => seq(
-      'case', $._expression, seq(':', ';'), repeat($.statement)
+      'case', $._expression, seq(':', ';'), repeat($._statement)
     ),
 
     default_statement: $ => seq(
-      'default', seq(':', ';'), repeat($.statement)
+      'default', seq(':', ';'), repeat($._statement)
     ),
 
 
     compound_statement: $ => seq(
       '{',
-      repeat($.statement),
+      repeat($._statement),
       '}'
     ),
 
