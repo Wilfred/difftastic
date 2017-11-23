@@ -15,6 +15,11 @@ module.exports = grammar({
     /\s+/
   ],
 
+  conflicts: $ => [
+    [$._field_modifiers, $.method_modifiers],
+    [$.return_type, $.variable_declaration]
+  ],
+
   rules: {
     compilation_unit: $ => seq(
       repeat($.extern_alias_directive),
@@ -86,7 +91,8 @@ module.exports = grammar({
       '{',
       repeat(choice(
         $._type_declaration,
-        $.field_declaration
+        $.field_declaration,
+        $.method_declaration
       )),
       '}'
     ),
@@ -150,7 +156,7 @@ module.exports = grammar({
 
     enum_declaration: $ => seq(
       optional($._attributes),
-      optional($.enum_modifier),
+      optional($.enum_modifiers),
       'enum',
       $.identifier_name,
       optional(seq(':', $._integral_type)),
@@ -166,7 +172,11 @@ module.exports = grammar({
       optional($.equals_value_clause)
     ),
 
-    enum_modifier: $ => choice(...COMMON_MODIFIERS),
+    enum_modifiers: $ => choice(...COMMON_MODIFIERS),
+    _enum_modifiers: $ => seq(
+      choice(...COMMON_MODIFIERS),
+      optional($._enum_modifiers)
+    ),
 
     _integral_type: $ => choice(
       'sbyte',
@@ -186,7 +196,7 @@ module.exports = grammar({
       optional($._attributes),
       optional($.delegate_modifier),
       'delegate',
-      $._return_type,
+      $.return_type,
       $.identifier_name,
       // TODO: Variant type parameters
       $.parameter_list,
@@ -195,7 +205,7 @@ module.exports = grammar({
 
     delegate_modifier: $ => choice('unsafe', ...COMMON_MODIFIERS),
 
-    _return_type: $ => choice($._type, $.void_keyword),
+    return_type: $ => choice($._type, $.void_keyword),
     void_keyword: $ => 'void',
 
     // parameters
@@ -508,7 +518,34 @@ module.exports = grammar({
         )),
         '*/'
       )
-    ))
+    )),
+
+    // methods
+    method_declaration: $ => seq(
+      optional($.method_modifiers),
+      optional('async'),
+      $.return_type,
+      $.identifier_name,
+      optional($.type_parameter_list),
+      $.parameter_list,
+      $.statement_block
+    ),
+
+    method_modifiers: $ => choice(...COMMON_MODIFIERS),
+
+    statement_block: $ => seq(
+      '{',
+      repeat($._statement),
+      '}'
+    ),
+
+    _statement: $ => choice(
+      $.empty_statement
+    ),
+
+    empty_statement: $ => ';',
+
+    // getters / setters
   }
 })
 
