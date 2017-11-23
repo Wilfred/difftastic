@@ -30,7 +30,8 @@ module.exports = grammar({
       $.class_declaration,
       $.struct_declaration,
       $.enum_declaration,
-      $.delegate_declaration
+      $.delegate_declaration,
+      $.interface_declaration
     ),
 
     // extern
@@ -68,6 +69,7 @@ module.exports = grammar({
       '{',
       repeat(choice(
         $.namespace_declaration,
+        $.using_directive,
         $._type_declaration
       )),
       '}'
@@ -99,6 +101,27 @@ module.exports = grammar({
         ...COMMON_MODIFIERS
       ),
       optional($._class_modifiers)
+    ),
+
+    // interface
+
+    interface_declaration: $ => seq(
+      optional($._attributes),
+      optional($.interface_modifiers),
+      'interface',
+      $.identifier_name,
+      optional($.type_parameter_list),
+      '{',
+      repeat(choice(
+        $.field_declaration
+      )),
+      '}'
+    ),
+
+    interface_modifiers: $ => $._interface_modifiers,
+    _interface_modifiers: $ => seq(
+      choice(...COMMON_MODIFIERS),
+      optional($._interface_modifiers)
     ),
 
     // struct

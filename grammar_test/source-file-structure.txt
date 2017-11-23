@@ -27,6 +27,22 @@ using static J.K;
     (qualified_name (identifier_name) (identifier_name))))
 
 =====================================
+Nested using directives
+=====================================
+
+namespace Foo {
+  using A;
+}
+
+---
+
+(compilation_unit
+  (namespace_declaration
+    (identifier_name)
+    (using_directive
+      (identifier_name))))
+
+=====================================
 Comments
 =====================================
 
@@ -103,6 +119,20 @@ class F {}
           (type_parameter (identifier_name))
           (type_parameter (identifier_name))))))
   (class_declaration (identifier_name)))
+
+=====================================
+Interfaces
+=====================================
+
+public interface IFoo {
+}
+
+---
+
+(compilation_unit
+  (interface_declaration
+    (interface_modifiers)
+    (identifier_name)))
 
 =====================================
 Structs
