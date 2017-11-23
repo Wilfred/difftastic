@@ -31,3 +31,25 @@ class Foo {
       (identifier_name)
       (parameter_list)
       (statement_block))))
+
+=====================================
+Class with single method with params
+=====================================
+
+class Foo {
+  public void Test(int value) {}
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier_name)
+    (method_declaration
+      (method_modifiers)
+      (return_type
+        (void_keyword))
+      (identifier_name)
+      (parameter_list
+        (parameter (predefined_type) (identifier_name)))
+      (statement_block))))
