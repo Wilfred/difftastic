@@ -1,6 +1,6 @@
 {
   "name": "tree-sitter-java",
-  "version": "1.8.0_74",
+  "version": "0.0.1",
   "description": "Java grammar for tree-sitter",
   "main": "index.js",
   "keywords": [
