@@ -1,0 +1,22 @@
+{
+  "name": "java",
+  "rules": {
+    "literal": {
+      "type": "STRING",
+      "value": "1"
+    },
+    "identifier": {
+      "type": "PATTERN",
+      "value": "[\\a_]\\w*"
+    }
+  },
+  "extras": [
+    {
+      "type": "PATTERN",
+      "value": "\\s"
+    }
+  ],
+  "conflicts": [],
+  "externals": [],
+  "inline": []
+}
