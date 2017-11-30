@@ -1,16 +1,144 @@
 {
   "name": "java",
   "rules": {
-    "literal": {
-      "type": "STRING",
-      "value": "1"
+    "program": {
+      "type": "REPEAT",
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_statement"
+          },
+          {
+            "type": "STRING",
+            "value": ";"
+          }
+        ]
+      }
     },
-    "identifier": {
+    "_statement": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "integer_literal"
+        }
+      ]
+    },
+    "integer_literal": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "decimal_integer_literal"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "hex_integer_literal"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "octal_integer_literal"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "binary_integer_literal"
+        }
+      ]
+    },
+    "decimal_integer_literal": {
+      "type": "REPEAT1",
+      "content": {
+        "type": "PATTERN",
+        "value": "[0-9]+_?"
+      }
+    },
+    "hex_integer_literal": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "0x"
+            },
+            {
+              "type": "STRING",
+              "value": "0X"
+            }
+          ]
+        },
+        {
+          "type": "REPEAT1",
+          "content": {
+            "type": "PATTERN",
+            "value": "_?[A-Fa-f0-9]+"
+          }
+        }
+      ]
+    },
+    "octal_integer_literal": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "0o"
+            },
+            {
+              "type": "STRING",
+              "value": "0O"
+            }
+          ]
+        },
+        {
+          "type": "REPEAT1",
+          "content": {
+            "type": "PATTERN",
+            "value": "_?[0-7]+"
+          }
+        }
+      ]
+    },
+    "binary_integer_literal": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "0b"
+            },
+            {
+              "type": "STRING",
+              "value": "0B"
+            }
+          ]
+        },
+        {
+          "type": "REPEAT1",
+          "content": {
+            "type": "PATTERN",
+            "value": "_?[01]+"
+          }
+        }
+      ]
+    },
+    "comment": {
       "type": "PATTERN",
-      "value": "[\\a_]\\w*"
+      "value": "\\/\\*.*\\*\\/"
     }
   },
   "extras": [
+    {
+      "type": "SYMBOL",
+      "name": "comment"
+    },
     {
       "type": "PATTERN",
       "value": "\\s"
