@@ -11,7 +11,7 @@ void tree_sitter_javascript_external_scanner_reset(void *p) {}
 unsigned tree_sitter_javascript_external_scanner_serialize(void *p, char *buffer) { return 0; }
 void tree_sitter_javascript_external_scanner_deserialize(void *p, const char *b, unsigned n) {}
 
-static inline void advance(TSLexer *lexer) { lexer->advance(lexer, false); }
+static void advance(TSLexer *lexer) { lexer->advance(lexer, false); }
 
 static bool scan_whitespace_and_comments(TSLexer *lexer) {
   for (;;) {
