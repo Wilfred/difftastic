@@ -1,3 +1,6 @@
+const DIGITS = token(sep1(/[0-9]+/, /_+/))
+const HEX_DIGITS = token(sep1(/[A-Fa-f0-9]+/, '_'))
+
 module.exports = grammar({
   name: 'java',
 
@@ -31,16 +34,12 @@ module.exports = grammar({
       $.binary_integer_literal
     ),
 
-    _digits: $ => token(sep1(/[0-9]+/, /_+/)),
-
-    decimal_integer_literal: $ => token($._digits),
-
-    _hex_digits: $ => token(sep1(/[A-Fa-f0-9]+/, '_')),
+    decimal_integer_literal: $ => DIGITS,
 
     hex_integer_literal: $ => token(seq(
         choice('0x', '0X'),
-        $._hex_digits
-      )),
+        HEX_DIGITS
+    )),
 
     // how does this not get parsed as regular integers?
     octal_integer_literal: $ => token(seq(
@@ -53,8 +52,6 @@ module.exports = grammar({
       sep1(/[01]+/, '_')
     )),
 
-    // floating point literals
-
     floating_point_literal: $ => choice(
       $.decimal_floating_point_literal,
       $.hex_floating_point_literal
@@ -62,22 +59,21 @@ module.exports = grammar({
 
     decimal_floating_point_literal: $ => token(
       choice(
-        seq($._digits, '.', optional($._digits), optional((/[eE]/), optional(/[\+-]/), $._digits), optional(/[fFdD]/)),
-        seq('.', $._digits, optional((/[eE]/), optional(/[\+-]/), $._digits), optional(/[fFdD]/)),
-        seq($._digits, /[eE]/, optional(/[\+-]/), $._digits, optional(/[fFdD]/)),
-        seq($._digits, optional((/[eE]/), optional(/[\+-]/), $._digits), (/[fFdD]/))
-      )
-    ),
+        seq(DIGITS, '.', optional(DIGITS), optional((/[eE]/), optional(/[\+-]/), DIGITS), optional(/[fFdD]/)),
+        seq('.', DIGITS, optional((/[eE]/), optional(/[\+-]/), DIGITS), optional(/[fFdD]/)),
+        seq(DIGITS, /[eE]/, optional(/[\+-]/), DIGITS, optional(/[fFdD]/)),
+        seq(DIGITS, optional((/[eE]/), optional(/[\+-]/), DIGITS), (/[fFdD]/))
+      )),
 
     hex_floating_point_literal: $ => token(seq(
       choice('0x', '0X'),
       choice(
-        seq($._hex_digits, optional('.')),
-        seq(optional($._hex_digits), '.', $._hex_digits)
+        seq(HEX_DIGITS, optional('.')),
+        seq(optional(HEX_DIGITS), '.', HEX_DIGITS)
       ),
       /[eE]/,
       optional(/[+-]/),
-      $._digits,
+      DIGITS,
       optional(/[fFdD]/)
     )),
 
@@ -86,6 +82,6 @@ module.exports = grammar({
   }
 });
 
-  function sep1 (rule, separator) {
-    return seq(rule, repeat(seq(separator, rule)))
-  }
+function sep1 (rule, separator) {
+  return seq(rule, repeat(seq(separator, rule)));
+}
