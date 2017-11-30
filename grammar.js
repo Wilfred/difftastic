@@ -66,22 +66,7 @@ module.exports = grammar({
       )
     )
 
-    // identifier: $ => /[\a_]\w*/,
-    // why do I need an identifier for tree-sitter parse to work?
-    // why does this regex specify an identifier?
-    // in this case, are we saying the identifier is a variable and we can pass
-    // it the following expression? or is it a function?
-
     comment: $ => /\/\*.*\*\//,
-    // binary_operator: $ => seq($.unary_operator, choice("==", "/="), $.unary_operator),
+
   }
 });
-
-// what is token
-
-// DecimalIntegerLiteral:
-// DecimalNumeral [IntegerTypeSuffix]
-//
-// (module [0, 0] - [1, 0]
-//   (expression_statement [0, 0] - [0, 3]
-//     (integer [0, 0] - [0, 3])))
