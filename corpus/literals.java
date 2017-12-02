@@ -13,10 +13,11 @@ hex_integer_literal
 =============
 
 0xa_bcd_ef0;
+0Xa_bcd_ef0;
 
 ---
 
-(program (integer_literal (hex_integer_literal)))
+(program (integer_literal (hex_integer_literal)) (integer_literal (hex_integer_literal)))
 
 ========
 octal_integer_literal
@@ -61,12 +62,4 @@ decimal_floating_point_literal
 
 ---
 
-(program (floating_point_literal (decimal_floating_point_literal)) (floating_point_literal (decimal_floating_point_literal)) (floating_point_literal (decimal_floating_point_literal)) (floating_point_literal (decimal_floating_point_literal)) (floating_point_literal (decimal_floating_point_literal)) (floating_point_literal (decimal_floating_point_literal)) (floating_point_literal (decimal_floating_point_literal)) (floating_point_literal (decimal_floating_point_literal)))
-
-=====
-hex_floating_point_literal
-=====
-
-
-
----
+(program (floating_point_literal (decimal_floating_point_literal)) (floating_point_literal (decimal_floating_point_literal)) (floating_point_literal (decimal_floating_point_literal)) (floating_point_literal (decimal_floating_point_literal)) (floating_point_literal (decimal_floating_point_literal)) (floating_point_literal (decimal_floating_point_literal)) (floating_point_literal (decimal_floating_point_literal)) (floating_point_literal (decimal_floating_point_literal)) (floating_point_literal (decimal_floating_point_literal)) (floating_point_literal (decimal_floating_point_literal)) (floating_point_literal (decimal_floating_point_literal)) (floating_point_literal (decimal_floating_point_literal))) 

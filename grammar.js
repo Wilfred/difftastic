@@ -59,10 +59,10 @@ module.exports = grammar({
 
     decimal_floating_point_literal: $ => token(
       choice(
-        seq(DIGITS, '.', optional(DIGITS), optional((/[eE]/), optional(/[\+-]/), DIGITS), optional(/[fFdD]/)),
-        seq('.', DIGITS, optional((/[eE]/), optional(/[\+-]/), DIGITS), optional(/[fFdD]/)),
-        seq(DIGITS, /[eE]/, optional(/[\+-]/), DIGITS, optional(/[fFdD]/)),
-        seq(DIGITS, optional((/[eE]/), optional(/[\+-]/), DIGITS), (/[fFdD]/))
+        seq(DIGITS, '.', optional(DIGITS), optional(seq((/[eE]/), optional(choice('-', '+')), DIGITS)), optional(/[fFdD]/)),
+        seq('.', DIGITS, optional(seq((/[eE]/), optional(choice('-','+')), DIGITS)), optional(/[fFdD]/)),
+        seq(DIGITS, /[eE]/, optional(choice('-','+')), DIGITS, optional(/[fFdD]/)),
+        seq(DIGITS, optional(seq((/[eE]/), optional(choice('-','+')), DIGITS)), (/[fFdD]/))
       )),
 
     hex_floating_point_literal: $ => token(seq(
@@ -71,11 +71,17 @@ module.exports = grammar({
         seq(HEX_DIGITS, optional('.')),
         seq(optional(HEX_DIGITS), '.', HEX_DIGITS)
       ),
-      /[eE]/,
-      optional(/[+-]/),
+        /[eE]/,
+      optional(choice('-','+')),
       DIGITS,
       optional(/[fFdD]/)
     )),
+
+    // boolean_literal: $ => token(choice('true', 'false')),
+    //
+    // character_literal: $ => /\?(\\\S({[0-9]*}|[0-9]*|-\S([MC]-\S)?)?|\S)/
+    //
+    // string_literal: $ => /""/
 
     comment: $ => /\/\*.*\*\//,
 
