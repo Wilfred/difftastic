@@ -49,3 +49,41 @@ Float Literals
 (program
   (statement (float_literal))
   (statement (float_literal)))
+
+=========================================
+Float Literals With Exponents
+=========================================
+
+0.00e01
+0.99E01
+0.00e+01
+0.99E-01
+0.00e-01
+0.99E+01
+
+00e01
+99E01
+00e+01
+99E-01
+00e-01
+99E+01
+
+---
+
+(program
+  (statement (float_literal))
+  (statement (float_literal))
+  (statement (float_literal))
+  (statement (float_literal))
+  (statement (float_literal))
+  (statement (float_literal))
+
+  (statement (float_literal))
+  (statement (float_literal))
+  (statement (float_literal))
+  (statement (float_literal))
+  (statement (float_literal))
+  (statement (float_literal)))
+
+
+
