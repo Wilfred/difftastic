@@ -1,0 +1,51 @@
+=========================================
+Integer Literals
+=========================================
+
+0
+1
+
+---
+
+(program
+  (statement (integer_literal))
+  (statement (integer_literal)))
+
+=========================================
+Octal Literals
+=========================================
+
+0o00
+0O77
+
+---
+
+(program
+  (statement (octal_literal))
+  (statement (octal_literal)))
+
+=========================================
+Hexidecimal Literals
+=========================================
+
+0x00
+0XFF
+
+---
+
+(program
+  (statement (hexidecimal_literal))
+  (statement (hexidecimal_literal)))
+
+=========================================
+Float Literals
+=========================================
+
+0.00
+0.99
+
+---
+
+(program
+  (statement (float_literal))
+  (statement (float_literal)))
