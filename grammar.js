@@ -87,14 +87,7 @@ module.exports = grammar({
       'import',
       choice(
         $.import_spec,
-        seq(
-          '(',
-          repeat(seq(
-            $.import_spec,
-            terminator
-          )),
-          ')'
-        )
+        $.import_spec_list
       )
     ),
 
@@ -104,6 +97,15 @@ module.exports = grammar({
         '.'
       )),
       $._string_literal
+    ),
+
+    import_spec_list: $ => seq(
+      '(',
+      repeat(seq(
+        $.import_spec,
+        terminator
+      )),
+      ')'
     ),
 
     _top_level_declaration: $ => choice(
