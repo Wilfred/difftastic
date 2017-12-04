@@ -43,10 +43,10 @@ import (
 
 (source_file
   (package_clause (package_identifier))
-  (import_declaration
+  (import_declaration (import_spec_list
     (import_spec (interpreted_string_literal))
     (import_spec (interpreted_string_literal))
-    (import_spec (package_identifier) (interpreted_string_literal))))
+    (import_spec (package_identifier) (interpreted_string_literal)))))
 
 ============================================
 Block comments
