@@ -25,16 +25,15 @@ func main() {
   (function_declaration (identifier) (parameters) (block
     (call_expression
       (identifier)
-      (identifier)
-      (variadic_argument (identifier)))
+      (argument_list
+        (identifier)
+        (variadic_argument (identifier))))
     (call_expression
       (identifier)
-      (identifier)
-      (identifier))
+      (argument_list (identifier) (identifier)))
     (call_expression
       (identifier)
-      (identifier)
-      (variadic_argument (identifier))))))
+      (argument_list (identifier) (variadic_argument (identifier)))))))
 
 ============================================
 Nested call expressions
@@ -51,10 +50,10 @@ func main() {
 (source_file
   (package_clause (package_identifier))
   (function_declaration (identifier) (parameters) (block
-    (call_expression (identifier)
-      (call_expression (identifier)
-        (call_expression (identifier)
-          (identifier)))))))
+    (call_expression (identifier) (argument_list
+      (call_expression (identifier) (argument_list
+        (call_expression (identifier) (argument_list
+          (identifier))))))))))
 
 ============================================
 Calls to 'make' and 'new'
@@ -79,21 +78,24 @@ func main() {
   (function_declaration (identifier) (parameters) (block
     (call_expression
       (identifier)
-      (channel_type (type_identifier)))
+      (argument_list (channel_type (type_identifier))))
     (comment)
     (call_expression
       (identifier)
-      (channel_type (type_identifier))
-      (parenthesized_expression (binary_expression (identifier) (identifier)))
-      (selector_expression (identifier) (field_identifier)))
+      (argument_list
+        (channel_type (type_identifier))
+        (parenthesized_expression (binary_expression (identifier) (identifier)))
+        (selector_expression (identifier) (field_identifier))))
     (call_expression
       (identifier)
-      (channel_type (type_identifier))
-      (int_literal)
-      (int_literal))
+      (argument_list
+        (channel_type (type_identifier))
+        (int_literal)
+        (int_literal)))
     (call_expression
       (identifier)
-      (map_type (type_identifier) (type_identifier))))))
+      (argument_list
+        (map_type (type_identifier) (type_identifier)))))))
 
 ============================================
 Selector expressions
@@ -113,7 +115,8 @@ func main() {
     (call_expression
       (selector_expression
         (selector_expression (identifier) (field_identifier))
-        (field_identifier))))))
+        (field_identifier))
+      (argument_list)))))
 
 ============================================
 Indexing expressions
@@ -193,17 +196,18 @@ func main() {
       (channel_type (type_identifier)) (identifier))
     (comment)
     (call_expression
-      (identifier) (identifier))
+      (identifier) (argument_list (identifier)))
     (call_expression
       (parenthesized_expression
-        (unary_expression (identifier))) (identifier))
+        (unary_expression (identifier)))
+      (argument_list (identifier)))
     (call_expression
       (selector_expression (identifier) (field_identifier))
-      (identifier))
+      (argument_list (identifier)))
     (call_expression
       (parenthesized_expression
         (selector_expression (identifier) (field_identifier)))
-      (identifier)))))
+      (argument_list (identifier))))))
 
 ============================================
 Unary expressions
@@ -222,4 +226,4 @@ func main() {
   (package_clause (package_identifier))
   (function_declaration (identifier) (parameters) (block
     (unary_expression (unary_expression (identifier)))
-    (unary_expression (call_expression (identifier))))))
+    (unary_expression (call_expression (identifier) (argument_list))))))

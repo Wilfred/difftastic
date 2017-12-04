@@ -1017,11 +1017,11 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_field_declaration_list"
+          "name": "field_declaration_list"
         }
       ]
     },
-    "_field_declaration_list": {
+    "field_declaration_list": {
       "type": "SEQ",
       "members": [
         {
@@ -1192,11 +1192,11 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_method_spec_list"
+          "name": "method_spec_list"
         }
       ]
     },
-    "_method_spec_list": {
+    "method_spec_list": {
       "type": "SEQ",
       "members": [
         {
@@ -2688,58 +2688,13 @@
                 "value": "identifier"
               },
               {
-                "type": "STRING",
-                "value": "("
-              },
-              {
-                "type": "SYMBOL",
-                "name": "_type"
-              },
-              {
-                "type": "CHOICE",
-                "members": [
-                  {
-                    "type": "SEQ",
-                    "members": [
-                      {
-                        "type": "STRING",
-                        "value": ","
-                      },
-                      {
-                        "type": "SEQ",
-                        "members": [
-                          {
-                            "type": "SYMBOL",
-                            "name": "_expression"
-                          },
-                          {
-                            "type": "REPEAT",
-                            "content": {
-                              "type": "SEQ",
-                              "members": [
-                                {
-                                  "type": "STRING",
-                                  "value": ","
-                                },
-                                {
-                                  "type": "SYMBOL",
-                                  "name": "_expression"
-                                }
-                              ]
-                            }
-                          }
-                        ]
-                      }
-                    ]
-                  },
-                  {
-                    "type": "BLANK"
-                  }
-                ]
-              },
-              {
-                "type": "STRING",
-                "value": ")"
+                "type": "ALIAS",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "special_argument_list"
+                },
+                "named": true,
+                "value": "argument_list"
               }
             ]
           },
@@ -2752,7 +2707,7 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "_argument_list"
+                "name": "argument_list"
               }
             ]
           }
@@ -2776,7 +2731,52 @@
         ]
       }
     },
-    "_argument_list": {
+    "special_argument_list": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_type"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "STRING",
+                "value": ","
+              },
+              {
+                "type": "SYMBOL",
+                "name": "_expression"
+              }
+            ]
+          }
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": ","
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "argument_list": {
       "type": "SEQ",
       "members": [
         {
@@ -4481,7 +4481,6 @@
     "_type",
     "_type_identifier",
     "_field_identifier",
-    "_package_identifier",
-    "_field_declaration_list"
+    "_package_identifier"
   ]
 }
