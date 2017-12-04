@@ -24,17 +24,22 @@ module.exports = grammar({
 
   rules: {
     program: $ => seq(repeat($.statement)),
+
     statement: $ => choice(
       $._literals
     ),
 
     _literals: $ => choice(
       $.integer_literal,
-      $.float_literal
+      $.float_literal,
+      $.octal_literal,
+      $.hexidecimal_literal
     ),
 
-    integer_literal: $ => token(choice(decimalLiteral, octalLiteral, hexLiteral)),
-    float_literal: $ => token(floatLiteral)
+    integer_literal: $ => token(decimalLiteral),
+    float_literal: $ => token(floatLiteral),
+    octal_literal: $ => token(octalLiteral),
+    hexidecimal_literal: $ => token(hexLiteral)
   }
 })
 
