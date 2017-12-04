@@ -207,11 +207,11 @@ func f2() (result int, err error) {}
   (package_clause (package_identifier))
   (function_declaration
     (identifier)
-    (parameters)
+    (parameter_list)
     (block))
   (function_declaration
     (identifier)
-    (parameters
+    (parameter_list
       (parameter_declaration (identifier) (type_identifier))
       (identifier)
       (identifier)
@@ -220,15 +220,15 @@ func f2() (result int, err error) {}
     (block))
   (function_declaration
     (identifier)
-    (parameters)
-    (parameters
+    (parameter_list)
+    (parameter_list
       (identifier)
       (identifier))
     (block))
   (function_declaration
     (identifier)
-    (parameters)
-    (parameters
+    (parameter_list)
+    (parameter_list
       (parameter_declaration (identifier) (type_identifier))
       (parameter_declaration (identifier) (type_identifier)))
     (block)))
@@ -249,18 +249,18 @@ func f3() { a(); b(); }
   (package_clause (package_identifier))
   (function_declaration
     (identifier)
-    (parameters)
+    (parameter_list)
     (block
       (call_expression (identifier) (argument_list))))
   (function_declaration
     (identifier)
-    (parameters)
+    (parameter_list)
     (block
       (call_expression (identifier) (argument_list))
       (call_expression (identifier) (argument_list))))
   (function_declaration
     (identifier)
-    (parameters)
+    (parameter_list)
     (block
       (call_expression (identifier) (argument_list))
       (call_expression (identifier) (argument_list)))))
@@ -281,14 +281,14 @@ func f3(...bool) {}
   (package_clause (package_identifier))
   (function_declaration
     (identifier)
-    (parameters
+    (parameter_list
       (variadic_parameter_declaration
         (identifier)
         (pointer_type (type_identifier))))
     (block))
   (function_declaration
     (identifier)
-    (parameters
+    (parameter_list
       (parameter_declaration
         (identifier)
         (type_identifier))
@@ -298,7 +298,7 @@ func f3(...bool) {}
     (block))
   (function_declaration
     (identifier)
-    (parameters
+    (parameter_list
       (variadic_parameter_declaration (type_identifier)))
     (block)))
 
@@ -316,18 +316,18 @@ func (v *Value) ObjxMap(optionalDefault ...(Map)) Map {}
 (source_file
   (package_clause (package_identifier))
   (method_declaration
-    (parameters
+    (parameter_list
       (parameter_declaration (identifier) (type_identifier)))
     (field_identifier)
-    (parameters
+    (parameter_list
       (parameter_declaration (identifier) (type_identifier)))
     (type_identifier)
     (block))
   (method_declaration
-    (parameters
+    (parameter_list
       (parameter_declaration (identifier) (pointer_type (type_identifier))))
     (field_identifier)
-    (parameters
+    (parameter_list
       (variadic_parameter_declaration
         (identifier)
         (parenthesized_type (type_identifier))))

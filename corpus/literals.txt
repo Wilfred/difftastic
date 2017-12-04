@@ -250,9 +250,9 @@ const s1 = func(s string) (int, int) {
     (identifier)
     (expression_list
       (func_literal
-        (parameters
+        (parameter_list
           (parameter_declaration (identifier) (type_identifier)))
-        (parameters
+        (parameter_list
           (identifier)
           (identifier))
         (block

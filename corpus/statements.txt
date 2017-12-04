@@ -13,7 +13,7 @@ func main() {
 
 (source_file
   (package_clause (package_identifier))
-  (function_declaration (identifier) (parameters) (block
+  (function_declaration (identifier) (parameter_list) (block
     (var_declaration
       (var_spec (identifier) (expression_list (identifier))))
     (const_declaration
@@ -33,7 +33,7 @@ func main() {
 
 (source_file
   (package_clause (package_identifier))
-  (function_declaration (identifier) (parameters) (block
+  (function_declaration (identifier) (parameter_list) (block
     (call_expression (identifier) (argument_list (int_literal))))))
 
 ============================================
@@ -50,7 +50,7 @@ func main() {
 
 (source_file
   (package_clause (package_identifier))
-  (function_declaration (identifier) (parameters) (block
+  (function_declaration (identifier) (parameter_list) (block
     (send_statement (identifier) (int_literal)))))
 
 ============================================
@@ -68,7 +68,7 @@ func main() {
 
 (source_file
   (package_clause (package_identifier))
-  (function_declaration (identifier) (parameters) (block
+  (function_declaration (identifier) (parameter_list) (block
     (inc_statement (identifier))
     (dec_statement (identifier)))))
 
@@ -98,7 +98,7 @@ func main() {
 
 (source_file
   (package_clause (package_identifier))
-  (function_declaration (identifier) (parameters) (block
+  (function_declaration (identifier) (parameter_list) (block
     (assignment_statement
       (expression_list (identifier))
       (expression_list (int_literal)))
@@ -153,7 +153,7 @@ func main() {
 
 (source_file
   (package_clause (package_identifier))
-  (function_declaration (identifier) (parameters) (block
+  (function_declaration (identifier) (parameter_list) (block
     (short_var_declaration
       (expression_list (identifier) (identifier))
       (expression_list (int_literal) (int_literal))))))
@@ -191,7 +191,7 @@ func main() {
 ---
 (source_file
   (package_clause (package_identifier))
-  (function_declaration (identifier) (parameters) (block
+  (function_declaration (identifier) (parameter_list) (block
     (if_statement
       (call_expression (identifier) (argument_list))
       (block (call_expression (identifier) (argument_list))))
@@ -256,7 +256,7 @@ loop2:
 
 (source_file
   (package_clause (package_identifier))
-  (function_declaration (identifier) (parameters) (block
+  (function_declaration (identifier) (parameter_list) (block
     (for_statement
       (block
         (call_expression (identifier) (argument_list))
@@ -323,7 +323,7 @@ func main() {
 
 (source_file
   (package_clause (package_identifier))
-  (function_declaration (identifier) (parameters) (block
+  (function_declaration (identifier) (parameter_list) (block
     (expression_switch_statement (identifier)
       (expression_case_clause
         (expression_case (expression_list (int_literal) (int_literal)))
@@ -380,7 +380,7 @@ func main() {
 
 (source_file
   (package_clause (package_identifier))
-  (function_declaration (identifier) (parameters) (block
+  (function_declaration (identifier) (parameter_list) (block
     (type_switch_statement
       (type_switch_guard (identifier))
       (type_case_clause
@@ -403,7 +403,7 @@ func main() {
         (type_case (type_identifier))
         (call_expression (identifier) (argument_list (identifier))))
       (type_case_clause
-        (type_case (function_type (parameters (identifier)) (type_identifier)))
+        (type_case (function_type (parameter_list (identifier)) (type_identifier)))
         (call_expression (identifier) (argument_list (identifier))))
       (type_case_clause
         (type_case (type_identifier) (type_identifier))
@@ -434,7 +434,7 @@ func main() {
 
 (source_file
   (package_clause (package_identifier))
-  (function_declaration (identifier) (parameters) (block
+  (function_declaration (identifier) (parameter_list) (block
     (select_statement
       (communication_clause
         (communication_case
@@ -471,7 +471,7 @@ func main() {
 
 (source_file
   (package_clause (package_identifier))
-  (function_declaration (identifier) (parameters) (block
+  (function_declaration (identifier) (parameter_list) (block
     (defer_statement (call_expression (selector_expression (identifier) (field_identifier)) (argument_list)))
     (go_statement (call_expression (selector_expression (identifier) (field_identifier)) (argument_list))))))
 
@@ -494,7 +494,7 @@ func main() {
 
 (source_file
   (package_clause (package_identifier))
-  (function_declaration (identifier) (parameters) (block
+  (function_declaration (identifier) (parameter_list) (block
     (block (call_expression (identifier) (argument_list (interpreted_string_literal))))
     (block (call_expression (identifier) (argument_list (interpreted_string_literal)))))))
 
@@ -514,7 +514,7 @@ func main() {
 
 (source_file
   (package_clause (package_identifier))
-  (function_declaration (identifier) (parameters) (block
+  (function_declaration (identifier) (parameter_list) (block
     (block (labeled_statement (label_name))))))
 
 ============================================
@@ -531,7 +531,7 @@ func main() {
 
 (source_file
   (package_clause (package_identifier))
-  (function_declaration (identifier) (parameters) (block
+  (function_declaration (identifier) (parameter_list) (block
     (empty_statement))))
 
 =============================================
@@ -554,13 +554,13 @@ func main() {
 
 (source_file
   (package_clause (package_identifier))
-  (function_declaration (identifier) (parameters) (block
+  (function_declaration (identifier) (parameter_list) (block
     (for_statement
       (range_clause (expression_list (identifier) (identifier)) (identifier))
       (block
         (call_expression
           (func_literal
-            (parameters)
+            (parameter_list)
             (block
               (if_statement
                 (binary_expression (identifier) (identifier))
