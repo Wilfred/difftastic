@@ -222,8 +222,8 @@ const s3 = time.Time{}
   (const_declaration (const_spec
     (identifier)
     (expression_list (composite_literal
-      (struct_type
-        (field_declaration (field_identifier) (type_identifier)))
+      (struct_type (field_declaration_list
+        (field_declaration (field_identifier) (type_identifier))))
       (literal_value
         (keyed_element (field_identifier) (int_literal)))))))
   (const_declaration (const_spec
