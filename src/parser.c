@@ -7,25 +7,29 @@
 
 #define LANGUAGE_VERSION 4
 #define STATE_COUNT 8
-#define SYMBOL_COUNT 7
+#define SYMBOL_COUNT 9
 #define ALIAS_COUNT 0
-#define TOKEN_COUNT 3
+#define TOKEN_COUNT 5
 #define EXTERNAL_TOKEN_COUNT 0
 #define MAX_ALIAS_SEQUENCE_LENGTH 0
 
 enum {
   sym_integer_literal = 1,
   sym_float_literal = 2,
-  sym_program = 3,
-  sym_statement = 4,
-  sym__literals = 5,
-  aux_sym_program_repeat1 = 6,
+  sym_octal_literal = 3,
+  sym_hexidecimal_literal = 4,
+  sym_program = 5,
+  sym_statement = 6,
+  sym__literals = 7,
+  aux_sym_program_repeat1 = 8,
 };
 
 static const char *ts_symbol_names[] = {
   [ts_builtin_sym_end] = "END",
   [sym_integer_literal] = "integer_literal",
   [sym_float_literal] = "float_literal",
+  [sym_octal_literal] = "octal_literal",
+  [sym_hexidecimal_literal] = "hexidecimal_literal",
   [sym_program] = "program",
   [sym_statement] = "statement",
   [sym__literals] = "_literals",
@@ -42,6 +46,14 @@ static const TSSymbolMetadata ts_symbol_metadata[] = {
     .named = true,
   },
   [sym_float_literal] = {
+    .visible = true,
+    .named = true,
+  },
+  [sym_octal_literal] = {
+    .visible = true,
+    .named = true,
+  },
+  [sym_hexidecimal_literal] = {
     .visible = true,
     .named = true,
   },
@@ -128,7 +140,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
         ADVANCE(6);
       END_STATE();
     case 7:
-      ACCEPT_TOKEN(sym_integer_literal);
+      ACCEPT_TOKEN(sym_octal_literal);
       if (('0' <= lookahead && lookahead <= '7'))
         ADVANCE(7);
       END_STATE();
@@ -139,7 +151,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
         ADVANCE(9);
       END_STATE();
     case 9:
-      ACCEPT_TOKEN(sym_integer_literal);
+      ACCEPT_TOKEN(sym_hexidecimal_literal);
       if (('0' <= lookahead && lookahead <= '9') ||
           ('A' <= lookahead && lookahead <= 'F') ||
           ('a' <= lookahead && lookahead <= 'f'))
@@ -177,6 +189,8 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [ts_builtin_sym_end] = ACTIONS(1),
     [sym_integer_literal] = ACTIONS(3),
     [sym_float_literal] = ACTIONS(5),
+    [sym_octal_literal] = ACTIONS(3),
+    [sym_hexidecimal_literal] = ACTIONS(3),
   },
   [1] = {
     [sym_program] = STATE(3),
@@ -186,11 +200,15 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [ts_builtin_sym_end] = ACTIONS(7),
     [sym_integer_literal] = ACTIONS(9),
     [sym_float_literal] = ACTIONS(11),
+    [sym_octal_literal] = ACTIONS(9),
+    [sym_hexidecimal_literal] = ACTIONS(9),
   },
   [2] = {
     [ts_builtin_sym_end] = ACTIONS(13),
     [sym_integer_literal] = ACTIONS(15),
     [sym_float_literal] = ACTIONS(17),
+    [sym_octal_literal] = ACTIONS(15),
+    [sym_hexidecimal_literal] = ACTIONS(15),
   },
   [3] = {
     [ts_builtin_sym_end] = ACTIONS(19),
@@ -199,11 +217,15 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [ts_builtin_sym_end] = ACTIONS(21),
     [sym_integer_literal] = ACTIONS(23),
     [sym_float_literal] = ACTIONS(25),
+    [sym_octal_literal] = ACTIONS(23),
+    [sym_hexidecimal_literal] = ACTIONS(23),
   },
   [5] = {
     [ts_builtin_sym_end] = ACTIONS(27),
     [sym_integer_literal] = ACTIONS(29),
     [sym_float_literal] = ACTIONS(31),
+    [sym_octal_literal] = ACTIONS(29),
+    [sym_hexidecimal_literal] = ACTIONS(29),
   },
   [6] = {
     [sym_statement] = STATE(7),
@@ -211,11 +233,15 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [ts_builtin_sym_end] = ACTIONS(33),
     [sym_integer_literal] = ACTIONS(9),
     [sym_float_literal] = ACTIONS(11),
+    [sym_octal_literal] = ACTIONS(9),
+    [sym_hexidecimal_literal] = ACTIONS(9),
   },
   [7] = {
     [ts_builtin_sym_end] = ACTIONS(35),
     [sym_integer_literal] = ACTIONS(37),
     [sym_float_literal] = ACTIONS(39),
+    [sym_octal_literal] = ACTIONS(37),
+    [sym_hexidecimal_literal] = ACTIONS(37),
   },
 };
 
