@@ -85,23 +85,23 @@ type s3 struct {
   (type_declaration
     (type_spec
       (type_identifier)
-      (struct_type)))
+      (struct_type (field_declaration_list))))
   (type_declaration
     (type_spec
       (type_identifier)
-      (struct_type (field_declaration (type_identifier)))))
+      (struct_type (field_declaration_list (field_declaration (type_identifier))))))
   (type_declaration
     (type_spec
       (type_identifier)
-      (struct_type
+      (struct_type (field_declaration_list
         (field_declaration
           (field_identifier)
           (field_identifier)
-          (type_identifier)))))
+          (type_identifier))))))
   (type_declaration
     (type_spec
       (type_identifier)
-      (struct_type
+      (struct_type (field_declaration_list
         (comment)
         (field_declaration
           (qualified_type (package_identifier) (type_identifier)))
@@ -109,7 +109,7 @@ type s3 struct {
         (field_declaration
           (field_identifier)
           (type_identifier)
-          (raw_string_literal))))))
+          (raw_string_literal)))))))
 
 ============================================
 Interface types
@@ -134,14 +134,14 @@ type i2 interface {
   (package_clause (package_identifier))
   (type_declaration (type_spec
     (type_identifier)
-    (interface_type)))
+    (interface_type (method_spec_list))))
   (type_declaration (type_spec
     (type_identifier)
-    (interface_type
-      (qualified_type (package_identifier) (type_identifier)))))
+    (interface_type (method_spec_list
+      (qualified_type (package_identifier) (type_identifier))))))
   (type_declaration (type_spec
     (type_identifier)
-    (interface_type
+    (interface_type (method_spec_list
       (type_identifier)
       (qualified_type (package_identifier) (type_identifier))
       (method_spec
@@ -152,7 +152,7 @@ type i2 interface {
         (field_identifier)
           (parameters
             (identifier)
-            (variadic_parameter_declaration (type_identifier))) (type_identifier))))))
+            (variadic_parameter_declaration (type_identifier))) (type_identifier)))))))
 
 ============================================
 Map types
@@ -216,7 +216,7 @@ type (
       (channel_type (channel_type (type_identifier))))
     (type_spec
       (type_identifier)
-      (channel_type (channel_type (struct_type))))
+      (channel_type (channel_type (struct_type (field_declaration_list)))))
     (type_spec
       (type_identifier)
       (channel_type (channel_type (type_identifier))))))
@@ -289,11 +289,11 @@ type (
   (type_declaration
     (type_alias (type_identifier) (type_identifier)))
   (type_declaration
-    (type_alias (type_identifier) (struct_type)))
+    (type_alias (type_identifier) (struct_type (field_declaration_list))))
 	(type_declaration
     (type_alias (type_identifier) (type_identifier))
     (type_alias (type_identifier) (type_identifier))
-    (type_alias (type_identifier) (struct_type))
+    (type_alias (type_identifier) (struct_type (field_declaration_list)))
     (type_alias (type_identifier) (qualified_type (package_identifier) (type_identifier)))
     (type_alias (type_identifier) (type_identifier))
     (type_alias (type_identifier) (type_identifier))))
