@@ -68,7 +68,7 @@ module.exports = grammar({
     [$.qualified_type, $._expression],
     [$.func_literal, $.function_type],
     [$.function_type],
-    [$.parameters, $._simple_type],
+    [$.parameter_list, $._simple_type],
   ],
 
   rules: {
@@ -165,21 +165,21 @@ module.exports = grammar({
     function_declaration: $ => prec.right(seq(
       'func',
       $.identifier,
-      $.parameters,
-      optional(choice($.parameters, $._simple_type)),
+      $.parameter_list,
+      optional(choice($.parameter_list, $._simple_type)),
       optional($.block)
     )),
 
     method_declaration: $ => prec.right(seq(
       'func',
-      $.parameters,
+      $.parameter_list,
       $._field_identifier,
-      $.parameters,
-      optional(choice($.parameters, $._simple_type)),
+      $.parameter_list,
+      optional(choice($.parameter_list, $._simple_type)),
       optional($.block)
     )),
 
-    parameters: $ => seq(
+    parameter_list: $ => seq(
       '(',
       optional(seq(
         choice($.identifier, $.parameter_declaration, $.variadic_parameter_declaration),
@@ -272,10 +272,10 @@ module.exports = grammar({
 
     struct_type: $ => seq(
       'struct',
-      $._field_declaration_list,
+      $.field_declaration_list,
     ),
 
-    _field_declaration_list: $ => seq(
+    field_declaration_list: $ => seq(
       '{',
       optional(seq(
         $.field_declaration,
@@ -304,10 +304,10 @@ module.exports = grammar({
 
     interface_type: $ => seq(
       'interface',
-      $._method_spec_list,
+      $.method_spec_list,
     ),
 
-    _method_spec_list: $ => seq(
+    method_spec_list: $ => seq(
       '{',
       optional(seq(
         choice($._type_identifier, $.qualified_type, $.method_spec),
@@ -319,8 +319,8 @@ module.exports = grammar({
 
     method_spec: $ => seq(
       $._field_identifier,
-      $.parameters,
-      optional(choice($.parameters, $._simple_type))
+      $.parameter_list,
+      optional(choice($.parameter_list, $._simple_type))
     ),
 
     map_type: $ => seq(
@@ -339,8 +339,8 @@ module.exports = grammar({
 
     function_type: $ => seq(
       'func',
-      $.parameters,
-      optional(choice($.parameters, $._simple_type))
+      $.parameter_list,
+      optional(choice($.parameter_list, $._simple_type))
     ),
 
     block: $ => seq(
@@ -591,14 +591,11 @@ module.exports = grammar({
     call_expression: $ => prec(PREC.primary, choice(
       seq(
         alias(choice('new', 'make'), $.identifier),
-        '(',
-        $._type,
-        optional(seq(',', commaSep1($._expression))),
-        ')'
+        alias($.special_argument_list, $.argument_list)
       ),
       seq(
         $._expression,
-        $._argument_list
+        $.argument_list
       )
     )),
 
@@ -607,7 +604,15 @@ module.exports = grammar({
       '...'
     )),
 
-    _argument_list: $ => seq(
+    special_argument_list: $ => seq(
+      '(',
+      $._type,
+      repeat(seq(',', $._expression)),
+      optional(','),
+      ')'
+    ),
+
+    argument_list: $ => seq(
       '(',
       optional(seq(
         choice($._expression, $.variadic_argument),
@@ -698,8 +703,8 @@ module.exports = grammar({
 
     func_literal: $ => seq(
       'func',
-      $.parameters,
-      optional(choice($.parameters, $._simple_type)),
+      $.parameter_list,
+      optional(choice($.parameter_list, $._simple_type)),
       $.block
     ),
 
