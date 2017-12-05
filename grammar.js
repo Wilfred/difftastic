@@ -212,7 +212,7 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
             $.method_signature,
             $.public_field_definition
           ),
-          $._semicolon
+          choice($._semicolon, ',')
         )
       )),
       '}'
