@@ -4384,18 +4384,11 @@
             "members": [
               {
                 "type": "SYMBOL",
-                "name": "abstract_method_signature"
+                "name": "decorator"
               },
               {
                 "type": "SEQ",
                 "members": [
-                  {
-                    "type": "REPEAT",
-                    "content": {
-                      "type": "SYMBOL",
-                      "name": "decorator"
-                    }
-                  },
                   {
                     "type": "SYMBOL",
                     "name": "method_definition"
@@ -4418,45 +4411,38 @@
                 "type": "SEQ",
                 "members": [
                   {
-                    "type": "SYMBOL",
-                    "name": "index_signature"
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "SYMBOL",
+                        "name": "abstract_method_signature"
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "index_signature"
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "method_signature"
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "public_field_definition"
+                      }
+                    ]
                   },
                   {
-                    "type": "SYMBOL",
-                    "name": "_semicolon"
-                  }
-                ]
-              },
-              {
-                "type": "SEQ",
-                "members": [
-                  {
-                    "type": "SYMBOL",
-                    "name": "method_signature"
-                  },
-                  {
-                    "type": "SYMBOL",
-                    "name": "_semicolon"
-                  }
-                ]
-              },
-              {
-                "type": "SEQ",
-                "members": [
-                  {
-                    "type": "REPEAT",
-                    "content": {
-                      "type": "SYMBOL",
-                      "name": "decorator"
-                    }
-                  },
-                  {
-                    "type": "SYMBOL",
-                    "name": "public_field_definition"
-                  },
-                  {
-                    "type": "SYMBOL",
-                    "name": "_semicolon"
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "SYMBOL",
+                        "name": "_semicolon"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": ","
+                      }
+                    ]
                   }
                 ]
               }
@@ -5199,10 +5185,6 @@
         {
           "type": "SYMBOL",
           "name": "call_signature"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_semicolon"
         }
       ]
     },

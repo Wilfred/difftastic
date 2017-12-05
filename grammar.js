@@ -132,15 +132,13 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       $.call_signature
     ),
 
-
     abstract_method_signature: $ => seq(
       optional($.accessibility_modifier),
       'abstract',
       optional(choice('get', 'set', '*')),
       $._property_name,
       optional('?'),
-      $.call_signature,
-      $._semicolon
+      $.call_signature
     ),
 
     parenthesized_expression: ($, previous) => seq(
@@ -204,15 +202,19 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
 
     class_body: ($, previous) => seq(
       '{',
-      repeat(
-        choice(
-          $.abstract_method_signature,
-          seq(repeat($.decorator), $.method_definition, optional($._semicolon)),
-          seq($.index_signature, $._semicolon),
-          seq($.method_signature, $._semicolon),
-          seq(repeat($.decorator), $.public_field_definition, $._semicolon)
+      repeat(choice(
+        $.decorator,
+        seq($.method_definition, optional($._semicolon)),
+        seq(
+          choice(
+            $.abstract_method_signature,
+            $.index_signature,
+            $.method_signature,
+            $.public_field_definition
+          ),
+          choice($._semicolon, ',')
         )
-      ),
+      )),
       '}'
     ),
 

@@ -132,6 +132,40 @@ declare module Foo {
         (catch_clause (identifier) (statement_block))
         (finally_clause (statement_block)))))))
 
+==================================================
+Flow-style ambient class declarations with commas
+==================================================
+
+declare interface IFoo {
+  bar(): number,
+  baz(): IBaz,
+}
+
+declare class Foo {
+  bar(): number,
+  baz(): Baz,
+}
+
+---
+
+(program
+  (ambient_declaration
+    (interface_declaration (identifier) (object_type
+      (method_signature
+        (property_identifier)
+        (call_signature (formal_parameters) (type_annotation (predefined_type))))
+      (method_signature
+        (property_identifier)
+        (call_signature (formal_parameters) (type_annotation (type_identifier)))))))
+  (ambient_declaration
+    (class (identifier) (class_body
+      (method_signature
+        (property_identifier)
+        (call_signature (formal_parameters) (type_annotation (predefined_type))))
+      (method_signature
+        (property_identifier)
+        (call_signature (formal_parameters) (type_annotation (type_identifier))))))))
+
 ==================================
 Ambient exports
 ==================================
