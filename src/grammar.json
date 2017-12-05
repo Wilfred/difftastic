@@ -4432,8 +4432,17 @@
                     ]
                   },
                   {
-                    "type": "SYMBOL",
-                    "name": "_semicolon"
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "SYMBOL",
+                        "name": "_semicolon"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": ","
+                      }
+                    ]
                   }
                 ]
               }
