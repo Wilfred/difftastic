@@ -32,11 +32,129 @@ module.exports = grammar({
       $._literals
     ),
 
+    char_literal: $ => seq(
+      "'",
+      choice(
+        $._graphic,
+        $._space,
+        $._escape
+      ),
+      "'"
+    ),
+
+    _graphic: $ => choice(
+      $._small,
+      $._large,
+      $._symbol,
+      digit,
+      $._special,
+      '"',
+      '\''
+    ),
+
+    // TODO: any lowercase unicode letter
+    _small: $ => choice(
+      /[a-z]/,
+      '_'
+    ),
+
+    // TODO: any uppercase or titlecase unicode letter
+    _large: $ => choice(
+      $._ascii_large
+    ),
+
+    _ascii_large: $ => /[A-Z]/,
+
+    // TODO: any Unicode symol or punctuation
+    _symbol: $ => choice(
+      '!', '#', '$', '%', '&', '⋆', '+', '.', '/', '<', '=', '>', '?', '@', '^', '|', '-', '~', ':', '\\'
+    ),
+
+    _special: $ => choice(
+      '(', ')', ';', '[', ']', '`', '{', '}'
+    ),
+
+    _space: $ => ' ',
+
+    _escape: $ => prec(1, seq(
+      '\\',
+      choice(
+        $._char_escape,
+        $._ascii,
+        digit,
+        hexidecimal,
+        octadecimal
+      )
+    )),
+
+    _char_escape: $ => choice(
+      'a',
+      'b',
+      'f',
+      'n',
+      'r',
+      't',
+      'v',
+      '\\',
+      '"',
+      "'",
+      '&'
+    ),
+
+    _ascii: $ => choice(
+      seq('^', $._cntrl),
+      'NUL',
+      'SOH',
+      'STX',
+      'ETX',
+      'EOT',
+      'ENQ',
+      'ACK',
+      'BEL',
+      'BS',
+      'HT',
+      'LF',
+      'VT',
+      'FF',
+      'CR',
+      'SO',
+      'SI',
+      'DLE',
+      'DC1',
+      'DC2',
+      'DC3',
+      'DC4',
+      'NAK',
+      'SYN',
+      'ETB',
+      'CAN',
+      'EM',
+      'SUB',
+      'ESC',
+      'FS',
+      'GS',
+      'RS',
+      'US',
+      'SP',
+      'DEL'
+    ),
+
+    _cntrl: $ => choice(
+      $._ascii_large,
+      '@',
+      '[',
+      ']',
+      '\\',
+      '^',
+      '_'
+    ),
+
     _literals: $ => choice(
       $.integer_literal,
       $.float_literal,
       $.octal_literal,
-      $.hexidecimal_literal
+      $.hexidecimal_literal,
+      $.char_literal
     ),
 
     integer_literal: $ => token(decimalLiteral),
