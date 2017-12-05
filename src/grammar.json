@@ -22,6 +22,89 @@
         }
       ]
     },
+    "_literals": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "integer_literal"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "float_literal"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "octal_literal"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "hexidecimal_literal"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "char_literal"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "string_literal"
+        }
+      ]
+    },
+    "string_literal": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "\""
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "_graphic"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "_escape"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "_gap"
+              },
+              {
+                "type": "STRING",
+                "value": "'"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "\""
+        }
+      ]
+    },
+    "_gap": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_space"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_newline"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_tab"
+        }
+      ]
+    },
     "char_literal": {
       "type": "SEQ",
       "members": [
@@ -43,6 +126,14 @@
             {
               "type": "SYMBOL",
               "name": "_escape"
+            },
+            {
+              "type": "STRING",
+              "value": "\""
+            },
+            {
+              "type": "STRING",
+              "value": "'"
             }
           ]
         },
@@ -74,14 +165,6 @@
         {
           "type": "SYMBOL",
           "name": "_special"
-        },
-        {
-          "type": "STRING",
-          "value": "\""
-        },
-        {
-          "type": "STRING",
-          "value": "'"
         }
       ]
     },
@@ -236,6 +319,14 @@
     "_space": {
       "type": "STRING",
       "value": " "
+    },
+    "_newline": {
+      "type": "STRING",
+      "value": "\n"
+    },
+    "_tab": {
+      "type": "STRING",
+      "value": "\t"
     },
     "_escape": {
       "type": "PREC",
@@ -550,31 +641,6 @@
         {
           "type": "STRING",
           "value": "_"
-        }
-      ]
-    },
-    "_literals": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "integer_literal"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "float_literal"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "octal_literal"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "hexidecimal_literal"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "char_literal"
         }
       ]
     },

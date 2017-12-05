@@ -32,12 +32,41 @@ module.exports = grammar({
       $._literals
     ),
 
+    _literals: $ => choice(
+      $.integer_literal,
+      $.float_literal,
+      $.octal_literal,
+      $.hexidecimal_literal,
+      $.char_literal,
+      $.string_literal
+    ),
+
+    string_literal: $ => seq(
+      '"',
+      repeat(choice(
+        $._graphic,
+        $._escape,
+        $._gap,
+        "'"
+      )),
+      '"'
+    ),
+
+    // TODO: add vertab and any unicode character defined as whitespace
+    _gap: $ => choice(
+      $._space,
+      $._newline,
+      $._tab
+    ),
+
     char_literal: $ => seq(
       "'",
       choice(
         $._graphic,
         $._space,
-        $._escape
+        $._escape,
+        '"',
+        '\''
       ),
       "'"
     ),
@@ -47,9 +76,7 @@ module.exports = grammar({
       $._large,
       $._symbol,
       digit,
-      $._special,
-      '"',
-      '\''
+      $._special
     ),
 
     // TODO: any lowercase unicode letter
@@ -75,6 +102,10 @@ module.exports = grammar({
     ),
 
     _space: $ => ' ',
+
+    _newline: $ => '\n',
+
+    _tab: $ => '\t',
 
     _escape: $ => prec(1, seq(
       '\\',
@@ -147,14 +178,6 @@ module.exports = grammar({
       '\\',
       '^',
       '_'
-    ),
-
-    _literals: $ => choice(
-      $.integer_literal,
-      $.float_literal,
-      $.octal_literal,
-      $.hexidecimal_literal,
-      $.char_literal
     ),
 
     integer_literal: $ => token(decimalLiteral),
