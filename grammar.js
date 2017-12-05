@@ -511,7 +511,7 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
     ),
 
     type_arguments: $ => seq(
-      '<', commaSep1($._type), '>'
+      '<', commaSep1($._type), optional(','), '>'
     ),
 
     object_type: $ => seq(
@@ -549,7 +549,7 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
     ),
 
     type_parameters: $ => seq(
-      '<', commaSep1($.type_parameter), '>'
+      '<', commaSep1($.type_parameter), optional(','), '>'
     ),
 
     type_parameter: $ => seq(
