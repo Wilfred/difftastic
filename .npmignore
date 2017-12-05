@@ -1,3 +1,7 @@
-grammar_test
+corpus
+examples
+.travis.yml
+appveyor.yml
+.gitattributes
 build
 script
