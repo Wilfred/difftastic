@@ -1,12 +1,15 @@
 const
+  digit = /[0-9]/,
   hexDigit = /[0-9a-fA-F]/,
   octalDigit = /[0-7]/,
-  decimalDigit = /[0-9]/,
-  decimals = repeat1(decimalDigit),
+  decimals = repeat1(digit),
 
-  decimalLiteral = seq(decimalDigit, repeat(decimalDigit)),
-  hexLiteral     = seq('0', choice('x', 'X'), repeat1(hexDigit)),
-  octalLiteral   = seq('0', choice('o', 'O'), repeat(octalDigit)),
+  hexidecimal = seq(choice('x', 'X'), repeat1(hexDigit)),
+  octadecimal = seq(choice('o', 'O'), repeat1(octalDigit)),
+
+  decimalLiteral = seq(digit, repeat(digit)),
+  hexLiteral     = seq('0', hexidecimal),
+  octalLiteral   = seq('0', octadecimal),
 
   exponent = seq(
     choice('e', 'E'),
