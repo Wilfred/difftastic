@@ -40,8 +40,8 @@ module.exports = grammar({
     ),
 
     integer_literal: $ => token(decimalLiteral),
-    float_literal: $ => token(floatLiteral),
-    octal_literal: $ => token(octalLiteral),
+    float_literal:   $ => token(floatLiteral),
+    octal_literal:   $ => token(octalLiteral),
     hexidecimal_literal: $ => token(hexLiteral)
   }
 })
