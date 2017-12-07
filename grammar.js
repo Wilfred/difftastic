@@ -274,7 +274,7 @@ module.exports = grammar({
 
     struct_type: $ => seq(
       'struct',
-      $.field_declaration_list,
+      $.field_declaration_list
     ),
 
     field_declaration_list: $ => seq(
@@ -306,7 +306,7 @@ module.exports = grammar({
 
     interface_type: $ => seq(
       'interface',
-      $.method_spec_list,
+      $.method_spec_list
     ),
 
     method_spec_list: $ => seq(
@@ -314,7 +314,7 @@ module.exports = grammar({
       optional(seq(
         choice($._type_identifier, $.qualified_type, $.method_spec),
         repeat(seq(terminator, choice($._type_identifier, $.qualified_type, $.method_spec))),
-        optional(terminator),
+        optional(terminator)
       )),
       '}'
     ),
@@ -440,7 +440,7 @@ module.exports = grammar({
 
     empty_labeled_statement: $ => seq(
       alias($.identifier, $.label_name),
-      ':',
+      ':'
     ),
 
     fallthrough_statement: $ => 'fallthrough',
