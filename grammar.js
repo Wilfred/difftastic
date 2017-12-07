@@ -111,7 +111,7 @@ module.exports = grammar({
       preprocessor('if'),
       $.preproc_arg,
       repeat($._top_level_item),
-      optional($.preproc_else),
+      optional(choice($.preproc_else, $.preproc_elif)),
       preprocessor('endif')
     ),
 
@@ -119,7 +119,10 @@ module.exports = grammar({
       preprocessor('if'),
       $.preproc_arg,
       repeat($._compound_statement_item),
-      optional(alias($.preproc_else_in_compound_statement, $.preproc_else)),
+      optional(choice(
+        alias($.preproc_else_in_compound_statement, $.preproc_else),
+        alias($.preproc_elif_in_compound_statement, $.preproc_elif)
+      )),
       preprocessor('endif')
     ),
 
@@ -137,6 +140,23 @@ module.exports = grammar({
       repeat($._compound_statement_item),
       optional(alias($.preproc_else_in_compound_statement, $.preproc_else)),
       preprocessor('endif')
+    ),
+
+    preproc_elif: $ => seq(
+      preprocessor('elif'),
+      $.preproc_arg,
+      repeat($._top_level_item),
+      optional(choice($.preproc_elif, $.preproc_else))
+    ),
+
+    preproc_elif_in_compound_statement: $ => seq(
+      preprocessor('elif'),
+      $.preproc_arg,
+      repeat($._compound_statement_item),
+      optional(choice(
+        alias($.preproc_elif_in_compound_statement, $.preproc_elif),
+        alias($.preproc_else_in_compound_statement, $.preproc_else)
+      ))
     ),
 
     preproc_else: $ => seq(

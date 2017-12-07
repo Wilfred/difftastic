@@ -324,8 +324,17 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "SYMBOL",
-              "name": "preproc_else"
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "preproc_else"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "preproc_elif"
+                }
+              ]
             },
             {
               "type": "BLANK"
@@ -370,13 +379,27 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "ALIAS",
-              "content": {
-                "type": "SYMBOL",
-                "name": "preproc_else_in_compound_statement"
-              },
-              "named": true,
-              "value": "preproc_else"
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "ALIAS",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "preproc_else_in_compound_statement"
+                  },
+                  "named": true,
+                  "value": "preproc_else"
+                },
+                {
+                  "type": "ALIAS",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "preproc_elif_in_compound_statement"
+                  },
+                  "named": true,
+                  "value": "preproc_elif"
+                }
+              ]
             },
             {
               "type": "BLANK"
@@ -519,6 +542,108 @@
         }
       ]
     },
+    "preproc_elif": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "PATTERN",
+            "value": "#[ \t]*elif"
+          },
+          "named": false,
+          "value": "#elif"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "preproc_arg"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_top_level_item"
+          }
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "preproc_elif"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "preproc_else"
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        }
+      ]
+    },
+    "preproc_elif_in_compound_statement": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "PATTERN",
+            "value": "#[ \t]*elif"
+          },
+          "named": false,
+          "value": "#elif"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "preproc_arg"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_compound_statement_item"
+          }
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "ALIAS",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "preproc_elif_in_compound_statement"
+                  },
+                  "named": true,
+                  "value": "preproc_elif"
+                },
+                {
+                  "type": "ALIAS",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "preproc_else_in_compound_statement"
+                  },
+                  "named": true,
+                  "value": "preproc_else"
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        }
+      ]
+    },
     "preproc_else": {
       "type": "SEQ",
       "members": [
@@ -563,7 +688,7 @@
     },
     "preproc_directive": {
       "type": "PATTERN",
-      "value": "#[ \\t]+\\a\\w*"
+      "value": "#[ \\t]*\\a\\w*"
     },
     "preproc_arg": {
       "type": "TOKEN",

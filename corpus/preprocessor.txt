@@ -101,24 +101,45 @@ General if blocks
 
 #if defined(__GNUC__) && defined(__PIC__)
 #define inline inline __attribute__((always_inline))
+#elif defined(_WIN32)
+#define something
+#elif !defined(SOMETHING_ELSE)
+#define SOMETHING_ELSE
+#else
+#include <something>
 #endif
 
 ---
 
 (translation_unit
-  (preproc_if
-    (preproc_arg)
-    (preproc_def (identifier) (preproc_arg))))
+  (preproc_if (preproc_arg)
+    (preproc_def (identifier) (preproc_arg))
+    (preproc_elif (preproc_arg)
+      (preproc_def (identifier))
+      (preproc_elif (preproc_arg)
+        (preproc_def (identifier))
+        (preproc_else
+          (preproc_include (system_lib_string)))))))
 
 ============================================
 Preprocessor conditionals in functions
 ============================================
 
 int main() {
+  #if d
+    puts("1");
+  #else
+    puts("2");
+  #endif
+
   #if a
     return 0;
-  #else
+  #elif b
     return 1;
+  #elif c
+    return 2;
+  #else
+    return 3;
   #endif
 }
 
@@ -129,10 +150,19 @@ int main() {
     (primitive_type)
     (function_declarator (identifier) (parameter_list))
     (compound_statement
+      (preproc_if
+        (preproc_arg)
+        (expression_statement (call_expression (identifier) (argument_list (string_literal))))
+        (preproc_else
+          (expression_statement (call_expression (identifier) (argument_list (string_literal))))))
       (preproc_if (preproc_arg)
         (return_statement (number_literal))
-        (preproc_else
-          (return_statement (number_literal)))))))
+        (preproc_elif (preproc_arg)
+          (return_statement (number_literal))
+          (preproc_elif (preproc_arg)
+            (return_statement (number_literal))
+            (preproc_else
+              (return_statement (number_literal)))))))))
 
 ====================================
 Unknown preprocessor directives
