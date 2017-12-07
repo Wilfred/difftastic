@@ -211,18 +211,25 @@ for (;;) {
 For-in statements
 ============================================
 
-for (var item in items)
-  item();
-
 for (item in items)
   item();
+
+for (var item in items || {})
+  item();
+
+for (const {thing} in things)
+  thing();
 
 ---
 
 (program
   (for_in_statement (identifier) (identifier)
     (expression_statement (call_expression (identifier) (arguments))))
-  (for_in_statement (identifier) (identifier)
+  (for_in_statement (identifier) (binary_expression (identifier) (object))
+    (expression_statement (call_expression (identifier) (arguments))))
+  (for_in_statement
+    (object_pattern (shorthand_property_identifier))
+    (identifier)
     (expression_statement (call_expression (identifier) (arguments)))))
 
 ==========================================
@@ -249,14 +256,23 @@ for (key in something && i = 0; i < n; i++) {
 For-of statements
 ============================================
 
-for (let item of items)
-  process(item);
+for (a of b)
+  process(a);
+
+for (let {a, b} of items || [])
+  process(a, b);
 
 ---
 
 (program
-  (for_of_statement (identifier) (identifier)
-    (expression_statement (call_expression (identifier) (arguments (identifier))))))
+  (for_of_statement
+    (identifier)
+    (identifier)
+    (expression_statement (call_expression (identifier) (arguments (identifier)))))
+  (for_of_statement
+    (object_pattern (shorthand_property_identifier) (shorthand_property_identifier))
+    (binary_expression (identifier) (array))
+    (expression_statement (call_expression (identifier) (arguments (identifier) (identifier))))))
 
 ============================================
 While statements

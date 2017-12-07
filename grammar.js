@@ -236,7 +236,7 @@ module.exports = grammar({
       'for',
       '(',
       optional(choice('var', 'let', 'const')),
-      $._expression,
+      choice($.identifier, $._destructuring_pattern),
       'in',
       $._expressions,
       ')',
@@ -247,7 +247,7 @@ module.exports = grammar({
       'for',
       '(',
       optional(choice('var', 'let', 'const')),
-      $._expression,
+      choice($.identifier, $._destructuring_pattern),
       'of',
       $._expression,
       ')',
@@ -607,33 +607,42 @@ module.exports = grammar({
       $._expression, '?', $._expression, ':', $._expression
     )),
 
-    binary_expression: $ => choice(...[
-      ['&&', PREC.AND],
-      ['||', PREC.OR],
-      ['>>', PREC.TIMES],
-      ['>>>', PREC.TIMES],
-      ['<<', PREC.TIMES],
-      ['&', PREC.AND],
-      ['^', PREC.OR],
-      ['|', PREC.OR],
-      ['+', PREC.PLUS],
-      ['-', PREC.PLUS],
-      ['*', PREC.TIMES],
-      ['/', PREC.TIMES],
-      ['%', PREC.TIMES],
-      ['<', PREC.REL],
-      ['<=', PREC.REL],
-      ['==', PREC.REL],
-      ['===', PREC.REL],
-      ['!=', PREC.REL],
-      ['!==', PREC.REL],
-      ['>=', PREC.REL],
-      ['>', PREC.REL],
-      ['instanceof', PREC.REL],
-      ['in', PREC.REL],
-    ].map(([operator, precedence]) =>
-      prec.left(precedence, seq($._expression, operator, $._expression))
-    )),
+    binary_expression: $ => choice(
+      // Avoid a conflict between `for_in_statement` and the `in` operator
+      prec.left(PREC.REL, seq(
+        choice($.identifier, $.object, $.array),
+        'in',
+        $._expression
+      )),
+
+      ...[
+        ['&&', PREC.AND],
+        ['||', PREC.OR],
+        ['>>', PREC.TIMES],
+        ['>>>', PREC.TIMES],
+        ['<<', PREC.TIMES],
+        ['&', PREC.AND],
+        ['^', PREC.OR],
+        ['|', PREC.OR],
+        ['+', PREC.PLUS],
+        ['-', PREC.PLUS],
+        ['*', PREC.TIMES],
+        ['/', PREC.TIMES],
+        ['%', PREC.TIMES],
+        ['<', PREC.REL],
+        ['<=', PREC.REL],
+        ['==', PREC.REL],
+        ['===', PREC.REL],
+        ['!=', PREC.REL],
+        ['!==', PREC.REL],
+        ['>=', PREC.REL],
+        ['>', PREC.REL],
+        ['instanceof', PREC.REL],
+        ['in', PREC.REL],
+      ].map(([operator, precedence]) =>
+        prec.left(precedence, seq($._expression, operator, $._expression))
+      )
+    ),
 
     unary_expression: $ => choice(...[
       ['!', PREC.NOT],
