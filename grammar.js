@@ -422,7 +422,10 @@ module.exports = grammar({
     )),
 
     assignment_pattern: $ => seq(
-      alias($.identifier, $.shorthand_property_identifier),
+      choice(
+        alias($.identifier, $.shorthand_property_identifier),
+        $._destructuring_pattern
+      ),
       $._initializer
     ),
 

@@ -78,6 +78,7 @@ Object destructuring patterns w/ default values
 ================================================
 
 function a({b = true}, [c, d = false]) {}
+function b({c} = {}) {}
 
 ---
 
@@ -86,4 +87,8 @@ function a({b = true}, [c, d = false]) {}
     (formal_parameters
       (object_pattern (assignment_pattern (shorthand_property_identifier) (true)))
       (array_pattern (identifier) (assignment_expression (identifier) (false))))
+    (statement_block))
+  (function (identifier)
+    (formal_parameters
+      (assignment_pattern (object_pattern (shorthand_property_identifier)) (object)))
     (statement_block)))
