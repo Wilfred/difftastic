@@ -39,3 +39,23 @@ long objects
 (value (object
   (pair (string) (string))
   (pair (string) (number))))
+
+================================
+Top-level numbers
+================================
+
+-1
+
+---
+
+(value (number))
+
+================================
+Top-level null
+================================
+
+null
+
+---
+
+(value (null))

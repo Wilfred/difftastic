@@ -2,17 +2,8 @@
   "name": "json",
   "rules": {
     "value": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "object"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "array"
-        }
-      ]
+      "type": "SYMBOL",
+      "name": "_value"
     },
     "_value": {
       "type": "CHOICE",
