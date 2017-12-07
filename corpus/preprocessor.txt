@@ -61,6 +61,7 @@ int j;
 #ifdef DEFINE2
 ssize_t b;
 #define c 32
+#elif defined DEFINE3
 #else
 int b;
 #define c 16
@@ -84,9 +85,11 @@ int b;
     (identifier)
     (declaration (primitive_type) (identifier))
     (preproc_def (identifier) (preproc_arg))
-    (preproc_else
-      (declaration (primitive_type) (identifier))
-      (preproc_def (identifier) (preproc_arg))))
+    (preproc_elif
+      (preproc_arg)
+      (preproc_else
+        (declaration (primitive_type) (identifier))
+        (preproc_def (identifier) (preproc_arg)))))
 
   (preproc_ifdef
     (identifier)

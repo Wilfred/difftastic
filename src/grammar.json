@@ -458,8 +458,17 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "SYMBOL",
-              "name": "preproc_else"
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "preproc_else"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "preproc_elif"
+                }
+              ]
             },
             {
               "type": "BLANK"
@@ -518,13 +527,27 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "ALIAS",
-              "content": {
-                "type": "SYMBOL",
-                "name": "preproc_else_in_compound_statement"
-              },
-              "named": true,
-              "value": "preproc_else"
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "ALIAS",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "preproc_else_in_compound_statement"
+                  },
+                  "named": true,
+                  "value": "preproc_else"
+                },
+                {
+                  "type": "ALIAS",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "preproc_elif_in_compound_statement"
+                  },
+                  "named": true,
+                  "value": "preproc_elif"
+                }
+              ]
             },
             {
               "type": "BLANK"

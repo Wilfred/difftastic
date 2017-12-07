@@ -130,7 +130,7 @@ module.exports = grammar({
       choice(preprocessor('ifdef'), preprocessor('ifndef')),
       $.identifier,
       repeat($._top_level_item),
-      optional($.preproc_else),
+      optional(choice($.preproc_else, $.preproc_elif)),
       preprocessor('endif')
     ),
 
@@ -138,7 +138,10 @@ module.exports = grammar({
       choice(preprocessor('ifdef'), preprocessor('ifndef')),
       $.identifier,
       repeat($._compound_statement_item),
-      optional(alias($.preproc_else_in_compound_statement, $.preproc_else)),
+      optional(choice(
+        alias($.preproc_else_in_compound_statement, $.preproc_else),
+        alias($.preproc_elif_in_compound_statement, $.preproc_elif)
+      )),
       preprocessor('endif')
     ),
 
