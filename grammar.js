@@ -149,7 +149,7 @@ module.exports = grammar({
       repeat($._compound_statement_item)
     ),
 
-    preproc_directive: $ => /#[ \t]+\a\w*/,
+    preproc_directive: $ => /#[ \t]*\a\w*/,
     preproc_arg: $ => token(prec(-1, repeat1(choice(/./, '\\\n')))),
 
     // Main Grammar

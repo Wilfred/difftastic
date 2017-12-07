@@ -133,3 +133,13 @@ int main() {
         (return_statement (number_literal))
         (preproc_else
           (return_statement (number_literal)))))))
+
+====================================
+Unknown preprocessor directives
+====================================
+
+#pragma mark - UIViewController
+
+---
+
+(translation_unit (preproc_call (preproc_directive) (preproc_arg)))
