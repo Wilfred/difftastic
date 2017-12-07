@@ -189,6 +189,7 @@ struct Scanner {
             return true;
           } else if (valid_symbols[LINE_BREAK]) {
             advance(lexer);
+            lexer->mark_end(lexer);
             while (lexer->lookahead == ' ' || lexer->lookahead == '\t' || lookahead_is_line_end(lexer)) { skip(lexer); }
             if (lexer->lookahead == '.') { // Method continuation ignores newline.
               break;
