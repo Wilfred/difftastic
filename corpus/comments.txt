@@ -1,0 +1,26 @@
+=========================================
+Single Line Comments
+=========================================
+
+-- Comment 1
+-- Comment 2
+
+---
+
+(program
+  (comment)
+  (comment))
+
+=========================================
+Multi-Line Comments
+=========================================
+
+{- Comment 1
+  Continue
+  - Continue
+-}
+
+---
+
+(program
+  (comment))

@@ -39,6 +39,17 @@ module.exports = grammar({
       $.char
     ),
 
+    comment: $ => token(prec(-2, choice(
+      seq('--', /.*/),
+      seq(
+        /{-.*\r?\n/,
+        repeat(choice(
+          /[^-]/,
+          /-[^}]/
+        )),
+        /-}\r?\n/
+      )
+    ))),
     integer: $ => choice(
       $._integer_literal,
       $._octal_literal,
