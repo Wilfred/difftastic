@@ -25,6 +25,11 @@ const
 module.exports = grammar({
   name: 'haskell',
 
+  extras: $ => [
+    $.comment,
+    /\s|\\n/
+  ],
+
   rules: {
     program: $ => seq(repeat($.statement)),
 
