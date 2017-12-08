@@ -16,16 +16,16 @@ String Literals [a-zA-Z0-9_]
 ---
 
 (program
-  (statement (string_literal))
-  (statement (string_literal))
+  (statement (string))
+  (statement (string))
 
-  (statement (string_literal))
-  (statement (string_literal))
+  (statement (string))
+  (statement (string))
 
-  (statement (string_literal))
+  (statement (string))
 
-  (statement (string_literal))
-  (statement (string_literal)))
+  (statement (string))
+  (statement (string)))
 
 =========================================
 String Literals Symbols
@@ -56,28 +56,28 @@ String Literals Symbols
 ---
 
 (program
-  (statement (string_literal))
-  (statement (string_literal))
-  (statement (string_literal))
-  (statement (string_literal))
-  (statement (string_literal))
-  (statement (string_literal))
-  (statement (string_literal))
-  (statement (string_literal))
-  (statement (string_literal))
-  (statement (string_literal))
-  (statement (string_literal))
-  (statement (string_literal))
-  (statement (string_literal))
-  (statement (string_literal))
-  (statement (string_literal))
-  (statement (string_literal))
-  (statement (string_literal))
-  (statement (string_literal))
-  (statement (string_literal))
+  (statement (string))
+  (statement (string))
+  (statement (string))
+  (statement (string))
+  (statement (string))
+  (statement (string))
+  (statement (string))
+  (statement (string))
+  (statement (string))
+  (statement (string))
+  (statement (string))
+  (statement (string))
+  (statement (string))
+  (statement (string))
+  (statement (string))
+  (statement (string))
+  (statement (string))
+  (statement (string))
+  (statement (string))
 
-  (statement (string_literal))
-  (statement (string_literal)))
+  (statement (string))
+  (statement (string)))
 
 
 =========================================
@@ -89,14 +89,14 @@ String Literals Special Symbols
 ---
 
 (program
-  (statement (string_literal))
-  (statement (string_literal))
-  (statement (string_literal))
-  (statement (string_literal))
-  (statement (string_literal))
-  (statement (string_literal))
-  (statement (string_literal))
-  (statement (string_literal)))
+  (statement (string))
+  (statement (string))
+  (statement (string))
+  (statement (string))
+  (statement (string))
+  (statement (string))
+  (statement (string))
+  (statement (string)))
 
 =========================================
 String Literals Character Escape
@@ -107,17 +107,17 @@ String Literals Character Escape
 ---
 
 (program
-  (statement (string_literal))
-  (statement (string_literal))
-  (statement (string_literal))
-  (statement (string_literal))
-  (statement (string_literal))
-  (statement (string_literal))
-  (statement (string_literal))
-  (statement (string_literal))
-  (statement (string_literal))
-  (statement (string_literal))
-  (statement (string_literal)))
+  (statement (string))
+  (statement (string))
+  (statement (string))
+  (statement (string))
+  (statement (string))
+  (statement (string))
+  (statement (string))
+  (statement (string))
+  (statement (string))
+  (statement (string))
+  (statement (string)))
 
 =========================================
 String Literals Space
@@ -128,7 +128,7 @@ String Literals Space
 ---
 
 (program
-  (statement (string_literal)))
+  (statement (string)))
 
 =========================================
 String Literals Escape Ascii
@@ -172,40 +172,40 @@ String Literals Escape Ascii
 ---
 
 (program
-  (statement (string_literal))
-  (statement (string_literal))
-  (statement (string_literal))
-  (statement (string_literal))
-  (statement (string_literal))
-  (statement (string_literal))
-  (statement (string_literal))
-  (statement (string_literal))
-  (statement (string_literal))
-  (statement (string_literal))
-  (statement (string_literal))
-  (statement (string_literal))
-  (statement (string_literal))
-  (statement (string_literal))
-  (statement (string_literal))
-  (statement (string_literal))
-  (statement (string_literal))
-  (statement (string_literal))
-  (statement (string_literal))
-  (statement (string_literal))
-  (statement (string_literal))
-  (statement (string_literal))
-  (statement (string_literal))
-  (statement (string_literal))
-  (statement (string_literal))
-  (statement (string_literal))
-  (statement (string_literal))
-  (statement (string_literal))
-  (statement (string_literal))
-  (statement (string_literal))
-  (statement (string_literal))
-  (statement (string_literal))
-  (statement (string_literal))
-  (statement (string_literal)))
+  (statement (string))
+  (statement (string))
+  (statement (string))
+  (statement (string))
+  (statement (string))
+  (statement (string))
+  (statement (string))
+  (statement (string))
+  (statement (string))
+  (statement (string))
+  (statement (string))
+  (statement (string))
+  (statement (string))
+  (statement (string))
+  (statement (string))
+  (statement (string))
+  (statement (string))
+  (statement (string))
+  (statement (string))
+  (statement (string))
+  (statement (string))
+  (statement (string))
+  (statement (string))
+  (statement (string))
+  (statement (string))
+  (statement (string))
+  (statement (string))
+  (statement (string))
+  (statement (string))
+  (statement (string))
+  (statement (string))
+  (statement (string))
+  (statement (string))
+  (statement (string)))
 
 =========================================
 String Literals Escape Control Characters
@@ -223,14 +223,14 @@ String Literals Escape Control Characters
 ---
 
 (program
-  (statement (string_literal))
-  (statement (string_literal))
-  (statement (string_literal))
-  (statement (string_literal))
-  (statement (string_literal))
-  (statement (string_literal))
-  (statement (string_literal))
-  (statement (string_literal)))
+  (statement (string))
+  (statement (string))
+  (statement (string))
+  (statement (string))
+  (statement (string))
+  (statement (string))
+  (statement (string))
+  (statement (string)))
 
 
 =========================================
@@ -242,6 +242,6 @@ String Literals Gap Characters
 ---
 
 (program
-  (statement (string_literal)))
+  (statement (string)))
 
 

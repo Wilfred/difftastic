@@ -29,19 +29,37 @@ module.exports = grammar({
     program: $ => seq(repeat($.statement)),
 
     statement: $ => choice(
-      $._literals
+      $._literal
     ),
 
-    _literals: $ => choice(
-      $.integer_literal,
-      $.float_literal,
-      $.octal_literal,
-      $.hexidecimal_literal,
-      $.char_literal,
-      $.string_literal
+    _literal: $ => choice(
+      $.integer,
+      $.float,
+      $.string,
+      $.char
     ),
 
-    string_literal: $ => seq(
+    integer: $ => choice(
+      $._integer_literal,
+      $._octal_literal,
+      $._hexidecimal_literal
+    ),
+
+    float: $ => token(floatLiteral),
+
+    char: $ => seq(
+      "'",
+      choice(
+        $._graphic,
+        $._space,
+        $._escape,
+        '"',
+        '\''
+      ),
+      "'"
+    ),
+
+    string: $ => seq(
       '"',
       repeat(choice(
         $._graphic,
@@ -57,18 +75,6 @@ module.exports = grammar({
       $._space,
       $._newline,
       $._tab
-    ),
-
-    char_literal: $ => seq(
-      "'",
-      choice(
-        $._graphic,
-        $._space,
-        $._escape,
-        '"',
-        '\''
-      ),
-      "'"
     ),
 
     _graphic: $ => choice(
@@ -180,10 +186,9 @@ module.exports = grammar({
       '_'
     ),
 
-    integer_literal: $ => token(decimalLiteral),
-    float_literal:   $ => token(floatLiteral),
-    octal_literal:   $ => token(octalLiteral),
-    hexidecimal_literal: $ => token(hexLiteral)
+    _integer_literal: $ => token(decimalLiteral),
+    _octal_literal:   $ => token(octalLiteral),
+    _hexidecimal_literal: $ => token(hexLiteral)
   }
 })
 

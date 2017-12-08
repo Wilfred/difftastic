@@ -16,16 +16,16 @@ Char Literals [a-zA-Z0-9_]
 ---
 
 (program
-  (statement (char_literal))
-  (statement (char_literal))
+  (statement (char))
+  (statement (char))
 
-  (statement (char_literal))
-  (statement (char_literal))
+  (statement (char))
+  (statement (char))
 
-  (statement (char_literal))
+  (statement (char))
 
-  (statement (char_literal))
-  (statement (char_literal)))
+  (statement (char))
+  (statement (char)))
 
 =========================================
 Char Literals Symbols
@@ -56,28 +56,28 @@ Char Literals Symbols
 ---
 
 (program
-  (statement (char_literal))
-  (statement (char_literal))
-  (statement (char_literal))
-  (statement (char_literal))
-  (statement (char_literal))
-  (statement (char_literal))
-  (statement (char_literal))
-  (statement (char_literal))
-  (statement (char_literal))
-  (statement (char_literal))
-  (statement (char_literal))
-  (statement (char_literal))
-  (statement (char_literal))
-  (statement (char_literal))
-  (statement (char_literal))
-  (statement (char_literal))
-  (statement (char_literal))
-  (statement (char_literal))
-  (statement (char_literal))
+  (statement (char))
+  (statement (char))
+  (statement (char))
+  (statement (char))
+  (statement (char))
+  (statement (char))
+  (statement (char))
+  (statement (char))
+  (statement (char))
+  (statement (char))
+  (statement (char))
+  (statement (char))
+  (statement (char))
+  (statement (char))
+  (statement (char))
+  (statement (char))
+  (statement (char))
+  (statement (char))
+  (statement (char))
 
-  (statement (char_literal))
-  (statement (char_literal)))
+  (statement (char))
+  (statement (char)))
 
 
 =========================================
@@ -89,14 +89,14 @@ Char Literals Special Symbols
 ---
 
 (program
-  (statement (char_literal))
-  (statement (char_literal))
-  (statement (char_literal))
-  (statement (char_literal))
-  (statement (char_literal))
-  (statement (char_literal))
-  (statement (char_literal))
-  (statement (char_literal)))
+  (statement (char))
+  (statement (char))
+  (statement (char))
+  (statement (char))
+  (statement (char))
+  (statement (char))
+  (statement (char))
+  (statement (char)))
 
 =========================================
 Char Literals Character Escape
@@ -107,17 +107,17 @@ Char Literals Character Escape
 ---
 
 (program
-  (statement (char_literal))
-  (statement (char_literal))
-  (statement (char_literal))
-  (statement (char_literal))
-  (statement (char_literal))
-  (statement (char_literal))
-  (statement (char_literal))
-  (statement (char_literal))
-  (statement (char_literal))
-  (statement (char_literal))
-  (statement (char_literal)))
+  (statement (char))
+  (statement (char))
+  (statement (char))
+  (statement (char))
+  (statement (char))
+  (statement (char))
+  (statement (char))
+  (statement (char))
+  (statement (char))
+  (statement (char))
+  (statement (char)))
 
 =========================================
 Char Literals Space
@@ -128,7 +128,7 @@ Char Literals Space
 ---
 
 (program
-  (statement (char_literal)))
+  (statement (char)))
 
 =========================================
 Char Literals Escape Ascii
@@ -172,40 +172,40 @@ Char Literals Escape Ascii
 ---
 
 (program
-  (statement (char_literal))
-  (statement (char_literal))
-  (statement (char_literal))
-  (statement (char_literal))
-  (statement (char_literal))
-  (statement (char_literal))
-  (statement (char_literal))
-  (statement (char_literal))
-  (statement (char_literal))
-  (statement (char_literal))
-  (statement (char_literal))
-  (statement (char_literal))
-  (statement (char_literal))
-  (statement (char_literal))
-  (statement (char_literal))
-  (statement (char_literal))
-  (statement (char_literal))
-  (statement (char_literal))
-  (statement (char_literal))
-  (statement (char_literal))
-  (statement (char_literal))
-  (statement (char_literal))
-  (statement (char_literal))
-  (statement (char_literal))
-  (statement (char_literal))
-  (statement (char_literal))
-  (statement (char_literal))
-  (statement (char_literal))
-  (statement (char_literal))
-  (statement (char_literal))
-  (statement (char_literal))
-  (statement (char_literal))
-  (statement (char_literal))
-  (statement (char_literal)))
+  (statement (char))
+  (statement (char))
+  (statement (char))
+  (statement (char))
+  (statement (char))
+  (statement (char))
+  (statement (char))
+  (statement (char))
+  (statement (char))
+  (statement (char))
+  (statement (char))
+  (statement (char))
+  (statement (char))
+  (statement (char))
+  (statement (char))
+  (statement (char))
+  (statement (char))
+  (statement (char))
+  (statement (char))
+  (statement (char))
+  (statement (char))
+  (statement (char))
+  (statement (char))
+  (statement (char))
+  (statement (char))
+  (statement (char))
+  (statement (char))
+  (statement (char))
+  (statement (char))
+  (statement (char))
+  (statement (char))
+  (statement (char))
+  (statement (char))
+  (statement (char)))
 
 =========================================
 Char Literals Escape Control Characters
@@ -223,12 +223,12 @@ Char Literals Escape Control Characters
 ---
 
 (program
-  (statement (char_literal))
-  (statement (char_literal))
-  (statement (char_literal))
-  (statement (char_literal))
-  (statement (char_literal))
-  (statement (char_literal))
-  (statement (char_literal))
-  (statement (char_literal)))
+  (statement (char))
+  (statement (char))
+  (statement (char))
+  (statement (char))
+  (statement (char))
+  (statement (char))
+  (statement (char))
+  (statement (char)))
 
