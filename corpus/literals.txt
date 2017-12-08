@@ -8,8 +8,8 @@ Integer Literals
 ---
 
 (program
-  (statement (integer))
-  (statement (integer)))
+  (integer)
+  (integer))
 
 =========================================
 Octal Literals
@@ -21,8 +21,8 @@ Octal Literals
 ---
 
 (program
-  (statement (integer))
-  (statement (integer)))
+  (integer)
+  (integer))
 
 =========================================
 Hexidecimal Literals
@@ -34,8 +34,8 @@ Hexidecimal Literals
 ---
 
 (program
-  (statement (integer))
-  (statement (integer)))
+  (integer)
+  (integer))
 
 =========================================
 Float Literals
@@ -47,8 +47,8 @@ Float Literals
 ---
 
 (program
-  (statement (float))
-  (statement (float)))
+  (float)
+  (float))
 
 =========================================
 Float Literals With Exponents
@@ -71,17 +71,16 @@ Float Literals With Exponents
 ---
 
 (program
-  (statement (float))
-  (statement (float))
-  (statement (float))
-  (statement (float))
-  (statement (float))
-  (statement (float))
+  (float)
+  (float)
+  (float)
+  (float)
+  (float)
+  (float)
 
-  (statement (float))
-  (statement (float))
-  (statement (float))
-  (statement (float))
-  (statement (float))
-  (statement (float)))
-
+  (float)
+  (float)
+  (float)
+  (float)
+  (float)
+  (float))

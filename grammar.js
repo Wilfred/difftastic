@@ -31,9 +31,9 @@ module.exports = grammar({
   ],
 
   rules: {
-    program: $ => seq(repeat($.statement)),
+    program: $ => seq(repeat($._statement)),
 
-    statement: $ => choice(
+    _statement: $ => choice(
       $._literal
     ),
 
