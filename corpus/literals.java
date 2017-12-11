@@ -62,4 +62,56 @@ decimal_floating_point_literal
 
 ---
 
-(program (floating_point_literal (decimal_floating_point_literal)) (floating_point_literal (decimal_floating_point_literal)) (floating_point_literal (decimal_floating_point_literal)) (floating_point_literal (decimal_floating_point_literal)) (floating_point_literal (decimal_floating_point_literal)) (floating_point_literal (decimal_floating_point_literal)) (floating_point_literal (decimal_floating_point_literal)) (floating_point_literal (decimal_floating_point_literal)) (floating_point_literal (decimal_floating_point_literal)) (floating_point_literal (decimal_floating_point_literal)) (floating_point_literal (decimal_floating_point_literal)) (floating_point_literal (decimal_floating_point_literal))) 
+(program (floating_point_literal (decimal_floating_point_literal)) (floating_point_literal (decimal_floating_point_literal)) (floating_point_literal (decimal_floating_point_literal)) (floating_point_literal (decimal_floating_point_literal)) (floating_point_literal (decimal_floating_point_literal)) (floating_point_literal (decimal_floating_point_literal)) (floating_point_literal (decimal_floating_point_literal)) (floating_point_literal (decimal_floating_point_literal)) (floating_point_literal (decimal_floating_point_literal)) (floating_point_literal (decimal_floating_point_literal)) (floating_point_literal (decimal_floating_point_literal)) (floating_point_literal (decimal_floating_point_literal)))
+
+====
+boolean_literal
+====
+
+true;
+false;
+
+---
+
+(program (boolean_literal) (boolean_literal))
+
+======
+character_literal
+======
+
+'a';
+'%';
+'\t';
+'\\';
+'\'';
+'\u03a9';
+'\uFFFF';
+'\177';
+'™';
+
+---
+
+(program (character_literal) (character_literal) (character_literal) (character_literal) (character_literal) (character_literal) (character_literal) (character_literal) (character_literal))
+
+=====
+string literal
+=====
+
+"";
+"\"";
+"This is a string";
+"'";
+
+---
+
+(program (string_literal) (string_literal) (string_literal) (string_literal))
+
+======
+null literal
+======
+
+null;
+
+---
+
+(program (null_literal))

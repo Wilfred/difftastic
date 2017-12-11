@@ -1,5 +1,26 @@
 const DIGITS = token(sep1(/[0-9]+/, /_+/))
 const HEX_DIGITS = token(sep1(/[A-Fa-f0-9]+/, '_'))
+// const PREC = {
+//   COMMA: -1,
+//   DECLARATION: 1,
+//   COMMENT: 1,
+//   TERNARY: 1,
+//   OR: 2,
+//   AND: 3,
+//   PLUS: 4,
+//   MINUS: 4,
+//   REL: 5,
+//   TIMES: 6,
+//   SHIFT: 6,
+//   NOT: 8,
+//   NEG: 9,
+//   NAMESPACE: 9,
+//   INC: 10,
+//   NEW: 11,
+//   CALL: 12,
+//   MEMBER: 13,
+//   DEREF: 14
+// };
 
 module.exports = grammar({
   name: 'java',
@@ -8,24 +29,20 @@ module.exports = grammar({
     $.comment,
     /\s/
   ],
-  // what are extras?
 
   rules: {
     program: $ => repeat(seq($._statement, ';')),
-    // program: $ => repeat($.declaration)
 
     _statement: $ => choice($._literal),
 
     _literal: $ => choice(
       $.integer_literal,
       $.floating_point_literal,
-      // $.boolean_literal,
-      // $.character_literal,
-      // $.string_literal,
-      // $.null_literal
+      $.boolean_literal,
+      $.character_literal,
+      $.string_literal,
+      $.null_literal
     ),
-
-    // integer literals
 
     integer_literal: $ => choice(
       $.decimal_integer_literal,
@@ -41,7 +58,6 @@ module.exports = grammar({
         HEX_DIGITS
     )),
 
-    // how does this not get parsed as regular integers?
     octal_integer_literal: $ => token(seq(
       choice('0o', '0O'),
       sep1(/[0-7]+/, '_')
@@ -77,11 +93,70 @@ module.exports = grammar({
       optional(/[fFdD]/)
     )),
 
-    // boolean_literal: $ => token(choice('true', 'false')),
-    //
-    // character_literal: $ => /\?(\\\S({[0-9]*}|[0-9]*|-\S([MC]-\S)?)?|\S)/
-    //
-    // string_literal: $ => /""/
+    boolean_literal: $ => choice('true', 'false'),
+
+    character_literal: $ => seq("'", repeat(choice(/[^\'\n]/, /\\./, /\\\n/)), "'"),
+
+    string_literal: $ => token(seq(
+      choice(
+        seq('"', repeat(choice(/[^\\"\n]/, /\\./, /\\\n/)), '"'),
+        seq(
+          '"""',
+          repeat(choice(
+            /[^"]/,
+            /"[^"]/,
+            /""[^"]/
+          )),
+          '"""'
+        ),
+        // seq('"', repeat(choice(/[^\\"\n]/, /\\./, /\\\n/)), '"', '+', '"', repeat(choice(/[^\\"\n]/, /\\./, /\\\n/)), '"')
+      )
+    )),
+
+    null_literal: $ => 'null',
+
+    // separator: $ => (   )   {   }   [   ]   ;   ,   .   ...   @   ::
+
+    // operator: $ => choice(
+    //   '=',
+    //   '>',
+    //   '<',
+    //   '!',
+    //   '~',
+    //   '?',
+    //   ':',
+    //   '->',
+    //   '==',
+    //   '>=',
+    //   '<=',
+    //   '!=',
+    //   '&&',
+    //   '||',
+    //   '++',
+    //   '--',
+    //   '+',
+    //   '-',
+    //   '*',
+    //   '/',
+    //   '&',
+    //   '|',
+    //   '^',
+    //   '%',
+    //   '<<',
+    //   '>>',
+    //   '>>>',
+    //   '+=',
+    //   '-=',
+    //   '*=',
+    //   '/=',
+    //   '&=',
+    //   '|=',
+    //   '^=',
+    //   '%=',
+    //   '<<=',
+    //   '>>=',
+    //   '>>>='
+    // )
 
     comment: $ => /\/\*.*\*\//,
 
