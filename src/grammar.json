@@ -61,6 +61,10 @@
         {
           "type": "SYMBOL",
           "name": "delegate_declaration"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "interface_declaration"
         }
       ]
     },
@@ -167,6 +171,10 @@
               },
               {
                 "type": "SYMBOL",
+                "name": "using_directive"
+              },
+              {
+                "type": "SYMBOL",
                 "name": "_type_declaration"
               }
             ]
@@ -241,6 +249,10 @@
               {
                 "type": "SYMBOL",
                 "name": "field_declaration"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "method_declaration"
               }
             ]
           }
@@ -305,6 +317,121 @@
             {
               "type": "SYMBOL",
               "name": "_class_modifiers"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        }
+      ]
+    },
+    "interface_declaration": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_attributes"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "interface_modifiers"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": "interface"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "identifier_name"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "type_parameter_list"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": "{"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "field_declaration"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "}"
+        }
+      ]
+    },
+    "interface_modifiers": {
+      "type": "SYMBOL",
+      "name": "_interface_modifiers"
+    },
+    "_interface_modifiers": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "new"
+            },
+            {
+              "type": "STRING",
+              "value": "public"
+            },
+            {
+              "type": "STRING",
+              "value": "protected"
+            },
+            {
+              "type": "STRING",
+              "value": "internal"
+            },
+            {
+              "type": "STRING",
+              "value": "private"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_interface_modifiers"
             },
             {
               "type": "BLANK"
@@ -456,7 +583,7 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "enum_modifier"
+              "name": "enum_modifiers"
             },
             {
               "type": "BLANK"
@@ -572,7 +699,7 @@
         }
       ]
     },
-    "enum_modifier": {
+    "enum_modifiers": {
       "type": "CHOICE",
       "members": [
         {
@@ -594,6 +721,48 @@
         {
           "type": "STRING",
           "value": "private"
+        }
+      ]
+    },
+    "_enum_modifiers": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "new"
+            },
+            {
+              "type": "STRING",
+              "value": "public"
+            },
+            {
+              "type": "STRING",
+              "value": "protected"
+            },
+            {
+              "type": "STRING",
+              "value": "internal"
+            },
+            {
+              "type": "STRING",
+              "value": "private"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_enum_modifiers"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         }
       ]
     },
@@ -671,7 +840,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_return_type"
+          "name": "return_type"
         },
         {
           "type": "SYMBOL",
@@ -716,7 +885,7 @@
         }
       ]
     },
-    "_return_type": {
+    "return_type": {
       "type": "CHOICE",
       "members": [
         {
@@ -1905,6 +2074,121 @@
           }
         ]
       }
+    },
+    "method_declaration": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "method_modifiers"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "async"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "SYMBOL",
+          "name": "return_type"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "identifier_name"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "type_parameter_list"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "SYMBOL",
+          "name": "parameter_list"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "statement_block"
+        }
+      ]
+    },
+    "method_modifiers": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "new"
+        },
+        {
+          "type": "STRING",
+          "value": "public"
+        },
+        {
+          "type": "STRING",
+          "value": "protected"
+        },
+        {
+          "type": "STRING",
+          "value": "internal"
+        },
+        {
+          "type": "STRING",
+          "value": "private"
+        }
+      ]
+    },
+    "statement_block": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "{"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_statement"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "}"
+        }
+      ]
+    },
+    "_statement": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "empty_statement"
+        }
+      ]
+    },
+    "empty_statement": {
+      "type": "STRING",
+      "value": ";"
     }
   },
   "extras": [
@@ -1917,7 +2201,16 @@
       "value": "\\s+"
     }
   ],
-  "conflicts": [],
+  "conflicts": [
+    [
+      "_field_modifiers",
+      "method_modifiers"
+    ],
+    [
+      "return_type",
+      "variable_declaration"
+    ]
+  ],
   "externals": [],
   "inline": []
 }

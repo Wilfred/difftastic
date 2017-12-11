@@ -1,0 +1,55 @@
+=====================================
+Global empty class
+=====================================
+
+public class F {}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (class_modifiers)
+    (identifier_name)))
+
+=====================================
+Class with single method
+=====================================
+
+class Foo {
+  public void Test() {}
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier_name)
+    (method_declaration
+      (method_modifiers)
+      (return_type
+        (void_keyword))
+      (identifier_name)
+      (parameter_list)
+      (statement_block))))
+
+=====================================
+Class with single method with params
+=====================================
+
+class Foo {
+  public void Test(int value) {}
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier_name)
+    (method_declaration
+      (method_modifiers)
+      (return_type
+        (void_keyword))
+      (identifier_name)
+      (parameter_list
+        (parameter (predefined_type) (identifier_name)))
+      (statement_block))))
