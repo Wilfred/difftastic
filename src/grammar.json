@@ -57,6 +57,10 @@
         {
           "type": "SYMBOL",
           "name": "constructor_identifier"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "reserved_identifier"
         }
       ]
     },
@@ -67,6 +71,103 @@
     "constructor_identifier": {
       "type": "PATTERN",
       "value": "[A-Z](\\w|')*"
+    },
+    "reserved_identifier": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "case"
+        },
+        {
+          "type": "STRING",
+          "value": "class"
+        },
+        {
+          "type": "STRING",
+          "value": "data"
+        },
+        {
+          "type": "STRING",
+          "value": "default"
+        },
+        {
+          "type": "STRING",
+          "value": "deriving"
+        },
+        {
+          "type": "STRING",
+          "value": "do"
+        },
+        {
+          "type": "STRING",
+          "value": "else"
+        },
+        {
+          "type": "STRING",
+          "value": "foreign"
+        },
+        {
+          "type": "STRING",
+          "value": "if"
+        },
+        {
+          "type": "STRING",
+          "value": "import"
+        },
+        {
+          "type": "STRING",
+          "value": "in"
+        },
+        {
+          "type": "STRING",
+          "value": "infix"
+        },
+        {
+          "type": "STRING",
+          "value": "infixl"
+        },
+        {
+          "type": "STRING",
+          "value": "infixr"
+        },
+        {
+          "type": "STRING",
+          "value": "instance"
+        },
+        {
+          "type": "STRING",
+          "value": "let"
+        },
+        {
+          "type": "STRING",
+          "value": "module"
+        },
+        {
+          "type": "STRING",
+          "value": "newtype"
+        },
+        {
+          "type": "STRING",
+          "value": "of"
+        },
+        {
+          "type": "STRING",
+          "value": "then"
+        },
+        {
+          "type": "STRING",
+          "value": "type"
+        },
+        {
+          "type": "STRING",
+          "value": "where"
+        },
+        {
+          "type": "STRING",
+          "value": "_"
+        }
+      ]
     },
     "comment": {
       "type": "TOKEN",

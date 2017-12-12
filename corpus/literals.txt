@@ -90,7 +90,6 @@ Float Literals With Exponents
 Variable Identifiers
 =========================================
 
-_
 a
 _a0
 _A0
@@ -102,7 +101,6 @@ aZ'
 ---
 
 (program
-  (variable_identifier)
   (variable_identifier)
   (variable_identifier)
   (variable_identifier)
@@ -131,3 +129,59 @@ Az'
   (constructor_identifier)
   (constructor_identifier)
   (constructor_identifier))
+
+
+=========================================
+Reserved Identifiers
+=========================================
+
+case
+class
+data
+default
+deriving
+do
+else
+foreign
+if
+import
+in
+infix
+infixl
+infixr
+instance
+let
+module
+newtype
+of
+then
+type
+where
+_
+
+---
+
+(program
+  (reserved_identifier)
+  (reserved_identifier)
+  (reserved_identifier)
+  (reserved_identifier)
+  (reserved_identifier)
+  (reserved_identifier)
+  (reserved_identifier)
+  (reserved_identifier)
+  (reserved_identifier)
+  (reserved_identifier)
+  (reserved_identifier)
+  (reserved_identifier)
+  (reserved_identifier)
+  (reserved_identifier)
+  (reserved_identifier)
+  (reserved_identifier)
+  (reserved_identifier)
+  (reserved_identifier)
+  (reserved_identifier)
+  (reserved_identifier)
+  (reserved_identifier)
+  (reserved_identifier)
+  (reserved_identifier))

@@ -47,12 +47,39 @@ module.exports = grammar({
 
     _identifier: $ => choice(
       $.variable_identifier,
-      $.constructor_identifier
+      $.constructor_identifier,
+      $.reserved_identifier
     ),
 
     variable_identifier: $ => /[_a-z](\w|')*/,
 
     constructor_identifier: $ => /[A-Z](\w|')*/,
+
+    reserved_identifier: $ => choice(
+      'case',
+      'class',
+      'data',
+      'default',
+      'deriving',
+      'do',
+      'else',
+      'foreign',
+      'if',
+      'import',
+      'in',
+      'infix',
+      'infixl',
+      'infixr',
+      'instance',
+      'let',
+      'module',
+      'newtype',
+      'of',
+      'then',
+      'type',
+      'where',
+      '_'
+    ),
 
     comment: $ => token(prec(-2, choice(
       seq('--', /.*/),
