@@ -375,7 +375,7 @@ module.exports = grammar({
     ),
 
     echo_statement: $ => seq(
-      'echo', repeat1($._expression), $._semicolon
+      'echo', $._expressions, $._semicolon
     ),
 
     unset_statement: $ => seq(
