@@ -53,12 +53,20 @@
         {
           "type": "SYMBOL",
           "name": "variable_identifier"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "constructor_identifier"
         }
       ]
     },
     "variable_identifier": {
       "type": "PATTERN",
-      "value": "[_|a-z]\\w*"
+      "value": "[_a-z](\\w|')*"
+    },
+    "constructor_identifier": {
+      "type": "PATTERN",
+      "value": "[A-Z](\\w|')*"
     },
     "comment": {
       "type": "TOKEN",

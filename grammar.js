@@ -46,10 +46,13 @@ module.exports = grammar({
     ),
 
     _identifier: $ => choice(
-      $.variable_identifier
+      $.variable_identifier,
+      $.constructor_identifier
     ),
 
-    variable_identifier: $ => /[_|a-z]\w*/,
+    variable_identifier: $ => /[_a-z](\w|')*/,
+
+    constructor_identifier: $ => /[A-Z](\w|')*/,
 
     comment: $ => token(prec(-2, choice(
       seq('--', /.*/),
