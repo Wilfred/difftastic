@@ -206,7 +206,9 @@ module.exports = grammar({
       optional($.class_interface_clause),
       '{',
       repeat($._class_member_declaration),
-      '}'
+      '}',
+      // TODO: Figure out if this needs to be more general, but it seems to be allowed after class declarations.
+      optional($._semicolon)
     ),
 
     class_modifier: $ => choice(
