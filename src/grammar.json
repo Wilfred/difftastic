@@ -4315,120 +4315,123 @@
       }
     },
     "shell_command_expression": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "`"
-        },
-        {
-          "type": "REPEAT",
-          "content": {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "CHOICE",
-                "members": [
-                  {
-                    "type": "PATTERN",
-                    "value": "\\\\\"|\\\\\\\\|\\\\\\$|\\\\e|\\\\f|\\\\n|\\\\r|\\\\t|\\\\v"
-                  },
-                  {
-                    "type": "SEQ",
-                    "members": [
-                      {
-                        "type": "STRING",
-                        "value": "\\"
-                      },
-                      {
-                        "type": "PATTERN",
-                        "value": "0-7"
-                      },
-                      {
-                        "type": "CHOICE",
-                        "members": [
-                          {
-                            "type": "PATTERN",
-                            "value": "0-7"
-                          },
-                          {
-                            "type": "BLANK"
-                          }
-                        ]
-                      },
-                      {
-                        "type": "CHOICE",
-                        "members": [
-                          {
-                            "type": "PATTERN",
-                            "value": "0-7"
-                          },
-                          {
-                            "type": "BLANK"
-                          }
-                        ]
-                      }
-                    ]
-                  },
-                  {
-                    "type": "SEQ",
-                    "members": [
-                      {
-                        "type": "PATTERN",
-                        "value": "\\\\[xX]"
-                      },
-                      {
-                        "type": "PATTERN",
-                        "value": "\\d|a-f|A-F"
-                      },
-                      {
-                        "type": "CHOICE",
-                        "members": [
-                          {
-                            "type": "PATTERN",
-                            "value": "\\d|a-f|A-F"
-                          },
-                          {
-                            "type": "BLANK"
-                          }
-                        ]
-                      }
-                    ]
-                  },
-                  {
-                    "type": "SEQ",
-                    "members": [
-                      {
-                        "type": "STRING",
-                        "value": "\\u{"
-                      },
-                      {
-                        "type": "REPEAT1",
-                        "content": {
+      "type": "TOKEN",
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "`"
+          },
+          {
+            "type": "REPEAT",
+            "content": {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "PATTERN",
+                      "value": "\\\\\"|\\\\\\\\|\\\\\\$|\\\\e|\\\\f|\\\\n|\\\\r|\\\\t|\\\\v"
+                    },
+                    {
+                      "type": "SEQ",
+                      "members": [
+                        {
+                          "type": "STRING",
+                          "value": "\\"
+                        },
+                        {
+                          "type": "PATTERN",
+                          "value": "0-7"
+                        },
+                        {
+                          "type": "CHOICE",
+                          "members": [
+                            {
+                              "type": "PATTERN",
+                              "value": "0-7"
+                            },
+                            {
+                              "type": "BLANK"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "CHOICE",
+                          "members": [
+                            {
+                              "type": "PATTERN",
+                              "value": "0-7"
+                            },
+                            {
+                              "type": "BLANK"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "SEQ",
+                      "members": [
+                        {
+                          "type": "PATTERN",
+                          "value": "\\\\[xX]"
+                        },
+                        {
                           "type": "PATTERN",
                           "value": "\\d|a-f|A-F"
+                        },
+                        {
+                          "type": "CHOICE",
+                          "members": [
+                            {
+                              "type": "PATTERN",
+                              "value": "\\d|a-f|A-F"
+                            },
+                            {
+                              "type": "BLANK"
+                            }
+                          ]
                         }
-                      },
-                      {
-                        "type": "STRING",
-                        "value": "}"
-                      }
-                    ]
-                  }
-                ]
-              },
-              {
-                "type": "PATTERN",
-                "value": "[^\"\\\\]|\\\\[^\"\\\\$efnrtvxX0-7]"
-              }
-            ]
+                      ]
+                    },
+                    {
+                      "type": "SEQ",
+                      "members": [
+                        {
+                          "type": "STRING",
+                          "value": "\\u{"
+                        },
+                        {
+                          "type": "REPEAT1",
+                          "content": {
+                            "type": "PATTERN",
+                            "value": "\\d|a-f|A-F"
+                          }
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "}"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "PATTERN",
+                  "value": "[^\"\\\\]|\\\\[^\"\\\\$efnrtvxX0-7]"
+                }
+              ]
+            }
+          },
+          {
+            "type": "STRING",
+            "value": "`"
           }
-        },
-        {
-          "type": "STRING",
-          "value": "`"
-        }
-      ]
+        ]
+      }
     },
     "error_control_expression": {
       "type": "SEQ",
@@ -6526,7 +6529,7 @@
     },
     "name": {
       "type": "PATTERN",
-      "value": "[_a-zA-Z-ÿ][_a-zA-Z-ÿ\\d]+"
+      "value": "[_a-zA-Z-ÿ][_a-zA-Z-ÿ\\d]*"
     },
     "comment": {
       "type": "TOKEN",
