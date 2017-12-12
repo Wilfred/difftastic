@@ -3508,10 +3508,6 @@
         },
         {
           "type": "SYMBOL",
-          "name": "error_control_expression"
-        },
-        {
-          "type": "SYMBOL",
           "name": "cast_expression"
         }
       ]
@@ -3519,6 +3515,19 @@
     "unary_op_expression": {
       "type": "CHOICE",
       "members": [
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "@"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_expression"
+            }
+          ]
+        },
         {
           "type": "PREC_LEFT",
           "value": 9,
@@ -4465,19 +4474,6 @@
           }
         ]
       }
-    },
-    "error_control_expression": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "@"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_unary_expression"
-        }
-      ]
     },
     "cast_expression": {
       "type": "SEQ",
