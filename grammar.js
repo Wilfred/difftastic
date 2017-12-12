@@ -502,7 +502,7 @@ module.exports = grammar({
     ),
 
     for_statement: $ => seq(
-      'for', '(', $._expressions, ';', $._expressions, ';', $._expressions, ')',
+      'for', '(', optional($._expressions), ';', optional($._expressions), ';', optional($._expressions), ')',
       choice(
         $._statement,
         seq(':', repeat1($._statement), 'endfor', $._semicolon)
