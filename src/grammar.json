@@ -1972,11 +1972,8 @@
           "value": "echo"
         },
         {
-          "type": "REPEAT1",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_expression"
-          }
+          "type": "SYMBOL",
+          "name": "_expressions"
         },
         {
           "type": "SYMBOL",
