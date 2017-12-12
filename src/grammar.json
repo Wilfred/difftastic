@@ -3318,7 +3318,7 @@
           "name": "_expression"
         },
         {
-          "type": "SEQ",
+          "type": "CHOICE",
           "members": [
             {
               "type": "STRING",
@@ -3347,7 +3347,7 @@
           "value": "default"
         },
         {
-          "type": "SEQ",
+          "type": "CHOICE",
           "members": [
             {
               "type": "STRING",
