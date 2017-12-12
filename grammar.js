@@ -563,11 +563,11 @@ module.exports = grammar({
     ),
 
     case_statement: $ => seq(
-      'case', $._expression, seq(':', ';'), repeat($._statement)
+      'case', $._expression, choice(':', ';'), repeat($._statement)
     ),
 
     default_statement: $ => seq(
-      'default', seq(':', ';'), repeat($._statement)
+      'default', choice(':', ';'), repeat($._statement)
     ),
 
 
