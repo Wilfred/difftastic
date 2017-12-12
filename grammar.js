@@ -86,7 +86,7 @@ module.exports = grammar({
       '"'
     ),
 
-    // TODO: add vertab and any unicode character defined as whitespace
+    // TODO: add any unicode character defined as whitespace
     _gap: $ => choice(
       $._space,
       $._newline,
