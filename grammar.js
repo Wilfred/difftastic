@@ -605,11 +605,12 @@ module.exports = grammar({
       $._primary_expression,
       $.exponentiation_expression,
       $.unary_op_expression,
-      $.error_control_expression,
       $.cast_expression
     ),
 
-    unary_op_expression: $ => choice(...[
+    unary_op_expression: $ => choice(
+      seq('@', $._expression),
+      ...[
       ['+', PREC.NEG],
       ['-', PREC.NEG],
       ['~', PREC.NEG],
@@ -723,10 +724,6 @@ module.exports = grammar({
       '`', double_quote_chars(), '`'
     )),
 
-    error_control_expression: $ => seq(
-      '@', $._unary_expression
-    ),
-
     cast_expression: $ => seq(
       '(', $.cast_type, ')', $._unary_expression
     ),
@@ -781,7 +778,7 @@ module.exports = grammar({
     _variable: $ => choice(
       $._callable_variable,
       $.scoped_property_access_expression,
-      $.member_access_expression
+      $.member_access_expression,
     ),
 
     member_access_expression: $ => prec(PREC.MEMBER, seq(
