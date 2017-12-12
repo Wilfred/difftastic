@@ -2799,24 +2799,48 @@
           "value": "("
         },
         {
-          "type": "SYMBOL",
-          "name": "_expressions"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_expressions"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         },
         {
           "type": "STRING",
           "value": ";"
         },
         {
-          "type": "SYMBOL",
-          "name": "_expressions"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_expressions"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         },
         {
           "type": "STRING",
           "value": ";"
         },
         {
-          "type": "SYMBOL",
-          "name": "_expressions"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_expressions"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         },
         {
           "type": "STRING",
