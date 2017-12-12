@@ -129,6 +129,8 @@ module.exports = grammar({
 
     _tab: $ => '\t',
 
+    _vertical_tab: $ => '\v',
+
     _escape: $ => prec(1, seq(
       '\\',
       choice(
