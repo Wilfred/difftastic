@@ -717,9 +717,9 @@ module.exports = grammar({
       '--', $._variable
     )),
 
-    shell_command_expression: $ => seq(
+    shell_command_expression: $ => token(seq(
       '`', double_quote_chars(), '`'
-    ),
+    )),
 
     error_control_expression: $ => seq(
       '@', $._unary_expression
