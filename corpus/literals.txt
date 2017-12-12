@@ -84,3 +84,25 @@ Float Literals With Exponents
   (float)
   (float)
   (float))
+
+
+=========================================
+Variable Identifiers
+=========================================
+
+_a0
+_A0
+a0
+a9
+aA
+aZ
+
+---
+
+(program
+  (variable_identifier)
+  (variable_identifier)
+  (variable_identifier)
+  (variable_identifier)
+  (variable_identifier)
+  (variable_identifier))

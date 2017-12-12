@@ -34,7 +34,8 @@ module.exports = grammar({
     program: $ => seq(repeat($._statement)),
 
     _statement: $ => choice(
-      $._literal
+      $._literal,
+      $._identifier
     ),
 
     _literal: $ => choice(
@@ -43,6 +44,12 @@ module.exports = grammar({
       $.string,
       $.char
     ),
+
+    _identifier: $ => choice(
+      $.variable_identifier
+    ),
+
+    variable_identifier: $ => /[_|a-z]\w*/,
 
     comment: $ => token(prec(-2, choice(
       seq('--', /.*/),
@@ -55,6 +62,7 @@ module.exports = grammar({
         /-}\r?\n/
       )
     ))),
+
     integer: $ => choice(
       $._integer_literal,
       $._octal_literal,

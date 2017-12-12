@@ -19,6 +19,10 @@
         {
           "type": "SYMBOL",
           "name": "_literal"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_identifier"
         }
       ]
     },
@@ -42,6 +46,19 @@
           "name": "char"
         }
       ]
+    },
+    "_identifier": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "variable_identifier"
+        }
+      ]
+    },
+    "variable_identifier": {
+      "type": "PATTERN",
+      "value": "[_|a-z]\\w*"
     },
     "comment": {
       "type": "TOKEN",
@@ -96,23 +113,6 @@
           ]
         }
       }
-    },
-    "_any": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "_graphic"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_space"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_tab"
-        }
-      ]
     },
     "integer": {
       "type": "CHOICE",
@@ -395,6 +395,10 @@
         {
           "type": "SYMBOL",
           "name": "_tab"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_vertical_tab"
         }
       ]
     },
@@ -582,6 +586,10 @@
     "_tab": {
       "type": "STRING",
       "value": "\t"
+    },
+    "_vertical_tab": {
+      "type": "STRING",
+      "value": "\u000b"
     },
     "_escape": {
       "type": "PREC",
