@@ -90,7 +90,8 @@ module.exports = grammar({
     _gap: $ => choice(
       $._space,
       $._newline,
-      $._tab
+      $._tab,
+      $._vertical_tab
     ),
 
     _graphic: $ => choice(
