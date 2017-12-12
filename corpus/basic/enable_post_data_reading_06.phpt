@@ -17,3 +17,5 @@ while (!feof($f1) && !feof($f2)) {
 Done
 
 ---
+
+ (program (script_section (echo_statement (string)) (expression_statement (assignment_expression (simple_variable (variable_name (name))) (function_call_expression (qualified_name (name)) (arguments (string) (string))))) (expression_statement (assignment_expression (simple_variable (variable_name (name))) (function_call_expression (qualified_name (name)) (arguments (string) (string))))) (while_statement (binary_expression (unary_op_expression (function_call_expression (qualified_name (name)) (arguments (simple_variable (variable_name (name)))))) (unary_op_expression (function_call_expression (qualified_name (name)) (arguments (simple_variable (variable_name (name))))))) (compound_statement (echo_statement (sequence_expression (function_call_expression (qualified_name (name)) (arguments (simple_variable (variable_name (name))))) (function_call_expression (qualified_name (name)) (arguments (simple_variable (variable_name (name)))))))))) (text))

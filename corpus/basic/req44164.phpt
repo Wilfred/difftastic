@@ -7,3 +7,5 @@ header("Content-length: 200");
 echo str_repeat("a", 200);
 
 ---
+
+ (program (script_section (expression_statement (function_call_expression (qualified_name (name)) (arguments (string)))) (echo_statement (function_call_expression (qualified_name (name)) (arguments (string) (integer))))))
