@@ -969,7 +969,7 @@ module.exports = grammar({
     ),
 
     name: $ => {
-      return /[_a-zA-Z\u0080-\u00ff][_a-zA-Z\u0080-\u00ff\d]+/
+      return /[_a-zA-Z\u0080-\u00ff][_a-zA-Z\u0080-\u00ff\d]*/
     },
 
     comment: $ => token(choice(
