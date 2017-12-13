@@ -13,13 +13,16 @@ error_reporting(E_ERROR);
 
 foreach ($strVals as $strVal) {
    foreach($strVals as $otherVal) {
-	   echo "--- testing: '$strVal' - '$otherVal' ---\n";   
+	   echo "--- testing: '$strVal' - '$otherVal' ---\n";
       var_dump($strVal-$otherVal);
    }
 }
 
-   
+
 ?>
 ===DONE===
 
 ---
+
+(program (script_section (expression_statement (assignment_expression (simple_variable (variable_name (name))) (array_creation_expression (array_element_initializer (string)) (array_element_initializer (string)) (array_element_initializer (string)) (array_element_initializer (string)) (array_element_initializer (string)) (array_element_initializer (string)) (array_element_initializer (string)) (array_element_initializer (string)) (array_element_initializer (string)) (array_element_initializer (string)) (array_element_initializer (string)) (array_element_initializer (string)) (array_element_initializer (string)) (array_element_initializer (string))))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (qualified_name (name))))) (foreach_statement (simple_variable (variable_name (name))) (simple_variable (variable_name (name))) (compound_statement (foreach_statement (simple_variable (variable_name (name))) (simple_variable (variable_name (name))) (compound_statement (echo_statement (string)) (expression_statement (function_call_expression (qualified_name (name)) (arguments (binary_expression (simple_variable (variable_name (name))) (simple_variable (variable_name (name)))))))))))) (text))
+
