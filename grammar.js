@@ -523,6 +523,7 @@ module.exports = grammar({
     foreach_statement: $ => seq(
       'foreach', '(', $._expression, 'as', optional(seq($._expression, '=>')), $._foreach_value, ')',
       choice(
+        $._semicolon,
         $._statement,
         seq(':', repeat1($._statement), 'endforeach', $._semicolon)
       )
