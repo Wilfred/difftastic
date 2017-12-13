@@ -3881,7 +3881,7 @@
     },
     "identifier": {
       "type": "PATTERN",
-      "value": "[\\a_]\\w*"
+      "value": "[a-zA-Z_]\\w*"
     },
     "keyword_identifier": {
       "type": "ALIAS",
