@@ -172,7 +172,7 @@ module.exports = grammar({
       repeat($._compound_statement_item)
     ),
 
-    preproc_directive: $ => /#[ \t]*\a\w*/,
+    preproc_directive: $ => /#[ \t]*[a-zA-Z]\w*/,
     preproc_arg: $ => token(prec(-1, repeat1(choice(/./, '\\\n')))),
 
     // Main Grammar
@@ -749,7 +749,7 @@ module.exports = grammar({
       '>')
     ),
 
-    identifier: $ => /[\a_][\a\d_]*/,
+    identifier: $ => /[a-zA-Z_]\w*/,
 
     true: $ => token(prec(1, choice('TRUE', 'true'))),
     false: $ => token(prec(1, choice('FALSE', 'false'))),
