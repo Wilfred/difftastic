@@ -49,12 +49,11 @@ module.exports = grammar({
 
     module_exports: $ => seq(
       '(',
-      optional($.export),
-      optional(repeat(seq(',', $.export))),
+      optional(commaSep1($.export_declaration)),
       ')'
     ),
 
-    export: $ => prec.left(seq(
+    export_declaration: $ => prec.left(seq(
       $._identifier,
       optional(
         seq(
