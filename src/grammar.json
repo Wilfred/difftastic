@@ -745,7 +745,7 @@
     },
     "preproc_directive": {
       "type": "PATTERN",
-      "value": "#[ \\t]*\\a\\w*"
+      "value": "#[ \\t]*[a-zA-Z]\\w*"
     },
     "preproc_arg": {
       "type": "TOKEN",
@@ -4376,7 +4376,7 @@
     },
     "identifier": {
       "type": "PATTERN",
-      "value": "[\\a_][\\a\\d_]*"
+      "value": "[a-zA-Z_]\\w*"
     },
     "true": {
       "type": "TOKEN",
