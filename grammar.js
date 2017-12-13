@@ -95,12 +95,12 @@ module.exports = grammar({
     _semicolon: $ => choice($._automatic_semicolon, ';'),
 
     unterminated_script_section: $ => seq(
-      choice('<?php', '<?='),
+      choice('<?php', '<?PHP', '<?='),
       repeat($._statement),
     ),
 
     script_section: $ => seq(
-      choice('<?php', '<?='),
+      choice('<?php', '<?PHP', '<?='),
       repeat($._statement),
       '?>'
     ),
