@@ -132,3 +132,23 @@ char escapes
 ---
 
 (program (character_literal) (character_literal) (character_literal) (character_literal) (character_literal) (character_literal) (character_literal) (character_literal))
+
+=========================================
+octal escapes
+=========================================
+
+'\7';
+
+---
+
+(program (character_literal))
+
+=========================================
+unicode escapes
+=========================================
+
+'\\u2122=\u2122';
+
+---
+
+(program (character_literal)) 
