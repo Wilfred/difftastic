@@ -58,10 +58,7 @@ module.exports = grammar({
       optional(
         seq(
           '(',
-          choice(
-            '..',
-            seq($._identifier, repeat(seq(',', $._identifier)))
-          ),
+          choice('..', commaSep1($._identifier)),
           ')'
         )
       )
