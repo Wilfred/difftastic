@@ -13,3 +13,6 @@ var_dump(bin2hex("\u{D801}\u{DC00}")); // CESU-8 encoding of U+10400
 
 
 ---
+
+(program (script_section (comment) (comment) (expression_statement (function_call_expression (qualified_name (name)) (arguments (function_call_expression (qualified_name (name)) (arguments (string)))))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (function_call_expression (qualified_name (name)) (arguments (string)))))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (function_call_expression (qualified_name (name)) (arguments (string))))))) (comment))
+

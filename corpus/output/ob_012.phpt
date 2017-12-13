@@ -21,3 +21,6 @@ echo $ob;
 ?>
 
 ---
+
+(program (script_section (echo_statement (float)) (expression_statement (function_call_expression (qualified_name (name)) (arguments))) (expression_statement (function_call_expression (qualified_name (name)) (arguments))) (expression_statement (function_call_expression (qualified_name (name)) (arguments))) (expression_statement (function_call_expression (qualified_name (name)) (arguments))) (echo_statement (float)) (expression_statement (function_call_expression (qualified_name (name)) (arguments))) (echo_statement (float)) (expression_statement (assignment_expression (simple_variable (variable_name (name))) (function_call_expression (qualified_name (name)) (arguments)))) (echo_statement (float)) (expression_statement (function_call_expression (qualified_name (name)) (arguments))) (expression_statement (function_call_expression (qualified_name (name)) (arguments))) (echo_statement (float)) (expression_statement (function_call_expression (qualified_name (name)) (arguments))) (echo_statement (simple_variable (variable_name (name))))))
+

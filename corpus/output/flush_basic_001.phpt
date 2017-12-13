@@ -3,11 +3,11 @@ Test basic functionality of flush()
 ==========
 
 <?php
-/* 
+/*
  * proto void flush(void)
  * Function is implemented in ext/standard/basic_functions.c.
  */
-  
+
 // Verify return type
 var_dump(flush());
 
@@ -23,3 +23,6 @@ var_dump(flush());
 ?>
 
 ---
+
+(program (script_section (comment) (comment) (expression_statement (function_call_expression (qualified_name (name)) (arguments (function_call_expression (qualified_name (name)) (arguments))))) (comment) (expression_statement (function_call_expression (qualified_name (name)) (arguments))) (echo_statement (string)) (expression_statement (function_call_expression (qualified_name (name)) (arguments))) (expression_statement (function_call_expression (qualified_name (name)) (arguments))) (echo_statement (string)) (expression_statement (function_call_expression (qualified_name (name)) (arguments (function_call_expression (qualified_name (name)) (arguments)))))))
+
