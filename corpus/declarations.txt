@@ -96,3 +96,21 @@ import Data.Maybe (Maybe(..))
         (module_identifier)
         (import_specification (constructor_identifier))))))
 
+=========================================
+Import Declaration With Functions
+=========================================
+
+module A where
+
+import Data.Maybe (fromMaybe, fromJust)
+
+---
+
+(program
+  (module
+    (module_identifier)
+    (module_body
+      (import_declaration
+        (module_identifier)
+        (import_specification (variable_identifier) (variable_identifier))))))
+
