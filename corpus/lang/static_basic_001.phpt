@@ -6,12 +6,12 @@ Static keyword - basic tests
 
 echo "\nSame variable used as static and non static.\n";
 function staticNonStatic() {
-	echo "---------\n";	
+	echo "---------\n";
 	$a=0;
-	echo "$a\n";	
+	echo "$a\n";
 	static $a=10;
 	echo "$a\n";
-	$a++;	
+	$a++;
 }
 staticNonStatic();
 staticNonStatic();
@@ -48,3 +48,6 @@ for ($i=0; $i<3; $i++) {
 ?>
 
 ---
+
+(program (script_section (echo_statement (string)) (function_definition (name) (compound_statement (echo_statement (string)) (expression_statement (assignment_expression (simple_variable (variable_name (name))) (float))) (echo_statement (string)) (function_static_declaration (static_variable_declaration (variable_name (name)) (integer))) (echo_statement (string)) (expression_statement (postfix_increment_expression (simple_variable (variable_name (name))))))) (expression_statement (function_call_expression (qualified_name (name)) (arguments))) (expression_statement (function_call_expression (qualified_name (name)) (arguments))) (expression_statement (function_call_expression (qualified_name (name)) (arguments))) (echo_statement (string)) (function_definition (name) (compound_statement (function_static_declaration (static_variable_declaration (variable_name (name)) (float))) (echo_statement (string)) (function_static_declaration (static_variable_declaration (variable_name (name))) (static_variable_declaration (variable_name (name)) (integer)) (static_variable_declaration (variable_name (name)) (integer)) (static_variable_declaration (variable_name (name))) (static_variable_declaration (variable_name (name)) (integer))) (echo_statement (string)) (echo_statement (string)) (echo_statement (string)) (echo_statement (string)) (echo_statement (string)) (expression_statement (postfix_increment_expression (simple_variable (variable_name (name))))) (expression_statement (postfix_increment_expression (simple_variable (variable_name (name))))) (expression_statement (postfix_increment_expression (simple_variable (variable_name (name))))) (expression_statement (postfix_increment_expression (simple_variable (variable_name (name))))) (expression_statement (postfix_increment_expression (simple_variable (variable_name (name))))) (expression_statement (postfix_increment_expression (simple_variable (variable_name (name))))))) (expression_statement (function_call_expression (qualified_name (name)) (arguments))) (expression_statement (function_call_expression (qualified_name (name)) (arguments))) (expression_statement (function_call_expression (qualified_name (name)) (arguments))) (echo_statement (string)) (for_statement (assignment_expression (simple_variable (variable_name (name))) (float)) (binary_expression (simple_variable (variable_name (name))) (float)) (postfix_increment_expression (simple_variable (variable_name (name)))) (compound_statement (function_static_declaration (static_variable_declaration (variable_name (name))) (static_variable_declaration (variable_name (name)) (integer))) (echo_statement (string)) (expression_statement (postfix_increment_expression (simple_variable (variable_name (name))))) (expression_statement (postfix_increment_expression (simple_variable (variable_name (name)))))))))
+

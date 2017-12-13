@@ -119,7 +119,7 @@ module.exports = grammar({
     ),
 
     global_declaration: $ => seq(
-      'global', repeat1($.simple_variable), $._semicolon
+      'global', commaSep1($.simple_variable), $._semicolon
     ),
 
     namespace_definition: $ => seq(
@@ -494,6 +494,7 @@ module.exports = grammar({
     while_statement: $ => seq(
       'while', '(', $._expression, ')',
       choice(
+        $._semicolon,
         $._statement,
         seq(':', repeat1($._statement), 'endwhile', $._semicolon)
       )
@@ -506,6 +507,7 @@ module.exports = grammar({
     for_statement: $ => seq(
       'for', '(', optional($._expressions), ';', optional($._expressions), ';', optional($._expressions), ')',
       choice(
+        $._semicolon,
         $._statement,
         seq(':', repeat1($._statement), 'endfor', $._semicolon)
       )
