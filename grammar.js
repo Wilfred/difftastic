@@ -106,6 +106,15 @@ module.exports = grammar({
 
     null_literal: $ => 'null',
 
+    line_terminator: $ => choice(
+      $.newline,
+      $.return,
+      seq($.return, $.newline)
+    ),
+
+    newline: $ => 'LF',
+    return: $ => 'CR',
+
     // http://stackoverflow.com/questions/13014947/regex-to-match-a-c-style-multiline-comment/36328890#36328890
     comment: $ => token(prec(PREC.COMMENT, choice(
       seq('//', /.*/),
