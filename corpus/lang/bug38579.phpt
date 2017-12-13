@@ -9,3 +9,6 @@ include_once(strtoupper($file));
 ?>
 
 ---
+
+(program (script_section (expression_statement (assignment_expression (simple_variable (variable_name (name))) (binary_expression (function_call_expression (qualified_name (name)) (arguments (qualified_name (name)))) (string)))) (expression_statement (include_once_expression (function_call_expression (qualified_name (name)) (arguments (simple_variable (variable_name (name))))))) (expression_statement (include_once_expression (function_call_expression (qualified_name (name)) (arguments (simple_variable (variable_name (name)))))))))
+

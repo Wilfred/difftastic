@@ -8,3 +8,5 @@ var_dump(ini_get("variables_order"));
 ?>
 
 ---
+
+(program (script_section (expression_statement (function_call_expression (qualified_name (name)) (arguments (simple_variable (variable_name (name))) (simple_variable (variable_name (name)))))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (function_call_expression (qualified_name (name)) (arguments (string))))))))

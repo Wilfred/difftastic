@@ -19,3 +19,6 @@ echo "\n";
 ?>
 
 ---
+
+(program (text) (script_section (comment) (comment) (echo_statement (string)) (comment) (echo_statement (string)) (echo_statement (string)) (comment) (echo_statement (string)) (echo_statement (string)) (echo_statement (string))))
+

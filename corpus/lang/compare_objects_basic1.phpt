@@ -1,5 +1,5 @@
 ==========
-Test standard 'compare' object handler 
+Test standard 'compare' object handler
 ==========
 
 
@@ -32,10 +32,10 @@ $obj3 = new class3();
 $obj4 = new class4();
 $obj5 = new class5();
 
-echo "\n-- The following compare should return TRUE --\n"; 
+echo "\n-- The following compare should return TRUE --\n";
 var_dump($obj1 == $obj1);
 
-echo "\n-- All the following compares should return FALSE --\n"; 
+echo "\n-- All the following compares should return FALSE --\n";
 var_dump($obj1 == $obj2);
 var_dump($obj1 == $obj3);
 var_dump($obj1 == $obj4);
@@ -47,3 +47,6 @@ var_dump($obj5 == $obj3);
 ===DONE===
 
 ---
+
+(program (script_section (echo_statement (string)) (class_declaration (name)) (class_declaration (name)) (class_declaration (name) (property_declaration (property_modifier (visibility_modifier)) (property_element (variable_name (name)))) (property_declaration (property_modifier (visibility_modifier)) (property_element (variable_name (name)))) (property_declaration (property_modifier (visibility_modifier)) (property_element (variable_name (name))))) (class_declaration (name) (class_base_clause (qualified_name (name)))) (class_declaration (name) (class_base_clause (qualified_name (name))) (property_declaration (property_modifier (visibility_modifier)) (property_element (variable_name (name)))) (property_declaration (property_modifier (visibility_modifier)) (property_element (variable_name (name))))) (comment) (expression_statement (assignment_expression (simple_variable (variable_name (name))) (object_creation_expression (qualified_name (name)) (arguments)))) (expression_statement (assignment_expression (simple_variable (variable_name (name))) (object_creation_expression (qualified_name (name)) (arguments)))) (expression_statement (assignment_expression (simple_variable (variable_name (name))) (object_creation_expression (qualified_name (name)) (arguments)))) (expression_statement (assignment_expression (simple_variable (variable_name (name))) (object_creation_expression (qualified_name (name)) (arguments)))) (expression_statement (assignment_expression (simple_variable (variable_name (name))) (object_creation_expression (qualified_name (name)) (arguments)))) (echo_statement (string)) (expression_statement (function_call_expression (qualified_name (name)) (arguments (binary_expression (simple_variable (variable_name (name))) (simple_variable (variable_name (name))))))) (echo_statement (string)) (expression_statement (function_call_expression (qualified_name (name)) (arguments (binary_expression (simple_variable (variable_name (name))) (simple_variable (variable_name (name))))))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (binary_expression (simple_variable (variable_name (name))) (simple_variable (variable_name (name))))))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (binary_expression (simple_variable (variable_name (name))) (simple_variable (variable_name (name))))))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (binary_expression (simple_variable (variable_name (name))) (simple_variable (variable_name (name))))))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (binary_expression (simple_variable (variable_name (name))) (simple_variable (variable_name (name))))))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (binary_expression (simple_variable (variable_name (name))) (simple_variable (variable_name (name)))))))) (text))
+
