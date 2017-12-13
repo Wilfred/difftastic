@@ -138,7 +138,24 @@ Import Declaration With Qualified
 
 module A where
 
-import qualified Data.Maybe as M
+import qualified Data.Maybe
+
+---
+
+(program
+  (module
+    (module_identifier)
+    (module_body
+      (import_declaration
+        (module_identifier)))))
+
+=========================================
+Import Declaration With Qualified, As
+=========================================
+
+module A where
+
+import qualified Data.Maybe as DM
 
 ---
 
