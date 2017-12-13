@@ -132,3 +132,21 @@ import Data.Maybe (Maybe(..), fromMaybe, fromJust)
         (module_identifier)
         (import_specification (constructor_identifier) (variable_identifier) (variable_identifier))))))
 
+=========================================
+Import Declaration With Qualified
+=========================================
+
+module A where
+
+import qualified Data.Maybe as M
+
+---
+
+(program
+  (module
+    (module_identifier)
+    (module_body
+      (import_declaration
+        (module_identifier)
+        (constructor_identifier)))))
+

@@ -67,8 +67,15 @@ module.exports = grammar({
 
     import_declaration: $ => seq(
       'import',
+      optional('qualified'),
       $._identifier,
+      optional(seq(
+        'as',
+        $._identifier
+      )),
       optional($.import_specification)
+    ),
+
     import_specification: $ => seq(
       '(',
       optional(
