@@ -2989,6 +2989,10 @@
           "members": [
             {
               "type": "SYMBOL",
+              "name": "_semicolon"
+            },
+            {
+              "type": "SYMBOL",
               "name": "_statement"
             },
             {
