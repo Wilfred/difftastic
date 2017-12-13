@@ -151,7 +151,6 @@ infixl
 infixr
 instance
 let
-module
 newtype
 of
 then
@@ -162,7 +161,6 @@ _
 ---
 
 (program
-  (reserved_identifier)
   (reserved_identifier)
   (reserved_identifier)
   (reserved_identifier)

@@ -35,8 +35,17 @@ module.exports = grammar({
 
     _statement: $ => choice(
       $._literal,
-      $._identifier
+      $._identifier,
+      $.module
     ),
+
+    module: $ => prec.right(seq(
+      'module',
+      $.module_identifier,
+      'where',
+      repeat($._statement)
+    )),
+
 
     _literal: $ => choice(
       $.integer,
@@ -51,9 +60,14 @@ module.exports = grammar({
       $.reserved_identifier
     ),
 
+    // TODO: type variables -> variable identifiers
     variable_identifier: $ => /[_a-z](\w|')*/,
 
+    // TODO: type constructors -> constructor identifiers
+    // TODO: type classes      -> constructor identifiers
     constructor_identifier: $ => /[A-Z](\w|')*/,
+
+    module_identifier: $ => /[A-Z](\w|'|\.)*/,
 
     reserved_identifier: $ => choice(
       'case',
@@ -72,7 +86,6 @@ module.exports = grammar({
       'infixr',
       'instance',
       'let',
-      'module',
       'newtype',
       'of',
       'then',

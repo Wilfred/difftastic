@@ -23,8 +23,40 @@
         {
           "type": "SYMBOL",
           "name": "_identifier"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "module"
         }
       ]
+    },
+    "module": {
+      "type": "PREC_RIGHT",
+      "value": 0,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "module"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "module_identifier"
+          },
+          {
+            "type": "STRING",
+            "value": "where"
+          },
+          {
+            "type": "REPEAT",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_statement"
+            }
+          }
+        ]
+      }
     },
     "_literal": {
       "type": "CHOICE",
@@ -71,6 +103,10 @@
     "constructor_identifier": {
       "type": "PATTERN",
       "value": "[A-Z](\\w|')*"
+    },
+    "module_identifier": {
+      "type": "PATTERN",
+      "value": "[A-Z](\\w|'|\\.)*"
     },
     "reserved_identifier": {
       "type": "CHOICE",
@@ -138,10 +174,6 @@
         {
           "type": "STRING",
           "value": "let"
-        },
-        {
-          "type": "STRING",
-          "value": "module"
         },
         {
           "type": "STRING",

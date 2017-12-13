@@ -1,0 +1,23 @@
+=========================================
+Module Declaration
+=========================================
+
+module A where
+
+---
+
+(program
+  (module
+    (module_identifier)))
+
+=========================================
+Nested Module Declaration
+=========================================
+
+module A.B' where
+
+---
+
+(program
+  (module
+    (module_identifier)))
