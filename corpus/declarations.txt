@@ -14,6 +14,22 @@ module A where
       (integer))))
 
 =========================================
+Module Declaration Empty Exports
+=========================================
+
+module A () where
+
+1
+---
+
+(program
+  (module
+    (module_identifier)
+    (module_exports)
+    (module_body
+      (integer))))
+
+=========================================
 Module Declaration With Exports
 =========================================
 
