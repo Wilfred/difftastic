@@ -115,6 +115,28 @@ module.exports = grammar({
     newline: $ => 'LF',
     return: $ => 'CR',
 
+    escape_sequences: $ => choice(
+      $.char_escapes,
+      $.octal_escapes
+    ),
+
+    char_escapes: $ => choice(
+      'b',
+      't',
+      'n',
+      'f',
+      'r',
+      '"',
+      "'",
+      '\\'
+    ),
+
+    octal_escapes: $ => choice(
+      $.octal_integer_literal,
+      seq($.octal_integer_literal, $.octal_integer_literal),
+      seq(/[0-3]/, $.octal_integer_literal, $.octal_integer_literal)
+    ),
+
     // http://stackoverflow.com/questions/13014947/regex-to-match-a-c-style-multiline-comment/36328890#36328890
     comment: $ => token(prec(PREC.COMMENT, choice(
       seq('//', /.*/),

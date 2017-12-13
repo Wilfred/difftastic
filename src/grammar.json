@@ -1063,6 +1063,95 @@
       "type": "STRING",
       "value": "CR"
     },
+    "escape_sequences": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "char_escapes"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "octal_escapes"
+        }
+      ]
+    },
+    "char_escapes": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "b"
+        },
+        {
+          "type": "STRING",
+          "value": "t"
+        },
+        {
+          "type": "STRING",
+          "value": "n"
+        },
+        {
+          "type": "STRING",
+          "value": "f"
+        },
+        {
+          "type": "STRING",
+          "value": "r"
+        },
+        {
+          "type": "STRING",
+          "value": "\""
+        },
+        {
+          "type": "STRING",
+          "value": "'"
+        },
+        {
+          "type": "STRING",
+          "value": "\\"
+        }
+      ]
+    },
+    "octal_escapes": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "octal_integer_literal"
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "octal_integer_literal"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "octal_integer_literal"
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "PATTERN",
+              "value": "[0-3]"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "octal_integer_literal"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "octal_integer_literal"
+            }
+          ]
+        }
+      ]
+    },
     "comment": {
       "type": "TOKEN",
       "content": {
