@@ -2659,7 +2659,7 @@
       "members": [
         {
           "type": "PATTERN",
-          "value": "1-9\\d+"
+          "value": "1-9\\d*"
         },
         {
           "type": "PATTERN",

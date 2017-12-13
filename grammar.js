@@ -464,7 +464,7 @@ module.exports = grammar({
     ),
 
     integer: $ => {
-      const decimal = /1-9\d+/
+      const decimal = /1-9\d*/
       const octal = /0[0-7]+/
       const hex = /0[xX][0-9|a-f|A-F]+/
       const binary = /0[bB][01]+/
