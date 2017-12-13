@@ -97,66 +97,13 @@ module.exports = grammar({
 
     character_literal: $ => seq("'", repeat(choice(/[^\'\n]/, /\\./, /\\\n/)), "'"),
 
-    string_literal: $ => token(seq(
-      choice(
-        seq('"', repeat(choice(/[^\\"\n]/, /\\./, /\\\n/)), '"'),
-        seq(
-          '"""',
-          repeat(choice(
-            /[^"]/,
-            /"[^"]/,
-            /""[^"]/
-          )),
-          '"""'
-        ),
-        // seq('"', repeat(choice(/[^\\"\n]/, /\\./, /\\\n/)), '"', '+', '"', repeat(choice(/[^\\"\n]/, /\\./, /\\\n/)), '"')
-      )
+    string_literal: $ => token(choice(
+      seq('"', repeat(choice(/[^\\"\n]/, /\\(.|\n)/)), '"'),
+      // TODO: support multiline string literals by debugging the following:
+      // seq('"', repeat(choice(/[^\\"\n]/, /\\(.|\n)/)), '"', '+', /\n/, '"', repeat(choice(/[^\\"\n]/, /\\(.|\n)/)))
     )),
 
     null_literal: $ => 'null',
-
-    // separator: $ => (   )   {   }   [   ]   ;   ,   .   ...   @   ::
-
-    // operator: $ => choice(
-    //   '=',
-    //   '>',
-    //   '<',
-    //   '!',
-    //   '~',
-    //   '?',
-    //   ':',
-    //   '->',
-    //   '==',
-    //   '>=',
-    //   '<=',
-    //   '!=',
-    //   '&&',
-    //   '||',
-    //   '++',
-    //   '--',
-    //   '+',
-    //   '-',
-    //   '*',
-    //   '/',
-    //   '&',
-    //   '|',
-    //   '^',
-    //   '%',
-    //   '<<',
-    //   '>>',
-    //   '>>>',
-    //   '+=',
-    //   '-=',
-    //   '*=',
-    //   '/=',
-    //   '&=',
-    //   '|=',
-    //   '^=',
-    //   '%=',
-    //   '<<=',
-    //   '>>=',
-    //   '>>>='
-    // )
 
     comment: $ => /\/\*.*\*\//,
 
