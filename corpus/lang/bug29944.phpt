@@ -12,9 +12,7 @@ switch ($a) {
 			return false;
 		}
 		echo foo($b);
-}		
+}
 ?>
-
-===DONE===
 
 ---
