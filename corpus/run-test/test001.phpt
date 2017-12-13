@@ -6,4 +6,4 @@ abc
 
 ---
 
-
+(program (text))

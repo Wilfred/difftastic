@@ -14,7 +14,7 @@ error_reporting(E_ERROR);
 foreach ($strVals as $strVal) {
    foreach($strVals as $otherVal) {
 	  echo "--- testing: '$strVal' << '$otherVal' ---\n";
-      try {      
+      try {
         var_dump($strVal<<$otherVal);
       } catch (ArithmeticError $e) {
         echo "Exception: " . $e->getMessage() . "\n";
@@ -22,8 +22,11 @@ foreach ($strVals as $strVal) {
    }
 }
 
-   
+
 ?>
 ===DONE===
 
 ---
+
+(program (script_section (expression_statement (assignment_expression (simple_variable (variable_name (name))) (array_creation_expression (array_element_initializer (string)) (array_element_initializer (string)) (array_element_initializer (string)) (array_element_initializer (string)) (array_element_initializer (string)) (array_element_initializer (string)) (array_element_initializer (string)) (array_element_initializer (string)) (array_element_initializer (string)) (array_element_initializer (string)) (array_element_initializer (string)) (array_element_initializer (string)) (array_element_initializer (string)) (array_element_initializer (string))))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (qualified_name (name))))) (foreach_statement (simple_variable (variable_name (name))) (simple_variable (variable_name (name))) (compound_statement (foreach_statement (simple_variable (variable_name (name))) (simple_variable (variable_name (name))) (compound_statement (echo_statement (string)) (try_statement (compound_statement (expression_statement (function_call_expression (qualified_name (name)) (arguments (binary_expression (simple_variable (variable_name (name))) (simple_variable (variable_name (name)))))))) (catch_clause (qualified_name (name)) (variable_name (name)) (compound_statement (echo_statement (binary_expression (binary_expression (string) (member_call_expression (dereferencable_expression (simple_variable (variable_name (name)))) (name) (arguments))) (string))))))))))) (text))
+
