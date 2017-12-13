@@ -104,7 +104,8 @@ module.exports = grammar({
 
     preproc_call: $ => seq(
       $.preproc_directive,
-      $.preproc_arg
+      optional(seq(/[ \t]+/, $.preproc_arg)),
+      '\n'
     ),
 
     preproc_if: $ => seq(
