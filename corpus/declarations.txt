@@ -4,11 +4,29 @@ Module Declaration
 
 module A where
 
+1
 ---
 
 (program
   (module
-    (module_identifier)))
+    (module_identifier)
+    (module_body
+      (integer))))
+
+=========================================
+Module Declaration With Exports
+=========================================
+
+module A (func1, func2) where
+
+---
+
+(program
+  (module
+    (module_identifier)
+    (module_export
+      (variable_identifier)
+      (variable_identifier))))
 
 =========================================
 Nested Module Declaration

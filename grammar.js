@@ -42,10 +42,21 @@ module.exports = grammar({
     module: $ => prec.right(seq(
       'module',
       $.module_identifier,
+      optional($.module_export),
       'where',
-      repeat($._statement)
+      alias(repeat($._statement), $.module_body)
     )),
 
+    module_export: $ => seq(
+      '(',
+      optional(
+        seq(
+          $._identifier,
+          repeat(seq(',', $._identifier))
+        )
+      ),
+      ')'
+    ),
 
     _literal: $ => choice(
       $.integer,
