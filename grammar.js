@@ -79,7 +79,8 @@ module.exports = grammar({
     _identifier: $ => choice(
       $.variable_identifier,
       $.constructor_identifier,
-      $.reserved_identifier
+      $.reserved_identifier,
+      $.module_identifier
     ),
 
     // TODO: type variables -> variable identifiers
