@@ -42,12 +42,12 @@ module.exports = grammar({
     module: $ => prec.right(seq(
       'module',
       $.module_identifier,
-      optional($.module_exports),
+      optional($.module_export_declarations),
       'where',
       alias(repeat($._statement), $.module_body)
     )),
 
-    module_exports: $ => seq(
+    module_export_declarations: $ => seq(
       '(',
       optional(commaSep1($.export_declaration)),
       ')'
