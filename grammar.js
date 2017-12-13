@@ -106,6 +106,17 @@ module.exports = grammar({
 
     null_literal: $ => 'null',
 
+    whiteSpace: $ => choice(
+      $.space,
+      $.horizontal_tab,
+      $.form_feed,
+      $.line_terminator
+    ),
+
+    space: $ => 'SP',
+    horizontal_tab: $ => 'HT',
+    form_feed: $ => 'FF',
+
     line_terminator: $ => choice(
       $.newline,
       $.return,

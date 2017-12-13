@@ -131,4 +131,4 @@ char escapes
 
 ---
 
-(program (character_literal) (character_literal) (character_literal) (character_literal) (character_literal) (character_literal) (character_literal) (character_literal)) 
+(program (character_literal) (character_literal) (character_literal) (character_literal) (character_literal) (character_literal) (character_literal) (character_literal))

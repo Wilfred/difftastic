@@ -1029,6 +1029,39 @@
       "type": "STRING",
       "value": "null"
     },
+    "whiteSpace": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "space"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "horizontal_tab"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "form_feed"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "line_terminator"
+        }
+      ]
+    },
+    "space": {
+      "type": "STRING",
+      "value": "SP"
+    },
+    "horizontal_tab": {
+      "type": "STRING",
+      "value": "HT"
+    },
+    "form_feed": {
+      "type": "STRING",
+      "value": "FF"
+    },
     "line_terminator": {
       "type": "CHOICE",
       "members": [
