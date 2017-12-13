@@ -764,7 +764,7 @@ module.exports = grammar({
       ))
     },
 
-    identifier: $ => /[\a_$][\a\d_$]*/,
+    identifier: $ => /[a-zA-Z_$][a-zA-Z\d_$]*/,
 
     this: $ => 'this',
     super: $ => 'super',
