@@ -68,7 +68,20 @@ module.exports = grammar({
     import_declaration: $ => seq(
       'import',
       $._identifier,
+      optional($.import_specification)
+    import_specification: $ => seq(
+      '(',
+      $._identifier,
+      optional(
+        seq(
+          '(',
+          choice('..', commaSep1($._identifier)),
+          ')'
+        )
+      ),
+      ')'
     ),
+
     _literal: $ => choice(
       $.integer,
       $.float,

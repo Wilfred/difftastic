@@ -77,3 +77,22 @@ import Maybe
     (module_identifier)
     (module_body
       (import_declaration (constructor_identifier)))))
+
+=========================================
+Import Declaration With Constructor
+=========================================
+
+module A where
+
+import Data.Maybe(Maybe(..))
+
+---
+
+(program
+  (module
+    (module_identifier)
+    (module_body
+      (import_declaration
+        (module_identifier)
+        (import_specification (constructor_identifier))))))
+
