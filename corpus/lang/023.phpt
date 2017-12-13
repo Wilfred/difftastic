@@ -4,7 +4,7 @@ Regression test
 
 PHP Regression Test
 
-<?php 
+<?php
 
 include("023-1.inc");
 
@@ -25,3 +25,5 @@ if ($time_left>0) {
 ?>
 
 ---
+
+ (program (text) (script_section (expression_statement (include_expression (string))) (expression_statement (assignment_expression (simple_variable (variable_name (name))) (function_call_expression (qualified_name (name)) (arguments (integer) (float) (float) (float) (integer) (integer))))) (expression_statement (assignment_expression (simple_variable (variable_name (name))) (binary_expression (simple_variable (variable_name (name))) (function_call_expression (qualified_name (name)) (arguments))))) (if_statement (binary_expression (simple_variable (variable_name (name))) (float)) (compound_statement (expression_statement (assignment_expression (simple_variable (variable_name (name))) (binary_expression (simple_variable (variable_name (name))) (binary_expression (integer) (integer))))) (expression_statement (assignment_expression (simple_variable (variable_name (name))) (binary_expression (binary_expression (simple_variable (variable_name (name))) (integer)) (integer)))) (expression_statement (assignment_expression (simple_variable (variable_name (name))) (binary_expression (simple_variable (variable_name (name))) (integer)))) (expression_statement (assignment_expression (simple_variable (variable_name (name))) (binary_expression (simple_variable (variable_name (name))) (integer)))) (expression_statement (assignment_expression (simple_variable (variable_name (name))) (binary_expression (simple_variable (variable_name (name))) (integer)))) (echo_statement (binary_expression (binary_expression (string) (assignment_expression (simple_variable (variable_name (name))) (function_call_expression (qualified_name (name)) (arguments (string) (simple_variable (variable_name (name))))))) (string))) (echo_statement (string))) (else_clause (compound_statement (echo_statement (string)))))))

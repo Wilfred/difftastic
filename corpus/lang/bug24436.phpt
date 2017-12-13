@@ -14,3 +14,5 @@ $test1 = new test();
 ?>
 
 ---
+
+(program (script_section (class_declaration (name) (method_declaration (function_definition (name) (compound_statement (if_statement (intrinsic (empty_intrinsic (subscript_expression (dereferencable_expression (subscript_expression (dereferencable_expression (member_access_expression (dereferencable_expression (simple_variable (variable_name (name)))) (name))) (float))) (float)))) (compound_statement (expression_statement (intrinsic (print_intrinsic (string)))))) (if_statement (unary_op_expression (intrinsic (isset_intrinsic (subscript_expression (dereferencable_expression (subscript_expression (dereferencable_expression (member_access_expression (dereferencable_expression (simple_variable (variable_name (name)))) (name))) (float))) (float))))) (compound_statement (expression_statement (intrinsic (print_intrinsic (string)))))))))) (expression_statement (assignment_expression (simple_variable (variable_name (name))) (object_creation_expression (qualified_name (name)) (arguments))))))

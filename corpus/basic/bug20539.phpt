@@ -10,3 +10,5 @@ Bug #20539 (PHP CLI Segmentation Fault)
 ?>
 
 ---
+
+(program (script_section (expression_statement (intrinsic (print_intrinsic (string)))) (expression_statement (assignment_expression (simple_variable (variable_name (name))) (binary_expression (binary_expression (qualified_name (name)) (string)) (function_call_expression (qualified_name (name)) (arguments))))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (function_call_expression (qualified_name (name)) (arguments (simple_variable (variable_name (name)))))))) (expression_statement (unary_op_expression (function_call_expression (qualified_name (name)) (arguments (simple_variable (variable_name (name)))))))))

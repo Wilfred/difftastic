@@ -15,7 +15,7 @@ function g() {
 }
 
 
-echo "\n\nOrder with local assignment:\n"; 
+echo "\n\nOrder with local assignment:\n";
 ${f()} = g();
 var_dump($name);
 
@@ -43,7 +43,7 @@ var_dump($oc);
 
 class C {
 	public static $name = "original";
-	public static $a = array(); 
+	public static $a = array();
 	public static $string = "hello";
 }
 echo "\n\nOrder with static property assignment:\n";
@@ -56,7 +56,7 @@ var_dump(C::$a);
 
 echo "\n\nOrder with indexed string assignment:\n";
 $string = "hello";
-function getOffset() { 
+function getOffset() {
 	echo "in getOffset()\n";
 	return 0;
 }
@@ -72,82 +72,7 @@ C::$string[getOffset()] = newChar();
 var_dump(C::$string);
 
 ?>
---EXPECTF--
 
+---
 
-Order with local assignment:
-in f()
-in g()
-%string|unicode%(14) "assigned value"
-
-
-Order with array assignment:
-in f()
-in g()
-array(1) {
-  ["name"]=>
-  %string|unicode%(14) "assigned value"
-}
-
-
-Order with object property assignment:
-in f()
-in g()
-object(stdClass)#%d (1) {
-  ["assigned value"]=>
-  %string|unicode%(14) "assigned value"
-}
-
-
-Order with nested object property assignment:
-in f()
-in g()
-object(stdClass)#%d (1) {
-  ["o1"]=>
-  object(stdClass)#%d (1) {
-    ["o2"]=>
-    object(stdClass)#%d (1) {
-      ["assigned value"]=>
-      %string|unicode%(14) "assigned value"
-    }
-  }
-}
-
-
-Order with dim_list property assignment:
-in f()
-in g()
-object(stdClass)#%d (1) {
-  ["a"]=>
-  array(1) {
-    ["assigned value"]=>
-    %string|unicode%(14) "assigned value"
-  }
-}
-
-
-Order with static property assignment:
-in f()
-in g()
-%string|unicode%(14) "assigned value"
-
-
-Order with static array property assignment:
-in f()
-in g()
-array(1) {
-  ["name"]=>
-  %string|unicode%(14) "assigned value"
-}
-
-
-Order with indexed string assignment:
-in getOffset()
-in newChar()
-%string|unicode%(5) "jello"
-
-
-Order with static string property assignment:
-in getOffset()
-in newChar()
-%string|unicode%(5) "jello"
+(program (script_section (function_definition (name) (compound_statement (echo_statement (string)) (return_statement (string)))) (function_definition (name) (compound_statement (echo_statement (string)) (return_statement (string)))) (echo_statement (string)) (expression_statement (assignment_expression (simple_variable (function_call_expression (qualified_name (name)) (arguments))) (function_call_expression (qualified_name (name)) (arguments)))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (simple_variable (variable_name (name)))))) (echo_statement (string)) (expression_statement (assignment_expression (subscript_expression (dereferencable_expression (simple_variable (variable_name (name)))) (function_call_expression (qualified_name (name)) (arguments))) (function_call_expression (qualified_name (name)) (arguments)))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (simple_variable (variable_name (name)))))) (echo_statement (string)) (expression_statement (assignment_expression (simple_variable (variable_name (name))) (object_creation_expression (qualified_name (name))))) (expression_statement (assignment_expression (member_access_expression (dereferencable_expression (simple_variable (variable_name (name)))) (simple_variable (function_call_expression (qualified_name (name)) (arguments)))) (function_call_expression (qualified_name (name)) (arguments)))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (simple_variable (variable_name (name)))))) (echo_statement (string)) (expression_statement (assignment_expression (simple_variable (variable_name (name))) (object_creation_expression (qualified_name (name))))) (expression_statement (assignment_expression (member_access_expression (dereferencable_expression (simple_variable (variable_name (name)))) (name)) (object_creation_expression (qualified_name (name))))) (expression_statement (assignment_expression (member_access_expression (dereferencable_expression (member_access_expression (dereferencable_expression (simple_variable (variable_name (name)))) (name))) (name)) (object_creation_expression (qualified_name (name))))) (expression_statement (assignment_expression (member_access_expression (dereferencable_expression (member_access_expression (dereferencable_expression (member_access_expression (dereferencable_expression (simple_variable (variable_name (name)))) (name))) (name))) (simple_variable (function_call_expression (qualified_name (name)) (arguments)))) (function_call_expression (qualified_name (name)) (arguments)))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (simple_variable (variable_name (name)))))) (echo_statement (string)) (expression_statement (assignment_expression (simple_variable (variable_name (name))) (object_creation_expression (qualified_name (name))))) (expression_statement (assignment_expression (subscript_expression (dereferencable_expression (member_access_expression (dereferencable_expression (simple_variable (variable_name (name)))) (name))) (simple_variable (function_call_expression (qualified_name (name)) (arguments)))) (function_call_expression (qualified_name (name)) (arguments)))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (simple_variable (variable_name (name)))))) (class_declaration (name) (property_declaration (property_modifier (visibility_modifier) (static_modifier)) (property_element (variable_name (name)) (property_initializer (string)))) (property_declaration (property_modifier (visibility_modifier) (static_modifier)) (property_element (variable_name (name)) (property_initializer (array_creation_expression)))) (property_declaration (property_modifier (visibility_modifier) (static_modifier)) (property_element (variable_name (name)) (property_initializer (string))))) (echo_statement (string)) (expression_statement (assignment_expression (scoped_property_access_expression (qualified_name (name)) (simple_variable (function_call_expression (qualified_name (name)) (arguments)))) (function_call_expression (qualified_name (name)) (arguments)))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (scoped_property_access_expression (qualified_name (name)) (simple_variable (variable_name (name))))))) (echo_statement (string)) (expression_statement (assignment_expression (subscript_expression (dereferencable_expression (scoped_property_access_expression (qualified_name (name)) (simple_variable (variable_name (name))))) (function_call_expression (qualified_name (name)) (arguments))) (function_call_expression (qualified_name (name)) (arguments)))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (scoped_property_access_expression (qualified_name (name)) (simple_variable (variable_name (name))))))) (echo_statement (string)) (expression_statement (assignment_expression (simple_variable (variable_name (name))) (string))) (function_definition (name) (compound_statement (echo_statement (string)) (return_statement (float)))) (function_definition (name) (compound_statement (echo_statement (string)) (return_statement (string)))) (expression_statement (assignment_expression (subscript_expression (dereferencable_expression (simple_variable (variable_name (name)))) (function_call_expression (qualified_name (name)) (arguments))) (function_call_expression (qualified_name (name)) (arguments)))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (simple_variable (variable_name (name)))))) (echo_statement (string)) (expression_statement (assignment_expression (subscript_expression (dereferencable_expression (scoped_property_access_expression (qualified_name (name)) (simple_variable (variable_name (name))))) (function_call_expression (qualified_name (name)) (arguments))) (function_call_expression (qualified_name (name)) (arguments)))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (scoped_property_access_expression (qualified_name (name)) (simple_variable (variable_name (name)))))))))

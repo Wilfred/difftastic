@@ -2,7 +2,7 @@
 General function test
 ==========
 
-<?php 
+<?php
 
 echo "Before function declaration...\n";
 
@@ -36,3 +36,5 @@ some_other_function();
 ?>
 
 ---
+
+(program (script_section (echo_statement (string)) (function_definition (name) (simple_parameter (variable_name (name))) (simple_parameter (variable_name (name))) (compound_statement (echo_statement (string)) (for_statement (assignment_expression (simple_variable (variable_name (name))) (float)) (binary_expression (simple_variable (variable_name (name))) (simple_variable (variable_name (name)))) (postfix_increment_expression (simple_variable (variable_name (name)))) (compound_statement (echo_statement (string)))) (echo_statement (string)))) (function_definition (name) (compound_statement (echo_statement (string)))) (echo_statement (string)) (echo_statement (string)) (expression_statement (function_call_expression (qualified_name (name)) (arguments (string) (integer)))) (echo_statement (string)) (echo_statement (string)) (expression_statement (function_call_expression (qualified_name (name)) (arguments (string) (float)))) (echo_statement (string)) (expression_statement (function_call_expression (qualified_name (name)) (arguments)))))
