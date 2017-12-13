@@ -1,26 +1,27 @@
 const DIGITS = token(sep1(/[0-9]+/, /_+/))
 const HEX_DIGITS = token(sep1(/[A-Fa-f0-9]+/, '_'))
-// const PREC = {
-//   COMMA: -1,
-//   DECLARATION: 1,
-//   COMMENT: 1,
-//   TERNARY: 1,
-//   OR: 2,
-//   AND: 3,
-//   PLUS: 4,
-//   MINUS: 4,
-//   REL: 5,
-//   TIMES: 6,
-//   SHIFT: 6,
-//   NOT: 8,
-//   NEG: 9,
-//   NAMESPACE: 9,
-//   INC: 10,
-//   NEW: 11,
-//   CALL: 12,
-//   MEMBER: 13,
-//   DEREF: 14
-// };
+const PREC = {
+  COMMA: -1,
+  DECLARATION: 1,
+  COMMENT: 1,
+  ASSIGN: 0,
+  OBJECT: 1,
+  TERNARY: 1,
+  OR: 2,
+  AND: 3,
+  PLUS: 4,
+  REL: 5,
+  TIMES: 6,
+  TYPEOF: 7,
+  DELETE: 7,
+  VOID: 7,
+  NOT: 8,
+  NEG: 9,
+  INC: 10,
+  NEW: 11,
+  CALL: 12,
+  MEMBER: 13
+};
 
 module.exports = grammar({
   name: 'java',
