@@ -71,13 +71,16 @@ module.exports = grammar({
       optional($.import_specification)
     import_specification: $ => seq(
       '(',
-      $._identifier,
       optional(
-        seq(
-          '(',
-          choice('..', commaSep1($._identifier)),
-          ')'
-        )
+        commaSep1(choice(
+          $._identifier,
+          seq(
+            $._identifier,
+            '(',
+            choice('..', commaSep1($._identifier)),
+            ')'
+          )
+        ))
       ),
       ')'
     ),
