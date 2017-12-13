@@ -193,6 +193,71 @@ module.exports = grammar({
       seq(/\\/, /[0-3]/, /[0-7]+/, /[0-7]+/)
     ),
 
+    _expression: $ => choice(
+      $.assignment_expression,
+      $.binary_expression,
+      $.lambda_expression,
+      $.ternary_expression,
+      $.unary_expression,
+      $.update_expression
+    ),
+
+    assignment_expression: $ => prec.right(PREC.ASSIGN, seq(
+      $._expression,
+      // TODO: either define what lhs includes or define choice between
+      // the different options on the left hand side
+      choice('=', '+=', '-=', '*=', '/=', '&=', '|=', '^=', '%=', '<<=', '>>=', '>>>='),
+      $._expression)
+    ),
+
+    // TODO: add variable
+    binary_expression: $ => choice(
+      prec.left(PREC.REL, seq($.unary_expression)),
+      ...[
+      ['>', PREC.REL],
+      ['<', PREC.REL],
+      ['==', PREC.REL],
+      ['>=', PREC.REL],
+      ['<=', PREC.REL],
+      ['!=', PREC.REL],
+      ['&&', PREC.AND],
+      ['||', PREC.OR],
+      ['+', PREC.PLUS],
+      ['-', PREC.PLUS],
+      ['*', PREC.TIMES],
+      ['/', PREC.TIMES],
+      ['&', PREC.AND],
+      ['|', PREC.OR],
+      ['^', PREC.OR],
+      ['%', PREC.TIMES],
+      ['<<', PREC.TIMES],
+      ['>>', PREC.TIMES],
+      ['>>>', PREC.TIMES],
+    ].map(([operator, precedence]) =>
+      prec.left(precedence, seq($._expression, operator, $._expression)))
+    ),
+
+    // TODO: fix lambda expression
+    lambda_expression: $ => seq($._expression, '->', $._expression),
+
+    ternary_expression: $ => prec.right(PREC.TERNARY, seq(
+      $._expression, '?', $._expression, ':', $._expression
+    )),
+
+    unary_expression: $ => choice(...[
+      ['!', PREC.NOT],
+      ['~', PREC.NOT],
+    ].map(([operator, precedence]) =>
+      prec.left(precedence, seq(operator, $._expression))
+    )),
+
+    update_expression: $ => prec.left(PREC.INC, choice(
+      seq($._expression, '++'),
+      seq($._expression, '--'),
+      seq('++', $._expression),
+      seq('--', $._expression)
+    )),
+
     // http://stackoverflow.com/questions/13014947/regex-to-match-a-c-style-multiline-comment/36328890#36328890
     comment: $ => token(prec(PREC.COMMENT, choice(
       seq('//', /.*/),
