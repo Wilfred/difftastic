@@ -115,3 +115,14 @@ null;
 ---
 
 (program (null_literal))
+
+====
+comment
+====
+
+// This is a comment
+/* This is also a comment */
+
+---
+
+(program (comment) (comment))
