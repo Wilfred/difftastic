@@ -61,3 +61,19 @@ module A.B' where
 (program
   (module
     (module_identifier)))
+
+=========================================
+Import Declaration
+=========================================
+
+module A where
+
+import Maybe
+
+---
+
+(program
+  (module
+    (module_identifier)
+    (module_body
+      (import_declaration (constructor_identifier)))))
