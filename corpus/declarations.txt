@@ -168,3 +168,21 @@ import qualified Data.Maybe as M (Maybe(..), fromMaybe)
         (module_identifier)
         (constructor_identifier)
         (import_specification (constructor_identifier) (variable_identifier))))))
+
+=========================================
+Import Declaration With Hiding, Constructor and Function
+=========================================
+
+module A where
+
+import Data.Maybe hiding (Maybe(..), fromMaybe)
+
+---
+
+(program
+  (module
+    (module_identifier)
+    (module_body
+      (import_declaration
+        (module_identifier)
+        (import_specification (constructor_identifier) (variable_identifier))))))

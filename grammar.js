@@ -77,6 +77,7 @@ module.exports = grammar({
     ),
 
     import_specification: $ => seq(
+      optional('hiding'),
       '(',
       optional(
         commaSep1(choice(
