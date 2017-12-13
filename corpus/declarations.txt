@@ -51,7 +51,7 @@ module A (Maybe(..), Either(fromEither, either), maybe') where
         (variable_identifier)))))
 
 =========================================
-Nested Module Declaration
+Module Declaration With Hierarchy
 =========================================
 
 module A.B' where
