@@ -8,3 +8,6 @@ test();
 ?>
 
 ---
+
+(program (script_section (expression_statement (require_once_expression (string))) (expression_statement (function_call_expression (qualified_name (name)) (arguments)))))
+

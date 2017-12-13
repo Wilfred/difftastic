@@ -11,3 +11,6 @@ var_dump(PHP_INT_SIZE);
 ?>
 
 ---
+
+(program (script_section (expression_statement (function_call_expression (qualified_name (name)) (arguments (qualified_name (name))))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (qualified_name (name))))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (qualified_name (name)))))))
+
