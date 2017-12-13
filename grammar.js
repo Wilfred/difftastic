@@ -49,14 +49,19 @@ module.exports = grammar({
 
     module_exports: $ => seq(
       '(',
+    export: $ => prec.left(seq(
+      $._identifier,
       optional(
         seq(
-          $._identifier,
-          repeat(seq(',', $._identifier))
+          '(',
+          choice(
+            '..',
+            seq($._identifier, repeat(seq(',', $._identifier)))
+          ),
+          ')'
         )
-      ),
-      ')'
-    ),
+      )
+    )),
 
     _literal: $ => choice(
       $.integer,
