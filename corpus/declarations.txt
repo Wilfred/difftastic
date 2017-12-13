@@ -84,7 +84,7 @@ Import Declaration With Constructor
 
 module A where
 
-import Data.Maybe(Maybe(..))
+import Data.Maybe (Maybe(..))
 
 ---
 
