@@ -1029,6 +1029,40 @@
       "type": "STRING",
       "value": "null"
     },
+    "line_terminator": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "newline"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "return"
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "return"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "newline"
+            }
+          ]
+        }
+      ]
+    },
+    "newline": {
+      "type": "STRING",
+      "value": "LF"
+    },
+    "return": {
+      "type": "STRING",
+      "value": "CR"
+    },
     "comment": {
       "type": "TOKEN",
       "content": {
