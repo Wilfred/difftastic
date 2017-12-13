@@ -126,11 +126,21 @@ module.exports = grammar({
     newline: $ => 'LF',
     return: $ => 'CR',
 
+    unicode_escape: $ => seq(
+      /\\/,
+      'u',
+      /[A-Fa-f0-9]+/,
+      /[A-Fa-f0-9]+/,
+      /[A-Fa-f0-9]+/,
+      /[A-Fa-f0-9]+/
+    ),
+
     escape_sequences: $ => choice(
       $.char_escapes,
       $.octal_escapes
     ),
 
+    // currently, literals.java returns char not char_escapes in tree
     char_escapes: $ => choice(
       'b',
       't',
@@ -143,9 +153,9 @@ module.exports = grammar({
     ),
 
     octal_escapes: $ => choice(
-      $.octal_integer_literal,
-      seq($.octal_integer_literal, $.octal_integer_literal),
-      seq(/[0-3]/, $.octal_integer_literal, $.octal_integer_literal)
+      seq(/\\/, /[0-7]+/),
+      seq(/\\/, /[0-7]+/, /[0-7]+/),
+      seq(/\\/, /[0-3]/, /[0-7]+/, /[0-7]+/)
     ),
 
     // http://stackoverflow.com/questions/13014947/regex-to-match-a-c-style-multiline-comment/36328890#36328890

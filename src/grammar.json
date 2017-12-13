@@ -1096,6 +1096,35 @@
       "type": "STRING",
       "value": "CR"
     },
+    "unicode_escape": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "PATTERN",
+          "value": "\\\\"
+        },
+        {
+          "type": "STRING",
+          "value": "u"
+        },
+        {
+          "type": "PATTERN",
+          "value": "[A-Fa-f0-9]+"
+        },
+        {
+          "type": "PATTERN",
+          "value": "[A-Fa-f0-9]+"
+        },
+        {
+          "type": "PATTERN",
+          "value": "[A-Fa-f0-9]+"
+        },
+        {
+          "type": "PATTERN",
+          "value": "[A-Fa-f0-9]+"
+        }
+      ]
+    },
     "escape_sequences": {
       "type": "CHOICE",
       "members": [
@@ -1150,19 +1179,15 @@
       "type": "CHOICE",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "octal_integer_literal"
-        },
-        {
           "type": "SEQ",
           "members": [
             {
-              "type": "SYMBOL",
-              "name": "octal_integer_literal"
+              "type": "PATTERN",
+              "value": "\\\\"
             },
             {
-              "type": "SYMBOL",
-              "name": "octal_integer_literal"
+              "type": "PATTERN",
+              "value": "[0-7]+"
             }
           ]
         },
@@ -1171,15 +1196,36 @@
           "members": [
             {
               "type": "PATTERN",
+              "value": "\\\\"
+            },
+            {
+              "type": "PATTERN",
+              "value": "[0-7]+"
+            },
+            {
+              "type": "PATTERN",
+              "value": "[0-7]+"
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "PATTERN",
+              "value": "\\\\"
+            },
+            {
+              "type": "PATTERN",
               "value": "[0-3]"
             },
             {
-              "type": "SYMBOL",
-              "name": "octal_integer_literal"
+              "type": "PATTERN",
+              "value": "[0-7]+"
             },
             {
-              "type": "SYMBOL",
-              "name": "octal_integer_literal"
+              "type": "PATTERN",
+              "value": "[0-7]+"
             }
           ]
         }
