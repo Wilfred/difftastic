@@ -144,7 +144,6 @@ do
 else
 foreign
 if
-import
 in
 infix
 infixl
@@ -161,7 +160,6 @@ _
 ---
 
 (program
-  (reserved_identifier)
   (reserved_identifier)
   (reserved_identifier)
   (reserved_identifier)
