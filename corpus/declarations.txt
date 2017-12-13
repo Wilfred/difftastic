@@ -150,3 +150,21 @@ import qualified Data.Maybe as M
         (module_identifier)
         (constructor_identifier)))))
 
+=========================================
+Import Declaration With Qualified, Constructor And Function
+=========================================
+
+module A where
+
+import qualified Data.Maybe as M (Maybe(..), fromMaybe)
+
+---
+
+(program
+  (module
+    (module_identifier)
+    (module_body
+      (import_declaration
+        (module_identifier)
+        (constructor_identifier)
+        (import_specification (constructor_identifier) (variable_identifier))))))
