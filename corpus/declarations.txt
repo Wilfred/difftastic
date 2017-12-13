@@ -33,16 +33,22 @@ module A () where
 Module Declaration With Exports
 =========================================
 
-module A (func1, func2) where
+module A (Maybe(..), Either(fromEither, either), maybe') where
 
 ---
 
 (program
   (module
     (module_identifier)
-    (module_export
-      (variable_identifier)
-      (variable_identifier))))
+    (module_exports
+      (export
+        (constructor_identifier))
+      (export
+        (constructor_identifier)
+          (variable_identifier)
+          (variable_identifier))
+      (export
+        (variable_identifier)))))
 
 =========================================
 Nested Module Declaration
