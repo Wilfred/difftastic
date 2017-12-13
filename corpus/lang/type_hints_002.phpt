@@ -18,3 +18,6 @@ $o->f(NULL);
 ?>
 
 ---
+
+(program (script_section (class_declaration (name)) (class_declaration (name) (method_declaration (function_definition (name) (simple_parameter (type_declaration (base_type_declaration (qualified_name (name)))) (variable_name (name)) (default_argument_specifier (qualified_name (name)))) (compound_statement (expression_statement (function_call_expression (qualified_name (name)) (arguments (simple_variable (variable_name (name)))))) (echo_statement (string)))))) (expression_statement (assignment_expression (simple_variable (variable_name (name))) (object_creation_expression (qualified_name (name)) (arguments)))) (expression_statement (member_call_expression (dereferencable_expression (simple_variable (variable_name (name)))) (name) (arguments (object_creation_expression (qualified_name (name)))))) (expression_statement (member_call_expression (dereferencable_expression (simple_variable (variable_name (name)))) (name) (arguments))) (expression_statement (member_call_expression (dereferencable_expression (simple_variable (variable_name (name)))) (name) (arguments (qualified_name (name)))))))
+

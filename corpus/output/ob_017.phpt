@@ -22,3 +22,6 @@ print_r($stati);
 ?>
 
 ---
+
+(program (script_section (expression_statement (assignment_expression (simple_variable (variable_name (name))) (array_creation_expression))) (function_definition (name) (simple_parameter (variable_name (name))) (simple_parameter (variable_name (name))) (compound_statement (global_declaration (simple_variable (variable_name (name)))) (expression_statement (assignment_expression (subscript_expression (dereferencable_expression (simple_variable (variable_name (name))))) (string))) (return_statement (simple_variable (variable_name (name)))))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (string) (float)))) (echo_statement (string)) (echo_statement (string)) (expression_statement (function_call_expression (qualified_name (name)) (arguments))) (echo_statement (string)) (expression_statement (function_call_expression (qualified_name (name)) (arguments))) (echo_statement (string)) (echo_statement (string)) (expression_statement (function_call_expression (qualified_name (name)) (arguments))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (simple_variable (variable_name (name))))))))
+

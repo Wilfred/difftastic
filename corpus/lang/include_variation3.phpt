@@ -7,3 +7,6 @@ require_once 'include_files/eval.inc';
 ?>
 
 ---
+
+(program (script_section (expression_statement (require_once_expression (string)))))
+

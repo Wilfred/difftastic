@@ -7,3 +7,5 @@ include("inc.inc");
 ?>
 
 ---
+
+(program (script_section (expression_statement (include_expression (string)))))

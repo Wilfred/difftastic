@@ -321,11 +321,29 @@
           "value": "global"
         },
         {
-          "type": "REPEAT1",
-          "content": {
-            "type": "SYMBOL",
-            "name": "simple_variable"
-          }
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "simple_variable"
+            },
+            {
+              "type": "REPEAT",
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "STRING",
+                    "value": ","
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "simple_variable"
+                  }
+                ]
+              }
+            }
+          ]
         },
         {
           "type": "SYMBOL",
@@ -2744,6 +2762,10 @@
           "members": [
             {
               "type": "SYMBOL",
+              "name": "_semicolon"
+            },
+            {
+              "type": "SYMBOL",
               "name": "_statement"
             },
             {
@@ -2869,6 +2891,10 @@
         {
           "type": "CHOICE",
           "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_semicolon"
+            },
             {
               "type": "SYMBOL",
               "name": "_statement"
