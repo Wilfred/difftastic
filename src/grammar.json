@@ -1029,7 +1029,140 @@
       "type": "STRING",
       "value": "null"
     },
-    "whiteSpace": {
+    "ascii": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "NUL"
+        },
+        {
+          "type": "STRING",
+          "value": "SOH"
+        },
+        {
+          "type": "STRING",
+          "value": "STX"
+        },
+        {
+          "type": "STRING",
+          "value": "ETX"
+        },
+        {
+          "type": "STRING",
+          "value": "EOT"
+        },
+        {
+          "type": "STRING",
+          "value": "ENQ"
+        },
+        {
+          "type": "STRING",
+          "value": "ACK"
+        },
+        {
+          "type": "STRING",
+          "value": "BEL"
+        },
+        {
+          "type": "STRING",
+          "value": "BS"
+        },
+        {
+          "type": "STRING",
+          "value": "TAB"
+        },
+        {
+          "type": "STRING",
+          "value": "LF"
+        },
+        {
+          "type": "STRING",
+          "value": "VT"
+        },
+        {
+          "type": "STRING",
+          "value": "FF"
+        },
+        {
+          "type": "STRING",
+          "value": "CR"
+        },
+        {
+          "type": "STRING",
+          "value": "SO"
+        },
+        {
+          "type": "STRING",
+          "value": "SI"
+        },
+        {
+          "type": "STRING",
+          "value": "DLE"
+        },
+        {
+          "type": "STRING",
+          "value": "DC1"
+        },
+        {
+          "type": "STRING",
+          "value": "DC2"
+        },
+        {
+          "type": "STRING",
+          "value": "DC3"
+        },
+        {
+          "type": "STRING",
+          "value": "DC4"
+        },
+        {
+          "type": "STRING",
+          "value": "NAK"
+        },
+        {
+          "type": "STRING",
+          "value": "SYN"
+        },
+        {
+          "type": "STRING",
+          "value": "ETB"
+        },
+        {
+          "type": "STRING",
+          "value": "CAN"
+        },
+        {
+          "type": "STRING",
+          "value": "EM"
+        },
+        {
+          "type": "STRING",
+          "value": "SUB"
+        },
+        {
+          "type": "STRING",
+          "value": "ESC"
+        },
+        {
+          "type": "STRING",
+          "value": "FS"
+        },
+        {
+          "type": "STRING",
+          "value": "GS"
+        },
+        {
+          "type": "STRING",
+          "value": "RS"
+        },
+        {
+          "type": "STRING",
+          "value": "US"
+        }
+      ]
+    },
+    "white_space": {
       "type": "CHOICE",
       "members": [
         {
