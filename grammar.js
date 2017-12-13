@@ -102,7 +102,6 @@ module.exports = grammar({
       'else',
       'foreign',
       'if',
-      'import',
       'in',
       'infix',
       'infixl',
