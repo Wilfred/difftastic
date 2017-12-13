@@ -25,7 +25,7 @@ module A () where
 (program
   (module
     (module_identifier)
-    (module_exports)
+    (module_export_declarations)
     (module_body
       (integer))))
 
@@ -40,14 +40,14 @@ module A (Maybe(..), Either(fromEither, either), maybe') where
 (program
   (module
     (module_identifier)
-    (module_exports
-      (export
+    (module_export_declarations
+      (export_declaration
         (constructor_identifier))
-      (export
+      (export_declaration
         (constructor_identifier)
           (variable_identifier)
           (variable_identifier))
-      (export
+      (export_declaration
         (variable_identifier)))))
 
 =========================================
