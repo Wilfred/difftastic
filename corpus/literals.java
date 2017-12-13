@@ -115,3 +115,20 @@ null;
 ---
 
 (program (null_literal))
+
+=========================================
+char escapes
+=========================================
+
+'\b';
+'\t';
+'\n';
+'\f';
+'\r';
+'\"';
+'\'';
+'\\';
+
+---
+
+(program (character_literal) (character_literal) (character_literal) (character_literal) (character_literal) (character_literal) (character_literal) (character_literal)) 
