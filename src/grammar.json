@@ -182,6 +182,10 @@
             },
             {
               "type": "STRING",
+              "value": "<?PHP"
+            },
+            {
+              "type": "STRING",
               "value": "<?="
             }
           ]
@@ -204,6 +208,10 @@
             {
               "type": "STRING",
               "value": "<?php"
+            },
+            {
+              "type": "STRING",
+              "value": "<?PHP"
             },
             {
               "type": "STRING",
