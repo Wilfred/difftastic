@@ -4995,27 +4995,6 @@
                       "type": "CHOICE",
                       "members": [
                         {
-                          "type": "SYMBOL",
-                          "name": "list_literal"
-                        },
-                        {
-                          "type": "SYMBOL",
-                          "name": "_variable"
-                        }
-                      ]
-                    },
-                    {
-                      "type": "SEQ",
-                      "members": [
-                        {
-                          "type": "SYMBOL",
-                          "name": "_expression"
-                        },
-                        {
-                          "type": "STRING",
-                          "value": "=>"
-                        },
-                        {
                           "type": "CHOICE",
                           "members": [
                             {
@@ -5027,8 +5006,37 @@
                               "name": "_variable"
                             }
                           ]
+                        },
+                        {
+                          "type": "SEQ",
+                          "members": [
+                            {
+                              "type": "SYMBOL",
+                              "name": "_expression"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "=>"
+                            },
+                            {
+                              "type": "CHOICE",
+                              "members": [
+                                {
+                                  "type": "SYMBOL",
+                                  "name": "list_literal"
+                                },
+                                {
+                                  "type": "SYMBOL",
+                                  "name": "_variable"
+                                }
+                              ]
+                            }
+                          ]
                         }
                       ]
+                    },
+                    {
+                      "type": "BLANK"
                     }
                   ]
                 },
@@ -5048,27 +5056,6 @@
                             "type": "CHOICE",
                             "members": [
                               {
-                                "type": "SYMBOL",
-                                "name": "list_literal"
-                              },
-                              {
-                                "type": "SYMBOL",
-                                "name": "_variable"
-                              }
-                            ]
-                          },
-                          {
-                            "type": "SEQ",
-                            "members": [
-                              {
-                                "type": "SYMBOL",
-                                "name": "_expression"
-                              },
-                              {
-                                "type": "STRING",
-                                "value": "=>"
-                              },
-                              {
                                 "type": "CHOICE",
                                 "members": [
                                   {
@@ -5080,8 +5067,37 @@
                                     "name": "_variable"
                                   }
                                 ]
+                              },
+                              {
+                                "type": "SEQ",
+                                "members": [
+                                  {
+                                    "type": "SYMBOL",
+                                    "name": "_expression"
+                                  },
+                                  {
+                                    "type": "STRING",
+                                    "value": "=>"
+                                  },
+                                  {
+                                    "type": "CHOICE",
+                                    "members": [
+                                      {
+                                        "type": "SYMBOL",
+                                        "name": "list_literal"
+                                      },
+                                      {
+                                        "type": "SYMBOL",
+                                        "name": "_variable"
+                                      }
+                                    ]
+                                  }
+                                ]
                               }
                             ]
+                          },
+                          {
+                            "type": "BLANK"
                           }
                         ]
                       }

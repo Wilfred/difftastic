@@ -793,10 +793,10 @@ module.exports = grammar({
     list_literal: $ => seq(
       'list',
       '(',
-      commaSep(choice(
+      commaSep(optional(choice(
         choice($.list_literal, $._variable),
         seq($._expression, '=>', choice($.list_literal, $._variable))
-      )),
+      ))),
       ')'
     ),
 
