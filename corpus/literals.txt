@@ -153,14 +153,12 @@ let
 newtype
 of
 then
-type
 where
 _
 
 ---
 
 (program
-  (reserved_identifier)
   (reserved_identifier)
   (reserved_identifier)
   (reserved_identifier)

@@ -142,7 +142,6 @@ module.exports = grammar({
       'newtype',
       'of',
       'then',
-      'type',
       'where',
       '_'
     ),
