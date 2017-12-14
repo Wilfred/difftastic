@@ -143,6 +143,7 @@ Import Declaration With Qualified
 module A where
 
 import qualified Data.Maybe
+import qualified Either()
 
 ---
 
@@ -151,7 +152,10 @@ import qualified Data.Maybe
     (module_identifier)
     (module_body
       (import_declaration
-        (module_identifier)))))
+        (module_identifier))
+      (import_declaration
+        (constructor_identifier)
+        (import_specification)))))
 
 =========================================
 Import Declaration With Qualified, As
