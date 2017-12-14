@@ -1,5 +1,5 @@
 =========================================
-Type Statements
+Type Synonyms
 =========================================
 
 type Foo = Bar
@@ -7,5 +7,5 @@ type Foo = Bar
 ---
 
 (program
-  (type_statement
+  (type_synonym
     (constructor_identifier) (constructor_identifier)))

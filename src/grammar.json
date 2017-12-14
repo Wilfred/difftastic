@@ -430,11 +430,11 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "type_statement"
+          "name": "type_synonym"
         }
       ]
     },
-    "type_statement": {
+    "type_synonym": {
       "type": "SEQ",
       "members": [
         {
