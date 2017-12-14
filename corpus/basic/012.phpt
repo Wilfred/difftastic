@@ -14,7 +14,7 @@ for ($i=1; $i<$argc; $i++) {
 
 ---
 
-(program (script_section
+(program
 	(expression_statement
 		(assignment_expression
 			(simple_variable (variable_name (name)))
@@ -29,4 +29,4 @@ for ($i=1; $i<$argc; $i++) {
 		(postfix_increment_expression (simple_variable (variable_name (name))))
 		(compound_statement
 			(echo_statement
-				(binary_expression (binary_expression (binary_expression (binary_expression (simple_variable (variable_name (name))) (float)) (string)) (subscript_expression (dereferencable_expression (simple_variable (variable_name (name)))) (simple_variable (variable_name (name))))) (string))))))) 
+				(binary_expression (binary_expression (binary_expression (binary_expression (simple_variable (variable_name (name))) (float)) (string)) (subscript_expression (dereferencable_expression (simple_variable (variable_name (name)))) (simple_variable (variable_name (name))))) (string))))))

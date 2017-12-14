@@ -11,5 +11,5 @@ echo (float)"3.14", "\n";
 
 ---
 
-(program (script_section (comment) (expression_statement (function_call_expression (qualified_name (name)) (arguments (qualified_name (name)) (string) (string) (string) (string) (string) (string)))) (echo_statement (sequence_expression (cast_expression (cast_type) (string)) (string)))))
+(program  (comment) (expression_statement (function_call_expression (qualified_name (name)) (arguments (qualified_name (name)) (string) (string) (string) (string) (string) (string)))) (echo_statement (sequence_expression (cast_expression (cast_type) (string)) (string))))
 

@@ -10,5 +10,5 @@ END
 
 ---
 
-(program (script_section (expression_statement (include_once_expression (binary_expression (function_call_expression (qualified_name (name)) (arguments (qualified_name (name)))) (string)))) (expression_statement (require_once_expression (binary_expression (function_call_expression (qualified_name (name)) (arguments (qualified_name (name)))) (string))))) (text))
+(program  (expression_statement (include_once_expression (binary_expression (function_call_expression (qualified_name (name)) (arguments (qualified_name (name)))) (string)))) (expression_statement (require_once_expression (binary_expression (function_call_expression (qualified_name (name)) (arguments (qualified_name (name)))) (string)))) (text))
 

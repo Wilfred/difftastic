@@ -16,4 +16,4 @@ function redirect_on_error($e) {
 
 ---
 
-(program (script_section (expression_statement (function_call_expression (qualified_name (name)) (arguments))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (string)))) (echo_statement (string)) (throw_statement (object_creation_expression (qualified_name (name)))) (function_definition (name) (simple_parameter (variable_name (name))) (compound_statement (expression_statement (function_call_expression (qualified_name (name)) (arguments))) (echo_statement (string)))))) 
+(program  (expression_statement (function_call_expression (qualified_name (name)) (arguments))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (string)))) (echo_statement (string)) (throw_statement (object_creation_expression (qualified_name (name)))) (function_definition (name) (simple_parameter (variable_name (name))) (compound_statement (expression_statement (function_call_expression (qualified_name (name)) (arguments))) (echo_statement (string))))) 

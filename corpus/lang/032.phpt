@@ -35,5 +35,5 @@ echo "OK\n";
 
 ---
 
-(program (script_section (class_declaration (name) (method_declaration (function_definition (name) (compound_statement)))) (class_declaration (name) (class_base_clause (qualified_name (name))) (method_declaration (function_definition (name) (compound_statement)))) (class_declaration (name) (class_base_clause (qualified_name (name))) (method_declaration (function_definition (name) (compound_statement)))) (class_declaration (name) (class_base_clause (qualified_name (name)))) (class_declaration (name) (class_base_clause (qualified_name (name))) (method_declaration (function_definition (name) (compound_statement)))) (comment) (comment) (echo_statement (string))))
+(program  (class_declaration (name) (method_declaration (function_definition (name) (compound_statement)))) (class_declaration (name) (class_base_clause (qualified_name (name))) (method_declaration (function_definition (name) (compound_statement)))) (class_declaration (name) (class_base_clause (qualified_name (name))) (method_declaration (function_definition (name) (compound_statement)))) (class_declaration (name) (class_base_clause (qualified_name (name)))) (class_declaration (name) (class_base_clause (qualified_name (name))) (method_declaration (function_definition (name) (compound_statement)))) (comment) (comment) (echo_statement (string)))
 

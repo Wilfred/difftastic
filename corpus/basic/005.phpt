@@ -8,9 +8,9 @@ echo "{$_POST['a']} {$_POST['b']} {$_POST['c']}"?>
 
 ---
 
-(program (script_section
+(program
   (expression_statement
     (function_call_expression
       (qualified_name (name))
       (arguments (float))))
-  (echo_statement (string))))
+  (echo_statement (string)))
