@@ -10,5 +10,5 @@ echo "\n[$var]\n";
 
 ---
 
-(program (script_section (expression_statement (assignment_expression (simple_variable (variable_name (name))) (function_call_expression (qualified_name (name)) (arguments (string))))) (expression_statement (assignment_expression (simple_variable (variable_name (name))) (function_call_expression (qualified_name (name)) (arguments (string) (qualified_name (name)))))) (echo_statement (string))))
+(program  (expression_statement (assignment_expression (simple_variable (variable_name (name))) (function_call_expression (qualified_name (name)) (arguments (string))))) (expression_statement (assignment_expression (simple_variable (variable_name (name))) (function_call_expression (qualified_name (name)) (arguments (string) (qualified_name (name)))))) (echo_statement (string)))
 

@@ -12,4 +12,4 @@ echo "Done\n";
 
 ---
 
-(program (script_section (interface_declaration (name) (class_const_declaration (visibility_modifier) (const_element (name) (integer)))) (echo_statement (string))))
+(program  (interface_declaration (name) (class_const_declaration (visibility_modifier) (const_element (name) (integer)))) (echo_statement (string)))

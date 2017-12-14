@@ -10,5 +10,5 @@ echo "done";
 
 ---
 
-(program (script_section (expression_statement (function_call_expression (qualified_name (name)) (arguments))) (expression_statement (function_call_expression (qualified_name (name)) (arguments))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (string)))) (echo_statement (string))))
+(program  (expression_statement (function_call_expression (qualified_name (name)) (arguments))) (expression_statement (function_call_expression (qualified_name (name)) (arguments))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (string)))) (echo_statement (string)))
 

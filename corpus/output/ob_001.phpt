@@ -8,5 +8,5 @@ echo "foo\n";
 
 ---
 
-(program (script_section (echo_statement (string))))
+(program  (echo_statement (string)))
 
