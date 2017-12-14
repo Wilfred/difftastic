@@ -15,5 +15,5 @@ var_dump("\u{0000001F602}"); // Leading zeroes permitted
 
 ---
 
-(program (script_section (expression_statement (function_call_expression (qualified_name (name)) (arguments (string)))) (comment) (expression_statement (function_call_expression (qualified_name (name)) (arguments (string)))) (comment) (expression_statement (function_call_expression (qualified_name (name)) (arguments (string)))) (comment) (expression_statement (function_call_expression (qualified_name (name)) (arguments (string)))) (comment) (expression_statement (function_call_expression (qualified_name (name)) (arguments (string)))) (comment) (expression_statement (function_call_expression (qualified_name (name)) (arguments (string))))) (comment))
+(program  (expression_statement (function_call_expression (qualified_name (name)) (arguments (string)))) (comment) (expression_statement (function_call_expression (qualified_name (name)) (arguments (string)))) (comment) (expression_statement (function_call_expression (qualified_name (name)) (arguments (string)))) (comment) (expression_statement (function_call_expression (qualified_name (name)) (arguments (string)))) (comment) (expression_statement (function_call_expression (qualified_name (name)) (arguments (string)))) (comment) (expression_statement (function_call_expression (qualified_name (name)) (arguments (string)))) (comment))
 

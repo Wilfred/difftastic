@@ -5,31 +5,6 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "REPEAT",
-          "content": {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SEQ",
-                "members": [
-                  {
-                    "type": "SYMBOL",
-                    "name": "text"
-                  },
-                  {
-                    "type": "SYMBOL",
-                    "name": "script_section"
-                  }
-                ]
-              },
-              {
-                "type": "SYMBOL",
-                "name": "script_section"
-              }
-            ]
-          }
-        },
-        {
           "type": "CHOICE",
           "members": [
             {
@@ -42,16 +17,39 @@
           ]
         },
         {
+          "type": "PATTERN",
+          "value": "<\\?([pP][hH][pP]|=)"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_statement"
+          }
+        },
+        {
           "type": "CHOICE",
           "members": [
             {
-              "type": "ALIAS",
-              "content": {
-                "type": "SYMBOL",
-                "name": "unterminated_script_section"
-              },
-              "named": true,
-              "value": "script_section"
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "?>"
+                },
+                {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "SYMBOL",
+                      "name": "text"
+                    },
+                    {
+                      "type": "BLANK"
+                    }
+                  ]
+                }
+              ]
             },
             {
               "type": "BLANK"
@@ -59,6 +57,38 @@
           ]
         }
       ]
+    },
+    "text_interpolation": {
+      "type": "TOKEN",
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "?>"
+          },
+          {
+            "type": "REPEAT",
+            "content": {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "PATTERN",
+                  "value": "[^<]"
+                },
+                {
+                  "type": "PATTERN",
+                  "value": "<[^?]"
+                }
+              ]
+            }
+          },
+          {
+            "type": "PATTERN",
+            "value": "<\\?([pP][hH][pP]|=)"
+          }
+        ]
+      }
     },
     "text": {
       "type": "REPEAT1",
@@ -167,68 +197,6 @@
         {
           "type": "STRING",
           "value": ";"
-        }
-      ]
-    },
-    "unterminated_script_section": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "STRING",
-              "value": "<?php"
-            },
-            {
-              "type": "STRING",
-              "value": "<?PHP"
-            },
-            {
-              "type": "STRING",
-              "value": "<?="
-            }
-          ]
-        },
-        {
-          "type": "REPEAT",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_statement"
-          }
-        }
-      ]
-    },
-    "script_section": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "STRING",
-              "value": "<?php"
-            },
-            {
-              "type": "STRING",
-              "value": "<?PHP"
-            },
-            {
-              "type": "STRING",
-              "value": "<?="
-            }
-          ]
-        },
-        {
-          "type": "REPEAT",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_statement"
-          }
-        },
-        {
-          "type": "STRING",
-          "value": "?>"
         }
       ]
     },
@@ -2099,7 +2067,7 @@
                   "value": ":"
                 },
                 {
-                  "type": "REPEAT1",
+                  "type": "REPEAT",
                   "content": {
                     "type": "SYMBOL",
                     "name": "_statement"
@@ -2776,7 +2744,7 @@
                   "value": ":"
                 },
                 {
-                  "type": "REPEAT1",
+                  "type": "REPEAT",
                   "content": {
                     "type": "SYMBOL",
                     "name": "_statement"
@@ -2907,7 +2875,7 @@
                   "value": ":"
                 },
                 {
-                  "type": "REPEAT1",
+                  "type": "REPEAT",
                   "content": {
                     "type": "SYMBOL",
                     "name": "_statement"
@@ -3037,7 +3005,7 @@
                   "value": ":"
                 },
                 {
-                  "type": "REPEAT1",
+                  "type": "REPEAT",
                   "content": {
                     "type": "SYMBOL",
                     "name": "_statement"
@@ -3158,7 +3126,7 @@
                     "value": ":"
                   },
                   {
-                    "type": "REPEAT1",
+                    "type": "REPEAT",
                     "content": {
                       "type": "SYMBOL",
                       "name": "_statement"
@@ -3273,7 +3241,7 @@
               "value": ":"
             },
             {
-              "type": "REPEAT1",
+              "type": "REPEAT",
               "content": {
                 "type": "SYMBOL",
                 "name": "_statement"
@@ -3298,7 +3266,7 @@
               "value": ":"
             },
             {
-              "type": "REPEAT1",
+              "type": "REPEAT",
               "content": {
                 "type": "SYMBOL",
                 "name": "_statement"
@@ -6670,6 +6638,10 @@
     {
       "type": "PATTERN",
       "value": "[\\s﻿⁠​ ]"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "text_interpolation"
     }
   ],
   "conflicts": [

@@ -9,5 +9,5 @@ echo "blah-$foo\n";
 
 ---
 
-(program (script_section (expression_statement (function_call_expression (qualified_name (name)) (arguments (binary_expression (qualified_name (name)) (unary_op_expression (qualified_name (name))))))) (echo_statement (string))))
+(program  (expression_statement (function_call_expression (qualified_name (name)) (arguments (binary_expression (qualified_name (name)) (unary_op_expression (qualified_name (name))))))) (echo_statement (string)))
 

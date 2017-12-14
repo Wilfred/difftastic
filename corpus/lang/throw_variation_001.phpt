@@ -14,5 +14,5 @@ try {
 
 ---
 
-(program (script_section (try_statement (compound_statement (expression_statement (include_expression (string)))) (catch_clause (qualified_name (name)) (variable_name (name)) (compound_statement (echo_statement (string)))))))
+(program  (try_statement (compound_statement (expression_statement (include_expression (string)))) (catch_clause (qualified_name (name)) (variable_name (name)) (compound_statement (echo_statement (string))))))
 

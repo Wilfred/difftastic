@@ -14,5 +14,5 @@ echo "DONE";
 
 ---
 
-(program (script_section (expression_statement (function_call_expression (qualified_name (name)) (arguments (assignment_expression (simple_variable (variable_name (name))) (array_creation_expression (array_element_initializer (float) (string))))))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (array_creation_expression (array_element_initializer (float) (string)))))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (simple_variable (variable_name (name)))))) (echo_statement (string))))
+(program  (expression_statement (function_call_expression (qualified_name (name)) (arguments (assignment_expression (simple_variable (variable_name (name))) (array_creation_expression (array_element_initializer (float) (string))))))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (array_creation_expression (array_element_initializer (float) (string)))))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (simple_variable (variable_name (name)))))) (echo_statement (string)))
 

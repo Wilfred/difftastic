@@ -10,5 +10,5 @@ echo ob_get_contents();
 
 ---
 
-(program (script_section (expression_statement (function_call_expression (qualified_name (name)) (arguments))) (echo_statement (string)) (echo_statement (function_call_expression (qualified_name (name)) (arguments)))))
+(program  (expression_statement (function_call_expression (qualified_name (name)) (arguments))) (echo_statement (string)) (echo_statement (function_call_expression (qualified_name (name)) (arguments))))
 

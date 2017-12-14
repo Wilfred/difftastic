@@ -2,7 +2,7 @@
 Looped regression test (may take a while)
 ==========
 
-<?php 
+<?php
 for ($jdk=0; $jdk<50; $jdk++) {
 ?><html>
 <head>
@@ -12,11 +12,11 @@ for ($jdk=0; $jdk<50; $jdk++) {
     */
 ?>
 *** Testing assignments and variable aliasing: ***
-<?php 
+<?php
   /* This test tests assignments to variables using other variables as variable-names */
-  $a = "b"; 
-  $$a = "test"; 
-  $$$a = "blah"; 
+  $a = "b";
+  $$a = "test";
+  $$$a = "blah";
   ${$$$a}["associative arrays work too"] = "this is nifty";
 ?>
 This should read "blah": <?php echo "$test\n"; ?>
@@ -24,7 +24,7 @@ This should read "this is nifty": <?php echo $blah[$test="associative arrays wor
 *************************************************
 
 *** Testing integer operators ***
-<?php 
+<?php
   /* test just about any operator possible on $i and $j (ints) */
   $i = 5;
   $j = 3;
@@ -48,7 +48,7 @@ Correct result - 3:  <?php echo $j%$i; ?>
 *********************************
 
 *** Testing real operators ***
-<?php 
+<?php
   /* test just about any operator possible on $i and $j (floats) */
   $i = 5.0;
   $j = 3.0;
@@ -73,7 +73,7 @@ Correct result - 3:  <?php echo $j%$i; ?>
 
 *** Testing if/elseif/else control ***
 
-<?php 
+<?php
 /* sick if/elseif/else test by Andi :) */
 $a = 5;
 if ($a == "4") {
@@ -108,7 +108,7 @@ if ($a == "4") {
 
 *** Seriously nested if's test ***
 ** spelling correction by kluzz **
-<?php 
+<?php
 /* yet another sick if/elseif/else test by Zeev */
 $i=$j=0;
 echo "Only two lines of text should follow:\n";
@@ -144,7 +144,7 @@ if (0) { /* this code is not supposed to be executed */
 } elseif (2-2) {  /* as long as 2-2==0, this isn't supposed to be executed either */
   $i = ++$j;
   echo "hmm, this shouldn't be displayed #2\n";
-  if (1) { 
+  if (1) {
     $j = ++$i;
     if (0) {
       $j = $i*2+$j*($i++);
@@ -198,7 +198,7 @@ if (0) { /* this code is not supposed to be executed */
 ?>
 
 *** C-style else-if's ***
-<?php 
+<?php
   /* looks like without we even tried, C-style else-if structure works fine! */
   if ($a=0) {
     echo "This shouldn't be displayed\n";
@@ -215,7 +215,7 @@ if (0) { /* this code is not supposed to be executed */
 *************************
 
 *** WHILE tests ***
-<?php 
+<?php
 $i=0;
 $j=20;
 while ($i<(2*$j)) {
@@ -233,7 +233,7 @@ while ($i<(2*$j)) {
 
 
 *** Nested WHILEs ***
-<?php 
+<?php
 $arr_len=3;
 
 $i=0;
@@ -269,7 +269,7 @@ while ($i<$arr_len) {
 *********************
 
 *** hash test... ***
-<?php 
+<?php
 /*
 $i=0;
 
@@ -289,7 +289,7 @@ echo "commented out...";
 **************************
 
 *** Hash resizing test ***
-<?php 
+<?php
 $i = 10;
 $a = "b";
 while ($i > 0) {
@@ -311,7 +311,7 @@ while ($i > 0) {
 
 
 *** break/continue test ***
-<?php 
+<?php
 $i=0;
 
 echo "\$i should go from 0 to 2\n";
@@ -365,7 +365,7 @@ while ($i<5) {
 <?php include("023-2.inc"); ?>
 ********************************
 
-<?php 
+<?php
 {
   echo "Tests completed.\n";  # testing some PHP style comment...
 }
@@ -373,3 +373,6 @@ while ($i<5) {
 } ?>
 
 ---
+
+(program (for_statement (assignment_expression (simple_variable (variable_name (name))) (float)) (binary_expression (simple_variable (variable_name (name))) (integer)) (postfix_increment_expression (simple_variable (variable_name (name)))) (compound_statement (text_interpolation) (comment) (text_interpolation) (comment) (expression_statement (assignment_expression (simple_variable (variable_name (name))) (string))) (expression_statement (assignment_expression (simple_variable (simple_variable (variable_name (name)))) (string))) (expression_statement (assignment_expression (simple_variable (simple_variable (simple_variable (variable_name (name))))) (string))) (expression_statement (assignment_expression (subscript_expression (dereferencable_expression (simple_variable (simple_variable (simple_variable (simple_variable (variable_name (name))))))) (string)) (string))) (text_interpolation) (echo_statement (string)) (text_interpolation) (echo_statement (binary_expression (subscript_expression (dereferencable_expression (simple_variable (variable_name (name)))) (assignment_expression (simple_variable (variable_name (name))) (string))) (string))) (text_interpolation) (comment) (expression_statement (assignment_expression (simple_variable (variable_name (name))) (float))) (expression_statement (assignment_expression (simple_variable (variable_name (name))) (float))) (text_interpolation) (echo_statement (binary_expression (simple_variable (variable_name (name))) (simple_variable (variable_name (name))))) (text_interpolation) (echo_statement (binary_expression (simple_variable (variable_name (name))) (simple_variable (variable_name (name))))) (text_interpolation) (echo_statement (binary_expression (simple_variable (variable_name (name))) (simple_variable (variable_name (name))))) (text_interpolation) (echo_statement (binary_expression (simple_variable (variable_name (name))) (simple_variable (variable_name (name))))) (text_interpolation) (echo_statement (binary_expression (simple_variable (variable_name (name))) (simple_variable (variable_name (name))))) (text_interpolation) (echo_statement (binary_expression (simple_variable (variable_name (name))) (simple_variable (variable_name (name))))) (text_interpolation) (echo_statement (binary_expression (simple_variable (variable_name (name))) (simple_variable (variable_name (name))))) (text_interpolation) (echo_statement (binary_expression (simple_variable (variable_name (name))) (simple_variable (variable_name (name))))) (text_interpolation) (comment) (expression_statement (assignment_expression (simple_variable (variable_name (name))) (float))) (expression_statement (assignment_expression (simple_variable (variable_name (name))) (float))) (text_interpolation) (echo_statement (binary_expression (simple_variable (variable_name (name))) (simple_variable (variable_name (name))))) (text_interpolation) (echo_statement (binary_expression (simple_variable (variable_name (name))) (simple_variable (variable_name (name))))) (text_interpolation) (echo_statement (binary_expression (simple_variable (variable_name (name))) (simple_variable (variable_name (name))))) (text_interpolation) (echo_statement (binary_expression (simple_variable (variable_name (name))) (simple_variable (variable_name (name))))) (text_interpolation) (echo_statement (binary_expression (simple_variable (variable_name (name))) (simple_variable (variable_name (name))))) (text_interpolation) (echo_statement (binary_expression (simple_variable (variable_name (name))) (simple_variable (variable_name (name))))) (text_interpolation) (echo_statement (binary_expression (simple_variable (variable_name (name))) (simple_variable (variable_name (name))))) (text_interpolation) (echo_statement (binary_expression (simple_variable (variable_name (name))) (simple_variable (variable_name (name))))) (text_interpolation) (comment) (expression_statement (assignment_expression (simple_variable (variable_name (name))) (float))) (if_statement (binary_expression (simple_variable (variable_name (name))) (string)) (compound_statement (echo_statement (binary_expression (binary_expression (binary_expression (string) (string)) (string)) (string)))) (else_if_clause (binary_expression (simple_variable (variable_name (name))) (string)) (compound_statement (echo_statement (binary_expression (string) (string))) (expression_statement (assignment_expression (simple_variable (variable_name (name))) (float))) (if_statement (binary_expression (string) (assignment_expression (simple_variable (variable_name (name))) (string))) (compound_statement (echo_statement (string))) (else_if_clause (float) (compound_statement (echo_statement (string)))) (else_clause (compound_statement (echo_statement (string))))) (if_statement (binary_expression (integer) (integer)) (compound_statement (echo_statement (string))) (else_clause (compound_statement (echo_statement (string))))))) (else_if_clause (binary_expression (simple_variable (variable_name (name))) (float)) (compound_statement (echo_statement (binary_expression (string) (string))) (if_statement (float) (compound_statement (echo_statement (string))) (else_clause (compound_statement (echo_statement (string))))))) (else_clause (compound_statement (echo_statement (binary_expression (binary_expression (binary_expression (string) (string)) (string)) (string)))))) (text_interpolation) (comment) (expression_statement (assignment_expression (simple_variable (variable_name (name))) (assignment_expression (simple_variable (variable_name (name))) (float)))) (echo_statement (string)) (if_statement (float) (compound_statement (comment) (echo_statement (string)) (expression_statement (postfix_increment_expression (simple_variable (variable_name (name))))) (if_statement (float) (compound_statement (expression_statement (assignment_expression (simple_variable (variable_name (name))) (simple_variable (variable_name (name))))) (if_statement (float) (compound_statement (expression_statement (assignment_expression (simple_variable (variable_name (name))) (prefix_increment_expression (simple_variable (variable_name (name)))))) (if_statement (float) (compound_statement (expression_statement (assignment_expression (simple_variable (variable_name (name))) (simple_variable (variable_name (name))))) (echo_statement (string))) (else_clause (compound_statement (expression_statement (assignment_expression (simple_variable (variable_name (name))) (simple_variable (variable_name (name))))) (expression_statement (prefix_increment_expression (simple_variable (variable_name (name))))) (echo_statement (string)))))) (else_if_clause (float) (compound_statement (expression_statement (postfix_increment_expression (simple_variable (variable_name (name))))) (expression_statement (postfix_increment_expression (simple_variable (variable_name (name))))) (echo_statement (string)))))) (else_if_clause (float) (compound_statement (expression_statement (postfix_increment_expression (simple_variable (variable_name (name))))) (echo_statement (string)))) (else_clause (compound_statement (expression_statement (prefix_decrement_expression (simple_variable (variable_name (name))))) (echo_statement (string)) (while_statement (binary_expression (simple_variable (variable_name (name))) (float)) (compound_statement (expression_statement (postfix_decrement_expression (simple_variable (variable_name (name))))))))))) (else_if_clause (binary_expression (float) (float)) (compound_statement (comment) (expression_statement (assignment_expression (simple_variable (variable_name (name))) (prefix_increment_expression (simple_variable (variable_name (name)))))) (echo_statement (string)) (if_statement (float) (compound_statement (expression_statement (assignment_expression (simple_variable (variable_name (name))) (prefix_increment_expression (simple_variable (variable_name (name)))))) (if_statement (float) (compound_statement (expression_statement (assignment_expression (simple_variable (variable_name (name))) (binary_expression (binary_expression (simple_variable (variable_name (name))) (float)) (binary_expression (simple_variable (variable_name (name))) (postfix_increment_expression (simple_variable (variable_name (name)))))))) (if_statement (float) (compound_statement (expression_statement (postfix_increment_expression (simple_variable (variable_name (name))))) (echo_statement (string))) (else_clause (compound_statement (expression_statement (postfix_increment_expression (simple_variable (variable_name (name))))) (echo_statement (string)))))) (else_clause (if_statement (float) (compound_statement (expression_statement (prefix_increment_expression (simple_variable (variable_name (name))))) (echo_statement (string))))))) (else_if_clause (float) (compound_statement (expression_statement (postfix_increment_expression (simple_variable (variable_name (name))))) (echo_statement (string)))) (else_clause (compound_statement (expression_statement (postfix_increment_expression (simple_variable (variable_name (name))))) (echo_statement (string))))))) (else_clause (compound_statement (expression_statement (assignment_expression (simple_variable (variable_name (name))) (postfix_increment_expression (simple_variable (variable_name (name)))))) (comment) (echo_statement (string)) (if_statement (float) (compound_statement (expression_statement (assignment_expression (simple_variable (variable_name (name))) (prefix_increment_expression (simple_variable (variable_name (name)))))) (comment) (if_statement (float) (compound_statement (expression_statement (assignment_expression (simple_variable (variable_name (name))) (integer))) (if_statement (float) (compound_statement (expression_statement (assignment_expression (simple_variable (variable_name (name))) (integer))) (echo_statement (string))) (else_clause (compound_statement (expression_statement (assignment_expression (simple_variable (variable_name (name))) (integer))) (echo_statement (string)))))) (else_clause (if_statement (float) (compound_statement (expression_statement (assignment_expression (simple_variable (variable_name (name))) (simple_variable (variable_name (name))))) (comment) (echo_statement (string)) (echo_statement (string)) (while_statement (binary_expression (simple_variable (variable_name (name))) (simple_variable (variable_name (name)))) (compound_statement (echo_statement (binary_expression (postfix_increment_expression (simple_variable (variable_name (name)))) (string)))))))))) (else_if_clause (float) (compound_statement (echo_statement (string)))) (else_clause (compound_statement (echo_statement (string))))) (echo_statement (string))))) (text_interpolation) (comment) (if_statement (assignment_expression (simple_variable (variable_name (name))) (float)) (compound_statement (echo_statement (string))) (else_clause (if_statement (postfix_increment_expression (simple_variable (variable_name (name)))) (compound_statement (echo_statement (string))) (else_clause (if_statement (prefix_decrement_expression (simple_variable (variable_name (name)))) (compound_statement (echo_statement (string))) (else_clause (if_statement (prefix_increment_expression (simple_variable (variable_name (name)))) (compound_statement (echo_statement (string))) (else_clause (compound_statement (echo_statement (string))))))))))) (text_interpolation) (expression_statement (assignment_expression (simple_variable (variable_name (name))) (float))) (expression_statement (assignment_expression (simple_variable (variable_name (name))) (integer))) (while_statement (binary_expression (simple_variable (variable_name (name))) (binary_expression (float) (simple_variable (variable_name (name))))) (compound_statement (if_statement (binary_expression (simple_variable (variable_name (name))) (simple_variable (variable_name (name)))) (compound_statement (echo_statement (string))) (else_clause (if_statement (binary_expression (simple_variable (variable_name (name))) (simple_variable (variable_name (name)))) (compound_statement (echo_statement (string))) (else_clause (compound_statement (echo_statement (string))))))) (expression_statement (postfix_increment_expression (simple_variable (variable_name (name))))))) (text_interpolation) (expression_statement (assignment_expression (simple_variable (variable_name (name))) (float))) (expression_statement (assignment_expression (simple_variable (variable_name (name))) (float))) (while_statement (binary_expression (simple_variable (variable_name (name))) (simple_variable (variable_name (name)))) (compound_statement (expression_statement (assignment_expression (simple_variable (variable_name (name))) (float))) (while_statement (binary_expression (simple_variable (variable_name (name))) (simple_variable (variable_name (name)))) (compound_statement (expression_statement (assignment_expression (simple_variable (variable_name (name))) (float))) (while_statement (binary_expression (simple_variable (variable_name (name))) (simple_variable (variable_name (name)))) (compound_statement (expression_statement (assignment_expression (subscript_expression (dereferencable_expression (simple_variable (string))) (simple_variable (variable_name (name)))) (binary_expression (binary_expression (simple_variable (variable_name (name))) (simple_variable (variable_name (name)))) (simple_variable (variable_name (name)))))) (expression_statement (postfix_increment_expression (simple_variable (variable_name (name))))))) (expression_statement (postfix_increment_expression (simple_variable (variable_name (name))))))) (expression_statement (postfix_increment_expression (simple_variable (variable_name (name))))))) (echo_statement (string)) (expression_statement (assignment_expression (simple_variable (variable_name (name))) (float))) (while_statement (binary_expression (simple_variable (variable_name (name))) (simple_variable (variable_name (name)))) (compound_statement (expression_statement (assignment_expression (simple_variable (variable_name (name))) (float))) (while_statement (binary_expression (simple_variable (variable_name (name))) (simple_variable (variable_name (name)))) (compound_statement (expression_statement (assignment_expression (simple_variable (variable_name (name))) (float))) (while_statement (binary_expression (simple_variable (variable_name (name))) (simple_variable (variable_name (name)))) (compound_statement (echo_statement (binary_expression (binary_expression (string) (subscript_expression (dereferencable_expression (simple_variable (string))) (simple_variable (variable_name (name))))) (string))) (expression_statement (postfix_increment_expression (simple_variable (variable_name (name))))))) (expression_statement (postfix_increment_expression (simple_variable (variable_name (name))))))) (expression_statement (postfix_increment_expression (simple_variable (variable_name (name))))))) (text_interpolation) (comment) (echo_statement (string)) (text_interpolation) (expression_statement (assignment_expression (simple_variable (variable_name (name))) (integer))) (expression_statement (assignment_expression (simple_variable (variable_name (name))) (string))) (while_statement (binary_expression (simple_variable (variable_name (name))) (float)) (compound_statement (expression_statement (assignment_expression (simple_variable (variable_name (name))) (binary_expression (simple_variable (variable_name (name))) (string)))) (echo_statement (string)) (expression_statement (assignment_expression (subscript_expression (dereferencable_expression (simple_variable (variable_name (name)))) (simple_variable (variable_name (name)))) (simple_variable (variable_name (name))))) (expression_statement (postfix_decrement_expression (simple_variable (variable_name (name))))))) (expression_statement (assignment_expression (simple_variable (variable_name (name))) (integer))) (expression_statement (assignment_expression (simple_variable (variable_name (name))) (string))) (while_statement (binary_expression (simple_variable (variable_name (name))) (float)) (compound_statement (expression_statement (assignment_expression (simple_variable (variable_name (name))) (binary_expression (simple_variable (variable_name (name))) (string)))) (echo_statement (string)) (echo_statement (binary_expression (subscript_expression (dereferencable_expression (simple_variable (variable_name (name)))) (simple_variable (variable_name (name)))) (string))) (expression_statement (postfix_decrement_expression (simple_variable (variable_name (name))))))) (text_interpolation) (expression_statement (assignment_expression (simple_variable (variable_name (name))) (float))) (echo_statement (string)) (while_statement (binary_expression (simple_variable (variable_name (name))) (float)) (compound_statement (if_statement (binary_expression (simple_variable (variable_name (name))) (float)) (compound_statement (break_statement))) (expression_statement (assignment_expression (simple_variable (variable_name (name))) (float))) (echo_statement (string)) (while_statement (binary_expression (simple_variable (variable_name (name))) (float)) (compound_statement (if_statement (binary_expression (simple_variable (variable_name (name))) (float)) (compound_statement (expression_statement (postfix_increment_expression (simple_variable (variable_name (name))))) (continue_statement))) (echo_statement (string)) (for_statement (assignment_expression (simple_variable (variable_name (name))) (float)) (binary_expression (simple_variable (variable_name (name))) (integer)) (postfix_increment_expression (simple_variable (variable_name (name)))) (compound_statement (if_statement (binary_expression (simple_variable (variable_name (name))) (float)) (compound_statement (continue_statement))) (if_statement (binary_expression (simple_variable (variable_name (name))) (float)) (compound_statement (break_statement))) (echo_statement (string)))) (expression_statement (postfix_increment_expression (simple_variable (variable_name (name))))))) (expression_statement (assignment_expression (simple_variable (variable_name (name))) (float))) (echo_statement (string)) (while_statement (binary_expression (simple_variable (variable_name (name))) (float)) (compound_statement (if_statement (binary_expression (simple_variable (variable_name (name))) (float)) (compound_statement (expression_statement (assignment_expression (simple_variable (variable_name (name))) (float))) (echo_statement (string)) (while_statement (binary_expression (simple_variable (variable_name (name))) (float)) (compound_statement (if_statement (binary_expression (simple_variable (variable_name (name))) (float)) (compound_statement (break_statement (integer)))) (echo_statement (string)) (expression_statement (postfix_increment_expression (simple_variable (variable_name (name))))))))) (echo_statement (string)) (expression_statement (postfix_increment_expression (simple_variable (variable_name (name))))))) (echo_statement (string)) (expression_statement (postfix_increment_expression (simple_variable (variable_name (name))))))) (text_interpolation) (expression_statement (include_expression (string))) (text_interpolation) (compound_statement (echo_statement (string)) (comment)))))
+
