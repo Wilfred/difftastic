@@ -6,4 +6,4 @@ Testing string scanner confirmance
 
 ---
 
-(program (script_section (echo_statement (binary_expression (string) (string)))))
+(program  (echo_statement (binary_expression (string) (string))))

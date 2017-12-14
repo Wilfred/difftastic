@@ -13,4 +13,4 @@ if($a==0) {
 
 ---
 
-(program (script_section (expression_statement (assignment_expression (simple_variable (variable_name (name))) (float))) (if_statement (binary_expression (simple_variable (variable_name (name))) (float)) (compound_statement (echo_statement (string))) (else_clause (compound_statement (echo_statement (string)))))))
+(program (expression_statement (assignment_expression (simple_variable (variable_name (name))) (float))) (if_statement (binary_expression (simple_variable (variable_name (name))) (float)) (compound_statement (echo_statement (string))) (else_clause (compound_statement (echo_statement (string))))))

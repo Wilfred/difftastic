@@ -8,4 +8,4 @@ echo ini_get('error_reporting');
 
 ---
 
-(program (script_section (echo_statement (function_call_expression (qualified_name (name)) (arguments (string))))))
+(program  (echo_statement (function_call_expression (qualified_name (name)) (arguments (string)))))

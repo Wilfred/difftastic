@@ -8,4 +8,4 @@ var_dump($_POST, $php_errormsg);
 
 ---
 
-(program (script_section (expression_statement (function_call_expression (qualified_name (name)) (arguments (simple_variable (variable_name (name))) (simple_variable (variable_name (name))))))))
+(program  (expression_statement (function_call_expression (qualified_name (name)) (arguments (simple_variable (variable_name (name))) (simple_variable (variable_name (name)))))))

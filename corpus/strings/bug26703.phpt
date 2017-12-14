@@ -8,5 +8,5 @@ Bug #26703 (Certain characters inside strings incorrectly treated as keywords)
 
 ---
 
-(program (script_section (expression_statement (function_call_expression (qualified_name (name)) (arguments (string))))))
+(program  (expression_statement (function_call_expression (qualified_name (name)) (arguments (string)))))
 

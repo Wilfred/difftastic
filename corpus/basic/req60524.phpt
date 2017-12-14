@@ -6,4 +6,4 @@ Req #60524 (Specify temporary directory)
 
 ---
 
-(program (script_section (echo_statement (function_call_expression (qualified_name (name)) (arguments)))))
+(program  (echo_statement (function_call_expression (qualified_name (name)) (arguments))))

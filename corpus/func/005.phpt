@@ -17,4 +17,4 @@ print "foo() will be called on shutdown...\n";
 
 ---
 
-(program (script_section (function_definition (name) (compound_statement (expression_statement (intrinsic (print_intrinsic (string)))))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (string)))) (expression_statement (intrinsic (print_intrinsic (string))))))
+(program  (function_definition (name) (compound_statement (expression_statement (intrinsic (print_intrinsic (string)))))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (string)))) (expression_statement (intrinsic (print_intrinsic (string)))))
