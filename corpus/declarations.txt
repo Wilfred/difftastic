@@ -69,6 +69,7 @@ Import Declaration
 module A where
 
 import Maybe
+import Either()
 
 ---
 
@@ -76,7 +77,10 @@ import Maybe
   (module
     (module_identifier)
     (module_body
-      (import_declaration (constructor_identifier)))))
+      (import_declaration (constructor_identifier))
+      (import_declaration
+        (constructor_identifier)
+        (import_specification)))))
 
 =========================================
 Import Declaration With Constructor
