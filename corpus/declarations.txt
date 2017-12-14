@@ -144,6 +144,7 @@ module A where
 
 import qualified Data.Maybe
 import qualified Either()
+import qualified Data.Function (fix)
 
 ---
 
@@ -155,7 +156,10 @@ import qualified Either()
         (module_identifier))
       (import_declaration
         (constructor_identifier)
-        (import_specification)))))
+        (import_specification))
+      (import_declaration
+        (module_identifier)
+        (import_specification (variable_identifier))))))
 
 =========================================
 Import Declaration With Qualified, As
