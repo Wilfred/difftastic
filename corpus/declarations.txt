@@ -206,7 +206,7 @@ import Data.Maybe as DM (Maybe(..), fromMaybe)
           (variable_identifier))))))
 
 =========================================
-Import Declaration With Qualified, Constructor And Function
+Import Declaration With Qualified, As, Constructor And Function
 =========================================
 
 module A where
