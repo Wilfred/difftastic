@@ -1,0 +1,11 @@
+=========================================
+Type Statements
+=========================================
+
+type Foo = Bar
+
+---
+
+(program
+  (type_statement
+    (constructor_identifier) (constructor_identifier)))

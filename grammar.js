@@ -93,6 +93,13 @@ module.exports = grammar({
       ')'
     ),
 
+    type_statement: $ => seq(
+      'type',
+      $._identifier,
+      '=',
+      $._identifier
+    ),
+
     _literal: $ => choice(
       $.integer,
       $.float,
