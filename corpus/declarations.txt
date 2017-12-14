@@ -168,6 +168,27 @@ import qualified Data.Maybe as DM
         (constructor_identifier)))))
 
 =========================================
+Import Declaration With As, Constructor And Function
+=========================================
+
+module A where
+
+import Data.Maybe as DM (Maybe(..), fromMaybe)
+
+---
+
+(program
+  (module
+    (module_identifier)
+    (module_body
+      (import_declaration
+        (module_identifier)
+        (constructor_identifier)
+        (import_specification
+          (constructor_identifier)
+          (variable_identifier))))))
+
+=========================================
 Import Declaration With Qualified, Constructor And Function
 =========================================
 
