@@ -1,0 +1,63 @@
+=========================================
+Module Declaration
+=========================================
+
+module A where
+
+1
+---
+
+(program
+  (module
+    (module_identifier)
+    (module_body
+      (integer))))
+
+=========================================
+Module Declaration Empty Exports
+=========================================
+
+module A () where
+
+1
+---
+
+(program
+  (module
+    (module_identifier)
+    (module_export_declarations)
+    (module_body
+      (integer))))
+
+=========================================
+Module Declaration With Exports
+=========================================
+
+module A (Maybe(..), Either(fromEither, either), maybe') where
+
+---
+
+(program
+  (module
+    (module_identifier)
+    (module_export_declarations
+      (export_declaration
+        (constructor_identifier))
+      (export_declaration
+        (constructor_identifier)
+          (variable_identifier)
+          (variable_identifier))
+      (export_declaration
+        (variable_identifier)))))
+
+=========================================
+Module Declaration With Hierarchy
+=========================================
+
+module A.B' where
+
+---
+
+(program
+  (module
+    (module_identifier)))
