@@ -1,6 +1,6 @@
 {
   "name": "tree-sitter-php",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "PHP grammar for tree-sitter",
   "main": "index.js",
   "keywords": [
