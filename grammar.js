@@ -63,8 +63,9 @@ module.exports = grammar({
   rules: {
     program: $ => seq(
       optional($.text),
-      /<\?([pP][hH][pP]|=)/,
-      repeat($._statement),
+      optional(seq(
+        /<\?([pP][hH][pP]|=)/,
+        repeat($._statement))),
       optional(seq(
         '?>',
         optional($.text)
