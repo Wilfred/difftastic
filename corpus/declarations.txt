@@ -164,6 +164,7 @@ Import Declaration With Qualified, As
 module A where
 
 import qualified Data.Maybe as DM
+import qualified Either as E ()
 
 ---
 
@@ -173,7 +174,11 @@ import qualified Data.Maybe as DM
     (module_body
       (import_declaration
         (module_identifier)
-        (constructor_identifier)))))
+        (constructor_identifier))
+      (import_declaration
+        (constructor_identifier)
+        (constructor_identifier)
+        (import_specification)))))
 
 =========================================
 Import Declaration With As, Constructor And Function
