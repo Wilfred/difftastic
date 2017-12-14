@@ -38,7 +38,6 @@ module.exports = grammar({
     [$.qualified_name, $.namespace_name],
     [$.namespace_name],
     [$.namespace_aliasing_clause, $.name],
-    [$.integer, $.float],
   ],
   inline: $ => [
     $._statement,
@@ -406,6 +405,23 @@ module.exports = grammar({
       $.string
     ),
 
+    float: $ => {
+      const decimal_digits = /\d+/
+      const signed_integer = seq(optional(choice('-','+')), decimal_digits)
+      const exponent_part = seq(choice('e', 'E'), signed_integer)
+
+      const decimal_integer_literal = choice(
+        '0',
+        seq(/[1-9]/, optional(decimal_digits))
+      )
+
+      return prec.right(choice(
+        seq(decimal_integer_literal, '.', optional(decimal_digits), optional(exponent_part)),
+        seq('.', decimal_digits, optional(exponent_part)),
+        seq(decimal_integer_literal, optional(exponent_part))
+      ))
+    },
+
     try_statement:  $ => seq(
       'try',
       $.compound_statement,
@@ -449,7 +465,7 @@ module.exports = grammar({
     ),
 
     integer: $ => {
-      const decimal = seq(/1-9/, optional(/\d+/))
+      const decimal = /1-9\d*/
       const octal = /0[0-7]+/
       const hex = /0[xX][0-9|a-f|A-F]+/
       const binary = /0[bB][01]+/
@@ -460,23 +476,6 @@ module.exports = grammar({
         binary
       )
   },
-
-    float: $ => {
-      const decimal_digits = /\d+/
-      const signed_integer = seq(optional(choice('-','+')), decimal_digits)
-      const exponent_part = seq(choice('e', 'E'), signed_integer)
-
-      const decimal_integer_literal = choice(
-        '0',
-        seq(/1-9/, optional(decimal_digits))
-      )
-
-      return prec.right(choice(
-        seq(decimal_integer_literal, '.', optional(decimal_digits), optional(exponent_part)),
-        // seq('.', decimal_digits, optional(exponent_part)),
-        // seq(decimal_integer_literal, optional(exponent_part))
-      ))
-    },
 
     return_statement: $ => seq(
       'return', optional($._expression), $._semicolon
