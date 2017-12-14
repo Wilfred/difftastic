@@ -241,3 +241,34 @@ import Data.Maybe hiding (Maybe(..), fromMaybe)
       (import_declaration
         (module_identifier)
         (import_specification (constructor_identifier) (variable_identifier))))))
+
+=========================================
+Import Declaration With Qualified, Hiding, Constructor and Function
+=========================================
+
+module A where
+
+import qualified Data.Maybe hiding ()
+import qualified Data.Either hiding (Either(..), decodeEither)
+import qualified Data.Function hiding (fix)
+import qualified Data.List as DL hiding (head)
+
+---
+
+(program
+  (module
+    (module_identifier)
+    (module_body
+      (import_declaration
+        (module_identifier)
+        (import_specification))
+      (import_declaration
+        (module_identifier)
+        (import_specification (constructor_identifier) (variable_identifier)))
+      (import_declaration
+        (module_identifier)
+        (import_specification (variable_identifier)))
+      (import_declaration
+        (module_identifier)
+        (constructor_identifier)
+        (import_specification (variable_identifier))))))
