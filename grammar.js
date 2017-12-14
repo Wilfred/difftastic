@@ -37,7 +37,8 @@ module.exports = grammar({
       $._literal,
       $._identifier,
       $.module,
-      $.import_declaration
+      $.import_declaration,
+      $._top_level_declaration
     ),
 
     module: $ => prec.right(seq(
@@ -91,6 +92,10 @@ module.exports = grammar({
         ))
       ),
       ')'
+    ),
+
+    _top_level_declaration: $ => choice(
+      $.type_statement
     ),
 
     type_statement: $ => seq(
