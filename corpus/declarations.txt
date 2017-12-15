@@ -249,12 +249,19 @@ Type Class Declarations With Context
 =========================================
 
 class Show a => Read a where {}
+class (Show a, Eq a) => Read a where {}
 
 ---
 
 (program
   (type_class
     (context (class (constructor_identifier) (variable_identifier)))
+    (constructor_identifier)
+    (variable_identifier))
+  (type_class
+    (context
+      (class (constructor_identifier) (variable_identifier))
+      (class (constructor_identifier) (variable_identifier)))
     (constructor_identifier)
     (variable_identifier)))
 
