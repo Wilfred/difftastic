@@ -82,7 +82,7 @@ Import Declaration With Qualified
 module A where
 
 import qualified Data.Maybe
-import qualified Either()
+import qualified Either ()
 import qualified Data.Function (fix)
 
 ---
