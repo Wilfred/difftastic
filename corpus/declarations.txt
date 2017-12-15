@@ -236,8 +236,10 @@ Type Class Declarations
 =========================================
 
 class Show a where {}
+class Show a b where {}
 
 ---
 
 (program
-  (type_class (constructor_identifier) (variable_identifier)))
+  (type_class (constructor_identifier) (variable_identifier))
+  (type_class (constructor_identifier) (variable_identifier) (variable_identifier)))
