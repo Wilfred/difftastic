@@ -30,6 +30,10 @@ module.exports = grammar({
     /\s|\\n/
   ],
 
+  conflicts: $ => [
+    [$.type_class, $.class]
+  ],
+
   rules: {
     program: $ => seq(repeat($._statement)),
 
@@ -103,6 +107,7 @@ module.exports = grammar({
 
     type_class: $ => seq(
       'class',
+      optional($.context),
       repeat1($._identifier),
       'where',
       '{',

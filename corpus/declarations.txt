@@ -243,3 +243,18 @@ class Show a b where {}
 (program
   (type_class (constructor_identifier) (variable_identifier))
   (type_class (constructor_identifier) (variable_identifier) (variable_identifier)))
+
+=========================================
+Type Class Declarations With Context
+=========================================
+
+class Show a => Read a where {}
+
+---
+
+(program
+  (type_class
+    (context (class (constructor_identifier) (variable_identifier)))
+    (constructor_identifier)
+    (variable_identifier)))
+

@@ -454,6 +454,18 @@
           "value": "class"
         },
         {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "context"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
           "type": "REPEAT1",
           "content": {
             "type": "SYMBOL",
@@ -2067,7 +2079,12 @@
       "value": "\\s|\\\\n"
     }
   ],
-  "conflicts": [],
+  "conflicts": [
+    [
+      "type_class",
+      "class"
+    ]
+  ],
   "externals": [],
   "inline": []
 }
