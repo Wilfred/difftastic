@@ -56,6 +56,7 @@ data N = N
 data N = N { a :: Int }
 data N = N { a, b :: Int }
 data N = N { a :: Int, b :: Int }
+data N = N { a, b :: Int, c :: String }
 
 ---
 
@@ -80,4 +81,11 @@ data N = N { a :: Int, b :: Int }
       (constructor_identifier)
       (fields
         (field (variable_identifier) (constructor_identifier))
+        (field (variable_identifier) (constructor_identifier)))))
+  (algebraic_datatype
+    (simple_type (constructor_identifier))
+    (constructors
+      (constructor_identifier)
+      (fields
+        (field (variable_identifier) (variable_identifier) (constructor_identifier))
         (field (variable_identifier) (constructor_identifier))))))
