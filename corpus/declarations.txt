@@ -99,6 +99,7 @@ Algebraic Datatype Declarations With Multiple Constructors
 =========================================
 
 data N = N | O
+data N = N { a :: Int } | O { b :: String }
 
 ---
 
@@ -107,4 +108,13 @@ data N = N | O
     (simple_type (constructor_identifier))
     (constructors
       (constructor (constructor_identifier))
-      (constructor (constructor_identifier)))))
+      (constructor (constructor_identifier))))
+  (algebraic_datatype
+    (simple_type (constructor_identifier))
+    (constructors
+      (constructor
+        (constructor_identifier)
+        (fields (field (variable_identifier) (constructor_identifier))))
+      (constructor
+        (constructor_identifier)
+        (fields (field (variable_identifier) (constructor_identifier)))))))
