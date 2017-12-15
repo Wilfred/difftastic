@@ -79,6 +79,7 @@ Algebraic Datatype Declarations With Variables
 data N
 data N a = N a
 data N a = N !a
+data N a b = N !a b
 
 ---
 
@@ -89,7 +90,10 @@ data N a = N !a
     (constructors (constructor (constructor_identifier) (variable_identifier))))
   (algebraic_datatype
     (simple_type (type_constructor (constructor_identifier)) (type_variable (variable_identifier)))
-    (constructors (constructor (constructor_identifier) (strict (variable_identifier))))))
+    (constructors (constructor (constructor_identifier) (strict (variable_identifier)))))
+  (algebraic_datatype
+    (simple_type (type_constructor (constructor_identifier)) (type_variable (variable_identifier) (variable_identifier)))
+    (constructors (constructor (constructor_identifier) (strict (variable_identifier)) (variable_identifier)))))
 
 =========================================
 Algebraic Datatype Declarations With Fields
