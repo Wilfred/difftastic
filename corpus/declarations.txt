@@ -52,11 +52,13 @@ newtype Age = Age { unAge :: Int }
 Algebraic Datatype Declarations
 =========================================
 
+data N
 data N = N
 
 ---
 
 (program
+  (algebraic_datatype (simple_type (constructor_identifier)))
   (algebraic_datatype
     (simple_type (constructor_identifier))
     (constructors (constructor_identifier))))
