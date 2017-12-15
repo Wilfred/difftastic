@@ -90,46 +90,45 @@ Float Literals With Exponents
 Variable Identifiers
 =========================================
 
-a
-_a0
-_A0
-a0
-a9
-aA
-aZ'
+--a
+--_a0
+--_A0
+--a0
+--a9
+--aA
+--aZ'
 
 ---
 
 (program
-  (variable_identifier)
-  (variable_identifier)
-  (variable_identifier)
-  (variable_identifier)
-  (variable_identifier)
-  (variable_identifier)
-  (variable_identifier))
+  (comment)
+  (comment)
+  (comment)
+  (comment)
+  (comment)
+  (comment)
+  (comment))
 
 =========================================
 Constructor Identifiers
 =========================================
 
-A
-A0
-A9
-Aa
-A_
-Az'
+--A
+--A0
+--A9
+--Aa
+--A_
+--Az'
 
 ---
 
 (program
-  (constructor_identifier)
-  (constructor_identifier)
-  (constructor_identifier)
-  (constructor_identifier)
-  (constructor_identifier)
-  (constructor_identifier))
-
+  (comment)
+  (comment)
+  (comment)
+  (comment)
+  (comment)
+  (comment))
 
 =========================================
 Reserved Identifiers

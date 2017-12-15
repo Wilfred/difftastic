@@ -35,7 +35,6 @@ module.exports = grammar({
 
     _statement: $ => choice(
       $._literal,
-      $._identifier,
       $.module,
       $.import,
       $._top_level_declaration,
