@@ -101,13 +101,13 @@ module.exports = grammar({
       $.type_class
     ),
 
-    type_class: $ => prec.right(seq(
+    type_class: $ => seq(
       'class',
       repeat1($._identifier),
       'where',
       '{',
       '}'
-    )),
+    ),
 
     algebraic_datatype: $ => prec.right(seq(
       'data',
