@@ -98,12 +98,12 @@ module.exports = grammar({
       $.type_synonym
     ),
 
-    type_synonym: $ => seq(
+    type_synonym: $ => prec.right(seq(
       'type',
-      $._identifier,
+      $.simple_type,
       '=',
-      $._identifier
-    ),
+      repeat1($._identifier)
+    )),
 
     _literal: $ => choice(
       $.integer,

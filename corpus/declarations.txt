@@ -3,9 +3,22 @@ Type Synonyms
 =========================================
 
 type Foo = Bar
+type List = []
+type Foo a = Bar a
+type Rec a = [Circ a]
 
 ---
 
 (program
   (type_synonym
-    (constructor_identifier) (constructor_identifier)))
+    (simple_type (constructor_identifier))
+    (constructor_identifier))
+  (type_synonym
+    (simple_type (constructor_identifier))
+    (constructor_identifier))
+  (type_synonym
+    (simple_type (constructor_identifier) (variable_identifier))
+    (constructor_identifier) (variable_identifier))
+  (type_synonym
+    (simple_type (constructor_identifier) (variable_identifier))
+    (constructor_identifier)))
