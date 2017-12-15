@@ -48,11 +48,28 @@ newtype Age = Age { unAge :: Int }
         (field (variable_identifier) (constructor_identifier))))))
 
 =========================================
-Algebraic Datatype Declarations With Fields
+Algebraic Datatype Declarations With Variables
 =========================================
 
 data N
-data N = N
+data N = N a
+data N = N !a
+
+---
+
+(program
+  (algebraic_datatype (simple_type (constructor_identifier)))
+  (algebraic_datatype
+    (simple_type (constructor_identifier))
+    (constructors (constructor (constructor_identifier) (variable_identifier))))
+  (algebraic_datatype
+    (simple_type (constructor_identifier))
+    (constructors (constructor (constructor_identifier) (strict (variable_identifier))))))
+
+=========================================
+Algebraic Datatype Declarations With Fields
+=========================================
+
 data N = N { a :: Int }
 data N = N { a, b :: Int }
 data N = N { a :: !Int, b :: Int }
@@ -61,10 +78,6 @@ data N = N { a, b :: !Int, c :: String }
 ---
 
 (program
-  (algebraic_datatype (simple_type (constructor_identifier)))
-  (algebraic_datatype
-    (simple_type (constructor_identifier))
-    (constructors (constructor (constructor_identifier))))
   (algebraic_datatype
     (simple_type (constructor_identifier))
     (constructors
