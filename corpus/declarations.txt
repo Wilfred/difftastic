@@ -93,3 +93,18 @@ data N = N { a, b :: Int, c :: String }
         (fields
           (field (variable_identifier) (variable_identifier) (constructor_identifier))
           (field (variable_identifier) (constructor_identifier)))))))
+
+=========================================
+Algebraic Datatype Declarations With Multiple Constructors
+=========================================
+
+data N = N | O
+
+---
+
+(program
+  (algebraic_datatype
+    (simple_type (constructor_identifier))
+    (constructors
+      (constructor (constructor_identifier))
+      (constructor (constructor_identifier)))))
