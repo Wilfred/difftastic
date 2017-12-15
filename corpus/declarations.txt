@@ -53,6 +53,7 @@ Algebraic Datatype Declarations
 
 data N
 data N = N
+data N = N { a :: Int }
 
 ---
 
@@ -60,4 +61,7 @@ data N = N
   (algebraic_datatype (simple_type (constructor_identifier)))
   (algebraic_datatype
     (simple_type (constructor_identifier))
-    (constructors (constructor_identifier))))
+    (constructors (constructor_identifier)))
+  (algebraic_datatype
+    (simple_type (constructor_identifier))
+    (constructors (constructor_identifier) (fields (variable_identifier) (constructor_identifier)))))

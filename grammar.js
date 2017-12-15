@@ -107,8 +107,9 @@ module.exports = grammar({
       optional($.constructors)
     )),
 
-    constructors: $ => prec.right(seq(
-      repeat1($._identifier)
+    constructors: $ => prec.right(choice(
+      repeat1($._identifier),
+      seq($._identifier, $.fields)
     )),
 
     newtype: $ => seq(
