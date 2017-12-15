@@ -52,10 +52,11 @@ module.exports = grammar({
 
     module_exports: $ => seq(
       '(',
-      optional(commaSep1($.export_declaration)),
+      optional(commaSep1($.export)),
       ')'
     ),
 
+    export: $ => prec.left(seq(
       $._identifier,
       optional(
         seq(
