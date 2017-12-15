@@ -61,7 +61,7 @@
             "members": [
               {
                 "type": "SYMBOL",
-                "name": "module_export_declarations"
+                "name": "module_exports"
               },
               {
                 "type": "BLANK"
@@ -87,7 +87,7 @@
         ]
       }
     },
-    "module_export_declarations": {
+    "module_exports": {
       "type": "SEQ",
       "members": [
         {
@@ -102,7 +102,7 @@
               "members": [
                 {
                   "type": "SYMBOL",
-                  "name": "export_declaration"
+                  "name": "export"
                 },
                 {
                   "type": "REPEAT",
@@ -115,7 +115,7 @@
                       },
                       {
                         "type": "SYMBOL",
-                        "name": "export_declaration"
+                        "name": "export"
                       }
                     ]
                   }
@@ -133,7 +133,7 @@
         }
       ]
     },
-    "export_declaration": {
+    "export": {
       "type": "PREC_LEFT",
       "value": 0,
       "content": {

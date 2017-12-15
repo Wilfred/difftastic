@@ -45,18 +45,17 @@ module.exports = grammar({
     module: $ => prec.right(seq(
       'module',
       $.module_identifier,
-      optional($.module_export_declarations),
+      optional($.module_exports),
       'where',
       alias(repeat($._statement), $.module_body)
     )),
 
-    module_export_declarations: $ => seq(
+    module_exports: $ => seq(
       '(',
       optional(commaSep1($.export_declaration)),
       ')'
     ),
 
-    export_declaration: $ => prec.left(seq(
       $._identifier,
       optional(
         seq(
