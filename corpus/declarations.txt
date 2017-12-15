@@ -7,6 +7,7 @@ type List = []
 type Foo a = Bar a
 type Rec a = [Circ a]
 type V = ()
+type X = (,)
 
 ---
 
@@ -22,6 +23,9 @@ type V = ()
     (constructor_identifier) (variable_identifier))
   (type_synonym
     (simple_type (type_constructor (constructor_identifier)) (type_variable (variable_identifier)))
+    (constructor_identifier))
+  (type_synonym
+    (simple_type (type_constructor (constructor_identifier)))
     (constructor_identifier))
   (type_synonym
     (simple_type (type_constructor (constructor_identifier)))
