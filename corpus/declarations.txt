@@ -182,3 +182,17 @@ data N = N deriving (Eq, Ord, Enum, Bounded, Show, Read)
       (constructor_identifier)
       (constructor_identifier))))
 
+=========================================
+Algebraic Datatype Declarations With Context
+=========================================
+
+data Show a => N a = N a
+
+---
+
+(program
+  (algebraic_datatype
+    (context (class (constructor_identifier) (variable_identifier)))
+    (simple_type (type_constructor (constructor_identifier)) (type_variable (variable_identifier)))
+    (constructors (constructor (constructor_identifier) (variable_identifier)))))
+

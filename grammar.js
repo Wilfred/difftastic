@@ -103,11 +103,30 @@ module.exports = grammar({
 
     algebraic_datatype: $ => prec.right(seq(
       'data',
+      optional($.context),
       $.simple_type,
       optional('='),
       optional($.constructors),
       optional($.deriving)
     )),
+
+    context: $ => seq(
+        $.class,
+      '=>'
+    ),
+
+    class: $ => choice(
+      seq(
+        $._identifier,
+        $._identifier
+      ),
+      seq(
+        $._identifier,
+        '(',
+        commaSep1($._identifier),
+        ')'
+      )
+    ),
 
     constructors: $ => seq(
       $.constructor,
