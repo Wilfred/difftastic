@@ -192,7 +192,7 @@ module.exports = grammar({
       '_'
     ),
 
-    comment: $ => token(prec(-2, choice(
+    comment: $ => token(choice(
       seq('--', /.*/),
       seq(
         /{-.*\r?\n/,
@@ -202,7 +202,7 @@ module.exports = grammar({
         )),
         /-}\r?\n/
       )
-    ))),
+    )),
 
     integer: $ => choice(
       $._integer_literal,
