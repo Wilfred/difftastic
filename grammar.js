@@ -38,7 +38,8 @@ module.exports = grammar({
       $._identifier,
       $.module,
       $.import_declaration,
-      $._top_level_declaration
+      $._top_level_declaration,
+      $.reserved_identifier
     ),
 
     module: $ => prec.right(seq(
@@ -173,7 +174,6 @@ module.exports = grammar({
     _identifier: $ => choice(
       $.variable_identifier,
       $.constructor_identifier,
-      $.reserved_identifier,
       $.module_identifier
     ),
 
