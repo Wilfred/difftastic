@@ -44,9 +44,8 @@ newtype Age = Age { unAge :: Int }
     (simple_type (constructor_identifier))
     (new_constructor
       (constructor_identifier)
-      (labeled_fields
+      (fields
         (variable_identifier) (constructor_identifier)))))
-
 
 =========================================
 Algebraic Datatype Declarations

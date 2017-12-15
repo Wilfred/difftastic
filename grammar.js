@@ -122,11 +122,11 @@ module.exports = grammar({
       $.constructor_identifier,
       choice(
         $._identifier,
-        $.labeled_fields
+        $.fields
       )
     )),
 
-    labeled_fields: $ => seq(
+    fields: $ => seq(
       '{',
       repeat(seq(
         commaSep1($.variable_identifier),

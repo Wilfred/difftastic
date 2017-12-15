@@ -539,14 +539,14 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "labeled_fields"
+                "name": "fields"
               }
             ]
           }
         ]
       }
     },
-    "labeled_fields": {
+    "fields": {
       "type": "SEQ",
       "members": [
         {
