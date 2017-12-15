@@ -9,6 +9,7 @@ type Rec a = [Circ a]
 type V = ()
 type X = (,)
 type Y = (,,)
+type Z = (->)
 
 ---
 
@@ -34,6 +35,8 @@ type Y = (,,)
   (type_synonym
     (simple_type (type_constructor (constructor_identifier)))
     (constructor_identifier))
+  (type_synonym
+    (simple_type (type_constructor (constructor_identifier)))
     (constructor_identifier)))
 
 =========================================
