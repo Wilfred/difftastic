@@ -435,25 +435,32 @@
       ]
     },
     "type_synonym": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "type"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_identifier"
-        },
-        {
-          "type": "STRING",
-          "value": "="
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_identifier"
-        }
-      ]
+      "type": "PREC_RIGHT",
+      "value": 0,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "type"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "simple_type"
+          },
+          {
+            "type": "STRING",
+            "value": "="
+          },
+          {
+            "type": "REPEAT1",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_identifier"
+            }
+          }
+        ]
+      }
     },
     "_literal": {
       "type": "CHOICE",
@@ -497,13 +504,20 @@
         }
       ]
     },
+    "simple_type": {
+      "type": "REPEAT1",
+      "content": {
+        "type": "SYMBOL",
+        "name": "_identifier"
+      }
+    },
     "variable_identifier": {
       "type": "PATTERN",
       "value": "[_a-z](\\w|')*"
     },
     "constructor_identifier": {
       "type": "PATTERN",
-      "value": "[A-Z](\\w|')*"
+      "value": "[A-Z](\\w|'|)*|\\[.*\\]"
     },
     "module_identifier": {
       "type": "PATTERN",
