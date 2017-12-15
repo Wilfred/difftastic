@@ -225,7 +225,7 @@ module.exports = grammar({
 
     // TODO: type constructors -> constructor identifiers
     // TODO: type classes      -> constructor identifiers
-    constructor_identifier: $ => /[A-Z](\w|'|)*|\[.*\]/,
+    constructor_identifier: $ => /[A-Z](\w|'|)*|\[.*\]|\(\)|\([,]*\)|\(->\)/,
 
     module_identifier: $ => /[A-Z](\w|'|\.)*/,
 
