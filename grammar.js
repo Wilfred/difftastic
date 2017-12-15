@@ -105,7 +105,8 @@ module.exports = grammar({
       'data',
       $.simple_type,
       optional('='),
-      optional($.constructors)
+      optional($.constructors),
+      optional($.deriving)
     )),
 
     constructors: $ => seq(
@@ -121,6 +122,18 @@ module.exports = grammar({
         $.strict
       ))
     )),
+
+    deriving: $ => seq(
+      'deriving',
+      choice(
+        $._identifier,
+        seq(
+          '(',
+          commaSep1($._identifier),
+          ')'
+        )
+      )
+    ),
 
     newtype: $ => seq(
       'newtype',

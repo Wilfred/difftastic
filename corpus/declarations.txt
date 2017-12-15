@@ -131,3 +131,29 @@ data N = N { a :: Int } | O { b :: String }
       (constructor
         (constructor_identifier)
         (fields (field (variable_identifier) (constructor_identifier)))))))
+
+=========================================
+Algebraic Datatype Declarations With Deriving
+=========================================
+
+data N = N deriving Show
+data N = N deriving (Eq, Ord, Enum, Bounded, Show, Read)
+
+---
+
+(program
+  (algebraic_datatype
+    (simple_type (type_constructor (constructor_identifier)))
+    (constructors (constructor (constructor_identifier)))
+    (deriving (constructor_identifier)))
+  (algebraic_datatype
+    (simple_type (type_constructor (constructor_identifier)))
+    (constructors (constructor (constructor_identifier)))
+    (deriving
+      (constructor_identifier)
+      (constructor_identifier)
+      (constructor_identifier)
+      (constructor_identifier)
+      (constructor_identifier)
+      (constructor_identifier))))
+
