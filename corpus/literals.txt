@@ -138,7 +138,6 @@ Reserved Identifiers
 case
 class
 default
-deriving
 do
 else
 foreign
@@ -157,7 +156,6 @@ _
 ---
 
 (program
-  (reserved_identifier)
   (reserved_identifier)
   (reserved_identifier)
   (reserved_identifier)

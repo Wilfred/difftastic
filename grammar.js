@@ -209,7 +209,6 @@ module.exports = grammar({
       'case',
       'class',
       'default',
-      'deriving',
       'do',
       'else',
       'foreign',
