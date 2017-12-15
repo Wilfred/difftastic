@@ -28,10 +28,14 @@ Newtypes
 =========================================
 
 newtype N = N Int
+newtype N = N a
 
 ---
 
 (program
   (newtype
     (simple_type (constructor_identifier))
-    (new_constructor (constructor_identifier) (constructor_identifier))))
+    (new_constructor (constructor_identifier) (constructor_identifier)))
+  (newtype
+    (simple_type (constructor_identifier))
+    (new_constructor (constructor_identifier) (variable_identifier))))
