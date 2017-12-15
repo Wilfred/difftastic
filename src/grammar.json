@@ -35,6 +35,10 @@
         {
           "type": "SYMBOL",
           "name": "_top_level_declaration"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "reserved_identifier"
         }
       ]
     },
@@ -753,23 +757,38 @@
         },
         {
           "type": "SYMBOL",
-          "name": "reserved_identifier"
-        },
-        {
-          "type": "SYMBOL",
           "name": "module_identifier"
         }
       ]
     },
     "simple_type": {
-      "type": "PREC_LEFT",
+      "type": "PREC_RIGHT",
       "value": 0,
       "content": {
-        "type": "REPEAT1",
-        "content": {
-          "type": "SYMBOL",
-          "name": "_identifier"
-        }
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_identifier"
+            },
+            "named": true,
+            "value": "type_constructor"
+          },
+          {
+            "type": "ALIAS",
+            "content": {
+              "type": "REPEAT",
+              "content": {
+                "type": "SYMBOL",
+                "name": "_identifier"
+              }
+            },
+            "named": true,
+            "value": "type_variable"
+          }
+        ]
       }
     },
     "variable_identifier": {

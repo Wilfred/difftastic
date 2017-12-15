@@ -177,7 +177,10 @@ module.exports = grammar({
       $.module_identifier
     ),
 
-    simple_type: $ => prec.left(repeat1($._identifier)),
+    simple_type: $ => prec.right(seq(
+      alias($._identifier, $.type_constructor),
+      alias(repeat($._identifier), $.type_variable)
+    )),
 
     // TODO: type variables -> variable identifiers
     variable_identifier: $ => /[_a-z](\w|')*/,

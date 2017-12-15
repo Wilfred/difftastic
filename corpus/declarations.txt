@@ -11,16 +11,16 @@ type Rec a = [Circ a]
 
 (program
   (type_synonym
-    (simple_type (constructor_identifier))
+    (simple_type (type_constructor (constructor_identifier)))
     (constructor_identifier))
   (type_synonym
-    (simple_type (constructor_identifier))
+    (simple_type (type_constructor (constructor_identifier)))
     (constructor_identifier))
   (type_synonym
-    (simple_type (constructor_identifier) (variable_identifier))
+    (simple_type (type_constructor (constructor_identifier)) (type_variable (variable_identifier)))
     (constructor_identifier) (variable_identifier))
   (type_synonym
-    (simple_type (constructor_identifier) (variable_identifier))
+    (simple_type (type_constructor (constructor_identifier)) (type_variable (variable_identifier)))
     (constructor_identifier)))
 
 =========================================
@@ -35,13 +35,13 @@ newtype Age = Age { unAge :: Int }
 
 (program
   (newtype
-    (simple_type (constructor_identifier))
+    (simple_type (type_constructor (constructor_identifier)))
     (new_constructor (constructor_identifier) (constructor_identifier)))
   (newtype
-    (simple_type (constructor_identifier))
+    (simple_type (type_constructor (constructor_identifier)))
     (new_constructor (constructor_identifier) (variable_identifier)))
   (newtype
-    (simple_type (constructor_identifier))
+    (simple_type (type_constructor (constructor_identifier)))
     (new_constructor
       (constructor_identifier)
       (fields
@@ -52,18 +52,18 @@ Algebraic Datatype Declarations With Variables
 =========================================
 
 data N
-data N = N a
-data N = N !a
+data N a = N a
+data N a = N !a
 
 ---
 
 (program
-  (algebraic_datatype (simple_type (constructor_identifier)))
+  (algebraic_datatype (simple_type (type_constructor (constructor_identifier))))
   (algebraic_datatype
-    (simple_type (constructor_identifier))
+    (simple_type (type_constructor (constructor_identifier)) (type_variable (variable_identifier)))
     (constructors (constructor (constructor_identifier) (variable_identifier))))
   (algebraic_datatype
-    (simple_type (constructor_identifier))
+    (simple_type (type_constructor (constructor_identifier)) (type_variable (variable_identifier)))
     (constructors (constructor (constructor_identifier) (strict (variable_identifier))))))
 
 =========================================
@@ -79,19 +79,19 @@ data N = N { a, b :: !Int, c :: String }
 
 (program
   (algebraic_datatype
-    (simple_type (constructor_identifier))
+    (simple_type (type_constructor (constructor_identifier)))
     (constructors
       (constructor
         (constructor_identifier)
         (fields (field (variable_identifier) (constructor_identifier))))))
   (algebraic_datatype
-    (simple_type (constructor_identifier))
+    (simple_type (type_constructor (constructor_identifier)))
     (constructors
       (constructor
         (constructor_identifier)
         (fields (field (variable_identifier) (variable_identifier) (constructor_identifier))))))
   (algebraic_datatype
-    (simple_type (constructor_identifier))
+    (simple_type (type_constructor (constructor_identifier)))
     (constructors
       (constructor
         (constructor_identifier)
@@ -99,7 +99,7 @@ data N = N { a, b :: !Int, c :: String }
           (field (variable_identifier) (strict (constructor_identifier)))
           (field (variable_identifier) (constructor_identifier))))))
   (algebraic_datatype
-    (simple_type (constructor_identifier))
+    (simple_type (type_constructor (constructor_identifier)))
     (constructors
       (constructor
         (constructor_identifier)
@@ -118,12 +118,12 @@ data N = N { a :: Int } | O { b :: String }
 
 (program
   (algebraic_datatype
-    (simple_type (constructor_identifier))
+    (simple_type (type_constructor (constructor_identifier)))
     (constructors
       (constructor (constructor_identifier))
       (constructor (constructor_identifier))))
   (algebraic_datatype
-    (simple_type (constructor_identifier))
+    (simple_type (type_constructor (constructor_identifier)))
     (constructors
       (constructor
         (constructor_identifier)
