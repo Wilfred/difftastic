@@ -141,6 +141,14 @@ module.exports = grammar({
     field: $ => seq(
       commaSep1($.variable_identifier),
       '::',
+      choice(
+        $.strict,
+        $._identifier
+      )
+    ),
+
+    strict: $ => seq(
+      '!',
       $._identifier
     ),
 

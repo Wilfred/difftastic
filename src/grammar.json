@@ -647,6 +647,28 @@
           "value": "::"
         },
         {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "strict"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_identifier"
+            }
+          ]
+        }
+      ]
+    },
+    "strict": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "!"
+        },
+        {
           "type": "SYMBOL",
           "name": "_identifier"
         }
