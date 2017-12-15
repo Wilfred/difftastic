@@ -636,6 +636,18 @@
         {
           "type": "SYMBOL",
           "name": "new_constructor"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "deriving"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         }
       ]
     },
@@ -885,10 +897,6 @@
         {
           "type": "STRING",
           "value": "default"
-        },
-        {
-          "type": "STRING",
-          "value": "deriving"
         },
         {
           "type": "STRING",

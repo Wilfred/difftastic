@@ -139,7 +139,8 @@ module.exports = grammar({
       'newtype',
       $.simple_type,
       '=',
-      $.new_constructor
+      $.new_constructor,
+      optional($.deriving)
     ),
 
     new_constructor: $ => prec.right(seq(

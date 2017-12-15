@@ -48,6 +48,31 @@ newtype Age = Age { unAge :: Int }
         (field (variable_identifier) (constructor_identifier))))))
 
 =========================================
+New Type Declarations With Deriving
+=========================================
+
+newtype N = N Int deriving Show
+newtype N = N a deriving (Eq, Ord, Enum, Bounded, Show, Read)
+
+---
+
+(program
+  (newtype
+    (simple_type (type_constructor (constructor_identifier)))
+    (new_constructor (constructor_identifier) (constructor_identifier))
+    (deriving (constructor_identifier)))
+  (newtype
+    (simple_type (type_constructor (constructor_identifier)))
+    (new_constructor (constructor_identifier) (variable_identifier))
+    (deriving
+      (constructor_identifier)
+      (constructor_identifier)
+      (constructor_identifier)
+      (constructor_identifier)
+      (constructor_identifier)
+      (constructor_identifier))))
+
+=========================================
 Algebraic Datatype Declarations With Variables
 =========================================
 
