@@ -129,12 +129,14 @@ module.exports = grammar({
 
     fields: $ => seq(
       '{',
-      repeat(seq(
-        commaSep1($.variable_identifier),
-        '::',
-        $._identifier
-      )),
+      commaSep1($.field),
       '}'
+    ),
+
+    field: $ => seq(
+      commaSep1($.variable_identifier),
+      '::',
+      $._identifier
     ),
 
     type_synonym: $ => prec.right(seq(
