@@ -119,6 +119,8 @@ module.exports = grammar({
       $.module_identifier
     ),
 
+    simple_type: $ => repeat1($._identifier),
+
     // TODO: type variables -> variable identifiers
     variable_identifier: $ => /[_a-z](\w|')*/,
 
