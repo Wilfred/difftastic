@@ -222,6 +222,7 @@ module.exports = grammar({
 
     variable_identifier: $ => /[_a-z](\w|')*/,
 
+    constructor_identifier: $ => /[A-Z](\w|'|)*|\[.*\]|\([,]*\)|\(->\)/,
 
     module_identifier: $ => /[A-Z](\w|'|\.)*/,
 
