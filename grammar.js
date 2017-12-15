@@ -105,13 +105,27 @@ module.exports = grammar({
       $.type_class
     ),
 
-    type_class: $ => seq(
+    type_class: $ => prec.right(seq(
       'class',
       optional($.context),
       repeat1($._identifier),
       'where',
       '{',
+      optional($.type_class_body),
       '}'
+    )),
+
+    type_class_body: $ => repeat1($._general_declaration),
+
+    _general_declaration: $ => choice(
+      $.type_signature
+    ),
+
+    type_signature: $ => seq(
+      repeat1($._identifier),
+      '::',
+      optional($.context),
+      $._type
     ),
 
     _type: $ => prec.left(seq(

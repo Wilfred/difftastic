@@ -286,3 +286,31 @@ class (Show (f a), Eq a) => Read f a where {}
     (variable_identifier)
     (variable_identifier)))
 
+=========================================
+Type Class Declarations With Body
+=========================================
+
+class Foo a where {
+  op :: Num b => a -> b -> a
+  op' :: (Num a, Num b) => a -> b -> a
+}
+
+---
+
+(program
+  (type_class
+    (constructor_identifier)
+    (variable_identifier)
+    (type_class_body
+      (type_signature
+        (variable_identifier)
+        (context (class (constructor_identifier) (variable_identifier)))
+        (variable_identifier)
+        (variable_identifier)
+        (variable_identifier))
+      (type_signature
+        (variable_identifier)
+        (context (class (constructor_identifier) (variable_identifier)) (class (constructor_identifier) (variable_identifier)))
+        (variable_identifier)
+        (variable_identifier)
+        (variable_identifier)))))
