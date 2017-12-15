@@ -114,6 +114,11 @@ module.exports = grammar({
       '}'
     ),
 
+    _type: $ => prec.left(seq(
+      repeat1($._identifier),
+      repeat(seq('->', $._identifier))
+    )),
+
     algebraic_datatype: $ => prec.right(seq(
       'data',
       optional($.context),
@@ -213,7 +218,7 @@ module.exports = grammar({
       'type',
       $.simple_type,
       '=',
-      repeat1($._identifier)
+      $._type
     )),
 
     _literal: $ => choice(

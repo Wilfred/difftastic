@@ -263,7 +263,7 @@ Type Class Declarations With Context
 
 class Show a => Read a where {}
 class (Show a, Eq a) => Read a where {}
-class (Show (f a), Eq a) => Read a b where {}
+class (Show (f a), Eq a) => Read f a where {}
 
 ---
 
