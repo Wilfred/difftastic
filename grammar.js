@@ -37,7 +37,7 @@ module.exports = grammar({
       $._literal,
       $._identifier,
       $.module,
-      $.import_declaration,
+      $.import,
       $._top_level_declaration,
       $.reserved_identifier
     ),
@@ -67,7 +67,7 @@ module.exports = grammar({
       )
     )),
 
-    import_declaration: $ => seq(
+    import: $ => seq(
       'import',
       optional('qualified'),
       $._identifier,

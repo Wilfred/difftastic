@@ -30,7 +30,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "import_declaration"
+          "name": "import"
         },
         {
           "type": "SYMBOL",
@@ -201,7 +201,7 @@
         ]
       }
     },
-    "import_declaration": {
+    "import": {
       "type": "SEQ",
       "members": [
         {
