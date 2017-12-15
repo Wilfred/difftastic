@@ -435,8 +435,69 @@
         {
           "type": "SYMBOL",
           "name": "newtype"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "algebraic_datatype"
         }
       ]
+    },
+    "algebraic_datatype": {
+      "type": "PREC_RIGHT",
+      "value": 0,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "data"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "simple_type"
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "="
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "constructors"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "constructors": {
+      "type": "PREC_RIGHT",
+      "value": 0,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "REPEAT1",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_identifier"
+            }
+          }
+        ]
+      }
     },
     "newtype": {
       "type": "SEQ",
@@ -610,10 +671,14 @@
       ]
     },
     "simple_type": {
-      "type": "REPEAT1",
+      "type": "PREC_LEFT",
+      "value": 0,
       "content": {
-        "type": "SYMBOL",
-        "name": "_identifier"
+        "type": "REPEAT1",
+        "content": {
+          "type": "SYMBOL",
+          "name": "_identifier"
+        }
       }
     },
     "variable_identifier": {
@@ -638,10 +703,6 @@
         {
           "type": "STRING",
           "value": "class"
-        },
-        {
-          "type": "STRING",
-          "value": "data"
         },
         {
           "type": "STRING",

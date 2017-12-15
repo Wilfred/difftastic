@@ -1,5 +1,5 @@
 =========================================
-Type Synonyms
+Type Synonym Declarations
 =========================================
 
 type Foo = Bar
@@ -24,7 +24,7 @@ type Rec a = [Circ a]
     (constructor_identifier)))
 
 =========================================
-Newtypes
+New Type Declarations
 =========================================
 
 newtype N = N Int
@@ -46,3 +46,17 @@ newtype Age = Age { unAge :: Int }
       (constructor_identifier)
       (labeled_fields
         (variable_identifier) (constructor_identifier)))))
+
+
+=========================================
+Algebraic Datatype Declarations
+=========================================
+
+data N = N
+
+---
+
+(program
+  (algebraic_datatype
+    (simple_type (constructor_identifier))
+    (constructors (constructor_identifier))))

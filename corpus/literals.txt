@@ -137,7 +137,6 @@ Reserved Identifiers
 
 case
 class
-data
 default
 deriving
 do
@@ -158,7 +157,6 @@ _
 ---
 
 (program
-  (reserved_identifier)
   (reserved_identifier)
   (reserved_identifier)
   (reserved_identifier)

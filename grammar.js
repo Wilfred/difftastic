@@ -96,8 +96,20 @@ module.exports = grammar({
 
     _top_level_declaration: $ => choice(
       $.type_synonym,
-      $.newtype
+      $.newtype,
+      $.algebraic_datatype
     ),
+
+    algebraic_datatype: $ => prec.right(seq(
+      'data',
+      $.simple_type,
+      optional('='),
+      optional($.constructors)
+    )),
+
+    constructors: $ => prec.right(seq(
+      repeat1($._identifier)
+    )),
 
     newtype: $ => seq(
       'newtype',
@@ -145,7 +157,7 @@ module.exports = grammar({
       $.module_identifier
     ),
 
-    simple_type: $ => repeat1($._identifier),
+    simple_type: $ => prec.left(repeat1($._identifier)),
 
     // TODO: type variables -> variable identifiers
     variable_identifier: $ => /[_a-z](\w|')*/,
@@ -159,7 +171,6 @@ module.exports = grammar({
     reserved_identifier: $ => choice(
       'case',
       'class',
-      'data',
       'default',
       'deriving',
       'do',
