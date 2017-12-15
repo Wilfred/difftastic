@@ -208,6 +208,7 @@ Algebraic Datatype Declarations With Context
 
 data Show a => N a = N a
 data (Eq a, Show a, Eq b) => N a b = N a b
+data (Eq (f a), Functor f) => N f a = N f a
 
 ---
 
@@ -220,6 +221,18 @@ data (Eq a, Show a, Eq b) => N a b = N a b
     (context
       (class (constructor_identifier) (variable_identifier))
       (class (constructor_identifier) (variable_identifier))
+      (class (constructor_identifier) (variable_identifier)))
+    (simple_type
+      (type_constructor (constructor_identifier))
+      (type_variable (variable_identifier) (variable_identifier)))
+    (constructors
+      (constructor
+        (constructor_identifier)
+        (variable_identifier)
+        (variable_identifier))))
+  (algebraic_datatype
+    (context
+      (class (constructor_identifier) (variable_identifier) (variable_identifier))
       (class (constructor_identifier) (variable_identifier)))
     (simple_type
       (type_constructor (constructor_identifier))
@@ -250,6 +263,7 @@ Type Class Declarations With Context
 
 class Show a => Read a where {}
 class (Show a, Eq a) => Read a where {}
+class (Show (f a), Eq a) => Read a b where {}
 
 ---
 
@@ -263,5 +277,12 @@ class (Show a, Eq a) => Read a where {}
       (class (constructor_identifier) (variable_identifier))
       (class (constructor_identifier) (variable_identifier)))
     (constructor_identifier)
+    (variable_identifier))
+  (type_class
+    (context
+      (class (constructor_identifier) (variable_identifier) (variable_identifier))
+      (class (constructor_identifier) (variable_identifier)))
+    (constructor_identifier)
+    (variable_identifier)
     (variable_identifier)))
 

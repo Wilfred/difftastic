@@ -143,7 +143,7 @@ module.exports = grammar({
       seq(
         $._identifier,
         '(',
-        commaSep1($._identifier),
+        repeat1($._identifier),
         ')'
       )
     ),

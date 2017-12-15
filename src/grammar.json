@@ -635,29 +635,11 @@
               "value": "("
             },
             {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "SYMBOL",
-                  "name": "_identifier"
-                },
-                {
-                  "type": "REPEAT",
-                  "content": {
-                    "type": "SEQ",
-                    "members": [
-                      {
-                        "type": "STRING",
-                        "value": ","
-                      },
-                      {
-                        "type": "SYMBOL",
-                        "name": "_identifier"
-                      }
-                    ]
-                  }
-                }
-              ]
+              "type": "REPEAT1",
+              "content": {
+                "type": "SYMBOL",
+                "name": "_identifier"
+              }
             },
             {
               "type": "STRING",
