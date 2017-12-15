@@ -158,7 +158,6 @@ module.exports = grammar({
       'infixr',
       'instance',
       'let',
-      'newtype',
       'of',
       'then',
       'where',

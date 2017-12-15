@@ -431,8 +431,49 @@
         {
           "type": "SYMBOL",
           "name": "type_synonym"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "newtype"
         }
       ]
+    },
+    "newtype": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "newtype"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "simple_type"
+        },
+        {
+          "type": "STRING",
+          "value": "="
+        },
+        {
+          "type": "SYMBOL",
+          "name": "new_constructor"
+        }
+      ]
+    },
+    "new_constructor": {
+      "type": "PREC_RIGHT",
+      "value": 0,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "REPEAT1",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_identifier"
+            }
+          }
+        ]
+      }
     },
     "type_synonym": {
       "type": "PREC_RIGHT",
@@ -585,10 +626,6 @@
         {
           "type": "STRING",
           "value": "let"
-        },
-        {
-          "type": "STRING",
-          "value": "newtype"
         },
         {
           "type": "STRING",

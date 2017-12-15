@@ -150,7 +150,6 @@ infixl
 infixr
 instance
 let
-newtype
 of
 then
 where
@@ -159,7 +158,6 @@ _
 ---
 
 (program
-  (reserved_identifier)
   (reserved_identifier)
   (reserved_identifier)
   (reserved_identifier)
