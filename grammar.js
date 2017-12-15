@@ -109,13 +109,12 @@ module.exports = grammar({
     new_constructor: $ => prec.right(seq(
       $.constructor_identifier,
       choice(
-        $.variable_identifier,
-        $.constructor_identifier,
+        $._identifier,
         seq(
           '{',
           $.variable_identifier,
           '::',
-          $.constructor_identifier,
+          $._identifier,
           '}'
         )
       )

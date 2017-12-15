@@ -474,11 +474,7 @@
             "members": [
               {
                 "type": "SYMBOL",
-                "name": "variable_identifier"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "constructor_identifier"
+                "name": "_identifier"
               },
               {
                 "type": "SEQ",
@@ -497,7 +493,7 @@
                   },
                   {
                     "type": "SYMBOL",
-                    "name": "constructor_identifier"
+                    "name": "_identifier"
                   },
                   {
                     "type": "STRING",
