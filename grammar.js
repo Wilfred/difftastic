@@ -97,8 +97,17 @@ module.exports = grammar({
     _top_level_declaration: $ => choice(
       $.type_synonym,
       $.newtype,
-      $.algebraic_datatype
+      $.algebraic_datatype,
+      $.type_class
     ),
+
+    type_class: $ => prec.right(seq(
+      'class',
+      repeat1($._identifier),
+      'where',
+      '{',
+      '}'
+    )),
 
     algebraic_datatype: $ => prec.right(seq(
       'data',

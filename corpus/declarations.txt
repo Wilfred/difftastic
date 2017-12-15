@@ -230,3 +230,14 @@ data (Eq a, Show a, Eq b) => N a b = N a b
         (variable_identifier)
         (variable_identifier)))))
 
+
+=========================================
+Type Class Declarations
+=========================================
+
+class Show a where {}
+
+---
+
+(program
+  (type_class (constructor_identifier) (variable_identifier)))

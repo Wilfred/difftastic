@@ -439,8 +439,44 @@
         {
           "type": "SYMBOL",
           "name": "algebraic_datatype"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "type_class"
         }
       ]
+    },
+    "type_class": {
+      "type": "PREC_RIGHT",
+      "value": 0,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "class"
+          },
+          {
+            "type": "REPEAT1",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_identifier"
+            }
+          },
+          {
+            "type": "STRING",
+            "value": "where"
+          },
+          {
+            "type": "STRING",
+            "value": "{"
+          },
+          {
+            "type": "STRING",
+            "value": "}"
+          }
+        ]
+      }
     },
     "algebraic_datatype": {
       "type": "PREC_RIGHT",
@@ -1009,7 +1045,7 @@
     },
     "constructor_identifier": {
       "type": "PATTERN",
-      "value": "[A-Z](\\w|'|)*|\\[.*\\]|\\(\\)|\\([,]*\\)|\\(->\\)"
+      "value": "[A-Z](\\w|'|)*|\\[.*\\]|\\([,]*\\)|\\(->\\)"
     },
     "module_identifier": {
       "type": "PATTERN",
