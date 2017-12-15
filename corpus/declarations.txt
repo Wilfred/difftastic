@@ -42,4 +42,7 @@ newtype Age = Age { unAge :: Int }
     (new_constructor (constructor_identifier) (variable_identifier)))
   (newtype
     (simple_type (constructor_identifier))
-    (new_constructor (constructor_identifier) (variable_identifier) (constructor_identifier))))
+    (new_constructor
+      (constructor_identifier)
+      (labeled_fields
+        (variable_identifier) (constructor_identifier)))))

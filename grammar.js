@@ -110,15 +110,19 @@ module.exports = grammar({
       $.constructor_identifier,
       choice(
         $._identifier,
-        seq(
-          '{',
-          $.variable_identifier,
-          '::',
-          $._identifier,
-          '}'
-        )
+        $.labeled_fields
       )
     )),
+
+    labeled_fields: $ => seq(
+      '{',
+      repeat(seq(
+        commaSep1($.variable_identifier),
+        '::',
+        $._identifier
+      )),
+      '}'
+    ),
 
     type_synonym: $ => prec.right(seq(
       'type',
