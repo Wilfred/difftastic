@@ -22,3 +22,16 @@ type Rec a = [Circ a]
   (type_synonym
     (simple_type (constructor_identifier) (variable_identifier))
     (constructor_identifier)))
+
+=========================================
+Newtypes
+=========================================
+
+newtype N = N Int
+
+---
+
+(program
+  (newtype
+    (simple_type (constructor_identifier))
+    (new_constructor (constructor_identifier) (constructor_identifier))))

@@ -95,8 +95,20 @@ module.exports = grammar({
     ),
 
     _top_level_declaration: $ => choice(
-      $.type_synonym
+      $.type_synonym,
+      $.newtype
     ),
+
+    newtype: $ => seq(
+      'newtype',
+      $.simple_type,
+      '=',
+      $.new_constructor
+    ),
+
+    new_constructor: $ => prec.right(seq(
+      repeat1($._identifier)
+    )),
 
     type_synonym: $ => prec.right(seq(
       'type',
