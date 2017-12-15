@@ -111,6 +111,13 @@ module.exports = grammar({
       choice(
         $.variable_identifier,
         $.constructor_identifier,
+        seq(
+          '{',
+          $.variable_identifier,
+          '::',
+          $.constructor_identifier,
+          '}'
+        )
       )
     )),
 

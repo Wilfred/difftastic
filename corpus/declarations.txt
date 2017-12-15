@@ -29,6 +29,7 @@ Newtypes
 
 newtype N = N Int
 newtype N = N a
+newtype Age = Age { unAge :: Int }
 
 ---
 
@@ -38,4 +39,7 @@ newtype N = N a
     (new_constructor (constructor_identifier) (constructor_identifier)))
   (newtype
     (simple_type (constructor_identifier))
-    (new_constructor (constructor_identifier) (variable_identifier))))
+    (new_constructor (constructor_identifier) (variable_identifier)))
+  (newtype
+    (simple_type (constructor_identifier))
+    (new_constructor (constructor_identifier) (variable_identifier) (constructor_identifier))))
