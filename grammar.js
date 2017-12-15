@@ -137,7 +137,7 @@ module.exports = grammar({
       $._identifier,
       optional(choice(
         $.fields,
-        $._identifier,
+        repeat($._identifier),
         $.strict
       ))
     )),
