@@ -191,6 +191,7 @@ Algebraic Datatype Declarations With Context
 =========================================
 
 data Show a => N a = N a
+data (Eq a, Show a, Eq b) => N a b = N a b
 
 ---
 
@@ -198,5 +199,18 @@ data Show a => N a = N a
   (algebraic_datatype
     (context (class (constructor_identifier) (variable_identifier)))
     (simple_type (type_constructor (constructor_identifier)) (type_variable (variable_identifier)))
-    (constructors (constructor (constructor_identifier) (variable_identifier)))))
+    (constructors (constructor (constructor_identifier) (variable_identifier))))
+  (algebraic_datatype
+    (context
+      (class (constructor_identifier) (variable_identifier))
+      (class (constructor_identifier) (variable_identifier))
+      (class (constructor_identifier) (variable_identifier)))
+    (simple_type
+      (type_constructor (constructor_identifier))
+      (type_variable (variable_identifier) (variable_identifier)))
+    (constructors
+      (constructor
+        (constructor_identifier)
+        (variable_identifier)
+        (variable_identifier)))))
 
