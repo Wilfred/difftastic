@@ -48,7 +48,7 @@ newtype Age = Age { unAge :: Int }
         (field (variable_identifier) (constructor_identifier))))))
 
 =========================================
-Algebraic Datatype Declarations
+Algebraic Datatype Declarations With Fields
 =========================================
 
 data N
@@ -64,28 +64,32 @@ data N = N { a, b :: Int, c :: String }
   (algebraic_datatype (simple_type (constructor_identifier)))
   (algebraic_datatype
     (simple_type (constructor_identifier))
-    (constructors (constructor_identifier)))
+    (constructors (constructor (constructor_identifier))))
   (algebraic_datatype
     (simple_type (constructor_identifier))
     (constructors
-      (constructor_identifier)
-      (fields (field (variable_identifier) (constructor_identifier)))))
+      (constructor
+        (constructor_identifier)
+        (fields (field (variable_identifier) (constructor_identifier))))))
   (algebraic_datatype
     (simple_type (constructor_identifier))
     (constructors
-      (constructor_identifier)
-      (fields (field (variable_identifier) (variable_identifier) (constructor_identifier)))))
+      (constructor
+        (constructor_identifier)
+        (fields (field (variable_identifier) (variable_identifier) (constructor_identifier))))))
   (algebraic_datatype
     (simple_type (constructor_identifier))
     (constructors
-      (constructor_identifier)
-      (fields
-        (field (variable_identifier) (constructor_identifier))
-        (field (variable_identifier) (constructor_identifier)))))
+      (constructor
+        (constructor_identifier)
+        (fields
+          (field (variable_identifier) (constructor_identifier))
+          (field (variable_identifier) (constructor_identifier))))))
   (algebraic_datatype
     (simple_type (constructor_identifier))
     (constructors
-      (constructor_identifier)
-      (fields
-        (field (variable_identifier) (variable_identifier) (constructor_identifier))
-        (field (variable_identifier) (constructor_identifier))))))
+      (constructor
+        (constructor_identifier)
+        (fields
+          (field (variable_identifier) (variable_identifier) (constructor_identifier))
+          (field (variable_identifier) (constructor_identifier)))))))

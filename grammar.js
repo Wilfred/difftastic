@@ -107,10 +107,15 @@ module.exports = grammar({
       optional($.constructors)
     )),
 
-    constructors: $ => prec.right(choice(
-      repeat1($._identifier),
-      seq($._identifier, $.fields)
-    )),
+    constructors: $ => seq(
+      $.constructor,
+      repeat(seq('|', $.constructor))
+    ),
+
+    constructor: $ => seq(
+      $._identifier,
+      optional($.fields)
+    ),
 
     newtype: $ => seq(
       'newtype',
