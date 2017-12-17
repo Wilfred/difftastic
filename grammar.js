@@ -1,11 +1,32 @@
-const
-  COMMON_MODIFIERS = [
+const PREC = {
+  POSTFIX: 16,
+  PREFIX: 15,
+  UNARY: 15,
+  CAST: 14,
+  MULT: 13,
+  ADD: 12,
+  SHIFT: 11,
+  REL: 10,
+  EQUAL: 9,
+  AND: 8,
+  XOR: 7,
+  OR: 6,
+  LOGAND: 5,
+  LOGOR: 4,
+  COND: 3,
+  ASSIGN: 2,
+  SEQ: 1
+};
+
+const COMMON_MODIFIERS = [
     'new',
     'public',
     'protected',
     'internal',
     'private'
   ]
+
+const BYTE_ORDER_MARK = '\xEF\xBB\xBF';
 
 module.exports = grammar({
   name: 'c_sharp',
@@ -22,6 +43,7 @@ module.exports = grammar({
 
   rules: {
     compilation_unit: $ => seq(
+      optional(BYTE_ORDER_MARK),
       repeat($.extern_alias_directive),
       repeat($.using_directive),
       repeat($._global_attributes),
@@ -92,6 +114,7 @@ module.exports = grammar({
       repeat(choice(
         $._type_declaration,
         $.field_declaration,
+        $.constructor_declaration,
         $.method_declaration
       )),
       '}'
@@ -336,8 +359,58 @@ module.exports = grammar({
     // expressions
 
     _expression: $ => choice(
-      $._literal
+      $.identifier_name,
+      $._literal,
+      $.ternary_expression,
+      $.binary_expression,
+      $.unary_expression
     ),
+
+    ternary_expression: $ => prec.right(PREC.COND, seq(
+      $._expression, '?', $._expression, ':', $._expression
+    )),
+
+    binary_expression: $ => choice(
+      ...[
+        ['&&', PREC.LOGAND],
+        ['||', PREC.LOGOR],
+        ['>>', PREC.SHIFT],
+        ['<<', PREC.SHIFT],
+        ['&', PREC.AND],
+        ['^', PREC.OR],
+        ['|', PREC.OR],
+        ['+', PREC.ADD],
+        ['-', PREC.ADD],
+        ['*', PREC.MULT],
+        ['/', PREC.MULT],
+        ['%', PREC.MULT],
+        ['<', PREC.REL],
+        ['<=', PREC.REL],
+        ['==', PREC.EQUAL],
+        ['!=', PREC.EQUAL],
+        ['>=', PREC.REL],
+        ['>', PREC.REL],
+      ].map(([operator, precedence]) =>
+        prec.left(precedence, seq($._expression, operator, $._expression))
+      )
+    ),
+
+    unary_expression: $ => choice(...[
+      '!',
+      '~',
+      '-',
+      '+',
+      'typeof',
+      '--',
+      '++'
+    ].map(operator =>
+      prec.right(PREC.UNARY, seq(operator, $._expression))
+    )),
+
+    postfix_expression: $ => prec.left(PREC.POSTFIX, choice(
+      seq($._expression, '++'),
+      seq($._expression, '--'),
+    )),
 
     // literals
 
@@ -521,7 +594,17 @@ module.exports = grammar({
     )),
 
     // methods
+    constructor_declaration: $ => seq(
+      optional($._attributes),
+      optional($.method_modifiers),
+      $.identifier_name,
+      optional($.type_parameter_list),
+      $.parameter_list,
+      $.statement_block
+    ),
+
     method_declaration: $ => seq(
+      optional($._attributes),
       optional($.method_modifiers),
       optional('async'),
       $.return_type,
@@ -540,16 +623,27 @@ module.exports = grammar({
     ),
 
     _statement: $ => choice(
+      $.expression_statement,
+      $.return_statement,
       $.empty_statement
     ),
 
-    empty_statement: $ => ';',
+    expression_statement: $ => seq(
+      $._expression,
+      ';'
+    ),
 
-    // getters / setters
+    return_statement: $ => seq(
+      'return',
+      $._expression,
+      ';'
+    ),
+
+    empty_statement: $ => ';',
   }
 })
 
-function commaSep1 (rule) {
+function commaSep1(rule) {
   return seq(
     rule,
     repeat(seq(
