@@ -15,12 +15,17 @@ int32_t a;
 int64_t a;
 intptr_t a;
 
+char16_t a;
+char32_t a;
+
 size_t a;
 ssize_t a;
 
 ---
 
 (translation_unit
+  (declaration (primitive_type) (identifier))
+  (declaration (primitive_type) (identifier))
   (declaration (primitive_type) (identifier))
   (declaration (primitive_type) (identifier))
   (declaration (primitive_type) (identifier))

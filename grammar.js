@@ -347,16 +347,22 @@ module.exports = grammar({
       ))
     ),
 
-    primitive_type: $ => token(prec(1, choice(
+    primitive_type: $ => token(choice(
       'bool',
       'char',
       'int',
       'float',
       'double',
       'void',
-      /u?int(8|16|32|64|ptr)_t/,
-      /s?size_t/
-    ))),
+      'size_t',
+      'ssize_t',
+      'intptr_t',
+      'uintptr_t',
+      'charptr_t',
+      ...[8, 16, 32, 64].map(n => `int${n}_t`),
+      ...[8, 16, 32, 64].map(n => `uint${n}_t`),
+      ...[8, 16, 32, 64].map(n => `char${n}_t`)
+    )),
 
     enum_specifier: $ => seq(
       'enum',
