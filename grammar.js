@@ -118,8 +118,39 @@ module.exports = grammar({
     type_class_body: $ => repeat1($._general_declaration),
 
     _general_declaration: $ => choice(
-      $.type_signature
+      $.type_signature,
+      $.fixity
     ),
+
+    fixity: $ => seq(
+      choice('infixl', 'infixr', 'infix'),
+      optional($.integer),
+      commaSep1($._op)
+    ),
+
+    _op: $ => choice(
+      choice($.variable_symbol, $.constructor_symbol),
+      seq(
+        '`',
+        $._identifier,
+        '`'
+      )
+    ),
+
+    variable_symbol: $ => seq(
+      '(',
+      $._symbol,
+      ':',
+      repeat($._symbol),
+      ')'
+    ),
+
+    constructor_symbol: $ => prec(1, seq(
+      '(',
+      ':',
+      repeat($._symbol),
+      ')'
+    )),
 
     type_signature: $ => seq(
       repeat1($._identifier),

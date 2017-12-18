@@ -314,3 +314,24 @@ class Foo a where {
         (variable_identifier)
         (variable_identifier)
         (variable_identifier)))))
+
+=========================================
+Type Class Declarations With Fixity
+=========================================
+
+class Foo a where {
+  infixl `op`
+  infixr 7 `op`
+  infix 7 `op`, `ip`, `ap`
+}
+
+---
+
+(program
+  (type_class
+    (constructor_identifier)
+    (variable_identifier)
+    (type_class_body
+      (fixity (variable_identifier))
+      (fixity (integer) (variable_identifier))
+      (fixity (integer) (variable_identifier) (variable_identifier) (variable_identifier)))))
