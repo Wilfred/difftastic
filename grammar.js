@@ -31,6 +31,10 @@ module.exports = grammar({
     /\s/
   ],
 
+  conflicts: $ => [
+    [$.element_value_list]
+  ],
+
   rules: {
     program: $ => repeat(seq($._statement, ';')),
 
@@ -451,19 +455,44 @@ module.exports = grammar({
       'float',
       'double'
     ),
-    //
-    // annotation: $ => choice(
-    //   $.normal_annotation,
-    //   $.marker_annotation,
-    //   $.single_element_annotation
+
+    _annotation: $ => choice(
+      $.normal_annotation,
+      // $.marker_annotation,
+      // $.single_element_annotation
+    ),
+
+    normal_annotation: $ => seq(
+      seq('@', $.package_or_type_name, '(', optional($.element_value_pair_list), ')'),
+    ),
+
+    element_value_pair_list: $ => commaSep1($.element_value_pair),
+
+    element_value_pair: $ => prec.right(1, seq(
+      $.identifier,
+      '=',
+      $.element_value
+    )),
+
+    element_value: $ => choice(
+      // $.conditional_or_expression,
+      $.element_value_array_initializer,
+      $._annotation,
+      $._literal // TODO: remove this later, not accounted for in spec
+    ),
+
+    // conditional_or_expression: $ => choice(
+    //   conditional
     // ),
-    //
-    // normal_annotation: $ => seq(
-    //   seq('@', $.type_name, '(', optional($.element_value_pair_list), ')'),
-    // ),
-    //
-    // element_value_pair_list: $ =>
-    //
+
+    element_value_array_initializer: $ => prec.right(seq(
+      $.element_value_list,
+      optional(',')
+    )),
+
+    element_value_list: $ => commaSep1(
+      $.element_value
+    ),
 
     _declaration: $ => choice(
       $.module_declaration
@@ -471,7 +500,7 @@ module.exports = grammar({
 
     // TODO: add annotations and module directive
     module_declaration: $ => seq(
-      // $.anottation,
+      optional($._annotation),
       optional('open'),
       'module',
       $.module_identifier
@@ -482,16 +511,11 @@ module.exports = grammar({
       repeat(seq('.', $.identifier))
     ),
 
-    // package_name: $ => choice(
-    //   $.identifier,
-    //   seq($.package_name, '.', $.identifier)
-    // ),
-    //
-    // type_name: $ => choice(
-    //   $.identifier,
-    //   seq(choice($.package_name, $.type_name), '.', $.identifier)
-    // ),
-    //
+    package_or_type_name: $ => choice(
+      $.identifier,
+      seq($.package_or_type_name, '.', $.identifier)
+    ),
+
     // expression_name: $ => choice(
     //   $.identifier,
     //   seq($.identifier, '.', $.identifier)
@@ -518,4 +542,8 @@ module.exports = grammar({
 
 function sep1 (rule, separator) {
   return seq(rule, repeat(seq(separator, rule)));
+}
+
+function commaSep1(rule) {
+  return seq(rule, repeat(seq(',', rule)))
 }
