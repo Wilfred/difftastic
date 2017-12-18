@@ -458,7 +458,7 @@ module.exports = grammar({
 
     _annotation: $ => choice(
       $.normal_annotation,
-      // $.marker_annotation,
+      $.marker_annotation,
       // $.single_element_annotation
     ),
 
@@ -493,6 +493,8 @@ module.exports = grammar({
     element_value_list: $ => commaSep1(
       $.element_value
     ),
+
+    marker_annotation: $ => seq('@', $.package_or_type_name),
 
     _declaration: $ => choice(
       $.module_declaration
