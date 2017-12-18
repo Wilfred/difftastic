@@ -9,3 +9,12 @@ comment
 ---
 
 (program (comment) (comment) (comment))
+
+===
+comments and literals
+===
+
+123;
+// comment
+---
+(program (integer_literal (decimal_integer_literal)) (comment))
