@@ -2250,6 +2250,10 @@
         {
           "type": "SYMBOL",
           "name": "normal_annotation"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "marker_annotation"
         }
       ]
     },
@@ -2401,6 +2405,19 @@
               }
             ]
           }
+        }
+      ]
+    },
+    "marker_annotation": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "@"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "package_or_type_name"
         }
       ]
     },
