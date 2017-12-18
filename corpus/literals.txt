@@ -142,9 +142,6 @@ else
 foreign
 if
 in
-infix
-infixl
-infixr
 instance
 let
 of
@@ -155,9 +152,6 @@ _
 ---
 
 (program
-  (reserved_identifier)
-  (reserved_identifier)
-  (reserved_identifier)
   (reserved_identifier)
   (reserved_identifier)
   (reserved_identifier)
