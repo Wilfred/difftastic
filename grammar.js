@@ -199,19 +199,44 @@ module.exports = grammar({
     _expression: $ => choice(
       $.assignment_expression,
       $.binary_expression,
-      $.lambda_expression,
+      // $.lambda_expression,
       $.ternary_expression,
       $.unary_expression,
       $.update_expression
     ),
 
     assignment_expression: $ => prec.right(PREC.ASSIGN, seq(
+      // TODO: define lhs to replace expression
       $._expression,
-      // TODO: either define what lhs includes or define choice between
-      // the different options on the left hand side
       choice('=', '+=', '-=', '*=', '/=', '&=', '|=', '^=', '%=', '<<=', '>>=', '>>>='),
       $._expression)
     ),
+
+    // TODO: define lhs to replace expression in assignment_expression
+    // lhs: $ => choice(
+    //   $.expression_name,
+    //   $.field_access,
+    //   $.array_access
+    // ),
+    //
+    // field_access: $ => choice(
+    //   seq($.primary, '.', $.identifier),
+    //   seq('super', '.', $.identifier),
+    //   seq($.type_name, '.', 'super', '.', $.identifier)
+    // ),
+
+    // primary: $ => choice(
+    //   $._literal,
+    //   // $.class_literal, - add
+    //   'this',
+    //   seq($.type_name, '.', 'this'),
+    //   seq('(', $.argument_list, ')'),
+    //   // $.class_instance_creation_expression, - add
+    //   $.field_access,
+    //   // $.array_access, - add
+    //   $.method_invocation,
+    //   // $.method_reference - add
+    // ),
 
     // TODO: add variable
     binary_expression: $ => choice(
@@ -241,7 +266,51 @@ module.exports = grammar({
     ),
 
     // TODO: fix lambda expression
-    lambda_expression: $ => seq($._expression, '->', $._expression),
+    // lambda_expression: $ => seq($.lambda_parameters, '->', $.lambda_body),
+    //
+    // lambda_parameters: $ => choice(
+    //   $.identifier,
+    //   '(', $.formal_parameter_list, ')',
+    //   '(', $.inferred_formal_parameter_list, ')'
+    // ),
+    //
+    // inferred_formal_parameter_list: $ => seq(
+    //
+    // ),
+    //
+    // lambda_body: $ => seq(
+    //   $._expression,
+    //   $.block
+    // ),
+    //
+    // block: $ => seq(
+    //   '{', repeat(optional($.block_statement)), '}',
+    // ),
+    //
+    // block_statement: $ => choice(
+    //   $.local_variable_declaration_statement,
+    //   $.class_declaration,
+    //   $._statement
+    // ),
+    //
+    // local_variable_declaration_statement: $ => seq(
+    //   $.variable_modifier,
+    //   $.unann_type,
+    //   $.variable_declarator_list
+    // ),
+    //
+    // variable_modifier: $ => choice(
+    //   $.annotation,
+    //   $.final
+    // ),
+
+    // TODO: come back to this
+    // annotation_type: $ => choice(
+    //
+    // ),
+
+    // TODO: immutable variable assignment
+    // final: $ => seq(),
 
     ternary_expression: $ => prec.right(PREC.TERNARY, seq(
       $._expression, '?', $._expression, ':', $._expression
@@ -260,6 +329,161 @@ module.exports = grammar({
       seq('++', $._expression),
       seq('--', $._expression)
     )),
+
+    statement: $ => choice(
+      // $.statement_without_trailing_substatement,
+      // $.labeled_statement,
+      $.if_then_statement,
+      // $.while_statement,
+      // $.for_statement
+    ),
+
+    // TODO: make if statement pass by defining variables
+    if_then_statement: $ => prec.right(seq('if', '(', $._expression, ')',
+      choice(
+        optional('{'), $._statement, optional('}'),
+        repeat($.else_if_clause),
+        optional($.else_clause)
+      )
+    )),
+
+    else_if_clause: $ => seq(
+      'else if',
+      '(', $._expression, ')',
+      optional('{'),
+      $._statement,
+      optional('}')
+    ),
+
+    else_clause: $ => seq(
+      'else',
+      optional('{'),
+      $._statement,
+      optional('}')
+    ),
+
+    // TODO: handle while_statement_no_short_if version
+    while_statement: $ => seq(
+      '(', $._expression, ')',
+      $._statement
+    ),
+
+    // // TODO:
+    // for_statement: $ => seq(
+    //
+    // ),
+
+    // expression_statement: $ => choice(
+    //   $.assignment_expression,
+    //   $.update_expression,
+    //   $.method_invocation,
+    //   $.class_instance_creation_expression
+    // ),
+
+    // method_invocation: $ => choice(
+    //   seq($.method_name, '(', optional($.argument_list), ')'),
+    //   seq($.type_name, '.', optional($.type_argument), $.identifier, '(', optional($.argument_list), ')'),
+    //   seq($.expression_name, '.', optional($.type_argument), $.identifier, '(', optional($.argument_list), ')'),
+    //   seq($.primary, '.', optional($.type_argument), $.identifier, '(', optional($.argument_list), ')'),
+    //   seq('super', '.', optional($.type_argument), $.identifier, optional($.argument_list))
+    // ),
+
+    // argument_list: $ => seq(
+    //   repeat1(choice($.lambda_expression, $.assignment_expression))
+    // ),
+    //
+    // type_argument: $ => choice(
+    //   $.reference_type,
+    //   $.wildcard
+    // ),
+    //
+    // wildcard: $ => seq(
+    //   repeat($.annotation),
+    //   $.wildcard_bounds
+    // ),
+    //
+    // wildcard_bounds: $ =>
+    //
+    // reference_type: $ => choice(
+    //   $.class_or_interface_type,
+    //   $.type_variable,
+    //   $.array_type,
+    // ),
+    //
+    // class_or_interface_type: $ => choice(
+    //   seq(repeat($.annotation), $.identifier, optional($.type_argument)),
+    //   seq($.class_or_interface_type, repeat($.annotation), $.identifer, optional($.type_argument))
+    // ),
+    //
+    // type_variable: $ => seq(
+    //   repeat($.annotation),
+    //   $.identifier
+    // ),
+    //
+    // array_type: $ => choice(
+    //   seq($.primitive_type, $.dims),
+    //   seq($.class_or_interface_type, $.dims),
+    //   seq($.type_variable, $.dims)
+    // ),
+    //
+    // dims: $ => seq(
+    //   repeat($.annotation), '[ ]',
+    //   repeat(repeat($.annotation), '[ ]')
+    // ),
+    //
+    // primitive_type: $ => choice(
+    //   seq(repeat($.annotation), choice($.integral_type, $.floating_point_type)),
+    //   seq(repeat($.annotation), 'boolean')
+    // ),
+
+    integral_type: $ => choice(
+      'byte',
+      'short',
+      'int',
+      'long',
+      'char'
+    ),
+
+    floating_point_type: $ => choice(
+      'float',
+      'double'
+    ),
+    //
+    // annotation: $ => choice(
+    //   $.normal_annotation,
+    //   $.marker_annotation,
+    //   $.single_element_annotation
+    // ),
+    //
+    // normal_annotation: $ => seq(
+    //   seq('@', $.type_name, '(', optional($.element_value_pair_list), ')'),
+    // ),
+    //
+    // element_value_pair_list: $ =>
+    //
+    // module_name: $ => choice(
+    //   $.identifier,
+    //   seq($.module_name, '.', $.identifier)
+    // ),
+    //
+    // package_name: $ => choice(
+    //   $.identifier,
+    //   seq($.package_name, '.', $.identifier)
+    // ),
+    //
+    // type_name: $ => choice(
+    //   $.identifier,
+    //   seq(choice($.package_name, $.type_name), '.', $.identifier)
+    // ),
+    //
+    // expression_name: $ => choice(
+    //   $.identifier,
+    //   seq($.identifier, '.', $.identifier)
+    // ),
+
+    method_name: $ => $.identifier,
+
+    identifier: $ => /[a-z][a-zA-Z0-9]/,
 
     // http://stackoverflow.com/questions/13014947/regex-to-match-a-c-style-multiline-comment/36328890#36328890
     comment: $ => token(prec(PREC.COMMENT, choice(
