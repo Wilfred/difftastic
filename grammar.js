@@ -36,7 +36,8 @@ module.exports = grammar({
 
     _statement: $ => choice(
       $._literal,
-      $._expression
+      $._expression,
+      $._declaration
     ),
 
     _literal: $ => choice(
@@ -436,6 +437,7 @@ module.exports = grammar({
     //   seq(repeat($.annotation), 'boolean')
     // ),
 
+    // test
     integral_type: $ => choice(
       'byte',
       'short',
@@ -444,6 +446,7 @@ module.exports = grammar({
       'char'
     ),
 
+    // test
     floating_point_type: $ => choice(
       'float',
       'double'
@@ -461,11 +464,24 @@ module.exports = grammar({
     //
     // element_value_pair_list: $ =>
     //
-    // module_name: $ => choice(
-    //   $.identifier,
-    //   seq($.module_name, '.', $.identifier)
-    // ),
-    //
+
+    _declaration: $ => choice(
+      $.module_declaration
+    ),
+
+    // TODO: add annotations and module directive
+    module_declaration: $ => seq(
+      // $.anottation,
+      optional('open'),
+      'module',
+      $.module_identifier
+    ),
+
+    module_identifier: $ => seq(
+      $.identifier,
+      repeat(seq('.', $.identifier))
+    ),
+
     // package_name: $ => choice(
     //   $.identifier,
     //   seq($.package_name, '.', $.identifier)
@@ -481,9 +497,12 @@ module.exports = grammar({
     //   seq($.identifier, '.', $.identifier)
     // ),
 
+
+
+    // test
     method_name: $ => $.identifier,
 
-    identifier: $ => /[a-z][a-zA-Z0-9]/,
+    identifier: $ => /[a-zA-Z0-9]*/,
 
     // http://stackoverflow.com/questions/13014947/regex-to-match-a-c-style-multiline-comment/36328890#36328890
     comment: $ => token(prec(PREC.COMMENT, choice(
