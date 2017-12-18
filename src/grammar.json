@@ -27,6 +27,10 @@
         {
           "type": "SYMBOL",
           "name": "_expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_declaration"
         }
       ]
     },
@@ -2240,13 +2244,72 @@
         }
       ]
     },
+    "_declaration": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "module_declaration"
+        }
+      ]
+    },
+    "module_declaration": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "open"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": "module"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "module_identifier"
+        }
+      ]
+    },
+    "module_identifier": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "identifier"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "."
+              },
+              {
+                "type": "SYMBOL",
+                "name": "identifier"
+              }
+            ]
+          }
+        }
+      ]
+    },
     "method_name": {
       "type": "SYMBOL",
       "name": "identifier"
     },
     "identifier": {
       "type": "PATTERN",
-      "value": "[a-z][a-zA-Z0-9]"
+      "value": "[a-zA-Z0-9]*"
     },
     "comment": {
       "type": "TOKEN",
