@@ -68,4 +68,3 @@ instance Foo a where {
         (variable_identifier)
         (variable_identifier)
         (variable_identifier)))))
-
