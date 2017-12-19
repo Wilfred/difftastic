@@ -395,7 +395,7 @@ module.exports = grammar({
       )
     ),
 
-    unary_expression: $ => choice(...[
+    unary_expression: $ => prec.right(PREC.UNARY, choice(...[
       '!',
       '~',
       '-',
@@ -403,9 +403,7 @@ module.exports = grammar({
       'typeof',
       '--',
       '++'
-    ].map(operator =>
-      prec.right(PREC.UNARY, seq(operator, $._expression))
-    )),
+    ].map(operator => seq(operator, $._expression)))),
 
     postfix_expression: $ => prec.left(PREC.POSTFIX, choice(
       seq($._expression, '++'),
@@ -625,7 +623,9 @@ module.exports = grammar({
     _statement: $ => choice(
       $.expression_statement,
       $.return_statement,
-      $.empty_statement
+      $.empty_statement,
+      // $.variable_declaration_statement,
+      $.variable_assignment_statement
     ),
 
     expression_statement: $ => seq(
@@ -636,6 +636,18 @@ module.exports = grammar({
     return_statement: $ => seq(
       'return',
       $._expression,
+      ';'
+    ),
+
+    variable_declaration_statement: $ => seq(
+      optional($.const_keyword),
+      $.variable_declaration,
+      ';'
+    ),
+
+    variable_assignment_statement: $ => seq(
+      $.identifier_name,
+      $.equals_value_clause,
       ';'
     ),
 
