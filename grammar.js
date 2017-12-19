@@ -102,7 +102,8 @@ module.exports = grammar({
       $.type_synonym,
       $.newtype,
       $.algebraic_datatype,
-      $.type_class
+      $.type_class,
+      $.type_class_instance
     ),
 
     type_class: $ => prec.right(seq(
@@ -117,6 +118,13 @@ module.exports = grammar({
 
     type_class_body: $ => repeat1($._general_declaration),
 
+    type_class_instance: $ => seq(
+      'instance',
+      repeat1($._identifier),
+      'where',
+      '{',
+      '}'
+    ),
     _general_declaration: $ => choice(
       $.type_signature,
       $.fixity

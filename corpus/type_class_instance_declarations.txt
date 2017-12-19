@@ -1,0 +1,13 @@
+=========================================
+Type Class Instance Declarations
+=========================================
+
+instance Show a where {}
+instance Show a b where {}
+
+---
+
+(program
+  (type_class_instance (constructor_identifier) (variable_identifier))
+  (type_class_instance (constructor_identifier) (variable_identifier) (variable_identifier)))
+
