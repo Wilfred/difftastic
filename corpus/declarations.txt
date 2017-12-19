@@ -327,7 +327,7 @@ class Foo a where {
   infix 7 <$>
   infix 7 :
   infix 7 :.
-  infix 7 :<
+  infix 7 :<:
 }
 
 ---
