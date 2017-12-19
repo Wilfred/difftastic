@@ -11,3 +11,32 @@ instance Show a b where {}
   (type_class_instance (constructor_identifier) (variable_identifier))
   (type_class_instance (constructor_identifier) (variable_identifier) (variable_identifier)))
 
+=========================================
+Type Class Instance Declarations With Context
+=========================================
+
+instance Show a => Read a where {}
+instance (Show a, Eq a) => Read a where {}
+instance (Show (f a), Eq a) => Read f a where {}
+
+---
+
+(program
+  (type_class_instance
+    (context (class (constructor_identifier) (variable_identifier)))
+    (constructor_identifier)
+    (variable_identifier))
+  (type_class_instance
+    (context
+      (class (constructor_identifier) (variable_identifier))
+      (class (constructor_identifier) (variable_identifier)))
+    (constructor_identifier)
+    (variable_identifier))
+  (type_class_instance
+    (context
+      (class (constructor_identifier) (variable_identifier) (variable_identifier))
+      (class (constructor_identifier) (variable_identifier)))
+    (constructor_identifier)
+    (variable_identifier)
+    (variable_identifier)))
+
