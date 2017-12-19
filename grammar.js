@@ -124,8 +124,12 @@ module.exports = grammar({
       repeat1($._identifier),
       'where',
       '{',
+      optional($.type_class_instance_body),
       '}'
     ),
+
+    type_class_instance_body: $ => repeat1($._general_declaration),
+
     _general_declaration: $ => choice(
       $.type_signature,
       $.fixity

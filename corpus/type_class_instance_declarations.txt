@@ -40,3 +40,32 @@ instance (Show (f a), Eq a) => Read f a where {}
     (variable_identifier)
     (variable_identifier)))
 
+=========================================
+Type Class Instance Declarations With Body
+=========================================
+
+instance Foo a where {
+  op :: Num b => a -> b -> a
+  op' :: (Num a, Num b) => a -> b -> a
+}
+
+---
+
+(program
+  (type_class_instance
+    (constructor_identifier)
+    (variable_identifier)
+    (type_class_instance_body
+      (type_signature
+        (variable_identifier)
+        (context (class (constructor_identifier) (variable_identifier)))
+        (variable_identifier)
+        (variable_identifier)
+        (variable_identifier))
+      (type_signature
+        (variable_identifier)
+        (context (class (constructor_identifier) (variable_identifier)) (class (constructor_identifier) (variable_identifier)))
+        (variable_identifier)
+        (variable_identifier)
+        (variable_identifier)))))
+
