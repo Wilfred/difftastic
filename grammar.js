@@ -138,18 +138,16 @@ module.exports = grammar({
     ),
 
     variable_symbol: $ => seq(
-      '(',
-      $._symbol,
-      ':',
-      repeat($._symbol),
-      ')'
+      optional('('),
+      repeat1($._symbol),
+      optional(')')
     ),
 
     constructor_symbol: $ => prec(1, seq(
-      '(',
+      optional('('),
       ':',
       repeat($._symbol),
-      ')'
+      optional(')')
     )),
 
     type_signature: $ => seq(

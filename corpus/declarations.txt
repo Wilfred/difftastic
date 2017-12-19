@@ -323,6 +323,11 @@ class Foo a where {
   infixl `op`
   infixr 7 `op`
   infix 7 `op`, `ip`, `ap`
+  infix <$>
+  infix 7 <$>
+  infix 7 :
+  infix 7 :.
+  infix 7 :<
 }
 
 ---
@@ -334,4 +339,9 @@ class Foo a where {
     (type_class_body
       (fixity (variable_identifier))
       (fixity (integer) (variable_identifier))
-      (fixity (integer) (variable_identifier) (variable_identifier) (variable_identifier)))))
+      (fixity (integer) (variable_identifier) (variable_identifier) (variable_identifier))
+      (fixity (variable_symbol))
+      (fixity (integer) (variable_symbol))
+      (fixity (integer) (constructor_symbol))
+      (fixity (integer) (constructor_symbol))
+      (fixity (integer) (constructor_symbol)))))
