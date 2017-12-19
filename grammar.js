@@ -298,7 +298,6 @@ module.exports = grammar({
       'foreign',
       'if',
       'in',
-      'instance',
       'let',
       'of',
       'then',

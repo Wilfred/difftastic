@@ -142,7 +142,6 @@ else
 foreign
 if
 in
-instance
 let
 of
 then
@@ -152,7 +151,6 @@ _
 ---
 
 (program
-  (reserved_identifier)
   (reserved_identifier)
   (reserved_identifier)
   (reserved_identifier)
