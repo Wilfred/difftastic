@@ -223,6 +223,7 @@ module.exports = grammar({
 
     newtype: $ => seq(
       'newtype',
+      optional($.context),
       $.simple_type,
       '=',
       $.new_constructor,
