@@ -135,7 +135,6 @@ Reserved Identifiers
 =========================================
 
 case
-class
 default
 do
 else
@@ -151,7 +150,6 @@ _
 ---
 
 (program
-  (reserved_identifier)
   (reserved_identifier)
   (reserved_identifier)
   (reserved_identifier)

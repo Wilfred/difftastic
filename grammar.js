@@ -291,7 +291,6 @@ module.exports = grammar({
 
     reserved_identifier: $ => choice(
       'case',
-      'class',
       'default',
       'do',
       'else',
