@@ -32,7 +32,8 @@ module.exports = grammar({
   ],
 
   conflicts: $ => [
-    [$.element_value_list]
+    [$.element_value_list],
+    // [$.element_value_list, $.single_element_annotation]
   ],
 
   rules: {
@@ -466,6 +467,13 @@ module.exports = grammar({
       seq('@', $.package_or_type_name, '(', optional($.element_value_pair_list), ')'),
     ),
 
+    marker_annotation: $ => seq('@', $.package_or_type_name),
+
+    // TODO: come back to this to resolve conflict with element_value_list
+    // single_element_annotation: $ => seq(
+    //   '@', $.package_or_type_name, '(', $.element_value, ')'
+    // ),
+
     element_value_pair_list: $ => commaSep1($.element_value_pair),
 
     element_value_pair: $ => prec.right(1, seq(
@@ -475,26 +483,84 @@ module.exports = grammar({
     )),
 
     element_value: $ => choice(
-      // $.conditional_or_expression,
+      $.conditional_expression,
       $.element_value_array_initializer,
       $._annotation,
       $._literal // TODO: remove this later, not accounted for in spec
     ),
 
-    // conditional_or_expression: $ => choice(
-    //   conditional
-    // ),
+    conditional_expression: $ => choice(
+      $.conditional_or_expression,
+      seq($.conditional_or_expression, '?', $._expression, ':', $.conditional_expression),
+      // seq($.conditional_or_expression, '?', $._expression, ':', $.lambda_expression), TODO: define lambda expression
+    ),
+
+    conditional_or_expression: $ => choice(
+        $.conditional_and_expression,
+        seq($.conditional_or_expression, '||', $.conditional_and_expression)
+    ),
+
+    conditional_and_expression: $ => choice(
+      $.inclusive_or_expression,
+      seq($.conditional_and_expression, '&&', $.inclusive_or_expression)
+    ),
+
+    inclusive_or_expression: $ => choice(
+      $.exclusive_or_expression,
+      seq($.inclusive_or_expression, '|', $.exclusive_or_expression)
+    ),
+
+    exclusive_or_expression: $ => choice(
+      $.and_expression,
+      seq($.exclusive_or_expression, '^', $.and_expression)
+    ),
+
+    and_expression: $ => choice(
+      $.relational_expression,
+      seq($.equality_expression, '==', $.relational_expression),
+      seq($.equality_expression, '!=', $.relational_expression)
+    ),
+
+    relational_expression: $ => choice(
+      $.shift_expression,
+      seq($.relational_expression, '<', $.shift_expression),
+      seq($.relational_expression, '<', $.shift_expression),
+    ),
+
+    equality_expression: $ => choice(
+      $.relational_expression,
+      seq($.equality_expression, '==', $.relational_expression),
+      seq($.equality_expression, '!=', $.relational_expression)
+    ),
+
+    shift_expression: $ => choice(
+      $.additive_expression,
+      seq($.shift_expression, '<<', $.additive_expression),
+      seq($.shift_expression, '>>', $.additive_expression),
+      seq($.shift_expression, '>>>', $.additive_expression)
+    ),
+
+    additive_expression: $ => choice(
+      $.multiplicative_expression,
+      seq($.additive_expression, '+', $.multiplicative_expression),
+      seq($.additive_expression, '-', $.multiplicative_expression)
+    ),
+
+    multiplicative_expression: $ => choice(
+      $.unary_expression,
+      seq($.multiplicative_expression, '*', $.unary_expression),
+      seq($.multiplicative_expression, '/', $.unary_expression),
+      seq($.multiplicative_expression, '%', $.unary_expression)
+    ),
 
     element_value_array_initializer: $ => prec.right(seq(
       $.element_value_list,
       optional(',')
     )),
 
-    element_value_list: $ => commaSep1(
+    element_value_list: $ => prec.left(commaSep1(
       $.element_value
-    ),
-
-    marker_annotation: $ => seq('@', $.package_or_type_name),
+    )),
 
     _declaration: $ => choice(
       $.module_declaration
@@ -508,6 +574,7 @@ module.exports = grammar({
       $.module_identifier
     ),
 
+    // TODO: revisit and change to 'name'
     module_identifier: $ => seq(
       $.identifier,
       repeat(seq('.', $.identifier))
@@ -522,8 +589,6 @@ module.exports = grammar({
     //   $.identifier,
     //   seq($.identifier, '.', $.identifier)
     // ),
-
-
 
     // test
     method_name: $ => $.identifier,
