@@ -460,35 +460,46 @@ module.exports = grammar({
     _annotation: $ => choice(
       $.normal_annotation,
       $.marker_annotation,
-      // $.single_element_annotation
+      $.single_element_annotation
     ),
 
     normal_annotation: $ => seq(
-      seq('@', $.package_or_type_name, '(', optional($.element_value_pair_list), ')'),
+      '@', $.package_or_type_name, '(', optional($.element_value_pair_list), ')',
     ),
 
     marker_annotation: $ => seq('@', $.package_or_type_name),
 
-    // TODO: come back to this to resolve conflict with element_value_list
-    // single_element_annotation: $ => seq(
-    //   '@', $.package_or_type_name, '(', $.element_value, ')'
-    // ),
+    // TODO: Replace choice($.identifier, $._literal) with statement once it's
+    // more fleshed out; The Java spec uses element_value which infinitely loops
+    single_element_annotation: $ => seq(
+      '@', $.package_or_type_name, '(', choice($.identifier, $._literal), ')'
+    ),
 
     element_value_pair_list: $ => commaSep1($.element_value_pair),
 
-    element_value_pair: $ => prec.right(1, seq(
+    element_value_pair: $ => prec.right(10, seq(
       $.identifier,
       '=',
       $.element_value
     )),
 
-    element_value: $ => choice(
+    element_value: $ => prec.left(1, choice(
+      $._literal, // TODO: remove this later, not accounted for in spec
       $.conditional_expression,
       $.element_value_array_initializer,
-      $._annotation,
-      $._literal // TODO: remove this later, not accounted for in spec
-    ),
+      $._annotation
+    )),
 
+    element_value_array_initializer: $ => prec.left(seq(
+      $.element_value,
+      optional(',')
+    )),
+
+    // element_value_list: $ => prec.left(commaSep1(
+    //   $.element_value
+    // )),
+
+    // TODO: test
     conditional_expression: $ => choice(
       $.conditional_or_expression,
       seq($.conditional_or_expression, '?', $._expression, ':', $.conditional_expression),
@@ -553,32 +564,46 @@ module.exports = grammar({
       seq($.multiplicative_expression, '%', $.unary_expression)
     ),
 
-    element_value_array_initializer: $ => prec.right(seq(
-      $.element_value_list,
-      optional(',')
-    )),
-
-    element_value_list: $ => prec.left(commaSep1(
-      $.element_value
-    )),
-
     _declaration: $ => choice(
       $.module_declaration
     ),
 
-    // TODO: add annotations and module directive
     module_declaration: $ => seq(
       optional($._annotation),
       optional('open'),
       'module',
       $.module_identifier
+      // optional(repeat($.module_directive))
     ),
 
     // TODO: revisit and change to 'name'
+    // Unsure if this is the same as name, since it repeats
     module_identifier: $ => seq(
       $.identifier,
       repeat(seq('.', $.identifier))
     ),
+
+    // module_directive: $ => choice(
+    //   seq('requires', optional(repeat($.requires_modifier)), $.module_name),
+    //   seq('exports', $.package_or_type_name, optional('to', $.module_name, repeat(seq(',', $.module_name)))),
+    //   seq('opens', $.package_or_type_name, optional('to', $.module_name, repeat(seq(',', $.module_name)))),
+    //   seq('uses', $.package_or_type_name, ';'),
+    //   seq('provides', $.package_or_type_name, 'with', $.package_or_type_name, repeat(seq(',', $.package_or_type_name)))
+    // ),
+    //
+    // requires_modifier: $ => choice(
+    //   'transitive',
+    //   'static'
+    // ),
+
+    module_name: $ => choice(
+      $.identifier,
+      seq($.module_name, '.', $.identifier)
+    ),
+
+    // package_declaration: $ => seq(
+    //   optional()
+    // ),
 
     package_or_type_name: $ => choice(
       $.identifier,
