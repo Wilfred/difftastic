@@ -20,7 +20,7 @@ for ($i=0; $i<$argc; $i++) {
 	(for_statement
 		(assignment_expression (simple_variable (variable_name (name))) (float))
 		(binary_expression (simple_variable (variable_name (name))) (simple_variable (variable_name (name))))
-		(postfix_increment_expression (simple_variable (variable_name (name))))
+		(update_expression (simple_variable (variable_name (name))))
 		(compound_statement
 			(echo_statement
 				(binary_expression
