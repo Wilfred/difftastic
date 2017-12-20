@@ -12,4 +12,4 @@ do {
 
 ---
 
-(program  (expression_statement (assignment_expression (simple_variable (variable_name (name))) (float))) (do_statement (compound_statement (echo_statement (simple_variable (variable_name (name)))) (expression_statement (postfix_decrement_expression (simple_variable (variable_name (name)))))) (binary_expression (simple_variable (variable_name (name))) (float))))
+(program  (expression_statement (assignment_expression (simple_variable (variable_name (name))) (float))) (do_statement (compound_statement (echo_statement (simple_variable (variable_name (name)))) (expression_statement (update_expression (simple_variable (variable_name (name)))))) (binary_expression (simple_variable (variable_name (name))) (float))))
