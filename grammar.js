@@ -116,7 +116,11 @@ module.exports = grammar({
       '}'
     )),
 
-    type_class_body: $ => repeat1($._general_declaration),
+    type_class_body: $ => repeat1($._instance_declaration),
+
+    _instance_declaration: $ => choice(
+      $._general_declaration
+    ),
 
     // TODO: Make type class instance body representative of the spec.
     type_class_instance: $ => seq(

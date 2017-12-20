@@ -443,6 +443,10 @@
         {
           "type": "SYMBOL",
           "name": "type_class"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "type_class_instance"
         }
       ]
     },
@@ -503,6 +507,74 @@
       }
     },
     "type_class_body": {
+      "type": "REPEAT1",
+      "content": {
+        "type": "SYMBOL",
+        "name": "_instance_declaration"
+      }
+    },
+    "_instance_declaration": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_general_declaration"
+        }
+      ]
+    },
+    "type_class_instance": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "instance"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "context"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "REPEAT1",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_identifier"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "where"
+        },
+        {
+          "type": "STRING",
+          "value": "{"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "type_class_instance_body"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": "}"
+        }
+      ]
+    },
+    "type_class_instance_body": {
       "type": "REPEAT1",
       "content": {
         "type": "SYMBOL",
@@ -1058,6 +1130,18 @@
           "value": "newtype"
         },
         {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "context"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
           "type": "SYMBOL",
           "name": "simple_type"
         },
@@ -1321,10 +1405,6 @@
         },
         {
           "type": "STRING",
-          "value": "class"
-        },
-        {
-          "type": "STRING",
           "value": "default"
         },
         {
@@ -1346,10 +1426,6 @@
         {
           "type": "STRING",
           "value": "in"
-        },
-        {
-          "type": "STRING",
-          "value": "instance"
         },
         {
           "type": "STRING",
