@@ -6,4 +6,3 @@ Bug #44654 (syntax error for #)
 <?php if (1) { ?>#<?php } ?>
 #<?php echo 1; ?>
 
----
