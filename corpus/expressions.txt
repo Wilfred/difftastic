@@ -1,0 +1,10 @@
+==========
+Exponentiation
+==========
+
+<?php
+$foo = 2 ** 2;
+
+---
+
+(program (expression_statement (assignment_expression (simple_variable (variable_name (name))) (exponentiation_expression (float) (float)))))
