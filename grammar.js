@@ -624,8 +624,10 @@ module.exports = grammar({
       prec.left(precedence, seq(operator, $._unary_expression))
     )),
 
-    exponentiation_expression: $ => prec(PREC.TIMES, seq(
-      choice($.clone_expression, $._primary_expression), '**', $.exponentiation_expression
+    exponentiation_expression: $ => prec.right(PREC.TIMES, seq(
+      choice($.clone_expression, $._primary_expression),
+      '**',
+      choice($.exponentiation_expression, $.clone_expression, $._primary_expression)
     )),
 
     clone_expression: $ => seq(

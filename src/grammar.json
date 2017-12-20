@@ -3618,7 +3618,7 @@
       ]
     },
     "exponentiation_expression": {
-      "type": "PREC",
+      "type": "PREC_RIGHT",
       "value": 6,
       "content": {
         "type": "SEQ",
@@ -3641,8 +3641,21 @@
             "value": "**"
           },
           {
-            "type": "SYMBOL",
-            "name": "exponentiation_expression"
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "exponentiation_expression"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "clone_expression"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "_primary_expression"
+              }
+            ]
           }
         ]
       }
