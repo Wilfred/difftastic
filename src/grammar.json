@@ -3646,6 +3646,14 @@
               {
                 "type": "SYMBOL",
                 "name": "exponentiation_expression"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "clone_expression"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "_primary_expression"
               }
             ]
           }
