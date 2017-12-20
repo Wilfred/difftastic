@@ -643,10 +643,7 @@ module.exports = grammar({
       $.intrinsic,
       $.anonymous_function_creation_expression,
       $.object_creation_expression,
-      $.postfix_increment_expression,
-      $.postfix_decrement_expression,
-      $.prefix_increment_expression,
-      $.prefix_decrement_expression,
+      $.update_expression,
       $.shell_command_expression,
       seq('(', $._expression, ')')
     ),
@@ -711,20 +708,11 @@ module.exports = grammar({
       seq($.new_variable, '::', $.simple_variable)
     ),
 
-    postfix_increment_expression: $ => prec(PREC.INC, seq(
-      $._variable, '++'
-    )),
-
-    postfix_decrement_expression: $ => prec(PREC.INC, seq(
-      $._variable, '--'
-    )),
-
-    prefix_increment_expression: $ => prec(PREC.INC, seq(
-      '++', $._variable
-    )),
-
-    prefix_decrement_expression: $ => prec(PREC.INC, seq(
-      '--', $._variable
+    update_expression: $ => prec.left(PREC.INC, choice(
+      seq($._variable, '++'),
+      seq($._variable, '--'),
+      seq('++', $._variable),
+      seq('--', $._variable)
     )),
 
     shell_command_expression: $ => token(seq(

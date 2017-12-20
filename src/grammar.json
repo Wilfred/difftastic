@@ -3710,19 +3710,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "postfix_increment_expression"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "postfix_decrement_expression"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "prefix_increment_expression"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "prefix_decrement_expression"
+          "name": "update_expression"
         },
         {
           "type": "SYMBOL",
@@ -4320,70 +4308,63 @@
         }
       ]
     },
-    "postfix_increment_expression": {
-      "type": "PREC",
+    "update_expression": {
+      "type": "PREC_LEFT",
       "value": 10,
       "content": {
-        "type": "SEQ",
+        "type": "CHOICE",
         "members": [
           {
-            "type": "SYMBOL",
-            "name": "_variable"
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "_variable"
+              },
+              {
+                "type": "STRING",
+                "value": "++"
+              }
+            ]
           },
           {
-            "type": "STRING",
-            "value": "++"
-          }
-        ]
-      }
-    },
-    "postfix_decrement_expression": {
-      "type": "PREC",
-      "value": 10,
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "SYMBOL",
-            "name": "_variable"
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "_variable"
+              },
+              {
+                "type": "STRING",
+                "value": "--"
+              }
+            ]
           },
           {
-            "type": "STRING",
-            "value": "--"
-          }
-        ]
-      }
-    },
-    "prefix_increment_expression": {
-      "type": "PREC",
-      "value": 10,
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "STRING",
-            "value": "++"
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "++"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "_variable"
+              }
+            ]
           },
           {
-            "type": "SYMBOL",
-            "name": "_variable"
-          }
-        ]
-      }
-    },
-    "prefix_decrement_expression": {
-      "type": "PREC",
-      "value": 10,
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "STRING",
-            "value": "--"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "_variable"
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "--"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "_variable"
+              }
+            ]
           }
         ]
       }
