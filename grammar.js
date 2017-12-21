@@ -42,12 +42,15 @@ module.exports = grammar({
   ],
 
   rules: {
-    module: $ => seq(
-      'module',
-      $.module_identifier,
-      optional($.module_exports),
-      'where',
-      $.declarations
+    module: $ => choice(
+      seq(
+        'module',
+        $.module_identifier,
+        optional($.module_exports),
+        'where',
+        $.declarations
+      ),
+      repeat(seq($._declaration, choice(';', $._layout_semicolon)))
     ),
 
     declarations: $ => choice(

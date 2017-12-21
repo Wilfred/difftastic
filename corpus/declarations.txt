@@ -13,7 +13,7 @@ type Z = (->)
 
 ---
 
-(program
+(module
   (type_synonym
     (simple_type (type_constructor (constructor_identifier)))
     (constructor_identifier))
@@ -49,7 +49,7 @@ newtype Age = Age { unAge :: Int }
 
 ---
 
-(program
+(module
   (newtype
     (simple_type (type_constructor (constructor_identifier)))
     (new_constructor (constructor_identifier) (constructor_identifier)))
@@ -72,7 +72,7 @@ newtype N = N a deriving (Eq, Ord, Enum, Bounded, Show, Read)
 
 ---
 
-(program
+(module
   (newtype
     (simple_type (type_constructor (constructor_identifier)))
     (new_constructor (constructor_identifier) (constructor_identifier))
@@ -99,7 +99,7 @@ data N a b = N !a b
 
 ---
 
-(program
+(module
   (algebraic_datatype (simple_type (type_constructor (constructor_identifier))))
   (algebraic_datatype
     (simple_type (type_constructor (constructor_identifier)) (type_variable (variable_identifier)))
@@ -122,7 +122,7 @@ data N = N { a, b :: !Int, c :: String }
 
 ---
 
-(program
+(module
   (algebraic_datatype
     (simple_type (type_constructor (constructor_identifier)))
     (constructors
@@ -161,7 +161,7 @@ data N = N { a :: Int } | O { b :: String }
 
 ---
 
-(program
+(module
   (algebraic_datatype
     (simple_type (type_constructor (constructor_identifier)))
     (constructors
@@ -186,7 +186,7 @@ data N = N deriving (Eq, Ord, Enum, Bounded, Show, Read)
 
 ---
 
-(program
+(module
   (algebraic_datatype
     (simple_type (type_constructor (constructor_identifier)))
     (constructors (constructor (constructor_identifier)))
@@ -212,7 +212,7 @@ data (Eq (f a), Functor f) => N f a = N f a
 
 ---
 
-(program
+(module
   (algebraic_datatype
     (context (class (constructor_identifier) (variable_identifier)))
     (simple_type (type_constructor (constructor_identifier)) (type_variable (variable_identifier)))
@@ -253,7 +253,7 @@ class Show a b where {}
 
 ---
 
-(program
+(module
   (type_class (constructor_identifier) (variable_identifier))
   (type_class (constructor_identifier) (variable_identifier) (variable_identifier)))
 
@@ -267,7 +267,7 @@ class (Show (f a), Eq a) => Read f a where {}
 
 ---
 
-(program
+(module
   (type_class
     (context (class (constructor_identifier) (variable_identifier)))
     (constructor_identifier)
@@ -297,7 +297,7 @@ class Foo a where {
 
 ---
 
-(program
+(module
   (type_class
     (constructor_identifier)
     (variable_identifier)
@@ -332,7 +332,7 @@ class Foo a where {
 
 ---
 
-(program
+(module
   (type_class
     (constructor_identifier)
     (variable_identifier)

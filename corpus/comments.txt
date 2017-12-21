@@ -7,7 +7,7 @@ Single Line Comments
 
 ---
 
-(program
+(module
   (comment)
   (comment))
 
@@ -22,5 +22,5 @@ Multi-Line Comments
 
 ---
 
-(program
+(module
   (comment))
