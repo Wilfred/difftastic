@@ -32,18 +32,20 @@ module.exports = grammar({
   ],
 
   conflicts: $ => [
-    [$.element_value_list],
+    // [$.element_value_list],
     // [$.element_value_list, $.single_element_annotation]
   ],
 
   rules: {
-    program: $ => repeat(seq($._statement, ';')),
+    program: $ => repeat($._statement),
 
     _statement: $ => choice(
-      $._literal,
-      $._expression,
+      seq($._literal, $._semicolon),
+      seq($._expression, $._semicolon),
       $._declaration
     ),
+
+    _semicolon: $ => ';',
 
     _literal: $ => choice(
       $.integer_literal,
@@ -469,7 +471,7 @@ module.exports = grammar({
 
     marker_annotation: $ => seq('@', $.package_or_type_name),
 
-    // TODO: Replace choice($.identifier, $._literal) with statement once it's
+    // TODO: Replace choice($.identifier, $._literal) with $._statement once it's
     // more fleshed out; The Java spec uses element_value which infinitely loops
     single_element_annotation: $ => seq(
       '@', $.package_or_type_name, '(', choice($.identifier, $._literal), ')'
@@ -495,11 +497,7 @@ module.exports = grammar({
       optional(',')
     )),
 
-    // element_value_list: $ => prec.left(commaSep1(
-    //   $.element_value
-    // )),
-
-    // TODO: test
+    // TODO: add tests for conditional expressions
     conditional_expression: $ => choice(
       $.conditional_or_expression,
       seq($.conditional_or_expression, '?', $._expression, ':', $.conditional_expression),
@@ -565,15 +563,19 @@ module.exports = grammar({
     ),
 
     _declaration: $ => choice(
-      $.module_declaration
+      $.module_declaration,
+      $.package_declaration,
+      $.single_type_import_declaration
     ),
 
     module_declaration: $ => seq(
-      optional($._annotation),
+      repeat($._annotation),
       optional('open'),
       'module',
-      $.module_identifier
-      // optional(repeat($.module_directive))
+      $.module_identifier,
+      '{',
+      repeat($.module_directive),
+      '}'
     ),
 
     // TODO: revisit and change to 'name'
@@ -583,31 +585,40 @@ module.exports = grammar({
       repeat(seq('.', $.identifier))
     ),
 
-    // module_directive: $ => choice(
-    //   seq('requires', optional(repeat($.requires_modifier)), $.module_name),
-    //   seq('exports', $.package_or_type_name, optional('to', $.module_name, repeat(seq(',', $.module_name)))),
-    //   seq('opens', $.package_or_type_name, optional('to', $.module_name, repeat(seq(',', $.module_name)))),
-    //   seq('uses', $.package_or_type_name, ';'),
-    //   seq('provides', $.package_or_type_name, 'with', $.package_or_type_name, repeat(seq(',', $.package_or_type_name)))
-    // ),
-    //
-    // requires_modifier: $ => choice(
-    //   'transitive',
-    //   'static'
-    // ),
+    module_directive: $ => seq(choice(
+      seq('requires', optional(repeat($.requires_modifier)), $.module_name),
+      seq('exports', $.package_or_type_name, optional('to', $.module_name, repeat(seq(',', $.module_name)))),
+      seq('opens', $.package_or_type_name, optional('to', $.module_name, repeat(seq(',', $.module_name)))),
+      seq('uses', $.package_or_type_name, ';'),
+      seq('provides', $.package_or_type_name, 'with', $.package_or_type_name, repeat(seq(',', $.package_or_type_name)))
+    ), $._semicolon),
+
+    requires_modifier: $ => choice(
+      'transitive',
+      'static'
+    ),
 
     module_name: $ => choice(
       $.identifier,
       seq($.module_name, '.', $.identifier)
     ),
 
-    // package_declaration: $ => seq(
-    //   optional()
-    // ),
+    // TODO: debug package declaration
+    package_declaration: $ => seq(
+      repeat($._annotation),
+      'package',
+      $.identifier,
+      repeat(seq('.', $.identifier)),
+      $._semicolon
+    ),
 
     package_or_type_name: $ => choice(
       $.identifier,
       seq($.package_or_type_name, '.', $.identifier)
+    ),
+
+    single_type_import_declaration: $ => seq(
+      'import', $.package_or_type_name, $._semicolon
     ),
 
     // expression_name: $ => choice(
