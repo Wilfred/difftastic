@@ -30,28 +30,38 @@ module.exports = grammar({
     /\s|\\n/
   ],
 
+  externals: $ => [
+    $._layout_semicolon,
+    $._layout_open_brace,
+    $._layout_close_brace,
+  ],
+
   conflicts: $ => [
-    [$.type_class, $.class]
+    [$.type_class, $.class],
+    [$.simple_type, $.class],
   ],
 
   rules: {
-    program: $ => seq(repeat($._statement)),
-
-    _statement: $ => choice(
-      $._literal,
-      $.module,
-      $.import,
-      $._top_level_declaration,
-      $.reserved_identifier
-    ),
-
-    module: $ => prec.right(seq(
+    module: $ => seq(
       'module',
       $.module_identifier,
       optional($.module_exports),
       'where',
-      alias(repeat($._statement), $.module_body)
-    )),
+      $.declarations
+    ),
+
+    declarations: $ => choice(
+      seq(
+        '{',
+        repeat(seq($._declaration, choice(';', $._layout_semicolon))),
+        '}'
+      ),
+      seq(
+        $._layout_open_brace,
+        repeat(seq($._declaration, choice(';', $._layout_semicolon))),
+        $._layout_close_brace
+      )
+    ),
 
     module_exports: $ => seq(
       '(',
@@ -59,7 +69,7 @@ module.exports = grammar({
       ')'
     ),
 
-    export: $ => prec.left(seq(
+    export: $ => seq(
       $._identifier,
       optional(
         seq(
@@ -68,7 +78,7 @@ module.exports = grammar({
           ')'
         )
       )
-    )),
+    ),
 
     import: $ => seq(
       'import',
@@ -98,28 +108,47 @@ module.exports = grammar({
       ')'
     ),
 
-    _top_level_declaration: $ => choice(
+    _declaration: $ => choice(
+      $.import,
       $.type_synonym,
       $.newtype,
       $.algebraic_datatype,
-      $.type_class
+      $.type_class,
+      $.type_signature,
+      $.fixity,
+
+      // TODO - remove
+      $._expression
     ),
 
-    type_class: $ => prec.right(seq(
+    _expression: $ => choice(
+      $._literal,
+      $.variable_identifier,
+      $.do_expression
+    ),
+
+    do_expression: $ => seq(
+      'do',
+      $.statement_list
+    ),
+
+    statement_list: $ => choice(
+      seq('{', repeat($._statement), '}'),
+      seq($._layout_open_brace, repeat($._statement), $._layout_close_brace),
+    ),
+
+    _statement: $ => seq(
+      $._expression,
+      choice(';', $._layout_semicolon)
+    ),
+
+    type_class: $ => seq(
       'class',
       optional($.context),
-      repeat1($._identifier),
+      $.constructor_identifier,
+      repeat($.variable_identifier),
       'where',
-      '{',
-      optional($.type_class_body),
-      '}'
-    )),
-
-    type_class_body: $ => repeat1($._general_declaration),
-
-    _general_declaration: $ => choice(
-      $.type_signature,
-      $.fixity
+      $.declarations
     ),
 
     fixity: $ => seq(
@@ -151,25 +180,31 @@ module.exports = grammar({
     )),
 
     type_signature: $ => seq(
-      repeat1($._identifier),
+      repeat1($.variable_identifier),
       '::',
       optional($.context),
       $._type
     ),
 
-    _type: $ => prec.left(seq(
-      repeat1($._identifier),
-      repeat(seq('->', $._identifier))
-    )),
+    _type: $ => choice(
+      $.simple_type,
+      $.function_type,
+    ),
 
-    algebraic_datatype: $ => prec.right(seq(
+    function_type: $ => seq(
+      $.simple_type,
+      '->',
+      $._type
+    ),
+
+    algebraic_datatype: $ => seq(
       'data',
       optional($.context),
       $.simple_type,
       optional('='),
       optional($.constructors),
       optional($.deriving)
-    )),
+    ),
 
     context: $ => seq(
       choice(
@@ -185,13 +220,13 @@ module.exports = grammar({
 
     class: $ => choice(
       seq(
-        $._identifier,
-        $._identifier
+        $.constructor_identifier,
+        $.variable_identifier
       ),
       seq(
-        $._identifier,
+        $.constructor_identifier,
         '(',
-        repeat1($._identifier),
+        repeat1($.variable_identifier),
         ')'
       )
     ),
@@ -201,13 +236,13 @@ module.exports = grammar({
       repeat(seq('|', $.constructor))
     ),
 
-    constructor: $ => prec.right(seq(
-      $._identifier,
+    constructor: $ => seq(
+      $.constructor_identifier,
       optional(choice(
         $.fields,
         repeat(choice($.strict, $._identifier))
       ))
-    )),
+    ),
 
     deriving: $ => seq(
       'deriving',
@@ -229,13 +264,13 @@ module.exports = grammar({
       optional($.deriving)
     ),
 
-    new_constructor: $ => prec.right(seq(
+    new_constructor: $ => seq(
       $.constructor_identifier,
       choice(
         $._identifier,
         $.fields
       )
-    )),
+    ),
 
     fields: $ => seq(
       '{',
@@ -257,12 +292,12 @@ module.exports = grammar({
       $._identifier
     ),
 
-    type_synonym: $ => prec.right(seq(
+    type_synonym: $ => seq(
       'type',
       $.simple_type,
       '=',
       $._type
-    )),
+    ),
 
     _literal: $ => choice(
       $.integer,
@@ -277,33 +312,16 @@ module.exports = grammar({
       $.module_identifier
     ),
 
-    simple_type: $ => prec.right(seq(
-      alias($._identifier, $.type_constructor),
-      alias(repeat($._identifier), $.type_variable)
-    )),
+    simple_type: $ => seq(
+      alias($.constructor_identifier, $.type_constructor),
+      alias(repeat($.variable_identifier), $.type_variable)
+    ),
 
     variable_identifier: $ => /[_a-z](\w|')*/,
 
     constructor_identifier: $ => /[A-Z](\w|'|)*|\[.*\]|\([,]*\)|\(->\)/,
 
     module_identifier: $ => /[A-Z](\w|'|\.)*/,
-
-    reserved_identifier: $ => choice(
-      'case',
-      'class',
-      'default',
-      'do',
-      'else',
-      'foreign',
-      'if',
-      'in',
-      'instance',
-      'let',
-      'of',
-      'then',
-      'where',
-      '_'
-    ),
 
     comment: $ => token(choice(
       seq('--', /.*/),

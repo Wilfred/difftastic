@@ -51,7 +51,8 @@ String Literals Symbols
 ":"
 "\\"
 
-"\"" "'"
+"\""
+"'"
 
 ---
 
@@ -84,7 +85,14 @@ String Literals Symbols
 String Literals Special Symbols
 =========================================
 
-"(" ")" ";" "[" "]" "`" "{" "}"
+"("
+")"
+";"
+"["
+"]"
+"`"
+"{"
+"}"
 
 ---
 
@@ -102,7 +110,17 @@ String Literals Special Symbols
 String Literals Character Escape
 =========================================
 
-"\a" "\b" "\f" "\n" "\r" "\t" "\v" "\\" "\"" "'" "\&"
+"\a"
+"\b"
+"\f"
+"\n"
+"\r"
+"\t"
+"\v"
+"\\"
+"\""
+"'"
+"\&"
 
 ---
 
@@ -242,4 +260,3 @@ String Literals Gap Characters
 
 (program
   (string))
-

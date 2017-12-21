@@ -18,7 +18,6 @@ Module Declaration Empty Exports
 =========================================
 
 module A () where
-
 1
 ---
 

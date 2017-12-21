@@ -2,6 +2,7 @@
 Char Literals [a-zA-Z0-9_]
 =========================================
 
+module A where
 'a'
 'b'
 
@@ -50,8 +51,8 @@ Char Literals Symbols
 '~'
 ':'
 '\\'
-
-'"' '''
+'"'
+'''
 
 ---
 
@@ -75,7 +76,6 @@ Char Literals Symbols
   (char)
   (char)
   (char)
-
   (char)
   (char))
 
@@ -84,7 +84,14 @@ Char Literals Symbols
 Char Literals Special Symbols
 =========================================
 
-'(' ')' ';' '[' ']' '`' '{' '}'
+'('
+')'
+';'
+'['
+']'
+'`'
+'{'
+'}'
 
 ---
 
@@ -102,7 +109,17 @@ Char Literals Special Symbols
 Char Literals Character Escape
 =========================================
 
-'\a' '\b' '\f' '\n' '\r' '\t' '\v' '\\' '\"' ''' '\&'
+'\a'
+'\b'
+'\f'
+'\n'
+'\r'
+'\t'
+'\v'
+'\\'
+'\"'
+'''
+'\&'
 
 ---
 
@@ -231,4 +248,3 @@ Char Literals Escape Control Characters
   (char)
   (char)
   (char))
-
