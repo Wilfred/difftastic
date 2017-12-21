@@ -137,7 +137,7 @@ module.exports = grammar({
 
     statement_list: $ => choice(
       seq('{', repeat($._statement), '}'),
-      seq($._layout_open_brace, repeat($._statement), $._layout_close_brace),
+      seq($._layout_open_brace, repeat($._statement), $._layout_close_brace)
     ),
 
     _statement: $ => seq(
@@ -191,7 +191,7 @@ module.exports = grammar({
 
     _type: $ => choice(
       $.simple_type,
-      $.function_type,
+      $.function_type
     ),
 
     function_type: $ => seq(
