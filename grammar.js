@@ -222,10 +222,7 @@ module.exports = grammar({
       'extends', $.qualified_name
     ),
 
-    class_interface_clause: $ => choice(
-      seq('implements', $.qualified_name),
-      seq($.class_interface_clause, ',', $.qualified_name)
-    ),
+    class_interface_clause: $ => seq('implements', commaSep1($.qualified_name)),
 
     _class_member_declaration: $ => choice(
       $.class_const_declaration,
