@@ -2983,19 +2983,11 @@
                   "value": "requires"
                 },
                 {
-                  "type": "CHOICE",
-                  "members": [
-                    {
-                      "type": "REPEAT",
-                      "content": {
-                        "type": "SYMBOL",
-                        "name": "requires_modifier"
-                      }
-                    },
-                    {
-                      "type": "BLANK"
-                    }
-                  ]
+                  "type": "REPEAT",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "requires_modifier"
+                  }
                 },
                 {
                   "type": "SYMBOL",
@@ -3025,6 +3017,34 @@
                       "type": "BLANK"
                     }
                   ]
+                },
+                {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "SYMBOL",
+                      "name": "module_name"
+                    },
+                    {
+                      "type": "BLANK"
+                    }
+                  ]
+                },
+                {
+                  "type": "REPEAT",
+                  "content": {
+                    "type": "SEQ",
+                    "members": [
+                      {
+                        "type": "STRING",
+                        "value": ","
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "module_name"
+                      }
+                    ]
+                  }
                 }
               ]
             },
@@ -3050,6 +3070,34 @@
                       "type": "BLANK"
                     }
                   ]
+                },
+                {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "SYMBOL",
+                      "name": "module_name"
+                    },
+                    {
+                      "type": "BLANK"
+                    }
+                  ]
+                },
+                {
+                  "type": "REPEAT",
+                  "content": {
+                    "type": "SEQ",
+                    "members": [
+                      {
+                        "type": "STRING",
+                        "value": ","
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "module_name"
+                      }
+                    ]
+                  }
                 }
               ]
             },
@@ -3063,10 +3111,6 @@
                 {
                   "type": "SYMBOL",
                   "name": "package_or_type_name"
-                },
-                {
-                  "type": "STRING",
-                  "value": ";"
                 }
               ]
             },

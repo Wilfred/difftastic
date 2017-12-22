@@ -586,12 +586,18 @@ module.exports = grammar({
     ),
 
     module_directive: $ => seq(choice(
-      seq('requires', optional(repeat($.requires_modifier)), $.module_name),
-      seq('exports', $.package_or_type_name, optional('to', $.module_name, repeat(seq(',', $.module_name)))),
-      seq('opens', $.package_or_type_name, optional('to', $.module_name, repeat(seq(',', $.module_name)))),
-      seq('uses', $.package_or_type_name, ';'),
+      seq('requires', repeat($.requires_modifier), $.module_name),
+      seq('exports', $.package_or_type_name, optional('to'), optional($.module_name), repeat(seq(',', $.module_name))),
+      seq('opens', $.package_or_type_name, optional('to'), optional($.module_name), repeat(seq(',', $.module_name))),
+      seq('uses', $.package_or_type_name),
       seq('provides', $.package_or_type_name, 'with', $.package_or_type_name, repeat(seq(',', $.package_or_type_name)))
     ), $._semicolon),
+
+    // suffix: $ => seq(
+    //   optional('to'),
+    //   $.module_name,
+    //   repeat(seq('.', $.module_name))
+    // ),
 
     requires_modifier: $ => choice(
       'transitive',
