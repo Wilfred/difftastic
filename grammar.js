@@ -730,6 +730,7 @@ module.exports = grammar({
       'public',
       'protected',
       'private',
+      'abstract',
       'static',
       'final',
       'strictfp'
