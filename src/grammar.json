@@ -2893,7 +2893,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "single_type_import_declaration"
+          "name": "import_statement"
         }
       ]
     },
@@ -3264,6 +3264,27 @@
         }
       ]
     },
+    "import_statement": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "single_type_import_declaration"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "type_import_on_declaraction"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "single_static_import_declaration"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "static_import_on_demand_declaration"
+        }
+      ]
+    },
     "single_type_import_declaration": {
       "type": "SEQ",
       "members": [
@@ -3274,6 +3295,89 @@
         {
           "type": "SYMBOL",
           "name": "package_or_type_name"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_semicolon"
+        }
+      ]
+    },
+    "type_import_on_declaraction": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "import"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "package_or_type_name"
+        },
+        {
+          "type": "STRING",
+          "value": "."
+        },
+        {
+          "type": "STRING",
+          "value": "*"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_semicolon"
+        }
+      ]
+    },
+    "single_static_import_declaration": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "import"
+        },
+        {
+          "type": "STRING",
+          "value": "static"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "package_or_type_name"
+        },
+        {
+          "type": "STRING",
+          "value": "."
+        },
+        {
+          "type": "SYMBOL",
+          "name": "identifier"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_semicolon"
+        }
+      ]
+    },
+    "static_import_on_demand_declaration": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "import"
+        },
+        {
+          "type": "STRING",
+          "value": "static"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "package_or_type_name"
+        },
+        {
+          "type": "STRING",
+          "value": "."
+        },
+        {
+          "type": "STRING",
+          "value": "*"
         },
         {
           "type": "SYMBOL",
