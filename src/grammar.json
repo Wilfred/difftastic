@@ -1883,45 +1883,101 @@
     "primitive_type": {
       "type": "TOKEN",
       "content": {
-        "type": "PREC",
-        "value": 1,
-        "content": {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "STRING",
-              "value": "bool"
-            },
-            {
-              "type": "STRING",
-              "value": "char"
-            },
-            {
-              "type": "STRING",
-              "value": "int"
-            },
-            {
-              "type": "STRING",
-              "value": "float"
-            },
-            {
-              "type": "STRING",
-              "value": "double"
-            },
-            {
-              "type": "STRING",
-              "value": "void"
-            },
-            {
-              "type": "PATTERN",
-              "value": "u?int(8|16|32|64|ptr)_t"
-            },
-            {
-              "type": "PATTERN",
-              "value": "s?size_t"
-            }
-          ]
-        }
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "bool"
+          },
+          {
+            "type": "STRING",
+            "value": "char"
+          },
+          {
+            "type": "STRING",
+            "value": "int"
+          },
+          {
+            "type": "STRING",
+            "value": "float"
+          },
+          {
+            "type": "STRING",
+            "value": "double"
+          },
+          {
+            "type": "STRING",
+            "value": "void"
+          },
+          {
+            "type": "STRING",
+            "value": "size_t"
+          },
+          {
+            "type": "STRING",
+            "value": "ssize_t"
+          },
+          {
+            "type": "STRING",
+            "value": "intptr_t"
+          },
+          {
+            "type": "STRING",
+            "value": "uintptr_t"
+          },
+          {
+            "type": "STRING",
+            "value": "charptr_t"
+          },
+          {
+            "type": "STRING",
+            "value": "int8_t"
+          },
+          {
+            "type": "STRING",
+            "value": "int16_t"
+          },
+          {
+            "type": "STRING",
+            "value": "int32_t"
+          },
+          {
+            "type": "STRING",
+            "value": "int64_t"
+          },
+          {
+            "type": "STRING",
+            "value": "uint8_t"
+          },
+          {
+            "type": "STRING",
+            "value": "uint16_t"
+          },
+          {
+            "type": "STRING",
+            "value": "uint32_t"
+          },
+          {
+            "type": "STRING",
+            "value": "uint64_t"
+          },
+          {
+            "type": "STRING",
+            "value": "char8_t"
+          },
+          {
+            "type": "STRING",
+            "value": "char16_t"
+          },
+          {
+            "type": "STRING",
+            "value": "char32_t"
+          },
+          {
+            "type": "STRING",
+            "value": "char64_t"
+          }
+        ]
       }
     },
     "enum_specifier": {
