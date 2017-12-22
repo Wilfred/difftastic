@@ -565,7 +565,7 @@ module.exports = grammar({
     _declaration: $ => choice(
       $.module_declaration,
       $.package_declaration,
-      $.single_type_import_declaration
+      $.import_statement
     ),
 
     module_declaration: $ => seq(
@@ -593,12 +593,6 @@ module.exports = grammar({
       seq('provides', $.package_or_type_name, 'with', $.package_or_type_name, repeat(seq(',', $.package_or_type_name)))
     ), $._semicolon),
 
-    // suffix: $ => seq(
-    //   optional('to'),
-    //   $.module_name,
-    //   repeat(seq('.', $.module_name))
-    // ),
-
     requires_modifier: $ => choice(
       'transitive',
       'static'
@@ -609,7 +603,6 @@ module.exports = grammar({
       seq($.module_name, '.', $.identifier)
     ),
 
-    // TODO: debug package declaration
     package_declaration: $ => seq(
       repeat($._annotation),
       'package',
@@ -623,8 +616,41 @@ module.exports = grammar({
       seq($.package_or_type_name, '.', $.identifier)
     ),
 
+    import_statement: $ => choice(
+      $.single_type_import_declaration,
+      $.type_import_on_declaraction,
+      $.single_static_import_declaration,
+      $.static_import_on_demand_declaration
+    ),
+
     single_type_import_declaration: $ => seq(
       'import', $.package_or_type_name, $._semicolon
+    ),
+
+    type_import_on_declaraction: $ => seq(
+      'import',
+      $.package_or_type_name,
+      '.',
+      '*',
+      $._semicolon
+    ),
+
+    single_static_import_declaration: $ => seq(
+      'import',
+      'static',
+      $.package_or_type_name,
+      '.',
+      $.identifier,
+      $._semicolon
+    ),
+
+    static_import_on_demand_declaration: $ => seq(
+      'import',
+      'static',
+      $.package_or_type_name,
+      '.',
+      '*',
+      $._semicolon
     ),
 
     // expression_name: $ => choice(
