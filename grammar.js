@@ -32,8 +32,7 @@ module.exports = grammar({
   ],
 
   conflicts: $ => [
-    // [$.element_value_list],
-    // [$.element_value_list, $.single_element_annotation]
+    [$.class_modifier]
   ],
 
   rules: {
@@ -290,26 +289,63 @@ module.exports = grammar({
     //   $._expression,
     //   $.block
     // ),
+
+    // TODO: come back and fix: "Error: The rule `block` matches the empty string."
+    // block: $ => repeat($.block_statements),
     //
-    // block: $ => seq(
-    //   '{', repeat(optional($.block_statement)), '}',
+    // block_statements: $ => seq(
+    //   $.block_statement,
+    //   repeat($.block_statement)
     // ),
     //
     // block_statement: $ => choice(
     //   $.local_variable_declaration_statement,
     //   $.class_declaration,
-    //   $._statement
+    //   $.statement
     // ),
     //
     // local_variable_declaration_statement: $ => seq(
-    //   $.variable_modifier,
-    //   $.unann_type,
-    //   $.variable_declarator_list
+    //   repeat($.variable_modifier),
+    //   // $.unann_type,
+    //   $.variable_declarator_list,
+    //   $._semicolon
     // ),
     //
     // variable_modifier: $ => choice(
-    //   $.annotation,
-    //   $.final
+    //   $._annotation,
+    //   'final'
+    // ),
+    //
+    // variable_declarator_list: $ => seq(
+    //   $.variable_declarator,
+    //   repeat(',', $.variable_declarator)
+    // ),
+    //
+    // variable_declarator: $ => seq(
+    //   $.variable_declarator_id,
+    //   optional('=', $.variable_initializer)
+    // ),
+    //
+    // variable_declarator_id: $ => seq(
+    //   $.identifier,
+    //   optional($.dims)
+    // ),
+    //
+    // variable_initializer: $ => choice(
+    //   $._expression,
+    //   $.array_initializer
+    // ),
+    //
+    // array_initializer: $ => seq(
+    //   repeat(seq(
+    //     $.variable_initializer_list,
+    //     ','
+    //   ))
+    // ),
+    //
+    // variable_initializer_list: $ => seq(
+    //   $.variable_initializer,
+    //   repeat(seq(',', $.variable_initializer))
     // ),
 
     // TODO: come back to this
@@ -338,6 +374,7 @@ module.exports = grammar({
       seq('--', $._expression)
     )),
 
+    // TODO: verify: https://docs.oracle.com/javase/specs/jls/se9/html/jls-14.html#jls-Statement
     statement: $ => choice(
       // $.statement_without_trailing_substatement,
       // $.labeled_statement,
@@ -345,6 +382,29 @@ module.exports = grammar({
       // $.while_statement,
       // $.for_statement
     ),
+
+    // statement_no_short_if: $ => choice(
+    //   // $.statement_without_trailing_substatement,
+    //   // $.labeled_statement_no_short_if,
+    //   // $.if_then_else_statement_no_short_if,
+    //   // $.while_statement_no_short_if,
+    //   // $.for_statement_no_short_if
+    // ),
+
+    // statement_without_trailing_substatement: $ => choice(
+      // $.block,
+      // $.empty_statement,
+      // $.expression_statement,
+      // $.assert_statement,
+      // $.switch_statement,
+      // $.do_statement,
+      // $.break_statement,
+      // $.continue_statement,
+      // $.return_statement,
+      // $.synchronized_statement,
+      // $.throw_statement,
+      // $.try_statement
+    // ),
 
     // TODO: make if statement pass by defining variables
     if_then_statement: $ => prec.right(seq('if', '(', $._expression, ')',
@@ -400,51 +460,47 @@ module.exports = grammar({
     //   repeat1(choice($.lambda_expression, $.assignment_expression))
     // ),
     //
-    // type_argument: $ => choice(
-    //   $.reference_type,
-    //   $.wildcard
-    // ),
+
+    type_arguments: $ => seq(
+      '<', commaSep1($.type_argument), '>'
+    ),
+
+    type_argument: $ => choice(
+      $.reference_type,
+      // $.wildcard
+    ),
     //
     // wildcard: $ => seq(
-    //   repeat($.annotation),
+    //   repeat($._annotation),
     //   $.wildcard_bounds
     // ),
     //
     // wildcard_bounds: $ =>
-    //
-    // reference_type: $ => choice(
-    //   $.class_or_interface_type,
-    //   $.type_variable,
-    //   $.array_type,
-    // ),
-    //
-    // class_or_interface_type: $ => choice(
-    //   seq(repeat($.annotation), $.identifier, optional($.type_argument)),
-    //   seq($.class_or_interface_type, repeat($.annotation), $.identifer, optional($.type_argument))
-    // ),
-    //
-    // type_variable: $ => seq(
-    //   repeat($.annotation),
-    //   $.identifier
-    // ),
-    //
-    // array_type: $ => choice(
-    //   seq($.primitive_type, $.dims),
-    //   seq($.class_or_interface_type, $.dims),
-    //   seq($.type_variable, $.dims)
-    // ),
-    //
-    // dims: $ => seq(
-    //   repeat($.annotation), '[ ]',
-    //   repeat(repeat($.annotation), '[ ]')
-    // ),
-    //
-    // primitive_type: $ => choice(
-    //   seq(repeat($.annotation), choice($.integral_type, $.floating_point_type)),
-    //   seq(repeat($.annotation), 'boolean')
-    // ),
 
-    // test
+    reference_type: $ => prec.left(choice(
+      seq($.class_or_interface_type, optional($.dims)),
+      seq($.primitive_type, $.dims)
+    )),
+
+    class_or_interface_type: $ => prec.left(sep1(
+        seq(repeat($._annotation), $.identifier, optional($.type_arguments)), '.'
+    )),
+
+    type_variable: $ => seq(
+      repeat($._annotation),
+      $.identifier
+    ),
+
+    dims: $ => repeat1(
+      seq(repeat($._annotation), '[', ']')
+    ),
+
+    primitive_type: $ => choice(
+      seq(repeat($._annotation), choice($.integral_type, $.floating_point_type)),
+      seq(repeat($._annotation), 'boolean')
+    ),
+
+    // TODO: test
     integral_type: $ => choice(
       'byte',
       'short',
@@ -453,7 +509,7 @@ module.exports = grammar({
       'char'
     ),
 
-    // test
+    // TODO: test
     floating_point_type: $ => choice(
       'float',
       'double'
@@ -565,7 +621,8 @@ module.exports = grammar({
     _declaration: $ => choice(
       $.module_declaration,
       $.package_declaration,
-      $.import_statement
+      $.import_statement,
+      $.class_declaration
     ),
 
     module_declaration: $ => seq(
@@ -650,6 +707,84 @@ module.exports = grammar({
       $.package_or_type_name,
       '.',
       '*',
+      $._semicolon
+    ),
+
+    class_declaration: $ => choice(
+      $.normal_class_declaration
+      // $.enum_declaration - thttps://docs.oracle.com/javase/specs/jls/se9/html/jls-8.html#jls-8.1ion
+    ),
+
+    normal_class_declaration: $ => seq(
+      repeat($.class_modifier),
+      'class',
+      $.identifier,
+      optional($.type_paramaters),
+      optional($.superclass),
+      optional($.super_interfaces),
+      $.class_body
+    ),
+
+    class_modifier: $ => choice(
+      $._annotation,
+      'public',
+      'protected',
+      'private',
+      'static',
+      'final',
+      'strictfp'
+    ),
+
+    type_paramaters: $ => seq(
+      '<', $.type_parameter_list, '>'
+    ),
+
+    type_parameter_list: $ => commaSep1(
+      $.type_parameter
+    ),
+
+    type_parameter: $ => seq(
+      repeat($._annotation),
+      $.identifier,
+      optional($.type_bound)
+    ),
+
+    type_bound: $ =>
+      seq('extends', $.class_or_interface_type, repeat(seq('&', $.class_or_interface_type))),
+
+    superclass: $ => seq(
+      'extends',
+      $.class_or_interface_type
+    ),
+
+    super_interfaces: $ => seq(
+      'implements',
+      $.interface_type_list
+    ),
+
+    interface_type_list: $ => seq(
+      $.class_or_interface_type,
+      repeat(seq(',', $.class_or_interface_type))
+    ),
+
+    class_body: $ => seq(
+      '{',
+      repeat($.class_body_declaration),
+      '}'
+    ),
+
+    class_body_declaration: $ => choice(
+      $.class_member_declaration,
+      // $.block,
+      // $.static_initializer,
+      // $.constructor_declaration
+    ),
+
+    class_member_declaration: $ => choice(
+      // $.field_declaration,
+      // $.method_declaration,
+      $.class_declaration,
+      // $.interface_declaration,
       $._semicolon
     ),
 
