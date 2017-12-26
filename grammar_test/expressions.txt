@@ -1,0 +1,94 @@
+=====================================
+Ternary Expression
+=====================================
+
+class Foo {
+  void Test() {
+    x ? "foo" : "bar";
+  }
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier_name)
+    (method_declaration
+      (return_type
+        (void_keyword))
+      (identifier_name)
+      (parameter_list)
+      (statement_block
+      (expression_statement
+        (ternary_expression
+          (identifier_name)
+          (string_literal)
+          (string_literal)))))))
+
+=====================================
+Binary Expressions
+=====================================
+
+class Foo {
+  void Test() {
+    x == y;
+    1 + 2;
+  }
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier_name)
+    (method_declaration
+      (return_type
+        (void_keyword))
+      (identifier_name)
+      (parameter_list)
+      (statement_block
+      (expression_statement
+        (binary_expression
+          (identifier_name)
+          (identifier_name)))
+      (expression_statement
+        (binary_expression
+          (integer_literal)
+          (integer_literal)))))))
+
+=====================================
+Prefix-Unary Expressions
+=====================================
+
+class Foo {
+  void Test() {
+    ++x;
+    --y;
+    typeof(x);
+    sizeof(y);
+  }
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier_name)
+    (method_declaration
+      (return_type
+        (void_keyword))
+      (identifier_name)
+      (parameter_list)
+      (statement_block
+      (expression_statement
+        (unary_expression
+          (identifier_name)))
+      (expression_statement
+        (unary_expression
+          (identifier_name)))
+      (expression_statement
+        (unary_expression
+          (identifier_name)))
+      (expression_statement
+        (unary_expression
+          (identifier_name)))))))
