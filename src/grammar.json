@@ -330,16 +330,41 @@
           "name": "word"
         },
         {
-          "type": "STRING",
-          "value": "("
-        },
-        {
-          "type": "STRING",
-          "value": ")"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "("
+                },
+                {
+                  "type": "STRING",
+                  "value": ")"
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         },
         {
           "type": "SYMBOL",
           "name": "compound_statement"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "file_redirect"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         }
       ]
     },

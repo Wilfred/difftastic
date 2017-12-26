@@ -129,8 +129,20 @@ function do_something_else() {
   echo ok
 }
 
+function do_yet_another_thing {
+  echo ok
+} 2>&1
+
 ---
 
 (program
-  (function_definition (word) (compound_statement (command (command_name (word)) (word))))
-  (function_definition (word) (compound_statement (command (command_name (word)) (word)))))
+  (function_definition
+    (word)
+    (compound_statement (command (command_name (word)) (word))))
+  (function_definition
+    (word)
+    (compound_statement (command (command_name (word)) (word))))
+  (function_definition
+    (word)
+    (compound_statement (command (command_name (word)) (word)))
+    (file_redirect (file_descriptor) (word))))

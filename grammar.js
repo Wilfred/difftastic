@@ -124,9 +124,9 @@ module.exports = grammar({
     function_definition: $ => seq(
       optional('function'),
       $.word,
-      '(',
-      ')',
-      $.compound_statement
+      optional(seq('(', ')')),
+      $.compound_statement,
+      optional($.file_redirect)
     ),
 
     compound_statement: $ => seq(
