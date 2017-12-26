@@ -395,16 +395,21 @@ module.exports = grammar({
       )
     ),
 
-    unary_expression: $ => prec.right(PREC.UNARY, choice(...[
-      '!',
-      '~',
-      '-',
-      '+',
-      'typeof',
-      '--',
-      '++'
-    ].map(operator => seq(operator, $._expression)))),
+    unary_expression: $ => prec.right(PREC.UNARY, choice(
+      ...[
+        '!',
+        '~',
+        '-',
+        '+',
+        '--',
+        '++'
+      ].map(operator => seq(operator, $._expression))
+      .concat([
+        'typeof',
+        'sizeof'
+      ].map(operator => seq(operator, '(', $._expression, ')'))))),
 
+    // TODO, hook this up and fix issues with it
     postfix_expression: $ => prec.left(PREC.POSTFIX, choice(
       seq($._expression, '++'),
       seq($._expression, '--'),

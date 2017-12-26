@@ -53,3 +53,78 @@ class Foo {
       (parameter_list
         (parameter (predefined_type) (identifier_name)))
       (statement_block))))
+
+=====================================
+Class with public constructor
+=====================================
+
+class Foo {
+  public Foo() {}
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier_name)
+    (constructor_declaration
+      (method_modifiers)
+      (identifier_name)
+      (parameter_list)
+      (statement_block))))
+
+=====================================
+Class with private constructor
+=====================================
+
+class Foo {
+  private Foo() {}
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier_name)
+    (constructor_declaration
+      (method_modifiers)
+      (identifier_name)
+      (parameter_list)
+      (statement_block))))
+
+=====================================
+Class with protected constructor
+=====================================
+
+class Foo {
+  protected Foo() {}
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier_name)
+    (constructor_declaration
+      (method_modifiers)
+      (identifier_name)
+      (parameter_list)
+      (statement_block))))
+
+=====================================
+Class with default constructor
+=====================================
+
+class Foo {
+  Foo() {}
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier_name)
+    (constructor_declaration
+      (identifier_name)
+      (parameter_list)
+      (statement_block))))
