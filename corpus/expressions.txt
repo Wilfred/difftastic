@@ -149,6 +149,7 @@ echo ${a[@]}
 echo ${#b[@]}
 
 a[$i]=50
+a+=(foo "bar" $(baz))
 
 ---
 
@@ -159,4 +160,10 @@ a[$i]=50
   (command (command_name (word)) (expansion (variable_name)))
   (environment_variable_assignment
     (subscript (variable_name) (simple_expansion (variable_name)))
-    (word)))
+    (word))
+  (environment_variable_assignment
+    (variable_name)
+    (array
+      (word)
+      (string)
+      (command_substitution (command (command_name (word)))))))

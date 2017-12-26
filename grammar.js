@@ -182,7 +182,10 @@ module.exports = grammar({
         $.variable_name,
         $.subscript
       ),
-      '=',
+      choice(
+        '=',
+        '+='
+      ),
       choice(
         $._expression,
         $.array,
@@ -271,7 +274,7 @@ module.exports = grammar({
 
     array: $ => seq(
       '(',
-      repeat($.word),
+      repeat($._expression),
       ')'
     ),
 

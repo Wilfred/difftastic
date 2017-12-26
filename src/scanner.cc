@@ -170,14 +170,27 @@ struct Scanner {
         }
       }
 
-      if (is_number && valid_symbols[FILE_DESCRIPTOR] && (lexer->lookahead == '>' || lexer->lookahead == '<')) {
+      if (is_number &&
+          valid_symbols[FILE_DESCRIPTOR] &&
+          (lexer->lookahead == '>' || lexer->lookahead == '<')) {
         lexer->result_symbol = FILE_DESCRIPTOR;
         return true;
       }
 
-      if (valid_symbols[VARIABLE_NAME] && (lexer->lookahead == '=' || lexer->lookahead == '[')) {
-        lexer->result_symbol = VARIABLE_NAME;
-        return true;
+      if (valid_symbols[VARIABLE_NAME]) {
+        if (lexer->lookahead == '+') {
+          lexer->mark_end(lexer);
+          advance(lexer);
+          if (lexer->lookahead == '=') {
+            lexer->result_symbol = VARIABLE_NAME;
+            return true;
+          } else {
+            return false;
+          }
+        } else if (lexer->lookahead == '=' || lexer->lookahead == '[') {
+          lexer->result_symbol = VARIABLE_NAME;
+          return true;
+        }
       }
 
       return false;
