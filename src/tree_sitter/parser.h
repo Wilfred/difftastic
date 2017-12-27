@@ -24,7 +24,6 @@ typedef struct {
 typedef struct {
   void (*advance)(void *, bool);
   void (*mark_end)(void *);
-  uint32_t (*get_column)(void *);
   int32_t lookahead;
   TSSymbol result_symbol;
 } TSLexer;
