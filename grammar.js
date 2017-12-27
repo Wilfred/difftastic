@@ -363,8 +363,11 @@ module.exports = grammar({
       $._literal,
       $.ternary_expression,
       $.binary_expression,
-      $.unary_expression
+      $.unary_expression,
+      $.parenthesized_expression
     ),
+
+    parenthesized_expression: $ => seq('(', $._expression, ')'),
 
     ternary_expression: $ => prec.right(PREC.COND, seq(
       $._expression, '?', $._expression, ':', $._expression
@@ -402,12 +405,10 @@ module.exports = grammar({
         '-',
         '+',
         '--',
-        '++'
-      ].map(operator => seq(operator, $._expression))
-      .concat([
+        '++',
         'typeof',
         'sizeof'
-      ].map(operator => seq(operator, '(', $._expression, ')'))))),
+      ].map(operator => seq(operator, $._expression)))),
 
     // TODO, hook this up and fix issues with it
     postfix_expression: $ => prec.left(PREC.POSTFIX, choice(
