@@ -592,6 +592,8 @@ module.exports = grammar({
     ),
 
     _expression: $ => choice(
+      $.conditional_expression,
+      $.augmented_assignment_expression,
       $.assignment_expression,
       $.yield_expression,
       $._unary_expression,
@@ -748,10 +750,11 @@ module.exports = grammar({
     )),
 
     assignment_expression: $ => choice(
-      $.conditional_expression,
       $._simple_assignment_expression,
       $._byref_assignment_expression,
-      choice(...[
+    ),
+
+    augmented_assignment_expression: $ => choice(...[
         ['**=', PREC.TIMES],
         ['*=', PREC.TIMES],
         ['/=', PREC.TIMES],
@@ -765,7 +768,7 @@ module.exports = grammar({
         ['|=', PREC.OR]
       ].map(([operator, precedence]) =>
         prec.left(precedence, seq($._variable, operator, $._expression))
-    ))),
+    )),
 
     _variable: $ => choice(
       $._callable_variable,
