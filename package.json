@@ -1,6 +1,6 @@
 {
   "name": "tree-sitter-c-sharp",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "C# grammar for tree-sitter",
   "main": "index.js",
   "keywords": [
