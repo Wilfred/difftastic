@@ -31,6 +31,10 @@ module.exports = grammar({
     /\s/
   ],
 
+  inline: $ => [
+  $.formal_parameters
+  ],
+
   conflicts: $ => [
     [$.class_modifier]
   ],
@@ -418,16 +422,18 @@ module.exports = grammar({
     else_if_clause: $ => seq(
       'else if',
       '(', $._expression, ')',
-      optional('{'),
-      $._statement,
-      optional('}')
+      choice(
+        seq('{', $._statement, '}'),
+        $._statement
+      )
     ),
 
     else_clause: $ => seq(
       'else',
-      optional('{'),
-      $._statement,
-      optional('}')
+      choice(
+        seq('{', $._statement, '}'),
+        $._statement
+      )
     ),
 
     // TODO: handle while_statement_no_short_if version
@@ -549,8 +555,10 @@ module.exports = grammar({
     )),
 
     element_value_array_initializer: $ => prec.left(seq(
-      $.element_value,
-      optional(',')
+      '{',
+      commaSep($.element_value),
+      optional(','),
+      '}'
     )),
 
     // TODO: add tests for conditional expressions
@@ -719,7 +727,7 @@ module.exports = grammar({
       repeat($.class_modifier),
       'class',
       $.identifier,
-      optional($.type_paramaters),
+      optional($.type_parameters),
       optional($.superclass),
       optional($.super_interfaces),
       $.class_body
@@ -733,10 +741,11 @@ module.exports = grammar({
       'abstract',
       'static',
       'final',
-      'strictfp'
+      'strictfp',
+      'default'
     ),
 
-    type_paramaters: $ => seq(
+    type_parameters: $ => seq(
       '<', $.type_parameter_list, '>'
     ),
 
@@ -776,7 +785,7 @@ module.exports = grammar({
 
     class_body_declaration: $ => choice(
       $.class_member_declaration,
-      // $.block,
+      $.block,
       // $.static_initializer,
       // $.constructor_declaration
     ),
@@ -785,9 +794,224 @@ module.exports = grammar({
       // $.field_declaration,
       // $.method_declaration,
       $.class_declaration,
-      // $.interface_declaration,
+      $.interface_declaration,
       $._semicolon
     ),
+
+    interface_declaration: $ => choice(
+      $.normal_interface_declaration,
+      $.annotation_type_declaration
+    ),
+
+    annotation_type_declaration: $ => seq(
+      repeat($.class_modifier),
+      '@ interface',
+      $.identifier,
+      $.annotation_type_body
+    ),
+
+    annotation_type_body: $ => seq(
+      '{', repeat($.annotation_type_member_declaration), '}'
+    ),
+
+    annotation_type_member_declaration: $ => choice(
+      $.annotation_type_element_declaration,
+      $.constant_declaration,
+      $.class_declaration,
+      $.interface_declaration
+    ),
+
+    annotation_type_element_declaration: $ => seq(
+      repeat($.class_modifier),
+      // $.unann_type,
+      $.identifier,
+      '(', ')',
+      optional($.dims),
+      optional($.default_value),
+      $._semicolon
+    ),
+
+    default_value: $ => seq(
+      'default', $.element_value
+    ),
+
+    normal_interface_declaration: $ => seq(
+      repeat($.class_modifier),
+      'interface',
+      $.identifier,
+      optional($.type_parameters),
+      optional($.extends_interfaces),
+      $.interface_body
+    ),
+
+    extends_interfaces: $ => seq(
+      'extends',
+      $.interface_type_list
+    ),
+
+    interface_type_list: $ => seq(
+      $.class_or_interface_type,
+      repeat(seq(',', $.class_or_interface_type))
+    ),
+
+    interface_body: $ => seq(
+      '{',
+      repeat($.interface_member_declaration),
+      '}'
+    ),
+
+    interface_member_declaration: $ => choice(
+      $.constant_declaration,
+      $.interface_method_declaration,
+      $.class_declaration,
+      $.interface_declaration,
+      $._semicolon
+    ),
+
+    constant_declaration: $ => seq(
+      repeat($.class_modifier),
+      // $.unann_type,
+      $.variable_declarator_list,
+      $._semicolon
+    ),
+
+    // These are part of field declarations - variables of a class type are intro'd by field declarations
+    variable_declarator_list: $ => seq(
+      $.variable_declarator,
+      repeat(seq(',', $.variable_declarator))
+    ),
+
+    variable_declarator: $ => seq(
+      $.variable_declarator_id,
+      optional('=', $.variable_initializer)
+    ),
+
+    variable_declarator_id: $ => seq(
+      $.identifier,
+      optional($.dims)
+    ),
+
+    variable_initializer: $ => choice(
+      $._expression,
+      $.array_initializer
+    ),
+
+    array_initializer: $ => seq(
+      '{',
+      optional($.variable_initializer_list),
+      optional(','),
+      '}'
+    ),
+
+    variable_initializer_list: $ => seq(
+      $.variable_initializer,
+      repeat(seq(',', $.variable_initializer))
+    ),
+
+    // come back and define unann_type here
+
+    interface_method_declaration: $ => seq(
+      repeat($.class_modifier),
+      $.method_header,
+      $.method_body
+    ),
+
+    method_header: $ => choice(
+      seq($.result, $.method_declarator, optional($.throws)),
+      seq($.type_parameters, repeat($._annotation), $.result, $.method_declarator, optional($.throws))
+    ),
+
+    result: $ => choice(
+      // $.unann_type,
+      'void'
+    ),
+
+    method_declarator: $ => seq(
+      $.identifier,
+      '(', optional($.formal_parameter_list), ')',
+      optional($.dims)
+    ),
+
+    formal_parameter_list: $ => choice(
+      $.receiver_parameter,
+      seq($.formal_parameters, ',', $.last_formal_parameter),
+      $.last_formal_parameter
+    ),
+
+    formal_parameters: $ => choice(
+      seq($.formal_parameter, repeat(seq(',', $.formal_parameter))),
+      seq($.receiver_parameter, repeat(seq(',', $.formal_parameter)))
+    ),
+
+    formal_parameter: $ => seq(
+      repeat($.class_modifier),
+      // $.unann_type,
+      $.variable_declarator_id
+    ),
+
+    receiver_parameter: $ => seq(
+      repeat($._annotation),
+      // $.unann_type,
+      optional(seq($.identifier, '.')),
+      'this'
+    ),
+
+    last_formal_parameter: $ => choice(
+      seq(
+      repeat($.class_modifier),
+      // $.unann_type,
+      repeat($._annotation),
+      '...',
+      $.variable_declarator
+      ),
+      $.formal_parameter
+    ),
+
+    throws: $ => seq(
+      'throws', $.exception_type_list
+    ),
+
+    exception_type_list: $ => seq(
+      $.exception_type,
+      repeat(',', $.exception_type)
+    ),
+
+    exception_type: $ => seq(
+      $.class_or_interface_type,
+      $.type_variable
+    ),
+
+    method_body: $ => choice(
+      $.block,
+      $._semicolon
+    ),
+
+    block: $ => seq(
+      '{', optional($.block_statements), '}'
+    ),
+
+    block_statements: $ => seq(
+      $.block_statement,
+      repeat($.block_statement)
+    ),
+
+    block_statement: $ => choice(
+      $.local_variable_declaration_statement,
+      $.class_declaration,
+      $.statement
+    ),
+
+    local_variable_declaration_statement: $ => seq(
+      $.local_variable_declaration,
+      $._semicolon
+    ),
+
+    local_variable_declaration: $ => seq(
+      $.class_modifier,
+      // $.unann_type,
+      $.variable_declarator_list
+    ),
+
 
     // expression_name: $ => choice(
     //   $.identifier,
@@ -817,4 +1041,8 @@ function sep1 (rule, separator) {
 
 function commaSep1(rule) {
   return seq(rule, repeat(seq(',', rule)))
+}
+
+function commaSep(rule) {
+  return optional(commaSep1(rule))
 }
