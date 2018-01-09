@@ -36,7 +36,7 @@ module.exports = grammar({
   ],
 
   conflicts: $ => [
-    [$.class_modifier]
+    [$.modifier]
   ],
 
   rules: {
@@ -724,7 +724,7 @@ module.exports = grammar({
     ),
 
     normal_class_declaration: $ => seq(
-      repeat($.class_modifier),
+      repeat($.modifier),
       'class',
       $.identifier,
       optional($.type_parameters),
@@ -733,7 +733,7 @@ module.exports = grammar({
       $.class_body
     ),
 
-    class_modifier: $ => choice(
+    modifier: $ => choice(
       $._annotation,
       'public',
       'protected',
@@ -804,7 +804,7 @@ module.exports = grammar({
     ),
 
     annotation_type_declaration: $ => seq(
-      repeat($.class_modifier),
+      repeat($.modifier),
       '@ interface',
       $.identifier,
       $.annotation_type_body
@@ -822,7 +822,7 @@ module.exports = grammar({
     ),
 
     annotation_type_element_declaration: $ => seq(
-      repeat($.class_modifier),
+      repeat($.modifier),
       // $.unann_type,
       $.identifier,
       '(', ')',
@@ -836,7 +836,7 @@ module.exports = grammar({
     ),
 
     normal_interface_declaration: $ => seq(
-      repeat($.class_modifier),
+      repeat($.modifier),
       'interface',
       $.identifier,
       optional($.type_parameters),
@@ -869,7 +869,7 @@ module.exports = grammar({
     ),
 
     constant_declaration: $ => seq(
-      repeat($.class_modifier),
+      repeat($.modifier),
       // $.unann_type,
       $.variable_declarator_list,
       $._semicolon
@@ -911,7 +911,7 @@ module.exports = grammar({
     // come back and define unann_type here
 
     interface_method_declaration: $ => seq(
-      repeat($.class_modifier),
+      repeat($.modifier),
       $.method_header,
       $.method_body
     ),
@@ -944,7 +944,7 @@ module.exports = grammar({
     ),
 
     formal_parameter: $ => seq(
-      repeat($.class_modifier),
+      repeat($.modifier),
       // $.unann_type,
       $.variable_declarator_id
     ),
@@ -958,7 +958,7 @@ module.exports = grammar({
 
     last_formal_parameter: $ => choice(
       seq(
-      repeat($.class_modifier),
+      repeat($.modifier),
       // $.unann_type,
       repeat($._annotation),
       '...',
@@ -1007,7 +1007,7 @@ module.exports = grammar({
     ),
 
     local_variable_declaration: $ => seq(
-      $.class_modifier,
+      $.modifier,
       // $.unann_type,
       $.variable_declarator_list
     ),
