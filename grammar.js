@@ -572,7 +572,8 @@ module.exports = grammar({
       $.module_declaration,
       $.package_declaration,
       $.import_statement,
-      $.class_declaration
+      $.class_declaration,
+      $.interface_declaration
     ),
 
     module_declaration: $ => seq(
@@ -747,7 +748,7 @@ module.exports = grammar({
 
     annotation_type_declaration: $ => seq(
       repeat($.modifier),
-      '@ interface',
+      '@', 'interface',
       $.identifier,
       $.annotation_type_body
     ),
