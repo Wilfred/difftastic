@@ -7,6 +7,10 @@ const PREC = Object.assign(C.PREC, {
 module.exports = grammar(C, {
   name: 'cpp',
 
+  externals: $ => [
+    $.raw_string_literal
+  ],
+
   conflicts: ($, original) => original.concat([
     [$.template_function, $.template_type],
     [$.template_function, $.template_type, $._expression],
@@ -372,7 +376,8 @@ module.exports = grammar(C, {
       $.new_expression,
       $.delete_expression,
       $.lambda_expression,
-      $.nullptr
+      $.nullptr,
+      $.raw_string_literal
     ),
 
     new_expression: $ => seq(

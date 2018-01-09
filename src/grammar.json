@@ -3083,6 +3083,10 @@
         {
           "type": "SYMBOL",
           "name": "nullptr"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "raw_string_literal"
         }
       ]
     },
@@ -4451,53 +4455,45 @@
         ]
       }
     },
-    "identifier": {
-      "type": "PATTERN",
-      "value": "[a-zA-Z_]\\w*"
-    },
     "true": {
       "type": "TOKEN",
       "content": {
-        "type": "PREC",
-        "value": 1,
-        "content": {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "STRING",
-              "value": "TRUE"
-            },
-            {
-              "type": "STRING",
-              "value": "true"
-            }
-          ]
-        }
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "TRUE"
+          },
+          {
+            "type": "STRING",
+            "value": "true"
+          }
+        ]
       }
     },
     "false": {
       "type": "TOKEN",
       "content": {
-        "type": "PREC",
-        "value": 1,
-        "content": {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "STRING",
-              "value": "FALSE"
-            },
-            {
-              "type": "STRING",
-              "value": "false"
-            }
-          ]
-        }
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "FALSE"
+          },
+          {
+            "type": "STRING",
+            "value": "false"
+          }
+        ]
       }
     },
     "null": {
       "type": "STRING",
       "value": "NULL"
+    },
+    "identifier": {
+      "type": "PATTERN",
+      "value": "[a-zA-Z_]\\w*"
     },
     "_type_identifier": {
       "type": "ALIAS",
@@ -6092,7 +6088,12 @@
       "argument_list"
     ]
   ],
-  "externals": [],
+  "externals": [
+    {
+      "type": "SYMBOL",
+      "name": "raw_string_literal"
+    }
+  ],
   "inline": [
     "_statement",
     "_top_level_item",

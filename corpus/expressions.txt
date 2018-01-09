@@ -236,4 +236,32 @@ void *x = nullptr;
 ---
 
 (translation_unit
-  (declaration (primitive_type) (init_declarator (pointer_declarator (identifier)) (nullptr)))) 
+  (declaration (primitive_type) (init_declarator (pointer_declarator (identifier)) (nullptr))))
+
+====================================================
+Raw string literals
+====================================================
+
+const char *s1 = R"(
+  This is a string. It ends with ')' and a quote.
+)";
+
+const char *s2 = R"FOO(
+  This is a string. It ends with ')FOO' and a quote.
+)FOO";
+
+---
+
+(translation_unit
+  (declaration
+    (type_qualifier)
+    (primitive_type)
+    (init_declarator
+      (pointer_declarator (identifier))
+      (raw_string_literal)))
+  (declaration
+    (type_qualifier)
+    (primitive_type)
+    (init_declarator
+      (pointer_declarator (identifier))
+      (raw_string_literal))))
