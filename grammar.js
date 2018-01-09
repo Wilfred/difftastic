@@ -756,11 +756,11 @@ module.exports = grammar({
       '>')
     ),
 
-    identifier: $ => /[a-zA-Z_]\w*/,
-
-    true: $ => token(prec(1, choice('TRUE', 'true'))),
-    false: $ => token(prec(1, choice('FALSE', 'false'))),
+    true: $ => token(choice('TRUE', 'true')),
+    false: $ => token(choice('FALSE', 'false')),
     null: $ => 'NULL',
+
+    identifier: $ => /[a-zA-Z_]\w*/,
 
     _type_identifier: $ => alias($.identifier, $.type_identifier),
     _field_identifier: $ => alias($.identifier, $.field_identifier),

@@ -42,6 +42,11 @@ int main() {
   true;
   false;
   NULL;
+
+  // regression test - identifiers starting w/ these strings should tokenize correctly.
+  true_value;
+  false_value;
+  NULL_value;
 }
 
 ---
@@ -53,7 +58,11 @@ int main() {
     (compound_statement
       (expression_statement (true))
       (expression_statement (false))
-      (expression_statement (null)))))
+      (expression_statement (null))
+      (comment)
+      (expression_statement (identifier))
+      (expression_statement (identifier))
+      (expression_statement (identifier)))))
 
 ============================================
 Function calls
