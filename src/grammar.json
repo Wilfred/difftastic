@@ -3690,7 +3690,7 @@
           "type": "REPEAT",
           "content": {
             "type": "SYMBOL",
-            "name": "class_modifier"
+            "name": "modifier"
           }
         },
         {
@@ -3743,7 +3743,7 @@
         }
       ]
     },
-    "class_modifier": {
+    "modifier": {
       "type": "CHOICE",
       "members": [
         {
@@ -4004,7 +4004,7 @@
           "type": "REPEAT",
           "content": {
             "type": "SYMBOL",
-            "name": "class_modifier"
+            "name": "modifier"
           }
         },
         {
@@ -4069,7 +4069,7 @@
           "type": "REPEAT",
           "content": {
             "type": "SYMBOL",
-            "name": "class_modifier"
+            "name": "modifier"
           }
         },
         {
@@ -4134,7 +4134,7 @@
           "type": "REPEAT",
           "content": {
             "type": "SYMBOL",
-            "name": "class_modifier"
+            "name": "modifier"
           }
         },
         {
@@ -4240,7 +4240,7 @@
           "type": "REPEAT",
           "content": {
             "type": "SYMBOL",
-            "name": "class_modifier"
+            "name": "modifier"
           }
         },
         {
@@ -4402,7 +4402,7 @@
           "type": "REPEAT",
           "content": {
             "type": "SYMBOL",
-            "name": "class_modifier"
+            "name": "modifier"
           }
         },
         {
@@ -4623,7 +4623,7 @@
           "type": "REPEAT",
           "content": {
             "type": "SYMBOL",
-            "name": "class_modifier"
+            "name": "modifier"
           }
         },
         {
@@ -4679,7 +4679,7 @@
               "type": "REPEAT",
               "content": {
                 "type": "SYMBOL",
-                "name": "class_modifier"
+                "name": "modifier"
               }
             },
             {
@@ -4836,7 +4836,7 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "class_modifier"
+          "name": "modifier"
         },
         {
           "type": "SYMBOL",
@@ -4907,7 +4907,7 @@
   ],
   "conflicts": [
     [
-      "class_modifier"
+      "modifier"
     ]
   ],
   "externals": [],
