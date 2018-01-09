@@ -3183,6 +3183,10 @@
         {
           "type": "SYMBOL",
           "name": "class_declaration"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "interface_declaration"
         }
       ]
     },
@@ -4009,7 +4013,11 @@
         },
         {
           "type": "STRING",
-          "value": "@ interface"
+          "value": "@"
+        },
+        {
+          "type": "STRING",
+          "value": "interface"
         },
         {
           "type": "SYMBOL",
