@@ -294,64 +294,6 @@ module.exports = grammar({
     //   $.block
     // ),
 
-    // TODO: come back and fix: "Error: The rule `block` matches the empty string."
-    // block: $ => repeat($.block_statements),
-    //
-    // block_statements: $ => seq(
-    //   $.block_statement,
-    //   repeat($.block_statement)
-    // ),
-    //
-    // block_statement: $ => choice(
-    //   $.local_variable_declaration_statement,
-    //   $.class_declaration,
-    //   $.statement
-    // ),
-    //
-    // local_variable_declaration_statement: $ => seq(
-    //   repeat($.variable_modifier),
-    //   // $.unann_type,
-    //   $.variable_declarator_list,
-    //   $._semicolon
-    // ),
-    //
-    // variable_modifier: $ => choice(
-    //   $._annotation,
-    //   'final'
-    // ),
-    //
-    // variable_declarator_list: $ => seq(
-    //   $.variable_declarator,
-    //   repeat(',', $.variable_declarator)
-    // ),
-    //
-    // variable_declarator: $ => seq(
-    //   $.variable_declarator_id,
-    //   optional('=', $.variable_initializer)
-    // ),
-    //
-    // variable_declarator_id: $ => seq(
-    //   $.identifier,
-    //   optional($.dims)
-    // ),
-    //
-    // variable_initializer: $ => choice(
-    //   $._expression,
-    //   $.array_initializer
-    // ),
-    //
-    // array_initializer: $ => seq(
-    //   repeat(seq(
-    //     $.variable_initializer_list,
-    //     ','
-    //   ))
-    // ),
-    //
-    // variable_initializer_list: $ => seq(
-    //   $.variable_initializer,
-    //   repeat(seq(',', $.variable_initializer))
-    // ),
-
     // TODO: come back to this
     // annotation_type: $ => choice(
     //
