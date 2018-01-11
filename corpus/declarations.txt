@@ -254,8 +254,8 @@ class Show a b where {}
 ---
 
 (module
-  (type_class (constructor_identifier) (variable_identifier) (declarations))
-  (type_class (constructor_identifier) (variable_identifier) (variable_identifier) (declarations)))
+  (type_class (constructor_identifier) (variable_identifier) (general_declarations))
+  (type_class (constructor_identifier) (variable_identifier) (variable_identifier) (general_declarations)))
 
 =========================================
 Type Class Declarations With Context
@@ -272,14 +272,14 @@ class (Show (f a), Eq a) => Read f a where {}
     (context (class (constructor_identifier) (variable_identifier)))
     (constructor_identifier)
     (variable_identifier)
-    (declarations))
+    (general_declarations))
   (type_class
     (context
       (class (constructor_identifier) (variable_identifier))
       (class (constructor_identifier) (variable_identifier)))
     (constructor_identifier)
     (variable_identifier)
-    (declarations))
+    (general_declarations))
   (type_class
     (context
       (class (constructor_identifier) (variable_identifier) (variable_identifier))
@@ -287,14 +287,14 @@ class (Show (f a), Eq a) => Read f a where {}
     (constructor_identifier)
     (variable_identifier)
     (variable_identifier)
-    (declarations)))
+    (general_declarations)))
 
 =========================================
 Type Class Declarations With Body
 =========================================
 
 class Foo a where {
-  op :: Num b => a -> b -> a
+  op :: Num b => a -> b -> c -> a
   op' :: (Num a, Num b) => a -> b -> a
 }
 
@@ -304,19 +304,25 @@ class Foo a where {
   (type_class
     (constructor_identifier)
     (variable_identifier)
-    (type_class_body
+    (general_declarations
       (type_signature
         (variable_identifier)
         (context (class (constructor_identifier) (variable_identifier)))
-        (variable_identifier)
-        (variable_identifier)
-        (variable_identifier))
+        (function_type
+          (variable_identifier)
+          (function_type
+            (variable_identifier)
+            (function_type
+              (variable_identifier)
+              (variable_identifier)))))
       (type_signature
         (variable_identifier)
         (context (class (constructor_identifier) (variable_identifier)) (class (constructor_identifier) (variable_identifier)))
-        (variable_identifier)
-        (variable_identifier)
-        (variable_identifier)))))
+        (function_type
+          (variable_identifier)
+          (function_type
+            (variable_identifier)
+            (variable_identifier)))))))
 
 =========================================
 Type Class Declarations With Fixity
@@ -339,7 +345,7 @@ class Foo a where {
   (type_class
     (constructor_identifier)
     (variable_identifier)
-    (declarations
+    (general_declarations
       (fixity (variable_identifier))
       (fixity (integer) (variable_identifier))
       (fixity (integer) (variable_identifier) (variable_identifier) (variable_identifier))
