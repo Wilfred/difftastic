@@ -3327,6 +3327,10 @@
         {
           "type": "SYMBOL",
           "name": "interface_declaration"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "method_declaration"
         }
       ]
     },
@@ -3925,6 +3929,14 @@
         {
           "type": "STRING",
           "value": "default"
+        },
+        {
+          "type": "STRING",
+          "value": "synchronized"
+        },
+        {
+          "type": "STRING",
+          "value": "native"
         }
       ]
     },
@@ -6395,6 +6407,26 @@
         {
           "type": "SYMBOL",
           "name": "variable_declarator_list"
+        }
+      ]
+    },
+    "method_declaration": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "modifier"
+          }
+        },
+        {
+          "type": "SYMBOL",
+          "name": "method_header"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "method_body"
         }
       ]
     },

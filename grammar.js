@@ -44,25 +44,6 @@ module.exports = grammar({
     [$.class_or_interface_type, $.class_or_interface_type_to_instantiate]
   ],
 
-  // Error: Unresolved conflict for symbol sequence:
-  //
-  //   '@'  package_or_type_name  •  '('  …
-  //
-  // Possible interpretations:
-  //
-  //   1:  '@'  (package_or_type_name  package_or_type_name)  •  '('  …
-  //   2:  (normal_annotation  '@'  package_or_type_name  •  '('  ')')
-  //   3:  (normal_annotation  '@'  package_or_type_name  •  '('  element_value_pair_list  ')')
-  //   4:  (single_element_annotation  '@'  package_or_type_name  •  '('  identifier  ')')
-  //   5:  (single_element_annotation  '@'  package_or_type_name  •  '('  _literal  ')')
-  //
-  // Possible resolutions:
-  //
-  //   1:  Specify a higher precedence in `normal_annotation` and `single_element_annotation` than in the other rules.
-  //   2:  Specify a higher precedence in `package_or_type_name` than in the other rules.
-  //   3:  Specify a left or right associativity in `package_or_type_name`
-  //   4:  Add a conflict for these rules: `normal_annotation` `single_element_annotation` `package_or_type_name`
-
   rules: {
     program: $ => repeat($._statement),
 
@@ -410,19 +391,6 @@ module.exports = grammar({
     //   $.class_instance_creation_expression
     // ),
 
-    // method_invocation: $ => choice(
-    //   seq($.method_name, '(', optional($.argument_list), ')'),
-    //   seq($.type_name, '.', optional($.type_argument), $.identifier, '(', optional($.argument_list), ')'),
-    //   seq($.expression_name, '.', optional($.type_argument), $.identifier, '(', optional($.argument_list), ')'),
-    //   seq($.primary, '.', optional($.type_argument), $.identifier, '(', optional($.argument_list), ')'),
-    //   seq('super', '.', optional($.type_argument), $.identifier, optional($.argument_list))
-    // ),
-
-    // argument_list: $ => seq(
-    //   repeat1(choice($.lambda_expression, $.assignment_expression))
-    // ),
-    //
-
     type_arguments: $ => seq(
       '<', commaSep1($.type_argument), '>'
     ),
@@ -592,7 +560,8 @@ module.exports = grammar({
       $.package_declaration,
       $.import_statement,
       $.class_declaration,
-      $.interface_declaration
+      $.interface_declaration,
+      $.method_declaration
     ),
 
     module_declaration: $ => seq(
@@ -704,7 +673,9 @@ module.exports = grammar({
       'static',
       'final',
       'strictfp',
-      'default'
+      'default',
+      'synchronized',
+      'native'
     ),
 
     type_parameters: $ => seq(
@@ -1104,6 +1075,12 @@ module.exports = grammar({
       $.modifier,
       // $.unann_type,
       $.variable_declarator_list
+    ),
+
+    method_declaration: $ => seq(
+      repeat($.modifier),
+      $.method_header,
+      $.method_body
     ),
 
     // test
