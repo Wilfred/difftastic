@@ -932,7 +932,7 @@ module.exports = grammar({
 
     interface_member_declaration: $ => choice(
       $.constant_declaration,
-      $.interface_method_declaration,
+      $.method_declaration,
       $.class_declaration,
       $.interface_declaration,
       $._semicolon
@@ -974,12 +974,6 @@ module.exports = grammar({
     ),
 
     // come back and define unann_type here
-
-    interface_method_declaration: $ => seq(
-      repeat($.modifier),
-      $.method_header,
-      $.method_body
-    ),
 
     method_header: $ => choice(
       seq($.result, $.method_declarator, optional($.throws)),

@@ -5791,7 +5791,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "interface_method_declaration"
+          "name": "method_declaration"
         },
         {
           "type": "SYMBOL",
@@ -5962,26 +5962,6 @@
         {
           "type": "STRING",
           "value": "}"
-        }
-      ]
-    },
-    "interface_method_declaration": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "REPEAT",
-          "content": {
-            "type": "SYMBOL",
-            "name": "modifier"
-          }
-        },
-        {
-          "type": "SYMBOL",
-          "name": "method_header"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "method_body"
         }
       ]
     },
