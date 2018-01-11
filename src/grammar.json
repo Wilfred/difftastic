@@ -4458,6 +4458,10 @@
       "members": [
         {
           "type": "SYMBOL",
+          "name": "method_declaration"
+        },
+        {
+          "type": "SYMBOL",
           "name": "class_declaration"
         },
         {
