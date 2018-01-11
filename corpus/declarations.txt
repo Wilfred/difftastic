@@ -124,19 +124,19 @@ data N = N { a, b :: !Int, c :: String }
 
 (module
   (algebraic_datatype
-    (simple_type (type_constructor (constructor_identifier)))
+    (simple_type (type_constructor))
     (constructors
       (constructor
         (constructor_identifier)
         (fields (field (variable_identifier) (constructor_identifier))))))
   (algebraic_datatype
-    (simple_type (type_constructor (constructor_identifier)))
+    (simple_type (type_constructor))
     (constructors
       (constructor
         (constructor_identifier)
         (fields (field (variable_identifier) (variable_identifier) (constructor_identifier))))))
   (algebraic_datatype
-    (simple_type (type_constructor (constructor_identifier)))
+    (simple_type (type_constructor))
     (constructors
       (constructor
         (constructor_identifier)
@@ -144,7 +144,7 @@ data N = N { a, b :: !Int, c :: String }
           (field (variable_identifier) (strict (constructor_identifier)))
           (field (variable_identifier) (constructor_identifier))))))
   (algebraic_datatype
-    (simple_type (type_constructor (constructor_identifier)))
+    (simple_type (type_constructor))
     (constructors
       (constructor
         (constructor_identifier)
