@@ -51,13 +51,13 @@ newtype Age = Age { unAge :: Int }
 
 (module
   (newtype
-    (simple_type (type_constructor (constructor_identifier)))
+    (simple_type (type_constructor))
     (new_constructor (constructor_identifier) (constructor_identifier)))
   (newtype
-    (simple_type (type_constructor (constructor_identifier)))
+    (simple_type (type_constructor))
     (new_constructor (constructor_identifier) (variable_identifier)))
   (newtype
-    (simple_type (type_constructor (constructor_identifier)))
+    (simple_type (type_constructor))
     (new_constructor
       (constructor_identifier)
       (fields
