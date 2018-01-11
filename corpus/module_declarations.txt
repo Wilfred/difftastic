@@ -9,7 +9,7 @@ module A where
 
 (module
   (module_identifier)
-  (module_body
+  (declarations
     (integer)))
 
 =========================================
@@ -23,7 +23,7 @@ module A () where
 (module
   (module_identifier)
   (module_exports)
-  (module_body
+  (declarations
     (integer)))
 
 =========================================
