@@ -15,29 +15,29 @@ type Z = (->)
 
 (module
   (type_synonym
-    (simple_type (type_constructor (constructor_identifier)))
-    (constructor_identifier))
+    (simple_type (type_constructor))
+    (simple_type (type_constructor)))
   (type_synonym
-    (simple_type (type_constructor (constructor_identifier)))
-    (constructor_identifier))
+    (simple_type (type_constructor))
+    (simple_type (type_constructor)))
   (type_synonym
-    (simple_type (type_constructor (constructor_identifier)) (type_variable (variable_identifier)))
-    (constructor_identifier) (variable_identifier))
+    (simple_type (type_constructor) (type_variable (variable_identifier)))
+    (simple_type (type_constructor) (type_variable (variable_identifier))))
   (type_synonym
-    (simple_type (type_constructor (constructor_identifier)) (type_variable (variable_identifier)))
-    (constructor_identifier))
+    (simple_type (type_constructor) (type_variable (variable_identifier)))
+    (simple_type (type_constructor)))
   (type_synonym
-    (simple_type (type_constructor (constructor_identifier)))
-    (constructor_identifier))
+    (simple_type (type_constructor))
+    (simple_type (type_constructor)))
   (type_synonym
-    (simple_type (type_constructor (constructor_identifier)))
-    (constructor_identifier))
+    (simple_type (type_constructor))
+    (simple_type (type_constructor)))
   (type_synonym
-    (simple_type (type_constructor (constructor_identifier)))
-    (constructor_identifier))
+    (simple_type (type_constructor))
+    (simple_type (type_constructor)))
   (type_synonym
-    (simple_type (type_constructor (constructor_identifier)))
-    (constructor_identifier)))
+    (simple_type (type_constructor))
+    (simple_type (type_constructor))))
 
 =========================================
 New Type Declarations
