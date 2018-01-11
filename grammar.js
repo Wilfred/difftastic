@@ -213,9 +213,9 @@ module.exports = grammar({
     ),
 
     function_type: $ => seq(
-      $.simple_type,
+      choice($._identifier, $.simple_type),
       '->',
-      $._type
+      choice($._type, $._identifier)
     ),
 
     algebraic_datatype: $ => seq(
