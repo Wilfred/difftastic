@@ -100,15 +100,15 @@ data N a b = N !a b
 ---
 
 (module
-  (algebraic_datatype (simple_type (type_constructor (constructor_identifier))))
+  (algebraic_datatype (simple_type (type_constructor)))
   (algebraic_datatype
-    (simple_type (type_constructor (constructor_identifier)) (type_variable (variable_identifier)))
+    (simple_type (type_constructor) (type_variable (variable_identifier)))
     (constructors (constructor (constructor_identifier) (variable_identifier))))
   (algebraic_datatype
-    (simple_type (type_constructor (constructor_identifier)) (type_variable (variable_identifier)))
+    (simple_type (type_constructor) (type_variable (variable_identifier)))
     (constructors (constructor (constructor_identifier) (strict (variable_identifier)))))
   (algebraic_datatype
-    (simple_type (type_constructor (constructor_identifier)) (type_variable (variable_identifier) (variable_identifier)))
+    (simple_type (type_constructor) (type_variable (variable_identifier) (variable_identifier)))
     (constructors (constructor (constructor_identifier) (strict (variable_identifier)) (variable_identifier)))))
 
 =========================================
