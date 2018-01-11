@@ -282,11 +282,11 @@ module.exports = grammar({
     ),
 
     // TODO: test
-    lambda_expression: $ => seq($.lambda_parameters, '->', $.lambda_body),
+    lambda_expression: $ => seq($._lambda_parameters, '->', $.lambda_body),
 
-    lambda_parameters: $ => choice(
+    _lambda_parameters: $ => choice(
       $.identifier,
-      seq('(', $.formal_parameter_list, ')'),
+      seq('(', $._formal_parameter_list, ')'),
       seq('(', $.inferred_formal_parameter_list, ')')
     ),
 
@@ -613,15 +613,15 @@ module.exports = grammar({
     )),
 
     import_statement: $ => choice(
-      seq('import', $.package_or_type_name, $._semicolon),
+      $.single_type_import_declaration,
       $.type_import_on_declaraction,
       $.single_static_import_declaration,
       $.static_import_on_demand_declaration
     ),
 
-    // single_type_import_declaration: $ => seq(
-    //   'import', $.package_or_type_name, $._semicolon
-    // ),
+    single_type_import_declaration: $ => seq(
+      'import', $.package_or_type_name, $._semicolon
+    ),
 
     type_import_on_declaraction: $ => seq(
       'import',
@@ -738,7 +738,7 @@ module.exports = grammar({
     constructor_declarator: $ => seq(
       optional($.type_parameters),
       $.identifier,
-      $.formal_parameter_list
+      $._formal_parameter_list
     ),
 
     constructor_body: $ => seq(
@@ -993,11 +993,11 @@ module.exports = grammar({
 
     method_declarator: $ => seq(
       $.identifier,
-      '(', optional($.formal_parameter_list), ')',
+      '(', optional($._formal_parameter_list), ')',
       optional($.dims)
     ),
 
-    formal_parameter_list: $ => choice(
+    _formal_parameter_list: $ => choice(
       $.receiver_parameter,
       seq($.formal_parameters, ',', $.last_formal_parameter),
       $.last_formal_parameter
