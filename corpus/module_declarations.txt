@@ -44,7 +44,8 @@ module A (Maybe(..), Either(fromEither, either), maybe') where
         (variable_identifier)
         (variable_identifier))
     (export
-      (variable_identifier))))
+      (variable_identifier)))
+  (declarations))
 
 =========================================
 Module Declaration With Hierarchy
@@ -55,4 +56,5 @@ module A.B' where
 ---
 
 (module
-  (module_identifier))
+  (module_identifier)
+  (declarations))
