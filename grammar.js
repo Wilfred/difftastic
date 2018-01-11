@@ -275,12 +275,6 @@ module.exports = grammar({
       )
     ),
 
-    fields: $ => seq(
-      '{',
-      commaSep1($.field),
-      '}'
-    ),
-
     field: $ => seq(
       commaSep1($.variable_identifier),
       '::',
@@ -490,7 +484,13 @@ module.exports = grammar({
 
     _integer_literal: $ => token(decimalLiteral),
     _octal_literal:   $ => token(octalLiteral),
-    _hexidecimal_literal: $ => token(hexLiteral)
+    _hexidecimal_literal: $ => token(hexLiteral),
+
+    fields: $ => seq(
+      '{',
+      commaSep1($.field),
+      '}'
+    )
   }
 })
 
