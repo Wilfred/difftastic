@@ -32,12 +32,36 @@ module.exports = grammar({
   ],
 
   inline: $ => [
-  $.formal_parameters
+  $.formal_parameters,
+  $._numeric_type
   ],
 
   conflicts: $ => [
-    [$.modifier]
+    [$.modifier],
+    [$.normal_annotation, $.single_element_annotation, $.package_or_type_name],
+    [$.marker_annotation, $.package_or_type_name],
+    [$.class_literal, $.primitive_type], // try to drop class_literal
+    [$.class_or_interface_type, $.class_or_interface_type_to_instantiate]
   ],
+
+  // Error: Unresolved conflict for symbol sequence:
+  //
+  //   '@'  package_or_type_name  •  '('  …
+  //
+  // Possible interpretations:
+  //
+  //   1:  '@'  (package_or_type_name  package_or_type_name)  •  '('  …
+  //   2:  (normal_annotation  '@'  package_or_type_name  •  '('  ')')
+  //   3:  (normal_annotation  '@'  package_or_type_name  •  '('  element_value_pair_list  ')')
+  //   4:  (single_element_annotation  '@'  package_or_type_name  •  '('  identifier  ')')
+  //   5:  (single_element_annotation  '@'  package_or_type_name  •  '('  _literal  ')')
+  //
+  // Possible resolutions:
+  //
+  //   1:  Specify a higher precedence in `normal_annotation` and `single_element_annotation` than in the other rules.
+  //   2:  Specify a higher precedence in `package_or_type_name` than in the other rules.
+  //   3:  Specify a left or right associativity in `package_or_type_name`
+  //   4:  Add a conflict for these rules: `normal_annotation` `single_element_annotation` `package_or_type_name`
 
   rules: {
     program: $ => repeat($._statement),
@@ -210,13 +234,13 @@ module.exports = grammar({
     _expression: $ => choice(
       $.assignment_expression,
       $.binary_expression,
-      // $.lambda_expression,
+      $.lambda_expression,
       $.ternary_expression,
       $.unary_expression,
       $.update_expression
     ),
 
-    assignment_expression: $ => prec.right(PREC.ASSIGN, seq(
+    assignment_expression: $ => prec.left(PREC.ASSIGN, seq(
       // TODO: define lhs to replace expression
       $._expression,
       choice('=', '+=', '-=', '*=', '/=', '&=', '|=', '^=', '%=', '<<=', '>>=', '>>>='),
@@ -276,31 +300,21 @@ module.exports = grammar({
       prec.left(precedence, seq($._expression, operator, $._expression)))
     ),
 
-    // TODO: fix lambda expression
-    // lambda_expression: $ => seq($.lambda_parameters, '->', $.lambda_body),
-    //
-    // lambda_parameters: $ => choice(
-    //   $.identifier,
-    //   '(', $.formal_parameter_list, ')',
-    //   '(', $.inferred_formal_parameter_list, ')'
-    // ),
-    //
-    // inferred_formal_parameter_list: $ => seq(
-    //
-    // ),
-    //
-    // lambda_body: $ => seq(
-    //   $._expression,
-    //   $.block
-    // ),
+    // TODO: test
+    lambda_expression: $ => seq($.lambda_parameters, '->', $.lambda_body),
 
-    // TODO: come back to this
-    // annotation_type: $ => choice(
-    //
-    // ),
+    lambda_parameters: $ => choice(
+      $.identifier,
+      seq('(', $.formal_parameter_list, ')'),
+      seq('(', $.inferred_formal_parameter_list, ')')
+    ),
 
-    // TODO: immutable variable assignment
-    // final: $ => seq(),
+    inferred_formal_parameter_list: $ => sep1(',', $.identifier),
+
+    lambda_body: $ => seq(
+      $._expression,
+      $.block
+    ),
 
     ternary_expression: $ => prec.right(PREC.TERNARY, seq(
       $._expression, '?', $._expression, ':', $._expression
@@ -430,7 +444,7 @@ module.exports = grammar({
       seq($.primitive_type, $.dims)
     )),
 
-    class_or_interface_type: $ => prec.left(sep1(
+    class_or_interface_type: $ => prec.right(15, sep1(
         seq(repeat($._annotation), $.identifier, optional($.type_arguments)), '.'
     )),
 
@@ -446,6 +460,11 @@ module.exports = grammar({
     primitive_type: $ => choice(
       seq(repeat($._annotation), choice($.integral_type, $.floating_point_type)),
       seq(repeat($._annotation), 'boolean')
+    ),
+
+    _numeric_type: $ => choice(
+      $.integral_type,
+      $.floating_point_type
     ),
 
     // TODO: test
@@ -507,7 +526,7 @@ module.exports = grammar({
     conditional_expression: $ => choice(
       $.conditional_or_expression,
       seq($.conditional_or_expression, '?', $._expression, ':', $.conditional_expression),
-      // seq($.conditional_or_expression, '?', $._expression, ':', $.lambda_expression), TODO: define lambda expression
+      seq($.conditional_or_expression, '?', $._expression, ':', $.lambda_expression)
     ),
 
     conditional_or_expression: $ => choice(
@@ -619,21 +638,21 @@ module.exports = grammar({
       $._semicolon
     ),
 
-    package_or_type_name: $ => choice(
+    package_or_type_name: $ => prec.left(20, choice(
       $.identifier,
       seq($.package_or_type_name, '.', $.identifier)
-    ),
+    )),
 
     import_statement: $ => choice(
-      $.single_type_import_declaration,
+      seq('import', $.package_or_type_name, $._semicolon),
       $.type_import_on_declaraction,
       $.single_static_import_declaration,
       $.static_import_on_demand_declaration
     ),
 
-    single_type_import_declaration: $ => seq(
-      'import', $.package_or_type_name, $._semicolon
-    ),
+    // single_type_import_declaration: $ => seq(
+    //   'import', $.package_or_type_name, $._semicolon
+    // ),
 
     type_import_on_declaraction: $ => seq(
       'import',
@@ -730,7 +749,44 @@ module.exports = grammar({
       $.class_member_declaration,
       $.block,
       // $.static_initializer,
-      // $.constructor_declaration
+      $.constructor_declaration
+    ),
+
+    static_initializer: $ => seq(
+      'static',
+      $.block
+    ),
+
+    constructor_declaration: $ => seq(
+      repeat($.modifier),
+      $.constructor_declarator,
+      optional($.throws),
+      $.constructor_body
+    ),
+
+    constructor_declarator: $ => seq(
+      optional($.type_parameters),
+      $.identifier,
+      $.formal_parameter_list
+    ),
+
+    constructor_body: $ => seq(
+      '{',
+      optional($.explicit_constructor_invocation),
+      optional($.block_statements),
+      '}'
+    ),
+
+    explicit_constructor_invocation: $ => choice(
+      seq(optional($.type_arguments), 'this', '(', optional($.argument_list), ')', $._semicolon),
+      seq(optional($.type_arguments), 'super', '(', optional($.argument_list), ')', $._semicolon),
+      seq($.ambiguous_name, '.', optional($.type_arguments), 'super', '(', optional($.argument_list), ')', $._semicolon),
+      seq($.primary, '.', 'super', '(', optional($.argument_list), ')', $._semicolon)
+    ),
+
+    ambiguous_name: $ => choice(
+      $.identifier,
+      seq($.ambiguous_name, '.', $.identifier)
     ),
 
     class_member_declaration: $ => choice(
@@ -739,6 +795,106 @@ module.exports = grammar({
       $.class_declaration,
       $.interface_declaration,
       $._semicolon
+    ),
+
+    primary: $ => choice(
+      $.primary_no_new_array,
+      $.array_creation_expression
+    ),
+
+    array_creation_expression: $ => choice(
+      seq('new', $.primitive_type, $.dims_exprs, optional($.dims)),
+      seq($.class_or_interface_type, $.dims_exprs, optional($.dims)),
+      seq('new', $.primitive_type, $.dims, $.array_initializer),
+      seq('new', $.class_or_interface_type, $.dims, $.array_initializer)
+    ),
+
+    dims_exprs: $ => prec.right(seq($.dims_expr, repeat($.dims_expr))),
+
+    dims_expr: $ => seq(repeat($._annotation), '[', $._expression, ']'),
+
+    primary_no_new_array: $ => choice(
+      $._literal,
+      $.class_literal,
+      'this',
+      seq($.package_or_type_name, '.', 'this'),
+      seq('(', $._expression, ')'),
+      $.class_instance_creation_expression,
+      $.field_access,
+      $.array_access,
+      $.method_invocation,
+      $.method_reference
+    ),
+
+    class_literal: $ => choice(
+      seq($.package_or_type_name, repeat('[', ']'), '.', 'class'),
+      seq($._numeric_type, repeat('[', ']'), '.', 'class'),
+      seq('boolean', repeat('[', ']'), '.', 'class'),
+      seq('void', '.', 'class')
+    ),
+
+    class_instance_creation_expression: $ => choice(
+      $.unqualified_class_instance_creation_expression,
+      seq($.ambiguous_name, '.', $.unqualified_class_instance_creation_expression),
+      seq($.primary, '.', $.unqualified_class_instance_creation_expression)
+    ),
+
+    unqualified_class_instance_creation_expression: $ => seq(
+      'new',
+      optional($.type_arguments),
+      $.class_or_interface_type_to_instantiate,
+      '(', optional($.argument_list), ')',
+      optional($.class_body)
+    ),
+
+    class_or_interface_type_to_instantiate: $ => prec.right(seq(
+      repeat($._annotation),
+      $.identifier,
+      repeat(seq('.', repeat($._annotation), $.identifier)),
+      optional($.type_arguments_or_diamond)
+    )),
+
+    type_arguments_or_diamond: $ => choice(
+      $.type_arguments,
+      '<>'
+    ),
+
+    field_access: $ => choice(
+      seq($.primary, '.', $.identifier),
+      seq('super', '.', $.identifier),
+      seq($.package_or_type_name, '.', 'super', '.', $.identifier)
+    ),
+
+    array_access: $ => choice(
+      seq($.ambiguous_name, '[', $._expression, ']'),
+      seq($.primary_no_new_array, '[', $._expression, ']')
+    ),
+
+    method_invocation: $ => choice(
+      seq($.method_name, '(', optional($.argument_list), ')'),
+      seq($.package_or_type_name, '.', optional($.type_arguments), $.identifier, '(', optional($.argument_list), ')'),
+      seq($.ambiguous_name, '.', optional($.type_arguments), $.identifier, '(', optional($.argument_list), ')'),
+      seq($.primary, '.', optional($.type_arguments), $.identifier, '(', optional($.argument_list), ')'),
+      seq($.package_or_type_name, '.', 'super', '.', optional($.type_arguments), $.identifier, '(', optional($.argument_list), ')')
+    ),
+
+    argument_list: $ => seq(
+      $._expression, repeat(seq(',', $._expression))
+    ),
+
+    method_reference: $ => choice(
+      seq($.ambiguous_name, '::', optional($.type_arguments), $.identifier),
+      seq($.primary, '::', optional($.type_arguments), $.identifier),
+      seq('super', '::', optional($.type_arguments), $.identifier),
+      seq($.package_or_type_name, '.', 'super', '::', optional($.type_arguments), $.identifier),
+      seq($.class_or_interface_type, '::', optional($.type_arguments), 'new'),
+      seq($.array_type, '::', 'new')
+    ),
+
+    array_type: $ => choice(
+      seq($.primitive_type, $.dims),
+      seq($.class_or_interface_type, $.dims),
+      seq($.type_variable, $.dims)
     ),
 
     interface_declaration: $ => choice(
@@ -841,14 +997,9 @@ module.exports = grammar({
 
     array_initializer: $ => seq(
       '{',
-      optional($.variable_initializer_list),
+      commaSep($.variable_initializer),
       optional(','),
       '}'
-    ),
-
-    variable_initializer_list: $ => seq(
-      $.variable_initializer,
-      repeat(seq(',', $.variable_initializer))
     ),
 
     // come back and define unann_type here
@@ -954,12 +1105,6 @@ module.exports = grammar({
       // $.unann_type,
       $.variable_declarator_list
     ),
-
-
-    // expression_name: $ => choice(
-    //   $.identifier,
-    //   seq($.identifier, '.', $.identifier)
-    // ),
 
     // test
     method_name: $ => $.identifier,
