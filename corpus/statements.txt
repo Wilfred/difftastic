@@ -586,3 +586,23 @@ with (x) { i; }
 ---
 
 (program (with_statement (parenthesized_expression (identifier)) (statement_block (expression_statement (identifier)))))
+
+==========================================
+Hash bang lines
+==========================================
+
+#!/usr/bin/env node
+
+console.log("HI")
+
+---
+
+(program
+  (hash_bang_line)
+  (expression_statement
+    (call_expression
+      (member_expression
+        (identifier)
+        (property_identifier))
+      (arguments
+        (string)))))
