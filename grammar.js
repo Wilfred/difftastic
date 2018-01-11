@@ -201,7 +201,7 @@ module.exports = grammar({
     )),
 
     type_signature: $ => seq(
-      repeat1($.variable_identifier),
+      repeat($._identifier),
       '::',
       optional($.context),
       $._type
