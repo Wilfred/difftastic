@@ -321,7 +321,7 @@ module.exports = grammar({
       $.char
     ),
 
-    _identifier: $ => choice(
+    _identifier: $ => prec(1, choice(
       $.variable_identifier,
       $.constructor_identifier,
       $.module_identifier
