@@ -38,7 +38,7 @@ module.exports = grammar({
 
   conflicts: $ => [
     [$.type_class, $.class],
-    [$.simple_type, $.class],
+    [$.simple_type, $.class]
   ],
 
   rules: {
