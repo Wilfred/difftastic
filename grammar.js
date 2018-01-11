@@ -151,7 +151,25 @@ module.exports = grammar({
       $.constructor_identifier,
       repeat($.variable_identifier),
       'where',
-      $.declarations
+      $.general_declarations
+    ),
+
+    general_declarations: $ => choice(
+      seq(
+        '{',
+        repeat(seq($._general_declaration, choice(';', $._layout_semicolon))),
+        '}'
+      ),
+      seq(
+        $._layout_open_brace,
+        repeat(seq($._general_declaration, choice(';', $._layout_semicolon))),
+        $._layout_close_brace
+      )
+    ),
+
+    _general_declaration: $ => choice(
+      $.type_signature,
+      $.fixity
     ),
 
     fixity: $ => seq(
@@ -307,7 +325,7 @@ module.exports = grammar({
       $.variable_identifier,
       $.constructor_identifier,
       $.module_identifier
-    ),
+    )),
 
     simple_type: $ => seq(
       alias($.constructor_identifier, $.type_constructor),
