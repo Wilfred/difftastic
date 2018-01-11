@@ -74,11 +74,11 @@ newtype N = N a deriving (Eq, Ord, Enum, Bounded, Show, Read)
 
 (module
   (newtype
-    (simple_type (type_constructor (constructor_identifier)))
+    (simple_type (type_constructor))
     (new_constructor (constructor_identifier) (constructor_identifier))
     (deriving (constructor_identifier)))
   (newtype
-    (simple_type (type_constructor (constructor_identifier)))
+    (simple_type (type_constructor))
     (new_constructor (constructor_identifier) (variable_identifier))
     (deriving
       (constructor_identifier)
