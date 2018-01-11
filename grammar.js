@@ -52,7 +52,12 @@ module.exports = grammar({
   ],
 
   rules: {
-    program: $ => repeat($._statement),
+    program: $ => seq(
+      optional($.hash_bang_line),
+      repeat($._statement)
+    ),
+
+    hash_bang_line: $ => /#!.*/,
 
     //
     // Export declarations
