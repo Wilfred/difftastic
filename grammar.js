@@ -762,7 +762,7 @@ module.exports = grammar({
 
     class_member_declaration: $ => choice(
       // $.field_declaration,
-      // $.method_declaration,
+      $.method_declaration,
       $.class_declaration,
       $.interface_declaration,
       $._semicolon
@@ -1078,6 +1078,7 @@ module.exports = grammar({
     ),
 
     // test
+    // why is method name not used by method declaration stuff?
     method_name: $ => $.identifier,
 
     identifier: $ => /[a-zA-Z0-9]*/,
