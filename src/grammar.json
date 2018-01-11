@@ -1906,7 +1906,7 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "lambda_parameters"
+          "name": "_lambda_parameters"
         },
         {
           "type": "STRING",
@@ -1918,7 +1918,7 @@
         }
       ]
     },
-    "lambda_parameters": {
+    "_lambda_parameters": {
       "type": "CHOICE",
       "members": [
         {
@@ -1934,7 +1934,7 @@
             },
             {
               "type": "SYMBOL",
-              "name": "formal_parameter_list"
+              "name": "_formal_parameter_list"
             },
             {
               "type": "STRING",
@@ -3709,21 +3709,8 @@
       "type": "CHOICE",
       "members": [
         {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "STRING",
-              "value": "import"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "package_or_type_name"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "_semicolon"
-            }
-          ]
+          "type": "SYMBOL",
+          "name": "single_type_import_declaration"
         },
         {
           "type": "SYMBOL",
@@ -3736,6 +3723,23 @@
         {
           "type": "SYMBOL",
           "name": "static_import_on_demand_declaration"
+        }
+      ]
+    },
+    "single_type_import_declaration": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "import"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "package_or_type_name"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_semicolon"
         }
       ]
     },
@@ -4193,7 +4197,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "formal_parameter_list"
+          "name": "_formal_parameter_list"
         }
       ]
     },
@@ -6072,7 +6076,7 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "formal_parameter_list"
+              "name": "_formal_parameter_list"
             },
             {
               "type": "BLANK"
@@ -6097,7 +6101,7 @@
         }
       ]
     },
-    "formal_parameter_list": {
+    "_formal_parameter_list": {
       "type": "CHOICE",
       "members": [
         {
