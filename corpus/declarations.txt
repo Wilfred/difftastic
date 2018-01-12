@@ -354,3 +354,18 @@ class Foo a where {
       (fixity (integer) (constructor_symbol))
       (fixity (integer) (constructor_symbol))
       (fixity (integer) (constructor_symbol)))))
+
+=========================================
+Default declarations
+=========================================
+
+default ()
+default (Integer, Double)
+
+---
+
+(module
+  (default)
+  (default
+    (constructor_identifier)
+    (constructor_identifier)))

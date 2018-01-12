@@ -120,6 +120,7 @@ module.exports = grammar({
       $.type_class_instance,
       $.type_signature,
       $.fixity,
+      $.default,
 
       // TODO - remove
       $._expression
@@ -129,6 +130,13 @@ module.exports = grammar({
       $._literal,
       $.variable_identifier,
       $.do_expression
+    ),
+
+    default: $ => seq(
+      'default',
+      '(',
+      optional(commaSep1($._identifier)),
+      ')'
     ),
 
     do_expression: $ => seq(
