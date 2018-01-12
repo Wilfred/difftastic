@@ -121,6 +121,7 @@ module.exports = grammar({
       $.type_signature,
       $.fixity,
       $.default,
+      $.foreign,
 
       // TODO - remove
       $._expression
@@ -130,6 +131,31 @@ module.exports = grammar({
       $._literal,
       $.variable_identifier,
       $.do_expression
+    ),
+
+    foreign: $ => seq(
+      'foreign',
+      choice($.foreign_export, $.foreign_import),
+      $.calling_convention,
+      optional($.safety),
+      optional($.string),
+      $.type_signature
+    ),
+
+    foreign_import: $ => 'import',
+    foreign_export: $ => 'export',
+
+    calling_convention: $ => choice(
+      'ccall',
+      'stdcall',
+      'cplusplus',
+      'jvm',
+      'dotnet'
+    ),
+
+    safety: $ => choice(
+      'unsafe',
+      'safe'
     ),
 
     default: $ => seq(
