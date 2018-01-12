@@ -411,7 +411,8 @@ module.exports = grammar({
 
     primitive_type: $ => choice(
       seq(repeat($._annotation), choice($.integral_type, $.floating_point_type)),
-      seq(repeat($._annotation), 'boolean')
+      seq(repeat($._annotation), 'boolean'),
+      'void'
     ),
 
     _numeric_type: $ => choice(
@@ -722,7 +723,9 @@ module.exports = grammar({
     constructor_declarator: $ => seq(
       optional($.type_parameters),
       $.identifier,
-      $._formal_parameter_list
+      '(',
+      $._formal_parameter_list,
+      ')'
     ),
 
     constructor_body: $ => seq(
@@ -960,18 +963,13 @@ module.exports = grammar({
     // come back and define unann_type here
     unann_type: $ => choice(
       $.unann_primitive_type,
-      $.unann_reference_type
+      $.unann_class_or_interface_type,
+      $.unann_array_type
     ),
 
     unann_primitive_type: $ => choice(
       $._numeric_type,
       'boolean'
-    ),
-
-    unann_reference_type: $ => choice(
-      $.unann_class_or_interface_type,
-      $.identifier,
-      $.unann_array_type
     ),
 
     unann_class_or_interface_type: $ => choice(
@@ -981,18 +979,12 @@ module.exports = grammar({
 
     unann_array_type: $ => choice(
       seq($.unann_primitive_type, $.dims),
-      seq($.unann_class_or_interface_type, $.dims),
-      seq($.identifier)
+      seq($.unann_class_or_interface_type, $.dims)
     ),
 
     method_header: $ => choice(
-      seq($.result, $.method_declarator, optional($.throws)),
-      seq($.type_parameters, repeat($._annotation), $.result, $.method_declarator, optional($.throws))
-    ),
-
-    result: $ => choice(
-      $.unann_type,
-      'void'
+      seq($.unann_type, $.method_declarator, optional($.throws)),
+      seq($.type_parameters, repeat($._annotation), $.unann_type, $.method_declarator, optional($.throws))
     ),
 
     method_declarator: $ => seq(
@@ -1029,7 +1021,6 @@ module.exports = grammar({
       seq(
       repeat($.modifier),
       $.unann_type,
-      repeat($._annotation),
       '...',
       $.variable_declarator
       ),
