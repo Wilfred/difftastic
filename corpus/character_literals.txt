@@ -15,7 +15,7 @@ Char Literals [a-zA-Z0-9_]
 
 ---
 
-(program
+(module
   (char)
   (char)
 
@@ -50,12 +50,12 @@ Char Literals Symbols
 '~'
 ':'
 '\\'
-
-'"' '''
+'"'
+'''
 
 ---
 
-(program
+(module
   (char)
   (char)
   (char)
@@ -75,7 +75,6 @@ Char Literals Symbols
   (char)
   (char)
   (char)
-
   (char)
   (char))
 
@@ -84,11 +83,18 @@ Char Literals Symbols
 Char Literals Special Symbols
 =========================================
 
-'(' ')' ';' '[' ']' '`' '{' '}'
+'('
+')'
+';'
+'['
+']'
+'`'
+'{'
+'}'
 
 ---
 
-(program
+(module
   (char)
   (char)
   (char)
@@ -102,11 +108,21 @@ Char Literals Special Symbols
 Char Literals Character Escape
 =========================================
 
-'\a' '\b' '\f' '\n' '\r' '\t' '\v' '\\' '\"' ''' '\&'
+'\a'
+'\b'
+'\f'
+'\n'
+'\r'
+'\t'
+'\v'
+'\\'
+'\"'
+'''
+'\&'
 
 ---
 
-(program
+(module
   (char)
   (char)
   (char)
@@ -127,7 +143,7 @@ Char Literals Space
 
 ---
 
-(program
+(module
   (char))
 
 =========================================
@@ -171,7 +187,7 @@ Char Literals Escape Ascii
 
 ---
 
-(program
+(module
   (char)
   (char)
   (char)
@@ -222,7 +238,7 @@ Char Literals Escape Control Characters
 
 ---
 
-(program
+(module
   (char)
   (char)
   (char)
@@ -231,4 +247,3 @@ Char Literals Escape Control Characters
   (char)
   (char)
   (char))
-

@@ -13,31 +13,31 @@ type Z = (->)
 
 ---
 
-(program
+(module
   (type_synonym
-    (simple_type (type_constructor (constructor_identifier)))
-    (constructor_identifier))
+    (simple_type (type_constructor))
+    (simple_type (type_constructor)))
   (type_synonym
-    (simple_type (type_constructor (constructor_identifier)))
-    (constructor_identifier))
+    (simple_type (type_constructor))
+    (simple_type (type_constructor)))
   (type_synonym
-    (simple_type (type_constructor (constructor_identifier)) (type_variable (variable_identifier)))
-    (constructor_identifier) (variable_identifier))
+    (simple_type (type_constructor) (type_variable (variable_identifier)))
+    (simple_type (type_constructor) (type_variable (variable_identifier))))
   (type_synonym
-    (simple_type (type_constructor (constructor_identifier)) (type_variable (variable_identifier)))
-    (constructor_identifier))
+    (simple_type (type_constructor) (type_variable (variable_identifier)))
+    (simple_type (type_constructor)))
   (type_synonym
-    (simple_type (type_constructor (constructor_identifier)))
-    (constructor_identifier))
+    (simple_type (type_constructor))
+    (simple_type (type_constructor)))
   (type_synonym
-    (simple_type (type_constructor (constructor_identifier)))
-    (constructor_identifier))
+    (simple_type (type_constructor))
+    (simple_type (type_constructor)))
   (type_synonym
-    (simple_type (type_constructor (constructor_identifier)))
-    (constructor_identifier))
+    (simple_type (type_constructor))
+    (simple_type (type_constructor)))
   (type_synonym
-    (simple_type (type_constructor (constructor_identifier)))
-    (constructor_identifier)))
+    (simple_type (type_constructor))
+    (simple_type (type_constructor))))
 
 =========================================
 New Type Declarations
@@ -49,16 +49,16 @@ newtype Age = Age { unAge :: Int }
 
 ---
 
-(program
+(module
   (newtype
-    (simple_type (type_constructor (constructor_identifier)))
+    (simple_type (type_constructor))
     (new_constructor (constructor_identifier) (constructor_identifier)))
   (newtype
     (context (class (constructor_identifier) (variable_identifier)))
-    (simple_type (type_constructor (constructor_identifier)))
+    (simple_type (type_constructor))
     (new_constructor (constructor_identifier) (variable_identifier)))
   (newtype
-    (simple_type (type_constructor (constructor_identifier)))
+    (simple_type (type_constructor))
     (new_constructor
       (constructor_identifier)
       (fields
@@ -73,13 +73,13 @@ newtype N = N a deriving (Eq, Ord, Enum, Bounded, Show, Read)
 
 ---
 
-(program
+(module
   (newtype
-    (simple_type (type_constructor (constructor_identifier)))
+    (simple_type (type_constructor))
     (new_constructor (constructor_identifier) (constructor_identifier))
     (deriving (constructor_identifier)))
   (newtype
-    (simple_type (type_constructor (constructor_identifier)))
+    (simple_type (type_constructor))
     (new_constructor (constructor_identifier) (variable_identifier))
     (deriving
       (constructor_identifier)
@@ -100,16 +100,16 @@ data N a b = N !a b
 
 ---
 
-(program
-  (algebraic_datatype (simple_type (type_constructor (constructor_identifier))))
+(module
+  (algebraic_datatype (simple_type (type_constructor)))
   (algebraic_datatype
-    (simple_type (type_constructor (constructor_identifier)) (type_variable (variable_identifier)))
+    (simple_type (type_constructor) (type_variable (variable_identifier)))
     (constructors (constructor (constructor_identifier) (variable_identifier))))
   (algebraic_datatype
-    (simple_type (type_constructor (constructor_identifier)) (type_variable (variable_identifier)))
+    (simple_type (type_constructor) (type_variable (variable_identifier)))
     (constructors (constructor (constructor_identifier) (strict (variable_identifier)))))
   (algebraic_datatype
-    (simple_type (type_constructor (constructor_identifier)) (type_variable (variable_identifier) (variable_identifier)))
+    (simple_type (type_constructor) (type_variable (variable_identifier) (variable_identifier)))
     (constructors (constructor (constructor_identifier) (strict (variable_identifier)) (variable_identifier)))))
 
 =========================================
@@ -123,21 +123,21 @@ data N = N { a, b :: !Int, c :: String }
 
 ---
 
-(program
+(module
   (algebraic_datatype
-    (simple_type (type_constructor (constructor_identifier)))
+    (simple_type (type_constructor))
     (constructors
       (constructor
         (constructor_identifier)
         (fields (field (variable_identifier) (constructor_identifier))))))
   (algebraic_datatype
-    (simple_type (type_constructor (constructor_identifier)))
+    (simple_type (type_constructor))
     (constructors
       (constructor
         (constructor_identifier)
         (fields (field (variable_identifier) (variable_identifier) (constructor_identifier))))))
   (algebraic_datatype
-    (simple_type (type_constructor (constructor_identifier)))
+    (simple_type (type_constructor))
     (constructors
       (constructor
         (constructor_identifier)
@@ -145,7 +145,7 @@ data N = N { a, b :: !Int, c :: String }
           (field (variable_identifier) (strict (constructor_identifier)))
           (field (variable_identifier) (constructor_identifier))))))
   (algebraic_datatype
-    (simple_type (type_constructor (constructor_identifier)))
+    (simple_type (type_constructor))
     (constructors
       (constructor
         (constructor_identifier)
@@ -162,14 +162,14 @@ data N = N { a :: Int } | O { b :: String }
 
 ---
 
-(program
+(module
   (algebraic_datatype
-    (simple_type (type_constructor (constructor_identifier)))
+    (simple_type (type_constructor))
     (constructors
       (constructor (constructor_identifier))
       (constructor (constructor_identifier))))
   (algebraic_datatype
-    (simple_type (type_constructor (constructor_identifier)))
+    (simple_type (type_constructor))
     (constructors
       (constructor
         (constructor_identifier)
@@ -187,13 +187,13 @@ data N = N deriving (Eq, Ord, Enum, Bounded, Show, Read)
 
 ---
 
-(program
+(module
   (algebraic_datatype
-    (simple_type (type_constructor (constructor_identifier)))
+    (simple_type (type_constructor))
     (constructors (constructor (constructor_identifier)))
     (deriving (constructor_identifier)))
   (algebraic_datatype
-    (simple_type (type_constructor (constructor_identifier)))
+    (simple_type (type_constructor))
     (constructors (constructor (constructor_identifier)))
     (deriving
       (constructor_identifier)
@@ -213,10 +213,10 @@ data (Eq (f a), Functor f) => N f a = N f a
 
 ---
 
-(program
+(module
   (algebraic_datatype
     (context (class (constructor_identifier) (variable_identifier)))
-    (simple_type (type_constructor (constructor_identifier)) (type_variable (variable_identifier)))
+    (simple_type (type_constructor) (type_variable (variable_identifier)))
     (constructors (constructor (constructor_identifier) (variable_identifier))))
   (algebraic_datatype
     (context
@@ -224,7 +224,7 @@ data (Eq (f a), Functor f) => N f a = N f a
       (class (constructor_identifier) (variable_identifier))
       (class (constructor_identifier) (variable_identifier)))
     (simple_type
-      (type_constructor (constructor_identifier))
+      (type_constructor)
       (type_variable (variable_identifier) (variable_identifier)))
     (constructors
       (constructor
@@ -236,7 +236,7 @@ data (Eq (f a), Functor f) => N f a = N f a
       (class (constructor_identifier) (variable_identifier) (variable_identifier))
       (class (constructor_identifier) (variable_identifier)))
     (simple_type
-      (type_constructor (constructor_identifier))
+      (type_constructor)
       (type_variable (variable_identifier) (variable_identifier)))
     (constructors
       (constructor
@@ -244,3 +244,113 @@ data (Eq (f a), Functor f) => N f a = N f a
         (variable_identifier)
         (variable_identifier)))))
 
+=========================================
+Type Class Declarations
+=========================================
+
+class Show a where {}
+class Show a b where {}
+
+---
+
+(module
+  (type_class (constructor_identifier) (variable_identifier) (general_declarations))
+  (type_class (constructor_identifier) (variable_identifier) (variable_identifier) (general_declarations)))
+
+=========================================
+Type Class Declarations With Context
+=========================================
+
+class Show a => Read a where {}
+class (Show a, Eq a) => Read a where {}
+class (Show (f a), Eq a) => Read f a where {}
+
+---
+
+(module
+  (type_class
+    (context (class (constructor_identifier) (variable_identifier)))
+    (constructor_identifier)
+    (variable_identifier)
+    (general_declarations))
+  (type_class
+    (context
+      (class (constructor_identifier) (variable_identifier))
+      (class (constructor_identifier) (variable_identifier)))
+    (constructor_identifier)
+    (variable_identifier)
+    (general_declarations))
+  (type_class
+    (context
+      (class (constructor_identifier) (variable_identifier) (variable_identifier))
+      (class (constructor_identifier) (variable_identifier)))
+    (constructor_identifier)
+    (variable_identifier)
+    (variable_identifier)
+    (general_declarations)))
+
+=========================================
+Type Class Declarations With Body
+=========================================
+
+class Foo a where {
+  op :: Num b => a -> b -> c -> a
+  op' :: (Num a, Num b) => a -> b -> a
+}
+
+---
+
+(module
+  (type_class
+    (constructor_identifier)
+    (variable_identifier)
+    (general_declarations
+      (type_signature
+        (variable_identifier)
+        (context (class (constructor_identifier) (variable_identifier)))
+        (function_type
+          (variable_identifier)
+          (function_type
+            (variable_identifier)
+            (function_type
+              (variable_identifier)
+              (variable_identifier)))))
+      (type_signature
+        (variable_identifier)
+        (context (class (constructor_identifier) (variable_identifier)) (class (constructor_identifier) (variable_identifier)))
+        (function_type
+          (variable_identifier)
+          (function_type
+            (variable_identifier)
+            (variable_identifier)))))))
+
+=========================================
+Type Class Declarations With Fixity
+=========================================
+
+class Foo a where {
+  infixl `op`
+  infixr 7 `op`
+  infix 7 `op`, `ip`, `ap`
+  infix <$>
+  infix 7 <$>
+  infix 7 :
+  infix 7 :.
+  infix 7 :<:
+}
+
+---
+
+(module
+  (type_class
+    (constructor_identifier)
+    (variable_identifier)
+    (general_declarations
+      (fixity (variable_identifier))
+      (fixity (integer) (variable_identifier))
+      (fixity (integer) (variable_identifier) (variable_identifier) (variable_identifier))
+      (fixity (variable_symbol))
+      (fixity (integer) (variable_symbol))
+      (fixity (integer) (constructor_symbol))
+      (fixity (integer) (constructor_symbol))
+      (fixity (integer) (constructor_symbol)))))

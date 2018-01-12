@@ -7,27 +7,24 @@ module A where
 1
 ---
 
-(program
-  (module
-    (module_identifier)
-    (module_body
-      (integer))))
+(module
+  (module_identifier)
+  (declarations
+    (integer)))
 
 =========================================
 Module Declaration Empty Exports
 =========================================
 
 module A () where
-
 1
 ---
 
-(program
-  (module
-    (module_identifier)
-    (module_exports)
-    (module_body
-      (integer))))
+(module
+  (module_identifier)
+  (module_exports)
+  (declarations
+    (integer)))
 
 =========================================
 Module Declaration With Exports
@@ -37,18 +34,18 @@ module A (Maybe(..), Either(fromEither, either), maybe') where
 
 ---
 
-(program
-  (module
-    (module_identifier)
-    (module_exports
-      (export
-        (constructor_identifier))
-      (export
-        (constructor_identifier)
-          (variable_identifier)
-          (variable_identifier))
-      (export
-        (variable_identifier)))))
+(module
+  (module_identifier)
+  (module_exports
+    (export
+      (constructor_identifier))
+    (export
+      (constructor_identifier)
+        (variable_identifier)
+        (variable_identifier))
+    (export
+      (variable_identifier)))
+  (declarations))
 
 =========================================
 Module Declaration With Hierarchy
@@ -58,6 +55,6 @@ module A.B' where
 
 ---
 
-(program
-  (module
-    (module_identifier)))
+(module
+  (module_identifier)
+  (declarations))
