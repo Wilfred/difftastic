@@ -15,7 +15,7 @@ String Literals [a-zA-Z0-9_]
 
 ---
 
-(program
+(module
   (string)
   (string)
 
@@ -51,11 +51,12 @@ String Literals Symbols
 ":"
 "\\"
 
-"\"" "'"
+"\""
+"'"
 
 ---
 
-(program
+(module
   (string)
   (string)
   (string)
@@ -84,11 +85,18 @@ String Literals Symbols
 String Literals Special Symbols
 =========================================
 
-"(" ")" ";" "[" "]" "`" "{" "}"
+"("
+")"
+";"
+"["
+"]"
+"`"
+"{"
+"}"
 
 ---
 
-(program
+(module
   (string)
   (string)
   (string)
@@ -102,11 +110,21 @@ String Literals Special Symbols
 String Literals Character Escape
 =========================================
 
-"\a" "\b" "\f" "\n" "\r" "\t" "\v" "\\" "\"" "'" "\&"
+"\a"
+"\b"
+"\f"
+"\n"
+"\r"
+"\t"
+"\v"
+"\\"
+"\""
+"'"
+"\&"
 
 ---
 
-(program
+(module
   (string)
   (string)
   (string)
@@ -127,7 +145,7 @@ String Literals Space
 
 ---
 
-(program
+(module
   (string))
 
 =========================================
@@ -171,7 +189,7 @@ String Literals Escape Ascii
 
 ---
 
-(program
+(module
   (string)
   (string)
   (string)
@@ -222,7 +240,7 @@ String Literals Escape Control Characters
 
 ---
 
-(program
+(module
   (string)
   (string)
   (string)
@@ -240,6 +258,5 @@ String Literals Gap Characters
 
 ---
 
-(program
+(module
   (string))
-

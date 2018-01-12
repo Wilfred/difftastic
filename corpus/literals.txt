@@ -7,7 +7,7 @@ Integer Literals
 
 ---
 
-(program
+(module
   (integer)
   (integer))
 
@@ -20,7 +20,7 @@ Octal Literals
 
 ---
 
-(program
+(module
   (integer)
   (integer))
 
@@ -33,7 +33,7 @@ Hexidecimal Literals
 
 ---
 
-(program
+(module
   (integer)
   (integer))
 
@@ -46,7 +46,7 @@ Float Literals
 
 ---
 
-(program
+(module
   (float)
   (float))
 
@@ -70,7 +70,7 @@ Float Literals With Exponents
 
 ---
 
-(program
+(module
   (float)
   (float)
   (float)
@@ -100,7 +100,7 @@ Variable Identifiers
 
 ---
 
-(program
+(module
   (comment)
   (comment)
   (comment)
@@ -122,43 +122,10 @@ Constructor Identifiers
 
 ---
 
-(program
+(module
   (comment)
   (comment)
   (comment)
   (comment)
   (comment)
   (comment))
-
-=========================================
-Reserved Identifiers
-=========================================
-
-case
-default
-do
-else
-foreign
-if
-in
-let
-of
-then
-where
-_
-
----
-
-(program
-  (reserved_identifier)
-  (reserved_identifier)
-  (reserved_identifier)
-  (reserved_identifier)
-  (reserved_identifier)
-  (reserved_identifier)
-  (reserved_identifier)
-  (reserved_identifier)
-  (reserved_identifier)
-  (reserved_identifier)
-  (reserved_identifier)
-  (reserved_identifier))
