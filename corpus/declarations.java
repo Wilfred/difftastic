@@ -274,7 +274,7 @@ interface with annotation type declaration
 method declaration
 ===
 
-public double calculateAnswer(double wingSpan, int numberOfEngines,
+void calculateAnswer(double wingSpan, int numberOfEngines,
                               double length, double grossTons) {
     //do the calculation here
 }
