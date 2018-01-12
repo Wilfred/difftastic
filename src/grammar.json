@@ -524,6 +524,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "foreign"
+        },
+        {
+          "type": "SYMBOL",
           "name": "_expression"
         }
       ]
@@ -542,6 +546,106 @@
         {
           "type": "SYMBOL",
           "name": "do_expression"
+        }
+      ]
+    },
+    "foreign": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "foreign"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "foreign_export"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "foreign_import"
+            }
+          ]
+        },
+        {
+          "type": "SYMBOL",
+          "name": "calling_convention"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "safety"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "string"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "SYMBOL",
+          "name": "type_signature"
+        }
+      ]
+    },
+    "foreign_import": {
+      "type": "STRING",
+      "value": "import"
+    },
+    "foreign_export": {
+      "type": "STRING",
+      "value": "export"
+    },
+    "calling_convention": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "ccall"
+        },
+        {
+          "type": "STRING",
+          "value": "stdcall"
+        },
+        {
+          "type": "STRING",
+          "value": "cplusplus"
+        },
+        {
+          "type": "STRING",
+          "value": "jvm"
+        },
+        {
+          "type": "STRING",
+          "value": "dotnet"
+        }
+      ]
+    },
+    "safety": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "unsafe"
+        },
+        {
+          "type": "STRING",
+          "value": "safe"
         }
       ]
     },

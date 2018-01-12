@@ -1,0 +1,43 @@
+=========================================
+Foreign Import Declarations
+=========================================
+
+foreign import ccall example :: Example
+foreign import stdcall example :: Example
+foreign import cplusplus example :: Example
+foreign import jvm example :: Example
+foreign import dotnet example :: Example
+
+---
+
+(module
+  (foreign
+    (foreign_import)
+    (calling_convention)
+    (type_signature
+      (variable_identifier)
+      (simple_type (type_constructor))))
+  (foreign
+    (foreign_import)
+    (calling_convention)
+    (type_signature
+      (variable_identifier)
+      (simple_type (type_constructor))))
+  (foreign
+    (foreign_import)
+    (calling_convention)
+    (type_signature
+      (variable_identifier)
+      (simple_type (type_constructor))))
+  (foreign
+    (foreign_import)
+    (calling_convention)
+    (type_signature
+      (variable_identifier)
+      (simple_type (type_constructor))))
+  (foreign
+    (foreign_import)
+    (calling_convention)
+    (type_signature
+      (variable_identifier)
+      (simple_type (type_constructor)))))
