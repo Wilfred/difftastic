@@ -95,3 +95,101 @@ foreign import dotnet unsafe "unsafe import" example :: Example
     (type_signature
       (variable_identifier)
       (simple_type (type_constructor)))))
+
+=========================================
+Foreign Export Declarations
+=========================================
+
+foreign export ccall example :: Example
+foreign export stdcall example :: Example
+foreign export cplusplus example :: Example
+foreign export jvm example :: Example
+foreign export dotnet example :: Example
+
+---
+
+(module
+  (foreign
+    (foreign_export)
+    (calling_convention)
+    (type_signature
+      (variable_identifier)
+      (simple_type (type_constructor))))
+  (foreign
+    (foreign_export)
+    (calling_convention)
+    (type_signature
+      (variable_identifier)
+      (simple_type (type_constructor))))
+  (foreign
+    (foreign_export)
+    (calling_convention)
+    (type_signature
+      (variable_identifier)
+      (simple_type (type_constructor))))
+  (foreign
+    (foreign_export)
+    (calling_convention)
+    (type_signature
+      (variable_identifier)
+      (simple_type (type_constructor))))
+  (foreign
+    (foreign_export)
+    (calling_convention)
+    (type_signature
+      (variable_identifier)
+      (simple_type (type_constructor)))))
+
+=========================================
+Foreign Export Declarations With Safety
+=========================================
+
+foreign export ccall safe "safe import" example :: Example
+foreign export stdcall unsafe "unsafe import" example :: Example
+foreign export cplusplus safe "safe import" example :: Example
+foreign export jvm unsafe "unsafe import" example :: Example
+foreign export dotnet unsafe "unsafe import" example :: Example
+
+---
+
+(module
+  (foreign
+    (foreign_export)
+    (calling_convention)
+    (safety)
+    (string)
+    (type_signature
+      (variable_identifier)
+      (simple_type (type_constructor))))
+  (foreign
+    (foreign_export)
+    (calling_convention)
+    (safety)
+    (string)
+    (type_signature
+      (variable_identifier)
+      (simple_type (type_constructor))))
+  (foreign
+    (foreign_export)
+    (calling_convention)
+    (safety)
+    (string)
+    (type_signature
+      (variable_identifier)
+      (simple_type (type_constructor))))
+  (foreign
+    (foreign_export)
+    (calling_convention)
+    (safety)
+    (string)
+    (type_signature
+      (variable_identifier)
+      (simple_type (type_constructor))))
+  (foreign
+    (foreign_export)
+    (calling_convention)
+    (safety)
+    (string)
+    (type_signature
+      (variable_identifier)
+      (simple_type (type_constructor)))))
