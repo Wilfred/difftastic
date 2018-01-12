@@ -213,7 +213,7 @@ module.exports = grammar({
     ),
 
     _expression: $ => choice(
-      $.assignment_expression,
+      // $.assignment_expression,
       $.binary_expression,
       $.lambda_expression,
       $.ternary_expression,
@@ -221,38 +221,22 @@ module.exports = grammar({
       $.update_expression
     ),
 
-    assignment_expression: $ => prec.left(PREC.ASSIGN, seq(
-      // TODO: define lhs to replace expression
-      $._expression,
-      choice('=', '+=', '-=', '*=', '/=', '&=', '|=', '^=', '%=', '<<=', '>>=', '>>>='),
-      $._expression)
+    assignment_expression: $ => choice(
+      // $.conditional_expression,
+      // $.assignment
     ),
 
-    // TODO: define lhs to replace expression in assignment_expression
-    // lhs: $ => choice(
-    //   $.expression_name,
-    //   $.field_access,
-    //   $.array_access
-    // ),
-    //
-    // field_access: $ => choice(
-    //   seq($.primary, '.', $.identifier),
-    //   seq('super', '.', $.identifier),
-    //   seq($.type_name, '.', 'super', '.', $.identifier)
+    // assignment: $ => prec.left(PREC.ASSIGN, seq(
+    //   $.lhs,
+    //   choice('=', '+=', '-=', '*=', '/=', '&=', '|=', '^=', '%=', '<<=', '>>=', '>>>='),
+    //   $._expression)
     // ),
 
-    // primary: $ => choice(
-    //   $._literal,
-    //   // $.class_literal, - add
-    //   'this',
-    //   seq($.type_name, '.', 'this'),
-    //   seq('(', $.argument_list, ')'),
-    //   // $.class_instance_creation_expression, - add
-    //   $.field_access,
-    //   // $.array_access, - add
-    //   $.method_invocation,
-    //   // $.method_reference - add
-    // ),
+    lhs: $ => choice(
+      $.ambiguous_name,
+      $.field_access,
+      $.array_access
+    ),
 
     // TODO: add variable
     binary_expression: $ => choice(
@@ -893,7 +877,7 @@ module.exports = grammar({
 
     annotation_type_element_declaration: $ => seq(
       repeat($.modifier),
-      // $.unann_type,
+      $.unann_type,
       $.identifier,
       '(', ')',
       optional($.dims),
@@ -940,7 +924,7 @@ module.exports = grammar({
 
     constant_declaration: $ => seq(
       repeat($.modifier),
-      // $.unann_type,
+      $.unann_type,
       $.variable_declarator_list,
       $._semicolon
     ),
@@ -974,6 +958,32 @@ module.exports = grammar({
     ),
 
     // come back and define unann_type here
+    unann_type: $ => choice(
+      $.unann_primitive_type,
+      $.unann_reference_type
+    ),
+
+    unann_primitive_type: $ => choice(
+      $._numeric_type,
+      'boolean'
+    ),
+
+    unann_reference_type: $ => choice(
+      $.unann_class_or_interface_type,
+      $.identifier,
+      $.unann_array_type
+    ),
+
+    unann_class_or_interface_type: $ => choice(
+      seq($.identifier, optional($.type_arguments)),
+      seq($.unann_class_or_interface_type, '.', repeat($._annotation), $.identifier, optional($.type_arguments))
+    ),
+
+    unann_array_type: $ => choice(
+      seq($.unann_primitive_type, $.dims),
+      seq($.unann_class_or_interface_type, $.dims),
+      seq($.identifier)
+    ),
 
     method_header: $ => choice(
       seq($.result, $.method_declarator, optional($.throws)),
@@ -981,7 +991,7 @@ module.exports = grammar({
     ),
 
     result: $ => choice(
-      // $.unann_type,
+      $.unann_type,
       'void'
     ),
 
@@ -1004,13 +1014,13 @@ module.exports = grammar({
 
     formal_parameter: $ => seq(
       repeat($.modifier),
-      // $.unann_type,
+      $.unann_type,
       $.variable_declarator_id
     ),
 
     receiver_parameter: $ => seq(
       repeat($._annotation),
-      // $.unann_type,
+      $.unann_type,
       optional(seq($.identifier, '.')),
       'this'
     ),
@@ -1018,7 +1028,7 @@ module.exports = grammar({
     last_formal_parameter: $ => choice(
       seq(
       repeat($.modifier),
-      // $.unann_type,
+      $.unann_type,
       repeat($._annotation),
       '...',
       $.variable_declarator
@@ -1067,7 +1077,7 @@ module.exports = grammar({
 
     local_variable_declaration: $ => seq(
       $.modifier,
-      // $.unann_type,
+      $.unann_type,
       $.variable_declarator_list
     ),
 
