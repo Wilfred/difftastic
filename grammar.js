@@ -117,6 +117,7 @@ module.exports = grammar({
       $.newtype,
       $.algebraic_datatype,
       $.type_class,
+      $.type_class_instance,
       $.type_signature,
       $.fixity,
 
@@ -167,6 +168,16 @@ module.exports = grammar({
       )
     ),
 
+    type_class_instance: $ => seq(
+      'instance',
+      optional($.context),
+      $.constructor_identifier,
+      repeat($.variable_identifier),
+      'where',
+      $.general_declarations
+    ),
+
+    // TODO: Make general declarations representative of the spec.
     _general_declaration: $ => choice(
       $.type_signature,
       $.fixity
@@ -279,6 +290,7 @@ module.exports = grammar({
 
     newtype: $ => seq(
       'newtype',
+      optional($.context),
       $.simple_type,
       '=',
       $.new_constructor,

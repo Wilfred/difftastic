@@ -44,7 +44,7 @@ New Type Declarations
 =========================================
 
 newtype N = N Int
-newtype N = N a
+newtype Show a => N = N a
 newtype Age = Age { unAge :: Int }
 
 ---
@@ -54,6 +54,7 @@ newtype Age = Age { unAge :: Int }
     (simple_type (type_constructor))
     (new_constructor (constructor_identifier) (constructor_identifier)))
   (newtype
+    (context (class (constructor_identifier) (variable_identifier)))
     (simple_type (type_constructor))
     (new_constructor (constructor_identifier) (variable_identifier)))
   (newtype
@@ -242,7 +243,6 @@ data (Eq (f a), Functor f) => N f a = N f a
         (constructor_identifier)
         (variable_identifier)
         (variable_identifier)))))
-
 
 =========================================
 Type Class Declarations

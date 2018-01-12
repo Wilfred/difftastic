@@ -1,0 +1,77 @@
+=========================================
+Type Class Instance Declarations
+=========================================
+
+instance Show a where {}
+instance Show a b where {}
+
+---
+
+(module
+  (type_class_instance (constructor_identifier) (variable_identifier) (general_declarations))
+  (type_class_instance (constructor_identifier) (variable_identifier) (variable_identifier) (general_declarations)))
+
+=========================================
+Type Class Instance Declarations With Context
+=========================================
+
+instance Show a => Read a where {}
+instance (Show a, Eq a) => Read a where {}
+instance (Show (f a), Eq a) => Read f a where {}
+
+---
+
+(module
+  (type_class_instance
+    (context (class (constructor_identifier) (variable_identifier)))
+    (constructor_identifier)
+    (variable_identifier)
+    (general_declarations))
+  (type_class_instance
+    (context
+      (class (constructor_identifier) (variable_identifier))
+      (class (constructor_identifier) (variable_identifier)))
+    (constructor_identifier)
+    (variable_identifier)
+    (general_declarations))
+  (type_class_instance
+    (context
+      (class (constructor_identifier) (variable_identifier) (variable_identifier))
+      (class (constructor_identifier) (variable_identifier)))
+    (constructor_identifier)
+    (variable_identifier)
+    (variable_identifier)
+    (general_declarations)))
+
+=========================================
+Type Class Instance Declarations With Body
+=========================================
+
+instance Foo a where {
+  op :: Num b => a -> b -> a
+  op' :: (Num a, Num b) => a -> b -> a
+}
+
+---
+
+(module
+  (type_class_instance
+    (constructor_identifier)
+    (variable_identifier)
+    (general_declarations
+      (type_signature
+        (variable_identifier)
+        (context (class (constructor_identifier) (variable_identifier)))
+        (function_type
+          (variable_identifier)
+          (function_type
+            (variable_identifier)
+            (variable_identifier))))
+      (type_signature
+        (variable_identifier)
+        (context (class (constructor_identifier) (variable_identifier)) (class (constructor_identifier) (variable_identifier)))
+        (function_type
+          (variable_identifier)
+          (function_type
+            (variable_identifier)
+            (variable_identifier)))))))
