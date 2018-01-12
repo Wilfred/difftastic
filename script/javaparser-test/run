@@ -1,3 +1,8 @@
 #!/bin/bash
 
-java -cp ~/.m2/repository/com/github/javaparser/javaparser-core/3.5.9/javaparser-core-3.5.9.jar:target/javaparser-demo-1.0-SNAPSHOT.jar DemoApp $@ | jq .
+filename=$PWD/$1
+
+(
+  cd $(dirname $0)
+  java -cp ~/.m2/repository/com/github/javaparser/javaparser-core/3.5.9/javaparser-core-3.5.9.jar:target/javaparser-demo-1.0-SNAPSHOT.jar DemoApp $filename | jq .
+)
