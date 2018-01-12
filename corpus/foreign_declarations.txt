@@ -41,3 +41,57 @@ foreign import dotnet example :: Example
     (type_signature
       (variable_identifier)
       (simple_type (type_constructor)))))
+
+=========================================
+Foreign Import Declarations With Safety
+=========================================
+
+foreign import ccall safe "safe import" example :: Example
+foreign import stdcall unsafe "unsafe import" example :: Example
+foreign import cplusplus safe "safe import" example :: Example
+foreign import jvm unsafe "unsafe import" example :: Example
+foreign import dotnet unsafe "unsafe import" example :: Example
+
+---
+
+(module
+  (foreign
+    (foreign_import)
+    (calling_convention)
+    (safety)
+    (string)
+    (type_signature
+      (variable_identifier)
+      (simple_type (type_constructor))))
+  (foreign
+    (foreign_import)
+    (calling_convention)
+    (safety)
+    (string)
+    (type_signature
+      (variable_identifier)
+      (simple_type (type_constructor))))
+  (foreign
+    (foreign_import)
+    (calling_convention)
+    (safety)
+    (string)
+    (type_signature
+      (variable_identifier)
+      (simple_type (type_constructor))))
+  (foreign
+    (foreign_import)
+    (calling_convention)
+    (safety)
+    (string)
+    (type_signature
+      (variable_identifier)
+      (simple_type (type_constructor))))
+  (foreign
+    (foreign_import)
+    (calling_convention)
+    (safety)
+    (string)
+    (type_signature
+      (variable_identifier)
+      (simple_type (type_constructor)))))
