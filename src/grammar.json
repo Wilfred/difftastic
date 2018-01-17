@@ -2202,6 +2202,10 @@
         {
           "type": "SYMBOL",
           "name": "do_statement"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "break_statement"
         }
       ]
     },
@@ -2446,6 +2450,31 @@
         {
           "type": "STRING",
           "value": ")"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_semicolon"
+        }
+      ]
+    },
+    "break_statement": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "break"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "identifier"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         },
         {
           "type": "SYMBOL",
