@@ -121,14 +121,16 @@ module.exports = grammar({
       $.default,
       $.foreign,
       $._general_declaration,
-      $.flhs,
 
       // TODO - remove
       $._expression
     ),
 
-    flhs: $ => choice(
-      seq($._var, $._apat, '{', $._apat, '}')
+    function: $ => seq(
+      $._var,
+      repeat($._identifier),
+      '=',
+      repeat($._identifier),
     ),
 
     _apat: $ => prec.right(choice(
@@ -138,25 +140,20 @@ module.exports = grammar({
       $._identifier,
       seq(
         $._identifier,
-        '{',
-        optional(
-          $._fpat,
-          repeat(seq(',', $._fpat))
-        ),
-        '}'
+        optional(commaSep1($._fpat))
       )
     )),
 
     _fpat: $ => seq($._identifier, '=', $._pat),
 
-    _pat: $ => choice(
+    _pat: $ => prec.right(choice(
       seq(
         $._lpat,
         $._qconop,
         $._pat
       ),
       $._lpat
-    ),
+    )),
 
     _qconop: $ => choice(
       $.constructor_symbol,
@@ -263,7 +260,8 @@ module.exports = grammar({
     // TODO: Make general declarations representative of the spec.
     _general_declaration: $ => choice(
       $.type_signature,
-      $.fixity
+      $.fixity,
+      $.function
     ),
 
     fixity: $ => seq(
@@ -306,14 +304,14 @@ module.exports = grammar({
       $.function_type
     ),
 
-    function_type: $ => seq(
+    function_type: $ => prec.right(seq(
       choice(
         repeat1(alias($.variable_identifier, $.type_variable)),
         $.simple_type
       ),
       '->',
       choice($._type, repeat1(alias($.variable_identifier, $.type_variable)))
-    ),
+    )),
 
     algebraic_datatype: $ => seq(
       'data',
@@ -421,10 +419,10 @@ module.exports = grammar({
       $.module_identifier
     )),
 
-    simple_type: $ => seq(
+    simple_type: $ => prec.right(seq(
       alias($.constructor_identifier, $.type_constructor),
       alias(repeat($.variable_identifier), $.type_variable)
-    ),
+    )),
 
     variable_identifier: $ => /[_a-z](\w|')*/,
 

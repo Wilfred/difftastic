@@ -2,16 +2,21 @@
 Function Declarations
 =========================================
 
-f :: a -> m a -> Bool
+f :: a -> a -> a
+f num1 num2 = num2
 
 ---
 
 (module
   (type_signature
     (variable_identifier)
-    (function_type
-      (type_variable)
       (function_type
         (type_variable)
-        (type_variable)
-        (simple_type (type_constructor))))))
+        (function_type
+          (type_variable)
+          (type_variable))))
+  (function
+    (variable_identifier)
+    (variable_identifier)
+    (variable_identifier)
+    (variable_identifier)))
