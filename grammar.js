@@ -237,7 +237,7 @@ module.exports = grammar({
       optional(')')
     )),
 
-    constructor_symbol: $ => prec(1, seq(
+    constructor_symbol: $ => prec.left(1, seq(
       optional('('),
       ':',
       repeat($._symbol),
