@@ -61,20 +61,21 @@ class Foo a where {
     (general_declarations
       (type_signature
         (variable_identifier)
-        (context (class (constructor_identifier) (variable_identifier)))
+        (context
+          (class (constructor_identifier) (variable_identifier)))
         (function_type
-          (variable_identifier)
+          (type_variable)
           (function_type
-            (variable_identifier)
-            (variable_identifier))))
+            (type_variable)
+            (type_variable))))
       (type_signature
         (variable_identifier)
         (context (class (constructor_identifier) (variable_identifier)) (class (constructor_identifier) (variable_identifier)))
         (function_type
-          (variable_identifier)
+          (type_variable)
           (function_type
-            (variable_identifier)
-            (variable_identifier)))))))
+            (type_variable)
+            (type_variable)))))))
 
 =========================================
 Type Class Declarations With Fixity
