@@ -323,7 +323,7 @@ module.exports = grammar({
       $.expression_statement,
       $.assert_statement,
       $.switch_statement,
-      // $.do_statement,
+      $.do_statement,
       // $.break_statement,
       // $.continue_statement,
       // $.return_statement,
@@ -368,6 +368,10 @@ module.exports = grammar({
       seq('case', $._expression, ':'),
       seq('case', $.identifier, ':'),
       seq('default', ':')
+    ),
+
+    do_statement: $ => seq(
+      'do', $.statement, 'while', '(', $._expression, ')', $._semicolon
     ),
 
     if_then_statement: $ => seq('if', '(', $._expression, ')', $.statement),
