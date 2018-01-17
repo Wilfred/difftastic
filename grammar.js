@@ -326,7 +326,7 @@ module.exports = grammar({
       $.do_statement,
       $.break_statement,
       $.continue_statement,
-      // $.return_statement,
+      $.return_statement,
       // $.synchronized_statement,
       // $.throw_statement,
       // $.try_statement
@@ -377,6 +377,8 @@ module.exports = grammar({
     break_statement: $ => seq('break', optional($.identifier), $._semicolon),
 
     continue_statement: $ => seq('continue', optional($.identifier), $._semicolon),
+
+    return_statement: $ => seq('return', optional($.identifier), $._semicolon),
 
     if_then_statement: $ => seq('if', '(', $._expression, ')', $.statement),
 
