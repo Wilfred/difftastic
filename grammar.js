@@ -118,10 +118,9 @@ module.exports = grammar({
       $.algebraic_datatype,
       $.type_class,
       $.type_class_instance,
-      $.type_signature,
-      $.fixity,
       $.default,
       $.foreign,
+      $._general_declaration,
 
       // TODO - remove
       $._expression
