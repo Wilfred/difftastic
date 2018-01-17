@@ -368,10 +368,10 @@ module.exports = grammar({
       $.module_identifier
     )),
 
-    simple_type: $ => prec.right(seq(
+    simple_type: $ => seq(
       alias($.constructor_identifier, $.type_constructor),
       alias(repeat($.variable_identifier), $.type_variable)
-    )),
+    ),
 
     variable_identifier: $ => /[_a-z](\w|')*/,
 
