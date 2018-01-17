@@ -231,11 +231,11 @@ module.exports = grammar({
       )
     ),
 
-    variable_symbol: $ => seq(
+    variable_symbol: $ => prec.right(seq(
       optional('('),
       repeat1($._symbol),
       optional(')')
-    ),
+    )),
 
     constructor_symbol: $ => prec(1, seq(
       optional('('),
