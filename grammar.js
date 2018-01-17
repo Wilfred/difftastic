@@ -222,15 +222,15 @@ module.exports = grammar({
     ),
 
     assignment_expression: $ => choice(
-      // $.conditional_expression,
-      // $.assignment
+      $.conditional_expression,
+      $.assignment
     ),
 
-    // assignment: $ => prec.left(PREC.ASSIGN, seq(
-    //   $.lhs,
-    //   choice('=', '+=', '-=', '*=', '/=', '&=', '|=', '^=', '%=', '<<=', '>>=', '>>>='),
-    //   $._expression)
-    // ),
+    assignment: $ => prec.left(PREC.ASSIGN, seq(
+      $.lhs,
+      choice('=', '+=', '-=', '*=', '/=', '&=', '|=', '^=', '%=', '<<=', '>>=', '>>>='),
+      $._expression)
+    ),
 
     lhs: $ => choice(
       $.ambiguous_name,
@@ -292,6 +292,7 @@ module.exports = grammar({
       prec.left(precedence, seq(operator, $._expression))
     )),
 
+    // TODO: test this
     update_expression: $ => prec.left(PREC.INC, choice(
       seq($._expression, '++'),
       seq($._expression, '--'),
@@ -299,29 +300,29 @@ module.exports = grammar({
       seq('--', $._expression)
     )),
 
-    // TODO: verify: https://docs.oracle.com/javase/specs/jls/se9/html/jls-14.html#jls-Statement
     statement: $ => choice(
       // $.statement_without_trailing_substatement,
       // $.labeled_statement,
       $.if_then_statement,
+      $.if_then_else_statement
       // $.while_statement,
       // $.for_statement
     ),
 
-    // statement_no_short_if: $ => choice(
-    //   // $.statement_without_trailing_substatement,
-    //   // $.labeled_statement_no_short_if,
-    //   // $.if_then_else_statement_no_short_if,
-    //   // $.while_statement_no_short_if,
-    //   // $.for_statement_no_short_if
-    // ),
+    statement_no_short_if: $ => choice(
+      // $.statement_without_trailing_substatement,
+      // $.labeled_statement_no_short_if,
+      $.if_then_else_statement_no_short_if,
+      // $.while_statement_no_short_if,
+      // $.for_statement_no_short_if
+    ),
 
-    // statement_without_trailing_substatement: $ => choice(
-      // $.block,
-      // $.empty_statement,
-      // $.expression_statement,
-      // $.assert_statement,
-      // $.switch_statement,
+    statement_without_trailing_substatement: $ => choice(
+      $.block,
+      $._semicolon, // empty_statement,
+      $.expression_statement,
+      $.assert_statement,
+      $.switch_statement,
       // $.do_statement,
       // $.break_statement,
       // $.continue_statement,
@@ -329,39 +330,93 @@ module.exports = grammar({
       // $.synchronized_statement,
       // $.throw_statement,
       // $.try_statement
-    // ),
+    ),
+
+    expression_statement: $ => seq(choice(
+      $.assignment,
+      $.update_expression,
+      $.method_invocation,
+      $.class_instance_creation_expression
+      ), $._semicolon),
+
+    assert_statement: $ => choice(
+      seq('assert', $._expression, $._semicolon),
+      seq('assert', $._expression, ':', $._semicolon)
+    ),
+
+    switch_statement: $ => seq(
+      'switch',
+      '(', $._expression, ')',
+      $.switch_block
+    ),
+
+    switch_block: $ => seq(
+      '{',
+      repeat($.switch_block_statement_group),
+      repeat($.switch_label),
+      '}'
+    ),
+
+    switch_block_statement_group: $ => seq(
+      $.switch_labels,
+      $.block_statements
+    ),
+
+    switch_labels: $ => commaSep1($.switch_label),
+
+    switch_label: $ => choice(
+      seq('case', $._expression, ':'),
+      seq('case', $.identifier, ':'),
+      seq('default', ':')
+    ),
+
+    if_then_statement: $ => seq('if', '(', $._expression, ')', $.statement),
+
+    if_then_else_statement: $ => seq(
+      'if', '(', $._expression, ')',
+      $.statement_no_short_if,
+      'else',
+      $.statement
+    ),
+
+    if_then_else_statement_no_short_if: $ => seq(
+      'if', '(', $._expression, ')',
+      $.statement_no_short_if,
+      'else',
+      $.statement_no_short_if
+    ),
 
     // TODO: make if statement pass by defining variables
-    if_then_statement: $ => prec.right(seq('if', '(', $._expression, ')',
-      choice(
-        optional('{'), $._statement, optional('}'),
-        repeat($.else_if_clause),
-        optional($.else_clause)
-      )
-    )),
+    // if_then_statement: $ => prec.right(seq('if', '(', $._expression, ')',
+    //   choice(
+    //     optional('{'), $._statement, optional('}'),
+    //     repeat($.else_if_clause),
+    //     optional($.else_clause)
+    //   )
+    // )),
 
-    else_if_clause: $ => seq(
-      'else if',
-      '(', $._expression, ')',
-      choice(
-        seq('{', $._statement, '}'),
-        $._statement
-      )
-    ),
-
-    else_clause: $ => seq(
-      'else',
-      choice(
-        seq('{', $._statement, '}'),
-        $._statement
-      )
-    ),
-
-    // TODO: handle while_statement_no_short_if version
-    while_statement: $ => seq(
-      '(', $._expression, ')',
-      $._statement
-    ),
+    // else_if_clause: $ => seq(
+    //   'else if',
+    //   '(', $._expression, ')',
+    //   choice(
+    //     seq('{', $._statement, '}'),
+    //     $._statement
+    //   )
+    // ),
+    //
+    // else_clause: $ => seq(
+    //   'else',
+    //   choice(
+    //     seq('{', $._statement, '}'),
+    //     $._statement
+    //   )
+    // ),
+    //
+    // // TODO: handle while_statement_no_short_if version
+    // while_statement: $ => seq(
+    //   '(', $._expression, ')',
+    //   $._statement
+    // ),
 
     // // TODO:
     // for_statement: $ => seq(
