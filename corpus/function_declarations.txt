@@ -1,0 +1,17 @@
+=========================================
+Function Declarations
+=========================================
+
+f :: a -> m a -> Bool
+
+---
+
+(module
+  (type_signature
+    (variable_identifier)
+    (function_type
+      (type_variable)
+      (function_type
+        (type_variable)
+        (type_variable)
+        (simple_type (type_constructor))))))

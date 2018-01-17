@@ -121,9 +121,59 @@ module.exports = grammar({
       $.default,
       $.foreign,
       $._general_declaration,
+      $.flhs,
 
       // TODO - remove
       $._expression
+    ),
+
+    flhs: $ => choice(
+      seq($._var, $._apat, '{', $._apat, '}')
+    ),
+
+    _apat: $ => prec.right(choice(
+      seq($._var, optional(seq('@', $._apat))),
+      $._literal,
+      $.wildcard,
+      $._identifier,
+      seq(
+        $._identifier,
+        '{',
+        optional(
+          $._fpat,
+          repeat(seq(',', $._fpat))
+        ),
+        '}'
+      )
+    )),
+
+    _fpat: $ => seq($._identifier, '=', $._pat),
+
+    _pat: $ => choice(
+      seq(
+        $._lpat,
+        $._qconop,
+        $._pat
+      ),
+      $._lpat
+    ),
+
+    _qconop: $ => choice(
+      $.constructor_symbol,
+      seq('`', $._identifier, '`')
+    ),
+
+    _lpat: $ => prec(1, choice(
+      $._apat,
+      seq('-','(',$._literal,')'),
+      seq($._identifier, repeat1($._apat))
+    )),
+
+    wildcard: $ => '_',
+
+    _var: $ => choice(
+      $.variable_identifier,
+      $.variable_symbol
     ),
 
     _expression: $ => choice(
