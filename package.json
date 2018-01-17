@@ -15,8 +15,27 @@
   "devDependencies": {
     "tree-sitter-cli": "^0.8.0"
   },
+  "watch": {
+    "test": {
+      "patterns": [
+        "corpus"
+      ],
+      "extensions": "txt",
+      "quiet": true
+    },
+    "build-test": {
+      "patterns": [
+        "./"
+      ],
+      "extensions": "js",
+      "quiet": true
+    }
+  },
   "scripts": {
     "build": "tree-sitter generate && node-gyp build",
-    "test": "tree-sitter test"
+    "test": "tree-sitter test",
+    "build-test": "tree-sitter generate && node-gyp build && tree-sitter test",
+    "watch-test": "npm-watch test",
+    "watch-grammar": "npm-watch build-test"
   }
 }
