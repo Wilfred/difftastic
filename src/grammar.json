@@ -528,7 +528,7 @@
         }
       ]
     },
-    "function": {
+    "function_binding": {
       "type": "SEQ",
       "members": [
         {
@@ -1209,7 +1209,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "function"
+          "name": "function_binding"
         }
       ]
     },
