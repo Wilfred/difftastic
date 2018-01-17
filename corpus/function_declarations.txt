@@ -15,7 +15,7 @@ f num1 num2 = num2
         (function_type
           (type_variable)
           (type_variable))))
-  (function
+  (function_binding
     (variable_identifier)
     (variable_identifier)
     (variable_identifier)

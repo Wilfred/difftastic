@@ -126,7 +126,7 @@ module.exports = grammar({
       $._expression
     ),
 
-    function: $ => seq(
+    function_binding: $ => seq(
       $._var,
       repeat($._identifier),
       '=',
@@ -261,7 +261,7 @@ module.exports = grammar({
     _general_declaration: $ => choice(
       $.type_signature,
       $.fixity,
-      $.function
+      $.function_binding
     ),
 
     fixity: $ => seq(
