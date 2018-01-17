@@ -257,9 +257,12 @@ module.exports = grammar({
     ),
 
     function_type: $ => seq(
-      choice($._identifier, $.simple_type),
+      choice(
+        repeat1(alias($.variable_identifier, $.type_variable)),
+        $.simple_type
+      ),
       '->',
-      choice($._type, $._identifier)
+      choice($._type, repeat1(alias($.variable_identifier, $.type_variable)))
     ),
 
     algebraic_datatype: $ => seq(
