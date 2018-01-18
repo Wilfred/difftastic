@@ -12,9 +12,9 @@ import Either()
 (module
   (module_identifier)
   (declarations
-    (import (constructor_identifier))
+    (import (module_identifier))
     (import
-      (constructor_identifier)
+      (module_identifier)
       (import_specification))))
 
 =========================================
@@ -89,7 +89,7 @@ import qualified Data.Function (fix)
     (import
       (module_identifier))
     (import
-      (constructor_identifier)
+      (module_identifier)
       (import_specification))
     (import
       (module_identifier)
@@ -111,10 +111,10 @@ import qualified Either as E ()
   (declarations
     (import
       (module_identifier)
-      (constructor_identifier))
+      (module_identifier))
     (import
-      (constructor_identifier)
-      (constructor_identifier)
+      (module_identifier)
+      (module_identifier)
       (import_specification))))
 
 =========================================
@@ -132,7 +132,7 @@ import Data.Maybe as DM (Maybe(..), fromMaybe)
   (declarations
     (import
       (module_identifier)
-      (constructor_identifier)
+      (module_identifier)
       (import_specification
         (constructor_identifier)
         (variable_identifier)))))
@@ -152,7 +152,7 @@ import qualified Data.Maybe as M (Maybe(..), fromMaybe)
   (declarations
     (import
       (module_identifier)
-      (constructor_identifier)
+      (module_identifier)
       (import_specification (constructor_identifier) (variable_identifier)))))
 
 =========================================
@@ -199,5 +199,5 @@ import qualified Data.List as DL hiding (head)
       (import_specification (variable_identifier)))
     (import
       (module_identifier)
-      (constructor_identifier)
+      (module_identifier)
       (import_specification (variable_identifier)))))
