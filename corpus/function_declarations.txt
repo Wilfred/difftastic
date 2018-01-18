@@ -76,3 +76,52 @@ f _ num2 = num2
       (variable_identifier))
     (function_rhs
       (variable_identifier))))
+
+=========================================
+Function Declarations With Literals
+=========================================
+
+f :: a -> a -> a
+f 1 2 = 3
+f "hello" "world" = "goodbye"
+f 'a' 'b' = 'c'
+f 1.0 2.0 = 3.0
+
+---
+
+(module
+  (type_signature
+    (variable_identifier)
+      (function_type
+        (type_variable)
+        (function_type
+          (type_variable)
+          (type_variable))))
+  (function_binding
+    (function_lhs
+      (variable_identifier)
+      (integer)
+      (integer))
+    (function_rhs
+      (integer)))
+  (function_binding
+    (function_lhs
+      (variable_identifier)
+      (string)
+      (string))
+    (function_rhs
+      (string)))
+  (function_binding
+    (function_lhs
+      (variable_identifier)
+      (char)
+      (char))
+    (function_rhs
+      (char)))
+  (function_binding
+    (function_lhs
+      (variable_identifier)
+      (float)
+      (float))
+    (function_rhs
+      (float))))

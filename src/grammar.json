@@ -576,8 +576,17 @@
         {
           "type": "REPEAT",
           "content": {
-            "type": "SYMBOL",
-            "name": "_identifier"
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "_identifier"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "_literal"
+              }
+            ]
           }
         }
       ]
@@ -617,6 +626,10 @@
                 ]
               }
             ]
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_literal"
           },
           {
             "type": "SYMBOL",
