@@ -4,6 +4,7 @@ Function Declarations
 
 f :: a -> a -> a
 f num1 num2 = num2
+f n@num1 x@num2 = x
 
 ---
 
@@ -19,6 +20,17 @@ f num1 num2 = num2
     (function_lhs
       (variable_identifier)
       (variable_identifier)
+      (variable_identifier))
+    (function_rhs
+      (variable_identifier)))
+  (function_binding
+    (function_lhs
+      (variable_identifier)
+      (variable_identifier)
+      (variable_symbol)
+      (variable_identifier)
+      (variable_identifier)
+      (variable_symbol)
       (variable_identifier))
     (function_rhs
       (variable_identifier))))
