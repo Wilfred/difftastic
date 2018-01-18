@@ -432,9 +432,11 @@ module.exports = grammar({
       alias(repeat($.variable_identifier), $.type_variable)
     )),
 
-    variable_identifier: $ => /[_a-z](\w|')*/,
+    variable_identifier: $ => $._variable_pattern,
+    _variable_pattern: $ => /[_a-z](\w|')*/,
 
-    constructor_identifier: $ => /[A-Z](\w|'|)*|\[.*\]|\([,]*\)|\(->\)/,
+    constructor_identifier: $ => $._constructor_pattern,
+    _constructor_pattern: $ => /[A-Z](\w|'|)*|\[.*\]|\([,]*\)|\(->\)/,
 
     module_identifier: $ => /[A-Z](\w|'|\.)*/,
 
