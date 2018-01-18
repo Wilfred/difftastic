@@ -51,3 +51,28 @@ f n@num1 x@num2 = x
       (variable_identifier))
     (function_rhs
       (variable_identifier))))
+
+=========================================
+Function Declarations With _ (wildcard)
+=========================================
+
+f :: a -> a -> a
+f _ num2 = num2
+
+---
+
+(module
+  (type_signature
+    (variable_identifier)
+      (function_type
+        (type_variable)
+        (function_type
+          (type_variable)
+          (type_variable))))
+  (function_binding
+    (function_lhs
+      (variable_identifier)
+      (wildcard)
+      (variable_identifier))
+    (function_rhs
+      (variable_identifier))))
