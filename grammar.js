@@ -181,6 +181,9 @@ module.exports = grammar({
       $._constructor_pattern,
       $._variable_pattern
     ),
+
+    qualified_variable_symbol: $ => seq(
+      $._constructor_pattern,
       $.variable_symbol
     ),
 
