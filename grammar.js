@@ -137,13 +137,13 @@ module.exports = grammar({
 
     function_rhs: $ => seq(
       '=',
-      repeat($._identifier)
+      repeat(choice($._identifier, $._literal))
     ),
 
     _abstract_pattern: $ => prec.left(choice(
       seq($._var, optional(seq('@', $._abstract_pattern))),
       // seq($._identifier, optional(commaSep1($._fpat))
-      // $._literal,
+      $._literal,
       $.wildcard,
       repeat1($._identifier)
       // $.parenthesized_pattern,
