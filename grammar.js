@@ -120,6 +120,7 @@ module.exports = grammar({
       $.type_class_instance,
       $.default,
       $.foreign,
+      $.function_binding,
       $._general_declaration,
 
       // TODO - remove
@@ -266,8 +267,7 @@ module.exports = grammar({
     // TODO: Make general declarations representative of the spec.
     _general_declaration: $ => choice(
       $.type_signature,
-      $.fixity,
-      $.function_binding
+      $.fixity
     ),
 
     fixity: $ => seq(
