@@ -38,6 +38,9 @@ module.exports = grammar({
     [$.qualified_name, $.namespace_name],
     [$.namespace_name],
     [$.namespace_aliasing_clause, $.name],
+
+    [$.namespace_name_as_prefix],
+    [$.namespace_use_declaration, $.namespace_name_as_prefix]
   ],
   inline: $ => [
     $._statement,
@@ -154,12 +157,12 @@ module.exports = grammar({
       optional($.namespace_name_as_prefix), $.name
     ),
 
-    namespace_name_as_prefix: $ => prec.right(choice(
+    namespace_name_as_prefix: $ => choice(
       '\\',
       seq(optional('\\'), $.namespace_name, '\\'),
       seq('namespace', '\\'),
       seq('namespace', optional('\\'), $.namespace_name, '\\')
-    )),
+    ),
 
     namespace_name: $ => seq($.name, repeat(seq('\\', $.name))),
 
