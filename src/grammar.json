@@ -619,6 +619,10 @@
             ]
           },
           {
+            "type": "SYMBOL",
+            "name": "wildcard"
+          },
+          {
             "type": "REPEAT1",
             "content": {
               "type": "SYMBOL",

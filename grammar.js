@@ -144,7 +144,7 @@ module.exports = grammar({
       seq($._var, optional(seq('@', $._abstract_pattern))),
       // seq($._identifier, optional(commaSep1($._fpat))
       // $._literal,
-      // $.wildcard,
+      $.wildcard,
       repeat1($._identifier)
       // $.parenthesized_pattern,
     )),
