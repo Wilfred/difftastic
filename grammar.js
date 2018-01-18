@@ -327,9 +327,9 @@ module.exports = grammar({
       $.break_statement,
       $.continue_statement,
       $.return_statement,
-      // $.synchronized_statement,
-      // $.throw_statement,
-      // $.try_statement
+      $.synchronized_statement,
+      $.throw_statement,
+      $.try_statement
     ),
 
     expression_statement: $ => seq(choice(
@@ -379,6 +379,30 @@ module.exports = grammar({
     continue_statement: $ => seq('continue', optional($.identifier), $._semicolon),
 
     return_statement: $ => seq('return', optional($.identifier), $._semicolon),
+
+    synchronized_statement: $ => seq('synchronized', '(', $._expression, ')', $.block),
+
+    throw_statement: $ => seq('throw', $._expression, $._semicolon),
+
+    try_statement: $ => choice(
+      seq('try', $.block, $.catches),
+      seq('try', $.block, optional($.catches), $.finally),
+      // $.try_with_resources_statement
+    ),
+
+    catches: $ => commaSep1($.catch_clause),
+
+    catch_clause: $ => seq('catch', '(', $.catch_formal_parameter, ')', $.block),
+
+    catch_formal_parameter: $ => seq(
+      repeat($.modifier),
+      $.catch_type,
+      $.variable_declarator_id
+    ),
+
+    catch_type: $ => seq($.unann_type, repeat(seq('|', $.class_or_interface_type))),
+
+    finally: $ => seq('finally', $.block),
 
     if_then_statement: $ => seq('if', '(', $._expression, ')', $.statement),
 
