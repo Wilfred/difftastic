@@ -41,7 +41,8 @@ module.exports = grammar({
     [$.normal_annotation, $.single_element_annotation, $.package_or_type_name],
     [$.marker_annotation, $.package_or_type_name],
     [$.class_literal, $.primitive_type], // try to drop class_literal
-    [$.class_or_interface_type, $.class_or_interface_type_to_instantiate]
+    [$.class_or_interface_type, $.class_or_interface_type_to_instantiate],
+    [$.resource_list]
   ],
 
   rules: {
@@ -302,6 +303,7 @@ module.exports = grammar({
 
     statement: $ => choice(
       // $.statement_without_trailing_substatement,
+      // -- uncommenting above generates a method header conflict
       // $.labeled_statement,
       $.if_then_statement,
       $.if_then_else_statement
@@ -387,7 +389,7 @@ module.exports = grammar({
     try_statement: $ => choice(
       seq('try', $.block, $.catches),
       seq('try', $.block, optional($.catches), $.finally),
-      // $.try_with_resources_statement
+      $.try_with_resources_statement
     ),
 
     catches: $ => commaSep1($.catch_clause),
@@ -404,6 +406,30 @@ module.exports = grammar({
 
     finally: $ => seq('finally', $.block),
 
+    try_with_resources_statement: $ => seq(
+      'try',
+      $.resource_specification,
+      $.block,
+      optional($.catches),
+      optional($.finally)
+    ),
+
+    resource_specification: $ => seq(
+      '(', $.resource_list, optional(';'), ')'
+    ),
+
+    resource_list: $ => seq($.resource, repeat(';', $.resource)),
+
+    resource: $ => choice(
+      seq($.modifier, $.unann_type, $.variable_declarator_id, '=', $._expression),
+      $.variable_access
+    ),
+
+    variable_access: $ => choice(
+      $.ambiguous_name,
+      $.field_access
+    ),
+
     if_then_statement: $ => seq('if', '(', $._expression, ')', $.statement),
 
     if_then_else_statement: $ => seq(
@@ -419,6 +445,10 @@ module.exports = grammar({
       'else',
       $.statement_no_short_if
     ),
+
+    while_statement: $ => seq('while', '(', $._expression, ')', $.statement),
+
+    while_statement_no_short_if: $ => seq('while', '(', $._expression, ')', $.statement_no_short_if),
 
     // TODO: make if statement pass by defining variables
     // if_then_statement: $ => prec.right(seq('if', '(', $._expression, ')',
