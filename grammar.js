@@ -522,13 +522,15 @@ module.exports = grammar({
    ),
 
     foreach_statement: $ => seq(
-      'foreach', '(', $._expression, 'as', optional(seq($._expression, '=>')), $._foreach_value, ')',
+      'foreach', '(', $._expression, 'as', choice(alias($.foreach_pair, $.pair), $._foreach_value), ')',
       choice(
         $._semicolon,
         $._statement,
         seq(':', repeat($._statement), 'endforeach', $._semicolon)
       )
     ),
+
+    foreach_pair: $ => seq($._expression, '=>', $._foreach_value),
 
     _foreach_value: $ => choice(
       seq(optional('&'), $._expression),
