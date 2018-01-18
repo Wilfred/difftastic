@@ -533,15 +533,38 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "_var"
+          "name": "function_lhs"
         },
         {
-          "type": "REPEAT",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_identifier"
-          }
-        },
+          "type": "SYMBOL",
+          "name": "function_rhs"
+        }
+      ]
+    },
+    "function_lhs": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_var"
+            },
+            {
+              "type": "REPEAT1",
+              "content": {
+                "type": "SYMBOL",
+                "name": "_abstract_pattern"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "function_rhs": {
+      "type": "SEQ",
+      "members": [
         {
           "type": "STRING",
           "value": "="
@@ -555,95 +578,18 @@
         }
       ]
     },
-    "_apat": {
-      "type": "PREC_RIGHT",
+    "_abstract_pattern": {
+      "type": "PREC_LEFT",
       "value": 0,
       "content": {
         "type": "CHOICE",
         "members": [
           {
-            "type": "SEQ",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "_var"
-              },
-              {
-                "type": "CHOICE",
-                "members": [
-                  {
-                    "type": "SEQ",
-                    "members": [
-                      {
-                        "type": "STRING",
-                        "value": "@"
-                      },
-                      {
-                        "type": "SYMBOL",
-                        "name": "_apat"
-                      }
-                    ]
-                  },
-                  {
-                    "type": "BLANK"
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "type": "SYMBOL",
-            "name": "_literal"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "wildcard"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "_identifier"
-          },
-          {
-            "type": "SEQ",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "_identifier"
-              },
-              {
-                "type": "CHOICE",
-                "members": [
-                  {
-                    "type": "SEQ",
-                    "members": [
-                      {
-                        "type": "SYMBOL",
-                        "name": "_fpat"
-                      },
-                      {
-                        "type": "REPEAT",
-                        "content": {
-                          "type": "SEQ",
-                          "members": [
-                            {
-                              "type": "STRING",
-                              "value": ","
-                            },
-                            {
-                              "type": "SYMBOL",
-                              "name": "_fpat"
-                            }
-                          ]
-                        }
-                      }
-                    ]
-                  },
-                  {
-                    "type": "BLANK"
-                  }
-                ]
-              }
-            ]
+            "type": "REPEAT1",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_identifier"
+            }
           }
         ]
       }
@@ -729,7 +675,7 @@
         "members": [
           {
             "type": "SYMBOL",
-            "name": "_apat"
+            "name": "_abstract_pattern"
           },
           {
             "type": "SEQ",
@@ -763,7 +709,7 @@
                 "type": "REPEAT1",
                 "content": {
                   "type": "SYMBOL",
-                  "name": "_apat"
+                  "name": "_abstract_pattern"
                 }
               }
             ]

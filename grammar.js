@@ -127,22 +127,28 @@ module.exports = grammar({
     ),
 
     function_binding: $ => seq(
-      $._var,
-      repeat($._identifier),
-      '=',
-      repeat($._identifier),
+      $.function_lhs,
+      $.function_rhs
     ),
 
-    _apat: $ => prec.right(choice(
-      seq($._var, optional(seq('@', $._apat))),
-      $._literal,
-      $.wildcard,
-      $._identifier,
-      seq(
-        $._identifier,
-        optional(commaSep1($._fpat))
-      )
+    function_lhs: $ => choice(
+      seq($._var, repeat1($._abstract_pattern))
+    ),
+
+    function_rhs: $ => seq(
+      '=',
+      repeat($._identifier)
+    ),
+
+    _abstract_pattern: $ => prec.left(choice(
+      // seq($._var, optional(seq('@', $._apat))),
+      // seq($._identifier, optional(commaSep1($._fpat))
+      // $._literal,
+      // $.wildcard,
+      repeat1($._identifier)
+      // $.parenthesized_pattern,
     )),
+
 
     _fpat: $ => seq($._identifier, '=', $._pat),
 
@@ -161,9 +167,9 @@ module.exports = grammar({
     ),
 
     _lpat: $ => prec(1, choice(
-      $._apat,
+      $._abstract_pattern,
       seq('-','(',$._literal,')'),
-      seq($._identifier, repeat1($._apat))
+      seq($._identifier, repeat1($._abstract_pattern))
     )),
 
     wildcard: $ => '_',
@@ -419,6 +425,8 @@ module.exports = grammar({
       $.module_identifier
     )),
 
+    // TODO: simpletype is only used in top level declarations (newtype, type, data)
+    // Update so this is not overloaded across other rules.
     simple_type: $ => prec.right(seq(
       alias($.constructor_identifier, $.type_constructor),
       alias(repeat($.variable_identifier), $.type_variable)

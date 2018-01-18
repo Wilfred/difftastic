@@ -16,7 +16,9 @@ f num1 num2 = num2
           (type_variable)
           (type_variable))))
   (function_binding
-    (variable_identifier)
-    (variable_identifier)
-    (variable_identifier)
-    (variable_identifier)))
+    (function_lhs
+      (variable_identifier)
+      (variable_identifier)
+      (variable_identifier))
+    (function_rhs
+      (variable_identifier))))
