@@ -2973,26 +2973,19 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "SYMBOL",
-                  "name": "_expression"
-                },
-                {
-                  "type": "STRING",
-                  "value": "=>"
-                }
-              ]
+              "type": "ALIAS",
+              "content": {
+                "type": "SYMBOL",
+                "name": "foreach_pair"
+              },
+              "named": true,
+              "value": "pair"
             },
             {
-              "type": "BLANK"
+              "type": "SYMBOL",
+              "name": "_foreach_value"
             }
           ]
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_foreach_value"
         },
         {
           "type": "STRING",
@@ -3034,6 +3027,23 @@
               ]
             }
           ]
+        }
+      ]
+    },
+    "foreach_pair": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_expression"
+        },
+        {
+          "type": "STRING",
+          "value": "=>"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_foreach_value"
         }
       ]
     },
