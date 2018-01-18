@@ -177,6 +177,10 @@ module.exports = grammar({
 
     _var: $ => choice(
       $.variable_identifier,
+    qualified_variable_identifier: $ => seq(
+      $._constructor_pattern,
+      $._variable_pattern
+    ),
       $.variable_symbol
     ),
 
