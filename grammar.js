@@ -284,7 +284,8 @@ module.exports = grammar({
     ),
 
     _op: $ => choice(
-      choice($.variable_symbol, $.constructor_symbol),
+      $.variable_symbol,
+      $.constructor_symbol,
       seq(
         '`',
         $._identifier,
