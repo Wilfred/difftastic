@@ -331,6 +331,24 @@ module.exports = grammar({
     function_constructor: $ => '(->)',
     tupling_constructor: $ => seq('(', ',', repeat(','), ')'),
 
+    tuple: $ => seq(
+      '(',
+      commaSep1($.type),
+      ')'
+    ),
+
+    list: $ => seq(
+      '[',
+      repeat1($.type),
+      ']'
+    ),
+
+    parenthesized_constructor: $ => seq(
+      '(',
+      $.type,
+      ')'
+    ),
+
     algebraic_datatype: $ => seq(
       'data',
       optional($.context),
