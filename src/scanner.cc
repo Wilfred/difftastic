@@ -90,6 +90,7 @@ struct Scanner {
   unsigned serialize(char *buffer) {
     unsigned i = 0;
 
+    if (literal_stack.size() * 5 + 2 >= TREE_SITTER_SERIALIZATION_BUFFER_SIZE) return 0;
     buffer[i++] = literal_stack.size();
     for (
       vector<Literal>::iterator iter = literal_stack.begin(),
@@ -111,6 +112,7 @@ struct Scanner {
       iter != end;
       ++iter
     ) {
+      if (i + 2 + iter->word.size() >= TREE_SITTER_SERIALIZATION_BUFFER_SIZE) return 0;
       buffer[i++] = iter->end_word_indentation_allowed;
       buffer[i++] = iter->word.size();
       iter->word.copy(&buffer[i], iter->word.size());
