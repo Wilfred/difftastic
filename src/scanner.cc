@@ -28,6 +28,7 @@ struct Scanner {
   }
 
   unsigned serialize(char *buffer) {
+    if (heredoc_delimiter.size() >= TREE_SITTER_SERIALIZATION_BUFFER_SIZE) return 0;
     heredoc_delimiter.copy(buffer, heredoc_delimiter.length());
     return heredoc_delimiter.length();
   }
