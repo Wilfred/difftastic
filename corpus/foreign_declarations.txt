@@ -16,31 +16,31 @@ foreign import dotnet example :: Example
     (calling_convention)
     (type_signature
       (variable_identifier)
-      (simple_type (type_constructor))))
+      (type (type_constructor))))
   (foreign
     (foreign_import)
     (calling_convention)
     (type_signature
       (variable_identifier)
-      (simple_type (type_constructor))))
+      (type (type_constructor))))
   (foreign
     (foreign_import)
     (calling_convention)
     (type_signature
       (variable_identifier)
-      (simple_type (type_constructor))))
+      (type (type_constructor))))
   (foreign
     (foreign_import)
     (calling_convention)
     (type_signature
       (variable_identifier)
-      (simple_type (type_constructor))))
+      (type (type_constructor))))
   (foreign
     (foreign_import)
     (calling_convention)
     (type_signature
       (variable_identifier)
-      (simple_type (type_constructor)))))
+      (type (type_constructor)))))
 
 =========================================
 Foreign Import Declarations With Safety
@@ -62,7 +62,7 @@ foreign import dotnet unsafe "unsafe import" example :: Example
     (string)
     (type_signature
       (variable_identifier)
-      (simple_type (type_constructor))))
+      (type (type_constructor))))
   (foreign
     (foreign_import)
     (calling_convention)
@@ -70,7 +70,7 @@ foreign import dotnet unsafe "unsafe import" example :: Example
     (string)
     (type_signature
       (variable_identifier)
-      (simple_type (type_constructor))))
+      (type (type_constructor))))
   (foreign
     (foreign_import)
     (calling_convention)
@@ -78,7 +78,7 @@ foreign import dotnet unsafe "unsafe import" example :: Example
     (string)
     (type_signature
       (variable_identifier)
-      (simple_type (type_constructor))))
+      (type (type_constructor))))
   (foreign
     (foreign_import)
     (calling_convention)
@@ -86,7 +86,7 @@ foreign import dotnet unsafe "unsafe import" example :: Example
     (string)
     (type_signature
       (variable_identifier)
-      (simple_type (type_constructor))))
+      (type (type_constructor))))
   (foreign
     (foreign_import)
     (calling_convention)
@@ -94,7 +94,7 @@ foreign import dotnet unsafe "unsafe import" example :: Example
     (string)
     (type_signature
       (variable_identifier)
-      (simple_type (type_constructor)))))
+      (type (type_constructor)))))
 
 =========================================
 Foreign Export Declarations
@@ -114,31 +114,31 @@ foreign export dotnet example :: Example
     (calling_convention)
     (type_signature
       (variable_identifier)
-      (simple_type (type_constructor))))
+      (type (type_constructor))))
   (foreign
     (foreign_export)
     (calling_convention)
     (type_signature
       (variable_identifier)
-      (simple_type (type_constructor))))
+      (type (type_constructor))))
   (foreign
     (foreign_export)
     (calling_convention)
     (type_signature
       (variable_identifier)
-      (simple_type (type_constructor))))
+      (type (type_constructor))))
   (foreign
     (foreign_export)
     (calling_convention)
     (type_signature
       (variable_identifier)
-      (simple_type (type_constructor))))
+      (type (type_constructor))))
   (foreign
     (foreign_export)
     (calling_convention)
     (type_signature
       (variable_identifier)
-      (simple_type (type_constructor)))))
+      (type (type_constructor)))))
 
 =========================================
 Foreign Export Declarations With Safety
@@ -160,7 +160,7 @@ foreign export dotnet unsafe "unsafe import" example :: Example
     (string)
     (type_signature
       (variable_identifier)
-      (simple_type (type_constructor))))
+      (type (type_constructor))))
   (foreign
     (foreign_export)
     (calling_convention)
@@ -168,7 +168,7 @@ foreign export dotnet unsafe "unsafe import" example :: Example
     (string)
     (type_signature
       (variable_identifier)
-      (simple_type (type_constructor))))
+      (type (type_constructor))))
   (foreign
     (foreign_export)
     (calling_convention)
@@ -176,7 +176,7 @@ foreign export dotnet unsafe "unsafe import" example :: Example
     (string)
     (type_signature
       (variable_identifier)
-      (simple_type (type_constructor))))
+      (type (type_constructor))))
   (foreign
     (foreign_export)
     (calling_convention)
@@ -184,7 +184,7 @@ foreign export dotnet unsafe "unsafe import" example :: Example
     (string)
     (type_signature
       (variable_identifier)
-      (simple_type (type_constructor))))
+      (type (type_constructor))))
   (foreign
     (foreign_export)
     (calling_convention)
@@ -192,4 +192,4 @@ foreign export dotnet unsafe "unsafe import" example :: Example
     (string)
     (type_signature
       (variable_identifier)
-      (simple_type (type_constructor)))))
+      (type (type_constructor)))))
