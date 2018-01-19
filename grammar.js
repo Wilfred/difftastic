@@ -53,6 +53,7 @@ module.exports = grammar({
     $._iteration_statement,
     $._foreach_value,
     $._literal,
+    $._intrinsic,
     $._class_type_designator,
     $._simple_assignment_expression,
     $._byref_assignment_expression,
@@ -645,7 +646,7 @@ module.exports = grammar({
       $.qualified_name,
       $._literal,
       $.array_creation_expression,
-      $.intrinsic,
+      $._intrinsic,
       $.anonymous_function_creation_expression,
       $.object_creation_expression,
       $.update_expression,
@@ -657,7 +658,7 @@ module.exports = grammar({
       $._scope_resolution_qualifier, '::', choice($.name, alias($._reserved_identifier, $.name))
     ),
 
-    intrinsic: $ => choice(
+    _intrinsic: $ => choice(
       $.empty_intrinsic,
       $.eval_intrinsic,
       $.exit_intrinsic,
