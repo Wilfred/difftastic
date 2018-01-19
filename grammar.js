@@ -155,7 +155,7 @@ module.exports = grammar({
       // $.parenthesized_pattern,
     )),
 
-    labels: $ => repeat1($.label),
+    labels: $ => commaSep1($.label),
 
     label: $ => seq(
       $._identifier,

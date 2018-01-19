@@ -692,11 +692,29 @@
       }
     },
     "labels": {
-      "type": "REPEAT1",
-      "content": {
-        "type": "SYMBOL",
-        "name": "label"
-      }
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "label"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "STRING",
+                "value": ","
+              },
+              {
+                "type": "SYMBOL",
+                "name": "label"
+              }
+            ]
+          }
+        }
+      ]
     },
     "label": {
       "type": "SEQ",
