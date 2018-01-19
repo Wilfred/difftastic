@@ -120,16 +120,16 @@ module.exports = grammar({
       $.type_class_instance,
       $.default,
       $.foreign,
-      $.function_binding,
+      $.function_declaration,
       $._general_declaration,
 
       // TODO - remove
       $._expression
     ),
 
-    function_binding: $ => seq(
-      $.function_lhs,
-      $.function_rhs
+    function_declaration: $ => seq(
+      $.function_head,
+      $.function_body
     ),
 
     function_lhs: $ => prec.left(choice(
