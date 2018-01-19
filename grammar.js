@@ -315,7 +315,7 @@ module.exports = grammar({
       $._identifier,
       '::',
       optional($.context),
-      $._type
+      $.type
     ),
 
     type: $ => seq(
@@ -450,7 +450,7 @@ module.exports = grammar({
       'type',
       $.simple_type,
       '=',
-      $._type
+      $.type
     ),
 
     _literal: $ => choice(
