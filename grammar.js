@@ -323,6 +323,15 @@ module.exports = grammar({
       ),
       optional(seq('->', $.type))
     ),
+
+    _generic_type_constructor: $ => choice(
+      $._type_constructors,
+      $.unit_type,
+      $.list_constructor,
+      $.function_constructor,
+      $.tupling_constructor
+    ),
+
     unit_type: $ => '()',
     list_constructor: $ => '[]',
     function_constructor: $ => '(->)',
