@@ -433,8 +433,6 @@ module.exports = grammar({
       $.module_identifier
     )),
 
-    // TODO: simpletype is only used in top level declarations (newtype, type, data)
-    // Update so this is not overloaded across other rules.
     simple_type: $ => prec.right(seq(
       alias($.constructor_identifier, $.type_constructor),
       alias(repeat($.variable_identifier), $.type_variable)
