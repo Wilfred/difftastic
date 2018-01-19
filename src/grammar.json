@@ -3753,7 +3753,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "intrinsic"
+          "name": "_intrinsic"
         },
         {
           "type": "SYMBOL",
@@ -3821,7 +3821,7 @@
         }
       ]
     },
-    "intrinsic": {
+    "_intrinsic": {
       "type": "CHOICE",
       "members": [
         {
@@ -6789,6 +6789,7 @@
     "_iteration_statement",
     "_foreach_value",
     "_literal",
+    "_intrinsic",
     "_class_type_designator",
     "_simple_assignment_expression",
     "_byref_assignment_expression"
