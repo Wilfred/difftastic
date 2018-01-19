@@ -30,7 +30,6 @@ module.exports = grammar({
 
   conflicts: $ => [
     [$.declare_statement, $.expression_statement],
-    [$.simple_variable, $.name],
     [$.simple_parameter, $.name],
     [$.variadic_parameter, $.name],
     [$.property_modifier, $._method_modifier],
@@ -57,6 +56,7 @@ module.exports = grammar({
     $._class_type_designator,
     $._simple_assignment_expression,
     $._byref_assignment_expression,
+    $._simple_variable
   ],
 
   extras: $ => [
@@ -126,7 +126,7 @@ module.exports = grammar({
     ),
 
     global_declaration: $ => seq(
-      'global', commaSep1($.simple_variable), $._semicolon
+      'global', commaSep1($._simple_variable), $._semicolon
     ),
 
     namespace_definition: $ => seq(
@@ -705,13 +705,13 @@ module.exports = grammar({
     ),
 
     new_variable: $ => choice(
-      $.simple_variable,
+      $._simple_variable,
       seq($.new_variable, '[', optional($._expression), ']'),
       seq($.new_variable, '{', $._expression, '}'),
       seq($.new_variable, '->', $._member_name),
-      seq($.qualified_name, '::', $.simple_variable),
-      seq($.relative_scope, '::', $.simple_variable),
-      seq($.new_variable, '::', $.simple_variable)
+      seq($.qualified_name, '::', $._simple_variable),
+      seq($.relative_scope, '::', $._simple_variable),
+      seq($.new_variable, '::', $._simple_variable)
     ),
 
     update_expression: $ => prec.left(PREC.INC, choice(
@@ -788,7 +788,7 @@ module.exports = grammar({
     )),
 
     scoped_property_access_expression: $ => prec(PREC.MEMBER, seq(
-      $._scope_resolution_qualifier, '::', $.simple_variable
+      $._scope_resolution_qualifier, '::', $._simple_variable
     )),
 
     list_literal: $ => seq(
@@ -802,7 +802,7 @@ module.exports = grammar({
     ),
 
     _callable_variable: $ => choice(
-      $.simple_variable,
+      $._simple_variable,
       $.subscript_expression,
       $.member_call_expression,
       $.scoped_call_expression,
@@ -854,7 +854,7 @@ module.exports = grammar({
 
     _member_name: $ => choice(
       $.name,
-      $.simple_variable,
+      $._simple_variable,
       seq('{', $._expression, '}')
     ),
 
@@ -898,10 +898,11 @@ module.exports = grammar({
     },
 
     simple_variable: $ => choice(
-      $.variable_name,
-      seq('$', $.simple_variable),
+      seq('$', $._simple_variable),
       seq('$', '{', $._expression, '}')
     ),
+
+    _simple_variable: $ => choice($.simple_variable, $.variable_name),
 
     variable_name: $ => seq('$', $.name),
 

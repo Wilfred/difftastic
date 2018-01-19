@@ -13,4 +13,4 @@ F("echo \"Hello\";");
 
 ---
 
-(program  (function_definition (name) (simple_parameter (variable_name (name))) (compound_statement (expression_statement (eval_intrinsic (simple_variable (variable_name (name))))))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (float)))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (string)))))
+(program  (function_definition (name) (simple_parameter (variable_name (name))) (compound_statement (expression_statement (eval_intrinsic (variable_name (name)))))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (float)))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (string)))))

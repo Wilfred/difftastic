@@ -7,7 +7,7 @@ Testing | and & operators
 ---
 
 (program
-  (expression_statement (assignment_expression (simple_variable (variable_name (name))) (float)))
-  (expression_statement (assignment_expression (simple_variable (variable_name (name))) (float)))
-  (expression_statement (assignment_expression (simple_variable (variable_name (name))) (float)))
-  (echo_statement (binary_expression (simple_variable (variable_name (name))) (binary_expression (simple_variable (variable_name (name))) (simple_variable (variable_name (name)))))))
+  (expression_statement (assignment_expression (variable_name (name)) (float)))
+  (expression_statement (assignment_expression (variable_name (name)) (float)))
+  (expression_statement (assignment_expression (variable_name (name)) (float)))
+  (echo_statement (binary_expression (variable_name (name)) (binary_expression (variable_name (name)) (variable_name (name))))))

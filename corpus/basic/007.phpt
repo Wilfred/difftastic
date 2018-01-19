@@ -7,8 +7,8 @@ Multiply 3 variables and print result
 ---
 
 (program
-  (expression_statement (assignment_expression (simple_variable (variable_name (name))) (float)))
-  (expression_statement (assignment_expression (simple_variable (variable_name (name))) (float)))
-  (expression_statement (assignment_expression (simple_variable (variable_name (name))) (float)))
-  (expression_statement (assignment_expression (simple_variable (variable_name (name))) (binary_expression (binary_expression (simple_variable (variable_name (name))) (simple_variable (variable_name (name)))) (simple_variable (variable_name (name))))))
-  (echo_statement (simple_variable (variable_name (name)))))
+  (expression_statement (assignment_expression (variable_name (name)) (float)))
+  (expression_statement (assignment_expression (variable_name (name)) (float)))
+  (expression_statement (assignment_expression (variable_name (name)) (float)))
+  (expression_statement (assignment_expression (variable_name (name)) (binary_expression (binary_expression (variable_name (name)) (variable_name (name))) (variable_name (name)))))
+  (echo_statement (variable_name (name))))
