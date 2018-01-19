@@ -627,7 +627,7 @@ module.exports = grammar({
       ['~', PREC.NEG],
       ['!', PREC.NEG],
     ].map(([operator, precedence]) =>
-      prec.left(precedence, seq(operator, $._unary_expression))
+      prec.left(precedence, seq(operator, $._expression))
     )),
 
     exponentiation_expression: $ => prec.right(PREC.TIMES, seq(
