@@ -10,17 +10,18 @@ f num1 num2 = num2
 (module
   (type_signature
     (variable_identifier)
-      (function_type
+      (type
         (type_variable)
-        (function_type
+        (type
           (type_variable)
-          (type_variable))))
-  (function_binding
-    (function_lhs
+          (type
+            (type_variable)))))
+  (function_declaration
+    (function_head
       (variable_identifier)
       (variable_identifier)
       (variable_identifier))
-    (function_rhs
+    (function_body
       (variable_identifier))))
 
 =========================================
@@ -35,13 +36,14 @@ f n@num1 x@num2 = x
 (module
   (type_signature
     (variable_identifier)
-      (function_type
+      (type
         (type_variable)
-        (function_type
+        (type
           (type_variable)
-          (type_variable))))
-  (function_binding
-    (function_lhs
+          (type
+            (type_variable)))))
+  (function_declaration
+    (function_head
       (variable_identifier)
       (variable_identifier)
       (variable_symbol)
@@ -49,7 +51,7 @@ f n@num1 x@num2 = x
       (variable_identifier)
       (variable_symbol)
       (variable_identifier))
-    (function_rhs
+    (function_body
       (variable_identifier))))
 
 =========================================
@@ -64,17 +66,18 @@ f _ num2 = num2
 (module
   (type_signature
     (variable_identifier)
-      (function_type
+      (type
         (type_variable)
-        (function_type
+        (type
           (type_variable)
-          (type_variable))))
-  (function_binding
-    (function_lhs
+          (type
+            (type_variable)))))
+  (function_declaration
+    (function_head
       (variable_identifier)
       (wildcard)
       (variable_identifier))
-    (function_rhs
+    (function_body
       (variable_identifier))))
 
 =========================================
@@ -92,36 +95,76 @@ f 1.0 2.0 = 3.0
 (module
   (type_signature
     (variable_identifier)
-      (function_type
+      (type
         (type_variable)
-        (function_type
+        (type
           (type_variable)
-          (type_variable))))
-  (function_binding
-    (function_lhs
+          (type
+            (type_variable)))))
+  (function_declaration
+    (function_head
       (variable_identifier)
       (integer)
       (integer))
-    (function_rhs
+    (function_body
       (integer)))
-  (function_binding
-    (function_lhs
+  (function_declaration
+    (function_head
       (variable_identifier)
       (string)
       (string))
-    (function_rhs
+    (function_body
       (string)))
-  (function_binding
-    (function_lhs
+  (function_declaration
+    (function_head
       (variable_identifier)
       (char)
       (char))
-    (function_rhs
+    (function_body
       (char)))
-  (function_binding
-    (function_lhs
+  (function_declaration
+    (function_head
       (variable_identifier)
       (float)
       (float))
-    (function_rhs
+    (function_body
       (float))))
+
+
+=========================================
+Function Declarations With Field Labels
+=========================================
+
+f :: Ex -> Int
+f Ex { a = 1 } = 1
+f Ex { b = 1 } = 1
+
+---
+
+(module
+  (type_signature
+    (variable_identifier)
+    (type
+      (type_constructor)
+      (type
+        (type_constructor))))
+  (function_declaration
+    (function_head
+      (variable_identifier)
+      (constructor_identifier)
+      (labels
+        (label
+          (variable_identifier)
+          (integer))))
+    (function_body
+      (integer)))
+  (function_declaration
+    (function_head
+      (variable_identifier)
+      (constructor_identifier)
+      (labels
+        (label
+          (variable_identifier)
+          (integer))))
+    (function_body
+      (integer))))
