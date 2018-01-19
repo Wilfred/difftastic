@@ -326,6 +326,10 @@ module.exports = grammar({
       '->',
       choice($._type, repeat1(alias($.variable_identifier, $.type_variable)))
     )),
+    unit_type: $ => '()',
+    list_constructor: $ => '[]',
+    function_constructor: $ => '(->)',
+    tupling_constructor: $ => seq('(', ',', repeat(','), ')'),
 
     algebraic_datatype: $ => seq(
       'data',
