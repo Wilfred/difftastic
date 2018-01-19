@@ -11,4 +11,4 @@ echo $_POST['a']; ?>
     (echo_statement
       (subscript_expression
         (dereferencable_expression
-          (simple_variable (variable_name (name)))) (string))))
+          (variable_name (name))) (string))))
