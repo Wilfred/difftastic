@@ -445,6 +445,14 @@ module.exports = grammar({
 
     constructor_identifier: $ => $._constructor_pattern,
     _constructor_pattern: $ => /[A-Z](\w|'|)*|\[.*\]|\([,]*\)|\(->\)/,
+    _type_constructors: $ => prec.right(choice(
+      $.qualified_type_constructor,
+      seq(
+        alias($._constructor_pattern, $.type_constructor),
+        repeat($.variable_identifier)
+      )
+    )),
+
     qualified_type_constructor: $ => prec.right(seq(
       $.module_identifier,
       repeat(seq('.', $.module_identifier)),
