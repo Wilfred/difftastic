@@ -137,7 +137,7 @@ module.exports = grammar({
       seq($._variable, repeat1($._function_pattern))
     )),
 
-    function_rhs: $ => seq(
+    function_body: $ => seq(
       '=',
       repeat(choice($._identifier, $._literal))
     ),
