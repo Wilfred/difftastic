@@ -313,19 +313,16 @@ module.exports = grammar({
       $._type
     ),
 
-    _type: $ => choice(
-      $.simple_type,
-      $.function_type
-    ),
-
-    function_type: $ => prec.right(seq(
+    type: $ => seq(
       choice(
-        repeat1(alias($.variable_identifier, $.type_variable)),
-        $.simple_type
+        $._generic_type_constructor,
+        alias($.variable_identifier, $.type_variable),
+        $.tuple,
+        $.list,
+        $.parenthesized_constructor
       ),
-      '->',
-      choice($._type, repeat1(alias($.variable_identifier, $.type_variable)))
-    )),
+      optional(seq('->', $.type))
+    ),
     unit_type: $ => '()',
     list_constructor: $ => '[]',
     function_constructor: $ => '(->)',
