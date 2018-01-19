@@ -429,8 +429,7 @@ module.exports = grammar({
 
     _identifier: $ => prec(1, choice(
       $.variable_identifier,
-      $.constructor_identifier,
-      $.module_identifier
+      $.constructor_identifier
     )),
 
     simple_type: $ => prec.right(seq(
