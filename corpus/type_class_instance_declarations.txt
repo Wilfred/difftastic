@@ -62,16 +62,18 @@ instance Foo a where {
       (type_signature
         (variable_identifier)
         (context (class (constructor_identifier) (variable_identifier)))
-        (function_type
+        (type
           (type_variable)
-          (function_type
+          (type
             (type_variable)
-            (type_variable))))
+            (type
+              (type_variable)))))
       (type_signature
         (variable_identifier)
         (context (class (constructor_identifier) (variable_identifier)) (class (constructor_identifier) (variable_identifier)))
-        (function_type
+        (type
           (type_variable)
-          (function_type
+          (type
             (type_variable)
-            (type_variable)))))))
+            (type
+              (type_variable))))))))
