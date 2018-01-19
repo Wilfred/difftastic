@@ -20,3 +20,14 @@ $foo = new self();
 
 (program (expression_statement (assignment_expression (simple_variable (variable_name (name))) (object_creation_expression (qualified_name (name)) (arguments)))))
 
+==========
+Unary op with assignment expressions
+==========
+
+<?php
+
+if (!$foo = $bar) {
+}
+
+---
+(program (if_statement (unary_op_expression (assignment_expression (simple_variable (variable_name (name))) (simple_variable (variable_name (name))))) (compound_statement)))
