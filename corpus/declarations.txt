@@ -16,28 +16,28 @@ type Z = (->)
 (module
   (type_synonym
     (simple_type (type_constructor))
-    (simple_type (type_constructor)))
+    (type (type_constructor)))
   (type_synonym
     (simple_type (type_constructor))
-    (simple_type (type_constructor)))
+    (type (list_constructor)))
   (type_synonym
     (simple_type (type_constructor) (type_variable (variable_identifier)))
-    (simple_type (type_constructor) (type_variable (variable_identifier))))
+    (type (type_constructor) (variable_identifier)))
   (type_synonym
     (simple_type (type_constructor) (type_variable (variable_identifier)))
-    (simple_type (type_constructor)))
+    (type (list (type (type_constructor) (variable_identifier)))))
   (type_synonym
     (simple_type (type_constructor))
-    (simple_type (type_constructor)))
+    (type (unit_type)))
   (type_synonym
     (simple_type (type_constructor))
-    (simple_type (type_constructor)))
+    (type (tupling_constructor)))
   (type_synonym
     (simple_type (type_constructor))
-    (simple_type (type_constructor)))
+    (type (tupling_constructor)))
   (type_synonym
     (simple_type (type_constructor))
-    (simple_type (type_constructor))))
+    (type (function_constructor))))
 
 =========================================
 New Type Declarations
