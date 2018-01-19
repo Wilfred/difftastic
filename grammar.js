@@ -150,6 +150,13 @@ module.exports = grammar({
       // $.parenthesized_pattern,
     )),
 
+    labels: $ => repeat1($.label),
+
+    label: $ => seq(
+      $._identifier,
+      '=',
+      $._literal
+    ),
 
     _fpat: $ => seq($._identifier, '=', $._pat),
 
