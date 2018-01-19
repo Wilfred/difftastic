@@ -137,7 +137,6 @@ Function Declarations With Field Labels
 
 f :: Ex -> Int
 f Ex { a = 1 } = 1
-f Ex { b = 1 } = 1
 
 ---
 
@@ -148,16 +147,6 @@ f Ex { b = 1 } = 1
       (type_constructor)
       (type
         (type_constructor))))
-  (function_declaration
-    (function_head
-      (variable_identifier)
-      (constructor_identifier)
-      (labels
-        (label
-          (variable_identifier)
-          (integer))))
-    (function_body
-      (integer)))
   (function_declaration
     (function_head
       (variable_identifier)
