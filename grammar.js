@@ -133,8 +133,8 @@ module.exports = grammar({
       $.function_body
     ),
 
-    function_lhs: $ => prec.left(choice(
-      seq($._var, repeat1($._abstract_pattern))
+    function_head: $ => prec.left(choice(
+      seq($._variable, repeat1($._function_pattern))
     )),
 
     function_rhs: $ => seq(
