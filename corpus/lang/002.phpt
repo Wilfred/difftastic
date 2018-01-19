@@ -12,4 +12,4 @@ while ($a<10) {
 
 ---
 
-(program  (expression_statement (assignment_expression (simple_variable (variable_name (name))) (float))) (while_statement (binary_expression (simple_variable (variable_name (name))) (integer)) (compound_statement (echo_statement (simple_variable (variable_name (name)))) (expression_statement (update_expression (simple_variable (variable_name (name))))))))
+(program  (expression_statement (assignment_expression (variable_name (name)) (float))) (while_statement (binary_expression (variable_name (name)) (integer)) (compound_statement (echo_statement (variable_name (name))) (expression_statement (update_expression (variable_name (name)))))))

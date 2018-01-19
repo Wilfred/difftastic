@@ -11,4 +11,4 @@ echo "Done\n";
 
 ---
 
-(program  (expression_statement (function_call_expression (qualified_name (name)) (arguments (simple_variable (variable_name (name)))))) (echo_statement (string)))
+(program  (expression_statement (function_call_expression (qualified_name (name)) (arguments (variable_name (name))))) (echo_statement (string)))

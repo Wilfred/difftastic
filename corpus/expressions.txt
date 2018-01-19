@@ -7,7 +7,7 @@ $foo = 2 ** 2;
 
 ---
 
-(program (expression_statement (assignment_expression (simple_variable (variable_name (name))) (exponentiation_expression (float) (float)))))
+(program (expression_statement (assignment_expression (variable_name (name)) (exponentiation_expression (float) (float)))))
 
 ==========
 Reserved Identifiers as Names
@@ -18,7 +18,7 @@ $foo = new self();
 
 ---
 
-(program (expression_statement (assignment_expression (simple_variable (variable_name (name))) (object_creation_expression (qualified_name (name)) (arguments)))))
+(program (expression_statement (assignment_expression (variable_name (name)) (object_creation_expression (qualified_name (name)) (arguments)))))
 
 ==========
 Unary op with assignment expressions
@@ -30,4 +30,4 @@ if (!$foo = $bar) {
 }
 
 ---
-(program (if_statement (unary_op_expression (assignment_expression (simple_variable (variable_name (name))) (simple_variable (variable_name (name))))) (compound_statement)))
+(program (if_statement (unary_op_expression (assignment_expression (variable_name (name)) (variable_name (name)))) (compound_statement)))
