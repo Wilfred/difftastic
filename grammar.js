@@ -141,8 +141,8 @@ module.exports = grammar({
       repeat(choice($._identifier, $._literal))
     ),
 
-    _abstract_pattern: $ => prec.left(choice(
-      seq($._var, optional(seq('@', $._abstract_pattern))),
+    _function_pattern: $ => prec.left(choice(
+      seq($._variable, optional(seq('@', $._function_pattern))),
       // seq($._identifier, optional(commaSep1($._fpat))
       $._literal,
       $.wildcard,
@@ -175,9 +175,9 @@ module.exports = grammar({
     ),
 
     _lpat: $ => prec(1, choice(
-      $._abstract_pattern,
+      $._function_pattern,
       seq('-','(',$._literal,')'),
-      seq($._identifier, repeat1($._abstract_pattern))
+      seq($._identifier, repeat1($._function_pattern))
     )),
 
     wildcard: $ => '_',
