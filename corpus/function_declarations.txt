@@ -1,6 +1,6 @@
-=========================================
-Function Declarations
-=========================================
+=================================================
+Function Declarations With Type Variables
+=================================================
 
 f :: a -> a -> a
 f num1 num2 = num2
@@ -24,9 +24,32 @@ f num1 num2 = num2
     (function_body
       (variable_identifier))))
 
-=========================================
+=================================================
+Function Declarations With Simple Constructors
+=================================================
+
+f :: Ex -> Ex
+f Ex = Ex
+
+---
+
+(module
+  (type_signature
+    (variable_identifier)
+    (type
+      (type_constructor)
+      (type
+        (type_constructor))))
+  (function_declaration
+    (function_head
+      (variable_identifier)
+      (constructor_identifier))
+    (function_body
+      (constructor_identifier))))
+
+=================================================
 Function Declarations With @
-=========================================
+=================================================
 
 f :: a -> a -> a
 f n@num1 x@num2 = x
@@ -54,9 +77,9 @@ f n@num1 x@num2 = x
     (function_body
       (variable_identifier))))
 
-=========================================
+=================================================
 Function Declarations With _ (wildcard)
-=========================================
+=================================================
 
 f :: a -> a -> a
 f _ num2 = num2
@@ -80,9 +103,9 @@ f _ num2 = num2
     (function_body
       (variable_identifier))))
 
-=========================================
+=================================================
 Function Declarations With Literals
-=========================================
+=================================================
 
 f :: a -> a -> a
 f 1 2 = 3
@@ -131,9 +154,9 @@ f 1.0 2.0 = 3.0
       (float))))
 
 
-=========================================
+=================================================
 Function Declarations With Field Labels
-=========================================
+=================================================
 
 f :: Ex -> Int
 f Ex { a = 1 } = 1
@@ -172,32 +195,9 @@ f Ex { a = 1, b = 2 } = 2
     (function_body
       (integer))))
 
-=========================================
-Function Declarations With Simple Constructors
-=========================================
-
-f :: Ex -> Ex
-f Ex = Ex
-
----
-
-(module
-  (type_signature
-    (variable_identifier)
-    (type
-      (type_constructor)
-      (type
-        (type_constructor))))
-  (function_declaration
-    (function_head
-      (variable_identifier)
-      (constructor_identifier))
-    (function_body
-      (constructor_identifier))))
-
-=========================================
+=================================================
 Function Declarations With Field Labels And @
-=========================================
+=================================================
 
 f c@Ex { a = 1 } = c
 
