@@ -175,8 +175,13 @@ module.exports = grammar({
 
     wildcard: $ => '_',
 
-    _var: $ => choice(
+    _variable: $ => choice(
       $.variable_identifier,
+      $.qualified_variable_identifier,
+      $.variable_symbol,
+      $.qualified_variable_symbol
+    ),
+
     qualified_variable_identifier: $ => seq(
       $._constructor_pattern,
       $._variable_pattern
@@ -189,7 +194,7 @@ module.exports = grammar({
 
     _expression: $ => choice(
       $._literal,
-      $.variable_identifier,
+      $._variable,
       $.do_expression
     ),
 
