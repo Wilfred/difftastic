@@ -13,6 +13,7 @@ const PREC = {
   NOT: 8,
   NEG: 9,
   NAMESPACE: 9,
+  SCOPE: 9,
   INC: 10,
   NEW: 11,
   CALL: 12,
@@ -154,7 +155,7 @@ module.exports = grammar({
     ),
 
     qualified_name: $ => seq(
-      optional($.namespace_name_as_prefix), $.name
+      optional($.namespace_name_as_prefix), choice($.name, alias($._reserved_identifier, $.name))
     ),
 
     namespace_name_as_prefix: $ => choice(
@@ -318,7 +319,7 @@ module.exports = grammar({
     ),
 
     _function_definition_header: $ => seq(
-      'function', optional('&'), $.name, $._parameters, optional($.return_type)
+      'function', optional('&'), choice($.name, alias($._reserved_identifier, $.name)), $._parameters, optional($.return_type)
     ),
 
     _parameters: $ => seq(
@@ -375,7 +376,7 @@ module.exports = grammar({
     ),
 
     const_element: $ => seq(
-      $.name, '=', $._expression
+      choice($.name, alias($._reserved_identifier, $.name)), '=', $._expression
     ),
 
     echo_statement: $ => seq(
@@ -653,7 +654,7 @@ module.exports = grammar({
     ),
 
     class_constant_access_expression: $ => seq(
-      $._scope_resolution_qualifier, '::', $.name
+      $._scope_resolution_qualifier, '::', choice($.name, alias($._reserved_identifier, $.name))
     ),
 
     intrinsic: $ => choice(
@@ -829,11 +830,11 @@ module.exports = grammar({
       $.dereferencable_expression
     ),
 
-    relative_scope: $ => choice(
+    relative_scope: $ => prec(PREC.SCOPE, choice(
       'self',
       'parent',
       'static'
-    ),
+    )),
 
     arguments: $ => seq(
       '(',
@@ -970,6 +971,11 @@ module.exports = grammar({
     name: $ => {
       return /[_a-zA-Z\u0080-\u00ff][_a-zA-Z\u0080-\u00ff\d]*/
     },
+
+    _reserved_identifier: $ => choice(
+      'self',
+      'parent',
+    ),
 
     comment: $ => token(choice(
       seq(choice('//', '#'), /.*/),
