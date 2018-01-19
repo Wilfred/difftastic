@@ -171,3 +171,26 @@ f Ex { a = 1, b = 2 } = 2
           (integer))))
     (function_body
       (integer))))
+
+=========================================
+Function Declarations With Simple Constructors
+=========================================
+
+f :: Ex -> Ex
+f Ex = Ex
+
+---
+
+(module
+  (type_signature
+    (variable_identifier)
+    (type
+      (type_constructor)
+      (type
+        (type_constructor))))
+  (function_declaration
+    (function_head
+      (variable_identifier)
+      (constructor_identifier))
+    (function_body
+      (constructor_identifier))))
