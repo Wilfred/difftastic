@@ -150,7 +150,7 @@ module.exports = grammar({
       // seq($._identifier, optional(commaSep1($._fpat))
       $._literal,
       $.wildcard,
-      repeat1($._identifier),
+      $._identifier,
       seq(choice($._identifier, $.simple_type), '{', optional($.labels), '}')
       // $.parenthesized_pattern,
     )),
