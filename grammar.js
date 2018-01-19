@@ -122,6 +122,7 @@ module.exports = grammar({
       $.foreign,
       $.function_declaration,
       $._general_declaration,
+      $._identifier,
 
       // TODO - remove
       $._expression
