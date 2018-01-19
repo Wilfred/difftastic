@@ -146,13 +146,19 @@ module.exports = grammar({
     ),
 
     _function_pattern: $ => prec.left(choice(
-      seq($._variable, optional(seq('@', $._function_pattern))),
+      $.as_pattern,
       // seq($._identifier, optional(commaSep1($._fpat))
       $._literal,
       $.wildcard,
       $._identifier,
       seq(choice($._identifier, $.simple_type), '{', optional($.labels), '}')
       // $.parenthesized_pattern,
+    )),
+
+    as_pattern: $ => prec(1, seq(
+      $._variable,
+      '@',
+      $._function_pattern
     )),
 
     labels: $ => commaSep1($.label),

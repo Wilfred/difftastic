@@ -45,12 +45,12 @@ f n@num1 x@num2 = x
   (function_declaration
     (function_head
       (variable_identifier)
-      (variable_identifier)
-      (variable_symbol)
-      (variable_identifier)
-      (variable_identifier)
-      (variable_symbol)
-      (variable_identifier))
+      (as_pattern
+        (variable_identifier)
+        (variable_identifier))
+      (as_pattern
+        (variable_identifier)
+        (variable_identifier)))
     (function_body
       (variable_identifier))))
 
@@ -194,3 +194,25 @@ f Ex = Ex
       (constructor_identifier))
     (function_body
       (constructor_identifier))))
+
+=========================================
+Function Declarations With Field Labels And @
+=========================================
+
+f c@Ex { a = 1 } = c
+
+---
+
+(module
+  (function_declaration
+    (function_head
+      (variable_identifier)
+      (as_pattern
+        (variable_identifier)
+        (constructor_identifier)
+        (labels
+          (label
+            (variable_identifier)
+            (integer)))))
+    (function_body
+      (variable_identifier))))
