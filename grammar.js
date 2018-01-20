@@ -227,7 +227,7 @@ module.exports = grammar({
 
     qualified_variable_symbol: $ => seq(
       $._constructor_pattern,
-      $.variable_symbol
+      $._variable_symbol
     ),
 
     _expression: $ => choice(
