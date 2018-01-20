@@ -216,3 +216,44 @@ f c@Ex { a = 1 } = c
             (integer)))))
     (function_body
       (variable_identifier))))
+
+
+=================================================
+Function Declarations With Parenthesized Pattern
+=================================================
+
+f (1) = 1
+f (-(1)) = 1
+f (Example a b c) = a
+-- f (1 : []) = 2
+
+---
+
+(module
+  (function_declaration
+    (function_head
+      (variable_identifier)
+      (parenthesized_pattern
+        (integer)))
+    (function_body
+      (integer)))
+  (function_declaration
+    (function_head
+      (variable_identifier)
+      (parenthesized_pattern
+        (negative_literal
+          (integer))))
+      (function_body
+        (integer)))
+  (function_declaration
+    (function_head
+      (variable_identifier)
+      (parenthesized_pattern
+        (general_constructor
+          (constructor_identifier)
+          (variable_identifier)
+          (variable_identifier)
+          (variable_identifier))))
+    (function_body
+      (variable_identifier)))
+  (comment))
