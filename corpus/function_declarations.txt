@@ -225,7 +225,7 @@ Function Declarations With Parenthesized Pattern
 f (1) = 1
 f (-(1)) = 1
 f (Example a b c) = a
--- f (1 : []) = 2
+f (a :<: f) = 2
 
 ---
 
@@ -256,4 +256,12 @@ f (Example a b c) = a
           (variable_identifier))))
     (function_body
       (variable_identifier)))
-  (comment))
+  (function_declaration
+    (function_head
+      (variable_identifier)
+      (parenthesized_pattern
+        (variable_identifier)
+        (constructor_symbol)
+        (variable_identifier)))
+    (function_body
+      (integer))))
