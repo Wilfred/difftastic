@@ -150,9 +150,32 @@ module.exports = grammar({
       $._literal,
       $.wildcard,
       $._identifier,
-      seq(choice($._identifier, $.simple_type), '{', optional($.labels), '}')
-      // $.parenthesized_pattern,
-    )),
+      seq(choice($._identifier, $.simple_type), '{', optional($.labels), '}'),
+      $.parenthesized_pattern
+    ),
+
+    parenthesized_pattern: $ => seq(
+      '(',
+      choice(
+        $._function_pattern,
+        $.negative_literal,
+        $.general_constructor
+      ),
+      optional(seq($._op, $._function_pattern)),
+      ')'
+    ),
+
+    negative_literal: $ => seq(
+      '-',
+      '(',
+      $._literal,
+      ')'
+    ),
+
+    general_constructor: $ => seq(
+      $.constructor_identifier,
+      repeat1($.variable_identifier)
+    ),
 
     as_pattern: $ => prec(1, seq(
       $._variable,
