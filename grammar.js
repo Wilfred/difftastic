@@ -147,7 +147,6 @@ module.exports = grammar({
 
     _function_pattern: $ => choice(
       $.as_pattern,
-      // seq($._identifier, optional(commaSep1($._fpat))
       $._literal,
       $.wildcard,
       $._identifier,
