@@ -145,7 +145,7 @@ module.exports = grammar({
       repeat(choice($._identifier, $._literal))
     ),
 
-    _function_pattern: $ => prec.left(choice(
+    _function_pattern: $ => choice(
       $.as_pattern,
       // seq($._identifier, optional(commaSep1($._fpat))
       $._literal,
