@@ -142,7 +142,7 @@ module.exports = grammar({
       $.struct_item,
       $.type_item,
       $.function_item,
-      $.impl_item,
+      $.impl_item
     ),
 
     attribute_item: $ => seq(
