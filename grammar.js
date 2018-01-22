@@ -406,7 +406,8 @@ module.exports = grammar({
     generic_function: $ => seq(
       choice(
         $.identifier,
-        $.scoped_identifier
+        $.scoped_identifier,
+        $.field_expression
       ),
       '::',
       $.type_arguments
@@ -466,7 +467,6 @@ module.exports = grammar({
       $.self,
       $.scoped_identifier,
       $.generic_function,
-      $.method_call_expression,
       $.field_expression,
       $.array_expression,
       $.tuple_expression,
@@ -797,8 +797,6 @@ module.exports = grammar({
       '.',
       choice($.identifier, alias($._integer_literal, $.number_literal))
     )),
-
-    method_call_expression: $ => prec(PREC.call, seq($._expression, '.', $.identifier, $.arguments)),
 
     parameters: $ => seq(
       '(',
