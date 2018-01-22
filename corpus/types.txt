@@ -8,3 +8,20 @@ type A = &B;
 
 (source_file
   (type_item (type_identifier) (reference_type (type_identifier))))
+
+=====================
+Generic types
+=====================
+
+type A = B<C>;
+type D = E<F, str>;
+
+---
+
+(source_file
+  (type_item
+    (type_identifier)
+    (generic_type (type_identifier) (type_arguments (type_identifier))))
+  (type_item
+    (type_identifier)
+    (generic_type (type_identifier) (type_arguments (type_identifier) (primitive_type)))))

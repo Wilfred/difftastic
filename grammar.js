@@ -250,6 +250,7 @@ module.exports = grammar({
 
     _type_expression: $ => choice(
       $.reference_type,
+      $.generic_type,
       alias($.identifier, $.type_identifier),
       alias(choice(
         integer_type,
@@ -258,6 +259,17 @@ module.exports = grammar({
         'str',
         'char'
       ), $.primitive_type)
+    ),
+
+    generic_type: $ => prec(1, seq(
+      alias($.identifier, $.type_identifier),
+      $.type_arguments
+    )),
+
+    type_arguments: $ => seq(
+      '<',
+      sepBy1(',', $._type_expression),
+      '>'
     ),
 
     reference_type: $ => seq(
