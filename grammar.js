@@ -368,6 +368,8 @@ module.exports = grammar({
       $.reference_type,
       $.generic_type,
       $.scoped_type_identifier,
+      $.tuple_type,
+      $.unit_type,
       alias($.identifier, $.type_identifier),
       alias(choice(
         numeric_type,
@@ -376,6 +378,14 @@ module.exports = grammar({
         'char'
       ), $.primitive_type)
     ),
+
+    tuple_type: $ => seq(
+      '(',
+      sepBy1(',', $._type_expression),
+      ')'
+    ),
+
+    unit_type: $ => seq('(', ')'),
 
     generic_function: $ => seq(
       choice(
