@@ -33,24 +33,30 @@ type G = H<'a, I>;
     (generic_type (type_identifier) (type_arguments (lifetime (identifier)) (type_identifier)))))
 
 =====================
-Type paths
+Scoped types
 =====================
 
 type A = B::C;
 type D = E::F::G;
 type H = I::J<K>;
+type L = M<N>::O;
 
 ---
 
 (source_file
   (type_item
     (type_identifier)
-    (scoped_type (path (identifier)) (type_identifier)))
+    (scoped_type_identifier (identifier) (type_identifier)))
   (type_item
     (type_identifier)
-    (scoped_type (path (identifier)) (path (identifier)) (type_identifier)))
+    (scoped_type_identifier (scoped_identifier (identifier) (identifier)) (type_identifier)))
   (type_item
     (type_identifier)
     (generic_type
-      (scoped_type (path (identifier)) (type_identifier))
-      (type_arguments (type_identifier)))))
+      (scoped_identifier (identifier) (identifier))
+      (type_arguments (type_identifier))))
+  (type_item
+    (type_identifier)
+    (scoped_type_identifier
+      (generic_type (type_identifier) (type_arguments (type_identifier)))
+      (type_identifier))))
