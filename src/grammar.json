@@ -3389,5 +3389,6 @@
     }
   ],
   "conflicts": [],
-  "externals": []
+  "externals": [],
+  "inline": []
 }
