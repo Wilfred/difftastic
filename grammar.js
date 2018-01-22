@@ -134,11 +134,13 @@ module.exports = grammar({
         seq(
           '{',
           sepBy(',', seq($.identifier, ':', $._type_expression)),
+          optional(','),
           '}'
         ),
         seq(
           '(',
           sepBy(',', $._type_expression),
+          optional(','),
           ')',
           ';'
         )
