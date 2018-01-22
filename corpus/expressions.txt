@@ -38,7 +38,7 @@ Reference expressions
 
 (source_file
   (reference_expression (identifier))
-  (reference_expression (field_expression (self) (identifier))))
+  (reference_expression (mutable_specifier) (field_expression (self) (identifier))))
 
 ============================================
 Binary operator expressions
@@ -424,3 +424,36 @@ std::sizeof::<u32>();
   (call_expression
     (generic_function (scoped_identifier (identifier) (identifier)) (type_arguments (primitive_type)))
     (arguments)))
+
+===========================================
+Closures
+===========================================
+
+a.map(|b| c.push(b));
+d.map(|mut e| {
+    f(e);
+    g(e)
+});
+
+---
+
+(source_file
+  (method_call_expression
+    (identifier)
+    (identifier)
+    (arguments
+      (closure_expression
+        (closure_parameters (closure_parameter (identifier)))
+        (method_call_expression
+          (identifier)
+          (identifier)
+          (arguments (identifier))))))
+  (method_call_expression
+    (identifier)
+    (identifier)
+    (arguments
+      (closure_expression
+        (closure_parameters (closure_parameter (mutable_specifier) (identifier)))
+        (block
+          (call_expression (identifier) (arguments (identifier)))
+          (call_expression (identifier) (arguments (identifier))))))))
