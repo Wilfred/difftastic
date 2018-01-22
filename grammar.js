@@ -297,7 +297,7 @@ module.exports = grammar({
     ),
 
     reference_type: $ => seq(
-      '&', $._type_expression
+      '&', optional($.lifetime), $._type_expression
     ),
 
     mutable_specifier: $ => 'mut',
