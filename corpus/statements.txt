@@ -160,6 +160,29 @@ struct C<'a, 'b> {}
     (type_parameters (lifetime (identifier)) (lifetime (identifier)))))
 
 ============================================
+Generic functions
+============================================
+
+pub fn splice<T: Into<Text>>(&mut self, old_range: Range<usize>, new_text: T) {
+}
+
+---
+
+(source_file
+  (function_item
+    (visibility_modifier)
+    (identifier)
+    (type_parameters
+      (constrained_type_parameter
+        (type_identifier)
+        (generic_type (type_identifier) (type_arguments (type_identifier)))))
+    (parameters
+      (self_parameter (self))
+      (parameter (identifier) (generic_type (type_identifier) (type_arguments (primitive_type))))
+      (parameter (identifier) (type_identifier)))
+    (block)))
+
+============================================
 Constant items
 ============================================
 
