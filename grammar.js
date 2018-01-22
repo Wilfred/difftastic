@@ -408,16 +408,18 @@ module.exports = grammar({
 
     _no_struct_literal_expr: $ => prec.left(choice(
       $.unary_expression,
+      $.reference_expression,
       $.binary_expression,
       $.range_expression,
       $.call_expression,
       $.return_expression,
       $._literal,
       $.identifier,
+      $.self,
       $.scoped_identifier,
       $.generic_function,
       $.method_call_expression,
-      $._field_expression,
+      $.field_expression,
       $.array_expression,
       $.tuple_expression,
       $.macro_invocation,
@@ -477,7 +479,13 @@ module.exports = grammar({
     )),
 
     unary_expression: $ => prec(PREC.unary, seq(
-      choice('-', '*', '!', '&', '&mut'),
+      choice('-', '*', '!'),
+      $._expression
+    )),
+
+    reference_expression: $ => prec(PREC.unary, seq(
+      '&',
+      optional('mut'),
       $._expression
     )),
 
@@ -709,7 +717,7 @@ module.exports = grammar({
 
     identifier: $ => /[a-zA-Z_][\w]*/,
 
-    _field_expression: $ => prec(PREC.field, seq($._expression, '.', $.identifier)),
+    field_expression: $ => prec(PREC.field, seq($._expression, '.', $.identifier)),
 
     method_call_expression: $ => prec(PREC.method_call, seq($._expression, '.', $.identifier, $.arguments)),
 
