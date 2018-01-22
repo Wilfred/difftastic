@@ -183,6 +183,21 @@ pub fn splice<T: Into<Text>>(&mut self, old_range: Range<usize>, new_text: T) {
     (block)))
 
 ============================================
+Functions with mutable parameters
+============================================
+
+fn foo(mut x : u32) {
+}
+
+---
+
+(source_file
+  (function_item
+    (identifier)
+    (parameters (parameter (identifier) (primitive_type)))
+    (block)))
+
+============================================
 Constant items
 ============================================
 
