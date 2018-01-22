@@ -163,12 +163,11 @@ module.exports = grammar({
       ')'
     ),
 
-    _pattern: $ => choice(
-      $._function_pattern,
+    _pattern: $ => prec.right(1, choice(
       $.negative_literal,
       $.general_constructor,
       seq($._function_pattern, $._op, $._function_pattern)
-    ),
+    )),
 
     negative_literal: $ => seq(
       '-',
