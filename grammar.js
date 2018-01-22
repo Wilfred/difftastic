@@ -741,6 +741,7 @@ module.exports = grammar({
     ),
 
     parameter: $ => seq(
+      optional('mut'),
       $.identifier,
       ':',
       $._type_expression
