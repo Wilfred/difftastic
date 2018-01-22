@@ -154,7 +154,9 @@ module.exports = grammar({
       $.struct_item,
       $.type_item,
       $.function_item,
-      $.impl_item
+      $.function_signature_item,
+      $.impl_item,
+      $.trait_item
     ),
 
     attribute_item: $ => seq(
@@ -275,6 +277,19 @@ module.exports = grammar({
       $.block
     ),
 
+    function_signature_item: $ => seq(
+      optional($.visibility_modifier),
+      'fn',
+      $.identifier,
+      optional($.type_parameters),
+      $.parameters,
+      optional(choice(
+        seq('->', $._type_expression)),
+        '!'
+      ),
+      ';'
+    ),
+
     impl_item: $ => seq(
       'impl',
       optional($.type_parameters),
@@ -287,6 +302,24 @@ module.exports = grammar({
       '{',
       repeat($._item),
       '}'
+    ),
+
+    trait_item: $ => seq(
+      optional($.visibility_modifier),
+      'trait',
+      choice(
+        alias($.identifier, $.type_identifier),
+        $.scoped_type_identifier
+      ),
+      optional($.trait_bounds),
+      '{',
+      repeat($._item),
+      '}'
+    ),
+
+    trait_bounds: $ => seq(
+      ':',
+      sepBy1('+', $._type_expression)
     ),
 
     impl_for_clause: $ => seq(

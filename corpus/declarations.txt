@@ -340,3 +340,26 @@ impl ConvertTo<i64> for i32 {
       (primitive_type)
       (block
         (binary_expression (type_cast_expression (unary_expression (self)) (primitive_type)))))))
+
+============================================
+Trait declarations
+============================================
+
+pub trait Item: Clone + Eq + fmt::Debug {
+    fn summarize(&self) -> Self::Summary;
+}
+
+---
+
+(source_file
+  (trait_item
+    (visibility_modifier)
+    (type_identifier)
+    (trait_bounds
+      (type_identifier)
+      (type_identifier)
+      (scoped_type_identifier (identifier) (type_identifier)))
+    (function_signature_item
+      (identifier)
+      (parameters (self_parameter (self)))
+      (scoped_type_identifier (identifier) (type_identifier)))))
