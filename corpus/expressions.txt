@@ -188,7 +188,7 @@ let (x, y, z) = (1, 2, 3);
   (unit_expression)
   (tuple_expression (number_literal))
   (let_declaration
-    (identifier) (identifier) (identifier)
+    (tuple_pattern (identifier) (identifier) (identifier))
     (tuple_expression (number_literal) (number_literal) (number_literal))))
 
 ============================================
@@ -254,7 +254,10 @@ if let ("Bacon", b) = dish {
 ---
 
 (source_file
-  (if_let_expression (string_literal) (identifier) (identifier) (block)))
+  (if_let_expression
+    (tuple_pattern (string_literal) (identifier))
+    (identifier)
+    (block)))
 
 ============================================
 Match expressions

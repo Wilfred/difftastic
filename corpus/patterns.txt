@@ -1,0 +1,19 @@
+=================================
+Tuple struct patterns
+=================================
+
+match x {
+  Some(x) => "some",
+  std::None() => "none"
+}
+
+---
+
+(source_file
+  (match_expression (identifier)
+    (match_arm
+      (match_pattern (tuple_struct_pattern (identifier) (identifier)))
+      (string_literal))
+    (match_arm
+      (match_pattern (tuple_struct_pattern (scoped_identifier (identifier) (identifier))))
+      (string_literal))))

@@ -342,12 +342,25 @@ module.exports = grammar({
     _pattern: $ => choice(
       $._literal,
       $.identifier,
-      seq(
-        '(',
-        sepBy(',', choice($._literal, $.identifier)),
-        ')'
-      ),
+      $.tuple_pattern,
+      $.tuple_struct_pattern,
       '_'
+    ),
+
+    tuple_pattern: $ => seq(
+      '(',
+      sepBy(',', $._pattern),
+      ')'
+    ),
+
+    tuple_struct_pattern: $ => seq(
+      choice(
+        $.identifier,
+        $.scoped_identifier
+      ),
+      '(',
+      sepBy(',', $._pattern),
+      ')'
     ),
 
     _type_expression: $ => choice(
@@ -599,17 +612,15 @@ module.exports = grammar({
       'match',
       $._no_struct_literal_expr,
       '{',
-      repeat($.match_arm),
+      sepBy(',', $.match_arm),
+      optional(','),
       '}'
     ),
 
     match_arm: $ => seq(
       $.match_pattern,
       '=>',
-      choice(
-        seq($._expression, ','),
-        $.block
-      )
+      choice($._expression, $.block)
     ),
 
     match_pattern: $ => seq(
