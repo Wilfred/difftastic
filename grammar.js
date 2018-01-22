@@ -1,5 +1,5 @@
 const PREC = {
-  method_call: 14,
+  call: 14,
   field: 13,
   control_flow_statement: 12,
   unary: 11,
@@ -13,7 +13,8 @@ const PREC = {
   and: 3,
   or: 2,
   range: 1,
-  assign: 0
+  assign: 0,
+  closure: -1,
 }
 
 const numeric_type = choice(
@@ -455,6 +456,7 @@ module.exports = grammar({
       $.continue_expression,
       $._index_expression,
       $.metavariable,
+      $.closure_expression,
       seq('(', $._expression, ')')
     )),
 
@@ -506,7 +508,7 @@ module.exports = grammar({
 
     reference_expression: $ => prec(PREC.unary, seq(
       '&',
-      optional('mut'),
+      optional($.mutable_specifier),
       $._expression
     )),
 
@@ -541,10 +543,10 @@ module.exports = grammar({
       'return', optional($._expression))
     ),
 
-    call_expression: $ => seq(
+    call_expression: $ => prec(PREC.call, seq(
       $._expression,
       $.arguments
-    ),
+    )),
 
     arguments: $ => seq(
       '(',
@@ -651,13 +653,29 @@ module.exports = grammar({
       $.block
     ),
 
+    closure_expression: $ => prec(PREC.closure, seq(
+      $.closure_parameters,
+      choice($.block, $._expression)
+    )),
+
+    closure_parameters: $ => seq(
+      '|',
+      sepBy(',', $.closure_parameter),
+      '|'
+    ),
+
+    closure_parameter: $ => seq(
+      optional($.mutable_specifier),
+      $.identifier
+    ),
+
     loop_label: $ => seq('\'', $.identifier),
 
     break_expression: $ => prec.left(seq('break', optional($.loop_label))),
 
     continue_expression: $ => prec.left(seq('continue', optional($.loop_label))),
 
-    _index_expression: $ => seq($._expression, '[', $._expression, ']'),
+    _index_expression: $ => prec(PREC.call, seq($._expression, '[', $._expression, ']')),
 
     _literal: $ => choice(
       $.string_literal,
@@ -738,7 +756,7 @@ module.exports = grammar({
 
     field_expression: $ => prec(PREC.field, seq($._expression, '.', $.identifier)),
 
-    method_call_expression: $ => prec(PREC.method_call, seq($._expression, '.', $.identifier, $.arguments)),
+    method_call_expression: $ => prec(PREC.call, seq($._expression, '.', $.identifier, $.arguments)),
 
     parameters: $ => seq(
       '(',
@@ -747,12 +765,12 @@ module.exports = grammar({
     ),
 
     self_parameter: $ => seq(
-      optional(choice('&', seq('&', 'mut'))),
+      optional(choice('&', seq('&', $.mutable_specifier))),
       $.self
     ),
 
     parameter: $ => seq(
-      optional('mut'),
+      optional($.mutable_specifier),
       $.identifier,
       ':',
       $._type_expression

@@ -177,7 +177,7 @@ pub fn splice<T: Into<Text>>(&mut self, old_range: Range<usize>, new_text: T) {
         (type_identifier)
         (generic_type (type_identifier) (type_arguments (type_identifier)))))
     (parameters
-      (self_parameter (self))
+      (self_parameter (mutable_specifier) (self))
       (parameter (identifier) (generic_type (type_identifier) (type_arguments (primitive_type))))
       (parameter (identifier) (type_identifier)))
     (block)))
@@ -194,7 +194,7 @@ fn foo(mut x : u32) {
 (source_file
   (function_item
     (identifier)
-    (parameters (parameter (identifier) (primitive_type)))
+    (parameters (parameter (mutable_specifier) (identifier) (primitive_type)))
     (block)))
 
 ============================================
@@ -308,4 +308,4 @@ impl Person {
     (type_identifier)
     (const_item (identifier) (primitive_type) (number_literal))
     (function_item (identifier) (parameters (self_parameter (self))) (block))
-    (function_item (identifier) (parameters (self_parameter (self))) (block))))
+    (function_item (identifier) (parameters (self_parameter (mutable_specifier) (self))) (block))))
