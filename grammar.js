@@ -61,7 +61,6 @@ module.exports = grammar({
       $.let_declaration,
       $.use_declaration,
       $.extern_crate_declaration,
-      $.const_item,
       $.static_item
     ),
 
@@ -75,12 +74,14 @@ module.exports = grammar({
     )),
 
     _item: $ => choice(
+      $.const_item,
       $.attribute_item,
       $.inner_attribute_item,
       $.mod_item,
       $.struct_item,
       $.type_item,
-      $.function_item
+      $.function_item,
+      $.impl_item,
     ),
 
     attribute_item: $ => seq(
@@ -198,6 +199,14 @@ module.exports = grammar({
         '!'
       ),
       $.block
+    ),
+
+    impl_item: $ => seq(
+      'impl',
+      alias($.identifier, $.type_identifier),
+      '{',
+      repeat($._item),
+      '}'
     ),
 
     type_parameters: $ => seq(
