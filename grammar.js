@@ -264,6 +264,7 @@ module.exports = grammar({
       optional($.visibility_modifier),
       'fn',
       $.identifier,
+      optional($.type_parameters),
       $.parameters,
       optional(choice(
         seq('->', $._type_expression)),
@@ -284,9 +285,16 @@ module.exports = grammar({
       '<',
       sepBy1(',', choice(
         alias($.identifier, $.type_identifier),
+        $.constrained_type_parameter,
         $.lifetime
       )),
       '>'
+    ),
+
+    constrained_type_parameter: $ => seq(
+      alias($.identifier, $.type_identifier),
+      ':',
+      $._type_expression
     ),
 
     lifetime: $ => seq("'", $.identifier),
