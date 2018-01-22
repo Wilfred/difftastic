@@ -57,12 +57,12 @@ fn takes_slice(slice: &str) {
   (function_item (identifier) (parameters) (block))
   (function_item (identifier)
     (parameters
-      (identifier) (type_expression) (identifier) (type_expression))
-    (type_expression)
+      (identifier) (primitive_type) (identifier) (primitive_type))
+    (primitive_type)
     (block
       (return_expression (binary_expression (identifier) (identifier)))))
   (function_item (identifier)
-    (parameters (identifier) (type_expression))
+    (parameters (identifier) (reference_type (primitive_type)))
     (block (macro_invocation (macro_name) (macro_arguments (string_literal) (identifier))))))
 
 ============================================
@@ -106,10 +106,10 @@ let y: bool = false;
 (source_file
   (let_declaration (identifier))
   (let_declaration (identifier) (number_literal))
-  (let_declaration (identifier) (type_expression))
-  (let_declaration (identifier) (type_expression) (number_literal))
+  (let_declaration (identifier) (primitive_type))
+  (let_declaration (identifier) (primitive_type) (number_literal))
   (let_declaration (mutable_specifier) (identifier) (number_literal))
-  (let_declaration (identifier) (type_expression) (boolean_literal)))
+  (let_declaration (identifier) (primitive_type) (boolean_literal)))
 
 ============================================
 Structs
@@ -118,20 +118,44 @@ Structs
 struct Proton;
 struct Electron {}
 struct Point {x: i32, y: i32}
+struct Point {
+  x: i32,
+  y: i32,
+}
 struct Color(i32, i32, i32);
 struct Inches(i32);
 
 ---
 
 (source_file
-  (struct_item (identifier))
-  (struct_item (identifier))
-  (struct_item (identifier)
-    (identifier) (type_expression)
-    (identifier) (type_expression))
-  (struct_item (identifier)
-    (type_expression) (type_expression) (type_expression))
-  (struct_item (identifier) (type_expression)))
+  (struct_item (type_identifier))
+  (struct_item (type_identifier))
+  (struct_item (type_identifier)
+    (identifier) (primitive_type)
+    (identifier) (primitive_type))
+  (struct_item (type_identifier)
+    (identifier) (primitive_type)
+    (identifier) (primitive_type))
+  (struct_item (type_identifier)
+    (primitive_type) (primitive_type) (primitive_type))
+  (struct_item (type_identifier) (primitive_type)))
+
+============================================
+Generic structs
+============================================
+
+struct A<B> {}
+struct C<'a, 'b> {}
+
+---
+
+(source_file
+  (struct_item
+    (type_identifier)
+    (type_parameters (type_identifier)))
+  (struct_item
+    (type_identifier)
+    (type_parameters (lifetime (identifier)) (lifetime (identifier)))))
 
 ============================================
 Constant items
@@ -141,7 +165,7 @@ const N: i32 = 5;
 
 ---
 
-(source_file (const_item (identifier) (type_expression) (number_literal)))
+(source_file (const_item (identifier) (primitive_type) (number_literal)))
 
 ============================================
 Static items
@@ -151,7 +175,7 @@ static N: i32 = 5;
 
 ---
 
-(source_file (static_item (identifier) (type_expression) (number_literal)))
+(source_file (static_item (identifier) (primitive_type) (number_literal)))
 
 ============================================
 Type aliases
@@ -163,8 +187,8 @@ type Name = String;
 ---
 
 (source_file
-  (type_item (identifier) (type_expression))
-  (type_item (identifier) (type_expression (identifier))))
+  (type_item (type_identifier) (primitive_type))
+  (type_item (type_identifier) (type_identifier)))
 
 ============================================
 Empty statements
@@ -179,3 +203,66 @@ fn main() {
 (source_file
   (function_item (identifier) (parameters) (block
     (empty_statement))))
+
+============================================
+Attributes
+============================================
+
+#[test]
+fn test_foo() {}
+
+#[derive(Debug)]
+struct Baz;
+
+#[derive(Debug, Eq,)]
+struct Foo;
+
+#[cfg(target_os = "macos")]
+mod macos_only {}
+
+---
+
+(source_file
+  (attribute_item (meta_item (identifier)))
+  (function_item (identifier) (parameters) (block))
+
+  (attribute_item (meta_item (identifier) (meta_item (identifier))))
+  (struct_item (type_identifier))
+
+  (attribute_item (meta_item (identifier) (meta_item (identifier)) (meta_item (identifier))))
+  (struct_item (type_identifier))
+
+  (attribute_item (meta_item (identifier) (meta_item (identifier) (string_literal))))
+  (mod_item (identifier)))
+
+============================================
+Inner attributes
+============================================
+
+mod macos_only {
+  #![cfg(target_os = "macos")]
+}
+
+---
+
+(source_file
+  (mod_item (identifier)
+    (inner_attribute_item (meta_item (identifier) (meta_item (identifier) (string_literal))))))
+
+===========================================
+Impls
+===========================================
+
+impl Person {
+  const leg_count : u32 = 2;
+
+  fn walk() {}
+}
+
+---
+
+(source_file
+  (impl_item
+    (type_identifier)
+    (const_item (identifier) (primitive_type) (number_literal))
+    (function_item (identifier) (parameters) (block))))
