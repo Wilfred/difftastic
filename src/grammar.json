@@ -2417,6 +2417,10 @@
             {
               "type": "SYMBOL",
               "name": "scoped_identifier"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "field_expression"
             }
           ]
         },
@@ -2656,10 +2660,6 @@
           {
             "type": "SYMBOL",
             "name": "generic_function"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "method_call_expression"
           },
           {
             "type": "SYMBOL",
@@ -4886,31 +4886,6 @@
                 "value": "number_literal"
               }
             ]
-          }
-        ]
-      }
-    },
-    "method_call_expression": {
-      "type": "PREC",
-      "value": 14,
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "SYMBOL",
-            "name": "_expression"
-          },
-          {
-            "type": "STRING",
-            "value": "."
-          },
-          {
-            "type": "SYMBOL",
-            "name": "identifier"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "arguments"
           }
         ]
       }

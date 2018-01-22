@@ -383,9 +383,10 @@ value.0.1.iter();
 (source_file
   (field_expression (identifier) (identifier))
   (field_expression (call_expression (identifier) (arguments)) (identifier))
-  (method_call_expression
-    (field_expression (field_expression (identifier) (number_literal)) (number_literal))
-    (identifier)
+  (call_expression
+    (field_expression
+      (field_expression (field_expression (identifier) (number_literal)) (number_literal))
+      (identifier))
     (arguments)))
 
 ============================================
@@ -396,7 +397,7 @@ mystruct.foo();
 
 ---
 
-(source_file (method_call_expression (identifier) (identifier) (arguments)))
+(source_file (call_expression (field_expression (identifier) (identifier)) (arguments)))
 
 ============================================
 Index expressions
@@ -458,19 +459,16 @@ d.map(|mut e| {
 ---
 
 (source_file
-  (method_call_expression
-    (identifier)
-    (identifier)
+  (call_expression
+    (field_expression (identifier) (identifier))
     (arguments
       (closure_expression
         (closure_parameters (closure_parameter (tuple_pattern (identifier) (identifier))))
-        (method_call_expression
-          (identifier)
-          (identifier)
+        (call_expression
+          (field_expression (identifier) (identifier))
           (arguments (identifier))))))
-  (method_call_expression
-    (identifier)
-    (identifier)
+  (call_expression
+    (field_expression (identifier) (identifier))
     (arguments
       (closure_expression
         (closure_parameters (closure_parameter (mutable_specifier) (identifier)))
