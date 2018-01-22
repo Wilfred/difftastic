@@ -118,6 +118,10 @@ Structs
 struct Proton;
 struct Electron {}
 struct Point {x: i32, y: i32}
+struct Point {
+  x: i32,
+  y: i32,
+}
 struct Color(i32, i32, i32);
 struct Inches(i32);
 
@@ -126,6 +130,9 @@ struct Inches(i32);
 (source_file
   (struct_item (type_identifier))
   (struct_item (type_identifier))
+  (struct_item (type_identifier)
+    (identifier) (primitive_type)
+    (identifier) (primitive_type))
   (struct_item (type_identifier)
     (identifier) (primitive_type)
     (identifier) (primitive_type))
