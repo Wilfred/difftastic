@@ -82,6 +82,7 @@ Character literals
 'a';
 '\'';
 '\0';
+b'x';
 '\t';
 '\xff';
 '\\';
@@ -89,6 +90,7 @@ Character literals
 ---
 
 (source_file
+  (char_literal)
   (char_literal)
   (char_literal)
   (char_literal)

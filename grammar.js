@@ -697,7 +697,7 @@ module.exports = grammar({
 
     closure_parameter: $ => seq(
       optional($.mutable_specifier),
-      $.identifier
+      $._pattern
     ),
 
     loop_label: $ => seq('\'', $.identifier),
@@ -756,6 +756,7 @@ module.exports = grammar({
     )),
 
     char_literal: $ => token(seq(
+      optional('b'),
       '\'',
       optional(choice(
         seq('\\', choice(/./, '\n', /x[0-9a-fA-F][0-9a-fA-F]/)),

@@ -444,7 +444,7 @@ std::sizeof::<u32>();
 Closures
 ===========================================
 
-a.map(|b| c.push(b));
+a.map(|(b, c)| b.push(c));
 d.map(|mut e| {
     f(e);
     g(e)
@@ -458,7 +458,7 @@ d.map(|mut e| {
     (identifier)
     (arguments
       (closure_expression
-        (closure_parameters (closure_parameter (identifier)))
+        (closure_parameters (closure_parameter (tuple_pattern (identifier) (identifier))))
         (method_call_expression
           (identifier)
           (identifier)
