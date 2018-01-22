@@ -226,6 +226,7 @@ f (1) = 1
 f (-(1)) = 1
 f (Example a b c) = a
 f (a :<: f) = 2
+f ([]) = 1
 
 ---
 
@@ -263,5 +264,12 @@ f (a :<: f) = 2
         (variable_identifier)
         (constructor_symbol)
         (variable_identifier)))
+    (function_body
+      (integer)))
+  (function_declaration
+    (function_head
+      (variable_identifier)
+      (parenthesized_pattern
+        (list_constructor)))
     (function_body
       (integer))))

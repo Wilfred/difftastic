@@ -157,6 +157,9 @@ module.exports = grammar({
     parenthesized_pattern: $ => seq(
       '(',
       $._pattern,
+    parenthesized_pattern: $ => seq(
+      '(',
+      choice($._function_pattern, $._pattern, $.list_constructor),
       ')'
     ),
 
