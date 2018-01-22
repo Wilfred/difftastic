@@ -128,6 +128,7 @@ module.exports = grammar({
       optional($.visibility_modifier),
       'struct',
       alias($.identifier, $.type_identifier),
+      optional($.type_parameters),
       choice(
         ';',
         seq(
@@ -196,6 +197,17 @@ module.exports = grammar({
       ),
       $.block
     ),
+
+    type_parameters: $ => seq(
+      '<',
+      sepBy1(',', choice(
+        alias($.identifier, $.type_identifier),
+        $.lifetime
+      )),
+      '>'
+    ),
+
+    lifetime: $ => seq("'", $.identifier),
 
     let_declaration: $ => seq(
       'let',
