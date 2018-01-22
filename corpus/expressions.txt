@@ -260,6 +260,21 @@ if let ("Bacon", b) = dish {
     (block)))
 
 ============================================
+While let expressions
+============================================
+
+while let ("Bacon", b) = dish {
+}
+
+---
+
+(source_file
+  (while_let_expression
+    (tuple_pattern (string_literal) (identifier))
+    (identifier)
+    (block)))
+
+============================================
 Match expressions
 ============================================
 
