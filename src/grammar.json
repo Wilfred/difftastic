@@ -2381,6 +2381,10 @@
           },
           {
             "type": "SYMBOL",
+            "name": "reference_expression"
+          },
+          {
+            "type": "SYMBOL",
             "name": "binary_expression"
           },
           {
@@ -2405,6 +2409,10 @@
           },
           {
             "type": "SYMBOL",
+            "name": "self"
+          },
+          {
+            "type": "SYMBOL",
             "name": "scoped_identifier"
           },
           {
@@ -2417,7 +2425,7 @@
           },
           {
             "type": "SYMBOL",
-            "name": "_field_expression"
+            "name": "field_expression"
           },
           {
             "type": "SYMBOL",
@@ -2720,14 +2728,35 @@
               {
                 "type": "STRING",
                 "value": "!"
-              },
+              }
+            ]
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_expression"
+          }
+        ]
+      }
+    },
+    "reference_expression": {
+      "type": "PREC",
+      "value": 11,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "&"
+          },
+          {
+            "type": "CHOICE",
+            "members": [
               {
                 "type": "STRING",
-                "value": "&"
+                "value": "mut"
               },
               {
-                "type": "STRING",
-                "value": "&mut"
+                "type": "BLANK"
               }
             ]
           },
@@ -4388,7 +4417,7 @@
       "type": "PATTERN",
       "value": "[a-zA-Z_][\\w]*"
     },
-    "_field_expression": {
+    "field_expression": {
       "type": "PREC",
       "value": 13,
       "content": {
