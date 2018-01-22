@@ -57,12 +57,14 @@ fn takes_slice(slice: &str) {
   (function_item (identifier) (parameters) (block))
   (function_item (identifier)
     (parameters
-      (identifier) (primitive_type) (identifier) (primitive_type))
+      (parameter (identifier) (primitive_type))
+      (parameter (identifier) (primitive_type)))
     (primitive_type)
     (block
       (return_expression (binary_expression (identifier) (identifier)))))
   (function_item (identifier)
-    (parameters (identifier) (reference_type (primitive_type)))
+    (parameters
+      (parameter (identifier) (reference_type (primitive_type))))
     (block (macro_invocation (macro_name) (macro_arguments (string_literal) (identifier))))))
 
 ============================================
@@ -256,7 +258,9 @@ Impls
 impl Person {
   const leg_count : u32 = 2;
 
-  fn walk() {}
+  fn walk(self) {}
+
+  fn talk(& mut self) {}
 }
 
 ---
@@ -265,4 +269,5 @@ impl Person {
   (impl_item
     (type_identifier)
     (const_item (identifier) (primitive_type) (number_literal))
-    (function_item (identifier) (parameters) (block))))
+    (function_item (identifier) (parameters (self_parameter (self))) (block))
+    (function_item (identifier) (parameters (self_parameter (self))) (block))))

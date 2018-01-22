@@ -723,8 +723,19 @@ module.exports = grammar({
 
     parameters: $ => seq(
       '(',
-      sepBy(',', seq($.identifier, ':', $._type_expression)),
+      sepBy(',', choice($.self_parameter, $.parameter)),
       ')'
+    ),
+
+    self_parameter: $ => seq(
+      optional(choice('&', seq('&', 'mut'))),
+      $.self
+    ),
+
+    parameter: $ => seq(
+      $.identifier,
+      ':',
+      $._type_expression
     ),
 
     block: $ => seq(
