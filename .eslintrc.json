@@ -11,6 +11,7 @@
       "seq": true,
       "optional": true,
       "choice": true,
+      "alias": true,
       "repeat": true,
       "repeat1": true
   },
