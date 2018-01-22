@@ -344,10 +344,6 @@
         },
         {
           "type": "SYMBOL",
-          "name": "const_item"
-        },
-        {
-          "type": "SYMBOL",
           "name": "static_item"
         }
       ]
@@ -390,6 +386,10 @@
       "members": [
         {
           "type": "SYMBOL",
+          "name": "const_item"
+        },
+        {
+          "type": "SYMBOL",
           "name": "attribute_item"
         },
         {
@@ -411,6 +411,10 @@
         {
           "type": "SYMBOL",
           "name": "function_item"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "impl_item"
         }
       ]
     },
@@ -1048,6 +1052,39 @@
         {
           "type": "SYMBOL",
           "name": "block"
+        }
+      ]
+    },
+    "impl_item": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "impl"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "identifier"
+          },
+          "named": true,
+          "value": "type_identifier"
+        },
+        {
+          "type": "STRING",
+          "value": "{"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_item"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "}"
         }
       ]
     },
