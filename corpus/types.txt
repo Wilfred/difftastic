@@ -1,4 +1,26 @@
 =====================
+The unit type
+=====================
+
+type A = ();
+
+---
+
+(source_file
+  (type_item (type_identifier) (unit_type)))
+
+=====================
+Tuple types
+=====================
+
+type A = (i32, String);
+
+---
+
+(source_file
+  (type_item (type_identifier) (tuple_type (primitive_type) (type_identifier))))
+
+=====================
 Reference types
 =====================
 
