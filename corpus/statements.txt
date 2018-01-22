@@ -134,6 +134,23 @@ struct Inches(i32);
   (struct_item (type_identifier) (primitive_type)))
 
 ============================================
+Generic structs
+============================================
+
+struct A<B> {}
+struct C<'a, 'b> {}
+
+---
+
+(source_file
+  (struct_item
+    (type_identifier)
+    (type_parameters (type_identifier)))
+  (struct_item
+    (type_identifier)
+    (type_parameters (lifetime (identifier)) (lifetime (identifier)))))
+
+============================================
 Constant items
 ============================================
 
