@@ -176,10 +176,10 @@ module.exports = grammar({
       ')'
     ),
 
-    general_constructor: $ => seq(
+    general_constructor: $ => prec.right(seq(
       $.constructor_identifier,
       repeat1($.variable_identifier)
-    ),
+    )),
 
     as_pattern: $ => prec(1, seq(
       $._variable,
