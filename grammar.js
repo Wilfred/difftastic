@@ -141,6 +141,7 @@ module.exports = grammar({
       $.if_let_expression,
       $.match_expression,
       $.while_expression,
+      $.while_let_expression,
       $.loop_expression,
       $.for_expression
     )),
@@ -469,6 +470,7 @@ module.exports = grammar({
       $.if_let_expression,
       $.match_expression,
       $.while_expression,
+      $.while_let_expression,
       $.loop_expression,
       $.for_expression,
       $.break_expression,
@@ -653,6 +655,16 @@ module.exports = grammar({
     while_expression: $ => seq(
       optional(seq($.loop_label, ':')),
       'while',
+      $._no_struct_literal_expr,
+      $.block
+    ),
+
+    while_let_expression: $ => seq(
+      optional(seq($.loop_label, ':')),
+      'while',
+      'let',
+      $._pattern,
+      '=',
       $._no_struct_literal_expr,
       $.block
     ),

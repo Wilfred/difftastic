@@ -948,6 +948,10 @@
           },
           {
             "type": "SYMBOL",
+            "name": "while_let_expression"
+          },
+          {
+            "type": "SYMBOL",
             "name": "loop_expression"
           },
           {
@@ -2677,6 +2681,10 @@
           },
           {
             "type": "SYMBOL",
+            "name": "while_let_expression"
+          },
+          {
+            "type": "SYMBOL",
             "name": "loop_expression"
           },
           {
@@ -3942,6 +3950,56 @@
         {
           "type": "STRING",
           "value": "while"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_no_struct_literal_expr"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "block"
+        }
+      ]
+    },
+    "while_let_expression": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "loop_label"
+                },
+                {
+                  "type": "STRING",
+                  "value": ":"
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": "while"
+        },
+        {
+          "type": "STRING",
+          "value": "let"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_pattern"
+        },
+        {
+          "type": "STRING",
+          "value": "="
         },
         {
           "type": "SYMBOL",
