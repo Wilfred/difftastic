@@ -792,7 +792,11 @@ module.exports = grammar({
 
     identifier: $ => /[a-zA-Z_][\w]*/,
 
-    field_expression: $ => prec(PREC.field, seq($._expression, '.', $.identifier)),
+    field_expression: $ => prec(PREC.field, seq(
+      $._expression,
+      '.',
+      choice($.identifier, alias($._integer_literal, $.number_literal))
+    )),
 
     method_call_expression: $ => prec(PREC.call, seq($._expression, '.', $.identifier, $.arguments)),
 
