@@ -314,7 +314,7 @@ impl Person {
 Trait impls
 ===========================================
 
-impl<'a> Iterator for Iter<'a> {
+impl<'a> iter::Iterator for Self::Iter<'a> {
 }
 
 impl ConvertTo<i64> for i32 {
@@ -326,8 +326,10 @@ impl ConvertTo<i64> for i32 {
 (source_file
   (impl_item
     (type_parameters (lifetime (identifier)))
-    (type_identifier)
-    (impl_for_clause (type_identifier) (type_arguments (lifetime (identifier)))))
+    (scoped_type_identifier (identifier) (type_identifier))
+    (impl_for_clause
+      (scoped_type_identifier (identifier) (type_identifier))
+      (type_arguments (lifetime (identifier)))))
   (impl_item
     (type_identifier)
     (type_arguments (primitive_type))

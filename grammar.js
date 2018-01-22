@@ -278,7 +278,10 @@ module.exports = grammar({
     impl_item: $ => seq(
       'impl',
       optional($.type_parameters),
-      alias($.identifier, $.type_identifier),
+      choice(
+        alias($.identifier, $.type_identifier),
+        $.scoped_type_identifier
+      ),
       optional($.type_arguments),
       optional($.impl_for_clause),
       '{',
@@ -288,7 +291,10 @@ module.exports = grammar({
 
     impl_for_clause: $ => seq(
       'for',
-      alias($.identifier, $.type_identifier),
+      choice(
+        alias($.identifier, $.type_identifier),
+        $.scoped_type_identifier
+      ),
       optional($.type_arguments)
     ),
 
