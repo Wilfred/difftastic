@@ -376,12 +376,17 @@ Field expressions
 
 mystruct.myfield;
 foo().x;
+value.0.1.iter();
 
 ---
 
 (source_file
   (field_expression (identifier) (identifier))
-  (field_expression (call_expression (identifier) (arguments)) (identifier)))
+  (field_expression (call_expression (identifier) (arguments)) (identifier))
+  (method_call_expression
+    (field_expression (field_expression (identifier) (number_literal)) (number_literal))
+    (identifier)
+    (arguments)))
 
 ============================================
 Method-call expressions
