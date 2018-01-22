@@ -276,10 +276,19 @@ module.exports = grammar({
 
     impl_item: $ => seq(
       'impl',
+      optional($.type_parameters),
       alias($.identifier, $.type_identifier),
+      optional($.type_arguments),
+      optional($.impl_for_clause),
       '{',
       repeat($._item),
       '}'
+    ),
+
+    impl_for_clause: $ => seq(
+      'for',
+      alias($.identifier, $.type_identifier),
+      optional($.type_arguments)
     ),
 
     type_parameters: $ => seq(
