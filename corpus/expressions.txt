@@ -129,11 +129,11 @@ let size: f64 = len(values) as f64;
 ---
 
 (source_file
-  (binary_expression (type_cast_expression (number_literal) (type_expression)))
+  (binary_expression (type_cast_expression (number_literal) (primitive_type)))
   (let_declaration (identifier) (binary_expression
-    (type_cast_expression (identifier) (type_expression))))
-  (let_declaration (identifier) (type_expression) (binary_expression
-    (type_cast_expression (call_expression (identifier) (arguments (identifier))) (type_expression)))))
+    (type_cast_expression (identifier) (primitive_type))))
+  (let_declaration (identifier) (primitive_type) (binary_expression
+    (type_cast_expression (call_expression (identifier) (arguments (identifier))) (primitive_type)))))
 
 ============================================
 Call expressions

@@ -1,0 +1,10 @@
+=====================
+Reference types
+=====================
+
+type A = &B;
+
+---
+
+(source_file
+  (type_item (type_identifier) (reference_type (type_identifier))))

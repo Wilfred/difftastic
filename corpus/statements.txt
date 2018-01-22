@@ -57,12 +57,12 @@ fn takes_slice(slice: &str) {
   (function_item (identifier) (parameters) (block))
   (function_item (identifier)
     (parameters
-      (identifier) (type_expression) (identifier) (type_expression))
-    (type_expression)
+      (identifier) (primitive_type) (identifier) (primitive_type))
+    (primitive_type)
     (block
       (return_expression (binary_expression (identifier) (identifier)))))
   (function_item (identifier)
-    (parameters (identifier) (type_expression))
+    (parameters (identifier) (reference_type (primitive_type)))
     (block (macro_invocation (macro_name) (macro_arguments (string_literal) (identifier))))))
 
 ============================================
@@ -106,10 +106,10 @@ let y: bool = false;
 (source_file
   (let_declaration (identifier))
   (let_declaration (identifier) (number_literal))
-  (let_declaration (identifier) (type_expression))
-  (let_declaration (identifier) (type_expression) (number_literal))
+  (let_declaration (identifier) (primitive_type))
+  (let_declaration (identifier) (primitive_type) (number_literal))
   (let_declaration (mutable_specifier) (identifier) (number_literal))
-  (let_declaration (identifier) (type_expression) (boolean_literal)))
+  (let_declaration (identifier) (primitive_type) (boolean_literal)))
 
 ============================================
 Structs
@@ -124,14 +124,14 @@ struct Inches(i32);
 ---
 
 (source_file
-  (struct_item (identifier))
-  (struct_item (identifier))
-  (struct_item (identifier)
-    (identifier) (type_expression)
-    (identifier) (type_expression))
-  (struct_item (identifier)
-    (type_expression) (type_expression) (type_expression))
-  (struct_item (identifier) (type_expression)))
+  (struct_item (type_identifier))
+  (struct_item (type_identifier))
+  (struct_item (type_identifier)
+    (identifier) (primitive_type)
+    (identifier) (primitive_type))
+  (struct_item (type_identifier)
+    (primitive_type) (primitive_type) (primitive_type))
+  (struct_item (type_identifier) (primitive_type)))
 
 ============================================
 Constant items
@@ -141,7 +141,7 @@ const N: i32 = 5;
 
 ---
 
-(source_file (const_item (identifier) (type_expression) (number_literal)))
+(source_file (const_item (identifier) (primitive_type) (number_literal)))
 
 ============================================
 Static items
@@ -151,7 +151,7 @@ static N: i32 = 5;
 
 ---
 
-(source_file (static_item (identifier) (type_expression) (number_literal)))
+(source_file (static_item (identifier) (primitive_type) (number_literal)))
 
 ============================================
 Type aliases
@@ -163,8 +163,8 @@ type Name = String;
 ---
 
 (source_file
-  (type_item (identifier) (type_expression))
-  (type_item (identifier) (type_expression (identifier))))
+  (type_item (type_identifier) (primitive_type))
+  (type_item (type_identifier) (type_identifier)))
 
 ============================================
 Empty statements
@@ -203,10 +203,10 @@ mod macos_only {}
   (function_item (identifier) (parameters) (block))
 
   (attribute_item (meta_item (identifier) (meta_item (identifier))))
-  (struct_item (identifier))
+  (struct_item (type_identifier))
 
   (attribute_item (meta_item (identifier) (meta_item (identifier)) (meta_item (identifier))))
-  (struct_item (identifier))
+  (struct_item (type_identifier))
 
   (attribute_item (meta_item (identifier) (meta_item (identifier) (string_literal))))
   (mod_item (identifier)))
