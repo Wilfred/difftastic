@@ -192,19 +192,24 @@ let a = SomeStruct { field1, field2: expression, field3 };
 let u = game::User {name: "Joe", age: 35, score: 100_000};
 
 ---
+
 (source_file
-  (struct_expression (identifier))
-  (struct_expression (identifier)
+  (struct_expression (type_identifier))
+  (struct_expression (type_identifier)
     (identifier) (number_literal)
     (identifier) (number_literal))
-  (let_declaration (identifier) (struct_expression (identifier)
+  (let_declaration
     (identifier)
-    (identifier) (identifier)
-    (identifier)))
-  (let_declaration (identifier) (struct_expression (path (identifier)) (identifier)
-    (identifier) (string_literal)
-    (identifier) (number_literal)
-    (identifier) (number_literal))))
+    (struct_expression (type_identifier)
+      (identifier)
+      (identifier) (identifier)
+      (identifier)))
+  (let_declaration
+    (identifier)
+    (struct_expression (scoped_type_identifier (identifier) (type_identifier))
+      (identifier) (string_literal)
+      (identifier) (number_literal)
+      (identifier) (number_literal))))
 
 ============================================
 If expressions
@@ -375,3 +380,35 @@ arr[n];
   (array_expression (number_literal) (number_literal) (number_literal) (number_literal)) (number_literal)
   (identifier) (number_literal)
   (identifier) (identifier))
+
+============================================
+Scoped functions
+============================================
+
+a::b();
+C::<D>::e();
+
+---
+
+(source_file
+  (call_expression
+    (scoped_identifier (identifier) (identifier))
+    (arguments))
+  (call_expression
+    (scoped_identifier
+      (generic_type (type_identifier) (type_arguments (type_identifier)))
+      (identifier))
+    (arguments)))
+
+============================================
+Generic functions
+============================================
+
+std::sizeof::<u32>();
+
+---
+
+(source_file
+  (call_expression
+    (generic_function (scoped_identifier (identifier) (identifier)) (type_arguments (primitive_type)))
+    (arguments)))

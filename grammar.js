@@ -335,7 +335,7 @@ module.exports = grammar({
     _type_expression: $ => choice(
       $.reference_type,
       $.generic_type,
-      $.scoped_type,
+      $.scoped_type_identifier,
       alias($.identifier, $.type_identifier),
       alias(choice(
         integer_type,
@@ -346,18 +346,31 @@ module.exports = grammar({
       ), $.primitive_type)
     ),
 
-    scoped_type: $ => seq(
-      repeat1($.path),
-      alias($.identifier, $.type_identifier)
+    generic_function: $ => seq(
+      choice(
+        $.identifier,
+        $.scoped_identifier
+      ),
+      '::',
+      $.type_arguments
     ),
 
     generic_type: $ => prec(1, seq(
       choice(
         alias($.identifier, $.type_identifier),
-        $.scoped_type
+        $.scoped_identifier
       ),
       $.type_arguments
     )),
+
+    generic_type_with_turbofish: $ => seq(
+      choice(
+        alias($.identifier, $.type_identifier),
+        $.scoped_identifier
+      ),
+      '::',
+      $.type_arguments
+    ),
 
     type_arguments: $ => seq(
       '<',
@@ -392,6 +405,8 @@ module.exports = grammar({
       $.return_expression,
       $._literal,
       $.identifier,
+      $.scoped_identifier,
+      $.generic_function,
       $.method_call_expression,
       $._field_expression,
       $.array_expression,
@@ -409,6 +424,40 @@ module.exports = grammar({
       $.metavariable,
       seq('(', $._expression, ')')
     )),
+
+    scoped_identifier: $ => prec(-1, seq(
+      seq(choice(
+        $.self,
+        $.identifier,
+        $.scoped_identifier,
+        alias($.generic_type_with_turbofish, $.generic_type)
+      )),
+      '::',
+      $.identifier
+    )),
+
+    scoped_type_identifier_in_expression_position: $ => prec(-2, seq(
+      seq(choice(
+        $.self,
+        $.identifier,
+        $.scoped_identifier,
+        alias($.generic_type_with_turbofish, $.generic_type)
+      )),
+      '::',
+      alias($.identifier, $.type_identifier)
+    )),
+
+    scoped_type_identifier: $ => seq(
+      choice(
+        $.self,
+        $.identifier,
+        $.scoped_identifier,
+        alias($.generic_type_with_turbofish, $.generic_type),
+        $.generic_type,
+      ),
+      '::',
+      alias($.identifier, $.type_identifier)
+    ),
 
     range_expression: $ => prec.left(PREC.range, choice(
       seq($._expression, '..', $._expression),
@@ -484,8 +533,10 @@ module.exports = grammar({
     unit_expression: $ => '()',
 
     struct_expression: $ => seq(
-      repeat($.path),
-      $.identifier,
+      choice(
+        alias($.identifier, $.type_identifier),
+        alias($.scoped_type_identifier_in_expression_position, $.scoped_type_identifier),
+      ),
       seq(
         '{',
         sepBy(',', choice(
@@ -538,7 +589,7 @@ module.exports = grammar({
     match_pattern: $ => seq(
       $._pattern,
       repeat(seq('|', $._pattern)),
-      optional(seq('if', $._expression))
+      optional(seq('if', $._no_struct_literal_expr))
     ),
 
     while_expression: $ => seq(
