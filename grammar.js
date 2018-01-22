@@ -473,7 +473,7 @@ module.exports = grammar({
         $.identifier,
         $.scoped_identifier,
         alias($.generic_type_with_turbofish, $.generic_type),
-        $.generic_type,
+        $.generic_type
       ),
       '::',
       alias($.identifier, $.type_identifier)
@@ -561,7 +561,7 @@ module.exports = grammar({
     struct_expression: $ => seq(
       choice(
         alias($.identifier, $.type_identifier),
-        alias($.scoped_type_identifier_in_expression_position, $.scoped_type_identifier),
+        alias($.scoped_type_identifier_in_expression_position, $.scoped_type_identifier)
       ),
       seq(
         '{',
