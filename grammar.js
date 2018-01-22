@@ -181,7 +181,7 @@ module.exports = grammar({
       repeat1($.variable_identifier)
     )),
 
-    as_pattern: $ => prec(1, seq(
+    as_pattern: $ => prec.right(1, seq(
       $._variable,
       '@',
       $._function_pattern
