@@ -31,9 +31,70 @@ module.exports = grammar({
       $._declaration_statement,
       $._expression_statement,
       $._control_flow_statement,
+      $.expr_macro_rules,
       $.macro_invocation,
       $.empty_statement
     ),
+
+    expr_macro_rules: $ => {
+      const rules = seq(
+        repeat(seq($.macro_rule, ';')),
+        optional($.macro_rule)
+      )
+
+      return seq(
+        'macro_rules!',
+        $.identifier,
+        choice(
+          seq('(', rules, ')', ';'),
+          seq('{', rules, '}')
+        )
+      )
+    },
+
+    macro_rule: $ => seq(
+      $.matcher,
+      '=>',
+      $.transcriber
+    ),
+
+    matcher: $ => choice(
+      seq('(', repeat($._matcher), ')'),
+      seq('[', repeat($._matcher), ']'),
+      seq('{', repeat($._matcher), '}')
+    ),
+
+    _matcher: $ => choice(
+      seq('(', repeat($._matcher), ')'),
+      seq('[', repeat($._matcher), ']'),
+      seq('{', repeat($._matcher), '}'),
+      seq($.metavariable, ':', $.fragment_specifier),
+      seq('$', '(', repeat($._matcher), ')', optional(/[^+*]+/), choice('+', '*')),
+      $.non_special_token
+    ),
+
+    fragment_specifier: $ => choice(
+      'ident', 'path', 'expr', 'ty', 'pat', 'stmt', 'block', 'item', 'meta', 'tt'
+    ),
+
+    transcriber: $ => choice(
+      seq('(', repeat($._transcriber), ')'),
+      seq('[', repeat($._transcriber), ']'),
+      seq('{', repeat($._transcriber), '}')
+    ),
+
+    _transcriber: $ => prec.left(-1, choice(
+      seq('(', repeat($._transcriber), ')'),
+      seq('[', repeat($._transcriber), ']'),
+      seq('{', repeat($._transcriber), '}'),
+      seq('$', '(', repeat($._transcriber), ')', optional(/[^+*]+/), choice('+', '*')),
+      $._statement,
+      $._expression,
+      seq($._expression, $.non_special_token, $._expression),
+      $.non_special_token
+    )),
+
+    non_special_token: $ => /[^\(\)\[\]{}$]+/,
 
     macro_invocation: $ => prec.right(seq(
       $.macro_name,
@@ -81,7 +142,7 @@ module.exports = grammar({
       $.struct_item,
       $.type_item,
       $.function_item,
-      $.impl_item,
+      $.impl_item
     ),
 
     attribute_item: $ => seq(
@@ -313,10 +374,10 @@ module.exports = grammar({
 
     mutable_specifier: $ => 'mut',
 
-    _expression_statement: $ => seq(
+    _expression_statement: $ => prec.right(seq(
       $._expression,
       ';'
-    ),
+    )),
 
     _expression: $ => choice(
       $._no_struct_literal_expr,
@@ -345,6 +406,7 @@ module.exports = grammar({
       $.break_expression,
       $.continue_expression,
       $._index_expression,
+      $.metavariable,
       seq('(', $._expression, ')')
     )),
 
@@ -503,9 +565,9 @@ module.exports = grammar({
 
     loop_label: $ => seq('\'', $.identifier),
 
-    break_expression: $ => seq('break', optional($.loop_label)),
+    break_expression: $ => prec.left(seq('break', optional($.loop_label))),
 
-    continue_expression: $ => seq('continue', optional($.loop_label)),
+    continue_expression: $ => prec.left(seq('continue', optional($.loop_label))),
 
     _index_expression: $ => seq($._expression, '[', $._expression, ']'),
 
@@ -635,6 +697,8 @@ module.exports = grammar({
     self: $ => 'self',
 
     super: $ => 'super',
+
+    metavariable: $ => /\$[a-zA-Z_]\w*/,
 
     empty_statement: $ => ';'
   }
