@@ -75,10 +75,35 @@ module.exports = grammar({
     )),
 
     _item: $ => choice(
+      $.attribute_item,
+      $.inner_attribute_item,
       $.mod_item,
       $.struct_item,
       $.type_item,
       $.function_item
+    ),
+
+    attribute_item: $ => seq(
+      '#',
+      '[',
+      $.meta_item,
+      ']'
+    ),
+
+    inner_attribute_item: $ => seq(
+      '#',
+      '!',
+      '[',
+      $.meta_item,
+      ']'
+    ),
+
+    meta_item: $ => seq(
+      $.identifier,
+      optional(choice(
+        seq('=', $._literal),
+        seq('(', sepBy(',', $.meta_item), optional(','), ')')
+      ))
     ),
 
     mod_item: $ => seq(
