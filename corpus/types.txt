@@ -25,3 +25,26 @@ type D = E<F, str>;
   (type_item
     (type_identifier)
     (generic_type (type_identifier) (type_arguments (type_identifier) (primitive_type)))))
+
+=====================
+Type paths
+=====================
+
+type A = B::C;
+type D = E::F::G;
+type H = I::J<K>;
+
+---
+
+(source_file
+  (type_item
+    (type_identifier)
+    (scoped_type (path (identifier)) (type_identifier)))
+  (type_item
+    (type_identifier)
+    (scoped_type (path (identifier)) (path (identifier)) (type_identifier)))
+  (type_item
+    (type_identifier)
+    (generic_type
+      (scoped_type (path (identifier)) (type_identifier))
+      (type_arguments (type_identifier)))))
