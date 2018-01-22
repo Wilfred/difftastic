@@ -289,7 +289,10 @@ module.exports = grammar({
 
     type_arguments: $ => seq(
       '<',
-      sepBy1(',', $._type_expression),
+      sepBy1(',', choice(
+        $._type_expression,
+        $.lifetime
+      )),
       '>'
     ),
 
