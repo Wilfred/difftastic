@@ -4180,7 +4180,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "identifier"
+          "name": "_pattern"
         }
       ]
     },
@@ -4705,6 +4705,18 @@
       "content": {
         "type": "SEQ",
         "members": [
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "b"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          },
           {
             "type": "STRING",
             "value": "'"
