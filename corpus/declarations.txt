@@ -290,7 +290,7 @@ mod macos_only {
     (inner_attribute_item (meta_item (identifier) (meta_item (identifier) (string_literal))))))
 
 ===========================================
-Impls
+Inherent Impls
 ===========================================
 
 impl Person {
@@ -309,3 +309,32 @@ impl Person {
     (const_item (identifier) (primitive_type) (number_literal))
     (function_item (identifier) (parameters (self_parameter (self))) (block))
     (function_item (identifier) (parameters (self_parameter (mutable_specifier) (self))) (block))))
+
+===========================================
+Trait impls
+===========================================
+
+impl<'a> Iterator for Iter<'a> {
+}
+
+impl ConvertTo<i64> for i32 {
+    fn convert(&self) -> i64 { *self as i64 }
+}
+
+---
+
+(source_file
+  (impl_item
+    (type_parameters (lifetime (identifier)))
+    (type_identifier)
+    (impl_for_clause (type_identifier) (type_arguments (lifetime (identifier)))))
+  (impl_item
+    (type_identifier)
+    (type_arguments (primitive_type))
+    (impl_for_clause (type_identifier))
+    (function_item
+      (identifier)
+      (parameters (self_parameter (self)))
+      (primitive_type)
+      (block
+        (binary_expression (type_cast_expression (unary_expression (self)) (primitive_type)))))))
