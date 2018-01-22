@@ -31,9 +31,10 @@ Macro invocation
 ============================================
 
 println!();
-println!("format {} arguments", "some")
+println!("format {} arguments", "some");
 vec![1, 2, 3];
 vec![0; 100];
+vec!();
 
 ----
 
@@ -44,7 +45,8 @@ vec![0; 100];
   (macro_invocation (macro_name) (macro_arguments
     (number_literal) (number_literal) (number_literal)))
   (macro_invocation (macro_name) (macro_arguments
-    (number_literal) (number_literal))))
+    (number_literal) (number_literal)))
+  (macro_invocation (macro_name) (macro_arguments)))
 
 ============================================
 Macro definition

@@ -32,7 +32,6 @@ module.exports = grammar({
       $._expression_statement,
       $._control_flow_statement,
       $.expr_macro_rules,
-      $.macro_invocation,
       $.empty_statement
     ),
 
@@ -96,11 +95,10 @@ module.exports = grammar({
 
     non_special_token: $ => /[^\(\)\[\]{}$]+/,
 
-    macro_invocation: $ => prec.right(seq(
+    macro_invocation: $ => seq(
       $.macro_name,
-      $.macro_arguments,
-      optional(';')
-    )),
+      $.macro_arguments
+    ),
 
     macro_name: $abc => /[a-zA-Z_][\w]+!/,
 
@@ -411,6 +409,7 @@ module.exports = grammar({
       $._field_expression,
       $.array_expression,
       $.tuple_expression,
+      $.macro_invocation,
       $.unit_expression,
       $.if_expression,
       $.if_let_expression,

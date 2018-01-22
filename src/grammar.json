@@ -29,10 +29,6 @@
         },
         {
           "type": "SYMBOL",
-          "name": "macro_invocation"
-        },
-        {
-          "type": "SYMBOL",
           "name": "empty_statement"
         }
       ]
@@ -630,33 +626,17 @@
       "value": "[^\\(\\)\\[\\]{}$]+"
     },
     "macro_invocation": {
-      "type": "PREC_RIGHT",
-      "value": 0,
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "SYMBOL",
-            "name": "macro_name"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "macro_arguments"
-          },
-          {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "STRING",
-                "value": ";"
-              },
-              {
-                "type": "BLANK"
-              }
-            ]
-          }
-        ]
-      }
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "macro_name"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "macro_arguments"
+        }
+      ]
     },
     "macro_name": {
       "type": "PATTERN",
@@ -2451,6 +2431,10 @@
           {
             "type": "SYMBOL",
             "name": "tuple_expression"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "macro_invocation"
           },
           {
             "type": "SYMBOL",
