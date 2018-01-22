@@ -87,10 +87,10 @@ macro_rules! o_O {
   (expr_macro_rules (identifier)
     (macro_rule
       (matcher (non_special_token) (metavariable) (fragment_specifier))
-      (transcriber (non_special_token) (non_special_token) (non_special_token) (metavariable)))
+      (transcriber (non_special_token) (string_literal) (non_special_token) (metavariable)))
     (macro_rule
       (matcher (non_special_token) (metavariable) (fragment_specifier))
-      (transcriber (non_special_token) (non_special_token) (non_special_token) (metavariable))))
+      (transcriber (non_special_token) (string_literal) (non_special_token) (metavariable))))
   (expr_macro_rules (identifier) (macro_rule
     (matcher (non_special_token) (metavariable) (fragment_specifier) (non_special_token) (non_special_token) (non_special_token) (metavariable) (fragment_specifier) (non_special_token) (non_special_token) (non_special_token))
     (transcriber (non_special_token) (metavariable) (non_special_token) (metavariable) (non_special_token)))))

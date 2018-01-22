@@ -16,8 +16,20 @@ const PREC = {
   assign: 0
 }
 
-const integer_type = choice('u8', 'i8', 'u16', 'i16', 'u32', 'i32', 'u64', 'i64', 'isize', 'usize')
-const float_type = choice('f32', 'f64')
+const numeric_type = choice(
+  'u8',
+  'i8',
+  'u16',
+  'i16',
+  'u32',
+  'i32',
+  'u64',
+  'i64',
+  'isize',
+  'usize',
+  'f32',
+  'f64'
+)
 
 module.exports = grammar({
   name: 'rust',
@@ -336,8 +348,7 @@ module.exports = grammar({
       $.scoped_type_identifier,
       alias($.identifier, $.type_identifier),
       alias(choice(
-        integer_type,
-        float_type,
+        numeric_type,
         'bool',
         'str',
         'char'
@@ -630,50 +641,37 @@ module.exports = grammar({
     ),
 
     number_literal: $ => {
-      const decimal_digit = /[0-9]/
-      const decimal_literal = seq(decimal_digit, repeat(choice(decimal_digit, '_')))
-
-      const hex_literal = seq('0x', repeat(choice(/[0-9a-fA-F]/, '_')))
-      const binary_literal = seq('0b', repeat(choice(/[01]/, '_')))
-      const octal_literal = seq('0o', repeat(choice(/[0-7]/, '_')))
-
-      const integer_literal = seq(
-        choice(
-          decimal_literal,
-          hex_literal,
-          binary_literal,
-          octal_literal
-        ),
-        optional(integer_type)
-      )
-
-      const exponent = seq(
+      const exponent = token(seq(
         choice('e', 'E'),
         optional(choice('+', '-')),
-        repeat(choice(decimal_digit, '_'))
-      )
-      const floating_point_literal = seq(
-        decimal_literal,
-        choice(exponent, seq('.', optional(decimal_literal, optional(exponent)))),
-        optional(float_type)
-      )
+        repeat(choice(/[0-9]/, '_'))
+      ))
 
-      return prec.right(choice(
-        integer_literal,
-        floating_point_literal
+      return prec.right(seq(
+        $._integer_literal,
+        optional(choice(
+          exponent,
+          seq('.', token(repeat(choice(/[0-9]/, '_')), optional(exponent)))
+        )),
+        optional(numeric_type)
       ))
     },
 
-    string_literal: $ => seq(
+    _integer_literal: $ => token(choice(
+      seq(/[0-9]/, repeat(choice(/[0-9]/, '_'))),
+      seq('0x', repeat(choice(/[0-9a-fA-F]/, '_'))),
+      seq('0b', repeat(choice(/[01]/, '_'))),
+      seq('0o', repeat(choice(/[0-7]/, '_')))
+    )),
+
+    string_literal: $ => token(seq(
       '"',
       repeat(choice(
-        $.byte_escape,
-        '\\"',
-        '\\\n',
-        /[^"]/
+        seq('\\', choice(/./, '\n', /x[0-9a-fA-F][0-9a-fA-F]/)),
+        /[^\\"]/
       )),
       '"'
-    ),
+    )),
 
     raw_string_literal: $ => token(choice(
       seq('r#"', repeat(/.*/), '"#'),
@@ -681,23 +679,14 @@ module.exports = grammar({
       seq('r###"', repeat(/.*/), '"###')
     )),
 
-    char_literal: $ => seq(
+    char_literal: $ => token(seq(
       '\'',
       optional(choice(
-        $.byte_escape,
-        '\\\'',
+        seq('\\', choice(/./, '\n', /x[0-9a-fA-F][0-9a-fA-F]/)),
         /[^\\']/
       )),
       '\''
-    ),
-
-    byte_escape: $ => {
-      const hex_digit = /[0-9a-fA-F]/
-
-      return seq(
-        '\\', choice('n', 'r', 't', '0', '\\', seq('x', hex_digit, hex_digit))
-      )
-    },
+    )),
 
     boolean_literal: $ => choice('true', 'false'),
 
