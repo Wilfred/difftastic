@@ -5518,26 +5518,20 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "STRING",
-                  "value": "&"
-                },
-                {
-                  "type": "SEQ",
-                  "members": [
-                    {
-                      "type": "STRING",
-                      "value": "&"
-                    },
-                    {
-                      "type": "SYMBOL",
-                      "name": "mutable_specifier"
-                    }
-                  ]
-                }
-              ]
+              "type": "STRING",
+              "value": "&"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "mutable_specifier"
             },
             {
               "type": "BLANK"

@@ -347,8 +347,9 @@ impl Person {
   const leg_count : u32 = 2;
 
   fn walk(self) {}
-
-  fn talk(& mut self) {}
+  fn walk_mut(mut self) {}
+  fn talk(& self) {}
+  fn talk_mut(& mut self) {}
 }
 
 ---
@@ -357,6 +358,8 @@ impl Person {
   (impl_item
     (type_identifier)
     (const_item (identifier) (primitive_type) (number_literal))
+    (function_item (identifier) (parameters (self_parameter (self))) (block))
+    (function_item (identifier) (parameters (self_parameter (mutable_specifier) (self))) (block))
     (function_item (identifier) (parameters (self_parameter (self))) (block))
     (function_item (identifier) (parameters (self_parameter (mutable_specifier) (self))) (block))))
 
