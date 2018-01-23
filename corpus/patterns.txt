@@ -17,3 +17,20 @@ match x {
     (match_arm
       (match_pattern (tuple_struct_pattern (scoped_identifier (identifier) (identifier))))
       (string_literal))))
+
+=================================
+Reference patterns
+=================================
+
+match x {
+  Some(ref x) => x.0
+}
+
+---
+
+(source_file
+  (match_expression (identifier)
+    (match_arm
+      (match_pattern
+        (tuple_struct_pattern (identifier) (ref_pattern (identifier))))
+      (field_expression (identifier) (number_literal)))))
