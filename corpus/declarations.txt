@@ -72,11 +72,20 @@ Extern function declarations
 ============================================
 
 extern "C" fn foo() {}
+extern "C" fn printf(
+    *const c_char,
+    ...,
+) {}
 
 ---
 
 (source_file
-  (function_item (extern_modifier (string_literal)) (identifier) (parameters) (block)))
+  (function_item (extern_modifier (string_literal)) (identifier) (parameters) (block))
+  (function_item
+    (extern_modifier (string_literal))
+    (identifier)
+    (parameters (pointer_type (type_identifier)) (variadic_parameter))
+    (block)))
 
 ============================================
 Use declarations
