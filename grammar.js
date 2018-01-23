@@ -308,10 +308,8 @@ module.exports = grammar({
     trait_item: $ => seq(
       optional($.visibility_modifier),
       'trait',
-      choice(
-        alias($.identifier, $.type_identifier),
-        $.scoped_type_identifier
-      ),
+      alias($.identifier, $.type_identifier),
+      optional($.type_parameters),
       optional($.trait_bounds),
       '{',
       repeat($._item),
@@ -350,6 +348,7 @@ module.exports = grammar({
       sepBy1(',', choice(
         alias($.identifier, $.type_identifier),
         $.constrained_type_parameter,
+        $.optional_type_parameter,
         $.lifetime
       )),
       '>'
@@ -358,6 +357,12 @@ module.exports = grammar({
     constrained_type_parameter: $ => seq(
       alias($.identifier, $.type_identifier),
       ':',
+      $._type_expression
+    ),
+
+    optional_type_parameter: $ => seq(
+      alias($.identifier, $.type_identifier),
+      '=',
       $._type_expression
     ),
 
@@ -481,9 +486,16 @@ module.exports = grammar({
       '<',
       sepBy1(',', choice(
         $._type_expression,
+        $.type_binding,
         $.lifetime
       )),
       '>'
+    ),
+
+    type_binding: $ => seq(
+      alias($.identifier, $.type_identifier),
+      '=',
+      $._type_expression
     ),
 
     reference_type: $ => seq(
