@@ -489,3 +489,29 @@ pub(in crate) fn d() {}
   (function_item (visibility_modifier (super)) (identifier) (parameters) (block))
   (function_item (visibility_modifier (self)) (identifier) (parameters) (block))
   (function_item (visibility_modifier) (identifier) (parameters) (block)))
+
+=====================
+Where clauses
+=====================
+
+fn walk<F>(&self, it: &mut F) -> bool
+    where F: FnMut(&Pat) -> bool
+{
+  return false
+}
+
+---
+
+(source_file
+  (function_item
+    (identifier)
+    (type_parameters (type_identifier))
+    (parameters
+      (self_parameter (self))
+      (parameter (identifier) (reference_type (mutable_specifier) (type_identifier))))
+    (primitive_type)
+    (where_clause
+      (where_predicate
+        (type_identifier)
+        (trait_bounds (function_type (type_identifier) (reference_type (type_identifier)) (primitive_type)))))
+    (block (return_expression (boolean_literal)))))

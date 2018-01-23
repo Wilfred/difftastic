@@ -327,6 +327,7 @@ module.exports = grammar({
         seq('->', $._type_expression)),
         '!'
       ),
+      optional($.where_clause),
       $.block
     ),
 
@@ -341,6 +342,16 @@ module.exports = grammar({
         '!'
       ),
       ';'
+    ),
+
+    where_clause: $ => seq(
+      'where',
+      sepBy1(',', $.where_predicate)
+    ),
+
+    where_predicate: $ => seq(
+      $._type_identifier,
+      $.trait_bounds
     ),
 
     impl_item: $ => seq(
@@ -498,6 +509,7 @@ module.exports = grammar({
       $.tuple_type,
       $.unit_type,
       $.array_type,
+      $.function_type,
       $._type_identifier,
       alias(choice(
         numeric_type,
@@ -515,6 +527,21 @@ module.exports = grammar({
         $._expression
       )),
       ']'
+    ),
+
+    function_type: $ => seq(
+      prec(PREC.call, seq(
+        choice(
+          $._type_identifier,
+          $.scoped_identifier,
+          'fn'
+        ),
+        '(',
+        sepBy(',', $._type_expression),
+        ')',
+      )),
+      '->',
+      $._type_expression
     ),
 
     tuple_type: $ => seq(
