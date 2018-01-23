@@ -572,3 +572,20 @@ impl<'a, T: 'a + Item> Iterator for Iter<'a, T> where Self: 'a {
     (impl_for_clause (type_identifier) (type_arguments (lifetime (identifier)) (type_identifier)))
     (where_clause (where_predicate (type_identifier) (trait_bounds (lifetime (identifier)))))
     (declaration_list)))
+
+===================================
+External Modules
+===================================
+
+pub extern {
+  pub fn napi_module_register(mod_: *mut napi_module);
+}
+
+extern "C" {}
+
+---
+
+(source_file
+  (foreign_mod_item (visibility_modifier) (declaration_list
+    (function_signature_item (visibility_modifier) (identifier) (parameters (parameter (identifier) (pointer_type (mutable_specifier) (type_identifier)))))))
+  (foreign_mod_item (string_literal) (declaration_list)))

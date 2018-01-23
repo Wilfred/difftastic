@@ -69,6 +69,7 @@ module.exports = grammar({
       $.attribute_item,
       $.inner_attribute_item,
       $.mod_item,
+      $.foreign_mod_item,
       $.struct_item,
       $.enum_item,
       $.type_item,
@@ -186,6 +187,16 @@ module.exports = grammar({
       optional($.visibility_modifier),
       'mod',
       $.identifier,
+      choice(
+        ';',
+        $.declaration_list
+      )
+    ),
+
+    foreign_mod_item: $ => seq(
+      optional($.visibility_modifier),
+      'extern',
+      optional($.string_literal),
       choice(
         ';',
         $.declaration_list
@@ -587,6 +598,7 @@ module.exports = grammar({
         $.type_binding,
         $.lifetime
       )),
+      optional(','),
       '>'
     ),
 
