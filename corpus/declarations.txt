@@ -153,11 +153,11 @@ struct Inches(i32);
   (struct_item (type_identifier))
   (struct_item (type_identifier) (field_declaration_list))
   (struct_item (type_identifier) (field_declaration_list
-    (field_declaration (visibility_modifier) (identifier) (type_identifier))
-    (field_declaration (visibility_modifier) (identifier) (primitive_type))))
+    (field_declaration (visibility_modifier) (field_identifier) (type_identifier))
+    (field_declaration (visibility_modifier) (field_identifier) (primitive_type))))
   (struct_item (type_identifier) (field_declaration_list
-    (field_declaration (identifier) (primitive_type))
-    (field_declaration (identifier) (primitive_type))))
+    (field_declaration (field_identifier) (primitive_type))
+    (field_declaration (field_identifier) (primitive_type))))
   (struct_item (type_identifier) (ordered_field_declaration_list
     (visibility_modifier) (primitive_type) (primitive_type) (primitive_type)))
   (struct_item (type_identifier) (ordered_field_declaration_list
@@ -178,10 +178,10 @@ pub union in6_addr__bindgen_ty_1 {
 
 (source_file
   (union_item (visibility_modifier) (type_identifier) (field_declaration_list
-    (field_declaration (visibility_modifier) (identifier) (array_type (type_identifier) (number_literal)))
-    (field_declaration (visibility_modifier) (identifier) (array_type (type_identifier) (number_literal)))
-    (field_declaration (visibility_modifier) (identifier) (array_type (type_identifier) (number_literal)))
-    (field_declaration (identifier) (array_type (primitive_type) (number_literal))))))
+    (field_declaration (visibility_modifier) (field_identifier) (array_type (type_identifier) (number_literal)))
+    (field_declaration (visibility_modifier) (field_identifier) (array_type (type_identifier) (number_literal)))
+    (field_declaration (visibility_modifier) (field_identifier) (array_type (type_identifier) (number_literal)))
+    (field_declaration (field_identifier) (array_type (primitive_type) (number_literal))))))
 
 ============================================
 Generic structs
@@ -239,15 +239,15 @@ pub enum Node<T: Item> {
       (enum_variant
         (identifier)
         (field_declaration_list
-          (field_declaration (identifier) (generic_type
+          (field_declaration (field_identifier) (generic_type
             (type_identifier)
             (type_arguments
               (generic_type (type_identifier) (type_arguments (type_identifier))))))
-          (field_declaration (identifier) (primitive_type))))
+          (field_declaration (field_identifier) (primitive_type))))
       (enum_variant
         (identifier)
         (field_declaration_list
-          (field_declaration (identifier) (type_identifier)))))))
+          (field_declaration (field_identifier) (type_identifier)))))))
 
 ============================================
 Enums with values specified
