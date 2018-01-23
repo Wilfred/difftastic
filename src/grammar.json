@@ -1518,6 +1518,18 @@
           ]
         },
         {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "extern_modifier"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
           "type": "STRING",
           "value": "fn"
         },
@@ -1706,6 +1718,18 @@
     "impl_item": {
       "type": "SEQ",
       "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "unsafe"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
         {
           "type": "STRING",
           "value": "impl"
@@ -2516,6 +2540,19 @@
         }
       ]
     },
+    "extern_modifier": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "extern"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "string_literal"
+        }
+      ]
+    },
     "visibility_modifier": {
       "type": "SEQ",
       "members": [
@@ -3099,6 +3136,10 @@
         }
       ]
     },
+    "unsafe": {
+      "type": "STRING",
+      "value": "unsafe"
+    },
     "mutable_specifier": {
       "type": "STRING",
       "value": "mut"
@@ -3237,6 +3278,10 @@
     "_expression_ending_with_block": {
       "type": "CHOICE",
       "members": [
+        {
+          "type": "SYMBOL",
+          "name": "unsafe_block"
+        },
         {
           "type": "SYMBOL",
           "name": "block"
@@ -5183,6 +5228,19 @@
           }
         ]
       }
+    },
+    "unsafe_block": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "unsafe"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "block"
+        }
+      ]
     },
     "block": {
       "type": "SEQ",

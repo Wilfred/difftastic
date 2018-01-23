@@ -298,6 +298,7 @@ module.exports = grammar({
 
     function_item: $ => seq(
       optional($.visibility_modifier),
+      optional($.extern_modifier),
       'fn',
       $.identifier,
       optional($.type_parameters),
@@ -334,6 +335,7 @@ module.exports = grammar({
     ),
 
     impl_item: $ => seq(
+      optional($.unsafe),
       'impl',
       optional($.type_parameters),
       choice(
@@ -470,6 +472,11 @@ module.exports = grammar({
       '::'
     ),
 
+    extern_modifier: $ => seq(
+      'extern',
+      $.string_literal
+    ),
+
     visibility_modifier: $ => seq(
       'pub',
       optional(seq(
@@ -595,6 +602,8 @@ module.exports = grammar({
       $._type
     ),
 
+    unsafe: $ => 'unsafe',
+
     mutable_specifier: $ => 'mut',
 
     // Section - Expressions
@@ -632,6 +641,7 @@ module.exports = grammar({
     )),
 
     _expression_ending_with_block: $ => choice(
+      $.unsafe_block,
       $.block,
       $.if_expression,
       $.if_let_expression,
@@ -919,6 +929,11 @@ module.exports = grammar({
       '.',
       choice($.identifier, alias($._integer_literal, $.number_literal))
     )),
+
+    unsafe_block: $ => seq(
+      $.unsafe,
+      $.block
+    ),
 
     block: $ => seq(
       '{',
