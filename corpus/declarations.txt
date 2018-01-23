@@ -17,10 +17,10 @@ pub mod english;
 
 (source_file
   (mod_item (identifier))
-  (mod_item (identifier))
-  (mod_item (identifier)
-    (mod_item (identifier))
-    (mod_item (identifier)))
+  (mod_item (identifier) (declaration_list))
+  (mod_item (identifier) (declaration_list
+    (mod_item (identifier) (declaration_list))
+    (mod_item (identifier) (declaration_list))))
   (mod_item (visibility_modifier) (identifier)))
 
 ============================================
@@ -323,7 +323,7 @@ mod macos_only {}
   (struct_item (type_identifier))
 
   (attribute_item (meta_item (identifier) (meta_item (identifier) (string_literal))))
-  (mod_item (identifier)))
+  (mod_item (identifier) (declaration_list)))
 
 ============================================
 Inner attributes
@@ -336,8 +336,8 @@ mod macos_only {
 ---
 
 (source_file
-  (mod_item (identifier)
-    (inner_attribute_item (meta_item (identifier) (meta_item (identifier) (string_literal))))))
+  (mod_item (identifier) (declaration_list
+    (inner_attribute_item (meta_item (identifier) (meta_item (identifier) (string_literal)))))))
 
 ===========================================
 Inherent Impls
@@ -355,13 +355,12 @@ impl Person {
 ---
 
 (source_file
-  (impl_item
-    (type_identifier)
+  (impl_item (type_identifier) (declaration_list
     (const_item (identifier) (primitive_type) (number_literal))
     (function_item (identifier) (parameters (self_parameter (self))) (block))
     (function_item (identifier) (parameters (self_parameter (mutable_specifier) (self))) (block))
     (function_item (identifier) (parameters (self_parameter (self))) (block))
-    (function_item (identifier) (parameters (self_parameter (mutable_specifier) (self))) (block))))
+    (function_item (identifier) (parameters (self_parameter (mutable_specifier) (self))) (block)))))
 
 ===========================================
 Trait impls
@@ -382,17 +381,19 @@ impl ConvertTo<i64> for i32 {
     (scoped_type_identifier (identifier) (type_identifier))
     (impl_for_clause
       (scoped_type_identifier (identifier) (type_identifier))
-      (type_arguments (lifetime (identifier)))))
+      (type_arguments (lifetime (identifier))))
+    (declaration_list))
   (impl_item
     (type_identifier)
     (type_arguments (primitive_type))
     (impl_for_clause (type_identifier))
-    (function_item
-      (identifier)
-      (parameters (self_parameter (self)))
-      (primitive_type)
-      (block
-        (binary_expression (type_cast_expression (unary_expression (self)) (primitive_type)))))))
+    (declaration_list
+      (function_item
+        (identifier)
+        (parameters (self_parameter (self)))
+        (primitive_type)
+        (block
+          (binary_expression (type_cast_expression (unary_expression (self)) (primitive_type))))))))
 
 ============================================
 Trait declarations
@@ -412,10 +413,11 @@ pub trait Item: Clone + Eq + fmt::Debug {
       (type_identifier)
       (type_identifier)
       (scoped_type_identifier (identifier) (type_identifier)))
-    (function_signature_item
-      (identifier)
-      (parameters (self_parameter (self)))
-      (scoped_type_identifier (identifier) (type_identifier)))))
+    (declaration_list
+      (function_signature_item
+        (identifier)
+        (parameters (self_parameter (self)))
+        (scoped_type_identifier (identifier) (type_identifier))))))
 
 ============================================
 Trait declarations with optional type parameters
@@ -432,11 +434,12 @@ trait Add<RHS=Self> {
   (trait_item
     (type_identifier)
     (type_parameters (optional_type_parameter (type_identifier) (type_identifier)))
-    (associated_type (type_identifier))
-    (function_signature_item
-      (identifier)
-      (parameters (self_parameter (self)) (parameter (identifier) (type_identifier)))
-      (scoped_type_identifier (identifier) (type_identifier)))))
+    (declaration_list
+      (associated_type (type_identifier))
+      (function_signature_item
+        (identifier)
+        (parameters (self_parameter (self)) (parameter (identifier) (type_identifier)))
+        (scoped_type_identifier (identifier) (type_identifier))))))
 
 ============================================
 Associated Types
@@ -453,8 +456,9 @@ pub trait Graph {
   (trait_item
     (visibility_modifier)
     (type_identifier)
-    (associated_type (type_identifier) (trait_bounds (scoped_type_identifier (identifier) (type_identifier))))
-    (associated_type (type_identifier))))
+    (declaration_list
+      (associated_type (type_identifier) (trait_bounds (scoped_type_identifier (identifier) (type_identifier))))
+      (associated_type (type_identifier)))))
 
 =====================
 Higher-ranked types
@@ -471,7 +475,8 @@ trait T: for<'a> AddAssign<&'a usize> {
     (trait_bounds
       (higher_ranked_trait_bound
         (type_parameters (lifetime (identifier)))
-        (generic_type (type_identifier) (type_arguments (reference_type (lifetime (identifier)) (primitive_type))))))))
+        (generic_type (type_identifier) (type_arguments (reference_type (lifetime (identifier)) (primitive_type))))))
+    (declaration_list)))
 
 =====================
 Visibility modifiers

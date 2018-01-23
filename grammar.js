@@ -61,7 +61,18 @@ module.exports = grammar({
     ),
 
     _declaration_statement: $ => choice(
-      $._item,
+      $.const_item,
+      $.attribute_item,
+      $.inner_attribute_item,
+      $.mod_item,
+      $.struct_item,
+      $.enum_item,
+      $.type_item,
+      $.function_item,
+      $.function_signature_item,
+      $.impl_item,
+      $.trait_item,
+      $.associated_type,
       $.let_declaration,
       $.use_declaration,
       $.extern_crate_declaration,
@@ -174,21 +185,6 @@ module.exports = grammar({
       $.for_expression
     ),
 
-    _item: $ => choice(
-      $.const_item,
-      $.attribute_item,
-      $.inner_attribute_item,
-      $.mod_item,
-      $.struct_item,
-      $.enum_item,
-      $.type_item,
-      $.function_item,
-      $.function_signature_item,
-      $.impl_item,
-      $.trait_item,
-      $.associated_type
-    ),
-
     attribute_item: $ => seq(
       '#',
       '[',
@@ -218,16 +214,14 @@ module.exports = grammar({
       $.identifier,
       choice(
         ';',
-        seq(
-          '{',
-          repeat(choice(
-            $._item,
-            $.use_declaration,
-            $.extern_crate_declaration
-          )),
-          '}'
-        )
+        $.declaration_list
       )
+    ),
+
+    declaration_list: $ => seq(
+      '{',
+      repeat($._declaration_statement),
+      '}'
     ),
 
     struct_item: $ => seq(
@@ -374,9 +368,7 @@ module.exports = grammar({
       ),
       optional($.type_arguments),
       optional($.impl_for_clause),
-      '{',
-      repeat($._item),
-      '}'
+      $.declaration_list
     ),
 
     trait_item: $ => seq(
@@ -385,9 +377,7 @@ module.exports = grammar({
       $._type_identifier,
       optional($.type_parameters),
       optional($.trait_bounds),
-      '{',
-      repeat($._item),
-      '}'
+      $.declaration_list
     ),
 
     associated_type: $ => seq(

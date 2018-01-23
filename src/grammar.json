@@ -64,7 +64,51 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "_item"
+          "name": "const_item"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "attribute_item"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "inner_attribute_item"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "mod_item"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "struct_item"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "enum_item"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "type_item"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "function_item"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "function_signature_item"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "impl_item"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "trait_item"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "associated_type"
         },
         {
           "type": "SYMBOL",
@@ -1019,59 +1063,6 @@
         }
       ]
     },
-    "_item": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "const_item"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "attribute_item"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "inner_attribute_item"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "mod_item"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "struct_item"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "enum_item"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "type_item"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "function_item"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "function_signature_item"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "impl_item"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "trait_item"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "associated_type"
-        }
-      ]
-    },
     "attribute_item": {
       "type": "SEQ",
       "members": [
@@ -1242,39 +1233,30 @@
               "value": ";"
             },
             {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "STRING",
-                  "value": "{"
-                },
-                {
-                  "type": "REPEAT",
-                  "content": {
-                    "type": "CHOICE",
-                    "members": [
-                      {
-                        "type": "SYMBOL",
-                        "name": "_item"
-                      },
-                      {
-                        "type": "SYMBOL",
-                        "name": "use_declaration"
-                      },
-                      {
-                        "type": "SYMBOL",
-                        "name": "extern_crate_declaration"
-                      }
-                    ]
-                  }
-                },
-                {
-                  "type": "STRING",
-                  "value": "}"
-                }
-              ]
+              "type": "SYMBOL",
+              "name": "declaration_list"
             }
           ]
+        }
+      ]
+    },
+    "declaration_list": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "{"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_declaration_statement"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "}"
         }
       ]
     },
@@ -2055,19 +2037,8 @@
           ]
         },
         {
-          "type": "STRING",
-          "value": "{"
-        },
-        {
-          "type": "REPEAT",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_item"
-          }
-        },
-        {
-          "type": "STRING",
-          "value": "}"
+          "type": "SYMBOL",
+          "name": "declaration_list"
         }
       ]
     },
@@ -2119,19 +2090,8 @@
           ]
         },
         {
-          "type": "STRING",
-          "value": "{"
-        },
-        {
-          "type": "REPEAT",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_item"
-          }
-        },
-        {
-          "type": "STRING",
-          "value": "}"
+          "type": "SYMBOL",
+          "name": "declaration_list"
         }
       ]
     },
