@@ -651,8 +651,10 @@ module.exports = grammar({
       $.object_creation_expression,
       $.update_expression,
       $.shell_command_expression,
-      seq('(', $._expression, ')')
+      $.parenthesized_expression,
     ),
+
+    parenthesized_expression: $ => seq('(', $._expression, ')'),
 
     class_constant_access_expression: $ => seq(
       $._scope_resolution_qualifier, '::', choice($.name, alias($._reserved_identifier, $.name))
