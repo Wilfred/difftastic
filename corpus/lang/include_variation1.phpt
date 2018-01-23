@@ -8,4 +8,4 @@ include("inc.inc");
 
 ---
 
-(program  (expression_statement (include_expression (string))))
+(program  (expression_statement (include_expression (parenthesized_expression (string)))))
