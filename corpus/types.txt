@@ -36,6 +36,19 @@ type D = &'a mut str;
   (type_item (type_identifier) (reference_type (lifetime (identifier)) (mutable_specifier) (primitive_type))))
 
 =====================
+Raw pointer types
+=====================
+
+type A = *mut B;
+type C = *const str;
+
+---
+
+(source_file
+  (type_item (type_identifier) (pointer_type (mutable_specifier) (type_identifier)))
+  (type_item (type_identifier) (pointer_type  (primitive_type))))
+
+=====================
 Generic types
 =====================
 
