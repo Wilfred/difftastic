@@ -451,7 +451,7 @@ f a = c where c = d
       (variable_identifier))
     (function_body
       (variable_identifier)
-      (where_pattern
+      (where
         (function_declaration
           (function_head
             (variable_identifier))

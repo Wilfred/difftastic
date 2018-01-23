@@ -29,7 +29,7 @@
             },
             {
               "type": "SYMBOL",
-              "name": "where_pattern"
+              "name": "where"
             }
           ]
         },
@@ -596,7 +596,7 @@
               "members": [
                 {
                   "type": "SYMBOL",
-                  "name": "where_pattern"
+                  "name": "where"
                 },
                 {
                   "type": "BLANK"
@@ -607,7 +607,7 @@
         }
       ]
     },
-    "where_pattern": {
+    "where": {
       "type": "SEQ",
       "members": [
         {
@@ -1310,12 +1310,8 @@
           }
         },
         {
-          "type": "STRING",
-          "value": "where"
-        },
-        {
           "type": "SYMBOL",
-          "name": "_declarations"
+          "name": "where"
         }
       ]
     },
@@ -1350,12 +1346,8 @@
           }
         },
         {
-          "type": "STRING",
-          "value": "where"
-        },
-        {
           "type": "SYMBOL",
-          "name": "_declarations"
+          "name": "where"
         }
       ]
     },

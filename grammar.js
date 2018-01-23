@@ -51,8 +51,7 @@ module.exports = grammar({
         'module',
         $.module_identifier,
         optional($.module_exports),
-        'where',
-        $.declarations
+        $.where
       ),
       repeat(seq($._declaration, choice(';', $._layout_semicolon)))
     ),
@@ -143,11 +142,12 @@ module.exports = grammar({
     function_body: $ => choice(
       seq(
         '=',
-        repeat($._expression)
+        repeat($._expression),
+        optional($.where)
       )
     ),
 
-    where_pattern: $ => seq(
+    where: $ => seq(
       'where',
       choice($._declarations)
     ),
@@ -292,8 +292,7 @@ module.exports = grammar({
       optional($.context),
       $.constructor_identifier,
       repeat($.variable_identifier),
-      'where',
-      $._declarations
+      $.where
     ),
 
     type_class_instance: $ => seq(
@@ -301,8 +300,7 @@ module.exports = grammar({
       optional($.context),
       $.constructor_identifier,
       repeat($.variable_identifier),
-      'where',
-      $._declarations
+      $.where
     ),
 
     fixity: $ => seq(

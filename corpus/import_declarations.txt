@@ -11,7 +11,7 @@ import Either()
 
 (module
   (module_identifier)
-  (declarations
+  (where
     (import (module_identifier))
     (import
       (module_identifier)
@@ -29,7 +29,7 @@ import Data.Maybe (Maybe(..))
 
 (module
   (module_identifier)
-  (declarations
+  (where
     (import
       (module_identifier)
       (import_specification (constructor_identifier)))))
@@ -46,7 +46,7 @@ import Data.Maybe (fromMaybe, fromJust)
 
 (module
   (module_identifier)
-  (declarations
+  (where
     (import
       (module_identifier)
       (import_specification (variable_identifier) (variable_identifier)))))
@@ -63,7 +63,7 @@ import Data.Maybe (Maybe(..), fromMaybe, fromJust)
 
 (module
   (module_identifier)
-  (declarations
+  (where
     (import
       (module_identifier)
       (import_specification
@@ -85,7 +85,7 @@ import qualified Data.Function (fix)
 
 (module
   (module_identifier)
-  (declarations
+  (where
     (import
       (module_identifier))
     (import
@@ -108,7 +108,7 @@ import qualified Either as E ()
 
 (module
   (module_identifier)
-  (declarations
+  (where
     (import
       (module_identifier)
       (module_identifier))
@@ -129,7 +129,7 @@ import Data.Maybe as DM (Maybe(..), fromMaybe)
 
 (module
   (module_identifier)
-  (declarations
+  (where
     (import
       (module_identifier)
       (module_identifier)
@@ -149,7 +149,7 @@ import qualified Data.Maybe as M (Maybe(..), fromMaybe)
 
 (module
   (module_identifier)
-  (declarations
+  (where
     (import
       (module_identifier)
       (module_identifier)
@@ -167,7 +167,7 @@ import Data.Maybe hiding (Maybe(..), fromMaybe)
 
 (module
   (module_identifier)
-  (declarations
+  (where
     (import
       (module_identifier)
       (import_specification (constructor_identifier) (variable_identifier)))))
@@ -187,7 +187,7 @@ import qualified Data.List as DL hiding (head)
 
 (module
   (module_identifier)
-  (declarations
+  (where
     (import
       (module_identifier)
       (import_specification))
