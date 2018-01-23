@@ -1,7 +1,6 @@
 const PREC = {
   call: 14,
   field: 13,
-  control_flow_expression: 12,
   unary: 11,
   multiplicative: 10,
   additive: 9,
@@ -40,6 +39,7 @@ module.exports = grammar({
   inline: $ => [
     $._type_identifier,
     $._non_special_token,
+    $._declaration_statement,
     $._expression_ending_with_block
   ],
 
@@ -47,11 +47,30 @@ module.exports = grammar({
     source_file: $ => repeat($._statement),
 
     _statement: $ => choice(
-      $._declaration_statement,
-      $._expression_statement,
+      $.empty_statement,
       $.macro_definition,
-      $.empty_statement
+      $._expression_statement,
+      $._declaration_statement,
     ),
+
+    empty_statement: $ => ';',
+
+    _expression_statement: $ => choice(
+      seq($._expression, ';'),
+      prec(1, $._expression_ending_with_block)
+    ),
+
+    _declaration_statement: $ => choice(
+      $._item,
+      $.let_declaration,
+      $.use_declaration,
+      $.extern_crate_declaration,
+      $.static_item
+    ),
+
+    /*
+    Section - macro definitions
+    */
 
     macro_definition: $ => {
       const rules = seq(
@@ -130,7 +149,7 @@ module.exports = grammar({
       $.macro_arguments
     ),
 
-    macro_name: $abc => /[a-zA-Z_][\w]+!/,
+    macro_name: $ => /[a-zA-Z_][\w]+!/,
 
     macro_arguments: $ => {
       const args = choice(
@@ -144,14 +163,6 @@ module.exports = grammar({
         seq('[', args, ']')
       )
     },
-
-    _declaration_statement: $ => choice(
-      $._item,
-      $.let_declaration,
-      $.use_declaration,
-      $.extern_crate_declaration,
-      $.static_item
-    ),
 
     _expression_ending_with_block: $ => choice(
       $.block,
@@ -632,11 +643,6 @@ module.exports = grammar({
 
     mutable_specifier: $ => 'mut',
 
-    _expression_statement: $ => choice(
-      seq($._expression, ';'),
-      prec(1, $._expression_ending_with_block)
-    ),
-
     _expression: $ => choice(
       $._no_struct_literal_expr,
       $.struct_expression
@@ -1060,9 +1066,7 @@ module.exports = grammar({
 
     super: $ => 'super',
 
-    metavariable: $ => /\$[a-zA-Z_]\w*/,
-
-    empty_statement: $ => ';'
+    metavariable: $ => /\$[a-zA-Z_]\w*/
   }
 })
 

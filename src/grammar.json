@@ -13,11 +13,7 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "_declaration_statement"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_expression_statement"
+          "name": "empty_statement"
         },
         {
           "type": "SYMBOL",
@@ -25,7 +21,66 @@
         },
         {
           "type": "SYMBOL",
-          "name": "empty_statement"
+          "name": "_expression_statement"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_declaration_statement"
+        }
+      ]
+    },
+    "empty_statement": {
+      "type": "STRING",
+      "value": ";"
+    },
+    "_expression_statement": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_expression"
+            },
+            {
+              "type": "STRING",
+              "value": ";"
+            }
+          ]
+        },
+        {
+          "type": "PREC",
+          "value": 1,
+          "content": {
+            "type": "SYMBOL",
+            "name": "_expression_ending_with_block"
+          }
+        }
+      ]
+    },
+    "_declaration_statement": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_item"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "let_declaration"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "use_declaration"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "extern_crate_declaration"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "static_item"
         }
       ]
     },
@@ -924,31 +979,6 @@
               "value": "]"
             }
           ]
-        }
-      ]
-    },
-    "_declaration_statement": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "_item"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "let_declaration"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "use_declaration"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "extern_crate_declaration"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "static_item"
         }
       ]
     },
@@ -3432,32 +3462,6 @@
     "mutable_specifier": {
       "type": "STRING",
       "value": "mut"
-    },
-    "_expression_statement": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "_expression"
-            },
-            {
-              "type": "STRING",
-              "value": ";"
-            }
-          ]
-        },
-        {
-          "type": "PREC",
-          "value": 1,
-          "content": {
-            "type": "SYMBOL",
-            "name": "_expression_ending_with_block"
-          }
-        }
-      ]
     },
     "_expression": {
       "type": "CHOICE",
@@ -6100,10 +6104,6 @@
     "metavariable": {
       "type": "PATTERN",
       "value": "\\$[a-zA-Z_]\\w*"
-    },
-    "empty_statement": {
-      "type": "STRING",
-      "value": ";"
     }
   },
   "extras": [
@@ -6125,6 +6125,7 @@
   "inline": [
     "_type_identifier",
     "_non_special_token",
+    "_declaration_statement",
     "_expression_ending_with_block"
   ]
 }
