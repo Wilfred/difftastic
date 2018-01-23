@@ -2601,6 +2601,10 @@
           "name": "tuple_struct_pattern"
         },
         {
+          "type": "SYMBOL",
+          "name": "ref_pattern"
+        },
+        {
           "type": "STRING",
           "value": "_"
         }
@@ -2708,6 +2712,19 @@
         {
           "type": "STRING",
           "value": ")"
+        }
+      ]
+    },
+    "ref_pattern": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "ref"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_pattern"
         }
       ]
     },

@@ -465,6 +465,7 @@ module.exports = grammar({
       $.identifier,
       $.tuple_pattern,
       $.tuple_struct_pattern,
+      $.ref_pattern,
       '_'
     ),
 
@@ -482,6 +483,11 @@ module.exports = grammar({
       '(',
       sepBy(',', $._pattern),
       ')'
+    ),
+
+    ref_pattern: $ => seq(
+      'ref',
+      $._pattern
     ),
 
     _type_expression: $ => choice(
