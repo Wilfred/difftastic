@@ -518,3 +518,17 @@ d.map(|mut e| {
         (block
           (call_expression (identifier) (arguments (identifier)))
           (call_expression (identifier) (arguments (identifier))))))))
+
+===========================================
+Unsafe blocks
+===========================================
+
+const a : A = unsafe { foo() };
+
+---
+
+(source_file
+  (const_item
+    (identifier)
+    (type_identifier)
+    (unsafe_block (unsafe) (block (call_expression (identifier) (arguments))))))

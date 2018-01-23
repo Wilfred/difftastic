@@ -68,6 +68,17 @@ fn takes_slice(slice: &str) {
     (block (macro_invocation (identifier) (macro_arguments (string_literal) (identifier))))))
 
 ============================================
+Extern function declarations
+============================================
+
+extern "C" fn foo() {}
+
+---
+
+(source_file
+  (function_item (extern_modifier (string_literal)) (identifier) (parameters) (block)))
+
+============================================
 Use declarations
 ============================================
 
@@ -394,6 +405,17 @@ impl ConvertTo<i64> for i32 {
         (primitive_type)
         (block
           (binary_expression (type_cast_expression (unary_expression (self)) (primitive_type))))))))
+
+===========================================
+Unsafe impls
+===========================================
+
+unsafe impl Foo {
+}
+
+---
+
+(source_file (impl_item (unsafe) (type_identifier) (declaration_list)))
 
 ============================================
 Trait declarations
