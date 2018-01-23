@@ -279,7 +279,7 @@ Function Declarations With Tuples
 =================================================
 
 f (1, 2) = 1
-f (Just 1, Just 2) = Just 1
+f ((Just 1), Just 2) = Just 1
 f (Just a, Nothing) = Nothing
 
 ---
@@ -297,9 +297,10 @@ f (Just a, Nothing) = Nothing
     (function_head
       (variable_identifier)
       (tuple_pattern
-        (general_constructor
-          (constructor_identifier)
-          (integer))
+        (parenthesized_pattern
+          (general_constructor
+            (constructor_identifier)
+            (integer)))
         (general_constructor
           (constructor_identifier)
           (integer))))
