@@ -37,6 +37,10 @@ module.exports = grammar({
 
   extras: $ => [/\s/, $.line_comment, $.block_comment],
 
+  inline: $ => [
+    $._type_identifier
+  ],
+
   rules: {
     source_file: $ => repeat($._statement),
 
@@ -152,6 +156,7 @@ module.exports = grammar({
       $.inner_attribute_item,
       $.mod_item,
       $.struct_item,
+      $.enum_item,
       $.type_item,
       $.function_item,
       $.function_signature_item,
@@ -204,24 +209,57 @@ module.exports = grammar({
     struct_item: $ => seq(
       optional($.visibility_modifier),
       'struct',
-      alias($.identifier, $.type_identifier),
+      $._type_identifier,
       optional($.type_parameters),
       choice(
-        ';',
-        seq(
-          '{',
-          sepBy(',', seq($.identifier, ':', $._type_expression)),
-          optional(','),
-          '}'
-        ),
-        seq(
-          '(',
-          sepBy(',', $._type_expression),
-          optional(','),
-          ')',
-          ';'
-        )
+        $.field_declaration_list,
+        seq($.ordered_field_declaration_list, ';'),
+        ';'
       )
+    ),
+
+    enum_item: $ => seq(
+      optional($.visibility_modifier),
+      'enum',
+      $._type_identifier,
+      optional($.type_parameters),
+      $.enum_variant_list
+    ),
+
+    enum_variant_list: $ => seq(
+      '{',
+      sepBy(',', $.enum_variant),
+      optional(','),
+      '}'
+    ),
+
+    enum_variant: $ => seq(
+      optional($.visibility_modifier),
+      $.identifier,
+      optional(choice(
+        $.field_declaration_list,
+        $.ordered_field_declaration_list
+      ))
+    ),
+
+    field_declaration_list: $ => seq(
+      '{',
+      sepBy(',', $.field_declaration),
+      optional(','),
+      '}'
+    ),
+
+    field_declaration: $ => seq(
+      $.identifier,
+      ':',
+      $._type_expression
+    ),
+
+    ordered_field_declaration_list: $ => seq(
+      '(',
+      sepBy(',', $._type_expression),
+      optional(','),
+      ')'
     ),
 
     extern_crate_declaration: $ => seq(
@@ -259,7 +297,7 @@ module.exports = grammar({
     type_item: $ => seq(
       optional($.visibility_modifier),
       'type',
-      alias($.identifier, $.type_identifier),
+      $._type_identifier,
       '=',
       $._type_expression,
       ';'
@@ -295,7 +333,7 @@ module.exports = grammar({
       'impl',
       optional($.type_parameters),
       choice(
-        alias($.identifier, $.type_identifier),
+        $._type_identifier,
         $.scoped_type_identifier
       ),
       optional($.type_arguments),
@@ -308,7 +346,7 @@ module.exports = grammar({
     trait_item: $ => seq(
       optional($.visibility_modifier),
       'trait',
-      alias($.identifier, $.type_identifier),
+      $._type_identifier,
       optional($.type_parameters),
       optional($.trait_bounds),
       '{',
@@ -318,7 +356,7 @@ module.exports = grammar({
 
     associated_type: $ => seq(
       'type',
-      alias($.identifier, $.type_identifier),
+      $._type_identifier,
       optional($.trait_bounds),
       ';'
     ),
@@ -337,7 +375,7 @@ module.exports = grammar({
     impl_for_clause: $ => seq(
       'for',
       choice(
-        alias($.identifier, $.type_identifier),
+        $._type_identifier,
         $.scoped_type_identifier
       ),
       optional($.type_arguments)
@@ -346,7 +384,7 @@ module.exports = grammar({
     type_parameters: $ => seq(
       '<',
       sepBy1(',', choice(
-        alias($.identifier, $.type_identifier),
+        $._type_identifier,
         $.constrained_type_parameter,
         $.optional_type_parameter,
         $.lifetime
@@ -355,13 +393,13 @@ module.exports = grammar({
     ),
 
     constrained_type_parameter: $ => seq(
-      alias($.identifier, $.type_identifier),
+      $._type_identifier,
       ':',
       $._type_expression
     ),
 
     optional_type_parameter: $ => seq(
-      alias($.identifier, $.type_identifier),
+      $._type_identifier,
       '=',
       $._type_expression
     ),
@@ -438,7 +476,7 @@ module.exports = grammar({
       $.scoped_type_identifier,
       $.tuple_type,
       $.unit_type,
-      alias($.identifier, $.type_identifier),
+      $._type_identifier,
       alias(choice(
         numeric_type,
         'bool',
@@ -467,7 +505,7 @@ module.exports = grammar({
 
     generic_type: $ => prec(1, seq(
       choice(
-        alias($.identifier, $.type_identifier),
+        $._type_identifier,
         $.scoped_identifier
       ),
       $.type_arguments
@@ -475,7 +513,7 @@ module.exports = grammar({
 
     generic_type_with_turbofish: $ => seq(
       choice(
-        alias($.identifier, $.type_identifier),
+        $._type_identifier,
         $.scoped_identifier
       ),
       '::',
@@ -493,7 +531,7 @@ module.exports = grammar({
     ),
 
     type_binding: $ => seq(
-      alias($.identifier, $.type_identifier),
+      $._type_identifier,
       '=',
       $._type_expression
     ),
@@ -565,7 +603,7 @@ module.exports = grammar({
         alias($.generic_type_with_turbofish, $.generic_type)
       )),
       '::',
-      alias($.identifier, $.type_identifier)
+      $._type_identifier
     )),
 
     scoped_type_identifier: $ => seq(
@@ -577,7 +615,7 @@ module.exports = grammar({
         $.generic_type
       ),
       '::',
-      alias($.identifier, $.type_identifier)
+      $._type_identifier
     ),
 
     range_expression: $ => prec.left(PREC.range, choice(
@@ -661,18 +699,22 @@ module.exports = grammar({
 
     struct_expression: $ => seq(
       choice(
-        alias($.identifier, $.type_identifier),
+        $._type_identifier,
         alias($.scoped_type_identifier_in_expression_position, $.scoped_type_identifier)
       ),
-      seq(
-        '{',
-        sepBy(',', choice(
-          $.identifier,
-          seq($.identifier, ':', $._expression)
-        )),
-        '}'
-      )
+      $.field_initializer_list
     ),
+
+    field_initializer_list: $ => seq(
+      '{',
+      sepBy(',', choice(
+        alias($.identifier, $.shorthand_field_identifier),
+        $.field_initializer
+      )),
+      '}'
+    ),
+
+    field_initializer: $ => seq($.identifier, ':', $._expression),
 
     if_expression: $ => seq(
       'if',
@@ -850,6 +892,8 @@ module.exports = grammar({
     )),
 
     identifier: $ => /[a-zA-Z_][\w]*/,
+
+    _type_identifier: $ => alias($.identifier, $.type_identifier),
 
     field_expression: $ => prec(PREC.field, seq(
       $._expression,

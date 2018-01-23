@@ -203,22 +203,28 @@ let u = game::User {name: "Joe", age: 35, score: 100_000};
 ---
 
 (source_file
-  (struct_expression (type_identifier))
   (struct_expression (type_identifier)
-    (identifier) (number_literal)
-    (identifier) (number_literal))
+    (field_initializer_list))
+  (struct_expression (type_identifier)
+    (field_initializer_list
+      (field_initializer (identifier) (number_literal))
+      (field_initializer (identifier) (number_literal))))
   (let_declaration
     (identifier)
-    (struct_expression (type_identifier)
-      (identifier)
-      (identifier) (identifier)
-      (identifier)))
+    (struct_expression
+      (type_identifier)
+      (field_initializer_list
+        (shorthand_field_identifier)
+        (field_initializer (identifier) (identifier))
+        (shorthand_field_identifier))))
   (let_declaration
     (identifier)
-    (struct_expression (scoped_type_identifier (identifier) (type_identifier))
-      (identifier) (string_literal)
-      (identifier) (number_literal)
-      (identifier) (number_literal))))
+    (struct_expression
+      (scoped_type_identifier (identifier) (type_identifier))
+      (field_initializer_list
+        (field_initializer (identifier) (string_literal))
+        (field_initializer (identifier) (number_literal))
+        (field_initializer (identifier) (number_literal))))))
 
 ============================================
 If expressions
