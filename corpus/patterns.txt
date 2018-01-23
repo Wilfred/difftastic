@@ -39,3 +39,56 @@ match x {
       (match_pattern
         (scoped_identifier (identifier) (identifier)))
       (call_expression (identifier) (arguments)))))
+
+=================================
+Struct patterns
+=================================
+
+match x {
+  Person{name, age} if age < 5 => ("toddler", name),
+  Person{name: adult_name, age: _} => ("adult", adult_name),
+}
+
+---
+
+(source_file
+  (match_expression
+    (identifier)
+    (match_arm
+      (match_pattern (struct_pattern
+        (identifier)
+        (field_pattern (shorthand_field_identifier))
+        (field_pattern (shorthand_field_identifier)))
+        (binary_expression (identifier) (number_literal)))
+      (tuple_expression (string_literal) (identifier)))
+    (match_arm
+      (match_pattern
+        (struct_pattern
+          (identifier)
+          (field_pattern (identifier) (identifier))
+          (field_pattern (identifier))))
+      (tuple_expression (string_literal) (identifier)))))
+
+=================================
+Ignored patterns
+=================================
+
+match x {
+  (a, ..) => a,
+  B(..) => c,
+  D::E{f: g, ..} => g
+}
+
+---
+
+(source_file
+  (match_expression (identifier)
+    (match_arm
+      (match_pattern (tuple_pattern (identifier) (remaining_field_pattern)))
+      (identifier))
+    (match_arm
+      (match_pattern (tuple_struct_pattern (identifier) (remaining_field_pattern)))
+      (identifier))
+    (match_arm
+      (match_pattern (struct_pattern (scoped_identifier (identifier) (identifier)) (field_pattern (identifier) (identifier)) (remaining_field_pattern)))
+      (identifier))))

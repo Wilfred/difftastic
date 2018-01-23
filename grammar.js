@@ -477,7 +477,9 @@ module.exports = grammar({
       $.scoped_identifier,
       $.tuple_pattern,
       $.tuple_struct_pattern,
+      $.struct_pattern,
       $.ref_pattern,
+      $.remaining_field_pattern,
       '_'
     ),
 
@@ -496,6 +498,23 @@ module.exports = grammar({
       sepBy(',', $._pattern),
       ')'
     ),
+
+    struct_pattern: $ => seq(
+      choice(
+        $.identifier,
+        $.scoped_identifier
+      ),
+      '{',
+      sepBy(',', choice($.field_pattern, $.remaining_field_pattern)),
+      '}'
+    ),
+
+    field_pattern: $ => choice(
+      alias($.identifier, $.shorthand_field_identifier),
+      seq($.identifier, ':', $._pattern)
+    ),
+
+    remaining_field_pattern: $ => '..',
 
     ref_pattern: $ => seq(
       'ref',
