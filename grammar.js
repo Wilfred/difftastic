@@ -488,6 +488,7 @@ module.exports = grammar({
 
     _type: $ => choice(
       $.reference_type,
+      $.pointer_type,
       $.generic_type,
       $.scoped_type_identifier,
       $.tuple_type,
@@ -585,6 +586,12 @@ module.exports = grammar({
       '&',
       optional($.lifetime),
       optional($.mutable_specifier),
+      $._type
+    ),
+
+    pointer_type: $ => seq(
+      '*',
+      choice('const', $.mutable_specifier),
       $._type
     ),
 
