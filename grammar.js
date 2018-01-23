@@ -534,8 +534,10 @@ module.exports = grammar({
         sepBy(',', $._type),
         ')'
       )),
-      '->',
-      $._type
+      optional(seq(
+        '->',
+        $._type
+      ))
     ),
 
     tuple_type: $ => seq(
@@ -907,7 +909,7 @@ module.exports = grammar({
 
     closure_parameters: $ => seq(
       '|',
-      sepBy(',', $.closure_parameter),
+      sepBy(',', choice($.closure_parameter, $.parameter)),
       '|'
     ),
 

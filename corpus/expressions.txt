@@ -520,6 +520,21 @@ d.map(|mut e| {
           (call_expression (identifier) (arguments (identifier))))))))
 
 ===========================================
+Closures with typed parameteres
+===========================================
+
+a.map(|b: usize| b.push(c));
+
+---
+
+(source_file
+  (call_expression
+    (field_expression (identifier) (identifier))
+    (arguments (closure_expression
+      (closure_parameters (parameter (identifier) (primitive_type)))
+      (call_expression (field_expression (identifier) (identifier)) (arguments (identifier)))))))
+
+===========================================
 Unsafe blocks
 ===========================================
 
