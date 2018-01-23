@@ -1760,6 +1760,18 @@
           ]
         },
         {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "where_clause"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
           "type": "SYMBOL",
           "name": "declaration_list"
         }
@@ -1866,6 +1878,10 @@
                 },
                 {
                   "type": "SYMBOL",
+                  "name": "lifetime"
+                },
+                {
+                  "type": "SYMBOL",
                   "name": "higher_ranked_trait_bound"
                 }
               ]
@@ -1885,6 +1901,10 @@
                       {
                         "type": "SYMBOL",
                         "name": "_type"
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "lifetime"
                       },
                       {
                         "type": "SYMBOL",
