@@ -1,7 +1,7 @@
 const PREC = {
   call: 14,
   field: 13,
-  control_flow_statement: 12,
+  control_flow_expression: 12,
   unary: 11,
   multiplicative: 10,
   additive: 9,
@@ -39,7 +39,8 @@ module.exports = grammar({
 
   inline: $ => [
     $._type_identifier,
-    $._non_special_token
+    $._non_special_token,
+    $._expression_ending_with_block
   ],
 
   rules: {
@@ -48,7 +49,6 @@ module.exports = grammar({
     _statement: $ => choice(
       $._declaration_statement,
       $._expression_statement,
-      $._control_flow_statement,
       $.expr_macro_rules,
       $.empty_statement
     ),
@@ -153,7 +153,8 @@ module.exports = grammar({
       $.static_item
     ),
 
-    _control_flow_statement: $ => prec(PREC.control_flow_statement, choice(
+    _expression_ending_with_block: $ => choice(
+      $.block,
       $.if_expression,
       $.if_let_expression,
       $.match_expression,
@@ -161,7 +162,7 @@ module.exports = grammar({
       $.while_let_expression,
       $.loop_expression,
       $.for_expression
-    )),
+    ),
 
     _item: $ => choice(
       $.const_item,
@@ -631,10 +632,10 @@ module.exports = grammar({
 
     mutable_specifier: $ => 'mut',
 
-    _expression_statement: $ => prec.right(seq(
-      $._expression,
-      ';'
-    )),
+    _expression_statement: $ => choice(
+      seq($._expression, ';'),
+      prec(1, $._expression_ending_with_block)
+    ),
 
     _expression: $ => choice(
       $._no_struct_literal_expr,
@@ -659,13 +660,7 @@ module.exports = grammar({
       $.tuple_expression,
       $.macro_invocation,
       $.unit_expression,
-      $.if_expression,
-      $.if_let_expression,
-      $.match_expression,
-      $.while_expression,
-      $.while_let_expression,
-      $.loop_expression,
-      $.for_expression,
+      $._expression_ending_with_block,
       $.break_expression,
       $.continue_expression,
       $._index_expression,
@@ -853,14 +848,14 @@ module.exports = grammar({
       '=>',
       choice(
         seq($._expression, ','),
-        $.block
+        prec(1, $._expression_ending_with_block)
       )
     ),
 
     last_match_arm: $ => seq(
       $.match_pattern,
       '=>',
-      choice($._expression, $.block),
+      $._expression,
       optional(',')
     ),
 
