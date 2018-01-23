@@ -590,6 +590,7 @@ module.exports = grammar({
     _no_struct_literal_expr: $ => prec.left(choice(
       $.unary_expression,
       $.reference_expression,
+      $.try_expression,
       $.binary_expression,
       $.range_expression,
       $.call_expression,
@@ -664,6 +665,11 @@ module.exports = grammar({
       choice('-', '*', '!'),
       $._expression
     )),
+
+    try_expression: $ => seq(
+      $._expression,
+      '?'
+    ),
 
     reference_expression: $ => prec(PREC.unary, seq(
       '&',
@@ -783,15 +789,25 @@ module.exports = grammar({
       'match',
       $._no_struct_literal_expr,
       '{',
-      sepBy(',', $.match_arm),
-      optional(','),
+      repeat($.match_arm),
+      alias($.last_match_arm, $.match_arm),
       '}'
     ),
 
     match_arm: $ => seq(
       $.match_pattern,
       '=>',
-      choice($._expression, $.block)
+      choice(
+        seq($._expression, ','),
+        $.block
+      )
+    ),
+
+    last_match_arm: $ => seq(
+      $.match_pattern,
+      '=>',
+      choice($._expression, $.block),
+      optional(',')
     ),
 
     match_pattern: $ => seq(

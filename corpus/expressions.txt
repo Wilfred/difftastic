@@ -41,6 +41,17 @@ Reference expressions
   (reference_expression (mutable_specifier) (field_expression (self) (identifier))))
 
 ============================================
+Try expressions
+============================================
+
+a.unwrap()?;
+
+---
+
+(source_file
+  (try_expression (call_expression (field_expression (identifier) (identifier)) (arguments))))
+
+============================================
 Binary operator expressions
 ============================================
 
@@ -302,7 +313,7 @@ Match expressions
 ============================================
 
 match x {
-    1 => "one",
+    1 => { "one" }
     2 => "two",
     3 => "three",
     _ => "something else",
@@ -319,7 +330,7 @@ let msg = match x {
 
 (source_file
   (match_expression (identifier)
-    (match_arm (match_pattern (number_literal)) (string_literal))
+    (match_arm (match_pattern (number_literal)) (block (string_literal)))
     (match_arm (match_pattern (number_literal)) (string_literal))
     (match_arm (match_pattern (number_literal)) (string_literal))
     (match_arm (match_pattern) (string_literal)))
