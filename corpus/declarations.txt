@@ -472,3 +472,20 @@ trait T: for<'a> AddAssign<&'a usize> {
       (higher_ranked_trait_bound
         (type_parameters (lifetime (identifier)))
         (generic_type (type_identifier) (type_arguments (reference_type (lifetime (identifier)) (primitive_type))))))))
+
+=====================
+Visibility modifiers
+=====================
+
+pub fn a() {}
+pub(super) fn b() {}
+pub(self) fn c() {}
+pub(in crate) fn d() {}
+
+---
+
+(source_file
+  (function_item (visibility_modifier) (identifier) (parameters) (block))
+  (function_item (visibility_modifier (super)) (identifier) (parameters) (block))
+  (function_item (visibility_modifier (self)) (identifier) (parameters) (block))
+  (function_item (visibility_modifier) (identifier) (parameters) (block)))

@@ -976,7 +976,19 @@ module.exports = grammar({
       '::'
     ),
 
-    visibility_modifier: $ => 'pub',
+    visibility_modifier: $ => seq(
+      'pub',
+      optional(seq(
+        '(',
+        optional('in'),
+        choice(
+          'crate',
+          $.self,
+          $.super
+        ),
+        ')'
+      ))
+    ),
 
     self: $ => 'self',
 
