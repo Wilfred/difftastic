@@ -360,7 +360,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "non_special_token"
+          "name": "_non_special_token"
         }
       ]
     },
@@ -591,39 +591,71 @@
           },
           {
             "type": "SYMBOL",
-            "name": "_statement"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "_expression"
-          },
-          {
-            "type": "SEQ",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "_expression"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "non_special_token"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "_expression"
-              }
-            ]
-          },
-          {
-            "type": "SYMBOL",
-            "name": "non_special_token"
+            "name": "_non_special_token"
           }
         ]
       }
     },
-    "non_special_token": {
-      "type": "PATTERN",
-      "value": "[^\\(\\)\\[\\]{}$]+"
+    "_non_special_token": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "identifier"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "metavariable"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_literal"
+        },
+        {
+          "type": "STRING",
+          "value": "=>"
+        },
+        {
+          "type": "STRING",
+          "value": "if"
+        },
+        {
+          "type": "STRING",
+          "value": "for"
+        },
+        {
+          "type": "STRING",
+          "value": "while"
+        },
+        {
+          "type": "STRING",
+          "value": "let"
+        },
+        {
+          "type": "STRING",
+          "value": "fn"
+        },
+        {
+          "type": "STRING",
+          "value": "*"
+        },
+        {
+          "type": "STRING",
+          "value": "+"
+        },
+        {
+          "type": "STRING",
+          "value": "!"
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "STRING",
+          "value": ";"
+        }
+      ]
     },
     "macro_invocation": {
       "type": "SEQ",
@@ -3255,7 +3287,7 @@
         "type": "SEQ",
         "members": [
           {
-            "type": "SEQ",
+            "type": "CHOICE",
             "members": [
               {
                 "type": "CHOICE",
@@ -3282,6 +3314,9 @@
                     "value": "generic_type"
                   }
                 ]
+              },
+              {
+                "type": "BLANK"
               }
             ]
           },
@@ -3303,7 +3338,7 @@
         "type": "SEQ",
         "members": [
           {
-            "type": "SEQ",
+            "type": "CHOICE",
             "members": [
               {
                 "type": "CHOICE",
@@ -3330,6 +3365,9 @@
                     "value": "generic_type"
                   }
                 ]
+              },
+              {
+                "type": "BLANK"
               }
             ]
           },
@@ -3351,29 +3389,37 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "SYMBOL",
-              "name": "self"
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "self"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "identifier"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "scoped_identifier"
+                },
+                {
+                  "type": "ALIAS",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "generic_type_with_turbofish"
+                  },
+                  "named": true,
+                  "value": "generic_type"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "generic_type"
+                }
+              ]
             },
             {
-              "type": "SYMBOL",
-              "name": "identifier"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "scoped_identifier"
-            },
-            {
-              "type": "ALIAS",
-              "content": {
-                "type": "SYMBOL",
-                "name": "generic_type_with_turbofish"
-              },
-              "named": true,
-              "value": "generic_type"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "generic_type"
+              "type": "BLANK"
             }
           ]
         },
@@ -5665,6 +5711,7 @@
   "conflicts": [],
   "externals": [],
   "inline": [
-    "_type_identifier"
+    "_type_identifier",
+    "_non_special_token"
   ]
 }
