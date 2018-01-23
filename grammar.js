@@ -327,7 +327,13 @@ module.exports = grammar({
 
     trait_bounds: $ => seq(
       ':',
-      sepBy1('+', $._type_expression)
+      sepBy1('+', choice($._type_expression, $.higher_ranked_trait_bound))
+    ),
+
+    higher_ranked_trait_bound: $ => seq(
+      'for',
+      $.type_parameters,
+      $._type_expression
     ),
 
     impl_for_clause: $ => seq(
