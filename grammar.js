@@ -480,7 +480,8 @@ module.exports = grammar({
 
     parameters: $ => seq(
       '(',
-      sepBy(',', choice($.self_parameter, $.parameter, $._type)),
+      sepBy(',', choice($.self_parameter, $.parameter, $._type, $.variadic_parameter)),
+      optional(','),
       ')'
     ),
 
@@ -490,6 +491,8 @@ module.exports = grammar({
       optional($.mutable_specifier),
       $.self
     ),
+
+    variadic_parameter: $ => '...',
 
     parameter: $ => seq(
       optional($.mutable_specifier),

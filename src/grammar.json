@@ -2557,6 +2557,10 @@
                     {
                       "type": "SYMBOL",
                       "name": "_type"
+                    },
+                    {
+                      "type": "SYMBOL",
+                      "name": "variadic_parameter"
                     }
                   ]
                 },
@@ -2583,6 +2587,10 @@
                           {
                             "type": "SYMBOL",
                             "name": "_type"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "variadic_parameter"
                           }
                         ]
                       }
@@ -2590,6 +2598,18 @@
                   }
                 }
               ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": ","
             },
             {
               "type": "BLANK"
@@ -2646,6 +2666,10 @@
           "name": "self"
         }
       ]
+    },
+    "variadic_parameter": {
+      "type": "STRING",
+      "value": "..."
     },
     "parameter": {
       "type": "SEQ",
