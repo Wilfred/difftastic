@@ -363,3 +363,21 @@ pub trait Item: Clone + Eq + fmt::Debug {
       (identifier)
       (parameters (self_parameter (self)))
       (scoped_type_identifier (identifier) (type_identifier)))))
+
+============================================
+Associated Types
+============================================
+
+pub trait Graph {
+    type N: fmt::Display;
+    type E;
+}
+
+---
+
+(source_file
+  (trait_item
+    (visibility_modifier)
+    (type_identifier)
+    (associated_type (type_identifier) (trait_bounds (scoped_type_identifier (identifier) (type_identifier))))
+    (associated_type (type_identifier))))

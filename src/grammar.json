@@ -1003,6 +1003,10 @@
         {
           "type": "SYMBOL",
           "name": "trait_item"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "associated_type"
         }
       ]
     },
@@ -1867,6 +1871,40 @@
         {
           "type": "STRING",
           "value": "}"
+        }
+      ]
+    },
+    "associated_type": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "type"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "identifier"
+          },
+          "named": true,
+          "value": "type_identifier"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "trait_bounds"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": ";"
         }
       ]
     },
