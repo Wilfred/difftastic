@@ -231,6 +231,10 @@ module.exports = grammar({
       optional(choice(
         $.field_declaration_list,
         $.ordered_field_declaration_list
+      )),
+      optional(seq(
+        '=',
+        $._expression
       ))
     ),
 
