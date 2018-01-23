@@ -57,7 +57,7 @@ module.exports = grammar({
       repeat(seq($._declaration, choice(';', $._layout_semicolon)))
     ),
 
-    declarations: $ => choice(
+    _declarations: $ => choice(
       seq(
         '{',
         repeat(seq($._declaration, choice(';', $._layout_semicolon))),
@@ -124,10 +124,11 @@ module.exports = grammar({
       $.type_class_instance,
       $.default,
       $.foreign,
-      $.function_declaration,
-      $._general_declaration,
       $._identifier,
-      $._literal
+      $._literal,
+      $.type_signature,
+      $.fixity,
+      $.function_declaration
     ),
 
     function_declaration: $ => seq(
@@ -136,7 +137,7 @@ module.exports = grammar({
     ),
 
     function_head: $ => prec.left(choice(
-      seq($._variable, repeat1($._function_pattern))
+      seq($._variable, repeat($._function_pattern))
     )),
 
     function_body: $ => choice(
@@ -144,6 +145,11 @@ module.exports = grammar({
         '=',
         repeat($._expression)
       )
+    ),
+
+    where_pattern: $ => seq(
+      'where',
+      choice($._declarations)
     ),
 
     _function_pattern: $ => choice(
@@ -287,20 +293,7 @@ module.exports = grammar({
       $.constructor_identifier,
       repeat($.variable_identifier),
       'where',
-      $.general_declarations
-    ),
-
-    general_declarations: $ => choice(
-      seq(
-        '{',
-        repeat(seq($._general_declaration, choice(';', $._layout_semicolon))),
-        '}'
-      ),
-      seq(
-        $._layout_open_brace,
-        repeat(seq($._general_declaration, choice(';', $._layout_semicolon))),
-        $._layout_close_brace
-      )
+      $._declarations
     ),
 
     type_class_instance: $ => seq(
@@ -309,13 +302,7 @@ module.exports = grammar({
       $.constructor_identifier,
       repeat($.variable_identifier),
       'where',
-      $.general_declarations
-    ),
-
-    // TODO: Make general declarations representative of the spec.
-    _general_declaration: $ => choice(
-      $.type_signature,
-      $.fixity
+      $._declarations
     ),
 
     fixity: $ => seq(
