@@ -273,3 +273,36 @@ f ([]) = 1
         (list_constructor)))
     (function_body
       (integer))))
+
+=================================================
+Function Declarations With Tuples
+=================================================
+
+f (1, 2) = 1
+f (Just 1, Just 2) = Just 1
+
+---
+
+(module
+  (function_declaration
+    (function_head
+      (variable_identifier)
+      (tuple_pattern
+        (integer)
+        (integer)))
+    (function_body
+      (integer)))
+  (function_declaration
+    (function_head
+      (variable_identifier)
+      (tuple_pattern
+        (general_constructor
+          (constructor_identifier)
+          (integer))
+        (general_constructor
+          (constructor_identifier)
+          (integer))))
+    (function_body
+      (general_constructor
+        (constructor_identifier)
+        (integer)))))
