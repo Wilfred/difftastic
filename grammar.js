@@ -737,12 +737,18 @@ module.exports = grammar({
       '{',
       sepBy(',', choice(
         alias($.identifier, $.shorthand_field_identifier),
-        $.field_initializer
+        $.field_initializer,
+        $.base_field_initializer
       )),
       '}'
     ),
 
     field_initializer: $ => seq($.identifier, ':', $._expression),
+
+    base_field_initializer: $ => seq(
+      '..',
+      $._expression
+    ),
 
     if_expression: $ => seq(
       'if',

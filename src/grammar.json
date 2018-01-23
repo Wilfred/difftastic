@@ -4179,6 +4179,10 @@
                     {
                       "type": "SYMBOL",
                       "name": "field_initializer"
+                    },
+                    {
+                      "type": "SYMBOL",
+                      "name": "base_field_initializer"
                     }
                   ]
                 },
@@ -4206,6 +4210,10 @@
                           {
                             "type": "SYMBOL",
                             "name": "field_initializer"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "base_field_initializer"
                           }
                         ]
                       }
@@ -4235,6 +4243,19 @@
         {
           "type": "STRING",
           "value": ":"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_expression"
+        }
+      ]
+    },
+    "base_field_initializer": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": ".."
         },
         {
           "type": "SYMBOL",
