@@ -435,3 +435,25 @@ f ~(~(a, b), c) = c
             (variable_identifier))))
     (function_body
       (variable_identifier))))
+
+=================================================
+Function Declarations With Where
+=================================================
+
+f a = c where c = d
+
+---
+
+(module
+  (function_declaration
+    (function_head
+      (variable_identifier)
+      (variable_identifier))
+    (function_body
+      (variable_identifier)
+      (where_pattern
+        (function_declaration
+          (function_head
+            (variable_identifier))
+          (function_body
+            (variable_identifier)))))))
