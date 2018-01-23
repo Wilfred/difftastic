@@ -155,7 +155,13 @@ module.exports = grammar({
       $.parenthesized_pattern,
       $.tuple_pattern,
       $.list_pattern,
-      $.list_constructor
+      $.list_constructor,
+      $.irrefutable_pattern
+    ),
+
+    irrefutable_pattern: $ => seq(
+      '~',
+      $._function_pattern
     ),
 
     list_pattern: $ => seq(

@@ -675,6 +675,23 @@
         {
           "type": "SYMBOL",
           "name": "list_constructor"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "irrefutable_pattern"
+        }
+      ]
+    },
+    "irrefutable_pattern": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "~"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_function_pattern"
         }
       ]
     },
