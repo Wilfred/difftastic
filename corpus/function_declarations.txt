@@ -403,6 +403,7 @@ Function Declarations With Irrefutable Pattern
 =================================================
 
 f ~a = 1
+f ~(-(1)) = 1
 
 ---
 
@@ -412,5 +413,14 @@ f ~a = 1
       (variable_identifier)
       (irrefutable_pattern
         (variable_identifier)))
+    (function_body
+      (integer)))
+  (function_declaration
+    (function_head
+      (variable_identifier)
+      (irrefutable_pattern
+        (parenthesized_pattern
+          (negative_literal
+            (integer)))))
     (function_body
       (integer))))
