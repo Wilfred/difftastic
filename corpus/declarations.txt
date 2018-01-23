@@ -505,6 +505,9 @@ fn walk<F>(&self, it: &mut F) -> bool
   return false
 }
 
+impl<'a, T: 'a + Item> Iterator for Iter<'a, T> where Self: 'a {
+}
+
 ---
 
 (source_file
@@ -519,4 +522,12 @@ fn walk<F>(&self, it: &mut F) -> bool
       (where_predicate
         (type_identifier)
         (trait_bounds (function_type (type_identifier) (reference_type (type_identifier)) (primitive_type)))))
-    (block (return_expression (boolean_literal)))))
+    (block (return_expression (boolean_literal))))
+  (impl_item
+    (type_parameters
+      (lifetime (identifier))
+      (constrained_type_parameter (type_identifier) (lifetime (identifier)) (type_identifier)))
+    (type_identifier)
+    (impl_for_clause (type_identifier) (type_arguments (lifetime (identifier)) (type_identifier)))
+    (where_clause (where_predicate (type_identifier) (trait_bounds (lifetime (identifier)))))
+    (declaration_list)))
