@@ -845,7 +845,11 @@ module.exports = grammar({
         $._integer_literal,
         optional(choice(
           exponent,
-          seq('.', token(repeat(choice(/[0-9]/, '_')), optional(exponent)))
+          seq(
+            '.',
+            optional(/[0-9_]+/),
+            optional(exponent)
+          )
         )),
         optional(numeric_type)
       ))
