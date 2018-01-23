@@ -179,7 +179,7 @@ module.exports = grammar({
     _pattern: $ => prec(1, choice(
       $.negative_literal,
       $.general_constructor,
-      seq($._function_pattern, $._op, $._function_pattern)
+      seq($._function_pattern, $._op, choice($._function_pattern, $._pattern))
     )),
 
     negative_literal: $ => seq('-', '(', $._literal, ')'),
