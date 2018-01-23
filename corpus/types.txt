@@ -86,3 +86,16 @@ type L = M<N>::O;
     (scoped_type_identifier
       (generic_type (type_identifier) (type_arguments (type_identifier)))
       (type_identifier))))
+
+=====================
+Array types
+=====================
+
+type A = [B; 4];
+type C = &[D];
+
+---
+
+(source_file
+  (type_item (type_identifier) (array_type (type_identifier) (number_literal)))
+  (type_item (type_identifier) (reference_type (array_type (type_identifier)))))

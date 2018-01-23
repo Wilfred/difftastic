@@ -395,7 +395,7 @@ module.exports = grammar({
     constrained_type_parameter: $ => seq(
       $._type_identifier,
       ':',
-      $._type_expression
+      sepBy1('+', choice($._type_expression, $.lifetime))
     ),
 
     optional_type_parameter: $ => seq(
@@ -476,6 +476,7 @@ module.exports = grammar({
       $.scoped_type_identifier,
       $.tuple_type,
       $.unit_type,
+      $.array_type,
       $._type_identifier,
       alias(choice(
         numeric_type,
@@ -483,6 +484,16 @@ module.exports = grammar({
         'str',
         'char'
       ), $.primitive_type)
+    ),
+
+    array_type: $ => seq(
+      '[',
+      $._type_expression,
+      optional(seq(
+        ';',
+        $._expression
+      )),
+      ']'
     ),
 
     tuple_type: $ => seq(
