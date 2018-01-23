@@ -426,6 +426,8 @@ Scoped functions
 
 a::b();
 C::<D>::e();
+::f();
+::g::h();
 
 ---
 
@@ -437,7 +439,9 @@ C::<D>::e();
     (scoped_identifier
       (generic_type (type_identifier) (type_arguments (type_identifier)))
       (identifier))
-    (arguments)))
+    (arguments))
+  (call_expression (scoped_identifier (identifier)) (arguments))
+  (call_expression (scoped_identifier (scoped_identifier (identifier)) (identifier)) (arguments)))
 
 ============================================
 Generic functions

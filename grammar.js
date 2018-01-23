@@ -38,7 +38,8 @@ module.exports = grammar({
   extras: $ => [/\s/, $.line_comment, $.block_comment],
 
   inline: $ => [
-    $._type_identifier
+    $._type_identifier,
+    $._non_special_token
   ],
 
   rules: {
@@ -86,7 +87,7 @@ module.exports = grammar({
       seq('{', repeat($._matcher), '}'),
       seq($.metavariable, ':', $.fragment_specifier),
       seq('$', '(', repeat($._matcher), ')', optional(/[^+*]+/), choice('+', '*')),
-      $.non_special_token
+      $._non_special_token
     ),
 
     fragment_specifier: $ => choice(
@@ -104,13 +105,25 @@ module.exports = grammar({
       seq('[', repeat($._transcriber), ']'),
       seq('{', repeat($._transcriber), '}'),
       seq('$', '(', repeat($._transcriber), ')', optional(/[^+*]+/), choice('+', '*')),
-      $._statement,
-      $._expression,
-      seq($._expression, $.non_special_token, $._expression),
-      $.non_special_token
+      $._non_special_token
     )),
 
-    non_special_token: $ => /[^\(\)\[\]{}$]+/,
+    _non_special_token: $ => choice(
+      $.identifier,
+      $.metavariable,
+      $._literal,
+      '=>',
+      'if',
+      'for',
+      'while',
+      'let',
+      'fn',
+      '*',
+      '+',
+      '!',
+      ',',
+      ';'
+    ),
 
     macro_invocation: $ => seq(
       $.macro_name,
@@ -600,7 +613,7 @@ module.exports = grammar({
     )),
 
     scoped_identifier: $ => prec(-1, seq(
-      seq(choice(
+      optional(choice(
         $.self,
         $.identifier,
         $.scoped_identifier,
@@ -611,7 +624,7 @@ module.exports = grammar({
     )),
 
     scoped_type_identifier_in_expression_position: $ => prec(-2, seq(
-      seq(choice(
+      optional(choice(
         $.self,
         $.identifier,
         $.scoped_identifier,
@@ -622,13 +635,13 @@ module.exports = grammar({
     )),
 
     scoped_type_identifier: $ => seq(
-      choice(
+      optional(choice(
         $.self,
         $.identifier,
         $.scoped_identifier,
         alias($.generic_type_with_turbofish, $.generic_type),
         $.generic_type
-      ),
+      )),
       '::',
       $._type_identifier
     ),
