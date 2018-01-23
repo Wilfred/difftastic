@@ -9,7 +9,7 @@ module A where
 
 (module
   (module_identifier)
-  (declarations
+  (where
     (integer)))
 
 =========================================
@@ -23,7 +23,7 @@ module A () where
 (module
   (module_identifier)
   (module_exports)
-  (declarations
+  (where
     (integer)))
 
 =========================================
@@ -45,7 +45,7 @@ module A (Maybe(..), Either(fromEither, either), maybe') where
         (variable_identifier))
     (export
       (variable_identifier)))
-  (declarations))
+  (where))
 
 =========================================
 Module Declaration With Hierarchy
@@ -57,4 +57,4 @@ module A.B' where
 
 (module
   (module_identifier)
-  (declarations))
+  (where))

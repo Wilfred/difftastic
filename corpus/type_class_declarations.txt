@@ -8,8 +8,8 @@ class Show a b where {}
 ---
 
 (module
-  (type_class (constructor_identifier) (variable_identifier) (general_declarations))
-  (type_class (constructor_identifier) (variable_identifier) (variable_identifier) (general_declarations)))
+  (type_class (constructor_identifier) (variable_identifier) (where))
+  (type_class (constructor_identifier) (variable_identifier) (variable_identifier) (where)))
 
 =========================================
 Type Class Declarations With Context
@@ -26,14 +26,14 @@ class (Show (f a), Eq a) => Read f a where {}
     (context (class (constructor_identifier) (variable_identifier)))
     (constructor_identifier)
     (variable_identifier)
-    (general_declarations))
+    (where))
   (type_class
     (context
       (class (constructor_identifier) (variable_identifier))
       (class (constructor_identifier) (variable_identifier)))
     (constructor_identifier)
     (variable_identifier)
-    (general_declarations))
+    (where))
   (type_class
     (context
       (class (constructor_identifier) (variable_identifier) (variable_identifier))
@@ -41,7 +41,7 @@ class (Show (f a), Eq a) => Read f a where {}
     (constructor_identifier)
     (variable_identifier)
     (variable_identifier)
-    (general_declarations)))
+    (where)))
 
 =========================================
 Type Class Declarations With Body
@@ -58,7 +58,7 @@ class Foo a where {
   (type_class
     (constructor_identifier)
     (variable_identifier)
-    (general_declarations
+    (where
       (type_signature
         (variable_identifier)
         (context
@@ -100,7 +100,7 @@ class Foo a where {
   (type_class
     (constructor_identifier)
     (variable_identifier)
-    (general_declarations
+    (where
       (fixity (variable_identifier))
       (fixity (integer) (variable_identifier))
       (fixity (integer) (variable_identifier) (variable_identifier) (variable_identifier))
