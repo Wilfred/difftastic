@@ -2594,6 +2594,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "scoped_identifier"
+        },
+        {
+          "type": "SYMBOL",
           "name": "tuple_pattern"
         },
         {
