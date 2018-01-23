@@ -40,6 +40,7 @@ Generic types
 type A = B<C>;
 type D = E<F, str>;
 type G = H<'a, I>;
+type J = H<K=L>;
 
 ---
 
@@ -52,7 +53,10 @@ type G = H<'a, I>;
     (generic_type (type_identifier) (type_arguments (type_identifier) (primitive_type))))
   (type_item
     (type_identifier)
-    (generic_type (type_identifier) (type_arguments (lifetime (identifier)) (type_identifier)))))
+    (generic_type (type_identifier) (type_arguments (lifetime (identifier)) (type_identifier))))
+  (type_item
+    (type_identifier)
+    (generic_type (type_identifier) (type_arguments (type_binding (type_identifier) (type_identifier))))))
 
 =====================
 Scoped types

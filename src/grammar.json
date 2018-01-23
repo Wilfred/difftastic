@@ -1828,20 +1828,23 @@
           "value": "trait"
         },
         {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "identifier"
+          },
+          "named": true,
+          "value": "type_identifier"
+        },
+        {
           "type": "CHOICE",
           "members": [
             {
-              "type": "ALIAS",
-              "content": {
-                "type": "SYMBOL",
-                "name": "identifier"
-              },
-              "named": true,
-              "value": "type_identifier"
+              "type": "SYMBOL",
+              "name": "type_parameters"
             },
             {
-              "type": "SYMBOL",
-              "name": "scoped_type_identifier"
+              "type": "BLANK"
             }
           ]
         },
@@ -2044,6 +2047,10 @@
                 },
                 {
                   "type": "SYMBOL",
+                  "name": "optional_type_parameter"
+                },
+                {
+                  "type": "SYMBOL",
                   "name": "lifetime"
                 }
               ]
@@ -2072,6 +2079,10 @@
                       {
                         "type": "SYMBOL",
                         "name": "constrained_type_parameter"
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "optional_type_parameter"
                       },
                       {
                         "type": "SYMBOL",
@@ -2105,6 +2116,28 @@
         {
           "type": "STRING",
           "value": ":"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_type_expression"
+        }
+      ]
+    },
+    "optional_type_parameter": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "identifier"
+          },
+          "named": true,
+          "value": "type_identifier"
+        },
+        {
+          "type": "STRING",
+          "value": "="
         },
         {
           "type": "SYMBOL",
@@ -2767,6 +2800,10 @@
                 },
                 {
                   "type": "SYMBOL",
+                  "name": "type_binding"
+                },
+                {
+                  "type": "SYMBOL",
                   "name": "lifetime"
                 }
               ]
@@ -2789,6 +2826,10 @@
                       },
                       {
                         "type": "SYMBOL",
+                        "name": "type_binding"
+                      },
+                      {
+                        "type": "SYMBOL",
                         "name": "lifetime"
                       }
                     ]
@@ -2801,6 +2842,28 @@
         {
           "type": "STRING",
           "value": ">"
+        }
+      ]
+    },
+    "type_binding": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "identifier"
+          },
+          "named": true,
+          "value": "type_identifier"
+        },
+        {
+          "type": "STRING",
+          "value": "="
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_type_expression"
         }
       ]
     },

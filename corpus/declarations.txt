@@ -365,6 +365,27 @@ pub trait Item: Clone + Eq + fmt::Debug {
       (scoped_type_identifier (identifier) (type_identifier)))))
 
 ============================================
+Trait declarations with optional type parameters
+============================================
+
+trait Add<RHS=Self> {
+    type Output;
+    fn add(self, rhs: RHS) -> Self::Output;
+}
+
+---
+
+(source_file
+  (trait_item
+    (type_identifier)
+    (type_parameters (optional_type_parameter (type_identifier) (type_identifier)))
+    (associated_type (type_identifier))
+    (function_signature_item
+      (identifier)
+      (parameters (self_parameter (self)) (parameter (identifier) (type_identifier)))
+      (scoped_type_identifier (identifier) (type_identifier)))))
+
+============================================
 Associated Types
 ============================================
 
