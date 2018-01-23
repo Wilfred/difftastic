@@ -21,7 +21,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "expr_macro_rules"
+          "name": "macro_definition"
         },
         {
           "type": "SYMBOL",
@@ -29,7 +29,7 @@
         }
       ]
     },
-    "expr_macro_rules": {
+    "macro_definition": {
       "type": "SEQ",
       "members": [
         {
