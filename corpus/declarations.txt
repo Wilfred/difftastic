@@ -543,7 +543,7 @@ impl<'a, T: 'a + Item> Iterator for Iter<'a, T> where Self: 'a {
     (where_clause
       (where_predicate
         (type_identifier)
-        (trait_bounds (function_type (type_identifier) (reference_type (type_identifier)) (primitive_type)))))
+        (trait_bounds (function_type (type_identifier) (parameters (reference_type (type_identifier))) (primitive_type)))))
     (block (return_expression (boolean_literal))))
   (impl_item
     (type_parameters
