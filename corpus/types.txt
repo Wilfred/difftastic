@@ -119,17 +119,26 @@ type C = &[D];
 Function types
 ============================
 
-fn high_order1(value: i32, f: fn(i32) -> i32) -> i32 {
+fn high_order1(value: i32, f: fn(i32)) -> i32 {}
+
+fn high_order2(value: i32, f: fn(i32) -> i32) -> i32 {
     f(value)
 }
 
-fn high_order2(value: i32, f: &FnOnce(i32) -> i32) -> i32 {
+fn high_order3(value: i32, f: &FnOnce(i32) -> i32) -> i32 {
     f(value)
 }
 
 ---
 
 (source_file
+  (function_item
+    (identifier)
+    (parameters
+      (parameter (identifier) (primitive_type))
+      (parameter (identifier) (function_type (primitive_type))))
+    (primitive_type)
+    (block))
   (function_item
     (identifier)
     (parameters
