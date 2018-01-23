@@ -536,6 +536,20 @@ pub(in crate) fn d() {}
   (function_item (visibility_modifier (self)) (identifier) (parameters) (block))
   (function_item (visibility_modifier) (identifier) (parameters) (block)))
 
+========================================================
+Function parameter names that match built-in type names
+========================================================
+
+fn foo(str: *const c_char) {}
+fn bar(bool: bool) {}
+
+---
+
+(source_file
+  (function_item (identifier) (parameters (parameter (identifier) (pointer_type (type_identifier)))) (block))
+  (function_item (identifier) (parameters (parameter (identifier) (primitive_type))) (block)))
+
+
 =====================
 Where clauses
 =====================
