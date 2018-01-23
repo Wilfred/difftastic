@@ -142,7 +142,7 @@ module.exports = grammar({
 
     function_body: $ => seq(
       '=',
-      repeat(choice($._identifier, $._literal))
+      repeat(choice($._identifier, $._literal, $.general_constructor))
     ),
 
     _function_pattern: $ => choice(
