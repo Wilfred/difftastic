@@ -227,6 +227,23 @@ let u = game::User {name: "Joe", age: 35, score: 100_000};
         (field_initializer (identifier) (number_literal))))))
 
 ============================================
+Struct expressions with update initializers
+============================================
+
+let u = User{name, ..current_user()};
+
+---
+
+(source_file
+  (let_declaration
+    (identifier)
+    (struct_expression
+      (type_identifier)
+      (field_initializer_list
+        (shorthand_field_identifier)
+        (base_field_initializer (call_expression (identifier) (arguments)))))))
+
+============================================
 If expressions
 ============================================
 
