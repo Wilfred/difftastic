@@ -349,7 +349,7 @@ impl Person {
   fn walk(self) {}
   fn walk_mut(mut self) {}
   fn talk(& self) {}
-  fn talk_mut(& mut self) {}
+  fn talk_mut(&'a mut self) {}
 }
 
 ---
@@ -360,7 +360,7 @@ impl Person {
     (function_item (identifier) (parameters (self_parameter (self))) (block))
     (function_item (identifier) (parameters (self_parameter (mutable_specifier) (self))) (block))
     (function_item (identifier) (parameters (self_parameter (self))) (block))
-    (function_item (identifier) (parameters (self_parameter (mutable_specifier) (self))) (block)))))
+    (function_item (identifier) (parameters (self_parameter (lifetime (identifier)) (mutable_specifier) (self))) (block)))))
 
 ===========================================
 Trait impls
