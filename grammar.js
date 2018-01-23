@@ -49,11 +49,11 @@ module.exports = grammar({
     _statement: $ => choice(
       $._declaration_statement,
       $._expression_statement,
-      $.expr_macro_rules,
+      $.macro_definition,
       $.empty_statement
     ),
 
-    expr_macro_rules: $ => {
+    macro_definition: $ => {
       const rules = seq(
         repeat(seq($.macro_rule, ';')),
         optional($.macro_rule)

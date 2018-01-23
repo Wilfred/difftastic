@@ -78,19 +78,19 @@ macro_rules! o_O {
 ----
 
 (source_file
-  (expr_macro_rules (identifier) (macro_rule
+  (macro_definition (identifier) (macro_rule
     (matcher)
     (transcriber (identifier) (string_literal))))
-  (expr_macro_rules (identifier) (macro_rule
+  (macro_definition (identifier) (macro_rule
     (matcher)
     (transcriber (number_literal) (number_literal))))
-  (expr_macro_rules (identifier)
+  (macro_definition (identifier)
     (macro_rule
       (matcher (identifier) (metavariable) (fragment_specifier))
       (transcriber (identifier) (string_literal) (metavariable)))
     (macro_rule
       (matcher (identifier) (metavariable) (fragment_specifier))
       (transcriber (identifier) (string_literal) (metavariable))))
-  (expr_macro_rules (identifier) (macro_rule
+  (macro_definition (identifier) (macro_rule
     (matcher (metavariable) (fragment_specifier) (metavariable) (fragment_specifier))
     (transcriber (metavariable) (metavariable)))))
