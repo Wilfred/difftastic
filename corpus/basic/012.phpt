@@ -29,4 +29,4 @@ for ($i=1; $i<$argc; $i++) {
 		(update_expression (variable_name (name)))
 		(compound_statement
 			(echo_statement
-				(binary_expression (binary_expression (binary_expression (binary_expression (variable_name (name)) (float)) (string)) (subscript_expression (dereferencable_expression (variable_name (name))) (variable_name (name)))) (string))))))
+				(binary_expression (binary_expression (binary_expression (parenthesized_expression (binary_expression (variable_name (name)) (float))) (string)) (subscript_expression (dereferencable_expression (variable_name (name))) (variable_name (name)))) (string))))))
