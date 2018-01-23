@@ -119,7 +119,7 @@ Structs
 
 struct Proton;
 struct Electron {}
-struct Point {x: i32, y: i32}
+struct Person {pub name: String, pub age: u32}
 struct Point {
   x: i32,
   y: i32,
@@ -133,8 +133,8 @@ struct Inches(i32);
   (struct_item (type_identifier))
   (struct_item (type_identifier) (field_declaration_list))
   (struct_item (type_identifier) (field_declaration_list
-    (field_declaration (identifier) (primitive_type))
-    (field_declaration (identifier) (primitive_type))))
+    (field_declaration (visibility_modifier) (identifier) (type_identifier))
+    (field_declaration (visibility_modifier) (identifier) (primitive_type))))
   (struct_item (type_identifier) (field_declaration_list
     (field_declaration (identifier) (primitive_type))
     (field_declaration (identifier) (primitive_type))))
