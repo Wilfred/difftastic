@@ -23,7 +23,8 @@ Reference patterns
 =================================
 
 match x {
-  Some(ref x) => x.0
+  A(ref x) => x.0,
+  B::C => Ok()
 }
 
 ---
@@ -33,4 +34,8 @@ match x {
     (match_arm
       (match_pattern
         (tuple_struct_pattern (identifier) (ref_pattern (identifier))))
-      (field_expression (identifier) (number_literal)))))
+      (field_expression (identifier) (number_literal)))
+    (match_arm
+      (match_pattern
+        (scoped_identifier (identifier) (identifier)))
+      (call_expression (identifier) (arguments)))))

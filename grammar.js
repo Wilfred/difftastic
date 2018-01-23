@@ -463,6 +463,7 @@ module.exports = grammar({
     _pattern: $ => choice(
       $._literal,
       $.identifier,
+      $.scoped_identifier,
       $.tuple_pattern,
       $.tuple_struct_pattern,
       $.ref_pattern,
