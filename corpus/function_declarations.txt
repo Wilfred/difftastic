@@ -333,3 +333,38 @@ f (Left a, Right b, -(1)) = b
     (function_body
       (variable_identifier))))
 
+=================================================
+Function Declarations With Lists
+=================================================
+
+f :: [Int] -> Int
+f [] = 0
+f [a] = a
+
+---
+
+(module
+  (type_signature
+    (variable_identifier)
+    (type
+      (list (type (type_constructor)))
+      (type (type_constructor))))
+  (function_declaration
+    (function_head
+      (variable_identifier)
+      (list_constructor))
+    (function_body
+      (integer)))
+  (function_declaration
+    (function_head
+      (variable_identifier)
+      (list_pattern (variable_identifier)))
+    (function_body
+      (variable_identifier))))
+
+=================================================
+Function Declarations With Lists TODO
+=================================================
+
+f (a:bs) = a
+f (a:b:cs) = a

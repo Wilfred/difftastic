@@ -154,7 +154,14 @@ module.exports = grammar({
       seq(choice($._identifier, $.simple_type), '{', optional($.labels), '}'),
       $.parenthesized_pattern,
       $.tuple_pattern,
+      $.list_pattern,
       $.list_constructor
+    ),
+
+    list_pattern: $ => seq(
+      '[',
+      choice($._function_pattern),
+      ']'
     ),
 
     tuple_pattern: $ => seq(
@@ -320,7 +327,7 @@ module.exports = grammar({
     ),
 
     variable_symbol: $ => prec.right(seq($._variable_symbol, repeat($._variable_symbol))),
-    constructor_symbol: $ => prec.right(seq(':', repeat($._constructor_symbol))),
+    constructor_symbol: $ => prec.left(seq(':', repeat($._constructor_symbol))),
 
     type_signature: $ => seq(
       $._identifier,
