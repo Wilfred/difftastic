@@ -281,6 +281,7 @@ Function Declarations With Tuples
 f (1, 2) = 1
 f ((Just 1), Just 2) = Just 1
 f (Just a, Nothing) = Nothing
+f (Left a, Right b, -(1)) = b
 
 ---
 
@@ -317,4 +318,18 @@ f (Just a, Nothing) = Nothing
           (variable_identifier))
         (constructor_identifier)))
     (function_body
-      (constructor_identifier))))
+      (constructor_identifier)))
+  (function_declaration
+    (function_head
+      (variable_identifier)
+      (tuple_pattern
+        (general_constructor
+          (constructor_identifier)
+          (variable_identifier))
+        (general_constructor
+          (constructor_identifier)
+          (variable_identifier))
+        (negative_literal (integer))))
+    (function_body
+      (variable_identifier))))
+
