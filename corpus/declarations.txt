@@ -221,6 +221,25 @@ pub enum Node<T: Item> {
           (field_declaration (identifier) (type_identifier)))))))
 
 ============================================
+Enums with values specified
+============================================
+
+pub enum c_style_enum {
+    val1 = 1,
+    val2 = 2
+}
+
+---
+
+(source_file
+  (enum_item
+    (visibility_modifier)
+    (type_identifier)
+    (enum_variant_list
+      (enum_variant (identifier) (number_literal))
+      (enum_variant (identifier) (number_literal)))))
+
+============================================
 Generic functions
 ============================================
 
