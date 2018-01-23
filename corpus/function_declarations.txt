@@ -397,3 +397,20 @@ f (a:b:c:ds) = a
         (variable_identifier)))
     (function_body
       (variable_identifier))))
+
+=================================================
+Function Declarations With Irrefutable Pattern
+=================================================
+
+f ~a = 1
+
+---
+
+(module
+  (function_declaration
+    (function_head
+      (variable_identifier)
+      (irrefutable_pattern
+        (variable_identifier)))
+    (function_body
+      (integer))))
