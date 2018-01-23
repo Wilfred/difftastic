@@ -812,8 +812,17 @@
                 "name": "_op"
               },
               {
-                "type": "SYMBOL",
-                "name": "_function_pattern"
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "_function_pattern"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "_pattern"
+                  }
+                ]
               }
             ]
           }

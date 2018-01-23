@@ -341,6 +341,7 @@ f :: [Int] -> Int
 f [] = 0
 f [a] = a
 f (a:bs) = a
+f (a:b:cs) = a
 
 ---
 
@@ -370,11 +371,16 @@ f (a:bs) = a
         (constructor_symbol)
         (variable_identifier)))
     (function_body
+      (variable_identifier)))
+  (function_declaration
+    (function_head
+      (variable_identifier)
+      (parenthesized_pattern
+        (variable_identifier)
+        (constructor_symbol)
+        (variable_identifier)
+        (constructor_symbol)
+        (variable_identifier)))
+    (function_body
       (variable_identifier))))
-
-=================================================
-Function Declarations With Lists TODO
-=================================================
-
 f (a:bs) = a
-f (a:b:cs) = a
