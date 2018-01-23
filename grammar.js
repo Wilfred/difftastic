@@ -297,6 +297,7 @@ module.exports = grammar({
     ),
 
     function_item: $ => seq(
+      optional($.unsafe),
       optional($.visibility_modifier),
       optional($.extern_modifier),
       'fn',
@@ -449,7 +450,7 @@ module.exports = grammar({
 
     parameters: $ => seq(
       '(',
-      sepBy(',', choice($.self_parameter, $.parameter)),
+      sepBy(',', choice($.self_parameter, $.parameter, $._type)),
       ')'
     ),
 
@@ -524,15 +525,15 @@ module.exports = grammar({
     ),
 
     function_type: $ => seq(
+      optional($.unsafe),
+      optional($.extern_modifier),
       prec(PREC.call, seq(
         choice(
           $._type_identifier,
           $.scoped_identifier,
           'fn'
         ),
-        '(',
-        sepBy(',', $._type),
-        ')'
+        $.parameters
       )),
       optional(seq(
         '->',
