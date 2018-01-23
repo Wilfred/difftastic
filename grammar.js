@@ -151,7 +151,9 @@ module.exports = grammar({
       $.wildcard,
       $._identifier,
       seq(choice($._identifier, $.simple_type), '{', optional($.labels), '}'),
-      $.parenthesized_pattern
+      $.parenthesized_pattern,
+      $.tuple_pattern,
+      $.list_constructor
     ),
 
     parenthesized_pattern: $ => seq(
