@@ -181,7 +181,7 @@ module.exports = grammar({
       ')'
     ),
 
-    general_constructor: $ => prec.right(seq(
+    general_constructor: $ => prec.right(2, seq(
       $.constructor_identifier,
       repeat1($.variable_identifier)
     )),
