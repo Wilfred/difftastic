@@ -73,6 +73,7 @@ module.exports = grammar({
       $.mod_item,
       $.foreign_mod_item,
       $.struct_item,
+      $.union_item,
       $.enum_item,
       $.type_item,
       $.function_item,
@@ -214,6 +215,18 @@ module.exports = grammar({
     struct_item: $ => seq(
       optional($.visibility_modifier),
       'struct',
+      $._type_identifier,
+      optional($.type_parameters),
+      choice(
+        $.field_declaration_list,
+        seq($.ordered_field_declaration_list, ';'),
+        ';'
+      )
+    ),
+
+    union_item: $ => seq(
+      optional($.visibility_modifier),
+      'union',
       $._type_identifier,
       optional($.type_parameters),
       choice(

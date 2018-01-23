@@ -155,6 +155,26 @@ struct Inches(i32);
     (primitive_type))))
 
 ============================================
+Unions
+============================================
+
+pub union in6_addr__bindgen_ty_1 {
+    pub __u6_addr8: [__uint8_t; 16usize],
+    pub __u6_addr16: [__uint16_t; 8usize],
+    pub __u6_addr32: [__uint32_t; 4usize],
+    _bindgen_union_align: [u32; 4usize],
+}
+
+---
+
+(source_file
+  (union_item (visibility_modifier) (type_identifier) (field_declaration_list
+    (field_declaration (visibility_modifier) (identifier) (array_type (type_identifier) (number_literal)))
+    (field_declaration (visibility_modifier) (identifier) (array_type (type_identifier) (number_literal)))
+    (field_declaration (visibility_modifier) (identifier) (array_type (type_identifier) (number_literal)))
+    (field_declaration (identifier) (array_type (primitive_type) (number_literal))))))
+
+============================================
 Generic structs
 ============================================
 
