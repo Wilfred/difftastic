@@ -21,10 +21,6 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_control_flow_statement"
-        },
-        {
-          "type": "SYMBOL",
           "name": "expr_macro_rules"
         },
         {
@@ -956,42 +952,42 @@
         }
       ]
     },
-    "_control_flow_statement": {
-      "type": "PREC",
-      "value": 12,
-      "content": {
-        "type": "CHOICE",
-        "members": [
-          {
-            "type": "SYMBOL",
-            "name": "if_expression"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "if_let_expression"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "match_expression"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "while_expression"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "while_let_expression"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "loop_expression"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "for_expression"
-          }
-        ]
-      }
+    "_expression_ending_with_block": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "block"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "if_expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "if_let_expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "match_expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "while_expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "while_let_expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "loop_expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "for_expression"
+        }
+      ]
     },
     "_item": {
       "type": "CHOICE",
@@ -3438,21 +3434,30 @@
       "value": "mut"
     },
     "_expression_statement": {
-      "type": "PREC_RIGHT",
-      "value": 0,
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_expression"
+            },
+            {
+              "type": "STRING",
+              "value": ";"
+            }
+          ]
+        },
+        {
+          "type": "PREC",
+          "value": 1,
+          "content": {
             "type": "SYMBOL",
-            "name": "_expression"
-          },
-          {
-            "type": "STRING",
-            "value": ";"
+            "name": "_expression_ending_with_block"
           }
-        ]
-      }
+        }
+      ]
     },
     "_expression": {
       "type": "CHOICE",
@@ -3543,31 +3548,7 @@
           },
           {
             "type": "SYMBOL",
-            "name": "if_expression"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "if_let_expression"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "match_expression"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "while_expression"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "while_let_expression"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "loop_expression"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "for_expression"
+            "name": "_expression_ending_with_block"
           },
           {
             "type": "SYMBOL",
@@ -4766,8 +4747,12 @@
               ]
             },
             {
-              "type": "SYMBOL",
-              "name": "block"
+              "type": "PREC",
+              "value": 1,
+              "content": {
+                "type": "SYMBOL",
+                "name": "_expression_ending_with_block"
+              }
             }
           ]
         }
@@ -4785,17 +4770,8 @@
           "value": "=>"
         },
         {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "_expression"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "block"
-            }
-          ]
+          "type": "SYMBOL",
+          "name": "_expression"
         },
         {
           "type": "CHOICE",
@@ -6148,6 +6124,7 @@
   "externals": [],
   "inline": [
     "_type_identifier",
-    "_non_special_token"
+    "_non_special_token",
+    "_expression_ending_with_block"
   ]
 }
