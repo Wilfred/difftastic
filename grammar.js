@@ -40,6 +40,7 @@ module.exports = grammar({
 
   inline: $ => [
     $._type_identifier,
+    $._field_identifier,
     $._non_special_token,
     $._declaration_statement,
     $._expression_ending_with_block
@@ -273,7 +274,7 @@ module.exports = grammar({
 
     field_declaration: $ => seq(
       optional($.visibility_modifier),
-      $.identifier,
+      $._field_identifier,
       ':',
       $._type
     ),
@@ -843,7 +844,7 @@ module.exports = grammar({
       '}'
     ),
 
-    field_initializer: $ => seq($.identifier, ':', $._expression),
+    field_initializer: $ => seq($._field_identifier, ':', $._expression),
 
     base_field_initializer: $ => seq(
       '..',
@@ -962,7 +963,10 @@ module.exports = grammar({
     field_expression: $ => prec(PREC.field, seq(
       $._expression,
       '.',
-      choice($.identifier, alias($._integer_literal, $.number_literal))
+      choice(
+        $._field_identifier,
+        alias($._integer_literal, $.number_literal)
+      )
     )),
 
     unsafe_block: $ => seq(
@@ -1126,6 +1130,7 @@ module.exports = grammar({
     identifier: $ => /[a-zA-Z_][\w]*/,
 
     _type_identifier: $ => alias($.identifier, $.type_identifier),
+    _field_identifier: $ => alias($.identifier, $.field_identifier),
 
     self: $ => 'self',
 

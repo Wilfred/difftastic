@@ -38,7 +38,7 @@ Reference expressions
 
 (source_file
   (reference_expression (identifier))
-  (reference_expression (mutable_specifier) (field_expression (self) (identifier))))
+  (reference_expression (mutable_specifier) (field_expression (self) (field_identifier))))
 
 ============================================
 Try expressions
@@ -49,7 +49,7 @@ a.unwrap()?;
 ---
 
 (source_file
-  (try_expression (call_expression (field_expression (identifier) (identifier)) (arguments))))
+  (try_expression (call_expression (field_expression (identifier) (field_identifier)) (arguments))))
 
 ============================================
 Binary operator expressions
@@ -218,24 +218,24 @@ let u = game::User {name: "Joe", age: 35, score: 100_000};
     (field_initializer_list))
   (struct_expression (type_identifier)
     (field_initializer_list
-      (field_initializer (identifier) (number_literal))
-      (field_initializer (identifier) (number_literal))))
+      (field_initializer (field_identifier) (number_literal))
+      (field_initializer (field_identifier) (number_literal))))
   (let_declaration
     (identifier)
     (struct_expression
       (type_identifier)
       (field_initializer_list
         (shorthand_field_identifier)
-        (field_initializer (identifier) (identifier))
+        (field_initializer (field_identifier) (identifier))
         (shorthand_field_identifier))))
   (let_declaration
     (identifier)
     (struct_expression
       (scoped_type_identifier (identifier) (type_identifier))
       (field_initializer_list
-        (field_initializer (identifier) (string_literal))
-        (field_initializer (identifier) (number_literal))
-        (field_initializer (identifier) (number_literal))))))
+        (field_initializer (field_identifier) (string_literal))
+        (field_initializer (field_identifier) (number_literal))
+        (field_initializer (field_identifier) (number_literal))))))
 
 ============================================
 Struct expressions with update initializers
@@ -420,23 +420,23 @@ value.0.1.iter();
 ---
 
 (source_file
-  (field_expression (identifier) (identifier))
-  (field_expression (call_expression (identifier) (arguments)) (identifier))
+  (field_expression (identifier) (field_identifier))
+  (field_expression (call_expression (identifier) (arguments)) (field_identifier))
   (call_expression
     (field_expression
       (field_expression (field_expression (identifier) (number_literal)) (number_literal))
-      (identifier))
+      (field_identifier))
     (arguments)))
 
 ============================================
-Method-call expressions
+Method call expressions
 ============================================
 
 mystruct.foo();
 
 ---
 
-(source_file (call_expression (field_expression (identifier) (identifier)) (arguments)))
+(source_file (call_expression (field_expression (identifier) (field_identifier)) (arguments)))
 
 ============================================
 Index expressions
@@ -503,15 +503,15 @@ d.map(|mut e| {
 
 (source_file
   (call_expression
-    (field_expression (identifier) (identifier))
+    (field_expression (identifier) (field_identifier))
     (arguments
       (closure_expression
         (closure_parameters (closure_parameter (tuple_pattern (identifier) (identifier))))
         (call_expression
-          (field_expression (identifier) (identifier))
+          (field_expression (identifier) (field_identifier))
           (arguments (identifier))))))
   (call_expression
-    (field_expression (identifier) (identifier))
+    (field_expression (identifier) (field_identifier))
     (arguments
       (closure_expression
         (closure_parameters (closure_parameter (mutable_specifier) (identifier)))
@@ -529,10 +529,10 @@ a.map(|b: usize| b.push(c));
 
 (source_file
   (call_expression
-    (field_expression (identifier) (identifier))
+    (field_expression (identifier) (field_identifier))
     (arguments (closure_expression
       (closure_parameters (parameter (identifier) (primitive_type)))
-      (call_expression (field_expression (identifier) (identifier)) (arguments (identifier)))))))
+      (call_expression (field_expression (identifier) (field_identifier)) (arguments (identifier)))))))
 
 ===========================================
 Unsafe blocks
