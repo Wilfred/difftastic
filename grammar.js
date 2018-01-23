@@ -127,9 +127,7 @@ module.exports = grammar({
       $.function_declaration,
       $._general_declaration,
       $._identifier,
-
-      // TODO - remove
-      $._expression
+      $._literal
     ),
 
     function_declaration: $ => seq(
@@ -141,9 +139,11 @@ module.exports = grammar({
       seq($._variable, repeat1($._function_pattern))
     )),
 
-    function_body: $ => seq(
-      '=',
-      repeat(choice($._identifier, $._literal, $.general_constructor))
+    function_body: $ => choice(
+      seq(
+        '=',
+        repeat($._expression)
+      )
     ),
 
     _function_pattern: $ => choice(
@@ -229,7 +229,9 @@ module.exports = grammar({
     _expression: $ => choice(
       $._literal,
       $._variable,
-      $.do_expression
+      $.do_expression,
+      $.general_constructor,
+      $._identifier
     ),
 
     foreign: $ => seq(
