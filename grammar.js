@@ -549,7 +549,10 @@ module.exports = grammar({
     ),
 
     reference_type: $ => seq(
-      '&', optional($.lifetime), $._type_expression
+      '&',
+      optional($.lifetime),
+      optional($.mutable_specifier),
+      $._type_expression
     ),
 
     mutable_specifier: $ => 'mut',
