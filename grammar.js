@@ -927,7 +927,8 @@ module.exports = grammar({
     ),
 
     self_parameter: $ => seq(
-      optional(choice('&', seq('&', $.mutable_specifier))),
+      optional('&'),
+      optional($.mutable_specifier),
       $.self
     ),
 

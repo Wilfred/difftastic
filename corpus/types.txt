@@ -32,7 +32,7 @@ type D = &'a mut str;
 
 (source_file
   (type_item (type_identifier) (reference_type (type_identifier)))
-  (type_item (type_identifier) (reference_type (lifetime (identifier)) (primitive_type))))
+  (type_item (type_identifier) (reference_type (lifetime (identifier)) (primitive_type)))
   (type_item (type_identifier) (reference_type (lifetime (identifier)) (mutable_specifier) (primitive_type))))
 
 =====================
