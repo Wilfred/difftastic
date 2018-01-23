@@ -342,6 +342,7 @@ f [] = 0
 f [a] = a
 f (a:bs) = a
 f (a:b:cs) = a
+f (a:b:c:ds) = a
 
 ---
 
@@ -382,5 +383,17 @@ f (a:b:cs) = a
         (constructor_symbol)
         (variable_identifier)))
     (function_body
+      (variable_identifier)))
+  (function_declaration
+    (function_head
+      (variable_identifier)
+      (parenthesized_pattern
+        (variable_identifier)
+        (constructor_symbol)
+        (variable_identifier)
+        (constructor_symbol)
+        (variable_identifier)
+        (constructor_symbol)
+        (variable_identifier)))
+    (function_body
       (variable_identifier))))
-f (a:bs) = a
