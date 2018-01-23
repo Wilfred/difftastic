@@ -200,28 +200,6 @@ module.exports = grammar({
       $._literal
     ),
 
-    _fpat: $ => seq($._identifier, '=', $._pat),
-
-    _pat: $ => prec.right(choice(
-      seq(
-        $._lpat,
-        $._qconop,
-        $._pat
-      ),
-      $._lpat
-    )),
-
-    _qconop: $ => choice(
-      $.constructor_symbol,
-      seq('`', $._identifier, '`')
-    ),
-
-    _lpat: $ => prec(1, choice(
-      $._function_pattern,
-      seq('-','(',$._literal,')'),
-      seq($._identifier, repeat1($._function_pattern))
-    )),
-
     wildcard: $ => '_',
 
     _variable: $ => choice(
