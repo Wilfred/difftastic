@@ -381,3 +381,20 @@ pub trait Graph {
     (type_identifier)
     (associated_type (type_identifier) (trait_bounds (scoped_type_identifier (identifier) (type_identifier))))
     (associated_type (type_identifier))))
+
+=====================
+Higher-ranked types
+=====================
+
+trait T: for<'a> AddAssign<&'a usize> {
+}
+
+---
+
+(source_file
+  (trait_item
+    (type_identifier)
+    (trait_bounds
+      (higher_ranked_trait_bound
+        (type_parameters (lifetime (identifier)))
+        (generic_type (type_identifier) (type_arguments (reference_type (lifetime (identifier)) (primitive_type))))))))
