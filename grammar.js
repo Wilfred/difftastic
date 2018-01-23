@@ -156,7 +156,8 @@ module.exports = grammar({
       $.function_item,
       $.function_signature_item,
       $.impl_item,
-      $.trait_item
+      $.trait_item,
+      $.associated_type
     ),
 
     attribute_item: $ => seq(
@@ -315,6 +316,13 @@ module.exports = grammar({
       '{',
       repeat($._item),
       '}'
+    ),
+
+    associated_type: $ => seq(
+      'type',
+      alias($.identifier, $.type_identifier),
+      optional($.trait_bounds),
+      ';'
     ),
 
     trait_bounds: $ => seq(
