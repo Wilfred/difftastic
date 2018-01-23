@@ -131,16 +131,17 @@ struct Inches(i32);
 
 (source_file
   (struct_item (type_identifier))
-  (struct_item (type_identifier))
-  (struct_item (type_identifier)
-    (identifier) (primitive_type)
-    (identifier) (primitive_type))
-  (struct_item (type_identifier)
-    (identifier) (primitive_type)
-    (identifier) (primitive_type))
-  (struct_item (type_identifier)
-    (primitive_type) (primitive_type) (primitive_type))
-  (struct_item (type_identifier) (primitive_type)))
+  (struct_item (type_identifier) (field_declaration_list))
+  (struct_item (type_identifier) (field_declaration_list
+    (field_declaration (identifier) (primitive_type))
+    (field_declaration (identifier) (primitive_type))))
+  (struct_item (type_identifier) (field_declaration_list
+    (field_declaration (identifier) (primitive_type))
+    (field_declaration (identifier) (primitive_type))))
+  (struct_item (type_identifier) (ordered_field_declaration_list
+    (primitive_type) (primitive_type) (primitive_type)))
+  (struct_item (type_identifier) (ordered_field_declaration_list
+    (primitive_type))))
 
 ============================================
 Generic structs
@@ -154,10 +155,59 @@ struct C<'a, 'b> {}
 (source_file
   (struct_item
     (type_identifier)
-    (type_parameters (type_identifier)))
+    (type_parameters (type_identifier))
+    (field_declaration_list))
   (struct_item
     (type_identifier)
-    (type_parameters (lifetime (identifier)) (lifetime (identifier)))))
+    (type_parameters (lifetime (identifier)) (lifetime (identifier)))
+    (field_declaration_list)))
+
+============================================
+Enums
+============================================
+
+pub enum Option<T> {
+    None,
+    Some(T),
+}
+
+pub enum Node<T: Item> {
+    Internal {
+        children: Vec<Tree<T>>,
+        height: u16
+    },
+    Leaf {
+        value: T
+    }
+}
+
+---
+
+(source_file
+  (enum_item
+    (visibility_modifier)
+    (type_identifier)
+    (type_parameters (type_identifier))
+    (enum_variant_list
+      (enum_variant (identifier))
+      (enum_variant (identifier) (ordered_field_declaration_list (type_identifier)))))
+  (enum_item
+    (visibility_modifier)
+    (type_identifier)
+    (type_parameters (constrained_type_parameter (type_identifier) (type_identifier)))
+    (enum_variant_list
+      (enum_variant
+        (identifier)
+        (field_declaration_list
+          (field_declaration (identifier) (generic_type
+            (type_identifier)
+            (type_arguments
+              (generic_type (type_identifier) (type_arguments (type_identifier))))))
+          (field_declaration (identifier) (primitive_type))))
+      (enum_variant
+        (identifier)
+        (field_declaration_list
+          (field_declaration (identifier) (type_identifier)))))))
 
 ============================================
 Generic functions
