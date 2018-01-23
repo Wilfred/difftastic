@@ -16,7 +16,7 @@ const PREC = {
   closure: -1,
 }
 
-const numeric_type = choice(
+const numeric_types = [
   'u8',
   'i8',
   'u16',
@@ -29,7 +29,9 @@ const numeric_type = choice(
   'usize',
   'f32',
   'f64'
-)
+]
+
+const primitive_types = numeric_types.concat(['bool', 'str', 'char'])
 
 module.exports = grammar({
   name: 'rust',
@@ -478,7 +480,10 @@ module.exports = grammar({
 
     parameter: $ => seq(
       optional($.mutable_specifier),
-      $.identifier,
+      choice(
+        $.identifier,
+        alias(choice(...primitive_types), $.identifier)
+      ),
       ':',
       $._type
     ),
@@ -519,12 +524,7 @@ module.exports = grammar({
       $.array_type,
       $.function_type,
       $._type_identifier,
-      alias(choice(
-        numeric_type,
-        'bool',
-        'str',
-        'char'
-      ), $.primitive_type)
+      alias(choice(...primitive_types), $.primitive_type)
     ),
 
     lifetime: $ => seq("'", $.identifier),
@@ -1052,7 +1052,7 @@ module.exports = grammar({
             optional(exponent)
           )
         )),
-        optional(numeric_type)
+        optional(choice(...numeric_types))
       ))
     },
 
