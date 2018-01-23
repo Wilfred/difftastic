@@ -156,16 +156,19 @@ module.exports = grammar({
       $.list_constructor
     ),
 
-    parenthesized_pattern: $ => seq(
+    tuple_pattern: $ => seq(
       '(',
-      $._pattern,
-    parenthesized_pattern: $ => seq(
-      '(',
-      choice($._function_pattern, $._pattern, $.list_constructor),
+      commaSep1(choice($._pattern, $._function_pattern)),
       ')'
     ),
 
-    _pattern: $ => prec.right(1, choice(
+    parenthesized_pattern: $ => prec(1, seq(
+      '(',
+      choice($._function_pattern, $._pattern),
+      ')'
+    )),
+
+    _pattern: $ => prec(1, choice(
       $.negative_literal,
       $.general_constructor,
       seq($._function_pattern, $._op, $._function_pattern)
