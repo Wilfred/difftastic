@@ -713,17 +713,17 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "macro_name"
+          "name": "identifier"
+        },
+        {
+          "type": "STRING",
+          "value": "!"
         },
         {
           "type": "SYMBOL",
           "name": "macro_arguments"
         }
       ]
-    },
-    "macro_name": {
-      "type": "PATTERN",
-      "value": "[a-zA-Z_][\\w]+!"
     },
     "macro_arguments": {
       "type": "CHOICE",

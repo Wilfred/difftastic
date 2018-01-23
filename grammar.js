@@ -145,11 +145,10 @@ module.exports = grammar({
     ),
 
     macro_invocation: $ => seq(
-      $.macro_name,
+      $.identifier,
+      '!',
       $.macro_arguments
     ),
-
-    macro_name: $ => /[a-zA-Z_][\w]+!/,
 
     macro_arguments: $ => {
       const args = choice(
