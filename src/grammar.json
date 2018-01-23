@@ -1254,8 +1254,25 @@
               "type": "SEQ",
               "members": [
                 {
-                  "type": "SYMBOL",
-                  "name": "_type"
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "CHOICE",
+                      "members": [
+                        {
+                          "type": "SYMBOL",
+                          "name": "visibility_modifier"
+                        },
+                        {
+                          "type": "BLANK"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "SYMBOL",
+                      "name": "_type"
+                    }
+                  ]
                 },
                 {
                   "type": "REPEAT",
@@ -1267,8 +1284,25 @@
                         "value": ","
                       },
                       {
-                        "type": "SYMBOL",
-                        "name": "_type"
+                        "type": "SEQ",
+                        "members": [
+                          {
+                            "type": "CHOICE",
+                            "members": [
+                              {
+                                "type": "SYMBOL",
+                                "name": "visibility_modifier"
+                              },
+                              {
+                                "type": "BLANK"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "_type"
+                          }
+                        ]
                       }
                     ]
                   }
@@ -4410,6 +4444,18 @@
           ]
         },
         {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": ","
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
           "type": "STRING",
           "value": "}"
         }
@@ -5336,31 +5382,60 @@
       ]
     },
     "field_pattern": {
-      "type": "CHOICE",
+      "type": "SEQ",
       "members": [
         {
-          "type": "ALIAS",
-          "content": {
-            "type": "SYMBOL",
-            "name": "identifier"
-          },
-          "named": true,
-          "value": "shorthand_field_identifier"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "ref"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         },
         {
-          "type": "SEQ",
+          "type": "CHOICE",
           "members": [
             {
               "type": "SYMBOL",
-              "name": "identifier"
+              "name": "mutable_specifier"
             },
             {
-              "type": "STRING",
-              "value": ":"
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "SYMBOL",
+                "name": "identifier"
+              },
+              "named": true,
+              "value": "shorthand_field_identifier"
             },
             {
-              "type": "SYMBOL",
-              "name": "_pattern"
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "identifier"
+                },
+                {
+                  "type": "STRING",
+                  "value": ":"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "_pattern"
+                }
+              ]
             }
           ]
         }
@@ -6080,7 +6155,11 @@
       "name": "block_comment"
     }
   ],
-  "conflicts": [],
+  "conflicts": [
+    [
+      "visibility_modifier"
+    ]
+  ],
   "externals": [],
   "inline": [
     "_type_identifier",

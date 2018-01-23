@@ -43,6 +43,10 @@ module.exports = grammar({
     $._expression_ending_with_block
   ],
 
+  conflicts: $ => [
+    [$.visibility_modifier]
+  ],
+
   rules: {
     source_file: $ => repeat($._statement),
 
@@ -246,7 +250,7 @@ module.exports = grammar({
 
     ordered_field_declaration_list: $ => seq(
       '(',
-      sepBy(',', $._type),
+      sepBy(',', seq(optional($.visibility_modifier), $._type)),
       optional(','),
       ')'
     ),
@@ -781,6 +785,7 @@ module.exports = grammar({
         $.field_initializer,
         $.base_field_initializer
       )),
+      optional(','),
       '}'
     ),
 
@@ -954,9 +959,13 @@ module.exports = grammar({
       '}'
     ),
 
-    field_pattern: $ => choice(
-      alias($.identifier, $.shorthand_field_identifier),
-      seq($.identifier, ':', $._pattern)
+    field_pattern: $ => seq(
+      optional('ref'),
+      optional($.mutable_specifier),
+      choice(
+        alias($.identifier, $.shorthand_field_identifier),
+        seq($.identifier, ':', $._pattern)
+      )
     ),
 
     remaining_field_pattern: $ => '..',

@@ -124,7 +124,7 @@ struct Point {
   x: i32,
   y: i32,
 }
-struct Color(i32, i32, i32);
+struct Color(pub i32, i32, i32);
 struct Inches(i32);
 
 ---
@@ -139,7 +139,7 @@ struct Inches(i32);
     (field_declaration (identifier) (primitive_type))
     (field_declaration (identifier) (primitive_type))))
   (struct_item (type_identifier) (ordered_field_declaration_list
-    (primitive_type) (primitive_type) (primitive_type)))
+    (visibility_modifier) (primitive_type) (primitive_type) (primitive_type)))
   (struct_item (type_identifier) (ordered_field_declaration_list
     (primitive_type))))
 

@@ -208,7 +208,7 @@ Struct expressions
 
 NothingInMe {};
 Point {x: 10.0, y: 20.0};
-let a = SomeStruct { field1, field2: expression, field3 };
+let a = SomeStruct { field1, field2: expression, field3, };
 let u = game::User {name: "Joe", age: 35, score: 100_000};
 
 ---
