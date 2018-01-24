@@ -310,6 +310,34 @@ interface Enum extends Bar, Baz, funThatEvalsToInterface() {
           (call_signature (formal_parameters) (type_annotation (type_identifier)))))))
 
 =======================================
+Generic types
+=======================================
+
+class A<
+  B,
+  C,
+> {}
+
+class D extends A<
+  X,
+  Y,
+> {}
+
+---
+
+(program
+  (expression_statement (class
+    (identifier)
+    (type_parameters (type_parameter (identifier)) (type_parameter (identifier)))
+    (class_body)))
+  (expression_statement (class
+    (identifier)
+    (class_heritage (extends_clause (generic_type
+      (type_identifier)
+      (type_arguments (type_identifier) (type_identifier)))))
+    (class_body))))
+
+=======================================
 Existential types
 =======================================
 
