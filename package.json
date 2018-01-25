@@ -1,6 +1,6 @@
 {
   "name": "tree-sitter-ruby",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "Ruby grammar for tree-sitter",
   "main": "index.js",
   "keywords": [
@@ -13,7 +13,7 @@
     "nan": "^2.4.0"
   },
   "devDependencies": {
-    "tree-sitter-cli": "^0.8.0"
+    "tree-sitter-cli": "0.8.6"
   },
   "scripts": {
     "build": "tree-sitter generate && node-gyp build --debug",
