@@ -165,7 +165,7 @@ struct Scanner {
       }
       if (lexer->lookahead == 0) {
         open_heredocs.erase(open_heredocs.begin());
-        return End;
+        return Error;
       }
 
       if (lexer->lookahead == heredoc.word[position_in_word]) {
@@ -181,28 +181,43 @@ struct Scanner {
   bool scan(TSLexer *lexer, const bool *valid_symbols) {
     has_leading_whitespace = false;
 
+    lexer->mark_end(lexer);
+
     if (!scan_whitespace(lexer)) return false;
 
-    if (lexer->lookahead == '<') {
-      advance(lexer);
-      if (lexer->lookahead != '<') return false;
-      advance(lexer);
-      if (lexer->lookahead != '<') return false;
-      advance(lexer);
+    if (valid_symbols[HEREDOC]) {
+      if (lexer->lookahead == '<') {
+        advance(lexer);
+        if (lexer->lookahead != '<') return false;
+        advance(lexer);
+        if (lexer->lookahead != '<') return false;
+        advance(lexer);
 
-      // Found a heredoc
-      Heredoc heredoc;
-      heredoc.word = scan_heredoc_word(lexer);
-      if (heredoc.word.empty()) return false;
-      open_heredocs.push_back(heredoc);
+        // Found a heredoc
+        Heredoc heredoc;
+        heredoc.word = scan_heredoc_word(lexer);
+        if (heredoc.word.empty()) return false;
+        open_heredocs.push_back(heredoc);
 
-      switch (scan_heredoc_content(lexer)) {
-        case Error:
-          return false;
-        case End:
-          lexer->result_symbol = HEREDOC;
-          return true;
+        switch (scan_heredoc_content(lexer)) {
+          case Error:
+            return false;
+          case End:
+            lexer->result_symbol = HEREDOC;
+            lexer->mark_end(lexer);
+            return true;
+        }
       }
+    }
+
+    if (valid_symbols[AUTOMATIC_SEMICOLON]) {
+      lexer->result_symbol = AUTOMATIC_SEMICOLON;
+
+      if (lexer->lookahead != '?') return false;
+
+      advance(lexer);
+
+      return lexer->lookahead == '>';
     }
 
     return false;

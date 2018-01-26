@@ -1,5 +1,6 @@
 const PREC = {
   COMMA: -1,
+  SEMICOLON: -2,
   DECLARATION: 1,
   COMMENT: 1,
   TERNARY: 1,
@@ -30,7 +31,10 @@ module.exports = grammar({
   ],
 
   conflicts: $ => [
-    [$.declare_statement, $.expression_statement],
+    [$.declare_statement, $._semicolon],
+    [$.while_statement, $._semicolon],
+    [$.for_statement, $._semicolon],
+    [$.foreach_statement, $._semicolon],
     [$.simple_parameter, $.name],
     [$.variadic_parameter, $.name],
     [$.property_modifier, $._method_modifier],
@@ -72,7 +76,8 @@ module.exports = grammar({
       optional(seq(
         /<\?([pP][hH][pP]|=)/,
         repeat($._statement))),
-      optional(seq(
+      optional(
+        seq(
         '?>',
         optional($.text)
       ))
@@ -90,6 +95,7 @@ module.exports = grammar({
     text: $ => repeat1(choice('<', /[^\s<]+[^<]*/)),
 
     _statement: $ => choice(
+      ';',
       $.compound_statement,
       $.named_label_statement,
       $.expression_statement,
@@ -206,7 +212,7 @@ module.exports = grammar({
       $.method_declaration
     ),
 
-    class_declaration: $ => seq(
+    class_declaration: $ => prec.right(seq(
       optional($.class_modifier),
       'class',
       $.name,
@@ -217,7 +223,7 @@ module.exports = grammar({
       '}',
       // TODO: Figure out if this needs to be more general, but it seems to be allowed after class declarations.
       optional($._semicolon)
-    ),
+    )),
 
     class_modifier: $ => choice(
       'abstract',
