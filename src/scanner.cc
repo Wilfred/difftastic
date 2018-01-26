@@ -10,7 +10,6 @@ using std::string;
 
 enum TokenType {
   AUTOMATIC_SEMICOLON,
-  LINE_BREAK,
   SIMPLE_HEREDOC_BODY,
   HEREDOC_BODY_BEGINNING,
   HEREDOC_BODY_MIDDLE,
@@ -83,37 +82,6 @@ struct Scanner {
     // assert(i == length);
   }
 
-  bool scan_open_delimiter(TSLexer *lexer, const bool *valid_symbols) {
-    // TODO: Finish this
-    switch (lexer->lookahead) {
-
-    }
-
-    return false;
-  }
-
-
-  ScanContentResult scan_content(TSLexer *lexer) {
-    for (;;) {
-      if (lexer->lookahead == 0) {
-        advance(lexer);
-        return Error;
-      } else {
-        advance(lexer);
-      }
-    }
-  }
-
-
-  bool scan_interpolation_close(TSLexer *lexer) {
-    if (lexer->lookahead == '}') {
-      advance(lexer);
-      return true;
-    } else {
-      return false;
-    }
-  }
-
   void skip(TSLexer *lexer) {
     has_leading_whitespace = true;
     lexer->advance(lexer, true);
@@ -122,7 +90,6 @@ struct Scanner {
   void advance(TSLexer *lexer) {
     lexer->advance(lexer, false);
   }
-
 
   bool lookahead_is_line_end(TSLexer *lexer) {
     if (lexer->lookahead == '\n') {
@@ -150,26 +117,10 @@ struct Scanner {
             skip(lexer);
             *found_heredoc_starting_linebreak = true;
             return true;
-          } else if (valid_symbols[LINE_BREAK]) {
-            advance(lexer);
-            lexer->mark_end(lexer);
-            while (lexer->lookahead == ' ' || lexer->lookahead == '\t' || lookahead_is_line_end(lexer)) { skip(lexer); }
-            if (lexer->lookahead == '.') { // Method continuation ignores newline.
-              break;
-            } else {
-              lexer->result_symbol = LINE_BREAK;
-              return true;
-            }
           } else {
             skip(lexer);
             break;
           }
-        case '\\':
-          skip(lexer);
-          if (lexer->lookahead == '\n' || lexer->lookahead == '\r') {
-            skip(lexer);
-          }
-          break;
         default:
           return true;
       }
@@ -242,17 +193,6 @@ struct Scanner {
     bool found_heredoc_starting_linebreak = false;
 
     if (!scan_whitespace(lexer, valid_symbols, &found_heredoc_starting_linebreak)) return false;
-    if (lexer->result_symbol == LINE_BREAK) return true;
-
-    if (valid_symbols[HEREDOC_BODY_MIDDLE] && !open_heredocs.empty()) {
-      switch (scan_heredoc_content(lexer)) {
-        case Error:
-          return false;
-        case End:
-          lexer->result_symbol = HEREDOC_BODY_END;
-          return true;
-      }
-    }
 
     if (valid_symbols[HEREDOC_BODY_BEGINNING] && !open_heredocs.empty() && found_heredoc_starting_linebreak) {
       switch (scan_heredoc_content(lexer)) {
