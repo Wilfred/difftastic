@@ -10,14 +10,8 @@ using std::string;
 
 enum TokenType {
   AUTOMATIC_SEMICOLON,
-  SIMPLE_HEREDOC_BODY,
-  HEREDOC_BODY_BEGINNING,
-  HEREDOC_BODY_MIDDLE,
-  HEREDOC_BODY_END,
   HEREDOC_BEGINNING,
-  SIMPLE_STRING,
-  SIMPLE_SYMBOL,
-  STRING_MIDDLE,
+  SIMPLE_HEREDOC_BODY,
 };
 
 struct Heredoc {
@@ -194,7 +188,7 @@ struct Scanner {
 
     if (!scan_whitespace(lexer, valid_symbols, &found_heredoc_starting_linebreak)) return false;
 
-    if (valid_symbols[HEREDOC_BODY_BEGINNING] && !open_heredocs.empty() && found_heredoc_starting_linebreak) {
+    if (valid_symbols[SIMPLE_HEREDOC_BODY] && !open_heredocs.empty() && found_heredoc_starting_linebreak) {
       switch (scan_heredoc_content(lexer)) {
         case Error:
           return false;
