@@ -2181,7 +2181,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "string"
+          "name": "_string"
         }
       ]
     },
@@ -5274,7 +5274,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "string"
+          "name": "_string"
         }
       ]
     },
@@ -5562,7 +5562,7 @@
           },
           {
             "type": "SYMBOL",
-            "name": "string"
+            "name": "_string"
           }
         ]
       }
@@ -5859,6 +5859,19 @@
           }
         ]
       }
+    },
+    "_string": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "string"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "heredoc"
+        }
+      ]
     },
     "simple_variable": {
       "type": "CHOICE",
@@ -6783,6 +6796,10 @@
     {
       "type": "SYMBOL",
       "name": "_automatic_semicolon"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "heredoc"
     }
   ],
   "inline": [

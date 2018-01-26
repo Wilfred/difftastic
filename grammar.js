@@ -26,6 +26,7 @@ module.exports = grammar({
 
   externals: $ => [
     $._automatic_semicolon,
+    $.heredoc
   ],
 
   conflicts: $ => [
@@ -402,7 +403,7 @@ module.exports = grammar({
     _literal: $ => choice(
       $.integer,
       $.float,
-      $.string
+      $._string
     ),
 
     float: $ => {
@@ -817,7 +818,7 @@ module.exports = grammar({
       $._callable_variable,
       seq('(', $._expression, ')'),
       $.array_creation_expression,
-      $.string
+      $._string
     ),
 
     scoped_call_expression: $ => prec(PREC.CALL, seq(
@@ -869,7 +870,7 @@ module.exports = grammar({
       $._variable,
       seq('(', $._expression, ')'),
       $.array_creation_expression,
-      $.string
+      $._string
     )),
 
     array_creation_expression: $ => choice(
@@ -891,10 +892,11 @@ module.exports = grammar({
       return token(choice(
         single_quote_string,
         double_quote_string
-        // heredoc_string,
         // nowdoc_string,
       ))
     },
+
+    _string: $ => choice($.string, $.heredoc),
 
     simple_variable: $ => choice(
       seq('$', $._simple_variable),

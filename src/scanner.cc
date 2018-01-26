@@ -10,8 +10,7 @@ using std::string;
 
 enum TokenType {
   AUTOMATIC_SEMICOLON,
-  HEREDOC_BEGINNING,
-  SIMPLE_HEREDOC_BODY,
+  HEREDOC,
 };
 
 struct Heredoc {
@@ -98,25 +97,25 @@ struct Scanner {
     return false;
   }
 
-  bool scan_whitespace(TSLexer *lexer, const bool *valid_symbols, bool *found_heredoc_starting_linebreak) {
+  bool scan_whitespace(TSLexer *lexer) {
     for (;;) {
-      switch (lexer->lookahead) {
-        case ' ':
-        case '\t':
-        case '\r':
-          skip(lexer);
-          break;
-        case '\n':
-          if (!open_heredocs.empty() && !*found_heredoc_starting_linebreak) {
-            skip(lexer);
-            *found_heredoc_starting_linebreak = true;
-            return true;
-          } else {
-            skip(lexer);
-            break;
+      while (iswspace(lexer->lookahead)) {
+        advance(lexer);
+      }
+
+      if (lexer->lookahead == '/') {
+        advance(lexer);
+
+        if (lexer->lookahead == '/') {
+          advance(lexer);
+          while (lexer->lookahead != 0 && lexer->lookahead != '\n') {
+            advance(lexer);
           }
-        default:
-          return true;
+        } else {
+          return false;
+        }
+      } else {
+        return true;
       }
     }
   }
@@ -161,11 +160,8 @@ struct Scanner {
 
     for (;;) {
       if (position_in_word == heredoc.word.size()) {
-        while (lexer->lookahead == ' ' || lexer->lookahead == '\t') advance(lexer);
-        if (lookahead_is_line_end(lexer)) {
-          open_heredocs.erase(open_heredocs.begin());
-          return End;
-        }
+        open_heredocs.erase(open_heredocs.begin());
+        return End;
       }
       if (lexer->lookahead == 0) {
         open_heredocs.erase(open_heredocs.begin());
@@ -184,19 +180,8 @@ struct Scanner {
 
   bool scan(TSLexer *lexer, const bool *valid_symbols) {
     has_leading_whitespace = false;
-    bool found_heredoc_starting_linebreak = false;
 
-    if (!scan_whitespace(lexer, valid_symbols, &found_heredoc_starting_linebreak)) return false;
-
-    if (valid_symbols[SIMPLE_HEREDOC_BODY] && !open_heredocs.empty() && found_heredoc_starting_linebreak) {
-      switch (scan_heredoc_content(lexer)) {
-        case Error:
-          return false;
-        case End:
-          lexer->result_symbol = SIMPLE_HEREDOC_BODY;
-          return true;
-      }
-    }
+    if (!scan_whitespace(lexer)) return false;
 
     if (lexer->lookahead == '<') {
       advance(lexer);
@@ -210,14 +195,18 @@ struct Scanner {
       heredoc.word = scan_heredoc_word(lexer);
       if (heredoc.word.empty()) return false;
       open_heredocs.push_back(heredoc);
-      lexer->result_symbol = HEREDOC_BEGINNING;
-      return true;
+
+      switch (scan_heredoc_content(lexer)) {
+        case Error:
+          return false;
+        case End:
+          lexer->result_symbol = HEREDOC;
+          return true;
+      }
     }
 
     return false;
   }
-
-
 };
 
 }
@@ -243,43 +232,13 @@ void tree_sitter_php_external_scanner_destroy(void *payload) {
   delete scanner;
 }
 
-static inline void advance(TSLexer *lexer) { lexer->advance(lexer, false); }
-
-static bool scan_whitespace_and_comments(TSLexer *lexer) {
-  for (;;) {
-    while (iswspace(lexer->lookahead)) {
-      advance(lexer);
-    }
-
-    if (lexer->lookahead == '/') {
-      advance(lexer);
-
-      if (lexer->lookahead == '/') {
-        advance(lexer);
-        while (lexer->lookahead != 0 && lexer->lookahead != '\n') {
-          advance(lexer);
-        }
-      } else {
-        return false;
-      }
-    } else {
-      return true;
-    }
-  }
-}
-
 bool tree_sitter_php_external_scanner_scan(void *payload, TSLexer *lexer,
                                                   const bool *valid_symbols) {
-  lexer->result_symbol = AUTOMATIC_SEMICOLON;
-  // Mark the end of a scanned token.
-  lexer->mark_end(lexer);
 
-  if (!scan_whitespace_and_comments(lexer)) return false;
-  if (lexer->lookahead != '?') return false;
-
-  advance(lexer);
-
-  return lexer->lookahead == '>';
+  Scanner *scanner = static_cast<Scanner *>(payload);
+  return scanner->scan(lexer, valid_symbols);
 }
+
+void tree_sitter_php_external_scanner_reset(void *p) {}
 
 }
