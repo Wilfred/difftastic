@@ -1,5 +1,6 @@
 const PREC = {
   COMMA: -1,
+  SEMICOLON: -2,
   DECLARATION: 1,
   COMMENT: 1,
   TERNARY: 1,
@@ -26,10 +27,14 @@ module.exports = grammar({
 
   externals: $ => [
     $._automatic_semicolon,
+    $.heredoc
   ],
 
   conflicts: $ => [
-    [$.declare_statement, $.expression_statement],
+    [$.declare_statement, $._semicolon],
+    [$.while_statement, $._semicolon],
+    [$.for_statement, $._semicolon],
+    [$.foreach_statement, $._semicolon],
     [$.simple_parameter, $.name],
     [$.variadic_parameter, $.name],
     [$.property_modifier, $._method_modifier],
@@ -71,7 +76,8 @@ module.exports = grammar({
       optional(seq(
         /<\?([pP][hH][pP]|=)/,
         repeat($._statement))),
-      optional(seq(
+      optional(
+        seq(
         '?>',
         optional($.text)
       ))
@@ -89,6 +95,7 @@ module.exports = grammar({
     text: $ => repeat1(choice('<', /[^\s<]+[^<]*/)),
 
     _statement: $ => choice(
+      ';',
       $.compound_statement,
       $.named_label_statement,
       $.expression_statement,
@@ -205,7 +212,7 @@ module.exports = grammar({
       $.method_declaration
     ),
 
-    class_declaration: $ => seq(
+    class_declaration: $ => prec.right(seq(
       optional($.class_modifier),
       'class',
       $.name,
@@ -216,7 +223,7 @@ module.exports = grammar({
       '}',
       // TODO: Figure out if this needs to be more general, but it seems to be allowed after class declarations.
       optional($._semicolon)
-    ),
+    )),
 
     class_modifier: $ => choice(
       'abstract',
@@ -402,7 +409,7 @@ module.exports = grammar({
     _literal: $ => choice(
       $.integer,
       $.float,
-      $.string
+      $._string
     ),
 
     float: $ => {
@@ -817,7 +824,7 @@ module.exports = grammar({
       $._callable_variable,
       seq('(', $._expression, ')'),
       $.array_creation_expression,
-      $.string
+      $._string
     ),
 
     scoped_call_expression: $ => prec(PREC.CALL, seq(
@@ -869,7 +876,7 @@ module.exports = grammar({
       $._variable,
       seq('(', $._expression, ')'),
       $.array_creation_expression,
-      $.string
+      $._string
     )),
 
     array_creation_expression: $ => choice(
@@ -891,10 +898,11 @@ module.exports = grammar({
       return token(choice(
         single_quote_string,
         double_quote_string
-        // heredoc_string,
         // nowdoc_string,
       ))
     },
+
+    _string: $ => choice($.string, $.heredoc),
 
     simple_variable: $ => choice(
       seq('$', $._simple_variable),
