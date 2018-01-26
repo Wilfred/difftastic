@@ -176,16 +176,58 @@ struct Scanner {
     }
   }
 
+  ScanContentResult scan_heredoc_content(TSLexer *lexer) {
+    if (open_heredocs.empty()) return Error;
+    Heredoc heredoc = open_heredocs.front();
+    size_t position_in_word = 0;
+    bool look_for_heredoc_end = true;
+
+    for (;;) {
+      if (position_in_word == heredoc.word.size()) {
+        while (lexer->lookahead == ' ' || lexer->lookahead == '\t') advance(lexer);
+        if (lookahead_is_line_end(lexer)) {
+          open_heredocs.erase(open_heredocs.begin());
+          return End;
+        }
+      }
+      if (lexer->lookahead == 0) {
+        open_heredocs.erase(open_heredocs.begin());
+        return End;
+      }
+
+      if (lexer->lookahead == heredoc.word[position_in_word] && look_for_heredoc_end) {
+        advance(lexer);
+        position_in_word++;
+      } else {
+        position_in_word = 0;
+        look_for_heredoc_end = false;
+        if (lexer->lookahead == '#') {
+          advance(lexer);
+          if (lexer->lookahead == '{') {
+            advance(lexer);
+            return Interpolation;
+          }
+        } else if (lookahead_is_line_end(lexer)) {
+          advance(lexer);
+          look_for_heredoc_end = true;
+          while (lexer->lookahead == ' ' || lexer->lookahead == '\t') {
+            advance(lexer);
+            if (!heredoc.end_word_indentation_allowed) {
+              look_for_heredoc_end = false;
+            }
+          }
+        } else {
+          advance(lexer);
+        }
+      }
+    }
+  }
+
+
 
   bool scan(TSLexer *lexer, const bool *valid_symbols) {
     has_leading_whitespace = false;
     bool found_heredoc_starting_linebreak = false;
-
-    if (valid_symbols[ELEMENT_REFERENCE_LEFT_BRACKET] && lexer->lookahead == '[') {
-      advance(lexer);
-      lexer->result_symbol = ELEMENT_REFERENCE_LEFT_BRACKET;
-      return true;
-    }
 
     if (!scan_whitespace(lexer, valid_symbols, &found_heredoc_starting_linebreak)) return false;
     if (lexer->result_symbol == LINE_BREAK) return true;
