@@ -5,11 +5,42 @@ enum TokenType {
   AUTOMATIC_SEMICOLON,
 };
 
-void *tree_sitter_php_external_scanner_create() { return NULL; }
-void tree_sitter_php_external_scanner_destroy(void *p) {}
-void tree_sitter_php_external_scanner_reset(void *p) {}
-unsigned tree_sitter_php_external_scanner_serialize(void *p, char *buffer) { return 0; }
-void tree_sitter_php_external_scanner_deserialize(void *p, const char *b, unsigned n) {}
+struct Scanner {
+  void reset() {
+    literal_stack.clear();
+    open_heredocs.clear();
+  }
+
+  unsigned serialize(char *buffer) {
+
+  }
+
+  void advance(TSLexer *lexer) {
+    lexer->advance(lexer, false);
+  }
+
+}
+
+extern "C" {
+
+void *tree_sitter_php_external_scanner_create() {
+  return new Scanner();
+}
+
+unsigned tree_sitter_php_external_scanner_serialize(void *payload, char *buffer) {
+  Scanner *scanner = static_cast<Scanner *>(payload);
+  return scanner->serialize(buffer);
+}
+
+void tree_sitter_php_external_scanner_deserialize(void *payload, const char *buffer, unsigned length) {
+  Scanner *scanner = static_cast<Scanner *>(payload);
+  scanner->deserialize(buffer, length);
+}
+
+void tree_sitter_php_external_scanner_destroy(void *p) {
+  Scanner *scanner = static_cast<Scanner *>(payload);
+  delete scanner;
+}
 
 static inline void advance(TSLexer *lexer) { lexer->advance(lexer, false); }
 
