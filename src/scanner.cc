@@ -40,7 +40,6 @@ struct Scanner {
 
   enum ScanContentResult {
     Error,
-    Interpolation,
     End
   };
 
@@ -214,7 +213,6 @@ struct Scanner {
     if (open_heredocs.empty()) return Error;
     Heredoc heredoc = open_heredocs.front();
     size_t position_in_word = 0;
-    bool look_for_heredoc_end = true;
 
     for (;;) {
       if (position_in_word == heredoc.word.size()) {
@@ -229,35 +227,15 @@ struct Scanner {
         return End;
       }
 
-      if (lexer->lookahead == heredoc.word[position_in_word] && look_for_heredoc_end) {
+      if (lexer->lookahead == heredoc.word[position_in_word]) {
         advance(lexer);
         position_in_word++;
       } else {
         position_in_word = 0;
-        look_for_heredoc_end = false;
-        if (lexer->lookahead == '#') {
-          advance(lexer);
-          if (lexer->lookahead == '{') {
-            advance(lexer);
-            return Interpolation;
-          }
-        } else if (lookahead_is_line_end(lexer)) {
-          advance(lexer);
-          look_for_heredoc_end = true;
-          while (lexer->lookahead == ' ' || lexer->lookahead == '\t') {
-            advance(lexer);
-            if (!heredoc.end_word_indentation_allowed) {
-              look_for_heredoc_end = false;
-            }
-          }
-        } else {
-          advance(lexer);
-        }
+        advance(lexer);
       }
     }
   }
-
-
 
   bool scan(TSLexer *lexer, const bool *valid_symbols) {
     has_leading_whitespace = false;
@@ -267,17 +245,12 @@ struct Scanner {
     if (lexer->result_symbol == LINE_BREAK) return true;
 
     if (valid_symbols[HEREDOC_BODY_MIDDLE] && !open_heredocs.empty()) {
-      if (scan_interpolation_close(lexer)) {
-        switch (scan_heredoc_content(lexer)) {
-          case Error:
-            return false;
-          case Interpolation:
-            lexer->result_symbol = HEREDOC_BODY_MIDDLE;
-            return true;
-          case End:
-            lexer->result_symbol = HEREDOC_BODY_END;
-            return true;
-        }
+      switch (scan_heredoc_content(lexer)) {
+        case Error:
+          return false;
+        case End:
+          lexer->result_symbol = HEREDOC_BODY_END;
+          return true;
       }
     }
 
@@ -285,13 +258,26 @@ struct Scanner {
       switch (scan_heredoc_content(lexer)) {
         case Error:
           return false;
-        case Interpolation:
-          lexer->result_symbol = HEREDOC_BODY_BEGINNING;
-          return true;
         case End:
           lexer->result_symbol = SIMPLE_HEREDOC_BODY;
           return true;
       }
+    }
+
+    if (lexer->lookahead == '<') {
+      advance(lexer);
+      if (lexer->lookahead != '<') return false;
+      advance(lexer);
+      if (lexer->lookahead != '<') return false;
+      advance(lexer);
+
+      // Found a heredoc
+      Heredoc heredoc;
+      heredoc.word = scan_heredoc_word(lexer);
+      if (heredoc.word.empty()) return false;
+      open_heredocs.push_back(heredoc);
+      lexer->result_symbol = HEREDOC_BEGINNING;
+      return true;
     }
 
     return false;
