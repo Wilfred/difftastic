@@ -137,6 +137,46 @@ struct Scanner {
     return false;
   }
 
+  bool scan_whitespace(TSLexer *lexer, const bool *valid_symbols, bool *found_heredoc_starting_linebreak) {
+    for (;;) {
+      switch (lexer->lookahead) {
+        case ' ':
+        case '\t':
+        case '\r':
+          skip(lexer);
+          break;
+        case '\n':
+          if (!open_heredocs.empty() && !*found_heredoc_starting_linebreak) {
+            skip(lexer);
+            *found_heredoc_starting_linebreak = true;
+            return true;
+          } else if (valid_symbols[LINE_BREAK]) {
+            advance(lexer);
+            lexer->mark_end(lexer);
+            while (lexer->lookahead == ' ' || lexer->lookahead == '\t' || lookahead_is_line_end(lexer)) { skip(lexer); }
+            if (lexer->lookahead == '.') { // Method continuation ignores newline.
+              break;
+            } else {
+              lexer->result_symbol = LINE_BREAK;
+              return true;
+            }
+          } else {
+            skip(lexer);
+            break;
+          }
+        case '\\':
+          skip(lexer);
+          if (lexer->lookahead == '\n' || lexer->lookahead == '\r') {
+            skip(lexer);
+          }
+          break;
+        default:
+          return true;
+      }
+    }
+  }
+
+
   bool scan(TSLexer *lexer, const bool *valid_symbols) {
     has_leading_whitespace = false;
     bool found_heredoc_starting_linebreak = false;
