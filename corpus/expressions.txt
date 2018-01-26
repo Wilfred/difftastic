@@ -48,3 +48,30 @@ trait AbstractTrait
 ---
 
 (program (trait_declaration (name) (trait_use_clause (qualified_name (name))) (trait_use_clause (qualified_name (name)) (qualified_name (name)) (trait_use_specification)) (trait_use_clause (qualified_name (name)) (qualified_name (name)))))
+
+==========
+Heredocs
+==========
+
+<?php
+
+<<<HERE
+foo #{bar} HERE;
+
+<<<HERE
+foo #{bar}
+HERE;
+
+?>
+
+<?php
+
+<<<HERE
+foo #{bar} HERE;
+
+<<<HERE
+foo #{bar}
+HERE;
+
+---
+(program (expression_statement (heredoc)) (expression_statement (heredoc)) (text_interpolation) (expression_statement (heredoc)) (expression_statement (heredoc)))
