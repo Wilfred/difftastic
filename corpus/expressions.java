@@ -2,7 +2,7 @@
 if statements
 ============================
 
-if (x)
+if x
   y;
 
 ---
@@ -11,8 +11,8 @@ if (x)
 if statements with braces
 ============================
 
-if (x) {
-  y;  
+if x {
+  y;
 }
 
 ---
