@@ -31,3 +31,20 @@ if (!$foo = $bar) {
 
 ---
 (program (if_statement (unary_op_expression (assignment_expression (variable_name (name)) (variable_name (name)))) (compound_statement)))
+
+==========
+Trait use clauses
+==========
+
+<?php
+
+trait AbstractTrait
+{
+    use LoggerAwareTrait;
+    use LoggerAwareTrait, OtherTrait {}
+    use LoggerAwareTrait, OtherTrait;
+}
+
+---
+
+(program (trait_declaration (name) (trait_use_clause (qualified_name (name))) (trait_use_clause (qualified_name (name)) (qualified_name (name)) (trait_use_specification)) (trait_use_clause (qualified_name (name)) (qualified_name (name)))))
