@@ -40,7 +40,10 @@ module.exports = grammar({
     [$.modifier],
     [$.normal_annotation, $.single_element_annotation, $.package_or_type_name],
     [$.marker_annotation, $.package_or_type_name],
-    [$.class_literal, $.primitive_type], // try to drop class_literal
+    [$.class_literal, $.primitive_type, $.unann_primitive_type], // try to drop class_literal
+    [$.class_literal, $.primitive_type], // bad idea
+    [$.primitive_type, $.unann_primitive_type], // bad idea
+    [$.local_variable_declaration], // bad idea
     [$.class_or_interface_type, $.class_or_interface_type_to_instantiate],
     [$.resource_list]
   ],
@@ -316,7 +319,7 @@ module.exports = grammar({
       // $.labeled_statement_no_short_if,
       $.if_then_else_statement_no_short_if,
       // $.while_statement_no_short_if,
-      // $.for_statement_no_short_if
+      $.for_statement_no_short_if
     ),
 
     statement_without_trailing_substatement: $ => choice(
@@ -449,6 +452,66 @@ module.exports = grammar({
     while_statement: $ => seq('while', '(', $._expression, ')', $.statement),
 
     while_statement_no_short_if: $ => seq('while', '(', $._expression, ')', $.statement_no_short_if),
+
+    for_statement: $ => choice(
+      $.basic_for_statement,
+      $.enhanced_for_statement
+    ),
+
+    for_statement_no_short_if: $ => choice(
+      $.basic_for_statement_no_short_if,
+      $.enhanced_for_statement_no_short_if
+    ),
+
+    basic_for_statement: $ => seq(
+      'for', '(',
+      optional($.for_init), ';',
+      optional($._expression), ';',
+      optional($.statement_expression_list), ')',
+      $.statement
+    ),
+
+    basic_for_statement_no_short_if: $ => seq(
+      'for',
+      '(',
+      optional($.for_init),
+      $._semicolon,
+      optional($.statement_expression_list),
+      ')',
+      $.statement_no_short_if
+    ),
+
+    for_init: $ => choice(
+      $.statement_expression_list,
+      $.local_variable_declaration
+    ),
+
+    statement_expression_list: $ => commaSep1($.expression_statement),
+
+    enhanced_for_statement: $ => seq(
+      'for',
+      '(',
+      repeat($.modifier),
+      $.unann_type,
+      $.variable_declarator_id,
+      ':',
+      $._expression,
+      ')',
+      $.statement
+    ),
+
+    enhanced_for_statement_no_short_if: $ => seq(
+      'for',
+      '(',
+      repeat($.modifier),
+      $.unann_type,
+      $.variable_declarator_id,
+      ':',
+      $._expression,
+      ')',
+      $.statement_no_short_if
+    ),
+
 
     // TODO: make if statement pass by defining variables
     // if_then_statement: $ => prec.right(seq('if', '(', $._expression, ')',
