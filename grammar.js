@@ -189,7 +189,7 @@ module.exports = grammar({
       $.method_declaration,
       $.constructor_declaration,
       $.destructor_declaration,
-      repeat1($.trait_use_clause)
+      $.trait_use_clause
     )),
 
     interface_declaration: $ => seq(
@@ -282,13 +282,10 @@ module.exports = grammar({
     static_modifier: $ => 'static',
 
     trait_use_clause: $ => seq(
-      'use', commaSep1($.qualified_name), $.trait_use_specification
+      'use', commaSep1($.qualified_name), choice($.trait_use_specification, $._semicolon)
     ),
 
-    trait_use_specification: $ => choice(
-      $._semicolon,
-      seq('{', repeat($._trait_select_and_alias_clause), '}')
-    ),
+    trait_use_specification: $ => seq('{', repeat($._trait_select_and_alias_clause), '}'),
 
     _trait_select_and_alias_clause: $ => choice(
       $.trait_select_instead_of_clause,
