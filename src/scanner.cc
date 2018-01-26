@@ -21,22 +21,6 @@ enum TokenType {
   STRING_MIDDLE,
 };
 
-struct Literal {
-  enum Type {
-    STRING,
-    SYMBOL,
-    SUBSHELL,
-    REGEX,
-    WORD_LIST
-  };
-
-  Type type;
-  int32_t open_delimiter;
-  int32_t close_delimiter;
-  uint32_t nesting_depth;
-  bool allows_interpolation;
-};
-
 struct Heredoc {
   Heredoc() : end_word_indentation_allowed(false) {}
 
@@ -46,13 +30,11 @@ struct Heredoc {
 
 struct Scanner {
   bool has_leading_whitespace;
-  vector<Literal> literal_stack;
   vector<Heredoc> open_heredocs;
 
   Scanner() : has_leading_whitespace(false) {}
 
   void reset() {
-    literal_stack.clear();
     open_heredocs.clear();
   }
 
@@ -64,21 +46,6 @@ struct Scanner {
 
   unsigned serialize(char *buffer) {
     unsigned i = 0;
-
-    if (literal_stack.size() * 5 + 2 >= TREE_SITTER_SERIALIZATION_BUFFER_SIZE) return 0;
-    buffer[i++] = literal_stack.size();
-    for (
-      vector<Literal>::iterator iter = literal_stack.begin(),
-      end = literal_stack.end();
-      iter != end;
-      ++iter
-    ) {
-      buffer[i++] = iter->type;
-      buffer[i++] = iter->open_delimiter;
-      buffer[i++] = iter->close_delimiter;
-      buffer[i++] = iter->nesting_depth;
-      buffer[i++] = iter->allows_interpolation;
-    }
 
     buffer[i++] = open_heredocs.size();
     for (
@@ -100,21 +67,9 @@ struct Scanner {
   void deserialize(const char *buffer, unsigned length) {
     unsigned i = 0;
     has_leading_whitespace = false;
-    literal_stack.clear();
     open_heredocs.clear();
 
     if (length == 0) return;
-
-    uint8_t literal_depth = buffer[i++];
-    for (unsigned j = 0; j < literal_depth; j++) {
-      Literal literal;
-      literal.type = static_cast<Literal::Type>(buffer[i++]);
-      literal.open_delimiter = buffer[i++];
-      literal.close_delimiter = buffer[i++];
-      literal.nesting_depth = buffer[i++];
-      literal.allows_interpolation = buffer[i++];
-      literal_stack.push_back(literal);
-    }
 
     uint8_t open_heredoc_count = buffer[i++];
     for (unsigned j = 0; j < open_heredoc_count; j++) {
@@ -129,7 +84,7 @@ struct Scanner {
     // assert(i == length);
   }
 
-  bool scan_open_delimiter(TSLexer *lexer, Literal &literal, const bool *valid_symbols) {
+  bool scan_open_delimiter(TSLexer *lexer, const bool *valid_symbols) {
     // TODO: Finish this
     switch (lexer->lookahead) {
 
@@ -139,33 +94,9 @@ struct Scanner {
   }
 
 
-  ScanContentResult scan_content(TSLexer *lexer, Literal &literal) {
+  ScanContentResult scan_content(TSLexer *lexer) {
     for (;;) {
-      if (literal.nesting_depth == 0) {
-        if (literal.type == Literal::REGEX) {
-          while (iswlower(lexer->lookahead)) {
-            advance(lexer);
-          }
-        }
-        return End;
-      }
-
-      if (lexer->lookahead == literal.close_delimiter) {
-        literal.nesting_depth--;
-        advance(lexer);
-      } else if (lexer->lookahead == literal.open_delimiter) {
-        literal.nesting_depth++;
-        advance(lexer);
-      } else if (literal.allows_interpolation && lexer->lookahead == '#') {
-        advance(lexer);
-        if (lexer->lookahead == '{') {
-          advance(lexer);
-          return Interpolation;
-        }
-      } else if (lexer->lookahead == '\\') {
-        advance(lexer);
-        advance(lexer);
-      } else if (lexer->lookahead == 0) {
+      if (lexer->lookahead == 0) {
         advance(lexer);
         return Error;
       } else {
@@ -351,17 +282,15 @@ struct Scanner {
     }
 
     if (valid_symbols[HEREDOC_BODY_BEGINNING] && !open_heredocs.empty() && found_heredoc_starting_linebreak) {
-      if (literal_stack.empty()) {
-        switch (scan_heredoc_content(lexer)) {
-          case Error:
-            return false;
-          case Interpolation:
-            lexer->result_symbol = HEREDOC_BODY_BEGINNING;
-            return true;
-          case End:
-            lexer->result_symbol = SIMPLE_HEREDOC_BODY;
-            return true;
-        }
+      switch (scan_heredoc_content(lexer)) {
+        case Error:
+          return false;
+        case Interpolation:
+          lexer->result_symbol = HEREDOC_BODY_BEGINNING;
+          return true;
+        case End:
+          lexer->result_symbol = SIMPLE_HEREDOC_BODY;
+          return true;
       }
     }
 
