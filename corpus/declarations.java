@@ -292,3 +292,11 @@ void calculateAnswer(double wingSpan, int numberOfEngines,
         (formal_parameter (unann_type (unann_primitive_type (floating_point_type))) (variable_declarator_id (identifier)))
         (last_formal_parameter (formal_parameter (unann_type (unann_primitive_type (floating_point_type))) (variable_declarator_id (identifier))))))
       (method_body (block (comment)))))
+
+===
+test assignment
+===
+
+x = 1;
+
+---

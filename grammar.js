@@ -33,7 +33,8 @@ module.exports = grammar({
 
   inline: $ => [
   $.formal_parameters,
-  $._numeric_type
+  $._numeric_type,
+  // $._statement_expression_list
   ],
 
   conflicts: $ => [
@@ -45,7 +46,9 @@ module.exports = grammar({
     [$.primitive_type, $.unann_primitive_type], // bad idea
     [$.local_variable_declaration], // bad idea
     [$.class_or_interface_type, $.class_or_interface_type_to_instantiate],
-    [$.resource_list]
+    [$.resource_list],
+    [$.class_or_interface_type, $.ambiguous_name],
+    [$._expression, $.expression_statement] // bad idea
   ],
 
   rules: {
@@ -54,7 +57,8 @@ module.exports = grammar({
     _statement: $ => choice(
       seq($._literal, $._semicolon),
       seq($._expression, $._semicolon),
-      $._declaration
+      $._declaration,
+      $.statement
     ),
 
     _semicolon: $ => ';',
@@ -222,7 +226,8 @@ module.exports = grammar({
       $.lambda_expression,
       $.ternary_expression,
       $.unary_expression,
-      $.update_expression
+      $.update_expression,
+      $.ambiguous_name
     ),
 
     assignment_expression: $ => choice(
@@ -309,9 +314,9 @@ module.exports = grammar({
       // -- uncommenting above generates a method header conflict
       // $.labeled_statement,
       $.if_then_statement,
-      $.if_then_else_statement
+      $.if_then_else_statement,
       // $.while_statement,
-      // $.for_statement
+      $.for_statement
     ),
 
     statement_no_short_if: $ => choice(
@@ -433,7 +438,7 @@ module.exports = grammar({
       $.field_access
     ),
 
-    if_then_statement: $ => seq('if', '(', $._expression, ')', $.statement),
+    if_then_statement: $ => seq('if', '(', $._expression, ')', $._statement),
 
     if_then_else_statement: $ => seq(
       'if', '(', $._expression, ')',
@@ -449,46 +454,44 @@ module.exports = grammar({
       $.statement_no_short_if
     ),
 
-    while_statement: $ => seq('while', '(', $._expression, ')', $.statement),
+    while_statement: $ => seq('while', '(', $._expression, ')', $._statement),
 
     while_statement_no_short_if: $ => seq('while', '(', $._expression, ')', $.statement_no_short_if),
 
     for_statement: $ => choice(
-      $.basic_for_statement,
-      $.enhanced_for_statement
+      $._basic_for_statement,
+      $._enhanced_for_statement
     ),
 
     for_statement_no_short_if: $ => choice(
-      $.basic_for_statement_no_short_if,
-      $.enhanced_for_statement_no_short_if
+      $._basic_for_statement_no_short_if,
+      $._enhanced_for_statement_no_short_if
     ),
 
-    basic_for_statement: $ => seq(
+    _basic_for_statement: $ => seq(
       'for', '(',
-      optional($.for_init), ';',
-      optional($._expression), ';',
-      optional($.statement_expression_list), ')',
+      optional($.for_init), $._semicolon,
+      optional($._expression), $._semicolon,
+      commaSep($.expression_statement), ')',
       $.statement
     ),
 
-    basic_for_statement_no_short_if: $ => seq(
+    _basic_for_statement_no_short_if: $ => seq(
       'for',
       '(',
       optional($.for_init),
       $._semicolon,
-      optional($.statement_expression_list),
+      commaSep($.expression_statement),
       ')',
       $.statement_no_short_if
     ),
 
     for_init: $ => choice(
-      $.statement_expression_list,
+      commaSep1($.expression_statement),
       $.local_variable_declaration
     ),
 
-    statement_expression_list: $ => commaSep1($.expression_statement),
-
-    enhanced_for_statement: $ => seq(
+    _enhanced_for_statement: $ => seq(
       'for',
       '(',
       repeat($.modifier),
@@ -500,7 +503,7 @@ module.exports = grammar({
       $.statement
     ),
 
-    enhanced_for_statement_no_short_if: $ => seq(
+    _enhanced_for_statement_no_short_if: $ => seq(
       'for',
       '(',
       repeat($.modifier),
@@ -511,51 +514,6 @@ module.exports = grammar({
       ')',
       $.statement_no_short_if
     ),
-
-
-    // TODO: make if statement pass by defining variables
-    // if_then_statement: $ => prec.right(seq('if', '(', $._expression, ')',
-    //   choice(
-    //     optional('{'), $._statement, optional('}'),
-    //     repeat($.else_if_clause),
-    //     optional($.else_clause)
-    //   )
-    // )),
-
-    // else_if_clause: $ => seq(
-    //   'else if',
-    //   '(', $._expression, ')',
-    //   choice(
-    //     seq('{', $._statement, '}'),
-    //     $._statement
-    //   )
-    // ),
-    //
-    // else_clause: $ => seq(
-    //   'else',
-    //   choice(
-    //     seq('{', $._statement, '}'),
-    //     $._statement
-    //   )
-    // ),
-    //
-    // // TODO: handle while_statement_no_short_if version
-    // while_statement: $ => seq(
-    //   '(', $._expression, ')',
-    //   $._statement
-    // ),
-
-    // // TODO:
-    // for_statement: $ => seq(
-    //
-    // ),
-
-    // expression_statement: $ => choice(
-    //   $.assignment_expression,
-    //   $.update_expression,
-    //   $.method_invocation,
-    //   $.class_instance_creation_expression
-    // ),
 
     type_arguments: $ => seq(
       '<', commaSep1($.type_argument), '>'
@@ -924,10 +882,7 @@ module.exports = grammar({
       seq($.primary, '.', 'super', '(', optional($.argument_list), ')', $._semicolon)
     ),
 
-    ambiguous_name: $ => choice(
-      $.identifier,
-      seq($.ambiguous_name, '.', $.identifier)
-    ),
+    ambiguous_name: $ => prec.right(sep1($.identifier, '.')),
 
     class_member_declaration: $ => choice(
       // $.field_declaration,
@@ -1154,10 +1109,10 @@ module.exports = grammar({
       'boolean'
     ),
 
-    unann_class_or_interface_type: $ => choice(
+    unann_class_or_interface_type: $ => prec(9, choice(
       seq($.identifier, optional($.type_arguments)),
       seq($.unann_class_or_interface_type, '.', repeat($._annotation), $.identifier, optional($.type_arguments))
-    ),
+    )),
 
     unann_array_type: $ => choice(
       seq($.unann_primitive_type, $.dims),
