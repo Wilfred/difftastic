@@ -1,5 +1,6 @@
 const PREC = {
   COMMA: -1,
+  CAST_VARIABLE: -1,
   SEMICOLON: -2,
   DECLARATION: 1,
   COMMENT: 1,
@@ -735,6 +736,10 @@ module.exports = grammar({
       '(', $.cast_type, ')', $._unary_expression
     ),
 
+    cast_variable: $ => prec(PREC.CAST_VARIABLE, seq(
+      '(', $.cast_type, ')', $._variable
+    )),
+
     cast_type: $ => choice(
       'array',
       'binary',
@@ -784,6 +789,7 @@ module.exports = grammar({
     )),
 
     _variable: $ => choice(
+      alias($.cast_variable, $.cast_expression),
       $._callable_variable,
       $.scoped_property_access_expression,
       $.member_access_expression,
