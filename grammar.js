@@ -440,16 +440,8 @@ module.exports = grammar({
       optional($.context),
       $.simple_type,
       '=',
-      $.new_constructor,
+      $.constructor,
       optional($.deriving)
-    ),
-
-    new_constructor: $ => seq(
-      $.constructor_identifier,
-      choice(
-        $._identifier,
-        $.fields
-      )
     ),
 
     field: $ => seq(
