@@ -200,7 +200,7 @@ module.exports = grammar({
 
     _pattern: $ => prec(1, choice(
       $.negative_literal,
-      $.general_constructor,
+      $.constructor,
       seq($._function_pattern, $._op, choice($._function_pattern, $._pattern))
     )),
 
@@ -246,8 +246,7 @@ module.exports = grammar({
       $._literal,
       $._variable,
       $.do_expression,
-      $.general_constructor,
-      $._identifier
+      $.constructor
     ),
 
     foreign: $ => seq(
@@ -401,14 +400,15 @@ module.exports = grammar({
       repeat(seq('|', $.constructor))
     ),
 
-    constructor: $ => prec.left(seq(
+    constructor: $ => prec.right(seq(
       $.constructor_identifier,
-      optional(choice(
-        $.fields,
-        $.labels,
+      choice(
+        optional($.fields),
+        optional($.labels),
         repeat(choice($.strict, $._identifier)),
-        seq('(', repeat1($._identifier), ')')
-      ))
+        optional(seq('(', repeat1($._identifier), ')')),
+        repeat($._literal)
+      )
     )),
 
     deriving: $ => seq(

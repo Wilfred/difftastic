@@ -45,7 +45,8 @@ f Ex = Ex
       (variable_identifier)
       (constructor_identifier))
     (function_body
-      (constructor_identifier))))
+      (constructor
+        (constructor_identifier)))))
 
 =================================================
 Function Declarations With @
@@ -253,7 +254,7 @@ f ([]) = 1
     (function_head
       (variable_identifier)
       (parenthesized_pattern
-        (general_constructor
+        (constructor
           (constructor_identifier)
           (variable_identifier)
           (variable_identifier)
@@ -302,34 +303,34 @@ f (Left a, Right b, -(1)) = b
       (variable_identifier)
       (tuple_pattern
         (parenthesized_pattern
-          (general_constructor
+          (constructor
             (constructor_identifier)
             (integer)))
-        (general_constructor
+        (constructor
           (constructor_identifier)
           (integer))))
     (function_body
-      (general_constructor
+      (constructor
         (constructor_identifier)
         (integer))))
   (function_declaration
     (function_head
       (variable_identifier)
       (tuple_pattern
-        (general_constructor
+        (constructor
           (constructor_identifier)
           (variable_identifier))
         (constructor_identifier)))
     (function_body
-      (constructor_identifier)))
+        (constructor (constructor_identifier))))
   (function_declaration
     (function_head
       (variable_identifier)
       (tuple_pattern
-        (general_constructor
+        (constructor
           (constructor_identifier)
           (variable_identifier))
-        (general_constructor
+        (constructor
           (constructor_identifier)
           (variable_identifier))
         (negative_literal (integer))))
