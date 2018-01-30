@@ -990,6 +990,7 @@ module.exports = grammar({
     _reserved_identifier: $ => choice(
       'self',
       'parent',
+      'static'
     ),
 
     comment: $ => token(choice(
