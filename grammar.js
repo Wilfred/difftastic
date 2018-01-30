@@ -157,12 +157,19 @@ module.exports = grammar({
       $._literal,
       $.wildcard,
       $._identifier,
-      seq(choice($._identifier, $.simple_type), '{', optional($.labels), '}'),
+      $.label_pattern,
       $.parenthesized_pattern,
       $.tuple_pattern,
       $.list_pattern,
       $.list_constructor,
       $.irrefutable_pattern
+    ),
+
+    label_pattern: $ => seq(
+      $._identifier,
+      '{',
+      optional($.labels),
+      '}'
     ),
 
     irrefutable_pattern: $ => seq(
