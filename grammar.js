@@ -383,7 +383,7 @@ module.exports = grammar({
     algebraic_datatype: $ => seq(
       'data',
       optional($.context),
-      $.simple_type,
+      $.constructor,
       optional('='),
       optional($.constructors),
       optional($.deriving)
