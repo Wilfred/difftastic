@@ -295,23 +295,25 @@ module.exports = grammar({
 
     trait_use_specification: $ => seq('{', repeat($._trait_select_and_alias_clause), '}'),
 
-    _trait_select_and_alias_clause: $ => choice(
-      $.trait_select_instead_of_clause,
-      $.trait_alias_as_clause
-    ),
+    _trait_select_and_alias_clause: $ => seq(
+      choice(
+        $.trait_select_instead_of_clause,
+        $.trait_alias_as_clause
+      ),
+      $._semicolon),
 
     trait_select_instead_of_clause: $ => prec.left(seq(
-      $.name, 'insteadof', $.name
+      choice($.class_constant_access_expression, $.name), 'insteadof', $.name
     )),
 
-    trait_alias_as_clause: $ => prec.right(seq(
-      $.name,
+    trait_alias_as_clause: $ => seq(
+      choice($.class_constant_access_expression, $.name),
       'as',
       choice(
         seq(optional($.visibility_modifier), $.name),
         seq($.visibility_modifier, optional($.name))
       )
-    )),
+    ),
 
     visibility_modifier: $ => choice(
       'public',
