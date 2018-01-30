@@ -214,7 +214,7 @@ module.exports = grammar({
       $._function_pattern
     )),
 
-    labels: $ => commaSep1($.label),
+    labels: $ => prec.left(commaSep1($.label)),
 
     label: $ => seq(
       $._identifier,
