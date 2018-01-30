@@ -44,7 +44,8 @@ module.exports = grammar({
     [$.tuple, $.parenthesized_constructor],
     [$.general_constructor, $.simple_type],
     // TODO: Remove.
-    [$.constructor_identifier, $._type_constructors]
+    [$.constructor_identifier, $._type_constructors],
+    [$.constructor, $.label]
   ],
 
   rules: {
