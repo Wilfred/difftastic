@@ -391,8 +391,8 @@ module.exports = grammar({
 
     context: $ => seq(
       choice(
-        $.class,
-        seq('(', commaSep1($.class), ')')
+        $.constructor,
+        seq('(', commaSep1($.constructor), ')')
       ),
       '=>'
     ),
