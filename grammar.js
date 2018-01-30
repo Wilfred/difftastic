@@ -449,7 +449,7 @@ module.exports = grammar({
 
     type_synonym: $ => seq(
       'type',
-      $.simple_type,
+      $.constructor,
       '=',
       $.type
     ),
