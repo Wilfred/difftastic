@@ -4587,6 +4587,31 @@
         }
       ]
     },
+    "cast_variable": {
+      "type": "PREC",
+      "value": -1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "("
+          },
+          {
+            "type": "SYMBOL",
+            "name": "cast_type"
+          },
+          {
+            "type": "STRING",
+            "value": ")"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_variable"
+          }
+        ]
+      }
+    },
     "cast_type": {
       "type": "CHOICE",
       "members": [
@@ -4990,6 +5015,15 @@
     "_variable": {
       "type": "CHOICE",
       "members": [
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "cast_variable"
+          },
+          "named": true,
+          "value": "cast_expression"
+        },
         {
           "type": "SYMBOL",
           "name": "_callable_variable"
