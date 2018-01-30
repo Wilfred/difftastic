@@ -402,7 +402,7 @@ module.exports = grammar({
       repeat(seq('|', $.constructor))
     ),
 
-    constructor: $ => seq(
+    constructor: $ => prec.left(seq(
       $.constructor_identifier,
       optional(choice(
         $.fields,
@@ -410,7 +410,7 @@ module.exports = grammar({
         repeat(choice($.strict, $._identifier)),
         seq('(', repeat1($._identifier), ')')
       ))
-    ),
+    )),
 
     deriving: $ => seq(
       'deriving',
