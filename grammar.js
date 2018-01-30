@@ -306,8 +306,7 @@ module.exports = grammar({
     type_class_instance: $ => seq(
       'instance',
       optional($.context),
-      $.constructor_identifier,
-      repeat($.variable_identifier),
+      $.constructor,
       $.where
     ),
 
