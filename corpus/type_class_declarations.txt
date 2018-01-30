@@ -8,8 +8,8 @@ class Show a b where {}
 ---
 
 (module
-  (type_class (constructor_identifier) (variable_identifier) (where))
-  (type_class (constructor_identifier) (variable_identifier) (variable_identifier) (where)))
+  (type_class (constructor (constructor_identifier) (variable_identifier)) (where))
+  (type_class (constructor (constructor_identifier) (variable_identifier) (variable_identifier)) (where)))
 
 =========================================
 Type Class Declarations With Context
@@ -23,24 +23,27 @@ class (Show (f a), Eq a) => Read f a where {}
 
 (module
   (type_class
-    (context (class (constructor_identifier) (variable_identifier)))
-    (constructor_identifier)
-    (variable_identifier)
+    (context (constructor (constructor_identifier) (variable_identifier)))
+    (constructor
+      (constructor_identifier)
+      (variable_identifier))
     (where))
   (type_class
     (context
-      (class (constructor_identifier) (variable_identifier))
-      (class (constructor_identifier) (variable_identifier)))
-    (constructor_identifier)
-    (variable_identifier)
+      (constructor (constructor_identifier) (variable_identifier))
+      (constructor (constructor_identifier) (variable_identifier)))
+    (constructor
+      (constructor_identifier)
+      (variable_identifier))
     (where))
   (type_class
     (context
-      (class (constructor_identifier) (variable_identifier) (variable_identifier))
-      (class (constructor_identifier) (variable_identifier)))
-    (constructor_identifier)
-    (variable_identifier)
-    (variable_identifier)
+      (constructor (constructor_identifier) (variable_identifier) (variable_identifier))
+      (constructor (constructor_identifier) (variable_identifier)))
+    (constructor
+      (constructor_identifier)
+      (variable_identifier)
+      (variable_identifier))
     (where)))
 
 =========================================
@@ -56,13 +59,14 @@ class Foo a where {
 
 (module
   (type_class
-    (constructor_identifier)
-    (variable_identifier)
+    (constructor
+      (constructor_identifier)
+      (variable_identifier))
     (where
       (type_signature
         (variable_identifier)
         (context
-          (class (constructor_identifier) (variable_identifier)))
+          (constructor (constructor_identifier) (variable_identifier)))
         (type
           (type_variable)
           (type
@@ -71,7 +75,7 @@ class Foo a where {
               (type_variable)))))
       (type_signature
         (variable_identifier)
-        (context (class (constructor_identifier) (variable_identifier)) (class (constructor_identifier) (variable_identifier)))
+        (context (constructor (constructor_identifier) (variable_identifier)) (constructor (constructor_identifier) (variable_identifier)))
         (type
           (type_variable)
           (type
@@ -98,8 +102,9 @@ class Foo a where {
 
 (module
   (type_class
-    (constructor_identifier)
-    (variable_identifier)
+    (constructor
+      (constructor_identifier)
+      (variable_identifier))
     (where
       (fixity (variable_identifier))
       (fixity (integer) (variable_identifier))

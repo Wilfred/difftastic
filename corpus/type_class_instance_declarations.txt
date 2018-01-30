@@ -8,8 +8,8 @@ instance Show a b where {}
 ---
 
 (module
-  (type_class_instance (constructor_identifier) (variable_identifier) (where))
-  (type_class_instance (constructor_identifier) (variable_identifier) (variable_identifier) (where)))
+  (type_class_instance (constructor (constructor_identifier) (variable_identifier)) (where))
+  (type_class_instance (constructor (constructor_identifier) (variable_identifier) (variable_identifier)) (where)))
 
 =========================================
 Type Class Instance Declarations With Context
@@ -23,24 +23,27 @@ instance (Show (f a), Eq a) => Read f a where {}
 
 (module
   (type_class_instance
-    (context (class (constructor_identifier) (variable_identifier)))
-    (constructor_identifier)
-    (variable_identifier)
+    (context (constructor (constructor_identifier) (variable_identifier)))
+    (constructor
+      (constructor_identifier)
+      (variable_identifier))
     (where))
   (type_class_instance
     (context
-      (class (constructor_identifier) (variable_identifier))
-      (class (constructor_identifier) (variable_identifier)))
-    (constructor_identifier)
-    (variable_identifier)
+      (constructor (constructor_identifier) (variable_identifier))
+      (constructor (constructor_identifier) (variable_identifier)))
+    (constructor
+      (constructor_identifier)
+      (variable_identifier))
     (where))
   (type_class_instance
     (context
-      (class (constructor_identifier) (variable_identifier) (variable_identifier))
-      (class (constructor_identifier) (variable_identifier)))
-    (constructor_identifier)
-    (variable_identifier)
-    (variable_identifier)
+      (constructor (constructor_identifier) (variable_identifier) (variable_identifier))
+      (constructor (constructor_identifier) (variable_identifier)))
+    (constructor
+      (constructor_identifier)
+      (variable_identifier)
+      (variable_identifier))
     (where)))
 
 =========================================
@@ -56,12 +59,13 @@ instance Foo a where {
 
 (module
   (type_class_instance
-    (constructor_identifier)
-    (variable_identifier)
+    (constructor
+      (constructor_identifier)
+      (variable_identifier))
     (where
       (type_signature
         (variable_identifier)
-        (context (class (constructor_identifier) (variable_identifier)))
+        (context (constructor (constructor_identifier) (variable_identifier)))
         (type
           (type_variable)
           (type
@@ -70,7 +74,7 @@ instance Foo a where {
               (type_variable)))))
       (type_signature
         (variable_identifier)
-        (context (class (constructor_identifier) (variable_identifier)) (class (constructor_identifier) (variable_identifier)))
+        (context (constructor (constructor_identifier) (variable_identifier)) (constructor (constructor_identifier) (variable_identifier)))
         (type
           (type_variable)
           (type
