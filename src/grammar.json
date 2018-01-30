@@ -935,29 +935,33 @@
       }
     },
     "labels": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "label"
-        },
-        {
-          "type": "REPEAT",
-          "content": {
-            "type": "SEQ",
-            "members": [
-              {
-                "type": "STRING",
-                "value": ","
-              },
-              {
-                "type": "SYMBOL",
-                "name": "label"
-              }
-            ]
+      "type": "PREC_LEFT",
+      "value": 0,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "label"
+          },
+          {
+            "type": "REPEAT",
+            "content": {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": ","
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "label"
+                }
+              ]
+            }
           }
-        }
-      ]
+        ]
+      }
     },
     "label": {
       "type": "SEQ",
@@ -1295,14 +1299,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "constructor_identifier"
-        },
-        {
-          "type": "REPEAT",
-          "content": {
-            "type": "SYMBOL",
-            "name": "variable_identifier"
-          }
+          "name": "constructor"
         },
         {
           "type": "SYMBOL",
@@ -1331,14 +1328,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "constructor_identifier"
-        },
-        {
-          "type": "REPEAT",
-          "content": {
-            "type": "SYMBOL",
-            "name": "variable_identifier"
-          }
+          "name": "constructor"
         },
         {
           "type": "SYMBOL",
@@ -1717,7 +1707,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "simple_type"
+          "name": "constructor"
         },
         {
           "type": "CHOICE",
@@ -1765,7 +1755,7 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "class"
+              "name": "constructor"
             },
             {
               "type": "SEQ",
@@ -1779,7 +1769,7 @@
                   "members": [
                     {
                       "type": "SYMBOL",
-                      "name": "class"
+                      "name": "constructor"
                     },
                     {
                       "type": "REPEAT",
@@ -1792,7 +1782,7 @@
                           },
                           {
                             "type": "SYMBOL",
-                            "name": "class"
+                            "name": "constructor"
                           }
                         ]
                       }
@@ -1810,48 +1800,6 @@
         {
           "type": "STRING",
           "value": "=>"
-        }
-      ]
-    },
-    "class": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "constructor_identifier"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "variable_identifier"
-            }
-          ]
-        },
-        {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "constructor_identifier"
-            },
-            {
-              "type": "STRING",
-              "value": "("
-            },
-            {
-              "type": "REPEAT1",
-              "content": {
-                "type": "SYMBOL",
-                "name": "variable_identifier"
-              }
-            },
-            {
-              "type": "STRING",
-              "value": ")"
-            }
-          ]
         }
       ]
     },
@@ -1881,46 +1829,74 @@
       ]
     },
     "constructor": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "constructor_identifier"
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "SYMBOL",
-                  "name": "fields"
-                },
-                {
-                  "type": "REPEAT",
-                  "content": {
-                    "type": "CHOICE",
+      "type": "PREC_LEFT",
+      "value": 0,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "constructor_identifier"
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "fields"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "labels"
+                  },
+                  {
+                    "type": "REPEAT",
+                    "content": {
+                      "type": "CHOICE",
+                      "members": [
+                        {
+                          "type": "SYMBOL",
+                          "name": "strict"
+                        },
+                        {
+                          "type": "SYMBOL",
+                          "name": "_identifier"
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "type": "SEQ",
                     "members": [
                       {
-                        "type": "SYMBOL",
-                        "name": "strict"
+                        "type": "STRING",
+                        "value": "("
                       },
                       {
-                        "type": "SYMBOL",
-                        "name": "_identifier"
+                        "type": "REPEAT1",
+                        "content": {
+                          "type": "SYMBOL",
+                          "name": "_identifier"
+                        }
+                      },
+                      {
+                        "type": "STRING",
+                        "value": ")"
                       }
                     ]
                   }
-                }
-              ]
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        }
-      ]
+                ]
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        ]
+      }
     },
     "deriving": {
       "type": "SEQ",
@@ -2007,7 +1983,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "new_constructor"
+          "name": "constructor"
         },
         {
           "type": "CHOICE",
@@ -2018,28 +1994,6 @@
             },
             {
               "type": "BLANK"
-            }
-          ]
-        }
-      ]
-    },
-    "new_constructor": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "constructor_identifier"
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "_identifier"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "fields"
             }
           ]
         }
@@ -2114,7 +2068,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "simple_type"
+          "name": "constructor"
         },
         {
           "type": "STRING",
@@ -3471,11 +3425,11 @@
   "conflicts": [
     [
       "type_class",
-      "class"
+      "ReferenceError"
     ],
     [
       "simple_type",
-      "class"
+      "ReferenceError"
     ],
     [
       "qualified_variable_symbol",
@@ -3492,6 +3446,14 @@
     [
       "general_constructor",
       "simple_type"
+    ],
+    [
+      "constructor_identifier",
+      "_type_constructors"
+    ],
+    [
+      "constructor",
+      "label"
     ]
   ],
   "externals": [
