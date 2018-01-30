@@ -417,7 +417,9 @@ module.exports = grammar({
       $.constructor_identifier,
       optional(choice(
         $.fields,
-        repeat(choice($.strict, $._identifier))
+        $.labels,
+        repeat(choice($.strict, $._identifier)),
+        seq('(', repeat1($._identifier), ')')
       ))
     ),
 
