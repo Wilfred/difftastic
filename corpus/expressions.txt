@@ -87,3 +87,15 @@ Cast expressions in assignments
 ---
 
 (program (expression_statement (assignment_expression (cast_expression (cast_type) (variable_name (name))) (cast_expression (cast_type) (variable_name (name))))))
+
+==========
+Reserved word
+==========
+
+<?php
+$foo = new static($this->current());
+
+---
+
+(program (expression_statement (assignment_expression (variable_name (name)) (object_creation_expression (qualified_name (name)) (arguments (member_call_expression (dereferencable_expression (variable_name (name))) (name) (arguments))))))) 
+
