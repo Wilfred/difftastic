@@ -397,19 +397,6 @@ module.exports = grammar({
       '=>'
     ),
 
-    class: $ => choice(
-      seq(
-        $.constructor_identifier,
-        $.variable_identifier
-      ),
-      seq(
-        $.constructor_identifier,
-        '(',
-        repeat1($.variable_identifier),
-        ')'
-      )
-    ),
-
     constructors: $ => seq(
       $.constructor,
       repeat(seq('|', $.constructor))
