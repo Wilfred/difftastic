@@ -174,24 +174,26 @@ f Ex { a = 1, b = 2 } = 2
   (function_declaration
     (function_head
       (variable_identifier)
-      (constructor_identifier)
-      (labels
-        (label
-          (variable_identifier)
-          (integer))))
+      (label_pattern
+        (constructor_identifier)
+        (labels
+          (label
+            (variable_identifier)
+            (integer)))))
     (function_body
       (integer)))
   (function_declaration
     (function_head
       (variable_identifier)
-      (constructor_identifier)
-      (labels
-        (label
-          (variable_identifier)
-          (integer))
-        (label
-          (variable_identifier)
-          (integer))))
+      (label_pattern
+        (constructor_identifier)
+        (labels
+          (label
+            (variable_identifier)
+            (integer))
+          (label
+            (variable_identifier)
+            (integer)))))
     (function_body
       (integer))))
 
@@ -209,11 +211,12 @@ f c@Ex { a = 1 } = c
       (variable_identifier)
       (as_pattern
         (variable_identifier)
-        (constructor_identifier)
-        (labels
-          (label
-            (variable_identifier)
-            (integer)))))
+        (label_pattern
+          (constructor_identifier)
+          (labels
+            (label
+              (variable_identifier)
+              (integer))))))
     (function_body
       (variable_identifier))))
 
