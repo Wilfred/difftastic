@@ -75,3 +75,15 @@ HERE;
 
 ---
 (program (expression_statement (heredoc)) (expression_statement (heredoc)) (text_interpolation) (expression_statement (heredoc)) (expression_statement (heredoc)))
+
+==========
+Cast expressions in assignments
+==========
+
+<?php
+
+(int) $foo = (float)$bar;
+
+---
+
+(program (expression_statement (assignment_expression (cast_expression (cast_type) (variable_name (name))) (cast_expression (cast_type) (variable_name (name))))))
