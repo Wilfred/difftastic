@@ -89,7 +89,7 @@ Cast expressions in assignments
 (program (expression_statement (assignment_expression (cast_expression (cast_type) (variable_name (name))) (cast_expression (cast_type) (variable_name (name))))))
 
 ==========
-Reserved word
+Reserved words as function calls
 ==========
 
 <?php
@@ -97,5 +97,24 @@ $foo = new static($this->current());
 
 ---
 
-(program (expression_statement (assignment_expression (variable_name (name)) (object_creation_expression (qualified_name (name)) (arguments (member_call_expression (dereferencable_expression (variable_name (name))) (name) (arguments))))))) 
+(program (expression_statement (assignment_expression (variable_name (name)) (object_creation_expression (qualified_name (name)) (arguments (member_call_expression (dereferencable_expression (variable_name (name))) (name) (arguments)))))))
 
+
+==========
+Trait use clauses
+==========
+
+<?php
+class AbstractCache
+{
+    use AbstractTrait {
+        deleteItems as private;
+        AbstractTrait::deleteItem as delete;
+        AbstractTrait::hasItem as has;
+    }
+}
+
+
+---
+
+(program (class_declaration (name) (trait_use_clause (qualified_name (name)) (trait_use_specification (trait_alias_as_clause (name) (visibility_modifier)) (trait_alias_as_clause (class_constant_access_expression (qualified_name (name)) (name)) (name)) (trait_alias_as_clause (class_constant_access_expression (qualified_name (name)) (name)) (name))))))
