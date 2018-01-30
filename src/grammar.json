@@ -6733,6 +6733,10 @@
         {
           "type": "STRING",
           "value": "parent"
+        },
+        {
+          "type": "STRING",
+          "value": "static"
         }
       ]
     },
