@@ -51,14 +51,14 @@ newtype Age = Age { unAge :: Int }
 
 (module
   (newtype
-    (simple_type (type_constructor))
+    (constructor (constructor_identifier))
     (constructor (constructor_identifier) (constructor_identifier)))
   (newtype
     (context (constructor (constructor_identifier) (variable_identifier)))
-    (simple_type (type_constructor))
+    (constructor (constructor_identifier))
     (constructor (constructor_identifier) (variable_identifier)))
   (newtype
-    (simple_type (type_constructor))
+    (constructor (constructor_identifier))
     (constructor
       (constructor_identifier)
       (fields
@@ -75,11 +75,11 @@ newtype N = N a deriving (Eq, Ord, Enum, Bounded, Show, Read)
 
 (module
   (newtype
-    (simple_type (type_constructor))
+    (constructor (constructor_identifier))
     (constructor (constructor_identifier) (constructor_identifier))
     (deriving (constructor_identifier)))
   (newtype
-    (simple_type (type_constructor))
+    (constructor (constructor_identifier))
     (constructor (constructor_identifier) (variable_identifier))
     (deriving
       (constructor_identifier)

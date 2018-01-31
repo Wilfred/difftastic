@@ -884,35 +884,6 @@
         }
       ]
     },
-    "general_constructor": {
-      "type": "PREC_RIGHT",
-      "value": 2,
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "SYMBOL",
-            "name": "constructor_identifier"
-          },
-          {
-            "type": "REPEAT1",
-            "content": {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "SYMBOL",
-                  "name": "variable_identifier"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "_literal"
-                }
-              ]
-            }
-          }
-        ]
-      }
-    },
     "as_pattern": {
       "type": "PREC_RIGHT",
       "value": 1,
@@ -1994,7 +1965,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "simple_type"
+          "name": "constructor"
         },
         {
           "type": "STRING",
@@ -2133,36 +2104,6 @@
           {
             "type": "SYMBOL",
             "name": "constructor_identifier"
-          }
-        ]
-      }
-    },
-    "simple_type": {
-      "type": "PREC_RIGHT",
-      "value": 0,
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "ALIAS",
-            "content": {
-              "type": "SYMBOL",
-              "name": "constructor_identifier"
-            },
-            "named": true,
-            "value": "type_constructor"
-          },
-          {
-            "type": "ALIAS",
-            "content": {
-              "type": "REPEAT",
-              "content": {
-                "type": "SYMBOL",
-                "name": "variable_identifier"
-              }
-            },
-            "named": true,
-            "value": "type_variable"
           }
         ]
       }
@@ -3447,10 +3388,6 @@
       "ReferenceError"
     ],
     [
-      "simple_type",
-      "ReferenceError"
-    ],
-    [
       "qualified_variable_symbol",
       "constructor_identifier"
     ],
@@ -3461,10 +3398,6 @@
     [
       "tuple",
       "parenthesized_constructor"
-    ],
-    [
-      "general_constructor",
-      "simple_type"
     ],
     [
       "constructor_identifier",
