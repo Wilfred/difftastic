@@ -3384,10 +3384,6 @@
   ],
   "conflicts": [
     [
-      "type_class",
-      "ReferenceError"
-    ],
-    [
       "qualified_variable_symbol",
       "constructor_identifier"
     ],

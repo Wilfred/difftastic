@@ -37,7 +37,6 @@ module.exports = grammar({
   ],
 
   conflicts: $ => [
-    [$.type_class, $.class],
     [$.qualified_variable_symbol, $.constructor_identifier],
     [$.qualified_variable_identifier, $.constructor_identifier],
     [$.tuple, $.parenthesized_constructor],
