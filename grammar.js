@@ -38,11 +38,9 @@ module.exports = grammar({
 
   conflicts: $ => [
     [$.type_class, $.class],
-    [$.simple_type, $.class],
     [$.qualified_variable_symbol, $.constructor_identifier],
     [$.qualified_variable_identifier, $.constructor_identifier],
     [$.tuple, $.parenthesized_constructor],
-    [$.general_constructor, $.simple_type],
     // TODO: Remove.
     [$.constructor_identifier, $._type_constructors],
     [$.constructor, $.label]
@@ -205,11 +203,6 @@ module.exports = grammar({
     )),
 
     negative_literal: $ => seq('-', '(', $._literal, ')'),
-
-    general_constructor: $ => prec.right(2, seq(
-      $.constructor_identifier,
-      repeat1(choice($.variable_identifier, $._literal))
-    )),
 
     as_pattern: $ => prec.right(1, seq(
       $._variable,
@@ -426,7 +419,7 @@ module.exports = grammar({
     newtype: $ => seq(
       'newtype',
       optional($.context),
-      $.simple_type,
+      $.constructor,
       '=',
       $.constructor,
       optional($.deriving)
@@ -463,11 +456,6 @@ module.exports = grammar({
     _identifier: $ => prec(1, choice(
       $.variable_identifier,
       $.constructor_identifier
-    )),
-
-    simple_type: $ => prec.right(seq(
-      alias($.constructor_identifier, $.type_constructor),
-      alias(repeat($.variable_identifier), $.type_variable)
     )),
 
     variable_identifier: $ => $._variable_pattern,
