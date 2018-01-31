@@ -415,22 +415,24 @@ module.exports = grammar({
       $._string
     ),
 
-    float: $ => {
-      const decimal_digits = /\d+/
-      const signed_integer = seq(optional(choice('-','+')), decimal_digits)
-      const exponent_part = seq(choice('e', 'E'), signed_integer)
-
-      const decimal_integer_literal = choice(
-        '0',
-        seq(/[1-9]/, optional(decimal_digits))
-      )
-
-      return prec.right(choice(
-        seq(decimal_integer_literal, '.', optional(decimal_digits), optional(exponent_part)),
-        seq('.', decimal_digits, optional(exponent_part)),
-        seq(decimal_integer_literal, optional(exponent_part))
-      ))
-    },
+    float: $ => /\d\d*((\.\d*)?([eE][\+-]?\d+)|(\.\d*)([eE][\+-]?\d+)?)/,
+//     float: $ => {
+//       const decimal_digits = /[1-9]d*/
+//       const signed_integer = seq(optional(choice('-','+')), decimal_digits)
+//       const exponent_part = seq(choice('e', 'E'), signed_integer)
+//
+// //    /\d*(\.\d)?/
+//       const fractional = choice(
+//         seq(optional(decimal_digits), '.', decimal_digits),
+//         seq(decimal_digits, '.')
+//       )
+//
+//
+//       return choice(
+//         seq(fractional,  optional(exponent_part)),
+        // seq(decimal_digits, exponent_part)
+//       )
+//     },Vkkkkkkkk
 
     try_statement:  $ => seq(
       'try',
@@ -475,9 +477,9 @@ module.exports = grammar({
     ),
 
     integer: $ => {
-      const decimal = /1-9\d*/
-      const octal = /0[0-7]+/
-      const hex = /0[xX][0-9|a-f|A-F]+/
+      const decimal = /[1-9]\d*/
+      const octal = /0[0-7]*/
+      const hex = /0[xX][0-9a-fA-F]+/
       const binary = /0[bB][01]+/
       return choice(
         decimal,

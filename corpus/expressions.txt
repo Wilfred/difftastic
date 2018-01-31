@@ -118,3 +118,19 @@ class AbstractCache
 ---
 
 (program (class_declaration (name) (trait_use_clause (qualified_name (name)) (trait_use_specification (trait_alias_as_clause (name) (visibility_modifier)) (trait_alias_as_clause (class_constant_access_expression (qualified_name (name)) (name)) (name)) (trait_alias_as_clause (class_constant_access_expression (qualified_name (name)) (name)) (name))))))
+
+==========
+Floats
+==========
+
+<?php
+
+1.0;
+1E432;
+1.0E-3432;
+1423.0E3432;
+
+
+---
+
+(program (expression_statement (float)) (expression_statement (float)) (expression_statement (float)) (expression_statement (float)))
