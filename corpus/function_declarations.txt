@@ -9,16 +9,13 @@ f num1 num2 = num2
 
 (module
   (type_signature
+    (function_identifier (variable_identifier))
     (variable_identifier)
-      (type
-        (type_variable)
-        (type
-          (type_variable)
-          (type
-            (type_variable)))))
+    (variable_identifier)
+    (variable_identifier))
   (function_declaration
     (function_head
-      (variable_identifier)
+      (function_identifier (variable_identifier))
       (variable_identifier)
       (variable_identifier))
     (function_body
@@ -35,15 +32,13 @@ f Ex = Ex
 
 (module
   (type_signature
-    (variable_identifier)
-    (type
-      (type_constructor)
-      (type
-        (type_constructor))))
+    (function_identifier (variable_identifier))
+    (constructor (constructor_identifier))
+    (constructor (constructor_identifier)))
   (function_declaration
     (function_head
-      (variable_identifier)
-      (constructor_identifier))
+      (function_identifier (variable_identifier))
+      (constructor (constructor_identifier)))
     (function_body
       (constructor
         (constructor_identifier)))))
@@ -59,20 +54,17 @@ f n@num1 x@num2 = x
 
 (module
   (type_signature
+    (function_identifier (variable_identifier))
     (variable_identifier)
-      (type
-        (type_variable)
-        (type
-          (type_variable)
-          (type
-            (type_variable)))))
+    (variable_identifier)
+    (variable_identifier))
   (function_declaration
     (function_head
-      (variable_identifier)
-      (as_pattern
+      (function_identifier (variable_identifier))
+      (as
         (variable_identifier)
         (variable_identifier))
-      (as_pattern
+      (as
         (variable_identifier)
         (variable_identifier)))
     (function_body
@@ -89,16 +81,13 @@ f _ num2 = num2
 
 (module
   (type_signature
+    (function_identifier (variable_identifier))
     (variable_identifier)
-      (type
-        (type_variable)
-        (type
-          (type_variable)
-          (type
-            (type_variable)))))
+    (variable_identifier)
+    (variable_identifier))
   (function_declaration
     (function_head
-      (variable_identifier)
+      (function_identifier (variable_identifier))
       (wildcard)
       (variable_identifier))
     (function_body
@@ -118,37 +107,34 @@ f 1.0 2.0 = 3.0
 
 (module
   (type_signature
+    (function_identifier (variable_identifier))
     (variable_identifier)
-      (type
-        (type_variable)
-        (type
-          (type_variable)
-          (type
-            (type_variable)))))
+    (variable_identifier)
+    (variable_identifier))
   (function_declaration
     (function_head
-      (variable_identifier)
+      (function_identifier (variable_identifier))
       (integer)
       (integer))
     (function_body
       (integer)))
   (function_declaration
     (function_head
-      (variable_identifier)
+      (function_identifier (variable_identifier))
       (string)
       (string))
     (function_body
       (string)))
   (function_declaration
     (function_head
-      (variable_identifier)
+      (function_identifier (variable_identifier))
       (char)
       (char))
     (function_body
       (char)))
   (function_declaration
     (function_head
-      (variable_identifier)
+      (function_identifier (variable_identifier))
       (float)
       (float))
     (function_body
@@ -167,34 +153,26 @@ f Ex { a = 1, b = 2 } = 2
 
 (module
   (type_signature
-    (variable_identifier)
-    (type
-      (type_constructor)
-      (type
-        (type_constructor))))
+    (function_identifier (variable_identifier))
+    (constructor (constructor_identifier))
+    (constructor (constructor_identifier)))
   (function_declaration
     (function_head
-      (variable_identifier)
-      (label_pattern
+      (function_identifier (variable_identifier))
+      (constructor
         (constructor_identifier)
-        (labels
-          (label
-            (variable_identifier)
-            (integer)))))
+        (field_labels
+          (field_label (variable_identifier) (integer)))))
     (function_body
       (integer)))
   (function_declaration
     (function_head
-      (variable_identifier)
-      (label_pattern
+      (function_identifier (variable_identifier))
+      (constructor
         (constructor_identifier)
-        (labels
-          (label
-            (variable_identifier)
-            (integer))
-          (label
-            (variable_identifier)
-            (integer)))))
+        (field_labels
+          (field_label (variable_identifier) (integer))
+          (field_label (variable_identifier) (integer)))))
     (function_body
       (integer))))
 
@@ -209,15 +187,13 @@ f c@Ex { a = 1 } = c
 (module
   (function_declaration
     (function_head
-      (variable_identifier)
-      (as_pattern
+      (function_identifier (variable_identifier))
+      (as
         (variable_identifier)
-        (label_pattern
+        (constructor
           (constructor_identifier)
-          (labels
-            (label
-              (variable_identifier)
-              (integer))))))
+          (field_labels
+            (field_label (variable_identifier) (integer))))))
     (function_body
       (variable_identifier))))
 
@@ -237,23 +213,23 @@ f ([]) = 1
 (module
   (function_declaration
     (function_head
-      (variable_identifier)
-      (parenthesized_pattern
+      (function_identifier (variable_identifier))
+      (parenthesized_expression
         (integer)))
     (function_body
       (integer)))
   (function_declaration
     (function_head
-      (variable_identifier)
-      (parenthesized_pattern
+      (function_identifier (variable_identifier))
+      (parenthesized_expression
         (negative_literal
           (integer))))
       (function_body
         (integer)))
   (function_declaration
     (function_head
-      (variable_identifier)
-      (parenthesized_pattern
+      (function_identifier (variable_identifier))
+      (parenthesized_expression
         (constructor
           (constructor_identifier)
           (variable_identifier)
@@ -263,18 +239,19 @@ f ([]) = 1
       (variable_identifier)))
   (function_declaration
     (function_head
-      (variable_identifier)
-      (parenthesized_pattern
-        (variable_identifier)
-        (constructor_symbol)
-        (variable_identifier)))
+      (function_identifier (variable_identifier))
+      (parenthesized_expression
+        (binary
+          (variable_identifier)
+          (constructor_symbol)
+          (variable_identifier))))
     (function_body
       (integer)))
   (function_declaration
     (function_head
-      (variable_identifier)
-      (parenthesized_pattern
-        (list_constructor)))
+      (function_identifier (variable_identifier))
+      (parenthesized_expression
+        (constructor (list_constructor))))
     (function_body
       (integer))))
 
@@ -292,17 +269,17 @@ f (Left a, Right b, -(1)) = b
 (module
   (function_declaration
     (function_head
-      (variable_identifier)
-      (tuple_pattern
+      (function_identifier (variable_identifier))
+      (tuple
         (integer)
         (integer)))
     (function_body
       (integer)))
   (function_declaration
     (function_head
-      (variable_identifier)
-      (tuple_pattern
-        (parenthesized_pattern
+      (function_identifier (variable_identifier))
+      (tuple
+        (parenthesized_expression
           (constructor
             (constructor_identifier)
             (integer)))
@@ -315,18 +292,18 @@ f (Left a, Right b, -(1)) = b
         (integer))))
   (function_declaration
     (function_head
-      (variable_identifier)
-      (tuple_pattern
+      (function_identifier (variable_identifier))
+      (tuple
         (constructor
           (constructor_identifier)
           (variable_identifier))
-        (constructor_identifier)))
+        (constructor (constructor_identifier))))
     (function_body
         (constructor (constructor_identifier))))
   (function_declaration
     (function_head
-      (variable_identifier)
-      (tuple_pattern
+      (function_identifier (variable_identifier))
+      (tuple
         (constructor
           (constructor_identifier)
           (variable_identifier))
@@ -352,53 +329,58 @@ f (a:b:c:ds) = a
 
 (module
   (type_signature
-    (variable_identifier)
-    (type
-      (list (type (type_constructor)))
-      (type (type_constructor))))
+    (function_identifier (variable_identifier))
+    (list (constructor (constructor_identifier)))
+    (constructor (constructor_identifier)))
   (function_declaration
     (function_head
-      (variable_identifier)
-      (list_constructor))
+      (function_identifier (variable_identifier))
+      (constructor (list_constructor)))
     (function_body
       (integer)))
   (function_declaration
     (function_head
-      (variable_identifier)
-      (list_pattern (variable_identifier)))
+      (function_identifier (variable_identifier))
+      (list (variable_identifier)))
     (function_body
       (variable_identifier)))
   (function_declaration
     (function_head
-      (variable_identifier)
-      (parenthesized_pattern
-        (variable_identifier)
-        (constructor_symbol)
-        (variable_identifier)))
+      (function_identifier (variable_identifier))
+      (parenthesized_expression
+        (binary
+          (variable_identifier)
+          (constructor_symbol)
+          (variable_identifier))))
     (function_body
       (variable_identifier)))
   (function_declaration
     (function_head
-      (variable_identifier)
-      (parenthesized_pattern
-        (variable_identifier)
+      (function_identifier (variable_identifier))
+      (parenthesized_expression
+        (binary
+          (binary
+            (variable_identifier)
+            (constructor_symbol)
+            (variable_identifier))
         (constructor_symbol)
-        (variable_identifier)
-        (constructor_symbol)
-        (variable_identifier)))
+        (variable_identifier))))
     (function_body
       (variable_identifier)))
   (function_declaration
     (function_head
-      (variable_identifier)
-      (parenthesized_pattern
-        (variable_identifier)
-        (constructor_symbol)
-        (variable_identifier)
-        (constructor_symbol)
-        (variable_identifier)
-        (constructor_symbol)
-        (variable_identifier)))
+      (function_identifier (variable_identifier))
+      (parenthesized_expression
+        (binary
+          (binary
+            (binary
+              (variable_identifier)
+              (constructor_symbol)
+              (variable_identifier))
+            (constructor_symbol)
+            (variable_identifier))
+          (constructor_symbol)
+          (variable_identifier))))
     (function_body
       (variable_identifier))))
 
@@ -415,27 +397,27 @@ f ~(~(a, b), c) = c
 (module
   (function_declaration
     (function_head
-      (variable_identifier)
-      (irrefutable_pattern
+      (function_identifier (variable_identifier))
+      (irrefutable
         (variable_identifier)))
     (function_body
       (integer)))
   (function_declaration
     (function_head
-      (variable_identifier)
-      (irrefutable_pattern
-        (parenthesized_pattern
+      (function_identifier (variable_identifier))
+      (irrefutable
+        (parenthesized_expression
           (negative_literal
             (integer)))))
     (function_body
       (integer)))
   (function_declaration
     (function_head
-      (variable_identifier)
-      (irrefutable_pattern
-        (tuple_pattern
-          (irrefutable_pattern
-            (tuple_pattern (variable_identifier) (variable_identifier)))
+      (function_identifier (variable_identifier))
+      (irrefutable
+        (tuple
+          (irrefutable
+            (tuple (variable_identifier) (variable_identifier)))
             (variable_identifier))))
     (function_body
       (variable_identifier))))
@@ -451,13 +433,13 @@ f a = c where c = d
 (module
   (function_declaration
     (function_head
-      (variable_identifier)
+      (function_identifier (variable_identifier))
       (variable_identifier))
     (function_body
       (variable_identifier)
       (where
         (function_declaration
           (function_head
-            (variable_identifier))
+            (function_identifier (variable_identifier)))
           (function_body
             (variable_identifier)))))))
