@@ -147,7 +147,7 @@ module.exports = grammar({
     ),
 
     function_head: $ => prec.left(seq(
-      $._identifier,
+      alias($._identifier, $.function_identifier),
       repeat($._expression)
     )),
 
@@ -308,7 +308,7 @@ module.exports = grammar({
     constructor_symbol: $ => prec.left(seq(':', repeat($._constructor_symbol))),
 
     type_signature: $ => seq(
-      $._identifier,
+      alias($._identifier, $.function_identifier),
       '::',
       optional($.context),
       $.type
