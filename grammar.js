@@ -173,13 +173,6 @@ module.exports = grammar({
       $._expression
     ),
 
-    list_pattern: $ => seq(
-      '[',
-      choice($._function_pattern),
-      ']'
-    ),
-
-    tuple_pattern: $ => seq(
     parenthesized_expression: $ => prec(1, seq(
       '(',
       commaSep1(choice($._pattern, $._function_pattern)),
