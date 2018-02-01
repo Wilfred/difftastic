@@ -151,12 +151,10 @@ module.exports = grammar({
       repeat($._expression)
     )),
 
-    function_body: $ => choice(
-      seq(
-        '=',
-        repeat($._expression),
-        optional($.where)
-      )
+    function_body: $ => seq(
+      '=',
+      repeat($._expression),
+      optional($.where)
     ),
 
     where: $ => seq(
