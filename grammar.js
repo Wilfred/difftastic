@@ -358,15 +358,24 @@ module.exports = grammar({
       repeat(seq('|', $._identifier))
     ),
 
-    constructor: $ => prec.right(seq(
-      $.constructor_identifier,
-      choice(
-        optional($.fields),
-        optional($.labels),
-        repeat(choice($.strict, $._identifier)),
-        optional(seq('(', repeat1($._identifier), ')')),
-        repeat($._literal)
-      )
+    constructor: $ => prec.right(choice(
+      seq(
+        $.constructor_identifier,
+        choice(
+          $.fields,
+          $.field_labels,
+          repeat(choice($.strict, $._identifier)),
+          prec.dynamic(5, seq('(', commaSep1($._identifier), ')')),
+          repeat($._primary_literal),
+          seq('(', alias('..', $.all_constructors), ')'),
+          seq('(', repeat($._variable), ')')
+        )
+      ),
+      seq('(', $.constructor, ')'),
+      $.unit_type,
+      $.list_constructor,
+      $.function_constructor,
+      $.tupling_constructor,
     )),
 
     deriving: $ => seq(
