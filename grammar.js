@@ -162,21 +162,6 @@ module.exports = grammar({
       choice($._declarations)
     ),
 
-    _function_pattern: $ => choice(
-      $.as_pattern,
-      $._literal,
-      $.wildcard,
-      $._identifier,
-      $.label_pattern,
-      $.parenthesized_pattern,
-      $.tuple_pattern,
-      $.list_pattern,
-      $.list_constructor,
-      $.irrefutable_pattern
-    ),
-
-    label_pattern: $ => seq(
-      $._identifier,
     field_labels: $ => seq(
       '{',
       optional(commaSep1($.field_label)),
