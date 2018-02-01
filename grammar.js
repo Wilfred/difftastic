@@ -181,10 +181,10 @@ module.exports = grammar({
 
     negative_literal: $ => seq('-', '(', $._literal, ')'),
 
-    as_pattern: $ => prec.right(1, seq(
-      $._variable,
+    as: $ => prec.right(1, seq(
+      $._identifier,
       '@',
-      $._function_pattern
+      $._expression
     )),
 
     labels: $ => prec.left(commaSep1($.label)),
