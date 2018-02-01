@@ -15,32 +15,32 @@ foreign import dotnet example :: Example
     (foreign_import)
     (calling_convention)
     (type_signature
-      (variable_identifier)
-      (type (type_constructor))))
+      (function_identifier (variable_identifier))
+      (constructor (constructor_identifier))))
   (foreign
     (foreign_import)
     (calling_convention)
     (type_signature
-      (variable_identifier)
-      (type (type_constructor))))
+      (function_identifier (variable_identifier))
+      (constructor (constructor_identifier))))
   (foreign
     (foreign_import)
     (calling_convention)
     (type_signature
-      (variable_identifier)
-      (type (type_constructor))))
+      (function_identifier (variable_identifier))
+      (constructor (constructor_identifier))))
   (foreign
     (foreign_import)
     (calling_convention)
     (type_signature
-      (variable_identifier)
-      (type (type_constructor))))
+      (function_identifier (variable_identifier))
+      (constructor (constructor_identifier))))
   (foreign
     (foreign_import)
     (calling_convention)
     (type_signature
-      (variable_identifier)
-      (type (type_constructor)))))
+      (function_identifier (variable_identifier))
+      (constructor (constructor_identifier)))))
 
 =========================================
 Foreign Import Declarations With Safety
@@ -61,40 +61,40 @@ foreign import dotnet unsafe "unsafe import" example :: Example
     (safety)
     (string)
     (type_signature
-      (variable_identifier)
-      (type (type_constructor))))
+      (function_identifier (variable_identifier))
+      (constructor (constructor_identifier))))
   (foreign
     (foreign_import)
     (calling_convention)
     (safety)
     (string)
     (type_signature
-      (variable_identifier)
-      (type (type_constructor))))
+      (function_identifier (variable_identifier))
+      (constructor (constructor_identifier))))
   (foreign
     (foreign_import)
     (calling_convention)
     (safety)
     (string)
     (type_signature
-      (variable_identifier)
-      (type (type_constructor))))
+      (function_identifier (variable_identifier))
+      (constructor (constructor_identifier))))
   (foreign
     (foreign_import)
     (calling_convention)
     (safety)
     (string)
     (type_signature
-      (variable_identifier)
-      (type (type_constructor))))
+      (function_identifier (variable_identifier))
+      (constructor (constructor_identifier))))
   (foreign
     (foreign_import)
     (calling_convention)
     (safety)
     (string)
     (type_signature
-      (variable_identifier)
-      (type (type_constructor)))))
+      (function_identifier (variable_identifier))
+      (constructor (constructor_identifier)))))
 
 =========================================
 Foreign Export Declarations
@@ -113,83 +113,29 @@ foreign export dotnet example :: Example
     (foreign_export)
     (calling_convention)
     (type_signature
-      (variable_identifier)
-      (type (type_constructor))))
+      (function_identifier (variable_identifier))
+      (constructor (constructor_identifier))))
   (foreign
     (foreign_export)
     (calling_convention)
     (type_signature
-      (variable_identifier)
-      (type (type_constructor))))
+      (function_identifier (variable_identifier))
+      (constructor (constructor_identifier))))
   (foreign
     (foreign_export)
     (calling_convention)
     (type_signature
-      (variable_identifier)
-      (type (type_constructor))))
+      (function_identifier (variable_identifier))
+      (constructor (constructor_identifier))))
   (foreign
     (foreign_export)
     (calling_convention)
     (type_signature
-      (variable_identifier)
-      (type (type_constructor))))
+      (function_identifier (variable_identifier))
+      (constructor (constructor_identifier))))
   (foreign
     (foreign_export)
     (calling_convention)
     (type_signature
-      (variable_identifier)
-      (type (type_constructor)))))
-
-=========================================
-Foreign Export Declarations With Safety
-=========================================
-
-foreign export ccall safe "safe import" example :: Example
-foreign export stdcall unsafe "unsafe import" example :: Example
-foreign export cplusplus safe "safe import" example :: Example
-foreign export jvm unsafe "unsafe import" example :: Example
-foreign export dotnet unsafe "unsafe import" example :: Example
-
----
-
-(module
-  (foreign
-    (foreign_export)
-    (calling_convention)
-    (safety)
-    (string)
-    (type_signature
-      (variable_identifier)
-      (type (type_constructor))))
-  (foreign
-    (foreign_export)
-    (calling_convention)
-    (safety)
-    (string)
-    (type_signature
-      (variable_identifier)
-      (type (type_constructor))))
-  (foreign
-    (foreign_export)
-    (calling_convention)
-    (safety)
-    (string)
-    (type_signature
-      (variable_identifier)
-      (type (type_constructor))))
-  (foreign
-    (foreign_export)
-    (calling_convention)
-    (safety)
-    (string)
-    (type_signature
-      (variable_identifier)
-      (type (type_constructor))))
-  (foreign
-    (foreign_export)
-    (calling_convention)
-    (safety)
-    (string)
-    (type_signature
-      (variable_identifier)
-      (type (type_constructor)))))
+      (function_identifier (variable_identifier))
+      (constructor (constructor_identifier)))))
