@@ -412,6 +412,13 @@ module.exports = grammar({
     ),
 
     _literal: $ => choice(
+      $._primary_literal,
+      $.list,
+      $.negative_literal,
+      $.tuple
+    ),
+
+    _primary_literal: $ => choice(
       $.integer,
       $.float,
       $.string,
