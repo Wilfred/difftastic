@@ -25,9 +25,9 @@
     },
     "build-test": {
       "patterns": [
-        "./"
+        "./", "src"
       ],
-      "extensions": "js",
+      "extensions": "js,cc",
       "quiet": true
     }
   },
