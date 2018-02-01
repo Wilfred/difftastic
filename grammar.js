@@ -336,12 +336,6 @@ module.exports = grammar({
       ']'
     ),
 
-    parenthesized_constructor: $ => seq(
-      '(',
-      $.type,
-      ')'
-    ),
-
     algebraic_datatype: $ => seq(
       'data',
       optional($.context),
