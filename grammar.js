@@ -212,9 +212,13 @@ module.exports = grammar({
 
     _expression: $ => choice(
       $._literal,
-      $._variable,
+      $._identifier,
       $.do_expression,
-      $.constructor
+      $.as,
+      $.wildcard,
+      $.parenthesized_expression,
+      $.irrefutable,
+      $.binary
     ),
 
     foreign: $ => seq(
