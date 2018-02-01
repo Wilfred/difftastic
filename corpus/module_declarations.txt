@@ -37,14 +37,13 @@ module A (Maybe(..), Either(fromEither, either), maybe') where
 (module
   (module_identifier)
   (module_exports
+    (export (constructor (constructor_identifier) (all_constructors)))
     (export
-      (constructor_identifier))
-    (export
-      (constructor_identifier)
+      (constructor
+        (constructor_identifier)
         (variable_identifier)
-        (variable_identifier))
-    (export
-      (variable_identifier)))
+        (variable_identifier)))
+    (export (variable_identifier)))
   (where))
 
 =========================================
