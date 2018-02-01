@@ -221,6 +221,12 @@ module.exports = grammar({
       $.binary
     ),
 
+    binary: $ => prec.left(1, seq(
+      $._expression,
+      $._op,
+      $._expression
+    )),
+
     foreign: $ => seq(
       'foreign',
       choice($.foreign_export, $.foreign_import),
