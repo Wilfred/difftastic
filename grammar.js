@@ -170,7 +170,7 @@ module.exports = grammar({
 
     irrefutable: $ => seq(
       '~',
-      $._function_pattern
+      $._expression
     ),
 
     list_pattern: $ => seq(
