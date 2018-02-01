@@ -611,18 +611,6 @@
             "type": "SYMBOL",
             "name": "_expression"
           }
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "where"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
         }
       ]
     },
@@ -860,6 +848,10 @@
         {
           "type": "SYMBOL",
           "name": "binary"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "where"
         }
       ]
     },

@@ -147,8 +147,7 @@ module.exports = grammar({
 
     function_body: $ => seq(
       '=',
-      repeat($._expression),
-      optional($.where)
+      repeat($._expression)
     ),
 
     where: $ => seq(
@@ -212,7 +211,8 @@ module.exports = grammar({
       $.wildcard,
       $.parenthesized_expression,
       $.irrefutable,
-      $.binary
+      $.binary,
+      $.where
     ),
 
     binary: $ => prec.left(1, seq(
