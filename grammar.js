@@ -345,13 +345,13 @@ module.exports = grammar({
       optional($.deriving)
     ),
 
-    context: $ => seq(
+    context: $ => prec(1, seq(
       choice(
         $._identifier,
         seq('(', commaSep1($._identifier), ')')
       ),
       '=>'
-    ),
+    )),
 
     constructors: $ => seq(
       $._identifier,
