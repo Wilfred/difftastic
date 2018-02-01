@@ -187,9 +187,7 @@ module.exports = grammar({
       $._expression
     )),
 
-    labels: $ => prec.left(commaSep1($.label)),
-
-    label: $ => seq(
+    field_label: $ => seq(
       $._identifier,
       '=',
       $._literal
