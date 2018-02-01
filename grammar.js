@@ -88,13 +88,7 @@ module.exports = grammar({
 
     import: $ => seq(
       'import',
-      optional('qualified'),
-      $.module_identifier,
-      optional(seq(
-        'as',
-        $.module_identifier
-      )),
-      optional($.import_specification)
+      alias(optional('qualified'), $.qualified),
       choice(
         $.module_identifier,
         $.import_alias
@@ -102,8 +96,9 @@ module.exports = grammar({
       optional(choice($.import_specification, $.hidden_import_specification))
     ),
 
-    import_specification: $ => seq(
-      optional('hiding'),
+    import_specification: $ => $._import_specification,
+
+    _import_specification: $ => seq(
       '(',
       optional(
         commaSep1(choice(
