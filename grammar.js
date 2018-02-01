@@ -277,14 +277,14 @@ module.exports = grammar({
     type_class: $ => seq(
       'class',
       optional($.context),
-      $.constructor,
+      $._identifier,
       $.where
     ),
 
     type_class_instance: $ => seq(
       'instance',
       optional($.context),
-      $.constructor,
+      $._identifier,
       $.where
     ),
 
@@ -359,7 +359,7 @@ module.exports = grammar({
     algebraic_datatype: $ => seq(
       'data',
       optional($.context),
-      $.constructor,
+      $._identifier,
       optional('='),
       optional($.constructors),
       optional($.deriving)
@@ -367,15 +367,15 @@ module.exports = grammar({
 
     context: $ => seq(
       choice(
-        $.constructor,
-        seq('(', commaSep1($.constructor), ')')
+        $._identifier,
+        seq('(', commaSep1($._identifier), ')')
       ),
       '=>'
     ),
 
     constructors: $ => seq(
-      $.constructor,
-      repeat(seq('|', $.constructor))
+      $._identifier,
+      repeat(seq('|', $._identifier))
     ),
 
     constructor: $ => prec.right(seq(
@@ -404,9 +404,9 @@ module.exports = grammar({
     newtype: $ => seq(
       'newtype',
       optional($.context),
-      $.constructor,
+      $._identifier,
       '=',
-      $.constructor,
+      $._identifier,
       optional($.deriving)
     ),
 
@@ -426,7 +426,7 @@ module.exports = grammar({
 
     type_synonym: $ => seq(
       'type',
-      $.constructor,
+      $._identifier,
       '=',
       $.type
     ),
@@ -438,9 +438,9 @@ module.exports = grammar({
       $.char
     ),
 
-    _identifier: $ => prec(1, choice(
-      $.variable_identifier,
-      $.constructor_identifier
+    _identifier: $ => prec.left(1, choice(
+      $.constructor,
+      $._variable
     )),
 
     variable_identifier: $ => $._variable_pattern,
