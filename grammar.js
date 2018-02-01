@@ -95,6 +95,7 @@ module.exports = grammar({
         $.module_identifier
       )),
       optional($.import_specification)
+      optional(choice($.import_specification, $.hidden_import_specification))
     ),
 
     import_specification: $ => seq(
@@ -112,6 +113,11 @@ module.exports = grammar({
         ))
       ),
       ')'
+    ),
+
+    hidden_import_specification: $ => seq(
+      'hiding',
+      $._import_specification
     ),
 
     _declaration: $ => choice(
