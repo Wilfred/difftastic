@@ -417,7 +417,7 @@ module.exports = grammar({
       'type',
       $._identifier,
       '=',
-      $.type
+      $._type
     ),
 
     _literal: $ => choice(
