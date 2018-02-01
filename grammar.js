@@ -175,13 +175,6 @@ module.exports = grammar({
 
     parenthesized_expression: $ => prec(1, seq(
       '(',
-      commaSep1(choice($._pattern, $._function_pattern)),
-      ')'
-    ),
-
-    parenthesized_pattern: $ => prec(1, seq(
-      '(',
-      choice($._function_pattern, $._pattern),
       $._expression,
       ')'
     )),
