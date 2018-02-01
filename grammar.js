@@ -326,13 +326,13 @@ module.exports = grammar({
 
     tuple: $ => seq(
       '(',
-      commaSep1($.type),
+      commaSep1($._expression),
       ')'
     ),
 
     list: $ => seq(
       '[',
-      repeat1($.type),
+      repeat1($._expression),
       ']'
     ),
 
