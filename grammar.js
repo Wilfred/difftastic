@@ -177,8 +177,9 @@ module.exports = grammar({
 
     label_pattern: $ => seq(
       $._identifier,
+    field_labels: $ => seq(
       '{',
-      optional($.labels),
+      optional(commaSep1($.field_label)),
       '}'
     ),
 
