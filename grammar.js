@@ -57,7 +57,8 @@ module.exports = grammar({
       seq($._literal, $._semicolon),
       seq($._expression, $._semicolon),
       $._declaration,
-      $.statement
+      $.statement,
+      // $._expression
     ),
 
     _semicolon: $ => ';',
@@ -1103,6 +1104,7 @@ module.exports = grammar({
     ),
 
     unann_primitive_type: $ => choice(
+      'void',
       $._numeric_type,
       'boolean'
     ),

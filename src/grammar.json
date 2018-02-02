@@ -7043,6 +7043,10 @@
       "type": "CHOICE",
       "members": [
         {
+          "type": "STRING",
+          "value": "void"
+        },
+        {
           "type": "SYMBOL",
           "name": "_numeric_type"
         },
