@@ -34,7 +34,6 @@ module.exports = grammar({
   inline: $ => [
   $.formal_parameters,
   $._numeric_type,
-  // $._statement_expression_list
   ],
 
   conflicts: $ => [
@@ -310,24 +309,24 @@ module.exports = grammar({
     )),
 
     statement: $ => choice(
-      // $.statement_without_trailing_substatement,
+      $._statement_without_trailing_substatement,
       // -- uncommenting above generates a method header conflict
       // $.labeled_statement,
       $.if_then_statement,
       $.if_then_else_statement,
-      // $.while_statement,
+      $.while_statement,
       $.for_statement
     ),
 
     statement_no_short_if: $ => choice(
-      // $.statement_without_trailing_substatement,
+      $._statement_without_trailing_substatement,
       // $.labeled_statement_no_short_if,
       $.if_then_else_statement_no_short_if,
-      // $.while_statement_no_short_if,
+      $.while_statement_no_short_if,
       $.for_statement_no_short_if
     ),
 
-    statement_without_trailing_substatement: $ => choice(
+    _statement_without_trailing_substatement: $ => choice(
       $.block,
       $._semicolon, // empty_statement,
       $.expression_statement,
@@ -367,12 +366,11 @@ module.exports = grammar({
       '}'
     ),
 
-    switch_block_statement_group: $ => seq(
-      $.switch_labels,
-      $.block_statements
-    ),
-
-    switch_labels: $ => commaSep1($.switch_label),
+    // TODO: check precedence logic here
+    switch_block_statement_group: $ => prec.right(seq(
+      repeat1($.switch_label),
+      repeat1($.block_statement)
+    )),
 
     switch_label: $ => choice(
       seq('case', $._expression, ':'),
@@ -871,7 +869,7 @@ module.exports = grammar({
     constructor_body: $ => seq(
       '{',
       optional($.explicit_constructor_invocation),
-      optional($.block_statements),
+      repeat($.block_statement),
       '}'
     ),
 
@@ -1184,12 +1182,7 @@ module.exports = grammar({
     ),
 
     block: $ => seq(
-      '{', optional($.block_statements), '}'
-    ),
-
-    block_statements: $ => seq(
-      $.block_statement,
-      repeat($.block_statement)
+      '{', repeat($.block_statement), '}'
     ),
 
     block_statement: $ => choice(
