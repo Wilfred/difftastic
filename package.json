@@ -14,15 +14,38 @@
   },
   "homepage": "https://github.com/tree-sitter/tree-sitter-java#readme",
   "dependencies": {
-    "nan": "^2.4.0"
+    "nan": "^2.4.0",
+    "npm-watch": "^0.3.0"
   },
   "devDependencies": {
     "tree-sitter-cli": "^0.7.4"
   },
+
+  "watch": {
+    "test": {
+      "patterns": [
+        "corpus"
+      ],
+      "extensions": "java",
+      "quiet": true
+    },
+    "build-test": {
+      "patterns": [
+        "./"
+      ],
+      "extensions": "js",
+      "quiet": true
+    }
+  },
+
   "scripts": {
     "build": "tree-sitter generate && node-gyp build",
-    "test": "tree-sitter test"
+    "test": "tree-sitter test",
+    "build-test": "tree-sitter generate && node-gyp build && tree-sitter test",
+    "watch-test": "npm-watch test",
+    "watch-grammar": "npm-watch build-test"
   },
+
   "repository": {
     "type": "git",
     "url": "git+https://github.com/tree-sitter/tree-sitter-java.git"
