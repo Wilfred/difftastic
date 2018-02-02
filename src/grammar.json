@@ -2171,6 +2171,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "labeled_statement"
+        },
+        {
+          "type": "SYMBOL",
           "name": "if_then_statement"
         },
         {
@@ -2196,6 +2200,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "labeled_statement_no_short_if"
+        },
+        {
+          "type": "SYMBOL",
           "name": "if_then_else_statement_no_short_if"
         },
         {
@@ -2205,6 +2213,40 @@
         {
           "type": "SYMBOL",
           "name": "for_statement_no_short_if"
+        }
+      ]
+    },
+    "labeled_statement": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "identifier"
+        },
+        {
+          "type": "STRING",
+          "value": ":"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "statement"
+        }
+      ]
+    },
+    "labeled_statement_no_short_if": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "identifier"
+        },
+        {
+          "type": "STRING",
+          "value": ":"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "statement_no_short_if"
         }
       ]
     },

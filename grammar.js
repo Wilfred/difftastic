@@ -311,8 +311,7 @@ module.exports = grammar({
 
     statement: $ => choice(
       $._statement_without_trailing_substatement,
-      // -- uncommenting above generates a method header conflict
-      // $.labeled_statement,
+      $.labeled_statement,
       $.if_then_statement,
       $.if_then_else_statement,
       $.while_statement,
@@ -321,10 +320,18 @@ module.exports = grammar({
 
     statement_no_short_if: $ => choice(
       $._statement_without_trailing_substatement,
-      // $.labeled_statement_no_short_if,
+      $.labeled_statement_no_short_if,
       $.if_then_else_statement_no_short_if,
       $.while_statement_no_short_if,
       $.for_statement_no_short_if
+    ),
+
+    labeled_statement: $ => seq(
+      $.identifier, ':', $.statement
+    ),
+
+    labeled_statement_no_short_if: $ => seq(
+      $.identifier, ':', $.statement_no_short_if
     ),
 
     _statement_without_trailing_substatement: $ => choice(
