@@ -2,16 +2,21 @@
 if statements
 ============================
 
-if x
+if (x)
   y;
 
 ---
+
+(program
+  (statement
+    (if_then_statement 
+      (ambiguous_name (identifier)) (ambiguous_name (identifier)))))
 
 ============================
 if statements with braces
 ============================
 
-if x {
+if (x) {
   y;
 }
 
