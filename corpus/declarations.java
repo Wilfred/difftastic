@@ -284,7 +284,7 @@ void calculateAnswer(double wingSpan, int numberOfEngines,
 (program
   (method_declaration
     (method_header
-      (unann_type (unann_class_or_interface_type (identifier)))
+      (unann_type (unann_primitive_type))
       (method_declarator
         (identifier)
         (formal_parameter (unann_type (unann_primitive_type (floating_point_type))) (variable_declarator_id (identifier)))
