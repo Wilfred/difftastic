@@ -8,11 +8,11 @@ Add 3 variables together and print result
 
 (program
   (expression_statement (assignment_expression
-    (variable_name (name)) (float)))
+    (variable_name (name)) (integer)))
   (expression_statement (assignment_expression
-    (variable_name (name)) (float)))
+    (variable_name (name)) (integer)))
   (expression_statement (assignment_expression
-    (variable_name (name)) (float)))
+    (variable_name (name)) (integer)))
   (expression_statement (assignment_expression
     (variable_name (name))
     (binary_expression

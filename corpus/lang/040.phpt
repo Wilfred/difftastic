@@ -13,5 +13,5 @@ foreach($a as $b[0]) {
 
 ---
 
-(program  (expression_statement (assignment_expression (variable_name (name)) (array_creation_expression (array_element_initializer (float)) (array_element_initializer (float))))) (expression_statement (assignment_expression (subscript_expression (dereferencable_expression (variable_name (name))) (float)) (float))) (foreach_statement (variable_name (name)) (subscript_expression (dereferencable_expression (variable_name (name))) (float)) (compound_statement (echo_statement (binary_expression (subscript_expression (dereferencable_expression (variable_name (name))) (float)) (string))))) (text))
+(program  (expression_statement (assignment_expression (variable_name (name)) (array_creation_expression (array_element_initializer (integer)) (array_element_initializer (integer))))) (expression_statement (assignment_expression (subscript_expression (dereferencable_expression (variable_name (name))) (integer)) (integer))) (foreach_statement (variable_name (name)) (subscript_expression (dereferencable_expression (variable_name (name))) (integer)) (compound_statement (echo_statement (binary_expression (subscript_expression (dereferencable_expression (variable_name (name))) (integer)) (string))))) (text))
 

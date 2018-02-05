@@ -18,4 +18,4 @@ Test();
 
 ---
 
-(program  (function_definition (name) (compound_statement (function_static_declaration (static_variable_declaration (variable_name (name)) (float))) (echo_statement (string)) (expression_statement (update_expression (variable_name (name)))) (if_statement (binary_expression (variable_name (name)) (integer)) (expression_statement (function_call_expression (qualified_name (name)) (arguments)))))) (expression_statement (function_call_expression (qualified_name (name)) (arguments))))
+(program  (function_definition (name) (compound_statement (function_static_declaration (static_variable_declaration (variable_name (name)) (integer))) (echo_statement (string)) (expression_statement (update_expression (variable_name (name)))) (if_statement (binary_expression (variable_name (name)) (integer)) (expression_statement (function_call_expression (qualified_name (name)) (arguments)))))) (expression_statement (function_call_expression (qualified_name (name)) (arguments))))

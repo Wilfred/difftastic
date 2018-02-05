@@ -27,4 +27,4 @@ echo "End\n";
 
 ---
 
-(program  (expression_statement (function_call_expression (qualified_name (name)) (arguments (string) (float)))) (echo_statement (string)) (function_definition (name) (compound_statement (echo_statement (string)))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (string)))) (comment) (expression_statement (function_call_expression (qualified_name (name)) (arguments (float)))) (comment) (for_statement (compound_statement)) (echo_statement (string)))
+(program  (expression_statement (function_call_expression (qualified_name (name)) (arguments (string) (integer)))) (echo_statement (string)) (function_definition (name) (compound_statement (echo_statement (string)))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (string)))) (comment) (expression_statement (function_call_expression (qualified_name (name)) (arguments (integer)))) (comment) (for_statement (compound_statement)) (echo_statement (string)))
