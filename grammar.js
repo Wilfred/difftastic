@@ -763,6 +763,7 @@ module.exports = grammar({
         ['**=', PREC.TIMES],
         ['*=', PREC.TIMES],
         ['/=', PREC.TIMES],
+        ['%=', PREC.TIMES],
         ['+=', PREC.PLUS],
         ['-=', PREC.PLUS],
         ['.=', PREC.PLUS],
