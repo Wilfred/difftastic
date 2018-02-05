@@ -34,7 +34,10 @@ if (x = 3)
 
 ---
 
-(program (if_then_statement (assignment_expression (lhs (ambiguous_name (identifier))) (integer_literal (decimal_integer_literal))) (assignment_expression (lhs (ambiguous_name (identifier))) (integer_literal (decimal_integer_literal)))))
+(program
+  (if_then_statement
+    (assignment_expression (lhs (ambiguous_name (identifier))) (integer_literal (decimal_integer_literal)))
+      (assignment_expression (lhs (ambiguous_name (identifier))) (integer_literal (decimal_integer_literal)))))
 
 ============================
 if statements with assignment with braces
@@ -44,6 +47,14 @@ if (x = 3) {
   y = 2;
 }
 
+---
+
+(program
+  (if_then_statement
+    (assignment_expression (lhs (ambiguous_name (identifier))) (integer_literal (decimal_integer_literal)))
+      (block
+        (assignment_expression (lhs (ambiguous_name (identifier))) (integer_literal (decimal_integer_literal))))))
+
 ===
 if statement without braces and one assignment in the then
 ===
@@ -52,3 +63,18 @@ if (x)
   y = 3;
 
 ---
+
+(program
+  (if_then_statement
+    (ambiguous_name (identifier)) (assignment_expression (lhs (ambiguous_name (identifier))) (integer_literal (decimal_integer_literal)))))
+
+===
+assignment
+===
+x = 1;
+
+---
+
+(program
+  (assignment_expression
+    (lhs (ambiguous_name (identifier))) (integer_literal (decimal_integer_literal))))
