@@ -822,7 +822,7 @@ module.exports = grammar({
     ),
 
     scoped_call_expression: $ => prec(PREC.CALL, seq(
-      $._scope_resolution_qualifier, '::', $._member_name, $.arguments
+      $._scope_resolution_qualifier, '::', choice($._member_name, alias($._reserved_identifier, $.name)), $.arguments
     )),
 
     _scope_resolution_qualifier: $ => choice(
@@ -846,7 +846,7 @@ module.exports = grammar({
     member_call_expression: $ => prec(PREC.CALL, seq(
       $.dereferencable_expression,
       '->',
-      $._member_name,
+      choice($._member_name, alias($._reserved_identifier, $.name)),
       $.arguments
     )),
 

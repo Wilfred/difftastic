@@ -150,3 +150,13 @@ PHP
 ---
 
 (program (expression_statement (heredoc)))
+
+==========
+Scoped self call expressions
+==========
+
+<?php
+
+m::self();
+
+---
