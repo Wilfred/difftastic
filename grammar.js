@@ -415,7 +415,7 @@ module.exports = grammar({
       $._string
     ),
 
-    float: $ => /\d\d*((\.\d*)?([eE][\+-]?\d+)|(\.\d*)([eE][\+-]?\d+)?)/,
+    float: $ => /\d*((\.\d*)?([eE][\+-]?\d+)|(\.\d*)([eE][\+-]?\d+)?)/,
 
     try_statement:  $ => seq(
       'try',
