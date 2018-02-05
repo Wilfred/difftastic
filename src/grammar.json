@@ -6534,8 +6534,11 @@
                 ]
               },
               {
-                "type": "PATTERN",
-                "value": "[^?]*|\\?[^>]*"
+                "type": "REPEAT",
+                "content": {
+                  "type": "PATTERN",
+                  "value": "[^?\\n]|\\?[^>]"
+                }
               }
             ]
           },
