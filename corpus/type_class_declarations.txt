@@ -108,3 +108,36 @@ class Foo a where {
       (fixity (integer) (constructor_symbol))
       (fixity (integer) (constructor_symbol))
       (fixity (integer) (constructor_symbol)))))
+
+=========================================
+Type Class Declarations With Multiple Operators
+=========================================
+
+class  (Eq a) => Ord a  where {
+  compare              :: a -> a -> Ordering
+  (<), (<=), (>=), (>) :: a -> a -> Bool
+  max, min             :: a -> a -> a
+}
+
+---
+
+(module
+  (type_class
+    (context (constructor (constructor_identifier) (variable_identifier)))
+    (constructor (constructor_identifier) (variable_identifier))
+    (where
+      (type_signature
+        (function_identifier (variable_identifier))
+        (variable_identifier)
+        (variable_identifier)
+        (constructor (constructor_identifier)))
+      (type_signature
+        (function_identifier (variable_symbol) (variable_symbol) (variable_symbol) (variable_symbol))
+        (variable_identifier)
+        (variable_identifier)
+        (constructor (constructor_identifier)))
+      (type_signature
+        (function_identifier (variable_identifier) (variable_identifier))
+        (variable_identifier)
+        (variable_identifier)
+        (variable_identifier)))))
