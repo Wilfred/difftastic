@@ -18,7 +18,7 @@ for ($i=0; $i<$argc; $i++) {
 	(expression_statement (assignment_expression (variable_name (name)) (subscript_expression (dereferencable_expression (variable_name (name))) (string))))
 	(expression_statement (assignment_expression (variable_name (name)) (subscript_expression (dereferencable_expression (variable_name (name))) (string))))
 	(for_statement
-		(assignment_expression (variable_name (name)) (float))
+		(assignment_expression (variable_name (name)) (integer))
 		(binary_expression (variable_name (name)) (variable_name (name)))
 		(update_expression (variable_name (name)))
 		(compound_statement

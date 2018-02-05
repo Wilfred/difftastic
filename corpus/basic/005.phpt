@@ -12,5 +12,5 @@ echo "{$_POST['a']} {$_POST['b']} {$_POST['c']}"?>
   (expression_statement
     (function_call_expression
       (qualified_name (name))
-      (arguments (float))))
+      (arguments (integer))))
   (echo_statement (string)))

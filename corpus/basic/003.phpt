@@ -12,5 +12,5 @@ echo "post-a=({$_POST['a']}) get-b=({$_GET['b']}) get-c=({$_GET['c']})"?>
   (expression_statement
     (function_call_expression
       (qualified_name (name))
-      (arguments (float))))
+      (arguments (integer))))
   (echo_statement (string)))
