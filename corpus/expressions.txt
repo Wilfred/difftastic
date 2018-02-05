@@ -134,3 +134,19 @@ Floats
 ---
 
 (program (expression_statement (float)) (expression_statement (float)) (expression_statement (float)) (expression_statement (float)))
+
+==========
+Nowdocs
+==========
+
+<?php
+
+<<<'PHP'
+<?php echo phpversion().PHP_SAPI;
+PHP
+
+?>
+
+---
+
+(program (expression_statement (heredoc)))

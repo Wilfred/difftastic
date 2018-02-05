@@ -120,14 +120,12 @@ struct Scanner {
     }
   }
 
-  string scan_heredoc_word(TSLexer *lexer) {
+  string scan_heredoc_word(TSLexer *lexer, bool is_nowdoc) {
     string result;
     int32_t quote;
 
     switch (lexer->lookahead) {
       case '\'':
-      case '"':
-      case '`':
         quote = lexer->lookahead;
         advance(lexer);
         while (lexer->lookahead != quote && lexer->lookahead != 0) {
@@ -160,8 +158,12 @@ struct Scanner {
 
     for (;;) {
       if (position_in_word == heredoc.word.size()) {
-        open_heredocs.erase(open_heredocs.begin());
-        return End;
+        if (lexer->lookahead == ';' || lexer->lookahead == '\n') {
+          open_heredocs.erase(open_heredocs.begin());
+          return End;
+        }
+
+        position_in_word = 0;
       }
       if (lexer->lookahead == 0) {
         open_heredocs.erase(open_heredocs.begin());
@@ -193,9 +195,15 @@ struct Scanner {
         if (lexer->lookahead != '<') return false;
         advance(lexer);
 
+        bool is_nowdoc = false;
+        if (lexer->lookahead == '\'') {
+          is_nowdoc = true;
+          advance(lexer);
+        }
+
         // Found a heredoc
         Heredoc heredoc;
-        heredoc.word = scan_heredoc_word(lexer);
+        heredoc.word = scan_heredoc_word(lexer, is_nowdoc);
         if (heredoc.word.empty()) return false;
         open_heredocs.push_back(heredoc);
 
