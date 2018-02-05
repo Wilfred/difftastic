@@ -129,11 +129,12 @@ Floats
 1E432;
 1.0E-3432;
 1423.0E3432;
+.5;
 
 
 ---
 
-(program (expression_statement (float)) (expression_statement (float)) (expression_statement (float)) (expression_statement (float)))
+(program (expression_statement (float)) (expression_statement (float)) (expression_statement (float)) (expression_statement (float)) (expression_statement (float)))
 
 ==========
 Nowdocs
