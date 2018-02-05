@@ -9,4 +9,4 @@ if (1) {
 
 ---
 
-(program (if_statement (float) (compound_statement (text_interpolation))))
+(program (if_statement (integer) (compound_statement (text_interpolation))))

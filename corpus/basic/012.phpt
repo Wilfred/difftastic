@@ -24,9 +24,9 @@ for ($i=1; $i<$argc; $i++) {
 			(variable_name (name))
 			(subscript_expression (dereferencable_expression (variable_name (name))) (string))))
 	(for_statement
-		(assignment_expression (variable_name (name)) (float))
+		(assignment_expression (variable_name (name)) (integer))
 		(binary_expression (variable_name (name)) (variable_name (name)))
 		(update_expression (variable_name (name)))
 		(compound_statement
 			(echo_statement
-				(binary_expression (binary_expression (binary_expression (parenthesized_expression (binary_expression (variable_name (name)) (float))) (string)) (subscript_expression (dereferencable_expression (variable_name (name))) (variable_name (name)))) (string))))))
+				(binary_expression (binary_expression (binary_expression (parenthesized_expression (binary_expression (variable_name (name)) (integer))) (string)) (subscript_expression (dereferencable_expression (variable_name (name))) (variable_name (name)))) (string))))))

@@ -17,5 +17,5 @@ switch ($a) {
 
 ---
 
-(program  (expression_statement (assignment_expression (variable_name (name)) (float))) (expression_statement (assignment_expression (variable_name (name)) (string))) (switch_statement (variable_name (name)) (case_statement (float) (function_definition (name) (simple_parameter (variable_name (name))) (compound_statement (if_statement (function_call_expression (qualified_name (name)) (arguments (string) (variable_name (name)))) (return_statement (qualified_name (name)))) (return_statement (qualified_name (name))))) (echo_statement (function_call_expression (qualified_name (name)) (arguments (variable_name (name))))))))
+(program  (expression_statement (assignment_expression (variable_name (name)) (integer))) (expression_statement (assignment_expression (variable_name (name)) (string))) (switch_statement (variable_name (name)) (case_statement (integer) (function_definition (name) (simple_parameter (variable_name (name))) (compound_statement (if_statement (function_call_expression (qualified_name (name)) (arguments (string) (variable_name (name)))) (return_statement (qualified_name (name)))) (return_statement (qualified_name (name))))) (echo_statement (function_call_expression (qualified_name (name)) (arguments (variable_name (name))))))))
 
