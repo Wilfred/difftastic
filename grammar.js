@@ -416,23 +416,6 @@ module.exports = grammar({
     ),
 
     float: $ => /\d\d*((\.\d*)?([eE][\+-]?\d+)|(\.\d*)([eE][\+-]?\d+)?)/,
-//     float: $ => {
-//       const decimal_digits = /[1-9]d*/
-//       const signed_integer = seq(optional(choice('-','+')), decimal_digits)
-//       const exponent_part = seq(choice('e', 'E'), signed_integer)
-//
-// //    /\d*(\.\d)?/
-//       const fractional = choice(
-//         seq(optional(decimal_digits), '.', decimal_digits),
-//         seq(decimal_digits, '.')
-//       )
-//
-//
-//       return choice(
-//         seq(fractional,  optional(exponent_part)),
-        // seq(decimal_digits, exponent_part)
-//       )
-//     },Vkkkkkkkk
 
     try_statement:  $ => seq(
       'try',
@@ -780,6 +763,7 @@ module.exports = grammar({
         ['**=', PREC.TIMES],
         ['*=', PREC.TIMES],
         ['/=', PREC.TIMES],
+        ['%=', PREC.TIMES],
         ['+=', PREC.PLUS],
         ['-=', PREC.PLUS],
         ['.=', PREC.PLUS],
