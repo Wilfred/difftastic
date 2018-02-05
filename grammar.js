@@ -152,7 +152,7 @@ module.exports = grammar({
 
     where: $ => seq(
       'where',
-      choice($._declarations)
+      optional($._declarations)
     ),
 
     field_labels: $ => seq(
