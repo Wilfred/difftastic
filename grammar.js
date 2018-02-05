@@ -1014,5 +1014,5 @@ function double_quote_chars() {
 
       const dq_unicode_escapes = seq('\\u{', repeat1(hex_digit), '}')
       const dq_escapes = choice(dq_simple_escapes, dq_octal_escapes, dq_hex_escapes, dq_unicode_escapes)
-      return repeat(choice(dq_escapes, /[^"\\]|\\[^"\\$efnrtvxX0-7]/))
+      return repeat(choice(dq_escapes, /[^"\\]|\\[^"\\$efnrtv0-7]/))
 }
