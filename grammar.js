@@ -34,6 +34,7 @@ module.exports = grammar({
   inline: $ => [
   $.formal_parameters,
   $._numeric_type,
+  $._block_statement
   ],
 
   conflicts: $ => [
@@ -47,19 +48,25 @@ module.exports = grammar({
     [$.class_or_interface_type, $.class_or_interface_type_to_instantiate],
     [$.resource_list],
     [$.class_or_interface_type, $.ambiguous_name],
-    [$._expression, $.expression_statement] // bad idea
+    [$.if_then_statement, $.if_then_else_statement],
+    [$.ambiguous_name, $.method_name]
+    // [$._declaration, $.block] // bad idea
   ],
 
   rules: {
     program: $ => repeat($._statement),
 
-    _statement: $ => choice(
-      seq($._literal, $._semicolon),
-      seq($._expression, $._semicolon),
+    _statement: $ => prec.right(1, choice(
+      seq($._literal, optional($._semicolon)),
+      seq($._expression, optional($._semicolon)),
       $._declaration,
-      $.statement,
-      // $._expression
-    ),
+      $._statement_without_trailing_substatement,
+      $.labeled_statement,
+      $.if_then_statement,
+      $.if_then_else_statement,
+      $.while_statement,
+      $.for_statement
+    )),
 
     _semicolon: $ => ';',
 
@@ -221,24 +228,19 @@ module.exports = grammar({
     ),
 
     _expression: $ => choice(
-      // $.assignment_expression,
-      $.binary_expression,
-      $.lambda_expression,
-      $.ternary_expression,
-      $.unary_expression,
-      $.update_expression,
+      $.assignment_expression,
+      // $.binary_expression,
+      // $.lambda_expression,
+      // $.ternary_expression,
+      // $.unary_expression,
+      // $.update_expression,
       $.ambiguous_name
     ),
 
-    assignment_expression: $ => choice(
-      $.conditional_expression,
-      $.assignment
-    ),
-
-    assignment: $ => prec.left(PREC.ASSIGN, seq(
+    assignment_expression: $ => prec.right(PREC.ASSIGN, seq(
       $.lhs,
       choice('=', '+=', '-=', '*=', '/=', '&=', '|=', '^=', '%=', '<<=', '>>=', '>>>='),
-      $._expression)
+      $._statement)
     ),
 
     lhs: $ => choice(
@@ -309,29 +311,8 @@ module.exports = grammar({
       seq('--', $._expression)
     )),
 
-    statement: $ => choice(
-      $._statement_without_trailing_substatement,
-      $.labeled_statement,
-      $.if_then_statement,
-      $.if_then_else_statement,
-      $.while_statement,
-      $.for_statement
-    ),
-
-    statement_no_short_if: $ => choice(
-      $._statement_without_trailing_substatement,
-      $.labeled_statement_no_short_if,
-      $.if_then_else_statement_no_short_if,
-      $.while_statement_no_short_if,
-      $.for_statement_no_short_if
-    ),
-
     labeled_statement: $ => seq(
-      $.identifier, ':', $.statement
-    ),
-
-    labeled_statement_no_short_if: $ => seq(
-      $.identifier, ':', $.statement_no_short_if
+      $.identifier, ':', $._statement
     ),
 
     _statement_without_trailing_substatement: $ => choice(
@@ -350,7 +331,6 @@ module.exports = grammar({
     ),
 
     expression_statement: $ => seq(choice(
-      $.assignment,
       $.update_expression,
       $.method_invocation,
       $.class_instance_creation_expression
@@ -377,7 +357,7 @@ module.exports = grammar({
     // TODO: check precedence logic here
     switch_block_statement_group: $ => prec.right(seq(
       repeat1($.switch_label),
-      repeat1($.block_statement)
+      repeat1($._block_statement)
     )),
 
     switch_label: $ => choice(
@@ -387,7 +367,7 @@ module.exports = grammar({
     ),
 
     do_statement: $ => seq(
-      'do', $.statement, 'while', '(', $._expression, ')', $._semicolon
+      'do', $._statement, 'while', '(', $._expression, ')', $._semicolon
     ),
 
     break_statement: $ => seq('break', optional($.identifier), $._semicolon),
@@ -406,7 +386,7 @@ module.exports = grammar({
       $.try_with_resources_statement
     ),
 
-    catches: $ => commaSep1($.catch_clause),
+    catches: $ => prec.right(commaSep1($.catch_clause)),
 
     catch_clause: $ => seq('catch', '(', $.catch_formal_parameter, ')', $.block),
 
@@ -448,30 +428,16 @@ module.exports = grammar({
 
     if_then_else_statement: $ => seq(
       'if', '(', $._expression, ')',
-      $.statement_no_short_if,
+      $._statement,
       'else',
-      $.statement
-    ),
-
-    if_then_else_statement_no_short_if: $ => seq(
-      'if', '(', $._expression, ')',
-      $.statement_no_short_if,
-      'else',
-      $.statement_no_short_if
+      $._statement
     ),
 
     while_statement: $ => seq('while', '(', $._expression, ')', $._statement),
 
-    while_statement_no_short_if: $ => seq('while', '(', $._expression, ')', $.statement_no_short_if),
-
     for_statement: $ => choice(
       $._basic_for_statement,
       $._enhanced_for_statement
-    ),
-
-    for_statement_no_short_if: $ => choice(
-      $._basic_for_statement_no_short_if,
-      $._enhanced_for_statement_no_short_if
     ),
 
     _basic_for_statement: $ => seq(
@@ -479,17 +445,7 @@ module.exports = grammar({
       optional($.for_init), $._semicolon,
       optional($._expression), $._semicolon,
       commaSep($.expression_statement), ')',
-      $.statement
-    ),
-
-    _basic_for_statement_no_short_if: $ => seq(
-      'for',
-      '(',
-      optional($.for_init),
-      $._semicolon,
-      commaSep($.expression_statement),
-      ')',
-      $.statement_no_short_if
+      $._statement
     ),
 
     for_init: $ => choice(
@@ -506,19 +462,7 @@ module.exports = grammar({
       ':',
       $._expression,
       ')',
-      $.statement
-    ),
-
-    _enhanced_for_statement_no_short_if: $ => seq(
-      'for',
-      '(',
-      repeat($.modifier),
-      $.unann_type,
-      $.variable_declarator_id,
-      ':',
-      $._expression,
-      ')',
-      $.statement_no_short_if
+      $._statement
     ),
 
     type_arguments: $ => seq(
@@ -609,7 +553,7 @@ module.exports = grammar({
 
     element_value: $ => prec.left(1, choice(
       $._literal, // TODO: remove this later, not accounted for in spec
-      $.conditional_expression,
+      // $.conditional_expression,
       $.element_value_array_initializer,
       $._annotation
     )),
@@ -621,79 +565,14 @@ module.exports = grammar({
       '}'
     )),
 
-    // TODO: add tests for conditional expressions
-    conditional_expression: $ => choice(
-      $.conditional_or_expression,
-      seq($.conditional_or_expression, '?', $._expression, ':', $.conditional_expression),
-      seq($.conditional_or_expression, '?', $._expression, ':', $.lambda_expression)
-    ),
-
-    conditional_or_expression: $ => choice(
-        $.conditional_and_expression,
-        seq($.conditional_or_expression, '||', $.conditional_and_expression)
-    ),
-
-    conditional_and_expression: $ => choice(
-      $.inclusive_or_expression,
-      seq($.conditional_and_expression, '&&', $.inclusive_or_expression)
-    ),
-
-    inclusive_or_expression: $ => choice(
-      $.exclusive_or_expression,
-      seq($.inclusive_or_expression, '|', $.exclusive_or_expression)
-    ),
-
-    exclusive_or_expression: $ => choice(
-      $.and_expression,
-      seq($.exclusive_or_expression, '^', $.and_expression)
-    ),
-
-    and_expression: $ => choice(
-      $.relational_expression,
-      seq($.equality_expression, '==', $.relational_expression),
-      seq($.equality_expression, '!=', $.relational_expression)
-    ),
-
-    relational_expression: $ => choice(
-      $.shift_expression,
-      seq($.relational_expression, '<', $.shift_expression),
-      seq($.relational_expression, '<', $.shift_expression),
-    ),
-
-    equality_expression: $ => choice(
-      $.relational_expression,
-      seq($.equality_expression, '==', $.relational_expression),
-      seq($.equality_expression, '!=', $.relational_expression)
-    ),
-
-    shift_expression: $ => choice(
-      $.additive_expression,
-      seq($.shift_expression, '<<', $.additive_expression),
-      seq($.shift_expression, '>>', $.additive_expression),
-      seq($.shift_expression, '>>>', $.additive_expression)
-    ),
-
-    additive_expression: $ => choice(
-      $.multiplicative_expression,
-      seq($.additive_expression, '+', $.multiplicative_expression),
-      seq($.additive_expression, '-', $.multiplicative_expression)
-    ),
-
-    multiplicative_expression: $ => choice(
-      $.unary_expression,
-      seq($.multiplicative_expression, '*', $.unary_expression),
-      seq($.multiplicative_expression, '/', $.unary_expression),
-      seq($.multiplicative_expression, '%', $.unary_expression)
-    ),
-
-    _declaration: $ => choice(
+    _declaration: $ => prec(1, choice(
       $.module_declaration,
       $.package_declaration,
       $.import_statement,
       $.class_declaration,
       $.interface_declaration,
       $.method_declaration
-    ),
+    )),
 
     module_declaration: $ => seq(
       repeat($._annotation),
@@ -877,7 +756,7 @@ module.exports = grammar({
     constructor_body: $ => seq(
       '{',
       optional($.explicit_constructor_invocation),
-      repeat($.block_statement),
+      repeat($._block_statement),
       '}'
     ),
 
@@ -1191,13 +1070,13 @@ module.exports = grammar({
     ),
 
     block: $ => seq(
-      '{', repeat($.block_statement), '}'
+      '{', repeat($._block_statement), '}'
     ),
 
-    block_statement: $ => choice(
+    _block_statement: $ => choice(
       $.local_variable_declaration_statement,
       $.class_declaration,
-      $.statement
+      $._statement
     ),
 
     local_variable_declaration_statement: $ => seq(
