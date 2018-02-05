@@ -140,10 +140,10 @@ module.exports = grammar({
       $.function_body
     ),
 
-    function_head: $ => prec.left(seq(
+    function_head: $ => seq(
       alias($._identifier, $.function_identifier),
       repeat($._expression)
-    )),
+    ),
 
     function_body: $ => seq(
       '=',
