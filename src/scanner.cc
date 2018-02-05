@@ -48,12 +48,6 @@ struct Scanner {
   }
 
   bool scan(TSLexer *lexer, const bool *valid_symbols) {
-    if (valid_symbols[LAYOUT_CLOSE_BRACE] && queued_close_brace_count > 0) {
-      queued_close_brace_count--;
-      lexer->result_symbol = LAYOUT_CLOSE_BRACE;
-      return true;
-    }
-
     if (valid_symbols[LAYOUT_OPEN_BRACE]) {
       while (iswspace(lexer->lookahead)) {
         lexer->advance(lexer, true);
@@ -69,8 +63,18 @@ struct Scanner {
       }
     }
 
+    if (valid_symbols[LAYOUT_CLOSE_BRACE] && queued_close_brace_count > 0) {
+      queued_close_brace_count--;
+      lexer->result_symbol = LAYOUT_CLOSE_BRACE;
+      return true;
+    }
+
     while (lexer->lookahead == ' ' || lexer->lookahead == '\t') {
       lexer->advance(lexer, true);
+      if (valid_symbols[LAYOUT_CLOSE_BRACE]) {
+        lexer->result_symbol = LAYOUT_CLOSE_BRACE;
+        return true;
+      }
     }
 
     if (lexer->lookahead == 0) {
@@ -115,10 +119,8 @@ struct Scanner {
 
     if (!next_token_is_comment) {
       if (indent_length < indent_length_stack.back()) {
-        indent_length_stack.pop_back();
         while (indent_length < indent_length_stack.back()) {
           indent_length_stack.pop_back();
-          queued_close_brace_count++;
         }
 
         if (valid_symbols[LAYOUT_CLOSE_BRACE]) {
