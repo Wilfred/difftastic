@@ -299,8 +299,12 @@ module.exports = grammar({
       )
     ),
 
-    variable_symbol: $ => prec.right(seq($._variable_symbol, repeat($._variable_symbol))),
-    constructor_symbol: $ => prec.left(seq(':', repeat($._constructor_symbol))),
+    variable_symbol: $ => prec.right(choice(
+      seq('(', repeat1($._extra_variable_symbol), ')'),
+      repeat1($._variable_symbol)
+    )),
+
+    constructor_symbol: $ => prec.right(seq(':', repeat($._constructor_symbol))),
 
     type_signature: $ => seq(
       $.function_identifier,
