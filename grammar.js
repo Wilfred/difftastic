@@ -268,7 +268,7 @@ module.exports = grammar({
       seq($._layout_open_brace, repeat($._statement), $._layout_close_brace)
     ),
 
-    _statement: $ => seq(
+    _statement: $ => choice(
       $._expression,
       $.if_statement
     ),
