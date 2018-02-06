@@ -572,6 +572,24 @@ module.exports = grammar({
       '-'
     ),
 
+    _extra_variable_symbol: $ => choice(
+      '!',
+      '#',
+      '$',
+      '%',
+      '&',
+      '⋆',
+      '+',
+      '.',
+      '/',
+      '<',
+      '>',
+      '?',
+      '^',
+      '-',
+      '='
+    ),
+
     _constructor_symbol: $ => prec(1, choice(
       '!',
       '#',
