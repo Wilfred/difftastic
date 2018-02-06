@@ -172,7 +172,7 @@ module.exports = grammar({
       ')'
     )),
 
-    negative_literal: $ => seq('-', '(', $._literal, ')'),
+    negative_literal: $ => prec(1, seq('-', '(', $._literal, ')')),
 
     as: $ => prec.right(1, seq(
       $._identifier,
