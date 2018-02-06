@@ -82,7 +82,7 @@ module.exports = grammar({
       )
     ),
 
-    import: $ => seq(
+    import: $ => prec.right(seq(
       'import',
       alias(optional('qualified'), $.qualified),
       choice(
@@ -90,7 +90,7 @@ module.exports = grammar({
         $.import_alias
       ),
       optional(choice($.import_specification, $.hidden_import_specification))
-    ),
+    )),
 
     import_specification: $ => $._import_specification,
 
