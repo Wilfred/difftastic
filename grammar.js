@@ -167,11 +167,11 @@ module.exports = grammar({
       $._expression
     ),
 
-    parenthesized_expression: $ => prec(1, seq(
+    parenthesized: $ => seq(
       '(',
       $._expression,
       ')'
-    )),
+    ),
 
     negative_literal: $ => prec(1, seq('-', '(', $._literal, ')')),
 
@@ -212,7 +212,7 @@ module.exports = grammar({
       $.do_expression,
       $.as,
       $.wildcard,
-      $.parenthesized_expression,
+      $.parenthesized,
       $.irrefutable,
       $.binary,
       $._empty,
