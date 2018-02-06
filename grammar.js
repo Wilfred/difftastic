@@ -353,14 +353,14 @@ module.exports = grammar({
       ']'
     ),
 
-    algebraic_datatype: $ => seq(
+    algebraic_datatype: $ => prec.right(seq(
       'data',
       optional($.context),
       $._identifier,
       optional('='),
       optional($.constructors),
       optional($.deriving)
-    ),
+    )),
 
     context: $ => prec(1, seq(
       choice(
