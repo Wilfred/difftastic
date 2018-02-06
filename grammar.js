@@ -215,8 +215,11 @@ module.exports = grammar({
       $.parenthesized_expression,
       $.irrefutable,
       $.binary,
+      $._empty,
       $.where
     ),
+
+    _empty: $ => ';',
 
     binary: $ => prec.left(1, seq(
       $._expression,
