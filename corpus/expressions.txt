@@ -73,8 +73,12 @@ foo #{bar} HERE;
 foo #{bar}
 HERE;
 
+<<<  HERE
+foo #{bar}
+HERE;
+
 ---
-(program (expression_statement (heredoc)) (expression_statement (heredoc)) (text_interpolation) (expression_statement (heredoc)) (expression_statement (heredoc)))
+(program (expression_statement (heredoc)) (expression_statement (heredoc)) (text_interpolation) (expression_statement (heredoc)) (expression_statement (heredoc)) (expression_statement (heredoc)))
 
 ==========
 Cast expressions in assignments
@@ -161,3 +165,20 @@ Scoped self call expressions
 m::self();
 
 ---
+
+(program (expression_statement (scoped_call_expression (qualified_name (name)) (name) (arguments))))
+
+==========
+Namespace names in namespaces
+==========
+
+<?php
+
+namespace Be \ ta {
+    class A {}
+    class B {}
+}
+
+---
+
+(program (namespace_definition (namespace_name (name) (name)) (compound_statement (class_declaration (name)) (class_declaration (name)))))
