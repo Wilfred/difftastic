@@ -145,10 +145,10 @@ module.exports = grammar({
       repeat($._expression)
     ),
 
-    function_body: $ => seq(
+    function_body: $ => prec.right(seq(
       '=',
       repeat($._expression)
-    ),
+    )),
 
     where: $ => seq(
       'where',
