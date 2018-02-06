@@ -228,6 +228,16 @@ public class Dog implements ISpeak {
      (modifier) (identifier) (super_interfaces (interface_type_list (class_or_interface_type (identifier)))) (class_body))))
 
 ===
+class declaration with body
+===
+
+class Point {
+  x;
+}
+
+---
+
+===
 interface declaration
 ===
 
@@ -292,3 +302,14 @@ void calculateAnswer(double wingSpan, int numberOfEngines,
         (formal_parameter (unann_type (unann_primitive_type (floating_point_type))) (variable_declarator_id (identifier)))
         (last_formal_parameter (formal_parameter (unann_type (unann_primitive_type (floating_point_type))) (variable_declarator_id (identifier))))))
       (method_body (block (comment)))))
+
+===
+constructor declaration
+===
+
+class Point {
+    int x, y;
+    Point(int x, int y) { this.x = x; this.y = y; }
+}
+
+---

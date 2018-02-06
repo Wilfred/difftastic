@@ -1438,6 +1438,22 @@
         },
         {
           "type": "SYMBOL",
+          "name": "binary_expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "lambda_expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "ternary_expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "unary_expression"
+        },
+        {
+          "type": "SYMBOL",
           "name": "ambiguous_name"
         }
       ]
@@ -4213,6 +4229,153 @@
         {
           "type": "SYMBOL",
           "name": "normal_class_declaration"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "enum_declaration"
+        }
+      ]
+    },
+    "enum_declaration": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "{"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "enum_constant_list"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": ","
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "enum_body_declarations"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": "}"
+        }
+      ]
+    },
+    "enum_body_declarations": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_semicolon"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "class_body_declaration"
+          }
+        }
+      ]
+    },
+    "enum_constant_list": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "enum_constant"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "STRING",
+                "value": ","
+              },
+              {
+                "type": "SYMBOL",
+                "name": "enum_constant"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "enum_constant": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "modifier"
+          }
+        },
+        {
+          "type": "SYMBOL",
+          "name": "identifier"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "("
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "argument_list"
+                },
+                {
+                  "type": "STRING",
+                  "value": ")"
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "class_body"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         }
       ]
     },
@@ -4505,6 +4668,10 @@
         {
           "type": "SYMBOL",
           "name": "block"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "static_initializer"
         },
         {
           "type": "SYMBOL",
@@ -6382,21 +6549,25 @@
       ]
     },
     "unann_primitive_type": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "void"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_numeric_type"
-        },
-        {
-          "type": "STRING",
-          "value": "boolean"
-        }
-      ]
+      "type": "PREC_RIGHT",
+      "value": 0,
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "void"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_numeric_type"
+          },
+          {
+            "type": "STRING",
+            "value": "boolean"
+          }
+        ]
+      }
     },
     "unann_class_or_interface_type": {
       "type": "PREC",
@@ -7031,6 +7202,26 @@
     [
       "ambiguous_name",
       "method_name"
+    ],
+    [
+      "enum_declaration",
+      "block"
+    ],
+    [
+      "enum_constant",
+      "ambiguous_name",
+      "method_name"
+    ],
+    [
+      "enum_constant",
+      "ambiguous_name"
+    ],
+    [
+      "_statement_without_trailing_substatement",
+      "enum_body_declarations"
+    ],
+    [
+      "enum_constant_list"
     ]
   ],
   "externals": [],
