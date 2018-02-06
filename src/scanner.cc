@@ -120,7 +120,7 @@ struct Scanner {
     }
   }
 
-  string scan_heredoc_word(TSLexer *lexer, bool is_nowdoc) {
+  string scan_heredoc_word(TSLexer *lexer) {
     string result;
     int32_t quote;
 
@@ -195,15 +195,11 @@ struct Scanner {
         if (lexer->lookahead != '<') return false;
         advance(lexer);
 
-        bool is_nowdoc = false;
-        if (lexer->lookahead == '\'') {
-          is_nowdoc = true;
-          advance(lexer);
-        }
+        if (!scan_whitespace(lexer)) return false;
 
         // Found a heredoc
         Heredoc heredoc;
-        heredoc.word = scan_heredoc_word(lexer, is_nowdoc);
+        heredoc.word = scan_heredoc_word(lexer);
         if (heredoc.word.empty()) return false;
         open_heredocs.push_back(heredoc);
 
