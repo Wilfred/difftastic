@@ -274,7 +274,7 @@ module.exports = grammar({
       $.if_statement
     ),
 
-    if_statement: $ => prec.left(seq(
+    if_statement: $ => seq(
       'if',
       alias($._expression, $.condition),
       optional($._empty),
