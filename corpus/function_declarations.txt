@@ -214,14 +214,14 @@ f ([]) = 1
   (function_declaration
     (function_head
       (function_identifier (variable_identifier))
-      (parenthesized_expression
+      (parenthesized
         (integer)))
     (function_body
       (integer)))
   (function_declaration
     (function_head
       (function_identifier (variable_identifier))
-      (parenthesized_expression
+      (parenthesized
         (negative_literal
           (integer))))
       (function_body
@@ -229,7 +229,7 @@ f ([]) = 1
   (function_declaration
     (function_head
       (function_identifier (variable_identifier))
-      (parenthesized_expression
+      (parenthesized
         (constructor
           (constructor_identifier)
           (variable_identifier)
@@ -240,7 +240,7 @@ f ([]) = 1
   (function_declaration
     (function_head
       (function_identifier (variable_identifier))
-      (parenthesized_expression
+      (parenthesized
         (binary
           (variable_identifier)
           (constructor_symbol)
@@ -250,7 +250,7 @@ f ([]) = 1
   (function_declaration
     (function_head
       (function_identifier (variable_identifier))
-      (parenthesized_expression
+      (parenthesized
         (constructor (list_constructor))))
     (function_body
       (integer))))
@@ -279,7 +279,7 @@ f (Left a, Right b, -(1)) = b
     (function_head
       (function_identifier (variable_identifier))
       (tuple
-        (parenthesized_expression
+        (parenthesized
           (constructor
             (constructor_identifier)
             (integer)))
@@ -347,7 +347,7 @@ f (a:b:c:ds) = a
   (function_declaration
     (function_head
       (function_identifier (variable_identifier))
-      (parenthesized_expression
+      (parenthesized
         (binary
           (variable_identifier)
           (constructor_symbol)
@@ -357,7 +357,7 @@ f (a:b:c:ds) = a
   (function_declaration
     (function_head
       (function_identifier (variable_identifier))
-      (parenthesized_expression
+      (parenthesized
         (binary
           (binary
             (variable_identifier)
@@ -370,7 +370,7 @@ f (a:b:c:ds) = a
   (function_declaration
     (function_head
       (function_identifier (variable_identifier))
-      (parenthesized_expression
+      (parenthesized
         (binary
           (binary
             (binary
@@ -406,7 +406,7 @@ f ~(~(a, b), c) = c
     (function_head
       (function_identifier (variable_identifier))
       (irrefutable
-        (parenthesized_expression
+        (parenthesized
           (negative_literal
             (integer)))))
     (function_body
