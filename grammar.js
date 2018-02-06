@@ -61,7 +61,6 @@ module.exports = grammar({
     program: $ => repeat($._statement),
 
     _statement: $ => prec.right(1, choice(
-      seq($._literal, optional($._semicolon)),
       seq($._expression, optional($._semicolon)),
       $._declaration,
       $._statement_without_trailing_substatement,
@@ -237,7 +236,8 @@ module.exports = grammar({
       $.lambda_expression,
       $.ternary_expression,
       $.unary_expression,
-      $.ambiguous_name
+      $.ambiguous_name,
+      $._literal
     ),
 
     assignment_expression: $ => prec.right(PREC.ASSIGN, seq(
@@ -712,7 +712,9 @@ module.exports = grammar({
       'strictfp',
       'default',
       'synchronized',
-      'native'
+      'native',
+      'transient',
+      'volatile'
     ),
 
     type_parameters: $ => seq(
@@ -797,10 +799,17 @@ module.exports = grammar({
     ambiguous_name: $ => prec.right(sep1($.identifier, '.')),
 
     class_member_declaration: $ => choice(
-      // $.field_declaration,
+      $.field_declaration,
       $.method_declaration,
       $.class_declaration,
       $.interface_declaration,
+      $._semicolon
+    ),
+
+    field_declaration: $ => seq(
+      repeat($.modifier),
+      $.unann_type,
+      $.variable_declarator_list,
       $._semicolon
     ),
 
@@ -989,7 +998,7 @@ module.exports = grammar({
 
     variable_declarator: $ => seq(
       $.variable_declarator_id,
-      optional('=', $.variable_initializer)
+      optional(seq('=', $.variable_initializer))
     ),
 
     variable_declarator_id: $ => seq(
