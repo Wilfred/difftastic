@@ -182,3 +182,14 @@ namespace Be \ ta {
 ---
 
 (program (namespace_definition (namespace_name (name) (name)) (compound_statement (class_declaration (name)) (class_declaration (name)))))
+
+==========
+Destructuring
+==========
+
+<?php
+[$error, $canonicalized] = Json::canonicalize($actual);
+
+---
+
+(program (expression_statement (assignment_expression (array_creation_expression (array_element_initializer (variable_name (name))) (array_element_initializer (variable_name (name)))) (scoped_call_expression (qualified_name (name)) (name) (arguments (variable_name (name))))))) 
