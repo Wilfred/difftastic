@@ -302,11 +302,13 @@ module.exports = grammar({
     constructor_symbol: $ => prec.left(seq(':', repeat($._constructor_symbol))),
 
     type_signature: $ => seq(
-      alias($._identifier, $.function_identifier),
+      $.function_identifier,
       '::',
       optional($.context),
       $._type
     ),
+
+    function_identifier: $ => commaSep1($._identifier),
 
     _type: $ => seq(
       $._expression,
