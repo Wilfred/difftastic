@@ -129,8 +129,6 @@ module.exports = grammar({
       $.type_class_instance,
       $.default,
       $.foreign,
-      $._identifier,
-      $._literal,
       $.type_signature,
       $.fixity,
       $.function_declaration,
