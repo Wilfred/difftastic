@@ -1,0 +1,18 @@
+=================================================
+Conditionals
+=================================================
+
+if a then 1 else 2
+if a; then b; else c
+
+---
+
+(module
+  (if_statement
+    (if_condition (variable_identifier))
+    (then_clause (integer))
+    (else_clause (integer)))
+  (if_statement
+    (if_condition (variable_identifier))
+    (then_clause (variable_identifier))
+    (else_clause (variable_identifier))))
