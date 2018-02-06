@@ -37,7 +37,8 @@ module.exports = grammar({
   ],
 
   conflicts: $ => [
-    [$._variable_symbol, $._extra_variable_symbol]
+    [$._variable_symbol, $._extra_variable_symbol],
+    [$._expression, $.function_head]
   ],
 
   rules: {
