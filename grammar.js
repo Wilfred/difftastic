@@ -277,8 +277,10 @@ module.exports = grammar({
     if_statement: $ => prec.left(seq(
       'if',
       alias($._expression, $.condition),
+      optional($._empty),
       'then',
       alias($._expression, $.then_clause),
+      optional($._empty),
       'else',
       alias($._expression, $.else_clause)
     )),
