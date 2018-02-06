@@ -1125,14 +1125,23 @@
           {
             "type": "ALIAS",
             "content": {
-              "type": "REPEAT1",
-              "content": {
-                "type": "SYMBOL",
-                "name": "_expression"
-              }
+              "type": "SYMBOL",
+              "name": "_expression"
             },
             "named": true,
-            "value": "if_condition"
+            "value": "condition"
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "_empty"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
           },
           {
             "type": "STRING",
@@ -1141,14 +1150,23 @@
           {
             "type": "ALIAS",
             "content": {
-              "type": "REPEAT1",
-              "content": {
-                "type": "SYMBOL",
-                "name": "_expression"
-              }
+              "type": "SYMBOL",
+              "name": "_expression"
             },
             "named": true,
             "value": "then_clause"
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "_empty"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
           },
           {
             "type": "STRING",
@@ -1157,11 +1175,8 @@
           {
             "type": "ALIAS",
             "content": {
-              "type": "REPEAT1",
-              "content": {
-                "type": "SYMBOL",
-                "name": "_expression"
-              }
+              "type": "SYMBOL",
+              "name": "_expression"
             },
             "named": true,
             "value": "else_clause"
