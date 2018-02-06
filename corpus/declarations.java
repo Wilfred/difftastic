@@ -313,3 +313,24 @@ class Point {
 }
 
 ---
+
+(program
+  (class_declaration
+    (normal_class_declaration (identifier)
+      (class_body (class_body_declaration
+        (class_member_declaration
+          (field_declaration
+            (unann_type (unann_primitive_type (integral_type)))
+              (variable_declarator_list
+                (variable_declarator (variable_declarator_id (identifier)))
+                (variable_declarator (variable_declarator_id (identifier)))))))
+                (class_body_declaration
+                  (constructor_declaration
+                    (constructor_declarator (identifier)
+                      (formal_parameter
+                        (unann_type (unann_primitive_type (integral_type))) (variable_declarator_id (identifier))) (last_formal_parameter
+                      (formal_parameter
+                        (unann_type (unann_primitive_type (integral_type))) (variable_declarator_id (identifier)))))
+                          (constructor_body
+                            (assignment_expression (lhs (field_access (primary (primary_no_new_array)) (identifier))) (ambiguous_name (identifier)))
+                            (assignment_expression (lhs (field_access (primary (primary_no_new_array)) (identifier))) (ambiguous_name (identifier))))))))))
