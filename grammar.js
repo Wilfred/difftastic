@@ -133,7 +133,8 @@ module.exports = grammar({
       $._literal,
       $.type_signature,
       $.fixity,
-      $.function_declaration
+      $.function_declaration,
+      $._statement
     ),
 
     function_declaration: $ => seq(
@@ -271,8 +272,17 @@ module.exports = grammar({
 
     _statement: $ => seq(
       $._expression,
-      choice(';', $._layout_semicolon)
+      $.if_statement
     ),
+
+    if_statement: $ => prec.left(seq(
+      'if',
+      alias(repeat1($._expression), $.if_condition),
+      'then',
+      alias(repeat1($._expression), $.then_clause),
+      'else',
+      alias(repeat1($._expression), $.else_clause)
+    )),
 
     type_class: $ => seq(
       'class',
