@@ -140,8 +140,8 @@ module.exports = grammar({
     namespace_definition: $ => seq(
       'namespace',
       choice(
-        seq($.name, $._semicolon),
-        seq(optional($.name), $.compound_statement)
+        seq($.namespace_name, $._semicolon),
+        seq(optional($.namespace_name), $.compound_statement)
       )
     ),
 
