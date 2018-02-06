@@ -169,7 +169,7 @@ module.exports = grammar({
 
     parenthesized: $ => seq(
       '(',
-      $._expression,
+      $._statement,
       ')'
     ),
 
