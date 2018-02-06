@@ -99,6 +99,7 @@ struct Scanner {
     bool next_token_is_comment = false;
     uint32_t indent_length = 0;
     for (;;) {
+      uint32_t column = lexer->get_column(lexer);
       if (lexer->lookahead == '\n') {
         indent_length = 0;
         advance(lexer);
@@ -119,6 +120,10 @@ struct Scanner {
 
     if (!next_token_is_comment) {
       if (indent_length < indent_length_stack.back()) {
+        if (valid_symbols[LAYOUT_SEMICOLON]) {
+          lexer->result_symbol = LAYOUT_SEMICOLON;
+          return true;
+        }
         while (indent_length < indent_length_stack.back()) {
           indent_length_stack.pop_back();
         }
