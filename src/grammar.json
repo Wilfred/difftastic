@@ -4432,6 +4432,10 @@
                 {
                   "type": "SYMBOL",
                   "name": "list_literal"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "array_creation_expression"
                 }
               ]
             },
@@ -4451,8 +4455,21 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "_variable"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_variable"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "list_literal"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "array_creation_expression"
+            }
+          ]
         },
         {
           "type": "STRING",
@@ -4464,7 +4481,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_variable"
+          "name": "_expression"
         }
       ]
     },
