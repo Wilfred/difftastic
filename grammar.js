@@ -148,7 +148,7 @@ module.exports = grammar({
 
     function_body: $ => prec.right(seq(
       '=',
-      repeat($._expression)
+      repeat($._statement)
     )),
 
     where: $ => seq(
