@@ -276,14 +276,14 @@ module.exports = grammar({
 
     if_statement: $ => seq(
       'if',
-      alias($._expression, $.condition),
+      alias($._statement, $.condition),
       optional($._empty),
       'then',
-      alias($._expression, $.then_clause),
+      alias($._statement, $.then_clause),
       optional($._empty),
       'else',
-      alias($._expression, $.else_clause)
-    )),
+      alias($._statement, $.else_clause)
+    ),
 
     type_class: $ => seq(
       'class',
