@@ -49,8 +49,12 @@ module.exports = grammar({
     [$.resource_list],
     [$.class_or_interface_type, $.ambiguous_name],
     [$.if_then_statement, $.if_then_else_statement],
-    [$.ambiguous_name, $.method_name]
-    // [$._declaration, $.block] // bad idea
+    [$.ambiguous_name, $.method_name],
+    [$.enum_declaration, $.block], // bad idea
+    [$.enum_constant, $.ambiguous_name, $.method_name], // bad idea,
+    [$.enum_constant, $.ambiguous_name], // bad idea
+    [$._statement_without_trailing_substatement, $.enum_body_declarations], // bad idea
+    [$.enum_constant_list], // bad idea
   ],
 
   rules: {
@@ -229,11 +233,10 @@ module.exports = grammar({
 
     _expression: $ => choice(
       $.assignment_expression,
-      // $.binary_expression,
-      // $.lambda_expression,
-      // $.ternary_expression,
-      // $.unary_expression,
-      // $.update_expression,
+      $.binary_expression,
+      $.lambda_expression,
+      $.ternary_expression,
+      $.unary_expression,
       $.ambiguous_name
     ),
 
@@ -660,8 +663,32 @@ module.exports = grammar({
     ),
 
     class_declaration: $ => choice(
-      $.normal_class_declaration
-      // $.enum_declaration - thttps://docs.oracle.com/javase/specs/jls/se9/html/jls-8.html#jls-8.1ion
+      $.normal_class_declaration,
+      $.enum_declaration
+    ),
+
+    enum_declaration: $ => seq(
+      '{',
+      optional($.enum_constant_list),
+      optional(','),
+      optional($.enum_body_declarations),
+       '}'
+    ),
+
+    enum_body_declarations: $ => seq(
+      $._semicolon,
+      repeat($.class_body_declaration)
+    ),
+
+    enum_constant_list: $ => commaSep1(
+      $.enum_constant
+    ),
+
+    enum_constant: $ => seq(
+      repeat($.modifier),
+      $.identifier,
+      optional(seq('(', $.argument_list, ')')),
+      optional($.class_body)
     ),
 
     normal_class_declaration: $ => seq(
@@ -729,7 +756,7 @@ module.exports = grammar({
     class_body_declaration: $ => choice(
       $.class_member_declaration,
       $.block,
-      // $.static_initializer,
+      $.static_initializer,
       $.constructor_declaration
     ),
 
@@ -982,18 +1009,17 @@ module.exports = grammar({
       '}'
     ),
 
-    // come back and define unann_type here
     unann_type: $ => choice(
       $.unann_primitive_type,
       $.unann_class_or_interface_type,
       $.unann_array_type
     ),
 
-    unann_primitive_type: $ => choice(
+    unann_primitive_type: $ => prec.right(choice(
       'void',
       $._numeric_type,
       'boolean'
-    ),
+    )),
 
     unann_class_or_interface_type: $ => prec(9, choice(
       seq($.identifier, optional($.type_arguments)),
