@@ -192,6 +192,8 @@ module.exports = grammar({
     _variable: $ => choice(
       $.variable_identifier,
       $.qualified_variable_identifier,
+      $.variable_symbol,
+      $.qualified_variable_symbol
     ),
 
     qualified_variable_identifier: $ => seq(
