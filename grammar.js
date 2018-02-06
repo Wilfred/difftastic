@@ -743,11 +743,11 @@ module.exports = grammar({
     ),
 
     _simple_assignment_expression: $ => seq(
-      seq(choice($._variable, $.list_literal), '=', $._expression)
+      seq(choice($._variable, $.list_literal, $.array_creation_expression), '=', $._expression)
     ),
 
     _byref_assignment_expression: $ => seq(
-      $._variable, '=', '&', $._variable
+      choice($._variable, $.list_literal, $.array_creation_expression), '=', '&', $._expression
     ),
 
     conditional_expression: $ => prec.right(PREC.TERNARY, seq(
