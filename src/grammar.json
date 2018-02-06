@@ -19,27 +19,6 @@
             "members": [
               {
                 "type": "SYMBOL",
-                "name": "_literal"
-              },
-              {
-                "type": "CHOICE",
-                "members": [
-                  {
-                    "type": "SYMBOL",
-                    "name": "_semicolon"
-                  },
-                  {
-                    "type": "BLANK"
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "type": "SEQ",
-            "members": [
-              {
-                "type": "SYMBOL",
                 "name": "_expression"
               },
               {
@@ -1455,6 +1434,10 @@
         {
           "type": "SYMBOL",
           "name": "ambiguous_name"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_literal"
         }
       ]
     },
@@ -4485,6 +4468,14 @@
         {
           "type": "STRING",
           "value": "native"
+        },
+        {
+          "type": "STRING",
+          "value": "transient"
+        },
+        {
+          "type": "STRING",
+          "value": "volatile"
         }
       ]
     },
@@ -5012,6 +5003,10 @@
       "members": [
         {
           "type": "SYMBOL",
+          "name": "field_declaration"
+        },
+        {
+          "type": "SYMBOL",
           "name": "method_declaration"
         },
         {
@@ -5021,6 +5016,30 @@
         {
           "type": "SYMBOL",
           "name": "interface_declaration"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_semicolon"
+        }
+      ]
+    },
+    "field_declaration": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "modifier"
+          }
+        },
+        {
+          "type": "SYMBOL",
+          "name": "unann_type"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "variable_declarator_list"
         },
         {
           "type": "SYMBOL",
@@ -6429,8 +6448,17 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "STRING",
-              "value": "="
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "="
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "variable_initializer"
+                }
+              ]
             },
             {
               "type": "BLANK"
