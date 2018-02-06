@@ -404,10 +404,10 @@ module.exports = grammar({
       )
     ),
 
-    strict: $ => seq(
+    strict: $ => prec(1, seq(
       '!',
       $._identifier
-    ),
+    )),
 
     type_synonym: $ => seq(
       'type',
