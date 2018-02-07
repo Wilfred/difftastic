@@ -39,7 +39,13 @@ module.exports = grammar({
   conflicts: $ => [
     [$._variable_symbol, $._extra_variable_symbol],
     [$._expression, $.function_head],
-    [$._statement, $.tuple]
+    [$._statement, $.tuple],
+    [$.function_head, $._expression, $.function_application],
+    [$._expression, $.function_application],
+    [$.function_head, $.function_application],
+    [$.irrefutable, $.binary],
+    [$._op, $._variable],
+    [$.function_application, $._statement]
   ],
 
   rules: {
