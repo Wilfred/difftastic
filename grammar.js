@@ -215,8 +215,8 @@ module.exports = grammar({
       $.wildcard,
       $.parenthesized,
       $.irrefutable,
-      $.binary,
-      $._empty,
+      $.binary
+    ),
       $.where
     ),
 
