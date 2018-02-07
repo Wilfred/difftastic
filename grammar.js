@@ -222,6 +222,11 @@ module.exports = grammar({
       $.where
     ),
 
+    function_application: $ => prec.left(seq(
+      choice($._expression, $.function_application),
+      choice($._expression, $.function_application)
+    )),
+
     _empty: $ => ';',
 
     binary: $ => prec.left(1, seq(
@@ -274,6 +279,8 @@ module.exports = grammar({
 
     _statement: $ => choice(
       $._expression,
+      $.function_application,
+      $._layout_expression,
       $.if_statement
     ),
 

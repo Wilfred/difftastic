@@ -8,3 +8,42 @@ a
 
 (module
   (variable_identifier))
+
+===============================
+Function Application
+===============================
+
+f = a b
+f = a b c
+f = a b c d
+
+---
+
+(module
+  (function_declaration
+    (function_head
+      (function_identifier (variable_identifier)))
+    (function_body
+      (function_application
+        (variable_identifier)
+        (variable_identifier))))
+  (function_declaration
+    (function_head
+      (function_identifier (variable_identifier)))
+    (function_body
+      (function_application
+        (function_application
+          (variable_identifier)
+          (variable_identifier))
+        (variable_identifier))))
+  (function_declaration
+    (function_head
+      (function_identifier (variable_identifier)))
+    (function_body
+      (function_application
+        (function_application
+          (function_application
+            (variable_identifier)
+            (variable_identifier))
+          (variable_identifier))
+        (variable_identifier)))))
