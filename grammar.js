@@ -217,6 +217,8 @@ module.exports = grammar({
       $.irrefutable,
       $.binary
     ),
+
+    _layout_expression: $ => choice(
       $.where
     ),
 
