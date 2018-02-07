@@ -163,10 +163,10 @@ module.exports = grammar({
       '}'
     ),
 
-    irrefutable: $ => seq(
+    irrefutable: $ => prec(1, seq(
       '~',
       $._expression
-    ),
+    )),
 
     parenthesized: $ => seq(
       '(',
