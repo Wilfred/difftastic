@@ -232,7 +232,7 @@ class declaration with body
 ===
 
 class Point {
-  x;
+  int x;
 }
 
 ---
