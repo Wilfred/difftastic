@@ -29,6 +29,10 @@ a % b;
 a << b;
 a >> b;
 a >>> b;
+3 + 2;
+3 - 2;
+3 * 2;
+9 / 3;
 
 ---
 
@@ -46,7 +50,11 @@ a >>> b;
   (binary_expression (ambiguous_name (identifier)) (ambiguous_name (identifier)))
   (binary_expression (ambiguous_name (identifier)) (ambiguous_name (identifier)))
   (binary_expression (ambiguous_name (identifier)) (ambiguous_name (identifier)))
-  (binary_expression (ambiguous_name (identifier)) (ambiguous_name (identifier))))
+  (binary_expression (ambiguous_name (identifier)) (ambiguous_name (identifier)))
+  (binary_expression (integer_literal (decimal_integer_literal)) (integer_literal (decimal_integer_literal))) 
+  (binary_expression (integer_literal (decimal_integer_literal)) (integer_literal (decimal_integer_literal)))
+  (binary_expression (integer_literal (decimal_integer_literal)) (integer_literal (decimal_integer_literal)))
+  (binary_expression (integer_literal (decimal_integer_literal)) (integer_literal (decimal_integer_literal))))
 
 
 ===
@@ -54,10 +62,6 @@ WIP binary expressions
 ===
 
 a < b;
-3 + 2;
-3 - 2;
-3 * 2;
-9 / 3;
 
 ---
 
