@@ -1077,13 +1077,9 @@ module.exports = grammar({
       'throws', $.exception_type_list
     ),
 
-    // Can I genrealize this?
-    exception_type_list: $ => seq(
-      $.exception_type,
-      repeat(',', $.exception_type)
-    ),
+    exception_type_list: $ => commaSep1($.exception_type),
 
-    exception_type: $ => seq(
+    exception_type: $ => choice(
       $.class_or_interface_type,
       $.type_variable
     ),
