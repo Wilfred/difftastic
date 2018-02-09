@@ -63,15 +63,25 @@ module.exports = grammar({
   rules: {
     program: $ => repeat($._statement),
 
-    _statement: $ => prec.right(1, choice(
+    _statement: $ => prec(1, choice(
       $._expression_statement,
       $._declaration,
-      $._statement_without_trailing_substatement,
       $.labeled_statement,
       $.if_then_statement,
       $.if_then_else_statement,
       $.while_statement,
-      $.for_statement
+      $.for_statement,
+      $.block,
+      $._semicolon, // empty_statement,
+      $.assert_statement,
+      $.switch_statement,
+      $.do_statement,
+      $.break_statement,
+      $.continue_statement,
+      $.return_statement,
+      $.synchronized_statement,
+      $.throw_statement,
+      $.try_statement
     )),
 
     _expression_statement: $ => seq(
@@ -245,7 +255,10 @@ module.exports = grammar({
       $.ternary_expression,
       $.unary_expression,
       $.ambiguous_name,
-      $._literal
+      $._literal,
+      $.update_expression,
+      $.method_invocation,
+      $.class_instance_creation_expression
     ),
 
     assignment_expression: $ => prec.right(PREC.ASSIGN, seq(
@@ -327,27 +340,6 @@ module.exports = grammar({
     labeled_statement: $ => seq(
       $.identifier, ':', $._statement
     ),
-
-    _statement_without_trailing_substatement: $ => choice(
-      $.block,
-      $._semicolon, // empty_statement,
-      $.expression_statement,
-      $.assert_statement,
-      $.switch_statement,
-      $.do_statement,
-      $.break_statement,
-      $.continue_statement,
-      $.return_statement,
-      $.synchronized_statement,
-      $.throw_statement,
-      $.try_statement
-    ),
-
-    expression_statement: $ => seq(choice(
-      $.update_expression,
-      $.method_invocation,
-      $.class_instance_creation_expression
-      ), $._semicolon),
 
     assert_statement: $ => choice(
       seq('assert', $._expression, $._semicolon),
@@ -457,12 +449,12 @@ module.exports = grammar({
       'for', '(',
       optional($.for_init), $._semicolon,
       optional($._expression), $._semicolon,
-      commaSep($.expression_statement), ')',
+      commaSep($._expression_statement), ')',
       $._statement
     ),
 
     for_init: $ => choice(
-      commaSep1($.expression_statement),
+      commaSep1($._expression_statement),
       $.local_variable_declaration
     ),
 
@@ -851,13 +843,13 @@ module.exports = grammar({
       seq($.primary, '.', $.unqualified_class_instance_creation_expression)
     ),
 
-    unqualified_class_instance_creation_expression: $ => seq(
+    unqualified_class_instance_creation_expression: $ => prec.right(seq(
       'new',
       optional($.type_arguments),
       $.class_or_interface_type_to_instantiate,
       '(', optional($.argument_list), ')',
       optional($.class_body)
-    ),
+    )),
 
     class_or_interface_type_to_instantiate: $ => prec.right(seq(
       repeat($._annotation),
@@ -1108,8 +1100,7 @@ module.exports = grammar({
     _block_statement: $ => choice(
       $.local_variable_declaration_statement,
       $.class_declaration,
-      $.binary_expression
-      // $._statement
+      $._statement
     ),
 
     local_variable_declaration_statement: $ => seq(
