@@ -8,8 +8,8 @@ open module com.foo { }
 ---
 
 (program
-  (module_declaration (module_identifier (identifier) (identifier)))
-  (module_declaration (module_identifier (identifier) (identifier))))
+  (module_declaration (ambiguous_name (identifier) (identifier)))
+  (module_declaration (ambiguous_name (identifier) (identifier))))
 
 ===
 module with normal annotation
@@ -28,14 +28,14 @@ module com.foo { }
 (program
   (module_declaration
     (normal_annotation
-      (package_or_type_name
+      (ambiguous_name
         (identifier))
       (element_value_pair_list
         (element_value_pair (identifier) (element_value (integer_literal (decimal_integer_literal))))
         (element_value_pair (identifier) (element_value (string_literal)))
         (element_value_pair (identifier) (element_value (string_literal)))
         (element_value_pair (identifier) (element_value (string_literal)))))
-    (module_identifier (identifier) (identifier))))
+    (ambiguous_name (identifier) (identifier))))
 
 ===
 module with marker annotation
@@ -47,8 +47,8 @@ module with marker annotation
 ---
 
 (program
-  (module_declaration (marker_annotation (package_or_type_name (identifier))) (module_identifier (identifier) (identifier)))
-  (module_declaration (marker_annotation (package_or_type_name (identifier))) (module_identifier (identifier) (identifier))))
+  (module_declaration (marker_annotation (ambiguous_name (identifier))) (ambiguous_name (identifier) (identifier)))
+  (module_declaration (marker_annotation (ambiguous_name (identifier))) (ambiguous_name (identifier) (identifier))))
 
 ===
 module with single element annotation
@@ -61,9 +61,9 @@ module with single element annotation
 (program
   (module_declaration
     (single_element_annotation
-      (package_or_type_name (identifier))
+      (ambiguous_name (identifier))
       (string_literal))
-    (module_identifier (identifier) (identifier))))
+    (ambiguous_name (identifier) (identifier))))
 
 ===
 package_declaration
@@ -73,7 +73,7 @@ package myVector;
 
 ---
 
-(program (package_declaration (identifier)))
+ (program (package_declaration (ambiguous_name (identifier))))
 
 ===
 module directive
@@ -87,7 +87,7 @@ module com.example.foo {
 
 (program
   (module_declaration
-  (module_identifier (identifier) (identifier) (identifier))
+  (ambiguous_name (identifier) (identifier) (identifier))
   (module_directive
     (module_name
       (module_name
@@ -117,16 +117,15 @@ module com.example.foo {
 ---
 
 (program
-  (module_declaration (module_identifier (identifier) (identifier) (identifier))
-    (module_directive (module_name (module_name (module_name (module_name (identifier)) (identifier)) (identifier)) (identifier)))
-    (module_directive (module_name (module_name (identifier)) (identifier)))
-    (module_directive (requires_modifier) (module_name (module_name (module_name (module_name (identifier)) (identifier)) (identifier)) (identifier)))
-    (module_directive (package_or_type_name (package_or_type_name (package_or_type_name (package_or_type_name (identifier)) (identifier)) (identifier)) (identifier)))
-    (module_directive (package_or_type_name (package_or_type_name (package_or_type_name (package_or_type_name (identifier)) (identifier)) (identifier)) (identifier)) (module_name (module_name (module_name (module_name (identifier)) (identifier)) (identifier)) (identifier)))
-    (module_directive (package_or_type_name (package_or_type_name (package_or_type_name (package_or_type_name (identifier)) (identifier)) (identifier)) (identifier)))
-    (module_directive (package_or_type_name (package_or_type_name (package_or_type_name (package_or_type_name (identifier)) (identifier)) (identifier)) (identifier)) (module_name (module_name (module_name (module_name (identifier)) (identifier)) (identifier)) (identifier)) (module_name (module_name (module_name (module_name (identifier)) (identifier)) (identifier)) (identifier)))
-    (module_directive (package_or_type_name (package_or_type_name (package_or_type_name (package_or_type_name (package_or_type_name (identifier)) (identifier)) (identifier)) (identifier)) (identifier)))
-    (module_directive (package_or_type_name (package_or_type_name (package_or_type_name (package_or_type_name (package_or_type_name (identifier)) (identifier)) (identifier)) (identifier)) (identifier)) (package_or_type_name (package_or_type_name (package_or_type_name (package_or_type_name (identifier)) (identifier)) (identifier)) (identifier)))))
+  (module_declaration (ambiguous_name (identifier) (identifier) (identifier))
+  (module_directive (module_name (module_name (module_name (module_name (identifier)) (identifier)) (identifier)) (identifier)))
+  (module_directive (module_name (module_name (identifier)) (identifier)))
+  (module_directive (requires_modifier) (module_name (module_name (module_name (module_name (identifier)) (identifier)) (identifier)) (identifier)))
+  (module_directive (ambiguous_name (identifier) (identifier) (identifier) (identifier)))
+  (module_directive (ambiguous_name (identifier) (identifier) (identifier) (identifier)) (module_name (module_name (module_name (module_name (identifier)) (identifier)) (identifier)) (identifier)))
+  (module_directive (ambiguous_name (identifier) (identifier) (identifier) (identifier)))
+  (module_directive (ambiguous_name (identifier) (identifier) (identifier) (identifier)) (module_name (module_name (module_name (module_name (identifier)) (identifier)) (identifier)) (identifier)) (module_name (module_name (module_name (module_name (identifier)) (identifier)) (identifier)) (identifier)))
+  (module_directive (ambiguous_name (identifier) (identifier) (identifier) (identifier) (identifier))) (module_directive (ambiguous_name (identifier) (identifier) (identifier) (identifier) (identifier)) (ambiguous_name (identifier) (identifier) (identifier) (identifier)))))
 
 ===
 single type import declaration
@@ -136,9 +135,7 @@ import java.util.Vector;
 
 ---
 
-(program
-  (import_statement
-    (single_type_import_declaration (package_or_type_name (package_or_type_name (package_or_type_name (identifier)) (identifier)) (identifier)))))
+(program (import_statement (single_type_import_declaration (ambiguous_name (identifier) (identifier) (identifier)))))
 
 ===
 type_import_on_declaraction
@@ -150,7 +147,7 @@ import java.util.*;
 
 (program
   (import_statement
-    (type_import_on_declaraction (package_or_type_name (package_or_type_name (identifier)) (identifier)))))
+    (type_import_on_declaraction (ambiguous_name (ambiguous_name (identifier)) (identifier)))))
 
 ===
 single static import declaration
@@ -161,7 +158,7 @@ import static java.util.Vector;
 ---
 
 (program
-  (import_statement (single_static_import_declaration (package_or_type_name (package_or_type_name (identifier)) (identifier)) (identifier))))
+  (import_statement (single_static_import_declaration (ambiguous_name (ambiguous_name (identifier)) (identifier)) (identifier))))
 
 ===
 static import on demand declaration
@@ -172,7 +169,7 @@ import static java.util.*;
 ---
 
 (program
-  (import_statement (static_import_on_demand_declaration (package_or_type_name (package_or_type_name (identifier)) (identifier)))))
+  (import_statement (static_import_on_demand_declaration (ambiguous_name (ambiguous_name (identifier)) (identifier)))))
 
 ===
 class declaration
@@ -254,7 +251,7 @@ class Point {
             (method_declaration
               (method_header (unann_type (unann_primitive_type)) (method_declarator (identifier)))
                 (method_body (block (assignment_expression (lhs (ambiguous_name (identifier)))
-                  (integer_literal (decimal_integer_literal)))))))))))) 
+                  (integer_literal (decimal_integer_literal))))))))))))
 
 ===
 interface declaration
@@ -353,3 +350,11 @@ class Point {
                           (constructor_body
                             (assignment_expression (lhs (field_access (primary (primary_no_new_array)) (identifier))) (ambiguous_name (identifier)))
                             (assignment_expression (lhs (field_access (primary (primary_no_new_array)) (identifier))) (ambiguous_name (identifier))))))))))
+
+===
+method_instantiation
+===
+
+new Hello;
+
+---
