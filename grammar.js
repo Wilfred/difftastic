@@ -34,13 +34,14 @@ module.exports = grammar({
   inline: $ => [
   $.formal_parameters,
   $._numeric_type,
-  $._block_statement
+  $._block_statement,
+  $._method_name
   ],
 
   conflicts: $ => [
     [$.modifier],
-    [$.normal_annotation, $.single_element_annotation, $.package_or_type_name],
-    [$.marker_annotation, $.package_or_type_name],
+    [$.normal_annotation, $.single_element_annotation, $.ambiguous_name],
+    [$.marker_annotation, $.ambiguous_name],
     [$.class_literal, $.primitive_type, $.unann_primitive_type], // try to drop class_literal
     [$.class_literal, $.primitive_type], // bad idea
     [$.primitive_type, $.unann_primitive_type], // bad idea
@@ -48,20 +49,22 @@ module.exports = grammar({
     [$.class_or_interface_type, $.class_or_interface_type_to_instantiate],
     [$.resource_list],
     [$.class_or_interface_type, $.ambiguous_name],
+    [$.class_or_interface_type, $.ambiguous_name, $.unann_class_or_interface_type],
     [$.if_then_statement, $.if_then_else_statement],
-    [$.ambiguous_name, $.method_name],
+    [$.ambiguous_name, $._method_name],
     [$.enum_declaration, $.block], // bad idea
-    [$.enum_constant, $.ambiguous_name, $.method_name], // bad idea,
+    [$.enum_constant, $.ambiguous_name, $._method_name], // bad idea,
     [$.enum_constant, $.ambiguous_name], // bad idea
     [$._statement_without_trailing_substatement, $.enum_body_declarations], // bad idea
     [$.enum_constant_list], // bad idea
+    [$.enum_constant, $.method_invocation]
   ],
 
   rules: {
     program: $ => repeat($._statement),
 
     _statement: $ => prec.right(1, choice(
-      seq($._expression, optional($._semicolon)),
+      $._expression_statement,
       $._declaration,
       $._statement_without_trailing_substatement,
       $.labeled_statement,
@@ -70,6 +73,11 @@ module.exports = grammar({
       $.while_statement,
       $.for_statement
     )),
+
+    _expression_statement: $ => seq(
+      $._expression,
+      $._semicolon
+    ),
 
     _semicolon: $ => ';',
 
@@ -252,7 +260,9 @@ module.exports = grammar({
       $.array_access
     ),
 
-    // TODO: add variable
+    // NOTE: Precedence was added due to error and duplication with
+    // type_arguments.
+    // TODO: Verify precedence is legit.
     binary_expression: $ => choice(
       prec.left(PREC.REL, seq($.unary_expression)),
       ...[
@@ -535,15 +545,15 @@ module.exports = grammar({
     ),
 
     normal_annotation: $ => seq(
-      '@', $.package_or_type_name, '(', optional($.element_value_pair_list), ')',
+      '@', $.ambiguous_name, '(', optional($.element_value_pair_list), ')',
     ),
 
-    marker_annotation: $ => seq('@', $.package_or_type_name),
+    marker_annotation: $ => seq('@', $.ambiguous_name),
 
     // TODO: Replace choice($.identifier, $._literal) with $._statement once it's
     // more fleshed out; The Java spec uses element_value which infinitely loops
     single_element_annotation: $ => seq(
-      '@', $.package_or_type_name, '(', choice($.identifier, $._literal), ')'
+      '@', $.ambiguous_name, '(', choice($.identifier, $._literal), ')'
     ),
 
     element_value_pair_list: $ => commaSep1($.element_value_pair),
@@ -580,25 +590,18 @@ module.exports = grammar({
       repeat($._annotation),
       optional('open'),
       'module',
-      $.module_identifier,
+      $.ambiguous_name,
       '{',
       repeat($.module_directive),
       '}'
     ),
 
-    // TODO: revisit and change to 'name'
-    // Unsure if this is the same as name, since it repeats
-    module_identifier: $ => seq(
-      $.identifier,
-      repeat(seq('.', $.identifier))
-    ),
-
     module_directive: $ => seq(choice(
       seq('requires', repeat($.requires_modifier), $.module_name),
-      seq('exports', $.package_or_type_name, optional('to'), optional($.module_name), repeat(seq(',', $.module_name))),
-      seq('opens', $.package_or_type_name, optional('to'), optional($.module_name), repeat(seq(',', $.module_name))),
-      seq('uses', $.package_or_type_name),
-      seq('provides', $.package_or_type_name, 'with', $.package_or_type_name, repeat(seq(',', $.package_or_type_name)))
+      seq('exports', $.ambiguous_name, optional('to'), optional($.module_name), repeat(seq(',', $.module_name))),
+      seq('opens', $.ambiguous_name, optional('to'), optional($.module_name), repeat(seq(',', $.module_name))),
+      seq('uses', $.ambiguous_name),
+      seq('provides', $.ambiguous_name, 'with', $.ambiguous_name, repeat(seq(',', $.ambiguous_name)))
     ), $._semicolon),
 
     requires_modifier: $ => choice(
@@ -614,15 +617,9 @@ module.exports = grammar({
     package_declaration: $ => seq(
       repeat($._annotation),
       'package',
-      $.identifier,
-      repeat(seq('.', $.identifier)),
+      $.ambiguous_name,
       $._semicolon
     ),
-
-    package_or_type_name: $ => prec.left(20, choice(
-      $.identifier,
-      seq($.package_or_type_name, '.', $.identifier)
-    )),
 
     import_statement: $ => choice(
       $.single_type_import_declaration,
@@ -632,12 +629,12 @@ module.exports = grammar({
     ),
 
     single_type_import_declaration: $ => seq(
-      'import', $.package_or_type_name, $._semicolon
+      'import', $.ambiguous_name, $._semicolon
     ),
 
     type_import_on_declaraction: $ => seq(
       'import',
-      $.package_or_type_name,
+      $.ambiguous_name,
       '.',
       '*',
       $._semicolon
@@ -646,7 +643,7 @@ module.exports = grammar({
     single_static_import_declaration: $ => seq(
       'import',
       'static',
-      $.package_or_type_name,
+      $.ambiguous_name,
       '.',
       $.identifier,
       $._semicolon
@@ -655,7 +652,7 @@ module.exports = grammar({
     static_import_on_demand_declaration: $ => seq(
       'import',
       'static',
-      $.package_or_type_name,
+      $.ambiguous_name,
       '.',
       '*',
       $._semicolon
@@ -683,12 +680,12 @@ module.exports = grammar({
       $.enum_constant
     ),
 
-    enum_constant: $ => seq(
+    enum_constant: $ => (seq(
       repeat($.modifier),
       $.identifier,
       optional(seq('(', $.argument_list, ')')),
       optional($.class_body)
-    ),
+    )),
 
     normal_class_declaration: $ => seq(
       repeat($.modifier),
@@ -832,7 +829,7 @@ module.exports = grammar({
       $._literal,
       $.class_literal,
       'this',
-      seq($.package_or_type_name, '.', 'this'),
+      seq($.ambiguous_name, '.', 'this'),
       seq('(', $._expression, ')'),
       $.class_instance_creation_expression,
       $.field_access,
@@ -842,7 +839,7 @@ module.exports = grammar({
     ),
 
     class_literal: $ => choice(
-      seq($.package_or_type_name, repeat('[', ']'), '.', 'class'),
+      seq($.ambiguous_name, repeat('[', ']'), '.', 'class'),
       seq($._numeric_type, repeat('[', ']'), '.', 'class'),
       seq('boolean', repeat('[', ']'), '.', 'class'),
       seq('void', '.', 'class')
@@ -877,7 +874,7 @@ module.exports = grammar({
     field_access: $ => choice(
       seq($.primary, '.', $.identifier),
       seq('super', '.', $.identifier),
-      seq($.package_or_type_name, '.', 'super', '.', $.identifier)
+      seq($.ambiguous_name, '.', 'super', '.', $.identifier)
     ),
 
     array_access: $ => choice(
@@ -886,11 +883,11 @@ module.exports = grammar({
     ),
 
     method_invocation: $ => choice(
-      seq($.method_name, '(', optional($.argument_list), ')'),
-      seq($.package_or_type_name, '.', optional($.type_arguments), $.identifier, '(', optional($.argument_list), ')'),
+      seq($._method_name, '(', optional($.argument_list), ')'),
+      seq($.ambiguous_name, '.', optional($.type_arguments), $.identifier, '(', optional($.argument_list), ')'),
       seq($.ambiguous_name, '.', optional($.type_arguments), $.identifier, '(', optional($.argument_list), ')'),
       seq($.primary, '.', optional($.type_arguments), $.identifier, '(', optional($.argument_list), ')'),
-      seq($.package_or_type_name, '.', 'super', '.', optional($.type_arguments), $.identifier, '(', optional($.argument_list), ')')
+      seq($.ambiguous_name, '.', 'super', '.', optional($.type_arguments), $.identifier, '(', optional($.argument_list), ')')
     ),
 
     argument_list: $ => seq(
@@ -901,7 +898,7 @@ module.exports = grammar({
       seq($.ambiguous_name, '::', optional($.type_arguments), $.identifier),
       seq($.primary, '::', optional($.type_arguments), $.identifier),
       seq('super', '::', optional($.type_arguments), $.identifier),
-      seq($.package_or_type_name, '.', 'super', '::', optional($.type_arguments), $.identifier),
+      seq($.ambiguous_name, '.', 'super', '::', optional($.type_arguments), $.identifier),
       seq($.class_or_interface_type, '::', optional($.type_arguments), 'new'),
       seq($.array_type, '::', 'new')
     ),
@@ -1088,6 +1085,7 @@ module.exports = grammar({
       'throws', $.exception_type_list
     ),
 
+    // Can I genrealize this?
     exception_type_list: $ => seq(
       $.exception_type,
       repeat(',', $.exception_type)
@@ -1110,7 +1108,8 @@ module.exports = grammar({
     _block_statement: $ => choice(
       $.local_variable_declaration_statement,
       $.class_declaration,
-      $._statement
+      $.binary_expression
+      // $._statement
     ),
 
     local_variable_declaration_statement: $ => seq(
@@ -1119,7 +1118,7 @@ module.exports = grammar({
     ),
 
     local_variable_declaration: $ => seq(
-      $.modifier,
+      optional($.modifier),
       $.unann_type,
       $.variable_declarator_list
     ),
@@ -1132,7 +1131,7 @@ module.exports = grammar({
 
     // test
     // why is method name not used by method declaration stuff?
-    method_name: $ => $.identifier,
+    _method_name: $ => $.identifier,
 
     identifier: $ => /[a-zA-Z0-9]*/,
 
