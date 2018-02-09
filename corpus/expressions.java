@@ -16,6 +16,7 @@ binary expression
 ===
 
 a > b;
+a < b;
 a == b;
 a >= b;
 a <= b;
@@ -51,19 +52,10 @@ a >>> b;
   (binary_expression (ambiguous_name (identifier)) (ambiguous_name (identifier)))
   (binary_expression (ambiguous_name (identifier)) (ambiguous_name (identifier)))
   (binary_expression (ambiguous_name (identifier)) (ambiguous_name (identifier)))
-  (binary_expression (integer_literal (decimal_integer_literal)) (integer_literal (decimal_integer_literal))) 
+  (binary_expression (integer_literal (decimal_integer_literal)) (integer_literal (decimal_integer_literal)))
   (binary_expression (integer_literal (decimal_integer_literal)) (integer_literal (decimal_integer_literal)))
   (binary_expression (integer_literal (decimal_integer_literal)) (integer_literal (decimal_integer_literal)))
   (binary_expression (integer_literal (decimal_integer_literal)) (integer_literal (decimal_integer_literal))))
-
-
-===
-WIP binary expressions
-===
-
-a < b;
-
----
 
 ============================
 if statements
