@@ -9,7 +9,7 @@
       }
     },
     "_statement": {
-      "type": "PREC_RIGHT",
+      "type": "PREC",
       "value": 1,
       "content": {
         "type": "CHOICE",
@@ -21,10 +21,6 @@
           {
             "type": "SYMBOL",
             "name": "_declaration"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "_statement_without_trailing_substatement"
           },
           {
             "type": "SYMBOL",
@@ -45,6 +41,50 @@
           {
             "type": "SYMBOL",
             "name": "for_statement"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "block"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_semicolon"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "assert_statement"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "switch_statement"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "do_statement"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "break_statement"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "continue_statement"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "return_statement"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "synchronized_statement"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "throw_statement"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "try_statement"
           }
         ]
       }
@@ -1434,6 +1474,18 @@
         {
           "type": "SYMBOL",
           "name": "_literal"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "update_expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "method_invocation"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "class_instance_creation_expression"
         }
       ]
     },
@@ -2182,85 +2234,6 @@
         {
           "type": "SYMBOL",
           "name": "_statement"
-        }
-      ]
-    },
-    "_statement_without_trailing_substatement": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "block"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_semicolon"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "expression_statement"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "assert_statement"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "switch_statement"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "do_statement"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "break_statement"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "continue_statement"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "return_statement"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "synchronized_statement"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "throw_statement"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "try_statement"
-        }
-      ]
-    },
-    "expression_statement": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "update_expression"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "method_invocation"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "class_instance_creation_expression"
-            }
-          ]
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_semicolon"
         }
       ]
     },
@@ -3031,7 +3004,7 @@
               "members": [
                 {
                   "type": "SYMBOL",
-                  "name": "expression_statement"
+                  "name": "_expression_statement"
                 },
                 {
                   "type": "REPEAT",
@@ -3044,7 +3017,7 @@
                       },
                       {
                         "type": "SYMBOL",
-                        "name": "expression_statement"
+                        "name": "_expression_statement"
                       }
                     ]
                   }
@@ -3074,7 +3047,7 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "expression_statement"
+              "name": "_expression_statement"
             },
             {
               "type": "REPEAT",
@@ -3087,7 +3060,7 @@
                   },
                   {
                     "type": "SYMBOL",
-                    "name": "expression_statement"
+                    "name": "_expression_statement"
                   }
                 ]
               }
@@ -5339,61 +5312,65 @@
       ]
     },
     "unqualified_class_instance_creation_expression": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "new"
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "type_arguments"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        },
-        {
-          "type": "SYMBOL",
-          "name": "class_or_interface_type_to_instantiate"
-        },
-        {
-          "type": "STRING",
-          "value": "("
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "argument_list"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        },
-        {
-          "type": "STRING",
-          "value": ")"
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "class_body"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        }
-      ]
+      "type": "PREC_RIGHT",
+      "value": 0,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "new"
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "type_arguments"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          },
+          {
+            "type": "SYMBOL",
+            "name": "class_or_interface_type_to_instantiate"
+          },
+          {
+            "type": "STRING",
+            "value": "("
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "argument_list"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          },
+          {
+            "type": "STRING",
+            "value": ")"
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "class_body"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        ]
+      }
     },
     "class_or_interface_type_to_instantiate": {
       "type": "PREC_RIGHT",
@@ -6993,7 +6970,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "binary_expression"
+          "name": "_statement"
         }
       ]
     },
@@ -7183,7 +7160,7 @@
       "ambiguous_name"
     ],
     [
-      "_statement_without_trailing_substatement",
+      "ReferenceError",
       "enum_body_declarations"
     ],
     [
