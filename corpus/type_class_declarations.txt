@@ -8,8 +8,8 @@ class Show a b where {}
 ---
 
 (module
-  (type_class (constructor (constructor_identifier) (variable_identifier)) (where))
-  (type_class (constructor (constructor_identifier) (variable_identifier) (variable_identifier)) (where)))
+  (type_class (type_constructor (identifier) (variable)) (where))
+  (type_class (type_constructor (identifier) (variable) (variable)) (where)))
 
 =========================================
 Type Class Declarations With Context
@@ -23,27 +23,27 @@ class (Show (f a), Eq a) => Read f a where {}
 
 (module
   (type_class
-    (context (constructor (constructor_identifier) (variable_identifier)))
-    (constructor
-      (constructor_identifier)
-      (variable_identifier))
+    (context (type_constructor (identifier) (variable)))
+    (type_constructor
+      (identifier)
+      (variable))
     (where))
   (type_class
     (context
-      (constructor (constructor_identifier) (variable_identifier))
-      (constructor (constructor_identifier) (variable_identifier)))
-    (constructor
-      (constructor_identifier)
-      (variable_identifier))
+      (type_constructor (identifier) (variable))
+      (type_constructor (identifier) (variable)))
+    (type_constructor
+      (identifier)
+      (variable))
     (where))
   (type_class
     (context
-      (constructor (constructor_identifier) (variable_identifier) (variable_identifier))
-      (constructor (constructor_identifier) (variable_identifier)))
-    (constructor
-      (constructor_identifier)
-      (variable_identifier)
-      (variable_identifier))
+      (type_constructor (identifier) (variable) (variable))
+      (type_constructor (identifier) (variable)))
+    (type_constructor
+      (identifier)
+      (variable)
+      (variable))
     (where)))
 
 =========================================
@@ -59,23 +59,25 @@ class Foo a where {
 
 (module
   (type_class
-    (constructor
-      (constructor_identifier)
-      (variable_identifier))
+    (type_constructor
+      (identifier)
+      (variable))
     (where
       (type_signature
-        (function_identifier (variable_identifier))
+        (signature_identifier (variable))
         (context
-          (constructor (constructor_identifier) (variable_identifier)))
-        (variable_identifier)
-        (variable_identifier)
-        (variable_identifier))
+          (type_constructor (identifier) (variable)))
+        (variable)
+        (variable)
+        (variable))
       (type_signature
-        (function_identifier (variable_identifier))
-        (context (constructor (constructor_identifier) (variable_identifier)) (constructor (constructor_identifier) (variable_identifier)))
-        (variable_identifier)
-        (variable_identifier)
-        (variable_identifier)))))
+        (signature_identifier (variable))
+        (context
+          (type_constructor (identifier) (variable))
+          (type_constructor (identifier) (variable)))
+        (variable)
+        (variable)
+        (variable)))))
 
 =========================================
 Type Class Declarations With Fixity
@@ -96,13 +98,13 @@ class Foo a where {
 
 (module
   (type_class
-    (constructor
-      (constructor_identifier)
-      (variable_identifier))
+    (type_constructor
+      (identifier)
+      (variable))
     (where
-      (fixity (variable_identifier))
-      (fixity (integer) (variable_identifier))
-      (fixity (integer) (variable_identifier) (variable_identifier) (variable_identifier))
+      (fixity (variable))
+      (fixity (integer) (variable))
+      (fixity (integer) (variable) (variable) (variable))
       (fixity (variable_symbol))
       (fixity (integer) (variable_symbol))
       (fixity (integer) (constructor_symbol))
@@ -123,21 +125,21 @@ class  (Eq a) => Ord a  where {
 
 (module
   (type_class
-    (context (constructor (constructor_identifier) (variable_identifier)))
-    (constructor (constructor_identifier) (variable_identifier))
+    (context (type_constructor (identifier) (variable)))
+    (type_constructor (identifier) (variable))
     (where
       (type_signature
-        (function_identifier (variable_identifier))
-        (variable_identifier)
-        (variable_identifier)
-        (constructor (constructor_identifier)))
+        (signature_identifier (variable))
+        (variable)
+        (variable)
+        (type_constructor (identifier)))
       (type_signature
-        (function_identifier (variable_symbol) (variable_symbol) (variable_symbol) (variable_symbol))
-        (variable_identifier)
-        (variable_identifier)
-        (constructor (constructor_identifier)))
+        (signature_identifier (variable_symbol) (variable_symbol) (variable_symbol) (variable_symbol))
+        (variable)
+        (variable)
+        (type_constructor (identifier)))
       (type_signature
-        (function_identifier (variable_identifier) (variable_identifier))
-        (variable_identifier)
-        (variable_identifier)
-        (variable_identifier)))))
+        (signature_identifier (variable) (variable))
+        (variable)
+        (variable)
+        (variable)))))

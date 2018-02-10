@@ -12,42 +12,42 @@ f = if if a then b else c then d else e
 (module
   (function_declaration
     (function_head
-      (function_identifier (variable_identifier)))
+      (variable))
     (function_body
       (if_statement
-        (condition (variable_identifier))
+        (condition (variable))
         (then_clause (integer))
         (else_clause (integer)))))
   (function_declaration
     (function_head
-      (function_identifier (variable_identifier)))
+      (variable))
     (function_body
       (if_statement
-        (condition (variable_identifier))
-        (then_clause (variable_identifier))
-        (else_clause (variable_identifier)))))
+        (condition (variable))
+        (then_clause (variable))
+        (else_clause (variable)))))
   (function_declaration
     (function_head
-      (function_identifier (variable_identifier)))
+      (variable))
     (function_body
       (if_statement
         (condition
-          (parenthesized
+          (parenthesized_expression
             (if_statement
-              (condition (variable_identifier))
-              (then_clause (variable_identifier))
-              (else_clause (variable_identifier)))))
-        (then_clause (variable_identifier))
-        (else_clause (variable_identifier)))))
+              (condition (variable))
+              (then_clause (variable))
+              (else_clause (variable)))))
+        (then_clause (variable))
+        (else_clause (variable)))))
   (function_declaration
     (function_head
-      (function_identifier (variable_identifier)))
+      (variable))
     (function_body
       (if_statement
         (condition
           (if_statement
-            (condition (variable_identifier))
-            (then_clause (variable_identifier))
-            (else_clause (variable_identifier))))
-        (then_clause (variable_identifier))
-        (else_clause (variable_identifier))))))
+            (condition (variable))
+            (then_clause (variable))
+            (else_clause (variable))))
+        (then_clause (variable))
+        (else_clause (variable))))))

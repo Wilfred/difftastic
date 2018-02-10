@@ -8,8 +8,8 @@ instance Show a b where {}
 ---
 
 (module
-  (type_class_instance (constructor (constructor_identifier) (variable_identifier)) (where))
-  (type_class_instance (constructor (constructor_identifier) (variable_identifier) (variable_identifier)) (where)))
+  (type_class_instance (type_constructor (identifier) (variable)) (where))
+  (type_class_instance (type_constructor (identifier) (variable) (variable)) (where)))
 
 =========================================
 Type Class Instance Declarations With Context
@@ -23,27 +23,27 @@ instance (Show (f a), Eq a) => Read f a where {}
 
 (module
   (type_class_instance
-    (context (constructor (constructor_identifier) (variable_identifier)))
-    (constructor
-      (constructor_identifier)
-      (variable_identifier))
+    (context (type_constructor (identifier) (variable)))
+    (type_constructor
+      (identifier)
+      (variable))
     (where))
   (type_class_instance
     (context
-      (constructor (constructor_identifier) (variable_identifier))
-      (constructor (constructor_identifier) (variable_identifier)))
-    (constructor
-      (constructor_identifier)
-      (variable_identifier))
+      (type_constructor (identifier) (variable))
+      (type_constructor (identifier) (variable)))
+    (type_constructor
+      (identifier)
+      (variable))
     (where))
   (type_class_instance
     (context
-      (constructor (constructor_identifier) (variable_identifier) (variable_identifier))
-      (constructor (constructor_identifier) (variable_identifier)))
-    (constructor
-      (constructor_identifier)
-      (variable_identifier)
-      (variable_identifier))
+      (type_constructor (identifier) (variable) (variable))
+      (type_constructor (identifier) (variable)))
+    (type_constructor
+      (identifier)
+      (variable)
+      (variable))
     (where)))
 
 =========================================
@@ -52,26 +52,29 @@ Type Class Instance Declarations With Body
 
 instance Foo a where {
   op :: Num b => a -> b -> a
-  op' :: (Num a, Num b) => a -> b -> a
+  op' :: (Num a, Num b) => Maybe a -> Either String b -> Maybe (Either String a)
 }
 
 ---
 
 (module
   (type_class_instance
-    (constructor
-      (constructor_identifier)
-      (variable_identifier))
+    (type_constructor
+      (identifier)
+      (variable))
     (where
       (type_signature
-        (function_identifier (variable_identifier))
-        (context (constructor (constructor_identifier) (variable_identifier)))
-        (variable_identifier)
-        (variable_identifier)
-        (variable_identifier))
+        (signature_identifier (variable))
+        (context (type_constructor (identifier) (variable)))
+        (variable)
+        (variable)
+        (variable))
       (type_signature
-        (function_identifier (variable_identifier))
-        (context (constructor (constructor_identifier) (variable_identifier)) (constructor (constructor_identifier) (variable_identifier)))
-        (variable_identifier)
-        (variable_identifier)
-        (variable_identifier)))))
+        (signature_identifier (variable))
+        (context
+          (type_constructor (identifier) (variable))
+          (type_constructor (identifier) (variable)))
+        (type_constructor (identifier) (variable))
+        (type_constructor (identifier) (identifier) (variable))
+        (type_constructor (identifier)
+          (type_constructor (identifier) (identifier) (variable)))))))

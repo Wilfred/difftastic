@@ -15,32 +15,32 @@ foreign import dotnet example :: Example
     (foreign_import)
     (calling_convention)
     (type_signature
-      (function_identifier (variable_identifier))
-      (constructor (constructor_identifier))))
+      (signature_identifier (variable))
+      (type_constructor (identifier))))
   (foreign
     (foreign_import)
     (calling_convention)
     (type_signature
-      (function_identifier (variable_identifier))
-      (constructor (constructor_identifier))))
+      (signature_identifier (variable))
+      (type_constructor (identifier))))
   (foreign
     (foreign_import)
     (calling_convention)
     (type_signature
-      (function_identifier (variable_identifier))
-      (constructor (constructor_identifier))))
+      (signature_identifier (variable))
+      (type_constructor (identifier))))
   (foreign
     (foreign_import)
     (calling_convention)
     (type_signature
-      (function_identifier (variable_identifier))
-      (constructor (constructor_identifier))))
+      (signature_identifier (variable))
+      (type_constructor (identifier))))
   (foreign
     (foreign_import)
     (calling_convention)
     (type_signature
-      (function_identifier (variable_identifier))
-      (constructor (constructor_identifier)))))
+      (signature_identifier (variable))
+      (type_constructor (identifier)))))
 
 =========================================
 Foreign Import Declarations With Safety
@@ -61,40 +61,40 @@ foreign import dotnet unsafe "unsafe import" example :: Example
     (safety)
     (string)
     (type_signature
-      (function_identifier (variable_identifier))
-      (constructor (constructor_identifier))))
+      (signature_identifier (variable))
+      (type_constructor (identifier))))
   (foreign
     (foreign_import)
     (calling_convention)
     (safety)
     (string)
     (type_signature
-      (function_identifier (variable_identifier))
-      (constructor (constructor_identifier))))
+      (signature_identifier (variable))
+      (type_constructor (identifier))))
   (foreign
     (foreign_import)
     (calling_convention)
     (safety)
     (string)
     (type_signature
-      (function_identifier (variable_identifier))
-      (constructor (constructor_identifier))))
+      (signature_identifier (variable))
+      (type_constructor (identifier))))
   (foreign
     (foreign_import)
     (calling_convention)
     (safety)
     (string)
     (type_signature
-      (function_identifier (variable_identifier))
-      (constructor (constructor_identifier))))
+      (signature_identifier (variable))
+      (type_constructor (identifier))))
   (foreign
     (foreign_import)
     (calling_convention)
     (safety)
     (string)
     (type_signature
-      (function_identifier (variable_identifier))
-      (constructor (constructor_identifier)))))
+      (signature_identifier (variable))
+      (type_constructor (identifier)))))
 
 =========================================
 Foreign Export Declarations
@@ -113,29 +113,29 @@ foreign export dotnet example :: Example
     (foreign_export)
     (calling_convention)
     (type_signature
-      (function_identifier (variable_identifier))
-      (constructor (constructor_identifier))))
+      (signature_identifier (variable))
+      (type_constructor (identifier))))
   (foreign
     (foreign_export)
     (calling_convention)
     (type_signature
-      (function_identifier (variable_identifier))
-      (constructor (constructor_identifier))))
+      (signature_identifier (variable))
+      (type_constructor (identifier))))
   (foreign
     (foreign_export)
     (calling_convention)
     (type_signature
-      (function_identifier (variable_identifier))
-      (constructor (constructor_identifier))))
+      (signature_identifier (variable))
+      (type_constructor (identifier))))
   (foreign
     (foreign_export)
     (calling_convention)
     (type_signature
-      (function_identifier (variable_identifier))
-      (constructor (constructor_identifier))))
+      (signature_identifier (variable))
+      (type_constructor (identifier))))
   (foreign
     (foreign_export)
     (calling_convention)
     (type_signature
-      (function_identifier (variable_identifier))
-      (constructor (constructor_identifier)))))
+      (signature_identifier (variable))
+      (type_constructor (identifier)))))
