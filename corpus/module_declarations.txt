@@ -8,7 +8,7 @@ module A where
 ---
 
 (module
-  (module_identifier)
+  (identifier)
   (where
     (integer)))
 
@@ -21,7 +21,7 @@ module A () where
 ---
 
 (module
-  (module_identifier)
+  (identifier)
   (module_exports)
   (where
     (integer)))
@@ -35,15 +35,14 @@ module A (Maybe(..), Either(fromEither, either), maybe') where
 ---
 
 (module
-  (module_identifier)
+  (identifier)
   (module_exports
-    (export (constructor (constructor_identifier) (all_constructors)))
-    (export
-      (constructor
-        (constructor_identifier)
-        (variable_identifier)
-        (variable_identifier)))
-    (export (variable_identifier)))
+    (type_constructor (identifier) (all_constructors))
+    (type_constructor
+      (identifier)
+      (variable)
+      (variable))
+    (variable))
   (where))
 
 =========================================
@@ -55,5 +54,5 @@ module A.B' where
 ---
 
 (module
-  (module_identifier)
+  (identifier)
   (where))

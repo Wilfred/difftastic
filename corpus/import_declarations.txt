@@ -10,12 +10,10 @@ import Either()
 ---
 
 (module
-  (module_identifier)
+  (identifier)
   (where
-    (import (module_identifier))
-    (import
-      (module_identifier)
-      (import_specification))))
+    (import (identifier))
+    (import (identifier))))
 
 =========================================
 Import Declaration With Constructor
@@ -28,12 +26,11 @@ import Data.Maybe (Maybe(..))
 ---
 
 (module
-  (module_identifier)
+  (identifier)
   (where
     (import
-      (module_identifier)
-      (import_specification
-        (constructor (constructor_identifier) (all_constructors))))))
+      (identifier)
+      (import_spec (type_constructor (identifier) (all_constructors))))))
 
 =========================================
 Import Declaration With Functions
@@ -46,11 +43,11 @@ import Data.Maybe (fromMaybe, fromJust)
 ---
 
 (module
-  (module_identifier)
+  (identifier)
   (where
     (import
-      (module_identifier)
-      (import_specification (variable_identifier) (variable_identifier)))))
+      (identifier)
+      (import_spec (variable) (variable)))))
 
 =========================================
 Import Declaration With Constructor And Functions
@@ -63,14 +60,14 @@ import Data.Maybe (Maybe(..), fromMaybe, fromJust)
 ---
 
 (module
-  (module_identifier)
+  (identifier)
   (where
     (import
-      (module_identifier)
-      (import_specification
-        (constructor (constructor_identifier) (all_constructors))
-        (variable_identifier)
-        (variable_identifier)))))
+      (identifier)
+      (import_spec
+        (type_constructor (identifier) (all_constructors))
+        (variable)
+        (variable)))))
 
 =========================================
 Import Declaration With Qualified
@@ -85,19 +82,18 @@ import qualified Data.Function (fix)
 ---
 
 (module
-  (module_identifier)
+  (identifier)
   (where
     (import
       (qualified)
-      (module_identifier))
+      (identifier))
     (import
       (qualified)
-      (module_identifier)
-      (import_specification))
+      (identifier))
     (import
       (qualified)
-      (module_identifier)
-      (import_specification (variable_identifier)))))
+      (identifier)
+      (import_spec (variable)))))
 
 =========================================
 Import Declaration With Qualified, As
@@ -111,19 +107,18 @@ import qualified Either as E ()
 ---
 
 (module
-  (module_identifier)
+  (identifier)
   (where
     (import
       (qualified)
       (import_alias
-        (module_identifier)
-        (module_identifier)))
+        (identifier)
+        (identifier)))
     (import
       (qualified)
       (import_alias
-        (module_identifier)
-        (module_identifier))
-      (import_specification))))
+        (identifier)
+        (identifier)))))
 
 =========================================
 Import Declaration With As, Constructor And Function
@@ -136,15 +131,15 @@ import Data.Maybe as DM (Maybe(..), fromMaybe)
 ---
 
 (module
-  (module_identifier)
+  (identifier)
   (where
     (import
       (import_alias
-        (module_identifier)
-        (module_identifier))
-      (import_specification
-        (constructor (constructor_identifier) (all_constructors))
-        (variable_identifier)))))
+        (identifier)
+        (identifier))
+      (import_spec
+        (type_constructor (identifier) (all_constructors))
+        (variable)))))
 
 =========================================
 Import Declaration With Qualified, As, Constructor And Function
@@ -157,17 +152,16 @@ import qualified Data.Maybe as M (Maybe(..), fromMaybe)
 ---
 
 (module
-  (module_identifier)
+  (identifier)
   (where
     (import
       (qualified)
       (import_alias
-        (module_identifier)
-        (module_identifier))
-      (import_specification
-        (constructor
-          (constructor_identifier) (all_constructors))
-          (variable_identifier)))))
+        (identifier)
+        (identifier))
+      (import_spec
+        (type_constructor (identifier) (all_constructors))
+        (variable)))))
 
 =========================================
 Import Declaration With Hiding, Constructor and Function
@@ -180,11 +174,13 @@ import Data.Maybe hiding (Maybe(..), fromMaybe)
 ---
 
 (module
-  (module_identifier)
+  (identifier)
   (where
     (import
-      (module_identifier)
-      (hidden_import_specification (constructor (constructor_identifier) (all_constructors)) (variable_identifier)))))
+      (identifier)
+      (hidden_import
+        (type_constructor (identifier) (all_constructors))
+        (variable)))))
 
 =========================================
 Import Declaration With Qualified, Hiding, Constructor and Function
@@ -200,25 +196,25 @@ import qualified Data.List as DL hiding (head)
 ---
 
 (module
-  (module_identifier)
+  (identifier)
   (where
     (import
       (qualified)
-      (module_identifier)
-      (hidden_import_specification))
+      (identifier)
+      (hidden_import))
     (import
       (qualified)
-      (module_identifier)
-      (hidden_import_specification
-        (constructor (constructor_identifier) (all_constructors))
-        (variable_identifier)))
+      (identifier)
+      (hidden_import
+        (type_constructor (identifier) (all_constructors))
+        (variable)))
     (import
       (qualified)
-      (module_identifier)
-      (hidden_import_specification (variable_identifier)))
+      (identifier)
+      (hidden_import (variable)))
     (import
       (qualified)
       (import_alias
-        (module_identifier)
-        (module_identifier))
-      (hidden_import_specification (variable_identifier)))))
+        (identifier)
+        (identifier))
+      (hidden_import (variable)))))

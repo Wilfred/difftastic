@@ -25,6 +25,10 @@ const
 module.exports = grammar({
   name: 'haskell',
 
+  inline: $ => [
+    $._function_application_statements
+  ],
+
   extras: $ => [
     $.comment,
     /\s|\\n/
@@ -37,22 +41,20 @@ module.exports = grammar({
   ],
 
   conflicts: $ => [
-    [$._variable_symbol, $._extra_variable_symbol],
-    [$._expression, $.function_head],
-    [$._statement, $.tuple],
-    [$.function_head, $._expression, $.function_application],
-    [$._expression, $.function_application],
-    [$.function_head, $.function_application],
-    [$.irrefutable, $.binary],
-    [$._op, $._variable],
-    [$.function_application, $._statement]
+    [$._parenthesized_variable_symbol, $._variable],
+    [$.list_constructor, $.list],
+    [$._applied_type_constructor, $.type_constructor],
+    [$.binary],
+    [$.binary, $._statement],
+    [$._variable, $._op],
+    [$.parenthesized, $._statement]
   ],
 
   rules: {
     module: $ => choice(
       seq(
         'module',
-        $.module_identifier,
+        $.identifier,
         optional($.module_exports),
         $.where
       ),
@@ -74,58 +76,47 @@ module.exports = grammar({
 
     module_exports: $ => seq(
       '(',
-      optional(commaSep1($.export)),
+      optional(sep1(',', choice($.type_constructor, $._variable))),
       ')'
     ),
 
-    export: $ => seq(
-      $._identifier,
-      optional(
-        seq(
-          '(',
-          choice('..', commaSep1($._identifier)),
-          ')'
-        )
-      )
-    ),
+    all_constructors: $ => '..',
 
     import: $ => prec.right(seq(
       'import',
       alias(optional('qualified'), $.qualified),
       choice(
-        $.module_identifier,
+        $.identifier,
         $.import_alias
       ),
-      optional(choice($.import_specification, $.hidden_import_specification))
+      optional(
+        choice(
+          $._empty_import_spec,
+          $.import_spec,
+          $.hidden_import
+        )
+      )
     )),
 
-    import_specification: $ => $._import_specification,
+    import_spec: $ => $._import_spec,
 
-    _import_specification: $ => seq(
+    _import_spec: $ => seq(
       '(',
-      optional(
-        commaSep1(choice(
-          $._identifier,
-          seq(
-            $._identifier,
-            '(',
-            choice('..', commaSep1($._identifier)),
-            ')'
-          )
-        ))
-      ),
+      sep1(',', choice($.type_constructor, $.variable)),
       ')'
     ),
 
+    _empty_import_spec: $ => seq('(',')'),
+
     import_alias: $ => seq(
-      $.module_identifier,
+      $.identifier,
       'as',
-      $.module_identifier
+      $.identifier
     ),
 
-    hidden_import_specification: $ => seq(
+    hidden_import: $ => seq(
       'hiding',
-      $._import_specification
+      choice($._import_spec, $._empty_import_spec)
     ),
 
     _declaration: $ => choice(
@@ -143,20 +134,34 @@ module.exports = grammar({
       $._statement
     ),
 
+    _parenthesized_variable_symbol: $ => seq(
+      '(',
+      repeat1(choice($.variable_symbol, $._extra_variable_symbol)),
+      ')'
+    ),
+
     function_declaration: $ => seq(
       $.function_head,
       '=',
       $.function_body
     ),
 
-    function_head: $ => seq(
-      alias($._identifier, $.function_identifier),
-      repeat($._expression)
+    function_head: $ => repeat1(
+      choice(
+        $._variable,
+        $.type_constructor,
+        $.as,
+        $.wildcard,
+        $.irrefutable,
+        $._literal,
+        $.parenthesized,
+        $.tuple,
+        $.list,
+        alias($._applied_type_constructor, $.type_constructor)
+      )
     ),
 
-    function_body: $ => prec.right(
-      repeat1($._statement)
-    ),
+    function_body: $ => repeat1(choice($._statement, $.function_application)),
 
     where: $ => seq(
       'where',
@@ -165,16 +170,41 @@ module.exports = grammar({
 
     field_labels: $ => seq(
       '{',
-      optional(commaSep1($.field_label)),
+      optional(sep1(',', $.field_label)),
       '}'
     ),
 
-    irrefutable: $ => prec(1, seq(
+    irrefutable: $ => seq(
       '~',
-      $._expression
-    )),
+      choice(
+        $._variable,
+        $.type_constructor,
+        $.as,
+        $.wildcard,
+        $.irrefutable,
+        $.tuple,
+        $.parenthesized,
+        $._literal
+      )
+    ),
 
     parenthesized: $ => seq(
+      '(',
+      choice(
+        $.type_constructor,
+        $.as,
+        $.wildcard,
+        $.irrefutable,
+        $.tuple,
+        $.parenthesized,
+        $._literal,
+        $.binary,
+        alias($._applied_type_constructor, $.type_constructor)
+      ),
+      ')'
+    ),
+
+    parenthesized_expression: $ => seq(
       '(',
       $._statement,
       ')'
@@ -183,13 +213,13 @@ module.exports = grammar({
     negative_literal: $ => prec(1, seq('-', '(', $._literal, ')')),
 
     as: $ => prec.right(1, seq(
-      $._identifier,
+      choice($._variable),
       '@',
-      $._expression
+      choice($._variable, $.type_constructor)
     )),
 
     field_label: $ => seq(
-      $._identifier,
+      $._variable,
       '=',
       $._literal
     ),
@@ -197,13 +227,14 @@ module.exports = grammar({
     wildcard: $ => '_',
 
     _variable: $ => choice(
-      $.variable_identifier,
-      $.qualified_variable_identifier,
+      $.variable,
+      $.qualified_variable,
       $.variable_symbol,
-      $.qualified_variable_symbol
+      $.qualified_variable_symbol,
+      $._parenthesized_variable_symbol
     ),
 
-    qualified_variable_identifier: $ => seq(
+    qualified_variable: $ => seq(
       $._constructor_pattern,
       $._variable_pattern
     ),
@@ -213,33 +244,49 @@ module.exports = grammar({
       $._variable_symbol
     ),
 
-    _expression: $ => choice(
+    function_application: $ => prec.left(1, seq(
+      choice($._function_application_statements, $.function_application),
+      choice($._function_application_statements, $.function_application)
+    )),
+
+    _function_application_statements: $ => choice(
+      $._variable,
+      $.type_constructor,
       $._literal,
-      $._identifier,
-      $.do_expression,
-      $.as,
-      $.wildcard,
-      $.parenthesized,
-      $.irrefutable,
-      $.binary
+      $.tuple,
+      $.list,
     ),
 
-    _layout_expression: $ => choice(
-      $.where
-    ),
+    _terminal: $ => ';',
 
-    function_application: $ => prec.left(seq(
-      choice($._expression, $.function_application),
-      choice($._expression, $.function_application)
-    )),
-
-    _empty: $ => ';',
-
-    binary: $ => prec.left(1, seq(
-      $._expression,
+    binary: $ => seq(
+      choice(
+        $._variable,
+        $.type_constructor,
+        $.as,
+        $.wildcard,
+        $.irrefutable,
+        $.tuple,
+        $._literal,
+        $.parenthesized_expression,
+        $.list,
+        $._variable,
+        $.binary
+      ),
       $._op,
-      $._expression
-    )),
+      choice(
+        $._variable,
+        $.type_constructor,
+        $.as,
+        $.wildcard,
+        $.irrefutable,
+        $.tuple,
+        $._literal,
+        $.parenthesized,
+        $.list,
+        $._variable
+      )
+    ),
 
     foreign: $ => seq(
       'foreign',
@@ -269,7 +316,7 @@ module.exports = grammar({
     default: $ => seq(
       'default',
       '(',
-      optional(commaSep1($._identifier)),
+      optional(sep1(',', $.type_constructor)),
       ')'
     ),
 
@@ -284,19 +331,25 @@ module.exports = grammar({
     ),
 
     _statement: $ => choice(
-      $._expression,
-      $.function_application,
-      $._layout_expression,
-      $.if_statement
+      $.if_statement,
+      $.do_expression,
+      $.type_constructor,
+      $._variable,
+      $.where,
+      $._literal,
+      $.tuple,
+      $.list,
+      $.binary,
+      $.parenthesized_expression
     ),
 
     if_statement: $ => seq(
       'if',
       alias($._statement, $.condition),
-      optional($._empty),
+      optional($._terminal),
       'then',
       alias($._statement, $.then_clause),
-      optional($._empty),
+      optional($._terminal),
       'else',
       alias($._statement, $.else_clause)
     ),
@@ -304,21 +357,21 @@ module.exports = grammar({
     type_class: $ => seq(
       'class',
       optional($.context),
-      $._identifier,
+      choice($.type_constructor, alias($._applied_type_constructor, $.type_constructor)),
       $.where
     ),
 
     type_class_instance: $ => seq(
       'instance',
       optional($.context),
-      $._identifier,
+      choice($.type_constructor, alias($._applied_type_constructor, $.type_constructor)),
       $.where
     ),
 
     fixity: $ => seq(
       choice('infixl', 'infixr', 'infix'),
       optional($.integer),
-      commaSep1($._op)
+      sep1(',', $._op)
     ),
 
     _op: $ => choice(
@@ -326,118 +379,163 @@ module.exports = grammar({
       $.constructor_symbol,
       seq(
         '`',
-        $._identifier,
+        $._variable,
         '`'
       )
     ),
 
     variable_symbol: $ => prec.right(choice(
-      seq('(', repeat1($._extra_variable_symbol), ')'),
       repeat1($._variable_symbol)
     )),
 
     constructor_symbol: $ => prec.right(seq(':', repeat($._constructor_symbol))),
 
     type_signature: $ => seq(
-      $.function_identifier,
-      '::',
+      $.signature_identifier,
       optional($.context),
-      $._type
+      optional(sep1('->', choice($.type_constructor, $.variable, alias($._applied_type_constructor, $.type_constructor))))
     ),
 
-    function_identifier: $ => commaSep1($._identifier),
-
-    _type: $ => seq(
-      $._expression,
-      optional(seq('->', $._type))
+    signature_identifier: $ => seq(
+      sep1(',', $._variable),
+      '::'
     ),
 
-    unit_type: $ => '()',
-    list_constructor: $ => '[]',
+    function_identifier: $ => sep1(',', $.variable),
+
+    unit_constructor: $ => '()',
+    list_constructor: $ => seq(
+      '[',
+      optional(choice($.type_constructor, alias($._applied_type_constructor, $.type_constructor))),
+      ']'
+    ),
     function_constructor: $ => '(->)',
     tupling_constructor: $ => seq('(', ',', repeat(','), ')'),
 
     tuple: $ => seq(
       '(',
-      commaSep1($._expression),
+      choice(
+        $.type_constructor,
+        $.as,
+        $.wildcard,
+        $.irrefutable,
+        $.parenthesized,
+        $._literal,
+        $.binary,
+        $.tuple,
+        $.list,
+        $._variable,
+        alias($._applied_type_constructor, $.type_constructor)
+      ),
+      ',',
+      sep1(',',
+        choice(
+          $.type_constructor,
+          $.as,
+          $.wildcard,
+          $.irrefutable,
+          $.parenthesized,
+          $._literal,
+          $.binary,
+          $.list,
+          $._variable,
+          alias($._applied_type_constructor, $.type_constructor)
+        )),
       ')'
     ),
 
     list: $ => seq(
       '[',
-      optional(commaSep1($._expression)),
+      sep1(',', choice(
+        $.type_constructor,
+        $.as,
+        $.wildcard,
+        $.irrefutable,
+        $.parenthesized,
+        $._literal,
+        $.binary,
+        $.tuple,
+        $.list,
+        $._variable
+      )),
       ']'
     ),
 
-    algebraic_datatype: $ => prec.right(seq(
+    algebraic_datatype: $ => seq(
       'data',
       optional($.context),
-      $._identifier,
-      optional('='),
-      optional($.constructors),
-      optional($.deriving)
-    )),
-
-    context: $ => prec(1, seq(
-      choice(
-        $._identifier,
-        seq('(', commaSep1($._identifier), ')')
-      ),
-      '=>'
-    )),
-
-    constructors: $ => seq(
-      $._identifier,
-      repeat(seq('|', $._identifier))
-    ),
-
-    constructor: $ => choice(
-      $.unit_type,
-      $.list_constructor,
-      $.function_constructor,
-      $.tupling_constructor,
-      $._context_constructor,
-      $._xmport_constructor,
-      $._constructor_variations
-    ),
-
-    _constructor_variations: $ => prec.right(seq(
-      $.constructor_identifier,
-      repeat(
-        choice(
-          $.fields,
-          $.field_labels,
-          $.strict,
-          $._identifier,
-          $._primary_literal
+      choice($.type_constructor, alias($._applied_type_constructor, $.type_constructor)),
+      optional(
+        seq(
+          '=',
+          $.data_constructors,
+          optional($.deriving)
         )
       )
+    ),
+
+    type_constructor: $ => prec.right(
+      choice(
+        $._type_constructors,
+        seq(
+          $._type_constructors,
+          choice(
+            seq(
+              '(',
+              sep1(optional(','), choice($.type_constructor, $.variable, $.all_constructors, alias($._applied_type_constructor, $.type_constructor))),
+              ')'
+            ),
+            $.fields
+          )
+        )
+      )
+    ),
+
+    _type_constructors: $ => choice(
+      $.identifier,
+      $.list_constructor,
+      $.tupling_constructor,
+      $.function_constructor,
+      $.unit_constructor
+    ),
+
+    _applied_type_constructor: $ => prec.right(seq(
+      $._type_constructors,
+      repeat(choice($.variable, $._type_constructors, $._literal))
     )),
 
-    _context_constructor: $ => seq(
-      $.constructor_identifier,
-      '(',
-      repeat($._variable),
-      ')'
+    context: $ => seq(
+      choice(
+        $.type_constructor,
+        alias($._applied_type_constructor, $.type_constructor),
+        seq(
+          '(',
+          sep1(',', choice($.type_constructor, alias($._applied_type_constructor, $.type_constructor))),
+          ')'
+        )
+      ),
+      '=>'
     ),
 
-    _xmport_constructor: $ => seq(
-      $.constructor_identifier,
-      '(',
+    data_constructor: $ => seq(
       choice(
-        alias('..', $.all_constructors),
-        commaSep1($._identifier)
+        $.identifier,
+        $.list_constructor,
+        $.tupling_constructor,
+        $.function_constructor
       ),
-      ')'
+      repeat(choice($.variable, $.strict, $.fields, alias($.type_constructor, $.type)))
     ),
+
+    data_constructors: $ => sep1('|', $.data_constructor),
 
     deriving: $ => seq(
       'deriving',
       choice(
-        $._identifier,
+        alias($.type_constructor, $.type),
         seq(
           '(',
-          commaSep1($._identifier),
+          sep1(',', alias($.type_constructor, $.type)),
           ')'
         )
       )
@@ -446,38 +544,37 @@ module.exports = grammar({
     newtype: $ => seq(
       'newtype',
       optional($.context),
-      $._identifier,
+      $.type_constructor,
       '=',
-      $._identifier,
+      $.data_constructor,
       optional($.deriving)
     ),
 
     field: $ => seq(
-      commaSep1($.variable_identifier),
+      sep1(',', $.variable),
       '::',
       choice(
         $.strict,
-        $._identifier
+        $.variable,
+        alias($.type_constructor, $.type)
       )
     ),
 
     strict: $ => prec(1, seq(
       '!',
-      $._identifier
+      choice(alias($.type_constructor, $.type), $.variable)
     )),
 
     type_synonym: $ => seq(
       'type',
-      $._identifier,
+      choice($.type_constructor, alias($._applied_type_constructor, $.type_constructor)),
       '=',
-      $._type
+      choice($.type_constructor, alias($._applied_type_constructor, $.type_constructor)),
     ),
 
     _literal: $ => choice(
       $._primary_literal,
-      $.list,
-      $.negative_literal,
-      $.tuple
+      $.negative_literal
     ),
 
     _primary_literal: $ => choice(
@@ -487,34 +584,17 @@ module.exports = grammar({
       $.char
     ),
 
-    _identifier: $ => prec.left(1, choice(
-      $.constructor,
-      $._variable
-    )),
-
-    variable_identifier: $ => $._variable_pattern,
+    variable: $ => $._variable_pattern,
     _variable_pattern: $ => /[_a-z](\w|')*/,
 
-    constructor_identifier: $ => prec.left($._constructor_pattern),
-    _constructor_pattern: $ => /[A-Z](\w|'|)*/,
-
-    _type_constructors: $ => prec.right(choice(
-      $.qualified_type_constructor,
-      seq(
-        alias($._constructor_pattern, $.type_constructor),
-        repeat($.variable_identifier)
-      )
-    )),
+    identifier: $ => prec.left($._constructor_pattern),
+    _constructor_pattern: $ => /[A-Z](\w|'|\.)*/,
 
     qualified_type_constructor: $ => prec.right(seq(
-      $.module_identifier,
-      repeat(seq('.', $.module_identifier)),
       optional('.'),
-      $.constructor_identifier,
-      repeat($.variable_identifier)
+      $.identifier,
+      repeat($.variable)
     )),
-
-    module_identifier: $ => /[A-Z](\w|'|\.)*/,
 
     comment: $ => token(choice(
       seq('--', /.*/),
@@ -630,20 +710,6 @@ module.exports = grammar({
     ),
 
     _extra_variable_symbol: $ => choice(
-      '!',
-      '#',
-      '$',
-      '%',
-      '&',
-      '⋆',
-      '+',
-      '.',
-      '/',
-      '<',
-      '>',
-      '?',
-      '^',
-      '-',
       '='
     ),
 
@@ -664,20 +730,6 @@ module.exports = grammar({
       '-',
       ':'
     )),
-
-    _reserved_operator: $ => choice(
-      '..',
-      ':',
-      '::',
-      '=',
-      '\\',
-      '|',
-      '<-',
-      '->',
-      '@',
-      '~',
-      '=>'
-    ),
 
     _special: $ => choice(
       '(',
@@ -777,12 +829,12 @@ module.exports = grammar({
 
     fields: $ => seq(
       '{',
-      commaSep1($.field),
+      sep1(',', choice($.field, $.field_label)),
       '}'
     )
   }
 })
 
-function commaSep1(rule) {
-  return seq(rule, repeat(seq(',', rule)))
+function sep1(sep, rule) {
+  return seq(rule, repeat(seq(sep, rule)))
 }
