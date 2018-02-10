@@ -17,7 +17,7 @@ module.exports = grammar(C, {
     [$.template_function, $._expression],
     [$.template_function, $.template_type, $.field_expression],
     [$.scoped_type_identifier, $.scoped_identifier],
-    [$.comma_expression, $._initializer_list_contents],
+    [$.comma_expression, $.initializer_list],
     [$.parameter_list, $.argument_list],
   ]),
 
