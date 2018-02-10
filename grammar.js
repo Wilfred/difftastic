@@ -695,30 +695,24 @@ module.exports = grammar({
 
     initializer_list: $ => seq(
       '{',
-      optional(seq(
-        $._initializer_list_contents,
-        optional(',')
+      commaSep(choice(
+        $.initializer_pair,
+        $._expression,
+        $.initializer_list
       )),
+      optional(','),
       '}'
     ),
 
-    _initializer_list_contents: $ => commaSepTrailing(
-      $._initializer_list_contents,
-      seq(
-        optional(seq(repeat1($.designator), '=')),
-        choice($._expression, $.initializer_list)
-      )
+    initializer_pair: $ => seq(
+      repeat1(choice($.subscript_designator, $.field_designator)),
+      '=',
+      choice($._expression, $.initializer_list)
     ),
 
-    designator: $ => choice(
-      seq('[', $._expression, ']'),
-      seq('.', $._field_identifier)
-    ),
+    subscript_designator: $ => seq('[', $._expression, ']'),
 
-    initializer: $ => choice(
-      $._expression,
-      $.initializer_list
-    ),
+    field_designator: $ => seq('.', $._field_identifier),
 
     number_literal: $ => token(seq(
       choice(
