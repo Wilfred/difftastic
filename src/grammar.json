@@ -2841,29 +2841,33 @@
       ]
     },
     "if_then_statement": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "if"
-        },
-        {
-          "type": "STRING",
-          "value": "("
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_expression"
-        },
-        {
-          "type": "STRING",
-          "value": ")"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_statement"
-        }
-      ]
+      "type": "PREC_RIGHT",
+      "value": 0,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "if"
+          },
+          {
+            "type": "STRING",
+            "value": "("
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_expression"
+          },
+          {
+            "type": "STRING",
+            "value": ")"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_statement"
+          }
+        ]
+      }
     },
     "if_then_else_statement": {
       "type": "SEQ",
@@ -6933,14 +6937,6 @@
     [
       "class_or_interface_type",
       "scoped_identifier"
-    ],
-    [
-      "if_then_statement",
-      "if_then_else_statement"
-    ],
-    [
-      "ReferenceError",
-      "enum_body_declarations"
     ],
     [
       "unann_class_or_interface_type",

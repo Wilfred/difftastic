@@ -48,8 +48,6 @@ module.exports = grammar({
     [$.local_variable_declaration], // bad idea
     [$.resource_list],
     [$.class_or_interface_type, $.scoped_identifier],
-    [$.if_then_statement, $.if_then_else_statement],
-    [$._statement_without_trailing_substatement, $.enum_body_declarations], // bad idea
 
     [$.unann_class_or_interface_type, $._expression],
     [$.unann_class_or_interface_type, $.class_literal, $.array_access],
@@ -425,7 +423,7 @@ module.exports = grammar({
       $.field_access
     ),
 
-    if_then_statement: $ => seq('if', '(', $._expression, ')', $._statement),
+    if_then_statement: $ => prec.right(seq('if', '(', $._expression, ')', $._statement)),
 
     if_then_else_statement: $ => seq(
       'if', '(', $._expression, ')',
