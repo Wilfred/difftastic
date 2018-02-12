@@ -45,7 +45,6 @@ module.exports = grammar({
     [$.class_literal, $.primitive_type, $.unann_primitive_type], // try to drop class_literal
     [$.class_literal, $.primitive_type], // bad idea
     [$.primitive_type, $.unann_primitive_type], // bad idea
-    [$.local_variable_declaration], // bad idea
 
     [$.unann_class_or_interface_type, $._expression],
     [$.unann_class_or_interface_type, $.class_literal, $.array_access],
@@ -1059,7 +1058,7 @@ module.exports = grammar({
     ),
 
     local_variable_declaration: $ => seq(
-      optional($.modifier),
+      repeat($.modifier),
       $.unann_type,
       $.variable_declarator_list
     ),

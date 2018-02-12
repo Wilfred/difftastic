@@ -6817,16 +6817,11 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "modifier"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "modifier"
+          }
         },
         {
           "type": "SYMBOL",
@@ -6935,9 +6930,6 @@
     [
       "primitive_type",
       "unann_primitive_type"
-    ],
-    [
-      "local_variable_declaration"
     ],
     [
       "unann_class_or_interface_type",
