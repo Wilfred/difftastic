@@ -147,6 +147,26 @@ if (x = 3) {
      (block (assignment_expression (lhs (identifier)) (integer_literal (decimal_integer_literal))))))
 
 ===
+nested if then else statements
+===
+
+if (a)
+  if (b)
+    c();
+  else
+    d();
+
+---
+
+(program
+  (if_then_statement
+    (identifier)
+    (if_then_else_statement
+      (identifier)
+      (method_invocation (identifier))
+      (method_invocation (identifier)))))
+
+===
 assignment
 ===
 
