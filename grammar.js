@@ -392,7 +392,7 @@ module.exports = grammar({
     algebraic_datatype: $ => seq(
       'data',
       optional($.context),
-      choice($.type_constructor, alias($._applied_type_constructor, $.type_constructor)),
+      choice($.type_constructor, alias($._constructed_value, $.type_constructor)),
       optional(
         seq(
           '=',
@@ -427,7 +427,7 @@ module.exports = grammar({
       $.unit_constructor
     ),
 
-    _applied_type_constructor: $ => prec.right(seq(
+    _constructed_value: $ => prec.right(seq(
       $._type_constructors,
       repeat(choice($.variable, $._type_constructors, $._literal))
     )),
@@ -452,7 +452,7 @@ module.exports = grammar({
         $.tupling_constructor,
         $.function_constructor
       ),
-      repeat(choice($.variable, $.strict, $.fields, alias($.type_constructor, $.type)))
+      repeat(choice($.variable, $.strict, $.fields, alias($._constructed_value, $.type)))
     ),
 
     data_constructors: $ => sep1('|', $.data_constructor),
