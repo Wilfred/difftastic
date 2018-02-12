@@ -169,7 +169,7 @@ module.exports = grammar({
       $.as,
       $.wildcard,
       $.irrefutable,
-      $.parenthesized,
+      alias($._parenthesized, $.parenthesized_expression),
       $._expression,
       alias($._constructed_value, $.type_constructor)
     ),
@@ -197,7 +197,7 @@ module.exports = grammar({
       $._lhs
     ),
 
-    parenthesized: $ => seq(
+    _parenthesized: $ => seq(
       '(',
       $._lhs,
       ')'

@@ -226,8 +226,8 @@ f ([]) = 1
         (integer)))
   (function_declaration
     (function_head
-      (parenthesized
       (function_identifier (variable))
+      (parenthesized_expression
         (type_constructor
           (identifier)
           (variable)
@@ -277,7 +277,7 @@ f (Left a, Right b, -(1)) = b
     (function_head
       (function_identifier (variable))
       (tuple
-        (parenthesized
+        (parenthesized_expression
           (type_constructor
             (identifier)
             (integer)))
