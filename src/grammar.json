@@ -570,8 +570,13 @@
           "name": "irrefutable"
         },
         {
-          "type": "SYMBOL",
-          "name": "parenthesized"
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_parenthesized"
+          },
+          "named": true,
+          "value": "parenthesized_expression"
         },
         {
           "type": "SYMBOL",
@@ -589,11 +594,25 @@
       ]
     },
     "function_head": {
-      "type": "REPEAT1",
-      "content": {
-        "type": "SYMBOL",
-        "name": "_lhs"
-      }
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_variable"
+          },
+          "named": true,
+          "value": "function_identifier"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_lhs"
+          }
+        }
+      ]
     },
     "function_body": {
       "type": "REPEAT1",
@@ -683,7 +702,7 @@
         }
       ]
     },
-    "parenthesized": {
+    "_parenthesized": {
       "type": "SEQ",
       "members": [
         {
@@ -3645,6 +3664,10 @@
     [
       "_statement",
       "_lhs"
+    ],
+    [
+      "function_head",
+      "_expression"
     ]
   ],
   "externals": [

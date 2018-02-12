@@ -15,7 +15,7 @@ f num1 num2 = num2
     (variable))
   (function_declaration
     (function_head
-      (variable)
+      (function_identifier (variable))
       (variable)
       (variable))
     (function_body
@@ -37,7 +37,7 @@ f Ex = Ex
     (type_constructor (identifier)))
   (function_declaration
     (function_head
-      (variable)
+      (function_identifier (variable))
       (type_constructor (identifier)))
     (function_body (type_constructor (identifier)))))
 
@@ -58,7 +58,7 @@ f n@num1 x@num2 = x
     (variable))
   (function_declaration
     (function_head
-      (variable)
+      (function_identifier (variable))
       (as
         (variable)
         (variable))
@@ -85,7 +85,7 @@ f _ num2 = num2
     (variable))
   (function_declaration
     (function_head
-      (variable)
+      (function_identifier (variable))
       (wildcard)
       (variable))
     (function_body
@@ -111,28 +111,28 @@ f 1.0 2.0 = 3.0
     (variable))
   (function_declaration
     (function_head
-      (variable)
+      (function_identifier (variable))
       (integer)
       (integer))
     (function_body
       (integer)))
   (function_declaration
     (function_head
-      (variable)
+      (function_identifier (variable))
       (string)
       (string))
     (function_body
       (string)))
   (function_declaration
     (function_head
-      (variable)
+      (function_identifier (variable))
       (char)
       (char))
     (function_body
       (char)))
   (function_declaration
     (function_head
-      (variable)
+      (function_identifier (variable))
       (float)
       (float))
     (function_body
@@ -156,7 +156,7 @@ f Ex { a = 1, b = 2 } = 2
     (type_constructor (identifier)))
   (function_declaration
     (function_head
-      (variable)
+      (function_identifier (variable))
       (type_constructor
         (identifier)
         (fields
@@ -165,7 +165,7 @@ f Ex { a = 1, b = 2 } = 2
       (integer)))
   (function_declaration
     (function_head
-      (variable)
+      (function_identifier (variable))
       (type_constructor
         (identifier)
         (fields
@@ -185,7 +185,7 @@ f c@Ex { a = 1 } = c
 (module
   (function_declaration
     (function_head
-      (variable)
+      (function_identifier (variable))
       (as
         (variable)
         (type_constructor
@@ -211,14 +211,14 @@ f ([]) = 1
 (module
   (function_declaration
     (function_head
-      (variable)
+      (function_identifier (variable))
       (parenthesized_expression
         (integer)))
     (function_body
       (integer)))
   (function_declaration
     (function_head
-      (variable)
+      (function_identifier (variable))
       (parenthesized_expression
         (negative_literal
           (integer))))
@@ -226,8 +226,8 @@ f ([]) = 1
         (integer)))
   (function_declaration
     (function_head
-      (variable)
       (parenthesized
+      (function_identifier (variable))
         (type_constructor
           (identifier)
           (variable)
@@ -237,7 +237,7 @@ f ([]) = 1
       (variable)))
   (function_declaration
     (function_head
-      (variable)
+      (function_identifier (variable))
       (parenthesized_expression
         (binary
           (variable)
@@ -247,7 +247,7 @@ f ([]) = 1
       (integer)))
   (function_declaration
     (function_head
-      (variable)
+      (function_identifier (variable))
       (parenthesized_expression
         (type_constructor (list_constructor))))
     (function_body
@@ -267,7 +267,7 @@ f (Left a, Right b, -(1)) = b
 (module
   (function_declaration
     (function_head
-      (variable)
+      (function_identifier (variable))
       (tuple
         (integer)
         (integer)))
@@ -275,7 +275,7 @@ f (Left a, Right b, -(1)) = b
       (integer)))
   (function_declaration
     (function_head
-      (variable)
+      (function_identifier (variable))
       (tuple
         (parenthesized
           (type_constructor
@@ -290,7 +290,7 @@ f (Left a, Right b, -(1)) = b
         (integer))))
   (function_declaration
     (function_head
-      (variable)
+      (function_identifier (variable))
       (tuple
         (type_constructor
           (identifier)
@@ -300,7 +300,7 @@ f (Left a, Right b, -(1)) = b
         (type_constructor (identifier))))
   (function_declaration
     (function_head
-      (variable)
+      (function_identifier (variable))
       (tuple
         (type_constructor
           (identifier)
@@ -332,19 +332,19 @@ f (a:b:c:ds) = a
     (type_constructor (identifier)))
   (function_declaration
     (function_head
-      (variable)
+      (function_identifier (variable))
       (type_constructor (list_constructor)))
     (function_body
       (integer)))
   (function_declaration
     (function_head
-      (variable)
+      (function_identifier (variable))
       (list (variable)))
     (function_body
       (variable)))
   (function_declaration
     (function_head
-      (variable)
+      (function_identifier (variable))
       (parenthesized_expression
         (binary
           (variable)
@@ -354,7 +354,7 @@ f (a:b:c:ds) = a
       (variable)))
   (function_declaration
     (function_head
-      (variable)
+      (function_identifier (variable))
       (parenthesized_expression
         (binary
           (binary
@@ -367,7 +367,7 @@ f (a:b:c:ds) = a
       (variable)))
   (function_declaration
     (function_head
-      (variable)
+      (function_identifier (variable))
       (parenthesized_expression
         (binary
           (binary
@@ -395,14 +395,14 @@ f ~(~(a, b), c) = c
 (module
   (function_declaration
     (function_head
-      (variable)
+      (function_identifier (variable))
       (irrefutable
         (variable)))
     (function_body
       (integer)))
   (function_declaration
     (function_head
-      (variable)
+      (function_identifier (variable))
       (irrefutable
         (parenthesized_expression
           (negative_literal
@@ -411,7 +411,7 @@ f ~(~(a, b), c) = c
       (integer)))
   (function_declaration
     (function_head
-      (variable)
+      (function_identifier (variable))
       (irrefutable
         (tuple
           (irrefutable
@@ -431,13 +431,13 @@ f a = c where c = d
 (module
   (function_declaration
     (function_head
-      (variable)
+      (function_identifier (variable))
       (variable))
     (function_body
       (variable)
       (where
         (function_declaration
           (function_head
-            (variable))
+            (function_identifier (variable)))
           (function_body
             (variable)))))))
