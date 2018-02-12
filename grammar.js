@@ -331,17 +331,20 @@ module.exports = grammar({
       alias($._statement, $.else_clause)
     ),
 
+    _type_constructor_alias: $ => alias($._constructed_value, $.type_constructor),
+
+
     type_class: $ => seq(
       'class',
       optional($.context),
-      choice($.type_constructor, alias($._applied_type_constructor, $.type_constructor)),
+      choice($.type_constructor, $._type_constructor_alias),
       $.where
     ),
 
     type_class_instance: $ => seq(
       'instance',
       optional($.context),
-      choice($.type_constructor, alias($._applied_type_constructor, $.type_constructor)),
+      choice($.type_constructor, $._type_constructor_alias),
       $.where
     ),
 
@@ -370,7 +373,7 @@ module.exports = grammar({
     type_signature: $ => seq(
       $.signature_identifier,
       optional($.context),
-      optional(sep1('->', choice($.type_constructor, $.variable, alias($._applied_type_constructor, $.type_constructor))))
+      optional(sep1('->', choice($.type_constructor, $.variable, $._type_constructor_alias)))
     ),
 
     signature_identifier: $ => seq(
@@ -383,7 +386,7 @@ module.exports = grammar({
     unit_constructor: $ => '()',
     list_constructor: $ => seq(
       '[',
-      optional(choice($.type_constructor, alias($._applied_type_constructor, $.type_constructor))),
+      optional(choice($.type_constructor, $._type_constructor_alias)),
       ']'
     ),
     function_constructor: $ => '(->)',
@@ -435,7 +438,7 @@ module.exports = grammar({
           choice(
             seq(
               '(',
-              sep1(optional(','), choice($.type_constructor, $.variable, $.all_constructors, alias($._applied_type_constructor, $.type_constructor))),
+              sep1(optional(','), choice($.type_constructor, $.variable, $.all_constructors, $._type_constructor_alias)),
               ')'
             ),
             $.fields
@@ -460,10 +463,10 @@ module.exports = grammar({
     context: $ => seq(
       choice(
         $.type_constructor,
-        alias($._applied_type_constructor, $.type_constructor),
+        alias($._constructed_value, $.type_constructor),
         seq(
           '(',
-          sep1(',', choice($.type_constructor, alias($._applied_type_constructor, $.type_constructor))),
+          sep1(',', choice($.type_constructor, $._type_constructor_alias)),
           ')'
         )
       ),
@@ -520,9 +523,9 @@ module.exports = grammar({
 
     type_synonym: $ => seq(
       'type',
-      choice($.type_constructor, alias($._applied_type_constructor, $.type_constructor)),
+      choice($.type_constructor, alias($._constructed_value, $.type_constructor)),
       '=',
-      choice($.type_constructor, alias($._applied_type_constructor, $.type_constructor)),
+      choice($.type_constructor, alias($._constructed_value, $.type_constructor)),
     ),
 
     _literal: $ => choice(
