@@ -2756,8 +2756,29 @@
           "value": "("
         },
         {
-          "type": "SYMBOL",
-          "name": "resource_list"
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "resource"
+            },
+            {
+              "type": "REPEAT",
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "STRING",
+                    "value": ";"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "resource"
+                  }
+                ]
+              }
+            }
+          ]
         },
         {
           "type": "CHOICE",
@@ -2777,22 +2798,6 @@
         }
       ]
     },
-    "resource_list": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "resource"
-        },
-        {
-          "type": "REPEAT",
-          "content": {
-            "type": "STRING",
-            "value": ";"
-          }
-        }
-      ]
-    },
     "resource": {
       "type": "CHOICE",
       "members": [
@@ -2800,8 +2805,11 @@
           "type": "SEQ",
           "members": [
             {
-              "type": "SYMBOL",
-              "name": "modifier"
+              "type": "REPEAT",
+              "content": {
+                "type": "SYMBOL",
+                "name": "modifier"
+              }
             },
             {
               "type": "SYMBOL",
@@ -6930,13 +6938,6 @@
     ],
     [
       "local_variable_declaration"
-    ],
-    [
-      "resource_list"
-    ],
-    [
-      "class_or_interface_type",
-      "scoped_identifier"
     ],
     [
       "unann_class_or_interface_type",

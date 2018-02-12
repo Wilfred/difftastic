@@ -46,8 +46,6 @@ module.exports = grammar({
     [$.class_literal, $.primitive_type], // bad idea
     [$.primitive_type, $.unann_primitive_type], // bad idea
     [$.local_variable_declaration], // bad idea
-    [$.resource_list],
-    [$.class_or_interface_type, $.scoped_identifier],
 
     [$.unann_class_or_interface_type, $._expression],
     [$.unann_class_or_interface_type, $.class_literal, $.array_access],
@@ -408,13 +406,11 @@ module.exports = grammar({
     ),
 
     resource_specification: $ => seq(
-      '(', $.resource_list, optional(';'), ')'
+      '(', sep1($.resource, ';'), optional(';'), ')'
     ),
 
-    resource_list: $ => seq($.resource, repeat(';', $.resource)),
-
     resource: $ => choice(
-      seq($.modifier, $.unann_type, $.variable_declarator_id, '=', $._expression),
+      seq(repeat($.modifier), $.unann_type, $.variable_declarator_id, '=', $._expression),
       $.variable_access
     ),
 
