@@ -43,11 +43,10 @@ module.exports = grammar({
   conflicts: $ => [
     [$._parenthesized_variable_symbol, $._variable],
     [$.list_constructor, $.list],
-    [$._applied_type_constructor, $.type_constructor],
-    [$.binary],
-    [$.binary, $._statement],
-    [$._variable, $._op],
-    [$.parenthesized, $._statement]
+    [$._constructed_value, $.type_constructor],
+    [$._expression, $._statement],
+    [$._expression, $.list_constructor],
+    [$._statement, $._lhs]
   ],
 
   rules: {
