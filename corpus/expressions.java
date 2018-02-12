@@ -167,6 +167,32 @@ if (a)
       (method_invocation (identifier)))))
 
 ===
+try-with-resources statements
+===
+
+try (FileInputStream input = new FileInputStream("file.txt")) {
+  int data = input.read();
+}
+
+---
+
+(program
+  (try_statement (try_with_resources_statement
+    (resource_specification
+      (resource
+        (unann_type (unann_class_or_interface_type (identifier)))
+        (variable_declarator_id (identifier))
+        (class_instance_creation_expression
+          (unqualified_class_instance_creation_expression (unann_class_or_interface_type (identifier)) (argument_list (string_literal))))))
+    (block
+      (local_variable_declaration_statement (local_variable_declaration
+        (unann_type (unann_primitive_type (integral_type)))
+        (variable_declarator_list
+          (variable_declarator
+            (variable_declarator_id (identifier))
+            (variable_initializer (method_invocation (identifier) (identifier)))))))))))
+
+===
 assignment
 ===
 
