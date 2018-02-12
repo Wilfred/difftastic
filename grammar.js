@@ -38,13 +38,13 @@ module.exports = grammar({
     $._method_name,
     $._ambiguous_name,
     $.class_or_interface_type,
+    $.primitive_type,
   ],
 
   conflicts: $ => [
     [$.modifier],
     [$.class_literal, $.primitive_type, $.unann_primitive_type], // try to drop class_literal
     [$.class_literal, $.primitive_type], // bad idea
-    [$.primitive_type, $.unann_primitive_type], // bad idea
 
     [$.unann_class_or_interface_type, $._expression],
     [$.unann_class_or_interface_type, $.class_literal, $.array_access],
@@ -247,10 +247,8 @@ module.exports = grammar({
       $.ternary_expression,
       $.unary_expression,
       $._ambiguous_name,
-      $._literal,
-      $.update_expression,
-      $.method_invocation,
-      $.class_instance_creation_expression
+      $._primary,
+      $.update_expression
     ),
 
     assignment_expression: $ => prec.right(PREC.ASSIGN, seq(
@@ -489,10 +487,9 @@ module.exports = grammar({
       seq(repeat($._annotation), '[', ']')
     ),
 
-    primitive_type: $ => choice(
-      seq(repeat($._annotation), choice($.integral_type, $.floating_point_type)),
-      seq(repeat($._annotation), 'boolean'),
-      'void'
+    primitive_type: $ => seq(
+      repeat($._annotation),
+      $.unann_primitive_type
     ),
 
     _numeric_type: $ => choice(
@@ -732,10 +729,10 @@ module.exports = grammar({
     ),
 
     explicit_constructor_invocation: $ => choice(
-      seq(optional($.type_arguments), 'this', '(', optional($.argument_list), ')', $._semicolon),
-      seq(optional($.type_arguments), 'super', '(', optional($.argument_list), ')', $._semicolon),
-      seq($._ambiguous_name, '.', optional($.type_arguments), 'super', '(', optional($.argument_list), ')', $._semicolon),
-      seq($.primary, '.', 'super', '(', optional($.argument_list), ')', $._semicolon)
+      seq(optional($.type_arguments), $.this, '(', optional($.argument_list), ')', $._semicolon),
+      seq(optional($.type_arguments), $.super, '(', optional($.argument_list), ')', $._semicolon),
+      seq($._ambiguous_name, '.', optional($.type_arguments), $.super, '(', optional($.argument_list), ')', $._semicolon),
+      seq($._primary, '.', $.super, '(', optional($.argument_list), ')', $._semicolon)
     ),
 
     _ambiguous_name: $ => choice(
@@ -764,8 +761,8 @@ module.exports = grammar({
       $._semicolon
     ),
 
-    primary: $ => choice(
-      $.primary_no_new_array,
+    _primary: $ => choice(
+      $._primary_no_new_array,
       $.array_creation_expression
     ),
 
@@ -780,11 +777,11 @@ module.exports = grammar({
 
     dims_expr: $ => seq(repeat($._annotation), '[', $._expression, ']'),
 
-    primary_no_new_array: $ => choice(
+    _primary_no_new_array: $ => choice(
       $._literal,
       $.class_literal,
-      'this',
-      seq($._ambiguous_name, '.', 'this'),
+      $.this,
+      seq($._ambiguous_name, '.', $.this),
       seq('(', $._expression, ')'),
       $.class_instance_creation_expression,
       $.field_access,
@@ -803,7 +800,7 @@ module.exports = grammar({
     class_instance_creation_expression: $ => choice(
       $.unqualified_class_instance_creation_expression,
       seq($._ambiguous_name, '.', $.unqualified_class_instance_creation_expression),
-      seq($.primary, '.', $.unqualified_class_instance_creation_expression)
+      seq($._primary, '.', $.unqualified_class_instance_creation_expression)
     ),
 
     unqualified_class_instance_creation_expression: $ => prec.right(seq(
@@ -815,22 +812,22 @@ module.exports = grammar({
     )),
 
     field_access: $ => choice(
-      seq($.primary, '.', $.identifier),
-      seq('super', '.', $.identifier),
-      seq($._ambiguous_name, '.', 'super', '.', $.identifier)
+      seq($._primary, '.', $.identifier),
+      seq($.super, '.', $.identifier),
+      seq($._ambiguous_name, '.', $.super, '.', $.identifier)
     ),
 
     array_access: $ => choice(
       seq($._ambiguous_name, '[', $._expression, ']'),
-      seq($.primary_no_new_array, '[', $._expression, ']')
+      seq($._primary_no_new_array, '[', $._expression, ']')
     ),
 
     method_invocation: $ => choice(
       seq($._method_name, '(', optional($.argument_list), ')'),
       seq($._ambiguous_name, '.', optional($.type_arguments), $.identifier, '(', optional($.argument_list), ')'),
       seq($._ambiguous_name, '.', optional($.type_arguments), $.identifier, '(', optional($.argument_list), ')'),
-      seq($.primary, '.', optional($.type_arguments), $.identifier, '(', optional($.argument_list), ')'),
-      seq($._ambiguous_name, '.', 'super', '.', optional($.type_arguments), $.identifier, '(', optional($.argument_list), ')')
+      seq($._primary, '.', optional($.type_arguments), $.identifier, '(', optional($.argument_list), ')'),
+      seq($._ambiguous_name, '.', $.super, '.', optional($.type_arguments), $.identifier, '(', optional($.argument_list), ')')
     ),
 
     argument_list: $ => seq(
@@ -839,9 +836,9 @@ module.exports = grammar({
 
     method_reference: $ => choice(
       seq($._ambiguous_name, '::', optional($.type_arguments), $.identifier),
-      seq($.primary, '::', optional($.type_arguments), $.identifier),
-      seq('super', '::', optional($.type_arguments), $.identifier),
-      seq($._ambiguous_name, '.', 'super', '::', optional($.type_arguments), $.identifier),
+      seq($._primary, '::', optional($.type_arguments), $.identifier),
+      seq($.super, '::', optional($.type_arguments), $.identifier),
+      seq($._ambiguous_name, '.', $.super, '::', optional($.type_arguments), $.identifier),
       seq($.class_or_interface_type, '::', optional($.type_arguments), 'new'),
       seq($.array_type, '::', 'new')
     ),
@@ -1016,7 +1013,7 @@ module.exports = grammar({
       repeat($._annotation),
       $.unann_type,
       optional(seq($.identifier, '.')),
-      'this'
+      $.this
     ),
 
     last_formal_parameter: $ => choice(
@@ -1028,6 +1025,10 @@ module.exports = grammar({
       ),
       $.formal_parameter
     ),
+
+    this: $ => 'this',
+
+    super: $ => 'super',
 
     throws: $ => seq(
       'throws', $.exception_type_list
