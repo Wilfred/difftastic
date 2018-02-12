@@ -390,8 +390,8 @@ class Point {
                       (formal_parameter
                         (unann_type (unann_primitive_type (integral_type))) (variable_declarator_id (identifier)))))
                           (constructor_body
-                            (assignment_expression (lhs (field_access (primary (primary_no_new_array)) (identifier))) (identifier))
-                            (assignment_expression (lhs (field_access (primary (primary_no_new_array)) (identifier))) (identifier)))))))))
+                            (assignment_expression (lhs (field_access (this) (identifier))) (identifier))
+                            (assignment_expression (lhs (field_access (this) (identifier))) (identifier)))))))))
 
 ===
 throws
