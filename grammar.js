@@ -152,6 +152,19 @@ module.exports = grammar({
       $._expression,
       $.where
     ),
+
+    _expression: $ => choice(
+      $.type_constructor,
+      $._variable,
+      $.type_constructor,
+      $.tuple,
+      $._literal,
+      $.parenthesized_expression,
+      $.list,
+      $._variable,
+      $.binary
+    ),
+
     _lhs: $ => choice(
       $.as,
       $.wildcard,
@@ -242,34 +255,11 @@ module.exports = grammar({
 
     _terminal: $ => ';',
 
-    binary: $ => seq(
-      choice(
-        $._variable,
-        $.type_constructor,
-        $.as,
-        $.wildcard,
-        $.irrefutable,
-        $.tuple,
-        $._literal,
-        $.parenthesized_expression,
-        $.list,
-        $._variable,
-        $.binary
-      ),
+    binary: $ => prec.left(1, seq(
+      $._expression,
       $._op,
-      choice(
-        $._variable,
-        $.type_constructor,
-        $.as,
-        $.wildcard,
-        $.irrefutable,
-        $.tuple,
-        $._literal,
-        $.parenthesized,
-        $.list,
-        $._variable
-      )
-    ),
+      $._expression
+    )),
 
     foreign: $ => seq(
       'foreign',
@@ -303,7 +293,7 @@ module.exports = grammar({
       ')'
     ),
 
-    do_expression: $ => seq(
+    do: $ => seq(
       'do',
       $.statement_list
     ),
@@ -395,18 +385,7 @@ module.exports = grammar({
 
     list: $ => seq(
       '[',
-      sep1(',', choice(
-        $.type_constructor,
-        $.as,
-        $.wildcard,
-        $.irrefutable,
-        $.parenthesized,
-        $._literal,
-        $.binary,
-        $.tuple,
-        $.list,
-        $._variable
-      )),
+      sep1(',', choice($._expression)),
       ']'
     ),
 
