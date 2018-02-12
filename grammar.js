@@ -46,7 +46,8 @@ module.exports = grammar({
     [$._constructed_value, $.type_constructor],
     [$._expression, $._statement],
     [$._expression, $.list_constructor],
-    [$._statement, $._lhs]
+    [$._statement, $._lhs],
+    [$.function_head, $._expression]
   ],
 
   rules: {
@@ -173,7 +174,10 @@ module.exports = grammar({
       alias($._constructed_value, $.type_constructor)
     ),
 
-    function_head: $ => repeat1($._lhs),
+    function_head: $ => seq(
+      alias($._variable, $.function_identifier),
+      repeat($._lhs)
+    ),
 
     function_body: $ => repeat1(choice($._statement, $.function_application)),
 

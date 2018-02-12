@@ -21,13 +21,15 @@ f = a b c d
 
 (module
   (function_declaration
-    (function_head (variable))
+    (function_head
+      (function_identifier (variable)))
     (function_body
       (function_application
         (variable)
         (variable))))
   (function_declaration
-    (function_head (variable))
+    (function_head
+      (function_identifier (variable)))
     (function_body
       (function_application
         (function_application
@@ -35,7 +37,8 @@ f = a b c d
           (variable))
         (variable))))
   (function_declaration
-    (function_head (variable))
+    (function_head
+      (function_identifier (variable)))
     (function_body
       (function_application
         (function_application
@@ -57,19 +60,22 @@ f = Example a c d
 
 (module
   (function_declaration
-    (function_head (variable))
+    (function_head
+      (function_identifier (variable)))
     (function_body
       (function_application
         (type_constructor (identifier))
         (variable))))
   (function_declaration
-    (function_head (variable))
+    (function_head
+      (function_identifier (variable)))
     (function_body
       (function_application
         (type_constructor (identifier))
         (variable))))
   (function_declaration
-    (function_head (variable))
+    (function_head
+      (function_identifier (variable)))
     (function_body
       (function_application
         (function_application
