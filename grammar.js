@@ -146,6 +146,12 @@ module.exports = grammar({
       $.function_body
     ),
 
+    _statement: $ => choice(
+      $.do,
+      $.if_statement,
+      $._expression,
+      $.where
+    ),
     _lhs: $ => choice(
       $.as,
       $.wildcard,
@@ -305,19 +311,6 @@ module.exports = grammar({
     statement_list: $ => choice(
       seq('{', repeat($._statement), '}'),
       seq($._layout_open_brace, repeat($._statement), $._layout_close_brace)
-    ),
-
-    _statement: $ => choice(
-      $.if_statement,
-      $.do_expression,
-      $.type_constructor,
-      $._variable,
-      $.where,
-      $._literal,
-      $.tuple,
-      $.list,
-      $.binary,
-      $.parenthesized_expression
     ),
 
     if_statement: $ => seq(
