@@ -306,10 +306,10 @@ module.exports = grammar({
     if_statement: $ => seq(
       'if',
       alias($._statement, $.condition),
-      optional($._terminal),
+      optional(choice($._terminal, $._layout_semicolon)),
       'then',
       alias($._statement, $.then_clause),
-      optional($._terminal),
+      optional(choice($._terminal, $._layout_semicolon)),
       'else',
       alias($._statement, $.else_clause)
     ),
