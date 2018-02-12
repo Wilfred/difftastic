@@ -32,32 +32,29 @@ module.exports = grammar({
   ],
 
   inline: $ => [
-  $.formal_parameters,
-  $._numeric_type,
-  $._block_statement,
-  $._method_name
+    $.formal_parameters,
+    $._numeric_type,
+    $._block_statement,
+    $._method_name,
+    $._ambiguous_name,
+    $.class_or_interface_type,
   ],
 
   conflicts: $ => [
     [$.modifier],
-    [$.normal_annotation, $.single_element_annotation, $.ambiguous_name],
-    [$.marker_annotation, $.ambiguous_name],
     [$.class_literal, $.primitive_type, $.unann_primitive_type], // try to drop class_literal
     [$.class_literal, $.primitive_type], // bad idea
     [$.primitive_type, $.unann_primitive_type], // bad idea
     [$.local_variable_declaration], // bad idea
-    [$.class_or_interface_type, $.class_or_interface_type_to_instantiate],
     [$.resource_list],
-    [$.class_or_interface_type, $.ambiguous_name],
-    [$.class_or_interface_type, $.ambiguous_name, $.unann_class_or_interface_type],
+    [$.class_or_interface_type, $.scoped_identifier],
     [$.if_then_statement, $.if_then_else_statement],
-    [$.ambiguous_name, $._method_name],
-    [$.enum_declaration, $.block], // bad idea
-    [$.enum_constant, $.ambiguous_name, $._method_name], // bad idea,
-    [$.enum_constant, $.ambiguous_name], // bad idea
     [$._statement_without_trailing_substatement, $.enum_body_declarations], // bad idea
-    [$.enum_constant_list], // bad idea
-    [$.enum_constant, $.method_invocation]
+
+    [$.unann_class_or_interface_type, $._expression],
+    [$.unann_class_or_interface_type, $.class_literal, $.array_access],
+    [$.unann_class_or_interface_type, $.method_reference],
+    [$.unann_class_or_interface_type, $.scoped_identifier],
   ],
 
   rules: {
@@ -254,7 +251,7 @@ module.exports = grammar({
       $.lambda_expression,
       $.ternary_expression,
       $.unary_expression,
-      $.ambiguous_name,
+      $._ambiguous_name,
       $._literal,
       $.update_expression,
       $.method_invocation,
@@ -268,7 +265,7 @@ module.exports = grammar({
     ),
 
     lhs: $ => choice(
-      $.ambiguous_name,
+      $._ambiguous_name,
       $.field_access,
       $.array_access
     ),
@@ -367,7 +364,6 @@ module.exports = grammar({
 
     switch_label: $ => choice(
       seq('case', $._expression, ':'),
-      seq('case', $.identifier, ':'),
       seq('default', ':')
     ),
 
@@ -425,7 +421,7 @@ module.exports = grammar({
     ),
 
     variable_access: $ => choice(
-      $.ambiguous_name,
+      $._ambiguous_name,
       $.field_access
     ),
 
@@ -470,9 +466,9 @@ module.exports = grammar({
       $._statement
     ),
 
-    type_arguments: $ => seq(
-      '<', commaSep1($.type_argument), '>'
-    ),
+    type_arguments: $ => prec.dynamic(1, seq(
+      '<', commaSep($.type_argument), '>'
+    )),
 
     type_argument: $ => choice(
       $.reference_type,
@@ -491,13 +487,9 @@ module.exports = grammar({
       seq($.primitive_type, $.dims)
     )),
 
-    class_or_interface_type: $ => prec.right(15, sep1(
-        seq(repeat($._annotation), $.identifier, optional($.type_arguments)), '.'
-    )),
-
-    type_variable: $ => seq(
+    class_or_interface_type: $ => seq(
       repeat($._annotation),
-      $.identifier
+      $.unann_class_or_interface_type
     ),
 
     dims: $ => repeat1(
@@ -537,15 +529,15 @@ module.exports = grammar({
     ),
 
     normal_annotation: $ => seq(
-      '@', $.ambiguous_name, '(', optional($.element_value_pair_list), ')',
+      '@', $._ambiguous_name, '(', optional($.element_value_pair_list), ')',
     ),
 
-    marker_annotation: $ => seq('@', $.ambiguous_name),
+    marker_annotation: $ => seq('@', $._ambiguous_name),
 
     // TODO: Replace choice($.identifier, $._literal) with $._statement once it's
     // more fleshed out; The Java spec uses element_value which infinitely loops
     single_element_annotation: $ => seq(
-      '@', $.ambiguous_name, '(', choice($.identifier, $._literal), ')'
+      '@', $._ambiguous_name, '(', choice($.identifier, $._literal), ')'
     ),
 
     element_value_pair_list: $ => commaSep1($.element_value_pair),
@@ -574,15 +566,14 @@ module.exports = grammar({
       $.package_declaration,
       $.import_declaration,
       $.class_declaration,
-      $.interface_declaration,
-      $.method_declaration
+      $.interface_declaration
     )),
 
     module_declaration: $ => seq(
       repeat($._annotation),
       optional('open'),
       'module',
-      $.ambiguous_name,
+      $._ambiguous_name,
       '{',
       repeat($.module_directive),
       '}'
@@ -590,10 +581,10 @@ module.exports = grammar({
 
     module_directive: $ => seq(choice(
       seq('requires', repeat($.requires_modifier), $.module_name),
-      seq('exports', $.ambiguous_name, optional('to'), optional($.module_name), repeat(seq(',', $.module_name))),
-      seq('opens', $.ambiguous_name, optional('to'), optional($.module_name), repeat(seq(',', $.module_name))),
-      seq('uses', $.ambiguous_name),
-      seq('provides', $.ambiguous_name, 'with', $.ambiguous_name, repeat(seq(',', $.ambiguous_name)))
+      seq('exports', $._ambiguous_name, optional('to'), optional($.module_name), repeat(seq(',', $.module_name))),
+      seq('opens', $._ambiguous_name, optional('to'), optional($.module_name), repeat(seq(',', $.module_name))),
+      seq('uses', $._ambiguous_name),
+      seq('provides', $._ambiguous_name, 'with', $._ambiguous_name, repeat(seq(',', $._ambiguous_name)))
     ), $._semicolon),
 
     requires_modifier: $ => choice(
@@ -609,7 +600,7 @@ module.exports = grammar({
     package_declaration: $ => seq(
       repeat($._annotation),
       'package',
-      $.ambiguous_name,
+      $._ambiguous_name,
       $._semicolon
     ),
 
@@ -629,20 +620,17 @@ module.exports = grammar({
     ),
 
     enum_declaration: $ => seq(
+      'enum',
       '{',
-      optional($.enum_constant_list),
+      commaSep($.enum_constant),
       optional(','),
       optional($.enum_body_declarations),
-       '}'
+      '}'
     ),
 
     enum_body_declarations: $ => seq(
       $._semicolon,
       repeat($.class_body_declaration)
-    ),
-
-    enum_constant_list: $ => commaSep1(
-      $.enum_constant
     ),
 
     enum_constant: $ => (seq(
@@ -753,11 +741,20 @@ module.exports = grammar({
     explicit_constructor_invocation: $ => choice(
       seq(optional($.type_arguments), 'this', '(', optional($.argument_list), ')', $._semicolon),
       seq(optional($.type_arguments), 'super', '(', optional($.argument_list), ')', $._semicolon),
-      seq($.ambiguous_name, '.', optional($.type_arguments), 'super', '(', optional($.argument_list), ')', $._semicolon),
+      seq($._ambiguous_name, '.', optional($.type_arguments), 'super', '(', optional($.argument_list), ')', $._semicolon),
       seq($.primary, '.', 'super', '(', optional($.argument_list), ')', $._semicolon)
     ),
 
-    ambiguous_name: $ => prec.left(sep1($.identifier, '.')),
+    _ambiguous_name: $ => choice(
+      $.identifier,
+      $.scoped_identifier
+    ),
+
+    scoped_identifier: $ => seq(
+      choice($.identifier, $.scoped_identifier),
+      '.',
+      $.identifier
+    ),
 
     class_member_declaration: $ => choice(
       $.field_declaration,
@@ -794,7 +791,7 @@ module.exports = grammar({
       $._literal,
       $.class_literal,
       'this',
-      seq($.ambiguous_name, '.', 'this'),
+      seq($._ambiguous_name, '.', 'this'),
       seq('(', $._expression, ')'),
       $.class_instance_creation_expression,
       $.field_access,
@@ -804,55 +801,43 @@ module.exports = grammar({
     ),
 
     class_literal: $ => choice(
-      seq($.ambiguous_name, repeat('[', ']'), '.', 'class'),
-      seq($._numeric_type, repeat('[', ']'), '.', 'class'),
-      seq('boolean', repeat('[', ']'), '.', 'class'),
+      seq($._ambiguous_name, repeat(seq('[', ']')), '.', 'class'),
+      seq($._numeric_type, repeat(seq('[', ']')), '.', 'class'),
+      seq('boolean', repeat(seq('[', ']')), '.', 'class'),
       seq('void', '.', 'class')
     ),
 
     class_instance_creation_expression: $ => choice(
       $.unqualified_class_instance_creation_expression,
-      seq($.ambiguous_name, '.', $.unqualified_class_instance_creation_expression),
+      seq($._ambiguous_name, '.', $.unqualified_class_instance_creation_expression),
       seq($.primary, '.', $.unqualified_class_instance_creation_expression)
     ),
 
     unqualified_class_instance_creation_expression: $ => prec.right(seq(
       'new',
       optional($.type_arguments),
-      $.class_or_interface_type_to_instantiate,
+      $.class_or_interface_type,
       '(', optional($.argument_list), ')',
       optional($.class_body)
     )),
 
-    class_or_interface_type_to_instantiate: $ => prec.right(seq(
-      repeat($._annotation),
-      $.identifier,
-      repeat(seq('.', repeat($._annotation), $.identifier)),
-      optional($.type_arguments_or_diamond)
-    )),
-
-    type_arguments_or_diamond: $ => choice(
-      $.type_arguments,
-      '<>'
-    ),
-
     field_access: $ => choice(
       seq($.primary, '.', $.identifier),
       seq('super', '.', $.identifier),
-      seq($.ambiguous_name, '.', 'super', '.', $.identifier)
+      seq($._ambiguous_name, '.', 'super', '.', $.identifier)
     ),
 
     array_access: $ => choice(
-      seq($.ambiguous_name, '[', $._expression, ']'),
+      seq($._ambiguous_name, '[', $._expression, ']'),
       seq($.primary_no_new_array, '[', $._expression, ']')
     ),
 
     method_invocation: $ => choice(
       seq($._method_name, '(', optional($.argument_list), ')'),
-      seq($.ambiguous_name, '.', optional($.type_arguments), $.identifier, '(', optional($.argument_list), ')'),
-      seq($.ambiguous_name, '.', optional($.type_arguments), $.identifier, '(', optional($.argument_list), ')'),
+      seq($._ambiguous_name, '.', optional($.type_arguments), $.identifier, '(', optional($.argument_list), ')'),
+      seq($._ambiguous_name, '.', optional($.type_arguments), $.identifier, '(', optional($.argument_list), ')'),
       seq($.primary, '.', optional($.type_arguments), $.identifier, '(', optional($.argument_list), ')'),
-      seq($.ambiguous_name, '.', 'super', '.', optional($.type_arguments), $.identifier, '(', optional($.argument_list), ')')
+      seq($._ambiguous_name, '.', 'super', '.', optional($.type_arguments), $.identifier, '(', optional($.argument_list), ')')
     ),
 
     argument_list: $ => seq(
@@ -860,18 +845,17 @@ module.exports = grammar({
     ),
 
     method_reference: $ => choice(
-      seq($.ambiguous_name, '::', optional($.type_arguments), $.identifier),
+      seq($._ambiguous_name, '::', optional($.type_arguments), $.identifier),
       seq($.primary, '::', optional($.type_arguments), $.identifier),
       seq('super', '::', optional($.type_arguments), $.identifier),
-      seq($.ambiguous_name, '.', 'super', '::', optional($.type_arguments), $.identifier),
+      seq($._ambiguous_name, '.', 'super', '::', optional($.type_arguments), $.identifier),
       seq($.class_or_interface_type, '::', optional($.type_arguments), 'new'),
       seq($.array_type, '::', 'new')
     ),
 
     array_type: $ => choice(
       seq($.primitive_type, $.dims),
-      seq($.class_or_interface_type, $.dims),
-      seq($.type_variable, $.dims)
+      seq($.class_or_interface_type, $.dims)
     ),
 
     interface_declaration: $ => choice(
@@ -991,10 +975,16 @@ module.exports = grammar({
       'boolean'
     )),
 
-    unann_class_or_interface_type: $ => prec(9, choice(
-      seq($.identifier, optional($.type_arguments)),
-      seq($.unann_class_or_interface_type, '.', repeat($._annotation), $.identifier, optional($.type_arguments))
-    )),
+    unann_class_or_interface_type: $ => seq(
+      $.identifier,
+      optional($.type_arguments),
+      repeat(seq(
+        '.',
+        repeat($._annotation),
+        $.identifier,
+        optional($.type_arguments)
+      ))
+    ),
 
     unann_array_type: $ => choice(
       seq($.unann_primitive_type, $.dims),
@@ -1052,10 +1042,7 @@ module.exports = grammar({
 
     exception_type_list: $ => commaSep1($.exception_type),
 
-    exception_type: $ => choice(
-      $.class_or_interface_type,
-      $.type_variable
-    ),
+    exception_type: $ => $.class_or_interface_type,
 
     method_body: $ => choice(
       $.block,

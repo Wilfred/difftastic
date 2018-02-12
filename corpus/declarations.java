@@ -8,8 +8,8 @@ open module com.foo { }
 ---
 
 (program
-  (module_declaration (ambiguous_name (identifier) (identifier)))
-  (module_declaration (ambiguous_name (identifier) (identifier))))
+  (module_declaration (scoped_identifier (identifier) (identifier)))
+  (module_declaration (scoped_identifier (identifier) (identifier))))
 
 ===
 module with normal annotation
@@ -28,14 +28,13 @@ module com.foo { }
 (program
   (module_declaration
     (normal_annotation
-      (ambiguous_name
-        (identifier))
+      (identifier)
       (element_value_pair_list
         (element_value_pair (identifier) (element_value (integer_literal (decimal_integer_literal))))
         (element_value_pair (identifier) (element_value (string_literal)))
         (element_value_pair (identifier) (element_value (string_literal)))
         (element_value_pair (identifier) (element_value (string_literal)))))
-    (ambiguous_name (identifier) (identifier))))
+    (scoped_identifier (identifier) (identifier))))
 
 ===
 module with marker annotation
@@ -47,8 +46,8 @@ module with marker annotation
 ---
 
 (program
-  (module_declaration (marker_annotation (ambiguous_name (identifier))) (ambiguous_name (identifier) (identifier)))
-  (module_declaration (marker_annotation (ambiguous_name (identifier))) (ambiguous_name (identifier) (identifier))))
+  (module_declaration (marker_annotation (identifier)) (scoped_identifier (identifier) (identifier)))
+  (module_declaration (marker_annotation (identifier)) (scoped_identifier (identifier) (identifier))))
 
 ===
 module with single element annotation
@@ -61,9 +60,9 @@ module with single element annotation
 (program
   (module_declaration
     (single_element_annotation
-      (ambiguous_name (identifier))
+      (identifier)
       (string_literal))
-    (ambiguous_name (identifier) (identifier))))
+    (scoped_identifier (identifier) (identifier))))
 
 ===
 package_declaration
@@ -73,7 +72,7 @@ package myVector;
 
 ---
 
- (program (package_declaration (ambiguous_name (identifier))))
+ (program (package_declaration (identifier)))
 
 ===
 module directive
@@ -87,7 +86,7 @@ module com.example.foo {
 
 (program
   (module_declaration
-  (ambiguous_name (identifier) (identifier) (identifier))
+  (scoped_identifier (scoped_identifier (identifier) (identifier)) (identifier))
   (module_directive
     (module_name
       (module_name
@@ -117,15 +116,31 @@ module com.example.foo {
 ---
 
 (program
-  (module_declaration (ambiguous_name (identifier) (identifier) (identifier))
-  (module_directive (module_name (module_name (module_name (module_name (identifier)) (identifier)) (identifier)) (identifier)))
-  (module_directive (module_name (module_name (identifier)) (identifier)))
-  (module_directive (requires_modifier) (module_name (module_name (module_name (module_name (identifier)) (identifier)) (identifier)) (identifier)))
-  (module_directive (ambiguous_name (identifier) (identifier) (identifier) (identifier)))
-  (module_directive (ambiguous_name (identifier) (identifier) (identifier) (identifier)) (module_name (module_name (module_name (module_name (identifier)) (identifier)) (identifier)) (identifier)))
-  (module_directive (ambiguous_name (identifier) (identifier) (identifier) (identifier)))
-  (module_directive (ambiguous_name (identifier) (identifier) (identifier) (identifier)) (module_name (module_name (module_name (module_name (identifier)) (identifier)) (identifier)) (identifier)) (module_name (module_name (module_name (module_name (identifier)) (identifier)) (identifier)) (identifier)))
-  (module_directive (ambiguous_name (identifier) (identifier) (identifier) (identifier) (identifier))) (module_directive (ambiguous_name (identifier) (identifier) (identifier) (identifier) (identifier)) (ambiguous_name (identifier) (identifier) (identifier) (identifier)))))
+  (module_declaration
+    (scoped_identifier (scoped_identifier (identifier) (identifier)) (identifier))
+    (module_directive
+      (module_name (module_name (module_name (module_name (identifier)) (identifier)) (identifier)) (identifier)))
+    (module_directive
+      (module_name (module_name (identifier)) (identifier)))
+    (module_directive
+      (requires_modifier)
+      (module_name (module_name (module_name (module_name (identifier)) (identifier)) (identifier)) (identifier)))
+    (module_directive
+      (scoped_identifier (scoped_identifier (scoped_identifier (identifier) (identifier)) (identifier)) (identifier)))
+    (module_directive
+      (scoped_identifier (scoped_identifier (scoped_identifier (identifier) (identifier)) (identifier)) (identifier))
+      (module_name (module_name (module_name (module_name (identifier)) (identifier)) (identifier)) (identifier)))
+    (module_directive
+      (scoped_identifier (scoped_identifier (scoped_identifier (identifier) (identifier)) (identifier)) (identifier)))
+    (module_directive
+      (scoped_identifier (scoped_identifier (scoped_identifier (identifier) (identifier)) (identifier)) (identifier))
+      (module_name (module_name (module_name (module_name (identifier)) (identifier)) (identifier)) (identifier))
+      (module_name (module_name (module_name (module_name (identifier)) (identifier)) (identifier)) (identifier)))
+    (module_directive
+      (scoped_identifier (scoped_identifier (scoped_identifier (scoped_identifier (identifier) (identifier)) (identifier)) (identifier)) (identifier)))
+    (module_directive
+      (scoped_identifier (scoped_identifier (scoped_identifier (scoped_identifier (identifier) (identifier)) (identifier)) (identifier)) (identifier))
+      (scoped_identifier (scoped_identifier (scoped_identifier (identifier) (identifier)) (identifier)) (identifier)))))
 
 ===
 single type import declaration
@@ -204,7 +219,7 @@ abstract class ColoredPoint extends Point {
       (modifier) (identifier) (class_body)))
     (class_declaration
       (normal_class_declaration
-        (modifier) (identifier) (superclass (class_or_interface_type (identifier))) (class_body))))
+        (modifier) (identifier) (superclass (unann_class_or_interface_type (identifier))) (class_body))))
 
 ===
 class declaration with implements
@@ -218,7 +233,7 @@ public class Dog implements ISpeak {
 (program
   (class_declaration
     (normal_class_declaration
-     (modifier) (identifier) (super_interfaces (interface_type_list (class_or_interface_type (identifier)))) (class_body))))
+     (modifier) (identifier) (super_interfaces (interface_type_list (unann_class_or_interface_type (identifier)))) (class_body))))
 
 ===
 class declaration with body
@@ -246,7 +261,7 @@ class Point {
           (class_member_declaration
             (method_declaration
               (method_header (unann_type (unann_primitive_type)) (method_declarator (identifier)))
-                (method_body (block (assignment_expression (lhs (ambiguous_name (identifier)))
+                (method_body (block (assignment_expression (lhs (identifier))
                   (integer_literal (decimal_integer_literal))))))))))))
 
 ===
@@ -276,10 +291,10 @@ interface Bottom extends Left, Right {}
 (program
   (interface_declaration
     (normal_interface_declaration (identifier)
-      (extends_interfaces (interface_type_list (class_or_interface_type (identifier)))) (interface_body)))
+      (extends_interfaces (interface_type_list (unann_class_or_interface_type (identifier)))) (interface_body)))
   (interface_declaration
     (normal_interface_declaration (identifier)
-      (extends_interfaces (interface_type_list (class_or_interface_type (identifier)) (class_or_interface_type (identifier)))) (interface_body))))
+      (extends_interfaces (interface_type_list (unann_class_or_interface_type (identifier)) (unann_class_or_interface_type (identifier)))) (interface_body))))
 
 ===
 interface with annotation type declaration
@@ -296,24 +311,30 @@ interface with annotation type declaration
 method declaration
 ===
 
-void calculateAnswer(double wingSpan, int numberOfEngines,
-                              double length, double grossTons) {
-    //do the calculation here
+class Beyonce {
+  void calculateAnswer(double wingSpan, int numberOfEngines,
+                                double length, double grossTons) {
+      //do the calculation here
+  }
 }
 
 ---
 
 (program
-  (method_declaration
-    (method_header
-      (unann_type (unann_primitive_type))
-      (method_declarator
-        (identifier)
-        (formal_parameter (unann_type (unann_primitive_type (floating_point_type))) (variable_declarator_id (identifier)))
-        (formal_parameter (unann_type (unann_primitive_type (integral_type))) (variable_declarator_id (identifier)))
-        (formal_parameter (unann_type (unann_primitive_type (floating_point_type))) (variable_declarator_id (identifier)))
-        (last_formal_parameter (formal_parameter (unann_type (unann_primitive_type (floating_point_type))) (variable_declarator_id (identifier))))))
-      (method_body (block (comment)))))
+  (class_declaration (normal_class_declaration
+    (identifier)
+    (class_body
+    (class_body_declaration (class_member_declaration
+      (method_declaration
+        (method_header
+          (unann_type (unann_primitive_type))
+          (method_declarator
+            (identifier)
+            (formal_parameter (unann_type (unann_primitive_type (floating_point_type))) (variable_declarator_id (identifier)))
+            (formal_parameter (unann_type (unann_primitive_type (integral_type))) (variable_declarator_id (identifier)))
+            (formal_parameter (unann_type (unann_primitive_type (floating_point_type))) (variable_declarator_id (identifier)))
+            (last_formal_parameter (formal_parameter (unann_type (unann_primitive_type (floating_point_type))) (variable_declarator_id (identifier))))))
+          (method_body (block (comment))))))))))
 
 ===
 constructor declaration
@@ -344,8 +365,8 @@ class Point {
                       (formal_parameter
                         (unann_type (unann_primitive_type (integral_type))) (variable_declarator_id (identifier)))))
                           (constructor_body
-                            (assignment_expression (lhs (field_access (primary (primary_no_new_array)) (identifier))) (ambiguous_name (identifier)))
-                            (assignment_expression (lhs (field_access (primary (primary_no_new_array)) (identifier))) (ambiguous_name (identifier))))))))))
+                            (assignment_expression (lhs (field_access (primary (primary_no_new_array)) (identifier))) (identifier))
+                            (assignment_expression (lhs (field_access (primary (primary_no_new_array)) (identifier))) (identifier)))))))))
 
 ===
 throws
@@ -359,7 +380,7 @@ class Beyonce {
 
 ---
 
-(program (class_declaration (normal_class_declaration (identifier) (class_body (class_body_declaration (class_member_declaration (method_declaration (method_header (unann_type (unann_class_or_interface_type (identifier))) (method_declarator (identifier)) (throws (exception_type_list (exception_type (class_or_interface_type (identifier)))))) (method_body (block (class_instance_creation_expression (unqualified_class_instance_creation_expression (class_or_interface_type_to_instantiate (identifier)) (argument_list (class_instance_creation_expression (unqualified_class_instance_creation_expression (class_or_interface_type_to_instantiate (identifier)) (argument_list (class_instance_creation_expression (unqualified_class_instance_creation_expression (class_or_interface_type_to_instantiate (identifier)) (argument_list (ambiguous_name (identifier))))) (ambiguous_name (identifier)))))))))))))))))
+(program (class_declaration (normal_class_declaration (identifier) (class_body (class_body_declaration (class_member_declaration (method_declaration (method_header (unann_type (unann_class_or_interface_type (identifier))) (method_declarator (identifier)) (throws (exception_type_list (exception_type (unann_class_or_interface_type (identifier)))))) (method_body (block (class_instance_creation_expression (unqualified_class_instance_creation_expression (unann_class_or_interface_type (identifier)) (argument_list (class_instance_creation_expression (unqualified_class_instance_creation_expression (unann_class_or_interface_type (identifier)) (argument_list (class_instance_creation_expression (unqualified_class_instance_creation_expression (unann_class_or_interface_type (identifier)) (argument_list (identifier)))) (identifier))))))))))))))))
 
 ===
 object instantiation
@@ -378,4 +399,4 @@ class Point {
   (class_declaration
     (normal_class_declaration (identifier)
       (class_body (class_body_declaration (class_member_declaration
-        (method_declaration (modifier) (method_header (unann_type (unann_primitive_type (floating_point_type))) (method_declarator (identifier))) (method_body (block (class_instance_creation_expression (unqualified_class_instance_creation_expression (class_or_interface_type_to_instantiate (identifier)))))))))))))
+        (method_declaration (modifier) (method_header (unann_type (unann_primitive_type (floating_point_type))) (method_declarator (identifier))) (method_body (block (class_instance_creation_expression (unqualified_class_instance_creation_expression (unann_class_or_interface_type (identifier)))))))))))))
