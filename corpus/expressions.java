@@ -148,10 +148,22 @@ if (x = 3) {
 ===
 assignment
 ===
-x = 1;
+
+class Beyonce {
+  public void cheese() {
+    x = 1;
+  }
+}
+
 
 ---
 
 (program
-  (assignment_expression
-    (lhs (ambiguous_name (identifier))) (integer_literal (decimal_integer_literal))))
+  (class_declaration (normal_class_declaration
+    (identifier)
+    (class_body
+      (class_body_declaration (class_member_declaration
+        (method_declaration
+          (modifier)
+          (method_header (unann_type (unann_primitive_type)) (method_declarator (identifier)))
+          (method_body (block (assignment_expression (lhs (ambiguous_name (identifier))) (integer_literal (decimal_integer_literal))))))))))))

@@ -1554,7 +1554,7 @@
           },
           {
             "type": "SYMBOL",
-            "name": "_statement"
+            "name": "_expression"
           }
         ]
       }
@@ -3666,7 +3666,7 @@
           },
           {
             "type": "SYMBOL",
-            "name": "import_statement"
+            "name": "import_declaration"
           },
           {
             "type": "SYMBOL",
@@ -3983,28 +3983,7 @@
         }
       ]
     },
-    "import_statement": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "single_type_import_declaration"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "type_import_on_declaraction"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "single_static_import_declaration"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "static_import_on_demand_declaration"
-        }
-      ]
-    },
-    "single_type_import_declaration": {
+    "import_declaration": {
       "type": "SEQ",
       "members": [
         {
@@ -4012,8 +3991,62 @@
           "value": "import"
         },
         {
-          "type": "SYMBOL",
-          "name": "ambiguous_name"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "static"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "identifier"
+            },
+            {
+              "type": "REPEAT",
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "STRING",
+                    "value": "."
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "identifier"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "."
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "asterisk"
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         },
         {
           "type": "SYMBOL",
@@ -4021,88 +4054,9 @@
         }
       ]
     },
-    "type_import_on_declaraction": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "import"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "ambiguous_name"
-        },
-        {
-          "type": "STRING",
-          "value": "."
-        },
-        {
-          "type": "STRING",
-          "value": "*"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_semicolon"
-        }
-      ]
-    },
-    "single_static_import_declaration": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "import"
-        },
-        {
-          "type": "STRING",
-          "value": "static"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "ambiguous_name"
-        },
-        {
-          "type": "STRING",
-          "value": "."
-        },
-        {
-          "type": "SYMBOL",
-          "name": "identifier"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_semicolon"
-        }
-      ]
-    },
-    "static_import_on_demand_declaration": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "import"
-        },
-        {
-          "type": "STRING",
-          "value": "static"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "ambiguous_name"
-        },
-        {
-          "type": "STRING",
-          "value": "."
-        },
-        {
-          "type": "STRING",
-          "value": "*"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_semicolon"
-        }
-      ]
+    "asterisk": {
+      "type": "STRING",
+      "value": "*"
     },
     "class_declaration": {
       "type": "CHOICE",
@@ -4868,7 +4822,7 @@
       ]
     },
     "ambiguous_name": {
-      "type": "PREC_RIGHT",
+      "type": "PREC_LEFT",
       "value": 0,
       "content": {
         "type": "SEQ",

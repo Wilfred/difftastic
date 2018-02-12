@@ -135,7 +135,7 @@ import java.util.Vector;
 
 ---
 
-(program (import_statement (single_type_import_declaration (ambiguous_name (identifier) (identifier) (identifier)))))
+(program (import_declaration (identifier) (identifier) (identifier)))
 
 ===
 type_import_on_declaraction
@@ -145,9 +145,7 @@ import java.util.*;
 
 ---
 
-(program
-  (import_statement
-    (type_import_on_declaraction (ambiguous_name (ambiguous_name (identifier)) (identifier)))))
+(program (import_declaration (identifier) (identifier) (asterisk)))
 
 ===
 single static import declaration
@@ -157,8 +155,7 @@ import static java.util.Vector;
 
 ---
 
-(program
-  (import_statement (single_static_import_declaration (ambiguous_name (ambiguous_name (identifier)) (identifier)) (identifier))))
+(program (import_declaration (identifier) (identifier) (identifier)))
 
 ===
 static import on demand declaration
@@ -168,8 +165,7 @@ import static java.util.*;
 
 ---
 
-(program
-  (import_statement (static_import_on_demand_declaration (ambiguous_name (ambiguous_name (identifier)) (identifier)))))
+(program (import_declaration (identifier) (identifier) (asterisk)))
 
 ===
 class declaration
@@ -352,9 +348,34 @@ class Point {
                             (assignment_expression (lhs (field_access (primary (primary_no_new_array)) (identifier))) (ambiguous_name (identifier))))))))))
 
 ===
-method_instantiation
+throws
 ===
 
-new Hello;
+class Beyonce {
+  BufferedReader newReader() throws FileNotFoundException {
+      new BufferedReader(new InputStreamReader(new FileInputStream(file), charset));
+    }
+}
 
 ---
+
+(program (class_declaration (normal_class_declaration (identifier) (class_body (class_body_declaration (class_member_declaration (method_declaration (method_header (unann_type (unann_class_or_interface_type (identifier))) (method_declarator (identifier)) (throws (exception_type_list (exception_type (class_or_interface_type (identifier)))))) (method_body (block (class_instance_creation_expression (unqualified_class_instance_creation_expression (class_or_interface_type_to_instantiate (identifier)) (argument_list (class_instance_creation_expression (unqualified_class_instance_creation_expression (class_or_interface_type_to_instantiate (identifier)) (argument_list (class_instance_creation_expression (unqualified_class_instance_creation_expression (class_or_interface_type_to_instantiate (identifier)) (argument_list (ambiguous_name (identifier))))) (ambiguous_name (identifier)))))))))))))))))
+
+===
+object instantiation
+===
+
+class Point {
+
+  public double Foo() {
+    new BufferedWriter();
+  }
+}
+
+---
+
+(program
+  (class_declaration
+    (normal_class_declaration (identifier)
+      (class_body (class_body_declaration (class_member_declaration
+        (method_declaration (modifier) (method_header (unann_type (unann_primitive_type (floating_point_type))) (method_declarator (identifier))) (method_body (block (class_instance_creation_expression (unqualified_class_instance_creation_expression (class_or_interface_type_to_instantiate (identifier)))))))))))))

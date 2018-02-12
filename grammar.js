@@ -264,7 +264,7 @@ module.exports = grammar({
     assignment_expression: $ => prec.right(PREC.ASSIGN, seq(
       $.lhs,
       choice('=', '+=', '-=', '*=', '/=', '&=', '|=', '^=', '%=', '<<=', '>>=', '>>>='),
-      $._statement)
+      $._expression)
     ),
 
     lhs: $ => choice(
@@ -572,7 +572,7 @@ module.exports = grammar({
     _declaration: $ => prec(1, choice(
       $.module_declaration,
       $.package_declaration,
-      $.import_statement,
+      $.import_declaration,
       $.class_declaration,
       $.interface_declaration,
       $.method_declaration
@@ -613,42 +613,15 @@ module.exports = grammar({
       $._semicolon
     ),
 
-    import_statement: $ => choice(
-      $.single_type_import_declaration,
-      $.type_import_on_declaraction,
-      $.single_static_import_declaration,
-      $.static_import_on_demand_declaration
-    ),
-
-    single_type_import_declaration: $ => seq(
-      'import', $.ambiguous_name, $._semicolon
-    ),
-
-    type_import_on_declaraction: $ => seq(
+    import_declaration: $ => seq(
       'import',
-      $.ambiguous_name,
-      '.',
-      '*',
+      optional('static'),
+      sep1($.identifier, '.'),
+      optional(seq('.', $.asterisk)),
       $._semicolon
     ),
 
-    single_static_import_declaration: $ => seq(
-      'import',
-      'static',
-      $.ambiguous_name,
-      '.',
-      $.identifier,
-      $._semicolon
-    ),
-
-    static_import_on_demand_declaration: $ => seq(
-      'import',
-      'static',
-      $.ambiguous_name,
-      '.',
-      '*',
-      $._semicolon
-    ),
+    asterisk: $ => '*',
 
     class_declaration: $ => choice(
       $.normal_class_declaration,
@@ -784,7 +757,7 @@ module.exports = grammar({
       seq($.primary, '.', 'super', '(', optional($.argument_list), ')', $._semicolon)
     ),
 
-    ambiguous_name: $ => prec.right(sep1($.identifier, '.')),
+    ambiguous_name: $ => prec.left(sep1($.identifier, '.')),
 
     class_member_declaration: $ => choice(
       $.field_declaration,
