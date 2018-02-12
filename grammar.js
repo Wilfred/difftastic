@@ -146,20 +146,16 @@ module.exports = grammar({
       $.function_body
     ),
 
-    function_head: $ => repeat1(
-      choice(
-        $._variable,
-        $.type_constructor,
-        $.as,
-        $.wildcard,
-        $.irrefutable,
-        $._literal,
-        $.parenthesized,
-        $.tuple,
-        $.list,
-        alias($._applied_type_constructor, $.type_constructor)
-      )
+    _lhs: $ => choice(
+      $.as,
+      $.wildcard,
+      $.irrefutable,
+      $.parenthesized,
+      $._expression,
+      alias($._constructed_value, $.type_constructor)
     ),
+
+    function_head: $ => repeat1($._lhs),
 
     function_body: $ => repeat1(choice($._statement, $.function_application)),
 
@@ -176,31 +172,12 @@ module.exports = grammar({
 
     irrefutable: $ => seq(
       '~',
-      choice(
-        $._variable,
-        $.type_constructor,
-        $.as,
-        $.wildcard,
-        $.irrefutable,
-        $.tuple,
-        $.parenthesized,
-        $._literal
-      )
+      $._lhs
     ),
 
     parenthesized: $ => seq(
       '(',
-      choice(
-        $.type_constructor,
-        $.as,
-        $.wildcard,
-        $.irrefutable,
-        $.tuple,
-        $.parenthesized,
-        $._literal,
-        $.binary,
-        alias($._applied_type_constructor, $.type_constructor)
-      ),
+      $._lhs,
       ')'
     ),
 
@@ -414,33 +391,9 @@ module.exports = grammar({
 
     tuple: $ => seq(
       '(',
-      choice(
-        $.type_constructor,
-        $.as,
-        $.wildcard,
-        $.irrefutable,
-        $.parenthesized,
-        $._literal,
-        $.binary,
-        $.tuple,
-        $.list,
-        $._variable,
-        alias($._applied_type_constructor, $.type_constructor)
-      ),
+      $._lhs,
       ',',
-      sep1(',',
-        choice(
-          $.type_constructor,
-          $.as,
-          $.wildcard,
-          $.irrefutable,
-          $.parenthesized,
-          $._literal,
-          $.binary,
-          $.list,
-          $._variable,
-          alias($._applied_type_constructor, $.type_constructor)
-        )),
+      sep1(',', $._lhs),
       ')'
     ),
 
