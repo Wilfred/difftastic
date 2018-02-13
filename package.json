@@ -25,7 +25,8 @@
     },
     "build-test": {
       "patterns": [
-        "./", "src"
+        "./",
+        "src"
       ],
       "extensions": "js,cc",
       "quiet": true
