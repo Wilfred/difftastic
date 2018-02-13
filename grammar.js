@@ -47,7 +47,8 @@ module.exports = grammar({
     [$._expression, $._statement],
     [$._expression, $.list_constructor],
     [$._statement, $._lhs],
-    [$.function_head, $._expression]
+    [$.function_head, $._expression],
+    [$._variable, $._op]
   ],
 
   rules: {
@@ -162,7 +163,45 @@ module.exports = grammar({
       $.parenthesized_expression,
       $.list,
       $._variable,
-      $.binary
+      $.binary,
+      $.arithmetic_sequence
+    ),
+
+    arithmetic_sequence: $ => seq(
+      '[',
+      choice(
+        $.enum_from,
+        $.enum_from_then,
+        $.enum_from_to,
+        $.enum_from_then_to
+      ),
+      ']'
+    ),
+
+    enum_from: $ => seq(
+      $._expression,
+      '..'
+    ),
+
+    enum_from_then: $ => seq(
+      $._expression,
+      ',',
+      $._expression,
+      '..'
+    ),
+
+    enum_from_to: $ => seq(
+      $._expression,
+      '..',
+      $._expression
+    ),
+
+    enum_from_then_to: $ => seq(
+      $._expression,
+      ',',
+      $._expression,
+      '..',
+      $._expression
     ),
 
     _lhs: $ => choice(
