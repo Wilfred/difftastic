@@ -55,6 +55,7 @@ Function Application With Constructors
 f = Just b
 f = Right b
 f = Example a c d
+f = ()
 
 ---
 
@@ -83,4 +84,9 @@ f = Example a c d
             (type_constructor (identifier))
             (variable))
           (variable))
-        (variable)))))
+        (variable))))
+  (function_declaration
+    (function_head
+      (function_identifier (variable)))
+    (function_body
+      (type_constructor (unit_constructor)))))
