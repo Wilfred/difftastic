@@ -18,7 +18,7 @@ const
   ),
 
   floatLiteral = choice(
-    seq(decimals, '.', optional(decimals), optional(exponent)),
+    seq(decimals, '.', decimals, optional(exponent)),
     seq(decimals, exponent)
   )
 
