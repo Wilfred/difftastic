@@ -28,14 +28,15 @@ Extern crate declarations
 ============================================
 
 extern crate std;
-
 extern crate std as ruststd;
+pub extern crate futures;
 
 ---
 
 (source_file
   (extern_crate_declaration (identifier))
-  (extern_crate_declaration (identifier) (identifier)))
+  (extern_crate_declaration (identifier) (identifier))
+  (extern_crate_declaration (visibility_modifier) (identifier)))
 
 ============================================
 Function declarations
@@ -331,13 +332,13 @@ Type aliases
 ============================================
 
 type Inch = u64;
-type Name = String;
+type Name<T> = Vec<T>;
 
 ---
 
 (source_file
   (type_item (type_identifier) (primitive_type))
-  (type_item (type_identifier) (type_identifier)))
+  (type_item (type_identifier) (type_parameters (type_identifier)) (generic_type (type_identifier) (type_arguments (type_identifier)))))
 
 ============================================
 Empty statements
