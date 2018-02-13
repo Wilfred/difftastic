@@ -122,7 +122,7 @@ module.exports = grammar({
       seq('(', repeat($._matcher), ')'),
       seq('[', repeat($._matcher), ']'),
       seq('{', repeat($._matcher), '}'),
-      seq($.metavariable, ':', $.fragment_specifier),
+      prec(1, seq($.metavariable, ':', $.fragment_specifier)),
       seq('$', '(', repeat($._matcher), ')', optional(/[^+*]+/), choice('+', '*')),
       $._non_special_token
     ),
@@ -150,16 +150,33 @@ module.exports = grammar({
       $.metavariable,
       $._literal,
       '=>',
+      '=',
       'if',
       'for',
       'while',
       'let',
       'fn',
+      'static',
+      $.mutable_specifier,
+      $.unsafe,
+      'pub',
+      '&',
       '*',
+      '/',
+      '%',
       '+',
+      '-',
+      '<',
+      '>',
+      '>>',
+      '<<',
+      '~',
       '!',
       ',',
-      ';'
+      '.',
+      ':',
+      ';',
+      '#'
     ),
 
     // Section - Declarations
@@ -287,6 +304,7 @@ module.exports = grammar({
     ),
 
     extern_crate_declaration: $ => seq(
+      optional($.visibility_modifier),
       'extern',
       'crate',
       choice(
@@ -322,6 +340,7 @@ module.exports = grammar({
       optional($.visibility_modifier),
       'type',
       $._type_identifier,
+      optional($.type_parameters),
       '=',
       $._type,
       ';'
@@ -803,6 +822,7 @@ module.exports = grammar({
     arguments: $ => seq(
       '(',
       sepBy(',', $._expression),
+      optional(','),
       ')'
     ),
 

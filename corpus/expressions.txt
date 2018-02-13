@@ -161,11 +161,16 @@ Call expressions
 
 foo();
 add(1i32, 2i32);
+add(
+    1i32,
+    2i32,
+);
 
 ---
 
 (source_file
   (call_expression (identifier) (arguments))
+  (call_expression (identifier) (arguments (number_literal) (number_literal)))
   (call_expression (identifier) (arguments (number_literal) (number_literal))))
 
 ============================================
