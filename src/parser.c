@@ -5,8 +5,8 @@
 #pragma GCC diagnostic ignored "-Wmissing-field-initializers"
 #endif
 
-#define LANGUAGE_VERSION 4
-#define STATE_COUNT 28
+#define LANGUAGE_VERSION 5
+#define STATE_COUNT 26
 #define SYMBOL_COUNT 19
 #define ALIAS_COUNT 0
 #define TOKEN_COUNT 12
@@ -451,13 +451,11 @@ static TSLexMode ts_lex_modes[STATE_COUNT] = {
   [18] = {.lex_state = 40},
   [19] = {.lex_state = 40},
   [20] = {.lex_state = 40},
-  [21] = {.lex_state = 39},
+  [21] = {.lex_state = 40},
   [22] = {.lex_state = 40},
   [23] = {.lex_state = 40},
-  [24] = {.lex_state = 39},
+  [24] = {.lex_state = 40},
   [25] = {.lex_state = 40},
-  [26] = {.lex_state = 40},
-  [27] = {.lex_state = 40},
 };
 
 static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
@@ -568,8 +566,9 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_RBRACK] = ACTIONS(41),
   },
   [15] = {
-    [anon_sym_COMMA] = ACTIONS(43),
-    [anon_sym_RBRACE] = ACTIONS(45),
+    [aux_sym_object_repeat1] = STATE(22),
+    [anon_sym_COMMA] = ACTIONS(31),
+    [anon_sym_RBRACE] = ACTIONS(43),
   },
   [16] = {
     [sym__value] = STATE(23),
@@ -584,63 +583,49 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [sym_null] = ACTIONS(9),
   },
   [17] = {
-    [ts_builtin_sym_end] = ACTIONS(47),
-    [anon_sym_COMMA] = ACTIONS(47),
-    [anon_sym_RBRACE] = ACTIONS(47),
-    [anon_sym_RBRACK] = ACTIONS(47),
+    [ts_builtin_sym_end] = ACTIONS(45),
+    [anon_sym_COMMA] = ACTIONS(45),
+    [anon_sym_RBRACE] = ACTIONS(45),
+    [anon_sym_RBRACK] = ACTIONS(45),
   },
   [18] = {
-    [anon_sym_COMMA] = ACTIONS(49),
-    [anon_sym_RBRACK] = ACTIONS(51),
+    [aux_sym_array_repeat1] = STATE(25),
+    [anon_sym_COMMA] = ACTIONS(37),
+    [anon_sym_RBRACK] = ACTIONS(47),
   },
   [19] = {
-    [anon_sym_COMMA] = ACTIONS(53),
-    [anon_sym_RBRACE] = ACTIONS(53),
+    [anon_sym_COMMA] = ACTIONS(49),
+    [anon_sym_RBRACE] = ACTIONS(49),
   },
   [20] = {
-    [anon_sym_COMMA] = ACTIONS(55),
-    [anon_sym_RBRACE] = ACTIONS(55),
+    [anon_sym_COMMA] = ACTIONS(51),
+    [anon_sym_RBRACE] = ACTIONS(51),
   },
   [21] = {
-    [sym_pair] = STATE(26),
-    [sym_string] = ACTIONS(15),
-    [sym_number] = ACTIONS(17),
+    [ts_builtin_sym_end] = ACTIONS(53),
+    [anon_sym_COMMA] = ACTIONS(53),
+    [anon_sym_RBRACE] = ACTIONS(53),
+    [anon_sym_RBRACK] = ACTIONS(53),
   },
   [22] = {
-    [ts_builtin_sym_end] = ACTIONS(57),
-    [anon_sym_COMMA] = ACTIONS(57),
-    [anon_sym_RBRACE] = ACTIONS(57),
-    [anon_sym_RBRACK] = ACTIONS(57),
+    [aux_sym_object_repeat1] = STATE(22),
+    [anon_sym_COMMA] = ACTIONS(55),
+    [anon_sym_RBRACE] = ACTIONS(51),
   },
   [23] = {
-    [anon_sym_COMMA] = ACTIONS(59),
-    [anon_sym_RBRACK] = ACTIONS(59),
+    [anon_sym_COMMA] = ACTIONS(58),
+    [anon_sym_RBRACK] = ACTIONS(58),
   },
   [24] = {
-    [sym__value] = STATE(27),
-    [sym_object] = STATE(4),
-    [sym_array] = STATE(4),
-    [anon_sym_LBRACE] = ACTIONS(5),
-    [anon_sym_LBRACK] = ACTIONS(7),
-    [sym_string] = ACTIONS(9),
-    [sym_number] = ACTIONS(11),
-    [sym_true] = ACTIONS(9),
-    [sym_false] = ACTIONS(9),
-    [sym_null] = ACTIONS(9),
+    [ts_builtin_sym_end] = ACTIONS(60),
+    [anon_sym_COMMA] = ACTIONS(60),
+    [anon_sym_RBRACE] = ACTIONS(60),
+    [anon_sym_RBRACK] = ACTIONS(60),
   },
   [25] = {
-    [ts_builtin_sym_end] = ACTIONS(61),
-    [anon_sym_COMMA] = ACTIONS(61),
-    [anon_sym_RBRACE] = ACTIONS(61),
-    [anon_sym_RBRACK] = ACTIONS(61),
-  },
-  [26] = {
-    [anon_sym_COMMA] = ACTIONS(63),
-    [anon_sym_RBRACE] = ACTIONS(63),
-  },
-  [27] = {
-    [anon_sym_COMMA] = ACTIONS(65),
-    [anon_sym_RBRACK] = ACTIONS(65),
+    [aux_sym_array_repeat1] = STATE(25),
+    [anon_sym_COMMA] = ACTIONS(62),
+    [anon_sym_RBRACK] = ACTIONS(58),
   },
 };
 
@@ -668,17 +653,15 @@ static TSParseActionEntry ts_parse_actions[] = {
   [39] = {.count = 1, .reusable = true, .depends_on_lookahead = false}, SHIFT(17),
   [41] = {.count = 1, .reusable = true, .depends_on_lookahead = false}, REDUCE(sym_object, 3),
   [43] = {.count = 1, .reusable = true, .depends_on_lookahead = false}, SHIFT(21),
-  [45] = {.count = 1, .reusable = true, .depends_on_lookahead = false}, SHIFT(22),
-  [47] = {.count = 1, .reusable = true, .depends_on_lookahead = false}, REDUCE(sym_array, 3),
-  [49] = {.count = 1, .reusable = true, .depends_on_lookahead = false}, SHIFT(24),
-  [51] = {.count = 1, .reusable = true, .depends_on_lookahead = false}, SHIFT(25),
-  [53] = {.count = 1, .reusable = true, .depends_on_lookahead = false}, REDUCE(sym_pair, 3),
-  [55] = {.count = 1, .reusable = true, .depends_on_lookahead = false}, REDUCE(aux_sym_object_repeat1, 2),
-  [57] = {.count = 1, .reusable = true, .depends_on_lookahead = false}, REDUCE(sym_object, 4),
-  [59] = {.count = 1, .reusable = true, .depends_on_lookahead = false}, REDUCE(aux_sym_array_repeat1, 2),
-  [61] = {.count = 1, .reusable = true, .depends_on_lookahead = false}, REDUCE(sym_array, 4),
-  [63] = {.count = 1, .reusable = true, .depends_on_lookahead = false}, REDUCE(aux_sym_object_repeat1, 3),
-  [65] = {.count = 1, .reusable = true, .depends_on_lookahead = false}, REDUCE(aux_sym_array_repeat1, 3),
+  [45] = {.count = 1, .reusable = true, .depends_on_lookahead = false}, REDUCE(sym_array, 3),
+  [47] = {.count = 1, .reusable = true, .depends_on_lookahead = false}, SHIFT(24),
+  [49] = {.count = 1, .reusable = true, .depends_on_lookahead = false}, REDUCE(sym_pair, 3),
+  [51] = {.count = 1, .reusable = true, .depends_on_lookahead = false}, REDUCE(aux_sym_object_repeat1, 2),
+  [53] = {.count = 1, .reusable = true, .depends_on_lookahead = false}, REDUCE(sym_object, 4),
+  [55] = {.count = 2, .reusable = true, .depends_on_lookahead = false}, REDUCE(aux_sym_object_repeat1, 2), SHIFT_REPEAT(13),
+  [58] = {.count = 1, .reusable = true, .depends_on_lookahead = false}, REDUCE(aux_sym_array_repeat1, 2),
+  [60] = {.count = 1, .reusable = true, .depends_on_lookahead = false}, REDUCE(sym_array, 4),
+  [62] = {.count = 2, .reusable = true, .depends_on_lookahead = false}, REDUCE(aux_sym_array_repeat1, 2), SHIFT_REPEAT(16),
 };
 
 #ifdef _WIN32
