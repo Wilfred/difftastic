@@ -90,3 +90,24 @@ f = ()
       (function_identifier (variable)))
     (function_body
       (type_constructor (unit_constructor)))))
+
+===============================
+Arithmetic Sequence
+===============================
+
+[1..]
+[1,2..]
+[1..2]
+[1,2..10]
+
+---
+
+(module
+  (arithmetic_sequence
+    (enum_from (integer)))
+  (arithmetic_sequence
+    (enum_from_then (integer) (integer)))
+  (arithmetic_sequence
+    (enum_from_to (integer) (integer)))
+  (arithmetic_sequence
+    (enum_from_then_to (integer) (integer) (integer))))
