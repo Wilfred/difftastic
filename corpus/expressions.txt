@@ -111,3 +111,18 @@ Arithmetic Sequence
     (enum_from_to (integer) (integer)))
   (arithmetic_sequence
     (enum_from_then_to (integer) (integer) (integer))))
+
+===============================
+List Comprehensions
+===============================
+
+[x | x <- xs]
+
+---
+
+(module
+  (list_comprehension
+    (variable)
+    (generator
+      (variable)
+      (variable))))
