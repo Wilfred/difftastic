@@ -14,7 +14,7 @@
   },
   "devDependencies": {
     "tree-sitter-cli": "0.9.0",
-    "tree-sitter-javascript": "tree-sitter/tree-sitter-javascript#jsx-fixes"
+    "tree-sitter-javascript": "tree-sitter/tree-sitter-javascript"
   },
   "scripts": {
     "test": "tree-sitter test"
