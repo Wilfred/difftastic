@@ -466,16 +466,19 @@ module.exports = grammar({
 
     _jsx_child: $ => choice($.jsx_text, $._jsx_element, $.jsx_expression),
 
-    jsx_opening_element: $ => seq(
+    jsx_opening_element: $ => prec.dynamic(-1, seq(
       '<',
       $._jsx_element_name,
       repeat($._jsx_attribute),
       '>'
+    )),
+
+    jsx_identifier: $ => /[a-zA-Z_$][a-zA-Z\d_$]*-[a-zA-Z\d_$\-]*/,
+
+    _jsx_identifier: $ => choice(
+      alias($.jsx_identifier, $.identifier),
+      $.identifier
     ),
-
-    jsx_identifier: $ => /[a-zA-Z_$][a-zA-Z\d_$\-]*/,
-
-    _jsx_identifier: $ => alias($.jsx_identifier, $.identifier),
 
     jsx_member_expression: $ => sep2($._jsx_identifier, '.'),
 
