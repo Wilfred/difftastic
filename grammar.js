@@ -56,9 +56,6 @@ module.exports = grammar({
     [$.labeled_statement, $._property_name],
     [$.assignment_pattern, $.assignment_expression],
     [$.computed_property_name, $.array],
-    [$.jsx_identifier, $.jsx_attribute],
-    [$.jsx_identifier, $.jsx_namespace_name],
-    [$.jsx_identifier, $.jsx_member_expression]
   ],
 
   rules: {
@@ -476,7 +473,9 @@ module.exports = grammar({
       '>'
     ),
 
-    jsx_identifier: $ => prec.right(sep1($.identifier, '-')),
+    jsx_identifier: $ => /[a-zA-Z_$][a-zA-Z\d_$\-]*/,
+
+    _jsx_identifier: $ => alias($.jsx_identifier, $.identifier),
 
     jsx_member_expression: $ => sep2($._jsx_identifier, '.'),
 
@@ -511,9 +510,7 @@ module.exports = grammar({
       $.identifier
     )),
 
-    _jsx_identifier: $ => choice($.identifier, $.jsx_identifier),
-
-    _jsx_attribute_name: $ => choice($._jsx_identifier, $.jsx_namespace_name),
+    _jsx_attribute_name: $ => choice(alias($._jsx_identifier, $.property_identifier), $.jsx_namespace_name),
 
     jsx_attribute: $ => seq(
       $._jsx_attribute_name,

@@ -1947,33 +1947,17 @@
       ]
     },
     "jsx_identifier": {
-      "type": "PREC_RIGHT",
-      "value": 0,
+      "type": "PATTERN",
+      "value": "[a-zA-Z_$][a-zA-Z\\d_$\\-]*"
+    },
+    "_jsx_identifier": {
+      "type": "ALIAS",
       "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "SYMBOL",
-            "name": "identifier"
-          },
-          {
-            "type": "REPEAT",
-            "content": {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "STRING",
-                  "value": "-"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "identifier"
-                }
-              ]
-            }
-          }
-        ]
-      }
+        "type": "SYMBOL",
+        "name": "jsx_identifier"
+      },
+      "named": true,
+      "value": "identifier"
     },
     "jsx_member_expression": {
       "type": "SEQ",
@@ -2126,25 +2110,17 @@
         ]
       }
     },
-    "_jsx_identifier": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "identifier"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "jsx_identifier"
-        }
-      ]
-    },
     "_jsx_attribute_name": {
       "type": "CHOICE",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "_jsx_identifier"
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_jsx_identifier"
+          },
+          "named": true,
+          "value": "property_identifier"
         },
         {
           "type": "SYMBOL",
@@ -4747,18 +4723,6 @@
     [
       "computed_property_name",
       "array"
-    ],
-    [
-      "jsx_identifier",
-      "jsx_attribute"
-    ],
-    [
-      "jsx_identifier",
-      "jsx_namespace_name"
-    ],
-    [
-      "jsx_identifier",
-      "jsx_member_expression"
     ]
   ],
   "externals": [
