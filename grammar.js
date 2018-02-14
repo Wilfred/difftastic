@@ -163,7 +163,8 @@ module.exports = grammar({
       $.list,
       $._variable,
       $.binary,
-      $.arithmetic_sequence
+      $.arithmetic_sequence,
+      $.list_comprehension
     ),
 
     arithmetic_sequence: $ => seq(
@@ -175,6 +176,20 @@ module.exports = grammar({
         $.enum_from_then_to
       ),
       ']'
+    ),
+
+    list_comprehension: $ => prec.left(1, seq(
+      '[',
+      $._expression,
+      '|',
+      sep1(',', choice($.generator, $._expression)),
+      ']'
+    )),
+
+    generator: $ => seq(
+      $._lhs,
+      '<-',
+      $._expression
     ),
 
     enum_from: $ => seq(
@@ -208,8 +223,8 @@ module.exports = grammar({
       $.wildcard,
       $.irrefutable,
       alias($._parenthesized, $.parenthesized_expression),
-      $._expression,
-      alias($._constructed_value, $.type_constructor)
+      alias($._constructed_value, $.type_constructor),
+      $._expression
     ),
 
     function_head: $ => seq(
@@ -286,7 +301,9 @@ module.exports = grammar({
 
     function_application: $ => prec.left(1, seq(
       choice($._function_application_statements, $.function_application),
-      choice($._function_application_statements, $.function_application)
+      optional('('),
+      choice($._function_application_statements, $.function_application),
+      optional(')')
     )),
 
     _function_application_statements: $ => choice(
