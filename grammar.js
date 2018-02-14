@@ -51,8 +51,8 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
     [$.required_parameter, $._primary_type],
 
     [$._primary_type, $.type_parameter],
-    [$.jsx_opening_element, $.jsx_identifier, $._primary_type, $.type_parameter],
-    [$.jsx_identifier, $.jsx_namespace_name, $._primary_type],
+    [$.jsx_opening_element, $._primary_type, $.type_parameter],
+    [$.jsx_namespace_name, $._primary_type],
 
     [$._expression, $.literal_type],
     [$._expression, $._primary_type],

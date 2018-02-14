@@ -102,3 +102,28 @@ if ( foo ) {
           (member_expression
             (subscript_expression (identifier) (number)) (property_identifier))
           (arguments))))))
+
+==========================================================
+Ambiguity: generic arrow functions, type assertions, JSX
+==========================================================
+
+<Element>hi</Element>;
+<T>(x: T) => x + 1;
+<Array>x;
+
+---
+
+(program
+  (expression_statement
+    (jsx_element
+      (jsx_opening_element (identifier))
+      (jsx_text)
+      (jsx_closing_element (identifier))))
+  (expression_statement
+    (arrow_function
+      (call_signature
+        (type_parameters (type_parameter (identifier)))
+        (formal_parameters
+          (required_parameter (identifier) (type_annotation (type_identifier)))))
+      (binary_expression (identifier) (number))))
+  (expression_statement (type_assertion (type_arguments (type_identifier)) (identifier))))
