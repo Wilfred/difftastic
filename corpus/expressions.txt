@@ -1104,7 +1104,6 @@ i = <Foo:Bar bar={}>{...children}</Foo:Bar>
 ---
 
 (program
-
   (variable_declaration (variable_declarator (identifier)
     (jsx_element (jsx_opening_element (identifier)) (jsx_closing_element (identifier)))))
   (expression_statement (assignment_expression (identifier)
