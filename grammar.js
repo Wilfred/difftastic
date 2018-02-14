@@ -38,6 +38,13 @@ module.exports = grammar({
     $._semicolon,
     $._destructuring_pattern,
     $._reserved_identifier,
+    $._jsx_attribute,
+    $._jsx_element_name,
+    $._jsx_child,
+    $._jsx_element,
+    $._jsx_attribute_name,
+    $._jsx_attribute_value,
+    $._jsx_identifier,
   ],
 
   conflicts: $ => [
@@ -48,7 +55,10 @@ module.exports = grammar({
     [$._expression, $.formal_parameters],
     [$.labeled_statement, $._property_name],
     [$.assignment_pattern, $.assignment_expression],
-    [$.computed_property_name, $.array]
+    [$.computed_property_name, $.array],
+    [$.jsx_identifier, $.jsx_attribute],
+    [$.jsx_identifier, $.jsx_namespace_name],
+    [$.jsx_identifier, $.jsx_member_expression]
   ],
 
   rules: {
@@ -374,8 +384,8 @@ module.exports = grammar({
     _expression: $ => choice(
       $.object,
       $.array,
-      $.jsx_element,
-      $.jsx_self_closing_element,
+      $._jsx_element,
+      $.jsx_fragment,
       $.class,
       $.anonymous_class,
       $.function,
@@ -443,46 +453,57 @@ module.exports = grammar({
       ']'
     ),
 
+    _jsx_element: $ => choice($.jsx_element, $.jsx_self_closing_element),
+
     jsx_element: $ => seq(
       $.jsx_opening_element,
-      repeat(choice(
-        $.jsx_element,
-        $.jsx_self_closing_element,
-        $.jsx_expression,
-        $.jsx_text
-      )),
+      repeat($._jsx_child),
       $.jsx_closing_element
     ),
 
+    jsx_fragment: $ => seq('<', '>', repeat($._jsx_child), '<','/','>'),
+
     jsx_text: $ => /[^{}<>]+/,
 
-    jsx_expression: $ => seq(
-      '{',
-      choice($._expression, $.sequence_expression, $.spread_element),
-      '}'
-    ),
+    jsx_expression: $ => seq('{', optional(choice($._expression, $.sequence_expression, $.spread_element)), '}'),
+
+    _jsx_child: $ => choice($.jsx_text, $._jsx_element, $.jsx_expression),
 
     jsx_opening_element: $ => seq(
       '<',
-      choice($.identifier, $.nested_identifier),
-      repeat(choice($.jsx_attribute, $.jsx_expression)),
+      $._jsx_element_name,
+      repeat($._jsx_attribute),
       '>'
+    ),
+
+    jsx_identifier: $ => prec.right(sep1($.identifier, '-')),
+
+    jsx_member_expression: $ => sep2($._jsx_identifier, '.'),
+
+    jsx_namespace_name: $ => seq($._jsx_identifier, ':', $._jsx_identifier),
+
+    _jsx_element_name: $ => choice(
+      $._jsx_identifier,
+      $.jsx_member_expression,
+      $.jsx_namespace_name,
     ),
 
     jsx_closing_element: $ => seq(
       '<',
       '/',
-      choice($.identifier, $.nested_identifier),
+      $._jsx_element_name,
       '>'
     ),
 
     jsx_self_closing_element: $ => seq(
       '<',
-      choice($.identifier, $.nested_identifier),
-      repeat(choice($.jsx_attribute, $.jsx_expression)),
+      $._jsx_element_name,
+      repeat($._jsx_attribute),
       '/',
       '>'
     ),
+
+    _jsx_attribute: $ => choice($.jsx_attribute, $.jsx_expression),
 
     nested_identifier: $ => prec(PREC.MEMBER, seq(
       choice($.identifier, $.nested_identifier),
@@ -490,16 +511,23 @@ module.exports = grammar({
       $.identifier
     )),
 
+    _jsx_identifier: $ => choice($.identifier, $.jsx_identifier),
+
+    _jsx_attribute_name: $ => choice($._jsx_identifier, $.jsx_namespace_name),
+
     jsx_attribute: $ => seq(
-      alias($.identifier, $.property_identifier),
+      $._jsx_attribute_name,
       optional(seq(
         '=',
-        choice(
-          $.number,
-          $.string,
-          $.jsx_expression
-        )
+        $._jsx_attribute_value
       ))
+    ),
+
+    _jsx_attribute_value: $ => choice(
+      $.string,
+      $.jsx_expression,
+      $._jsx_element,
+      $.jsx_fragment
     ),
 
     anonymous_class: $ => seq(
@@ -883,6 +911,14 @@ module.exports = grammar({
     _semicolon: $ => choice($._automatic_semicolon, ';')
   }
 });
+
+function sep2 (rule, operator) {
+  return seq(rule, repeat1(seq(operator, rule)));
+}
+
+function sep1 (rule, operator) {
+  return seq(rule, repeat(seq(operator, rule)));
+}
 
 function commaSep1 (rule) {
   return seq(rule, repeat(seq(',', rule)));
