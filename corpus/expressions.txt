@@ -120,6 +120,8 @@ List Comprehensions
 [(x, y) | x <- xs, y <- ys]
 [ x |  xs   <- [ [(1,2),(3,4)], [(5,4),(3,2)] ],
       (3,x) <- xs ]
+[(i,j) | i <- [1,2],
+         j <- [1..4] ]
 
 ---
 
@@ -148,4 +150,13 @@ List Comprehensions
         (list (tuple (integer) (integer)) (tuple (integer) (integer)))))
     (generator
       (tuple (integer) (variable))
-      (variable))))
+      (variable)))
+  (list_comprehension
+    (tuple (variable) (variable))
+    (generator
+      (variable)
+      (list (integer) (integer)))
+    (generator
+      (variable)
+      (arithmetic_sequence
+        (enum_from_to (integer) (integer))))))
