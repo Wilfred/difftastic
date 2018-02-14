@@ -178,7 +178,7 @@ module.exports = grammar({
       ']'
     ),
 
-    list_comprehension: $ => prec.left(1, seq(
+    list_comprehension: $ => prec.right(seq(
       '[',
       $._expression,
       '|',
