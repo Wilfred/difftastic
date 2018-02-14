@@ -92,6 +92,34 @@ f = ()
       (type_constructor (unit_constructor)))))
 
 ===============================
+Function Application With List Comprehensions
+===============================
+
+f = take 5 [ [ (i,j) | i <- [1,2] ] | j <- [1..] ]
+
+---
+
+(module
+  (function_declaration
+    (function_head
+      (function_identifier (variable)))
+    (function_body
+      (function_application
+        (function_application
+          (variable)
+          (integer))
+        (list_comprehension
+          (list_comprehension
+            (tuple (variable) (variable))
+            (generator
+              (variable)
+              (list (integer) (integer))))
+          (generator
+            (variable)
+            (arithmetic_sequence
+              (enum_from (integer)))))))))
+
+===============================
 Arithmetic Sequence
 ===============================
 
@@ -122,6 +150,7 @@ List Comprehensions
       (3,x) <- xs ]
 [(i,j) | i <- [1,2],
          j <- [1..4] ]
+[ [ (i,j) | i <- [1,2] ] | j <- [1..] ]
 
 ---
 
@@ -159,4 +188,14 @@ List Comprehensions
     (generator
       (variable)
       (arithmetic_sequence
-        (enum_from_to (integer) (integer))))))
+        (enum_from_to (integer) (integer)))))
+  (list_comprehension
+    (list_comprehension
+      (tuple (variable) (variable))
+      (generator
+        (variable)
+        (list (integer) (integer))))
+    (generator
+      (variable)
+      (arithmetic_sequence
+        (enum_from (integer))))))

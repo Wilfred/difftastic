@@ -312,6 +312,7 @@ module.exports = grammar({
       $._literal,
       $.tuple,
       $.list,
+      $.list_comprehension
     ),
 
     _terminal: $ => ';',

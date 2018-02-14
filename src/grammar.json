@@ -1162,6 +1162,10 @@
         {
           "type": "SYMBOL",
           "name": "list"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "list_comprehension"
         }
       ]
     },
