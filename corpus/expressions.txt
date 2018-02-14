@@ -118,6 +118,8 @@ List Comprehensions
 
 [x | x <- xs]
 [(x, y) | x <- xs, y <- ys]
+[ x |  xs   <- [ [(1,2),(3,4)], [(5,4),(3,2)] ],
+      (3,x) <- xs ]
 
 ---
 
@@ -136,4 +138,14 @@ List Comprehensions
       (variable))
     (generator
       (variable)
+      (variable)))
+  (list_comprehension
+    (variable)
+    (generator
+      (variable)
+      (list
+        (list (tuple (integer) (integer)) (tuple (integer) (integer)))
+        (list (tuple (integer) (integer)) (tuple (integer) (integer)))))
+    (generator
+      (tuple (integer) (variable))
       (variable))))
