@@ -1,0 +1,79 @@
+==================================
+Multiple functions with where clauses
+==================================
+
+f = a
+  where a = b
+        b = 1
+
+f = a
+  where a = b
+        b = 1
+
+---
+
+(module
+  (function_declaration
+    (function_head (function_identifier (variable)))
+    (function_body
+      (variable)
+      (where
+        (function_declaration (function_head (function_identifier (variable))) (function_body (variable)))
+        (function_declaration (function_head (function_identifier (variable))) (function_body (integer))))))
+  (function_declaration
+    (function_head (function_identifier (variable)))
+    (function_body
+      (variable)
+      (where
+        (function_declaration (function_head (function_identifier (variable))) (function_body (variable)))
+        (function_declaration (function_head (function_identifier (variable))) (function_body (integer)))))))
+
+==================================
+Nested layout
+==================================
+
+f = foo
+  where a = b
+          where c = d
+                e = f
+        x = w
+
+g = do a
+       b
+       do c
+          d
+          do e
+             f
+
+x = y
+
+---
+
+(module
+  (function_declaration
+    (function_head (function_identifier (variable)))
+    (function_body
+      (variable)
+      (where
+        (function_declaration
+          (function_head (function_identifier (variable)))
+          (function_body
+            (variable)
+            (where
+              (function_declaration (function_head (function_identifier (variable))) (function_body (variable)))
+              (function_declaration (function_head (function_identifier (variable))) (function_body (variable))))))
+        (function_declaration (function_head (function_identifier (variable))) (function_body (variable))))))
+  (function_declaration
+    (function_head (function_identifier (variable)))
+    (function_body (do (statement_list
+      (variable)
+      (variable)
+      (do (statement_list
+        (variable)
+        (variable)
+        (do (statement_list
+          (variable)
+          (variable)))))))))
+  (function_declaration
+    (function_head (function_identifier (variable)))
+    (function_body (variable))))
