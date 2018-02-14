@@ -51,8 +51,8 @@ Type Class Declarations With Body
 =========================================
 
 class Foo a where {
-  op :: Num b => a -> b -> a
-  op' :: (Num a, Num b) => a -> b -> a
+  op :: Num b => a -> b -> a;
+  op' :: (Num a, Num b) => a -> b -> a;
 }
 
 ---
@@ -83,7 +83,7 @@ class Foo a where {
 Type Class Declarations With Fixity
 =========================================
 
-class Foo a where {
+class Foo a where
   infixl `op`
   infixr 7 `op`
   infix 7 `op`, `ip`, `ap`
@@ -92,7 +92,6 @@ class Foo a where {
   infix 7 :
   infix 7 :.
   infix 7 :<:
-}
 
 ---
 
@@ -115,11 +114,10 @@ class Foo a where {
 Type Class Declarations With Multiple Operators
 =========================================
 
-class  (Eq a) => Ord a  where {
+class  (Eq a) => Ord a where
   compare              :: a -> a -> Ordering
   (<), (<=), (>=), (>) :: a -> a -> Bool
   max, min             :: a -> a -> a
-}
 
 ---
 

@@ -48,6 +48,12 @@ struct Scanner {
   }
 
   bool scan(TSLexer *lexer, const bool *valid_symbols) {
+    if (valid_symbols[LAYOUT_CLOSE_BRACE] && queued_close_brace_count > 0) {
+      queued_close_brace_count--;
+      lexer->result_symbol = LAYOUT_CLOSE_BRACE;
+      return true;
+    }
+
     if (valid_symbols[LAYOUT_OPEN_BRACE]) {
       while (iswspace(lexer->lookahead)) {
         lexer->advance(lexer, true);
@@ -63,43 +69,29 @@ struct Scanner {
       }
     }
 
-    if (valid_symbols[LAYOUT_CLOSE_BRACE] && queued_close_brace_count > 0) {
-      queued_close_brace_count--;
-      lexer->result_symbol = LAYOUT_CLOSE_BRACE;
-      return true;
-    }
-
     while (lexer->lookahead == ' ' || lexer->lookahead == '\t') {
       lexer->advance(lexer, true);
-      if (valid_symbols[LAYOUT_CLOSE_BRACE]) {
-        lexer->result_symbol = LAYOUT_CLOSE_BRACE;
-        return true;
-      }
     }
 
     if (lexer->lookahead == 0) {
-      if (valid_symbols[LAYOUT_CLOSE_BRACE] && indent_length_stack.size() > 1) {
-        indent_length_stack.pop_back();
-        lexer->result_symbol = LAYOUT_CLOSE_BRACE;
-        return true;
-      }
-
       if (valid_symbols[LAYOUT_SEMICOLON]) {
         lexer->result_symbol = LAYOUT_SEMICOLON;
         return true;
       }
-
+      if (valid_symbols[LAYOUT_CLOSE_BRACE]) {
+        lexer->result_symbol = LAYOUT_CLOSE_BRACE;
+        return true;
+      }
       return false;
     }
 
     if (lexer->lookahead != '\n') return false;
-    advance(lexer);
     lexer->mark_end(lexer);
+    advance(lexer);
 
     bool next_token_is_comment = false;
     uint32_t indent_length = 0;
     for (;;) {
-      uint32_t column = lexer->get_column(lexer);
       if (lexer->lookahead == '\n') {
         indent_length = 0;
         advance(lexer);
@@ -109,6 +101,16 @@ struct Scanner {
       } else if (lexer->lookahead == '\t') {
         indent_length += 8;
         advance(lexer);
+      } else if (lexer->lookahead == 0) {
+        if (valid_symbols[LAYOUT_SEMICOLON]) {
+          lexer->result_symbol = LAYOUT_SEMICOLON;
+          return true;
+        }
+        if (valid_symbols[LAYOUT_CLOSE_BRACE]) {
+          lexer->result_symbol = LAYOUT_CLOSE_BRACE;
+          return true;
+        }
+        return false;
       } else {
         if (lexer->lookahead == '-' || lexer->lookahead == '{') {
           advance(lexer);
@@ -120,12 +122,10 @@ struct Scanner {
 
     if (!next_token_is_comment) {
       if (indent_length < indent_length_stack.back()) {
-        if (valid_symbols[LAYOUT_SEMICOLON]) {
-          lexer->result_symbol = LAYOUT_SEMICOLON;
-          return true;
-        }
+        indent_length_stack.pop_back();
         while (indent_length < indent_length_stack.back()) {
           indent_length_stack.pop_back();
+          queued_close_brace_count++;
         }
 
         if (valid_symbols[LAYOUT_CLOSE_BRACE]) {
@@ -133,13 +133,17 @@ struct Scanner {
           return true;
         } else {
           queued_close_brace_count++;
+          if (valid_symbols[LAYOUT_SEMICOLON]) {
+            lexer->result_symbol = LAYOUT_SEMICOLON;
+            return true;
+          }
+        }
+      } else if (indent_length == indent_length_stack.back()) {
+        if (valid_symbols[LAYOUT_SEMICOLON]) {
+          lexer->result_symbol = LAYOUT_SEMICOLON;
+          return true;
         }
       }
-    }
-
-    if (valid_symbols[LAYOUT_SEMICOLON]) {
-      lexer->result_symbol = LAYOUT_SEMICOLON;
-      return true;
     }
 
     return false;

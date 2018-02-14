@@ -150,8 +150,7 @@ module.exports = grammar({
     _statement: $ => choice(
       $.do,
       $.if_statement,
-      $._expression,
-      $.where
+      $._expression
     ),
 
     _expression: $ => choice(
@@ -218,7 +217,10 @@ module.exports = grammar({
       repeat($._lhs)
     ),
 
-    function_body: $ => repeat1(choice($._statement, $.function_application)),
+    function_body: $ => seq(
+      choice($._statement, $.function_application),
+      optional($.where)
+    ),
 
     where: $ => seq(
       'where',
