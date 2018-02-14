@@ -117,12 +117,23 @@ List Comprehensions
 ===============================
 
 [x | x <- xs]
+[(x, y) | x <- xs, y <- ys]
 
 ---
 
 (module
   (list_comprehension
     (variable)
+    (generator
+      (variable)
+      (variable)))
+  (list_comprehension
+    (tuple
+      (variable)
+      (variable))
+    (generator
+      (variable)
+      (variable))
     (generator
       (variable)
       (variable))))
