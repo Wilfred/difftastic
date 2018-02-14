@@ -970,8 +970,8 @@ b = <Foo.Bar>a <span>b</span> c</Foo.Bar>;
     (identifier)
     (jsx_self_closing_element
       (identifier)
-      (jsx_attribute (identifier) (string))
-      (jsx_attribute (identifier) (jsx_expression (number))))))
+      (jsx_attribute (property_identifier) (string))
+      (jsx_attribute (property_identifier) (jsx_expression (number))))))
   (expression_statement (assignment_expression
     (identifier)
     (jsx_element
@@ -1001,8 +1001,8 @@ b = <Text {...j}></Text>
     (identifier)
     (jsx_element
       (jsx_opening_element (identifier)
-        (jsx_attribute (identifier))
-        (jsx_attribute (identifier) (jsx_expression (identifier))))
+        (jsx_attribute (property_identifier))
+        (jsx_attribute (property_identifier) (jsx_expression (identifier))))
       (jsx_text)
       (jsx_expression (identifier))
       (jsx_text)
@@ -1103,4 +1103,62 @@ i = <Foo:Bar bar={}>{...children}</Foo:Bar>
 
 ---
 
-(program (variable_declaration (variable_declarator (identifier) (jsx_element (jsx_opening_element (identifier)) (jsx_closing_element (identifier))))) (expression_statement (assignment_expression (identifier) (jsx_element (jsx_opening_element (jsx_member_expression (identifier) (identifier))) (jsx_closing_element (jsx_member_expression (identifier) (identifier)))))) (expression_statement (assignment_expression (identifier) (jsx_fragment (jsx_text) (jsx_self_closing_element (identifier)) (jsx_text)))) (expression_statement (assignment_expression (identifier) (jsx_element (jsx_opening_element (identifier)) (jsx_text) (jsx_self_closing_element (identifier)) (jsx_text) (jsx_closing_element (identifier))))) (expression_statement (assignment_expression (identifier) (jsx_self_closing_element (identifier) (jsx_attribute (identifier))))) (expression_statement (assignment_expression (identifier) (jsx_self_closing_element (identifier) (jsx_attribute (identifier) (string)) (jsx_attribute (identifier) (jsx_expression (number))) (jsx_attribute (jsx_identifier (identifier) (identifier)) (string)) (jsx_attribute (identifier))))) (expression_statement (assignment_expression (identifier) (jsx_self_closing_element (identifier) (jsx_attribute (identifier) (jsx_expression (member_expression (identifier) (property_identifier))))))) (expression_statement (assignment_expression (identifier) (jsx_element (jsx_opening_element (identifier) (jsx_attribute (identifier) (jsx_expression (binary_expression (binary_expression (member_expression (member_expression (this) (property_identifier)) (property_identifier)) (string)) (unary_expression (member_expression (member_expression (this) (property_identifier)) (property_identifier))))))) (jsx_text) (jsx_closing_element (identifier))))) (expression_statement (assignment_expression (identifier) (jsx_element (jsx_opening_element (jsx_namespace_name (identifier) (identifier)) (jsx_attribute (identifier) (jsx_expression))) (jsx_expression (spread_element (identifier))) (jsx_closing_element (jsx_namespace_name (identifier) (identifier)))))))
+(program
+
+  (variable_declaration (variable_declarator (identifier)
+    (jsx_element (jsx_opening_element (identifier)) (jsx_closing_element (identifier)))))
+  (expression_statement (assignment_expression (identifier)
+    (jsx_element
+      (jsx_opening_element (jsx_member_expression (identifier) (identifier)))
+      (jsx_closing_element (jsx_member_expression (identifier) (identifier))))))
+  (expression_statement (assignment_expression (identifier)
+    (jsx_fragment (jsx_text) (jsx_self_closing_element (identifier)) (jsx_text))))
+  (expression_statement (assignment_expression (identifier)
+    (jsx_element
+      (jsx_opening_element (identifier))
+      (jsx_text)
+      (jsx_self_closing_element (identifier))
+      (jsx_text)
+      (jsx_closing_element (identifier)))))
+  (expression_statement (assignment_expression (identifier)
+    (jsx_self_closing_element (identifier) (jsx_attribute (property_identifier)))))
+  (expression_statement (assignment_expression (identifier)
+    (jsx_self_closing_element
+      (identifier)
+      (jsx_attribute (property_identifier) (string))
+      (jsx_attribute (property_identifier) (jsx_expression (number)))
+      (jsx_attribute (property_identifier) (string))
+      (jsx_attribute (property_identifier)))))
+  (expression_statement (assignment_expression (identifier)
+    (jsx_self_closing_element
+      (identifier)
+      (jsx_attribute
+        (property_identifier)
+        (jsx_expression (member_expression (identifier) (property_identifier)))))))
+  (expression_statement (assignment_expression (identifier)
+    (jsx_element
+      (jsx_opening_element
+        (identifier)
+        (jsx_attribute
+          (property_identifier)
+          (jsx_expression
+            (binary_expression
+              (binary_expression
+                (member_expression
+                  (member_expression (this) (property_identifier))
+                  (property_identifier))
+                (string))
+              (unary_expression
+                (member_expression
+                  (member_expression (this) (property_identifier))
+                  (property_identifier)))))))
+          (jsx_text)
+          (jsx_closing_element (identifier)))))
+  (expression_statement (assignment_expression (identifier)
+    (jsx_element
+      (jsx_opening_element
+        (jsx_namespace_name (identifier) (identifier))
+        (jsx_attribute (property_identifier) (jsx_expression)))
+      (jsx_expression (spread_element (identifier)))
+      (jsx_closing_element (jsx_namespace_name (identifier) (identifier)))))))
+
