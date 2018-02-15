@@ -151,7 +151,7 @@ type i2 interface {
       (method_spec
         (field_identifier)
           (parameter_list
-            (identifier)
+            (parameter_declaration (type_identifier))
             (variadic_parameter_declaration (type_identifier))) (type_identifier)))))))
 
 ============================================
@@ -242,22 +242,22 @@ type (
       (type_identifier)
       (function_type
         (parameter_list
-          (identifier))
+          (parameter_declaration (type_identifier)))
         (type_identifier)))
     (type_spec
       (type_identifier)
       (function_type
         (parameter_list
-          (identifier)
+          (parameter_declaration (type_identifier))
           (parameter_declaration (pointer_type (type_identifier))))
         (parameter_list
-          (identifier)
-          (identifier))))
+          (parameter_declaration (type_identifier))
+          (parameter_declaration (type_identifier)))))
     (type_spec
       (type_identifier)
       (function_type
         (parameter_list
-          (identifier)
+          (parameter_declaration (type_identifier))
           (variadic_parameter_declaration
             (pointer_type (type_identifier))))
         (type_identifier)))))
