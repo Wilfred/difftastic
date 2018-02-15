@@ -463,3 +463,26 @@ f a = c
             (function_identifier (variable)))
           (function_body
             (integer)))))))
+
+=================================================
+Function Declarations With Let
+=================================================
+
+f = let x = 1
+    in x
+
+---
+
+(module
+  (function_declaration
+    (function_head
+      (function_identifier (variable)))
+    (function_body
+      (let
+        (function_declaration
+          (function_head
+            (function_identifier (variable)))
+          (function_body
+            (integer)))
+        (in_clause
+          (variable))))))
