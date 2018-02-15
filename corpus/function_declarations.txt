@@ -425,6 +425,11 @@ Function Declarations With Where
 =================================================
 
 f a = c where c = d
+f a = c
+  where
+    c = d
+    d = 1
+
 
 ---
 
@@ -440,4 +445,21 @@ f a = c where c = d
           (function_head
             (function_identifier (variable)))
           (function_body
-            (variable)))))))
+            (variable))))))
+  (function_declaration
+    (function_head
+      (function_identifier (variable))
+      (variable))
+    (function_body
+      (variable)
+      (where
+        (function_declaration
+          (function_head
+            (function_identifier (variable)))
+          (function_body
+            (variable)))
+        (function_declaration
+          (function_head
+            (function_identifier (variable)))
+          (function_body
+            (integer)))))))
