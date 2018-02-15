@@ -240,6 +240,17 @@ module.exports = grammar({
     where: $ => seq(
       'where',
       $._declarations
+  ),
+
+    let: $ => seq(
+      'let',
+      $._declarations,
+      $.in_clause
+    ),
+
+    in_clause: $ => seq(
+      'in',
+      $._expression
     ),
 
     field_labels: $ => seq(
