@@ -253,7 +253,7 @@ const s1 = func(s string) (int, int) {
         (parameter_list
           (parameter_declaration (identifier) (type_identifier)))
         (parameter_list
-          (identifier)
-          (identifier))
+          (parameter_declaration (type_identifier))
+          (parameter_declaration (type_identifier)))
         (block
           (return_statement (expression_list (int_literal) (int_literal)))))))))

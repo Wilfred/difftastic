@@ -403,7 +403,7 @@ func main() {
         (type_case (type_identifier))
         (call_expression (identifier) (argument_list (identifier))))
       (type_case_clause
-        (type_case (function_type (parameter_list (identifier)) (type_identifier)))
+        (type_case (function_type (parameter_list (parameter_declaration (type_identifier))) (type_identifier)))
         (call_expression (identifier) (argument_list (identifier))))
       (type_case_clause
         (type_case (type_identifier) (type_identifier))

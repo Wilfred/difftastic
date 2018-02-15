@@ -197,8 +197,8 @@ Function declarations
 package main
 
 func f1() {}
-func f2(a int, b, c, d string) int {}
-func f2() (int, error) {}
+func f2(a File, b, c, d Thing) int {}
+func f2() (File, Thing) {}
 func f2() (result int, err error) {}
 
 ---
@@ -212,18 +212,22 @@ func f2() (result int, err error) {}
   (function_declaration
     (identifier)
     (parameter_list
-      (parameter_declaration (identifier) (type_identifier))
-      (identifier)
-      (identifier)
-      (parameter_declaration (identifier) (type_identifier)))
+      (parameter_declaration
+        (identifier)
+        (type_identifier))
+      (parameter_declaration
+        (identifier)
+        (identifier)
+        (identifier)
+        (type_identifier)))
     (type_identifier)
     (block))
   (function_declaration
     (identifier)
     (parameter_list)
     (parameter_list
-      (identifier)
-      (identifier))
+      (parameter_declaration (type_identifier))
+      (parameter_declaration (type_identifier)))
     (block))
   (function_declaration
     (identifier)

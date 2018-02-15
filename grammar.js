@@ -68,7 +68,7 @@ module.exports = grammar({
     [$.qualified_type, $._expression],
     [$.func_literal, $.function_type],
     [$.function_type],
-    [$.parameter_list, $._simple_type],
+    [$.parameter_declaration, $._simple_type],
   ],
 
   rules: {
@@ -184,15 +184,14 @@ module.exports = grammar({
     parameter_list: $ => seq(
       '(',
       optional(seq(
-        choice($.identifier, $.parameter_declaration, $.variadic_parameter_declaration),
-        repeat(seq(',', choice($.identifier, $.parameter_declaration, $.variadic_parameter_declaration))),
+        commaSep(choice($.parameter_declaration, $.variadic_parameter_declaration)),
         optional(',')
       )),
       ')'
     ),
 
     parameter_declaration: $ => seq(
-      optional($.identifier),
+      commaSep($.identifier),
       $._type
     ),
 
@@ -238,7 +237,7 @@ module.exports = grammar({
     parenthesized_type: $ => seq('(', $._type, ')'),
 
     _simple_type: $ => choice(
-      $._type_identifier,
+      prec.dynamic(-1, $._type_identifier),
       $.qualified_type,
       $.pointer_type,
       $.struct_type,
@@ -795,4 +794,8 @@ module.exports = grammar({
 
 function commaSep1(rule) {
   return seq(rule, repeat(seq(',', rule)))
+}
+
+function commaSep(rule) {
+  return optional(commaSep1(rule))
 }
