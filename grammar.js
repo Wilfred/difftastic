@@ -48,7 +48,8 @@ module.exports = grammar({
     [$._expression, $.list_constructor],
     [$._statement, $._lhs],
     [$.function_head, $._expression],
-    [$._variable, $._op]
+    [$._variable, $._op],
+    [$._expression, $.function_application]
   ],
 
   rules: {
@@ -149,6 +150,7 @@ module.exports = grammar({
 
     _statement: $ => choice(
       $.do,
+      $.let,
       $.if_statement,
       $._expression
     ),
@@ -310,7 +312,7 @@ module.exports = grammar({
       $._variable_symbol
     ),
 
-    function_application: $ => prec.left(1, seq(
+    function_application: $ => prec.left(seq(
       choice($._function_application_statements, $.function_application),
       optional('('),
       choice($._function_application_statements, $.function_application),

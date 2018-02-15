@@ -83,17 +83,8 @@
                       "name": "_declaration"
                     },
                     {
-                      "type": "CHOICE",
-                      "members": [
-                        {
-                          "type": "SYMBOL",
-                          "name": "_terminal"
-                        },
-                        {
-                          "type": "SYMBOL",
-                          "name": "_layout_semicolon"
-                        }
-                      ]
+                      "type": "SYMBOL",
+                      "name": "_terminal"
                     }
                   ]
                 }
@@ -501,6 +492,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "let"
+        },
+        {
+          "type": "SYMBOL",
           "name": "if_statement"
         },
         {
@@ -856,6 +851,36 @@
         }
       ]
     },
+    "let": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "let"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_declarations"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "in_clause"
+        }
+      ]
+    },
+    "in_clause": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "in"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_expression"
+        }
+      ]
+    },
     "field_labels": {
       "type": "SEQ",
       "members": [
@@ -1083,7 +1108,7 @@
     },
     "function_application": {
       "type": "PREC_LEFT",
-      "value": 1,
+      "value": 0,
       "content": {
         "type": "SEQ",
         "members": [
@@ -3905,6 +3930,10 @@
     [
       "_variable",
       "_op"
+    ],
+    [
+      "_expression",
+      "function_application"
     ]
   ],
   "externals": [
