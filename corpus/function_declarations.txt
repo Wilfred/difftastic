@@ -468,8 +468,18 @@ f a = c
 Function Declarations With Let
 =================================================
 
-f = let x = 1
-    in x
+f = let y = x
+        x = 1
+      in y
+
+f = let y = x
+        x :: Int
+        x = 1 in y
+
+f = let { y :: Int;
+          y = x;
+          x :: Int;
+          x = 1; } in y
 
 ---
 
@@ -483,6 +493,49 @@ f = let x = 1
           (function_head
             (function_identifier (variable)))
           (function_body
+            (variable)))
+        (function_declaration
+          (function_head
+            (function_identifier (variable)))
+          (function_body
             (integer)))
         (in_clause
-          (variable))))))
+          (variable)))))
+  (function_declaration
+    (function_head
+      (function_identifier (variable)))
+    (function_body
+      (let
+        (function_declaration
+          (function_head
+            (function_identifier (variable)))
+          (function_body
+            (variable)))
+        (type_signature
+          (signature_identifier (variable)))
+          (type_constructor (identifier))
+        (function_declaration
+          (function_head
+            (function_identifier (variable)))
+          (function_body
+            (integer)))
+        (in_clause
+          (variable)))))
+  (function_declaration
+    (function_head
+      (function_identifier (variable)))
+      (function_body
+        (let
+          (type_signature
+            (signature_identifier (variable))
+            (type_constructor (identifier)))
+          (function_declaration
+            (function_head (function_identifier (variable)))
+            (function_body (variable)))
+          (type_signature
+            (signature_identifier (variable))
+            (type_constructor (identifier)))
+          (function_declaration
+            (function_head (function_identifier (variable)))
+            (function_body (integer)))
+          (in_clause (variable))))))
