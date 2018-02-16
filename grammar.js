@@ -45,6 +45,8 @@ module.exports = grammar({
     [$.modifier],
     [$.class_literal, $.primitive_type, $.unann_primitive_type], // try to drop class_literal
     [$.class_literal, $.primitive_type], // bad idea
+    // [$.unann_class_or_interface_type, $.return_statement], // bad idea
+    [$.return_statement],
 
     [$.unann_class_or_interface_type, $._expression],
     [$.unann_class_or_interface_type, $.class_literal, $.array_access],
@@ -368,7 +370,11 @@ module.exports = grammar({
 
     continue_statement: $ => seq('continue', optional($.identifier), $._semicolon),
 
-    return_statement: $ => seq('return', optional($.identifier), $._semicolon),
+    return_statement: $ => seq(
+      'return',
+      optional($._expression),
+      $._semicolon
+    ),
 
     synchronized_statement: $ => seq('synchronized', '(', $._expression, ')', $.block),
 

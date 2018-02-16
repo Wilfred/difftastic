@@ -2477,7 +2477,7 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "identifier"
+              "name": "_expression"
             },
             {
               "type": "BLANK"
@@ -6892,6 +6892,9 @@
     [
       "class_literal",
       "primitive_type"
+    ],
+    [
+      "return_statement"
     ],
     [
       "unann_class_or_interface_type",
