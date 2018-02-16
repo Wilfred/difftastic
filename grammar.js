@@ -147,8 +147,10 @@ module.exports = grammar({
 
     function_declaration: $ => seq(
       $.function_head,
-      '=',
-      $.function_body
+      choice(
+        repeat1($._rhs_guards),
+        seq('=', $.function_body)
+      )
     ),
 
     _statement: $ => choice(
@@ -289,6 +291,12 @@ module.exports = grammar({
     _guards: $ => seq(
       '|',
       sep1(',', $.guard),
+    ),
+
+    _rhs_guards: $ => seq(
+      $._guards,
+      '=',
+      $.function_body
     ),
 
     guard: $ => choice(
