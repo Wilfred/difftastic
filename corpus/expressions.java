@@ -231,14 +231,13 @@ return fire(x);
   (return_statement (identifier))
   (return_statement (binary_expression (identifier) (identifier)))
   (return_statement (binary_expression (identifier) (integer_literal (decimal_integer_literal))))
-  (return_statement (method_invocation (identifier) (argument_list (identifier))))) 
+  (return_statement (method_invocation (identifier) (argument_list (identifier)))))
 
 ===
 normal_annotation
 ===
 
 @SuppressWarnings(value = "unchecked")
-@SuppressWarnings("unchecked")
 
 ---
 
@@ -248,6 +247,12 @@ marker annotation
 
 @Beta
 
+---
+
 ===
 single element annotation
 ===
+
+@SuppressWarnings("unchecked")
+
+---
