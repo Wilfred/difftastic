@@ -273,6 +273,26 @@ module.exports = grammar({
       repeat1($.alternative)
     )),
 
+    _guards: $ => seq(
+      '|',
+      sep1(',', $.guard),
+    ),
+
+    guard: $ => choice(
+      seq(
+        $._lhs,
+        '<-',
+        $._expression
+      ),
+      alias($._guard_let, $.let),
+      $._expression
+    ),
+
+    _guard_let: $ => seq(
+      'let',
+      $.function_declaration
+    ),
+
     field_labels: $ => seq(
       '{',
       optional(sep1(',', $.field_label)),
