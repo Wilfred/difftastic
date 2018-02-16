@@ -273,6 +273,16 @@ module.exports = grammar({
       repeat1($.alternative)
     )),
 
+    alternative: $ => prec.right(
+      seq(
+        $._lhs,
+        optional($._guards),
+        '->',
+        $._expression,
+        optional($.where)
+      )
+    ),
+
     _guards: $ => seq(
       '|',
       sep1(',', $.guard),
