@@ -15,8 +15,9 @@ module.exports = grammar(C, {
     [$.template_function, $.template_type],
     [$.template_function, $.template_type, $._expression],
     [$.template_function, $._expression],
-    [$.template_function, $.template_type, $.field_expression],
+    [$.template_method, $.template_type, $.field_expression],
     [$.scoped_type_identifier, $.scoped_identifier],
+    [$.scoped_type_identifier, $.scoped_field_identifier],
     [$.comma_expression, $.initializer_list],
     [$.parameter_list, $.argument_list],
   ]),
@@ -245,7 +246,7 @@ module.exports = grammar(C, {
     _field_declarator: ($, original) => choice(
       original,
       alias($.reference_field_declarator, $.reference_declarator),
-      $.template_function,
+      $.template_method,
       $.operator_name
     ),
 
@@ -295,6 +296,11 @@ module.exports = grammar(C, {
 
     template_type: $ => seq(
       choice($._type_identifier, $.scoped_type_identifier),
+      $.template_argument_list
+    ),
+
+    template_method: $ => seq(
+      choice($._field_identifier, $.scoped_field_identifier),
       $.template_argument_list
     ),
 
@@ -417,7 +423,7 @@ module.exports = grammar(C, {
         )),
         choice(
           $.destructor_name,
-          $.template_function
+          $.template_method
         )
       )
     ),

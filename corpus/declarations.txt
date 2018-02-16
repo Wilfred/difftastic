@@ -310,6 +310,53 @@ struct foo::bar<T> {};
         (template_argument_list (type_descriptor (type_identifier))))
       (field_declaration_list))))
 
+====================================================
+Template methods
+====================================================
+
+class Person {
+  Person() {
+    this->speak<int>();
+  }
+
+  template <typename T>
+  void speak() {}
+
+  template <>
+  void speak<bool>() {}
+};
+
+---
+
+(translation_unit
+  (class_specifier (type_identifier) (field_declaration_list
+    (function_definition
+      (function_declarator (identifier) (parameter_list))
+      (compound_statement
+        (expression_statement (call_expression
+          (field_expression
+            (identifier)
+            (template_method
+              (field_identifier)
+              (template_argument_list (type_descriptor (primitive_type)))))
+          (argument_list)))))
+    (template_declaration
+      (template_parameter_list (type_parameter_declaration (type_identifier)))
+      (function_definition
+        (primitive_type)
+        (function_declarator
+          (identifier)
+          (parameter_list))
+        (compound_statement)))
+    (template_declaration
+      (template_parameter_list)
+      (function_definition
+        (primitive_type)
+        (function_declarator
+          (template_function (identifier) (template_argument_list (type_descriptor (primitive_type))))
+          (parameter_list))
+        (compound_statement))))))
+
 ==========================================
 Declarations with braced initializer lists
 ==========================================

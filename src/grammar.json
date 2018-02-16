@@ -1113,7 +1113,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "template_function"
+          "name": "template_method"
         },
         {
           "type": "SYMBOL",
@@ -3971,7 +3971,7 @@
                 },
                 {
                   "type": "SYMBOL",
-                  "name": "template_function"
+                  "name": "template_method"
                 }
               ]
             }
@@ -5152,6 +5152,28 @@
         }
       ]
     },
+    "template_method": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_field_identifier"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "scoped_field_identifier"
+            }
+          ]
+        },
+        {
+          "type": "SYMBOL",
+          "name": "template_argument_list"
+        }
+      ]
+    },
     "template_function": {
       "type": "SEQ",
       "members": [
@@ -6031,13 +6053,17 @@
       "_expression"
     ],
     [
-      "template_function",
+      "template_method",
       "template_type",
       "field_expression"
     ],
     [
       "scoped_type_identifier",
       "scoped_identifier"
+    ],
+    [
+      "scoped_type_identifier",
+      "scoped_field_identifier"
     ],
     [
       "comma_expression",
