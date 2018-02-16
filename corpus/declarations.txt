@@ -372,6 +372,7 @@ JSX and type assertions
 
 a = <div className='b' tabIndex={1} />;
 b = <div>{ <string>a } <span>b</span> c</div>;
+c = <Foo.Bar></Foo.Bar>
 
 ---
 
@@ -396,7 +397,14 @@ b = <div>{ <string>a } <span>b</span> c</div>;
         (jsx_text)
         (jsx_closing_element (identifier)))
       (jsx_text)
-      (jsx_closing_element (identifier))))))
+      (jsx_closing_element (identifier)))))
+  (expression_statement (assignment_expression
+    (identifier)
+    (jsx_element
+      (jsx_opening_element
+        (nested_identifier (identifier) (identifier)))
+      (jsx_closing_element
+        (nested_identifier (identifier) (identifier)))))))
 
 =================================
 Type assertions

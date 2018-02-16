@@ -33,11 +33,11 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
 
     [$.nested_type_identifier, $.nested_identifier],
     [$.nested_type_identifier, $.member_expression],
+    [$.nested_identifier, $.member_expression, $.nested_type_identifier],
 
     [$.generic_type, $._primary_type],
     [$._expression, $._primary_type, $.lookup_type],
     [$._primary_type, $.lookup_type],
-    [$.nested_identifier, $.member_expression, $.nested_type_identifier],
 
     [$.member_expression, $.nested_identifier],
 
