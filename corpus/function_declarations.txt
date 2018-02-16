@@ -539,3 +539,61 @@ f = let { y :: Int;
             (function_head (function_identifier (variable)))
             (function_body (integer)))
           (in_clause (variable))))))
+
+=================================================
+Function Declarations With Case
+=================================================
+
+f x = case x of
+  Just _ -> x
+    where x = True
+  Nothing -> False
+
+g x = case x of
+  Just a | a < 10, x, let b = x -> True
+  Nothing -> False
+
+---
+
+(module
+  (function_declaration
+    (function_head
+      (function_identifier (variable))
+      (variable))
+    (function_body
+      (case
+        (variable)
+        (alternative
+          (type_constructor (identifier) (wildcard))
+          (variable)
+          (where
+            (function_declaration
+              (function_head (function_identifier (variable)))
+              (function_body (type_constructor (identifier))))))
+        (alternative
+          (type_constructor (identifier))
+          (type_constructor (identifier))))))
+  (function_declaration
+    (function_head
+      (function_identifier (variable))
+      (variable))
+    (function_body
+      (case
+        (variable)
+        (alternative
+          (type_constructor (identifier) (variable))
+          (guard
+            (binary
+              (variable)
+              (variable_symbol)
+              (integer)))
+          (guard (variable))
+          (guard
+            (let
+              (function_declaration
+                (function_head (function_identifier (variable)))
+                (function_body (variable)))))
+          (type_constructor (identifier)))
+        (alternative
+          (type_constructor (identifier))
+          (type_constructor (identifier)))))))
