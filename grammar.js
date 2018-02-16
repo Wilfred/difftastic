@@ -910,14 +910,6 @@ module.exports = grammar({
   }
 });
 
-function sep2 (rule, operator) {
-  return seq(rule, repeat1(seq(operator, rule)));
-}
-
-function sep1 (rule, operator) {
-  return seq(rule, repeat(seq(operator, rule)));
-}
-
 function commaSep1 (rule) {
   return seq(rule, repeat(seq(',', rule)));
 }
