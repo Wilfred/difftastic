@@ -56,9 +56,6 @@ module.exports = grammar({
     [$.labeled_statement, $._property_name],
     [$.assignment_pattern, $.assignment_expression],
     [$.computed_property_name, $.array],
-    [$.jsx_identifier, $.jsx_attribute],
-    [$.jsx_identifier, $.jsx_namespace_name],
-    [$.jsx_identifier, $.jsx_member_expression]
   ],
 
   rules: {
@@ -469,22 +466,31 @@ module.exports = grammar({
 
     _jsx_child: $ => choice($.jsx_text, $._jsx_element, $.jsx_expression),
 
-    jsx_opening_element: $ => seq(
+    jsx_opening_element: $ => prec.dynamic(-1, seq(
       '<',
       $._jsx_element_name,
       repeat($._jsx_attribute),
       '>'
+    )),
+
+    jsx_identifier: $ => /[a-zA-Z_$][a-zA-Z\d_$]*-[a-zA-Z\d_$\-]*/,
+
+    _jsx_identifier: $ => choice(
+      alias($.jsx_identifier, $.identifier),
+      $.identifier
     ),
 
-    jsx_identifier: $ => prec.right(sep1($.identifier, '-')),
-
-    jsx_member_expression: $ => sep2($._jsx_identifier, '.'),
+    nested_identifier: $ => prec(PREC.MEMBER, seq(
+      choice($.identifier, $.nested_identifier),
+      '.',
+      $.identifier
+    )),
 
     jsx_namespace_name: $ => seq($._jsx_identifier, ':', $._jsx_identifier),
 
     _jsx_element_name: $ => choice(
       $._jsx_identifier,
-      $.jsx_member_expression,
+      $.nested_identifier,
       $.jsx_namespace_name,
     ),
 
@@ -505,15 +511,7 @@ module.exports = grammar({
 
     _jsx_attribute: $ => choice($.jsx_attribute, $.jsx_expression),
 
-    nested_identifier: $ => prec(PREC.MEMBER, seq(
-      choice($.identifier, $.nested_identifier),
-      '.',
-      $.identifier
-    )),
-
-    _jsx_identifier: $ => choice($.identifier, $.jsx_identifier),
-
-    _jsx_attribute_name: $ => choice($._jsx_identifier, $.jsx_namespace_name),
+    _jsx_attribute_name: $ => choice(alias($._jsx_identifier, $.property_identifier), $.jsx_namespace_name),
 
     jsx_attribute: $ => seq(
       $._jsx_attribute_name,
