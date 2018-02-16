@@ -170,8 +170,11 @@ module.exports = grammar({
       $._variable,
       $.binary,
       $.arithmetic_sequence,
-      $.list_comprehension
+      $.list_comprehension,
+      $.otherwise
     ),
+
+    otherwise: $ => 'otherwise',
 
     arithmetic_sequence: $ => seq(
       '[',
