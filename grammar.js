@@ -155,7 +155,8 @@ module.exports = grammar({
       $.do,
       $.let,
       $.if_statement,
-      $._expression
+      $._expression,
+      $.case
     ),
 
     _expression: $ => choice(
@@ -264,6 +265,13 @@ module.exports = grammar({
       'in',
       $._expression
     ),
+
+    case: $ => prec.right(seq(
+      'case',
+      $._expression,
+      'of',
+      repeat1($.alternative)
+    )),
 
     field_labels: $ => seq(
       '{',
