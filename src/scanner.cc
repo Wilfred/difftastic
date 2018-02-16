@@ -85,6 +85,19 @@ struct Scanner {
       return false;
     }
 
+    // if (lexer->lookahead == 'i') {
+    //   advance(lexer);
+    //   if (lexer->lookahead == 'n') {
+    //     advance(lexer);
+    //     if (!iswalpha(lexer->lookahead)) {
+    //       if (valid_symbols[LAYOUT_CLOSE_BRACE]) {
+    //         printf("hello");
+    //       }
+    //       return true;
+    //     }
+    //   }
+    // }
+
     if (lexer->lookahead != '\n') return false;
     lexer->mark_end(lexer);
     advance(lexer);

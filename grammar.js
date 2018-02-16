@@ -49,7 +49,10 @@ module.exports = grammar({
     [$._statement, $._lhs],
     [$.function_head, $._expression],
     [$._variable, $._op],
-    [$._expression, $.function_application]
+    [$._expression, $.function_application],
+    [$.type_signature],
+    [$.function_body, $.function_application],
+    [$.data_constructor]
   ],
 
   rules: {
@@ -246,7 +249,14 @@ module.exports = grammar({
 
     let: $ => seq(
       'let',
-      $._declarations,
+      choice(
+        seq(
+          '{',
+          repeat(seq($._declaration, $._terminal)),
+          '}'
+        ),
+        repeat1($._declaration)
+      ),
       $.in_clause
     ),
 
