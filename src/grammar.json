@@ -1875,8 +1875,12 @@
       ]
     },
     "fallthrough_statement": {
-      "type": "STRING",
-      "value": "fallthrough"
+      "type": "PREC_LEFT",
+      "value": 0,
+      "content": {
+        "type": "STRING",
+        "value": "fallthrough"
+      }
     },
     "break_statement": {
       "type": "SEQ",

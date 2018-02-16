@@ -443,7 +443,10 @@ module.exports = grammar({
       ':'
     ),
 
-    fallthrough_statement: $ => 'fallthrough',
+    // This is a hack to prevent `fallthrough_statement` from being parsed as
+    // a single token. For consistency with `break_statement` etc it should
+    // be parsed as a parent node that *contains* a `fallthrough` token.
+    fallthrough_statement: $ => prec.left('fallthrough'),
 
     break_statement: $ => seq('break', optional(alias($.identifier, $.label_name))),
 
