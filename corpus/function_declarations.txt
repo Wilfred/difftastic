@@ -597,3 +597,34 @@ g x = case x of
         (alternative
           (type_constructor (identifier))
           (type_constructor (identifier)))))))
+
+=================================================
+Function Declarations With Guards
+=================================================
+
+f x | x < 10, x > 2 = True
+    | otherwise = False
+
+---
+
+(module
+  (function_declaration
+    (function_head
+      (function_identifier (variable))
+      (variable))
+    (guard
+      (binary
+        (variable)
+        (variable_symbol)
+        (integer)))
+    (guard
+      (binary
+        (variable)
+        (variable_symbol)
+        (integer)))
+    (function_body
+      (type_constructor (identifier)))
+    (guard
+      (otherwise))
+    (function_body
+      (type_constructor (identifier)))))

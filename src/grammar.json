@@ -817,29 +817,25 @@
       ]
     },
     "function_head": {
-      "type": "PREC_RIGHT",
-      "value": 0,
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "ALIAS",
-            "content": {
-              "type": "SYMBOL",
-              "name": "_variable"
-            },
-            "named": true,
-            "value": "function_identifier"
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_variable"
           },
-          {
-            "type": "REPEAT",
-            "content": {
-              "type": "SYMBOL",
-              "name": "_lhs"
-            }
+          "named": true,
+          "value": "function_identifier"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_lhs"
           }
-        ]
-      }
+        }
+      ]
     },
     "function_body": {
       "type": "SEQ",
