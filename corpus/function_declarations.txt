@@ -634,6 +634,7 @@ Function Declarations With Do
 =================================================
 
 f x = do
+  let z = x
   y <- a
   pure y
 
@@ -647,5 +648,10 @@ f x = do
     (function_body
       (do
         (statement_list
+          (let
+            (function_declaration
+              (function_head
+                (function_identifier (variable)))
+              (function_body (variable))))
           (binary (variable) (variable_symbol) (variable))
           (function_application (variable) (variable)))))))
