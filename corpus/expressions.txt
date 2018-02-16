@@ -962,6 +962,7 @@ Simple JSX elements
 
 a = <div className='b' tabIndex={1} />;
 b = <Foo.Bar>a <span>b</span> c</Foo.Bar>;
+b = <Foo.Bar.Baz.Baz></Foo.Bar.Baz.Baz>;
 
 ---
 
@@ -975,14 +976,15 @@ b = <Foo.Bar>a <span>b</span> c</Foo.Bar>;
   (expression_statement (assignment_expression
     (identifier)
     (jsx_element
-      (jsx_opening_element (jsx_member_expression (identifier) (identifier)))
+      (jsx_opening_element (nested_identifier (identifier) (identifier)))
       (jsx_text)
       (jsx_element
         (jsx_opening_element (identifier))
         (jsx_text)
         (jsx_closing_element (identifier)))
       (jsx_text)
-      (jsx_closing_element (jsx_member_expression (identifier) (identifier)))))))
+      (jsx_closing_element (nested_identifier (identifier) (identifier))))))
+  (expression_statement (assignment_expression (identifier) (jsx_element (jsx_opening_element (nested_identifier (nested_identifier (nested_identifier (identifier) (identifier)) (identifier)) (identifier))) (jsx_closing_element (nested_identifier (nested_identifier (nested_identifier (identifier) (identifier)) (identifier)) (identifier)))))))
 
 ==============================================
 Expressions within JSX elements
@@ -1108,8 +1110,8 @@ i = <Foo:Bar bar={}>{...children}</Foo:Bar>
     (jsx_element (jsx_opening_element (identifier)) (jsx_closing_element (identifier)))))
   (expression_statement (assignment_expression (identifier)
     (jsx_element
-      (jsx_opening_element (jsx_member_expression (identifier) (identifier)))
-      (jsx_closing_element (jsx_member_expression (identifier) (identifier))))))
+      (jsx_opening_element (nested_identifier (identifier) (identifier)))
+      (jsx_closing_element (nested_identifier (identifier) (identifier))))))
   (expression_statement (assignment_expression (identifier)
     (jsx_fragment (jsx_text) (jsx_self_closing_element (identifier)) (jsx_text))))
   (expression_statement (assignment_expression (identifier)
