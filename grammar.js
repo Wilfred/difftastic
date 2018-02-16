@@ -542,7 +542,7 @@ module.exports = grammar({
 
     _constructed_value: $ => prec.right(seq(
       $._type_constructors,
-      repeat(choice($.variable, $._type_constructors, $._literal))
+      repeat(choice($.variable, $._type_constructors, $._literal, $.wildcard))
     )),
 
     context: $ => seq(
