@@ -474,12 +474,29 @@
           "name": "function_head"
         },
         {
-          "type": "STRING",
-          "value": "="
-        },
-        {
-          "type": "SYMBOL",
-          "name": "function_body"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "REPEAT1",
+              "content": {
+                "type": "SYMBOL",
+                "name": "_rhs_guards"
+              }
+            },
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "="
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "function_body"
+                }
+              ]
+            }
+          ]
         }
       ]
     },
@@ -554,8 +571,16 @@
         {
           "type": "SYMBOL",
           "name": "list_comprehension"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "otherwise"
         }
       ]
+    },
+    "otherwise": {
+      "type": "STRING",
+      "value": "otherwise"
     },
     "arithmetic_sequence": {
       "type": "SEQ",
@@ -792,25 +817,29 @@
       ]
     },
     "function_head": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "ALIAS",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_variable"
+      "type": "PREC_RIGHT",
+      "value": 0,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_variable"
+            },
+            "named": true,
+            "value": "function_identifier"
           },
-          "named": true,
-          "value": "function_identifier"
-        },
-        {
-          "type": "REPEAT",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_lhs"
+          {
+            "type": "REPEAT",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_lhs"
+            }
           }
-        }
-      ]
+        ]
+      }
     },
     "function_body": {
       "type": "SEQ",
@@ -1026,6 +1055,23 @@
               }
             }
           ]
+        }
+      ]
+    },
+    "_rhs_guards": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_guards"
+        },
+        {
+          "type": "STRING",
+          "value": "="
+        },
+        {
+          "type": "SYMBOL",
+          "name": "function_body"
         }
       ]
     },
