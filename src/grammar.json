@@ -1972,30 +1972,35 @@
         }
       ]
     },
-    "jsx_member_expression": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "_jsx_identifier"
-        },
-        {
-          "type": "REPEAT1",
-          "content": {
-            "type": "SEQ",
+    "nested_identifier": {
+      "type": "PREC",
+      "value": 13,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "CHOICE",
             "members": [
               {
-                "type": "STRING",
-                "value": "."
+                "type": "SYMBOL",
+                "name": "identifier"
               },
               {
                 "type": "SYMBOL",
-                "name": "_jsx_identifier"
+                "name": "nested_identifier"
               }
             ]
+          },
+          {
+            "type": "STRING",
+            "value": "."
+          },
+          {
+            "type": "SYMBOL",
+            "name": "identifier"
           }
-        }
-      ]
+        ]
+      }
     },
     "jsx_namespace_name": {
       "type": "SEQ",
@@ -2023,7 +2028,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "jsx_member_expression"
+          "name": "nested_identifier"
         },
         {
           "type": "SYMBOL",
@@ -2092,36 +2097,6 @@
           "name": "jsx_expression"
         }
       ]
-    },
-    "nested_identifier": {
-      "type": "PREC",
-      "value": 13,
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "identifier"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "nested_identifier"
-              }
-            ]
-          },
-          {
-            "type": "STRING",
-            "value": "."
-          },
-          {
-            "type": "SYMBOL",
-            "name": "identifier"
-          }
-        ]
-      }
     },
     "_jsx_attribute_name": {
       "type": "CHOICE",
