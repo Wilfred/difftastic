@@ -628,3 +628,24 @@ f x | x < 10, x > 2 = True
       (otherwise))
     (function_body
       (type_constructor (identifier)))))
+
+=================================================
+Function Declarations With Do
+=================================================
+
+f x = do
+  y <- a
+  pure y
+
+---
+
+(module
+  (function_declaration
+    (function_head
+      (function_identifier (variable))
+      (variable))
+    (function_body
+      (do
+        (statement_list
+          (binary (variable) (variable_symbol) (variable))
+          (function_application (variable) (variable)))))))
