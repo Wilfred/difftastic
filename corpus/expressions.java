@@ -197,7 +197,7 @@ assignment
 ===
 
 class Beyonce {
-  public void cheese() {
+  public void four() {
     x = 1;
   }
 }
@@ -214,3 +214,40 @@ class Beyonce {
           (modifier)
           (method_header (unann_type (unann_primitive_type)) (method_declarator (identifier)))
           (method_body (block (assignment_expression (lhs (identifier)) (integer_literal (decimal_integer_literal))))))))))))
+
+
+===
+return statement
+===
+
+return x;
+return x * y;
+return x + 2;
+return fire(x);
+
+---
+
+(program
+  (return_statement (identifier))
+  (return_statement (binary_expression (identifier) (identifier)))
+  (return_statement (binary_expression (identifier) (integer_literal (decimal_integer_literal))))
+  (return_statement (method_invocation (identifier) (argument_list (identifier))))) 
+
+===
+normal_annotation
+===
+
+@SuppressWarnings(value = "unchecked")
+@SuppressWarnings("unchecked")
+
+---
+
+===
+marker annotation
+===
+
+@Beta
+
+===
+single element annotation
+===
