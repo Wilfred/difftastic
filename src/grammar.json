@@ -68,6 +68,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "macro_invocation"
+        },
+        {
+          "type": "SYMBOL",
           "name": "attribute_item"
         },
         {
@@ -3504,8 +3508,12 @@
             "name": "tuple_expression"
           },
           {
-            "type": "SYMBOL",
-            "name": "macro_invocation"
+            "type": "PREC",
+            "value": 1,
+            "content": {
+              "type": "SYMBOL",
+              "name": "macro_invocation"
+            }
           },
           {
             "type": "SYMBOL",

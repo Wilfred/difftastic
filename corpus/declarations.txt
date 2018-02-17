@@ -514,6 +514,27 @@ trait Add<RHS=Self> {
         (scoped_type_identifier (identifier) (type_identifier))))))
 
 ============================================
+Macro invocations inside trait declarations
+============================================
+
+
+pub trait A: B + C + D {
+    private_decl!{}
+    fn f(&self);
+}
+
+---
+
+(source_file
+  (trait_item
+    (visibility_modifier)
+    (type_identifier)
+    (trait_bounds (type_identifier) (type_identifier) (type_identifier))
+    (declaration_list
+      (macro_invocation (identifier) (token_tree))
+      (function_signature_item (identifier) (parameters (self_parameter (self)))))))
+
+============================================
 Associated Types
 ============================================
 

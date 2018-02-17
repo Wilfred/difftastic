@@ -69,6 +69,7 @@ module.exports = grammar({
 
     _declaration_statement: $ => choice(
       $.const_item,
+      $.macro_invocation,
       $.attribute_item,
       $.inner_attribute_item,
       $.mod_item,
@@ -697,7 +698,7 @@ module.exports = grammar({
       $.field_expression,
       $.array_expression,
       $.tuple_expression,
-      $.macro_invocation,
+      prec(1, $.macro_invocation),
       $.unit_expression,
       $._expression_ending_with_block,
       $.break_expression,
