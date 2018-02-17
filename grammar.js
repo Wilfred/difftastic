@@ -383,12 +383,14 @@ module.exports = grammar({
         seq('->', $._type)),
         '!'
       ),
+      optional($.where_clause),
       ';'
     ),
 
     where_clause: $ => seq(
       'where',
-      sepBy1(',', $.where_predicate)
+      sepBy1(',', $.where_predicate),
+      optional(',')
     ),
 
     where_predicate: $ => seq(
