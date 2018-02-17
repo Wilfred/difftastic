@@ -392,7 +392,11 @@ module.exports = grammar({
     ),
 
     where_predicate: $ => seq(
-      $._type_identifier,
+      choice(
+        $._type_identifier,
+        $.scoped_type_identifier,
+        $.generic_type
+      ),
       $.trait_bounds
     ),
 
