@@ -72,13 +72,15 @@ String literals
 Raw string literals
 ============================================
 
-r#"abc"#; r##ok##;
+r#"abc"#; r##"ok"##;
 r##"foo #"# bar"##;
 r###"foo ##"## bar"###;
+r######"foo ##### bar"######;
 
 ---
 
 (source_file
+  (raw_string_literal)
   (raw_string_literal)
   (raw_string_literal)
   (raw_string_literal)
