@@ -961,13 +961,8 @@ module.exports = grammar({
 
     closure_parameters: $ => seq(
       '|',
-      sepBy(',', choice($.closure_parameter, $.parameter)),
+      sepBy(',', choice($._pattern, $.mut_pattern, $.parameter)),
       '|'
-    ),
-
-    closure_parameter: $ => seq(
-      optional($.mutable_specifier),
-      $._pattern
     ),
 
     loop_label: $ => seq('\'', $.identifier),
@@ -1026,7 +1021,7 @@ module.exports = grammar({
         $.scoped_identifier
       ),
       '(',
-      sepBy(',', $._pattern),
+      sepBy(',', choice($._pattern, $.mut_pattern)),
       ')'
     ),
 
@@ -1050,6 +1045,11 @@ module.exports = grammar({
     ),
 
     remaining_field_pattern: $ => '..',
+
+    mut_pattern: $ => seq(
+      $.mutable_specifier,
+      $._pattern
+    ),
 
     ref_pattern: $ => seq(
       'ref',
