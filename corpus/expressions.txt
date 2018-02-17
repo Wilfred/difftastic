@@ -199,3 +199,16 @@ List Comprehensions
       (variable)
       (arithmetic_sequence
         (enum_from (integer))))))
+
+===============================
+Left Operator Sections
+===============================
+
+(a :)
+(a :<)
+
+---
+
+(module
+  (left_section (variable) (constructor_symbol))
+  (left_section (variable) (constructor_symbol)))
