@@ -177,12 +177,21 @@ module.exports = grammar({
       $.list_comprehension,
       $.otherwise,
       $.left_section,
+      $.right_section
+    ),
+
     left_section: $ => seq(
       '(',
       $._expression,
       $._op,
       ')'
     ),
+
+    right_section: $ => seq(
+      '(',
+      $._op,
+      $._expression,
+      ')'
     ),
 
     otherwise: $ => 'otherwise',

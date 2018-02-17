@@ -201,6 +201,19 @@ List Comprehensions
         (enum_from (integer))))))
 
 ===============================
+Right Operator Sections
+===============================
+
+(: a)
+(:< a)
+
+---
+
+(module
+  (right_section (constructor_symbol) (variable))
+  (right_section (constructor_symbol) (variable)))
+
+===============================
 Left Operator Sections
 ===============================
 
