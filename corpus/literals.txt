@@ -59,10 +59,6 @@ String literals
     bar";
 "\"foo\"";
 
-r#"abc"#;
-r##"foo #"# bar"##;
-r###"foo ##"## bar"###;
-
 ---
 
 (source_file
@@ -70,7 +66,20 @@ r###"foo ##"## bar"###;
   (string_literal)
   (string_literal)
   (string_literal)
-  (string_literal)
+  (string_literal))
+
+============================================
+Raw string literals
+============================================
+
+r#"abc"#; r##ok##;
+r##"foo #"# bar"##;
+r###"foo ##"## bar"###;
+
+---
+
+(source_file
+  (raw_string_literal)
   (raw_string_literal)
   (raw_string_literal)
   (raw_string_literal))
