@@ -94,7 +94,7 @@ type L = M<N>::O;
   (type_item
     (type_identifier)
     (generic_type
-      (scoped_identifier (identifier) (identifier))
+      (scoped_type_identifier (identifier) (type_identifier))
       (type_arguments (type_identifier))))
   (type_item
     (type_identifier)

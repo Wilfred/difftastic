@@ -107,43 +107,53 @@ module.exports = grammar({
     },
 
     macro_rule: $ => seq(
-      $.matcher,
+      $.token_tree_pattern,
       '=>',
-      $.transcriber
+      $.token_tree
     ),
 
-    matcher: $ => choice(
-      seq('(', repeat($._matcher), ')'),
-      seq('[', repeat($._matcher), ']'),
-      seq('{', repeat($._matcher), '}')
-    ),
-
-    _matcher: $ => choice(
-      seq('(', repeat($._matcher), ')'),
-      seq('[', repeat($._matcher), ']'),
-      seq('{', repeat($._matcher), '}'),
-      prec(1, seq($.metavariable, ':', $.fragment_specifier)),
-      seq('$', '(', repeat($._matcher), ')', optional(/[^+*]+/), choice('+', '*')),
+    _token_pattern: $ => choice(
+      $.token_tree_pattern,
+      $.token_repetition_pattern,
+      $.token_binding_pattern,
       $._non_special_token
+    ),
+
+    token_tree_pattern: $ => choice(
+      seq('(', repeat($._token_pattern), ')'),
+      seq('[', repeat($._token_pattern), ']'),
+      seq('{', repeat($._token_pattern), '}')
+    ),
+
+    token_binding_pattern: $ => prec(1, seq(
+      $.metavariable,
+      ':',
+      $.fragment_specifier
+    )),
+
+    token_repetition_pattern: $ => seq(
+      '$', '(', repeat($._token_pattern), ')', optional(/[^+*]+/), choice('+', '*')
     ),
 
     fragment_specifier: $ => choice(
       'ident', 'path', 'expr', 'ty', 'pat', 'stmt', 'block', 'item', 'meta', 'tt'
     ),
 
-    transcriber: $ => choice(
-      seq('(', repeat($._transcriber), ')'),
-      seq('[', repeat($._transcriber), ']'),
-      seq('{', repeat($._transcriber), '}')
-    ),
-
-    _transcriber: $ => prec.left(-1, choice(
-      seq('(', repeat($._transcriber), ')'),
-      seq('[', repeat($._transcriber), ']'),
-      seq('{', repeat($._transcriber), '}'),
-      seq('$', '(', repeat($._transcriber), ')', optional(/[^+*]+/), choice('+', '*')),
+    _tokens: $ => prec.left(-1, choice(
+      $.token_tree,
+      $.token_repetition,
       $._non_special_token
     )),
+
+    token_tree: $ => choice(
+      seq('(', repeat($._tokens), ')'),
+      seq('[', repeat($._tokens), ']'),
+      seq('{', repeat($._tokens), '}')
+    ),
+
+    token_repetition: $ => seq(
+      '$', '(', repeat($._tokens), ')', optional(/[^+*]+/), choice('+', '*')
+    ),
 
     _non_special_token: $ => choice(
       $.identifier,
@@ -160,6 +170,7 @@ module.exports = grammar({
       $.mutable_specifier,
       $.unsafe,
       'pub',
+      "'",
       '&',
       '*',
       '/',
@@ -428,11 +439,7 @@ module.exports = grammar({
 
     impl_for_clause: $ => seq(
       'for',
-      choice(
-        $._type_identifier,
-        $.scoped_type_identifier
-      ),
-      optional($.type_arguments)
+      $._type
     ),
 
     type_parameters: $ => seq(
@@ -613,7 +620,7 @@ module.exports = grammar({
     generic_type: $ => prec(1, seq(
       choice(
         $._type_identifier,
-        $.scoped_identifier
+        $.scoped_type_identifier
       ),
       $.type_arguments
     )),
@@ -710,21 +717,8 @@ module.exports = grammar({
     macro_invocation: $ => seq(
       $.identifier,
       '!',
-      $.macro_arguments
+      $.token_tree
     ),
-
-    macro_arguments: $ => {
-      const args = choice(
-        sepBy(',', $._expression),
-        sepBy(';', $._expression)
-      )
-
-      return choice(
-        seq('{', args, '}'),
-        seq('(', args, ')'),
-        seq('[', args, ']')
-      )
-    },
 
     scoped_identifier: $ => prec(-1, seq(
       optional(choice(

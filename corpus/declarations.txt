@@ -66,7 +66,7 @@ fn takes_slice(slice: &str) {
   (function_item (identifier)
     (parameters
       (parameter (identifier) (reference_type (primitive_type))))
-    (block (macro_invocation (identifier) (macro_arguments (string_literal) (identifier))))))
+    (block (macro_invocation (identifier) (token_tree (string_literal) (identifier))))))
 
 ============================================
 Extern function declarations
@@ -440,13 +440,14 @@ impl ConvertTo<i64> for i32 {
     (type_parameters (lifetime (identifier)))
     (scoped_type_identifier (identifier) (type_identifier))
     (impl_for_clause
-      (scoped_type_identifier (identifier) (type_identifier))
-      (type_arguments (lifetime (identifier))))
+      (generic_type
+        (scoped_type_identifier (identifier) (type_identifier))
+        (type_arguments (lifetime (identifier)))))
     (declaration_list))
   (impl_item
     (type_identifier)
     (type_arguments (primitive_type))
-    (impl_for_clause (type_identifier))
+    (impl_for_clause (primitive_type))
     (declaration_list
       (function_item
         (identifier)
@@ -613,7 +614,7 @@ impl<'a, T: 'a + Item> Iterator for Iter<'a, T> where Self: 'a {
       (lifetime (identifier))
       (constrained_type_parameter (type_identifier) (lifetime (identifier)) (type_identifier)))
     (type_identifier)
-    (impl_for_clause (type_identifier) (type_arguments (lifetime (identifier)) (type_identifier)))
+    (impl_for_clause (generic_type (type_identifier) (type_arguments (lifetime (identifier)) (type_identifier))))
     (where_clause (where_predicate (type_identifier) (trait_bounds (lifetime (identifier)))))
     (declaration_list)))
 
