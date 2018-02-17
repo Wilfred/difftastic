@@ -511,7 +511,7 @@ d.map(|mut e| {
     (field_expression (identifier) (field_identifier))
     (arguments
       (closure_expression
-        (closure_parameters (closure_parameter (tuple_pattern (identifier) (identifier))))
+        (closure_parameters (tuple_pattern (identifier) (identifier)))
         (call_expression
           (field_expression (identifier) (field_identifier))
           (arguments (identifier))))))
@@ -519,7 +519,7 @@ d.map(|mut e| {
     (field_expression (identifier) (field_identifier))
     (arguments
       (closure_expression
-        (closure_parameters (closure_parameter (mutable_specifier) (identifier)))
+        (closure_parameters (mut_pattern (mutable_specifier) (identifier)))
         (block
           (call_expression (identifier) (arguments (identifier)))
           (call_expression (identifier) (arguments (identifier))))))))
