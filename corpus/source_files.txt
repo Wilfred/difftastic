@@ -39,14 +39,14 @@ vec!();
 ----
 
 (source_file
-  (macro_invocation (identifier) (macro_arguments))
-  (macro_invocation (identifier) (macro_arguments
+  (macro_invocation (identifier) (token_tree))
+  (macro_invocation (identifier) (token_tree
     (string_literal) (string_literal)))
-  (macro_invocation (identifier) (macro_arguments
+  (macro_invocation (identifier) (token_tree
     (number_literal) (number_literal) (number_literal)))
-  (macro_invocation (identifier) (macro_arguments
+  (macro_invocation (identifier) (token_tree
     (number_literal) (number_literal)))
-  (macro_invocation (identifier) (macro_arguments)))
+  (macro_invocation (identifier) (token_tree)))
 
 ============================================
 Macro definition
@@ -78,19 +78,27 @@ macro_rules! o_O {
 ----
 
 (source_file
-  (macro_definition (identifier) (macro_rule
-    (matcher)
-    (transcriber (identifier) (string_literal))))
-  (macro_definition (identifier) (macro_rule
-    (matcher)
-    (transcriber (number_literal) (number_literal))))
   (macro_definition (identifier)
     (macro_rule
-      (matcher (identifier) (metavariable) (fragment_specifier))
-      (transcriber (identifier) (string_literal) (metavariable)))
+      (token_tree_pattern)
+      (token_tree (identifier) (token_tree (string_literal)))))
+  (macro_definition (identifier)
     (macro_rule
-      (matcher (identifier) (metavariable) (fragment_specifier))
-      (transcriber (identifier) (string_literal) (metavariable))))
-  (macro_definition (identifier) (macro_rule
-    (matcher (metavariable) (fragment_specifier) (metavariable) (fragment_specifier))
-    (transcriber (metavariable) (metavariable)))))
+      (token_tree_pattern)
+      (token_tree (number_literal) (number_literal))))
+  (macro_definition (identifier)
+    (macro_rule
+      (token_tree_pattern (identifier) (token_binding_pattern (metavariable) (fragment_specifier)))
+      (token_tree (identifier) (token_tree (string_literal) (metavariable))))
+    (macro_rule
+      (token_tree_pattern
+        (identifier)
+        (token_binding_pattern (metavariable) (fragment_specifier)))
+      (token_tree (identifier) (token_tree (string_literal) (metavariable)))))
+  (macro_definition (identifier)
+    (macro_rule
+      (token_tree_pattern (token_repetition_pattern
+        (token_binding_pattern (metavariable) (fragment_specifier))
+        (token_tree_pattern (token_repetition_pattern
+          (token_binding_pattern (metavariable) (fragment_specifier))))))
+      (token_tree (token_repetition (token_repetition (metavariable) (metavariable)))))))
