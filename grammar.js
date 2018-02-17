@@ -38,6 +38,10 @@ module.exports = grammar({
 
   extras: $ => [/\s/, $.line_comment, $.block_comment],
 
+  externals: $ => [
+    $.raw_string_literal,
+  ],
+
   inline: $ => [
     $._type_identifier,
     $._field_identifier,
@@ -1111,12 +1115,6 @@ module.exports = grammar({
         /[^\\"]/
       )),
       '"'
-    )),
-
-    raw_string_literal: $ => token(choice(
-      seq('r#"', repeat(/.*/), '"#'),
-      seq('r##"', repeat(/.*/), '"##'),
-      seq('r###"', repeat(/.*/), '"###')
     )),
 
     char_literal: $ => token(seq(
