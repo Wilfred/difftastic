@@ -575,6 +575,56 @@
         {
           "type": "SYMBOL",
           "name": "otherwise"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "left_section"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "right_section"
+        }
+      ]
+    },
+    "left_section": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_op"
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "right_section": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_op"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_expression"
+        },
+        {
+          "type": "STRING",
+          "value": ")"
         }
       ]
     },
@@ -4264,6 +4314,11 @@
     [
       "statement_list",
       "function_application"
+    ],
+    [
+      "_parenthesized_variable_symbol",
+      "_variable",
+      "_op"
     ]
   ],
   "externals": [

@@ -53,7 +53,8 @@ module.exports = grammar({
     [$.type_signature],
     [$.function_body, $.function_application],
     [$.data_constructor],
-    [$.statement_list, $.function_application]
+    [$.statement_list, $.function_application],
+    [$._parenthesized_variable_symbol, $._variable, $._op]
   ],
 
   rules: {
@@ -174,7 +175,14 @@ module.exports = grammar({
       $.binary,
       $.arithmetic_sequence,
       $.list_comprehension,
-      $.otherwise
+      $.otherwise,
+      $.left_section,
+    left_section: $ => seq(
+      '(',
+      $._expression,
+      $._op,
+      ')'
+    ),
     ),
 
     otherwise: $ => 'otherwise',
