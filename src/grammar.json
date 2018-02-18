@@ -624,6 +624,10 @@
         },
         {
           "type": "STRING",
+          "value": "->"
+        },
+        {
+          "type": "STRING",
           "value": "=>"
         },
         {
@@ -633,6 +637,18 @@
         {
           "type": "STRING",
           "value": "if"
+        },
+        {
+          "type": "STRING",
+          "value": "let"
+        },
+        {
+          "type": "STRING",
+          "value": "match"
+        },
+        {
+          "type": "STRING",
+          "value": "loop"
         },
         {
           "type": "STRING",
@@ -1725,8 +1741,17 @@
                       "value": "->"
                     },
                     {
-                      "type": "SYMBOL",
-                      "name": "_type"
+                      "type": "CHOICE",
+                      "members": [
+                        {
+                          "type": "SYMBOL",
+                          "name": "abstract_return_type"
+                        },
+                        {
+                          "type": "SYMBOL",
+                          "name": "_type"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -1808,8 +1833,17 @@
                       "value": "->"
                     },
                     {
-                      "type": "SYMBOL",
-                      "name": "_type"
+                      "type": "CHOICE",
+                      "members": [
+                        {
+                          "type": "SYMBOL",
+                          "name": "abstract_return_type"
+                        },
+                        {
+                          "type": "SYMBOL",
+                          "name": "_type"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -1907,6 +1941,32 @@
         {
           "type": "SYMBOL",
           "name": "trait_bounds"
+        }
+      ]
+    },
+    "abstract_return_type": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "impl"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_type_identifier"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "scoped_type_identifier"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "generic_type"
+            }
+          ]
         }
       ]
     },
