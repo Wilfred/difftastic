@@ -581,6 +581,14 @@ module.exports = grammar({
       alias(choice(...primitive_types), $.primitive_type)
     ),
 
+    qualified_type: $ => seq(
+      '<',
+      $._type,
+      'as',
+      $._type,
+      '>'
+    ),
+
     lifetime: $ => seq("'", $.identifier),
 
     array_type: $ => seq(
@@ -736,6 +744,7 @@ module.exports = grammar({
         $.self,
         $.identifier,
         $.scoped_identifier,
+        $.qualified_type,
         alias($.generic_type_with_turbofish, $.generic_type)
       )),
       '::',
@@ -747,6 +756,7 @@ module.exports = grammar({
         $.self,
         $.identifier,
         $.scoped_identifier,
+        $.qualified_type,
         alias($.generic_type_with_turbofish, $.generic_type)
       )),
       '::',
@@ -758,6 +768,7 @@ module.exports = grammar({
         $.self,
         $.identifier,
         $.scoped_identifier,
+        $.qualified_type,
         alias($.generic_type_with_turbofish, $.generic_type),
         $.generic_type
       )),

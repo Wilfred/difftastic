@@ -482,6 +482,21 @@ C::<D>::e();
   (call_expression (scoped_identifier (scoped_identifier (identifier)) (identifier)) (arguments)))
 
 ============================================
+Scoped functions with fully qualified syntax
+============================================
+
+<Dog as Animal>::eat(d);
+
+---
+
+(source_file
+  (call_expression
+    (scoped_identifier
+      (qualified_type (type_identifier) (type_identifier))
+      (identifier))
+    (arguments (identifier))))
+
+============================================
 Generic functions
 ============================================
 
