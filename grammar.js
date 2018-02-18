@@ -704,11 +704,6 @@ module.exports = grammar({
     // Section - Expressions
 
     _expression: $ => choice(
-      $._no_struct_literal_expr,
-      $.struct_expression
-    ),
-
-    _no_struct_literal_expr: $ => prec.left(choice(
       $.unary_expression,
       $.reference_expression,
       $.try_expression,
@@ -717,7 +712,7 @@ module.exports = grammar({
       $.call_expression,
       $.return_expression,
       $._literal,
-      $.identifier,
+      prec.left($.identifier),
       $.self,
       $.scoped_identifier,
       $.generic_function,
@@ -732,8 +727,9 @@ module.exports = grammar({
       $._index_expression,
       $.metavariable,
       $.closure_expression,
-      seq('(', $._expression, ')')
-    )),
+      seq('(', $._expression, ')'),
+      $.struct_expression
+    ),
 
     _expression_ending_with_block: $ => choice(
       $.unsafe_block,
@@ -903,7 +899,7 @@ module.exports = grammar({
 
     if_expression: $ => seq(
       'if',
-      $._no_struct_literal_expr,
+      $._expression,
       $.block,
       optional($.else_tail)
     ),
@@ -925,7 +921,7 @@ module.exports = grammar({
 
     match_expression: $ => seq(
       'match',
-      $._no_struct_literal_expr,
+      $._expression,
       '{',
       repeat($.match_arm),
       alias($.last_match_arm, $.match_arm),
@@ -951,13 +947,13 @@ module.exports = grammar({
     match_pattern: $ => seq(
       $._pattern,
       repeat(seq('|', $._pattern)),
-      optional(seq('if', $._no_struct_literal_expr))
+      optional(seq('if', $._expression))
     ),
 
     while_expression: $ => seq(
       optional(seq($.loop_label, ':')),
       'while',
-      $._no_struct_literal_expr,
+      $._expression,
       $.block
     ),
 
@@ -967,7 +963,7 @@ module.exports = grammar({
       'let',
       $._pattern,
       '=',
-      $._no_struct_literal_expr,
+      $._expression,
       $.block
     ),
 
@@ -982,7 +978,7 @@ module.exports = grammar({
       'for',
       $._pattern,
       'in',
-      $._no_struct_literal_expr,
+      $._expression,
       $.block
     ),
 
