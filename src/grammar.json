@@ -3000,6 +3000,31 @@
         }
       ]
     },
+    "qualified_type": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "<"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_type"
+        },
+        {
+          "type": "STRING",
+          "value": "as"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_type"
+        },
+        {
+          "type": "STRING",
+          "value": ">"
+        }
+      ]
+    },
     "lifetime": {
       "type": "SEQ",
       "members": [
@@ -3646,6 +3671,10 @@
                     "name": "scoped_identifier"
                   },
                   {
+                    "type": "SYMBOL",
+                    "name": "qualified_type"
+                  },
+                  {
                     "type": "ALIAS",
                     "content": {
                       "type": "SYMBOL",
@@ -3697,6 +3726,10 @@
                     "name": "scoped_identifier"
                   },
                   {
+                    "type": "SYMBOL",
+                    "name": "qualified_type"
+                  },
+                  {
                     "type": "ALIAS",
                     "content": {
                       "type": "SYMBOL",
@@ -3743,6 +3776,10 @@
                 {
                   "type": "SYMBOL",
                   "name": "scoped_identifier"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "qualified_type"
                 },
                 {
                   "type": "ALIAS",
