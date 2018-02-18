@@ -376,7 +376,7 @@ module.exports = grammar({
       optional($.type_parameters),
       $.parameters,
       optional(choice(
-        seq('->', $._type)),
+        seq('->', choice($.abstract_return_type, $._type))),
         '!'
       ),
       optional($.where_clause),
@@ -390,7 +390,7 @@ module.exports = grammar({
       optional($.type_parameters),
       $.parameters,
       optional(choice(
-        seq('->', $._type)),
+        seq('->', choice($.abstract_return_type, $._type))),
         '!'
       ),
       optional($.where_clause),
@@ -410,6 +410,15 @@ module.exports = grammar({
         $.generic_type
       ),
       $.trait_bounds
+    ),
+
+    abstract_return_type: $ => seq(
+      'impl',
+      choice(
+        $._type_identifier,
+        $.scoped_type_identifier,
+        $.generic_type
+      )
     ),
 
     impl_item: $ => seq(

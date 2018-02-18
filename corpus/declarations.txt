@@ -69,6 +69,24 @@ fn takes_slice(slice: &str) {
     (block (macro_invocation (identifier) (token_tree (string_literal) (identifier))))))
 
 ============================================
+Functions with abstract return types
+============================================
+
+fn triples() -> impl Iterator<Item=(usize)> {
+}
+
+---
+
+(source_file
+  (function_item
+    (identifier)
+    (parameters)
+    (abstract_return_type (generic_type
+      (type_identifier)
+      (type_arguments (type_binding (type_identifier) (tuple_type (primitive_type))))))
+    (block)))
+
+============================================
 Extern function declarations
 ============================================
 
