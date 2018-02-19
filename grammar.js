@@ -948,6 +948,7 @@ module.exports = grammar({
     ),
 
     match_arm: $ => seq(
+      repeat($.attribute_item),
       $.match_pattern,
       '=>',
       choice(
@@ -957,6 +958,7 @@ module.exports = grammar({
     ),
 
     last_match_arm: $ => seq(
+      repeat($.attribute_item),
       $.match_pattern,
       '=>',
       $._expression,
