@@ -102,3 +102,17 @@ macro_rules! o_O {
         (token_tree_pattern (token_repetition_pattern
           (token_binding_pattern (metavariable) (fragment_specifier))))))
       (token_tree (token_repetition (token_repetition (metavariable) (metavariable)))))))
+
+=====================================
+Greek letters in identifiers
+=====================================
+
+const σ1 : Σ = 0;
+const ψ_2 : Ψ = 1;
+
+---
+
+(source_file
+  (const_item (identifier) (type_identifier) (number_literal))
+  (const_item (identifier) (type_identifier) (number_literal)))
+  
