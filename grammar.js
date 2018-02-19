@@ -296,7 +296,7 @@ module.exports = grammar({
 
     field_declaration_list: $ => seq(
       '{',
-      sepBy(',', $.field_declaration),
+      sepBy(',', seq(repeat($.attribute_item), $.field_declaration)),
       optional(','),
       '}'
     ),

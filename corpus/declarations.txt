@@ -161,6 +161,8 @@ struct Electron {}
 struct Person {pub name: String, pub age: u32}
 struct Point {
   x: i32,
+
+  #[attribute1]
   y: i32,
 }
 struct Color(pub i32, i32, i32);
@@ -176,6 +178,7 @@ struct Inches(i32);
     (field_declaration (visibility_modifier) (field_identifier) (primitive_type))))
   (struct_item (type_identifier) (field_declaration_list
     (field_declaration (field_identifier) (primitive_type))
+    (attribute_item (meta_item (identifier)))
     (field_declaration (field_identifier) (primitive_type))))
   (struct_item (type_identifier) (ordered_field_declaration_list
     (visibility_modifier) (primitive_type) (primitive_type) (primitive_type)))
