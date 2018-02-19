@@ -668,10 +668,29 @@ module.exports = grammar({
       $.type_arguments
     ),
 
+    bounded_type: $ => seq(
+      choice(
+        $._type_identifier,
+        $.scoped_identifier,
+        $.generic_type,
+        $.lifetime
+      ),
+      repeat1(seq(
+        '+',
+        choice(
+          $._type_identifier,
+          $.scoped_identifier,
+          $.generic_type,
+          $.lifetime
+        )
+      ))
+    ),
+
     type_arguments: $ => seq(
       '<',
       sepBy1(',', choice(
         $._type,
+        $.bounded_type,
         $.type_binding,
         $.lifetime
       )),
