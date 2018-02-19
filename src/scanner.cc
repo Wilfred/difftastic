@@ -47,7 +47,7 @@ struct Scanner {
       if (lexer->lookahead == 0) return false;
 
       if (delimiter_index >= 0) {
-        if (delimiter_index == delimiter.size()) {
+        if (static_cast<unsigned>(delimiter_index) == delimiter.size()) {
           if (lexer->lookahead == '"') {
             lexer->advance(lexer, false);
             return true;
