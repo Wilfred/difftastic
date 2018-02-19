@@ -58,8 +58,6 @@ module.exports = grammar({
     source_file: $ => repeat($._statement),
 
     _statement: $ => choice(
-      $.empty_statement,
-      $.macro_definition,
       $._expression_statement,
       $._declaration_statement
     ),
@@ -74,6 +72,8 @@ module.exports = grammar({
     _declaration_statement: $ => choice(
       $.const_item,
       $.macro_invocation,
+      $.macro_definition,
+      $.empty_statement,
       $.attribute_item,
       $.inner_attribute_item,
       $.mod_item,
