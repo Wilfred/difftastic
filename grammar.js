@@ -346,11 +346,14 @@ module.exports = grammar({
     static_item: $ => seq(
       optional($.visibility_modifier),
       'static',
+      optional($.mutable_specifier),
       $.identifier,
       ':',
       $._type,
-      '=',
-      $._expression,
+      optional(seq(
+        '=',
+        $._expression
+      )),
       ';'
     ),
 
