@@ -188,7 +188,7 @@ module.exports = grammar({
       '>>', '<<',
       '~', '!',
       ',', '.', ':', ';',
-      '#', '@',
+      '#', '@'
     ),
 
     // Section - Declarations
@@ -622,7 +622,7 @@ module.exports = grammar({
     qualified_type: $ => seq(
       $._type,
       'as',
-      $._type,
+      $._type
     ),
 
     lifetime: $ => seq("'", $.identifier),
@@ -970,7 +970,7 @@ module.exports = grammar({
       '{',
       optional(seq(
         repeat($.match_arm),
-        alias($.last_match_arm, $.match_arm),
+        alias($.last_match_arm, $.match_arm)
       )),
       '}'
     ),
