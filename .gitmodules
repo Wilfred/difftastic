@@ -1,0 +1,9 @@
+[submodule "examples/serde"]
+	path = examples/serde
+	url = https://github.com/serde-rs/serde.git
+[submodule "examples/libc"]
+	path = examples/libc
+	url = https://github.com/rust-lang/libc
+[submodule "examples/bitflags"]
+	path = examples/bitflags
+	url = https://github.com/rust-lang-nursery/bitflags
