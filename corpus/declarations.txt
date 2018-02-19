@@ -235,6 +235,8 @@ pub enum Node<T: Item> {
         children: Vec<Tree<T>>,
         height: u16
     },
+    #[attribute1]
+    #[attribute2]
     Leaf {
         value: T
     }
@@ -265,6 +267,8 @@ pub enum Node<T: Item> {
             (type_arguments
               (generic_type (type_identifier) (type_arguments (type_identifier))))))
           (field_declaration (field_identifier) (primitive_type))))
+      (attribute_item (meta_item (identifier)))
+      (attribute_item (meta_item (identifier)))
       (enum_variant
         (identifier)
         (field_declaration_list
