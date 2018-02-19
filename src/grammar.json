@@ -1256,8 +1256,20 @@
               "type": "SEQ",
               "members": [
                 {
-                  "type": "SYMBOL",
-                  "name": "enum_variant"
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "REPEAT",
+                      "content": {
+                        "type": "SYMBOL",
+                        "name": "attribute_item"
+                      }
+                    },
+                    {
+                      "type": "SYMBOL",
+                      "name": "enum_variant"
+                    }
+                  ]
                 },
                 {
                   "type": "REPEAT",
@@ -1269,8 +1281,20 @@
                         "value": ","
                       },
                       {
-                        "type": "SYMBOL",
-                        "name": "enum_variant"
+                        "type": "SEQ",
+                        "members": [
+                          {
+                            "type": "REPEAT",
+                            "content": {
+                              "type": "SYMBOL",
+                              "name": "attribute_item"
+                            }
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "enum_variant"
+                          }
+                        ]
                       }
                     ]
                   }
@@ -2336,6 +2360,10 @@
               "members": [
                 {
                   "type": "SYMBOL",
+                  "name": "lifetime"
+                },
+                {
+                  "type": "SYMBOL",
                   "name": "_type_identifier"
                 },
                 {
@@ -2345,10 +2373,6 @@
                 {
                   "type": "SYMBOL",
                   "name": "optional_type_parameter"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "lifetime"
                 }
               ]
             },
@@ -2366,6 +2390,10 @@
                     "members": [
                       {
                         "type": "SYMBOL",
+                        "name": "lifetime"
+                      },
+                      {
+                        "type": "SYMBOL",
                         "name": "_type_identifier"
                       },
                       {
@@ -2375,10 +2403,6 @@
                       {
                         "type": "SYMBOL",
                         "name": "optional_type_parameter"
-                      },
-                      {
-                        "type": "SYMBOL",
-                        "name": "lifetime"
                       }
                     ]
                   }
@@ -2397,8 +2421,17 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "_type_identifier"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "lifetime"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_type_identifier"
+            }
+          ]
         },
         {
           "type": "SYMBOL",
@@ -3041,6 +3074,10 @@
         {
           "type": "SYMBOL",
           "name": "_type_identifier"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "macro_invocation"
         },
         {
           "type": "ALIAS",
@@ -4534,35 +4571,52 @@
               ]
             },
             {
-              "type": "CHOICE",
+              "type": "SEQ",
               "members": [
                 {
-                  "type": "SEQ",
+                  "type": "CHOICE",
                   "members": [
                     {
-                      "type": "SYMBOL",
-                      "name": "_expression"
+                      "type": "SEQ",
+                      "members": [
+                        {
+                          "type": "SYMBOL",
+                          "name": "_expression"
+                        },
+                        {
+                          "type": "REPEAT",
+                          "content": {
+                            "type": "SEQ",
+                            "members": [
+                              {
+                                "type": "STRING",
+                                "value": ","
+                              },
+                              {
+                                "type": "SYMBOL",
+                                "name": "_expression"
+                              }
+                            ]
+                          }
+                        }
+                      ]
                     },
                     {
-                      "type": "REPEAT",
-                      "content": {
-                        "type": "SEQ",
-                        "members": [
-                          {
-                            "type": "STRING",
-                            "value": ","
-                          },
-                          {
-                            "type": "SYMBOL",
-                            "name": "_expression"
-                          }
-                        ]
-                      }
+                      "type": "BLANK"
                     }
                   ]
                 },
                 {
-                  "type": "BLANK"
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "STRING",
+                      "value": ","
+                    },
+                    {
+                      "type": "BLANK"
+                    }
+                  ]
                 }
               ]
             }
@@ -5697,6 +5751,18 @@
                   }
                 }
               ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": ","
             },
             {
               "type": "BLANK"
