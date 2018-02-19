@@ -395,6 +395,7 @@ module.exports = grammar({
 
     where_predicate: $ => seq(
       choice(
+        $.lifetime,
         $._type_identifier,
         $.scoped_type_identifier,
         $.generic_type
