@@ -1132,6 +1132,7 @@ module.exports = grammar({
     )),
 
     string_literal: $ => token(seq(
+      optional('b'),
       '"',
       repeat(choice(
         seq('\\', choice(/./, '\n', /x[0-9a-fA-F][0-9a-fA-F]/)),
