@@ -520,6 +520,31 @@ unsafe impl Foo {
 
 (source_file (impl_item (unsafe) (type_identifier) (declaration_list)))
 
+===========================================
+Impls with default functions
+===========================================
+
+impl Foo {
+  default fn bar() -> i32 {
+    // Make 'default' still works as an identifier
+    default.bar();
+  }
+}
+
+---
+
+(source_file
+  (impl_item (type_identifier) (declaration_list
+    (function_item
+      (identifier)
+      (parameters)
+      (primitive_type)
+      (block
+        (line_comment)
+        (call_expression
+          (field_expression (identifier) (field_identifier))
+          (arguments)))))))
+
 ============================================
 Trait declarations
 ============================================
