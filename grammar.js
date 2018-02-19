@@ -368,6 +368,7 @@ module.exports = grammar({
     ),
 
     function_item: $ => seq(
+      optional('default'),
       optional($.unsafe),
       optional($.visibility_modifier),
       optional($.extern_modifier),
@@ -656,6 +657,7 @@ module.exports = grammar({
     tuple_type: $ => seq(
       '(',
       sepBy1(',', $._type),
+      optional(','),
       ')'
     ),
 
@@ -755,6 +757,7 @@ module.exports = grammar({
       $.return_expression,
       $._literal,
       prec.left($.identifier),
+      prec.left($._reserved_identifier),
       $.self,
       $.scoped_identifier,
       $.generic_function,
@@ -965,8 +968,10 @@ module.exports = grammar({
       'match',
       $._expression,
       '{',
-      repeat($.match_arm),
-      alias($.last_match_arm, $.match_arm),
+      optional(seq(
+        repeat($.match_arm),
+        alias($.last_match_arm, $.match_arm),
+      )),
       '}'
     ),
 
@@ -1222,6 +1227,7 @@ module.exports = grammar({
 
     identifier: $ => /[a-zA-Zα-ωΑ-Ωµ_][a-zA-Zα-ωΑ-Ωµ\d_]*/,
 
+    _reserved_identifier: $ => alias('default', $.identifier),
     _type_identifier: $ => alias($.identifier, $.type_identifier),
     _field_identifier: $ => alias($.identifier, $.field_identifier),
 
