@@ -94,3 +94,21 @@ match x {
     (match_arm
       (match_pattern (struct_pattern (scoped_identifier (identifier) (identifier)) (field_pattern (identifier) (identifier)) (remaining_field_pattern)))
       (identifier))))
+
+=================================
+Captured patterns
+=================================
+
+match x {
+  a @ A(_) | b @ B(..) => a,
+}
+
+---
+
+(source_file
+  (match_expression (identifier)
+    (match_arm
+      (match_pattern
+        (captured_pattern (identifier) (tuple_struct_pattern (identifier)))
+        (captured_pattern (identifier) (tuple_struct_pattern (identifier) (remaining_field_pattern))))
+      (identifier))))
