@@ -228,8 +228,7 @@ module.exports = grammar({
 
     foreign_mod_item: $ => seq(
       optional($.visibility_modifier),
-      'extern',
-      optional($.string_literal),
+      $.extern_modifier,
       choice(
         ';',
         $.declaration_list
@@ -563,7 +562,7 @@ module.exports = grammar({
 
     extern_modifier: $ => seq(
       'extern',
-      $.string_literal
+      optional($.string_literal)
     ),
 
     visibility_modifier: $ => seq(
