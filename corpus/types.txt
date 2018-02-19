@@ -175,3 +175,18 @@ type b = unsafe extern "C" fn() -> *mut c_void;
       (extern_modifier (string_literal))
       (parameters)
       (pointer_type (mutable_specifier) (type_identifier)))))
+
+===================================
+Trait objects with lifetime bounds
+===================================
+
+type a = Box<Something + 'a>;
+
+---
+
+(source_file
+  (type_item
+    (type_identifier)
+    (generic_type
+      (type_identifier)
+      (type_arguments (bounded_type (type_identifier) (lifetime (identifier)))))))
