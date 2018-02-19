@@ -13,14 +13,6 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "empty_statement"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "macro_definition"
-        },
-        {
-          "type": "SYMBOL",
           "name": "_expression_statement"
         },
         {
@@ -69,6 +61,14 @@
         {
           "type": "SYMBOL",
           "name": "macro_invocation"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "macro_definition"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "empty_statement"
         },
         {
           "type": "SYMBOL",
