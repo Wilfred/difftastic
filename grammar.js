@@ -188,7 +188,7 @@ module.exports = grammar({
       '>>', '<<',
       '~', '!',
       ',', '.', ':', ';',
-      '#'
+      '#', '@',
     ),
 
     // Section - Declarations
@@ -1052,6 +1052,7 @@ module.exports = grammar({
       $.tuple_struct_pattern,
       $.struct_pattern,
       $.ref_pattern,
+      $.captured_pattern,
       $.reference_pattern,
       $.remaining_field_pattern,
       '_'
@@ -1103,6 +1104,12 @@ module.exports = grammar({
     ref_pattern: $ => seq(
       'ref',
       optional($.mutable_specifier),
+      $._pattern
+    ),
+
+    captured_pattern: $ => seq(
+      $.identifier,
+      '@',
       $._pattern
     ),
 
