@@ -54,7 +54,7 @@ String literals
 
 "";
 "abc";
-"foo\nbar";
+b"foo\nbar";
 "foo\
     bar";
 "\"foo\"";
