@@ -366,10 +366,19 @@ Static items
 ============================================
 
 static N: i32 = 5;
+static mut __progname: *mut ::c_char;
 
 ---
 
-(source_file (static_item (identifier) (primitive_type) (number_literal)))
+(source_file
+  (static_item
+    (identifier)
+    (primitive_type)
+    (number_literal))
+  (static_item
+    (mutable_specifier)
+    (identifier)
+    (pointer_type (mutable_specifier) (scoped_type_identifier (type_identifier)))))
 
 ============================================
 Type aliases
