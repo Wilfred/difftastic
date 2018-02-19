@@ -365,10 +365,10 @@ module.exports = grammar({
       $.identifier,
       optional($.type_parameters),
       $.parameters,
-      optional(choice(
-        seq('->', choice($.abstract_return_type, $._type))),
-        '!'
-      ),
+      optional(seq(
+        '->',
+        choice($.abstract_return_type, $.empty_type, $._type)
+      )),
       optional($.where_clause),
       $.block
     ),
@@ -379,10 +379,10 @@ module.exports = grammar({
       $.identifier,
       optional($.type_parameters),
       $.parameters,
-      optional(choice(
-        seq('->', choice($.abstract_return_type, $._type))),
-        '!'
-      ),
+      optional(seq(
+        '->',
+        choice($.abstract_return_type, $.empty_type, $._type)
+      )),
       optional($.where_clause),
       ';'
     ),
@@ -715,6 +715,8 @@ module.exports = grammar({
       choice('const', $.mutable_specifier),
       $._type
     ),
+
+    empty_type: $ => '!',
 
     unsafe: $ => 'unsafe',
 
