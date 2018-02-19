@@ -246,6 +246,7 @@ module.exports = grammar({
       'struct',
       $._type_identifier,
       optional($.type_parameters),
+      optional($.where_clause),
       choice(
         $.field_declaration_list,
         seq($.ordered_field_declaration_list, ';'),
@@ -258,6 +259,7 @@ module.exports = grammar({
       'union',
       $._type_identifier,
       optional($.type_parameters),
+      optional($.where_clause),
       choice(
         $.field_declaration_list,
         seq($.ordered_field_declaration_list, ';'),
@@ -270,6 +272,7 @@ module.exports = grammar({
       'enum',
       $._type_identifier,
       optional($.type_parameters),
+      optional($.where_clause),
       $.enum_variant_list
     ),
 
@@ -309,7 +312,11 @@ module.exports = grammar({
 
     ordered_field_declaration_list: $ => seq(
       '(',
-      sepBy(',', seq(optional($.visibility_modifier), $._type)),
+      sepBy(',', seq(
+        repeat($.attribute_item),
+        optional($.visibility_modifier),
+        $._type
+      )),
       optional(','),
       ')'
     ),
@@ -465,10 +472,10 @@ module.exports = grammar({
 
     impl_for_clause: $ => seq(
       'for',
-      $._type
+      choice($._type, $.bounded_type)
     ),
 
-    type_parameters: $ => seq(
+    type_parameters: $ => prec(1, seq(
       '<',
       sepBy1(',', choice(
         $.lifetime,
@@ -477,7 +484,7 @@ module.exports = grammar({
         $.optional_type_parameter
       )),
       '>'
-    ),
+    )),
 
     constrained_type_parameter: $ => seq(
       choice($.lifetime, $._type_identifier),
@@ -485,7 +492,10 @@ module.exports = grammar({
     ),
 
     optional_type_parameter: $ => seq(
-      $._type_identifier,
+      choice(
+        $._type_identifier,
+        $.constrained_type_parameter
+      ),
       '=',
       $._type
     ),
@@ -596,12 +606,19 @@ module.exports = grammar({
       alias(choice(...primitive_types), $.primitive_type)
     ),
 
-    qualified_type: $ => seq(
+    bracketed_type: $ => seq(
       '<',
+      choice(
+        $._type,
+        $.qualified_type
+      ),
+      '>'
+    ),
+
+    qualified_type: $ => seq(
       $._type,
       'as',
       $._type,
-      '>'
     ),
 
     lifetime: $ => seq("'", $.identifier),
@@ -659,14 +676,14 @@ module.exports = grammar({
       $.type_arguments
     )),
 
-    generic_type_with_turbofish: $ => seq(
+    generic_type_with_turbofish: $ => prec(-1, seq(
       choice(
         $._type_identifier,
         $.scoped_identifier
       ),
       '::',
       $.type_arguments
-    ),
+    )),
 
     bounded_type: $ => seq(
       choice(
@@ -776,7 +793,7 @@ module.exports = grammar({
         $.self,
         $.identifier,
         $.scoped_identifier,
-        $.qualified_type,
+        $.bracketed_type,
         alias($.generic_type_with_turbofish, $.generic_type)
       )),
       '::',
@@ -788,7 +805,6 @@ module.exports = grammar({
         $.self,
         $.identifier,
         $.scoped_identifier,
-        $.qualified_type,
         alias($.generic_type_with_turbofish, $.generic_type)
       )),
       '::',
@@ -800,8 +816,8 @@ module.exports = grammar({
         $.self,
         $.identifier,
         $.scoped_identifier,
-        $.qualified_type,
         alias($.generic_type_with_turbofish, $.generic_type),
+        $.bracketed_type,
         $.generic_type
       )),
       '::',
@@ -896,7 +912,8 @@ module.exports = grammar({
     struct_expression: $ => seq(
       choice(
         $._type_identifier,
-        alias($.scoped_type_identifier_in_expression_position, $.scoped_type_identifier)
+        alias($.scoped_type_identifier_in_expression_position, $.scoped_type_identifier),
+        $.generic_type_with_turbofish
       ),
       $.field_initializer_list
     ),
