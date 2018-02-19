@@ -276,7 +276,7 @@ module.exports = grammar({
 
     enum_variant_list: $ => seq(
       '{',
-      sepBy(',', $.enum_variant),
+      sepBy(',', seq(repeat($.attribute_item), $.enum_variant)),
       optional(','),
       '}'
     ),
