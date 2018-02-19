@@ -2234,6 +2234,10 @@
                 {
                   "type": "SYMBOL",
                   "name": "higher_ranked_trait_bound"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "removed_trait_bound"
                 }
               ]
             },
@@ -2260,6 +2264,10 @@
                       {
                         "type": "SYMBOL",
                         "name": "higher_ranked_trait_bound"
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "removed_trait_bound"
                       }
                     ]
                   }
@@ -2280,6 +2288,19 @@
         {
           "type": "SYMBOL",
           "name": "type_parameters"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_type"
+        }
+      ]
+    },
+    "removed_trait_bound": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "?"
         },
         {
           "type": "SYMBOL",
@@ -2380,51 +2401,8 @@
           "name": "_type_identifier"
         },
         {
-          "type": "STRING",
-          "value": ":"
-        },
-        {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "SYMBOL",
-                  "name": "_type"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "lifetime"
-                }
-              ]
-            },
-            {
-              "type": "REPEAT",
-              "content": {
-                "type": "SEQ",
-                "members": [
-                  {
-                    "type": "STRING",
-                    "value": "+"
-                  },
-                  {
-                    "type": "CHOICE",
-                    "members": [
-                      {
-                        "type": "SYMBOL",
-                        "name": "_type"
-                      },
-                      {
-                        "type": "SYMBOL",
-                        "name": "lifetime"
-                      }
-                    ]
-                  }
-                ]
-              }
-            }
-          ]
+          "type": "SYMBOL",
+          "name": "trait_bounds"
         }
       ]
     },
