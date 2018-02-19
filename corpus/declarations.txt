@@ -253,7 +253,9 @@ pub enum Node<T: Item> {
   (enum_item
     (visibility_modifier)
     (type_identifier)
-    (type_parameters (constrained_type_parameter (type_identifier) (type_identifier)))
+    (type_parameters (constrained_type_parameter
+      (type_identifier)
+      (trait_bounds (type_identifier))))
     (enum_variant_list
       (enum_variant
         (identifier)
@@ -303,7 +305,8 @@ pub fn splice<T: Into<Text>>(&mut self, old_range: Range<usize>, new_text: T) {
     (type_parameters
       (constrained_type_parameter
         (type_identifier)
-        (generic_type (type_identifier) (type_arguments (type_identifier)))))
+        (trait_bounds
+          (generic_type (type_identifier) (type_arguments (type_identifier))))))
     (parameters
       (self_parameter (mutable_specifier) (self))
       (parameter (identifier) (generic_type (type_identifier) (type_arguments (primitive_type))))
@@ -532,6 +535,24 @@ trait Add<RHS=Self> {
         (scoped_type_identifier (identifier) (type_identifier))))))
 
 ============================================
+Unsized types in trait bounds
+============================================
+
+trait Foo<T: ?Sized> {
+}
+
+---
+
+(source_file
+  (trait_item
+    (type_identifier)
+    (type_parameters
+      (constrained_type_parameter
+        (type_identifier)
+        (trait_bounds (removed_trait_bound (type_identifier)))))
+    (declaration_list)))
+
+============================================
 Macro invocations inside trait declarations
 ============================================
 
@@ -656,7 +677,11 @@ impl<T> A for B<T>
   (impl_item
     (type_parameters
       (lifetime (identifier))
-      (constrained_type_parameter (type_identifier) (lifetime (identifier)) (type_identifier)))
+      (constrained_type_parameter
+        (type_identifier)
+        (trait_bounds
+          (lifetime (identifier))
+          (type_identifier))))
     (type_identifier)
     (impl_for_clause (generic_type (type_identifier) (type_arguments (lifetime (identifier)) (type_identifier))))
     (where_clause (where_predicate (type_identifier) (trait_bounds (lifetime (identifier)))))

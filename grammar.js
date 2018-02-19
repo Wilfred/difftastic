@@ -444,12 +444,22 @@ module.exports = grammar({
 
     trait_bounds: $ => seq(
       ':',
-      sepBy1('+', choice($._type, $.lifetime, $.higher_ranked_trait_bound))
+      sepBy1('+', choice(
+        $._type,
+        $.lifetime,
+        $.higher_ranked_trait_bound,
+        $.removed_trait_bound
+      ))
     ),
 
     higher_ranked_trait_bound: $ => seq(
       'for',
       $.type_parameters,
+      $._type
+    ),
+
+    removed_trait_bound: $ => seq(
+      '?',
       $._type
     ),
 
@@ -471,8 +481,7 @@ module.exports = grammar({
 
     constrained_type_parameter: $ => seq(
       $._type_identifier,
-      ':',
-      sepBy1('+', choice($._type, $.lifetime))
+      $.trait_bounds
     ),
 
     optional_type_parameter: $ => seq(
