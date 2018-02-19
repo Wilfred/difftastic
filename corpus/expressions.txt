@@ -496,9 +496,26 @@ Scoped functions with fully qualified syntax
 (source_file
   (call_expression
     (scoped_identifier
-      (qualified_type (type_identifier) (type_identifier))
+      (bracketed_type (qualified_type (type_identifier) (type_identifier)))
       (identifier))
     (arguments (identifier))))
+
+============================================
+Scoped functions with macros as types
+============================================
+
+<Token![]>::foo();
+
+---
+
+(source_file
+  (call_expression
+    (scoped_identifier
+      (bracketed_type (macro_invocation
+        (identifier)
+        (token_tree)))
+      (identifier))
+    (arguments)))
 
 ============================================
 Generic functions
