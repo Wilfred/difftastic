@@ -678,7 +678,9 @@ impl<'a, T: 'a + Item> Iterator for Iter<'a, T> where Self: 'a {
 }
 
 impl<T> A for B<T>
-    where C<T>: D
+    where C<T>: D,
+          T: 'c,
+          'c: 'b,
 {
 }
 
@@ -717,7 +719,13 @@ impl<T> A for B<T>
     (where_clause
       (where_predicate
         (generic_type (type_identifier) (type_arguments (type_identifier)))
-        (trait_bounds (type_identifier))))
+        (trait_bounds (type_identifier)))
+      (where_predicate
+        (type_identifier)
+        (trait_bounds (lifetime (identifier))))
+      (where_predicate
+        (lifetime (identifier))
+        (trait_bounds (lifetime (identifier)))))
     (declaration_list)))
 
 ===================================
