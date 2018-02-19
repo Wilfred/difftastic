@@ -717,6 +717,6 @@ extern "C" {}
 ---
 
 (source_file
-  (foreign_mod_item (visibility_modifier) (declaration_list
+  (foreign_mod_item (visibility_modifier) (extern_modifier) (declaration_list
     (function_signature_item (visibility_modifier) (identifier) (parameters (parameter (identifier) (pointer_type (mutable_specifier) (type_identifier)))))))
-  (foreign_mod_item (string_literal) (declaration_list)))
+  (foreign_mod_item (extern_modifier (string_literal)) (declaration_list)))
