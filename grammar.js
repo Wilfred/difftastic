@@ -471,16 +471,16 @@ module.exports = grammar({
     type_parameters: $ => seq(
       '<',
       sepBy1(',', choice(
+        $.lifetime,
         $._type_identifier,
         $.constrained_type_parameter,
-        $.optional_type_parameter,
-        $.lifetime
+        $.optional_type_parameter
       )),
       '>'
     ),
 
     constrained_type_parameter: $ => seq(
-      $._type_identifier,
+      choice($.lifetime, $._type_identifier),
       $.trait_bounds
     ),
 
@@ -592,6 +592,7 @@ module.exports = grammar({
       $.array_type,
       $.function_type,
       $._type_identifier,
+      $.macro_invocation,
       alias(choice(...primitive_types), $.primitive_type)
     ),
 
@@ -856,7 +857,7 @@ module.exports = grammar({
       '[',
       choice(
         seq($._expression, ';', $._expression),
-        sepBy(',' ,$._expression)
+        seq(sepBy(',' ,$._expression), optional(','))
       ),
       ']'
     ),
@@ -1060,6 +1061,7 @@ module.exports = grammar({
       ),
       '{',
       sepBy(',', choice($.field_pattern, $.remaining_field_pattern)),
+      optional(','),
       '}'
     ),
 
