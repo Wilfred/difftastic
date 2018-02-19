@@ -1196,7 +1196,7 @@ module.exports = grammar({
       '/'
     )),
 
-    identifier: $ => /[a-zA-Z_][\w]*/,
+    identifier: $ => /[a-zA-Zα-ωΑ-Ωµ_][a-zA-Zα-ωΑ-Ωµ\d_]*/,
 
     _type_identifier: $ => alias($.identifier, $.type_identifier),
     _field_identifier: $ => alias($.identifier, $.field_identifier),
