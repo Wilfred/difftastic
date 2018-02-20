@@ -238,21 +238,49 @@ normal_annotation
 ===
 
 @SuppressWarnings(value = "unchecked")
+@GwtCompatible(emulated = true)
+class Duck {
+
+}
 
 ---
+
+(program
+  (class_declaration (normal_class_declaration (modifier
+    (normal_annotation (identifier)
+      (element_value_pair_list (element_value_pair (identifier) (element_value (string_literal)))))) (modifier
+    (normal_annotation (identifier) (element_value_pair_list
+      (element_value_pair (identifier) (element_value (boolean_literal)))))) (identifier)
+        (class_body))))
 
 ===
 marker annotation
 ===
 
 @Beta
+class Quack {
+
+}
 
 ---
+
+(program
+  (class_declaration (normal_class_declaration (modifier
+    (marker_annotation (identifier))) (identifier)
+      (class_body))))
 
 ===
 single element annotation
 ===
 
 @SuppressWarnings("unchecked")
+class Quack {
+
+}
 
 ---
+
+(program
+  (class_declaration (normal_class_declaration (modifier
+    (single_element_annotation (identifier) (string_literal))) (identifier)
+      (class_body))))
