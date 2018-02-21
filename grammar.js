@@ -60,13 +60,17 @@ module.exports = grammar({
     _statement: $ => prec(1, choice(
       $._expression_statement,
       $._declaration,
+      $._method_statement
+    )),
+
+    _method_statement: $ => choice(
       $.labeled_statement,
       $.if_then_statement,
       $.if_then_else_statement,
       $.while_statement,
       $.for_statement,
       $.block,
-      $._semicolon, // empty_statement,
+      $._semicolon,
       $.assert_statement,
       $.switch_statement,
       $.do_statement,
@@ -76,7 +80,7 @@ module.exports = grammar({
       $.synchronized_statement,
       $.throw_statement,
       $.try_statement
-    )),
+    ),
 
     _expression_statement: $ => seq(
       $._expression,
@@ -295,6 +299,8 @@ module.exports = grammar({
     ),
 
     // TODO: test
+    // Lowest precedence operator is lambda arrow
+    // https://docs.oracle.com/javase/specs/jls/se9/html/jls-15.html#jls-Expression
     lambda_expression: $ => seq($._lambda_parameters, '->', $.lambda_body),
 
     _lambda_parameters: $ => choice(
@@ -344,18 +350,12 @@ module.exports = grammar({
       $.switch_block
     ),
 
+    // NOTE: switch_label precedes block_statement according to spec
     switch_block: $ => seq(
       '{',
-      repeat($.switch_block_statement_group),
-      repeat($.switch_label),
+      repeat(choice($.switch_label, $._block_statement)),
       '}'
     ),
-
-    // TODO: check precedence logic here
-    switch_block_statement_group: $ => prec.right(seq(
-      repeat1($.switch_label),
-      repeat1($._block_statement)
-    )),
 
     switch_label: $ => choice(
       seq('case', $._expression, ':'),
@@ -1080,7 +1080,7 @@ module.exports = grammar({
     // why is method name not used by method declaration stuff?
     _method_name: $ => $.identifier,
 
-    identifier: $ => /[a-zA-Z0-9]*/,
+    identifier: $ => /[a-zA-Z_]\w*/,
 
     // http://stackoverflow.com/questions/13014947/regex-to-match-a-c-style-multiline-comment/36328890#36328890
     comment: $ => token(prec(PREC.COMMENT, choice(
