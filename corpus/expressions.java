@@ -284,3 +284,51 @@ class Quack {
   (class_declaration (normal_class_declaration (modifier
     (single_element_annotation (identifier) (string_literal))) (identifier)
       (class_body))))
+
+===
+lambda expression
+===
+
+(oldState, newState) -> System.out.println("State changed")
+
+---
+
+===
+switch statement
+===
+
+public class SwitchDemo {
+    public static void main(String[] args) {
+
+        int destinysChild = 2;
+        String destinysChildString;
+        switch (destinysChild) {
+            case 1:  destinysChildString = "Beyonce";
+                     break;
+            case 2:  destinysChildString = "Kelly";
+                     break;
+            case 3:  destinysChildString = "Michelle";
+                     break;
+            default: destinysChildString = "Invalid";
+                     break;
+        }
+        System.out.println(destinysChildString);
+    }
+}
+
+---
+
+(program
+  (class_declaration (normal_class_declaration (modifier) (identifier)
+    (class_body (class_body_declaration (class_member_declaration
+      (method_declaration (modifier) (modifier) (method_header (unann_type (unann_primitive_type)) (method_declarator (identifier) (last_formal_parameter (formal_parameter (unann_type (unann_array_type (unann_class_or_interface_type (identifier)) (dims))) (variable_declarator_id (identifier))))))
+        (method_body (block
+          (local_variable_declaration_statement (local_variable_declaration (unann_type (unann_primitive_type (integral_type))) (variable_declarator_list (variable_declarator (variable_declarator_id (identifier)) (variable_initializer (integer_literal (decimal_integer_literal)))))))
+          (local_variable_declaration_statement (local_variable_declaration (unann_type (unann_class_or_interface_type (identifier))) (variable_declarator_list (variable_declarator (variable_declarator_id (identifier))))))
+          (switch_statement (identifier)
+            (switch_block (switch_label (integer_literal (decimal_integer_literal)))
+              (assignment_expression (lhs (identifier)) (string_literal)) (break_statement) (switch_label (integer_literal (decimal_integer_literal)))
+              (assignment_expression (lhs (identifier)) (string_literal)) (break_statement) (switch_label (integer_literal (decimal_integer_literal)))
+              (assignment_expression (lhs (identifier)) (string_literal)) (break_statement) (switch_label)
+              (assignment_expression (lhs (identifier)) (string_literal)) (break_statement)))
+          (method_invocation (scoped_identifier (identifier) (identifier)) (identifier) (argument_list (identifier)))))))))))) 
