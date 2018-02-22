@@ -21,3 +21,24 @@ val x = y match {
           (alternative_pattern (string) (string))
           (string))
         (identifier))))))
+
+=========================
+Typed patterns
+=========================
+
+val x = y match {
+  case 1 : Int => 2
+  case a : B with C => d
+}
+
+---
+
+(compilation_unit
+  (val_definition
+    (identifier)
+    (match_expression (identifier) (case_block
+      (case_clause
+        (typed_pattern (number) (type_identifier)) (number))
+      (case_clause
+        (typed_pattern (identifier) (compound_type (type_identifier) (type_identifier)))
+        (identifier))))))

@@ -1118,6 +1118,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "typed_pattern"
+        },
+        {
+          "type": "SYMBOL",
           "name": "number"
         },
         {
@@ -1147,6 +1151,27 @@
           {
             "type": "SYMBOL",
             "name": "_pattern"
+          }
+        ]
+      }
+    },
+    "typed_pattern": {
+      "type": "PREC",
+      "value": -1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_pattern"
+          },
+          {
+            "type": "STRING",
+            "value": ":"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_type"
           }
         ]
       }

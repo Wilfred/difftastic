@@ -240,6 +240,7 @@ module.exports = grammar({
     _pattern: $ => choice(
       $.identifier,
       $.alternative_pattern,
+      $.typed_pattern,
       $.number,
       $.string,
       $.wildcard
@@ -249,6 +250,12 @@ module.exports = grammar({
       $._pattern,
       '|',
       $._pattern
+    )),
+
+    typed_pattern: $ => prec(-1, seq(
+      $._pattern,
+      ':',
+      $._type
     )),
 
     // Expressions
