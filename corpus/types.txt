@@ -1,0 +1,89 @@
+===================================
+Stable type identifiers
+===================================
+
+object Main {
+  type A = B.C
+  type D = E.F.G
+}
+
+---
+
+(compilation_unit
+  (object_definition (identifier) (template_body
+    (type_definition
+      (type_identifier)
+      (stable_type_identifier (identifier) (type_identifier)))
+    (type_definition
+      (type_identifier)
+      (stable_type_identifier (stable_identifier (identifier) (identifier)) (type_identifier))))))
+
+===================================
+Generic types
+===================================
+
+object Main {
+  type A = B[C, D]
+  type E = F.G[H]
+}
+
+---
+
+(compilation_unit
+  (object_definition (identifier) (template_body
+    (type_definition
+      (type_identifier)
+      (generic_type
+        (type_identifier)
+        (type_arguments (type_identifier) (type_identifier))))
+    (type_definition
+      (type_identifier)
+      (generic_type
+        (stable_type_identifier (identifier) (type_identifier))
+        (type_arguments (type_identifier)))))))
+
+===================================
+Function types
+===================================
+
+object Main {
+  type A = (B, C) => D
+}
+
+---
+
+(compilation_unit
+  (object_definition (identifier) (template_body
+    (type_definition
+      (type_identifier)
+      (function_type
+        (parameter_types (type_identifier) (type_identifier))
+        (type_identifier))))))
+
+==================================
+Compound types
+==================================
+
+def cloneAndReset(obj: Cloneable with Resetable): Cloneable = {
+}
+
+---
+
+(compilation_unit
+  (function_definition
+    (identifier)
+    (parameters (parameter (identifier) (compound_type (type_identifier) (type_identifier))))
+    (type_identifier) (block)))
+
+==================================
+Infix types
+==================================
+
+type A = B Foo C
+
+---
+
+(compilation_unit
+  (type_definition
+    (type_identifier)
+    (infix_type (type_identifier) (identifier) (type_identifier))))

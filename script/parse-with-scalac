@@ -1,0 +1,4 @@
+#!/bin/bash
+
+# scalac -Yshow-trees -Xprint:parser $@
+scalac -Yshow-trees -Xprint:typer $@

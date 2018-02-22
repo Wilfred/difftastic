@@ -1,0 +1,219 @@
+=================================
+Object definitions
+=================================
+
+object O1 {
+}
+
+case object O2 {
+}
+
+---
+
+(compilation_unit
+  (object_definition (identifier) (template_body))
+  (object_definition (identifier) (template_body)))
+
+=======================================
+Class definitions
+=======================================
+
+class C[T, U] {
+}
+
+---
+
+(compilation_unit
+  (class_definition
+    (identifier)
+    (type_parameters (identifier) (identifier))
+    (template_body)))
+
+=======================================
+Class definitions with parameters
+=======================================
+
+class Point(val x: Int, val y: Int)
+
+---
+
+(compilation_unit
+  (class_definition
+    (identifier)
+    (class_parameters
+      (class_parameter (identifier) (type_identifier))
+      (class_parameter (identifier) (type_identifier)))))
+
+=======================================
+Trait definitions
+=======================================
+
+trait T[U] {
+}
+
+---
+
+(compilation_unit
+  (trait_definition
+    (identifier)
+    (type_parameters (identifier))
+    (template_body)))
+
+=======================================
+Value declarations
+=======================================
+
+class A {
+  val b, c : Int
+  val d : String
+}
+
+---
+
+(compilation_unit
+  (class_definition
+    (identifier)
+    (template_body
+      (val_declaration
+        (identifier)
+        (identifier)
+        (type_identifier))
+      (val_declaration
+        (identifier)
+        (type_identifier)))))
+
+=======================================
+Value definitions
+=======================================
+
+class A {
+  val b = 1
+  val c : String = "d"
+}
+
+---
+
+(compilation_unit
+  (class_definition
+    (identifier)
+    (template_body
+      (val_definition
+        (identifier)
+        (number))
+      (val_definition
+        (identifier)
+        (type_identifier)
+        (string)))))
+
+=======================================
+Variable declarations
+=======================================
+
+class A {
+  var b, c : Int
+  var d : String
+}
+
+---
+
+(compilation_unit
+  (class_definition
+    (identifier)
+    (template_body
+      (var_declaration
+        (identifier)
+        (identifier)
+        (type_identifier))
+      (var_declaration
+        (identifier)
+        (type_identifier)))))
+
+=======================================
+Variable definitions
+=======================================
+
+class A {
+  var b : Int = 1
+}
+
+---
+
+(compilation_unit
+  (class_definition
+    (identifier)
+    (template_body
+      (var_definition
+        (identifier)
+        (type_identifier)
+        (number)))))
+
+=======================================
+Type definitions
+=======================================
+
+class A {
+  type B = C
+  type D[E] = F
+}
+
+---
+
+(compilation_unit
+  (class_definition
+    (identifier)
+    (template_body
+      (type_definition
+        (type_identifier)
+        (type_identifier))
+      (type_definition
+        (type_identifier)
+        (type_parameters (identifier))
+        (type_identifier)))))
+
+=======================================
+Function declarations
+=======================================
+
+class A {
+  def b(c: D) : E
+}
+
+---
+
+(compilation_unit
+  (class_definition
+    (identifier)
+    (template_body
+      (function_declaration
+        (identifier)
+        (parameters (parameter (identifier) (type_identifier)))
+        (type_identifier)))))
+
+=======================================
+Function definitions
+=======================================
+
+class A {
+  def b(c: D, e: F) = 1
+  def g[H](i) {
+    j
+  }
+}
+
+---
+
+(compilation_unit
+  (class_definition
+    (identifier)
+    (template_body
+      (function_definition
+        (identifier)
+        (parameters
+          (parameter (identifier) (type_identifier))
+          (parameter (identifier) (type_identifier)))
+        (number))
+      (function_definition
+        (identifier)
+        (type_parameters (identifier))
+        (parameters (parameter (identifier)))
+        (block (identifier))))))

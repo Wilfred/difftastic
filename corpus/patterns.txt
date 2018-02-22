@@ -1,0 +1,23 @@
+=========================
+Alternative patterns
+=========================
+
+val x = y match {
+  case 1 | a => b
+  case "c" | "d" | "e" => f
+}
+
+---
+
+(compilation_unit
+  (val_definition
+    (identifier)
+    (match_expression (identifier) (case_block
+      (case_clause
+        (alternative_pattern (number) (identifier))
+        (identifier))
+      (case_clause
+        (alternative_pattern
+          (alternative_pattern (string) (string))
+          (string))
+        (identifier))))))
