@@ -157,7 +157,6 @@ module.exports = grammar({
 
     _statement: $ => choice(
       $.do,
-      $.let,
       $.if_statement,
       $._expression,
       $.case
@@ -262,7 +261,7 @@ module.exports = grammar({
     ),
 
     function_body: $ => seq(
-      choice($._statement, $.function_application),
+      choice($._statement, $.function_application, $.let),
       optional($.where)
     ),
 
