@@ -56,6 +56,26 @@ class C[T, U] {
     (template_body)))
 
 =======================================
+Subclass definitions
+=======================================
+
+class A extends B.C[D, E] {
+}
+
+---
+
+(compilation_unit
+  (class_definition
+    (identifier)
+    (extends_clause
+      (generic_type
+        (stable_type_identifier
+          (identifier)
+          (type_identifier))
+        (type_arguments (type_identifier) (type_identifier))))
+    (template_body)))
+
+=======================================
 Class definitions with parameters
 =======================================
 
@@ -77,12 +97,22 @@ Trait definitions
 trait T[U] {
 }
 
+trait T[U] extends V.W[U] {
+}
+
 ---
 
 (compilation_unit
   (trait_definition
     (identifier)
     (type_parameters (identifier))
+    (template_body))
+  (trait_definition
+    (identifier)
+    (type_parameters (identifier))
+    (extends_clause (generic_type
+      (stable_type_identifier (identifier) (type_identifier))
+      (type_arguments (type_identifier))))
     (template_body)))
 
 =======================================

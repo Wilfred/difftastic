@@ -85,6 +85,7 @@ module.exports = grammar({
       $.identifier,
       optional($.type_parameters),
       optional($.class_parameters),
+      optional($.extends_clause),
       optional($.template_body)
     ),
 
@@ -92,6 +93,7 @@ module.exports = grammar({
       'trait',
       $.identifier,
       optional($.type_parameters),
+      optional($.extends_clause),
       $.template_body
     ),
 
@@ -168,6 +170,11 @@ module.exports = grammar({
       optional($.type_parameters),
       $.parameters,
       optional(seq(':', $._type))
+    ),
+
+    extends_clause: $ => seq(
+      'extends',
+      $._type
     ),
 
     class_parameters: $ => seq(
