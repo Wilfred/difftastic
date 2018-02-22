@@ -273,14 +273,7 @@ module.exports = grammar({
 
     let: $ => seq(
       'let',
-      choice(
-        seq(
-          '{',
-          repeat(seq($._declaration, $._terminal)),
-          '}'
-        ),
-        repeat1($._declaration)
-      ),
+      $._declarations,
       $.in_clause
     ),
 
