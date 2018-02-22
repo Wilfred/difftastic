@@ -85,8 +85,28 @@ struct Scanner {
       return false;
     }
 
-    if (lexer->lookahead != '\n') return false;
     lexer->mark_end(lexer);
+    if (lexer->lookahead == 'i') {
+      advance(lexer);
+      if (lexer->lookahead == 'n') {
+        advance(lexer);
+        if (iswspace(lexer->lookahead)) {
+          indent_length_stack.pop_back();
+          if (valid_symbols[LAYOUT_CLOSE_BRACE]) {
+            lexer->result_symbol = LAYOUT_CLOSE_BRACE;
+            return true;
+          } else {
+            queued_close_brace_count++;
+            if (valid_symbols[LAYOUT_SEMICOLON]) {
+              lexer->result_symbol = LAYOUT_SEMICOLON;
+              return true;
+            }
+          }
+        }
+      }
+    }
+
+    if (lexer->lookahead != '\n') return false;
     advance(lexer);
 
     bool next_token_is_comment = false;
