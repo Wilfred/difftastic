@@ -531,8 +531,8 @@ f = let { y :: Int;
           (function_body
             (variable)))
         (type_signature
-          (signature_identifier (variable)))
-          (type_constructor (identifier))
+          (signature_identifier (variable))
+          (type_constructor (identifier)))
         (function_declaration
           (function_head
             (function_identifier (variable)))
