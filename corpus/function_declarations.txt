@@ -472,6 +472,8 @@ f = let y = x
         x = 1
       in y
 
+f = let y = g; g = 1 in y
+
 f = let y = x
         x :: Int
         x = 1 in y
@@ -484,6 +486,23 @@ f = let { y :: Int;
 ---
 
 (module
+  (function_declaration
+    (function_head
+      (function_identifier (variable)))
+    (function_body
+      (let
+        (function_declaration
+          (function_head
+            (function_identifier (variable)))
+          (function_body
+            (variable)))
+        (function_declaration
+          (function_head
+            (function_identifier (variable)))
+          (function_body
+            (integer)))
+        (in_clause
+          (variable)))))
   (function_declaration
     (function_head
       (function_identifier (variable)))
@@ -655,3 +674,16 @@ f x = do
               (function_body (variable))))
           (binary (variable) (variable_symbol) (variable))
           (function_application (variable) (variable)))))))
+
+=================================================
+Function Declarations With Field Update
+=================================================
+
+f y@(Example { a = a', b = b' }) = y { a = a' + 1, b = b' ++ " !" }
+
+---
+
+(module
+  (function_declaration
+    (function_head
+      (function_identifier (variable)))))
