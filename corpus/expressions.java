@@ -289,7 +289,11 @@ class Quack {
 lambda expression
 ===
 
-(oldState, newState) -> System.out.println("State changed")
+StateOwner stateOwner = new StateOwner();
+
+stateOwner.addStateListener(
+    (oldState, newState) -> System.out.println("State changed")
+);
 
 ---
 
@@ -331,4 +335,4 @@ public class SwitchDemo {
               (assignment_expression (lhs (identifier)) (string_literal)) (break_statement) (switch_label (integer_literal (decimal_integer_literal)))
               (assignment_expression (lhs (identifier)) (string_literal)) (break_statement) (switch_label)
               (assignment_expression (lhs (identifier)) (string_literal)) (break_statement)))
-          (method_invocation (scoped_identifier (identifier) (identifier)) (identifier) (argument_list (identifier)))))))))))) 
+          (method_invocation (scoped_identifier (identifier) (identifier)) (identifier) (argument_list (identifier))))))))))))
