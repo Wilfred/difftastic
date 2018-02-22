@@ -11,7 +11,8 @@ module.exports = grammar({
   name: 'scala',
 
   extras: $ => [
-    /\s/
+    /\s/,
+    $.comment
   ],
 
   inline: $ => [
@@ -27,6 +28,7 @@ module.exports = grammar({
     _definition: $ => choice(
       $.package_clause,
       $.class_definition,
+      $.import_declaration,
       $.object_definition,
       $.trait_definition,
       $.val_definition,
@@ -41,6 +43,33 @@ module.exports = grammar({
     package_clause: $ => seq(
       'package',
       $.identifier
+    ),
+
+    import_declaration: $ => seq(
+      'import',
+      $.stable_identifier,
+      optional(seq(
+        '.',
+        choice(
+          $.wildcard,
+          $.import_selectors
+        )
+      ))
+    ),
+
+    import_selectors: $ => seq(
+      '{',
+      commaSep1(choice(
+        $.identifier,
+        $.renamed_identifier
+      )),
+      '}'
+    ),
+
+    renamed_identifier: $ => seq(
+      $.identifier,
+      '=>',
+      choice($.identifier, $.wildcard)
     ),
 
     object_definition: $ => seq(
@@ -385,7 +414,16 @@ module.exports = grammar({
     _semicolon: $ => choice(
       ';',
       '\n'
-    )
+    ),
+
+    comment: $ => token(choice(
+      seq('//', /.*/),
+      seq(
+        '/*',
+        /[^*]*\*+([^/*][^*]*\*+)*/,
+        '/'
+      )
+    ))
   }
 })
 

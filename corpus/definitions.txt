@@ -1,7 +1,32 @@
+================================
+Imports
+================================
+
+import PartialFunction.condOpt
+import reflect.io.{Directory, File, Path}
+import tools.nsc.classpath._
+import lang.System.{lineSeparator => EOL}
+
+---
+
+(compilation_unit
+  (import_declaration
+    (stable_identifier (identifier) (identifier)))
+  (import_declaration
+    (stable_identifier (identifier) (identifier))
+    (import_selectors (identifier) (identifier) (identifier)))
+  (import_declaration
+    (stable_identifier (stable_identifier (identifier) (identifier)) (identifier))
+    (wildcard))
+  (import_declaration
+    (stable_identifier (identifier) (identifier))
+    (import_selectors (renamed_identifier (identifier) (identifier)))))
+
 =================================
 Object definitions
 =================================
 
+// o1
 object O1 {
 }
 
@@ -11,6 +36,7 @@ case object O2 {
 ---
 
 (compilation_unit
+  (comment)
   (object_definition (identifier) (template_body))
   (object_definition (identifier) (template_body)))
 
