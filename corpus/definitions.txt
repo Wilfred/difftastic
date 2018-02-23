@@ -62,6 +62,9 @@ Subclass definitions
 class A extends B.C[D, E] {
 }
 
+class A(b: B) extends C(b || ok) {
+}
+
 ---
 
 (compilation_unit
@@ -73,6 +76,15 @@ class A extends B.C[D, E] {
           (identifier)
           (type_identifier))
         (type_arguments (type_identifier) (type_identifier))))
+    (template_body))
+  (class_definition
+    (identifier)
+    (class_parameters
+      (class_parameter (identifier) (type_identifier)))
+    (extends_clause
+      (type_identifier)
+      (arguments
+        (infix_expression (identifier) (operator_identifier) (identifier))))
     (template_body)))
 
 =======================================

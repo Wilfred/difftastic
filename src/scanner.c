@@ -2,6 +2,7 @@
 #include <wctype.h>
 
 enum TokenType {
+  AUTOMATIC_SEMICOLON,
   SIMPLE_STRING,
   STRING_START,
   STRING_MIDDLE,
@@ -9,6 +10,7 @@ enum TokenType {
   MULTILINE_STRING_START,
   MULTILINE_STRING_MIDDLE,
   MULTILINE_STRING_END,
+  ELSE,
 };
 
 void *tree_sitter_scala_external_scanner_create() { return NULL; }
@@ -62,7 +64,38 @@ static bool scan_string_content(TSLexer *lexer, bool is_multiline, bool has_inte
 
 bool tree_sitter_scala_external_scanner_scan(void *payload, TSLexer *lexer,
                                              const bool *valid_symbols) {
-  while (iswspace(lexer->lookahead)) lexer->advance(lexer, true);
+  unsigned newline_count = 0;
+  while (iswspace(lexer->lookahead)) {
+    if (lexer->lookahead == '\n') newline_count++;
+    lexer->advance(lexer, true);
+  }
+
+  if (valid_symbols[AUTOMATIC_SEMICOLON] && newline_count > 0) {
+    lexer->mark_end(lexer);
+    lexer->result_symbol = AUTOMATIC_SEMICOLON;
+
+    if (newline_count > 1) return true;
+
+    if (valid_symbols[ELSE]) {
+      if (lexer->lookahead != 'e') return true;
+      advance(lexer);
+      if (lexer->lookahead != 'l') return true;
+      advance(lexer);
+      if (lexer->lookahead != 's') return true;
+      advance(lexer);
+      if (lexer->lookahead != 'e') return true;
+      advance(lexer);
+      if (iswalpha(lexer->lookahead)) return true;
+      return false;
+    }
+
+    return true;
+  }
+
+  while (iswspace(lexer->lookahead)) {
+    if (lexer->lookahead == '\n') newline_count++;
+    lexer->advance(lexer, true);
+  }
 
   if (valid_symbols[SIMPLE_STRING] && lexer->lookahead == '"') {
     advance(lexer);

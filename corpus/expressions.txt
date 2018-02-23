@@ -97,6 +97,13 @@ class C {
   }
 }
 
+def other() {
+  if (a) {
+    b
+  }
+  else c()
+}
+
 ---
 
 (compilation_unit
@@ -116,7 +123,15 @@ class C {
             (if_expression
               (parenthesized_expression (identifier))
               (block (call_expression (identifier) (arguments)))
-              (block (call_expression (identifier) (arguments))))))))))
+              (block (call_expression (identifier) (arguments)))))))))
+  (function_definition
+    (identifier)
+    (parameters)
+    (block
+      (if_expression
+        (parenthesized_expression (identifier))
+        (block (identifier))
+        (call_expression (identifier) (arguments))))))
 
 ===============================
 Match expressions

@@ -16,6 +16,7 @@ module.exports = grammar({
   ],
 
   externals: $ => [
+    $._automatic_semicolon,
     $._simple_string,
     $._string_start,
     $._string_middle,
@@ -23,6 +24,7 @@ module.exports = grammar({
     $._multiline_string_start,
     $._multiline_string_middle,
     $._multiline_string_end,
+    'else',
   ],
 
   inline: $ => [
@@ -203,7 +205,8 @@ module.exports = grammar({
 
     extends_clause: $ => seq(
       'extends',
-      $._type
+      $._type,
+      optional($.arguments)
     ),
 
     class_parameters: $ => seq(
@@ -517,7 +520,7 @@ module.exports = grammar({
 
     _semicolon: $ => choice(
       ';',
-      '\n'
+      $._automatic_semicolon
     ),
 
     comment: $ => token(choice(
