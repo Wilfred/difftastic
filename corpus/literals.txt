@@ -1,0 +1,40 @@
+==========================
+Multi-line strings
+==========================
+
+val string = """
+  a
+  b
+  c
+"""
+
+---
+
+(compilation_unit
+  (val_definition (identifier) (string)))
+
+==========================
+Interpolated strings
+==========================
+
+val string1 = "a $b c ${d} e"
+
+val string2 = "$a"
+
+val string3 = """
+  a
+  $b
+  c
+  ${d}
+"""
+
+---
+
+(compilation_unit
+  (val_definition (identifier) (string
+    (interpolation (identifier))
+    (interpolation (block (identifier)))))
+  (val_definition (identifier) (string (interpolation (identifier))))
+  (val_definition (identifier) (string
+    (interpolation (identifier))
+    (interpolation (block (identifier))))))

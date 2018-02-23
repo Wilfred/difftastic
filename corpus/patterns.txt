@@ -42,3 +42,19 @@ val x = y match {
       (case_clause
         (typed_pattern (identifier) (compound_type (type_identifier) (type_identifier)))
         (identifier))))))
+
+============================
+Tuple patterns
+============================
+
+val (a, b) = if (c) (d, e) else (f, g)
+
+---
+
+(compilation_unit
+  (val_definition
+    (tuple_pattern (identifier) (identifier))
+    (if_expression
+      (parenthesized_expression (identifier))
+      (tuple_expression (identifier) (identifier))
+      (tuple_expression (identifier) (identifier)))))

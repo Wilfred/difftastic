@@ -15,6 +15,16 @@ module.exports = grammar({
     $.comment
   ],
 
+  externals: $ => [
+    $._simple_string,
+    $._string_start,
+    $._string_middle,
+    $._string_end,
+    $._multiline_string_start,
+    $._multiline_string_middle,
+    $._multiline_string_end,
+  ],
+
   inline: $ => [
     $._pattern,
     $._semicolon,
@@ -80,6 +90,7 @@ module.exports = grammar({
     ),
 
     class_definition: $ => seq(
+      optional($.modifiers),
       optional('case'),
       'class',
       $.identifier,
@@ -153,10 +164,11 @@ module.exports = grammar({
     ),
 
     function_definition: $ => seq(
+      optional($.modifiers),
       'def',
       $.identifier,
       optional($.type_parameters),
-      $.parameters,
+      optional($.parameters),
       optional(seq(':', $._type)),
       choice(
         seq('=', $._expression),
@@ -165,12 +177,24 @@ module.exports = grammar({
     ),
 
     function_declaration: $ => seq(
+      optional($.modifiers),
       'def',
       $.identifier,
       optional($.type_parameters),
-      $.parameters,
+      optional($.parameters),
       optional(seq(':', $._type))
     ),
+
+    modifiers: $ => repeat1(choice(
+      'abstract',
+      'final',
+      'sealed',
+      'implicit',
+      'lazy',
+      'override',
+      'private',
+      'protected'
+    )),
 
     extends_clause: $ => seq(
       'extends',
@@ -275,6 +299,8 @@ module.exports = grammar({
 
     _pattern: $ => choice(
       $.identifier,
+      $.tuple_pattern,
+      $.parenthesized_pattern,
       $.alternative_pattern,
       $.typed_pattern,
       $.number,
@@ -294,6 +320,19 @@ module.exports = grammar({
       $._type
     )),
 
+    tuple_pattern: $ => seq(
+      '(',
+      $._pattern,
+      repeat1(seq(',', $._pattern)),
+      ')'
+    ),
+
+    parenthesized_pattern: $ => seq(
+      '(',
+      $._pattern,
+      ')'
+    ),
+
     // Expressions
 
     _expression: $ => choice(
@@ -307,6 +346,7 @@ module.exports = grammar({
       $.instance_expression,
       $.infix_expression,
       $.prefix_expression,
+      $.tuple_expression,
       $.block,
       $.identifier,
       $.number,
@@ -386,6 +426,13 @@ module.exports = grammar({
       $._expression
     )),
 
+    tuple_expression: $ => seq(
+      '(',
+      $._expression,
+      repeat1(seq(',', $._expression)),
+      ')'
+    ),
+
     parenthesized_expression: $ => seq(
       '(',
       $._expression,
@@ -412,11 +459,29 @@ module.exports = grammar({
 
     number: $ => /\d+/,
 
-    string: $ => token(seq(
-      '"',
-      repeat(choice(/[^"\\\n]/, /\\[.\n]/)),
-      '"'
-    )),
+    string: $ => choice(
+      $._simple_string,
+      seq(
+        $._string_start,
+        $.interpolation,
+        repeat(seq(
+          $._string_middle,
+          $.interpolation,
+        )),
+        $._string_end
+      ),
+      seq(
+        $._multiline_string_start,
+        $.interpolation,
+        repeat(seq(
+          $._multiline_string_middle,
+          $.interpolation,
+        )),
+        $._multiline_string_end
+      )
+    ),
+
+    interpolation: $ => seq('$', choice($.identifier, $.block)),
 
     _semicolon: $ => choice(
       ';',

@@ -91,6 +91,27 @@ class Point(val x: Int, val y: Int)
       (class_parameter (identifier) (type_identifier)))))
 
 =======================================
+Modifiers
+=======================================
+
+implicit final sealed class Point {
+  private override def getX() = 1
+}
+
+---
+
+(compilation_unit
+  (class_definition
+    (modifiers)
+    (identifier)
+    (template_body
+      (function_definition
+        (modifiers)
+        (identifier)
+        (parameters)
+        (number)))))
+
+=======================================
 Trait definitions
 =======================================
 
@@ -273,3 +294,20 @@ class A {
         (type_parameters (identifier))
         (parameters (parameter (identifier)))
         (block (identifier))))))
+
+=======================================
+Optional parameters
+=======================================
+
+def mkLines(header: String, indented: Boolean = false, embraced: Boolean = false): String = {}
+
+---
+
+(compilation_unit
+  (function_definition
+    (identifier)
+    (parameters
+      (parameter (identifier) (type_identifier))
+      (parameter (identifier) (type_identifier) (identifier))
+      (parameter (identifier) (type_identifier) (identifier)))
+    (type_identifier) (block)))
