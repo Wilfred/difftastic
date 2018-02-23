@@ -9,3 +9,15 @@ References
 
 * [The Scala Language Specification](http://www.scala-lang.org/docu/files/ScalaReference.pdf)
 * [Scala Syntax Summary](https://www.scala-lang.org/files/archive/spec/2.11/13-syntax-summary.html)
+
+Development
+-----------
+
+Add a test case to `./corpus`, make the required changes to `grammar.js`, and
+run the following:
+
+```sh
+npm install
+npm run build
+npm test
+```
