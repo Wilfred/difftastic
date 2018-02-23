@@ -52,7 +52,7 @@ module.exports = grammar({
 
     package_clause: $ => seq(
       'package',
-      $.identifier
+      choice($.identifier, $.stable_identifier)
     ),
 
     import_declaration: $ => seq(
@@ -227,8 +227,13 @@ module.exports = grammar({
 
     parameter: $ => seq(
       $.identifier,
-      optional(seq(':', $._type)),
+      optional(seq(':', choice($.lazy_parameter_type, $._type))),
       optional(seq('=', $._expression))
+    ),
+
+    lazy_parameter_type: $ => seq(
+      '=>',
+      $._type
     ),
 
     block: $ => seq(
@@ -304,6 +309,7 @@ module.exports = grammar({
 
     _pattern: $ => choice(
       $.identifier,
+      $.capture_pattern,
       $.tuple_pattern,
       $.case_class_pattern,
       $.parenthesized_pattern,
@@ -320,6 +326,12 @@ module.exports = grammar({
       commaSep($._pattern),
       ')'
     ),
+
+    capture_pattern: $ => prec(PREC.infix, seq(
+      $.identifier,
+      '@',
+      $._pattern
+    )),
 
     alternative_pattern: $ => prec.left(seq(
       $._pattern,
@@ -394,7 +406,7 @@ module.exports = grammar({
       $._pattern,
       optional($.guard),
       '=>',
-      $._expression
+      sep(';', $._expression)
     ),
 
     guard: $ => seq(

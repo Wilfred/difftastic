@@ -92,3 +92,23 @@ def showNotification(notification: Notification): String = {
         (case_clause
           (case_class_pattern (type_identifier) (identifier) (identifier))
           (string_transform_expression (identifier) (string (interpolation (identifier)) (interpolation (identifier))))))))))
+
+============================
+Capture patterns
+============================
+
+val x = y match {
+  case a @ B(1) => c
+}
+
+---
+
+(compilation_unit
+  (val_definition
+    (identifier)
+    (match_expression
+      (identifier)
+      (case_block
+        (case_clause
+          (capture_pattern (identifier) (case_class_pattern (type_identifier) (number)))
+          (identifier)))))) 

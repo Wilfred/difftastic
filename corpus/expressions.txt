@@ -123,7 +123,7 @@ Match expressions
 ===============================
 
 def matchTest(x: Int): String = x match {
-  case 1 => "one"
+  case 1 => "one"; "uno"
   case 2 => "two"
   case _ => "many"
 }
@@ -136,7 +136,7 @@ def matchTest(x: Int): String = x match {
     (parameters (parameter (identifier) (type_identifier)))
     (type_identifier)
     (match_expression (identifier) (case_block
-      (case_clause (number) (string))
+      (case_clause (number) (string) (string))
       (case_clause (number) (string))
       (case_clause (wildcard) (string))))))
 
