@@ -1,0 +1,57 @@
+==============================
+Val specifications
+==============================
+
+val x : int
+
+---
+
+(compilation_unit (val_specification (identifier) (type_identifier)))
+
+==============================
+Module specifications
+==============================
+
+module x : sig
+  type t
+end
+
+module a (b: C.D) : E
+
+---
+
+(compilation_unit
+  (module_specification
+    (identifier)
+    (signature
+      (type_definition (type_constructor_definition (type_identifier)))))
+  (module_specification
+    (identifier)
+    (module_parameter (identifier) (qualified_type_identifier (identifier) (type_identifier)))
+    (type_identifier)))
+
+==============================
+Module type specifications
+==============================
+
+module type T
+module type U = T
+
+---
+
+(compilation_unit
+  (module_type_specification (type_identifier))
+  (module_type_specification (type_identifier) (type_identifier)))
+
+==============================
+Open and include directives
+==============================
+
+open Foo
+include Foo.Bar
+
+---
+
+(compilation_unit
+  (open_directive (identifier))
+  (include_directive (qualified_identifier (identifier) (identifier))))

@@ -1,0 +1,55 @@
+==========================
+Qualified Module Names
+==========================
+
+module A = B.C
+
+---
+
+(compilation_unit
+  (module_definition (identifier) (qualified_identifier (identifier) (identifier))))
+
+============================
+Functor modules
+============================
+
+module A = functor (b : C) -> D
+
+---
+
+(compilation_unit
+  (module_definition
+    (identifier)
+    (functor_module (module_parameter (identifier) (type_identifier)) (identifier))))
+
+============================
+Functor application modules
+============================
+
+module A = B(C)
+module A = B(C.D)
+
+---
+
+(compilation_unit
+  (module_definition
+    (identifier)
+    (functor_application_module (identifier) (identifier)))
+  (module_definition
+    (identifier)
+    (functor_application_module (identifier) (qualified_identifier (identifier) (identifier)))))
+
+==========================
+Struct modules
+==========================
+
+module A = struct type a ;; type b end
+
+---
+
+(compilation_unit
+  (module_definition
+    (identifier)
+    (struct_module
+      (type_definition (type_constructor_definition (type_identifier)))
+      (type_definition (type_constructor_definition (type_identifier))))))

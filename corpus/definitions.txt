@@ -1,0 +1,80 @@
+=================================
+Value definitions
+=================================
+
+let a = b and b = c
+let a b = c
+
+---
+
+(compilation_unit
+  (value_definition
+    (let_binding (identifier) (identifier))
+    (let_binding (identifier) (identifier)))
+  (value_definition
+    (let_binding (identifier) (identifier) (identifier))))
+
+===========================================
+Function definitions with named parameters
+===========================================
+
+let a ~b = b
+let a ?b: c = c
+
+---
+
+(compilation_unit
+  (value_definition
+    (let_binding (identifier) (shorthand_labeled_parameter (identifier)) (identifier)))
+  (value_definition
+    (let_binding (identifier) (labeled_parameter (identifier) (identifier)) (identifier))))
+
+=================================
+Module definitions
+=================================
+
+module B = struct
+  module L = Mod.Traversable.List
+end
+
+---
+
+(compilation_unit
+  (module_definition
+    (identifier)
+    (struct_module
+      (module_definition
+        (identifier)
+        (qualified_identifier (qualified_identifier (identifier) (identifier)) (identifier))))))
+
+=================================
+Type definitions
+=================================
+
+type 'a 'b c = d;;
+type d = e and f = g;;
+
+---
+
+(compilation_unit
+  (type_definition
+    (type_constructor_definition
+      (type_parameters (type_identifier) (type_identifier))
+      (type_identifier)
+      (type_equation (type_identifier))))
+  (type_definition
+    (type_constructor_definition (type_identifier) (type_equation (type_identifier)))
+    (type_constructor_definition (type_identifier) (type_equation (type_identifier)))))
+
+==============================
+Attributes
+==============================
+
+type x
+[@@deriving(eq)]
+
+---
+
+(compilation_unit
+  (type_definition (type_constructor_definition (type_identifier)))
+  (attribute (identifier) (parenthesized_type (type_identifier))))

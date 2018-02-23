@@ -1,0 +1,24 @@
+===========================
+Functor module types
+===========================
+
+module type A = functor (b : C) -> D
+module type E = F -> G
+module type H = I -> J -> K
+
+---
+
+(compilation_unit
+  (module_type_specification
+    (type_identifier)
+    (functor_module_type (module_parameter (identifier) (type_identifier)) (type_identifier)))
+  (module_type_specification
+    (type_identifier)
+    (shorthand_functor_module_type (type_identifier) (type_identifier)))
+  (module_type_specification
+    (type_identifier)
+    (shorthand_functor_module_type
+      (type_identifier)
+      (shorthand_functor_module_type
+        (type_identifier)
+        (type_identifier)))))

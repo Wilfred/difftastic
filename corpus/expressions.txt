@@ -1,0 +1,31 @@
+===========================
+Strings
+===========================
+
+(* ok *)
+let
+  a = "abcd" and
+  b = "\"hi\""
+
+---
+
+(compilation_unit
+  (comment)
+  (value_definition
+    (let_binding (identifier) (string))
+    (let_binding (identifier) (string))))
+
+===========================
+Let expressions
+===========================
+
+let a = let c = 1 in c
+
+---
+
+(compilation_unit
+  (value_definition (let_binding
+    (identifier)
+    (let_expression
+      (let_binding (identifier) (number))
+      (identifier)))))

@@ -1,0 +1,28 @@
+============================
+Record patterns
+============================
+
+let a b { c; d } = d
+
+---
+
+(compilation_unit
+  (value_definition (let_binding
+    (identifier)
+    (identifier)
+    (record_pattern (identifier) (identifier)) (identifier))))
+
+============================
+Type annotation patterns
+============================
+
+let a (b: C) (d: E) = f
+
+---
+
+(compilation_unit
+  (value_definition (let_binding
+    (identifier)
+    (type_pattern (identifier) (type_identifier))
+    (type_pattern (identifier) (type_identifier))
+    (identifier))))

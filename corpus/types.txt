@@ -1,0 +1,40 @@
+===========================
+Record types
+===========================
+
+type 'a t = { lhs : 'a list; rhs : 'a list }
+
+---
+
+(compilation_unit
+  (type_definition
+    (type_constructor_definition
+      (type_parameters (type_identifier))
+      (type_identifier)
+      (record_declaration
+        (field_declaration (identifier) (constructed_type (type_variable (type_identifier)) (type_identifier)))
+        (field_declaration (identifier) (constructed_type (type_variable (type_identifier)) (type_identifier)))))))
+
+===========================
+Function types
+===========================
+
+type T1 = bool -> bool
+type T2 = 'a t -> 'a t -> bool
+
+---
+
+(compilation_unit
+  (type_definition
+    (type_constructor_definition
+      (type_identifier)
+      (type_equation (function_type (type_identifier) (type_identifier)))))
+  (type_definition
+    (type_constructor_definition
+      (type_identifier)
+      (type_equation
+        (function_type
+          (constructed_type (type_variable (type_identifier)) (type_identifier))
+          (function_type
+            (constructed_type (type_variable (type_identifier)) (type_identifier))
+            (type_identifier)))))))
