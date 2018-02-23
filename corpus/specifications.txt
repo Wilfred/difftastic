@@ -1,12 +1,12 @@
 ==============================
-Val specifications
+Value specifications
 ==============================
 
 val x : int
 
 ---
 
-(compilation_unit (val_specification (identifier) (type_identifier)))
+(compilation_unit (value_specification (identifier) (type_identifier)))
 
 ==============================
 Module specifications

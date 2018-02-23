@@ -28,7 +28,7 @@ module.exports = grammar({
     // Specifications
 
     _specification: $ => choice(
-      $.val_specification,
+      $.value_specification,
       $.module_specification,
       $.module_type_specification,
       $.type_definition,
@@ -36,7 +36,7 @@ module.exports = grammar({
       $.include_directive
     ),
 
-    val_specification: $ => seq(
+    value_specification: $ => seq(
       'val',
       $.identifier,
       ':',
