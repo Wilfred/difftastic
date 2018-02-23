@@ -90,6 +90,7 @@ module.exports = grammar({
     module_definition: $ => seq(
       'module',
       $.identifier,
+      optional(seq(':', $._module_type)),
       '=',
       $._module
     ),

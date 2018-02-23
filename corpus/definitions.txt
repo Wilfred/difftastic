@@ -37,6 +37,12 @@ module B = struct
   module L = Mod.Traversable.List
 end
 
+module B : sig
+  type T
+end = struct
+  type T = U
+end
+
 ---
 
 (compilation_unit
@@ -45,7 +51,13 @@ end
     (struct_module
       (module_definition
         (identifier)
-        (qualified_identifier (qualified_identifier (identifier) (identifier)) (identifier))))))
+        (qualified_identifier (qualified_identifier (identifier) (identifier)) (identifier)))))
+  (module_definition
+    (identifier)
+    (signature
+      (type_definition (type_constructor_definition (type_identifier))))
+    (struct_module
+      (type_definition (type_constructor_definition (type_identifier) (type_equation (type_identifier)))))))
 
 =================================
 Type definitions
