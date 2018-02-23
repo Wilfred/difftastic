@@ -34,7 +34,8 @@ module.exports = grammar({
       $.module_type_specification,
       $.type_definition,
       $.open_directive,
-      $.include_directive
+      $.include_directive,
+      $.attribute
     ),
 
     value_specification: $ => seq(

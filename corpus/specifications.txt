@@ -13,7 +13,7 @@ Module specifications
 ==============================
 
 module x : sig
-  type t
+  type t [@@deriving show]
 end
 
 module a (b: C.D) : E
@@ -24,7 +24,8 @@ module a (b: C.D) : E
   (module_specification
     (identifier)
     (signature
-      (type_definition (type_constructor_definition (type_identifier)))))
+      (type_definition (type_constructor_definition (type_identifier)))
+      (attribute (identifier) (type_identifier))))
   (module_specification
     (identifier)
     (module_parameter (identifier) (qualified_type_identifier (identifier) (type_identifier)))
