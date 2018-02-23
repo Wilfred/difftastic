@@ -57,7 +57,7 @@ module.exports = grammar({
 
     import_declaration: $ => seq(
       'import',
-      $.stable_identifier,
+      choice($.stable_identifier, $.identifier),
       optional(seq(
         '.',
         choice(
@@ -126,6 +126,7 @@ module.exports = grammar({
     ),
 
     val_definition: $ => seq(
+      optional($.modifiers),
       'val',
       $._pattern,
       optional(seq(':', $._type)),
@@ -134,6 +135,7 @@ module.exports = grammar({
     ),
 
     val_declaration: $ => seq(
+      optional($.modifiers),
       'val',
       commaSep1($.identifier),
       ':',
@@ -141,6 +143,7 @@ module.exports = grammar({
     ),
 
     var_declaration: $ => seq(
+      optional($.modifiers),
       'var',
       commaSep1($.identifier),
       ':',
@@ -148,6 +151,7 @@ module.exports = grammar({
     ),
 
     var_definition: $ => seq(
+      optional($.modifiers),
       'var',
       $._pattern,
       optional(seq(':', $._type)),
@@ -156,6 +160,7 @@ module.exports = grammar({
     ),
 
     type_definition: $ => seq(
+      optional($.modifiers),
       'type',
       $._type_identifier,
       optional($.type_parameters),
@@ -356,6 +361,7 @@ module.exports = grammar({
       $.infix_expression,
       $.prefix_expression,
       $.tuple_expression,
+      $.case_block,
       $.block,
       $.identifier,
       $.number,
@@ -378,10 +384,9 @@ module.exports = grammar({
       $.case_block
     ),
 
-    case_block: $ => seq(
-      '{',
-      repeat($.case_clause),
-      '}'
+    case_block: $ => choice(
+      prec(-1, seq('{', '}')),
+      seq('{', repeat1($.case_clause), '}')
     ),
 
     case_clause: $ => seq(
@@ -410,7 +415,8 @@ module.exports = grammar({
 
     call_expression: $ => prec(PREC.call, seq(
       $._expression,
-      $.arguments
+      $.arguments,
+      optional(choice($.block, $.case_block))
     )),
 
     field_expression: $ => prec(PREC.field, seq(
