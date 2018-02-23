@@ -118,6 +118,18 @@ module.exports = grammar({
 
     _type_parameter: $ => choice(
       '_',
+      $._covariant_type_parameter,
+      $._contravariant_type_parameter,
+      $.identifier // invariant type parameter
+    ),
+
+    _covariant_type_parameter: $ => seq(
+      '+',
+      $.identifier
+    ),
+
+    _contravariant_type_parameter: $ => seq(
+      '-',
       $.identifier
     ),
 

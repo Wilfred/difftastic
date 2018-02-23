@@ -87,3 +87,17 @@ type A = B Foo C
   (type_definition
     (type_identifier)
     (infix_type (type_identifier) (identifier) (type_identifier))))
+
+
+==================================
+Variant Types
+==================================
+
+class Function1[-T1, +R]
+
+---
+
+(compilation_unit
+  (class_definition
+    (identifier)
+    (type_parameters (identifier) (identifier))))

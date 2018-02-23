@@ -419,6 +419,40 @@
         },
         {
           "type": "SYMBOL",
+          "name": "_covariant_type_parameter"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_contravariant_type_parameter"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "identifier"
+        }
+      ]
+    },
+    "_covariant_type_parameter": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "+"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "identifier"
+        }
+      ]
+    },
+    "_contravariant_type_parameter": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "-"
+        },
+        {
+          "type": "SYMBOL",
           "name": "identifier"
         }
       ]
