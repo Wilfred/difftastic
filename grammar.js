@@ -52,6 +52,10 @@ module.exports = grammar({
     [$.unann_class_or_interface_type, $.class_literal, $.array_access],
     [$.unann_class_or_interface_type, $.method_reference],
     [$.unann_class_or_interface_type, $.scoped_identifier],
+    [$.constant_declaration, $.local_variable_declaration],
+    [$.variable_declarator_id],
+    [$._lambda_parameters, $.inferred_parameters],
+    [$._expression, $.inferred_parameters]
   ],
 
   rules: {
@@ -305,13 +309,17 @@ module.exports = grammar({
 
     _lambda_parameters: $ => choice(
       $.identifier,
-      seq('(', $._formal_parameter_list, ')'),
-      seq('(', $.inferred_formal_parameter_list, ')')
+      seq($.formal_parameters),
+      $.inferred_parameters
     ),
 
-    inferred_formal_parameter_list: $ => sep1(',', $.identifier),
+    inferred_parameters: $ => seq(
+      '(',
+      commaSep($.identifier),
+      ')'
+    ),
 
-    lambda_body: $ => seq(
+    lambda_body: $ => choice(
       $._expression,
       $.block
     ),
@@ -489,9 +497,9 @@ module.exports = grammar({
       $.unann_class_or_interface_type
     ),
 
-    dims: $ => repeat1(
+    dims: $ => prec.right(repeat1(
       seq(repeat($._annotation), '[', ']')
-    ),
+    )),
 
     primitive_type: $ => seq(
       repeat($._annotation),
@@ -561,7 +569,10 @@ module.exports = grammar({
       $.module_declaration,
       $.package_declaration,
       $.import_declaration,
-      $.class_declaration,
+      $._class_declaration,
+      $.interface_declaration,
+      $.constant_declaration,
+      $._class_declaration,
       $.interface_declaration
     )),
 
@@ -610,13 +621,16 @@ module.exports = grammar({
 
     asterisk: $ => '*',
 
-    class_declaration: $ => choice(
+    _class_declaration: $ => choice(
       $.normal_class_declaration,
       $.enum_declaration
     ),
 
     enum_declaration: $ => seq(
+      repeat($.modifier),
       'enum',
+      $.identifier,
+      optional($.super_interfaces),
       '{',
       commaSep($.enum_constant),
       optional(','),
@@ -722,9 +736,7 @@ module.exports = grammar({
     constructor_declarator: $ => seq(
       optional($.type_parameters),
       $.identifier,
-      '(',
-      $._formal_parameter_list,
-      ')'
+      $.formal_parameters
     ),
 
     constructor_body: $ => seq(
@@ -755,7 +767,7 @@ module.exports = grammar({
     class_member_declaration: $ => choice(
       $.field_declaration,
       $.method_declaration,
-      $.class_declaration,
+      $._class_declaration,
       $.interface_declaration,
       $._semicolon
     ),
@@ -873,7 +885,7 @@ module.exports = grammar({
     annotation_type_member_declaration: $ => choice(
       $.annotation_type_element_declaration,
       $.constant_declaration,
-      $.class_declaration,
+      $._class_declaration,
       $.interface_declaration
     ),
 
@@ -919,7 +931,7 @@ module.exports = grammar({
     interface_member_declaration: $ => choice(
       $.constant_declaration,
       $.method_declaration,
-      $.class_declaration,
+      $._class_declaration,
       $.interface_declaration,
       $._semicolon
     ),
@@ -994,19 +1006,17 @@ module.exports = grammar({
 
     method_declarator: $ => seq(
       $.identifier,
-      '(', optional($._formal_parameter_list), ')',
+      $.formal_parameters,
       optional($.dims)
     ),
 
-    _formal_parameter_list: $ => choice(
-      $.receiver_parameter,
-      seq($.formal_parameters, ',', $.last_formal_parameter),
-      $.last_formal_parameter
-    ),
-
-    formal_parameters: $ => choice(
-      seq($.formal_parameter, repeat(seq(',', $.formal_parameter))),
-      seq($.receiver_parameter, repeat(seq(',', $.formal_parameter)))
+    formal_parameters: $ => seq(
+      '(',
+      optional($.receiver_parameter),
+      commaSep($.formal_parameter),
+      optional(','),
+      optional($.spread_parameter),
+      ')'
     ),
 
     formal_parameter: $ => seq(
@@ -1022,13 +1032,15 @@ module.exports = grammar({
       $.this
     ),
 
-    last_formal_parameter: $ => choice(
-      seq(
+    spread_parameter: $ => seq(
       repeat($.modifier),
       $.unann_type,
       '...',
       $.variable_declarator
-      ),
+    ),
+
+    last_formal_parameter: $ => choice(
+      $.spread_parameter,
       $.formal_parameter
     ),
 
@@ -1055,7 +1067,7 @@ module.exports = grammar({
 
     _block_statement: $ => choice(
       $.local_variable_declaration_statement,
-      $.class_declaration,
+      $._class_declaration,
       $._statement
     ),
 
