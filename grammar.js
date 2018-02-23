@@ -13,7 +13,8 @@ module.exports = grammar({
   inline: $ => [
     $._specification,
     $._definition,
-    $._parameter
+    $._parameter,
+    $._type_identifier,
   ],
 
   rules: {
