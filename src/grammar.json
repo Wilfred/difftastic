@@ -1376,6 +1376,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "case_class_pattern"
+        },
+        {
+          "type": "SYMBOL",
           "name": "parenthesized_pattern"
         },
         {
@@ -1397,6 +1401,65 @@
         {
           "type": "SYMBOL",
           "name": "wildcard"
+        }
+      ]
+    },
+    "case_class_pattern": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_type_identifier"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "stable_type_identifier"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "_pattern"
+                },
+                {
+                  "type": "REPEAT",
+                  "content": {
+                    "type": "SEQ",
+                    "members": [
+                      {
+                        "type": "STRING",
+                        "value": ","
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "_pattern"
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": ")"
         }
       ]
     },
@@ -1518,6 +1581,10 @@
         {
           "type": "SYMBOL",
           "name": "parenthesized_expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "string_transform_expression"
         },
         {
           "type": "SYMBOL",
@@ -1988,6 +2055,19 @@
     "number": {
       "type": "PATTERN",
       "value": "\\d+"
+    },
+    "string_transform_expression": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "identifier"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "string"
+        }
+      ]
     },
     "string": {
       "type": "CHOICE",

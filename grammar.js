@@ -300,12 +300,20 @@ module.exports = grammar({
     _pattern: $ => choice(
       $.identifier,
       $.tuple_pattern,
+      $.case_class_pattern,
       $.parenthesized_pattern,
       $.alternative_pattern,
       $.typed_pattern,
       $.number,
       $.string,
       $.wildcard
+    ),
+
+    case_class_pattern: $ => seq(
+      choice($._type_identifier, $.stable_type_identifier),
+      '(',
+      commaSep($._pattern),
+      ')'
     ),
 
     alternative_pattern: $ => prec.left(seq(
@@ -342,6 +350,7 @@ module.exports = grammar({
       $.generic_function,
       $.assignment_expression,
       $.parenthesized_expression,
+      $.string_transform_expression,
       $.field_expression,
       $.instance_expression,
       $.infix_expression,
@@ -458,6 +467,11 @@ module.exports = grammar({
     operator_identifier: $ => /[^\s\w\(\)\[\]'"`.;,]+/,
 
     number: $ => /\d+/,
+
+    string_transform_expression: $ => seq(
+      $.identifier,
+      $.string
+    ),
 
     string: $ => choice(
       $._simple_string,
