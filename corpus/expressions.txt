@@ -29,6 +29,7 @@ Generic functions
 class C {
   def main() {
     a[T]()
+    List[Traversable[ClassPath]]()
   }
 }
 
@@ -46,6 +47,12 @@ class C {
             (generic_function
               (identifier)
               (type_arguments (type_identifier)))
+            (arguments))
+          (call_expression
+            (generic_function
+              (identifier)
+              (type_arguments
+                (generic_type (type_identifier) (type_arguments (type_identifier)))))
             (arguments)))))))
 
 ===============================

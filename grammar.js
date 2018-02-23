@@ -455,7 +455,7 @@ module.exports = grammar({
 
     wildcard: $ => '_',
 
-    operator_identifier: $ => /[^\s\w\(\)'"`.;,]+/,
+    operator_identifier: $ => /[^\s\w\(\)\[\]'"`.;,]+/,
 
     number: $ => /\d+/,
 

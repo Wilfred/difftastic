@@ -1983,7 +1983,7 @@
     },
     "operator_identifier": {
       "type": "PATTERN",
-      "value": "[^\\s\\w\\(\\)'\"`.;,]+"
+      "value": "[^\\s\\w\\(\\)\\[\\]'\"`.;,]+"
     },
     "number": {
       "type": "PATTERN",
