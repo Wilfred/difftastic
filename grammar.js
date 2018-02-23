@@ -366,6 +366,7 @@ module.exports = grammar({
     _expression: $ => choice(
       $.if_expression,
       $.match_expression,
+      $.try_expression,
       $.call_expression,
       $.generic_function,
       $.assignment_expression,
@@ -398,6 +399,17 @@ module.exports = grammar({
       'match',
       $.case_block
     ),
+
+    try_expression: $ => prec.right(seq(
+      'try',
+      $._expression,
+      optional($.catch_clause),
+      optional($.finally_clause)
+    )),
+
+    catch_clause: $ => prec.right(seq('catch', $.case_block)),
+
+    finally_clause: $ => prec.right(seq('finally', $._expression)),
 
     case_block: $ => choice(
       prec(-1, seq('{', '}')),

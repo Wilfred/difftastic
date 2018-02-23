@@ -134,6 +134,29 @@ def other() {
         (call_expression (identifier) (arguments))))))
 
 ===============================
+Try expressions
+===============================
+
+def main() {
+  try a() finally depth -= 1
+  try b() catch { case e => println(e) }
+}
+
+---
+
+(compilation_unit
+  (function_definition
+    (identifier)
+    (parameters)
+    (block
+      (try_expression
+        (call_expression (identifier) (arguments))
+        (finally_clause (infix_expression (identifier) (operator_identifier) (number))))
+      (try_expression
+        (call_expression (identifier) (arguments))
+        (catch_clause (case_block (case_clause (identifier) (call_expression (identifier) (arguments (identifier))))))))))
+
+===============================
 Match expressions
 ===============================
 
