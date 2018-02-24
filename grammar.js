@@ -87,8 +87,13 @@ module.exports = grammar({
     object_definition: $ => seq(
       optional('case'),
       'object',
+      $._object_definition
+    ),
+
+    _object_definition: $ => seq(
       $.identifier,
-      $.template_body
+      optional($.extends_clause),
+      optional($.template_body),
     ),
 
     class_definition: $ => seq(

@@ -238,11 +238,40 @@
         },
         {
           "type": "SYMBOL",
+          "name": "_object_definition"
+        }
+      ]
+    },
+    "_object_definition": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
           "name": "identifier"
         },
         {
-          "type": "SYMBOL",
-          "name": "template_body"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "extends_clause"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "template_body"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         }
       ]
     },

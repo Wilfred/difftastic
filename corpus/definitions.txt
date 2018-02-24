@@ -33,12 +33,16 @@ object O1 {
 case object O2 {
 }
 
+object O3 extends A {
+}
+
 ---
 
 (compilation_unit
   (comment)
   (object_definition (identifier) (template_body))
-  (object_definition (identifier) (template_body)))
+  (object_definition (identifier) (template_body))
+  (object_definition (identifier) (extends_clause (type_identifier)) (template_body)))
 
 =======================================
 Class definitions
