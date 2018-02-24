@@ -75,6 +75,10 @@ module.exports = grammar({
 
     import_declaration: $ => seq(
       'import',
+      sep1(',', $._import_expression)
+    ),
+
+    _import_expression: $ => seq(
       choice($.stable_identifier, $.identifier),
       optional(seq(
         '.',
