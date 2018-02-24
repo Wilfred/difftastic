@@ -135,28 +135,50 @@ module.exports = grammar({
       $.template_body
     ),
 
+    // The EBNF makes a distinction between function type parameters and other
+    // type parameters as you can't specify variance on function type
+    // parameters. This isn't important to the structure of the AST so we don't
+    // make that distinction.
     type_parameters: $ => seq(
       '[',
-      commaSep1($._type_parameter),
+      commaSep1($._variant_type_parameter),
       ']'
     ),
 
-    _type_parameter: $ => choice(
-      '_',
-      $.covariant_type_parameter,
-      $.contravariant_type_parameter,
-      $.identifier // invariant type parameter
+    _variant_type_parameter: $ => seq(
+      choice(
+        $.covariant_type_parameter,
+        $.contravariant_type_parameter,
+        $._type_parameter // invariant type parameter
+      )
     ),
 
     covariant_type_parameter: $ => seq(
       '+',
-      $.identifier
+      $._type_parameter
     ),
 
     contravariant_type_parameter: $ => seq(
       '-',
-      $.identifier
+      $._type_parameter,
     ),
+
+    _type_parameter: $ => seq(
+      choice($.wildcard, $.identifier),
+      optional($.type_parameters),
+      optional($.upper_bound),
+      optional($.lower_bound),
+      optional(repeat($.view_bound)),
+      optional(repeat($.context_bound)),
+    ),
+
+    upper_bound: $ => seq('<:', $._type),
+
+    lower_bound: $ => seq('>:', $._type),
+
+    view_bound: $ => seq('<%', $._type),
+
+    context_bound: $ => seq(':', $._type),
 
     template_body: $ => seq(
       '{',
