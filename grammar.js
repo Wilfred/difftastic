@@ -295,7 +295,7 @@ module.exports = grammar({
         seq(
           $._variable_name,
           choice(':', ':?', '=', ':-', '%', '/'),
-          $._expression
+          optional($._expression)
         )
       ),
       '}'
