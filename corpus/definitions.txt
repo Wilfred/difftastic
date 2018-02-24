@@ -1,11 +1,44 @@
 ================================
+Package
+================================
+
+package a.b
+package c {
+  object A
+}
+
+---
+
+(compilation_unit
+  (package_clause (package_identifier (identifier) (identifier)))
+  (package_clause (package_identifier (identifier))
+    (template_body
+      (object_definition (identifier)))))
+
+================================
+Package object
+================================
+
+package object d extends A {
+  val hello: String = "there"
+}
+
+---
+
+(compilation_unit
+  (package_object
+    (identifier)
+    (extends_clause (type_identifier))
+    (template_body
+      (val_definition (identifier) (type_identifier) (string)))))
+
+================================
 Imports
 ================================
 
 import PartialFunction.condOpt
+import a.b, c.e
 import reflect.io.{Directory, File, Path}
-import tools.nsc.classpath._
-import lang.System.{lineSeparator => EOL}
 
 ---
 
@@ -14,10 +47,33 @@ import lang.System.{lineSeparator => EOL}
     (stable_identifier (identifier) (identifier)))
   (import_declaration
     (stable_identifier (identifier) (identifier))
-    (import_selectors (identifier) (identifier) (identifier)))
+    (stable_identifier (identifier) (identifier)))
+  (import_declaration
+    (stable_identifier (identifier) (identifier))
+    (import_selectors (identifier) (identifier) (identifier))))
+
+================================
+Imports: Wildcard
+================================
+
+import tools.nsc.classpath._
+
+---
+
+(compilation_unit
   (import_declaration
     (stable_identifier (stable_identifier (identifier) (identifier)) (identifier))
-    (wildcard))
+    (wildcard)))
+
+================================
+Imports: Rename
+================================
+
+import lang.System.{lineSeparator => EOL}
+
+---
+
+(compilation_unit
   (import_declaration
     (stable_identifier (identifier) (identifier))
     (import_selectors (renamed_identifier (identifier) (identifier)))))
@@ -33,12 +89,16 @@ object O1 {
 case object O2 {
 }
 
+object O3 extends A {
+}
+
 ---
 
 (compilation_unit
   (comment)
   (object_definition (identifier) (template_body))
-  (object_definition (identifier) (template_body)))
+  (object_definition (identifier) (template_body))
+  (object_definition (identifier) (extends_clause (type_identifier)) (template_body)))
 
 =======================================
 Class definitions

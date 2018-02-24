@@ -39,6 +39,7 @@ module.exports = grammar({
 
     _definition: $ => choice(
       $.package_clause,
+      $.package_object,
       $.class_definition,
       $.import_declaration,
       $.object_definition,
@@ -54,11 +55,30 @@ module.exports = grammar({
 
     package_clause: $ => seq(
       'package',
-      choice($.identifier, $.stable_identifier)
+      $.package_identifier,
+      // This is slightly more permissive than the EBNF in that it allows any
+      // kind of delcaration inside of the package blocks. As we're more
+      // concerned with the structure rather than the validity of the program
+      // we'll allow it.
+      optional($.template_body)
+    ),
+
+    package_identifier: $ => sep1(
+      '.', $.identifier
+    ),
+
+    package_object: $ => seq(
+      'package',
+      'object',
+      $._object_definition
     ),
 
     import_declaration: $ => seq(
       'import',
+      sep1(',', $._import_expression)
+    ),
+
+    _import_expression: $ => seq(
       choice($.stable_identifier, $.identifier),
       optional(seq(
         '.',
@@ -87,8 +107,13 @@ module.exports = grammar({
     object_definition: $ => seq(
       optional('case'),
       'object',
+      $._object_definition
+    ),
+
+    _object_definition: $ => seq(
       $.identifier,
-      $.template_body
+      optional($.extends_clause),
+      optional($.template_body),
     ),
 
     class_definition: $ => seq(
@@ -110,16 +135,50 @@ module.exports = grammar({
       $.template_body
     ),
 
+    // The EBNF makes a distinction between function type parameters and other
+    // type parameters as you can't specify variance on function type
+    // parameters. This isn't important to the structure of the AST so we don't
+    // make that distinction.
     type_parameters: $ => seq(
       '[',
-      commaSep1($._type_parameter),
+      commaSep1($._variant_type_parameter),
       ']'
     ),
 
-    _type_parameter: $ => choice(
-      '_',
-      $.identifier
+    _variant_type_parameter: $ => seq(
+      choice(
+        $.covariant_type_parameter,
+        $.contravariant_type_parameter,
+        $._type_parameter // invariant type parameter
+      )
     ),
+
+    covariant_type_parameter: $ => seq(
+      '+',
+      $._type_parameter
+    ),
+
+    contravariant_type_parameter: $ => seq(
+      '-',
+      $._type_parameter,
+    ),
+
+    _type_parameter: $ => seq(
+      choice($.wildcard, $.identifier),
+      optional($.type_parameters),
+      optional($.upper_bound),
+      optional($.lower_bound),
+      optional(repeat($.view_bound)),
+      optional(repeat($.context_bound)),
+    ),
+
+    upper_bound: $ => seq('<:', $._type),
+
+    lower_bound: $ => seq('>:', $._type),
+
+    view_bound: $ => seq('<%', $._type),
+
+    context_bound: $ => seq(':', $._type),
 
     template_body: $ => seq(
       '{',
