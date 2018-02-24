@@ -26,3 +26,22 @@ let a (b: C) (d: E) = f
     (type_pattern (identifier) (type_identifier))
     (type_pattern (identifier) (type_identifier))
     (identifier))))
+
+============================
+Tuple patterns
+============================
+
+let a, b = c
+let (d, e, f) = g
+
+---
+
+(compilation_unit
+  (value_definition
+    (let_binding
+      (tuple_pattern (identifier) (identifier))
+      (identifier)))
+  (value_definition
+    (let_binding
+      (parenthesized_pattern (tuple_pattern (identifier) (tuple_pattern (identifier) (identifier))))
+      (identifier))))

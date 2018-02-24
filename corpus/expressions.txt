@@ -29,3 +29,47 @@ let a = let c = 1 in c
     (let_expression
       (let_binding (identifier) (number))
       (identifier)))))
+
+===========================
+Function call expressions
+===========================
+
+let a = B.C.d e f g
+let h = (j) k
+
+---
+
+(compilation_unit
+  (value_definition
+    (let_binding
+      (identifier)
+      (call_expression
+        (qualified_identifier (qualified_identifier (identifier) (identifier)) (identifier))
+        (identifier)
+        (identifier)
+        (identifier))))
+  (value_definition
+    (let_binding
+      (identifier)
+      (call_expression
+        (parenthesized_expression (identifier))
+        (identifier)))))
+
+===========================
+Infix expressions
+===========================
+
+let a = b ** c ** d
+let e = f + g * h * i
+
+---
+
+(compilation_unit
+  (value_definition
+    (let_binding
+      (identifier)
+      (infix_expression (identifier) (infix_expression (identifier) (identifier)))))
+  (value_definition
+    (let_binding
+      (identifier)
+      (infix_expression (identifier) (infix_expression (infix_expression (identifier) (identifier)) (identifier))))))

@@ -1,6 +1,17 @@
 const PREC = {
-  call: 1
+  hash: 10,
+  call: 8,
+  shift: 6,
+  mult: 5,
+  add: 4,
+  concat: 3,
+  rel: 2,
+  and: 1
 }
+
+const operatorChars = choice(
+  '!', '$', '%', '&', '*', '+', '-', '.', '/', ':', '<', '=', '>', '?', '@', '^', '|', '~'
+)
 
 module.exports = grammar({
   name: 'ocaml',
@@ -299,13 +310,16 @@ module.exports = grammar({
 
     // Expressions
 
-    _expression: $ => choice(
+    _expression: $ => prec.left(choice(
       $.number,
       $.string,
       $.identifier,
       $.qualified_identifier,
+      $.call_expression,
+      $.infix_expression,
+      $.parenthesized_expression,
       $.let_expression
-    ),
+    )),
 
     qualified_identifier: $ => seq(
       choice($.identifier, $.qualified_identifier),
@@ -324,6 +338,71 @@ module.exports = grammar({
       $._expression
     ),
 
+    call_expression: $ => prec.left(seq(
+      choice($.identifier, $.qualified_identifier, $.parenthesized_expression),
+      repeat1($._expression)
+    )),
+
+    infix_expression: $ => {
+      const table = [
+        {
+          operator: alias($._hash_operator, '#...'),
+          precedence: PREC.hash,
+          associativity: 'left'
+        },
+        {
+          operator: choice(
+            alias($._shift_operator, '**...'),
+            'lsl', 'lsr', 'asr'
+          ),
+          precedence: PREC.shift,
+          associativity: 'right'
+        },
+        {
+          operator: choice(
+            alias($._mult_operator, '*...'),
+            'mod', 'land', 'lor', 'lxor'
+          ),
+          precedence: PREC.mult,
+          associativity: 'left'
+        },
+        {
+          operator: alias($._add_operator, '+...'),
+          precedence: PREC.add,
+          associativity: 'left'
+        },
+        {
+          operator: alias($._concat_operator, '@...'),
+          precedence: PREC.concat,
+          associativity: 'right'
+        },
+        {
+          operator: choice(alias($._rel_operator, '=...'), '!='),
+          precedence: PREC.rel,
+          associativity: 'left'
+        },
+        {
+          operator: choice('&', '&&'),
+          precedence: PREC.and,
+          associativity: 'right'
+        }
+      ]
+
+      return choice(...table.map(({operator, precedence, associativity}) =>
+        prec[associativity](precedence, seq(
+          $._expression,
+          operator,
+          $._expression
+        ))
+      ))
+    },
+
+    parenthesized_expression: $ => seq(
+      '(',
+      $._expression,
+      ')'
+    ),
+
     // Patterns
 
     _pattern: $ => choice(
@@ -331,6 +410,7 @@ module.exports = grammar({
       $.string,
       $.identifier,
       $.record_pattern,
+      $.tuple_pattern,
       $.type_pattern,
       $.parenthesized_pattern
     ),
@@ -349,6 +429,11 @@ module.exports = grammar({
       ')'
     ),
 
+    tuple_pattern: $ => prec.right(seq(
+      $._pattern,
+      repeat1(prec.right(seq(',', $._pattern)))
+    )),
+
     parenthesized_pattern: $ => seq(
       '(',
       $._pattern,
@@ -357,9 +442,16 @@ module.exports = grammar({
 
     // Tokens
 
+    _shift_operator: $ => token(seq('**', repeat(operatorChars))),
+    _hash_operator: $ => token(seq('#', repeat1(operatorChars))),
+    _mult_operator: $ => token(seq(choice('*', '/', '%'), repeat(operatorChars))),
+    _add_operator: $ => token(seq(choice('+', '-'), repeat(operatorChars))),
+    _concat_operator: $ => token(seq(choice('@', '^'), repeat(operatorChars))),
+    _rel_operator: $ => token(seq(choice('=', '<', '>', '|', '&', '$'), repeat(operatorChars))),
+
     _type_identifier: $ => alias($.identifier, $.type_identifier),
 
-    identifier: $ => /[a-zA-Z]\w*/,
+    identifier: $ => /[a-zA-Z_]\w*/,
 
     number: $ => /\d+/,
 
