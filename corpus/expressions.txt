@@ -54,6 +54,25 @@ let h = (j) k
       (call_expression
         (parenthesized_expression (identifier))
         (identifier)))))
+===========================
+Function expressions
+===========================
+
+let a = function
+  | { a.b = c} -> a
+  | _ -> 5
+
+---
+
+(compilation_unit (value_definition (let_binding
+  (identifier)
+  (function_expression
+    (pattern_match_clause
+      (record_pattern (field_pattern (qualified_identifier (identifier) (identifier)) (identifier)))
+      (identifier))
+    (pattern_match_clause
+      (identifier)
+      (number))))))
 
 ===========================
 Infix expressions
@@ -73,3 +92,18 @@ let e = f + g * h * i
     (let_binding
       (identifier)
       (infix_expression (identifier) (infix_expression (infix_expression (identifier) (identifier)) (identifier))))))
+
+===========================
+Prefix expressions
+===========================
+
+let a = !!! b c
+let d = - e f
+
+---
+
+(compilation_unit
+  (value_definition
+    (let_binding (identifier) (prefix_expression (call_expression (identifier) (identifier)))))
+  (value_definition
+    (let_binding (identifier) (prefix_expression (call_expression (identifier) (identifier))))))

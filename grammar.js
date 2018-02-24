@@ -1,12 +1,14 @@
 const PREC = {
+  prefix: 11,
   hash: 10,
-  call: 8,
-  shift: 6,
-  mult: 5,
-  add: 4,
-  concat: 3,
-  rel: 2,
-  and: 1
+  call: 9,
+  negative: 8,
+  shift: 7,
+  mult: 6,
+  add: 5,
+  concat: 4,
+  rel: 3,
+  and: 2
 }
 
 const operatorChars = choice(
@@ -310,13 +312,15 @@ module.exports = grammar({
 
     // Expressions
 
-    _expression: $ => prec.left(choice(
+    _expression: $ => prec.left(PREC.call, choice(
       $.number,
       $.string,
       $.identifier,
       $.qualified_identifier,
       $.call_expression,
+      $.function_expression,
       $.infix_expression,
+      $.prefix_expression,
       $.parenthesized_expression,
       $.let_expression
     )),
@@ -338,7 +342,7 @@ module.exports = grammar({
       $._expression
     ),
 
-    call_expression: $ => prec.left(seq(
+    call_expression: $ => prec.left(PREC.call, seq(
       choice($.identifier, $.qualified_identifier, $.parenthesized_expression),
       repeat1($._expression)
     )),
@@ -397,10 +401,34 @@ module.exports = grammar({
       ))
     },
 
+    prefix_expression: $ => choice(
+      prec(PREC.prefix, seq(
+        alias($._prefix_operator, '!...'),
+        $._expression
+      )),
+      prec(PREC.negative, seq(
+        choice('-', '-.'),
+        $._expression
+      )),
+    ),
+
+    function_expression: $ => prec.right(seq(
+      'function',
+      optional('|'),
+      sep1('|', $.pattern_match_clause)
+    )),
+
     parenthesized_expression: $ => seq(
       '(',
       $._expression,
       ')'
+    ),
+
+    pattern_match_clause: $ => seq(
+      $._pattern,
+      optional(seq('when', $._expression)),
+      '->',
+      $._expression
     ),
 
     // Patterns
@@ -411,13 +439,15 @@ module.exports = grammar({
       $.identifier,
       $.record_pattern,
       $.tuple_pattern,
+      $.list_pattern,
       $.type_pattern,
       $.parenthesized_pattern
     ),
 
     record_pattern: $ => seq(
       '{',
-      sep(';', $._pattern),
+      sep(';', choice($._pattern, $.field_pattern)),
+      optional(';'),
       '}'
     ),
 
@@ -434,10 +464,23 @@ module.exports = grammar({
       repeat1(prec.right(seq(',', $._pattern)))
     )),
 
+    list_pattern: $ => seq(
+      '[',
+      sep(';', $._pattern),
+      optional(';'),
+      ']'
+    ),
+
     parenthesized_pattern: $ => seq(
       '(',
       $._pattern,
       ')'
+    ),
+
+    field_pattern: $ => seq(
+      choice($.identifier, $.qualified_identifier),
+      '=',
+      $._pattern
     ),
 
     // Tokens
@@ -448,6 +491,11 @@ module.exports = grammar({
     _add_operator: $ => token(seq(choice('+', '-'), repeat(operatorChars))),
     _concat_operator: $ => token(seq(choice('@', '^'), repeat(operatorChars))),
     _rel_operator: $ => token(seq(choice('=', '<', '>', '|', '&', '$'), repeat(operatorChars))),
+    _prefix_operator: $ => token(choice(
+      seq('!', repeat(operatorChars)),
+      seq('~', repeat1(operatorChars)),
+      seq('~', repeat1(operatorChars))
+    )),
 
     _type_identifier: $ => alias($.identifier, $.type_identifier),
 

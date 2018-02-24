@@ -2,7 +2,7 @@
 Record patterns
 ============================
 
-let a b { c; d } = d
+let a b { c; d = e; f } = d
 
 ---
 
@@ -10,7 +10,13 @@ let a b { c; d } = d
   (value_definition (let_binding
     (identifier)
     (identifier)
-    (record_pattern (identifier) (identifier)) (identifier))))
+    (record_pattern
+      (identifier)
+      (field_pattern
+        (identifier)
+        (identifier))
+      (identifier))
+    (identifier))))
 
 ============================
 Type annotation patterns
