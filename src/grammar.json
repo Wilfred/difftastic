@@ -17,6 +17,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "package_object"
+        },
+        {
+          "type": "SYMBOL",
           "name": "class_definition"
         },
         {
@@ -69,17 +73,62 @@
           "value": "package"
         },
         {
+          "type": "SYMBOL",
+          "name": "package_identifier"
+        },
+        {
           "type": "CHOICE",
           "members": [
             {
               "type": "SYMBOL",
-              "name": "identifier"
+              "name": "template_body"
             },
             {
-              "type": "SYMBOL",
-              "name": "stable_identifier"
+              "type": "BLANK"
             }
           ]
+        }
+      ]
+    },
+    "package_identifier": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "identifier"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "."
+              },
+              {
+                "type": "SYMBOL",
+                "name": "identifier"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "package_object": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "package"
+        },
+        {
+          "type": "STRING",
+          "value": "object"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_object_definition"
         }
       ]
     },
@@ -90,6 +139,36 @@
           "type": "STRING",
           "value": "import"
         },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_import_expression"
+            },
+            {
+              "type": "REPEAT",
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "STRING",
+                    "value": ","
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "_import_expression"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "_import_expression": {
+      "type": "SEQ",
+      "members": [
         {
           "type": "CHOICE",
           "members": [

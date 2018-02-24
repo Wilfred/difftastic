@@ -1,4 +1,38 @@
 ================================
+Package
+================================
+
+package a.b
+package c {
+  object A
+}
+
+---
+
+(compilation_unit
+  (package_clause (package_identifier (identifier) (identifier)))
+  (package_clause (package_identifier (identifier))
+    (template_body
+      (object_definition (identifier)))))
+
+================================
+Package object
+================================
+
+package object d extends A {
+  val hello: String = "there"
+}
+
+---
+
+(compilation_unit
+  (package_object
+    (identifier)
+    (extends_clause (type_identifier))
+    (template_body
+      (val_definition (identifier) (type_identifier) (string)))))
+
+================================
 Imports
 ================================
 

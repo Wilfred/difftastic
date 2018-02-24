@@ -39,6 +39,7 @@ module.exports = grammar({
 
     _definition: $ => choice(
       $.package_clause,
+      $.package_object,
       $.class_definition,
       $.import_declaration,
       $.object_definition,
@@ -54,7 +55,22 @@ module.exports = grammar({
 
     package_clause: $ => seq(
       'package',
-      choice($.identifier, $.stable_identifier)
+      $.package_identifier,
+      // This is slightly more permissive than the EBNF in that it allows any
+      // kind of delcaration inside of the package blocks. As we're more
+      // concerned with the structure rather than the validity of the program
+      // we'll allow it.
+      optional($.template_body)
+    ),
+
+    package_identifier: $ => sep1(
+      '.', $.identifier
+    ),
+
+    package_object: $ => seq(
+      'package',
+      'object',
+      $._object_definition
     ),
 
     import_declaration: $ => seq(
