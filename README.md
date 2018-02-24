@@ -13,11 +13,16 @@ References
 Development
 -----------
 
-Add a test case to `./corpus`, make the required changes to `grammar.js`, and
-run the following:
+First, install the project's dependencies:
 
 ```sh
 npm install
+```
+
+Add a test case to `./corpus`, make the required changes to `grammar.js`,
+regenerate and recompile the parser, and run the tests:
+
+```sh
 npm run build
 npm test
 ```
