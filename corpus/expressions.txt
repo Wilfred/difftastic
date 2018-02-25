@@ -144,6 +144,24 @@ find "`dirname $file`" -name "$base"'*'
       (raw_string))))
 
 =========================================
+Local Variable Declaration
+=========================================
+
+function a {
+  local a=42
+  local b
+}
+
+---
+
+(program
+  (function_definition
+    (word)
+    (compound_statement
+      (local_variable_declaration (simple_variable_name) (word))
+      (local_variable_declaration (simple_variable_name)))))
+
+=========================================
 Arrays and array expansions
 =========================================
 
