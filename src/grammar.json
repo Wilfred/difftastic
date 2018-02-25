@@ -30,6 +30,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "local_variable_declaration"
+        },
+        {
+          "type": "SYMBOL",
           "name": "command"
         },
         {
@@ -601,6 +605,40 @@
             }
           ]
         },
+        {
+          "type": "SYMBOL",
+          "name": "_assignment"
+        }
+      ]
+    },
+    "local_variable_declaration": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "local"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "simple_variable_name"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_assignment"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        }
+      ]
+    },
+    "_assignment": {
+      "type": "SEQ",
+      "members": [
         {
           "type": "CHOICE",
           "members": [

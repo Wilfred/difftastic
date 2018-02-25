@@ -48,6 +48,9 @@ module.exports = grammar({
 
     _statement: $ => choice(
       $.environment_variable_assignment,
+      // Local variable are only allowed inside the body of a function, but to
+      // keep the grammar simple we'll ignore that requirements.
+      $.local_variable_declaration,
       $.command,
       $.bracket_command,
       $.for_statement,
@@ -182,6 +185,16 @@ module.exports = grammar({
         $.variable_name,
         $.subscript
       ),
+      $._assignment
+    ),
+
+    local_variable_declaration: $ => seq(
+      'local',
+      $.simple_variable_name,
+      optional($._assignment)
+    ),
+
+    _assignment: $ => seq(
       choice(
         '=',
         '+='
