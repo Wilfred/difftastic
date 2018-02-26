@@ -1478,15 +1478,78 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_ambiguous_name"
+          "name": "cast_expression"
+        }
+      ]
+    },
+    "cast_expression": {
+      "type": "PREC",
+      "value": 15,
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "("
+              },
+              {
+                "type": "SYMBOL",
+                "name": "primitive_type"
+              },
+              {
+                "type": "STRING",
+                "value": ")"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "unary_expression"
+              }
+            ]
+          },
+          {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "("
+              },
+              {
+                "type": "SYMBOL",
+                "name": "reference_type"
+              },
+              {
+                "type": "REPEAT",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "additional_bound"
+                }
+              },
+              {
+                "type": "STRING",
+                "value": ")"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "_expression"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "additional_bound": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "&"
         },
         {
           "type": "SYMBOL",
-          "name": "_primary"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "update_expression"
+          "name": "class_or_interface_type"
         }
       ]
     },
@@ -2125,6 +2188,52 @@
       "type": "CHOICE",
       "members": [
         {
+          "type": "SYMBOL",
+          "name": "update_expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_ambiguous_name"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_primary"
+        },
+        {
+          "type": "PREC_LEFT",
+          "value": 9,
+          "content": {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "+"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "unary_expression"
+              }
+            ]
+          }
+        },
+        {
+          "type": "PREC_LEFT",
+          "value": 9,
+          "content": {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "-"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "unary_expression"
+              }
+            ]
+          }
+        },
+        {
           "type": "PREC_LEFT",
           "value": 8,
           "content": {
@@ -2136,7 +2245,7 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "_expression"
+                "name": "unary_expression"
               }
             ]
           }
@@ -2153,7 +2262,7 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "_expression"
+                "name": "unary_expression"
               }
             ]
           }
@@ -2171,7 +2280,7 @@
             "members": [
               {
                 "type": "SYMBOL",
-                "name": "_expression"
+                "name": "unary_expression"
               },
               {
                 "type": "STRING",
@@ -2184,7 +2293,7 @@
             "members": [
               {
                 "type": "SYMBOL",
-                "name": "_expression"
+                "name": "unary_expression"
               },
               {
                 "type": "STRING",
@@ -2201,7 +2310,7 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "_expression"
+                "name": "unary_expression"
               }
             ]
           },
@@ -2214,7 +2323,7 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "_expression"
+                "name": "unary_expression"
               }
             ]
           }
@@ -6279,25 +6388,21 @@
       ]
     },
     "unann_primitive_type": {
-      "type": "PREC_RIGHT",
-      "value": 0,
-      "content": {
-        "type": "CHOICE",
-        "members": [
-          {
-            "type": "STRING",
-            "value": "void"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "_numeric_type"
-          },
-          {
-            "type": "STRING",
-            "value": "boolean"
-          }
-        ]
-      }
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "void"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_numeric_type"
+        },
+        {
+          "type": "STRING",
+          "value": "boolean"
+        }
+      ]
     },
     "unann_class_or_interface_type": {
       "type": "SEQ",
@@ -6889,7 +6994,7 @@
     ],
     [
       "unann_class_or_interface_type",
-      "_expression"
+      "unary_expression"
     ],
     [
       "unann_class_or_interface_type",
@@ -6918,6 +7023,15 @@
     [
       "_expression",
       "inferred_parameters"
+    ],
+    [
+      "unary_expression",
+      "inferred_parameters",
+      "unann_class_or_interface_type"
+    ],
+    [
+      "class_literal",
+      "unann_primitive_type"
     ]
   ],
   "externals": [],

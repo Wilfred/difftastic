@@ -48,14 +48,16 @@ module.exports = grammar({
     // [$.unann_class_or_interface_type, $.return_statement], // bad idea
     [$.return_statement],
 
-    [$.unann_class_or_interface_type, $._expression],
+    [$.unann_class_or_interface_type, $.unary_expression],
     [$.unann_class_or_interface_type, $.class_literal, $.array_access],
     [$.unann_class_or_interface_type, $.method_reference],
     [$.unann_class_or_interface_type, $.scoped_identifier],
     [$.constant_declaration, $.local_variable_declaration],
     [$.variable_declarator_id],
     [$._lambda_parameters, $.inferred_parameters],
-    [$._expression, $.inferred_parameters]
+    [$._expression, $.inferred_parameters],
+    [$.unary_expression, $.inferred_parameters, $.unann_class_or_interface_type],
+    [$.class_literal, $.unann_primitive_type]
   ],
 
   rules: {
@@ -256,10 +258,15 @@ module.exports = grammar({
       $.lambda_expression,
       $.ternary_expression,
       $.unary_expression,
-      $._ambiguous_name,
-      $._primary,
-      $.update_expression
+      $.cast_expression
     ),
+
+    cast_expression: $ => prec(15, choice(
+      seq('(', $.primitive_type, ')', $.unary_expression),
+      seq('(', $.reference_type, repeat($.additional_bound), ')', $._expression),
+    )),
+
+    additional_bound: $ => seq('&', $.class_or_interface_type),
 
     assignment_expression: $ => prec.right(PREC.ASSIGN, seq(
       $.lhs,
@@ -328,19 +335,25 @@ module.exports = grammar({
       $._expression, '?', $._expression, ':', $._expression
     )),
 
-    unary_expression: $ => choice(...[
+    unary_expression: $ => choice(
+      $.update_expression,
+      $._ambiguous_name,
+      $._primary,
+      ...[
+      ['+', PREC.NEG],
+      ['-', PREC.NEG],
       ['!', PREC.NOT],
       ['~', PREC.NOT],
     ].map(([operator, precedence]) =>
-      prec.left(precedence, seq(operator, $._expression))
+      prec.left(precedence, seq(operator, $.unary_expression))
     )),
 
     // TODO: test this
     update_expression: $ => prec.left(PREC.INC, choice(
-      seq($._expression, '++'),
-      seq($._expression, '--'),
-      seq('++', $._expression),
-      seq('--', $._expression)
+      seq($.unary_expression, '++'),
+      seq($.unary_expression, '--'),
+      seq('++', $.unary_expression),
+      seq('--', $.unary_expression)
     )),
 
     labeled_statement: $ => seq(
@@ -511,7 +524,6 @@ module.exports = grammar({
       $.floating_point_type
     ),
 
-    // TODO: test
     integral_type: $ => choice(
       'byte',
       'short',
@@ -520,7 +532,6 @@ module.exports = grammar({
       'char'
     ),
 
-    // TODO: test
     floating_point_type: $ => choice(
       'float',
       'double'
@@ -972,11 +983,11 @@ module.exports = grammar({
       $.unann_array_type
     ),
 
-    unann_primitive_type: $ => prec.right(choice(
+    unann_primitive_type: $ => choice(
       'void',
       $._numeric_type,
       'boolean'
-    )),
+    ),
 
     unann_class_or_interface_type: $ => seq(
       $.identifier,
