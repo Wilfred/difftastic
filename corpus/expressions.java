@@ -177,7 +177,7 @@ max = (a > b) ? a : b;
 (program
   (assignment_expression (lhs (identifier))
     (ternary_expression
-      (binary_expression (identifier) (identifier)) (identifier) (identifier)))) 
+      (binary_expression (identifier) (identifier)) (identifier) (identifier))))
 
 ===
 try-with-resources statements
@@ -309,6 +309,15 @@ stateOwner.addStateListener(
 );
 
 ---
+
+(program
+  (constant_declaration
+    (unann_type (unann_class_or_interface_type (identifier)))
+    (variable_declarator_list (variable_declarator (variable_declarator_id (identifier)) (variable_initializer (class_instance_creation_expression (unqualified_class_instance_creation_expression (unann_class_or_interface_type (identifier))))))))
+    (method_invocation (identifier) (identifier)
+    (argument_list
+      (lambda_expression (inferred_parameters (identifier) (identifier))
+        (lambda_body (method_invocation (scoped_identifier (identifier) (identifier)) (identifier) (argument_list (string_literal)))))))) 
 
 ===
 switch statement
