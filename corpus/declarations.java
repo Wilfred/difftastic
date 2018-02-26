@@ -13,8 +13,9 @@ class A {
 (program
   (class_declaration (identifier)
     (class_body
-      (class_body_declaration (
-      class_member_declaration (method_declaration (method_header (unann_type (unann_primitive_type (integral_type))) (method_declarator (identifier))) (method_body (block (constant_declaration (unann_type (unann_primitive_type (integral_type))) (variable_declarator_list (variable_declarator (variable_declarator_id (identifier)) (variable_initializer (integer_literal (decimal_integer_literal)))))))))))))) 
+      (class_body_declaration (class_member_declaration
+        (method_declaration (method_header (unann_type (unann_primitive_type (integral_type)))
+        (method_declarator (identifier))) (method_body (block (constant_declaration (unann_type (unann_primitive_type (integral_type))) (variable_declarator_list (variable_declarator (variable_declarator_id (identifier)) (variable_initializer (integer_literal (decimal_integer_literal))))))))))))))
 
 ===
 module
@@ -26,8 +27,10 @@ open module com.foo { }
 ---
 
 (program
-  (module_declaration (scoped_identifier (identifier) (identifier)))
-  (module_declaration (scoped_identifier (identifier) (identifier))))
+  (module_declaration
+    (scoped_identifier (identifier) (identifier)))
+  (module_declaration
+    (scoped_identifier (identifier) (identifier))))
 
 ===
 module with normal annotation
