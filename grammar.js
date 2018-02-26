@@ -176,7 +176,8 @@ module.exports = grammar({
       $.list_comprehension,
       $.otherwise,
       $.left_section,
-      $.right_section
+      $.right_section,
+      $.field_update
     ),
 
     left_section: $ => seq(
@@ -324,12 +325,6 @@ module.exports = grammar({
       $.function_declaration
     ),
 
-    field_labels: $ => seq(
-      '{',
-      optional(sep1(',', $.field_label)),
-      '}'
-    ),
-
     irrefutable: $ => seq(
       '~',
       $._lhs
@@ -352,13 +347,18 @@ module.exports = grammar({
     as: $ => prec.right(1, seq(
       choice($._variable),
       '@',
-      choice($._variable, $.type_constructor)
+      choice($._lhs)
     )),
+
+    field_update: $ => seq(
+      $._variable,
+      $.fields
+    ),
 
     field_label: $ => seq(
       $._variable,
       '=',
-      $._literal
+      $._expression
     ),
 
     wildcard: $ => '_',
@@ -579,7 +579,7 @@ module.exports = grammar({
 
     _constructed_value: $ => prec.right(seq(
       $._type_constructors,
-      repeat(choice($.variable, $._type_constructors, $._literal, $.wildcard))
+      repeat(choice($.variable, $._type_constructors, $._literal, $.wildcard, $.fields))
     )),
 
     context: $ => seq(

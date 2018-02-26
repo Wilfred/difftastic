@@ -674,3 +674,44 @@ f x = do
               (function_body (variable))))
           (binary (variable) (variable_symbol) (variable))
           (function_application (variable) (variable)))))))
+
+=================================================
+Function Declarations With Field Update
+=================================================
+
+f y@Example = y { a = 1, b = 2 }
+f y@(Example { a = a', b = b' }) = y { a = a' + 1, b = b' ++ " !" }
+
+---
+
+(module
+  (function_declaration
+    (function_head
+      (function_identifier (variable))
+      (as
+        (variable)
+        (type_constructor
+          (identifier))))
+    (function_body
+      (field_update
+        (variable)
+        (fields
+          (field_label (variable) (integer))
+          (field_label (variable) (integer))))))
+  (function_declaration
+    (function_head
+      (function_identifier (variable))
+      (as
+        (variable)
+        (parenthesized_expression
+          (type_constructor
+            (identifier)
+            (fields
+              (field_label (variable) (variable))
+              (field_label (variable) (variable)))))))
+    (function_body
+      (field_update
+        (variable)
+        (fields
+          (field_label (variable) (binary (variable) (variable_symbol) (integer)))
+          (field_label (variable) (binary (variable) (variable_symbol) (string))))))))

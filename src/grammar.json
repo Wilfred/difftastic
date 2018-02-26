@@ -575,6 +575,10 @@
         {
           "type": "SYMBOL",
           "name": "right_section"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "field_update"
         }
       ]
     },
@@ -1128,52 +1132,6 @@
         }
       ]
     },
-    "field_labels": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "{"
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "SYMBOL",
-                  "name": "field_label"
-                },
-                {
-                  "type": "REPEAT",
-                  "content": {
-                    "type": "SEQ",
-                    "members": [
-                      {
-                        "type": "STRING",
-                        "value": ","
-                      },
-                      {
-                        "type": "SYMBOL",
-                        "name": "field_label"
-                      }
-                    ]
-                  }
-                }
-              ]
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        },
-        {
-          "type": "STRING",
-          "value": "}"
-        }
-      ]
-    },
     "irrefutable": {
       "type": "SEQ",
       "members": [
@@ -1270,16 +1228,25 @@
             "members": [
               {
                 "type": "SYMBOL",
-                "name": "_variable"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "type_constructor"
+                "name": "_lhs"
               }
             ]
           }
         ]
       }
+    },
+    "field_update": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_variable"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "fields"
+        }
+      ]
     },
     "field_label": {
       "type": "SEQ",
@@ -1294,7 +1261,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_literal"
+          "name": "_expression"
         }
       ]
     },
@@ -2581,6 +2548,10 @@
                 {
                   "type": "SYMBOL",
                   "name": "wildcard"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "fields"
                 }
               ]
             }
