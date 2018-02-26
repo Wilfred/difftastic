@@ -569,10 +569,10 @@ module.exports = grammar({
       $.module_declaration,
       $.package_declaration,
       $.import_declaration,
-      $._class_declaration,
+      $.class_declaration,
       $.interface_declaration,
       $.constant_declaration,
-      $._class_declaration,
+      $.enum_declaration,
       $.interface_declaration
     )),
 
@@ -621,11 +621,6 @@ module.exports = grammar({
 
     asterisk: $ => '*',
 
-    _class_declaration: $ => choice(
-      $.normal_class_declaration,
-      $.enum_declaration
-    ),
-
     enum_declaration: $ => seq(
       repeat($.modifier),
       'enum',
@@ -650,7 +645,7 @@ module.exports = grammar({
       optional($.class_body)
     )),
 
-    normal_class_declaration: $ => seq(
+    class_declaration: $ => seq(
       repeat($.modifier),
       'class',
       $.identifier,
@@ -767,7 +762,7 @@ module.exports = grammar({
     class_member_declaration: $ => choice(
       $.field_declaration,
       $.method_declaration,
-      $._class_declaration,
+      $.class_declaration,
       $.interface_declaration,
       $._semicolon
     ),
@@ -885,7 +880,7 @@ module.exports = grammar({
     annotation_type_member_declaration: $ => choice(
       $.annotation_type_element_declaration,
       $.constant_declaration,
-      $._class_declaration,
+      $.class_declaration,
       $.interface_declaration
     ),
 
@@ -931,7 +926,7 @@ module.exports = grammar({
     interface_member_declaration: $ => choice(
       $.constant_declaration,
       $.method_declaration,
-      $._class_declaration,
+      $.class_declaration,
       $.interface_declaration,
       $._semicolon
     ),
@@ -1067,7 +1062,7 @@ module.exports = grammar({
 
     _block_statement: $ => choice(
       $.local_variable_declaration_statement,
-      $._class_declaration,
+      $.class_declaration,
       $._statement
     ),
 
