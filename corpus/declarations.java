@@ -10,18 +10,11 @@ class A {
 
 ---
 
-(program (class_declaration (normal_class_declaration
-  (identifier)
-  (class_body
-    (class_body_declaration (class_member_declaration (method_declaration
-      (method_header (unann_type (unann_primitive_type (integral_type))) (method_declarator (identifier)))
-      (method_body (block
-        (local_variable_declaration_statement (local_variable_declaration
-          (unann_type (unann_primitive_type (integral_type)))
-          (variable_declarator_list
-            (variable_declarator
-              (variable_declarator_id (identifier))
-              (variable_initializer (integer_literal (decimal_integer_literal))))))))))))))))
+(program
+  (class_declaration (identifier)
+    (class_body
+      (class_body_declaration (
+      class_member_declaration (method_declaration (method_header (unann_type (unann_primitive_type (integral_type))) (method_declarator (identifier))) (method_body (block (constant_declaration (unann_type (unann_primitive_type (integral_type))) (variable_declarator_list (variable_declarator (variable_declarator_id (identifier)) (variable_initializer (integer_literal (decimal_integer_literal)))))))))))))) 
 
 ===
 module

@@ -3550,7 +3550,7 @@
           },
           {
             "type": "SYMBOL",
-            "name": "_class_declaration"
+            "name": "class_declaration"
           },
           {
             "type": "SYMBOL",
@@ -3562,7 +3562,7 @@
           },
           {
             "type": "SYMBOL",
-            "name": "_class_declaration"
+            "name": "enum_declaration"
           },
           {
             "type": "SYMBOL",
@@ -3946,19 +3946,6 @@
       "type": "STRING",
       "value": "*"
     },
-    "_class_declaration": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "normal_class_declaration"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "enum_declaration"
-        }
-      ]
-    },
     "enum_declaration": {
       "type": "SEQ",
       "members": [
@@ -4125,7 +4112,7 @@
         }
       ]
     },
-    "normal_class_declaration": {
+    "class_declaration": {
       "type": "SEQ",
       "members": [
         {
@@ -4776,7 +4763,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_class_declaration"
+          "name": "class_declaration"
         },
         {
           "type": "SYMBOL",
@@ -5920,7 +5907,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_class_declaration"
+          "name": "class_declaration"
         },
         {
           "type": "SYMBOL",
@@ -6091,7 +6078,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_class_declaration"
+          "name": "class_declaration"
         },
         {
           "type": "SYMBOL",
@@ -6762,7 +6749,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_class_declaration"
+          "name": "class_declaration"
         },
         {
           "type": "SYMBOL",

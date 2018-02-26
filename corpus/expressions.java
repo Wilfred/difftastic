@@ -167,6 +167,19 @@ if (a)
       (method_invocation (identifier)))))
 
 ===
+if-then shorthand
+===
+
+max = (a > b) ? a : b;
+
+---
+
+(program
+  (assignment_expression (lhs (identifier))
+    (ternary_expression
+      (binary_expression (identifier) (identifier)) (identifier) (identifier)))) 
+
+===
 try-with-resources statements
 ===
 
