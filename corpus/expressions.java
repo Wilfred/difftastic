@@ -1,5 +1,5 @@
 ===
-assignment expression
+standalone assignment expression
 ===
 
 x = 3;
@@ -12,7 +12,7 @@ x = 3;
       (integer_literal (decimal_integer_literal))))
 
 ===
-binary expression
+standalone binary expression
 ===
 
 a > b;
@@ -190,20 +190,34 @@ try (FileInputStream input = new FileInputStream("file.txt")) {
 ---
 
 (program
-  (try_statement (try_with_resources_statement
-    (resource_specification
-      (resource
-        (unann_type (unann_class_or_interface_type (identifier)))
-        (variable_declarator_id (identifier))
-        (class_instance_creation_expression
-          (unqualified_class_instance_creation_expression (unann_class_or_interface_type (identifier)) (argument_list (string_literal))))))
-    (block
-      (local_variable_declaration_statement (local_variable_declaration
-        (unann_type (unann_primitive_type (integral_type)))
-        (variable_declarator_list
-          (variable_declarator
-            (variable_declarator_id (identifier))
-            (variable_initializer (method_invocation (identifier) (identifier)))))))))))
+  (try_statement
+    (try_with_resources_statement
+      (resource_specification
+        (resource
+          (unann_type
+            (unann_class_or_interface_type
+              (identifier)))
+          (variable_declarator_id
+            (identifier))
+          (class_instance_creation_expression
+            (unqualified_class_instance_creation_expression
+              (unann_class_or_interface_type
+                (identifier))
+              (argument_list
+                (string_literal))))))
+      (block
+        (constant_declaration
+          (unann_type
+            (unann_primitive_type
+              (integral_type)))
+          (variable_declarator_list
+            (variable_declarator
+              (variable_declarator_id
+                (identifier))
+              (variable_initializer
+                (method_invocation
+                  (identifier)
+                  (identifier))))))))))
 
 ===
 assignment
@@ -219,15 +233,25 @@ class Beyonce {
 ---
 
 (program
-  (class_declaration (normal_class_declaration
+  (class_declaration
     (identifier)
     (class_body
-      (class_body_declaration (class_member_declaration
-        (method_declaration
-          (modifier)
-          (method_header (unann_type (unann_primitive_type)) (method_declarator (identifier)))
-          (method_body (block (assignment_expression (lhs (identifier)) (integer_literal (decimal_integer_literal))))))))))))
-
+      (class_body_declaration
+        (class_member_declaration
+          (method_declaration
+            (modifier)
+            (method_header
+              (unann_type
+                (unann_primitive_type))
+              (method_declarator
+                (identifier)))
+            (method_body
+              (block
+                (assignment_expression
+                  (lhs
+                    (identifier))
+                  (integer_literal
+                    (decimal_integer_literal)))))))))))
 
 ===
 return statement
@@ -259,13 +283,25 @@ class Duck {
 ---
 
 (program
-  (class_declaration (normal_class_declaration (modifier
-    (normal_annotation (identifier)
-      (element_value_pair_list (element_value_pair (identifier) (element_value (string_literal)))))) (modifier
-    (normal_annotation (identifier) (element_value_pair_list
-      (element_value_pair (identifier) (element_value (boolean_literal)))))) (identifier)
-        (class_body))))
-
+  (class_declaration
+    (modifier
+      (normal_annotation
+        (identifier)
+        (element_value_pair_list
+          (element_value_pair
+            (identifier)
+            (element_value
+              (string_literal))))))
+    (modifier
+      (normal_annotation
+        (identifier)
+        (element_value_pair_list
+          (element_value_pair
+            (identifier)
+            (element_value
+              (boolean_literal))))))
+    (identifier)
+    (class_body)))
 ===
 marker annotation
 ===
@@ -278,9 +314,12 @@ class Quack {
 ---
 
 (program
-  (class_declaration (normal_class_declaration (modifier
-    (marker_annotation (identifier))) (identifier)
-      (class_body))))
+  (class_declaration
+    (modifier
+      (marker_annotation
+        (identifier)))
+          (identifier)
+            (class_body)))
 
 ===
 single element annotation
@@ -294,9 +333,13 @@ class Quack {
 ---
 
 (program
-  (class_declaration (normal_class_declaration (modifier
-    (single_element_annotation (identifier) (string_literal))) (identifier)
-      (class_body))))
+  (class_declaration
+    (modifier
+      (single_element_annotation
+        (identifier)
+          (string_literal)))
+        (identifier)
+      (class_body)))
 
 ===
 lambda expression
@@ -317,7 +360,7 @@ stateOwner.addStateListener(
     (method_invocation (identifier) (identifier)
     (argument_list
       (lambda_expression (inferred_parameters (identifier) (identifier))
-        (lambda_body (method_invocation (scoped_identifier (identifier) (identifier)) (identifier) (argument_list (string_literal)))))))) 
+        (lambda_body (method_invocation (scoped_identifier (identifier) (identifier)) (identifier) (argument_list (string_literal))))))))
 
 ===
 switch statement
@@ -345,16 +388,86 @@ public class SwitchDemo {
 ---
 
 (program
-  (class_declaration (normal_class_declaration (modifier) (identifier)
-    (class_body (class_body_declaration (class_member_declaration
-      (method_declaration (modifier) (modifier) (method_header (unann_type (unann_primitive_type)) (method_declarator (identifier) (last_formal_parameter (formal_parameter (unann_type (unann_array_type (unann_class_or_interface_type (identifier)) (dims))) (variable_declarator_id (identifier))))))
-        (method_body (block
-          (local_variable_declaration_statement (local_variable_declaration (unann_type (unann_primitive_type (integral_type))) (variable_declarator_list (variable_declarator (variable_declarator_id (identifier)) (variable_initializer (integer_literal (decimal_integer_literal)))))))
-          (local_variable_declaration_statement (local_variable_declaration (unann_type (unann_class_or_interface_type (identifier))) (variable_declarator_list (variable_declarator (variable_declarator_id (identifier))))))
-          (switch_statement (identifier)
-            (switch_block (switch_label (integer_literal (decimal_integer_literal)))
-              (assignment_expression (lhs (identifier)) (string_literal)) (break_statement) (switch_label (integer_literal (decimal_integer_literal)))
-              (assignment_expression (lhs (identifier)) (string_literal)) (break_statement) (switch_label (integer_literal (decimal_integer_literal)))
-              (assignment_expression (lhs (identifier)) (string_literal)) (break_statement) (switch_label)
-              (assignment_expression (lhs (identifier)) (string_literal)) (break_statement)))
-          (method_invocation (scoped_identifier (identifier) (identifier)) (identifier) (argument_list (identifier))))))))))))
+  (class_declaration
+    (modifier)
+    (identifier)
+    (class_body
+      (class_body_declaration
+        (class_member_declaration
+          (method_declaration
+            (modifier)
+            (modifier)
+            (method_header
+              (unann_type
+                (unann_primitive_type))
+              (method_declarator
+                (identifier)
+                (formal_parameter
+                  (unann_type
+                    (unann_array_type
+                      (unann_class_or_interface_type
+                        (identifier))
+                      (dims)))
+                  (variable_declarator_id
+                    (identifier)))))
+            (method_body
+              (block
+                (constant_declaration
+                  (unann_type
+                    (unann_primitive_type
+                      (integral_type)))
+                  (variable_declarator_list
+                    (variable_declarator
+                      (variable_declarator_id
+                        (identifier))
+                      (variable_initializer
+                        (integer_literal
+                          (decimal_integer_literal))))))
+                (constant_declaration
+                  (unann_type
+                    (unann_class_or_interface_type
+                      (identifier)))
+                  (variable_declarator_list
+                    (variable_declarator
+                      (variable_declarator_id
+                        (identifier)))))
+                (switch_statement
+                  (identifier)
+                  (switch_block
+                    (switch_label
+                      (integer_literal
+                        (decimal_integer_literal)))
+                    (assignment_expression
+                      (lhs
+                        (identifier))
+                      (string_literal))
+                    (break_statement)
+                    (switch_label
+                      (integer_literal
+                        (decimal_integer_literal)))
+                    (assignment_expression
+                      (lhs
+                        (identifier))
+                      (string_literal))
+                    (break_statement)
+                    (switch_label
+                      (integer_literal
+                        (decimal_integer_literal)))
+                    (assignment_expression
+                      (lhs
+                        (identifier))
+                      (string_literal))
+                    (break_statement)
+                    (switch_label)
+                    (assignment_expression
+                      (lhs
+                        (identifier))
+                      (string_literal))
+                    (break_statement)))
+                (method_invocation
+                  (scoped_identifier
+                    (identifier)
+                    (identifier))
+                  (identifier)
+                  (argument_list
+                    (identifier)))))))))))
