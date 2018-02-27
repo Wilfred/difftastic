@@ -102,6 +102,8 @@ module A where
 
 import qualified Data.Maybe as DM
 import qualified Either as E ()
+import qualified Data.Aeson as JSON
+import qualified Data.Aeson as D.A
 
 ---
 
@@ -117,7 +119,13 @@ import qualified Either as E ()
       (qualified)
       (import_alias
         (identifier)
-        (identifier)))))
+        (identifier)))
+    (import
+      (qualified)
+      (import_alias (identifier) (identifier)))
+    (import
+      (qualified)
+      (import_alias (identifier) (identifier)))))
 
 =========================================
 Import Declaration With As, Constructor And Function
