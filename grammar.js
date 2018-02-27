@@ -109,7 +109,7 @@ module.exports = grammar({
 
     _import_spec: $ => seq(
       '(',
-      sep1(',', choice($.type_constructor, $.variable)),
+      sep1(',', choice($.type_constructor, $._variable, $._constructor_symbol, $._parenthesized_constructor_symbol)),
       ')'
     ),
 
@@ -381,13 +381,10 @@ module.exports = grammar({
     qualified_variable: $ => seq(
       $._constructor_pattern,
       $._variable_pattern
-    ),
 
-    qualified_variable_symbol: $ => seq(
       $._constructor_pattern,
       $._variable_symbol
     ),
-
     function_application: $ => prec.left(choice(
       seq(
         choice($._function_application_statements, $.function_application),
@@ -504,8 +501,6 @@ module.exports = grammar({
       )
     ),
 
-    variable_symbol: $ => prec.right(choice(
-      repeat1($._variable_symbol)
     )),
 
     constructor_symbol: $ => prec.right(seq(':', repeat($._constructor_symbol))),

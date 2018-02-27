@@ -22,6 +22,8 @@ Import Declaration With Constructor
 module A where
 
 import Data.Maybe (Maybe(..))
+import Data.Aeson ((.:))
+import Control.Comonad.Cofree ((:<))
 
 ---
 
@@ -30,7 +32,13 @@ import Data.Maybe (Maybe(..))
   (where
     (import
       (identifier)
-      (import_spec (type_constructor (identifier) (all_constructors))))))
+      (import_spec (type_constructor (identifier) (all_constructors))))
+    (import
+      (identifier)
+      (import_spec (variable_symbol)))
+    (import
+      (identifier)
+      (import_spec (constructor_symbol)))))
 
 =========================================
 Import Declaration With Functions
