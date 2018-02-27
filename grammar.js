@@ -783,7 +783,8 @@ module.exports = grammar({
       '>',
       '?',
       '^',
-      '-'
+      '-',
+      '*'
     ),
 
     _extra_variable_symbol: $ => choice(
