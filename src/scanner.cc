@@ -12,10 +12,14 @@ enum TokenType {
   HEREDOC_MIDDLE,
   HEREDOC_END,
   FILE_DESCRIPTOR,
+  WORD,
   EMPTY_VALUE,
   CONCAT,
   VARIABLE_NAME,
   NEWLINE,
+  CLOSING_BRACKET,
+  CLOSING_DOUBLE_BRACKET,
+  CLOSING_BRACE,
 };
 
 struct Scanner {
@@ -90,6 +94,7 @@ struct Scanner {
         lexer->lookahead == ')' ||
         lexer->lookahead == '(' ||
         lexer->lookahead == '[' ||
+        lexer->lookahead == '|' ||
         lexer->lookahead == ']' ||
         lexer->lookahead == '}' ||
         lexer->lookahead == ';' ||
@@ -130,7 +135,9 @@ struct Scanner {
       return scan_heredoc_content(lexer, HEREDOC_BEGINNING, SIMPLE_HEREDOC);
     }
 
-    if (valid_symbols[VARIABLE_NAME] || valid_symbols[FILE_DESCRIPTOR]) {
+    if (valid_symbols[VARIABLE_NAME] || valid_symbols[FILE_DESCRIPTOR] || valid_symbols[WORD]) {
+      unsigned length = 0;
+
       for (;;) {
         if (
           lexer->lookahead == ' ' ||
@@ -139,11 +146,12 @@ struct Scanner {
         ) {
           skip(lexer);
         } else if (lexer->lookahead == '\\') {
-          skip(lexer);
+          advance(lexer);
           if (lexer->lookahead == '\n') {
             skip(lexer);
           } else {
-            return false;
+            length++;
+            break;
           }
         } else {
           break;
@@ -151,25 +159,40 @@ struct Scanner {
       }
 
       bool is_number = true;
-      if (iswdigit(lexer->lookahead)) {
-        advance(lexer);
-      } else if (iswalpha(lexer->lookahead) || lexer->lookahead == '_') {
-        is_number = false;
-        advance(lexer);
-      } else {
-        return false;
-      }
-
+      bool is_alphanumeric = true;
       for (;;) {
         if (iswdigit(lexer->lookahead)) {
-          advance(lexer);
         } else if (iswalpha(lexer->lookahead) || lexer->lookahead == '_') {
           is_number = false;
-          advance(lexer);
+        } else if (
+          !iswspace(lexer->lookahead) &&
+          lexer->lookahead != 0 &&
+          lexer->lookahead != '"' &&
+          lexer->lookahead != '\'' &&
+          lexer->lookahead != '`' &&
+          lexer->lookahead != '>' &&
+          lexer->lookahead != '<' &&
+          lexer->lookahead != '#' &&
+          lexer->lookahead != '|' &&
+          lexer->lookahead != '(' &&
+          lexer->lookahead != ')' &&
+          lexer->lookahead != ';' &&
+          lexer->lookahead != '&' &&
+          lexer->lookahead != '$'
+        ) {
+          if (lexer->lookahead == '}' && valid_symbols[CLOSING_BRACE]) break;
+          if (lexer->lookahead == ']' && length == 0 && (valid_symbols[CLOSING_BRACKET] || valid_symbols[CLOSING_DOUBLE_BRACKET])) break;
+          if (is_alphanumeric && valid_symbols[VARIABLE_NAME] && (lexer->lookahead == '=' || lexer->lookahead == '[' || lexer->lookahead == '+')) break;
+          is_alphanumeric = false;
         } else {
           break;
         }
+
+        advance(lexer);
+        length++;
       }
+
+      if (length == 0) return false;
 
       if (is_number &&
           valid_symbols[FILE_DESCRIPTOR] &&
@@ -194,7 +217,10 @@ struct Scanner {
         }
       }
 
-      return false;
+      if (valid_symbols[WORD] && !is_alphanumeric) {
+        lexer->result_symbol = WORD;
+        return true;
+      }
     }
 
     return false;

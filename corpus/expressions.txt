@@ -12,6 +12,23 @@ echo a b
   (command (command_name (word)) (word) (word)))
 
 =============================
+Words with special characters
+=============================
+
+echo }}}
+echo ]]] ===
+[[ "35d8b" =~ ^[0-9a-fA-F] ]] || echo {nomatch}
+
+---
+
+(program
+  (command (command_name (word)) (word))
+  (command (command_name (word)) (word) (word))
+  (list
+    (bracket_command (string) (word) (word))
+    (command (command_name (word)) (word))))
+
+=============================
 Simple variable expansions
 =============================
 
@@ -153,8 +170,8 @@ typeset -i -r var2=42 var3=10
 ---
 
 (program
-  (declaration_command (simple_variable_name))
-  (declaration_command (argument) (argument)
+  (declaration_command (variable_name))
+  (declaration_command (word) (word)
     (variable_assignment (variable_name) (word))
     (variable_assignment (variable_name) (word))))
 
@@ -168,7 +185,7 @@ readonly var2=42
 ---
 
 (program
-  (declaration_command (simple_variable_name))
+  (declaration_command (variable_name))
   (declaration_command (variable_assignment (variable_name) (word))))
 
 =========================================
@@ -183,8 +200,10 @@ local -r c
 (program
   (declaration_command
     (variable_assignment (variable_name) (word))
-    (simple_variable_name))
-  (declaration_command (argument) (simple_variable_name)))
+    (variable_name))
+  (declaration_command
+    (word)
+    (variable_name)))
 
 =========================================
 Variable declaration: export
@@ -196,9 +215,9 @@ export FOOBAR PATH="$PATH:/usr/foobar/bin"
 ---
 
 (program
-  (declaration_command (simple_variable_name))
+  (declaration_command (variable_name))
   (declaration_command
-    (simple_variable_name)
+    (variable_name)
     (variable_assignment (variable_name) (string (simple_expansion (variable_name))))))
 
 =========================================
