@@ -116,9 +116,16 @@ module.exports = grammar({
     _empty_import_spec: $ => seq('(',')'),
 
     import_alias: $ => seq(
-      $.identifier,
+      choice(
+        $.identifier,
+        $.import_alias,
+        $.constructor_symbol,
+      ),
       'as',
-      $.identifier
+      choice(
+        $.identifier,
+        $.constructor_symbol,
+      )
     ),
 
     hidden_import: $ => seq(
