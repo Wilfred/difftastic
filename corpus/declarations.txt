@@ -45,7 +45,7 @@ New Type Declarations
 
 newtype N = N Int
 newtype Show a => N = N a
-newtype Age = Age { unAge :: Int }
+newtype Age = Age { unAge :: Maybe Int }
 
 ---
 
@@ -60,7 +60,7 @@ newtype Age = Age { unAge :: Int }
   (newtype
     (type_constructor (identifier))
     (data_constructor (identifier)
-      (fields (field (variable) (type (identifier)))))))
+      (fields (field (variable) (type (identifier)) (type (identifier)))))))
 
 =========================================
 New Type Declarations With Deriving
