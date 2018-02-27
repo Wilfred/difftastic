@@ -225,3 +225,48 @@ Left Operator Sections
 (module
   (left_section (variable) (constructor_symbol))
   (left_section (variable) (constructor_symbol)))
+
+
+===============================
+Binary Operators
+===============================
+
+parseJSON (JSON.Object r) = IncPK <$>
+  r .: "id" <*>
+  r .: "nullable_string" <*>
+  r .: "non_nullable_string" <*>
+  r .: "inserted_at"
+
+---
+
+(module
+  (function_declaration
+    (function_head
+      (function_identifier (variable))
+      (parenthesized_expression (type_constructor (identifier) (variable))))
+      (function_body
+        (binary
+          (binary
+            (binary
+              (binary
+                (binary
+                  (binary
+                    (binary
+                      (binary
+                        (type_constructor (identifier))
+                        (variable_symbol)
+                        (variable))
+                      (variable_symbol)
+                      (string))
+                    (variable_symbol)
+                    (variable))
+                  (variable_symbol)
+                  (string))
+                (variable_symbol)
+                (variable))
+              (variable_symbol)
+              (string))
+            (variable_symbol)
+            (variable))
+          (variable_symbol)
+          (string)))))
