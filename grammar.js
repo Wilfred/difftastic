@@ -1,14 +1,3 @@
-const SPECIAL_CHARACTERS = [
-  "'", '"',
-  '<', '>',
-  '{', '}',
-  '(', ')',
-  '`', '$',
-  '&', ';',
-  '\\',
-  '\\s',
-];
-
 module.exports = grammar({
   name: 'bash',
 
@@ -18,6 +7,8 @@ module.exports = grammar({
     $._expression,
     $._primary_expression,
     $._variable_name,
+    $._simple_variable_name,
+    $._simple_word,
   ],
 
   externals: $ => [
@@ -26,10 +17,14 @@ module.exports = grammar({
     $._heredoc_middle,
     $._heredoc_end,
     $.file_descriptor,
+    $.word,
     $._empty_value,
     $._concat,
     $.variable_name, // Variable name followed by an operator like '=' or '+='
     '\n',
+    ']',
+    ']]',
+    '}',
   ],
 
   extras: $ => [
@@ -64,7 +59,7 @@ module.exports = grammar({
 
     for_statement: $ => seq(
       'for',
-      $._variable_name,
+      $._simple_variable_name,
       'in',
       repeat1($._expression),
       $._terminator,
@@ -125,8 +120,8 @@ module.exports = grammar({
 
     function_definition: $ => seq(
       choice(
-        seq('function', $.word, optional(seq('(', ')'))),
-        seq($.word, '(', ')')
+        seq('function', $._simple_variable_name, optional(seq('(', ')'))),
+        seq($._simple_variable_name, '(', ')')
       ),
       $.compound_statement,
       optional($.file_redirect)
@@ -190,9 +185,9 @@ module.exports = grammar({
 
     declaration_command: $ => seq(
       choice('declare', 'typeset', 'export', 'readonly', 'local'),
-      repeat(alias(seq('-', $.word), 'argument')),
       repeat(choice(
-        $.simple_variable_name,
+        $.word,
+        $._simple_variable_name,
         $.variable_assignment
       ))
     ),
@@ -249,6 +244,7 @@ module.exports = grammar({
 
     _primary_expression: $ => choice(
       $.word,
+      $._simple_word,
       $.string,
       $.raw_string,
       $.expansion,
@@ -298,14 +294,14 @@ module.exports = grammar({
         seq(
           $._variable_name,
           choice(':', ':?', '=', ':-', '%', '/'),
-          optional($._expression)
+          optional(seq($._expression, optional($._concat)))
         )
       ),
       '}'
     ),
 
     _variable_name: $ => choice(
-      alias($.simple_variable_name, $.variable_name),
+      $._simple_variable_name,
       $.special_variable_name
     ),
 
@@ -320,22 +316,16 @@ module.exports = grammar({
       ')'
     ),
 
-    word: $ => token(repeat1(choice(
-      noneOf('#', ...SPECIAL_CHARACTERS),
-      seq('\\', noneOf('\\s'))
-    ))),
-
     comment: $ => token(prec(-1, /#.*/)),
 
-    simple_variable_name: $ => /\w+/,
+    _simple_variable_name: $ => alias($.identifier, $.variable_name),
+
+    _simple_word: $ => alias($.identifier, $.word),
+
+    identifier: $ => /\w+/,
 
     special_variable_name: $ => choice('*', '@', '#', '?', '-', '$', '!', '0', '_'),
 
     _terminator: $ => choice(';', ';;', '\n', '&')
   }
 });
-
-function noneOf(...characters) {
-  const negatedString = characters.map(c => c == '\\' ? '\\\\' : c).join('')
-  return new RegExp('[^' + negatedString + ']')
-}
