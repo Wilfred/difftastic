@@ -16,6 +16,7 @@ module.exports = grammar({
     $._statement,
     $._terminator,
     $._expression,
+    $._primary_expression,
     $._variable_name,
   ],
 
@@ -27,7 +28,7 @@ module.exports = grammar({
     $.file_descriptor,
     $._empty_value,
     $._concat,
-    $.variable_name,
+    $.variable_name, // Variable name followed by an operator like '=' or '+='
     '\n',
   ],
 
@@ -63,7 +64,7 @@ module.exports = grammar({
 
     for_statement: $ => seq(
       'for',
-      $.word,
+      $._variable_name,
       'in',
       repeat1($._expression),
       $._terminator,
@@ -242,50 +243,37 @@ module.exports = grammar({
     // Expressions
 
     _expression: $ => choice(
+      $.concatenation,
+      $._primary_expression
+    ),
+
+    _primary_expression: $ => choice(
       $.word,
       $.string,
       $.raw_string,
       $.expansion,
       $.simple_expansion,
       $.command_substitution,
-      $.process_substitution,
-      $.concatenation
+      $.process_substitution
     ),
 
     concatenation: $ => prec(-1, seq(
-      choice(
-        $.word,
-        $.string,
-        $.raw_string,
-        $.expansion,
-        $.simple_expansion,
-        $.command_substitution,
-        $.process_substitution
-      ),
-      repeat1(seq(
-        $._concat,
-        choice(
-          $.word,
-          $.string,
-          $.raw_string,
-          $.expansion,
-          $.simple_expansion,
-          $.command_substitution,
-          $.process_substitution
-        )
-      ))
+      $._primary_expression,
+      repeat1(seq($._concat, $._primary_expression))
     )),
 
     string: $ => seq(
       '"',
       repeat(choice(
-        /[^"`$]+/,
+        $._string_content,
         $.expansion,
         $.simple_expansion,
         $.command_substitution
       )),
       '"'
     ),
+
+    _string_content: $ => /[^"`$]+/,
 
     array: $ => seq(
       '(',
