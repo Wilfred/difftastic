@@ -503,7 +503,7 @@ module.exports = grammar({
 
     variable_symbol: $ => prec.right(seq(
       $._variable_symbol,
-      repeat($._variable_symbol, $._extra_variable_symbol)
+      repeat(choice($._variable_symbol, $._extra_variable_symbol))
     )),
 
     constructor_symbol: $ => prec.right(seq(':', repeat($._constructor_symbol))),
