@@ -295,15 +295,11 @@
                 },
                 {
                   "type": "SYMBOL",
-                  "name": "variable"
+                  "name": "_variable"
                 },
                 {
                   "type": "SYMBOL",
-                  "name": "_parenthesized_variable_symbol"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "constructor_symbol"
+                  "name": "_constructor_symbol"
                 },
                 {
                   "type": "SYMBOL",
@@ -329,15 +325,11 @@
                       },
                       {
                         "type": "SYMBOL",
-                        "name": "variable"
+                        "name": "_variable"
                       },
                       {
                         "type": "SYMBOL",
-                        "name": "_parenthesized_variable_symbol"
-                      },
-                      {
-                        "type": "SYMBOL",
-                        "name": "constructor_symbol"
+                        "name": "_constructor_symbol"
                       },
                       {
                         "type": "SYMBOL",
@@ -1354,45 +1346,11 @@
         },
         {
           "type": "SYMBOL",
-          "name": "qualified_variable"
-        },
-        {
-          "type": "SYMBOL",
           "name": "variable_symbol"
         },
         {
           "type": "SYMBOL",
-          "name": "qualified_variable_symbol"
-        },
-        {
-          "type": "SYMBOL",
           "name": "_parenthesized_variable_symbol"
-        }
-      ]
-    },
-    "qualified_variable": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "_constructor_pattern"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_variable_pattern"
-        }
-      ]
-    },
-    "qualified_variable_symbol": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "_constructor_pattern"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_variable_symbol"
         }
       ]
     },
