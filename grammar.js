@@ -375,19 +375,10 @@ module.exports = grammar({
 
     _variable: $ => choice(
       $.variable,
-      $.qualified_variable,
       $.variable_symbol,
-      $.qualified_variable_symbol,
       $._parenthesized_variable_symbol
     ),
 
-    qualified_variable: $ => seq(
-      $._constructor_pattern,
-      $._variable_pattern
-
-      $._constructor_pattern,
-      $._variable_symbol
-    ),
     function_application: $ => prec.left(choice(
       seq(
         choice($._function_application_statements, $.function_application),
