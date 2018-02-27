@@ -2018,8 +2018,17 @@
           {
             "type": "REPEAT",
             "content": {
-              "type": "SYMBOL",
-              "name": "_variable_symbol"
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "_variable_symbol"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "_extra_variable_symbol"
+                }
+              ]
             }
           }
         ]
@@ -2916,13 +2925,16 @@
               "name": "variable"
             },
             {
-              "type": "ALIAS",
+              "type": "REPEAT1",
               "content": {
-                "type": "SYMBOL",
-                "name": "type_constructor"
-              },
-              "named": true,
-              "value": "type"
+                "type": "ALIAS",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "type_constructor"
+                },
+                "named": true,
+                "value": "type"
+              }
             }
           ]
         }
@@ -3586,6 +3598,10 @@
         {
           "type": "STRING",
           "value": "-"
+        },
+        {
+          "type": "STRING",
+          "value": "*"
         }
       ]
     },

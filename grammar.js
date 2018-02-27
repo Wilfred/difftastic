@@ -639,7 +639,7 @@ module.exports = grammar({
       choice(
         $.strict,
         $.variable,
-        alias($.type_constructor, $.type)
+        repeat1(alias($.type_constructor, $.type))
       )
     ),
 
