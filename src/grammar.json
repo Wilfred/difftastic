@@ -237,10 +237,6 @@
               {
                 "type": "SYMBOL",
                 "name": "import_alias"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "constructor_symbol"
               }
             ]
           },
