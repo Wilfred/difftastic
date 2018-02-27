@@ -144,22 +144,62 @@ find "`dirname $file`" -name "$base"'*'
       (raw_string))))
 
 =========================================
-Local Variable Declaration
+Variable declaration: declare & typeset
 =========================================
 
-function a {
-  local a=42
-  local b
-}
+declare var1
+typeset -i -r var2=42 var3=10
 
 ---
 
 (program
-  (function_definition
-    (word)
-    (compound_statement
-      (local_variable_declaration (simple_variable_name) (word))
-      (local_variable_declaration (simple_variable_name)))))
+  (declaration_command (simple_variable_name))
+  (declaration_command (argument) (argument)
+    (variable_assignment (variable_name) (word))
+    (variable_assignment (variable_name) (word))))
+
+=========================================
+Variable declaration: readonly
+=========================================
+
+readonly var1
+readonly var2=42
+
+---
+
+(program
+  (declaration_command (simple_variable_name))
+  (declaration_command (variable_assignment (variable_name) (word))))
+
+=========================================
+Variable declaration: local
+=========================================
+
+local a=42 b
+local -r c
+
+---
+
+(program
+  (declaration_command
+    (variable_assignment (variable_name) (word))
+    (simple_variable_name))
+  (declaration_command (argument) (simple_variable_name)))
+
+=========================================
+Variable declaration: export
+=========================================
+
+export PATH
+export FOOBAR PATH="$PATH:/usr/foobar/bin"
+
+---
+
+(program
+  (declaration_command (simple_variable_name))
+  (declaration_command
+    (simple_variable_name)
+    (variable_assignment (variable_name) (string (simple_expansion (variable_name))))))
 
 =========================================
 Arrays and array expansions
@@ -177,14 +217,14 @@ a+=(foo "bar" $(baz))
 ---
 
 (program
-  (environment_variable_assignment (variable_name) (array))
-  (environment_variable_assignment (variable_name) (array (word) (word) (word)))
+  (variable_assignment (variable_name) (array))
+  (variable_assignment (variable_name) (array (word) (word) (word)))
   (command (command_name (word)) (expansion (variable_name)))
   (command (command_name (word)) (expansion (variable_name)))
-  (environment_variable_assignment
+  (variable_assignment
     (subscript (variable_name) (simple_expansion (variable_name)))
     (word))
-  (environment_variable_assignment
+  (variable_assignment
     (variable_name)
     (array
       (word)

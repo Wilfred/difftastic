@@ -26,15 +26,15 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "environment_variable_assignment"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "local_variable_declaration"
+          "name": "variable_assignment"
         },
         {
           "type": "SYMBOL",
           "name": "command"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "declaration_command"
         },
         {
           "type": "SYMBOL",
@@ -546,7 +546,7 @@
               "members": [
                 {
                   "type": "SYMBOL",
-                  "name": "environment_variable_assignment"
+                  "name": "variable_assignment"
                 },
                 {
                   "type": "SYMBOL",
@@ -589,7 +589,7 @@
       "type": "SYMBOL",
       "name": "_expression"
     },
-    "environment_variable_assignment": {
+    "variable_assignment": {
       "type": "SEQ",
       "members": [
         {
@@ -611,28 +611,70 @@
         }
       ]
     },
-    "local_variable_declaration": {
+    "declaration_command": {
       "type": "SEQ",
       "members": [
-        {
-          "type": "STRING",
-          "value": "local"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "simple_variable_name"
-        },
         {
           "type": "CHOICE",
           "members": [
             {
-              "type": "SYMBOL",
-              "name": "_assignment"
+              "type": "STRING",
+              "value": "declare"
             },
             {
-              "type": "BLANK"
+              "type": "STRING",
+              "value": "typeset"
+            },
+            {
+              "type": "STRING",
+              "value": "export"
+            },
+            {
+              "type": "STRING",
+              "value": "readonly"
+            },
+            {
+              "type": "STRING",
+              "value": "local"
             }
           ]
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "ALIAS",
+            "content": {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "-"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "word"
+                }
+              ]
+            },
+            "named": false,
+            "value": "argument"
+          }
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "simple_variable_name"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "variable_assignment"
+              }
+            ]
+          }
         }
       ]
     },

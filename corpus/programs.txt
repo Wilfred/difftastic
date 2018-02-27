@@ -32,10 +32,10 @@ f=g   \
     (word)
     (word))
   (command
-    (environment_variable_assignment
+    (variable_assignment
       (variable_name)
       (word))
-    (environment_variable_assignment
+    (variable_assignment
       (variable_name)
       (word))
     (command_name (word))
