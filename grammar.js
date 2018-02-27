@@ -675,12 +675,6 @@ module.exports = grammar({
     identifier: $ => prec.left($._constructor_pattern),
     _constructor_pattern: $ => /[A-Z](\w|'|\.)*/,
 
-    qualified_type_constructor: $ => prec.right(seq(
-      optional('.'),
-      $.identifier,
-      repeat($.variable)
-    )),
-
     comment: $ => token(choice(
       seq('--', /.*/),
       seq(
