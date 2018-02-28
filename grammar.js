@@ -39,16 +39,17 @@ module.exports = grammar({
     $._ambiguous_name,
     $.class_or_interface_type,
     $.primitive_type,
+    $._unary_expression,
+    $._class_member_declaration,
+    $._class_body_declaration
   ],
 
   conflicts: $ => [
     [$.modifier],
     [$.class_literal, $.primitive_type, $.unann_primitive_type], // try to drop class_literal
     [$.class_literal, $.primitive_type], // bad idea
-    // [$.unann_class_or_interface_type, $.return_statement], // bad idea
     [$.return_statement],
 
-    [$.unann_class_or_interface_type, $.unary_expression],
     [$.unann_class_or_interface_type, $.class_literal, $.array_access],
     [$.unann_class_or_interface_type, $.method_reference],
     [$.unann_class_or_interface_type, $.scoped_identifier],
@@ -56,8 +57,10 @@ module.exports = grammar({
     [$.variable_declarator_id],
     [$._lambda_parameters, $.inferred_parameters],
     [$._expression, $.inferred_parameters],
-    [$.unary_expression, $.inferred_parameters, $.unann_class_or_interface_type],
-    [$.class_literal, $.unann_primitive_type]
+    [$._expression, $.inferred_parameters, $.unann_class_or_interface_type], // bad idea (can't occur alone)
+    [$.class_literal, $.unann_primitive_type],
+    [$._expression, $.unann_class_or_interface_type],
+    [$.binary_expression, $.unann_class_or_interface_type] // bad idea probs
   ],
 
   rules: {
@@ -257,12 +260,11 @@ module.exports = grammar({
       $.binary_expression,
       $.lambda_expression,
       $.ternary_expression,
-      $.unary_expression,
-      $.cast_expression
+      $._unary_expression
     ),
 
     cast_expression: $ => prec(15, choice(
-      seq('(', $.primitive_type, ')', $.unary_expression),
+      seq('(', $.primitive_type, ')', $._unary_expression),
       seq('(', $.reference_type, repeat($.additional_bound), ')', $._expression),
     )),
 
@@ -284,7 +286,6 @@ module.exports = grammar({
     // type_arguments.
     // TODO: Verify precedence is legit.
     binary_expression: $ => choice(
-      prec.left(PREC.REL, seq($.unary_expression)),
       ...[
       ['>', PREC.REL],
       ['<', PREC.REL],
@@ -306,7 +307,10 @@ module.exports = grammar({
       ['>>', PREC.TIMES],
       ['>>>', PREC.TIMES],
     ].map(([operator, precedence]) =>
-      prec.left(precedence, seq($._expression, operator, $._expression)))
+      prec.left(precedence, seq(
+        choice($.binary_expression, $._unary_expression),
+        operator,
+        choice($.binary_expression, $._unary_expression))))
     ),
 
     // TODO: test
@@ -335,25 +339,29 @@ module.exports = grammar({
       $._expression, '?', $._expression, ':', $._expression
     )),
 
-    unary_expression: $ => choice(
+    _unary_expression: $ => choice(
       $.update_expression,
       $._ambiguous_name,
       $._primary,
-      ...[
-      ['+', PREC.NEG],
-      ['-', PREC.NEG],
-      ['!', PREC.NOT],
-      ['~', PREC.NOT],
-    ].map(([operator, precedence]) =>
-      prec.left(precedence, seq(operator, $.unary_expression))
-    )),
+      $.unary_expression,
+      $.cast_expression
+    ),
+
+    unary_expression: $ => choice(...[
+    ['+', PREC.NEG],
+    ['-', PREC.NEG],
+    ['!', PREC.NOT],
+    ['~', PREC.NOT],
+  ].map(([operator, precedence]) =>
+    prec.left(precedence, seq(operator, $._unary_expression))
+  )),
 
     // TODO: test this
     update_expression: $ => prec.left(PREC.INC, choice(
-      seq($.unary_expression, '++'),
-      seq($.unary_expression, '--'),
-      seq('++', $.unary_expression),
-      seq('--', $.unary_expression)
+      seq($._unary_expression, '++'),
+      seq($._unary_expression, '--'),
+      seq('++', $._unary_expression),
+      seq('--', $._unary_expression)
     )),
 
     labeled_statement: $ => seq(
@@ -463,7 +471,7 @@ module.exports = grammar({
       'for', '(',
       optional($.for_init), $._semicolon,
       optional($._expression), $._semicolon,
-      commaSep($._expression_statement), ')',
+      commaSep1($._expression), ')',
       $._statement
     ),
 
@@ -646,7 +654,7 @@ module.exports = grammar({
 
     enum_body_declarations: $ => seq(
       $._semicolon,
-      repeat($.class_body_declaration)
+      repeat($._class_body_declaration)
     ),
 
     enum_constant: $ => (seq(
@@ -716,12 +724,12 @@ module.exports = grammar({
 
     class_body: $ => seq(
       '{',
-      repeat($.class_body_declaration),
+      repeat($._class_body_declaration),
       '}'
     ),
 
-    class_body_declaration: $ => choice(
-      $.class_member_declaration,
+    _class_body_declaration: $ => choice(
+      $._class_member_declaration,
       $.block,
       $.static_initializer,
       $.constructor_declaration
@@ -770,11 +778,12 @@ module.exports = grammar({
       $.identifier
     ),
 
-    class_member_declaration: $ => choice(
+    _class_member_declaration: $ => choice(
       $.field_declaration,
       $.method_declaration,
       $.class_declaration,
       $.interface_declaration,
+      $.enum_declaration,
       $._semicolon
     ),
 
