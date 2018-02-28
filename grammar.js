@@ -498,15 +498,19 @@ module.exports = grammar({
 
     type_argument: $ => choice(
       $.reference_type,
-      // $.wildcard
+      $.wildcard
     ),
-    //
-    // wildcard: $ => seq(
-    //   repeat($._annotation),
-    //   $.wildcard_bounds
-    // ),
-    //
-    // wildcard_bounds: $ =>
+
+    wildcard: $ => seq(
+      repeat($._annotation),
+      '?',
+      optional($._wildcard_bounds)
+    ),
+
+    _wildcard_bounds: $ => choice(
+      seq('extends', $.reference_type),
+      seq('super', $.reference_type)
+    ),
 
     reference_type: $ => prec.left(choice(
       seq($.class_or_interface_type, optional($.dims)),
