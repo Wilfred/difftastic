@@ -1,3 +1,16 @@
+const SPECIAL_CHARACTERS = [
+  "'", '"',
+  '<', '>',
+  '{', '}',
+  '\\[', '\\]',
+  '(', ')',
+  '`', '$',
+  '&', ';',
+  '\\',
+  '\\s',
+  '#',
+];
+
 module.exports = grammar({
   name: 'bash',
 
@@ -6,9 +19,8 @@ module.exports = grammar({
     $._terminator,
     $._expression,
     $._primary_expression,
-    $._variable_name,
     $._simple_variable_name,
-    $._simple_word,
+    $._special_variable_name,
   ],
 
   externals: $ => [
@@ -17,13 +29,12 @@ module.exports = grammar({
     $._heredoc_middle,
     $._heredoc_end,
     $.file_descriptor,
-    $.word,
     $._empty_value,
     $._concat,
     $.variable_name, // Variable name followed by an operator like '=' or '+='
-    '\n',
-    ']',
     '}',
+    ']',
+    '\n',
   ],
 
   extras: $ => [
@@ -118,8 +129,8 @@ module.exports = grammar({
 
     function_definition: $ => seq(
       choice(
-        seq('function', $._simple_variable_name, optional(seq('(', ')'))),
-        seq($._simple_variable_name, '(', ')')
+        seq('function', $.word, optional(seq('(', ')'))),
+        seq($.word, '(', ')')
       ),
       $.compound_statement,
       optional($.file_redirect)
@@ -162,7 +173,8 @@ module.exports = grammar({
       repeat($._expression),
       repeat(choice(
         $.file_redirect,
-        $.heredoc_redirect
+        $.heredoc_redirect,
+        $.herestring_redirect
       ))
     )),
 
@@ -201,7 +213,9 @@ module.exports = grammar({
       $.variable_name,
       '[',
       $._expression,
-      ']'
+      optional($._concat),
+      ']',
+      optional($._concat)
     ),
 
     file_redirect: $ => prec.left(seq(
@@ -228,16 +242,21 @@ module.exports = grammar({
       )
     ),
 
+    herestring_redirect: $ => seq(
+      '<<<',
+      $._expression
+    ),
+
     // Expressions
 
     _expression: $ => choice(
       $.concatenation,
-      $._primary_expression
+      $._primary_expression,
+      alias(prec(-2, $._special_characters), $.word)
     ),
 
     _primary_expression: $ => choice(
       $.word,
-      $._simple_word,
       $.string,
       $.raw_string,
       $.expansion,
@@ -247,22 +266,36 @@ module.exports = grammar({
     ),
 
     concatenation: $ => prec(-1, seq(
-      $._primary_expression,
-      repeat1(seq($._concat, $._primary_expression))
+      choice(
+        $._primary_expression,
+        $._special_characters,
+      ),
+      repeat1(prec(-1, seq(
+        $._concat,
+        choice(
+          $._primary_expression,
+          $._special_characters,
+        )
+      ))),
     )),
+
+    _special_characters: $ => token(prec(-1, repeat1(choice('{', '}', '[', ']')))),
 
     string: $ => seq(
       '"',
-      repeat(choice(
-        $._string_content,
-        $.expansion,
-        $.simple_expansion,
-        $.command_substitution
+      repeat(seq(
+        choice(
+          $._string_content,
+          $.expansion,
+          $.simple_expansion,
+          $.command_substitution
+        ),
+        optional($._concat)
       )),
       '"'
     ),
 
-    _string_content: $ => /([^"`$]|\\.)*/,
+    _string_content: $ => /([^"`$]|\\.)+/,
 
     array: $ => seq(
       '(',
@@ -274,28 +307,35 @@ module.exports = grammar({
 
     simple_expansion: $ => seq(
       '$',
-      $._variable_name
+      choice($._simple_variable_name, $._special_variable_name)
     ),
 
     expansion: $ => seq(
       '${',
+      optional('#'),
       choice(
-        $._variable_name,
-        seq('#', $._variable_name),
-        seq('#', $._variable_name, '[', '@', ']'),
-        seq($._variable_name, '[', '@', ']'),
         seq(
-          $._variable_name,
-          choice(':', ':?', '=', ':-', '%', '/'),
-          optional(seq($._expression, optional($._concat)))
-        )
+          $.variable_name,
+          '=',
+          optional(seq(
+            $._expression
+          ))
+        ),
+        seq(
+          choice(
+            $.subscript,
+            $._simple_variable_name,
+            $._special_variable_name
+          ),
+          optional(seq(
+            choice(':', ':?', '=', ':-', '%', '/', '-'),
+            optional(seq(
+              $._expression
+            ))
+          ))
+        ),
       ),
       '}'
-    ),
-
-    _variable_name: $ => choice(
-      $._simple_variable_name,
-      $.special_variable_name
     ),
 
     command_substitution: $ => choice(
@@ -311,14 +351,20 @@ module.exports = grammar({
 
     comment: $ => token(prec(-1, /#.*/)),
 
-    _simple_variable_name: $ => alias($.identifier, $.variable_name),
+    _simple_variable_name: $ => alias(/\w+/, $.variable_name),
 
-    _simple_word: $ => alias($.identifier, $.word),
+    _special_variable_name: $ => alias(choice('*', '@', '?', '-', '$', '0', '_'), $.special_variable_name),
 
-    identifier: $ => /\w+/,
-
-    special_variable_name: $ => choice('*', '@', '#', '?', '-', '$', '!', '0', '_'),
+    word: $ => token(repeat1(choice(
+      noneOf(...SPECIAL_CHARACTERS),
+      seq('\\', noneOf('\\s'))
+    ))),
 
     _terminator: $ => choice(';', ';;', '\n', '&')
   }
 });
+
+function noneOf(...characters) {
+  const negatedString = characters.map(c => c == '\\' ? '\\\\' : c).join('')
+  return new RegExp('[^' + negatedString + ']')
+}

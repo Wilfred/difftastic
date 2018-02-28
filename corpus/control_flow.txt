@@ -139,12 +139,12 @@ function do_yet_another_thing {
 
 (program
   (function_definition
-    (variable_name)
+    (word)
     (compound_statement (command (command_name (word)) (word))))
   (function_definition
-    (variable_name)
+    (word)
     (compound_statement (command (command_name (word)) (word))))
   (function_definition
-    (variable_name)
+    (word)
     (compound_statement (command (command_name (word)) (word)))
     (file_redirect (file_descriptor) (word))))
