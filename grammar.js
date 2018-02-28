@@ -135,10 +135,14 @@ module.exports = grammar({
       $.type_class_instance,
       $.default,
       $.foreign,
-      $.type_signature,
-      $.fixity,
       $.function_declaration,
+      $._general_declaration,
       $._statement
+    ),
+
+    _general_declaration: $ => choice(
+      $.type_signature,
+      $.fixity
     ),
 
     _parenthesized_variable_symbol: $ => seq(
