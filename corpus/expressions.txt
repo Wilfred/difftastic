@@ -15,6 +15,7 @@ echo a b
 Words with special characters
 =============================
 
+echo {o[k]}
 echo }}}
 echo ]]] ===
 [[ "35d8b" =~ ^[0-9a-fA-F] ]] || echo {nomatch}
@@ -22,11 +23,19 @@ echo ]]] ===
 ---
 
 (program
+  (command (command_name (word)) (concatenation (word) (word)))
   (command (command_name (word)) (word))
   (command (command_name (word)) (word) (word))
   (list
-    (command (command_name (word)) (string) (word) (word) (word))
-    (command (command_name (word)) (word))))
+    (command
+      (command_name (word))
+      (string)
+      (word)
+      (concatenation (word) (word))
+      (word))
+    (command
+      (command_name (word))
+      (concatenation (word)))))
 
 =============================
 Simple variable expansions
@@ -56,6 +65,32 @@ echo ${abc:
   (command (command_name (word)) (expansion (variable_name) (word)))
   (command (command_name (word)) (expansion (variable_name)))
   (command (command_name (word)) (expansion (variable_name))))
+
+===================================
+Variable expansions in strings
+===================================
+
+A="${A:-$B/c}"
+A="${b/$c/$d}"
+
+---
+
+(program
+  (variable_assignment
+    (variable_name)
+    (string
+      (expansion
+        (variable_name)
+        (concatenation (simple_expansion (variable_name)) (word)))))
+  (variable_assignment
+    (variable_name)
+    (string
+      (expansion
+        (variable_name)
+        (concatenation
+          (simple_expansion (variable_name))
+          (word)
+          (simple_expansion (variable_name)))))))
 
 ===================================
 Other variable expansion operators
@@ -248,8 +283,8 @@ a+=(foo "bar" $(baz))
 (program
   (variable_assignment (variable_name) (array))
   (variable_assignment (variable_name) (array (word) (word) (word)))
-  (command (command_name (word)) (expansion (variable_name)))
-  (command (command_name (word)) (expansion (variable_name)))
+  (command (command_name (word)) (expansion (subscript (variable_name) (word))))
+  (command (command_name (word)) (expansion (subscript (variable_name) (word))))
   (variable_assignment
     (subscript (variable_name) (simple_expansion (variable_name)))
     (word))
