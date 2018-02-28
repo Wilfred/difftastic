@@ -25,7 +25,7 @@ echo ]]] ===
   (command (command_name (word)) (word))
   (command (command_name (word)) (word) (word))
   (list
-    (bracket_command (string) (word) (word))
+    (command (command_name (word)) (string) (word) (word) (word))
     (command (command_name (word)) (word))))
 
 =============================

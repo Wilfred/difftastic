@@ -18,7 +18,6 @@ enum TokenType {
   VARIABLE_NAME,
   NEWLINE,
   CLOSING_BRACKET,
-  CLOSING_DOUBLE_BRACKET,
   CLOSING_BRACE,
 };
 
@@ -158,66 +157,83 @@ struct Scanner {
         }
       }
 
-      bool is_number = true;
-      bool is_alphanumeric = true;
+      bool is_numeric = iswdigit(lexer->lookahead);
+      bool is_alphanumeric = iswalpha(lexer->lookahead);
+
       for (;;) {
-        if (iswdigit(lexer->lookahead)) {
-        } else if (iswalpha(lexer->lookahead) || lexer->lookahead == '_') {
-          is_number = false;
-        } else if (
-          !iswspace(lexer->lookahead) &&
-          lexer->lookahead != 0 &&
-          lexer->lookahead != '"' &&
-          lexer->lookahead != '\'' &&
-          lexer->lookahead != '`' &&
-          lexer->lookahead != '>' &&
-          lexer->lookahead != '<' &&
-          lexer->lookahead != '#' &&
-          lexer->lookahead != '|' &&
-          lexer->lookahead != '(' &&
-          lexer->lookahead != ')' &&
-          lexer->lookahead != ';' &&
-          lexer->lookahead != '&' &&
-          lexer->lookahead != '$'
-        ) {
-          if (lexer->lookahead == '}' && valid_symbols[CLOSING_BRACE]) break;
-          if (lexer->lookahead == ']' && length == 0 && (valid_symbols[CLOSING_BRACKET] || valid_symbols[CLOSING_DOUBLE_BRACKET])) break;
-          if (is_alphanumeric && valid_symbols[VARIABLE_NAME] && (lexer->lookahead == '=' || lexer->lookahead == '[' || lexer->lookahead == '+')) break;
-          is_alphanumeric = false;
-        } else {
+        // These characters are not allowed in unquoted arguments
+        // or environment variable names
+        if (
+          lexer->lookahead == 0 ||
+          lexer->lookahead == ';' ||
+          lexer->lookahead == '"' ||
+          lexer->lookahead == '(' ||
+          lexer->lookahead == ')' ||
+          lexer->lookahead == '\'' ||
+          lexer->lookahead == '&' ||
+          lexer->lookahead == '#' ||
+          lexer->lookahead == '`' ||
+          lexer->lookahead == '|' ||
+          lexer->lookahead == '$' ||
+          iswspace(lexer->lookahead)
+        ) break;
+
+        // Curly braces are not allowed in unquoted arguments within curly braces
+        // (e.g. inside of a variable expansion like `${key:arg}`).
+        if (
+          lexer->lookahead == '}' &&
+          valid_symbols[CLOSING_BRACE]
+        ) break;
+
+        // Square brackets are not allowed in unquoted arguments within square brackets
+        // (e.g. inside of an array subscript like `a[arg]`).
+        if (
+          lexer->lookahead == ']' &&
+          valid_symbols[CLOSING_BRACKET]
+        ) break;
+
+        // Numbers followed by '<' and '>' at the beginning of commands
+        // are parsed as file descriptors.
+        if (lexer->lookahead == '<' || lexer->lookahead == '>') {
+          if (is_numeric && valid_symbols[FILE_DESCRIPTOR]) {
+            lexer->result_symbol = FILE_DESCRIPTOR;
+            return true;
+          }
           break;
+        }
+
+        if (!iswdigit(lexer->lookahead)) is_numeric = false;
+
+        if (!iswalnum(lexer->lookahead) && lexer->lookahead != '_') {
+
+          // Alphanumeric strings followed by '=', '[', or '+=' are treated
+          // as environment variable names.
+          if (is_alphanumeric && valid_symbols[VARIABLE_NAME] && length > 0) {
+            if (lexer->lookahead == '+') {
+              lexer->mark_end(lexer);
+              advance(lexer);
+              if (lexer->lookahead == '=') {
+                lexer->result_symbol = VARIABLE_NAME;
+                return true;
+              } else {
+                return false;
+              }
+            } else if (lexer->lookahead == '=' || lexer->lookahead == '[') {
+              lexer->result_symbol = VARIABLE_NAME;
+              return true;
+            }
+          }
+
+          is_alphanumeric = false;
         }
 
         advance(lexer);
         length++;
       }
 
-      if (length == 0) return false;
-
-      if (is_number &&
-          valid_symbols[FILE_DESCRIPTOR] &&
-          (lexer->lookahead == '>' || lexer->lookahead == '<')) {
-        lexer->result_symbol = FILE_DESCRIPTOR;
-        return true;
-      }
-
-      if (valid_symbols[VARIABLE_NAME]) {
-        if (lexer->lookahead == '+') {
-          lexer->mark_end(lexer);
-          advance(lexer);
-          if (lexer->lookahead == '=') {
-            lexer->result_symbol = VARIABLE_NAME;
-            return true;
-          } else {
-            return false;
-          }
-        } else if (lexer->lookahead == '=' || lexer->lookahead == '[') {
-          lexer->result_symbol = VARIABLE_NAME;
-          return true;
-        }
-      }
-
-      if (valid_symbols[WORD] && !is_alphanumeric) {
+      // Do not handle strings containing only letters, because those
+      // might be keywords. Let the normal lexer handle those.
+      if (length > 0 && valid_symbols[WORD] && !is_alphanumeric) {
         lexer->result_symbol = WORD;
         return true;
       }
