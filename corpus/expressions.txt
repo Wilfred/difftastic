@@ -161,6 +161,16 @@ find "`dirname $file`" -name "$base"'*'
       (raw_string))))
 
 =========================================
+Strings containing escape sequence
+=========================================
+
+echo "\"The great escape\`\${var}"
+
+---
+
+(program (command (command_name (word)) (string)))
+
+=========================================
 Variable declaration: declare & typeset
 =========================================
 

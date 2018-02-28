@@ -269,7 +269,7 @@ module.exports = grammar({
       '"'
     ),
 
-    _string_content: $ => /[^"`$]+/,
+    _string_content: $ => /([^"`$]|\\.)*/,
 
     array: $ => seq(
       '(',

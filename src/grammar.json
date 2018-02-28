@@ -976,7 +976,7 @@
     },
     "_string_content": {
       "type": "PATTERN",
-      "value": "[^\"`$]+"
+      "value": "([^\"`$]|\\\\.)*"
     },
     "array": {
       "type": "SEQ",
