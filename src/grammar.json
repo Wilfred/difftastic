@@ -455,19 +455,28 @@
         },
         {
           "type": "SYMBOL",
+          "name": "function_declaration"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_general_declaration"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_statement"
+        }
+      ]
+    },
+    "_general_declaration": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
           "name": "type_signature"
         },
         {
           "type": "SYMBOL",
           "name": "fixity"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "function_declaration"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_statement"
         }
       ]
     },
@@ -4222,16 +4231,8 @@
       "_variable"
     ],
     [
-      "list_constructor",
-      "list"
-    ],
-    [
       "_constructed_value",
       "type_constructor"
-    ],
-    [
-      "_expression",
-      "_statement"
     ],
     [
       "_expression",
@@ -4246,25 +4247,7 @@
       "_expression"
     ],
     [
-      "_variable",
-      "_op"
-    ],
-    [
       "_expression",
-      "function_application"
-    ],
-    [
-      "type_signature"
-    ],
-    [
-      "function_body",
-      "function_application"
-    ],
-    [
-      "data_constructor"
-    ],
-    [
-      "statement_list",
       "function_application"
     ],
     [
