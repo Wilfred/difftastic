@@ -180,21 +180,6 @@ module.exports = grammar({
       $._statement
     )),
 
-    bracket_command: $ => {
-      const contents = repeat1(choice(
-        $._expression,
-        seq('=~', choice(
-          $.regex,
-          $._expression
-        ))
-      ))
-
-      return choice(
-        seq('[', contents, ']'),
-        seq('[[', contents, ']]')
-      )
-    },
-
     // Commands
 
     command: $ => prec.left(seq(
@@ -203,7 +188,13 @@ module.exports = grammar({
         $.file_redirect
       )),
       $.command_name,
-      repeat($._expression),
+      repeat(choice(
+        $._expression,
+        seq('=~', choice(
+          $.regex,
+          $._expression
+        ))
+      )),
       repeat(choice(
         $.file_redirect,
         $.heredoc_redirect,
@@ -212,6 +203,28 @@ module.exports = grammar({
     )),
 
     command_name: $ => $._expression,
+
+    bracket_command: $ => {
+      const args = repeat1(choice(
+        $._expression,
+        seq('=~', choice(
+          $.regex,
+          $._expression
+        ))
+      ))
+
+      return seq(
+        choice(
+          seq('[', args, ']'),
+          seq('[[', args, ']]')
+        ),
+        repeat(choice(
+          $.file_redirect,
+          $.heredoc_redirect,
+          $.herestring_redirect
+        ))
+      )
+    },
 
     variable_assignment: $ => seq(
       choice(
