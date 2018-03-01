@@ -86,6 +86,7 @@ struct Scanner {
   bool scan(TSLexer *lexer, const bool *valid_symbols) {
     if (valid_symbols[CONCAT]) {
       if (!(
+        lexer->lookahead == 0 ||
         iswspace(lexer->lookahead) ||
         lexer->lookahead == '>' ||
         lexer->lookahead == '<' ||
@@ -93,8 +94,8 @@ struct Scanner {
         lexer->lookahead == '(' ||
         lexer->lookahead == ';' ||
         lexer->lookahead == '&' ||
+        lexer->lookahead == '|' ||
         lexer->lookahead == '`' ||
-        lexer->lookahead == 0 ||
         (lexer->lookahead == '}' && valid_symbols[CLOSING_BRACE]) ||
         (lexer->lookahead == ']' && valid_symbols[CLOSING_BRACKET])
       )) {
