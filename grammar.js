@@ -204,14 +204,14 @@ module.exports = grammar({
       $._assignment
     ),
 
-    declaration_command: $ => seq(
+    declaration_command: $ => prec.left(seq(
       choice('declare', 'typeset', 'export', 'readonly', 'local'),
       repeat(choice(
-        $.word,
+        $._expression,
         $._simple_variable_name,
         $.variable_assignment
       ))
-    ),
+    )),
 
     _assignment: $ => seq(
       choice(
@@ -323,7 +323,12 @@ module.exports = grammar({
 
     simple_expansion: $ => seq(
       '$',
-      choice($._simple_variable_name, $._special_variable_name)
+      choice(
+        $._simple_variable_name,
+        $._special_variable_name,
+        alias('#', $.special_variable_name),
+        $.string
+      )
     ),
 
     expansion: $ => seq(
