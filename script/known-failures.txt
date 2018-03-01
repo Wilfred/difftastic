@@ -42,6 +42,11 @@ examples/bash-it/lib/helpers.bash
 examples/bash-it/lib/preexec.bash
 examples/bash-it/lib/composure.bash
 examples/bash-it/lib/search.bash
+examples/bash-it/test_lib/bats-support/src/lang.bash
+examples/bash-it/test_lib/bats-support/src/output.bash
+examples/bash-it/test_lib/bats-assert/src/assert.bash
+examples/bash-it/test_lib/bats-core/test/test_helper.bash
+examples/bash-it/test_lib/bats-file/src/temp.bash
 examples/bash-it/themes/hawaii50/hawaii50.theme.bash
 examples/bash-it/themes/iterate/iterate.theme.bash
 examples/bash-it/themes/dulcie/dulcie.theme.bash
