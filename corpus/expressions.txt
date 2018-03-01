@@ -252,6 +252,19 @@ echo "\"The great escape\`\${var}"
 
 (program (command (command_name (word)) (string)))
 
+======================================
+Strings containing special characters
+======================================
+
+echo "s/$/'/"
+echo "#"
+
+---
+
+(program
+  (command (command_name (word)) (string))
+  (command (command_name (word)) (string)))
+
 =========================================
 Variable declaration: declare & typeset
 =========================================
