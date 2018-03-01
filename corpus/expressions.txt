@@ -67,6 +67,27 @@ echo ${abc:
   (command (command_name (word)) (expansion (variable_name))))
 
 ===================================
+Variable expansions with operators
+===================================
+
+A="${B[0]# }"
+C="${D/#* -E /}"
+F="${G%% *}"
+
+---
+
+(program
+  (variable_assignment
+    (variable_name)
+    (string (expansion (subscript (variable_name) (word)))))
+  (variable_assignment
+    (variable_name)
+    (string (expansion (variable_name) (word) (word))))
+  (variable_assignment
+    (variable_name)
+    (string (expansion (variable_name) (word) (word)))))
+
+===================================
 Variable expansions in strings
 ===================================
 

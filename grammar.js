@@ -322,9 +322,7 @@ module.exports = grammar({
         seq(
           $.variable_name,
           '=',
-          optional(seq(
-            $._expression
-          ))
+          optional($._expression)
         ),
         seq(
           choice(
@@ -332,11 +330,9 @@ module.exports = grammar({
             $._simple_variable_name,
             $._special_variable_name
           ),
-          optional(seq(
-            choice(':', ':?', '=', ':-', '%', '/', '-'),
-            optional(seq(
-              $._expression
-            ))
+          repeat(choice(
+            $._expression,
+            ':', ':?', '=', ':-', '%', '/', '-', '#'
           ))
         ),
       ),
