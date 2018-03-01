@@ -133,16 +133,22 @@ module.exports = grammar({
       $._expression,
       repeat(seq('|', $._expression)),
       ')',
-      repeat($._terminated_statement),
-      ';;'
+      optional(seq(
+        repeat($._terminated_statement),
+        optional($._statement)
+      )),
+      prec(1, ';;')
     ),
 
     last_case_item: $ => seq(
       $._expression,
       repeat(seq('|', $._expression)),
       ')',
-      repeat($._terminated_statement),
-      optional(';;')
+      optional(seq(
+        repeat($._terminated_statement),
+        optional($._statement)
+      )),
+      optional(prec(1, ';;'))
     ),
 
     function_definition: $ => seq(
