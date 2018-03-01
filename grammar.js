@@ -5,7 +5,7 @@ const SPECIAL_CHARACTERS = [
   '\\[', '\\]',
   '(', ')',
   '`', '$',
-  '&', ';',
+  '|', '&', ';',
   '\\',
   '\\s',
   '#',
@@ -120,7 +120,10 @@ module.exports = grammar({
       optional($._terminator),
       'in',
       $._terminator,
-      repeat($.case_item),
+      optional(seq(
+        repeat($.case_item),
+        alias($.last_case_item, $.case_item),
+      )),
       'esac'
     ),
 
@@ -130,6 +133,14 @@ module.exports = grammar({
       ')',
       repeat($._terminated_statement),
       ';;'
+    ),
+
+    last_case_item: $ => seq(
+      $._expression,
+      repeat(seq('|', $._expression)),
+      ')',
+      repeat($._terminated_statement),
+      optional(';;')
     ),
 
     function_definition: $ => seq(

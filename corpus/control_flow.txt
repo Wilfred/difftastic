@@ -115,6 +115,10 @@ case "opt" in
     ;;
 esac
 
+case "$Z" in
+  ab*|cd*) ef
+esac
+
 ---
 
 (program
@@ -122,7 +126,10 @@ esac
     (case_item (word)
       (command (command_name (word)) (word)))
     (case_item (word)
-      (command (command_name (word)) (word)))))
+      (command (command_name (word)) (word))))
+  (case_statement (string (simple_expansion (variable_name)))
+    (case_item (word) (word)
+      (command (command_name (word))))))
 
 ===============================
 Subshells
