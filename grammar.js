@@ -293,6 +293,7 @@ module.exports = grammar({
       $.raw_string,
       $.expansion,
       $.simple_expansion,
+      $.string_expansion,
       $.command_substitution,
       $.process_substitution
     ),
@@ -317,7 +318,7 @@ module.exports = grammar({
       '"',
       repeat(seq(
         choice(
-          $._string_content,
+          seq(optional('$'), $._string_content),
           $.expansion,
           $.simple_expansion,
           $.command_substitution
@@ -327,7 +328,7 @@ module.exports = grammar({
       '"'
     ),
 
-    _string_content: $ => /([^"`$]|\\.)+/,
+    _string_content: $ => token(prec(-1, /([^"`$]|\\.)+/)),
 
     array: $ => seq(
       '(',
@@ -342,10 +343,11 @@ module.exports = grammar({
       choice(
         $._simple_variable_name,
         $._special_variable_name,
-        alias('#', $.special_variable_name),
-        $.string
+        alias('#', $.special_variable_name)
       )
     ),
+
+    string_expansion: $ => seq('$', $.string),
 
     expansion: $ => seq(
       '${',
@@ -382,7 +384,7 @@ module.exports = grammar({
       ')'
     ),
 
-    comment: $ => token(prec(-1, /#.*/)),
+    comment: $ => token(prec(-10, /#.*/)),
 
     _simple_variable_name: $ => alias(/\w+/, $.variable_name),
 
