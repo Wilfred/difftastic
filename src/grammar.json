@@ -676,54 +676,58 @@
       ]
     },
     "declaration_command": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "STRING",
-              "value": "declare"
-            },
-            {
-              "type": "STRING",
-              "value": "typeset"
-            },
-            {
-              "type": "STRING",
-              "value": "export"
-            },
-            {
-              "type": "STRING",
-              "value": "readonly"
-            },
-            {
-              "type": "STRING",
-              "value": "local"
-            }
-          ]
-        },
-        {
-          "type": "REPEAT",
-          "content": {
+      "type": "PREC_LEFT",
+      "value": 0,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
             "type": "CHOICE",
             "members": [
               {
-                "type": "SYMBOL",
-                "name": "word"
+                "type": "STRING",
+                "value": "declare"
               },
               {
-                "type": "SYMBOL",
-                "name": "_simple_variable_name"
+                "type": "STRING",
+                "value": "typeset"
               },
               {
-                "type": "SYMBOL",
-                "name": "variable_assignment"
+                "type": "STRING",
+                "value": "export"
+              },
+              {
+                "type": "STRING",
+                "value": "readonly"
+              },
+              {
+                "type": "STRING",
+                "value": "local"
               }
             ]
+          },
+          {
+            "type": "REPEAT",
+            "content": {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "_expression"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "_simple_variable_name"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "variable_assignment"
+                }
+              ]
+            }
           }
-        }
-      ]
+        ]
+      }
     },
     "_assignment": {
       "type": "SEQ",
@@ -1180,6 +1184,19 @@
             {
               "type": "SYMBOL",
               "name": "_special_variable_name"
+            },
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "STRING",
+                "value": "#"
+              },
+              "named": true,
+              "value": "special_variable_name"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "string"
             }
           ]
         }

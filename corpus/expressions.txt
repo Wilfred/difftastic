@@ -49,6 +49,21 @@ echo $abc
   (command (command_name (word)) (simple_expansion (variable_name))))
 
 =============================
+Special variable expansions
+=============================
+
+echo $# $* $@
+
+---
+
+(program
+  (command
+    (command_name (word))
+    (simple_expansion (special_variable_name))
+    (simple_expansion (special_variable_name))
+    (simple_expansion (special_variable_name))))
+
+=============================
 Variable expansions
 =============================
 
@@ -285,6 +300,23 @@ export FOOBAR PATH="$PATH:/usr/foobar/bin"
   (declaration_command
     (variable_name)
     (variable_assignment (variable_name) (string (simple_expansion (variable_name))))))
+
+===========================================
+Expressions passed to declaration commands
+===========================================
+
+export "$(echo ${key} | tr [:lower:] [:upper:])=${p_key#*=}"
+
+---
+
+(program
+  (declaration_command
+    (string
+      (command_substitution
+        (pipeline
+          (command (command_name (word)) (expansion (variable_name)))
+          (command (command_name (word)) (concatenation (word)) (concatenation (word)))))
+      (expansion (variable_name) (word)))))
 
 =========================================
 Arrays and array expansions
