@@ -17,6 +17,24 @@ done
       (command (command_name (word)) (word)))))
 
 ====================================
+While statements with IO redirects
+====================================
+
+while read line; do
+  echo $line
+done < <(cat file)
+
+---
+
+(program
+  (while_statement
+    (command (command_name (word)) (word))
+    (do_group
+      (command (command_name (word)) (simple_expansion (variable_name))))
+    (file_redirect (process_substitution
+      (command (command_name (word)) (word))))))
+
+====================================
 For statements
 ====================================
 
