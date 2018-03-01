@@ -38,6 +38,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "unset_command"
+        },
+        {
+          "type": "SYMBOL",
           "name": "bracket_command"
         },
         {
@@ -825,6 +829,44 @@
                 {
                   "type": "SYMBOL",
                   "name": "variable_assignment"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "unset_command": {
+      "type": "PREC_LEFT",
+      "value": 0,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "unset"
+              },
+              {
+                "type": "STRING",
+                "value": "unsetenv"
+              }
+            ]
+          },
+          {
+            "type": "REPEAT",
+            "content": {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "_expression"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "_simple_variable_name"
                 }
               ]
             }
