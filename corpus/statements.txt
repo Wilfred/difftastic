@@ -109,8 +109,7 @@ case "opt" in
     ;;
 
   b)
-    echo b
-    ;;
+    echo b;;
 esac
 
 case "$Z" in
