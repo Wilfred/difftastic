@@ -196,10 +196,10 @@ module.exports = grammar({
       $.command_name,
       repeat(choice(
         $._expression,
-        seq('=~', choice(
-          $.regex,
-          $._expression
-        ))
+        seq(
+          choice('=~', '=='),
+          choice($.regex, $._expression)
+        )
       )),
       repeat(choice(
         $.file_redirect,
@@ -213,10 +213,10 @@ module.exports = grammar({
     bracket_command: $ => {
       const args = repeat1(choice(
         $._expression,
-        seq('=~', choice(
-          $.regex,
-          $._expression
-        ))
+        seq(
+          choice('=~', '=='),
+          choice($.regex, $._expression)
+        )
       ))
 
       return seq(
@@ -427,8 +427,8 @@ module.exports = grammar({
       seq('\\', noneOf('\\s'))
     ))),
 
-    regex: $ => /([^\s]|\\.)+/,
-    regex_without_right_brace: $ => /([^\s}]|\\.)+/,
+    regex: $ => /([^"\s]|\\.)([^\s]|\\.)*/,
+    regex_without_right_brace: $ => /([^"\s}]|\\.)([^\s}]|\\.)*/,
 
     _terminator: $ => choice(';', ';;', '\n', '&')
   }

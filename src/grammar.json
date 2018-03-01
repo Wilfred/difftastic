@@ -698,8 +698,17 @@
                   "type": "SEQ",
                   "members": [
                     {
-                      "type": "STRING",
-                      "value": "=~"
+                      "type": "CHOICE",
+                      "members": [
+                        {
+                          "type": "STRING",
+                          "value": "=~"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "=="
+                        }
+                      ]
                     },
                     {
                       "type": "CHOICE",
@@ -772,8 +781,17 @@
                         "type": "SEQ",
                         "members": [
                           {
-                            "type": "STRING",
-                            "value": "=~"
+                            "type": "CHOICE",
+                            "members": [
+                              {
+                                "type": "STRING",
+                                "value": "=~"
+                              },
+                              {
+                                "type": "STRING",
+                                "value": "=="
+                              }
+                            ]
                           },
                           {
                             "type": "CHOICE",
@@ -819,8 +837,17 @@
                         "type": "SEQ",
                         "members": [
                           {
-                            "type": "STRING",
-                            "value": "=~"
+                            "type": "CHOICE",
+                            "members": [
+                              {
+                                "type": "STRING",
+                                "value": "=~"
+                              },
+                              {
+                                "type": "STRING",
+                                "value": "=="
+                              }
+                            ]
                           },
                           {
                             "type": "CHOICE",
@@ -1489,8 +1516,17 @@
           "value": "$"
         },
         {
-          "type": "SYMBOL",
-          "name": "string"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "string"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "raw_string"
+            }
+          ]
         }
       ]
     },
@@ -1801,11 +1837,11 @@
     },
     "regex": {
       "type": "PATTERN",
-      "value": "([^\\s]|\\\\.)+"
+      "value": "([^\"\\s]|\\\\.)([^\\s]|\\\\.)*"
     },
     "regex_without_right_brace": {
       "type": "PATTERN",
-      "value": "([^\\s}]|\\\\.)+"
+      "value": "([^\"\\s}]|\\\\.)([^\\s}]|\\\\.)*"
     },
     "_terminator": {
       "type": "CHOICE",

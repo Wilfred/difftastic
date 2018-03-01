@@ -1,5 +1,4 @@
 examples/bash-it/plugins/available/git.plugin.bash
-examples/bash-it/plugins/available/fzf.plugin.bash
 examples/bash-it/plugins/available/extract.plugin.bash
 examples/bash-it/plugins/available/less-pretty-cat.plugin.bash
 examples/bash-it/plugins/available/z_autoenv.plugin.bash
@@ -42,7 +41,6 @@ examples/bash-it/lib/search.bash
 examples/bash-it/test_lib/bats-support/src/lang.bash
 examples/bash-it/test_lib/bats-support/src/output.bash
 examples/bash-it/test_lib/bats-assert/src/assert.bash
-examples/bash-it/test_lib/bats-core/test/test_helper.bash
 examples/bash-it/test_lib/bats-file/src/temp.bash
 examples/bash-it/themes/hawaii50/hawaii50.theme.bash
 examples/bash-it/themes/iterate/iterate.theme.bash
