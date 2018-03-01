@@ -56,6 +56,7 @@ module.exports = grammar({
       $.variable_assignment,
       $.command,
       $.declaration_command,
+      $.bracket_command,
       $.for_statement,
       $.while_statement,
       $.if_statement,
@@ -177,6 +178,11 @@ module.exports = grammar({
       choice('&&', '||'),
       $._statement
     )),
+
+    bracket_command: $ => choice(
+      seq('[', repeat1($._expression), ']'),
+      seq('[[', repeat1($._expression), ']]')
+    ),
 
     // Commands
 
