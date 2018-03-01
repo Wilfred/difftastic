@@ -38,6 +38,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "bracket_command"
+        },
+        {
+          "type": "SYMBOL",
           "name": "for_statement"
         },
         {
@@ -592,6 +596,51 @@
           }
         ]
       }
+    },
+    "bracket_command": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "["
+            },
+            {
+              "type": "REPEAT1",
+              "content": {
+                "type": "SYMBOL",
+                "name": "_expression"
+              }
+            },
+            {
+              "type": "STRING",
+              "value": "]"
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "[["
+            },
+            {
+              "type": "REPEAT1",
+              "content": {
+                "type": "SYMBOL",
+                "name": "_expression"
+              }
+            },
+            {
+              "type": "STRING",
+              "value": "]]"
+            }
+          ]
+        }
+      ]
     },
     "command": {
       "type": "PREC_LEFT",

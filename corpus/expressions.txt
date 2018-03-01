@@ -27,12 +27,10 @@ echo ]]] ===
   (command (command_name (word)) (word))
   (command (command_name (word)) (word) (word))
   (list
-    (command
-      (command_name (word))
+    (bracket_command
       (string)
       (word)
-      (concatenation (word) (word))
-      (word))
+      (concatenation (word) (word)))
     (command
       (command_name (word))
       (concatenation (word)))))
