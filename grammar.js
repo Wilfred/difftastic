@@ -373,9 +373,13 @@ module.exports = grammar({
             $._simple_variable_name,
             $._special_variable_name
           ),
+          optional(seq(
+            token(prec(1, '/')),
+            alias($.regex_without_right_brace, $.regex)
+          )),
           repeat(choice(
             $._expression,
-            ':', ':?', '=', ':-', '%', '/', '-', '#'
+            ':', ':?', '=', ':-', '%', '-', '#'
           ))
         ),
       ),
@@ -404,7 +408,8 @@ module.exports = grammar({
       seq('\\', noneOf('\\s'))
     ))),
 
-    regex: $ => /\S+/,
+    regex: $ => /([^\s]|\\.)+/,
+    regex_without_right_brace: $ => /([^\s}]|\\.)+/,
 
     _terminator: $ => choice(';', ';;', '\n', '&')
   }

@@ -33,6 +33,7 @@ The regex operator
 [[ "35d8b" =~ ^[0-9a-fA-F] ]]
 [[ $CMD =~ (^|;)update_terminal_cwd($|;) ]]
 [[ ! " ${completions[*]} " =~ " $alias_cmd " ]]
+! [[ "$a" =~ ^a|b\ *c|d$ ]]
 
 ---
 
@@ -46,7 +47,13 @@ The regex operator
   (bracket_command
     (word)
     (string (expansion (subscript (variable_name) (word))))
-    (string (simple_expansion (variable_name)))))
+    (string (simple_expansion (variable_name))))
+  (command
+    (command_name (word))
+    (word)
+    (string (simple_expansion (variable_name)))
+    (regex)
+    (word)))
 
 =============================
 Simple variable expansions
@@ -108,7 +115,7 @@ F="${G%% *}"
     (string (expansion (subscript (variable_name) (word)))))
   (variable_assignment
     (variable_name)
-    (string (expansion (variable_name) (word) (word))))
+    (string (expansion (variable_name) (regex) (word) (word))))
   (variable_assignment
     (variable_name)
     (string (expansion (variable_name) (word) (word)))))
@@ -118,7 +125,7 @@ Variable expansions in strings
 ===================================
 
 A="${A:-$B/c}"
-A="${b/$c/$d}"
+A="${b=$c/$d}"
 
 ---
 
@@ -138,6 +145,22 @@ A="${b/$c/$d}"
           (simple_expansion (variable_name))
           (word)
           (simple_expansion (variable_name)))))))
+
+===================================
+Variable expansions with regexes
+===================================
+
+A=${B//:;;/$'\n'}
+
+# escaped space
+C=${D/;\ *;|}
+
+---
+
+(program
+  (variable_assignment (variable_name) (expansion (variable_name) (regex)))
+  (comment)
+  (variable_assignment (variable_name) (expansion (variable_name) (regex))))
 
 ===================================
 Other variable expansion operators
