@@ -18,22 +18,35 @@ Words with special characters
 echo {o[k]}
 echo }}}
 echo ]]] ===
-[[ "35d8b" =~ ^[0-9a-fA-F] ]] || echo {nomatch}
 
 ---
 
 (program
   (command (command_name (word)) (concatenation (word) (word)))
   (command (command_name (word)) (word))
-  (command (command_name (word)) (word) (word))
-  (list
-    (bracket_command
-      (string)
-      (word)
-      (concatenation (word) (word)))
-    (command
-      (command_name (word))
-      (concatenation (word)))))
+  (command (command_name (word)) (word) (word)))
+
+=============================
+The regex operator
+=============================
+
+[[ "35d8b" =~ ^[0-9a-fA-F] ]]
+[[ $CMD =~ (^|;)update_terminal_cwd($|;) ]]
+[[ ! " ${completions[*]} " =~ " $alias_cmd " ]]
+
+---
+
+(program
+  (bracket_command
+    (string)
+    (regex))
+  (bracket_command
+    (simple_expansion (variable_name))
+    (regex))
+  (bracket_command
+    (word)
+    (string (expansion (subscript (variable_name) (word))))
+    (string (simple_expansion (variable_name)))))
 
 =============================
 Simple variable expansions

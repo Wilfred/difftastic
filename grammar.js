@@ -179,10 +179,20 @@ module.exports = grammar({
       $._statement
     )),
 
-    bracket_command: $ => choice(
-      seq('[', repeat1($._expression), ']'),
-      seq('[[', repeat1($._expression), ']]')
-    ),
+    bracket_command: $ => {
+      const contents = repeat1(choice(
+        $._expression,
+        seq('=~', choice(
+          $.regex,
+          $._expression
+        ))
+      ))
+
+      return choice(
+        seq('[', contents, ']'),
+        seq('[[', contents, ']]')
+      )
+    },
 
     // Commands
 
@@ -382,6 +392,8 @@ module.exports = grammar({
       noneOf(...SPECIAL_CHARACTERS),
       seq('\\', noneOf('\\s'))
     ))),
+
+    regex: $ => /\S+/,
 
     _terminator: $ => choice(';', ';;', '\n', '&')
   }
