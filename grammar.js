@@ -78,7 +78,12 @@ module.exports = grammar({
     while_statement: $ => seq(
       'while',
       $._terminated_statement,
-      $.do_group
+      $.do_group,
+      repeat(choice(
+        $.file_redirect,
+        $.heredoc_redirect,
+        $.herestring_redirect
+      ))
     ),
 
     do_group: $ => seq(
