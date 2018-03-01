@@ -171,3 +171,95 @@ function do_yet_another_thing {
     (word)
     (compound_statement (command (command_name (word)) (word)))
     (file_redirect (file_descriptor) (word))))
+
+=========================================
+Variable declaration: declare & typeset
+=========================================
+
+declare var1
+typeset -i -r var2=42 var3=10
+
+---
+
+(program
+  (declaration_command (variable_name))
+  (declaration_command (word) (word)
+    (variable_assignment (variable_name) (word))
+    (variable_assignment (variable_name) (word))))
+
+=========================================
+Variable declaration: readonly
+=========================================
+
+readonly var1
+readonly var2=42
+
+---
+
+(program
+  (declaration_command (variable_name))
+  (declaration_command (variable_assignment (variable_name) (word))))
+
+=========================================
+Variable declaration: local
+=========================================
+
+local a=42 b
+local -r c
+
+---
+
+(program
+  (declaration_command
+    (variable_assignment (variable_name) (word))
+    (variable_name))
+  (declaration_command
+    (word)
+    (variable_name)))
+
+=========================================
+Variable declaration: export
+=========================================
+
+export PATH
+export FOOBAR PATH="$PATH:/usr/foobar/bin"
+
+---
+
+(program
+  (declaration_command (variable_name))
+  (declaration_command
+    (variable_name)
+    (variable_assignment (variable_name) (string (simple_expansion (variable_name))))))
+
+===========================================
+Expressions passed to declaration commands
+===========================================
+
+export "$(echo ${key} | tr [:lower:] [:upper:])=${p_key#*=}"
+
+---
+
+(program
+  (declaration_command
+    (string
+      (command_substitution
+        (pipeline
+          (command (command_name (word)) (expansion (variable_name)))
+          (command (command_name (word)) (concatenation (word)) (concatenation (word)))))
+      (expansion (variable_name) (word)))))
+
+=========================================
+Unset commands
+=========================================
+
+unset A
+unset "$variable_name"
+unsetenv -f ONE TWO
+
+---
+
+(program
+  (unset_command (variable_name))
+  (unset_command (string (simple_expansion (variable_name))))
+  (unset_command (word) (variable_name) (variable_name)))

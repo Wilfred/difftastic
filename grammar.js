@@ -56,6 +56,7 @@ module.exports = grammar({
       $.variable_assignment,
       $.command,
       $.declaration_command,
+      $.unset_command,
       $.bracket_command,
       $.for_statement,
       $.while_statement,
@@ -226,6 +227,14 @@ module.exports = grammar({
         $._expression,
         $._simple_variable_name,
         $.variable_assignment
+      ))
+    )),
+
+    unset_command: $ => prec.left(seq(
+      choice('unset', 'unsetenv'),
+      repeat(choice(
+        $._expression,
+        $._simple_variable_name
       ))
     )),
 
