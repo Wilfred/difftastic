@@ -1,9 +1,7 @@
 examples/bash-it/plugins/available/git.plugin.bash
 examples/bash-it/plugins/available/extract.plugin.bash
-examples/bash-it/plugins/available/less-pretty-cat.plugin.bash
 examples/bash-it/plugins/available/z_autoenv.plugin.bash
 examples/bash-it/plugins/available/sshagent.plugin.bash
-examples/bash-it/plugins/available/gif.plugin.bash
 examples/bash-it/plugins/available/go.plugin.bash
 examples/bash-it/plugins/available/proxy.plugin.bash
 examples/bash-it/plugins/available/browser.plugin.bash

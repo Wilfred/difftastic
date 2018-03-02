@@ -71,8 +71,10 @@ module.exports = grammar({
     for_statement: $ => seq(
       'for',
       $._simple_variable_name,
-      'in',
-      repeat1($._expression),
+      optional(seq(
+        'in',
+        repeat1($._expression)
+      )),
       $._terminator,
       $.do_group
     ),
