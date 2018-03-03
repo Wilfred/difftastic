@@ -705,7 +705,7 @@ module.exports = grammar({
     ),
 
     string: $ => token(seq(
-      repeat(choice('u', 'r', 'b')),
+      repeat(choice(/[uU]/, /[rR]/, /[bB]/)),
       choice(
         seq('`', repeat(choice(/[^\\`\n]/, /\\./, /\\\n/)), '`'),
         seq('"', repeat(choice(/[^\\"\n]/, /\\./, /\\\n/)), '"'),

@@ -92,7 +92,9 @@ Strings
 '"ok"'
 r'hi'
 ur"bye"
+UR'bye'
 b'sup'
+B"sup"
 `1`
 "\\"
 "/"
@@ -102,6 +104,8 @@ string"
 ---
 
 (module
+  (expression_statement (string))
+  (expression_statement (string))
   (expression_statement (string))
   (expression_statement (string))
   (expression_statement (string))

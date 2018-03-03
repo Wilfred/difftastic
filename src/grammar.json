@@ -3393,16 +3393,16 @@
               "type": "CHOICE",
               "members": [
                 {
-                  "type": "STRING",
-                  "value": "u"
+                  "type": "PATTERN",
+                  "value": "[uU]"
                 },
                 {
-                  "type": "STRING",
-                  "value": "r"
+                  "type": "PATTERN",
+                  "value": "[rR]"
                 },
                 {
-                  "type": "STRING",
-                  "value": "b"
+                  "type": "PATTERN",
+                  "value": "[bB]"
                 }
               ]
             }
