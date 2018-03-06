@@ -17,6 +17,7 @@
     "tree-sitter-javascript": "tree-sitter/tree-sitter-javascript"
   },
   "scripts": {
+    "build": "tree-sitter generate && node-gyp build",
     "test": "tree-sitter test && tree-sitter parse examples --quiet --time"
   }
 }
