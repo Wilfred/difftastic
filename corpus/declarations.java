@@ -13,8 +13,8 @@ class A {
 (program
   (class_declaration (identifier)
     (class_body
-        (method_declaration (method_header (unann_type (unann_primitive_type (integral_type)))
-        (method_declarator (identifier))) (method_body (block (constant_declaration (unann_type (unann_primitive_type (integral_type))) (variable_declarator_list (variable_declarator (variable_declarator_id (identifier)) (variable_initializer (integer_literal (decimal_integer_literal))))))))))))
+        (method_declaration (method_header (integral_type)
+        (method_declarator (identifier))) (method_body (block (constant_declaration (integral_type) (variable_declarator_list (variable_declarator (variable_declarator_id (identifier)) (variable_initializer (integer_literal (decimal_integer_literal))))))))))))
 
 ===
 module
@@ -234,7 +234,7 @@ abstract class ColoredPoint extends Point {
 (program
   (class_declaration (modifier) (identifier) (class_body))
   (class_declaration (modifier) (identifier) (class_body))
-  (class_declaration (modifier) (identifier) (superclass (unann_class_or_interface_type (identifier))) (class_body)))
+  (class_declaration (modifier) (identifier) (superclass (type_identifier)) (class_body)))
 
 ===
 class declaration with implements
@@ -248,7 +248,7 @@ public class Dog implements ISpeak {
 (program
   (class_declaration
      (modifier) (identifier)
-     (super_interfaces (interface_type_list (unann_class_or_interface_type (identifier)))) (class_body)))
+     (super_interfaces (interface_type_list (type_identifier))) (class_body)))
 
 ===
 class declaration with body
@@ -264,7 +264,7 @@ class Point {
 
 ---
 
-(program (class_declaration (identifier) (class_body (field_declaration (unann_type (unann_primitive_type (integral_type))) (variable_declarator_list (variable_declarator (variable_declarator_id (identifier))))) (method_declaration (method_header (unann_type (unann_primitive_type)) (method_declarator (identifier))) (method_body (block (assignment_expression (lhs (identifier)) (integer_literal (decimal_integer_literal)))))))))
+(program (class_declaration (identifier) (class_body (field_declaration (integral_type) (variable_declarator_list (variable_declarator (variable_declarator_id (identifier))))) (method_declaration (method_header (void_type) (method_declarator (identifier))) (method_body (block (assignment_expression (lhs (identifier)) (integer_literal (decimal_integer_literal)))))))))
 
 ===
 interface declaration
@@ -293,10 +293,10 @@ interface Bottom extends Left, Right {}
 (program
   (interface_declaration
     (normal_interface_declaration (identifier)
-      (extends_interfaces (interface_type_list (unann_class_or_interface_type (identifier)))) (interface_body)))
+      (extends_interfaces (interface_type_list (type_identifier))) (interface_body)))
   (interface_declaration
     (normal_interface_declaration (identifier)
-      (extends_interfaces (interface_type_list (unann_class_or_interface_type (identifier)) (unann_class_or_interface_type (identifier)))) (interface_body))))
+      (extends_interfaces (interface_type_list (type_identifier) (type_identifier))) (interface_body))))
 
 ===
 interface with annotation type declaration
@@ -322,7 +322,7 @@ class Beyonce {
 
 ---
 
-(program (class_declaration (identifier) (class_body (method_declaration (method_header (unann_type (unann_primitive_type)) (method_declarator (identifier) (formal_parameter (unann_type (unann_primitive_type (floating_point_type))) (variable_declarator_id (identifier))) (formal_parameter (unann_type (unann_primitive_type (integral_type))) (variable_declarator_id (identifier))) (formal_parameter (unann_type (unann_primitive_type (floating_point_type))) (variable_declarator_id (identifier))) (formal_parameter (unann_type (unann_primitive_type (floating_point_type))) (variable_declarator_id (identifier))))) (method_body (block (comment)))))))
+(program (class_declaration (identifier) (class_body (method_declaration (method_header (void_type) (method_declarator (identifier) (formal_parameter (floating_point_type) (variable_declarator_id (identifier))) (formal_parameter (integral_type) (variable_declarator_id (identifier))) (formal_parameter (floating_point_type) (variable_declarator_id (identifier))) (formal_parameter (floating_point_type) (variable_declarator_id (identifier))))) (method_body (block (comment)))))))
 
 ===
 constructor declaration
@@ -335,7 +335,7 @@ class Point {
 
 ---
 
-(program (class_declaration (identifier) (class_body (field_declaration (unann_type (unann_primitive_type (integral_type))) (variable_declarator_list (variable_declarator (variable_declarator_id (identifier))) (variable_declarator (variable_declarator_id (identifier))))) (constructor_declaration (constructor_declarator (identifier) (formal_parameter (unann_type (unann_primitive_type (integral_type))) (variable_declarator_id (identifier))) (formal_parameter (unann_type (unann_primitive_type (integral_type))) (variable_declarator_id (identifier)))) (constructor_body (assignment_expression (lhs (field_access (this) (identifier))) (identifier)) (assignment_expression (lhs (field_access (this) (identifier))) (identifier)))))))
+(program (class_declaration (identifier) (class_body (field_declaration (integral_type) (variable_declarator_list (variable_declarator (variable_declarator_id (identifier))) (variable_declarator (variable_declarator_id (identifier))))) (constructor_declaration (constructor_declarator (identifier) (formal_parameter (integral_type) (variable_declarator_id (identifier))) (formal_parameter (integral_type) (variable_declarator_id (identifier)))) (constructor_body (assignment_expression (lhs (field_access (this) (identifier))) (identifier)) (assignment_expression (lhs (field_access (this) (identifier))) (identifier)))))))
 
 ===
 throws
@@ -355,31 +355,26 @@ class Beyonce {
       (class_body
         (method_declaration
           (method_header
-            (unann_type
-              (unann_class_or_interface_type
-                (identifier)))
+            (type_identifier)
             (method_declarator
               (identifier))
             (throws
               (exception_type_list
                 (exception_type
-                  (unann_class_or_interface_type
-                    (identifier))))))
+                  (type_identifier)))))
           (method_body
             (block
               (class_instance_creation_expression
                 (unqualified_class_instance_creation_expression
-                  (unann_class_or_interface_type
-                    (identifier))
+                  (type_identifier)
                 (argument_list
                   (class_instance_creation_expression
                     (unqualified_class_instance_creation_expression
-                      (unann_class_or_interface_type
-                        (identifier))
+                      (type_identifier)
                       (argument_list
                         (class_instance_creation_expression
                           (unqualified_class_instance_creation_expression
-                            (unann_class_or_interface_type (identifier))
+                            (type_identifier)
                               (argument_list
                                 (identifier))))
                         (identifier)))))))))))))
@@ -404,17 +399,14 @@ class Point {
       (method_declaration
         (modifier)
         (method_header
-          (unann_type
-            (unann_primitive_type
-              (floating_point_type)))
+          (floating_point_type)
           (method_declarator
             (identifier)))
         (method_body
           (block
             (class_instance_creation_expression
               (unqualified_class_instance_creation_expression
-                (unann_class_or_interface_type
-                  (identifier))))))))))
+                (type_identifier)))))))))
 ===
 variable declaration
 ===
@@ -434,15 +426,13 @@ class JayZ {
             (method_declaration
               (modifier)
               (method_header
-                (unann_type
-                  (unann_primitive_type))
+                (void_type)
                 (method_declarator
                   (identifier)))
               (method_body
                 (block
                   (constant_declaration
-                    (unann_type
-                      (unann_primitive_type (integral_type)))
+                    (integral_type)
                     (variable_declarator_list
                       (variable_declarator
                         (variable_declarator_id
