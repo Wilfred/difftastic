@@ -1,6 +1,6 @@
 {
   "name": "tree-sitter-go",
-  "version": "0.7.3",
+  "version": "0.8.0",
   "description": "Go grammar for tree-sitter",
   "main": "index.js",
   "keywords": [
