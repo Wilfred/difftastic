@@ -100,11 +100,14 @@ module.exports = grammar({
 
     import_spec: $ => seq(
       optional(choice(
-        $._package_identifier,
-        '.'
+        $.dot,
+        $.blank_identifier,
+        $._package_identifier
       )),
       $._string_literal
     ),
+    dot: $ => '.',
+    blank_identifier: $ => '_',
 
     import_spec_list: $ => seq(
       '(',
