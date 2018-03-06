@@ -59,8 +59,7 @@ module.exports = grammar({
     [$._expression, $.inferred_parameters],
     [$._expression, $.inferred_parameters, $.unann_class_or_interface_type], // bad idea (can't occur alone)
     [$.class_literal, $.unann_primitive_type],
-    [$._expression, $.unann_class_or_interface_type],
-    [$.binary_expression, $.unann_class_or_interface_type] // bad idea probs
+    [$._expression, $.unann_class_or_interface_type]
   ],
 
   rules: {
@@ -306,6 +305,7 @@ module.exports = grammar({
       ['<<', PREC.TIMES],
       ['>>', PREC.TIMES],
       ['>>>', PREC.TIMES],
+      ['instanceof', PREC.REL]
     ].map(([operator, precedence]) =>
       prec.left(precedence, seq(
         choice($.binary_expression, $._unary_expression),
@@ -492,9 +492,9 @@ module.exports = grammar({
       $._statement
     ),
 
-    type_arguments: $ => prec.dynamic(1, seq(
-      '<', commaSep($.type_argument), '>'
-    )),
+    type_arguments: $ => seq(
+      '<', commaSep1($.type_argument), '>'
+    ),
 
     type_argument: $ => choice(
       $.reference_type,
@@ -564,7 +564,7 @@ module.exports = grammar({
     // TODO: Replace choice($.identifier, $._literal) with $._statement once it's
     // more fleshed out; The Java spec uses element_value which infinitely loops
     single_element_annotation: $ => seq(
-      '@', $._ambiguous_name, '(', choice($.identifier, $._literal), ')'
+      '@', $._ambiguous_name, '(', choice($.identifier, $._literal, $.scoped_identifier), ')'
     ),
 
     element_value_pair_list: $ => commaSep1($.element_value_pair),
@@ -876,7 +876,7 @@ module.exports = grammar({
       seq($._primary, '::', optional($.type_arguments), $.identifier),
       seq($.super, '::', optional($.type_arguments), $.identifier),
       seq($._ambiguous_name, '.', $.super, '::', optional($.type_arguments), $.identifier),
-      seq($.class_or_interface_type, '::', optional($.type_arguments), 'new'),
+      seq($.class_or_interface_type, '::', optional($.type_arguments), choice('new', $.identifier)),
       seq($.array_type, '::', 'new')
     ),
 
@@ -1002,7 +1002,8 @@ module.exports = grammar({
       'boolean'
     ),
 
-    unann_class_or_interface_type: $ => seq(
+    // TODO: Higher prec than REL prevents this from prematurely reducing to binary_expression
+    unann_class_or_interface_type: $ => prec(PREC.REL+1, seq(
       $.identifier,
       optional($.type_arguments),
       repeat(seq(
@@ -1011,7 +1012,7 @@ module.exports = grammar({
         $.identifier,
         optional($.type_arguments)
       ))
-    ),
+    )),
 
     unann_array_type: $ => choice(
       seq($.unann_primitive_type, $.dims),

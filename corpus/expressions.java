@@ -338,6 +338,7 @@ class Quack {
 single element annotation
 ===
 
+@Duck(waddle.swim)
 @SuppressWarnings("unchecked")
 class Quack {
 
@@ -345,14 +346,7 @@ class Quack {
 
 ---
 
-(program
-  (class_declaration
-    (modifier
-      (single_element_annotation
-        (identifier)
-          (string_literal)))
-        (identifier)
-      (class_body)))
+(program (class_declaration (modifier (single_element_annotation (identifier) (scoped_identifier (identifier) (identifier)))) (modifier (single_element_annotation (identifier) (string_literal))) (identifier) (class_body)))
 
 ===
 lambda expression
@@ -445,4 +439,28 @@ class Box <T> {
                 (assignment_expression
                   (lhs (identifier))
                     (identifier))))
-          (comment)))) 
+          (comment))))
+
+===
+wildcard
+===
+
+? extends B
+
+---
+
+===
+type arguments with generic types
+===
+
+class someClass <T> {
+  public List<T> someMethod() {
+     List< T > list = Collections.< T >emptyList();
+     return list;
+  }
+  public static <S> void anotherMethod(S arg) {
+     List< S > list = Collections.< S >emptyList();
+  }
+}
+
+---
