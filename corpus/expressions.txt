@@ -1,0 +1,143 @@
+=================
+Assignments
+=================
+
+a = b
+c &= d ÷= e
+
+---
+
+(source_file
+  (assignment_expression
+    (identifier)
+    (identifier))
+  (assignment_expression
+    (identifier)
+    (assignment_expression
+      (identifier)
+      (identifier))))
+
+=================
+Functions
+=================
+
+function test(x, y)
+end
+
+---
+
+(source_file
+  (function_expression
+    (identifier)
+    (parameter_list (identifier) (identifier))))
+
+=================
+Modules
+=================
+
+module A
+
+module B
+end
+
+module C
+end
+
+end
+
+---
+
+(source_file
+  (module_expression (identifier)
+    (module_expression (identifier))
+    (module_expression (identifier))))
+
+=================
+Function calls
+=================
+
+a()
+b("hi", 2)
+
+---
+
+(source_file
+  (call_expression (identifier) (argument_list))
+  (call_expression (identifier) (argument_list (string) (number))))
+
+=================
+Binary operators
+=================
+
+a → b ⇶ c ⭄ d
+a * b ⦼ c
+
+---
+
+(source_file
+  (binary_expression
+    (identifier)
+    (binary_expression
+      (identifier)
+      (binary_expression
+        (identifier)
+        (identifier))))
+  (binary_expression
+    (binary_expression
+      (identifier)
+      (identifier))
+    (identifier)))
+
+===================================
+Binary operators with leading dots
+===================================
+
+a .* b .+ c
+
+---
+
+(source_file
+  (binary_expression
+    (binary_expression (identifier) (identifier))
+    (identifier)))
+
+=================
+Conditionals
+=================
+
+if a
+  b()
+elseif c
+  d()
+  d()
+else
+  e()
+end
+
+---
+
+(source_file
+  (conditional_expression
+    (identifier)
+    (call_expression (identifier) (argument_list))
+    (elseif_clause
+      (identifier)
+      (call_expression (identifier) (argument_list))
+      (call_expression (identifier) (argument_list)))
+    (else_clause
+      (call_expression (identifier) (argument_list)))))
+
+=================
+Pairs
+=================
+
+A(b => c, d => e)
+
+---
+
+(source_file
+  (call_expression
+    (identifier)
+    (argument_list
+      (pair_expression (identifier) (identifier))
+      (pair_expression (identifier) (identifier)))))
