@@ -105,11 +105,15 @@
               "members": [
                 {
                   "type": "SYMBOL",
-                  "name": "_package_identifier"
+                  "name": "dot"
                 },
                 {
-                  "type": "STRING",
-                  "value": "."
+                  "type": "SYMBOL",
+                  "name": "blank_identifier"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "_package_identifier"
                 }
               ]
             },
@@ -123,6 +127,14 @@
           "name": "_string_literal"
         }
       ]
+    },
+    "dot": {
+      "type": "STRING",
+      "value": "."
+    },
+    "blank_identifier": {
+      "type": "STRING",
+      "value": "_"
     },
     "import_spec_list": {
       "type": "SEQ",
