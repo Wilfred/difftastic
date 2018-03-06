@@ -37,29 +37,28 @@ module.exports = grammar({
     $._block_statement,
     $._method_name,
     $._ambiguous_name,
-    $.class_or_interface_type,
-    $.primitive_type,
-    $._unary_expression,
+    $._class_or_interface_type,
+    $._primitive_type,
     $._class_member_declaration,
     $._class_body_declaration
   ],
 
   conflicts: $ => [
     [$.modifier],
-    [$.class_literal, $.primitive_type, $.unann_primitive_type], // try to drop class_literal
-    [$.class_literal, $.primitive_type], // bad idea
+    [$.class_literal, $._unann_type], // bad idea
     [$.return_statement],
 
-    [$.unann_class_or_interface_type, $.class_literal, $.array_access],
+    [$._unann_type, $.class_literal, $.array_access],
     [$.unann_class_or_interface_type, $.method_reference],
     [$.unann_class_or_interface_type, $.scoped_identifier],
     [$.constant_declaration, $.local_variable_declaration],
     [$.variable_declarator_id],
     [$._lambda_parameters, $.inferred_parameters],
     [$._expression, $.inferred_parameters],
-    [$._expression, $.inferred_parameters, $.unann_class_or_interface_type], // bad idea (can't occur alone)
-    [$.class_literal, $.unann_primitive_type],
-    [$._expression, $.unann_class_or_interface_type]
+    [$._expression, $.inferred_parameters, $._unann_type], // bad idea (can't occur alone)
+    [$._expression, $._unann_type],
+    [$.scoped_identifier, $.scoped_type_identifier],
+    [$._expression, $.generic_type],
   ],
 
   rules: {
@@ -259,15 +258,18 @@ module.exports = grammar({
       $.binary_expression,
       $.lambda_expression,
       $.ternary_expression,
-      $._unary_expression
+      $.update_expression,
+      $._ambiguous_name,
+      $._primary,
+      $.unary_expression,
+      $.cast_expression
     ),
 
     cast_expression: $ => prec(15, choice(
-      seq('(', $.primitive_type, ')', $._unary_expression),
-      seq('(', $.reference_type, repeat($.additional_bound), ')', $._expression),
+      seq('(', $._type, repeat($.additional_bound), ')', $._expression)
     )),
 
-    additional_bound: $ => seq('&', $.class_or_interface_type),
+    additional_bound: $ => seq('&', $._type),
 
     assignment_expression: $ => prec.right(PREC.ASSIGN, seq(
       $.lhs,
@@ -308,10 +310,11 @@ module.exports = grammar({
       ['instanceof', PREC.REL]
     ].map(([operator, precedence]) =>
       prec.left(precedence, seq(
-        choice($.binary_expression, $._unary_expression),
+        $._expression,
         operator,
-        choice($.binary_expression, $._unary_expression))))
-    ),
+        $._expression
+      ))
+    )),
 
     // TODO: test
     // Lowest precedence operator is lambda arrow
@@ -339,29 +342,21 @@ module.exports = grammar({
       $._expression, '?', $._expression, ':', $._expression
     )),
 
-    _unary_expression: $ => choice(
-      $.update_expression,
-      $._ambiguous_name,
-      $._primary,
-      $.unary_expression,
-      $.cast_expression
-    ),
-
     unary_expression: $ => choice(...[
-    ['+', PREC.NEG],
-    ['-', PREC.NEG],
-    ['!', PREC.NOT],
-    ['~', PREC.NOT],
-  ].map(([operator, precedence]) =>
-    prec.left(precedence, seq(operator, $._unary_expression))
-  )),
+      ['+', PREC.NEG],
+      ['-', PREC.NEG],
+      ['!', PREC.NOT],
+      ['~', PREC.NOT],
+    ].map(([operator, precedence]) =>
+      prec.left(precedence, seq(operator, $._expression))
+    )),
 
     // TODO: test this
     update_expression: $ => prec.left(PREC.INC, choice(
-      seq($._unary_expression, '++'),
-      seq($._unary_expression, '--'),
-      seq('++', $._unary_expression),
-      seq('--', $._unary_expression)
+      seq($._expression, '++'),
+      seq($._expression, '--'),
+      seq('++', $._expression),
+      seq('--', $._expression)
     )),
 
     labeled_statement: $ => seq(
@@ -425,7 +420,7 @@ module.exports = grammar({
       $.variable_declarator_id
     ),
 
-    catch_type: $ => seq($.unann_type, repeat(seq('|', $.class_or_interface_type))),
+    catch_type: $ => seq($._unann_type, repeat(seq('|', $._type))),
 
     finally: $ => seq('finally', $.block),
 
@@ -442,7 +437,7 @@ module.exports = grammar({
     ),
 
     resource: $ => choice(
-      seq(repeat($.modifier), $.unann_type, $.variable_declarator_id, '=', $._expression),
+      seq(repeat($.modifier), $._unann_type, $.variable_declarator_id, '=', $._expression),
       $.variable_access
     ),
 
@@ -484,7 +479,7 @@ module.exports = grammar({
       'for',
       '(',
       repeat($.modifier),
-      $.unann_type,
+      $._unann_type,
       $.variable_declarator_id,
       ':',
       $._expression,
@@ -497,7 +492,7 @@ module.exports = grammar({
     ),
 
     type_argument: $ => choice(
-      $.reference_type,
+      $._type,
       $.wildcard
     ),
 
@@ -508,28 +503,13 @@ module.exports = grammar({
     ),
 
     _wildcard_bounds: $ => choice(
-      seq('extends', $.reference_type),
-      seq('super', $.reference_type)
-    ),
-
-    reference_type: $ => prec.left(choice(
-      seq($.class_or_interface_type, optional($.dims)),
-      seq($.primitive_type, $.dims)
-    )),
-
-    class_or_interface_type: $ => seq(
-      repeat($._annotation),
-      $.unann_class_or_interface_type
+      seq('extends', $._type),
+      seq('super', $._type)
     ),
 
     dims: $ => prec.right(repeat1(
       seq(repeat($._annotation), '[', ']')
     )),
-
-    primitive_type: $ => seq(
-      repeat($._annotation),
-      $.unann_primitive_type
-    ),
 
     _numeric_type: $ => choice(
       $.integral_type,
@@ -548,6 +528,10 @@ module.exports = grammar({
       'float',
       'double'
     ),
+
+    boolean_type: $ => 'boolean',
+
+    void_type: $ => 'void',
 
     _annotation: $ => choice(
       $.normal_annotation,
@@ -708,12 +692,11 @@ module.exports = grammar({
       optional($.type_bound)
     ),
 
-    type_bound: $ =>
-      seq('extends', $.class_or_interface_type, repeat(seq('&', $.class_or_interface_type))),
+    type_bound: $ => seq('extends', $._type, repeat(seq('&', $._type))),
 
     superclass: $ => seq(
       'extends',
-      $.class_or_interface_type
+      $._type
     ),
 
     super_interfaces: $ => seq(
@@ -722,8 +705,8 @@ module.exports = grammar({
     ),
 
     interface_type_list: $ => seq(
-      $.class_or_interface_type,
-      repeat(seq(',', $.class_or_interface_type))
+      $._type,
+      repeat(seq(',', $._type))
     ),
 
     class_body: $ => seq(
@@ -771,10 +754,10 @@ module.exports = grammar({
       seq($._primary, '.', $.super, '(', optional($.argument_list), ')', $._semicolon)
     ),
 
-    _ambiguous_name: $ => choice(
+    _ambiguous_name: $ => prec(PREC.REL + 1, choice(
       $.identifier,
       $.scoped_identifier
-    ),
+    )),
 
     scoped_identifier: $ => seq(
       choice($.identifier, $.scoped_identifier),
@@ -793,7 +776,7 @@ module.exports = grammar({
 
     field_declaration: $ => seq(
       repeat($.modifier),
-      $.unann_type,
+      $._unann_type,
       $.variable_declarator_list,
       $._semicolon
     ),
@@ -803,11 +786,13 @@ module.exports = grammar({
       $.array_creation_expression
     ),
 
-    array_creation_expression: $ => choice(
-      seq('new', $.primitive_type, $.dims_exprs, optional($.dims)),
-      seq($.class_or_interface_type, $.dims_exprs, optional($.dims)),
-      seq('new', $.primitive_type, $.dims, $.array_initializer),
-      seq('new', $.class_or_interface_type, $.dims, $.array_initializer)
+    array_creation_expression: $ => seq(
+      'new',
+      choice($._primitive_type, $._class_or_interface_type),
+      choice(
+        seq($.dims_exprs, optional($.dims)),
+        seq($.dims, $.array_initializer)
+      )
     ),
 
     dims_exprs: $ => prec.right(seq($.dims_expr, repeat($.dims_expr))),
@@ -830,8 +815,8 @@ module.exports = grammar({
     class_literal: $ => choice(
       seq($._ambiguous_name, repeat(seq('[', ']')), '.', 'class'),
       seq($._numeric_type, repeat(seq('[', ']')), '.', 'class'),
-      seq('boolean', repeat(seq('[', ']')), '.', 'class'),
-      seq('void', '.', 'class')
+      seq($.boolean_type, repeat(seq('[', ']')), '.', 'class'),
+      seq($.void_type, '.', 'class')
     ),
 
     class_instance_creation_expression: $ => choice(
@@ -843,7 +828,7 @@ module.exports = grammar({
     unqualified_class_instance_creation_expression: $ => prec.right(seq(
       'new',
       optional($.type_arguments),
-      $.class_or_interface_type,
+      choice($._primitive_type, $._class_or_interface_type),
       '(', optional($.argument_list), ')',
       optional($.class_body)
     )),
@@ -864,6 +849,7 @@ module.exports = grammar({
       seq($._ambiguous_name, '.', optional($.type_arguments), $.identifier, '(', optional($.argument_list), ')'),
       seq($._ambiguous_name, '.', optional($.type_arguments), $.identifier, '(', optional($.argument_list), ')'),
       seq($._primary, '.', optional($.type_arguments), $.identifier, '(', optional($.argument_list), ')'),
+      seq($.super, '.', optional($.type_arguments), $.identifier, '(', optional($.argument_list), ')'),
       seq($._ambiguous_name, '.', $.super, '.', optional($.type_arguments), $.identifier, '(', optional($.argument_list), ')')
     ),
 
@@ -871,18 +857,11 @@ module.exports = grammar({
       $._expression, repeat(seq(',', $._expression))
     ),
 
-    method_reference: $ => choice(
-      seq($._ambiguous_name, '::', optional($.type_arguments), $.identifier),
-      seq($._primary, '::', optional($.type_arguments), $.identifier),
-      seq($.super, '::', optional($.type_arguments), $.identifier),
-      seq($._ambiguous_name, '.', $.super, '::', optional($.type_arguments), $.identifier),
-      seq($.class_or_interface_type, '::', optional($.type_arguments), choice('new', $.identifier)),
-      seq($.array_type, '::', 'new')
-    ),
-
-    array_type: $ => choice(
-      seq($.primitive_type, $.dims),
-      seq($.class_or_interface_type, $.dims)
+    method_reference: $ => seq(
+      choice($._type, $._primary),
+      '::',
+      optional($.type_arguments),
+      choice('new', $.identifier)
     ),
 
     interface_declaration: $ => choice(
@@ -910,7 +889,7 @@ module.exports = grammar({
 
     annotation_type_element_declaration: $ => seq(
       repeat($.modifier),
-      $.unann_type,
+      $._unann_type,
       $.identifier,
       '(', ')',
       optional($.dims),
@@ -936,11 +915,6 @@ module.exports = grammar({
       $.interface_type_list
     ),
 
-    interface_type_list: $ => seq(
-      $.class_or_interface_type,
-      repeat(seq(',', $.class_or_interface_type))
-    ),
-
     interface_body: $ => seq(
       '{',
       repeat($.interface_member_declaration),
@@ -957,7 +931,7 @@ module.exports = grammar({
 
     constant_declaration: $ => seq(
       repeat($.modifier),
-      $.unann_type,
+      $._unann_type,
       $.variable_declarator_list,
       $._semicolon
     ),
@@ -990,38 +964,61 @@ module.exports = grammar({
       '}'
     ),
 
-    unann_type: $ => choice(
-      $.unann_primitive_type,
-      $.unann_class_or_interface_type,
-      $.unann_array_type
+    _type: $ => choice(
+      $._unann_type,
+      $.annotated_type
     ),
 
-    unann_primitive_type: $ => choice(
-      'void',
+    _unann_type: $ => choice(
+      $._primitive_type,
+      $._class_or_interface_type,
+      $.array_type
+    ),
+
+    _primitive_type: $ => choice(
+      $.void_type,
       $._numeric_type,
-      'boolean'
+      $.boolean_type,
     ),
 
-    // TODO: Higher prec than REL prevents this from prematurely reducing to binary_expression
-    unann_class_or_interface_type: $ => prec(PREC.REL+1, seq(
-      $.identifier,
-      optional($.type_arguments),
-      repeat(seq(
-        '.',
-        repeat($._annotation),
-        $.identifier,
-        optional($.type_arguments)
-      ))
+    _class_or_interface_type: $ => choice(
+      prec(PREC.REL + 1, alias($.identifier, $.type_identifier)),
+      $.scoped_type_identifier,
+      $.generic_type
+    ),
+
+    annotated_type: $ => seq(
+      repeat1($._annotation),
+      $._unann_type
+    ),
+
+    scoped_type_identifier: $ => seq(
+      choice(
+        alias($.identifier, $.type_identifier),
+        $.scoped_type_identifier,
+        $.generic_type
+      ),
+      '.',
+      repeat($._annotation),
+      alias($.identifier, $.type_identifier)
+    ),
+
+    generic_type: $ => prec(PREC.REL + 1, seq(
+      choice(
+        alias($.identifier, $.type_identifier),
+        $.scoped_type_identifier
+      ),
+      $.type_arguments
     )),
 
-    unann_array_type: $ => choice(
-      seq($.unann_primitive_type, $.dims),
-      seq($.unann_class_or_interface_type, $.dims)
+    array_type: $ => seq(
+      $._unann_type,
+      $.dims
     ),
 
     method_header: $ => choice(
-      seq($.unann_type, $.method_declarator, optional($.throws)),
-      seq($.type_parameters, repeat($._annotation), $.unann_type, $.method_declarator, optional($.throws))
+      seq($._unann_type, $.method_declarator, optional($.throws)),
+      seq($.type_parameters, repeat($._annotation), $._unann_type, $.method_declarator, optional($.throws))
     ),
 
     method_declarator: $ => seq(
@@ -1041,20 +1038,20 @@ module.exports = grammar({
 
     formal_parameter: $ => seq(
       repeat($.modifier),
-      $.unann_type,
+      $._unann_type,
       $.variable_declarator_id
     ),
 
     receiver_parameter: $ => seq(
       repeat($._annotation),
-      $.unann_type,
+      $._unann_type,
       optional(seq($.identifier, '.')),
       $.this
     ),
 
     spread_parameter: $ => seq(
       repeat($.modifier),
-      $.unann_type,
+      $._unann_type,
       '...',
       $.variable_declarator
     ),
@@ -1074,7 +1071,7 @@ module.exports = grammar({
 
     exception_type_list: $ => commaSep1($.exception_type),
 
-    exception_type: $ => $.class_or_interface_type,
+    exception_type: $ => $._type,
 
     method_body: $ => choice(
       $.block,
@@ -1098,7 +1095,7 @@ module.exports = grammar({
 
     local_variable_declaration: $ => seq(
       repeat($.modifier),
-      $.unann_type,
+      $._unann_type,
       $.variable_declarator_list
     ),
 
