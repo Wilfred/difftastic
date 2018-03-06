@@ -5,7 +5,7 @@
 #pragma GCC diagnostic ignored "-Wmissing-field-initializers"
 #endif
 
-#define LANGUAGE_VERSION 5
+#define LANGUAGE_VERSION 6
 #define STATE_COUNT 26
 #define SYMBOL_COUNT 19
 #define ALIAS_COUNT 0
