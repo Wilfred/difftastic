@@ -5,7 +5,7 @@
 #pragma GCC diagnostic ignored "-Wmissing-field-initializers"
 #endif
 
-#define LANGUAGE_VERSION 5
+#define LANGUAGE_VERSION 6
 #define STATE_COUNT 1980
 #define SYMBOL_COUNT 197
 #define ALIAS_COUNT 2
@@ -69650,7 +69650,7 @@ static TSParseActionEntry ts_parse_actions[] = {
   [298] = {.count = 1, .reusable = true, .depends_on_lookahead = false}, REDUCE(sym_expression_statement, 1),
   [300] = {.count = 1, .reusable = true, .depends_on_lookahead = false}, SHIFT(177),
   [302] = {.count = 1, .reusable = true, .depends_on_lookahead = false}, SHIFT(178),
-  [304] = {.count = 1, .reusable = true, .depends_on_lookahead = false}, REDUCE(sym_expression_list, 1, .fragile = true),
+  [304] = {.count = 1, .reusable = true, .depends_on_lookahead = false}, REDUCE(sym_expression_list, 1),
   [306] = {.count = 1, .reusable = true, .depends_on_lookahead = false}, SHIFT(179),
   [308] = {.count = 1, .reusable = true, .depends_on_lookahead = false}, SHIFT(180),
   [310] = {.count = 1, .reusable = true, .depends_on_lookahead = false}, REDUCE(sym__expression, 1),
@@ -69942,7 +69942,7 @@ static TSParseActionEntry ts_parse_actions[] = {
   [882] = {.count = 1, .reusable = true, .depends_on_lookahead = true}, REDUCE(sym_concatenated_string, 2),
   [884] = {.count = 1, .reusable = true, .depends_on_lookahead = false}, REDUCE(sym_await, 2),
   [886] = {.count = 1, .reusable = true, .depends_on_lookahead = false}, REDUCE(sym_expression_statement, 2),
-  [888] = {.count = 1, .reusable = true, .depends_on_lookahead = false}, REDUCE(sym_expression_list, 2, .fragile = true),
+  [888] = {.count = 1, .reusable = true, .depends_on_lookahead = false}, REDUCE(sym_expression_list, 2),
   [890] = {.count = 1, .reusable = true, .depends_on_lookahead = true}, SHIFT(24),
   [892] = {.count = 1, .reusable = true, .depends_on_lookahead = true}, SHIFT(531),
   [894] = {.count = 1, .reusable = true, .depends_on_lookahead = false}, SHIFT(532),
@@ -70021,8 +70021,8 @@ static TSParseActionEntry ts_parse_actions[] = {
   [1074] = {.count = 1, .reusable = true, .depends_on_lookahead = false}, SHIFT(582),
   [1076] = {.count = 1, .reusable = true, .depends_on_lookahead = false}, SHIFT(583),
   [1078] = {.count = 1, .reusable = true, .depends_on_lookahead = false}, SHIFT(584),
-  [1080] = {.count = 1, .reusable = true, .depends_on_lookahead = false}, REDUCE(sym_tuple, 3, .fragile = true),
-  [1082] = {.count = 1, .reusable = true, .depends_on_lookahead = true}, REDUCE(sym_tuple, 3, .fragile = true),
+  [1080] = {.count = 1, .reusable = true, .depends_on_lookahead = false}, REDUCE(sym_tuple, 3),
+  [1082] = {.count = 1, .reusable = true, .depends_on_lookahead = true}, REDUCE(sym_tuple, 3),
   [1084] = {.count = 1, .reusable = true, .depends_on_lookahead = false}, SHIFT(588),
   [1086] = {.count = 1, .reusable = true, .depends_on_lookahead = false}, SHIFT(591),
   [1088] = {.count = 1, .reusable = true, .depends_on_lookahead = false}, SHIFT(594),
@@ -70106,7 +70106,7 @@ static TSParseActionEntry ts_parse_actions[] = {
   [1244] = {.count = 1, .reusable = true, .depends_on_lookahead = false}, SHIFT(726),
   [1246] = {.count = 1, .reusable = true, .depends_on_lookahead = false}, SHIFT(727),
   [1248] = {.count = 1, .reusable = true, .depends_on_lookahead = false}, SHIFT(729),
-  [1250] = {.count = 1, .reusable = true, .depends_on_lookahead = true}, REDUCE(sym_expression_list, 2, .fragile = true),
+  [1250] = {.count = 1, .reusable = true, .depends_on_lookahead = true}, REDUCE(sym_expression_list, 2),
   [1252] = {.count = 1, .reusable = true, .depends_on_lookahead = false}, SHIFT(739),
   [1254] = {.count = 1, .reusable = true, .depends_on_lookahead = true}, SHIFT(741),
   [1256] = {.count = 1, .reusable = true, .depends_on_lookahead = false}, SHIFT(742),
@@ -70192,7 +70192,7 @@ static TSParseActionEntry ts_parse_actions[] = {
   [1417] = {.count = 1, .reusable = true, .depends_on_lookahead = true}, SHIFT(886),
   [1419] = {.count = 1, .reusable = true, .depends_on_lookahead = true}, SHIFT(887),
   [1421] = {.count = 1, .reusable = true, .depends_on_lookahead = false}, SHIFT(892),
-  [1423] = {.count = 1, .reusable = true, .depends_on_lookahead = false}, REDUCE(sym_lambda, 3, .fragile = true),
+  [1423] = {.count = 1, .reusable = true, .depends_on_lookahead = false}, REDUCE(sym_lambda, 3),
   [1425] = {.count = 1, .reusable = true, .depends_on_lookahead = false}, REDUCE(sym__parameters, 2),
   [1427] = {.count = 1, .reusable = true, .depends_on_lookahead = true}, SHIFT(894),
   [1429] = {.count = 1, .reusable = true, .depends_on_lookahead = false}, SHIFT(895),
@@ -70570,7 +70570,7 @@ static TSParseActionEntry ts_parse_actions[] = {
   [2213] = {.count = 1, .reusable = true, .depends_on_lookahead = false}, SHIFT(1301),
   [2215] = {.count = 1, .reusable = true, .depends_on_lookahead = false}, REDUCE(sym_default_parameter, 3),
   [2217] = {.count = 1, .reusable = true, .depends_on_lookahead = false}, REDUCE(sym__parameters, 3),
-  [2219] = {.count = 1, .reusable = true, .depends_on_lookahead = false}, REDUCE(sym_lambda, 4, .fragile = true),
+  [2219] = {.count = 1, .reusable = true, .depends_on_lookahead = false}, REDUCE(sym_lambda, 4),
   [2221] = {.count = 1, .reusable = true, .depends_on_lookahead = false}, SHIFT(1303),
   [2223] = {.count = 1, .reusable = true, .depends_on_lookahead = false}, SHIFT(1310),
   [2225] = {.count = 1, .reusable = true, .depends_on_lookahead = true}, SHIFT(1310),
@@ -70871,7 +70871,7 @@ static TSParseActionEntry ts_parse_actions[] = {
   [2861] = {.count = 2, .reusable = true, .depends_on_lookahead = false}, REDUCE(aux_sym__comprehension_body_repeat1, 2), SHIFT_REPEAT(992),
   [2864] = {.count = 2, .reusable = true, .depends_on_lookahead = false}, REDUCE(aux_sym__comprehension_body_repeat1, 2), SHIFT_REPEAT(507),
   [2867] = {.count = 1, .reusable = true, .depends_on_lookahead = false}, SHIFT(1661),
-  [2869] = {.count = 1, .reusable = true, .depends_on_lookahead = false}, REDUCE(sym_conditional_expression, 5, .fragile = true),
+  [2869] = {.count = 1, .reusable = true, .depends_on_lookahead = false}, REDUCE(sym_conditional_expression, 5),
   [2871] = {.count = 2, .reusable = true, .depends_on_lookahead = false}, REDUCE(aux_sym_comparison_operator_repeat1, 2), SHIFT_REPEAT(1016),
   [2874] = {.count = 2, .reusable = true, .depends_on_lookahead = false}, REDUCE(aux_sym_comparison_operator_repeat1, 2), SHIFT_REPEAT(1017),
   [2877] = {.count = 2, .reusable = true, .depends_on_lookahead = true}, REDUCE(aux_sym_comparison_operator_repeat1, 2), SHIFT_REPEAT(1016),
