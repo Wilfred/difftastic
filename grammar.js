@@ -40,7 +40,8 @@ module.exports = grammar({
     $._class_or_interface_type,
     $._primitive_type,
     $._class_member_declaration,
-    $._class_body_declaration
+    $._class_body_declaration,
+    $._parenthesized_argument_list
   ],
 
   conflicts: $ => [
@@ -748,9 +749,9 @@ module.exports = grammar({
     ),
 
     explicit_constructor_invocation: $ => choice(
-      seq(optional($.type_arguments), $.this, '(', optional($.argument_list), ')', $._semicolon),
-      seq(optional($.type_arguments), $.super, '(', optional($.argument_list), ')', $._semicolon),
-      seq($._ambiguous_name, '.', optional($.type_arguments), $.super, '(', optional($.argument_list), ')', $._semicolon),
+      seq(optional($.type_arguments), $.this, $._parenthesized_argument_list, $._semicolon),
+      seq(optional($.type_arguments), $.super, $._parenthesized_argument_list, $._semicolon),
+      seq($._ambiguous_name, '.', optional($.type_arguments), $.super, $._parenthesized_argument_list, $._semicolon),
       seq($._primary, '.', $.super, '(', optional($.argument_list), ')', $._semicolon)
     ),
 
@@ -845,17 +846,19 @@ module.exports = grammar({
     ),
 
     method_invocation: $ => choice(
-      seq($._method_name, '(', optional($.argument_list), ')'),
-      seq($._ambiguous_name, '.', optional($.type_arguments), $.identifier, '(', optional($.argument_list), ')'),
-      seq($._ambiguous_name, '.', optional($.type_arguments), $.identifier, '(', optional($.argument_list), ')'),
-      seq($._primary, '.', optional($.type_arguments), $.identifier, '(', optional($.argument_list), ')'),
-      seq($.super, '.', optional($.type_arguments), $.identifier, '(', optional($.argument_list), ')'),
-      seq($._ambiguous_name, '.', $.super, '.', optional($.type_arguments), $.identifier, '(', optional($.argument_list), ')')
+      seq($._method_name, $._parenthesized_argument_list),
+      seq($._ambiguous_name, '.', optional($.type_arguments), $.identifier, $._parenthesized_argument_list),
+      seq($._ambiguous_name, '.', optional($.type_arguments), $.identifier, $._parenthesized_argument_list),
+      seq($._primary, '.', optional($.type_arguments), $.identifier, $._parenthesized_argument_list),
+      seq($.super, '.', optional($.type_arguments), $.identifier, $._parenthesized_argument_list),
+      seq($._ambiguous_name, '.', $.super, '.', optional($.type_arguments), $.identifier, $._parenthesized_argument_list)
     ),
 
     argument_list: $ => seq(
       $._expression, repeat(seq(',', $._expression))
     ),
+
+    _parenthesized_argument_list: $ => seq('(', optional($.argument_list), ')'),
 
     method_reference: $ => seq(
       choice($._type, $._primary),
