@@ -41,7 +41,8 @@ module.exports = grammar({
     $._primitive_type,
     $._class_member_declaration,
     $._class_body_declaration,
-    $._parenthesized_argument_list
+    $._parenthesized_argument_list,
+    $._variable_initializer
   ],
 
   conflicts: $ => [
@@ -947,7 +948,7 @@ module.exports = grammar({
 
     variable_declarator: $ => seq(
       $.variable_declarator_id,
-      optional(seq('=', $.variable_initializer))
+      optional(seq('=', $._variable_initializer))
     ),
 
     variable_declarator_id: $ => seq(
@@ -955,14 +956,14 @@ module.exports = grammar({
       optional($.dims)
     ),
 
-    variable_initializer: $ => choice(
+    _variable_initializer: $ => choice(
       $._expression,
       $.array_initializer
     ),
 
     array_initializer: $ => seq(
       '{',
-      commaSep($.variable_initializer),
+      commaSep($._variable_initializer),
       optional(','),
       '}'
     ),
