@@ -505,7 +505,7 @@ module.exports = grammar({
 
     _wildcard_bounds: $ => choice(
       seq('extends', $._type),
-      seq('super', $._type)
+      seq($.super, $._type)
     ),
 
     dims: $ => prec.right(repeat1(
@@ -1108,8 +1108,7 @@ module.exports = grammar({
       $.method_body
     ),
 
-    // test
-    // why is method name not used by method declaration stuff?
+    // TODO: Is this necessary? Why is method name not used by method declaration stuff?
     _method_name: $ => $.identifier,
 
     identifier: $ => /[a-zA-Z_]\w*/,
