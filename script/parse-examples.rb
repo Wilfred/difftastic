@@ -14,7 +14,7 @@ until remaining_files.empty?
 
   files_with_errors += output
     .split(/\n/)
-    .grep(/ERROR/)
+    .grep(/ERROR|MISSING/)
     .map { |line| line.split(/\s/)[0] }
 end
 
