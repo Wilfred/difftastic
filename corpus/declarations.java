@@ -14,7 +14,7 @@ class A {
   (class_declaration (identifier)
     (class_body
         (method_declaration (method_header (integral_type)
-        (method_declarator (identifier))) (method_body (block (constant_declaration (integral_type) (variable_declarator_list (variable_declarator (variable_declarator_id (identifier)) (variable_initializer (integer_literal (decimal_integer_literal))))))))))))
+        (method_declarator (identifier))) (method_body (block (constant_declaration (integral_type) (variable_declarator_list (variable_declarator (variable_declarator_id (identifier)) (integer_literal (decimal_integer_literal)))))))))))
 
 ===
 module
