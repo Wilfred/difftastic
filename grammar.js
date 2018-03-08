@@ -489,7 +489,7 @@ module.exports = grammar({
       $._statement
     ),
 
-    type_arguments: $ => seq(
+    _type_arguments: $ => seq(
       '<', commaSep1($.type_argument), '>'
     ),
 
@@ -750,9 +750,9 @@ module.exports = grammar({
     ),
 
     explicit_constructor_invocation: $ => choice(
-      seq(optional($.type_arguments), $.this, $._parenthesized_argument_list, $._semicolon),
-      seq(optional($.type_arguments), $.super, $._parenthesized_argument_list, $._semicolon),
-      seq($._ambiguous_name, '.', optional($.type_arguments), $.super, $._parenthesized_argument_list, $._semicolon),
+      seq(optional($._type_arguments), $.this, $._parenthesized_argument_list, $._semicolon),
+      seq(optional($._type_arguments), $.super, $._parenthesized_argument_list, $._semicolon),
+      seq($._ambiguous_name, '.', optional($._type_arguments), $.super, $._parenthesized_argument_list, $._semicolon),
       seq($._primary, '.', $.super, '(', optional($.argument_list), ')', $._semicolon)
     ),
 
@@ -829,7 +829,7 @@ module.exports = grammar({
 
     unqualified_class_instance_creation_expression: $ => prec.right(seq(
       'new',
-      optional($.type_arguments),
+      optional($._type_arguments),
       choice($._primitive_type, $._class_or_interface_type),
       '(', optional($.argument_list), ')',
       optional($.class_body)
@@ -848,11 +848,11 @@ module.exports = grammar({
 
     method_invocation: $ => choice(
       seq($._method_name, $._parenthesized_argument_list),
-      seq($._ambiguous_name, '.', optional($.type_arguments), $.identifier, $._parenthesized_argument_list),
-      seq($._ambiguous_name, '.', optional($.type_arguments), $.identifier, $._parenthesized_argument_list),
-      seq($._primary, '.', optional($.type_arguments), $.identifier, $._parenthesized_argument_list),
-      seq($.super, '.', optional($.type_arguments), $.identifier, $._parenthesized_argument_list),
-      seq($._ambiguous_name, '.', $.super, '.', optional($.type_arguments), $.identifier, $._parenthesized_argument_list)
+      seq($._ambiguous_name, '.', optional($._type_arguments), $.identifier, $._parenthesized_argument_list),
+      seq($._ambiguous_name, '.', optional($._type_arguments), $.identifier, $._parenthesized_argument_list),
+      seq($._primary, '.', optional($._type_arguments), $.identifier, $._parenthesized_argument_list),
+      seq($.super, '.', optional($._type_arguments), $.identifier, $._parenthesized_argument_list),
+      seq($._ambiguous_name, '.', $.super, '.', optional($._type_arguments), $.identifier, $._parenthesized_argument_list)
     ),
 
     argument_list: $ => seq(
@@ -864,7 +864,7 @@ module.exports = grammar({
     method_reference: $ => seq(
       choice($._type, $._primary),
       '::',
-      optional($.type_arguments),
+      optional($._type_arguments),
       choice('new', $.identifier)
     ),
 
@@ -1012,7 +1012,7 @@ module.exports = grammar({
         alias($.identifier, $.type_identifier),
         $.scoped_type_identifier
       ),
-      $.type_arguments
+      $._type_arguments
     )),
 
     array_type: $ => seq(

@@ -439,8 +439,13 @@ List<? extends B> a;
   (constant_declaration
     (generic_type
       (type_identifier)
-      (type_arguments (type_argument (wildcard (type_identifier)))))
-    (variable_declarator_list (variable_declarator (variable_declarator_id (identifier))))))
+        (type_argument
+          (wildcard
+            (type_identifier))))
+    (variable_declarator_list
+      (variable_declarator
+        (variable_declarator_id
+          (identifier))))))
 
 ===
 type arguments with generic types
@@ -471,9 +476,8 @@ class someClass <T> {
             (method_header
               (generic_type
                 (type_identifier)
-                (type_arguments
                   (type_argument
-                    (type_identifier))))
+                    (type_identifier)))
               (method_declarator
                 (identifier)))
             (method_body
@@ -487,9 +491,8 @@ class someClass <T> {
                       (identifier))
                       (method_invocation
                         (identifier)
-                          (type_arguments
-                            (type_argument
-                              (type_identifier)))
+                          (type_argument
+                            (type_identifier))
                           (identifier))))
                             (return_statement
                               (identifier)))))
@@ -519,7 +522,6 @@ class someClass <T> {
                       (identifier))
                     (method_invocation
                       (identifier)
-                        (type_arguments
-                          (type_argument
-                            (type_identifier)))
-                        (identifier))))))))))
+                        (type_argument
+                          (type_identifier))
+                      (identifier))))))))))
