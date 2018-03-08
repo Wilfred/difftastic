@@ -24,6 +24,7 @@ typedef struct {
 typedef struct {
   void (*advance)(void *, bool);
   void (*mark_end)(void *);
+  uint32_t (*get_column)(void *);
   int32_t lookahead;
   TSSymbol result_symbol;
 } TSLexer;
@@ -40,13 +41,13 @@ typedef struct {
     struct {
       TSStateId state;
       bool extra : 1;
+      bool repetition : 1;
     };
     struct {
       TSSymbol symbol;
       int16_t dynamic_precedence;
       uint8_t child_count;
-      uint8_t alias_sequence_id : 7;
-      bool fragile : 1;
+      uint8_t alias_sequence_id;
     };
   } params;
   TSParseActionType type : 4;
@@ -135,6 +136,17 @@ typedef struct TSLanguage {
       .type = TSParseActionTypeShift,   \
       .params = {.state = state_value}, \
     }                                   \
+  }
+
+#define SHIFT_REPEAT(state_value)     \
+  {                                   \
+    {                                 \
+      .type = TSParseActionTypeShift, \
+      .params = {                     \
+        .state = state_value,         \
+        .repetition = true            \
+      },                              \
+    }                                 \
   }
 
 #define RECOVER()                        \
