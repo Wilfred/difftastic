@@ -469,7 +469,7 @@ module.exports = grammar({
       optional($.for_init), $._semicolon,
       optional($._expression), $._semicolon,
       commaSep($._expression), ')',
-      $._statement
+      $._method_statement
     ),
 
     for_init: $ => choice(
@@ -486,7 +486,7 @@ module.exports = grammar({
       ':',
       $._expression,
       ')',
-      $._statement
+      $._method_statement
     ),
 
     _type_arguments: $ => seq(

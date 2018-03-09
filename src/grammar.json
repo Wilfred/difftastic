@@ -3106,7 +3106,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_statement"
+          "name": "_method_statement"
         }
       ]
     },
@@ -3184,7 +3184,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_statement"
+          "name": "_method_statement"
         }
       ]
     },
