@@ -550,7 +550,7 @@ module.exports = grammar({
     // TODO: Replace choice($.identifier, $._literal) with $._statement once it's
     // more fleshed out; The Java spec uses element_value which infinitely loops
     single_element_annotation: $ => seq(
-      '@', $._ambiguous_name, '(', choice($.identifier, $._literal, $.scoped_identifier), ')'
+      '@', $._ambiguous_name, '(', choice($.identifier, $._literal, $.scoped_identifier, $.element_value), ')'
     ),
 
     element_value_pair_list: $ => commaSep1($.element_value_pair),

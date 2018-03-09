@@ -3468,6 +3468,10 @@
             {
               "type": "SYMBOL",
               "name": "scoped_identifier"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "element_value"
             }
           ]
         },
