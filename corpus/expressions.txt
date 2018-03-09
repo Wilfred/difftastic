@@ -1,18 +1,8 @@
 ===============================
-Variable Identifiers
-===============================
-
-a
-
----
-
-(module
-  (variable))
-
-===============================
 Function Application
 ===============================
 
+module A where
 f = a b
 f = a b c
 f = a b c d
@@ -20,38 +10,38 @@ f = a b c d
 ---
 
 (module
-  (function_declaration
-    (function_head
-      (function_identifier (variable)))
-    (function_body
-      (function_application
-        (variable)
-        (variable))))
-  (function_declaration
-    (function_head
-      (function_identifier (variable)))
-    (function_body
-      (function_application
+  (module_identifier)
+  (where
+    (function_declaration
+      (variable_identifier)
+      (function_body
         (function_application
-          (variable)
-          (variable))
-        (variable))))
-  (function_declaration
-    (function_head
-      (function_identifier (variable)))
-    (function_body
-      (function_application
+          (variable_identifier)
+          (variable_identifier))))
+    (function_declaration
+      (variable_identifier)
+      (function_body
         (function_application
           (function_application
-            (variable)
-            (variable))
-          (variable))
-        (variable)))))
+            (variable_identifier)
+            (variable_identifier))
+          (variable_identifier))))
+    (function_declaration
+      (variable_identifier)
+      (function_body
+        (function_application
+          (function_application
+            (function_application
+              (variable_identifier)
+              (variable_identifier))
+            (variable_identifier))
+          (variable_identifier))))))
 
 ===============================
 Function Application With Constructors
 ===============================
 
+module A where
 f = Just b
 f = Right b
 f = Example a c d
@@ -60,177 +50,187 @@ f = ()
 ---
 
 (module
-  (function_declaration
-    (function_head
-      (function_identifier (variable)))
-    (function_body
-      (function_application
-        (type_constructor (identifier))
-        (variable))))
-  (function_declaration
-    (function_head
-      (function_identifier (variable)))
-    (function_body
-      (function_application
-        (type_constructor (identifier))
-        (variable))))
-  (function_declaration
-    (function_head
-      (function_identifier (variable)))
-    (function_body
-      (function_application
-        (function_application
+  (module_identifier)
+    (where
+      (function_declaration
+        (variable_identifier)
+        (function_body
           (function_application
-            (type_constructor (identifier))
-            (variable))
-          (variable))
-        (variable))))
-  (function_declaration
-    (function_head
-      (function_identifier (variable)))
-    (function_body
-      (type_constructor (unit_constructor)))))
+            (constructor_identifier) (variable_identifier))))
+      (function_declaration
+        (variable_identifier)
+        (function_body
+          (function_application
+            (constructor_identifier)
+            (variable_identifier))))
+      (function_declaration
+        (variable_identifier)
+        (function_body
+          (function_application
+            (function_application
+              (function_application
+                (constructor_identifier)
+                (variable_identifier))
+              (variable_identifier))
+            (variable_identifier))))
+      (function_declaration
+        (variable_identifier)
+        (function_body
+          (unit_constructor)))))
 
 ===============================
 Function Application With List Comprehensions
 ===============================
 
+module A where
 f = take 5 [ [ (i,j) | i <- [1,2] ] | j <- [1..] ]
 
 ---
 
 (module
-  (function_declaration
-    (function_head
-      (function_identifier (variable)))
-    (function_body
-      (function_application
+  (module_identifier)
+  (where
+    (function_declaration
+      (variable_identifier)
+      (function_body
         (function_application
-          (variable)
-          (integer))
-        (list_comprehension
+          (function_application
+            (variable_identifier)
+            (integer))
           (list_comprehension
-            (tuple (variable) (variable))
-            (generator
-              (variable)
-              (list (integer) (integer))))
-          (generator
-            (variable)
-            (arithmetic_sequence
-              (enum_from (integer)))))))))
+            (list_comprehension
+              (tuple_expression (variable_identifier) (variable_identifier))
+              (generator (variable_identifier) (list_expression (integer) (integer))))
+              (generator (variable_identifier) (arithmetic_sequence (enum_from (integer))))))))))
 
 ===============================
 Arithmetic Sequence
 ===============================
 
-[1..]
-[1,2..]
-[1..2]
-[1,2..10]
+module A where
+a = [1..]
+a = [1,2..]
+a = [1..2]
+a = [1,2..10]
 
 ---
 
 (module
-  (arithmetic_sequence
-    (enum_from (integer)))
-  (arithmetic_sequence
-    (enum_from_then (integer) (integer)))
-  (arithmetic_sequence
-    (enum_from_to (integer) (integer)))
-  (arithmetic_sequence
-    (enum_from_then_to (integer) (integer) (integer))))
+  (module_identifier)
+  (where
+    (function_declaration
+      (variable_identifier)
+      (function_body
+        (arithmetic_sequence (enum_from (integer)))))
+    (function_declaration
+      (variable_identifier)
+      (function_body
+        (arithmetic_sequence (enum_from_then (integer) (integer)))))
+    (function_declaration
+      (variable_identifier)
+      (function_body
+        (arithmetic_sequence (enum_from_to (integer) (integer)))))
+    (function_declaration
+      (variable_identifier)
+      (function_body
+        (arithmetic_sequence (enum_from_then_to (integer) (integer) (integer)))))))
 
 ===============================
 List Comprehensions
 ===============================
 
-[x | x <- xs]
-[(x, y) | x <- xs, y <- ys]
-[ x |  xs   <- [ [(1,2),(3,4)], [(5,4),(3,2)] ],
-      (3,x) <- xs ]
-[(i,j) | i <- [1,2],
-         j <- [1..4] ]
-[ [ (i,j) | i <- [1,2] ] | j <- [1..] ]
+module A where
+a = [x | x <- xs]
+a = [(x, y) | x <- xs, y <- ys]
+a = [ x |  xs   <- [ [(1,2),(3,4)], [(5,4),(3,2)] ], (3,x) <- xs ]
+a = [(i,j) | i <- [1,2],
+             j <- [1..4] ]
+a = [ [ (i,j) | i <- [1,2] ] | j <- [1..] ]
 
 ---
 
 (module
-  (list_comprehension
-    (variable)
-    (generator
-      (variable)
-      (variable)))
-  (list_comprehension
-    (tuple
-      (variable)
-      (variable))
-    (generator
-      (variable)
-      (variable))
-    (generator
-      (variable)
-      (variable)))
-  (list_comprehension
-    (variable)
-    (generator
-      (variable)
-      (list
-        (list (tuple (integer) (integer)) (tuple (integer) (integer)))
-        (list (tuple (integer) (integer)) (tuple (integer) (integer)))))
-    (generator
-      (tuple (integer) (variable))
-      (variable)))
-  (list_comprehension
-    (tuple (variable) (variable))
-    (generator
-      (variable)
-      (list (integer) (integer)))
-    (generator
-      (variable)
-      (arithmetic_sequence
-        (enum_from_to (integer) (integer)))))
-  (list_comprehension
-    (list_comprehension
-      (tuple (variable) (variable))
-      (generator
-        (variable)
-        (list (integer) (integer))))
-    (generator
-      (variable)
-      (arithmetic_sequence
-        (enum_from (integer))))))
+  (module_identifier)
+  (where
+    (function_declaration
+      (variable_identifier)
+      (function_body
+        (list_comprehension
+          (variable_identifier)
+          (generator (variable_identifier) (variable_identifier)))))
+    (function_declaration
+      (variable_identifier)
+      (function_body
+        (list_comprehension
+          (tuple_expression (variable_identifier) (variable_identifier))
+          (generator (variable_identifier) (variable_identifier))
+          (generator (variable_identifier) (variable_identifier)))))
+    (function_declaration
+      (variable_identifier)
+      (function_body
+        (list_comprehension
+          (variable_identifier)
+          (generator (variable_identifier) (list_expression (list_expression (tuple_expression (integer) (integer)) (tuple_expression (integer) (integer))) (list_expression (tuple_expression (integer) (integer)) (tuple_expression (integer) (integer)))))
+          (generator (tuple_pattern (pattern (integer)) (pattern (variable_identifier))) (variable_identifier)))))
+    (function_declaration
+      (variable_identifier)
+      (function_body
+        (list_comprehension
+          (tuple_expression (variable_identifier) (variable_identifier))
+          (generator (variable_identifier) (list_expression (integer) (integer)))
+          (generator (variable_identifier) (arithmetic_sequence (enum_from_to (integer) (integer)))))))
+    (function_declaration
+      (variable_identifier)
+      (function_body
+        (list_comprehension (list_comprehension (tuple_expression (variable_identifier) (variable_identifier)) (generator (variable_identifier) (list_expression (integer) (integer)))) (generator (variable_identifier) (arithmetic_sequence (enum_from (integer)))))))))
 
 ===============================
 Right Operator Sections
 ===============================
 
-(: a)
-(:< a)
+module A where
+a = (: a)
+a = (:< a)
 
 ---
 
 (module
-  (right_section (constructor_symbol) (variable))
-  (right_section (constructor_symbol) (variable)))
+  (module_identifier)
+  (where
+    (function_declaration
+      (variable_identifier)
+      (function_body (right_operator_section (constructor_operator) (variable_identifier))))
+    (function_declaration
+      (variable_identifier)
+      (function_body (right_operator_section (constructor_operator) (variable_identifier))))))
 
 ===============================
 Left Operator Sections
 ===============================
 
-(a :)
-(a :<)
+module A where
+a = (a :)
+a = (a :<)
 
 ---
 
 (module
-  (left_section (variable) (constructor_symbol))
-  (left_section (variable) (constructor_symbol)))
-
+  (module_identifier)
+  (where
+    (function_declaration
+      (variable_identifier)
+      (function_body
+        (left_operator_section (variable_identifier) (constructor_operator))))
+    (function_declaration
+      (variable_identifier)
+      (function_body
+        (left_operator_section (variable_identifier) (constructor_operator))))))
 
 ===============================
 Binary Operators
 ===============================
 
+module A where
 parseJSON (JSON.Object r) = IncPK <$>
   r .: "id" <*>
   r .: "nullable_string" <*>
@@ -240,33 +240,34 @@ parseJSON (JSON.Object r) = IncPK <$>
 ---
 
 (module
-  (function_declaration
-    (function_head
-      (function_identifier (variable))
-      (parenthesized_expression (type_constructor (identifier) (variable))))
+  (module_identifier)
+  (where
+    (function_declaration
+      (variable_identifier)
+      (parenthesized_pattern (qualified_constructor_identifier (module_identifier) (constructor_identifier)) (variable_identifier))
       (function_body
-        (binary
-          (binary
-            (binary
-              (binary
-                (binary
-                  (binary
-                    (binary
-                      (binary
-                        (type_constructor (identifier))
-                        (variable_symbol)
-                        (variable))
-                      (variable_symbol)
-                      (string))
-                    (variable_symbol)
-                    (variable))
-                  (variable_symbol)
-                  (string))
-                (variable_symbol)
-                (variable))
-              (variable_symbol)
-              (string))
-            (variable_symbol)
-            (variable))
-          (variable_symbol)
-          (string)))))
+        (infix_operator_application
+          (constructor_identifier)
+          (variable_operator)
+          (infix_operator_application
+            (variable_identifier)
+            (variable_operator)
+            (infix_operator_application
+              (string)
+              (variable_operator)
+              (infix_operator_application
+                (variable_identifier)
+                (variable_operator)
+                (infix_operator_application
+                  (string)
+                  (variable_operator)
+                  (infix_operator_application
+                    (variable_identifier)
+                    (variable_operator)
+                    (infix_operator_application
+                      (string)
+                      (variable_operator)
+                      (infix_operator_application
+                        (variable_identifier)
+                        (variable_operator)
+                        (string)))))))))))))

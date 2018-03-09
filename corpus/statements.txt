@@ -2,6 +2,7 @@
 Conditionals
 =================================================
 
+module A where
 f = if a then 1 else 2
 f = if a; then b; else c
 f = if (if a then b else c) then d else e
@@ -10,40 +11,30 @@ f = if if a then b else c then d else e
 ---
 
 (module
-  (function_declaration
-    (function_head (function_identifier (variable)))
-    (function_body
-      (if_statement
-        (condition (variable))
-        (then_clause (integer))
-        (else_clause (integer)))))
-  (function_declaration
-    (function_head (function_identifier (variable)))
-    (function_body
-      (if_statement
-        (condition (variable))
-        (then_clause (variable))
-        (else_clause (variable)))))
-  (function_declaration
-    (function_head (function_identifier (variable)))
-    (function_body
-      (if_statement
-        (condition
-          (parenthesized_expression
-            (if_statement
-              (condition (variable))
-              (then_clause (variable))
-              (else_clause (variable)))))
-        (then_clause (variable))
-        (else_clause (variable)))))
-  (function_declaration
-    (function_head (function_identifier (variable)))
-    (function_body
-      (if_statement
-        (condition
-          (if_statement
-            (condition (variable))
-            (then_clause (variable))
-            (else_clause (variable))))
-        (then_clause (variable))
-        (else_clause (variable))))))
+  (module_identifier)
+  (where
+    (function_declaration
+      (variable_identifier)
+      (function_body
+        (conditional_expression (variable_identifier) (integer) (integer))))
+    (function_declaration
+      (variable_identifier)
+      (function_body
+        (conditional_expression (variable_identifier) (variable_identifier) (variable_identifier))))
+    (function_declaration
+      (variable_identifier)
+      (function_body
+        (conditional_expression
+          (parenthesized_expression (conditional_expression (variable_identifier) (variable_identifier) (variable_identifier)))
+          (variable_identifier)
+          (variable_identifier))))
+    (function_declaration
+      (variable_identifier)
+      (function_body
+        (conditional_expression
+          (conditional_expression
+            (variable_identifier)
+            (variable_identifier)
+            (variable_identifier))
+          (variable_identifier)
+          (variable_identifier))))))

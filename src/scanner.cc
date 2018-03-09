@@ -10,6 +10,7 @@ enum TokenType {
   LAYOUT_SEMICOLON,
   LAYOUT_OPEN_BRACE,
   LAYOUT_CLOSE_BRACE,
+  ARROW
 };
 
 struct Scanner {
@@ -100,6 +101,28 @@ struct Scanner {
             if (valid_symbols[LAYOUT_SEMICOLON]) {
               lexer->result_symbol = LAYOUT_SEMICOLON;
               return true;
+            }
+          }
+        }
+      }
+    }
+
+    if (!valid_symbols[ARROW]) {
+      if (lexer->lookahead == '-') {
+        advance(lexer);
+        if (lexer->lookahead == '>') {
+          advance(lexer);
+          if (iswspace(lexer->lookahead)) {
+            indent_length_stack.pop_back();
+            if (valid_symbols[LAYOUT_CLOSE_BRACE]) {
+              lexer->result_symbol = LAYOUT_CLOSE_BRACE;
+              return true;
+            } else {
+              queued_close_brace_count++;
+              if (valid_symbols[LAYOUT_SEMICOLON]) {
+                lexer->result_symbol = LAYOUT_SEMICOLON;
+                return true;
+              }
             }
           }
         }

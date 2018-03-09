@@ -2,130 +2,155 @@
 Integer Literals
 =========================================
 
-0
-1
+module A where
+a = 0
+a = 1
 
 ---
 
 (module
-  (integer)
-  (integer))
+  (module_identifier)
+  (where
+    (function_declaration (variable_identifier) (function_body (integer)))
+    (function_declaration (variable_identifier) (function_body (integer)))))
 
 =========================================
 Octal Literals
 =========================================
 
-0o00
-0O77
+module A where
+a = 0o00
+a = 0O77
 
 ---
 
 (module
-  (integer)
-  (integer))
+  (module_identifier)
+  (where
+    (function_declaration (variable_identifier) (function_body (integer)))
+    (function_declaration (variable_identifier) (function_body (integer)))))
 
 =========================================
 Hexidecimal Literals
 =========================================
 
-0x00
-0XFF
+module A where
+a = 0x00
+a = 0XFF
 
 ---
 
 (module
-  (integer)
-  (integer))
+  (module_identifier)
+  (where
+    (function_declaration (variable_identifier) (function_body (integer)))
+    (function_declaration (variable_identifier) (function_body (integer)))))
 
 =========================================
 Float Literals
 =========================================
 
-0.00
-0.99
+module A where
+a = 0.00
+a = 0.99
 
 ---
 
 (module
-  (float)
-  (float))
+  (module_identifier)
+  (where
+    (function_declaration (variable_identifier) (function_body (float)))
+    (function_declaration (variable_identifier) (function_body (float)))))
 
 =========================================
 Float Literals With Exponents
 =========================================
 
-0.00e01
-0.99E01
-0.00e+01
-0.99E-01
-0.00e-01
-0.99E+01
+module A where
+a = 0.00e01
+a = 0.99E01
+a = 0.00e+01
+a = 0.99E-01
+a = 0.00e-01
+a = 0.99E+01
 
-00e01
-99E01
-00e+01
-99E-01
-00e-01
-99E+01
+a = 00e01
+a = 99E01
+a = 00e+01
+a = 99E-01
+a = 00e-01
+a = 99E+01
 
 ---
 
 (module
-  (float)
-  (float)
-  (float)
-  (float)
-  (float)
-  (float)
+  (module_identifier)
+  (where
+    (function_declaration (variable_identifier) (function_body (float)))
+    (function_declaration (variable_identifier) (function_body (float)))
+    (function_declaration (variable_identifier) (function_body (float)))
+    (function_declaration (variable_identifier) (function_body (float)))
+    (function_declaration (variable_identifier) (function_body (float)))
+    (function_declaration (variable_identifier) (function_body (float)))
 
-  (float)
-  (float)
-  (float)
-  (float)
-  (float)
-  (float))
+    (function_declaration (variable_identifier) (function_body (float)))
+    (function_declaration (variable_identifier) (function_body (float)))
+    (function_declaration (variable_identifier) (function_body (float)))
+    (function_declaration (variable_identifier) (function_body (float)))
+    (function_declaration (variable_identifier) (function_body (float)))
+    (function_declaration (variable_identifier) (function_body (float)))))
 
 
 =========================================
 Variable Identifiers
 =========================================
 
---a
---_a0
---_A0
---a0
---a9
---aA
---aZ'
+module A where
+a = undefined
+_a0 = undefined
+_A0 = undefined
+a0 = undefined
+a9 = undefined
+aA = undefined
+aZ' = undefined
 
 ---
 
 (module
-  (comment)
-  (comment)
-  (comment)
-  (comment)
-  (comment)
-  (comment)
-  (comment))
+  (module_identifier)
+  (where
+    (function_declaration (variable_identifier) (function_body (variable_identifier)))
+    (function_declaration (variable_identifier) (function_body (variable_identifier)))
+    (function_declaration (variable_identifier) (function_body (variable_identifier)))
+    (function_declaration (variable_identifier) (function_body (variable_identifier)))
+    (function_declaration (variable_identifier) (function_body (variable_identifier)))
+    (function_declaration (variable_identifier) (function_body (variable_identifier)))
+    (function_declaration (variable_identifier) (function_body (variable_identifier)))))
 
 =========================================
 Constructor Identifiers
 =========================================
 
---A
---A0
---A9
---Aa
---A_
---Az'
+module A where
+
+data B = A
+       | A0
+       | A9
+       | Aa
+       | A_
+       | Az'
 
 ---
 
 (module
-  (comment)
-  (comment)
-  (comment)
-  (comment)
-  (comment)
-  (comment))
+  (module_identifier)
+  (where
+    (algebraic_datatype_declaration
+      (type_constructor_identifier)
+      (constructors
+        (data_constructor (constructor_identifier))
+        (data_constructor (constructor_identifier))
+        (data_constructor (constructor_identifier))
+        (data_constructor (constructor_identifier))
+        (data_constructor (constructor_identifier))
+        (data_constructor (constructor_identifier))))))

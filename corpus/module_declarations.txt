@@ -4,27 +4,22 @@ Module Declaration
 
 module A where
 
-1
 ---
 
-(module
-  (identifier)
-  (where
-    (integer)))
+(module (module_identifier) (where))
 
 =========================================
 Module Declaration Empty Exports
 =========================================
 
 module A () where
-1
+
 ---
 
 (module
-  (identifier)
+  (module_identifier)
   (module_exports)
-  (where
-    (integer)))
+  (where))
 
 =========================================
 Module Declaration With Exports
@@ -35,14 +30,11 @@ module A (Maybe(..), Either(fromEither, either), maybe') where
 ---
 
 (module
-  (identifier)
+  (module_identifier)
   (module_exports
-    (type_constructor (identifier) (all_constructors))
-    (type_constructor
-      (identifier)
-      (variable)
-      (variable))
-    (variable))
+    (export (type_constructor_identifier) (all_constructors))
+    (export (type_constructor_identifier) (variable_identifier) (variable_identifier))
+    (export (variable_identifier)))
   (where))
 
 =========================================
@@ -54,5 +46,7 @@ module A.B' where
 ---
 
 (module
-  (identifier)
+  (qualified_module_identifier
+    (module_identifier)
+    (module_identifier))
   (where))

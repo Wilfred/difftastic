@@ -11,36 +11,16 @@ foreign import dotnet example :: Example
 ---
 
 (module
-  (foreign
-    (foreign_import)
-    (calling_convention)
-    (type_signature
-      (signature_identifier (variable))
-      (type_constructor (identifier))))
-  (foreign
-    (foreign_import)
-    (calling_convention)
-    (type_signature
-      (signature_identifier (variable))
-      (type_constructor (identifier))))
-  (foreign
-    (foreign_import)
-    (calling_convention)
-    (type_signature
-      (signature_identifier (variable))
-      (type_constructor (identifier))))
-  (foreign
-    (foreign_import)
-    (calling_convention)
-    (type_signature
-      (signature_identifier (variable))
-      (type_constructor (identifier))))
-  (foreign
-    (foreign_import)
-    (calling_convention)
-    (type_signature
-      (signature_identifier (variable))
-      (type_constructor (identifier)))))
+  (foreign_import_declaration (calling_convention)
+    (type_signature (variable_identifier) (annotation) (type_constructor_identifier)))
+  (foreign_import_declaration (calling_convention)
+    (type_signature (variable_identifier) (annotation) (type_constructor_identifier)))
+  (foreign_import_declaration (calling_convention)
+    (type_signature (variable_identifier) (annotation) (type_constructor_identifier)))
+  (foreign_import_declaration (calling_convention)
+    (type_signature (variable_identifier) (annotation) (type_constructor_identifier)))
+  (foreign_import_declaration (calling_convention)
+    (type_signature (variable_identifier) (annotation) (type_constructor_identifier))))
 
 =========================================
 Foreign Import Declarations With Safety
@@ -55,46 +35,16 @@ foreign import dotnet unsafe "unsafe import" example :: Example
 ---
 
 (module
-  (foreign
-    (foreign_import)
-    (calling_convention)
-    (safety)
-    (string)
-    (type_signature
-      (signature_identifier (variable))
-      (type_constructor (identifier))))
-  (foreign
-    (foreign_import)
-    (calling_convention)
-    (safety)
-    (string)
-    (type_signature
-      (signature_identifier (variable))
-      (type_constructor (identifier))))
-  (foreign
-    (foreign_import)
-    (calling_convention)
-    (safety)
-    (string)
-    (type_signature
-      (signature_identifier (variable))
-      (type_constructor (identifier))))
-  (foreign
-    (foreign_import)
-    (calling_convention)
-    (safety)
-    (string)
-    (type_signature
-      (signature_identifier (variable))
-      (type_constructor (identifier))))
-  (foreign
-    (foreign_import)
-    (calling_convention)
-    (safety)
-    (string)
-    (type_signature
-      (signature_identifier (variable))
-      (type_constructor (identifier)))))
+  (foreign_import_declaration (calling_convention) (safety) (string)
+    (type_signature (variable_identifier) (annotation) (type_constructor_identifier)))
+  (foreign_import_declaration (calling_convention) (safety) (string)
+    (type_signature (variable_identifier) (annotation) (type_constructor_identifier)))
+  (foreign_import_declaration (calling_convention) (safety) (string)
+    (type_signature (variable_identifier) (annotation) (type_constructor_identifier)))
+  (foreign_import_declaration (calling_convention) (safety) (string)
+    (type_signature (variable_identifier) (annotation) (type_constructor_identifier)))
+  (foreign_import_declaration (calling_convention) (safety) (string)
+    (type_signature (variable_identifier) (annotation) (type_constructor_identifier))))
 
 =========================================
 Foreign Export Declarations
@@ -109,33 +59,13 @@ foreign export dotnet example :: Example
 ---
 
 (module
-  (foreign
-    (foreign_export)
-    (calling_convention)
-    (type_signature
-      (signature_identifier (variable))
-      (type_constructor (identifier))))
-  (foreign
-    (foreign_export)
-    (calling_convention)
-    (type_signature
-      (signature_identifier (variable))
-      (type_constructor (identifier))))
-  (foreign
-    (foreign_export)
-    (calling_convention)
-    (type_signature
-      (signature_identifier (variable))
-      (type_constructor (identifier))))
-  (foreign
-    (foreign_export)
-    (calling_convention)
-    (type_signature
-      (signature_identifier (variable))
-      (type_constructor (identifier))))
-  (foreign
-    (foreign_export)
-    (calling_convention)
-    (type_signature
-      (signature_identifier (variable))
-      (type_constructor (identifier)))))
+  (foreign_export_declaration (calling_convention)
+    (type_signature (variable_identifier) (annotation) (type_constructor_identifier)))
+  (foreign_export_declaration (calling_convention)
+    (type_signature (variable_identifier) (annotation) (type_constructor_identifier)))
+  (foreign_export_declaration (calling_convention)
+    (type_signature (variable_identifier) (annotation) (type_constructor_identifier)))
+  (foreign_export_declaration (calling_convention)
+    (type_signature (variable_identifier) (annotation) (type_constructor_identifier)))
+  (foreign_export_declaration (calling_convention)
+    (type_signature (variable_identifier) (annotation) (type_constructor_identifier))))
