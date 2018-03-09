@@ -14,19 +14,31 @@ f = a
 
 (module
   (function_declaration
-    (function_head (function_identifier (variable)))
+    (variable_identifier)
     (function_body
-      (variable)
+      (variable_identifier)
       (where
-        (function_declaration (function_head (function_identifier (variable))) (function_body (variable)))
-        (function_declaration (function_head (function_identifier (variable))) (function_body (integer))))))
+        (function_declaration
+          (variable_identifier)
+          (function_body
+            (variable_identifier)))
+        (function_declaration
+          (variable_identifier)
+          (function_body
+            (integer))))))
   (function_declaration
-    (function_head (function_identifier (variable)))
+    (variable_identifier)
     (function_body
-      (variable)
+      (variable_identifier)
       (where
-        (function_declaration (function_head (function_identifier (variable))) (function_body (variable)))
-        (function_declaration (function_head (function_identifier (variable))) (function_body (integer)))))))
+        (function_declaration
+          (variable_identifier)
+          (function_body
+            (variable_identifier)))
+        (function_declaration
+          (variable_identifier)
+          (function_body
+            (integer)))))))
 
 ==================================
 Nested layout
@@ -51,29 +63,36 @@ x = y
 
 (module
   (function_declaration
-    (function_head (function_identifier (variable)))
+    (variable_identifier)
     (function_body
-      (variable)
+      (variable_identifier)
       (where
         (function_declaration
-          (function_head (function_identifier (variable)))
+          (variable_identifier)
           (function_body
-            (variable)
+            (variable_identifier)
             (where
-              (function_declaration (function_head (function_identifier (variable))) (function_body (variable)))
-              (function_declaration (function_head (function_identifier (variable))) (function_body (variable))))))
-        (function_declaration (function_head (function_identifier (variable))) (function_body (variable))))))
+              (function_declaration
+                (variable_identifier)
+                (function_body (variable_identifier)))
+              (function_declaration
+                (variable_identifier)
+                (function_body (variable_identifier))))))
+        (function_declaration
+          (variable_identifier)
+          (function_body (variable_identifier))))))
   (function_declaration
-    (function_head (function_identifier (variable)))
-    (function_body (do (statement_list
-      (variable)
-      (variable)
-      (do (statement_list
-        (variable)
-        (variable)
-        (do (statement_list
-          (variable)
-          (variable)))))))))
+    (variable_identifier)
+    (function_body
+      (do
+        (variable_identifier)
+        (variable_identifier)
+        (do
+          (variable_identifier)
+          (variable_identifier)
+          (do
+            (variable_identifier)
+            (variable_identifier))))))
   (function_declaration
-    (function_head (function_identifier (variable)))
-    (function_body (variable))))
+    (variable_identifier)
+    (function_body (variable_identifier))))

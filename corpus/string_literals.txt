@@ -2,261 +2,229 @@
 String Literals [a-zA-Z0-9_]
 =========================================
 
-"a"
-"b"
+module A where
 
-"0"
-"1"
-
-"_"
-
-"A"
-"B"
+a = [ "a"
+    , "b"
+    , "0"
+    , "1"
+    , "_"
+    , "A"
+    , "B"
+    ]
 
 ---
 
 (module
-  (string)
-  (string)
-
-  (string)
-  (string)
-
-  (string)
-
-  (string)
-  (string))
+  (module_identifier)
+  (where
+    (function_declaration
+      (variable_identifier)
+      (function_body
+        (list_expression (string) (string) (string) (string) (string) (string) (string))))))
 
 =========================================
 String Literals Symbols
 =========================================
 
-"!"
-"#"
-"$"
-"%"
-"&"
-"⋆"
-"+"
-"."
-"/"
-"<"
-"="
-">"
-"?"
-"^"
-"|"
-"-"
-"~"
-":"
-"\\"
+module A where
 
-"\""
-"'"
+a = [ "!"
+    , "#"
+    , "$"
+    , "%"
+    , "&"
+    , "⋆"
+    , "+"
+    , "."
+    , "/"
+    , "<"
+    , "="
+    , ">"
+    , "?"
+    , "^"
+    , "|"
+    , "-"
+    , "~"
+    , ":"
+    , "\\"
+    , "\""
+    , "'"
+    ]
 
 ---
 
 (module
-  (string)
-  (string)
-  (string)
-  (string)
-  (string)
-  (string)
-  (string)
-  (string)
-  (string)
-  (string)
-  (string)
-  (string)
-  (string)
-  (string)
-  (string)
-  (string)
-  (string)
-  (string)
-  (string)
-
-  (string)
-  (string))
-
+  (module_identifier)
+  (where
+    (function_declaration
+      (variable_identifier)
+      (function_body
+        (list_expression (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string))))))
 
 =========================================
 String Literals Special Symbols
 =========================================
 
-"("
-")"
-";"
-"["
-"]"
-"`"
-"{"
-"}"
+module A where
+
+a = [ "("
+    , ")"
+    , ";"
+    , "["
+    , "]"
+    , "`"
+    , "{"
+    , "}"
+    ]
 
 ---
 
 (module
-  (string)
-  (string)
-  (string)
-  (string)
-  (string)
-  (string)
-  (string)
-  (string))
+  (module_identifier)
+  (where
+    (function_declaration
+      (variable_identifier)
+      (function_body
+        (list_expression (string) (string) (string) (string) (string) (string) (string) (string))))))
 
 =========================================
 String Literals Character Escape
 =========================================
 
-"\a"
-"\b"
-"\f"
-"\n"
-"\r"
-"\t"
-"\v"
-"\\"
-"\""
-"'"
-"\&"
+module A where
+
+a = [ "\a"
+    , "\b"
+    , "\f"
+    , "\n"
+    , "\r"
+    , "\t"
+    , "\v"
+    , "\\"
+    , "\""
+    , "'"
+    , "\&"
+    ]
 
 ---
 
 (module
-  (string)
-  (string)
-  (string)
-  (string)
-  (string)
-  (string)
-  (string)
-  (string)
-  (string)
-  (string)
-  (string))
+  (module_identifier)
+  (where
+    (function_declaration
+      (variable_identifier)
+      (function_body
+        (list_expression (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string))))))
 
 =========================================
 String Literals Space
 =========================================
 
-" "
+module A where
+
+a = " "
 
 ---
 
 (module
-  (string))
+  (module_identifier)
+  (where
+    (function_declaration
+      (variable_identifier)
+      (function_body (string)))))
 
 =========================================
 String Literals Escape Ascii
 =========================================
 
-"\NUL"
-"\SOH"
-"\STX"
-"\ETX"
-"\EOT"
-"\ENQ"
-"\ACK"
-"\BEL"
-"\BS"
-"\HT"
-"\LF"
-"\VT"
-"\FF"
-"\CR"
-"\SO"
-"\SI"
-"\DLE"
-"\DC1"
-"\DC2"
-"\DC3"
-"\DC4"
-"\NAK"
-"\SYN"
-"\ETB"
-"\CAN"
-"\EM"
-"\SUB"
-"\ESC"
-"\FS"
-"\GS"
-"\RS"
-"\US"
-"\SP"
-"\DEL"
+module A where
+
+a = [ "\NUL"
+    , "\SOH"
+    , "\STX"
+    , "\ETX"
+    , "\EOT"
+    , "\ENQ"
+    , "\ACK"
+    , "\BEL"
+    , "\BS"
+    , "\HT"
+    , "\LF"
+    , "\VT"
+    , "\FF"
+    , "\CR"
+    , "\SO"
+    , "\SI"
+    , "\DLE"
+    , "\DC1"
+    , "\DC2"
+    , "\DC3"
+    , "\DC4"
+    , "\NAK"
+    , "\SYN"
+    , "\ETB"
+    , "\CAN"
+    , "\EM"
+    , "\SUB"
+    , "\ESC"
+    , "\FS"
+    , "\GS"
+    , "\RS"
+    , "\US"
+    , "\SP"
+    , "\DEL"
+    ]
 
 ---
 
 (module
-  (string)
-  (string)
-  (string)
-  (string)
-  (string)
-  (string)
-  (string)
-  (string)
-  (string)
-  (string)
-  (string)
-  (string)
-  (string)
-  (string)
-  (string)
-  (string)
-  (string)
-  (string)
-  (string)
-  (string)
-  (string)
-  (string)
-  (string)
-  (string)
-  (string)
-  (string)
-  (string)
-  (string)
-  (string)
-  (string)
-  (string)
-  (string)
-  (string)
-  (string))
+  (module_identifier)
+  (where
+    (function_declaration
+      (variable_identifier)
+      (function_body
+        (list_expression (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string))))))
 
 =========================================
 String Literals Escape Control Characters
 =========================================
 
-"\^A"
-"\^Z"
-"\^@"
-"\^["
-"\^]"
-"\^\"
-"\^^"
-"\^_"
+module A where
+
+a = [ "\^A"
+    , "\^Z"
+    , "\^@"
+    , "\^["
+    , "\^]"
+    , "\^\"
+    , "\^^"
+    , "\^_"
+    ]
 
 ---
 
 (module
-  (string)
-  (string)
-  (string)
-  (string)
-  (string)
-  (string)
-  (string)
-  (string))
+  (module_identifier)
+  (where
+    (function_declaration
+      (variable_identifier)
+      (function_body
+        (list_expression (string) (string) (string) (string) (string) (string) (string) (string))))))
 
 =========================================
 String Literals Gap Characters
 =========================================
 
-"\n\tHaskell is wonderful.\n"
+module A where
+
+a = "\n\tHaskell is wonderful.\n"
 
 ---
 
 (module
-  (string))
+  (module_identifier)
+  (where
+    (function_declaration
+      (variable_identifier)
+      (function_body (string)))))

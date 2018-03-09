@@ -14,30 +14,30 @@ type Z = (->)
 ---
 
 (module
-  (type_synonym
-    (type_constructor (identifier))
-    (type_constructor (identifier)))
-  (type_synonym
-    (type_constructor (identifier))
-    (type_constructor (list_constructor)))
-  (type_synonym
-    (type_constructor (identifier) (variable))
-    (type_constructor (identifier) (variable)))
-  (type_synonym
-    (type_constructor (identifier) (variable))
-    (type_constructor (list_constructor (type_constructor (identifier) (variable)))))
-  (type_synonym
-    (type_constructor (identifier))
-    (type_constructor (unit_constructor)))
-  (type_synonym
-    (type_constructor (identifier))
-    (type_constructor (tupling_constructor)))
-  (type_synonym
-    (type_constructor (identifier))
-    (type_constructor (tupling_constructor)))
-  (type_synonym
-    (type_constructor (identifier))
-    (type_constructor (function_constructor))))
+  (type_synonym_declaration
+    (type_constructor_identifier)
+    (type (type_constructor_identifier)))
+  (type_synonym_declaration
+    (type_constructor_identifier)
+    (type (list_constructor)))
+  (type_synonym_declaration
+    (type_constructor_identifier) (type_variable_identifier)
+    (type (type_constructor_identifier) (type_variable_identifier)))
+  (type_synonym_declaration
+    (type_constructor_identifier) (type_variable_identifier)
+    (type (list_type (type_constructor_identifier) (type_variable_identifier))))
+  (type_synonym_declaration
+    (type_constructor_identifier)
+    (type (unit_constructor)))
+  (type_synonym_declaration
+    (type_constructor_identifier)
+    (type (tupling_constructor)))
+  (type_synonym_declaration
+    (type_constructor_identifier)
+    (type (tupling_constructor)))
+  (type_synonym_declaration
+    (type_constructor_identifier)
+    (type (function_constructor))))
 
 =========================================
 New Type Declarations
@@ -50,17 +50,28 @@ newtype Age = Age { unAge :: Maybe Int }
 ---
 
 (module
-  (newtype
-    (type_constructor (identifier))
-    (data_constructor (identifier) (type (identifier))))
-  (newtype
-    (context (type_constructor (identifier) (variable)))
-    (type_constructor (identifier))
-    (data_constructor (identifier) (variable)))
-  (newtype
-    (type_constructor (identifier))
-    (data_constructor (identifier)
-      (fields (field (variable) (type (identifier)) (type (identifier)))))))
+  (newtype_declaration
+    (type_constructor_identifier)
+    (new_constructor
+      (constructor_identifier)
+      (type_constructor_identifier)))
+  (newtype_declaration
+    (context
+      (class (constructor_identifier) (type_variable_identifier)))
+    (type_constructor_identifier)
+    (new_constructor
+      (constructor_identifier)
+      (type_variable_identifier)))
+  (newtype_declaration
+    (type_constructor_identifier)
+    (new_constructor
+      (constructor_identifier)
+      (fields
+        (field
+          (variable_identifier)
+          (annotation)
+          (type_constructor_identifier)
+          (type_constructor_identifier))))))
 
 =========================================
 New Type Declarations With Deriving
@@ -72,20 +83,24 @@ newtype N = N a deriving (Eq, Ord, Enum, Bounded, Show, Read)
 ---
 
 (module
-  (newtype
-    (type_constructor (identifier))
-    (data_constructor (identifier) (type (identifier)))
-    (deriving (type (identifier))))
-  (newtype
-    (type_constructor (identifier))
-    (data_constructor (identifier) (variable))
+  (newtype_declaration
+    (type_constructor_identifier)
+    (new_constructor
+      (constructor_identifier)
+      (type_constructor_identifier))
+    (deriving (type_class_identifier)))
+  (newtype_declaration
+    (type_constructor_identifier)
+    (new_constructor
+      (constructor_identifier)
+      (type_variable_identifier))
     (deriving
-      (type (identifier))
-      (type (identifier))
-      (type (identifier))
-      (type (identifier))
-      (type (identifier))
-      (type (identifier)))))
+      (type_class_identifier)
+      (type_class_identifier)
+      (type_class_identifier)
+      (type_class_identifier)
+      (type_class_identifier)
+      (type_class_identifier))))
 
 =========================================
 Algebraic Datatype Declarations With Variables
@@ -99,16 +114,24 @@ data N a b = N !a b
 ---
 
 (module
-  (algebraic_datatype (type_constructor (identifier)))
-  (algebraic_datatype
-    (type_constructor (identifier) (variable))
-    (data_constructors (data_constructor (identifier) (variable))))
-  (algebraic_datatype
-    (type_constructor (identifier) (variable))
-    (data_constructors (data_constructor (identifier) (strict (variable)))))
-  (algebraic_datatype
-    (type_constructor (identifier) (variable) (variable))
-    (data_constructors (data_constructor (identifier) (strict (variable)) (variable)))))
+  (algebraic_datatype_declaration
+    (type_constructor_identifier))
+  (algebraic_datatype_declaration
+    (type_constructor_identifier)
+    (type_variable_identifier)
+    (constructors
+      (data_constructor (constructor_identifier) (type_variable_identifier))))
+  (algebraic_datatype_declaration
+    (type_constructor_identifier)
+    (type_variable_identifier)
+    (constructors
+      (data_constructor (constructor_identifier) (strict_type (type_variable_identifier)))))
+  (algebraic_datatype_declaration
+    (type_constructor_identifier)
+    (type_variable_identifier)
+    (type_variable_identifier)
+    (constructors
+      (data_constructor (constructor_identifier) (strict_type (type_variable_identifier)) (type_variable_identifier)))))
 
 =========================================
 Algebraic Datatype Declarations With Fields
@@ -122,31 +145,34 @@ data N = N { a, b :: !Int, c :: String }
 ---
 
 (module
-  (algebraic_datatype
-    (type_constructor (identifier))
-    (data_constructors
-      (data_constructor (identifier)
-        (fields (field (variable) (type (identifier)))))))
-  (algebraic_datatype
-    (type_constructor (identifier))
-    (data_constructors
-      (data_constructor (identifier)
-        (fields (field (variable) (variable) (type (identifier)))))))
-  (algebraic_datatype
-    (type_constructor (identifier))
-    (data_constructors
-      (data_constructor (identifier)
+  (algebraic_datatype_declaration
+    (type_constructor_identifier)
+    (constructors
+      (record_data_constructor
+        (constructor_identifier)
+        (fields (field (variable_identifier) (annotation) (type_constructor_identifier))))))
+  (algebraic_datatype_declaration
+    (type_constructor_identifier)
+    (constructors
+      (record_data_constructor
+        (constructor_identifier)
+        (fields (field (variable_identifier) (variable_identifier) (annotation) (type_constructor_identifier))))))
+  (algebraic_datatype_declaration
+    (type_constructor_identifier)
+    (constructors
+      (record_data_constructor
+        (constructor_identifier)
         (fields
-          (field (variable) (strict (type (identifier))))
-          (field (variable) (type (identifier)))))))
-  (algebraic_datatype
-    (type_constructor (identifier))
-    (data_constructors
-      (data_constructor
-        (identifier)
+          (field (variable_identifier) (annotation) (strict_type (type_constructor_identifier)))
+          (field (variable_identifier) (annotation) (type_constructor_identifier))))))
+  (algebraic_datatype_declaration
+    (type_constructor_identifier)
+    (constructors
+      (record_data_constructor
+        (constructor_identifier)
         (fields
-          (field (variable) (variable) (strict (type (identifier))))
-          (field (variable) (type (identifier))))))))
+          (field (variable_identifier) (variable_identifier) (annotation) (strict_type (type_constructor_identifier)))
+          (field (variable_identifier) (annotation) (type_constructor_identifier)))))))
 
 =========================================
 Algebraic Datatype Declarations With Multiple Constructors
@@ -158,20 +184,24 @@ data N = N { a :: Int } | O { b :: String }
 ---
 
 (module
-  (algebraic_datatype
-    (type_constructor (identifier))
-    (data_constructors
-      (data_constructor (identifier))
-      (data_constructor (identifier))))
-  (algebraic_datatype
-    (type_constructor (identifier))
-    (data_constructors
+  (algebraic_datatype_declaration
+    (type_constructor_identifier)
+    (constructors
       (data_constructor
-        (identifier)
-        (fields (field (variable) (type (identifier)))))
+        (constructor_identifier))
       (data_constructor
-        (identifier)
-        (fields (field (variable) (type (identifier))))))))
+        (constructor_identifier))))
+  (algebraic_datatype_declaration
+    (type_constructor_identifier)
+    (constructors
+      (record_data_constructor
+        (constructor_identifier)
+        (fields
+          (field (variable_identifier) (annotation) (type_constructor_identifier))))
+      (record_data_constructor
+        (constructor_identifier)
+        (fields
+          (field (variable_identifier) (annotation) (type_constructor_identifier)))))))
 
 =========================================
 Algebraic Datatype Declarations With Deriving
@@ -183,20 +213,14 @@ data N = N deriving (Eq, Ord, Enum, Bounded, Show, Read)
 ---
 
 (module
-  (algebraic_datatype
-    (type_constructor (identifier))
-    (data_constructors (data_constructor (identifier)))
-    (deriving (type (identifier))))
-  (algebraic_datatype
-    (type_constructor (identifier))
-    (data_constructors (data_constructor (identifier)))
-    (deriving
-      (type (identifier))
-      (type (identifier))
-      (type (identifier))
-      (type (identifier))
-      (type (identifier))
-      (type (identifier)))))
+  (algebraic_datatype_declaration
+    (type_constructor_identifier)
+    (constructors (data_constructor (constructor_identifier)))
+    (deriving (type_class_identifier)))
+  (algebraic_datatype_declaration
+    (type_constructor_identifier)
+    (constructors (data_constructor (constructor_identifier)))
+    (deriving (type_class_identifier) (type_class_identifier) (type_class_identifier) (type_class_identifier) (type_class_identifier) (type_class_identifier))))
 
 =========================================
 Algebraic Datatype Declarations With Context
@@ -209,25 +233,33 @@ data (Eq (f a), Functor f) => N f a = N f a
 ---
 
 (module
-  (algebraic_datatype
-    (context (type_constructor (identifier) (variable)))
-    (type_constructor (identifier) (variable))
-    (data_constructors (data_constructor (identifier) (variable))))
-  (algebraic_datatype
+  (algebraic_datatype_declaration
     (context
-      (type_constructor (identifier) (variable))
-      (type_constructor (identifier) (variable))
-      (type_constructor (identifier) (variable)))
-    (type_constructor (identifier) (variable) (variable))
-    (data_constructors
-      (data_constructor (identifier) (variable) (variable))))
-  (algebraic_datatype
+      (class (constructor_identifier) (type_variable_identifier)))
+    (type_constructor_identifier) (type_variable_identifier)
+    (constructors
+      (data_constructor (constructor_identifier) (type_variable_identifier))))
+  (algebraic_datatype_declaration
     (context
-      (type_constructor (identifier) (variable) (variable))
-      (type_constructor (identifier) (variable)))
-    (type_constructor (identifier) (variable) (variable))
-    (data_constructors
-      (data_constructor (identifier) (variable) (variable)))))
+      (class (constructor_identifier) (type_variable_identifier))
+      (class (constructor_identifier) (type_variable_identifier))
+      (class (constructor_identifier) (type_variable_identifier)))
+    (type_constructor_identifier)
+    (type_variable_identifier)
+    (type_variable_identifier)
+    (constructors
+      (data_constructor
+        (constructor_identifier) (type_variable_identifier) (type_variable_identifier))))
+  (algebraic_datatype_declaration
+    (context
+      (class (constructor_identifier) (type_variable_identifier) (type_variable_identifier))
+      (class (constructor_identifier) (type_variable_identifier)))
+    (type_constructor_identifier)
+    (type_variable_identifier)
+    (type_variable_identifier)
+    (constructors
+      (data_constructor
+        (constructor_identifier) (type_variable_identifier) (type_variable_identifier)))))
 
 =========================================
 Default declarations
@@ -239,7 +271,5 @@ default (Integer, Double)
 ---
 
 (module
-  (default)
-  (default
-    (type_constructor (identifier))
-    (type_constructor (identifier))))
+  (default_declaration)
+  (default_declaration (type_constructor_identifier) (type_constructor_identifier)))

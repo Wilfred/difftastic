@@ -8,8 +8,8 @@ class Show a b where {}
 ---
 
 (module
-  (type_class (type_constructor (identifier) (variable)) (where))
-  (type_class (type_constructor (identifier) (variable) (variable)) (where)))
+  (type_class_declaration (type_class_identifier) (type_variable_identifier) (where))
+  (type_class_declaration (type_class_identifier) (type_variable_identifier) (type_variable_identifier) (where)))
 
 =========================================
 Type Class Declarations With Context
@@ -17,33 +17,21 @@ Type Class Declarations With Context
 
 class Show a => Read a where {}
 class (Show a, Eq a) => Read a where {}
-class (Show (f a), Eq a) => Read f a where {}
 
 ---
 
 (module
-  (type_class
-    (context (type_constructor (identifier) (variable)))
-    (type_constructor
-      (identifier)
-      (variable))
+  (type_class_declaration
+    (scontext (simple_class (type_class_identifier) (type_variable_identifier)))
+    (type_class_identifier)
+    (type_variable_identifier)
     (where))
-  (type_class
-    (context
-      (type_constructor (identifier) (variable))
-      (type_constructor (identifier) (variable)))
-    (type_constructor
-      (identifier)
-      (variable))
-    (where))
-  (type_class
-    (context
-      (type_constructor (identifier) (variable) (variable))
-      (type_constructor (identifier) (variable)))
-    (type_constructor
-      (identifier)
-      (variable)
-      (variable))
+  (type_class_declaration
+    (scontext
+      (simple_class (type_class_identifier) (type_variable_identifier))
+      (simple_class (type_class_identifier) (type_variable_identifier)))
+    (type_class_identifier)
+    (type_variable_identifier)
     (where)))
 
 =========================================
@@ -58,26 +46,30 @@ class Foo a where {
 ---
 
 (module
-  (type_class
-    (type_constructor
-      (identifier)
-      (variable))
+  (type_class_declaration
+    (type_class_identifier)
+    (type_variable_identifier)
     (where
       (type_signature
-        (signature_identifier (variable))
-        (context
-          (type_constructor (identifier) (variable)))
-        (variable)
-        (variable)
-        (variable))
+        (variable_identifier)
+        (annotation)
+        (context (class (constructor_identifier) (type_variable_identifier)))
+        (function_type
+          (type (type_variable_identifier))
+          (function_type
+            (type (type_variable_identifier))
+            (type (type_variable_identifier)))))
       (type_signature
-        (signature_identifier (variable))
+        (variable_identifier)
+        (annotation)
         (context
-          (type_constructor (identifier) (variable))
-          (type_constructor (identifier) (variable)))
-        (variable)
-        (variable)
-        (variable)))))
+          (class (constructor_identifier) (type_variable_identifier))
+          (class (constructor_identifier) (type_variable_identifier)))
+        (function_type
+          (type (type_variable_identifier))
+          (function_type
+            (type (type_variable_identifier))
+            (type (type_variable_identifier))))))))
 
 =========================================
 Type Class Declarations With Fixity
@@ -96,19 +88,18 @@ class Foo a where
 ---
 
 (module
-  (type_class
-    (type_constructor
-      (identifier)
-      (variable))
+  (type_class_declaration
+    (type_class_identifier)
+    (type_variable_identifier)
     (where
-      (fixity (variable))
-      (fixity (integer) (variable))
-      (fixity (integer) (variable) (variable) (variable))
-      (fixity (variable_symbol))
-      (fixity (integer) (variable_symbol))
-      (fixity (integer) (constructor_symbol))
-      (fixity (integer) (constructor_symbol))
-      (fixity (integer) (constructor_symbol)))))
+      (fixity_declaration (variable_identifier))
+      (fixity_declaration (integer) (variable_identifier))
+      (fixity_declaration (integer) (variable_identifier) (variable_identifier) (variable_identifier))
+      (fixity_declaration (variable_operator))
+      (fixity_declaration (integer) (variable_operator))
+      (fixity_declaration (integer) (constructor_operator))
+      (fixity_declaration (integer) (constructor_operator))
+      (fixity_declaration (integer) (constructor_operator)))))
 
 =========================================
 Type Class Declarations With Multiple Operators
@@ -118,26 +109,45 @@ class  (Eq a) => Ord a where
   compare              :: a -> a -> Ordering
   (<), (<=), (>=), (>) :: a -> a -> Bool
   max, min             :: a -> a -> a
+  id                   :: a
 
 ---
 
 (module
-  (type_class
-    (context (type_constructor (identifier) (variable)))
-    (type_constructor (identifier) (variable))
+  (type_class_declaration
+    (scontext (simple_class (type_class_identifier) (type_variable_identifier)))
+    (type_class_identifier)
+    (type_variable_identifier)
     (where
       (type_signature
-        (signature_identifier (variable))
-        (variable)
-        (variable)
-        (type_constructor (identifier)))
+        (variable_identifier)
+        (annotation)
+        (function_type
+          (type (type_variable_identifier))
+          (function_type
+            (type (type_variable_identifier))
+            (type (type_constructor_identifier)))))
       (type_signature
-        (signature_identifier (variable_symbol) (variable_symbol) (variable_symbol) (variable_symbol))
-        (variable)
-        (variable)
-        (type_constructor (identifier)))
+        (variable_operator)
+        (variable_operator)
+        (variable_operator)
+        (variable_operator)
+        (annotation)
+        (function_type
+          (type (type_variable_identifier))
+          (function_type
+            (type (type_variable_identifier))
+            (type (type_constructor_identifier)))))
       (type_signature
-        (signature_identifier (variable) (variable))
-        (variable)
-        (variable)
-        (variable)))))
+        (variable_identifier)
+        (variable_identifier)
+        (annotation)
+        (function_type
+          (type (type_variable_identifier))
+          (function_type
+            (type (type_variable_identifier))
+            (type (type_variable_identifier)))))
+      (type_signature
+        (variable_identifier)
+        (annotation)
+        (type_variable_identifier)))))

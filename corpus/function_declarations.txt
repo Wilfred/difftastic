@@ -7,39 +7,47 @@ f num1 num2 = num2
 
 ---
 
-(module
+ (module
   (type_signature
-    (signature_identifier (variable))
-    (variable)
-    (variable)
-    (variable))
+    (variable_identifier)
+    (annotation)
+    (function_type
+      (type (type_variable_identifier))
+      (function_type
+        (type (type_variable_identifier))
+        (type (type_variable_identifier)))))
   (function_declaration
-    (function_head
-      (function_identifier (variable))
-      (variable)
-      (variable))
+    (variable_identifier)
+    (variable_identifier)
+    (variable_identifier)
     (function_body
-      (variable))))
+      (variable_identifier))))
 
 =================================================
 Function Declarations With Simple Constructors
 =================================================
 
 f :: Ex -> Ex
-f Ex = Ex
+f (Ex 1) = Ex 1
 
 ---
 
 (module
   (type_signature
-    (signature_identifier (variable))
-    (type_constructor (identifier))
-    (type_constructor (identifier)))
+    (variable_identifier)
+    (annotation)
+    (function_type
+      (type (type_constructor_identifier))
+      (type (type_constructor_identifier))))
   (function_declaration
-    (function_head
-      (function_identifier (variable))
-      (type_constructor (identifier)))
-    (function_body (type_constructor (identifier)))))
+    (variable_identifier)
+    (parenthesized_pattern
+      (constructor_identifier)
+      (integer))
+    (function_body
+      (function_application
+        (constructor_identifier)
+        (integer)))))
 
 =================================================
 Function Declarations With @
@@ -51,22 +59,23 @@ f n@num1 x@num2 = x
 ---
 
 (module
-  (type_signature
-    (signature_identifier (variable))
-    (variable)
-    (variable)
-    (variable))
+ (type_signature
+  (variable_identifier)
+  (annotation)
+  (function_type
+    (type (type_variable_identifier))
+    (function_type
+      (type (type_variable_identifier))
+      (type (type_variable_identifier)))))
   (function_declaration
-    (function_head
-      (function_identifier (variable))
-      (as
-        (variable)
-        (variable))
-      (as
-        (variable)
-        (variable)))
-    (function_body
-      (variable))))
+    (variable_identifier)
+    (as_pattern
+      (variable_identifier)
+      (variable_identifier))
+    (as_pattern
+      (variable_identifier)
+      (variable_identifier))
+    (function_body (variable_identifier))))
 
 =================================================
 Function Declarations With _ (wildcard)
@@ -79,17 +88,18 @@ f _ num2 = num2
 
 (module
   (type_signature
-    (signature_identifier (variable))
-    (variable)
-    (variable)
-    (variable))
+    (variable_identifier)
+    (annotation)
+    (function_type
+      (type (type_variable_identifier))
+      (function_type
+        (type (type_variable_identifier))
+        (type (type_variable_identifier)))))
   (function_declaration
-    (function_head
-      (function_identifier (variable))
-      (wildcard)
-      (variable))
-    (function_body
-      (variable))))
+    (variable_identifier)
+    (wildcard)
+    (variable_identifier)
+    (function_body (variable_identifier))))
 
 =================================================
 Function Declarations With Literals
@@ -105,39 +115,33 @@ f 1.0 2.0 = 3.0
 
 (module
   (type_signature
-    (signature_identifier (variable))
-    (variable)
-    (variable)
-    (variable))
+    (variable_identifier)
+    (annotation)
+    (function_type
+      (type (type_variable_identifier))
+      (function_type
+        (type (type_variable_identifier))
+        (type (type_variable_identifier)))))
   (function_declaration
-    (function_head
-      (function_identifier (variable))
-      (integer)
-      (integer))
-    (function_body
-      (integer)))
+    (variable_identifier)
+    (integer)
+    (integer)
+    (function_body (integer)))
   (function_declaration
-    (function_head
-      (function_identifier (variable))
-      (string)
-      (string))
-    (function_body
-      (string)))
+    (variable_identifier)
+    (string)
+    (string)
+    (function_body (string)))
   (function_declaration
-    (function_head
-      (function_identifier (variable))
-      (char)
-      (char))
-    (function_body
-      (char)))
+    (variable_identifier)
+    (char)
+    (char)
+    (function_body (char)))
   (function_declaration
-    (function_head
-      (function_identifier (variable))
-      (float)
-      (float))
-    (function_body
-      (float))))
-
+    (variable_identifier)
+    (float)
+    (float)
+    (function_body (float))))
 
 =================================================
 Function Declarations With Field Labels
@@ -151,28 +155,24 @@ f Ex { a = 1, b = 2 } = 2
 
 (module
   (type_signature
-    (signature_identifier (variable))
-    (type_constructor (identifier))
-    (type_constructor (identifier)))
+    (variable_identifier)
+    (annotation)
+    (function_type
+      (type (type_constructor_identifier))
+      (type (type_constructor_identifier))))
   (function_declaration
-    (function_head
-      (function_identifier (variable))
-      (type_constructor
-        (identifier)
-        (fields
-          (field_label (variable) (integer)))))
-    (function_body
-      (integer)))
+    (variable_identifier)
+    (labeled_pattern
+      (constructor_identifier)
+      (field_pattern (variable_identifier) (integer)))
+    (function_body (integer)))
   (function_declaration
-    (function_head
-      (function_identifier (variable))
-      (type_constructor
-        (identifier)
-        (fields
-          (field_label (variable) (integer))
-          (field_label (variable) (integer)))))
-    (function_body
-      (integer))))
+    (variable_identifier)
+    (labeled_pattern
+      (constructor_identifier)
+      (field_pattern (variable_identifier) (integer))
+      (field_pattern (variable_identifier) (integer)))
+    (function_body (integer))))
 
 =================================================
 Function Declarations With Field Labels And @
@@ -182,19 +182,16 @@ f c@Ex { a = 1 } = c
 
 ---
 
-(module
+ (module
   (function_declaration
-    (function_head
-      (function_identifier (variable))
-      (as
-        (variable)
-        (type_constructor
-          (identifier)
-          (fields
-            (field_label (variable) (integer))))))
-    (function_body
-      (variable))))
-
+    (variable_identifier)
+    (as_pattern
+      (variable_identifier)
+      (labeled_pattern (constructor_identifier)
+      (field_pattern
+        (variable_identifier)
+        (integer))))
+  (function_body (variable_identifier))))
 
 =================================================
 Function Declarations With Parenthesized Pattern
@@ -210,48 +207,32 @@ f ([]) = 1
 
 (module
   (function_declaration
-    (function_head
-      (function_identifier (variable))
-      (parenthesized_expression
-        (integer)))
-    (function_body
-      (integer)))
+    (variable_identifier)
+    (parenthesized_pattern (integer))
+    (function_body (integer)))
   (function_declaration
-    (function_head
-      (function_identifier (variable))
-      (parenthesized_expression
-        (negative_literal
-          (integer))))
-      (function_body
-        (integer)))
+    (variable_identifier)
+    (parenthesized_pattern (negative_literal (integer)))
+    (function_body (integer)))
   (function_declaration
-    (function_head
-      (function_identifier (variable))
-      (parenthesized_expression
-        (type_constructor
-          (identifier)
-          (variable)
-          (variable)
-          (variable))))
-    (function_body
-      (variable)))
+    (variable_identifier)
+    (parenthesized_pattern
+      (constructor_identifier)
+      (variable_identifier)
+      (variable_identifier)
+      (variable_identifier))
+    (function_body (variable_identifier)))
   (function_declaration
-    (function_head
-      (function_identifier (variable))
-      (parenthesized_expression
-        (binary
-          (variable)
-          (constructor_symbol)
-          (variable))))
-    (function_body
-      (integer)))
+    (variable_identifier)
+    (parenthesized_pattern
+      (variable_identifier)
+      (constructor_operator)
+      (variable_identifier))
+    (function_body (integer)))
   (function_declaration
-    (function_head
-      (function_identifier (variable))
-      (parenthesized_expression
-        (type_constructor (list_constructor))))
-    (function_body
-      (integer))))
+    (variable_identifier)
+    (parenthesized_pattern (list_constructor))
+    (function_body (integer))))
 
 =================================================
 Function Declarations With Tuples
@@ -266,51 +247,33 @@ f (Left a, Right b, -(1)) = b
 
 (module
   (function_declaration
-    (function_head
-      (function_identifier (variable))
-      (tuple
-        (integer)
-        (integer)))
-    (function_body
-      (integer)))
+    (variable_identifier)
+    (tuple_pattern
+      (pattern (integer))
+      (pattern (integer)))
+    (function_body (integer)))
   (function_declaration
-    (function_head
-      (function_identifier (variable))
-      (tuple
-        (parenthesized_expression
-          (type_constructor
-            (identifier)
-            (integer)))
-        (type_constructor
-          (identifier)
-          (integer))))
+    (variable_identifier)
+    (tuple_pattern
+      (pattern (parenthesized_pattern (constructor_identifier) (integer)))
+      (pattern (constructor_identifier) (integer)))
     (function_body
       (function_application
-        (type_constructor (identifier))
+        (constructor_identifier)
         (integer))))
   (function_declaration
-    (function_head
-      (function_identifier (variable))
-      (tuple
-        (type_constructor
-          (identifier)
-          (variable))
-        (type_constructor (identifier))))
-    (function_body
-        (type_constructor (identifier))))
+    (variable_identifier)
+    (tuple_pattern
+      (pattern (constructor_identifier) (variable_identifier))
+      (pattern (constructor_identifier)))
+    (function_body (constructor_identifier)))
   (function_declaration
-    (function_head
-      (function_identifier (variable))
-      (tuple
-        (type_constructor
-          (identifier)
-          (variable))
-        (type_constructor
-          (identifier)
-          (variable))
-        (negative_literal (integer))))
-    (function_body
-      (variable))))
+    (variable_identifier)
+    (tuple_pattern
+      (pattern (constructor_identifier) (variable_identifier))
+      (pattern (constructor_identifier) (variable_identifier))
+      (pattern (negative_literal (integer))))
+    (function_body (variable_identifier))))
 
 =================================================
 Function Declarations With Lists
@@ -327,60 +290,46 @@ f (a:b:c:ds) = a
 
 (module
   (type_signature
-    (signature_identifier (variable))
-    (type_constructor (list_constructor (type_constructor (identifier))))
-    (type_constructor (identifier)))
+    (variable_identifier)
+    (annotation)
+    (function_type
+      (type (list_type (type_constructor_identifier)))
+      (type (type_constructor_identifier))))
   (function_declaration
-    (function_head
-      (function_identifier (variable))
-      (type_constructor (list_constructor)))
-    (function_body
-      (integer)))
+    (variable_identifier)
+    (list_constructor)
+    (function_body (integer)))
   (function_declaration
-    (function_head
-      (function_identifier (variable))
-      (list (variable)))
-    (function_body
-      (variable)))
+    (variable_identifier)
+    (list_pattern (pattern (variable_identifier)))
+    (function_body (variable_identifier)))
   (function_declaration
-    (function_head
-      (function_identifier (variable))
-      (parenthesized_expression
-        (binary
-          (variable)
-          (constructor_symbol)
-          (variable))))
-    (function_body
-      (variable)))
+    (variable_identifier)
+    (parenthesized_pattern
+      (variable_identifier)
+      (constructor_operator)
+      (variable_identifier))
+    (function_body (variable_identifier)))
   (function_declaration
-    (function_head
-      (function_identifier (variable))
-      (parenthesized_expression
-        (binary
-          (binary
-            (variable)
-            (constructor_symbol)
-            (variable))
-        (constructor_symbol)
-        (variable))))
-    (function_body
-      (variable)))
+    (variable_identifier)
+    (parenthesized_pattern
+      (variable_identifier)
+      (constructor_operator)
+      (variable_identifier)
+      (constructor_operator)
+      (variable_identifier))
+    (function_body (variable_identifier)))
   (function_declaration
-    (function_head
-      (function_identifier (variable))
-      (parenthesized_expression
-        (binary
-          (binary
-            (binary
-              (variable)
-              (constructor_symbol)
-              (variable))
-            (constructor_symbol)
-            (variable))
-          (constructor_symbol)
-          (variable))))
-    (function_body
-      (variable))))
+    (variable_identifier)
+    (parenthesized_pattern
+      (variable_identifier)
+      (constructor_operator)
+      (variable_identifier)
+      (constructor_operator)
+      (variable_identifier)
+      (constructor_operator)
+      (variable_identifier))
+    (function_body (variable_identifier))))
 
 =================================================
 Function Declarations With Irrefutable Pattern
@@ -394,31 +343,24 @@ f ~(~(a, b), c) = c
 
 (module
   (function_declaration
-    (function_head
-      (function_identifier (variable))
-      (irrefutable
-        (variable)))
-    (function_body
-      (integer)))
+    (variable_identifier)
+    (irrefutable_pattern (variable_identifier))
+    (function_body (integer)))
   (function_declaration
-    (function_head
-      (function_identifier (variable))
-      (irrefutable
-        (parenthesized_expression
-          (negative_literal
-            (integer)))))
-    (function_body
-      (integer)))
+    (variable_identifier)
+    (irrefutable_pattern (parenthesized_pattern (negative_literal (integer))))
+    (function_body (integer)))
   (function_declaration
-    (function_head
-      (function_identifier (variable))
-      (irrefutable
-        (tuple
-          (irrefutable
-            (tuple (variable) (variable)))
-            (variable))))
-    (function_body
-      (variable))))
+    (variable_identifier)
+    (irrefutable_pattern
+      (tuple_pattern
+        (pattern
+          (irrefutable_pattern
+            (tuple_pattern
+              (pattern (variable_identifier))
+              (pattern (variable_identifier)))))
+        (pattern (variable_identifier))))
+    (function_body (variable_identifier))))
 
 =================================================
 Function Declarations With Where
@@ -435,34 +377,25 @@ f a = c
 
 (module
   (function_declaration
-    (function_head
-      (function_identifier (variable))
-      (variable))
+    (variable_identifier)
+    (variable_identifier)
     (function_body
-      (variable)
+      (variable_identifier)
       (where
         (function_declaration
-          (function_head
-            (function_identifier (variable)))
-          (function_body
-            (variable))))))
+          (variable_identifier)
+          (function_body (variable_identifier))))))
   (function_declaration
-    (function_head
-      (function_identifier (variable))
-      (variable))
-    (function_body
-      (variable)
-      (where
-        (function_declaration
-          (function_head
-            (function_identifier (variable)))
-          (function_body
-            (variable)))
-        (function_declaration
-          (function_head
-            (function_identifier (variable)))
-          (function_body
-            (integer)))))))
+    (variable_identifier)
+    (variable_identifier)
+    (function_body (variable_identifier)
+    (where
+      (function_declaration
+        (variable_identifier)
+        (function_body (variable_identifier)))
+      (function_declaration
+        (variable_identifier)
+        (function_body (integer)))))))
 
 =================================================
 Function Declarations With Let
@@ -487,135 +420,111 @@ f = let { y :: Int;
 
 (module
   (function_declaration
-    (function_head
-      (function_identifier (variable)))
+    (variable_identifier)
     (function_body
-      (let
+      (let_expression
         (function_declaration
-          (function_head
-            (function_identifier (variable)))
-          (function_body
-            (variable)))
+          (variable_identifier)
+          (function_body (variable_identifier)))
         (function_declaration
-          (function_head
-            (function_identifier (variable)))
-          (function_body
-            (integer)))
-        (in_clause
-          (variable)))))
+          (variable_identifier)
+          (function_body (integer)))
+      (in_clause (variable_identifier)))))
   (function_declaration
-    (function_head
-      (function_identifier (variable)))
+    (variable_identifier)
     (function_body
-      (let
-        (function_declaration
-          (function_head
-            (function_identifier (variable)))
-          (function_body
-            (variable)))
-        (function_declaration
-          (function_head
-            (function_identifier (variable)))
-          (function_body
-            (integer)))
-        (in_clause
-          (variable)))))
+      (let_expression
+      (function_declaration
+        (variable_identifier)
+        (function_body (variable_identifier)))
+      (function_declaration
+        (variable_identifier)
+        (function_body (integer)))
+      (in_clause (variable_identifier)))))
   (function_declaration
-    (function_head
-      (function_identifier (variable)))
+    (variable_identifier)
     (function_body
-      (let
+      (let_expression
         (function_declaration
-          (function_head
-            (function_identifier (variable)))
-          (function_body
-            (variable)))
+          (variable_identifier)
+          (function_body (variable_identifier)))
         (type_signature
-          (signature_identifier (variable))
-          (type_constructor (identifier)))
+          (variable_identifier)
+          (annotation)
+          (type_constructor_identifier))
         (function_declaration
-          (function_head
-            (function_identifier (variable)))
-          (function_body
-            (integer)))
-        (in_clause
-          (variable)))))
+          (variable_identifier)
+          (function_body (integer)))
+    (in_clause (variable_identifier)))))
   (function_declaration
-    (function_head
-      (function_identifier (variable)))
-      (function_body
-        (let
-          (type_signature
-            (signature_identifier (variable))
-            (type_constructor (identifier)))
-          (function_declaration
-            (function_head (function_identifier (variable)))
-            (function_body (variable)))
-          (type_signature
-            (signature_identifier (variable))
-            (type_constructor (identifier)))
-          (function_declaration
-            (function_head (function_identifier (variable)))
-            (function_body (integer)))
-          (in_clause (variable))))))
+    (variable_identifier)
+    (function_body
+      (let_expression
+        (type_signature
+          (variable_identifier)
+          (annotation)
+          (type_constructor_identifier))
+        (function_declaration
+          (variable_identifier)
+          (function_body (variable_identifier)))
+        (type_signature
+          (variable_identifier)
+          (annotation)
+          (type_constructor_identifier))
+        (function_declaration
+          (variable_identifier)
+          (function_body (integer)))
+      (in_clause (variable_identifier))))))
 
 =================================================
 Function Declarations With Case
 =================================================
 
-f x = case x of
-  Just _ -> x
-    where x = True
+g x = case x of
+  Just a | a < 10, True, let b :: Int -> Int
+                             b x = x -> True
   Nothing -> False
 
-g x = case x of
-  Just a | a < 10, x, let b = x -> True
+f x = case x of
+  Just _ -> x where x = True
   Nothing -> False
 
 ---
 
 (module
   (function_declaration
-    (function_head
-      (function_identifier (variable))
-      (variable))
+    (variable_identifier)
+    (variable_identifier)
     (function_body
-      (case
-        (variable)
+      (case_expression (variable_identifier)
         (alternative
-          (type_constructor (identifier) (wildcard))
-          (variable)
-          (where
-            (function_declaration
-              (function_head (function_identifier (variable)))
-              (function_body (type_constructor (identifier))))))
+          (constructor_identifier) (variable_identifier)
+          (case_guard_pattern
+            (guard
+              (infix_operator_application
+                (variable_identifier) (variable_operator) (integer)))
+            (guard
+              (constructor_identifier))
+            (guard
+              (let_statement
+                (type_signature
+                  (variable_identifier) (annotation) (function_type (type (type_constructor_identifier)) (type (type_constructor_identifier))))
+                  (function_declaration (variable_identifier) (variable_identifier) (function_body (variable_identifier)))))
+            (constructor_identifier)))
         (alternative
-          (type_constructor (identifier))
-          (type_constructor (identifier))))))
+          (constructor_identifier) (constructor_identifier)))))
   (function_declaration
-    (function_head
-      (function_identifier (variable))
-      (variable))
+    (variable_identifier)
+    (variable_identifier)
     (function_body
-      (case
-        (variable)
+      (case_expression
+        (variable_identifier)
         (alternative
-          (type_constructor (identifier) (variable))
-          (guard
-            (binary
-              (variable)
-              (variable_symbol)
-              (integer)))
-          (guard (variable))
-          (guard
-            (let
-              (function_declaration
-                (function_head (function_identifier (variable)))
-                (function_body (variable)))))
-          (type_constructor (identifier)))
+          (constructor_identifier) (wildcard)
+          (variable_identifier) (where (function_declaration (variable_identifier) (function_body (constructor_identifier)))))
         (alternative
-          (type_constructor (identifier))
-          (type_constructor (identifier)))))))
+          (constructor_identifier) 
+          (constructor_identifier))))))
 
 =================================================
 Function Declarations With Guards
@@ -628,25 +537,17 @@ f x | x < 10, x > 2 = True
 
 (module
   (function_declaration
-    (function_head
-      (function_identifier (variable))
-      (variable))
-    (guard
-      (binary
-        (variable)
-        (variable_symbol)
-        (integer)))
-    (guard
-      (binary
-        (variable)
-        (variable_symbol)
-        (integer)))
-    (function_body
-      (type_constructor (identifier)))
-    (guard
-      (otherwise))
-    (function_body
-      (type_constructor (identifier)))))
+    (variable_identifier)
+    (variable_identifier)
+    (function_guard_pattern
+      (guard
+        (infix_operator_application (variable_identifier) (variable_operator) (integer)))
+      (guard
+        (infix_operator_application (variable_identifier) (variable_operator) (integer)))
+      (constructor_identifier))
+    (function_guard_pattern
+      (guard (variable_identifier))
+      (constructor_identifier))))
 
 =================================================
 Function Declarations With Do
@@ -661,19 +562,18 @@ f x = do
 
 (module
   (function_declaration
-    (function_head
-      (function_identifier (variable))
-      (variable))
+    (variable_identifier)
+    (variable_identifier)
     (function_body
       (do
-        (statement_list
-          (let
-            (function_declaration
-              (function_head
-                (function_identifier (variable)))
-              (function_body (variable))))
-          (binary (variable) (variable_symbol) (variable))
-          (function_application (variable) (variable)))))))
+        (let_statement
+          (function_declaration
+            (variable_identifier)
+            (function_body (variable_identifier))))
+        (bind_pattern
+          (variable_identifier)
+          (variable_identifier))
+        (function_application (variable_identifier) (variable_identifier))))))
 
 =================================================
 Function Declarations With Field Update
@@ -686,32 +586,34 @@ f y@(Example { a = a', b = b' }) = y { a = a' + 1, b = b' ++ " !" }
 
 (module
   (function_declaration
-    (function_head
-      (function_identifier (variable))
-      (as
-        (variable)
-        (type_constructor
-          (identifier))))
+    (variable_identifier)
+    (as_pattern (variable_identifier) (constructor_identifier))
     (function_body
-      (field_update
-        (variable)
-        (fields
-          (field_label (variable) (integer))
-          (field_label (variable) (integer))))))
+      (labeled_update
+        (variable_identifier)
+        (field_bind (variable_identifier) (integer))
+        (field_bind (variable_identifier) (integer)))))
   (function_declaration
-    (function_head
-      (function_identifier (variable))
-      (as
-        (variable)
-        (parenthesized_expression
-          (type_constructor
-            (identifier)
-            (fields
-              (field_label (variable) (variable))
-              (field_label (variable) (variable)))))))
+    (variable_identifier)
+    (as_pattern
+      (variable_identifier)
+      (parenthesized_pattern
+        (labeled_pattern
+          (constructor_identifier)
+          (field_pattern (variable_identifier) (variable_identifier))
+          (field_pattern (variable_identifier) (variable_identifier)))))
     (function_body
-      (field_update
-        (variable)
-        (fields
-          (field_label (variable) (binary (variable) (variable_symbol) (integer)))
-          (field_label (variable) (binary (variable) (variable_symbol) (string))))))))
+      (labeled_update
+        (variable_identifier)
+        (field_bind
+          (variable_identifier)
+          (infix_operator_application
+            (variable_identifier)
+            (variable_operator)
+            (integer)))
+        (field_bind
+          (variable_identifier)
+          (infix_operator_application
+            (variable_identifier)
+            (variable_operator)
+            (string)))))))

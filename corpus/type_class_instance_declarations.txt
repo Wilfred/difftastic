@@ -2,78 +2,103 @@
 Type Class Instance Declarations
 =========================================
 
-instance Show a where {}
-instance Show a b where {}
+instance Show Int where {}
+instance Show (Maybe a) where {}
+instance Show (a, b, c) where {}
+instance Show [a] where {}
+instance Show (a -> b) where {}
 
 ---
 
 (module
-  (type_class_instance (type_constructor (identifier) (variable)) (where))
-  (type_class_instance (type_constructor (identifier) (variable) (variable)) (where)))
+  (type_class_instance_declaration
+    (type_class_identifier)
+    (instance (type_constructor_identifier)) (where))
+  (type_class_instance_declaration
+    (type_class_identifier)
+    (instance (parenthesized_instance (type_constructor_identifier) (type_variable_identifier))) (where))
+  (type_class_instance_declaration
+    (type_class_identifier)
+    (instance (tuple_instance (type_variable_identifier) (type_variable_identifier) (type_variable_identifier))) (where))
+  (type_class_instance_declaration
+    (type_class_identifier)
+    (instance (list_instance (type_variable_identifier))) (where))
+  (type_class_instance_declaration
+    (type_class_identifier)
+    (instance (function_type_instance (type_variable_identifier) (type_variable_identifier))) (where)))
 
 =========================================
 Type Class Instance Declarations With Context
 =========================================
 
-instance Show a => Read a where {}
-instance (Show a, Eq a) => Read a where {}
-instance (Show (f a), Eq a) => Read f a where {}
+instance Show a => Read Int where {}
+instance Show a => Read (Maybe a) where {}
+instance (Show a, Eq a) => Read (Maybe a) where {}
 
 ---
 
 (module
-  (type_class_instance
-    (context (type_constructor (identifier) (variable)))
-    (type_constructor
-      (identifier)
-      (variable))
+  (type_class_instance_declaration
+    (scontext
+      (simple_class (type_class_identifier) (type_variable_identifier)))
+    (type_class_identifier)
+    (instance (type_constructor_identifier))
     (where))
-  (type_class_instance
-    (context
-      (type_constructor (identifier) (variable))
-      (type_constructor (identifier) (variable)))
-    (type_constructor
-      (identifier)
-      (variable))
+  (type_class_instance_declaration
+    (scontext (simple_class (type_class_identifier) (type_variable_identifier)))
+    (type_class_identifier)
+    (instance (parenthesized_instance (type_constructor_identifier) (type_variable_identifier)))
     (where))
-  (type_class_instance
-    (context
-      (type_constructor (identifier) (variable) (variable))
-      (type_constructor (identifier) (variable)))
-    (type_constructor
-      (identifier)
-      (variable)
-      (variable))
+  (type_class_instance_declaration
+    (scontext
+      (simple_class (type_class_identifier) (type_variable_identifier))
+      (simple_class (type_class_identifier) (type_variable_identifier)))
+    (type_class_identifier)
+    (instance (parenthesized_instance (type_constructor_identifier) (type_variable_identifier)))
     (where)))
 
 =========================================
 Type Class Instance Declarations With Body
 =========================================
 
-instance Foo a where
-  op :: Num b => a -> b -> a
-  op' :: (Num a, Num b) => Maybe a -> Either String b -> Maybe (Either String a)
+instance Foo Bar where
+  baz :: Num b => a -> b -> a
+  baz' :: (Num a, Num b) => Maybe a -> Either String b -> Maybe (Either String a)
 
 ---
 
 (module
-  (type_class_instance
-    (type_constructor
-      (identifier)
-      (variable))
+  (type_class_instance_declaration
+    (type_class_identifier)
+    (instance (type_constructor_identifier))
     (where
       (type_signature
-        (signature_identifier (variable))
-        (context (type_constructor (identifier) (variable)))
-        (variable)
-        (variable)
-        (variable))
+        (variable_identifier)
+        (annotation)
+        (context (class (constructor_identifier) (type_variable_identifier)))
+        (function_type
+          (type (type_variable_identifier))
+          (function_type
+            (type (type_variable_identifier))
+            (type (type_variable_identifier)))))
       (type_signature
-        (signature_identifier (variable))
+        (variable_identifier)
+        (annotation)
         (context
-          (type_constructor (identifier) (variable))
-          (type_constructor (identifier) (variable)))
-        (type_constructor (identifier) (variable))
-        (type_constructor (identifier) (identifier) (variable))
-        (type_constructor (identifier)
-          (type_constructor (identifier) (identifier) (variable)))))))
+          (class (constructor_identifier) (type_variable_identifier))
+          (class (constructor_identifier) (type_variable_identifier)))
+        (function_type
+          (type
+            (type_constructor_identifier)
+            (type_variable_identifier))
+          (function_type
+            (type
+              (type_constructor_identifier)
+              (type_constructor_identifier)
+              (type_variable_identifier))
+            (type
+              (type_constructor_identifier)
+              (parenthesized_constructor
+                (type_constructor_identifier)
+                (type_constructor_identifier)
+                (type_variable_identifier)))))))))
