@@ -468,7 +468,7 @@ module.exports = grammar({
       'for', '(',
       optional($.for_init), $._semicolon,
       optional($._expression), $._semicolon,
-      commaSep1($._expression), ')',
+      commaSep($._expression), ')',
       $._statement
     ),
 
