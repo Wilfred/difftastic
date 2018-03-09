@@ -402,6 +402,7 @@ guava/guava-tests/test/com/google/common/reflect/TypeTokenTest.java
 guava/guava-tests/test/com/google/common/reflect/SubtypeTester.java
 guava/guava-tests/test/com/google/common/reflect/TypeTokenResolutionTest.java
 guava/guava-tests/test/com/google/common/reflect/MutableTypeToInstanceMapTest.java
+guava/guava-tests/test/com/google/common/reflect/TypeTokenSubtypeTest.java
 guava/guava-tests/test/com/google/common/reflect/AndroidIncompatible.java
 guava/guava-tests/test/com/google/common/reflect/ImmutableTypeToInstanceMapTest.java
 guava/guava-tests/test/com/google/common/reflect/ClassPathTest.java
@@ -998,6 +999,7 @@ guava/android/guava-tests/test/com/google/common/reflect/TypeTokenTest.java
 guava/android/guava-tests/test/com/google/common/reflect/SubtypeTester.java
 guava/android/guava-tests/test/com/google/common/reflect/TypeTokenResolutionTest.java
 guava/android/guava-tests/test/com/google/common/reflect/MutableTypeToInstanceMapTest.java
+guava/android/guava-tests/test/com/google/common/reflect/TypeTokenSubtypeTest.java
 guava/android/guava-tests/test/com/google/common/reflect/AndroidIncompatible.java
 guava/android/guava-tests/test/com/google/common/reflect/ImmutableTypeToInstanceMapTest.java
 guava/android/guava-tests/test/com/google/common/reflect/ClassPathTest.java
