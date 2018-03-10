@@ -1597,10 +1597,6 @@
         }
       ]
     },
-    "variable_identifier": {
-      "type": "SYMBOL",
-      "name": "_variable_identifier"
-    },
     "_statement": {
       "type": "CHOICE",
       "members": [
@@ -3464,23 +3460,6 @@
         {
           "type": "SYMBOL",
           "name": "constructor_operator"
-        },
-        {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "STRING",
-              "value": "`"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "_variable"
-            },
-            {
-              "type": "STRING",
-              "value": "`"
-            }
-          ]
         }
       ]
     },
@@ -4823,6 +4802,10 @@
       "type": "PATTERN",
       "value": "[A-Z](\\w|')*"
     },
+    "variable_identifier": {
+      "type": "SYMBOL",
+      "name": "_variable_identifier"
+    },
     "type_variable_identifier": {
       "type": "SYMBOL",
       "name": "_variable_identifier"
@@ -4879,7 +4862,7 @@
         }
       ]
     },
-    "variable_operator": {
+    "variable_symbol": {
       "type": "TOKEN",
       "content": {
         "type": "SEQ",
@@ -5028,9 +5011,38 @@
         ]
       }
     },
-    "constructor_operator": {
-      "type": "PREC_RIGHT",
-      "value": 0,
+    "infix_variable_identifier": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "`"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_variable_identifier"
+        },
+        {
+          "type": "STRING",
+          "value": "`"
+        }
+      ]
+    },
+    "variable_operator": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "variable_symbol"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "infix_variable_identifier"
+        }
+      ]
+    },
+    "constructor_symbol": {
+      "type": "TOKEN",
       "content": {
         "type": "SEQ",
         "members": [
@@ -5041,12 +5053,103 @@
           {
             "type": "REPEAT",
             "content": {
-              "type": "SYMBOL",
-              "name": "_constructor_symbol"
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "!"
+                },
+                {
+                  "type": "STRING",
+                  "value": "#"
+                },
+                {
+                  "type": "STRING",
+                  "value": "$"
+                },
+                {
+                  "type": "STRING",
+                  "value": "%"
+                },
+                {
+                  "type": "STRING",
+                  "value": "&"
+                },
+                {
+                  "type": "STRING",
+                  "value": "⋆"
+                },
+                {
+                  "type": "STRING",
+                  "value": "+"
+                },
+                {
+                  "type": "STRING",
+                  "value": "."
+                },
+                {
+                  "type": "STRING",
+                  "value": "/"
+                },
+                {
+                  "type": "STRING",
+                  "value": "<"
+                },
+                {
+                  "type": "STRING",
+                  "value": ">"
+                },
+                {
+                  "type": "STRING",
+                  "value": "?"
+                },
+                {
+                  "type": "STRING",
+                  "value": "^"
+                },
+                {
+                  "type": "STRING",
+                  "value": "-"
+                },
+                {
+                  "type": "STRING",
+                  "value": ":"
+                }
+              ]
             }
           }
         ]
       }
+    },
+    "infix_constructor_identifier": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "`"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_constructor_identifier"
+        },
+        {
+          "type": "STRING",
+          "value": "`"
+        }
+      ]
+    },
+    "constructor_operator": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "constructor_symbol"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "infix_constructor_identifier"
+        }
+      ]
     },
     "_qualified_operator": {
       "type": "CHOICE",
@@ -5672,75 +5775,6 @@
           "value": ":"
         }
       ]
-    },
-    "_constructor_symbol": {
-      "type": "PREC",
-      "value": 1,
-      "content": {
-        "type": "CHOICE",
-        "members": [
-          {
-            "type": "STRING",
-            "value": "!"
-          },
-          {
-            "type": "STRING",
-            "value": "#"
-          },
-          {
-            "type": "STRING",
-            "value": "$"
-          },
-          {
-            "type": "STRING",
-            "value": "%"
-          },
-          {
-            "type": "STRING",
-            "value": "&"
-          },
-          {
-            "type": "STRING",
-            "value": "⋆"
-          },
-          {
-            "type": "STRING",
-            "value": "+"
-          },
-          {
-            "type": "STRING",
-            "value": "."
-          },
-          {
-            "type": "STRING",
-            "value": "/"
-          },
-          {
-            "type": "STRING",
-            "value": "<"
-          },
-          {
-            "type": "STRING",
-            "value": ">"
-          },
-          {
-            "type": "STRING",
-            "value": "?"
-          },
-          {
-            "type": "STRING",
-            "value": "^"
-          },
-          {
-            "type": "STRING",
-            "value": "-"
-          },
-          {
-            "type": "STRING",
-            "value": ":"
-          }
-        ]
-      }
     },
     "_special": {
       "type": "CHOICE",
