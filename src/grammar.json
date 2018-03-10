@@ -6119,6 +6119,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "identifier"
+        },
+        {
+          "type": "SYMBOL",
           "name": "_class_or_interface_type"
         },
         {
