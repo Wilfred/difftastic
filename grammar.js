@@ -118,6 +118,7 @@ module.exports = grammar({
     [$.module_identifier, $.qualified_module_identifier],
     [$.constructor_identifier, $.type_constructor_identifier, $.type_class_identifier],
     [$._expression, $.infix_operator_application],
+    [$.constructor_pattern, $._a_expression]
   ],
 
   rules: {
@@ -362,11 +363,13 @@ module.exports = grammar({
     _lpat: $ => choice(
       $._a_pattern,
       $.negative_literal,
-      seq(
-        $._general_constructor,
-        repeat1($._a_pattern),
-      )
+      $.constructor_pattern
     ),
+
+    constructor_pattern: $ => prec.left(seq(
+      $._general_constructor,
+      repeat1($._a_pattern),
+    )),
 
     labeled_pattern: $ => seq(
       choice($._qualified_constructor, $._constructor),

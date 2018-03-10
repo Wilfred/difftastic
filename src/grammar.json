@@ -1378,22 +1378,30 @@
           "name": "negative_literal"
         },
         {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "_general_constructor"
-            },
-            {
-              "type": "REPEAT1",
-              "content": {
-                "type": "SYMBOL",
-                "name": "_a_pattern"
-              }
-            }
-          ]
+          "type": "SYMBOL",
+          "name": "constructor_pattern"
         }
       ]
+    },
+    "constructor_pattern": {
+      "type": "PREC_LEFT",
+      "value": 0,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_general_constructor"
+          },
+          {
+            "type": "REPEAT1",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_a_pattern"
+            }
+          }
+        ]
+      }
     },
     "labeled_pattern": {
       "type": "SEQ",
@@ -1749,21 +1757,25 @@
       ]
     },
     "infix_operator_application": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "_lexp"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_qualified_operator"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_infix_expression"
-        }
-      ]
+      "type": "PREC_LEFT",
+      "value": 0,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_lexp"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_qualified_operator"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_infix_expression"
+          }
+        ]
+      }
     },
     "_lexp": {
       "type": "CHOICE",
@@ -6384,7 +6396,8 @@
       "infix_operator_application"
     ],
     [
-      "infix_operator_application"
+      "constructor_pattern",
+      "_a_expression"
     ]
   ],
   "externals": [
