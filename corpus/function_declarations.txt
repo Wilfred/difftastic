@@ -523,7 +523,7 @@ f x = case x of
           (constructor_identifier) (wildcard)
           (variable_identifier) (where (function_declaration (variable_identifier) (function_body (constructor_identifier)))))
         (alternative
-          (constructor_identifier) 
+          (constructor_identifier)
           (constructor_identifier))))))
 
 =================================================
