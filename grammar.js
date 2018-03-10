@@ -975,6 +975,7 @@ module.exports = grammar({
 
     _unann_type: $ => choice(
       $._primitive_type,
+      $.identifier,
       $._class_or_interface_type,
       $.array_type
     ),
