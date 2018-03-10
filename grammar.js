@@ -118,7 +118,6 @@ module.exports = grammar({
     [$.module_identifier, $.qualified_module_identifier],
     [$.constructor_identifier, $.type_constructor_identifier, $.type_class_identifier],
     [$._expression, $.infix_operator_application],
-    [$.infix_operator_application]
   ],
 
   rules: {
@@ -444,11 +443,11 @@ module.exports = grammar({
       $.infix_operator_application
     ),
 
-    infix_operator_application: $ => seq(
+    infix_operator_application: $ => prec.left(seq(
       $._lexp,
       $._qualified_operator,
       $._infix_expression
-    ),
+    )),
 
     _lexp: $ => choice(
       $.lambda,
