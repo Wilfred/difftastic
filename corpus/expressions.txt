@@ -244,7 +244,7 @@ parseJSON (JSON.Object r) = IncPK <$>
   (where
     (function_declaration
       (variable_identifier)
-      (parenthesized_pattern (qualified_constructor_identifier (module_identifier) (constructor_identifier)) (variable_identifier))
+      (parenthesized_pattern (constructor_pattern (qualified_constructor_identifier (module_identifier) (constructor_identifier)) (variable_identifier)))
       (function_body
         (infix_operator_application
           (constructor_identifier)

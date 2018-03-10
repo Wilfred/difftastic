@@ -42,8 +42,9 @@ f (Ex 1) = Ex 1
   (function_declaration
     (variable_identifier)
     (parenthesized_pattern
-      (constructor_identifier)
-      (integer))
+      (constructor_pattern
+        (constructor_identifier)
+        (integer)))
     (function_body
       (function_application
         (constructor_identifier)
@@ -217,10 +218,11 @@ f ([]) = 1
   (function_declaration
     (variable_identifier)
     (parenthesized_pattern
-      (constructor_identifier)
-      (variable_identifier)
-      (variable_identifier)
-      (variable_identifier))
+      (constructor_pattern
+        (constructor_identifier)
+        (variable_identifier)
+        (variable_identifier)
+        (variable_identifier)))
     (function_body (variable_identifier)))
   (function_declaration
     (variable_identifier)
@@ -255,8 +257,8 @@ f (Left a, Right b, -(1)) = b
   (function_declaration
     (variable_identifier)
     (tuple_pattern
-      (pattern (parenthesized_pattern (constructor_identifier) (integer)))
-      (pattern (constructor_identifier) (integer)))
+      (pattern (parenthesized_pattern (constructor_pattern (constructor_identifier) (integer))))
+      (pattern (constructor_pattern (constructor_identifier) (integer))))
     (function_body
       (function_application
         (constructor_identifier)
@@ -264,14 +266,14 @@ f (Left a, Right b, -(1)) = b
   (function_declaration
     (variable_identifier)
     (tuple_pattern
-      (pattern (constructor_identifier) (variable_identifier))
+      (pattern (constructor_pattern (constructor_identifier) (variable_identifier)))
       (pattern (constructor_identifier)))
     (function_body (constructor_identifier)))
   (function_declaration
     (variable_identifier)
     (tuple_pattern
-      (pattern (constructor_identifier) (variable_identifier))
-      (pattern (constructor_identifier) (variable_identifier))
+      (pattern (constructor_pattern (constructor_identifier) (variable_identifier)))
+      (pattern (constructor_pattern (constructor_identifier) (variable_identifier)))
       (pattern (negative_literal (integer))))
     (function_body (variable_identifier))))
 
@@ -498,7 +500,7 @@ f x = case x of
     (function_body
       (case_expression (variable_identifier)
         (alternative
-          (constructor_identifier) (variable_identifier)
+          (constructor_pattern (constructor_identifier) (variable_identifier))
           (case_guard_pattern
             (guard
               (infix_operator_application
@@ -527,7 +529,7 @@ f x = case x of
       (case_expression
         (variable_identifier)
         (alternative
-          (constructor_identifier) (wildcard)
+          (constructor_pattern (constructor_identifier) (wildcard))
           (variable_identifier) (where (function_declaration (variable_identifier) (function_body (constructor_identifier)))))
         (alternative
           (constructor_identifier)
