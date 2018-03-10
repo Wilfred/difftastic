@@ -226,7 +226,7 @@ f ([]) = 1
     (variable_identifier)
     (parenthesized_pattern
       (variable_identifier)
-      (constructor_operator)
+      (constructor_operator (constructor_symbol))
       (variable_identifier))
     (function_body (integer)))
   (function_declaration
@@ -307,27 +307,27 @@ f (a:b:c:ds) = a
     (variable_identifier)
     (parenthesized_pattern
       (variable_identifier)
-      (constructor_operator)
+      (constructor_operator (constructor_symbol))
       (variable_identifier))
     (function_body (variable_identifier)))
   (function_declaration
     (variable_identifier)
     (parenthesized_pattern
       (variable_identifier)
-      (constructor_operator)
+      (constructor_operator (constructor_symbol))
       (variable_identifier)
-      (constructor_operator)
+      (constructor_operator (constructor_symbol))
       (variable_identifier))
     (function_body (variable_identifier)))
   (function_declaration
     (variable_identifier)
     (parenthesized_pattern
       (variable_identifier)
-      (constructor_operator)
+      (constructor_operator (constructor_symbol))
       (variable_identifier)
-      (constructor_operator)
+      (constructor_operator (constructor_symbol))
       (variable_identifier)
-      (constructor_operator)
+      (constructor_operator (constructor_symbol))
       (variable_identifier))
     (function_body (variable_identifier))))
 
@@ -502,14 +502,21 @@ f x = case x of
           (case_guard_pattern
             (guard
               (infix_operator_application
-                (variable_identifier) (variable_operator) (integer)))
+                (variable_identifier) (variable_operator (variable_symbol)) (integer)))
             (guard
               (constructor_identifier))
             (guard
               (let_statement
                 (type_signature
-                  (variable_identifier) (annotation) (function_type (type (type_constructor_identifier)) (type (type_constructor_identifier))))
-                  (function_declaration (variable_identifier) (variable_identifier) (function_body (variable_identifier)))))
+                  (variable_identifier)
+                  (annotation)
+                  (function_type
+                    (type (type_constructor_identifier))
+                    (type (type_constructor_identifier))))
+                  (function_declaration
+                    (variable_identifier)
+                    (variable_identifier)
+                    (function_body (variable_identifier)))))
             (constructor_identifier)))
         (alternative
           (constructor_identifier) (constructor_identifier)))))
@@ -541,9 +548,9 @@ f x | x < 10, x > 2 = True
     (variable_identifier)
     (function_guard_pattern
       (guard
-        (infix_operator_application (variable_identifier) (variable_operator) (integer)))
+        (infix_operator_application (variable_identifier) (variable_operator (variable_symbol)) (integer)))
       (guard
-        (infix_operator_application (variable_identifier) (variable_operator) (integer)))
+        (infix_operator_application (variable_identifier) (variable_operator (variable_symbol)) (integer)))
       (constructor_identifier))
     (function_guard_pattern
       (guard (variable_identifier))
@@ -609,11 +616,11 @@ f y@(Example { a = a', b = b' }) = y { a = a' + 1, b = b' ++ " !" }
           (variable_identifier)
           (infix_operator_application
             (variable_identifier)
-            (variable_operator)
+            (variable_operator (variable_symbol))
             (integer)))
         (field_bind
           (variable_identifier)
           (infix_operator_application
             (variable_identifier)
-            (variable_operator)
+            (variable_operator (variable_symbol))
             (string)))))))
