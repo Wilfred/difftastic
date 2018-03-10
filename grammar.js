@@ -58,6 +58,24 @@ const
     '*',
     '=',
     ':'
+  ),
+
+  constructor_symbol = choice(
+    '!',
+    '#',
+    '$',
+    '%',
+    '&',
+    '⋆',
+    '+',
+    '.',
+    '/',
+    '<',
+    '>',
+    '?',
+    '^',
+    '-',
+    ':'
   )
 
 module.exports = grammar({
@@ -386,8 +404,6 @@ module.exports = grammar({
     list_constructor: $ => seq('[', ']'),
     function_constructor: $ => seq('(', '->', ')'),
     tupling_constructor: $ => seq('(', ',', repeat(','), ')'),
-
-    variable_identifier: $ => $._variable_pattern,
 
     _statement: $ => choice(
       seq(
@@ -829,12 +845,7 @@ module.exports = grammar({
 
     _op: $ => choice(
       $.variable_operator,
-      $.constructor_operator,
-      seq(
-        '`',
-        $._variable,
-        '`'
-      )
+      $.constructor_operator
     ),
 
     type_signature: $ => seq(
@@ -1145,17 +1156,41 @@ module.exports = grammar({
       $.variable_operator
     ),
 
-//    variable_operator: $ => $._variable_operator,
+    variable_symbol: $ => token(
+      seq(
+        variable_symbol,
+        repeat(restricted_variable_symbol)
+      )
+    ),
 
-    variable_operator: $ => token(seq(
-      variable_symbol,
-      repeat(restricted_variable_symbol)
-    )),
+    infix_variable_identifier: $ => seq(
+      '`',
+      $._variable_identifier,
+      '`'
+    ),
 
-    constructor_operator: $ => prec.right(seq(
-      ':',
-      repeat($._constructor_symbol)
-    )),
+    variable_operator: $ => choice(
+      $.variable_symbol,
+      $.infix_variable_identifier
+    ),
+
+    constructor_symbol: $ => token(
+      seq(
+        ':',
+        repeat(constructor_symbol)
+      )
+    ),
+
+    infix_constructor_identifier: $ => seq(
+      '`',
+      $._constructor_identifier,
+      '`'
+    ),
+
+    constructor_operator: $ => choice(
+      $.constructor_symbol,
+      $.infix_constructor_identifier
+    ),
 
     _qualified_operator: $ => choice(
       $.qualified_variable_operator,
@@ -1298,24 +1333,6 @@ module.exports = grammar({
       '=',
       ':'
     ),
-
-    _constructor_symbol: $ => prec(1, choice(
-      '!',
-      '#',
-      '$',
-      '%',
-      '&',
-      '⋆',
-      '+',
-      '.',
-      '/',
-      '<',
-      '>',
-      '?',
-      '^',
-      '-',
-      ':'
-    )),
 
     _special: $ => choice(
       '(',

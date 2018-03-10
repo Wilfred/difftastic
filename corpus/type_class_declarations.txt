@@ -92,14 +92,14 @@ class Foo a where
     (type_class_identifier)
     (type_variable_identifier)
     (where
-      (fixity_declaration (variable_identifier))
-      (fixity_declaration (integer) (variable_identifier))
-      (fixity_declaration (integer) (variable_identifier) (variable_identifier) (variable_identifier))
-      (fixity_declaration (variable_operator))
-      (fixity_declaration (integer) (variable_operator))
-      (fixity_declaration (integer) (constructor_operator))
-      (fixity_declaration (integer) (constructor_operator))
-      (fixity_declaration (integer) (constructor_operator)))))
+      (fixity_declaration (variable_operator (infix_variable_identifier)))
+      (fixity_declaration (integer) (variable_operator (infix_variable_identifier)))
+      (fixity_declaration (integer) (variable_operator (infix_variable_identifier)) (variable_operator (infix_variable_identifier)) (variable_operator (infix_variable_identifier)))
+      (fixity_declaration (variable_operator (variable_symbol)))
+      (fixity_declaration (integer) (variable_operator (variable_symbol)))
+      (fixity_declaration (integer) (constructor_operator (constructor_symbol)))
+      (fixity_declaration (integer) (constructor_operator (constructor_symbol)))
+      (fixity_declaration (integer) (constructor_operator (constructor_symbol))))))
 
 =========================================
 Type Class Declarations With Multiple Operators
@@ -128,10 +128,10 @@ class  (Eq a) => Ord a where
             (type (type_variable_identifier))
             (type (type_constructor_identifier)))))
       (type_signature
-        (variable_operator)
-        (variable_operator)
-        (variable_operator)
-        (variable_operator)
+        (variable_operator (variable_symbol))
+        (variable_operator (variable_symbol))
+        (variable_operator (variable_symbol))
+        (variable_operator (variable_symbol))
         (annotation)
         (function_type
           (type (type_variable_identifier))
