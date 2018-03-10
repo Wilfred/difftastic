@@ -199,10 +199,10 @@ a = (:< a)
   (where
     (function_declaration
       (variable_identifier)
-      (function_body (right_operator_section (constructor_operator) (variable_identifier))))
+      (function_body (right_operator_section (constructor_operator (constructor_symbol)) (variable_identifier))))
     (function_declaration
       (variable_identifier)
-      (function_body (right_operator_section (constructor_operator) (variable_identifier))))))
+      (function_body (right_operator_section (constructor_operator (constructor_symbol)) (variable_identifier))))))
 
 ===============================
 Left Operator Sections
@@ -220,11 +220,11 @@ a = (a :<)
     (function_declaration
       (variable_identifier)
       (function_body
-        (left_operator_section (variable_identifier) (constructor_operator))))
+        (left_operator_section (variable_identifier) (constructor_operator (constructor_symbol)))))
     (function_declaration
       (variable_identifier)
       (function_body
-        (left_operator_section (variable_identifier) (constructor_operator))))))
+        (left_operator_section (variable_identifier) (constructor_operator (constructor_symbol)))))))
 
 ===============================
 Binary Operators
@@ -248,26 +248,26 @@ parseJSON (JSON.Object r) = IncPK <$>
       (function_body
         (infix_operator_application
           (constructor_identifier)
-          (variable_operator)
+          (variable_operator (variable_symbol))
           (infix_operator_application
             (variable_identifier)
-            (variable_operator)
+            (variable_operator (variable_symbol))
             (infix_operator_application
               (string)
-              (variable_operator)
+              (variable_operator (variable_symbol))
               (infix_operator_application
                 (variable_identifier)
-                (variable_operator)
+                (variable_operator (variable_symbol))
                 (infix_operator_application
                   (string)
-                  (variable_operator)
+                  (variable_operator (variable_symbol))
                   (infix_operator_application
                     (variable_identifier)
-                    (variable_operator)
+                    (variable_operator (variable_symbol))
                     (infix_operator_application
                       (string)
-                      (variable_operator)
+                      (variable_operator (variable_symbol))
                       (infix_operator_application
                         (variable_identifier)
-                        (variable_operator)
+                        (variable_operator (variable_symbol))
                         (string)))))))))))))

@@ -36,10 +36,10 @@ import Control.Comonad.Cofree ((:<))
         (import (type_constructor_identifier) (all_constructors))))
     (import_declaration
       (qualified_module_identifier (module_identifier) (module_identifier))
-      (import_spec (import (variable_operator))))
+      (import_spec (import (variable_operator (variable_symbol)))))
     (import_declaration
       (qualified_module_identifier (module_identifier) (module_identifier) (module_identifier))
-      (import_spec (import (constructor_operator))))))
+      (import_spec (import (constructor_operator (constructor_symbol)))))))
 
 =========================================
 Import Declaration With Variable Identifiers
