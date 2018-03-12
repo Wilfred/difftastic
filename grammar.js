@@ -1204,6 +1204,13 @@ module.exports = grammar({
 
     _variable_identifier: $ => /[_a-z](\w|')*/,
 
+    no_inline_pragma: $ => seq(
+      seq('{-#'),
+      'NOINLINE',
+      choice($._qualified_variable, $._variable),
+      seq('#-}')
+    ),
+
     specialization_pragma: $ => seq(
       seq('{-#'),
       'SPECIALIZE',
