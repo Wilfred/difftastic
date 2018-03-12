@@ -274,7 +274,8 @@ module.exports = grammar({
 
     _declaration: $ => choice(
       $._general_declaration,
-      $.function_declaration
+      $.function_declaration,
+      $._pragma
     ),
 
     _top_declaration: $ => choice(
@@ -1203,6 +1204,12 @@ module.exports = grammar({
     ),
 
     _variable_identifier: $ => /[_a-z](\w|')*/,
+
+    _pragma: $ => choice(
+      $.inline_pragma,
+      $.no_inline_pragma,
+      $.specialization_pragma
+    ),
 
     inline_pragma: $ => seq(
       seq('{-#'),
