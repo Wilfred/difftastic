@@ -124,12 +124,13 @@ module.exports = grammar({
   rules: {
     module: $ => choice(
       seq(
+        repeat($.language_pragma),
         'module',
         choice($.qualified_module_identifier, $.module_identifier),
         optional($.module_exports),
         alias($._top_where, $.where)
       ),
-      repeat(seq($._top_declaration, choice(';', $._layout_semicolon)))
+      repeat(seq(optional(repeat($.language_pragma)), $._top_declaration, choice(';', $._layout_semicolon)))
     ),
 
     _top_declarations: $ => choice(
@@ -1202,6 +1203,15 @@ module.exports = grammar({
     ),
 
     _variable_identifier: $ => /[_a-z](\w|')*/,
+
+    language_pragma: $ => seq(
+      seq('{-#'),
+      'LANGUAGE',
+      sep1(',', $.language_name),
+      seq('#-}')
+    ),
+
+    language_name: $ => /[A-Z](\w|')*/,
 
     comment: $ => token(choice(
       seq('--', /.*/),
