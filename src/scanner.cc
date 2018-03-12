@@ -155,9 +155,12 @@ struct Scanner {
         }
         return false;
       } else {
-        if (lexer->lookahead == '-' || lexer->lookahead == '{') {
+        if (lexer->lookahead == '{') {
           advance(lexer);
-          next_token_is_comment = lexer->lookahead == '-';
+          if (lexer->lookahead == '-') {
+            advance(lexer);
+            next_token_is_comment = iswspace(lexer->lookahead);
+          }
         }
         break;
       }
