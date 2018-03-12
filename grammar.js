@@ -1250,7 +1250,8 @@ module.exports = grammar({
     comment: $ => token(choice(
       seq('--', /.*/),
       seq(
-        /{-.*\r?\n/,
+        '{-',
+        /[^#].*\r?\n/,
         repeat(choice(
           /[^-]/,
           /-[^}]/
