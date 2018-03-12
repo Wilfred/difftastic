@@ -169,6 +169,7 @@ struct Scanner {
     if (!next_token_is_comment) {
       if (indent_length < indent_length_stack.back()) {
         indent_length_stack.pop_back();
+        queued_close_brace_count++;
         while (indent_length < indent_length_stack.back()) {
           indent_length_stack.pop_back();
           queued_close_brace_count++;
@@ -178,7 +179,6 @@ struct Scanner {
           lexer->result_symbol = LAYOUT_CLOSE_BRACE;
           return true;
         } else {
-          queued_close_brace_count++;
           if (valid_symbols[LAYOUT_SEMICOLON]) {
             lexer->result_symbol = LAYOUT_SEMICOLON;
             return true;
