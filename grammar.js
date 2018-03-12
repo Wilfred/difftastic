@@ -1204,6 +1204,19 @@ module.exports = grammar({
 
     _variable_identifier: $ => /[_a-z](\w|')*/,
 
+    specialization_pragma: $ => seq(
+      seq('{-#'),
+      'SPECIALIZE',
+      sep1(',', $.spec),
+      seq('#-}')
+    ),
+
+    spec: $ => seq(
+      sep1(',', $._variable),
+      '::',
+      $._type
+    ),
+
     language_pragma: $ => seq(
       seq('{-#'),
       'LANGUAGE',
