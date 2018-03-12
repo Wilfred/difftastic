@@ -1,0 +1,102 @@
+=========================================
+Inline Pragmas
+=========================================
+
+factorial :: Num a => a -> a
+factorial 0 = 0
+factorial n = n * factorial (n-1)
+{-# INLINE factorial #-}
+
+---
+
+(module
+  (type_signature
+    (variable_identifier)
+    (annotation)
+    (context
+      (class (constructor_identifier) (type_variable_identifier)))
+      (function_type
+        (type (type_variable_identifier))
+        (type (type_variable_identifier))))
+  (function_declaration (variable_identifier) (integer)
+    (function_body (integer)))
+  (function_declaration (variable_identifier) (variable_identifier)
+    (function_body
+      (infix_operator_application (variable_identifier) (variable_operator (variable_symbol))
+      (function_application
+        (variable_identifier)
+        (parenthesized_expression (infix_operator_application (variable_identifier) (variable_operator (variable_symbol)) (integer)))))))
+  (inline_pragma (variable_identifier)))
+
+=========================================
+No Inline Pragmas
+=========================================
+
+factorial :: Num a => a -> a
+factorial 0 = 0
+factorial n = n * factorial (n-1)
+{-# NOINLINE factorial #-}
+
+---
+
+(module
+  (type_signature
+    (variable_identifier)
+    (annotation)
+    (context
+      (class (constructor_identifier) (type_variable_identifier)))
+      (function_type
+        (type (type_variable_identifier))
+        (type (type_variable_identifier))))
+  (function_declaration (variable_identifier) (integer)
+    (function_body (integer)))
+  (function_declaration (variable_identifier) (variable_identifier)
+    (function_body
+      (infix_operator_application (variable_identifier) (variable_operator (variable_symbol))
+      (function_application
+        (variable_identifier)
+        (parenthesized_expression (infix_operator_application (variable_identifier) (variable_operator (variable_symbol)) (integer)))))))
+  (no_inline_pragma (variable_identifier)))
+
+=========================================
+Specialization Pragmas
+=========================================
+
+factorial :: Num a => a -> a
+factorial 0 = 0
+factorial n = n ⋆ factorial (n-1)
+{-# SPECIALIZE factorial :: Int -> Int,
+               factorial :: Integer -> Integer #-}
+
+---
+
+(module
+  (type_signature
+    (variable_identifier)
+    (annotation)
+    (context
+      (class (constructor_identifier) (type_variable_identifier)))
+      (function_type
+        (type (type_variable_identifier))
+        (type (type_variable_identifier))))
+  (function_declaration (variable_identifier) (integer)
+    (function_body (integer)))
+  (function_declaration (variable_identifier) (variable_identifier)
+    (function_body
+      (infix_operator_application (variable_identifier) (variable_operator (variable_symbol))
+      (function_application
+        (variable_identifier)
+        (parenthesized_expression (infix_operator_application (variable_identifier) (variable_operator (variable_symbol)) (integer)))))))
+  (specialization_pragma
+    (spec
+      (variable_identifier)
+      (annotation)
+      (function_type
+        (type (type_constructor_identifier))
+        (type (type_constructor_identifier))))
+    (spec
+      (variable_identifier)
+      (annotation)
+      (function_type
+        (type (type_constructor_identifier))
+        (type (type_constructor_identifier))))))
