@@ -1234,8 +1234,8 @@ module.exports = grammar({
 
     spec: $ => seq(
       sep1(',', $._variable),
-      '::',
-      $._type
+      alias('::', $.annotation),
+      choice($._type, $.function_type)
     ),
 
     language_pragma: $ => seq(
