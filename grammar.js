@@ -130,7 +130,10 @@ module.exports = grammar({
         optional($.module_exports),
         alias($._top_where, $.where)
       ),
-      repeat(seq(optional(repeat($.language_pragma)), $._top_declaration, choice(';', $._layout_semicolon)))
+      seq(
+        repeat($.language_pragma),
+        repeat(seq($._top_declaration, choice(';', $._layout_semicolon)))
+      )
     ),
 
     _top_declarations: $ => choice(

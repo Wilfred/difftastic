@@ -100,3 +100,33 @@ factorial n = n ⋆ factorial (n-1)
       (function_type
         (type (type_constructor_identifier))
         (type (type_constructor_identifier))))))
+
+=========================================
+Language Pragmas Without Module
+=========================================
+
+{-# LANGUAGE LambdaCase #-}
+{-# LANGUAGE ScopedTypeVariables, DataKinds #-}
+
+---
+
+(module
+  (language_pragma (language_name))
+  (language_pragma (language_name) (language_name)))
+
+=========================================
+Language Pragmas With Module
+=========================================
+
+{-# LANGUAGE LambdaCase #-}
+{-# LANGUAGE ScopedTypeVariables, DataKinds #-}
+
+module A where
+
+---
+
+(module
+  (language_pragma (language_name))
+  (language_pragma (language_name) (language_name))
+  (module_identifier)
+  (where))
