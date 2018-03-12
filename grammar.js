@@ -764,7 +764,7 @@ module.exports = grammar({
       choice(
         seq(
           '{',
-          repeat1($._statement),
+          repeat($._statement),
           '}'
         ),
         seq(
