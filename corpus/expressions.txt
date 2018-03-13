@@ -274,8 +274,23 @@ f = do
                       (infix_operator_application
                         (variable_identifier)
                         (variable_operator (variable_symbol))
-                        (string)))))))))))))
-
+                        (string)))))))))))
+    (function_declaration
+      (variable_identifier)
+      (function_body
+        (do
+          (bind_pattern
+            (variable_identifier)
+            (infix_operator_application
+              (variable_identifier)
+              (variable_operator (variable_symbol))
+              (variable_identifier)))
+          (bind_pattern
+            (variable_identifier)
+            (infix_operator_application
+              (variable_identifier)
+              (variable_operator (variable_symbol))
+              (variable_identifier))))))))
 
 ===============================
 Lambda Abstractions
