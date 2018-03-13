@@ -631,6 +631,12 @@ module.exports = grammar({
       $.fields
     ),
 
+    fields: $ => seq(
+      '{',
+      sep1(',', choice($.field, $.field_label)),
+      '}'
+    ),
+
     field_label: $ => seq(
       $._variable,
       '=',
@@ -1441,11 +1447,6 @@ module.exports = grammar({
     _octal_literal:   $ => token(octalLiteral),
     _hexidecimal_literal: $ => token(hexLiteral),
 
-    fields: $ => seq(
-      '{',
-      sep1(',', choice($.field, $.field_label)),
-      '}'
-    )
   }
 })
 
