@@ -37,28 +37,11 @@ const
     '?',
     '^',
     '-',
-    '*'
+    '*',
+    '='
   ),
 
-  restricted_variable_symbol = choice(
-    '!',
-    '#',
-    '$',
-    '%',
-    '&',
-    '⋆',
-    '+',
-    '.',
-    '/',
-    '<',
-    '>',
-    '?',
-    '^',
-    '-',
-    '*',
-    '=',
-    ':'
-  ),
+  restricted_variable_symbol = ':',
 
   constructor_symbol = choice(
     '!',
@@ -1181,7 +1164,7 @@ module.exports = grammar({
     variable_symbol: $ => token(
       seq(
         variable_symbol,
-        repeat(restricted_variable_symbol)
+        repeat(choice(restricted_variable_symbol, variable_symbol))
       )
     ),
 
