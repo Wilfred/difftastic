@@ -340,7 +340,7 @@ class Quack {
 
 ---
 
-(program (class_declaration (modifier (single_element_annotation (identifier) (scoped_identifier (identifier) (identifier)))) (modifier (single_element_annotation (identifier) (element_value (string_literal)))) (identifier) (class_body)))
+(program (class_declaration (modifier (single_element_annotation (identifier) (element_value (scoped_identifier (identifier) (identifier))))) (modifier (single_element_annotation (identifier) (element_value (string_literal)))) (identifier) (class_body))) 
 
 ===
 lambda expression

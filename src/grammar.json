@@ -3614,6 +3614,10 @@
           },
           {
             "type": "SYMBOL",
+            "name": "_ambiguous_name"
+          },
+          {
+            "type": "SYMBOL",
             "name": "element_value_array_initializer"
           },
           {
