@@ -281,6 +281,10 @@ f = \ x -> x
 
 f = \ (Just a) -> a
 
+f = \ x -> x : a : xs
+
+f = \ g a b -> g <$> a <*> b
+
 ---
 
 (module
@@ -296,4 +300,32 @@ f = \ (Just a) -> a
     (function_body
       (lambda
         (parenthesized_pattern (constructor_pattern (constructor_identifier) (variable_identifier)))
-        (lambda_body (variable_identifier))))))
+        (lambda_body (variable_identifier)))))
+  (function_declaration
+    (variable_identifier)
+    (function_body
+      (lambda
+        (variable_identifier)
+        (lambda_body
+          (infix_operator_application
+            (variable_identifier)
+            (constructor_operator (constructor_symbol))
+            (infix_operator_application
+              (variable_identifier)
+              (constructor_operator (constructor_symbol))
+              (variable_identifier)))))))
+  (function_declaration
+    (variable_identifier)
+    (function_body
+      (lambda
+        (variable_identifier)
+        (variable_identifier)
+        (variable_identifier)
+        (lambda_body
+          (infix_operator_application
+            (variable_identifier)
+            (variable_operator (variable_symbol))
+            (infix_operator_application
+              (variable_identifier)
+              (variable_operator (variable_symbol))
+              (variable_identifier))))))))
