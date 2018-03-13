@@ -506,7 +506,7 @@ module.exports = grammar({
       '[',
       $._expression,
       '|',
-      sep1(',', choice(prec.dynamic(1, $.generator), $._expression, $.let_expression)),
+      sep1(',', choice(prec.dynamic(1, $.generator), $._expression)),
       ']'
     ),
 
