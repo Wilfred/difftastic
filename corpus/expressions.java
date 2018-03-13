@@ -340,7 +340,7 @@ class Quack {
 
 ---
 
-(program (class_declaration (modifier (single_element_annotation (identifier) (scoped_identifier (identifier) (identifier)))) (modifier (single_element_annotation (identifier) (element_value (string_literal)))) (identifier) (class_body))) 
+(program (class_declaration (modifier (single_element_annotation (identifier) (scoped_identifier (identifier) (identifier)))) (modifier (single_element_annotation (identifier) (element_value (string_literal)))) (identifier) (class_body)))
 
 ===
 lambda expression
@@ -525,3 +525,13 @@ class someClass <T> {
                         (type_argument
                           (type_identifier))
                       (identifier))))))))))
+
+===
+empty type arguments
+===
+
+Box<Integer> integerBox = new Box<>();
+
+---
+
+(program (binary_expression (binary_expression (identifier) (identifier)) (assignment_expression (lhs (identifier)) (class_instance_creation_expression (unqualified_class_instance_creation_expression (generic_type (type_identifier)))))))

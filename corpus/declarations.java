@@ -81,8 +81,11 @@ module with single element annotation
   (module_declaration
     (single_element_annotation
       (identifier)
-      (string_literal))
-    (scoped_identifier (identifier) (identifier))))
+    (element_value
+      (string_literal)))
+    (scoped_identifier
+      (identifier)
+      (identifier))))
 
 ===
 package_declaration

@@ -38,26 +38,4 @@ class Beyonce {
 
 ---
 
-(program
-  (class_declaration
-    (identifier)
-      (class_body
-        (method_declaration
-          (method_header
-            (integral_type)
-            (method_declarator
-              (identifier)))
-          (method_body
-            (block
-              (constant_declaration
-                (floating_point_type)
-                (variable_declarator_list
-                  (variable_declarator
-                    (variable_declarator_id
-                      (identifier)))))
-              (constant_declaration
-                (floating_point_type)
-                (variable_declarator_list
-                  (variable_declarator
-                    (variable_declarator_id
-                      (identifier)))))))))))
+(program (class_declaration (identifier) (class_body (method_declaration (method_header (integral_type) (method_declarator (identifier))) (method_body (block (constant_declaration (floating_point_type) (variable_declarator_list (variable_declarator (variable_declarator_id (identifier))))) (constant_declaration (floating_point_type) (variable_declarator_list (variable_declarator (variable_declarator_id (identifier))))))))))) 

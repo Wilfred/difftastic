@@ -61,6 +61,7 @@ module.exports = grammar({
     [$._expression, $._unann_type],
     [$.scoped_identifier, $.scoped_type_identifier],
     [$._expression, $.generic_type],
+    [$._expression, $.for_init] // bad idea, remove this to allow non variable declarations in for_init to parse
   ],
 
   rules: {
@@ -111,7 +112,8 @@ module.exports = grammar({
       $.decimal_integer_literal,
       $.hex_integer_literal,
       $.octal_integer_literal,
-      $.binary_integer_literal
+      $.binary_integer_literal,
+      $.long_integer_literal
     ),
 
     decimal_integer_literal: $ => DIGITS,
@@ -129,6 +131,11 @@ module.exports = grammar({
     binary_integer_literal: $ => token(seq(
       choice('0b', '0B'),
       sep1(/[01]+/, '_')
+    )),
+
+    long_integer_literal: $ => token(seq(
+      sep1(/[0-9]+/, '_'),
+      choice('l', 'L'),
     )),
 
     floating_point_literal: $ => choice(
@@ -474,7 +481,8 @@ module.exports = grammar({
 
     for_init: $ => choice(
       commaSep1($._expression_statement),
-      $.local_variable_declaration
+      $.local_variable_declaration,
+      $._ambiguous_name
     ),
 
     _enhanced_for_statement: $ => seq(
@@ -487,6 +495,11 @@ module.exports = grammar({
       $._expression,
       ')',
       $._method_statement
+    ),
+
+    _type_arguments_or_diamond: $ => choice(
+      $._type_arguments,
+      '<>'
     ),
 
     _type_arguments: $ => seq(
@@ -1013,7 +1026,7 @@ module.exports = grammar({
         alias($.identifier, $.type_identifier),
         $.scoped_type_identifier
       ),
-      $._type_arguments
+      $._type_arguments_or_diamond
     )),
 
     array_type: $ => seq(
