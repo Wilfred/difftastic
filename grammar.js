@@ -469,12 +469,10 @@ module.exports = grammar({
 
     lambda: $ => seq(
       '\\',
-      $.lambda_head,
+      repeat1($._a_pattern),
       '->',
       alias($._expression, $.lambda_body)
     ),
-
-    lambda_head: $ => repeat1($._a_pattern),
 
     prefix_negation: $ => prec.left(seq(
       '-',
