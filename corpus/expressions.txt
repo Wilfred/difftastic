@@ -237,6 +237,10 @@ parseJSON (JSON.Object r) = IncPK <$>
   r .: "non_nullable_string" <*>
   r .: "inserted_at"
 
+f = do
+  a <- b =<< c
+  b <- e >>= g
+
 ---
 
 (module
