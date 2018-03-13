@@ -541,7 +541,7 @@ module.exports = grammar({
       $._expression
     ),
 
-    function_body: $ => prec.left(choice(
+    function_body: $ => choice(
       seq(
         $._expression,
         optional($.where)
@@ -550,7 +550,7 @@ module.exports = grammar({
         $.function_guard_pattern,
         optional($.where)
       )
-    )),
+    ),
 
     _top_where: $ => seq(
       'where',
