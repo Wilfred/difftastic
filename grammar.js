@@ -113,7 +113,6 @@ module.exports = grammar({
     [$.constructor_pattern, $._a_expression],
     [$._a_pattern, $._a_expression],
 
-    [$._expression, $.infix_operator_application],
     [$._expression, $.expression_type_signature],
 
     [$._lexp, $.function_application]
@@ -431,10 +430,10 @@ module.exports = grammar({
       $._declarations
     ),
 
-    _expression: $ => choice(
+    _expression: $ => prec.right(choice(
       $._infix_expression,
       $.expression_type_signature,
-    ),
+    )),
 
     expression_type_signature: $ => seq(
       $._infix_expression,
@@ -449,7 +448,7 @@ module.exports = grammar({
       $.infix_operator_application
     ),
 
-    infix_operator_application: $ => prec.left(seq(
+    infix_operator_application: $ => prec.right(seq(
       $._lexp,
       $._qualified_operator,
       $._infix_expression
