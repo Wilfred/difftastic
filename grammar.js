@@ -478,7 +478,7 @@ module.exports = grammar({
 
     left_operator_section: $ => seq(
       '(',
-      $._expression,
+      $._infix_expression,
       $._op,
       ')'
     ),
@@ -486,7 +486,7 @@ module.exports = grammar({
     right_operator_section: $ => seq(
       '(',
       $._op,
-      $._expression,
+      $._infix_expression,
       ')'
     ),
 
