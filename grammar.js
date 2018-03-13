@@ -677,7 +677,20 @@ module.exports = grammar({
     ),
 
     labeled_update: $ => seq(
-      $._a_expression,
+      choice(
+        $._qualified_variable,
+        $._variable,
+        $._literal,
+        $.parenthesized_expression,
+        $.tuple_expression,
+        $.list_expression,
+        $.arithmetic_sequence,
+        $.list_comprehension,
+        $.left_operator_section,
+        $.right_operator_section,
+        $.labeled_construction,
+        $.labeled_update
+      ),
       '{',
       sep1(',', $.field_bind),
       '}'
