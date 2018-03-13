@@ -104,21 +104,12 @@ module.exports = grammar({
     [$.qualified_type_constructor_identifier, $.qualified_type_class_identifier],
     [$.qualified_constructor_identifier, $.qualified_type_constructor_identifier],
     [$.type_constructor_identifier, $.type_class_identifier],
-    [$._lpat, $._a_expression],
-    [$._a_pattern, $._a_expression],
-    [$._lexp, $.function_application],
     [$.labeled_pattern, $._a_expression, $.labeled_construction],
-    [$._infix_expression, $.infix_operator_application],
     [$._a_expression, $.labeled_construction],
-    [$._expression, $.expression_type_signature],
-    [$.expression_type_signature, $.function_type],
-    [$._lexp, $.list_comprehension],
-    [$._lpat],
     [$._constructor_identifier, $._module_identifier],
     [$.module_identifier, $.qualified_module_identifier],
     [$.constructor_identifier, $.type_constructor_identifier, $.type_class_identifier],
     [$._expression, $.infix_operator_application],
-    [$.constructor_pattern, $._a_expression]
   ],
 
   rules: {

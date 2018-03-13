@@ -271,3 +271,29 @@ parseJSON (JSON.Object r) = IncPK <$>
                         (variable_identifier)
                         (variable_operator (variable_symbol))
                         (string)))))))))))))
+
+
+===============================
+Lambda Abstractions
+===============================
+
+f = \ x -> x
+
+f = \ (Just a) -> a
+
+---
+
+(module
+  (function_declaration
+    (variable_identifier)
+    (function_body
+      (lambda
+        (variable_identifier)
+        (lambda_body
+          (variable_identifier)))))
+  (function_declaration
+    (variable_identifier)
+    (function_body
+      (lambda
+        (parenthesized_pattern (constructor_pattern (constructor_identifier) (variable_identifier)))
+        (lambda_body (variable_identifier))))))
