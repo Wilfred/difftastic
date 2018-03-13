@@ -16,11 +16,14 @@ Multi-Line Comments
 =========================================
 
 {- Comment 1
-  Continue
-  - Continue
+   Continue
+   - Continue
 -}
+
+{-Comment-}
 
 ---
 
 (module
+  (comment)
   (comment))

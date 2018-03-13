@@ -1254,7 +1254,7 @@ module.exports = grammar({
       seq('--', /.*/),
       seq(
         '{-',
-        /[^#].*\r?\n/,
+        /[^#].*\r?\n?/,
         repeat(choice(
           /[^-]/,
           /-[^}]/
