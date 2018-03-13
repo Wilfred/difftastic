@@ -575,7 +575,8 @@ module.exports = grammar({
     )),
 
     element_value: $ => prec.left(1, choice(
-      $._literal, // TODO: remove this later, not accounted for in spec
+      $._literal,
+      $._ambiguous_name, // TODO: verify this, not accounted for in spec
       $.element_value_array_initializer,
       $._annotation
     )),
