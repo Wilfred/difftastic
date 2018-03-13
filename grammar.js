@@ -297,7 +297,7 @@ module.exports = grammar({
       'type',
       $._simple_type,
       '=',
-      alias($._type, $.type)
+      alias($._type_pattern, $.type)
     ),
 
     function_declaration: $ => seq(
@@ -440,7 +440,7 @@ module.exports = grammar({
       $._infix_expression,
       alias('::', $.annotation),
       optional($.context),
-      choice($._type, $.function_type)
+      $._type_pattern
     ),
 
     _infix_expression: $ => choice(
@@ -754,7 +754,7 @@ module.exports = grammar({
     default_declaration: $ => seq(
       'default',
       '(',
-      optional(sep1(',', $._type)),
+      optional(sep1(',', $._type_pattern)),
       ')'
     ),
 
@@ -855,8 +855,13 @@ module.exports = grammar({
       sep1(',', $._variable),
       alias('::', $.annotation),
       optional($.context),
-      choice($._type, $.function_type)
+      $._type_pattern
     ),
+
+    _type_pattern: $ => prec.left(choice(
+      $._type,
+      $.function_type
+    )),
 
     _type: $ => prec.left(
       repeat1($._atype)
@@ -878,21 +883,21 @@ module.exports = grammar({
 
     tuple_type: $ => seq(
       '(',
-      $._type,
+      $._type_pattern,
       ',',
-      sep1(',', $._type),
+      sep1(',', $._type_pattern),
       ')'
     ),
 
     list_type: $ => seq(
       '[',
-      $._type,
+      $._type_pattern,
       ']'
     ),
 
     parenthesized_constructor: $ => seq(
       '(',
-      $._type,
+      $._type_pattern,
       ')'
     ),
 
@@ -1000,7 +1005,7 @@ module.exports = grammar({
 
     strict_type: $ => seq(
       '!',
-      $._type
+      $._type_pattern
     ),
 
     infix_data_constructor: $ => seq(
@@ -1050,7 +1055,7 @@ module.exports = grammar({
       alias('::', $.annotation),
       choice(
         $.strict_type,
-        $._type
+        $._type_pattern
       )
     )),
 
@@ -1234,7 +1239,7 @@ module.exports = grammar({
     spec: $ => seq(
       sep1(',', $._variable),
       alias('::', $.annotation),
-      choice($._type, $.function_type)
+      $._type_pattern
     ),
 
     language_pragma: $ => seq(
