@@ -344,7 +344,7 @@ module.exports = grammar({
 
     lambda_body: $ => choice(
       $._expression,
-      $.block
+      $.block,
     ),
 
     ternary_expression: $ => prec.right(PREC.TERNARY, seq(
