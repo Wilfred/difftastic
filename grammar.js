@@ -109,7 +109,14 @@ module.exports = grammar({
     [$._constructor_identifier, $._module_identifier],
     [$.module_identifier, $.qualified_module_identifier],
     [$.constructor_identifier, $.type_constructor_identifier, $.type_class_identifier],
+
+    [$.constructor_pattern, $._a_expression],
+    [$._a_pattern, $._a_expression],
+
     [$._expression, $.infix_operator_application],
+    [$._expression, $.expression_type_signature],
+
+    [$._lexp, $.function_application]
   ],
 
   rules: {
