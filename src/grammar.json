@@ -162,6 +162,10 @@
         {
           "type": "SYMBOL",
           "name": "binary_integer_literal"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "long_integer_literal"
         }
       ]
     },
@@ -328,6 +332,52 @@
                     }
                   ]
                 }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "long_integer_literal": {
+      "type": "TOKEN",
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "PATTERN",
+                "value": "[0-9]+"
+              },
+              {
+                "type": "REPEAT",
+                "content": {
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "STRING",
+                      "value": "_"
+                    },
+                    {
+                      "type": "PATTERN",
+                      "value": "[0-9]+"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "l"
+              },
+              {
+                "type": "STRING",
+                "value": "L"
               }
             ]
           }
@@ -3141,6 +3191,10 @@
         {
           "type": "SYMBOL",
           "name": "local_variable_declaration"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_ambiguous_name"
         }
       ]
     },
@@ -3185,6 +3239,19 @@
         {
           "type": "SYMBOL",
           "name": "_method_statement"
+        }
+      ]
+    },
+    "_type_arguments_or_diamond": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_type_arguments"
+        },
+        {
+          "type": "STRING",
+          "value": "<>"
         }
       ]
     },
@@ -6263,7 +6330,7 @@
           },
           {
             "type": "SYMBOL",
-            "name": "_type_arguments"
+            "name": "_type_arguments_or_diamond"
           }
         ]
       }
@@ -6821,6 +6888,10 @@
     [
       "_expression",
       "generic_type"
+    ],
+    [
+      "_expression",
+      "for_init"
     ]
   ],
   "externals": [],
