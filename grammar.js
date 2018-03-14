@@ -67,7 +67,6 @@ module.exports = grammar({
   name: 'haskell',
 
   inline: $ => [
-    $._general_constructor,
     $._infix_expression
   ],
 
