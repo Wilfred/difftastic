@@ -47,7 +47,7 @@ module.exports = grammar({
 
   conflicts: $ => [
     [$.modifier],
-    [$.class_literal, $._unann_type], // bad idea
+    [$.class_literal, $._unann_type], // TODO: remove
     [$.return_statement],
 
     [$._unann_type, $.class_literal, $.array_access],
@@ -57,11 +57,11 @@ module.exports = grammar({
     [$.variable_declarator_id],
     [$._lambda_parameters, $.inferred_parameters],
     [$._expression, $.inferred_parameters],
-    [$._expression, $.inferred_parameters, $._unann_type], // bad idea (can't occur alone)
+    [$._expression, $.inferred_parameters, $._unann_type], // TODO: remove (can't occur alone)
     [$._expression, $._unann_type],
     [$.scoped_identifier, $.scoped_type_identifier],
     [$._expression, $.generic_type],
-    [$._expression, $.for_init] // bad idea, remove this to allow non variable declarations in for_init to parse
+    [$._expression, $.for_init] // TODO: remove to allow non variable declarations in for_init to parse
   ],
 
   rules: {
