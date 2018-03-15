@@ -1347,7 +1347,9 @@ module.exports = grammar({
       '-',
       '~',
       ':',
-      '\\'
+      '\\',
+      '*',
+      ','
     ),
 
     _special: $ => choice(
