@@ -1,0 +1,8 @@
+examples/ruby_spec/language/string_spec.rb
+examples/ruby_spec/core/enumerable/shared/inject.rb
+examples/ruby_spec/core/method/shared/eql.rb
+examples/ruby_spec/core/symbol/encoding_spec.rb
+examples/ruby_spec/core/module/fixtures/constant_unicode.rb
+examples/ruby_spec/core/marshal/shared/load.rb
+examples/ruby_spec/core/module/fixtures/name.rb
+examples/ruby_spec/core/io/write_spec.rb

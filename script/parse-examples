@@ -2,27 +2,22 @@
 
 set -e
 
-# tree-sitter parse $(find examples/ruby_spec/language -name *.rb) -q -t
-for d in language; do
-
-  for f in $(find examples/ruby_spec/$d -name "*.rb"); do
-    # TODO: Fix these known issues:
-    #   - [ ] String literals delimited with `=`, e.g. `%=hi=`
-    #   - [ ] Issue with << operator mistaken for heredocs, e.g. `send(@method){|r,i| r<<i}`
-    #   - [ ] defined as local var, e.g. `defn.send(@method, defined)`
-    #   - [ ] Unicode character in symbols, variables, etc, e.g. `:êad`
-    #   - [ ] Unicode characters in constants, e.g. `CS_CONSTλ = :const_unicode`
-    if [[ $f = 'examples/ruby_spec/language/string_spec.rb' || \
-          $f = 'examples/ruby_spec/core/enumerable/shared/inject.rb' || \
-          $f = 'examples/ruby_spec/core/method/shared/eql.rb' || \
-          $f = 'examples/ruby_spec/core/symbol/encoding_spec.rb' || \
-          $f = 'examples/ruby_spec/core/module/fixtures/constant_unicode.rb' || \
-          $f = 'examples/ruby_spec/core/marshal/shared/load.rb' || \
-          $f = 'examples/ruby_spec/core/module/fixtures/name.rb' || \
-          $f = 'examples/ruby_spec/core/io/write_spec.rb' ]]; then
-      continue
-    fi
-    tree-sitter parse $f -q -t
+# TODO: Fix these known issues:
+#   - [ ] String literals delimited with `=`, e.g. `%=hi=`
+#   - [ ] Issue with << operator mistaken for heredocs, e.g. `send(@method){|r,i| r<<i}`
+#   - [ ] defined as local var, e.g. `defn.send(@method, defined)`
+#   - [ ] Unicode character in symbols, variables, etc, e.g. `:êad`
+#   - [ ] Unicode characters in constants, e.g. `CS_CONSTλ = :const_unicode`
+known_failures=$(cat script/known_failures.txt)
+examples_to_parse=$(
+  # Just parse language and core specs
+  for d in language core; do
+    for example in $(find examples/ruby_spec/$d -name '*.rb'); do
+      if [[ ! $known_failures == *$example* ]]; then
+        echo $example
+      fi
+    done
   done
+)
 
-done
+echo $examples_to_parse | xargs -n 5000 tree-sitter parse -qt
