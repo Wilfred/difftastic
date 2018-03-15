@@ -227,7 +227,7 @@ a = (a :<)
         (left_operator_section (variable_identifier) (constructor_operator (constructor_symbol)))))))
 
 ===============================
-Binary Operators
+Infix Operator Applications
 ===============================
 
 module A where
@@ -240,6 +240,10 @@ parseJSON (JSON.Object r) = IncPK <$>
 f = do
   a <- b =<< c
   b <- e >>= g
+
+g = h `i` j
+
+k = l `M.n` o
 
 ---
 
@@ -275,6 +279,7 @@ f = do
                         (variable_identifier)
                         (variable_operator (variable_symbol))
                         (string)))))))))))
+
     (function_declaration
       (variable_identifier)
       (function_body
@@ -290,7 +295,23 @@ f = do
             (infix_operator_application
               (variable_identifier)
               (variable_operator (variable_symbol))
-              (variable_identifier))))))))
+              (variable_identifier))))))
+
+    (function_declaration
+      (variable_identifier)
+      (function_body
+        (infix_operator_application
+          (variable_identifier)
+          (variable_operator (infix_variable_identifier))
+          (variable_identifier))))
+
+    (function_declaration
+      (variable_identifier)
+      (function_body
+        (infix_operator_application
+          (variable_identifier)
+          (variable_operator (qualified_infix_variable_identifier (qualified_variable_identifier (module_identifier) (variable_identifier))))
+          (variable_identifier))))))
 
 ===============================
 Lambda Abstractions
