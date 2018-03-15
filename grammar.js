@@ -1241,7 +1241,8 @@ module.exports = grammar({
       $.source_pragma,
       $.include_pragma,
       $.warning_pragma,
-      $.deprecated_pragma
+      $.deprecated_pragma,
+      $.line_pragma
     ),
 
     inline_pragma: $ => seq(
@@ -1300,6 +1301,14 @@ module.exports = grammar({
       'DEPRECATED',
       optional(sep1(',', $.variable_identifier)),
        alias($.string, $.deprecated_message),
+      '#-}'
+    ),
+
+    line_pragma: $ => seq(
+      '{-#',
+      'LINE',
+      alias($.integer, $.line_number),
+      alias($.string, $.file_name),
       '#-}'
     ),
 

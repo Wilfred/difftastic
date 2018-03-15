@@ -5462,6 +5462,10 @@
         {
           "type": "SYMBOL",
           "name": "deprecated_pragma"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "line_pragma"
         }
       ]
     },
@@ -5575,8 +5579,17 @@
           "value": "{-#"
         },
         {
-          "type": "STRING",
-          "value": "SPECIALIZE"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "SPECIALIZE"
+            },
+            {
+              "type": "STRING",
+              "value": "SPECIALISE"
+            }
+          ]
         },
         {
           "type": "SEQ",
@@ -5779,6 +5792,41 @@
           },
           "named": true,
           "value": "deprecated_message"
+        },
+        {
+          "type": "STRING",
+          "value": "#-}"
+        }
+      ]
+    },
+    "line_pragma": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "{-#"
+        },
+        {
+          "type": "STRING",
+          "value": "LINE"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "integer"
+          },
+          "named": true,
+          "value": "line_number"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "string"
+          },
+          "named": true,
+          "value": "file_name"
         },
         {
           "type": "STRING",
