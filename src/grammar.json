@@ -3694,8 +3694,40 @@
           ]
         },
         {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "scoped_type_variables"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
           "type": "SYMBOL",
           "name": "_type_pattern"
+        }
+      ]
+    },
+    "scoped_type_variables": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "forall"
+        },
+        {
+          "type": "REPEAT1",
+          "content": {
+            "type": "SYMBOL",
+            "name": "variable_identifier"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "."
         }
       ]
     },
