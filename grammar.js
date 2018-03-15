@@ -1237,7 +1237,8 @@ module.exports = grammar({
       $.no_inline_pragma,
       $.specialization_pragma,
       $.options_ghc_pragma,
-      $.source_pragma
+      $.source_pragma,
+      $.include_pragma
     ),
 
     inline_pragma: $ => seq(
@@ -1273,6 +1274,15 @@ module.exports = grammar({
       'SOURCE',
       '#-}'
     ),
+
+    include_pragma: $ => seq(
+      '{-#',
+      'INCLUDE',
+       $.header_file,
+      '#-}'
+    ),
+
+    header_file: $ => /("|<)[a-z].*\.h("|>)/,
 
     option: $ => /[\-a-z]*/,
 

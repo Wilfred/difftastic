@@ -5429,6 +5429,10 @@
         {
           "type": "SYMBOL",
           "name": "source_pragma"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "include_pragma"
         }
       ]
     },
@@ -5571,6 +5575,31 @@
           "value": "#-}"
         }
       ]
+    },
+    "include_pragma": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "{-#"
+        },
+        {
+          "type": "STRING",
+          "value": "INCLUDE"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "header_file"
+        },
+        {
+          "type": "STRING",
+          "value": "#-}"
+        }
+      ]
+    },
+    "header_file": {
+      "type": "PATTERN",
+      "value": "(\"|<)[a-z].*\\.h(\"|>)"
     },
     "option": {
       "type": "PATTERN",
