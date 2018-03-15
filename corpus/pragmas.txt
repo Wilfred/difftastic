@@ -282,3 +282,16 @@ i = h
     (deprecated_pragma
       (variable_identifier)
       (deprecated_message))))
+
+=========================================
+Line Pragma
+=========================================
+
+{-# LINE 42 "Foo.vhs" #-}
+
+---
+
+(module
+  (line_pragma
+    (line_number)
+    (file_name)))
