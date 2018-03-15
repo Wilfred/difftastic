@@ -91,9 +91,21 @@ Multi-Line Quasi Quotation
      { "ret_setof_integers": 2 },
      { "ret_setof_integers": 3 }] | ]
 
+[|
+  [
+    { "ret_setof_integers": 1 },
+    { "ret_setof_integers": 2 },
+    { "ret_setof_integers": 3 }
+  ]
+|]
+
 ---
 
 (module
+  (quasi_quotation
+    (expression)
+    (quasi_quotation_expression))
+
   (quasi_quotation
     (expression)
     (quasi_quotation_expression)))
