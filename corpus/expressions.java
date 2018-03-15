@@ -402,9 +402,8 @@ class Box <T> {
   (class_declaration
     (identifier)
       (type_parameters
-        (type_parameter_list
-          (type_parameter
-            (identifier))))
+        (type_parameter
+          (identifier)))
     (class_body
       (field_declaration
         (modifier)
@@ -467,9 +466,8 @@ class someClass <T> {
   (class_declaration
     (identifier)
     (type_parameters
-      (type_parameter_list
-        (type_parameter
-          (identifier))))
+      (type_parameter
+        (identifier)))
       (class_body
         (method_declaration
           (modifier)
@@ -501,9 +499,8 @@ class someClass <T> {
           (modifier)
             (method_header
               (type_parameters
-                (type_parameter_list
-                  (type_parameter
-                    (identifier))))
+                (type_parameter
+                  (identifier)))
               (void_type)
                 (method_declarator
                   (identifier)
