@@ -976,6 +976,10 @@
         {
           "type": "SYMBOL",
           "name": "_pragma"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "quasi_quotation"
         }
       ]
     },
@@ -1825,6 +1829,10 @@
         {
           "type": "SYMBOL",
           "name": "_a_expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "quasi_quotation"
         }
       ]
     },
@@ -2535,8 +2543,17 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "_variable"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_variable"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "quasi_quotation"
+            }
+          ]
         },
         {
           "type": "SYMBOL",
@@ -2710,6 +2727,14 @@
         {
           "type": "SYMBOL",
           "name": "labeled_update"
+        },
+        {
+          "type": "PREC_DYNAMIC",
+          "value": 1,
+          "content": {
+            "type": "SYMBOL",
+            "name": "quasi_quotation"
+          }
         }
       ]
     },
@@ -2766,6 +2791,10 @@
             {
               "type": "SYMBOL",
               "name": "labeled_update"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "quasi_quotation"
             }
           ]
         },
@@ -6005,6 +6034,14 @@
         {
           "type": "STRING",
           "value": "\\"
+        },
+        {
+          "type": "STRING",
+          "value": "*"
+        },
+        {
+          "type": "STRING",
+          "value": ","
         }
       ]
     },
@@ -6469,6 +6506,121 @@
           }
         ]
       }
+    },
+    "quasi_quotation": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "["
+                },
+                {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "ALIAS",
+                      "content": {
+                        "type": "STRING",
+                        "value": "p"
+                      },
+                      "named": true,
+                      "value": "pattern"
+                    },
+                    {
+                      "type": "ALIAS",
+                      "content": {
+                        "type": "STRING",
+                        "value": "d"
+                      },
+                      "named": true,
+                      "value": "declaration"
+                    },
+                    {
+                      "type": "ALIAS",
+                      "content": {
+                        "type": "STRING",
+                        "value": "t"
+                      },
+                      "named": true,
+                      "value": "type"
+                    },
+                    {
+                      "type": "ALIAS",
+                      "content": {
+                        "type": "STRING",
+                        "value": "e"
+                      },
+                      "named": true,
+                      "value": "expression"
+                    },
+                    {
+                      "type": "ALIAS",
+                      "content": {
+                        "type": "SYMBOL",
+                        "name": "_variable_identifier"
+                      },
+                      "named": true,
+                      "value": "quoter"
+                    }
+                  ]
+                },
+                {
+                  "type": "STRING",
+                  "value": "|"
+                }
+              ]
+            },
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "SYMBOL",
+                "name": "_empty_quasi_pattern"
+              },
+              "named": true,
+              "value": "expression"
+            }
+          ]
+        },
+        {
+          "type": "SYMBOL",
+          "name": "quasi_quotation_expression"
+        }
+      ]
+    },
+    "_empty_quasi_pattern": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "["
+        },
+        {
+          "type": "STRING",
+          "value": "|"
+        }
+      ]
+    },
+    "quasi_quotation_expression": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "PATTERN",
+            "value": "[^|\\s*\\]]\\r?\\n?"
+          }
+        },
+        {
+          "type": "PATTERN",
+          "value": ".*\\|\\s*\\]"
+        }
+      ]
     }
   },
   "extras": [
@@ -6539,6 +6691,14 @@
     [
       "_lexp",
       "function_application"
+    ],
+    [
+      "quasi_quotation",
+      "variable_identifier"
+    ],
+    [
+      "_lexp",
+      "_a_expression"
     ]
   ],
   "externals": [
@@ -6560,7 +6720,6 @@
     }
   ],
   "inline": [
-    "_general_constructor",
     "_infix_expression"
   ]
 }

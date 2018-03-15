@@ -99,7 +99,9 @@ module.exports = grammar({
 
     [$._expression, $.expression_type_signature],
 
-    [$._lexp, $.function_application]
+    [$._lexp, $.function_application],
+    [$.quasi_quotation, $.variable_identifier],
+    [$._lexp, $._a_expression]
   ],
 
   rules: {
@@ -259,7 +261,8 @@ module.exports = grammar({
     _declaration: $ => choice(
       $._general_declaration,
       $.function_declaration,
-      $._pragma
+      $._pragma,
+      $.quasi_quotation
     ),
 
     _top_declaration: $ => choice(
@@ -416,7 +419,7 @@ module.exports = grammar({
 
     _expression: $ => prec.right(choice(
       $._infix_expression,
-      $.expression_type_signature,
+      $.expression_type_signature
     )),
 
     expression_type_signature: $ => seq(
@@ -445,7 +448,8 @@ module.exports = grammar({
       $.case_expression,
       $.do,
       $.function_application,
-      $._a_expression
+      $._a_expression,
+      $.quasi_quotation
     ),
 
     lambda: $ => seq(
@@ -626,7 +630,7 @@ module.exports = grammar({
     negative_literal: $ => prec(1, seq('-', '(', choice($.integer, $.float), ')')),
 
     field_update: $ => seq(
-      $._variable,
+      choice($._variable, $.quasi_quotation),
       $.fields
     ),
 
@@ -662,7 +666,8 @@ module.exports = grammar({
       $.left_operator_section,
       $.right_operator_section,
       $.labeled_construction,
-      $.labeled_update
+      $.labeled_update,
+      prec.dynamic(1, $.quasi_quotation)
     ),
 
     labeled_update: $ => seq(
@@ -678,7 +683,8 @@ module.exports = grammar({
         $.left_operator_section,
         $.right_operator_section,
         $.labeled_construction,
-        $.labeled_update
+        $.labeled_update,
+        $.quasi_quotation
       ),
       '{',
       sep1(',', $.field_bind),
@@ -1448,6 +1454,30 @@ module.exports = grammar({
     _octal_literal:   $ => token(octalLiteral),
     _hexidecimal_literal: $ => token(hexLiteral),
 
+    quasi_quotation: $ => seq(
+      choice(
+        seq(
+          '[',
+          choice(
+            alias('p', $.pattern),
+            alias('d', $.declaration),
+            alias('t', $.type),
+            alias('e', $.expression),
+            alias($._variable_identifier, $.quoter)
+          ),
+          '|'
+        ),
+        alias($._empty_quasi_pattern, $.expression),
+      ),
+      $.quasi_quotation_expression
+    ),
+
+    _empty_quasi_pattern: $ => seq('[', '|'),
+
+    quasi_quotation_expression: $ => seq(
+      repeat(/[^|\s*\]]\r?\n?/),
+      /.*\|\s*\]/,
+    )
   }
 })
 

@@ -1,0 +1,118 @@
+===============================
+Quasi Quotation
+===============================
+
+[|example|]
+[e|example|]
+[p|example|]
+[t|example|]
+[d|example|]
+[str|example|]
+
+[ | example| ]
+[ e| example| ]
+[ p| example| ]
+[ t| example| ]
+[ d| example| ]
+[ str| example| ]
+
+[ | example |  ]
+[ e | example |  ]
+[ p | example |  ]
+[ t | example |  ]
+[ d | example |  ]
+[ str | example |  ]
+
+---
+
+(module
+  (quasi_quotation
+    (expression)
+    (quasi_quotation_expression))
+  (quasi_quotation
+    (expression)
+    (quasi_quotation_expression))
+  (quasi_quotation
+    (pattern)
+    (quasi_quotation_expression))
+  (quasi_quotation
+    (type)
+    (quasi_quotation_expression))
+  (quasi_quotation
+    (declaration)
+    (quasi_quotation_expression))
+  (quasi_quotation
+    (quoter)
+    (quasi_quotation_expression))
+
+  (quasi_quotation
+    (expression)
+    (quasi_quotation_expression))
+  (quasi_quotation
+    (expression)
+    (quasi_quotation_expression))
+  (quasi_quotation
+    (pattern)
+    (quasi_quotation_expression))
+  (quasi_quotation
+    (type)
+    (quasi_quotation_expression))
+  (quasi_quotation
+    (declaration)
+    (quasi_quotation_expression))
+  (quasi_quotation
+    (quoter)
+    (quasi_quotation_expression))
+
+  (quasi_quotation
+    (expression)
+    (quasi_quotation_expression))
+  (quasi_quotation
+    (expression)
+    (quasi_quotation_expression))
+  (quasi_quotation
+    (pattern)
+    (quasi_quotation_expression))
+  (quasi_quotation
+    (type)
+    (quasi_quotation_expression))
+  (quasi_quotation
+    (declaration)
+    (quasi_quotation_expression))
+  (quasi_quotation
+    (quoter)
+    (quasi_quotation_expression)))
+
+===============================
+Multi-Line Quasi Quotation
+===============================
+
+[ | [{ "ret_setof_integers": 1 },
+     { "ret_setof_integers": 2 },
+     { "ret_setof_integers": 3 }] | ]
+
+---
+
+(module
+  (quasi_quotation
+    (expression)
+    (quasi_quotation_expression)))
+
+===============================
+Infix Operator Application Quasi Quotation
+===============================
+
+f = [|a|] `b` c
+
+---
+
+(module
+  (function_declaration
+    (variable_identifier)
+    (function_body
+      (infix_operator_application
+        (quasi_quotation
+          (expression)
+          (quasi_quotation_expression))
+        (variable_operator (infix_variable_identifier))
+        (variable_identifier)))))
