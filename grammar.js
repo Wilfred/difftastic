@@ -1263,7 +1263,7 @@ module.exports = grammar({
 
     specialization_pragma: $ => seq(
       '{-#',
-      'SPECIALIZE',
+      choice('SPECIALIZE', 'SPECIALISE'),
       sep1(',', $.spec),
       '#-}'
     ),
