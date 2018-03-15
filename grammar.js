@@ -111,7 +111,7 @@ module.exports = grammar({
         repeat($.language_pragma),
         'module',
         choice($.qualified_module_identifier, $.module_identifier),
-        optional($.warning_pragma),
+        optional(choice($.warning_pragma, $.deprecated_pragma)),
         optional($.module_exports),
         alias($._top_where, $.where)
       ),
@@ -1240,7 +1240,8 @@ module.exports = grammar({
       $.options_ghc_pragma,
       $.source_pragma,
       $.include_pragma,
-      $.warning_pragma
+      $.warning_pragma,
+      $.deprecated_pragma
     ),
 
     inline_pragma: $ => seq(
@@ -1289,6 +1290,14 @@ module.exports = grammar({
       'WARNING',
       optional(sep1(',', $.variable_identifier)),
        alias($.string, $.warning_message),
+      '#-}'
+    ),
+
+    deprecated_pragma: $ => seq(
+      '{-#',
+      'DEPRECATED',
+      optional(sep1(',', $.variable_identifier)),
+       alias($.string, $.deprecated_message),
       '#-}'
     ),
 

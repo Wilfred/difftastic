@@ -35,8 +35,17 @@
               "type": "CHOICE",
               "members": [
                 {
-                  "type": "SYMBOL",
-                  "name": "warning_pragma"
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "SYMBOL",
+                      "name": "warning_pragma"
+                    },
+                    {
+                      "type": "SYMBOL",
+                      "name": "deprecated_pragma"
+                    }
+                  ]
                 },
                 {
                   "type": "BLANK"
@@ -5449,6 +5458,10 @@
         {
           "type": "SYMBOL",
           "name": "warning_pragma"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "deprecated_pragma"
         }
       ]
     },
@@ -5665,6 +5678,65 @@
           },
           "named": true,
           "value": "warning_message"
+        },
+        {
+          "type": "STRING",
+          "value": "#-}"
+        }
+      ]
+    },
+    "deprecated_pragma": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "{-#"
+        },
+        {
+          "type": "STRING",
+          "value": "DEPRECATED"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "variable_identifier"
+                },
+                {
+                  "type": "REPEAT",
+                  "content": {
+                    "type": "SEQ",
+                    "members": [
+                      {
+                        "type": "STRING",
+                        "value": ","
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "variable_identifier"
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "string"
+          },
+          "named": true,
+          "value": "deprecated_message"
         },
         {
           "type": "STRING",

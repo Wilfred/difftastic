@@ -217,3 +217,43 @@ i = h
     (warning_pragma
       (variable_identifier)
       (warning_message))))
+
+=========================================
+Deprecated Pragma
+=========================================
+
+module A {-# DEPRECATED "Use B" #-} where
+
+f = a
+g = f
+i = h
+
+{-# DEPRECATED f, g "Use B.f, B.g" #-}
+{-# DEPRECATED i "Use B.i" #-}
+
+---
+
+(module
+  (module_identifier)
+  (deprecated_pragma (deprecated_message))
+  (where
+    (function_declaration
+      (variable_identifier)
+      (function_body
+        (variable_identifier)))
+    (function_declaration
+      (variable_identifier)
+      (function_body
+        (variable_identifier)))
+    (function_declaration
+      (variable_identifier)
+      (function_body
+        (variable_identifier)))
+    (deprecated_pragma
+      (variable_identifier)
+      (variable_identifier)
+      (deprecated_message))
+    (deprecated_pragma
+      (variable_identifier)
+      (deprecated_message))))
+      
