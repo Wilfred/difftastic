@@ -1247,6 +1247,7 @@ module.exports = grammar({
     inline_pragma: $ => seq(
       '{-#',
       'INLINE',
+      optional(choice($.phase_control, $.eager_phase_control)),
       choice($._qualified_variable, $._variable),
       '#-}'
     ),
@@ -1254,6 +1255,7 @@ module.exports = grammar({
     no_inline_pragma: $ => seq(
       '{-#',
       'NOINLINE',
+      optional(choice($.phase_control, $.eager_phase_control)),
       choice($._qualified_variable, $._variable),
       '#-}'
     ),
@@ -1299,6 +1301,19 @@ module.exports = grammar({
       optional(sep1(',', $.variable_identifier)),
        alias($.string, $.deprecated_message),
       '#-}'
+    ),
+
+    phase_control: $ => seq(
+      '[',
+      $.integer,
+      ']'
+    ),
+
+    eager_phase_control: $ => seq(
+      '[',
+      '~',
+      $.integer,
+      ']'
     ),
 
     header_file: $ => /("|<)[a-z].*\.h("|>)/,

@@ -7,6 +7,10 @@ factorial 0 = 0
 factorial n = n * factorial (n-1)
 {-# INLINE factorial #-}
 
+a = b
+{-# INLINE [1] a #-}
+{-# INLINE [~2] a #-}
+
 ---
 
 (module
@@ -26,7 +30,16 @@ factorial n = n * factorial (n-1)
       (function_application
         (variable_identifier)
         (parenthesized_expression (infix_operator_application (variable_identifier) (variable_operator (variable_symbol)) (integer)))))))
-  (inline_pragma (variable_identifier)))
+  (inline_pragma (variable_identifier))
+  (function_declaration
+    (variable_identifier)
+    (function_body (variable_identifier)))
+    (inline_pragma
+      (phase_control (integer))
+      (variable_identifier))
+    (inline_pragma
+      (eager_phase_control (integer))
+      (variable_identifier)))
 
 =========================================
 No Inline Pragmas
@@ -37,6 +50,10 @@ factorial 0 = 0
 factorial n = n * factorial (n-1)
 {-# NOINLINE factorial #-}
 
+a = b
+{-# NOINLINE [1] a #-}
+{-# NOINLINE [~2] a #-}
+
 ---
 
 (module
@@ -56,7 +73,16 @@ factorial n = n * factorial (n-1)
       (function_application
         (variable_identifier)
         (parenthesized_expression (infix_operator_application (variable_identifier) (variable_operator (variable_symbol)) (integer)))))))
-  (no_inline_pragma (variable_identifier)))
+  (no_inline_pragma (variable_identifier))
+  (function_declaration
+    (variable_identifier)
+    (function_body (variable_identifier)))
+  (no_inline_pragma
+    (phase_control (integer))
+    (variable_identifier))
+  (no_inline_pragma
+    (eager_phase_control (integer))
+    (variable_identifier)))
 
 =========================================
 Specialization Pragmas
@@ -256,4 +282,3 @@ i = h
     (deprecated_pragma
       (variable_identifier)
       (deprecated_message))))
-      
