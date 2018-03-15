@@ -695,11 +695,7 @@ module.exports = grammar({
     ),
 
     type_parameters: $ => seq(
-      '<', $.type_parameter_list, '>'
-    ),
-
-    type_parameter_list: $ => commaSep1(
-      $.type_parameter
+      '<', commaSep1($.type_parameter), '>'
     ),
 
     type_parameter: $ => seq(
