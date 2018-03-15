@@ -1186,6 +1186,12 @@ module.exports = grammar({
       '`'
     ),
 
+    qualified_infix_variable_identifier: $ => seq(
+      '`',
+      $.qualified_variable_identifier,
+      '`'
+    ),
+
     variable_operator: $ => choice(
       $.variable_symbol,
       $.infix_variable_identifier
