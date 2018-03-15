@@ -324,3 +324,19 @@ f :: (Int, Int) -> Maybe Int
       (type (tuple_type (type_constructor_identifier) (type_constructor_identifier)))
       (type (type_constructor_identifier) (type_constructor_identifier)))))
 
+=========================================
+Type Signatures With Scoped Type Variables
+=========================================
+
+f :: forall a. [a] -> [a]
+
+---
+
+(module
+  (type_signature
+    (variable_identifier)
+    (annotation)
+    (scoped_type_variables (variable_identifier))
+    (function_type
+      (type (list_type (type_variable_identifier))) 
+      (type (list_type (type_variable_identifier))))))

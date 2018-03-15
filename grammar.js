@@ -866,7 +866,14 @@ module.exports = grammar({
       sep1(',', $._variable),
       alias('::', $.annotation),
       optional($.context),
+      optional($.scoped_type_variables),
       $._type_pattern
+    ),
+
+    scoped_type_variables: $ => seq(
+      'forall',
+      repeat1($.variable_identifier),
+      '.'
     ),
 
     _type_pattern: $ => prec.left(choice(
