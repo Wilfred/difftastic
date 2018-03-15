@@ -21,3 +21,5 @@ addons:
 branches:
   only:
     - master
+
+script: ./script/parse-examples.sh
