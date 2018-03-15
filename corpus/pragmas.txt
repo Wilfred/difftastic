@@ -130,3 +130,16 @@ module A where
   (language_pragma (language_name) (language_name))
   (module_identifier)
   (where))
+
+=========================================
+Options GHC Pragmas
+=========================================
+
+{-# OPTIONS_GHC -fno-warn-orphans #-}
+{-# OPTIONS_GHC -fno-warn-orphans#-}
+
+---
+
+(module
+  (options_ghc_pragma (option))
+  (options_ghc_pragma (option)))

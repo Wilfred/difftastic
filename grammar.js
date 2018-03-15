@@ -1234,7 +1234,8 @@ module.exports = grammar({
     _pragma: $ => choice(
       $.inline_pragma,
       $.no_inline_pragma,
-      $.specialization_pragma
+      $.specialization_pragma,
+      $.options_ghc_pragma
     ),
 
     inline_pragma: $ => seq(
@@ -1257,6 +1258,15 @@ module.exports = grammar({
       sep1(',', $.spec),
       '#-}'
     ),
+
+    options_ghc_pragma: $ => seq(
+      '{-#',
+      'OPTIONS_GHC',
+      $.option,
+      '#-}'
+    ),
+
+    option: $ => /[\-a-z]*/,
 
     spec: $ => seq(
       sep1(',', $._variable),

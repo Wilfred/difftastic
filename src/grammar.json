@@ -5409,6 +5409,10 @@
         {
           "type": "SYMBOL",
           "name": "specialization_pragma"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "options_ghc_pragma"
         }
       ]
     },
@@ -5513,6 +5517,31 @@
           "value": "#-}"
         }
       ]
+    },
+    "options_ghc_pragma": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "{-#"
+        },
+        {
+          "type": "STRING",
+          "value": "OPTIONS_GHC"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "option"
+        },
+        {
+          "type": "STRING",
+          "value": "#-}"
+        }
+      ]
+    },
+    "option": {
+      "type": "PATTERN",
+      "value": "[\\-a-z]*"
     },
     "spec": {
       "type": "SEQ",
@@ -6659,7 +6688,7 @@
           "type": "REPEAT",
           "content": {
             "type": "PATTERN",
-            "value": "[^|\\s*\\]]\\r?\\n?"
+            "value": "[^|]"
           }
         },
         {
