@@ -111,6 +111,7 @@ module.exports = grammar({
         repeat($.language_pragma),
         'module',
         choice($.qualified_module_identifier, $.module_identifier),
+        optional($.warning_pragma),
         optional($.module_exports),
         alias($._top_where, $.where)
       ),
@@ -1238,7 +1239,8 @@ module.exports = grammar({
       $.specialization_pragma,
       $.options_ghc_pragma,
       $.source_pragma,
-      $.include_pragma
+      $.include_pragma,
+      $.warning_pragma
     ),
 
     inline_pragma: $ => seq(
@@ -1279,6 +1281,14 @@ module.exports = grammar({
       '{-#',
       'INCLUDE',
        $.header_file,
+      '#-}'
+    ),
+
+    warning_pragma: $ => seq(
+      '{-#',
+      'WARNING',
+      optional(sep1(',', $.variable_identifier)),
+       alias($.string, $.warning_message),
       '#-}'
     ),
 
