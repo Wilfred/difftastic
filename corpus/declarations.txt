@@ -273,3 +273,54 @@ default (Integer, Double)
 (module
   (default_declaration)
   (default_declaration (type_constructor_identifier) (type_constructor_identifier)))
+
+
+=========================================
+Type Signatures With Variables
+=========================================
+
+f :: a -> a -> a
+
+---
+
+(module
+  (type_signature
+    (variable_identifier)
+    (annotation)
+    (function_type
+      (type (type_variable_identifier))
+      (function_type
+        (type (type_variable_identifier))
+        (type (type_variable_identifier))))))
+
+
+=========================================
+Type Signatures With Constructors
+=========================================
+
+f :: Ex -> Ex
+f :: [Int] -> Int
+f :: (Int, Int) -> Maybe Int
+
+---
+
+(module
+  (type_signature
+    (variable_identifier)
+    (annotation)
+    (function_type
+      (type (type_constructor_identifier))
+      (type (type_constructor_identifier))))
+  (type_signature
+    (variable_identifier)
+    (annotation)
+    (function_type
+      (type (list_type (type_constructor_identifier)))
+      (type (type_constructor_identifier))))
+  (type_signature
+    (variable_identifier)
+    (annotation)
+    (function_type
+      (type (tuple_type (type_constructor_identifier) (type_constructor_identifier)))
+      (type (type_constructor_identifier) (type_constructor_identifier)))))
+
