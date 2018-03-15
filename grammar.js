@@ -1299,7 +1299,10 @@ module.exports = grammar({
       '{-#',
       'WARNING',
       optional(sep1(',', $.variable_identifier)),
-       alias($.string, $.warning_message),
+      choice(
+        alias($.string, $.warning_message),
+        $.warning_message_list
+      ),
       '#-}'
     ),
 
@@ -1307,8 +1310,23 @@ module.exports = grammar({
       '{-#',
       'DEPRECATED',
       optional(sep1(',', $.variable_identifier)),
-       alias($.string, $.deprecated_message),
+      choice(
+        alias($.string, $.deprecated_message),
+        $.deprecated_message_list
+      ),
       '#-}'
+    ),
+
+    deprecated_message_list: $ => seq(
+      '[',
+      sep1(',', alias($.string, $.deprecated_message)),
+      ']'
+    ),
+
+    warning_message_list: $ => seq(
+      '[',
+      sep1(',', alias($.string, $.warning_message)),
+      ']'
     ),
 
     line_pragma: $ => seq(

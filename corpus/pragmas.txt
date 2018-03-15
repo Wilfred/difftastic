@@ -231,6 +231,7 @@ g = f
 i = h
 
 {-# WARNING f, g "Unstable" #-}
+{-# WARNING f, g ["Use B.f", "Use B.g"] #-}
 {-# WARNING i "Unsafe" #-}
 
 ---
@@ -257,6 +258,12 @@ i = h
       (warning_message))
     (warning_pragma
       (variable_identifier)
+      (variable_identifier)
+      (warning_message_list
+        (warning_message)
+        (warning_message)))
+    (warning_pragma
+      (variable_identifier)
       (warning_message))))
 
 =========================================
@@ -270,6 +277,7 @@ g = f
 i = h
 
 {-# DEPRECATED f, g "Use B.f, B.g" #-}
+{-# DEPRECATED f, g ["Use B.f", "Use B.g"] #-}
 {-# DEPRECATED i "Use B.i" #-}
 
 ---
@@ -278,25 +286,12 @@ i = h
   (module_identifier)
   (deprecated_pragma (deprecated_message))
   (where
-    (function_declaration
-      (variable_identifier)
-      (function_body
-        (variable_identifier)))
-    (function_declaration
-      (variable_identifier)
-      (function_body
-        (variable_identifier)))
-    (function_declaration
-      (variable_identifier)
-      (function_body
-        (variable_identifier)))
-    (deprecated_pragma
-      (variable_identifier)
-      (variable_identifier)
-      (deprecated_message))
-    (deprecated_pragma
-      (variable_identifier)
-      (deprecated_message))))
+    (function_declaration (variable_identifier) (function_body (variable_identifier)))
+    (function_declaration (variable_identifier) (function_body (variable_identifier)))
+    (function_declaration (variable_identifier) (function_body (variable_identifier)))
+    (deprecated_pragma (variable_identifier) (variable_identifier) (deprecated_message))
+    (deprecated_pragma (variable_identifier) (variable_identifier) (deprecated_message_list (deprecated_message) (deprecated_message)))
+    (deprecated_pragma (variable_identifier) (deprecated_message))))
 
 =========================================
 Line Pragma
