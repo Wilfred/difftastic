@@ -1210,6 +1210,12 @@ module.exports = grammar({
       '`'
     ),
 
+    qualified_infix_constructor_identifier: $ => seq(
+      '`',
+      $.qualified_constructor_identifier,
+      '`'
+    ),
+
     constructor_operator: $ => choice(
       $.constructor_symbol,
       $.infix_constructor_identifier
