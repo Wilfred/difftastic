@@ -329,6 +329,7 @@ Type Signatures With Scoped Type Variables
 =========================================
 
 f :: forall a. [a] -> [a]
+f :: forall a b. (a, b) -> [a]
 
 ---
 
@@ -338,5 +339,14 @@ f :: forall a. [a] -> [a]
     (annotation)
     (scoped_type_variables (variable_identifier))
     (function_type
-      (type (list_type (type_variable_identifier))) 
-      (type (list_type (type_variable_identifier))))))
+      (type (list_type (type_variable_identifier)))
+      (type (list_type (type_variable_identifier)))))
+  (type_signature
+    (variable_identifier)
+    (annotation)
+    (scoped_type_variables (variable_identifier) (variable_identifier))
+    (function_type
+      (type
+        (tuple_type (type_variable_identifier) (type_variable_identifier)))
+      (type
+        (list_type (type_variable_identifier))))))
