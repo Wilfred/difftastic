@@ -194,6 +194,7 @@ module.exports = grammar({
 
     import_declaration: $ => seq(
       'import',
+      optional($.source_pragma),
       $._import_declaration
     ),
 
@@ -1235,7 +1236,8 @@ module.exports = grammar({
       $.inline_pragma,
       $.no_inline_pragma,
       $.specialization_pragma,
-      $.options_ghc_pragma
+      $.options_ghc_pragma,
+      $.source_pragma
     ),
 
     inline_pragma: $ => seq(
@@ -1263,6 +1265,12 @@ module.exports = grammar({
       '{-#',
       'OPTIONS_GHC',
       $.option,
+      '#-}'
+    ),
+
+    source_pragma: $ => seq(
+      '{-#',
+      'SOURCE',
       '#-}'
     ),
 

@@ -143,3 +143,24 @@ Options GHC Pragmas
 (module
   (options_ghc_pragma (option))
   (options_ghc_pragma (option)))
+
+=========================================
+Source Pragma
+=========================================
+
+module A where
+
+import {-# SOURCE #-} B(TB(..))
+
+---
+
+(module
+  (module_identifier)
+  (where
+    (import_declaration
+      (source_pragma)
+      (module_identifier)
+      (import_spec
+        (import
+          (type_constructor_identifier)
+          (all_constructors))))))
