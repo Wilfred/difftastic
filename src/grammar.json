@@ -562,6 +562,18 @@
           "value": "import"
         },
         {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "source_pragma"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
           "type": "SYMBOL",
           "name": "_import_declaration"
         }
@@ -5413,6 +5425,10 @@
         {
           "type": "SYMBOL",
           "name": "options_ghc_pragma"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "source_pragma"
         }
       ]
     },
@@ -5532,6 +5548,23 @@
         {
           "type": "SYMBOL",
           "name": "option"
+        },
+        {
+          "type": "STRING",
+          "value": "#-}"
+        }
+      ]
+    },
+    "source_pragma": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "{-#"
+        },
+        {
+          "type": "STRING",
+          "value": "SOURCE"
         },
         {
           "type": "STRING",
