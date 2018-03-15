@@ -2,7 +2,7 @@
 
 require 'open3'
 
-remaining_files = `find test-repos -name '*.java'`.split(/\n/)
+remaining_files = `find examples -name '*.java'`.split(/\n/)
 files_with_errors = []
 
 until remaining_files.empty?
