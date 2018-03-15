@@ -10,7 +10,7 @@ enum TokenType {
   LAYOUT_SEMICOLON,
   LAYOUT_OPEN_BRACE,
   LAYOUT_CLOSE_BRACE,
-  ARROW
+  ARROW,
 };
 
 struct Scanner {
@@ -87,6 +87,7 @@ struct Scanner {
     }
 
     lexer->mark_end(lexer);
+
     if (lexer->lookahead == 'i') {
       advance(lexer);
       if (lexer->lookahead == 'n') {

@@ -468,13 +468,13 @@ module.exports = grammar({
     left_operator_section: $ => seq(
       '(',
       $._infix_expression,
-      $._op,
+      $._qualified_operator,
       ')'
     ),
 
     right_operator_section: $ => seq(
       '(',
-      $._op,
+      $._qualified_operator,
       $._infix_expression,
       ')'
     ),
@@ -1194,7 +1194,8 @@ module.exports = grammar({
 
     variable_operator: $ => choice(
       $.variable_symbol,
-      $.infix_variable_identifier
+      $.infix_variable_identifier,
+      $.qualified_infix_variable_identifier
     ),
 
     constructor_symbol: $ => token(
