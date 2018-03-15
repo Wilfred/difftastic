@@ -94,7 +94,11 @@ class Foo a where
     (where
       (fixity_declaration (variable_operator (infix_variable_identifier)))
       (fixity_declaration (integer) (variable_operator (infix_variable_identifier)))
-      (fixity_declaration (integer) (variable_operator (infix_variable_identifier)) (variable_operator (infix_variable_identifier)) (variable_operator (infix_variable_identifier)))
+      (fixity_declaration
+        (integer)
+        (variable_operator (infix_variable_identifier))
+        (variable_operator (infix_variable_identifier))
+        (variable_operator (infix_variable_identifier)))
       (fixity_declaration (variable_operator (variable_symbol)))
       (fixity_declaration (integer) (variable_operator (variable_symbol)))
       (fixity_declaration (integer) (constructor_operator (constructor_symbol)))
