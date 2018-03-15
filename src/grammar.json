@@ -36,6 +36,18 @@
               "members": [
                 {
                   "type": "SYMBOL",
+                  "name": "warning_pragma"
+                },
+                {
+                  "type": "BLANK"
+                }
+              ]
+            },
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
                   "name": "module_exports"
                 },
                 {
@@ -5433,6 +5445,10 @@
         {
           "type": "SYMBOL",
           "name": "include_pragma"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "warning_pragma"
         }
       ]
     },
@@ -5590,6 +5606,65 @@
         {
           "type": "SYMBOL",
           "name": "header_file"
+        },
+        {
+          "type": "STRING",
+          "value": "#-}"
+        }
+      ]
+    },
+    "warning_pragma": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "{-#"
+        },
+        {
+          "type": "STRING",
+          "value": "WARNING"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "variable_identifier"
+                },
+                {
+                  "type": "REPEAT",
+                  "content": {
+                    "type": "SEQ",
+                    "members": [
+                      {
+                        "type": "STRING",
+                        "value": ","
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "variable_identifier"
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "string"
+          },
+          "named": true,
+          "value": "warning_message"
         },
         {
           "type": "STRING",

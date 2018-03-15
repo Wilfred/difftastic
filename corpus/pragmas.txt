@@ -177,3 +177,43 @@ Include Pragma
 (module
   (include_pragma (header_file))
   (include_pragma (header_file)))
+
+
+=========================================
+Warning Pragma
+=========================================
+
+module A {-# WARNING "Unstable" #-} where
+
+f = a
+g = f
+i = h
+
+{-# WARNING f, g "Unstable" #-}
+{-# WARNING i "Unsafe" #-}
+
+---
+
+(module
+  (module_identifier)
+  (warning_pragma (warning_message))
+  (where
+    (function_declaration
+      (variable_identifier)
+      (function_body
+        (variable_identifier)))
+    (function_declaration
+      (variable_identifier)
+      (function_body
+        (variable_identifier)))
+    (function_declaration
+      (variable_identifier)
+      (function_body
+        (variable_identifier)))
+    (warning_pragma
+      (variable_identifier)
+      (variable_identifier)
+      (warning_message))
+    (warning_pragma
+      (variable_identifier)
+      (warning_message))))
