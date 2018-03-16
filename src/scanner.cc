@@ -53,7 +53,7 @@ struct Scanner {
       return true;
     }
 
-    while (lexer->lookahead == ' ' || lexer->lookahead == '\t') {
+    while (lexer->lookahead == ' ' || lexer->lookahead == '\t' || lexer->lookahead == '\r') {
       lexer->advance(lexer, true);
     }
 
@@ -82,7 +82,7 @@ struct Scanner {
       if (lexer->lookahead == '\n') {
         indent_length = 0;
         advance(lexer);
-      } else if (lexer->lookahead == ' ') {
+      } else if (lexer->lookahead == ' ' || lexer->lookahead == '\r') {
         indent_length++;
         advance(lexer);
       } else if (lexer->lookahead == '\t') {
