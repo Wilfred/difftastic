@@ -125,6 +125,12 @@ case "$Z" in
   ab*|cd*) ef
 esac
 
+case $dest in
+  *.[1357])
+    exit $?
+    ;;
+esac
+
 ---
 
 (program
@@ -135,7 +141,10 @@ esac
       (command (command_name (word)) (word))))
   (case_statement (string (simple_expansion (variable_name)))
     (case_item (word) (word)
-      (command (command_name (word))))))
+      (command (command_name (word)))))
+  (case_statement (simple_expansion (variable_name))
+    (case_item (concatenation (word) (word))
+      (command (command_name (word)) (simple_expansion (special_variable_name))))))
 
 ===============================
 Subshells
