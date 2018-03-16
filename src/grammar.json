@@ -5505,6 +5505,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "column_pragma"
+        },
+        {
+          "type": "SYMBOL",
           "name": "minimal_pragma"
         }
       ]
@@ -6075,6 +6079,32 @@
           },
           "named": true,
           "value": "file_name"
+        },
+        {
+          "type": "STRING",
+          "value": "#-}"
+        }
+      ]
+    },
+    "column_pragma": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "{-#"
+        },
+        {
+          "type": "STRING",
+          "value": "COLUMN"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "integer"
+          },
+          "named": true,
+          "value": "column_number"
         },
         {
           "type": "STRING",

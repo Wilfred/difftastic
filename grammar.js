@@ -1251,6 +1251,7 @@ module.exports = grammar({
       $.warning_pragma,
       $.deprecated_pragma,
       $.line_pragma,
+      $.column_pragma,
       $.minimal_pragma
     ),
 
@@ -1346,6 +1347,13 @@ module.exports = grammar({
       'LINE',
       alias($.integer, $.line_number),
       alias($.string, $.file_name),
+      '#-}'
+    ),
+
+    column_pragma: $ => seq(
+      '{-#',
+      'COLUMN',
+      alias($.integer, $.column_number),
       '#-}'
     ),
 
