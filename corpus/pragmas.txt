@@ -8,7 +8,7 @@ factorial n = n * factorial (n-1)
 {-# INLINE factorial #-}
 
 a = b
-{-# INLINE [1] a #-}
+{-# INLINE CONLIKE [1] a #-}
 {-# INLINE [~2] a #-}
 
 ---
@@ -35,6 +35,7 @@ a = b
     (variable_identifier)
     (function_body (variable_identifier)))
     (inline_pragma
+      (constructor_like)
       (phase_control (integer))
       (variable_identifier))
     (inline_pragma
@@ -51,7 +52,7 @@ factorial n = n * factorial (n-1)
 {-# NOINLINE factorial #-}
 
 a = b
-{-# NOINLINE [1] a #-}
+{-# NOINLINE CONLIKE [1] a #-}
 {-# NOINLINE [~2] a #-}
 
 ---
@@ -78,6 +79,7 @@ a = b
     (variable_identifier)
     (function_body (variable_identifier)))
   (no_inline_pragma
+    (constructor_like)
     (phase_control (integer))
     (variable_identifier))
   (no_inline_pragma

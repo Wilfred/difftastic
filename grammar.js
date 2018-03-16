@@ -1257,6 +1257,7 @@ module.exports = grammar({
     inline_pragma: $ => seq(
       '{-#',
       'INLINE',
+      optional(alias('CONLIKE', $.constructor_like)),
       optional(choice($.phase_control, $.eager_phase_control)),
       choice($._qualified_variable, $._variable),
       '#-}'
@@ -1273,6 +1274,7 @@ module.exports = grammar({
     no_inline_pragma: $ => seq(
       '{-#',
       'NOINLINE',
+      optional(alias('CONLIKE', $.constructor_like)),
       optional(choice($.phase_control, $.eager_phase_control)),
       choice($._qualified_variable, $._variable),
       '#-}'
