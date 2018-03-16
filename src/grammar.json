@@ -5730,6 +5730,49 @@
           ]
         },
         {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "ALIAS",
+                  "content": {
+                    "type": "STRING",
+                    "value": "INLINE"
+                  },
+                  "named": true,
+                  "value": "inline"
+                },
+                {
+                  "type": "ALIAS",
+                  "content": {
+                    "type": "STRING",
+                    "value": "NOINLINE"
+                  },
+                  "named": true,
+                  "value": "noinline"
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "phase_control"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
           "type": "SEQ",
           "members": [
             {

@@ -1284,6 +1284,8 @@ module.exports = grammar({
     specialization_pragma: $ => seq(
       '{-#',
       choice('SPECIALIZE', 'SPECIALISE'),
+      optional(choice(alias('INLINE', $.inline), alias('NOINLINE', $.noinline))),
+      optional($.phase_control),
       sep1(',', $.spec),
       '#-}'
     ),
