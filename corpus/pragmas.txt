@@ -93,11 +93,15 @@ Specialization Pragmas
 factorial :: Num a => a -> a
 factorial 0 = 0
 factorial n = n ⋆ factorial (n-1)
-{-# SPECIALIZE factorial :: Int -> Int,
-               factorial :: Integer -> Integer #-}
+{-# SPECIALIZE [0] factorial :: Int -> Int,
+                   factorial :: Integer -> Integer #-}
 {-# SPECIALISE factorial :: Int -> Int,
                factorial :: Integer -> Integer #-}
 
+{-# SPECIALIZE INLINE [0] factorial :: Int -> Int,
+                          factorial :: Integer -> Integer #-}
+{-# SPECIALISE NOINLINE factorial :: Int -> Int,
+                        factorial :: Integer -> Integer #-}
 ---
 
 (module
@@ -118,6 +122,7 @@ factorial n = n ⋆ factorial (n-1)
         (variable_identifier)
         (parenthesized_expression (infix_operator_application (variable_identifier) (variable_operator (variable_symbol)) (integer)))))))
   (specialization_pragma
+    (phase_control (integer))
     (spec
       (variable_identifier)
       (annotation)
@@ -131,6 +136,35 @@ factorial n = n ⋆ factorial (n-1)
         (type (type_constructor_identifier))
         (type (type_constructor_identifier)))))
   (specialization_pragma
+    (spec
+      (variable_identifier)
+      (annotation)
+      (function_type
+        (type (type_constructor_identifier))
+        (type (type_constructor_identifier))))
+    (spec
+      (variable_identifier)
+      (annotation)
+      (function_type
+        (type (type_constructor_identifier))
+        (type (type_constructor_identifier)))))
+  (specialization_pragma
+    (inline)
+    (phase_control (integer))
+    (spec
+      (variable_identifier)
+      (annotation)
+      (function_type
+        (type (type_constructor_identifier))
+        (type (type_constructor_identifier))))
+    (spec
+      (variable_identifier)
+      (annotation)
+      (function_type
+        (type (type_constructor_identifier))
+        (type (type_constructor_identifier)))))
+  (specialization_pragma
+    (noinline)
     (spec
       (variable_identifier)
       (annotation)
