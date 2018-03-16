@@ -1242,6 +1242,7 @@ module.exports = grammar({
 
     _pragma: $ => choice(
       $.inline_pragma,
+      $.inlinable_pragma,
       $.no_inline_pragma,
       $.specialization_pragma,
       $.options_ghc_pragma,
@@ -1256,6 +1257,14 @@ module.exports = grammar({
     inline_pragma: $ => seq(
       '{-#',
       'INLINE',
+      optional(choice($.phase_control, $.eager_phase_control)),
+      choice($._qualified_variable, $._variable),
+      '#-}'
+    ),
+
+    inlinable_pragma: $ => seq(
+      '{-#',
+      choice('INLINABLE', 'INLINEABLE'),
       optional(choice($.phase_control, $.eager_phase_control)),
       choice($._qualified_variable, $._variable),
       '#-}'

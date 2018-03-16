@@ -5469,6 +5469,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "inlinable_pragma"
+        },
+        {
+          "type": "SYMBOL",
           "name": "no_inline_pragma"
         },
         {
@@ -5515,6 +5519,66 @@
         {
           "type": "STRING",
           "value": "INLINE"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "phase_control"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "eager_phase_control"
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_qualified_variable"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_variable"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": "#-}"
+        }
+      ]
+    },
+    "inlinable_pragma": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "{-#"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "INLINABLE"
+            },
+            {
+              "type": "STRING",
+              "value": "INLINEABLE"
+            }
+          ]
         },
         {
           "type": "CHOICE",
