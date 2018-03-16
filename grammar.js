@@ -1249,7 +1249,8 @@ module.exports = grammar({
       $.include_pragma,
       $.warning_pragma,
       $.deprecated_pragma,
-      $.line_pragma
+      $.line_pragma,
+      $.minimal_pragma
     ),
 
     inline_pragma: $ => seq(
@@ -1336,6 +1337,34 @@ module.exports = grammar({
       alias($.string, $.file_name),
       '#-}'
     ),
+
+    minimal_pragma: $ => seq(
+      '{-#',
+      'MINIMAL',
+      repeat(
+        choice(
+          $._variable,
+          $._constructor,
+          $.conjunction,
+          $.disjunction
+        )
+      ),
+      '#-}'
+    ),
+
+    // In this context, conjunction means both sides are required (AND).
+    conjunction: $ => prec.left(2, seq(
+      choice($._variable, $._constructor),
+      ',',
+      sep1(',', choice($._variable, $._constructor))
+    )),
+
+    // In this context, disjunction means only one side is required (OR).
+    disjunction: $ => prec.left(1, seq(
+      choice($._variable, $._constructor, $.conjunction),
+      '|',
+      sep1('|', choice($._variable, $._constructor, $.conjunction))
+    )),
 
     phase_control: $ => seq(
       '[',

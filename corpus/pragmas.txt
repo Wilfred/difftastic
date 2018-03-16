@@ -305,3 +305,87 @@ Line Pragma
   (line_pragma
     (line_number)
     (file_name)))
+
+=========================================
+Minimal Pragma
+=========================================
+
+module A where
+
+class Eq a where
+  (==) :: a -> a -> Bool
+  (/=) :: a -> a -> Bool
+  x == y = not (x /= y)
+  x /= y = not (x == y)
+  {-# MINIMAL (==) | (/=) #-}
+  {-# MINIMAL (==) , (/=) #-}
+  {-# MINIMAL (==) , (/=) | (/=) #-}
+  {-# MINIMAL (==) , (/=) | (/=) , (==) #-}
+
+---
+
+(module
+  (module_identifier)
+  (where
+    (type_class_declaration
+      (type_class_identifier)
+      (type_variable_identifier)
+      (where
+        (type_signature
+          (variable_operator (variable_symbol))
+          (annotation)
+          (function_type
+            (type (type_variable_identifier))
+            (function_type
+              (type (type_variable_identifier))
+              (type (type_constructor_identifier)))))
+        (type_signature
+          (variable_operator (variable_symbol))
+          (annotation)
+          (function_type
+            (type (type_variable_identifier))
+            (function_type
+              (type (type_variable_identifier))
+              (type (type_constructor_identifier)))))
+        (function_declaration
+          (variable_identifier)
+          (variable_operator (variable_symbol))
+          (variable_identifier)
+          (function_body
+            (function_application
+              (variable_identifier)
+              (parenthesized_expression
+                (infix_operator_application
+                  (variable_identifier)
+                  (variable_operator (variable_symbol))
+                  (variable_identifier))))))
+        (function_declaration
+          (variable_identifier)
+          (variable_operator (variable_symbol))
+          (variable_identifier)
+          (function_body
+            (function_application
+              (variable_identifier)
+              (parenthesized_expression
+                (infix_operator_application
+                  (variable_identifier)
+                  (variable_operator (variable_symbol))
+                  (variable_identifier))))))
+      (minimal_pragma
+        (disjunction (variable_operator (variable_symbol)) (variable_operator (variable_symbol))))
+      (minimal_pragma
+        (conjunction (variable_operator (variable_symbol)) (variable_operator (variable_symbol))))
+      (minimal_pragma
+        (disjunction
+          (conjunction
+            (variable_operator (variable_symbol))
+            (variable_operator (variable_symbol)))
+          (variable_operator (variable_symbol))))
+      (minimal_pragma
+        (disjunction
+          (conjunction
+            (variable_operator (variable_symbol))
+            (variable_operator (variable_symbol)))
+          (conjunction
+            (variable_operator (variable_symbol))
+            (variable_operator (variable_symbol)))))))))
