@@ -4,3 +4,6 @@
 [submodule "examples/guava"]
 	path = examples/guava
 	url = https://github.com/google/guava.git
+[submodule "examples/RxJava"]
+	path = examples/RxJava
+	url = https://github.com/ReactiveX/RxJava.git
