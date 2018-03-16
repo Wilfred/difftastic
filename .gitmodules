@@ -1,3 +1,6 @@
 [submodule "examples/elasticsearch"]
 	path = examples/elasticsearch
 	url = https://github.com/elastic/elasticsearch.git
+[submodule "examples/guava"]
+	path = examples/guava
+	url = https://github.com/google/guava.git
