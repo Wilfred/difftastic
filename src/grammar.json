@@ -5524,6 +5524,23 @@
           "type": "CHOICE",
           "members": [
             {
+              "type": "ALIAS",
+              "content": {
+                "type": "STRING",
+                "value": "CONLIKE"
+              },
+              "named": true,
+              "value": "constructor_like"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
               "type": "CHOICE",
               "members": [
                 {
@@ -5630,6 +5647,23 @@
         {
           "type": "STRING",
           "value": "NOINLINE"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "STRING",
+                "value": "CONLIKE"
+              },
+              "named": true,
+              "value": "constructor_like"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         },
         {
           "type": "CHOICE",
