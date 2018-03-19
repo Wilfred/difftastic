@@ -500,3 +500,19 @@ data T = T {-# UNPACK #-} !Float
           (strict_type (type_constructor_identifier))
           (unpack_pragma) (strict_type (type_constructor_identifier))))))
 
+=========================================
+No unpack Pragmas
+=========================================
+
+data T = T {-# NOUNPACK #-} !(Int, Int)
+
+---
+
+(module
+  (algebraic_datatype_declaration
+    (type_constructor_identifier)
+    (constructors
+      (data_constructor
+        (constructor_identifier)
+        (no_unpack_pragma)
+        (strict_type (tuple_type (type_constructor_identifier) (type_constructor_identifier)))))))

@@ -1015,7 +1015,12 @@ module.exports = grammar({
       $._constructor,
       repeat(
         seq(
-          optional($.unpack_pragma),
+          optional(
+            choice(
+              $.unpack_pragma,
+              $.no_unpack_pragma
+            )
+          ),
           choice(
             $.strict_type,
             $._atype
@@ -1256,7 +1261,8 @@ module.exports = grammar({
       $.line_pragma,
       $.column_pragma,
       $.minimal_pragma,
-      $.unpack_pragma
+      $.unpack_pragma,
+      $.no_unpack_pragma
     ),
 
     inline_pragma: $ => seq(
@@ -1383,6 +1389,12 @@ module.exports = grammar({
     unpack_pragma: $ => seq(
       '{-#',
       'UNPACK',
+      '#-}'
+    ),
+
+    no_unpack_pragma: $ => seq(
+      '{-#',
+      'NOUNPACK',
       '#-}'
     ),
 
