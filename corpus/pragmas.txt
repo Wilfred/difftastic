@@ -102,6 +102,11 @@ factorial n = n ⋆ factorial (n-1)
                           factorial :: Integer -> Integer #-}
 {-# SPECIALISE NOINLINE factorial :: Int -> Int,
                         factorial :: Integer -> Integer #-}
+
+instance (Eq a) => Eq (Foo a) where {
+  {-# SPECIALIZE instance Eq (Foo [(Int, Bar)]) #-}
+}
+
 ---
 
 (module
@@ -176,7 +181,26 @@ factorial n = n ⋆ factorial (n-1)
       (annotation)
       (function_type
         (type (type_constructor_identifier))
-        (type (type_constructor_identifier))))))
+        (type (type_constructor_identifier)))))
+
+  (type_class_instance_declaration
+    (scontext
+      (simple_class (type_class_identifier) (type_variable_identifier)))
+      (type_class_identifier)
+      (instance
+        (parenthesized_instance (type_constructor_identifier) (type_variable_identifier)))
+        (where
+          (specialization_pragma
+            (instance_spec
+              (type_class_identifier)
+              (parenthesized_pattern
+                (constructor_pattern
+                  (constructor_identifier)
+                  (list_pattern
+                    (pattern
+                      (tuple_pattern
+                        (pattern (constructor_identifier))
+                        (pattern (constructor_identifier))))))))))))
 
 =========================================
 Language Pragmas Without Module
