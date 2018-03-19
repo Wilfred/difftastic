@@ -480,3 +480,23 @@ a = b
   (inlinable_pragma (variable_identifier))
   (inlinable_pragma (phase_control (integer)) (variable_identifier))
   (inlinable_pragma (eager_phase_control (integer)) (variable_identifier)))
+
+=========================================
+Unpack Pragmas
+=========================================
+
+data T = T {-# UNPACK #-} !Float
+           {-# UNPACK #-} !Float
+
+---
+
+(module
+  (algebraic_datatype_declaration
+    (type_constructor_identifier)
+      (constructors
+        (data_constructor
+          (constructor_identifier)
+          (unpack_pragma)
+          (strict_type (type_constructor_identifier))
+          (unpack_pragma) (strict_type (type_constructor_identifier))))))
+
