@@ -825,7 +825,7 @@ module.exports = grammar({
     parenthesized_instance: $ => seq(
       '(',
       $._general_type_constructor,
-      optional(sep1(',', $.type_variable_identifier)),
+      repeat($.type_variable_identifier),
       ')'
     ),
 
