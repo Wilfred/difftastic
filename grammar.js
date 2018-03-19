@@ -1286,7 +1286,10 @@ module.exports = grammar({
       choice('SPECIALIZE', 'SPECIALISE'),
       optional(choice(alias('INLINE', $.inline), alias('NOINLINE', $.noinline))),
       optional($.phase_control),
-      sep1(',', $.spec),
+      choice(
+        sep1(',', $.spec),
+        $.instance_spec
+      ),
       '#-}'
     ),
 
@@ -1408,6 +1411,12 @@ module.exports = grammar({
       sep1(',', $._variable),
       alias('::', $.annotation),
       $._type_pattern
+    ),
+
+    instance_spec: $ => seq(
+      'instance',
+      choice($.qualified_type_class_identifier, $.type_class_identifier),
+      $._a_pattern
     ),
 
     language_pragma: $ => seq(
