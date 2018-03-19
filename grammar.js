@@ -265,8 +265,25 @@ module.exports = grammar({
       $._general_declaration,
       $.function_declaration,
       $._pragma,
-      $.quasi_quotation
+      $.quasi_quotation,
+      $.pattern_type_signature,
+      $.bidirectional_pattern_synonym,
+      $.unidirectional_pattern_synonym
     ),
+
+    bidirectional_pattern_synonym: $ => prec.left(seq(
+      'pattern',
+      $.constructor_pattern,
+      '=',
+      $.function_body
+    )),
+
+    unidirectional_pattern_synonym: $ => prec.left(seq(
+      'pattern',
+      $.constructor_pattern,
+      '<-',
+      $.function_body
+    )),
 
     _top_declaration: $ => choice(
       $.import_declaration,
@@ -870,6 +887,13 @@ module.exports = grammar({
       $._type_pattern
     ),
 
+    pattern_type_signature: $ => seq(
+      'pattern',
+      $._constructor,
+      alias('::', $.annotation),
+      $._type_pattern
+    ),
+
     scoped_type_variables: $ => seq(
       'forall',
       repeat1($.variable_identifier),
@@ -1262,7 +1286,8 @@ module.exports = grammar({
       $.column_pragma,
       $.minimal_pragma,
       $.unpack_pragma,
-      $.no_unpack_pragma
+      $.no_unpack_pragma,
+      $.complete_pragma
     ),
 
     inline_pragma: $ => seq(
@@ -1395,6 +1420,13 @@ module.exports = grammar({
     no_unpack_pragma: $ => seq(
       '{-#',
       'NOUNPACK',
+      '#-}'
+    ),
+
+    complete_pragma: $ => seq(
+      '{-#',
+      'COMPLETE',
+      sep1(',', $._a_expression),
       '#-}'
     ),
 

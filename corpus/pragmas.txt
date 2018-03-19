@@ -516,3 +516,97 @@ data T = T {-# NOUNPACK #-} !(Int, Int)
         (constructor_identifier)
         (no_unpack_pragma)
         (strict_type (tuple_type (type_constructor_identifier) (type_constructor_identifier)))))))
+
+=========================================
+Complete Pragmas
+=========================================
+
+data Choice a = Choice Bool a
+
+pattern LeftChoice :: a -> Choice a
+pattern LeftChoice a = Choice False a
+
+pattern RightChoice :: a -> Choice a
+pattern RightChoice a <- Choice True a
+
+{-# COMPLETE LeftChoice, RightChoice #-}
+
+foo :: Choice Int -> Int
+foo (LeftChoice n) = n * 2
+foo (RightChoice n) = n - 2
+
+---
+
+(module
+  (algebraic_datatype_declaration
+    (type_constructor_identifier)
+    (type_variable_identifier)
+    (constructors
+      (data_constructor
+        (constructor_identifier)
+        (type_constructor_identifier)
+        (type_variable_identifier))))
+
+  (pattern_type_signature
+    (constructor_identifier)
+    (annotation)
+    (function_type
+      (type (type_variable_identifier))
+      (type (type_constructor_identifier) (type_variable_identifier))))
+
+  (bidirectional_pattern_synonym
+    (constructor_pattern
+      (constructor_identifier)
+      (variable_identifier))
+    (function_body
+      (function_application
+        (function_application
+          (constructor_identifier)
+          (constructor_identifier))
+        (variable_identifier))))
+
+  (pattern_type_signature
+    (constructor_identifier)
+    (annotation)
+    (function_type
+      (type (type_variable_identifier))
+      (type (type_constructor_identifier) (type_variable_identifier))))
+
+  (unidirectional_pattern_synonym
+    (constructor_pattern
+      (constructor_identifier)
+      (variable_identifier))
+    (function_body
+      (function_application
+        (function_application
+          (constructor_identifier)
+          (constructor_identifier))
+        (variable_identifier))))
+
+  (complete_pragma (constructor_identifier) (constructor_identifier))
+
+  (type_signature
+    (variable_identifier)
+    (annotation)
+    (function_type
+      (type (type_constructor_identifier) (type_constructor_identifier))
+      (type (type_constructor_identifier))))
+  (function_declaration
+    (variable_identifier)
+    (parenthesized_pattern
+      (constructor_pattern (constructor_identifier) (variable_identifier)))
+    (function_body
+      (infix_operator_application
+        (variable_identifier)
+        (variable_operator (variable_symbol))
+        (integer))))
+  (function_declaration
+    (variable_identifier)
+    (parenthesized_pattern
+      (constructor_pattern
+        (constructor_identifier) (variable_identifier)))
+    (function_body
+      (infix_operator_application
+        (variable_identifier)
+        (variable_operator (variable_symbol))
+        (integer)))))
