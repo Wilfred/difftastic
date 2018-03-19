@@ -825,19 +825,26 @@ module.exports = grammar({
 
     type_class_instance_declaration: $ => seq(
       'instance',
+      optional(choice(
+        $.overlaps_pragma,
+        $.overlapping_pragma,
+        $.overlappable_pragma,
+        $.incoherent_pragma
+      )),
       optional($.scontext),
       choice($.qualified_type_class_identifier, $.type_class_identifier),
       $.instance,
       $.where
     ),
 
-    instance: $ => choice(
+    instance: $ => repeat1(choice(
       $._general_type_constructor,
       $.parenthesized_instance,
       $.tuple_instance,
       $.list_instance,
-      $.function_type_instance
-    ),
+      $.function_type_instance,
+      $.type_variable_identifier
+    )),
 
     parenthesized_instance: $ => seq(
       '(',
@@ -848,15 +855,15 @@ module.exports = grammar({
 
     tuple_instance: $ => seq(
       '(',
-      $.type_variable_identifier,
+      choice($.type_variable_identifier, $._general_type_constructor),
       ',',
-      sep1(',', $.type_variable_identifier),
+      sep1(',', choice($.type_variable_identifier, $._general_type_constructor)),
       ')'
     ),
 
     list_instance: $ => seq(
       '[',
-      $.type_variable_identifier,
+      choice($.type_variable_identifier, $._general_type_constructor),
       ']'
     ),
 
@@ -1287,7 +1294,11 @@ module.exports = grammar({
       $.minimal_pragma,
       $.unpack_pragma,
       $.no_unpack_pragma,
-      $.complete_pragma
+      $.complete_pragma,
+      $.overlapping_pragma,
+      $.overlappable_pragma,
+      $.overlaps_pragma,
+      $.incoherent_pragma
     ),
 
     inline_pragma: $ => seq(
@@ -1427,6 +1438,30 @@ module.exports = grammar({
       '{-#',
       'COMPLETE',
       sep1(',', $._a_expression),
+      '#-}'
+    ),
+
+    overlapping_pragma: $ => seq(
+      '{-#',
+      'OVERLAPPING',
+      '#-}'
+    ),
+
+    overlappable_pragma: $ => seq(
+      '{-#',
+      'OVERLAPPABLE',
+      '#-}'
+    ),
+
+    overlaps_pragma: $ => seq(
+      '{-#',
+      'OVERLAPS',
+      '#-}'
+    ),
+
+    incoherent_pragma: $ => seq(
+      '{-#',
+      'INCOHERENT',
       '#-}'
     ),
 

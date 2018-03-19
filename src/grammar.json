@@ -3448,6 +3448,35 @@
           "type": "CHOICE",
           "members": [
             {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "overlaps_pragma"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "overlapping_pragma"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "overlappable_pragma"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "incoherent_pragma"
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
               "type": "SYMBOL",
               "name": "scontext"
             },
@@ -3480,29 +3509,36 @@
       ]
     },
     "instance": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "_general_type_constructor"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "parenthesized_instance"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "tuple_instance"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "list_instance"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "function_type_instance"
-        }
-      ]
+      "type": "REPEAT1",
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_general_type_constructor"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "parenthesized_instance"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "tuple_instance"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "list_instance"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "function_type_instance"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "type_variable_identifier"
+          }
+        ]
+      }
     },
     "parenthesized_instance": {
       "type": "SEQ",
@@ -3536,8 +3572,17 @@
           "value": "("
         },
         {
-          "type": "SYMBOL",
-          "name": "type_variable_identifier"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "type_variable_identifier"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_general_type_constructor"
+            }
+          ]
         },
         {
           "type": "STRING",
@@ -3547,8 +3592,17 @@
           "type": "SEQ",
           "members": [
             {
-              "type": "SYMBOL",
-              "name": "type_variable_identifier"
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "type_variable_identifier"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "_general_type_constructor"
+                }
+              ]
             },
             {
               "type": "REPEAT",
@@ -3560,8 +3614,17 @@
                     "value": ","
                   },
                   {
-                    "type": "SYMBOL",
-                    "name": "type_variable_identifier"
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "SYMBOL",
+                        "name": "type_variable_identifier"
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "_general_type_constructor"
+                      }
+                    ]
                   }
                 ]
               }
@@ -3582,8 +3645,17 @@
           "value": "["
         },
         {
-          "type": "SYMBOL",
-          "name": "type_variable_identifier"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "type_variable_identifier"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_general_type_constructor"
+            }
+          ]
         },
         {
           "type": "STRING",
@@ -5618,6 +5690,22 @@
         {
           "type": "SYMBOL",
           "name": "complete_pragma"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "overlapping_pragma"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "overlappable_pragma"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "overlaps_pragma"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "incoherent_pragma"
         }
       ]
     },
@@ -6382,6 +6470,74 @@
               }
             }
           ]
+        },
+        {
+          "type": "STRING",
+          "value": "#-}"
+        }
+      ]
+    },
+    "overlapping_pragma": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "{-#"
+        },
+        {
+          "type": "STRING",
+          "value": "OVERLAPPING"
+        },
+        {
+          "type": "STRING",
+          "value": "#-}"
+        }
+      ]
+    },
+    "overlappable_pragma": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "{-#"
+        },
+        {
+          "type": "STRING",
+          "value": "OVERLAPPABLE"
+        },
+        {
+          "type": "STRING",
+          "value": "#-}"
+        }
+      ]
+    },
+    "overlaps_pragma": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "{-#"
+        },
+        {
+          "type": "STRING",
+          "value": "OVERLAPS"
+        },
+        {
+          "type": "STRING",
+          "value": "#-}"
+        }
+      ]
+    },
+    "incoherent_pragma": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "{-#"
+        },
+        {
+          "type": "STRING",
+          "value": "INCOHERENT"
         },
         {
           "type": "STRING",

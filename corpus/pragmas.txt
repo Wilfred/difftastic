@@ -610,3 +610,74 @@ foo (RightChoice n) = n - 2
         (variable_identifier)
         (variable_operator (variable_symbol))
         (integer)))))
+
+=========================================
+Overlapping Pragmas
+=========================================
+
+instance {-# OVERLAPPING #-} C Int [Int] where {}
+
+---
+
+(module
+  (type_class_instance_declaration
+    (overlapping_pragma)
+    (type_class_identifier)
+    (instance
+      (type_constructor_identifier) (list_instance (type_constructor_identifier)))
+    (where)))
+
+=========================================
+Overlappable Pragmas
+=========================================
+
+instance {-# OVERLAPPABLE #-} Show a => C a Bool where {}
+
+---
+
+(module
+  (type_class_instance_declaration
+    (overlappable_pragma)
+    (scontext (simple_class (type_class_identifier) (type_variable_identifier)))
+    (type_class_identifier)
+    (instance
+      (type_variable_identifier)
+      (type_constructor_identifier))
+    (where)))
+
+=========================================
+Overlaps Pragmas
+=========================================
+
+instance {-# OVERLAPS #-} Show a => C a Bool where {}
+
+---
+
+(module
+  (type_class_instance_declaration
+    (overlaps_pragma)
+    (scontext (simple_class (type_class_identifier) (type_variable_identifier)))
+    (type_class_identifier)
+    (instance
+      (type_variable_identifier)
+      (type_constructor_identifier))
+    (where)))
+
+=========================================
+Incoherent Pragmas
+=========================================
+
+instance {-# INCOHERENT #-} (Show a, Show b) => C a [b] where {}
+
+---
+
+(module
+  (type_class_instance_declaration
+    (incoherent_pragma)
+    (scontext (simple_class (type_class_identifier) (type_variable_identifier))
+    (simple_class (type_class_identifier) (type_variable_identifier)))
+    (type_class_identifier)
+    (instance
+      (type_variable_identifier)
+      (list_instance (type_variable_identifier)))
+    (where)))
