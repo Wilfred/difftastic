@@ -1021,8 +1021,70 @@
         {
           "type": "SYMBOL",
           "name": "quasi_quotation"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "pattern_type_signature"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "bidirectional_pattern_synonym"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "unidirectional_pattern_synonym"
         }
       ]
+    },
+    "bidirectional_pattern_synonym": {
+      "type": "PREC_LEFT",
+      "value": 0,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "pattern"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "constructor_pattern"
+          },
+          {
+            "type": "STRING",
+            "value": "="
+          },
+          {
+            "type": "SYMBOL",
+            "name": "function_body"
+          }
+        ]
+      }
+    },
+    "unidirectional_pattern_synonym": {
+      "type": "PREC_LEFT",
+      "value": 0,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "pattern"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "constructor_pattern"
+          },
+          {
+            "type": "STRING",
+            "value": "<-"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "function_body"
+          }
+        ]
+      }
     },
     "_top_declaration": {
       "type": "CHOICE",
@@ -3693,6 +3755,32 @@
         }
       ]
     },
+    "pattern_type_signature": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "pattern"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_constructor"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "STRING",
+            "value": "::"
+          },
+          "named": true,
+          "value": "annotation"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_type_pattern"
+        }
+      ]
+    },
     "scoped_type_variables": {
       "type": "SEQ",
       "members": [
@@ -5526,6 +5614,10 @@
         {
           "type": "SYMBOL",
           "name": "no_unpack_pragma"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "complete_pragma"
         }
       ]
     },
@@ -6248,6 +6340,48 @@
         {
           "type": "STRING",
           "value": "NOUNPACK"
+        },
+        {
+          "type": "STRING",
+          "value": "#-}"
+        }
+      ]
+    },
+    "complete_pragma": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "{-#"
+        },
+        {
+          "type": "STRING",
+          "value": "COMPLETE"
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_a_expression"
+            },
+            {
+              "type": "REPEAT",
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "STRING",
+                    "value": ","
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "_a_expression"
+                  }
+                ]
+              }
+            }
+          ]
         },
         {
           "type": "STRING",
