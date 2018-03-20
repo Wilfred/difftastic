@@ -155,3 +155,25 @@ class  (Eq a) => Ord a where
         (variable_identifier)
         (annotation)
         (type_variable_identifier)))))
+
+=========================================
+Multi-param Type Class Declarations
+=========================================
+
+class MonadEvaluator term value m => MonadCaching term value m where {}
+
+---
+
+(module
+  (type_class_declaration
+    (scontext
+      (simple_class
+        (type_class_identifier)
+        (type_variable_identifier)
+        (type_variable_identifier)
+        (type_variable_identifier)))
+    (type_class_identifier)
+    (type_variable_identifier)
+    (type_variable_identifier)
+    (type_variable_identifier)
+    (where)))
