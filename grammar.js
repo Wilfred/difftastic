@@ -102,8 +102,9 @@ module.exports = grammar({
 
     [$._lexp, $.function_application],
     [$.quasi_quotation, $.variable_identifier],
-    [$._lexp, $._a_expression]
+    [$._lexp, $._a_expression],
 
+    [$.simple_class]
   ],
 
   rules: {
@@ -985,7 +986,7 @@ module.exports = grammar({
       repeat($.type_variable_identifier)
     ),
 
-    scontext: $ => prec.left(seq(
+    scontext: $ => seq(
       choice(
         $.simple_class,
         seq(
@@ -995,7 +996,7 @@ module.exports = grammar({
         ),
       ),
       '=>'
-    )),
+    ),
 
     context: $ => prec(1, seq(
       choice(
@@ -1011,7 +1012,7 @@ module.exports = grammar({
 
     simple_class: $ => seq(
       choice($.qualified_type_class_identifier, $.type_class_identifier),
-      $.type_variable_identifier
+      repeat1($.type_variable_identifier)
     ),
 
     class: $ => choice(
