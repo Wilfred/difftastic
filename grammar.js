@@ -151,7 +151,7 @@ module.exports = grammar({
 
     module_exports: $ => seq(
       '(',
-      optional(sep1(',', $.export)),
+      optional(sep1(',', seq(optional(alias('type', $.type)), $.export))),
       ')'
     ),
 
