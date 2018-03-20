@@ -151,34 +151,37 @@ module.exports = grammar({
 
     module_exports: $ => seq(
       '(',
-      optional(sep1(',', seq(optional(alias('type', $.type)), $.export))),
+      optional(sep1(',', $.export)),
       ')'
     ),
 
-    export: $ => choice(
-      choice($._qualified_variable, $._variable),
-      $.module_export,
-      seq(
-        choice($.qualified_type_constructor_identifier, $.type_constructor_identifier),
-        optional(choice(
-          optional($.all_constructors),
-          seq(
-            '(',
-            optional(sep1(',', choice($._variable, $._constructor))),
-            ')'
-          )
-        ))
-      ),
-      seq(
-        choice($.qualified_type_class_identifier, $.type_class_identifier),
-        optional(choice(
-          $.all_constructors,
-          seq(
-            '(',
-            optional(sep1(',', choice($._qualified_variable, $._variable))),
-            ')'
-          )
-        ))
+    export: $ => seq(
+      optional(alias('type', $.type)),
+      choice(
+        choice($._qualified_variable, $._variable),
+        $.module_export,
+        seq(
+          choice($.qualified_type_constructor_identifier, $.type_constructor_identifier),
+          optional(choice(
+            optional($.all_constructors),
+            seq(
+              '(',
+              optional(sep1(',', choice($._variable, $._constructor))),
+              ')'
+            )
+          ))
+        ),
+        seq(
+          choice($.qualified_type_class_identifier, $.type_class_identifier),
+          optional(choice(
+            $.all_constructors,
+            seq(
+              '(',
+              optional(sep1(',', choice($._qualified_variable, $._variable))),
+              ')'
+            )
+          ))
+        )
       )
     ),
 
