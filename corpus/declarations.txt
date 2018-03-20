@@ -350,3 +350,44 @@ f :: forall a b. (a, b) -> [a]
         (tuple_type (type_variable_identifier) (type_variable_identifier)))
       (type
         (list_type (type_variable_identifier))))))
+
+=========================================
+Standalone Deriving
+=========================================
+
+deriving instance Eq a => Eq (Foo a)
+deriving instance Baz a (m a b c) => Baz a (Bar m a b c)
+
+---
+
+(module
+  (standalone_deriving_declaration
+    (scontext
+      (simple_class
+        (type_class_identifier)
+        (type_variable_identifier)))
+    (type_class_identifier)
+    (instance
+      (parenthesized_instance
+        (type_constructor_identifier)
+        (type_variable_identifier))))
+
+  (standalone_deriving_declaration
+    (scontext
+      (simple_class
+        (type_class_identifier)
+        (type_variable_identifier)
+        (parenthesized_type_variables
+          (type_variable_identifier)
+          (type_variable_identifier)
+          (type_variable_identifier)
+          (type_variable_identifier))))
+      (type_class_identifier)
+      (instance
+        (type_variable_identifier)
+        (parenthesized_instance
+          (type_constructor_identifier)
+          (type_variable_identifier)
+          (type_variable_identifier)
+          (type_variable_identifier)
+          (type_variable_identifier)))))

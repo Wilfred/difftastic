@@ -1175,7 +1175,82 @@
         },
         {
           "type": "SYMBOL",
+          "name": "standalone_deriving_declaration"
+        },
+        {
+          "type": "SYMBOL",
           "name": "_declaration"
+        }
+      ]
+    },
+    "standalone_deriving_declaration": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "deriving"
+        },
+        {
+          "type": "STRING",
+          "value": "instance"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "overlaps_pragma"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "overlapping_pragma"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "overlappable_pragma"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "incoherent_pragma"
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "scontext"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "qualified_type_class_identifier"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "type_class_identifier"
+            }
+          ]
+        },
+        {
+          "type": "SYMBOL",
+          "name": "instance"
         }
       ]
     },
@@ -4437,6 +4512,38 @@
             "type": "SYMBOL",
             "name": "type_variable_identifier"
           }
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "parenthesized_type_variables"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        }
+      ]
+    },
+    "parenthesized_type_variables": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "REPEAT1",
+          "content": {
+            "type": "SYMBOL",
+            "name": "type_variable_identifier"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ")"
         }
       ]
     },

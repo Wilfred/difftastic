@@ -298,7 +298,22 @@ module.exports = grammar({
       $.default_declaration,
       $.foreign_import_declaration,
       $.foreign_export_declaration,
+      $.standalone_deriving_declaration,
       $._declaration
+    ),
+
+    standalone_deriving_declaration: $ => seq(
+      'deriving',
+      'instance',
+      optional(choice(
+        $.overlaps_pragma,
+        $.overlapping_pragma,
+        $.overlappable_pragma,
+        $.incoherent_pragma
+      )),
+      optional($.scontext),
+      choice($.qualified_type_class_identifier, $.type_class_identifier),
+      $.instance
     ),
 
     type_synonym_declaration: $ => seq(
@@ -1012,7 +1027,14 @@ module.exports = grammar({
 
     simple_class: $ => seq(
       choice($.qualified_type_class_identifier, $.type_class_identifier),
-      repeat1($.type_variable_identifier)
+      repeat1($.type_variable_identifier),
+      optional($.parenthesized_type_variables)
+    ),
+
+    parenthesized_type_variables: $ => seq(
+      '(',
+      repeat1($.type_variable_identifier),
+      ')'
     ),
 
     class: $ => choice(
