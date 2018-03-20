@@ -109,7 +109,7 @@ Multi-param Type Class Instance Declarations
 =========================================
 
 
-instance MonadEvaluator term value m => MonadCaching term value m where {}
+instance Bar a b m => Baz a b m where {}
 
 ---
 

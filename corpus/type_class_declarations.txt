@@ -160,7 +160,7 @@ class  (Eq a) => Ord a where
 Multi-param Type Class Declarations
 =========================================
 
-class MonadEvaluator term value m => MonadCaching term value m where {}
+class Bar a b m => Baz a b m where {}
 
 ---
 
