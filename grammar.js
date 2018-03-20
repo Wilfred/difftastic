@@ -103,6 +103,7 @@ module.exports = grammar({
     [$._lexp, $.function_application],
     [$.quasi_quotation, $.variable_identifier],
     [$._lexp, $._a_expression]
+
   ],
 
   rules: {
@@ -1298,7 +1299,8 @@ module.exports = grammar({
       $.overlapping_pragma,
       $.overlappable_pragma,
       $.overlaps_pragma,
-      $.incoherent_pragma
+      $.incoherent_pragma,
+      $.rules_pragma
     ),
 
     inline_pragma: $ => seq(
@@ -1463,6 +1465,44 @@ module.exports = grammar({
       '{-#',
       'INCOHERENT',
       '#-}'
+    ),
+
+    rules_pragma: $ => seq(
+      '{-#',
+      'RULES',
+      $._layout_open_brace,
+      repeat(seq($.rule, choice($._terminal, $._layout_semicolon))),
+      $._layout_close_brace,
+      '#-}'
+    ),
+
+    rule: $ => seq(
+      alias($.string, $.name),
+      optional($.phase_control),
+      $.rule_pattern_variables,
+      alias($._expression, $.rule_lhs),
+      '=',
+      alias($._expression, $.rule_rhs)
+    ),
+
+    rule_pattern_variables: $ => seq(
+      'forall',
+      repeat1(
+        choice(
+          alias($.variable_identifier, $.pattern_variable),
+          $.pattern_variable_type_signature
+        )
+      ),
+      '.'
+    ),
+
+    pattern_variable_type_signature: $ => seq(
+      optional('('),
+      alias($.variable_identifier, $.pattern_variable),
+      alias('::', $.annotation),
+      optional($.rule_pattern_variables),
+      $._type_pattern,
+      optional(')')
     ),
 
     // In this context, conjunction means both sides are required (AND).

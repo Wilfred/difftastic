@@ -681,3 +681,82 @@ instance {-# INCOHERENT #-} (Show a, Show b) => C a [b] where {}
       (type_variable_identifier)
       (list_instance (type_variable_identifier)))
     (where)))
+
+=========================================
+Rule Pragmas
+=========================================
+
+{-# RULES
+      "map/map" [2] forall f g xs. map f (map g xs) = map (f.g) xs
+      "fold/build"  forall k z (g::forall b. (a->b->b) -> b -> b) .
+                    foldr k z (build g) = g k z
+  #-}
+
+---
+
+(module
+  (rules_pragma
+    (rule
+      (name)
+      (phase_control (integer))
+      (rule_pattern_variables (pattern_variable) (pattern_variable) (pattern_variable))
+      (rule_lhs
+        (function_application
+          (function_application
+            (variable_identifier)
+            (variable_identifier))
+          (parenthesized_expression
+            (function_application
+              (function_application
+                (variable_identifier)
+                (variable_identifier))
+              (variable_identifier)))))
+      (rule_rhs
+        (function_application
+          (function_application
+            (variable_identifier)
+            (parenthesized_expression
+              (infix_operator_application
+                (variable_identifier)
+                (variable_operator (variable_symbol))
+                (variable_identifier))))
+          (variable_identifier))))
+
+    (rule
+      (name)
+      (rule_pattern_variables
+        (pattern_variable)
+        (pattern_variable)
+        (pattern_variable_type_signature
+          (pattern_variable)
+          (annotation)
+          (rule_pattern_variables
+            (pattern_variable))
+            (function_type
+              (type
+                (parenthesized_constructor
+                  (function_type
+                    (type (type_variable_identifier))
+                    (function_type
+                      (type (type_variable_identifier))
+                      (type (type_variable_identifier))))))
+              (function_type
+                (type (type_variable_identifier))
+                (type (type_variable_identifier))))))
+      (rule_lhs
+        (function_application
+          (function_application
+            (function_application
+              (variable_identifier)
+              (variable_identifier))
+            (variable_identifier))
+          (parenthesized_expression
+            (function_application
+              (variable_identifier)
+              (variable_identifier)))))
+      (rule_rhs
+        (function_application
+          (function_application
+            (variable_identifier)
+            (variable_identifier))
+          (variable_identifier))))))
