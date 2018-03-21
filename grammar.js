@@ -593,7 +593,6 @@ module.exports = grammar({
       $.import_declaration,
       $.class_declaration,
       $.interface_declaration,
-      $.constant_declaration,
       $.enum_declaration,
       $.interface_declaration
     )),

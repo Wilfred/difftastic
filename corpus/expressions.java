@@ -211,7 +211,50 @@ class WhileDemo {
 
 ---
 
-(program (class_declaration (identifier) (class_body (method_declaration (modifier) (modifier) (method_header (void_type) (method_declarator (identifier) (formal_parameter (array_type (type_identifier) (dims)) (variable_declarator_id (identifier))))) (method_body (block (constant_declaration (integral_type) (variable_declarator_list (variable_declarator (variable_declarator_id (identifier)) (integer_literal (decimal_integer_literal))))) (while_statement (binary_expression (identifier) (integer_literal (decimal_integer_literal))) (block (method_invocation (scoped_identifier (identifier) (identifier)) (identifier) (argument_list (binary_expression (string_literal) (identifier)))) (update_expression (identifier))))))))))
+ (program
+  (class_declaration
+    (identifier)
+    (class_body
+      (method_declaration
+        (modifier)
+        (modifier)
+        (method_header
+          (void_type)
+          (method_declarator
+            (identifier)
+            (formal_parameter
+              (array_type
+              (type_identifier)
+                (dims))
+              (variable_declarator_id
+                (identifier)))))
+        (method_body
+          (block
+            (local_variable_declaration_statement
+              (local_variable_declaration
+                (integral_type)
+                  (variable_declarator_list
+                    (variable_declarator
+                      (variable_declarator_id
+                        (identifier))
+                      (integer_literal
+                        (decimal_integer_literal))))))
+                (while_statement
+                  (binary_expression
+                    (identifier)
+                    (integer_literal
+                      (decimal_integer_literal)))
+                  (block
+                    (method_invocation
+                      (scoped_identifier
+                        (identifier) (identifier))
+                      (identifier)
+                      (argument_list
+                        (binary_expression
+                          (string_literal)
+                          (identifier))))
+                    (update_expression
+                      (identifier))))))))))
 
 ===
 try-with-resources statements
@@ -223,29 +266,7 @@ try (FileInputStream input = new FileInputStream("file.txt")) {
 
 ---
 
-(program
-  (try_statement
-    (try_with_resources_statement
-      (resource_specification
-        (resource
-          (type_identifier)
-          (variable_declarator_id
-            (identifier))
-          (class_instance_creation_expression
-            (unqualified_class_instance_creation_expression
-              (type_identifier)
-              (argument_list
-                (string_literal))))))
-      (block
-        (constant_declaration
-          (integral_type)
-          (variable_declarator_list
-            (variable_declarator
-              (variable_declarator_id
-                (identifier))
-                (method_invocation
-                  (identifier)
-                  (identifier)))))))))
+(program (try_statement (try_with_resources_statement (resource_specification (resource (type_identifier) (variable_declarator_id (identifier)) (class_instance_creation_expression (unqualified_class_instance_creation_expression (type_identifier) (argument_list (string_literal)))))) (block (local_variable_declaration_statement (local_variable_declaration (integral_type) (variable_declarator_list (variable_declarator (variable_declarator_id (identifier)) (method_invocation (identifier) (identifier))))))))))
 
 ===
 assignment
@@ -381,10 +402,7 @@ public class SwitchDemo {
 
 ---
 
-(program
-  (class_declaration (modifier) (identifier)
-    (class_body
-      (method_declaration (modifier) (modifier) (method_header (void_type) (method_declarator (identifier) (formal_parameter (array_type (type_identifier) (dims)) (variable_declarator_id (identifier))))) (method_body (block (constant_declaration (integral_type) (variable_declarator_list (variable_declarator (variable_declarator_id (identifier)) (integer_literal (decimal_integer_literal))))) (constant_declaration (type_identifier) (variable_declarator_list (variable_declarator (variable_declarator_id (identifier))))) (switch_statement (identifier) (switch_block (switch_label (integer_literal (decimal_integer_literal))) (assignment_expression (lhs (identifier)) (string_literal)) (break_statement) (switch_label (integer_literal (decimal_integer_literal))) (assignment_expression (lhs (identifier)) (string_literal)) (break_statement) (switch_label (integer_literal (decimal_integer_literal))) (assignment_expression (lhs (identifier)) (string_literal)) (break_statement) (switch_label) (assignment_expression (lhs (identifier)) (string_literal)) (break_statement))) (method_invocation (scoped_identifier (identifier) (identifier)) (identifier) (argument_list (identifier)))))))))
+(program (class_declaration (modifier) (identifier) (class_body (method_declaration (modifier) (modifier) (method_header (void_type) (method_declarator (identifier) (formal_parameter (array_type (type_identifier) (dims)) (variable_declarator_id (identifier))))) (method_body (block (local_variable_declaration_statement (local_variable_declaration (integral_type) (variable_declarator_list (variable_declarator (variable_declarator_id (identifier)) (integer_literal (decimal_integer_literal)))))) (local_variable_declaration_statement (local_variable_declaration (type_identifier) (variable_declarator_list (variable_declarator (variable_declarator_id (identifier)))))) (switch_statement (identifier) (switch_block (switch_label (integer_literal (decimal_integer_literal))) (assignment_expression (lhs (identifier)) (string_literal)) (break_statement) (switch_label (integer_literal (decimal_integer_literal))) (assignment_expression (lhs (identifier)) (string_literal)) (break_statement) (switch_label (integer_literal (decimal_integer_literal))) (assignment_expression (lhs (identifier)) (string_literal)) (break_statement) (switch_label) (assignment_expression (lhs (identifier)) (string_literal)) (break_statement))) (method_invocation (scoped_identifier (identifier) (identifier)) (identifier) (argument_list (identifier))))))))) 
 
 ===
 type arguments

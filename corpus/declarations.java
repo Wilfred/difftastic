@@ -11,10 +11,25 @@ class A {
 ---
 
 (program
-  (class_declaration (identifier)
+  (class_declaration
+    (identifier)
     (class_body
-        (method_declaration (method_header (integral_type)
-        (method_declarator (identifier))) (method_body (block (constant_declaration (integral_type) (variable_declarator_list (variable_declarator (variable_declarator_id (identifier)) (integer_literal (decimal_integer_literal)))))))))))
+      (method_declaration
+        (method_header
+          (integral_type)
+        (method_declarator
+          (identifier)))
+        (method_body
+          (block
+            (local_variable_declaration_statement
+              (local_variable_declaration
+                (integral_type)
+                (variable_declarator_list
+                  (variable_declarator
+                    (variable_declarator_id
+                      (identifier))
+                    (integer_literal
+                      (decimal_integer_literal))))))))))))
 
 ===
 module
@@ -425,18 +440,18 @@ class JayZ {
 (program
   (class_declaration
     (identifier)
-      (class_body
-            (method_declaration
-              (modifier)
-              (method_header
-                (void_type)
-                (method_declarator
-                  (identifier)))
-              (method_body
-                (block
-                  (constant_declaration
-                    (integral_type)
-                    (variable_declarator_list
-                      (variable_declarator
-                        (variable_declarator_id
-                          (identifier)))))))))))
+    (class_body
+      (method_declaration
+        (modifier)
+        (method_header
+          (void_type)
+          (method_declarator
+            (identifier)))
+        (method_body
+          (block
+            (local_variable_declaration_statement
+              (local_variable_declaration
+                (integral_type)
+                (variable_declarator_list
+                  (variable_declarator
+                    (variable_declarator_id (identifier))))))))))))
