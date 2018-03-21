@@ -480,9 +480,8 @@ module.exports = grammar({
     ),
 
     for_init: $ => choice(
-      commaSep1($._expression_statement),
+      commaSep1($._expression),
       $.local_variable_declaration,
-      $._ambiguous_name
     ),
 
     _enhanced_for_statement: $ => seq(
