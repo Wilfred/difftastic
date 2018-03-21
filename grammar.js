@@ -893,13 +893,17 @@ module.exports = grammar({
       ']'
     ),
 
-    function_type_instance: $ => seq(
+    kind_function_type_instance: $ => seq(
       '(',
-      $.type_variable_identifier,
-      '->',
-      $.type_variable_identifier,
+      sep1('->', $._kind_pattern),
       ')'
     ),
+
+    function_type_instance: $ => prec(1, seq(
+      '(',
+      sep1('->', $.type_variable_identifier),
+      ')'
+    )),
 
     fixity_declaration: $ => seq(
       choice('infixl', 'infixr', 'infix'),
@@ -920,6 +924,37 @@ module.exports = grammar({
       optional($.scoped_type_variables),
       $._type_pattern
     ),
+
+    kind_signature: $ => seq(
+      sep1(',', $.type_variable_identifier),
+      alias('::', $.annotation),
+      $._kind_pattern
+    ),
+
+    _kind: $ => prec.left(repeat1($._akind)),
+
+    _kind_pattern: $ => prec.left(choice(
+      $._kind,
+      $.kind_function_type
+    )),
+
+    _akind: $ => choice(
+      alias('*', $.star),
+      $.kind_tuple_type,
+      $.kind_list_type,
+      $.kind_parenthesized_constructor
+    ),
+
+    kind_function_type: $ => prec.right(seq(
+      choice(
+        alias($._kind, $.kind),
+      ),
+      '->',
+      choice(
+        alias($._kind, $.kind),
+        $.kind_function_type
+      )
+    )),
 
     pattern_type_signature: $ => seq(
       'pattern',
@@ -945,7 +980,10 @@ module.exports = grammar({
     function_type: $ => prec.right(seq(
       alias($._type, $.type),
       '->',
-      choice(alias($._type, $.type), $.function_type)
+      choice(
+        alias($._type, $.type),
+        $.function_type
+      )
     )),
 
     _atype: $ => choice(
@@ -970,15 +1008,35 @@ module.exports = grammar({
       ')'
     ),
 
+    kind_tuple_type: $ => seq(
+      '(',
+      $._kind_pattern,
+      ',',
+      sep1(',', $._kind_pattern),
+      ')'
+    ),
+
     list_type: $ => seq(
       '[',
       $._type_pattern,
       ']'
     ),
 
+    kind_list_type: $ => seq(
+      '[',
+      $._kind_pattern,
+      ']'
+    ),
+
     parenthesized_constructor: $ => seq(
       '(',
       $._type_pattern,
+      ')'
+    ),
+
+    kind_parenthesized_constructor: $ => seq(
+      '(',
+      $._kind_pattern,
       ')'
     ),
 
@@ -1013,7 +1071,16 @@ module.exports = grammar({
 
     _simple_type: $ => seq(
       $.type_constructor_identifier,
-      repeat($.type_variable_identifier)
+      repeat(
+        choice(
+          $.type_variable_identifier,
+          seq(
+            '(',
+            $.kind_signature,
+            ')'
+          )
+        )
+      )
     ),
 
     scontext: $ => seq(

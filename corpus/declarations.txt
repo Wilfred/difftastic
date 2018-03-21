@@ -60,6 +60,7 @@ New Type Declarations
 newtype N = N Int
 newtype Show a => N = N a
 newtype Age = Age { unAge :: Maybe Int }
+newtype Bar a (b :: [* -> *]) c = Foo (a b c)
 
 ---
 
@@ -85,7 +86,24 @@ newtype Age = Age { unAge :: Maybe Int }
           (variable_identifier)
           (annotation)
           (type_constructor_identifier)
-          (type_constructor_identifier))))))
+          (type_constructor_identifier)))))
+  (newtype_declaration
+    (type_constructor_identifier)
+    (type_variable_identifier)
+    (kind_signature
+      (type_variable_identifier)
+      (annotation)
+      (kind_list_type
+        (kind_function_type
+          (kind (star))
+          (kind (star)))))
+    (type_variable_identifier)
+    (new_constructor
+      (constructor_identifier)
+      (parenthesized_constructor
+        (type_variable_identifier)
+        (type_variable_identifier)
+        (type_variable_identifier)))))
 
 =========================================
 New Type Declarations With Deriving
