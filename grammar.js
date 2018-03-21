@@ -1144,10 +1144,6 @@ module.exports = grammar({
     )),
 
     _literal: $ => choice(
-      $._primary_literal
-    ),
-
-    _primary_literal: $ => choice(
       $.integer,
       $.float,
       $.string,
