@@ -38,7 +38,7 @@
   },
   "scripts": {
     "build": "tree-sitter generate && node-gyp build",
-    "test": "tree-sitter test",
+    "test": "tree-sitter test && ./script/parse-examples.sh",
     "build-test": "tree-sitter generate && node-gyp build && tree-sitter test",
     "watch-test": "npm-watch test",
     "watch-grammar": "npm-watch build-test"

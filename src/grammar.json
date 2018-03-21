@@ -3168,7 +3168,7 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "_expression_statement"
+              "name": "_expression"
             },
             {
               "type": "REPEAT",
@@ -3181,7 +3181,7 @@
                   },
                   {
                     "type": "SYMBOL",
-                    "name": "_expression_statement"
+                    "name": "_expression"
                   }
                 ]
               }
@@ -3191,10 +3191,6 @@
         {
           "type": "SYMBOL",
           "name": "local_variable_declaration"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_ambiguous_name"
         }
       ]
     },
