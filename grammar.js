@@ -104,7 +104,10 @@ module.exports = grammar({
     [$.quasi_quotation, $.variable_identifier],
     [$._lexp, $._a_expression],
 
-    [$.simple_class]
+    [$.simple_class],
+    [$._general_type_constructor, $.simple_class],
+    [$.type_class_declaration, $.simple_class],
+
   ],
 
   rules: {
