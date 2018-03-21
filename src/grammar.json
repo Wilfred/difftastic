@@ -1707,6 +1707,19 @@
         }
       ]
     },
+    "promoted": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "'"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_general_constructor"
+        }
+      ]
+    },
     "_general_constructor": {
       "type": "CHOICE",
       "members": [
@@ -1762,6 +1775,10 @@
         {
           "type": "SYMBOL",
           "name": "tupling_constructor"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "promoted"
         }
       ]
     },
@@ -3854,6 +3871,10 @@
         {
           "type": "SYMBOL",
           "name": "constructor_operator"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "type_operator"
         }
       ]
     },
@@ -3983,6 +4004,10 @@
           {
             "type": "SYMBOL",
             "name": "function_type"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "infix_type_operator_application"
           }
         ]
       }
@@ -4062,6 +4087,32 @@
           "name": "parenthesized_constructor"
         }
       ]
+    },
+    "infix_type_operator_application": {
+      "type": "PREC_RIGHT",
+      "value": 0,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_type_pattern"
+            },
+            "named": true,
+            "value": "type"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "type_operator"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_type_pattern"
+          }
+        ]
+      }
     },
     "tuple_type": {
       "type": "SEQ",
@@ -4992,15 +5043,6 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "_primary_literal"
-        }
-      ]
-    },
-    "_primary_literal": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
           "name": "integer"
         },
         {
@@ -5595,6 +5637,103 @@
           "name": "qualified_infix_variable_identifier"
         }
       ]
+    },
+    "type_operator": {
+      "type": "TOKEN",
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "'"
+          },
+          {
+            "type": "REPEAT1",
+            "content": {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "STRING",
+                      "value": "!"
+                    },
+                    {
+                      "type": "STRING",
+                      "value": "#"
+                    },
+                    {
+                      "type": "STRING",
+                      "value": "$"
+                    },
+                    {
+                      "type": "STRING",
+                      "value": "%"
+                    },
+                    {
+                      "type": "STRING",
+                      "value": "&"
+                    },
+                    {
+                      "type": "STRING",
+                      "value": "⋆"
+                    },
+                    {
+                      "type": "STRING",
+                      "value": "+"
+                    },
+                    {
+                      "type": "STRING",
+                      "value": "."
+                    },
+                    {
+                      "type": "STRING",
+                      "value": "/"
+                    },
+                    {
+                      "type": "STRING",
+                      "value": "<"
+                    },
+                    {
+                      "type": "STRING",
+                      "value": ">"
+                    },
+                    {
+                      "type": "STRING",
+                      "value": "?"
+                    },
+                    {
+                      "type": "STRING",
+                      "value": "^"
+                    },
+                    {
+                      "type": "STRING",
+                      "value": "-"
+                    },
+                    {
+                      "type": "STRING",
+                      "value": "*"
+                    },
+                    {
+                      "type": "STRING",
+                      "value": "="
+                    },
+                    {
+                      "type": "STRING",
+                      "value": "~"
+                    }
+                  ]
+                },
+                {
+                  "type": "STRING",
+                  "value": ":"
+                }
+              ]
+            }
+          }
+        ]
+      }
     },
     "constructor_symbol": {
       "type": "TOKEN",

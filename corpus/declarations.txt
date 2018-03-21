@@ -10,6 +10,7 @@ type V = ()
 type X = (,)
 type Y = (,,)
 type Z = (->)
+type Nat = Zero ': Succ Zero ': Succ (Succ Zero) ': '[]
 
 ---
 
@@ -37,7 +38,20 @@ type Z = (->)
     (type (tupling_constructor)))
   (type_synonym_declaration
     (type_constructor_identifier)
-    (type (function_constructor))))
+    (type (function_constructor)))
+  (type_synonym_declaration
+    (type_constructor_identifier)
+      (type
+        (infix_type_operator_application
+          (type (type_constructor_identifier))
+          (type_operator)
+          (infix_type_operator_application
+            (type (type_constructor_identifier) (type_constructor_identifier))
+            (type_operator)
+            (infix_type_operator_application
+              (type (type_constructor_identifier) (parenthesized_constructor (type_constructor_identifier) (type_constructor_identifier)))
+              (type_operator)
+              (promoted (list_constructor))))))))
 
 =========================================
 New Type Declarations
