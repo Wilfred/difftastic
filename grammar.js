@@ -413,6 +413,11 @@ module.exports = grammar({
       $._pattern
     ),
 
+    promoted: $ => seq(
+      '\'',
+      $._general_constructor
+    ),
+
     _general_constructor: $ => choice(
       $._constructor,
       $._qualified_constructor,
@@ -428,7 +433,8 @@ module.exports = grammar({
       $.unit_constructor,
       $.list_constructor,
       $.function_constructor,
-      $.tupling_constructor
+      $.tupling_constructor,
+      $.promoted
     ),
 
     unit_constructor: $ => seq('(', ')'),
@@ -903,7 +909,8 @@ module.exports = grammar({
 
     _op: $ => choice(
       $.variable_operator,
-      $.constructor_operator
+      $.constructor_operator,
+      $.type_operator
     ),
 
     type_signature: $ => seq(
@@ -929,12 +936,11 @@ module.exports = grammar({
 
     _type_pattern: $ => prec.left(choice(
       $._type,
-      $.function_type
+      $.function_type,
+      $.infix_type_operator_application
     )),
 
-    _type: $ => prec.left(
-      repeat1($._atype)
-    ),
+    _type: $ => prec.left(repeat1($._atype)),
 
     function_type: $ => prec.right(seq(
       alias($._type, $.type),
@@ -949,6 +955,12 @@ module.exports = grammar({
       $.list_type,
       $.parenthesized_constructor
     ),
+
+    infix_type_operator_application: $ => prec.right(seq(
+      alias($._type_pattern, $.type),
+      $.type_operator,
+      $._type_pattern
+    )),
 
     tuple_type: $ => seq(
       '(',
@@ -1268,6 +1280,11 @@ module.exports = grammar({
       $.infix_variable_identifier,
       $.qualified_infix_variable_identifier
     ),
+
+    type_operator: $ => token(seq(
+      '\'',
+      repeat1(choice(variable_symbol, restricted_variable_symbol))
+    )),
 
     constructor_symbol: $ => token(
       seq(
