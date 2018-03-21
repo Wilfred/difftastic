@@ -3713,10 +3713,6 @@
           },
           {
             "type": "SYMBOL",
-            "name": "constant_declaration"
-          },
-          {
-            "type": "SYMBOL",
             "name": "enum_declaration"
           },
           {
