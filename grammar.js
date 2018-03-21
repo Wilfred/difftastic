@@ -865,14 +865,14 @@ module.exports = grammar({
 
     instance: $ => repeat1(choice(
       $._general_type_constructor,
-      $.parenthesized_instance,
+      $.parenthesized_type_constructor,
       $.tuple_instance,
       $.list_instance,
       $.function_type_instance,
       $.type_variable_identifier
     )),
 
-    parenthesized_instance: $ => seq(
+    parenthesized_type_constructor: $ => prec(1, seq(
       '(',
       $._general_type_constructor,
       repeat($.type_variable_identifier),

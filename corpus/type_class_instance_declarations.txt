@@ -16,7 +16,7 @@ instance Show (a -> b) where {}
     (instance (type_constructor_identifier)) (where))
   (type_class_instance_declaration
     (type_class_identifier)
-    (instance (parenthesized_instance (type_constructor_identifier) (type_variable_identifier))) (where))
+    (instance (parenthesized_type_constructor (type_constructor_identifier) (type_variable_identifier))) (where))
   (type_class_instance_declaration
     (type_class_identifier)
     (instance (tuple_instance (type_variable_identifier) (type_variable_identifier) (type_variable_identifier))) (where))
@@ -47,14 +47,14 @@ instance (Show a, Eq a) => Read (Maybe a) where {}
   (type_class_instance_declaration
     (scontext (simple_class (type_class_identifier) (type_variable_identifier)))
     (type_class_identifier)
-    (instance (parenthesized_instance (type_constructor_identifier) (type_variable_identifier)))
+    (instance (parenthesized_type_constructor (type_constructor_identifier) (type_variable_identifier)))
     (where))
   (type_class_instance_declaration
     (scontext
       (simple_class (type_class_identifier) (type_variable_identifier))
       (simple_class (type_class_identifier) (type_variable_identifier)))
     (type_class_identifier)
-    (instance (parenthesized_instance (type_constructor_identifier) (type_variable_identifier)))
+    (instance (parenthesized_type_constructor (type_constructor_identifier) (type_variable_identifier)))
     (where)))
 
 =========================================

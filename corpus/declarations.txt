@@ -400,7 +400,7 @@ deriving instance Baz a (m a b c) => Baz a (Bar m a b c)
         (type_variable_identifier)))
     (type_class_identifier)
     (instance
-      (parenthesized_instance
+      (parenthesized_type_constructor
         (type_constructor_identifier)
         (type_variable_identifier))))
 
@@ -417,7 +417,7 @@ deriving instance Baz a (m a b c) => Baz a (Bar m a b c)
       (type_class_identifier)
       (instance
         (type_variable_identifier)
-        (parenthesized_instance
+        (parenthesized_type_constructor
           (type_constructor_identifier)
           (type_variable_identifier)
           (type_variable_identifier)
