@@ -108,7 +108,6 @@ instance Foo Bar where
 Multi-param Type Class Instance Declarations
 =========================================
 
-
 instance Bar a b m => Baz a b m where {}
 
 ---
@@ -126,4 +125,34 @@ instance Bar a b m => Baz a b m where {}
       (type_variable_identifier)
       (type_variable_identifier)
       (type_variable_identifier))
+    (where)))
+
+=========================================
+Simple Contexts With Promoted Constructors
+=========================================
+
+instance ( Foo (Bar a b '[]) c ) => Baz a b (Bix a b c) where
+
+---
+
+(module
+  (type_class_instance_declaration
+    (scontext
+      (simple_class
+        (type_class_identifier)
+        (parenthesized_type_constructor
+          (type_constructor_identifier)
+          (type_variable_identifier)
+          (type_variable_identifier)
+          (promoted (list_constructor)))
+        (type_variable_identifier)))
+    (type_class_identifier)
+    (instance
+      (type_variable_identifier)
+      (type_variable_identifier)
+      (parenthesized_type_constructor
+        (type_constructor_identifier)
+        (type_variable_identifier)
+        (type_variable_identifier)
+        (type_variable_identifier)))
     (where)))
