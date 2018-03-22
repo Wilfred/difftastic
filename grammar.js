@@ -84,29 +84,28 @@ module.exports = grammar({
   ],
 
   conflicts: $ => [
-    [$._a_pattern, $._statement],
-    [$.constructor_identifier, $.type_constructor_identifier],
-    [$.qualified_type_constructor_identifier, $.qualified_type_class_identifier],
-    [$.qualified_constructor_identifier, $.qualified_type_constructor_identifier],
     [$.type_constructor_identifier, $.type_class_identifier],
-    [$.labeled_pattern, $._a_expression, $.labeled_construction],
-    [$._a_expression, $.labeled_construction],
+    [$.qualified_constructor_identifier, $.qualified_type_constructor_identifier],
+    [$.qualified_type_constructor_identifier, $.qualified_type_class_identifier],
+    [$.constructor_identifier, $.type_constructor_identifier],
     [$._constructor_identifier, $._module_identifier],
     [$.module_identifier, $.qualified_module_identifier],
     [$.constructor_identifier, $.type_constructor_identifier, $.type_class_identifier],
+    [$.quasi_quotation, $.variable_identifier],
+    [$.simple_class],
+    [$.type_class_declaration, $.simple_class],
 
     [$.constructor_pattern, $._a_expression],
+    [$._a_expression, $.labeled_construction],
+    [$._lexp, $._a_expression],
+    [$.labeled_pattern, $._a_expression, $.labeled_construction],
+
     [$._a_pattern, $._a_expression],
+    [$._a_pattern, $._statement],
 
     [$._expression, $.expression_type_signature],
 
     [$._lexp, $.function_application],
-    [$.quasi_quotation, $.variable_identifier],
-    [$._lexp, $._a_expression],
-
-    [$.simple_class],
-    [$._general_type_constructor, $.simple_class],
-    [$.type_class_declaration, $.simple_class],
   ],
 
   rules: {
@@ -429,7 +428,7 @@ module.exports = grammar({
       $.tupling_constructor
     ),
 
-    _general_type_constructor: $ => choice(
+    _general_type_constructor: $ => prec(1, choice(
       $.type_constructor_identifier,
       $.qualified_type_constructor_identifier,
       $.unit_constructor,
@@ -437,7 +436,7 @@ module.exports = grammar({
       $.function_constructor,
       $.tupling_constructor,
       $.promoted
-    ),
+    )),
 
     unit_constructor: $ => seq('(', ')'),
     list_constructor: $ => seq('[', ']'),
@@ -1092,7 +1091,7 @@ module.exports = grammar({
           '(',
           optional(sep1(',', $.simple_class)),
           ')'
-        ),
+        )
       ),
       '=>'
     ),
