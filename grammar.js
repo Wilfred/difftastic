@@ -122,7 +122,7 @@ module.exports = grammar({
       ),
       seq(
         repeat($.language_pragma),
-        repeat(seq($._top_declaration, choice(';', $._layout_semicolon)))
+        repeat(seq($._top_declaration, choice($._terminal, $._layout_semicolon)))
       )
     ),
 
