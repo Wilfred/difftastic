@@ -102,7 +102,6 @@ module.exports = grammar({
     [$.labeled_pattern, $._a_expression, $.labeled_construction],
 
     [$._a_pattern, $._a_expression],
-    [$._a_pattern, $._statement],
 
     [$._expression, $.expression_type_signature],
 
@@ -134,6 +133,19 @@ module.exports = grammar({
       seq(
         $._layout_open_brace,
         repeat(seq($._top_declaration, choice($._terminal, $._layout_semicolon))),
+        $._layout_close_brace
+      )
+    ),
+
+    _statements: $ => choice(
+      seq(
+        '{',
+        repeat(seq(choice($.bind_pattern, $._expression, $.let_statement), optional($._terminal))),
+        '}'
+      ),
+      seq(
+        $._layout_open_brace,
+        repeat(seq(choice($.bind_pattern, $._expression, $.let_statement), choice($._terminal, $._layout_semicolon))),
         $._layout_close_brace
       )
     ),
@@ -444,20 +456,10 @@ module.exports = grammar({
     function_constructor: $ => seq('(', '->', ')'),
     tupling_constructor: $ => seq('(', ',', repeat(','), ')'),
 
-    _statement: $ => choice(
-      seq(
-        $._expression,
-        choice($._terminal, $._layout_semicolon)
-      ),
-      $.bind_pattern,
-      $.let_statement
-    ),
-
     bind_pattern: $ => seq(
       $._pattern,
       '<-',
-      $._expression,
-      choice($._terminal, $._layout_semicolon)
+      $._expression
     ),
 
     let_statement: $ => seq(
@@ -816,18 +818,7 @@ module.exports = grammar({
 
     do: $ => seq(
       'do',
-      choice(
-        seq(
-          '{',
-          repeat($._statement),
-          '}'
-        ),
-        seq(
-          $._layout_open_brace,
-          repeat($._statement),
-          $._layout_close_brace
-        )
-      )
+      $._statements
     ),
 
     conditional_expression: $ => seq(
@@ -874,12 +865,12 @@ module.exports = grammar({
       $.type_variable_identifier
     ))),
 
-    parenthesized_type_constructor: $ => prec(1, seq(
+    parenthesized_type_constructor: $ => seq(
       '(',
       $._general_type_constructor,
       repeat(choice($.type_variable_identifier, $.promoted)),
       ')'
-    )),
+    ),
 
     tuple_instance: $ => seq(
       '(',
