@@ -94,6 +94,7 @@ module.exports = grammar({
     [$.quasi_quotation, $.variable_identifier],
     [$.simple_class],
     [$.type_class_declaration, $.simple_class],
+    [$._general_type_constructor, $.simple_class],
 
     [$.constructor_pattern, $._a_expression],
     [$._a_expression, $.labeled_construction],
@@ -428,7 +429,7 @@ module.exports = grammar({
       $.tupling_constructor
     ),
 
-    _general_type_constructor: $ => prec(1, choice(
+    _general_type_constructor: $ => choice(
       $.type_constructor_identifier,
       $.qualified_type_constructor_identifier,
       $.unit_constructor,
@@ -436,7 +437,7 @@ module.exports = grammar({
       $.function_constructor,
       $.tupling_constructor,
       $.promoted
-    )),
+    ),
 
     unit_constructor: $ => seq('(', ')'),
     list_constructor: $ => seq('[', ']'),
