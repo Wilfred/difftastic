@@ -207,14 +207,14 @@ module.exports = grammar({
       $._import_declaration
     ),
 
-    _import_declaration: $ => seq(
+    _import_declaration: $ => prec.right(seq(
       choice(
         $.import_alias,
         $.qualified_module_identifier,
         $.module_identifier
       ),
       optional(choice($.import_spec, $.hidden_import_spec))
-    ),
+    )),
 
     import_alias: $ => seq(
       choice($.qualified_module_identifier, $.module_identifier),
@@ -866,21 +866,21 @@ module.exports = grammar({
       $.where
     ),
 
-    instance: $ => repeat1(choice(
+    instance: $ => prec.left(repeat1(choice(
       $._general_type_constructor,
       $.parenthesized_type_constructor,
       $.tuple_instance,
       $.list_instance,
       $.function_type_instance,
       $.type_variable_identifier
-    )),
+    ))),
 
     parenthesized_type_constructor: $ => prec(1, seq(
       '(',
       $._general_type_constructor,
-      repeat($.type_variable_identifier),
+      repeat(choice($.type_variable_identifier, $.promoted)),
       ')'
-    ),
+    )),
 
     tuple_instance: $ => seq(
       '(',
@@ -1059,7 +1059,7 @@ module.exports = grammar({
       ']'
     ),
 
-    algebraic_datatype_declaration: $ => seq(
+    algebraic_datatype_declaration: $ => prec.right(seq(
       'data',
       optional($.context),
       $._simple_type,
@@ -1070,9 +1070,9 @@ module.exports = grammar({
           optional($.deriving)
         )
       )
-    ),
+    )),
 
-    _simple_type: $ => seq(
+    _simple_type: $ => prec.left(seq(
       $.type_constructor_identifier,
       repeat(
         choice(
@@ -1084,7 +1084,7 @@ module.exports = grammar({
           )
         )
       )
-    ),
+    )),
 
     scontext: $ => seq(
       choice(
@@ -1112,8 +1112,12 @@ module.exports = grammar({
 
     simple_class: $ => seq(
       choice($.qualified_type_class_identifier, $.type_class_identifier),
-      repeat1($.type_variable_identifier),
-      optional($.parenthesized_type_variables)
+      repeat1(choice(
+        $.type_variable_identifier,
+        $.parenthesized_type_variables,
+        $.promoted,
+        $.parenthesized_type_constructor
+      ))
     ),
 
     parenthesized_type_variables: $ => seq(
@@ -1151,7 +1155,7 @@ module.exports = grammar({
       )
     ),
 
-    data_constructor: $ => seq(
+    data_constructor: $ => prec.left(seq(
       $._constructor,
       repeat(
         seq(
@@ -1167,20 +1171,20 @@ module.exports = grammar({
           )
         )
       )
-    ),
+    )),
 
     strict_type: $ => seq(
       '!',
       $._type_pattern
     ),
 
-    infix_data_constructor: $ => seq(
+    infix_data_constructor: $ => prec.left(seq(
       optional('!'),
       repeat1($._atype),
       $.constructor_operator,
       optional('!'),
       repeat1($._atype)
-    ),
+    )),
 
     record_data_constructor: $ => seq($._constructor, $.fields),
 
@@ -1196,14 +1200,14 @@ module.exports = grammar({
       )
     ),
 
-    newtype_declaration: $ => seq(
+    newtype_declaration: $ => prec.left(seq(
       'newtype',
       optional($.context),
       $._simple_type,
       '=',
       $.new_constructor,
       optional($.deriving)
-    ),
+    )),
 
     new_constructor: $ => choice(
       seq(
