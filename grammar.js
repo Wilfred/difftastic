@@ -140,12 +140,17 @@ module.exports = grammar({
     _statements: $ => choice(
       seq(
         '{',
-        repeat(seq(choice($.bind_pattern, $._expression, $.let_statement), optional($._terminal))),
+        repeat(seq($._statement, optional($._terminal))),
         '}'
       ),
       seq(
         $._layout_open_brace,
-        repeat(seq(choice($.bind_pattern, $._expression, $.let_statement), choice($._terminal, $._layout_semicolon))),
+        repeat(
+          seq(
+            $._statement,
+            choice($._terminal, $._layout_semicolon)
+          )
+        ),
         $._layout_close_brace
       )
     ),
@@ -455,6 +460,12 @@ module.exports = grammar({
     list_constructor: $ => seq('[', ']'),
     function_constructor: $ => seq('(', '->', ')'),
     tupling_constructor: $ => seq('(', ',', repeat(','), ')'),
+
+    _statement: $ => choice(
+      $._expression,
+      $.bind_pattern,
+      $.let_statement
+    ),
 
     bind_pattern: $ => seq(
       $._pattern,
