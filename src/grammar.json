@@ -1762,37 +1762,41 @@
       ]
     },
     "_general_type_constructor": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "type_constructor_identifier"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "qualified_type_constructor_identifier"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "unit_constructor"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "list_constructor"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "function_constructor"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "tupling_constructor"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "promoted"
-        }
-      ]
+      "type": "PREC",
+      "value": 1,
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "type_constructor_identifier"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "qualified_type_constructor_identifier"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "unit_constructor"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "list_constructor"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "function_constructor"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "tupling_constructor"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "promoted"
+          }
+        ]
+      }
     },
     "unit_constructor": {
       "type": "SEQ",
@@ -8761,33 +8765,20 @@
   ],
   "conflicts": [
     [
-      "_a_pattern",
-      "_statement"
-    ],
-    [
-      "constructor_identifier",
-      "type_constructor_identifier"
-    ],
-    [
-      "qualified_type_constructor_identifier",
-      "qualified_type_class_identifier"
+      "type_constructor_identifier",
+      "type_class_identifier"
     ],
     [
       "qualified_constructor_identifier",
       "qualified_type_constructor_identifier"
     ],
     [
-      "type_constructor_identifier",
-      "type_class_identifier"
+      "qualified_type_constructor_identifier",
+      "qualified_type_class_identifier"
     ],
     [
-      "labeled_pattern",
-      "_a_expression",
-      "labeled_construction"
-    ],
-    [
-      "_a_expression",
-      "labeled_construction"
+      "constructor_identifier",
+      "type_constructor_identifier"
     ],
     [
       "_constructor_identifier",
@@ -8803,12 +8794,40 @@
       "type_class_identifier"
     ],
     [
+      "quasi_quotation",
+      "variable_identifier"
+    ],
+    [
+      "simple_class"
+    ],
+    [
+      "type_class_declaration",
+      "simple_class"
+    ],
+    [
       "constructor_pattern",
       "_a_expression"
     ],
     [
+      "_a_expression",
+      "labeled_construction"
+    ],
+    [
+      "_lexp",
+      "_a_expression"
+    ],
+    [
+      "labeled_pattern",
+      "_a_expression",
+      "labeled_construction"
+    ],
+    [
       "_a_pattern",
       "_a_expression"
+    ],
+    [
+      "_a_pattern",
+      "_statement"
     ],
     [
       "_expression",
@@ -8817,25 +8836,6 @@
     [
       "_lexp",
       "function_application"
-    ],
-    [
-      "quasi_quotation",
-      "variable_identifier"
-    ],
-    [
-      "_lexp",
-      "_a_expression"
-    ],
-    [
-      "simple_class"
-    ],
-    [
-      "_general_type_constructor",
-      "simple_class"
-    ],
-    [
-      "type_class_declaration",
-      "simple_class"
     ]
   ],
   "externals": [
