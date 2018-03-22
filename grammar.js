@@ -107,7 +107,6 @@ module.exports = grammar({
     [$.simple_class],
     [$._general_type_constructor, $.simple_class],
     [$.type_class_declaration, $.simple_class],
-
   ],
 
   rules: {
@@ -1316,7 +1315,7 @@ module.exports = grammar({
 
     variable_identifier: $ => $._variable_identifier,
 
-    type_variable_identifier: $ => $._variable_identifier,
+    type_variable_identifier: $ => prec(1, $._variable_identifier),
 
     qualified_variable_identifier: $ => seq(
       choice($.qualified_module_identifier, $.module_identifier),
