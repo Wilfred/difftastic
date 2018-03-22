@@ -129,7 +129,7 @@ module.exports = grammar({
     _top_declarations: $ => choice(
       seq(
         '{',
-        repeat(seq($._top_declaration, $._terminal)),
+        repeat(seq($._top_declaration, optional($._terminal))),
         '}'
       ),
       seq(
