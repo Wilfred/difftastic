@@ -48,6 +48,18 @@ struct Scanner {
     lexer->advance(lexer, false);
   }
 
+  bool isolated_sequence(TSLexer *lexer, const char *sequence) {
+    for (const char *c = sequence; *c; c++) {
+      if (lexer->lookahead == *c) {
+        advance(lexer);
+      } else {
+        return false;
+      }
+    }
+
+    return iswspace(lexer->lookahead);
+  }
+
   bool scan(TSLexer *lexer, const bool *valid_symbols) {
     if (valid_symbols[LAYOUT_CLOSE_BRACE] && queued_close_brace_count > 0) {
       queued_close_brace_count--;
@@ -87,43 +99,32 @@ struct Scanner {
     }
 
     lexer->mark_end(lexer);
-    if (lexer->lookahead == 'i') {
-      advance(lexer);
-      if (lexer->lookahead == 'n') {
-        advance(lexer);
-        if (iswspace(lexer->lookahead)) {
-          indent_length_stack.pop_back();
-          if (valid_symbols[LAYOUT_CLOSE_BRACE]) {
-            lexer->result_symbol = LAYOUT_CLOSE_BRACE;
-            return true;
-          } else {
-            queued_close_brace_count++;
-            if (valid_symbols[LAYOUT_SEMICOLON]) {
-              lexer->result_symbol = LAYOUT_SEMICOLON;
-              return true;
-            }
-          }
+
+    if (isolated_sequence(lexer, "in")) {
+      indent_length_stack.pop_back();
+      if (valid_symbols[LAYOUT_CLOSE_BRACE]) {
+        lexer->result_symbol = LAYOUT_CLOSE_BRACE;
+        return true;
+      } else {
+        queued_close_brace_count++;
+        if (valid_symbols[LAYOUT_SEMICOLON]) {
+          lexer->result_symbol = LAYOUT_SEMICOLON;
+          return true;
         }
       }
     }
 
-    if (!valid_symbols[ARROW]) {
-      if (lexer->lookahead == '-') {
-        advance(lexer);
-        if (lexer->lookahead == '>') {
-          advance(lexer);
-          if (iswspace(lexer->lookahead)) {
-            indent_length_stack.pop_back();
-            if (valid_symbols[LAYOUT_CLOSE_BRACE]) {
-              lexer->result_symbol = LAYOUT_CLOSE_BRACE;
-              return true;
-            } else {
-              queued_close_brace_count++;
-              if (valid_symbols[LAYOUT_SEMICOLON]) {
-                lexer->result_symbol = LAYOUT_SEMICOLON;
-                return true;
-              }
-            }
+    if (!valid_symbols[ARROW] && isolated_sequence(lexer, "->")) {
+      if (iswspace(lexer->lookahead)) {
+        indent_length_stack.pop_back();
+        if (valid_symbols[LAYOUT_CLOSE_BRACE]) {
+          lexer->result_symbol = LAYOUT_CLOSE_BRACE;
+          return true;
+        } else {
+          queued_close_brace_count++;
+          if (valid_symbols[LAYOUT_SEMICOLON]) {
+            lexer->result_symbol = LAYOUT_SEMICOLON;
+            return true;
           }
         }
       }
@@ -167,22 +168,16 @@ struct Scanner {
     }
 
     if (!next_token_is_comment) {
-      if (lexer->lookahead == 'i') {
-        advance(lexer);
-        if (lexer->lookahead == 'n') {
-          advance(lexer);
-          if (iswspace(lexer->lookahead)) {
-            indent_length_stack.pop_back();
-            if (valid_symbols[LAYOUT_CLOSE_BRACE]) {
-              lexer->result_symbol = LAYOUT_CLOSE_BRACE;
-              return true;
-            } else {
-              queued_close_brace_count++;
-              if (valid_symbols[LAYOUT_SEMICOLON]) {
-                lexer->result_symbol = LAYOUT_SEMICOLON;
-                return true;
-              }
-            }
+      if (isolated_sequence(lexer, "in")) {
+        indent_length_stack.pop_back();
+        if (valid_symbols[LAYOUT_CLOSE_BRACE]) {
+          lexer->result_symbol = LAYOUT_CLOSE_BRACE;
+          return true;
+        } else {
+          queued_close_brace_count++;
+          if (valid_symbols[LAYOUT_SEMICOLON]) {
+            lexer->result_symbol = LAYOUT_SEMICOLON;
+            return true;
           }
         }
       }
