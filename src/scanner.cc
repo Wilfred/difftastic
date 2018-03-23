@@ -87,7 +87,6 @@ struct Scanner {
     }
 
     lexer->mark_end(lexer);
-
     if (lexer->lookahead == 'i') {
       advance(lexer);
       if (lexer->lookahead == 'n') {
@@ -168,6 +167,26 @@ struct Scanner {
     }
 
     if (!next_token_is_comment) {
+      if (lexer->lookahead == 'i') {
+        advance(lexer);
+        if (lexer->lookahead == 'n') {
+          advance(lexer);
+          if (iswspace(lexer->lookahead)) {
+            indent_length_stack.pop_back();
+            if (valid_symbols[LAYOUT_CLOSE_BRACE]) {
+              lexer->result_symbol = LAYOUT_CLOSE_BRACE;
+              return true;
+            } else {
+              queued_close_brace_count++;
+              if (valid_symbols[LAYOUT_SEMICOLON]) {
+                lexer->result_symbol = LAYOUT_SEMICOLON;
+                return true;
+              }
+            }
+          }
+        }
+      }
+
       if (indent_length < indent_length_stack.back()) {
         indent_length_stack.pop_back();
         queued_close_brace_count++;
