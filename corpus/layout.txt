@@ -41,7 +41,7 @@ f = a
             (integer)))))))
 
 ==================================
-Nested layout
+Nested Where layout
 ==================================
 
 f = foo
@@ -49,15 +49,6 @@ f = foo
           where c = d
                 e = f
         x = w
-
-g = do a
-       b
-       do c
-          d
-          do e
-             f
-
-x = y
 
 ---
 
@@ -80,7 +71,24 @@ x = y
                 (function_body (variable_identifier))))))
         (function_declaration
           (variable_identifier)
-          (function_body (variable_identifier))))))
+          (function_body (variable_identifier)))))))
+
+==================================
+Nested Do layout
+==================================
+
+g = do a
+       b
+       do c
+          d
+          do e
+             f
+          g
+       h
+
+---
+
+(module
   (function_declaration
     (variable_identifier)
     (function_body
@@ -92,7 +100,39 @@ x = y
           (variable_identifier)
           (do
             (variable_identifier)
-            (variable_identifier))))))
+            (variable_identifier))
+          (variable_identifier))
+        (variable_identifier)))))
+
+==================================
+Nested Let layout
+==================================
+
+f = let y = x
+        x = let g = 1
+                in g
+        in y
+
+---
+
+(module
   (function_declaration
     (variable_identifier)
-    (function_body (variable_identifier))))
+    (function_body
+      (let_expression
+        (function_declaration
+          (variable_identifier)
+          (function_body
+            (variable_identifier)))
+        (function_declaration
+          (variable_identifier)
+          (function_body
+            (let_expression
+              (function_declaration
+                (variable_identifier)
+                (function_body
+                  (integer)))
+              (in_clause
+                (variable_identifier)))))
+        (in_clause
+          (variable_identifier))))))
