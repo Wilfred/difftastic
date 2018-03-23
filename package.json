@@ -41,7 +41,7 @@
   "scripts": {
     "build": "tree-sitter generate && node-gyp build",
     "test": "tree-sitter test",
-    "build-scanner": "node-gyp build --debug",
+    "build-scanner": "node-gyp build --debug && tree-sitter test",
     "build-grammar": "tree-sitter generate && node-gyp build --debug && tree-sitter test",
     "watch-test": "npm-watch test",
     "watch-grammar": "npm-watch build-grammar",
