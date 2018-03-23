@@ -183,8 +183,6 @@ struct Scanner {
       }
 
       if (indent_length < indent_length_stack.back()) {
-        indent_length_stack.pop_back();
-        queued_close_brace_count++;
         while (indent_length < indent_length_stack.back()) {
           indent_length_stack.pop_back();
           queued_close_brace_count++;
