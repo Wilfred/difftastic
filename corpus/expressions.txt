@@ -332,20 +332,23 @@ f = \ g a b -> g <$> a <*> b
     (variable_identifier)
     (function_body
       (lambda
-        (variable_identifier)
+        (lambda_head
+          (variable_identifier))
         (lambda_body
           (variable_identifier)))))
   (function_declaration
     (variable_identifier)
     (function_body
       (lambda
-        (parenthesized_pattern (constructor_pattern (constructor_identifier) (variable_identifier)))
+        (lambda_head
+          (parenthesized_pattern (constructor_pattern (constructor_identifier) (variable_identifier))))
         (lambda_body (variable_identifier)))))
   (function_declaration
     (variable_identifier)
     (function_body
       (lambda
-        (variable_identifier)
+        (lambda_head
+          (variable_identifier))
         (lambda_body
           (infix_operator_application
             (variable_identifier)
@@ -358,9 +361,10 @@ f = \ g a b -> g <$> a <*> b
     (variable_identifier)
     (function_body
       (lambda
-        (variable_identifier)
-        (variable_identifier)
-        (variable_identifier)
+        (lambda_head
+          (variable_identifier)
+          (variable_identifier)
+          (variable_identifier))
         (lambda_body
           (infix_operator_application
             (variable_identifier)

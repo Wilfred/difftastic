@@ -514,10 +514,14 @@ module.exports = grammar({
     ),
 
     lambda: $ => seq(
-      '\\',
-      repeat1($._a_pattern),
+      $.lambda_head,
       '->',
       alias($._expression, $.lambda_body)
+    ),
+
+    lambda_head: $ => seq(
+      '\\',
+      repeat1($._a_pattern)
     ),
 
     prefix_negation: $ => prec.left(seq(

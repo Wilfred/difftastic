@@ -2118,15 +2118,8 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "STRING",
-          "value": "\\"
-        },
-        {
-          "type": "REPEAT1",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_a_pattern"
-          }
+          "type": "SYMBOL",
+          "name": "lambda_head"
         },
         {
           "type": "STRING",
@@ -2140,6 +2133,22 @@
           },
           "named": true,
           "value": "lambda_body"
+        }
+      ]
+    },
+    "lambda_head": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "\\"
+        },
+        {
+          "type": "REPEAT1",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_a_pattern"
+          }
         }
       ]
     },
