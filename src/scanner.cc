@@ -116,17 +116,16 @@ struct Scanner {
     }
 
     if (!valid_symbols[ARROW] && isolated_sequence(lexer, "->")) {
-      if (iswspace(lexer->lookahead)) {
+      if (valid_symbols[LAYOUT_CLOSE_BRACE]) {
         indent_length_stack.pop_back();
-        if (valid_symbols[LAYOUT_CLOSE_BRACE]) {
-          lexer->result_symbol = LAYOUT_CLOSE_BRACE;
+        lexer->result_symbol = LAYOUT_CLOSE_BRACE;
+        return true;
+      } else {
+        if (valid_symbols[LAYOUT_SEMICOLON] && indent_length_stack.size() > 1) {
+          indent_length_stack.pop_back();
+          queued_close_brace_count++;
+          lexer->result_symbol = LAYOUT_SEMICOLON;
           return true;
-        } else {
-          if (valid_symbols[LAYOUT_SEMICOLON]) {
-            queued_close_brace_count++;
-            lexer->result_symbol = LAYOUT_SEMICOLON;
-            return true;
-          }
         }
       }
     }
