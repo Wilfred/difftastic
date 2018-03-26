@@ -106,6 +106,8 @@ module.exports = grammar({
     [$._expression, $.expression_type_signature],
 
     [$._lexp, $.function_application],
+
+    [$._general_type_constructor, $._simple_type]
   ],
 
   rules: {
@@ -1158,11 +1160,11 @@ module.exports = grammar({
       )
     ),
 
-    equality_constraint: $ => seq(
-      $.class,
+    equality_constraint: $ => prec(1, seq(
+      $._type_pattern,
       '~',
-      $.class
-    ),
+      $._type_pattern
+    )),
 
     constructors: $ => sep1(
       '|',
