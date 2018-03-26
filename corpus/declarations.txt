@@ -399,8 +399,8 @@ sumCollects :: forall c1 c2. (B c1, B c2, E c1 ~ E c2) => c1 -> c2 -> c2
     (annotation)
     (context
       (equality_constraint
-        (type_variable_identifier)
-        (type_constructor_identifier)))
+        (equality_lhs (type_variable_identifier))
+        (equality_rhs (type_constructor_identifier))))
     (type_variable_identifier))
 
   (type_signature
@@ -408,8 +408,8 @@ sumCollects :: forall c1 c2. (B c1, B c2, E c1 ~ E c2) => c1 -> c2 -> c2
     (annotation)
     (context
       (equality_constraint
-        (type_variable_identifier)
-        (type_constructor_identifier)))
+        (equality_lhs (type_variable_identifier))
+        (equality_rhs (type_constructor_identifier))))
     (type_variable_identifier))
 
   (type_signature
@@ -426,10 +426,12 @@ sumCollects :: forall c1 c2. (B c1, B c2, E c1 ~ E c2) => c1 -> c2 -> c2
         (constructor_identifier)
         (type_variable_identifier))
       (equality_constraint
-        (type_constructor_identifier)
-        (type_variable_identifier)
-        (type_constructor_identifier)
-        (type_variable_identifier)))
+        (equality_lhs
+          (type_constructor_identifier)
+          (type_variable_identifier))
+        (equality_rhs
+          (type_constructor_identifier)
+          (type_variable_identifier))))
     (function_type
       (type
         (type_variable_identifier))
