@@ -4017,7 +4017,7 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "context"
+              "name": "scoped_type_variables"
             },
             {
               "type": "BLANK"
@@ -4029,7 +4029,7 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "scoped_type_variables"
+              "name": "context"
             },
             {
               "type": "BLANK"
@@ -4814,6 +4814,10 @@
                 "name": "class"
               },
               {
+                "type": "SYMBOL",
+                "name": "equality_constraint"
+              },
+              {
                 "type": "SEQ",
                 "members": [
                   {
@@ -4827,8 +4831,17 @@
                         "type": "SEQ",
                         "members": [
                           {
-                            "type": "SYMBOL",
-                            "name": "class"
+                            "type": "CHOICE",
+                            "members": [
+                              {
+                                "type": "SYMBOL",
+                                "name": "class"
+                              },
+                              {
+                                "type": "SYMBOL",
+                                "name": "equality_constraint"
+                              }
+                            ]
                           },
                           {
                             "type": "REPEAT",
@@ -4840,8 +4853,17 @@
                                   "value": ","
                                 },
                                 {
-                                  "type": "SYMBOL",
-                                  "name": "class"
+                                  "type": "CHOICE",
+                                  "members": [
+                                    {
+                                      "type": "SYMBOL",
+                                      "name": "class"
+                                    },
+                                    {
+                                      "type": "SYMBOL",
+                                      "name": "equality_constraint"
+                                    }
+                                  ]
                                 }
                               ]
                             }
@@ -4991,6 +5013,23 @@
               "value": ")"
             }
           ]
+        }
+      ]
+    },
+    "equality_constraint": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "class"
+        },
+        {
+          "type": "STRING",
+          "value": "~"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "class"
         }
       ]
     },
