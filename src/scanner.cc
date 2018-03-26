@@ -101,12 +101,13 @@ struct Scanner {
     lexer->mark_end(lexer);
 
     if (isolated_sequence(lexer, "in")) {
-      indent_length_stack.pop_back();
       if (valid_symbols[LAYOUT_CLOSE_BRACE]) {
+        indent_length_stack.pop_back();
         lexer->result_symbol = LAYOUT_CLOSE_BRACE;
         return true;
       } else {
         if (valid_symbols[LAYOUT_SEMICOLON]) {
+          indent_length_stack.pop_back();
           queued_close_brace_count++;
           lexer->result_symbol = LAYOUT_SEMICOLON;
           return true;
@@ -169,12 +170,13 @@ struct Scanner {
 
     if (!next_token_is_comment) {
       if (isolated_sequence(lexer, "in")) {
-        indent_length_stack.pop_back();
         if (valid_symbols[LAYOUT_CLOSE_BRACE]) {
+          indent_length_stack.pop_back();
           lexer->result_symbol = LAYOUT_CLOSE_BRACE;
           return true;
         } else {
           if (valid_symbols[LAYOUT_SEMICOLON]) {
+            indent_length_stack.pop_back();
             queued_close_brace_count++;
             lexer->result_symbol = LAYOUT_SEMICOLON;
             return true;
