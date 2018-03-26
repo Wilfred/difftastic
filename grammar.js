@@ -934,8 +934,8 @@ module.exports = grammar({
     type_signature: $ => seq(
       sep1(',', $._variable),
       alias('::', $.annotation),
-      optional($.context),
       optional($.scoped_type_variables),
+      optional($.context),
       $._type_pattern
     ),
 
