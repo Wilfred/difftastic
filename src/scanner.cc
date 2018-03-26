@@ -57,7 +57,7 @@ struct Scanner {
       }
     }
 
-    return iswspace(lexer->lookahead);
+    return lexer->lookahead == 0 || iswspace(lexer->lookahead);
   }
 
   bool scan(TSLexer *lexer, const bool *valid_symbols) {
