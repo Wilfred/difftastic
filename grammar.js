@@ -163,7 +163,13 @@ module.exports = grammar({
       ),
       seq(
         $._layout_open_brace,
-        repeat(seq($._declaration, choice($._terminal, $._layout_semicolon))),
+        repeat(
+            seq(
+              $._declaration,
+              choice($._terminal, $._layout_semicolon
+            )
+          )
+        ),
         $._layout_close_brace
       )
     ),
