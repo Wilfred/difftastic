@@ -5017,21 +5017,25 @@
       ]
     },
     "equality_constraint": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "class"
-        },
-        {
-          "type": "STRING",
-          "value": "~"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "class"
-        }
-      ]
+      "type": "PREC",
+      "value": 1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_type_pattern"
+          },
+          {
+            "type": "STRING",
+            "value": "~"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_type_pattern"
+          }
+        ]
+      }
     },
     "constructors": {
       "type": "SEQ",
@@ -8884,6 +8888,10 @@
     [
       "_lexp",
       "function_application"
+    ],
+    [
+      "_general_type_constructor",
+      "_simple_type"
     ]
   ],
   "externals": [

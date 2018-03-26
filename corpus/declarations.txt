@@ -387,7 +387,9 @@ f :: forall a b. (a, b) -> [a]
 Type Signatures With Equality Constraints
 =========================================
 
-sumCollects :: forall c1 c2. (Collects c1, Collects c2, Elem c1 ~ Elem c2) => c1 -> c2 -> c2
+f :: a ~ Int => a
+f :: (a ~ Int) => a
+sumCollects :: forall c1 c2. (B c1, B c2, E c1 ~ E c2) => c1 -> c2 -> c2
 
 ---
 
@@ -395,20 +397,45 @@ sumCollects :: forall c1 c2. (Collects c1, Collects c2, Elem c1 ~ Elem c2) => c1
   (type_signature
     (variable_identifier)
     (annotation)
+    (context
+      (equality_constraint
+        (type_variable_identifier)
+        (type_constructor_identifier)))
+    (type_variable_identifier))
+
+  (type_signature
+    (variable_identifier)
+    (annotation)
+    (context
+      (equality_constraint
+        (type_variable_identifier)
+        (type_constructor_identifier)))
+    (type_variable_identifier))
+
+  (type_signature
+    (variable_identifier)
+    (annotation)
     (scoped_type_variables
       (variable_identifier)
       (variable_identifier))
     (context
-      (class (constructor_identifier) (type_variable_identifier))
-      (class (constructor_identifier) (type_variable_identifier))
+      (class
+        (constructor_identifier)
+        (type_variable_identifier))
+      (class
+        (constructor_identifier)
+        (type_variable_identifier))
       (equality_constraint
-        (class (constructor_identifier) (type_variable_identifier))
-        (class (constructor_identifier) (type_variable_identifier))))
+        (type_constructor_identifier)
+        (type_variable_identifier)
+        (type_constructor_identifier)
+        (type_variable_identifier)))
     (function_type
-      (type (type_variable_identifier))
-      (function_type
-        (type (type_variable_identifier))
-        (type (type_variable_identifier))))))
+      (type
+        (type_variable_identifier))
+        (function_type
+          (type (type_variable_identifier))
+          (type (type_variable_identifier))))))
 
 =========================================
 Standalone Deriving
