@@ -1112,9 +1112,10 @@ module.exports = grammar({
     context: $ => prec(1, seq(
       choice(
         $.class,
+        $.equality_constraint,
         seq(
           '(',
-          optional(sep1(',', $.class)),
+          optional(sep1(',', choice($.class, $.equality_constraint))),
           ')'
         ),
       ),
@@ -1155,6 +1156,12 @@ module.exports = grammar({
         repeat1($._atype),
         ')'
       )
+    ),
+
+    equality_constraint: $ => seq(
+      $.class,
+      '~',
+      $.class
     ),
 
     constructors: $ => sep1(

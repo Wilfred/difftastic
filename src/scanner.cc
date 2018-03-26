@@ -106,8 +106,8 @@ struct Scanner {
         lexer->result_symbol = LAYOUT_CLOSE_BRACE;
         return true;
       } else {
-        queued_close_brace_count++;
         if (valid_symbols[LAYOUT_SEMICOLON]) {
+          queued_close_brace_count++;
           lexer->result_symbol = LAYOUT_SEMICOLON;
           return true;
         }
@@ -121,8 +121,8 @@ struct Scanner {
           lexer->result_symbol = LAYOUT_CLOSE_BRACE;
           return true;
         } else {
-          queued_close_brace_count++;
           if (valid_symbols[LAYOUT_SEMICOLON]) {
+            queued_close_brace_count++;
             lexer->result_symbol = LAYOUT_SEMICOLON;
             return true;
           }
@@ -174,8 +174,8 @@ struct Scanner {
           lexer->result_symbol = LAYOUT_CLOSE_BRACE;
           return true;
         } else {
-          queued_close_brace_count++;
           if (valid_symbols[LAYOUT_SEMICOLON]) {
+            queued_close_brace_count++;
             lexer->result_symbol = LAYOUT_SEMICOLON;
             return true;
           }
