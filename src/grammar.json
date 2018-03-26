@@ -5023,16 +5023,26 @@
         "type": "SEQ",
         "members": [
           {
-            "type": "SYMBOL",
-            "name": "_type_pattern"
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_type_pattern"
+            },
+            "named": true,
+            "value": "equality_lhs"
           },
           {
             "type": "STRING",
             "value": "~"
           },
           {
-            "type": "SYMBOL",
-            "name": "_type_pattern"
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_type_pattern"
+            },
+            "named": true,
+            "value": "equality_rhs"
           }
         ]
       }

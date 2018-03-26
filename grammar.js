@@ -1161,9 +1161,9 @@ module.exports = grammar({
     ),
 
     equality_constraint: $ => prec(1, seq(
-      $._type_pattern,
+      alias($._type_pattern, $.equality_lhs),
       '~',
-      $._type_pattern
+      alias($._type_pattern, $.equality_rhs)
     )),
 
     constructors: $ => sep1(
