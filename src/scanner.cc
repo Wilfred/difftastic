@@ -1,6 +1,7 @@
 #include <tree_sitter/parser.h>
 #include <vector>
 #include <cwctype>
+#include <cassert>
 
 namespace {
 
@@ -23,8 +24,11 @@ struct Scanner {
     buffer[i++] = queued_close_brace_count;
 
     vector<uint16_t>::iterator
-      iter = indent_length_stack.begin() + 1,
+      iter = indent_length_stack.begin(),
       end = indent_length_stack.end();
+    assert(iter != end && *iter == 0);
+    ++iter;
+
     for (; iter != end && i < TREE_SITTER_SERIALIZATION_BUFFER_SIZE; ++iter) {
       buffer[i++] = *iter;
     }
