@@ -510,16 +510,12 @@ module.exports = grammar({
         /\\(.|\n)/
       )),
       '"'
-    )),
-
-    comment: $ => token(seq(
-      '(',
-      '*',
-      /[^*]*/,
-      '*',
-      ')'
     ))
-  }
+  },
+
+  externals: $ => [
+    $.comment
+  ]
 })
 
 function sep(delimiter, rule) {
