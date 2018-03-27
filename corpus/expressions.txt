@@ -107,3 +107,20 @@ let d = - e f
     (let_binding (identifier) (prefix_expression (call_expression (identifier) (identifier)))))
   (value_definition
     (let_binding (identifier) (prefix_expression (call_expression (identifier) (identifier))))))
+
+===========================
+Comments
+===========================
+
+(* (* ok *) * *)
+(*)*)
+(**
+    docstring
+*)
+
+---
+
+(compilation_unit
+  (comment)
+  (comment)
+  (comment))
