@@ -71,6 +71,7 @@ module.exports = grammar({
       optional($._statements),
       optional(seq(
         '__END__',
+        $._line_break,
         $.uninterpreted)
       )
     ),
@@ -117,8 +118,7 @@ module.exports = grammar({
     _method_rest: $ => seq(
       $._method_name,
       choice($.method_parameters, $._terminator),
-      optional($._body_statement),
-      'end'
+      $._body_statement
     ),
 
     method_parameters: $ => prec.right(choice(
@@ -161,8 +161,7 @@ module.exports = grammar({
       choice($.constant, $.scope_resolution),
       optional($.superclass),
       $._terminator,
-      optional($._body_statement),
-      'end'
+      $._body_statement
     ),
 
     superclass: $ => seq('<', $._arg),
@@ -172,15 +171,14 @@ module.exports = grammar({
       alias($._singleton_class_left_angle_left_langle, '<<'),
       $._arg,
       $._terminator,
-      optional($._body_statement),
-      'end'
+      $._body_statement
     ),
 
     module: $ => seq(
       'module',
       choice($.constant, $.scope_resolution),
       choice(
-        seq($._terminator, optional($._body_statement), 'end'),
+        seq($._terminator, $._body_statement),
         'end'
       )
     ),
@@ -256,7 +254,7 @@ module.exports = grammar({
       $.elsif
     ),
 
-    begin: $ => seq('begin', optional($._terminator), optional($._body_statement), 'end'),
+    begin: $ => seq('begin', optional($._terminator), $._body_statement),
     ensure: $ => seq('ensure', optional($._statements)),
     rescue: $ => seq(
       'rescue',
@@ -269,23 +267,12 @@ module.exports = grammar({
     exceptions: $ => commaSep1($._arg_or_splat_arg),
     exception_variable: $ => seq('=>', $._lhs),
 
-    _body_statement: $ => choice(
-      seq(
-        $._statements,
-        optional($.rescue),
-        optional($.else),
-        optional($.ensure)
-      ),
-      seq(
-        $.rescue,
-        optional($.else),
-        optional($.ensure)
-      ),
-      seq(
-        $.else,
-        optional($.ensure)
-      ),
-      $.ensure
+    _body_statement: $ => seq(
+      optional($._statements),
+      optional($.rescue),
+      optional($.else),
+      optional($.ensure),
+      'end'
     ),
 
     _arg: $ => choice(
@@ -311,9 +298,6 @@ module.exports = grammar({
       $.rational,
       $.string,
       $.chained_string,
-      $.keyword__FILE__,
-      $.keyword__LINE__,
-      $.keyword__ENCODING__,
       $.regex,
       $.lambda,
       $.method,
@@ -565,16 +549,13 @@ module.exports = grammar({
     integer: $ => /0b[01](_?[01])*|0[oO]?[0-7](_?[0-7])*|(0d)?\d(_?\d)*|0x[0-9a-fA-F](_?[0-9a-fA-F])*/,
 
     float: $ => /\d(_?\d)*(\.\d)?(_?\d)*([eE]?[\+-]?\d(_?\d)*)?/,
-    complex: $ => prec.right(PREC.UNARY_MINUS + 1, /(\d+)?(\+|-)?(\d+)i/),
+    complex: $ => /(\d+)?(\+|-)?(\d+)i/,
     rational: $ => seq($.integer, 'r'),
     super: $ => 'super',
     true: $ => choice('true', 'TRUE'),
     false: $ => choice('false', 'FALSE'),
     self: $ => 'self',
     nil: $ => choice('nil', 'NIL'),
-    keyword__FILE__: $ => '__FILE__',
-    keyword__LINE__: $ => '__LINE__',
-    keyword__ENCODING__: $ => '__ENCODING__',
 
     chained_string: $ => seq($.string, repeat1($.string)),
 
