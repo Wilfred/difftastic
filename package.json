@@ -14,11 +14,11 @@
   },
   "homepage": "https://github.com/tree-sitter/tree-sitter-java#readme",
   "dependencies": {
-    "nan": "^2.4.0",
-    "npm-watch": "^0.3.0"
+    "nan": "^2.4.0"
   },
   "devDependencies": {
-    "tree-sitter-cli": "^0.10.2"
+    "tree-sitter-cli": "^0.10.2",
+    "npm-watch": "^0.3.0"
   },
   "watch": {
     "test": {
