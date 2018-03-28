@@ -1,11 +1,11 @@
 {
   "name": "tree-sitter-cpp",
   "version": "0.6.0",
-  "description": "C++ grammar for node-tree-sitter",
+  "description": "C++ grammar for tree-sitter",
   "main": "index.js",
   "keywords": [
     "parser",
-    "lexer"
+    "c++"
   ],
   "author": "Max Brunsfeld",
   "license": "MIT",
@@ -13,10 +13,11 @@
     "nan": "^2.4.0"
   },
   "devDependencies": {
-    "tree-sitter-cli": "^0.10.1",
+    "tree-sitter-cli": "^0.11.0",
     "tree-sitter-c": "tree-sitter/tree-sitter-c"
   },
   "scripts": {
+    "build": "tree-sitter generate && node-gyp build",
     "test": "tree-sitter test && tree-sitter parse examples/* --quiet --time"
   }
 }
