@@ -1,11 +1,11 @@
 {
   "name": "tree-sitter-rust",
   "version": "0.6.0",
-  "description": "Rust grammar for node-tree-sitter",
+  "description": "Rust grammar for tree-sitter",
   "main": "index.js",
   "keywords": [
     "parser",
-    "lexer"
+    "rust"
   ],
   "author": "Maxim Sokolov <maxim0xff@gmail.com> (https://github.com/MaximSokolov)",
   "license": "MIT",
@@ -13,7 +13,7 @@
     "nan": "^2.8.0"
   },
   "devDependencies": {
-    "tree-sitter-cli": "^0.10.1",
+    "tree-sitter-cli": "^0.11.0",
     "eslint": "^3.19.0"
   },
   "scripts": {
