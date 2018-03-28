@@ -82,8 +82,11 @@ struct Scanner {
       if (lexer->lookahead == '\n') {
         indent_length = 0;
         advance(lexer);
-      } else if (lexer->lookahead == ' ' || lexer->lookahead == '\r') {
+      } else if (lexer->lookahead == ' ') {
         indent_length++;
+        advance(lexer);
+      } else if (lexer->lookahead == '\r') {
+        indent_length = 0;
         advance(lexer);
       } else if (lexer->lookahead == '\t') {
         indent_length += 8;
