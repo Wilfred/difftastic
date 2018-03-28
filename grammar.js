@@ -26,7 +26,7 @@ module.exports = grammar({
 
   extras: $ => [
     $.comment,
-    /[\s\uFEFF\u2060\u200B]|\\\n/
+    /[\s\uFEFF\u2060\u200B]|\\\r?\n/
   ],
 
   externals: $ => [
@@ -707,9 +707,9 @@ module.exports = grammar({
     string: $ => token(seq(
       repeat(choice(/[uU]/, /[rR]/, /[bB]/)),
       choice(
-        seq('`', repeat(choice(/[^\\`\n]/, /\\./, /\\\n/)), '`'),
-        seq('"', repeat(choice(/[^\\"\n]/, /\\./, /\\\n/)), '"'),
-        seq("'", repeat(choice(/[^\\'\n]/, /\\./, /\\\n/)), "'"),
+        seq('`', repeat(choice(/[^\\`\n]/, /\\./, /\\\r?\n/)), '`'),
+        seq('"', repeat(choice(/[^\\"\n]/, /\\./, /\\\r?\n/)), '"'),
+        seq("'", repeat(choice(/[^\\'\n]/, /\\./, /\\\r?\n/)), "'"),
         seq(
           '"""',
           repeat(choice(
