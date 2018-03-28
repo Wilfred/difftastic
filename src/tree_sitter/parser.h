@@ -63,7 +63,6 @@ typedef union {
   struct {
     uint8_t count;
     bool reusable : 1;
-    bool depends_on_lookahead : 1;
   };
 } TSParseActionEntry;
 
@@ -81,6 +80,8 @@ typedef struct TSLanguage {
   const TSSymbol *alias_sequences;
   uint16_t max_alias_sequence_length;
   bool (*lex_fn)(TSLexer *, TSStateId);
+  bool (*keyword_lex_fn)(TSLexer *, TSStateId);
+  TSSymbol keyword_capture_token;
   struct {
     const bool *states;
     const TSSymbol *symbol_map;
