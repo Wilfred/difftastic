@@ -47,8 +47,7 @@ typedef struct {
       TSSymbol symbol;
       int16_t dynamic_precedence;
       uint8_t child_count;
-      uint8_t alias_sequence_id : 7;
-      bool fragile : 1;
+      uint8_t alias_sequence_id;
     };
   } params;
   TSParseActionType type : 4;
@@ -64,7 +63,6 @@ typedef union {
   struct {
     uint8_t count;
     bool reusable : 1;
-    bool depends_on_lookahead : 1;
   };
 } TSParseActionEntry;
 
@@ -82,6 +80,8 @@ typedef struct TSLanguage {
   const TSSymbol *alias_sequences;
   uint16_t max_alias_sequence_length;
   bool (*lex_fn)(TSLexer *, TSStateId);
+  bool (*keyword_lex_fn)(TSLexer *, TSStateId);
+  TSSymbol keyword_capture_token;
   struct {
     const bool *states;
     const TSSymbol *symbol_map;
