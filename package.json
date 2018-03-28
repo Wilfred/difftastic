@@ -10,10 +10,10 @@
   "author": "Max Brunsfeld",
   "license": "MIT",
   "dependencies": {
-    "nan": "^2.4.0"
+    "nan": "^2.8.0"
   },
   "devDependencies": {
-    "tree-sitter-cli": "^0.10.1",
+    "tree-sitter-cli": "^0.11.0",
     "tree-sitter-javascript": "tree-sitter/tree-sitter-javascript"
   },
   "scripts": {
