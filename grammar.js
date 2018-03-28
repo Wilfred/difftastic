@@ -42,7 +42,8 @@ grammar({
       $.function_expression,
       $.binary_expression,
       $.conditional_expression,
-      $.assignment_expression
+      $.assignment_expression,
+      $.struct_definition
     ),
 
     module_expression: $ => seq(
