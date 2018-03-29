@@ -115,7 +115,7 @@ module.exports = grammar({
       seq(
         repeat($.language_pragma),
         'module',
-        choice($.qualified_module_identifier, $.module_identifier),
+        $._qualified_module_identifier,
         optional(choice($.warning_pragma, $.deprecated_pragma)),
         optional($.module_exports),
         alias($._top_where, $.where)
@@ -214,7 +214,7 @@ module.exports = grammar({
 
     module_export: $ => seq(
       'module',
-      choice($.qualified_module_identifier, $.module_identifier)
+      $._qualified_module_identifier
     ),
 
     all_constructors: $ => '(..)',
@@ -234,16 +234,15 @@ module.exports = grammar({
     _import_declaration: $ => prec.right(seq(
       choice(
         $.import_alias,
-        $.qualified_module_identifier,
-        $.module_identifier
+        $._qualified_module_identifier
       ),
       optional(choice($.import_spec, $.hidden_import_spec))
     )),
 
     import_alias: $ => seq(
-      choice($.qualified_module_identifier, $.module_identifier),
+      $._qualified_module_identifier,
       'as',
-      choice($.qualified_module_identifier, $.module_identifier)
+      $._qualified_module_identifier
     ),
 
     import_spec: $ => seq(
@@ -1281,6 +1280,9 @@ module.exports = grammar({
         $.constructor_operator,
         ')'
       )
+    _qualified_module_identifier: $ => choice(
+      $.qualified_module_identifier,
+      $.module_identifier
     ),
 
     _qualified_constructor: $ => choice(
@@ -1290,14 +1292,12 @@ module.exports = grammar({
         $.qualified_constructor_operator,
         ')'
       )
+    qualified_module_identifier: $ => seq(
+      sep1($._qualified_module_dot, $.module_identifier),
+      $._qualified_module_dot,
+      $.module_identifier
     ),
 
-    module_identifier: $ => $._module_identifier,
-
-    qualified_module_identifier: $ => prec.right(seq(
-      alias($._module_identifier, $.module_identifier),
-      optional(seq('.', sep1('.', alias($._module_identifier, $.module_identifier)))),
-    )),
 
     constructor_identifier: $ => $._constructor_identifier,
 
@@ -1307,48 +1307,45 @@ module.exports = grammar({
     type_class_identifier: $ => $._constructor_identifier,
 
     qualified_constructor_identifier: $ => seq(
-      choice($.qualified_module_identifier, $.module_identifier),
-      '.',
-      $.constructor_identifier
+      $._qualified_module_identifier,
+      $._qualified_module_dot,
     ),
 
     qualified_constructor_operator: $ => seq(
-      choice($.qualified_module_identifier, $.module_identifier),
-      '.',
       $.constructor_operator
     ),
 
     qualified_type_constructor_identifier: $ => seq(
-      choice($.qualified_module_identifier, $.module_identifier),
-      '.',
       $.constructor_identifier
+      $._qualified_module_identifier,
+      $._qualified_module_dot,
     ),
 
     qualified_type_class_identifier: $ => seq(
-      choice($.qualified_module_identifier, $.module_identifier),
-      '.',
       $.constructor_identifier
     ),
 
     _constructor_identifier: $ => /[A-Z](\w|')*/,
-
-    _module_identifier: $ => /[A-Z](\w|')*/,
-
     variable_identifier: $ => $._variable_identifier,
 
     type_variable_identifier: $ => prec(1, $._variable_identifier),
 
     qualified_variable_identifier: $ => seq(
-      choice($.qualified_module_identifier, $.module_identifier),
-      '.',
+      $._qualified_module_identifier,
+      $._qualified_module_dot,
       $.variable_identifier
     ),
 
     qualified_variable_operator: $ => seq(
       choice($.qualified_module_identifier, $.module_identifier),
       '.',
+      $._qualified_module_identifier,
+      $._qualified_module_dot,
       $.variable_operator
     ),
+
+
+    module_identifier: $ => /[A-Z](\w|')*/,
 
     variable_symbol: $ => token(
       seq(
