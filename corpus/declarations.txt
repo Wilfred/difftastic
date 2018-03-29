@@ -10,7 +10,6 @@ type V = ()
 type X = (,)
 type Y = (,,)
 type Z = (->)
-type Nat = Zero ': Succ Zero ': Succ (Succ Zero) ': '[]
 
 ---
 
@@ -38,7 +37,18 @@ type Nat = Zero ': Succ Zero ': Succ (Succ Zero) ': '[]
     (type (tupling_constructor)))
   (type_synonym_declaration
     (type_constructor_identifier)
-    (type (function_constructor)))
+    (type (function_constructor))))
+
+=========================================
+Type Synonym Declarations With Promoted Constructors
+=========================================
+
+type Nat = Zero ': Succ Zero ': Succ (Succ Zero) ': '[]
+type Foo bar baz wix = '[ W, A (B c) ]
+
+---
+
+(module
   (type_synonym_declaration
     (type_constructor_identifier)
       (type
@@ -51,7 +61,20 @@ type Nat = Zero ': Succ Zero ': Succ (Succ Zero) ': '[]
             (infix_type_operator_application
               (type (type_constructor_identifier) (parenthesized_constructor (type_constructor_identifier) (type_constructor_identifier)))
               (type_operator)
-              (promoted (list_constructor))))))))
+              (promoted (list_constructor)))))))
+  (type_synonym_declaration
+    (type_constructor_identifier)
+    (type_variable_identifier)
+    (type_variable_identifier)
+    (type_variable_identifier)
+    (type
+      (promoted
+        (list_type
+          (type_constructor_identifier)
+          (type_constructor_identifier)
+          (parenthesized_constructor
+            (type_constructor_identifier)
+            (type_variable_identifier)))))))
 
 =========================================
 New Type Declarations
