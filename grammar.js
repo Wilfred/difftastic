@@ -205,7 +205,7 @@ module.exports = grammar({
           ))
         ),
         seq(
-          choice($.qualified_type_class_identifier, $.type_class_identifier),
+          choice($.qualified_type_class_identifier, alias($._constructor_identifier, $.type_class_identifier)),
           optional(choice(
             $.all_constructors,
             seq(
@@ -347,7 +347,7 @@ module.exports = grammar({
         $.incoherent_pragma
       )),
       optional($.scontext),
-      choice($.qualified_type_class_identifier, $.type_class_identifier),
+      choice($.qualified_type_class_identifier, alias($._constructor_identifier, $.type_class_identifier)),
       $.instance
     ),
 
@@ -863,7 +863,7 @@ module.exports = grammar({
       'class',
       optional($.scontext),
       seq(
-        $.type_class_identifier,
+        alias($._constructor_identifier, $.type_class_identifier),
         repeat($.type_variable_identifier)
       ),
       $.where
@@ -878,7 +878,7 @@ module.exports = grammar({
         $.incoherent_pragma
       )),
       optional($.scontext),
-      choice($.qualified_type_class_identifier, $.type_class_identifier),
+      choice($.qualified_type_class_identifier, alias($._constructor_identifier, $.type_class_identifier)),
       $.instance,
       $.where
     ),
@@ -1129,7 +1129,7 @@ module.exports = grammar({
     )),
 
     simple_class: $ => seq(
-      choice($.qualified_type_class_identifier, $.type_class_identifier),
+      choice($.qualified_type_class_identifier, alias($._constructor_identifier, $.type_class_identifier)),
       repeat1(choice(
         $.type_variable_identifier,
         $.parenthesized_type_variables,
@@ -1215,10 +1215,10 @@ module.exports = grammar({
     deriving: $ => seq(
       'deriving',
       choice(
-        choice($.qualified_type_class_identifier, $.type_class_identifier),
+        choice($.qualified_type_class_identifier, alias($._constructor_identifier, $.type_class_identifier)),
         seq(
           '(',
-          optional(sep1(',', choice($.qualified_type_class_identifier, $.type_class_identifier))),
+          optional(sep1(',', choice($.qualified_type_class_identifier, alias($._constructor_identifier, $.type_class_identifier)))),
           ')'
         )
       )
@@ -1310,9 +1310,12 @@ module.exports = grammar({
 
     constructor_identifier: $ => $._constructor_identifier,
 
+    qualified_type_class_identifier: $ => seq(
+      $._qualified_module_identifier,
+      $._qualified_module_dot,
+      alias($._constructor_identifier, $.type_class_identifier)
+    ),
 
-    // Higher precedence here to disambiguate scontext
-    type_class_identifier: $ => $._constructor_identifier,
 
     qualified_constructor_identifier: $ => seq(
       $._qualified_module_identifier,
@@ -1327,8 +1330,6 @@ module.exports = grammar({
       $._qualified_module_dot,
     ),
 
-    qualified_type_class_identifier: $ => seq(
-      $.constructor_identifier
     ),
 
     _constructor_identifier: $ => /[A-Z](\w|')*/,
@@ -1680,7 +1681,7 @@ module.exports = grammar({
 
     instance_spec: $ => seq(
       'instance',
-      choice($.qualified_type_class_identifier, $.type_class_identifier),
+      choice($.qualified_type_class_identifier, alias($._constructor_identifier, $.type_class_identifier)),
       $._a_pattern
     ),
 
