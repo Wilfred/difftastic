@@ -436,7 +436,7 @@ module.exports = grammar({
     labeled_pattern: $ => seq(
       $._qualified_constructor,
       '{',
-      sep1(',', $.field_pattern),
+      sep1(',', choice($.field_pattern, $.named_field_pun, $.record_wild_cards)),
       '}'
     ),
 

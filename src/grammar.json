@@ -1668,8 +1668,21 @@
           "type": "SEQ",
           "members": [
             {
-              "type": "SYMBOL",
-              "name": "field_pattern"
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "field_pattern"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "named_field_pun"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "record_wild_cards"
+                }
+              ]
             },
             {
               "type": "REPEAT",
@@ -1681,8 +1694,21 @@
                     "value": ","
                   },
                   {
-                    "type": "SYMBOL",
-                    "name": "field_pattern"
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "SYMBOL",
+                        "name": "field_pattern"
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "named_field_pun"
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "record_wild_cards"
+                      }
+                    ]
                   }
                 ]
               }
@@ -1711,6 +1737,14 @@
           "name": "_pattern"
         }
       ]
+    },
+    "named_field_pun": {
+      "type": "SYMBOL",
+      "name": "_variable"
+    },
+    "record_wild_cards": {
+      "type": "STRING",
+      "value": ".."
     },
     "promoted": {
       "type": "SEQ",
