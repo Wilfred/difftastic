@@ -1,11 +1,11 @@
 {
   "name": "tree-sitter-haskell",
-  "version": "0.0.2",
+  "version": "0.11.0",
   "description": "Haskell grammar for tree-sitter",
   "main": "index.js",
   "keywords": [
     "parser",
-    "lexer"
+    "haskell"
   ],
   "author": "Rick Winfrey",
   "license": "MIT",
@@ -13,7 +13,7 @@
     "nan": "^2.4.0"
   },
   "devDependencies": {
-    "tree-sitter-cli": "^0.9.2"
+    "tree-sitter-cli": "^0.11.0"
   },
   "watch": {
     "test": {
