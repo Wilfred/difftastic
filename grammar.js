@@ -191,7 +191,7 @@ module.exports = grammar({
     export: $ => seq(
       optional(alias('type', $.type)),
       choice(
-        choice($._qualified_variable, $._variable),
+        $._variable,
         $.module_export,
         seq(
           $._qualified_type_constructor_identifier,
@@ -210,7 +210,7 @@ module.exports = grammar({
             $.all_constructors,
             seq(
               '(',
-              optional(sep1(',', choice($._qualified_variable, $._variable))),
+              optional(sep1(',', $._variable)),
               ')'
             )
           ))
@@ -440,7 +440,7 @@ module.exports = grammar({
     ),
 
     field_pattern: $ => seq(
-      choice($._qualified_variable, $._variable),
+      $._variable,
       '=',
       $._pattern
     ),
@@ -749,7 +749,6 @@ module.exports = grammar({
 
     labeled_update: $ => seq(
       choice(
-        $._qualified_variable,
         $._variable,
         $._literal,
         $.parenthesized_expression,
@@ -776,7 +775,7 @@ module.exports = grammar({
     ),
 
     field_bind: $ => seq(
-      choice($._qualified_variable, $._variable),
+      $._variable,
       '=',
       $._expression
     ),
@@ -1261,7 +1260,7 @@ module.exports = grammar({
     ),
 
     _variable: $ => choice(
-      $.variable_identifier,
+      $._qualified_variable_identifier,
       seq(
         '(',
         $.variable_operator,
@@ -1269,11 +1268,8 @@ module.exports = grammar({
       )
     ),
 
-    _qualified_variable: $ => choice(
-      $.qualified_variable_identifier,
       seq(
         '(',
-        $.qualified_variable_operator,
         ')'
       )
     ),
@@ -1330,10 +1326,12 @@ module.exports = grammar({
       $._qualified_module_dot,
     ),
 
+    _qualified_variable_identifier: $ => choice(
+      $.qualified_variable_identifier,
+      $.variable_identifier
     ),
 
     _constructor_identifier: $ => /[A-Z](\w|')*/,
-    variable_identifier: $ => $._variable_identifier,
 
     type_variable_identifier: $ => prec(1, $._variable_identifier),
 
@@ -1341,6 +1339,11 @@ module.exports = grammar({
       $._qualified_module_identifier,
       $._qualified_module_dot,
       $.variable_identifier
+    ),
+
+    _qualified_variable_operator: $ => choice(
+      $.qualified_variable_operator,
+      $.variable_operator
     ),
 
     qualified_variable_operator: $ => seq(
@@ -1351,8 +1354,20 @@ module.exports = grammar({
       $.variable_operator
     ),
 
+    variable_operator: $ => choice(
+      $.variable_symbol,
+      $.infix_variable_identifier,
+      $.qualified_infix_variable_identifier
+    ),
+
+    _variable_identifier: $ => /[_a-z](\w|')*/,
+
 
     module_identifier: $ => /[A-Z](\w|')*/,
+
+    variable_identifier: $ => $._variable_identifier,
+
+    type_variable_identifier: $ => prec(1, $._variable_identifier),
 
     variable_symbol: $ => token(
       seq(
@@ -1371,12 +1386,6 @@ module.exports = grammar({
       '`',
       $.qualified_variable_identifier,
       '`'
-    ),
-
-    variable_operator: $ => choice(
-      $.variable_symbol,
-      $.infix_variable_identifier,
-      $.qualified_infix_variable_identifier
     ),
 
     type_operator: $ => token(seq(
@@ -1409,13 +1418,9 @@ module.exports = grammar({
     ),
 
     _qualified_operator: $ => choice(
-      $.qualified_variable_operator,
-      $.variable_operator,
-      $.qualified_constructor_operator,
-      $.constructor_operator
+      $._qualified_variable_operator,
+      $._qualified_constructor_operator
     ),
-
-    _variable_identifier: $ => /[_a-z](\w|')*/,
 
     _pragma: $ => choice(
       $.inline_pragma,
@@ -1445,7 +1450,7 @@ module.exports = grammar({
       'INLINE',
       optional(alias('CONLIKE', $.constructor_like)),
       optional(choice($.phase_control, $.eager_phase_control)),
-      choice($._qualified_variable, $._variable),
+      $._variable,
       '#-}'
     ),
 
@@ -1453,7 +1458,7 @@ module.exports = grammar({
       '{-#',
       choice('INLINABLE', 'INLINEABLE'),
       optional(choice($.phase_control, $.eager_phase_control)),
-      choice($._qualified_variable, $._variable),
+      $._variable,
       '#-}'
     ),
 
@@ -1462,7 +1467,7 @@ module.exports = grammar({
       'NOINLINE',
       optional(alias('CONLIKE', $.constructor_like)),
       optional(choice($.phase_control, $.eager_phase_control)),
-      choice($._qualified_variable, $._variable),
+      $._variable,
       '#-}'
     ),
 
