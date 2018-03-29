@@ -524,6 +524,11 @@ module.exports = grammar({
       $.quasi_quotation
     ),
 
+    type_application: $ => seq(
+      '@',
+      $._a_pattern
+    ),
+
     lambda: $ => seq(
       $.lambda_head,
       '->',
@@ -729,21 +734,23 @@ module.exports = grammar({
       choice($.function_application, $._a_expression)
     )),
 
-    _a_expression: $ => choice(
-      $._general_constructor,
-      $._qualified_variable,
-      $._variable,
-      $._literal,
-      $.parenthesized_expression,
-      $.tuple_expression,
-      $.list_expression,
-      $.arithmetic_sequence,
-      $.list_comprehension,
-      $.left_operator_section,
-      $.right_operator_section,
-      $.labeled_construction,
-      $.labeled_update,
-      prec.dynamic(1, $.quasi_quotation)
+    _a_expression: $ => seq(
+      choice(
+        prec.dynamic(-1, $._general_constructor),
+        $._variable,
+        $._literal,
+        $.parenthesized_expression,
+        $.tuple_expression,
+        $.list_expression,
+        $.arithmetic_sequence,
+        $.list_comprehension,
+        $.left_operator_section,
+        $.right_operator_section,
+        $.labeled_construction,
+        $.labeled_update,
+        prec.dynamic(1, $.quasi_quotation)
+      ),
+      optional($.type_application)
     ),
 
     labeled_update: $ => seq(
