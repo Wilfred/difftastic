@@ -1089,7 +1089,7 @@ module.exports = grammar({
     )),
 
     _simple_type: $ => prec.left(seq(
-      $.type_constructor_identifier,
+      $._qualified_type_constructor_identifier,
       repeat(
         choice(
           $.type_variable_identifier,
@@ -1263,7 +1263,7 @@ module.exports = grammar({
       $._qualified_variable_identifier,
       seq(
         '(',
-        $.variable_operator,
+        $._qualified_variable_operator,
         ')'
       )
     ),
@@ -1293,6 +1293,11 @@ module.exports = grammar({
       alias($._constructor_identifier, $.type_constructor_identifier)
     ),
 
+    qualified_type_constructor_identifier: $ => seq(
+      $._qualified_module_identifier,
+      $._qualified_module_dot,
+      alias($._constructor_identifier, $.type_constructor_identifier)
+    ),
 
     qualified_type_class_identifier: $ => seq(
       $._qualified_module_identifier,
@@ -1327,7 +1332,6 @@ module.exports = grammar({
       $.variable_identifier
     ),
 
-    type_variable_identifier: $ => prec(1, $._variable_identifier),
     qualified_variable_identifier: $ => seq(
       $._qualified_module_identifier,
       $._qualified_module_dot,
@@ -1340,8 +1344,6 @@ module.exports = grammar({
     ),
 
     qualified_variable_operator: $ => seq(
-      choice($.qualified_module_identifier, $.module_identifier),
-      '.',
       $._qualified_module_identifier,
       $._qualified_module_dot,
       $.variable_operator
