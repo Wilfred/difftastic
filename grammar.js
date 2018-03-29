@@ -199,7 +199,7 @@ module.exports = grammar({
             optional($.all_constructors),
             seq(
               '(',
-              optional(sep1(',', choice($._variable, $._constructor))),
+              optional(sep1(',', choice($._variable, $._qualified_constructor))),
               ')'
             )
           ))
@@ -266,20 +266,20 @@ module.exports = grammar({
 
     _import: $ => choice(
       $._variable,
-      $._constructor,
+      $._qualified_constructor,
       seq(
         $._qualified_type_constructor_identifier,
         optional(choice(
           $.all_constructors,
           seq(
             '(',
-            optional(sep1(',', choice($._variable, $._constructor))),
+            optional(sep1(',', choice($._variable, $._qualified_constructor))),
             ')'
           )
         ))
       ),
       seq(
-        $.type_class_identifier,
+        alias($._constructor_identifier, $.type_class_identifier),
         optional(choice(
           $.all_constructors,
           seq(
@@ -433,7 +433,7 @@ module.exports = grammar({
     )),
 
     labeled_pattern: $ => seq(
-      choice($._qualified_constructor, $._constructor),
+      $._qualified_constructor,
       '{',
       sep1(',', $.field_pattern),
       '}'
@@ -768,7 +768,7 @@ module.exports = grammar({
     ),
 
     labeled_construction: $ => seq(
-      choice($._qualified_constructor, $._constructor),
+      $._qualified_constructor,
       '{',
       optional(sep1(',', $.field_bind)),
       '}'
@@ -977,7 +977,7 @@ module.exports = grammar({
 
     pattern_type_signature: $ => seq(
       'pattern',
-      $._constructor,
+      $._qualified_constructor,
       alias('::', $.annotation),
       $._type_pattern
     ),
@@ -1179,7 +1179,7 @@ module.exports = grammar({
     ),
 
     data_constructor: $ => prec.left(seq(
-      $._constructor,
+      $._qualified_constructor,
       repeat(
         seq(
           optional(
@@ -1209,7 +1209,7 @@ module.exports = grammar({
       repeat1($._atype)
     )),
 
-    record_data_constructor: $ => seq($._constructor, $.fields),
+    record_data_constructor: $ => seq($._qualified_constructor, $.fields),
 
     deriving: $ => seq(
       'deriving',
@@ -1234,11 +1234,11 @@ module.exports = grammar({
 
     new_constructor: $ => choice(
       seq(
-        $._constructor,
+        $._qualified_constructor,
         $._atype
       ),
       seq(
-        $._constructor,
+        $._qualified_constructor,
         $.fields
       )
     ),
@@ -1268,31 +1268,20 @@ module.exports = grammar({
       )
     ),
 
+    _qualified_constructor: $ => choice(
+      $._qualified_constructor_identifier,
       seq(
         '(',
+        $._qualified_constructor_operator,
         ')'
       )
     ),
 
-    _constructor: $ => choice(
-      $.constructor_identifier,
-      seq(
-        '(',
-        $.constructor_operator,
-        ')'
-      )
     _qualified_module_identifier: $ => choice(
       $.qualified_module_identifier,
       $.module_identifier
     ),
 
-    _qualified_constructor: $ => choice(
-      $.qualified_constructor_identifier,
-      seq(
-        '(',
-        $.qualified_constructor_operator,
-        ')'
-      )
     qualified_module_identifier: $ => seq(
       sep1($._qualified_module_dot, $.module_identifier),
       $._qualified_module_dot,
@@ -1304,7 +1293,6 @@ module.exports = grammar({
       alias($._constructor_identifier, $.type_constructor_identifier)
     ),
 
-    constructor_identifier: $ => $._constructor_identifier,
 
     qualified_type_class_identifier: $ => seq(
       $._qualified_module_identifier,
@@ -1312,10 +1300,15 @@ module.exports = grammar({
       alias($._constructor_identifier, $.type_class_identifier)
     ),
 
+    _qualified_constructor_identifier: $ => choice(
+      $.qualified_constructor_identifier,
+      alias($._constructor_identifier, $.constructor_identifier)
+    ),
 
     qualified_constructor_identifier: $ => seq(
       $._qualified_module_identifier,
       $._qualified_module_dot,
+      alias($._constructor_identifier, $.constructor_identifier)
     ),
 
     qualified_constructor_operator: $ => seq(
@@ -1331,10 +1324,7 @@ module.exports = grammar({
       $.variable_identifier
     ),
 
-    _constructor_identifier: $ => /[A-Z](\w|')*/,
-
     type_variable_identifier: $ => prec(1, $._variable_identifier),
-
     qualified_variable_identifier: $ => seq(
       $._qualified_module_identifier,
       $._qualified_module_dot,
@@ -1362,6 +1352,7 @@ module.exports = grammar({
 
     _variable_identifier: $ => /[_a-z](\w|')*/,
 
+    _constructor_identifier: $ => /[A-Z](\w|')*/,
 
     module_identifier: $ => /[A-Z](\w|')*/,
 
@@ -1408,7 +1399,7 @@ module.exports = grammar({
 
     qualified_infix_constructor_identifier: $ => seq(
       '`',
-      $.qualified_constructor_identifier,
+      $._qualified_constructor_identifier,
       '`'
     ),
 
@@ -1558,7 +1549,7 @@ module.exports = grammar({
       repeat(
         choice(
           $._variable,
-          $._constructor,
+          $._qualified_constructor,
           $.conjunction,
           $.disjunction
         )
@@ -1649,16 +1640,16 @@ module.exports = grammar({
 
     // In this context, conjunction means both sides are required (AND).
     conjunction: $ => prec.left(2, seq(
-      choice($._variable, $._constructor),
+      choice($._variable, $._qualified_constructor),
       ',',
-      sep1(',', choice($._variable, $._constructor))
+      sep1(',', choice($._variable, $._qualified_constructor))
     )),
 
     // In this context, disjunction means only one side is required (OR).
     disjunction: $ => prec.left(1, seq(
-      choice($._variable, $._constructor, $.conjunction),
+      choice($._variable, $._qualified_constructor, $.conjunction),
       '|',
-      sep1('|', choice($._variable, $._constructor, $.conjunction))
+      sep1('|', choice($._variable, $._qualified_constructor, $.conjunction))
     )),
 
     phase_control: $ => seq(
