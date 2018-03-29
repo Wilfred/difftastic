@@ -12,6 +12,7 @@ enum TokenType {
   LAYOUT_OPEN_BRACE,
   LAYOUT_CLOSE_BRACE,
   ARROW,
+  QUALIFIED_MODULE_DOT
 };
 
 struct Scanner {
@@ -65,6 +66,18 @@ struct Scanner {
   }
 
   bool scan(TSLexer *lexer, const bool *valid_symbols) {
+    if (valid_symbols[QUALIFIED_MODULE_DOT]) {
+      if (lexer->lookahead == '.') {
+        lexer->advance(lexer, true);
+        if (iswspace(lexer->lookahead)) {
+          return false;
+        } else {
+          lexer->result_symbol = QUALIFIED_MODULE_DOT;
+          return true;
+        }
+      }
+    }
+
     if (valid_symbols[LAYOUT_CLOSE_BRACE] && queued_close_brace_count > 0) {
       queued_close_brace_count--;
       lexer->result_symbol = LAYOUT_CLOSE_BRACE;

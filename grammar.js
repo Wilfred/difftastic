@@ -80,7 +80,8 @@ module.exports = grammar({
     $._layout_semicolon,
     $._layout_open_brace,
     $._layout_close_brace,
-    '->'
+    '->',
+    $._qualified_module_dot
   ],
 
   conflicts: $ => [
