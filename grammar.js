@@ -382,7 +382,8 @@ module.exports = grammar({
       $.parenthesized_pattern,
       $.tuple_pattern,
       $.list_pattern,
-      $.irrefutable_pattern
+      $.irrefutable_pattern,
+      $.constructor_pattern
     ),
 
     as_pattern: $ => prec.right(1, seq(
@@ -423,14 +424,13 @@ module.exports = grammar({
 
     _lpat: $ => choice(
       $._a_pattern,
-      $.negative_literal,
-      $.constructor_pattern
+      $.negative_literal
     ),
 
-    constructor_pattern: $ => prec.left(seq(
+    constructor_pattern: $ => seq(
       $._general_constructor,
       repeat1($._a_pattern),
-    )),
+    ),
 
     labeled_pattern: $ => seq(
       $._qualified_constructor,
@@ -451,7 +451,6 @@ module.exports = grammar({
     ),
 
     _general_constructor: $ => choice(
-      $._constructor,
       $._qualified_constructor,
       $.unit_constructor,
       $.list_constructor,
