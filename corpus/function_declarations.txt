@@ -126,6 +126,90 @@ f Ex { a = 1, b = 2 } = 2
     (function_body (integer))))
 
 =================================================
+Function Declarations With Named Field Puns
+=================================================
+
+data Blob = Blob { start :: Int, end :: Int }
+
+f Blob{start, end} = [start, end]
+
+---
+
+(module
+  (algebraic_datatype_declaration
+    (type_constructor_identifier)
+    (constructors
+      (record_data_constructor
+        (constructor_identifier)
+        (fields
+          (field (variable_identifier) (annotation) (type_constructor_identifier))
+          (field (variable_identifier) (annotation) (type_constructor_identifier))))))
+  (function_declaration
+    (variable_identifier)
+    (labeled_pattern
+      (constructor_identifier)
+      (named_field_pun (variable_identifier))
+      (named_field_pun (variable_identifier)))
+    (function_body (list_expression (variable_identifier) (variable_identifier)))))
+
+=================================================
+Function Declarations With Record Wild Cards
+=================================================
+
+data Blob = Blob { start :: Int, end :: Int }
+
+f Blob{..} = [start, end]
+
+---
+
+(module
+  (algebraic_datatype_declaration
+    (type_constructor_identifier)
+    (constructors
+      (record_data_constructor
+        (constructor_identifier)
+        (fields
+          (field (variable_identifier) (annotation) (type_constructor_identifier))
+          (field (variable_identifier) (annotation) (type_constructor_identifier))))))
+  (function_declaration
+    (variable_identifier)
+    (labeled_pattern
+      (constructor_identifier)
+      (record_wild_cards))
+    (function_body (list_expression (variable_identifier) (variable_identifier)))))
+
+=================================================
+Function Declarations With Field Patterns, Named Field Puns, And Record Wild Cards
+=================================================
+
+data Blob = Blob { start :: Int, end :: Int, name :: String, path :: String }
+
+f Blob{start, end = end', ..} = [start, end', name, path]
+
+---
+
+(module
+  (algebraic_datatype_declaration
+    (type_constructor_identifier)
+    (constructors
+      (record_data_constructor
+        (constructor_identifier)
+        (fields
+          (field (variable_identifier) (annotation) (type_constructor_identifier))
+          (field (variable_identifier) (annotation) (type_constructor_identifier))
+          (field (variable_identifier) (annotation) (type_constructor_identifier))
+          (field (variable_identifier) (annotation) (type_constructor_identifier))))))
+  (function_declaration
+    (variable_identifier)
+    (labeled_pattern
+      (constructor_identifier)
+      (named_field_pun (variable_identifier))
+      (field_pattern (variable_identifier) (variable_identifier))
+      (record_wild_cards))
+    (function_body (list_expression (variable_identifier) (variable_identifier) (variable_identifier) (variable_identifier)))))
+
+
+=================================================
 Function Declarations With Field Labels And @
 =================================================
 
