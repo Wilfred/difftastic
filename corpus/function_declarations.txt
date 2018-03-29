@@ -674,3 +674,79 @@ f = read @Prelude.Int. Prelude.id
         (variable_operator (variable_symbol))
         (qualified_variable_identifier (module_identifier) (variable_identifier))))))
 
+=================================================
+Function Declarations With Qualified Composition
+=================================================
+
+f = Data.List.uncons . id
+f = Data.List.uncons . Prelude.id
+f = Data.List.uncons. id
+f = Data.List.uncons. Prelude.id
+f = Data.List.uncons .id
+f = Data.List.uncons .Prelude.id
+f = Data.List.uncons.id
+f = Data.List.uncons.Prelude.id
+
+---
+
+(module
+  (function_declaration
+    (variable_identifier)
+    (function_body
+      (infix_operator_application
+        (qualified_variable_identifier (qualified_module_identifier (module_identifier) (module_identifier)) (variable_identifier))
+        (variable_operator (variable_symbol))
+        (variable_identifier))))
+  (function_declaration
+    (variable_identifier)
+    (function_body
+      (infix_operator_application
+        (qualified_variable_identifier
+          (qualified_module_identifier (module_identifier) (module_identifier)) (variable_identifier))
+          (variable_operator (variable_symbol))
+          (qualified_variable_identifier (module_identifier) (variable_identifier)))))
+  (function_declaration
+    (variable_identifier)
+    (function_body
+      (infix_operator_application
+        (qualified_variable_identifier (qualified_module_identifier (module_identifier) (module_identifier)) (variable_identifier))
+        (variable_operator (variable_symbol))
+        (variable_identifier))))
+  (function_declaration
+    (variable_identifier)
+    (function_body
+      (infix_operator_application
+        (qualified_variable_identifier
+          (qualified_module_identifier (module_identifier) (module_identifier)) (variable_identifier))
+          (variable_operator (variable_symbol))
+          (qualified_variable_identifier (module_identifier) (variable_identifier)))))
+  (function_declaration
+    (variable_identifier)
+    (function_body
+      (infix_operator_application
+        (qualified_variable_identifier (qualified_module_identifier (module_identifier) (module_identifier)) (variable_identifier))
+        (variable_operator (variable_symbol))
+        (variable_identifier))))
+  (function_declaration
+    (variable_identifier)
+    (function_body
+      (infix_operator_application
+        (qualified_variable_identifier
+          (qualified_module_identifier (module_identifier) (module_identifier)) (variable_identifier))
+          (variable_operator (variable_symbol))
+          (qualified_variable_identifier (module_identifier) (variable_identifier)))))
+  (function_declaration
+    (variable_identifier)
+    (function_body
+      (infix_operator_application
+        (qualified_variable_identifier (qualified_module_identifier (module_identifier) (module_identifier)) (variable_identifier))
+        (variable_operator (variable_symbol))
+        (variable_identifier))))
+  (function_declaration
+    (variable_identifier)
+    (function_body
+      (infix_operator_application
+        (qualified_variable_identifier
+          (qualified_module_identifier (module_identifier) (module_identifier)) (variable_identifier))
+          (variable_operator (variable_symbol))
+          (qualified_variable_identifier (module_identifier) (variable_identifier))))))
