@@ -171,11 +171,13 @@ JS
 (program
   (command
     (command_name (word))
-    (heredoc_redirect (heredoc)))
+    (heredoc_redirect (heredoc_start))
+    (heredoc_body))
   (command
     (command_name (word))
     (word)
-    (heredoc_redirect (heredoc))))
+    (heredoc_redirect (heredoc_start))
+    (heredoc_body)))
 
 ===============================
 Heredocs with variables
@@ -192,7 +194,33 @@ exit
 (program
   (command
     (command_name (word))
-    (heredoc_redirect (heredoc
+    (heredoc_redirect (heredoc_start))
+    (heredoc_body
       (simple_expansion (variable_name))
-      (expansion (variable_name)))))
+      (expansion (variable_name))))
   (command (command_name (word))))
+
+=================================
+Heredocs with file redirects
+================================
+
+cat <<EOF > $tmpfile
+a $B ${C}
+EOF
+
+wc -l $tmpfile
+
+---
+
+(program
+  (command
+    (command_name (word))
+    (heredoc_redirect (heredoc_start))
+    (heredoc_body
+      (simple_expansion (variable_name))
+      (simple_expansion (variable_name))
+      (expansion (variable_name))))
+  (command
+    (command_name (word))
+    (word)
+    (simple_expansion (variable_name))))
