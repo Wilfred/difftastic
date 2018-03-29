@@ -1143,25 +1143,18 @@ module.exports = grammar({
       ')'
     ),
 
-    class: $ => choice(
-      seq(
-        choice(
-          $.constructor_identifier,
-          $.qualified_constructor_identifier
+    class: $ => prec(1, seq(
+      $._qualified_constructor_identifier,
+      choice(
+        seq(
+          '(',
+          $.type_variable_identifier,
+          repeat1($._atype),
+          ')'
         ),
-        $.type_variable_identifier
-      ),
-      seq(
-        choice(
-          $.constructor_identifier,
-          $.qualified_constructor_identifier
-        ),
-        '(',
-        $.type_variable_identifier,
-        repeat1($._atype),
-        ')'
+        repeat1($._atype)
       )
-    ),
+    )),
 
     equality_constraint: $ => prec(1, seq(
       alias($._type_pattern, $.equality_lhs),
