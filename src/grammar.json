@@ -1755,7 +1755,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_general_constructor"
+          "name": "_type_pattern"
         }
       ]
     },
@@ -4406,8 +4406,29 @@
           "value": "["
         },
         {
-          "type": "SYMBOL",
-          "name": "_type_pattern"
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_type_pattern"
+            },
+            {
+              "type": "REPEAT",
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "STRING",
+                    "value": ","
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "_type_pattern"
+                  }
+                ]
+              }
+            }
+          ]
         },
         {
           "type": "STRING",
@@ -8793,6 +8814,10 @@
     [
       "constructor_pattern",
       "lambda_head"
+    ],
+    [
+      "promoted",
+      "infix_type_operator_application"
     ]
   ],
   "externals": [

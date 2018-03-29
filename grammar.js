@@ -118,6 +118,8 @@ module.exports = grammar({
     [$._a_expression, $.constructor_pattern],
     [$.constructor_pattern],
     [$.constructor_pattern, $.lambda_head],
+
+    [$.promoted, $.infix_type_operator_application]
   ],
 
   rules: {
@@ -456,7 +458,7 @@ module.exports = grammar({
 
     promoted: $ => seq(
       '\'',
-      $._general_constructor
+      $._type_pattern
     ),
 
     _general_constructor: $ => choice(
@@ -1052,7 +1054,7 @@ module.exports = grammar({
 
     list_type: $ => seq(
       '[',
-      $._type_pattern,
+      sep1(',', $._type_pattern),
       ']'
     ),
 
