@@ -194,7 +194,7 @@ module.exports = grammar({
         choice($._qualified_variable, $._variable),
         $.module_export,
         seq(
-          choice($.qualified_type_constructor_identifier, $.type_constructor_identifier),
+          $._qualified_type_constructor_identifier,
           optional(choice(
             optional($.all_constructors),
             seq(
@@ -268,7 +268,7 @@ module.exports = grammar({
       $._variable,
       $._constructor,
       seq(
-        $.type_constructor_identifier,
+        $._qualified_type_constructor_identifier,
         optional(choice(
           $.all_constructors,
           seq(
@@ -460,8 +460,7 @@ module.exports = grammar({
     ),
 
     _general_type_constructor: $ => choice(
-      $.type_constructor_identifier,
-      $.qualified_type_constructor_identifier,
+      $._qualified_type_constructor_identifier,
       $.unit_constructor,
       $.list_constructor,
       $.function_constructor,
@@ -1304,10 +1303,13 @@ module.exports = grammar({
       $.module_identifier
     ),
 
+    _qualified_type_constructor_identifier: $ => choice(
+      $.qualified_type_constructor_identifier,
+      alias($._constructor_identifier, $.type_constructor_identifier)
+    ),
 
     constructor_identifier: $ => $._constructor_identifier,
 
-    type_constructor_identifier: $ => $._constructor_identifier,
 
     // Higher precedence here to disambiguate scontext
     type_class_identifier: $ => $._constructor_identifier,
@@ -1321,8 +1323,6 @@ module.exports = grammar({
       $.constructor_operator
     ),
 
-    qualified_type_constructor_identifier: $ => seq(
-      $.constructor_identifier
       $._qualified_module_identifier,
       $._qualified_module_dot,
     ),
