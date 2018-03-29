@@ -188,6 +188,7 @@ module.exports = grammar({
       ')'
     ),
 
+    // TODO: Check if ambiguity between type class and type constructor identifiers can be resolved through associativity or precedence.
     export: $ => seq(
       optional(alias('type', $.type)),
       choice(
