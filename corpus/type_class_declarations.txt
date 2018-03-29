@@ -109,7 +109,7 @@ class Foo a where
 Type Class Declarations With Multiple Operators
 =========================================
 
-class  (Eq a) => Ord a where
+class (Eq a) => Ord a where
   compare              :: a -> a -> Ordering
   (<), (<=), (>=), (>) :: a -> a -> Bool
   max, min             :: a -> a -> a

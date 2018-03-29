@@ -445,6 +445,7 @@ Standalone Deriving
 
 deriving instance Eq a => Eq (Foo a)
 deriving instance Baz a (m a b c) => Baz a (Bar m a b c)
+deriving instance Bar Baz foo => BazFail (BarEval foo bix waz)
 
 ---
 
@@ -459,7 +460,6 @@ deriving instance Baz a (m a b c) => Baz a (Bar m a b c)
       (parenthesized_type_constructor
         (type_constructor_identifier)
         (type_variable_identifier))))
-
   (standalone_deriving_declaration
     (scontext
       (simple_class
@@ -478,4 +478,17 @@ deriving instance Baz a (m a b c) => Baz a (Bar m a b c)
           (type_variable_identifier)
           (type_variable_identifier)
           (type_variable_identifier)
-          (type_variable_identifier)))))
+          (type_variable_identifier))))
+  (standalone_deriving_declaration
+    (scontext
+      (simple_class
+        (type_class_identifier)
+        (type_class_identifier)
+        (type_variable_identifier)))
+    (type_class_identifier)
+    (instance
+      (parenthesized_type_constructor
+        (type_constructor_identifier)
+        (type_variable_identifier)
+        (type_variable_identifier)
+        (type_variable_identifier)))))

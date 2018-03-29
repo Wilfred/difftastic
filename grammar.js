@@ -85,10 +85,14 @@ module.exports = grammar({
   ],
 
   conflicts: $ => [
+    [$.type_class_instance_declaration],
+    [$.type_class_declaration],
+    [$.standalone_deriving_declaration],
+    [$._general_type_constructor],
+    [$._qualified_type_constructor_identifier],
+    [$.parenthesized_type_variables],
+    [$.instance],
     [$.quasi_quotation, $.variable_identifier],
-    [$.simple_class],
-    [$.type_class_declaration, $.simple_class],
-    [$._general_type_constructor, $.simple_class],
 
     [$._lexp, $._a_expression],
 
@@ -893,14 +897,14 @@ module.exports = grammar({
       $.where
     ),
 
-    instance: $ => prec.left(repeat1(choice(
+    instance: $ => repeat1(choice(
       $._general_type_constructor,
       $.parenthesized_type_constructor,
       $.tuple_instance,
       $.list_instance,
       $.function_type_instance,
       $.type_variable_identifier
-    ))),
+    )),
 
     parenthesized_type_constructor: $ => seq(
       '(',
@@ -1116,16 +1120,16 @@ module.exports = grammar({
     scontext: $ => seq(
       choice(
         $.simple_class,
-        seq(
+        prec.dynamic(1, seq(
           '(',
           optional(sep1(',', $.simple_class)),
           ')'
-        )
+        ))
       ),
       '=>'
     ),
 
-    context: $ => prec(1, seq(
+    context: $ => seq(
       choice(
         $.class,
         $.equality_constraint,
@@ -1136,14 +1140,15 @@ module.exports = grammar({
         ),
       ),
       '=>'
-    )),
+    ),
 
     simple_class: $ => seq(
-      choice($.qualified_type_class_identifier, alias($._constructor_identifier, $.type_class_identifier)),
       repeat1(choice(
         $.type_variable_identifier,
         $.parenthesized_type_variables,
         $.promoted,
+        $.qualified_type_class_identifier,
+        alias($._constructor_identifier, $.type_class_identifier),
         $.parenthesized_type_constructor
       ))
     ),
