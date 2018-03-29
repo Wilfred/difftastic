@@ -157,6 +157,18 @@
               }
             ]
           }
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "heredoc_body"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         }
       ]
     },
@@ -760,6 +772,18 @@
                 }
               ]
             }
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "heredoc_body"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
           }
         ]
       }
@@ -1180,23 +1204,23 @@
         },
         {
           "type": "SYMBOL",
-          "name": "heredoc"
+          "name": "heredoc_start"
         }
       ]
     },
-    "heredoc": {
+    "heredoc_body": {
       "type": "CHOICE",
       "members": [
         {
           "type": "SYMBOL",
-          "name": "_simple_heredoc"
+          "name": "_simple_heredoc_body"
         },
         {
           "type": "SEQ",
           "members": [
             {
               "type": "SYMBOL",
-              "name": "_heredoc_beginning"
+              "name": "_heredoc_body_beginning"
             },
             {
               "type": "REPEAT",
@@ -1213,14 +1237,14 @@
                   },
                   {
                     "type": "SYMBOL",
-                    "name": "_heredoc_middle"
+                    "name": "_heredoc_body_middle"
                   }
                 ]
               }
             },
             {
               "type": "SYMBOL",
-              "name": "_heredoc_end"
+              "name": "_heredoc_body_end"
             }
           ]
         }
@@ -1904,19 +1928,23 @@
   "externals": [
     {
       "type": "SYMBOL",
-      "name": "_simple_heredoc"
+      "name": "heredoc_start"
     },
     {
       "type": "SYMBOL",
-      "name": "_heredoc_beginning"
+      "name": "_simple_heredoc_body"
     },
     {
       "type": "SYMBOL",
-      "name": "_heredoc_middle"
+      "name": "_heredoc_body_beginning"
     },
     {
       "type": "SYMBOL",
-      "name": "_heredoc_end"
+      "name": "_heredoc_body_middle"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_heredoc_body_end"
     },
     {
       "type": "SYMBOL",

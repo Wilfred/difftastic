@@ -24,10 +24,11 @@ module.exports = grammar({
   ],
 
   externals: $ => [
-    $._simple_heredoc,
-    $._heredoc_beginning,
-    $._heredoc_middle,
-    $._heredoc_end,
+    $.heredoc_start,
+    $._simple_heredoc_body,
+    $._heredoc_body_beginning,
+    $._heredoc_body_middle,
+    $._heredoc_body_end,
     $.file_descriptor,
     $._empty_value,
     $._concat,
@@ -87,7 +88,8 @@ module.exports = grammar({
         $.file_redirect,
         $.heredoc_redirect,
         $.herestring_redirect
-      ))
+      )),
+      optional($.heredoc_body)
     ),
 
     do_group: $ => seq(
@@ -207,7 +209,8 @@ module.exports = grammar({
         $.file_redirect,
         $.heredoc_redirect,
         $.herestring_redirect
-      ))
+      )),
+      optional($.heredoc_body)
     )),
 
     command_name: $ => $._expression,
@@ -288,19 +291,19 @@ module.exports = grammar({
 
     heredoc_redirect: $ => seq(
       choice('<<', '<<-'),
-      $.heredoc
+      $.heredoc_start
     ),
 
-    heredoc: $ => choice(
-      $._simple_heredoc,
+    heredoc_body: $ => choice(
+      $._simple_heredoc_body,
       seq(
-        $._heredoc_beginning,
+        $._heredoc_body_beginning,
         repeat(choice(
           $.expansion,
           $.simple_expansion,
-          $._heredoc_middle
+          $._heredoc_body_middle
         )),
-        $._heredoc_end
+        $._heredoc_body_end
       )
     ),
 

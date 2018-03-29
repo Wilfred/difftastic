@@ -3,8 +3,6 @@ examples/bash-it/plugins/available/extract.plugin.bash
 examples/bash-it/plugins/available/z_autoenv.plugin.bash
 examples/bash-it/plugins/available/sshagent.plugin.bash
 examples/bash-it/plugins/available/go.plugin.bash
-examples/bash-it/plugins/available/proxy.plugin.bash
-examples/bash-it/plugins/available/browser.plugin.bash
 examples/bash-it/install.sh
 examples/bash-it/completion/available/terraform.completion.bash
 examples/bash-it/completion/available/go.completion.bash

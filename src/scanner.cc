@@ -7,10 +7,11 @@ namespace {
 using std::string;
 
 enum TokenType {
-  SIMPLE_HEREDOC,
-  HEREDOC_BEGINNING,
-  HEREDOC_MIDDLE,
-  HEREDOC_END,
+  HEREDOC_START,
+  SIMPLE_HEREDOC_BODY,
+  HEREDOC_BODY_BEGINNING,
+  HEREDOC_BODY_MIDDLE,
+  HEREDOC_BODY_END,
   FILE_DESCRIPTOR,
   EMPTY_VALUE,
   CONCAT,
@@ -68,6 +69,7 @@ struct Scanner {
           did_advance = true;
           advance(lexer);
           if (scan_heredoc_end_identifier(lexer)) {
+            heredoc_delimiter.clear();
             lexer->result_symbol = end_type;
             return true;
           }
@@ -111,26 +113,25 @@ struct Scanner {
       }
     }
 
-    if (valid_symbols[HEREDOC_MIDDLE] && !heredoc_delimiter.empty()) {
-      return scan_heredoc_content(lexer, HEREDOC_MIDDLE, HEREDOC_END);
+    if (valid_symbols[HEREDOC_BODY_BEGINNING] && !heredoc_delimiter.empty()) {
+      return scan_heredoc_content(lexer, HEREDOC_BODY_BEGINNING, SIMPLE_HEREDOC_BODY);
     }
 
-    if (valid_symbols[HEREDOC_BEGINNING]) {
+    if (valid_symbols[HEREDOC_BODY_MIDDLE] && !heredoc_delimiter.empty()) {
+      return scan_heredoc_content(lexer, HEREDOC_BODY_MIDDLE, HEREDOC_BODY_END);
+    }
+
+    if (valid_symbols[HEREDOC_START]) {
+      while (iswspace(lexer->lookahead)) skip(lexer);
+
+      lexer->result_symbol = HEREDOC_START;
       heredoc_delimiter.clear();
       while (iswalpha(lexer->lookahead)) {
         heredoc_delimiter += lexer->lookahead;
         advance(lexer);
       }
 
-      if (lexer->lookahead != '\n') return false;
-      advance(lexer);
-
-      if (scan_heredoc_end_identifier(lexer)) {
-        lexer->result_symbol = SIMPLE_HEREDOC;
-        return true;
-      }
-
-      return scan_heredoc_content(lexer, HEREDOC_BEGINNING, SIMPLE_HEREDOC);
+      return !heredoc_delimiter.empty();
     }
 
     if (valid_symbols[VARIABLE_NAME] || valid_symbols[FILE_DESCRIPTOR]) {
