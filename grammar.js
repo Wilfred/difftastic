@@ -1311,12 +1311,15 @@ module.exports = grammar({
       alias($._constructor_identifier, $.constructor_identifier)
     ),
 
-    qualified_constructor_operator: $ => seq(
+    _qualified_constructor_operator: $ => choice(
+      $.qualified_constructor_operator,
       $.constructor_operator
     ),
 
+    qualified_constructor_operator: $ => seq(
       $._qualified_module_identifier,
       $._qualified_module_dot,
+      $.constructor_operator
     ),
 
     _qualified_variable_identifier: $ => choice(
