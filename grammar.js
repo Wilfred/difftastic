@@ -85,30 +85,35 @@ module.exports = grammar({
   ],
 
   conflicts: $ => [
-    [$.type_constructor_identifier, $.type_class_identifier],
-    [$.qualified_constructor_identifier, $.qualified_type_constructor_identifier],
-    [$.qualified_type_constructor_identifier, $.qualified_type_class_identifier],
-    [$.constructor_identifier, $.type_constructor_identifier],
-    [$._constructor_identifier, $._module_identifier],
-    [$.module_identifier, $.qualified_module_identifier],
-    [$.constructor_identifier, $.type_constructor_identifier, $.type_class_identifier],
     [$.quasi_quotation, $.variable_identifier],
     [$.simple_class],
     [$.type_class_declaration, $.simple_class],
     [$._general_type_constructor, $.simple_class],
 
-    [$.constructor_pattern, $._a_expression],
-    [$._a_expression, $.labeled_construction],
     [$._lexp, $._a_expression],
-    [$.labeled_pattern, $._a_expression, $.labeled_construction],
 
     [$._a_pattern, $._a_expression],
 
-    [$._expression, $.expression_type_signature],
 
     [$._lexp, $.function_application],
 
-    [$._general_type_constructor, $._simple_type]
+    [$._general_type_constructor, $._simple_type],
+
+    [$.export, $._qualified_type_constructor_identifier],
+    [$._import, $._qualified_type_constructor_identifier],
+    [$._import, $._qualified_constructor_identifier, $._qualified_type_constructor_identifier],
+    [$._qualified_constructor_identifier, $._qualified_type_constructor_identifier],
+    [$._qualified_constructor_operator, $._qualified_operator],
+    [$.qualified_type_constructor_identifier, $.qualified_type_class_identifier],
+    [$.qualified_type_constructor_identifier, $.qualified_constructor_identifier],
+    [$._constructor_identifier, $.module_identifier],
+
+    [$._qualified_module_identifier, $.qualified_module_identifier],
+    [$.qualified_module_identifier],
+    [$._a_pattern, $.constructor_pattern],
+    [$._a_expression, $.constructor_pattern],
+    [$.constructor_pattern],
+    [$.constructor_pattern, $.lambda_head],
   ],
 
   rules: {
