@@ -569,3 +569,108 @@ f y@(Example { a = a', b = b' }) = y { a = a' + 1, b = b' ++ " !" }
             (variable_identifier)
             (variable_operator (variable_symbol))
             (string)))))))
+
+
+=================================================
+Function Declarations With Type Applications
+=================================================
+
+f = read @Int
+f = read @Int "5"
+f = read @Prelude.Int "5"
+f = read @Int . Prelude.id
+f = read @Prelude.Int . Prelude.id
+f = read @Int . id
+f = read @Prelude.Int . Prelude.id
+f = read @Int .id
+f = read @Prelude.Int .Prelude.id
+f = read @Int. id
+f = read @Prelude.Int. Prelude.id
+
+---
+
+(module
+  (function_declaration
+    (variable_identifier)
+    (function_body
+      (variable_identifier)
+      (type_application (constructor_identifier))))
+  (function_declaration
+    (variable_identifier)
+    (function_body
+      (function_application
+        (variable_identifier)
+        (type_application (constructor_identifier))
+        (string))))
+  (function_declaration
+    (variable_identifier)
+    (function_body
+      (function_application
+        (variable_identifier)
+        (type_application (qualified_constructor_identifier (module_identifier) (constructor_identifier)))
+        (string))))
+  (function_declaration
+    (variable_identifier)
+    (function_body
+      (infix_operator_application
+        (variable_identifier)
+        (type_application (constructor_identifier))
+        (variable_operator (variable_symbol))
+        (qualified_variable_identifier (module_identifier) (variable_identifier)))))
+  (function_declaration
+    (variable_identifier)
+    (function_body
+      (infix_operator_application
+        (variable_identifier)
+        (type_application (qualified_constructor_identifier (module_identifier) (constructor_identifier)))
+        (variable_operator (variable_symbol))
+        (qualified_variable_identifier (module_identifier) (variable_identifier)))))
+  (function_declaration
+    (variable_identifier)
+    (function_body
+      (infix_operator_application
+        (variable_identifier)
+        (type_application (constructor_identifier))
+        (variable_operator (variable_symbol))
+        (variable_identifier))))
+  (function_declaration
+    (variable_identifier)
+    (function_body
+      (infix_operator_application
+        (variable_identifier)
+        (type_application (qualified_constructor_identifier (module_identifier) (constructor_identifier)))
+        (variable_operator (variable_symbol))
+        (qualified_variable_identifier (module_identifier) (variable_identifier)))))
+  (function_declaration
+    (variable_identifier)
+    (function_body
+      (infix_operator_application
+        (variable_identifier)
+        (type_application (constructor_identifier))
+        (variable_operator (variable_symbol))
+        (variable_identifier))))
+  (function_declaration
+    (variable_identifier)
+    (function_body
+      (infix_operator_application
+        (variable_identifier)
+        (type_application (qualified_constructor_identifier (module_identifier) (constructor_identifier)))
+        (variable_operator (variable_symbol))
+        (qualified_variable_identifier (module_identifier) (variable_identifier)))))
+  (function_declaration
+    (variable_identifier)
+    (function_body
+      (infix_operator_application
+        (variable_identifier)
+        (type_application (constructor_identifier))
+        (variable_operator (variable_symbol))
+        (variable_identifier))))
+  (function_declaration
+    (variable_identifier)
+    (function_body
+      (infix_operator_application
+        (variable_identifier)
+        (type_application (qualified_constructor_identifier (module_identifier) (constructor_identifier)))
+        (variable_operator (variable_symbol))
+        (qualified_variable_identifier (module_identifier) (variable_identifier))))))
+
