@@ -448,6 +448,8 @@ module.exports = grammar({
 
     named_field_pun: $ => $._variable,
 
+    record_wild_cards: $ => '..',
+
     promoted: $ => seq(
       '\'',
       $._general_constructor
