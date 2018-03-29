@@ -446,6 +446,8 @@ module.exports = grammar({
       $._pattern
     ),
 
+    named_field_pun: $ => $._variable,
+
     promoted: $ => seq(
       '\'',
       $._general_constructor
