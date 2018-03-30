@@ -292,7 +292,11 @@ Binary Addition / Subtraction With Floats
   (expression_statement
     (binary_operator (float) (integer)))
   (expression_statement
-    (binary_operator (float) (integer))))
+    (binary_operator (float) (integer)))
+  (expression_statement
+    (binary_operator (integer) (float)))
+  (expression_statement
+    (binary_operator (integer) (float))))
 
 =====================================
 Bitwise operators
