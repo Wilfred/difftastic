@@ -3774,19 +3774,7 @@
                     "members": [
                       {
                         "type": "PATTERN",
-                        "value": "[eE]"
-                      },
-                      {
-                        "type": "BLANK"
-                      }
-                    ]
-                  },
-                  {
-                    "type": "CHOICE",
-                    "members": [
-                      {
-                        "type": "PATTERN",
-                        "value": "[\\+-]"
+                        "value": "[eE][\\+-]?"
                       },
                       {
                         "type": "BLANK"
@@ -3813,15 +3801,11 @@
                     }
                   },
                   {
-                    "type": "PATTERN",
-                    "value": "[eE]"
-                  },
-                  {
                     "type": "CHOICE",
                     "members": [
                       {
                         "type": "PATTERN",
-                        "value": "[\\+-]"
+                        "value": "[eE][\\+-]?"
                       },
                       {
                         "type": "BLANK"

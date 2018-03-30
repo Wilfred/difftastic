@@ -759,8 +759,8 @@ module.exports = grammar({
     float: $ => token(
       seq(
         choice(
-          seq(repeat(/[0-9]+_?/), '.', repeat(/[0-9]+_?/), optional(/[eE]/), optional(/[\+-]/), repeat(/[0-9]+_?/)),
-          seq(repeat(/[0-9]+_?/), /[eE]/, optional(/[\+-]/), repeat1(/[0-9]+_?/))
+          seq(repeat(/[0-9]+_?/), '.', repeat(/[0-9]+_?/), optional(/[eE][\+-]?/), repeat(/[0-9]+_?/)),
+          seq(repeat(/[0-9]+_?/), optional(/[eE][\+-]?/), repeat1(/[0-9]+_?/))
         ),
         optional(
           choice(
