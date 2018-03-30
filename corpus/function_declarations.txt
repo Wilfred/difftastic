@@ -612,6 +612,22 @@ f x = do
         (function_application (variable_identifier) (variable_identifier))))))
 
 =================================================
+Function Declarations With i
+=================================================
+
+f = a i
+
+---
+
+(module
+  (function_declaration
+    (variable_identifier)
+    (function_body
+      (function_application
+        (variable_identifier)
+        (variable_identifier)))))
+
+=================================================
 Function Declarations With Field Update
 =================================================
 
