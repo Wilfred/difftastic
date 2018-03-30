@@ -3658,6 +3658,10 @@
             "members": [
               {
                 "type": "SYMBOL",
+                "name": "parenthesized_type_constructor"
+              },
+              {
+                "type": "SYMBOL",
                 "name": "type_variable_identifier"
               },
               {
