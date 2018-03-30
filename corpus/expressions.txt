@@ -271,6 +271,30 @@ a + b * c ** d - e / 5
   (expression_statement (unary_operator (identifier))))
 
 =====================================
+Binary Addition / Subtraction With Floats
+=====================================
+
+.1-.0
+.1+.0
+.1-0
+.1+0
+
+1-.0
+1+.0
+
+---
+
+(module
+  (expression_statement
+    (binary_operator (float) (float)))
+  (expression_statement
+    (binary_operator (float) (float)))
+  (expression_statement
+    (binary_operator (float) (integer)))
+  (expression_statement
+    (binary_operator (float) (integer))))
+
+=====================================
 Bitwise operators
 =====================================
 
