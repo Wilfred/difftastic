@@ -458,7 +458,7 @@ module.exports = grammar({
 
     promoted: $ => seq(
       '\'',
-      $._type_pattern
+      choice($._type_pattern, $._qualified_operator)
     ),
 
     _general_constructor: $ => choice(
@@ -520,7 +520,7 @@ module.exports = grammar({
 
     infix_operator_application: $ => prec.right(seq(
       $._lexp,
-      $._qualified_operator,
+      choice($._qualified_operator, $.promoted),
       $._infix_expression
     )),
 

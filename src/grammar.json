@@ -1754,8 +1754,17 @@
           "value": "'"
         },
         {
-          "type": "SYMBOL",
-          "name": "_type_pattern"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_type_pattern"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_qualified_operator"
+            }
+          ]
         }
       ]
     },
@@ -2006,8 +2015,17 @@
             "name": "_lexp"
           },
           {
-            "type": "SYMBOL",
-            "name": "_qualified_operator"
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "_qualified_operator"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "promoted"
+              }
+            ]
           },
           {
             "type": "SYMBOL",

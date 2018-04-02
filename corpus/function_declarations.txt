@@ -907,3 +907,28 @@ f = Data.Maybe.Just .Prelude.id
       (qualified_constructor_identifier (qualified_module_identifier (module_identifier) (module_identifier)) (constructor_identifier))
       (variable_operator (variable_symbol))
       (qualified_variable_identifier (module_identifier) (variable_identifier))))))
+
+=================================================
+Function Declarations With Promoted Constructor Operators
+=================================================
+
+f = Bar ': Baz
+f = Bar ':<: Baz
+
+---
+
+(module
+  (function_declaration
+    (variable_identifier)
+    (function_body
+      (infix_operator_application
+        (constructor_identifier)
+        (promoted (constructor_operator (constructor_symbol)))
+        (constructor_identifier))))
+  (function_declaration
+    (variable_identifier)
+    (function_body
+      (infix_operator_application
+        (constructor_identifier)
+        (promoted (constructor_operator (constructor_symbol)))
+        (constructor_identifier)))))
