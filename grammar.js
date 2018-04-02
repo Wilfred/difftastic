@@ -107,6 +107,7 @@ module.exports = grammar({
     class_declaration: $ => seq(
       optional($._attributes),
       optional($.class_modifiers),
+      optional('partial'),
       'class',
       $.identifier_name,
       optional($.type_parameter_list),
