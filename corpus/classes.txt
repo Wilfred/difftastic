@@ -12,6 +12,37 @@ public class F {}
     (identifier_name)))
 
 =====================================
+Class base is dynamic
+=====================================
+
+public class F : dynamic { }
+
+---
+
+(compilation_unit
+  (class_declaration
+    (class_modifiers)
+    (identifier_name)
+    (class_base (class_type))))
+
+=====================================
+Class base is object with interfaces
+=====================================
+
+public class F : object, IAlpha, IOmega { }
+
+---
+
+(compilation_unit
+  (class_declaration
+    (class_modifiers)
+    (identifier_name)
+    (class_base
+      (class_type)
+      (identifier_name)
+      (identifier_name))))
+
+=====================================
 Class with a single type parameter
 =====================================
 

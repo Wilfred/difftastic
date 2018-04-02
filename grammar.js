@@ -111,6 +111,7 @@ module.exports = grammar({
       'class',
       $.identifier_name,
       optional($.type_parameter_list),
+      optional($.class_base),
       '{',
       repeat(choice(
         $._type_declaration,
@@ -118,7 +119,7 @@ module.exports = grammar({
         $.constructor_declaration,
         $.method_declaration
       )),
-      '}'
+      '}',
     ),
 
     class_modifiers: $ => $._class_modifiers,
@@ -131,6 +132,19 @@ module.exports = grammar({
         ...COMMON_MODIFIERS
       ),
       optional($._class_modifiers)
+    ),
+
+    class_base: $ => seq(
+      ':',
+      $.class_type,
+      optional(seq(', ', commaSep1($.identifier_name)))
+    ),
+
+    class_type: $ => choice(
+      $.identifier_name,
+      'object',
+      'dynamic',
+      'string'
     ),
 
     // interface
