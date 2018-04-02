@@ -82,3 +82,43 @@ class Zzz {
       (attribute_list (attribute (identifier_name)) (attribute (identifier_name) (attribute_argument_list)))
       (attribute_list (attribute (identifier_name)))
       (field_modifiers) (variable_declaration (predefined_type) (variable_declarator (identifier_name))))))
+
+
+=======================================
+Attributes on enums
+=======================================
+
+[Single]
+enum A { B, C }
+
+[One][Two]
+[Three]
+enum A { B, C }
+
+[One]
+[Two,Three()]
+enum A { B, C }
+
+---
+
+(compilation_unit
+  (enum_declaration
+    (attribute_list (attribute (identifier_name)))
+    (identifier_name)
+    (enum_member_declaration (identifier_name))
+    (enum_member_declaration (identifier_name)))
+
+  (enum_declaration
+    (attribute_list (attribute (identifier_name)))
+    (attribute_list (attribute (identifier_name)))
+    (attribute_list (attribute (identifier_name)))
+    (identifier_name)
+    (enum_member_declaration (identifier_name))
+    (enum_member_declaration (identifier_name)))
+
+  (enum_declaration
+    (attribute_list (attribute (identifier_name)))
+    (attribute_list (attribute (identifier_name)) (attribute (identifier_name) (attribute_argument_list)))
+    (identifier_name)
+    (enum_member_declaration (identifier_name))
+    (enum_member_declaration (identifier_name))))
