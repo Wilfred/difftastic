@@ -11,6 +11,37 @@ public class F {}
     (class_modifiers)
     (identifier_name)))
 
+
+=====================================
+Global empty class with a single type parameter
+=====================================
+
+public class F<T> {}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (class_modifiers)
+    (identifier_name)
+     (type_parameter_list (type_parameter (identifier_name)))))
+
+=====================================
+Global empty class with multiple type parameter
+=====================================
+
+public class F<T1, T2> {}
+
+---
+
+(compilation_unit
+ (class_declaration
+   (class_modifiers)
+   (identifier_name)
+    (type_parameter_list
+      (type_parameter (identifier_name))
+      (type_parameter (identifier_name)))))
+
 =====================================
 Class with single method
 =====================================
