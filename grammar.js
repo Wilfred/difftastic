@@ -80,14 +80,16 @@ module.exports = grammar({
       $._import_list
     ),
 
+    relative_import: $ => seq(
+      repeat1('.'),
+      optional($.dotted_name)
+    ),
+
     import_from_statement: $ => seq(
       'from',
       choice(
-        seq(
-          repeat('.'),
-          $.dotted_name
-        ),
-        repeat1('.')
+        $.relative_import,
+        $.dotted_name
       ),
       'import',
       choice(
