@@ -4,6 +4,7 @@ Import statements
 
 import a, b
 import b.c as d
+import a.b.c
 
 ---
 
@@ -14,7 +15,9 @@ import b.c as d
   (import_statement
     (aliased_import
       (dotted_name (identifier) (identifier))
-      (identifier))))
+      (identifier)))
+  (import_statement
+    (dotted_name (identifier) (identifier) (identifier))))
 
 =====================================
 Import-from statements
@@ -23,6 +26,11 @@ Import-from statements
 from a import b
 from a import *
 from a import (b, c)
+from a.b import c
+from . import b
+from .. import b
+from .a import b
+from ..a import b
 
 ---
 
@@ -36,7 +44,24 @@ from a import (b, c)
   (import_from_statement
     (dotted_name (identifier))
     (dotted_name (identifier))
-    (dotted_name (identifier))))
+    (dotted_name (identifier)))
+  (import_from_statement
+    (dotted_name (identifier) (identifier))
+    (dotted_name (identifier)))
+  (import_from_statement
+    (relative_import)
+    (dotted_name (identifier)))
+  (import_from_statement
+    (relative_import)
+    (dotted_name (identifier)))
+  (import_from_statement
+    (relative_import
+      (dotted_name (identifier)))
+      (dotted_name (identifier)))
+  (import_from_statement
+    (relative_import
+      (dotted_name (identifier)))
+      (dotted_name (identifier))))
 
 =====================================
 Print statements
