@@ -11,9 +11,8 @@ public class F {}
     (class_modifiers)
     (identifier_name)))
 
-
 =====================================
-Global empty class with a single type parameter
+Class with a single type parameter
 =====================================
 
 public class F<T> {}
@@ -27,7 +26,20 @@ public class F<T> {}
      (type_parameter_list (type_parameter (identifier_name)))))
 
 =====================================
-Global empty class with multiple type parameter
+Partial class
+=====================================
+
+public partial class F {}
+
+---
+
+(compilation_unit
+ (class_declaration
+   (class_modifiers)
+   (identifier_name)))
+
+=====================================
+Class with multiple type parameters
 =====================================
 
 public class F<T1, T2> {}
