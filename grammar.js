@@ -182,6 +182,8 @@ module.exports = grammar({
       'interface',
       $.identifier_name,
       optional($.type_parameter_list),
+      optional($.interface_base),
+      repeat($.type_parameter_constraints_clause),
       '{',
       repeat(choice(
         $.field_declaration
@@ -194,6 +196,12 @@ module.exports = grammar({
     _interface_modifiers: $ => seq(
       choice('partial', ...COMMON_MODIFIERS),
       optional($._interface_modifiers)
+    ),
+
+    interface_base: $ => seq(
+      ':',
+      $.identifier_name,
+      optional(seq(',', commaSep1($.identifier_name)))
     ),
 
     // struct

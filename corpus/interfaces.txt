@@ -1,0 +1,117 @@
+=====================================
+Global empty interface
+=====================================
+
+public interface IOne {};
+
+---
+
+(compilation_unit
+  (interface_declaration
+    (interface_modifiers)
+    (identifier_name)))
+
+=====================================
+Interface base single
+=====================================
+
+private interface IOne : ITwo { }
+
+---
+
+(compilation_unit
+  (interface_declaration
+    (interface_modifiers)
+    (identifier_name)
+    (interface_base
+      (identifier_name))))
+
+=====================================
+Interface base multiple
+=====================================
+
+private interface IOne : ITwo, IThree { }
+
+---
+
+(compilation_unit
+  (interface_declaration
+    (interface_modifiers)
+    (identifier_name)
+    (interface_base
+      (identifier_name)
+      (identifier_name))))
+
+=====================================
+Interface generic
+=====================================
+
+private interface IOne<T1> : ITwo { }
+
+---
+
+(compilation_unit
+  (interface_declaration
+    (interface_modifiers)
+    (identifier_name)
+    (type_parameter_list (type_parameter (identifier_name)))
+    (interface_base
+      (identifier_name))))
+
+=====================================
+Interface generic single constraint
+=====================================
+
+private interface IOne<T1> : ITwo where T1:T2 { }
+
+---
+
+(compilation_unit
+  (interface_declaration
+    (interface_modifiers)
+    (identifier_name)
+    (type_parameter_list (type_parameter (identifier_name)))
+    (interface_base (identifier_name))
+     (type_parameter_constraints_clause
+      (identifier_name)
+      (identifier_name))))
+
+=====================================
+Interface generic multiple constraints
+=====================================
+
+private interface IOne<T1, T3> : ITwo where T1:T2 where T3:new() { }
+
+---
+
+(compilation_unit
+  (interface_declaration
+    (interface_modifiers)
+    (identifier_name)
+    (type_parameter_list
+      (type_parameter (identifier_name))
+      (type_parameter (identifier_name)))
+    (interface_base (identifier_name))
+     (type_parameter_constraints_clause
+      (identifier_name)
+      (identifier_name))
+     (type_parameter_constraints_clause
+      (identifier_name)
+      (constructor_constraint))))
+
+=====================================
+Interface in namespace
+=====================================
+
+namespace A {
+  interface IOne : ITwo { }
+}
+
+---
+
+(compilation_unit
+  (namespace_declaration (identifier_name)
+    (interface_declaration
+      (identifier_name)
+      (interface_base
+        (identifier_name)))))
