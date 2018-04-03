@@ -43,6 +43,7 @@ module.exports = grammar({
 
   inline: $ => [
     $.class_type,
+    $.class_member_declaration,
     $.type_parameter_constraints
   ],
 
@@ -119,14 +120,17 @@ module.exports = grammar({
       optional($.class_base),
       repeat($.type_parameter_constraints_clause),
       '{',
-      repeat(choice(
-        $._type_declaration,
-        $.field_declaration,
-        $.constructor_declaration,
-        $.method_declaration
-      )),
+      repeat($.class_member_declaration),
       '}',
       optional(';')
+    ),
+
+    class_member_declaration: $ => choice(
+      $._type_declaration,
+      $.field_declaration,
+      $.constructor_declaration,
+      $.method_declaration,
+			$._type_declaration
     ),
 
     class_modifiers: $ => $._class_modifiers,

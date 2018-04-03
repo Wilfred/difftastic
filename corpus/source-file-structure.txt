@@ -96,6 +96,10 @@ namespace A {
 
 class F {};
 
+class Outer {
+  class Inner { };
+}
+
 ---
 
 (compilation_unit
@@ -117,7 +121,9 @@ class F {};
         (type_parameter_list
           (type_parameter (identifier_name))
           (type_parameter (identifier_name))))))
-  (class_declaration (identifier_name)))
+  (class_declaration (identifier_name))
+  (class_declaration (identifier_name)
+    (class_declaration (identifier_name))))
 
 =====================================
 Interfaces

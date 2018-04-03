@@ -283,25 +283,8 @@
         {
           "type": "REPEAT",
           "content": {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "_type_declaration"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "field_declaration"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "constructor_declaration"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "method_declaration"
-              }
-            ]
+            "type": "SYMBOL",
+            "name": "class_member_declaration"
           }
         },
         {
@@ -319,6 +302,31 @@
               "type": "BLANK"
             }
           ]
+        }
+      ]
+    },
+    "class_member_declaration": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_type_declaration"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "field_declaration"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "constructor_declaration"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "method_declaration"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_type_declaration"
         }
       ]
     },
@@ -3333,6 +3341,7 @@
   "externals": [],
   "inline": [
     "class_type",
+    "class_member_declaration",
     "type_parameter_constraints"
   ]
 }
