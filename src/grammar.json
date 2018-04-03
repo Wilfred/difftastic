@@ -318,15 +318,15 @@
         },
         {
           "type": "SYMBOL",
+          "name": "event_declaration"
+        },
+        {
+          "type": "SYMBOL",
           "name": "constructor_declaration"
         },
         {
           "type": "SYMBOL",
           "name": "method_declaration"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_type_declaration"
         }
       ]
     },
@@ -601,6 +601,202 @@
         {
           "type": "STRING",
           "value": ")"
+        }
+      ]
+    },
+    "event_declaration": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_attributes"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "event_modifiers"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": "event"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_type"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "identifier_name"
+        },
+        {
+          "type": "STRING",
+          "value": "{"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "add_accessor_declaration"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "remove_accessor_declaration"
+                }
+              ]
+            },
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "remove_accessor_declaration"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "add_accessor_declaration"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": "}"
+        }
+      ]
+    },
+    "event_modifiers": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "new"
+            },
+            {
+              "type": "STRING",
+              "value": "public"
+            },
+            {
+              "type": "STRING",
+              "value": "protected"
+            },
+            {
+              "type": "STRING",
+              "value": "internal"
+            },
+            {
+              "type": "STRING",
+              "value": "private"
+            },
+            {
+              "type": "STRING",
+              "value": "static"
+            },
+            {
+              "type": "STRING",
+              "value": "virtual"
+            },
+            {
+              "type": "STRING",
+              "value": "sealed"
+            },
+            {
+              "type": "STRING",
+              "value": "override"
+            },
+            {
+              "type": "STRING",
+              "value": "abstract"
+            },
+            {
+              "type": "STRING",
+              "value": "extern"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "event_modifiers"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        }
+      ]
+    },
+    "add_accessor_declaration": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_attributes"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": "add"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "statement_block"
+        }
+      ]
+    },
+    "remove_accessor_declaration": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_attributes"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": "remove"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "statement_block"
         }
       ]
     },
