@@ -23,7 +23,7 @@ public class F : dynamic { }
   (class_declaration
     (class_modifiers)
     (identifier_name)
-    (class_base (class_type))))
+    (class_base)))
 
 =====================================
 Class base is object with interfaces
@@ -38,9 +38,21 @@ public class F : object, IAlpha, IOmega { }
     (class_modifiers)
     (identifier_name)
     (class_base
-      (class_type)
       (identifier_name)
       (identifier_name))))
+
+=====================================
+Partial class
+=====================================
+
+public partial class F {}
+
+---
+
+(compilation_unit
+ (class_declaration
+   (class_modifiers)
+   (identifier_name)))
 
 =====================================
 Class with a single type parameter
@@ -57,19 +69,6 @@ public class F<T> {}
      (type_parameter_list (type_parameter (identifier_name)))))
 
 =====================================
-Partial class
-=====================================
-
-public partial class F {}
-
----
-
-(compilation_unit
- (class_declaration
-   (class_modifiers)
-   (identifier_name)))
-
-=====================================
 Class with multiple type parameters
 =====================================
 
@@ -84,6 +83,98 @@ public class F<T1, T2> {}
     (type_parameter_list
       (type_parameter (identifier_name))
       (type_parameter (identifier_name)))))
+
+=====================================
+Class with a type parameter struct constraint
+=====================================
+
+public class F<T> where T:struct {}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (class_modifiers)
+    (identifier_name)
+     (type_parameter_list (type_parameter (identifier_name)))
+     (type_parameter_constraints_clause
+      (identifier_name))))
+
+=====================================
+Class with type parameter new constraint
+=====================================
+
+public class F<T> where T: new() {}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (class_modifiers)
+    (identifier_name)
+     (type_parameter_list (type_parameter (identifier_name)))
+     (type_parameter_constraints_clause
+      (identifier_name)
+      (constructor_constraint))))
+
+=====================================
+Class with type parameter identifier constraint
+=====================================
+
+public class F<T> where T: I {}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (class_modifiers)
+    (identifier_name)
+     (type_parameter_list (type_parameter (identifier_name)))
+     (type_parameter_constraints_clause
+      (identifier_name)
+      (identifier_name))))
+
+=====================================
+Class with type parameter identifier and new constraints
+=====================================
+
+public class F<T> where T: I, new() {}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (class_modifiers)
+    (identifier_name)
+     (type_parameter_list (type_parameter (identifier_name)))
+     (type_parameter_constraints_clause
+      (identifier_name)
+      (identifier_name)
+      (constructor_constraint))))
+
+=====================================
+Class with multiple type parameter constraints
+=====================================
+
+public class F<T1,T2> where T1 : I1, I2, new() where T2 : I2 { }
+
+---
+
+(compilation_unit
+  (class_declaration
+    (class_modifiers)
+    (identifier_name)
+     (type_parameter_list
+      (type_parameter (identifier_name))
+      (type_parameter (identifier_name)))
+     (type_parameter_constraints_clause
+      (identifier_name)
+      (identifier_name)
+      (identifier_name)
+      (constructor_constraint))
+    (type_parameter_constraints_clause
+     (identifier_name)
+     (identifier_name))))
 
 =====================================
 Class with single method
