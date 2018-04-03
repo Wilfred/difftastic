@@ -480,6 +480,16 @@ a * b
 
 (program (binary (identifier) (identifier)))
 
+==============
+binary operations
+==============
+
+2+2*2
+
+---
+
+(program (binary (integer) (binary (integer) (integer))))
+
 ===========
 unary minus
 ===========
