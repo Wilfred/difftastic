@@ -16,7 +16,7 @@ enum in class with two options
 =======================================
 
 class A {
-  enum B { One, Two }
+  enum B { One, Two };
 }
 
 ---
