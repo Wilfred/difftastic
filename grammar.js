@@ -230,9 +230,11 @@ module.exports = grammar({
       optional($.interface_base),
       repeat($.type_parameter_constraints_clause),
       '{',
-      repeat(choice(
-        $.field_declaration
-      )),
+      repeat(
+        choice(
+          $.interface_event_declaration,
+        )
+      ),
       '}',
       optional(';')
     ),
@@ -249,6 +251,15 @@ module.exports = grammar({
       optional(seq(',', commaSep1($.identifier_name)))
     ),
 
+    interface_event_declaration: $ => seq(
+      optional($._attributes),
+      optional('new'),
+      'event',
+      $._type,
+      $.identifier_name,
+      ';'
+    ),
+
     // struct
 
     struct_declaration: $ => seq(
@@ -260,7 +271,8 @@ module.exports = grammar({
       '{',
       repeat(choice(
         $._type_declaration,
-        $.field_declaration
+        $.field_declaration,
+        $.event_declaration
       )),
       '}',
       optional(';')
