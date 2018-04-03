@@ -49,17 +49,19 @@ from ..a import b
     (dotted_name (identifier) (identifier))
     (dotted_name (identifier)))
   (import_from_statement
-    (relative_import)
+    (relative_import (import_prefix))
     (dotted_name (identifier)))
   (import_from_statement
-    (relative_import)
+    (relative_import (import_prefix))
     (dotted_name (identifier)))
   (import_from_statement
     (relative_import
+      (import_prefix)
       (dotted_name (identifier)))
       (dotted_name (identifier)))
   (import_from_statement
     (relative_import
+      (import_prefix)
       (dotted_name (identifier)))
       (dotted_name (identifier))))
 

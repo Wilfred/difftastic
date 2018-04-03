@@ -144,15 +144,19 @@
         }
       ]
     },
+    "import_prefix": {
+      "type": "REPEAT1",
+      "content": {
+        "type": "STRING",
+        "value": "."
+      }
+    },
     "relative_import": {
       "type": "SEQ",
       "members": [
         {
-          "type": "REPEAT1",
-          "content": {
-            "type": "STRING",
-            "value": "."
-          }
+          "type": "SYMBOL",
+          "name": "import_prefix"
         },
         {
           "type": "CHOICE",
