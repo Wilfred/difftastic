@@ -17,13 +17,12 @@ using static J.K;
     (qualified_name (identifier_name) (identifier_name)))
   (using_directive
     (qualified_name
-      (alias_qualified_name (global) (identifier_name))
+      (alias_qualified_name (identifier_name))
       (identifier_name)))
   (using_directive
     (name_equals (identifier_name))
     (qualified_name (identifier_name) (identifier_name)))
   (using_directive
-    (static)
     (qualified_name (identifier_name) (identifier_name))))
 
 =====================================

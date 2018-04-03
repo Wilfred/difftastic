@@ -156,7 +156,7 @@ public class F<T> where T: I, new() {}
 Class with multiple type parameter constraints
 =====================================
 
-public class F<T1,T2> where T1 : I1, I2, new() where T2 : I2 { }
+private class F<T1,T2> where T1 : I1, I2, new() where T2 : I2 { }
 
 ---
 
