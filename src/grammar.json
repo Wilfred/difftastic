@@ -115,8 +115,8 @@
               "type": "CHOICE",
               "members": [
                 {
-                  "type": "SYMBOL",
-                  "name": "static"
+                  "type": "STRING",
+                  "value": "static"
                 },
                 {
                   "type": "SYMBOL",
@@ -226,18 +226,6 @@
           ]
         },
         {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "STRING",
-              "value": "partial"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        },
-        {
           "type": "STRING",
           "value": "class"
         },
@@ -335,6 +323,10 @@
             {
               "type": "STRING",
               "value": "static"
+            },
+            {
+              "type": "STRING",
+              "value": "partial"
             },
             {
               "type": "STRING",
@@ -661,6 +653,10 @@
           "members": [
             {
               "type": "STRING",
+              "value": "partial"
+            },
+            {
+              "type": "STRING",
               "value": "new"
             },
             {
@@ -781,6 +777,10 @@
             {
               "type": "STRING",
               "value": "unsafe"
+            },
+            {
+              "type": "STRING",
+              "value": "partial"
             },
             {
               "type": "STRING",
@@ -2839,8 +2839,8 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "global"
+          "type": "STRING",
+          "value": "global"
         },
         {
           "type": "STRING",
@@ -2864,14 +2864,6 @@
           "value": "="
         }
       ]
-    },
-    "global": {
-      "type": "STRING",
-      "value": "global"
-    },
-    "static": {
-      "type": "STRING",
-      "value": "static"
     },
     "identifier_name": {
       "type": "PATTERN",
@@ -3054,6 +3046,10 @@
       "members": [
         {
           "type": "STRING",
+          "value": "partial"
+        },
+        {
+          "type": "STRING",
           "value": "new"
         },
         {
@@ -3152,8 +3148,8 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "SYMBOL",
-              "name": "const_keyword"
+              "type": "STRING",
+              "value": "const"
             },
             {
               "type": "BLANK"

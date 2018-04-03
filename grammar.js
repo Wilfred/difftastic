@@ -80,7 +80,7 @@ module.exports = grammar({
     using_directive: $ => seq(
       'using',
       optional(choice(
-        $.static,
+        'static',
         $.name_equals
       )),
       choice(
@@ -112,7 +112,6 @@ module.exports = grammar({
     class_declaration: $ => seq(
       optional($._attributes),
       optional($.class_modifiers),
-      optional('partial'),
       'class',
       $.identifier_name,
       optional($.type_parameter_list),
@@ -135,6 +134,7 @@ module.exports = grammar({
         'abstract',
         'sealed',
         'static',
+        'partial',
         ...COMMON_MODIFIERS
       ),
       optional($._class_modifiers)
@@ -189,7 +189,7 @@ module.exports = grammar({
 
     interface_modifiers: $ => $._interface_modifiers,
     _interface_modifiers: $ => seq(
-      choice(...COMMON_MODIFIERS),
+      choice('partial', ...COMMON_MODIFIERS),
       optional($._interface_modifiers)
     ),
 
@@ -211,7 +211,11 @@ module.exports = grammar({
 
     struct_modifiers: $ => $._struct_modifiers,
     _struct_modifiers: $ => seq(
-      choice('unsafe', ...COMMON_MODIFIERS),
+      choice(
+        'unsafe',
+        'partial',
+        ...COMMON_MODIFIERS
+      ),
       optional($._struct_modifiers)
     ),
 
@@ -607,7 +611,7 @@ module.exports = grammar({
     ),
 
     alias_qualified_name: $ => seq(
-      $.global,
+      'global',
       '::',
       $.identifier_name
     ),
@@ -616,10 +620,6 @@ module.exports = grammar({
       $.identifier_name,
       '='
     ),
-
-    global: $ => 'global',
-
-    static: $ => 'static',
 
     identifier_name: $ => (/[a-zA-Z_][a-zA-Z_0-9]*/),
 
@@ -658,7 +658,10 @@ module.exports = grammar({
       $.statement_block
     ),
 
-    method_modifiers: $ => choice(...COMMON_MODIFIERS),
+    method_modifiers: $ => choice(
+      'partial',
+      ...COMMON_MODIFIERS
+    ),
 
     statement_block: $ => seq(
       '{',
@@ -686,7 +689,7 @@ module.exports = grammar({
     ),
 
     variable_declaration_statement: $ => seq(
-      optional($.const_keyword),
+      optional('const'),
       $.variable_declaration,
       ';'
     ),
