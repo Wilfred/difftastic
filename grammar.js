@@ -80,8 +80,10 @@ module.exports = grammar({
       $._import_list
     ),
 
+    import_prefix: $ => repeat1('.'),
+
     relative_import: $ => seq(
-      repeat1('.'),
+      $.import_prefix,
       optional($.dotted_name)
     ),
 
