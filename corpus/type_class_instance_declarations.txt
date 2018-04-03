@@ -34,6 +34,8 @@ Type Class Instance Declarations With Context
 instance Show a => Read Int where {}
 instance Show a => Read (Maybe a) where {}
 instance (Show a, Eq a) => Read (Maybe a) where {}
+instance (Foo (Bar [Baz])) => Read (Bar) where {}
+instance (Foo (Bar (Baz, Baz))) => Read (Bar) where {}
 
 ---
 
@@ -55,8 +57,29 @@ instance (Show a, Eq a) => Read (Maybe a) where {}
       (simple_class (type_class_identifier) (type_variable_identifier)))
     (type_class_identifier)
     (instance (parenthesized_type_constructor (type_constructor_identifier) (type_variable_identifier)))
+    (where))
+  (type_class_instance_declaration
+    (scontext
+      (simple_class
+        (type_class_identifier)
+        (parenthesized_type_constructor
+          (type_constructor_identifier)
+          (list_type (type_constructor_identifier)))))
+    (type_class_identifier)
+    (instance (parenthesized_type_constructor (type_constructor_identifier)))
+    (where))
+  (type_class_instance_declaration
+    (scontext
+      (simple_class
+        (type_class_identifier)
+        (parenthesized_type_constructor
+          (type_constructor_identifier)
+          (tuple_type
+            (type_constructor_identifier)
+            (type_constructor_identifier)))))
+    (type_class_identifier) 
+    (instance (parenthesized_type_constructor (type_constructor_identifier)))
     (where)))
-
 =========================================
 Type Class Instance Declarations With Body
 =========================================

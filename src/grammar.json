@@ -3685,6 +3685,14 @@
               {
                 "type": "SYMBOL",
                 "name": "promoted"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "list_type"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "tuple_type"
               }
             ]
           }
@@ -8840,6 +8848,10 @@
     [
       "promoted",
       "infix_type_operator_application"
+    ],
+    [
+      "parenthesized_type_constructor",
+      "_atype"
     ]
   ],
   "externals": [

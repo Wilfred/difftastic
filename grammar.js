@@ -119,7 +119,8 @@ module.exports = grammar({
     [$.constructor_pattern],
     [$.constructor_pattern, $.lambda_head],
 
-    [$.promoted, $.infix_type_operator_application]
+    [$.promoted, $.infix_type_operator_application],
+    [$.parenthesized_type_constructor, $._atype]
   ],
 
   rules: {
@@ -911,7 +912,7 @@ module.exports = grammar({
     parenthesized_type_constructor: $ => seq(
       '(',
       $._general_type_constructor,
-      repeat(choice($.parenthesized_type_constructor, $.type_variable_identifier, $.promoted)),
+      repeat(choice($.parenthesized_type_constructor, $.type_variable_identifier, $.promoted, $.list_type, $.tuple_type)),
       ')'
     ),
 
@@ -1145,14 +1146,16 @@ module.exports = grammar({
     ),
 
     simple_class: $ => seq(
-      repeat1(choice(
-        $.type_variable_identifier,
-        $.parenthesized_type_variables,
-        $.promoted,
-        $.qualified_type_class_identifier,
-        alias($._constructor_identifier, $.type_class_identifier),
-        $.parenthesized_type_constructor
-      ))
+      repeat1(
+        choice(
+          $.type_variable_identifier,
+          $.parenthesized_type_variables,
+          $.promoted,
+          $.qualified_type_class_identifier,
+          alias($._constructor_identifier, $.type_class_identifier),
+          $.parenthesized_type_constructor
+        )
+      )
     ),
 
     parenthesized_type_variables: $ => seq(
