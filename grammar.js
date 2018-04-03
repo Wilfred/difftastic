@@ -128,6 +128,7 @@ module.exports = grammar({
     class_member_declaration: $ => choice(
       $._type_declaration,
       $.field_declaration,
+      $.event_declaration,
       $.constructor_declaration,
       $.method_declaration
     ),
@@ -176,6 +177,47 @@ module.exports = grammar({
     ),
 
     constructor_constraint: $ => seq('new', '(', ')'),
+
+    // events
+
+		event_declaration: $ => seq(
+			optional($._attributes),
+      optional($.event_modifiers),
+			'event',
+			$._type,
+			$.identifier_name,
+			'{',
+      choice(
+        seq($.add_accessor_declaration, $.remove_accessor_declaration),
+        seq($.remove_accessor_declaration, $.add_accessor_declaration)
+      ),
+      '}'
+		),
+
+    event_modifiers: $ => seq(
+      choice(
+        ...COMMON_MODIFIERS,
+        'static',
+        'virtual',
+        'sealed',
+        'override',
+        'abstract',
+        'extern'
+      ),
+      optional($.event_modifiers)
+    ),
+
+    add_accessor_declaration: $ => seq(
+      optional($._attributes),
+      'add',
+      $.statement_block
+    ),
+
+    remove_accessor_declaration: $ => seq(
+      optional($._attributes),
+      'remove',
+      $.statement_block
+    ),
 
     // interface
 

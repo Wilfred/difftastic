@@ -122,3 +122,52 @@ enum A { B, C }
     (identifier_name)
     (enum_member_declaration (identifier_name))
     (enum_member_declaration (identifier_name))))
+
+=======================================
+Attributes on events
+=======================================
+
+class Zzz {
+  [A,B()][C]
+  public event EventHandler SomeEvent { add { } remove { } }
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier_name)
+    (event_declaration
+      (attribute_list (attribute (identifier_name)) (attribute (identifier_name) (attribute_argument_list)))
+      (attribute_list (attribute (identifier_name)))
+      (event_modifiers)
+      (identifier_name)
+      (identifier_name)
+      (add_accessor_declaration (statement_block))
+      (remove_accessor_declaration (statement_block)))))
+
+=======================================
+Attributes on event accessors
+=======================================
+
+class Zzz {
+  public event EventHandler SomeEvent {   [A,B()][C]add { }   [A,B()][C]remove { } }
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier_name)
+    (event_declaration
+      (event_modifiers)
+      (identifier_name)
+      (identifier_name)
+      (add_accessor_declaration
+        (attribute_list (attribute (identifier_name)) (attribute (identifier_name) (attribute_argument_list)))
+        (attribute_list (attribute (identifier_name)))
+        (statement_block))
+      (remove_accessor_declaration
+        (attribute_list (attribute (identifier_name)) (attribute (identifier_name) (attribute_argument_list)))
+        (attribute_list (attribute (identifier_name)))
+        (statement_block)))))
