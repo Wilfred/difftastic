@@ -104,7 +104,8 @@ module.exports = grammar({
         $.using_directive,
         $._type_declaration
       )),
-      '}'
+      '}',
+      optional(';')
     ),
 
     // class
@@ -125,6 +126,7 @@ module.exports = grammar({
         $.method_declaration
       )),
       '}',
+      optional(';')
     ),
 
     class_modifiers: $ => $._class_modifiers,
@@ -184,7 +186,8 @@ module.exports = grammar({
       repeat(choice(
         $.field_declaration
       )),
-      '}'
+      '}',
+      optional(';')
     ),
 
     interface_modifiers: $ => $._interface_modifiers,
@@ -206,7 +209,8 @@ module.exports = grammar({
         $._type_declaration,
         $.field_declaration
       )),
-      '}'
+      '}',
+      optional(';')
     ),
 
     struct_modifiers: $ => $._struct_modifiers,
