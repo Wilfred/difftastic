@@ -877,7 +877,7 @@
             "members": [
               {
                 "type": "SYMBOL",
-                "name": "field_declaration"
+                "name": "interface_event_declaration"
               }
             ]
           }
@@ -1005,6 +1005,51 @@
         }
       ]
     },
+    "interface_event_declaration": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_attributes"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "new"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": "event"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_type"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "identifier_name"
+        },
+        {
+          "type": "STRING",
+          "value": ";"
+        }
+      ]
+    },
     "struct_declaration": {
       "type": "SEQ",
       "members": [
@@ -1068,6 +1113,10 @@
               {
                 "type": "SYMBOL",
                 "name": "field_declaration"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "event_declaration"
               }
             ]
           }

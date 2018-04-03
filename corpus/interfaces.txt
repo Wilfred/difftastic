@@ -115,3 +115,21 @@ namespace A {
       (identifier_name)
       (interface_base
         (identifier_name)))))
+
+=======================================
+Interface event declarations
+=======================================
+
+interface A {
+  event EventHandler<T> SomeEvent;
+}
+
+---
+
+(compilation_unit
+  (interface_declaration
+    (identifier_name)
+    (interface_event_declaration
+      (generic_name (identifier_name)
+        (type_parameter_list (type_parameter (identifier_name))))
+      (identifier_name))))

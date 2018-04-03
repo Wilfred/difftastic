@@ -18,3 +18,24 @@ class A {
       (identifier_name)
       (add_accessor_declaration (statement_block))
       (remove_accessor_declaration (statement_block)))))
+
+=======================================
+Struct event declarations
+=======================================
+
+struct A {
+  public event EventHandler<T> SomeEvent { add { } remove { } }
+}
+
+---
+
+(compilation_unit
+  (struct_declaration
+    (identifier_name)
+    (event_declaration
+      (event_modifiers)
+      (generic_name (identifier_name)
+        (type_parameter_list (type_parameter (identifier_name))))
+      (identifier_name)
+      (add_accessor_declaration (statement_block))
+      (remove_accessor_declaration (statement_block)))))
