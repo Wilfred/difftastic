@@ -41,6 +41,11 @@ module.exports = grammar({
     [$.return_type, $.variable_declaration]
   ],
 
+  inline: $ => [
+    $.class_type,
+    $.type_parameter_constraints
+  ],
+
   rules: {
     compilation_unit: $ => seq(
       optional(BYTE_ORDER_MARK),
@@ -112,6 +117,7 @@ module.exports = grammar({
       $.identifier_name,
       optional($.type_parameter_list),
       optional($.class_base),
+      repeat($.type_parameter_constraints_clause),
       '{',
       repeat(choice(
         $._type_declaration,
@@ -146,6 +152,25 @@ module.exports = grammar({
       'dynamic',
       'string'
     ),
+
+    type_parameter_constraints_clause: $ => seq(
+      'where', $.identifier_name, ':', $.type_parameter_constraints
+    ),
+
+    type_parameter_constraints: $ => choice(
+			$.constructor_constraint,
+      seq(
+        choice(
+          $.class_type,
+          'class',
+          'struct'
+        ),
+        optional(seq(',', commaSep1($.identifier_name))),
+        optional(seq(',', $.constructor_constraint))
+      )
+    ),
+
+    constructor_constraint: $ => seq('new', '(', ')'),
 
     // interface
 
