@@ -129,8 +129,7 @@ module.exports = grammar({
       $._type_declaration,
       $.field_declaration,
       $.constructor_declaration,
-      $.method_declaration,
-			$._type_declaration
+      $.method_declaration
     ),
 
     class_modifiers: $ => $._class_modifiers,
