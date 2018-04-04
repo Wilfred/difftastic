@@ -87,7 +87,7 @@ type Foo = HasCallStack => Bar []
 (module
   (type_synonym_declaration
     (type_constructor_identifier)
-    (scontext (simple_class (type_class_identifier))) 
+    (scontext (simple_class (type_class_identifier)))
     (type
       (type_constructor_identifier)
       (list_constructor))))
@@ -477,6 +477,24 @@ sumCollects :: forall c1 c2. (B c1, B c2, E c1 ~ E c2) => c1 -> c2 -> c2
         (function_type
           (type (type_variable_identifier))
           (type (type_variable_identifier))))))
+
+=========================================
+Type Signatures With Multiple Contexts
+=========================================
+
+foo :: (Bar m) => Ord a => a -> Baz m
+
+---
+
+(module
+  (type_signature
+    (variable_identifier)
+    (annotation)
+    (context (class (constructor_identifier) (type_variable_identifier)))
+    (context (class (constructor_identifier) (type_variable_identifier)))
+    (function_type
+      (type (type_variable_identifier))
+      (type (type_constructor_identifier) (type_variable_identifier)))))
 
 =========================================
 Standalone Deriving
