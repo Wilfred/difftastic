@@ -7607,7 +7607,7 @@
     },
     "option": {
       "type": "PATTERN",
-      "value": "[\\-a-z]*"
+      "value": "[\\-A-Za-z]*"
     },
     "spec": {
       "type": "SEQ",

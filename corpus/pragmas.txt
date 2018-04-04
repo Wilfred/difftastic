@@ -238,10 +238,12 @@ Options GHC Pragmas
 
 {-# OPTIONS_GHC -fno-warn-orphans #-}
 {-# OPTIONS_GHC -fno-warn-orphans#-}
+{-# OPTIONS_GHC -Wno-redundant-constraints #-}
 
 ---
 
 (module
+  (options_ghc_pragma (option))
   (options_ghc_pragma (option))
   (options_ghc_pragma (option)))
 
