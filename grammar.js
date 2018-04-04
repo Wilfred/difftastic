@@ -528,7 +528,7 @@ module.exports = grammar({
     infix_operator_application: $ => prec.right(seq(
       $._lexp,
       choice($._qualified_operator, $.promoted),
-      $._infix_expression
+      optional($._infix_expression)
     )),
 
     _lexp: $ => choice(

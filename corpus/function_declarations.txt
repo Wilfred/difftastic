@@ -932,3 +932,19 @@ f = Bar ':<: Baz
         (constructor_identifier)
         (promoted (constructor_operator (constructor_symbol)))
         (constructor_identifier)))))
+
+=================================================
+Function Declarations With Partially Applied Operators
+=================================================
+
+f = a <>
+
+---
+
+(module
+  (function_declaration
+    (variable_identifier)
+    (function_body
+      (infix_operator_application
+        (variable_identifier)
+        (variable_operator (variable_symbol))))))
