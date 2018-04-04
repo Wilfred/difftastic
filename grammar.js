@@ -138,7 +138,7 @@ module.exports = grammar({
   rules: {
     module: $ => choice(
       seq(
-        repeat(choice($.language_pragma, $.include_pragma, $.options_ghc_pragma)),
+        repeat($._file_header_pragma),
         'module',
         $._qualified_module_identifier,
         optional(choice($.warning_pragma, $.deprecated_pragma)),
@@ -146,7 +146,7 @@ module.exports = grammar({
         alias($._top_where, $.where)
       ),
       seq(
-        repeat(choice($.language_pragma, $.include_pragma, $.options_ghc_pragma)),
+        repeat($._file_header_pragma),
         repeat(seq($._top_declaration, choice($._terminal, $._layout_semicolon)))
       )
     ),
@@ -1461,6 +1461,12 @@ module.exports = grammar({
     _qualified_operator: $ => choice(
       $._qualified_variable_operator,
       $._qualified_constructor_operator
+    ),
+
+    _file_header_pragma: $ => choice(
+      $.include_pragma,
+      $.language_pragma,
+      $.options_ghc_pragma
     ),
 
     _pragma: $ => choice(
