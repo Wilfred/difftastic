@@ -245,6 +245,8 @@ g = h `i` j
 
 k = l `M.n` o
 
+h = a <|> b
+
 ---
 
 (module
@@ -311,6 +313,14 @@ k = l `M.n` o
         (infix_operator_application
           (variable_identifier)
           (variable_operator (qualified_infix_variable_identifier (qualified_variable_identifier (module_identifier) (variable_identifier))))
+          (variable_identifier))))
+
+    (function_declaration
+      (variable_identifier)
+      (function_body
+        (infix_operator_application
+          (variable_identifier)
+          (variable_operator (variable_symbol))
           (variable_identifier))))))
 
 ===============================
