@@ -1717,7 +1717,7 @@ module.exports = grammar({
 
     header_file: $ => /("|<)[a-z].*\.h("|>)/,
 
-    option: $ => /[\-a-z]*/,
+    option: $ => /[\-A-Za-z]*/,
 
     spec: $ => seq(
       sep1(',', $._variable),
