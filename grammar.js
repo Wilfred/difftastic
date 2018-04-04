@@ -991,7 +991,7 @@ module.exports = grammar({
       sep1(',', $._variable),
       alias('::', $.annotation),
       optional($.scoped_type_variables),
-      optional($.context),
+      repeat($.context),
       $._type_pattern
     ),
 
