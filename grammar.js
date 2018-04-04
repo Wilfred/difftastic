@@ -895,9 +895,17 @@ module.exports = grammar({
       optional($.scontext),
       seq(
         alias($._constructor_identifier, $.type_class_identifier),
-        repeat($.type_variable_identifier)
+        repeat(choice($.type_variable_identifier, $.annotated_type_variable))
       ),
       $.where
+    ),
+
+    annotated_type_variable: $ => seq(
+      '(',
+      $.type_variable_identifier,
+      alias('::', $.annotation),
+      alias($._constructor_identifier, $.type_class_identifier),
+      ')'
     ),
 
     type_class_instance_declaration: $ => seq(

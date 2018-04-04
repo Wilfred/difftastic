@@ -3561,26 +3561,8 @@
                     "name": "type_variable_identifier"
                   },
                   {
-                    "type": "SEQ",
-                    "members": [
-                      {
-                        "type": "SYMBOL",
-                        "name": "type_variable_identifier"
-                      },
-                      {
-                        "type": "STRING",
-                        "value": "::"
-                      },
-                      {
-                        "type": "ALIAS",
-                        "content": {
-                          "type": "SYMBOL",
-                          "name": "_constructor_identifier"
-                        },
-                        "named": true,
-                        "value": "type_class_identifier"
-                      }
-                    ]
+                    "type": "SYMBOL",
+                    "name": "annotated_type_variable"
                   }
                 ]
               }
@@ -3590,6 +3572,41 @@
         {
           "type": "SYMBOL",
           "name": "where"
+        }
+      ]
+    },
+    "annotated_type_variable": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "SYMBOL",
+          "name": "type_variable_identifier"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "STRING",
+            "value": "::"
+          },
+          "named": true,
+          "value": "annotation"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_constructor_identifier"
+          },
+          "named": true,
+          "value": "type_class_identifier"
+        },
+        {
+          "type": "STRING",
+          "value": ")"
         }
       ]
     },
