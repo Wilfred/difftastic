@@ -1,3 +1,6 @@
+// test with
+// ./node_modules/.bin/tree-sitter generate && node-gyp build && ./node_modules/.bin/tree-sitter test
+
 const PREC = {
   times: 6,
   plus: 5,
@@ -51,6 +54,35 @@ grammar({
       $.identifier,
       optional($._expression_list),
       'end'
+    ),
+
+    // abstract_definition: $ => seq(
+    //   'abstract type',
+    //   $.typed_identifier,
+    //   'end'
+    // ),
+
+    struct_definition: $ => seq(
+      optional('mutable'),
+      'struct',
+      $.parameterized_identifier,
+      sep($.parameterized_identifier, $._terminator),
+      'end'
+    ),
+
+    typed_identifier: $ => seq(
+      $.parameterized_identifier,
+      optional(seq(
+        choice('::', '<:'),
+        $.parameterized_identifier
+      ))
+    ),
+
+    parameterized_identifier: $ => seq(
+      $.identifier,
+      optional(
+        seq('{', sep1(',', $.typed_identifier), '}')
+      )
     ),
 
     function_expression: $ => seq(
