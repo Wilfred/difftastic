@@ -395,7 +395,7 @@ module.exports = grammar({
       seq($._funlhs, $._a_pattern, repeat($._a_pattern))
     )),
 
-    _a_pattern: $ => choice(
+    _a_pattern: $ => prec.left(choice(
       $._variable,
       $.as_pattern,
       $._general_constructor,
@@ -408,7 +408,7 @@ module.exports = grammar({
       $.irrefutable_pattern,
       $.constructor_pattern,
       $.parenthesized_type
-    ),
+    )),
 
     as_pattern: $ => prec.right(1, seq(
       $._variable,
@@ -1175,9 +1175,10 @@ module.exports = grammar({
       choice(
         $.class,
         $.equality_constraint,
+        $.parenthesized_pattern,
         seq(
           '(',
-          optional(sep1(',', choice($.class, $.equality_constraint))),
+          optional(sep1(',', choice($.class, $.equality_constraint, $.parenthesized_pattern))),
           ')'
         ),
       ),
