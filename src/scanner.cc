@@ -117,6 +117,21 @@ struct Scanner {
 
     lexer->mark_end(lexer);
 
+    if (lexer->lookahead == ')') {
+      if (valid_symbols[LAYOUT_SEMICOLON]) {
+        indent_length_stack.pop_back();
+        queued_close_brace_count++;
+        lexer->result_symbol = LAYOUT_SEMICOLON;
+        return true;
+      }
+
+      if (valid_symbols[LAYOUT_CLOSE_BRACE]) {
+        indent_length_stack.pop_back();
+        lexer->result_symbol = LAYOUT_CLOSE_BRACE;
+        return true;
+      }
+    }
+
     if (lexer->lookahead == 'i') {
       advance(lexer);
       if (iswspace(lexer->lookahead)) {
