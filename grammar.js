@@ -39,7 +39,8 @@ const
     '-',
     '*',
     '=',
-    '~'
+    '~',
+    '|'
   ),
 
   restricted_variable_symbol = ':',
