@@ -177,3 +177,31 @@ class Bar a b m => Baz a b m where {}
     (type_variable_identifier)
     (type_variable_identifier)
     (where)))
+
+=========================================
+Type Class Declarations With Default Signature
+=========================================
+
+class Bar baz where
+  foo :: wiz -> Baz
+  default foo :: wiz -> Baz
+
+---
+
+(module
+  (type_class_declaration
+    (type_class_identifier)
+    (type_variable_identifier)
+    (where
+      (type_signature
+        (variable_identifier)
+        (annotation)
+        (function_type
+        (type (type_variable_identifier))
+        (type (type_constructor_identifier))))
+    (default_signature
+      (variable_identifier)
+      (annotation)
+      (function_type
+      (type (type_variable_identifier))
+      (type (type_constructor_identifier)))))))
