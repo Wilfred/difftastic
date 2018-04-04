@@ -77,6 +77,22 @@ type Foo bar baz wix = '[ W, A (B c) ]
             (type_variable_identifier)))))))
 
 =========================================
+Type Synonym Declarations With Context
+=========================================
+
+type Foo = HasCallStack => Bar []
+
+---
+
+(module
+  (type_synonym_declaration
+    (type_constructor_identifier)
+    (scontext (simple_class (type_class_identifier))) 
+    (type
+      (type_constructor_identifier)
+      (list_constructor))))
+
+=========================================
 New Type Declarations
 =========================================
 

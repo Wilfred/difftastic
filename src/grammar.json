@@ -10,21 +10,8 @@
             {
               "type": "REPEAT",
               "content": {
-                "type": "CHOICE",
-                "members": [
-                  {
-                    "type": "SYMBOL",
-                    "name": "language_pragma"
-                  },
-                  {
-                    "type": "SYMBOL",
-                    "name": "include_pragma"
-                  },
-                  {
-                    "type": "SYMBOL",
-                    "name": "options_ghc_pragma"
-                  }
-                ]
+                "type": "SYMBOL",
+                "name": "_file_header_pragma"
               }
             },
             {
@@ -85,21 +72,8 @@
             {
               "type": "REPEAT",
               "content": {
-                "type": "CHOICE",
-                "members": [
-                  {
-                    "type": "SYMBOL",
-                    "name": "language_pragma"
-                  },
-                  {
-                    "type": "SYMBOL",
-                    "name": "include_pragma"
-                  },
-                  {
-                    "type": "SYMBOL",
-                    "name": "options_ghc_pragma"
-                  }
-                ]
+                "type": "SYMBOL",
+                "name": "_file_header_pragma"
               }
             },
             {
@@ -1307,6 +1281,18 @@
         {
           "type": "STRING",
           "value": "="
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "scontext"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         },
         {
           "type": "ALIAS",
@@ -4098,16 +4084,11 @@
           ]
         },
         {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "context"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "context"
+          }
         },
         {
           "type": "SYMBOL",
@@ -6343,6 +6324,23 @@
         {
           "type": "SYMBOL",
           "name": "_qualified_constructor_operator"
+        }
+      ]
+    },
+    "_file_header_pragma": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "include_pragma"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "language_pragma"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "options_ghc_pragma"
         }
       ]
     },
