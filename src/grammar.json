@@ -10,8 +10,21 @@
             {
               "type": "REPEAT",
               "content": {
-                "type": "SYMBOL",
-                "name": "language_pragma"
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "language_pragma"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "include_pragma"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "options_ghc_pragma"
+                  }
+                ]
               }
             },
             {
@@ -72,8 +85,21 @@
             {
               "type": "REPEAT",
               "content": {
-                "type": "SYMBOL",
-                "name": "language_pragma"
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "language_pragma"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "include_pragma"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "options_ghc_pragma"
+                  }
+                ]
               }
             },
             {
@@ -6341,15 +6367,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "options_ghc_pragma"
-        },
-        {
-          "type": "SYMBOL",
           "name": "source_pragma"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "include_pragma"
         },
         {
           "type": "SYMBOL",
@@ -7607,7 +7625,7 @@
     },
     "option": {
       "type": "PATTERN",
-      "value": "[\\-A-Za-z]*"
+      "value": "\\-(\\w|\\-)*"
     },
     "spec": {
       "type": "SEQ",
@@ -7687,13 +7705,8 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "STRING",
-              "value": "{-#"
-            }
-          ]
+          "type": "STRING",
+          "value": "{-#"
         },
         {
           "type": "STRING",
@@ -7725,13 +7738,8 @@
           ]
         },
         {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "STRING",
-              "value": "#-}"
-            }
-          ]
+          "type": "STRING",
+          "value": "#-}"
         }
       ]
     },

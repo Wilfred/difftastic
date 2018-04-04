@@ -138,7 +138,7 @@ module.exports = grammar({
   rules: {
     module: $ => choice(
       seq(
-        repeat($.language_pragma),
+        repeat(choice($.language_pragma, $.include_pragma, $.options_ghc_pragma)),
         'module',
         $._qualified_module_identifier,
         optional(choice($.warning_pragma, $.deprecated_pragma)),
@@ -146,7 +146,7 @@ module.exports = grammar({
         alias($._top_where, $.where)
       ),
       seq(
-        repeat($.language_pragma),
+        repeat(choice($.language_pragma, $.include_pragma, $.options_ghc_pragma)),
         repeat(seq($._top_declaration, choice($._terminal, $._layout_semicolon)))
       )
     ),
@@ -1468,9 +1468,7 @@ module.exports = grammar({
       $.inlinable_pragma,
       $.no_inline_pragma,
       $.specialization_pragma,
-      $.options_ghc_pragma,
       $.source_pragma,
-      $.include_pragma,
       $.warning_pragma,
       $.deprecated_pragma,
       $.line_pragma,
@@ -1717,7 +1715,7 @@ module.exports = grammar({
 
     header_file: $ => /("|<)[a-z].*\.h("|>)/,
 
-    option: $ => /[\-A-Za-z]*/,
+    option: $ => /\-(\w|\-)*/,
 
     spec: $ => seq(
       sep1(',', $._variable),
@@ -1732,10 +1730,10 @@ module.exports = grammar({
     ),
 
     language_pragma: $ => seq(
-      seq('{-#'),
+      '{-#',
       'LANGUAGE',
       sep1(',', $.language_name),
-      seq('#-}')
+      '#-}'
     ),
 
     language_name: $ => /[A-Z](\w|')*/,
