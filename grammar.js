@@ -376,6 +376,7 @@ module.exports = grammar({
       'type',
       $._simple_type,
       '=',
+      optional($.scontext),
       alias($._type_pattern, $.type)
     ),
 
