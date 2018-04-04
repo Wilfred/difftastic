@@ -325,7 +325,8 @@ module.exports = grammar({
       $.quasi_quotation,
       $.pattern_type_signature,
       $.bidirectional_pattern_synonym,
-      $.unidirectional_pattern_synonym
+      $.unidirectional_pattern_synonym,
+      $.default_signature
     ),
 
     bidirectional_pattern_synonym: $ => prec.left(seq(
@@ -975,12 +976,19 @@ module.exports = grammar({
       $.type_operator
     ),
 
-    type_signature: $ => seq(
+    type_signature: $ => $._type_signature,
+
+    _type_signature: $ => seq(
       sep1(',', $._variable),
       alias('::', $.annotation),
       optional($.scoped_type_variables),
       optional($.context),
       $._type_pattern
+    ),
+
+    default_signature: $ => seq(
+      'default',
+      $._type_signature
     ),
 
     kind_signature: $ => seq(
