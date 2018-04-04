@@ -205,3 +205,20 @@ class Bar baz where
       (function_type
       (type (type_variable_identifier))
       (type (type_constructor_identifier)))))))
+
+=========================================
+Type Class Declarations With Annotated Type Variable
+=========================================
+
+class Bar (baz :: Foo) where
+
+---
+
+(module
+  (type_class_declaration
+    (type_class_identifier)
+    (annotated_type_variable
+      (type_variable_identifier)
+      (annotation)
+      (type_class_identifier))
+    (where)))
