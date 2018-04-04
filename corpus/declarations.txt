@@ -497,6 +497,24 @@ foo :: (Bar m) => Ord a => a -> Baz m
       (type (type_constructor_identifier) (type_variable_identifier)))))
 
 =========================================
+Type Signatures With Single Constructor
+=========================================
+
+foo :: HasCallStack => a -> a
+
+---
+
+(module
+  (type_signature
+    (variable_identifier)
+    (annotation)
+    (context
+      (class (constructor_identifier)))
+    (function_type
+      (type (type_variable_identifier))
+      (type (type_variable_identifier)))))
+      
+=========================================
 Standalone Deriving
 =========================================
 

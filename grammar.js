@@ -1199,7 +1199,7 @@ module.exports = grammar({
 
     class: $ => prec(1, seq(
       $._qualified_constructor_identifier,
-      choice(
+      optional(choice(
         seq(
           '(',
           $.type_variable_identifier,
@@ -1207,7 +1207,7 @@ module.exports = grammar({
           ')'
         ),
         repeat1($._atype)
-      )
+      ))
     )),
 
     equality_constraint: $ => prec(1, seq(
