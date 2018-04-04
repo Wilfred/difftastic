@@ -90,7 +90,6 @@ module.exports = grammar({
     [$.standalone_deriving_declaration],
     [$._general_type_constructor],
     [$._qualified_type_constructor_identifier],
-    [$.parenthesized_type_variables],
     [$.instance],
     [$.quasi_quotation, $.variable_identifier],
 
@@ -120,7 +119,13 @@ module.exports = grammar({
     [$.constructor_pattern, $.lambda_head],
 
     [$.promoted, $.infix_type_operator_application],
-    [$.parenthesized_type_constructor, $._atype]
+    [$.parenthesized_type, $._atype],
+    [$.parenthesized_type],
+    [$._a_pattern, $.parenthesized_type],
+    [$._general_constructor, $._general_type_constructor],
+    [$.tuple_type, $.parenthesized_constructor, $._special],
+    [$.list_type, $._special],
+    [$.promoted, $.char]
   ],
 
   rules: {
@@ -391,7 +396,8 @@ module.exports = grammar({
       $.tuple_pattern,
       $.list_pattern,
       $.irrefutable_pattern,
-      $.constructor_pattern
+      $.constructor_pattern,
+      $.parenthesized_type
     ),
 
     as_pattern: $ => prec.right(1, seq(
@@ -902,17 +908,25 @@ module.exports = grammar({
 
     instance: $ => repeat1(choice(
       $._general_type_constructor,
-      $.parenthesized_type_constructor,
+      $.parenthesized_type,
       $.tuple_instance,
       $.list_instance,
       $.function_type_instance,
       $.type_variable_identifier
     )),
 
-    parenthesized_type_constructor: $ => seq(
+    parenthesized_type: $ => seq(
       '(',
-      $._general_type_constructor,
-      repeat(choice($.parenthesized_type_constructor, $.type_variable_identifier, $.promoted, $.list_type, $.tuple_type)),
+      repeat1(
+        choice(
+          $._qualified_type_constructor_identifier,
+          $.parenthesized_type,
+          $.type_variable_identifier,
+          $.promoted,
+          $.list_instance,
+          $.tuple_instance
+        )
+      ),
       ')'
     ),
 
@@ -1149,19 +1163,12 @@ module.exports = grammar({
       repeat1(
         choice(
           $.type_variable_identifier,
-          $.parenthesized_type_variables,
           $.promoted,
           $.qualified_type_class_identifier,
           alias($._constructor_identifier, $.type_class_identifier),
-          $.parenthesized_type_constructor
+          $.parenthesized_type
         )
       )
-    ),
-
-    parenthesized_type_variables: $ => seq(
-      '(',
-      repeat1($.type_variable_identifier),
-      ')'
     ),
 
     class: $ => prec(1, seq(

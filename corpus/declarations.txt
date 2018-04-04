@@ -481,7 +481,7 @@ deriving instance Bar (Foo (Baz waz)) bix => BazHeap bix (BarEval bix wax)
         (type_variable_identifier)))
     (type_class_identifier)
     (instance
-      (parenthesized_type_constructor
+      (parenthesized_type
         (type_constructor_identifier)
         (type_variable_identifier))))
   (standalone_deriving_declaration
@@ -489,7 +489,7 @@ deriving instance Bar (Foo (Baz waz)) bix => BazHeap bix (BarEval bix wax)
       (simple_class
         (type_class_identifier)
         (type_variable_identifier)
-        (parenthesized_type_variables
+        (parenthesized_type
           (type_variable_identifier)
           (type_variable_identifier)
           (type_variable_identifier)
@@ -497,7 +497,7 @@ deriving instance Bar (Foo (Baz waz)) bix => BazHeap bix (BarEval bix wax)
       (type_class_identifier)
       (instance
         (type_variable_identifier)
-        (parenthesized_type_constructor
+        (parenthesized_type
           (type_constructor_identifier)
           (type_variable_identifier)
           (type_variable_identifier)
@@ -511,7 +511,7 @@ deriving instance Bar (Foo (Baz waz)) bix => BazHeap bix (BarEval bix wax)
         (type_variable_identifier)))
     (type_class_identifier)
     (instance
-      (parenthesized_type_constructor
+      (parenthesized_type
         (type_constructor_identifier)
         (type_variable_identifier)
         (type_variable_identifier)
@@ -520,16 +520,16 @@ deriving instance Bar (Foo (Baz waz)) bix => BazHeap bix (BarEval bix wax)
     (scontext
       (simple_class
         (type_class_identifier)
-        (parenthesized_type_constructor
+        (parenthesized_type
           (type_constructor_identifier)
-          (parenthesized_type_constructor
+          (parenthesized_type
             (type_constructor_identifier)
             (type_variable_identifier)))
           (type_variable_identifier)))
     (type_class_identifier)
     (instance
       (type_variable_identifier)
-      (parenthesized_type_constructor
+      (parenthesized_type
         (type_constructor_identifier)
         (type_variable_identifier)
         (type_variable_identifier)))))
