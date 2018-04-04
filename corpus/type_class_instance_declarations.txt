@@ -80,6 +80,7 @@ instance (Foo (Bar (Baz, Baz))) => Read (Bar) where {}
     (type_class_identifier)
     (instance (parenthesized_type (type_constructor_identifier)))
     (where)))
+
 =========================================
 Type Class Instance Declarations With Body
 =========================================
@@ -125,7 +126,6 @@ instance Foo Bar where
                 (type_constructor_identifier)
                 (type_constructor_identifier)
                 (type_variable_identifier)))))))))
-
 
 =========================================
 Multi-param Type Class Instance Declarations
@@ -179,3 +179,30 @@ instance ( Foo (Bar a b '[]) c ) => Baz a b (Bix a b c) where
         (type_variable_identifier)
         (type_variable_identifier)))
     (where)))
+
+
+=========================================
+Instance Declarations With Equality Constraints
+=========================================
+
+instance (Bar baz ~ foo) => Wix baz where
+  toWix = undefined
+
+---
+
+(module
+  (type_class_instance_declaration
+    (scontext
+      (simple_class
+        (equality_constraint
+          (equality_lhs
+            (type_constructor_identifier)
+            (type_variable_identifier))
+          (equality_rhs
+            (type_variable_identifier)))))
+    (type_class_identifier)
+    (instance (type_variable_identifier))
+    (where
+      (function_declaration
+        (variable_identifier)
+        (function_body (variable_identifier))))))

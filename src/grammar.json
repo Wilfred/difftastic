@@ -4916,6 +4916,10 @@
             "members": [
               {
                 "type": "SYMBOL",
+                "name": "equality_constraint"
+              },
+              {
+                "type": "SYMBOL",
                 "name": "type_variable_identifier"
               },
               {
@@ -8861,6 +8865,33 @@
     [
       "promoted",
       "char"
+    ],
+    [
+      "type_class_instance_declaration",
+      "_qualified_type_constructor_identifier"
+    ],
+    [
+      "_atype"
+    ],
+    [
+      "type_class_declaration",
+      "_qualified_type_constructor_identifier"
+    ],
+    [
+      "standalone_deriving_declaration",
+      "_qualified_type_constructor_identifier"
+    ],
+    [
+      "_general_type_constructor",
+      "parenthesized_type"
+    ],
+    [
+      "tuple_instance",
+      "_atype"
+    ],
+    [
+      "list_instance",
+      "_atype"
     ]
   ],
   "externals": [

@@ -125,7 +125,14 @@ module.exports = grammar({
     [$._general_constructor, $._general_type_constructor],
     [$.tuple_type, $.parenthesized_constructor, $._special],
     [$.list_type, $._special],
-    [$.promoted, $.char]
+    [$.promoted, $.char],
+    [$.type_class_instance_declaration, $._qualified_type_constructor_identifier],
+    [$._atype],
+    [$.type_class_declaration, $._qualified_type_constructor_identifier],
+    [$.standalone_deriving_declaration, $._qualified_type_constructor_identifier],
+    [$._general_type_constructor, $.parenthesized_type],
+    [$.tuple_instance, $._atype],
+    [$.list_instance, $._atype]
   ],
 
   rules: {
@@ -1162,6 +1169,7 @@ module.exports = grammar({
     simple_class: $ => seq(
       repeat1(
         choice(
+          $.equality_constraint,
           $.type_variable_identifier,
           $.promoted,
           $.qualified_type_class_identifier,
