@@ -509,6 +509,11 @@ f = let { y :: Int;
 Function Declarations With Case
 =================================================
 
+f x = case x of
+  Just a | a < 10 -> True
+         | a < 20 -> False
+         | a > 19 -> True
+
 g x = case x of
   Just a | a < 10, True, let b :: Int -> Int
                              b x = x -> True
@@ -521,6 +526,40 @@ f x = case x of
 ---
 
 (module
+  (function_declaration 
+    (variable_identifier)
+    (variable_identifier)
+    (function_body
+      (case_expression
+        (variable_identifier)
+        (alternative
+          (constructor_pattern
+            (constructor_identifier)
+            (variable_identifier))
+          (case_guard_pattern
+            (guard
+              (infix_operator_application
+                (variable_identifier)
+                (variable_operator
+                  (variable_symbol))
+                (integer)))
+            (constructor_identifier))
+          (case_guard_pattern
+            (guard
+              (infix_operator_application
+                (variable_identifier)
+                (variable_operator
+                  (variable_symbol))
+                (integer)))
+            (constructor_identifier))
+          (case_guard_pattern
+            (guard
+              (infix_operator_application
+                (variable_identifier)
+                (variable_operator
+                  (variable_symbol))
+                (integer)))
+            (constructor_identifier))))))
   (function_declaration
     (variable_identifier)
     (variable_identifier)
