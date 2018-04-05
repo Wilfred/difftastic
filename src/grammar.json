@@ -2128,6 +2128,13 @@
             ]
           },
           {
+            "type": "REPEAT",
+            "content": {
+              "type": "SYMBOL",
+              "name": "heredoc_end"
+            }
+          },
+          {
             "type": "CHOICE",
             "members": [
               {
