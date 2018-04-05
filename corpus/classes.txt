@@ -293,3 +293,21 @@ class Foo {
       (identifier_name)
       (parameter_list)
       (statement_block))))
+
+=====================================
+Class with extern destructor
+=====================================
+
+class Foo {
+  extern ~Foo() {}
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier_name)
+    (destructor_declaration
+      (identifier_name)
+      (parameter_list)
+      (statement_block))))
