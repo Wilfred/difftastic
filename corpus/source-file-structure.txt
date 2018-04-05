@@ -106,13 +106,13 @@ class Outer {
   (namespace_declaration
     (identifier_name)
     (class_declaration
-      (class_modifiers)
+      (modifiers)
       (identifier_name)
       (class_declaration
-        (class_modifiers)
+        (modifiers)
         (identifier_name))
       (class_declaration
-        (class_modifiers)
+        (modifiers)
         (identifier_name)
         (type_parameter_list
           (type_parameter (identifier_name))))
@@ -136,7 +136,7 @@ public interface IFoo {
 
 (compilation_unit
   (interface_declaration
-    (interface_modifiers)
+    (modifiers)
     (identifier_name)))
 
 =====================================
@@ -156,7 +156,7 @@ struct A<T> {
     (type_parameter_list
       (type_parameter (identifier_name)))
     (struct_declaration
-      (struct_modifiers)
+      (modifiers)
       (identifier_name))))
 
 
@@ -187,7 +187,7 @@ class Z {
 ---
 
 (compilation_unit
-  (delegate_declaration (delegate_modifier) (return_type (predefined_type)) (identifier_name)
+  (delegate_declaration (modifiers) (return_type (predefined_type)) (identifier_name)
     (parameter_list (parameter (parameter_modifier) (predefined_type) (identifier_name) (equals_value_clause (character_literal)))))
   (delegate_declaration (return_type (void_keyword)) (identifier_name)
     (parameter_list (parameter_array (params_keyword) (array_type (predefined_type) (array_rank_specifier)) (identifier_name))))

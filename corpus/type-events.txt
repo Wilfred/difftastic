@@ -12,7 +12,7 @@ class A {
   (class_declaration
     (identifier_name)
     (event_declaration
-      (event_modifiers)
+      (modifiers)
       (generic_name (identifier_name)
         (type_parameter_list (type_parameter (identifier_name))))
       (identifier_name)
@@ -33,7 +33,7 @@ struct A {
   (struct_declaration
     (identifier_name)
     (event_declaration
-      (event_modifiers)
+      (modifiers)
       (generic_name (identifier_name)
         (type_parameter_list (type_parameter (identifier_name))))
       (identifier_name)
