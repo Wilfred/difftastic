@@ -762,3 +762,38 @@ Rule Pragmas
             (variable_identifier)
             (variable_identifier))
           (variable_identifier))))))
+
+=========================================
+Annotation Pragmas
+=========================================
+
+{-# ANN module ("HLint: ignore Eta reduce" :: String) #-}
+{-# ANN type Foo (Just "A `Maybe String' annotation") #-}
+{-# ANN f SillyAnnotation { foo = (id 10), bar = f } #-}
+
+---
+
+(module
+  (annotation_pragma
+    (module)
+    (parenthesized_expression
+      (expression_type_signature
+        (string)
+        (annotation)
+        (type_constructor_identifier))))
+  (annotation_pragma
+    (type)
+    (type_constructor_identifier)
+    (parenthesized_expression
+      (function_application
+        (constructor_identifier) (string))))
+  (annotation_pragma
+    (variable_identifier)
+    (labeled_construction
+      (constructor_identifier)
+      (field_bind
+        (variable_identifier)
+        (parenthesized_expression (function_application (variable_identifier) (integer))))
+      (field_bind
+        (variable_identifier)
+        (variable_identifier)))))
