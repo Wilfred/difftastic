@@ -1,0 +1,46 @@
+=======================================
+Class method with single parameter
+=======================================
+
+class A {
+  private int GetBack(int b) {
+    return b;
+  }
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier_name)
+    (method_declaration
+      (modifiers)
+      (return_type (predefined_type))
+      (identifier_name)
+      (parameter_list
+        (parameter (predefined_type) (identifier_name)))
+      (statement_block
+        (return_statement (identifier_name))))))
+
+
+=======================================
+Class method with multiple parameters
+=======================================
+
+class A {
+  void DoSomething(A a, B b) {
+  }
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier_name)
+    (method_declaration
+      (return_type)
+      (identifier_name)
+      (parameter_list
+        (parameter (identifier_name) (identifier_name))
+        (parameter (identifier_name) (identifier_name)))
+      (statement_block))))

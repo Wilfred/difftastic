@@ -1304,14 +1304,10 @@
           "name": "_type"
         },
         {
-          "type": "SYMBOL",
-          "name": "void_keyword"
+          "type": "STRING",
+          "value": "void"
         }
       ]
-    },
-    "void_keyword": {
-      "type": "STRING",
-      "value": "void"
     },
     "parameter_list": {
       "type": "SEQ",

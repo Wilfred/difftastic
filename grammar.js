@@ -307,8 +307,7 @@ module.exports = grammar({
       ';'
     ),
 
-    return_type: $ => choice($._type, $.void_keyword),
-    void_keyword: $ => 'void',
+    return_type: $ => choice($._type, 'void'),
 
     // parameters
 
