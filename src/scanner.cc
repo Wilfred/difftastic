@@ -37,7 +37,8 @@ enum TokenType {
   UNARY_MINUS,
   BINARY_MINUS,
   BINARY_STAR,
-  SINGLETON_CLASS_LEFT_ANGLE_LEFT_ANGLE
+  SINGLETON_CLASS_LEFT_ANGLE_LEFT_ANGLE,
+  IDENTIFIER_HASH_KEY
 };
 
 struct Literal {
@@ -751,6 +752,27 @@ struct Scanner {
         } else {
           lexer->result_symbol = UNARY_MINUS;
           return true;
+        }
+      }
+    }
+
+    if (valid_symbols[IDENTIFIER_HASH_KEY]) {
+      for (;;) {
+        if (lexer->lookahead == 0) break;
+
+        if (iswalpha(lexer->lookahead)) {
+          advance(lexer);
+          if (lexer->lookahead == ':') {
+            advance(lexer);
+            if (lexer->lookahead != ':') {
+              lexer->result_symbol = IDENTIFIER_HASH_KEY;
+              return true;
+            } else {
+              return false;
+            }
+          }
+        } else {
+          break;
         }
       }
     }

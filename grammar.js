@@ -58,7 +58,8 @@ module.exports = grammar({
     $._unary_minus,
     $._binary_minus,
     $._binary_star,
-    $._singleton_class_left_angle_left_langle
+    $._singleton_class_left_angle_left_langle,
+    $._identifier_hash_key
   ],
 
   extras: $ => [
@@ -495,13 +496,6 @@ module.exports = grammar({
 
     global_variable: $ => /\$-?(([!@&`'+~=/\\,;.<>*$?:"])|([0-9]*)|([a-zA-Z_][a-zA-Z0-9_]*))/,
 
-    reserved_identifier: $ => choice(
-      'alias', 'and', 'begin', 'break', 'case', 'class', 'def', 'defined', 'do',
-      'else', 'elsif', 'end', 'ensure', 'false', 'for', 'in', 'module', 'next',
-      'nil', 'not', 'or', 'redo', 'rescue', 'retry', 'return', 'self', 'super',
-      'then', 'true', 'undef', 'when', 'yield', 'if', 'unless', 'while', 'until'
-    ),
-
     operator: $ => choice(
       '..', '|', '^', '&', '<=>', '==', '===', '=~', '>', '>=', '<', '<=', '+',
       '-', '*', '/', '%', '!', '!~', '**', '<<', '>>', '~', '+@', '-@', '[]', '[]=', '`'
@@ -622,11 +616,11 @@ module.exports = grammar({
             choice(
               $.identifier,
               $.constant,
-              alias($.reserved_identifier, $.identifier),
               $.string
             ),
             $._keyword_colon
-          )
+          ),
+          alias($._identifier_hash_key, $.identifier)
         ),
         $._arg
       ),
