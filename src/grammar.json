@@ -6385,6 +6385,10 @@
       "members": [
         {
           "type": "SYMBOL",
+          "name": "annotation_pragma"
+        },
+        {
+          "type": "SYMBOL",
           "name": "inline_pragma"
         },
         {
@@ -6454,6 +6458,90 @@
         {
           "type": "SYMBOL",
           "name": "rules_pragma"
+        }
+      ]
+    },
+    "annotation_pragma": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "{-#"
+        },
+        {
+          "type": "STRING",
+          "value": "ANN"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "ALIAS",
+                  "content": {
+                    "type": "STRING",
+                    "value": "module"
+                  },
+                  "named": true,
+                  "value": "module"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "_expression"
+                }
+              ]
+            },
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "ALIAS",
+                  "content": {
+                    "type": "STRING",
+                    "value": "type"
+                  },
+                  "named": true,
+                  "value": "type"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "_simple_type"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "_expression"
+                }
+              ]
+            },
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "_qualified_variable_identifier"
+                },
+                {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "SYMBOL",
+                      "name": "_expression"
+                    },
+                    {
+                      "type": "SYMBOL",
+                      "name": "_pattern"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": "#-}"
         }
       ]
     },
