@@ -50,17 +50,13 @@ a = '|'
 a = '-'
 a = '~'
 a = ':'
-a = '\\'
 a = '"'
-a = '''
 
 ---
 
 (module
   (module_identifier)
   (where
-    (function_declaration (variable_identifier) (function_body (char)))
-    (function_declaration (variable_identifier) (function_body (char)))
     (function_declaration (variable_identifier) (function_body (char)))
     (function_declaration (variable_identifier) (function_body (char)))
     (function_declaration (variable_identifier) (function_body (char)))
@@ -125,7 +121,7 @@ a = '\t'
 a = '\v'
 a = '\\'
 a = '\"'
-a = '''
+a = '\''
 a = '\&'
 
 ---
@@ -261,7 +257,7 @@ a = '\^_'
 (module
   (module_identifier)
   (where
-    (function_declaration (variable_identifier) (function_body (char))) 
+    (function_declaration (variable_identifier) (function_body (char)))
     (function_declaration (variable_identifier) (function_body (char)))
     (function_declaration (variable_identifier) (function_body (char)))
     (function_declaration (variable_identifier) (function_body (char)))

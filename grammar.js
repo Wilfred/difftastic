@@ -766,6 +766,7 @@ module.exports = grammar({
     _a_expression: $ => seq(
       choice(
         prec.dynamic(-1, $._general_constructor),
+        $.promoted,
         $._variable,
         $._literal,
         $.parenthesized_expression,
@@ -1794,17 +1795,7 @@ module.exports = grammar({
 
     float: $ => token(floatLiteral),
 
-    char: $ => seq(
-      "'",
-      choice(
-        $._graphic,
-        $._space,
-        $._escape,
-        '"',
-        '\''
-      ),
-      "'"
-    ),
+    char: $ => /'([A-Za-z0-9();\[\]`{}_!#$%&⋆+./<=>?@^" |\-~:\\*]|\\[a-zA-Z0-9\\"'&]*|\\\^[0-9A-Z@\[\]\\\^_])'/,
 
     string: $ => seq(
       '"',
