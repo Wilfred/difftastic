@@ -5,7 +5,7 @@
   "main": "index.js",
   "keywords": [
     "parser",
-    "scala"
+    "ocaml"
   ],
   "author": "Max Brunsfeld",
   "license": "MIT",
