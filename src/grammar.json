@@ -2100,6 +2100,10 @@
         {
           "type": "SYMBOL",
           "name": "quasi_quotation"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "splice"
         }
       ]
     },
@@ -8895,6 +8899,19 @@
         {
           "type": "SYMBOL",
           "name": "quasi_quotation_expression"
+        }
+      ]
+    },
+    "splice": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "$"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_expression"
         }
       ]
     },
