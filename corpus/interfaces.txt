@@ -74,7 +74,7 @@ private interface IOne<T1> : ITwo where T1:T2 { }
     (interface_base (identifier_name))
      (type_parameter_constraints_clause
       (identifier_name)
-      (identifier_name))))
+       (type_parameter_constraints (identifier_name)))))
 
 =====================================
 Interface generic multiple constraints
@@ -94,10 +94,10 @@ private interface IOne<T1, T3> : ITwo where T1:T2 where T3:new() { }
     (interface_base (identifier_name))
      (type_parameter_constraints_clause
       (identifier_name)
-      (identifier_name))
+       (type_parameter_constraints (identifier_name)))
      (type_parameter_constraints_clause
       (identifier_name)
-      (constructor_constraint))))
+      (type_parameter_constraints (constructor_constraint)))))
 
 =====================================
 Interface in namespace

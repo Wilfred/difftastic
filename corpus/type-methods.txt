@@ -87,7 +87,42 @@ class A {
       (parameter_list
         (parameter (identifier_name) (identifier_name)))
       (type_parameter_constraints_clause
-        (identifier_name) (constructor_constraint))
+        (identifier_name)
+        (type_parameter_constraints (constructor_constraint)))
+      (statement_block))))
+
+=======================================
+Class generic method with multiple type constraints
+=======================================
+
+class A {
+  void Accept<T1, T2>(T1 accept, T2 from)
+    where T1: new()
+    where T2: T1, new() {
+  }
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier_name)
+    (method_declaration
+      (return_type)
+      (identifier_name)
+      (type_parameter_list
+        (type_parameter (identifier_name))
+        (type_parameter (identifier_name)))
+      (parameter_list
+        (parameter (identifier_name) (identifier_name))
+        (parameter (identifier_name) (identifier_name)))
+      (type_parameter_constraints_clause
+        (identifier_name)
+        (type_parameter_constraints (constructor_constraint)))
+      (type_parameter_constraints_clause
+        (identifier_name)
+        (type_parameter_constraints
+          (identifier_name) (constructor_constraint)))
       (statement_block))))
 
 =======================================

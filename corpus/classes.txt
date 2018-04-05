@@ -98,7 +98,7 @@ public class F<T> where T:struct {}
     (identifier_name)
      (type_parameter_list (type_parameter (identifier_name)))
      (type_parameter_constraints_clause
-      (identifier_name))))
+      (identifier_name) (type_parameter_constraints))))
 
 =====================================
 Class with type parameter new constraint
@@ -115,7 +115,7 @@ public class F<T> where T: new() {}
      (type_parameter_list (type_parameter (identifier_name)))
      (type_parameter_constraints_clause
       (identifier_name)
-      (constructor_constraint))))
+       (type_parameter_constraints (constructor_constraint)))))
 
 =====================================
 Class with type parameter identifier constraint
@@ -132,7 +132,7 @@ public class F<T> where T: I {}
      (type_parameter_list (type_parameter (identifier_name)))
      (type_parameter_constraints_clause
       (identifier_name)
-      (identifier_name))))
+       (type_parameter_constraints (identifier_name)))))
 
 =====================================
 Class with type parameter identifier and new constraints
@@ -149,8 +149,9 @@ public class F<T> where T: I, new() {}
      (type_parameter_list (type_parameter (identifier_name)))
      (type_parameter_constraints_clause
       (identifier_name)
-      (identifier_name)
-      (constructor_constraint))))
+      (type_parameter_constraints
+        (identifier_name)
+        (constructor_constraint)))))
 
 =====================================
 Class with multiple type parameter constraints
@@ -169,12 +170,13 @@ private class F<T1,T2> where T1 : I1, I2, new() where T2 : I2 { }
       (type_parameter (identifier_name)))
      (type_parameter_constraints_clause
       (identifier_name)
-      (identifier_name)
-      (identifier_name)
-      (constructor_constraint))
+      (type_parameter_constraints
+        (identifier_name)
+        (identifier_name)
+        (constructor_constraint)))
     (type_parameter_constraints_clause
      (identifier_name)
-     (identifier_name))))
+     (type_parameter_constraints (identifier_name)))))
 
 =====================================
 Class with single method

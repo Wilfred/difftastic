@@ -34,8 +34,7 @@ module.exports = grammar({
 
   inline: $ => [
     $.class_type,
-    $.class_member_declaration,
-    $.type_parameter_constraints
+    $.class_member_declaration
   ],
 
   rules: {
