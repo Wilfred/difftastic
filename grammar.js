@@ -29,6 +29,7 @@ module.exports = grammar({
   ],
 
   conflicts: $ => [
+    [$.return_type, $.interface_property_declaration],
     [$.return_type, $.variable_declaration]
   ],
 
@@ -221,7 +222,9 @@ module.exports = grammar({
       '{',
       repeat(
         choice(
+          $.interface_method_declaration,
           $.interface_event_declaration,
+          $.interface_property_declaration
         )
       ),
       '}',
@@ -234,12 +237,39 @@ module.exports = grammar({
       optional(seq(',', commaSep1($.identifier_name)))
     ),
 
+    interface_method_declaration: $ => seq(
+      optional($._attributes),
+      optional('new'),
+      $.return_type,
+      $.identifier_name,
+      optional($.type_parameter_list),
+      optional($.parameter_list),
+      repeat($.type_parameter_constraints_clause),
+      ';'
+    ),
+
     interface_event_declaration: $ => seq(
       optional($._attributes),
       optional('new'),
       'event',
       $._type,
       $.identifier_name,
+      ';'
+    ),
+
+    interface_property_declaration: $ => seq(
+      optional($._attributes),
+      optional('new'),
+      $._type,
+      $.identifier_name,
+      '{',
+      repeat($.interface_accessor),
+      '}'
+    ),
+
+    interface_accessor: $ => seq(
+      optional($._attributes),
+      choice('get', 'set'),
       ';'
     ),
 
