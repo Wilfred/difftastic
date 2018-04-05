@@ -126,6 +126,72 @@ class A {
       (statement_block))))
 
 =======================================
+Class method with out parameter
+=======================================
+
+class A {
+  void HasAnOut(out int a) {
+  }
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier_name)
+    (method_declaration
+      (return_type)
+      (identifier_name)
+      (parameter_list
+        (parameter (parameter_modifier) (predefined_type) (identifier_name)))
+      (statement_block))))
+
+=======================================
+Class method with ref parameter
+=======================================
+
+class A {
+  void HasAnOut(ref int a) {
+  }
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier_name)
+    (method_declaration
+      (return_type)
+      (identifier_name)
+      (parameter_list
+        (parameter (parameter_modifier) (predefined_type) (identifier_name)))
+      (statement_block))))
+
+=======================================
+Class method with default parameter
+=======================================
+
+class A {
+  void HasAnOut(int a = 5) {
+  }
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier_name)
+    (method_declaration
+      (return_type)
+      (identifier_name)
+      (parameter_list
+        (parameter
+          (predefined_type)
+          (identifier_name)
+          (equals_value_clause (integer_literal))))
+      (statement_block))))
+
+=======================================
 Class static method with single parameter
 =======================================
 
