@@ -98,7 +98,6 @@ module.exports = grammar({
 
     [$._a_pattern, $._a_expression],
 
-
     [$._lexp, $.function_application],
 
     [$._general_type_constructor, $._simple_type],
@@ -133,7 +132,10 @@ module.exports = grammar({
     [$.standalone_deriving_declaration, $._qualified_type_constructor_identifier],
     [$._general_type_constructor, $.parenthesized_type],
     [$.tuple_instance, $._atype],
-    [$.list_instance, $._atype]
+    [$.list_instance, $._atype],
+    [$._a_pattern, $.context],
+
+    [$._funlhs, $.constructor_pattern]
   ],
 
   rules: {
@@ -348,6 +350,7 @@ module.exports = grammar({
       $.import_declaration,
       $.qualified_import_declaration,
       $.type_synonym_declaration,
+      $.type_family_declaration,
       $.algebraic_datatype_declaration,
       $.newtype_declaration,
       $.type_class_declaration,
@@ -381,6 +384,13 @@ module.exports = grammar({
       alias($._type_pattern, $.type)
     ),
 
+    type_family_declaration: $ => seq(
+      'type',
+      'family',
+      $._simple_type,
+      $.where
+    ),
+
     function_declaration: $ => seq(
       $._funlhs,
       choice(
@@ -391,6 +401,7 @@ module.exports = grammar({
 
     _funlhs: $ => prec.left(choice(
       seq($._variable, repeat($._a_pattern)),
+      seq($._general_constructor, repeat($._a_pattern)),
       seq($._pattern, $._op, $._pattern),
       seq($._funlhs, $._a_pattern, repeat($._a_pattern))
     )),

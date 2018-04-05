@@ -1,0 +1,44 @@
+=================================================
+Type Family Declaration
+=================================================
+
+type family Foo bar where
+  Bar = Wiz
+  Baz = 'Custom
+  Bar.Baz a = 'Custom
+  Bar.Baz (A a) = 'Custom
+
+
+---
+
+ (module
+  (type_family_declaration
+    (type_constructor_identifier)
+    (type_variable_identifier)
+    (where
+      (function_declaration
+        (constructor_identifier)
+        (function_body
+          (constructor_identifier)))
+      (function_declaration
+        (constructor_identifier)
+        (function_body
+          (promoted
+            (type_constructor_identifier))))
+      (function_declaration
+        (qualified_constructor_identifier
+          (module_identifier)
+          (constructor_identifier))
+          (variable_identifier)
+          (function_body
+            (promoted
+              (type_constructor_identifier))))
+      (function_declaration
+        (qualified_constructor_identifier
+          (module_identifier)
+          (constructor_identifier))
+        (parenthesized_pattern
+          (constructor_pattern
+            (constructor_identifier)
+            (variable_identifier)))
+        (function_body (promoted (type_constructor_identifier)))))))
