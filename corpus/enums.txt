@@ -45,8 +45,8 @@ struct A {
     (identifier_name)
     (enum_declaration
       (identifier_name)
-      (enum_member_declaration (identifier_name) (equals_value_clause (integer_literal)))
-      (enum_member_declaration (identifier_name) (equals_value_clause (integer_literal))))))
+      (enum_member_declaration (identifier_name) (constant_expression (integer_literal)))
+      (enum_member_declaration (identifier_name) (constant_expression (integer_literal))))))
 
 
 =======================================
@@ -64,5 +64,5 @@ namespace A {
     (identifier_name)
     (enum_declaration
       (identifier_name)
-      (enum_member_declaration (identifier_name) (equals_value_clause (integer_literal)))
-      (enum_member_declaration (identifier_name) (equals_value_clause (integer_literal))))))
+      (enum_member_declaration (identifier_name) (constant_expression (integer_literal)))
+      (enum_member_declaration (identifier_name) (constant_expression (integer_literal))))))

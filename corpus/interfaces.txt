@@ -8,7 +8,7 @@ public interface IOne {};
 
 (compilation_unit
   (interface_declaration
-    (interface_modifiers)
+    (modifiers)
     (identifier_name)))
 
 =====================================
@@ -21,7 +21,7 @@ private interface IOne : ITwo { }
 
 (compilation_unit
   (interface_declaration
-    (interface_modifiers)
+    (modifiers)
     (identifier_name)
     (interface_base
       (identifier_name))))
@@ -36,7 +36,7 @@ private interface IOne : ITwo, IThree { }
 
 (compilation_unit
   (interface_declaration
-    (interface_modifiers)
+    (modifiers)
     (identifier_name)
     (interface_base
       (identifier_name)
@@ -52,7 +52,7 @@ private interface IOne<T1> : ITwo { }
 
 (compilation_unit
   (interface_declaration
-    (interface_modifiers)
+    (modifiers)
     (identifier_name)
     (type_parameter_list (type_parameter (identifier_name)))
     (interface_base
@@ -68,7 +68,7 @@ private interface IOne<T1> : ITwo where T1:T2 { }
 
 (compilation_unit
   (interface_declaration
-    (interface_modifiers)
+    (modifiers)
     (identifier_name)
     (type_parameter_list (type_parameter (identifier_name)))
     (interface_base (identifier_name))
@@ -86,7 +86,7 @@ private interface IOne<T1, T3> : ITwo where T1:T2 where T3:new() { }
 
 (compilation_unit
   (interface_declaration
-    (interface_modifiers)
+    (modifiers)
     (identifier_name)
     (type_parameter_list
       (type_parameter (identifier_name))

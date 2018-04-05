@@ -81,7 +81,7 @@ class Zzz {
     (field_declaration
       (attribute_list (attribute (identifier_name)) (attribute (identifier_name) (attribute_argument_list)))
       (attribute_list (attribute (identifier_name)))
-      (field_modifiers) (variable_declaration (predefined_type) (variable_declarator (identifier_name))))))
+      (modifiers) (variable_declaration (predefined_type) (variable_declarator (identifier_name))))))
 
 
 =======================================
@@ -140,7 +140,7 @@ class Zzz {
     (event_declaration
       (attribute_list (attribute (identifier_name)) (attribute (identifier_name) (attribute_argument_list)))
       (attribute_list (attribute (identifier_name)))
-      (event_modifiers)
+      (modifiers)
       (identifier_name)
       (identifier_name)
       (add_accessor_declaration (statement_block))
@@ -160,7 +160,7 @@ class Zzz {
   (class_declaration
     (identifier_name)
     (event_declaration
-      (event_modifiers)
+      (modifiers)
       (identifier_name)
       (identifier_name)
       (add_accessor_declaration

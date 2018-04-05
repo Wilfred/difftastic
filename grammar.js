@@ -18,14 +18,6 @@ const PREC = {
   SEQ: 1
 };
 
-const COMMON_MODIFIERS = [
-    'new',
-    'public',
-    'protected',
-    'internal',
-    'private'
-  ]
-
 const BYTE_ORDER_MARK = '\xEF\xBB\xBF';
 
 module.exports = grammar({
@@ -37,7 +29,6 @@ module.exports = grammar({
   ],
 
   conflicts: $ => [
-    [$._field_modifiers, $.method_modifiers],
     [$.return_type, $.variable_declaration]
   ],
 
@@ -65,6 +56,28 @@ module.exports = grammar({
       $.enum_declaration,
       $.delegate_declaration,
       $.interface_declaration
+    ),
+
+    // modifiers
+
+    modifiers: $ => repeat1(
+      choice(
+        'abstract',
+        'async',
+        'extern',
+        'internal',
+        'new',
+        'override',
+        'private',
+        'protected',
+        'public',
+        'readonly',
+        'sealed',
+        'static',
+        'unsafe',
+        'virtual',
+        'volatile'
+      )
     ),
 
     // extern
@@ -113,7 +126,8 @@ module.exports = grammar({
 
     class_declaration: $ => seq(
       optional($._attributes),
-      optional($.class_modifiers),
+      optional($.modifiers),
+      optional('partial'),
       'class',
       $.identifier_name,
       optional($.type_parameter_list),
@@ -131,19 +145,6 @@ module.exports = grammar({
       $.event_declaration,
       $.constructor_declaration,
       $.method_declaration
-    ),
-
-    class_modifiers: $ => $._class_modifiers,
-    _class_modifiers: $ => seq(
-      choice(
-        'unsafe',
-        'abstract',
-        'sealed',
-        'static',
-        'partial',
-        ...COMMON_MODIFIERS
-      ),
-      optional($._class_modifiers)
     ),
 
     class_base: $ => seq(
@@ -182,7 +183,7 @@ module.exports = grammar({
 
 		event_declaration: $ => seq(
 			optional($._attributes),
-      optional($.event_modifiers),
+      optional($.modifiers),
 			'event',
 			$._type,
 			$.identifier_name,
@@ -193,19 +194,6 @@ module.exports = grammar({
       ),
       '}'
 		),
-
-    event_modifiers: $ => seq(
-      choice(
-        ...COMMON_MODIFIERS,
-        'static',
-        'virtual',
-        'sealed',
-        'override',
-        'abstract',
-        'extern'
-      ),
-      optional($.event_modifiers)
-    ),
 
     add_accessor_declaration: $ => seq(
       optional($._attributes),
@@ -223,7 +211,8 @@ module.exports = grammar({
 
     interface_declaration: $ => seq(
       optional($._attributes),
-      optional($.interface_modifiers),
+      optional($.modifiers),
+      optional('partial'),
       'interface',
       $.identifier_name,
       optional($.type_parameter_list),
@@ -237,12 +226,6 @@ module.exports = grammar({
       ),
       '}',
       optional(';')
-    ),
-
-    interface_modifiers: $ => $._interface_modifiers,
-    _interface_modifiers: $ => seq(
-      choice('partial', ...COMMON_MODIFIERS),
-      optional($._interface_modifiers)
     ),
 
     interface_base: $ => seq(
@@ -264,7 +247,8 @@ module.exports = grammar({
 
     struct_declaration: $ => seq(
       optional($._attributes),
-      optional($.struct_modifiers),
+      optional($.modifiers),
+      optional('partial'),
       'struct',
       $.identifier_name,
       optional($.type_parameter_list),
@@ -278,21 +262,11 @@ module.exports = grammar({
       optional(';')
     ),
 
-    struct_modifiers: $ => $._struct_modifiers,
-    _struct_modifiers: $ => seq(
-      choice(
-        'unsafe',
-        'partial',
-        ...COMMON_MODIFIERS
-      ),
-      optional($._struct_modifiers)
-    ),
-
     // enum
 
     enum_declaration: $ => seq(
       optional($._attributes),
-      optional($.enum_modifiers),
+      optional($.modifiers),
       'enum',
       $.identifier_name,
       optional(seq(':', $._integral_type)),
@@ -305,13 +279,7 @@ module.exports = grammar({
     enum_member_declaration: $ => seq(
       optional($._attributes),
       $.identifier_name,
-      optional($.equals_value_clause)
-    ),
-
-    enum_modifiers: $ => choice(...COMMON_MODIFIERS),
-    _enum_modifiers: $ => seq(
-      choice(...COMMON_MODIFIERS),
-      optional($._enum_modifiers)
+      optional(seq('=', $.constant_expression))
     ),
 
     _integral_type: $ => choice(
@@ -330,7 +298,7 @@ module.exports = grammar({
 
     delegate_declaration: $ => seq(
       optional($._attributes),
-      optional($.delegate_modifier),
+      optional($.modifiers),
       'delegate',
       $.return_type,
       $.identifier_name,
@@ -338,8 +306,6 @@ module.exports = grammar({
       $.parameter_list,
       ';'
     ),
-
-    delegate_modifier: $ => choice('unsafe', ...COMMON_MODIFIERS),
 
     return_type: $ => choice($._type, $.void_keyword),
     void_keyword: $ => 'void',
@@ -425,22 +391,10 @@ module.exports = grammar({
 
     field_declaration: $ => seq(
       optional($._attributes),
-      optional($.field_modifiers),
+      optional($.modifiers),
       optional($.const_keyword),
       $.variable_declaration,
       ';'
-    ),
-
-    field_modifiers: $ => $._field_modifiers,
-    _field_modifiers: $ => seq(
-      choice(
-        'unsafe',
-        'readonly',
-        'volatile',
-        'static',
-        ...COMMON_MODIFIERS
-      ),
-      optional($._field_modifiers)
     ),
 
     variable_declaration: $ => seq(
@@ -479,6 +433,8 @@ module.exports = grammar({
       $.unary_expression,
       $.parenthesized_expression
     ),
+
+    constant_expression: $ => $._expression,
 
     parenthesized_expression: $ => seq('(', $._expression, ')'),
 
@@ -709,7 +665,7 @@ module.exports = grammar({
     // methods
     constructor_declaration: $ => seq(
       optional($._attributes),
-      optional($.method_modifiers),
+      optional($.modifiers),
       $.identifier_name,
       optional($.type_parameter_list),
       $.parameter_list,
@@ -718,18 +674,13 @@ module.exports = grammar({
 
     method_declaration: $ => seq(
       optional($._attributes),
-      optional($.method_modifiers),
-      optional('async'),
+      optional($.modifiers),
+      optional('partial'),
       $.return_type,
       $.identifier_name,
       optional($.type_parameter_list),
       $.parameter_list,
       $.statement_block
-    ),
-
-    method_modifiers: $ => choice(
-      'partial',
-      ...COMMON_MODIFIERS
     ),
 
     statement_block: $ => seq(
