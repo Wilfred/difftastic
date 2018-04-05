@@ -12,6 +12,72 @@ public interface IOne {};
     (identifier_name)))
 
 =====================================
+Interface with properties
+=====================================
+
+interface IOne {
+  byte Get { get; }
+  char Set { set; }
+  uint GetSet { get; set; }
+  long SetGet { set; get; }
+};
+
+---
+
+(compilation_unit
+  (interface_declaration
+    (identifier_name)
+    (interface_property_declaration
+      (predefined_type)
+      (identifier_name)
+      (interface_accessor))
+    (interface_property_declaration
+      (predefined_type)
+      (identifier_name)
+      (interface_accessor))
+    (interface_property_declaration
+      (predefined_type)
+      (identifier_name)
+      (interface_accessor) (interface_accessor))
+    (interface_property_declaration
+      (predefined_type)
+      (identifier_name)
+      (interface_accessor) (interface_accessor))))
+
+=====================================
+Interface with methods
+=====================================
+
+interface IOne {
+  void Nothing();
+  int Output();
+  void Input(string a);
+  int InputOutput(string a);
+};
+
+---
+
+(compilation_unit
+  (interface_declaration
+    (identifier_name)
+    (interface_method_declaration
+      (return_type)
+      (identifier_name)
+      (parameter_list))
+    (interface_method_declaration
+      (return_type (predefined_type))
+      (identifier_name)
+      (parameter_list))
+    (interface_method_declaration
+      (return_type)
+      (identifier_name)
+      (parameter_list (parameter (predefined_type) (identifier_name))))
+    (interface_method_declaration
+      (return_type (predefined_type))
+      (identifier_name)
+      (parameter_list (parameter (predefined_type) (identifier_name))))))
+
+=====================================
 Interface base single
 =====================================
 
