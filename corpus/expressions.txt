@@ -14,8 +14,7 @@ class Foo {
   (class_declaration
     (identifier_name)
     (method_declaration
-      (return_type
-        (void_keyword))
+      (return_type)
       (identifier_name)
       (parameter_list)
       (statement_block
@@ -42,8 +41,7 @@ class Foo {
   (class_declaration
     (identifier_name)
     (method_declaration
-      (return_type
-        (void_keyword))
+      (return_type)
       (identifier_name)
       (parameter_list)
       (statement_block
@@ -75,8 +73,7 @@ class Foo {
   (class_declaration
     (identifier_name)
     (method_declaration
-      (return_type
-        (void_keyword))
+      (return_type)
       (identifier_name)
       (parameter_list)
       (statement_block

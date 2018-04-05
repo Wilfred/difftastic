@@ -191,8 +191,7 @@ class Foo {
     (identifier_name)
     (method_declaration
       (modifiers)
-      (return_type
-        (void_keyword))
+      (return_type)
       (identifier_name)
       (parameter_list)
       (statement_block))))
@@ -212,8 +211,7 @@ class Foo {
     (identifier_name)
     (method_declaration
       (modifiers)
-      (return_type
-        (void_keyword))
+      (return_type)
       (identifier_name)
       (parameter_list
         (parameter (predefined_type) (identifier_name)))
