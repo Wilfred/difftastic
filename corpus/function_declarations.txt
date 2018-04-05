@@ -526,7 +526,7 @@ f x = case x of
 ---
 
 (module
-  (function_declaration 
+  (function_declaration
     (variable_identifier)
     (variable_identifier)
     (function_body
@@ -725,6 +725,7 @@ f = read @Int .id
 f = read @Prelude.Int .Prelude.id
 f = read @Int. id
 f = read @Prelude.Int. Prelude.id
+f = read @(x (Bar a))
 
 ---
 
@@ -811,7 +812,19 @@ f = read @Prelude.Int. Prelude.id
         (variable_identifier)
         (type_application (qualified_constructor_identifier (module_identifier) (constructor_identifier)))
         (variable_operator (variable_symbol))
-        (qualified_variable_identifier (module_identifier) (variable_identifier))))))
+        (qualified_variable_identifier (module_identifier) (variable_identifier)))))
+  (function_declaration
+    (variable_identifier)
+    (function_body
+      (variable_identifier)
+      (type_application
+        (parenthesized_expression
+          (function_application
+            (variable_identifier)
+            (parenthesized_expression
+              (function_application
+                (constructor_identifier)
+                (variable_identifier)))))))))
 
 =================================================
 Function Declarations With Qualified Variable Composition
