@@ -2659,8 +2659,11 @@
                 "name": "_pattern"
               },
               {
-                "type": "SYMBOL",
-                "name": "case_guard_pattern"
+                "type": "REPEAT1",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "case_guard_pattern"
+                }
               },
               {
                 "type": "CHOICE",

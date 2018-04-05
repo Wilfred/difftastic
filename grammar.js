@@ -698,7 +698,7 @@ module.exports = grammar({
       ),
       seq(
         $._pattern,
-        $.case_guard_pattern,
+        repeat1($.case_guard_pattern),
         optional($.where)
       )
     )),
