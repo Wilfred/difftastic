@@ -748,6 +748,44 @@ SQL
   (argument_list)))
 
 ========================================
+heredocs with suffix dot method continuation
+========================================
+
+joins(<<~SQL).
+   `foo`
+SQL
+where("a")
+
+---
+
+(program
+  (method_call
+    (call (method_call (identifier) (argument_list (heredoc_beginning))) (heredoc_end) (identifier))
+    (argument_list (string))))
+
+========================================
+multiple heredocs with method continuation
+========================================
+
+joins(<<~SQL).where(<<~SQL).
+  `one`
+SQL
+  `two`
+SQL
+group("b")
+
+---
+
+(program
+  (method_call
+    (call
+      (method_call
+        (call (method_call (identifier) (argument_list (heredoc_beginning))) (identifier))
+        (argument_list (heredoc_beginning)))
+      (heredoc_end) (heredoc_end) (identifier))
+    (argument_list (string))))
+
+========================================
 heredocs with interpolation
 ========================================
 
