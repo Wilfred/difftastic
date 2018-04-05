@@ -549,7 +549,8 @@ module.exports = grammar({
       $.do,
       $.function_application,
       $._a_expression,
-      $.quasi_quotation
+      $.quasi_quotation,
+      $.splice
     ),
 
     type_application: $ => seq(
@@ -1983,6 +1984,11 @@ module.exports = grammar({
         alias($._empty_quasi_pattern, $.expression),
       ),
       $.quasi_quotation_expression
+    ),
+
+    splice: $ => seq(
+      '$',
+      $._expression
     ),
 
     _empty_quasi_pattern: $ => seq('[', '|'),
