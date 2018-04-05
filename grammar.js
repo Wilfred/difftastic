@@ -1473,6 +1473,7 @@ module.exports = grammar({
     ),
 
     _pragma: $ => choice(
+      $.annotation_pragma,
       $.inline_pragma,
       $.inlinable_pragma,
       $.no_inline_pragma,
@@ -1491,6 +1492,30 @@ module.exports = grammar({
       $.overlaps_pragma,
       $.incoherent_pragma,
       $.rules_pragma
+    ),
+
+    annotation_pragma: $ => seq(
+      '{-#',
+      'ANN',
+      choice(
+        seq(
+          alias('module', $.module),
+          $._expression
+        ),
+        seq(
+          alias('type', $.type),
+          $._simple_type,
+          $._expression
+        ),
+        seq(
+          $._qualified_variable_identifier,
+          choice(
+            $._expression,
+            $._pattern
+          )
+        )
+      ),
+      '#-}'
     ),
 
     inline_pragma: $ => seq(
