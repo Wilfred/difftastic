@@ -3560,155 +3560,6 @@
       "type": "PATTERN",
       "value": "\\$-?(([!@&`'+~=\\/\\\\,;.<>*$?:\"])|([0-9]*)|([a-zA-Z_][a-zA-Z0-9_]*))"
     },
-    "reserved_identifier": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "alias"
-        },
-        {
-          "type": "STRING",
-          "value": "and"
-        },
-        {
-          "type": "STRING",
-          "value": "begin"
-        },
-        {
-          "type": "STRING",
-          "value": "break"
-        },
-        {
-          "type": "STRING",
-          "value": "case"
-        },
-        {
-          "type": "STRING",
-          "value": "class"
-        },
-        {
-          "type": "STRING",
-          "value": "def"
-        },
-        {
-          "type": "STRING",
-          "value": "defined"
-        },
-        {
-          "type": "STRING",
-          "value": "do"
-        },
-        {
-          "type": "STRING",
-          "value": "else"
-        },
-        {
-          "type": "STRING",
-          "value": "elsif"
-        },
-        {
-          "type": "STRING",
-          "value": "end"
-        },
-        {
-          "type": "STRING",
-          "value": "ensure"
-        },
-        {
-          "type": "STRING",
-          "value": "false"
-        },
-        {
-          "type": "STRING",
-          "value": "for"
-        },
-        {
-          "type": "STRING",
-          "value": "in"
-        },
-        {
-          "type": "STRING",
-          "value": "module"
-        },
-        {
-          "type": "STRING",
-          "value": "next"
-        },
-        {
-          "type": "STRING",
-          "value": "nil"
-        },
-        {
-          "type": "STRING",
-          "value": "not"
-        },
-        {
-          "type": "STRING",
-          "value": "or"
-        },
-        {
-          "type": "STRING",
-          "value": "redo"
-        },
-        {
-          "type": "STRING",
-          "value": "rescue"
-        },
-        {
-          "type": "STRING",
-          "value": "retry"
-        },
-        {
-          "type": "STRING",
-          "value": "return"
-        },
-        {
-          "type": "STRING",
-          "value": "self"
-        },
-        {
-          "type": "STRING",
-          "value": "super"
-        },
-        {
-          "type": "STRING",
-          "value": "then"
-        },
-        {
-          "type": "STRING",
-          "value": "true"
-        },
-        {
-          "type": "STRING",
-          "value": "undef"
-        },
-        {
-          "type": "STRING",
-          "value": "when"
-        },
-        {
-          "type": "STRING",
-          "value": "yield"
-        },
-        {
-          "type": "STRING",
-          "value": "if"
-        },
-        {
-          "type": "STRING",
-          "value": "unless"
-        },
-        {
-          "type": "STRING",
-          "value": "while"
-        },
-        {
-          "type": "STRING",
-          "value": "until"
-        }
-      ]
-    },
     "operator": {
       "type": "CHOICE",
       "members": [
@@ -4467,15 +4318,6 @@
                             "name": "constant"
                           },
                           {
-                            "type": "ALIAS",
-                            "content": {
-                              "type": "SYMBOL",
-                              "name": "reserved_identifier"
-                            },
-                            "named": true,
-                            "value": "identifier"
-                          },
-                          {
                             "type": "SYMBOL",
                             "name": "string"
                           }
@@ -4486,6 +4328,15 @@
                         "name": "_keyword_colon"
                       }
                     ]
+                  },
+                  {
+                    "type": "ALIAS",
+                    "content": {
+                      "type": "SYMBOL",
+                      "name": "_identifier_hash_key"
+                    },
+                    "named": true,
+                    "value": "identifier"
                   }
                 ]
               },
@@ -4736,6 +4587,10 @@
     {
       "type": "SYMBOL",
       "name": "_singleton_class_left_angle_left_langle"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_identifier_hash_key"
     }
   ],
   "inline": []

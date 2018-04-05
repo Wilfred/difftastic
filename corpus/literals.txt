@@ -1169,10 +1169,15 @@ hash with keyword keys
 ======================
 
 { a: 1, b: 2, "c": 3 }
+{a:1, b:2, "c":3 }
 
 ---
 
 (program
+  (hash
+    (pair (identifier) (integer))
+    (pair (identifier) (integer))
+    (pair (string) (integer)))
   (hash
     (pair (identifier) (integer))
     (pair (identifier) (integer))

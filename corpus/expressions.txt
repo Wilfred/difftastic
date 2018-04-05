@@ -651,7 +651,90 @@ foo B: true
 (program
   (method_call (identifier) (argument_list (pair (identifier) (true))))
   (method_call (identifier) (argument_list (pair (identifier) (true))))
-  (method_call (identifier) (argument_list (pair (constant) (true)))))
+  (method_call (identifier) (argument_list (pair (identifier) (true)))))
+
+===============================
+method call with reserved keyword args
+===============================
+
+foo(if: true)
+foo alias: true
+foo and: true
+foo begin: true
+foo break: true
+foo case: true
+foo class: true
+foo def: true
+foo defined: true
+foo do: true
+foo else: true
+foo elsif: true
+foo end: true
+foo ensure: true
+foo false: true
+foo for: true
+foo if: true
+foo in: true
+foo module: true
+foo next: true
+foo nil: true
+foo not: true
+foo or: true
+foo redo: true
+foo rescue: true
+foo retry: true
+foo return: true
+foo self: true
+foo super: true
+foo then: true
+foo true: true
+foo undef: true
+foo unless: true
+foo until: true
+foo when: true
+foo while: true
+foo yield: true
+
+---
+
+(program
+  (method_call (identifier) (argument_list (pair (identifier) (true))))
+  (method_call (identifier) (argument_list (pair (identifier) (true))))
+  (method_call (identifier) (argument_list (pair (identifier) (true))))
+  (method_call (identifier) (argument_list (pair (identifier) (true))))
+  (method_call (identifier) (argument_list (pair (identifier) (true))))
+  (method_call (identifier) (argument_list (pair (identifier) (true))))
+  (method_call (identifier) (argument_list (pair (identifier) (true))))
+  (method_call (identifier) (argument_list (pair (identifier) (true))))
+  (method_call (identifier) (argument_list (pair (identifier) (true))))
+  (method_call (identifier) (argument_list (pair (identifier) (true))))
+  (method_call (identifier) (argument_list (pair (identifier) (true))))
+  (method_call (identifier) (argument_list (pair (identifier) (true))))
+  (method_call (identifier) (argument_list (pair (identifier) (true))))
+  (method_call (identifier) (argument_list (pair (identifier) (true))))
+  (method_call (identifier) (argument_list (pair (identifier) (true))))
+  (method_call (identifier) (argument_list (pair (identifier) (true))))
+  (method_call (identifier) (argument_list (pair (identifier) (true))))
+  (method_call (identifier) (argument_list (pair (identifier) (true))))
+  (method_call (identifier) (argument_list (pair (identifier) (true))))
+  (method_call (identifier) (argument_list (pair (identifier) (true))))
+  (method_call (identifier) (argument_list (pair (identifier) (true))))
+  (method_call (identifier) (argument_list (pair (identifier) (true))))
+  (method_call (identifier) (argument_list (pair (identifier) (true))))
+  (method_call (identifier) (argument_list (pair (identifier) (true))))
+  (method_call (identifier) (argument_list (pair (identifier) (true))))
+  (method_call (identifier) (argument_list (pair (identifier) (true))))
+  (method_call (identifier) (argument_list (pair (identifier) (true))))
+  (method_call (identifier) (argument_list (pair (identifier) (true))))
+  (method_call (identifier) (argument_list (pair (identifier) (true))))
+  (method_call (identifier) (argument_list (pair (identifier) (true))))
+  (method_call (identifier) (argument_list (pair (identifier) (true))))
+  (method_call (identifier) (argument_list (pair (identifier) (true))))
+  (method_call (identifier) (argument_list (pair (identifier) (true))))
+  (method_call (identifier) (argument_list (pair (identifier) (true))))
+  (method_call (identifier) (argument_list (pair (identifier) (true))))
+  (method_call (identifier) (argument_list (pair (identifier) (true))))
+  (method_call (identifier) (argument_list (pair (identifier) (true)))))
 
 ===============================
 method call with paren args
