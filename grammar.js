@@ -406,7 +406,8 @@ module.exports = grammar({
       seq($._funlhs, $._a_pattern, repeat($._a_pattern))
     )),
 
-    _a_pattern: $ => prec.left(choice(
+    _a_pattern: $ => choice(
+      $.tuple_pattern,
       $._variable,
       $.as_pattern,
       $._general_constructor,
@@ -414,12 +415,10 @@ module.exports = grammar({
       $._literal,
       $.wildcard,
       $.parenthesized_pattern,
-      $.tuple_pattern,
       $.list_pattern,
       $.irrefutable_pattern,
-      $.constructor_pattern,
-      $.parenthesized_type
-    )),
+      $.constructor_pattern
+    ),
 
     as_pattern: $ => prec.right(1, seq(
       $._variable,
