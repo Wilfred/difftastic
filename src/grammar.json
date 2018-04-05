@@ -3130,6 +3130,13 @@
           "name": "parameter_list"
         },
         {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "type_parameter_constraints_clause"
+          }
+        },
+        {
           "type": "SYMBOL",
           "name": "statement_block"
         }

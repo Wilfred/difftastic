@@ -22,7 +22,6 @@ class A {
       (statement_block
         (return_statement (identifier_name))))))
 
-
 =======================================
 Class method with multiple parameters
 =======================================
@@ -44,3 +43,73 @@ class A {
         (parameter (identifier_name) (identifier_name))
         (parameter (identifier_name) (identifier_name)))
       (statement_block))))
+
+=======================================
+Class generic method
+=======================================
+
+class A {
+  void Accept<T>(T accept) {
+  }
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier_name)
+    (method_declaration
+      (return_type)
+      (identifier_name)
+      (type_parameter_list (type_parameter (identifier_name)))
+      (parameter_list
+        (parameter (identifier_name) (identifier_name)))
+      (statement_block))))
+
+=======================================
+Class generic method with new type constraint
+=======================================
+
+class A {
+  void Accept<T>(T accept) where T: new() {
+  }
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier_name)
+    (method_declaration
+      (return_type)
+      (identifier_name)
+      (type_parameter_list (type_parameter (identifier_name)))
+      (parameter_list
+        (parameter (identifier_name) (identifier_name)))
+      (type_parameter_constraints_clause
+        (identifier_name) (constructor_constraint))
+      (statement_block))))
+
+=======================================
+Class static method with single parameter
+=======================================
+
+class A {
+  static int GetBack(int b) {
+    return b;
+  }
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier_name)
+    (method_declaration
+      (modifiers)
+      (return_type (predefined_type))
+      (identifier_name)
+      (parameter_list
+        (parameter (predefined_type) (identifier_name)))
+      (statement_block
+        (return_statement (identifier_name))))))

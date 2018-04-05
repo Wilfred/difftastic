@@ -679,6 +679,7 @@ module.exports = grammar({
       $.identifier_name,
       optional($.type_parameter_list),
       $.parameter_list,
+      repeat($.type_parameter_constraints_clause),
       $.statement_block
     ),
 
