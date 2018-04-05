@@ -128,3 +128,30 @@ f = [|a|] `b` c
           (quasi_quotation_expression))
         (variable_operator (infix_variable_identifier))
         (variable_identifier)))))
+
+===============================
+Splices
+===============================
+
+f = $x
+f = $(a . b $ c)
+
+---
+
+(module
+  (function_declaration
+    (variable_identifier)
+    (function_body
+      (splice (variable_identifier))))
+  (function_declaration
+    (variable_identifier)
+    (function_body
+      (splice
+        (parenthesized_expression
+          (infix_operator_application
+            (variable_identifier)
+            (variable_operator (variable_symbol))
+            (infix_operator_application
+              (variable_identifier)
+              (variable_operator (variable_symbol))
+              (variable_identifier))))))))
