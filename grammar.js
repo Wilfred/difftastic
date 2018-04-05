@@ -139,11 +139,12 @@ module.exports = grammar({
     ),
 
     class_member_declaration: $ => choice(
-      $._type_declaration,
       $.field_declaration,
+      $.method_declaration,
       $.event_declaration,
       $.constructor_declaration,
-      $.method_declaration
+      $.destructor_declaration,
+      $._type_declaration
     ),
 
     class_base: $ => seq(
@@ -661,11 +662,21 @@ module.exports = grammar({
     )),
 
     // methods
+
     constructor_declaration: $ => seq(
       optional($._attributes),
       optional($.modifiers),
       $.identifier_name,
       optional($.type_parameter_list),
+      $.parameter_list,
+      $.statement_block
+    ),
+
+    destructor_declaration: $ => seq(
+      optional($._attributes),
+      optional('extern'),
+      '~',
+      $.identifier_name,
       $.parameter_list,
       $.statement_block
     ),
