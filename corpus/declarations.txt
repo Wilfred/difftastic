@@ -316,13 +316,17 @@ end
 class ::Foo::Bar
 end
 
+class Cß
+end
+
 ---
 
 (program
   (class (constant))
   (class (constant))
   (class (scope_resolution (constant) (constant)))
-  (class (scope_resolution (scope_resolution (constant)) (constant))))
+  (class (scope_resolution (scope_resolution (constant)) (constant)))
+  (class (constant)))
 
 ==============
 empty subclass

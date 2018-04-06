@@ -10,10 +10,11 @@
   "author": "Rob Rix",
   "license": "MIT",
   "dependencies": {
-    "nan": "^2.4.0"
+    "nan": "^2.4.0",
+    "npm": "^5.8.0"
   },
   "devDependencies": {
-    "tree-sitter-cli": "^0.11.0"
+    "tree-sitter-cli": "^0.11.2"
   },
   "scripts": {
     "build": "tree-sitter generate && node-gyp build --debug",

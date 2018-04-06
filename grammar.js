@@ -26,6 +26,10 @@ const PREC = {
   COMPLEMENT: 85,
 };
 
+const IDENTIFIER_CHARS = /[^\s:;`"'@$#.,|^&<=>+\-*/\\%?!~()\[\]{}]*/;
+const LOWER_ALPHA_CHAR = /[^\sA-Z0-9:;`"'@$#.,|^&<=>+\-*/\\%?!~()\[\]{}]/;
+const ALPHA_CHAR = /[^\s0-9:;`"'@$#.,|^&<=>+\-*/\\%?!~()\[\]{}]/;
+
 module.exports = grammar({
   name: 'ruby',
 
@@ -487,13 +491,13 @@ module.exports = grammar({
       $.constant
     )),
 
-    constant: $ => /[A-Z][a-zA-Z0-9_]*(\?|\!)?/,
+    constant: $ => token(seq(/[A-Z]/, IDENTIFIER_CHARS, /(\?|\!)?/)),
 
-    identifier: $ => /[a-z_][a-zA-Z0-9_]*(\?|\!)?/,
+    identifier: $ => token(seq(LOWER_ALPHA_CHAR, IDENTIFIER_CHARS, /(\?|\!)?/)),
 
-    instance_variable: $ => /@[a-zA-Z_][a-zA-Z0-9_]*/,
+    instance_variable: $ => token(seq('@', ALPHA_CHAR, IDENTIFIER_CHARS)),
 
-    class_variable: $ => /@@[a-zA-Z_][a-zA-Z0-9_]*/,
+    class_variable: $ => token(seq('@@', ALPHA_CHAR, IDENTIFIER_CHARS)),
 
     global_variable: $ => /\$-?(([!@&`'+~=/\\,;.<>*$?:"])|([0-9]*)|([a-zA-Z_][a-zA-Z0-9_]*))/,
 

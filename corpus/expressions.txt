@@ -153,6 +153,7 @@ defined? Foo.bar
 defined?(foo)
 defined?($foo)
 defined?(@foo)
+defined?(@äö)
 
 ---
 
@@ -161,6 +162,7 @@ defined?(@foo)
   (unary (call (constant) (identifier)))
   (unary (parenthesized_statements (identifier)))
   (unary (parenthesized_statements (global_variable)))
+  (unary (parenthesized_statements (instance_variable)))
   (unary (parenthesized_statements (instance_variable))))
 
 ==========

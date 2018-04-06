@@ -3548,20 +3548,84 @@
       }
     },
     "constant": {
-      "type": "PATTERN",
-      "value": "[A-Z][a-zA-Z0-9_]*(\\?|\\!)?"
+      "type": "TOKEN",
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "PATTERN",
+            "value": "[A-Z]"
+          },
+          {
+            "type": "PATTERN",
+            "value": "[^\\s:;`\"'@$#.,|^&<=>+\\-*\\/\\\\%?!~()\\[\\]{}]*"
+          },
+          {
+            "type": "PATTERN",
+            "value": "(\\?|\\!)?"
+          }
+        ]
+      }
     },
     "identifier": {
-      "type": "PATTERN",
-      "value": "[a-z_][a-zA-Z0-9_]*(\\?|\\!)?"
+      "type": "TOKEN",
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "PATTERN",
+            "value": "[^\\sA-Z0-9:;`\"'@$#.,|^&<=>+\\-*\\/\\\\%?!~()\\[\\]{}]"
+          },
+          {
+            "type": "PATTERN",
+            "value": "[^\\s:;`\"'@$#.,|^&<=>+\\-*\\/\\\\%?!~()\\[\\]{}]*"
+          },
+          {
+            "type": "PATTERN",
+            "value": "(\\?|\\!)?"
+          }
+        ]
+      }
     },
     "instance_variable": {
-      "type": "PATTERN",
-      "value": "@[a-zA-Z_][a-zA-Z0-9_]*"
+      "type": "TOKEN",
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "@"
+          },
+          {
+            "type": "PATTERN",
+            "value": "[^\\s0-9:;`\"'@$#.,|^&<=>+\\-*\\/\\\\%?!~()\\[\\]{}]"
+          },
+          {
+            "type": "PATTERN",
+            "value": "[^\\s:;`\"'@$#.,|^&<=>+\\-*\\/\\\\%?!~()\\[\\]{}]*"
+          }
+        ]
+      }
     },
     "class_variable": {
-      "type": "PATTERN",
-      "value": "@@[a-zA-Z_][a-zA-Z0-9_]*"
+      "type": "TOKEN",
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "@@"
+          },
+          {
+            "type": "PATTERN",
+            "value": "[^\\s0-9:;`\"'@$#.,|^&<=>+\\-*\\/\\\\%?!~()\\[\\]{}]"
+          },
+          {
+            "type": "PATTERN",
+            "value": "[^\\s:;`\"'@$#.,|^&<=>+\\-*\\/\\\\%?!~()\\[\\]{}]*"
+          }
+        ]
+      }
     },
     "global_variable": {
       "type": "PATTERN",
