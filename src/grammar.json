@@ -3782,6 +3782,10 @@
           },
           {
             "type": "SYMBOL",
+            "name": "unit_constructor"
+          },
+          {
+            "type": "SYMBOL",
             "name": "function_type_instance"
           },
           {
@@ -3830,6 +3834,10 @@
               {
                 "type": "SYMBOL",
                 "name": "unit_constructor"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "_qualified_operator"
               }
             ]
           }
