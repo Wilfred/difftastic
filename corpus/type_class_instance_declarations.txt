@@ -223,3 +223,21 @@ instance (Bar baz ~ foo) => Wix baz where
                 (variable_identifier)
                 (variable_operator (variable_symbol))
                 (variable_identifier)))))))))
+
+=========================================
+Instance Declarations With Constructor Operators
+=========================================
+
+instance Bar (f :+: g) where
+
+---
+
+(module
+  (type_class_instance_declaration
+    (type_class_identifier)
+    (instance
+      (parenthesized_type
+        (type_variable_identifier)
+        (constructor_operator (constructor_symbol))
+        (type_variable_identifier)))
+  (where)))

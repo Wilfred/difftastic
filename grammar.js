@@ -945,8 +945,9 @@ module.exports = grammar({
       $.parenthesized_type,
       $.tuple_instance,
       $.list_instance,
+      $.unit_constructor,
       $.function_type_instance,
-      $.type_variable_identifier
+      $.type_variable_identifier,
     )),
 
     parenthesized_type: $ => seq(
@@ -959,7 +960,8 @@ module.exports = grammar({
           $.promoted,
           $.list_instance,
           $.tuple_instance,
-          $.unit_constructor
+          $.unit_constructor,
+          $._qualified_operator
         )
       ),
       ')'
