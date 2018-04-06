@@ -614,22 +614,18 @@ module.exports = grammar({
     ),
 
     pair: $ => prec(-1, choice(
+      seq($._arg, '=>', $._arg),
       seq(
         choice(
-          seq($._arg, '=>'),
-          seq(
-            choice(
-              $.identifier,
-              $.constant,
-              $.string
-            ),
-            $._keyword_colon
-          ),
-          alias($._identifier_hash_key, $.identifier)
+          alias($._identifier_hash_key, $.identifier),
+          $.identifier,
+          $.constant,
+          $.string
         ),
+        $._keyword_colon,
         $._arg
       ),
-      choice($.hash_splat_argument)
+      $.hash_splat_argument
     )),
 
     regex: $ => choice(
