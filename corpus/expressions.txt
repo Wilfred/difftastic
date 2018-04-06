@@ -1154,9 +1154,17 @@ division without spaces
 h/w
 "#{foo}"
 
+Time.at(timestamp/1000)
+"#{timestamp}"
+
 ---
 
-(program (binary (identifier) (identifier)) (string (identifier)))
+(program
+  (binary (identifier) (identifier)) (string (identifier))
+  (method_call
+    (call (constant) (identifier))
+    (argument_list (binary (identifier) (integer))))
+  (string (identifier)))
 
 ===============================
 regex as parameter

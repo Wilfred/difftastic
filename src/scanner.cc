@@ -803,11 +803,13 @@ struct Scanner {
     }
 
     if (valid_symbols[IDENTIFIER_HASH_KEY]) {
+      size_t consumed = 0;
       for (;;) {
         if (lexer->lookahead == 0) break;
 
         if (iswalpha(lexer->lookahead)) {
           advance(lexer);
+          consumed++;
           if (lexer->lookahead == ':') {
             advance(lexer);
             if (lexer->lookahead != ':') {
@@ -817,8 +819,10 @@ struct Scanner {
               return false;
             }
           }
-        } else {
+        } else if (consumed == 0) {
           break;
+        } else {
+          return false;
         }
       }
     }
