@@ -501,14 +501,19 @@ struct Scanner {
             literal.nesting_depth = 1;
             break;
 
+          case '\n':
+          case ' ':
+          case '\t':
+            // If the `/` operator is valid, then so is the `%` operator, which means
+            // that a `%` followed by whitespace should be considered an operator,
+            // not a percent string.
+            if (valid_symbols[FORWARD_SLASH]) return false;
+
           case '|':
           case '!':
           case '#':
           case '/':
           case '\\':
-          // TODO: Allow newline delimited strings, but need to resolve
-          // ambiguity when % is a valid operator.
-          // case '\n':
           case '@':
           case '$':
           case '%':
