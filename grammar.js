@@ -29,13 +29,12 @@ module.exports = grammar({
   ],
 
   conflicts: $ => [
-    [$.return_type, $.interface_property_declaration],
-    [$.return_type, $.variable_declaration]
   ],
 
   inline: $ => [
     $.class_type,
-    $.class_member_declaration
+    $.class_member_declaration,
+    $.return_type
   ],
 
   rules: {
@@ -122,6 +121,48 @@ module.exports = grammar({
       optional(';')
     ),
 
+    // properties
+
+    property_declaration: $ => seq(
+      optional($._attributes),
+      optional($.modifiers),
+      $._type,
+      $.identifier_name,
+      $._property_body
+    ),
+
+    _property_body: $ => choice(
+      seq('{', $._accessor_declarations, '}'), // TODO: optional($.property_initializer))
+      seq('=>', $._expression, ';')
+    ),
+
+    _accessor_declarations: $ => choice(
+      seq($.get_accessor_declaration, optional($.set_accessor_declaration)),
+      seq($.set_accessor_declaration, optional($.get_accessor_declaration))
+    ),
+
+    get_accessor_declaration: $ => seq(
+      optional($._attributes),
+      optional($.accessor_modifier),
+      'get',
+      choice($.statement_block, ';')
+    ),
+
+    set_accessor_declaration: $ => seq(
+      optional($._attributes),
+      optional($.accessor_modifier),
+      'set',
+      choice($.statement_block, ';')
+    ),
+
+    accessor_modifier: $ => choice(
+      'protected',
+      'internal',
+      'private',
+      seq('protected', 'internal'),
+      seq('internal', 'protected')
+    ),
+
     // class
 
     class_declaration: $ => seq(
@@ -140,6 +181,7 @@ module.exports = grammar({
     ),
 
     class_member_declaration: $ => choice(
+      $.property_declaration,
       $.field_declaration,
       $.method_declaration,
       $.event_declaration,
@@ -337,7 +379,8 @@ module.exports = grammar({
       ';'
     ),
 
-    return_type: $ => choice($._type, 'void'),
+    return_type: $ => choice($._type, $.void_keyword),
+    void_keyword: $ => 'void',
 
     // parameters
 

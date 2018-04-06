@@ -179,6 +179,39 @@ private class F<T1,T2> where T1 : I1, I2, new() where T2 : I2 { }
      (type_parameter_constraints (identifier_name)))))
 
 =====================================
+Class with bodyless properties
+=====================================
+
+class Foo {
+  byte Get { get; }
+  char Set { set; }
+  uint GetSet { get; set; }
+  long SetGet { set; get; }
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier_name)
+    (property_declaration
+      (predefined_type)
+      (identifier_name)
+      (get_accessor_declaration))
+    (property_declaration
+      (predefined_type)
+      (identifier_name)
+      (set_accessor_declaration))
+    (property_declaration
+      (predefined_type)
+      (identifier_name)
+      (get_accessor_declaration) (set_accessor_declaration))
+    (property_declaration
+      (predefined_type)
+      (identifier_name)
+      (set_accessor_declaration) (get_accessor_declaration))))
+
+=====================================
 Class with single method
 =====================================
 
@@ -193,7 +226,7 @@ class Foo {
     (identifier_name)
     (method_declaration
       (modifiers)
-      (return_type)
+      (void_keyword)
       (identifier_name)
       (parameter_list)
       (statement_block))))
@@ -213,7 +246,7 @@ class Foo {
     (identifier_name)
     (method_declaration
       (modifiers)
-      (return_type)
+      (void_keyword)
       (identifier_name)
       (parameter_list
         (parameter (predefined_type) (identifier_name)))
