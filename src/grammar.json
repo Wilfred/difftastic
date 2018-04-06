@@ -4359,57 +4359,12 @@
             "type": "SEQ",
             "members": [
               {
-                "type": "CHOICE",
-                "members": [
-                  {
-                    "type": "SEQ",
-                    "members": [
-                      {
-                        "type": "SYMBOL",
-                        "name": "_arg"
-                      },
-                      {
-                        "type": "STRING",
-                        "value": "=>"
-                      }
-                    ]
-                  },
-                  {
-                    "type": "SEQ",
-                    "members": [
-                      {
-                        "type": "CHOICE",
-                        "members": [
-                          {
-                            "type": "SYMBOL",
-                            "name": "identifier"
-                          },
-                          {
-                            "type": "SYMBOL",
-                            "name": "constant"
-                          },
-                          {
-                            "type": "SYMBOL",
-                            "name": "string"
-                          }
-                        ]
-                      },
-                      {
-                        "type": "SYMBOL",
-                        "name": "_keyword_colon"
-                      }
-                    ]
-                  },
-                  {
-                    "type": "ALIAS",
-                    "content": {
-                      "type": "SYMBOL",
-                      "name": "_identifier_hash_key"
-                    },
-                    "named": true,
-                    "value": "identifier"
-                  }
-                ]
+                "type": "SYMBOL",
+                "name": "_arg"
+              },
+              {
+                "type": "STRING",
+                "value": "=>"
               },
               {
                 "type": "SYMBOL",
@@ -4418,13 +4373,47 @@
             ]
           },
           {
-            "type": "CHOICE",
+            "type": "SEQ",
             "members": [
               {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "ALIAS",
+                    "content": {
+                      "type": "SYMBOL",
+                      "name": "_identifier_hash_key"
+                    },
+                    "named": true,
+                    "value": "identifier"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "identifier"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "constant"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "string"
+                  }
+                ]
+              },
+              {
                 "type": "SYMBOL",
-                "name": "hash_splat_argument"
+                "name": "_keyword_colon"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "_arg"
               }
             ]
+          },
+          {
+            "type": "SYMBOL",
+            "name": "hash_splat_argument"
           }
         ]
       }
