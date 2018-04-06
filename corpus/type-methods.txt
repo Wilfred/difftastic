@@ -15,7 +15,7 @@ class A {
     (identifier_name)
     (method_declaration
       (modifiers)
-      (return_type (predefined_type))
+      (predefined_type)
       (identifier_name)
       (parameter_list
         (parameter (predefined_type) (identifier_name)))
@@ -37,7 +37,7 @@ class A {
   (class_declaration
     (identifier_name)
     (method_declaration
-      (return_type)
+      (void_keyword)
       (identifier_name)
       (parameter_list
         (parameter (identifier_name) (identifier_name))
@@ -59,7 +59,7 @@ class A {
   (class_declaration
     (identifier_name)
     (method_declaration
-      (return_type)
+      (void_keyword)
       (identifier_name)
       (type_parameter_list (type_parameter (identifier_name)))
       (parameter_list
@@ -81,7 +81,7 @@ class A {
   (class_declaration
     (identifier_name)
     (method_declaration
-      (return_type)
+      (void_keyword)
       (identifier_name)
       (type_parameter_list (type_parameter (identifier_name)))
       (parameter_list
@@ -108,7 +108,7 @@ class A {
   (class_declaration
     (identifier_name)
     (method_declaration
-      (return_type)
+      (void_keyword)
       (identifier_name)
       (type_parameter_list
         (type_parameter (identifier_name))
@@ -140,7 +140,7 @@ class A {
   (class_declaration
     (identifier_name)
     (method_declaration
-      (return_type)
+      (void_keyword)
       (identifier_name)
       (parameter_list
         (parameter (parameter_modifier) (predefined_type) (identifier_name)))
@@ -161,7 +161,7 @@ class A {
   (class_declaration
     (identifier_name)
     (method_declaration
-      (return_type)
+      (void_keyword)
       (identifier_name)
       (parameter_list
         (parameter (parameter_modifier) (predefined_type) (identifier_name)))
@@ -182,7 +182,7 @@ class A {
   (class_declaration
     (identifier_name)
     (method_declaration
-      (return_type)
+      (void_keyword)
       (identifier_name)
       (parameter_list
         (parameter
@@ -208,7 +208,7 @@ class A {
     (identifier_name)
     (method_declaration
       (modifiers)
-      (return_type (predefined_type))
+      (predefined_type)
       (identifier_name)
       (parameter_list
         (parameter (predefined_type) (identifier_name)))

@@ -61,19 +61,19 @@ interface IOne {
   (interface_declaration
     (identifier_name)
     (interface_method_declaration
-      (return_type)
+      (void_keyword)
       (identifier_name)
       (parameter_list))
     (interface_method_declaration
-      (return_type (predefined_type))
+      (predefined_type)
       (identifier_name)
       (parameter_list))
     (interface_method_declaration
-      (return_type)
+      (void_keyword)
       (identifier_name)
       (parameter_list (parameter (predefined_type) (identifier_name))))
     (interface_method_declaration
-      (return_type (predefined_type))
+      (predefined_type)
       (identifier_name)
       (parameter_list (parameter (predefined_type) (identifier_name))))))
 
