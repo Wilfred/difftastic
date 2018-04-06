@@ -92,6 +92,8 @@ module.exports = grammar({
     [$._general_type_constructor],
     [$._qualified_type_constructor_identifier],
     [$.instance],
+    [$._funlhs],
+    [$._pattern],
     [$.quasi_quotation, $.variable_identifier],
 
     [$._lexp, $._a_expression],
@@ -113,7 +115,6 @@ module.exports = grammar({
 
     [$._qualified_module_identifier, $.qualified_module_identifier],
     [$.qualified_module_identifier],
-    [$._a_pattern, $.constructor_pattern],
     [$._a_expression, $.constructor_pattern],
     [$.constructor_pattern],
     [$.constructor_pattern, $.lambda_head],
@@ -135,7 +136,9 @@ module.exports = grammar({
     [$.list_instance, $._atype],
     [$._a_pattern, $.context],
 
-    [$._funlhs, $.constructor_pattern]
+    [$._funlhs, $.constructor_pattern],
+
+    [$.constructor_pattern, $._a_pattern]
   ],
 
   rules: {
@@ -399,14 +402,15 @@ module.exports = grammar({
       )
     ),
 
-    _funlhs: $ => prec.left(choice(
+    _funlhs: $ => choice(
       seq($._variable, repeat($._a_pattern)),
       seq($._general_constructor, repeat($._a_pattern)),
       seq($._pattern, $._op, $._pattern),
-      seq($._funlhs, $._a_pattern, repeat($._a_pattern))
-    )),
+      prec.dynamic(-1, seq($._funlhs, $._a_pattern, repeat($._a_pattern)))
+    ),
 
     _a_pattern: $ => choice(
+      $.constructor_pattern,
       $.tuple_pattern,
       $._variable,
       $.as_pattern,
@@ -416,8 +420,7 @@ module.exports = grammar({
       $.wildcard,
       $.parenthesized_pattern,
       $.list_pattern,
-      $.irrefutable_pattern,
-      $.constructor_pattern
+      $.irrefutable_pattern
     ),
 
     as_pattern: $ => prec.right(1, seq(
@@ -451,10 +454,10 @@ module.exports = grammar({
       $._a_pattern
     ),
 
-    _pattern: $ => prec.left(choice(
+    _pattern: $ => choice(
       seq($._lpat, $._op, $._pattern),
       $._lpat
-    )),
+    ),
 
     _lpat: $ => choice(
       $._a_pattern,

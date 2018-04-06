@@ -187,6 +187,7 @@ Instance Declarations With Equality Constraints
 
 instance (Bar baz ~ foo) => Wix baz where
   toWix = undefined
+  Wix baz <> Wix baz' = Wix (baz <> baz')
 
 ---
 
@@ -205,4 +206,20 @@ instance (Bar baz ~ foo) => Wix baz where
     (where
       (function_declaration
         (variable_identifier)
-        (function_body (variable_identifier))))))
+        (function_body (variable_identifier)))
+      (function_declaration
+        (constructor_pattern
+          (constructor_identifier)
+          (variable_identifier))
+        (variable_operator (variable_symbol))
+        (constructor_pattern
+          (constructor_identifier)
+          (variable_identifier))
+        (function_body
+          (function_application
+            (constructor_identifier)
+            (parenthesized_expression
+              (infix_operator_application
+                (variable_identifier)
+                (variable_operator (variable_symbol))
+                (variable_identifier)))))))))

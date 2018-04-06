@@ -1365,61 +1365,61 @@
       ]
     },
     "_funlhs": {
-      "type": "PREC_LEFT",
-      "value": 0,
-      "content": {
-        "type": "CHOICE",
-        "members": [
-          {
-            "type": "SEQ",
-            "members": [
-              {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_variable"
+            },
+            {
+              "type": "REPEAT",
+              "content": {
                 "type": "SYMBOL",
-                "name": "_variable"
-              },
-              {
-                "type": "REPEAT",
-                "content": {
-                  "type": "SYMBOL",
-                  "name": "_a_pattern"
-                }
+                "name": "_a_pattern"
               }
-            ]
-          },
-          {
-            "type": "SEQ",
-            "members": [
-              {
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_general_constructor"
+            },
+            {
+              "type": "REPEAT",
+              "content": {
                 "type": "SYMBOL",
-                "name": "_general_constructor"
-              },
-              {
-                "type": "REPEAT",
-                "content": {
-                  "type": "SYMBOL",
-                  "name": "_a_pattern"
-                }
+                "name": "_a_pattern"
               }
-            ]
-          },
-          {
-            "type": "SEQ",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "_pattern"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "_op"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "_pattern"
-              }
-            ]
-          },
-          {
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_pattern"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_op"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_pattern"
+            }
+          ]
+        },
+        {
+          "type": "PREC_DYNAMIC",
+          "value": -1,
+          "content": {
             "type": "SEQ",
             "members": [
               {
@@ -1439,12 +1439,16 @@
               }
             ]
           }
-        ]
-      }
+        }
+      ]
     },
     "_a_pattern": {
       "type": "CHOICE",
       "members": [
+        {
+          "type": "SYMBOL",
+          "name": "constructor_pattern"
+        },
         {
           "type": "SYMBOL",
           "name": "tuple_pattern"
@@ -1484,10 +1488,6 @@
         {
           "type": "SYMBOL",
           "name": "irrefutable_pattern"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "constructor_pattern"
         }
       ]
     },
@@ -1652,34 +1652,30 @@
       ]
     },
     "_pattern": {
-      "type": "PREC_LEFT",
-      "value": 0,
-      "content": {
-        "type": "CHOICE",
-        "members": [
-          {
-            "type": "SEQ",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "_lpat"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "_op"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "_pattern"
-              }
-            ]
-          },
-          {
-            "type": "SYMBOL",
-            "name": "_lpat"
-          }
-        ]
-      }
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_lpat"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_op"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_pattern"
+            }
+          ]
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_lpat"
+        }
+      ]
     },
     "_lpat": {
       "type": "CHOICE",
@@ -8987,6 +8983,12 @@
       "instance"
     ],
     [
+      "_funlhs"
+    ],
+    [
+      "_pattern"
+    ],
+    [
       "quasi_quotation",
       "variable_identifier"
     ],
@@ -9045,10 +9047,6 @@
     ],
     [
       "qualified_module_identifier"
-    ],
-    [
-      "_a_pattern",
-      "constructor_pattern"
     ],
     [
       "_a_expression",
@@ -9127,6 +9125,10 @@
     [
       "_funlhs",
       "constructor_pattern"
+    ],
+    [
+      "constructor_pattern",
+      "_a_pattern"
     ]
   ],
   "externals": [
