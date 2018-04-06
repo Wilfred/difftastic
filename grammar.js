@@ -759,7 +759,7 @@ module.exports = grammar({
         /[^/\\\[\n]/    // any character besides '[', '\', '/', '\n'
       )),
       '/',
-      repeat(/a-z/)
+      repeat(/[a-z]/)
     )),
 
     number: $ => {

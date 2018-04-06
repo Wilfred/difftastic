@@ -3727,7 +3727,7 @@
             "type": "REPEAT",
             "content": {
               "type": "PATTERN",
-              "value": "a-z"
+              "value": "[a-z]"
             }
           }
         ]
