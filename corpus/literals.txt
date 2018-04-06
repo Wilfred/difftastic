@@ -590,6 +590,19 @@ string chaining
   (chained_string (string) (string)))
 
 ==========================
+newline-delimited strings
+==========================
+
+flash[:notice] = "Pattern addition failed for '%s' in '%s'", %
+                  [pattern, key]
+
+----
+
+(program (assignment
+  (element_reference (identifier) (symbol))
+  (right_assignment_list (string) (string))))
+
+==========================
 % formatting that looks like a newline-delimited strings
 ==========================
 
