@@ -463,6 +463,7 @@ struct Scanner {
           case '#':
           case '/':
           case '\\':
+          case '\n':
           case '@':
           case '$':
           case '%':
