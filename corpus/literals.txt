@@ -587,6 +587,19 @@ string chaining
   (chained_string (string) (string) (string))
   (chained_string (string) (string)))
 
+==========================
+newline-delimited strings
+==========================
+
+flash[:notice] = "Pattern addition failed for '%s' in '%s'", %
+                  [pattern, key]
+
+----
+
+(program (assignment
+  (element_reference (identifier) (symbol))
+  (right_assignment_list (string) (string))))
+
 ========================================
 Single character string literals
 ========================================
@@ -1399,3 +1412,22 @@ end
 ---
 
 (program (lambda (lambda_parameters (identifier)) (do_block (integer))))
+
+====================
+non-ascii identifiers
+====================
+
+Cß
+@äö
+@@äö
+:äö
+äö
+
+---
+
+(program
+  (constant)
+  (instance_variable)
+  (class_variable)
+  (symbol)
+  (identifier))
