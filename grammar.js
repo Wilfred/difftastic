@@ -138,7 +138,8 @@ module.exports = grammar({
 
     [$._funlhs, $.constructor_pattern],
 
-    [$.constructor_pattern, $._a_pattern]
+    [$.constructor_pattern, $._a_pattern],
+    [$.labeled_pattern, $.labeled_construction]
   ],
 
   rules: {
@@ -472,7 +473,7 @@ module.exports = grammar({
     labeled_pattern: $ => seq(
       $._qualified_constructor,
       '{',
-      sep1(',', choice($.field_pattern, $.named_field_pun, $.record_wild_cards)),
+      optional(sep1(',', choice($.field_pattern, $.named_field_pun, $.record_wild_cards))),
       '}'
     ),
 
@@ -957,7 +958,8 @@ module.exports = grammar({
           $.type_variable_identifier,
           $.promoted,
           $.list_instance,
-          $.tuple_instance
+          $.tuple_instance,
+          $.unit_constructor
         )
       ),
       ')'

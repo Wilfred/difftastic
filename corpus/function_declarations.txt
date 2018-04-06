@@ -107,6 +107,7 @@ Function Declarations With Field Labels
 
 f Ex { a = 1 } = 1
 f Ex { a = 1, b = 2 } = 2
+f Ex {} = 2
 
 ---
 
@@ -123,6 +124,11 @@ f Ex { a = 1, b = 2 } = 2
       (constructor_identifier)
       (field_pattern (variable_identifier) (integer))
       (field_pattern (variable_identifier) (integer)))
+    (function_body (integer)))
+  (function_declaration
+    (variable_identifier)
+    (labeled_pattern
+      (constructor_identifier))
     (function_body (integer))))
 
 =================================================

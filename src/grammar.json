@@ -1718,53 +1718,61 @@
           "value": "{"
         },
         {
-          "type": "SEQ",
+          "type": "CHOICE",
           "members": [
             {
-              "type": "CHOICE",
+              "type": "SEQ",
               "members": [
                 {
-                  "type": "SYMBOL",
-                  "name": "field_pattern"
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "SYMBOL",
+                      "name": "field_pattern"
+                    },
+                    {
+                      "type": "SYMBOL",
+                      "name": "named_field_pun"
+                    },
+                    {
+                      "type": "SYMBOL",
+                      "name": "record_wild_cards"
+                    }
+                  ]
                 },
                 {
-                  "type": "SYMBOL",
-                  "name": "named_field_pun"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "record_wild_cards"
+                  "type": "REPEAT",
+                  "content": {
+                    "type": "SEQ",
+                    "members": [
+                      {
+                        "type": "STRING",
+                        "value": ","
+                      },
+                      {
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "SYMBOL",
+                            "name": "field_pattern"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "named_field_pun"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "record_wild_cards"
+                          }
+                        ]
+                      }
+                    ]
+                  }
                 }
               ]
             },
             {
-              "type": "REPEAT",
-              "content": {
-                "type": "SEQ",
-                "members": [
-                  {
-                    "type": "STRING",
-                    "value": ","
-                  },
-                  {
-                    "type": "CHOICE",
-                    "members": [
-                      {
-                        "type": "SYMBOL",
-                        "name": "field_pattern"
-                      },
-                      {
-                        "type": "SYMBOL",
-                        "name": "named_field_pun"
-                      },
-                      {
-                        "type": "SYMBOL",
-                        "name": "record_wild_cards"
-                      }
-                    ]
-                  }
-                ]
-              }
+              "type": "BLANK"
             }
           ]
         },
@@ -3818,6 +3826,10 @@
               {
                 "type": "SYMBOL",
                 "name": "tuple_instance"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "unit_constructor"
               }
             ]
           }
@@ -9129,6 +9141,10 @@
     [
       "constructor_pattern",
       "_a_pattern"
+    ],
+    [
+      "labeled_pattern",
+      "labeled_construction"
     ]
   ],
   "externals": [
