@@ -12,10 +12,12 @@ symbol
 :$foo
 :$0
 :_bar
+:åäö
 
 ---
 
 (program
+  (symbol)
   (symbol)
   (symbol)
   (symbol)
@@ -588,17 +590,21 @@ string chaining
   (chained_string (string) (string)))
 
 ==========================
-newline-delimited strings
+% formatting that looks like a newline-delimited strings
 ==========================
 
-flash[:notice] = "Pattern addition failed for '%s' in '%s'", %
-                  [pattern, key]
+foo("%s '%s' " %
+  [a, b])
 
 ----
 
-(program (assignment
-  (element_reference (identifier) (symbol))
-  (right_assignment_list (string) (string))))
+(program
+  (method_call
+    (identifier)
+    (argument_list
+      (binary
+        (string)
+        (array (identifier) (identifier))))))
 
 ========================================
 Single character string literals

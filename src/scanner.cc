@@ -2,6 +2,7 @@
 #include <vector>
 #include <string>
 #include <cwctype>
+#include <cstring>
 
 namespace {
 
@@ -78,6 +79,44 @@ TokenType SIMPLE_TOKEN_TYPES[] = {
   SIMPLE_SUBSHELL,
   SIMPLE_REGEX,
   SIMPLE_WORD_LIST,
+};
+
+const char NON_IDENTIFIER_CHARS[] = {
+  '\n',
+  '\r',
+  '\t',
+  ' ',
+  ':',
+  ';',
+  '`',
+  '"',
+  '\'',
+  '@',
+  '$',
+  '#',
+  '.',
+  ',',
+  '|',
+  '^',
+  '&',
+  '<',
+  '=',
+  '>',
+  '+',
+  '-',
+  '*',
+  '/',
+  '\\',
+  '%',
+  '?',
+  '!',
+  '~',
+  '(',
+  ')',
+  '[',
+  ']',
+  '{',
+  '}',
 };
 
 struct Scanner {
@@ -295,6 +334,10 @@ struct Scanner {
     }
   }
 
+  bool is_iden_char(char c) {
+    return memchr(&NON_IDENTIFIER_CHARS, c, sizeof(NON_IDENTIFIER_CHARS)) == NULL;
+  }
+
   bool scan_symbol_identifier(TSLexer *lexer) {
     if (lexer->lookahead == '@') {
       advance(lexer);
@@ -305,13 +348,13 @@ struct Scanner {
       advance(lexer);
     }
 
-    if (iswalnum(lexer->lookahead) || (lexer->lookahead == '_')) {
+    if (is_iden_char(lexer->lookahead)) {
       advance(lexer);
     } else if (!scan_operator(lexer)) {
       return false;
     }
 
-    while (iswalnum(lexer->lookahead) || (lexer->lookahead == '_')) {
+    while (is_iden_char(lexer->lookahead)) {
       advance(lexer);
     }
 
@@ -463,7 +506,9 @@ struct Scanner {
           case '#':
           case '/':
           case '\\':
-          case '\n':
+          // TODO: Allow newline delimited strings, but need to resolve
+          // ambiguity when % is a valid operator.
+          // case '\n':
           case '@':
           case '$':
           case '%':
