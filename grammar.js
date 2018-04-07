@@ -177,9 +177,9 @@ module.exports = grammar({
       repeat(
         choice(
           $.constant_declaration,
-          $.property_declaration,
           $.field_declaration,
           $.method_declaration,
+          $.property_declaration,
           $.event_declaration,
           $.constructor_declaration,
           $.destructor_declaration,
