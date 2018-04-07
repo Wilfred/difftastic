@@ -633,10 +633,6 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "property_declaration"
-              },
-              {
-                "type": "SYMBOL",
                 "name": "field_declaration"
               },
               {
@@ -645,7 +641,15 @@
               },
               {
                 "type": "SYMBOL",
+                "name": "property_declaration"
+              },
+              {
+                "type": "SYMBOL",
                 "name": "event_declaration"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "indexer_declaration"
               },
               {
                 "type": "SYMBOL",
@@ -888,6 +892,145 @@
         }
       ]
     },
+    "indexer_declaration": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_attributes"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "modifiers"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_indexer_declarator"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_indexer_body"
+        }
+      ]
+    },
+    "_indexer_declarator": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_type"
+            },
+            {
+              "type": "STRING",
+              "value": "this"
+            },
+            {
+              "type": "STRING",
+              "value": "["
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_formal_parameter_list"
+            },
+            {
+              "type": "STRING",
+              "value": "]"
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_type"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "identifier_name"
+            },
+            {
+              "type": "STRING",
+              "value": "."
+            },
+            {
+              "type": "STRING",
+              "value": "this"
+            },
+            {
+              "type": "STRING",
+              "value": "["
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_formal_parameter_list"
+            },
+            {
+              "type": "STRING",
+              "value": "]"
+            }
+          ]
+        }
+      ]
+    },
+    "_indexer_body": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "{"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_accessor_declarations"
+            },
+            {
+              "type": "STRING",
+              "value": "}"
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "=>"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_expression"
+            },
+            {
+              "type": "STRING",
+              "value": ";"
+            }
+          ]
+        }
+      ]
+    },
     "event_declaration": {
       "type": "SEQ",
       "members": [
@@ -1116,6 +1259,10 @@
               {
                 "type": "SYMBOL",
                 "name": "interface_property_declaration"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "interface_indexer_declaration"
               }
             ]
           }
@@ -1350,7 +1497,7 @@
           "value": "{"
         },
         {
-          "type": "REPEAT",
+          "type": "REPEAT1",
           "content": {
             "type": "SYMBOL",
             "name": "interface_accessor"
@@ -1393,6 +1540,70 @@
         {
           "type": "STRING",
           "value": ";"
+        }
+      ]
+    },
+    "interface_indexer_declaration": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_attributes"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "new"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_type"
+        },
+        {
+          "type": "STRING",
+          "value": "this"
+        },
+        {
+          "type": "STRING",
+          "value": "["
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_formal_parameter_list"
+        },
+        {
+          "type": "STRING",
+          "value": "]"
+        },
+        {
+          "type": "STRING",
+          "value": "{"
+        },
+        {
+          "type": "REPEAT1",
+          "content": {
+            "type": "SYMBOL",
+            "name": "interface_accessor"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "}"
         }
       ]
     },
@@ -1502,6 +1713,10 @@
               {
                 "type": "SYMBOL",
                 "name": "event_declaration"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "indexer_declaration"
               },
               {
                 "type": "SYMBOL",

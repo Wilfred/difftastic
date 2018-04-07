@@ -275,3 +275,28 @@ struct Foo {
       (identifier_name)
       (constant_expression
       (string_literal)))))
+
+=====================================
+Struct with indexer
+=====================================
+
+struct Foo {
+  public bool this[int index] {
+    get { return a; }
+    set { a = value; }
+  }
+}
+
+---
+
+(compilation_unit
+  (struct_declaration
+    (identifier_name)
+    (indexer_declaration
+      (modifiers)
+      (predefined_type)
+      (parameter (predefined_type) (identifier_name))
+      (get_accessor_declaration
+        (statement_block (return_statement (identifier_name))))
+      (set_accessor_declaration
+        (statement_block (variable_assignment_statement (identifier_name) (equals_value_clause (identifier_name))))))))

@@ -181,6 +181,7 @@ module.exports = grammar({
           $.method_declaration,
           $.property_declaration,
           $.event_declaration,
+          $.indexer_declaration,
           $.constructor_declaration,
           $.destructor_declaration,
           $._type_declaration
@@ -221,6 +222,33 @@ module.exports = grammar({
     ),
 
     constructor_constraint: $ => seq('new', '(', ')'),
+
+    // indexers
+
+    indexer_declaration: $ => seq(
+      optional($._attributes),
+      optional($.modifiers),
+      $._indexer_declarator,
+      $._indexer_body
+    ),
+
+    _indexer_declarator: $ => choice(
+      seq($._type, 'this', '[', $._formal_parameter_list, ']'),
+      seq(
+        $._type,
+        $.identifier_name,
+        '.',
+        'this',
+        '[',
+        $._formal_parameter_list,
+        ']'
+      ),
+    ),
+
+    _indexer_body: $ => choice(
+      seq('{', $._accessor_declarations, '}'),
+      seq('=>', $._expression, ';'),
+    ),
 
     // events
 
@@ -266,7 +294,8 @@ module.exports = grammar({
         choice(
           $.interface_method_declaration,
           $.interface_event_declaration,
-          $.interface_property_declaration
+          $.interface_property_declaration,
+          $.interface_indexer_declaration
         )
       ),
       '}',
@@ -305,7 +334,7 @@ module.exports = grammar({
       $._type,
       $.identifier_name,
       '{',
-      repeat($.interface_accessor),
+      repeat1($.interface_accessor),
       '}'
     ),
 
@@ -313,6 +342,19 @@ module.exports = grammar({
       optional($._attributes),
       choice('get', 'set'),
       ';'
+    ),
+
+    interface_indexer_declaration: $ => seq(
+      optional($._attributes),
+      optional('new'),
+      $._type,
+      'this',
+      '[',
+      $._formal_parameter_list,
+      ']',
+      '{',
+      repeat1($.interface_accessor),
+      '}'
     ),
 
     // struct
@@ -334,6 +376,7 @@ module.exports = grammar({
           $.method_declaration,
           $.property_declaration,
           $.event_declaration,
+          $.indexer_declaration,
           $.constructor_declaration,
           $._type_declaration
         )
