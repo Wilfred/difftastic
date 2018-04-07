@@ -228,7 +228,9 @@ instance (Bar baz ~ foo) => Wix baz where
 Instance Declarations With Constructor Operators
 =========================================
 
-instance Bar (f :+: g) where
+instance Bar (f :+: g) where {}
+
+instance (A :< b, B :< b) => Bar (A c) Foo where {}
 
 ---
 
@@ -240,4 +242,24 @@ instance Bar (f :+: g) where
         (type_variable_identifier)
         (constructor_operator (constructor_symbol))
         (type_variable_identifier)))
-  (where)))
+    (where))
+
+  (type_class_instance_declaration
+    (scontext
+      (simple_class
+        (type_constructor_operator_pattern
+          (type_constructor_identifier)
+          (constructor_operator (constructor_symbol))
+          (type_variable_identifier)))
+      (simple_class
+        (type_constructor_operator_pattern
+          (type_constructor_identifier)
+          (constructor_operator (constructor_symbol))
+          (type_variable_identifier))))
+      (type_class_identifier)
+      (instance
+        (parenthesized_type
+          (type_constructor_identifier)
+          (type_variable_identifier))
+        (type_constructor_identifier))
+      (where)))
