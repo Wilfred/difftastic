@@ -1212,10 +1212,18 @@ module.exports = grammar({
           $.promoted,
           $.qualified_type_class_identifier,
           alias($._constructor_identifier, $.type_class_identifier),
-          $.parenthesized_type
+          $.parenthesized_type,
+          $.type_constructor_operator_pattern
+
         )
       )
     ),
+
+    type_constructor_operator_pattern: $ => prec(1, seq(
+      $._qualified_type_constructor_identifier,
+      $.constructor_operator,
+      $.type_variable_identifier
+    )),
 
     class: $ => prec(1, seq(
       $._qualified_constructor_identifier,

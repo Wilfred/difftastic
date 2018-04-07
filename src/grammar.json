@@ -5099,11 +5099,36 @@
               {
                 "type": "SYMBOL",
                 "name": "parenthesized_type"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "type_constructor_operator_pattern"
               }
             ]
           }
         }
       ]
+    },
+    "type_constructor_operator_pattern": {
+      "type": "PREC",
+      "value": 1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_qualified_type_constructor_identifier"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "constructor_operator"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "type_variable_identifier"
+          }
+        ]
+      }
     },
     "class": {
       "type": "PREC",
