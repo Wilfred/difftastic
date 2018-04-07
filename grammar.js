@@ -33,7 +33,6 @@ module.exports = grammar({
 
   inline: $ => [
     $.class_type,
-    $.class_member_declaration,
     $.return_type
   ],
 
@@ -175,19 +174,20 @@ module.exports = grammar({
       optional($.class_base),
       repeat($.type_parameter_constraints_clause),
       '{',
-      repeat($.class_member_declaration),
+      repeat(
+        choice(
+          $.constant_declaration,
+          $.property_declaration,
+          $.field_declaration,
+          $.method_declaration,
+          $.event_declaration,
+          $.constructor_declaration,
+          $.destructor_declaration,
+          $._type_declaration
+          ),
+        ),
       '}',
       optional(';')
-    ),
-
-    class_member_declaration: $ => choice(
-      $.property_declaration,
-      $.field_declaration,
-      $.method_declaration,
-      $.event_declaration,
-      $.constructor_declaration,
-      $.destructor_declaration,
-      $._type_declaration
     ),
 
     class_base: $ => seq(
@@ -327,14 +327,17 @@ module.exports = grammar({
       optional($.struct_interfaces),
       repeat($.type_parameter_constraints_clause),
       '{',
-      repeat(choice(
-        $.field_declaration,
-        $.method_declaration,
-        $.property_declaration,
-        $.event_declaration,
-        $.constructor_declaration,
-        $._type_declaration
-      )),
+      repeat(
+        choice(
+          $.constant_declaration,
+          $.field_declaration,
+          $.method_declaration,
+          $.property_declaration,
+          $.event_declaration,
+          $.constructor_declaration,
+          $._type_declaration
+        )
+      ),
       '}',
       optional(';')
     ),
@@ -467,14 +470,11 @@ module.exports = grammar({
       ']'
     ),
 
-    const_keyword: $ => 'const',
-
     // fields
 
     field_declaration: $ => seq(
       optional($._attributes),
       optional($.modifiers),
-      optional($.const_keyword),
       $.variable_declaration,
       ';'
     ),
@@ -503,6 +503,28 @@ module.exports = grammar({
     equals_value_clause: $ => seq(
       '=',
       $._expression
+    ),
+
+    // constants
+
+    constant_declaration: $ => seq(
+      optional($._attributes),
+      optional($.modifiers),
+      'const',
+      $._type,
+      $._constant_declarators,
+      ';'
+    ),
+
+    _constant_declarators: $ => seq(
+      $._constant_declarator,
+      repeat(seq(',', $._constant_declarator))
+    ),
+
+    _constant_declarator: $ => seq(
+      $.identifier_name,
+      '=',
+      $.constant_expression
     ),
 
     // expressions
