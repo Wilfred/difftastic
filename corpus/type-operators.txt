@@ -1,0 +1,370 @@
+=======================================
+Class unary operator declarations + - ! ~
+=======================================
+
+class A
+{
+  [SomeAttribute]
+  public static int operator +(A a) { return 0; }
+  public static int operator -(A a) { return 0; }
+  public static int operator !(A a) { return 0; }
+  public static int operator ~(A a) { return 0; }
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier_name)
+    (operator_declaration
+      (attribute_list (attribute (identifier_name)))
+      (modifiers)
+      (predefined_type)
+      (overloadable_unary_operator)
+      (identifier_name)
+      (identifier_name)
+      (statement_block (return_statement (integer_literal))))
+    (operator_declaration
+      (modifiers)
+      (predefined_type)
+      (overloadable_unary_operator)
+      (identifier_name)
+      (identifier_name)
+      (statement_block (return_statement (integer_literal))))
+    (operator_declaration
+      (modifiers)
+      (predefined_type)
+      (overloadable_unary_operator)
+      (identifier_name)
+      (identifier_name)
+      (statement_block (return_statement (integer_literal))))
+    (operator_declaration
+      (modifiers)
+      (predefined_type)
+      (overloadable_unary_operator)
+      (identifier_name)
+      (identifier_name)
+      (statement_block (return_statement (integer_literal))))))
+
+=======================================
+Class unary operator declarations true false
+=======================================
+
+class A
+{
+  public static bool operator true(A a) { return true; }
+  public static bool operator false(A a) { return false; }
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier_name)
+    (operator_declaration
+      (modifiers)
+      (predefined_type)
+      (overloadable_unary_operator)
+      (identifier_name)
+      (identifier_name)
+      (statement_block (return_statement (boolean_literal))))
+    (operator_declaration
+      (modifiers)
+      (predefined_type)
+      (overloadable_unary_operator)
+      (identifier_name)
+      (identifier_name)
+      (statement_block (return_statement (boolean_literal))))))
+
+=======================================
+Class unary operator declarations ++ --
+=======================================
+
+class A
+{
+  public static A operator ++(A a) { return a; }
+  public static A operator --(A a) { return a; }
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier_name)
+    (operator_declaration
+      (modifiers)
+      (identifier_name)
+      (overloadable_unary_operator)
+      (identifier_name)
+      (identifier_name)
+      (statement_block (return_statement (identifier_name))))
+    (operator_declaration
+      (modifiers)
+      (identifier_name)
+      (overloadable_unary_operator)
+      (identifier_name)
+      (identifier_name)
+      (statement_block (return_statement (identifier_name))))))
+
+=======================================
+Struct unary operator declaration
+=======================================
+
+struct A {
+  [SomeAttribute]
+  public int operator + (A a) { }
+}
+
+---
+
+(compilation_unit
+  (struct_declaration
+    (identifier_name)
+    (operator_declaration
+      (attribute_list (attribute (identifier_name)))
+      (modifiers)
+      (predefined_type)
+      (overloadable_unary_operator)
+      (identifier_name)
+      (identifier_name)
+      (statement_block))))
+
+=======================================
+Class binary operator declarations + - * /
+=======================================
+
+class A
+{
+  public static int operator +(A a, A b) { return 0; }
+  public static int operator -(A a, A b) { return 0; }
+  public static int operator *(A a, A b) { return 0; }
+  public static int operator /(A a, A b) { return 0; }
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier_name)
+    (operator_declaration
+      (modifiers)
+      (predefined_type)
+      (overloadable_binary_operator)
+      (identifier_name) (identifier_name)
+      (identifier_name) (identifier_name)
+      (statement_block (return_statement (integer_literal))))
+    (operator_declaration
+      (modifiers)
+      (predefined_type)
+      (overloadable_binary_operator)
+      (identifier_name) (identifier_name)
+      (identifier_name) (identifier_name)
+      (statement_block (return_statement (integer_literal))))
+    (operator_declaration
+      (modifiers)
+      (predefined_type)
+      (overloadable_binary_operator)
+      (identifier_name) (identifier_name)
+      (identifier_name) (identifier_name)
+      (statement_block (return_statement (integer_literal))))
+    (operator_declaration
+      (modifiers)
+      (predefined_type)
+      (overloadable_binary_operator)
+      (identifier_name) (identifier_name)
+      (identifier_name) (identifier_name)
+      (statement_block (return_statement (integer_literal))))))
+
+=======================================
+Class binary operator declarations % & | ^
+=======================================
+
+class A
+{
+  public static int operator %(A a, A b) { return 0; }
+  public static int operator &(A a, A b) { return 0; }
+  public static int operator |(A a, A b) { return 0; }
+  public static int operator ^(A a, A b) { return 0; }
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier_name)
+    (operator_declaration
+      (modifiers)
+      (predefined_type)
+      (overloadable_binary_operator)
+      (identifier_name) (identifier_name)
+      (identifier_name) (identifier_name)
+      (statement_block (return_statement (integer_literal))))
+    (operator_declaration
+      (modifiers)
+      (predefined_type)
+      (overloadable_binary_operator)
+      (identifier_name) (identifier_name)
+      (identifier_name) (identifier_name)
+      (statement_block (return_statement (integer_literal))))
+    (operator_declaration
+      (modifiers)
+      (predefined_type)
+      (overloadable_binary_operator)
+      (identifier_name) (identifier_name)
+      (identifier_name) (identifier_name)
+      (statement_block (return_statement (integer_literal))))
+    (operator_declaration
+      (modifiers)
+      (predefined_type)
+      (overloadable_binary_operator)
+      (identifier_name) (identifier_name)
+      (identifier_name) (identifier_name)
+      (statement_block (return_statement (integer_literal))))))
+
+=======================================
+Class binary operator declarations equals not equals
+=======================================
+
+class A
+{
+  public static bool operator ==(A a, A b) { return true; }
+  public static bool operator !=(A a, A b) { return false; }
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier_name)
+    (operator_declaration
+      (modifiers)
+      (predefined_type)
+      (overloadable_binary_operator)
+      (identifier_name) (identifier_name)
+      (identifier_name) (identifier_name)
+      (statement_block (return_statement (boolean_literal))))
+    (operator_declaration
+      (modifiers)
+      (predefined_type)
+      (overloadable_binary_operator)
+      (identifier_name) (identifier_name)
+      (identifier_name) (identifier_name)
+      (statement_block (return_statement (boolean_literal))))))
+
+=======================================
+Class binary operator declarations greater and less
+=======================================
+
+class A
+{
+  public static bool operator <(A a, A b) { return false; }
+  public static bool operator <=(A a, A b) { return true; }
+  public static bool operator >(A a, A b) { return false; }
+  public static bool operator >=(A a, A b) { return true; }
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier_name)
+    (operator_declaration
+      (modifiers)
+      (predefined_type)
+      (overloadable_binary_operator)
+      (identifier_name) (identifier_name)
+      (identifier_name) (identifier_name)
+      (statement_block (return_statement (boolean_literal))))
+    (operator_declaration
+      (modifiers)
+      (predefined_type)
+      (overloadable_binary_operator)
+      (identifier_name) (identifier_name)
+      (identifier_name) (identifier_name)
+      (statement_block (return_statement (boolean_literal))))
+    (operator_declaration
+      (modifiers)
+      (predefined_type)
+      (overloadable_binary_operator)
+      (identifier_name) (identifier_name)
+      (identifier_name) (identifier_name)
+      (statement_block (return_statement (boolean_literal))))
+    (operator_declaration
+      (modifiers)
+      (predefined_type)
+      (overloadable_binary_operator)
+      (identifier_name) (identifier_name)
+      (identifier_name) (identifier_name)
+      (statement_block (return_statement (boolean_literal))))))
+
+=======================================
+Class binary operator declarations << >>
+=======================================
+
+class A
+{
+  public static int operator <<(A a, int b) { return 0; }
+  public static int operator >>(A a, int b) { return 0; }
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier_name)
+    (operator_declaration
+      (modifiers)
+      (predefined_type)
+      (overloadable_binary_operator)
+      (identifier_name) (identifier_name)
+      (predefined_type) (identifier_name)
+      (statement_block (return_statement (integer_literal))))
+    (operator_declaration
+      (modifiers)
+      (predefined_type)
+      (overloadable_binary_operator)
+      (identifier_name) (identifier_name)
+      (predefined_type) (identifier_name)
+      (statement_block (return_statement (integer_literal))))))
+
+=======================================
+Class implicit conversion operator declaration
+=======================================
+
+class A
+{
+  public static implicit operator int (A a) { return 0; }
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier_name)
+    (operator_declaration
+      (modifiers)
+      (overloadable_conversion_operator)
+      (predefined_type)
+      (identifier_name) (identifier_name)
+      (statement_block (return_statement (integer_literal))))))
+
+=======================================
+Class explicit conversion operator declaration
+=======================================
+
+class A
+{
+  public static explicit operator int (A a) { return 0; }
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier_name)
+    (operator_declaration
+      (modifiers)
+      (overloadable_conversion_operator)
+      (predefined_type)
+      (identifier_name) (identifier_name)
+      (statement_block (return_statement (integer_literal))))))
