@@ -29,6 +29,7 @@ module.exports = grammar({
   ],
 
   conflicts: $ => [
+    [$.overloadable_unary_operator, $.overloadable_binary_operator]
   ],
 
   inline: $ => [
@@ -182,6 +183,7 @@ module.exports = grammar({
           $.property_declaration,
           $.event_declaration,
           $.indexer_declaration,
+          $.operator_declaration,
           $.constructor_declaration,
           $.destructor_declaration,
           $._type_declaration
@@ -276,6 +278,78 @@ module.exports = grammar({
       optional($._attributes),
       'remove',
       $.statement_block
+    ),
+
+    // operator declarations
+
+    operator_declaration: $ => seq(
+      optional($._attributes),
+      optional($.modifiers),
+      $._operator_declarator,
+      choice(
+        $.statement_block,
+        seq('=>', $._expression, ';'),
+        ';'
+      )
+    ),
+
+    _operator_declarator: $ => choice(
+      $._unary_operator_declarator,
+      $._binary_operator_declarator,
+      $._conversion_operator_declarator
+    ),
+
+    _unary_operator_declarator: $ => seq(
+      $._type,
+      'operator',
+      $.overloadable_unary_operator,
+      '(',
+      $._type,
+      $.identifier_name,
+      ')'
+    ),
+
+    overloadable_unary_operator: $ => choice(
+      '+', '-', '!', '~', '++', '--', 'true', 'false'
+    ),
+
+    _binary_operator_declarator: $ => seq(
+      $._type,
+      'operator',
+      $.overloadable_binary_operator,
+      '(',
+      $._type,
+      $.identifier_name,
+      ',',
+      $._type,
+      $.identifier_name,
+      ')'
+    ),
+
+    overloadable_binary_operator: $=> choice(
+      '+', '-',
+      '*', '/',
+      '%', '^',
+      '|', '&',
+      '<<', '>>',
+      '==', '!=',
+      '>', '<',
+      '>=', '<='
+    ),
+
+    _conversion_operator_declarator: $=> seq(
+      $.overloadable_conversion_operator,
+      'operator',
+      $._type,
+      '(',
+      $._type,
+      $.identifier_name,
+      ')'
+    ),
+
+    overloadable_conversion_operator: $ => choice(
+      'implicit',
+      'explicit'
     ),
 
     // interface
@@ -377,6 +451,7 @@ module.exports = grammar({
           $.property_declaration,
           $.event_declaration,
           $.indexer_declaration,
+          $.operator_declaration,
           $.constructor_declaration,
           $._type_declaration
         )
