@@ -285,3 +285,29 @@ class Foo {
       (identifier_name)
       (parameter_list)
       (statement_block))))
+
+=====================================
+Class with constants
+=====================================
+
+class Foo {
+  private const int a = 1;
+  const string b = "hello";
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier_name)
+    (constant_declaration
+      (modifiers)
+      (predefined_type)
+      (identifier_name)
+      (constant_expression
+      (integer_literal)))
+    (constant_declaration
+      (predefined_type)
+      (identifier_name)
+      (constant_expression
+      (string_literal)))))
