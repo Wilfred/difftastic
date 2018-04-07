@@ -212,6 +212,69 @@ class Foo {
       (set_accessor_declaration) (get_accessor_declaration))))
 
 =====================================
+Class with single-accessor property bodies
+=====================================
+
+class Foo {
+  byte Get { get { return 0xFF; } }
+  char Set { set { x = value; } }
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier_name)
+    (property_declaration
+      (predefined_type)
+      (identifier_name)
+      (get_accessor_declaration
+        (statement_block
+          (return_statement (integer_literal)))))
+    (property_declaration
+      (predefined_type)
+      (identifier_name)
+      (set_accessor_declaration
+        (statement_block
+          (variable_assignment_statement (identifier_name)
+            (equals_value_clause (identifier_name))))))))
+
+=====================================
+Class with double-accessor property bodies
+=====================================
+
+class Foo {
+  uint GetSet { get { return x; } set { x = value; } }
+  long SetGet { set { x = value; } get { return x; } }
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier_name)
+    (property_declaration
+      (predefined_type)
+      (identifier_name)
+      (get_accessor_declaration
+        (statement_block
+          (return_statement (identifier_name))))
+      (set_accessor_declaration
+        (statement_block
+          (variable_assignment_statement (identifier_name)
+            (equals_value_clause (identifier_name))))))
+    (property_declaration
+      (predefined_type)
+      (identifier_name)
+      (set_accessor_declaration
+        (statement_block
+          (variable_assignment_statement (identifier_name)
+            (equals_value_clause (identifier_name)))))
+      (get_accessor_declaration
+        (statement_block
+          (return_statement (identifier_name)))))))
+
+=====================================
 Class with single method
 =====================================
 
