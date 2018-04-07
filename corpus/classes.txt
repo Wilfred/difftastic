@@ -269,6 +269,37 @@ class Foo {
       (statement_block))))
 
 =====================================
+Class with static constructor
+=====================================
+
+class Foo {
+  static Foo() {}
+  static extern Foo() {}
+  extern static Foo() {}
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier_name)
+    (constructor_declaration
+      (modifiers)
+      (identifier_name)
+      (parameter_list)
+      (statement_block))
+    (constructor_declaration
+      (modifiers)
+      (identifier_name)
+      (parameter_list)
+      (statement_block))
+    (constructor_declaration
+      (modifiers)
+      (identifier_name)
+      (parameter_list)
+      (statement_block))))
+
+=====================================
 Class with extern destructor
 =====================================
 
