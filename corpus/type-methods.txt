@@ -23,6 +23,30 @@ class A {
         (return_statement (identifier_name))))))
 
 =======================================
+Struct method with single parameter
+=======================================
+
+struct A {
+  private int GetBack(int b) {
+    return b;
+  }
+}
+
+---
+
+(compilation_unit
+  (struct_declaration
+    (identifier_name)
+    (method_declaration
+      (modifiers)
+      (predefined_type)
+      (identifier_name)
+      (parameter_list
+        (parameter (predefined_type) (identifier_name)))
+      (statement_block
+        (return_statement (identifier_name))))))
+
+=======================================
 Class method with multiple parameters
 =======================================
 

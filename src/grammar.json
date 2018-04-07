@@ -1456,6 +1456,25 @@
           ]
         },
         {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "struct_interfaces"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "type_parameter_constraints_clause"
+          }
+        },
+        {
           "type": "STRING",
           "value": "{"
         },
@@ -1466,15 +1485,27 @@
             "members": [
               {
                 "type": "SYMBOL",
-                "name": "_type_declaration"
-              },
-              {
-                "type": "SYMBOL",
                 "name": "field_declaration"
               },
               {
                 "type": "SYMBOL",
+                "name": "method_declaration"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "property_declaration"
+              },
+              {
+                "type": "SYMBOL",
                 "name": "event_declaration"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "constructor_declaration"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "_type_declaration"
               }
             ]
           }
@@ -1492,6 +1523,40 @@
             },
             {
               "type": "BLANK"
+            }
+          ]
+        }
+      ]
+    },
+    "struct_interfaces": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": ":"
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "identifier_name"
+            },
+            {
+              "type": "REPEAT",
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "STRING",
+                    "value": ","
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "identifier_name"
+                  }
+                ]
+              }
             }
           ]
         }

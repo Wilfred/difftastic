@@ -324,14 +324,24 @@ module.exports = grammar({
       'struct',
       $.identifier_name,
       optional($.type_parameter_list),
+      optional($.struct_interfaces),
+      repeat($.type_parameter_constraints_clause),
       '{',
       repeat(choice(
-        $._type_declaration,
         $.field_declaration,
-        $.event_declaration
+        $.method_declaration,
+        $.property_declaration,
+        $.event_declaration,
+        $.constructor_declaration,
+        $._type_declaration
       )),
       '}',
       optional(';')
+    ),
+
+    struct_interfaces: $ => seq(
+      ':',
+      commaSep1($.identifier_name)
     ),
 
     // enum

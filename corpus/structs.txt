@@ -1,82 +1,52 @@
 =====================================
-Global empty class
+Global empty struct
 =====================================
 
-public class F {}
+public struct F {}
 
 ---
 
 (compilation_unit
-  (class_declaration
+  (struct_declaration
     (modifiers)
     (identifier_name)))
 
 =====================================
-Class base is dynamic
+Partial struct
 =====================================
 
-public class F : dynamic { }
+public partial struct F {}
 
 ---
 
 (compilation_unit
-  (class_declaration
-    (modifiers)
-    (identifier_name)
-    (class_base)))
-
-=====================================
-Class base is object with interfaces
-=====================================
-
-public class F : object, IAlpha, IOmega { }
-
----
-
-(compilation_unit
-  (class_declaration
-    (modifiers)
-    (identifier_name)
-    (class_base
-      (identifier_name)
-      (identifier_name))))
-
-=====================================
-Partial class
-=====================================
-
-public partial class F {}
-
----
-
-(compilation_unit
- (class_declaration
+ (struct_declaration
    (modifiers)
    (identifier_name)))
 
 =====================================
-Class with a single type parameter
+Struct with a single type parameter
 =====================================
 
-class F<T> {}
+struct F<T> {}
 
 ---
 
 (compilation_unit
-  (class_declaration
+  (struct_declaration
     (identifier_name)
      (type_parameter_list (type_parameter (identifier_name)))))
 
 =====================================
-Class with multiple type parameters
+Struct with multiple type parameters
 =====================================
 
-internal class F<T1, T2> {}
+internal struct F<T1, T2> {}
 
 ---
 
 (compilation_unit
- (class_declaration
+ (struct_declaration
    (modifiers)
    (identifier_name)
     (type_parameter_list
@@ -84,15 +54,15 @@ internal class F<T1, T2> {}
       (type_parameter (identifier_name)))))
 
 =====================================
-Class with a type parameter struct constraint
+Struct with a type parameter struct constraint
 =====================================
 
-public class F<T> where T:struct {}
+public struct F<T> where T:struct {}
 
 ---
 
 (compilation_unit
-  (class_declaration
+  (struct_declaration
     (modifiers)
     (identifier_name)
      (type_parameter_list (type_parameter (identifier_name)))
@@ -100,15 +70,15 @@ public class F<T> where T:struct {}
       (identifier_name) (type_parameter_constraints))))
 
 =====================================
-Class with a type parameter class constraint
+Struct with a type parameter class constraint
 =====================================
 
-public class F<T> where T:class {}
+public struct F<T> where T:class {}
 
 ---
 
 (compilation_unit
-  (class_declaration
+  (struct_declaration
     (modifiers)
     (identifier_name)
      (type_parameter_list (type_parameter (identifier_name)))
@@ -116,15 +86,15 @@ public class F<T> where T:class {}
       (identifier_name) (type_parameter_constraints))))
 
 =====================================
-Class with type parameter new constraint
+Struct with type parameter new constraint
 =====================================
 
-public class F<T> where T: new() {}
+public struct F<T> where T: new() {}
 
 ---
 
 (compilation_unit
-  (class_declaration
+  (struct_declaration
     (modifiers)
     (identifier_name)
      (type_parameter_list (type_parameter (identifier_name)))
@@ -133,15 +103,15 @@ public class F<T> where T: new() {}
        (type_parameter_constraints (constructor_constraint)))))
 
 =====================================
-Class with type parameter identifier constraint
+Struct with type parameter identifier constraint
 =====================================
 
-public class F<T> where T: I {}
+public struct F<T> where T: I {}
 
 ---
 
 (compilation_unit
-  (class_declaration
+  (struct_declaration
     (modifiers)
     (identifier_name)
      (type_parameter_list (type_parameter (identifier_name)))
@@ -150,15 +120,15 @@ public class F<T> where T: I {}
        (type_parameter_constraints (identifier_name)))))
 
 =====================================
-Class with type parameter identifier and new constraints
+Struct with type parameter identifier and new constraints
 =====================================
 
-public class F<T> where T: I, new() {}
+public struct F<T> where T: I, new() {}
 
 ---
 
 (compilation_unit
-  (class_declaration
+  (struct_declaration
     (modifiers)
     (identifier_name)
      (type_parameter_list (type_parameter (identifier_name)))
@@ -169,15 +139,15 @@ public class F<T> where T: I, new() {}
         (constructor_constraint)))))
 
 =====================================
-Class with multiple type parameter constraints
+Struct with multiple type parameter constraints
 =====================================
 
-private class F<T1,T2> where T1 : I1, I2, new() where T2 : I2 { }
+private struct F<T1,T2> where T1 : I1, I2, new() where T2 : I2 { }
 
 ---
 
 (compilation_unit
-  (class_declaration
+  (struct_declaration
     (modifiers)
     (identifier_name)
      (type_parameter_list
@@ -194,17 +164,17 @@ private class F<T1,T2> where T1 : I1, I2, new() where T2 : I2 { }
      (type_parameter_constraints (identifier_name)))))
 
 =====================================
-Class with public constructor
+Struct with public constructor
 =====================================
 
-class Foo {
+struct Foo {
   public Foo() {}
 }
 
 ---
 
 (compilation_unit
-  (class_declaration
+  (struct_declaration
     (identifier_name)
     (constructor_declaration
       (modifiers)
@@ -213,17 +183,17 @@ class Foo {
       (statement_block))))
 
 =====================================
-Class with private constructor
+Struct with private constructor
 =====================================
 
-class Foo {
+struct Foo {
   private Foo() {}
 }
 
 ---
 
 (compilation_unit
-  (class_declaration
+  (struct_declaration
     (identifier_name)
     (constructor_declaration
       (modifiers)
@@ -232,56 +202,19 @@ class Foo {
       (statement_block))))
 
 =====================================
-Class with protected constructor
+Struct with default constructor
 =====================================
 
-class Foo {
-  protected Foo() {}
-}
-
----
-
-(compilation_unit
-  (class_declaration
-    (identifier_name)
-    (constructor_declaration
-      (modifiers)
-      (identifier_name)
-      (parameter_list)
-      (statement_block))))
-
-=====================================
-Class with default constructor
-=====================================
-
-class Foo {
+struct Foo {
   Foo() {}
 }
 
 ---
 
 (compilation_unit
-  (class_declaration
+  (struct_declaration
     (identifier_name)
     (constructor_declaration
-      (identifier_name)
-      (parameter_list)
-      (statement_block))))
-
-=====================================
-Class with extern destructor
-=====================================
-
-class Foo {
-  extern ~Foo() {}
-}
-
----
-
-(compilation_unit
-  (class_declaration
-    (identifier_name)
-    (destructor_declaration
       (identifier_name)
       (parameter_list)
       (statement_block))))
