@@ -199,3 +199,22 @@ interface A {
       (generic_name (identifier_name)
         (type_parameter_list (type_parameter (identifier_name))))
       (identifier_name))))
+
+=====================================
+Interface with indexer
+=====================================
+
+interface A {
+  bool this[int index] { get; set; }
+}
+
+---
+
+(compilation_unit
+  (interface_declaration
+    (identifier_name)
+    (interface_indexer_declaration
+      (predefined_type)
+      (parameter (predefined_type) (identifier_name))
+      (interface_accessor)
+      (interface_accessor))))
