@@ -112,7 +112,7 @@ Struct unary operator declaration
 
 struct A {
   [SomeAttribute]
-  public int operator + (A a) { }
+  public static int operator + (A a) { }
 }
 
 ---
@@ -368,3 +368,74 @@ class A
       (predefined_type)
       (identifier_name) (identifier_name)
       (statement_block (return_statement (integer_literal))))))
+
+=======================================
+Class extern bodyless conversion operators
+=======================================
+
+class A
+{
+  public static extern int operator + (A a);
+  public static extern bool operator <(A a, A b);
+  public static explicit operator int (A a);
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier_name)
+    (operator_declaration
+      (modifiers)
+      (predefined_type)
+      (overloadable_unary_operator)
+      (identifier_name)
+      (identifier_name))
+    (operator_declaration
+      (modifiers)
+      (predefined_type)
+      (overloadable_binary_operator)
+      (identifier_name) (identifier_name)
+      (identifier_name) (identifier_name))
+    (operator_declaration
+      (modifiers)
+      (overloadable_conversion_operator)
+      (predefined_type)
+      (identifier_name) (identifier_name))))
+
+=======================================
+Class conversion operators with lambdas
+=======================================
+
+class A
+{
+  public static extern int operator + (A a) => 0;
+  public static extern bool operator <(A a, A b) => true;
+  public static explicit operator int (A a) => 0;
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier_name)
+    (operator_declaration
+      (modifiers)
+      (predefined_type)
+      (overloadable_unary_operator)
+      (identifier_name)
+      (identifier_name)
+      (integer_literal))
+    (operator_declaration
+      (modifiers)
+      (predefined_type)
+      (overloadable_binary_operator)
+      (identifier_name) (identifier_name)
+      (identifier_name) (identifier_name)
+      (boolean_literal))
+    (operator_declaration
+      (modifiers)
+      (overloadable_conversion_operator)
+      (predefined_type)
+      (identifier_name) (identifier_name)
+      (integer_literal))))
