@@ -414,6 +414,31 @@ data Foo a b c where
               (type (type_variable_identifier))
               (type (type_constructor_identifier) (type_variable_identifier) (type_variable_identifier) (type_variable_identifier)))))))))
 
+=========================================
+GADT Declarations With Fields
+=========================================
+
+data Foo f a where
+  Bar :: { jolo :: Maybe String, runJolo :: f a } -> Foo f a
+
+---
+
+(module
+  (gadt_declaration
+    (type_constructor_identifier)
+    (type_variable_identifier)
+    (type_variable_identifier)
+    (where
+      (gadt_constructor
+        (type_constructor_identifier)
+        (annotation)
+        (function_type
+          (type
+            (fields
+              (field (variable_identifier) (annotation) (type_constructor_identifier) (type_constructor_identifier))
+              (field (variable_identifier) (annotation) (type_variable_identifier) (type_variable_identifier))))
+          (type (type_constructor_identifier) (type_variable_identifier) (type_variable_identifier)))))))
+
 ========================================
 Default declarations
 =========================================

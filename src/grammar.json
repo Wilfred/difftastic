@@ -1373,7 +1373,7 @@
         },
         {
           "type": "PREC_DYNAMIC",
-          "value": -1,
+          "value": 3,
           "content": {
             "type": "SEQ",
             "members": [
@@ -4486,6 +4486,10 @@
         {
           "type": "SYMBOL",
           "name": "parenthesized_constructor"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "fields"
         }
       ]
     },
@@ -5579,17 +5583,21 @@
       }
     },
     "record_data_constructor": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "_qualified_constructor"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "fields"
-        }
-      ]
+      "type": "PREC",
+      "value": 1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_qualified_constructor"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "fields"
+          }
+        ]
+      }
     },
     "deriving": {
       "type": "SEQ",
@@ -5747,35 +5755,39 @@
       }
     },
     "new_constructor": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "_qualified_constructor"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "_atype"
-            }
-          ]
-        },
-        {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "_qualified_constructor"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "fields"
-            }
-          ]
-        }
-      ]
+      "type": "PREC",
+      "value": 1,
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "_qualified_constructor"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "_atype"
+              }
+            ]
+          },
+          {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "_qualified_constructor"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "fields"
+              }
+            ]
+          }
+        ]
+      }
     },
     "field": {
       "type": "PREC_LEFT",
