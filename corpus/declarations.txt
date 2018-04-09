@@ -333,6 +333,22 @@ data (Eq (f a), Functor f) => N f a = N f a
         (constructor_identifier) (type_variable_identifier) (type_variable_identifier)))))
 
 =========================================
+Algebraic Datatype Declarations With Primitive Constructors
+=========================================
+
+data Foo = Foo !Double#
+
+---
+
+(module
+  (algebraic_datatype_declaration
+    (type_constructor_identifier)
+    (constructors
+      (data_constructor
+        (constructor_identifier)
+        (strict_type (primitive_constructor_identifier))))))
+
+=========================================
 Default declarations
 =========================================
 
