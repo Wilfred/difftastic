@@ -139,7 +139,8 @@ module.exports = grammar({
 
     [$.constructor_pattern, $._a_pattern],
     [$.labeled_pattern, $.labeled_construction],
-    [$.function_guard_pattern]
+    [$.function_guard_pattern],
+    [$._atype, $._qualified_constructor_identifier]
   ],
 
   rules: {
@@ -1088,6 +1089,7 @@ module.exports = grammar({
     )),
 
     _atype: $ => choice(
+      prec.dynamic(1, $.primitive_constructor_identifier),
       $._general_type_constructor,
       $.type_variable_identifier,
       $.tuple_type,
@@ -1389,7 +1391,8 @@ module.exports = grammar({
 
     _qualified_constructor_identifier: $ => choice(
       $.qualified_constructor_identifier,
-      alias($._constructor_identifier, $.constructor_identifier)
+      alias($._constructor_identifier, $.constructor_identifier),
+      $.primitive_constructor_identifier
     ),
 
     qualified_constructor_identifier: $ => seq(
@@ -1440,6 +1443,8 @@ module.exports = grammar({
     _variable_identifier: $ => /[_a-z](\w|')*/,
 
     _constructor_identifier: $ => /[A-Z](\w|')*/,
+
+    primitive_constructor_identifier: $ => /[A-Z]\w*#/,
 
     module_identifier: $ => /[A-Z](\w|')*/,
 
