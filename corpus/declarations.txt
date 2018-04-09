@@ -211,7 +211,7 @@ Algebraic Datatype Declarations With Fields
 data N = N { a :: Int }
 data N = N { a, b :: Int }
 data N = N { a :: !Int, b :: Int }
-data N = N { a, b :: !Int, c :: String }
+data N = N { a, b :: {-#  UNPACK #-} !Int, c :: String }
 
 ---
 
@@ -242,7 +242,7 @@ data N = N { a, b :: !Int, c :: String }
       (record_data_constructor
         (constructor_identifier)
         (fields
-          (field (variable_identifier) (variable_identifier) (annotation) (strict_type (type_constructor_identifier)))
+          (field (variable_identifier) (variable_identifier) (annotation) (unpack_pragma) (strict_type (type_constructor_identifier)))
           (field (variable_identifier) (annotation) (type_constructor_identifier)))))))
 
 =========================================
