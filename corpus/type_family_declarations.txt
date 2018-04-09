@@ -26,19 +26,21 @@ type family Foo bar where
           (promoted
             (type_constructor_identifier))))
       (function_declaration
-        (qualified_constructor_identifier
-          (module_identifier)
-          (constructor_identifier))
-          (variable_identifier)
-          (function_body
-            (promoted
-              (type_constructor_identifier))))
+        (constructor_pattern
+          (qualified_constructor_identifier
+            (module_identifier)
+            (constructor_identifier))
+            (variable_identifier))
+        (function_body
+          (promoted
+            (type_constructor_identifier))))
       (function_declaration
-        (qualified_constructor_identifier
-          (module_identifier)
-          (constructor_identifier))
-        (parenthesized_pattern
-          (constructor_pattern
-            (constructor_identifier)
-            (variable_identifier)))
+        (constructor_pattern
+          (qualified_constructor_identifier
+            (module_identifier)
+            (constructor_identifier))
+          (parenthesized_pattern
+            (constructor_pattern
+              (constructor_identifier)
+              (variable_identifier))))
         (function_body (promoted (type_constructor_identifier)))))))

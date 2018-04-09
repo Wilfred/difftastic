@@ -139,7 +139,8 @@ module.exports = grammar({
     [$._funlhs, $.constructor_pattern],
 
     [$.constructor_pattern, $._a_pattern],
-    [$.labeled_pattern, $.labeled_construction]
+    [$.labeled_pattern, $.labeled_construction],
+    [$.function_guard_pattern]
   ],
 
   rules: {
@@ -400,9 +401,8 @@ module.exports = grammar({
     ),
 
     _funlhs: $ => choice(
-      seq($._variable, repeat($._a_pattern)),
-      seq($._general_constructor, repeat($._a_pattern)),
-      seq($._pattern, $._op, $._pattern),
+      repeat1($._a_pattern),
+      prec.dynamic(-1, seq($._pattern, $._op, $._pattern)),
       prec.dynamic(-1, seq($._funlhs, $._a_pattern, repeat($._a_pattern)))
     ),
 
@@ -417,7 +417,13 @@ module.exports = grammar({
       $.wildcard,
       $.parenthesized_pattern,
       $.list_pattern,
-      $.irrefutable_pattern
+      $.irrefutable_pattern,
+      alias($._strict_a_pattern, $.strict_pattern)
+    ),
+
+    _strict_a_pattern: $ => seq(
+      '!',
+      $._a_pattern
     ),
 
     as_pattern: $ => prec.right(1, seq(
