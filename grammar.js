@@ -140,7 +140,9 @@ module.exports = grammar({
     [$.constructor_pattern, $._a_pattern],
     [$.labeled_pattern, $.labeled_construction],
     [$.function_guard_pattern],
-    [$._atype, $._qualified_constructor_identifier]
+    [$._atype, $._qualified_constructor_identifier],
+
+    [$.gadt_declaration, $._simple_type]
   ],
 
   rules: {
@@ -355,6 +357,7 @@ module.exports = grammar({
       $.qualified_import_declaration,
       $.type_synonym_declaration,
       $.type_family_declaration,
+      $.gadt_declaration,
       $.algebraic_datatype_declaration,
       $.newtype_declaration,
       $.type_class_declaration,
@@ -407,7 +410,7 @@ module.exports = grammar({
 
     _funlhs: $ => choice(
       repeat1($._a_pattern),
-      prec.dynamic(-1, seq($._pattern, $._op, $._pattern)),
+      prec.dynamic(3, seq($._pattern, $._op, $._pattern)),
       prec.dynamic(-1, seq($._funlhs, $._a_pattern, repeat($._a_pattern)))
     ),
 
@@ -1176,6 +1179,37 @@ module.exports = grammar({
         )
       )
     )),
+
+    gadt_declaration: $ => prec.right(seq(
+      'data',
+      optional($.context),
+      $._simple_type,
+      alias($._gadt_where, $.where)
+    )),
+
+    _gadt_where: $ => seq(
+      'where',
+      choice(
+        seq(
+          '{',
+          repeat(seq($.gadt_constructor, optional($._terminal))),
+          '}'
+        ),
+        seq(
+          $._layout_open_brace,
+          repeat(seq($.gadt_constructor, choice($._terminal, $._layout_semicolon))),
+          $._layout_close_brace
+        )
+      )
+    ),
+
+    gadt_constructor: $ => seq(
+      $._simple_type,
+      alias('::', $.annotation),
+      optional($.scoped_type_variables),
+      repeat($.context),
+      $._type_pattern
+    ),
 
     _simple_type: $ => prec.left(seq(
       $._qualified_type_constructor_identifier,

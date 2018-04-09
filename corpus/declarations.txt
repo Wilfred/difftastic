@@ -377,6 +377,44 @@ data Foo = Foo !Double#
         (strict_type (primitive_constructor_identifier))))))
 
 =========================================
+GADT Declarations
+=========================================
+
+data Foo a b c where
+  Baz :: a -> b -> c -> Foo a b c
+  Bar :: a -> b -> c -> Foo a b c
+
+---
+
+(module
+  (gadt_declaration
+    (type_constructor_identifier)
+    (type_variable_identifier)
+    (type_variable_identifier)
+    (type_variable_identifier)
+    (where
+      (gadt_constructor
+        (type_constructor_identifier)
+        (annotation)
+        (function_type
+          (type (type_variable_identifier))
+          (function_type
+            (type (type_variable_identifier))
+            (function_type
+              (type (type_variable_identifier))
+              (type (type_constructor_identifier) (type_variable_identifier) (type_variable_identifier) (type_variable_identifier))))))
+      (gadt_constructor
+        (type_constructor_identifier)
+        (annotation)
+        (function_type
+          (type (type_variable_identifier))
+          (function_type
+            (type (type_variable_identifier))
+            (function_type
+              (type (type_variable_identifier))
+              (type (type_constructor_identifier) (type_variable_identifier) (type_variable_identifier) (type_variable_identifier)))))))))
+
+========================================
 Default declarations
 =========================================
 
