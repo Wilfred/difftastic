@@ -1321,6 +1321,7 @@ module.exports = grammar({
     field: $ => prec.left(seq(
       sep1(',', $._variable),
       alias('::', $.annotation),
+      optional($._pragma),
       choice(
         $.strict_type,
         $._type_pattern

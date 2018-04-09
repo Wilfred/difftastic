@@ -5632,6 +5632,18 @@
             "members": [
               {
                 "type": "SYMBOL",
+                "name": "_pragma"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
                 "name": "strict_type"
               },
               {
