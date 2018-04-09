@@ -336,19 +336,18 @@ module.exports = grammar({
       $.default_signature
     ),
 
-    bidirectional_pattern_synonym: $ => prec.left(seq(
+    bidirectional_pattern_synonym: $ => seq(
       'pattern',
       $.constructor_pattern,
-      '=',
       $.function_body
-    )),
+    ),
 
-    unidirectional_pattern_synonym: $ => prec.left(seq(
+    unidirectional_pattern_synonym: $ => seq(
       'pattern',
       $.constructor_pattern,
       '<-',
-      $.function_body
-    )),
+      alias($._function_body, $.function_body)
+    ),
 
     _top_declaration: $ => choice(
       $.import_declaration,
@@ -397,10 +396,7 @@ module.exports = grammar({
 
     function_declaration: $ => seq(
       $._funlhs,
-      choice(
-        repeat1($.function_guard_pattern),
-        seq('=', $.function_body)
-      )
+      $.function_body
     ),
 
     _funlhs: $ => choice(
@@ -655,13 +651,18 @@ module.exports = grammar({
 
     function_body: $ => choice(
       seq(
-        $._expression,
-        optional($.where)
+        '=',
+        $._function_body,
       ),
       seq(
-        $.function_guard_pattern,
+        repeat1($.function_guard_pattern),
         optional($.where)
       )
+    ),
+
+    _function_body: $ => seq(
+      $._expression,
+      optional($.where)
     ),
 
     _top_where: $ => seq(

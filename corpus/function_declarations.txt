@@ -620,15 +620,16 @@ f x | x < 10, x > 2 = True
   (function_declaration
     (variable_identifier)
     (variable_identifier)
-    (function_guard_pattern
-      (guard
-        (infix_operator_application (variable_identifier) (variable_operator (variable_symbol)) (integer)))
-      (guard
-        (infix_operator_application (variable_identifier) (variable_operator (variable_symbol)) (integer)))
-      (constructor_identifier))
-    (function_guard_pattern
-      (guard (variable_identifier))
-      (constructor_identifier))))
+    (function_body
+      (function_guard_pattern
+        (guard
+          (infix_operator_application (variable_identifier) (variable_operator (variable_symbol)) (integer)))
+        (guard
+          (infix_operator_application (variable_identifier) (variable_operator (variable_symbol)) (integer)))
+        (constructor_identifier))
+      (function_guard_pattern
+        (guard (variable_identifier))
+        (constructor_identifier)))))
 
 =================================================
 Function Declarations With Do
