@@ -136,7 +136,6 @@ module.exports = grammar({
     [$.list_instance, $._atype],
     [$._a_pattern, $.context],
 
-    [$._funlhs, $.constructor_pattern],
 
     [$.constructor_pattern, $._a_pattern],
     [$.labeled_pattern, $.labeled_construction],
