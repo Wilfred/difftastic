@@ -142,7 +142,7 @@ module.exports = grammar({
     [$.function_guard_pattern],
     [$._atype, $._qualified_constructor_identifier],
 
-    [$.gadt_declaration, $._simple_type]
+    [$.gadt_declaration, $._simple_type],
   ],
 
   rules: {
@@ -1102,7 +1102,8 @@ module.exports = grammar({
       $.type_variable_identifier,
       $.tuple_type,
       $.list_type,
-      $.parenthesized_constructor
+      $.parenthesized_constructor,
+      $.fields
     ),
 
     infix_type_operator_application: $ => prec.right(seq(
@@ -1331,7 +1332,7 @@ module.exports = grammar({
       repeat1($._atype)
     )),
 
-    record_data_constructor: $ => seq($._qualified_constructor, $.fields),
+    record_data_constructor: $ => prec(1, seq($._qualified_constructor, $.fields)),
 
     deriving: $ => seq(
       'deriving',
@@ -1354,7 +1355,7 @@ module.exports = grammar({
       optional($.deriving)
     )),
 
-    new_constructor: $ => choice(
+    new_constructor: $ => prec(1, choice(
       seq(
         $._qualified_constructor,
         $._atype
@@ -1363,7 +1364,7 @@ module.exports = grammar({
         $._qualified_constructor,
         $.fields
       )
-    ),
+    )),
 
     field: $ => prec.left(seq(
       sep1(',', $._variable),

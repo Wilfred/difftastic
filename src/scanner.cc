@@ -144,9 +144,9 @@ struct Scanner {
         advance(lexer);
         if (iswspace(lexer->lookahead)) {
           if (valid_symbols[LAYOUT_CLOSE_BRACE]) {
-            // if (indent_length_stack.size() > 1) {
+            if (indent_length_stack.size() > 1) {
               indent_length_stack.pop_back();
-            // }
+            }
             lexer->result_symbol = LAYOUT_CLOSE_BRACE;
             return true;
           } else {
