@@ -383,9 +383,14 @@ module.exports = grammar({
     type_synonym_declaration: $ => seq(
       'type',
       $._simple_type,
+      $.type_synonym_body
+    ),
+
+    type_synonym_body: $ => seq(
       '=',
       optional($.scontext),
-      alias($._type_pattern, $.type)
+      optional($.scoped_type_variables),
+      alias($._type_pattern, $.type_pattern)
     ),
 
     type_family_declaration: $ => seq(
