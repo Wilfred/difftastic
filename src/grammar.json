@@ -1276,6 +1276,15 @@
           "name": "_simple_type"
         },
         {
+          "type": "SYMBOL",
+          "name": "type_synonym_body"
+        }
+      ]
+    },
+    "type_synonym_body": {
+      "type": "SEQ",
+      "members": [
+        {
           "type": "STRING",
           "value": "="
         },
@@ -1292,13 +1301,25 @@
           ]
         },
         {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "scoped_type_variables"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
           "type": "ALIAS",
           "content": {
             "type": "SYMBOL",
             "name": "_type_pattern"
           },
           "named": true,
-          "value": "type"
+          "value": "type_pattern"
         }
       ]
     },

@@ -16,28 +16,36 @@ type Z = (->)
 (module
   (type_synonym_declaration
     (type_constructor_identifier)
-    (type (type_constructor_identifier)))
+    (type_synonym_body
+      (type_pattern (type_constructor_identifier))))
   (type_synonym_declaration
     (type_constructor_identifier)
-    (type (list_constructor)))
+    (type_synonym_body
+      (type_pattern (list_constructor))))
   (type_synonym_declaration
     (type_constructor_identifier) (type_variable_identifier)
-    (type (type_constructor_identifier) (type_variable_identifier)))
+    (type_synonym_body
+      (type_pattern (type_constructor_identifier) (type_variable_identifier))))
   (type_synonym_declaration
     (type_constructor_identifier) (type_variable_identifier)
-    (type (list_type (type_constructor_identifier) (type_variable_identifier))))
+    (type_synonym_body
+      (type_pattern (list_type (type_constructor_identifier) (type_variable_identifier)))))
   (type_synonym_declaration
     (type_constructor_identifier)
-    (type (unit_constructor)))
+    (type_synonym_body
+      (type_pattern (unit_constructor))))
   (type_synonym_declaration
     (type_constructor_identifier)
-    (type (tupling_constructor)))
+    (type_synonym_body
+      (type_pattern (tupling_constructor))))
   (type_synonym_declaration
     (type_constructor_identifier)
-    (type (tupling_constructor)))
+    (type_synonym_body
+      (type_pattern (tupling_constructor))))
   (type_synonym_declaration
     (type_constructor_identifier)
-    (type (function_constructor))))
+    (type_synonym_body
+      (type_pattern (function_constructor)))))
 
 =========================================
 Type Synonym Declarations With Promoted Constructors
@@ -51,30 +59,32 @@ type Foo bar baz wix = '[ W, A (B c) ]
 (module
   (type_synonym_declaration
     (type_constructor_identifier)
-      (type
-        (infix_type_operator_application
-          (type (type_constructor_identifier))
-          (type_operator)
+    (type_synonym_body
+        (type_pattern
           (infix_type_operator_application
-            (type (type_constructor_identifier) (type_constructor_identifier))
+            (type (type_constructor_identifier))
             (type_operator)
             (infix_type_operator_application
-              (type (type_constructor_identifier) (parenthesized_constructor (type_constructor_identifier) (type_constructor_identifier)))
+              (type (type_constructor_identifier) (type_constructor_identifier))
               (type_operator)
-              (promoted (list_constructor)))))))
+              (infix_type_operator_application
+                (type (type_constructor_identifier) (parenthesized_constructor (type_constructor_identifier) (type_constructor_identifier)))
+                (type_operator)
+                (promoted (list_constructor))))))))
   (type_synonym_declaration
     (type_constructor_identifier)
     (type_variable_identifier)
     (type_variable_identifier)
     (type_variable_identifier)
-    (type
-      (promoted
-        (list_type
-          (type_constructor_identifier)
-          (type_constructor_identifier)
-          (parenthesized_constructor
+    (type_synonym_body
+      (type_pattern
+        (promoted
+          (list_type
             (type_constructor_identifier)
-            (type_variable_identifier)))))))
+            (type_constructor_identifier)
+            (parenthesized_constructor
+              (type_constructor_identifier)
+              (type_variable_identifier))))))))
 
 =========================================
 Type Synonym Declarations With Context
@@ -87,10 +97,28 @@ type Foo = HasCallStack => Bar []
 (module
   (type_synonym_declaration
     (type_constructor_identifier)
-    (scontext (simple_class (type_class_identifier)))
-    (type
-      (type_constructor_identifier)
-      (list_constructor))))
+    (type_synonym_body
+      (scontext (simple_class (type_class_identifier)))
+      (type_pattern
+        (type_constructor_identifier)
+        (list_constructor)))))
+
+=========================================
+Type Synonym Declarations With Scoped Type Variables
+=========================================
+
+type Foo a b = forall a b. FooF a b
+
+---
+
+(module
+  (type_synonym_declaration
+    (type_constructor_identifier)
+    (type_variable_identifier)
+    (type_variable_identifier)
+    (type_synonym_body
+      (scoped_type_variables (variable_identifier) (variable_identifier))
+      (type_pattern (type_constructor_identifier) (type_variable_identifier) (type_variable_identifier)))))
 
 =========================================
 New Type Declarations
