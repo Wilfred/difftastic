@@ -35,7 +35,6 @@ module.exports = grammar({
     $.formal_parameters,
     $._numeric_type,
     $._block_statement,
-    $._method_name,
     $._ambiguous_name,
     $._class_or_interface_type,
     $._primitive_type,
@@ -766,11 +765,12 @@ module.exports = grammar({
 
     _ambiguous_name: $ => prec(PREC.REL + 1, choice(
       $.identifier,
+      $._reserved_identifier,
       $.scoped_identifier
     )),
 
     scoped_identifier: $ => seq(
-      choice($.identifier, $.scoped_identifier),
+      choice($.identifier, $._reserved_identifier, $.scoped_identifier),
       '.',
       $.identifier
     ),
@@ -855,7 +855,8 @@ module.exports = grammar({
     ),
 
     method_invocation: $ => choice(
-      seq($._method_name, $._parenthesized_argument_list),
+      seq($.identifier, $._parenthesized_argument_list),
+      seq($._reserved_identifier, $._parenthesized_argument_list),
       seq($._ambiguous_name, '.', optional($._type_arguments), $.identifier, $._parenthesized_argument_list),
       seq($._ambiguous_name, '.', optional($._type_arguments), $.identifier, $._parenthesized_argument_list),
       seq($._primary, '.', optional($._type_arguments), $.identifier, $._parenthesized_argument_list),
@@ -960,7 +961,7 @@ module.exports = grammar({
     ),
 
     variable_declarator_id: $ => seq(
-      $.identifier,
+      choice($.identifier, $._reserved_identifier),
       optional($.dims)
     ),
 
@@ -1035,7 +1036,7 @@ module.exports = grammar({
     ),
 
     method_declarator: $ => seq(
-      $.identifier,
+      choice($.identifier, $._reserved_identifier),
       $.formal_parameters,
       optional($.dims)
     ),
@@ -1118,8 +1119,10 @@ module.exports = grammar({
       $.method_body
     ),
 
-    // TODO: Is this necessary? Why is method name not used by method declaration stuff?
-    _method_name: $ => $.identifier,
+    _reserved_identifier: $ => alias(choice(
+      'open',
+      'module'
+    ), $.identifier),
 
     identifier: $ => /[a-zA-Z_]\w*/,
 

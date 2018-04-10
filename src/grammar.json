@@ -4822,6 +4822,10 @@
           },
           {
             "type": "SYMBOL",
+            "name": "_reserved_identifier"
+          },
+          {
+            "type": "SYMBOL",
             "name": "scoped_identifier"
           }
         ]
@@ -4836,6 +4840,10 @@
             {
               "type": "SYMBOL",
               "name": "identifier"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_reserved_identifier"
             },
             {
               "type": "SYMBOL",
@@ -5448,7 +5456,20 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "_method_name"
+              "name": "identifier"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_parenthesized_argument_list"
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_reserved_identifier"
             },
             {
               "type": "SYMBOL",
@@ -6068,8 +6089,17 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "identifier"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "identifier"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_reserved_identifier"
+            }
+          ]
         },
         {
           "type": "CHOICE",
@@ -6410,8 +6440,17 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "identifier"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "identifier"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_reserved_identifier"
+            }
+          ]
         },
         {
           "type": "SYMBOL",
@@ -6764,9 +6803,23 @@
         }
       ]
     },
-    "_method_name": {
-      "type": "SYMBOL",
-      "name": "identifier"
+    "_reserved_identifier": {
+      "type": "ALIAS",
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "open"
+          },
+          {
+            "type": "STRING",
+            "value": "module"
+          }
+        ]
+      },
+      "named": true,
+      "value": "identifier"
     },
     "identifier": {
       "type": "PATTERN",
@@ -6891,7 +6944,6 @@
     "formal_parameters",
     "_numeric_type",
     "_block_statement",
-    "_method_name",
     "_ambiguous_name",
     "_class_or_interface_type",
     "_primitive_type",
