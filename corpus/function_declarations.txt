@@ -529,6 +529,20 @@ f x = case x of
   Just _ -> x where x = True
   Nothing -> False
 
+f a = case a of
+  Just a -> g
+    where g = h
+          h = 1
+  Nothing -> i
+    where i = j
+          j = 2
+
+f a = case a of
+  Just a -> g
+  Nothing -> i
+  where g = 1
+        i = 2
+
 ---
 
 (module
@@ -605,7 +619,37 @@ f x = case x of
           (variable_identifier) (where (function_declaration (variable_identifier) (function_body (constructor_identifier)))))
         (alternative
           (constructor_identifier)
-          (constructor_identifier))))))
+          (constructor_identifier)))))
+  (function_declaration
+    (variable_identifier)
+    (variable_identifier)
+    (function_body
+      (case_expression
+        (variable_identifier)
+        (alternative
+          (constructor_pattern (constructor_identifier) (variable_identifier))
+          (variable_identifier)
+          (where
+            (function_declaration (variable_identifier) (function_body (variable_identifier)))
+            (function_declaration (variable_identifier) (function_body (integer)))))
+        (alternative
+          (constructor_identifier) (variable_identifier)
+          (where
+            (function_declaration (variable_identifier) (function_body (variable_identifier)))
+            (function_declaration (variable_identifier) (function_body (integer))))))))
+  (function_declaration
+    (variable_identifier)
+    (variable_identifier)
+    (function_body
+      (case_expression
+        (variable_identifier)
+        (alternative
+          (constructor_pattern (constructor_identifier) (variable_identifier)) (variable_identifier))
+        (alternative
+          (constructor_identifier) (variable_identifier))
+        (where
+          (function_declaration (variable_identifier) (function_body (integer)))
+          (function_declaration (variable_identifier) (function_body (integer))))))))
 
 =================================================
 Function Declarations With Guards
