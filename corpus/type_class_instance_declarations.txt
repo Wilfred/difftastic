@@ -7,6 +7,8 @@ instance Show (Maybe a) where {}
 instance Show (a, b, c) where {}
 instance Show [a] where {}
 instance Show (a -> b) where {}
+instance Show Foo where
+  bar (Foo Baz) (Foo Wix) = EQ
 
 ---
 
@@ -25,7 +27,18 @@ instance Show (a -> b) where {}
     (instance (list_instance (type_variable_identifier))) (where))
   (type_class_instance_declaration
     (type_class_identifier)
-    (instance (function_type_instance (type_variable_identifier) (type_variable_identifier))) (where)))
+    (instance (function_type_instance (type_variable_identifier) (type_variable_identifier))) (where))
+  (type_class_instance_declaration
+    (type_class_identifier)
+    (instance (type_constructor_identifier))
+    (where
+      (function_declaration
+        (variable_identifier)
+        (parenthesized_pattern
+          (constructor_pattern (constructor_identifier) (constructor_identifier)))
+        (parenthesized_pattern
+          (constructor_pattern (constructor_identifier) (constructor_identifier)))
+        (function_body (constructor_identifier))))))
 
 =========================================
 Type Class Instance Declarations With Context
