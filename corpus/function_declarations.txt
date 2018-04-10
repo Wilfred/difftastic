@@ -543,6 +543,12 @@ f a = case a of
   where g = 1
         i = 2
 
+f = (
+    \ a ->
+      case a of
+        A -> b
+        )
+
 ---
 
 (module
@@ -649,7 +655,20 @@ f a = case a of
           (constructor_identifier) (variable_identifier))
         (where
           (function_declaration (variable_identifier) (function_body (integer)))
-          (function_declaration (variable_identifier) (function_body (integer))))))))
+          (function_declaration (variable_identifier) (function_body (integer)))))))
+  (function_declaration
+    (variable_identifier)
+    (function_body
+      (parenthesized_expression
+        (lambda
+          (lambda_head
+            (variable_identifier))
+          (lambda_body
+            (case_expression
+              (variable_identifier)
+              (alternative
+                (constructor_identifier)
+                (variable_identifier)))))))))
 
 =================================================
 Function Declarations With Guards

@@ -222,6 +222,25 @@ struct Scanner {
     }
 
     if (!next_token_is_comment) {
+      if (lexer->lookahead == ')') {
+        if (valid_symbols[LAYOUT_SEMICOLON]) {
+          if (indent_length_stack.size() > 1) {
+            indent_length_stack.pop_back();
+          }
+          queued_close_brace_count++;
+          lexer->result_symbol = LAYOUT_SEMICOLON;
+          return true;
+        }
+
+        if (valid_symbols[LAYOUT_CLOSE_BRACE]) {
+          if (indent_length_stack.size() > 1) {
+            indent_length_stack.pop_back();
+          }
+          lexer->result_symbol = LAYOUT_CLOSE_BRACE;
+          return true;
+        }
+      }
+
       if (isolated_sequence(lexer, "in")) {
         if (valid_symbols[LAYOUT_CLOSE_BRACE]) {
           if (indent_length_stack.size() > 1) {
