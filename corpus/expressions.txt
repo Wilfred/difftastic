@@ -498,12 +498,27 @@ unary minus
 
 -a
 foo -a, bar
+foo(-a, bar)
 
 ---
 
 (program
   (unary (identifier))
+  (method_call (identifier) (argument_list (unary (identifier)) (identifier)))
   (method_call (identifier) (argument_list (unary (identifier)) (identifier))))
+
+===========
+binary minus
+===========
+
+foo-a
+@ivar-1
+
+---
+
+(program
+  (binary (identifier) (identifier))
+  (binary (instance_variable) (integer)))
 
 ===========
 exponential
