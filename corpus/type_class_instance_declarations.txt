@@ -263,3 +263,16 @@ instance (A :< b, B :< b) => Bar (A c) Foo where {}
           (type_variable_identifier))
         (type_constructor_identifier))
       (where)))
+
+=========================================
+Instance Declarations Without Where
+=========================================
+
+instance Bar Baz
+
+---
+
+(module
+  (type_class_instance_declaration
+    (type_class_identifier)
+    (instance (type_constructor_identifier))))

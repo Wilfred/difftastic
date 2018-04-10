@@ -961,7 +961,7 @@ module.exports = grammar({
       optional($.scontext),
       choice($.qualified_type_class_identifier, alias($._constructor_identifier, $.type_class_identifier)),
       $.instance,
-      $.where
+      optional($.where)
     ),
 
     instance: $ => repeat1(choice(
