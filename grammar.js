@@ -57,6 +57,12 @@ module.exports = grammar({
       $.interface_declaration
     ),
 
+    _type: $ => choice(
+      $.predefined_type,
+      $.identifier_name,
+      $.generic_name
+    ),
+
     // modifiers
 
     modifiers: $ => repeat1(
@@ -132,9 +138,11 @@ module.exports = grammar({
     ),
 
     _property_body: $ => choice(
-      seq('{', $._accessor_declarations, '}'), // TODO: optional($.property_initializer))
+      seq('{', $._accessor_declarations, '}', optional($._property_initializer)),
       seq('=>', $._expression, ';')
     ),
+
+    _property_initializer: $ => seq("=", $.variable_initializer, ';'),
 
     _accessor_declarations: $ => choice(
       seq($.get_accessor_declaration, optional($.set_accessor_declaration)),
@@ -532,8 +540,10 @@ module.exports = grammar({
       optional($.parameter_modifier),
       $._type,
       $.identifier_name,
-      optional($.equals_value_clause)
+      optional($.default_argument)
     ),
+
+    default_argument: $ => seq('=', $._expression),
 
     parameter_modifier: $ => choice('ref', 'out', 'this'),
 
@@ -545,6 +555,8 @@ module.exports = grammar({
     ),
 
     params_keyword: $ => 'params',
+
+    // arrays
 
     array_type: $ => seq(
       $._type,
@@ -602,12 +614,6 @@ module.exports = grammar({
       commaSep1($.variable_declarator)
     ),
 
-    _type: $ => choice(
-      $.predefined_type,
-      $.identifier_name,
-      $.generic_name
-    ),
-
     generic_name: $ => seq(
       $.identifier_name,
       $.type_parameter_list
@@ -617,6 +623,13 @@ module.exports = grammar({
       $.identifier_name,
       optional($.equals_value_clause)
     ),
+
+    variable_initializer: $ => choice(
+      $._expression,
+      $.array_initalizer
+    ),
+
+    array_initalizer: $ => seq('{', commaSep1($.variable_initializer), '}'),
 
     equals_value_clause: $ => seq(
       '=',
