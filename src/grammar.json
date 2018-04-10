@@ -3796,8 +3796,16 @@
           "name": "instance"
         },
         {
-          "type": "SYMBOL",
-          "name": "where"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "where"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         }
       ]
     },
