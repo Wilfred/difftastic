@@ -148,8 +148,11 @@ module.exports = grammar({
     [$.parenthesized_context],
     [$.qualified_type_constructor_identifier, $.qualified_type_class_identifier, $.qualified_constructor_identifier],
     [$.parenthesized_context, $._qualified_type_constructor_identifier],
-    [$.parenthesized_context, $._qualified_type_constructor_identifier, $._qualified_constructor_identifier]
+    [$.parenthesized_context, $._qualified_type_constructor_identifier, $._qualified_constructor_identifier],
 
+    [$._a_pattern, $._a_expression, $.constructor_pattern],
+    [$._declaration, $.function_application],
+    [$._declaration, $._a_expression]
   ],
 
   rules: {
@@ -337,13 +340,14 @@ module.exports = grammar({
 
     _declaration: $ => choice(
       $._general_declaration,
-      $.function_declaration,
+      prec.dynamic(2, $.function_declaration),
       $._pragma,
-      $.quasi_quotation,
+      prec.dynamic(1, $.quasi_quotation),
       $.pattern_type_signature,
       $.bidirectional_pattern_synonym,
       $.unidirectional_pattern_synonym,
-      $.default_signature
+      $.default_signature,
+      prec.dynamic(-2, $.function_application)
     ),
 
     bidirectional_pattern_synonym: $ => seq(
@@ -368,7 +372,7 @@ module.exports = grammar({
       $.algebraic_datatype_declaration,
       $.newtype_declaration,
       $.type_class_declaration,
-      $.type_class_instance_declaration,
+      prec.dynamic(1, $.type_class_instance_declaration),
       $.default_declaration,
       $.foreign_import_declaration,
       $.foreign_export_declaration,
@@ -410,27 +414,27 @@ module.exports = grammar({
       $.where
     ),
 
-    function_declaration: $ => seq(
+    function_declaration: $ => prec(3, seq(
       $._funlhs,
       $.function_body
-    ),
+    )),
 
-    _funlhs: $ => choice(
+    _funlhs: $ => prec(1, choice(
       repeat1($._a_pattern),
       prec.dynamic(3, seq($._pattern, $._op, $._pattern)),
       prec.dynamic(-1, seq($._funlhs, $._a_pattern, repeat($._a_pattern)))
-    ),
+    )),
 
     _a_pattern: $ => choice(
       $.constructor_pattern,
       $.tuple_pattern,
       $._variable,
-      $.as_pattern,
+      prec.dynamic(1, $.as_pattern),
       $._general_constructor,
       $.labeled_pattern,
       $._literal,
       $.wildcard,
-      $.parenthesized_pattern,
+      prec.dynamic(1, $.parenthesized_pattern),
       $.list_pattern,
       $.irrefutable_pattern,
       alias($._strict_a_pattern, $.strict_pattern)
@@ -441,7 +445,7 @@ module.exports = grammar({
       $._a_pattern
     ),
 
-    as_pattern: $ => prec.right(1, seq(
+    as_pattern: $ => prec.right(3, seq(
       $._variable,
       '@',
       $._a_pattern
