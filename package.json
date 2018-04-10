@@ -17,7 +17,7 @@
     "nan": "^2.4.0"
   },
   "devDependencies": {
-    "tree-sitter-cli": "^0.10.2",
+    "tree-sitter-cli": "^0.11.2",
     "npm-watch": "^0.3.0"
   },
   "watch": {
