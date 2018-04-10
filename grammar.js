@@ -62,7 +62,8 @@ const
     '-',
     '*',
     '=',
-    ':'
+    ':',
+    '|'
   )
 
 module.exports = grammar({
