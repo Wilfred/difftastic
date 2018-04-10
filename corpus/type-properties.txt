@@ -128,6 +128,37 @@ struct Foo {
       (set_accessor_declaration) (get_accessor_declaration))))
 
 =====================================
+Class with bodyless properties and initializers
+=====================================
+
+class Foo {
+  byte Get { get; } = 0x00;
+  uint GetSet { get; set; } = 1;
+  long SetGet { set; get; } = 2;
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier_name)
+    (property_declaration
+      (predefined_type)
+      (identifier_name)
+      (get_accessor_declaration)
+      (variable_initializer (integer_literal)))
+    (property_declaration
+      (predefined_type)
+      (identifier_name)
+      (get_accessor_declaration) (set_accessor_declaration)
+      (variable_initializer (integer_literal)))
+    (property_declaration
+      (predefined_type)
+      (identifier_name)
+      (set_accessor_declaration) (get_accessor_declaration)
+      (variable_initializer (integer_literal)))))
+
+=====================================
 Struct with single-accessor property bodies
 =====================================
 

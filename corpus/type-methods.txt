@@ -212,7 +212,7 @@ class A {
         (parameter
           (predefined_type)
           (identifier_name)
-          (equals_value_clause (integer_literal))))
+          (default_argument (integer_literal))))
       (statement_block))))
 
 =======================================
