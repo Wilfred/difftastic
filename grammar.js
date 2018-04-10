@@ -707,7 +707,7 @@ module.exports = grammar({
       $._expression
     ),
 
-    case_expression: $ => seq(
+    case_expression: $ => prec.right(seq(
       'case',
       $._expression,
       'of',
@@ -716,15 +716,17 @@ module.exports = grammar({
           '{',
           sep1($._terminal, $.alternative),
           optional($._terminal),
+          optional($.where),
           '}'
         ),
         seq(
           $._layout_open_brace,
           repeat(seq($.alternative, $._layout_semicolon)),
+          optional($.where),
           $._layout_close_brace
         )
-      )
-    ),
+      ),
+    )),
 
     alternative: $ => prec.right(choice(
       seq(
