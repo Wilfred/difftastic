@@ -622,6 +622,28 @@ foo :: HasCallStack => a -> a
       (type (type_variable_identifier)))))
 
 =========================================
+Type Signatures With Single Constructor Context Function Type
+=========================================
+
+withStateCallStack :: Maybe (String, SrcLoc) -> State a b -> (HasCallStack => c) -> c
+
+---
+
+(module
+  (type_signature
+    (variable_identifier)
+    (annotation)
+    (function_type
+      (type
+        (type_constructor_identifier)
+        (tuple_type (type_constructor_identifier) (type_constructor_identifier)))
+      (function_type
+        (type (type_constructor_identifier) (type_variable_identifier) (type_variable_identifier))
+        (function_type
+          (type (parenthesized_context (class (constructor_identifier)) (type_variable_identifier)))
+          (type (type_variable_identifier)))))))
+
+=========================================
 Type Signatures With Parenthesized Pattern Context
 =========================================
 

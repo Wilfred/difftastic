@@ -144,6 +144,12 @@ module.exports = grammar({
     [$._atype, $._qualified_constructor_identifier],
 
     [$.gadt_declaration, $._simple_type],
+
+    [$.parenthesized_context],
+    [$.qualified_type_constructor_identifier, $.qualified_type_class_identifier, $.qualified_constructor_identifier],
+    [$.parenthesized_context, $._qualified_type_constructor_identifier],
+    [$.parenthesized_context, $._qualified_type_constructor_identifier, $._qualified_constructor_identifier]
+
   ],
 
   rules: {
@@ -1097,6 +1103,14 @@ module.exports = grammar({
       )
     )),
 
+    parenthesized_context: $ => seq(
+      '(',
+      alias($._qualified_constructor_identifier, $.class),
+      '=>',
+      repeat1($.type_variable_identifier),
+      ')'
+    ),
+
     _atype: $ => choice(
       prec.dynamic(1, $.primitive_constructor_identifier),
       $._general_type_constructor,
@@ -1104,7 +1118,8 @@ module.exports = grammar({
       $.tuple_type,
       $.list_type,
       $.parenthesized_constructor,
-      $.fields
+      $.fields,
+      $.parenthesized_context
     ),
 
     infix_type_operator_application: $ => prec.right(seq(
