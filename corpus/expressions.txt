@@ -210,7 +210,7 @@ Left Operator Sections
 
 module A where
 a = (a :)
-a = (a :<)
+a = (a :|)
 
 ---
 
