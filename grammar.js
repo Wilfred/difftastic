@@ -407,12 +407,12 @@ module.exports = grammar({
       'end'
     ),
 
-    block: $ => seq(
+    block: $ => prec(PREC.CURLY_BLOCK, seq(
       '{',
       optional($.block_parameters),
       optional($._statements),
       '}'
-    ),
+    )),
 
     assignment: $ => choice(
       prec(1, seq($._lhs, '=', $._arg_or_splat_arg)),
@@ -602,12 +602,12 @@ module.exports = grammar({
       )
     ),
 
-    hash: $ => prec(1, seq(
+    hash: $ => seq(
       '{',
       optional($._hash_items),
       optional($.heredoc_end),
       '}'
-    )),
+    ),
     _hash_items: $ => seq(
       $.pair,
       optional(prec.right(seq(',', optional($.heredoc_end), optional($._hash_items))))

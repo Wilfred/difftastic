@@ -604,6 +604,29 @@ foo.(1, 2)
   (call (identifier) (argument_list_with_parens (integer) (integer))))
 
 ===============================
+implicit call with block
+===============================
+
+a.() {}
+a.(b: c) do
+  d
+end
+
+---
+
+(program
+  (method_call
+    (call
+      (identifier)
+      (argument_list_with_parens))
+    (block))
+  (method_call
+    (call
+      (identifier)
+      (argument_list_with_parens (pair (identifier) (identifier))))
+    (do_block (identifier))))
+
+===============================
 call with operator method name
 ===============================
 
@@ -1008,7 +1031,7 @@ lambda {}
 
 ---
 
-(program (method_call (identifier) (argument_list (hash))))
+(program (method_call (identifier) (block)))
 
 ==================
 lambda expressions
@@ -1023,7 +1046,7 @@ lambda(&lambda{})
 (program
   (method_call (identifier) (block (identifier)))
   (method_call (identifier) (argument_list (block_argument (identifier))) (block (identifier)))
-  (method_call (identifier) (argument_list (block_argument (method_call (identifier) (argument_list (hash)))))))
+  (method_call (identifier) (argument_list (block_argument (method_call (identifier) (block))))))
 
 ====================
 lambda expression with an arg
@@ -1110,8 +1133,8 @@ proc = proc {}
 
 (program
   (assignment (identifier) (call (constant) (identifier)))
-  (assignment (identifier) (method_call (identifier) (argument_list (hash))))
-  (assignment (identifier) (method_call (identifier) (argument_list (hash)))))
+  (assignment (identifier) (method_call (identifier) (block)))
+  (assignment (identifier) (method_call (identifier) (block))))
 
 ===============================
 backslash-newline as line continuation
