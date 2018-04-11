@@ -617,12 +617,12 @@ module.exports = grammar({
       seq($._arg, '=>', $._arg),
       seq(
         choice(
-          alias($._identifier_hash_key, $.identifier),
-          $.identifier,
-          $.constant,
+          alias($._identifier_hash_key, $.symbol),
+          alias($.identifier, $.symbol),
+          alias($.constant, $.symbol),
           $.string
         ),
-        $._keyword_colon,
+        alias($._keyword_colon, ':'),
         $._arg
       ),
       $.hash_splat_argument
