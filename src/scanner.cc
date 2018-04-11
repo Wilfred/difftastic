@@ -123,19 +123,26 @@ struct Scanner {
         lexer->advance(lexer, true);
       }
 
-      if (lexer->lookahead == '{') {
-        return false;
-      } else {
-        uint32_t column = lexer->get_column(lexer);
-        if (indent_length_stack.size() > 1 && column == indent_length_stack.back()) {
-          queued_close_brace_count++;
+      uint32_t column = lexer->get_column(lexer);
+      if (lexer->lookahead== '{') {
+        lexer->advance(lexer, true);
+        if (lexer->lookahead == '-') {
+          lexer->advance(lexer, true);
+          if (lexer->lookahead != '#') {
+            return false;
+          }
         } else {
-          lexer->mark_end(lexer);
-          indent_length_stack.push_back(column);
+          return false;
         }
-        lexer->result_symbol = LAYOUT_OPEN_BRACE;
-        return true;
       }
+
+      if (indent_length_stack.size() > 0 && column == indent_length_stack.back()) {
+        queued_close_brace_count++;
+      } else {
+        indent_length_stack.push_back(column);
+      }
+      lexer->result_symbol = LAYOUT_OPEN_BRACE;
+      return true;
     }
 
     while (lexer->lookahead == ' ' || lexer->lookahead == '\t') {
