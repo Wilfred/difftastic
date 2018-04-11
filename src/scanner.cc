@@ -27,8 +27,6 @@ struct Scanner {
     vector<uint16_t>::iterator
       iter = indent_length_stack.begin(),
       end = indent_length_stack.end();
-    assert(iter != end && *iter == 0);
-    ++iter;
 
     for (; iter != end && i < TREE_SITTER_SERIALIZATION_BUFFER_SIZE; ++iter) {
       buffer[i++] = *iter;
@@ -40,7 +38,6 @@ struct Scanner {
   void deserialize(const char *buffer, unsigned length) {
     queued_close_brace_count = 0;
     indent_length_stack.clear();
-    indent_length_stack.push_back(0);
 
     if (length > 0) {
       size_t i = 0;
@@ -85,6 +82,8 @@ struct Scanner {
     }
 
     if (valid_symbols[LAYOUT_OPEN_BRACE]) {
+      lexer->mark_end(lexer);
+
       while (iswspace(lexer->lookahead)) {
         lexer->advance(lexer, true);
       }
@@ -93,7 +92,12 @@ struct Scanner {
         return false;
       } else {
         uint32_t column = lexer->get_column(lexer);
-        indent_length_stack.push_back(column);
+        if (indent_length_stack.size() > 1 && column == indent_length_stack.back()) {
+          queued_close_brace_count++;
+        } else {
+          lexer->mark_end(lexer);
+          indent_length_stack.push_back(column);
+        }
         lexer->result_symbol = LAYOUT_OPEN_BRACE;
         return true;
       }
@@ -257,6 +261,10 @@ struct Scanner {
           }
         }
       }
+
+      // if (indent_length_stack.empty() && valid_symbols[LAYOUT_SEMICOLON]) {
+      //   indent_length_stack.push_back(indent_length);
+      // }
 
       if (indent_length < indent_length_stack.back()) {
         while (indent_length < indent_length_stack.back()) {
