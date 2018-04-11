@@ -12,7 +12,8 @@ enum TokenType {
   LAYOUT_OPEN_BRACE,
   LAYOUT_CLOSE_BRACE,
   ARROW,
-  QUALIFIED_MODULE_DOT
+  QUALIFIED_MODULE_DOT,
+  INITIALIZE_LAYOUT
 };
 
 struct Scanner {
@@ -63,6 +64,40 @@ struct Scanner {
   }
 
   bool scan(TSLexer *lexer, const bool *valid_symbols) {
+    if (valid_symbols[INITIALIZE_LAYOUT]) {
+      lexer->mark_end(lexer);
+
+      while (iswspace(lexer->lookahead)) {
+        lexer->advance(lexer, true);
+      }
+
+      bool comment = false;
+      if (lexer->lookahead== '{') {
+        lexer->advance(lexer, true);
+        if (lexer->lookahead == '-') {
+          lexer->advance(lexer, true);
+          if (lexer->lookahead == '#') {
+            return false;
+          }
+        } else {
+          comment = true;
+        }
+      }
+
+      if (comment) {
+        return false;
+      }
+
+      if (isolated_sequence(lexer, "module")) {
+        return false;
+      }
+
+      uint32_t column = lexer->get_column(lexer);
+      indent_length_stack.push_back(column);
+      lexer->result_symbol = INITIALIZE_LAYOUT;
+      return true;
+    }
+
     if (valid_symbols[QUALIFIED_MODULE_DOT]) {
       if (lexer->lookahead == '.') {
         lexer->advance(lexer, true);

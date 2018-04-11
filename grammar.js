@@ -83,7 +83,8 @@ module.exports = grammar({
     $._layout_open_brace,
     $._layout_close_brace,
     '->',
-    $._qualified_module_dot
+    $._qualified_module_dot,
+    $._initialize_layout
   ],
 
   conflicts: $ => [
@@ -167,6 +168,7 @@ module.exports = grammar({
       ),
       seq(
         repeat($._file_header_pragma),
+        $._initialize_layout,
         repeat(seq($._top_declaration, choice($._terminal, $._layout_semicolon)))
       )
     ),
@@ -211,10 +213,9 @@ module.exports = grammar({
       seq(
         $._layout_open_brace,
         repeat(
-            seq(
-              $._declaration,
-              choice($._terminal, $._layout_semicolon
-            )
+          seq(
+            $._declaration,
+            choice($._terminal, $._layout_semicolon)
           )
         ),
         $._layout_close_brace
