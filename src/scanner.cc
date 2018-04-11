@@ -253,7 +253,7 @@ struct Scanner {
           advance(lexer);
           if (lexer->lookahead == '-') {
             advance(lexer);
-            next_token_is_comment = iswspace(lexer->lookahead);
+            next_token_is_comment = lexer->lookahead != '#';
           }
         }
         break;
