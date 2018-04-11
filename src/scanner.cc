@@ -158,7 +158,7 @@ struct Scanner {
 
     if (lexer->lookahead == ')') {
       if (valid_symbols[LAYOUT_SEMICOLON]) {
-        if (indent_length_stack.size() > 1) {
+        if (indent_length_stack.size() > 0) {
           indent_length_stack.pop_back();
         }
         queued_close_brace_count++;
@@ -167,7 +167,7 @@ struct Scanner {
       }
 
       if (valid_symbols[LAYOUT_CLOSE_BRACE]) {
-        if (indent_length_stack.size() > 1) {
+        if (indent_length_stack.size() > 0) {
           indent_length_stack.pop_back();
         }
         lexer->result_symbol = LAYOUT_CLOSE_BRACE;
@@ -183,14 +183,14 @@ struct Scanner {
         advance(lexer);
         if (iswspace(lexer->lookahead)) {
           if (valid_symbols[LAYOUT_CLOSE_BRACE]) {
-            if (indent_length_stack.size() > 1) {
+            if (indent_length_stack.size() > 0) {
               indent_length_stack.pop_back();
             }
             lexer->result_symbol = LAYOUT_CLOSE_BRACE;
             return true;
           } else {
             if (valid_symbols[LAYOUT_SEMICOLON]) {
-              if (indent_length_stack.size() > 1) {
+              if (indent_length_stack.size() > 0) {
                 indent_length_stack.pop_back();
               }
               queued_close_brace_count++;
@@ -206,14 +206,14 @@ struct Scanner {
 
     if (!valid_symbols[ARROW] && isolated_sequence(lexer, "->")) {
       if (valid_symbols[LAYOUT_CLOSE_BRACE]) {
-        if (indent_length_stack.size() > 1) {
+        if (indent_length_stack.size() > 0) {
           indent_length_stack.pop_back();
         }
         lexer->result_symbol = LAYOUT_CLOSE_BRACE;
         return true;
       } else {
         if (valid_symbols[LAYOUT_SEMICOLON] && indent_length_stack.size() > 1) {
-          if (indent_length_stack.size() > 1) {
+          if (indent_length_stack.size() > 0) {
             indent_length_stack.pop_back();
           }
           queued_close_brace_count++;
@@ -263,7 +263,7 @@ struct Scanner {
     if (!next_token_is_comment) {
       if (lexer->lookahead == ')') {
         if (valid_symbols[LAYOUT_SEMICOLON]) {
-          if (indent_length_stack.size() > 1) {
+          if (indent_length_stack.size() > 0) {
             indent_length_stack.pop_back();
           }
           queued_close_brace_count++;
@@ -272,7 +272,7 @@ struct Scanner {
         }
 
         if (valid_symbols[LAYOUT_CLOSE_BRACE]) {
-          if (indent_length_stack.size() > 1) {
+          if (indent_length_stack.size() > 0) {
             indent_length_stack.pop_back();
           }
           lexer->result_symbol = LAYOUT_CLOSE_BRACE;
@@ -282,7 +282,7 @@ struct Scanner {
 
       if (isolated_sequence(lexer, "in")) {
         if (valid_symbols[LAYOUT_CLOSE_BRACE]) {
-          if (indent_length_stack.size() > 1) {
+          if (indent_length_stack.size() > 0) {
             indent_length_stack.pop_back();
           }
           lexer->result_symbol = LAYOUT_CLOSE_BRACE;
@@ -297,13 +297,9 @@ struct Scanner {
         }
       }
 
-      // if (indent_length_stack.empty() && valid_symbols[LAYOUT_SEMICOLON]) {
-      //   indent_length_stack.push_back(indent_length);
-      // }
-
       if (indent_length < indent_length_stack.back()) {
         while (indent_length < indent_length_stack.back()) {
-          if (indent_length_stack.size() > 1) {
+          if (indent_length_stack.size() > 0) {
             indent_length_stack.pop_back();
           }
           queued_close_brace_count++;
