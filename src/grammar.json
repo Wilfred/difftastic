@@ -4385,15 +4385,25 @@
                       "name": "_identifier_hash_key"
                     },
                     "named": true,
-                    "value": "identifier"
+                    "value": "symbol"
                   },
                   {
-                    "type": "SYMBOL",
-                    "name": "identifier"
+                    "type": "ALIAS",
+                    "content": {
+                      "type": "SYMBOL",
+                      "name": "identifier"
+                    },
+                    "named": true,
+                    "value": "symbol"
                   },
                   {
-                    "type": "SYMBOL",
-                    "name": "constant"
+                    "type": "ALIAS",
+                    "content": {
+                      "type": "SYMBOL",
+                      "name": "constant"
+                    },
+                    "named": true,
+                    "value": "symbol"
                   },
                   {
                     "type": "SYMBOL",
@@ -4402,8 +4412,13 @@
                 ]
               },
               {
-                "type": "SYMBOL",
-                "name": "_keyword_colon"
+                "type": "ALIAS",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "_keyword_colon"
+                },
+                "named": false,
+                "value": ":"
               },
               {
                 "type": "SYMBOL",
