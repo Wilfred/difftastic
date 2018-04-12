@@ -27,3 +27,46 @@ Multi-Line Comments
 (module
   (comment)
   (comment))
+
+=========================================
+Comments Wrapping Function Declarations
+=========================================
+
+{-
+
+comment
+
+-}
+f = a
+{- comment -}
+
+---
+
+(module
+  (comment)
+  (function_declaration
+    (variable_identifier)
+    (function_body
+      (variable_identifier)))
+  (comment))
+
+=========================================
+Comments Wrapping Function Declarations 2
+=========================================
+
+{-
+
+comment
+
+-} f = a
+{- comment -}
+
+---
+
+(module
+  (comment)
+  (function_declaration
+    (variable_identifier)
+    (function_body
+      (variable_identifier)))
+  (comment))
