@@ -402,31 +402,31 @@ async def d(a:str="default", b=c) -> None:
 ---
 
 (module
-  (async_function_definition (identifier)
+  (function_definition (identifier)
     (parameters)
     (expression_statement (identifier)))
-  (async_function_definition
+  (function_definition
     (identifier)
     (parameters (identifier))
     (expression_statement (identifier)))
-  (async_function_definition
+  (function_definition
     (identifier)
     (parameters (identifier) (identifier))
     (expression_statement (identifier)))
-  (async_function_definition
+  (function_definition
     (identifier)
     (parameters (typed_parameter (identifier) (type (identifier))))
     (expression_statement (identifier)))
-  (async_function_definition
+  (function_definition
     (identifier)
     (parameters (typed_parameter (identifier) (type (attribute (identifier) (identifier)))))
     (expression_statement (identifier)))
-  (async_function_definition
+  (function_definition
     (identifier)
     (parameters (typed_parameter (identifier) (type (subscript (identifier) (identifier)))))
     (type (identifier))
     (expression_statement (identifier)))
-  (async_function_definition
+  (function_definition
     (identifier)
     (parameters
       (identifier)
@@ -434,12 +434,12 @@ async def d(a:str="default", b=c) -> None:
       (list_splat (identifier))
       (dictionary_splat (identifier)))
     (expression_statement (identifier)))
-  (async_function_definition
+  (function_definition
     (identifier)
     (parameters (typed_parameter (identifier) (type (identifier))))
     (type (none))
     (return_statement (expression_list (none))))
-  (async_function_definition
+  (function_definition
     (identifier)
     (parameters
       (typed_default_parameter (identifier) (type (identifier)) (string))
@@ -691,7 +691,7 @@ class C:
         (decorator
           (dotted_name (identifier))
           (argument_list))
-        (async_function_definition (identifier) (parameters) (expression_statement (identifier)))))))
+        (function_definition (identifier) (parameters) (expression_statement (identifier)))))))
 
 ====================================================
 Raise statements

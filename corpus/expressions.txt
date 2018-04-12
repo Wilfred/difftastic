@@ -529,3 +529,22 @@ slice(1,1,1) if a else d
     (conditional_expression
       (call (identifier) (argument_list (integer) (integer) (integer)))
       (identifier) (identifier))))
+
+========================================
+Async context managers and iterators
+========================================
+
+async with a as b:
+  async for c in d:
+     [e async for f in g]
+
+---
+
+(module
+  (with_statement
+    (with_item (identifier) (identifier))
+    (for_statement
+      (variables (identifier))
+      (expression_list (identifier))
+      (expression_statement
+        (list_comprehension (identifier) (for_in_clause (variables (identifier)) (identifier)))))))

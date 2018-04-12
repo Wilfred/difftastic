@@ -178,7 +178,6 @@ module.exports = grammar({
       $.while_statement,
       $.try_statement,
       $.with_statement,
-      $.async_function_definition,
       $.function_definition,
       $.class_definition,
       $.decorated_definition
@@ -207,6 +206,7 @@ module.exports = grammar({
     ),
 
     for_statement: $ => seq(
+      optional('async'),
       'for',
       $.variables,
       'in',
@@ -258,6 +258,7 @@ module.exports = grammar({
     ),
 
     with_statement: $ => seq(
+      optional('async'),
       'with',
       commaSep1($.with_item),
       ':',
@@ -272,14 +273,8 @@ module.exports = grammar({
       ))
     ),
 
-    async_function_definition: $ => seq(
-      'async',
-      $._function_definition
-    ),
-
-    function_definition: $ => $._function_definition,
-
-    _function_definition: $ => seq(
+    function_definition: $ => seq(
+      optional('async'),
       'def',
       $.identifier,
       $.parameters,
@@ -387,8 +382,7 @@ module.exports = grammar({
       repeat1($.decorator),
       choice(
         $.class_definition,
-        $.function_definition,
-        $.async_function_definition
+        $.function_definition
       )
     ),
 
@@ -684,6 +678,7 @@ module.exports = grammar({
     ),
 
     for_in_clause: $ => seq(
+      optional('async'),
       'for',
       $.variables,
       'in',
