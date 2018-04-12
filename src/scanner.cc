@@ -71,28 +71,11 @@ struct Scanner {
         lexer->advance(lexer, true);
       }
 
-      bool comment = false;
-      if (lexer->lookahead== '{') {
+      if (lexer->lookahead == '{' || lexer->lookahead == '-') {
         lexer->advance(lexer, true);
         if (lexer->lookahead == '-') {
-          lexer->advance(lexer, true);
-          if (lexer->lookahead == '#') {
-            return false;
-          }
-        } else {
-          comment = true;
+          return false;
         }
-      }
-
-      if (lexer->lookahead == '-') {
-        lexer->advance(lexer, true);
-        if (lexer->lookahead == '-') {
-          comment = true;
-        }
-      }
-
-      if (comment) {
-        return false;
       }
 
       if (isolated_sequence(lexer, "module")) {
@@ -131,6 +114,7 @@ struct Scanner {
       }
 
       uint32_t column = lexer->get_column(lexer);
+
       if (lexer->lookahead== '{') {
         lexer->advance(lexer, true);
         if (lexer->lookahead == '-') {
