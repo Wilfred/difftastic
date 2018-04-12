@@ -84,6 +84,13 @@ struct Scanner {
         }
       }
 
+      if (lexer->lookahead == '-') {
+        lexer->advance(lexer, true);
+        if (lexer->lookahead == '-') {
+          comment = true;
+        }
+      }
+
       if (comment) {
         return false;
       }
