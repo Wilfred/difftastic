@@ -2065,6 +2065,27 @@
               },
               {
                 "type": "STRING",
+                "value": "@"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "_primary_expression"
+              }
+            ]
+          }
+        },
+        {
+          "type": "PREC_LEFT",
+          "value": 17,
+          "content": {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "_primary_expression"
+              },
+              {
+                "type": "STRING",
                 "value": "/"
               },
               {
@@ -2469,6 +2490,19 @@
               "members": [
                 {
                   "type": "STRING",
+                  "value": "="
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "_right_hand_side"
+                }
+              ]
+            },
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
                   "value": ":"
                 },
                 {
@@ -2478,17 +2512,27 @@
               ]
             },
             {
-              "type": "BLANK"
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": ":"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "type"
+                },
+                {
+                  "type": "STRING",
+                  "value": "="
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "_right_hand_side"
+                }
+              ]
             }
           ]
-        },
-        {
-          "type": "STRING",
-          "value": "="
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_right_hand_side"
         }
       ]
     },
@@ -2517,6 +2561,10 @@
             {
               "type": "STRING",
               "value": "/="
+            },
+            {
+              "type": "STRING",
+              "value": "@="
             },
             {
               "type": "STRING",

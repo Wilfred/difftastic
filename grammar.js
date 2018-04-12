@@ -468,6 +468,7 @@ module.exports = grammar({
       prec.left(PREC.plus, seq($._primary_expression, '+', $._primary_expression)),
       prec.left(PREC.plus, seq($._primary_expression, '-', $._primary_expression)),
       prec.left(PREC.times, seq($._primary_expression, '*', $._primary_expression)),
+      prec.left(PREC.times, seq($._primary_expression, '@', $._primary_expression)),
       prec.left(PREC.times, seq($._primary_expression, '/', $._primary_expression)),
       prec.left(PREC.times, seq($._primary_expression, '%', $._primary_expression)),
       prec.left(PREC.times, seq($._primary_expression, '//', $._primary_expression)),
@@ -521,14 +522,16 @@ module.exports = grammar({
 
     assignment: $ => seq(
       $.expression_list,
-      optional(seq(':', $.type)),
-      '=',
-      $._right_hand_side
+      choice(
+        seq('=', $._right_hand_side),
+        seq(':', $.type),
+        seq(':', $.type, '=', $._right_hand_side)
+      )
     ),
 
     augmented_assignment: $ => seq(
       $.expression_list,
-      choice('+=', '-=', '*=', '/=', '//=', '%=', '**=', '>>=', '<<=', '&=', '^=', '|='),
+      choice('+=', '-=', '*=', '/=', '@=', '//=', '%=', '**=', '>>=', '<<=', '&=', '^=', '|='),
       $._right_hand_side
     ),
 
