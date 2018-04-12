@@ -402,6 +402,20 @@ a[b] = c = d
         (expression_list (identifier))))))
 
 ====================================================
+Assignments with type annotations
+====================================================
+
+tail_leaves: List[Leaf] = []
+
+---
+
+(module
+  (expression_statement (assignment
+    (expression_list (identifier))
+    (type (subscript (identifier) (identifier)))
+    (expression_list (list)))))
+
+====================================================
 Augmented assignments
 ====================================================
 

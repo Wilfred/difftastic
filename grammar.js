@@ -527,6 +527,7 @@ module.exports = grammar({
 
     assignment: $ => seq(
       $.expression_list,
+      optional(seq(':', $.type)),
       '=',
       $._right_hand_side
     ),
