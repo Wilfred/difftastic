@@ -289,3 +289,22 @@ instance Bar Baz
   (type_class_instance_declaration
     (type_class_identifier)
     (instance (type_constructor_identifier))))
+
+=========================================
+Instance Declarations Without Labeled Patter
+=========================================
+
+instance Foo Bar where
+  foo D.F{..} = foo
+
+---
+
+(module
+  (type_class_instance_declaration
+    (type_class_identifier)
+    (instance (type_constructor_identifier))
+    (where
+      (function_declaration
+        (variable_identifier)
+        (labeled_pattern (qualified_constructor_identifier (module_identifier) (constructor_identifier)) (record_wild_cards))
+        (function_body (variable_identifier))))))

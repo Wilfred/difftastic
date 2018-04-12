@@ -152,7 +152,7 @@ module.exports = grammar({
     [$.parenthesized_context, $._qualified_type_constructor_identifier, $._qualified_constructor_identifier],
 
     [$._a_pattern, $._a_expression, $.constructor_pattern],
-    [$._declaration, $.function_application],
+    [$._top_declaration, $.function_application],
     [$._declaration, $._a_expression]
   ],
 
@@ -347,8 +347,7 @@ module.exports = grammar({
       $.pattern_type_signature,
       $.bidirectional_pattern_synonym,
       $.unidirectional_pattern_synonym,
-      $.default_signature,
-      prec.dynamic(-2, $.function_application)
+      $.default_signature
     ),
 
     bidirectional_pattern_synonym: $ => seq(
@@ -378,7 +377,8 @@ module.exports = grammar({
       $.foreign_import_declaration,
       $.foreign_export_declaration,
       $.standalone_deriving_declaration,
-      $._declaration
+      $._declaration,
+      prec.dynamic(-2, $.function_application)
     ),
 
     standalone_deriving_declaration: $ => seq(
