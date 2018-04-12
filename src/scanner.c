@@ -42,15 +42,21 @@ bool tree_sitter_ocaml_external_scanner_scan(void *payload, TSLexer *lexer, cons
       switch (lexer->lookahead) {
         case '(':
           lexer->advance(lexer, false);
-          if (lexer->lookahead == '*') depth++;
+          if (lexer->lookahead == '*') {
+            lexer->advance(lexer, false);
+            depth++;
+          }
           break;
         case '*':
           lexer->advance(lexer, false);
-          if (lexer->lookahead == ')') depth--;
+          if (lexer->lookahead == ')') {
+            lexer->advance(lexer, false);
+            depth--;
+          }
           break;
+        default:
+          lexer->advance(lexer, false);
       }
-
-      lexer->advance(lexer, false);
     }
   }
 
