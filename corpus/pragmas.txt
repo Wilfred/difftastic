@@ -221,7 +221,6 @@ Language Pragmas With Module
 
 {-# LANGUAGE LambdaCase #-}
 {-# LANGUAGE ScopedTypeVariables, DataKinds #-}
-
 module A where
 
 ---
@@ -233,7 +232,7 @@ module A where
   (where))
 
 =========================================
-Options GHC Pragmas
+Options GHC Pragmas Without Module
 =========================================
 
 {-# OPTIONS_GHC -fno-warn-orphans #-}
@@ -246,6 +245,24 @@ Options GHC Pragmas
   (options_ghc_pragma (option))
   (options_ghc_pragma (option))
   (options_ghc_pragma (option)))
+
+=========================================
+Options GHC Pragmas With Module
+=========================================
+
+{-# OPTIONS_GHC -fno-warn-orphans #-}
+{-# OPTIONS_GHC -fno-warn-orphans#-}
+{-# OPTIONS_GHC -Wno-redundant-constraints #-}
+module A where
+
+---
+
+(module
+  (options_ghc_pragma (option))
+  (options_ghc_pragma (option))
+  (options_ghc_pragma (option))
+  (module_identifier)
+  (where))
 
 =========================================
 Source Pragma
@@ -269,7 +286,7 @@ import {-# SOURCE #-} B(TB(..))
           (all_constructors))))))
 
 =========================================
-Include Pragma
+Include Pragma Without Module
 =========================================
 
 {-# INCLUDE "foo.h" #-}
@@ -281,6 +298,22 @@ Include Pragma
   (include_pragma (header_file))
   (include_pragma (header_file)))
 
+
+=========================================
+Include Pragma With Module
+=========================================
+
+{-# INCLUDE "foo.h" #-}
+{-# INCLUDE <stdio.h> #-}
+module A where
+
+---
+
+(module
+  (include_pragma (header_file))
+  (include_pragma (header_file))
+  (module_identifier)
+  (where))
 
 =========================================
 Warning Pragma
@@ -359,26 +392,32 @@ i = h
 Line Pragma
 =========================================
 
+module A where
 {-# LINE 42 "Foo.vhs" #-}
 
 ---
 
 (module
-  (line_pragma
-    (line_number)
-    (file_name)))
+  (module_identifier)
+  (where
+    (line_pragma
+      (line_number)
+      (file_name))))
 
 =========================================
-Line Pragma
+Column Pragma
 =========================================
 
+module A where
 {-# COLUMN 42 #-}
 
 ---
 
 (module
-  (column_pragma
-    (column_number)))
+  (module_identifier)
+  (where
+    (column_pragma
+      (column_number))))
 
 =========================================
 Minimal Pragma
@@ -688,6 +727,7 @@ instance {-# INCOHERENT #-} (Show a, Show b) => C a [b] where {}
 Rule Pragmas
 =========================================
 
+module A where
 {-# RULES
       "map/map" [2] forall f g xs. map f (map g xs) = map (f.g) xs
       "fold/build"  forall k z (g::forall b. (a->b->b) -> b -> b) .
@@ -697,76 +737,79 @@ Rule Pragmas
 ---
 
 (module
-  (rules_pragma
-    (rule
-      (name)
-      (phase_control (integer))
-      (rule_pattern_variables (pattern_variable) (pattern_variable) (pattern_variable))
-      (rule_lhs
-        (function_application
-          (function_application
-            (variable_identifier)
-            (variable_identifier))
-          (parenthesized_expression
-            (function_application
-              (function_application
-                (variable_identifier)
-                (variable_identifier))
-              (variable_identifier)))))
-      (rule_rhs
-        (function_application
-          (function_application
-            (variable_identifier)
-            (parenthesized_expression
-              (infix_operator_application
-                (variable_identifier)
-                (variable_operator (variable_symbol))
-                (variable_identifier))))
-          (variable_identifier))))
-
-    (rule
-      (name)
-      (rule_pattern_variables
-        (pattern_variable)
-        (pattern_variable)
-        (pattern_variable_type_signature
-          (pattern_variable)
-          (annotation)
-          (rule_pattern_variables
-            (pattern_variable))
-            (function_type
-              (type
-                (parenthesized_constructor
-                  (function_type
-                    (type (type_variable_identifier))
-                    (function_type
-                      (type (type_variable_identifier))
-                      (type (type_variable_identifier))))))
-              (function_type
-                (type (type_variable_identifier))
-                (type (type_variable_identifier))))))
-      (rule_lhs
-        (function_application
+  (module_identifier)
+    (where
+    (rules_pragma
+      (rule
+        (name)
+        (phase_control (integer))
+        (rule_pattern_variables (pattern_variable) (pattern_variable) (pattern_variable))
+        (rule_lhs
           (function_application
             (function_application
               (variable_identifier)
               (variable_identifier))
-            (variable_identifier))
-          (parenthesized_expression
+            (parenthesized_expression
+              (function_application
+                (function_application
+                  (variable_identifier)
+                  (variable_identifier))
+                (variable_identifier)))))
+        (rule_rhs
+          (function_application
             (function_application
               (variable_identifier)
-              (variable_identifier)))))
-      (rule_rhs
-        (function_application
+              (parenthesized_expression
+                (infix_operator_application
+                  (variable_identifier)
+                  (variable_operator (variable_symbol))
+                  (variable_identifier))))
+            (variable_identifier))))
+
+      (rule
+        (name)
+        (rule_pattern_variables
+          (pattern_variable)
+          (pattern_variable)
+          (pattern_variable_type_signature
+            (pattern_variable)
+            (annotation)
+            (rule_pattern_variables
+              (pattern_variable))
+              (function_type
+                (type
+                  (parenthesized_constructor
+                    (function_type
+                      (type (type_variable_identifier))
+                      (function_type
+                        (type (type_variable_identifier))
+                        (type (type_variable_identifier))))))
+                (function_type
+                  (type (type_variable_identifier))
+                  (type (type_variable_identifier))))))
+        (rule_lhs
           (function_application
-            (variable_identifier)
-            (variable_identifier))
-          (variable_identifier))))))
+            (function_application
+              (function_application
+                (variable_identifier)
+                (variable_identifier))
+              (variable_identifier))
+            (parenthesized_expression
+              (function_application
+                (variable_identifier)
+                (variable_identifier)))))
+        (rule_rhs
+          (function_application
+            (function_application
+              (variable_identifier)
+              (variable_identifier))
+            (variable_identifier)))))))
 
 =========================================
 Annotation Pragmas
 =========================================
 
+module A where
 {-# ANN module ("HLint: ignore Eta reduce" :: String) #-}
 {-# ANN type Foo (Just "A `Maybe String' annotation") #-}
 {-# ANN f SillyAnnotation { foo = (id 10), bar = f } #-}
@@ -774,26 +817,28 @@ Annotation Pragmas
 ---
 
 (module
-  (annotation_pragma
-    (module)
-    (parenthesized_expression
-      (expression_type_signature
-        (string)
-        (annotation)
-        (type_constructor_identifier))))
-  (annotation_pragma
-    (type)
-    (type_constructor_identifier)
-    (parenthesized_expression
-      (function_application
-        (constructor_identifier) (string))))
-  (annotation_pragma
-    (variable_identifier)
-    (labeled_construction
-      (constructor_identifier)
-      (field_bind
-        (variable_identifier)
-        (parenthesized_expression (function_application (variable_identifier) (integer))))
-      (field_bind
-        (variable_identifier)
-        (variable_identifier)))))
+  (module_identifier)
+  (where
+    (annotation_pragma
+      (module)
+      (parenthesized_expression
+        (expression_type_signature
+          (string)
+          (annotation)
+          (type_constructor_identifier))))
+    (annotation_pragma
+      (type)
+      (type_constructor_identifier)
+      (parenthesized_expression
+        (function_application
+          (constructor_identifier) (string))))
+    (annotation_pragma
+      (variable_identifier)
+      (labeled_construction
+        (constructor_identifier)
+        (field_bind
+          (variable_identifier)
+          (parenthesized_expression (function_application (variable_identifier) (integer))))
+        (field_bind
+          (variable_identifier)
+          (variable_identifier))))))

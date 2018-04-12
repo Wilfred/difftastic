@@ -1070,3 +1070,41 @@ f = a <>
       (infix_operator_application
         (variable_identifier)
         (variable_operator (variable_symbol))))))
+
+=================================================
+Function Declarations With Empty Where
+=================================================
+
+f = 1 where
+g = 2 where
+
+---
+
+(module
+  (function_declaration
+    (variable_identifier)
+    (function_body (integer) (where)))
+  (function_declaration
+    (variable_identifier)
+    (function_body (integer) (where))))
+
+=================================================
+Function Declarations With Empty Where And Comment
+=================================================
+
+f = a where
+{- comment -}
+b = 2
+
+---
+
+(module
+  (function_declaration
+    (variable_identifier)
+    (function_body
+      (variable_identifier)
+      (where (comment))))
+  (function_declaration
+    (variable_identifier)
+    (function_body
+      (integer))))
