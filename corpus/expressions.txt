@@ -117,10 +117,12 @@ Comments
 (**
     docstring
 *)
+(***)
 
 ---
 
 (compilation_unit
+  (comment)
   (comment)
   (comment)
   (comment))
