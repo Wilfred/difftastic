@@ -154,6 +154,7 @@ module.exports = grammar({
     [$._a_pattern, $._a_expression, $.constructor_pattern],
     [$._top_declaration, $.function_application],
     [$._declaration, $._a_expression]
+    [$._general_type_constructor, $._a_expression],
   ],
 
   rules: {
@@ -440,7 +441,16 @@ module.exports = grammar({
       prec.dynamic(1, $.parenthesized_pattern),
       $.list_pattern,
       $.irrefutable_pattern,
-      alias($._strict_a_pattern, $.strict_pattern)
+      alias($._strict_a_pattern, $.strict_pattern),
+      $.view_pattern
+    ),
+
+    view_pattern: $ => seq(
+      '(',
+      $._expression,
+      '->',
+      $._a_pattern,
+      ')'
     ),
 
     _strict_a_pattern: $ => seq(
