@@ -230,6 +230,14 @@ struct Scanner {
       }
     }
 
+    if (valid_symbols[LAYOUT_SEMICOLON] && indent_length_stack.size() > 0) {
+      uint32_t column = lexer->get_column(lexer);
+      if (column == indent_length_stack.back()) {
+        lexer->result_symbol = LAYOUT_SEMICOLON;
+        return true;
+      }
+    }
+
     if (lexer->lookahead != '\n') return false;
     advance(lexer);
 
