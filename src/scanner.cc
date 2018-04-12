@@ -312,27 +312,29 @@ struct Scanner {
         }
       }
 
-      if (indent_length < indent_length_stack.back()) {
-        while (indent_length < indent_length_stack.back()) {
-          if (indent_length_stack.size() > 0) {
-            indent_length_stack.pop_back();
+      if (indent_length_stack.size() > 0) {
+        if (indent_length < indent_length_stack.back()) {
+          while (indent_length < indent_length_stack.back()) {
+            if (indent_length_stack.size() > 0) {
+              indent_length_stack.pop_back();
+            }
+            queued_close_brace_count++;
           }
-          queued_close_brace_count++;
-        }
 
-        if (valid_symbols[LAYOUT_CLOSE_BRACE]) {
-          lexer->result_symbol = LAYOUT_CLOSE_BRACE;
-          return true;
-        } else {
+          if (valid_symbols[LAYOUT_CLOSE_BRACE]) {
+            lexer->result_symbol = LAYOUT_CLOSE_BRACE;
+            return true;
+          } else {
+            if (valid_symbols[LAYOUT_SEMICOLON]) {
+              lexer->result_symbol = LAYOUT_SEMICOLON;
+              return true;
+            }
+          }
+        } else if (indent_length == indent_length_stack.back()) {
           if (valid_symbols[LAYOUT_SEMICOLON]) {
             lexer->result_symbol = LAYOUT_SEMICOLON;
             return true;
           }
-        }
-      } else if (indent_length == indent_length_stack.back()) {
-        if (valid_symbols[LAYOUT_SEMICOLON]) {
-          lexer->result_symbol = LAYOUT_SEMICOLON;
-          return true;
         }
       }
     }
