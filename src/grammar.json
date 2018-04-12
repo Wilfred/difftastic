@@ -1097,14 +1097,6 @@
         {
           "type": "SYMBOL",
           "name": "default_signature"
-        },
-        {
-          "type": "PREC_DYNAMIC",
-          "value": -2,
-          "content": {
-            "type": "SYMBOL",
-            "name": "function_application"
-          }
         }
       ]
     },
@@ -1213,6 +1205,14 @@
         {
           "type": "SYMBOL",
           "name": "_declaration"
+        },
+        {
+          "type": "PREC_DYNAMIC",
+          "value": -2,
+          "content": {
+            "type": "SYMBOL",
+            "name": "function_application"
+          }
         }
       ]
     },
@@ -9548,7 +9548,7 @@
       "constructor_pattern"
     ],
     [
-      "_declaration",
+      "_top_declaration",
       "function_application"
     ],
     [
