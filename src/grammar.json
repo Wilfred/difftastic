@@ -77,6 +77,10 @@
               }
             },
             {
+              "type": "SYMBOL",
+              "name": "_initialize_layout"
+            },
+            {
               "type": "REPEAT",
               "content": {
                 "type": "SEQ",
@@ -8325,7 +8329,7 @@
               },
               {
                 "type": "PATTERN",
-                "value": "[^#].*\\r?\\n?"
+                "value": "[^#]"
               },
               {
                 "type": "REPEAT",
@@ -8345,7 +8349,7 @@
               },
               {
                 "type": "PATTERN",
-                "value": "-}\\r?\\n"
+                "value": "-}"
               }
             ]
           }
@@ -9572,6 +9576,10 @@
     {
       "type": "SYMBOL",
       "name": "_qualified_module_dot"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_initialize_layout"
     }
   ],
   "inline": [
