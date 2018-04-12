@@ -627,10 +627,6 @@
         },
         {
           "type": "SYMBOL",
-          "name": "async_function_definition"
-        },
-        {
-          "type": "SYMBOL",
           "name": "function_definition"
         },
         {
@@ -724,6 +720,18 @@
     "for_statement": {
       "type": "SEQ",
       "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "async"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
         {
           "type": "STRING",
           "value": "for"
@@ -942,6 +950,18 @@
       "type": "SEQ",
       "members": [
         {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "async"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
           "type": "STRING",
           "value": "with"
         },
@@ -1010,26 +1030,21 @@
         }
       ]
     },
-    "async_function_definition": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "async"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_function_definition"
-        }
-      ]
-    },
     "function_definition": {
-      "type": "SYMBOL",
-      "name": "_function_definition"
-    },
-    "_function_definition": {
       "type": "SEQ",
       "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "async"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
         {
           "type": "STRING",
           "value": "def"
@@ -1580,10 +1595,6 @@
             {
               "type": "SYMBOL",
               "name": "function_definition"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "async_function_definition"
             }
           ]
         }
@@ -3307,6 +3318,18 @@
     "for_in_clause": {
       "type": "SEQ",
       "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "async"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
         {
           "type": "STRING",
           "value": "for"
