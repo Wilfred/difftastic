@@ -70,3 +70,14 @@ comment
     (function_body
       (variable_identifier)))
   (comment))
+
+=========================================
+Comment Including # When Not A Pragma
+=========================================
+
+{- #comment -}
+
+---
+
+(module
+  (comment))
