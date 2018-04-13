@@ -54,6 +54,7 @@ Type Synonym Declarations With Promoted Constructors
 type Nat = Zero ': Succ Zero ': Succ (Succ Zero) ': '[]
 type Foo bar baz wix = '[ W, A (B c) ]
 type Foo Bar = "higher-kinded"
+type Foo (Bar m a) = BarF m a
 
 ---
 
@@ -89,7 +90,18 @@ type Foo Bar = "higher-kinded"
     (type_constructor_identifier)
     (constructor_identifier)
     (type_synonym_body
-      (string))))
+      (string)))
+  (type_synonym_declaration
+    (type_constructor_identifier)
+    (parenthesized_type
+      (type_constructor_identifier)
+      (type_variable_identifier)
+      (type_variable_identifier))
+    (type_synonym_body
+      (type_pattern
+        (type_constructor_identifier)
+        (type_variable_identifier)
+        (type_variable_identifier)))))
 
 =========================================
 Type Synonym Declarations With Context
