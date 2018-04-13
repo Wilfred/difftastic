@@ -162,7 +162,11 @@ module.exports = grammar({
       optional(/[fFdD]/)
     )),
 
-    boolean_literal: $ => choice('true', 'false'),
+    boolean_literal: $ => choice($.true, $.false),
+
+    true: $ => 'true',
+
+    false: $ => 'false',
 
     character_literal: $ => seq("'", repeat(choice(/[^\'\n]/, /\\./, /\\\n/)), "'"),
 
@@ -593,7 +597,6 @@ module.exports = grammar({
       $.class_declaration,
       $.interface_declaration,
       $.enum_declaration,
-      $.interface_declaration
     )),
 
     module_declaration: $ => seq(

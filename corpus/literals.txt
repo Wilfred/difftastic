@@ -73,7 +73,7 @@ false;
 
 ---
 
-(program (boolean_literal) (boolean_literal))
+(program (boolean_literal (true)) (boolean_literal (false)))
 
 ======
 character_literal

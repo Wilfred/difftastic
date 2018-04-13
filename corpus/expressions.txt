@@ -329,7 +329,7 @@ class Duck {
           (element_value_pair
             (identifier)
             (element_value
-              (boolean_literal))))))
+              (boolean_literal (true)))))))
     (identifier)
     (class_body)))
 
@@ -402,7 +402,7 @@ public class SwitchDemo {
 
 ---
 
-(program (class_declaration (modifier) (identifier) (class_body (method_declaration (modifier) (modifier) (method_header (void_type) (method_declarator (identifier) (formal_parameter (array_type (type_identifier) (dims)) (variable_declarator_id (identifier))))) (method_body (block (local_variable_declaration_statement (local_variable_declaration (integral_type) (variable_declarator_list (variable_declarator (variable_declarator_id (identifier)) (integer_literal (decimal_integer_literal)))))) (local_variable_declaration_statement (local_variable_declaration (type_identifier) (variable_declarator_list (variable_declarator (variable_declarator_id (identifier)))))) (switch_statement (identifier) (switch_block (switch_label (integer_literal (decimal_integer_literal))) (assignment_expression (lhs (identifier)) (string_literal)) (break_statement) (switch_label (integer_literal (decimal_integer_literal))) (assignment_expression (lhs (identifier)) (string_literal)) (break_statement) (switch_label (integer_literal (decimal_integer_literal))) (assignment_expression (lhs (identifier)) (string_literal)) (break_statement) (switch_label) (assignment_expression (lhs (identifier)) (string_literal)) (break_statement))) (method_invocation (scoped_identifier (identifier) (identifier)) (identifier) (argument_list (identifier))))))))) 
+(program (class_declaration (modifier) (identifier) (class_body (method_declaration (modifier) (modifier) (method_header (void_type) (method_declarator (identifier) (formal_parameter (array_type (type_identifier) (dims)) (variable_declarator_id (identifier))))) (method_body (block (local_variable_declaration_statement (local_variable_declaration (integral_type) (variable_declarator_list (variable_declarator (variable_declarator_id (identifier)) (integer_literal (decimal_integer_literal)))))) (local_variable_declaration_statement (local_variable_declaration (type_identifier) (variable_declarator_list (variable_declarator (variable_declarator_id (identifier)))))) (switch_statement (identifier) (switch_block (switch_label (integer_literal (decimal_integer_literal))) (assignment_expression (lhs (identifier)) (string_literal)) (break_statement) (switch_label (integer_literal (decimal_integer_literal))) (assignment_expression (lhs (identifier)) (string_literal)) (break_statement) (switch_label (integer_literal (decimal_integer_literal))) (assignment_expression (lhs (identifier)) (string_literal)) (break_statement) (switch_label) (assignment_expression (lhs (identifier)) (string_literal)) (break_statement))) (method_invocation (scoped_identifier (identifier) (identifier)) (identifier) (argument_list (identifier)))))))))
 
 ===
 type arguments
