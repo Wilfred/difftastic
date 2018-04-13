@@ -1085,14 +1085,22 @@
       "type": "CHOICE",
       "members": [
         {
-          "type": "STRING",
-          "value": "true"
+          "type": "SYMBOL",
+          "name": "true"
         },
         {
-          "type": "STRING",
-          "value": "false"
+          "type": "SYMBOL",
+          "name": "false"
         }
       ]
+    },
+    "true": {
+      "type": "STRING",
+      "value": "true"
+    },
+    "false": {
+      "type": "STRING",
+      "value": "false"
     },
     "character_literal": {
       "type": "SEQ",
@@ -3714,10 +3722,6 @@
           {
             "type": "SYMBOL",
             "name": "enum_declaration"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "interface_declaration"
           }
         ]
       }
