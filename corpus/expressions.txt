@@ -57,41 +57,27 @@ end
 Structs
 =================
 struct Asdf{T}
+  asd::Any
+  bsd
+end
+
+mutable struct Foo<:Bar
+  asd::Vector{Bar}
 end
 
 ---
 
 (source_file
   (struct_definition
-    (parameterized_identifier (identifier) (typed_identifier (parameterized_identifier(identifier))))
-  ))
-
-=================
-Structs
-
-
-struct Asdf
-  asd::Any
-  bsd
-end
-
-mutable struct Foo<:Bar
-  asd::Any
-end
-
----
-
-(source_file
-  (struct_definition (parameterized_identifier (typed_identifier (identifier)))
-    (parameterized_identifier (typed_identifier))
-    (parameterized_identifier (typed_identifier))
+    (typed_identifier (parameterized_identifier (identifier) (typed_identifier (parameterized_identifier (identifier)))))
+    (typed_identifier (parameterized_identifier (identifier)) (parameterized_identifier (identifier)))
+    (typed_identifier (parameterized_identifier (identifier)))
   )
-  (struct_definition ((parameterized_identifier (typed_identifier (identifier) (identifier)))
-    (parameterized_identifier (typed_identifier (identifier) (identifier)))
-  ))
-=================
-
----
+  (struct_definition
+    (typed_identifier (parameterized_identifier (identifier)) (parameterized_identifier (identifier)))
+    (typed_identifier (parameterized_identifier (identifier)) (parameterized_identifier (identifier) (typed_identifier (parameterized_identifier (identifier)))))
+  )
+)
 
 =================
 Function calls

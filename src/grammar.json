@@ -154,7 +154,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "parameterized_identifier"
+          "name": "typed_identifier"
         },
         {
           "type": "CHOICE",
@@ -173,7 +173,7 @@
                     "members": [
                       {
                         "type": "SYMBOL",
-                        "name": "parameterized_identifier"
+                        "name": "typed_identifier"
                       },
                       {
                         "type": "SYMBOL",

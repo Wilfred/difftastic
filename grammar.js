@@ -65,8 +65,8 @@ grammar({
     struct_definition: $ => seq(
       optional('mutable'),
       'struct',
-      $.parameterized_identifier,
-      sep($.parameterized_identifier, $._terminator),
+      $.typed_identifier,
+      sep($.typed_identifier, $._terminator),
       'end'
     ),
 
