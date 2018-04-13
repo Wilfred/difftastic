@@ -160,8 +160,6 @@ module.exports = grammar({
     [$._a_expression, $.parenthesized_type],
     [$._general_constructor, $._general_type_constructor, $.parenthesized_type],
     [$._general_constructor, $.parenthesized_type],
-    [$._qualified_constructor, $._qualified_operator],
-    [$._variable, $._qualified_operator],
     [$.right_operator_section, $.parenthesized_type]
   ],
 
@@ -1269,7 +1267,8 @@ module.exports = grammar({
             $.kind_signature,
             ')'
           ),
-          $._type_signature
+          $._type_signature,
+          $.parenthesized_type
         )
       )
     ),
@@ -1588,10 +1587,10 @@ module.exports = grammar({
       $.infix_constructor_identifier
     ),
 
-    _qualified_operator: $ => choice(
+    _qualified_operator: $ => prec.left(choice(
       $._qualified_variable_operator,
       $._qualified_constructor_operator
-    ),
+    )),
 
     _file_header_pragma: $ => choice(
       $.include_pragma,
