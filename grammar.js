@@ -153,8 +153,16 @@ module.exports = grammar({
 
     [$._a_pattern, $._a_expression, $.constructor_pattern],
     [$._top_declaration, $.function_application],
-    [$._declaration, $._a_expression]
+    [$._declaration, $._a_expression],
     [$._general_type_constructor, $._a_expression],
+    [$._simple_type],
+    [$._general_type_constructor, $._a_expression, $.parenthesized_type],
+    [$._a_expression, $.parenthesized_type],
+    [$._general_constructor, $._general_type_constructor, $.parenthesized_type],
+    [$._general_constructor, $.parenthesized_type],
+    [$._qualified_constructor, $._qualified_operator],
+    [$._variable, $._qualified_operator],
+    [$.right_operator_section, $.parenthesized_type]
   ],
 
   rules: {
@@ -350,7 +358,8 @@ module.exports = grammar({
       $.pattern_type_signature,
       $.bidirectional_pattern_synonym,
       $.unidirectional_pattern_synonym,
-      $.default_signature
+      $.default_signature,
+      $.type_synonym_declaration,
     ),
 
     bidirectional_pattern_synonym: $ => seq(
@@ -369,7 +378,6 @@ module.exports = grammar({
     _top_declaration: $ => choice(
       $.import_declaration,
       $.qualified_import_declaration,
-      $.type_synonym_declaration,
       $.type_family_declaration,
       $.gadt_declaration,
       $.algebraic_datatype_declaration,
@@ -401,14 +409,17 @@ module.exports = grammar({
     type_synonym_declaration: $ => seq(
       'type',
       $._simple_type,
-      $.type_synonym_body
+      optional($.type_synonym_body)
     ),
 
     type_synonym_body: $ => seq(
       '=',
       optional($.scontext),
       optional($.scoped_type_variables),
-      alias($._type_pattern, $.type_pattern)
+      choice(
+        alias($._type_pattern, $.type_pattern),
+        $._expression
+      )
     ),
 
     type_family_declaration: $ => seq(
@@ -1247,19 +1258,21 @@ module.exports = grammar({
       $._type_pattern
     ),
 
-    _simple_type: $ => prec.left(seq(
+    _simple_type: $ => seq(
       $._qualified_type_constructor_identifier,
       repeat(
         choice(
           $.type_variable_identifier,
+          $._general_constructor,
           seq(
             '(',
             $.kind_signature,
             ')'
-          )
+          ),
+          $._type_signature
         )
       )
-    )),
+    ),
 
     scontext: $ => seq(
       choice(
