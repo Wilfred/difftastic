@@ -126,8 +126,6 @@ module.exports = grammar({
     [$.parenthesized_type],
     [$._a_pattern, $.parenthesized_type],
     [$._general_constructor, $._general_type_constructor],
-    [$.tuple_type, $.parenthesized_constructor, $._special],
-    [$.list_type, $._special],
     [$.promoted, $.char],
     [$.type_class_instance_declaration, $._qualified_type_constructor_identifier],
     [$._atype],
