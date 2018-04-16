@@ -13,7 +13,7 @@ if [ ! -d "$repo" ]; then
 fi
 
 pushd "$repo" && git pull
-git reset --hard d1324f56d02dd9afca5d2e9da545905a7d41d671
+# git reset --hard d1324f56d02dd9afca5d2e9da545905a7d41d671
 popd
 
 # TODO: Fix known issues in known_failures.txt
