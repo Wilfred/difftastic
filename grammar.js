@@ -165,6 +165,7 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
     ),
 
     ambient_function: $ => seq(
+      optional('async'),
       'function',
       $.identifier,
       $.call_signature,

@@ -178,6 +178,8 @@ export default function point(x: number, y: number) {
 
 export default class A {}
 
+export async function readFile(filename: string): Promise<Buffer>
+
 ---
 
 (program
@@ -191,7 +193,12 @@ export default class A {}
           (statement_block
             (return_statement (object (shorthand_property_identifier) (shorthand_property_identifier))))))
   (comment)
-  (export_statement (class (identifier) (class_body))))
+  (export_statement (class (identifier) (class_body)))
+  (export_statement (ambient_function
+    (identifier)
+    (call_signature
+      (formal_parameters (required_parameter (identifier) (type_annotation (predefined_type))))
+      (type_annotation (generic_type (type_identifier) (type_arguments (type_identifier))))))))
 
 ==================================
 Typeof types
