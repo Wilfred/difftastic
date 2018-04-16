@@ -228,3 +228,18 @@ a = "\n\tHaskell is wonderful.\n"
     (function_declaration
       (variable_identifier)
       (function_body (string)))))
+
+=========================================
+Multi-Line Strings
+=========================================
+
+a = "Haskell is a \
+    \wonderful \"language.\""
+
+---
+
+(module
+  (function_declaration
+    (variable_identifier)
+    (function_body
+      (string))))
