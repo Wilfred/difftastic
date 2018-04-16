@@ -75,7 +75,7 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
         seq(optional($.readonly), optional('abstract')),
       ),
       $._property_name,
-      optional('?'),
+      optional(choice('?', '!')),
       optional($.type_annotation),
       optional($._initializer)
     ),

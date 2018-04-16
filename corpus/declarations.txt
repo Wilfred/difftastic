@@ -703,6 +703,7 @@ abstract class Animal {
     readonly abstract prop: string;
     static readonly prop: string;
     otherProp: string;
+    requiredProp!: string;
     abstract makeSound(): void;
     abstract get readonlyProp(): string;
     protected abstract readonlyProp?(): string;
@@ -719,6 +720,7 @@ abstract class Animal {
     (public_field_definition (readonly) (property_identifier) (type_annotation (predefined_type)))
     (public_field_definition (readonly) (property_identifier) (type_annotation (predefined_type)))
     (public_field_definition (readonly) (property_identifier) (type_annotation (predefined_type))) (public_field_definition (property_identifier) (type_annotation (predefined_type)))
+    (public_field_definition (property_identifier) (type_annotation (predefined_type)))
     (abstract_method_signature
       (property_identifier)
       (call_signature (formal_parameters) (type_annotation (predefined_type))))
