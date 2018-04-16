@@ -1273,7 +1273,7 @@ module.exports = grammar({
       )
     ),
 
-    scontext: $ => seq(
+    scontext: $ => prec.left(seq(
       choice(
         $.simple_class,
         prec.dynamic(1, seq(
@@ -1283,9 +1283,9 @@ module.exports = grammar({
         ))
       ),
       '=>'
-    ),
+    )),
 
-    context: $ => seq(
+    context: $ => prec.left(seq(
       choice(
         $.class,
         $.equality_constraint,
@@ -1297,7 +1297,7 @@ module.exports = grammar({
         ),
       ),
       '=>'
-    ),
+    )),
 
     simple_class: $ => seq(
       repeat1(
