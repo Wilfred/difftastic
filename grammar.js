@@ -158,7 +158,7 @@ module.exports = grammar({
     [$._a_expression, $.parenthesized_type],
     [$._general_constructor, $._general_type_constructor, $.parenthesized_type],
     [$._general_constructor, $.parenthesized_type],
-    [$.right_operator_section, $.parenthesized_type]
+    [$.right_operator_section, $.parenthesized_type],
   ],
 
   rules: {
@@ -375,6 +375,7 @@ module.exports = grammar({
       $.import_declaration,
       $.qualified_import_declaration,
       $.type_family_declaration,
+      $.type_instance_declaration,
       $.gadt_declaration,
       $.algebraic_datatype_declaration,
       $.newtype_declaration,
@@ -422,13 +423,28 @@ module.exports = grammar({
       'type',
       'family',
       $._simple_type,
-      $.where
+      optional($.where)
     ),
 
     function_declaration: $ => prec(3, seq(
       $._funlhs,
       $.function_body
     )),
+
+    type_instance_declaration: $ => seq(
+      'type',
+      'instance',
+      $._simple_type,
+      $.type_instance_body
+    ),
+
+    type_instance_body: $ => seq(
+      '=',
+      choice(
+        alias($._type_pattern, $.type_pattern),
+        $._expression
+      )
+    ),
 
     _funlhs: $ => prec(1, choice(
       repeat1($._a_pattern),
@@ -1015,13 +1031,13 @@ module.exports = grammar({
       ')'
     ),
 
-    tuple_instance: $ => seq(
+    tuple_instance: $ => prec(1, seq(
       '(',
       choice($.type_variable_identifier, $._general_type_constructor),
       ',',
       sep1(',', choice($.type_variable_identifier, $._general_type_constructor)),
       ')'
-    ),
+    )),
 
     list_instance: $ => seq(
       '[',
@@ -1068,11 +1084,11 @@ module.exports = grammar({
       $._type_signature
     ),
 
-    kind_signature: $ => seq(
+    kind_signature: $ => prec(1, seq(
       sep1(',', $.type_variable_identifier),
       alias('::', $.annotation),
       $._kind_pattern
-    ),
+    )),
 
     _kind: $ => prec.left(repeat1($._akind)),
 
@@ -1265,7 +1281,10 @@ module.exports = grammar({
             $.kind_signature,
             ')'
           ),
+          $.kind_signature,
           $._type_signature,
+          $.list_instance,
+          $.tuple_instance,
           $.parenthesized_type
         )
       )
