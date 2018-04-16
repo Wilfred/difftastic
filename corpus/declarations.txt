@@ -55,6 +55,7 @@ type Nat = Zero ': Succ Zero ': Succ (Succ Zero) ': '[]
 type Foo bar baz wix = '[ W, A (B c) ]
 type Foo Bar = "higher-kinded"
 type Foo (Bar m a) = BarF m a
+type Foo '[] a = a
 
 ---
 
@@ -62,30 +63,31 @@ type Foo (Bar m a) = BarF m a
   (type_synonym_declaration
     (type_constructor_identifier)
     (type_synonym_body
-        (type_pattern
+      (type_pattern
+        (infix_type_operator_application
+          (type (type_constructor_identifier))
+          (type_operator)
           (infix_type_operator_application
-            (type (type_constructor_identifier))
+            (type (type_constructor_identifier) (type_constructor_identifier))
             (type_operator)
             (infix_type_operator_application
-              (type (type_constructor_identifier) (type_constructor_identifier))
+              (type (type_constructor_identifier) (parenthesized_constructor (type_constructor_identifier) (type_constructor_identifier)))
               (type_operator)
-              (infix_type_operator_application
-                (type (type_constructor_identifier) (parenthesized_constructor (type_constructor_identifier) (type_constructor_identifier)))
-                (type_operator)
-                (promoted (list_constructor))))))))
+              (promoted (list_constructor))))))))
   (type_synonym_declaration
     (type_constructor_identifier)
     (type_variable_identifier)
     (type_variable_identifier)
     (type_variable_identifier)
     (type_synonym_body
-      (promoted
-        (list_type
-          (type_constructor_identifier)
-          (type_constructor_identifier)
-          (parenthesized_constructor
+      (type_pattern
+        (promoted
+          (list_type
             (type_constructor_identifier)
-            (type_variable_identifier))))))
+            (type_constructor_identifier)
+            (parenthesized_constructor
+              (type_constructor_identifier)
+              (type_variable_identifier)))))))
   (type_synonym_declaration
     (type_constructor_identifier)
     (constructor_identifier)
@@ -101,7 +103,14 @@ type Foo (Bar m a) = BarF m a
       (type_pattern
         (type_constructor_identifier)
         (type_variable_identifier)
-        (type_variable_identifier)))))
+        (type_variable_identifier))))
+  (type_synonym_declaration
+    (type_constructor_identifier)
+    (promoted
+      (list_constructor))
+    (type_variable_identifier)
+    (type_synonym_body
+      (type_pattern (type_variable_identifier)))))
 
 =========================================
 Type Synonym Declarations With Context
