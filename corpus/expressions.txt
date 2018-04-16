@@ -68,7 +68,7 @@ if (x)
 ---
 
 (program
-  (if_then_statement
+  (if_then_else_statement
       (identifier) (identifier)))
 
 ============================
@@ -82,7 +82,7 @@ if (x) {
 ---
 
 (program
-  (if_then_statement
+  (if_then_else_statement
     (identifier) (block (identifier))))
 
 ============================
@@ -95,7 +95,7 @@ if (x = 3)
 ---
 
 (program
-  (if_then_statement
+  (if_then_else_statement
     (assignment_expression (lhs (identifier)) (integer_literal (decimal_integer_literal)))
       (assignment_expression (lhs (identifier)) (integer_literal (decimal_integer_literal)))))
 
@@ -110,7 +110,7 @@ if (x = 3) {
 ---
 
 (program
-  (if_then_statement
+  (if_then_else_statement
     (assignment_expression (lhs (identifier)) (integer_literal (decimal_integer_literal)))
       (block
         (assignment_expression (lhs (identifier)) (integer_literal (decimal_integer_literal))))))
@@ -125,7 +125,7 @@ if (x)
 ---
 
 (program
-  (if_then_statement
+  (if_then_else_statement
     (identifier) (assignment_expression (lhs (identifier)) (integer_literal (decimal_integer_literal)))))
 
 ===
@@ -159,7 +159,7 @@ if (a)
 ---
 
 (program
-  (if_then_statement
+  (if_then_else_statement
     (identifier)
     (if_then_else_statement
       (identifier)
