@@ -331,6 +331,10 @@ class Foo extends require('another-class') {
   constructor() {
     super()
   }
+
+  bar() {
+    super.a()
+  }
 }
 
 ---
@@ -360,7 +364,12 @@ class Foo extends require('another-class') {
         (property_identifier)
         (formal_parameters)
         (statement_block
-          (expression_statement (call_expression (super) (arguments))))))))
+          (expression_statement (call_expression (super) (arguments)))))
+      (method_definition
+        (property_identifier)
+        (formal_parameters)
+        (statement_block
+          (expression_statement (call_expression (member_expression (super) (property_identifier)) (arguments))))))))
 
 ============================================
 Class Property Fields
@@ -459,6 +468,7 @@ a => 1;
 (f, g) => {
   return h;
 };
+(set, kv) => 2;
 
 ---
 
@@ -475,7 +485,9 @@ a => 1;
   (expression_statement (arrow_function
     (formal_parameters (identifier) (identifier))
     (statement_block
-      (return_statement (identifier))))))
+      (return_statement (identifier)))))
+  (expression_statement (arrow_function
+    (formal_parameters (identifier) (identifier)) (number))))
 
 ============================================
 Generator Functions
@@ -1162,4 +1174,3 @@ i = <Foo:Bar bar={}>{...children}</Foo:Bar>
         (jsx_attribute (property_identifier) (jsx_expression)))
       (jsx_expression (spread_element (identifier)))
       (jsx_closing_element (jsx_namespace_name (identifier) (identifier)))))))
-

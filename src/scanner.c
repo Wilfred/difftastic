@@ -69,6 +69,7 @@ bool tree_sitter_javascript_external_scanner_scan(void *payload, TSLexer *lexer,
   switch (lexer->lookahead) {
     case ',':
     case '.':
+    case ';':
     case '*':
     case '%':
     case '>':

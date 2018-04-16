@@ -1,0 +1,25 @@
+============================================
+Numbers
+============================================
+
+04000
+400
+
+---
+
+(program
+  (expression_statement (number))
+  (expression_statement (number)))
+
+============================================
+Unicode identifiers
+============================================
+
+const últimaVez = 1
+{ 県: '大阪府', '': '' }
+
+---
+
+(program
+  (lexical_declaration (variable_declarator (identifier) (number)))
+  (expression_statement (object (pair (property_identifier) (string)) (pair (string) (string)))))

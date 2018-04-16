@@ -1,0 +1,11 @@
+examples/npm/node_modules/npm-profile/node_modules/make-fetch-happen/agent.js
+examples/npm/node_modules/slide/lib/async-map-ordered.js
+examples/npm/node_modules/unique-filename/coverage/prettify.js
+examples/npm/node_modules/pacote/node_modules/make-fetch-happen/agent.js
+examples/npm/node_modules/read/node_modules/mute-stream/coverage/lcov-report/prettify.js
+examples/npm/node_modules/request/node_modules/har-validator/node_modules/ajv/dist/nodent.min.js
+examples/npm/node_modules/request/node_modules/har-validator/node_modules/ajv/dist/ajv.min.js
+examples/npm/node_modules/request/node_modules/har-validator/node_modules/ajv/dist/regenerator.min.js
+examples/npm/node_modules/request/node_modules/hawk/dist/browser.js
+examples/npm/node_modules/request/node_modules/hawk/lib/browser.js
+examples/npm/node_modules/update-notifier/node_modules/chalk/node_modules/ansi-styles/node_modules/color-convert/conversions.js

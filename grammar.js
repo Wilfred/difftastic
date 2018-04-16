@@ -593,6 +593,7 @@ module.exports = grammar({
       choice(
         $._expression,
         $.identifier,
+        $.super,
         alias($._reserved_identifier, $.identifier)
       ),
       '.',
@@ -600,7 +601,7 @@ module.exports = grammar({
     )),
 
     subscript_expression: $ => prec.right(PREC.MEMBER, seq(
-      $._expression,
+      choice($._expression, $.super),
       '[', $._expressions , ']'
     )),
 
@@ -778,7 +779,7 @@ module.exports = grammar({
 
       const decimal_integer_literal = choice(
         '0',
-        seq(/[1-9]/, optional(decimal_digits))
+        seq(optional('0'), /[1-9]/, optional(decimal_digits))
       )
 
       const decimal_literal = choice(
@@ -795,7 +796,12 @@ module.exports = grammar({
       ))
     },
 
-    identifier: $ => /[a-zA-Z_$][a-zA-Z\d_$]*/,
+    identifier: $ => {
+      const alpha = /[^\s0-9:;`"'@#.,|^&<=>+\-*/\\%?!~()\[\]{}\uFEFF\u2060\u200B\u00A0]/
+      const alpha_numeric = /[^\s:;`"'@#.,|^&<=>+\-*/\\%?!~()\[\]{}\uFEFF\u2060\u200B\u00A0]/
+
+      return token(seq(alpha, repeat(alpha_numeric)))
+    },
 
     this: $ => 'this',
     super: $ => 'super',
@@ -858,6 +864,7 @@ module.exports = grammar({
       '(',
       commaSep(choice(
         $.identifier,
+        alias($._reserved_identifier, $.identifier),
         $._destructuring_pattern,
         $.assignment_pattern,
         $.rest_parameter

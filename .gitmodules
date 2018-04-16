@@ -1,0 +1,3 @@
+[submodule "examples/npm"]
+	path = examples/npm
+	url = https://github.com/npm/npm
