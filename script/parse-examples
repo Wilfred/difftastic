@@ -19,7 +19,7 @@ popd
 # TODO: Fix known issues in known_failures.txt
 known_failures=$(cat script/known_failures.txt)
 examples_to_parse=$(
-  for example in $(find examples/desktop -name '*.ts'); do
+  for example in $(find "$repo" -name '*.ts'); do
     if [[ ! $known_failures == *$example* ]]; then
       echo $example
     fi
