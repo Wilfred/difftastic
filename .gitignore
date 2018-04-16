@@ -3,3 +3,4 @@ build
 *.log
 package-lock.json
 /test.js
+/examples/npm
