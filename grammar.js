@@ -322,7 +322,9 @@ module.exports = grammar({
     type_qualifier: $ => choice(
       'const',
       'restrict',
-      'volatile'
+      'volatile',
+      'restrict',
+      '_Atomic'
     ),
 
     _type_specifier: $ => choice(

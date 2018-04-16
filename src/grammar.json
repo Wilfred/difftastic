@@ -1556,6 +1556,14 @@
         {
           "type": "STRING",
           "value": "volatile"
+        },
+        {
+          "type": "STRING",
+          "value": "restrict"
+        },
+        {
+          "type": "STRING",
+          "value": "_Atomic"
         }
       ]
     },
