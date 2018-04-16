@@ -701,6 +701,7 @@ module.exports = grammar({
       seq(
         '=',
         $._function_body,
+        optional($.where)
       ),
       seq(
         repeat1($.function_guard_pattern),
@@ -709,8 +710,7 @@ module.exports = grammar({
     ),
 
     _function_body: $ => seq(
-      $._expression,
-      optional($.where)
+      $._expression
     ),
 
     _top_where: $ => seq(
