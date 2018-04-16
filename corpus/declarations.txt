@@ -455,3 +455,15 @@ class JayZ {
                 (variable_declarator_list
                   (variable_declarator
                     (variable_declarator_id (identifier))))))))))))
+
+===
+enum declaration
+===
+
+enum HandSign {
+   SCISSOR, PAPER, STONE
+}
+
+---
+
+(program (enum_declaration (identifier) (enum_constant (identifier)) (enum_constant (identifier)) (enum_constant (identifier)))) 
