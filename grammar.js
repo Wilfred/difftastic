@@ -74,7 +74,6 @@ module.exports = grammar({
 
     _method_statement: $ => choice(
       $.labeled_statement,
-      $.if_then_statement,
       $.if_then_else_statement,
       $.while_statement,
       $.for_statement,
@@ -458,14 +457,11 @@ module.exports = grammar({
       $.field_access
     ),
 
-    if_then_statement: $ => prec.right(seq('if', '(', $._expression, ')', $._statement)),
-
-    if_then_else_statement: $ => seq(
+    if_then_else_statement: $ => prec.right(seq(
       'if', '(', $._expression, ')',
       $._statement,
-      'else',
-      $._statement
-    ),
+      optional(seq('else', $._statement))
+    )),
 
     while_statement: $ => seq('while', '(', $._expression, ')', $._statement),
 

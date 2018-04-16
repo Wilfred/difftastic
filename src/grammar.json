@@ -38,10 +38,6 @@
         },
         {
           "type": "SYMBOL",
-          "name": "if_then_statement"
-        },
-        {
-          "type": "SYMBOL",
           "name": "if_then_else_statement"
         },
         {
@@ -2982,7 +2978,7 @@
         }
       ]
     },
-    "if_then_statement": {
+    "if_then_else_statement": {
       "type": "PREC_RIGHT",
       "value": 0,
       "content": {
@@ -3007,42 +3003,30 @@
           {
             "type": "SYMBOL",
             "name": "_statement"
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "STRING",
+                    "value": "else"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "_statement"
+                  }
+                ]
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
           }
         ]
       }
-    },
-    "if_then_else_statement": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "if"
-        },
-        {
-          "type": "STRING",
-          "value": "("
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_expression"
-        },
-        {
-          "type": "STRING",
-          "value": ")"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_statement"
-        },
-        {
-          "type": "STRING",
-          "value": "else"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_statement"
-        }
-      ]
     },
     "while_statement": {
       "type": "SEQ",
