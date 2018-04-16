@@ -1,7 +1,6 @@
 #!/bin/bash
 
 set -e
-set -x
 
 cd "$(dirname "$0")/.."
 
@@ -14,7 +13,7 @@ if [ ! -d "$repo" ]; then
 fi
 
 pushd "$repo" && git pull
-# git reset --hard d1324f56d02dd9afca5d2e9da545905a7d41d671
+git reset --hard d1324f56d02dd9afca5d2e9da545905a7d41d671
 popd
 
 tree-sitter parse examples/*.ts -qt
