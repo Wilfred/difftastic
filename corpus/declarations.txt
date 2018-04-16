@@ -70,7 +70,7 @@ declare module Foo {
   (ambient_declaration
     (lexical_declaration (variable_declarator (identifier) (string))))
   (ambient_declaration
-    (ambient_function
+    (function_signature
       (identifier)
       (call_signature
         (formal_parameters (required_parameter (identifier) (type_annotation (predefined_type))))
@@ -80,7 +80,7 @@ declare module Foo {
     (internal_module
       (identifier)
       (statement_block
-        (ambient_function
+        (function_signature
           (identifier)
           (call_signature
             (formal_parameters (required_parameter (identifier) (type_annotation (predefined_type))))
@@ -178,6 +178,8 @@ export default function point(x: number, y: number) {
 
 export default class A {}
 
+export async function readFile(filename: string): Promise<Buffer>
+
 ---
 
 (program
@@ -191,7 +193,12 @@ export default class A {}
           (statement_block
             (return_statement (object (shorthand_property_identifier) (shorthand_property_identifier))))))
   (comment)
-  (export_statement (class (identifier) (class_body))))
+  (export_statement (class (identifier) (class_body)))
+  (export_statement (function_signature
+    (identifier)
+    (call_signature
+      (formal_parameters (required_parameter (identifier) (type_annotation (predefined_type))))
+      (type_annotation (generic_type (type_identifier) (type_arguments (type_identifier))))))))
 
 ==================================
 Typeof types
@@ -338,7 +345,7 @@ declare module "example" { }
     (variable_declaration (variable_declarator
       (identifier)
       (type_annotation (object_type))))
-    (export_statement (ambient_function
+    (export_statement (function_signature
       (identifier)
       (call_signature
         (type_parameters (type_parameter (identifier)))
@@ -438,7 +445,7 @@ export interface Foo {
       (identifier)
       (object_type
         (export_statement
-          (ambient_function
+          (function_signature
             (identifier)
             (call_signature
               (type_parameters (type_parameter (identifier)) (type_parameter (identifier)))
@@ -476,7 +483,7 @@ declare namespace moment {
       (export_statement (variable_declaration (variable_declarator (identifier) (type_annotation (predefined_type)))))
       (export_statement (class (identifier) (class_body)))
       (export_statement
-        (ambient_function
+        (function_signature
           (identifier)
           (call_signature (formal_parameters) (type_annotation (type_identifier)))))
       (export_statement (enum_declaration (identifier) (enum_body
@@ -696,6 +703,7 @@ abstract class Animal {
     readonly abstract prop: string;
     static readonly prop: string;
     otherProp: string;
+    requiredProp!: string;
     abstract makeSound(): void;
     abstract get readonlyProp(): string;
     protected abstract readonlyProp?(): string;
@@ -712,6 +720,7 @@ abstract class Animal {
     (public_field_definition (readonly) (property_identifier) (type_annotation (predefined_type)))
     (public_field_definition (readonly) (property_identifier) (type_annotation (predefined_type)))
     (public_field_definition (readonly) (property_identifier) (type_annotation (predefined_type))) (public_field_definition (property_identifier) (type_annotation (predefined_type)))
+    (public_field_definition (property_identifier) (type_annotation (predefined_type)))
     (abstract_method_signature
       (property_identifier)
       (call_signature (formal_parameters) (type_annotation (predefined_type))))

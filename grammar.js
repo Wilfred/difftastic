@@ -75,7 +75,7 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
         seq(optional($.readonly), optional('abstract')),
       ),
       $._property_name,
-      optional('?'),
+      optional(choice('?', '!')),
       optional($.type_annotation),
       optional($._initializer)
     ),
@@ -164,7 +164,8 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       ')'
     ),
 
-    ambient_function: $ => seq(
+    function_signature: $ => seq(
+      optional('async'),
       'function',
       $.identifier,
       $.call_signature,
@@ -235,7 +236,7 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       $.export_statement,
       $.function,
       $.internal_module,
-      $.ambient_function,
+      $.function_signature,
       $.generator_function,
       $.abstract_class,
       $.class,
