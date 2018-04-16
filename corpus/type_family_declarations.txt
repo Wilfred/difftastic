@@ -1,5 +1,5 @@
 =================================================
-Type Family Declaration
+Closed Type Family Declaration
 =================================================
 
 type family Foo bar where
@@ -44,3 +44,26 @@ type family Foo bar where
               (constructor_identifier)
               (variable_identifier))))
         (function_body (promoted (type_constructor_identifier)))))))
+
+=================================================
+Open Type Family Declaration
+=================================================
+
+type family F a :: *
+type instance F [Int] = Int
+type instance F String = Char
+
+---
+
+(module
+  (type_family_declaration
+    (type_constructor_identifier)
+    (kind_signature (type_variable_identifier) (annotation) (star)))
+  (type_instance_declaration
+    (type_constructor_identifier)
+    (list_instance (type_constructor_identifier))
+    (type_instance_body (type_pattern (type_constructor_identifier))))
+  (type_instance_declaration
+    (type_constructor_identifier)
+    (constructor_identifier)
+    (type_instance_body (type_pattern (type_constructor_identifier)))))
