@@ -323,7 +323,7 @@
           },
           {
             "type": "SYMBOL",
-            "name": "ambient_function"
+            "name": "function_signature"
           },
           {
             "type": "SYMBOL",
@@ -5433,7 +5433,7 @@
         }
       ]
     },
-    "ambient_function": {
+    "function_signature": {
       "type": "SEQ",
       "members": [
         {
