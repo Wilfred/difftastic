@@ -540,7 +540,8 @@ module.exports = grammar({
       $.unit_constructor,
       $.list_constructor,
       $.function_constructor,
-      $.tupling_constructor
+      $.tupling_constructor,
+      $.promoted
     ),
 
     _general_type_constructor: $ => choice(
@@ -830,7 +831,6 @@ module.exports = grammar({
     _a_expression: $ => seq(
       choice(
         prec.dynamic(-1, $._general_constructor),
-        $.promoted,
         $._variable,
         $._literal,
         $.parenthesized_expression,
