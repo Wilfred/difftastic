@@ -181,6 +181,11 @@ for (;;) {
   continue;
 }
 
+for (var i = 0
+  ; i < l
+  ; i++) {
+}
+
 ---
 
 (program
@@ -205,7 +210,13 @@ for (;;) {
     (empty_statement)
     (statement_block
       (expression_statement (identifier))
-      (continue_statement))))
+      (continue_statement)))
+
+  (for_statement
+    (variable_declaration (variable_declarator (identifier) (number)))
+    (expression_statement (binary_expression (identifier) (identifier)))
+    (update_expression (identifier))
+    (expression_statement (object))))
 
 ============================================
 For-in statements

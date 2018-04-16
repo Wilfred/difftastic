@@ -1,0 +1,17 @@
+#!/bin/bash
+
+set -e
+
+tree-sitter parse examples/*.js -q
+
+# TODO: Fix known issues in known_failures.txt
+known_failures=$(cat script/known_failures.txt)
+examples_to_parse=$(
+  for example in $(find examples/npm -name '*.js'); do
+    if [[ ! $known_failures == *$example* ]]; then
+      echo $example
+    fi
+  done
+)
+
+echo $examples_to_parse | xargs -n 5000 tree-sitter parse -q
