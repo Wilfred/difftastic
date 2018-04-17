@@ -89,7 +89,6 @@ module.exports = grammar({
 
   conflicts: $ => [
     [$.type_class_instance_declaration],
-    [$.type_class_declaration],
     [$.standalone_deriving_declaration],
     [$._general_type_constructor],
     [$._qualified_type_constructor_identifier],
@@ -110,52 +109,33 @@ module.exports = grammar({
     [$._import, $._qualified_type_constructor_identifier],
     [$._import, $._qualified_constructor_identifier, $._qualified_type_constructor_identifier],
     [$._qualified_constructor_identifier, $._qualified_type_constructor_identifier],
-    [$._qualified_constructor_operator, $._qualified_operator],
     [$.qualified_type_constructor_identifier, $.qualified_type_class_identifier],
     [$.qualified_type_constructor_identifier, $.qualified_constructor_identifier],
-    [$._constructor_identifier, $.module_identifier],
 
     [$._qualified_module_identifier, $.qualified_module_identifier],
     [$.qualified_module_identifier],
     [$._a_expression, $.constructor_pattern],
     [$.constructor_pattern],
-    [$.constructor_pattern, $.lambda_head],
 
     [$.promoted, $.infix_type_operator_application],
     [$.parenthesized_type, $._atype],
     [$.parenthesized_type],
-    [$._a_pattern, $.parenthesized_type],
     [$._general_constructor, $._general_type_constructor],
-    [$.promoted, $.char],
     [$.type_class_instance_declaration, $._qualified_type_constructor_identifier],
     [$._atype],
     [$.type_class_declaration, $._qualified_type_constructor_identifier],
     [$.standalone_deriving_declaration, $._qualified_type_constructor_identifier],
     [$._general_type_constructor, $.parenthesized_type],
-    [$.tuple_instance, $._atype],
     [$.list_instance, $._atype],
     [$._a_pattern, $.context],
 
-
     [$.constructor_pattern, $._a_pattern],
     [$.labeled_pattern, $.labeled_construction],
-    [$.function_guard_pattern],
     [$._atype, $._qualified_constructor_identifier],
 
-    [$.gadt_declaration, $._simple_type],
-
-    [$.parenthesized_context],
     [$.qualified_type_constructor_identifier, $.qualified_type_class_identifier, $.qualified_constructor_identifier],
-    [$.parenthesized_context, $._qualified_type_constructor_identifier],
-    [$.parenthesized_context, $._qualified_type_constructor_identifier, $._qualified_constructor_identifier],
 
-    [$._a_pattern, $._a_expression, $.constructor_pattern],
-    [$._top_declaration, $.function_application],
-    [$._declaration, $._a_expression],
-    [$._general_type_constructor, $._a_expression],
     [$._simple_type],
-    [$._general_type_constructor, $._a_expression, $.parenthesized_type],
-    [$._a_expression, $.parenthesized_type],
     [$._general_constructor, $._general_type_constructor, $.parenthesized_type],
     [$._general_constructor, $.parenthesized_type],
     [$.right_operator_section, $.parenthesized_type],
@@ -386,7 +366,6 @@ module.exports = grammar({
       $.foreign_export_declaration,
       $.standalone_deriving_declaration,
       $._declaration,
-      prec.dynamic(-2, $.function_application)
     ),
 
     standalone_deriving_declaration: $ => seq(
