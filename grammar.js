@@ -421,7 +421,7 @@ module.exports = grammar({
       $.try_with_resources_statement
     ),
 
-    catches: $ => prec.right(commaSep1($.catch_clause)),
+    catches: $ => prec.right(repeat1($.catch_clause)),
 
     catch_clause: $ => seq('catch', '(', $.catch_formal_parameter, ')', $.block),
 
