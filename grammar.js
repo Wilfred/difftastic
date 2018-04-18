@@ -1594,6 +1594,10 @@ module.exports = grammar({
       $.options_ghc_pragma
     ),
 
+    _pragma_start: $ => token(seq("{-#")),
+
+    _pragma_end: $ => token(seq("#-}")),
+
     _pragma: $ => choice(
       $.annotation_pragma,
       $.inline_pragma,
@@ -1617,8 +1621,8 @@ module.exports = grammar({
     ),
 
     annotation_pragma: $ => seq(
-      '{-#',
-      'ANN',
+      $._pragma_start,
+      /ANN/,
       choice(
         seq(
           alias('module', $.module),
@@ -1637,87 +1641,92 @@ module.exports = grammar({
           )
         )
       ),
-      '#-}'
+      $._pragma_end
     ),
 
     inline_pragma: $ => seq(
-      '{-#',
-      'INLINE',
+      $._pragma_start,
+      /INLINE/,
       optional(alias('CONLIKE', $.constructor_like)),
       optional(choice($.phase_control, $.eager_phase_control)),
       $._variable,
-      '#-}'
+      $._pragma_end
     ),
 
     inlinable_pragma: $ => seq(
-      '{-#',
-      choice('INLINABLE', 'INLINEABLE'),
+      $._pragma_start,
+      /INLINEABLE|INLINABLE/,
       optional(choice($.phase_control, $.eager_phase_control)),
       $._variable,
-      '#-}'
+      $._pragma_end
     ),
 
     no_inline_pragma: $ => seq(
-      '{-#',
-      'NOINLINE',
+      $._pragma_start,
+      /NOINLINE/,
       optional(alias('CONLIKE', $.constructor_like)),
       optional(choice($.phase_control, $.eager_phase_control)),
       $._variable,
-      '#-}'
+      $._pragma_end
     ),
 
     specialization_pragma: $ => seq(
-      '{-#',
-      choice('SPECIALIZE', 'SPECIALISE'),
-      optional(choice(alias('INLINE', $.inline), alias('NOINLINE', $.noinline))),
+      $._pragma_start,
+      /SPECIALIZE|SPECIALISE/,
+      optional(
+        choice(
+          alias('INLINE', $.inline),
+          alias('NOINLINE', $.noinline)
+        )
+      ),
       optional($.phase_control),
       choice(
         sep1(',', $.spec),
         $.instance_spec
       ),
-      '#-}'
+      $._pragma_end
     ),
 
     options_ghc_pragma: $ => seq(
-      '{-#',
-      'OPTIONS_GHC',
+      $._pragma_start,
+      /OPTIONS_GHC/,
       $.option,
-      '#-}'
+      $._pragma_end
     ),
 
     source_pragma: $ => seq(
-      '{-#',
-      'SOURCE',
-      '#-}'
+      $._pragma_start,
+      /SOURCE/,
+      $._pragma_end
     ),
 
     include_pragma: $ => seq(
-      '{-#',
-      'INCLUDE',
-       $.header_file,
-      '#-}'
+      $._pragma_start,
+      /INCLUDE/,
+      $.header_file,
+      $._pragma_end
     ),
 
     warning_pragma: $ => seq(
-      '{-#',
-      'WARNING',
+      $._pragma_start,
+      /WARNING/,
       optional(sep1(',', $.variable_identifier)),
       choice(
         alias($.string, $.warning_message),
         $.warning_message_list
       ),
-      '#-}'
+      $._pragma_end
     ),
 
     deprecated_pragma: $ => seq(
-      '{-#',
-      'DEPRECATED',
+      $._pragma_start,
+      /DEPRECATED/,
       optional(sep1(',', $.variable_identifier)),
       choice(
         alias($.string, $.deprecated_message),
         $.deprecated_message_list
       ),
-      '#-}'
+      $._pragma_end
     ),
 
     deprecated_message_list: $ => seq(
@@ -1733,23 +1742,23 @@ module.exports = grammar({
     ),
 
     line_pragma: $ => seq(
-      '{-#',
-      'LINE',
+      $._pragma_start,
+      /LINE/,
       alias($.integer, $.line_number),
       alias($.string, $.file_name),
-      '#-}'
+      $._pragma_end
     ),
 
     column_pragma: $ => seq(
-      '{-#',
-      'COLUMN',
+      $._pragma_start,
+      /COLUMN/,
       alias($.integer, $.column_number),
-      '#-}'
+      $._pragma_end
     ),
 
     minimal_pragma: $ => seq(
-      '{-#',
-      'MINIMAL',
+      $._pragma_start,
+      /MINIMAL/,
       repeat(
         choice(
           $._variable,
@@ -1758,59 +1767,59 @@ module.exports = grammar({
           $.disjunction
         )
       ),
-      '#-}'
+      $._pragma_end
     ),
 
     unpack_pragma: $ => seq(
-      '{-#',
-      'UNPACK',
-      '#-}'
+      $._pragma_start,
+      /UNPACK/,
+      $._pragma_end
     ),
 
     no_unpack_pragma: $ => seq(
-      '{-#',
-      'NOUNPACK',
-      '#-}'
+      $._pragma_start,
+      /NOUNPACK/,
+      $._pragma_end
     ),
 
     complete_pragma: $ => seq(
-      '{-#',
-      'COMPLETE',
+      $._pragma_start,
+      /COMPLETE/,
       sep1(',', $._a_expression),
-      '#-}'
+      $._pragma_end
     ),
 
     overlapping_pragma: $ => seq(
-      '{-#',
-      'OVERLAPPING',
-      '#-}'
+      $._pragma_start,
+      /OVERLAPPING/,
+      $._pragma_end
     ),
 
     overlappable_pragma: $ => seq(
-      '{-#',
-      'OVERLAPPABLE',
-      '#-}'
+      $._pragma_start,
+      /OVERLAPPABLE/,
+      $._pragma_end
     ),
 
     overlaps_pragma: $ => seq(
-      '{-#',
-      'OVERLAPS',
-      '#-}'
+      $._pragma_start,
+      /OVERLAPS/,
+      $._pragma_end
     ),
 
     incoherent_pragma: $ => seq(
-      '{-#',
-      'INCOHERENT',
-      '#-}'
+      $._pragma_start,
+      /INCOHERENT/,
+      $._pragma_end
     ),
 
     rules_pragma: $ => seq(
-      '{-#',
-      'RULES',
+      $._pragma_start,
+      /RULES/,
       $._layout_open_brace,
       repeat(seq($.rule, choice($._terminal, $._layout_semicolon))),
       $._layout_close_brace,
-      '#-}'
+      $._pragma_end
     ),
 
     rule: $ => seq(
@@ -1886,10 +1895,10 @@ module.exports = grammar({
     ),
 
     language_pragma: $ => seq(
-      '{-#',
-      'LANGUAGE',
+      $._pragma_start,
+      /LANGUAGE/,
       sep1(',', $.language_name),
-      '#-}'
+      $._pragma_end
     ),
 
     language_name: $ => /[A-Z](\w|')*/,
