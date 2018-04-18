@@ -22,6 +22,24 @@ const
     seq(decimals, exponent)
   ),
 
+  PREC = {
+    FUNCTION_DECLARATION: 3,
+    FUNCTION_LHS: 1,
+    NEGATIVE_LITERAL: 1,
+    TUPLE_INSTANCE: 1,
+    FUNCTION_TYPE_INSTANCE: 1,
+    KIND_SIGNATURE: 1,
+    TYPE_CONSTRUCTOR_OPERATOR_PATTERN: 1,
+    CLASS: 1,
+    EQUALITY_CONSTRAINT: 1,
+    RECORD_DATA_CONSTRUCTOR: 1,
+    NEW_CONSTRUCTOR: 1,
+    TYPE_VARIABLE_IDENTIFIER: 1,
+    CONJUNCTION: 2,
+    DISJUNCTION: 1,
+    AS_PATTERN: 3
+  }
+
   variable_symbol = choice(
     '!',
     '#',
@@ -98,7 +116,6 @@ module.exports = grammar({
     [$.quasi_quotation, $.variable_identifier],
 
     [$._lexp, $._a_expression],
-
     [$._a_pattern, $._a_expression],
 
     [$._lexp, $.function_application],
@@ -141,6 +158,7 @@ module.exports = grammar({
     [$._general_constructor, $._general_type_constructor, $.parenthesized_type],
     [$._general_constructor, $.parenthesized_type],
     [$.right_operator_section, $.parenthesized_type],
+
   ],
 
   rules: {
@@ -407,7 +425,7 @@ module.exports = grammar({
       optional($.where)
     ),
 
-    function_declaration: $ => prec(3, seq(
+    function_declaration: $ => prec(PREC.FUNCTION_DECLARATION, seq(
       $._funlhs,
       $.function_body
     )),
@@ -427,7 +445,7 @@ module.exports = grammar({
       )
     ),
 
-    _funlhs: $ => prec(1, choice(
+    _funlhs: $ => prec(PREC.FUNCTION_LHS, choice(
       repeat1($._a_pattern),
       prec.dynamic(3, seq($._pattern, $._op, $._pattern)),
       prec.dynamic(-1, seq($._funlhs, $._a_pattern, repeat($._a_pattern)))
@@ -462,7 +480,7 @@ module.exports = grammar({
       $._a_pattern
     ),
 
-    as_pattern: $ => prec.right(3, seq(
+    as_pattern: $ => prec.right(PREC.AS_PATTERN, seq(
       $._variable,
       '@',
       $._a_pattern
@@ -797,7 +815,7 @@ module.exports = grammar({
       ')'
     ),
 
-    negative_literal: $ => prec(1, seq('-', '(', choice($.integer, $.float), ')')),
+    negative_literal: $ => prec(PREC.NEGATIVE_LITERAL, seq('-', '(', choice($.integer, $.float), ')')),
 
     field_update: $ => seq(
       choice($._variable, $.quasi_quotation),
@@ -1012,7 +1030,7 @@ module.exports = grammar({
       ')'
     ),
 
-    tuple_instance: $ => prec(1, seq(
+    tuple_instance: $ => prec(PREC.TUPLE_INSTANCE, seq(
       '(',
       choice($.type_variable_identifier, $._general_type_constructor),
       ',',
@@ -1032,7 +1050,7 @@ module.exports = grammar({
       ')'
     ),
 
-    function_type_instance: $ => prec(1, seq(
+    function_type_instance: $ => prec(PREC.FUNCTION_TYPE_INSTANCE, seq(
       '(',
       sep1('->', $.type_variable_identifier),
       ')'
@@ -1065,7 +1083,7 @@ module.exports = grammar({
       $._type_signature
     ),
 
-    kind_signature: $ => prec(1, seq(
+    kind_signature: $ => prec(PREC.KIND_SIGNATURE, seq(
       sep1(',', $.type_variable_identifier),
       alias('::', $.annotation),
       $._kind_pattern
@@ -1311,13 +1329,13 @@ module.exports = grammar({
       )
     ),
 
-    type_constructor_operator_pattern: $ => prec(1, seq(
+    type_constructor_operator_pattern: $ => prec(PREC.TYPE_CONSTRUCTOR_OPERATOR_PATTERN, seq(
       $._qualified_type_constructor_identifier,
       $.constructor_operator,
       $.type_variable_identifier
     )),
 
-    class: $ => prec(1, seq(
+    class: $ => prec(PREC.CLASS, seq(
       $._qualified_constructor_identifier,
       optional(choice(
         seq(
@@ -1330,7 +1348,7 @@ module.exports = grammar({
       ))
     )),
 
-    equality_constraint: $ => prec(1, seq(
+    equality_constraint: $ => prec(PREC.EQUALITY_CONSTRAINT, seq(
       alias($._type_pattern, $.equality_lhs),
       '~',
       alias($._type_pattern, $.equality_rhs)
@@ -1376,7 +1394,7 @@ module.exports = grammar({
       repeat1($._atype)
     )),
 
-    record_data_constructor: $ => prec(1, seq($._qualified_constructor, $.fields)),
+    record_data_constructor: $ => prec(PREC.RECORD_DATA_CONSTRUCTOR, seq($._qualified_constructor, $.fields)),
 
     deriving: $ => seq(
       'deriving',
@@ -1399,7 +1417,7 @@ module.exports = grammar({
       optional($.deriving)
     )),
 
-    new_constructor: $ => prec(1, choice(
+    new_constructor: $ => prec(PREC.NEW_CONSTRUCTOR, choice(
       seq(
         $._qualified_constructor,
         $._atype
@@ -1539,7 +1557,7 @@ module.exports = grammar({
 
     variable_identifier: $ => $._variable_identifier,
 
-    type_variable_identifier: $ => prec(1, $._variable_identifier),
+    type_variable_identifier: $ => prec(PREC.TYPE_VARIABLE_IDENTIFIER, $._variable_identifier),
 
     variable_symbol: $ => token(
       seq(
@@ -1858,14 +1876,14 @@ module.exports = grammar({
     ),
 
     // In this context, conjunction means both sides are required (AND).
-    conjunction: $ => prec.left(2, seq(
+    conjunction: $ => prec.left(PREC.CONJUNCTION, seq(
       choice($._variable, $._qualified_constructor),
       ',',
       sep1(',', choice($._variable, $._qualified_constructor))
     )),
 
     // In this context, disjunction means only one side is required (OR).
-    disjunction: $ => prec.left(1, seq(
+    disjunction: $ => prec.left(PREC.DISJUNCTION, seq(
       choice($._variable, $._qualified_constructor, $.conjunction),
       '|',
       sep1('|', choice($._variable, $._qualified_constructor, $.conjunction))
