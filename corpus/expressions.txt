@@ -1058,7 +1058,8 @@ Forward slashes after parenthesized expressions
 ==============================================
 
 (foo - bar) / baz
-if (foo - bar) /baz/
+if (foo - bar) /baz/;
+(this.a() / this.b() - 1) / 2
 
 ---
 
@@ -1069,7 +1070,15 @@ if (foo - bar) /baz/
       (identifier)))
   (if_statement
     (parenthesized_expression (binary_expression (identifier) (identifier)))
-    (expression_statement (regex))))
+    (expression_statement (regex)))
+  (expression_statement
+    (binary_expression
+      (parenthesized_expression (binary_expression
+        (binary_expression
+          (call_expression (member_expression (this) (property_identifier)) (arguments))
+          (call_expression (member_expression (this) (property_identifier)) (arguments)))
+        (number)))
+      (number))))
 
 ==============================================
 Non-breaking spaces as whitespace
