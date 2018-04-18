@@ -338,6 +338,7 @@ module.exports = grammar({
       $.unidirectional_pattern_synonym,
       $.default_signature,
       $.type_synonym_declaration,
+      $.type_instance_declaration
     ),
 
     bidirectional_pattern_synonym: $ => seq(
@@ -357,7 +358,6 @@ module.exports = grammar({
       $.import_declaration,
       $.qualified_import_declaration,
       $.type_family_declaration,
-      $.type_instance_declaration,
       $.gadt_declaration,
       $.algebraic_datatype_declaration,
       $.newtype_declaration,
