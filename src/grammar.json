@@ -552,22 +552,8 @@
               "type": "SEQ",
               "members": [
                 {
-                  "type": "CHOICE",
-                  "members": [
-                    {
-                      "type": "SYMBOL",
-                      "name": "qualified_type_class_identifier"
-                    },
-                    {
-                      "type": "ALIAS",
-                      "content": {
-                        "type": "SYMBOL",
-                        "name": "_constructor_identifier"
-                      },
-                      "named": true,
-                      "value": "type_class_identifier"
-                    }
-                  ]
+                  "type": "SYMBOL",
+                  "name": "_qualified_type_class_identifier"
                 },
                 {
                   "type": "CHOICE",
@@ -1125,6 +1111,10 @@
         {
           "type": "SYMBOL",
           "name": "type_synonym_declaration"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "type_instance_declaration"
         }
       ]
     },
@@ -1185,10 +1175,6 @@
         {
           "type": "SYMBOL",
           "name": "type_family_declaration"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "type_instance_declaration"
         },
         {
           "type": "SYMBOL",
@@ -1289,22 +1275,8 @@
           ]
         },
         {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "qualified_type_class_identifier"
-            },
-            {
-              "type": "ALIAS",
-              "content": {
-                "type": "SYMBOL",
-                "name": "_constructor_identifier"
-              },
-              "named": true,
-              "value": "type_class_identifier"
-            }
-          ]
+          "type": "SYMBOL",
+          "name": "_qualified_type_class_identifier"
         },
         {
           "type": "SYMBOL",
@@ -3936,22 +3908,8 @@
           ]
         },
         {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "qualified_type_class_identifier"
-            },
-            {
-              "type": "ALIAS",
-              "content": {
-                "type": "SYMBOL",
-                "name": "_constructor_identifier"
-              },
-              "named": true,
-              "value": "type_class_identifier"
-            }
-          ]
+          "type": "SYMBOL",
+          "name": "_qualified_type_class_identifier"
         },
         {
           "type": "SYMBOL",
@@ -5550,16 +5508,7 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "qualified_type_class_identifier"
-              },
-              {
-                "type": "ALIAS",
-                "content": {
-                  "type": "SYMBOL",
-                  "name": "_constructor_identifier"
-                },
-                "named": true,
-                "value": "type_class_identifier"
+                "name": "_qualified_type_class_identifier"
               },
               {
                 "type": "SYMBOL",
@@ -5881,22 +5830,8 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "SYMBOL",
-                  "name": "qualified_type_class_identifier"
-                },
-                {
-                  "type": "ALIAS",
-                  "content": {
-                    "type": "SYMBOL",
-                    "name": "_constructor_identifier"
-                  },
-                  "named": true,
-                  "value": "type_class_identifier"
-                }
-              ]
+              "type": "SYMBOL",
+              "name": "_qualified_type_class_identifier"
             },
             {
               "type": "SEQ",
@@ -5912,22 +5847,8 @@
                       "type": "SEQ",
                       "members": [
                         {
-                          "type": "CHOICE",
-                          "members": [
-                            {
-                              "type": "SYMBOL",
-                              "name": "qualified_type_class_identifier"
-                            },
-                            {
-                              "type": "ALIAS",
-                              "content": {
-                                "type": "SYMBOL",
-                                "name": "_constructor_identifier"
-                              },
-                              "named": true,
-                              "value": "type_class_identifier"
-                            }
-                          ]
+                          "type": "SYMBOL",
+                          "name": "_qualified_type_class_identifier"
                         },
                         {
                           "type": "REPEAT",
@@ -5939,22 +5860,8 @@
                                 "value": ","
                               },
                               {
-                                "type": "CHOICE",
-                                "members": [
-                                  {
-                                    "type": "SYMBOL",
-                                    "name": "qualified_type_class_identifier"
-                                  },
-                                  {
-                                    "type": "ALIAS",
-                                    "content": {
-                                      "type": "SYMBOL",
-                                      "name": "_constructor_identifier"
-                                    },
-                                    "named": true,
-                                    "value": "type_class_identifier"
-                                  }
-                                ]
+                                "type": "SYMBOL",
+                                "name": "_qualified_type_class_identifier"
                               }
                             ]
                           }
@@ -6289,6 +6196,24 @@
           },
           "named": true,
           "value": "type_constructor_identifier"
+        }
+      ]
+    },
+    "_qualified_type_class_identifier": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "qualified_type_class_identifier"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_constructor_identifier"
+          },
+          "named": true,
+          "value": "type_class_identifier"
         }
       ]
     },
@@ -8401,22 +8326,8 @@
           "value": "instance"
         },
         {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "qualified_type_class_identifier"
-            },
-            {
-              "type": "ALIAS",
-              "content": {
-                "type": "SYMBOL",
-                "name": "_constructor_identifier"
-              },
-              "named": true,
-              "value": "type_class_identifier"
-            }
-          ]
+          "type": "SYMBOL",
+          "name": "_qualified_type_class_identifier"
         },
         {
           "type": "SYMBOL",
@@ -9036,6 +8947,10 @@
       "_qualified_type_constructor_identifier"
     ],
     [
+      "_qualified_type_constructor_identifier",
+      "_qualified_type_class_identifier"
+    ],
+    [
       "qualified_type_constructor_identifier",
       "qualified_type_class_identifier"
     ],
@@ -9081,7 +8996,8 @@
     ],
     [
       "type_class_declaration",
-      "_qualified_type_constructor_identifier"
+      "_qualified_type_constructor_identifier",
+      "_qualified_type_class_identifier"
     ],
     [
       "standalone_deriving_declaration",
@@ -9115,6 +9031,11 @@
       "qualified_type_constructor_identifier",
       "qualified_type_class_identifier",
       "qualified_constructor_identifier"
+    ],
+    [
+      "_qualified_type_constructor_identifier",
+      "_qualified_type_class_identifier",
+      "_qualified_constructor_identifier"
     ],
     [
       "_simple_type"
