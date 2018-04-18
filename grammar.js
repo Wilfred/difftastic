@@ -109,6 +109,7 @@ module.exports = grammar({
     [$._import, $._qualified_type_constructor_identifier],
     [$._import, $._qualified_constructor_identifier, $._qualified_type_constructor_identifier],
     [$._qualified_constructor_identifier, $._qualified_type_constructor_identifier],
+    [$._qualified_type_constructor_identifier, $._qualified_type_class_identifier],
     [$.qualified_type_constructor_identifier, $.qualified_type_class_identifier],
     [$.qualified_type_constructor_identifier, $.qualified_constructor_identifier],
 
@@ -123,7 +124,7 @@ module.exports = grammar({
     [$._general_constructor, $._general_type_constructor],
     [$.type_class_instance_declaration, $._qualified_type_constructor_identifier],
     [$._atype],
-    [$.type_class_declaration, $._qualified_type_constructor_identifier],
+    [$.type_class_declaration, $._qualified_type_constructor_identifier, $._qualified_type_class_identifier],
     [$.standalone_deriving_declaration, $._qualified_type_constructor_identifier],
     [$._general_type_constructor, $.parenthesized_type],
     [$.list_instance, $._atype],
@@ -134,6 +135,7 @@ module.exports = grammar({
     [$._atype, $._qualified_constructor_identifier],
 
     [$.qualified_type_constructor_identifier, $.qualified_type_class_identifier, $.qualified_constructor_identifier],
+    [$._qualified_type_constructor_identifier, $._qualified_type_class_identifier, $._qualified_constructor_identifier],
 
     [$._simple_type],
     [$._general_constructor, $._general_type_constructor, $.parenthesized_type],
@@ -233,7 +235,7 @@ module.exports = grammar({
           ))
         ),
         seq(
-          choice($.qualified_type_class_identifier, alias($._constructor_identifier, $.type_class_identifier)),
+          $._qualified_type_class_identifier,
           optional(choice(
             $.all_constructors,
             seq(
@@ -378,7 +380,7 @@ module.exports = grammar({
         $.incoherent_pragma
       )),
       optional($.scontext),
-      choice($.qualified_type_class_identifier, alias($._constructor_identifier, $.type_class_identifier)),
+      $._qualified_type_class_identifier,
       $.instance
     ),
 
@@ -978,7 +980,7 @@ module.exports = grammar({
         $.incoherent_pragma
       )),
       optional($.scontext),
-      choice($.qualified_type_class_identifier, alias($._constructor_identifier, $.type_class_identifier)),
+      $._qualified_type_class_identifier,
       $.instance,
       optional($.where)
     ),
@@ -1301,8 +1303,7 @@ module.exports = grammar({
           $.equality_constraint,
           $.type_variable_identifier,
           $.promoted,
-          $.qualified_type_class_identifier,
-          alias($._constructor_identifier, $.type_class_identifier),
+          $._qualified_type_class_identifier,
           $.parenthesized_type,
           $.type_constructor_operator_pattern
 
@@ -1380,10 +1381,10 @@ module.exports = grammar({
     deriving: $ => seq(
       'deriving',
       choice(
-        choice($.qualified_type_class_identifier, alias($._constructor_identifier, $.type_class_identifier)),
+        $._qualified_type_class_identifier,
         seq(
           '(',
-          optional(sep1(',', choice($.qualified_type_class_identifier, alias($._constructor_identifier, $.type_class_identifier)))),
+          optional(sep1(',', $._qualified_type_class_identifier)),
           ')'
         )
       )
@@ -1464,6 +1465,11 @@ module.exports = grammar({
       $._qualified_module_identifier,
       $._qualified_module_dot,
       alias($._constructor_identifier, $.type_constructor_identifier)
+    ),
+
+    _qualified_type_class_identifier: $ => choice(
+      $.qualified_type_class_identifier,
+      alias($._constructor_identifier, $.type_class_identifier)
     ),
 
     qualified_type_class_identifier: $ => seq(
@@ -1890,7 +1896,7 @@ module.exports = grammar({
 
     instance_spec: $ => seq(
       'instance',
-      choice($.qualified_type_class_identifier, alias($._constructor_identifier, $.type_class_identifier)),
+      $._qualified_type_class_identifier,
       $._a_pattern
     ),
 
