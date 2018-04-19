@@ -3040,15 +3040,15 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "_basic_for_statement"
+          "name": "basic_for_statement"
         },
         {
           "type": "SYMBOL",
-          "name": "_enhanced_for_statement"
+          "name": "enhanced_for_statement"
         }
       ]
     },
-    "_basic_for_statement": {
+    "basic_for_statement": {
       "type": "SEQ",
       "members": [
         {
@@ -3168,7 +3168,7 @@
         }
       ]
     },
-    "_enhanced_for_statement": {
+    "enhanced_for_statement": {
       "type": "SEQ",
       "members": [
         {
