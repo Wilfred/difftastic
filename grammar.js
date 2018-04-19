@@ -466,11 +466,11 @@ module.exports = grammar({
     while_statement: $ => seq('while', '(', $._expression, ')', $._statement),
 
     for_statement: $ => choice(
-      $._basic_for_statement,
-      $._enhanced_for_statement
+      $.basic_for_statement,
+      $.enhanced_for_statement
     ),
 
-    _basic_for_statement: $ => seq(
+    basic_for_statement: $ => seq(
       'for', '(',
       optional($.for_init), $._semicolon,
       optional($._expression), $._semicolon,
@@ -483,7 +483,7 @@ module.exports = grammar({
       $.local_variable_declaration,
     ),
 
-    _enhanced_for_statement: $ => seq(
+    enhanced_for_statement: $ => seq(
       'for',
       '(',
       repeat($.modifier),
