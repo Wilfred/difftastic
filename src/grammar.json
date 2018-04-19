@@ -4657,23 +4657,6 @@
         }
       ]
     },
-    "parenthesized_scoped_type_variables": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "("
-        },
-        {
-          "type": "SYMBOL",
-          "name": "scoped_type_variables"
-        },
-        {
-          "type": "STRING",
-          "value": ")"
-        }
-      ]
-    },
     "parenthesized_type_pattern": {
       "type": "SEQ",
       "members": [
@@ -4910,23 +4893,6 @@
         {
           "type": "STRING",
           "value": "]"
-        }
-      ]
-    },
-    "parenthesized_constructor": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "("
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_type_pattern"
-        },
-        {
-          "type": "STRING",
-          "value": ")"
         }
       ]
     },
