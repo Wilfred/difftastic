@@ -109,7 +109,6 @@ module.exports = grammar({
     [$.type_class_instance_declaration],
     [$.standalone_deriving_declaration],
     [$._general_type_constructor],
-    [$._qualified_type_constructor_identifier],
     [$.instance],
     [$._funlhs],
     [$._pattern],
@@ -139,13 +138,9 @@ module.exports = grammar({
     [$.parenthesized_type, $._atype],
     [$.parenthesized_type],
     [$._general_constructor, $._general_type_constructor],
-    [$.type_class_instance_declaration, $._qualified_type_constructor_identifier],
     [$._atype],
     [$.type_class_declaration, $._qualified_type_constructor_identifier, $._qualified_type_class_identifier],
-    [$.standalone_deriving_declaration, $._qualified_type_constructor_identifier],
     [$._general_type_constructor, $.parenthesized_type],
-    [$.list_instance, $._atype],
-    [$._a_pattern, $.context],
 
     [$.constructor_pattern, $._a_pattern],
     [$.labeled_pattern, $.labeled_construction],
@@ -159,6 +154,12 @@ module.exports = grammar({
     [$._general_constructor, $.parenthesized_type],
     [$.right_operator_section, $.parenthesized_type],
 
+    [$._general_type_constructor, $._context_lpat],
+    [$.class],
+    [$._atype, $._context_lpat],
+    [$.scoped_type_variables, $.rule_pattern_variables],
+
+    [$._a_pattern, $._lexp],
   ],
 
   rules: {
@@ -347,7 +348,7 @@ module.exports = grammar({
     ),
 
     _declaration: $ => choice(
-      $._general_declaration,
+      prec.dynamic(2, $._general_declaration),
       prec.dynamic(2, $.function_declaration),
       $._pragma,
       prec.dynamic(1, $.quasi_quotation),
@@ -380,12 +381,13 @@ module.exports = grammar({
       $.algebraic_datatype_declaration,
       $.newtype_declaration,
       $.type_class_declaration,
-      prec.dynamic(1, $.type_class_instance_declaration),
+      $.type_class_instance_declaration,
       $.default_declaration,
       $.foreign_import_declaration,
       $.foreign_export_declaration,
       $.standalone_deriving_declaration,
       $._declaration,
+      // prec.dynamic(-2, $.function_application)
     ),
 
     standalone_deriving_declaration: $ => seq(
@@ -621,7 +623,8 @@ module.exports = grammar({
       $.function_application,
       $._a_expression,
       $.quasi_quotation,
-      $.splice
+      $.splice,
+      $.wildcard
     ),
 
     type_application: $ => seq(
@@ -1152,16 +1155,23 @@ module.exports = grammar({
       ')'
     ),
 
-    _atype: $ => choice(
+    parenthesized_type_pattern: $ => seq(
+      '(',
+      $._type_pattern,
+      ')'
+    ),
+
+    _atype: $ => prec.right(choice(
       prec.dynamic(1, $.primitive_constructor_identifier),
       $._general_type_constructor,
       $.type_variable_identifier,
       $.tuple_type,
       $.list_type,
-      $.parenthesized_constructor,
       $.fields,
-      $.parenthesized_context
-    ),
+      $.parenthesized_type_pattern,
+      $.parenthesized_context,
+      $.scoped_type_variables
+    )),
 
     infix_type_operator_application: $ => prec.right(seq(
       alias($._type_pattern, $.type),
@@ -1195,12 +1205,6 @@ module.exports = grammar({
       '[',
       $._kind_pattern,
       ']'
-    ),
-
-    parenthesized_constructor: $ => seq(
-      '(',
-      $._type_pattern,
-      ')'
     ),
 
     kind_parenthesized_constructor: $ => seq(
@@ -1301,19 +1305,29 @@ module.exports = grammar({
       '=>'
     )),
 
-    context: $ => prec.left(seq(
+    context_pattern: $ => choice(
+      seq($._context_lpat, $._qualified_operator, $._context_lpat),
+      $._context_lpat
+    ),
+
+    _context_lpat: $ => choice(
+      $.class,
+      $.equality_constraint,
+      $.type_variable_identifier,
+      $.promoted
+    ),
+
+    context: $ => seq(
       choice(
-        $.class,
-        $.equality_constraint,
-        $.parenthesized_pattern,
+        $.context_pattern,
         seq(
           '(',
-          optional(sep1(',', choice($.class, $.equality_constraint, $.parenthesized_pattern))),
+          sep1(',', $.context_pattern),
           ')'
-        ),
+        )
       ),
       '=>'
-    )),
+    ),
 
     simple_class: $ => seq(
       repeat1(

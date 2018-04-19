@@ -1069,8 +1069,12 @@
       "type": "CHOICE",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "_general_declaration"
+          "type": "PREC_DYNAMIC",
+          "value": 2,
+          "content": {
+            "type": "SYMBOL",
+            "name": "_general_declaration"
+          }
         },
         {
           "type": "PREC_DYNAMIC",
@@ -1193,12 +1197,8 @@
           "name": "type_class_declaration"
         },
         {
-          "type": "PREC_DYNAMIC",
-          "value": 1,
-          "content": {
-            "type": "SYMBOL",
-            "name": "type_class_instance_declaration"
-          }
+          "type": "SYMBOL",
+          "name": "type_class_instance_declaration"
         },
         {
           "type": "SYMBOL",
@@ -2277,6 +2277,10 @@
         {
           "type": "SYMBOL",
           "name": "splice"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "wildcard"
         }
       ]
     },
@@ -4653,46 +4657,88 @@
         }
       ]
     },
-    "_atype": {
-      "type": "CHOICE",
+    "parenthesized_scoped_type_variables": {
+      "type": "SEQ",
       "members": [
         {
-          "type": "PREC_DYNAMIC",
-          "value": 1,
-          "content": {
-            "type": "SYMBOL",
-            "name": "primitive_constructor_identifier"
-          }
+          "type": "STRING",
+          "value": "("
         },
         {
           "type": "SYMBOL",
-          "name": "_general_type_constructor"
+          "name": "scoped_type_variables"
         },
         {
-          "type": "SYMBOL",
-          "name": "type_variable_identifier"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "tuple_type"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "list_type"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "parenthesized_constructor"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "fields"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "parenthesized_context"
+          "type": "STRING",
+          "value": ")"
         }
       ]
+    },
+    "parenthesized_type_pattern": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_type_pattern"
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "_atype": {
+      "type": "PREC_RIGHT",
+      "value": 0,
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "PREC_DYNAMIC",
+            "value": 1,
+            "content": {
+              "type": "SYMBOL",
+              "name": "primitive_constructor_identifier"
+            }
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_general_type_constructor"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "type_variable_identifier"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "tuple_type"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "list_type"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "fields"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "parenthesized_type_pattern"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "parenthesized_context"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "scoped_type_variables"
+          }
+        ]
+      }
     },
     "infix_type_operator_application": {
       "type": "PREC_RIGHT",
@@ -5384,107 +5430,108 @@
         ]
       }
     },
+    "context_pattern": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_context_lpat"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_qualified_operator"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_context_lpat"
+            }
+          ]
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_context_lpat"
+        }
+      ]
+    },
+    "_context_lpat": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "class"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "equality_constraint"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "type_variable_identifier"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "promoted"
+        }
+      ]
+    },
     "context": {
-      "type": "PREC_LEFT",
-      "value": 0,
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "class"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "equality_constraint"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "parenthesized_pattern"
-              },
-              {
-                "type": "SEQ",
-                "members": [
-                  {
-                    "type": "STRING",
-                    "value": "("
-                  },
-                  {
-                    "type": "CHOICE",
-                    "members": [
-                      {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "context_pattern"
+            },
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "("
+                },
+                {
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "SYMBOL",
+                      "name": "context_pattern"
+                    },
+                    {
+                      "type": "REPEAT",
+                      "content": {
                         "type": "SEQ",
                         "members": [
                           {
-                            "type": "CHOICE",
-                            "members": [
-                              {
-                                "type": "SYMBOL",
-                                "name": "class"
-                              },
-                              {
-                                "type": "SYMBOL",
-                                "name": "equality_constraint"
-                              },
-                              {
-                                "type": "SYMBOL",
-                                "name": "parenthesized_pattern"
-                              }
-                            ]
+                            "type": "STRING",
+                            "value": ","
                           },
                           {
-                            "type": "REPEAT",
-                            "content": {
-                              "type": "SEQ",
-                              "members": [
-                                {
-                                  "type": "STRING",
-                                  "value": ","
-                                },
-                                {
-                                  "type": "CHOICE",
-                                  "members": [
-                                    {
-                                      "type": "SYMBOL",
-                                      "name": "class"
-                                    },
-                                    {
-                                      "type": "SYMBOL",
-                                      "name": "equality_constraint"
-                                    },
-                                    {
-                                      "type": "SYMBOL",
-                                      "name": "parenthesized_pattern"
-                                    }
-                                  ]
-                                }
-                              ]
-                            }
+                            "type": "SYMBOL",
+                            "name": "context_pattern"
                           }
                         ]
-                      },
-                      {
-                        "type": "BLANK"
                       }
-                    ]
-                  },
-                  {
-                    "type": "STRING",
-                    "value": ")"
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "type": "STRING",
-            "value": "=>"
-          }
-        ]
-      }
+                    }
+                  ]
+                },
+                {
+                  "type": "STRING",
+                  "value": ")"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": "=>"
+        }
+      ]
     },
     "simple_class": {
       "type": "SEQ",
@@ -8898,9 +8945,6 @@
       "_general_type_constructor"
     ],
     [
-      "_qualified_type_constructor_identifier"
-    ],
-    [
       "instance"
     ],
     [
@@ -8988,10 +9032,6 @@
       "_general_type_constructor"
     ],
     [
-      "type_class_instance_declaration",
-      "_qualified_type_constructor_identifier"
-    ],
-    [
       "_atype"
     ],
     [
@@ -9000,20 +9040,8 @@
       "_qualified_type_class_identifier"
     ],
     [
-      "standalone_deriving_declaration",
-      "_qualified_type_constructor_identifier"
-    ],
-    [
       "_general_type_constructor",
       "parenthesized_type"
-    ],
-    [
-      "list_instance",
-      "_atype"
-    ],
-    [
-      "_a_pattern",
-      "context"
     ],
     [
       "constructor_pattern",
@@ -9052,6 +9080,25 @@
     [
       "right_operator_section",
       "parenthesized_type"
+    ],
+    [
+      "_general_type_constructor",
+      "_context_lpat"
+    ],
+    [
+      "class"
+    ],
+    [
+      "_atype",
+      "_context_lpat"
+    ],
+    [
+      "scoped_type_variables",
+      "rule_pattern_variables"
+    ],
+    [
+      "_a_pattern",
+      "_lexp"
     ]
   ],
   "externals": [

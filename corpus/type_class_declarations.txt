@@ -53,7 +53,7 @@ class Foo a where {
       (type_signature
         (variable_identifier)
         (annotation)
-        (context (class (constructor_identifier) (type_variable_identifier)))
+        (context (context_pattern (class (constructor_identifier) (type_variable_identifier))))
         (function_type
           (type (type_variable_identifier))
           (function_type
@@ -63,8 +63,8 @@ class Foo a where {
         (variable_identifier)
         (annotation)
         (context
-          (class (constructor_identifier) (type_variable_identifier))
-          (class (constructor_identifier) (type_variable_identifier)))
+          (context_pattern (class (constructor_identifier) (type_variable_identifier)))
+          (context_pattern (class (constructor_identifier) (type_variable_identifier))))
         (function_type
           (type (type_variable_identifier))
           (function_type
