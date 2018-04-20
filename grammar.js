@@ -30,7 +30,6 @@ const
     FUNCTION_TYPE_INSTANCE: 1,
     KIND_SIGNATURE: 1,
     TYPE_CONSTRUCTOR_OPERATOR_PATTERN: 1,
-    CLASS: 1,
     EQUALITY_CONSTRAINT: 1,
     RECORD_DATA_CONSTRUCTOR: 1,
     NEW_CONSTRUCTOR: 1,
@@ -155,7 +154,6 @@ module.exports = grammar({
     [$.right_operator_section, $.parenthesized_type],
 
     [$._general_type_constructor, $._context_lpat],
-    [$.class],
     [$._atype, $._context_lpat],
     [$.scoped_type_variables, $.rule_pattern_variables],
 
@@ -1149,7 +1147,6 @@ module.exports = grammar({
 
     parenthesized_context: $ => seq(
       '(',
-      alias($._qualified_constructor_identifier, $.class),
       '=>',
       repeat1($.type_variable_identifier),
       ')'
@@ -1168,9 +1165,9 @@ module.exports = grammar({
       $.tuple_type,
       $.list_type,
       $.fields,
-      $.parenthesized_type_pattern,
       $.parenthesized_context,
-      $.scoped_type_variables
+      $.parenthesized_type_pattern,
+      $.scoped_type_variables,
     )),
 
     infix_type_operator_application: $ => prec.right(seq(
@@ -1338,7 +1335,6 @@ module.exports = grammar({
           $._qualified_type_class_identifier,
           $.parenthesized_type,
           $.type_constructor_operator_pattern
-
         )
       )
     ),
@@ -1349,17 +1345,28 @@ module.exports = grammar({
       $.type_variable_identifier
     )),
 
-    class: $ => prec(PREC.CLASS, seq(
-      $._qualified_constructor_identifier,
-      optional(choice(
-        seq(
-          '(',
-          $.type_variable_identifier,
-          repeat1($._atype),
-          ')'
-        ),
-        repeat1($._atype)
-      ))
+    class: $ => prec.right(seq(
+      $._qualified_type_class_identifier,
+      optional(
+        choice(
+          seq(
+            '(',
+            repeat1(
+              choice(
+                $.type_variable_identifier,
+                $._qualified_type_class_identifier
+              )
+            ),
+            ')'
+          ),
+          repeat1(
+            choice(
+              $.type_variable_identifier,
+              $._qualified_type_class_identifier
+            )
+          )
+        )
+      )
     )),
 
     equality_constraint: $ => prec(PREC.EQUALITY_CONSTRAINT, seq(

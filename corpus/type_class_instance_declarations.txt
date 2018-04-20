@@ -112,7 +112,7 @@ instance Foo Bar where
       (type_signature
         (variable_identifier)
         (annotation)
-        (context (context_pattern (class (constructor_identifier) (type_variable_identifier))))
+        (context (context_pattern (class (type_class_identifier) (type_variable_identifier))))
         (function_type
           (type (type_variable_identifier))
           (function_type
@@ -122,8 +122,8 @@ instance Foo Bar where
         (variable_identifier)
         (annotation)
         (context
-          (context_pattern (class (constructor_identifier) (type_variable_identifier)))
-          (context_pattern (class (constructor_identifier) (type_variable_identifier))))
+          (context_pattern (class (type_class_identifier) (type_variable_identifier)))
+          (context_pattern (class (type_class_identifier) (type_variable_identifier))))
         (function_type
           (type
             (type_constructor_identifier)

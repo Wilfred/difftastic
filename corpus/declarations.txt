@@ -167,7 +167,7 @@ newtype Bar a (b :: [* -> *]) c = Foo (a b c)
   (newtype_declaration
     (context
       (context_pattern
-        (class (constructor_identifier) (type_variable_identifier))))
+        (class (type_class_identifier) (type_variable_identifier))))
     (type_constructor_identifier)
     (new_constructor
       (constructor_identifier)
@@ -363,15 +363,15 @@ data (Eq (f a), Functor f) => N f a = N f a
   (algebraic_datatype_declaration
     (context
       (context_pattern
-        (class (constructor_identifier) (type_variable_identifier))))
+        (class (type_class_identifier) (type_variable_identifier))))
     (type_constructor_identifier) (type_variable_identifier)
     (constructors
       (data_constructor (constructor_identifier) (type_variable_identifier))))
   (algebraic_datatype_declaration
     (context
-      (context_pattern (class (constructor_identifier) (type_variable_identifier)))
-      (context_pattern (class (constructor_identifier) (type_variable_identifier)))
-      (context_pattern (class (constructor_identifier) (type_variable_identifier))))
+      (context_pattern (class (type_class_identifier) (type_variable_identifier)))
+      (context_pattern (class (type_class_identifier) (type_variable_identifier)))
+      (context_pattern (class (type_class_identifier) (type_variable_identifier))))
     (type_constructor_identifier)
     (type_variable_identifier)
     (type_variable_identifier)
@@ -380,8 +380,8 @@ data (Eq (f a), Functor f) => N f a = N f a
         (constructor_identifier) (type_variable_identifier) (type_variable_identifier))))
   (algebraic_datatype_declaration
     (context
-      (context_pattern (class (constructor_identifier) (type_variable_identifier) (type_variable_identifier)))
-      (context_pattern (class (constructor_identifier) (type_variable_identifier))))
+      (context_pattern (class (type_class_identifier) (type_variable_identifier) (type_variable_identifier)))
+      (context_pattern (class (type_class_identifier) (type_variable_identifier))))
     (type_constructor_identifier)
     (type_variable_identifier)
     (type_variable_identifier)
@@ -598,11 +598,11 @@ sumCollects :: forall c1 c2. (B c1, B c2, E c1 ~ E c2) => c1 -> c2 -> c2
     (context
       (context_pattern
         (class
-          (constructor_identifier)
+          (type_class_identifier)
           (type_variable_identifier)))
       (context_pattern
         (class
-          (constructor_identifier)
+          (type_class_identifier)
           (type_variable_identifier)))
       (context_pattern
         (equality_constraint
@@ -631,8 +631,8 @@ foo :: (Bar m) => Ord a => a -> Baz m
   (type_signature
     (variable_identifier)
     (annotation)
-    (context (context_pattern (class (constructor_identifier) (type_variable_identifier))))
-    (context (context_pattern (class (constructor_identifier) (type_variable_identifier))))
+    (context (context_pattern (class (type_class_identifier) (type_variable_identifier))))
+    (context (context_pattern (class (type_class_identifier) (type_variable_identifier))))
     (function_type
       (type (type_variable_identifier))
       (type (type_constructor_identifier) (type_variable_identifier)))))
@@ -650,7 +650,7 @@ foo :: HasCallStack => a -> a
     (variable_identifier)
     (annotation)
     (context
-      (context_pattern (class (constructor_identifier))))
+      (context_pattern (class (type_class_identifier))))
     (function_type
       (type (type_variable_identifier))
       (type (type_variable_identifier)))))
@@ -674,7 +674,7 @@ withStateCallStack :: Maybe (String, SrcLoc) -> State a b -> (HasCallStack => c)
       (function_type
         (type (type_constructor_identifier) (type_variable_identifier) (type_variable_identifier))
         (function_type
-          (type (parenthesized_context (class (constructor_identifier)) (type_variable_identifier)))
+          (type (parenthesized_context (class (type_class_identifier)) (type_variable_identifier)))
           (type (type_variable_identifier)))))))
 
 =========================================
@@ -693,7 +693,7 @@ foo :: (f :< Bar) => Bar -> f
       (context_pattern
         (type_variable_identifier)
         (constructor_operator (constructor_symbol))
-        (class (constructor_identifier))))
+        (class (type_class_identifier))))
     (function_type
       (type (type_constructor_identifier))
       (type (type_variable_identifier)))))
