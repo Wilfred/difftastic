@@ -4291,12 +4291,8 @@
       ]
     },
     "type_signature": {
-      "type": "PREC_LEFT",
-      "value": 0,
-      "content": {
-        "type": "SYMBOL",
-        "name": "_type_signature"
-      }
+      "type": "SYMBOL",
+      "name": "_type_signature"
     },
     "_type_signature": {
       "type": "SEQ",
@@ -4374,7 +4370,7 @@
       ]
     },
     "kind_signature": {
-      "type": "PREC_LEFT",
+      "type": "PREC",
       "value": 1,
       "content": {
         "type": "SEQ",
@@ -5275,23 +5271,6 @@
         }
       ]
     },
-    "_parenthesized_kind_signature": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "("
-        },
-        {
-          "type": "SYMBOL",
-          "name": "kind_signature"
-        },
-        {
-          "type": "STRING",
-          "value": ")"
-        }
-      ]
-    },
     "_simple_type": {
       "type": "SEQ",
       "members": [
@@ -5313,8 +5292,21 @@
                 "name": "_general_constructor"
               },
               {
-                "type": "SYMBOL",
-                "name": "_parenthesized_kind_signature"
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "STRING",
+                    "value": "("
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "kind_signature"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": ")"
+                  }
+                ]
               },
               {
                 "type": "SYMBOL",
@@ -6262,30 +6254,26 @@
       ]
     },
     "qualified_type_class_identifier": {
-      "type": "PREC",
-      "value": 1,
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_qualified_module_identifier"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_qualified_module_dot"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
             "type": "SYMBOL",
-            "name": "_qualified_module_identifier"
+            "name": "_constructor_identifier"
           },
-          {
-            "type": "SYMBOL",
-            "name": "_qualified_module_dot"
-          },
-          {
-            "type": "ALIAS",
-            "content": {
-              "type": "SYMBOL",
-              "name": "_constructor_identifier"
-            },
-            "named": true,
-            "value": "type_class_identifier"
-          }
-        ]
-      }
+          "named": true,
+          "value": "type_class_identifier"
+        }
+      ]
     },
     "_qualified_constructor_identifier": {
       "type": "CHOICE",
