@@ -1155,6 +1155,7 @@ module.exports = grammar({
 
     parenthesized_context: $ => seq(
       '(',
+      alias($._qualified_type_class_identifier, $.class),
       '=>',
       repeat1($.type_variable_identifier),
       ')'
