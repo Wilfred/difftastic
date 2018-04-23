@@ -26,7 +26,7 @@ type Z = (->)
   (type_synonym_declaration
     (type_constructor_identifier) (type_variable_identifier)
     (type_synonym_body
-      (type_pattern (list_type (type_constructor_identifier) (type_variable_identifier)))))
+      (type_pattern (list_type (type (type_constructor_identifier) (type_variable_identifier))))))
   (type_synonym_declaration
     (type_constructor_identifier)
     (type_synonym_body
@@ -80,11 +80,12 @@ type Foo '[] a = a
       (type_pattern
         (promoted
           (list_type
-            (type_constructor_identifier)
-            (type_constructor_identifier)
-            (parenthesized_type_pattern
+            (type (type_constructor_identifier))
+            (type
               (type_constructor_identifier)
-              (type_variable_identifier)))))))
+              (parenthesized_type_pattern
+                (type_constructor_identifier)
+                (type_variable_identifier))))))))
   (type_synonym_declaration
     (type_constructor_identifier)
     (constructor_identifier)
@@ -521,13 +522,13 @@ f :: (Int, Int) -> Maybe Int
     (variable_identifier)
     (annotation)
     (function_type
-      (type (list_type (type_constructor_identifier)))
+      (type (list_type (type (type_constructor_identifier))))
       (type (type_constructor_identifier))))
   (type_signature
     (variable_identifier)
     (annotation)
     (function_type
-      (type (tuple_type (type_constructor_identifier) (type_constructor_identifier)))
+      (type (tuple_type (type (type_constructor_identifier)) (type (type_constructor_identifier))))
       (type (type_constructor_identifier) (type_constructor_identifier)))))
 
 =========================================
@@ -545,17 +546,17 @@ f :: forall a b. (a, b) -> [a]
     (annotation)
     (scoped_type_variables (variable_identifier))
     (function_type
-      (type (list_type (type_variable_identifier)))
-      (type (list_type (type_variable_identifier)))))
+      (type (list_type (type (type_variable_identifier))))
+      (type (list_type (type (type_variable_identifier))))))
   (type_signature
     (variable_identifier)
     (annotation)
     (scoped_type_variables (variable_identifier) (variable_identifier))
     (function_type
       (type
-        (tuple_type (type_variable_identifier) (type_variable_identifier)))
+        (tuple_type (type (type_variable_identifier)) (type (type_variable_identifier))))
       (type
-        (list_type (type_variable_identifier))))))
+        (list_type (type (type_variable_identifier)))))))
 
 =========================================
 Type Signatures With Equality Constraints
@@ -622,7 +623,7 @@ sumCollects :: forall c1 c2. (B c1, B c2, E c1 ~ E c2) => c1 -> c2 -> c2
 Type Signatures With Multiple Contexts
 =========================================
 
-foo :: (Bar m) => Ord a => a -> Baz m
+foo :: (Bar m) => Baz [Fiz Fuzz, Wiz, Wax, Woz] bar => a -> Baz m
 
 ---
 
@@ -631,7 +632,18 @@ foo :: (Bar m) => Ord a => a -> Baz m
     (variable_identifier)
     (annotation)
     (context (context_pattern (class (type_class_identifier) (type_variable_identifier))))
-    (context (context_pattern (class (type_class_identifier) (type_variable_identifier))))
+    (context
+      (context_pattern
+        (class
+          (type_class_identifier)
+          (list_type
+            (type
+              (type_constructor_identifier)
+              (type_constructor_identifier))
+            (type (type_constructor_identifier))
+            (type (type_constructor_identifier))
+            (type (type_constructor_identifier)))
+          (type_variable_identifier))))
     (function_type
       (type (type_variable_identifier))
       (type (type_constructor_identifier) (type_variable_identifier)))))
@@ -654,9 +666,10 @@ bar :: (Baz '[Foo Wix a] biz, Waz woo) => Out a -> [Foo] -> Baz biz Waz
           (type_class_identifier)
           (promoted
             (list_type
-              (type_constructor_identifier)
-              (type_constructor_identifier)
-              (type_variable_identifier)))
+              (type
+                (type_constructor_identifier)
+                (type_constructor_identifier)
+                (type_variable_identifier))))
             (type_variable_identifier)))
       (context_pattern
         (class
@@ -665,7 +678,7 @@ bar :: (Baz '[Foo Wix a] biz, Waz woo) => Out a -> [Foo] -> Baz biz Waz
     (function_type
       (type (type_constructor_identifier) (type_variable_identifier))
       (function_type
-        (type (list_type (type_constructor_identifier)))
+        (type (list_type (type (type_constructor_identifier))))
         (type (type_constructor_identifier) (type_variable_identifier) (type_constructor_identifier))))))
 
 =========================================
@@ -701,7 +714,7 @@ withStateCallStack :: Maybe (String, SrcLoc) -> State a b -> (HasCallStack => c)
     (function_type
       (type
         (type_constructor_identifier)
-        (tuple_type (type_constructor_identifier) (type_constructor_identifier)))
+        (tuple_type (type (type_constructor_identifier)) (type (type_constructor_identifier))))
       (function_type
         (type (type_constructor_identifier) (type_variable_identifier) (type_variable_identifier))
         (function_type

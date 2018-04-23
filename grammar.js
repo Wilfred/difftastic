@@ -1204,9 +1204,9 @@ module.exports = grammar({
 
     tuple_type: $ => seq(
       '(',
-      $._type_pattern,
+      alias($._type_pattern, $.type),
       ',',
-      sep1(',', $._type_pattern),
+      sep1(',', alias($._type_pattern, $.type)),
       ')'
     ),
 
@@ -1220,7 +1220,7 @@ module.exports = grammar({
 
     list_type: $ => seq(
       '[',
-      sep1(',', $._type_pattern),
+      sep1(',', alias($._type_pattern, $.type)),
       ']'
     ),
 
@@ -1372,7 +1372,10 @@ module.exports = grammar({
           $.parenthesized_type,
           $.type_variable_identifier,
           $._qualified_type_class_identifier,
-          $.promoted
+          $.promoted,
+          $.list_type,
+          $.tuple_type,
+          $.unit_constructor
         )
       )
     ),

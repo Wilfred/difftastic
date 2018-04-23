@@ -4677,8 +4677,13 @@
           "value": "("
         },
         {
-          "type": "SYMBOL",
-          "name": "_type_pattern"
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_type_pattern"
+          },
+          "named": true,
+          "value": "type"
         },
         {
           "type": "STRING",
@@ -4688,8 +4693,13 @@
           "type": "SEQ",
           "members": [
             {
-              "type": "SYMBOL",
-              "name": "_type_pattern"
+              "type": "ALIAS",
+              "content": {
+                "type": "SYMBOL",
+                "name": "_type_pattern"
+              },
+              "named": true,
+              "value": "type"
             },
             {
               "type": "REPEAT",
@@ -4701,8 +4711,13 @@
                     "value": ","
                   },
                   {
-                    "type": "SYMBOL",
-                    "name": "_type_pattern"
+                    "type": "ALIAS",
+                    "content": {
+                      "type": "SYMBOL",
+                      "name": "_type_pattern"
+                    },
+                    "named": true,
+                    "value": "type"
                   }
                 ]
               }
@@ -4772,8 +4787,13 @@
           "type": "SEQ",
           "members": [
             {
-              "type": "SYMBOL",
-              "name": "_type_pattern"
+              "type": "ALIAS",
+              "content": {
+                "type": "SYMBOL",
+                "name": "_type_pattern"
+              },
+              "named": true,
+              "value": "type"
             },
             {
               "type": "REPEAT",
@@ -4785,8 +4805,13 @@
                     "value": ","
                   },
                   {
-                    "type": "SYMBOL",
-                    "name": "_type_pattern"
+                    "type": "ALIAS",
+                    "content": {
+                      "type": "SYMBOL",
+                      "name": "_type_pattern"
+                    },
+                    "named": true,
+                    "value": "type"
                   }
                 ]
               }
@@ -5483,6 +5508,18 @@
               {
                 "type": "SYMBOL",
                 "name": "promoted"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "list_type"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "tuple_type"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "unit_constructor"
               }
             ]
           }
