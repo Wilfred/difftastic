@@ -107,8 +107,7 @@ type Foo '[] a = a
       (list_constructor))
     (type_variable_identifier)
     (type_synonym_body
-      (type_pattern
-        (type_variable_identifier)))))
+      (variable_identifier))))
 
 =========================================
 Type Synonym Declarations With Context
@@ -185,7 +184,7 @@ newtype Bar a (b :: [* -> *]) c = Foo (a b c)
   (newtype_declaration
     (type_constructor_identifier)
     (type_variable_identifier)
-    (kind_signature
+    (annotated_type_variable
       (type_variable_identifier)
       (annotation)
       (kind_list_type
@@ -380,7 +379,7 @@ data (Eq (f a), Functor f) => N f a = N f a
         (constructor_identifier) (type_variable_identifier) (type_variable_identifier))))
   (algebraic_datatype_declaration
     (context
-      (context_pattern (class (type_class_identifier) (type_variable_identifier) (type_variable_identifier)))
+      (context_pattern (class (type_class_identifier) (parenthesized_type (type_variable_identifier) (type_variable_identifier))))
       (context_pattern (class (type_class_identifier) (type_variable_identifier))))
     (type_constructor_identifier)
     (type_variable_identifier)

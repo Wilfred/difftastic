@@ -109,17 +109,21 @@ module.exports = grammar({
     [$.type_class_instance_declaration],
     [$.standalone_deriving_declaration],
     [$._general_type_constructor],
+    [$.data_constructor],
     [$.instance],
     [$._funlhs],
     [$._pattern],
     [$.quasi_quotation, $.variable_identifier],
+
+    [$._type_signature, $.equality_constraint],
+    [$.expression_type_signature, $.equality_constraint],
+    [$.type_synonym_body, $.equality_constraint],
 
     [$._lexp, $._a_expression],
     [$._a_pattern, $._a_expression],
 
     [$._lexp, $.function_application],
 
-    [$._general_type_constructor, $._simple_type],
 
     [$.export, $._qualified_type_constructor_identifier],
     [$._import, $._qualified_type_constructor_identifier],
@@ -154,11 +158,18 @@ module.exports = grammar({
     [$._general_constructor, $.parenthesized_type],
     [$.right_operator_section, $.parenthesized_type],
 
-    [$._general_type_constructor, $._context_lpat],
-    [$._atype, $._context_lpat],
     [$.scoped_type_variables, $.rule_pattern_variables],
 
     [$._a_pattern, $._lexp],
+    [$._type_pattern, $.function_type],
+    [$.variable_identifier, $.type_variable_identifier],
+    [$._general_type_constructor, $._simple_type],
+    [$._annotated_type_variable, $._simple_type],
+    [$.type_family_declaration],
+    [$.algebraic_datatype_declaration],
+    [$._general_type_constructor, $._context_lpat],
+    [$.class],
+    [$._atype, $._context_lpat]
   ],
 
   rules: {
@@ -406,7 +417,11 @@ module.exports = grammar({
     type_synonym_declaration: $ => seq(
       'type',
       $._simple_type,
-      optional($.type_synonym_body)
+      choice(
+        $.type_signature,
+        $.kind_signature,
+        $.type_synonym_body
+      )
     ),
 
     type_synonym_body: $ => seq(
@@ -423,6 +438,7 @@ module.exports = grammar({
       'type',
       'family',
       $._simple_type,
+      optional($.kind_signature),
       optional($.where)
     ),
 
@@ -1081,7 +1097,7 @@ module.exports = grammar({
     type_signature: $ => $._type_signature,
 
     _type_signature: $ => seq(
-      sep1(',', $._variable),
+      optional(sep1(',', $._variable)),
       alias('::', $.annotation),
       optional($.scoped_type_variables),
       repeat($.context),
@@ -1094,7 +1110,6 @@ module.exports = grammar({
     ),
 
     kind_signature: $ => prec(PREC.KIND_SIGNATURE, seq(
-      sep1(',', $.type_variable_identifier),
       alias('::', $.annotation),
       $._kind_pattern
     )),
@@ -1137,11 +1152,11 @@ module.exports = grammar({
       '.'
     ),
 
-    _type_pattern: $ => prec.left(choice(
+    _type_pattern: $ => choice(
       $._type,
       $.function_type,
       $.infix_type_operator_application
-    )),
+    ),
 
     // TODO: remove this rule (inline it within _type_pattern)
     _type: $ => prec.left(repeat1($._atype)),
@@ -1237,7 +1252,7 @@ module.exports = grammar({
       ']'
     ),
 
-    algebraic_datatype_declaration: $ => prec.right(seq(
+    algebraic_datatype_declaration: $ => seq(
       'data',
       optional($.context),
       $._simple_type,
@@ -1248,14 +1263,14 @@ module.exports = grammar({
           optional($.deriving)
         )
       )
-    )),
+    ),
 
-    gadt_declaration: $ => prec.right(seq(
+    gadt_declaration: $ => seq(
       'data',
       optional($.context),
-      $._simple_type,
+      prec.dynamic(1, $._simple_type),
       alias($._gadt_where, $.where)
-    )),
+    ),
 
     _gadt_where: $ => seq(
       'where',
@@ -1281,25 +1296,19 @@ module.exports = grammar({
       $._type_pattern
     ),
 
-    _simple_type: $ => seq(
+    _simple_type: $ => prec.right(seq(
       $._qualified_type_constructor_identifier,
       repeat(
         choice(
           $.type_variable_identifier,
           $._general_constructor,
-          seq(
-            '(',
-            $.kind_signature,
-            ')'
-          ),
-          $.kind_signature,
-          $._type_signature,
+          $.annotated_type_variable,
           $.list_instance,
           $.tuple_instance,
           $.parenthesized_type
         )
       )
-    ),
+    )),
 
     scontext: $ => prec.left(seq(
       choice(
@@ -1356,35 +1365,22 @@ module.exports = grammar({
       $.type_variable_identifier
     )),
 
-    class: $ => prec.right(seq(
+    class: $ => seq(
       $._qualified_type_class_identifier,
-      optional(
+      repeat(
         choice(
-          seq(
-            '(',
-            repeat1(
-              choice(
-                $.type_variable_identifier,
-                $._qualified_type_class_identifier
-              )
-            ),
-            ')'
-          ),
-          repeat1(
-            choice(
-              $.type_variable_identifier,
-              $._qualified_type_class_identifier
-            )
-          )
+          $.parenthesized_type,
+          $.type_variable_identifier,
+          $._qualified_type_class_identifier
         )
       )
-    )),
+    ),
 
-    equality_constraint: $ => prec(PREC.EQUALITY_CONSTRAINT, seq(
+    equality_constraint: $ => seq(
       alias($._type_pattern, $.equality_lhs),
       '~',
       alias($._type_pattern, $.equality_rhs)
-    )),
+    ),
 
     constructors: $ => sep1(
       '|',
@@ -1395,7 +1391,7 @@ module.exports = grammar({
       )
     ),
 
-    data_constructor: $ => prec.left(seq(
+    data_constructor: $ => seq(
       $._qualified_constructor,
       repeat(
         seq(
@@ -1411,7 +1407,7 @@ module.exports = grammar({
           )
         )
       )
-    )),
+    ),
 
     strict_type: $ => seq(
       '!',
@@ -1589,7 +1585,7 @@ module.exports = grammar({
 
     variable_identifier: $ => $._variable_identifier,
 
-    type_variable_identifier: $ => prec(PREC.TYPE_VARIABLE_IDENTIFIER, $._variable_identifier),
+    type_variable_identifier: $ => $._variable_identifier,
 
     variable_symbol: $ => token(
       seq(

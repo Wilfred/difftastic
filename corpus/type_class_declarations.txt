@@ -238,3 +238,24 @@ class Effectful (m :: [* -> *] -> * -> *) where
           (kind (star))
           (kind (star)))))
     (where)))
+
+=========================================
+Type Class Declarations With Type Annotated Type Synonym
+=========================================
+
+class Foo bar where
+  type Baz wiz :: Wax
+
+---
+
+(module
+  (type_class_declaration
+    (type_class_identifier)
+    (type_variable_identifier)
+    (where
+      (type_synonym_declaration
+        (type_constructor_identifier)
+        (type_variable_identifier)
+        (type_signature
+          (annotation)
+          (type_constructor_identifier))))))
