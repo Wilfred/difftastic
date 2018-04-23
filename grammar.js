@@ -1371,7 +1371,8 @@ module.exports = grammar({
         choice(
           $.parenthesized_type,
           $.type_variable_identifier,
-          $._qualified_type_class_identifier
+          $._qualified_type_class_identifier,
+          $.promoted
         )
       )
     ),

@@ -637,6 +637,38 @@ foo :: (Bar m) => Ord a => a -> Baz m
       (type (type_constructor_identifier) (type_variable_identifier)))))
 
 =========================================
+Type Signatures With Contexts Including Promoted Constructors
+=========================================
+
+bar :: (Baz '[Foo Wix a] biz, Waz woo) => Out a -> [Foo] -> Baz biz Waz
+
+---
+
+(module
+  (type_signature
+    (variable_identifier)
+    (annotation)
+    (context
+      (context_pattern
+        (class
+          (type_class_identifier)
+          (promoted
+            (list_type
+              (type_constructor_identifier)
+              (type_constructor_identifier)
+              (type_variable_identifier)))
+            (type_variable_identifier)))
+      (context_pattern
+        (class
+          (type_class_identifier)
+          (type_variable_identifier))))
+    (function_type
+      (type (type_constructor_identifier) (type_variable_identifier))
+      (function_type
+        (type (list_type (type_constructor_identifier)))
+        (type (type_constructor_identifier) (type_variable_identifier) (type_constructor_identifier))))))
+
+=========================================
 Type Signatures With Single Constructor Context
 =========================================
 
