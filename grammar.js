@@ -34,7 +34,13 @@ module.exports = grammar(C, {
       $.alias_declaration,
       $.template_declaration,
       $.template_instantiation,
+      $.structured_binding_declaration,
       alias($.constructor_or_destructor_definition, $.function_definition)
+    ),
+
+    _compound_statement_item: ($, original) => choice(
+      original,
+      $.structured_binding_declaration
     ),
 
     // Types
@@ -116,6 +122,20 @@ module.exports = grammar(C, {
     auto: $ => 'auto',
 
     // Declarations
+
+    structured_binding_declaration: $ => seq(
+      $._declaration_specifiers,
+      choice(
+        alias($.structured_binding_reference_declarator, $.reference_declarator),
+        $.structured_binding_declarator,
+      ),
+      choice(
+        seq('=', choice($.initializer_list, $._expression)),
+        $.initializer_list,
+        $.argument_list
+      ),
+      ';'
+    ),
 
     template_declaration: $ => seq(
       'template',
@@ -258,6 +278,9 @@ module.exports = grammar(C, {
     reference_declarator: $ => prec.right(seq(choice('&', '&&'), $._declarator)),
     reference_field_declarator: $ => prec.right(seq(choice('&', '&&'), $._field_declarator)),
     abstract_reference_declarator: $ => prec.right(seq(choice('&', '&&'), optional($._abstract_declarator))),
+
+    structured_binding_reference_declarator: $ => seq(choice('&', '&&'), $.structured_binding_declarator),
+    structured_binding_declarator: $ => seq('[', commaSep1($.identifier), ']'),
 
     function_declarator: ($, original) => seq(
       original,

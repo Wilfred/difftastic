@@ -81,6 +81,10 @@
           "name": "template_instantiation"
         },
         {
+          "type": "SYMBOL",
+          "name": "structured_binding_declaration"
+        },
+        {
           "type": "ALIAS",
           "content": {
             "type": "SYMBOL",
@@ -95,54 +99,63 @@
       "type": "CHOICE",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "_statement"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_statement"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "declaration"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "type_definition"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_empty_declaration"
+            },
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "SYMBOL",
+                "name": "preproc_if_in_compound_statement"
+              },
+              "named": true,
+              "value": "preproc_if"
+            },
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "SYMBOL",
+                "name": "preproc_ifdef_in_compound_statement"
+              },
+              "named": true,
+              "value": "preproc_ifdef"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "preproc_include"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "preproc_def"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "preproc_function_def"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "preproc_call"
+            }
+          ]
         },
         {
           "type": "SYMBOL",
-          "name": "declaration"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "type_definition"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_empty_declaration"
-        },
-        {
-          "type": "ALIAS",
-          "content": {
-            "type": "SYMBOL",
-            "name": "preproc_if_in_compound_statement"
-          },
-          "named": true,
-          "value": "preproc_if"
-        },
-        {
-          "type": "ALIAS",
-          "content": {
-            "type": "SYMBOL",
-            "name": "preproc_ifdef_in_compound_statement"
-          },
-          "named": true,
-          "value": "preproc_ifdef"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "preproc_include"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "preproc_def"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "preproc_function_def"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "preproc_call"
+          "name": "structured_binding_declaration"
         }
       ]
     },
@@ -4689,6 +4702,72 @@
       "type": "STRING",
       "value": "auto"
     },
+    "structured_binding_declaration": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_declaration_specifiers"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "SYMBOL",
+                "name": "structured_binding_reference_declarator"
+              },
+              "named": true,
+              "value": "reference_declarator"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "structured_binding_declarator"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "="
+                },
+                {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "SYMBOL",
+                      "name": "initializer_list"
+                    },
+                    {
+                      "type": "SYMBOL",
+                      "name": "_expression"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "SYMBOL",
+              "name": "initializer_list"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "argument_list"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": ";"
+        }
+      ]
+    },
     "template_declaration": {
       "type": "SEQ",
       "members": [
@@ -5104,6 +5183,66 @@
           }
         ]
       }
+    },
+    "structured_binding_reference_declarator": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "&"
+            },
+            {
+              "type": "STRING",
+              "value": "&&"
+            }
+          ]
+        },
+        {
+          "type": "SYMBOL",
+          "name": "structured_binding_declarator"
+        }
+      ]
+    },
+    "structured_binding_declarator": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "["
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "identifier"
+            },
+            {
+              "type": "REPEAT",
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "STRING",
+                    "value": ","
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "identifier"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": "]"
+        }
+      ]
     },
     "trailing_return_type": {
       "type": "PREC_RIGHT",
