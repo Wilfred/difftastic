@@ -156,7 +156,7 @@ f Blob{start, end} = [start, end]
       (constructor_identifier)
       (named_field_pun (variable_identifier))
       (named_field_pun (variable_identifier)))
-    (function_body (list_expression (variable_identifier) (variable_identifier)))))
+    (function_body (list_expression (expression (variable_identifier)) (expression (variable_identifier))))))
 
 =================================================
 Function Declarations With Record Wild Cards
@@ -182,7 +182,7 @@ f Blob{..} = [start, end]
     (labeled_pattern
       (constructor_identifier)
       (record_wild_cards))
-    (function_body (list_expression (variable_identifier) (variable_identifier)))))
+    (function_body (list_expression (expression (variable_identifier)) (expression (variable_identifier))))))
 
 =================================================
 Function Declarations With Field Patterns, Named Field Puns, And Record Wild Cards
@@ -212,7 +212,7 @@ f Blob{start, end = end', ..} = [start, end', name, path]
       (named_field_pun (variable_identifier))
       (field_pattern (variable_identifier) (variable_identifier))
       (record_wild_cards))
-    (function_body (list_expression (variable_identifier) (variable_identifier) (variable_identifier) (variable_identifier)))))
+    (function_body (list_expression (expression (variable_identifier)) (expression (variable_identifier)) (expression (variable_identifier)) (expression (variable_identifier))))))
 
 
 =================================================
