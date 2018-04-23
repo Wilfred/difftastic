@@ -21,7 +21,14 @@ a = [ "a"
     (function_declaration
       (variable_identifier)
       (function_body
-        (list_expression (string) (string) (string) (string) (string) (string) (string))))))
+        (list_expression
+          (expression (string))
+          (expression (string))
+          (expression (string))
+          (expression (string))
+          (expression (string))
+          (expression (string))
+          (expression (string)))))))
 
 =========================================
 String Literals Symbols
@@ -60,7 +67,28 @@ a = [ "!"
     (function_declaration
       (variable_identifier)
       (function_body
-        (list_expression (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string))))))
+        (list_expression
+          (expression (string))
+          (expression (string))
+          (expression (string))
+          (expression (string))
+          (expression (string))
+          (expression (string))
+          (expression (string))
+          (expression (string))
+          (expression (string))
+          (expression (string))
+          (expression (string))
+          (expression (string))
+          (expression (string))
+          (expression (string))
+          (expression (string))
+          (expression (string))
+          (expression (string))
+          (expression (string))
+          (expression (string))
+          (expression (string))
+          (expression (string)))))))
 
 =========================================
 String Literals Special Symbols
@@ -86,7 +114,7 @@ a = [ "("
     (function_declaration
       (variable_identifier)
       (function_body
-        (list_expression (string) (string) (string) (string) (string) (string) (string) (string))))))
+        (list_expression (expression (string)) (expression (string)) (expression (string)) (expression (string)) (expression (string)) (expression (string)) (expression (string)) (expression (string)))))))
 
 =========================================
 String Literals Character Escape
@@ -115,7 +143,7 @@ a = [ "\a"
     (function_declaration
       (variable_identifier)
       (function_body
-        (list_expression (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string))))))
+        (list_expression (expression (string)) (expression (string)) (expression (string)) (expression (string)) (expression (string)) (expression (string)) (expression (string)) (expression (string)) (expression (string)) (expression (string)) (expression (string)))))))
 
 =========================================
 String Literals Space
@@ -184,7 +212,7 @@ a = [ "\NUL"
     (function_declaration
       (variable_identifier)
       (function_body
-        (list_expression (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string) (string))))))
+        (list_expression (expression (string)) (expression (string)) (expression (string)) (expression (string)) (expression (string)) (expression (string)) (expression (string)) (expression (string)) (expression (string)) (expression (string)) (expression (string)) (expression (string)) (expression (string)) (expression (string)) (expression (string)) (expression (string)) (expression (string)) (expression (string)) (expression (string)) (expression (string)) (expression (string)) (expression (string)) (expression (string)) (expression (string)) (expression (string)) (expression (string)) (expression (string)) (expression (string)) (expression (string)) (expression (string)) (expression (string)) (expression (string)) (expression (string)) (expression (string)))))))
 
 =========================================
 String Literals Escape Control Characters
@@ -210,7 +238,7 @@ a = [ "\^A"
     (function_declaration
       (variable_identifier)
       (function_body
-        (list_expression (string) (string) (string) (string) (string) (string) (string) (string))))))
+        (list_expression (expression (string)) (expression (string)) (expression (string)) (expression (string)) (expression (string)) (expression (string)) (expression (string)) (expression (string)))))))
 
 =========================================
 String Literals Gap Characters

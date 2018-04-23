@@ -913,15 +913,15 @@ module.exports = grammar({
 
     list_expression: $ => seq(
       '[',
-      sep1(',', $._expression),
+      sep1(',', alias($._expression, $.expression)),
       ']'
     ),
 
     tuple_expression: $ => seq(
       '(',
-      $._expression,
+      alias($._expression, $.expression),
       ',',
-      sep1(',', $._expression),
+      optional(sep1(',', alias($._expression, $.expression))),
       ')'
     ),
 

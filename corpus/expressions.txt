@@ -99,8 +99,8 @@ f = take 5 [ [ (i,j) | i <- [1,2] ] | j <- [1..] ]
             (integer))
           (list_comprehension
             (list_comprehension
-              (tuple_expression (variable_identifier) (variable_identifier))
-              (generator (variable_identifier) (list_expression (integer) (integer))))
+              (tuple_expression (expression (variable_identifier)) (expression (variable_identifier)))
+              (generator (variable_identifier) (list_expression (expression (integer)) (expression (integer)))))
               (generator (variable_identifier) (arithmetic_sequence (enum_from (integer))))))))))
 
 ===============================
@@ -162,7 +162,7 @@ a = [ [ (i,j) | i <- [1,2] ] | j <- [1..] ]
       (variable_identifier)
       (function_body
         (list_comprehension
-          (tuple_expression (variable_identifier) (variable_identifier))
+          (tuple_expression (expression (variable_identifier)) (expression (variable_identifier)))
           (generator (variable_identifier) (variable_identifier))
           (generator (variable_identifier) (variable_identifier)))))
     (function_declaration
@@ -170,19 +170,45 @@ a = [ [ (i,j) | i <- [1,2] ] | j <- [1..] ]
       (function_body
         (list_comprehension
           (variable_identifier)
-          (generator (variable_identifier) (list_expression (list_expression (tuple_expression (integer) (integer)) (tuple_expression (integer) (integer))) (list_expression (tuple_expression (integer) (integer)) (tuple_expression (integer) (integer)))))
-          (generator (tuple_pattern (pattern (integer)) (pattern (variable_identifier))) (variable_identifier)))))
+          (generator
+            (variable_identifier)
+            (list_expression
+              (expression
+                (list_expression
+                  (expression
+                    (tuple_expression
+                      (expression (integer))
+                      (expression (integer))))
+                  (expression
+                    (tuple_expression
+                      (expression (integer))
+                      (expression (integer))))))
+              (expression
+                (list_expression
+                  (expression
+                    (tuple_expression
+                      (expression (integer))
+                      (expression (integer))))
+                  (expression
+                    (tuple_expression
+                      (expression (integer))
+                      (expression (integer))))))))
+          (generator
+            (tuple_pattern
+              (pattern (integer))
+              (pattern (variable_identifier)))
+            (variable_identifier)))))
     (function_declaration
       (variable_identifier)
       (function_body
         (list_comprehension
-          (tuple_expression (variable_identifier) (variable_identifier))
-          (generator (variable_identifier) (list_expression (integer) (integer)))
+          (tuple_expression (expression (variable_identifier)) (expression (variable_identifier)))
+          (generator (variable_identifier) (list_expression (expression (integer)) (expression (integer))))
           (generator (variable_identifier) (arithmetic_sequence (enum_from_to (integer) (integer)))))))
     (function_declaration
       (variable_identifier)
       (function_body
-        (list_comprehension (list_comprehension (tuple_expression (variable_identifier) (variable_identifier)) (generator (variable_identifier) (list_expression (integer) (integer)))) (generator (variable_identifier) (arithmetic_sequence (enum_from (integer)))))))))
+        (list_comprehension (list_comprehension (tuple_expression (expression (variable_identifier)) (expression (variable_identifier))) (generator (variable_identifier) (list_expression (expression (integer)) (expression (integer))))) (generator (variable_identifier) (arithmetic_sequence (enum_from (integer)))))))))
 
 ===============================
 Right Operator Sections
@@ -383,3 +409,35 @@ f = \ g a b -> g <$> a <*> b
               (variable_identifier)
               (variable_operator (variable_symbol))
               (variable_identifier))))))))
+
+===============================
+Partial Tuple Expressions
+===============================
+
+let foo' = catMaybes $ fmap (\p -> (p,) . Just <$> bar p) waz
+
+---
+
+(module
+  (function_declaration
+    (variable_identifier)
+    (variable_identifier)
+    (function_body
+      (infix_operator_application
+        (variable_identifier)
+        (variable_operator (variable_symbol))
+        (function_application
+          (function_application
+            (variable_identifier)
+            (parenthesized_expression
+              (lambda
+                (lambda_head (variable_identifier))
+                (lambda_body
+                  (infix_operator_application
+                    (tuple_expression (expression (variable_identifier)))
+                    (variable_operator (variable_symbol))
+                    (infix_operator_application
+                      (constructor_identifier)
+                      (variable_operator (variable_symbol))
+                      (function_application (variable_identifier) (variable_identifier))))))))
+          (variable_identifier))))))
