@@ -5479,6 +5479,10 @@
               {
                 "type": "SYMBOL",
                 "name": "_qualified_type_class_identifier"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "promoted"
               }
             ]
           }
