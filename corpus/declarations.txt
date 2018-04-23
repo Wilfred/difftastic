@@ -405,3 +405,34 @@ template A<int, bool>::A(char *, size_t);
       (parameter_list
         (parameter_declaration (primitive_type) (abstract_pointer_declarator))
         (parameter_declaration (primitive_type))))))
+
+=====================================
+Structured binding declarations
+=====================================
+
+auto [a] = B{};
+
+int main() {
+  auto &&[b, c] = std::make_tuple(c);
+  const auto [x, y] {1, 2};
+}
+
+---
+
+(translation_unit
+  (structured_binding_declaration (auto) (structured_binding_declarator (identifier)) (compound_literal_expression (type_identifier) (initializer_list)))
+  (function_definition
+    (primitive_type)
+    (function_declarator (identifier) (parameter_list))
+    (compound_statement
+      (structured_binding_declaration
+        (auto)
+        (reference_declarator (structured_binding_declarator (identifier) (identifier)))
+        (call_expression
+          (scoped_identifier (namespace_identifier) (identifier))
+          (argument_list (identifier))))
+      (structured_binding_declaration
+        (type_qualifier)
+        (auto)
+        (structured_binding_declarator (identifier) (identifier))
+        (initializer_list (number_literal) (number_literal))))))
