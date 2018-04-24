@@ -4597,39 +4597,6 @@
         ]
       }
     },
-    "parenthesized_context": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "("
-        },
-        {
-          "type": "ALIAS",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_qualified_type_class_identifier"
-          },
-          "named": true,
-          "value": "class"
-        },
-        {
-          "type": "STRING",
-          "value": "=>"
-        },
-        {
-          "type": "REPEAT1",
-          "content": {
-            "type": "SYMBOL",
-            "name": "type_variable_identifier"
-          }
-        },
-        {
-          "type": "STRING",
-          "value": ")"
-        }
-      ]
-    },
     "parenthesized_type_pattern": {
       "type": "SEQ",
       "members": [
@@ -4643,6 +4610,18 @@
             {
               "type": "SYMBOL",
               "name": "scoped_type_variables"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "context"
             },
             {
               "type": "BLANK"
@@ -4692,10 +4671,6 @@
           {
             "type": "SYMBOL",
             "name": "fields"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "parenthesized_context"
           },
           {
             "type": "SYMBOL",
@@ -7585,6 +7560,51 @@
     [
       "kind_function_type",
       "function_type"
+    ],
+    [
+      "_general_type_constructor",
+      "parenthesized_type",
+      "_context_lpat"
+    ],
+    [
+      "parenthesized_type",
+      "_context_lpat"
+    ],
+    [
+      "_context_lpat"
+    ],
+    [
+      "parenthesized_type",
+      "_atype",
+      "_context_lpat"
+    ],
+    [
+      "_general_constructor",
+      "_general_type_constructor",
+      "parenthesized_type",
+      "_context_lpat"
+    ],
+    [
+      "_general_constructor",
+      "parenthesized_type",
+      "_context_lpat"
+    ],
+    [
+      "_general_constructor",
+      "_general_type_constructor",
+      "_context_lpat"
+    ],
+    [
+      "_general_constructor",
+      "_context_lpat"
+    ],
+    [
+      "_qualified_type_class_identifier",
+      "_qualified_constructor_identifier"
+    ],
+    [
+      "qualified_type_class_identifier",
+      "qualified_constructor_identifier"
     ]
   ],
   "externals": [

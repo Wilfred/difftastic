@@ -124,7 +124,6 @@ module.exports = grammar({
 
     [$._lexp, $.function_application],
 
-
     [$.export, $._qualified_type_constructor_identifier],
     [$._import, $._qualified_type_constructor_identifier],
     [$._import, $._qualified_constructor_identifier, $._qualified_type_constructor_identifier],
@@ -171,6 +170,17 @@ module.exports = grammar({
     [$.class],
     [$._atype, $._context_lpat],
     [$.kind_function_type, $.function_type],
+
+    [$._general_type_constructor, $.parenthesized_type, $._context_lpat],
+    [$.parenthesized_type, $._context_lpat],
+    [$._context_lpat],
+    [$.parenthesized_type, $._atype, $._context_lpat],
+    [$._general_constructor, $._general_type_constructor, $.parenthesized_type, $._context_lpat],
+    [$._general_constructor, $.parenthesized_type, $._context_lpat],
+    [$._general_constructor, $._general_type_constructor, $._context_lpat],
+    [$._general_constructor, $._context_lpat],
+    [$._qualified_type_class_identifier, $._qualified_constructor_identifier],
+    [$.qualified_type_class_identifier, $.qualified_constructor_identifier]
   ],
 
   rules: {
@@ -1175,17 +1185,10 @@ module.exports = grammar({
       )
     )),
 
-    parenthesized_context: $ => seq(
-      '(',
-      alias($._qualified_type_class_identifier, $.class),
-      '=>',
-      repeat1($.type_variable_identifier),
-      ')'
-    ),
-
     parenthesized_type_pattern: $ => seq(
       '(',
       optional($.scoped_type_variables),
+      optional($.context),
       $._type_pattern,
       ')'
     ),
@@ -1197,9 +1200,8 @@ module.exports = grammar({
       $.tuple_type,
       $.list_type,
       $.fields,
-      $.parenthesized_context,
       $.parenthesized_type_pattern,
-      $.scoped_type_variables
+      $.scoped_type_variables,
     )),
 
     infix_type_operator_application: $ => prec.right(seq(
