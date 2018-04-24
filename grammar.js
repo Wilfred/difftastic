@@ -169,7 +169,8 @@ module.exports = grammar({
     [$.algebraic_datatype_declaration],
     [$._general_type_constructor, $._context_lpat],
     [$.class],
-    [$._atype, $._context_lpat]
+    [$._atype, $._context_lpat],
+    [$.kind_function_type, $.function_type]
   ],
 
   rules: {
@@ -438,7 +439,7 @@ module.exports = grammar({
       'type',
       'family',
       $._simple_type,
-      optional($.kind_signature),
+      optional(choice($.kind_signature, $.type_signature)),
       optional($.where)
     ),
 
@@ -1009,7 +1010,7 @@ module.exports = grammar({
       $.type_variable_identifier,
       alias('::', $.annotation),
       choice(
-        alias($._constructor_identifier, $.type_class_identifier),
+        $._type_pattern,
         $._kind_pattern
       ),
       ')'
@@ -1050,7 +1051,8 @@ module.exports = grammar({
           $.list_instance,
           $.tuple_instance,
           $.unit_constructor,
-          $._qualified_operator
+          $._qualified_operator,
+          $.annotated_type_variable
         )
       ),
       ')'
@@ -1131,10 +1133,12 @@ module.exports = grammar({
     kind_function_type: $ => prec.right(seq(
       choice(
         alias($._kind, $.kind),
+        $._type
       ),
       '->',
       choice(
         alias($._kind, $.kind),
+        $._type,
         $.kind_function_type
       )
     )),

@@ -1316,8 +1316,17 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "SYMBOL",
-              "name": "kind_signature"
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "kind_signature"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "type_signature"
+                }
+              ]
             },
             {
               "type": "BLANK"
@@ -3834,13 +3843,8 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "ALIAS",
-              "content": {
-                "type": "SYMBOL",
-                "name": "_constructor_identifier"
-              },
-              "named": true,
-              "value": "type_class_identifier"
+              "type": "SYMBOL",
+              "name": "_type_pattern"
             },
             {
               "type": "SYMBOL",
@@ -3986,6 +3990,10 @@
               {
                 "type": "SYMBOL",
                 "name": "_qualified_operator"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "annotated_type_variable"
               }
             ]
           }
@@ -4435,6 +4443,10 @@
                 },
                 "named": true,
                 "value": "kind"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "_type"
               }
             ]
           },
@@ -4453,6 +4465,10 @@
                 },
                 "named": true,
                 "value": "kind"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "_type"
               },
               {
                 "type": "SYMBOL",
@@ -7549,6 +7565,10 @@
     [
       "_atype",
       "_context_lpat"
+    ],
+    [
+      "kind_function_type",
+      "function_type"
     ]
   ],
   "externals": [
