@@ -221,7 +221,7 @@ class Effectful (m :: [* -> *] -> * -> *) where
     (annotated_type_variable
       (type_variable_identifier)
       (annotation)
-      (type_class_identifier))
+      (type_constructor_identifier))
     (where))
   (type_class_declaration
     (type_class_identifier)
