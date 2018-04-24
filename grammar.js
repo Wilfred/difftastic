@@ -170,7 +170,7 @@ module.exports = grammar({
     [$._general_type_constructor, $._context_lpat],
     [$.class],
     [$._atype, $._context_lpat],
-    [$.kind_function_type, $.function_type]
+    [$.kind_function_type, $.function_type],
   ],
 
   rules: {
@@ -1035,7 +1035,6 @@ module.exports = grammar({
       $.parenthesized_type,
       $.tuple_instance,
       $.list_instance,
-      $.unit_constructor,
       $.function_type_instance,
       $.type_variable_identifier,
     )),
@@ -1052,7 +1051,9 @@ module.exports = grammar({
           $.tuple_instance,
           $.unit_constructor,
           $._qualified_operator,
-          $.annotated_type_variable
+          $.annotated_type_variable,
+          $.tupling_constructor,
+          $.list_constructor
         )
       ),
       ')'
@@ -1184,6 +1185,7 @@ module.exports = grammar({
 
     parenthesized_type_pattern: $ => seq(
       '(',
+      optional($.scoped_type_variables),
       $._type_pattern,
       ')'
     ),
@@ -1197,7 +1199,7 @@ module.exports = grammar({
       $.fields,
       $.parenthesized_context,
       $.parenthesized_type_pattern,
-      $.scoped_type_variables,
+      $.scoped_type_variables
     )),
 
     infix_type_operator_application: $ => prec.right(seq(

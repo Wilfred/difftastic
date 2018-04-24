@@ -9,6 +9,7 @@ instance Show [a] where {}
 instance Show (a -> b) where {}
 instance Show Foo where
   bar (Foo Baz) (Foo Wix) = EQ
+instance Show (,) where
 
 ---
 
@@ -38,7 +39,10 @@ instance Show Foo where
           (constructor_pattern (constructor_identifier) (constructor_identifier)))
         (parenthesized_pattern
           (constructor_pattern (constructor_identifier) (constructor_identifier)))
-        (function_body (constructor_identifier))))))
+        (function_body (constructor_identifier)))))
+  (type_class_instance_declaration
+    (type_class_identifier)
+    (instance (tupling_constructor)) (where)))
 
 =========================================
 Type Class Instance Declarations With Context
