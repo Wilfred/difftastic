@@ -718,7 +718,12 @@ withStateCallStack :: Maybe (String, SrcLoc) -> State a b -> (HasCallStack => c)
       (function_type
         (type (type_constructor_identifier) (type_variable_identifier) (type_variable_identifier))
         (function_type
-          (type (parenthesized_context (class (type_class_identifier)) (type_variable_identifier)))
+          (type
+            (parenthesized_type_pattern
+              (context
+                (context_pattern
+                  (class (type_class_identifier)))) 
+              (type_variable_identifier)))
           (type (type_variable_identifier)))))))
 
 =========================================
