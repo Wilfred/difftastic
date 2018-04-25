@@ -161,7 +161,11 @@ module.exports = grammar({
     [$.parenthesized_type, $._general_type_constructor, $._context_lpat],
     [$.parenthesized_type, $._context_lpat],
     [$.parenthesized_type, $._atype, $._context_lpat],
-    [$._atype, $.gadt_constructor]
+    [$._atype, $.gadt_constructor],
+    [$._general_type_constructor],
+    [$._context_lpat],
+    [$._general_constructor],
+    [$.parenthesized_type]
   ],
 
   rules: {
@@ -590,14 +594,14 @@ module.exports = grammar({
       $.promoted_type_constructor,
     ),
 
-    _general_type_constructor: $ => choice(
+    _general_type_constructor: $ => repeat1(choice(
       $._qualified_type_constructor_identifier,
       $.unit_constructor,
       $.list_constructor,
       $.function_constructor,
       $.tupling_constructor,
       $.promoted_type_constructor
-    ),
+    )),
 
     unit_constructor: $ => seq('(', ')'),
     list_constructor: $ => seq('[', ']'),

@@ -508,6 +508,7 @@ Type Signatures With Constructors
 f :: Ex -> Ex
 f :: [Int] -> Int
 f :: (Int, Int) -> Maybe Int
+f :: a -> B c (D (E g ': h)) -> I [J k] (L m (N (O p ': q)))
 
 ---
 
@@ -529,7 +530,43 @@ f :: (Int, Int) -> Maybe Int
     (annotation)
     (function_type
       (type (tuple_type (type (type_constructor_identifier)) (type (type_constructor_identifier))))
-      (type (type_constructor_identifier) (type_constructor_identifier)))))
+      (type (type_constructor_identifier) (type_constructor_identifier))))
+  (type_signature
+    (variable_identifier)
+    (annotation)
+    (function_type
+      (type (type_variable_identifier))
+      (function_type
+        (type
+          (type_constructor_identifier)
+          (type_variable_identifier)
+          (parenthesized_type_pattern
+            (type_constructor_identifier)
+            (parenthesized_type_pattern
+              (infix_type_operator_pattern
+                (type
+                  (type_constructor_identifier)
+                  (type_variable_identifier))
+                (type_operator)
+                (type_variable_identifier)))))
+        (type
+          (type_constructor_identifier)
+          (list_type
+            (type
+              (type_constructor_identifier)
+              (type_variable_identifier)))
+          (parenthesized_type_pattern
+            (type_constructor_identifier)
+            (type_variable_identifier)
+            (parenthesized_type_pattern
+              (type_constructor_identifier)
+              (parenthesized_type_pattern
+              (infix_type_operator_pattern
+                (type
+                  (type_constructor_identifier)
+                  (type_variable_identifier))
+                (type_operator)
+                (type_variable_identifier))))))))))
 
 =========================================
 Type Signatures With Scoped Type Variables

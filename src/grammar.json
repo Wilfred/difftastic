@@ -2003,33 +2003,36 @@
       ]
     },
     "_general_type_constructor": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "_qualified_type_constructor_identifier"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "unit_constructor"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "list_constructor"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "function_constructor"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "tupling_constructor"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "promoted_type_constructor"
-        }
-      ]
+      "type": "REPEAT1",
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_qualified_type_constructor_identifier"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "unit_constructor"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "list_constructor"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "function_constructor"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "tupling_constructor"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "promoted_type_constructor"
+          }
+        ]
+      }
     },
     "unit_constructor": {
       "type": "SEQ",
@@ -7334,6 +7337,18 @@
     [
       "type_constructor_pattern",
       "_atype"
+    ],
+    [
+      "_general_type_constructor"
+    ],
+    [
+      "_context_lpat"
+    ],
+    [
+      "_general_constructor"
+    ],
+    [
+      "parenthesized_type"
     ]
   ],
   "externals": [
