@@ -106,7 +106,6 @@ module.exports = grammar({
   conflicts: $ => [
     [$.data_constructor],
     [$.instance],
-    [$._funlhs],
     [$._pattern],
     [$.quasi_quotation, $.variable_identifier],
     [$._lexp, $._a_expression],
@@ -122,7 +121,6 @@ module.exports = grammar({
     [$.qualified_module_identifier],
     [$._a_expression, $.constructor_pattern],
     [$.constructor_pattern],
-    [$.promoted, $.infix_type_operator_application],
     [$.parenthesized_type, $._atype],
     [$._general_constructor, $._general_type_constructor],
     [$.type_class_declaration, $._qualified_type_constructor_identifier, $._qualified_type_class_identifier],
@@ -462,7 +460,6 @@ module.exports = grammar({
     _funlhs: $ => choice(
       repeat1($._a_pattern),
       prec.dynamic(3, seq($._pattern, $._op, $._pattern)),
-      prec.dynamic(-1, seq($._funlhs, $._a_pattern, repeat($._a_pattern)))
     ),
 
     parenthesized_type: $ => seq(
