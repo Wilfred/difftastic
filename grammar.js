@@ -24,16 +24,13 @@ const
 
   PREC = {
     FUNCTION_DECLARATION: 3,
-    FUNCTION_LHS: 1,
     NEGATIVE_LITERAL: 1,
     TUPLE_INSTANCE: 1,
     FUNCTION_TYPE_INSTANCE: 1,
     KIND_SIGNATURE: 1,
     TYPE_CONSTRUCTOR_OPERATOR_PATTERN: 1,
-    EQUALITY_CONSTRAINT: 1,
     RECORD_DATA_CONSTRUCTOR: 1,
     NEW_CONSTRUCTOR: 1,
-    TYPE_VARIABLE_IDENTIFIER: 1,
     CONJUNCTION: 2,
     DISJUNCTION: 1,
     AS_PATTERN: 3
@@ -106,81 +103,46 @@ module.exports = grammar({
   ],
 
   conflicts: $ => [
-    [$.type_class_instance_declaration],
-    [$.standalone_deriving_declaration],
-    [$._general_type_constructor],
     [$.data_constructor],
     [$.instance],
     [$._funlhs],
     [$._pattern],
     [$.quasi_quotation, $.variable_identifier],
-
-    [$._type_signature, $.equality_constraint],
-    [$.expression_type_signature, $.equality_constraint],
-    [$.type_synonym_body, $.equality_constraint],
-
     [$._lexp, $._a_expression],
-    [$._a_pattern, $._a_expression],
-
     [$._lexp, $.function_application],
-
-    [$.export, $._qualified_type_constructor_identifier],
     [$._import, $._qualified_type_constructor_identifier],
     [$._import, $._qualified_constructor_identifier, $._qualified_type_constructor_identifier],
     [$._qualified_constructor_identifier, $._qualified_type_constructor_identifier],
     [$._qualified_type_constructor_identifier, $._qualified_type_class_identifier],
     [$.qualified_type_constructor_identifier, $.qualified_type_class_identifier],
     [$.qualified_type_constructor_identifier, $.qualified_constructor_identifier],
-
     [$._qualified_module_identifier, $.qualified_module_identifier],
     [$.qualified_module_identifier],
     [$._a_expression, $.constructor_pattern],
     [$.constructor_pattern],
-
     [$.promoted, $.infix_type_operator_application],
     [$.parenthesized_type, $._atype],
-    [$.parenthesized_type],
     [$._general_constructor, $._general_type_constructor],
-    [$._atype],
     [$.type_class_declaration, $._qualified_type_constructor_identifier, $._qualified_type_class_identifier],
     [$._general_type_constructor, $.parenthesized_type],
-
     [$.constructor_pattern, $._a_pattern],
     [$.labeled_pattern, $.labeled_construction],
     [$._atype, $._qualified_constructor_identifier],
-
     [$.qualified_type_constructor_identifier, $.qualified_type_class_identifier, $.qualified_constructor_identifier],
     [$._qualified_type_constructor_identifier, $._qualified_type_class_identifier, $._qualified_constructor_identifier],
-
-    [$._simple_type],
-    [$._general_constructor, $._general_type_constructor, $.parenthesized_type],
-    [$._general_constructor, $.parenthesized_type],
-    [$.right_operator_section, $.parenthesized_type],
-
-    [$.scoped_type_variables, $.rule_pattern_variables],
-
     [$._a_pattern, $._lexp],
     [$._type_pattern, $.function_type],
     [$.variable_identifier, $.type_variable_identifier],
     [$._general_type_constructor, $._simple_type],
-    [$._annotated_type_variable, $._simple_type],
     [$.type_family_declaration],
     [$.algebraic_datatype_declaration],
     [$._general_type_constructor, $._context_lpat],
     [$.class],
     [$._atype, $._context_lpat],
     [$.kind_function_type, $.function_type],
-
-    [$._general_type_constructor, $.parenthesized_type, $._context_lpat],
-    [$.parenthesized_type, $._context_lpat],
-    [$._context_lpat],
-    [$.parenthesized_type, $._atype, $._context_lpat],
-    [$._general_constructor, $._general_type_constructor, $.parenthesized_type, $._context_lpat],
-    [$._general_constructor, $.parenthesized_type, $._context_lpat],
     [$._general_constructor, $._general_type_constructor, $._context_lpat],
     [$._general_constructor, $._context_lpat],
     [$._qualified_type_class_identifier, $._qualified_constructor_identifier],
-    [$.qualified_type_class_identifier, $.qualified_constructor_identifier]
   ],
 
   rules: {
@@ -369,10 +331,10 @@ module.exports = grammar({
     ),
 
     _declaration: $ => choice(
-      prec.dynamic(2, $._general_declaration),
-      prec.dynamic(2, $.function_declaration),
+      $._general_declaration,
+      $.function_declaration,
       // $._pragma,
-      prec.dynamic(1, $.quasi_quotation),
+      $.quasi_quotation,
       $.pattern_type_signature,
       $.bidirectional_pattern_synonym,
       $.unidirectional_pattern_synonym,
@@ -414,13 +376,13 @@ module.exports = grammar({
     standalone_deriving_declaration: $ => seq(
       'deriving',
       'instance',
-      optional(choice(
-        // $.overlaps_pragma,
-        // $.overlapping_pragma,
-        // $.overlappable_pragma,
-        // $.incoherent_pragma
-      )),
       optional($.scontext),
+      // optional(choice(
+      //   $.overlaps_pragma,
+      //   $.overlapping_pragma,
+      //   $.overlappable_pragma,
+      //   $.incoherent_pragma
+      // )),
       $._qualified_type_class_identifier,
       $.instance
     ),
@@ -473,11 +435,11 @@ module.exports = grammar({
       )
     ),
 
-    _funlhs: $ => prec(PREC.FUNCTION_LHS, choice(
+    _funlhs: $ => choice(
       repeat1($._a_pattern),
       prec.dynamic(3, seq($._pattern, $._op, $._pattern)),
       prec.dynamic(-1, seq($._funlhs, $._a_pattern, repeat($._a_pattern)))
-    )),
+    ),
 
     _a_pattern: $ => choice(
       $.constructor_pattern,
@@ -1028,13 +990,13 @@ module.exports = grammar({
 
     type_class_instance_declaration: $ => seq(
       'instance',
-      optional(choice(
+      // optional(choice(
         // $.overlaps_pragma,
         // $.overlapping_pragma,
         // $.overlappable_pragma,
         // $.incoherent_pragma
-      )),
       optional($.scontext),
+      // )),
       $._qualified_type_class_identifier,
       $.instance,
       optional($.where)
@@ -1194,14 +1156,14 @@ module.exports = grammar({
     ),
 
     _atype: $ => prec.right(choice(
-      prec.dynamic(1, $.primitive_constructor_identifier),
+      $.primitive_constructor_identifier,
       $._general_type_constructor,
       $.type_variable_identifier,
       $.tuple_type,
       $.list_type,
       $.fields,
       $.parenthesized_type_pattern,
-      $.scoped_type_variables,
+      $.scoped_type_variables
     )),
 
     infix_type_operator_application: $ => prec.right(seq(
@@ -1276,7 +1238,7 @@ module.exports = grammar({
     gadt_declaration: $ => seq(
       'data',
       optional($.context),
-      prec.dynamic(1, $._simple_type),
+      $._simple_type,
       alias($._gadt_where, $.where)
     ),
 
