@@ -193,7 +193,7 @@ instance ( Foo (Bar a b '[]) c ) => Baz a b (Bix a b c) where
           (type_constructor_identifier)
           (type_variable_identifier)
           (type_variable_identifier)
-          (promoted (list_constructor)))
+          (promoted_type_constructor (list_constructor)))
         (type_variable_identifier))))
     (type_class_identifier)
     (instance

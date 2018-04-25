@@ -70,7 +70,7 @@ type Foo '[] a = a
             (infix_type_operator_application
               (type (type_constructor_identifier) (parenthesized_type_pattern (type_constructor_identifier) (type_constructor_identifier)))
               (type_operator)
-              (promoted (list_constructor))))))))
+              (promoted_type_constructor (list_constructor))))))))
   (type_synonym_declaration
     (type_constructor_identifier)
     (type_variable_identifier)
@@ -78,7 +78,7 @@ type Foo '[] a = a
     (type_variable_identifier)
     (type_synonym_body
       (type_pattern
-        (promoted
+        (promoted_type_constructor
           (list_type
             (type (type_constructor_identifier))
             (type
@@ -104,7 +104,7 @@ type Foo '[] a = a
         (type_variable_identifier))))
   (type_synonym_declaration
     (type_constructor_identifier)
-    (promoted
+    (promoted_type_constructor
       (list_constructor))
     (type_variable_identifier)
     (type_synonym_body
@@ -664,7 +664,7 @@ bar :: (Baz '[Foo Wix a] biz, Waz woo) => Out a -> [Foo] -> Baz biz Waz
       (context_pattern
         (class
           (type_class_identifier)
-          (promoted
+          (promoted_type_constructor
             (list_type
               (type
                 (type_constructor_identifier)

@@ -1082,14 +1082,14 @@ f = Bar ':<: Baz
     (function_body
       (infix_operator_application
         (constructor_identifier)
-        (promoted (constructor_operator (constructor_symbol)))
+        (promoted_type_operator (constructor_operator (constructor_symbol)))
         (constructor_identifier))))
   (function_declaration
     (variable_identifier)
     (function_body
       (infix_operator_application
         (constructor_identifier)
-        (promoted (constructor_operator (constructor_symbol)))
+        (promoted_type_operator (constructor_operator (constructor_symbol)))
         (constructor_identifier)))))
 
 =================================================
