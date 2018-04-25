@@ -110,6 +110,7 @@ module.exports = grammar({
     [$.quasi_quotation, $.variable_identifier],
     [$._lexp, $._a_expression],
     [$._lexp, $.function_application],
+    [$._a_pattern, $._a_expression],
     [$._import, $._qualified_type_constructor_identifier],
     [$._import, $._qualified_constructor_identifier, $._qualified_type_constructor_identifier],
     [$._qualified_constructor_identifier, $._qualified_type_constructor_identifier],
@@ -142,6 +143,7 @@ module.exports = grammar({
     [$.kind_function_type, $.function_type],
     [$._general_constructor, $._general_type_constructor, $._context_lpat],
     [$._general_constructor, $._context_lpat],
+    [$._general_type_constructor, $.class],
 
     // These conflicts are necessary to help disambiguate between the type class identifier for class (type class constraints) vs instance type class identifier, and the stand alone deriving instance class identifier.
     [$.type_class_instance_declaration, $._context_lpat],
@@ -1156,7 +1158,6 @@ module.exports = grammar({
       $.infix_type_operator_application
     ),
 
-    // TODO: remove this rule (inline it within _type_pattern)
     _type: $ => prec.left(repeat1($._atype)),
 
     function_type: $ => prec.right(seq(
