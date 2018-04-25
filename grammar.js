@@ -118,7 +118,6 @@ module.exports = grammar({
     [$._qualified_module_identifier, $.qualified_module_identifier],
     [$.qualified_module_identifier],
     [$._a_expression, $.constructor_pattern],
-    [$.constructor_pattern],
     [$.parenthesized_type, $._atype],
     [$._general_constructor, $._general_type_constructor],
     [$.type_class_declaration, $._qualified_type_constructor_identifier, $._qualified_type_class_identifier],
@@ -553,10 +552,10 @@ module.exports = grammar({
       $.negative_literal
     ),
 
-    constructor_pattern: $ => seq(
+    constructor_pattern: $ => prec.right(seq(
       $._general_constructor,
       repeat1($._a_pattern),
-    ),
+    )),
 
     labeled_pattern: $ => seq(
       $._qualified_constructor,

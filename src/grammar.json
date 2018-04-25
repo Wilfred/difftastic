@@ -1817,31 +1817,6 @@
         ]
       }
     },
-    "type_constructor_pattern": {
-      "type": "PREC_RIGHT",
-      "value": 0,
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "SYMBOL",
-            "name": "_general_type_constructor"
-          },
-          {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "_type_pattern"
-              },
-              {
-                "type": "BLANK"
-              }
-            ]
-          }
-        ]
-      }
-    },
     "labeled_pattern": {
       "type": "SEQ",
       "members": [
@@ -7333,10 +7308,6 @@
     [
       "_atype",
       "gadt_constructor"
-    ],
-    [
-      "type_constructor_pattern",
-      "_atype"
     ],
     [
       "_general_type_constructor"
