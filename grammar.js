@@ -462,6 +462,26 @@ module.exports = grammar({
       prec.dynamic(-1, seq($._funlhs, $._a_pattern, repeat($._a_pattern)))
     ),
 
+    parenthesized_type: $ => seq(
+      '(',
+      repeat1(
+        choice(
+          $._qualified_type_constructor_identifier,
+          $.parenthesized_type,
+          $.type_variable_identifier,
+          $.promoted,
+          $.list_instance,
+          $.tuple_instance,
+          $.unit_constructor,
+          $._qualified_operator,
+          $.annotated_type_variable,
+          $.tupling_constructor,
+          $.list_constructor
+        )
+      ),
+      ')'
+    ),
+
     _a_pattern: $ => choice(
       $.constructor_pattern,
       $.tuple_pattern,
@@ -1031,26 +1051,6 @@ module.exports = grammar({
       $.function_type_instance,
       $.type_variable_identifier,
     )),
-
-    parenthesized_type: $ => seq(
-      '(',
-      repeat1(
-        choice(
-          $._qualified_type_constructor_identifier,
-          $.parenthesized_type,
-          $.type_variable_identifier,
-          $.promoted,
-          $.list_instance,
-          $.tuple_instance,
-          $.unit_constructor,
-          $._qualified_operator,
-          $.annotated_type_variable,
-          $.tupling_constructor,
-          $.list_constructor
-        )
-      ),
-      ')'
-    ),
 
     tuple_instance: $ => prec(PREC.TUPLE_INSTANCE, seq(
       '(',
