@@ -1160,7 +1160,7 @@ module.exports = grammar({
     _type_pattern: $ => choice(
       $._type,
       $.function_type,
-      $.infix_type_operator_application
+      $.infix_type_operator_pattern
     ),
 
     _type: $ => prec.left(repeat1($._atype)),
@@ -1193,7 +1193,7 @@ module.exports = grammar({
       $.scoped_type_variables
     )),
 
-    infix_type_operator_application: $ => prec.right(seq(
+    infix_type_operator_pattern: $ => prec.right(seq(
       alias($._type_pattern, $.type),
       $.type_operator,
       $._type_pattern

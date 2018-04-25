@@ -61,13 +61,13 @@ type Foo '[] a = a
     (type_constructor_identifier)
     (type_synonym_body
       (type_pattern
-        (infix_type_operator_application
+        (infix_type_operator_pattern
           (type (type_constructor_identifier))
           (type_operator)
-          (infix_type_operator_application
+          (infix_type_operator_pattern
             (type (type_constructor_identifier) (type_constructor_identifier))
             (type_operator)
-            (infix_type_operator_application
+            (infix_type_operator_pattern
               (type (type_constructor_identifier) (parenthesized_type_pattern (type_constructor_identifier) (type_constructor_identifier)))
               (type_operator)
               (promoted_type_constructor (list_constructor))))))))
