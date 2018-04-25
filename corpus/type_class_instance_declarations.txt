@@ -58,42 +58,49 @@ instance (Foo (Bar (Baz, Baz))) => Read (Bar) where {}
 
 (module
   (type_class_instance_declaration
-    (scontext
-      (simple_class (type_class_identifier) (type_variable_identifier)))
+    (context
+      (context_pattern
+        (class (type_class_identifier) (type_variable_identifier))))
     (type_class_identifier)
     (instance (type_constructor_identifier))
     (where))
   (type_class_instance_declaration
-    (scontext (simple_class (type_class_identifier) (type_variable_identifier)))
+    (context
+      (context_pattern
+        (class (type_class_identifier) (type_variable_identifier))))
     (type_class_identifier)
     (instance (parenthesized_type (type_constructor_identifier) (type_variable_identifier)))
     (where))
   (type_class_instance_declaration
-    (scontext
-      (simple_class (type_class_identifier) (type_variable_identifier))
-      (simple_class (type_class_identifier) (type_variable_identifier)))
+    (context
+      (context_pattern
+        (class (type_class_identifier) (type_variable_identifier)))
+      (context_pattern
+        (class (type_class_identifier) (type_variable_identifier))))
     (type_class_identifier)
     (instance (parenthesized_type (type_constructor_identifier) (type_variable_identifier)))
     (where))
   (type_class_instance_declaration
-    (scontext
-      (simple_class
-        (type_class_identifier)
-        (parenthesized_type
-          (type_constructor_identifier)
-          (list_instance (type_constructor_identifier)))))
+    (context
+      (context_pattern
+        (class
+          (type_class_identifier)
+          (parenthesized_type
+            (type_constructor_identifier)
+            (list_instance (type_constructor_identifier))))))
     (type_class_identifier)
     (instance (parenthesized_type (type_constructor_identifier)))
     (where))
   (type_class_instance_declaration
-    (scontext
-      (simple_class
-        (type_class_identifier)
-        (parenthesized_type
-          (type_constructor_identifier)
-          (tuple_instance
+    (context
+      (context_pattern
+        (class
+          (type_class_identifier)
+          (parenthesized_type
             (type_constructor_identifier)
-            (type_constructor_identifier)))))
+            (tuple_instance
+              (type_constructor_identifier)
+              (type_constructor_identifier))))))
     (type_class_identifier)
     (instance (parenthesized_type (type_constructor_identifier)))
     (where)))
@@ -154,12 +161,13 @@ instance Bar a b m => Baz a b m where {}
 
 (module
   (type_class_instance_declaration
-    (scontext
-      (simple_class
+    (context
+      (context_pattern
+        (class
         (type_class_identifier)
         (type_variable_identifier)
         (type_variable_identifier)
-        (type_variable_identifier)))
+        (type_variable_identifier))))
     (type_class_identifier)
     (instance
       (type_variable_identifier)
@@ -177,15 +185,16 @@ instance ( Foo (Bar a b '[]) c ) => Baz a b (Bix a b c) where
 
 (module
   (type_class_instance_declaration
-    (scontext
-      (simple_class
+    (context
+      (context_pattern
+        (class
         (type_class_identifier)
         (parenthesized_type
           (type_constructor_identifier)
           (type_variable_identifier)
           (type_variable_identifier)
           (promoted (list_constructor)))
-        (type_variable_identifier)))
+        (type_variable_identifier))))
     (type_class_identifier)
     (instance
       (type_variable_identifier)
@@ -210,14 +219,13 @@ instance (Bar baz ~ foo) => Wix baz where
 
 (module
   (type_class_instance_declaration
-    (scontext
-      (simple_class
-        (equality_constraint
-          (equality_lhs
-            (type_constructor_identifier)
-            (type_variable_identifier))
-          (equality_rhs
-            (type_variable_identifier)))))
+    (context
+      (context_pattern
+        (class
+          (type_class_identifier)
+          (type_variable_identifier))
+        (variable_operator (variable_symbol))
+        (type_variable_identifier)))
     (type_class_identifier)
     (instance (type_variable_identifier))
     (where
@@ -260,19 +268,16 @@ instance (A :< b, B :< b) => Bar (A c) Foo where {}
         (constructor_operator (constructor_symbol))
         (type_variable_identifier)))
     (where))
-
   (type_class_instance_declaration
-    (scontext
-      (simple_class
-        (type_constructor_operator_pattern
-          (type_constructor_identifier)
-          (constructor_operator (constructor_symbol))
-          (type_variable_identifier)))
-      (simple_class
-        (type_constructor_operator_pattern
-          (type_constructor_identifier)
-          (constructor_operator (constructor_symbol))
-          (type_variable_identifier))))
+    (context
+      (context_pattern
+        (type_constructor_identifier)
+        (constructor_operator (constructor_symbol))
+        (type_variable_identifier))
+      (context_pattern
+        (type_constructor_identifier)
+        (constructor_operator (constructor_symbol))
+        (type_variable_identifier)))
       (type_class_identifier)
       (instance
         (parenthesized_type

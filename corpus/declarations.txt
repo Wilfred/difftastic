@@ -122,7 +122,7 @@ type Foo = HasCallStack => Bar []
   (type_synonym_declaration
     (type_constructor_identifier)
     (type_synonym_body
-      (scontext (simple_class (type_class_identifier)))
+      (context (context_pattern (type_constructor_identifier)))
       (type_pattern
         (type_constructor_identifier)
         (list_constructor)))))
@@ -694,7 +694,7 @@ foo :: HasCallStack => a -> a
     (variable_identifier)
     (annotation)
     (context
-      (context_pattern (class (type_class_identifier))))
+      (context_pattern (type_constructor_identifier)))
     (function_type
       (type (type_variable_identifier))
       (type (type_variable_identifier)))))
@@ -722,7 +722,7 @@ withStateCallStack :: Maybe (String, SrcLoc) -> State a b -> (HasCallStack => c)
             (parenthesized_type_pattern
               (context
                 (context_pattern
-                  (class (type_class_identifier)))) 
+                  (type_constructor_identifier)))
               (type_variable_identifier)))
           (type (type_variable_identifier)))))))
 
@@ -742,7 +742,7 @@ foo :: (f :< Bar) => Bar -> f
       (context_pattern
         (type_variable_identifier)
         (constructor_operator (constructor_symbol))
-        (class (type_class_identifier))))
+        (type_constructor_identifier)))
     (function_type
       (type (type_constructor_identifier))
       (type (type_variable_identifier)))))
@@ -760,40 +760,43 @@ deriving instance Bar (Foo (Baz waz)) bix => BazHeap bix (BarEval bix wax)
 
 (module
   (standalone_deriving_declaration
-    (scontext
-      (simple_class
-        (type_class_identifier)
-        (type_variable_identifier)))
+    (context
+      (context_pattern
+        (class
+          (type_class_identifier)
+          (type_variable_identifier))))
     (type_class_identifier)
     (instance
       (parenthesized_type
         (type_constructor_identifier)
         (type_variable_identifier))))
   (standalone_deriving_declaration
-    (scontext
-      (simple_class
-        (type_class_identifier)
+    (context
+      (context_pattern
+        (class
+          (type_class_identifier)
+          (type_variable_identifier)
+          (parenthesized_type
+            (type_variable_identifier)
+            (type_variable_identifier)
+            (type_variable_identifier)
+            (type_variable_identifier)))))
+    (type_class_identifier)
+    (instance
+      (type_variable_identifier)
+      (parenthesized_type
+        (type_constructor_identifier)
         (type_variable_identifier)
-        (parenthesized_type
-          (type_variable_identifier)
-          (type_variable_identifier)
-          (type_variable_identifier)
-          (type_variable_identifier))))
-      (type_class_identifier)
-      (instance
         (type_variable_identifier)
-        (parenthesized_type
-          (type_constructor_identifier)
-          (type_variable_identifier)
-          (type_variable_identifier)
-          (type_variable_identifier)
-          (type_variable_identifier))))
+        (type_variable_identifier)
+        (type_variable_identifier))))
   (standalone_deriving_declaration
-    (scontext
-      (simple_class
-        (type_class_identifier)
-        (type_class_identifier)
-        (type_variable_identifier)))
+    (context
+      (context_pattern
+        (class
+          (type_class_identifier)
+          (type_constructor_identifier)
+          (type_variable_identifier))))
     (type_class_identifier)
     (instance
       (parenthesized_type
@@ -802,15 +805,16 @@ deriving instance Bar (Foo (Baz waz)) bix => BazHeap bix (BarEval bix wax)
         (type_variable_identifier)
         (type_variable_identifier))))
   (standalone_deriving_declaration
-    (scontext
-      (simple_class
-        (type_class_identifier)
-        (parenthesized_type
-          (type_constructor_identifier)
+    (context
+      (context_pattern
+        (class
+          (type_class_identifier)
           (parenthesized_type
             (type_constructor_identifier)
-            (type_variable_identifier)))
-          (type_variable_identifier)))
+            (parenthesized_type
+              (type_constructor_identifier)
+              (type_variable_identifier)))
+            (type_variable_identifier))))
     (type_class_identifier)
     (instance
       (type_variable_identifier)
