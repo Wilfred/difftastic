@@ -10,6 +10,11 @@ instance Show (a -> b) where {}
 instance Show Foo where
   bar (Foo Baz) (Foo Wix) = EQ
 instance Show (,) where
+instance Show (Bar, Baz a b) where
+instance Show [(Bar, Baz a b)] where
+instance Show [Bar] where
+instance Show [Bar a b] where
+instance Show [Bar Baz b] where
 
 ---
 
@@ -22,10 +27,15 @@ instance Show (,) where
     (instance (parenthesized_type (type_constructor_identifier) (type_variable_identifier))) (where))
   (type_class_instance_declaration
     (type_class_identifier)
-    (instance (tuple_instance (type_variable_identifier) (type_variable_identifier) (type_variable_identifier))) (where))
+    (instance
+      (tuple_type
+        (type (type_variable_identifier))
+        (type (type_variable_identifier))
+        (type (type_variable_identifier))))
+    (where))
   (type_class_instance_declaration
     (type_class_identifier)
-    (instance (list_instance (type_variable_identifier))) (where))
+    (instance (list_type (type (type_variable_identifier)))) (where))
   (type_class_instance_declaration
     (type_class_identifier)
     (instance (function_type_instance (type_variable_identifier) (type_variable_identifier))) (where))
@@ -42,7 +52,41 @@ instance Show (,) where
         (function_body (constructor_identifier)))))
   (type_class_instance_declaration
     (type_class_identifier)
-    (instance (tupling_constructor)) (where)))
+    (instance (tupling_constructor)) (where))
+  (type_class_instance_declaration
+    (type_class_identifier)
+    (instance
+      (tuple_type
+        (type (type_constructor_identifier))
+        (type (type_constructor_identifier) (type_variable_identifier) (type_variable_identifier))))
+    (where))
+  (type_class_instance_declaration
+    (type_class_identifier)
+    (instance
+      (list_type
+        (type
+          (tuple_type
+            (type (type_constructor_identifier))
+            (type (type_constructor_identifier) (type_variable_identifier) (type_variable_identifier))))))
+    (where))
+  (type_class_instance_declaration
+    (type_class_identifier)
+    (instance
+      (list_type
+        (type (type_constructor_identifier))))
+    (where))
+  (type_class_instance_declaration
+    (type_class_identifier)
+    (instance
+      (list_type
+        (type (type_constructor_identifier) (type_variable_identifier) (type_variable_identifier))))
+    (where))
+  (type_class_instance_declaration
+    (type_class_identifier)
+    (instance
+      (list_type
+        (type (type_constructor_identifier) (type_constructor_identifier) (type_variable_identifier))))
+    (where)))
 
 =========================================
 Type Class Instance Declarations With Context
@@ -87,7 +131,7 @@ instance (Foo (Bar (Baz, Baz))) => Read (Bar) where {}
           (type_class_identifier)
           (parenthesized_type
             (type_constructor_identifier)
-            (list_instance (type_constructor_identifier))))))
+            (list_type (type (type_constructor_identifier)))))))
     (type_class_identifier)
     (instance (parenthesized_type (type_constructor_identifier)))
     (where))
@@ -98,9 +142,9 @@ instance (Foo (Bar (Baz, Baz))) => Read (Bar) where {}
           (type_class_identifier)
           (parenthesized_type
             (type_constructor_identifier)
-            (tuple_instance
-              (type_constructor_identifier)
-              (type_constructor_identifier))))))
+            (tuple_type
+              (type (type_constructor_identifier))
+              (type (type_constructor_identifier)))))))
     (type_class_identifier)
     (instance (parenthesized_type (type_constructor_identifier)))
     (where)))

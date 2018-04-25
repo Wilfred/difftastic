@@ -62,7 +62,7 @@ type instance F String = Char
     (kind_signature (annotation) (star)))
   (type_instance_declaration
     (type_constructor_identifier)
-    (list_instance (type_constructor_identifier))
+    (list_type (type (type_constructor_identifier)))
     (type_instance_body (type_pattern (type_constructor_identifier))))
   (type_instance_declaration
     (type_constructor_identifier)

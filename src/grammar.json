@@ -1451,11 +1451,11 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "list_instance"
+                "name": "list_type"
               },
               {
                 "type": "SYMBOL",
-                "name": "tuple_instance"
+                "name": "tuple_type"
               },
               {
                 "type": "SYMBOL",
@@ -1798,20 +1798,49 @@
       ]
     },
     "constructor_pattern": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "_general_constructor"
-        },
-        {
-          "type": "REPEAT1",
-          "content": {
+      "type": "PREC_RIGHT",
+      "value": 0,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
             "type": "SYMBOL",
-            "name": "_a_pattern"
+            "name": "_general_constructor"
+          },
+          {
+            "type": "REPEAT1",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_a_pattern"
+            }
           }
-        }
-      ]
+        ]
+      }
+    },
+    "type_constructor_pattern": {
+      "type": "PREC_RIGHT",
+      "value": 0,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_general_type_constructor"
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "_type_pattern"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        ]
+      }
     },
     "labeled_pattern": {
       "type": "SEQ",
@@ -3942,11 +3971,11 @@
             },
             {
               "type": "SYMBOL",
-              "name": "tuple_instance"
+              "name": "tuple_type"
             },
             {
               "type": "SYMBOL",
-              "name": "list_instance"
+              "name": "list_type"
             },
             {
               "type": "SYMBOL",
@@ -3958,113 +3987,6 @@
             }
           ]
         }
-      }
-    },
-    "tuple_instance": {
-      "type": "PREC",
-      "value": 1,
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "STRING",
-            "value": "("
-          },
-          {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "type_variable_identifier"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "_general_type_constructor"
-              }
-            ]
-          },
-          {
-            "type": "STRING",
-            "value": ","
-          },
-          {
-            "type": "SEQ",
-            "members": [
-              {
-                "type": "CHOICE",
-                "members": [
-                  {
-                    "type": "SYMBOL",
-                    "name": "type_variable_identifier"
-                  },
-                  {
-                    "type": "SYMBOL",
-                    "name": "_general_type_constructor"
-                  }
-                ]
-              },
-              {
-                "type": "REPEAT",
-                "content": {
-                  "type": "SEQ",
-                  "members": [
-                    {
-                      "type": "STRING",
-                      "value": ","
-                    },
-                    {
-                      "type": "CHOICE",
-                      "members": [
-                        {
-                          "type": "SYMBOL",
-                          "name": "type_variable_identifier"
-                        },
-                        {
-                          "type": "SYMBOL",
-                          "name": "_general_type_constructor"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              }
-            ]
-          },
-          {
-            "type": "STRING",
-            "value": ")"
-          }
-        ]
-      }
-    },
-    "list_instance": {
-      "type": "PREC",
-      "value": 1,
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "STRING",
-            "value": "["
-          },
-          {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "type_variable_identifier"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "_general_type_constructor"
-              }
-            ]
-          },
-          {
-            "type": "STRING",
-            "value": "]"
-          }
-        ]
       }
     },
     "kind_function_type_instance": {
@@ -4486,21 +4408,25 @@
       ]
     },
     "_type_pattern": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "_type"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "function_type"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "infix_type_operator_pattern"
-        }
-      ]
+      "type": "PREC_LEFT",
+      "value": 0,
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_type"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "function_type"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "infix_type_operator_pattern"
+          }
+        ]
+      }
     },
     "_type": {
       "type": "PREC_LEFT",
@@ -5228,11 +5154,11 @@
                 },
                 {
                   "type": "SYMBOL",
-                  "name": "list_instance"
+                  "name": "tuple_type"
                 },
                 {
                   "type": "SYMBOL",
-                  "name": "tuple_instance"
+                  "name": "list_type"
                 },
                 {
                   "type": "SYMBOL",
@@ -7245,9 +7171,6 @@
       "constructor_pattern"
     ],
     [
-      "constructor_pattern"
-    ],
-    [
       "parenthesized_type",
       "_atype"
     ],
@@ -7407,6 +7330,10 @@
     [
       "_atype",
       "gadt_constructor"
+    ],
+    [
+      "type_constructor_pattern",
+      "_atype"
     ]
   ],
   "externals": [
