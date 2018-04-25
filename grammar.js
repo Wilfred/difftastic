@@ -133,7 +133,6 @@ module.exports = grammar({
     [$.variable_identifier, $.type_variable_identifier],
     [$._general_type_constructor, $._simple_type],
     [$.type_family_declaration],
-    [$.algebraic_datatype_declaration],
     [$._general_type_constructor, $._context_lpat],
     [$.class],
     [$._atype, $._context_lpat],
@@ -1245,7 +1244,7 @@ module.exports = grammar({
       ']'
     ),
 
-    algebraic_datatype_declaration: $ => seq(
+    algebraic_datatype_declaration: $ => prec.left(seq(
       'data',
       optional($.context),
       $._simple_type,
@@ -1256,7 +1255,7 @@ module.exports = grammar({
           optional($.deriving)
         )
       )
-    ),
+    )),
 
     gadt_declaration: $ => seq(
       'data',
