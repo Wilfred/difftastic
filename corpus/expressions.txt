@@ -180,9 +180,7 @@ a = [ [ (i,j) | i <- [1,2] ] | j <- [1..] ]
                       (expression (integer))
                       (expression (integer))))
                   (expression
-                    (tuple_expression
-                      (expression (integer))
-                      (expression (integer))))))
+                    (tuple_expression (expression (integer)) (expression (integer))))))
               (expression
                 (list_expression
                   (expression
@@ -439,5 +437,7 @@ let foo' = catMaybes $ fmap (\p -> (p,) . Just <$> bar p) waz
                     (infix_operator_application
                       (constructor_identifier)
                       (variable_operator (variable_symbol))
-                      (function_application (variable_identifier) (variable_identifier))))))))
+                      (function_application
+                        (variable_identifier)
+                        (variable_identifier))))))))
           (variable_identifier))))))
