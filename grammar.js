@@ -26,6 +26,7 @@ const
     FUNCTION_DECLARATION: 3,
     NEGATIVE_LITERAL: 1,
     TUPLE_INSTANCE: 1,
+    LIST_INSTANCE: 1,
     FUNCTION_TYPE_INSTANCE: 1,
     KIND_SIGNATURE: 1,
     TYPE_CONSTRUCTOR_OPERATOR_PATTERN: 1,
@@ -1067,11 +1068,11 @@ module.exports = grammar({
       ')'
     )),
 
-    list_instance: $ => seq(
+    list_instance: $ => prec(PREC.LIST_INSTANCE, seq(
       '[',
       choice($.type_variable_identifier, $._general_type_constructor),
       ']'
-    ),
+    )),
 
     kind_function_type_instance: $ => seq(
       '(',
