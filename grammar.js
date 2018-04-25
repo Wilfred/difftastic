@@ -105,8 +105,6 @@ module.exports = grammar({
   ],
 
   conflicts: $ => [
-    [$.data_constructor],
-    [$.instance],
     [$.quasi_quotation, $.variable_identifier],
     [$._lexp, $._a_expression],
     [$._lexp, $.function_application],
@@ -1048,14 +1046,14 @@ module.exports = grammar({
       optional($.where)
     ),
 
-    instance: $ => repeat1(choice(
+    instance: $ => prec.left(repeat1(choice(
       $._general_type_constructor,
       $.parenthesized_type,
       $.tuple_instance,
       $.list_instance,
       $.function_type_instance,
       $.type_variable_identifier,
-    )),
+    ))),
 
     tuple_instance: $ => prec(PREC.TUPLE_INSTANCE, seq(
       '(',
@@ -1363,7 +1361,7 @@ module.exports = grammar({
       )
     ),
 
-    data_constructor: $ => seq(
+    data_constructor: $ => prec.left(seq(
       $._qualified_constructor,
       repeat(
         seq(
@@ -1379,7 +1377,7 @@ module.exports = grammar({
           )
         )
       )
-    ),
+    )),
 
     strict_type: $ => seq(
       '!',
