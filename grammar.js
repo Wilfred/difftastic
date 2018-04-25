@@ -335,6 +335,7 @@ module.exports = grammar({
       $.function_declaration,
       // $._pragma,
       $.quasi_quotation,
+      $.type_family_declaration,
       $.pattern_type_signature,
       $.bidirectional_pattern_synonym,
       $.unidirectional_pattern_synonym,
@@ -359,7 +360,6 @@ module.exports = grammar({
     _top_declaration: $ => choice(
       $.import_declaration,
       $.qualified_import_declaration,
-      $.type_family_declaration,
       $.gadt_declaration,
       $.algebraic_datatype_declaration,
       $.newtype_declaration,

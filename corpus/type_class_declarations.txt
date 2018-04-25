@@ -259,3 +259,32 @@ class Foo bar where
         (type_signature
           (annotation)
           (type_constructor_identifier))))))
+
+=========================================
+Type Class Declarations With Type Family Declaration
+=========================================
+
+class Bar baz => Foo fax where
+  type family Woo a :: [* -> *]
+
+---
+
+(module
+  (type_class_declaration
+    (context
+      (context_pattern
+        (class
+          (type_class_identifier)
+          (type_variable_identifier))))
+    (type_class_identifier)
+    (type_variable_identifier)
+    (where
+      (type_family_declaration
+        (type_constructor_identifier)
+        (type_variable_identifier)
+        (kind_signature
+          (annotation)
+          (kind_list_type
+            (kind_function_type
+              (kind (star))
+              (kind (star)))))))))
