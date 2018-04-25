@@ -142,7 +142,28 @@ module.exports = grammar({
     [$.kind_function_type, $.function_type],
     [$._general_constructor, $._general_type_constructor, $._context_lpat],
     [$._general_constructor, $._context_lpat],
+
+    // These conflicts are necessary to help disambiguate between the type class identifier for class (type class constraints) vs instance type class identifier, and the stand alone deriving instance class identifier.
+    [$.type_class_instance_declaration, $._context_lpat],
+    [$.standalone_deriving_declaration, $._context_lpat],
     [$._qualified_type_class_identifier, $._qualified_constructor_identifier],
+    [$.qualified_type_class_identifier, $.qualified_constructor_identifier],
+    [$.type_class_instance_declaration, $._context_lpat, $.class],
+    [$._context_lpat, $.class],
+    [$.type_class_declaration, $._qualified_type_class_identifier],
+    [$.standalone_deriving_declaration, $._context_lpat, $.class],
+    [$.class, $._qualified_type_constructor_identifier],
+    [$.context_pattern],
+    [$.type_class_instance_declaration, $.class],
+    [$.standalone_deriving_declaration, $.class],
+    [$._simple_type, $._context_lpat],
+    [$._type_signature, $._atype],
+
+    // These conflicts are necessary to allow for arbitrary contexts to occur within the function type position (e.g. a -> (HasCallStack => b) -> b).
+    [$.parenthesized_type, $._general_type_constructor, $._context_lpat],
+    [$.parenthesized_type, $._context_lpat],
+    [$.parenthesized_type, $._atype, $._context_lpat],
+    [$._atype, $.gadt_constructor]
   ],
 
   rules: {
@@ -376,13 +397,13 @@ module.exports = grammar({
     standalone_deriving_declaration: $ => seq(
       'deriving',
       'instance',
-      optional($.scontext),
       // optional(choice(
       //   $.overlaps_pragma,
       //   $.overlapping_pragma,
       //   $.overlappable_pragma,
       //   $.incoherent_pragma
       // )),
+      optional($.context),
       $._qualified_type_class_identifier,
       $.instance
     ),
@@ -399,8 +420,8 @@ module.exports = grammar({
 
     type_synonym_body: $ => seq(
       '=',
-      optional($.scontext),
       optional($.scoped_type_variables),
+      optional($.context),
       choice(
         alias($._type_pattern, $.type_pattern),
         $._expression
@@ -964,7 +985,7 @@ module.exports = grammar({
 
     type_class_declaration: $ => seq(
       'class',
-      optional($.scontext),
+      optional($.context),
       seq(
         alias($._constructor_identifier, $.type_class_identifier),
         repeat(
@@ -995,8 +1016,8 @@ module.exports = grammar({
         // $.overlapping_pragma,
         // $.overlappable_pragma,
         // $.incoherent_pragma
-      optional($.scontext),
       // )),
+      optional($.context),
       $._qualified_type_class_identifier,
       $.instance,
       optional($.where)
@@ -1280,20 +1301,12 @@ module.exports = grammar({
       )
     )),
 
-    scontext: $ => prec.left(seq(
-      choice(
-        $.simple_class,
-        prec.dynamic(1, seq(
-          '(',
-          optional(sep1(',', $.simple_class)),
-          ')'
-        ))
-      ),
-      '=>'
-    )),
-
     context_pattern: $ => choice(
-      seq($._context_lpat, $._qualified_operator, $._context_lpat),
+      seq(
+        $._context_lpat,
+        choice($._qualified_operator, $.type_operator),
+        $._context_lpat
+      ),
       $._context_lpat
     ),
 
@@ -1301,6 +1314,7 @@ module.exports = grammar({
       $.class,
       $.equality_constraint,
       $.type_variable_identifier,
+      $._qualified_type_constructor_identifier,
       $.promoted
     ),
 
@@ -1316,19 +1330,6 @@ module.exports = grammar({
       '=>'
     ),
 
-    simple_class: $ => seq(
-      repeat1(
-        choice(
-          $.equality_constraint,
-          $.type_variable_identifier,
-          $.promoted,
-          $._qualified_type_class_identifier,
-          $.parenthesized_type,
-          $.type_constructor_operator_pattern
-        )
-      )
-    ),
-
     type_constructor_operator_pattern: $ => prec(PREC.TYPE_CONSTRUCTOR_OPERATOR_PATTERN, seq(
       $._qualified_type_constructor_identifier,
       $.constructor_operator,
@@ -1337,11 +1338,11 @@ module.exports = grammar({
 
     class: $ => seq(
       $._qualified_type_class_identifier,
-      repeat(
+      repeat1(
         choice(
           $.parenthesized_type,
+          $._qualified_type_constructor_identifier,
           $.type_variable_identifier,
-          $._qualified_type_class_identifier,
           $.promoted,
           $.list_type,
           $.tuple_type,

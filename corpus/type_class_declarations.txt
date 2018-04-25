@@ -22,14 +22,14 @@ class (Show a, Eq a) => Read a where {}
 
 (module
   (type_class_declaration
-    (scontext (simple_class (type_class_identifier) (type_variable_identifier)))
+    (context (context_pattern (class (type_class_identifier) (type_variable_identifier))))
     (type_class_identifier)
     (type_variable_identifier)
     (where))
   (type_class_declaration
-    (scontext
-      (simple_class (type_class_identifier) (type_variable_identifier))
-      (simple_class (type_class_identifier) (type_variable_identifier)))
+    (context
+      (context_pattern (class (type_class_identifier) (type_variable_identifier)))
+      (context_pattern (class (type_class_identifier) (type_variable_identifier))))
     (type_class_identifier)
     (type_variable_identifier)
     (where)))
@@ -119,7 +119,7 @@ class (Eq a) => Ord a where
 
 (module
   (type_class_declaration
-    (scontext (simple_class (type_class_identifier) (type_variable_identifier)))
+    (context (context_pattern (class (type_class_identifier) (type_variable_identifier))))
     (type_class_identifier)
     (type_variable_identifier)
     (where
@@ -166,12 +166,13 @@ class Bar a b m => Baz a b m where {}
 
 (module
   (type_class_declaration
-    (scontext
-      (simple_class
-        (type_class_identifier)
-        (type_variable_identifier)
-        (type_variable_identifier)
-        (type_variable_identifier)))
+    (context
+      (context_pattern
+        (class
+          (type_class_identifier)
+          (type_variable_identifier)
+          (type_variable_identifier)
+          (type_variable_identifier))))
     (type_class_identifier)
     (type_variable_identifier)
     (type_variable_identifier)
