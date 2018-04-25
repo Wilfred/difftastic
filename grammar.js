@@ -471,7 +471,7 @@ module.exports = grammar({
           $._qualified_type_constructor_identifier,
           $.parenthesized_type,
           $.type_variable_identifier,
-          $.promoted,
+          $.promoted_type_constructor,
           $.list_instance,
           $.tuple_instance,
           $.unit_constructor,
@@ -576,10 +576,15 @@ module.exports = grammar({
 
     record_wild_cards: $ => '..',
 
-    promoted: $ => seq(
+    promoted_type_operator: $ => seq(
       '\'',
-      choice($._type_pattern, $._qualified_operator)
+      $._qualified_operator
     ),
+
+    promoted_type_constructor: $ => prec.left(seq(
+      '\'',
+      $._type_pattern
+    )),
 
     _general_constructor: $ => choice(
       $._qualified_constructor,
@@ -587,7 +592,7 @@ module.exports = grammar({
       $.list_constructor,
       $.function_constructor,
       $.tupling_constructor,
-      $.promoted
+      $.promoted_type_constructor,
     ),
 
     _general_type_constructor: $ => choice(
@@ -596,7 +601,7 @@ module.exports = grammar({
       $.list_constructor,
       $.function_constructor,
       $.tupling_constructor,
-      $.promoted
+      $.promoted_type_constructor
     ),
 
     unit_constructor: $ => seq('(', ')'),
@@ -641,7 +646,7 @@ module.exports = grammar({
 
     infix_operator_application: $ => prec.right(seq(
       $._lexp,
-      choice($._qualified_operator, $.promoted),
+      choice($._qualified_operator, $.promoted_type_operator),
       optional($._infix_expression)
     )),
 
@@ -1315,7 +1320,7 @@ module.exports = grammar({
       $.class,
       $.type_variable_identifier,
       $._qualified_type_constructor_identifier,
-      $.promoted
+      $.promoted_type_constructor
     ),
 
     context: $ => seq(
@@ -1343,7 +1348,7 @@ module.exports = grammar({
           $.parenthesized_type,
           $._qualified_type_constructor_identifier,
           $.type_variable_identifier,
-          $.promoted,
+          $.promoted_type_constructor,
           $.list_type,
           $.tuple_type,
           $.unit_constructor
