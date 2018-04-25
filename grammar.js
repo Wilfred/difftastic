@@ -107,7 +107,6 @@ module.exports = grammar({
   conflicts: $ => [
     [$.data_constructor],
     [$.instance],
-    [$._pattern],
     [$.quasi_quotation, $.variable_identifier],
     [$._lexp, $._a_expression],
     [$._lexp, $.function_application],
@@ -543,10 +542,10 @@ module.exports = grammar({
       $._a_pattern
     ),
 
-    _pattern: $ => choice(
+    _pattern: $ => prec.left(choice(
       seq($._lpat, $._op, $._pattern),
       $._lpat
-    ),
+    )),
 
     _lpat: $ => choice(
       $._a_pattern,
