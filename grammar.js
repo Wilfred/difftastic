@@ -467,8 +467,8 @@ module.exports = grammar({
           $.parenthesized_type,
           $.type_variable_identifier,
           $.promoted_type_constructor,
-          $.list_instance,
-          $.tuple_instance,
+          $.list_type,
+          $.tuple_type,
           $.unit_constructor,
           $._qualified_operator,
           $.annotated_type_variable,
@@ -1048,25 +1048,11 @@ module.exports = grammar({
     instance: $ => prec.left(repeat1(choice(
       $._general_type_constructor,
       $.parenthesized_type,
-      $.tuple_instance,
-      $.list_instance,
+      $.tuple_type,
+      $.list_type,
       $.function_type_instance,
       $.type_variable_identifier,
     ))),
-
-    tuple_instance: $ => prec(PREC.TUPLE_INSTANCE, seq(
-      '(',
-      choice($.type_variable_identifier, $._general_type_constructor),
-      ',',
-      sep1(',', choice($.type_variable_identifier, $._general_type_constructor)),
-      ')'
-    )),
-
-    list_instance: $ => prec(PREC.LIST_INSTANCE, seq(
-      '[',
-      choice($.type_variable_identifier, $._general_type_constructor),
-      ']'
-    )),
 
     kind_function_type_instance: $ => seq(
       '(',
@@ -1152,11 +1138,11 @@ module.exports = grammar({
       '.'
     ),
 
-    _type_pattern: $ => choice(
+    _type_pattern: $ => prec.left(choice(
       $._type,
       $.function_type,
       $.infix_type_operator_pattern
-    ),
+    )),
 
     _type: $ => prec.left(repeat1($._atype)),
 
@@ -1295,8 +1281,8 @@ module.exports = grammar({
           $.type_variable_identifier,
           $._general_constructor,
           $.annotated_type_variable,
-          $.list_instance,
-          $.tuple_instance,
+          $.tuple_type,
+          $.list_type,
           $.parenthesized_type
         )
       )
