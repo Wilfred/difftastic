@@ -1312,7 +1312,6 @@ module.exports = grammar({
 
     _context_lpat: $ => choice(
       $.class,
-      $.equality_constraint,
       $.type_variable_identifier,
       $._qualified_type_constructor_identifier,
       $.promoted
@@ -1348,13 +1347,7 @@ module.exports = grammar({
           $.tuple_type,
           $.unit_constructor
         )
-      )
-    ),
-
-    equality_constraint: $ => seq(
-      alias($._type_pattern, $.equality_lhs),
-      '~',
-      alias($._type_pattern, $.equality_rhs)
+      ),
     ),
 
     constructors: $ => sep1(
