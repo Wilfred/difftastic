@@ -317,3 +317,25 @@ instance Foo Bar where
         (variable_identifier)
         (labeled_pattern (qualified_constructor_identifier (module_identifier) (constructor_identifier)) (record_wild_cards))
         (function_body (variable_identifier))))))
+
+=========================================
+Instance Declarations With Repeating Parenthesized Patterns
+=========================================
+
+instance Show Foo where
+  bar (Foo Baz) (Foo Baz) = EQ
+
+---
+
+(module
+  (type_class_instance_declaration
+    (type_class_identifier)
+    (instance (type_constructor_identifier))
+    (where
+      (function_declaration
+        (variable_identifier)
+        (parenthesized_pattern
+          (constructor_pattern (constructor_identifier) (constructor_identifier)))
+        (parenthesized_pattern
+          (constructor_pattern (constructor_identifier) (constructor_identifier)))
+        (function_body (constructor_identifier))))))
