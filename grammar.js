@@ -24,7 +24,7 @@ const
 
   PREC = {
     FUNCTION_DECLARATION: 3,
-    PARENTHESIZED_TYPE_PATTERN: 1,
+    PARENTHESIZED_TYPE_PATTERN: 2,
     NEGATIVE_LITERAL: 1,
     TUPLE_INSTANCE: 1,
     LIST_INSTANCE: 1,
@@ -130,7 +130,6 @@ module.exports = grammar({
     [$._a_pattern, $._lexp],
     [$._type_pattern, $.function_type],
     [$.variable_identifier, $.type_variable_identifier],
-    [$._general_type_constructor, $._simple_type],
     [$.type_family_declaration],
     [$._general_type_constructor, $._context_lpat],
     [$.class],
@@ -1182,7 +1181,8 @@ module.exports = grammar({
       $.list_type,
       $.fields,
       $.parenthesized_type_pattern,
-      $.scoped_type_variables
+      $.scoped_type_variables,
+      $.annotated_type_variable
     )),
 
     infix_type_operator_pattern: $ => prec.right(seq(
@@ -1287,16 +1287,7 @@ module.exports = grammar({
 
     _simple_type: $ => prec.right(seq(
       $._qualified_type_constructor_identifier,
-      repeat(
-        choice(
-          $.type_variable_identifier,
-          $._general_constructor,
-          $.annotated_type_variable,
-          $.tuple_type,
-          $.list_type,
-          $.parenthesized_type
-        )
-      )
+      repeat($._type_pattern),
     )),
 
     context_pattern: $ => choice(

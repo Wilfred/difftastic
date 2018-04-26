@@ -88,12 +88,12 @@ type Foo '[] a = a
                 (type_variable_identifier))))))))
   (type_synonym_declaration
     (type_constructor_identifier)
-    (constructor_identifier)
+    (type_constructor_identifier)
     (type_synonym_body
       (string)))
   (type_synonym_declaration
     (type_constructor_identifier)
-    (parenthesized_type
+    (parenthesized_type_pattern
       (type_constructor_identifier)
       (type_variable_identifier)
       (type_variable_identifier))
