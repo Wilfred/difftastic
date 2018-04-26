@@ -1170,3 +1170,36 @@ eval (a :< b) (fmap subtermValue -> QualifiedName name iden) = bar
         (variable_identifier)
         (variable_identifier)))
   (function_body (variable_identifier))))
+
+=================================================
+Function Declarations With Implicit Parameters
+=================================================
+
+sort :: (?cmp :: a -> a -> Bool) => [a] -> [a]
+sort = sortBy ?cmp
+
+---
+
+(module
+  (type_signature
+    (variable_identifier)
+    (annotation)
+    (context
+      (context_pattern
+        (type_signature
+          (implicit_parameter_identifier)
+          (annotation)
+          (function_type
+            (type (type_variable_identifier))
+            (function_type
+              (type (type_variable_identifier))
+              (type (type_constructor_identifier)))))))
+    (function_type
+      (type (list_type (type (type_variable_identifier))))
+      (type (list_type (type (type_variable_identifier))))))
+  (function_declaration
+    (variable_identifier)
+    (function_body
+      (function_application
+        (variable_identifier)
+        (implicit_parameter_identifier)))))
