@@ -4019,7 +4019,7 @@
             },
             {
               "type": "SYMBOL",
-              "name": "parenthesized_type"
+              "name": "parenthesized_type_pattern"
             },
             {
               "type": "SYMBOL",
@@ -4659,8 +4659,17 @@
             "value": "type"
           },
           {
-            "type": "SYMBOL",
-            "name": "type_operator"
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "type_operator"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "_qualified_operator"
+              }
+            ]
           },
           {
             "type": "SYMBOL",
@@ -5187,8 +5196,17 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "_simple_type"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_simple_type"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "parenthesized_constructor_operator"
+            }
+          ]
         },
         {
           "type": "ALIAS",
@@ -5221,6 +5239,32 @@
         {
           "type": "SYMBOL",
           "name": "_type_pattern"
+        }
+      ]
+    },
+    "parenthesized_constructor_operator": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "type_operator"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "constructor_operator"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": ")"
         }
       ]
     },
@@ -7430,6 +7474,34 @@
       "_a_expression",
       "_type_signature",
       "_atype"
+    ],
+    [
+      "_simple_type",
+      "infix_type_operator_pattern"
+    ],
+    [
+      "expression_type_signature",
+      "infix_type_operator_pattern"
+    ],
+    [
+      "infix_type_operator_pattern",
+      "strict_type"
+    ],
+    [
+      "type_synonym_body",
+      "infix_type_operator_pattern"
+    ],
+    [
+      "pattern_type_signature",
+      "infix_type_operator_pattern"
+    ],
+    [
+      "infix_type_operator_pattern",
+      "gadt_constructor"
+    ],
+    [
+      "type_instance_body",
+      "infix_type_operator_pattern"
     ]
   ],
   "externals": [
