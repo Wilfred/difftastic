@@ -468,6 +468,24 @@ data Foo f a where
               (field (variable_identifier) (annotation) (type_variable_identifier) (type_variable_identifier))))
           (type (type_constructor_identifier) (type_variable_identifier) (type_variable_identifier)))))))
 
+=========================================
+GADT Declarations With Kind Signatures
+=========================================
+
+data Foo :: [*] -> * where
+
+---
+
+(module
+  (gadt_declaration
+    (type_constructor_identifier)
+    (kind_signature
+      (annotation)
+      (kind_function_type
+        (kind (kind_list_type (star)))
+        (kind (star))))
+    (where)))
+
 ========================================
 Default declarations
 =========================================
