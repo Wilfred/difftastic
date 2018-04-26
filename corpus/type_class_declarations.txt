@@ -289,3 +289,36 @@ class Bar baz => Foo fax where
             (kind_function_type
               (kind (star))
               (kind (star)))))))))
+
+=========================================
+Type Class Declarations With Functional Dependencies
+=========================================
+
+class (Monad a, Show b) => Foo a b c | a b -> c where
+  d :: a b
+
+---
+
+(module
+  (type_class_declaration
+    (context
+      (context_pattern
+        (class (type_class_identifier) (type_variable_identifier)))
+      (context_pattern
+        (class (type_class_identifier) (type_variable_identifier))))
+    (type_class_identifier)
+    (type_variable_identifier)
+    (type_variable_identifier)
+    (type_variable_identifier)
+    (functional_dependency
+      (function_type
+        (type
+          (type_variable_identifier)
+          (type_variable_identifier))
+        (type (type_variable_identifier))))
+    (where
+      (type_signature
+        (variable_identifier)
+        (annotation)
+        (type_variable_identifier)
+        (type_variable_identifier)))))

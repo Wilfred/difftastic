@@ -1021,7 +1021,13 @@ module.exports = grammar({
           )
         )
       ),
+      optional($.functional_dependency),
       $.where
+    ),
+
+    functional_dependency: $ => seq(
+      '|',
+      $.function_type
     ),
 
     annotated_type_variable: $ => seq(
