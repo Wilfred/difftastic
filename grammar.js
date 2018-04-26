@@ -164,7 +164,13 @@ module.exports = grammar({
     // These conflicts support repeat1 for _general_type_constructor (and prevent errors when parsing `Foo a (Bar ...)`)
     [$._context_lpat],
     [$._general_constructor],
-    [$.parenthesized_type]
+    [$.parenthesized_type],
+
+    // These conflicts support implicit parameter contexts (e.g. a :: (?b :: c -> c -> Bool) => d) and implicit parameter identifiers in function bodies (e.g. a = b ?c)
+    [$._type_signature, $.infix_type_operator_pattern],
+    [$._a_expression, $._type_signature],
+    [$._a_expression, $._atype],
+    [$._a_expression, $._type_signature, $._atype]
   ],
 
   rules: {
@@ -477,7 +483,7 @@ module.exports = grammar({
           $._qualified_operator,
           $.annotated_type_variable,
           $.tupling_constructor,
-          $.list_constructor
+          $.list_constructor,
         )
       ),
       ')'
@@ -488,6 +494,7 @@ module.exports = grammar({
       $.tuple_pattern,
       $._variable,
       prec.dynamic(1, $.as_pattern),
+      $.implicit_parameter_identifier,
       $._general_constructor,
       $.labeled_pattern,
       $._literal,
@@ -498,6 +505,8 @@ module.exports = grammar({
       alias($._strict_a_pattern, $.strict_pattern),
       $.view_pattern
     ),
+
+    implicit_parameter_identifier: $ => /\?[_a-z](\w|')*/,
 
     view_pattern: $ => seq(
       '(',
@@ -882,6 +891,7 @@ module.exports = grammar({
     _a_expression: $ => seq(
       choice(
         prec.dynamic(-1, $._general_constructor),
+        $.implicit_parameter_identifier,
         $._variable,
         $._literal,
         $.parenthesized_expression,
@@ -1091,7 +1101,7 @@ module.exports = grammar({
     type_signature: $ => $._type_signature,
 
     _type_signature: $ => seq(
-      optional(sep1(',', $._variable)),
+      optional(sep1(',', choice($._variable, $.implicit_parameter_identifier))),
       alias('::', $.annotation),
       optional($.scoped_type_variables),
       repeat($.context),
@@ -1177,6 +1187,7 @@ module.exports = grammar({
       $.primitive_constructor_identifier,
       $._general_type_constructor,
       $.type_variable_identifier,
+      $.implicit_parameter_identifier,
       $.tuple_type,
       $.list_type,
       $.fields,
@@ -1303,7 +1314,8 @@ module.exports = grammar({
       $.class,
       $.type_variable_identifier,
       $._qualified_type_constructor_identifier,
-      $.promoted_type_constructor
+      $.promoted_type_constructor,
+      $.type_signature
     ),
 
     context: $ => seq(
