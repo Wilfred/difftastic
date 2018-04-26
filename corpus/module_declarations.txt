@@ -25,7 +25,7 @@ module A () where
 Module Declaration With Exports
 =========================================
 
-module A (Maybe(..), Either(fromEither, either), maybe', type Foo) where
+module A (Maybe(..), Either(fromEither, either), maybe', type Foo,) where
 
 ---
 
