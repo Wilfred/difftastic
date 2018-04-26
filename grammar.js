@@ -239,6 +239,7 @@ module.exports = grammar({
     module_exports: $ => seq(
       '(',
       optional(sep1(',', $.export)),
+      optional(','), // for trailing commas at the end of an export list
       ')'
     ),
 
