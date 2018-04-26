@@ -1028,7 +1028,7 @@ module.exports = grammar({
 
     functional_dependency: $ => seq(
       '|',
-      $.function_type
+      sep1(',', $.function_type)
     ),
 
     annotated_type_variable: $ => seq(
