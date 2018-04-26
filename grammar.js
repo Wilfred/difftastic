@@ -1290,11 +1290,20 @@ module.exports = grammar({
     ),
 
     gadt_constructor: $ => seq(
-      $._simple_type,
+      choice(
+        $._simple_type,
+        $.parenthesized_constructor_operator
+      ),
       alias('::', $.annotation),
       optional($.scoped_type_variables),
       repeat($.context),
       $._type_pattern
+    ),
+
+    parenthesized_constructor_operator: $ => seq(
+      '(',
+      choice($.type_operator, $.constructor_operator),
+      ')'
     ),
 
     _simple_type: $ => prec.right(seq(
