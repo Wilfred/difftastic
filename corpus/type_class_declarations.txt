@@ -294,7 +294,7 @@ class Bar baz => Foo fax where
 Type Class Declarations With Functional Dependencies
 =========================================
 
-class (Monad a, Show b) => Foo a b c | a b -> c where
+class (Monad a, Show b) => Foo a b c | a -> c, b -> c where
   d :: a b
 
 ---
@@ -312,9 +312,10 @@ class (Monad a, Show b) => Foo a b c | a b -> c where
     (type_variable_identifier)
     (functional_dependency
       (function_type
-        (type
-          (type_variable_identifier)
-          (type_variable_identifier))
+        (type (type_variable_identifier))
+        (type (type_variable_identifier)))
+      (function_type
+        (type (type_variable_identifier))
         (type (type_variable_identifier))))
     (where
       (type_signature
