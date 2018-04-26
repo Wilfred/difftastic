@@ -1269,6 +1269,7 @@ module.exports = grammar({
       'data',
       optional($.context),
       $._simple_type,
+      optional(choice($.kind_signature, $.type_signature)),
       alias($._gadt_where, $.where)
     ),
 

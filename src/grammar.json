@@ -5063,6 +5063,27 @@
           "name": "_simple_type"
         },
         {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "kind_signature"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "type_signature"
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
           "type": "ALIAS",
           "content": {
             "type": "SYMBOL",
