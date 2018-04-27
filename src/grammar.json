@@ -1199,8 +1199,13 @@
           "name": "_qualified_type_class_identifier"
         },
         {
-          "type": "SYMBOL",
-          "name": "instance"
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_type_pattern"
+          },
+          "named": true,
+          "value": "instance"
         }
       ]
     },
@@ -3988,8 +3993,13 @@
           "name": "_qualified_type_class_identifier"
         },
         {
-          "type": "SYMBOL",
-          "name": "instance"
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_type_pattern"
+          },
+          "named": true,
+          "value": "instance"
         },
         {
           "type": "CHOICE",
@@ -4004,42 +4014,6 @@
           ]
         }
       ]
-    },
-    "instance": {
-      "type": "PREC_LEFT",
-      "value": 0,
-      "content": {
-        "type": "REPEAT1",
-        "content": {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "_general_type_constructor"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "parenthesized_type"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "tuple_type"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "list_type"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "function_type_instance"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "type_variable_identifier"
-            }
-          ]
-        }
-      }
     },
     "kind_function_type_instance": {
       "type": "SEQ",
@@ -4493,7 +4467,47 @@
           },
           {
             "type": "SYMBOL",
-            "name": "infix_type_operator_pattern"
+            "name": "infix_operator_pattern"
+          }
+        ]
+      }
+    },
+    "infix_operator_pattern": {
+      "type": "PREC_RIGHT",
+      "value": 0,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_type_pattern"
+            },
+            "named": true,
+            "value": "type"
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "type_operator"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "constructor_operator"
+              }
+            ]
+          },
+          {
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_type_pattern"
+            },
+            "named": true,
+            "value": "type"
           }
         ]
       }
@@ -4639,32 +4653,6 @@
           {
             "type": "SYMBOL",
             "name": "annotated_type_variable"
-          }
-        ]
-      }
-    },
-    "infix_type_operator_pattern": {
-      "type": "PREC_RIGHT",
-      "value": 0,
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "ALIAS",
-            "content": {
-              "type": "SYMBOL",
-              "name": "_type_pattern"
-            },
-            "named": true,
-            "value": "type"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "type_operator"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "_type_pattern"
           }
         ]
       }
@@ -7288,19 +7276,6 @@
       "_atype"
     ],
     [
-      "_general_constructor",
-      "_general_type_constructor"
-    ],
-    [
-      "type_class_declaration",
-      "_qualified_type_constructor_identifier",
-      "_qualified_type_class_identifier"
-    ],
-    [
-      "_general_type_constructor",
-      "parenthesized_type"
-    ],
-    [
       "constructor_pattern",
       "_a_pattern"
     ],
@@ -7327,19 +7302,11 @@
       "_lexp"
     ],
     [
-      "_type_pattern",
-      "function_type"
-    ],
-    [
       "variable_identifier",
       "type_variable_identifier"
     ],
     [
       "type_family_declaration"
-    ],
-    [
-      "_general_type_constructor",
-      "_context_lpat"
     ],
     [
       "class"
@@ -7354,80 +7321,29 @@
     ],
     [
       "_general_constructor",
-      "_general_type_constructor",
       "_context_lpat"
     ],
     [
-      "_general_constructor",
-      "_context_lpat"
-    ],
-    [
-      "_general_type_constructor",
+      "_atype",
       "class"
     ],
     [
-      "type_class_instance_declaration",
-      "_context_lpat"
+      "_type_signature",
+      "infix_operator_pattern"
     ],
     [
-      "standalone_deriving_declaration",
-      "_context_lpat"
-    ],
-    [
-      "_qualified_type_class_identifier",
-      "_qualified_constructor_identifier"
-    ],
-    [
-      "qualified_type_class_identifier",
-      "qualified_constructor_identifier"
-    ],
-    [
-      "type_class_instance_declaration",
-      "_context_lpat",
-      "class"
-    ],
-    [
-      "_context_lpat",
-      "class"
+      "expression_type_signature",
+      "infix_operator_pattern"
     ],
     [
       "type_class_declaration",
       "_qualified_type_class_identifier"
     ],
     [
-      "standalone_deriving_declaration",
-      "_context_lpat",
-      "class"
-    ],
-    [
-      "class",
-      "_qualified_type_constructor_identifier"
-    ],
-    [
-      "context_pattern"
-    ],
-    [
-      "type_class_instance_declaration",
-      "class"
-    ],
-    [
-      "standalone_deriving_declaration",
-      "class"
-    ],
-    [
       "_simple_type",
       "_context_lpat"
     ],
     [
-      "_type_signature",
-      "_atype"
-    ],
-    [
-      "parenthesized_type",
-      "_general_type_constructor",
-      "_context_lpat"
-    ],
-    [
       "parenthesized_type",
       "_context_lpat"
     ],
@@ -7435,10 +7351,6 @@
       "parenthesized_type",
       "_atype",
       "_context_lpat"
-    ],
-    [
-      "_atype",
-      "gadt_constructor"
     ],
     [
       "_context_lpat"
@@ -7448,10 +7360,6 @@
     ],
     [
       "parenthesized_type"
-    ],
-    [
-      "_type_signature",
-      "infix_type_operator_pattern"
     ],
     [
       "_a_expression",
