@@ -1,0 +1,177 @@
+=====================================
+Return constant
+=====================================
+class A {
+  int Sample() {
+    return 1;
+  }
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier_name)
+    (method_declaration
+      (predefined_type)
+      (identifier_name)
+      (parameter_list)
+      (statement_block
+        (return_statement (integer_literal))))))
+
+=====================================
+Return nothing
+=====================================
+class A {
+  void Sample() {
+    return;
+  }
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier_name)
+    (method_declaration
+      (void_keyword)
+      (identifier_name)
+      (parameter_list)
+      (statement_block
+        (return_statement)))))
+
+
+
+=====================================
+Break in while
+=====================================
+class A {
+  void Sample() {
+    while (true) break;
+  }
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier_name)
+    (method_declaration
+      (void_keyword)
+      (identifier_name)
+      (parameter_list)
+      (statement_block
+        (while_statement (boolean_literal)
+          (break_statement))))))
+
+=====================================
+Continue in while
+=====================================
+class A {
+  void Sample() {
+    while (false) continue;
+  }
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier_name)
+    (method_declaration
+      (void_keyword)
+      (identifier_name)
+      (parameter_list)
+      (statement_block
+        (while_statement (boolean_literal)
+          (continue_statement))))))
+
+=====================================
+Throw nothing
+=====================================
+class A {
+  void Sample() {
+    throw;
+  }
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier_name)
+    (method_declaration
+      (void_keyword)
+      (identifier_name)
+      (parameter_list)
+      (statement_block
+        (throw_statement)))))
+
+=====================================
+Throw exception
+=====================================
+class A {
+  void Sample() {
+    throw ex;
+  }
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier_name)
+    (method_declaration
+      (void_keyword)
+      (identifier_name)
+      (parameter_list)
+      (statement_block
+        (throw_statement (identifier_name))))))
+
+=====================================
+Do while
+=====================================
+class A {
+  void Sample(bool a) {
+    do { } while (a);
+  }
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier_name)
+    (method_declaration
+      (void_keyword)
+      (identifier_name)
+      (parameter_list
+        (parameter (predefined_type) (identifier_name)))
+      (statement_block
+        (do_statement
+          (statement_block)
+          (identifier_name))))))
+
+=====================================
+Goto statement and label
+=====================================
+class A {
+  void Sample() {
+    goto end;
+    end:
+      return;
+  }
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier_name)
+    (method_declaration
+      (void_keyword)
+      (identifier_name)
+      (parameter_list)
+      (statement_block
+        (goto_statement (label_name))
+        (label_name) (return_statement)))))

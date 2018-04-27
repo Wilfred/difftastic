@@ -4165,9 +4165,13 @@
         }
       ]
     },
-    "identifier_name": {
+    "_identifier_name": {
       "type": "PATTERN",
       "value": "[a-zA-Z_][a-zA-Z_0-9]*"
+    },
+    "identifier_name": {
+      "type": "SYMBOL",
+      "name": "_identifier_name"
     },
     "comment": {
       "type": "TOKEN",
@@ -4418,11 +4422,32 @@
       "members": [
         {
           "type": "SYMBOL",
+          "name": "_labeled_statement"
+        },
+        {
+          "type": "SYMBOL",
           "name": "_embedded_statement"
         },
         {
           "type": "SYMBOL",
           "name": "variable_assignment_statement"
+        }
+      ]
+    },
+    "_labeled_statement": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "label_name"
+        },
+        {
+          "type": "STRING",
+          "value": ":"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_statement"
         }
       ]
     },
@@ -4442,6 +4467,10 @@
     "_embedded_statement": {
       "type": "CHOICE",
       "members": [
+        {
+          "type": "SYMBOL",
+          "name": "statement_block"
+        },
         {
           "type": "SYMBOL",
           "name": "empty_statement"
@@ -4466,6 +4495,10 @@
         {
           "type": "SYMBOL",
           "name": "while_statement"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "do_statement"
         }
       ]
     },
@@ -4494,6 +4527,10 @@
         }
       ]
     },
+    "_boolean_expression": {
+      "type": "SYMBOL",
+      "name": "_expression"
+    },
     "while_statement": {
       "type": "SEQ",
       "members": [
@@ -4507,7 +4544,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_expression"
+          "name": "_boolean_expression"
         },
         {
           "type": "STRING",
@@ -4516,6 +4553,39 @@
         {
           "type": "SYMBOL",
           "name": "_embedded_statement"
+        }
+      ]
+    },
+    "do_statement": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "do"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_embedded_statement"
+        },
+        {
+          "type": "STRING",
+          "value": "while"
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_boolean_expression"
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        },
+        {
+          "type": "STRING",
+          "value": ";"
         }
       ]
     },
@@ -4607,7 +4677,7 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "identifier_name"
+              "name": "label_name"
             },
             {
               "type": "SEQ",
@@ -4633,6 +4703,10 @@
           "value": ";"
         }
       ]
+    },
+    "label_name": {
+      "type": "SYMBOL",
+      "name": "_identifier_name"
     },
     "variable_declaration_statement": {
       "type": "SEQ",
