@@ -4653,6 +4653,10 @@
           {
             "type": "SYMBOL",
             "name": "annotated_type_variable"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "strict_type"
           }
         ]
       }
@@ -5535,17 +5539,21 @@
       }
     },
     "strict_type": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "!"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_type_pattern"
-        }
-      ]
+      "type": "PREC_LEFT",
+      "value": 0,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "!"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_type_pattern"
+          }
+        ]
+      }
     },
     "infix_data_constructor": {
       "type": "PREC_LEFT",
@@ -7373,6 +7381,18 @@
       "_a_expression",
       "_type_signature",
       "_atype"
+    ],
+    [
+      "_atype",
+      "field"
+    ],
+    [
+      "_atype",
+      "data_constructor"
+    ],
+    [
+      "_type",
+      "infix_data_constructor"
     ]
   ],
   "externals": [

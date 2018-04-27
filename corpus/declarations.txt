@@ -488,6 +488,41 @@ data Foo :: [*] -> * where
         (kind (star))))
     (where)))
 
+=========================================
+GADT Declarations With Strict Types
+=========================================
+
+data Number a where
+  Integer :: !Prelude.Integer  -> Number Prelude.Integer
+  Ratio   :: !Prelude.Rational -> Number Prelude.Rational
+  Decimal :: !Scientific       -> Number Scientific
+
+---
+
+(module
+  (gadt_declaration
+    (type_constructor_identifier)
+    (type_variable_identifier)
+    (where
+      (gadt_constructor
+        (type_constructor_identifier)
+        (annotation)
+        (function_type
+          (type (strict_type (qualified_type_constructor_identifier (module_identifier) (type_constructor_identifier))))
+          (type (type_constructor_identifier) (qualified_type_constructor_identifier (module_identifier) (type_constructor_identifier)))))
+      (gadt_constructor
+        (type_constructor_identifier)
+        (annotation)
+        (function_type
+          (type (strict_type (qualified_type_constructor_identifier (module_identifier) (type_constructor_identifier))))
+          (type (type_constructor_identifier) (qualified_type_constructor_identifier (module_identifier) (type_constructor_identifier)))))
+      (gadt_constructor
+        (type_constructor_identifier)
+        (annotation)
+        (function_type
+          (type (strict_type (type_constructor_identifier)))
+          (type (type_constructor_identifier) (type_constructor_identifier)))))))
+
 ========================================
 Default declarations
 =========================================
