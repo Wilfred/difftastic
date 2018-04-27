@@ -61,7 +61,7 @@ class A {
       (identifier_name)
       (parameter_list)
       (statement_block
-        (while_statement (boolean_literal)
+        (while_statement (boolean_expression  (boolean_literal))
           (break_statement))))))
 
 =====================================
@@ -83,7 +83,7 @@ class A {
       (identifier_name)
       (parameter_list)
       (statement_block
-        (while_statement (boolean_literal)
+        (while_statement (boolean_expression (boolean_literal))
           (continue_statement))))))
 
 =====================================
@@ -150,7 +150,7 @@ class A {
       (statement_block
         (do_statement
           (statement_block)
-          (identifier_name))))))
+          (boolean_expression (identifier_name)))))))
 
 =====================================
 Goto statement and label
@@ -175,3 +175,49 @@ class A {
       (statement_block
         (goto_statement (label_name))
         (label_name) (return_statement)))))
+
+=====================================
+If statement
+=====================================
+class A {
+  int Sample() {
+    if (true) return 1;
+  }
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier_name)
+    (method_declaration
+      (predefined_type)
+      (identifier_name)
+      (parameter_list)
+      (statement_block
+        (if_statement (boolean_expression (boolean_literal))
+          (return_statement (integer_literal)))))))
+
+=====================================
+If Else statement
+=====================================
+class A {
+  int Sample() {
+    if (true) return 1;
+    else return 0;
+  }
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier_name)
+    (method_declaration
+      (predefined_type)
+      (identifier_name)
+      (parameter_list)
+      (statement_block
+        (if_statement (boolean_expression (boolean_literal))
+          (return_statement (integer_literal))
+          (return_statement (integer_literal)))))))
