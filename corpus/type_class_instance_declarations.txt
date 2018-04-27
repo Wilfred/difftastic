@@ -24,7 +24,7 @@ instance Show [Bar Baz b] where
     (instance (type_constructor_identifier)) (where))
   (type_class_instance_declaration
     (type_class_identifier)
-    (instance (parenthesized_type (type_constructor_identifier) (type_variable_identifier))) (where))
+    (instance (parenthesized_type_pattern (type_constructor_identifier) (type_variable_identifier))) (where))
   (type_class_instance_declaration
     (type_class_identifier)
     (instance
@@ -38,7 +38,7 @@ instance Show [Bar Baz b] where
     (instance (list_type (type (type_variable_identifier)))) (where))
   (type_class_instance_declaration
     (type_class_identifier)
-    (instance (function_type_instance (type_variable_identifier) (type_variable_identifier))) (where))
+    (instance (parenthesized_type_pattern (function_type (type (type_variable_identifier)) (type (type_variable_identifier))))) (where))
   (type_class_instance_declaration
     (type_class_identifier)
     (instance (type_constructor_identifier))
@@ -113,7 +113,7 @@ instance (Foo (Bar (Baz, Baz))) => Read (Bar) where {}
       (context_pattern
         (class (type_class_identifier) (type_variable_identifier))))
     (type_class_identifier)
-    (instance (parenthesized_type (type_constructor_identifier) (type_variable_identifier)))
+    (instance (parenthesized_type_pattern (type_constructor_identifier) (type_variable_identifier)))
     (where))
   (type_class_instance_declaration
     (context
@@ -122,7 +122,7 @@ instance (Foo (Bar (Baz, Baz))) => Read (Bar) where {}
       (context_pattern
         (class (type_class_identifier) (type_variable_identifier))))
     (type_class_identifier)
-    (instance (parenthesized_type (type_constructor_identifier) (type_variable_identifier)))
+    (instance (parenthesized_type_pattern (type_constructor_identifier) (type_variable_identifier)))
     (where))
   (type_class_instance_declaration
     (context
@@ -133,7 +133,7 @@ instance (Foo (Bar (Baz, Baz))) => Read (Bar) where {}
             (type_constructor_identifier)
             (list_type (type (type_constructor_identifier)))))))
     (type_class_identifier)
-    (instance (parenthesized_type (type_constructor_identifier)))
+    (instance (parenthesized_type_pattern (type_constructor_identifier)))
     (where))
   (type_class_instance_declaration
     (context
@@ -146,7 +146,7 @@ instance (Foo (Bar (Baz, Baz))) => Read (Bar) where {}
               (type (type_constructor_identifier))
               (type (type_constructor_identifier)))))))
     (type_class_identifier)
-    (instance (parenthesized_type (type_constructor_identifier)))
+    (instance (parenthesized_type_pattern (type_constructor_identifier)))
     (where)))
 
 =========================================
@@ -243,7 +243,7 @@ instance ( Foo (Bar a b '[]) c ) => Baz a b (Bix a b c) where
     (instance
       (type_variable_identifier)
       (type_variable_identifier)
-      (parenthesized_type
+      (parenthesized_type_pattern
         (type_constructor_identifier)
         (type_variable_identifier)
         (type_variable_identifier)
@@ -307,10 +307,11 @@ instance (A :< b, B :< b) => Bar (A c) Foo where {}
   (type_class_instance_declaration
     (type_class_identifier)
     (instance
-      (parenthesized_type
-        (type_variable_identifier)
-        (constructor_operator (constructor_symbol))
-        (type_variable_identifier)))
+      (parenthesized_type_pattern
+        (infix_operator_pattern
+          (type (type_variable_identifier))
+          (constructor_operator (constructor_symbol))
+          (type (type_variable_identifier)))))
     (where))
   (type_class_instance_declaration
     (context
@@ -324,7 +325,7 @@ instance (A :< b, B :< b) => Bar (A c) Foo where {}
         (type_variable_identifier)))
       (type_class_identifier)
       (instance
-        (parenthesized_type
+        (parenthesized_type_pattern
           (type_constructor_identifier)
           (type_variable_identifier))
         (type_constructor_identifier))
