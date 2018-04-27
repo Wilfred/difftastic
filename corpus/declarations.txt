@@ -61,16 +61,18 @@ type Foo '[] a = a
     (type_constructor_identifier)
     (type_synonym_body
       (type_pattern
-        (infix_type_operator_pattern
+        (infix_operator_pattern
           (type (type_constructor_identifier))
           (type_operator)
-          (infix_type_operator_pattern
-            (type (type_constructor_identifier) (type_constructor_identifier))
-            (type_operator)
-            (infix_type_operator_pattern
-              (type (type_constructor_identifier) (parenthesized_type_pattern (type_constructor_identifier) (type_constructor_identifier)))
+          (type
+            (infix_operator_pattern
+              (type (type_constructor_identifier) (type_constructor_identifier))
               (type_operator)
-              (promoted_type_constructor (list_constructor))))))))
+              (type
+                (infix_operator_pattern
+                  (type (type_constructor_identifier) (parenthesized_type_pattern (type_constructor_identifier) (type_constructor_identifier)))
+                  (type_operator)
+                  (type (promoted_type_constructor (list_constructor)))))))))))
   (type_synonym_declaration
     (type_constructor_identifier)
     (type_variable_identifier)
@@ -561,12 +563,12 @@ f :: a -> B c (D (E g ': h)) -> I [J k] (L m (N (O p ': q)))
           (parenthesized_type_pattern
             (type_constructor_identifier)
             (parenthesized_type_pattern
-              (infix_type_operator_pattern
+              (infix_operator_pattern
                 (type
                   (type_constructor_identifier)
                   (type_variable_identifier))
                 (type_operator)
-                (type_variable_identifier)))))
+                (type (type_variable_identifier))))))
         (type
           (type_constructor_identifier)
           (list_type
@@ -579,12 +581,12 @@ f :: a -> B c (D (E g ': h)) -> I [J k] (L m (N (O p ': q)))
             (parenthesized_type_pattern
               (type_constructor_identifier)
               (parenthesized_type_pattern
-              (infix_type_operator_pattern
+              (infix_operator_pattern
                 (type
                   (type_constructor_identifier)
                   (type_variable_identifier))
                 (type_operator)
-                (type_variable_identifier))))))))))
+                (type (type_variable_identifier)))))))))))
 
 =========================================
 Type Signatures With Scoped Type Variables
@@ -822,7 +824,7 @@ deriving instance Bar (Foo (Baz waz)) bix => BazHeap bix (BarEval bix wax)
           (type_variable_identifier))))
     (type_class_identifier)
     (instance
-      (parenthesized_type
+      (parenthesized_type_pattern
         (type_constructor_identifier)
         (type_variable_identifier))))
   (standalone_deriving_declaration
@@ -839,7 +841,7 @@ deriving instance Bar (Foo (Baz waz)) bix => BazHeap bix (BarEval bix wax)
     (type_class_identifier)
     (instance
       (type_variable_identifier)
-      (parenthesized_type
+      (parenthesized_type_pattern
         (type_constructor_identifier)
         (type_variable_identifier)
         (type_variable_identifier)
@@ -854,7 +856,7 @@ deriving instance Bar (Foo (Baz waz)) bix => BazHeap bix (BarEval bix wax)
           (type_variable_identifier))))
     (type_class_identifier)
     (instance
-      (parenthesized_type
+      (parenthesized_type_pattern
         (type_constructor_identifier)
         (type_variable_identifier)
         (type_variable_identifier)
@@ -873,7 +875,7 @@ deriving instance Bar (Foo (Baz waz)) bix => BazHeap bix (BarEval bix wax)
     (type_class_identifier)
     (instance
       (type_variable_identifier)
-      (parenthesized_type
+      (parenthesized_type_pattern
         (type_constructor_identifier)
         (type_variable_identifier)
         (type_variable_identifier)))))

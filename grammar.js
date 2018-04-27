@@ -1133,7 +1133,13 @@ module.exports = grammar({
     _type_pattern: $ => prec.left(choice(
       $._type,
       $.function_type,
-      $.infix_type_operator_pattern
+      $.infix_operator_pattern
+    )),
+
+    infix_operator_pattern: $ => prec.right(seq(
+      alias($._type_pattern, $.type),
+      choice($.type_operator, $.constructor_operator),
+      alias($._type_pattern, $.type)
     )),
 
     _type: $ => prec.left(repeat1($._atype)),
@@ -1166,12 +1172,6 @@ module.exports = grammar({
       $.parenthesized_type_pattern,
       $.scoped_type_variables,
       $.annotated_type_variable
-    )),
-
-    infix_type_operator_pattern: $ => prec.right(seq(
-      alias($._type_pattern, $.type),
-      $.type_operator,
-      $._type_pattern
     )),
 
     tuple_type: $ => seq(
