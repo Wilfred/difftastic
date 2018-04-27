@@ -1247,6 +1247,7 @@ module.exports = grammar({
 
     gadt_declaration: $ => seq(
       'data',
+      optional($.scoped_type_variables),
       optional($.context),
       $._simple_type,
       optional(choice($.kind_signature, $.type_signature)),
