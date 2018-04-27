@@ -151,7 +151,12 @@ module.exports = grammar({
     // These conflicts support implicit parameter contexts (e.g. a :: (?b :: c -> c -> Bool) => d) and implicit parameter identifiers in function bodies (e.g. a = b ?c)
     [$._a_expression, $._type_signature],
     [$._a_expression, $._atype],
-    [$._a_expression, $._type_signature, $._atype]
+    [$._a_expression, $._type_signature, $._atype],
+
+    // These conflicts support strict types (!a or !Int) within a variety of syntaxes
+    [$._atype, $.field],
+    [$._atype, $.data_constructor],
+    [$._type, $.infix_data_constructor]
   ],
 
   rules: {
@@ -1171,7 +1176,8 @@ module.exports = grammar({
       $.fields,
       $.parenthesized_type_pattern,
       $.scoped_type_variables,
-      $.annotated_type_variable
+      $.annotated_type_variable,
+      $.strict_type
     )),
 
     tuple_type: $ => seq(
@@ -1360,10 +1366,10 @@ module.exports = grammar({
       )
     )),
 
-    strict_type: $ => seq(
+    strict_type: $ => prec.left(seq(
       '!',
       $._type_pattern
-    ),
+    )),
 
     infix_data_constructor: $ => prec.left(seq(
       optional('!'),
