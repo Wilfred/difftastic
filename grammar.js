@@ -1237,6 +1237,7 @@ module.exports = grammar({
       optional(
         seq(
           '=',
+          optional($.scoped_type_variables),
           $.constructors,
           optional($.deriving)
         )

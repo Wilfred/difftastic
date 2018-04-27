@@ -408,6 +408,25 @@ data Foo = Foo !Double#
         (strict_type (primitive_constructor_identifier))))))
 
 =========================================
+Algebraic Datatype Declarations With Scoped Type Variables
+=========================================
+
+data SomeNumber = forall a . SomeNumber (Number a)
+
+---
+
+(module
+  (algebraic_datatype_declaration
+    (type_constructor_identifier)
+    (scoped_type_variables (variable_identifier))
+    (constructors
+      (data_constructor
+        (constructor_identifier)
+        (parenthesized_type_pattern
+          (type_constructor_identifier)
+          (type_variable_identifier))))))
+
+=========================================
 GADT Declarations
 =========================================
 
