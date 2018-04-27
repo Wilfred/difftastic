@@ -156,7 +156,7 @@ module.exports = grammar({
     // These conflicts support strict types (!a or !Int) within a variety of syntaxes
     [$._atype, $.field],
     [$._atype, $.data_constructor],
-    [$._type, $.infix_data_constructor]
+    [$._type, $.infix_data_constructor],
   ],
 
   rules: {
@@ -1045,6 +1045,7 @@ module.exports = grammar({
         // $.overlappable_pragma,
         // $.incoherent_pragma
       // )),
+      optional($.scoped_type_variables),
       optional($.context),
       $._qualified_type_class_identifier,
       alias($._type_pattern, $.instance),
