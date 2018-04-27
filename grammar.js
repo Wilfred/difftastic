@@ -881,7 +881,8 @@ module.exports = grammar({
       '='
     ),
 
-    identifier_name: $ => (/[a-zA-Z_][a-zA-Z_0-9]*/),
+    _identifier_name: $ => (/[a-zA-Z_][a-zA-Z_0-9]*/),
+    identifier_name: $ => $._identifier_name,
 
     // commments
 
@@ -936,9 +937,12 @@ module.exports = grammar({
     ),
 
     _statement: $ => choice(
+      $._labeled_statement,
       $._embedded_statement,
       $.variable_assignment_statement
     ),
+
+    _labeled_statement: $ => seq($.label_name, ':', $._statement),
 
     expression_statement: $ => seq(
       $._expression,
@@ -946,6 +950,7 @@ module.exports = grammar({
     ),
 
     _embedded_statement: $ => choice(
+      $.statement_block,
       $.empty_statement,
       $.expression_statement,
       $._iteration_statement,
@@ -954,6 +959,7 @@ module.exports = grammar({
 
     _iteration_statement: $ => choice(
       $.while_statement,
+      $.do_statement,
     ),
 
     _jump_statement: $ => choice(
@@ -964,7 +970,10 @@ module.exports = grammar({
       $.throw_statement
     ),
 
-    while_statement: $ => seq('while', '(', $._expression, ')', $._embedded_statement),
+    _boolean_expression: $ => $._expression,
+
+    while_statement: $ => seq('while', '(', $._boolean_expression, ')', $._embedded_statement),
+    do_statement: $ => seq('do', $._embedded_statement, 'while', '(', $._boolean_expression, ')', ';'),
 
     break_statement: $ => seq('break', ';'),
     continue_statement: $ => seq('continue', ';'),
@@ -974,12 +983,14 @@ module.exports = grammar({
     goto_statement: $ => seq(
       'goto',
       choice(
-        $.identifier_name,
+        $.label_name,
         seq('case', $.constant_expression),
         'default'
       ),
       ';'
     ),
+
+    label_name: $ => $._identifier_name,
 
     variable_declaration_statement: $ => seq(
       optional('const'),
