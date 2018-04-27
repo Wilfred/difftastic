@@ -5067,6 +5067,18 @@
           "members": [
             {
               "type": "SYMBOL",
+              "name": "scoped_type_variables"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
               "name": "context"
             },
             {
