@@ -936,10 +936,7 @@ module.exports = grammar({
     ),
 
     _statement: $ => choice(
-      $.expression_statement,
-      $.return_statement,
-      $.empty_statement,
-      // $.variable_declaration_statement,
+      $._embedded_statement,
       $.variable_assignment_statement
     ),
 
@@ -948,9 +945,39 @@ module.exports = grammar({
       ';'
     ),
 
-    return_statement: $ => seq(
-      'return',
-      $._expression,
+    _embedded_statement: $ => choice(
+      $.empty_statement,
+      $.expression_statement,
+      $._iteration_statement,
+      $._jump_statement,
+    ),
+
+    _iteration_statement: $ => choice(
+      $.while_statement,
+    ),
+
+    _jump_statement: $ => choice(
+      $.break_statement,
+      $.continue_statement,
+      $.goto_statement,
+      $.return_statement,
+      $.throw_statement
+    ),
+
+    while_statement: $ => seq('while', '(', $._expression, ')', $._embedded_statement),
+
+    break_statement: $ => seq('break', ';'),
+    continue_statement: $ => seq('continue', ';'),
+    return_statement: $ => seq('return', optional($._expression), ';'),
+    throw_statement: $ => seq('throw', optional($._expression), ';'),
+
+    goto_statement: $ => seq(
+      'goto',
+      choice(
+        $.identifier_name,
+        seq('case', $.constant_expression),
+        'default'
+      ),
       ';'
     ),
 
