@@ -29,7 +29,8 @@ module.exports = grammar({
   ],
 
   conflicts: $ => [
-    [$.overloadable_unary_operator, $.overloadable_binary_operator]
+    [$.overloadable_unary_operator, $.overloadable_binary_operator],
+    [$.if_statement]
   ],
 
   inline: $ => [
@@ -953,8 +954,13 @@ module.exports = grammar({
       $.statement_block,
       $.empty_statement,
       $.expression_statement,
+      $._selection_statement,
       $._iteration_statement,
       $._jump_statement,
+    ),
+
+    _selection_statement: $ => choice(
+      $.if_statement,
     ),
 
     _iteration_statement: $ => choice(
@@ -967,13 +973,27 @@ module.exports = grammar({
       $.continue_statement,
       $.goto_statement,
       $.return_statement,
-      $.throw_statement
+      $.throw_statement,
     ),
 
-    _boolean_expression: $ => $._expression,
+    boolean_expression: $ => $._expression,
 
-    while_statement: $ => seq('while', '(', $._boolean_expression, ')', $._embedded_statement),
-    do_statement: $ => seq('do', $._embedded_statement, 'while', '(', $._boolean_expression, ')', ';'),
+    if_statement: $ => seq(
+      'if',
+      '(',
+      $.boolean_expression,
+      ')',
+      $._embedded_statement,
+      optional(
+        seq(
+          'else',
+          $._embedded_statement,
+        )
+      )
+    ),
+
+    while_statement: $ => seq('while', '(', $.boolean_expression, ')', $._embedded_statement),
+    do_statement: $ => seq('do', $._embedded_statement, 'while', '(', $.boolean_expression, ')', ';'),
 
     break_statement: $ => seq('break', ';'),
     continue_statement: $ => seq('continue', ';'),
