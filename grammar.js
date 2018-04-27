@@ -119,47 +119,29 @@ module.exports = grammar({
     [$.qualified_module_identifier],
     [$._a_expression, $.constructor_pattern],
     [$.parenthesized_type, $._atype],
-    [$._general_constructor, $._general_type_constructor],
-    [$.type_class_declaration, $._qualified_type_constructor_identifier, $._qualified_type_class_identifier],
-    [$._general_type_constructor, $.parenthesized_type],
     [$.constructor_pattern, $._a_pattern],
     [$.labeled_pattern, $.labeled_construction],
     [$._atype, $._qualified_constructor_identifier],
     [$.qualified_type_constructor_identifier, $.qualified_type_class_identifier, $.qualified_constructor_identifier],
     [$._qualified_type_constructor_identifier, $._qualified_type_class_identifier, $._qualified_constructor_identifier],
     [$._a_pattern, $._lexp],
-    [$._type_pattern, $.function_type],
     [$.variable_identifier, $.type_variable_identifier],
     [$.type_family_declaration],
-    [$._general_type_constructor, $._context_lpat],
     [$.class],
     [$._atype, $._context_lpat],
     [$.kind_function_type, $.function_type],
-    [$._general_constructor, $._general_type_constructor, $._context_lpat],
     [$._general_constructor, $._context_lpat],
-    [$._general_type_constructor, $.class],
+    [$._atype, $.class],
+    [$._type_signature, $.infix_operator_pattern],
+    [$.expression_type_signature, $.infix_operator_pattern],
 
     // These conflicts are necessary to help disambiguate between the type class identifier for class (type class constraints) vs instance type class identifier, and the stand alone deriving instance class identifier.
-    [$.type_class_instance_declaration, $._context_lpat],
-    [$.standalone_deriving_declaration, $._context_lpat],
-    [$._qualified_type_class_identifier, $._qualified_constructor_identifier],
-    [$.qualified_type_class_identifier, $.qualified_constructor_identifier],
-    [$.type_class_instance_declaration, $._context_lpat, $.class],
-    [$._context_lpat, $.class],
     [$.type_class_declaration, $._qualified_type_class_identifier],
-    [$.standalone_deriving_declaration, $._context_lpat, $.class],
-    [$.class, $._qualified_type_constructor_identifier],
-    [$.context_pattern],
-    [$.type_class_instance_declaration, $.class],
-    [$.standalone_deriving_declaration, $.class],
     [$._simple_type, $._context_lpat],
-    [$._type_signature, $._atype],
 
     // These conflicts are necessary to allow for arbitrary contexts to occur within the function type position (e.g. a -> (HasCallStack => b) -> b).
-    [$.parenthesized_type, $._general_type_constructor, $._context_lpat],
     [$.parenthesized_type, $._context_lpat],
     [$.parenthesized_type, $._atype, $._context_lpat],
-    [$._atype, $.gadt_constructor],
 
     // These conflicts support repeat1 for _general_type_constructor (and prevent errors when parsing `Foo a (Bar ...)`)
     [$._context_lpat],
@@ -167,7 +149,6 @@ module.exports = grammar({
     [$.parenthesized_type],
 
     // These conflicts support implicit parameter contexts (e.g. a :: (?b :: c -> c -> Bool) => d) and implicit parameter identifiers in function bodies (e.g. a = b ?c)
-    [$._type_signature, $.infix_type_operator_pattern],
     [$._a_expression, $._type_signature],
     [$._a_expression, $._atype],
     [$._a_expression, $._type_signature, $._atype]
@@ -413,7 +394,7 @@ module.exports = grammar({
       // )),
       optional($.context),
       $._qualified_type_class_identifier,
-      $.instance
+      alias($._type_pattern, $.instance)
     ),
 
     type_synonym_declaration: $ => seq(
@@ -1061,18 +1042,9 @@ module.exports = grammar({
       // )),
       optional($.context),
       $._qualified_type_class_identifier,
-      $.instance,
+      alias($._type_pattern, $.instance),
       optional($.where)
     ),
-
-    instance: $ => prec.left(repeat1(choice(
-      $._general_type_constructor,
-      $.parenthesized_type,
-      $.tuple_type,
-      $.list_type,
-      $.function_type_instance,
-      $.type_variable_identifier,
-    ))),
 
     kind_function_type_instance: $ => seq(
       '(',
