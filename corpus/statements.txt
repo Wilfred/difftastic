@@ -221,3 +221,40 @@ class A {
         (if_statement (boolean_expression (boolean_literal))
           (return_statement (integer_literal))
           (return_statement (integer_literal)))))))
+
+=====================================
+Switch statement
+=====================================
+class A {
+  int Sample(int a) {
+    switch (a) {
+      case 1:
+      case 2:
+        return 0;
+      default: {
+        return 1;
+      }
+    }
+  }
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier_name)
+    (method_declaration
+      (predefined_type)
+      (identifier_name)
+      (parameter_list
+        (parameter (predefined_type) (identifier_name)))
+      (statement_block
+        (switch_statement (identifier_name)
+          (switch_section
+            (switch_label (constant_expression (integer_literal)))
+            (switch_label (constant_expression (integer_literal)))
+            (return_statement (integer_literal)))
+          (switch_section
+            (switch_label)
+            (statement_block
+              (return_statement (integer_literal)))))))))

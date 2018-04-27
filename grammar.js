@@ -933,15 +933,19 @@ module.exports = grammar({
 
     statement_block: $ => seq(
       '{',
-      repeat($._statement),
+      optional($._statement_list),
       '}'
     ),
+
+    _statement_list: $ => repeat1($._statement),
 
     _statement: $ => choice(
       $._labeled_statement,
       $._embedded_statement,
       $.variable_assignment_statement
     ),
+
+    empty_statement: $ => ';',
 
     _labeled_statement: $ => seq($.label_name, ':', $._statement),
 
@@ -956,16 +960,17 @@ module.exports = grammar({
       $.expression_statement,
       $._selection_statement,
       $._iteration_statement,
-      $._jump_statement,
+      $._jump_statement
     ),
 
     _selection_statement: $ => choice(
       $.if_statement,
+      $.switch_statement
     ),
 
     _iteration_statement: $ => choice(
       $.while_statement,
-      $.do_statement,
+      $.do_statement
     ),
 
     _jump_statement: $ => choice(
@@ -973,7 +978,7 @@ module.exports = grammar({
       $.continue_statement,
       $.goto_statement,
       $.return_statement,
-      $.throw_statement,
+      $.throw_statement
     ),
 
     boolean_expression: $ => $._expression,
@@ -990,6 +995,21 @@ module.exports = grammar({
           $._embedded_statement,
         )
       )
+    ),
+
+    switch_statement: $ => seq(
+      'switch',
+      '(',
+      $._expression,
+      ')',
+      '{',
+      repeat($.switch_section),
+      '}'
+    ),
+    switch_section: $ => seq(repeat1($.switch_label), $._statement_list),
+    switch_label: $ => choice(
+      seq('case', $.constant_expression, ':'),
+      seq('default', ':')
     ),
 
     while_statement: $ => seq('while', '(', $.boolean_expression, ')', $._embedded_statement),
@@ -1023,8 +1043,6 @@ module.exports = grammar({
       $.equals_value_clause,
       ';'
     ),
-
-    empty_statement: $ => ';',
   }
 })
 
