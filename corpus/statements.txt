@@ -400,3 +400,79 @@ class A {
             (identifier_name) (identifier_name)
             (binary_expression (identifier_name) (integer_literal))
             (statement_block)))))))
+
+=====================================
+Checked statement
+=====================================
+class A {
+  void Sample() {
+    checked {
+      return;
+    }
+  }
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier_name)
+    (method_declaration
+      (void_keyword)
+      (identifier_name)
+      (parameter_list)
+      (statement_block
+        (checked_statement
+          (statement_block
+            (return_statement)))))))
+
+=====================================
+Unchecked statement
+=====================================
+class A {
+  void Sample() {
+    unchecked {
+      return;
+    }
+  }
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier_name)
+    (method_declaration
+      (void_keyword)
+      (identifier_name)
+      (parameter_list)
+      (statement_block
+        (unchecked_statement
+          (statement_block
+            (return_statement)))))))
+
+=====================================
+Lock statement
+=====================================
+class A {
+  void Sample() {
+    lock (this) {
+      return;
+    }
+  }
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier_name)
+    (method_declaration
+      (void_keyword)
+      (identifier_name)
+      (parameter_list)
+      (statement_block
+        (lock_statement
+          (identifier_name)
+          (statement_block
+            (return_statement)))))))

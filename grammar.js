@@ -889,6 +889,9 @@ module.exports = grammar({
       $._iteration_statement,
       $._jump_statement,
       $.try_statement,
+      $.checked_statement,
+      $.unchecked_statement,
+      $.lock_statement
     ),
 
     empty_statement: $ => ';',
@@ -929,6 +932,10 @@ module.exports = grammar({
     _exception_specifier: $ => seq('(', $._type, optional($.identifier_name), ')'),
     _exception_filter: $ => seq('when', '(', $._expression, ')'),
     finally_clause: $ => seq('finally', $.statement_block),
+
+    checked_statement: $ => seq('checked', $.statement_block),
+    unchecked_statement: $ => seq('unchecked', $.statement_block),
+    lock_statement: $ => seq('lock', '(', $._expression, ')', $._embedded_statement),
 
     if_statement: $ => seq(
       'if',
