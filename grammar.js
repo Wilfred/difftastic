@@ -887,7 +887,8 @@ module.exports = grammar({
       $.expression_statement,
       $._selection_statement,
       $._iteration_statement,
-      $._jump_statement
+      $._jump_statement,
+      $.try_statement,
     ),
 
     empty_statement: $ => ';',
@@ -910,6 +911,24 @@ module.exports = grammar({
       $.return_statement,
       $.throw_statement
     ),
+
+    try_statement: $ => seq(
+      'try',
+      $.statement_block,
+      repeat($.catch_clause),
+      optional($.finally_clause),
+    ),
+
+    catch_clause: $ => seq(
+      'catch',
+      optional($._exception_specifier),
+      optional($._exception_filter),
+      $.statement_block
+    ),
+
+    _exception_specifier: $ => seq('(', $._type, optional($.identifier_name), ')'),
+    _exception_filter: $ => seq('when', '(', $._expression, ')'),
+    finally_clause: $ => seq('finally', $.statement_block),
 
     if_statement: $ => seq(
       'if',
