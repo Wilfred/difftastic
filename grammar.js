@@ -891,7 +891,8 @@ module.exports = grammar({
       $.try_statement,
       $.checked_statement,
       $.unchecked_statement,
-      $.lock_statement
+      $.lock_statement,
+      $.yield_statement
     ),
 
     empty_statement: $ => ';',
@@ -936,6 +937,15 @@ module.exports = grammar({
     checked_statement: $ => seq('checked', $.statement_block),
     unchecked_statement: $ => seq('unchecked', $.statement_block),
     lock_statement: $ => seq('lock', '(', $._expression, ')', $._embedded_statement),
+
+    yield_statement: $ => seq(
+      'yield',
+      choice(
+        seq('return', $._expression),
+        'break'
+      ),
+      ';'
+    ),
 
     if_statement: $ => seq(
       'if',
