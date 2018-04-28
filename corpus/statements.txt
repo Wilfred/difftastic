@@ -476,3 +476,28 @@ class A {
           (identifier_name)
           (statement_block
             (return_statement)))))))
+
+=====================================
+Yield statement
+=====================================
+class A {
+  IEnumerable<int> Sample() {
+    yield return 1;
+    yield break;
+  }
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier_name)
+    (method_declaration
+      (generic_name
+        (identifier_name)
+        (type_parameter_list (type_parameter (predefined_type))))
+      (identifier_name)
+      (parameter_list)
+      (statement_block
+        (yield_statement (integer_literal))
+        (yield_statement)))))
