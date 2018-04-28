@@ -258,3 +258,145 @@ class A {
             (switch_label)
             (statement_block
               (return_statement (integer_literal)))))))))
+
+=====================================
+Try finally statement
+=====================================
+class A {
+  void Sample() {
+    try {
+    } finally {
+    }
+  }
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier_name)
+    (method_declaration
+      (void_keyword)
+      (identifier_name)
+      (parameter_list)
+      (statement_block
+        (try_statement
+          (statement_block)
+          (finally_clause
+            (statement_block)))))))
+
+=====================================
+Try catch statement
+=====================================
+class A {
+  void Sample() {
+    try {
+    } catch (Exception ex) {
+    }
+  }
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier_name)
+    (method_declaration
+      (void_keyword)
+      (identifier_name)
+      (parameter_list)
+      (statement_block
+        (try_statement
+          (statement_block)
+          (catch_clause
+            (identifier_name) (identifier_name)
+            (statement_block)))))))
+
+=====================================
+Try catch finally statement
+=====================================
+class A {
+  void Sample() {
+    try {
+    } catch (Exception ex) {
+    } finally {
+    }
+  }
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier_name)
+    (method_declaration
+      (void_keyword)
+      (identifier_name)
+      (parameter_list)
+      (statement_block
+        (try_statement
+          (statement_block)
+          (catch_clause
+            (identifier_name) (identifier_name)
+            (statement_block))
+          (finally_clause
+            (statement_block)))))))
+
+=====================================
+Try catch multiple statement
+=====================================
+class A {
+  void Sample() {
+    try {
+    } catch (Exception ex) {
+    } catch (OtherException ex) {
+    }
+  }
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier_name)
+    (method_declaration
+      (void_keyword)
+      (identifier_name)
+      (parameter_list)
+      (statement_block
+        (try_statement
+          (statement_block)
+          (catch_clause
+            (identifier_name) (identifier_name)
+            (statement_block))
+          (catch_clause
+            (identifier_name) (identifier_name)
+            (statement_block)))))))
+
+=====================================
+Try catch filtered statement
+=====================================
+class A {
+  void Sample() {
+    try {
+    } catch (Exception ex) when (a == 1) {
+    }
+  }
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier_name)
+    (method_declaration
+      (void_keyword)
+      (identifier_name)
+      (parameter_list)
+      (statement_block
+        (try_statement
+          (statement_block)
+          (catch_clause
+            (identifier_name) (identifier_name)
+            (binary_expression (identifier_name) (integer_literal))
+            (statement_block)))))))
