@@ -97,6 +97,113 @@
         }
       ]
     },
+    "predefined_type": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "bool"
+        },
+        {
+          "type": "STRING",
+          "value": "byte"
+        },
+        {
+          "type": "STRING",
+          "value": "char"
+        },
+        {
+          "type": "STRING",
+          "value": "decimal"
+        },
+        {
+          "type": "STRING",
+          "value": "double"
+        },
+        {
+          "type": "STRING",
+          "value": "float"
+        },
+        {
+          "type": "STRING",
+          "value": "int"
+        },
+        {
+          "type": "STRING",
+          "value": "long"
+        },
+        {
+          "type": "STRING",
+          "value": "object"
+        },
+        {
+          "type": "STRING",
+          "value": "sbyte"
+        },
+        {
+          "type": "STRING",
+          "value": "short"
+        },
+        {
+          "type": "STRING",
+          "value": "string"
+        },
+        {
+          "type": "STRING",
+          "value": "uint"
+        },
+        {
+          "type": "STRING",
+          "value": "ulong"
+        },
+        {
+          "type": "STRING",
+          "value": "ushort"
+        }
+      ]
+    },
+    "type_parameter_list": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "<"
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "type_parameter"
+            },
+            {
+              "type": "REPEAT",
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "STRING",
+                    "value": ","
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "type_parameter"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": ">"
+        }
+      ]
+    },
+    "type_parameter": {
+      "type": "SYMBOL",
+      "name": "_type"
+    },
     "modifiers": {
       "type": "REPEAT1",
       "content": {
@@ -230,6 +337,19 @@
         {
           "type": "STRING",
           "value": ";"
+        }
+      ]
+    },
+    "name_equals": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "identifier_name"
+        },
+        {
+          "type": "STRING",
+          "value": "="
         }
       ]
     },
@@ -2585,8 +2705,8 @@
           ]
         },
         {
-          "type": "SYMBOL",
-          "name": "params_keyword"
+          "type": "STRING",
+          "value": "params"
         },
         {
           "type": "SYMBOL",
@@ -2597,10 +2717,6 @@
           "name": "identifier_name"
         }
       ]
-    },
-    "params_keyword": {
-      "type": "STRING",
-      "value": "params"
     },
     "array_type": {
       "type": "SEQ",
@@ -3036,6 +3152,10 @@
           "name": "parenthesized_expression"
         }
       ]
+    },
+    "boolean_expression": {
+      "type": "SYMBOL",
+      "name": "_expression"
     },
     "constant_expression": {
       "type": "SYMBOL",
@@ -3998,113 +4118,6 @@
         }
       ]
     },
-    "predefined_type": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "bool"
-        },
-        {
-          "type": "STRING",
-          "value": "byte"
-        },
-        {
-          "type": "STRING",
-          "value": "char"
-        },
-        {
-          "type": "STRING",
-          "value": "decimal"
-        },
-        {
-          "type": "STRING",
-          "value": "double"
-        },
-        {
-          "type": "STRING",
-          "value": "float"
-        },
-        {
-          "type": "STRING",
-          "value": "int"
-        },
-        {
-          "type": "STRING",
-          "value": "long"
-        },
-        {
-          "type": "STRING",
-          "value": "object"
-        },
-        {
-          "type": "STRING",
-          "value": "sbyte"
-        },
-        {
-          "type": "STRING",
-          "value": "short"
-        },
-        {
-          "type": "STRING",
-          "value": "string"
-        },
-        {
-          "type": "STRING",
-          "value": "uint"
-        },
-        {
-          "type": "STRING",
-          "value": "ulong"
-        },
-        {
-          "type": "STRING",
-          "value": "ushort"
-        }
-      ]
-    },
-    "type_parameter_list": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "<"
-        },
-        {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "type_parameter"
-            },
-            {
-              "type": "REPEAT",
-              "content": {
-                "type": "SEQ",
-                "members": [
-                  {
-                    "type": "STRING",
-                    "value": ","
-                  },
-                  {
-                    "type": "SYMBOL",
-                    "name": "type_parameter"
-                  }
-                ]
-              }
-            }
-          ]
-        },
-        {
-          "type": "STRING",
-          "value": ">"
-        }
-      ]
-    },
-    "type_parameter": {
-      "type": "SYMBOL",
-      "name": "_type"
-    },
     "qualified_name": {
       "type": "SEQ",
       "members": [
@@ -4149,19 +4162,6 @@
         {
           "type": "SYMBOL",
           "name": "identifier_name"
-        }
-      ]
-    },
-    "name_equals": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "identifier_name"
-        },
-        {
-          "type": "STRING",
-          "value": "="
         }
       ]
     },
@@ -4397,6 +4397,23 @@
         }
       ]
     },
+    "_statement": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_labeled_statement"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_embedded_statement"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "variable_assignment_statement"
+        }
+      ]
+    },
     "statement_block": {
       "type": "SEQ",
       "members": [
@@ -4429,27 +4446,6 @@
         "name": "_statement"
       }
     },
-    "_statement": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "_labeled_statement"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_embedded_statement"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "variable_assignment_statement"
-        }
-      ]
-    },
-    "empty_statement": {
-      "type": "STRING",
-      "value": ";"
-    },
     "_labeled_statement": {
       "type": "SEQ",
       "members": [
@@ -4464,19 +4460,6 @@
         {
           "type": "SYMBOL",
           "name": "_statement"
-        }
-      ]
-    },
-    "expression_statement": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "_expression"
-        },
-        {
-          "type": "STRING",
-          "value": ";"
         }
       ]
     },
@@ -4506,6 +4489,23 @@
         {
           "type": "SYMBOL",
           "name": "_jump_statement"
+        }
+      ]
+    },
+    "empty_statement": {
+      "type": "STRING",
+      "value": ";"
+    },
+    "expression_statement": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_expression"
+        },
+        {
+          "type": "STRING",
+          "value": ";"
         }
       ]
     },
@@ -4559,10 +4559,6 @@
           "name": "throw_statement"
         }
       ]
-    },
-    "boolean_expression": {
-      "type": "SYMBOL",
-      "name": "_expression"
     },
     "if_statement": {
       "type": "SEQ",

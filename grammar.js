@@ -50,6 +50,8 @@ module.exports = grammar({
       ))
     ),
 
+    // types
+
     _type_declaration: $ => choice(
       $.class_declaration,
       $.struct_declaration,
@@ -63,6 +65,27 @@ module.exports = grammar({
       $.identifier_name,
       $.generic_name
     ),
+
+    predefined_type: $ => choice(
+      'bool',
+      'byte',
+      'char',
+      'decimal',
+      'double',
+      'float',
+      'int',
+      'long',
+      'object',
+      'sbyte',
+      'short',
+      'string',
+      'uint',
+      'ulong',
+      'ushort'
+    ),
+
+    type_parameter_list: $ => seq('<', commaSep1($.type_parameter), '>'),
+    type_parameter: $ => $._type,
 
     // modifiers
 
@@ -88,12 +111,7 @@ module.exports = grammar({
 
     // extern
 
-    extern_alias_directive: $ => seq(
-      'extern',
-      'alias',
-      $.identifier_name,
-      ';'
-    ),
+    extern_alias_directive: $ => seq('extern', 'alias', $.identifier_name, ';'),
 
     // using
 
@@ -109,6 +127,8 @@ module.exports = grammar({
       ),
       ';'
     ),
+
+    name_equals: $ => seq($.identifier_name, '='),
 
     // namespace
 
@@ -143,7 +163,7 @@ module.exports = grammar({
       seq('=>', $._expression, ';')
     ),
 
-    _property_initializer: $ => seq("=", $.variable_initializer, ';'),
+    _property_initializer: $ => seq('=', $.variable_initializer, ';'),
 
     _accessor_declarations: $ => choice(
       seq($.get_accessor_declaration, optional($.set_accessor_declaration)),
@@ -277,17 +297,8 @@ module.exports = grammar({
       '}'
 		),
 
-    add_accessor_declaration: $ => seq(
-      optional($._attributes),
-      'add',
-      $.statement_block
-    ),
-
-    remove_accessor_declaration: $ => seq(
-      optional($._attributes),
-      'remove',
-      $.statement_block
-    ),
+    add_accessor_declaration: $ => seq(optional($._attributes), 'add', $.statement_block),
+    remove_accessor_declaration: $ => seq(optional($._attributes), 'remove', $.statement_block),
 
     // operator declarations
 
@@ -319,7 +330,14 @@ module.exports = grammar({
     ),
 
     overloadable_unary_operator: $ => choice(
-      '+', '-', '!', '~', '++', '--', 'true', 'false'
+      '+',
+      '-',
+      '!',
+      '~',
+      '++',
+      '--',
+      'true',
+      'false'
     ),
 
     _binary_operator_declarator: $ => seq(
@@ -421,11 +439,7 @@ module.exports = grammar({
       '}'
     ),
 
-    interface_accessor: $ => seq(
-      optional($._attributes),
-      choice('get', 'set'),
-      ';'
-    ),
+    interface_accessor: $ => seq(optional($._attributes), choice('get', 'set'), ';'),
 
     interface_indexer_declaration: $ => seq(
       optional($._attributes),
@@ -469,10 +483,7 @@ module.exports = grammar({
       optional(';')
     ),
 
-    struct_interfaces: $ => seq(
-      ':',
-      commaSep1($.identifier_name)
-    ),
+    struct_interfaces: $ => seq(':', commaSep1($.identifier_name)),
 
     // enum
 
@@ -545,47 +556,26 @@ module.exports = grammar({
     ),
 
     default_argument: $ => seq('=', $._expression),
-
     parameter_modifier: $ => choice('ref', 'out', 'this'),
 
     parameter_array: $ => seq(
       optional($._attributes),
-      $.params_keyword,
+      'params',
       $.array_type,
       $.identifier_name
     ),
 
-    params_keyword: $ => 'params',
-
     // arrays
 
-    array_type: $ => seq(
-      $._type,
-      $.array_rank_specifier
-    ),
-
-    array_rank_specifier: $ => seq(
-      '[',
-      repeat(','),
-      ']'
-    ),
+    array_type: $ => seq($._type, $.array_rank_specifier),
+    array_rank_specifier: $ => seq('[', repeat(','), ']'),
 
     // attributes
 
     _attributes: $ => repeat1($._attribute_section),
-
-    _attribute_section: $ => seq(
-      '[',
-      $.attribute_list,
-      ']'
-    ),
-
+    _attribute_section: $ => seq('[', $.attribute_list, ']'),
     attribute_list: $ => commaSep1($.attribute),
-
-    attribute: $ => seq(
-      $.identifier_name,
-      optional($.attribute_argument_list)
-    ),
+    attribute: $ => seq($.identifier_name, optional($.attribute_argument_list)),
 
     attribute_argument_list: $ => seq(
       '(',
@@ -610,32 +600,16 @@ module.exports = grammar({
       ';'
     ),
 
-    variable_declaration: $ => seq(
-      $._type,
-      commaSep1($.variable_declarator)
-    ),
-
-    generic_name: $ => seq(
-      $.identifier_name,
-      $.type_parameter_list
-    ),
-
-    variable_declarator: $ => seq(
-      $.identifier_name,
-      optional($.equals_value_clause)
-    ),
-
+    variable_declaration: $ => seq($._type, commaSep1($.variable_declarator)),
+    generic_name: $ => seq($.identifier_name, $.type_parameter_list),
+    variable_declarator: $ => seq($.identifier_name, optional($.equals_value_clause)),
     variable_initializer: $ => choice(
       $._expression,
       $.array_initalizer
     ),
 
     array_initalizer: $ => seq('{', commaSep1($.variable_initializer), '}'),
-
-    equals_value_clause: $ => seq(
-      '=',
-      $._expression
-    ),
+    equals_value_clause: $ => seq('=', $._expression),
 
     // constants
 
@@ -653,11 +627,7 @@ module.exports = grammar({
       repeat(seq(',', $._constant_declarator))
     ),
 
-    _constant_declarator: $ => seq(
-      $.identifier_name,
-      '=',
-      $.constant_expression
-    ),
+    _constant_declarator: $ => seq($.identifier_name, '=', $.constant_expression),
 
     // expressions
 
@@ -670,8 +640,8 @@ module.exports = grammar({
       $.parenthesized_expression
     ),
 
+    boolean_expression: $ => $._expression,
     constant_expression: $ => $._expression,
-
     parenthesized_expression: $ => seq('(', $._expression, ')'),
 
     ternary_expression: $ => prec.right(PREC.COND, seq(
@@ -835,31 +805,7 @@ module.exports = grammar({
       '"'
     ),
 
-    predefined_type: $ => choice(
-      'bool',
-      'byte',
-      'char',
-      'decimal',
-      'double',
-      'float',
-      'int',
-      'long',
-      'object',
-      'sbyte',
-      'short',
-      'string',
-      'uint',
-      'ulong',
-      'ushort'
-    ),
-
-    type_parameter_list: $ => seq(
-      '<',
-      commaSep1($.type_parameter),
-      '>'
-    ),
-
-    type_parameter: $ => $._type,
+    // names
 
     qualified_name: $ => seq(
       choice(
@@ -871,17 +817,7 @@ module.exports = grammar({
       $.identifier_name
     ),
 
-    alias_qualified_name: $ => seq(
-      'global',
-      '::',
-      $.identifier_name
-    ),
-
-    name_equals: $ => seq(
-      $.identifier_name,
-      '='
-    ),
-
+    alias_qualified_name: $ => seq('global', '::', $.identifier_name),
     _identifier_name: $ => (/[a-zA-Z_][a-zA-Z_0-9]*/),
     identifier_name: $ => $._identifier_name,
 
@@ -931,13 +867,7 @@ module.exports = grammar({
       $.statement_block
     ),
 
-    statement_block: $ => seq(
-      '{',
-      optional($._statement_list),
-      '}'
-    ),
-
-    _statement_list: $ => repeat1($._statement),
+    // Statements
 
     _statement: $ => choice(
       $._labeled_statement,
@@ -945,14 +875,11 @@ module.exports = grammar({
       $.variable_assignment_statement
     ),
 
-    empty_statement: $ => ';',
-
+    statement_block: $ => seq('{', optional($._statement_list), '}'),
+    _statement_list: $ => repeat1($._statement),
     _labeled_statement: $ => seq($.label_name, ':', $._statement),
 
-    expression_statement: $ => seq(
-      $._expression,
-      ';'
-    ),
+    // Embedded statements
 
     _embedded_statement: $ => choice(
       $.statement_block,
@@ -962,6 +889,9 @@ module.exports = grammar({
       $._iteration_statement,
       $._jump_statement
     ),
+
+    empty_statement: $ => ';',
+    expression_statement: $ => seq($._expression, ';'),
 
     _selection_statement: $ => choice(
       $.if_statement,
@@ -980,8 +910,6 @@ module.exports = grammar({
       $.return_statement,
       $.throw_statement
     ),
-
-    boolean_expression: $ => $._expression,
 
     if_statement: $ => seq(
       'if',
@@ -1031,18 +959,8 @@ module.exports = grammar({
     ),
 
     label_name: $ => $._identifier_name,
-
-    variable_declaration_statement: $ => seq(
-      optional('const'),
-      $.variable_declaration,
-      ';'
-    ),
-
-    variable_assignment_statement: $ => seq(
-      $.identifier_name,
-      $.equals_value_clause,
-      ';'
-    ),
+    variable_declaration_statement: $ => seq(optional('const'), $.variable_declaration, ';'),
+    variable_assignment_statement: $ => seq($.identifier_name, $.equals_value_clause, ';'),
   }
 })
 
