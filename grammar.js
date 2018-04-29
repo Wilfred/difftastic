@@ -30,6 +30,7 @@ module.exports = grammar({
 
   conflicts: $ => [
     [$.overloadable_unary_operator, $.overloadable_binary_operator],
+    [$.generic_name, $._expression],
     [$.if_statement]
   ],
 
@@ -872,11 +873,15 @@ module.exports = grammar({
     _statement: $ => choice(
       $._labeled_statement,
       $._embedded_statement,
-      $.variable_assignment_statement
+      $._declaration_statement,
+      $.variable_assignment_statement // TODO: Remove
     ),
+
+    variable_assignment_statement: $ => seq($.identifier_name, $.equals_value_clause, ';'),
 
     statement_block: $ => seq('{', optional($._statement_list), '}'),
     _statement_list: $ => repeat1($._statement),
+    label_name: $ => $._identifier_name,
     _labeled_statement: $ => seq($.label_name, ':', $._statement),
 
     // Embedded statements
@@ -994,9 +999,40 @@ module.exports = grammar({
       ';'
     ),
 
-    label_name: $ => $._identifier_name,
-    variable_declaration_statement: $ => seq(optional('const'), $.variable_declaration, ';'),
-    variable_assignment_statement: $ => seq($.identifier_name, $.equals_value_clause, ';'),
+    // declaration statements
+
+    _declaration_statement: $ => seq(
+      choice(
+        $.local_variable_declaration,
+        //$.local_constant_declaration
+      ),
+      ';'
+    ),
+
+    local_variable_declaration: $ => seq(
+      $._local_variable_type,
+      $._local_variable_declarators
+    ),
+
+    _local_variable_type: $ => choice(
+      'var',
+      $._type
+    ),
+
+    _local_variable_declarators: $ => choice(
+      $.local_variable_declarator,
+      seq($._local_variable_declarators, ',', $.local_variable_declarator)
+    ),
+
+    local_variable_declarator: $ => seq(
+      $.identifier_name,
+      optional(seq('=', $.local_variable_initializer))
+    ),
+
+    local_variable_initializer: $ => choice(
+      $._expression,
+      $.array_initalizer
+    )
   }
 })
 

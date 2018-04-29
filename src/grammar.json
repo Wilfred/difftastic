@@ -4410,7 +4410,28 @@
         },
         {
           "type": "SYMBOL",
+          "name": "_declaration_statement"
+        },
+        {
+          "type": "SYMBOL",
           "name": "variable_assignment_statement"
+        }
+      ]
+    },
+    "variable_assignment_statement": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "identifier_name"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "equals_value_clause"
+        },
+        {
+          "type": "STRING",
+          "value": ";"
         }
       ]
     },
@@ -4445,6 +4466,10 @@
         "type": "SYMBOL",
         "name": "_statement"
       }
+    },
+    "label_name": {
+      "type": "SYMBOL",
+      "name": "_identifier_name"
     },
     "_labeled_statement": {
       "type": "SEQ",
@@ -5104,28 +5129,17 @@
         }
       ]
     },
-    "label_name": {
-      "type": "SYMBOL",
-      "name": "_identifier_name"
-    },
-    "variable_declaration_statement": {
+    "_declaration_statement": {
       "type": "SEQ",
       "members": [
         {
           "type": "CHOICE",
           "members": [
             {
-              "type": "STRING",
-              "value": "const"
-            },
-            {
-              "type": "BLANK"
+              "type": "SYMBOL",
+              "name": "local_variable_declaration"
             }
           ]
-        },
-        {
-          "type": "SYMBOL",
-          "name": "variable_declaration"
         },
         {
           "type": "STRING",
@@ -5133,7 +5147,59 @@
         }
       ]
     },
-    "variable_assignment_statement": {
+    "local_variable_declaration": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_local_variable_type"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_local_variable_declarators"
+        }
+      ]
+    },
+    "_local_variable_type": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "var"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_type"
+        }
+      ]
+    },
+    "_local_variable_declarators": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "local_variable_declarator"
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_local_variable_declarators"
+            },
+            {
+              "type": "STRING",
+              "value": ","
+            },
+            {
+              "type": "SYMBOL",
+              "name": "local_variable_declarator"
+            }
+          ]
+        }
+      ]
+    },
+    "local_variable_declarator": {
       "type": "SEQ",
       "members": [
         {
@@ -5141,12 +5207,38 @@
           "name": "identifier_name"
         },
         {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "="
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "local_variable_initializer"
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        }
+      ]
+    },
+    "local_variable_initializer": {
+      "type": "CHOICE",
+      "members": [
+        {
           "type": "SYMBOL",
-          "name": "equals_value_clause"
+          "name": "_expression"
         },
         {
-          "type": "STRING",
-          "value": ";"
+          "type": "SYMBOL",
+          "name": "array_initalizer"
         }
       ]
     }
@@ -5165,6 +5257,10 @@
     [
       "overloadable_unary_operator",
       "overloadable_binary_operator"
+    ],
+    [
+      "generic_name",
+      "_expression"
     ],
     [
       "if_statement"
