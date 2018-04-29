@@ -624,11 +624,11 @@ module.exports = grammar({
     ),
 
     _constant_declarators: $ => seq(
-      $._constant_declarator,
-      repeat(seq(',', $._constant_declarator))
+      $.constant_declarator,
+      repeat(seq(',', $.constant_declarator))
     ),
 
-    _constant_declarator: $ => seq($.identifier_name, '=', $.constant_expression),
+    constant_declarator: $ => seq($.identifier_name, '=', $.constant_expression),
 
     // expressions
 
@@ -1004,7 +1004,7 @@ module.exports = grammar({
     _declaration_statement: $ => seq(
       choice(
         $.local_variable_declaration,
-        //$.local_constant_declaration
+        $.local_constant_declaration
       ),
       ';'
     ),
@@ -1032,7 +1032,9 @@ module.exports = grammar({
     local_variable_initializer: $ => choice(
       $._expression,
       $.array_initalizer
-    )
+    ),
+
+    local_constant_declaration: $ => seq('const', $._type, $._constant_declarators)
   }
 })
 

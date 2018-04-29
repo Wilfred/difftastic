@@ -267,14 +267,17 @@ struct Foo {
     (constant_declaration
       (modifiers)
       (predefined_type)
-      (identifier_name)
-      (constant_expression
-      (integer_literal)))
+      (constant_declarator
+        (identifier_name)
+        (constant_expression
+        (integer_literal))))
     (constant_declaration
       (predefined_type)
-      (identifier_name)
-      (constant_expression
-      (string_literal)))))
+      (constant_declarator
+        (identifier_name)
+        (constant_expression
+        (string_literal))))))
+
 
 =====================================
 Struct with indexer

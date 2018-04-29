@@ -3087,7 +3087,7 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "_constant_declarator"
+          "name": "constant_declarator"
         },
         {
           "type": "REPEAT",
@@ -3100,14 +3100,14 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "_constant_declarator"
+                "name": "constant_declarator"
               }
             ]
           }
         }
       ]
     },
-    "_constant_declarator": {
+    "constant_declarator": {
       "type": "SEQ",
       "members": [
         {
@@ -5138,6 +5138,10 @@
             {
               "type": "SYMBOL",
               "name": "local_variable_declaration"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "local_constant_declaration"
             }
           ]
         },
@@ -5239,6 +5243,23 @@
         {
           "type": "SYMBOL",
           "name": "array_initalizer"
+        }
+      ]
+    },
+    "local_constant_declaration": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "const"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_type"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_constant_declarators"
         }
       ]
     }

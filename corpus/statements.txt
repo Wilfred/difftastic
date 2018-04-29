@@ -607,3 +607,52 @@ class A {
               (local_variable_initializer
                 (integer_literal))))))))
 
+=====================================
+Explicit local constant with literal initializer
+=====================================
+class A {
+  void Sample() {
+    const int a = 1;
+  }
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier_name)
+    (method_declaration
+      (void_keyword)
+      (identifier_name)
+      (parameter_list)
+      (statement_block
+        (local_constant_declaration
+          (predefined_type)
+            (constant_declarator (identifier_name)
+              (constant_expression (integer_literal))))))))
+
+=====================================
+Explicit local constant with multiple literal initializers
+=====================================
+class A {
+  void Sample() {
+    const int a = 1, b = 2;
+  }
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier_name)
+    (method_declaration
+      (void_keyword)
+      (identifier_name)
+      (parameter_list)
+      (statement_block
+        (local_constant_declaration
+          (predefined_type)
+            (constant_declarator (identifier_name)
+              (constant_expression (integer_literal)))
+            (constant_declarator (identifier_name)
+              (constant_expression (integer_literal))))))))
