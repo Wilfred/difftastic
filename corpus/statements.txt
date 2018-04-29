@@ -501,3 +501,109 @@ class A {
       (statement_block
         (yield_statement (integer_literal))
         (yield_statement)))))
+
+=====================================
+Implicit local variable with literal initializer
+=====================================
+class A {
+  void Sample() {
+    var a = 1;
+  }
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier_name)
+    (method_declaration
+      (void_keyword)
+      (identifier_name)
+      (parameter_list)
+      (statement_block
+        (local_variable_declaration
+          (local_variable_declarator
+            (identifier_name)
+              (local_variable_initializer
+                (integer_literal))))))))
+
+=====================================
+Explicit local variable with literal initializer
+=====================================
+class A {
+  void Sample() {
+    int a = 1;
+  }
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier_name)
+    (method_declaration
+      (void_keyword)
+      (identifier_name)
+      (parameter_list)
+      (statement_block
+        (local_variable_declaration
+          (predefined_type)
+          (local_variable_declarator
+            (identifier_name)
+              (local_variable_initializer
+                (integer_literal))))))))
+
+=====================================
+Explicit local variable with no initializer
+=====================================
+class A {
+  void Sample() {
+    int a;
+  }
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier_name)
+    (method_declaration
+      (void_keyword)
+      (identifier_name)
+      (parameter_list)
+      (statement_block
+        (local_variable_declaration
+          (predefined_type)
+          (local_variable_declarator
+            (identifier_name)))))))
+
+=====================================
+Explicit local variables with multiple literal initializers
+=====================================
+class A {
+  void Sample() {
+    int a = 1, b = 2;
+  }
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier_name)
+    (method_declaration
+      (void_keyword)
+      (identifier_name)
+      (parameter_list)
+      (statement_block
+        (local_variable_declaration
+          (predefined_type)
+          (local_variable_declarator
+            (identifier_name)
+              (local_variable_initializer
+                (integer_literal)))
+          (local_variable_declarator
+            (identifier_name)
+              (local_variable_initializer
+                (integer_literal))))))))
+
