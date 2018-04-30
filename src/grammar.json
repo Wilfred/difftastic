@@ -2425,6 +2425,10 @@
             },
             {
               "type": "SYMBOL",
+              "name": "_expression"
+            },
+            {
+              "type": "SYMBOL",
               "name": "_semicolon"
             }
           ]
@@ -5440,39 +5444,6 @@
             {
               "type": "SYMBOL",
               "name": "_reserved_identifier"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "_parenthesized_argument_list"
-            }
-          ]
-        },
-        {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "_ambiguous_name"
-            },
-            {
-              "type": "STRING",
-              "value": "."
-            },
-            {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "SYMBOL",
-                  "name": "_type_arguments"
-                },
-                {
-                  "type": "BLANK"
-                }
-              ]
-            },
-            {
-              "type": "SYMBOL",
-              "name": "identifier"
             },
             {
               "type": "SYMBOL",
