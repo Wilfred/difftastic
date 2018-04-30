@@ -376,7 +376,7 @@ module.exports = grammar({
 
     assert_statement: $ => choice(
       seq('assert', $._expression, $._semicolon),
-      seq('assert', $._expression, ':', $._semicolon)
+      seq('assert', $._expression, ':', $._expression, $._semicolon)
     ),
 
     switch_statement: $ => seq(
@@ -856,7 +856,6 @@ module.exports = grammar({
     method_invocation: $ => choice(
       seq($.identifier, $._parenthesized_argument_list),
       seq($._reserved_identifier, $._parenthesized_argument_list),
-      seq($._ambiguous_name, '.', optional($._type_arguments), $.identifier, $._parenthesized_argument_list),
       seq($._ambiguous_name, '.', optional($._type_arguments), $.identifier, $._parenthesized_argument_list),
       seq($._primary, '.', optional($._type_arguments), $.identifier, $._parenthesized_argument_list),
       seq($.super, '.', optional($._type_arguments), $.identifier, $._parenthesized_argument_list),
