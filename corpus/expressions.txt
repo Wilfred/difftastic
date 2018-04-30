@@ -193,7 +193,7 @@ class ForDemo {
 
 ---
 
-(program (class_declaration (identifier) (class_body (method_declaration (modifier) (modifier) (method_header (void_type) (method_declarator (identifier) (formal_parameter (array_type (type_identifier) (dims)) (variable_declarator_id (identifier))))) (method_body (block (for_statement (for_init (local_variable_declaration (integral_type) (variable_declarator_list (variable_declarator (variable_declarator_id (identifier)) (integer_literal (decimal_integer_literal)))))) (binary_expression (identifier) (integer_literal (decimal_integer_literal))) (update_expression (identifier)) (block (method_invocation (scoped_identifier (identifier) (identifier)) (identifier) (argument_list (binary_expression (string_literal) (identifier))))))))))))
+(program (class_declaration (identifier) (class_body (method_declaration (modifier) (modifier) (method_header (void_type) (method_declarator (identifier) (formal_parameter (array_type (type_identifier) (dims)) (variable_declarator_id (identifier))))) (method_body (block (for_statement (basic_for_statement (for_init (local_variable_declaration (integral_type) (variable_declarator_list (variable_declarator (variable_declarator_id (identifier)) (integer_literal (decimal_integer_literal)))))) (binary_expression (identifier) (integer_literal (decimal_integer_literal))) (update_expression (identifier)) (block (method_invocation (scoped_identifier (identifier) (identifier)) (identifier) (argument_list (binary_expression (string_literal) (identifier))))))))))))) 
 
 ===
 while statement
