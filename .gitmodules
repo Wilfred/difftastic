@@ -1,3 +1,0 @@
-[submodule "examples/RxJava"]
-	path = examples/RxJava
-	url = https://github.com/ReactiveX/RxJava.git
