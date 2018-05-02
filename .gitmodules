@@ -1,6 +1,3 @@
-[submodule "examples/elasticsearch"]
-	path = examples/elasticsearch
-	url = https://github.com/elastic/elasticsearch.git
 [submodule "examples/RxJava"]
 	path = examples/RxJava
 	url = https://github.com/ReactiveX/RxJava.git
