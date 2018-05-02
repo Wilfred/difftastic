@@ -12,7 +12,7 @@ if [ ! -d "$repo" ]; then
   git clone https://github.com/desktop/desktop "$repo"
 fi
 
-pushd "$repo" && git pull
+pushd "$repo" && git fetch
 git reset --hard d1324f56d02dd9afca5d2e9da545905a7d41d671
 popd
 
@@ -29,3 +29,10 @@ examples_to_parse=$(
 )
 
 echo $examples_to_parse | xargs -n 5000 tree-sitter parse -q
+
+skipped=$( echo $known_failures | wc -w )
+parsed=$( echo $examples_to_parse | wc -w )
+total=$((parsed+skipped))
+percent=$(bc -l <<< "100*$parsed/$total")
+
+printf "Successfully parsed %.2f%% of $repo (%d of %d files)\n" $percent $parsed $total
