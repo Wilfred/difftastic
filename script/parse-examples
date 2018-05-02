@@ -1,0 +1,38 @@
+#!/bin/bash
+
+set -e
+
+cd "$(dirname "$0")/.."
+
+for name in elasticsearch guava RxJava; do
+  repo=examples/$name
+
+  # TODO: Consider cloning example repos instead of using submodules.
+  # Clone repo and check out a known sha
+  # if [ ! -d "$repo" ]; then
+  #   git clone https://github.com/todo/todo "$repo"
+  # fi
+  #
+  # pushd "$repo" && git fetch
+  # git reset --hard ee147fb
+  # popd
+
+  # TODO: Fix known issues in known_failures_*.txt
+  known_failures=$(cat "script/known_failures_$name.txt")
+  examples_to_parse=$(
+    for example in $(find "$repo" -name '*.java'); do
+      if [[ ! $known_failures == *$example* ]]; then
+        echo $example
+      fi
+    done
+  )
+
+  echo $examples_to_parse | xargs -n 2000 tree-sitter parse -q
+
+  skipped=$( echo $known_failures | wc -w )
+  parsed=$( echo $examples_to_parse | wc -w )
+  total=$((parsed+skipped))
+  percent=$(bc -l <<< "100*$parsed/$total")
+
+  printf "Successfully parsed %.2f%% of $repo (%d of %d files)\n" $percent $parsed $total
+done
