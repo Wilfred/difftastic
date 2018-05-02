@@ -4,18 +4,27 @@ set -e
 
 cd "$(dirname "$0")/.."
 
-for name in elasticsearch guava RxJava; do
-  repo=examples/$name
+# clone_repo OWNER NAME SHA
+function clone_repo {
+  owner=$1
+  name=$2
+  sha=$3
 
-  # TODO: Consider cloning example repos instead of using submodules.
-  # Clone repo and check out a known sha
-  # if [ ! -d "$repo" ]; then
-  #   git clone https://github.com/todo/todo "$repo"
-  # fi
-  #
-  # pushd "$repo" && git fetch
-  # git reset --hard ee147fb
-  # popd
+  path=examples/$name
+  if [ ! -d "$path" ]; then
+    git clone "https://github.com/$owner/$name" "$path"
+  fi
+
+  pushd "$path" && git fetch
+  git reset --hard $sha
+  popd
+}
+
+# parse_examples NAME
+function parse_examples {
+  name=$1
+
+  repo=examples/$name
 
   # TODO: Fix known issues in known_failures_*.txt
   known_failures=$(cat "script/known_failures_$name.txt")
@@ -35,4 +44,12 @@ for name in elasticsearch guava RxJava; do
   percent=$(bc -l <<< "100*$parsed/$total")
 
   printf "Successfully parsed %.2f%% of $repo (%d of %d files)\n" $percent $parsed $total
+}
+
+clone_repo elastic elasticsearch 4d62640bf116af7e825d89c7319a39c3f2f325b4
+clone_repo google guava e24fddc5fff7fd36d33ea38737b6606a7e476845
+clone_repo ReactiveX RxJava 8a6bf14fc9a61f7c1c0016ca217be02ca86211d2
+
+for name in elasticsearch guava RxJava; do
+  parse_examples $name
 done
