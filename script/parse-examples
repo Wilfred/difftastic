@@ -20,4 +20,11 @@ examples_to_parse=$(
   done
 )
 
-echo $examples_to_parse | xargs -n 5000 tree-sitter parse -qt
+echo $examples_to_parse | xargs -n 5000 tree-sitter parse -q
+
+skipped=$( echo $known_failures | wc -w )
+parsed=$( echo $examples_to_parse | wc -w )
+total=$((parsed+skipped))
+percent=$(bc -l <<< "100*$parsed/$total")
+
+printf "Successfully parsed %.2f%% of the examples in ruby_spec (language, core) (%d of %d files)\n" $percent $parsed $total
