@@ -265,11 +265,9 @@ instance (Bar baz ~ foo) => Wix baz where
   (type_class_instance_declaration
     (context
       (context_pattern
-        (class
-          (type_class_identifier)
-          (type_variable_identifier))
-        (variable_operator (variable_symbol))
-        (type_variable_identifier)))
+        (equality_constraint
+          (equality_lhs (class (type_class_identifier) (type_variable_identifier)))
+          (equality_rhs (type_variable_identifier)))))
     (type_class_identifier)
     (instance (type_variable_identifier))
     (where

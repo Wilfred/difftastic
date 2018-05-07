@@ -111,6 +111,7 @@ module.exports = grammar({
     [$._atype, $.class],
     [$._type_signature, $.infix_operator_pattern],
     [$.expression_type_signature, $.infix_operator_pattern],
+    [$.equality_constraint],
 
     // These conflicts are necessary to help disambiguate between the type class identifier for class (type class constraints) vs instance type class identifier, and the stand alone deriving instance class identifier.
     [$.type_class_declaration, $._qualified_type_class_identifier],
@@ -1280,6 +1281,7 @@ module.exports = grammar({
 
     _context_lpat: $ => choice(
       $.class,
+      $.equality_constraint,
       $.type_variable_identifier,
       $._qualified_type_constructor_identifier,
       $.promoted_type_constructor,
@@ -1296,6 +1298,12 @@ module.exports = grammar({
         )
       ),
       '=>'
+    ),
+
+    equality_constraint: $ => seq(
+      alias($._context_lpat, $.equality_lhs),
+      '~',
+      alias($._context_lpat, $.equality_rhs)
     ),
 
     type_constructor_operator_pattern: $ => prec(PREC.TYPE_CONSTRUCTOR_OPERATOR_PATTERN, seq(
