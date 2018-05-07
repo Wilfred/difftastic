@@ -54,7 +54,6 @@ const
     '^',
     '-',
     '*',
-    '=',
     '~',
     '|'
   ),
@@ -1548,10 +1547,16 @@ module.exports = grammar({
     type_variable_identifier: $ => $._variable_identifier,
 
     variable_symbol: $ => token(
-      seq(
-        variable_symbol,
-        repeat(choice(restricted_variable_symbol, variable_symbol))
-      )
+      choice(
+        seq(
+          '=',
+          repeat1(choice(variable_symbol, '='))
+        ),
+        seq(
+          variable_symbol,
+          repeat(choice('=', restricted_variable_symbol, variable_symbol))
+        )
+      ),
     ),
 
     infix_variable_identifier: $ => seq(
@@ -1568,7 +1573,7 @@ module.exports = grammar({
 
     type_operator: $ => token(seq(
       '\'',
-      repeat1(choice(variable_symbol, restricted_variable_symbol))
+      repeat1(choice(variable_symbol, '=', restricted_variable_symbol))
     )),
 
     constructor_symbol: $ => token(
