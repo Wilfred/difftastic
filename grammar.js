@@ -38,7 +38,7 @@ const
     AS_PATTERN: 3
   }
 
-  variable_symbol = choice(
+  symbol = choice(
     '!',
     '#',
     '$',
@@ -54,32 +54,10 @@ const
     '^',
     '-',
     '*',
-    '~',
-    '|'
+    '_',
+    '|',
+    '~'
   ),
-
-  restricted_variable_symbol = ':',
-
-  constructor_symbol = choice(
-    '!',
-    '#',
-    '$',
-    '%',
-    '&',
-    '⋆',
-    '+',
-    '.',
-    '/',
-    '<',
-    '>',
-    '?',
-    '^',
-    '-',
-    '*',
-    '=',
-    ':',
-    '|'
-  )
 
 module.exports = grammar({
   name: 'haskell',
@@ -1549,14 +1527,14 @@ module.exports = grammar({
     variable_symbol: $ => token(
       choice(
         seq(
-          '=',
-          repeat1(choice(variable_symbol, '='))
+          choice('=', '~', '|'),
+          repeat1(choice('=', ':', symbol))
         ),
         seq(
-          variable_symbol,
-          repeat(choice('=', restricted_variable_symbol, variable_symbol))
+          symbol,
+          repeat(choice('=', ':', symbol))
         )
-      ),
+      )
     ),
 
     infix_variable_identifier: $ => seq(
@@ -1573,13 +1551,19 @@ module.exports = grammar({
 
     type_operator: $ => token(seq(
       '\'',
-      repeat1(choice(variable_symbol, '=', restricted_variable_symbol))
+      repeat1(choice(symbol, ':'))
     )),
 
     constructor_symbol: $ => token(
       seq(
         ':',
-        repeat(constructor_symbol)
+        choice(
+          seq(
+            repeat1(symbol),
+            repeat(choice(symbol, ':'))
+          ),
+          repeat(symbol)
+        )
       )
     ),
 
