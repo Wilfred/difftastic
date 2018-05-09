@@ -748,9 +748,9 @@ module.exports = grammar({
 
     system_lib_string: $ => token(seq(
       '<',
-      repeat(choice(/[^>]/, '\\>')),
-      '>')
-    ),
+      repeat(choice(/[^>\n]/, '\\>')),
+      '>'
+    )),
 
     true: $ => token(choice('TRUE', 'true')),
     false: $ => token(choice('FALSE', 'false')),
