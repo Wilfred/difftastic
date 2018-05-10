@@ -1550,15 +1550,9 @@ module.exports = grammar({
     )),
 
     constructor_symbol: $ => token(
-      seq(
-        ':',
-        choice(
-          seq(
-            repeat1(symbol),
-            repeat(choice(symbol, ':'))
-          ),
-          repeat(symbol)
-        )
+      choice(
+        /:[!#$%&⋆*+\./<=>?@\\^|\-~]+[!#$%&⋆*+\./<=>?@\\^|\-~:]*/,
+        /:[!#$%&⋆*+\./<=>?@\\^|\-~]*/
       )
     ),
 
