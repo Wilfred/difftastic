@@ -1532,19 +1532,6 @@ module.exports = grammar({
 
     type_variable_identifier: $ => $._variable_identifier,
 
-    variable_symbol: $ => token(
-      choice(
-        seq(
-          choice('=', '~', '|'),
-          repeat1(choice('=', ':', symbol))
-        ),
-        seq(
-          symbol,
-          repeat(choice('=', ':', symbol))
-        )
-      )
-    ),
-
     infix_variable_identifier: $ => seq(
       '`',
       $._variable_identifier,
@@ -1595,6 +1582,21 @@ module.exports = grammar({
     _qualified_operator: $ => prec.left(choice(
       $._qualified_variable_operator,
       $._qualified_constructor_operator
+    )),
+
+    variable_symbol: $ => token(choice(
+      /=>[!#$%&⋆*+\./<=>?@\\\^|\-~:]+/,   // prevents matching `=>`
+      /\.\.[!#$%&⋆*+\./<=>?@\\\^|\-~:]+/, // prevents matching `..`
+      /\\[!#$%&⋆*+\./<=>?@\\\^|\-~:]+/,   // prevents matching `\`
+      /\|[!#$%&⋆*+\./<=>?@\\\^|\-~:]+/,   // prevents matching `|`
+      /<\-[!#$%&⋆*+\./<=>?@\\^|\-~:]+/,   // prevents matching `<-`
+      /->[!#$%&⋆*+\./<=>?@\\\^|\-~:]+/,   // prevents matching `->`
+      /@[!#$%&⋆*+\./<=>?@\\\^|\-~:]+/,    // prevents matching `@`
+      /~[!#$%&⋆*+\./<=>?@\\\^|\-~:]+/,    // prevents matching `~`
+      /\./,                               // matches composition operator `.`
+      /=[!#$%&⋆*+\./<=?@\\\^|\-~:]+[!#$%&⋆*+\./<=>?@\\^|\-~:]?/, // prevents matching `=`
+      /[!#$%&⋆*+/<>?\^\-]+[!#$%&⋆*+\./<=>?@\\^|\-~:]*/,          // matches variable symbols
+      /\.[!#$%&⋆*+/<=>?@\\\^|\-~:]+[!#$%&⋆*+\./<=?@\\\^|\-~:]*/, // prevents matching `..`
     )),
 
     comment: $ => token(choice(
