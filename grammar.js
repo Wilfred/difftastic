@@ -133,9 +133,15 @@ module.exports = grammar({
     [$._type, $.infix_data_constructor],
 
     // These conflicts allow reuse of type_pattern within contexts (type class constraints)
-    [$.infix_operator_pattern, $.class],
     [$.type_class_instance_declaration, $.class],
-    [$.standalone_deriving_declaration, $.class]
+    [$.standalone_deriving_declaration, $.class],
+    [$.infix_operator_pattern, $.class],
+
+    [$._type],
+    [$._type_pattern, $.strict_type],
+    [$.strict_type],
+    [$.promoted_type_constructor, $._type_pattern],
+    [$.promoted_type_constructor]
   ],
 
   rules: {
@@ -536,7 +542,10 @@ module.exports = grammar({
 
     promoted_type_constructor: $ => prec.left(seq(
       '\'',
-      $._type_pattern
+      choice(
+        $._atype,
+        $.infix_operator_pattern
+      )
     )),
 
     _general_constructor: $ => choice(
@@ -1008,7 +1017,7 @@ module.exports = grammar({
       optional($.context),
       choice($._qualified_type_class_identifier, $._qualified_variable_identifier),
       alias($._type_pattern, $.instance),
-      optional($.where)
+      optional($.where),
     ),
 
     kind_function_type_instance: $ => seq(
@@ -1107,7 +1116,7 @@ module.exports = grammar({
       alias($._type_pattern, $.type)
     )),
 
-    _type: $ => prec.left(repeat1($._atype)),
+    _type: $ => repeat1($._atype),
 
     function_type: $ => prec.right(seq(
       alias($._type, $.type),
@@ -1127,8 +1136,8 @@ module.exports = grammar({
     )),
 
     _atype: $ => prec.right(choice(
-      $.primitive_constructor_identifier,
       $._general_type_constructor,
+      $.primitive_constructor_identifier,
       $.type_variable_identifier,
       $.implicit_parameter_identifier,
       $.tuple_type,
@@ -1295,9 +1304,7 @@ module.exports = grammar({
 
     class: $ => seq(
       $._qualified_type_class_identifier,
-      repeat1(
-        $._type_pattern
-      )
+      $._type_pattern
     ),
 
     constructors: $ => sep1(
@@ -1329,7 +1336,10 @@ module.exports = grammar({
 
     strict_type: $ => prec.left(seq(
       '!',
-      $._type_pattern
+      choice(
+        $._atype,
+        $.infix_operator_pattern
+      )
     )),
 
     infix_data_constructor: $ => prec.left(seq(
