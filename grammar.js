@@ -95,7 +95,6 @@ module.exports = grammar({
     [$._qualified_module_identifier, $.qualified_module_identifier],
     [$.qualified_module_identifier],
     [$._a_expression, $.constructor_pattern],
-    [$.parenthesized_type, $._atype],
     [$.constructor_pattern, $._a_pattern],
     [$.labeled_pattern, $.labeled_construction],
     [$._atype, $._qualified_constructor_identifier],
@@ -118,13 +117,10 @@ module.exports = grammar({
     [$._simple_type, $._context_lpat],
 
     // These conflicts are necessary to allow for arbitrary contexts to occur within the function type position (e.g. a -> (HasCallStack => b) -> b).
-    [$.parenthesized_type, $._context_lpat],
-    [$.parenthesized_type, $._atype, $._context_lpat],
 
     // These conflicts support repeat1 for _general_type_constructor (and prevent errors when parsing `Foo a (Bar ...)`)
     [$._context_lpat],
     [$._general_constructor],
-    [$.parenthesized_type],
 
     // These conflicts support implicit parameter contexts (e.g. a :: (?b :: c -> c -> Bool) => d) and implicit parameter identifiers in function bodies (e.g. a = b ?c)
     [$._a_expression, $._type_signature],
@@ -135,6 +131,11 @@ module.exports = grammar({
     [$._atype, $.field],
     [$._atype, $.data_constructor],
     [$._type, $.infix_data_constructor],
+
+    // These conflicts allow reuse of type_pattern within contexts (type class constraints)
+    [$.infix_operator_pattern, $.class],
+    [$.type_class_instance_declaration, $.class],
+    [$.standalone_deriving_declaration, $.class]
   ],
 
   rules: {
@@ -431,26 +432,6 @@ module.exports = grammar({
     _funlhs: $ => choice(
       repeat1($._a_pattern),
       prec.dynamic(3, seq($._pattern, $._op, $._pattern)),
-    ),
-
-    parenthesized_type: $ => seq(
-      '(',
-      repeat1(
-        choice(
-          $._qualified_type_constructor_identifier,
-          $.parenthesized_type,
-          $.type_variable_identifier,
-          $.promoted_type_constructor,
-          $.list_type,
-          $.tuple_type,
-          $.unit_constructor,
-          $._qualified_operator,
-          $.annotated_type_variable,
-          $.tupling_constructor,
-          $.list_constructor,
-        )
-      ),
-      ')'
     ),
 
     _a_pattern: $ => choice(
@@ -1315,16 +1296,8 @@ module.exports = grammar({
     class: $ => seq(
       $._qualified_type_class_identifier,
       repeat1(
-        choice(
-          $.parenthesized_type,
-          $._qualified_type_constructor_identifier,
-          $.type_variable_identifier,
-          $.promoted_type_constructor,
-          $.list_type,
-          $.tuple_type,
-          $.unit_constructor
-        )
-      ),
+        $._type_pattern
+      )
     ),
 
     constructors: $ => sep1(

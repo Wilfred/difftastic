@@ -129,7 +129,7 @@ instance (Foo (Bar (Baz, Baz))) => Read (Bar) where {}
       (context_pattern
         (class
           (type_class_identifier)
-          (parenthesized_type
+          (parenthesized_type_pattern
             (type_constructor_identifier)
             (list_type (type (type_constructor_identifier)))))))
     (type_class_identifier)
@@ -140,7 +140,7 @@ instance (Foo (Bar (Baz, Baz))) => Read (Bar) where {}
       (context_pattern
         (class
           (type_class_identifier)
-          (parenthesized_type
+          (parenthesized_type_pattern
             (type_constructor_identifier)
             (tuple_type
               (type (type_constructor_identifier))
@@ -233,7 +233,7 @@ instance ( Foo (Bar a b '[]) c ) => Baz a b (Bix a b c) where
       (context_pattern
         (class
         (type_class_identifier)
-        (parenthesized_type
+        (parenthesized_type_pattern
           (type_constructor_identifier)
           (type_variable_identifier)
           (type_variable_identifier)

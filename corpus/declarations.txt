@@ -382,7 +382,12 @@ data (Eq (f a), Functor f) => N f a = N f a
         (constructor_identifier) (type_variable_identifier) (type_variable_identifier))))
   (algebraic_datatype_declaration
     (context
-      (context_pattern (class (type_class_identifier) (parenthesized_type (type_variable_identifier) (type_variable_identifier))))
+      (context_pattern
+        (class
+          (type_class_identifier)
+          (parenthesized_type_pattern
+            (type_variable_identifier)
+            (type_variable_identifier))))
       (context_pattern (class (type_class_identifier) (type_variable_identifier))))
     (type_constructor_identifier)
     (type_variable_identifier)
@@ -883,7 +888,7 @@ deriving instance Bar (Foo (Baz waz)) bix => BazHeap bix (BarEval bix wax)
         (class
           (type_class_identifier)
           (type_variable_identifier)
-          (parenthesized_type
+          (parenthesized_type_pattern
             (type_variable_identifier)
             (type_variable_identifier)
             (type_variable_identifier)
@@ -916,9 +921,9 @@ deriving instance Bar (Foo (Baz waz)) bix => BazHeap bix (BarEval bix wax)
       (context_pattern
         (class
           (type_class_identifier)
-          (parenthesized_type
+          (parenthesized_type_pattern
             (type_constructor_identifier)
-            (parenthesized_type
+            (parenthesized_type_pattern
               (type_constructor_identifier)
               (type_variable_identifier)))
             (type_variable_identifier))))
