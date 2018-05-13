@@ -377,7 +377,7 @@ module.exports = grammar({
       //   $.incoherent_pragma
       // )),
       optional($.context),
-      $._qualified_type_class_identifier,
+      choice($._qualified_type_class_identifier, $._qualified_variable_identifier),
       alias($._type_pattern, $.instance)
     ),
 
@@ -1006,7 +1006,7 @@ module.exports = grammar({
       // )),
       optional($.scoped_type_variables),
       optional($.context),
-      $._qualified_type_class_identifier,
+      choice($._qualified_type_class_identifier, $._qualified_variable_identifier),
       alias($._type_pattern, $.instance),
       optional($.where)
     ),
