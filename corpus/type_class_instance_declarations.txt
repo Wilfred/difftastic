@@ -2,29 +2,92 @@
 Type Class Instance Declarations
 =========================================
 
+instance Show Int where
 instance Show Int where {}
+instance Show Int
+instance Show Int a where
+instance Show Int a where {}
+instance Show Int a
+instance Show (Maybe a) where
 instance Show (Maybe a) where {}
+instance Show (Maybe a)
+instance Show (a, b, c) where
 instance Show (a, b, c) where {}
+instance Show (a, b, c)
+instance Show [a] where
 instance Show [a] where {}
+instance Show [a]
+instance Show (a -> b) where
 instance Show (a -> b) where {}
+instance Show (a -> b)
 instance Show Foo where
   bar (Foo Baz) (Foo Wix) = EQ
+instance Show Foo where {
+  bar (Foo Baz) (Foo Wix) = EQ
+}
 instance Show (,) where
+instance Show (,) where {}
+instance Show (,)
 instance Show (Bar, Baz a b) where
+instance Show (Bar, Baz a b) where {}
+instance Show (Bar, Baz a b)
 instance Show [(Bar, Baz a b)] where
+instance Show [(Bar, Baz a b)] where {}
+instance Show [(Bar, Baz a b)]
 instance Show [Bar] where
+instance Show [Bar] where {}
+instance Show [Bar]
 instance Show [Bar a b] where
+instance Show [Bar a b] where {}
+instance Show [Bar a b]
 instance Show [Bar Baz b] where
+instance Show [Bar Baz b] where {}
+instance Show [Bar Baz b]
 
 ---
 
 (module
   (type_class_instance_declaration
     (type_class_identifier)
-    (instance (type_constructor_identifier)) (where))
+    (instance (type_constructor_identifier))
+    (where))
   (type_class_instance_declaration
     (type_class_identifier)
-    (instance (parenthesized_type_pattern (type_constructor_identifier) (type_variable_identifier))) (where))
+    (instance (type_constructor_identifier))
+    (where))
+  (type_class_instance_declaration
+    (type_class_identifier)
+    (instance (type_constructor_identifier)))
+
+  (type_class_instance_declaration
+    (type_class_identifier)
+    (instance (type_constructor_identifier) (type_variable_identifier))
+    (where))
+  (type_class_instance_declaration
+    (type_class_identifier)
+    (instance (type_constructor_identifier) (type_variable_identifier))
+    (where))
+  (type_class_instance_declaration
+    (type_class_identifier)
+    (instance (type_constructor_identifier) (type_variable_identifier)))
+
+  (type_class_instance_declaration
+    (type_class_identifier)
+    (instance
+      (parenthesized_type_pattern
+        (type_constructor_identifier)
+        (type_variable_identifier)))
+    (where))
+  (type_class_instance_declaration
+    (type_class_identifier)
+    (instance
+      (parenthesized_type_pattern (type_constructor_identifier) (type_variable_identifier)))
+    (where))
+  (type_class_instance_declaration
+    (type_class_identifier)
+    (instance
+      (parenthesized_type_pattern (type_constructor_identifier) (type_variable_identifier))))
+
   (type_class_instance_declaration
     (type_class_identifier)
     (instance
@@ -35,10 +98,56 @@ instance Show [Bar Baz b] where
     (where))
   (type_class_instance_declaration
     (type_class_identifier)
-    (instance (list_type (type (type_variable_identifier)))) (where))
+    (instance
+      (tuple_type
+        (type (type_variable_identifier))
+        (type (type_variable_identifier))
+        (type (type_variable_identifier))))
+    (where))
   (type_class_instance_declaration
     (type_class_identifier)
-    (instance (parenthesized_type_pattern (function_type (type (type_variable_identifier)) (type (type_variable_identifier))))) (where))
+    (instance
+      (tuple_type
+        (type (type_variable_identifier))
+        (type (type_variable_identifier))
+        (type (type_variable_identifier)))))
+
+  (type_class_instance_declaration
+    (type_class_identifier)
+    (instance (list_type (type (type_variable_identifier))))
+    (where))
+  (type_class_instance_declaration
+    (type_class_identifier)
+    (instance (list_type (type (type_variable_identifier))))
+    (where))
+  (type_class_instance_declaration
+    (type_class_identifier)
+    (instance (list_type (type (type_variable_identifier)))))
+
+  (type_class_instance_declaration
+    (type_class_identifier)
+    (instance
+      (parenthesized_type_pattern
+        (function_type
+          (type (type_variable_identifier))
+          (type (type_variable_identifier)))))
+    (where))
+  (type_class_instance_declaration
+    (type_class_identifier)
+    (instance
+      (parenthesized_type_pattern
+        (function_type
+          (type (type_variable_identifier))
+          (type (type_variable_identifier)))))
+    (where))
+  (type_class_instance_declaration
+    (type_class_identifier)
+    (instance
+      (parenthesized_type_pattern
+        (function_type
+          (type (type_variable_identifier))
+          (type (type_variable_identifier))))))
+
   (type_class_instance_declaration
     (type_class_identifier)
     (instance (type_constructor_identifier))
@@ -52,13 +161,57 @@ instance Show [Bar Baz b] where
         (function_body (constructor_identifier)))))
   (type_class_instance_declaration
     (type_class_identifier)
-    (instance (tupling_constructor)) (where))
+    (instance (type_constructor_identifier))
+    (where
+      (function_declaration
+        (variable_identifier)
+        (parenthesized_pattern
+          (constructor_pattern (constructor_identifier) (constructor_identifier)))
+        (parenthesized_pattern
+          (constructor_pattern (constructor_identifier) (constructor_identifier)))
+        (function_body (constructor_identifier)))))
+
+  (type_class_instance_declaration
+    (type_class_identifier)
+    (instance (tupling_constructor))
+    (where))
+  (type_class_instance_declaration
+    (type_class_identifier)
+    (instance (tupling_constructor))
+    (where))
+  (type_class_instance_declaration
+    (type_class_identifier)
+    (instance (tupling_constructor)))
+
   (type_class_instance_declaration
     (type_class_identifier)
     (instance
       (tuple_type
         (type (type_constructor_identifier))
         (type (type_constructor_identifier) (type_variable_identifier) (type_variable_identifier))))
+    (where))
+  (type_class_instance_declaration
+    (type_class_identifier)
+    (instance
+      (tuple_type
+        (type (type_constructor_identifier))
+        (type (type_constructor_identifier) (type_variable_identifier) (type_variable_identifier))))
+    (where))
+  (type_class_instance_declaration
+    (type_class_identifier)
+    (instance
+      (tuple_type
+        (type (type_constructor_identifier))
+        (type (type_constructor_identifier) (type_variable_identifier) (type_variable_identifier)))))
+
+  (type_class_instance_declaration
+    (type_class_identifier)
+    (instance
+      (list_type
+        (type
+          (tuple_type
+            (type (type_constructor_identifier))
+            (type (type_constructor_identifier) (type_variable_identifier) (type_variable_identifier))))))
     (where))
   (type_class_instance_declaration
     (type_class_identifier)
@@ -73,7 +226,31 @@ instance Show [Bar Baz b] where
     (type_class_identifier)
     (instance
       (list_type
-        (type (type_constructor_identifier))))
+        (type
+          (tuple_type
+            (type (type_constructor_identifier))
+            (type (type_constructor_identifier) (type_variable_identifier) (type_variable_identifier)))))))
+
+  (type_class_instance_declaration
+    (type_class_identifier)
+    (instance
+      (list_type (type (type_constructor_identifier))))
+    (where))
+  (type_class_instance_declaration
+    (type_class_identifier)
+    (instance
+      (list_type (type (type_constructor_identifier))))
+    (where))
+  (type_class_instance_declaration
+    (type_class_identifier)
+    (instance
+      (list_type (type (type_constructor_identifier)))))
+
+  (type_class_instance_declaration
+    (type_class_identifier)
+    (instance
+      (list_type
+        (type (type_constructor_identifier) (type_variable_identifier) (type_variable_identifier))))
     (where))
   (type_class_instance_declaration
     (type_class_identifier)
@@ -85,8 +262,25 @@ instance Show [Bar Baz b] where
     (type_class_identifier)
     (instance
       (list_type
+        (type (type_constructor_identifier) (type_variable_identifier) (type_variable_identifier)))))
+
+  (type_class_instance_declaration
+    (type_class_identifier)
+    (instance
+      (list_type
         (type (type_constructor_identifier) (type_constructor_identifier) (type_variable_identifier))))
-    (where)))
+    (where))
+  (type_class_instance_declaration
+    (type_class_identifier)
+    (instance
+      (list_type
+        (type (type_constructor_identifier) (type_constructor_identifier) (type_variable_identifier))))
+    (where))
+  (type_class_instance_declaration
+    (type_class_identifier)
+    (instance
+      (list_type
+        (type (type_constructor_identifier) (type_constructor_identifier) (type_variable_identifier))))))
 
 =========================================
 Type Class Instance Declarations With Context
