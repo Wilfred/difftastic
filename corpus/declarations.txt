@@ -432,6 +432,36 @@ data SomeNumber = forall a . SomeNumber (Number a)
           (type_variable_identifier))))))
 
 =========================================
+Algebraic Datatype Declarations With Constrained Constructors
+=========================================
+
+data Foo bar = HasCallStack => Foo bar
+data Baz foo = Show foo => Baz foo
+
+---
+
+(module
+  (algebraic_datatype_declaration
+    (type_constructor_identifier)
+    (type_variable_identifier)
+    (context
+      (context_pattern (type_constructor_identifier)))
+    (constructors
+      (data_constructor
+        (constructor_identifier)
+        (type_variable_identifier))))
+  (algebraic_datatype_declaration
+    (type_constructor_identifier)
+    (type_variable_identifier)
+    (context
+      (context_pattern
+        (class (type_class_identifier) (type_variable_identifier))))
+    (constructors
+      (data_constructor
+        (constructor_identifier)
+        (type_variable_identifier)))))
+
+=========================================
 GADT Declarations
 =========================================
 
