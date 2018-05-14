@@ -1794,6 +1794,10 @@
         {
           "type": "STRING",
           "value": "explicit"
+        },
+        {
+          "type": "STRING",
+          "value": "constexpr"
         }
       ]
     },
@@ -4420,7 +4424,7 @@
               "members": [
                 {
                   "type": "PATTERN",
-                  "value": "[^>]"
+                  "value": "[^>\\n]"
                 },
                 {
                   "type": "STRING",
