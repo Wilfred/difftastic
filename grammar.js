@@ -159,7 +159,8 @@ module.exports = grammar(C, {
       '<',
       commaSep(choice(
         $.parameter_declaration,
-        $.type_parameter_declaration
+        $.type_parameter_declaration,
+        $.optional_type_parameter_declaration
       )),
       '>'
     ),
@@ -167,6 +168,13 @@ module.exports = grammar(C, {
     type_parameter_declaration: $ => seq(
       'typename',
       $._type_identifier
+    ),
+
+    optional_type_parameter_declaration: $ => seq(
+      'typename',
+      $._type_identifier,
+      '=',
+      $._type_specifier
     ),
 
     parameter_declaration: ($, original) => choice(

@@ -358,6 +358,30 @@ class Person {
         (compound_statement))))))
 
 ==========================================
+Templates with default type parameters
+==========================================
+
+template <typename T = U::V<void>>
+class X
+{
+};
+
+---
+
+(translation_unit
+  (template_declaration
+    (template_parameter_list
+      (optional_type_parameter_declaration
+        (type_identifier)
+        (template_type
+          (scoped_type_identifier
+            (namespace_identifier)
+            (type_identifier))
+          (template_argument_list
+            (type_descriptor (primitive_type))))))
+    (class_specifier (type_identifier) (field_declaration_list))))
+
+==========================================
 Declarations with braced initializer lists
 ==========================================
 
