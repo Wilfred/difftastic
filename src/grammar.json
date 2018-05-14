@@ -2278,6 +2278,10 @@
               {
                 "type": "SYMBOL",
                 "name": "using_declaration"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "type_definition"
               }
             ]
           }
@@ -5026,6 +5030,22 @@
     "constructor_or_destructor_definition": {
       "type": "SEQ",
       "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "storage_class_specifier"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "type_qualifier"
+              }
+            ]
+          }
+        },
         {
           "type": "PREC",
           "value": 1,

@@ -221,7 +221,8 @@ module.exports = grammar(C, {
         $.friend_declaration,
         $.access_specifier,
         $.alias_declaration,
-        $.using_declaration
+        $.using_declaration,
+        $.type_definition
       )),
       '}'
     ),
@@ -233,6 +234,10 @@ module.exports = grammar(C, {
     ),
 
     constructor_or_destructor_definition: $ => seq(
+      repeat(choice(
+        $.storage_class_specifier,
+        $.type_qualifier
+      )),
       prec(1, seq(
         $.function_declarator,
         optional($.field_initializer_list)
