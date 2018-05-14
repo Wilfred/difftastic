@@ -7133,9 +7133,6 @@
       "type_family_declaration"
     ],
     [
-      "class"
-    ],
-    [
       "_atype",
       "_context_lpat"
     ],
@@ -7146,10 +7143,6 @@
     [
       "_general_constructor",
       "_context_lpat"
-    ],
-    [
-      "_atype",
-      "class"
     ],
     [
       "_type_signature",

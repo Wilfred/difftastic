@@ -103,11 +103,9 @@ module.exports = grammar({
     [$._a_pattern, $._lexp],
     [$.variable_identifier, $.type_variable_identifier],
     [$.type_family_declaration],
-    [$.class],
     [$._atype, $._context_lpat],
     [$.kind_function_type, $.function_type],
     [$._general_constructor, $._context_lpat],
-    [$._atype, $.class],
     [$._type_signature, $.infix_operator_pattern],
     [$.expression_type_signature, $.infix_operator_pattern],
     [$.equality_constraint],
@@ -115,8 +113,6 @@ module.exports = grammar({
     // These conflicts are necessary to help disambiguate between the type class identifier for class (type class constraints) vs instance type class identifier, and the stand alone deriving instance class identifier.
     [$.type_class_declaration, $._qualified_type_class_identifier],
     [$._simple_type, $._context_lpat],
-
-    // These conflicts are necessary to allow for arbitrary contexts to occur within the function type position (e.g. a -> (HasCallStack => b) -> b).
 
     // These conflicts support repeat1 for _general_type_constructor (and prevent errors when parsing `Foo a (Bar ...)`)
     [$._context_lpat],
@@ -137,6 +133,7 @@ module.exports = grammar({
     [$.standalone_deriving_declaration, $.class],
     [$.infix_operator_pattern, $.class],
 
+    // These conflicts allow strict_type and promoted_type_constructor to match against atype without going through _type_pattern -> _type. This is because strict_type and promoted_type_constructor need to bind tighter than other rules (like context).
     [$._type],
     [$._type_pattern, $.strict_type],
     [$.strict_type],
