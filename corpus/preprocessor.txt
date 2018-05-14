@@ -167,6 +167,27 @@ int main() {
             (preproc_else
               (return_statement (number_literal)))))))))
 
+=================================================
+Preprocessor conditionals in struct/union bodies
+=================================================
+
+struct S {
+#ifdef _WIN32
+  LONG f2;
+#else
+  uint32_t f2;
+#endif
+};
+
+---
+
+(translation_unit
+  (struct_specifier (type_identifier) (field_declaration_list
+    (preproc_ifdef (identifier)
+      (field_declaration (type_identifier) (field_identifier))
+      (preproc_else
+        (field_declaration (primitive_type) (field_identifier)))))))
+
 ====================================
 Unknown preprocessor directives
 ====================================

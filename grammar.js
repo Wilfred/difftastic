@@ -108,70 +108,9 @@ module.exports = grammar({
       '\n'
     ),
 
-    preproc_if: $ => seq(
-      preprocessor('if'),
-      $.preproc_arg,
-      repeat($._top_level_item),
-      optional(choice($.preproc_else, $.preproc_elif)),
-      preprocessor('endif')
-    ),
-
-    preproc_if_in_compound_statement: $ => seq(
-      preprocessor('if'),
-      $.preproc_arg,
-      repeat($._compound_statement_item),
-      optional(choice(
-        alias($.preproc_else_in_compound_statement, $.preproc_else),
-        alias($.preproc_elif_in_compound_statement, $.preproc_elif)
-      )),
-      preprocessor('endif')
-    ),
-
-    preproc_ifdef: $ => seq(
-      choice(preprocessor('ifdef'), preprocessor('ifndef')),
-      $.identifier,
-      repeat($._top_level_item),
-      optional(choice($.preproc_else, $.preproc_elif)),
-      preprocessor('endif')
-    ),
-
-    preproc_ifdef_in_compound_statement: $ => seq(
-      choice(preprocessor('ifdef'), preprocessor('ifndef')),
-      $.identifier,
-      repeat($._compound_statement_item),
-      optional(choice(
-        alias($.preproc_else_in_compound_statement, $.preproc_else),
-        alias($.preproc_elif_in_compound_statement, $.preproc_elif)
-      )),
-      preprocessor('endif')
-    ),
-
-    preproc_elif: $ => seq(
-      preprocessor('elif'),
-      $.preproc_arg,
-      repeat($._top_level_item),
-      optional(choice($.preproc_elif, $.preproc_else))
-    ),
-
-    preproc_elif_in_compound_statement: $ => seq(
-      preprocessor('elif'),
-      $.preproc_arg,
-      repeat($._compound_statement_item),
-      optional(choice(
-        alias($.preproc_elif_in_compound_statement, $.preproc_elif),
-        alias($.preproc_else_in_compound_statement, $.preproc_else)
-      ))
-    ),
-
-    preproc_else: $ => seq(
-      preprocessor('else'),
-      repeat($._top_level_item)
-    ),
-
-    preproc_else_in_compound_statement: $ => seq(
-      preprocessor('else'),
-      repeat($._compound_statement_item)
-    ),
+    ...preprocIf('', $ => $._top_level_item),
+    ...preprocIf('_in_compound_statement', $ => $._compound_statement_item),
+    ...preprocIf( '_in_field_declaration_list', $ => $._field_declaration_list_item),
 
     preproc_directive: $ => /#[ \t]*[a-zA-Z]\w*/,
     preproc_arg: $ => token(prec(-1, repeat1(choice(/./, '\\\n')))),
@@ -408,8 +347,14 @@ module.exports = grammar({
 
     field_declaration_list: $ => seq(
       '{',
-      repeat($.field_declaration),
+      repeat($._field_declaration_list_item),
       '}'
+    ),
+
+    _field_declaration_list_item: $ => choice(
+      $.field_declaration,
+      alias($.preproc_if_in_field_declaration_list, $.preproc_if),
+      alias($.preproc_ifdef_in_field_declaration_list, $.preproc_ifdef),
     ),
 
     field_declaration: $ => seq(
@@ -787,6 +732,45 @@ module.exports = grammar({
 });
 
 module.exports.PREC = PREC
+
+function preprocIf (suffix, content) {
+  function elseBlock ($) {
+    return choice(
+      suffix ? alias($['preproc_else' + suffix], $.preproc_else) : $.preproc_else,
+      suffix ? alias($['preproc_elif' + suffix], $.preproc_elif) : $.preproc_elif,
+    );
+  }
+
+  return {
+    ['preproc_if' + suffix]: $ => seq(
+      preprocessor('if'),
+      $.preproc_arg,
+      repeat(content($)),
+      optional(elseBlock($)),
+      preprocessor('endif')
+    ),
+
+    ['preproc_ifdef' + suffix]: $ => seq(
+      choice(preprocessor('ifdef'), preprocessor('ifndef')),
+      $.identifier,
+      repeat(content($)),
+      optional(elseBlock($)),
+      preprocessor('endif')
+    ),
+
+    ['preproc_else' + suffix]: $ => seq(
+      preprocessor('else'),
+      repeat(content($))
+    ),
+
+    ['preproc_elif' + suffix]: $ => seq(
+      preprocessor('elif'),
+      $.preproc_arg,
+      repeat(content($)),
+      optional(elseBlock($)),
+    )
+  }
+}
 
 function preprocessor (command) {
   return alias(new RegExp('#[ \t]*' + command), '#' + command)
