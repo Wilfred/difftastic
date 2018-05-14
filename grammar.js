@@ -210,21 +210,17 @@ module.exports = grammar(C, {
       choice($.initializer_list, $.argument_list)
     )),
 
-    field_declaration_list: $ => seq(
-      '{',
-      repeat(choice(
-        $.field_declaration,
-        $.template_declaration,
-        alias($.inline_method_definition, $.function_definition),
-        alias($.constructor_or_destructor_definition, $.function_definition),
-        alias($.constructor_or_destructor_declaration, $.declaration),
-        $.friend_declaration,
-        $.access_specifier,
-        $.alias_declaration,
-        $.using_declaration,
-        $.type_definition
-      )),
-      '}'
+    _field_declaration_list_item: ($, original) => choice(
+      original,
+      $.template_declaration,
+      alias($.inline_method_definition, $.function_definition),
+      alias($.constructor_or_destructor_definition, $.function_definition),
+      alias($.constructor_or_destructor_declaration, $.declaration),
+      $.friend_declaration,
+      $.access_specifier,
+      $.alias_declaration,
+      $.using_declaration,
+      $.type_definition
     ),
 
     inline_method_definition: $ => seq(
