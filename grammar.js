@@ -1306,7 +1306,10 @@ module.exports = grammar({
 
     class: $ => seq(
       $._qualified_type_class_identifier,
-      $._type_pattern
+      choice(
+        $._type,
+        $.infix_operator_pattern
+      )
     ),
 
     constructors: $ => sep1(

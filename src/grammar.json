@@ -1168,6 +1168,14 @@
         {
           "type": "SYMBOL",
           "name": "_declaration"
+        },
+        {
+          "type": "PREC_DYNAMIC",
+          "value": -2,
+          "content": {
+            "type": "SYMBOL",
+            "name": "function_application"
+          }
         }
       ]
     },
@@ -3923,71 +3931,75 @@
       ]
     },
     "type_class_instance_declaration": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "instance"
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "scoped_type_variables"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "context"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "_qualified_type_class_identifier"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "_qualified_variable_identifier"
-            }
-          ]
-        },
-        {
-          "type": "ALIAS",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_type_pattern"
+      "type": "PREC",
+      "value": 1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "instance"
           },
-          "named": true,
-          "value": "instance"
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "scoped_type_variables"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "context"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "_qualified_type_class_identifier"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "_qualified_variable_identifier"
+              }
+            ]
+          },
+          {
+            "type": "ALIAS",
+            "content": {
               "type": "SYMBOL",
-              "name": "where"
+              "name": "_type_pattern"
             },
-            {
-              "type": "BLANK"
-            }
-          ]
-        }
-      ]
+            "named": true,
+            "value": "instance"
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "where"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        ]
+      }
     },
     "kind_function_type_instance": {
       "type": "SEQ",
@@ -5453,8 +5465,17 @@
           "name": "_qualified_type_class_identifier"
         },
         {
-          "type": "SYMBOL",
-          "name": "_type_pattern"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_type"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "infix_operator_pattern"
+            }
+          ]
         }
       ]
     },
@@ -7195,15 +7216,7 @@
       "infix_data_constructor"
     ],
     [
-      "type_class_instance_declaration",
-      "class"
-    ],
-    [
-      "standalone_deriving_declaration",
-      "class"
-    ],
-    [
-      "infix_operator_pattern",
+      "_type_pattern",
       "class"
     ],
     [
@@ -7222,6 +7235,19 @@
     ],
     [
       "promoted_type_constructor"
+    ],
+    [
+      "_a_pattern",
+      "constructor_pattern",
+      "_a_expression"
+    ],
+    [
+      "_top_declaration",
+      "function_application"
+    ],
+    [
+      "_declaration",
+      "_a_expression"
     ]
   ],
   "externals": [
