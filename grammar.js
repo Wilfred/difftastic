@@ -28,6 +28,7 @@ const
     NEGATIVE_LITERAL: 1,
     TUPLE_INSTANCE: 1,
     LIST_INSTANCE: 1,
+    INSTANCE_DECLARATION: 1,
     FUNCTION_TYPE_INSTANCE: 1,
     KIND_SIGNATURE: 1,
     TYPE_CONSTRUCTOR_OPERATOR_PATTERN: 1,
@@ -129,9 +130,7 @@ module.exports = grammar({
     [$._type, $.infix_data_constructor],
 
     // These conflicts allow reuse of type_pattern within contexts (type class constraints)
-    [$.type_class_instance_declaration, $.class],
-    [$.standalone_deriving_declaration, $.class],
-    [$.infix_operator_pattern, $.class],
+    [$._type_pattern, $.class],
 
     // These conflicts allow strict_type and promoted_type_constructor to match against atype without going through _type_pattern -> _type. This is because strict_type and promoted_type_constructor need to bind tighter than other rules (like context).
     [$._type],
@@ -1002,7 +1001,7 @@ module.exports = grammar({
       ')'
     ),
 
-    type_class_instance_declaration: $ => seq(
+    type_class_instance_declaration: $ => prec(PREC.INSTANCE_DECLARATION, seq(
       'instance',
       // optional(choice(
         // $.overlaps_pragma,
