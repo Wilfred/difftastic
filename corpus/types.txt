@@ -59,3 +59,14 @@ struct X : B<T>
         (field_declaration
           (dependent_type (scoped_type_identifier (namespace_identifier) (type_identifier)))
           (pointer_declarator (field_identifier)))))))
+
+==========================================
+Template types with empty argument lists
+==========================================
+
+use_future_t<> use_future;
+
+---
+
+(translation_unit
+  (declaration (template_type (type_identifier) (template_argument_list)) (identifier)))

@@ -350,7 +350,7 @@ module.exports = grammar(C, {
 
     template_argument_list: $ => seq(
       '<',
-      commaSep1(choice(
+      commaSep(choice(
         $.type_descriptor,
         $.parenthesized_expression
       )),
