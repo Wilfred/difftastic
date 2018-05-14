@@ -388,6 +388,17 @@ module.exports = grammar(C, {
       $.for_range_loop
     ),
 
+    if_statement: $ => prec.right(seq(
+      'if',
+      optional('constexpr'),
+      '(', $._expression, ')',
+      $._statement,
+      optional(seq(
+        'else',
+        $._statement
+      ))
+    )),
+
     for_range_loop: $ => seq(
       'for',
       '(',

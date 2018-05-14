@@ -46,3 +46,28 @@ T main() {
         (identifier)
         (compound_statement
           (expression_statement (shift_expression (identifier) (identifier))))))))
+
+===========================================
+Constexpr if statements
+===========================================
+
+T f() {
+  if constexpr (std::is_pointer_v<T>)
+    return *t;
+  else
+    return t;
+}
+
+---
+
+(translation_unit
+  (function_definition
+    (type_identifier)
+    (function_declarator (identifier) (parameter_list))
+    (compound_statement
+      (if_statement
+        (template_function
+          (scoped_identifier (namespace_identifier) (identifier))
+          (template_argument_list (type_descriptor (type_identifier))))
+        (return_statement (pointer_expression (identifier)))
+        (return_statement (identifier))))))
