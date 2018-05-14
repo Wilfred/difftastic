@@ -137,7 +137,12 @@ module.exports = grammar({
     [$._type_pattern, $.strict_type],
     [$.strict_type],
     [$.promoted_type_constructor, $._type_pattern],
-    [$.promoted_type_constructor]
+    [$.promoted_type_constructor],
+
+    // These conflicts allow for top level function application (to support template haskell)
+    [$._a_pattern, $.constructor_pattern, $._a_expression],
+    [$._top_declaration, $.function_application],
+    [$._declaration, $._a_expression]
   ],
 
   rules: {
@@ -366,7 +371,7 @@ module.exports = grammar({
       $.foreign_export_declaration,
       $.standalone_deriving_declaration,
       $._declaration,
-      // prec.dynamic(-2, $.function_application)
+      prec.dynamic(-2, $.function_application)
     ),
 
     standalone_deriving_declaration: $ => seq(
@@ -1014,7 +1019,7 @@ module.exports = grammar({
       choice($._qualified_type_class_identifier, $._qualified_variable_identifier),
       alias($._type_pattern, $.instance),
       optional($.where),
-    ),
+    )),
 
     kind_function_type_instance: $ => seq(
       '(',
