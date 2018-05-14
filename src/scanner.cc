@@ -82,6 +82,7 @@ TokenType SIMPLE_TOKEN_TYPES[] = {
 };
 
 const char NON_IDENTIFIER_CHARS[] = {
+  '\0',
   '\n',
   '\r',
   '\t',
