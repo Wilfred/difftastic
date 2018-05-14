@@ -2073,6 +2073,10 @@
         {
           "type": "SYMBOL",
           "name": "auto"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "dependent_type"
         }
       ]
     },
@@ -4958,6 +4962,19 @@
       "type": "STRING",
       "value": "auto"
     },
+    "dependent_type": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "typename"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_type_specifier"
+        }
+      ]
+    },
     "structured_binding_declaration": {
       "type": "SEQ",
       "members": [
@@ -5156,17 +5173,21 @@
       ]
     },
     "type_parameter_declaration": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "typename"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_type_identifier"
-        }
-      ]
+      "type": "PREC",
+      "value": 1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "typename"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_type_identifier"
+          }
+        ]
+      }
     },
     "optional_type_parameter_declaration": {
       "type": "SEQ",
