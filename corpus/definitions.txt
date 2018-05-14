@@ -51,6 +51,34 @@ T::T() : f1(0), f2(1, 2) {
       (expression_statement (call_expression (identifier) (argument_list (string_literal)))))))
 
 =====================================
+Explicit constructor definitions
+=====================================
+
+class C {
+  explicit C(int f) : f_(f) {}
+
+ private:
+  int f_;
+};
+
+---
+
+(translation_unit
+  (class_specifier
+    (type_identifier)
+    (field_declaration_list
+      (function_definition
+        (type_qualifier)
+        (function_declarator
+          (identifier)
+          (parameter_list (parameter_declaration (primitive_type) (identifier))))
+        (field_initializer_list
+          (field_initializer (field_identifier) (argument_list (identifier))))
+        (compound_statement))
+      (access_specifier)
+        (field_declaration (primitive_type) (field_identifier)))))
+
+=====================================
 Destructor definitions
 =====================================
 
