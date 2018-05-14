@@ -50,7 +50,8 @@ module.exports = grammar(C, {
       $.class_specifier,
       $.scoped_type_identifier,
       $.template_type,
-      $.auto
+      $.auto,
+      $.dependent_type
     ),
 
     type_qualifier: ($, original) => choice(
@@ -122,6 +123,11 @@ module.exports = grammar(C, {
 
     auto: $ => 'auto',
 
+    dependent_type: $ => seq(
+      'typename',
+      $._type_specifier
+    ),
+
     // Declarations
 
     structured_binding_declaration: $ => seq(
@@ -165,10 +171,10 @@ module.exports = grammar(C, {
       '>'
     ),
 
-    type_parameter_declaration: $ => seq(
+    type_parameter_declaration: $ => prec(1, seq(
       'typename',
       $._type_identifier
-    ),
+    )),
 
     optional_type_parameter_declaration: $ => seq(
       'typename',

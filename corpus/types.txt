@@ -35,3 +35,27 @@ std::vector<int>::size_typ my_string;
         (template_argument_list (type_descriptor (primitive_type))))
       (type_identifier))
     (identifier)))
+
+==========================================
+Dependent type names
+==========================================
+
+template<typename T>
+struct X : B<T>
+{
+    typename T::A* pa;
+};
+
+---
+
+(translation_unit
+  (template_declaration
+    (template_parameter_list (type_parameter_declaration (type_identifier)))
+    (struct_specifier
+      (type_identifier)
+      (base_class_clause
+        (template_type (type_identifier) (template_argument_list (type_descriptor (type_identifier)))))
+      (field_declaration_list
+        (field_declaration
+          (dependent_type (scoped_type_identifier (namespace_identifier) (type_identifier)))
+          (pointer_declarator (field_identifier)))))))
