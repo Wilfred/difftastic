@@ -234,16 +234,20 @@ module A where
 Options GHC Pragmas Without Module
 =========================================
 
+{-# OPTIONS_GHC #-}
 {-# OPTIONS_GHC -fno-warn-orphans #-}
 {-# OPTIONS_GHC -fno-warn-orphans#-}
 {-# OPTIONS_GHC -Wno-redundant-constraints #-}
+{-# OPTIONS_GHC -fno-warn-orphans -funbox-strict-fields #-}
 
 ---
 
 (module
+  (options_ghc_pragma)
   (options_ghc_pragma (option))
   (options_ghc_pragma (option))
-  (options_ghc_pragma (option)))
+  (options_ghc_pragma (option))
+  (options_ghc_pragma (option) (option)))
 
 =========================================
 Options GHC Pragmas With Module
