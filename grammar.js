@@ -390,7 +390,7 @@ module.exports = grammar({
 
     type_synonym_declaration: $ => seq(
       'type',
-      $._simple_type,
+      choice($._simple_type, $.parenthesized_type_pattern),
       choice(
         $.type_signature,
         $.kind_signature,

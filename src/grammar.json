@@ -1234,8 +1234,17 @@
           "value": "type"
         },
         {
-          "type": "SYMBOL",
-          "name": "_simple_type"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_simple_type"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "parenthesized_type_pattern"
+            }
+          ]
         },
         {
           "type": "CHOICE",
@@ -4434,6 +4443,77 @@
         {
           "type": "STRING",
           "value": "."
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "REPEAT1",
+                  "content": {
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "SYMBOL",
+                        "name": "variable_identifier"
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "context_pattern"
+                      },
+                      {
+                        "type": "SEQ",
+                        "members": [
+                          {
+                            "type": "STRING",
+                            "value": "("
+                          },
+                          {
+                            "type": "SEQ",
+                            "members": [
+                              {
+                                "type": "SYMBOL",
+                                "name": "context_pattern"
+                              },
+                              {
+                                "type": "REPEAT",
+                                "content": {
+                                  "type": "SEQ",
+                                  "members": [
+                                    {
+                                      "type": "STRING",
+                                      "value": ","
+                                    },
+                                    {
+                                      "type": "SYMBOL",
+                                      "name": "context_pattern"
+                                    }
+                                  ]
+                                }
+                              }
+                            ]
+                          },
+                          {
+                            "type": "STRING",
+                            "value": ")"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                },
+                {
+                  "type": "STRING",
+                  "value": "=>"
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         }
       ]
     },
@@ -7281,6 +7361,16 @@
     [
       "_declaration",
       "_a_expression"
+    ],
+    [
+      "context_pattern"
+    ],
+    [
+      "scoped_type_variables",
+      "_qualified_variable_identifier"
+    ],
+    [
+      "scoped_type_variables"
     ]
   ],
   "externals": [

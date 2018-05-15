@@ -150,6 +150,26 @@ type Foo a b = forall a b. FooF a b
         (type_variable_identifier)))))
 
 =========================================
+Type Synonym Declarations With Parenthesized Type Pattern
+=========================================
+
+type (Member t r) = KnownNat (ElemIndex t r)
+
+---
+
+(module
+  (type_synonym_declaration
+    (parenthesized_type_pattern
+      (type_constructor_identifier)
+      (type_variable_identifier)
+      (type_variable_identifier))
+    (type_synonym_body
+      (type_pattern
+        (type_constructor_identifier)
+        (parenthesized_type_pattern
+          (type_constructor_identifier) (type_variable_identifier) (type_variable_identifier))))))
+
+=========================================
 New Type Declarations
 =========================================
 
