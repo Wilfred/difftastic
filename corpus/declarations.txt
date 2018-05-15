@@ -703,6 +703,7 @@ Type Signatures With Scoped Type Variables
 
 f :: forall a. [a] -> [a]
 f :: forall a b. (a, b) -> [a]
+apply :: proxy c -> (forall g . c g => g a -> b) -> Union fs a -> b
 
 ---
 
@@ -722,7 +723,24 @@ f :: forall a b. (a, b) -> [a]
       (type
         (tuple_type (type (type_variable_identifier)) (type (type_variable_identifier))))
       (type
-        (list_type (type (type_variable_identifier)))))))
+        (list_type (type (type_variable_identifier))))))
+  (type_signature
+    (variable_identifier)
+    (annotation)
+      (function_type
+        (type (type_variable_identifier) (type_variable_identifier))
+        (function_type
+          (type (parenthesized_type_pattern
+            (scoped_type_variables
+              (variable_identifier)
+              (context_pattern (type_variable_identifier))
+              (context_pattern (type_variable_identifier)))
+            (function_type
+              (type (type_variable_identifier) (type_variable_identifier))
+              (type (type_variable_identifier)))))
+          (function_type
+            (type (type_constructor_identifier) (type_variable_identifier) (type_variable_identifier))
+            (type (type_variable_identifier)))))))
 
 =========================================
 Type Signatures With Equality Constraints
@@ -760,8 +778,7 @@ sumCollects :: forall c1 c2. (B c1, B c2, E c1 ~ E c2) => c1 -> c2 -> c2
     (annotation)
     (scoped_type_variables
       (variable_identifier)
-      (variable_identifier))
-    (context
+      (variable_identifier)
       (context_pattern
         (class
           (type_class_identifier)
