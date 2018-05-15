@@ -1796,7 +1796,7 @@ module.exports = grammar({
     options_ghc_pragma: $ => seq(
       $._pragma_start,
       /OPTIONS_GHC/,
-      $.option,
+      repeat($.option),
       $._pragma_end
     ),
 

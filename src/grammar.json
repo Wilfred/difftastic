@@ -7779,8 +7779,11 @@
           "value": "OPTIONS_GHC"
         },
         {
-          "type": "SYMBOL",
-          "name": "option"
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "option"
+          }
         },
         {
           "type": "SYMBOL",
