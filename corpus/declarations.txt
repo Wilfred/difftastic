@@ -320,7 +320,7 @@ data N = N { a, b :: {-#  UNPACK #-} !Int, c :: String }
       (record_data_constructor
         (constructor_identifier)
         (fields
-          (field (variable_identifier) (variable_identifier) (annotation) (pragma) (strict_type (type_constructor_identifier)))
+          (field (variable_identifier) (variable_identifier) (annotation) (unpack_pragma) (strict_type (type_constructor_identifier)))
           (field (variable_identifier) (annotation) (type_constructor_identifier)))))))
 
 =========================================
