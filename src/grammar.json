@@ -4012,8 +4012,12 @@
               "name": "_type_pattern"
             },
             {
-              "type": "SYMBOL",
-              "name": "_kind_pattern"
+              "type": "PREC_DYNAMIC",
+              "value": -1,
+              "content": {
+                "type": "SYMBOL",
+                "name": "_kind_pattern"
+              }
             }
           ]
         },
@@ -4694,49 +4698,45 @@
       }
     },
     "parenthesized_type_pattern": {
-      "type": "PREC_RIGHT",
-      "value": 2,
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "STRING",
-            "value": "("
-          },
-          {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "scoped_type_variables"
-              },
-              {
-                "type": "BLANK"
-              }
-            ]
-          },
-          {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "context"
-              },
-              {
-                "type": "BLANK"
-              }
-            ]
-          },
-          {
-            "type": "SYMBOL",
-            "name": "_type_pattern"
-          },
-          {
-            "type": "STRING",
-            "value": ")"
-          }
-        ]
-      }
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "scoped_type_variables"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "context"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_type_pattern"
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
     },
     "_atype": {
       "type": "PREC_RIGHT",
@@ -7475,7 +7475,7 @@
                 },
                 {
                   "type": "SYMBOL",
-                  "name": "_simple_type"
+                  "name": "_type_pattern"
                 },
                 {
                   "type": "SYMBOL",
@@ -8914,10 +8914,6 @@
     ],
     [
       "scoped_type_variables"
-    ],
-    [
-      "scoped_type_variables",
-      "ReferenceError"
     ]
   ],
   "externals": [
