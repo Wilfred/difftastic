@@ -1108,20 +1108,10 @@ module.exports = grammar({
     scoped_type_variables: $ => seq(
       'forall',
       repeat1($.variable_identifier),
-      '.',
+      alias('.', ($.dot)),
       optional(
         seq(
-          repeat1(
-            choice(
-              $.variable_identifier,
-              $.context_pattern,
-              seq(
-                '(',
-                sep1(',', $.context_pattern),
-                ')'
-              )
-            )
-          ),
+          repeat1($.variable_identifier),
           '=>'
         )
       )
