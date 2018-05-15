@@ -271,6 +271,8 @@ k = l `M.n` o
 
 h = a <|> b
 
+i = a - b
+
 ---
 
 (module
@@ -345,6 +347,14 @@ h = a <|> b
         (infix_operator_application
           (variable_identifier)
           (variable_operator (variable_symbol))
+          (variable_identifier))))
+
+    (function_declaration
+      (variable_identifier)
+      (function_body
+        (infix_operator_application
+          (variable_identifier)
+          (variable_operator (variable_symbol))
           (variable_identifier))))))
 
 ===============================
@@ -407,6 +417,41 @@ f = \ g a b -> g <$> a <*> b
               (variable_identifier)
               (variable_operator (variable_symbol))
               (variable_identifier))))))))
+
+===============================
+Problematic Variable Symbols
+===============================
+
+f = (-)
+f = 1 - 1
+f = (-1)
+f = (-a)
+f = -(1)
+
+---
+
+(module
+  (function_declaration
+    (variable_identifier)
+    (function_body (variable_operator (variable_symbol))))
+  (function_declaration
+    (variable_identifier)
+    (function_body
+      (infix_operator_application
+        (integer)
+        (variable_operator (variable_symbol))
+        (integer))))
+  (function_declaration
+    (variable_identifier)
+    (function_body
+      (parenthesized_expression (prefix_negation (integer)))))
+  (function_declaration
+    (variable_identifier)
+    (function_body
+      (parenthesized_expression (prefix_negation (variable_identifier)))))
+  (function_declaration
+    (variable_identifier)
+    (function_body (prefix_negation (parenthesized_expression (integer))))))
 
 ===============================
 Partial Tuple Expressions
