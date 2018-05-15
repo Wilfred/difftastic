@@ -142,7 +142,12 @@ module.exports = grammar({
     // These conflicts allow for top level function application (to support template haskell)
     [$._a_pattern, $.constructor_pattern, $._a_expression],
     [$._top_declaration, $.function_application],
-    [$._declaration, $._a_expression]
+    [$._declaration, $._a_expression],
+
+    // These conflicts allow for contexts within scoped type variables (which are optional), while providing flexibility for non context patterns.
+    [$.context_pattern],
+    [$.scoped_type_variables, $._qualified_variable_identifier],
+    [$.scoped_type_variables]
   ],
 
   rules: {
@@ -1102,7 +1107,23 @@ module.exports = grammar({
     scoped_type_variables: $ => seq(
       'forall',
       repeat1($.variable_identifier),
-      '.'
+      '.',
+      optional(
+        seq(
+          repeat1(
+            choice(
+              $.variable_identifier,
+              $.context_pattern,
+              seq(
+                '(',
+                sep1(',', $.context_pattern),
+                ')'
+              )
+            )
+          ),
+          '=>'
+        )
+      )
     ),
 
     _type_pattern: $ => prec.left(choice(
