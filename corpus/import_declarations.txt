@@ -241,3 +241,18 @@ import qualified Data.List as DL hiding (head)
         (module_identifier))
       (hidden_import_spec
         (hidden_import (variable_identifier))))))
+
+=========================================
+Import Declaration With Primitive Constructor And Primitive Variable Identifiers
+=========================================
+
+import GHC.Prim (Proxy#, proxy#)
+
+---
+
+(module
+  (import_declaration
+    (qualified_module_identifier (module_identifier) (module_identifier))
+    (import_spec
+      (import (primitive_constructor_identifier))
+      (import (primitive_variable_identifier)))))

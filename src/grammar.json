@@ -6150,6 +6150,10 @@
         {
           "type": "SYMBOL",
           "name": "variable_identifier"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "primitive_variable_identifier"
         }
       ]
     },
@@ -6237,6 +6241,10 @@
     "primitive_constructor_identifier": {
       "type": "PATTERN",
       "value": "[A-Z]\\w*#"
+    },
+    "primitive_variable_identifier": {
+      "type": "PATTERN",
+      "value": "[_a-z]\\w*#"
     },
     "module_identifier": {
       "type": "PATTERN",

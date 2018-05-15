@@ -1482,7 +1482,8 @@ module.exports = grammar({
 
     _qualified_variable_identifier: $ => choice(
       $.qualified_variable_identifier,
-      $.variable_identifier
+      $.variable_identifier,
+      $.primitive_variable_identifier
     ),
 
     qualified_variable_identifier: $ => seq(
@@ -1514,6 +1515,8 @@ module.exports = grammar({
     _constructor_identifier: $ => /[A-Z](\w|')*/,
 
     primitive_constructor_identifier: $ => /[A-Z]\w*#/,
+
+    primitive_variable_identifier: $ => /[_a-z]\w*#/,
 
     module_identifier: $ => /[A-Z](\w|')*/,
 
