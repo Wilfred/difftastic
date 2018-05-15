@@ -1737,7 +1737,7 @@ module.exports = grammar({
         ),
         seq(
           alias('type', $.type),
-          $._simple_type,
+          $._type_pattern,
           $._expression
         ),
         seq(
