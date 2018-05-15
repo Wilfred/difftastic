@@ -24,7 +24,6 @@ const
 
   PREC = {
     FUNCTION_DECLARATION: 3,
-    PARENTHESIZED_TYPE_PATTERN: 2,
     NEGATIVE_LITERAL: 1,
     TUPLE_INSTANCE: 1,
     LIST_INSTANCE: 1,
@@ -1140,13 +1139,13 @@ module.exports = grammar({
       )
     )),
 
-    parenthesized_type_pattern: $ => prec.right(PREC.PARENTHESIZED_TYPE_PATTERN, seq(
+    parenthesized_type_pattern: $ => seq(
       '(',
       optional($.scoped_type_variables),
       optional($.context),
       $._type_pattern,
       ')'
-    )),
+    ),
 
     _atype: $ => prec.right(choice(
       $._general_type_constructor,
