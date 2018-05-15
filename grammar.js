@@ -229,6 +229,7 @@ module.exports = grammar({
     export: $ => seq(
       optional(alias('type', $.type)),
       choice(
+        $.module_export,
         $._variable,
         $._qualified_constructor,
         seq(

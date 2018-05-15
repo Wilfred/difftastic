@@ -421,6 +421,10 @@
           "members": [
             {
               "type": "SYMBOL",
+              "name": "module_export"
+            },
+            {
+              "type": "SYMBOL",
               "name": "_variable"
             },
             {
