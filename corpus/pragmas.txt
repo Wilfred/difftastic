@@ -9,7 +9,7 @@ factorial n = n * factorial (n-1)
 
 a = b
 {-# INLINE CONLIKE [1] a #-}
-{-# INLINE [~2] a #-}
+{-#INLINE [~2] a#-}
 
 ---
 
@@ -184,23 +184,22 @@ instance (Eq a) => Eq (Foo a) where {
         (type (type_constructor_identifier)))))
 
   (type_class_instance_declaration
-    (scontext
-      (simple_class (type_class_identifier) (type_variable_identifier)))
-      (type_class_identifier)
-      (instance
-        (parenthesized_type_pattern (type_constructor_identifier) (type_variable_identifier)))
-        (where
-          (specialization_pragma
-            (instance_spec
-              (type_class_identifier)
-              (parenthesized_pattern
-                (constructor_pattern
-                  (constructor_identifier)
-                  (list_pattern
-                    (pattern
-                      (tuple_pattern
-                        (pattern (constructor_identifier))
-                        (pattern (constructor_identifier))))))))))))
+    (context (context_pattern (class (type_class_identifier) (type_variable_identifier))))
+    (type_class_identifier)
+    (instance
+      (parenthesized_type_pattern (type_constructor_identifier) (type_variable_identifier)))
+      (where
+        (specialization_pragma
+          (instance_spec
+            (type_class_identifier)
+            (parenthesized_pattern
+              (constructor_pattern
+                (constructor_identifier)
+                (list_pattern
+                  (pattern
+                    (tuple_pattern
+                      (pattern (constructor_identifier))
+                      (pattern (constructor_identifier))))))))))))
 
 =========================================
 Language Pragmas Without Module
@@ -556,7 +555,7 @@ data T = T {-# NOUNPACK #-} !(Int, Int)
       (data_constructor
         (constructor_identifier)
         (no_unpack_pragma)
-        (strict_type (tuple_type (type_constructor_identifier) (type_constructor_identifier)))))))
+        (strict_type (tuple_type (type (type_constructor_identifier)) (type (type_constructor_identifier))))))))
 
 =========================================
 Complete Pragmas
@@ -665,7 +664,7 @@ instance {-# OVERLAPPING #-} C Int [Int] where {}
     (overlapping_pragma)
     (type_class_identifier)
     (instance
-      (type_constructor_identifier) (list_instance (type_constructor_identifier)))
+      (type_constructor_identifier) (list_type (type (type_constructor_identifier))))
     (where)))
 
 =========================================
@@ -679,7 +678,7 @@ instance {-# OVERLAPPABLE #-} Show a => C a Bool where {}
 (module
   (type_class_instance_declaration
     (overlappable_pragma)
-    (scontext (simple_class (type_class_identifier) (type_variable_identifier)))
+    (context (context_pattern (class (type_class_identifier) (type_variable_identifier))))
     (type_class_identifier)
     (instance
       (type_variable_identifier)
@@ -697,7 +696,7 @@ instance {-# OVERLAPS #-} Show a => C a Bool where {}
 (module
   (type_class_instance_declaration
     (overlaps_pragma)
-    (scontext (simple_class (type_class_identifier) (type_variable_identifier)))
+    (context (context_pattern (class (type_class_identifier) (type_variable_identifier))))
     (type_class_identifier)
     (instance
       (type_variable_identifier)
@@ -715,12 +714,13 @@ instance {-# INCOHERENT #-} (Show a, Show b) => C a [b] where {}
 (module
   (type_class_instance_declaration
     (incoherent_pragma)
-    (scontext (simple_class (type_class_identifier) (type_variable_identifier))
-    (simple_class (type_class_identifier) (type_variable_identifier)))
+    (context
+      (context_pattern (class (type_class_identifier) (type_variable_identifier)))
+      (context_pattern (class (type_class_identifier) (type_variable_identifier))))
     (type_class_identifier)
     (instance
       (type_variable_identifier)
-      (list_instance (type_variable_identifier)))
+      (list_type (type (type_variable_identifier))))
     (where)))
 
 =========================================

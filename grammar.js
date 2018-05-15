@@ -69,7 +69,6 @@ module.exports = grammar({
 
   extras: $ => [
     $.comment,
-    $.pragma,
     /\s|\\n/
   ],
 
@@ -153,15 +152,15 @@ module.exports = grammar({
   rules: {
     module: $ => choice(
       seq(
-        // repeat($._file_header_pragma),
+        repeat($._file_header_pragma),
         'module',
         $._qualified_module_identifier,
-        // optional(choice($.warning_pragma, $.deprecated_pragma)),
+        optional(choice($.warning_pragma, $.deprecated_pragma)),
         optional($.module_exports),
         alias($._top_where, $.where)
       ),
       seq(
-        // repeat($._file_header_pragma),
+        repeat($._file_header_pragma),
         $._initialize_layout,
         repeat(seq($._top_declaration, choice($._terminal, $._layout_semicolon)))
       )
@@ -272,7 +271,7 @@ module.exports = grammar({
 
     import_declaration: $ => seq(
       'import',
-      // optional($.source_pragma),
+      optional($.source_pragma),
       $._import_declaration
     ),
 
@@ -340,7 +339,7 @@ module.exports = grammar({
     _declaration: $ => choice(
       $._general_declaration,
       $.function_declaration,
-      // $._pragma,
+      $._pragma,
       $.quasi_quotation,
       $.type_family_declaration,
       $.pattern_type_signature,
@@ -383,12 +382,12 @@ module.exports = grammar({
     standalone_deriving_declaration: $ => seq(
       'deriving',
       'instance',
-      // optional(choice(
-      //   $.overlaps_pragma,
-      //   $.overlapping_pragma,
-      //   $.overlappable_pragma,
-      //   $.incoherent_pragma
-      // )),
+      optional(choice(
+        $.overlaps_pragma,
+        $.overlapping_pragma,
+        $.overlappable_pragma,
+        $.incoherent_pragma
+      )),
       optional($.context),
       choice($._qualified_type_class_identifier, $._qualified_variable_identifier),
       alias($._type_pattern, $.instance)
@@ -1014,12 +1013,12 @@ module.exports = grammar({
 
     type_class_instance_declaration: $ => prec(PREC.INSTANCE_DECLARATION, seq(
       'instance',
-      // optional(choice(
-        // $.overlaps_pragma,
-        // $.overlapping_pragma,
-        // $.overlappable_pragma,
-        // $.incoherent_pragma
-      // )),
+      optional(choice(
+        $.overlaps_pragma,
+        $.overlapping_pragma,
+        $.overlappable_pragma,
+        $.incoherent_pragma
+      )),
       optional($.scoped_type_variables),
       optional($.context),
       choice($._qualified_type_class_identifier, $._qualified_variable_identifier),
@@ -1337,12 +1336,12 @@ module.exports = grammar({
       $._qualified_constructor,
       repeat(
         seq(
-          // optional(
-          //   choice(
-          //     $.unpack_pragma,
-          //     $.no_unpack_pragma
-          //   )
-          // ),
+          optional(
+            choice(
+              $.unpack_pragma,
+              $.no_unpack_pragma
+            )
+          ),
           choice(
             $.strict_type,
             $._atype
@@ -1404,7 +1403,7 @@ module.exports = grammar({
     field: $ => prec.left(seq(
       sep1(',', $._variable),
       alias('::', $.annotation),
-      // optional($._pragma),
+      optional($._pragma),
       choice(
         $.strict_type,
         $._type_pattern
@@ -1420,6 +1419,16 @@ module.exports = grammar({
 
     _variable: $ => choice(
       $._qualified_variable_identifier,
+      seq(
+        '(',
+        $._qualified_variable_operator,
+        ')'
+      )
+    ),
+
+    _variable_without_primitive_identifier: $ => choice(
+      $.qualified_variable_identifier,
+      $.variable_identifier,
       seq(
         '(',
         $._qualified_variable_operator,
@@ -1614,18 +1623,6 @@ module.exports = grammar({
       )
     )),
 
-    pragma: $ => token(
-      choice(
-        /{-#.*#-}/,
-        seq(
-          '{-#',
-          repeat(choice(
-            /[^#]/,
-            /#[^-]/,
-            /#\-[^}]/,
-          )),
-          '#-}'
-        )
       )
     ),
 
@@ -1682,323 +1679,303 @@ module.exports = grammar({
     quasi_quotation_expression: $ => seq(
       repeat(/[^|]/),
       /.*\|\s*\]/
-    )
+    ),
 
     // TODO: restore at a later date (commenting out for improving generation / compile times)
-    // _file_header_pragma: $ => choice(
-    //   $.include_pragma,
-    //   $.language_pragma,
-    //   $.options_ghc_pragma
-    // ),
-    //
-    // _pragma_start: $ => token(seq("{-#")),
-    //
-    // _pragma_end: $ => token(seq("#-}")),
-    //
-    // _pragma: $ => choice(
-    //   $.annotation_pragma,
-    //   $.inline_pragma,
-    //   $.inlinable_pragma,
-    //   $.no_inline_pragma,
-    //   $.specialization_pragma,
-    //   $.source_pragma,
-    //   $.warning_pragma,
-    //   $.deprecated_pragma,
-    //   $.line_pragma,
-    //   $.column_pragma,
-    //   $.minimal_pragma,
-    //   $.unpack_pragma,
-    //   $.no_unpack_pragma,
-    //   $.complete_pragma,
-    //   $.overlapping_pragma,
-    //   $.overlappable_pragma,
-    //   $.overlaps_pragma,
-    //   $.incoherent_pragma,
-    //   $.rules_pragma
-    // ),
-    //
-    // annotation_pragma: $ => seq(
-    //   $._pragma_start,
-    //   /ANN/,
-    //   choice(
-    //     seq(
-    //       alias('module', $.module),
-    //       $._expression
-    //     ),
-    //     seq(
-    //       alias('type', $.type),
-    //       $._simple_type,
-    //       $._expression
-    //     ),
-    //     seq(
-    //       $._qualified_variable_identifier,
-    //       choice(
-    //         $._expression,
-    //         $._pattern
-    //       )
-    //     )
-    //   ),
-    //   $._pragma_end
-    // ),
-    //
-    // inline_pragma: $ => seq(
-    //   $._pragma_start,
-    //   /INLINE/,
-    //   optional(alias('CONLIKE', $.constructor_like)),
-    //   optional(choice($.phase_control, $.eager_phase_control)),
-    //   $._variable,
-    //   $._pragma_end
-    // ),
-    //
-    // inlinable_pragma: $ => seq(
-    //   $._pragma_start,
-    //   /INLINEABLE|INLINABLE/,
-    //   optional(choice($.phase_control, $.eager_phase_control)),
-    //   $._variable,
-    //   $._pragma_end
-    // ),
-    //
-    // no_inline_pragma: $ => seq(
-    //   $._pragma_start,
-    //   /NOINLINE/,
-    //   optional(alias('CONLIKE', $.constructor_like)),
-    //   optional(choice($.phase_control, $.eager_phase_control)),
-    //   $._variable,
-    //   $._pragma_end
-    // ),
-    //
-    // specialization_pragma: $ => seq(
-    //   $._pragma_start,
-    //   /SPECIALIZE|SPECIALISE/,
-    //   optional(
-    //     choice(
-    //       alias('INLINE', $.inline),
-    //       alias('NOINLINE', $.noinline)
-    //     )
-    //   ),
-    //   optional($.phase_control),
-    //   choice(
-    //     sep1(',', $.spec),
-    //     $.instance_spec
-    //   ),
-    //   $._pragma_end
-    // ),
-    //
-    // options_ghc_pragma: $ => seq(
-    //   $._pragma_start,
-    //   /OPTIONS_GHC/,
-    //   $.option,
-    //   $._pragma_end
-    // ),
-    //
-    // source_pragma: $ => seq(
-    //   $._pragma_start,
-    //   /SOURCE/,
-    //   $._pragma_end
-    // ),
-    //
-    // include_pragma: $ => seq(
-    //   $._pragma_start,
-    //   /INCLUDE/,
-    //   $.header_file,
-    //   $._pragma_end
-    // ),
-    //
-    // warning_pragma: $ => seq(
-    //   $._pragma_start,
-    //   /WARNING/,
-    //   optional(sep1(',', $.variable_identifier)),
-    //   choice(
-    //     alias($.string, $.warning_message),
-    //     $.warning_message_list
-    //   ),
-    //   $._pragma_end
-    // ),
-    //
-    // deprecated_pragma: $ => seq(
-    //   $._pragma_start,
-    //   /DEPRECATED/,
-    //   optional(sep1(',', $.variable_identifier)),
-    //   choice(
-    //     alias($.string, $.deprecated_message),
-    //     $.deprecated_message_list
-    //   ),
-    //   $._pragma_end
-    // ),
-    //
-    // deprecated_message_list: $ => seq(
-    //   '[',
-    //   sep1(',', alias($.string, $.deprecated_message)),
-    //   ']'
-    // ),
-    //
-    // warning_message_list: $ => seq(
-    //   '[',
-    //   sep1(',', alias($.string, $.warning_message)),
-    //   ']'
-    // ),
-    //
-    // line_pragma: $ => seq(
-    //   $._pragma_start,
-    //   /LINE/,
-    //   alias($.integer, $.line_number),
-    //   alias($.string, $.file_name),
-    //   $._pragma_end
-    // ),
-    //
-    // column_pragma: $ => seq(
-    //   $._pragma_start,
-    //   /COLUMN/,
-    //   alias($.integer, $.column_number),
-    //   $._pragma_end
-    // ),
-    //
-    // minimal_pragma: $ => seq(
-    //   $._pragma_start,
-    //   /MINIMAL/,
-    //   repeat(
-    //     choice(
-    //       $._variable,
-    //       $._qualified_constructor,
-    //       $.conjunction,
-    //       $.disjunction
-    //     )
-    //   ),
-    //   $._pragma_end
-    // ),
-    //
-    // unpack_pragma: $ => seq(
-    //   $._pragma_start,
-    //   /UNPACK/,
-    //   $._pragma_end
-    // ),
-    //
-    // no_unpack_pragma: $ => seq(
-    //   $._pragma_start,
-    //   /NOUNPACK/,
-    //   $._pragma_end
-    // ),
-    //
-    // complete_pragma: $ => seq(
-    //   $._pragma_start,
-    //   /COMPLETE/,
-    //   sep1(',', $._a_expression),
-    //   $._pragma_end
-    // ),
-    //
-    // overlapping_pragma: $ => seq(
-    //   $._pragma_start,
-    //   /OVERLAPPING/,
-    //   $._pragma_end
-    // ),
-    //
-    // overlappable_pragma: $ => seq(
-    //   $._pragma_start,
-    //   /OVERLAPPABLE/,
-    //   $._pragma_end
-    // ),
-    //
-    // overlaps_pragma: $ => seq(
-    //   $._pragma_start,
-    //   /OVERLAPS/,
-    //   $._pragma_end
-    // ),
-    //
-    // incoherent_pragma: $ => seq(
-    //   $._pragma_start,
-    //   /INCOHERENT/,
-    //   $._pragma_end
-    // ),
-    //
-    // rules_pragma: $ => seq(
-    //   $._pragma_start,
-    //   /RULES/,
-    //   $._layout_open_brace,
-    //   repeat(seq($.rule, choice($._terminal, $._layout_semicolon))),
-    //   $._layout_close_brace,
-    //   $._pragma_end
-    // ),
-    //
-    // rule: $ => seq(
-    //   alias($.string, $.name),
-    //   optional($.phase_control),
-    //   $.rule_pattern_variables,
-    //   alias($._expression, $.rule_lhs),
-    //   '=',
-    //   alias($._expression, $.rule_rhs)
-    // ),
-    //
-    // rule_pattern_variables: $ => seq(
-    //   'forall',
-    //   repeat1(
-    //     choice(
-    //       alias($.variable_identifier, $.pattern_variable),
-    //       $.pattern_variable_type_signature
-    //     )
-    //   ),
-    //   '.'
-    // ),
-    //
-    // pattern_variable_type_signature: $ => seq(
-    //   optional('('),
-    //   alias($.variable_identifier, $.pattern_variable),
-    //   alias('::', $.annotation),
-    //   optional($.rule_pattern_variables),
-    //   $._type_pattern,
-    //   optional(')')
-    // ),
-    //
-    // // In this context, conjunction means both sides are required (AND).
-    // conjunction: $ => prec.left(PREC.CONJUNCTION, seq(
-    //   choice($._variable, $._qualified_constructor),
-    //   ',',
-    //   sep1(',', choice($._variable, $._qualified_constructor))
-    // )),
-    //
-    // // In this context, disjunction means only one side is required (OR).
-    // disjunction: $ => prec.left(PREC.DISJUNCTION, seq(
-    //   choice($._variable, $._qualified_constructor, $.conjunction),
-    //   '|',
-    //   sep1('|', choice($._variable, $._qualified_constructor, $.conjunction))
-    // )),
-    //
-    // phase_control: $ => seq(
-    //   '[',
-    //   $.integer,
-    //   ']'
-    // ),
-    //
-    // eager_phase_control: $ => seq(
-    //   '[',
-    //   '~',
-    //   $.integer,
-    //   ']'
-    // ),
-    //
-    // header_file: $ => /("|<)[a-z].*\.h("|>)/,
-    //
-    // option: $ => /\-(\w|\-)*/,
-    //
-    // spec: $ => seq(
-    //   sep1(',', $._variable),
-    //   alias('::', $.annotation),
-    //   $._type_pattern
-    // ),
-    //
-    // instance_spec: $ => seq(
-    //   'instance',
-    //   $._qualified_type_class_identifier,
-    //   $._a_pattern
-    // ),
-    //
-    // language_pragma: $ => seq(
-    //   $._pragma_start,
-    //   /LANGUAGE/,
-    //   sep1(',', $.language_name),
-    //   $._pragma_end
-    // ),
-    //
-    // language_name: $ => /[A-Z](\w|')*/,
+    _file_header_pragma: $ => choice(
+      $.include_pragma,
+      $.language_pragma,
+      $.options_ghc_pragma
+    ),
+
+    _pragma_start: $ => prec(3, token(seq("{-#"))),
+
+    _pragma_end: $ => prec(3, token(seq("#-}"))),
+
+    _pragma: $ => choice(
+      $.annotation_pragma,
+      $.inline_pragma,
+      $.inlinable_pragma,
+      $.no_inline_pragma,
+      $.specialization_pragma,
+      $.source_pragma,
+      $.warning_pragma,
+      $.deprecated_pragma,
+      $.line_pragma,
+      $.column_pragma,
+      $.minimal_pragma,
+      $.unpack_pragma,
+      $.no_unpack_pragma,
+      $.complete_pragma,
+      $.overlapping_pragma,
+      $.overlappable_pragma,
+      $.overlaps_pragma,
+      $.incoherent_pragma,
+      $.rules_pragma
+    ),
+
+    annotation_pragma: $ => seq(
+      $._pragma_start,
+      /ANN/,
+      choice(
+        seq(
+          alias('module', $.module),
+          $._expression
+        ),
+        seq(
+          alias('type', $.type),
+          $._simple_type,
+          $._expression
+        ),
+        seq(
+          $._qualified_variable_identifier,
+          choice(
+            $._expression,
+            $._pattern
+          )
+        )
+      ),
+      $._pragma_end
+    ),
+
+    inline_pragma: $ => seq(
+      $._pragma_start,
+      'INLINE',
+      optional(alias('CONLIKE', $.constructor_like)),
+      optional(choice($.phase_control, $.eager_phase_control)),
+      $._variable_without_primitive_identifier,
+      $._pragma_end
+    ),
+
+    inlinable_pragma: $ => seq(
+      $._pragma_start,
+      /INLINEABLE|INLINABLE/,
+      optional(choice($.phase_control, $.eager_phase_control)),
+      $._variable_without_primitive_identifier,
+      $._pragma_end
+    ),
+
+    no_inline_pragma: $ => seq(
+      $._pragma_start,
+      /NOINLINE/,
+      optional(alias('CONLIKE', $.constructor_like)),
+      optional(choice($.phase_control, $.eager_phase_control)),
+      $._variable_without_primitive_identifier,
+      $._pragma_end
+    ),
+
+    specialization_pragma: $ => seq(
+      $._pragma_start,
+      /SPECIALIZE|SPECIALISE/,
+      optional(
+        choice(
+          alias('INLINE', $.inline),
+          alias('NOINLINE', $.noinline)
+        )
+      ),
+      optional($.phase_control),
+      choice(
+        sep1(',', $.spec),
+        $.instance_spec
+      ),
+      $._pragma_end
+    ),
+
+    options_ghc_pragma: $ => seq(
+      $._pragma_start,
+      /OPTIONS_GHC/,
+      $.option,
+      $._pragma_end
+    ),
+
+    source_pragma: $ => seq(
+      $._pragma_start,
+      /SOURCE/,
+      $._pragma_end
+    ),
+
+    include_pragma: $ => seq(
+      $._pragma_start,
+      /INCLUDE/,
+      $.header_file,
+      $._pragma_end
+    ),
+
+    warning_pragma: $ => seq(
+      $._pragma_start,
+      /WARNING/,
+      optional(sep1(',', $.variable_identifier)),
+      choice(
+        alias($.string, $.warning_message),
+        $.warning_message_list
+      ),
+      $._pragma_end
+    ),
+
+    deprecated_pragma: $ => seq(
+      $._pragma_start,
+      /DEPRECATED/,
+      optional(sep1(',', $.variable_identifier)),
+      choice(
+        alias($.string, $.deprecated_message),
+        $.deprecated_message_list
+      ),
+      $._pragma_end
+    ),
+
+    deprecated_message_list: $ => seq(
+      '[',
+      sep1(',', alias($.string, $.deprecated_message)),
+      ']'
+    ),
+
+    warning_message_list: $ => seq(
+      '[',
+      sep1(',', alias($.string, $.warning_message)),
+      ']'
+    ),
+
+    line_pragma: $ => seq(
+      $._pragma_start,
+      /LINE/,
+      alias($.integer, $.line_number),
+      alias($.string, $.file_name),
+      $._pragma_end
+    ),
+
+    column_pragma: $ => seq(
+      $._pragma_start,
+      /COLUMN/,
+      alias($.integer, $.column_number),
+      $._pragma_end
+    ),
+
+    minimal_pragma: $ => seq(
+      $._pragma_start,
+      /MINIMAL/,
+      repeat(
+        choice(
+          $._variable_without_primitive_identifier,
+          $._qualified_constructor,
+          $.conjunction,
+          $.disjunction
+        )
+      ),
+      $._pragma_end
+    ),
+
+    unpack_pragma: $ => seq(
+      $._pragma_start,
+      /UNPACK/,
+      $._pragma_end
+    ),
+
+    no_unpack_pragma: $ => seq(
+      $._pragma_start,
+      /NOUNPACK/,
+      $._pragma_end
+    ),
+
+    complete_pragma: $ => seq(
+      $._pragma_start,
+      /COMPLETE/,
+      sep1(',', $._a_expression),
+      $._pragma_end
+    ),
+
+    overlapping_pragma: $ => seq(
+      $._pragma_start,
+      /OVERLAPPING/,
+      $._pragma_end
+    ),
+
+    overlappable_pragma: $ => seq(
+      $._pragma_start,
+      /OVERLAPPABLE/,
+      $._pragma_end
+    ),
+
+    overlaps_pragma: $ => seq(
+      $._pragma_start,
+      /OVERLAPS/,
+      $._pragma_end
+    ),
+
+    incoherent_pragma: $ => seq(
+      $._pragma_start,
+      /INCOHERENT/,
+      $._pragma_end
+    ),
+
+    rules_pragma: $ => seq(
+      $._pragma_start,
+      /RULES/,
+      $._layout_open_brace,
+      repeat(seq($.rule, choice($._terminal, $._layout_semicolon))),
+      $._layout_close_brace,
+      $._pragma_end
+    ),
+
+    rule: $ => seq(
+      alias($.string, $.name),
+      optional($.phase_control),
+      $.scoped_type_variables,
+      alias($._expression, $.rule_lhs),
+      '=',
+      alias($._expression, $.rule_rhs)
+    ),
+
+    // In this context, conjunction means both sides are required (AND).
+    conjunction: $ => prec.left(PREC.CONJUNCTION, seq(
+      choice($._variable, $._qualified_constructor),
+      ',',
+      sep1(',', choice($._variable, $._qualified_constructor))
+    )),
+
+    // In this context, disjunction means only one side is required (OR).
+    disjunction: $ => prec.left(PREC.DISJUNCTION, seq(
+      choice($._variable, $._qualified_constructor, $.conjunction),
+      '|',
+      sep1('|', choice($._variable, $._qualified_constructor, $.conjunction))
+    )),
+
+    phase_control: $ => seq(
+      '[',
+      $.integer,
+      ']'
+    ),
+
+    eager_phase_control: $ => seq(
+      '[',
+      '~',
+      $.integer,
+      ']'
+    ),
+
+    header_file: $ => /("|<)[a-z].*\.h("|>)/,
+
+    option: $ => /\-(\w|\-)*/,
+
+    spec: $ => seq(
+      sep1(',', $._variable),
+      alias('::', $.annotation),
+      $._type_pattern
+    ),
+
+    instance_spec: $ => seq(
+      'instance',
+      $._qualified_type_class_identifier,
+      $._a_pattern
+    ),
+
+    language_pragma: $ => seq(
+      $._pragma_start,
+      /LANGUAGE/,
+      sep1(',', $.language_name),
+      $._pragma_end
+    ),
+
+    language_name: $ => /[A-Z](\w|')*/,
 
   }
 })
