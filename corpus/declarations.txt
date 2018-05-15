@@ -143,7 +143,7 @@ type Foo a b = forall a b. FooF a b
     (type_variable_identifier)
     (type_variable_identifier)
     (type_synonym_body
-      (scoped_type_variables (variable_identifier) (variable_identifier) (dot))
+      (scoped_type_variables (type_variable_identifier) (type_variable_identifier) (dot))
       (type_pattern
         (type_constructor_identifier)
         (type_variable_identifier)
@@ -443,7 +443,7 @@ data SomeNumber = forall a . SomeNumber (Number a)
 (module
   (algebraic_datatype_declaration
     (type_constructor_identifier)
-    (scoped_type_variables (variable_identifier) (dot))
+    (scoped_type_variables (type_variable_identifier) (dot))
     (constructors
       (data_constructor
         (constructor_identifier)
@@ -711,14 +711,14 @@ apply :: proxy c -> (forall g . c g => g a -> b) -> Union fs a -> b
   (type_signature
     (variable_identifier)
     (annotation)
-    (scoped_type_variables (variable_identifier) (dot))
+    (scoped_type_variables (type_variable_identifier) (dot))
     (function_type
       (type (list_type (type (type_variable_identifier))))
       (type (list_type (type (type_variable_identifier))))))
   (type_signature
     (variable_identifier)
     (annotation)
-    (scoped_type_variables (variable_identifier) (variable_identifier) (dot))
+    (scoped_type_variables (type_variable_identifier) (type_variable_identifier) (dot))
     (function_type
       (type
         (tuple_type (type (type_variable_identifier)) (type (type_variable_identifier))))
@@ -733,7 +733,7 @@ apply :: proxy c -> (forall g . c g => g a -> b) -> Union fs a -> b
           (type
             (parenthesized_type_pattern
               (scoped_type_variables
-                (variable_identifier)
+                (type_variable_identifier)
                 (dot)
                 (variable_identifier)
                 (variable_identifier))
@@ -779,8 +779,8 @@ sumCollects :: forall c1 c2. (B c1, B c2, E c1 ~ E c2) => c1 -> c2 -> c2
     (variable_identifier)
     (annotation)
     (scoped_type_variables
-      (variable_identifier)
-      (variable_identifier)
+      (type_variable_identifier)
+      (type_variable_identifier)
       (dot))
     (context
       (context_pattern

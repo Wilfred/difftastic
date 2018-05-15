@@ -589,9 +589,9 @@ instance forall location a b. (Show a, Monad b) => MonadError (Value a) m where
 (module
   (type_class_instance_declaration
     (scoped_type_variables
-      (variable_identifier)
-      (variable_identifier)
-      (variable_identifier)
+      (type_variable_identifier)
+      (type_variable_identifier)
+      (type_variable_identifier)
       (dot))
       (context
         (context_pattern (class (type_class_identifier) (type_variable_identifier)))

@@ -743,7 +743,7 @@ module A where
       (rule
         (name)
         (phase_control (integer))
-        (rule_pattern_variables (pattern_variable) (pattern_variable) (pattern_variable))
+        (scoped_type_variables (type_variable_identifier) (type_variable_identifier) (type_variable_identifier) (dot))
         (rule_lhs
           (function_application
             (function_application
@@ -768,25 +768,27 @@ module A where
 
       (rule
         (name)
-        (rule_pattern_variables
-          (pattern_variable)
-          (pattern_variable)
-          (pattern_variable_type_signature
-            (pattern_variable)
+        (scoped_type_variables
+          (type_variable_identifier)
+          (type_variable_identifier)
+          (annotated_type_variable
+            (type_variable_identifier)
             (annotation)
-            (rule_pattern_variables
-              (pattern_variable))
-              (function_type
-                (type
-                  (parenthesized_type_pattern
+            (function_type
+              (type
+                (scoped_type_variables
+                  (type_variable_identifier)
+                  (dot))
+                (parenthesized_type_pattern
+                  (function_type
+                    (type (type_variable_identifier))
                     (function_type
                       (type (type_variable_identifier))
-                      (function_type
-                        (type (type_variable_identifier))
-                        (type (type_variable_identifier))))))
-                (function_type
-                  (type (type_variable_identifier))
-                  (type (type_variable_identifier))))))
+                      (type (type_variable_identifier))))))
+              (function_type
+                (type (type_variable_identifier))
+                (type (type_variable_identifier)))))
+          (dot))
         (rule_lhs
           (function_application
             (function_application
