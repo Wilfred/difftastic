@@ -225,7 +225,7 @@ module.exports = grammar({
       optional(alias('type', $.type)),
       choice(
         $._variable,
-        $.module_export,
+        $._qualified_constructor,
         seq(
           $._qualified_type_constructor_identifier,
           optional(choice(

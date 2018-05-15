@@ -6204,6 +6204,15 @@
       "type": "CHOICE",
       "members": [
         {
+          "type": "ALIAS",
+          "content": {
+            "type": "STRING",
+            "value": "-"
+          },
+          "named": true,
+          "value": "variable_symbol"
+        },
+        {
           "type": "SYMBOL",
           "name": "variable_symbol"
         },
