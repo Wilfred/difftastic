@@ -1007,7 +1007,7 @@ module.exports = grammar({
       alias('::', $.annotation),
       choice(
         $._type_pattern,
-        $._kind_pattern
+        prec.dynamic(-1, $._kind_pattern)
       ),
       ')'
     ),
