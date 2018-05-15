@@ -642,7 +642,7 @@ module.exports = grammar({
       repeat1($._a_pattern)
     ),
 
-    prefix_negation: $ => prec.left(seq(
+    prefix_negation: $ => prec(2, seq(
       '-',
       $._infix_expression
     )),
@@ -1503,6 +1503,7 @@ module.exports = grammar({
     ),
 
     variable_operator: $ => choice(
+      alias('-', $.variable_symbol),
       $.variable_symbol,
       $.infix_variable_identifier,
       $.qualified_infix_variable_identifier
