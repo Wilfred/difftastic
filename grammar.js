@@ -69,6 +69,7 @@ module.exports = grammar({
 
   extras: $ => [
     $.comment,
+    $.cpp,
     /\s|\\n/
   ],
 
@@ -1623,6 +1624,18 @@ module.exports = grammar({
       )
     )),
 
+    cpp: $ => token(
+      seq(
+        '#ifdef',
+        repeat(choice(
+          /[^#]/,
+          /#[^e]/,
+          /#e[^n]/,
+          /#en[^d]/,
+          /#end[^i]/,
+          /#endi[^f]/,
+        )),
+        /#endif/
       )
     ),
 
