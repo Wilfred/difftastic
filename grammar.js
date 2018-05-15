@@ -1567,18 +1567,22 @@ module.exports = grammar({
     )),
 
     variable_symbol: $ => token(choice(
-      /=>[!#$%&⋆*+\./<=>?@\\\^|\-~:]+/,   // prevents matching `=>`
-      /\.\.[!#$%&⋆*+\./<=>?@\\\^|\-~:]+/, // prevents matching `..`
-      /\\[!#$%&⋆*+\./<=>?@\\\^|\-~:]+/,   // prevents matching `\`
-      /\|[!#$%&⋆*+\./<=>?@\\\^|\-~:]+/,   // prevents matching `|`
-      /<\-[!#$%&⋆*+\./<=>?@\\^|\-~:]+/,   // prevents matching `<-`
-      /->[!#$%&⋆*+\./<=>?@\\\^|\-~:]+/,   // prevents matching `->`
-      /@[!#$%&⋆*+\./<=>?@\\\^|\-~:]+/,    // prevents matching `@`
-      /~[!#$%&⋆*+\./<=>?@\\\^|\-~:]+/,    // prevents matching `~`
-      /\./,                               // matches composition operator `.`
-      /=[!#$%&⋆*+\./<=?@\\\^|\-~:]+[!#$%&⋆*+\./<=>?@\\^|\-~:]?/, // prevents matching `=`
-      /[!#$%&⋆*+/<>?\^\-]+[!#$%&⋆*+\./<=>?@\\^|\-~:]*/,          // matches variable symbols
-      /\.[!#$%&⋆*+/<=>?@\\\^|\-~:]+[!#$%&⋆*+\./<=?@\\\^|\-~:]*/, // prevents matching `..`
+      /=>[!#$%&⋆*+\./<=>?@\\\^|\-~:]+/,                            // prevents matching `=>`
+      /\.\.[!#$%&⋆*+\./<=>?@\\\^|\-~:]+/,                          // prevents matching `..`
+      /\\[!#$%&⋆*+\./<=>?@\\\^|\-~:]+/,                            // prevents matching `\`
+      /\|[!#$%&⋆*+\./<=>?@\\\^|\-~:]+/,                            // prevents matching `|`
+      /<\-[!#$%&⋆*+\./<=>?@\\^|\-~:]+/,                            // prevents matching `<-`
+      /->[!#$%&⋆*+\./<=>?@\\\^|\-~:]+/,                            // prevents matching `->`
+      /@[!#$%&⋆*+\./<=>?@\\\^|\-~:]+/,                             // prevents matching `@`
+      /~[!#$%&⋆*+\./<=>?@\\\^|\-~:]+/,                             // prevents matching `~`
+      /-[!#$%&⋆*+\./<=>?@\\\^|\-~:]+[!#$%&⋆*+\./<=>?@\\\^|\-~:]+/, // prevents matching `->`
+      /-[!#$%&⋆*+\./<=?@\\\^|\-~:]*/,                              // prevents matching `->` and allows `-`
+      /<[!#$%&⋆*+\./<=>?@\\\^|\-~:]+[!#$%&⋆*+\./<=>?@\\\^|\-~:]+/, // prevents matching `<-`
+      /<[!#$%&⋆*+\./<=>?@\\\^|~:]*/,                               // prevents matching `<-`
+      /\./,                                                        // matches composition operator `.`
+      /=[!#$%&⋆*+\./<=?@\\\^|\-~:]+[!#$%&⋆*+\./<=>?@\\^|\-~:]?/,   // prevents matching `=`
+      /[!#$%&⋆*+/>?\^]+[!#$%&⋆*+\./<=>?@\\^|\-~:]*/,              // matches variable symbols but prevents `=`
+      /\.[!#$%&⋆*+/<=>?@\\\^|\-~:]+[!#$%&⋆*+\./<=?@\\\^|\-~:]*/,   // prevents matching `..`
     )),
 
     comment: $ => token(choice(
