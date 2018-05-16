@@ -272,6 +272,7 @@ module.exports = grammar({
 
     import_declaration: $ => seq(
       'import',
+      optional(alias($.string, $.package_qualified_import)),
       optional($.source_pragma),
       $._import_declaration
     ),

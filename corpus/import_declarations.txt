@@ -256,3 +256,16 @@ import GHC.Prim (Proxy#, proxy#)
     (import_spec
       (import (primitive_constructor_identifier))
       (import (primitive_variable_identifier)))))
+
+=========================================
+Imports Containing Package Qualified Imports
+=========================================
+
+import "hint" HLint.Default
+
+---
+
+(module
+  (import_declaration
+    (package_qualified_import)
+    (qualified_module_identifier (module_identifier) (module_identifier))))
