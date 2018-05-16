@@ -1,24 +1,97 @@
-===========================
-Functor module types
-===========================
+==============================
+Module type path
+==============================
 
-module type A = functor (b : C) -> D
-module type E = F -> G
-module type H = I -> J -> K
+module M : T
+module M : M.T
 
 ---
 
 (compilation_unit
-  (module_type_specification
-    (type_identifier)
-    (functor_module_type (module_parameter (identifier) (type_identifier)) (type_identifier)))
-  (module_type_specification
-    (type_identifier)
-    (shorthand_functor_module_type (type_identifier) (type_identifier)))
-  (module_type_specification
-    (type_identifier)
-    (shorthand_functor_module_type
-      (type_identifier)
-      (shorthand_functor_module_type
-        (type_identifier)
-        (type_identifier)))))
+  (module_definition
+    (module_binding
+      (module_name)
+      (module_type_path (module_type_name))))
+  (module_definition
+    (module_binding
+      (module_name)
+      (module_type_path (module_name) (module_type_name)))))
+
+==============================
+Signatures
+==============================
+
+module M : sig
+  val x : t
+end
+
+---
+
+(compilation_unit
+  (module_definition
+    (module_binding
+      (module_name)
+      (signature
+        (value_specification
+          (value_name)
+          (type_constructor_path (type_constructor)))))))
+
+==============================
+Constraints
+==============================
+
+module M : T with type t = t and module M := M
+
+---
+
+(compilation_unit
+  (module_definition
+    (module_binding
+      (module_name)
+      (module_type_constraint
+        (module_type_path (module_type_name))
+        (type_constructor_path (type_constructor))
+        (type_constructor_path (type_constructor))
+        (module_name)
+        (module_name)))))
+
+==============================
+Module type of
+==============================
+
+module M : module type of M
+
+---
+
+(compilation_unit
+  (module_definition
+    (module_binding
+      (module_name)
+      (module_type_of (module_name)))))
+
+==============================
+Functor types
+==============================
+
+module M : functor (M : T) -> T
+module M : T -> T -> T
+
+---
+
+(compilation_unit
+  (module_definition
+    (module_binding
+      (module_name)
+      (functor_type
+        (module_parameter
+          (module_name)
+          (module_type_path (module_type_name)))
+        (module_type_path (module_type_name)))))
+  (module_definition
+    (module_binding
+      (module_name)
+      (functor_type
+        (module_type_path (module_type_name))
+        (functor_type
+          (module_type_path (module_type_name))
+          (module_type_path (module_type_name)))))))
