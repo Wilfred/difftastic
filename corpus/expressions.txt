@@ -1,128 +1,580 @@
 ===========================
-Strings
+Values
 ===========================
 
-(* ok *)
-let
-  a = "abcd" and
-  b = "\"hi\""
+x;;
+M.x;;
+( + );;
+M.( + );;
 
 ---
 
 (compilation_unit
-  (comment)
-  (value_definition
-    (let_binding (identifier) (string))
-    (let_binding (identifier) (string))))
+  (value_path (value_name))
+  (value_path
+    (module_name)
+    (value_path (value_name)))
+  (value_path (value_name (infix_operator)))
+  (value_path
+    (module_name)
+    (value_path (value_name (infix_operator)))))
+
+===========================
+Constants
+===========================
+
+493;;
+10_000_000;;
+0x1ed;;
+0o644;;
+0b111101101;;
+4.93e2;;
+493e+0;;
+0x7b.4p2;;
+'x';;
+'\n';;
+'\'';;
+'\120';;
+'\x78';;
+'\o170';;
+"OCaml";;
+"\"\079\u{43}aml\"";;
+"OCaml\\
+ OCaml";;
+{|OCaml|};;
+{id||id};;
+{id|{|}id}|idd||id};;
+true;;
+();;
+
+---
+
+(compilation_unit
+  (number) (number) (number) (number)
+  (number) (number) (number) (number)
+  (character)
+  (character (escape_sequence))
+  (character (escape_sequence))
+  (character (escape_sequence))
+  (character (escape_sequence))
+  (character (escape_sequence))
+  (string)
+  (string (escape_sequence) (escape_sequence) (escape_sequence) (escape_sequence))
+  (string (escape_sequence))
+  (quoted_string) (quoted_string) (quoted_string)
+  (boolean) (unit))
+
+===========================
+Typed expression
+===========================
+
+(x : t)
+
+---
+
+(compilation_unit
+  (typed_expression
+    (value_path (value_name))
+    (type_constructor_path (type_constructor))))
+
+===========================
+Lists, arrays and records
+===========================
+
+[];;
+[x; x; x];;
+x :: x :: xs;;
+[||];;
+[| x; x; x |];;
+{ x = x; x; };;
+
+---
+
+(compilation_unit
+  (list_expression)
+  (list_expression
+    (value_path (value_name))
+    (value_path (value_name))
+    (value_path (value_name)))
+  (cons_expression
+    (value_path (value_name))
+    (cons_expression
+      (value_path (value_name))
+      (value_path (value_name))))
+  (array_expression)
+  (array_expression
+    (value_path (value_name))
+    (value_path (value_name))
+    (value_path (value_name)))
+  (record_expression
+    (field_expression
+      (field_path (field_name))
+      (value_path (value_name)))
+    (field_expression
+      (field_path (field_name)))))
+
+===========================
+Get and set expressions
+===========================
+
+x.y.z <- x;;
+x.(0).[0].{0,0} <- x;;
+x.%(0).M.%(0) <- x;;
+
+---
+
+(compilation_unit
+  (set_expression
+    (field_get_expression
+      (field_get_expression
+        (value_path (value_name))
+        (field_path (field_name)))
+      (field_path (field_name)))
+    (value_path (value_name)))
+  (set_expression
+    (bigarray_get_expression
+      (string_get_expression
+        (array_get_expression
+          (value_path (value_name))
+          (number))
+        (number))
+      (product_expression
+        (number)
+        (number)))
+    (value_path (value_name)))
+  (set_expression
+    (array_get_expression
+      (array_get_expression
+        (value_path (value_name))
+        (dot_operator_path (dot_operator))
+        (number))
+      (dot_operator_path
+        (module_name)
+        (dot_operator_path (dot_operator)))
+      (number))
+    (value_path (value_name))))
+
+===========================
+Coercions
+===========================
+
+(x :> t);;
+(x : t :> t);;
+
+---
+
+(compilation_unit
+  (coercion_expression
+    (value_path (value_name))
+    (type_constructor_path (type_constructor)))
+  (coercion_expression
+    (value_path (value_name))
+    (type_constructor_path (type_constructor))
+    (type_constructor_path (type_constructor))))
+
+===========================
+Local opens
+===========================
+
+M.(x);;
+M.[x; x];;
+
+---
+
+(compilation_unit
+  (local_open_expression
+    (module_name)
+    (value_path (value_name)))
+  (local_open_expression
+    (module_name)
+    (list_expression
+      (value_path (value_name))
+      (value_path (value_name)))))
+
+===========================
+Package expressions
+===========================
+
+(module M);;
+(module M : T);;
+
+---
+
+(compilation_unit
+  (package_expression
+    (module_name))
+  (package_expression
+    (module_name)
+    (module_type_path (module_type_name))))
+
+===========================
+Product expressions
+===========================
+
+x, y, z;;
+(x, y)
+
+---
+
+(compilation_unit
+  (product_expression
+    (product_expression
+      (value_path (value_name))
+      (value_path (value_name)))
+    (value_path (value_name)))
+  (product_expression
+    (value_path (value_name))
+    (value_path (value_name))))
+
+===========================
+Constructors
+===========================
+
+A;;
+M.A;;
+A x;;
+
+---
+
+(compilation_unit
+  (constructor_path (constructor_name))
+  (constructor_path
+    (module_name)
+    (constructor_path (constructor_name)))
+  (application_expression
+    (constructor_path (constructor_name))
+    (value_path (value_name))))
+
+===========================
+Tags
+===========================
+
+`A;;
+`A x;;
+
+---
+
+(compilation_unit
+  (tag)
+  (application_expression
+    (tag)
+    (value_path (value_name))))
+
+===========================
+Function application
+===========================
+
+f x;;
+f x x;;
+f ~x ?x:x;;
+
+---
+
+(compilation_unit
+  (application_expression
+    (value_path (value_name))
+    (value_path (value_name)))
+  (application_expression
+    (value_path (value_name))
+    (value_path (value_name))
+    (value_path (value_name)))
+  (application_expression
+    (value_path (value_name))
+    (label)
+    (labeled_argument
+      (label)
+      (value_path (value_name)))))
+
+===========================
+Operators
+===========================
+
+!x;;
+~-x;;
+-x;;
+x - y;;
+x lsl 1;;
+
+---
+
+(compilation_unit
+  (prefix_expression
+    (prefix_operator)
+    (value_path (value_name)))
+  (prefix_expression
+    (prefix_operator)
+    (value_path (value_name)))
+  (prefix_expression
+    (prefix_operator)
+    (value_path (value_name)))
+  (infix_expression
+    (value_path (value_name))
+    (infix_operator)
+    (value_path (value_name)))
+  (infix_expression
+    (value_path (value_name))
+    (infix_operator)
+    (number)))
+
+===========================
+If, while and for
+===========================
+
+if x then y;;
+if x then y else z;;
+while x do y done;;
+for i = 1 to n do x done;;
+
+---
+
+(compilation_unit
+  (if_expression
+    (value_path (value_name))
+    (value_path (value_name)))
+  (if_expression
+    (value_path (value_name))
+    (value_path (value_name))
+    (value_path (value_name)))
+  (while_expression
+    (value_path (value_name))
+    (value_path (value_name)))
+  (for_expression
+    (value_name)
+    (number)
+    (value_path (value_name))
+    (value_path (value_name))))
+
+===========================
+Sequence expressions
+===========================
+
+x; y; z;;
+
+---
+
+(compilation_unit
+  (sequence_expression
+    (value_path (value_name))
+    (sequence_expression
+      (value_path (value_name))
+      (value_path (value_name)))))
+
+===========================
+Match expressions
+===========================
+
+match x with
+| x -> x
+| x when x -> x
+| x | x -> x
+| exception x -> x
+
+---
+
+(compilation_unit
+  (match_expression
+    (value_path (value_name))
+    (match_case
+      (value_name)
+      (value_path (value_name)))
+    (match_case
+      (value_name)
+      (value_path (value_name))
+      (value_path (value_name)))
+    (match_case
+      (or_pattern (value_name) (value_name))
+      (value_path (value_name)))
+    (match_case
+      (exception_pattern (value_name))
+      (value_path (value_name)))))
+
+===========================
+Function expressions
+===========================
+
+function 0 -> 0 | x -> 1
+
+---
+
+(compilation_unit
+  (function_expression
+    (match_case
+      (number)
+      (number))
+    (match_case
+      (value_name)
+      (number))))
+
+===========================
+Try expressions
+===========================
+
+try x with Exception -> ()
+
+---
+
+(compilation_unit
+  (try_expression
+    (value_path (value_name))
+    (match_case
+      (constructor_path (constructor_name))
+      (unit))))
 
 ===========================
 Let expressions
 ===========================
 
-let a = let c = 1 in c
+let x = 0 in x;;
+let rec x = y and y = x in x;;
 
 ---
 
 (compilation_unit
-  (value_definition (let_binding
-    (identifier)
-    (let_expression
-      (let_binding (identifier) (number))
-      (identifier)))))
+  (let_expression
+    (value_definition
+      (let_binding
+        (value_name)
+        (number)))
+    (value_path (value_name)))
+  (let_expression
+    (value_definition
+      (let_binding
+        (value_name)
+        (value_path (value_name)))
+      (let_binding
+        (value_name)
+        (value_path (value_name))))
+    (value_path (value_name))))
 
 ===========================
-Function call expressions
+Assert expressions
 ===========================
 
-let a = B.C.d e f g
-let h = (j) k
+assert x
+
+---
+
+(compilation_unit (assert_expression (value_path (value_name))))
+
+===========================
+Lazy expressions
+===========================
+
+lazy x
+
+---
+
+(compilation_unit (lazy_expression (value_path (value_name))))
+
+===========================
+Let module, open, exception
+===========================
+
+let module M = M in x;;
+let open M in x;;
+let exception E in x;;
 
 ---
 
 (compilation_unit
-  (value_definition
-    (let_binding
-      (identifier)
-      (call_expression
-        (qualified_identifier (qualified_identifier (identifier) (identifier)) (identifier))
-        (identifier)
-        (identifier)
-        (identifier))))
-  (value_definition
-    (let_binding
-      (identifier)
-      (call_expression
-        (parenthesized_expression (identifier))
-        (identifier)))))
-===========================
-Function expressions
-===========================
-
-let a = function
-  | { a.b = c} -> a
-  | _ -> 5
-
----
-
-(compilation_unit (value_definition (let_binding
-  (identifier)
-  (function_expression
-    (pattern_match_clause
-      (record_pattern (field_pattern (qualified_identifier (identifier) (identifier)) (identifier)))
-      (identifier))
-    (pattern_match_clause
-      (identifier)
-      (number))))))
+  (let_module_expression
+    (module_definition
+      (module_binding
+        (module_name)
+        (module_name)))
+    (value_path (value_name)))
+  (let_open_expression
+    (open_statement (module_name))
+    (value_path (value_name)))
+  (let_exception_expression
+    (exception_definition
+      (constructor_declaration (constructor_name)))
+    (value_path (value_name))))
 
 ===========================
-Infix expressions
+Precedence
 ===========================
 
-let a = b ** c ** d
-let e = f + g * h * i
+let x = x in if x then x <- x := ! x . x ## x x x lsl x ** x * x mod x + x - x :: x :: x @ x ^ x < x > x & x && x or x || x, x, x; x; x
 
 ---
 
 (compilation_unit
-  (value_definition
-    (let_binding
-      (identifier)
-      (infix_expression (identifier) (infix_expression (identifier) (identifier)))))
-  (value_definition
-    (let_binding
-      (identifier)
-      (infix_expression (identifier) (infix_expression (infix_expression (identifier) (identifier)) (identifier))))))
-
-===========================
-Prefix expressions
-===========================
-
-let a = !!! b c
-let d = - e f
-
----
-
-(compilation_unit
-  (value_definition
-    (let_binding (identifier) (prefix_expression (call_expression (identifier) (identifier)))))
-  (value_definition
-    (let_binding (identifier) (prefix_expression (call_expression (identifier) (identifier))))))
-
-===========================
-Comments
-===========================
-
-(* (* ok *) * *)
-(*)*)
-(**
-    docstring
-*)
-(***)
-
----
-
-(compilation_unit
-  (comment)
-  (comment)
-  (comment)
-  (comment))
+  (let_expression
+    (value_definition
+      (let_binding
+        (value_name)
+        (value_path (value_name))))
+    (sequence_expression
+      (if_expression
+        (value_path (value_name))
+        (infix_expression
+          (value_path (value_name))
+          (infix_operator)
+          (infix_expression
+            (value_path (value_name))
+            (infix_operator)
+            (product_expression
+              (product_expression
+                (infix_expression
+                  (infix_expression
+                    (infix_expression
+                      (infix_expression
+                        (infix_expression
+                          (cons_expression
+                            (infix_expression
+                              (infix_expression
+                                (infix_expression
+                                  (infix_expression
+                                    (infix_expression
+                                      (application_expression
+                                        (infix_expression
+                                          (field_get_expression
+                                            (prefix_expression
+                                              (prefix_operator)
+                                              (value_path (value_name)))
+                                            (field_path (field_name)))
+                                          (infix_operator)
+                                          (value_path (value_name)))
+                                        (value_path (value_name))
+                                        (value_path (value_name)))
+                                      (infix_operator)
+                                      (infix_expression
+                                        (value_path (value_name))
+                                        (infix_operator)
+                                        (value_path (value_name))))
+                                    (infix_operator)
+                                    (value_path (value_name)))
+                                  (infix_operator)
+                                  (value_path (value_name)))
+                                (infix_operator)
+                                (value_path (value_name)))
+                              (infix_operator)
+                              (value_path (value_name)))
+                            (cons_expression
+                              (value_path (value_name))
+                              (value_path (value_name))))
+                          (infix_operator)
+                          (infix_expression
+                            (value_path (value_name))
+                            (infix_operator)
+                            (value_path (value_name))))
+                        (infix_operator)
+                        (value_path (value_name)))
+                      (infix_operator)
+                      (value_path (value_name)))
+                    (infix_operator)
+                    (infix_expression
+                      (value_path (value_name))
+                      (infix_operator)
+                      (value_path (value_name))))
+                  (infix_operator)
+                  (infix_expression
+                    (value_path (value_name))
+                    (infix_operator)
+                    (value_path (value_name))))
+                (value_path (value_name)))
+              (value_path (value_name))))))
+      (sequence_expression
+        (value_path (value_name))
+        (value_path (value_name))))))

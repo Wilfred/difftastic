@@ -1,62 +1,117 @@
+#include <ctype.h>
 #include <tree_sitter/parser.h>
 
 enum {
-  COMMENT
+  COMMENT,
+  QUOTED_STRING,
+  STRING_DELIM
 };
 
 void *tree_sitter_ocaml_external_scanner_create() {
-  return NULL;
+  return malloc(sizeof(bool));
 }
 
-void tree_sitter_ocaml_external_scanner_destroy(void *payload) {}
-
-void tree_sitter_external_extra_tokens_external_scanner_reset(void *payload) {}
+void tree_sitter_ocaml_external_scanner_destroy(void *payload) {
+  free(payload);
+}
 
 unsigned tree_sitter_ocaml_external_scanner_serialize(void *payload, char *buffer) {
-  return true;
+  *buffer = *(bool*)payload;
+  return 1;
 }
 
-void tree_sitter_ocaml_external_scanner_deserialize(void *payload, const char *buffer, unsigned length) {}
+void tree_sitter_ocaml_external_scanner_deserialize(void *payload, const char *buffer, unsigned length) {
+  *(bool*)payload = (length > 0) ? (bool)*buffer : false;
+}
 
 bool tree_sitter_ocaml_external_scanner_scan(void *payload, TSLexer *lexer, const bool *whitelist) {
-  if (whitelist[COMMENT]) {
+  bool in_string = *(bool*)payload;
+  if (whitelist[COMMENT] || whitelist[QUOTED_STRING] || whitelist[STRING_DELIM]) {
     while (lexer->lookahead == ' ' ||
            lexer->lookahead == '\t' ||
            lexer->lookahead == '\n') {
       lexer->advance(lexer, true);
     }
 
-    if (lexer->lookahead != '(') return false;
-    lexer->advance(lexer, false);
-    if (lexer->lookahead != '*') return false;
-    lexer->advance(lexer, false);
+    if (!in_string && whitelist[COMMENT] && lexer->lookahead == '(') {
+      lexer->advance(lexer, false);
+      if (lexer->lookahead != '*') return false;
+      lexer->advance(lexer, false);
 
-    int depth = 1;
+      int depth = 1;
 
-    for (;;) {
-      if (depth == 0) {
-        lexer->result_symbol = COMMENT;
-        return true;
+      for (;;) {
+        if (depth == 0) {
+          lexer->result_symbol = COMMENT;
+          return true;
+        }
+
+        switch (lexer->lookahead) {
+          case '(':
+            lexer->advance(lexer, false);
+            if (lexer->lookahead == '*') {
+              lexer->advance(lexer, false);
+              depth++;
+            }
+            break;
+          case '*':
+            lexer->advance(lexer, false);
+            if (lexer->lookahead == ')') {
+              lexer->advance(lexer, false);
+              depth--;
+            }
+            break;
+          case '\0':
+            lexer->result_symbol = COMMENT;
+            return true;
+          default:
+            lexer->advance(lexer, false);
+        }
+      }
+    } else if (whitelist[QUOTED_STRING] && lexer->lookahead == '{') {
+      lexer->advance(lexer, false);
+
+      int length = 0, size = 8, i;
+      char *id = malloc(size);
+
+      while (islower(lexer->lookahead)) {
+        if (length == size) {
+          size *= 2;
+          id = realloc(id, size);
+        }
+        id[length++] = lexer->lookahead;
+        lexer->advance(lexer, false);
       }
 
-      switch (lexer->lookahead) {
-        case '(':
-          lexer->advance(lexer, false);
-          if (lexer->lookahead == '*') {
-            lexer->advance(lexer, false);
-            depth++;
+      if (lexer->lookahead != '|') return false;
+      lexer->advance(lexer, false);
+
+      for (;;) {
+        while (lexer->lookahead != '|') {
+          if (lexer->lookahead == '\0') {
+            lexer->result_symbol = QUOTED_STRING;
+            return true;
           }
-          break;
-        case '*':
           lexer->advance(lexer, false);
-          if (lexer->lookahead == ')') {
-            lexer->advance(lexer, false);
-            depth--;
-          }
-          break;
-        default:
+        }
+        lexer->advance(lexer, false);
+
+        for (i = 0; i < length; i++) {
+          if (lexer->lookahead != id[i]) break;
           lexer->advance(lexer, false);
+        }
+
+        if (i == length && lexer->lookahead == '}') {
+          lexer->advance(lexer, false);
+          lexer->result_symbol = QUOTED_STRING;
+          return true;
+        }
       }
+    } else if (whitelist[STRING_DELIM] && lexer->lookahead == '"') {
+      lexer->advance(lexer, false);
+      *(bool*)payload = !in_string;
+      lexer->result_symbol = STRING_DELIM;
+      return true;
     }
   }
 
