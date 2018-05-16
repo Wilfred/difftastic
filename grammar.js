@@ -1259,6 +1259,7 @@ module.exports = grammar({
         $.parenthesized_constructor_operator
       ),
       alias('::', $.annotation),
+      optional($._pragma),
       optional($.scoped_type_variables),
       repeat($.context),
       $._type_pattern
