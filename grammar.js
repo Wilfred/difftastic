@@ -182,7 +182,7 @@ module.exports = grammar({
     _statements: $ => choice(
       seq(
         '{',
-        repeat(seq($._statement, optional($._terminal))),
+        repeat(seq($._statement, optional($.where), optional($._terminal))),
         optional($.where),
         '}'
       ),
@@ -191,6 +191,7 @@ module.exports = grammar({
         repeat(
           seq(
             $._statement,
+            optional($.where),
             choice($._terminal, $._layout_semicolon)
           )
         ),
