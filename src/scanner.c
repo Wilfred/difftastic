@@ -3,7 +3,7 @@
 
 enum TokenType {
   AUTOMATIC_SEMICOLON,
-  TEMPLATE_CHAR
+  TEMPLATE_CHARS
 };
 
 void *tree_sitter_javascript_external_scanner_create() { return NULL; }
@@ -52,23 +52,26 @@ static bool scan_whitespace_and_comments(TSLexer *lexer) {
 
 bool tree_sitter_javascript_external_scanner_scan(void *payload, TSLexer *lexer,
                                                   const bool *valid_symbols) {
-  if (valid_symbols[TEMPLATE_CHAR]) {
-    lexer->result_symbol = TEMPLATE_CHAR;
-    switch (lexer->lookahead) {
-      case '`':
-        return false;
-      case '\\':
-        advance(lexer);
-        advance(lexer);
-        return true;
-      case '$':
-        advance(lexer);
-        return (lexer->lookahead != '{');
-      case '\0':
-        return false;
-      default:
-        advance(lexer);
-        return true;
+  if (valid_symbols[TEMPLATE_CHARS]) {
+    lexer->result_symbol = TEMPLATE_CHARS;
+    for (bool notfirst = false;; notfirst = true) {
+      lexer->mark_end(lexer);
+      switch (lexer->lookahead) {
+        case '`':
+          return notfirst;
+        case '\0':
+          return false;
+        case '$':
+          advance(lexer);
+          if (lexer->lookahead == '{') return notfirst;
+          break;
+        case '\\':
+          advance(lexer);
+          advance(lexer);
+          break;
+        default:
+          advance(lexer);
+      }
     }
   } else {
     lexer->result_symbol = AUTOMATIC_SEMICOLON;
