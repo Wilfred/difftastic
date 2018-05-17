@@ -3,6 +3,7 @@
 
 enum TokenType {
   AUTOMATIC_SEMICOLON,
+  TEMPLATE_CHAR
 };
 
 void *tree_sitter_javascript_external_scanner_create() { return NULL; }
@@ -51,70 +52,90 @@ static bool scan_whitespace_and_comments(TSLexer *lexer) {
 
 bool tree_sitter_javascript_external_scanner_scan(void *payload, TSLexer *lexer,
                                                   const bool *valid_symbols) {
-  lexer->result_symbol = AUTOMATIC_SEMICOLON;
-  lexer->mark_end(lexer);
-
-  for (;;) {
-    if (lexer->lookahead == 0) return true;
-    if (lexer->lookahead == '}') return true;
-    if (!iswspace(lexer->lookahead)) return false;
-    if (lexer->lookahead == '\n') break;
-    advance(lexer);
-  }
-
-  advance(lexer);
-
-  if (!scan_whitespace_and_comments(lexer)) return false;
-
-  switch (lexer->lookahead) {
-    case ',':
-    case '.':
-    case ';':
-    case '*':
-    case '%':
-    case '>':
-    case '<':
-    case '=':
-    case '[':
-    case '(':
-    case '?':
-    case '^':
-    case '|':
-    case '&':
-    case '/':
-      return false;
-
-    // Insert a semicolon before `--` and `++`, but not before binary `+` or `-`.
-    case '+':
-      advance(lexer);
-      return lexer->lookahead == '+';
-    case '-':
-      advance(lexer);
-      return lexer->lookahead == '-';
-
-    // Don't insert a semicolon before `!=`, but do insert one before a unary `!`.
-    case '!':
-      advance(lexer);
-      return lexer->lookahead != '=';
-
-    // Don't insert a semicolon before `in` or `instanceof`, but do insert one
-    // before an identifier.
-    case 'i':
-      advance(lexer);
-
-      if (lexer->lookahead != 'n') return true;
-      advance(lexer);
-
-      if (!iswalpha(lexer->lookahead)) return false;
-
-      for (unsigned i = 0; i < 8; i++) {
-        if (lexer->lookahead != "stanceof"[i]) return true;
+  if (valid_symbols[TEMPLATE_CHAR]) {
+    lexer->result_symbol = TEMPLATE_CHAR;
+    switch (lexer->lookahead) {
+      case '`':
+        return false;
+      case '\\':
         advance(lexer);
-      }
+        advance(lexer);
+        return true;
+      case '$':
+        advance(lexer);
+        return (lexer->lookahead != '{');
+      case '\0':
+        return false;
+      default:
+        advance(lexer);
+        return true;
+    }
+  } else {
+    lexer->result_symbol = AUTOMATIC_SEMICOLON;
+    lexer->mark_end(lexer);
 
-      if (!iswalpha(lexer->lookahead)) return false;
-      break;
+    for (;;) {
+      if (lexer->lookahead == 0) return true;
+      if (lexer->lookahead == '}') return true;
+      if (!iswspace(lexer->lookahead)) return false;
+      if (lexer->lookahead == '\n') break;
+      advance(lexer);
+    }
+
+    advance(lexer);
+
+    if (!scan_whitespace_and_comments(lexer)) return false;
+
+    switch (lexer->lookahead) {
+      case ',':
+      case '.':
+      case ';':
+      case '*':
+      case '%':
+      case '>':
+      case '<':
+      case '=':
+      case '[':
+      case '(':
+      case '?':
+      case '^':
+      case '|':
+      case '&':
+      case '/':
+        return false;
+
+      // Insert a semicolon before `--` and `++`, but not before binary `+` or `-`.
+      case '+':
+        advance(lexer);
+        return lexer->lookahead == '+';
+      case '-':
+        advance(lexer);
+        return lexer->lookahead == '-';
+
+      // Don't insert a semicolon before `!=`, but do insert one before a unary `!`.
+      case '!':
+        advance(lexer);
+        return lexer->lookahead != '=';
+
+      // Don't insert a semicolon before `in` or `instanceof`, but do insert one
+      // before an identifier.
+      case 'i':
+        advance(lexer);
+
+        if (lexer->lookahead != 'n') return true;
+        advance(lexer);
+
+        if (!iswalpha(lexer->lookahead)) return false;
+
+        for (unsigned i = 0; i < 8; i++) {
+          if (lexer->lookahead != "stanceof"[i]) return true;
+          advance(lexer);
+        }
+
+        if (!iswalpha(lexer->lookahead)) return false;
+        break;
+    }
+
+    return true;
   }
-
-  return true;
 }

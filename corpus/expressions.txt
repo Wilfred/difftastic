@@ -48,6 +48,8 @@ Template strings
 
 `\\`;
 
+`//`;
+
 ----
 
 (program
@@ -73,6 +75,7 @@ Template strings
       (member_expression (identifier) (property_identifier))
       (arguments (string))))
     (template_substitution (identifier))))
+  (expression_statement (template_string))
   (expression_statement (template_string)))
 
 ============================================
