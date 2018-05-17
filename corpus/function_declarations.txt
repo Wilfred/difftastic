@@ -1203,3 +1203,27 @@ sort = sortBy ?cmp
       (function_application
         (variable_identifier)
         (implicit_parameter_identifier)))))
+
+=================================================
+Function Declarations With Annotated Type Variables
+=================================================
+
+b (E (u :: Union e b) q) = a
+
+---
+
+(module
+  (function_declaration
+    (variable_identifier)
+    (parenthesized_pattern
+      (constructor_pattern
+        (constructor_identifier)
+        (annotated_type_variable
+          (type_variable_identifier)
+          (annotation)
+          (constructor_pattern
+            (constructor_identifier)
+            (variable_identifier)
+            (variable_identifier)))
+        (variable_identifier)))
+    (function_body (variable_identifier))))
