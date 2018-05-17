@@ -127,7 +127,7 @@ struct Scanner {
         }
       }
 
-      if (indent_length_stack.size() > 0 && column == indent_length_stack.back()) {
+      if (indent_length_stack.size() == 1 && column == indent_length_stack.back()) {
         queued_close_brace_count++;
       } else {
         indent_length_stack.push_back(column);
