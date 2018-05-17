@@ -15,7 +15,7 @@
 
 enum {
   sym__automatic_semicolon = 1,
-  sym__template_char = 2,
+  sym__template_chars = 2,
   sym_hash_bang_line = 3,
   anon_sym_export = 4,
   anon_sym_STAR = 5,
@@ -237,7 +237,7 @@ enum {
 
 static const char *ts_symbol_names[] = {
   [sym__automatic_semicolon] = "_automatic_semicolon",
-  [sym__template_char] = "_template_char",
+  [sym__template_chars] = "_template_chars",
   [ts_builtin_sym_end] = "END",
   [sym_hash_bang_line] = "hash_bang_line",
   [anon_sym_export] = "export",
@@ -463,7 +463,7 @@ static const TSSymbolMetadata ts_symbol_metadata[] = {
     .visible = false,
     .named = true,
   },
-  [sym__template_char] = {
+  [sym__template_chars] = {
     .visible = false,
     .named = true,
   },
@@ -8343,31 +8343,31 @@ static TSLexMode ts_lex_modes[STATE_COUNT] = {
 
 enum {
   ts_external_token__automatic_semicolon,
-  ts_external_token__template_char,
+  ts_external_token__template_chars,
 };
 
 static TSSymbol ts_external_scanner_symbol_map[EXTERNAL_TOKEN_COUNT] = {
   [ts_external_token__automatic_semicolon] = sym__automatic_semicolon,
-  [ts_external_token__template_char] = sym__template_char,
+  [ts_external_token__template_chars] = sym__template_chars,
 };
 
 static bool ts_external_scanner_states[4][EXTERNAL_TOKEN_COUNT] = {
   [1] = {
     [ts_external_token__automatic_semicolon] = true,
-    [ts_external_token__template_char] = true,
+    [ts_external_token__template_chars] = true,
   },
   [2] = {
     [ts_external_token__automatic_semicolon] = true,
   },
   [3] = {
-    [ts_external_token__template_char] = true,
+    [ts_external_token__template_chars] = true,
   },
 };
 
 static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
   [0] = {
     [sym__automatic_semicolon] = ACTIONS(1),
-    [sym__template_char] = ACTIONS(1),
+    [sym__template_chars] = ACTIONS(1),
     [ts_builtin_sym_end] = ACTIONS(1),
     [sym_hash_bang_line] = ACTIONS(1),
     [anon_sym_export] = ACTIONS(1),
@@ -9862,7 +9862,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
   [33] = {
     [sym_template_substitution] = STATE(209),
     [aux_sym_template_string_repeat1] = STATE(209),
-    [sym__template_char] = ACTIONS(338),
+    [sym__template_chars] = ACTIONS(338),
     [sym_comment] = ACTIONS(71),
     [anon_sym_BQUOTE] = ACTIONS(340),
     [anon_sym_DOLLAR_LBRACE] = ACTIONS(342),
@@ -12616,7 +12616,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
   [114] = {
     [sym_template_substitution] = STATE(442),
     [aux_sym_template_string_repeat1] = STATE(442),
-    [sym__template_char] = ACTIONS(754),
+    [sym__template_chars] = ACTIONS(754),
     [sym_comment] = ACTIONS(71),
     [anon_sym_BQUOTE] = ACTIONS(756),
     [anon_sym_DOLLAR_LBRACE] = ACTIONS(342),
@@ -16006,7 +16006,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
   [209] = {
     [sym_template_substitution] = STATE(596),
     [aux_sym_template_string_repeat1] = STATE(596),
-    [sym__template_char] = ACTIONS(1074),
+    [sym__template_chars] = ACTIONS(1074),
     [sym_comment] = ACTIONS(71),
     [anon_sym_BQUOTE] = ACTIONS(1076),
     [anon_sym_DOLLAR_LBRACE] = ACTIONS(342),
@@ -23422,7 +23422,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
   [442] = {
     [sym_template_substitution] = STATE(596),
     [aux_sym_template_string_repeat1] = STATE(596),
-    [sym__template_char] = ACTIONS(1074),
+    [sym__template_chars] = ACTIONS(1074),
     [sym_comment] = ACTIONS(71),
     [anon_sym_BQUOTE] = ACTIONS(1799),
     [anon_sym_DOLLAR_LBRACE] = ACTIONS(342),
@@ -28901,7 +28901,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
   [596] = {
     [sym_template_substitution] = STATE(596),
     [aux_sym_template_string_repeat1] = STATE(596),
-    [sym__template_char] = ACTIONS(2192),
+    [sym__template_chars] = ACTIONS(2192),
     [sym_comment] = ACTIONS(71),
     [anon_sym_BQUOTE] = ACTIONS(2195),
     [anon_sym_DOLLAR_LBRACE] = ACTIONS(2197),
@@ -43444,7 +43444,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_BQUOTE] = ACTIONS(1588),
   },
   [1044] = {
-    [sym__template_char] = ACTIONS(3121),
+    [sym__template_chars] = ACTIONS(3121),
     [sym_comment] = ACTIONS(71),
     [anon_sym_BQUOTE] = ACTIONS(3121),
     [anon_sym_DOLLAR_LBRACE] = ACTIONS(3121),

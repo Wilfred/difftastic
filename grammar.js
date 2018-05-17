@@ -26,7 +26,7 @@ module.exports = grammar({
 
   externals: $ => [
     $._automatic_semicolon,
-    $._template_char
+    $._template_chars
   ],
 
   extras: $ => [
@@ -725,7 +725,7 @@ module.exports = grammar({
     template_string: $ => seq(
       '`',
       repeat(choice(
-        $._template_char,
+        $._template_chars,
         $.template_substitution
       )),
       '`'
