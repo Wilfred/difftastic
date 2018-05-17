@@ -1660,6 +1660,10 @@
         {
           "type": "SYMBOL",
           "name": "view_pattern"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "annotated_type_variable"
         }
       ]
     },
@@ -4048,6 +4052,10 @@
         {
           "type": "CHOICE",
           "members": [
+            {
+              "type": "SYMBOL",
+              "name": "constructor_pattern"
+            },
             {
               "type": "SYMBOL",
               "name": "_type_pattern"

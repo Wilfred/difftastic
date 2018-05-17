@@ -462,7 +462,8 @@ module.exports = grammar({
       $.list_pattern,
       $.irrefutable_pattern,
       alias($._strict_a_pattern, $.strict_pattern),
-      $.view_pattern
+      $.view_pattern,
+      $.annotated_type_variable
     ),
 
     implicit_parameter_identifier: $ => /\?[_a-z](\w|')*/,
@@ -1007,6 +1008,7 @@ module.exports = grammar({
       $.type_variable_identifier,
       alias('::', $.annotation),
       choice(
+        $.constructor_pattern,
         $._type_pattern,
         prec.dynamic(-1, $._kind_pattern)
       ),
