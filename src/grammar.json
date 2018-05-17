@@ -7079,54 +7079,6 @@
         ]
       }
     },
-    "cpp": {
-      "type": "TOKEN",
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "STRING",
-            "value": "#ifdef"
-          },
-          {
-            "type": "REPEAT",
-            "content": {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "PATTERN",
-                  "value": "[^#]"
-                },
-                {
-                  "type": "PATTERN",
-                  "value": "#[^e]"
-                },
-                {
-                  "type": "PATTERN",
-                  "value": "#e[^n]"
-                },
-                {
-                  "type": "PATTERN",
-                  "value": "#en[^d]"
-                },
-                {
-                  "type": "PATTERN",
-                  "value": "#end[^i]"
-                },
-                {
-                  "type": "PATTERN",
-                  "value": "#endi[^f]"
-                }
-              ]
-            }
-          },
-          {
-            "type": "PATTERN",
-            "value": "#endif"
-          }
-        ]
-      }
-    },
     "integer": {
       "type": "CHOICE",
       "members": [
@@ -8985,10 +8937,6 @@
     {
       "type": "SYMBOL",
       "name": "comment"
-    },
-    {
-      "type": "SYMBOL",
-      "name": "cpp"
     },
     {
       "type": "PATTERN",
