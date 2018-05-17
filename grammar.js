@@ -146,7 +146,9 @@ module.exports = grammar({
     // These conflicts allow for contexts within scoped type variables (which are optional), while providing flexibility for non context patterns.
     [$.context_pattern],
     [$.scoped_type_variables, $._qualified_variable_identifier],
-    [$.scoped_type_variables]
+    [$.scoped_type_variables],
+
+    [$.class]
   ],
 
   rules: {
@@ -779,7 +781,7 @@ module.exports = grammar({
       $._expression
     ),
 
-    case_expression: $ => prec.right(seq(
+    case_expression: $ => seq(
       'case',
       $._expression,
       'of',
@@ -798,7 +800,7 @@ module.exports = grammar({
           $._layout_close_brace
         )
       ),
-    )),
+    ),
 
     alternative: $ => prec.right(choice(
       seq(
@@ -1340,11 +1342,22 @@ module.exports = grammar({
       $.type_variable_identifier
     )),
 
-    class: $ => seq(
-      $._qualified_type_class_identifier,
-      choice(
-        $._type,
-        $.infix_operator_pattern
+    class: $ => choice(
+      seq(
+        $._qualified_type_class_identifier,
+        choice(
+          $._type,
+          $.infix_operator_pattern
+        )
+      ),
+      seq(
+        '(',
+        $._qualified_type_class_identifier,
+        choice(
+          $._type,
+          $.infix_operator_pattern
+        ),
+        ')'
       )
     ),
 
