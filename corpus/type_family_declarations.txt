@@ -23,7 +23,7 @@ type family Foo bar where
       (function_declaration
         (constructor_identifier)
         (function_body
-          (promoted_type_constructor
+          (quoted_name
             (type_constructor_identifier))))
       (function_declaration
         (constructor_pattern
@@ -32,7 +32,7 @@ type family Foo bar where
             (constructor_identifier))
             (variable_identifier))
         (function_body
-          (promoted_type_constructor
+          (quoted_name
             (type_constructor_identifier))))
       (function_declaration
         (constructor_pattern
@@ -43,7 +43,7 @@ type family Foo bar where
             (constructor_pattern
               (constructor_identifier)
               (variable_identifier))))
-        (function_body (promoted_type_constructor (type_constructor_identifier)))))))
+        (function_body (quoted_name (type_constructor_identifier)))))))
 
 =================================================
 Open Type Family Declaration

@@ -131,12 +131,12 @@ module.exports = grammar({
     // These conflicts allow reuse of type_pattern within contexts (type class constraints)
     [$._type_pattern, $.class],
 
-    // These conflicts allow strict_type and promoted_type_constructor to match against atype without going through _type_pattern -> _type. This is because strict_type and promoted_type_constructor need to bind tighter than other rules (like context).
+    // These conflicts allow strict_type and quoted_name to match against atype without going through _type_pattern -> _type. This is because strict_type and quoted_name need to bind tighter than other rules (like context).
     [$._type],
     [$._type_pattern, $.strict_type],
     [$.strict_type],
-    [$.promoted_type_constructor, $._type_pattern],
-    [$.promoted_type_constructor],
+    [$.quoted_name, $._type_pattern],
+    [$.quoted_name],
 
     // These conflicts allow for top level function application (to support template haskell)
     [$._a_pattern, $.constructor_pattern, $._a_expression],
@@ -378,7 +378,8 @@ module.exports = grammar({
       $.foreign_export_declaration,
       $.standalone_deriving_declaration,
       $._declaration,
-      prec.dynamic(-2, $.function_application)
+      prec.dynamic(-2, $.function_application),
+      $.splice
     ),
 
     standalone_deriving_declaration: $ => seq(
@@ -549,7 +550,7 @@ module.exports = grammar({
       $._qualified_operator
     ),
 
-    promoted_type_constructor: $ => prec.left(seq(
+    quoted_name: $ => prec.left(seq(
       '\'',
       choice(
         $._atype,
@@ -563,7 +564,7 @@ module.exports = grammar({
       $.list_constructor,
       $.function_constructor,
       $.tupling_constructor,
-      $.promoted_type_constructor,
+      $.quoted_name,
     ),
 
     _general_type_constructor: $ => prec.left(repeat1(choice(
@@ -572,7 +573,7 @@ module.exports = grammar({
       $.list_constructor,
       $.function_constructor,
       $.tupling_constructor,
-      $.promoted_type_constructor
+      $.quoted_name
     ))),
 
     unit_constructor: $ => seq('(', ')'),
@@ -1313,7 +1314,7 @@ module.exports = grammar({
       $.equality_constraint,
       $.type_variable_identifier,
       $._qualified_type_constructor_identifier,
-      $.promoted_type_constructor,
+      $.quoted_name,
       $.type_signature
     ),
 

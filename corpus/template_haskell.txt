@@ -135,6 +135,7 @@ Splices
 
 f = $x
 f = $(a . b $ c)
+$(makeEff ''Embedded)
 
 ---
 
@@ -154,4 +155,10 @@ f = $(a . b $ c)
             (infix_operator_application
               (variable_identifier)
               (variable_operator (variable_symbol))
-              (variable_identifier))))))))
+              (variable_identifier)))))))
+  (splice
+    (parenthesized_expression
+      (function_application
+        (variable_identifier)
+        (quoted_name
+          (quoted_name (type_constructor_identifier)))))))
