@@ -623,6 +623,7 @@ module.exports = grammar({
 
     _lexp: $ => choice(
       $.lambda,
+      $.lambda_case,
       $.let_expression,
       $.conditional_expression,
       $.case_expression,
@@ -648,6 +649,26 @@ module.exports = grammar({
     lambda_head: $ => seq(
       '\\',
       repeat1($._a_pattern)
+    ),
+
+    lambda_case: $ => seq(
+      '\\',
+      'case',
+      choice(
+        seq(
+          '{',
+          sep1($._terminal, $.alternative),
+          optional($._terminal),
+          optional($.where),
+          '}'
+        ),
+        seq(
+          $._layout_open_brace,
+          repeat(seq($.alternative, $._layout_semicolon)),
+          optional($.where),
+          $._layout_close_brace
+        )
+      )
     ),
 
     prefix_negation: $ => prec(2, seq(

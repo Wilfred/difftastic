@@ -671,6 +671,76 @@ f = (
                 (variable_identifier)))))))))
 
 =================================================
+Function Declarations With LambdaCase
+=================================================
+
+
+a = reify tcName >>= \case
+      TyConI (DataD _ _ _ _ cons _) -> do
+        sigs <- filter (const makeSigs) <$> traverse genSig cons
+        decs <- traverse genDecl cons
+        pure $ sigs ++ decs
+
+      _ ->
+        fail "makeEff expects a type constructor"
+
+---
+
+(module
+  (function_declaration
+    (variable_identifier)
+    (function_body
+      (infix_operator_application
+        (function_application
+          (variable_identifier)
+          (variable_identifier))
+        (variable_operator (variable_symbol))
+        (lambda_case
+          (alternative
+            (constructor_pattern
+              (constructor_identifier)
+              (parenthesized_pattern
+                (constructor_pattern
+                  (constructor_identifier)
+                  (wildcard)
+                  (wildcard)
+                  (wildcard)
+                  (wildcard)
+                  (variable_identifier)
+                  (wildcard))))
+            (do
+              (bind_pattern
+                (variable_identifier)
+                (infix_operator_application
+                  (function_application
+                    (variable_identifier)
+                    (parenthesized_expression
+                      (function_application (variable_identifier) (variable_identifier))))
+                  (variable_operator (variable_symbol))
+                  (function_application
+                    (function_application
+                      (variable_identifier)
+                      (variable_identifier))
+                    (variable_identifier))))
+              (bind_pattern
+                (variable_identifier)
+                (function_application
+                  (function_application
+                    (variable_identifier)
+                    (variable_identifier))
+                  (variable_identifier)))
+              (infix_operator_application
+                (variable_identifier)
+                (variable_operator (variable_symbol))
+                (infix_operator_application
+                  (variable_identifier)
+                  (variable_operator (variable_symbol))
+                  (variable_identifier)))))
+          (alternative
+            (wildcard)
+            (function_application (variable_identifier) (string))))))))
+
+=================================================
 Function Declarations With Guards
 =================================================
 
