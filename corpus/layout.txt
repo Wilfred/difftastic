@@ -118,9 +118,23 @@ a = do
   where
     c = d
 
+a = do
+  b
+  where
+  c = d
+
 ---
 
 (module
+  (function_declaration
+    (variable_identifier)
+    (function_body
+      (do
+        (variable_identifier)
+        (where
+          (function_declaration
+            (variable_identifier)
+            (function_body (variable_identifier)))))))
   (function_declaration
     (variable_identifier)
     (function_body
