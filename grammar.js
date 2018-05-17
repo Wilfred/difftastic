@@ -732,9 +732,9 @@ module.exports = grammar({
 
     _template_chars: $ => token(choice(
       repeat1(choice(
-        /[^`\$]/,
+        /[^\\`\$]/,
         /\$[^{`$]/,
-        /\\[`$]/
+        /\\(.|\n)/
       )),
       '$'
     )),
