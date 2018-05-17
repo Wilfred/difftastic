@@ -25,7 +25,8 @@ module.exports = grammar({
   name: 'javascript',
 
   externals: $ => [
-    $._automatic_semicolon
+    $._automatic_semicolon,
+    $._template_char
   ],
 
   extras: $ => [
@@ -724,20 +725,11 @@ module.exports = grammar({
     template_string: $ => seq(
       '`',
       repeat(choice(
-        $._template_chars,
+        $._template_char,
         $.template_substitution
       )),
       '`'
     ),
-
-    _template_chars: $ => token(choice(
-      repeat1(choice(
-        /[^\\`\$]/,
-        /\$[^{`$]/,
-        /\\(.|\n)/
-      )),
-      '$'
-    )),
 
     template_substitution: $ => seq(
       '${',
