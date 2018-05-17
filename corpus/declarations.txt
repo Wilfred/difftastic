@@ -438,17 +438,41 @@ Algebraic Datatype Declarations With Scoped Type Variables
 
 data SomeNumber = forall a . SomeNumber (Number a)
 
+data Eff effects b = Val b
+                   | forall a. E (Union effects a) (Queue effects a b)
+
 ---
 
 (module
   (algebraic_datatype_declaration
     (type_constructor_identifier)
-    (scoped_type_variables (type_variable_identifier) (dot))
     (constructors
       (data_constructor
+        (scoped_type_variables (type_variable_identifier) (dot))
         (constructor_identifier)
         (parenthesized_type_pattern
           (type_constructor_identifier)
+          (type_variable_identifier)))))
+  (algebraic_datatype_declaration
+    (type_constructor_identifier)
+    (type_variable_identifier)
+    (type_variable_identifier)
+    (constructors
+      (data_constructor
+        (constructor_identifier)
+        (type_variable_identifier))
+      (data_constructor
+        (scoped_type_variables
+          (type_variable_identifier) (dot))
+        (constructor_identifier)
+        (parenthesized_type_pattern
+          (type_constructor_identifier)
+          (type_variable_identifier)
+          (type_variable_identifier))
+        (parenthesized_type_pattern
+          (type_constructor_identifier)
+          (type_variable_identifier)
+          (type_variable_identifier)
           (type_variable_identifier))))))
 
 =========================================
@@ -464,20 +488,20 @@ data Baz foo = Show foo => Baz foo
   (algebraic_datatype_declaration
     (type_constructor_identifier)
     (type_variable_identifier)
-    (context
-      (context_pattern (type_constructor_identifier)))
     (constructors
       (data_constructor
-        (constructor_identifier)
-        (type_variable_identifier))))
+      (context
+        (context_pattern (type_constructor_identifier)))
+          (constructor_identifier)
+          (type_variable_identifier))))
   (algebraic_datatype_declaration
     (type_constructor_identifier)
     (type_variable_identifier)
-    (context
-      (context_pattern
-        (class (type_class_identifier) (type_variable_identifier))))
     (constructors
       (data_constructor
+        (context
+          (context_pattern
+            (class (type_class_identifier) (type_variable_identifier))))
         (constructor_identifier)
         (type_variable_identifier)))))
 
@@ -625,7 +649,7 @@ data Union (r :: [ * -> * ]) (v :: *) where
         (unpack_pragma)
         (function_type
           (type (strict_type (type_constructor_identifier)))
-          (function_type 
+          (function_type
             (type
               (type_variable_identifier)
               (type_variable_identifier))

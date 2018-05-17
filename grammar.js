@@ -1244,8 +1244,6 @@ module.exports = grammar({
       optional(
         seq(
           '=',
-          optional($.scoped_type_variables),
-          optional($.context),
           $.constructors,
           optional($.deriving)
         )
@@ -1360,6 +1358,8 @@ module.exports = grammar({
     ),
 
     data_constructor: $ => prec.left(seq(
+      optional($.scoped_type_variables),
+      optional($.context),
       $._qualified_constructor,
       repeat(
         seq(
@@ -1386,6 +1386,8 @@ module.exports = grammar({
     )),
 
     infix_data_constructor: $ => prec.left(seq(
+      optional($.scoped_type_variables),
+      optional($.context),
       optional('!'),
       repeat1($._atype),
       $.constructor_operator,
@@ -1393,7 +1395,11 @@ module.exports = grammar({
       repeat1($._atype)
     )),
 
-    record_data_constructor: $ => prec(PREC.RECORD_DATA_CONSTRUCTOR, seq($._qualified_constructor, $.fields)),
+    record_data_constructor: $ => prec(PREC.RECORD_DATA_CONSTRUCTOR, seq(
+      optional($.scoped_type_variables),
+      optional($.context),
+      $._qualified_constructor, $.fields
+    )),
 
     deriving: $ => seq(
       'deriving',
