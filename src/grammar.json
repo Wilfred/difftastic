@@ -3596,7 +3596,7 @@
             "members": [
               {
                 "type": "SYMBOL",
-                "name": "_template_chars"
+                "name": "_template_char"
               },
               {
                 "type": "SYMBOL",
@@ -3610,38 +3610,6 @@
           "value": "`"
         }
       ]
-    },
-    "_template_chars": {
-      "type": "TOKEN",
-      "content": {
-        "type": "CHOICE",
-        "members": [
-          {
-            "type": "REPEAT1",
-            "content": {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "PATTERN",
-                  "value": "[^\\\\`\\$]"
-                },
-                {
-                  "type": "PATTERN",
-                  "value": "\\$[^{`$]"
-                },
-                {
-                  "type": "PATTERN",
-                  "value": "\\\\(.|\\n)"
-                }
-              ]
-            }
-          },
-          {
-            "type": "STRING",
-            "value": "$"
-          }
-        ]
-      }
     },
     "template_substitution": {
       "type": "SEQ",
@@ -4787,6 +4755,10 @@
     {
       "type": "SYMBOL",
       "name": "_automatic_semicolon"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_template_char"
     }
   ],
   "inline": [
