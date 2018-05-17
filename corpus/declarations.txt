@@ -995,6 +995,7 @@ Type Signatures With Parenthesized Pattern Context
 =========================================
 
 foo :: (f :< Bar) => Bar -> f
+yield :: ((Yield a b) :< e) => a
 
 ---
 
@@ -1009,7 +1010,17 @@ foo :: (f :< Bar) => Bar -> f
         (type_constructor_identifier)))
     (function_type
       (type (type_constructor_identifier))
-      (type (type_variable_identifier)))))
+      (type (type_variable_identifier))))
+  (type_signature
+    (variable_identifier)
+    (annotation)
+    (context
+      (context_pattern
+        (class
+          (type_class_identifier) (type_variable_identifier) (type_variable_identifier))
+        (constructor_operator (constructor_symbol))
+        (type_variable_identifier)))
+    (type_variable_identifier)))
 
 =========================================
 Standalone Deriving
