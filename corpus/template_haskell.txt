@@ -22,6 +22,10 @@ Quasi Quotation
 [ t | example |  ]
 [ d | example |  ]
 [ str | example |  ]
+[str|integer,double,varchar,boolean,date,money,enum
+    |13,3.14159,testing!,false,1900-01-01,$3.99,foo
+    |12,0.1,a string,true,1929-10-01,12,bar
+    |]
 
 ---
 
@@ -78,6 +82,9 @@ Quasi Quotation
     (quasi_quotation_expression))
   (quasi_quotation
     (declaration)
+    (quasi_quotation_expression))
+  (quasi_quotation
+    (quoter)
     (quasi_quotation_expression))
   (quasi_quotation
     (quoter)

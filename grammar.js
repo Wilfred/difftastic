@@ -1717,7 +1717,12 @@ module.exports = grammar({
     _empty_quasi_pattern: $ => seq('[', '|'),
 
     quasi_quotation_expression: $ => seq(
-      repeat(/[^|]/),
+      repeat(
+        choice(
+          /[^|]/,
+          /\|[^\]]/
+        )
+      ),
       /.*\|\s*\]/
     ),
 
