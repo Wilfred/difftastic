@@ -1642,7 +1642,7 @@ module.exports = grammar({
     )),
 
     comment: $ => token(choice(
-      seq('--', /.*\n?\r?/),
+      seq('--', /.*/),
       seq(
         '{-',
         /[^#]/,
