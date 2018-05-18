@@ -35,7 +35,8 @@ module.exports = grammar({
 
   extras: $ => [
     /\s/,
-    $.comment
+    $.comment,
+    $.line_number_directive
   ],
 
   inline: $ => [
@@ -43,7 +44,12 @@ module.exports = grammar({
   ],
 
   rules: {
-    compilation_unit: $ => optional($._definitions),
+    compilation_unit: $ => seq(
+      optional($.shebang),
+      optional($._definitions)
+    ),
+
+    shebang: $ => /#!.*/,
 
     _definitions: $ => seq(
       repeat(';;'),
@@ -205,17 +211,17 @@ module.exports = grammar({
         parenthesize('::')
       ),
       optional(choice(
-        seq(
-          'of',
-          choice(
-            sep1('*', $._simple_type_expression),
-            $.record_declaration
-          )
-        ),
-        seq(':', $._type_expression),
+        seq('of', $.constructor_argument),
+        seq(':', $._simple_type_expression),
+        seq(':', $.constructor_argument, '->', $._simple_type_expression),
         seq('=', $.constructor_path)
       )),
       repeat($.attribute)
+    ),
+
+    constructor_argument: $ => choice(
+      sep1('*', $._simple_type_expression),
+      $.record_declaration
     ),
 
     record_declaration: $ => seq(
@@ -234,7 +240,7 @@ module.exports = grammar({
 
     type_constraint: $ => seq(
       'constraint',
-      $.type_variable,
+      $._type_expression,
       '=',
       $._type_expression
     ),
@@ -425,11 +431,15 @@ module.exports = grammar({
       $.extension
     ),
 
+    _simple_or_tuple_type_expression: $ => prec(1, choice(
+      $._simple_type_expression,
+      $.tuple_type
+    )),
+
     _type_expression: $ => prec.right(seq(
       choice(
-        $._simple_type_expression,
+        $._simple_or_tuple_type_expression,
         $.function_type,
-        $.tuple_type,
         $.aliased_type
       ),
       repeat($.attribute)
@@ -448,10 +458,13 @@ module.exports = grammar({
       $._type_expression
     )),
 
-    tuple_type: $ => prec.left(PREC.prod, seq(
-      $._type_expression,
+    tuple_type: $ => prec(PREC.prod, seq(
+      choice(
+        $._simple_type_expression,
+        $.tuple_type
+      ),
       '*',
-      $._type_expression
+      $._simple_type_expression
     )),
 
     constructed_type: $ => prec(PREC.app, seq(
@@ -468,19 +481,10 @@ module.exports = grammar({
       $.type_variable
     )),
 
-    polymorphic_variant_type: $ => seq(
-      '[',
-      choice(
-        seq(optional('|'), sep1('|', $._tag_spec)),
-        seq('>', optional('|'), sep('|', $._tag_spec)),
-        seq(
-          '<',
-          optional('|'),
-          sep1('|', $._tag_spec),
-          optional(seq('>', repeat1($.tag)))
-        ),
-      ),
-      ']'
+    polymorphic_variant_type: $ => choice(
+      seq('[', optional('|'), sep1('|', $._tag_spec), ']'),
+      seq('[>', optional('|'), sep('|', $._tag_spec), ']'),
+      seq('[<', optional('|'), sep1('|', $._tag_spec), optional(seq('>', repeat1($.tag))), ']'),
     ),
 
     _tag_spec: $ => choice(
@@ -633,7 +637,7 @@ module.exports = grammar({
 
     _sign_expression: $ => prec(PREC.neg, seq(
       alias($._sign_operator, $.prefix_operator),
-      $._simple_expression
+      $._expression
     )),
 
     _hash_expression: $ => prec.left(PREC.hash, seq(
@@ -982,10 +986,10 @@ module.exports = grammar({
 
     list_pattern: $ => seq(
       '[',
-      optional(
+      optional(seq(
         sep1(';', $._pattern),
         optional(';')
-      ),
+      )),
       ']'
     ),
 
@@ -1052,7 +1056,7 @@ module.exports = grammar({
     attribute_payload: $ => choice(
       $._definitions,
       seq(':', choice($._type_expression, $._module_item)),
-      seq('?', $._pattern, optional(seq('when', $._seq_expression)))
+      seq('?', $._pattern_or_exception, optional(seq('when', $._seq_expression)))
     ),
 
     extension: $ => seq('[%', $.attribute_id, optional($.attribute_payload), ']'),
@@ -1097,7 +1101,7 @@ module.exports = grammar({
     string: $ => seq(
       '"',
       repeat(choice(
-        /[^\\"]/,
+        /[^\\"]+/,
         $.escape_sequence,
         alias(/\\u\{[0-9A-Fa-f]+\}/, $.escape_sequence),
         alias(/\\\n[\t ]*/, $.escape_sequence)
@@ -1192,7 +1196,16 @@ module.exports = grammar({
         $.prefix_operator,
         alias($._sign_operator, $.infix_operator),
         $.infix_operator,
-        seq('.', $.dot_operator, '(', ')', optional('<-'))
+        seq(
+          '.',
+          $.dot_operator,
+          choice(
+            seq('(', ')'),
+            seq('[', ']'),
+            seq('{', '}')
+          ),
+          optional('<-')
+        )
       ))
     ),
 
@@ -1268,7 +1281,8 @@ module.exports = grammar({
   externals: $ => [
     $.comment,
     $.quoted_string,
-    '"'
+    '"',
+    $.line_number_directive
   ]
 })
 
