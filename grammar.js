@@ -1056,7 +1056,7 @@ module.exports = grammar({
     attribute_payload: $ => choice(
       $._definitions,
       seq(':', choice($._type_expression, $._module_item)),
-      seq('?', $._pattern, optional(seq('when', $._seq_expression)))
+      seq('?', $._pattern_or_exception, optional(seq('when', $._seq_expression)))
     ),
 
     extension: $ => seq('[%', $.attribute_id, optional($.attribute_payload), ']'),
