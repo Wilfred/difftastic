@@ -35,7 +35,8 @@ module.exports = grammar({
 
   extras: $ => [
     /\s/,
-    $.comment
+    $.comment,
+    $.line_number_directive
   ],
 
   inline: $ => [
@@ -43,7 +44,12 @@ module.exports = grammar({
   ],
 
   rules: {
-    compilation_unit: $ => optional($._definitions),
+    compilation_unit: $ => seq(
+      optional($.shebang),
+      optional($._definitions)
+    ),
+
+    shebang: $ => /#!.*/,
 
     _definitions: $ => seq(
       repeat(';;'),
@@ -1268,7 +1274,8 @@ module.exports = grammar({
   externals: $ => [
     $.comment,
     $.quoted_string,
-    '"'
+    '"',
+    $.line_number_directive
   ]
 })
 
