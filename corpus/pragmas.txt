@@ -29,18 +29,17 @@ a = b
       (infix_operator_application (variable_identifier) (variable_operator (variable_symbol))
       (function_application
         (variable_identifier)
-        (parenthesized_expression (infix_operator_application (variable_identifier) (variable_operator (variable_symbol)) (integer)))))))
-  (inline_pragma (variable_identifier))
+        (parenthesized_expression
+          (infix_operator_application
+            (variable_identifier)
+            (variable_operator (variable_symbol))
+            (integer)))))))
+  (pragma)
   (function_declaration
     (variable_identifier)
     (function_body (variable_identifier)))
-    (inline_pragma
-      (constructor_like)
-      (phase_control (integer))
-      (variable_identifier))
-    (inline_pragma
-      (eager_phase_control (integer))
-      (variable_identifier)))
+    (pragma)
+    (pragma))
 
 =========================================
 No Inline Pragmas
@@ -73,18 +72,17 @@ a = b
       (infix_operator_application (variable_identifier) (variable_operator (variable_symbol))
       (function_application
         (variable_identifier)
-        (parenthesized_expression (infix_operator_application (variable_identifier) (variable_operator (variable_symbol)) (integer)))))))
-  (no_inline_pragma (variable_identifier))
+        (parenthesized_expression
+          (infix_operator_application
+            (variable_identifier)
+            (variable_operator (variable_symbol))
+            (integer)))))))
+  (pragma)
   (function_declaration
     (variable_identifier)
     (function_body (variable_identifier)))
-  (no_inline_pragma
-    (constructor_like)
-    (phase_control (integer))
-    (variable_identifier))
-  (no_inline_pragma
-    (eager_phase_control (integer))
-    (variable_identifier)))
+  (pragma)
+  (pragma))
 
 =========================================
 Specialization Pragmas
@@ -125,63 +123,15 @@ instance (Eq a) => Eq (Foo a) where {
       (infix_operator_application (variable_identifier) (variable_operator (variable_symbol))
       (function_application
         (variable_identifier)
-        (parenthesized_expression (infix_operator_application (variable_identifier) (variable_operator (variable_symbol)) (integer)))))))
-  (specialization_pragma
-    (phase_control (integer))
-    (spec
-      (variable_identifier)
-      (annotation)
-      (function_type
-        (type (type_constructor_identifier))
-        (type (type_constructor_identifier))))
-    (spec
-      (variable_identifier)
-      (annotation)
-      (function_type
-        (type (type_constructor_identifier))
-        (type (type_constructor_identifier)))))
-  (specialization_pragma
-    (spec
-      (variable_identifier)
-      (annotation)
-      (function_type
-        (type (type_constructor_identifier))
-        (type (type_constructor_identifier))))
-    (spec
-      (variable_identifier)
-      (annotation)
-      (function_type
-        (type (type_constructor_identifier))
-        (type (type_constructor_identifier)))))
-  (specialization_pragma
-    (inline)
-    (phase_control (integer))
-    (spec
-      (variable_identifier)
-      (annotation)
-      (function_type
-        (type (type_constructor_identifier))
-        (type (type_constructor_identifier))))
-    (spec
-      (variable_identifier)
-      (annotation)
-      (function_type
-        (type (type_constructor_identifier))
-        (type (type_constructor_identifier)))))
-  (specialization_pragma
-    (noinline)
-    (spec
-      (variable_identifier)
-      (annotation)
-      (function_type
-        (type (type_constructor_identifier))
-        (type (type_constructor_identifier))))
-    (spec
-      (variable_identifier)
-      (annotation)
-      (function_type
-        (type (type_constructor_identifier))
-        (type (type_constructor_identifier)))))
+        (parenthesized_expression
+          (infix_operator_application
+          (variable_identifier)
+          (variable_operator (variable_symbol))
+          (integer)))))))
+  (pragma)
+  (pragma)
+  (pragma)
+  (pragma)
 
   (type_class_instance_declaration
     (context (context_pattern (class (type_class_identifier) (type_variable_identifier))))
@@ -189,17 +139,7 @@ instance (Eq a) => Eq (Foo a) where {
     (instance
       (parenthesized_type_pattern (type_constructor_identifier) (type_variable_identifier)))
       (where
-        (specialization_pragma
-          (instance_spec
-            (type_class_identifier)
-            (parenthesized_pattern
-              (constructor_pattern
-                (constructor_identifier)
-                (list_pattern
-                  (pattern
-                    (tuple_pattern
-                      (pattern (constructor_identifier))
-                      (pattern (constructor_identifier))))))))))))
+        (pragma))))
 
 =========================================
 Language Pragmas Without Module
@@ -211,8 +151,8 @@ Language Pragmas Without Module
 ---
 
 (module
-  (language_pragma (language_name))
-  (language_pragma (language_name) (language_name)))
+  (pragma)
+  (pragma))
 
 =========================================
 Language Pragmas With Module
@@ -225,8 +165,8 @@ module A where
 ---
 
 (module
-  (language_pragma (language_name))
-  (language_pragma (language_name) (language_name))
+  (pragma)
+  (pragma)
   (module_identifier)
   (where))
 
@@ -243,11 +183,11 @@ Options GHC Pragmas Without Module
 ---
 
 (module
-  (options_ghc_pragma)
-  (options_ghc_pragma (option))
-  (options_ghc_pragma (option))
-  (options_ghc_pragma (option))
-  (options_ghc_pragma (option) (option)))
+  (pragma)
+  (pragma)
+  (pragma)
+  (pragma)
+  (pragma))
 
 =========================================
 Options GHC Pragmas With Module
@@ -261,9 +201,9 @@ module A where
 ---
 
 (module
-  (options_ghc_pragma (option))
-  (options_ghc_pragma (option))
-  (options_ghc_pragma (option))
+  (pragma)
+  (pragma)
+  (pragma)
   (module_identifier)
   (where))
 
@@ -281,7 +221,7 @@ import {-# SOURCE #-} B(TB(..))
   (module_identifier)
   (where
     (import_declaration
-      (source_pragma)
+      (pragma)
       (module_identifier)
       (import_spec
         (import
@@ -298,8 +238,8 @@ Include Pragma Without Module
 ---
 
 (module
-  (include_pragma (header_file))
-  (include_pragma (header_file)))
+  (pragma)
+  (pragma))
 
 
 =========================================
@@ -313,8 +253,8 @@ module A where
 ---
 
 (module
-  (include_pragma (header_file))
-  (include_pragma (header_file))
+  (pragma)
+  (pragma)
   (module_identifier)
   (where))
 
@@ -336,7 +276,7 @@ i = h
 
 (module
   (module_identifier)
-  (warning_pragma (warning_message))
+  (pragma)
   (where
     (function_declaration
       (variable_identifier)
@@ -350,19 +290,9 @@ i = h
       (variable_identifier)
       (function_body
         (variable_identifier)))
-    (warning_pragma
-      (variable_identifier)
-      (variable_identifier)
-      (warning_message))
-    (warning_pragma
-      (variable_identifier)
-      (variable_identifier)
-      (warning_message_list
-        (warning_message)
-        (warning_message)))
-    (warning_pragma
-      (variable_identifier)
-      (warning_message))))
+    (pragma)
+    (pragma)
+    (pragma)))
 
 =========================================
 Deprecated Pragma
@@ -382,14 +312,20 @@ i = h
 
 (module
   (module_identifier)
-  (deprecated_pragma (deprecated_message))
+  (pragma)
   (where
-    (function_declaration (variable_identifier) (function_body (variable_identifier)))
-    (function_declaration (variable_identifier) (function_body (variable_identifier)))
-    (function_declaration (variable_identifier) (function_body (variable_identifier)))
-    (deprecated_pragma (variable_identifier) (variable_identifier) (deprecated_message))
-    (deprecated_pragma (variable_identifier) (variable_identifier) (deprecated_message_list (deprecated_message) (deprecated_message)))
-    (deprecated_pragma (variable_identifier) (deprecated_message))))
+    (function_declaration
+      (variable_identifier)
+      (function_body (variable_identifier)))
+    (function_declaration
+      (variable_identifier)
+      (function_body (variable_identifier)))
+    (function_declaration
+      (variable_identifier)
+      (function_body (variable_identifier)))
+    (pragma)
+    (pragma)
+    (pragma)))
 
 =========================================
 Line Pragma
@@ -403,9 +339,7 @@ module A where
 (module
   (module_identifier)
   (where
-    (line_pragma
-      (line_number)
-      (file_name))))
+    (pragma)))
 
 =========================================
 Column Pragma
@@ -419,8 +353,7 @@ module A where
 (module
   (module_identifier)
   (where
-    (column_pragma
-      (column_number))))
+    (pragma)))
 
 =========================================
 Minimal Pragma
@@ -487,24 +420,10 @@ class Eq a where
                   (variable_identifier)
                   (variable_operator (variable_symbol))
                   (variable_identifier))))))
-      (minimal_pragma
-        (disjunction (variable_operator (variable_symbol)) (variable_operator (variable_symbol))))
-      (minimal_pragma
-        (conjunction (variable_operator (variable_symbol)) (variable_operator (variable_symbol))))
-      (minimal_pragma
-        (disjunction
-          (conjunction
-            (variable_operator (variable_symbol))
-            (variable_operator (variable_symbol)))
-          (variable_operator (variable_symbol))))
-      (minimal_pragma
-        (disjunction
-          (conjunction
-            (variable_operator (variable_symbol))
-            (variable_operator (variable_symbol)))
-          (conjunction
-            (variable_operator (variable_symbol))
-            (variable_operator (variable_symbol)))))))))
+      (pragma)
+      (pragma)
+      (pragma)
+      (pragma)))))
 
 =========================================
 Inlinable Pragmas
@@ -521,9 +440,9 @@ a = b
   (function_declaration
     (variable_identifier)
     (function_body (variable_identifier)))
-  (inlinable_pragma (variable_identifier))
-  (inlinable_pragma (phase_control (integer)) (variable_identifier))
-  (inlinable_pragma (eager_phase_control (integer)) (variable_identifier)))
+  (pragma)
+  (pragma)
+  (pragma))
 
 =========================================
 Unpack Pragmas
@@ -540,9 +459,10 @@ data T = T {-# UNPACK #-} !Float
       (constructors
         (data_constructor
           (constructor_identifier)
-          (unpack_pragma)
+          (pragma)
           (strict_type (type_constructor_identifier))
-          (unpack_pragma) (strict_type (type_constructor_identifier))))))
+          (pragma)
+          (strict_type (type_constructor_identifier))))))
 
 =========================================
 No unpack Pragmas
@@ -558,7 +478,7 @@ data T = T {-# NOUNPACK #-} !(Int, Int)
     (constructors
       (data_constructor
         (constructor_identifier)
-        (no_unpack_pragma)
+        (pragma)
         (strict_type (tuple_type (type (type_constructor_identifier)) (type (type_constructor_identifier))))))))
 
 =========================================
@@ -627,7 +547,7 @@ foo (RightChoice n) = n - 2
           (constructor_identifier))
         (variable_identifier))))
 
-  (complete_pragma (constructor_identifier) (constructor_identifier))
+  (pragma)
 
   (type_signature
     (variable_identifier)
@@ -665,7 +585,7 @@ instance {-# OVERLAPPING #-} C Int [Int] where {}
 
 (module
   (type_class_instance_declaration
-    (overlapping_pragma)
+    (pragma)
     (type_class_identifier)
     (instance
       (type_constructor_identifier) (list_type (type (type_constructor_identifier))))
@@ -681,7 +601,7 @@ instance {-# OVERLAPPABLE #-} Show a => C a Bool where {}
 
 (module
   (type_class_instance_declaration
-    (overlappable_pragma)
+    (pragma)
     (context (context_pattern (class (type_class_identifier) (type_variable_identifier))))
     (type_class_identifier)
     (instance
@@ -699,7 +619,7 @@ instance {-# OVERLAPS #-} Show a => C a Bool where {}
 
 (module
   (type_class_instance_declaration
-    (overlaps_pragma)
+    (pragma)
     (context (context_pattern (class (type_class_identifier) (type_variable_identifier))))
     (type_class_identifier)
     (instance
@@ -717,7 +637,7 @@ instance {-# INCOHERENT #-} (Show a, Show b) => C a [b] where {}
 
 (module
   (type_class_instance_declaration
-    (incoherent_pragma)
+    (pragma)
     (context
       (context_pattern (class (type_class_identifier) (type_variable_identifier)))
       (context_pattern (class (type_class_identifier) (type_variable_identifier))))
@@ -743,73 +663,7 @@ module A where
 (module
   (module_identifier)
     (where
-    (rules_pragma
-      (rule
-        (name)
-        (phase_control (integer))
-        (scoped_type_variables (type_variable_identifier) (type_variable_identifier) (type_variable_identifier) (dot))
-        (rule_lhs
-          (function_application
-            (function_application
-              (variable_identifier)
-              (variable_identifier))
-            (parenthesized_expression
-              (function_application
-                (function_application
-                  (variable_identifier)
-                  (variable_identifier))
-                (variable_identifier)))))
-        (rule_rhs
-          (function_application
-            (function_application
-              (variable_identifier)
-              (parenthesized_expression
-                (infix_operator_application
-                  (variable_identifier)
-                  (variable_operator (variable_symbol))
-                  (variable_identifier))))
-            (variable_identifier))))
-
-      (rule
-        (name)
-        (scoped_type_variables
-          (type_variable_identifier)
-          (type_variable_identifier)
-          (annotated_type_variable
-            (type_variable_identifier)
-            (annotation)
-            (function_type
-              (type
-                (scoped_type_variables
-                  (type_variable_identifier)
-                  (dot))
-                (parenthesized_type_pattern
-                  (function_type
-                    (type (type_variable_identifier))
-                    (function_type
-                      (type (type_variable_identifier))
-                      (type (type_variable_identifier))))))
-              (function_type
-                (type (type_variable_identifier))
-                (type (type_variable_identifier)))))
-          (dot))
-        (rule_lhs
-          (function_application
-            (function_application
-              (function_application
-                (variable_identifier)
-                (variable_identifier))
-              (variable_identifier))
-            (parenthesized_expression
-              (function_application
-                (variable_identifier)
-                (variable_identifier)))))
-        (rule_rhs
-          (function_application
-            (function_application
-              (variable_identifier)
-              (variable_identifier))
-            (variable_identifier)))))))
+      (pragma)))
 
 =========================================
 Annotation Pragmas
@@ -825,26 +679,6 @@ module A where
 (module
   (module_identifier)
   (where
-    (annotation_pragma
-      (module)
-      (parenthesized_expression
-        (expression_type_signature
-          (string)
-          (annotation)
-          (type_constructor_identifier))))
-    (annotation_pragma
-      (type)
-      (type_constructor_identifier)
-      (parenthesized_expression
-        (function_application
-          (constructor_identifier) (string))))
-    (annotation_pragma
-      (variable_identifier)
-      (labeled_construction
-        (constructor_identifier)
-        (field_bind
-          (variable_identifier)
-          (parenthesized_expression (function_application (variable_identifier) (integer))))
-        (field_bind
-          (variable_identifier)
-          (variable_identifier))))))
+    (pragma)
+    (pragma)
+    (pragma)))

@@ -320,8 +320,16 @@ data N = N { a, b :: {-#  UNPACK #-} !Int, c :: String }
       (record_data_constructor
         (constructor_identifier)
         (fields
-          (field (variable_identifier) (variable_identifier) (annotation) (unpack_pragma) (strict_type (type_constructor_identifier)))
-          (field (variable_identifier) (annotation) (type_constructor_identifier)))))))
+          (field
+            (variable_identifier)
+            (variable_identifier)
+            (annotation)
+            (pragma)
+            (strict_type (type_constructor_identifier)))
+          (field
+            (variable_identifier)
+            (annotation)
+            (type_constructor_identifier)))))))
 
 =========================================
 Algebraic Datatype Declarations With Multiple Constructors
@@ -646,7 +654,7 @@ data Union (r :: [ * -> * ]) (v :: *) where
       (gadt_constructor
         (type_constructor_identifier)
         (annotation)
-        (unpack_pragma)
+        (pragma)
         (function_type
           (type (strict_type (type_constructor_identifier)))
           (function_type
