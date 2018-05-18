@@ -608,3 +608,30 @@ instance forall location a b. (Show a, Monad b) => MonadError (Value a) m where
             (variable_identifier)
             (variable_operator (variable_symbol))
             (constructor_identifier)))))))
+
+=========================================
+Non-aligned Comment Between Instance Declarations
+=========================================
+
+instance Show A where b = c
+  -- a
+instance Show A where b = c
+
+---
+
+(module
+  (type_class_instance_declaration
+    (type_class_identifier)
+    (instance (type_constructor_identifier))
+    (where
+      (function_declaration
+        (variable_identifier)
+        (function_body (variable_identifier)))))
+  (comment)
+  (type_class_instance_declaration
+    (type_class_identifier)
+    (instance (type_constructor_identifier))
+    (where
+      (function_declaration
+        (variable_identifier)
+        (function_body (variable_identifier))))))
