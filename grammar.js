@@ -637,7 +637,7 @@ module.exports = grammar({
 
     _sign_expression: $ => prec(PREC.neg, seq(
       alias($._sign_operator, $.prefix_operator),
-      $._simple_expression
+      $._expression
     )),
 
     _hash_expression: $ => prec.left(PREC.hash, seq(
