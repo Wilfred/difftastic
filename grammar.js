@@ -84,6 +84,8 @@ module.exports = grammar({
       $.module_type_definition,
       $.open_statement,
       $.include_statement,
+      $.class_definition,
+      $.class_type_definition,
       $.floating_attribute,
       $.item_extension
     ),
@@ -292,6 +294,43 @@ module.exports = grammar({
       repeat($.item_attribute)
     ),
 
+    class_definition: $ => seq(
+      'class', optional($._extension_attribute),
+      sep1(seq('and', repeat($.attribute)), $.class_binding)
+    ),
+
+    class_binding: $ => prec.right(seq(
+      optional('virtual'),
+      optional(seq(
+        '[',
+        sep1(',', $.type_variable),
+        ']'
+      )),
+      $.class_name,
+      repeat($.parameter),
+      optional(seq(':', $._class_type)),
+      optional(seq('=', $._class_expression)),
+      repeat($.item_attribute)
+    )),
+
+    class_type_definition: $ => seq(
+      'class', 'type', optional($._extension_attribute),
+      sep1(seq('and', repeat($.attribute)), $.class_type_binding)
+    ),
+
+    class_type_binding: $ => seq(
+      optional('virtual'),
+      optional(seq(
+        '[',
+        sep1(',', $.type_variable),
+        ']'
+      )),
+      $.class_name,
+      '=',
+      $._simple_class_type,
+      repeat($.item_attribute)
+    ),
+
     // Module types
 
     _module_type: $ => prec.right(seq(
@@ -407,6 +446,214 @@ module.exports = grammar({
       optional(seq(':>', $._module_type))
     )),
 
+    // Class types
+
+    _simple_class_type: $ => prec.right(seq(
+      choice(
+        $.class_type_path,
+        $.instantiated_class_type,
+        $.class_body_type,
+        $.let_open_class_type,
+        $.extension
+      ),
+      repeat($.attribute)
+    )),
+
+    _class_type: $ => prec.right(seq(
+      choice(
+        $._simple_class_type,
+        $.class_function_type,
+      ),
+      repeat($.attribute)
+    )),
+
+    instantiated_class_type: $ => seq(
+      '[',
+      sep1(',', $._type_expression),
+      ']',
+      $.class_type_path
+    ),
+
+    class_body_type: $ => seq(
+      'object',
+      repeat($.attribute),
+      optional(parenthesize($._type_expression)),
+      repeat(choice(
+        $._class_field_specification,
+        $.floating_attribute
+      )),
+      'end'
+    ),
+
+    _class_field_specification: $ => seq(
+      choice(
+        $.inheritance_specification,
+        $.instance_variable_specification,
+        $.method_specification,
+        $.type_parameter_constraint,
+        $.item_extension
+      ),
+      repeat($.item_attribute)
+    ),
+
+    inheritance_specification: $ => seq(
+      'inherit',
+      repeat($.attribute),
+      $._simple_class_type
+    ),
+
+    instance_variable_specification: $ => seq(
+      'val',
+      repeat($.attribute),
+      repeat(choice('mutable', 'virtual')),
+      $.instance_variable_name,
+      ':',
+      $._type_expression
+    ),
+
+    method_specification: $ => seq(
+      'method',
+      repeat($.attribute),
+      repeat(choice('private', 'virtual')),
+      $.method_name,
+      ':',
+      $._poly_type_expression
+    ),
+
+    type_parameter_constraint: $ => seq(
+      'constraint',
+      repeat($.attribute),
+      $._type_expression,
+      '=',
+      $._type_expression
+    ),
+
+    let_open_class_type: $ => prec.right(PREC.match, seq(
+      'let',
+      $.open_statement,
+      'in',
+      $._simple_class_type
+    )),
+
+    class_function_type: $ => prec.right(PREC.seq, seq(
+      optional(seq(
+        optional('?'),
+        $._label_name, ':'
+      )),
+      $._simple_or_tuple_type_expression,
+      '->',
+      $._class_type
+    )),
+
+    // Class expressions
+
+    _simple_class_expression: $ => choice(
+      $.class_path,
+      $.instantiated_class,
+      $.object_expression,
+      $.typed_class_expression,
+      parenthesize($._class_expression)
+    ),
+
+    _class_expression: $ => prec.right(seq(
+      choice(
+        $._simple_class_expression,
+        $.class_function,
+        $.class_application,
+        $.let_class_expression,
+        $.let_open_class_expression,
+        $.extension
+      ),
+      repeat($.attribute)
+    )),
+
+    instantiated_class: $ => seq(
+      '[',
+      sep1(',', $._type_expression),
+      ']',
+      $.class_path
+    ),
+
+    typed_class_expression: $ => parenthesize(seq(
+      $._class_expression,
+      ':',
+      $._class_type
+    )),
+
+    class_function: $ => prec.right(PREC.match, seq(
+      'fun',
+      repeat($.attribute),
+      repeat1($.parameter),
+      '->',
+      $._class_expression
+    )),
+
+    class_application: $ => prec.right(PREC.app, seq(
+      $._simple_class_expression,
+      repeat1($._argument)
+    )),
+
+    let_class_expression: $ => prec.right(PREC.match, seq(
+      $.value_definition,
+      'in',
+      $._class_expression
+    )),
+
+    _class_field: $ => seq(
+      choice(
+        $.inheritance_definition,
+        $.instance_variable_definition,
+        $.method_definition,
+        $.type_parameter_constraint,
+        $.class_initializer,
+        $.item_extension
+      ),
+      repeat($.item_attribute)
+    ),
+
+    inheritance_definition: $ => seq(
+      'inherit',
+      optional('!'),
+      repeat($.attribute),
+      $._class_expression,
+      optional(seq('as', $.value_name))
+    ),
+
+    instance_variable_definition: $ => seq(
+      'val',
+      optional('!'),
+      repeat($.attribute),
+      repeat(choice('mutable', 'virtual')),
+      $.instance_variable_name,
+      optional(seq(':', $._type_expression)),
+      optional(seq(':>', $._type_expression)),
+      optional(seq('=', $._seq_expression)),
+    ),
+
+    method_definition: $ => seq(
+      'method',
+      optional('!'),
+      repeat($.attribute),
+      repeat(choice('private', 'virtual')),
+      $.method_name,
+      repeat($.parameter),
+      optional(seq(':', $._poly_type_expression)),
+      optional(seq('=', $._seq_expression))
+    ),
+
+    class_initializer: $ => seq(
+      'initializer',
+      repeat($.attribute),
+      $._seq_expression
+    ),
+
+    let_open_class_expression: $ => prec.right(PREC.match, seq(
+      'let',
+      $.open_statement,
+      'in',
+      $._class_expression
+    )),
+
     // Types
 
     _poly_type_expression: $ => seq(
@@ -427,6 +674,8 @@ module.exports = grammar({
       $.constructed_type,
       $.polymorphic_variant_type,
       $.package_type,
+      $.hash_type,
+      $.object_type,
       parenthesize($._type_expression),
       $.extension
     ),
@@ -508,6 +757,40 @@ module.exports = grammar({
       $._module_type
     )),
 
+    object_type: $ => seq(
+      '<',
+      optional(choice(
+        seq(
+          sep1(';', choice(
+            $.method_type,
+            $._simple_type_expression
+          )),
+          optional(seq(
+            ';',
+            repeat($.attribute),
+            optional('..')
+          ))
+        ),
+        '..'
+      )),
+      '>'
+    ),
+
+    method_type: $ => seq(
+      $.method_name,
+      ':',
+      $._poly_type_expression
+    ),
+
+    hash_type: $ => prec(PREC.hash, seq(
+      optional(choice(
+        $._simple_type_expression,
+        parenthesize(sep1(',', $._type_expression))
+      )),
+      '#',
+      $.class_path
+    )),
+
     // Expressions
 
     _simple_expression: $ => choice(
@@ -530,6 +813,9 @@ module.exports = grammar({
       $.coercion_expression,
       $.local_open_expression,
       $.package_expression,
+      $.new_expression,
+      $.object_copy_expression,
+      $.method_invocation,
       $.extension
     ),
 
@@ -554,7 +840,8 @@ module.exports = grammar({
         $.lazy_expression,
         $.let_module_expression,
         $.let_open_expression,
-        $.let_exception_expression
+        $.let_exception_expression,
+        $.object_expression
       ),
       repeat($.attribute)
     )),
@@ -737,7 +1024,8 @@ module.exports = grammar({
         $.field_get_expression,
         $.array_get_expression,
         $.string_get_expression,
-        $.bigarray_get_expression
+        $.bigarray_get_expression,
+        $.instance_variable_name
       ),
       '<-',
       $._expression
@@ -878,6 +1166,7 @@ module.exports = grammar({
         $.list_expression,
         $.array_expression,
         $.record_expression,
+        $.object_copy_expression,
         $.local_open_expression
       )
     ),
@@ -895,6 +1184,42 @@ module.exports = grammar({
       'in',
       $._seq_expression
     )),
+
+    new_expression: $ => seq(
+      'new',
+      optional($._extension_attribute),
+      $.class_path
+    ),
+
+    object_copy_expression: $ => seq(
+      '{<',
+      sep(';', seq(
+        $.instance_variable_name,
+        optional(seq('=', $._expression))
+      )),
+      optional(';'),
+      '>}'
+    ),
+
+    method_invocation: $ => prec(PREC.hash, seq(
+      $._simple_expression,
+      '#',
+      $.method_name
+    )),
+
+    object_expression: $ => seq(
+      'object',
+      optional($._extension_attribute),
+      optional(parenthesize(seq(
+        $._pattern,
+        optional(seq(':', $._type_expression))
+      ))),
+      repeat(choice(
+        $._class_field,
+        $.floating_attribute
+      )),
+      'end'
+    ),
 
     // Patterns
 
@@ -1179,7 +1504,7 @@ module.exports = grammar({
 
     _or_operator: $ => choice('or', '||'),
 
-    _assign_operator: $ => choice('<-', ':='),
+    _assign_operator: $ => choice(':='),
 
     dot_operator: $ => token(
       seq(/[!$%&*+\-/:=>?@^|~]/, repeat(OP_CHAR))
@@ -1267,6 +1592,22 @@ module.exports = grammar({
       seq($._extended_module_name, '.', $.type_constructor_path)
     ),
 
+    class_name: $ => LOWERCASE_IDENT,
+
+    class_type_path: $ => choice(
+      $.class_name,
+      seq($._extended_module_name, '.', $.class_type_path)
+    ),
+
+    class_path: $ => choice(
+      $.class_name,
+      seq($.module_name, '.', $.class_path)
+    ),
+
+    instance_variable_name: $ => LOWERCASE_IDENT,
+
+    method_name: $ => LOWERCASE_IDENT,
+
     type_variable: $ => token(seq("'", IDENT)),
 
     tag: $ => token(seq('`', IDENT)),
@@ -1275,7 +1616,9 @@ module.exports = grammar({
   },
 
   conflicts: $ => [
-    [$._module_type, $._module_expression]
+    [$._module_type, $._module_expression],
+    [$.type_constructor, $.class_name],
+    [$._simple_class_type, $._simple_type_expression]
   ],
 
   externals: $ => [

@@ -508,9 +508,8 @@ let x = x in if x then x <- x := ! x . x ## x x x lsl x ** x * x mod x + x - x :
     (sequence_expression
       (if_expression
         (value_path (value_name))
-        (infix_expression
-          (value_path (value_name))
-          (infix_operator)
+        (set_expression
+          (instance_variable_name)
           (infix_expression
             (value_path (value_name))
             (infix_operator)
