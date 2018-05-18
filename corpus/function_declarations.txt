@@ -1297,3 +1297,51 @@ b (E (u :: Union e b) q) = a
             (variable_identifier)))
         (variable_identifier)))
     (function_body (variable_identifier))))
+
+=================================================
+Function Declarations With Equality Constraints
+=================================================
+
+ifte :: ( IvoryStore a
+        , IvoryZero ('Stored a)
+        , GetAlloc eff ~ 'Scope s
+        ) => IBool
+          -> Ivory eff a
+          -> Ivory eff a
+          -> Ivory eff a
+
+---
+
+(module
+  (type_signature
+    (variable_identifier)
+    (annotation)
+    (context
+      (context_pattern
+        (class
+          (type_class_identifier)
+          (type_variable_identifier)))
+      (context_pattern
+        (class
+          (type_class_identifier)
+          (parenthesized_type_pattern
+          (quoted_name (type_constructor_identifier))
+          (type_variable_identifier))))
+      (context_pattern
+        (equality_constraint
+          (equality_lhs
+            (class
+              (type_class_identifier)
+              (type_variable_identifier)))
+          (equality_rhs
+            (class
+              (quoted_name (type_constructor_identifier))
+              (type_variable_identifier))))))
+    (function_type
+      (type (type_constructor_identifier))
+      (function_type
+        (type
+          (type_constructor_identifier) (type_variable_identifier) (type_variable_identifier))
+        (function_type
+          (type (type_constructor_identifier) (type_variable_identifier) (type_variable_identifier))
+          (type (type_constructor_identifier) (type_variable_identifier) (type_variable_identifier)))))))
