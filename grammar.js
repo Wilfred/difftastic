@@ -986,10 +986,10 @@ module.exports = grammar({
 
     list_pattern: $ => seq(
       '[',
-      optional(
+      optional(seq(
         sep1(';', $._pattern),
         optional(';')
-      ),
+      )),
       ']'
     ),
 
