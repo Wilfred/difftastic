@@ -1101,7 +1101,7 @@ module.exports = grammar({
     string: $ => seq(
       '"',
       repeat(choice(
-        /[^\\"]/,
+        /[^\\"]+/,
         $.escape_sequence,
         alias(/\\u\{[0-9A-Fa-f]+\}/, $.escape_sequence),
         alias(/\\\n[\t ]*/, $.escape_sequence)
