@@ -5518,6 +5518,10 @@
         {
           "type": "SYMBOL",
           "name": "_context_lpat"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "equality_constraint"
         }
       ]
     },
@@ -5527,10 +5531,6 @@
         {
           "type": "SYMBOL",
           "name": "class"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "equality_constraint"
         },
         {
           "type": "SYMBOL",
@@ -5665,8 +5665,17 @@
           "type": "SEQ",
           "members": [
             {
-              "type": "SYMBOL",
-              "name": "_qualified_type_class_identifier"
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "_qualified_type_class_identifier"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "quoted_name"
+                }
+              ]
             },
             {
               "type": "CHOICE",
@@ -7600,9 +7609,6 @@
       "infix_operator_pattern"
     ],
     [
-      "equality_constraint"
-    ],
-    [
       "type_class_declaration",
       "_qualified_type_class_identifier"
     ],
@@ -7686,7 +7692,20 @@
       "scoped_type_variables"
     ],
     [
+      "_context_lpat",
       "class"
+    ],
+    [
+      "class"
+    ],
+    [
+      "_general_constructor",
+      "class"
+    ],
+    [
+      "_general_constructor",
+      "class",
+      "_context_lpat"
     ]
   ],
   "externals": [
