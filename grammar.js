@@ -211,17 +211,17 @@ module.exports = grammar({
         parenthesize('::')
       ),
       optional(choice(
-        seq(
-          'of',
-          choice(
-            sep1('*', $._simple_type_expression),
-            $.record_declaration
-          )
-        ),
-        seq(':', $._type_expression),
+        seq('of', $.constructor_argument),
+        seq(':', $._simple_type_expression),
+        seq(':', $.constructor_argument, '->', $._simple_type_expression),
         seq('=', $.constructor_path)
       )),
       repeat($.attribute)
+    ),
+
+    constructor_argument: $ => choice(
+      sep1('*', $._simple_type_expression),
+      $.record_declaration
     ),
 
     record_declaration: $ => seq(
