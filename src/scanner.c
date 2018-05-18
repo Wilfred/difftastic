@@ -53,6 +53,7 @@ static bool scan_whitespace_and_comments(TSLexer *lexer) {
 bool tree_sitter_javascript_external_scanner_scan(void *payload, TSLexer *lexer,
                                                   const bool *valid_symbols) {
   if (valid_symbols[TEMPLATE_CHARS]) {
+    if (valid_symbols[AUTOMATIC_SEMICOLON]) return false;
     lexer->result_symbol = TEMPLATE_CHARS;
     for (bool notfirst = false;; notfirst = true) {
       lexer->mark_end(lexer);
