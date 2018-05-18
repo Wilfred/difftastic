@@ -1,0 +1,40 @@
+#!/bin/bash
+
+set -e
+
+repos="
+0install/0install
+BinaryAnalysisPlatform/bap
+dbuenzli/cmdliner
+facebook/flow
+facebook/pyre-check
+garrigue/lablgtk
+janestreet/base
+mirage/ocaml-cohttp
+ocaml/dune
+ocaml/merlin
+ocaml/opam
+ocsigen/js_of_ocaml
+ocsigen/lwt
+owlbarn/owl
+"
+
+for repo in $repos; do
+  dir=examples/${repo#*/}
+  if [ ! -d "$dir" ]; then
+    git clone --depth 1 https://github.com/$repo $dir
+  fi
+
+  known_failures=$(cat script/known_failures.txt)
+  examples_to_parse=$(
+    for example in $(find "$dir" -name '*.ml' -o -name '*.mli'); do
+      if [[ ! $known_failures == *$example* ]]; then
+        echo $example
+      fi
+    done
+  )
+
+  echo $examples_to_parse | xargs -n 5000 tree-sitter parse -q
+
+  echo "Successfully parsed $repo ($( echo $examples_to_parse | wc -w ) files)"
+done
