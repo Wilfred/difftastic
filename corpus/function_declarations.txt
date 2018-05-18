@@ -1196,11 +1196,19 @@ g = 2 where
     (function_body (integer) (where))))
 
 =================================================
-Function Declarations With Empty Where And Comment
+Function Declarations With Empty Where, Comments, Pragmas
 =================================================
 
 f = a where
-{- comment -}
+  {- comment -}
+f = a where
+  {-
+-}
+f = a where
+  --
+f = a where
+  {-# COLUMN 42 #-}
+
 b = 2
 
 ---
@@ -1210,7 +1218,26 @@ b = 2
     (variable_identifier)
     (function_body
       (variable_identifier)
-      (where (comment))))
+      (where
+        (comment))))
+  (function_declaration
+    (variable_identifier)
+    (function_body
+      (variable_identifier)
+      (where
+        (comment))))
+  (function_declaration
+    (variable_identifier)
+    (function_body
+      (variable_identifier)
+      (where
+        (comment))))
+  (function_declaration
+    (variable_identifier)
+    (function_body
+      (variable_identifier)
+      (where
+        (pragma))))
   (function_declaration
     (variable_identifier)
     (function_body

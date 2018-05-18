@@ -1655,17 +1655,14 @@ module.exports = grammar({
     )),
 
     pragma: $ => token(
-      choice(
-        /{-#.*#-}/,
-        seq(
-          '{-#',
-          repeat(choice(
-            /[^#]/,
-            /#[^-]/,
-            /#\-[^}]/,
-          )),
-          '#-}'
-        )
+      seq(
+        '{-#',
+        repeat(choice(
+          /[^#]/,
+          /#[^-]/,
+          /#\-[^}]/,
+        )),
+        '#-}'
       )
     ),
 
