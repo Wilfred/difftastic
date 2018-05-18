@@ -1,5 +1,7 @@
 package-lock.json
 node_modules
 build
+examples
 *.log
 test.ml
+
