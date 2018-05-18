@@ -1196,7 +1196,16 @@ module.exports = grammar({
         $.prefix_operator,
         alias($._sign_operator, $.infix_operator),
         $.infix_operator,
-        seq('.', $.dot_operator, '(', ')', optional('<-'))
+        seq(
+          '.',
+          $.dot_operator,
+          choice(
+            seq('(', ')'),
+            seq('[', ']'),
+            seq('{', '}')
+          ),
+          optional('<-')
+        )
       ))
     ),
 
