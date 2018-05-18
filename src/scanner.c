@@ -4,7 +4,8 @@
 enum {
   COMMENT,
   QUOTED_STRING,
-  STRING_DELIM
+  STRING_DELIM,
+  LINE_NUMBER_DIRECTIVE
 };
 
 void *tree_sitter_ocaml_external_scanner_create() {
@@ -26,93 +27,104 @@ void tree_sitter_ocaml_external_scanner_deserialize(void *payload, const char *b
 
 bool tree_sitter_ocaml_external_scanner_scan(void *payload, TSLexer *lexer, const bool *whitelist) {
   bool in_string = *(bool*)payload;
-  if (whitelist[COMMENT] || whitelist[QUOTED_STRING] || whitelist[STRING_DELIM]) {
-    while (lexer->lookahead == ' ' ||
-           lexer->lookahead == '\t' ||
-           lexer->lookahead == '\n') {
-      lexer->advance(lexer, true);
+
+  while (isspace(lexer->lookahead)) {
+    lexer->advance(lexer, true);
+  }
+
+  if (lexer->lookahead == '#' && lexer->get_column(lexer) == 0) {
+    lexer->advance(lexer, false);
+    while (lexer->lookahead == ' ' || lexer->lookahead == '\t') {
+      lexer->advance(lexer, false);
     }
 
-    if (!in_string && whitelist[COMMENT] && lexer->lookahead == '(') {
-      lexer->advance(lexer, false);
-      if (lexer->lookahead != '*') return false;
-      lexer->advance(lexer, false);
+    if (!isdigit(lexer->lookahead)) return false;
 
-      int depth = 1;
+    while (lexer->lookahead != '\n' && lexer->lookahead != '\r') lexer->advance(lexer, false);
 
-      for (;;) {
-        if (depth == 0) {
+    lexer->result_symbol = LINE_NUMBER_DIRECTIVE;
+    return true;
+  }
+
+  if (!in_string && whitelist[COMMENT] && lexer->lookahead == '(') {
+    lexer->advance(lexer, false);
+    if (lexer->lookahead != '*') return false;
+    lexer->advance(lexer, false);
+
+    int depth = 1;
+
+    for (;;) {
+      if (depth == 0) {
+        lexer->result_symbol = COMMENT;
+        return true;
+      }
+
+      switch (lexer->lookahead) {
+        case '(':
+          lexer->advance(lexer, false);
+          if (lexer->lookahead == '*') {
+            lexer->advance(lexer, false);
+            depth++;
+          }
+          break;
+        case '*':
+          lexer->advance(lexer, false);
+          if (lexer->lookahead == ')') {
+            lexer->advance(lexer, false);
+            depth--;
+          }
+          break;
+        case '\0':
           lexer->result_symbol = COMMENT;
           return true;
-        }
-
-        switch (lexer->lookahead) {
-          case '(':
-            lexer->advance(lexer, false);
-            if (lexer->lookahead == '*') {
-              lexer->advance(lexer, false);
-              depth++;
-            }
-            break;
-          case '*':
-            lexer->advance(lexer, false);
-            if (lexer->lookahead == ')') {
-              lexer->advance(lexer, false);
-              depth--;
-            }
-            break;
-          case '\0':
-            lexer->result_symbol = COMMENT;
-            return true;
-          default:
-            lexer->advance(lexer, false);
-        }
+        default:
+          lexer->advance(lexer, false);
       }
-    } else if (whitelist[QUOTED_STRING] && lexer->lookahead == '{') {
-      lexer->advance(lexer, false);
+    }
+  } else if (whitelist[QUOTED_STRING] && lexer->lookahead == '{') {
+    lexer->advance(lexer, false);
 
-      int length = 0, size = 8, i;
-      char *id = malloc(size);
+    int length = 0, size = 8, i;
+    char *id = malloc(size);
 
-      while (islower(lexer->lookahead)) {
-        if (length == size) {
-          size *= 2;
-          id = realloc(id, size);
-        }
-        id[length++] = lexer->lookahead;
-        lexer->advance(lexer, false);
+    while (islower(lexer->lookahead) || lexer->lookahead == '_') {
+      if (length == size) {
+        size *= 2;
+        id = realloc(id, size);
       }
-
-      if (lexer->lookahead != '|') return false;
+      id[length++] = lexer->lookahead;
       lexer->advance(lexer, false);
+    }
 
-      for (;;) {
-        while (lexer->lookahead != '|') {
-          if (lexer->lookahead == '\0') {
-            lexer->result_symbol = QUOTED_STRING;
-            return true;
-          }
-          lexer->advance(lexer, false);
-        }
-        lexer->advance(lexer, false);
+    if (lexer->lookahead != '|') return false;
+    lexer->advance(lexer, false);
 
-        for (i = 0; i < length; i++) {
-          if (lexer->lookahead != id[i]) break;
-          lexer->advance(lexer, false);
-        }
-
-        if (i == length && lexer->lookahead == '}') {
-          lexer->advance(lexer, false);
+    for (;;) {
+      while (lexer->lookahead != '|') {
+        if (lexer->lookahead == '\0') {
           lexer->result_symbol = QUOTED_STRING;
           return true;
         }
+        lexer->advance(lexer, false);
       }
-    } else if (whitelist[STRING_DELIM] && lexer->lookahead == '"') {
       lexer->advance(lexer, false);
-      *(bool*)payload = !in_string;
-      lexer->result_symbol = STRING_DELIM;
-      return true;
+
+      for (i = 0; i < length; i++) {
+        if (lexer->lookahead != id[i]) break;
+        lexer->advance(lexer, false);
+      }
+
+      if (i == length && lexer->lookahead == '}') {
+        lexer->advance(lexer, false);
+        lexer->result_symbol = QUOTED_STRING;
+        return true;
+      }
     }
+  } else if (whitelist[STRING_DELIM] && lexer->lookahead == '"') {
+    lexer->advance(lexer, false);
+    *(bool*)payload = !in_string;
+    lexer->result_symbol = STRING_DELIM;
+    return true;
   }
 
   return false;
