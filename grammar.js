@@ -481,19 +481,10 @@ module.exports = grammar({
       $.type_variable
     )),
 
-    polymorphic_variant_type: $ => seq(
-      '[',
-      choice(
-        seq(optional('|'), sep1('|', $._tag_spec)),
-        seq('>', optional('|'), sep('|', $._tag_spec)),
-        seq(
-          '<',
-          optional('|'),
-          sep1('|', $._tag_spec),
-          optional(seq('>', repeat1($.tag)))
-        ),
-      ),
-      ']'
+    polymorphic_variant_type: $ => choice(
+      seq('[', optional('|'), sep1('|', $._tag_spec), ']'),
+      seq('[>', optional('|'), sep('|', $._tag_spec), ']'),
+      seq('[<', optional('|'), sep1('|', $._tag_spec), optional(seq('>', repeat1($.tag))), ']'),
     ),
 
     _tag_spec: $ => choice(
