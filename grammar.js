@@ -431,11 +431,15 @@ module.exports = grammar({
       $.extension
     ),
 
+    _simple_or_tuple_type_expression: $ => prec(1, choice(
+      $._simple_type_expression,
+      $.tuple_type
+    )),
+
     _type_expression: $ => prec.right(seq(
       choice(
-        $._simple_type_expression,
+        $._simple_or_tuple_type_expression,
         $.function_type,
-        $.tuple_type,
         $.aliased_type
       ),
       repeat($.attribute)
@@ -454,10 +458,13 @@ module.exports = grammar({
       $._type_expression
     )),
 
-    tuple_type: $ => prec.left(PREC.prod, seq(
-      $._type_expression,
+    tuple_type: $ => prec(PREC.prod, seq(
+      choice(
+        $._simple_type_expression,
+        $.tuple_type
+      ),
       '*',
-      $._type_expression
+      $._simple_type_expression
     )),
 
     constructed_type: $ => prec(PREC.app, seq(
