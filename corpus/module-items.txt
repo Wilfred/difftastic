@@ -114,15 +114,22 @@ type t = t constraint 'a = t
       (type_constructor)
       (variant_declaration
         (constructor_declaration (constructor_name))
-        (constructor_declaration (constructor_name) (type_constructor_path (type_constructor)))
         (constructor_declaration
           (constructor_name)
-          (type_constructor_path (type_constructor))
-          (type_constructor_path (type_constructor)))
+          (constructor_argument
+            (type_constructor_path (type_constructor))))
         (constructor_declaration
           (constructor_name)
-          (record_declaration
-            (field_declaration (field_name) (type_constructor_path (type_constructor))))))))
+          (constructor_argument
+            (type_constructor_path (type_constructor))
+            (type_constructor_path (type_constructor))))
+        (constructor_declaration
+          (constructor_name)
+          (constructor_argument
+            (record_declaration
+              (field_declaration
+                (field_name)
+                (type_constructor_path (type_constructor)))))))))
   (type_definition
     (type_binding
       (type_params (type_variable))
@@ -130,9 +137,8 @@ type t = t constraint 'a = t
       (variant_declaration
         (constructor_declaration
           (constructor_name)
-          (function_type
-            (type_variable)
-            (constructed_type (type_variable) (type_constructor_path (type_constructor))))))))
+          (constructor_argument (type_variable))
+          (constructed_type (type_variable) (type_constructor_path (type_constructor)))))))
   (type_definition
     (type_binding
       (type_constructor)
@@ -155,7 +161,10 @@ exception E of t
 
 (compilation_unit
   (exception_definition (constructor_declaration (constructor_name)))
-  (exception_definition (constructor_declaration (constructor_name) (type_constructor_path (type_constructor)))))
+  (exception_definition
+    (constructor_declaration
+      (constructor_name)
+      (constructor_argument (type_constructor_path (type_constructor))))))
 
 ==============================
 Module definition
@@ -258,7 +267,7 @@ include M(M(M)).M(M).t
   (include_statement
     (submodule
       (submodule (module_name) (module_name))
-      (module_name))) 
+      (module_name)))
   (include_statement
     (module_type_path
       (submodule (module_name) (module_name))
