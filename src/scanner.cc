@@ -262,6 +262,11 @@ struct Scanner {
             next_token_is_comment = lexer->lookahead != '#';
           }
         }
+
+        if (lexer->lookahead == '-') {
+          advance(lexer);
+          next_token_is_comment = lexer->lookahead == '}';
+        }
         break;
       }
     }
@@ -313,6 +318,7 @@ struct Scanner {
           }
 
           if (valid_symbols[LAYOUT_CLOSE_BRACE]) {
+            queued_close_brace_count--;
             lexer->result_symbol = LAYOUT_CLOSE_BRACE;
             return true;
           } else {
