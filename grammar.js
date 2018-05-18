@@ -240,7 +240,7 @@ module.exports = grammar({
 
     type_constraint: $ => seq(
       'constraint',
-      $.type_variable,
+      $._type_expression,
       '=',
       $._type_expression
     ),
