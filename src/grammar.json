@@ -6977,6 +6977,22 @@
         ]
       }
     },
+    "cpp_directive": {
+      "type": "TOKEN",
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "#"
+          },
+          {
+            "type": "PATTERN",
+            "value": ".*"
+          }
+        ]
+      }
+    },
     "integer": {
       "type": "CHOICE",
       "members": [
@@ -7489,6 +7505,10 @@
     }
   },
   "extras": [
+    {
+      "type": "SYMBOL",
+      "name": "cpp_directive"
+    },
     {
       "type": "SYMBOL",
       "name": "comment"
