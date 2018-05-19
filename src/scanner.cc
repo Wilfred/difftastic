@@ -255,6 +255,8 @@ struct Scanner {
         }
         return false;
       } else {
+        next_token_is_comment = lexer->lookahead == '#';
+
         if (lexer->lookahead == '{') {
           advance(lexer);
           if (lexer->lookahead == '-') {
@@ -267,6 +269,7 @@ struct Scanner {
           advance(lexer);
           next_token_is_comment = lexer->lookahead == '}';
         }
+
         break;
       }
     }
@@ -311,7 +314,7 @@ struct Scanner {
       if (indent_length_stack.size() > 0) {
         if (indent_length < indent_length_stack.back()) {
           while (indent_length < indent_length_stack.back()) {
-            if (indent_length_stack.size() > 0) {
+            if (indent_length_stack.size() > 1) {
               indent_length_stack.pop_back();
             }
             queued_close_brace_count++;

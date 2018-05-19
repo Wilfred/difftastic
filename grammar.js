@@ -67,6 +67,7 @@ module.exports = grammar({
   ],
 
   extras: $ => [
+    $.cpp_directive,
     $.comment,
     /\s|\\n/,
     $.pragma
@@ -1664,6 +1665,10 @@ module.exports = grammar({
         )),
         '#-}'
       )
+    ),
+
+    cpp_directive: $ => token(
+      seq('#', /.*/),
     ),
 
     integer: $ => choice(
