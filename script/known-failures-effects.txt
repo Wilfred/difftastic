@@ -1,0 +1,3 @@
+examples/effects/examples/src/Coroutine.hs
+examples/effects/src/Data/Union.hs
+examples/effects/src/Control/Monad/Effect/StateRW.hs

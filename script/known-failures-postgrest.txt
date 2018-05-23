@@ -1,0 +1,3 @@
+examples/postgrest/src/PostgREST/DbRequestBuilder.hs
+examples/postgrest/src/PostgREST/QueryBuilder.hs
+examples/postgrest/src/PostgREST/Middleware.hs
