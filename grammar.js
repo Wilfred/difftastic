@@ -360,9 +360,10 @@ module.exports = grammar({
 
     unidirectional_pattern_synonym: $ => seq(
       'pattern',
-      $.constructor_pattern,
+      $._funlhs,
       '<-',
-      alias($._function_body, $.function_body)
+      $._type_pattern,
+      optional($.where)
     ),
 
     _top_declaration: $ => choice(

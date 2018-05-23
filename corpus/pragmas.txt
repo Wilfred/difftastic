@@ -493,6 +493,9 @@ pattern LeftChoice a = Choice False a
 pattern RightChoice :: a -> Choice a
 pattern RightChoice a <- Choice True a
 
+pattern (:>) s a <- (preview _Snoc -> Just (s,a)) where
+  (:>) a s = _Snoc # (a,s)
+
 {-# COMPLETE LeftChoice, RightChoice #-}
 
 foo :: Choice Int -> Int
@@ -537,16 +540,25 @@ foo (RightChoice n) = n - 2
       (type (type_constructor_identifier) (type_variable_identifier))))
 
   (unidirectional_pattern_synonym
-    (constructor_pattern
-      (constructor_identifier)
-      (variable_identifier))
-    (function_body
-      (function_application
-        (function_application
-          (constructor_identifier)
-          (constructor_identifier))
-        (variable_identifier))))
+    (constructor_pattern (constructor_identifier) (variable_identifier))
+    (type_constructor_identifier)
+    (type_constructor_identifier)
+    (type_variable_identifier))
 
+  (unidirectional_pattern_synonym
+    (constructor_pattern (constructor_operator (constructor_symbol)) (variable_identifier) (variable_identifier))
+    (parenthesized_type_pattern
+      (function_type
+        (type (type_variable_identifier) (type_variable_identifier))
+        (type (type_constructor_identifier)
+          (tuple_type
+            (type (type_variable_identifier))
+            (type (type_variable_identifier))))))
+    (where
+      (function_declaration
+        (constructor_pattern (constructor_operator (constructor_symbol)) (variable_identifier) (variable_identifier))
+        (function_body (variable_identifier)))
+  (cpp_directive)))
   (pragma)
 
   (type_signature
