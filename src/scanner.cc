@@ -314,7 +314,7 @@ struct Scanner {
       if (indent_length_stack.size() > 0) {
         if (indent_length < indent_length_stack.back()) {
           while (indent_length < indent_length_stack.back()) {
-            if (indent_length_stack.size() > 1) {
+            if (indent_length_stack.size() > 0) {
               indent_length_stack.pop_back();
             }
             queued_close_brace_count++;

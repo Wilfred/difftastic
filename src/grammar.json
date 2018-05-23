@@ -1146,20 +1146,27 @@
         },
         {
           "type": "SYMBOL",
-          "name": "constructor_pattern"
+          "name": "_funlhs"
         },
         {
           "type": "STRING",
           "value": "<-"
         },
         {
-          "type": "ALIAS",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_function_body"
-          },
-          "named": true,
-          "value": "function_body"
+          "type": "SYMBOL",
+          "name": "_type_pattern"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "where"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         }
       ]
     },
@@ -6547,30 +6554,43 @@
       ]
     },
     "variable_operator": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "ALIAS",
-          "content": {
-            "type": "STRING",
-            "value": "-"
+      "type": "PREC",
+      "value": 1,
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "ALIAS",
+            "content": {
+              "type": "STRING",
+              "value": "#"
+            },
+            "named": true,
+            "value": "variable_symbol"
           },
-          "named": true,
-          "value": "variable_symbol"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "variable_symbol"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "infix_variable_identifier"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "qualified_infix_variable_identifier"
-        }
-      ]
+          {
+            "type": "ALIAS",
+            "content": {
+              "type": "STRING",
+              "value": "-"
+            },
+            "named": true,
+            "value": "variable_symbol"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "variable_symbol"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "infix_variable_identifier"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "qualified_infix_variable_identifier"
+          }
+        ]
+      }
     },
     "_variable_identifier": {
       "type": "PATTERN",
@@ -7726,6 +7746,12 @@
       "_general_constructor",
       "class",
       "_context_lpat"
+    ],
+    [
+      "_lpat"
+    ],
+    [
+      "_funlhs"
     ]
   ],
   "externals": [
