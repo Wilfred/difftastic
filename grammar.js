@@ -17,7 +17,7 @@ module.exports = grammar({
   inline: $ => [
     $._statement,
     $._terminator,
-    $._expression,
+    $._literal,
     $._primary_expression,
     $._simple_variable_name,
     $._special_variable_name,
@@ -58,7 +58,8 @@ module.exports = grammar({
       $.command,
       $.declaration_command,
       $.unset_command,
-      $.bracket_command,
+      $.test_command,
+      $.negated_command,
       $.for_statement,
       $.while_statement,
       $.if_statement,
@@ -74,7 +75,7 @@ module.exports = grammar({
       $._simple_variable_name,
       optional(seq(
         'in',
-        repeat1($._expression)
+        repeat1($._literal)
       )),
       $._terminator,
       $.do_group
@@ -122,7 +123,7 @@ module.exports = grammar({
 
     case_statement: $ => seq(
       'case',
-      $._expression,
+      $._literal,
       optional($._terminator),
       'in',
       $._terminator,
@@ -134,8 +135,8 @@ module.exports = grammar({
     ),
 
     case_item: $ => seq(
-      $._expression,
-      repeat(seq('|', $._expression)),
+      $._literal,
+      repeat(seq('|', $._literal)),
       ')',
       optional(seq(
         repeat($._terminated_statement),
@@ -145,8 +146,8 @@ module.exports = grammar({
     ),
 
     last_case_item: $ => seq(
-      $._expression,
-      repeat(seq('|', $._expression)),
+      $._literal,
+      repeat(seq('|', $._literal)),
       ')',
       optional(seq(
         repeat($._terminated_statement),
@@ -192,6 +193,43 @@ module.exports = grammar({
 
     // Commands
 
+    negated_command: $ => seq(
+      '!',
+      choice(
+        $.command,
+        $.test_command
+      )
+    ),
+
+    test_command: $ => seq(
+      choice(
+        seq('[', $._expression, ']'),
+        seq('[[', $._expression, ']]')
+      ),
+      repeat(choice(
+        $.file_redirect,
+        $.heredoc_redirect,
+        $.herestring_redirect
+      ))
+    ),
+
+    declaration_command: $ => prec.left(seq(
+      choice('declare', 'typeset', 'export', 'readonly', 'local'),
+      repeat(choice(
+        $._literal,
+        $._simple_variable_name,
+        $.variable_assignment
+      ))
+    )),
+
+    unset_command: $ => prec.left(seq(
+      choice('unset', 'unsetenv'),
+      repeat(choice(
+        $._literal,
+        $._simple_variable_name
+      ))
+    )),
+
     command: $ => prec.left(seq(
       repeat(choice(
         $.variable_assignment,
@@ -199,10 +237,10 @@ module.exports = grammar({
       )),
       $.command_name,
       repeat(choice(
-        $._expression,
+        $._literal,
         seq(
           choice('=~', '=='),
-          choice($.regex, $._expression)
+          choice($.regex, $._literal)
         )
       )),
       repeat(choice(
@@ -213,62 +251,19 @@ module.exports = grammar({
       optional($.heredoc_body)
     )),
 
-    command_name: $ => $._expression,
-
-    bracket_command: $ => {
-      const args = repeat1(choice(
-        $._expression,
-        seq(
-          choice('=~', '=='),
-          choice($.regex, $._expression)
-        )
-      ))
-
-      return seq(
-        choice(
-          seq('[', args, ']'),
-          seq('[[', args, ']]')
-        ),
-        repeat(choice(
-          $.file_redirect,
-          $.heredoc_redirect,
-          $.herestring_redirect
-        ))
-      )
-    },
+    command_name: $ => $._literal,
 
     variable_assignment: $ => seq(
       choice(
         $.variable_name,
         $.subscript
       ),
-      $._assignment
-    ),
-
-    declaration_command: $ => prec.left(seq(
-      choice('declare', 'typeset', 'export', 'readonly', 'local'),
-      repeat(choice(
-        $._expression,
-        $._simple_variable_name,
-        $.variable_assignment
-      ))
-    )),
-
-    unset_command: $ => prec.left(seq(
-      choice('unset', 'unsetenv'),
-      repeat(choice(
-        $._expression,
-        $._simple_variable_name
-      ))
-    )),
-
-    _assignment: $ => seq(
       choice(
         '=',
         '+='
       ),
       choice(
-        $._expression,
+        $._literal,
         $.array,
         $._empty_value
       )
@@ -277,7 +272,7 @@ module.exports = grammar({
     subscript: $ => seq(
       $.variable_name,
       '[',
-      $._expression,
+      $._literal,
       optional($._concat),
       ']',
       optional($._concat)
@@ -286,7 +281,7 @@ module.exports = grammar({
     file_redirect: $ => prec.left(seq(
       optional($.file_descriptor),
       choice('<', '>', '>>', '&>', '&>>', '<&', '>&'),
-      $._expression
+      $._literal
     )),
 
     heredoc_redirect: $ => seq(
@@ -309,12 +304,45 @@ module.exports = grammar({
 
     herestring_redirect: $ => seq(
       '<<<',
-      $._expression
+      $._literal
     ),
 
     // Expressions
 
     _expression: $ => choice(
+      $._literal,
+      $.unary_expression,
+      $.binary_expression,
+      $.parenthesized_expression
+    ),
+
+    binary_expression: $ => prec.left(choice(
+      seq(
+        $._expression,
+        choice('==', '=', '=~', '!=', '<', '>', '||', '&&', $.test_operator),
+        $._expression
+      ),
+      seq(
+        $._expression,
+        choice('==', '=~'),
+        $.regex
+      )
+    )),
+
+    unary_expression: $ => prec.right(seq(
+      choice('!', $.test_operator),
+      $._expression
+    )),
+
+    parenthesized_expression: $ => seq(
+      '(',
+      $._expression,
+      ')'
+    ),
+
+    // Literals
+
+    _literal: $ => choice(
       $.concatenation,
       $._primary_expression,
       alias(prec(-2, $._special_characters), $.word)
@@ -365,7 +393,7 @@ module.exports = grammar({
 
     array: $ => seq(
       '(',
-      repeat($._expression),
+      repeat($._literal),
       ')'
     ),
 
@@ -389,7 +417,7 @@ module.exports = grammar({
         seq(
           $.variable_name,
           '=',
-          optional($._expression)
+          optional($._literal)
         ),
         seq(
           choice(
@@ -402,7 +430,7 @@ module.exports = grammar({
             alias($.regex_without_right_brace, $.regex)
           )),
           repeat(choice(
-            $._expression,
+            $._literal,
             ':', ':?', '=', ':-', '%', '-', '#'
           ))
         ),
@@ -432,7 +460,10 @@ module.exports = grammar({
       seq('\\', noneOf('\\s'))
     ))),
 
+    test_operator: $ => token(prec(1, seq('-', /[a-zA-Z]+/))),
+
     regex: $ => /([^"\s]|\\.)([^\s]|\\.)*/,
+
     regex_without_right_brace: $ => /([^"\s}]|\\.)([^\s}]|\\.)*/,
 
     _terminator: $ => choice(';', ';;', '\n', '&')
