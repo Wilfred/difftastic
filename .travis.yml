@@ -1,10 +1,15 @@
 language: node_js
+
 sudo: false
+
 node_js:
-  - "node"
+  - 8
+
 compiler: clang-3.6
+
 env:
   - CXX=clang-3.6
+
 addons:
   apt:
     sources:
