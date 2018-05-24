@@ -197,7 +197,8 @@ module.exports = grammar({
       '!',
       choice(
         $.command,
-        $.test_command
+        $.test_command,
+        $.subshell
       )
     ),
 
