@@ -1,6 +1,5 @@
 examples/bash-it/plugins/available/git.plugin.bash
 examples/bash-it/plugins/available/extract.plugin.bash
-examples/bash-it/plugins/available/sshagent.plugin.bash
 examples/bash-it/plugins/available/go.plugin.bash
 examples/bash-it/install.sh
 examples/bash-it/completion/available/go.completion.bash
@@ -31,7 +30,6 @@ examples/bash-it/lib/search.bash
 examples/bash-it/test_lib/bats-support/src/lang.bash
 examples/bash-it/test_lib/bats-support/src/output.bash
 examples/bash-it/test_lib/bats-assert/src/assert.bash
-examples/bash-it/test_lib/bats-file/src/temp.bash
 examples/bash-it/themes/hawaii50/hawaii50.theme.bash
 examples/bash-it/themes/dulcie/dulcie.theme.bash
 examples/bash-it/themes/colors.theme.bash

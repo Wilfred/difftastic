@@ -705,6 +705,10 @@
             {
               "type": "SYMBOL",
               "name": "test_command"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "subshell"
             }
           ]
         }

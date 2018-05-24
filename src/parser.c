@@ -3732,6 +3732,8 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
         ADVANCE(140);
       if (lookahead == '\'')
         ADVANCE(14);
+      if (lookahead == '(')
+        ADVANCE(16);
       if (lookahead == '<')
         ADVANCE(141);
       if (lookahead == '>')
@@ -11932,6 +11934,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [sym_word] = ACTIONS(105),
   },
   [10] = {
+    [sym_subshell] = STATE(70),
     [sym_test_command] = STATE(70),
     [sym_command] = STATE(70),
     [sym_command_name] = STATE(27),
@@ -11948,6 +11951,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [aux_sym_command_repeat1] = STATE(33),
     [sym_file_descriptor] = ACTIONS(5),
     [sym_variable_name] = ACTIONS(107),
+    [anon_sym_LPAREN] = ACTIONS(21),
     [anon_sym_LBRACK] = ACTIONS(25),
     [anon_sym_LBRACK_LBRACK] = ACTIONS(27),
     [anon_sym_LT] = ACTIONS(33),
@@ -13171,6 +13175,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [sym_word] = ACTIONS(459),
   },
   [55] = {
+    [sym_subshell] = STATE(70),
     [sym_test_command] = STATE(70),
     [sym_command] = STATE(70),
     [sym_command_name] = STATE(64),
@@ -13187,6 +13192,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [aux_sym_command_repeat1] = STATE(68),
     [sym_file_descriptor] = ACTIONS(5),
     [sym_variable_name] = ACTIONS(107),
+    [anon_sym_LPAREN] = ACTIONS(21),
     [anon_sym_LBRACK] = ACTIONS(93),
     [anon_sym_LBRACK_LBRACK] = ACTIONS(95),
     [anon_sym_LT] = ACTIONS(33),
@@ -16025,6 +16031,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [sym_word] = ACTIONS(105),
   },
   [149] = {
+    [sym_subshell] = STATE(441),
     [sym_test_command] = STATE(441),
     [sym_command] = STATE(441),
     [sym_command_name] = STATE(164),
@@ -16041,6 +16048,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [aux_sym_command_repeat1] = STATE(168),
     [sym_file_descriptor] = ACTIONS(5),
     [sym_variable_name] = ACTIONS(107),
+    [anon_sym_LPAREN] = ACTIONS(273),
     [anon_sym_LBRACK] = ACTIONS(277),
     [anon_sym_LBRACK_LBRACK] = ACTIONS(279),
     [anon_sym_LT] = ACTIONS(33),
@@ -16738,6 +16746,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [sym_word] = ACTIONS(905),
   },
   [172] = {
+    [sym_subshell] = STATE(441),
     [sym_test_command] = STATE(441),
     [sym_command] = STATE(441),
     [sym_command_name] = STATE(181),
@@ -16754,6 +16763,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [aux_sym_command_repeat1] = STATE(184),
     [sym_file_descriptor] = ACTIONS(5),
     [sym_variable_name] = ACTIONS(107),
+    [anon_sym_LPAREN] = ACTIONS(273),
     [anon_sym_LBRACK] = ACTIONS(311),
     [anon_sym_LBRACK_LBRACK] = ACTIONS(313),
     [anon_sym_LT] = ACTIONS(33),
@@ -54036,6 +54046,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [sym_word] = ACTIONS(5258),
   },
   [1920] = {
+    [sym_subshell] = STATE(70),
     [sym_test_command] = STATE(70),
     [sym_command] = STATE(70),
     [sym_command_name] = STATE(1935),
@@ -54052,6 +54063,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [aux_sym_command_repeat1] = STATE(1940),
     [sym_file_descriptor] = ACTIONS(5),
     [sym_variable_name] = ACTIONS(107),
+    [anon_sym_LPAREN] = ACTIONS(21),
     [anon_sym_LBRACK] = ACTIONS(4460),
     [anon_sym_LBRACK_LBRACK] = ACTIONS(4462),
     [anon_sym_LT] = ACTIONS(33),
