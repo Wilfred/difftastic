@@ -27,35 +27,6 @@ echo ]]] ===
   (command (command_name (word)) (word) (word)))
 
 =============================
-The regex operator
-=============================
-
-[[ "35d8b" =~ ^[0-9a-fA-F] ]]
-[[ $CMD =~ (^|;)update_terminal_cwd($|;) ]]
-[[ ! " ${completions[*]} " =~ " $alias_cmd " ]]
-! [[ "$a" =~ ^a|b\ *c|d$ ]]
-
----
-
-(program
-  (bracket_command
-    (string)
-    (regex))
-  (bracket_command
-    (simple_expansion (variable_name))
-    (regex))
-  (bracket_command
-    (word)
-    (string (expansion (subscript (variable_name) (word))))
-    (string (simple_expansion (variable_name))))
-  (command
-    (command_name (word))
-    (word)
-    (string (simple_expansion (variable_name)))
-    (regex)
-    (word)))
-
-=============================
 Simple variable expansions
 =============================
 
