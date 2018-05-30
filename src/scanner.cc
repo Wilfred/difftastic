@@ -303,7 +303,9 @@ struct Scanner {
           return true;
         } else {
           if (valid_symbols[LAYOUT_SEMICOLON]) {
-            indent_length_stack.pop_back();
+            if (indent_length_stack.size() > 0) {
+              indent_length_stack.pop_back();
+            }
             queued_close_brace_count++;
             lexer->result_symbol = LAYOUT_SEMICOLON;
             return true;
