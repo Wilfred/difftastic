@@ -178,6 +178,34 @@ class C : C::D, public E {
     (field_declaration_list)))
 
 =========================================
+Classes with final virt specifier
+=========================================
+
+class A final : public B {
+};
+
+class C final {};
+
+struct D final {};
+
+---
+
+(translation_unit
+  (class_specifier
+    (type_identifier)
+    (virtual_specifier)
+    (base_class_clause (type_identifier))
+    (field_declaration_list))
+  (class_specifier
+    (type_identifier)
+    (virtual_specifier)
+    (field_declaration_list))
+  (struct_specifier
+    (type_identifier)
+    (virtual_specifier)
+    (field_declaration_list)))
+
+=========================================
 Friend declarations
 =========================================
 
