@@ -2368,6 +2368,18 @@
                     "members": [
                       {
                         "type": "SYMBOL",
+                        "name": "virtual_specifier"
+                      },
+                      {
+                        "type": "BLANK"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "SYMBOL",
                         "name": "base_class_clause"
                       },
                       {
@@ -2412,6 +2424,18 @@
                       {
                         "type": "SYMBOL",
                         "name": "_class_name"
+                      },
+                      {
+                        "type": "BLANK"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "SYMBOL",
+                        "name": "virtual_specifier"
                       },
                       {
                         "type": "BLANK"
@@ -4867,6 +4891,18 @@
                     "members": [
                       {
                         "type": "SYMBOL",
+                        "name": "virtual_specifier"
+                      },
+                      {
+                        "type": "BLANK"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "SYMBOL",
                         "name": "base_class_clause"
                       },
                       {
@@ -4899,6 +4935,15 @@
         {
           "type": "SYMBOL",
           "name": "template_type"
+        }
+      ]
+    },
+    "virtual_specifier": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "final"
         }
       ]
     },
