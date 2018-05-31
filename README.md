@@ -1,5 +1,7 @@
 # Tree Sitter Lua
 
+[![Build Status](https://travis-ci.org/Azganoth/tree-sitter-lua.svg?branch=master)](https://travis-ci.org/Azganoth/tree-sitter-lua)
+
 ##### Lua grammar for tree-sitter.
 
 #### References
