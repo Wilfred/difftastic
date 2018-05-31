@@ -70,6 +70,7 @@ module.exports = grammar(C, {
         $._class_name,
         seq(
           optional($._class_name),
+          optional($.virtual_specifier),
           optional($.base_class_clause),
           $.field_declaration_list
         )
@@ -82,6 +83,7 @@ module.exports = grammar(C, {
         $._class_name,
         seq(
           optional($._class_name),
+          optional($.virtual_specifier),
           optional($.base_class_clause),
           $.field_declaration_list
         )
@@ -94,6 +96,7 @@ module.exports = grammar(C, {
         $._class_name,
         seq(
           optional($._class_name),
+          optional($.virtual_specifier),
           optional($.base_class_clause),
           $.field_declaration_list
         )
@@ -104,6 +107,10 @@ module.exports = grammar(C, {
       $._type_identifier,
       $.scoped_type_identifier,
       $.template_type
+    ),
+
+    virtual_specifier: $ => choice(
+      'final',
     ),
 
     base_class_clause: $ => seq(
