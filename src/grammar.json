@@ -9,7 +9,7 @@
   "extras": [
     {
       "type": "PATTERN",
-      "value": "[\\s]"
+      "value": "[\\s\\n]"
     }
   ],
   "conflicts": [],

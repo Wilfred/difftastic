@@ -2,7 +2,7 @@ module.exports = grammar({
   name: 'lua',
 
   extras: $ => [
-    /[\s]/
+    /[\s\n]/
   ],
 
   rules: {
