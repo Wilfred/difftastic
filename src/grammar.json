@@ -2,17 +2,37 @@
   "name": "lua",
   "rules": {
     "lua": {
-      "type": "STRING",
-      "value": "lua"
+      "type": "REPEAT",
+      "content": {
+        "type": "STRING",
+        "value": "lua"
+      }
     }
   },
   "extras": [
+    {
+      "type": "SYMBOL",
+      "name": "single_comment"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "multiline_comment"
+    },
     {
       "type": "PATTERN",
       "value": "[\\s\\n]"
     }
   ],
   "conflicts": [],
-  "externals": [],
+  "externals": [
+    {
+      "type": "SYMBOL",
+      "name": "single_comment"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "multiline_comment"
+    }
+  ],
   "inline": []
 }
