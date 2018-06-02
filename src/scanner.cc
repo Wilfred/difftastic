@@ -17,6 +17,7 @@ namespace {
 
     // Evaluate a sequence of chars
     static bool evaluate_sequence(TSLexer *lexer, const char *sequence) {
+      // Consume all characters in 'sequence'
       for (const char *c = sequence; *c; c++) {
         if (lexer->lookahead == *c) {
           advance(lexer);
@@ -31,14 +32,19 @@ namespace {
     // Check for multi-line brackets (comment/string)
     int level = 0;
     bool start_multiline(TSLexer *lexer) {
+      // Consume first '['
       if (lexer->lookahead == '[') {
         advance(lexer);
-
-        while (lexer->lookahead == '[' || lexer->lookahead == '=') {
-          if (lexer->lookahead == '=') {
+        
+        if (lexer->lookahead == '[' || lexer->lookahead == '=') {
+          // Consume all '='
+          while (lexer->lookahead == '=') {
             ++level;
             advance(lexer);
-          } else if (lexer->lookahead == '[') {
+          }
+
+          // Consume last '['
+          if (lexer->lookahead == '[') {
             advance(lexer);
 
             return true;
@@ -70,7 +76,6 @@ namespace {
         }
       }
 
-      // return on end of file
       if (lexer->lookahead == 0) return true;
 
       return false;
