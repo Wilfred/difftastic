@@ -6,4 +6,5 @@ lua
 
 ---
 
-(lua)
+(lua
+  (expression (identifier)))

@@ -13,6 +13,19 @@ module.exports = grammar({
   ],
 
   rules: {
-    lua: $ => repeat('lua')
+    lua: $ => repeat($._statement),
+
+    // Statements
+    _statement: $ => choice(
+      alias($._expression, $.expression)
+    ),
+
+    // Expressions
+    _expression: $ => choice(
+      $.identifier
+    ),
+
+    // Identifiers
+    identifier: $ => /[a-zA-Z_][a-zA-Z0-9_]*/
   }
 });

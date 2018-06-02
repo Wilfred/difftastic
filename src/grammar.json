@@ -4,9 +4,36 @@
     "lua": {
       "type": "REPEAT",
       "content": {
-        "type": "STRING",
-        "value": "lua"
+        "type": "SYMBOL",
+        "name": "_statement"
       }
+    },
+    "_statement": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_expression"
+          },
+          "named": true,
+          "value": "expression"
+        }
+      ]
+    },
+    "_expression": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "identifier"
+        }
+      ]
+    },
+    "identifier": {
+      "type": "PATTERN",
+      "value": "[a-zA-Z_][a-zA-Z0-9_]*"
     }
   },
   "extras": [
