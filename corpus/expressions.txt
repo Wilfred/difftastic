@@ -18,11 +18,11 @@ Tables
 Binary operations
 ============================================
 
-i + j * 3 - j % 5
+i + j * 3 - j % 5;
 
-k + v % 5 ^ 2
+k + v % 5 ^ 2;
 
-i * 2 ^ j
+i * 2 ^ j;
 
 ---
 
@@ -46,9 +46,9 @@ i * 2 ^ j
 Unary operations
 ============================================
 
-#size
+#size;
 
-not true | false
+not true | false;
 
 ---
 

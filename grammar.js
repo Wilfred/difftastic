@@ -34,8 +34,13 @@ module.exports = grammar({
 
     // Statements
     _statement: $ => choice(
-      alias($._expression, $.expression)
+      alias($._expression, $.expression),
+
+      $._empty_statement
     ),
+
+    // Void statements
+    _empty_statement: $ => ';',
 
     // Expressions
     _expression: $ => choice(
