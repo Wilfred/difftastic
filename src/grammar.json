@@ -104,6 +104,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "break_statement"
+        },
+        {
+          "type": "SYMBOL",
           "name": "_empty_statement"
         }
       ]
@@ -566,6 +570,10 @@
           "name": "identifier"
         }
       ]
+    },
+    "break_statement": {
+      "type": "STRING",
+      "value": "break"
     },
     "_empty_statement": {
       "type": "STRING",

@@ -50,6 +50,7 @@ module.exports = grammar({
       $.for_in_statement,
 
       $.goto_statement,
+      $.break_statement,
 
       $._empty_statement
     ),
@@ -143,6 +144,8 @@ module.exports = grammar({
       'goto',
       $.identifier
     ),
+
+    break_statement: $ => 'break',
 
     // Void statements
     _empty_statement: $ => ';',
