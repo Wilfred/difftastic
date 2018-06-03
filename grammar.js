@@ -41,6 +41,8 @@ module.exports = grammar({
     _expression: $ => choice(
       $.spread,
 
+      $.table,
+
       $.binary_expression,
       $.unary_expression,
 
@@ -53,6 +55,27 @@ module.exports = grammar({
     ),
 
     spread: $ => '...',
+
+    // Tables
+    table: $ => seq(
+      '{',
+      optional($._field_sequence),
+      '}'
+    ),
+
+    field: $ => choice(
+      seq('[', $._expression, ']', '=', $._expression),
+      seq($.identifier, '=', $._expression),
+      $._expression
+    ),
+
+    _field_sequence: $ => prec(PREC.COMMA, seq(
+      $.field,
+      repeat(seq($._field_sep, $.field)),
+      optional($._field_sep)
+    )),
+
+    _field_sep: $ => choice(',', ';'),
 
     // Operations
     binary_expression: $ => choice(
