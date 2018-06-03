@@ -47,6 +47,7 @@ module.exports = grammar({
       $.while_statement,
       $.repeat_statement,
       $.for_statement,
+      $.for_in_statement,
 
       $._empty_statement
     ),
@@ -111,6 +112,15 @@ module.exports = grammar({
       'end'
     ),
 
+    for_in_statement: $ => seq(
+      'for',
+      alias($._in_loop_expression, $.loop_expression),
+      'do',
+      repeat($._statement),
+      optional($.return_statement),
+      'end'
+    ),
+
     _loop_expression: $ => seq(
       $.identifier,
       '=',
@@ -118,6 +128,12 @@ module.exports = grammar({
       ',',
       $._expression,
       optional(seq(',', $._expression))
+    ),
+
+    _in_loop_expression: $ => seq(
+      sequence($.identifier),
+      'in',
+      sequence($._expression),
     ),
 
     // Void statements

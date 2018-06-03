@@ -94,3 +94,18 @@ end
   (for_statement
     (loop_expression (identifier) (number) (unary_operation (identifier)))
       (expression (string))))
+
+============================================
+For in statements
+============================================
+
+for key, val in {} do
+  return val;
+end
+
+---
+
+(lua
+  (for_in_statement
+    (loop_expression (identifier) (identifier) (table))
+      (return_statement (identifier))))
