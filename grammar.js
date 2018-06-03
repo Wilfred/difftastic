@@ -1,3 +1,21 @@
+const PREC = {
+  COMMA: -1,
+  PRIORITY: 1,
+  
+  OR: 1,        //=> or
+  AND: 2,       //=> and
+  COMPARE: 3,   //=> < <= == ~= >= >
+  BIT_OR: 4,    //=> |
+  BIT_NOT: 5,   //=> ~
+  BIT_AND: 6,   //=> &
+  SHIFT: 7,     //=> << >>
+  CONCAT: 8,    //=> ..
+  PLUS: 9,      //=> + -
+  MULTI: 10,    //=> * / // %
+  UNARY: 11,    //=> not # - ~
+  POWER: 12     //=> ^
+};
+
 module.exports = grammar({
   name: 'lua',
 
