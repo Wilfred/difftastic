@@ -35,11 +35,11 @@
         },
         {
           "type": "SYMBOL",
-          "name": "binary_expression"
+          "name": "binary_operation"
         },
         {
           "type": "SYMBOL",
-          "name": "unary_expression"
+          "name": "unary_operation"
         },
         {
           "type": "SYMBOL",
@@ -201,7 +201,7 @@
         }
       ]
     },
-    "binary_expression": {
+    "binary_operation": {
       "type": "CHOICE",
       "members": [
         {
@@ -647,7 +647,7 @@
         }
       ]
     },
-    "unary_expression": {
+    "unary_operation": {
       "type": "PREC_LEFT",
       "value": 11,
       "content": {

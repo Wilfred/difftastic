@@ -43,8 +43,8 @@ module.exports = grammar({
 
       $.table,
 
-      $.binary_expression,
-      $.unary_expression,
+      $.binary_operation,
+      $.unary_operation,
 
       $.string,
       $.number,
@@ -78,7 +78,7 @@ module.exports = grammar({
     _field_sep: $ => choice(',', ';'),
 
     // Operations
-    binary_expression: $ => choice(
+    binary_operation: $ => choice(
       ...[
         ['or', PREC.OR],
         ['and', PREC.AND],
@@ -114,7 +114,7 @@ module.exports = grammar({
       )))
     ),
 
-    unary_expression: $ => prec.left(PREC.UNARY, seq(
+    unary_operation: $ => prec.left(PREC.UNARY, seq(
       choice('not', '#', '-', '~'),
       $._expression
     )),

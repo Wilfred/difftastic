@@ -28,19 +28,19 @@ i * 2 ^ j
 
 (lua
   (expression
-    (binary_expression
-      (binary_expression (identifier)
-        (binary_expression (identifier) (number)))
-      (binary_expression (identifier) (number))))
+    (binary_operation
+      (binary_operation (identifier)
+        (binary_operation (identifier) (number)))
+      (binary_operation (identifier) (number))))
 
   (expression
-    (binary_expression (identifier)
-      (binary_expression (identifier)
-        (binary_expression (number) (number)))))
+    (binary_operation (identifier)
+      (binary_operation (identifier)
+        (binary_operation (number) (number)))))
 
   (expression
-    (binary_expression (identifier)
-      (binary_expression (number) (identifier)))))
+    (binary_operation (identifier)
+      (binary_operation (number) (identifier)))))
 
 ============================================
 Unary operations
@@ -54,8 +54,8 @@ not true | false
 
 (lua
   (expression
-    (unary_expression (identifier)))
+    (unary_operation (identifier)))
 
   (expression
-    (binary_expression
-      (unary_expression (true)) (false))))
+    (binary_operation
+      (unary_operation (true)) (false))))
