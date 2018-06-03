@@ -55,3 +55,19 @@ end
     (condition_expression
       (binary_operation (identifier) (number)))
     (expression (string))))
+
+============================================
+Repeat statements
+============================================
+
+repeat
+  'whatever i have to add declarations first'
+until num < 0
+
+---
+
+(lua
+  (repeat_statement
+    (expression (string))
+  (condition_expression
+    (binary_operation (identifier) (number)))))
