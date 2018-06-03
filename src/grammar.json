@@ -92,6 +92,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "for_statement"
+        },
+        {
+          "type": "SYMBOL",
           "name": "_empty_statement"
         }
       ]
@@ -344,6 +348,97 @@
           },
           "named": true,
           "value": "condition_expression"
+        }
+      ]
+    },
+    "for_statement": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "for"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_loop_expression"
+          },
+          "named": true,
+          "value": "loop_expression"
+        },
+        {
+          "type": "STRING",
+          "value": "do"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_statement"
+          }
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "return_statement"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": "end"
+        }
+      ]
+    },
+    "_loop_expression": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "identifier"
+        },
+        {
+          "type": "STRING",
+          "value": "="
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_expression"
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_expression"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": ","
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "_expression"
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         }
       ]
     },

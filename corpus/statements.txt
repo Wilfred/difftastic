@@ -71,3 +71,26 @@ until num < 0
     (expression (string))
   (condition_expression
     (binary_operation (identifier) (number)))))
+
+============================================
+For statement
+============================================
+
+for i = 1, 42 do
+  'whatever i have to add declarations first'
+end
+
+for i = 1, #someTable do
+  'whatever i have to add declarations first'
+end
+
+---
+
+(lua
+  (for_statement
+    (loop_expression (identifier) (number) (number))
+      (expression (string)))
+
+  (for_statement
+    (loop_expression (identifier) (number) (unary_operation (identifier)))
+      (expression (string))))
