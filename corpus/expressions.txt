@@ -25,3 +25,21 @@ i * 2 ^ j
   (expression
     (binary_expression (identifier)
       (binary_expression (number) (identifier)))))
+
+============================================
+Unary operations
+============================================
+
+#size
+
+not true | false
+
+---
+
+(lua
+  (expression
+    (unary_expression (identifier)))
+
+  (expression
+    (binary_expression
+      (unary_expression (true)) (false))))

@@ -42,6 +42,7 @@ module.exports = grammar({
       $.spread,
 
       $.binary_expression,
+      $.unary_expression,
 
       $.string,
       $.number,
@@ -89,6 +90,11 @@ module.exports = grammar({
         $._expression
       )))
     ),
+
+    unary_expression: $ => prec.left(PREC.UNARY, seq(
+      choice('not', '#', '-', '~'),
+      $._expression
+    )),
 
     // Primitives
     string: $ => choice(
