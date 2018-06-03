@@ -63,3 +63,26 @@ t.a.b.c.f = function() return true end
 
   (variable_declaration (variable_declarator (identifier) (property_identifier) (property_identifier) (property_identifier) (property_identifier)) (function_definition (parameters)
     (return_statement (true)))))
+
+
+============================================
+Local function statements
+============================================
+
+local function f()
+  return 'some string'
+end
+
+local f
+f = function() return 'some string' end
+
+---
+
+(lua
+  (local_function (identifier) (parameters)
+    (return_statement (string)))
+
+  (local_variable_declaration (variable_declarator (identifier)))
+  (variable_declaration (variable_declarator (identifier))
+    (function_definition (parameters)
+      (return_statement (string)))))

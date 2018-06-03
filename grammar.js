@@ -67,7 +67,8 @@ module.exports = grammar({
       $.label_statement,
       $._empty_statement,
 
-      alias($.function_statement, $.function)
+      alias($.function_statement, $.function),
+      alias($.local_function_statement, $.local_function)
     ),
 
     // Declarations
@@ -196,6 +197,13 @@ module.exports = grammar({
     function_statement: $ => seq(
       'function',
       $.function_name,
+      $._function_body
+    ),
+
+    local_function_statement: $ => seq(
+      'local',
+      'function',
+      $.identifier,
       $._function_body
     ),
 
