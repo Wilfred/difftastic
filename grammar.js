@@ -21,6 +21,8 @@ module.exports = grammar({
 
     // Expressions
     _expression: $ => choice(
+      $.spread,
+
       $.string,
       $.number,
       $.nil,
@@ -28,6 +30,8 @@ module.exports = grammar({
       $.false,
       $.identifier
     ),
+
+    spread: $ => '...',
 
     // Primitives
     string: $ => choice(
