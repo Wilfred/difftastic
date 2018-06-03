@@ -109,3 +109,14 @@ end
   (for_in_statement
     (loop_expression (identifier) (identifier) (table))
       (return_statement (identifier))))
+
+============================================
+Goto statements
+============================================
+
+goto loopLabel;
+
+---
+
+(lua
+  (goto_statement (identifier)))

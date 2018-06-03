@@ -49,6 +49,8 @@ module.exports = grammar({
       $.for_statement,
       $.for_in_statement,
 
+      $.goto_statement,
+
       $._empty_statement
     ),
 
@@ -134,6 +136,12 @@ module.exports = grammar({
       sequence($.identifier),
       'in',
       sequence($._expression),
+    ),
+
+    // Simple statements
+    goto_statement: $ => seq(
+      'goto',
+      $.identifier
     ),
 
     // Void statements
