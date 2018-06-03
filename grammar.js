@@ -44,6 +44,7 @@ module.exports = grammar({
 
       $.do_statement,
       $.if_statement,
+      $.while_statement,
 
       $._empty_statement
     ),
@@ -79,6 +80,15 @@ module.exports = grammar({
       'else',
       repeat($._statement),
       optional($.return_statement)
+    ),
+
+    while_statement: $ => seq(
+      'while',
+      alias($._expression, $.condition_expression),
+      'do',
+      repeat($._statement),
+      optional($.return_statement),
+      'end'
     ),
 
     // Void statements

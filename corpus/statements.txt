@@ -39,3 +39,19 @@ end
     (condition_expression (binary_operation (identifier) (number)))
       (return_statement (string))
     (return_statement (string))))
+
+============================================
+While statements
+============================================
+
+while num < 0 do
+  'whatever i have to add declarations first'
+end
+
+---
+
+(lua
+  (while_statement
+    (condition_expression
+      (binary_operation (identifier) (number)))
+    (expression (string))))
