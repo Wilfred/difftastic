@@ -42,7 +42,17 @@ module.exports = grammar({
     _statement: $ => choice(
       alias($._expression, $.expression),
 
+      $.do_statement,
+
       $._empty_statement
+    ),
+
+    // Control statements
+    do_statement: $ => seq(
+      'do',
+      repeat($._statement),
+      optional($.return_statement),
+      'end'
     ),
 
     // Void statements
