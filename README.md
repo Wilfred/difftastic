@@ -11,4 +11,4 @@
 
 #### License
 
-This package is under a MIT license.
+This package is under a [MIT license](https://github.com/Azganoth/tree-sitter-lua/blob/master/LICENSE.md).
