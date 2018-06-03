@@ -177,7 +177,12 @@ module.exports = grammar({
 
     spread: $ => '...',
 
+    this: $ => 'this',
+    self: $ => 'self',
+
     _prefix: $ => choice(
+      $.this,
+      $.self,
       seq('(', $._expression, ')')
     ),
 

@@ -653,9 +653,25 @@
       "type": "STRING",
       "value": "..."
     },
+    "this": {
+      "type": "STRING",
+      "value": "this"
+    },
+    "self": {
+      "type": "STRING",
+      "value": "self"
+    },
     "_prefix": {
       "type": "CHOICE",
       "members": [
+        {
+          "type": "SYMBOL",
+          "name": "this"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "self"
+        },
         {
           "type": "SEQ",
           "members": [
