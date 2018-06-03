@@ -108,6 +108,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "label_statement"
+        },
+        {
+          "type": "SYMBOL",
           "name": "_empty_statement"
         }
       ]
@@ -574,6 +578,23 @@
     "break_statement": {
       "type": "STRING",
       "value": "break"
+    },
+    "label_statement": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "::"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "identifier"
+        },
+        {
+          "type": "STRING",
+          "value": "::"
+        }
+      ]
     },
     "_empty_statement": {
       "type": "STRING",

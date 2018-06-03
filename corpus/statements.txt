@@ -140,3 +140,14 @@ end
         (condition_expression
           (binary_operation (identifier) (number)))
             (break_statement))))
+
+============================================
+Label statements
+============================================
+
+:: someLuaLabel ::
+
+---
+
+(lua
+  (label_statement (identifier)))

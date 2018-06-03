@@ -52,6 +52,7 @@ module.exports = grammar({
       $.goto_statement,
       $.break_statement,
 
+      $.label_statement,
       $._empty_statement
     ),
 
@@ -148,6 +149,12 @@ module.exports = grammar({
     break_statement: $ => 'break',
 
     // Void statements
+    label_statement: $ => seq(
+      '::',
+      $.identifier,
+      '::'
+    ),
+
     _empty_statement: $ => ';',
 
     // Expressions
