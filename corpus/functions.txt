@@ -31,3 +31,35 @@ a.b.f = function(self, test, ...) return 10 end
   (variable_declaration (variable_declarator (identifier) (property_identifier) (property_identifier))
     (function_definition (parameters (self) (identifier) (spread))
       (return_statement (number)))))
+
+============================================
+Function statements
+============================================
+
+function f()
+  return false
+end
+
+f = function() return false end
+
+function t.a.b.c.f()
+  return true
+end
+
+t.a.b.c.f = function() return true end
+
+---
+
+(lua
+  (function (function_name (identifier)) (parameters)
+    (return_statement (false)))
+
+  (variable_declaration (variable_declarator (identifier))
+    (function_definition (parameters)
+      (return_statement (false))))
+
+  (function (function_name (identifier) (property_identifier) (property_identifier) (property_identifier) (property_identifier)) (parameters)
+    (return_statement (true)))
+
+  (variable_declaration (variable_declarator (identifier) (property_identifier) (property_identifier) (property_identifier) (property_identifier)) (function_definition (parameters)
+    (return_statement (true)))))

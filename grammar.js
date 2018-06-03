@@ -65,7 +65,9 @@ module.exports = grammar({
       $.break_statement,
 
       $.label_statement,
-      $._empty_statement
+      $._empty_statement,
+
+      alias($.function_statement, $.function)
     ),
 
     // Declarations
@@ -191,6 +193,18 @@ module.exports = grammar({
     _empty_statement: $ => ';',
 
     // Functions
+    function_statement: $ => seq(
+      'function',
+      $.function_name,
+      $._function_body
+    ),
+
+    function_name: $ => seq(
+      $.identifier,
+      repeat(seq('.', alias($.identifier, $.property_identifier))),
+      optional(seq(':', alias($.identifier, $.method)))
+    ),
+
     parameters: $ => seq(
       '(',
       optional(choice(
