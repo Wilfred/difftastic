@@ -1,0 +1,27 @@
+============================================
+Binary operations
+============================================
+
+i + j * 3 - j % 5
+
+k + v % 5 ^ 2
+
+i * 2 ^ j
+
+---
+
+(lua
+  (expression
+    (binary_expression
+      (binary_expression (identifier)
+        (binary_expression (identifier) (number)))
+      (binary_expression (identifier) (number))))
+
+  (expression
+    (binary_expression (identifier)
+      (binary_expression (identifier)
+        (binary_expression (number) (number)))))
+
+  (expression
+    (binary_expression (identifier)
+      (binary_expression (number) (identifier)))))

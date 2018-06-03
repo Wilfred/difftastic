@@ -1,7 +1,7 @@
 const PREC = {
   COMMA: -1,
   PRIORITY: 1,
-  
+
   OR: 1,        //=> or
   AND: 2,       //=> and
   COMPARE: 3,   //=> < <= == ~= >= >
@@ -41,6 +41,8 @@ module.exports = grammar({
     _expression: $ => choice(
       $.spread,
 
+      $.binary_expression,
+
       $.string,
       $.number,
       $.nil,
@@ -50,6 +52,43 @@ module.exports = grammar({
     ),
 
     spread: $ => '...',
+
+    // Operations
+    binary_expression: $ => choice(
+      ...[
+        ['or', PREC.OR],
+        ['and', PREC.AND],
+        ['<', PREC.COMPARE],
+        ['<=', PREC.COMPARE],
+        ['==', PREC.COMPARE],
+        ['~=', PREC.COMPARE],
+        ['>=', PREC.COMPARE],
+        ['>', PREC.COMPARE],
+        ['|', PREC.BIT_OR],
+        ['~', PREC.BIT_NOT],
+        ['&', PREC.BIT_AND],
+        ['<<', PREC.SHIFT],
+        ['>>', PREC.SHIFT],
+        ['+', PREC.PLUS],
+        ['-', PREC.PLUS],
+        ['*', PREC.MULTI],
+        ['/', PREC.MULTI],
+        ['//', PREC.MULTI],
+        ['%', PREC.MULTI],
+      ].map(([operator, precedence]) => prec.left(precedence, seq(
+        $._expression,
+        operator,
+        $._expression
+      ))),
+      ...[
+        ['..', PREC.CONCAT],
+        ['^', PREC.POWER],
+      ].map(([operator, precedence]) => prec.right(precedence, seq(
+        $._expression,
+        operator,
+        $._expression
+      )))
+    ),
 
     // Primitives
     string: $ => choice(
