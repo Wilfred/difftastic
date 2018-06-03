@@ -86,3 +86,25 @@ f = function() return 'some string' end
   (variable_declaration (variable_declarator (identifier))
     (function_definition (parameters)
       (return_statement (string)))))
+
+============================================
+Function calls
+============================================
+
+f(3)
+
+f(r(), 10)
+
+g(5, r())
+
+---
+
+(lua
+  (function_call (identifier)
+    (arguments (number)))
+
+  (function_call (identifier)
+    (arguments (function_call (identifier) (arguments)) (number)))
+
+  (function_call (identifier)
+    (arguments (number) (function_call (identifier) (arguments)))))

@@ -31,6 +31,7 @@ module.exports = grammar({
   conflicts: $ => [
     [$._prefix],
     [$._expression, $._variable_declarator],
+    [$._expression, $.function_call_statement]
   ],
 
   externals: $ => [
@@ -68,7 +69,8 @@ module.exports = grammar({
       $._empty_statement,
 
       alias($.function_statement, $.function),
-      alias($.local_function_statement, $.local_function)
+      alias($.local_function_statement, $.local_function),
+      alias($.function_call_statement, $.function_call)
     ),
 
     // Declarations
@@ -207,6 +209,17 @@ module.exports = grammar({
       $._function_body
     ),
 
+    function_call_statement: $ => prec.dynamic(PREC.PRIORITY, choice(
+      seq($._prefix, $.arguments),
+      seq($._prefix, ':', alias($.identifier, $.method), $.arguments)
+    )),
+
+    arguments: $ => choice(
+      seq('(', optional(sequence($._expression)), ')'),
+      $.table,
+      $.string
+    ),
+
     function_name: $ => seq(
       $.identifier,
       repeat(seq('.', alias($.identifier, $.property_identifier))),
@@ -262,6 +275,7 @@ module.exports = grammar({
       $.this,
       $.self,
       $._variable_declarator,
+      alias($.function_call_statement, $.function_call),
       seq('(', $._expression, ')')
     ),
 
