@@ -6,8 +6,8 @@ namespace {
   using std::iswspace;
 
   enum TokenType {
-    SINGLE_COMMENT,
-    MULTILINE_COMMENT
+    COMMENT,
+    MULTILINE_STRING
   };
 
   struct Scanner {
@@ -29,91 +29,86 @@ namespace {
       return true;
     }
 
-    // Check for multi-line brackets (comment/string)
-    int level = 0;
-    bool start_multiline(TSLexer *lexer) {
+    // Check for multiline block
+    bool multiline_content(TSLexer *lexer) {
+      // Multiline brackets level
+      int start_level = 0;
+      int end_level = 0;
+
       // Consume first '['
       if (lexer->lookahead == '[') {
         advance(lexer);
-        
+
         if (lexer->lookahead == '[' || lexer->lookahead == '=') {
-          // Consume all '='
+          // Consume all '=' and save quantity (level)
           while (lexer->lookahead == '=') {
-            ++level;
+            ++start_level;
             advance(lexer);
           }
+
+          end_level = start_level;
 
           // Consume last '['
           if (lexer->lookahead == '[') {
             advance(lexer);
 
-            return true;
+            for (;;) {
+              // Consume first ']'
+              if (lexer->lookahead == ']') {
+                advance(lexer);
+
+                if (lexer->lookahead == ']' || lexer->lookahead == '=') {
+                  // Consume all '=' stored in level
+                  while (lexer->lookahead == '=' && end_level > 0) {
+                    --end_level;
+                    advance(lexer);
+                  }
+
+                  // Consume last ']'
+                  if (lexer->lookahead == ']' && end_level == 0) {
+                    advance(lexer);
+
+                    return true;
+                  }
+
+                  // Restore original level if end brackets level don't match
+                  end_level = start_level;
+                }
+              }
+
+              if (lexer->lookahead == 0) return false;
+
+              advance(lexer);
+            }
           }
         }
       }
-
-      return false;
-    }
-
-    bool end_multiline(TSLexer *lexer) {
-      // Consume first ']'
-      if (lexer->lookahead == ']') {
-        advance(lexer);
-
-        if (lexer->lookahead == ']' || lexer->lookahead == '=') {
-          // Consume all '='
-          while (level > 0 && lexer->lookahead == '=') {
-            --level;
-            advance(lexer);
-          }
-
-          // Consume last ']'
-          if (lexer->lookahead == ']' && level == 0) {
-            advance(lexer);
-
-            return true;
-          }
-        }
-      }
-
-      if (lexer->lookahead == 0) return true;
 
       return false;
     }
 
     // Scan
     bool scan(TSLexer *lexer, const bool *valid_symbols) {
-      if (valid_symbols[SINGLE_COMMENT] || valid_symbols[MULTILINE_COMMENT]) {
-        while (iswspace(lexer->lookahead)) {
-          skip(lexer);
-        }
+      while (iswspace(lexer->lookahead)) {
+        skip(lexer);
+      }
 
-        // Consume "--"
-        if (!evaluate_sequence(lexer, "--")) return false;
+      // Consume any comment
+      if (evaluate_sequence(lexer, "--")) {
+        lexer->result_symbol = COMMENT;
 
-        if (start_multiline(lexer)) {
-          // Consume inside of multi-line comment
-          while (!end_multiline(lexer)) {
-            advance(lexer);
-          }
-
-          // don't tokenize incomplete multi-line comment
-          if (lexer->lookahead == 0) return false;
-
-          lexer->result_symbol = MULTILINE_COMMENT;
-        } else {
-          // Consume all except newline
+        if (!multiline_content(lexer)) {
           while (lexer->lookahead != '\n') {
             advance(lexer);
           }
-
-          lexer->result_symbol = SINGLE_COMMENT;
         }
-
-        return true;
+      } else if (multiline_content(lexer)) {
+        lexer->result_symbol = MULTILINE_STRING;
+      } else {
+        return false;
       }
 
-      return false;
+      return true;
     }
   };
 

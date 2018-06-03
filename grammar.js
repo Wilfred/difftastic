@@ -2,14 +2,13 @@ module.exports = grammar({
   name: 'lua',
 
   extras: $ => [
-    $.single_comment,
-    $.multiline_comment,
+    $.comment,
     /[\s\n]/
   ],
 
   externals: $ => [
-    $.single_comment,
-    $.multiline_comment,
+    $.comment,
+    $._multiline_string
   ],
 
   rules: {
@@ -22,7 +21,15 @@ module.exports = grammar({
 
     // Expressions
     _expression: $ => choice(
+      $.string,
       $.identifier
+    ),
+
+    // Primitives
+    string: $ => choice(
+      seq("'", repeat(choice(/[^\\'\n]/, /\\./)), "'"),
+      seq('"', repeat(choice(/[^\\"\n]/, /\\./)), '"'),
+      $._multiline_string
     ),
 
     // Identifiers

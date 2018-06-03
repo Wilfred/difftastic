@@ -1,0 +1,24 @@
+============================================
+Literal strings (short/long)
+============================================
+
+'a short literal string with single \'quote\''
+"a short literal string with double \"quote\""
+
+[[
+a level 0 long literal string
+with double brackets [=[ a level 1 string completely ignored ]=]
+]]
+
+[==[ a level 2 long literal string
+with double brackets [[ a level 0 string completely ignored ]] ]==]
+
+---
+
+(lua
+  (expression (string))
+  (expression (string))
+
+  (expression (string))
+
+  (expression (string)))

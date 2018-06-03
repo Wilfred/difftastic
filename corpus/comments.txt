@@ -1,30 +1,23 @@
 ============================================
-Single-line comments
+Comments
 ============================================
 
 -- a lua single-line comment
 --
 
----
-
-(lua
-  (single_comment)
-  (single_comment))
-
-============================================
-Multi-line comments
-============================================
-
 --[[
-  Adding two ['s and ]'s makes it a
-  multi-line comment.
+a multi-line comment level 0
 --]]
+
 --[==[ a multi-line
 comment level 2 ]==]
 
-
 ---
 
 (lua
-  (multiline_comment)
-  (multiline_comment))
+  (comment)
+  (comment)
+
+  (comment)
+
+  (comment))
