@@ -1,0 +1,33 @@
+============================================
+Function definitions
+============================================
+
+f = function() return false end
+
+a.b.f = function() return true end
+
+local f
+f = function() return 'some string' end
+
+a.b.f = function(self, test, ...) return 10 end
+
+---
+
+(lua
+  (variable_declaration (variable_declarator (identifier))
+    (function_definition (parameters)
+      (return_statement (false))))
+
+  (variable_declaration (variable_declarator (identifier) (property_identifier) (property_identifier))
+    (function_definition (parameters)
+      (return_statement (true))))
+
+  (local_variable_declaration (variable_declarator (identifier)))
+
+  (variable_declaration (variable_declarator (identifier))
+    (function_definition (parameters)
+      (return_statement (string))))
+
+  (variable_declaration (variable_declarator (identifier) (property_identifier) (property_identifier))
+    (function_definition (parameters (self) (identifier) (spread))
+      (return_statement (number)))))

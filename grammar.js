@@ -190,10 +190,33 @@ module.exports = grammar({
 
     _empty_statement: $ => ';',
 
+    // Functions
+    parameters: $ => seq(
+      '(',
+      optional(choice(
+        seq(
+          optional(seq($.self, optional(','))),
+          sequence($.identifier),
+          optional(seq(',', $.spread))
+        ),
+        seq($.spread)
+      )),
+      ')'
+    ),
+
+    _function_body: $ => seq(
+      $.parameters,
+      repeat($._statement),
+      optional($.return_statement),
+      'end'
+    ),
+
     // Expressions
     _expression: $ => choice(
       $.spread,
       $._prefix,
+
+      $.function_definition,
 
       $.table,
 
@@ -218,6 +241,12 @@ module.exports = grammar({
       $.self,
       $._variable_declarator,
       seq('(', $._expression, ')')
+    ),
+
+    // Definitions
+    function_definition: $ => seq(
+      'function',
+      $._function_body
     ),
 
     // Tables
