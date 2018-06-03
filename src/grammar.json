@@ -35,6 +35,18 @@
         },
         {
           "type": "SYMBOL",
+          "name": "nil"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "true"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "false"
+        },
+        {
+          "type": "SYMBOL",
           "name": "identifier"
         }
       ]
@@ -508,6 +520,18 @@
           }
         ]
       }
+    },
+    "nil": {
+      "type": "STRING",
+      "value": "nil"
+    },
+    "true": {
+      "type": "STRING",
+      "value": "true"
+    },
+    "false": {
+      "type": "STRING",
+      "value": "false"
     },
     "identifier": {
       "type": "PATTERN",

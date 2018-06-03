@@ -23,6 +23,9 @@ module.exports = grammar({
     _expression: $ => choice(
       $.string,
       $.number,
+      $.nil,
+      $.true,
+      $.false,
       $.identifier
     ),
 
@@ -65,6 +68,10 @@ module.exports = grammar({
         hex_literal
       ));
     },
+
+    nil: $ => 'nil',
+    true: $ => 'true',
+    false: $ => 'false',
 
     // Identifiers
     identifier: $ => /[a-zA-Z_][a-zA-Z0-9_]*/
