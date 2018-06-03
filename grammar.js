@@ -43,6 +43,7 @@ module.exports = grammar({
       alias($._expression, $.expression),
 
       $.do_statement,
+      $.if_statement,
 
       $._empty_statement
     ),
@@ -53,6 +54,31 @@ module.exports = grammar({
       repeat($._statement),
       optional($.return_statement),
       'end'
+    ),
+
+    if_statement: $ => seq(
+      'if',
+      alias($._expression, $.condition_expression),
+      'then',
+      repeat($._statement),
+      optional($.return_statement),
+      repeat($._elseif),
+      optional($._else),
+      'end'
+    ),
+
+    _elseif: $ => seq(
+      'elseif',
+      alias($._expression, $.condition_expression),
+      'then',
+      repeat($._statement),
+      optional($.return_statement)
+    ),
+
+    _else: $ => seq(
+      'else',
+      repeat($._statement),
+      optional($.return_statement)
     ),
 
     // Void statements

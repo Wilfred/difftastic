@@ -16,3 +16,26 @@ end
           (binary_operation (identifier) (identifier))
           (true))
         (false)))))
+
+============================================
+If clauses
+============================================
+
+if num < 42 then
+  return "It's over";
+elseif num > 42 then
+  return "Almost...";
+else
+  return "Let there be light!";
+end
+
+---
+
+(lua
+  (if_statement
+    (condition_expression
+      (binary_operation (identifier) (number)))
+      (return_statement (string))
+    (condition_expression (binary_operation (identifier) (number)))
+      (return_statement (string))
+    (return_statement (string))))
