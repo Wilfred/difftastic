@@ -32,6 +32,12 @@ module.exports = grammar({
   rules: {
     lua: $ => repeat($._statement),
 
+    return_statement: $ => seq(
+      'return',
+      optional(sequence($._expression)),
+      optional($._empty_statement)
+    ),
+
     // Statements
     _statement: $ => choice(
       alias($._expression, $.expression),
