@@ -609,6 +609,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "_prefix"
+        },
+        {
+          "type": "SYMBOL",
           "name": "table"
         },
         {
@@ -648,6 +652,28 @@
     "spread": {
       "type": "STRING",
       "value": "..."
+    },
+    "_prefix": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "("
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_expression"
+            },
+            {
+              "type": "STRING",
+              "value": ")"
+            }
+          ]
+        }
+      ]
     },
     "table": {
       "type": "SEQ",

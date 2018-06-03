@@ -160,6 +160,7 @@ module.exports = grammar({
     // Expressions
     _expression: $ => choice(
       $.spread,
+      $._prefix,
 
       $.table,
 
@@ -175,6 +176,10 @@ module.exports = grammar({
     ),
 
     spread: $ => '...',
+
+    _prefix: $ => choice(
+      seq('(', $._expression, ')')
+    ),
 
     // Tables
     table: $ => seq(
