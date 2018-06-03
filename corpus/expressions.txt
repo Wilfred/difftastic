@@ -8,12 +8,11 @@ some_table = { 'pizza', 'favorite', "food", true }
 
 (lua
   (variable_declaration (variable_declarator (identifier))
-    (variable_expression
-      (table
-        (field (string))
-        (field (string))
-        (field (string))
-        (field (true))))))
+    (table
+      (field (string))
+      (field (string))
+      (field (string))
+      (field (true)))))
 
 ============================================
 Binary operations
@@ -29,22 +28,19 @@ c = i * 2 ^ j;
 
 (lua
   (variable_declaration (variable_declarator (identifier))
-    (variable_expression
-      (binary_operation
-        (binary_operation (identifier)
-          (binary_operation (identifier) (number)))
-        (binary_operation (identifier) (number)))))
+    (binary_operation
+      (binary_operation (identifier)
+        (binary_operation (identifier) (number)))
+      (binary_operation (identifier) (number))))
 
   (variable_declaration (variable_declarator (identifier))
-    (variable_expression
+    (binary_operation (identifier)
       (binary_operation (identifier)
-        (binary_operation (identifier)
-          (binary_operation (number) (number))))))
+        (binary_operation (number) (number)))))
 
   (variable_declaration (variable_declarator (identifier))
-    (variable_expression
-      (binary_operation (identifier)
-        (binary_operation (number) (identifier))))))
+    (binary_operation (identifier)
+      (binary_operation (number) (identifier)))))
 
 ============================================
 Unary operations
@@ -58,13 +54,11 @@ ternary = not condition and true or false;
 
 (lua
   (variable_declaration (variable_declarator (identifier))
-    (variable_expression
-      (unary_operation (identifier))))
+    (unary_operation (identifier)))
 
   (variable_declaration (variable_declarator (identifier))
-    (variable_expression
+    (binary_operation
       (binary_operation
-        (binary_operation
-          (unary_operation (identifier))
-        (true))
-      (false)))))
+        (unary_operation (identifier))
+      (true))
+    (false))))

@@ -52,6 +52,7 @@ module.exports = grammar({
       alias($._expression, $.expression),
 
       $.variable_declaration,
+      $.local_variable_declaration,
 
       $.do_statement,
       $.if_statement,
@@ -71,7 +72,13 @@ module.exports = grammar({
     variable_declaration: $ => seq(
       sequence(alias($._variable_declarator, $.variable_declarator)),
       '=',
-      sequence(alias($._expression, $.variable_expression))
+      sequence($._expression)
+    ),
+
+    local_variable_declaration: $ => seq(
+      'local',
+      alias($._local_variable_declarator, $.variable_declarator),
+      optional(seq('=', sequence($._expression)))
     ),
 
     _variable_declarator: $ => choice(
@@ -79,6 +86,8 @@ module.exports = grammar({
       seq($._prefix, '[', $._expression, ']'),
       seq($._prefix, '.', alias($.identifier, $.property_identifier))
     ),
+
+    _local_variable_declarator: $ => sequence($.identifier),
 
     // Control statements
     do_statement: $ => seq(

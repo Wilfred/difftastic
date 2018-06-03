@@ -2,6 +2,8 @@
 Do statements
 ============================================
 
+local x, y = 0, 1, 9;
+
 do
   return x == y and true or false;
 end
@@ -9,13 +11,15 @@ end
 ---
 
 (lua
-  (do_statement
-    (return_statement
-      (binary_operation
-        (binary_operation
-          (binary_operation (identifier) (identifier))
-          (true))
-        (false)))))
+  (local_variable_declaration (variable_declarator (identifier) (identifier))
+    (number) (number) (number))
+      (do_statement
+        (return_statement
+          (binary_operation
+            (binary_operation
+              (binary_operation (identifier) (identifier))
+              (true))
+            (false)))))
 
 ============================================
 If clauses
@@ -35,12 +39,12 @@ end
   (if_statement
     (condition_expression (binary_operation (identifier) (number)))
       (variable_declaration (variable_declarator (identifier))
-        (variable_expression (string)))
+        (string))
     (condition_expression (binary_operation (identifier) (number)))
       (variable_declaration (variable_declarator (identifier))
-        (variable_expression (string)))
+        (string))
     (variable_declaration (variable_declarator (identifier))
-      (variable_expression (string)))))
+      (string))))
 
 ============================================
 While statements
