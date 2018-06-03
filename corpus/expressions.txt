@@ -2,60 +2,69 @@
 Tables
 ============================================
 
-{ 'pizza', 'favorite', "food", true }
+some_table = { 'pizza', 'favorite', "food", true }
 
 ---
 
 (lua
-  (expression
-    (table
-      (field (string))
-      (field (string))
-      (field (string))
-      (field (true)))))
+  (variable_declaration (variable_declarator (identifier))
+    (variable_expression
+      (table
+        (field (string))
+        (field (string))
+        (field (string))
+        (field (true))))))
 
 ============================================
 Binary operations
 ============================================
 
-i + j * 3 - j % 5;
+a = i + j * 3 - j % 5;
 
-k + v % 5 ^ 2;
+b = k + v % 5 ^ 2;
 
-i * 2 ^ j;
+c = i * 2 ^ j;
 
 ---
 
 (lua
-  (expression
-    (binary_operation
-      (binary_operation (identifier)
-        (binary_operation (identifier) (number)))
-      (binary_operation (identifier) (number))))
+  (variable_declaration (variable_declarator (identifier))
+    (variable_expression
+      (binary_operation
+        (binary_operation (identifier)
+          (binary_operation (identifier) (number)))
+        (binary_operation (identifier) (number)))))
 
-  (expression
-    (binary_operation (identifier)
+  (variable_declaration (variable_declarator (identifier))
+    (variable_expression
       (binary_operation (identifier)
-        (binary_operation (number) (number)))))
+        (binary_operation (identifier)
+          (binary_operation (number) (number))))))
 
-  (expression
-    (binary_operation (identifier)
-      (binary_operation (number) (identifier)))))
+  (variable_declaration (variable_declarator (identifier))
+    (variable_expression
+      (binary_operation (identifier)
+        (binary_operation (number) (identifier))))))
 
 ============================================
 Unary operations
 ============================================
 
-#size;
+table_size = #table;
 
-not true | false;
+ternary = not condition and true or false;
 
 ---
 
 (lua
-  (expression
-    (unary_operation (identifier)))
+  (variable_declaration (variable_declarator (identifier))
+    (variable_expression
+      (unary_operation (identifier))))
 
-  (expression
-    (binary_operation
-      (unary_operation (true)) (false))))
+  (variable_declaration (variable_declarator (identifier))
+    (variable_expression
+      (binary_operation
+        (binary_operation
+          (unary_operation (identifier))
+        (true))
+      (false)))))

@@ -76,6 +76,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "variable_declaration"
+        },
+        {
+          "type": "SYMBOL",
           "name": "do_statement"
         },
         {
@@ -113,6 +117,137 @@
         {
           "type": "SYMBOL",
           "name": "_empty_statement"
+        }
+      ]
+    },
+    "variable_declaration": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "SYMBOL",
+                "name": "_variable_declarator"
+              },
+              "named": true,
+              "value": "variable_declarator"
+            },
+            {
+              "type": "REPEAT",
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "STRING",
+                    "value": ","
+                  },
+                  {
+                    "type": "ALIAS",
+                    "content": {
+                      "type": "SYMBOL",
+                      "name": "_variable_declarator"
+                    },
+                    "named": true,
+                    "value": "variable_declarator"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": "="
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "SYMBOL",
+                "name": "_expression"
+              },
+              "named": true,
+              "value": "variable_expression"
+            },
+            {
+              "type": "REPEAT",
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "STRING",
+                    "value": ","
+                  },
+                  {
+                    "type": "ALIAS",
+                    "content": {
+                      "type": "SYMBOL",
+                      "name": "_expression"
+                    },
+                    "named": true,
+                    "value": "variable_expression"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "_variable_declarator": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "identifier"
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_prefix"
+            },
+            {
+              "type": "STRING",
+              "value": "["
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_expression"
+            },
+            {
+              "type": "STRING",
+              "value": "]"
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_prefix"
+            },
+            {
+              "type": "STRING",
+              "value": "."
+            },
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "SYMBOL",
+                "name": "identifier"
+              },
+              "named": true,
+              "value": "property_identifier"
+            }
+          ]
         }
       ]
     },
@@ -671,6 +806,10 @@
         {
           "type": "SYMBOL",
           "name": "self"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_variable_declarator"
         },
         {
           "type": "SEQ",
@@ -1798,7 +1937,15 @@
       "value": "[\\s\\n]"
     }
   ],
-  "conflicts": [],
+  "conflicts": [
+    [
+      "_prefix"
+    ],
+    [
+      "_expression",
+      "_variable_declarator"
+    ]
+  ],
   "externals": [
     {
       "type": "SYMBOL",
@@ -1809,5 +1956,7 @@
       "name": "_multiline_string"
     }
   ],
-  "inline": []
+  "inline": [
+    "_statement"
+  ]
 }

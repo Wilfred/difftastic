@@ -24,6 +24,15 @@ module.exports = grammar({
     /[\s\n]/
   ],
 
+  inline: $ => [
+    $._statement
+  ],
+
+  conflicts: $ => [
+    [$._prefix],
+    [$._expression, $._variable_declarator],
+  ],
+
   externals: $ => [
     $.comment,
     $._multiline_string
@@ -42,6 +51,8 @@ module.exports = grammar({
     _statement: $ => choice(
       alias($._expression, $.expression),
 
+      $.variable_declaration,
+
       $.do_statement,
       $.if_statement,
       $.while_statement,
@@ -54,6 +65,19 @@ module.exports = grammar({
 
       $.label_statement,
       $._empty_statement
+    ),
+
+    // Declarations
+    variable_declaration: $ => seq(
+      sequence(alias($._variable_declarator, $.variable_declarator)),
+      '=',
+      sequence(alias($._expression, $.variable_expression))
+    ),
+
+    _variable_declarator: $ => choice(
+      $.identifier,
+      seq($._prefix, '[', $._expression, ']'),
+      seq($._prefix, '.', alias($.identifier, $.property_identifier))
     ),
 
     // Control statements
@@ -183,6 +207,7 @@ module.exports = grammar({
     _prefix: $ => choice(
       $.this,
       $.self,
+      $._variable_declarator,
       seq('(', $._expression, ')')
     ),
 

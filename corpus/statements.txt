@@ -22,23 +22,25 @@ If clauses
 ============================================
 
 if num < 42 then
-  return "It's over";
+  asnwer = "It's over";
 elseif num > 42 then
-  return "Almost...";
+  asnwer = "Almost...";
 else
-  return "Let there be light!";
+  asnwer = "Let there be light!";
 end
 
 ---
 
 (lua
   (if_statement
-    (condition_expression
-      (binary_operation (identifier) (number)))
-      (return_statement (string))
     (condition_expression (binary_operation (identifier) (number)))
-      (return_statement (string))
-    (return_statement (string))))
+      (variable_declaration (variable_declarator (identifier))
+        (variable_expression (string)))
+    (condition_expression (binary_operation (identifier) (number)))
+      (variable_declaration (variable_declarator (identifier))
+        (variable_expression (string)))
+    (variable_declaration (variable_declarator (identifier))
+      (variable_expression (string)))))
 
 ============================================
 While statements
