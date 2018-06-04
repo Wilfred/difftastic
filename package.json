@@ -15,6 +15,9 @@
     "build": "tree-sitter generate && node-gyp build",
     "test": "tree-sitter test"
   },
+  "dependencies": {
+    "nan": "^2.10.0"
+  },
   "devDependencies": {
     "tree-sitter-cli": "^0.12.2"
   }
