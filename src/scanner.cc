@@ -89,26 +89,30 @@ namespace {
 
     // Scan
     bool scan(TSLexer *lexer, const bool *valid_symbols) {
-      while (iswspace(lexer->lookahead)) {
-        skip(lexer);
-      }
-
-      // Consume any comment
-      if (evaluate_sequence(lexer, "--")) {
-        lexer->result_symbol = COMMENT;
-
-        if (!multiline_content(lexer)) {
-          while (lexer->lookahead != '\n') {
-            advance(lexer);
-          }
+      if (valid_symbols[COMMENT] || valid_symbols[MULTILINE_STRING]) {
+        while (iswspace(lexer->lookahead)) {
+          skip(lexer);
         }
-      } else if (multiline_content(lexer)) {
-        lexer->result_symbol = MULTILINE_STRING;
-      } else {
-        return false;
+
+        // Consume any comment
+        if (evaluate_sequence(lexer, "--")) {
+          lexer->result_symbol = COMMENT;
+
+          if (!multiline_content(lexer)) {
+            while (lexer->lookahead != '\n') {
+              advance(lexer);
+            }
+          }
+        } else if (multiline_content(lexer)) {
+          lexer->result_symbol = MULTILINE_STRING;
+        } else {
+          return false;
+        }
+
+        return true;
       }
 
-      return true;
+      return false;
     }
   };
 
