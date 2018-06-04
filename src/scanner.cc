@@ -99,7 +99,7 @@ namespace {
           lexer->result_symbol = COMMENT;
 
           if (!multiline_content(lexer)) {
-            while (lexer->lookahead != '\n') {
+            while (lexer->lookahead != '\n' && lexer->lookahead != 0) {
               advance(lexer);
             }
           }
