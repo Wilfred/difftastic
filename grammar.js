@@ -229,11 +229,11 @@ module.exports = grammar({
 
     // TODO: Check if ambiguity between type class and type constructor identifiers can be resolved through associativity or precedence.
     export: $ => seq(
-      optional(alias('type', $.type)),
       choice(
         $.module_export,
         $._variable,
         $._qualified_constructor,
+        $.type_constructor_export,
         seq(
           $._qualified_type_constructor_identifier,
           optional(choice(
@@ -257,6 +257,11 @@ module.exports = grammar({
           ))
         )
       )
+    ),
+
+    type_constructor_export: $ => seq(
+      'type',
+      choice($._variable, $._qualified_constructor)
     ),
 
     module_export: $ => seq(

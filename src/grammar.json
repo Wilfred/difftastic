@@ -427,23 +427,6 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "ALIAS",
-              "content": {
-                "type": "STRING",
-                "value": "type"
-              },
-              "named": true,
-              "value": "type"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
               "type": "SYMBOL",
               "name": "module_export"
             },
@@ -454,6 +437,10 @@
             {
               "type": "SYMBOL",
               "name": "_qualified_constructor"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "type_constructor_export"
             },
             {
               "type": "SEQ",
@@ -624,6 +611,28 @@
                   ]
                 }
               ]
+            }
+          ]
+        }
+      ]
+    },
+    "type_constructor_export": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "type"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_variable"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_qualified_constructor"
             }
           ]
         }
