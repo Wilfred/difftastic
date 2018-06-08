@@ -4651,30 +4651,6 @@
           },
           "named": true,
           "value": "dot"
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "REPEAT1",
-                  "content": {
-                    "type": "SYMBOL",
-                    "name": "variable_identifier"
-                  }
-                },
-                {
-                  "type": "STRING",
-                  "value": "=>"
-                }
-              ]
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
         }
       ]
     },
@@ -5549,8 +5525,11 @@
           "name": "class"
         },
         {
-          "type": "SYMBOL",
-          "name": "type_variable_identifier"
+          "type": "REPEAT1",
+          "content": {
+            "type": "SYMBOL",
+            "name": "type_variable_identifier"
+          }
         },
         {
           "type": "SYMBOL",
@@ -7742,6 +7721,9 @@
       "_general_constructor",
       "class",
       "_context_lpat"
+    ],
+    [
+      "_atype"
     ]
   ],
   "externals": [

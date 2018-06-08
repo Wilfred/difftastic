@@ -151,7 +151,9 @@ module.exports = grammar({
     [$._context_lpat, $.class],
     [$.class],
     [$._general_constructor, $.class],
-    [$._general_constructor, $.class, $._context_lpat]
+    [$._general_constructor, $.class, $._context_lpat],
+
+    [$._atype]
   ],
 
   rules: {
@@ -1137,13 +1139,7 @@ module.exports = grammar({
     scoped_type_variables: $ => seq(
       'forall',
       $._type_pattern,
-      alias('.', ($.dot)),
-      optional(
-        seq(
-          repeat1($.variable_identifier),
-          '=>'
-        )
-      )
+      alias('.', ($.dot))
     ),
 
     _type_pattern: $ => prec.left(choice(
@@ -1313,7 +1309,7 @@ module.exports = grammar({
 
     _context_lpat: $ => choice(
       $.class,
-      $.type_variable_identifier,
+      repeat1($.type_variable_identifier),
       $._qualified_type_constructor_identifier,
       $.quoted_name,
       $.type_signature
