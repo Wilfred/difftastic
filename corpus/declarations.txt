@@ -801,11 +801,11 @@ apply :: proxy c -> (forall g . c g => g a -> b) -> Union fs a -> b
         (function_type
           (type
             (parenthesized_type_pattern
-              (scoped_type_variables
-                (type_variable_identifier)
-                (dot)
-                (variable_identifier)
-                (variable_identifier))
+              (scoped_type_variables (type_variable_identifier) (dot))
+              (context
+                (context_pattern
+                  (type_variable_identifier)
+                  (type_variable_identifier)))
               (function_type
                 (type (type_variable_identifier) (type_variable_identifier))
                 (type (type_variable_identifier)))))
