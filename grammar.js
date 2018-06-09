@@ -14,7 +14,7 @@ const PREC = {
   MULTI: 10,    //=> * / // %
   UNARY: 11,    //=> not # - ~
   POWER: 12     //=> ^
-};
+}
 
 module.exports = grammar({
   name: 'lua',
@@ -360,35 +360,35 @@ module.exports = grammar({
 
     number: $ => {
       const
-        decimal_digits = /[0-9]+/;
-        signed_integer = seq(optional(choice('-', '+')), decimal_digits);
-        decimal_exponent_part = seq(choice('e', 'E'), signed_integer);
+        decimal_digits = /[0-9]+/
+        signed_integer = seq(optional(choice('-', '+')), decimal_digits)
+        decimal_exponent_part = seq(choice('e', 'E'), signed_integer)
 
         decimal_integer_literal = choice(
           '0',
           seq(optional('0'), /[1-9]/, optional(decimal_digits))
-        );
+        )
 
-        hex_digits = /[a-fA-F0-9]+/;
-        hex_exponent_part = seq(choice('p', 'P'), signed_integer);
+        hex_digits = /[a-fA-F0-9]+/
+        hex_exponent_part = seq(choice('p', 'P'), signed_integer)
 
         decimal_literal = choice(
           seq(decimal_integer_literal, '.', optional(decimal_digits), optional(decimal_exponent_part)),
           seq('.', decimal_digits, optional(decimal_exponent_part)),
           seq(decimal_integer_literal, optional(decimal_exponent_part))
-        );
+        )
 
         hex_literal = seq(
           choice('0x', '0X'),
           hex_digits,
           optional(seq('.', hex_digits)),
           optional(hex_exponent_part)
-        );
+        )
 
       return token(choice(
         decimal_literal,
         hex_literal
-      ));
+      ))
     },
 
     nil: $ => 'nil',
@@ -398,8 +398,8 @@ module.exports = grammar({
     // Identifiers
     identifier: $ => /[a-zA-Z_][a-zA-Z0-9_]*/
   }
-});
+})
 
 function sequence(rule) {
-  return seq(rule, repeat(seq(',', rule)));
+  return seq(rule, repeat(seq(',', rule)))
 }
