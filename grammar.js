@@ -1,6 +1,11 @@
 module.exports = grammar({
   name: 'html',
 
+  extras: $ => [
+    $.comment,
+    /\s+/,
+  ],
+
   externals: $ => [
     $._open_start_tag,
     $._close_start_tag,
@@ -8,6 +13,7 @@ module.exports = grammar({
     $.end_tag,
     $._implicit_end_tag,
     $._erroneous_end_tag,
+    $.comment,
   ],
 
   rules: {
@@ -41,17 +47,19 @@ module.exports = grammar({
     ),
 
     attribute: $ => seq(
-      alias($._attribute_part, $.attribute_name),
+      $.attribute_name,
       optional(seq(
         '=',
         choice(
-          alias($._attribute_part, $.attribute_value),
+          $.attribute_value,
           $.quoted_attribute_value
         )
       ))
     ),
 
-    _attribute_part: $ => /[^<>"'/=\s]+/,
+    attribute_name: $ => /[^<>"'/=\s]+/,
+
+    attribute_value: $ => /[^<>"'=\s]+/,
 
     quoted_attribute_value: $ => choice(
       seq("'", optional(alias(/[^']+/, $.attribute_value)), "'"),

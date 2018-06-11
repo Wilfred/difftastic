@@ -71,3 +71,19 @@ Void tags
         (attribute (attribute_name) (attribute_value))
         (attribute (attribute_name) (attribute_value))))
     (end_tag)))
+
+==================================
+Comments
+==================================
+<!-- hello -->
+<div>
+  <!-- <span>something</span> -->
+</div>
+---
+
+(fragment
+  (comment)
+  (element
+    (start_tag)
+    (comment)
+    (end_tag)))

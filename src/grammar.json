@@ -107,13 +107,8 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "ALIAS",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_attribute_part"
-          },
-          "named": true,
-          "value": "attribute_name"
+          "type": "SYMBOL",
+          "name": "attribute_name"
         },
         {
           "type": "CHOICE",
@@ -129,13 +124,8 @@
                   "type": "CHOICE",
                   "members": [
                     {
-                      "type": "ALIAS",
-                      "content": {
-                        "type": "SYMBOL",
-                        "name": "_attribute_part"
-                      },
-                      "named": true,
-                      "value": "attribute_value"
+                      "type": "SYMBOL",
+                      "name": "attribute_value"
                     },
                     {
                       "type": "SYMBOL",
@@ -152,9 +142,13 @@
         }
       ]
     },
-    "_attribute_part": {
+    "attribute_name": {
       "type": "PATTERN",
       "value": "[^<>\"'\\/=\\s]+"
+    },
+    "attribute_value": {
+      "type": "PATTERN",
+      "value": "[^<>\"'=\\s]+"
     },
     "quoted_attribute_value": {
       "type": "CHOICE",
@@ -228,8 +222,12 @@
   },
   "extras": [
     {
+      "type": "SYMBOL",
+      "name": "comment"
+    },
+    {
       "type": "PATTERN",
-      "value": "\\s"
+      "value": "\\s+"
     }
   ],
   "conflicts": [],
@@ -257,6 +255,10 @@
     {
       "type": "SYMBOL",
       "name": "_erroneous_end_tag"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "comment"
     }
   ],
   "inline": []

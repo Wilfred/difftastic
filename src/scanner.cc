@@ -18,6 +18,7 @@ enum TokenType {
   END_TAG,
   IMPLICIT_END_TAG,
   ERRONEOUS_END_TAG,
+  COMMENT,
 };
 
 struct Scanner {
@@ -66,7 +67,43 @@ struct Scanner {
     return tag_name;
   }
 
+  bool comment(TSLexer *lexer) {
+    if (lexer->lookahead != '-') return false;
+    lexer->advance(lexer, false);
+    if (lexer->lookahead != '-') return false;
+    lexer->advance(lexer, false);
+
+    unsigned dashes = 0;
+    auto c = lexer->lookahead;
+    while (c) {
+      switch (c) {
+        case '-':
+          ++dashes;
+          break;
+        case '>':
+          if (dashes >= 2) {
+            lexer->result_symbol = COMMENT;
+            lexer->advance(lexer, false);
+            lexer->mark_end(lexer);
+            return true;
+          }
+          break;
+        default:
+          dashes = 0;
+      }
+      lexer->advance(lexer, false);
+      c = lexer->lookahead;
+    }
+    return false;
+  }
+
   bool start_tag(TSLexer *lexer) {
+    if (!tags.empty() && tags.back().is_void()) {
+      tags.pop_back();
+      lexer->result_symbol = IMPLICIT_END_TAG;
+      return true;
+    }
+
     auto tag_name = scan_tag_name(lexer);
     if (tag_name.empty()) return false;
 
@@ -115,15 +152,22 @@ struct Scanner {
 
     switch (lexer->lookahead) {
       case '<':
-        if (valid_symbols[OPEN_START_TAG] || valid_symbols[END_TAG]) {
-          lexer->mark_end(lexer);
+        lexer->mark_end(lexer);
+        lexer->advance(lexer, false);
+
+        if (lexer->lookahead == '!') {
           lexer->advance(lexer, false);
+          return comment(lexer);
+        }
+
+        if (valid_symbols[OPEN_START_TAG] || valid_symbols[END_TAG]) {
           if (lexer->lookahead == '/') {
             lexer->advance(lexer, false);
             return end_tag(lexer);
           }
           return start_tag(lexer);
         }
+
         break;
 
       case '>':
