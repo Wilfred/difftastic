@@ -1,0 +1,25 @@
+{
+  "name": "tree-sitter-html",
+  "version": "0.0.1",
+  "description": "HTML grammar for tree-sitter",
+  "main": "index.js",
+  "keywords": [
+    "parser",
+    "lexer"
+  ],
+  "authors": [
+    "Max Brunsfeld <maxbrunsfeld@gmail.com>",
+    "Ashi Krishnan <queerviolet@github.com>"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "nan": "^2.8.0"
+  },
+  "devDependencies": {
+    "tree-sitter-cli": "^0.10.1"
+  },
+  "scripts": {
+    "build": "tree-sitter generate && node-gyp build",
+    "test": "tree-sitter test"
+  }
+}
