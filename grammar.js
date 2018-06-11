@@ -87,8 +87,8 @@ module.exports = grammar({
     [$._lexp, $._a_expression],
     [$._lexp, $.function_application],
     [$._a_pattern, $._a_expression],
-    [$._import, $._qualified_type_constructor_identifier],
-    [$._import, $._qualified_constructor_identifier, $._qualified_type_constructor_identifier],
+    [$.import, $._qualified_type_constructor_identifier],
+    [$.import, $._qualified_constructor_identifier, $._qualified_type_constructor_identifier],
     [$._qualified_constructor_identifier, $._qualified_type_constructor_identifier],
     [$._qualified_type_constructor_identifier, $._qualified_type_class_identifier],
     [$.qualified_type_constructor_identifier, $.qualified_type_class_identifier],
@@ -301,18 +301,18 @@ module.exports = grammar({
 
     import_spec: $ => seq(
       '(',
-      optional(sep1(',', alias($._import, $.import))),
+      optional(sep1(',', $.import)),
       ')'
     ),
 
     hidden_import_spec: $ => seq(
       'hiding',
       '(',
-      optional(sep1(',', alias($._import, $.hidden_import))),
+      optional(sep1(',', $.import)),
       ')'
     ),
 
-    _import: $ => choice(
+    import: $ => choice(
       $._variable,
       $._qualified_constructor,
       seq(

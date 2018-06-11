@@ -776,13 +776,8 @@
               "type": "SEQ",
               "members": [
                 {
-                  "type": "ALIAS",
-                  "content": {
-                    "type": "SYMBOL",
-                    "name": "_import"
-                  },
-                  "named": true,
-                  "value": "import"
+                  "type": "SYMBOL",
+                  "name": "import"
                 },
                 {
                   "type": "REPEAT",
@@ -794,13 +789,8 @@
                         "value": ","
                       },
                       {
-                        "type": "ALIAS",
-                        "content": {
-                          "type": "SYMBOL",
-                          "name": "_import"
-                        },
-                        "named": true,
-                        "value": "import"
+                        "type": "SYMBOL",
+                        "name": "import"
                       }
                     ]
                   }
@@ -836,13 +826,8 @@
               "type": "SEQ",
               "members": [
                 {
-                  "type": "ALIAS",
-                  "content": {
-                    "type": "SYMBOL",
-                    "name": "_import"
-                  },
-                  "named": true,
-                  "value": "hidden_import"
+                  "type": "SYMBOL",
+                  "name": "import"
                 },
                 {
                   "type": "REPEAT",
@@ -854,13 +839,8 @@
                         "value": ","
                       },
                       {
-                        "type": "ALIAS",
-                        "content": {
-                          "type": "SYMBOL",
-                          "name": "_import"
-                        },
-                        "named": true,
-                        "value": "hidden_import"
+                        "type": "SYMBOL",
+                        "name": "import"
                       }
                     ]
                   }
@@ -878,7 +858,7 @@
         }
       ]
     },
-    "_import": {
+    "import": {
       "type": "CHOICE",
       "members": [
         {
@@ -7535,11 +7515,11 @@
       "_a_expression"
     ],
     [
-      "_import",
+      "import",
       "_qualified_type_constructor_identifier"
     ],
     [
-      "_import",
+      "import",
       "_qualified_constructor_identifier",
       "_qualified_type_constructor_identifier"
     ],
