@@ -200,8 +200,8 @@ import Data.Maybe hiding (Maybe(..), fromMaybe)
     (import_declaration
       (qualified_module_identifier (module_identifier) (module_identifier))
       (hidden_import_spec
-        (hidden_import (type_constructor_identifier) (all_constructors))
-        (hidden_import (variable_identifier))))))
+        (import (type_constructor_identifier) (all_constructors))
+        (import (variable_identifier))))))
 
 =========================================
 Import Declaration With Qualified, Hiding, Constructor and Function
@@ -229,18 +229,18 @@ import qualified Data.List as DL hiding (head)
         (module_identifier)
         (module_identifier))
       (hidden_import_spec
-        (hidden_import (type_constructor_identifier) (all_constructors))
-        (hidden_import (variable_identifier))))
+        (import (type_constructor_identifier) (all_constructors))
+        (import (variable_identifier))))
     (qualified_import_declaration
       (qualified_module_identifier (module_identifier) (module_identifier))
       (hidden_import_spec
-        (hidden_import (variable_identifier))))
+        (import (variable_identifier))))
     (qualified_import_declaration
       (import_alias
         (qualified_module_identifier (module_identifier) (module_identifier))
         (module_identifier))
       (hidden_import_spec
-        (hidden_import (variable_identifier))))))
+        (import (variable_identifier))))))
 
 =========================================
 Import Declaration With Primitive Constructor And Primitive Variable Identifiers
