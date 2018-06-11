@@ -1,16 +1,13 @@
-const startTag = ($, tag) => seq(
-  '<',
-  alias(tag, $.tag_name),
-  repeat($.attribute),
-  '>'
-)
-
 module.exports = grammar({
   name: 'html',
 
   externals: $ => [
-    $.tag_name,
-
+    $._open_start_tag,
+    $._close_start_tag,
+    $._self_close_start_tag,
+    $.end_tag,
+    $._implicit_end_tag,
+    $._erroneous_end_tag,
   ],
 
   rules: {
@@ -18,31 +15,29 @@ module.exports = grammar({
 
     _node: $ => choice(
       $.text,
-      $.element,
-      $.void_element
+      $._erroneous_end_tag,
+      $.element
     ),
 
-    element: $ => seq(
-      $.start_tag,
-      repeat($._node),
-      $.end_tag
-    ),
-
-    void_element: $ => choice(
-      seq($.void_start_tag, optional($.end_tag)),
+    element: $ => choice(
+      seq(
+        $.start_tag,
+        repeat($._node),
+        choice($.end_tag, $._implicit_end_tag)
+      ),
       $.self_closing_tag
     ),
 
-    start_tag: $ => startTag($, $.tag_name),
-
-    void_start_tag: $ => startTag($, $.void_tag_name),
+    start_tag: $ => seq(
+      $._open_start_tag,
+      repeat($.attribute),
+      $._close_start_tag
+    ),
 
     self_closing_tag: $ => seq(
-      '<',
-      choice($.tag_name, $.void_tag_name),
+      $._open_start_tag,
       repeat($.attribute),
-      '/',
-      '>'
+      $._self_close_start_tag
     ),
 
     attribute: $ => seq(
@@ -62,40 +57,6 @@ module.exports = grammar({
       seq("'", optional(alias(/[^']+/, $.attribute_value)), "'"),
       seq('"', optional(alias(/[^"]+/, $.attribute_value)), '"')
     ),
-
-    end_tag: $ => seq(
-      '</',
-      choice($.tag_name, $.void_tag_name),
-      '>'
-    ),
-
-    tag_name: $ => /[a-zA-Z\-]+/,
-
-    void_tag_name: $ => token(prec(1, choice(
-      'area',
-      'base',
-      'basefont',
-      'bgsound',
-      'br',
-      'col',
-      'command',
-      'embed',
-      'frame',
-      'hr',
-      'image',
-      'img',
-      'input',
-      'isindex',
-      'keygen',
-      'link',
-      'menuitem',
-      'meta',
-      'nextid',
-      'param',
-      'source',
-      'track',
-      'wbr'
-    ))),
 
     text: $ => /[^<>]+/
   }

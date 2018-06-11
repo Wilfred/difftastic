@@ -6,9 +6,9 @@ Tags
 
 (fragment
   (element
-    (start_tag (tag_name))
+    (start_tag)
     (text)
-    (end_tag (tag_name))))
+    (end_tag)))
 
 ===================================
 Tags with attributes
@@ -17,9 +17,8 @@ Tags with attributes
 ---
 
 (fragment
-  (void_element
-    (void_start_tag
-      (void_tag_name)
+  (element
+    (start_tag
       (attribute
         (attribute_name)
         (attribute_value))
@@ -28,7 +27,7 @@ Tags with attributes
         (quoted_attribute_value (attribute_value)))
       (attribute
         (attribute_name)))
-    (end_tag (tag_name))))
+    (end_tag)))
 
 ===================================
 Nested tags
@@ -42,37 +41,33 @@ Nested tags
 
 (fragment
   (element
-    (start_tag (tag_name))
+    (start_tag)
+    (element
+      (start_tag)
+      (text)
+      (end_tag))
     (text)
     (element
-      (start_tag (tag_name))
+      (start_tag)
       (text)
-      (end_tag (tag_name)))
-    (text)
-    (element
-      (start_tag (tag_name))
-      (text)
-      (end_tag (tag_name)))
-    (text)
-    (end_tag (tag_name))))
+      (end_tag))
+    (end_tag)))
 
 ==================================
 Void tags
 ==================================
-<form><img src="somethign.png"><br><input type=submit value=Ok /></form>
+<form><img src="something.png"><br><input type=submit value=Ok /></form>
 ---
 
 (fragment
   (element
-    (start_tag (tag_name))
-    (void_element
-      (void_start_tag
-        (tag_name)
+    (start_tag)
+    (element
+      (start_tag
         (attribute (attribute_name) (quoted_attribute_value (attribute_value)))))
-    (void_element (void_start_tag (tag_name)))
-    (void_element
+    (element (start_tag))
+    (element
       (self_closing_tag
-        (tag_name)
         (attribute (attribute_name) (attribute_value))
         (attribute (attribute_name) (attribute_value))))
-    (end_tag (tag_name))))
+    (end_tag)))
