@@ -87,3 +87,50 @@ Comments
     (start_tag)
     (comment)
     (end_tag)))
+
+==================================
+Raw text elements
+==================================
+
+<script>
+  </s
+  </sc
+  </scr
+  </scri
+  </scrip
+</script>
+
+<style>
+  </ </s </st </sty </styl
+</style>
+
+---
+
+(fragment
+  (raw_element
+    (start_tag)
+    (end_tag))
+  (raw_element
+    (start_tag)
+    (end_tag))
+  (text))
+
+==================================
+All-caps doctype
+==================================
+<!DOCTYPE html PUBLIC
+  "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+---
+
+(fragment
+  (doctype))
+
+==================================
+Lowercase doctype
+==================================
+<!doctype html>
+---
+
+(fragment
+  (doctype))

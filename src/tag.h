@@ -279,6 +279,10 @@ struct Tag {
     return type < END_OF_VOID_TAGS;
   }
 
+  inline bool is_raw() const {
+    return type == SCRIPT || type == STYLE;
+  }
+
   // string name() const {
   //   return type == TagType::CUSTOM
   //     ? custom_tag_name

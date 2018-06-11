@@ -3,7 +3,6 @@
 #include <vector>
 #include <string>
 #include <locale>
-
 #include "tag.h"
 
 namespace {
@@ -13,12 +12,14 @@ using std::string;
 
 enum TokenType {
   OPEN_START_TAG,
+  OPEN_RAW_START_TAG,
   CLOSE_START_TAG,
   SELF_CLOSE_START_TAG,
   END_TAG,
   IMPLICIT_END_TAG,
   ERRONEOUS_END_TAG,
-  COMMENT,
+  RAW_TEXT,
+  COMMENT
 };
 
 struct Scanner {
@@ -97,6 +98,31 @@ struct Scanner {
     return false;
   }
 
+  bool raw_text(TSLexer *lexer) {
+    if (!tags.size()) return false;
+
+    lexer->mark_end(lexer);
+
+    const string &end_delimiter = tags.back().type == SCRIPT
+      ? "</script"
+      : "</style";
+
+    unsigned delimiter_index = 0;
+    while (lexer->lookahead) {
+      if (lexer->lookahead == end_delimiter[delimiter_index]) {
+        delimiter_index++;
+        if (delimiter_index == end_delimiter.size()) break;
+      } else {
+        delimiter_index = 0;
+        lexer->mark_end(lexer);
+      }
+      lexer->advance(lexer, false);
+    }
+
+    lexer->result_symbol = RAW_TEXT;
+    return true;
+  }
+
   bool start_tag(TSLexer *lexer) {
     if (!tags.empty() && tags.back().is_void()) {
       tags.pop_back();
@@ -111,7 +137,7 @@ struct Scanner {
     tags.push_back(tag);
 
     lexer->mark_end(lexer);
-    lexer->result_symbol = OPEN_START_TAG;
+    lexer->result_symbol = tag.is_raw() ? OPEN_RAW_START_TAG : OPEN_START_TAG;
     return true;
   }
 
@@ -148,6 +174,10 @@ struct Scanner {
   bool scan(TSLexer *lexer, const bool *valid_symbols) {
     while (iswspace(lexer->lookahead)) {
       lexer->advance(lexer, true);
+    }
+
+    if (valid_symbols[RAW_TEXT] && !valid_symbols[OPEN_START_TAG] && !valid_symbols[CLOSE_START_TAG]) {
+      return raw_text(lexer);
     }
 
     switch (lexer->lookahead) {
