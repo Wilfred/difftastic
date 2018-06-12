@@ -6,9 +6,9 @@ Tags
 
 (fragment
   (element
-    (start_tag)
+    (start_tag (tag_name))
     (text)
-    (end_tag)))
+    (end_tag (tag_name))))
 
 ===================================
 Tags with attributes
@@ -19,6 +19,7 @@ Tags with attributes
 (fragment
   (element
     (start_tag
+      (tag_name)
       (attribute
         (attribute_name)
         (attribute_value))
@@ -27,7 +28,7 @@ Tags with attributes
         (quoted_attribute_value (attribute_value)))
       (attribute
         (attribute_name)))
-    (end_tag)))
+    (end_tag (tag_name))))
 
 ===================================
 Nested tags
@@ -41,17 +42,19 @@ Nested tags
 
 (fragment
   (element
-    (start_tag)
-    (element
-      (start_tag)
-      (text)
-      (end_tag))
+    (start_tag (tag_name))
     (text)
     (element
-      (start_tag)
+      (start_tag (tag_name))
       (text)
-      (end_tag))
-    (end_tag)))
+      (end_tag (tag_name)))
+    (text)
+    (element
+      (start_tag (tag_name))
+      (text)
+      (end_tag (tag_name)))
+    (text)
+    (end_tag (tag_name))))
 
 ==================================
 Void tags
@@ -61,16 +64,18 @@ Void tags
 
 (fragment
   (element
-    (start_tag)
+    (start_tag (tag_name))
     (element
       (start_tag
+        (tag_name)
         (attribute (attribute_name) (quoted_attribute_value (attribute_value)))))
-    (element (start_tag))
+    (element (start_tag (tag_name)))
     (element
       (self_closing_tag
+        (tag_name)
         (attribute (attribute_name) (attribute_value))
         (attribute (attribute_name) (attribute_value))))
-    (end_tag)))
+    (end_tag (tag_name))))
 
 ==================================
 Comments
@@ -83,15 +88,16 @@ Comments
 
 (fragment
   (comment)
+  (text)
   (element
-    (start_tag)
+    (start_tag (tag_name))
     (comment)
-    (end_tag)))
+    (text)
+    (end_tag (tag_name))))
 
 ==================================
 Raw text elements
 ==================================
-
 <script>
   </s
   </sc
@@ -108,11 +114,14 @@ Raw text elements
 
 (fragment
   (raw_element
-    (start_tag)
-    (end_tag))
+    (start_tag (tag_name))
+    (raw_text)
+    (end_tag (tag_name)))
+  (text)
   (raw_element
-    (start_tag)
-    (end_tag))
+    (start_tag (tag_name))
+    (raw_text)
+    (end_tag (tag_name)))
   (text))
 
 ==================================
@@ -146,10 +155,11 @@ LI elements without close tags
 
 (fragment
   (element
-    (start_tag)
-    (element (start_tag) (text))
-    (element (start_tag) (text))
-    (end_tag)))
+    (start_tag (tag_name))
+    (text)
+    (element (start_tag (tag_name)) (text))
+    (element (start_tag (tag_name)) (text))
+    (end_tag (tag_name))))
 
 ======================================
 DT and DL elements without close tags
@@ -165,13 +175,14 @@ DT and DL elements without close tags
 
 (fragment
   (element
-    (start_tag)
-    (element (start_tag) (text))
-    (element (start_tag) (text))
-    (element (start_tag) (text))
-    (element (start_tag) (text))
-    (element (start_tag) (text))
-    (end_tag)))
+    (start_tag (tag_name))
+    (text)
+    (element (start_tag (tag_name)) (text))
+    (element (start_tag (tag_name)) (text))
+    (element (start_tag (tag_name)) (text))
+    (element (start_tag (tag_name)) (text))
+    (element (start_tag (tag_name)) (text))
+    (end_tag (tag_name))))
 
 ======================================
 P elements without close tags
@@ -184,11 +195,12 @@ P elements without close tags
 ---
 
 (fragment
-  (element (start_tag) (text))
-  (element (start_tag) (text) (end_tag))
-  (element (start_tag) (text))
-  (element (start_tag) (text))
-  (element (start_tag) (text) (end_tag)))
+  (element (start_tag (tag_name)) (text))
+  (element (start_tag (tag_name)) (text) (end_tag (tag_name)))
+  (text)
+  (element (start_tag (tag_name)) (text))
+  (element (start_tag (tag_name)) (text))
+  (element (start_tag (tag_name)) (text) (end_tag (tag_name))))
 
 ======================================
 Ruby annotation elements without close tags
@@ -198,17 +210,16 @@ Ruby annotation elements without close tags
 
 (fragment
   (element
-    (start_tag)
+    (start_tag (tag_name))
     (text)
-    (element (start_tag) (text))
-    (element (start_tag) (text))
-    (element (start_tag) (text))
-    (end_tag)))
+    (element (start_tag (tag_name)) (text))
+    (element (start_tag (tag_name)) (text))
+    (element (start_tag (tag_name)) (text))
+    (end_tag (tag_name))))
 
 =======================================
 COLGROUP elements without end tags
 =======================================
-
 <table>
   <colgroup>
     <col style="background-color: #0f0">
@@ -223,18 +234,29 @@ COLGROUP elements without end tags
 
 (fragment
   (element
-    (start_tag)
+    (start_tag (tag_name))
+    (text)
     (element
-      (start_tag)
-      (element (start_tag (attribute (attribute_name) (quoted_attribute_value (attribute_value)))))
-      (element (start_tag (attribute (attribute_name) (quoted_attribute_value (attribute_value))))))
+      (start_tag (tag_name))
+      (text)
+      (element (start_tag
+        (tag_name)
+        (attribute (attribute_name) (quoted_attribute_value (attribute_value)))))
+      (element (start_tag
+        (tag_name)
+        (attribute (attribute_name) (quoted_attribute_value (attribute_value))))))
     (element
-      (start_tag)
-      (element (start_tag) (text) (end_tag))
-      (element (start_tag) (text) (end_tag))
-      (element (start_tag) (text) (end_tag))
-      (end_tag))
-    (end_tag)))
+      (start_tag (tag_name))
+      (text)
+      (element (start_tag (tag_name)) (text) (end_tag (tag_name)))
+      (text)
+      (element (start_tag (tag_name)) (text) (end_tag (tag_name)))
+      (text)
+      (element (start_tag (tag_name)) (text) (end_tag (tag_name)))
+      (text)
+      (end_tag (tag_name)))
+    (text)
+    (end_tag (tag_name))))
 
 =========================================
 TR, TD, and TH elements without end tags
@@ -251,13 +273,16 @@ TR, TD, and TH elements without end tags
 
 (fragment
   (element
-    (start_tag)
+    (start_tag (tag_name))
+    (text)
     (element
-      (start_tag)
-      (element (start_tag) (text))
-      (element (start_tag) (text)))
+      (start_tag (tag_name))
+      (text)
+      (element (start_tag (tag_name)) (text))
+      (element (start_tag (tag_name)) (text)))
     (element
-      (start_tag)
-      (element (start_tag) (text))
-      (element (start_tag) (text)))
-    (end_tag)))
+      (start_tag (tag_name))
+      (text)
+      (element (start_tag (tag_name)) (text))
+      (element (start_tag (tag_name)) (text)))
+    (end_tag (tag_name))))

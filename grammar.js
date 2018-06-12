@@ -7,14 +7,13 @@ module.exports = grammar({
   ],
 
   externals: $ => [
-    $._open_start_tag,
-    $._open_raw_start_tag,
-    $._close_start_tag,
-    $._self_close_start_tag,
-    $.end_tag,
+    $._start_tag_name,
+    $._start_raw_tag_name,
+    $._end_tag_name,
+    $.erroneous_end_tag_name,
+    '/>',
     $._implicit_end_tag,
-    $._erroneous_end_tag,
-    $._raw_text,
+    $.raw_text,
     $.comment,
   ],
 
@@ -31,8 +30,8 @@ module.exports = grammar({
     _node: $ => choice(
       $.doctype,
       $.text,
-      $._erroneous_end_tag,
       $.element,
+      $.erroneous_end_tag,
       $.raw_element
     ),
 
@@ -47,26 +46,41 @@ module.exports = grammar({
 
     raw_element: $ => seq(
       alias($._raw_start_tag, $.start_tag),
-      optional($._raw_text),
+      optional($.raw_text),
       $.end_tag
     ),
 
     start_tag: $ => seq(
-      $._open_start_tag,
+      '<',
+      alias($._start_tag_name, $.tag_name),
       repeat($.attribute),
-      $._close_start_tag
+      '>'
     ),
 
     _raw_start_tag: $ => seq(
-      $._open_raw_start_tag,
+      '<',
+      alias($._start_raw_tag_name, $.tag_name),
       repeat($.attribute),
-      $._close_start_tag
+      '>'
     ),
 
     self_closing_tag: $ => seq(
-      $._open_start_tag,
+      '<',
+      alias($._start_tag_name, $.tag_name),
       repeat($.attribute),
-      $._self_close_start_tag
+      '/>'
+    ),
+
+    end_tag: $ => seq(
+      '</',
+      alias($._end_tag_name, $.tag_name),
+      '>'
+    ),
+
+    erroneous_end_tag: $ => seq(
+      '</',
+      $.erroneous_end_tag_name,
+      '>'
     ),
 
     attribute: $ => seq(

@@ -11,13 +11,12 @@ using std::vector;
 using std::string;
 
 enum TokenType {
-  OPEN_START_TAG,
-  OPEN_RAW_START_TAG,
-  CLOSE_START_TAG,
-  SELF_CLOSE_START_TAG,
-  END_TAG,
+  START_TAG_NAME,
+  START_RAW_TAG_NAME,
+  END_TAG_NAME,
+  ERRONEOUS_END_TAG_NAME,
+  SELF_CLOSING_TAG_DELIMITER,
   IMPLICIT_END_TAG,
-  ERRONEOUS_END_TAG,
   RAW_TEXT,
   COMMENT
 };
@@ -68,7 +67,7 @@ struct Scanner {
     return tag_name;
   }
 
-  bool comment(TSLexer *lexer) {
+  bool scan_comment(TSLexer *lexer) {
     if (lexer->lookahead != '-') return false;
     lexer->advance(lexer, false);
     if (lexer->lookahead != '-') return false;
@@ -98,7 +97,7 @@ struct Scanner {
     return false;
   }
 
-  bool raw_text(TSLexer *lexer) {
+  bool scan_raw_text(TSLexer *lexer) {
     if (!tags.size()) return false;
 
     lexer->mark_end(lexer);
@@ -123,13 +122,19 @@ struct Scanner {
     return true;
   }
 
-  bool start_tag(TSLexer *lexer) {
+  bool scan_implicit_end_tag(TSLexer *lexer) {
     Tag *parent = tags.empty() ? nullptr : &tags.back();
 
-    if (parent && parent->is_void()) {
-      tags.pop_back();
-      lexer->result_symbol = IMPLICIT_END_TAG;
-      return true;
+    bool is_closing_tag = false;
+    if (lexer->lookahead == '/') {
+      is_closing_tag = true;
+      lexer->advance(lexer, false);
+    } else {
+      if (parent && parent->is_void()) {
+        tags.pop_back();
+        lexer->result_symbol = IMPLICIT_END_TAG;
+        return true;
+      }
     }
 
     auto tag_name = scan_tag_name(lexer);
@@ -137,46 +142,61 @@ struct Scanner {
 
     Tag next_tag = Tag::for_name(tag_name);
 
-    if (parent && !parent->can_contain(next_tag)) {
+    if (is_closing_tag) {
+      // The tag correctly closes the topmost element on the stack
+      if (next_tag == tags.back()) return false;
+
+      // Otherwise, dig deeper and queue implicit end tags (to be nice in
+      // the case of malformed HTML)
+      if (std::find(tags.begin(), tags.end(), next_tag) != tags.end()) {
+        tags.pop_back();
+        lexer->result_symbol = IMPLICIT_END_TAG;
+        return true;
+      }
+    } else if (parent && !parent->can_contain(next_tag)) {
       tags.pop_back();
       lexer->result_symbol = IMPLICIT_END_TAG;
       return true;
     }
 
-    tags.push_back(next_tag);
-    lexer->mark_end(lexer);
-    lexer->result_symbol = next_tag.is_raw() ? OPEN_RAW_START_TAG : OPEN_START_TAG;
+    return false;
+  }
+
+  bool scan_start_tag_name(TSLexer *lexer) {
+    auto tag_name = scan_tag_name(lexer);
+    if (tag_name.empty()) return false;
+    Tag tag = Tag::for_name(tag_name);
+    tags.push_back(tag);
+    if (tag.is_raw()) {
+      lexer->result_symbol = START_RAW_TAG_NAME;
+    } else {
+      lexer->result_symbol = START_TAG_NAME;
+    }
     return true;
   }
 
-  bool end_tag(TSLexer *lexer) {
+  bool scan_end_tag_name(TSLexer *lexer) {
     auto tag_name = scan_tag_name(lexer);
     if (tag_name.empty()) return false;
-
-    lexer->advance(lexer, false);
-
     Tag tag = Tag::for_name(tag_name);
-
-    // The tag correctly closes the topmost element on the stack
-    if (tag == tags.back()) {
+    if (!tags.empty() && tags.back() == tag) {
       tags.pop_back();
-      lexer->mark_end(lexer);
-      lexer->result_symbol = END_TAG;
-      return true;
+      lexer->result_symbol = END_TAG_NAME;
+    } else {
+      lexer->result_symbol = ERRONEOUS_END_TAG_NAME;
     }
-
-    // Otherwise, dig deeper and queue implicit end tags (to be nice in
-    // the case of malformed HTML)
-    if (std::find(tags.begin(), tags.end(), tag) != tags.end()) {
-      tags.pop_back();
-      lexer->result_symbol = IMPLICIT_END_TAG;
-      return true;
-    }
-
-    // You closed a tag you never opened 😭
-    lexer->mark_end(lexer);
-    lexer->result_symbol = ERRONEOUS_END_TAG;
     return true;
+  }
+
+  bool scan_self_closing_tag_delimiter(TSLexer *lexer) {
+    lexer->advance(lexer, false);
+    if (lexer->lookahead == '>') {
+      lexer->advance(lexer, false);
+      tags.pop_back();
+      lexer->result_symbol = SELF_CLOSING_TAG_DELIMITER;
+      return true;
+    }
+    return false;
   }
 
   bool scan(TSLexer *lexer, const bool *valid_symbols) {
@@ -184,8 +204,8 @@ struct Scanner {
       lexer->advance(lexer, true);
     }
 
-    if (valid_symbols[RAW_TEXT] && !valid_symbols[OPEN_START_TAG] && !valid_symbols[CLOSE_START_TAG]) {
-      return raw_text(lexer);
+    if (valid_symbols[RAW_TEXT] && !valid_symbols[START_TAG_NAME] && !valid_symbols[END_TAG_NAME]) {
+      return scan_raw_text(lexer);
     }
 
     switch (lexer->lookahead) {
@@ -195,38 +215,26 @@ struct Scanner {
 
         if (lexer->lookahead == '!') {
           lexer->advance(lexer, false);
-          return comment(lexer);
+          return scan_comment(lexer);
         }
 
-        if (valid_symbols[OPEN_START_TAG] || valid_symbols[END_TAG]) {
-          if (lexer->lookahead == '/') {
-            lexer->advance(lexer, false);
-            return end_tag(lexer);
-          }
-          return start_tag(lexer);
-        }
-
-        break;
-
-      case '>':
-        if (valid_symbols[CLOSE_START_TAG]) {
-          lexer->advance(lexer, false);
-          lexer->result_symbol = CLOSE_START_TAG;
-          return true;
+        if (valid_symbols[IMPLICIT_END_TAG]) {
+          return scan_implicit_end_tag(lexer);
         }
         break;
 
       case '/':
-        if (valid_symbols[SELF_CLOSE_START_TAG]) {
-          lexer->advance(lexer, false);
-          if (lexer->lookahead == '>') {
-            lexer->advance(lexer, false);
-            tags.pop_back();
-            lexer->result_symbol = SELF_CLOSE_START_TAG;
-            return true;
-          }
+        if (valid_symbols[SELF_CLOSING_TAG_DELIMITER]) {
+          return scan_self_closing_tag_delimiter(lexer);
         }
         break;
+
+      default:
+        if (valid_symbols[START_TAG_NAME] || valid_symbols[END_TAG_NAME]) {
+          return valid_symbols[START_TAG_NAME]
+            ? scan_start_tag_name(lexer)
+            : scan_end_tag_name(lexer);
+        }
     }
 
     return false;
