@@ -2,7 +2,7 @@
 #include <algorithm>
 #include <vector>
 #include <string>
-#include <locale>
+#include <cwctype>
 #include "tag.h"
 
 namespace {
@@ -62,7 +62,7 @@ struct Scanner {
   string scan_tag_name(TSLexer *lexer) {
     string tag_name;
     while (iswalpha(lexer->lookahead) || lexer->lookahead == '-' || lexer->lookahead == ':') {
-      tag_name += std::toupper(lexer->lookahead);
+      tag_name += towupper(lexer->lookahead);
       lexer->advance(lexer, false);
     }
     return tag_name;
