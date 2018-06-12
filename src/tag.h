@@ -5,7 +5,6 @@ using std::string;
 using std::unordered_map;
 
 enum TagType : char {
-  // Void tags
   AREA,
   BASE,
   BASEFONT,
@@ -265,34 +264,40 @@ static const unordered_map<string, TagType> TAG_TYPES_BY_TAG_NAME = {
   {"VIDEO", VIDEO},
 };
 
-static const bool PARAGRAPH_CANNOT_CONTAIN[CUSTOM + 1] = {
-  [ADDRESS] = true,
-  [ARTICLE] = true,
-  [ASIDE] = true,
-  [BLOCKQUOTE] = true,
-  [DETAILS] = true,
-  [DIV] = true,
-  [DL] = true,
-  [FIELDSET] = true,
-  [FIGCAPTION] = true,
-  [FIGURE] = true,
-  [FOOTER] = true,
-  [FORM] = true,
-  [H1] = true,
-  [H2] = true,
-  [H3] = true,
-  [H4] = true,
-  [H5] = true,
-  [H6] = true,
-  [HEADER] = true,
-  [HR] = true,
-  [MAIN] = true,
-  [NAV] = true,
-  [OL] = true,
-  [P] = true,
-  [PRE] = true,
-  [SECTION] = true,
+static const TagType TAG_TYPES_NOT_ALLOWED_IN_PARAGRAPHS[] = {
+  ADDRESS,
+  ARTICLE,
+  ASIDE,
+  BLOCKQUOTE,
+  DETAILS,
+  DIV,
+  DL,
+  FIELDSET,
+  FIGCAPTION,
+  FIGURE,
+  FOOTER,
+  FORM,
+  H1,
+  H2,
+  H3,
+  H4,
+  H5,
+  H6,
+  HEADER,
+  HR,
+  MAIN,
+  NAV,
+  OL,
+  P,
+  PRE,
+  SECTION,
 };
+
+static const TagType *TAG_TYPES_NOT_ALLOWED_IN_PARAGRAPHS_END = (
+  TAG_TYPES_NOT_ALLOWED_IN_PARAGRAPHS +
+  sizeof(TAG_TYPES_NOT_ALLOWED_IN_PARAGRAPHS) /
+  sizeof(TagType)
+);
 
 struct Tag {
   TagType type;
@@ -323,7 +328,11 @@ struct Tag {
         return child != DT && child != DD;
 
       case P:
-        return !PARAGRAPH_CANNOT_CONTAIN[child];
+        return std::find(
+          TAG_TYPES_NOT_ALLOWED_IN_PARAGRAPHS,
+          TAG_TYPES_NOT_ALLOWED_IN_PARAGRAPHS_END,
+          tag.type
+        ) == TAG_TYPES_NOT_ALLOWED_IN_PARAGRAPHS_END;
 
       case COLGROUP:
         return child == COL;
@@ -348,12 +357,11 @@ struct Tag {
     }
   }
 
-  static Tag for_name(const string &name) {
+  static inline Tag for_name(const string &name) {
     auto type = TAG_TYPES_BY_TAG_NAME.find(name);
     if (type != TAG_TYPES_BY_TAG_NAME.end()) {
       return Tag { type->second, "" };
     }
-
     return Tag { CUSTOM, name };
   }
 };
