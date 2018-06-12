@@ -61,7 +61,7 @@ struct Scanner {
 
   string scan_tag_name(TSLexer *lexer) {
     string tag_name;
-    while (iswalpha(lexer->lookahead) || lexer->lookahead == '-' || lexer->lookahead == ':') {
+    while (iswalnum(lexer->lookahead) || lexer->lookahead == '-' || lexer->lookahead == ':') {
       tag_name += towupper(lexer->lookahead);
       lexer->advance(lexer, false);
     }
@@ -124,7 +124,9 @@ struct Scanner {
   }
 
   bool start_tag(TSLexer *lexer) {
-    if (!tags.empty() && tags.back().is_void()) {
+    Tag *parent = tags.empty() ? nullptr : &tags.back();
+
+    if (parent && parent->is_void()) {
       tags.pop_back();
       lexer->result_symbol = IMPLICIT_END_TAG;
       return true;
@@ -133,11 +135,17 @@ struct Scanner {
     auto tag_name = scan_tag_name(lexer);
     if (tag_name.empty()) return false;
 
-    Tag tag = Tag::for_name(tag_name);
-    tags.push_back(tag);
+    Tag next_tag = Tag::for_name(tag_name);
 
+    if (parent && !parent->can_contain(next_tag)) {
+      tags.pop_back();
+      lexer->result_symbol = IMPLICIT_END_TAG;
+      return true;
+    }
+
+    tags.push_back(next_tag);
     lexer->mark_end(lexer);
-    lexer->result_symbol = tag.is_raw() ? OPEN_RAW_START_TAG : OPEN_START_TAG;
+    lexer->result_symbol = next_tag.is_raw() ? OPEN_RAW_START_TAG : OPEN_START_TAG;
     return true;
   }
 

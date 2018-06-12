@@ -134,3 +134,130 @@ Lowercase doctype
 
 (fragment
   (doctype))
+
+==================================
+LI elements without close tags
+==================================
+<ul>
+  <li>One
+  <li>Two
+</ul>
+---
+
+(fragment
+  (element
+    (start_tag)
+    (element (start_tag) (text))
+    (element (start_tag) (text))
+    (end_tag)))
+
+======================================
+DT and DL elements without close tags
+======================================
+<dl>
+  <dt>Coffee
+  <dt>Café
+  <dd>Black hot drink
+  <dt>Milk
+  <dd>White cold drink
+</dl>
+---
+
+(fragment
+  (element
+    (start_tag)
+    (element (start_tag) (text))
+    (element (start_tag) (text))
+    (element (start_tag) (text))
+    (element (start_tag) (text))
+    (element (start_tag) (text))
+    (end_tag)))
+
+======================================
+P elements without close tags
+======================================
+<p>One
+<div>Two</div>
+<p>Three
+<p>Four
+<h1>Five</h1>
+---
+
+(fragment
+  (element (start_tag) (text))
+  (element (start_tag) (text) (end_tag))
+  (element (start_tag) (text))
+  (element (start_tag) (text))
+  (element (start_tag) (text) (end_tag)))
+
+======================================
+Ruby annotation elements without close tags
+======================================
+<ruby>東<rb>京<rt>とう<rt>きょう</ruby>
+---
+
+(fragment
+  (element
+    (start_tag)
+    (text)
+    (element (start_tag) (text))
+    (element (start_tag) (text))
+    (element (start_tag) (text))
+    (end_tag)))
+
+=======================================
+COLGROUP elements without end tags
+=======================================
+
+<table>
+  <colgroup>
+    <col style="background-color: #0f0">
+    <col span="2">
+  <tr>
+    <th>Lime</th>
+    <th>Lemon</th>
+    <th>Orange</th>
+  </tr>
+</table>
+---
+
+(fragment
+  (element
+    (start_tag)
+    (element
+      (start_tag)
+      (element (start_tag (attribute (attribute_name) (quoted_attribute_value (attribute_value)))))
+      (element (start_tag (attribute (attribute_name) (quoted_attribute_value (attribute_value))))))
+    (element
+      (start_tag)
+      (element (start_tag) (text) (end_tag))
+      (element (start_tag) (text) (end_tag))
+      (element (start_tag) (text) (end_tag))
+      (end_tag))
+    (end_tag)))
+
+=========================================
+TR, TD, and TH elements without end tags
+=========================================
+<table>
+  <tr>
+    <th>One
+    <th>Two
+  <tr>
+    <td>Three
+    <td>Four
+</table>
+---
+
+(fragment
+  (element
+    (start_tag)
+    (element
+      (start_tag)
+      (element (start_tag) (text))
+      (element (start_tag) (text)))
+    (element
+      (start_tag)
+      (element (start_tag) (text))
+      (element (start_tag) (text)))
+    (end_tag)))

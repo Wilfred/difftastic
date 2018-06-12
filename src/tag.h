@@ -265,6 +265,35 @@ static const unordered_map<string, TagType> TAG_TYPES_BY_TAG_NAME = {
   {"VIDEO", VIDEO},
 };
 
+static const bool PARAGRAPH_CANNOT_CONTAIN[CUSTOM + 1] = {
+  [ADDRESS] = true,
+  [ARTICLE] = true,
+  [ASIDE] = true,
+  [BLOCKQUOTE] = true,
+  [DETAILS] = true,
+  [DIV] = true,
+  [DL] = true,
+  [FIELDSET] = true,
+  [FIGCAPTION] = true,
+  [FIGURE] = true,
+  [FOOTER] = true,
+  [FORM] = true,
+  [H1] = true,
+  [H2] = true,
+  [H3] = true,
+  [H4] = true,
+  [H5] = true,
+  [H6] = true,
+  [HEADER] = true,
+  [HR] = true,
+  [MAIN] = true,
+  [NAV] = true,
+  [OL] = true,
+  [P] = true,
+  [PRE] = true,
+  [SECTION] = true,
+};
+
 struct Tag {
   TagType type;
   string custom_tag_name;
@@ -283,11 +312,41 @@ struct Tag {
     return type == SCRIPT || type == STYLE;
   }
 
-  // string name() const {
-  //   return type == TagType::CUSTOM
-  //     ? custom_tag_name
-  //     : TAG_TYPES_BY_TAG_NAME.
-  // }
+  inline bool can_contain(const Tag &tag) {
+    TagType child = tag.type;
+
+    switch (type) {
+      case LI: return child != LI;
+
+      case DT:
+      case DD:
+        return child != DT && child != DD;
+
+      case P:
+        return !PARAGRAPH_CANNOT_CONTAIN[child];
+
+      case COLGROUP:
+        return child == COL;
+
+      case RB:
+      case RT:
+      case RP:
+        return child != RB && child != RT && child != RP;
+
+      case OPTGROUP:
+        return child != OPTGROUP;
+
+      case TR:
+        return child != TR;
+
+      case TD:
+      case TH:
+        return child != TD && child != TH && child != TR;
+
+      default:
+        return true;
+    }
+  }
 
   static Tag for_name(const string &name) {
     auto type = TAG_TYPES_BY_TAG_NAME.find(name);
