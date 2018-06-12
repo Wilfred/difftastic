@@ -78,6 +78,18 @@ Void tags
     (end_tag (tag_name))))
 
 ==================================
+Void tags at EOF
+==================================
+<img src="something.png">
+---
+
+(fragment
+  (element
+    (start_tag
+      (tag_name)
+      (attribute (attribute_name) (quoted_attribute_value (attribute_value))))))
+
+==================================
 Custom tags
 ==================================
 <something:different>

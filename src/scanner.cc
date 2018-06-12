@@ -223,6 +223,12 @@ struct Scanner {
         }
         break;
 
+      case '\0':
+        if (valid_symbols[IMPLICIT_END_TAG]) {
+          return scan_implicit_end_tag(lexer);
+        }
+        break;
+
       case '/':
         if (valid_symbols[SELF_CLOSING_TAG_DELIMITER]) {
           return scan_self_closing_tag_delimiter(lexer);
