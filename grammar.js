@@ -41,6 +41,8 @@ module.exports = grammar({
     $.keyword_identifier,
   ],
 
+  word: $ => $.identifier,
+
   rules: {
     module: $ => repeat($._statement),
 
