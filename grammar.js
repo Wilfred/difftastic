@@ -59,6 +59,8 @@ module.exports = grammar({
     [$.computed_property_name, $.array],
   ],
 
+  word: $ => $.identifier,
+
   rules: {
     program: $ => seq(
       optional($.hash_bang_line),
