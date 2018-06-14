@@ -46,6 +46,8 @@ module.exports = grammar({
     [$.sized_type_specifier],
   ],
 
+  word: $ => $.identifier,
+
   rules: {
     translation_unit: $ => repeat($._top_level_item),
 

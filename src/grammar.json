@@ -1,5 +1,6 @@
 {
   "name": "c",
+  "word": "identifier",
   "rules": {
     "translation_unit": {
       "type": "REPEAT",
@@ -750,7 +751,7 @@
           "type": "REPEAT",
           "content": {
             "type": "SYMBOL",
-            "name": "field_declaration"
+            "name": "_field_declaration_list_item"
           }
         },
         {
@@ -829,7 +830,7 @@
           "type": "REPEAT",
           "content": {
             "type": "SYMBOL",
-            "name": "field_declaration"
+            "name": "_field_declaration_list_item"
           }
         },
         {
@@ -890,7 +891,7 @@
           "type": "REPEAT",
           "content": {
             "type": "SYMBOL",
-            "name": "field_declaration"
+            "name": "_field_declaration_list_item"
           }
         }
       ]
@@ -915,7 +916,7 @@
           "type": "REPEAT",
           "content": {
             "type": "SYMBOL",
-            "name": "field_declaration"
+            "name": "_field_declaration_list_item"
           }
         },
         {
@@ -2156,36 +2157,40 @@
         {
           "type": "REPEAT",
           "content": {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "field_declaration"
-              },
-              {
-                "type": "ALIAS",
-                "content": {
-                  "type": "SYMBOL",
-                  "name": "preproc_if_in_field_declaration_list"
-                },
-                "named": true,
-                "value": "preproc_if"
-              },
-              {
-                "type": "ALIAS",
-                "content": {
-                  "type": "SYMBOL",
-                  "name": "preproc_ifdef_in_field_declaration_list"
-                },
-                "named": true,
-                "value": "preproc_ifdef"
-              }
-            ]
+            "type": "SYMBOL",
+            "name": "_field_declaration_list_item"
           }
         },
         {
           "type": "STRING",
           "value": "}"
+        }
+      ]
+    },
+    "_field_declaration_list_item": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "field_declaration"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "preproc_if_in_field_declaration_list"
+          },
+          "named": true,
+          "value": "preproc_if"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "preproc_ifdef_in_field_declaration_list"
+          },
+          "named": true,
+          "value": "preproc_ifdef"
         }
       ]
     },
