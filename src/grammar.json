@@ -1,5 +1,6 @@
 {
   "name": "java",
+  "word": "identifier",
   "rules": {
     "program": {
       "type": "REPEAT",
@@ -6826,9 +6827,6 @@
     [
       "class_literal",
       "_unann_type"
-    ],
-    [
-      "return_statement"
     ],
     [
       "_unann_type",

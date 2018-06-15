@@ -47,7 +47,6 @@ module.exports = grammar({
   conflicts: $ => [
     [$.modifier],
     [$.class_literal, $._unann_type], // TODO: remove
-    [$.return_statement],
 
     [$._unann_type, $.class_literal, $.array_access],
     [$.unann_class_or_interface_type, $.method_reference],
@@ -62,6 +61,8 @@ module.exports = grammar({
     [$._expression, $.generic_type],
     [$._expression, $.for_init] // TODO: remove to allow non variable declarations in for_init to parse
   ],
+
+  word: $ => $.identifier,
 
   rules: {
     program: $ => repeat($._statement),
