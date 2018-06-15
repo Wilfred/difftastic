@@ -32,9 +32,8 @@ struct Scanner {
 
       if (tag.type == CUSTOM) {
         buffer[i++] = tag.custom_tag_name.size();
-        for (char c : tag.custom_tag_name) {
-          buffer[i++] = c;
-        }
+        tag.custom_tag_name.copy(&buffer[i], tag.custom_tag_name.size());
+        i += tag.custom_tag_name.size();
       }
     }
 
@@ -49,10 +48,9 @@ struct Scanner {
       Tag tag { static_cast<TagType>(buffer[i]), "" };
       i++;
       if (tag.type == CUSTOM) {
-        tag.custom_tag_name.resize(buffer[i++]);
-        for (unsigned j = 0; j < tag.custom_tag_name.size(); j++) {
-          tag.custom_tag_name[j] = buffer[i++];
-        }
+        unsigned length = buffer[i++];
+        tag.custom_tag_name.assign(&buffer[i], &buffer[i + length]);
+        i += length;
       }
       tags.push_back(tag);
     }
