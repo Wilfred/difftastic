@@ -301,31 +301,18 @@ Objects with reserved words for keys
 ============================================
 
 {
-  get: function () {},
-
-  set: function () {},
-
-  static: true,
-
-  async: true,
-
-  if() {},
   finally() {},
   catch() {},
+  get: function () {},
+  set: function () {},
+  static: true,
+  async: true,
 };
 
 ---
 
 (program
   (expression_statement (object
-    (pair
-      (property_identifier)
-      (function (formal_parameters) (statement_block)))
-    (pair
-      (property_identifier)
-      (function (formal_parameters) (statement_block)))
-    (pair (property_identifier) (true))
-    (pair (property_identifier) (true))
     (method_definition
       (property_identifier)
       (formal_parameters)
@@ -334,10 +321,14 @@ Objects with reserved words for keys
       (property_identifier)
       (formal_parameters)
       (statement_block))
-    (method_definition
+    (pair
       (property_identifier)
-      (formal_parameters)
-      (statement_block)))))
+      (function (formal_parameters) (statement_block)))
+    (pair
+      (property_identifier)
+      (function (formal_parameters) (statement_block)))
+    (pair (property_identifier) (true))
+    (pair (property_identifier) (true)))))
 
 ============================================
 Classes
@@ -392,6 +383,30 @@ class Foo extends require('another-class') {
         (formal_parameters)
         (statement_block
           (expression_statement (call_expression (member_expression (super) (property_identifier)) (arguments))))))))
+
+============================================
+Classes with reserved words as methods
+============================================
+
+class Foo {
+  catch() {}
+  finally() {}
+}
+
+---
+
+(program
+  (class
+    (identifier)
+    (class_body
+      (method_definition
+        (property_identifier)
+        (formal_parameters)
+        (statement_block))
+      (method_definition
+        (property_identifier)
+        (formal_parameters)
+        (statement_block)))))
 
 ============================================
 Class Property Fields
