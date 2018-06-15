@@ -26,15 +26,16 @@ struct Scanner {
 
   unsigned serialize(char *buffer) {
     unsigned i = 0;
-    for (Tag &tag : tags) {
+
+    for (unsigned j = 0, n = tags.size(); j < n; j++) {
+      Tag &tag = tags[j];
       buffer[i] = static_cast<char>(tag.type);
       i++;
 
       if (tag.type == CUSTOM) {
         buffer[i++] = tag.custom_tag_name.size();
-        for (char c : tag.custom_tag_name) {
-          buffer[i++] = c;
-        }
+        tag.custom_tag_name.copy(&buffer[i], tag.custom_tag_name.size());
+        i += tag.custom_tag_name.size();
       }
     }
 
@@ -46,13 +47,12 @@ struct Scanner {
 
     unsigned i = 0;
     while (i < length) {
-      Tag tag { static_cast<TagType>(buffer[i]), "" };
+      Tag tag(static_cast<TagType>(buffer[i]), "");
       i++;
       if (tag.type == CUSTOM) {
-        tag.custom_tag_name.resize(buffer[i++]);
-        for (unsigned j = 0; j < tag.custom_tag_name.size(); j++) {
-          tag.custom_tag_name[j] = buffer[i++];
-        }
+        unsigned length = buffer[i++];
+        tag.custom_tag_name.assign(&buffer[i], &buffer[i + length]);
+        i += length;
       }
       tags.push_back(tag);
     }
@@ -74,9 +74,8 @@ struct Scanner {
     lexer->advance(lexer, false);
 
     unsigned dashes = 0;
-    auto c = lexer->lookahead;
-    while (c) {
-      switch (c) {
+    while (lexer->lookahead) {
+      switch (lexer->lookahead) {
         case '-':
           ++dashes;
           break;
@@ -92,7 +91,6 @@ struct Scanner {
           dashes = 0;
       }
       lexer->advance(lexer, false);
-      c = lexer->lookahead;
     }
     return false;
   }
@@ -137,7 +135,7 @@ struct Scanner {
       }
     }
 
-    auto tag_name = scan_tag_name(lexer);
+    string tag_name = scan_tag_name(lexer);
     if (tag_name.empty()) return false;
 
     Tag next_tag = Tag::for_name(tag_name);
@@ -163,7 +161,7 @@ struct Scanner {
   }
 
   bool scan_start_tag_name(TSLexer *lexer) {
-    auto tag_name = scan_tag_name(lexer);
+    string tag_name = scan_tag_name(lexer);
     if (tag_name.empty()) return false;
     Tag tag = Tag::for_name(tag_name);
     tags.push_back(tag);
@@ -176,7 +174,7 @@ struct Scanner {
   }
 
   bool scan_end_tag_name(TSLexer *lexer) {
-    auto tag_name = scan_tag_name(lexer);
+    string tag_name = scan_tag_name(lexer);
     if (tag_name.empty()) return false;
     Tag tag = Tag::for_name(tag_name);
     if (!tags.empty() && tags.back() == tag) {
