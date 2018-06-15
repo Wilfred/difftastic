@@ -47,7 +47,7 @@ struct Scanner {
 
     unsigned i = 0;
     while (i < length) {
-      Tag tag { static_cast<TagType>(buffer[i]), "" };
+      Tag tag(static_cast<TagType>(buffer[i]), "");
       i++;
       if (tag.type == CUSTOM) {
         unsigned length = buffer[i++];

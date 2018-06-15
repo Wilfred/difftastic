@@ -303,6 +303,8 @@ struct Tag {
   TagType type;
   string custom_tag_name;
 
+  Tag(TagType type, const string &name) : type(type), custom_tag_name(name) {}
+
   bool operator==(const Tag &other) const {
     if (type != other.type) return false;
     if (type == TagType::CUSTOM && custom_tag_name != other.custom_tag_name) return false;
@@ -360,8 +362,9 @@ struct Tag {
   static inline Tag for_name(const string &name) {
     unordered_map<string, TagType>::const_iterator type = TAG_TYPES_BY_TAG_NAME.find(name);
     if (type != TAG_TYPES_BY_TAG_NAME.end()) {
-      return Tag { type->second, "" };
+      return Tag(type->second, string());
+    } else {
+      return Tag(CUSTOM, name);
     }
-    return Tag { CUSTOM, name };
   }
 };
