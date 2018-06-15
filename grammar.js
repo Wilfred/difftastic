@@ -62,6 +62,8 @@ module.exports = grammar({
     $._field_identifier,
     $._package_identifier,
   ],
+  
+  word: $ => $.identifier,
 
   conflicts: $ => [
     [$._simple_type, $._expression],
