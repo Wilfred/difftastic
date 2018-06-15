@@ -4,7 +4,7 @@
 using std::string;
 using std::unordered_map;
 
-enum TagType : char {
+enum TagType {
   AREA,
   BASE,
   BASEFONT,
@@ -136,133 +136,140 @@ enum TagType : char {
   CUSTOM,
 };
 
-static const unordered_map<string, TagType> TAG_TYPES_BY_TAG_NAME = {
-  {"AREA", AREA},
-  {"BASE", BASE},
-  {"BASEFONT", BASEFONT},
-  {"BGSOUND", BGSOUND},
-  {"BR", BR},
-  {"COL", COL},
-  {"COMMAND", COMMAND},
-  {"EMBED", EMBED},
-  {"FRAME", FRAME},
-  {"HR", HR},
-  {"IMAGE", IMAGE},
-  {"IMG", IMG},
-  {"INPUT", INPUT},
-  {"ISINDEX", ISINDEX},
-  {"KEYGEN", KEYGEN},
-  {"LINK", LINK},
-  {"MENUITEM", MENUITEM},
-  {"META", META},
-  {"NEXTID", NEXTID},
-  {"PARAM", PARAM},
-  {"SOURCE", SOURCE},
-  {"TRACK", TRACK},
-  {"WBR", WBR},
-  {"A", A},
-  {"ABBR", ABBR},
-  {"ADDRESS", ADDRESS},
-  {"ARTICLE", ARTICLE},
-  {"ASIDE", ASIDE},
-  {"AUDIO", AUDIO},
-  {"B", B},
-  {"BDI", BDI},
-  {"BDO", BDO},
-  {"BLOCKQUOTE", BLOCKQUOTE},
-  {"BODY", BODY},
-  {"BUTTON", BUTTON},
-  {"CANVAS", CANVAS},
-  {"CAPTION", CAPTION},
-  {"CITE", CITE},
-  {"CODE", CODE},
-  {"COLGROUP", COLGROUP},
-  {"DATA", DATA},
-  {"DATALIST", DATALIST},
-  {"DD", DD},
-  {"DEL", DEL},
-  {"DETAILS", DETAILS},
-  {"DFN", DFN},
-  {"DIALOG", DIALOG},
-  {"DIV", DIV},
-  {"DL", DL},
-  {"DT", DT},
-  {"EM", EM},
-  {"FIELDSET", FIELDSET},
-  {"FIGCAPTION", FIGCAPTION},
-  {"FIGURE", FIGURE},
-  {"FOOTER", FOOTER},
-  {"FORM", FORM},
-  {"H1", H1},
-  {"H2", H2},
-  {"H3", H3},
-  {"H4", H4},
-  {"H5", H5},
-  {"H6", H6},
-  {"HEAD", HEAD},
-  {"HEADER", HEADER},
-  {"HGROUP", HGROUP},
-  {"HTML", HTML},
-  {"I", I},
-  {"IFRAME", IFRAME},
-  {"INS", INS},
-  {"KBD", KBD},
-  {"LABEL", LABEL},
-  {"LEGEND", LEGEND},
-  {"LI", LI},
-  {"MAIN", MAIN},
-  {"MAP", MAP},
-  {"MARK", MARK},
-  {"MATH", MATH},
-  {"MENU", MENU},
-  {"METER", METER},
-  {"NAV", NAV},
-  {"NOSCRIPT", NOSCRIPT},
-  {"OBJECT", OBJECT},
-  {"OL", OL},
-  {"OPTGROUP", OPTGROUP},
-  {"OPTION", OPTION},
-  {"OUTPUT", OUTPUT},
-  {"P", P},
-  {"PICTURE", PICTURE},
-  {"PRE", PRE},
-  {"PROGRESS", PROGRESS},
-  {"Q", Q},
-  {"RB", RB},
-  {"RP", RP},
-  {"RT", RT},
-  {"RTC", RTC},
-  {"RUBY", RUBY},
-  {"S", S},
-  {"SAMP", SAMP},
-  {"SCRIPT", SCRIPT},
-  {"SECTION", SECTION},
-  {"SELECT", SELECT},
-  {"SLOT", SLOT},
-  {"SMALL", SMALL},
-  {"SPAN", SPAN},
-  {"STRONG", STRONG},
-  {"STYLE", STYLE},
-  {"SUB", SUB},
-  {"SUMMARY", SUMMARY},
-  {"SUP", SUP},
-  {"SVG", SVG},
-  {"TABLE", TABLE},
-  {"TBODY", TBODY},
-  {"TD", TD},
-  {"TEMPLATE", TEMPLATE},
-  {"TEXTAREA", TEXTAREA},
-  {"TFOOT", TFOOT},
-  {"TH", TH},
-  {"THEAD", THEAD},
-  {"TIME", TIME},
-  {"TITLE", TITLE},
-  {"TR", TR},
-  {"U", U},
-  {"UL", UL},
-  {"VAR", VAR},
-  {"VIDEO", VIDEO},
-};
+
+static const unordered_map<string, TagType> get_tag_map() {
+  unordered_map<string, TagType> result;
+#define TAG(name) result[#name] = name
+  TAG(AREA);
+  TAG(BASE);
+  TAG(BASEFONT);
+  TAG(BGSOUND);
+  TAG(BR);
+  TAG(COL);
+  TAG(COMMAND);
+  TAG(EMBED);
+  TAG(FRAME);
+  TAG(HR);
+  TAG(IMAGE);
+  TAG(IMG);
+  TAG(INPUT);
+  TAG(ISINDEX);
+  TAG(KEYGEN);
+  TAG(LINK);
+  TAG(MENUITEM);
+  TAG(META);
+  TAG(NEXTID);
+  TAG(PARAM);
+  TAG(SOURCE);
+  TAG(TRACK);
+  TAG(WBR);
+  TAG(A);
+  TAG(ABBR);
+  TAG(ADDRESS);
+  TAG(ARTICLE);
+  TAG(ASIDE);
+  TAG(AUDIO);
+  TAG(B);
+  TAG(BDI);
+  TAG(BDO);
+  TAG(BLOCKQUOTE);
+  TAG(BODY);
+  TAG(BUTTON);
+  TAG(CANVAS);
+  TAG(CAPTION);
+  TAG(CITE);
+  TAG(CODE);
+  TAG(COLGROUP);
+  TAG(DATA);
+  TAG(DATALIST);
+  TAG(DD);
+  TAG(DEL);
+  TAG(DETAILS);
+  TAG(DFN);
+  TAG(DIALOG);
+  TAG(DIV);
+  TAG(DL);
+  TAG(DT);
+  TAG(EM);
+  TAG(FIELDSET);
+  TAG(FIGCAPTION);
+  TAG(FIGURE);
+  TAG(FOOTER);
+  TAG(FORM);
+  TAG(H1);
+  TAG(H2);
+  TAG(H3);
+  TAG(H4);
+  TAG(H5);
+  TAG(H6);
+  TAG(HEAD);
+  TAG(HEADER);
+  TAG(HGROUP);
+  TAG(HTML);
+  TAG(I);
+  TAG(IFRAME);
+  TAG(INS);
+  TAG(KBD);
+  TAG(LABEL);
+  TAG(LEGEND);
+  TAG(LI);
+  TAG(MAIN);
+  TAG(MAP);
+  TAG(MARK);
+  TAG(MATH);
+  TAG(MENU);
+  TAG(METER);
+  TAG(NAV);
+  TAG(NOSCRIPT);
+  TAG(OBJECT);
+  TAG(OL);
+  TAG(OPTGROUP);
+  TAG(OPTION);
+  TAG(OUTPUT);
+  TAG(P);
+  TAG(PICTURE);
+  TAG(PRE);
+  TAG(PROGRESS);
+  TAG(Q);
+  TAG(RB);
+  TAG(RP);
+  TAG(RT);
+  TAG(RTC);
+  TAG(RUBY);
+  TAG(S);
+  TAG(SAMP);
+  TAG(SCRIPT);
+  TAG(SECTION);
+  TAG(SELECT);
+  TAG(SLOT);
+  TAG(SMALL);
+  TAG(SPAN);
+  TAG(STRONG);
+  TAG(STYLE);
+  TAG(SUB);
+  TAG(SUMMARY);
+  TAG(SUP);
+  TAG(SVG);
+  TAG(TABLE);
+  TAG(TBODY);
+  TAG(TD);
+  TAG(TEMPLATE);
+  TAG(TEXTAREA);
+  TAG(TFOOT);
+  TAG(TH);
+  TAG(THEAD);
+  TAG(TIME);
+  TAG(TITLE);
+  TAG(TR);
+  TAG(U);
+  TAG(UL);
+  TAG(VAR);
+  TAG(VIDEO);
+#undef TAG
+  return result;
+}
+
+static const unordered_map<string, TagType> TAG_TYPES_BY_TAG_NAME = get_tag_map();
 
 static const TagType TAG_TYPES_NOT_ALLOWED_IN_PARAGRAPHS[] = {
   ADDRESS,
@@ -303,9 +310,11 @@ struct Tag {
   TagType type;
   string custom_tag_name;
 
+  Tag(TagType type, const string &name) : type(type), custom_tag_name(name) {}
+
   bool operator==(const Tag &other) const {
     if (type != other.type) return false;
-    if (type == TagType::CUSTOM && custom_tag_name != other.custom_tag_name) return false;
+    if (type == CUSTOM && custom_tag_name != other.custom_tag_name) return false;
     return true;
   }
 
@@ -358,10 +367,11 @@ struct Tag {
   }
 
   static inline Tag for_name(const string &name) {
-    auto type = TAG_TYPES_BY_TAG_NAME.find(name);
+    unordered_map<string, TagType>::const_iterator type = TAG_TYPES_BY_TAG_NAME.find(name);
     if (type != TAG_TYPES_BY_TAG_NAME.end()) {
-      return Tag { type->second, "" };
+      return Tag(type->second, string());
+    } else {
+      return Tag(CUSTOM, name);
     }
-    return Tag { CUSTOM, name };
   }
 };
