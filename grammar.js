@@ -34,6 +34,8 @@ module.exports = grammar({
     $._type_identifier,
   ],
 
+  word: $ => $.identifier,
+
   rules: {
     compilation_unit: $ => repeat($._definition),
 

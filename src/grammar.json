@@ -1,5 +1,6 @@
 {
   "name": "scala",
+  "word": "identifier",
   "rules": {
     "compilation_unit": {
       "type": "REPEAT",
