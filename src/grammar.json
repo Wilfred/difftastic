@@ -1,5 +1,6 @@
 {
   "name": "typescript",
+  "word": "identifier",
   "rules": {
     "program": {
       "type": "SEQ",
@@ -3829,7 +3830,7 @@
             "members": [
               {
                 "type": "SYMBOL",
-                "name": "_template_char"
+                "name": "_template_chars"
               },
               {
                 "type": "SYMBOL",
@@ -7516,7 +7517,7 @@
     },
     {
       "type": "SYMBOL",
-      "name": "_template_char"
+      "name": "_template_chars"
     }
   ],
   "inline": [
