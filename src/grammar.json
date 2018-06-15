@@ -1,5 +1,6 @@
 {
   "name": "rust",
+  "word": "identifier",
   "rules": {
     "source_file": {
       "type": "REPEAT",
