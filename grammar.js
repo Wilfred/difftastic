@@ -1701,7 +1701,6 @@ module.exports = grammar({
     _hexidecimal_literal: $ => token(hexLiteral),
 
     quasi_quotation: $ => seq(
-      // choice(
       seq(
         '[',
         optional(
