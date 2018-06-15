@@ -54,6 +54,8 @@ module.exports = grammar({
     [$.visibility_modifier]
   ],
 
+  word: $ => $.identifier,
+
   rules: {
     source_file: $ => repeat($._statement),
 
