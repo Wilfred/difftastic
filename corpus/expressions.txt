@@ -307,7 +307,11 @@ Objects with reserved words for keys
 
   static: true,
 
-  async: true
+  async: true,
+
+  if() {},
+  finally() {},
+  catch() {},
 };
 
 ---
@@ -321,7 +325,19 @@ Objects with reserved words for keys
       (property_identifier)
       (function (formal_parameters) (statement_block)))
     (pair (property_identifier) (true))
-    (pair (property_identifier) (true)))))
+    (pair (property_identifier) (true))
+    (method_definition
+      (property_identifier)
+      (formal_parameters)
+      (statement_block))
+    (method_definition
+      (property_identifier)
+      (formal_parameters)
+      (statement_block))
+    (method_definition
+      (property_identifier)
+      (formal_parameters)
+      (statement_block)))))
 
 ============================================
 Classes
