@@ -7285,15 +7285,15 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "CHOICE",
+          "type": "SEQ",
           "members": [
             {
-              "type": "SEQ",
+              "type": "STRING",
+              "value": "["
+            },
+            {
+              "type": "CHOICE",
               "members": [
-                {
-                  "type": "STRING",
-                  "value": "["
-                },
                 {
                   "type": "CHOICE",
                   "members": [
@@ -7304,7 +7304,7 @@
                         "value": "p"
                       },
                       "named": true,
-                      "value": "pattern"
+                      "value": "quasi_quotation_pattern"
                     },
                     {
                       "type": "ALIAS",
@@ -7313,7 +7313,7 @@
                         "value": "d"
                       },
                       "named": true,
-                      "value": "declaration"
+                      "value": "quasi_quotation_declaration"
                     },
                     {
                       "type": "ALIAS",
@@ -7322,7 +7322,7 @@
                         "value": "t"
                       },
                       "named": true,
-                      "value": "type"
+                      "value": "quasi_quotation_type"
                     },
                     {
                       "type": "ALIAS",
@@ -7331,7 +7331,7 @@
                         "value": "e"
                       },
                       "named": true,
-                      "value": "expression"
+                      "value": "quasi_quotation_expression"
                     },
                     {
                       "type": "ALIAS",
@@ -7340,30 +7340,20 @@
                         "name": "_variable_identifier"
                       },
                       "named": true,
-                      "value": "quoter"
+                      "value": "quasi_quotation_quoter"
                     }
                   ]
                 },
                 {
-                  "type": "STRING",
-                  "value": "|"
+                  "type": "BLANK"
                 }
               ]
-            },
-            {
-              "type": "ALIAS",
-              "content": {
-                "type": "SYMBOL",
-                "name": "_empty_quasi_pattern"
-              },
-              "named": true,
-              "value": "expression"
             }
           ]
         },
         {
           "type": "SYMBOL",
-          "name": "quasi_quotation_expression"
+          "name": "quasi_quotation_expression_body"
         }
       ]
     },
@@ -7380,22 +7370,13 @@
         }
       ]
     },
-    "_empty_quasi_pattern": {
+    "quasi_quotation_expression_body": {
       "type": "SEQ",
       "members": [
-        {
-          "type": "STRING",
-          "value": "["
-        },
         {
           "type": "STRING",
           "value": "|"
-        }
-      ]
-    },
-    "quasi_quotation_expression": {
-      "type": "SEQ",
-      "members": [
+        },
         {
           "type": "REPEAT",
           "content": {

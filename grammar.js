@@ -1699,21 +1699,20 @@ module.exports = grammar({
     _hexidecimal_literal: $ => token(hexLiteral),
 
     quasi_quotation: $ => seq(
-      choice(
-        seq(
-          '[',
+      // choice(
+      seq(
+        '[',
+        optional(
           choice(
-            alias('p', $.pattern),
-            alias('d', $.declaration),
-            alias('t', $.type),
-            alias('e', $.expression),
-            alias($._variable_identifier, $.quoter)
-          ),
-          '|'
+            alias('p', $.quasi_quotation_pattern),
+            alias('d', $.quasi_quotation_declaration),
+            alias('t', $.quasi_quotation_type),
+            alias('e', $.quasi_quotation_expression),
+            alias($._variable_identifier, $.quasi_quotation_quoter)
+          )
         ),
-        alias($._empty_quasi_pattern, $.expression),
       ),
-      $.quasi_quotation_expression
+      $.quasi_quotation_expression_body
     ),
 
     splice: $ => seq(
@@ -1721,9 +1720,8 @@ module.exports = grammar({
       $._expression
     ),
 
-    _empty_quasi_pattern: $ => seq('[', '|'),
-
-    quasi_quotation_expression: $ => seq(
+    quasi_quotation_expression_body: $ => seq(
+      '|',
       repeat(
         choice(
           /[^|]/,
