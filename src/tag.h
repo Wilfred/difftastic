@@ -358,7 +358,7 @@ struct Tag {
   }
 
   static inline Tag for_name(const string &name) {
-    auto type = TAG_TYPES_BY_TAG_NAME.find(name);
+    unordered_map<string, TagType>::const_iterator type = TAG_TYPES_BY_TAG_NAME.find(name);
     if (type != TAG_TYPES_BY_TAG_NAME.end()) {
       return Tag { type->second, "" };
     }

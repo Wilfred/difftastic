@@ -74,9 +74,8 @@ struct Scanner {
     lexer->advance(lexer, false);
 
     unsigned dashes = 0;
-    auto c = lexer->lookahead;
-    while (c) {
-      switch (c) {
+    while (lexer->lookahead) {
+      switch (lexer->lookahead) {
         case '-':
           ++dashes;
           break;
@@ -92,7 +91,6 @@ struct Scanner {
           dashes = 0;
       }
       lexer->advance(lexer, false);
-      c = lexer->lookahead;
     }
     return false;
   }
@@ -137,7 +135,7 @@ struct Scanner {
       }
     }
 
-    auto tag_name = scan_tag_name(lexer);
+    string tag_name = scan_tag_name(lexer);
     if (tag_name.empty()) return false;
 
     Tag next_tag = Tag::for_name(tag_name);
@@ -163,7 +161,7 @@ struct Scanner {
   }
 
   bool scan_start_tag_name(TSLexer *lexer) {
-    auto tag_name = scan_tag_name(lexer);
+    string tag_name = scan_tag_name(lexer);
     if (tag_name.empty()) return false;
     Tag tag = Tag::for_name(tag_name);
     tags.push_back(tag);
@@ -176,7 +174,7 @@ struct Scanner {
   }
 
   bool scan_end_tag_name(TSLexer *lexer) {
-    auto tag_name = scan_tag_name(lexer);
+    string tag_name = scan_tag_name(lexer);
     if (tag_name.empty()) return false;
     Tag tag = Tag::for_name(tag_name);
     if (!tags.empty() && tags.back() == tag) {
