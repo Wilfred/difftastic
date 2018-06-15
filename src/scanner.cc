@@ -144,7 +144,7 @@ struct Scanner {
 
     if (is_closing_tag) {
       // The tag correctly closes the topmost element on the stack
-      if (next_tag == tags.back()) return false;
+      if (!tags.empty() && tags.back() == next_tag) return false;
 
       // Otherwise, dig deeper and queue implicit end tags (to be nice in
       // the case of malformed HTML)
