@@ -1,5 +1,6 @@
 {
   "name": "ruby",
+  "word": "identifier",
   "rules": {
     "program": {
       "type": "SEQ",
