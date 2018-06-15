@@ -26,7 +26,9 @@ struct Scanner {
 
   unsigned serialize(char *buffer) {
     unsigned i = 0;
-    for (Tag &tag : tags) {
+
+    for (unsigned j = 0, n = tags.size(); j < n; j++) {
+      Tag &tag = tags[j];
       buffer[i] = static_cast<char>(tag.type);
       i++;
 
