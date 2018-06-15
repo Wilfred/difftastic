@@ -156,6 +156,8 @@ module.exports = grammar({
     [$._atype]
   ],
 
+  word: $ => $._variable_identifier,
+
   rules: {
     module: $ => choice(
       seq(
