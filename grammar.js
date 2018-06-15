@@ -71,6 +71,8 @@ module.exports = grammar({
     /\s|\\\n/
   ],
 
+  word: $ => $.identifier,
+
   rules: {
     program: $ => seq(
       optional($._statements),
