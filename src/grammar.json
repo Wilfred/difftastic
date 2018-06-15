@@ -1,5 +1,6 @@
 {
   "name": "bash",
+  "word": "word",
   "rules": {
     "program": {
       "type": "REPEAT",

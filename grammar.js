@@ -43,6 +43,8 @@ module.exports = grammar({
     token(choice(/\s/, '\\\n')),
   ],
 
+  word: $ => $.word,
+
   rules: {
     program: $ => repeat($._terminated_statement),
 
