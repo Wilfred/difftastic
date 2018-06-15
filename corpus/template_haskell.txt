@@ -31,64 +31,61 @@ Quasi Quotation
 
 (module
   (quasi_quotation
-    (expression)
-    (quasi_quotation_expression))
+    (quasi_quotation_expression_body))
   (quasi_quotation
-    (expression)
-    (quasi_quotation_expression))
+    (quasi_quotation_expression)
+    (quasi_quotation_expression_body))
   (quasi_quotation
-    (pattern)
-    (quasi_quotation_expression))
+    (quasi_quotation_pattern)
+    (quasi_quotation_expression_body))
   (quasi_quotation
-    (type)
-    (quasi_quotation_expression))
+    (quasi_quotation_type)
+    (quasi_quotation_expression_body))
   (quasi_quotation
-    (declaration)
-    (quasi_quotation_expression))
+    (quasi_quotation_declaration)
+    (quasi_quotation_expression_body))
   (quasi_quotation
-    (quoter)
-    (quasi_quotation_expression))
+    (quasi_quotation_quoter)
+    (quasi_quotation_expression_body))
 
   (quasi_quotation
-    (expression)
-    (quasi_quotation_expression))
+    (quasi_quotation_expression_body))
   (quasi_quotation
-    (expression)
-    (quasi_quotation_expression))
+    (quasi_quotation_expression)
+    (quasi_quotation_expression_body))
   (quasi_quotation
-    (pattern)
-    (quasi_quotation_expression))
+    (quasi_quotation_pattern)
+    (quasi_quotation_expression_body))
   (quasi_quotation
-    (type)
-    (quasi_quotation_expression))
+    (quasi_quotation_type)
+    (quasi_quotation_expression_body))
   (quasi_quotation
-    (declaration)
-    (quasi_quotation_expression))
+    (quasi_quotation_declaration)
+    (quasi_quotation_expression_body))
   (quasi_quotation
-    (quoter)
-    (quasi_quotation_expression))
+    (quasi_quotation_quoter)
+    (quasi_quotation_expression_body))
 
   (quasi_quotation
-    (expression)
-    (quasi_quotation_expression))
+    (quasi_quotation_expression_body))
   (quasi_quotation
-    (expression)
-    (quasi_quotation_expression))
+    (quasi_quotation_expression)
+    (quasi_quotation_expression_body))
   (quasi_quotation
-    (pattern)
-    (quasi_quotation_expression))
+    (quasi_quotation_pattern)
+    (quasi_quotation_expression_body))
   (quasi_quotation
-    (type)
-    (quasi_quotation_expression))
+    (quasi_quotation_type)
+    (quasi_quotation_expression_body))
   (quasi_quotation
-    (declaration)
-    (quasi_quotation_expression))
+    (quasi_quotation_declaration)
+    (quasi_quotation_expression_body))
   (quasi_quotation
-    (quoter)
-    (quasi_quotation_expression))
+    (quasi_quotation_quoter)
+    (quasi_quotation_expression_body))
   (quasi_quotation
-    (quoter)
-    (quasi_quotation_expression)))
+    (quasi_quotation_quoter)
+    (quasi_quotation_expression_body)))
 
 ===============================
 Multi-Line Quasi Quotation
@@ -110,12 +107,10 @@ Multi-Line Quasi Quotation
 
 (module
   (quasi_quotation
-    (expression)
-    (quasi_quotation_expression))
+    (quasi_quotation_expression_body))
 
   (quasi_quotation
-    (expression)
-    (quasi_quotation_expression)))
+    (quasi_quotation_expression_body)))
 
 ===============================
 Infix Operator Application Quasi Quotation
@@ -131,8 +126,7 @@ f = [|a|] `b` c
     (function_body
       (infix_operator_application
         (quasi_quotation
-          (expression)
-          (quasi_quotation_expression))
+          (quasi_quotation_expression_body))
         (variable_operator (infix_variable_identifier))
         (variable_identifier)))))
 
