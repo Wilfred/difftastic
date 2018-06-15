@@ -4,7 +4,7 @@
 using std::string;
 using std::unordered_map;
 
-enum TagType : char {
+enum TagType {
   AREA,
   BASE,
   BASEFONT,
@@ -307,7 +307,7 @@ struct Tag {
 
   bool operator==(const Tag &other) const {
     if (type != other.type) return false;
-    if (type == TagType::CUSTOM && custom_tag_name != other.custom_tag_name) return false;
+    if (type == CUSTOM && custom_tag_name != other.custom_tag_name) return false;
     return true;
   }
 
