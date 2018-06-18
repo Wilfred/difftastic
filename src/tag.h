@@ -310,6 +310,7 @@ struct Tag {
   TagType type;
   string custom_tag_name;
 
+  Tag() : type(DIV) {}
   Tag(TagType type, const string &name) : type(type), custom_tag_name(name) {}
 
   bool operator==(const Tag &other) const {

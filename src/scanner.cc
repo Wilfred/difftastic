@@ -26,41 +26,44 @@ struct Scanner {
 
   unsigned serialize(char *buffer) {
     unsigned i = 0;
-
-    for (unsigned j = 0, n = tags.size(); j < n; j++) {
+    unsigned n = tags.size();
+    buffer[i++] = n;
+    for (unsigned j = 0; j < n; j++) {
       Tag &tag = tags[j];
-      buffer[i] = static_cast<char>(tag.type);
-      i++;
-
+      buffer[i++] = static_cast<char>(tag.type);
       if (tag.type == CUSTOM) {
-        buffer[i++] = tag.custom_tag_name.size();
-        tag.custom_tag_name.copy(&buffer[i], tag.custom_tag_name.size());
-        i += tag.custom_tag_name.size();
+        unsigned name_length = tag.custom_tag_name.size();
+        buffer[i++] = name_length;
+        tag.custom_tag_name.copy(&buffer[i], name_length);
+        i += name_length;
       }
     }
-
     return i;
   }
 
   void deserialize(const char *buffer, unsigned length) {
     tags.clear();
-
-    unsigned i = 0;
-    while (i < length) {
-      Tag tag(static_cast<TagType>(buffer[i]), "");
-      i++;
-      if (tag.type == CUSTOM) {
-        unsigned length = buffer[i++];
-        tag.custom_tag_name.assign(&buffer[i], &buffer[i + length]);
-        i += length;
+    if (length > 0) {
+      unsigned i = 0;
+      unsigned n = buffer[i++];
+      tags.resize(n);
+      for (unsigned j = 0; j < n; j++) {
+        Tag &tag = tags[j];
+        tag.type = static_cast<TagType>(buffer[i++]);
+        if (tag.type == CUSTOM) {
+          unsigned name_length = buffer[i++];
+          tag.custom_tag_name.assign(&buffer[i], &buffer[i + name_length]);
+          i += name_length;
+        }
       }
-      tags.push_back(tag);
     }
   }
 
   string scan_tag_name(TSLexer *lexer) {
     string tag_name;
-    while (iswalnum(lexer->lookahead) || lexer->lookahead == '-' || lexer->lookahead == ':') {
+    while (iswalnum(lexer->lookahead) ||
+           lexer->lookahead == '-' ||
+           lexer->lookahead == ':') {
       tag_name += towupper(lexer->lookahead);
       lexer->advance(lexer, false);
     }
