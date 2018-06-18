@@ -1,8 +1,8 @@
 #include <string>
-#include <unordered_map>
+#include <map>
 
 using std::string;
-using std::unordered_map;
+using std::map;
 
 enum TagType {
   AREA,
@@ -137,8 +137,8 @@ enum TagType {
 };
 
 
-static const unordered_map<string, TagType> get_tag_map() {
-  unordered_map<string, TagType> result;
+static const map<string, TagType> get_tag_map() {
+  map<string, TagType> result;
 #define TAG(name) result[#name] = name
   TAG(AREA);
   TAG(BASE);
@@ -269,7 +269,7 @@ static const unordered_map<string, TagType> get_tag_map() {
   return result;
 }
 
-static const unordered_map<string, TagType> TAG_TYPES_BY_TAG_NAME = get_tag_map();
+static const map<string, TagType> TAG_TYPES_BY_TAG_NAME = get_tag_map();
 
 static const TagType TAG_TYPES_NOT_ALLOWED_IN_PARAGRAPHS[] = {
   ADDRESS,
@@ -368,7 +368,7 @@ struct Tag {
   }
 
   static inline Tag for_name(const string &name) {
-    unordered_map<string, TagType>::const_iterator type = TAG_TYPES_BY_TAG_NAME.find(name);
+    map<string, TagType>::const_iterator type = TAG_TYPES_BY_TAG_NAME.find(name);
     if (type != TAG_TYPES_BY_TAG_NAME.end()) {
       return Tag(type->second, string());
     } else {
