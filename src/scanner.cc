@@ -124,7 +124,7 @@ struct Scanner {
   }
 
   bool scan_implicit_end_tag(TSLexer *lexer) {
-    Tag *parent = tags.empty() ? nullptr : &tags.back();
+    Tag *parent = tags.empty() ? NULL : &tags.back();
 
     bool is_closing_tag = false;
     if (lexer->lookahead == '/') {
