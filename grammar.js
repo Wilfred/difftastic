@@ -39,6 +39,8 @@ module.exports = grammar({
     $.return_type
   ],
 
+  word: $ => $.identifier_name,
+
   rules: {
     compilation_unit: $ => seq(
       optional(BYTE_ORDER_MARK),
@@ -819,8 +821,7 @@ module.exports = grammar({
     ),
 
     alias_qualified_name: $ => seq('global', '::', $.identifier_name),
-    _identifier_name: $ => (/[a-zA-Z_][a-zA-Z_0-9]*/),
-    identifier_name: $ => $._identifier_name,
+    identifier_name: $ => /[a-zA-Z_][a-zA-Z_0-9]*/,
 
     // commments
 
@@ -881,8 +882,11 @@ module.exports = grammar({
 
     statement_block: $ => seq('{', optional($._statement_list), '}'),
     _statement_list: $ => repeat1($._statement),
-    label_name: $ => $._identifier_name,
-    _labeled_statement: $ => seq($.label_name, ':', $._statement),
+    _labeled_statement: $ => seq(
+      alias($.identifier_name, $.label_name),
+      ':',
+      $._statement
+    ),
 
     // Embedded statements
 
@@ -992,7 +996,7 @@ module.exports = grammar({
     goto_statement: $ => seq(
       'goto',
       choice(
-        $.label_name,
+        alias($.identifier_name, $.label_name),
         seq('case', $.constant_expression),
         'default'
       ),

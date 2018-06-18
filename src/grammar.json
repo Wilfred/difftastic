@@ -1,5 +1,6 @@
 {
   "name": "c_sharp",
+  "word": "identifier_name",
   "rules": {
     "compilation_unit": {
       "type": "SEQ",
@@ -4165,13 +4166,9 @@
         }
       ]
     },
-    "_identifier_name": {
+    "identifier_name": {
       "type": "PATTERN",
       "value": "[a-zA-Z_][a-zA-Z_0-9]*"
-    },
-    "identifier_name": {
-      "type": "SYMBOL",
-      "name": "_identifier_name"
     },
     "comment": {
       "type": "TOKEN",
@@ -4467,16 +4464,17 @@
         "name": "_statement"
       }
     },
-    "label_name": {
-      "type": "SYMBOL",
-      "name": "_identifier_name"
-    },
     "_labeled_statement": {
       "type": "SEQ",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "label_name"
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "identifier_name"
+          },
+          "named": true,
+          "value": "label_name"
         },
         {
           "type": "STRING",
@@ -5101,8 +5099,13 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "SYMBOL",
-              "name": "label_name"
+              "type": "ALIAS",
+              "content": {
+                "type": "SYMBOL",
+                "name": "identifier_name"
+              },
+              "named": true,
+              "value": "label_name"
             },
             {
               "type": "SEQ",
