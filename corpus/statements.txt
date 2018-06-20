@@ -753,6 +753,25 @@ if a:
     (expression_statement (identifier))))
 
 ====================================================
+Comments after dedents
+====================================================
+
+if a:
+  b
+
+# one
+c
+
+---
+
+(module
+  (if_statement
+    (identifier)
+    (expression_statement (identifier)))
+  (comment)
+  (expression_statement (identifier)))
+
+====================================================
 Newline tokens followed by comments
 ====================================================
 
