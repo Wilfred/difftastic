@@ -281,7 +281,8 @@ module.exports = grammar({
     ),
 
     open_statement: $ => seq(
-      /open!?/,
+      'open',
+      optional('!'),
       optional($._extension_attribute),
       $._module_expression,
       repeat($.item_attribute)
@@ -1500,7 +1501,7 @@ module.exports = grammar({
       '!='
     )),
 
-    _and_operator: $ => /&&?/,
+    _and_operator: $ => choice('&', '&&'),
 
     _or_operator: $ => choice('or', '||'),
 
