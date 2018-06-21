@@ -846,11 +846,6 @@ module.exports = grammar({
     ),
 
     guard: $ => choice(
-      seq(
-        $._pattern,
-        '<-',
-        $._expression
-      ),
       $.let_statement,
       $._expression
     ),
