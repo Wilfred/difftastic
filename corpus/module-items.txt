@@ -243,6 +243,8 @@ Open and include directives
 ==============================
 
 open M
+open! M
+open ! M
 include M
 include t
 include M.M
@@ -259,6 +261,8 @@ include M(M(M)).M(M).t
 ---
 
 (compilation_unit
+  (open_statement (module_name))
+  (open_statement (module_name))
   (open_statement (module_name))
   (include_statement (module_name))
   (include_statement (module_type_path (module_type_name)))

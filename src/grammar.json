@@ -1572,8 +1572,20 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "PATTERN",
-          "value": "open!?"
+          "type": "STRING",
+          "value": "open"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "!"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         },
         {
           "type": "CHOICE",
@@ -8284,8 +8296,17 @@
       }
     },
     "_and_operator": {
-      "type": "PATTERN",
-      "value": "&&?"
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "&"
+        },
+        {
+          "type": "STRING",
+          "value": "&&"
+        }
+      ]
     },
     "_or_operator": {
       "type": "CHOICE",
