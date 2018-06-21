@@ -580,9 +580,9 @@ module.exports = grammar({
       $.quoted_name
     ))),
 
-    unit_constructor: $ => seq('(', ')'),
-    list_constructor: $ => seq('[', ']'),
-    function_constructor: $ => seq('(', '->', ')'),
+    unit_constructor: $ => /\(\s*\)/,
+    list_constructor: $ => /\[\s*\]/,
+    function_constructor: $ => /\(\s*\->\)/,
     tupling_constructor: $ => seq('(', ',', repeat(','), ')'),
 
     _statement: $ => choice(
