@@ -847,7 +847,14 @@ module.exports = grammar({
 
     guard: $ => choice(
       $.let_statement,
-      $._expression
+      $._expression,
+      $.pattern_guard
+    ),
+
+    pattern_guard: $ => seq(
+      alias($._pattern, $.pattern),
+      '<-',
+      alias($._expression, $.expression)
     ),
 
     parenthesized_expression: $ => seq(
