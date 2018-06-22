@@ -745,6 +745,7 @@ Function Declarations With Guards
 =================================================
 
 f x | x < 10, x > 2 = True
+    | Foo (Bar Baz{..} _) : woo <- fizz = True
     | otherwise = False
 
 ---
@@ -759,6 +760,21 @@ f x | x < 10, x > 2 = True
           (infix_operator_application (variable_identifier) (variable_operator (variable_symbol)) (integer)))
         (guard
           (infix_operator_application (variable_identifier) (variable_operator (variable_symbol)) (integer)))
+        (constructor_identifier))
+      (function_guard_pattern
+        (guard
+          (pattern_guard
+            (pattern
+              (constructor_pattern
+                (constructor_identifier)
+                (parenthesized_pattern
+                  (constructor_pattern
+                    (constructor_identifier)
+                    (labeled_pattern (constructor_identifier) (record_wild_cards)) (wildcard))))
+                  (constructor_operator (constructor_symbol))
+                  (variable_identifier))
+            (expression
+              (variable_identifier))))
         (constructor_identifier))
       (function_guard_pattern
         (guard (variable_identifier))
