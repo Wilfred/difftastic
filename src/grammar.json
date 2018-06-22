@@ -1,5 +1,6 @@
 {
   "name": "haskell",
+  "word": "_variable_identifier",
   "rules": {
     "module": {
       "type": "CHOICE",
