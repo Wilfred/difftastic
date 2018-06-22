@@ -1633,11 +1633,9 @@ module.exports = grammar({
       /~[!#$%&⋆*+\./<=>?@\\\^|\-~:]+/,                             // prevents matching `~`
       /-[!#$%&⋆*+\./<=>?@\\\^|\-~:]+[!#$%&⋆*+\./<=>?@\\\^|\-~:]+/, // prevents matching `->`
       /-[!#$%&⋆*+\./<=?@\\\^|~:]*/,                              // prevents matching `->` and allows `-`
-      /<[!#$%&⋆*+\./<=>?@\\\^|\-~:]+[!#$%&⋆*+\./<=>?@\\\^|\-~:]+/, // prevents matching `<-`
-      /<[!#$%&⋆*+\./<=>?@\\\^|~:]*/,                               // prevents matching `<-`
       /\./,                                                        // matches composition operator `.`
       /=[!#$%&⋆*+\./<=?@\\\^|\-~:]+[!#$%&⋆*+\./<=>?@\\^|\-~:]?/,   // prevents matching `=`
-      /[!#$%&⋆*+/>?\^]+[!#$%&⋆*+\./<=>?@\\^|\-~:]*/,              // matches variable symbols but prevents `=`
+      /[!#$%&⋆*+/<>?\^]+[!#$%&⋆*+\./<=>?@\\^|\-~:]*/,              // matches variable symbols but prevents `=`
       /\.[!#$%&⋆*+/<=>?@\\\^|\-~:]+[!#$%&⋆*+\./<=?@\\\^|\-~:]*/,   // prevents matching `..`
     )),
 
