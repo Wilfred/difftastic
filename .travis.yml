@@ -5,7 +5,7 @@ node_js:
 compiler: clang-3.6
 
 env:
-  - CXX=clang-3.6 npm_config_debug=1
+  - CXX=clang-3.6
 
 addons:
   apt:
