@@ -5,7 +5,8 @@ enum {
   COMMENT,
   QUOTED_STRING,
   STRING_DELIM,
-  LINE_NUMBER_DIRECTIVE
+  LINE_NUMBER_DIRECTIVE,
+  LABEL_COLON,
 };
 
 void *tree_sitter_ocaml_external_scanner_create() {
@@ -27,6 +28,12 @@ void tree_sitter_ocaml_external_scanner_deserialize(void *payload, const char *b
 
 bool tree_sitter_ocaml_external_scanner_scan(void *payload, TSLexer *lexer, const bool *whitelist) {
   bool in_string = *(bool*)payload;
+
+  if (!in_string && lexer->lookahead == ':' && whitelist[LABEL_COLON]) {
+    lexer->advance(lexer, false);
+    lexer->result_symbol = LABEL_COLON;
+    return true;
+  }
 
   while (isspace(lexer->lookahead)) {
     lexer->advance(lexer, true);

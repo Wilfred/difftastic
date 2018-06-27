@@ -280,9 +280,9 @@ f ~x ?x:x;;
     (value_path (value_name)))
   (application_expression
     (value_path (value_name))
-    (label)
+    (label (label_name))
     (labeled_argument
-      (label)
+      (label (label_name))
       (value_path (value_name)))))
 
 ===========================
