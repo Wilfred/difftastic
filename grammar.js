@@ -1619,7 +1619,6 @@ module.exports = grammar({
   },
 
   conflicts: $ => [
-    [$._type_constructor, $._class_name],
     [$._simple_class_type, $._simple_type_expression]
   ],
 
