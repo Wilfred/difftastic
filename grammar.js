@@ -126,34 +126,30 @@ module.exports = grammar({
 
     parameter: $ => choice(
       $._simple_pattern,
-      parenthesize($.abstract_type),
+      $.label,
       seq(
-        choice(
-          $.label,
-          seq(
-            $.label,
-            alias($._label_colon, ':'),
-            $._simple_pattern
-          ),
-          seq(
-            choice('~', '?'),
-            '(',
-            $._label_name,
-            optional(seq(':', $._type_expression)),
-            optional(seq('=', $._seq_expression)),
-            ')'
-          ),
-          seq(
-            $.label,
-            alias($._label_colon, ':'),
-            '(',
-            $._pattern,
-            optional(seq(':', $._type_expression)),
-            seq('=', $._seq_expression),
-            ')'
-          )
-        )
-      )
+        $.label,
+        alias($._label_colon, ':'),
+        $._simple_pattern
+      ),
+      seq(
+        choice('~', '?'),
+        '(',
+        $._label_name,
+        optional(seq(':', $._type_expression)),
+        optional(seq('=', $._seq_expression)),
+        ')'
+      ),
+      seq(
+        $.label,
+        alias($._label_colon, ':'),
+        '(',
+        $._pattern,
+        optional(seq(':', $._type_expression)),
+        seq('=', $._seq_expression),
+        ')'
+      ),
+      parenthesize($.abstract_type)
     ),
 
     external: $ => seq(
