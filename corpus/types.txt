@@ -152,10 +152,10 @@ type t = l:t -> ?l:t -> t
     (type_binding
       (type_constructor)
       (function_type
-        (label)
+        (label_name)
         (type_constructor_path (type_constructor))
         (function_type
-          (label)
+          (label_name)
           (type_constructor_path (type_constructor))
           (type_constructor_path (type_constructor)))))))
 

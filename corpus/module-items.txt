@@ -48,12 +48,12 @@ let f (type t) x : t = x
   (value_definition
     (let_binding
       (value_name)
-      (parameter (label))
-      (parameter (label) (value_name))
-      (parameter (label) (type_constructor_path (type_constructor)))
-      (parameter (label) (value_path (value_name)))
+      (parameter (label (label_name)))
+      (parameter (label (label_name)) (value_name))
+      (parameter (label_name) (type_constructor_path (type_constructor)))
+      (parameter (label_name) (value_path (value_name)))
       (parameter
-        (label)
+        (label (label_name))
         (tuple_pattern (value_name) (value_name))
         (type_constructor_path (type_constructor))
         (value_path (value_name)))

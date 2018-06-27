@@ -19,9 +19,6 @@ const PREC = {
   match: 2
 }
 
-const IDENT = /[a-zA-Z_][a-zA-Z0-9_']*/
-const CAPITALIZED_IDENT = /[A-Z][a-zA-Z0-9_']*/
-const LOWERCASE_IDENT = /[a-z_][a-zA-Z0-9_']*/
 const OP_CHAR = /[!$%&*+\-./:<=>?@^|~]/
 const NUMBER = token(choice(
   /[0-9][0-9_]*(\.[0-9_]*)?([eE][+\-]?[0-9][0-9_]*)?[g-zG-Z]?/,
@@ -40,8 +37,21 @@ module.exports = grammar({
   ],
 
   inline: $ => [
-    $._seq_expression
+    $._seq_expression,
+    $._pow_operator,
+    $._mult_operator,
+    $._label_name,
+    $._field_name,
+    $._class_name,
+    $._method_name,
+    $._module_name,
+    $._module_type_name,
+    $._type_constructor,
+    $._instance_variable_name,
+    $._constructor_name,
   ],
+
+  word: $ => $._identifier,
 
   rules: {
     compilation_unit: $ => seq(
@@ -116,25 +126,34 @@ module.exports = grammar({
 
     parameter: $ => choice(
       $._simple_pattern,
-      $.label,
-      seq(alias($._label_colon, $.label), $._simple_pattern),
+      parenthesize($.abstract_type),
       seq(
-        choice('~', '?'),
-        '(',
-        $._label_name,
-        optional(seq(':', $._type_expression)),
-        optional(seq('=', $._seq_expression)),
-        ')'
-      ),
-      seq(
-        alias($._label_colon, $.label),
-        '(',
-        $._pattern,
-        optional(seq(':', $._type_expression)),
-        seq('=', $._seq_expression),
-        ')'
-      ),
-      parenthesize($.abstract_type)
+        choice(
+          $.label,
+          seq(
+            $.label,
+            alias($._label_colon, ':'),
+            $._simple_pattern
+          ),
+          seq(
+            choice('~', '?'),
+            '(',
+            $._label_name,
+            optional(seq(':', $._type_expression)),
+            optional(seq('=', $._seq_expression)),
+            ')'
+          ),
+          seq(
+            $.label,
+            alias($._label_colon, ':'),
+            '(',
+            $._pattern,
+            optional(seq(':', $._type_expression)),
+            seq('=', $._seq_expression),
+            ')'
+          )
+        )
+      )
     ),
 
     external: $ => seq(
@@ -157,7 +176,7 @@ module.exports = grammar({
       optional($.type_params),
       choice(
         seq(
-          $.type_constructor,
+          $._type_constructor,
           optional($._type_equation),
           optional(seq(
             '=',
@@ -208,7 +227,7 @@ module.exports = grammar({
 
     constructor_declaration: $ => seq(
       choice(
-        $.constructor_name,
+        $._constructor_name,
         seq('[', ']'),
         parenthesize('::')
       ),
@@ -235,7 +254,7 @@ module.exports = grammar({
 
     field_declaration: $ => seq(
       optional('mutable'),
-      $.field_name,
+      $._field_name,
       ':',
       $._poly_type_expression,
     ),
@@ -259,7 +278,7 @@ module.exports = grammar({
     ),
 
     module_binding: $ => seq(
-      $.module_name,
+      $._module_name,
       repeat($.module_parameter),
       optional(seq(':', $._module_type)),
       optional(seq('=', $._module_expression)),
@@ -267,7 +286,7 @@ module.exports = grammar({
     ),
 
     module_parameter: $ => parenthesize(optional(seq(
-      choice($.module_name, alias('_', $.module_name)),
+      choice($._module_name, alias('_', $._module_name)),
       ':',
       $._module_type
     ))),
@@ -275,7 +294,7 @@ module.exports = grammar({
     module_type_definition: $ => seq(
       'module', 'type',
       optional($._extension_attribute),
-      $.module_type_name,
+      $._module_type_name,
       optional(seq('=', $._module_type)),
       repeat($.item_attribute)
     ),
@@ -307,7 +326,7 @@ module.exports = grammar({
         sep1(',', $.type_variable),
         ']'
       )),
-      $.class_name,
+      $._class_name,
       repeat($.parameter),
       optional(seq(':', $._class_type)),
       optional(seq('=', $._class_expression)),
@@ -326,7 +345,7 @@ module.exports = grammar({
         sep1(',', $.type_variable),
         ']'
       )),
-      $.class_name,
+      $._class_name,
       '=',
       $._simple_class_type,
       repeat($.item_attribute)
@@ -395,9 +414,9 @@ module.exports = grammar({
 
     // Module expressions
 
-    _module_expression: $ => prec.right(seq(
+    _module_expression: $ => prec.right(1, seq(
       choice(
-        $.module_name,
+        $._module_name,
         $.structure,
         $.functor,
         $.module_application,
@@ -507,7 +526,7 @@ module.exports = grammar({
       'val',
       repeat($.attribute),
       repeat(choice('mutable', 'virtual')),
-      $.instance_variable_name,
+      $._instance_variable_name,
       ':',
       $._type_expression
     ),
@@ -516,7 +535,7 @@ module.exports = grammar({
       'method',
       repeat($.attribute),
       repeat(choice('private', 'virtual')),
-      $.method_name,
+      $._method_name,
       ':',
       $._poly_type_expression
     ),
@@ -539,7 +558,8 @@ module.exports = grammar({
     class_function_type: $ => prec.right(PREC.seq, seq(
       optional(seq(
         optional('?'),
-        $._label_name, ':'
+        $._label_name,
+        ':'
       )),
       $._simple_or_tuple_type_expression,
       '->',
@@ -625,7 +645,7 @@ module.exports = grammar({
       optional('!'),
       repeat($.attribute),
       repeat(choice('mutable', 'virtual')),
-      $.instance_variable_name,
+      $._instance_variable_name,
       optional(seq(':', $._type_expression)),
       optional(seq(':>', $._type_expression)),
       optional(seq('=', $._seq_expression)),
@@ -636,7 +656,7 @@ module.exports = grammar({
       optional('!'),
       repeat($.attribute),
       repeat(choice('private', 'virtual')),
-      $.method_name,
+      $._method_name,
       repeat($.parameter),
       optional(seq(':', $._poly_type_expression)),
       optional(seq('=', $._seq_expression))
@@ -667,7 +687,7 @@ module.exports = grammar({
       $.abstract_type
     ),
 
-    abstract_type: $ => seq('type', repeat1($.type_constructor)),
+    abstract_type: $ => seq('type', repeat1($._type_constructor)),
 
     _simple_type_expression: $ => choice(
       $.type_variable,
@@ -778,7 +798,7 @@ module.exports = grammar({
     ),
 
     method_type: $ => seq(
-      $.method_name,
+      $._method_name,
       ':',
       $._poly_type_expression
     ),
@@ -914,7 +934,8 @@ module.exports = grammar({
     ),
 
     labeled_argument: $ => seq(
-      alias($._label_colon, $.label),
+      $.label,
+      alias($._label_colon, ':'),
       $._simple_expression
     ),
 
@@ -1026,7 +1047,7 @@ module.exports = grammar({
         $.array_get_expression,
         $.string_get_expression,
         $.bigarray_get_expression,
-        $.instance_variable_name
+        $._instance_variable_name
       ),
       '<-',
       $._expression
@@ -1160,7 +1181,7 @@ module.exports = grammar({
     )),
 
     local_open_expression: $ => seq(
-      $.module_name,
+      $._module_name,
       '.',
       choice(
         parenthesize($._seq_expression),
@@ -1195,7 +1216,7 @@ module.exports = grammar({
     object_copy_expression: $ => seq(
       '{<',
       sep(';', seq(
-        $.instance_variable_name,
+        $._instance_variable_name,
         optional(seq('=', $._expression))
       )),
       optional(';'),
@@ -1205,7 +1226,7 @@ module.exports = grammar({
     method_invocation: $ => prec(PREC.hash, seq(
       $._simple_expression,
       '#',
-      $.method_name
+      $._method_name
     )),
 
     object_expression: $ => seq(
@@ -1347,7 +1368,7 @@ module.exports = grammar({
     )),
 
     local_open_pattern: $ => seq(
-      $.module_name,
+      $._module_name,
       '.',
       choice(
         parenthesize($._pattern),
@@ -1361,7 +1382,7 @@ module.exports = grammar({
     package_pattern: $ => parenthesize(seq(
       'module',
       optional($._extension_attribute),
-      $.module_name,
+      $._module_name,
       optional(seq(':', $._module_type))
     )),
 
@@ -1449,9 +1470,7 @@ module.exports = grammar({
       seq('begin', 'end')
     ),
 
-    // Names
-
-    directive: $ => seq('#', IDENT),
+    // Operators
 
     prefix_operator: $ => token(choice(
       seq('!', choice(optional(/[!$%&*+\-./:<>?@^|~]/), repeat2(OP_CHAR))),
@@ -1474,15 +1493,15 @@ module.exports = grammar({
 
     _hash_operator: $ => /#[#!$%&*+\-./:<=>?@^|~]+/,
 
-    _pow_operator: $ => token(choice(
-      seq('**', repeat(OP_CHAR)),
+    _pow_operator: $ => choice(
+      token(seq('**', repeat(OP_CHAR))),
       'lsl', 'lsr', 'asr'
-    )),
+    ),
 
-    _mult_operator: $ => token(choice(
-      seq(/[*/%]/, repeat(OP_CHAR)),
+    _mult_operator: $ => choice(
+      token(seq(/[*/%]/, repeat(OP_CHAR))),
       'mod', 'land', 'lor', 'lxor'
-    )),
+    ),
 
     _add_operator: $ => token(choice(
       seq('+', repeat(OP_CHAR)),
@@ -1513,11 +1532,13 @@ module.exports = grammar({
 
     dot_operator_path: $ => choice(
       $.dot_operator,
-      seq($.module_name, '.', $.dot_operator_path)
+      seq($._module_name, '.', $.dot_operator_path)
     ),
 
+    // Names
+
     value_name: $ => choice(
-      LOWERCASE_IDENT,
+      $._identifier,
       parenthesize(choice(
         $.prefix_operator,
         alias($._sign_operator, $.infix_operator),
@@ -1537,49 +1558,26 @@ module.exports = grammar({
 
     value_path: $ => choice(
       $.value_name,
-      seq($.module_name, '.', $.value_path)
+      seq($._module_name, '.', $.value_path)
     ),
-
-    module_name: $ => prec(1, CAPITALIZED_IDENT),
-
-    module_type_name: $ => choice(CAPITALIZED_IDENT, LOWERCASE_IDENT),
 
     module_type_path: $ => choice(
-      $.module_type_name,
-      seq($._module_expression, '.', $.module_type_name)
+      $._module_type_name,
+      seq($._module_expression, '.', $._module_type_name)
     ),
-
-    _label_name: $ => alias(LOWERCASE_IDENT, $.label),
-
-    label: $ => token(seq(
-      /[?~]/,
-      LOWERCASE_IDENT
-    )),
-
-    _label_colon: $ => token(seq(
-      /[?~]/,
-      LOWERCASE_IDENT,
-      ':'
-    )),
-
-    field_name: $ => LOWERCASE_IDENT,
 
     field_path: $ => choice(
-      $.field_name,
-      seq($.module_name, '.', $.field_path)
+      $._field_name,
+      seq($._module_name, '.', $.field_path)
     ),
 
-    constructor_name: $ => CAPITALIZED_IDENT,
-
     constructor_path: $ => prec.right(choice(
-      $.constructor_name,
-      seq($.module_name, '.', $.constructor_path)
+      $._constructor_name,
+      seq($._module_name, '.', $.constructor_path)
     )),
 
-    type_constructor: $ => LOWERCASE_IDENT,
-
     _extended_module_name: $ => seq(
-      $.module_name,
+      $._module_name,
       repeat(parenthesize($.module_path))
     ),
 
@@ -1589,36 +1587,43 @@ module.exports = grammar({
     ),
 
     type_constructor_path: $ => choice(
-      $.type_constructor,
+      $._type_constructor,
       seq($._extended_module_name, '.', $.type_constructor_path)
     ),
 
-    class_name: $ => LOWERCASE_IDENT,
-
-    class_type_path: $ => choice(
-      $.class_name,
+    class_type_path: $ => prec(1, choice(
+      $._class_name,
       seq($._extended_module_name, '.', $.class_type_path)
-    ),
+    )),
 
     class_path: $ => choice(
-      $.class_name,
-      seq($.module_name, '.', $.class_path)
+      $._class_name,
+      seq($._module_name, '.', $.class_path)
     ),
 
-    instance_variable_name: $ => LOWERCASE_IDENT,
+    _label_name: $ => alias($._identifier, $.label_name),
+    _field_name: $ => alias($._identifier, $.field_name),
+    _class_name: $ => alias($._identifier, $.class_name),
+    _method_name: $ => alias($._identifier, $._method_name),
+    _type_constructor: $ => alias($._identifier, $.type_constructor),
+    _instance_variable_name: $ => alias($._identifier, $.instance_variable_name),
 
-    method_name: $ => LOWERCASE_IDENT,
+    _module_name: $ => alias($._capitalized_identifier, $.module_name),
+    _module_type_name: $ => alias(choice($._capitalized_identifier, $._identifier), $.module_type_name),
+    _constructor_name: $ => alias($._capitalized_identifier, $.constructor_name),
 
-    type_variable: $ => token(seq("'", IDENT)),
+    _identifier: $ => /[a-z_][a-zA-Z0-9_']*/,
+    _capitalized_identifier: $ => /[A-Z][a-zA-Z0-9_']*/,
 
-    tag: $ => token(seq('`', IDENT)),
-
-    attribute_id: $ => sep1('.', IDENT)
+    label: $ => seq(choice('~', '?'), $._label_name),
+    directive: $ => seq('#', choice($._identifier, $._capitalized_identifier)),
+    type_variable: $ => seq("'", $._identifier),
+    tag: $ => seq('`', choice($._identifier, $._capitalized_identifier)),
+    attribute_id: $ => sep1('.', choice($._identifier, $._capitalized_identifier))
   },
 
   conflicts: $ => [
-    [$._module_type, $._module_expression],
-    [$.type_constructor, $.class_name],
+    [$._type_constructor, $._class_name],
     [$._simple_class_type, $._simple_type_expression]
   ],
 
@@ -1626,7 +1631,8 @@ module.exports = grammar({
     $.comment,
     $.quoted_string,
     '"',
-    $.line_number_directive
+    $.line_number_directive,
+    $._label_colon,
   ]
 })
 
