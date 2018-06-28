@@ -367,15 +367,15 @@ class Quack {
 lambda expression
 ===
 
-StateOwner stateOwner = new StateOwner();
-
-stateOwner.addStateListener(
-    (oldState, newState) -> System.out.println("State changed")
-);
+class LambdaTest {
+    void singleton() {
+        version -> create;
+    }
+}
 
 ---
 
-(program (constant_declaration (type_identifier) (variable_declarator_list (variable_declarator (variable_declarator_id (identifier)) (class_instance_creation_expression (unqualified_class_instance_creation_expression (type_identifier)))))) (method_invocation (identifier) (identifier) (argument_list (lambda_expression (inferred_parameters (identifier) (identifier)) (lambda_body (method_invocation (scoped_identifier (identifier) (identifier)) (identifier) (argument_list (string_literal))))))))
+(program (class_declaration (identifier) (class_body (method_declaration (method_header (void_type) (method_declarator (identifier))) (method_body (block (lambda_expression (identifier) (lambda_body (identifier))))))))) 
 
 ===
 switch statement
