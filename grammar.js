@@ -1053,18 +1053,28 @@ module.exports = grammar({
       'if',
       optional($._extension_attribute),
       $._seq_expression,
-      'then',
-      $._expression,
-      optional(seq(
-        'else',
-        $._expression
-      ))
+      $.then_clause,
+      optional($.else_clause)
     )),
+
+    then_clause: $ => seq(
+      'then',
+      $._expression
+    ),
+
+    else_clause: $ => seq(
+      'else',
+      $._expression
+    ),
 
     while_expression: $ => seq(
       'while',
       optional($._extension_attribute),
       $._seq_expression,
+      $.do_clause
+    ),
+
+    do_clause: $ => seq(
       'do',
       $._seq_expression,
       'done'
@@ -1078,9 +1088,7 @@ module.exports = grammar({
       $._seq_expression,
       choice('to', 'downto'),
       $._seq_expression,
-      'do',
-      $._seq_expression,
-      'done'
+      $.do_clause
     ),
 
     sequence_expression: $ => prec.right(PREC.seq, seq(
