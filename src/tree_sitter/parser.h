@@ -9,16 +9,12 @@ extern "C" {
 #include <stdint.h>
 #include <stdlib.h>
 
+typedef uint16_t TSSymbol;
+typedef uint16_t TSStateId;
+
 #define ts_builtin_sym_error ((TSSymbol)-1)
 #define ts_builtin_sym_end 0
 #define TREE_SITTER_SERIALIZATION_BUFFER_SIZE 1024
-
-#ifndef TREE_SITTER_RUNTIME_H_
-typedef uint16_t TSSymbol;
-typedef struct TSLanguage TSLanguage;
-#endif
-
-typedef uint16_t TSStateId;
 
 typedef struct {
   bool visible : 1;
@@ -70,7 +66,7 @@ typedef union {
   };
 } TSParseActionEntry;
 
-struct TSLanguage {
+typedef struct TSLanguage {
   uint32_t version;
   uint32_t symbol_count;
   uint32_t alias_count;
@@ -95,7 +91,7 @@ struct TSLanguage {
     unsigned (*serialize)(void *, char *);
     void (*deserialize)(void *, const char *, unsigned);
   } external_scanner;
-};
+} TSLanguage;
 
 /*
  *  Lexer Macros
@@ -133,7 +129,6 @@ struct TSLanguage {
  */
 
 #define STATE(id) id
-
 #define ACTIONS(id) id
 
 #define SHIFT(state_value)              \
