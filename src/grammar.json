@@ -5620,14 +5620,14 @@
           },
           {
             "type": "SYMBOL",
-            "name": "then_expression"
+            "name": "then_clause"
           },
           {
             "type": "CHOICE",
             "members": [
               {
                 "type": "SYMBOL",
-                "name": "else_expression"
+                "name": "else_clause"
               },
               {
                 "type": "BLANK"
@@ -5637,7 +5637,7 @@
         ]
       }
     },
-    "then_expression": {
+    "then_clause": {
       "type": "SEQ",
       "members": [
         {
@@ -5650,7 +5650,7 @@
         }
       ]
     },
-    "else_expression": {
+    "else_clause": {
       "type": "SEQ",
       "members": [
         {
@@ -5688,11 +5688,11 @@
         },
         {
           "type": "SYMBOL",
-          "name": "do_expression"
+          "name": "do_clause"
         }
       ]
     },
-    "do_expression": {
+    "do_clause": {
       "type": "SEQ",
       "members": [
         {
@@ -5759,7 +5759,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "do_expression"
+          "name": "do_clause"
         }
       ]
     },
