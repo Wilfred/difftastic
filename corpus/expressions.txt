@@ -330,19 +330,19 @@ for i = 1 to n do x done;;
 (compilation_unit
   (if_expression
     (value_path (value_name))
-    (then_expression (value_path (value_name))))
+    (then_clause (value_path (value_name))))
   (if_expression
     (value_path (value_name))
-    (then_expression (value_path (value_name)))
-    (else_expression (value_path (value_name))))
+    (then_clause (value_path (value_name)))
+    (else_clause (value_path (value_name))))
   (while_expression
     (value_path (value_name))
-    (do_expression (value_path (value_name))))
+    (do_clause (value_path (value_name))))
   (for_expression
     (value_name)
     (number)
     (value_path (value_name))
-    (do_expression (value_path (value_name)))))
+    (do_clause (value_path (value_name)))))
 
 ===========================
 Sequence expressions
@@ -508,7 +508,7 @@ let x = x in if x then x <- x := ! x . x ## x x x lsl x ** x * x mod x + x - x :
     (sequence_expression
       (if_expression
         (value_path (value_name))
-        (then_expression
+        (then_clause
           (set_expression
             (instance_variable_name)
             (infix_expression
