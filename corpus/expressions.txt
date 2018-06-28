@@ -330,19 +330,19 @@ for i = 1 to n do x done;;
 (compilation_unit
   (if_expression
     (value_path (value_name))
-    (value_path (value_name)))
+    (then_expression (value_path (value_name))))
   (if_expression
     (value_path (value_name))
-    (value_path (value_name))
-    (value_path (value_name)))
+    (then_expression (value_path (value_name)))
+    (else_expression (value_path (value_name))))
   (while_expression
     (value_path (value_name))
-    (value_path (value_name)))
+    (do_expression (value_path (value_name))))
   (for_expression
     (value_name)
     (number)
     (value_path (value_name))
-    (value_path (value_name))))
+    (do_expression (value_path (value_name)))))
 
 ===========================
 Sequence expressions
@@ -508,72 +508,73 @@ let x = x in if x then x <- x := ! x . x ## x x x lsl x ** x * x mod x + x - x :
     (sequence_expression
       (if_expression
         (value_path (value_name))
-        (set_expression
-          (instance_variable_name)
-          (infix_expression
-            (value_path (value_name))
-            (infix_operator)
-            (product_expression
+        (then_expression
+          (set_expression
+            (instance_variable_name)
+            (infix_expression
+              (value_path (value_name))
+              (infix_operator)
               (product_expression
-                (infix_expression
+                (product_expression
                   (infix_expression
                     (infix_expression
                       (infix_expression
                         (infix_expression
-                          (cons_expression
-                            (infix_expression
+                          (infix_expression
+                            (cons_expression
                               (infix_expression
                                 (infix_expression
                                   (infix_expression
                                     (infix_expression
-                                      (application_expression
-                                        (infix_expression
-                                          (field_get_expression
-                                            (prefix_expression
-                                              (prefix_operator)
-                                              (value_path (value_name)))
-                                            (field_path (field_name)))
-                                          (infix_operator)
-                                          (value_path (value_name)))
-                                        (value_path (value_name))
-                                        (value_path (value_name)))
-                                      (infix_operator)
                                       (infix_expression
-                                        (value_path (value_name))
+                                        (application_expression
+                                          (infix_expression
+                                            (field_get_expression
+                                              (prefix_expression
+                                                (prefix_operator)
+                                                (value_path (value_name)))
+                                              (field_path (field_name)))
+                                            (infix_operator)
+                                            (value_path (value_name)))
+                                          (value_path (value_name))
+                                          (value_path (value_name)))
                                         (infix_operator)
-                                        (value_path (value_name))))
+                                        (infix_expression
+                                          (value_path (value_name))
+                                          (infix_operator)
+                                          (value_path (value_name))))
+                                      (infix_operator)
+                                      (value_path (value_name)))
                                     (infix_operator)
                                     (value_path (value_name)))
                                   (infix_operator)
                                   (value_path (value_name)))
                                 (infix_operator)
                                 (value_path (value_name)))
-                              (infix_operator)
-                              (value_path (value_name)))
-                            (cons_expression
+                              (cons_expression
+                                (value_path (value_name))
+                                (value_path (value_name))))
+                            (infix_operator)
+                            (infix_expression
                               (value_path (value_name))
+                              (infix_operator)
                               (value_path (value_name))))
                           (infix_operator)
-                          (infix_expression
-                            (value_path (value_name))
-                            (infix_operator)
-                            (value_path (value_name))))
+                          (value_path (value_name)))
                         (infix_operator)
                         (value_path (value_name)))
                       (infix_operator)
-                      (value_path (value_name)))
+                      (infix_expression
+                        (value_path (value_name))
+                        (infix_operator)
+                        (value_path (value_name))))
                     (infix_operator)
                     (infix_expression
                       (value_path (value_name))
                       (infix_operator)
                       (value_path (value_name))))
-                  (infix_operator)
-                  (infix_expression
-                    (value_path (value_name))
-                    (infix_operator)
-                    (value_path (value_name))))
-                (value_path (value_name)))
-              (value_path (value_name))))))
+                  (value_path (value_name)))
+                (value_path (value_name)))))))
       (sequence_expression
         (value_path (value_name))
         (value_path (value_name))))))
