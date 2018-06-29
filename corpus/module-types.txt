@@ -95,3 +95,17 @@ module M : T -> T -> T
         (functor_type
           (module_type_path (module_type_name))
           (module_type_path (module_type_name)))))))
+
+==============================
+Parenthesized module types
+==============================
+
+module M : (T)
+
+---
+
+(compilation_unit
+  (module_definition
+    (module_binding
+      (module_name)
+      (parenthesized_module_type (module_type_path (module_type_name))))))

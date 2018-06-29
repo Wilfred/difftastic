@@ -222,9 +222,10 @@ x, y, z;;
       (value_path (value_name))
       (value_path (value_name)))
     (value_path (value_name)))
-  (product_expression
-    (value_path (value_name))
-    (value_path (value_name))))
+  (parenthesized_expression
+    (product_expression
+      (value_path (value_name))
+      (value_path (value_name)))))
 
 ===========================
 Constructors
@@ -490,6 +491,20 @@ let exception E in x;;
     (exception_definition
       (constructor_declaration (constructor_name)))
     (value_path (value_name))))
+
+===========================
+Parenthesized expressions
+===========================
+
+let x = (x)
+
+---
+
+(compilation_unit
+  (value_definition
+    (let_binding
+      (value_name)
+      (parenthesized_expression (value_path (value_name))))))
 
 ===========================
 Precedence
