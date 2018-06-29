@@ -112,11 +112,12 @@ struct Scanner {
       if (lexer->lookahead == end_delimiter[delimiter_index]) {
         delimiter_index++;
         if (delimiter_index == end_delimiter.size()) break;
+        lexer->advance(lexer, false);
       } else {
         delimiter_index = 0;
+        lexer->advance(lexer, false);
         lexer->mark_end(lexer);
       }
-      lexer->advance(lexer, false);
     }
 
     lexer->result_symbol = RAW_TEXT;
