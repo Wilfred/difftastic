@@ -212,5 +212,5 @@ type t = (t)
   (type_definition
     (type_binding
       (type_constructor)
-      (parenthesized_type_expression
+      (parenthesized_type
         (type_constructor_path (type_constructor))))))
