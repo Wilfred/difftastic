@@ -356,8 +356,8 @@ module.exports = grammar({
         $.module_type_constraint,
         $.module_type_of,
         $.functor_type,
-        $.extension,
-        parenthesize($._module_type)
+        $.parenthesized_module_type,
+        $.extension
       ),
       repeat($.attribute)
     )),
@@ -408,6 +408,8 @@ module.exports = grammar({
       $._module_type
     )),
 
+    parenthesized_module_type: $ => parenthesize($._module_type),
+
     // Module expressions
 
     _module_expression: $ => prec.dynamic(1, prec.right(seq(
@@ -419,8 +421,8 @@ module.exports = grammar({
         $.submodule,
         $.typed_module_expression,
         $.packed_module,
-        $.extension,
-        parenthesize($._module_expression)
+        $.parenthesized_module_expression,
+        $.extension
       ),
       repeat($.attribute)
     ))),
@@ -461,6 +463,8 @@ module.exports = grammar({
       optional(seq(':', $._module_type)),
       optional(seq(':>', $._module_type))
     )),
+
+    parenthesized_module_expression: $ => parenthesize($._module_expression),
 
     // Class types
 
@@ -569,7 +573,7 @@ module.exports = grammar({
       $.instantiated_class,
       $.object_expression,
       $.typed_class_expression,
-      parenthesize($._class_expression)
+      $.parenthesized_class_expression
     ),
 
     _class_expression: $ => prec.right(seq(
@@ -671,6 +675,8 @@ module.exports = grammar({
       $._class_expression
     )),
 
+    parenthesized_class_expression: $ => parenthesize($._class_expression),
+
     // Types
 
     _poly_type_expression: $ => seq(
@@ -693,7 +699,7 @@ module.exports = grammar({
       $.package_type,
       $.hash_type,
       $.object_type,
-      parenthesize($._type_expression),
+      $.parenthesized_type_expression,
       $.extension
     ),
 
@@ -808,12 +814,13 @@ module.exports = grammar({
       $.class_path
     )),
 
+    parenthesized_type_expression: $ => parenthesize($._type_expression),
+
     // Expressions
 
     _simple_expression: $ => choice(
       $.value_path,
       $._constant,
-      parenthesize($._seq_expression),
       seq('begin', optional($._extension_attribute), $._seq_expression, 'end'),
       $.typed_expression,
       $.constructor_path,
@@ -833,6 +840,7 @@ module.exports = grammar({
       $.new_expression,
       $.object_copy_expression,
       $.method_invocation,
+      $.parenthesized_expression,
       $.extension
     ),
 
@@ -1247,6 +1255,8 @@ module.exports = grammar({
       'end'
     ),
 
+    parenthesized_expression: $ => parenthesize($._seq_expression),
+
     // Patterns
 
     _simple_pattern: $ => choice(
@@ -1261,7 +1271,7 @@ module.exports = grammar({
       $.array_pattern,
       $.local_open_pattern,
       $.package_pattern,
-      parenthesize($._pattern),
+      $.parenthesized_pattern,
       $.extension
     ),
 
@@ -1389,6 +1399,8 @@ module.exports = grammar({
       $._module_name,
       optional(seq(':', $._module_type))
     )),
+
+    parenthesized_pattern: $ => parenthesize($._pattern),
 
     exception_pattern: $ => seq(
       'exception',
