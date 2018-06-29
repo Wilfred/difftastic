@@ -410,7 +410,7 @@ module.exports = grammar({
 
     // Module expressions
 
-    _module_expression: $ => prec.right(1, seq(
+    _module_expression: $ => prec.dynamic(1, prec.right(seq(
       choice(
         $._module_name,
         $.structure,
@@ -423,7 +423,7 @@ module.exports = grammar({
         parenthesize($._module_expression)
       ),
       repeat($.attribute)
-    )),
+    ))),
 
     structure: $ => seq(
       'struct',
@@ -1627,6 +1627,8 @@ module.exports = grammar({
   },
 
   conflicts: $ => [
+    [$._module_type, $._module_expression],
+    [$._module_expression, $.module_type_path],
     [$._simple_class_type, $._simple_type_expression]
   ],
 
