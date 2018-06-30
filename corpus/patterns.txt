@@ -204,3 +204,17 @@ function lazy x -> ()
   (function_expression
     (match_case (lazy_pattern (value_name))
     (unit))))
+
+============================
+Parenthesized patterns
+============================
+
+function (x) -> ()
+
+---
+
+(compilation_unit
+  (function_expression
+    (match_case
+      (parenthesized_pattern (value_name))
+      (unit))))

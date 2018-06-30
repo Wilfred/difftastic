@@ -119,3 +119,17 @@ module M = functor (M : T) -> M
           (module_name)
           (module_type_path (module_type_name)))
         (module_name)))))
+
+==============================
+Parenthesized module expressions
+==============================
+
+module M = (M)
+
+---
+
+(compilation_unit
+  (module_definition
+    (module_binding
+      (module_name)
+      (parenthesized_module_expression (module_name)))))

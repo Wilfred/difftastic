@@ -199,3 +199,18 @@ type t = t as 't
       (aliased_type
         (type_constructor_path (type_constructor))
         (type_variable)))))
+
+===========================
+Parenthesized types
+===========================
+
+type t = (t)
+
+---
+
+(compilation_unit
+  (type_definition
+    (type_binding
+      (type_constructor)
+      (parenthesized_type
+        (type_constructor_path (type_constructor))))))

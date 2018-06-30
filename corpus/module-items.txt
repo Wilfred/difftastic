@@ -18,7 +18,7 @@ Value definition
 let x = y
 let ( + ) = x
 let rec x = y and y = x
-let (x, y) = (y, x)
+let x, y = y, x
 let x : 'a . 'a t = y
 let f ~x ~l:y ~(x : t) ?(l = y) ?l:((x, y) : t = xy) = x
 let f (type t) x : t = x
@@ -54,7 +54,8 @@ let f (type t) x : t = x
       (parameter (label_name) (value_path (value_name)))
       (parameter
         (label (label_name))
-        (tuple_pattern (value_name) (value_name))
+        (parenthesized_pattern
+          (tuple_pattern (value_name) (value_name)))
         (type_constructor_path (type_constructor))
         (value_path (value_name)))
       (value_path (value_name))))
