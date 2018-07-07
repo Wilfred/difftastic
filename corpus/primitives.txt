@@ -15,7 +15,7 @@ with double brackets [[ a level 0 string completely ignored ]] ]==]
 
 ---
 
-(lua
+(program
   (expression (string))
   (expression (string))
 
@@ -42,7 +42,7 @@ Numeric constants
 
 ---
 
-(lua
+(program
   (expression (number))
   (expression (number))
   (expression (number))

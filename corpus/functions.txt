@@ -13,7 +13,7 @@ a.b.f = function(self, test, ...) return 10 end
 
 ---
 
-(lua
+(program
   (variable_declaration (variable_declarator (identifier))
     (function_definition (parameters)
       (return_statement (false))))
@@ -50,7 +50,7 @@ t.a.b.c.f = function() return true end
 
 ---
 
-(lua
+(program
   (function (function_name (identifier)) (parameters)
     (return_statement (false)))
 
@@ -78,7 +78,7 @@ f = function() return 'some string' end
 
 ---
 
-(lua
+(program
   (local_function (identifier) (parameters)
     (return_statement (string)))
 
@@ -99,7 +99,7 @@ g(5, r())
 
 ---
 
-(lua
+(program
   (function_call (identifier)
     (arguments (number)))
 

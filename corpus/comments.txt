@@ -14,7 +14,7 @@ comment level 2 ]==]
 
 ---
 
-(lua
+(program
   (comment)
   (comment)
 

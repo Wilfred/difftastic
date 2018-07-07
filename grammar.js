@@ -40,7 +40,7 @@ module.exports = grammar({
   ],
 
   rules: {
-    lua: $ => repeat($._statement),
+    program: $ => repeat($._statement),
 
     return_statement: $ => seq(
       'return',

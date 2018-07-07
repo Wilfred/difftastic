@@ -10,7 +10,7 @@ end
 
 ---
 
-(lua
+(program
   (local_variable_declaration (variable_declarator (identifier) (identifier))
     (number) (number) (number))
       (do_statement
@@ -35,7 +35,7 @@ end
 
 ---
 
-(lua
+(program
   (if_statement
     (condition_expression (binary_operation (identifier) (number)))
       (variable_declaration (variable_declarator (identifier))
@@ -56,7 +56,7 @@ end
 
 ---
 
-(lua
+(program
   (while_statement
     (condition_expression
       (binary_operation (identifier) (number)))
@@ -72,7 +72,7 @@ until num < 0
 
 ---
 
-(lua
+(program
   (repeat_statement
     (expression (string))
   (condition_expression
@@ -92,7 +92,7 @@ end
 
 ---
 
-(lua
+(program
   (for_statement
     (loop_expression (identifier) (number) (number))
       (expression (string)))
@@ -111,7 +111,7 @@ end
 
 ---
 
-(lua
+(program
   (for_in_statement
     (loop_expression (identifier) (identifier) (table))
       (return_statement (identifier))))
@@ -124,7 +124,7 @@ goto loopLabel;
 
 ---
 
-(lua
+(program
   (goto_statement (identifier)))
 
 ============================================
@@ -139,7 +139,7 @@ end
 
 ---
 
-(lua
+(program
   (for_statement
     (loop_expression (identifier) (number) (number))
       (if_statement
@@ -155,5 +155,5 @@ Label statements
 
 ---
 
-(lua
+(program
   (label_statement (identifier)))

@@ -6,7 +6,7 @@ some_table = { 'pizza', 'favorite', "food", true }
 
 ---
 
-(lua
+(program
   (variable_declaration (variable_declarator (identifier))
     (table
       (field (string))
@@ -26,7 +26,7 @@ c = i * 2 ^ j;
 
 ---
 
-(lua
+(program
   (variable_declaration (variable_declarator (identifier))
     (binary_operation
       (binary_operation (identifier)
@@ -52,7 +52,7 @@ ternary = not condition and true or false;
 
 ---
 
-(lua
+(program
   (variable_declaration (variable_declarator (identifier))
     (unary_operation (identifier)))
 

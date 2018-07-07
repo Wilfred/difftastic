@@ -1,7 +1,7 @@
 {
   "name": "lua",
   "rules": {
-    "lua": {
+    "program": {
       "type": "REPEAT",
       "content": {
         "type": "SYMBOL",
