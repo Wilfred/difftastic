@@ -1,5 +1,6 @@
 {
   "name": "cpp",
+  "word": "identifier",
   "rules": {
     "translation_unit": {
       "type": "REPEAT",
@@ -1466,6 +1467,13 @@
             "value": "*"
           },
           {
+            "type": "REPEAT",
+            "content": {
+              "type": "SYMBOL",
+              "name": "type_qualifier"
+            }
+          },
+          {
             "type": "SYMBOL",
             "name": "_declarator"
           }
@@ -1481,6 +1489,13 @@
           {
             "type": "STRING",
             "value": "*"
+          },
+          {
+            "type": "REPEAT",
+            "content": {
+              "type": "SYMBOL",
+              "name": "type_qualifier"
+            }
           },
           {
             "type": "SYMBOL",
@@ -1500,6 +1515,13 @@
             "value": "*"
           },
           {
+            "type": "REPEAT",
+            "content": {
+              "type": "SYMBOL",
+              "name": "type_qualifier"
+            }
+          },
+          {
             "type": "SYMBOL",
             "name": "_type_declarator"
           }
@@ -1515,6 +1537,13 @@
           {
             "type": "STRING",
             "value": "*"
+          },
+          {
+            "type": "REPEAT",
+            "content": {
+              "type": "SYMBOL",
+              "name": "type_qualifier"
+            }
           },
           {
             "type": "CHOICE",
