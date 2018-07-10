@@ -135,6 +135,7 @@ Pointer variable declarations
 
 char *the_string;
 const char **the_strings;
+int const * const restrict x;
 
 ---
 
@@ -145,7 +146,11 @@ const char **the_strings;
   (declaration
     (type_qualifier)
     (primitive_type)
-    (pointer_declarator (pointer_declarator (identifier)))))
+    (pointer_declarator (pointer_declarator (identifier))))
+  (declaration
+    (primitive_type)
+    (type_qualifier)
+    (pointer_declarator (type_qualifier) (type_qualifier) (identifier))))
 
 ============================================
 Typedefs

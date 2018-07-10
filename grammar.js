@@ -201,10 +201,10 @@ module.exports = grammar({
       prec(1, seq('(', $._abstract_declarator, ')'))
     ),
 
-    pointer_declarator: $ => prec.right(seq('*', $._declarator)),
-    pointer_field_declarator: $ => prec.right(seq('*', $._field_declarator)),
-    pointer_type_declarator: $ => prec.right(seq('*', $._type_declarator)),
-    abstract_pointer_declarator: $ => prec.right(seq('*', optional($._abstract_declarator))),
+    pointer_declarator: $ => prec.right(seq('*', repeat($.type_qualifier), $._declarator)),
+    pointer_field_declarator: $ => prec.right(seq('*', repeat($.type_qualifier), $._field_declarator)),
+    pointer_type_declarator: $ => prec.right(seq('*', repeat($.type_qualifier), $._type_declarator)),
+    abstract_pointer_declarator: $ => prec.right(seq('*', repeat($.type_qualifier), optional($._abstract_declarator))),
 
     function_declarator: $ => prec(1, seq($._declarator, $.parameter_list)),
     function_field_declarator: $ => prec(1, seq($._field_declarator, $.parameter_list)),
