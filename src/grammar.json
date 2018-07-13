@@ -4929,7 +4929,7 @@
               "members": [
                 {
                   "type": "SYMBOL",
-                  "name": "dims_exprs"
+                  "name": "_dims_exprs"
                 },
                 {
                   "type": "CHOICE",
@@ -4962,7 +4962,7 @@
         }
       ]
     },
-    "dims_exprs": {
+    "_dims_exprs": {
       "type": "PREC_RIGHT",
       "value": 0,
       "content": {
