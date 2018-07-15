@@ -36,7 +36,7 @@ module.exports = grammar({
 
   externals: $ => [
     $.comment,
-    $._multiline_string
+    $.string
   ],
 
   rules: {
@@ -352,12 +352,6 @@ module.exports = grammar({
     )),
 
     // Primitives
-    string: $ => choice(
-      seq("'", repeat(choice(/[^\\'\n]/, /\\./)), "'"),
-      seq('"', repeat(choice(/[^\\"\n]/, /\\./)), '"'),
-      $._multiline_string
-    ),
-
     number: $ => {
       const
         decimal_digits = /[0-9]+/

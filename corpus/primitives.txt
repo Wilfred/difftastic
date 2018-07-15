@@ -13,10 +13,20 @@ with double brackets [=[ a level 1 string completely ignored ]=]
 [==[ a level 2 long literal string
 with double brackets [[ a level 0 string completely ignored ]] ]==]
 
+"a string with comment token inside -> -- disabled comment"
+
+[[
+a level 0 long literal string with comment token inside -> -- disabled comment
+]]
+
 ---
 
 (program
   (expression (string))
+  (expression (string))
+
+  (expression (string))
+
   (expression (string))
 
   (expression (string))
