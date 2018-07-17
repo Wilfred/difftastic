@@ -1,0 +1,60 @@
+==============================
+Comments
+==============================
+
+(**)
+(* *)
+(**
+  doc
+*)
+( *)
+
+---
+
+(compilation_unit
+  (comment)
+  (comment)
+  (comment)
+  (value_path (value_name (infix_operator))))
+
+==============================
+Nested comments
+==============================
+
+(* (* *) *)
+
+---
+
+(compilation_unit (comment))
+
+==============================
+Strings and comments
+==============================
+
+(* "*)" *)
+"(**)"
+
+---
+
+(compilation_unit
+  (comment)
+  (string))
+
+==============================
+Characters and comments
+==============================
+
+(* '"' *)
+(* f' '"' *)
+(*  *)
+(* '\o170' '"' *)
+(* '\'"' *)
+
+---
+
+(compilation_unit
+  (comment)
+  (comment)
+  (comment)
+  (comment)
+  (comment))
