@@ -1198,11 +1198,11 @@ Time.at(timestamp/1000)
 ---
 
 (program
-  (binary (identifier) (identifier)) (string (identifier))
+  (binary (identifier) (identifier)) (string (interpolation (identifier)))
   (method_call
     (call (constant) (identifier))
     (argument_list (binary (identifier) (integer))))
-  (string (identifier)))
+  (string (interpolation (identifier))))
 
 ===============================
 regex as parameter

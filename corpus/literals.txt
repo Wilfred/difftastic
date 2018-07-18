@@ -122,7 +122,7 @@ double quoted symbol with interpolation
 
 ---
 
-(program (symbol (identifier)))
+(program (symbol (interpolation (identifier))))
 
 =========================================
 percent symbol with unbalanced delimiters
@@ -488,8 +488,8 @@ interpolation
 ---
 
 (program
-  (string (identifier))
-  (string (unless_modifier (string) (identifier))))
+  (string (interpolation (identifier)))
+  (string (interpolation (unless_modifier (string) (identifier)))))
 
 =====================
 escaped interpolation
@@ -664,7 +664,7 @@ nested strings with different delimiters
 ---
 
 (program
-  (string (regex (subshell))))
+  (string (interpolation (regex (interpolation (subshell))))))
 
 ========================================
 basic heredocs
@@ -837,11 +837,11 @@ return
 (program
   (heredoc_beginning)
   (heredoc_end
-    (array (integer) (string (integer)) (integer))
-    (integer)
-    (call (identifier) (identifier))
-    (if_modifier (identifier) (identifier))
-    (call (method_call (identifier) (argument_list (integer) (identifier))) (identifier)))
+    (interpolation (array (integer) (string (interpolation (integer))) (integer)))
+    (interpolation (integer))
+    (interpolation (call (identifier) (identifier)))
+    (interpolation (if_modifier (identifier) (identifier)))
+    (interpolation (call (method_call (identifier) (argument_list (integer) (identifier))) (identifier))))
   (return))
 
 ========================================
@@ -918,7 +918,9 @@ foo(<<-STR.strip_heredoc.tr()
     (argument_list
       (method_call
         (call (call (heredoc_beginning) (identifier)) (identifier))
-        (argument_list (heredoc_end (call (method_call (identifier) (argument_list)) (identifier))))))))
+        (argument_list
+          (heredoc_end
+            (interpolation (call (method_call (identifier) (argument_list)) (identifier)))))))))
 
 ========================================
 multiple heredocs
@@ -1074,7 +1076,7 @@ percent W array with interpolations
 
 ---
 
-(program (array (identifier)))
+(program (array (interpolation (identifier))))
 
 =====================
 empty percent i array
@@ -1106,15 +1108,15 @@ percent i array
 
 (program (array))
 
-=============================
-percent I array with captures
-=============================
+====================================
+percent I array with interpolations
+====================================
 
 %I(a #{b} c)
 
 ---
 
-(program (array (identifier)))
+(program (array (interpolation (identifier))))
 
 ==========
 empty hash
@@ -1315,7 +1317,7 @@ regular expression with interpolation
 ---
 
 (program
-  (regex (identifier))
+  (regex (interpolation (identifier)))
   (regex)
   (regex))
 
@@ -1354,7 +1356,7 @@ percent r regular expression with unbalanced delimiters and interpolation
 
 ---
 
-(program (regex (identifier)))
+(program (regex (interpolation (identifier))))
 
 =======================================================================
 percent r regular expression with balanced delimiters and interpolation
@@ -1364,7 +1366,7 @@ percent r regular expression with balanced delimiters and interpolation
 
 ---
 
-(program (regex (identifier)))
+(program (regex (interpolation (identifier))))
 
 ==============
 empty function

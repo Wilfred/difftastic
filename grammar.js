@@ -541,8 +541,8 @@ module.exports = grammar({
       $._simple_symbol,
       seq(
         $._symbol_beginning,
-        repeat(seq($._statement, $._string_middle)),
-        $._statement,
+        repeat(seq($.interpolation, $._string_middle)),
+        $.interpolation,
         $._string_end
       )
     ),
@@ -562,13 +562,16 @@ module.exports = grammar({
 
     _character_literal: $ => /\?(\\\S({[0-9]*}|[0-9]*|-\S([MC]-\S)?)?|\S)/,
 
+    interpolation: $ => seq(
+      '#{', $._statement, '}'
+    ),
+
     string: $ => choice(
       $._simple_string,
       $._character_literal,
       seq(
         $._string_beginning,
-        repeat(seq($._statement, $._string_middle)),
-        $._statement,
+        sep1($.interpolation, $._string_middle),
         $._string_end
       )
     ),
@@ -577,8 +580,7 @@ module.exports = grammar({
       $._simple_subshell,
       seq(
         $._subshell_beginning,
-        repeat(seq($._statement, $._string_middle)),
-        $._statement,
+        sep1($.interpolation, $._string_middle),
         $._string_end
       )
     ),
@@ -587,8 +589,7 @@ module.exports = grammar({
       $._simple_heredoc_body,
       seq(
         $._heredoc_body_beginning,
-        repeat(seq($._statement, $._heredoc_body_middle)),
-        $._statement,
+        sep1($.interpolation, $._heredoc_body_middle),
         $._heredoc_body_end
       )
     ),
@@ -598,8 +599,7 @@ module.exports = grammar({
       $._simple_word_list,
       seq(
         $._word_list_beginning,
-        repeat(seq($._statement, $._string_middle)),
-        $._statement,
+        sep1($.interpolation, $._string_middle),
         $._string_end
       )
     ),
@@ -634,8 +634,7 @@ module.exports = grammar({
       $._simple_regex,
       seq(
         $._regex_beginning,
-        repeat(seq($._statement, $._string_middle)),
-        $._statement,
+        sep1($.interpolation, $._string_middle),
         $._string_end
       )
     ),
