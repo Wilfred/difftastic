@@ -16,7 +16,7 @@
     "acorn": "^2.6.4",
     "babylon": "^6.3.26",
     "esprima": "^2.7.1",
-    "tree-sitter-cli": "^0.12.6"
+    "tree-sitter-cli": "^0.13.1"
   },
   "scripts": {
     "build": "tree-sitter generate && node-gyp build",

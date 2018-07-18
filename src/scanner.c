@@ -81,6 +81,7 @@ bool tree_sitter_javascript_external_scanner_scan(void *payload, TSLexer *lexer,
     for (;;) {
       if (lexer->lookahead == 0) return true;
       if (lexer->lookahead == '}') return true;
+      if (lexer->is_at_included_range_start(lexer)) return true;
       if (!iswspace(lexer->lookahead)) return false;
       if (lexer->lookahead == '\n') break;
       advance(lexer);
