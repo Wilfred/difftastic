@@ -5,7 +5,7 @@
 #pragma GCC diagnostic ignored "-Wmissing-field-initializers"
 #endif
 
-#define LANGUAGE_VERSION 8
+#define LANGUAGE_VERSION 9
 #define STATE_COUNT 25
 #define SYMBOL_COUNT 19
 #define ALIAS_COUNT 0
@@ -397,8 +397,6 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
         ADVANCE(33);
       if (lookahead == '{')
         ADVANCE(37);
-      if (lookahead == '}')
-        ADVANCE(38);
       if (lookahead == '\t' ||
           lookahead == '\n' ||
           lookahead == '\r' ||
@@ -408,12 +406,40 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
         ADVANCE(11);
       END_STATE();
     case 40:
+      if (lookahead == '\"')
+        ADVANCE(2);
+      if (lookahead == '+')
+        ADVANCE(5);
+      if (lookahead == '-')
+        ADVANCE(5);
+      if (lookahead == '.')
+        ADVANCE(13);
+      if (lookahead == '0')
+        ADVANCE(14);
+      if (lookahead == '}')
+        ADVANCE(38);
+      if (lookahead == '\t' ||
+          lookahead == '\n' ||
+          lookahead == '\r' ||
+          lookahead == ' ')
+        SKIP(40);
+      if (('1' <= lookahead && lookahead <= '9'))
+        ADVANCE(11);
+      END_STATE();
+    case 41:
+      if (lookahead == 0)
+        ADVANCE(1);
+      if (lookahead == '\t' ||
+          lookahead == '\n' ||
+          lookahead == '\r' ||
+          lookahead == ' ')
+        SKIP(41);
+      END_STATE();
+    case 42:
       if (lookahead == 0)
         ADVANCE(1);
       if (lookahead == ',')
         ADVANCE(12);
-      if (lookahead == ':')
-        ADVANCE(21);
       if (lookahead == ']')
         ADVANCE(23);
       if (lookahead == '}')
@@ -422,7 +448,38 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           lookahead == '\n' ||
           lookahead == '\r' ||
           lookahead == ' ')
-        SKIP(40);
+        SKIP(42);
+      END_STATE();
+    case 43:
+      if (lookahead == ':')
+        ADVANCE(21);
+      if (lookahead == '\t' ||
+          lookahead == '\n' ||
+          lookahead == '\r' ||
+          lookahead == ' ')
+        SKIP(43);
+      END_STATE();
+    case 44:
+      if (lookahead == ',')
+        ADVANCE(12);
+      if (lookahead == '}')
+        ADVANCE(38);
+      if (lookahead == '\t' ||
+          lookahead == '\n' ||
+          lookahead == '\r' ||
+          lookahead == ' ')
+        SKIP(44);
+      END_STATE();
+    case 45:
+      if (lookahead == ',')
+        ADVANCE(12);
+      if (lookahead == ']')
+        ADVANCE(23);
+      if (lookahead == '\t' ||
+          lookahead == '\n' ||
+          lookahead == '\r' ||
+          lookahead == ' ')
+        SKIP(45);
       END_STATE();
     default:
       return false;
@@ -432,29 +489,29 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
 static TSLexMode ts_lex_modes[STATE_COUNT] = {
   [0] = {.lex_state = 0},
   [1] = {.lex_state = 39},
-  [2] = {.lex_state = 39},
+  [2] = {.lex_state = 40},
   [3] = {.lex_state = 39},
-  [4] = {.lex_state = 0},
-  [5] = {.lex_state = 0},
-  [6] = {.lex_state = 40},
-  [7] = {.lex_state = 40},
-  [8] = {.lex_state = 40},
-  [9] = {.lex_state = 40},
-  [10] = {.lex_state = 40},
+  [4] = {.lex_state = 41},
+  [5] = {.lex_state = 41},
+  [6] = {.lex_state = 42},
+  [7] = {.lex_state = 43},
+  [8] = {.lex_state = 44},
+  [9] = {.lex_state = 42},
+  [10] = {.lex_state = 45},
   [11] = {.lex_state = 39},
   [12] = {.lex_state = 39},
-  [13] = {.lex_state = 40},
-  [14] = {.lex_state = 40},
+  [13] = {.lex_state = 42},
+  [14] = {.lex_state = 44},
   [15] = {.lex_state = 39},
-  [16] = {.lex_state = 40},
-  [17] = {.lex_state = 40},
-  [18] = {.lex_state = 40},
-  [19] = {.lex_state = 40},
-  [20] = {.lex_state = 40},
-  [21] = {.lex_state = 40},
-  [22] = {.lex_state = 40},
-  [23] = {.lex_state = 40},
-  [24] = {.lex_state = 40},
+  [16] = {.lex_state = 42},
+  [17] = {.lex_state = 45},
+  [18] = {.lex_state = 44},
+  [19] = {.lex_state = 44},
+  [20] = {.lex_state = 42},
+  [21] = {.lex_state = 44},
+  [22] = {.lex_state = 45},
+  [23] = {.lex_state = 42},
+  [24] = {.lex_state = 45},
 };
 
 static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
