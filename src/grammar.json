@@ -1,5 +1,6 @@
 {
   "name": "python",
+  "word": "identifier",
   "rules": {
     "module": {
       "type": "REPEAT",
