@@ -3,6 +3,7 @@
 #include <vector>
 #include <string>
 #include <cwctype>
+#include <cstring>
 #include "tag.h"
 
 namespace {
@@ -27,7 +28,7 @@ struct Scanner {
   unsigned serialize(char *buffer) {
     unsigned i = 0;
     size_t n = tags.size();
-    memcpy(buffer, &n, sizeof(n));
+    std::memcpy(buffer, &n, sizeof(n));
     i += sizeof(n);
     for (unsigned j = 0; j < n; j++) {
       Tag &tag = tags[j];
@@ -51,7 +52,7 @@ struct Scanner {
     if (length > 0) {
       unsigned i = 0;
       size_t n;
-      memcpy(&n, buffer, sizeof(n));
+      std::memcpy(&n, buffer, sizeof(n));
       i += sizeof(n);
       tags.resize(n);
       for (unsigned j = 0; j < n; j++) {
