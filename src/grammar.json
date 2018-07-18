@@ -6828,9 +6828,6 @@
       "_unann_type"
     ],
     [
-      "return_statement"
-    ],
-    [
       "_unann_type",
       "class_literal",
       "array_access"

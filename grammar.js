@@ -47,8 +47,6 @@ module.exports = grammar({
   conflicts: $ => [
     [$.modifier],
     [$.class_literal, $._unann_type], // TODO: remove
-    [$.return_statement],
-
     [$._unann_type, $.class_literal, $.array_access],
     [$.unann_class_or_interface_type, $.method_reference],
     [$.unann_class_or_interface_type, $.scoped_identifier],
