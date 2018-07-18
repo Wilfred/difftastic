@@ -4228,14 +4228,14 @@
                         },
                         {
                           "type": "PATTERN",
-                          "value": "0-7"
+                          "value": "[0-7]"
                         },
                         {
                           "type": "CHOICE",
                           "members": [
                             {
                               "type": "PATTERN",
-                              "value": "0-7"
+                              "value": "[0-7]"
                             },
                             {
                               "type": "BLANK"
@@ -4247,7 +4247,7 @@
                           "members": [
                             {
                               "type": "PATTERN",
-                              "value": "0-7"
+                              "value": "[0-7]"
                             },
                             {
                               "type": "BLANK"
@@ -5609,14 +5609,14 @@
                             },
                             {
                               "type": "PATTERN",
-                              "value": "0-7"
+                              "value": "[0-7]"
                             },
                             {
                               "type": "CHOICE",
                               "members": [
                                 {
                                   "type": "PATTERN",
-                                  "value": "0-7"
+                                  "value": "[0-7]"
                                 },
                                 {
                                   "type": "BLANK"
@@ -5628,7 +5628,7 @@
                               "members": [
                                 {
                                   "type": "PATTERN",
-                                  "value": "0-7"
+                                  "value": "[0-7]"
                                 },
                                 {
                                   "type": "BLANK"
