@@ -13,7 +13,7 @@
     "nan": "^2.4.0"
   },
   "devDependencies": {
-    "tree-sitter-cli": "^0.12.6"
+    "tree-sitter-cli": "^0.13.1"
   },
   "watch": {
     "test": {
