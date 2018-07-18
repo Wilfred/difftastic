@@ -61,6 +61,8 @@ module.exports = grammar({
     [$._expression, $.for_init] // TODO: remove to allow non variable declarations in for_init to parse
   ],
 
+  word: $ => $.identifier,
+
   rules: {
     program: $ => repeat($._statement),
 
