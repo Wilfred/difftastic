@@ -26,16 +26,21 @@ struct Scanner {
 
   unsigned serialize(char *buffer) {
     unsigned i = 0;
-    unsigned n = tags.size();
-    buffer[i++] = n;
+    size_t n = tags.size();
+    memcpy(buffer, &n, sizeof(n));
+    i += sizeof(n);
     for (unsigned j = 0; j < n; j++) {
       Tag &tag = tags[j];
-      buffer[i++] = static_cast<char>(tag.type);
       if (tag.type == CUSTOM) {
         unsigned name_length = tag.custom_tag_name.size();
+        if (i + 2 + name_length > TREE_SITTER_SERIALIZATION_BUFFER_SIZE) break;
+        buffer[i++] = static_cast<char>(tag.type);
         buffer[i++] = name_length;
         tag.custom_tag_name.copy(&buffer[i], name_length);
         i += name_length;
+      } else {
+        if (i + 1 > TREE_SITTER_SERIALIZATION_BUFFER_SIZE) break;
+        buffer[i++] = static_cast<char>(tag.type);
       }
     }
     return i;
@@ -45,7 +50,9 @@ struct Scanner {
     tags.clear();
     if (length > 0) {
       unsigned i = 0;
-      unsigned n = buffer[i++];
+      size_t n;
+      memcpy(&n, buffer, sizeof(n));
+      i += sizeof(n);
       tags.resize(n);
       for (unsigned j = 0; j < n; j++) {
         Tag &tag = tags[j];
