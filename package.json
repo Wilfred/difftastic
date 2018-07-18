@@ -1,6 +1,6 @@
 {
   "name": "tree-sitter-ocaml",
-  "version": "0.12.2",
+  "version": "0.13.0",
   "description": "OCaml grammar for tree-sitter",
   "main": "index.js",
   "keywords": [
