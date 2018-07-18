@@ -1,5 +1,6 @@
 {
   "name": "php",
+  "word": "name",
   "rules": {
     "program": {
       "type": "SEQ",

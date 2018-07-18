@@ -31,6 +31,8 @@ module.exports = grammar({
     $.heredoc
   ],
 
+  word: $ => $.name,
+
   conflicts: $ => [
     [$.declare_statement, $._semicolon],
     [$.while_statement, $._semicolon],
@@ -972,9 +974,7 @@ module.exports = grammar({
       $._expression
     ),
 
-    name: $ => {
-      return /[_a-zA-Z\u0080-\u00ff][_a-zA-Z\u0080-\u00ff\d]*/
-    },
+    name: $ => /[_a-zA-Z\u0080-\u00ff][_a-zA-Z\u0080-\u00ff\d]*/,
 
     _reserved_identifier: $ => choice(
       'self',
