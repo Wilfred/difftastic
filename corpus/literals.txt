@@ -638,17 +638,17 @@ foo(?/)
 ---
 
 (program
-  (string)
-  (string)
-  (string)
-  (string)
-  (string)
-  (string)
-  (string)
-  (string)
-  (string)
-  (string)
-  (method_call (identifier) (argument_list (string))))
+  (character)
+  (character)
+  (character)
+  (character)
+  (character)
+  (character)
+  (character)
+  (character)
+  (character)
+  (character)
+  (method_call (identifier) (argument_list (character))))
 
 ========================================
 nested strings with different delimiters
@@ -703,14 +703,14 @@ heredoc content
 ---
 
 (program
-  (heredoc_beginning) (heredoc_end)
-  (heredoc_beginning) (heredoc_end)
-  (heredoc_beginning) (heredoc_end)
-  (heredoc_beginning) (heredoc_end)
+  (heredoc_beginning) (heredoc_body (heredoc_end))
+  (heredoc_beginning) (heredoc_body (heredoc_end))
+  (heredoc_beginning) (heredoc_body (heredoc_end))
+  (heredoc_beginning) (heredoc_body (heredoc_end))
   (if (identifier)
-    (heredoc_beginning) (heredoc_end)
-    (heredoc_beginning) (heredoc_end))
-  (heredoc_beginning) (heredoc_end))
+    (heredoc_beginning) (heredoc_body (heredoc_end))
+    (heredoc_beginning) (heredoc_body (heredoc_end)))
+  (heredoc_beginning) (heredoc_body (heredoc_end)))
 
 
 ========================================
@@ -723,7 +723,7 @@ eos
 
 ---
 
-(program (heredoc_beginning) (heredoc_end))
+(program (heredoc_beginning) (heredoc_body (heredoc_end)))
 
 ========================================
 heredoc with end word in content
@@ -742,8 +742,8 @@ a
 ---
 
 (program
-  (heredoc_beginning) (heredoc_end)
-  (heredoc_beginning) (heredoc_end))
+  (heredoc_beginning) (heredoc_body (heredoc_end))
+  (heredoc_beginning) (heredoc_body (heredoc_end)))
 
 ========================================
 heredocs in context starting with dot
@@ -758,7 +758,7 @@ end
 ---
 
 (program (method (identifier)
-  (method_call (identifier) (argument_list (heredoc_beginning) (heredoc_end)))))
+  (method_call (identifier) (argument_list (heredoc_beginning) (heredoc_body (heredoc_end))))))
 
 ========================================
 heredocs with method continuation
@@ -775,7 +775,7 @@ SQL
   (call
     (method_call
       (identifier)
-      (argument_list (heredoc_beginning) (heredoc_end)))
+      (argument_list (heredoc_beginning) (heredoc_body (heredoc_end))))
     (identifier))
   (argument_list)))
 
@@ -792,7 +792,7 @@ where("a")
 
 (program
   (method_call
-    (call (method_call (identifier) (argument_list (heredoc_beginning))) (heredoc_end) (identifier))
+    (call (method_call (identifier) (argument_list (heredoc_beginning))) (heredoc_body (heredoc_end)) (identifier))
     (argument_list (string))))
 
 ========================================
@@ -814,7 +814,7 @@ group("b")
       (method_call
         (call (method_call (identifier) (argument_list (heredoc_beginning))) (identifier))
         (argument_list (heredoc_beginning)))
-      (heredoc_end) (heredoc_end) (identifier))
+      (heredoc_body (heredoc_end)) (heredoc_body (heredoc_end)) (identifier))
     (argument_list (string))))
 
 ========================================
@@ -836,12 +836,13 @@ return
 
 (program
   (heredoc_beginning)
-  (heredoc_end
+  (heredoc_body
     (interpolation (array (integer) (string (interpolation (integer))) (integer)))
     (interpolation (integer))
     (interpolation (call (identifier) (identifier)))
     (interpolation (if_modifier (identifier) (identifier)))
-    (interpolation (call (method_call (identifier) (argument_list (integer) (identifier))) (identifier))))
+    (interpolation (call (method_call (identifier) (argument_list (integer) (identifier))) (identifier)))
+    (heredoc_end))
   (return))
 
 ========================================
@@ -888,17 +889,17 @@ foo[
     (call (identifier) (identifier))
     (argument_list
       (pair (symbol) (heredoc_beginning))
-      (heredoc_end)
+      (heredoc_body (heredoc_end))
       (pair (symbol) (heredoc_beginning))
-      (heredoc_end)))
+      (heredoc_body (heredoc_end))))
   (hash
     (pair (symbol) (heredoc_beginning))
-    (heredoc_end)
+    (heredoc_body (heredoc_end))
     (pair (symbol) (heredoc_beginning))
-    (heredoc_end))
-  (array (heredoc_beginning) (heredoc_end) (heredoc_beginning) (heredoc_end))
+    (heredoc_body (heredoc_end)))
+  (array (heredoc_beginning) (heredoc_body (heredoc_end)) (heredoc_beginning) (heredoc_body (heredoc_end)))
   (assignment
-    (element_reference (identifier) (integer) (heredoc_beginning) (heredoc_end))
+    (element_reference (identifier) (integer) (heredoc_beginning) (heredoc_body (heredoc_end)))
     (integer)))
 
 ==============================================================
@@ -919,8 +920,9 @@ foo(<<-STR.strip_heredoc.tr()
       (method_call
         (call (call (heredoc_beginning) (identifier)) (identifier))
         (argument_list
-          (heredoc_end
-            (interpolation (call (method_call (identifier) (argument_list)) (identifier)))))))))
+          (heredoc_body
+            (interpolation (call (method_call (identifier) (argument_list)) (identifier)))
+            (heredoc_end)))))))
 
 ========================================
 multiple heredocs
@@ -940,7 +942,7 @@ TWO
     (argument_list
       (call (heredoc_beginning) (identifier))
       (call (heredoc_beginning) (identifier))
-      (heredoc_end) (heredoc_end))))
+      (heredoc_body (heredoc_end)) (heredoc_body (heredoc_end)))))
 
 ========================================
 heredoc content that starts with a dot
@@ -954,7 +956,7 @@ heredoc content that starts with a dot
 
 ---
 
-(program (lambda (block (method_call (identifier) (argument_list (heredoc_beginning) (heredoc_end))))))
+(program (lambda (block (method_call (identifier) (argument_list (heredoc_beginning) (heredoc_body (heredoc_end)))))))
 
 ========================================
 un-terminated heredocs
@@ -966,7 +968,7 @@ un-terminated heredocs
 
 (program
   (heredoc_beginning)
-  (heredoc_end))
+  (heredoc_body (heredoc_end)))
 
 ==================
 backticks subshell
@@ -1046,7 +1048,7 @@ empty percent w array
 
 ---
 
-(program (array))
+(program (word_array))
 
 ==========================
 unbalanced percent w array
@@ -1056,7 +1058,7 @@ unbalanced percent w array
 
 ---
 
-(program (array))
+(program (word_array))
 
 ===============
 percent w array
@@ -1066,7 +1068,7 @@ percent w array
 
 ---
 
-(program (array))
+(program (word_array))
 
 ===================================
 percent W array with interpolations
@@ -1076,7 +1078,7 @@ percent W array with interpolations
 
 ---
 
-(program (array (interpolation (identifier))))
+(program (word_array (interpolation (identifier))))
 
 =====================
 empty percent i array
@@ -1086,7 +1088,7 @@ empty percent i array
 
 ---
 
-(program (array))
+(program (word_array))
 
 ==========================
 unbalanced percent i array
@@ -1096,7 +1098,7 @@ unbalanced percent i array
 
 ---
 
-(program (array))
+(program (word_array))
 
 ===============
 percent i array
@@ -1106,7 +1108,7 @@ percent i array
 
 ---
 
-(program (array))
+(program (word_array))
 
 ====================================
 percent I array with interpolations
@@ -1116,7 +1118,7 @@ percent I array with interpolations
 
 ---
 
-(program (array (interpolation (identifier))))
+(program (word_array (interpolation (identifier))))
 
 ==========
 empty hash

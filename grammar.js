@@ -34,30 +34,29 @@ module.exports = grammar({
   name: 'ruby',
 
   externals: $ => [
-    $._simple_string,
-    $._simple_symbol,
-    $._simple_subshell,
-    $._simple_regex,
-    $._simple_word_list,
-    $._simple_heredoc_body,
-    $._string_beginning,
-    $._symbol_beginning,
-    $._subshell_beginning,
-    $._regex_beginning,
-    $._word_list_beginning,
-    $._heredoc_body_beginning,
-    $._string_middle,
-    $._heredoc_body_middle,
-    $._string_end,
-    $._heredoc_body_end,
-    $.heredoc_beginning,
     $._line_break,
+
+    // Delimited literals
+    $._simple_symbol,
+    $._string_start,
+    $._symbol_start,
+    $._subshell_start,
+    $._regex_start,
+    $._word_list_start,
+    $._heredoc_body_start,
+    $._string_content,
+    $._heredoc_content,
+    $._string_end,
+    $.heredoc_end,
+    $.heredoc_beginning,
+
+    // Whitespace-sensitive tokens
     '/',
     $._element_reference_left_bracket,
     $._block_ampersand,
     $._splat_star,
     $._argument_list_left_paren,
-    $._scope_double_colon,
+    $._infix_scope_colons,
     $._keyword_colon,
     $._unary_minus,
     $._binary_minus,
@@ -147,6 +146,7 @@ module.exports = grammar({
     ),
 
     _formal_parameter: $ => choice($._simple_formal_parameter, $.destructured_parameter),
+
     _simple_formal_parameter: $ => choice(
       $.identifier,
       $.splat_parameter,
@@ -212,7 +212,8 @@ module.exports = grammar({
     case: $ => seq(
       'case',
       optional($._arg),
-      repeat($._terminator),
+      $._terminator,
+      repeat(';'),
       $.when,
       'end'
     ),
@@ -296,6 +297,7 @@ module.exports = grammar({
       $.parenthesized_statements,
       $._lhs,
       $.array,
+      $.word_array,
       $.hash,
       $.subshell,
       $.symbol,
@@ -304,6 +306,7 @@ module.exports = grammar({
       $.complex,
       $.rational,
       $.string,
+      $.character,
       $.chained_string,
       $.regex,
       $.lambda,
@@ -334,14 +337,14 @@ module.exports = grammar({
       $._primary,
       alias($._element_reference_left_bracket, '['),
       optional($._argument_list_with_trailing_comma),
-      optional($.heredoc_end),
+      optional($.heredoc_body),
       ']'
     )),
 
     scope_resolution: $ => prec.left(1, seq(
       choice(
         '::',
-        seq($._primary, alias($._scope_double_colon, '::'))
+        seq($._primary, alias($._infix_scope_colons, '::'))
       ),
       choice($.identifier, $.constant)
     )),
@@ -349,7 +352,7 @@ module.exports = grammar({
     call: $ => prec.left(PREC.BITWISE_AND + 1, seq(
       $._primary,
       choice('.', '&.'),
-      repeat($.heredoc_end),
+      repeat($.heredoc_body),
       choice($.identifier, $.operator, $.constant, $.argument_list_with_parens)
     )),
 
@@ -368,9 +371,9 @@ module.exports = grammar({
     argument_list: $ => prec.right(seq(
       choice(
         $._argument_list_with_parens,
-        sep1($._argument, seq(',', optional($.heredoc_end)))
+        sep1($._argument, seq(',', optional($.heredoc_body)))
       ),
-      repeat($.heredoc_end)
+      repeat($.heredoc_body)
     )),
 
     argument_list_with_parens: $ => $._argument_list_with_parens,
@@ -378,14 +381,14 @@ module.exports = grammar({
     _argument_list_with_parens: $ => seq(
       alias($._argument_list_left_paren, '('),
       optional($._argument_list_with_trailing_comma),
-      optional($.heredoc_end),
+      optional($.heredoc_body),
       ')'
     ),
 
     _argument_list_with_trailing_comma: $ => sepTrailing(
       $._argument_list_with_trailing_comma,
       $._argument,
-      prec.right(seq(',', optional($.heredoc_end)))
+      prec.right(seq(',', optional($.heredoc_body)))
     ),
 
     _argument: $ => choice(
@@ -403,8 +406,7 @@ module.exports = grammar({
     do_block: $ => seq(
       'do',
       optional($._terminator),
-      optional($.block_parameters),
-      optional($._terminator),
+      optional(seq($.block_parameters, optional($._terminator))),
       optional($._statements),
       'end'
     ),
@@ -537,16 +539,6 @@ module.exports = grammar({
       )
     ))),
 
-    symbol: $ => choice(
-      $._simple_symbol,
-      seq(
-        $._symbol_beginning,
-        repeat(seq($.interpolation, $._string_middle)),
-        $.interpolation,
-        $._string_end
-      )
-    ),
-
     integer: $ => /0b[01](_?[01])*|0[oO]?[0-7](_?[0-7])*|(0d)?\d(_?\d)*|0x[0-9a-fA-F](_?[0-9a-fA-F])*/,
 
     float: $ => /\d(_?\d)*(\.\d)?(_?\d)*([eE][\+-]?\d(_?\d)*)?/,
@@ -560,59 +552,65 @@ module.exports = grammar({
 
     chained_string: $ => seq($.string, repeat1($.string)),
 
-    _character_literal: $ => /\?(\\\S({[0-9]*}|[0-9]*|-\S([MC]-\S)?)?|\S)/,
+    character: $ => /\?(\\\S({[0-9]*}|[0-9]*|-\S([MC]-\S)?)?|\S)/,
 
     interpolation: $ => seq(
       '#{', $._statement, '}'
     ),
 
-    string: $ => choice(
-      $._simple_string,
-      $._character_literal,
-      seq(
-        $._string_beginning,
-        sep1($.interpolation, $._string_middle),
-        $._string_end
-      )
+    string: $ => seq(
+      alias($._string_start, '"'),
+      repeat(choice($._string_content, $.interpolation)),
+      alias($._string_end, '"')
     ),
 
-    subshell: $ => choice(
-      $._simple_subshell,
-      seq(
-        $._subshell_beginning,
-        sep1($.interpolation, $._string_middle),
-        $._string_end
-      )
+    subshell: $ => seq(
+      alias($._subshell_start, '`'),
+      repeat(choice($._string_content, $.interpolation)),
+      alias($._string_end, '`')
     ),
 
-    heredoc_end: $ => choice(
-      $._simple_heredoc_body,
-      seq(
-        $._heredoc_body_beginning,
-        sep1($.interpolation, $._heredoc_body_middle),
-        $._heredoc_body_end
-      )
+    word_array: $ => seq(
+      alias($._word_list_start, '%w('),
+      repeat(choice($._string_content, $.interpolation)),
+      alias($._string_end, ')')
     ),
 
-    array: $ => choice(
-      seq('[', optional($._argument_list_with_trailing_comma), optional($.heredoc_end), ']'),
-      $._simple_word_list,
-      seq(
-        $._word_list_beginning,
-        sep1($.interpolation, $._string_middle),
-        $._string_end
-      )
+    symbol: $ => choice($._simple_symbol, seq(
+      alias($._symbol_start, ':"'),
+      repeat(choice($._string_content, $.interpolation)),
+      alias($._string_end, '"')
+    )),
+
+    regex: $ => seq(
+      alias($._regex_start, '/'),
+      repeat(choice($._string_content, $.interpolation)),
+      alias($._string_end, '/')
+    ),
+
+    heredoc_body: $ => seq(
+      $._heredoc_body_start,
+      repeat(choice($._heredoc_content, $.interpolation)),
+      $.heredoc_end
+    ),
+
+    array: $ => seq(
+      '[',
+      optional($._argument_list_with_trailing_comma),
+      optional($.heredoc_body),
+      ']'
     ),
 
     hash: $ => seq(
       '{',
       optional($._hash_items),
-      optional($.heredoc_end),
+      optional($.heredoc_body),
       '}'
     ),
+
     _hash_items: $ => seq(
       $.pair,
-      optional(prec.right(seq(',', optional($.heredoc_end), optional($._hash_items))))
+      optional(prec.right(seq(',', optional($.heredoc_body), optional($._hash_items))))
     ),
 
     pair: $ => prec(-1, choice(
@@ -630,22 +628,13 @@ module.exports = grammar({
       $.hash_splat_argument
     )),
 
-    regex: $ => choice(
-      $._simple_regex,
-      seq(
-        $._regex_beginning,
-        sep1($.interpolation, $._string_middle),
-        $._string_end
-      )
-    ),
-
     lambda: $ => seq('->', optional($.lambda_parameters), choice($.block, $.do_block)),
 
     empty_statement: $ => prec(-1, ';'),
 
     _terminator: $ => choice(
       $._line_break,
-      $.heredoc_end,
+      $.heredoc_body,
       ';'
     ),
   }
