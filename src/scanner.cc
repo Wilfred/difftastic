@@ -18,7 +18,8 @@ enum TokenType {
   SYMBOL_START,
   SUBSHELL_START,
   REGEX_START,
-  WORD_LIST_START,
+  STRING_ARRAY_START,
+  SYMBOL_ARRAY_START,
   HEREDOC_BODY_START,
   STRING_CONTENT,
   HEREDOC_CONTENT,
@@ -422,17 +423,29 @@ struct Scanner {
             break;
 
           case 'w':
+            if (!valid_symbols[STRING_ARRAY_START]) return false;
+            literal.type = STRING_ARRAY_START;
+            literal.allows_interpolation = false;
+            advance(lexer);
+            break;
+
           case 'i':
-            if (!valid_symbols[WORD_LIST_START]) return false;
-            literal.type = WORD_LIST_START;
+            if (!valid_symbols[SYMBOL_ARRAY_START]) return false;
+            literal.type = SYMBOL_ARRAY_START;
             literal.allows_interpolation = false;
             advance(lexer);
             break;
 
           case 'W':
+            if (!valid_symbols[STRING_ARRAY_START]) return false;
+            literal.type = STRING_ARRAY_START;
+            literal.allows_interpolation = true;
+            advance(lexer);
+            break;
+
           case 'I':
-            if (!valid_symbols[WORD_LIST_START]) return false;
-            literal.type = WORD_LIST_START;
+            if (!valid_symbols[SYMBOL_ARRAY_START]) return false;
+            literal.type = SYMBOL_ARRAY_START;
             literal.allows_interpolation = true;
             advance(lexer);
             break;
@@ -628,9 +641,18 @@ struct Scanner {
   bool scan_content(TSLexer *lexer) {
     Literal &literal = literal_stack.back();
     bool has_content = false;
+    bool stop_on_space = literal.type == SYMBOL_ARRAY_START || literal.type == STRING_ARRAY_START;
 
     for (;;) {
-      if (lexer->lookahead == literal.close_delimiter) {
+      if (stop_on_space && iswspace(lexer->lookahead)) {
+        if (has_content) {
+          lexer->mark_end(lexer);
+          lexer->result_symbol = STRING_CONTENT;
+          return true;
+        } else {
+          return false;
+        }
+      } else if (lexer->lookahead == literal.close_delimiter) {
         lexer->mark_end(lexer);
         if (literal.nesting_depth == 1) {
           if (has_content) {

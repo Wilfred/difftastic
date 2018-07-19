@@ -42,7 +42,8 @@ module.exports = grammar({
     $._symbol_start,
     $._subshell_start,
     $._regex_start,
-    $._word_list_start,
+    $._string_array_start,
+    $._symbol_array_start,
     $._heredoc_body_start,
     $._string_content,
     $._heredoc_content,
@@ -297,7 +298,8 @@ module.exports = grammar({
       $.parenthesized_statements,
       $._lhs,
       $.array,
-      $.word_array,
+      $.string_array,
+      $.symbol_array,
       $.hash,
       $.subshell,
       $.symbol,
@@ -560,31 +562,41 @@ module.exports = grammar({
 
     string: $ => seq(
       alias($._string_start, '"'),
-      repeat(choice($._string_content, $.interpolation)),
+      optional($._literal_contents),
       alias($._string_end, '"')
     ),
 
     subshell: $ => seq(
       alias($._subshell_start, '`'),
-      repeat(choice($._string_content, $.interpolation)),
+      optional($._literal_contents),
       alias($._string_end, '`')
     ),
 
-    word_array: $ => seq(
-      alias($._word_list_start, '%w('),
-      repeat(choice($._string_content, $.interpolation)),
+    string_array: $ => seq(
+      alias($._string_array_start, '%w('),
+      optional(/\s+/),
+      sep(alias($._literal_contents, $.bare_string), /\s+/),
+      optional(/\s+/),
+      alias($._string_end, ')')
+    ),
+
+    symbol_array: $ => seq(
+      alias($._symbol_array_start, '%i('),
+      optional(/\s+/),
+      sep(alias($._literal_contents, $.bare_symbol), /\s+/),
+      optional(/\s+/),
       alias($._string_end, ')')
     ),
 
     symbol: $ => choice($._simple_symbol, seq(
       alias($._symbol_start, ':"'),
-      repeat(choice($._string_content, $.interpolation)),
+      optional($._literal_contents),
       alias($._string_end, '"')
     )),
 
     regex: $ => seq(
       alias($._regex_start, '/'),
-      repeat(choice($._string_content, $.interpolation)),
+      optional($._literal_contents),
       alias($._string_end, '/')
     ),
 
@@ -593,6 +605,8 @@ module.exports = grammar({
       repeat(choice($._heredoc_content, $.interpolation)),
       $.heredoc_end
     ),
+
+    _literal_contents: $ => repeat1(choice($._string_content, $.interpolation)),
 
     array: $ => seq(
       '[',

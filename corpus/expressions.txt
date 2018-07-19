@@ -819,7 +819,7 @@ foo *(bar.baz)
 (program
   (method_call (identifier) (argument_list (splat_argument (identifier))))
   (method_call (identifier) (argument_list (splat_argument (identifier))))
-  (method_call (identifier) (argument_list (splat_argument (word_array))))
+  (method_call (identifier) (argument_list (splat_argument (string_array (bare_string) (bare_string)))))
   (method_call (identifier) (argument_list (splat_argument (parenthesized_statements (call (identifier) (identifier)))))))
 
 ===============================
