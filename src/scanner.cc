@@ -172,6 +172,10 @@ namespace {
 
         // Try to make a comment
         else if (scan_sequence(lexer, "--")) {
+          while (iswspace(lexer->lookahead) && lexer->lookahead != '\n' && lexer->lookahead != 0) {
+            advance(lexer);
+          }
+
           lexer->result_symbol = COMMENT;
 
           if (!scan_multiline_content(lexer)) {
