@@ -15,11 +15,11 @@ namespace {
 
     static void advance(TSLexer *lexer) { lexer->advance(lexer, false); }
 
-    // Check for sequence of characters
-    static bool evaluate_sequence(TSLexer *lexer, const char *sequence) {
-      // Consume all characters in 'sequence'
+    static bool scan_sequence(TSLexer *lexer, const char *sequence) {
+      // Try to match all characters in the given 'sequence'
       for (const char *c = sequence; *c; c++) {
         if (lexer->lookahead == *c) {
+          // Consume the character in 'c'
           advance(lexer);
         } else {
           return false;
@@ -29,57 +29,59 @@ namespace {
       return true;
     }
 
-    // Check for multiline block
-    static bool multiline_content(TSLexer *lexer) {
-      // Multiline brackets level
+    static bool scan_multiline_content(TSLexer *lexer) {
+      // Initialize lua multiline content level count
       int start_level = 0;
       int end_level = 0;
 
-      // Consume first '['
       if (lexer->lookahead == '[') {
+        // Consume first appearance of '['
         advance(lexer);
 
         if (lexer->lookahead == '[' || lexer->lookahead == '=') {
-          // Consume all '=' and save quantity (level)
           while (lexer->lookahead == '=') {
+            // Increment level count
             ++start_level;
+
+            // Consume all '=' characters
             advance(lexer);
           }
 
-          // Give the end_level the same amount of '=' from the start_level
-          end_level = start_level;
-
-          // Consume last '['
           if (lexer->lookahead == '[') {
+            // Consume last appearance of '['
             advance(lexer);
 
-            for (;;) {
-              // Consume first ']'
+            // Loop while not end of file (eof)
+            while (lexer->lookahead != 0) {
+              // Gives the end level count the same as start level count
+              end_level = start_level;
+
               if (lexer->lookahead == ']') {
+                // Consume first appearance of ']'
                 advance(lexer);
 
                 if (lexer->lookahead == ']' || lexer->lookahead == '=') {
-                  // Consume all '=' stored in level
                   while (lexer->lookahead == '=' && end_level > 0) {
+                    // Decrement level count
                     --end_level;
+
+                    // Consume all '=' characters
                     advance(lexer);
                   }
 
-                  // Consume last ']'
                   if (lexer->lookahead == ']' && end_level == 0) {
+                    // Consume last appearance of ']'
                     advance(lexer);
 
                     return true;
                   }
-
-                  // Restore original level, if end brackets level don't match
-                  end_level = start_level;
                 }
               }
 
-              if (lexer->lookahead == 0) return false;
-
-              advance(lexer);
+              if (lexer->lookahead != 0) {
+                // Consume all but end of file (eof)
+                advance(lexer);
+              }
             }
           }
         }
@@ -88,40 +90,40 @@ namespace {
       return false;
     }
 
-    // Scan
     bool scan(TSLexer *lexer, const bool *valid_symbols) {
       if (valid_symbols[COMMENT] || valid_symbols[STRING]) {
         while (iswspace(lexer->lookahead)) {
           skip(lexer);
         }
 
-        // Try to make a short literal string with single quote, consume first character '\''
+        // Try to make a short literal string with single quote
         if (lexer->lookahead == '\'') {
           lexer->result_symbol = STRING;
 
+          // Consume first appearance of '\''
           advance(lexer);
 
-          // Loop when next character isn't new line neither end of file
+          // Loop when isn't new line neither end of file (eof)
           while (lexer->lookahead != '\n' && lexer->lookahead != 0) {
-            // Consume any '\' character and tries to consume the next
             if (lexer->lookahead == '\\') {
+              // Consume '\\'
               advance(lexer);
 
-              // Consume any character that isn't new line neither end of file
               if (lexer->lookahead != '\n' && lexer->lookahead != 0) {
+                // Consume any character that isn't new line neither end of file (eof)
                 advance(lexer);
               } else {
                 break;
               }
             } else {
-              // Consume the last character '\''
               if (lexer->lookahead == '\'') {
+                // Consume last appearance of '\''
                 advance(lexer);
 
                 return true;
               } else {
-                // Consume any character that isn't new line neither end of file
                 if (lexer->lookahead != '\n' && lexer->lookahead != 0) {
+                  // Consume any character that isn't new line neither end of file (eof)
                   advance(lexer);
                 } else {
                   break;
@@ -131,33 +133,34 @@ namespace {
           }
         }
 
-        // Try to make a short literal string with double quote, consume first character '"'
+        // Try to make a short literal string with double quote
         else if (lexer->lookahead == '"') {
           lexer->result_symbol = STRING;
 
+          // Consume first appearance of '"'
           advance(lexer);
 
-          // Loop when next character isn't new line neither end of file
+          // Loop when next character isn't new line neither end of file (eof)
           while (lexer->lookahead != '\n' && lexer->lookahead != 0) {
-            // Consume any backslash and tries to consume the next character
             if (lexer->lookahead == '\\') {
+              // Consume '\\'
               advance(lexer);
 
-              // Consume any character that isn't new line neither end of file
               if (lexer->lookahead != '\n' && lexer->lookahead != 0) {
+                // Consume any character that isn't new line neither end of file (eof)
                 advance(lexer);
               } else {
                 break;
               }
             } else {
-              // Consume the last character '"'
               if (lexer->lookahead == '"') {
+                // Consume last appearance of '"'
                 advance(lexer);
 
                 return true;
               } else {
-                // Consume any character that isn't new line neither end of file
                 if (lexer->lookahead != '\n' && lexer->lookahead != 0) {
+                  // Consume any character that isn't new line neither end of file (eof)
                   advance(lexer);
                 } else {
                   break;
@@ -167,13 +170,13 @@ namespace {
           }
         }
 
-        // Try to make a comment, consume character '--'
-        else if (evaluate_sequence(lexer, "--")) {
+        // Try to make a comment
+        else if (scan_sequence(lexer, "--")) {
           lexer->result_symbol = COMMENT;
 
-          if (!multiline_content(lexer)) {
-            // Consume any character that isn't new line neither end of file
+          if (!scan_multiline_content(lexer)) {
             while (lexer->lookahead != '\n' && lexer->lookahead != 0) {
+              // Consume any character that isn't new line neither end of file (eof)
               advance(lexer);
             }
           }
@@ -181,8 +184,8 @@ namespace {
           return true;
         }
 
-        // Try to make a long literal string with double brackets
-        else if (multiline_content(lexer)) {
+        // Try to make a long literal string with double bracket
+        else if (scan_multiline_content(lexer)) {
           lexer->result_symbol = STRING;
 
           return true;

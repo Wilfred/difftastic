@@ -42,6 +42,7 @@ module.exports = grammar({
   rules: {
     program: $ => repeat($._statement),
 
+    // Return statement
     return_statement: $ => seq(
       'return',
       optional(sequence($._expression)),
@@ -73,7 +74,7 @@ module.exports = grammar({
       alias($.function_call_statement, $.function_call)
     ),
 
-    // Declarations
+    // Statements: Variable eclarations
     variable_declaration: $ => seq(
       sequence(alias($._variable_declarator, $.variable_declarator)),
       '=',
@@ -94,7 +95,7 @@ module.exports = grammar({
 
     _local_variable_declarator: $ => sequence($.identifier),
 
-    // Control statements
+    // Statements: Control statements
     do_statement: $ => seq(
       'do',
       repeat($._statement),
@@ -144,7 +145,7 @@ module.exports = grammar({
       alias($._expression, $.condition_expression)
     ),
 
-    // For statements
+    // Statements: For statements
     for_statement: $ => seq(
       'for',
       alias($._loop_expression, $.loop_expression),
@@ -178,7 +179,7 @@ module.exports = grammar({
       sequence($._expression),
     ),
 
-    // Simple statements
+    // Statements: Simple statements
     goto_statement: $ => seq(
       'goto',
       $.identifier
@@ -186,7 +187,7 @@ module.exports = grammar({
 
     break_statement: $ => 'break',
 
-    // Void statements
+    // Statements: Void statements
     label_statement: $ => seq(
       '::',
       $.identifier,
@@ -195,7 +196,7 @@ module.exports = grammar({
 
     _empty_statement: $ => ';',
 
-    // Functions
+    // Statements: Function statements
     function_statement: $ => seq(
       'function',
       $.function_name,
@@ -266,6 +267,7 @@ module.exports = grammar({
       $.identifier
     ),
 
+    // Expressions: Common
     spread: $ => '...',
 
     this: $ => 'this',
@@ -282,13 +284,13 @@ module.exports = grammar({
       seq('(', $._expression, ')')
     ),
 
-    // Definitions
+    // Expressions: Function definition
     function_definition: $ => seq(
       'function',
       $._function_body
     ),
 
-    // Tables
+    // Expressions: Table expressions
     table: $ => seq(
       '{',
       optional($._field_sequence),
@@ -309,7 +311,7 @@ module.exports = grammar({
 
     _field_sep: $ => choice(',', ';'),
 
-    // Operations
+    // Expressions: Operation expressions
     binary_operation: $ => choice(
       ...[
         ['or', PREC.OR],
@@ -351,7 +353,7 @@ module.exports = grammar({
       $._expression
     )),
 
-    // Primitives
+    // Expressions: Primitives
     number: $ => {
       const
         decimal_digits = /[0-9]+/
@@ -389,7 +391,7 @@ module.exports = grammar({
     true: $ => 'true',
     false: $ => 'false',
 
-    // Identifiers
+    // Identifier
     identifier: $ => /[a-zA-Z_][a-zA-Z0-9_]*/
   }
 })
