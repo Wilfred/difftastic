@@ -1,6 +1,6 @@
 {
   "name": "tree-sitter-java",
-  "version": "0.12.0",
+  "version": "0.13.0",
   "description": "Java grammar for tree-sitter",
   "main": "index.js",
   "keywords": [
@@ -17,7 +17,7 @@
     "nan": "^2.8.0"
   },
   "devDependencies": {
-    "tree-sitter-cli": "^0.12.6",
+    "tree-sitter-cli": "^0.13.1",
     "npm-watch": "^0.3.0"
   },
   "watch": {
