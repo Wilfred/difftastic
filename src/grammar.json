@@ -5715,11 +5715,7 @@
         },
         {
           "type": "STRING",
-          "value": "@"
-        },
-        {
-          "type": "STRING",
-          "value": "interface"
+          "value": "@interface"
         },
         {
           "type": "SYMBOL",

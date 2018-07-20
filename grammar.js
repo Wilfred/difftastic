@@ -883,7 +883,7 @@ module.exports = grammar({
 
     annotation_type_declaration: $ => seq(
       repeat($.modifier),
-      '@', 'interface',
+      '@interface',
       $.identifier,
       $.annotation_type_body
     ),
