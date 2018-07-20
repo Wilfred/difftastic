@@ -2,20 +2,33 @@
 Comments
 ============================================
 
--- a lua single-line comment
 --
+-- single-line comment, below an empty single-line comment
 
 --[[
-a multi-line comment level 0
+a level 0 multi-line comment
 --]]
 
---[==[ a multi-line
-comment level 2 ]==]
+--  [[
+a level 0 multi-line comment
+--]]
+
+--[==[
+a level 2 multi-line comment
+]==]
+
+--  [==[
+a level 2 multi-line comment
+  ]==]
 
 ---
 
 (program
   (comment)
+  (comment)
+
+  (comment)
+
   (comment)
 
   (comment)

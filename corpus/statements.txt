@@ -2,35 +2,55 @@
 Do statements
 ============================================
 
-local x, y = 0, 1, 9;
-
 do
-  return x == y and true or false;
+  local a2 = 2 * a
+  local d = sqrt(b ^ 2 - 4 * a * c)
+  x1 = (-b + d) / a2
+  x2 = (-b - d) / a2
 end
+print(x1, x2)
 
 ---
 
 (program
-  (local_variable_declaration (variable_declarator (identifier) (identifier))
-    (number) (number) (number))
-      (do_statement
-        (return_statement
+  (do_statement
+    (local_variable_declaration (variable_declarator (identifier))
+      (binary_operation (number) (identifier)))
+    (local_variable_declaration (variable_declarator (identifier))
+      (function_call (identifier)
+        (arguments
           (binary_operation
+            (binary_operation (identifier) (number))
             (binary_operation
-              (binary_operation (identifier) (identifier))
-              (true))
-            (false)))))
+              (binary_operation (number) (identifier))
+              (identifier))))))
+    (variable_declaration (variable_declarator (identifier))
+      (binary_operation
+        (binary_operation (unary_operation (identifier))
+        (identifier))
+      (identifier)))
+    (variable_declaration (variable_declarator (identifier))
+      (binary_operation
+        (binary_operation (unary_operation (identifier))
+        (identifier))
+      (identifier))))
+  (function_call (identifier)
+    (arguments (identifier) (identifier))))
 
 ============================================
 If clauses
 ============================================
 
-if num < 42 then
-  asnwer = "It's over";
-elseif num > 42 then
-  asnwer = "Almost...";
+if num > 40 then
+  print('over 40')
+elseif s ~= 'walternate' then
+  io.write('not over 40\n')
 else
-  asnwer = "Let there be light!";
+  thisIsGlobal = 5
+
+  local line = io.read()
+
+  print('Winter is coming, ' .. line)
 end
 
 ---
@@ -38,20 +58,26 @@ end
 (program
   (if_statement
     (condition_expression (binary_operation (identifier) (number)))
-      (variable_declaration (variable_declarator (identifier))
-        (string))
-    (condition_expression (binary_operation (identifier) (number)))
-      (variable_declaration (variable_declarator (identifier))
-        (string))
-    (variable_declaration (variable_declarator (identifier))
-      (string))))
+      (function_call (identifier)
+        (arguments (string)))
+    (condition_expression (binary_operation (identifier) (string)))
+      (function_call (identifier) (property_identifier)
+        (arguments (string)))
+    (variable_declaration (variable_declarator (identifier)) (number))
+
+    (local_variable_declaration (variable_declarator (identifier))
+      (function_call (identifier) (property_identifier)
+        (arguments)))
+
+    (function_call (identifier)
+      (arguments (binary_operation (string) (identifier))))))
 
 ============================================
 While statements
 ============================================
 
-while num < 0 do
-  'whatever i have to add declarations first'
+while num < 50 do
+  num = num + 1
 end
 
 ---
@@ -60,67 +86,83 @@ end
   (while_statement
     (condition_expression
       (binary_operation (identifier) (number)))
-    (expression (string))))
+        (variable_declaration (variable_declarator (identifier))
+          (binary_operation (identifier) (number)))))
 
 ============================================
 Repeat statements
 ============================================
 
 repeat
-  'whatever i have to add declarations first'
-until num < 0
+  print('the way of the future')
+  num = num - 1
+until num == 0
 
 ---
 
 (program
   (repeat_statement
-    (expression (string))
-  (condition_expression
-    (binary_operation (identifier) (number)))))
+    (function_call (identifier) (arguments (string)))
+    (variable_declaration (variable_declarator (identifier))
+      (binary_operation (identifier) (number)))
+  (condition_expression (binary_operation (identifier) (number)))))
 
 ============================================
 For statement
 ============================================
 
-for i = 1, 42 do
-  'whatever i have to add declarations first'
+karlSum = 0
+for i = 1, 100 do
+  karlSum = karlSum + i
 end
 
-for i = 1, #someTable do
-  'whatever i have to add declarations first'
+fredSum = 0
+for j = 100, 1, -1 do
+  fredSum = fredSum + j
+end
+
+v = {'value1', 'value2', 1.21, 'gigawatts'}
+for i = 1, #v do
+  print(v[i])
 end
 
 ---
 
 (program
-  (for_statement
-    (loop_expression (identifier) (number) (number))
-      (expression (string)))
+  (variable_declaration (variable_declarator (identifier)) (number))
+  (for_statement (loop_expression (identifier) (number) (number))
+    (variable_declaration (variable_declarator (identifier))
+      (binary_operation (identifier) (identifier))))
 
-  (for_statement
-    (loop_expression (identifier) (number) (unary_operation (identifier)))
-      (expression (string))))
+  (variable_declaration (variable_declarator (identifier)) (number))
+  (for_statement (loop_expression (identifier) (number) (number) (unary_operation (number)))
+    (variable_declaration (variable_declarator (identifier))
+      (binary_operation (identifier) (identifier))))
+
+  (variable_declaration (variable_declarator (identifier))
+    (table (field (string)) (field (string)) (field (number)) (field (string))))
+  (for_statement (loop_expression (identifier) (number) (unary_operation (identifier)))
+    (function_call (identifier) (arguments (identifier) (identifier)))))
 
 ============================================
 For in statements
 ============================================
 
-for key, val in {} do
-  return val;
+for key, val in pairs(u) do
+  print(key, val)
 end
 
 ---
 
 (program
-  (for_in_statement
-    (loop_expression (identifier) (identifier) (table))
-      (return_statement (identifier))))
+  (for_in_statement (loop_expression (identifier) (identifier) (function_call (identifier) (arguments (identifier))))
+    (function_call (identifier) (arguments (identifier) (identifier)))))
 
 ============================================
 Goto statements
 ============================================
 
-goto loopLabel;
+goto someLuaLabel
 
 ---
 
@@ -133,7 +175,7 @@ Break statements
 
 for i = 1, 10 do
   if i == 5 then
-    break;
+    break
   end
 end
 
