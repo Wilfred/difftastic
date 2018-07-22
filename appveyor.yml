@@ -5,6 +5,7 @@ environment:
 
 platform:
   - x64
+  - x86
 
 install:
   - ps: Install-Product node $env:nodejs_version
@@ -20,3 +21,6 @@ build: off
 branches:
   only:
     - master
+    - /^v.*$/
+
+deploy_script: IF "%APPVEYOR_REPO_TAG%" == "true" (npm run prebuild && npm run prebuild:upload -u %PREBUILD_UPLOAD%)

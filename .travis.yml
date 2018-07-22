@@ -5,10 +5,18 @@ sudo: false
 node_js:
   - "node"
 
-compiler: clang-3.6
+os:
+- linux
 
-env:
-  - CXX=clang-3.6
+matrix:
+  include:
+    - os: osx
+      env: COMPILER=clang++
+      osx_image: xcode9.2
+      compiler: clang
+    - os: linux
+      env: CXX=clang-3.6
+      compiler: clang-3.6
 
 addons:
   apt:
@@ -21,3 +29,12 @@ addons:
 branches:
   only:
     - master
+    - /^v.*$/
+
+deploy:
+  provider: script
+  script: npm run prebuild && npm run prebuild:upload -u ${PREBUILD_UPLOAD}
+  skip_cleanup: true
+  on:
+    all_branches: true
+    tags: true
