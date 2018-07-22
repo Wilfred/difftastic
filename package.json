@@ -10,13 +10,18 @@
   "author": "Rob Rix",
   "license": "MIT",
   "dependencies": {
-    "nan": "^2.10.0"
+    "nan": "^2.10.0",
+    "prebuild-install": "^5.0.0"
   },
   "devDependencies": {
+    "prebuild": "^7.6.0",
     "tree-sitter-cli": "^0.13.1"
   },
   "scripts": {
     "build": "tree-sitter generate && node-gyp build --debug",
+    "install": "prebuild-install || node-gyp rebuild",
+    "prebuild": "prebuild --all --strip --verbose",
+    "prebuild:upload": "prebuild --upload-all",
     "test": "tree-sitter test && script/parse-examples",
     "test-windows": "tree-sitter test"
   },
