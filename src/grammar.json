@@ -1,5 +1,6 @@
 {
   "name": "java",
+  "word": "identifier",
   "rules": {
     "program": {
       "type": "REPEAT",
