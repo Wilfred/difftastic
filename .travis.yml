@@ -3,33 +3,33 @@ language: node_js
 sudo: false
 
 node_js:
-  - 8
+- node
 
 os:
-  - linux
+- linux
 
 matrix:
   include:
-    - os: osx
-      env: COMPILER=clang++
-      osx_image: xcode9.2
-      compiler: clang
-    - os: linux
-      env: CXX=clang-3.6
-      compiler: clang-3.6
+  - os: osx
+    env: COMPILER=clang++
+    osx_image: xcode9.2
+    compiler: clang
+  - os: linux
+    env: CXX=clang-3.6
+    compiler: clang-3.6
 
 addons:
   apt:
     sources:
-      - llvm-toolchain-precise-3.6
-      - ubuntu-toolchain-r-test
+    - llvm-toolchain-precise-3.6
+    - ubuntu-toolchain-r-test
     packages:
-      - clang-3.6
+    - clang-3.6
 
 branches:
   only:
-    - master
-    - /^v.*$/
+  - master
+  - /^v.*$/
 
 deploy:
   provider: script
@@ -38,3 +38,7 @@ deploy:
   on:
     all_branches: true
     tags: true
+
+env:
+  global:
+    secure: jAdfI37gohXm5VvR5h2AoWVwUMS9hUPxZIP4VR2iOkTSZLaaZczvL04IRNv3bQY6WUYxcVB6xoKbOPMKE1cHvXM8L2W6G1InPxU14P6fKd2MGWxH6PWmCoXHWFQ1AzWkYsMgMokHT2vs4iZ2bLHE9uV3RVuAISO/APsw7AxEpEijljvPkL+Se0nTnCfTbw4ObGxEMRW7TnjKa2W7K8m4QbbGd+r9CzCxBakjdIePQx81IUAAIGwphkY/avNJeUvR1XLnAM38K9Yj0ioSfeV6/QshK/28DLmvilq9sV4LDLVlhgP6h1FB4HW3PEVvYWnWBKa9cUdIAIncya2ibvu2cRHYVbud4Ho6lMCk/QUuiPYLCfnOfa4byVj3DInOY1yCpu+YnqjVOUHV5wQLEvnArLCuJa7dlJSmYquzVr5NkOz9gMmFAyuznL3YdJYY98QH/5GO5FwE8jXiYMoQ+hW52gUB6vZaJqYJu+IwyEhVXj8SVyV3Z77fFmJpdo0FX8R4Mm/3ucVXfWAXifFQbosRM4czVJ3RNTn2Xwf5Vp0ayih4huhwB9reByNPnYJABNUQpiAS3ZRsd+fcmMstkHZOk9EpSq33kubqcN+kub3sGNOJTt9243FOd6BghNNjhC2lqTWZsefyJUuL3Xm5YjJrJWfyif6RPnJZHinn3jfn464=
