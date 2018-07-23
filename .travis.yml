@@ -29,7 +29,7 @@ addons:
 branches:
   only:
   - master
-  - "/^v.*$/"
+  - /^v.*$/
 
 deploy:
   provider: script
