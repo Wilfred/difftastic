@@ -1,14 +1,16 @@
 image: Visual Studio 2015
 
 environment:
-  nodejs_version: "8"
+  NODEJS_VERSION: "8"
+  PREBUILD_UPLOAD:
+    secure: oNyyLE7/Oq3TUGZPz6DkLFPUuQzc8FiFS1iuPp7LZ2fyOP/UF4Np4NzJmWcXVyY/
 
 platform:
   - x64
   - x86
 
 install:
-  - ps: Install-Product node $env:nodejs_version
+  - ps: Install-Product node $env:NODEJS_VERSION $env:Platform
   - node --version
   - npm --version
   - npm install
