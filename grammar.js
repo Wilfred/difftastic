@@ -168,9 +168,9 @@ module.exports = grammar({
       optional(seq('from', $._expression))
     ),
 
-    pass_statement: $ => 'pass',
-    break_statement: $ => 'break',
-    continue_statement: $ => 'continue',
+    pass_statement: $ => prec.left('pass'),
+    break_statement: $ => prec.left('break'),
+    continue_statement: $ => prec.left('continue'),
 
     // Compount statements
 
