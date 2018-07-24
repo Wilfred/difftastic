@@ -18,28 +18,20 @@ struct Scanner {
 
   unsigned serialize(char *buffer) {
     size_t i = 0;
-    buffer[i++] = queued_dedent_count;
-
     vector<uint16_t>::iterator
       iter = indent_length_stack.begin() + 1,
       end = indent_length_stack.end();
     for (; iter != end && i < TREE_SITTER_SERIALIZATION_BUFFER_SIZE; ++iter) {
       buffer[i++] = *iter;
     }
-
     return i;
   }
 
   void deserialize(const char *buffer, unsigned length) {
-    queued_dedent_count = 0;
     indent_length_stack.clear();
     indent_length_stack.push_back(0);
-
-    if (length > 0) {
-      size_t i = 0;
-      queued_dedent_count = buffer[i++];
-      while (i < length) indent_length_stack.push_back(buffer[i++]);
-    }
+    size_t i = 0;
+    while (i < length) indent_length_stack.push_back(buffer[i++]);
   }
 
   void advance(TSLexer *lexer) {
@@ -47,11 +39,7 @@ struct Scanner {
   }
 
   bool scan(TSLexer *lexer, const bool *valid_symbols) {
-    if (valid_symbols[DEDENT] && queued_dedent_count > 0) {
-      queued_dedent_count--;
-      lexer->result_symbol = DEDENT;
-      return true;
-    }
+    lexer->mark_end(lexer);
 
     while (lexer->lookahead == ' ' || lexer->lookahead == '\t' || lexer->lookahead == '\r') {
       lexer->advance(lexer, true);
@@ -74,7 +62,6 @@ struct Scanner {
 
     if (lexer->lookahead != '\n') return false;
     advance(lexer);
-    lexer->mark_end(lexer);
 
     uint32_t indent_length = 0;
     for (;;) {
@@ -91,9 +78,7 @@ struct Scanner {
         indent_length += 8;
         advance(lexer);
       } else if (lexer->lookahead == '#') {
-        while (lexer->lookahead && lexer->lookahead != '\n') {
-          advance(lexer);
-        }
+        while (lexer->lookahead && lexer->lookahead != '\n') advance(lexer);
         advance(lexer);
         indent_length = 0;
       } else {
@@ -107,19 +92,10 @@ struct Scanner {
       return true;
     }
 
-    if (indent_length < indent_length_stack.back()) {
+    if (indent_length < indent_length_stack.back() && valid_symbols[DEDENT]) {
       indent_length_stack.pop_back();
-      while (indent_length < indent_length_stack.back()) {
-        indent_length_stack.pop_back();
-        queued_dedent_count++;
-      }
-
-      if (valid_symbols[DEDENT]) {
-        lexer->result_symbol = DEDENT;
-        return true;
-      } else {
-        queued_dedent_count++;
-      }
+      lexer->result_symbol = DEDENT;
+      return true;
     }
 
     if (valid_symbols[NEWLINE]) {
@@ -131,7 +107,6 @@ struct Scanner {
   }
 
   vector<uint16_t> indent_length_stack;
-  uint32_t queued_dedent_count;
 };
 
 }
