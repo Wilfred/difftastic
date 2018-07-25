@@ -33,6 +33,9 @@ module.exports = grammar({
     $._newline,
     $._indent,
     $._dedent,
+    $._string_start,
+    $._string_content,
+    $._string_end,
   ],
 
   inline: $ => [
@@ -709,32 +712,31 @@ module.exports = grammar({
       repeat1($.string)
     ),
 
-    string: $ => token(seq(
-      repeat(choice(/[uU]/, /[rR]/, /[bB]/)),
+    string: $ => seq(
+      alias($._string_start, '"'),
+      repeat(choice($.interpolation, $.escape_sequence, $._string_content)),
+      alias($._string_end, '"')
+    ),
+
+    interpolation: $ => seq(
+      '{',
+      $._expression,
+      optional($.type_conversion),
+      '}'
+    ),
+
+    escape_sequence: $ => token(seq(
+      '\\',
       choice(
-        seq('`', repeat(choice(/[^\\`\n]/, /\\./, /\\\r?\n/)), '`'),
-        seq('"', repeat(choice(/[^\\"\n]/, /\\./, /\\\r?\n/)), '"'),
-        seq("'", repeat(choice(/[^\\'\n]/, /\\./, /\\\r?\n/)), "'"),
-        seq(
-          '"""',
-          repeat(choice(
-            /[^"]/,
-            /"[^"]/,
-            /""[^"]/
-          )),
-          '"""'
-        ),
-        seq(
-          "'''",
-          repeat(choice(
-            /[^']/,
-            /'[^']/,
-            /''[^']/
-          )),
-          "'''"
-        )
+        /u[a-fA-F\d]{4}/,
+        /U[a-fA-F\d]{8}/,
+        /x[a-fA-F\d]{2}/,
+        /o\d{3}/,
+        /[^uxo]/
       )
     )),
+
+    type_conversion: $ => /![a-z]/,
 
     integer: $ => token(choice(
       seq(

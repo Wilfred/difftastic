@@ -907,9 +907,9 @@ class GrammarTests(unittest.TestCase):
         x = "does \"shrink\" doesn't it"
         y = 'does "shrink" doesn\'t it'
         self.assert_(len(x) == 24 and x == y)
-        x = """
+        x = f"""
 The "quick"
-brown fox
+brown fo{ok()}x
 jumps over
 the 'lazy' dog.
 """
@@ -943,4 +943,3 @@ def test_main():
 
 if __name__ == '__main__':
     test_main()
-

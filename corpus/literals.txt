@@ -90,8 +90,6 @@ Strings
 
 "I'm ok"
 '"ok"'
-r'hi'
-ur"bye"
 UR'bye'
 b'sup'
 B"sup"
@@ -110,11 +108,62 @@ string"
   (expression_statement (string))
   (expression_statement (string))
   (expression_statement (string))
+  (expression_statement (string (escape_sequence)))
   (expression_statement (string))
-  (expression_statement (string))
-  (expression_statement (string))
+  (expression_statement (string (escape_sequence))))
+
+=====================================
+Raw strings
+=====================================
+
+'ab\x00cd'
+"\n"
+
+# no escape sequences in these
+r'ab\x00cd'
+ur"\n"
+
+---
+
+(module
+  (expression_statement (string (escape_sequence)))
+  (expression_statement (string (escape_sequence)))
+  (comment)
   (expression_statement (string))
   (expression_statement (string)))
+
+=====================================
+Format strings
+=====================================
+
+# nested!
+f"a {b(f'c {e} d')} e"
+
+---
+
+(module
+  (comment)
+  (expression_statement (string
+    (interpolation
+      (call
+        (identifier)
+        (argument_list
+          (string (interpolation
+            (identifier)))))))))
+
+=====================================
+Unicode escape sequences
+=====================================
+
+"\x12 \o123 \u1234"
+
+---
+
+(module
+  (expression_statement (string
+    (escape_sequence)
+    (escape_sequence)
+    (escape_sequence))))
 
 =====================================
 Other primitives
@@ -195,7 +244,13 @@ and another escaped newline\n\
   (expression_statement (string))
   (expression_statement (string))
   (expression_statement (string))
-  (expression_statement (string)))
+  (expression_statement (string
+    (escape_sequence)
+    (escape_sequence)
+    (escape_sequence)
+    (escape_sequence)
+    (escape_sequence)
+    (escape_sequence))))
 
 =====================================
 Lists
