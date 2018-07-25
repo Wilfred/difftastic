@@ -180,6 +180,8 @@ struct Scanner {
             }
             return true;
           }
+        } else if (lexer->lookahead == '\n' && has_content && !delimiter.is_triple()) {
+          return false;
         }
         advance(lexer);
         has_content = true;
