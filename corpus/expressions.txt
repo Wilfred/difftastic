@@ -207,11 +207,15 @@ exec("""exec _code_ in _globs_, _locs_""")
     (call
       (identifier)
       (argument_list
-        (string)
+        (string
+           (escape_sequence)
+           (escape_sequence))
         (dictionary (pair (string) (none)))
         (identifier))))
   (expression_statement
-    (call (identifier) (argument_list (string)))))
+    (call
+      (identifier)
+      (argument_list (string)))))
 
 =====================================
 Calls with splats
