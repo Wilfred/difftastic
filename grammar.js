@@ -732,6 +732,7 @@ module.exports = grammar({
         /U[a-fA-F\d]{8}/,
         /x[a-fA-F\d]{2}/,
         /o\d{3}/,
+        /\r\n/,
         /[^uxo]/
       )
     )),
