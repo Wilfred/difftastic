@@ -608,6 +608,16 @@ struct Scanner {
       } else {
         position_in_word = 0;
         look_for_heredoc_end = false;
+
+        if (lexer->lookahead == '\\') {
+          if (has_content) {
+            lexer->result_symbol = HEREDOC_CONTENT;
+            return true;
+          } else {
+            return false;
+          }
+        }
+
         if (lexer->lookahead == '#') {
           advance(lexer);
           if (lexer->lookahead == '{') {
@@ -638,7 +648,7 @@ struct Scanner {
     }
   }
 
-  bool scan_content(TSLexer *lexer) {
+  bool scan_literal_content(TSLexer *lexer) {
     Literal &literal = literal_stack.back();
     bool has_content = false;
     bool stop_on_space = literal.type == SYMBOL_ARRAY_START || literal.type == STRING_ARRAY_START;
@@ -687,8 +697,18 @@ struct Scanner {
           }
         }
       } else if (lexer->lookahead == '\\') {
-        advance(lexer);
-        advance(lexer);
+        if (literal.allows_interpolation) {
+          if (has_content) {
+            lexer->mark_end(lexer);
+            lexer->result_symbol = STRING_CONTENT;
+            return true;
+          } else {
+            return false;
+          }
+        } else {
+          advance(lexer);
+          advance(lexer);
+        }
       } else if (lexer->lookahead == 0) {
         advance(lexer);
         lexer->mark_end(lexer);
@@ -748,7 +768,7 @@ struct Scanner {
     // Contents of literals, which match any character except for some close delimiter
     if (!valid_symbols[STRING_START]) {
       if (valid_symbols[STRING_CONTENT] && !literal_stack.empty()) {
-        return scan_content(lexer);
+        return scan_literal_content(lexer);
       }
       if (valid_symbols[HEREDOC_CONTENT] && !open_heredocs.empty()) {
         return scan_heredoc_content(lexer);

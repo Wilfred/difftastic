@@ -387,34 +387,19 @@ single-quoted string
 (program (string) (string) (string))
 
 ==============================================
-single-quoted string with escaped single quote
+single-quoted strings with backslashes
 ==============================================
 
 '\''
+'\\ \n'
+'\x00\x01\x02'
 
 ---
 
-(program (string))
-
-===========================================
-single-quoted string with escaped backslash
-===========================================
-
-'\\'
-
----
-
-(program (string))
-
-=================================================
-single-quoted string with backslash and character
-=================================================
-
-'\d'
-
----
-
-(program (string))
+(program
+  (string)
+  (string)
+  (string))
 
 =================================================
 single-quoted string with pound and curly brace
@@ -439,34 +424,21 @@ double-quoted string
 (program (string) (string) (string))
 
 ==============================================
-double-quoted string with escaped double quote
+double-quoted strings with escape sequences
 ==============================================
 
 "\""
-
----
-
-(program (string))
-
-===========================================
-double-quoted string with escaped backslash
-===========================================
-
 "\\"
-
----
-
-(program (string))
-
-=================================================
-double-quoted string with backslash and character
-=================================================
-
 "\d"
+"\#{foo}"
 
 ---
 
-(program (string))
+(program
+  (string (escape_sequence))
+  (string (escape_sequence))
+  (string (escape_sequence))
+  (string (escape_sequence)))
 
 =================================
 double-quoted string with just pound
@@ -490,16 +462,6 @@ interpolation
 (program
   (string (interpolation (identifier)))
   (string (interpolation (unless_modifier (string) (identifier)))))
-
-=====================
-escaped interpolation
-=====================
-
-"\#{foo}"
-
----
-
-(program (string))
 
 ===========================================
 percent q string with unbalanced delimiters
@@ -671,7 +633,7 @@ basic heredocs
 ========================================
 
 <<TEXT
-heredoc content
+heredoc \x01 content
 TEXT
 
 <<TEXT1
@@ -703,7 +665,7 @@ heredoc content
 ---
 
 (program
-  (heredoc_beginning) (heredoc_body (heredoc_end))
+  (heredoc_beginning) (heredoc_body (escape_sequence) (heredoc_end))
   (heredoc_beginning) (heredoc_body (heredoc_end))
   (heredoc_beginning) (heredoc_body (heredoc_end))
   (heredoc_beginning) (heredoc_body (heredoc_end))
@@ -988,7 +950,9 @@ backticks subshell with escape
 
 ---
 
-(program (subshell))
+(program (subshell
+  (escape_sequence)
+  (escape_sequence)))
 
 ===========
 empty array
