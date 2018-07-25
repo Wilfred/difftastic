@@ -602,11 +602,31 @@ module.exports = grammar({
 
     heredoc_body: $ => seq(
       $._heredoc_body_start,
-      repeat(choice($._heredoc_content, $.interpolation)),
+      repeat(choice(
+        $._heredoc_content,
+        $.interpolation,
+        $.escape_sequence
+      )),
       $.heredoc_end
     ),
 
-    _literal_contents: $ => repeat1(choice($._string_content, $.interpolation)),
+    _literal_contents: $ => repeat1(choice(
+      $._string_content,
+      $.interpolation,
+      $.escape_sequence
+    )),
+
+    // https://ruby-doc.org/core-2.5.0/doc/syntax/literals_rdoc.html#label-Strings
+    escape_sequence: $ => token(seq(
+      '\\',
+      choice(
+        /[^ux0-7]/,          // single character
+        /x[0-9a-fA-F]{1,2}/, // hex code
+        /[0-7]{1,3}/,        // octal
+        /u[0-9a-fA-F]{4}/,   // single unicode
+        /u{[0-9a-fA-F ]+}/,  // multiple unicode
+      )
+    )),
 
     array: $ => seq(
       '[',

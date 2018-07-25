@@ -1170,7 +1170,7 @@ foo \
   (method_call
     (identifier)
     (argument_list (identifier) (identifier)))
-  (string)
+  (string (escape_sequence))
   (method_call
     (identifier)
     (argument_list (string))))
