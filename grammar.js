@@ -1084,7 +1084,7 @@ module.exports = grammar({
 
     do_clause: $ => seq(
       'do',
-      $._seq_expression,
+      optional($._seq_expression),
       'done'
     ),
 

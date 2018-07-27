@@ -5707,8 +5707,16 @@
           "value": "do"
         },
         {
-          "type": "SYMBOL",
-          "name": "_seq_expression"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_seq_expression"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         },
         {
           "type": "STRING",
