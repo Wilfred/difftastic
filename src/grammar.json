@@ -4625,6 +4625,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "ocamlyacc_value"
+        },
+        {
+          "type": "SYMBOL",
           "name": "extension"
         }
       ]
@@ -6677,6 +6681,10 @@
           "value": ")"
         }
       ]
+    },
+    "ocamlyacc_value": {
+      "type": "PATTERN",
+      "value": "\\$[0-9]+"
     },
     "_simple_pattern": {
       "type": "CHOICE",
