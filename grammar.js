@@ -841,6 +841,7 @@ module.exports = grammar({
       $.object_copy_expression,
       $.method_invocation,
       $.parenthesized_expression,
+      $.ocamlyacc_value,
       $.extension
     ),
 
@@ -1256,6 +1257,8 @@ module.exports = grammar({
     ),
 
     parenthesized_expression: $ => parenthesize($._seq_expression),
+
+    ocamlyacc_value: $ => /\$[0-9]+/,
 
     // Patterns
 
