@@ -174,10 +174,10 @@ struct Scanner {
               lexer->result_symbol = STRING_CONTENT;
             } else {
               lexer->advance(lexer, false);
-              lexer->mark_end(lexer);
               delimiter_stack.pop_back();
               lexer->result_symbol = STRING_END;
             }
+            lexer->mark_end(lexer);
             return true;
           }
         } else if (lexer->lookahead == '\n' && has_content && !delimiter.is_triple()) {
