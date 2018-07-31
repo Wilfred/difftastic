@@ -81,7 +81,7 @@ int main() {
     (compound_statement
       (expression_statement (call_expression
         (identifier)
-        (argument_list (string_literal) (identifier)))))))
+        (argument_list (string_literal (escape_sequence)) (identifier)))))))
 
 ============================================
 String literals
@@ -102,7 +102,7 @@ int main() {
     (compound_statement
       (expression_statement (string_literal))
       (expression_statement (concatenated_string (string_literal) (string_literal) (string_literal)))
-      (expression_statement (string_literal)))))
+      (expression_statement (string_literal (escape_sequence) (escape_sequence))))))
 
 ============================================
 Character literals
@@ -123,9 +123,9 @@ int main() {
     (function_declarator (identifier) (parameter_list))
     (compound_statement
       (expression_statement (char_literal))
-      (expression_statement (char_literal))
-      (expression_statement (char_literal))
-      (expression_statement (char_literal)))))
+      (expression_statement (char_literal (escape_sequence)))
+      (expression_statement (char_literal (escape_sequence)))
+      (expression_statement (char_literal (escape_sequence))))))
 
 ============================================
 Field access

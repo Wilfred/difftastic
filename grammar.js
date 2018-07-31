@@ -673,25 +673,39 @@ module.exports = grammar({
       repeat(choice('u', 'l', 'U', 'L'))
     )),
 
-    char_literal: $ => token(seq(
+    char_literal: $ => seq(
       '\'',
       choice(
-        seq(optional('\\'), /[^']/),
-        seq('\\', '\'')
+        $.escape_sequence,
+        /[^\n']/
       ),
       '\''
-    )),
+    ),
 
     concatenated_string: $ => seq(
       $.string_literal,
       repeat1($.string_literal)
     ),
 
-    string_literal: $ => token(seq(
+    string_literal: $ => seq(
       '"',
-      repeat(choice(/[^\\"\n]/, /\\./)),
-      '"')
+      repeat(choice(
+        token(prec(1, /[^\\"\n]/)),
+        $.escape_sequence
+      )),
+      '"'
     ),
+
+    escape_sequence: $ => token(seq(
+      '\\',
+      choice(
+        /[^xuU]/,
+        /\d{2,3}/,
+        /x[0-9a-fA-F]{2,}/,
+        /u[0-9a-fA-F]{4}/,
+        /U[0-9a-fA-F]{8}/
+      )
+    )),
 
     system_lib_string: $ => token(seq(
       '<',
