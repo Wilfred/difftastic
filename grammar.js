@@ -110,7 +110,8 @@ module.exports = grammar(C, {
     ),
 
     virtual_specifier: $ => choice(
-      'final',
+      'final', // the only legal value here for classes
+      'override' // legal for functions in addition to final, plus permutations.
     ),
 
     base_class_clause: $ => seq(
@@ -309,6 +310,7 @@ module.exports = grammar(C, {
       original,
       repeat(choice(
         $.type_qualifier,
+        $.virtual_specifier,
         $.noexcept,
         $.trailing_return_type
       ))
@@ -318,6 +320,7 @@ module.exports = grammar(C, {
       original,
       repeat(choice(
         $.type_qualifier,
+        $.virtual_specifier,
         $.noexcept,
         $.trailing_return_type
       ))

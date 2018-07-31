@@ -1591,6 +1591,10 @@
               },
               {
                 "type": "SYMBOL",
+                "name": "virtual_specifier"
+              },
+              {
+                "type": "SYMBOL",
                 "name": "noexcept"
               },
               {
@@ -1630,6 +1634,10 @@
               {
                 "type": "SYMBOL",
                 "name": "type_qualifier"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "virtual_specifier"
               },
               {
                 "type": "SYMBOL",
@@ -4973,6 +4981,10 @@
         {
           "type": "STRING",
           "value": "final"
+        },
+        {
+          "type": "STRING",
+          "value": "override"
         }
       ]
     },
