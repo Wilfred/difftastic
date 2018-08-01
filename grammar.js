@@ -66,6 +66,10 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
     [$.object, $.object_type],
   ]),
 
+  inline: ($, previous) => previous.concat([
+    $._type_identifier,
+  ]),
+
   rules: {
     public_field_definition: ($, previous) => seq(
       optional($.accessibility_modifier),
@@ -284,7 +288,7 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
     abstract_class: ($, previous) => seq(
       'abstract',
       'class',
-      $.identifier,
+      $._type_identifier,
       optional($.type_parameters),
       optional($.class_heritage),
       $.class_body
@@ -293,7 +297,7 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
     class: ($, previous) => seq(
       repeat($.decorator),
       'class',
-      $.identifier,
+      $._type_identifier,
       optional($.type_parameters),
       optional($.class_heritage),
       $.class_body
@@ -325,19 +329,19 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
     nested_type_identifier: $ => prec(PREC.MEMBER, seq(
       choice($.identifier, $.nested_identifier),
       '.',
-      alias($.identifier, $.type_identifier)
+      $._type_identifier
     )),
 
     interface_declaration: $ => seq(
       'interface',
-      $.identifier,
+      $._type_identifier,
       optional($.type_parameters),
       optional($.extends_clause),
       $.object_type
     ),
 
     _type_reference: $ => prec(PREC.TYPE_REFERENCE, choice(
-      alias($.identifier, $.type_identifier),
+      $._type_identifier,
       $.nested_type_identifier,
       $.generic_type
     )),
@@ -372,7 +376,7 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
 
     type_alias_declaration: $ => seq(
       'type',
-      $.identifier,
+      $._type_identifier,
       optional($.type_parameters),
       '=',
       $._type,
@@ -442,7 +446,7 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
     _primary_type: $ => choice(
       $.parenthesized_type,
       $.predefined_type,
-      alias($.identifier, $.type_identifier),
+      $._type_identifier,
       $.nested_type_identifier,
       $.generic_type,
       $.type_predicate,
@@ -460,7 +464,7 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
 
     generic_type: $ => seq(
       choice(
-        alias($.identifier, $.type_identifier),
+        $._type_identifier,
         $.nested_type_identifier
       ),
       $.type_arguments
@@ -479,11 +483,11 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
 
     index_type_query: $ => seq(
       'keyof',
-      choice($.identifier, $.nested_identifier)
+      choice($._type_identifier, $.nested_type_identifier)
     ),
 
     lookup_type: $ => seq(
-      choice($.identifier, $.nested_identifier),
+      choice($._type_identifier, $.nested_type_identifier),
       '[',
       $._type,
       ']'
@@ -604,6 +608,8 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       '=>',
       $._type
     ),
+
+    _type_identifier: $ => alias($.identifier, $.type_identifier),
 
     _reserved_identifier: ($, previous) => choice(
       'declare',
