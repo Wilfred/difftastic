@@ -181,7 +181,7 @@ type ConflictInfo = {
 
 (program
   (type_alias_declaration
-    (identifier)
+    (type_identifier)
     (object_type
       (property_signature (property_identifier) (type_annotation (type_identifier)))
       (property_signature (property_identifier) (type_annotation (type_identifier)))
@@ -189,7 +189,7 @@ type ConflictInfo = {
       (property_signature (property_identifier) (type_annotation (array_type (type_identifier))))))
 
   (type_alias_declaration
-    (identifier)
+    (type_identifier)
     (object_type
       (property_signature (property_identifier) (type_annotation (type_identifier)))
       (property_signature (property_identifier) (type_annotation (type_identifier)))
@@ -269,25 +269,25 @@ interface Enum extends Bar, Baz, funThatEvalsToInterface() {
 
 (program
   (interface_declaration
-    (identifier)
+    (type_identifier)
     (object_type (property_signature (property_identifier) (type_annotation (predefined_type)))))
   (interface_declaration
-    (identifier)
+    (type_identifier)
     (extends_clause (type_identifier))
     (object_type (property_signature (property_identifier) (type_annotation (predefined_type)))))
   (interface_declaration
-    (identifier)
+    (type_identifier)
     (object_type
       (property_signature (property_identifier) (type_annotation (predefined_type)))
       (property_signature (property_identifier) (type_annotation (predefined_type)))))
   (interface_declaration
-    (identifier)
+    (type_identifier)
     (type_parameters (type_parameter (identifier)) (type_parameter (identifier) (constraint (type_identifier))))
     (object_type
       (property_signature (property_identifier) (type_annotation (type_identifier)))
       (property_signature (property_identifier) (type_annotation (type_identifier)))))
   (interface_declaration
-    (identifier)
+    (type_identifier)
     (object_type
       (property_signature (property_identifier) (type_annotation (object_type)))
       (method_signature
@@ -298,7 +298,7 @@ interface Enum extends Bar, Baz, funThatEvalsToInterface() {
           (type_annotation
             (generic_type (type_identifier) (type_arguments (type_identifier))))))))
   (interface_declaration
-    (identifier)
+    (type_identifier)
     (extends_clause
       (type_identifier)
       (type_identifier)
@@ -327,11 +327,11 @@ class D extends A<
 
 (program
   (expression_statement (class
-    (identifier)
+    (type_identifier)
     (type_parameters (type_parameter (identifier)) (type_parameter (identifier)))
     (class_body)))
   (expression_statement (class
-    (identifier)
+    (type_identifier)
     (class_heritage (extends_clause (generic_type
       (type_identifier)
       (type_arguments (type_identifier) (type_identifier)))))
@@ -361,9 +361,9 @@ type Z = | "foo";
 ---
 
 (program
-  (type_alias_declaration (identifier) (union_type (predefined_type) (predefined_type)))
-  (type_alias_declaration (identifier) (union_type (union_type (literal_type (string))) (literal_type (string))))
-  (type_alias_declaration (identifier) (union_type (literal_type (string)))))
+  (type_alias_declaration (type_identifier) (union_type (predefined_type) (predefined_type)))
+  (type_alias_declaration (type_identifier) (union_type (union_type (literal_type (string))) (literal_type (string))))
+  (type_alias_declaration (type_identifier) (union_type (literal_type (string)))))
 
 =======================================
 Flow Intersection types
@@ -373,7 +373,9 @@ type BrowserStats$ResourceTiming = number & string;
 
 ---
 
-(program (type_alias_declaration (identifier) (intersection_type (predefined_type) (predefined_type))))
+(program (type_alias_declaration
+  (type_identifier)
+  (intersection_type (predefined_type) (predefined_type))))
 
 =======================================
 Flow exact object types
@@ -388,7 +390,7 @@ type BrowserStats = {|
 
 (program
   (type_alias_declaration
-    (identifier)
+    (type_identifier)
     (object_type
       (property_signature (property_identifier) (type_annotation (predefined_type)))
       (property_signature (property_identifier) (type_annotation (predefined_type))))))
@@ -423,7 +425,7 @@ type HandlerFunction<T: Element> = void
 
 (program
   (type_alias_declaration
-    (identifier)
+    (type_identifier)
     (type_parameters (type_parameter (identifier) (constraint (type_identifier))))
   (predefined_type)))
 
@@ -442,7 +444,7 @@ var y: Map<number, Promise<Map<bool, Map<Foo, Bar>>>>
 
 (program
   (interface_declaration
-    (identifier)
+    (type_identifier)
     (object_type
       (method_signature
         (property_identifier)
@@ -513,10 +515,10 @@ type K1 = typeof Person;
 
 (program
   (type_alias_declaration
-    (identifier)
-    (index_type_query (identifier)))
+    (type_identifier)
+    (index_type_query (type_identifier)))
   (type_alias_declaration
-    (identifier)
+    (type_identifier)
     (type_query (identifier))))
 
 =======================================
@@ -530,8 +532,8 @@ type K1 = Foo['bar' | 'baz']
 
 (program
   (type_alias_declaration
-    (identifier)
-    (lookup_type (identifier) (type_identifier)))
+    (type_identifier)
+    (lookup_type (type_identifier) (type_identifier)))
   (type_alias_declaration
-    (identifier)
-    (lookup_type (identifier) (union_type (literal_type (string)) (literal_type (string))))))
+    (type_identifier)
+    (lookup_type (type_identifier) (union_type (literal_type (string)) (literal_type (string))))))
