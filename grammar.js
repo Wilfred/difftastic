@@ -88,7 +88,7 @@ module.exports = grammar({
     preproc_def: $ => seq(
       preprocessor('define'),
       $.identifier,
-      optional(seq(/[ \t]+/, $.preproc_arg)),
+      optional($.preproc_arg),
       '\n'
     ),
 
@@ -101,12 +101,12 @@ module.exports = grammar({
     ),
 
     preproc_params: $ => seq(
-      '(', commaSep(choice($.identifier, '...')), ')'
+      token.immediate('('), commaSep(choice($.identifier, '...')), ')'
     ),
 
     preproc_call: $ => seq(
       $.preproc_directive,
-      optional(seq(/[ \t]+/, $.preproc_arg)),
+      optional($.preproc_arg),
       '\n'
     ),
 
@@ -416,7 +416,7 @@ module.exports = grammar({
 
     if_statement: $ => prec.right(seq(
       'if',
-      '(', $._expression, ')',
+      $.parenthesized_expression,
       $._statement,
       optional(seq(
         'else',
@@ -426,7 +426,7 @@ module.exports = grammar({
 
     switch_statement: $ => seq(
       'switch',
-      '(', $._expression, ')',
+      $.parenthesized_expression,
       $._statement
     ),
 
@@ -445,7 +445,7 @@ module.exports = grammar({
 
     while_statement: $ => seq(
       'while',
-      '(', $._expression, ')',
+      $.parenthesized_expression,
       $._statement
     ),
 
@@ -453,7 +453,7 @@ module.exports = grammar({
       'do',
       $._statement,
       'while',
-      '(', $._expression, ')'
+      $.parenthesized_expression
     ),
 
     for_statement: $ => seq(
