@@ -4027,8 +4027,11 @@
               "name": "escape_sequence"
             },
             {
-              "type": "PATTERN",
-              "value": "[^\\n']"
+              "type": "IMMEDIATE_TOKEN",
+              "content": {
+                "type": "PATTERN",
+                "value": "[^\\n']"
+              }
             }
           ]
         },
@@ -4067,7 +4070,7 @@
             "type": "CHOICE",
             "members": [
               {
-                "type": "TOKEN",
+                "type": "IMMEDIATE_TOKEN",
                 "content": {
                   "type": "PREC",
                   "value": 1,
@@ -4091,7 +4094,7 @@
       ]
     },
     "escape_sequence": {
-      "type": "TOKEN",
+      "type": "IMMEDIATE_TOKEN",
       "content": {
         "type": "SEQ",
         "members": [
