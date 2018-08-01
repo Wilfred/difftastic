@@ -160,17 +160,8 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "PATTERN",
-                  "value": "[ \\t]+"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "preproc_arg"
-                }
-              ]
+              "type": "SYMBOL",
+              "name": "preproc_arg"
             },
             {
               "type": "BLANK"
@@ -225,8 +216,11 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "STRING",
-          "value": "("
+          "type": "IMMEDIATE_TOKEN",
+          "content": {
+            "type": "STRING",
+            "value": "("
+          }
         },
         {
           "type": "CHOICE",
@@ -296,17 +290,8 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "PATTERN",
-                  "value": "[ \\t]+"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "preproc_arg"
-                }
-              ]
+              "type": "SYMBOL",
+              "name": "preproc_arg"
             },
             {
               "type": "BLANK"

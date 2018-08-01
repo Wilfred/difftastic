@@ -88,7 +88,7 @@ module.exports = grammar({
     preproc_def: $ => seq(
       preprocessor('define'),
       $.identifier,
-      optional(seq(/[ \t]+/, $.preproc_arg)),
+      optional($.preproc_arg),
       '\n'
     ),
 
@@ -101,12 +101,12 @@ module.exports = grammar({
     ),
 
     preproc_params: $ => seq(
-      '(', commaSep(choice($.identifier, '...')), ')'
+      token.immediate('('), commaSep(choice($.identifier, '...')), ')'
     ),
 
     preproc_call: $ => seq(
       $.preproc_directive,
-      optional(seq(/[ \t]+/, $.preproc_arg)),
+      optional($.preproc_arg),
       '\n'
     ),
 
