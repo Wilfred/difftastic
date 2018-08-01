@@ -207,17 +207,8 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "PATTERN",
-                  "value": "[ \\t]+"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "preproc_arg"
-                }
-              ]
+              "type": "SYMBOL",
+              "name": "preproc_arg"
             },
             {
               "type": "BLANK"
@@ -272,8 +263,11 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "STRING",
-          "value": "("
+          "type": "IMMEDIATE_TOKEN",
+          "content": {
+            "type": "STRING",
+            "value": "("
+          }
         },
         {
           "type": "CHOICE",
@@ -343,17 +337,8 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "PATTERN",
-                  "value": "[ \\t]+"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "preproc_arg"
-                }
-              ]
+              "type": "SYMBOL",
+              "name": "preproc_arg"
             },
             {
               "type": "BLANK"
@@ -3001,16 +2986,8 @@
           "value": "switch"
         },
         {
-          "type": "STRING",
-          "value": "("
-        },
-        {
           "type": "SYMBOL",
-          "name": "_expression"
-        },
-        {
-          "type": "STRING",
-          "value": ")"
+          "name": "parenthesized_expression"
         },
         {
           "type": "SYMBOL",
@@ -3074,16 +3051,8 @@
           "value": "while"
         },
         {
-          "type": "STRING",
-          "value": "("
-        },
-        {
           "type": "SYMBOL",
-          "name": "_expression"
-        },
-        {
-          "type": "STRING",
-          "value": ")"
+          "name": "parenthesized_expression"
         },
         {
           "type": "SYMBOL",
@@ -3107,16 +3076,8 @@
           "value": "while"
         },
         {
-          "type": "STRING",
-          "value": "("
-        },
-        {
           "type": "SYMBOL",
-          "name": "_expression"
-        },
-        {
-          "type": "STRING",
-          "value": ")"
+          "name": "parenthesized_expression"
         }
       ]
     },
@@ -4649,8 +4610,11 @@
               "name": "escape_sequence"
             },
             {
-              "type": "PATTERN",
-              "value": "[^\\n']"
+              "type": "IMMEDIATE_TOKEN",
+              "content": {
+                "type": "PATTERN",
+                "value": "[^\\n']"
+              }
             }
           ]
         },
@@ -4689,7 +4653,7 @@
             "type": "CHOICE",
             "members": [
               {
-                "type": "TOKEN",
+                "type": "IMMEDIATE_TOKEN",
                 "content": {
                   "type": "PREC",
                   "value": 1,
@@ -4713,7 +4677,7 @@
       ]
     },
     "escape_sequence": {
-      "type": "TOKEN",
+      "type": "IMMEDIATE_TOKEN",
       "content": {
         "type": "SEQ",
         "members": [
