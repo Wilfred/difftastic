@@ -3491,7 +3491,7 @@
                 "type": "CHOICE",
                 "members": [
                   {
-                    "type": "TOKEN",
+                    "type": "IMMEDIATE_TOKEN",
                     "content": {
                       "type": "PREC",
                       "value": 2,
@@ -3527,7 +3527,7 @@
                 "type": "CHOICE",
                 "members": [
                   {
-                    "type": "TOKEN",
+                    "type": "IMMEDIATE_TOKEN",
                     "content": {
                       "type": "PREC",
                       "value": 2,
@@ -3553,7 +3553,7 @@
       ]
     },
     "escape_sequence": {
-      "type": "TOKEN",
+      "type": "IMMEDIATE_TOKEN",
       "content": {
         "type": "SEQ",
         "members": [
