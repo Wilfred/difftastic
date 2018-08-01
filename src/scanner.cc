@@ -29,12 +29,8 @@ enum TokenType {
 
   // Whitespace-sensitive tokens
   FORWARD_SLASH,
-  ELEMENT_REFERENCE_LEFT_BRACKET,
   BLOCK_AMPERSAND,
   SPLAT_STAR,
-  ARGUMENT_LIST_LEFT_PAREN,
-  INFIX_SCOPE_COLONS,
-  KEYWORD_COLON,
   UNARY_MINUS,
   BINARY_MINUS,
   BINARY_STAR,
@@ -724,47 +720,6 @@ struct Scanner {
   bool scan(TSLexer *lexer, const bool *valid_symbols) {
     has_leading_whitespace = false;
 
-    // Operators that must not be preceded by whitespace
-    switch (lexer->lookahead) {
-      case '[':
-        if (valid_symbols[ELEMENT_REFERENCE_LEFT_BRACKET]) {
-          advance(lexer);
-          lexer->result_symbol = ELEMENT_REFERENCE_LEFT_BRACKET;
-          return true;
-        }
-        break;
-
-      case ':':
-        if (valid_symbols[KEYWORD_COLON] || valid_symbols[INFIX_SCOPE_COLONS]) {
-          advance(lexer);
-
-          if (valid_symbols[INFIX_SCOPE_COLONS] && lexer->lookahead == ':') {
-            advance(lexer);
-            if (!iswspace(lexer->lookahead)) {
-              lexer->result_symbol = INFIX_SCOPE_COLONS;
-              return true;
-            }
-          } else if (valid_symbols[KEYWORD_COLON]) {
-            lexer->result_symbol = KEYWORD_COLON;
-            return true;
-          }
-
-          return false;
-        }
-        break;
-
-      case '(':
-        if (valid_symbols[ARGUMENT_LIST_LEFT_PAREN]) {
-          advance(lexer);
-          lexer->result_symbol = ARGUMENT_LIST_LEFT_PAREN;
-          return true;
-        }
-        break;
-
-      default:
-        break;
-    }
-
     // Contents of literals, which match any character except for some close delimiter
     if (!valid_symbols[STRING_START]) {
       if (valid_symbols[STRING_CONTENT] && !literal_stack.empty()) {
@@ -780,7 +735,6 @@ struct Scanner {
     if (!scan_whitespace(lexer, valid_symbols)) return false;
     if (lexer->result_symbol != NONE) return true;
 
-    // Operators which can be preceded by whitespace
     switch (lexer->lookahead) {
       case '&':
         if (valid_symbols[BLOCK_AMPERSAND]) {

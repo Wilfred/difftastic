@@ -51,14 +51,10 @@ module.exports = grammar({
     $.heredoc_end,
     $.heredoc_beginning,
 
-    // Whitespace-sensitive tokens
+    // Tokens that require lookahead
     '/',
-    $._element_reference_left_bracket,
     $._block_ampersand,
     $._splat_star,
-    $._argument_list_left_paren,
-    $._infix_scope_colons,
-    $._keyword_colon,
     $._unary_minus,
     $._binary_minus,
     $._binary_star,
@@ -161,7 +157,7 @@ module.exports = grammar({
     splat_parameter: $ => seq('*', optional($.identifier)),
     hash_splat_parameter: $ => seq('**', optional($.identifier)),
     block_parameter: $ => seq('&', choice($.identifier, $.lambda)),
-    keyword_parameter: $ => prec.right(PREC.BITWISE_OR + 1, seq($.identifier, $._keyword_colon, optional($._arg))),
+    keyword_parameter: $ => prec.right(PREC.BITWISE_OR + 1, seq($.identifier, token.immediate(':'), optional($._arg))),
     optional_parameter: $ => prec(PREC.BITWISE_OR + 1, seq($.identifier, '=', $._arg)),
 
     class: $ => seq(
@@ -337,7 +333,7 @@ module.exports = grammar({
 
     element_reference: $ => prec.left(1, seq(
       $._primary,
-      alias($._element_reference_left_bracket, '['),
+      token.immediate('['),
       optional($._argument_list_with_trailing_comma),
       optional($.heredoc_body),
       ']'
@@ -346,7 +342,7 @@ module.exports = grammar({
     scope_resolution: $ => prec.left(1, seq(
       choice(
         '::',
-        seq($._primary, alias($._infix_scope_colons, '::'))
+        seq($._primary, token.immediate('::'))
       ),
       choice($.identifier, $.constant)
     )),
@@ -381,7 +377,7 @@ module.exports = grammar({
     argument_list_with_parens: $ => $._argument_list_with_parens,
 
     _argument_list_with_parens: $ => seq(
-      alias($._argument_list_left_paren, '('),
+      token.immediate('('),
       optional($._argument_list_with_trailing_comma),
       optional($.heredoc_body),
       ')'
@@ -656,7 +652,7 @@ module.exports = grammar({
           alias($.constant, $.symbol),
           $.string
         ),
-        alias($._keyword_colon, ':'),
+        token.immediate(':'),
         $._arg
       ),
       $.hash_splat_argument
