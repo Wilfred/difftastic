@@ -2517,16 +2517,8 @@
             "value": "if"
           },
           {
-            "type": "STRING",
-            "value": "("
-          },
-          {
             "type": "SYMBOL",
-            "name": "_expression"
-          },
-          {
-            "type": "STRING",
-            "value": ")"
+            "name": "parenthesized_expression"
           },
           {
             "type": "SYMBOL",
@@ -2564,16 +2556,8 @@
           "value": "switch"
         },
         {
-          "type": "STRING",
-          "value": "("
-        },
-        {
           "type": "SYMBOL",
-          "name": "_expression"
-        },
-        {
-          "type": "STRING",
-          "value": ")"
+          "name": "parenthesized_expression"
         },
         {
           "type": "SYMBOL",
@@ -2637,16 +2621,8 @@
           "value": "while"
         },
         {
-          "type": "STRING",
-          "value": "("
-        },
-        {
           "type": "SYMBOL",
-          "name": "_expression"
-        },
-        {
-          "type": "STRING",
-          "value": ")"
+          "name": "parenthesized_expression"
         },
         {
           "type": "SYMBOL",
@@ -2670,16 +2646,8 @@
           "value": "while"
         },
         {
-          "type": "STRING",
-          "value": "("
-        },
-        {
           "type": "SYMBOL",
-          "name": "_expression"
-        },
-        {
-          "type": "STRING",
-          "value": ")"
+          "name": "parenthesized_expression"
         }
       ]
     },
