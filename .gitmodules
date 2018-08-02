@@ -10,3 +10,6 @@
 [submodule "examples/regex"]
 	path = examples/regex
 	url = https://github.com/rust-lang/regex.git
+[submodule "examples/tokio"]
+	path = examples/tokio
+	url = https://github.com/tokio-rs/tokio
