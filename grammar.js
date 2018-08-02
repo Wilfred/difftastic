@@ -1257,7 +1257,11 @@ module.exports = grammar({
 
     identifier: $ => /[a-zA-Zα-ωΑ-Ωµ_][a-zA-Zα-ωΑ-Ωµ\d_]*/,
 
-    _reserved_identifier: $ => alias('default', $.identifier),
+    _reserved_identifier: $ => alias(choice(
+      'default',
+      'union'
+    ), $.identifier),
+
     _type_identifier: $ => alias($.identifier, $.type_identifier),
     _field_identifier: $ => alias($.identifier, $.field_identifier),
 
