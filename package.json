@@ -18,7 +18,8 @@
   },
   "scripts": {
     "build": "tree-sitter generate && node-gyp build",
-    "test": "npm run lint && tree-sitter test && tree-sitter parse $(find examples -name '*.rs') --quiet --time",
+    "test": "npm run lint && tree-sitter test && npm run parse-examples",
+    "parse-examples": "tree-sitter parse $(find examples -name '*.rs') --quiet --time",
     "lint": "eslint ./grammar.js"
   }
 }
