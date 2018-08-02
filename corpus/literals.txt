@@ -252,10 +252,12 @@ Strings containing special characters
 
 echo "s/$/'/"
 echo "#"
+echo "s$"
 
 ---
 
 (program
+  (command (command_name (word)) (string))
   (command (command_name (word)) (string))
   (command (command_name (word)) (string)))
 
