@@ -25,20 +25,24 @@ bool tree_sitter_rust_external_scanner_scan(void *payload, TSLexer *lexer,
       opening_hash_count++;
     }
 
-    if (opening_hash_count == 0) return false;
+    if (lexer->lookahead != '"') return false;
+    lexer->advance(lexer, false);
 
-    unsigned hash_count = 0;
     for (;;) {
       if (lexer->lookahead == 0) {
         return false;
-      } else if (lexer->lookahead == '#') {
-        hash_count++;
+      } else if (lexer->lookahead == '"') {
+        lexer->advance(lexer, false);
+        unsigned hash_count = 0;
+        while (lexer->lookahead == '#' && hash_count < opening_hash_count) {
+          lexer->advance(lexer, false);
+          hash_count++;
+        }
+        if (hash_count == opening_hash_count) {
+          return true;
+        }
       } else {
-        hash_count = 0;
-      }
-      lexer->advance(lexer, false);
-      if (hash_count == opening_hash_count) {
-        return true;
+        lexer->advance(lexer, false);
       }
     }
   }
