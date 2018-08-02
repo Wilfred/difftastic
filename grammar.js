@@ -764,6 +764,7 @@ module.exports = grammar({
       $.return_expression,
       $._literal,
       prec.left($.identifier),
+      alias(choice(...primitive_types), $.identifier),
       prec.left($._reserved_identifier),
       $.self,
       $.scoped_identifier,
@@ -1247,6 +1248,7 @@ module.exports = grammar({
 
     _path: $ => choice(
       $.self,
+      alias(choice(...primitive_types), $.identifier),
       $.super,
       $.crate,
       $.identifier,
