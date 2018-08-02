@@ -25,6 +25,8 @@ const numeric_types = [
   'i32',
   'u64',
   'i64',
+  'u128',
+  'i128',
   'isize',
   'usize',
   'f32',
