@@ -460,7 +460,7 @@ module.exports = grammar({
 
     impl_for_clause: $ => seq(
       'for',
-      choice($._type, $.bounded_type)
+      $._type
     ),
 
     type_parameters: $ => prec(1, seq(
@@ -613,6 +613,7 @@ module.exports = grammar({
       $.macro_invocation,
       $.empty_type,
       $.dynamic_type,
+      $.bounded_type,
       alias(choice(...primitive_types), $.primitive_type)
     ),
 
@@ -695,29 +696,16 @@ module.exports = grammar({
       $.type_arguments
     )),
 
-    bounded_type: $ => seq(
-      choice(
-        $._type_identifier,
-        $.scoped_identifier,
-        $.generic_type,
-        $.lifetime
-      ),
-      repeat1(seq(
-        '+',
-        choice(
-          $._type_identifier,
-          $.scoped_identifier,
-          $.generic_type,
-          $.lifetime
-        )
-      ))
-    ),
+    bounded_type: $ => prec.left(-1, choice(
+      seq($.lifetime, '+', $._type),
+      seq($._type, '+', $._type),
+      seq($._type, '+', $.lifetime)
+    )),
 
     type_arguments: $ => seq(
       '<',
       sepBy1(',', choice(
         $._type,
-        $.bounded_type,
         $.type_binding,
         $.lifetime
       )),
@@ -951,7 +939,12 @@ module.exports = grammar({
       '}'
     ),
 
-    field_initializer: $ => seq($._field_identifier, ':', $._expression),
+    field_initializer: $ => seq(
+      repeat($.attribute_item),
+      $._field_identifier,
+      ':',
+      $._expression
+    ),
 
     base_field_initializer: $ => seq(
       '..',
