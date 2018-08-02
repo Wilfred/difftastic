@@ -395,6 +395,27 @@ fn foo(mut x : u32) {
     (block)))
 
 ============================================
+Functions with custom types for self
+============================================
+
+trait Callback {
+    fn call(self: Box<Self>);
+}
+
+---
+
+(source_file
+  (trait_item
+    (type_identifier)
+    (declaration_list
+      (function_signature_item
+        (identifier)
+        (parameters
+          (parameter
+            (self)
+            (generic_type (type_identifier) (type_arguments (type_identifier)))))))))
+
+============================================
 Constant items
 ============================================
 

@@ -547,6 +547,7 @@ module.exports = grammar({
       sepBy(',', choice(
         $.self_parameter,
         $.parameter,
+        '_',
         $._type,
         $.abstract_type,
         $.variadic_parameter
@@ -568,6 +569,8 @@ module.exports = grammar({
       optional($.mutable_specifier),
       choice(
         $.identifier,
+        '_',
+        $.self,
         $._reserved_identifier,
         alias(choice(...primitive_types), $.identifier)
       ),
