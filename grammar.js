@@ -401,7 +401,8 @@ module.exports = grammar({
         $.lifetime,
         $._type_identifier,
         $.scoped_type_identifier,
-        $.generic_type
+        $.generic_type,
+        $.reference_type
       ),
       $.trait_bounds
     ),

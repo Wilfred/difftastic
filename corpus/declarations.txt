@@ -789,6 +789,11 @@ impl<T> A for B<T>
 {
 }
 
+impl<'a, E> Read
+where &'a E: Read,
+{
+}
+
 ---
 
 (source_file
@@ -831,6 +836,12 @@ impl<T> A for B<T>
       (where_predicate
         (lifetime (identifier))
         (trait_bounds (lifetime (identifier)))))
+    (declaration_list))
+  (impl_item
+    (type_parameters (lifetime (identifier)) (type_identifier))
+    (type_identifier)
+    (where_clause
+      (where_predicate (reference_type (lifetime (identifier)) (type_identifier)) (trait_bounds (type_identifier))))
     (declaration_list)))
 
 ===================================
