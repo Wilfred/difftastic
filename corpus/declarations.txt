@@ -34,9 +34,9 @@ pub extern crate futures;
 ---
 
 (source_file
-  (extern_crate_declaration (identifier))
-  (extern_crate_declaration (identifier) (identifier))
-  (extern_crate_declaration (visibility_modifier) (identifier)))
+  (extern_crate_declaration (crate) (identifier))
+  (extern_crate_declaration (crate) (identifier) (identifier))
+  (extern_crate_declaration (visibility_modifier) (crate) (identifier)))
 
 ============================================
 Function declarations
@@ -715,7 +715,8 @@ Visibility modifiers
 pub fn a() {}
 pub(super) fn b() {}
 pub(self) fn c() {}
-pub(in crate) fn d() {}
+pub(crate) fn c() {}
+pub(in crate::d) fn e() {}
 
 ---
 
@@ -723,7 +724,12 @@ pub(in crate) fn d() {}
   (function_item (visibility_modifier) (identifier) (parameters) (block))
   (function_item (visibility_modifier (super)) (identifier) (parameters) (block))
   (function_item (visibility_modifier (self)) (identifier) (parameters) (block))
-  (function_item (visibility_modifier) (identifier) (parameters) (block)))
+  (function_item (visibility_modifier (crate)) (identifier) (parameters) (block))
+  (function_item
+    (visibility_modifier (scoped_identifier (crate) (identifier)))
+    (identifier)
+    (parameters)
+    (block)))
 
 ========================================================
 Function parameter names that match built-in type names

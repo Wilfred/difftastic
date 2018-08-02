@@ -166,16 +166,15 @@ module.exports = grammar({
     ),
 
     _non_special_token: $ => choice(
-      $._literal, $.identifier, $.metavariable, $.mutable_specifier,
-      $.self, $.super, 'unsafe', $.visibility_modifier,
+      $._literal, $.identifier, $.metavariable, $.mutable_specifier, $.self, $.super, $.crate,
       alias(choice(...primitive_types), $.primitive_type),
       '-', '-=', '->', ',', ';', ':', '::', '!', '!=', '.', '@', '*', '*=',
       '/', '/=', '&', '&&', '&=', '#', '%', '%=', '^', '^=', '+', '+=', '<',
       '<<', '<<=', '<=', '=', '==', '=>', '>', '>=', '>>', '>>=', '|', '|=',
       '||', '~', "?", "'",
-      'as', 'break', 'const', 'continue', 'crate', 'default', 'enum', 'fn',
-      'for', 'if', 'impl', 'let', 'loop', 'match', 'mod', 'return', 'static',
-      'struct', 'trait', 'type', 'union', 'use', 'where', 'while'
+      'as', 'break', 'const', 'continue', 'default', 'enum', 'fn', 'for', 'if', 'impl',
+      'let', 'loop', 'match', 'mod', 'pub', 'return', 'static', 'struct', 'trait', 'type',
+      'union', 'unsafe', 'use', 'where', 'while'
     ),
 
     // Section - Declarations
@@ -311,7 +310,7 @@ module.exports = grammar({
     extern_crate_declaration: $ => seq(
       optional($.visibility_modifier),
       'extern',
-      'crate',
+      $.crate,
       choice(
         $.identifier,
         seq($.identifier, 'as', $.identifier)
@@ -582,7 +581,7 @@ module.exports = grammar({
     _path: $ => choice(
       $.self,
       $.super,
-      'crate',
+      $.crate,
       $.identifier,
       $.scoped_identifier
     ),
@@ -597,9 +596,9 @@ module.exports = grammar({
       optional(seq(
         '(',
         choice(
-          'crate',
           $.self,
           $.super,
+          $.crate,
           seq('in', $._path)
         ),
         ')'
@@ -1238,8 +1237,8 @@ module.exports = grammar({
     _field_identifier: $ => alias($.identifier, $.field_identifier),
 
     self: $ => 'self',
-
     super: $ => 'super',
+    crate: $ => 'crate',
 
     metavariable: $ => /\$[a-zA-Z_]\w*/
   }
