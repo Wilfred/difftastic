@@ -1215,7 +1215,12 @@ module.exports = grammar({
       optional('b'),
       '\'',
       optional(choice(
-        seq('\\', choice(/./, '\n', /x[0-9a-fA-F][0-9a-fA-F]/)),
+        seq('\\', choice(
+          /[^xu]/,
+          /u[0-9a-fA-F]{4}/,
+          /u{[0-9a-fA-F]+}/,
+          /x[0-9a-fA-F]{2}/
+        )),
         /[^\\']/
       )),
       '\''
