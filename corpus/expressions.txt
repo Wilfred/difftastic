@@ -539,6 +539,7 @@ d.map(|mut e| {
     f(e);
     g(e)
 });
+h(|| -> i { j });
 
 ---
 
@@ -558,7 +559,14 @@ d.map(|mut e| {
         (closure_parameters (mut_pattern (mutable_specifier) (identifier)))
         (block
           (call_expression (identifier) (arguments (identifier)))
-          (call_expression (identifier) (arguments (identifier))))))))
+          (call_expression (identifier) (arguments (identifier)))))))
+  (call_expression
+    (identifier)
+    (arguments
+      (closure_expression
+        (closure_parameters)
+        (type_identifier)
+        (block (identifier))))))
 
 ===========================================
 Closures with typed parameteres

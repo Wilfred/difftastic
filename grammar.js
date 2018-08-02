@@ -1034,7 +1034,13 @@ module.exports = grammar({
 
     closure_expression: $ => prec(PREC.closure, seq(
       $.closure_parameters,
-      choice($.block, $._expression)
+      choice(
+        seq(
+          optional(seq('->', $._type)),
+          $.block
+        ),
+        $._expression
+      )
     )),
 
     closure_parameters: $ => seq(
