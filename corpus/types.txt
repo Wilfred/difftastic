@@ -176,10 +176,11 @@ type b = unsafe extern "C" fn() -> *mut c_void;
       (pointer_type (mutable_specifier) (type_identifier)))))
 
 ===================================
-Trait objects with lifetime bounds
+Trait objects
 ===================================
 
 type a = Box<Something + 'a>;
+type b = Rc<dyn Something>;
 
 ---
 
@@ -188,4 +189,9 @@ type a = Box<Something + 'a>;
     (type_identifier)
     (generic_type
       (type_identifier)
-      (type_arguments (bounded_type (type_identifier) (lifetime (identifier)))))))
+      (type_arguments (bounded_type (type_identifier) (lifetime (identifier))))))
+  (type_item
+    (type_identifier)
+    (generic_type
+      (type_identifier)
+      (type_arguments (dynamic_type (type_identifier))))))
