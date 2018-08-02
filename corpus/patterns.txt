@@ -36,7 +36,7 @@ match x {
       (match_pattern (tuple_struct_pattern (identifier) (ref_pattern (identifier))))
       (field_expression (identifier) (number_literal)))
     (match_arm
-      (match_pattern (ref_pattern (mutable_specifier) (identifier)))
+      (match_pattern (ref_pattern (mut_pattern (mutable_specifier) (identifier))))
       (identifier))
     (match_arm
       (match_pattern (reference_pattern (mutable_specifier) (identifier)))

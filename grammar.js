@@ -832,7 +832,7 @@ module.exports = grammar({
     ),
 
     range_expression: $ => prec.left(PREC.range, choice(
-      seq($._expression, '..', $._expression),
+      seq($._expression, choice('..', '...'), $._expression),
       seq($._expression, '..'),
       seq('..', $._expression),
       '..'
@@ -995,8 +995,8 @@ module.exports = grammar({
     ),
 
     match_pattern: $ => seq(
-      $._pattern,
-      repeat(seq('|', $._pattern)),
+      choice($._pattern, $.range_pattern),
+      repeat(seq('|', choice($._pattern, $.range_pattern))),
       optional(seq('if', $._expression))
     ),
 
@@ -1045,7 +1045,7 @@ module.exports = grammar({
 
     closure_parameters: $ => seq(
       '|',
-      sepBy(',', choice($._pattern, $.mut_pattern, $.parameter)),
+      sepBy(',', choice($._pattern, $.parameter)),
       '|'
     ),
 
@@ -1091,6 +1091,7 @@ module.exports = grammar({
       $.captured_pattern,
       $.reference_pattern,
       $.remaining_field_pattern,
+      $.mut_pattern,
       '_'
     ),
 
@@ -1107,7 +1108,7 @@ module.exports = grammar({
         $.scoped_identifier
       ),
       '(',
-      sepBy(',', choice($._pattern, $.mut_pattern)),
+      sepBy(',', $._pattern),
       optional(','),
       ')'
     ),
@@ -1134,14 +1135,19 @@ module.exports = grammar({
 
     remaining_field_pattern: $ => '..',
 
-    mut_pattern: $ => seq(
+    mut_pattern: $ => prec(-1, seq(
       $.mutable_specifier,
       $._pattern
+    )),
+
+    range_pattern: $ => seq(
+      $._literal,
+      '...',
+      $._literal
     ),
 
     ref_pattern: $ => seq(
       'ref',
-      optional($.mutable_specifier),
       $._pattern
     ),
 
