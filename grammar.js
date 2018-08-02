@@ -389,6 +389,7 @@ module.exports = grammar({
         ),
         optional($._concat)
       )),
+      optional('$'),
       '"'
     ),
 
