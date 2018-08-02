@@ -1094,6 +1094,7 @@ module.exports = grammar({
     tuple_pattern: $ => seq(
       '(',
       sepBy(',', $._pattern),
+      optional(','),
       ')'
     ),
 
@@ -1104,6 +1105,7 @@ module.exports = grammar({
       ),
       '(',
       sepBy(',', choice($._pattern, $.mut_pattern)),
+      optional(','),
       ')'
     ),
 
