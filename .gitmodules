@@ -7,3 +7,6 @@
 [submodule "examples/bitflags"]
 	path = examples/bitflags
 	url = https://github.com/rust-lang-nursery/bitflags
+[submodule "examples/regex"]
+	path = examples/regex
+	url = https://github.com/rust-lang/regex.git
