@@ -12,10 +12,12 @@ Integer literals
 0xff_u8;
 0o70_i16;
 0b1111_1111_1001_0000_i32;
+1u128;
 
 ---
 
 (source_file
+  (number_literal)
   (number_literal)
   (number_literal)
   (number_literal)
