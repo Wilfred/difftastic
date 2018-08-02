@@ -45,6 +45,7 @@ module.exports = grammar({
   ],
 
   inline: $ => [
+    $._path,
     $._type_identifier,
     $._field_identifier,
     $._non_special_token,
@@ -235,7 +236,7 @@ module.exports = grammar({
       optional($.where_clause),
       choice(
         $.field_declaration_list,
-        seq($.ordered_field_declaration_list, ';'),
+        seq($.ordered_field_declaration_list, optional($.where_clause), ';'),
         ';'
       )
     ),
@@ -362,7 +363,7 @@ module.exports = grammar({
       $.parameters,
       optional(seq(
         '->',
-        choice($.abstract_return_type, $.empty_type, $._type)
+        choice($.abstract_return_type, $._type)
       )),
       optional($.where_clause),
       $.block
@@ -377,7 +378,7 @@ module.exports = grammar({
       $.parameters,
       optional(seq(
         '->',
-        choice($.abstract_return_type, $.empty_type, $._type)
+        choice($.abstract_return_type, $._type)
       )),
       optional($.where_clause),
       ';'
@@ -514,27 +515,42 @@ module.exports = grammar({
     use_declaration: $ => seq(
       optional($.visibility_modifier),
       'use',
-      seq(
-        repeat($.path),
-        choice(
-          choice(
-            $.identifier,
-            seq($.identifier, 'as', $.identifier)
-          ),
-          seq(
-            '{',
-            sepBy(',', choice(
-              $.identifier,
-              $.self,
-              seq($.identifier, 'as', $.identifier)
-            )),
-            '}'
-          ),
-          '*'
-        )
-      ),
+      $._use_clause,
       ';'
     ),
+
+    _use_clause: $ => choice(
+      $._path,
+      $.use_as_clause,
+      $.use_list,
+      $.scoped_use_list,
+      $.use_wildcard
+    ),
+
+    scoped_use_list: $ => seq(
+      optional($._path),
+      '::',
+      $.use_list
+    ),
+
+    use_list: $ => seq(
+      '{',
+      sepBy(',', choice(
+        $._path,
+        $.use_as_clause,
+        $.use_list
+      )),
+      optional(','),
+      '}'
+    ),
+
+    use_as_clause: $ => seq(
+      $._path,
+      'as',
+      $.identifier
+    ),
+
+    use_wildcard: $ => seq($._path, '::', '*'),
 
     parameters: $ => seq(
       '(',
@@ -556,15 +572,19 @@ module.exports = grammar({
       optional($.mutable_specifier),
       choice(
         $.identifier,
+        $._reserved_identifier,
         alias(choice(...primitive_types), $.identifier)
       ),
       ':',
       $._type
     ),
 
-    path: $ => seq(
-      choice($.identifier, $.self),
-      '::'
+    _path: $ => choice(
+      $.self,
+      $.super,
+      'crate',
+      $.identifier,
+      $.scoped_identifier
     ),
 
     extern_modifier: $ => seq(
@@ -576,11 +596,11 @@ module.exports = grammar({
       'pub',
       optional(seq(
         '(',
-        optional('in'),
         choice(
           'crate',
           $.self,
-          $.super
+          $.super,
+          seq('in', $._path)
         ),
         ')'
       ))
@@ -599,6 +619,7 @@ module.exports = grammar({
       $.function_type,
       $._type_identifier,
       $.macro_invocation,
+      $.empty_type,
       alias(choice(...primitive_types), $.primitive_type)
     ),
 
@@ -785,9 +806,7 @@ module.exports = grammar({
 
     scoped_identifier: $ => prec(-1, seq(
       optional(choice(
-        $.self,
-        $.identifier,
-        $.scoped_identifier,
+        $._path,
         $.bracketed_type,
         alias($.generic_type_with_turbofish, $.generic_type)
       )),
@@ -797,9 +816,7 @@ module.exports = grammar({
 
     scoped_type_identifier_in_expression_position: $ => prec(-2, seq(
       optional(choice(
-        $.self,
-        $.identifier,
-        $.scoped_identifier,
+        $._path,
         alias($.generic_type_with_turbofish, $.generic_type)
       )),
       '::',
@@ -808,9 +825,7 @@ module.exports = grammar({
 
     scoped_type_identifier: $ => seq(
       optional(choice(
-        $.self,
-        $.identifier,
-        $.scoped_identifier,
+        $._path,
         alias($.generic_type_with_turbofish, $.generic_type),
         $.bracketed_type,
         $.generic_type
