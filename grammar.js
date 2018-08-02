@@ -166,7 +166,7 @@ module.exports = grammar({
 
     _non_special_token: $ => choice(
       $._literal, $.identifier, $.metavariable, $.mutable_specifier,
-      $.self, $.super, $.unsafe, $.visibility_modifier,
+      $.self, $.super, 'unsafe', $.visibility_modifier,
       alias(choice(...primitive_types), $.primitive_type),
       '-', '-=', '->', ',', ';', ':', '::', '!', '!=', '.', '@', '*', '*=',
       '/', '/=', '&', '&&', '&=', '#', '%', '%=', '^', '^=', '+', '+=', '<',
@@ -354,10 +354,8 @@ module.exports = grammar({
     ),
 
     function_item: $ => seq(
-      optional('default'),
-      optional($.unsafe),
       optional($.visibility_modifier),
-      optional($.extern_modifier),
+      optional($.function_modifiers),
       'fn',
       $.identifier,
       optional($.type_parameters),
@@ -372,6 +370,7 @@ module.exports = grammar({
 
     function_signature_item: $ => seq(
       optional($.visibility_modifier),
+      optional($.function_modifiers),
       'fn',
       $.identifier,
       optional($.type_parameters),
@@ -383,6 +382,13 @@ module.exports = grammar({
       optional($.where_clause),
       ';'
     ),
+
+    function_modifiers: $ => repeat1(choice(
+      'default',
+      'const',
+      'unsafe',
+      $.extern_modifier
+    )),
 
     where_clause: $ => seq(
       'where',
@@ -410,7 +416,7 @@ module.exports = grammar({
     ),
 
     impl_item: $ => seq(
-      optional($.unsafe),
+      optional('unsafe'),
       'impl',
       optional($.type_parameters),
       choice(
@@ -624,8 +630,7 @@ module.exports = grammar({
     ),
 
     function_type: $ => seq(
-      optional($.unsafe),
-      optional($.extern_modifier),
+      optional($.function_modifiers),
       prec(PREC.call, seq(
         choice(
           $._type_identifier,
@@ -726,8 +731,6 @@ module.exports = grammar({
     ),
 
     empty_type: $ => '!',
-
-    unsafe: $ => 'unsafe',
 
     mutable_specifier: $ => 'mut',
 
@@ -1046,7 +1049,7 @@ module.exports = grammar({
     )),
 
     unsafe_block: $ => seq(
-      $.unsafe,
+      'unsafe',
       $.block
     ),
 

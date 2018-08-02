@@ -166,13 +166,12 @@ type b = unsafe extern "C" fn() -> *mut c_void;
   (type_item
     (type_identifier)
     (function_type
-      (extern_modifier (string_literal))
+      (function_modifiers (extern_modifier (string_literal)))
       (parameters (pointer_type (mutable_specifier) (type_identifier)))))
   (type_item
     (type_identifier)
     (function_type
-      (unsafe)
-      (extern_modifier (string_literal))
+      (function_modifiers (extern_modifier (string_literal)))
       (parameters)
       (pointer_type (mutable_specifier) (type_identifier)))))
 

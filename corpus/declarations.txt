@@ -69,6 +69,17 @@ fn takes_slice(slice: &str) {
     (block (macro_invocation (identifier) (token_tree (string_literal) (identifier))))))
 
 ============================================
+Const function declarations
+============================================
+
+const fn main() {}
+
+---
+
+(source_file
+  (function_item (function_modifiers) (identifier) (parameters) (block)))
+
+============================================
 Functions with abstract return types
 ============================================
 
@@ -115,9 +126,13 @@ extern "C" fn printf(
 ---
 
 (source_file
-  (function_item (extern_modifier (string_literal)) (identifier) (parameters) (block))
   (function_item
-    (extern_modifier (string_literal))
+    (function_modifiers (extern_modifier (string_literal)))
+    (identifier)
+    (parameters)
+    (block))
+  (function_item
+    (function_modifiers (extern_modifier (string_literal)))
     (identifier)
     (parameters (pointer_type (type_identifier)) (variadic_parameter))
     (block)))
@@ -518,14 +533,14 @@ unsafe impl Foo {
 
 ---
 
-(source_file (impl_item (unsafe) (type_identifier) (declaration_list)))
+(source_file (impl_item (type_identifier) (declaration_list)))
 
 ===========================================
 Impls with default functions
 ===========================================
 
 impl Foo {
-  default fn bar() -> i32 {
+  const default fn bar() -> i32 {
     // Make 'default' still works as an identifier
     default.bar();
   }
@@ -536,6 +551,7 @@ impl Foo {
 (source_file
   (impl_item (type_identifier) (declaration_list
     (function_item
+      (function_modifiers)
       (identifier)
       (parameters)
       (primitive_type)
