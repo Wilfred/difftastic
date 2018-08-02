@@ -587,4 +587,4 @@ const a : A = unsafe { foo() };
   (const_item
     (identifier)
     (type_identifier)
-    (unsafe_block (unsafe) (block (call_expression (identifier) (arguments))))))
+    (unsafe_block (block (call_expression (identifier) (arguments))))))
