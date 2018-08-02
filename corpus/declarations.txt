@@ -83,7 +83,7 @@ const fn main() {}
 Functions with abstract return types
 ============================================
 
-fn triples() -> impl Iterator<Item=(usize)> {
+fn triples(a: impl B) -> impl Iterator<Item=(usize)> {
 }
 
 ---
@@ -91,8 +91,11 @@ fn triples() -> impl Iterator<Item=(usize)> {
 (source_file
   (function_item
     (identifier)
-    (parameters)
-    (abstract_return_type (generic_type
+    (parameters
+      (parameter
+        (identifier)
+        (abstract_type (type_identifier))))
+    (abstract_type (generic_type
       (type_identifier)
       (type_arguments (type_binding (type_identifier) (tuple_type (primitive_type))))))
     (block)))

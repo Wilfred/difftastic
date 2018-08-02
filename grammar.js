@@ -362,7 +362,7 @@ module.exports = grammar({
       $.parameters,
       optional(seq(
         '->',
-        choice($.abstract_return_type, $._type)
+        choice($._type, $.abstract_type)
       )),
       optional($.where_clause),
       $.block
@@ -377,7 +377,7 @@ module.exports = grammar({
       $.parameters,
       optional(seq(
         '->',
-        choice($.abstract_return_type, $._type)
+        choice($._type, $.abstract_type)
       )),
       optional($.where_clause),
       ';'
@@ -404,15 +404,6 @@ module.exports = grammar({
         $.generic_type
       ),
       $.trait_bounds
-    ),
-
-    abstract_return_type: $ => seq(
-      'impl',
-      choice(
-        $._type_identifier,
-        $.scoped_type_identifier,
-        $.generic_type
-      )
     ),
 
     impl_item: $ => seq(
@@ -553,7 +544,13 @@ module.exports = grammar({
 
     parameters: $ => seq(
       '(',
-      sepBy(',', choice($.self_parameter, $.parameter, $._type, $.variadic_parameter)),
+      sepBy(',', choice(
+        $.self_parameter,
+        $.parameter,
+        $._type,
+        $.abstract_type,
+        $.variadic_parameter
+      )),
       optional(','),
       ')'
     ),
@@ -575,15 +572,7 @@ module.exports = grammar({
         alias(choice(...primitive_types), $.identifier)
       ),
       ':',
-      $._type
-    ),
-
-    _path: $ => choice(
-      $.self,
-      $.super,
-      $.crate,
-      $.identifier,
-      $.scoped_identifier
+      choice($._type, $.abstract_type)
     ),
 
     extern_modifier: $ => seq(
@@ -661,7 +650,7 @@ module.exports = grammar({
       )),
       optional(seq(
         '->',
-        $._type
+        choice($._type, $.abstract_type)
       ))
     ),
 
@@ -751,6 +740,15 @@ module.exports = grammar({
     ),
 
     empty_type: $ => '!',
+
+    abstract_type: $ => seq(
+      'impl',
+      choice(
+        $._type_identifier,
+        $.scoped_type_identifier,
+        $.generic_type
+      )
+    ),
 
     mutable_specifier: $ => 'mut',
 
@@ -1229,6 +1227,14 @@ module.exports = grammar({
       /[^*]*\*+([^/*][^*]*\*+)*/,
       '/'
     )),
+
+    _path: $ => choice(
+      $.self,
+      $.super,
+      $.crate,
+      $.identifier,
+      $.scoped_identifier
+    ),
 
     identifier: $ => /[a-zA-Zα-ωΑ-Ωµ_][a-zA-Zα-ωΑ-Ωµ\d_]*/,
 
