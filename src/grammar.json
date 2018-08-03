@@ -7135,26 +7135,6 @@
         ]
       }
     },
-    "block_comment": {
-      "type": "TOKEN",
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "STRING",
-            "value": "/*"
-          },
-          {
-            "type": "PATTERN",
-            "value": "[^*]*\\*+([^\\/*][^*]*\\*+)*"
-          },
-          {
-            "type": "STRING",
-            "value": "/"
-          }
-        ]
-      }
-    },
     "_path": {
       "type": "CHOICE",
       "members": [
@@ -7338,6 +7318,10 @@
     {
       "type": "SYMBOL",
       "name": "raw_string_literal"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "block_comment"
     }
   ],
   "inline": [

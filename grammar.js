@@ -42,6 +42,7 @@ module.exports = grammar({
 
   externals: $ => [
     $.raw_string_literal,
+    $.block_comment,
   ],
 
   inline: $ => [
@@ -1254,13 +1255,13 @@ module.exports = grammar({
       '//', /.*/
     )),
 
-    // Regex to match a C-style multiline comment
-    // http://stackoverflow.com/questions/13014947/regex-to-match-a-c-style-multiline-comment/36328890#36328890
-    block_comment: $ => token(seq(
-      '/*',
-      /[^*]*\*+([^/*][^*]*\*+)*/,
-      '/'
-    )),
+    // // Regex to match a C-style multiline comment
+    // // http://stackoverflow.com/questions/13014947/regex-to-match-a-c-style-multiline-comment/36328890#36328890
+    // block_comment: $ => token(seq(
+    //   '/*',
+    //   /[^*]*\*+([^/*][^*]*\*+)*/,
+    //   '/'
+    // )),
 
     _path: $ => choice(
       $.self,

@@ -14,6 +14,35 @@ Block comments
   (block_comment)
   (block_comment))
 
+============================================
+Nested block comments
+============================================
+
+/* /* double nested */ */
+
+// ---
+
+/*/*/* triple nested */*/*/
+
+// ---
+
+/****
+  /****
+    nested with extra stars
+  ****/
+****/
+
+// ---
+
+----
+
+(source_file
+  (block_comment)
+  (line_comment)
+  (block_comment)
+  (line_comment)
+  (block_comment)
+  (line_comment))
 
 ============================================
 Line comments
@@ -115,4 +144,3 @@ const ψ_2 : Ψ = 1;
 (source_file
   (const_item (identifier) (type_identifier) (number_literal))
   (const_item (identifier) (type_identifier) (number_literal)))
-  
