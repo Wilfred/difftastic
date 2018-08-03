@@ -1124,8 +1124,8 @@ module.exports = grammar({
 
     struct_pattern: $ => seq(
       choice(
-        $.identifier,
-        $.scoped_identifier
+        $._type_identifier,
+        $.scoped_type_identifier
       ),
       '{',
       sepBy(',', choice($.field_pattern, $.remaining_field_pattern)),
@@ -1138,7 +1138,7 @@ module.exports = grammar({
       optional($.mutable_specifier),
       choice(
         alias($.identifier, $.shorthand_field_identifier),
-        seq($.identifier, ':', $._pattern)
+        seq($._field_identifier, ':', $._pattern)
       )
     ),
 
