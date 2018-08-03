@@ -6334,11 +6334,11 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "identifier"
+              "name": "_type_identifier"
             },
             {
               "type": "SYMBOL",
-              "name": "scoped_identifier"
+              "name": "scoped_type_identifier"
             }
           ]
         },
@@ -6459,7 +6459,7 @@
               "members": [
                 {
                   "type": "SYMBOL",
-                  "name": "identifier"
+                  "name": "_field_identifier"
                 },
                 {
                   "type": "STRING",
