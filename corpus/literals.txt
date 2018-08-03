@@ -66,9 +66,9 @@ b"foo\nbar";
 (source_file
   (string_literal)
   (string_literal)
-  (string_literal)
-  (string_literal)
-  (string_literal))
+  (string_literal (escape_sequence))
+  (string_literal (escape_sequence))
+  (string_literal (escape_sequence) (escape_sequence)))
 
 ============================================
 Raw string literals

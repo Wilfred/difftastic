@@ -1209,15 +1209,14 @@ module.exports = grammar({
       seq('0o', repeat(choice(/[0-7]/, '_')))
     )),
 
-    string_literal: $ => token(seq(
-      optional('b'),
-      '"',
+    string_literal: $ => seq(
+      alias(/b?"/, '"'),
       repeat(choice(
-        seq('\\', choice(/./, '\n', /x[0-9a-fA-F][0-9a-fA-F]/)),
-        /[^\\"]/
+        $.escape_sequence,
+        token.immediate(prec(1, /[^\\"]+/))
       )),
-      '"'
-    )),
+      token.immediate('"')
+    ),
 
     char_literal: $ => token(seq(
       optional('b'),
@@ -1232,6 +1231,16 @@ module.exports = grammar({
         /[^\\']/
       )),
       '\''
+    )),
+
+    escape_sequence: $ => token.immediate(
+      seq('\\',
+      choice(
+        /[^xu]/,
+        /u[0-9a-fA-F]{4}/,
+        /u{[0-9a-fA-F]+}/,
+        /x[0-9a-fA-F]{2}/
+      )
     )),
 
     boolean_literal: $ => choice('true', 'false'),
