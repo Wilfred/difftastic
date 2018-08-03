@@ -90,8 +90,10 @@ Grouped expressions
 ---
 
 (source_file
-  (number_literal)
-  (binary_expression (number_literal) (binary_expression (number_literal) (number_literal))))
+  (parenthesized_expression (number_literal))
+  (parenthesized_expression (binary_expression
+    (number_literal)
+    (parenthesized_expression (binary_expression (number_literal) (number_literal))))))
 
 ============================================
 Range expressions
@@ -458,9 +460,12 @@ arr[n];
 ---
 
 (source_file
-  (array_expression (number_literal) (number_literal) (number_literal) (number_literal)) (number_literal)
-  (identifier) (number_literal)
-  (identifier) (identifier))
+  (index_expression
+    (parenthesized_expression
+      (array_expression (number_literal) (number_literal) (number_literal) (number_literal)))
+    (number_literal))
+  (index_expression (identifier) (number_literal))
+  (index_expression (identifier) (identifier)))
 
 ============================================
 Scoped functions

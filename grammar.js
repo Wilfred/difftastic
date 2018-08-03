@@ -51,6 +51,7 @@ module.exports = grammar({
     $._field_identifier,
     $._non_special_token,
     $._declaration_statement,
+    $._reserved_identifier,
     $._expression_ending_with_block
   ],
 
@@ -780,10 +781,10 @@ module.exports = grammar({
       $._expression_ending_with_block,
       $.break_expression,
       $.continue_expression,
-      $._index_expression,
+      $.index_expression,
       $.metavariable,
       $.closure_expression,
-      seq('(', $._expression, ')'),
+      $.parenthesized_expression,
       $.struct_expression
     ),
 
@@ -910,6 +911,12 @@ module.exports = grammar({
       ']'
     ),
 
+    parenthesized_expression: $ => seq(
+      '(',
+      $._expression,
+      ')'
+    ),
+
     tuple_expression: $ => seq(
       '(',
       seq($._expression, ','),
@@ -918,7 +925,7 @@ module.exports = grammar({
       ')'
     ),
 
-    unit_expression: $ => '()',
+    unit_expression: $ => seq('(', ')'),
 
     struct_expression: $ => seq(
       choice(
@@ -1064,7 +1071,7 @@ module.exports = grammar({
 
     continue_expression: $ => prec.left(seq('continue', optional($.loop_label))),
 
-    _index_expression: $ => prec(PREC.call, seq($._expression, '[', $._expression, ']')),
+    index_expression: $ => prec(PREC.call, seq($._expression, '[', $._expression, ']')),
 
     field_expression: $ => prec(PREC.field, seq(
       $._expression,
