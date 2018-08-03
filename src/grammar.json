@@ -4268,7 +4268,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_index_expression"
+          "name": "index_expression"
         },
         {
           "type": "SYMBOL",
@@ -4279,21 +4279,8 @@
           "name": "closure_expression"
         },
         {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "STRING",
-              "value": "("
-            },
-            {
-              "type": "SYMBOL",
-              "name": "_expression"
-            },
-            {
-              "type": "STRING",
-              "value": ")"
-            }
-          ]
+          "type": "SYMBOL",
+          "name": "parenthesized_expression"
         },
         {
           "type": "SYMBOL",
@@ -5180,6 +5167,23 @@
         }
       ]
     },
+    "parenthesized_expression": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_expression"
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
     "tuple_expression": {
       "type": "SEQ",
       "members": [
@@ -5235,8 +5239,17 @@
       ]
     },
     "unit_expression": {
-      "type": "STRING",
-      "value": "()"
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
     },
     "struct_expression": {
       "type": "SEQ",
@@ -6039,7 +6052,7 @@
         ]
       }
     },
-    "_index_expression": {
+    "index_expression": {
       "type": "PREC",
       "value": 14,
       "content": {
@@ -7330,6 +7343,7 @@
     "_field_identifier",
     "_non_special_token",
     "_declaration_statement",
+    "_reserved_identifier",
     "_expression_ending_with_block"
   ]
 }
