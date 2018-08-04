@@ -17,17 +17,17 @@ Integer literals
 ---
 
 (source_file
-  (number_literal)
-  (number_literal)
-  (number_literal)
-  (number_literal)
-  (number_literal)
-  (number_literal)
-  (number_literal)
-  (number_literal)
-  (number_literal)
-  (number_literal)
-  (number_literal))
+  (integer_literal)
+  (integer_literal)
+  (integer_literal)
+  (integer_literal)
+  (integer_literal)
+  (integer_literal)
+  (integer_literal)
+  (integer_literal)
+  (integer_literal)
+  (integer_literal)
+  (integer_literal))
 
 ============================================
 Floating-point literals
@@ -43,12 +43,12 @@ Floating-point literals
 ---
 
 (source_file
-  (number_literal)
-  (number_literal)
-  (number_literal)
-  (number_literal)
-  (number_literal)
-  (number_literal))
+  (float_literal)
+  (float_literal)
+  (float_literal)
+  (float_literal)
+  (float_literal)
+  (float_literal))
 
 ============================================
 String literals

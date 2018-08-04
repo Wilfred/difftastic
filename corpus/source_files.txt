@@ -142,5 +142,5 @@ const ψ_2 : Ψ = 1;
 ---
 
 (source_file
-  (const_item (identifier) (type_identifier) (number_literal))
-  (const_item (identifier) (type_identifier) (number_literal)))
+  (const_item (identifier) (type_identifier) (integer_literal))
+  (const_item (identifier) (type_identifier) (integer_literal)))

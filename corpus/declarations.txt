@@ -205,10 +205,10 @@ let y: bool = false;
 
 (source_file
   (let_declaration (identifier))
-  (let_declaration (identifier) (number_literal))
+  (let_declaration (identifier) (integer_literal))
   (let_declaration (identifier) (primitive_type))
-  (let_declaration (identifier) (primitive_type) (number_literal))
-  (let_declaration (mutable_specifier) (identifier) (number_literal))
+  (let_declaration (identifier) (primitive_type) (integer_literal))
+  (let_declaration (mutable_specifier) (identifier) (integer_literal))
   (let_declaration (identifier) (primitive_type) (boolean_literal)))
 
 ============================================
@@ -259,10 +259,10 @@ pub union in6_addr__bindgen_ty_1 {
 
 (source_file
   (union_item (visibility_modifier) (type_identifier) (field_declaration_list
-    (field_declaration (visibility_modifier) (field_identifier) (array_type (type_identifier) (number_literal)))
-    (field_declaration (visibility_modifier) (field_identifier) (array_type (type_identifier) (number_literal)))
-    (field_declaration (visibility_modifier) (field_identifier) (array_type (type_identifier) (number_literal)))
-    (field_declaration (field_identifier) (array_type (primitive_type) (number_literal))))))
+    (field_declaration (visibility_modifier) (field_identifier) (array_type (type_identifier) (integer_literal)))
+    (field_declaration (visibility_modifier) (field_identifier) (array_type (type_identifier) (integer_literal)))
+    (field_declaration (visibility_modifier) (field_identifier) (array_type (type_identifier) (integer_literal)))
+    (field_declaration (field_identifier) (array_type (primitive_type) (integer_literal))))))
 
 ============================================
 Generic structs
@@ -352,8 +352,8 @@ pub enum c_style_enum {
     (visibility_modifier)
     (type_identifier)
     (enum_variant_list
-      (enum_variant (identifier) (number_literal))
-      (enum_variant (identifier) (number_literal)))))
+      (enum_variant (identifier) (integer_literal))
+      (enum_variant (identifier) (integer_literal)))))
 
 ============================================
 Generic functions
@@ -423,7 +423,7 @@ const N: i32 = 5;
 
 ---
 
-(source_file (const_item (identifier) (primitive_type) (number_literal)))
+(source_file (const_item (identifier) (primitive_type) (integer_literal)))
 
 ============================================
 Static items
@@ -438,7 +438,7 @@ static mut __progname: *mut ::c_char;
   (static_item
     (identifier)
     (primitive_type)
-    (number_literal))
+    (integer_literal))
   (static_item
     (mutable_specifier)
     (identifier)
@@ -533,7 +533,7 @@ impl Person {
 
 (source_file
   (impl_item (type_identifier) (declaration_list
-    (const_item (identifier) (primitive_type) (number_literal))
+    (const_item (identifier) (primitive_type) (integer_literal))
     (function_item (identifier) (parameters (self_parameter (self))) (block))
     (function_item (identifier) (parameters (self_parameter (mutable_specifier) (self))) (block))
     (function_item (identifier) (parameters (self_parameter (self))) (block))
