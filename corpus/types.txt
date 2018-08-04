@@ -112,7 +112,7 @@ type C = &[D];
 ---
 
 (source_file
-  (type_item (type_identifier) (array_type (type_identifier) (number_literal)))
+  (type_item (type_identifier) (array_type (type_identifier) (integer_literal)))
   (type_item (type_identifier) (reference_type (array_type (type_identifier)))))
 
 ============================

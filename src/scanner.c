@@ -3,6 +3,7 @@
 
 enum TokenType {
   RAW_STRING_LITERAL,
+  FLOAT_LITERAL,
   BLOCK_COMMENT,
 };
 
@@ -14,6 +15,10 @@ void tree_sitter_rust_external_scanner_deserialize(void *p, const char *b, unsig
 
 static void advance(TSLexer *lexer) {
   lexer->advance(lexer, false);
+}
+
+static bool is_num_char(int32_t c) {
+  return c == '_' || iswdigit(c);
 }
 
 bool tree_sitter_rust_external_scanner_scan(void *payload, TSLexer *lexer,
@@ -50,6 +55,64 @@ bool tree_sitter_rust_external_scanner_scan(void *payload, TSLexer *lexer,
         advance(lexer);
       }
     }
+  }
+
+  if (valid_symbols[FLOAT_LITERAL] && iswdigit(lexer->lookahead)) {
+    lexer->result_symbol = FLOAT_LITERAL;
+
+    advance(lexer);
+    while (is_num_char(lexer->lookahead)) {
+      advance(lexer);
+    }
+
+    bool has_fraction = false, has_exponent = false;
+
+    if (lexer->lookahead == '.') {
+      has_fraction = true;
+      advance(lexer);
+      if (lexer->lookahead == '.') {
+        return false;
+      }
+      while (is_num_char(lexer->lookahead)) {
+        advance(lexer);
+      }
+    }
+
+    lexer->mark_end(lexer);
+
+    if (lexer->lookahead == 'e' || lexer->lookahead == 'E') {
+      has_exponent = true;
+      advance(lexer);
+      if (lexer->lookahead == '+' || lexer->lookahead == '-') {
+        advance(lexer);
+      }
+      if (!is_num_char(lexer->lookahead)) {
+        return true;
+      }
+      advance(lexer);
+      while (is_num_char(lexer->lookahead)) {
+        advance(lexer);
+      }
+
+      lexer->mark_end(lexer);
+    }
+
+    if (!has_exponent && !has_fraction) return false;
+
+    if (lexer->lookahead != 'u' && lexer->lookahead != 'i' && lexer->lookahead != 'f') {
+      return true;
+    }
+    advance(lexer);
+    if (!iswdigit(lexer->lookahead)) {
+      return true;
+    }
+
+    while (iswdigit(lexer->lookahead)) {
+      advance(lexer);
+    }
+
+    lexer->mark_end(lexer);
+    return true;
   }
 
   if (lexer->lookahead == '/') {

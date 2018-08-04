@@ -42,6 +42,7 @@ module.exports = grammar({
 
   externals: $ => [
     $.raw_string_literal,
+    $.float_literal,
     $.block_comment,
   ],
 
@@ -1078,7 +1079,7 @@ module.exports = grammar({
       '.',
       choice(
         $._field_identifier,
-        alias($._integer_literal, $.number_literal)
+        $.integer_literal
       )
     )),
 
@@ -1186,35 +1187,18 @@ module.exports = grammar({
       $.raw_string_literal,
       $.char_literal,
       $.boolean_literal,
-      $.number_literal
+      $.integer_literal,
+      $.float_literal
     ),
 
-    number_literal: $ => {
-      const exponent = token(seq(
-        choice('e', 'E'),
-        optional(choice('+', '-')),
-        repeat(choice(/[0-9]/, '_'))
-      ))
-
-      return prec.right(seq(
-        $._integer_literal,
-        optional(choice(
-          exponent,
-          seq(
-            '.',
-            optional(/[0-9_]+/),
-            optional(exponent)
-          )
-        )),
-        optional(choice(...numeric_types))
-      ))
-    },
-
-    _integer_literal: $ => token(choice(
-      seq(/[0-9]/, repeat(choice(/[0-9]/, '_'))),
-      seq('0x', repeat(choice(/[0-9a-fA-F]/, '_'))),
-      seq('0b', repeat(choice(/[01]/, '_'))),
-      seq('0o', repeat(choice(/[0-7]/, '_')))
+    integer_literal: $ => token(seq(
+      choice(
+        /[0-9][0-9_]*/,
+        /0x[0-9a-fA-F_]+/,
+        /0b[01_]+/,
+        /0o[0-7_]+/
+      ),
+      optional(choice(...numeric_types))
     )),
 
     string_literal: $ => seq(
