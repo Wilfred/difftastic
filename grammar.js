@@ -211,11 +211,11 @@ module.exports = grammar({
       $._non_special_token
     ),
 
-    token_tree: $ => prec.dynamic(-1, choice(
+    token_tree: $ => choice(
       seq(
         '(',
         choice(
-          repeat($._tokens),
+          prec.dynamic(-1, repeat($._tokens)),
           seq(sepBy1(',', $._expression), optional(','))
         ),
         ')'
@@ -223,7 +223,7 @@ module.exports = grammar({
       seq(
         '[',
         choice(
-          repeat($._tokens),
+          prec.dynamic(-1, repeat($._tokens)),
           seq(sepBy1(',', $._expression), optional(','))
         ),
         ']'
@@ -231,12 +231,12 @@ module.exports = grammar({
       seq(
         '{',
         choice(
-          repeat($._tokens),
+          prec.dynamic(-1, repeat($._tokens)),
           seq(repeat($._statement), optional($._expression))
         ),
         '}'
       )
-    )),
+    ),
 
     token_repetition: $ => seq(
       '$', '(', repeat($._tokens), ')', optional(/[^+*]+/), choice('+', '*')
@@ -245,8 +245,7 @@ module.exports = grammar({
     _non_special_token: $ => choice(
       $._literal, $.identifier, $.metavariable, $.mutable_specifier, $.self, $.super, $.crate,
       alias(choice(...primitive_types), $.primitive_type), '_',
-      prec(PREC.unary, choice('*', '&', '-')),
-      prec(PREC.field, '.'),
+      prec(PREC.unary, choice('*', '&', '-')), '.',
       '-', '-=', '->', ',', ';', ':', '::', '!', '!=', '@', '*=',
       '/', '/=', '&&', '&=', '#', '%', '%=', '^', '^=', '+', '+=', '<',
       '<<', '<<=', '<=', '=', '==', '=>', '>', '>=', '>>', '>>=', '|', '|=',
