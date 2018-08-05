@@ -44,6 +44,7 @@ Macro invocation - expressions
 
 println!("a {}", b.c());
 vec!(A::new(), b);
+assert!(a.b);
 
 ---
 
@@ -59,7 +60,10 @@ vec!(A::new(), b);
     (identifier)
     (token_tree
       (call_expression (scoped_identifier (identifier) (identifier)) (arguments))
-      (identifier))))
+      (identifier)))
+  (macro_invocation
+    (identifier)
+    (token_tree (field_expression (identifier) (field_identifier)))))
 
 ==============================================
 Macro invocation - declarations
