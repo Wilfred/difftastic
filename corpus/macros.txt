@@ -1,0 +1,137 @@
+============================================
+Macro invocation - no arguments
+============================================
+
+a!();
+b![];
+c!{};
+
+---
+
+(source_file
+  (macro_invocation (identifier) (token_tree))
+  (macro_invocation (identifier) (token_tree))
+  (macro_invocation (identifier) (token_tree)))
+
+============================================
+Macro invocation - arbitrary tokens
+============================================
+
+a!(* a *);
+a!(& a &);
+a!(- a -);
+a!(b + c + +);
+
+----
+
+(source_file
+  (macro_invocation
+    (identifier)
+    (token_tree (identifier)))
+  (macro_invocation
+    (identifier)
+    (token_tree (identifier)))
+  (macro_invocation
+    (identifier)
+    (token_tree (identifier)))
+  (macro_invocation
+    (identifier)
+    (token_tree (identifier) (identifier))))
+
+==============================================
+Macro invocation - expressions
+==============================================
+
+println!("a {}", b.c());
+vec!(A::new(), b);
+
+---
+
+(source_file
+  (macro_invocation
+    (identifier)
+    (token_tree
+      (string_literal)
+      (call_expression
+        (field_expression (identifier) (field_identifier))
+        (arguments))))
+  (macro_invocation
+    (identifier)
+    (token_tree
+      (call_expression (scoped_identifier (identifier) (identifier)) (arguments))
+      (identifier))))
+
+==============================================
+Macro invocation - declarations
+==============================================
+
+quote! {
+  impl a for b {
+
+  }
+}
+
+---
+
+(source_file
+  (macro_invocation
+    (identifier)
+    (token_tree
+      (impl_item (type_identifier) (impl_for_clause (type_identifier)) (declaration_list)))))
+
+============================================
+Macro definition
+============================================
+
+macro_rules! say_hello {
+    () => (
+        println!("Hello!");
+    )
+}
+
+macro_rules! four {
+    () => {1 + 3};
+}
+
+macro_rules! foo {
+    (x => $e:expr) => (println!("mode X: {}", $e));
+    (y => $e:expr) => (println!("mode Y: {}", $e))
+}
+
+macro_rules! o_O {
+    (
+      $($x:expr; [ $( $y:expr ),* ]);*
+    ) => {
+      $($($x + $e),*),*
+    }
+}
+
+----
+
+(source_file
+  (macro_definition (identifier)
+    (macro_rule
+      (token_tree_pattern)
+      (token_tree (identifier) (token_tree (string_literal)))))
+  (macro_definition (identifier)
+    (macro_rule
+      (token_tree_pattern)
+      (token_tree (binary_expression (integer_literal) (integer_literal)))))
+  (macro_definition (identifier)
+    (macro_rule
+      (token_tree_pattern (identifier) (token_binding_pattern (metavariable) (fragment_specifier)))
+      (token_tree
+        (macro_invocation (identifier) (token_tree (string_literal) (metavariable)))))
+    (macro_rule
+      (token_tree_pattern
+        (identifier)
+        (token_binding_pattern (metavariable) (fragment_specifier)))
+      (token_tree
+        (macro_invocation (identifier) (token_tree (string_literal) (metavariable))))))
+  (macro_definition (identifier)
+    (macro_rule
+      (token_tree_pattern (token_repetition_pattern
+        (token_binding_pattern (metavariable) (fragment_specifier))
+        (token_tree_pattern (token_repetition_pattern
+          (token_binding_pattern (metavariable) (fragment_specifier))))))
+      (token_tree (token_repetition (token_repetition (metavariable) (metavariable)))))))
