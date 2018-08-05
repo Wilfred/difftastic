@@ -49,6 +49,7 @@ module.exports = grammar({
   inline: $ => [
     $._path,
     $._type_identifier,
+    $._tokens,
     $._field_identifier,
     $._non_special_token,
     $._declaration_statement,
@@ -56,9 +57,61 @@ module.exports = grammar({
     $._expression_ending_with_block
   ],
 
+  // We try to parse macro arguments as expressions and items, resulting in many rules
+  // conflicting with `token_tree`.
   conflicts: $ => [
-    [$.visibility_modifier]
-  ],
+    [],
+    [$.array_expression],
+    [$._expression_statement],
+    [$._expression, $.struct_expression],
+    [$._expression],
+    [$.assignment_expression],
+    [$.attribute_item],
+    [$.block],
+    [$.bracketed_type],
+    [$.break_expression],
+    [$.closure_parameters],
+    [$.compound_assignment_expr],
+    [$.const_item],
+    [$.continue_expression],
+    [$.empty_statement],
+    [$.enum_item],
+    [$.for_expression],
+    [$.function_item, $.function_signature_item],
+    [$.function_modifiers],
+    [$.generic_function, $.generic_type_with_turbofish, $.scoped_identifier, $.scoped_type_identifier_in_expression_position],
+    [$.generic_function],
+    [$.if_expression],
+    [$.if_let_expression],
+    [$.impl_item],
+    [$.inner_attribute_item],
+    [$.let_declaration],
+    [$.loop_expression],
+    [$.loop_label],
+    [$.macro_invocation],
+    [$.match_expression],
+    [$.mod_item],
+    [$.parenthesized_expression],
+    [$.reference_expression],
+    [$.return_expression],
+    [$.static_item],
+    [$.struct_expression],
+    [$.struct_item],
+    [$.trait_item],
+    [$.try_expression],
+    [$.tuple_expression],
+    [$.type_cast_expression],
+    [$.type_item, $.associated_type],
+    [$.unary_expression],
+    [$.union_item, $._expression],
+    [$.union_item],
+    [$.unit_expression],
+    [$.unsafe_block],
+    [$.use_declaration],
+    [$.visibility_modifier],
+    [$.while_expression],
+    [$.while_let_expression],
+  ].map(a => a.concat($.token_tree)),
 
   word: $ => $.identifier,
 
@@ -152,17 +205,38 @@ module.exports = grammar({
       'ident', 'path', 'expr', 'ty', 'pat', 'stmt', 'block', 'item', 'meta', 'tt'
     ),
 
-    _tokens: $ => prec.left(-1, choice(
+    _tokens: $ => choice(
       $.token_tree,
       $.token_repetition,
       $._non_special_token
-    )),
-
-    token_tree: $ => choice(
-      seq('(', repeat($._tokens), ')'),
-      seq('[', repeat($._tokens), ']'),
-      seq('{', repeat($._tokens), '}')
     ),
+
+    token_tree: $ => prec.dynamic(-1, choice(
+      seq(
+        '(',
+        choice(
+          repeat($._tokens),
+          seq(sepBy1(',', $._expression), optional(','))
+        ),
+        ')'
+      ),
+      seq(
+        '[',
+        choice(
+          repeat($._tokens),
+          seq(sepBy1(',', $._expression), optional(','))
+        ),
+        ']'
+      ),
+      seq(
+        '{',
+        choice(
+          repeat($._tokens),
+          seq(repeat($._statement), optional($._expression))
+        ),
+        '}'
+      )
+    )),
 
     token_repetition: $ => seq(
       '$', '(', repeat($._tokens), ')', optional(/[^+*]+/), choice('+', '*')
@@ -170,11 +244,13 @@ module.exports = grammar({
 
     _non_special_token: $ => choice(
       $._literal, $.identifier, $.metavariable, $.mutable_specifier, $.self, $.super, $.crate,
-      alias(choice(...primitive_types), $.primitive_type),
-      '-', '-=', '->', ',', ';', ':', '::', '!', '!=', '.', '@', '*', '*=',
-      '/', '/=', '&', '&&', '&=', '#', '%', '%=', '^', '^=', '+', '+=', '<',
+      alias(choice(...primitive_types), $.primitive_type), '_',
+      prec(PREC.unary, choice('*', '&', '-')),
+      prec(PREC.field, '.'),
+      '-', '-=', '->', ',', ';', ':', '::', '!', '!=', '@', '*=',
+      '/', '/=', '&&', '&=', '#', '%', '%=', '^', '^=', '+', '+=', '<',
       '<<', '<<=', '<=', '=', '==', '=>', '>', '>=', '>>', '>>=', '|', '|=',
-      '||', '~', "?", "'",
+      '||', '~', "?", "'", '..', '...',
       'as', 'break', 'const', 'continue', 'default', 'enum', 'fn', 'for', 'if', 'impl',
       'let', 'loop', 'match', 'mod', 'pub', 'return', 'static', 'struct', 'trait', 'type',
       'union', 'unsafe', 'use', 'where', 'while'
@@ -360,7 +436,7 @@ module.exports = grammar({
       optional($.visibility_modifier),
       optional($.function_modifiers),
       'fn',
-      $.identifier,
+      choice($.identifier, $.metavariable),
       optional($.type_parameters),
       $.parameters,
       optional(seq(
@@ -375,7 +451,7 @@ module.exports = grammar({
       optional($.visibility_modifier),
       optional($.function_modifiers),
       'fn',
-      $.identifier,
+      choice($.identifier, $.metavariable),
       optional($.type_parameters),
       $.parameters,
       optional(seq(
@@ -470,6 +546,7 @@ module.exports = grammar({
       '<',
       sepBy1(',', choice(
         $.lifetime,
+        $.metavariable,
         $._type_identifier,
         $.constrained_type_parameter,
         $.optional_type_parameter
@@ -575,6 +652,7 @@ module.exports = grammar({
         $.identifier,
         '_',
         $.self,
+        alias($.reference_pattern_in_parameter, $.reference_pattern),
         $._reserved_identifier,
         alias(choice(...primitive_types), $.identifier)
       ),
@@ -587,7 +665,7 @@ module.exports = grammar({
       optional($.string_literal)
     ),
 
-    visibility_modifier: $ => seq(
+    visibility_modifier: $ => prec.right(seq(
       'pub',
       optional(seq(
         '(',
@@ -599,12 +677,13 @@ module.exports = grammar({
         ),
         ')'
       ))
-    ),
+    )),
 
     // Section - Types
 
     _type: $ => choice(
       $.reference_type,
+      $.metavariable,
       $.pointer_type,
       $.generic_type,
       $.scoped_type_identifier,
@@ -652,7 +731,7 @@ module.exports = grammar({
       prec(PREC.call, seq(
         choice(
           $._type_identifier,
-          $.scoped_identifier,
+          $.scoped_type_identifier,
           'fn'
         ),
         $.parameters
@@ -672,7 +751,7 @@ module.exports = grammar({
 
     unit_type: $ => seq('(', ')'),
 
-    generic_function: $ => seq(
+    generic_function: $ => prec(1, seq(
       choice(
         $.identifier,
         $.scoped_identifier,
@@ -680,7 +759,7 @@ module.exports = grammar({
       ),
       '::',
       $.type_arguments
-    ),
+    )),
 
     generic_type: $ => prec(1, seq(
       choice(
@@ -690,14 +769,14 @@ module.exports = grammar({
       $.type_arguments
     )),
 
-    generic_type_with_turbofish: $ => prec(-1, seq(
+    generic_type_with_turbofish: $ => seq(
       choice(
         $._type_identifier,
         $.scoped_identifier
       ),
       '::',
       $.type_arguments
-    )),
+    ),
 
     bounded_type: $ => prec.left(-1, choice(
       seq($.lifetime, '+', $._type),
@@ -807,7 +886,7 @@ module.exports = grammar({
       $.token_tree
     ),
 
-    scoped_identifier: $ => prec(-1, seq(
+    scoped_identifier: $ => seq(
       optional(choice(
         $._path,
         $.bracketed_type,
@@ -815,7 +894,7 @@ module.exports = grammar({
       )),
       '::',
       $.identifier
-    )),
+    ),
 
     scoped_type_identifier_in_expression_position: $ => prec(-2, seq(
       optional(choice(
@@ -1062,7 +1141,11 @@ module.exports = grammar({
 
     closure_parameters: $ => seq(
       '|',
-      sepBy(',', choice($._pattern, $.parameter)),
+      sepBy(',', choice(
+        $._pattern,
+        alias($.reference_pattern_in_parameter, $.reference_pattern),
+        $.parameter
+      )),
       '|'
     ),
 
@@ -1118,6 +1201,17 @@ module.exports = grammar({
       optional(','),
       ')'
     ),
+
+    tuple_pattern_in_parameter: $ => prec(1, seq(
+      '(',
+      sepBy(',', choice(
+        prec($.identifier),
+        alias($.reference_pattern_in_parameter, $.reference_pattern),
+        $.ref_pattern
+      )),
+      optional(','),
+      ')'
+    )),
 
     tuple_struct_pattern: $ => seq(
       choice(
@@ -1178,6 +1272,15 @@ module.exports = grammar({
       '&',
       optional($.mutable_specifier),
       $._pattern
+    ),
+
+    reference_pattern_in_parameter: $ => seq(
+      '&',
+      optional($.mutable_specifier),
+      choice(
+        prec(1, $.identifier),
+        $.tuple_pattern_in_parameter
+      )
     ),
 
     // Section - Literals
@@ -1249,6 +1352,7 @@ module.exports = grammar({
     _path: $ => choice(
       $.self,
       alias(choice(...primitive_types), $.identifier),
+      $.metavariable,
       $.super,
       $.crate,
       $.identifier,
