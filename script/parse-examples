@@ -1,0 +1,25 @@
+#!/bin/bash
+
+set -e
+
+cd "$(dirname "$0")/.."
+
+all_examples=$(find examples -name '*.go' | egrep -v 'go/test|testdata')
+known_failures=$(cat script/known-failures.txt | egrep -v '^#')
+
+examples_to_parse=$(
+  for example in $all_examples; do
+    if [[ ! $known_failures == *$example* ]]; then
+      echo $example
+    fi
+  done
+)
+
+echo $examples_to_parse | xargs -n 1000 tree-sitter parse -q
+
+skipped=$( echo $known_failures | wc -w )
+parsed=$( echo $examples_to_parse | wc -w )
+total=$((parsed+skipped))
+percent=$(bc -l <<< "100*$parsed/$total")
+
+printf "Successfully parsed %d of %d files (%.2f%%)\n" $parsed $total $percent
