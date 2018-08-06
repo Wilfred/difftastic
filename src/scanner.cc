@@ -98,6 +98,7 @@ struct Scanner {
         lexer->lookahead == '&' ||
         lexer->lookahead == '|' ||
         lexer->lookahead == '`' ||
+        lexer->lookahead == '#' ||
         (lexer->lookahead == '}' && valid_symbols[CLOSING_BRACE]) ||
         (lexer->lookahead == ']' && valid_symbols[CLOSING_BRACKET])
       )) {

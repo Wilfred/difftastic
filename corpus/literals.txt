@@ -56,6 +56,7 @@ echo $# $* $@
 Variable expansions
 =============================
 
+echo ${var1#*#}
 echo ${!abc}
 echo ${abc}
 echo ${abc:-def}
@@ -66,6 +67,7 @@ echo ${abc:
 ---
 
 (program
+  (command (command_name (word)) (expansion (variable_name) (word)))
   (command (command_name (word)) (expansion (variable_name)))
   (command (command_name (word)) (expansion (variable_name)))
   (command (command_name (word)) (expansion (variable_name) (word)))
