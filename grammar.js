@@ -41,7 +41,7 @@ module.exports = grammar({
 
   extras: $ => [
     $.comment,
-    token(choice(/\s/, '\\\n')),
+    /\\?\s/,
   ],
 
   word: $ => $.word,

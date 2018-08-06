@@ -19,7 +19,6 @@ examples/bash-it/completion/available/packer.completion.bash
 examples/bash-it/completion/available/vault.completion.bash
 examples/bash-it/completion/available/docker.completion.bash
 examples/bash-it/completion/available/tmux.completion.bash
-examples/bash-it/completion/available/virsh.completion.bash
 examples/bash-it/completion/available/apm.completion.bash
 examples/bash-it/completion/available/git_flow.completion.bash
 examples/bash-it/lib/preexec.bash
@@ -38,4 +37,3 @@ examples/bash-it/themes/nwinkler_random_colors/nwinkler_random_colors.theme.bash
 examples/bash-it/themes/mbriggs/mbriggs.theme.bash
 examples/bash-it/themes/kitsune/kitsune.theme.bash
 examples/bash-it/themes/doubletime/doubletime.theme.bash
-examples/bash-it/themes/duru/duru.theme.bash

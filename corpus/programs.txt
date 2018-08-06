@@ -40,3 +40,13 @@ f=g   \
       (word))
     (command_name (word))
     (word)))
+
+=============================
+Escaped whitespace
+============================
+
+echo 1 \ 2 \ 3
+
+---
+
+(program (command (command_name (word)) (word) (word) (word)))
