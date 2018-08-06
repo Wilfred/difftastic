@@ -101,6 +101,43 @@ done
       (variable_assignment (variable_name) (raw_string)))))
 
 ====================================
+C-style for statements
+====================================
+
+for (( c=1; c<=5; c++ ))
+do
+  echo $c
+done
+
+for (( c=1; c<=5; c++ )) {
+	echo $c
+}
+
+for (( ; ; ))
+do
+  echo 'forever'
+done
+
+---
+
+(program
+  (c_style_for_statement
+    (word)
+    (binary_expression (word) (word))
+    (word)
+    (do_group
+      (command (command_name (word)) (simple_expansion (variable_name)))))
+  (c_style_for_statement
+    (word)
+    (binary_expression (word) (word))
+    (word)
+    (compound_statement
+      (command (command_name (word)) (simple_expansion (variable_name)))))
+  (c_style_for_statement
+    (do_group
+      (command (command_name (word)) (raw_string)))))
+
+====================================
 If statements
 ====================================
 

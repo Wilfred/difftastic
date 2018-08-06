@@ -63,6 +63,7 @@ module.exports = grammar({
       $.test_command,
       $.negated_command,
       $.for_statement,
+      $.c_style_for_statement,
       $.while_statement,
       $.if_statement,
       $.case_statement,
@@ -81,6 +82,21 @@ module.exports = grammar({
       )),
       $._terminator,
       $.do_group
+    ),
+
+    c_style_for_statement: $ => seq(
+      'for',
+      '((',
+      optional($._expression),
+      $._terminator,
+      optional($._expression),
+      $._terminator,
+      optional($._expression),
+      '))',
+      choice(
+        $.do_group,
+        $.compound_statement
+      )
     ),
 
     while_statement: $ => seq(
