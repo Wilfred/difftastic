@@ -2133,20 +2133,8 @@
       "name": "comment"
     },
     {
-      "type": "TOKEN",
-      "content": {
-        "type": "CHOICE",
-        "members": [
-          {
-            "type": "PATTERN",
-            "value": "\\s"
-          },
-          {
-            "type": "STRING",
-            "value": "\\\n"
-          }
-        ]
-      }
+      "type": "PATTERN",
+      "value": "\\\\?\\s"
     }
   ],
   "conflicts": [],
