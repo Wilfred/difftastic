@@ -6,6 +6,21 @@ tree-sitter-bash
 
 Bash grammar for [tree-sitter](https://github.com/tree-sitter/tree-sitter).
 
+### Development
+
+Install the dependencies:
+
+    npm install
+
+Build and run the tests:
+
+    npm run build
+    npm run test
+
+Run the build and tests in watch mode:
+
+    npm run test:watch
+
 #### References
 
 * [Bash man page](http://man7.org/linux/man-pages/man1/bash.1.html#SHELL_GRAMMAR)

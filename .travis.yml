@@ -33,7 +33,7 @@ branches:
 
 deploy:
   provider: script
-  script: npm run prebuild && npm run prebuild:upload -u ${PREBUILD_UPLOAD}
+  script: npm run pre-build && npm run pre-build:upload -u ${PREBUILD_UPLOAD}
   skip_cleanup: true
   on:
     all_branches: true
