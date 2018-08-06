@@ -47,7 +47,7 @@ module.exports = grammar({
   word: $ => $.word,
 
   rules: {
-    program: $ => repeat($._terminated_statement),
+    program: $ => optional($._statements),
 
     _terminated_statement: $ => seq(
       $._statement,

@@ -3,11 +3,16 @@
   "word": "word",
   "rules": {
     "program": {
-      "type": "REPEAT",
-      "content": {
-        "type": "SYMBOL",
-        "name": "_terminated_statement"
-      }
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_statements"
+        },
+        {
+          "type": "BLANK"
+        }
+      ]
     },
     "_terminated_statement": {
       "type": "SEQ",
