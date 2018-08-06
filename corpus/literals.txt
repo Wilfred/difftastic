@@ -101,6 +101,7 @@ package main
 const (
   a = "0"
   b = "`\"`"
+  c = "\x0c"
 )
 
 ---
@@ -109,7 +110,8 @@ const (
   (package_clause (package_identifier))
   (const_declaration
     (const_spec (identifier) (expression_list (interpreted_string_literal)))
-    (const_spec (identifier) (expression_list (interpreted_string_literal)))))
+    (const_spec (identifier) (expression_list (interpreted_string_literal (escape_sequence))))
+    (const_spec (identifier) (expression_list (interpreted_string_literal (escape_sequence))))))
 
 ============================================
 Slice literals
