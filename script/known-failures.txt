@@ -1,0 +1,5 @@
+# Unhandled identifier character: 'ŝ'
+examples/go/src/math/big/arith.go
+
+# Unhandled identifier character: 'ƒ'
+examples/moby/vendor/github.com/beorn7/perks/quantile/stream.go
