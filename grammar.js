@@ -16,6 +16,7 @@ module.exports = grammar({
 
   inline: $ => [
     $._statement,
+    $._statements,
     $._terminator,
     $._literal,
     $._primary_expression,
@@ -71,6 +72,12 @@ module.exports = grammar({
       $.list,
       $.subshell,
       $.function_definition
+    ),
+
+    _statements: $ => seq(
+      repeat($._terminated_statement),
+      $._statement,
+      optional($._terminator)
     ),
 
     for_statement: $ => seq(
@@ -191,9 +198,7 @@ module.exports = grammar({
 
     subshell: $ => seq(
       '(',
-      repeat($._terminated_statement),
-      $._statement,
-      optional($._terminator),
+      $._statements,
       ')'
     ),
 
@@ -459,13 +464,13 @@ module.exports = grammar({
     ),
 
     command_substitution: $ => choice(
-      seq('$(', $._statement, ')'),
-      prec(1, seq('`', $._statement, '`'))
+      seq('$(', $._statements, ')'),
+      prec(1, seq('`', $._statements, '`'))
     ),
 
     process_substitution: $ => seq(
       choice('<(', '>('),
-      $._statement,
+      $._statements,
       ')'
     ),
 

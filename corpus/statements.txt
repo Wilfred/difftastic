@@ -377,6 +377,27 @@ export FOOBAR PATH="$PATH:/usr/foobar/bin"
     (variable_name)
     (variable_assignment (variable_name) (string (simple_expansion (variable_name))))))
 
+===========================================================
+Variable declaration: command substitution with semi-colon
+===========================================================
+
+_path=$(
+  while statement; do
+    cd ".."
+  done;
+  echo $PWD
+)
+
+---
+
+(program
+  (variable_assignment (variable_name)
+    (command_substitution
+      (while_statement
+        (command (command_name (word)))
+        (do_group (command (command_name (word)) (string))))
+      (command (command_name (word)) (simple_expansion (variable_name))))))
+
 ===========================================
 Expressions passed to declaration commands
 ===========================================
