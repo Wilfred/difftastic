@@ -62,7 +62,7 @@ module.exports = grammar({
     $._field_identifier,
     $._package_identifier,
   ],
-  
+
   word: $ => $.identifier,
 
   conflicts: $ => [
@@ -753,13 +753,24 @@ module.exports = grammar({
       '`'
     )),
 
-    interpreted_string_literal: $ => token(seq(
+    interpreted_string_literal: $ => seq(
       '"',
       repeat(choice(
-        /[^"\n\\]/,
-        seq('\\', /./)
+        token.immediate(prec(1, /[^"\n\\]/)),
+        $.escape_sequence
       )),
       '"'
+    ),
+
+    escape_sequence: $ => token.immediate(seq(
+      '\\',
+      choice(
+        /[^xuU]/,
+        /\d{2,3}/,
+        /x[0-9a-fA-F]{2,}/,
+        /u[0-9a-fA-F]{4}/,
+        /U[0-9a-fA-F]{8}/
+      )
     )),
 
     int_literal: $ => token(choice(decimalLiteral, octalLiteral, hexLiteral)),
