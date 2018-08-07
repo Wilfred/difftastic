@@ -739,9 +739,14 @@ module.exports = grammar({
       '}'
     ),
 
-    regex: $ => token(seq(
+    regex: $ => seq(
       '/',
-      repeat(choice(
+      $.regex_pattern,
+      token.immediate(seq('/', repeat(/[a-z]/)))
+    ),
+
+    regex_pattern: $ => token.immediate(
+      repeat1(choice(
         seq(
           '[',
           repeat(choice(
@@ -752,10 +757,8 @@ module.exports = grammar({
         ),              // square-bracket-delimited character class
         seq('\\', /./), // escaped character
         /[^/\\\[\n]/    // any character besides '[', '\', '/', '\n'
-      )),
-      '/',
-      repeat(/[a-z]/)
-    )),
+      ))
+    ),
 
     number: $ => {
       const hex_literal = seq(
