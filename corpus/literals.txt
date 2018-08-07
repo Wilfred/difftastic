@@ -23,3 +23,14 @@ const últimaVez = 1
 (program
   (lexical_declaration (variable_declarator (identifier) (number)))
   (expression_statement (object (pair (property_identifier) (string)) (pair (string) (string)))))
+
+==========================================
+Strings containing comment-like content
+==========================================
+
+"//ok\n//what"
+
+---
+
+(program
+  (expression_statement (string (escape_sequence))))

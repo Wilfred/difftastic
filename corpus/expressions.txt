@@ -13,11 +13,11 @@ line';
 ----
 
 (program
-  (expression_statement (string))
-  (expression_statement (string))
-  (expression_statement (string))
-  (expression_statement (string))
-	(expression_statement (string)))
+  (expression_statement (string (escape_sequence) (escape_sequence)))
+  (expression_statement (string (escape_sequence) (escape_sequence)))
+  (expression_statement (string (escape_sequence)))
+  (expression_statement (string (escape_sequence)))
+	(expression_statement (string (escape_sequence))))
 
 ============================================
 Template strings
@@ -69,13 +69,15 @@ Template strings
   (expression_statement (template_string
     (template_substitution (string))
     (template_substitution (string))))
-  (expression_statement (template_string))
+  (expression_statement (template_string (escape_sequence)))
   (expression_statement (template_string
+    (escape_sequence)
     (template_substitution (call_expression
       (member_expression (identifier) (property_identifier))
       (arguments (string))))
+    (escape_sequence)
     (template_substitution (identifier))))
-  (expression_statement (template_string))
+  (expression_statement (template_string (escape_sequence)))
   (expression_statement (template_string)))
 
 ============================================
@@ -177,13 +179,13 @@ Regexps
 ---
 
 (program
-  (expression_statement (regex))
-  (expression_statement (regex))
-  (expression_statement (regex))
-  (expression_statement (regex))
-  (expression_statement (regex))
-  (expression_statement (regex))
-  (expression_statement (regex)))
+  (expression_statement (regex (regex_pattern)))
+  (expression_statement (regex (regex_pattern)))
+  (expression_statement (regex (regex_pattern)))
+  (expression_statement (regex (regex_pattern)))
+  (expression_statement (regex (regex_pattern)))
+  (expression_statement (regex (regex_pattern)))
+  (expression_statement (regex (regex_pattern))))
 
 ============================================
 Comments take precedence over regexes
@@ -1107,7 +1109,7 @@ if (foo - bar) /baz/;
       (identifier)))
   (if_statement
     (parenthesized_expression (binary_expression (identifier) (identifier)))
-    (expression_statement (regex)))
+    (expression_statement (regex (regex_pattern))))
   (expression_statement
     (binary_expression
       (parenthesized_expression (binary_expression

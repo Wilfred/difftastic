@@ -1,7 +1,9 @@
 const PREC = {
+  COMMENT: 1, // Prefer comments over regexes
+  STRING: 2,  // In a string, prefer string characters over comments
+
   COMMA: -1,
   DECLARATION: 1,
-  COMMENT: 1,
   ASSIGN: 0,
   OBJECT: 1,
   TERNARY: 1,
@@ -709,6 +711,36 @@ module.exports = grammar({
     // Primitives
     //
 
+    string: $ => choice(
+      seq(
+        '"',
+        repeat(choice(
+          token.immediate(prec(PREC.STRING, /[^"\\\n]+/)),
+          $.escape_sequence
+        )),
+        '"'
+      ),
+      seq(
+        "'",
+        repeat(choice(
+          token.immediate(prec(PREC.STRING, /[^'\\\n]+/)),
+          $.escape_sequence
+        )),
+        "'"
+      )
+    ),
+
+    escape_sequence: $ => token.immediate(seq(
+      '\\',
+      choice(
+        /[^xu0-7]/,
+        /[0-7]{1,3}/,
+        /x[0-9a-fA-F]{2}/,
+        /u[0-9a-fA-F]{4}/,
+        /u{[0-9a-fA-F]+}/
+      )
+    )),
+
     // http://stackoverflow.com/questions/13014947/regex-to-match-a-c-style-multiline-comment/36328890#36328890
     comment: $ => token(prec(PREC.COMMENT, choice(
       seq('//', /.*/),
@@ -719,15 +751,11 @@ module.exports = grammar({
       )
     ))),
 
-    string: $ => token(choice(
-      seq('"', repeat(choice(/[^\\"\n]/, /\\(.|\n)/)), '"'),
-      seq("'", repeat(choice(/[^\\'\n]/, /\\(.|\n)/)), "'")
-    )),
-
     template_string: $ => seq(
       '`',
       repeat(choice(
         $._template_chars,
+        $.escape_sequence,
         $.template_substitution
       )),
       '`'
@@ -751,7 +779,7 @@ module.exports = grammar({
           '[',
           repeat(choice(
             seq('\\', /./), // escaped character
-            /[^\]\n]/       // any character besides ']' or '\n'
+            /[^\]\n\\]/       // any character besides ']' or '\n'
           )),
           ']'
         ),              // square-bracket-delimited character class
