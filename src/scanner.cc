@@ -34,14 +34,14 @@ struct Scanner {
       Tag &tag = tags[j];
       if (tag.type == CUSTOM) {
         unsigned name_length = tag.custom_tag_name.size();
-        if (name_length > UINT8_MAX) break;
-        if (i + 2 + name_length >= TREE_SITTER_SERIALIZATION_BUFFER_SIZE) break;
+        if (name_length > UINT8_MAX) return 0;
+        if (i + 2 + name_length >= TREE_SITTER_SERIALIZATION_BUFFER_SIZE) return 0;
         buffer[i++] = static_cast<char>(tag.type);
         buffer[i++] = name_length;
         tag.custom_tag_name.copy(&buffer[i], name_length);
         i += name_length;
       } else {
-        if (i + 1 >= TREE_SITTER_SERIALIZATION_BUFFER_SIZE) break;
+        if (i + 1 >= TREE_SITTER_SERIALIZATION_BUFFER_SIZE) return 0;
         buffer[i++] = static_cast<char>(tag.type);
       }
     }
