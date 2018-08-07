@@ -34,6 +34,7 @@ struct Scanner {
       Tag &tag = tags[j];
       if (tag.type == CUSTOM) {
         unsigned name_length = tag.custom_tag_name.size();
+        if (name_length > UINT8_MAX) break;
         if (i + 2 + name_length >= TREE_SITTER_SERIALIZATION_BUFFER_SIZE) break;
         buffer[i++] = static_cast<char>(tag.type);
         buffer[i++] = name_length;
