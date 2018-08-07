@@ -7824,7 +7824,7 @@
             "members": [
               {
                 "type": "PATTERN",
-                "value": "[^\\\\\"]+"
+                "value": "[^\\\\\"%@]+|%|@"
               },
               {
                 "type": "SYMBOL",
@@ -7847,6 +7847,14 @@
                 },
                 "named": true,
                 "value": "escape_sequence"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "conversion_specification"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "pretty_printing_indication"
               }
             ]
           }
@@ -7877,6 +7885,71 @@
           "value": "\\\\o[0-3][0-7][0-7]"
         }
       ]
+    },
+    "conversion_specification": {
+      "type": "TOKEN",
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "%"
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "PATTERN",
+                "value": "[\\-0+ #]"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "PATTERN",
+                "value": "[1-9][0-9]*|\\*"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "PATTERN",
+                "value": "\\.([0-9]*|\\*)"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "PATTERN",
+                "value": "[diunlLNxXosScCfFeEgGhHbBat!%@,]"
+              },
+              {
+                "type": "PATTERN",
+                "value": "[lnL][diuxXo]"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "pretty_printing_indication": {
+      "type": "PATTERN",
+      "value": "@([\\[\\], ;.{}?]|\\\\n|<[0-9]+>)"
     },
     "boolean": {
       "type": "CHOICE",

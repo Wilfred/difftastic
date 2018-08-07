@@ -1467,10 +1467,12 @@ module.exports = grammar({
     string: $ => seq(
       '"',
       repeat(choice(
-        /[^\\"]+/,
+        /[^\\"%@]+|%|@/,
         $.escape_sequence,
         alias(/\\u\{[0-9A-Fa-f]+\}/, $.escape_sequence),
-        alias(/\\\n[\t ]*/, $.escape_sequence)
+        alias(/\\\n[\t ]*/, $.escape_sequence),
+        $.conversion_specification,
+        $.pretty_printing_indication
       )),
       '"'
     ),
@@ -1481,6 +1483,19 @@ module.exports = grammar({
       /\\x[0-9A-Fa-f][0-9A-Fa-f]/,
       /\\o[0-3][0-7][0-7]/
     ),
+
+    conversion_specification: $ => token(seq(
+      '%',
+      optional(/[\-0+ #]/),
+      optional(/[1-9][0-9]*|\*/),
+      optional(/\.([0-9]*|\*)/),
+      choice(
+        /[diunlLNxXosScCfFeEgGhHbBat!%@,]/,
+        /[lnL][diuxXo]/
+      )
+    )),
+
+    pretty_printing_indication: $ => /@([\[\], ;.{}?]|\\n|<[0-9]+>)/,
 
     boolean: $ => choice('true', 'false'),
 
