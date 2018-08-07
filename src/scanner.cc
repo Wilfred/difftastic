@@ -26,25 +26,26 @@ struct Scanner {
   Scanner() {}
 
   unsigned serialize(char *buffer) {
-    unsigned i = 0;
-    unsigned n = tags.size();
-    std::memcpy(buffer, &n, sizeof(n));
-    i += sizeof(n);
-    for (unsigned j = 0; j < n; j++) {
-      Tag &tag = tags[j];
+    unsigned tag_count = 0;
+    unsigned i = sizeof(tag_count);
+
+    for (unsigned n = tags.size(); tag_count < n; tag_count++) {
+      Tag &tag = tags[tag_count];
       if (tag.type == CUSTOM) {
         unsigned name_length = tag.custom_tag_name.size();
-        if (name_length > UINT8_MAX) return 0;
-        if (i + 2 + name_length >= TREE_SITTER_SERIALIZATION_BUFFER_SIZE) return 0;
+        if (name_length > UINT8_MAX) break;
+        if (i + 2 + name_length >= TREE_SITTER_SERIALIZATION_BUFFER_SIZE) break;
         buffer[i++] = static_cast<char>(tag.type);
         buffer[i++] = name_length;
         tag.custom_tag_name.copy(&buffer[i], name_length);
         i += name_length;
       } else {
-        if (i + 1 >= TREE_SITTER_SERIALIZATION_BUFFER_SIZE) return 0;
+        if (i + 1 >= TREE_SITTER_SERIALIZATION_BUFFER_SIZE) break;
         buffer[i++] = static_cast<char>(tag.type);
       }
     }
+
+    std::memcpy(buffer, &tag_count, sizeof(tag_count));
     return i;
   }
 
