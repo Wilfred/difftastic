@@ -202,8 +202,10 @@ struct Scanner {
     lexer->advance(lexer, false);
     if (lexer->lookahead == '>') {
       lexer->advance(lexer, false);
-      tags.pop_back();
-      lexer->result_symbol = SELF_CLOSING_TAG_DELIMITER;
+      if (!tags.empty()) {
+        tags.pop_back();
+        lexer->result_symbol = SELF_CLOSING_TAG_DELIMITER;
+      }
       return true;
     }
     return false;
