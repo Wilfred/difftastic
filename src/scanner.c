@@ -55,21 +55,19 @@ bool tree_sitter_javascript_external_scanner_scan(void *payload, TSLexer *lexer,
   if (valid_symbols[TEMPLATE_CHARS]) {
     if (valid_symbols[AUTOMATIC_SEMICOLON]) return false;
     lexer->result_symbol = TEMPLATE_CHARS;
-    for (bool notfirst = false;; notfirst = true) {
+    for (bool has_content = false;; has_content = true) {
       lexer->mark_end(lexer);
       switch (lexer->lookahead) {
         case '`':
-          return notfirst;
+          return has_content;
         case '\0':
           return false;
         case '$':
           advance(lexer);
-          if (lexer->lookahead == '{') return notfirst;
+          if (lexer->lookahead == '{') return has_content;
           break;
         case '\\':
-          advance(lexer);
-          advance(lexer);
-          break;
+          return has_content;
         default:
           advance(lexer);
       }
