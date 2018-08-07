@@ -41,6 +41,8 @@ Constants
 "\"\079\u{43}aml\"";;
 "OCaml\\
  OCaml";;
+"%d %05.2f";;
+"@[%s@ %d@]@.";;
 {|OCaml|};;
 {id||id};;
 {id|{|}id}|idd||id};;
@@ -61,6 +63,14 @@ true;;
   (string)
   (string (escape_sequence) (escape_sequence) (escape_sequence) (escape_sequence))
   (string (escape_sequence))
+  (string (conversion_specification) (conversion_specification))
+  (string
+    (pretty_printing_indication)
+    (conversion_specification)
+    (pretty_printing_indication)
+    (conversion_specification)
+    (pretty_printing_indication)
+    (pretty_printing_indication))
   (quoted_string) (quoted_string) (quoted_string)
   (boolean) (unit))
 
