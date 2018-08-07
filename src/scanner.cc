@@ -60,7 +60,7 @@ struct Scanner {
         Tag &tag = tags[j];
         tag.type = static_cast<TagType>(buffer[i++]);
         if (tag.type == CUSTOM) {
-          unsigned name_length = buffer[i++];
+          unsigned name_length = (unsigned char)buffer[i++];
           tag.custom_tag_name.assign(&buffer[i], &buffer[i + name_length]);
           i += name_length;
         }
