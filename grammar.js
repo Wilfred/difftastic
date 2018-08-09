@@ -64,6 +64,7 @@ module.exports = grammar({
     ),
 
     _simple_statement: $ => choice(
+      $.future_import_statement,
       $.import_statement,
       $.import_from_statement,
       $.print_statement,
@@ -90,6 +91,13 @@ module.exports = grammar({
     relative_import: $ => seq(
       $.import_prefix,
       optional($.dotted_name)
+    ),
+
+    future_import_statement: $ => seq(
+      'from',
+      '__future__',
+      'import',
+      $._import_list
     ),
 
     import_from_statement: $ => seq(
