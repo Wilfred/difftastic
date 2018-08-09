@@ -76,6 +76,10 @@
       "members": [
         {
           "type": "SYMBOL",
+          "name": "future_import_statement"
+        },
+        {
+          "type": "SYMBOL",
           "name": "import_statement"
         },
         {
@@ -170,6 +174,27 @@
               "type": "BLANK"
             }
           ]
+        }
+      ]
+    },
+    "future_import_statement": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "from"
+        },
+        {
+          "type": "STRING",
+          "value": "__future__"
+        },
+        {
+          "type": "STRING",
+          "value": "import"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_import_list"
         }
       ]
     },

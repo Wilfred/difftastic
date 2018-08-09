@@ -66,6 +66,19 @@ from ..a import b
       (dotted_name (identifier))))
 
 =====================================
+Future import statements
+=====================================
+
+from __future__ import print_statement
+from __future__ import python4
+
+---
+
+(module
+  (future_import_statement (dotted_name (identifier)))
+  (future_import_statement (dotted_name (identifier))))
+
+=====================================
 Print statements
 =====================================
 
