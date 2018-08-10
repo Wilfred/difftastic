@@ -190,6 +190,6 @@ class Z {
   (delegate_declaration (modifiers) (predefined_type) (identifier_name)
     (parameter_list (parameter (parameter_modifier) (predefined_type) (identifier_name) (default_argument (character_literal)))))
   (delegate_declaration (void_keyword) (identifier_name)
-    (parameter_list (parameter_array (array_type (predefined_type) (array_rank_specifier)) (identifier_name))))
+    (parameter_list (parameter_array (array_type (predefined_type) (rank_specifier)) (identifier_name))))
   (class_declaration (identifier_name)
     (delegate_declaration (void_keyword) (identifier_name) (parameter_list))))
