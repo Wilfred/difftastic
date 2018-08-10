@@ -2728,11 +2728,11 @@
         },
         {
           "type": "SYMBOL",
-          "name": "array_rank_specifier"
+          "name": "rank_specifier"
         }
       ]
     },
-    "array_rank_specifier": {
+    "rank_specifier": {
       "type": "SEQ",
       "members": [
         {

@@ -570,8 +570,8 @@ module.exports = grammar({
 
     // arrays
 
-    array_type: $ => seq($._type, $.array_rank_specifier),
-    array_rank_specifier: $ => seq('[', repeat(','), ']'),
+    array_type: $ => seq($._type, $.rank_specifier),
+    rank_specifier: $ => seq('[', repeat(','), ']'),
 
     // attributes
 
