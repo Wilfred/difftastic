@@ -1,5 +1,6 @@
 {
   "name": "php",
+  "word": "name",
   "rules": {
     "program": {
       "type": "SEQ",
@@ -351,7 +352,7 @@
               "members": [
                 {
                   "type": "SYMBOL",
-                  "name": "name"
+                  "name": "namespace_name"
                 },
                 {
                   "type": "SYMBOL",
@@ -367,7 +368,7 @@
                   "members": [
                     {
                       "type": "SYMBOL",
-                      "name": "name"
+                      "name": "namespace_name"
                     },
                     {
                       "type": "BLANK"
@@ -2218,7 +2219,7 @@
     },
     "float": {
       "type": "PATTERN",
-      "value": "\\d\\d*((\\.\\d*)?([eE][\\+-]?\\d+)|(\\.\\d*)([eE][\\+-]?\\d+)?)"
+      "value": "\\d*((\\.\\d*)?([eE][\\+-]?\\d+)|(\\.\\d*)([eE][\\+-]?\\d+)?)"
     },
     "try_statement": {
       "type": "SEQ",
@@ -4228,14 +4229,14 @@
                         },
                         {
                           "type": "PATTERN",
-                          "value": "0-7"
+                          "value": "[0-7]"
                         },
                         {
                           "type": "CHOICE",
                           "members": [
                             {
                               "type": "PATTERN",
-                              "value": "0-7"
+                              "value": "[0-7]"
                             },
                             {
                               "type": "BLANK"
@@ -4247,7 +4248,7 @@
                           "members": [
                             {
                               "type": "PATTERN",
-                              "value": "0-7"
+                              "value": "[0-7]"
                             },
                             {
                               "type": "BLANK"
@@ -4305,7 +4306,7 @@
                 },
                 {
                   "type": "PATTERN",
-                  "value": "[^\"\\\\]|\\\\[^\"\\\\$efnrtvxX0-7]"
+                  "value": "[^\"\\\\]|\\\\[^\"\\\\$efnrtv0-7]"
                 }
               ]
             }
@@ -4432,6 +4433,10 @@
                 {
                   "type": "SYMBOL",
                   "name": "list_literal"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "array_creation_expression"
                 }
               ]
             },
@@ -4451,8 +4456,21 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "_variable"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_variable"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "list_literal"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "array_creation_expression"
+            }
+          ]
         },
         {
           "type": "STRING",
@@ -4464,7 +4482,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_variable"
+          "name": "_expression"
         }
       ]
     },
@@ -5261,6 +5279,15 @@
       "type": "CHOICE",
       "members": [
         {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_reserved_identifier"
+          },
+          "named": true,
+          "value": "name"
+        },
+        {
           "type": "SYMBOL",
           "name": "name"
         },
@@ -5583,14 +5610,14 @@
                             },
                             {
                               "type": "PATTERN",
-                              "value": "0-7"
+                              "value": "[0-7]"
                             },
                             {
                               "type": "CHOICE",
                               "members": [
                                 {
                                   "type": "PATTERN",
-                                  "value": "0-7"
+                                  "value": "[0-7]"
                                 },
                                 {
                                   "type": "BLANK"
@@ -5602,7 +5629,7 @@
                               "members": [
                                 {
                                   "type": "PATTERN",
-                                  "value": "0-7"
+                                  "value": "[0-7]"
                                 },
                                 {
                                   "type": "BLANK"
@@ -5660,7 +5687,7 @@
                     },
                     {
                       "type": "PATTERN",
-                      "value": "[^\"\\\\]|\\\\[^\"\\\\$efnrtvxX0-7]"
+                      "value": "[^\"\\\\]|\\\\[^\"\\\\$efnrtv0-7]"
                     }
                   ]
                 }

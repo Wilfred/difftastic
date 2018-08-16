@@ -9,25 +9,32 @@ extern "C" {
 #include <stdint.h>
 #include <stdlib.h>
 
-typedef uint16_t TSSymbol;
-typedef uint16_t TSStateId;
-
 #define ts_builtin_sym_error ((TSSymbol)-1)
 #define ts_builtin_sym_end 0
 #define TREE_SITTER_SERIALIZATION_BUFFER_SIZE 1024
+
+#ifndef TREE_SITTER_RUNTIME_H_
+typedef uint16_t TSSymbol;
+typedef struct TSLanguage TSLanguage;
+#endif
+
+typedef uint16_t TSStateId;
 
 typedef struct {
   bool visible : 1;
   bool named : 1;
 } TSSymbolMetadata;
 
-typedef struct {
-  void (*advance)(void *, bool);
-  void (*mark_end)(void *);
-  uint32_t (*get_column)(void *);
+typedef struct TSLexer TSLexer;
+
+struct TSLexer {
   int32_t lookahead;
   TSSymbol result_symbol;
-} TSLexer;
+  void (*advance)(TSLexer *, bool);
+  void (*mark_end)(TSLexer *);
+  uint32_t (*get_column)(TSLexer *);
+  bool (*is_at_included_range_start)(TSLexer *);
+};
 
 typedef enum {
   TSParseActionTypeShift,
@@ -41,13 +48,13 @@ typedef struct {
     struct {
       TSStateId state;
       bool extra : 1;
+      bool repetition : 1;
     };
     struct {
       TSSymbol symbol;
       int16_t dynamic_precedence;
       uint8_t child_count;
-      uint8_t alias_sequence_id : 7;
-      bool fragile : 1;
+      uint8_t alias_sequence_id;
     };
   } params;
   TSParseActionType type : 4;
@@ -63,11 +70,10 @@ typedef union {
   struct {
     uint8_t count;
     bool reusable : 1;
-    bool depends_on_lookahead : 1;
   };
 } TSParseActionEntry;
 
-typedef struct TSLanguage {
+struct TSLanguage {
   uint32_t version;
   uint32_t symbol_count;
   uint32_t alias_count;
@@ -81,6 +87,8 @@ typedef struct TSLanguage {
   const TSSymbol *alias_sequences;
   uint16_t max_alias_sequence_length;
   bool (*lex_fn)(TSLexer *, TSStateId);
+  bool (*keyword_lex_fn)(TSLexer *, TSStateId);
+  TSSymbol keyword_capture_token;
   struct {
     const bool *states;
     const TSSymbol *symbol_map;
@@ -90,7 +98,7 @@ typedef struct TSLanguage {
     unsigned (*serialize)(void *, char *);
     void (*deserialize)(void *, const char *, unsigned);
   } external_scanner;
-} TSLanguage;
+};
 
 /*
  *  Lexer Macros
@@ -128,6 +136,7 @@ typedef struct TSLanguage {
  */
 
 #define STATE(id) id
+
 #define ACTIONS(id) id
 
 #define SHIFT(state_value)              \
@@ -136,6 +145,17 @@ typedef struct TSLanguage {
       .type = TSParseActionTypeShift,   \
       .params = {.state = state_value}, \
     }                                   \
+  }
+
+#define SHIFT_REPEAT(state_value)     \
+  {                                   \
+    {                                 \
+      .type = TSParseActionTypeShift, \
+      .params = {                     \
+        .state = state_value,         \
+        .repetition = true            \
+      },                              \
+    }                                 \
   }
 
 #define RECOVER()                        \

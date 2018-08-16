@@ -31,6 +31,8 @@ module.exports = grammar({
     $.heredoc
   ],
 
+  word: $ => $.name,
+
   conflicts: $ => [
     [$.declare_statement, $._semicolon],
     [$.while_statement, $._semicolon],
@@ -140,8 +142,8 @@ module.exports = grammar({
     namespace_definition: $ => seq(
       'namespace',
       choice(
-        seq($.name, $._semicolon),
-        seq(optional($.name), $.compound_statement)
+        seq($.namespace_name, $._semicolon),
+        seq(optional($.namespace_name), $.compound_statement)
       )
     ),
 
@@ -415,7 +417,7 @@ module.exports = grammar({
       $._string
     ),
 
-    float: $ => /\d\d*((\.\d*)?([eE][\+-]?\d+)|(\.\d*)([eE][\+-]?\d+)?)/,
+    float: $ => /\d*((\.\d*)?([eE][\+-]?\d+)|(\.\d*)([eE][\+-]?\d+)?)/,
 
     try_statement:  $ => seq(
       'try',
@@ -743,11 +745,11 @@ module.exports = grammar({
     ),
 
     _simple_assignment_expression: $ => seq(
-      seq(choice($._variable, $.list_literal), '=', $._expression)
+      seq(choice($._variable, $.list_literal, $.array_creation_expression), '=', $._expression)
     ),
 
     _byref_assignment_expression: $ => seq(
-      $._variable, '=', '&', $._variable
+      choice($._variable, $.list_literal, $.array_creation_expression), '=', '&', $._expression
     ),
 
     conditional_expression: $ => prec.right(PREC.TERNARY, seq(
@@ -853,6 +855,7 @@ module.exports = grammar({
     variadic_unpacking: $ => seq('...', $._expression),
 
     _member_name: $ => choice(
+      alias($._reserved_identifier, $.name),
       $.name,
       $._simple_variable,
       seq('{', $._expression, '}')
@@ -971,9 +974,7 @@ module.exports = grammar({
       $._expression
     ),
 
-    name: $ => {
-      return /[_a-zA-Z\u0080-\u00ff][_a-zA-Z\u0080-\u00ff\d]*/
-    },
+    name: $ => /[_a-zA-Z\u0080-\u00ff][_a-zA-Z\u0080-\u00ff\d]*/,
 
     _reserved_identifier: $ => choice(
       'self',
@@ -1001,17 +1002,17 @@ function commaSep (rule) {
 }
 
 function double_quote_chars() {
-      const dq_simple_escapes = /\\"|\\\\|\\\$|\\e|\\f|\\n|\\r|\\t|\\v/
-      const octal_digit = /0-7/
-      const dq_octal_escapes = seq('\\', octal_digit, optional(octal_digit), optional(octal_digit))
-      const hex_digit = /\d|a-f|A-F/
-      const dq_hex_escapes = seq(
-        /\\[xX]/,
-        hex_digit,
-        optional(hex_digit)
-      )
+  const dq_simple_escapes = /\\"|\\\\|\\\$|\\e|\\f|\\n|\\r|\\t|\\v/
+  const octal_digit = /[0-7]/
+  const dq_octal_escapes = seq('\\', octal_digit, optional(octal_digit), optional(octal_digit))
+  const hex_digit = /\d|a-f|A-F/
+  const dq_hex_escapes = seq(
+    /\\[xX]/,
+    hex_digit,
+    optional(hex_digit)
+  )
 
-      const dq_unicode_escapes = seq('\\u{', repeat1(hex_digit), '}')
-      const dq_escapes = choice(dq_simple_escapes, dq_octal_escapes, dq_hex_escapes, dq_unicode_escapes)
-      return repeat(choice(dq_escapes, /[^"\\]|\\[^"\\$efnrtvxX0-7]/))
+  const dq_unicode_escapes = seq('\\u{', repeat1(hex_digit), '}')
+  const dq_escapes = choice(dq_simple_escapes, dq_octal_escapes, dq_hex_escapes, dq_unicode_escapes)
+  return repeat(choice(dq_escapes, /[^"\\]|\\[^"\\$efnrtv0-7]/))
 }
