@@ -6564,8 +6564,20 @@
                 "type": "REPEAT",
                 "content": {
                   "type": "PATTERN",
-                  "value": "[^?\\n]|\\?[^>]"
+                  "value": "[^?\\n]|\\?[^>\\n]"
                 }
+              },
+              {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "STRING",
+                    "value": "?"
+                  },
+                  {
+                    "type": "BLANK"
+                  }
+                ]
               }
             ]
           },
