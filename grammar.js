@@ -229,13 +229,10 @@ module.exports = grammar({
 
     parameters: $ => seq(
       '(',
-      optional(choice(
-        seq(
-          optional(seq($.self, optional(','))),
-          sequence($.identifier),
-          optional(seq(',', $.spread))
-        ),
-        seq($.spread)
+      optional(seq(
+        choice($.self, $.spread, $.identifier),
+        repeat(seq(',', $.identifier)),
+        optional(seq(',', $.spread))
       )),
       ')'
     ),
