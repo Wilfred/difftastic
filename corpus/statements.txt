@@ -60,17 +60,18 @@ end
     (condition_expression (binary_operation (identifier) (number)))
       (function_call (identifier)
         (arguments (string)))
-    (condition_expression (binary_operation (identifier) (string)))
+    (elseif (condition_expression (binary_operation (identifier) (string)))
       (function_call (identifier) (property_identifier)
-        (arguments (string)))
-    (variable_declaration (variable_declarator (identifier)) (number))
+        (arguments (string))))
+    (else
+      (variable_declaration (variable_declarator (identifier)) (number))
 
-    (local_variable_declaration (variable_declarator (identifier))
-      (function_call (identifier) (property_identifier)
-        (arguments)))
+      (local_variable_declaration (variable_declarator (identifier))
+        (function_call (identifier) (property_identifier)
+          (arguments)))
 
-    (function_call (identifier)
-      (arguments (binary_operation (string) (identifier))))))
+      (function_call (identifier)
+        (arguments (binary_operation (string) (identifier)))))))
 
 ============================================
 While statements
