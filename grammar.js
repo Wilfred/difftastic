@@ -109,12 +109,12 @@ module.exports = grammar({
       'then',
       repeat($._statement),
       optional($.return_statement),
-      repeat($._elseif),
-      optional($._else),
+      repeat($.elseif),
+      optional($.else),
       'end'
     ),
 
-    _elseif: $ => seq(
+    elseif: $ => seq(
       'elseif',
       alias($._expression, $.condition_expression),
       'then',
@@ -122,7 +122,7 @@ module.exports = grammar({
       optional($.return_statement)
     ),
 
-    _else: $ => seq(
+    else: $ => seq(
       'else',
       repeat($._statement),
       optional($.return_statement)

@@ -432,7 +432,7 @@
           "type": "REPEAT",
           "content": {
             "type": "SYMBOL",
-            "name": "_elseif"
+            "name": "elseif"
           }
         },
         {
@@ -440,7 +440,7 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "_else"
+              "name": "else"
             },
             {
               "type": "BLANK"
@@ -453,7 +453,7 @@
         }
       ]
     },
-    "_elseif": {
+    "elseif": {
       "type": "SEQ",
       "members": [
         {
@@ -494,7 +494,7 @@
         }
       ]
     },
-    "_else": {
+    "else": {
       "type": "SEQ",
       "members": [
         {
