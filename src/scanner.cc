@@ -8,8 +8,7 @@ enum {
   COMMENT,
   QUOTED_STRING,
   STRING_DELIM,
-  LINE_NUMBER_DIRECTIVE,
-  LABEL_COLON,
+  LINE_NUMBER_DIRECTIVE
 };
 
 struct Scanner {
@@ -20,7 +19,7 @@ struct Scanner {
     size_t size = quoted_string_id.size();
 
     buffer[0] = in_string;
-    quoted_string_id.copy(&buffer[2], size);
+    quoted_string_id.copy(&buffer[1], size);
     return size + 1;
   }
 
@@ -40,12 +39,6 @@ struct Scanner {
   }
 
   bool scan(TSLexer *lexer, const bool *valid_symbols) {
-    if (valid_symbols[LABEL_COLON] && lexer->lookahead == ':') {
-      advance(lexer);
-      lexer->result_symbol = LABEL_COLON;
-      return true;
-    }
-
     while (isspace(lexer->lookahead)) {
       skip(lexer);
     }
