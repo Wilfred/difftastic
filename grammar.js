@@ -129,7 +129,7 @@ module.exports = grammar({
       $.label,
       seq(
         $.label,
-        alias($._label_colon, ':'),
+        token.immediate(':'),
         $._simple_pattern
       ),
       seq(
@@ -142,7 +142,7 @@ module.exports = grammar({
       ),
       seq(
         $.label,
-        alias($._label_colon, ':'),
+        token.immediate(':'),
         '(',
         $._pattern,
         optional(seq(':', $._type)),
@@ -940,7 +940,7 @@ module.exports = grammar({
 
     labeled_argument: $ => seq(
       $.label,
-      alias($._label_colon, ':'),
+      token.immediate(':'),
       $._simple_expression
     ),
 
@@ -1666,8 +1666,7 @@ module.exports = grammar({
     $.comment,
     $.quoted_string,
     '"',
-    $.line_number_directive,
-    $._label_colon,
+    $.line_number_directive
   ]
 })
 

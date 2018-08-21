@@ -437,13 +437,11 @@
               "name": "label"
             },
             {
-              "type": "ALIAS",
+              "type": "IMMEDIATE_TOKEN",
               "content": {
-                "type": "SYMBOL",
-                "name": "_label_colon"
-              },
-              "named": false,
-              "value": ":"
+                "type": "STRING",
+                "value": ":"
+              }
             },
             {
               "type": "SYMBOL",
@@ -531,13 +529,11 @@
               "name": "label"
             },
             {
-              "type": "ALIAS",
+              "type": "IMMEDIATE_TOKEN",
               "content": {
-                "type": "SYMBOL",
-                "name": "_label_colon"
-              },
-              "named": false,
-              "value": ":"
+                "type": "STRING",
+                "value": ":"
+              }
             },
             {
               "type": "STRING",
@@ -5125,13 +5121,11 @@
           "name": "label"
         },
         {
-          "type": "ALIAS",
+          "type": "IMMEDIATE_TOKEN",
           "content": {
-            "type": "SYMBOL",
-            "name": "_label_colon"
-          },
-          "named": false,
-          "value": ":"
+            "type": "STRING",
+            "value": ":"
+          }
         },
         {
           "type": "SYMBOL",
@@ -9138,10 +9132,6 @@
     {
       "type": "SYMBOL",
       "name": "line_number_directive"
-    },
-    {
-      "type": "SYMBOL",
-      "name": "_label_colon"
     }
   ],
   "inline": [
