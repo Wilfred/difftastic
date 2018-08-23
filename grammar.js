@@ -329,11 +329,11 @@ module.exports = grammar({
 
     empty_statement: $ => ';',
 
-    labeled_statement: $ => seq(
+    labeled_statement: $ => prec.dynamic(-1, seq(
       alias($.identifier, $.statement_identifier),
       ':',
       $._statement
-    ),
+    )),
 
     //
     // Statement components
