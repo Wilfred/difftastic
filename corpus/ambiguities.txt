@@ -6,8 +6,9 @@ int main() {
   // declare a function pointer
   T1 * b(T2 a);
 
-  // evaluate an expression
+  // evaluate expressions
   c * d(5);
+  e(f * g);
 }
 
 ---
@@ -25,7 +26,10 @@ int main() {
     (comment)
     (expression_statement (math_expression
       (identifier)
-      (call_expression (identifier) (argument_list (number_literal))))))))
+      (call_expression (identifier) (argument_list (number_literal)))))
+    (expression_statement (call_expression
+      (identifier)
+      (argument_list (math_expression (identifier) (identifier))))))))
 
 ========================================================================
 casts vs multiplications

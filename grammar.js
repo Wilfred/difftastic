@@ -1,4 +1,5 @@
 const PREC = {
+  PAREN_DECLARATOR: -10,
   ASSIGNMENT: -1,
   CONDITIONAL: -2,
   DEFAULT: 0,
@@ -174,7 +175,7 @@ module.exports = grammar({
       $.pointer_declarator,
       $.function_declarator,
       $.array_declarator,
-      seq('(', $._declarator, ')'),
+      prec.dynamic(PREC.PAREN_DECLARATOR, seq('(', $._declarator, ')')),
       $.identifier
     ),
 
@@ -182,7 +183,7 @@ module.exports = grammar({
       alias($.pointer_field_declarator, $.pointer_declarator),
       alias($.function_field_declarator, $.function_declarator),
       alias($.array_field_declarator, $.array_declarator),
-      seq('(', $._field_declarator, ')'),
+      prec.dynamic(PREC.PAREN_DECLARATOR, seq('(', $._field_declarator, ')')),
       $._field_identifier
     ),
 
@@ -190,7 +191,7 @@ module.exports = grammar({
       alias($.pointer_type_declarator, $.pointer_declarator),
       alias($.function_type_declarator, $.function_declarator),
       alias($.array_type_declarator, $.array_declarator),
-      seq('(', $._type_declarator, ')'),
+      prec.dynamic(PREC.PAREN_DECLARATOR, seq('(', $._type_declarator, ')')),
       $._type_identifier
     ),
 
@@ -201,10 +202,10 @@ module.exports = grammar({
       prec(1, seq('(', $._abstract_declarator, ')'))
     ),
 
-    pointer_declarator: $ => prec.right(seq('*', repeat($.type_qualifier), $._declarator)),
-    pointer_field_declarator: $ => prec.right(seq('*', repeat($.type_qualifier), $._field_declarator)),
-    pointer_type_declarator: $ => prec.right(seq('*', repeat($.type_qualifier), $._type_declarator)),
-    abstract_pointer_declarator: $ => prec.right(seq('*', repeat($.type_qualifier), optional($._abstract_declarator))),
+    pointer_declarator: $ => prec.dynamic(1, prec.right(seq('*', repeat($.type_qualifier), $._declarator))),
+    pointer_field_declarator: $ => prec.dynamic(1, prec.right(seq('*', repeat($.type_qualifier), $._field_declarator))),
+    pointer_type_declarator: $ => prec.dynamic(1, prec.right(seq('*', repeat($.type_qualifier), $._type_declarator))),
+    abstract_pointer_declarator: $ => prec.dynamic(1, prec.right(seq('*', repeat($.type_qualifier), optional($._abstract_declarator)))),
 
     function_declarator: $ => prec(1, seq($._declarator, $.parameter_list)),
     function_field_declarator: $ => prec(1, seq($._field_declarator, $.parameter_list)),
@@ -371,11 +372,11 @@ module.exports = grammar({
       optional(seq('=', $._expression))
     ),
 
-    parameter_list: $ => prec.dynamic(1, seq(
+    parameter_list: $ => seq(
       '(',
       commaSep(choice($.parameter_declaration, '...')),
       ')'
-    )),
+    ),
 
     parameter_declaration: $ => seq(
       $._declaration_specifiers,
@@ -619,7 +620,7 @@ module.exports = grammar({
 
     call_expression: $ => prec(PREC.CALL, seq($._expression, $.argument_list)),
 
-    argument_list: $ => prec.dynamic(1, seq('(', commaSep($._expression), ')')),
+    argument_list: $ => seq('(', commaSep($._expression), ')'),
 
     field_expression: $ => seq(
       prec(PREC.FIELD, seq(
