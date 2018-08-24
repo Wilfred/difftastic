@@ -19,6 +19,7 @@ module.exports = grammar(C, {
     [$.scoped_type_identifier, $.scoped_identifier],
     [$.scoped_type_identifier, $.scoped_field_identifier],
     [$.comma_expression, $.initializer_list],
+    [$._type_specifier, $.optional_type_parameter_declaration],
     [$.parameter_list, $.argument_list],
   ]),
 
@@ -131,10 +132,10 @@ module.exports = grammar(C, {
 
     auto: $ => 'auto',
 
-    dependent_type: $ => seq(
+    dependent_type: $ => prec.dynamic(-1, seq(
       'typename',
       $._type_specifier
-    ),
+    )),
 
     // Declarations
 
@@ -173,14 +174,15 @@ module.exports = grammar(C, {
       '<',
       commaSep(choice(
         $.parameter_declaration,
+        $.optional_parameter_declaration,
         $.type_parameter_declaration,
         $.optional_type_parameter_declaration
       )),
-      '>'
+      alias(token(prec(1, '>')), '>')
     ),
 
     type_parameter_declaration: $ => prec(1, seq(
-      'typename',
+      choice('typename', 'class'),
       $._type_identifier
     )),
 
@@ -198,6 +200,12 @@ module.exports = grammar(C, {
         $.init_declarator
       )
     ),
+
+    optional_parameter_declaration: $ => prec(20, seq(
+      $._type_specifier,
+      '=',
+      $._expression
+    )),
 
     init_declarator: ($, original) => choice(
       original,
@@ -299,8 +307,8 @@ module.exports = grammar(C, {
       $.abstract_reference_declarator
     ),
 
-    reference_declarator: $ => prec.right(seq(choice('&', '&&'), $._declarator)),
-    reference_field_declarator: $ => prec.right(seq(choice('&', '&&'), $._field_declarator)),
+    reference_declarator: $ => prec.dynamic(1, prec.right(seq(choice('&', '&&'), $._declarator))),
+    reference_field_declarator: $ => prec.dynamic(1, prec.right(seq(choice('&', '&&'), $._field_declarator))),
     abstract_reference_declarator: $ => prec.right(seq(choice('&', '&&'), optional($._abstract_declarator))),
 
     structured_binding_reference_declarator: $ => seq(choice('&', '&&'), $.structured_binding_declarator),
@@ -361,10 +369,10 @@ module.exports = grammar(C, {
     template_argument_list: $ => seq(
       '<',
       commaSep(choice(
-        $.type_descriptor,
-        $.parenthesized_expression
+        prec.dynamic(1, $.type_descriptor),
+        $._expression
       )),
-      '>'
+      alias(token(prec(1, '>')), '>')
     ),
 
     namespace_definition: $ => seq(
@@ -505,11 +513,11 @@ module.exports = grammar(C, {
 
     lambda_default_capture: $ => choice('=', '&'),
 
-    argument_list: $ => prec.dynamic(1, seq(
+    argument_list: $ => seq(
       '(',
       commaSep(choice($._expression, $.initializer_list)),
       ')'
-    )),
+    ),
 
     destructor_name: $ => prec(1, seq('~', $.identifier)),
 
