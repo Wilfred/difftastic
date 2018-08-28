@@ -664,11 +664,11 @@ struct Scanner {
           if (has_content) {
             lexer->result_symbol = STRING_CONTENT;
           } else {
-            literal_stack.pop_back();
             advance(lexer);
             if (literal.type == REGEX_START) {
               while (iswlower(lexer->lookahead)) advance(lexer);
             }
+            literal_stack.pop_back();
             lexer->result_symbol = STRING_END;
             lexer->mark_end(lexer);
           }
