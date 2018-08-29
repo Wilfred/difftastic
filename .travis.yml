@@ -2,21 +2,10 @@ language: node_js
 
 sudo: false
 
-node_js:
-  - "node"
-
-compiler: clang-3.6
+node_js: node
 
 env:
-  - CXX=clang-3.6
-
-addons:
-  apt:
-    sources:
-      - llvm-toolchain-precise-3.6
-      - ubuntu-toolchain-r-test
-    packages:
-      - clang-3.6
+  - CXX=clang
 
 branches:
   only:
