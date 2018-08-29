@@ -26,14 +26,18 @@ struct Scanner {
   Scanner() {}
 
   unsigned serialize(char *buffer) {
-    unsigned i = 0;
-    unsigned n = tags.size();
-    std::memcpy(buffer, &n, sizeof(n));
-    i += sizeof(n);
-    for (unsigned j = 0; j < n; j++) {
-      Tag &tag = tags[j];
+    uint16_t tag_count = tags.size() > UINT16_MAX ? UINT16_MAX : tags.size();
+    uint16_t serialized_tag_count = 0;
+
+    unsigned i = sizeof(tag_count);
+    std::memcpy(&buffer[i], &tag_count, sizeof(tag_count));
+    i += sizeof(tag_count);
+
+    for (; serialized_tag_count < tag_count; serialized_tag_count++) {
+      Tag &tag = tags[serialized_tag_count];
       if (tag.type == CUSTOM) {
         unsigned name_length = tag.custom_tag_name.size();
+        if (name_length > UINT8_MAX) name_length = UINT8_MAX;
         if (i + 2 + name_length >= TREE_SITTER_SERIALIZATION_BUFFER_SIZE) break;
         buffer[i++] = static_cast<char>(tag.type);
         buffer[i++] = name_length;
@@ -44,6 +48,8 @@ struct Scanner {
         buffer[i++] = static_cast<char>(tag.type);
       }
     }
+
+    std::memcpy(&buffer[0], &serialized_tag_count, sizeof(serialized_tag_count));
     return i;
   }
 
@@ -51,15 +57,20 @@ struct Scanner {
     tags.clear();
     if (length > 0) {
       unsigned i = 0;
-      unsigned n;
-      std::memcpy(&n, buffer, sizeof(n));
-      i += sizeof(n);
-      tags.resize(n);
-      for (unsigned j = 0; j < n; j++) {
+      uint16_t tag_count, serialized_tag_count;
+
+      std::memcpy(&serialized_tag_count, &buffer[i], sizeof(serialized_tag_count));
+      i += sizeof(serialized_tag_count);
+
+      std::memcpy(&tag_count, &buffer[i], sizeof(tag_count));
+      i += sizeof(tag_count);
+
+      tags.resize(tag_count);
+      for (unsigned j = 0; j < serialized_tag_count; j++) {
         Tag &tag = tags[j];
         tag.type = static_cast<TagType>(buffer[i++]);
         if (tag.type == CUSTOM) {
-          unsigned name_length = buffer[i++];
+          uint16_t name_length = (uint16_t)buffer[i++];
           tag.custom_tag_name.assign(&buffer[i], &buffer[i + name_length]);
           i += name_length;
         }
@@ -202,8 +213,10 @@ struct Scanner {
     lexer->advance(lexer, false);
     if (lexer->lookahead == '>') {
       lexer->advance(lexer, false);
-      tags.pop_back();
-      lexer->result_symbol = SELF_CLOSING_TAG_DELIMITER;
+      if (!tags.empty()) {
+        tags.pop_back();
+        lexer->result_symbol = SELF_CLOSING_TAG_DELIMITER;
+      }
       return true;
     }
     return false;
