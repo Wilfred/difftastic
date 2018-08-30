@@ -22,10 +22,12 @@ module.exports = grammar({
 
     doctype: $ => seq(
       '<!',
-      alias(/[Dd][Oo][Cc][Tt][Yy][Pp][Ee]/, 'doctype'),
+      alias($._doctype, 'doctype'),
       /[^>]+/,
       '>'
     ),
+
+    _doctype: $ => /[Dd][Oo][Cc][Tt][Yy][Pp][Ee]/,
 
     _node: $ => choice(
       $.doctype,

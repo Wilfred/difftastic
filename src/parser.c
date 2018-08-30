@@ -22,9 +22,9 @@ enum {
   sym_raw_text = 6,
   sym_comment = 7,
   anon_sym_LT_BANG = 8,
-  aux_sym_SLASH_LBRACKDd_RBRACK_LBRACKOo_RBRACK_LBRACKCc_RBRACK_LBRACKTt_RBRACK_LBRACKYy_RBRACK_LBRACKPp_RBRACK_LBRACKEe_RBRACK_SLASH = 9,
-  aux_sym_SLASH_LBRACK_CARET_GT_RBRACK_PLUS_SLASH = 10,
-  anon_sym_GT = 11,
+  aux_sym_SLASH_LBRACK_CARET_GT_RBRACK_PLUS_SLASH = 9,
+  anon_sym_GT = 10,
+  sym__doctype = 11,
   anon_sym_LT = 12,
   anon_sym_SLASH_GT = 13,
   anon_sym_LT_SLASH = 14,
@@ -62,9 +62,9 @@ static const char *ts_symbol_names[] = {
   [sym_comment] = "comment",
   [ts_builtin_sym_end] = "END",
   [anon_sym_LT_BANG] = "<!",
-  [aux_sym_SLASH_LBRACKDd_RBRACK_LBRACKOo_RBRACK_LBRACKCc_RBRACK_LBRACKTt_RBRACK_LBRACKYy_RBRACK_LBRACKPp_RBRACK_LBRACKEe_RBRACK_SLASH] = "doctype",
   [aux_sym_SLASH_LBRACK_CARET_GT_RBRACK_PLUS_SLASH] = "/[^>]+/",
   [anon_sym_GT] = ">",
+  [sym__doctype] = "doctype",
   [anon_sym_LT] = "<",
   [anon_sym_SLASH_GT] = "/>",
   [anon_sym_LT_SLASH] = "</",
@@ -129,15 +129,15 @@ static const TSSymbolMetadata ts_symbol_metadata[] = {
     .visible = true,
     .named = false,
   },
-  [aux_sym_SLASH_LBRACKDd_RBRACK_LBRACKOo_RBRACK_LBRACKCc_RBRACK_LBRACKTt_RBRACK_LBRACKYy_RBRACK_LBRACKPp_RBRACK_LBRACKEe_RBRACK_SLASH] = {
-    .visible = false,
-    .named = true,
-  },
   [aux_sym_SLASH_LBRACK_CARET_GT_RBRACK_PLUS_SLASH] = {
     .visible = false,
     .named = false,
   },
   [anon_sym_GT] = {
+    .visible = true,
+    .named = false,
+  },
+  [sym__doctype] = {
     .visible = true,
     .named = false,
   },
@@ -336,7 +336,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
         ADVANCE(17);
       END_STATE();
     case 17:
-      ACCEPT_TOKEN(aux_sym_SLASH_LBRACKDd_RBRACK_LBRACKOo_RBRACK_LBRACKCc_RBRACK_LBRACKTt_RBRACK_LBRACKYy_RBRACK_LBRACKPp_RBRACK_LBRACKEe_RBRACK_SLASH);
+      ACCEPT_TOKEN(sym__doctype);
       END_STATE();
     case 18:
       if (lookahead == 0)
@@ -745,8 +745,8 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [sym_comment] = ACTIONS(1),
     [ts_builtin_sym_end] = ACTIONS(1),
     [anon_sym_LT_BANG] = ACTIONS(1),
-    [aux_sym_SLASH_LBRACKDd_RBRACK_LBRACKOo_RBRACK_LBRACKCc_RBRACK_LBRACKTt_RBRACK_LBRACKYy_RBRACK_LBRACKPp_RBRACK_LBRACKEe_RBRACK_SLASH] = ACTIONS(1),
     [anon_sym_GT] = ACTIONS(1),
+    [sym__doctype] = ACTIONS(1),
     [anon_sym_LT] = ACTIONS(3),
     [anon_sym_SLASH_GT] = ACTIONS(1),
     [anon_sym_LT_SLASH] = ACTIONS(1),
@@ -774,7 +774,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
   },
   [2] = {
     [sym_comment] = ACTIONS(5),
-    [aux_sym_SLASH_LBRACKDd_RBRACK_LBRACKOo_RBRACK_LBRACKCc_RBRACK_LBRACKTt_RBRACK_LBRACKYy_RBRACK_LBRACKPp_RBRACK_LBRACKEe_RBRACK_SLASH] = ACTIONS(17),
+    [sym__doctype] = ACTIONS(17),
   },
   [3] = {
     [sym__start_tag_name] = ACTIONS(19),
@@ -871,7 +871,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
   },
   [15] = {
     [sym_comment] = ACTIONS(5),
-    [aux_sym_SLASH_LBRACKDd_RBRACK_LBRACKOo_RBRACK_LBRACKCc_RBRACK_LBRACKTt_RBRACK_LBRACKYy_RBRACK_LBRACKPp_RBRACK_LBRACKEe_RBRACK_SLASH] = ACTIONS(67),
+    [sym__doctype] = ACTIONS(67),
   },
   [16] = {
     [sym__start_tag_name] = ACTIONS(69),
