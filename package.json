@@ -13,10 +13,10 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "nan": "^2.8.0"
+    "nan": "^2.10.0"
   },
   "devDependencies": {
-    "tree-sitter-cli": "^0.13.1"
+    "tree-sitter-cli": "^0.13.7"
   },
   "scripts": {
     "build": "tree-sitter generate && node-gyp build",
