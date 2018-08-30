@@ -16,8 +16,13 @@
           "value": "<!"
         },
         {
-          "type": "PATTERN",
-          "value": "[Dd][Oo][Cc][Tt][Yy][Pp][Ee]"
+          "type": "ALIAS",
+          "content": {
+            "type": "PATTERN",
+            "value": "[Dd][Oo][Cc][Tt][Yy][Pp][Ee]"
+          },
+          "named": false,
+          "value": "doctype"
         },
         {
           "type": "PATTERN",
