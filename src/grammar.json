@@ -18,8 +18,8 @@
         {
           "type": "ALIAS",
           "content": {
-            "type": "PATTERN",
-            "value": "[Dd][Oo][Cc][Tt][Yy][Pp][Ee]"
+            "type": "SYMBOL",
+            "name": "_doctype"
           },
           "named": false,
           "value": "doctype"
@@ -33,6 +33,10 @@
           "value": ">"
         }
       ]
+    },
+    "_doctype": {
+      "type": "PATTERN",
+      "value": "[Dd][Oo][Cc][Tt][Yy][Pp][Ee]"
     },
     "_node": {
       "type": "CHOICE",
