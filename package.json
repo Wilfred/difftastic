@@ -1,6 +1,6 @@
 {
   "name": "tree-sitter-html",
-  "version": "0.13.3",
+  "version": "0.13.4",
   "description": "HTML grammar for tree-sitter",
   "main": "index.js",
   "keywords": [
