@@ -1,0 +1,4 @@
+examples/numpy/numpy/distutils/conv_template.py
+examples/numpy/numpy/distutils/ccompiler.py
+examples/numpy/numpy/distutils/from_template.py
+examples/numpy/numpy/f2py/crackfortran.py
