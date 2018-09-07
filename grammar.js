@@ -1022,14 +1022,11 @@ module.exports = grammar({
     ),
 
     _local_variable_type: $ => choice(
-      'var',
-      $._type
+      $._type,
+      'var'
     ),
 
-    _local_variable_declarators: $ => choice(
-      $.local_variable_declarator,
-      seq($._local_variable_declarators, ',', $.local_variable_declarator)
-    ),
+    _local_variable_declarators: $ => commaSep1($.local_variable_declarator),
 
     local_variable_declarator: $ => seq(
       $.identifier_name,
