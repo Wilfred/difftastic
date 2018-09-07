@@ -5213,38 +5213,37 @@
       "type": "CHOICE",
       "members": [
         {
-          "type": "STRING",
-          "value": "var"
-        },
-        {
           "type": "SYMBOL",
           "name": "_type"
+        },
+        {
+          "type": "STRING",
+          "value": "var"
         }
       ]
     },
     "_local_variable_declarators": {
-      "type": "CHOICE",
+      "type": "SEQ",
       "members": [
         {
           "type": "SYMBOL",
           "name": "local_variable_declarator"
         },
         {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "_local_variable_declarators"
-            },
-            {
-              "type": "STRING",
-              "value": ","
-            },
-            {
-              "type": "SYMBOL",
-              "name": "local_variable_declarator"
-            }
-          ]
+          "type": "REPEAT",
+          "content": {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "STRING",
+                "value": ","
+              },
+              {
+                "type": "SYMBOL",
+                "name": "local_variable_declarator"
+              }
+            ]
+          }
         }
       ]
     },
