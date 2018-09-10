@@ -31,7 +31,7 @@ function foo<T, U>(this: T[]): U[] {
     (function
       (identifier)
       (call_signature
-        (type_parameters (type_parameter (identifier)))
+        (type_parameters (type_parameter (type_identifier)))
         (formal_parameters (required_parameter (identifier) (type_annotation (type_identifier))))
         (type_annotation (type_identifier)))
         (statement_block)))
@@ -39,7 +39,7 @@ function foo<T, U>(this: T[]): U[] {
     (function
       (identifier)
       (call_signature
-        (type_parameters (type_parameter (identifier)) (type_parameter (identifier)))
+        (type_parameters (type_parameter (type_identifier)) (type_parameter (type_identifier)))
         (formal_parameters
           (required_parameter (identifier) (type_annotation (array_type (type_identifier))))
           (required_parameter
@@ -53,7 +53,7 @@ function foo<T, U>(this: T[]): U[] {
     (function
       (identifier)
       (call_signature
-        (type_parameters (type_parameter (identifier)) (type_parameter (identifier)))
+        (type_parameters (type_parameter (type_identifier)) (type_parameter (type_identifier)))
         (formal_parameters
           (required_parameter (this) (type_annotation (array_type (type_identifier)))))
           (type_annotation (array_type (type_identifier))))
@@ -90,12 +90,12 @@ function* foo<A>(amount, interestRate, duration): number {
 (program
   (expression_statement
     (arrow_function
-      (call_signature (type_parameters (type_parameter (identifier))) (formal_parameters (required_parameter (identifier)) (required_parameter (identifier)) (required_parameter (identifier))) (type_annotation (predefined_type)))
+      (call_signature (type_parameters (type_parameter (type_identifier))) (formal_parameters (required_parameter (identifier)) (required_parameter (identifier)) (required_parameter (identifier))) (type_annotation (predefined_type)))
       (number)))
     (generator_function
       (identifier)
       (call_signature
-        (type_parameters (type_parameter (identifier)))
+        (type_parameters (type_parameter (type_identifier)))
         (formal_parameters
           (required_parameter (identifier))
           (required_parameter (identifier))

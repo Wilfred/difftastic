@@ -559,7 +559,7 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
     ),
 
     type_parameter: $ => seq(
-      $.identifier,
+      $._type_identifier,
       optional($.constraint),
       optional($.default_type)
     ),
