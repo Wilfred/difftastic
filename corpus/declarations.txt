@@ -348,7 +348,7 @@ declare module "example" { }
     (export_statement (function_signature
       (identifier)
       (call_signature
-        (type_parameters (type_parameter (identifier)))
+        (type_parameters (type_parameter (type_identifier)))
         (formal_parameters
           (optional_parameter
             (identifier)
@@ -448,7 +448,7 @@ export interface Foo {
           (function_signature
             (identifier)
             (call_signature
-              (type_parameters (type_parameter (identifier)) (type_parameter (identifier)))
+              (type_parameters (type_parameter (type_identifier)) (type_parameter (type_identifier)))
               (formal_parameters
                 (required_parameter
                   (identifier)
@@ -580,8 +580,8 @@ class Foo {
   (class
     (type_identifier)
     (class_body
-      (method_signature (accessibility_modifier) (property_identifier) (call_signature (type_parameters (type_parameter (identifier))) (formal_parameters (required_parameter (identifier) (type_annotation (function_type (formal_parameters) (union_type (type_identifier) (generic_type (type_identifier) (type_arguments (union_type (type_identifier) (type_identifier)))))))) (optional_parameter (identifier) (type_annotation (function_type (formal_parameters (required_parameter (identifier) (type_annotation (type_identifier)))) (union_type (predefined_type) (generic_type (type_identifier) (type_arguments (predefined_type))))))) (optional_parameter (identifier) (type_annotation (predefined_type))) (optional_parameter (identifier) (type_annotation (predefined_type)))) (type_annotation (generic_type (type_identifier) (type_arguments (type_identifier))))))
-      (method_signature (accessibility_modifier) (readonly) (property_identifier) (call_signature (type_parameters (type_parameter (identifier))) (formal_parameters)))
+      (method_signature (accessibility_modifier) (property_identifier) (call_signature (type_parameters (type_parameter (type_identifier))) (formal_parameters (required_parameter (identifier) (type_annotation (function_type (formal_parameters) (union_type (type_identifier) (generic_type (type_identifier) (type_arguments (union_type (type_identifier) (type_identifier)))))))) (optional_parameter (identifier) (type_annotation (function_type (formal_parameters (required_parameter (identifier) (type_annotation (type_identifier)))) (union_type (predefined_type) (generic_type (type_identifier) (type_arguments (predefined_type))))))) (optional_parameter (identifier) (type_annotation (predefined_type))) (optional_parameter (identifier) (type_annotation (predefined_type)))) (type_annotation (generic_type (type_identifier) (type_arguments (type_identifier))))))
+      (method_signature (accessibility_modifier) (readonly) (property_identifier) (call_signature (type_parameters (type_parameter (type_identifier))) (formal_parameters)))
       (method_signature (accessibility_modifier) (property_identifier) (call_signature (formal_parameters)))
       (method_signature (accessibility_modifier) (property_identifier) (call_signature (formal_parameters) (type_annotation (type_identifier))))))))
 
@@ -664,7 +664,7 @@ class Foo<Bar> extends Baz { bar = 5; static one(a) { return a; }; two(b) { retu
   (expression_statement
     (class
       (type_identifier)
-      (type_parameters (type_parameter (identifier)))
+      (type_parameters (type_parameter (type_identifier)))
       (class_heritage (extends_clause (type_identifier)))
       (class_body
         (public_field_definition (property_identifier) (number))

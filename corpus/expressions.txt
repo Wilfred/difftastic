@@ -122,7 +122,7 @@ Ambiguity: generic arrow functions, type assertions, JSX
   (expression_statement
     (arrow_function
       (call_signature
-        (type_parameters (type_parameter (identifier)))
+        (type_parameters (type_parameter (type_identifier)))
         (formal_parameters
           (required_parameter (identifier) (type_annotation (type_identifier)))))
       (binary_expression (identifier) (number))))
