@@ -81,15 +81,15 @@ module.exports = grammar({
 
     uninterpreted: $ => /(.|\s)*/,
 
-    _statements: $ => seq(
-      sep1($._top_level_statement, $._terminator),
-      optional($._terminator)
-    ),
-
-    _top_level_statement: $ => choice(
-      $._statement,
-      $.begin_block,
-      $.end_block
+    _statements: $ => choice(
+      seq(
+        repeat1(choice(
+          seq($._statement, $._terminator),
+          $.empty_statement
+        )),
+        optional($._statement)
+      ),
+      $._statement
     ),
 
     begin_block: $ => seq("BEGIN", "{", optional($._statements), "}"),
@@ -103,7 +103,8 @@ module.exports = grammar({
       $.while_modifier,
       $.until_modifier,
       $.rescue_modifier,
-      $.empty_statement,
+      $.begin_block,
+      $.end_block,
       $._arg
     ),
 
@@ -211,33 +212,31 @@ module.exports = grammar({
       optional($._arg),
       $._terminator,
       repeat(';'),
-      $.when,
+      repeat($.when),
+      optional($.else),
       'end'
     ),
+
     when: $ => seq(
       'when',
       commaSep1($.pattern),
-      $._then,
-      optional($._statements),
-      choice(optional($.else), $.when)
+      choice($._terminator, $.then)
     ),
+
     pattern: $ => choice($._arg, $.splat_argument),
 
     if: $ => seq(
       'if',
       $._statement,
-      $._then,
-      optional($._terminator),
-      optional($._statements),
-      optional($._if_tail),
+      choice($._terminator, $.then),
+      optional(choice($.else, $.elsif)),
       'end'
     ),
 
     unless: $ => seq(
       'unless',
       $._statement,
-      $._then,
-      optional($._statements),
+      choice($._terminator, $.then),
       optional($.else),
       'end'
     ),
@@ -245,31 +244,42 @@ module.exports = grammar({
     elsif: $ => seq(
       'elsif',
       $._statement,
-      $._then,
-      optional($._statements),
-      optional($._if_tail)
+      choice($._terminator, $.then),
+      optional(choice($.else, $.elsif))
     ),
 
-    else: $ => seq('else', optional($._terminator), optional($._statements)),
+    else: $ => seq(
+      'else',
+      optional($._terminator),
+      optional($._statements)
+    ),
 
-    _then: $ => choice($._terminator, 'then', seq($._terminator, 'then')),
-
-    _if_tail: $ => choice(
-      $.else,
-      $.elsif
+    then: $ => choice(
+      seq(
+        $._terminator,
+        $._statements
+      ),
+      seq(
+        optional($._terminator),
+        'then',
+        optional($._statements)
+      )
     ),
 
     begin: $ => seq('begin', optional($._terminator), $._body_statement),
+
     ensure: $ => seq('ensure', optional($._statements)),
+
     rescue: $ => seq(
       'rescue',
       optional($.exceptions),
       optional($.exception_variable),
-      $._then,
-      optional($._statements),
+      choice($._terminator, $.then),
       optional($.rescue)
     ),
+
     exceptions: $ => commaSep1($._arg_or_splat_arg),
+
     exception_variable: $ => seq('=>', $._lhs),
 
     _body_statement: $ => seq(

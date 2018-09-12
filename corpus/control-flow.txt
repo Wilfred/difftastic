@@ -74,13 +74,18 @@ if foo then
 else
 end
 
-if true then ; 123; end
+if true then ;; 123; end
 
 ---
 
 (program
-  (if (identifier) (else))
-  (if (true) (integer)))
+  (if
+    (identifier)
+    (then)
+    (else))
+  (if
+    (true)
+    (then (empty_statement) (empty_statement) (integer))))
 
 ==================================
 single-line if then else statement
@@ -90,7 +95,7 @@ if foo then bar else quux end
 
 ---
 
-(program (if (identifier) (identifier) (else (identifier))))
+(program (if (identifier) (then (identifier)) (else (identifier))))
 
 ========
 if elsif
@@ -105,8 +110,8 @@ end
 ---
 
 (program
-  (if (identifier) (identifier)
-  (elsif (identifier) (identifier))))
+  (if (identifier) (then (identifier))
+  (elsif (identifier) (then (identifier)))))
 
 =============
 if elsif else
@@ -123,8 +128,11 @@ end
 ---
 
 (program
-  (if (identifier) (identifier)
-    (elsif (identifier) (identifier)
+  (if (identifier)
+    (then (identifier))
+    (elsif
+      (identifier)
+      (then (identifier))
       (else (identifier)))))
 
 ======================
@@ -147,7 +155,7 @@ end
 
 ---
 
-(program (unless (identifier)))
+(program (unless (identifier) (then)))
 
 ================================
 empty unless statement with else
@@ -311,13 +319,12 @@ rescue
   bar
 end
 
-
 ---
 
 (program
   (begin (rescue))
-  (begin (rescue))
-  (begin (rescue (identifier))))
+  (begin (rescue (then)))
+  (begin (rescue (then (identifier)))))
 
 ===========================
 begin with rescue with args
@@ -359,12 +366,12 @@ end
 
 (program
   (begin (rescue (exceptions (identifier))))
-  (begin (rescue (exceptions (identifier))))
-  (begin (rescue (exceptions (identifier)) (identifier)))
-  (begin (rescue (exception_variable (identifier)) (identifier)))
-  (begin (rescue (exceptions (identifier) (identifier)) (identifier)))
+  (begin (rescue (exceptions (identifier)) (then)))
+  (begin (rescue (exceptions (identifier)) (then (identifier))))
+  (begin (rescue (exception_variable (identifier)) (then (identifier))))
+  (begin (rescue (exceptions (identifier) (identifier)) (then (identifier))))
   (begin (rescue (exceptions (constant)) (exception_variable (identifier))))
-  (begin (rescue (exceptions (constant)) (exception_variable (identifier)) (identifier))))
+  (begin (rescue (exceptions (constant)) (exception_variable (identifier)) (then (identifier)))))
 
 ===========================
 begin with rescue with splat args
@@ -416,7 +423,7 @@ end
 
 (program
   (begin (identifier)
-    (rescue (exceptions (identifier)) (retry))
+    (rescue (exceptions (identifier)) (then (retry)))
     (else (identifier))
     (ensure (identifier))))
 
@@ -473,10 +480,12 @@ end
 (program
   (case
     (identifier)
-    (when (pattern (identifier)) (else)))
+    (when (pattern (identifier)))
+    (else))
   (case
     (identifier)
-    (when (pattern (identifier)) (else (identifier)))))
+    (when (pattern (identifier)))
+    (else (identifier))))
 
 ==============================
 case with multiple when blocks
@@ -495,9 +504,9 @@ end
 
 (program
   (case (identifier)
-    (when (pattern (identifier)) (identifier)
-      (when (pattern (identifier)) (identifier)
-        (else (identifier))))))
+    (when (pattern (identifier)) (then (identifier)))
+    (when (pattern (identifier)) (then (identifier)))
+    (else (identifier))))
 
 ==============================
 case with splat parameter in when
@@ -510,7 +519,12 @@ end
 
 ---
 
-(program (case (identifier) (when (pattern (splat_argument (identifier))) (identifier))))
+(program
+  (case
+    (identifier)
+    (when
+      (pattern (splat_argument (identifier)))
+      (then (identifier)))))
 
 ==============
 case with assignment
@@ -525,8 +539,8 @@ end
 
 (program (assignment (identifier)
   (case (identifier)
-    (when (pattern (identifier))
-      (else)))))
+    (when (pattern (identifier)))
+    (else))))
 
 ==============
 case with expression
@@ -541,5 +555,5 @@ end
 
 (program (assignment (identifier)
   (case (assignment (identifier) (binary (identifier) (identifier)))
-    (when (pattern (identifier))
-      (else)))))
+    (when (pattern (identifier)))
+    (else))))
