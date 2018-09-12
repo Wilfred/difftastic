@@ -669,9 +669,9 @@ heredoc content
   (heredoc_beginning) (heredoc_body (heredoc_end))
   (heredoc_beginning) (heredoc_body (heredoc_end))
   (heredoc_beginning) (heredoc_body (heredoc_end))
-  (if (identifier)
+  (if (identifier) (then
     (heredoc_beginning) (heredoc_body (heredoc_end))
-    (heredoc_beginning) (heredoc_body (heredoc_end)))
+    (heredoc_beginning) (heredoc_body (heredoc_end))))
   (heredoc_beginning) (heredoc_body (heredoc_end)))
 
 
