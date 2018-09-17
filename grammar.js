@@ -663,13 +663,13 @@ module.exports = grammar({
       ')'
     )),
 
-    type_conversion_expression: $ => seq(
+    type_conversion_expression: $ => prec.dynamic(-1, seq(
       $._type,
       '(',
       $._expression,
       optional(','),
       ')'
-    ),
+    )),
 
     composite_literal: $ => prec(PREC.composite_literal, seq(
       choice(
