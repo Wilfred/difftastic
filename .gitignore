@@ -4,3 +4,4 @@ build
 package-lock.json
 /test.ts
 /examples/desktop
+/examples/npm
