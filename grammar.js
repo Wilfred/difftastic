@@ -38,6 +38,7 @@ module.exports = grammar({
 
   inline: $ => [
     $._statement,
+    $._expressions,
     $._semicolon,
     $._destructuring_pattern,
     $._reserved_identifier,
