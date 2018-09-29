@@ -1,7 +1,7 @@
 {
   "name": "tree-sitter-lua",
   "main": "index",
-  "version": "1.3.4",
+  "version": "1.4.0",
   "description": "Lua grammar for tree-sitter.",
   "repository": "https://github.com/Azganoth/tree-sitter-lua",
   "author": "Ademir Ferreira <ademir.ferreiracif@gmail.com> (https://github.com/Azganoth)",
