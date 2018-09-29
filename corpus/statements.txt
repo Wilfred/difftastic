@@ -153,10 +153,24 @@ for key, val in pairs(u) do
   print(key, val)
 end
 
+for key, val in ipairs(u) do
+  print(key, val)
+end
+
+for key, val in next, u do
+  print(key, val)
+end
+
 ---
 
 (program
   (for_in_statement (loop_expression (identifier) (identifier) (function_call (identifier) (arguments (identifier))))
+    (function_call (identifier) (arguments (identifier) (identifier))))
+    
+  (for_in_statement (loop_expression (identifier) (identifier) (function_call (identifier) (arguments (identifier))))
+    (function_call (identifier) (arguments (identifier) (identifier))))
+  
+  (for_in_statement (loop_expression (identifier) (identifier) (next) (identifier))
     (function_call (identifier) (arguments (identifier) (identifier)))))
 
 ============================================
