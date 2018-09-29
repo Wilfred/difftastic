@@ -1167,6 +1167,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "next"
+        },
+        {
+          "type": "SYMBOL",
           "name": "function_definition"
         },
         {
@@ -1211,13 +1215,13 @@
       "type": "STRING",
       "value": "..."
     },
-    "this": {
-      "type": "STRING",
-      "value": "this"
-    },
     "self": {
       "type": "STRING",
       "value": "self"
+    },
+    "next": {
+      "type": "STRING",
+      "value": "next"
     },
     "global_variable": {
       "type": "CHOICE",
@@ -1235,10 +1239,6 @@
     "_prefix": {
       "type": "CHOICE",
       "members": [
-        {
-          "type": "SYMBOL",
-          "name": "this"
-        },
         {
           "type": "SYMBOL",
           "name": "self"
