@@ -1,0 +1,21 @@
+{
+  "name": "tree-sitter-css",
+  "version": "0.0.1",
+  "description": "CSS grammar for tree-sitter",
+  "main": "index.js",
+  "keywords": [
+    "parser",
+    "lexer"
+  ],
+  "author": "Max Brunsfeld",
+  "license": "MIT",
+  "dependencies": {
+    "nan": "^2.11.1"
+  },
+  "devDependencies": {
+    "tree-sitter-cli": "^0.13.5"
+  },
+  "scripts": {
+    "test": "tree-sitter test"
+  }
+}

@@ -1,0 +1,15 @@
+============================
+Rule sets
+============================
+
+#some-id {
+  some-property: 5px;
+}
+
+---
+
+(stylesheet
+  (rule_set
+    (selectors (id_selector (identifier)))
+    (block
+      (declaration (property_name (identifier)) (property_value)))))

@@ -1,0 +1,98 @@
+=========================
+Universal selectors
+=========================
+
+* {}
+
+---
+
+(stylesheet
+  (rule_set (selectors (universal_selector)) (block)))
+
+=========================
+Type selectors
+=========================
+
+div, span {}
+
+---
+
+(stylesheet
+  (rule_set (selectors (type_selector (identifier)) (type_selector (identifier))) (block)))
+
+=========================
+Class selectors
+=========================
+
+.class-a {}
+.class-b, .class-c {}
+
+---
+
+(stylesheet
+  (rule_set (selectors (class_selector (identifier))) (block))
+  (rule_set (selectors (class_selector (identifier)) (class_selector (identifier))) (block)))
+
+=========================
+Id selectors
+=========================
+
+#some-id {}
+
+---
+
+(stylesheet
+  (rule_set (selectors (id_selector (identifier))) (block)))
+
+=========================
+Attribute selectors
+=========================
+
+[a] {}
+[b=c] {}
+[d~=e] {}
+
+---
+
+(stylesheet
+  (rule_set (selectors (attribute_selector (property_name (identifier)))) (block))
+  (rule_set (selectors (attribute_selector (property_name (identifier)) (property_value))) (block))
+  (rule_set (selectors (attribute_selector (property_name (identifier)) (property_value))) (block)))
+
+=========================
+Child selectors
+=========================
+
+a > b {}
+c > d > e {}
+
+---
+
+(stylesheet
+  (rule_set
+    (selectors (child_selector (type_selector (identifier)) (type_selector (identifier))))
+    (block))
+  (rule_set
+    (selectors (child_selector
+      (child_selector (type_selector (identifier)) (type_selector (identifier)))
+      (type_selector (identifier))))
+    (block)))
+
+=========================
+Descendant selectors
+=========================
+
+a b {}
+c d e {}
+
+---
+
+(stylesheet
+  (rule_set
+    (selectors (descendant_selector (type_selector (identifier)) (type_selector (identifier))))
+    (block))
+  (rule_set
+    (selectors (descendant_selector
+      (descendant_selector (type_selector (identifier)) (type_selector (identifier)))
+      (type_selector (identifier))))
+    (block)))
