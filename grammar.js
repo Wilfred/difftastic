@@ -100,6 +100,7 @@ module.exports = grammar({
       $._terminator,
       optional($._expression),
       '))',
+      optional(';'),
       choice(
         $.do_group,
         $.compound_statement
