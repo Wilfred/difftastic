@@ -90,7 +90,7 @@ F="${G%% *}"
     (string (expansion (subscript (variable_name) (word)))))
   (variable_assignment
     (variable_name)
-    (string (expansion (variable_name) (regex) (word) (word))))
+    (string (expansion (variable_name) (regex))))
   (variable_assignment
     (variable_name)
     (string (expansion (variable_name) (word) (word)))))
