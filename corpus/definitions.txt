@@ -79,6 +79,35 @@ class C {
         (field_declaration (primitive_type) (field_identifier)))))
 
 =====================================
+Default and deleted methods
+=====================================
+
+class A : public B {
+  A() = default;
+  A(A &&) = delete;
+  void f() = delete;
+};
+
+---
+
+(translation_unit
+  (class_specifier
+    (type_identifier)
+    (base_class_clause (type_identifier))
+    (field_declaration_list
+      (function_definition
+        (function_declarator (identifier) (parameter_list))
+        (default_method_clause))
+      (function_definition
+        (function_declarator
+          (identifier)
+          (parameter_list (parameter_declaration (type_identifier) (abstract_reference_declarator))))
+        (delete_method_clause))
+      (function_definition
+        (primitive_type)
+        (function_declarator (field_identifier) (parameter_list)) (delete_method_clause)))))
+
+=====================================
 Destructor definitions
 =====================================
 
