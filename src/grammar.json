@@ -858,6 +858,23 @@
                   "value": "]]"
                 }
               ]
+            },
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "(("
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "_expression"
+                },
+                {
+                  "type": "STRING",
+                  "value": "))"
+                }
+              ]
             }
           ]
         },
@@ -1031,11 +1048,11 @@
                       "members": [
                         {
                           "type": "SYMBOL",
-                          "name": "regex"
+                          "name": "_literal"
                         },
                         {
                           "type": "SYMBOL",
-                          "name": "_literal"
+                          "name": "regex"
                         }
                       ]
                     }
@@ -1328,6 +1345,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "postfix_expression"
+        },
+        {
+          "type": "SYMBOL",
           "name": "parenthesized_expression"
         }
       ]
@@ -1350,11 +1371,11 @@
                 "members": [
                   {
                     "type": "STRING",
-                    "value": "=="
+                    "value": "="
                   },
                   {
                     "type": "STRING",
-                    "value": "="
+                    "value": "=="
                   },
                   {
                     "type": "STRING",
@@ -1366,11 +1387,35 @@
                   },
                   {
                     "type": "STRING",
+                    "value": "+"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "-"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "+="
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "-="
+                  },
+                  {
+                    "type": "STRING",
                     "value": "<"
                   },
                   {
                     "type": "STRING",
                     "value": ">"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "<="
+                  },
+                  {
+                    "type": "STRING",
+                    "value": ">="
                   },
                   {
                     "type": "STRING",
@@ -1446,6 +1491,28 @@
           }
         ]
       }
+    },
+    "postfix_expression": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_expression"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "++"
+            },
+            {
+              "type": "STRING",
+              "value": "--"
+            }
+          ]
+        }
+      ]
     },
     "parenthesized_expression": {
       "type": "SEQ",
@@ -1874,13 +1941,16 @@
                           }
                         },
                         {
-                          "type": "ALIAS",
-                          "content": {
-                            "type": "SYMBOL",
-                            "name": "regex_without_right_brace"
-                          },
-                          "named": true,
-                          "value": "regex"
+                          "type": "CHOICE",
+                          "members": [
+                            {
+                              "type": "SYMBOL",
+                              "name": "regex"
+                            },
+                            {
+                              "type": "BLANK"
+                            }
+                          ]
                         }
                       ]
                     },
@@ -2114,14 +2184,6 @@
         }
       }
     },
-    "regex": {
-      "type": "PATTERN",
-      "value": "([^\"\\s]|\\\\.)([^\\s]|\\\\.)*"
-    },
-    "regex_without_right_brace": {
-      "type": "PATTERN",
-      "value": "([^\"\\s}]|\\\\.)([^\\s}]|\\\\.)*"
-    },
     "_terminator": {
       "type": "CHOICE",
       "members": [
@@ -2191,6 +2253,10 @@
     {
       "type": "SYMBOL",
       "name": "variable_name"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "regex"
     },
     {
       "type": "STRING",

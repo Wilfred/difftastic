@@ -4,7 +4,6 @@ examples/bash-it/plugins/available/go.plugin.bash
 examples/bash-it/install.sh
 examples/bash-it/completion/available/svn.completion.bash
 examples/bash-it/completion/available/docker-compose.completion.bash
-examples/bash-it/completion/available/jboss7.completion.bash
 examples/bash-it/completion/available/gh.completion.bash
 examples/bash-it/completion/available/drush.completion.bash
 examples/bash-it/completion/available/hub.completion.bash
@@ -12,7 +11,6 @@ examples/bash-it/completion/available/docker-machine.completion.bash
 examples/bash-it/completion/available/git.completion.bash
 examples/bash-it/completion/available/defaults.completion.bash
 examples/bash-it/completion/available/packer.completion.bash
-examples/bash-it/completion/available/vault.completion.bash
 examples/bash-it/completion/available/docker.completion.bash
 examples/bash-it/completion/available/tmux.completion.bash
 examples/bash-it/lib/preexec.bash

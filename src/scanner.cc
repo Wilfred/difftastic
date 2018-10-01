@@ -16,6 +16,7 @@ enum TokenType {
   EMPTY_VALUE,
   CONCAT,
   VARIABLE_NAME,
+  REGEX,
   CLOSING_BRACE,
   CLOSING_BRACKET,
   NEWLINE,
@@ -200,6 +201,63 @@ struct Scanner {
       }
 
       return false;
+    }
+
+    if (valid_symbols[REGEX]) {
+      while (iswspace(lexer->lookahead)) skip(lexer);
+
+      if (
+        lexer->lookahead != '"' &&
+        lexer->lookahead != '\'' &&
+        lexer->lookahead != '$'
+      ) {
+        struct State {
+          bool done;
+          uint32_t paren_depth;
+          uint32_t bracket_depth;
+          uint32_t brace_depth;
+        };
+
+        lexer->mark_end(lexer);
+
+        State state = {false, 0, 0, 0};
+        while (!state.done) {
+          switch (lexer->lookahead) {
+            case '\0':
+              return false;
+            case '(':
+              state.paren_depth++;
+              break;
+            case '[':
+              state.bracket_depth++;
+              break;
+            case '{':
+              state.bracket_depth++;
+              break;
+            case ')':
+              if (state.paren_depth == 0) state.done = true;
+              state.paren_depth--;
+              break;
+            case ']':
+              if (state.bracket_depth == 0) state.done = true;
+              state.bracket_depth--;
+              break;
+            case '}':
+              if (state.brace_depth == 0) state.done = true;
+              state.brace_depth--;
+              break;
+          }
+
+          if (!state.done) {
+            bool was_space = iswspace(lexer->lookahead);
+            advance(lexer);
+            if (!was_space) lexer->mark_end(lexer);
+          }
+        }
+
+        lexer->result_symbol = REGEX;
+        return true;
+      }
     }
 
     return false;

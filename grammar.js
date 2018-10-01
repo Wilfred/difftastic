@@ -34,6 +34,7 @@ module.exports = grammar({
     $._empty_value,
     $._concat,
     $.variable_name, // Variable name followed by an operator like '=' or '+='
+    $.regex,
     '}',
     ']',
     '\n',
@@ -229,7 +230,8 @@ module.exports = grammar({
     test_command: $ => seq(
       choice(
         seq('[', $._expression, ']'),
-        seq('[[', $._expression, ']]')
+        seq('[[', $._expression, ']]'),
+        seq('((', $._expression, '))')
       ),
       repeat(choice(
         $.file_redirect,
@@ -265,7 +267,7 @@ module.exports = grammar({
         $._literal,
         seq(
           choice('=~', '=='),
-          choice($.regex, $._literal)
+          choice($._literal, $.regex)
         )
       )),
       repeat(choice(
@@ -338,13 +340,20 @@ module.exports = grammar({
       $._literal,
       $.unary_expression,
       $.binary_expression,
+      $.postfix_expression,
       $.parenthesized_expression
     ),
 
     binary_expression: $ => prec.left(choice(
       seq(
         $._expression,
-        choice('==', '=', '=~', '!=', '<', '>', '||', '&&', $.test_operator),
+        choice(
+          '=', '==', '=~', '!=',
+          '+', '-', '+=', '-=',
+          '<', '>', '<=', '>=',
+          '||', '&&',
+          $.test_operator
+        ),
         $._expression
       ),
       seq(
@@ -358,6 +367,11 @@ module.exports = grammar({
       choice('!', $.test_operator),
       $._expression
     )),
+
+    postfix_expression: $ => seq(
+      $._expression,
+      choice('++', '--'),
+    ),
 
     parenthesized_expression: $ => seq(
       '(',
@@ -453,7 +467,7 @@ module.exports = grammar({
           ),
           optional(seq(
             token(prec(1, '/')),
-            alias($.regex_without_right_brace, $.regex)
+            optional($.regex)
           )),
           repeat(choice(
             $._literal,
@@ -487,10 +501,6 @@ module.exports = grammar({
     ))),
 
     test_operator: $ => token(prec(1, seq('-', /[a-zA-Z]+/))),
-
-    regex: $ => /([^"\s]|\\.)([^\s]|\\.)*/,
-
-    regex_without_right_brace: $ => /([^"\s}]|\\.)([^\s}]|\\.)*/,
 
     _terminator: $ => choice(';', ';;', '\n', '&')
   }
