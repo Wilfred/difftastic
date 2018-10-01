@@ -413,7 +413,8 @@ module.exports = grammar(C, {
 
     _statement: ($, original) => choice(
       original,
-      $.for_range_loop
+      $.for_range_loop,
+      $.try_statement
     ),
 
     if_statement: $ => prec.right(seq(
@@ -449,6 +450,18 @@ module.exports = grammar(C, {
         $.initializer_list,
         ';'
       )
+    ),
+
+    try_statement: $ => seq(
+      'try',
+      $.compound_statement,
+      repeat1($.catch_clause)
+    ),
+
+    catch_clause: $ => seq(
+      'catch',
+      $.parameter_list,
+      $.compound_statement
     ),
 
     // Expressions

@@ -71,3 +71,39 @@ T f() {
           (template_argument_list (type_descriptor (type_identifier))))
         (return_statement (pointer_expression (identifier)))
         (return_statement (identifier))))))
+
+===========================================
+Try/catch statements
+===========================================
+
+void main() {
+  try {
+      f();
+  } catch (const std::overflow_error) {
+      // f() throws std::overflow_error (same type rule)
+  } catch (const exception &e) {
+      // f() throws std::logic_error (base class rule)
+  } catch (...) {
+      // f() throws std::string or int or any other unrelated type
+  }
+}
+
+---
+
+(translation_unit
+  (function_definition
+    (primitive_type)
+    (function_declarator (identifier) (parameter_list))
+    (compound_statement
+      (try_statement
+        (compound_statement
+          (expression_statement (call_expression (identifier) (argument_list))))
+        (catch_clause
+          (parameter_list (parameter_declaration (type_qualifier) (scoped_type_identifier (namespace_identifier) (type_identifier))))
+          (compound_statement (comment)))
+        (catch_clause
+          (parameter_list (parameter_declaration (type_qualifier) (type_identifier) (reference_declarator (identifier))))
+          (compound_statement (comment)))
+        (catch_clause
+          (parameter_list)
+          (compound_statement (comment)))))))
