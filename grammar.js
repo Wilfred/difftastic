@@ -248,7 +248,10 @@ module.exports = grammar(C, {
     inline_method_definition: $ => seq(
       $._declaration_specifiers,
       $._field_declarator,
-      $.compound_statement
+      choice(
+        $.compound_statement,
+        $.delete_method_clause
+      )
     ),
 
     constructor_or_destructor_definition: $ => seq(
@@ -260,13 +263,20 @@ module.exports = grammar(C, {
         $.function_declarator,
         optional($.field_initializer_list)
       )),
-      $.compound_statement
+      choice(
+        $.compound_statement,
+        $.default_method_clause,
+        $.delete_method_clause
+      )
     ),
 
     constructor_or_destructor_declaration: $ => seq(
       $.function_declarator,
       ';'
     ),
+
+    default_method_clause: $ => seq('=', 'default', ';'),
+    delete_method_clause: $ => seq('=', 'delete', ';'),
 
     friend_declaration: $ => seq(
       'friend',

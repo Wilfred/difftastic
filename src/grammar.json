@@ -5439,8 +5439,17 @@
           "name": "_field_declarator"
         },
         {
-          "type": "SYMBOL",
-          "name": "compound_statement"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "compound_statement"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "delete_method_clause"
+            }
+          ]
         }
       ]
     },
@@ -5489,8 +5498,21 @@
           }
         },
         {
-          "type": "SYMBOL",
-          "name": "compound_statement"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "compound_statement"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "default_method_clause"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "delete_method_clause"
+            }
+          ]
         }
       ]
     },
@@ -5500,6 +5522,40 @@
         {
           "type": "SYMBOL",
           "name": "function_declarator"
+        },
+        {
+          "type": "STRING",
+          "value": ";"
+        }
+      ]
+    },
+    "default_method_clause": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "="
+        },
+        {
+          "type": "STRING",
+          "value": "default"
+        },
+        {
+          "type": "STRING",
+          "value": ";"
+        }
+      ]
+    },
+    "delete_method_clause": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "="
+        },
+        {
+          "type": "STRING",
+          "value": "delete"
         },
         {
           "type": "STRING",
