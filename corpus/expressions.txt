@@ -540,7 +540,7 @@ Closures
 ===========================================
 
 a.map(|(b, c)| b.push(c));
-d.map(|mut e| {
+d.map(move |mut e| {
     f(e);
     g(e)
 });

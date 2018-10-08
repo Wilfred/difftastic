@@ -1128,6 +1128,7 @@ module.exports = grammar({
     ),
 
     closure_expression: $ => prec(PREC.closure, seq(
+      optional('move'),
       $.closure_parameters,
       choice(
         seq(
