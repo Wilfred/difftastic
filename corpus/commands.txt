@@ -169,3 +169,15 @@ wc -l $tmpfile
     (command_name (word))
     (word)
     (simple_expansion (variable_name))))
+
+======================================
+Heredocs with escaped expansions
+======================================
+
+cat  << EOF
+DEV_NAME=\$(lsblk)
+EOF
+
+---
+
+(program (redirected_statement (command (command_name (word))) (heredoc_redirect (heredoc_start))) (heredoc_body))

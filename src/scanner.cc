@@ -61,6 +61,13 @@ struct Scanner {
           return did_advance;
         }
 
+        case '\\': {
+          did_advance = true;
+          advance(lexer);
+          advance(lexer);
+          break;
+        }
+
         case '$': {
           lexer->result_symbol = middle_type;
           return did_advance;
