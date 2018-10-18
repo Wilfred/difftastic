@@ -472,6 +472,7 @@ module.exports = grammar({
 
     command_substitution: $ => choice(
       seq('$(', $._statements, ')'),
+      seq('$(', $.file_redirect, ')'),
       prec(1, seq('`', $._statements, '`'))
     ),
 
