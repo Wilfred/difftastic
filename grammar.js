@@ -6,6 +6,10 @@ module.exports = grammar({
     $.comment,
   ],
 
+  externals: $ => [
+    $._descendant_operator,
+  ],
+
   rules: {
     stylesheet: $ => repeat(choice(
       $.rule_set,
@@ -27,59 +31,129 @@ module.exports = grammar({
 
     selectors: $ => commaSep1($._selector),
 
-    block: $ => seq('{', repeat($.declaration), '}'),
+    block: $ => seq(
+      '{',
+      repeat(choice($.declaration, $.rule_set)),
+      '}'
+    ),
 
     // Selectors
 
     _selector: $ => choice(
       $.universal_selector,
-      $.type_selector,
+      alias($.identifier, $.tag_name),
       $.class_selector,
+      $.nesting_selector,
+      $.pseudo_class_selector,
+      $.pseudo_element_selector,
       $.id_selector,
       $.attribute_selector,
       $.child_selector,
       $.descendant_selector
     ),
 
+    nesting_selector: $ => '&',
+
     universal_selector: $ => '*',
 
-    type_selector: $ => $.identifier,
+    class_selector: $ => seq(
+      optional($._selector),
+      '.',
+      alias($.identifier, $.class_name),
+    ),
 
-    class_selector: $ => seq('.', $.identifier),
+    pseudo_class_selector: $ => seq(
+      optional($._selector),
+      ':',
+      alias($.identifier, $.class_name),
+      optional($.arguments)
+    ),
 
-    id_selector: $ => seq('#', $.identifier),
+    pseudo_element_selector: $ => seq(
+      optional($._selector),
+      '::',
+      alias($.identifier, $.tag_name)
+    ),
+
+    id_selector: $ => seq(
+      optional($._selector),
+      '#',
+      alias($.identifier, $.id_name)
+    ),
 
     attribute_selector: $ => seq(
-      choice(
-        '[',
-        seq($._selector, token.immediate('['))
-      ),
-      $.property_name,
+      optional($._selector),
+      '[',
+      alias($.identifier, $.attribute_name),
       optional(seq(
         choice('=', '~=', '^=', '|=', '*=', '$='),
-        $.property_value
+        $._value
       )),
       ']'
     ),
 
     child_selector: $ => prec.left(seq($._selector, '>', $._selector)),
 
-    descendant_selector: $ => prec.left(seq($._selector, $._selector)),
+    descendant_selector: $ => prec.left(seq($._selector, $._descendant_operator, $._selector)),
 
     // Declarations
 
-    declaration: $ => seq(
-      $.property_name,
+    declaration: $ => prec(1, seq(
+      alias($.identifier, $.property_name),
       ':',
-      $.property_value,
+      repeat1($._value),
       ';'
+    )),
+
+    // Property Values
+
+    _value: $ => choice(
+      alias($.identifier, $.value_name),
+      $.color_value,
+      $.integer_value,
+      $.float_value,
+      $.function_value
+    ),
+
+    integer_value: $ => seq(
+      token(seq(
+        optional(choice('+', '-')),
+        /\d+/
+      )),
+      optional($.unit)
+    ),
+
+    float_value: $ => seq(
+      token(seq(
+        optional(choice('+', '-')),
+        /\d*/,
+        choice(
+          seq('.', /\d+/),
+          seq('e', optional('-'), /\d+/),
+          seq('.', /\d+/, 'e', optional('-'), /\d+/)
+        )
+      )),
+      optional($.unit)
+    ),
+
+    unit: $ => token.immediate(/[a-z]+/),
+
+    color_value: $ => /#[0-9a-fA-F]{3,6}/,
+
+    function_value: $ => seq(
+      alias($.identifier, $.function_name),
+      $.arguments
+    ),
+
+    arguments: $ => seq(
+      '(',
+      commaSep($._value),
+      ')'
     ),
 
     property_name: $ => $.identifier,
 
     identifier: $ => /[a-zA-Z-_]+/,
-
-    property_value: $ => /[^;()\[\]]+/,
 
     comment: $ => token(choice(
       seq('//', /.*/),
@@ -91,6 +165,10 @@ module.exports = grammar({
     ))
   }
 })
+
+function commaSep (rule) {
+  return optional(commaSep1(rule))
+}
 
 function commaSep1 (rule) {
   return seq(rule, repeat(seq(',', rule)))

@@ -5,3 +5,17 @@ Functions
 a {
   color: rgba(0, 255, 0, 0.5);
 }
+
+---
+
+(stylesheet
+  (rule_set
+    (selectors (tag_name))
+    (block
+      (declaration
+        (property_name)
+        (function_value (function_name) (arguments
+          (integer_value)
+          (integer_value)
+          (integer_value)
+          (float_value)))))))
