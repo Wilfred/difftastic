@@ -52,12 +52,14 @@ module.exports = grammar({
 
     _terminated_statement: $ => seq(
       $._statement,
+      optional($.heredoc_body),
       $._terminator
     ),
 
     // Statements
 
     _statement: $ => choice(
+      $.redirected_statement,
       $.variable_assignment,
       $.command,
       $.declaration_command,
@@ -72,14 +74,25 @@ module.exports = grammar({
       $.pipeline,
       $.list,
       $.subshell,
+      $.compound_statement,
       $.function_definition
     ),
 
     _statements: $ => seq(
       repeat($._terminated_statement),
       $._statement,
+      optional($.heredoc_body),
       optional($._terminator)
     ),
+
+    redirected_statement: $ => prec(-1, seq(
+      $._statement,
+      repeat1(choice(
+        $.file_redirect,
+        $.heredoc_redirect,
+        $.herestring_redirect
+      ))
+    )),
 
     for_statement: $ => seq(
       'for',
@@ -111,13 +124,7 @@ module.exports = grammar({
     while_statement: $ => seq(
       'while',
       $._terminated_statement,
-      $.do_group,
-      repeat(choice(
-        $.file_redirect,
-        $.heredoc_redirect,
-        $.herestring_redirect
-      )),
-      optional($.heredoc_body)
+      $.do_group
     ),
 
     do_group: $ => seq(
@@ -188,8 +195,7 @@ module.exports = grammar({
         seq('function', $.word, optional(seq('(', ')'))),
         seq($.word, '(', ')')
       ),
-      $.compound_statement,
-      optional($.file_redirect)
+      $.compound_statement
     ),
 
     compound_statement: $ => seq(
@@ -232,12 +238,7 @@ module.exports = grammar({
         seq('[', $._expression, ']'),
         seq('[[', $._expression, ']]'),
         seq('((', $._expression, '))')
-      ),
-      repeat(choice(
-        $.file_redirect,
-        $.heredoc_redirect,
-        $.herestring_redirect
-      ))
+      )
     ),
 
     declaration_command: $ => prec.left(seq(
@@ -269,13 +270,7 @@ module.exports = grammar({
           choice('=~', '=='),
           choice($._literal, $.regex)
         )
-      )),
-      repeat(choice(
-        $.file_redirect,
-        $.heredoc_redirect,
-        $.herestring_redirect
-      )),
-      optional($.heredoc_body)
+      ))
     )),
 
     command_name: $ => $._literal,
