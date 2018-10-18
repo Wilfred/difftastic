@@ -425,7 +425,7 @@ module.exports = grammar({
       '"'
     ),
 
-    _string_content: $ => token(prec(-1, /([^"`$]|\\.)+/)),
+    _string_content: $ => token(prec(-1, /([^"`$\\]|\\(.|\n))+/)),
 
     array: $ => seq(
       '(',
