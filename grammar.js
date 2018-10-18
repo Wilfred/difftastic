@@ -16,7 +16,6 @@ module.exports = grammar({
 
   inline: $ => [
     $._statement,
-    $._statements,
     $._terminator,
     $._literal,
     $._primary_expression,
@@ -50,9 +49,19 @@ module.exports = grammar({
   rules: {
     program: $ => optional($._statements),
 
-    _terminated_statement: $ => seq(
+    _statements: $ => prec(1, seq(
+      repeat(seq(
+        $._statement,
+        optional($.heredoc_body),
+        $._terminator
+      )),
       $._statement,
       optional($.heredoc_body),
+      optional($._terminator)
+    )),
+
+    _terminated_statement: $ => seq(
+      $._statement,
       $._terminator
     ),
 
@@ -76,13 +85,6 @@ module.exports = grammar({
       $.subshell,
       $.compound_statement,
       $.function_definition
-    ),
-
-    _statements: $ => seq(
-      repeat($._terminated_statement),
-      $._statement,
-      optional($.heredoc_body),
-      optional($._terminator)
     ),
 
     redirected_statement: $ => prec(-1, seq(
@@ -129,7 +131,7 @@ module.exports = grammar({
 
     do_group: $ => seq(
       'do',
-      repeat($._terminated_statement),
+      optional($._statements),
       'done'
     ),
 
@@ -137,7 +139,7 @@ module.exports = grammar({
       'if',
       $._terminated_statement,
       'then',
-      repeat($._terminated_statement),
+      optional($._statements),
       repeat($.elif_clause),
       optional($.else_clause),
       'fi'
@@ -147,12 +149,12 @@ module.exports = grammar({
       'elif',
       $._terminated_statement,
       'then',
-      repeat($._terminated_statement)
+      optional($._statements)
     ),
 
     else_clause: $ => seq(
       'else',
-      repeat($._terminated_statement)
+      optional($._statements)
     ),
 
     case_statement: $ => seq(
@@ -172,10 +174,7 @@ module.exports = grammar({
       $._literal,
       repeat(seq('|', $._literal)),
       ')',
-      optional(seq(
-        repeat($._terminated_statement),
-        optional($._statement)
-      )),
+      optional($._statements),
       prec(1, ';;')
     ),
 
@@ -183,10 +182,7 @@ module.exports = grammar({
       $._literal,
       repeat(seq('|', $._literal)),
       ')',
-      optional(seq(
-        repeat($._terminated_statement),
-        optional($._statement)
-      )),
+      optional($._statements),
       optional(prec(1, ';;'))
     ),
 
@@ -200,7 +196,7 @@ module.exports = grammar({
 
     compound_statement: $ => seq(
       '{',
-      repeat($._terminated_statement),
+      optional($._statements),
       '}'
     ),
 
