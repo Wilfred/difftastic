@@ -1,0 +1,77 @@
+==============================
+Import statements
+==============================
+
+@import url("fineprint.css") print;
+@import url("bluish.css") speech;
+@import 'custom.css';
+@import url("chrome://communicator/skin/");
+@import "common.css" screen;
+
+---
+
+(stylesheet
+  (import_statement (call_expression (function_name) (arguments (string_value))) (keyword_query))
+  (import_statement (call_expression (function_name) (arguments (string_value))) (keyword_query))
+  (import_statement (string_value))
+  (import_statement (call_expression (function_name) (arguments (string_value))))
+  (import_statement (string_value) (keyword_query)))
+
+==============================
+Media statements
+==============================
+
+@media screen and (min-width: 30em) and (orientation: landscape) {}
+@media (min-height: 680px), screen and (orientation: portrait) {}
+@media not all and (monochrome) {}
+
+---
+
+(stylesheet
+  (media_statement
+    (binary_query
+      (binary_query
+        (keyword_query)
+        (feature_query (feature_name) (integer_value (unit))))
+      (feature_query (feature_name) (keyword_value)))
+    (block))
+  (media_statement
+    (feature_query (feature_name) (integer_value (unit)))
+    (binary_query (keyword_query) (feature_query (feature_name) (keyword_value)))
+    (block))
+  (media_statement
+    (binary_query (negated_query (keyword_query)) (parenthesized_query (keyword_query)))
+    (block)))
+
+==============================
+Charset statements
+==============================
+
+@charset "utf-8";
+
+---
+
+(stylesheet
+  (charset_statement (string_value)))
+
+==============================
+Other at-statements
+==============================
+
+@font-face {
+  font-family: "Open Sans";
+  src: url("/a") format("woff2"), url("/b/c") format("woff");
+}
+
+---
+
+(stylesheet
+  (at_rule
+    (at_keyword)
+    (block
+      (declaration (property_name) (string_value))
+      (declaration (property_name)
+        (call_expression (function_name) (arguments (string_value)))
+        (call_expression (function_name) (arguments (string_value)))
+        (call_expression (function_name) (arguments (string_value)))
+        (call_expression (function_name) (arguments (string_value)))))))

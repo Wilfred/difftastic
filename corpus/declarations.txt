@@ -1,5 +1,5 @@
 ==========================
-Functions
+Function calls
 ==========================
 
 a {
@@ -14,8 +14,26 @@ a {
     (block
       (declaration
         (property_name)
-        (function_value (function_name) (arguments
+        (call_expression (function_name) (arguments
           (integer_value)
           (integer_value)
           (integer_value)
           (float_value)))))))
+
+============================
+Color literals
+============================
+
+a {
+  b: #fafd04;
+  c: #fafd0401;
+}
+
+---
+
+(stylesheet
+  (rule_set
+    (selectors (tag_name))
+    (block
+      (declaration (property_name) (color_value))
+      (declaration (property_name) (color_value)))))

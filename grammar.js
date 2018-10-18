@@ -10,16 +10,47 @@ module.exports = grammar({
     $._descendant_operator,
   ],
 
+  inline: $ => [
+    $._top_level_item,
+    $._block_item,
+  ],
+
   rules: {
-    stylesheet: $ => repeat(choice(
+    stylesheet: $ => repeat($._top_level_item),
+
+    _top_level_item: $ => choice(
       $.rule_set,
       $.import_statement,
-    )),
+      $.media_statement,
+      $.charset_statement,
+      $.at_rule
+    ),
 
     // Statements
 
     import_statement: $ => seq(
-      '@import'
+      '@import',
+      $._value,
+      commaSep($._query),
+      ';'
+    ),
+
+    media_statement: $ => seq(
+      '@media',
+      commaSep1($._query),
+      $.block
+    ),
+
+    charset_statement: $ => seq(
+      '@charset',
+      $._value,
+      ';'
+    ),
+
+    at_rule: $ => seq(
+      $.at_keyword,
+      commaSep($._query),
+      choice(';', $.block)
     ),
 
     // Rule sets
@@ -31,10 +62,11 @@ module.exports = grammar({
 
     selectors: $ => commaSep1($._selector),
 
-    block: $ => seq(
-      '{',
-      repeat(choice($.declaration, $.rule_set)),
-      '}'
+    block: $ => seq('{', repeat($._block_item), '}'),
+
+    _block_item: $ => choice(
+      $.declaration,
+      $._top_level_item
     ),
 
     // Selectors
@@ -101,19 +133,66 @@ module.exports = grammar({
     declaration: $ => prec(1, seq(
       alias($.identifier, $.property_name),
       ':',
-      repeat1($._value),
+      $._value,
+      repeat(seq(
+        optional(','),
+        $._value
+      )),
       ';'
+    )),
+
+    // Media queries
+
+    _query: $ => choice(
+      alias($.identifier, $.keyword_query),
+      $.feature_query,
+      $.binary_query,
+      $.negated_query,
+      $.parenthesized_query
+    ),
+
+    feature_query: $ => seq(
+      '(',
+      alias($.identifier, $.feature_name),
+      ':',
+      $._value,
+      ')'
+    ),
+
+    parenthesized_query: $ => seq(
+      '(',
+      $._query,
+      ')'
+    ),
+
+    binary_query: $ => prec.left(seq(
+      $._query,
+      choice('and', 'or'),
+      $._query
+    )),
+
+    negated_query: $ => prec(1, seq(
+      'not',
+      $._query
     )),
 
     // Property Values
 
     _value: $ => choice(
-      alias($.identifier, $.value_name),
+      alias($.identifier, $.keyword_value),
       $.color_value,
       $.integer_value,
       $.float_value,
-      $.function_value
+      $.string_value,
+      $.call_expression
     ),
+
+    color_value: $ => /#[0-9a-fA-F]{3,8}/,
+
+    string_value: $ => token(choice(
+      seq("'", /([^']|\\.)+/, "'"),
+      seq('"', /([^"]|\\.)+/, '"')
+    )),
 
     integer_value: $ => seq(
       token(seq(
@@ -138,22 +217,20 @@ module.exports = grammar({
 
     unit: $ => token.immediate(/[a-z]+/),
 
-    color_value: $ => /#[0-9a-fA-F]{3,6}/,
-
-    function_value: $ => seq(
+    call_expression: $ => seq(
       alias($.identifier, $.function_name),
       $.arguments
     ),
 
     arguments: $ => seq(
-      '(',
+      token.immediate('('),
       commaSep($._value),
       ')'
     ),
 
-    property_name: $ => $.identifier,
-
     identifier: $ => /[a-zA-Z-_]+/,
+
+    at_keyword: $ => /@[a-zA-Z-_]+/,
 
     comment: $ => token(choice(
       seq('//', /.*/),
