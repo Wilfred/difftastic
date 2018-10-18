@@ -181,3 +181,25 @@ EOF
 ---
 
 (program (redirected_statement (command (command_name (word))) (heredoc_redirect (heredoc_start))) (heredoc_body))
+
+======================================
+Quoted Heredocs
+======================================
+
+cat << 'EOF'
+a=$b
+EOF
+
+cat << "EOF"
+a=$b
+EOF
+
+cat << \EOF
+EOF
+
+---
+
+(program
+  (redirected_statement (command (command_name (word))) (heredoc_redirect (heredoc_start))) (heredoc_body)
+  (redirected_statement (command (command_name (word))) (heredoc_redirect (heredoc_start))) (heredoc_body (simple_expansion (variable_name)))
+  (redirected_statement (command (command_name (word))) (heredoc_redirect (heredoc_start))) (heredoc_body))

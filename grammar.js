@@ -318,6 +318,7 @@ module.exports = grammar({
         repeat(choice(
           $.expansion,
           $.simple_expansion,
+          $.command_substitution,
           $._heredoc_body_middle
         )),
         $._heredoc_body_end
