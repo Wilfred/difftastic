@@ -10,7 +10,6 @@ examples/bash-it/completion/available/defaults.completion.bash
 examples/bash-it/completion/available/docker.completion.bash
 examples/bash-it/completion/available/tmux.completion.bash
 examples/bash-it/lib/preexec.bash
-examples/bash-it/lib/composure.bash
 examples/bash-it/themes/hawaii50/hawaii50.theme.bash
 examples/bash-it/themes/colors.theme.bash
 examples/bash-it/themes/morris/morris.theme.bash

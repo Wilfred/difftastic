@@ -32,14 +32,53 @@ struct Scanner {
   }
 
   unsigned serialize(char *buffer) {
-    if (heredoc_delimiter.size() >= TREE_SITTER_SERIALIZATION_BUFFER_SIZE) return 0;
-    heredoc_delimiter.copy(buffer, heredoc_delimiter.length());
-    return heredoc_delimiter.length();
+    if (heredoc_delimiter.length() + 2 >= TREE_SITTER_SERIALIZATION_BUFFER_SIZE) return 0;
+    buffer[0] = heredoc_is_raw;
+    buffer[1] = started_heredoc;
+    heredoc_delimiter.copy(&buffer[2], heredoc_delimiter.length());
+    return heredoc_delimiter.length() + 2;
   }
 
   void deserialize(const char *buffer, unsigned length) {
-    if (length == 0) heredoc_delimiter.clear();
-    else heredoc_delimiter.assign(buffer, buffer + length);
+    if (length == 0) {
+      heredoc_is_raw = false;
+      started_heredoc = false;
+      heredoc_delimiter.clear();
+    } else {
+      heredoc_is_raw = buffer[0];
+      started_heredoc = buffer[1];
+      heredoc_delimiter.assign(&buffer[2], &buffer[length]);
+    }
+  }
+
+  bool scan_heredoc_start(TSLexer *lexer) {
+    while (iswspace(lexer->lookahead)) skip(lexer);
+
+    lexer->result_symbol = HEREDOC_START;
+    heredoc_is_raw = lexer->lookahead == '\'';
+    started_heredoc = false;
+    heredoc_delimiter.clear();
+
+    if (lexer->lookahead == '\\') {
+      advance(lexer);
+    }
+
+    int32_t quote = 0;
+    if (heredoc_is_raw || lexer->lookahead == '"') {
+      quote = lexer->lookahead;
+      advance(lexer);
+    }
+
+    while (iswalpha(lexer->lookahead)) {
+      heredoc_delimiter += lexer->lookahead;
+      advance(lexer);
+    }
+
+    if (lexer->lookahead == quote) {
+      advance(lexer);
+    }
+
+    return !heredoc_delimiter.empty();
   }
 
   bool scan_heredoc_end_identifier(TSLexer *lexer) {
@@ -57,8 +96,15 @@ struct Scanner {
     for (;;) {
       switch (lexer->lookahead) {
         case '\0': {
-          lexer->result_symbol = end_type;
-          return did_advance;
+          if (did_advance) {
+            heredoc_is_raw = false;
+            started_heredoc = false;
+            heredoc_delimiter.clear();
+            lexer->result_symbol = end_type;
+            return true;
+          } else {
+            return false;
+          }
         }
 
         case '\\': {
@@ -69,14 +115,25 @@ struct Scanner {
         }
 
         case '$': {
-          lexer->result_symbol = middle_type;
-          return did_advance;
+          if (heredoc_is_raw) {
+            did_advance = true;
+            advance(lexer);
+            break;
+          } else if (did_advance) {
+            lexer->result_symbol = middle_type;
+            started_heredoc = true;
+            return true;
+          } else {
+            return false;
+          }
         }
 
         case '\n': {
           did_advance = true;
           advance(lexer);
           if (scan_heredoc_end_identifier(lexer)) {
+            heredoc_is_raw = false;
+            started_heredoc = false;
             heredoc_delimiter.clear();
             lexer->result_symbol = end_type;
             return true;
@@ -122,25 +179,16 @@ struct Scanner {
       }
     }
 
-    if (valid_symbols[HEREDOC_BODY_BEGINNING] && !heredoc_delimiter.empty()) {
+    if (valid_symbols[HEREDOC_BODY_BEGINNING] && !heredoc_delimiter.empty() && !started_heredoc) {
       return scan_heredoc_content(lexer, HEREDOC_BODY_BEGINNING, SIMPLE_HEREDOC_BODY);
     }
 
-    if (valid_symbols[HEREDOC_BODY_MIDDLE] && !heredoc_delimiter.empty()) {
+    if (valid_symbols[HEREDOC_BODY_MIDDLE] && !heredoc_delimiter.empty() && started_heredoc) {
       return scan_heredoc_content(lexer, HEREDOC_BODY_MIDDLE, HEREDOC_BODY_END);
     }
 
     if (valid_symbols[HEREDOC_START]) {
-      while (iswspace(lexer->lookahead)) skip(lexer);
-
-      lexer->result_symbol = HEREDOC_START;
-      heredoc_delimiter.clear();
-      while (iswalpha(lexer->lookahead)) {
-        heredoc_delimiter += lexer->lookahead;
-        advance(lexer);
-      }
-
-      return !heredoc_delimiter.empty();
+      return scan_heredoc_start(lexer);
     }
 
     if (valid_symbols[VARIABLE_NAME] || valid_symbols[FILE_DESCRIPTOR]) {
@@ -271,6 +319,8 @@ struct Scanner {
   }
 
   string heredoc_delimiter;
+  bool heredoc_is_raw;
+  bool started_heredoc;
   string current_leading_word;
 };
 

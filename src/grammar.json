@@ -1271,6 +1271,10 @@
                   },
                   {
                     "type": "SYMBOL",
+                    "name": "command_substitution"
+                  },
+                  {
+                    "type": "SYMBOL",
                     "name": "_heredoc_body_middle"
                   }
                 ]
