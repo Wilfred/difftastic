@@ -19,6 +19,8 @@ enum TokenType {
   REGEX,
   CLOSING_BRACE,
   CLOSING_BRACKET,
+  HEREDOC_ARROW,
+  HEREDOC_ARROW_DASH,
   NEWLINE,
 };
 
@@ -32,22 +34,25 @@ struct Scanner {
   }
 
   unsigned serialize(char *buffer) {
-    if (heredoc_delimiter.length() + 2 >= TREE_SITTER_SERIALIZATION_BUFFER_SIZE) return 0;
+    if (heredoc_delimiter.length() + 3 >= TREE_SITTER_SERIALIZATION_BUFFER_SIZE) return 0;
     buffer[0] = heredoc_is_raw;
     buffer[1] = started_heredoc;
-    heredoc_delimiter.copy(&buffer[2], heredoc_delimiter.length());
-    return heredoc_delimiter.length() + 2;
+    buffer[2] = heredoc_allows_indent;
+    heredoc_delimiter.copy(&buffer[3], heredoc_delimiter.length());
+    return heredoc_delimiter.length() + 3;
   }
 
   void deserialize(const char *buffer, unsigned length) {
     if (length == 0) {
       heredoc_is_raw = false;
       started_heredoc = false;
+      heredoc_allows_indent = false;
       heredoc_delimiter.clear();
     } else {
       heredoc_is_raw = buffer[0];
       started_heredoc = buffer[1];
-      heredoc_delimiter.assign(&buffer[2], &buffer[length]);
+      heredoc_allows_indent = buffer[2];
+      heredoc_delimiter.assign(&buffer[3], &buffer[length]);
     }
   }
 
@@ -99,6 +104,7 @@ struct Scanner {
           if (did_advance) {
             heredoc_is_raw = false;
             started_heredoc = false;
+            heredoc_allows_indent = false;
             heredoc_delimiter.clear();
             lexer->result_symbol = end_type;
             return true;
@@ -131,9 +137,15 @@ struct Scanner {
         case '\n': {
           did_advance = true;
           advance(lexer);
+          if (heredoc_allows_indent) {
+            while (iswspace(lexer->lookahead)) {
+              advance(lexer);
+            }
+          }
           if (scan_heredoc_end_identifier(lexer)) {
             heredoc_is_raw = false;
             started_heredoc = false;
+            heredoc_allows_indent = false;
             heredoc_delimiter.clear();
             lexer->result_symbol = end_type;
             return true;
@@ -191,7 +203,7 @@ struct Scanner {
       return scan_heredoc_start(lexer);
     }
 
-    if (valid_symbols[VARIABLE_NAME] || valid_symbols[FILE_DESCRIPTOR]) {
+    if (valid_symbols[VARIABLE_NAME] || valid_symbols[FILE_DESCRIPTOR] || valid_symbols[HEREDOC_ARROW]) {
       for (;;) {
         if (
           lexer->lookahead == ' ' ||
@@ -209,6 +221,25 @@ struct Scanner {
         } else {
           break;
         }
+      }
+
+      if (valid_symbols[HEREDOC_ARROW] && lexer->lookahead == '<') {
+        advance(lexer);
+        if (lexer->lookahead == '<') {
+          advance(lexer);
+          if (lexer->lookahead == '-') {
+            advance(lexer);
+            heredoc_allows_indent = true;
+            lexer->result_symbol = HEREDOC_ARROW_DASH;
+          } else if (lexer->lookahead == '<') {
+            return false;
+          } else {
+            heredoc_allows_indent = false;
+            lexer->result_symbol = HEREDOC_ARROW;
+          }
+          return true;
+        }
+        return false;
       }
 
       bool is_number = true;
@@ -321,6 +352,7 @@ struct Scanner {
   string heredoc_delimiter;
   bool heredoc_is_raw;
   bool started_heredoc;
+  bool heredoc_allows_indent;
   string current_leading_word;
 };
 

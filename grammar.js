@@ -36,6 +36,8 @@ module.exports = grammar({
     $.regex,
     '}',
     ']',
+    '<<',
+    '<<-',
     '\n',
   ],
 
