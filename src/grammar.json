@@ -306,6 +306,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "string_value"
+        },
+        {
+          "type": "SYMBOL",
           "name": "child_selector"
         },
         {

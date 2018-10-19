@@ -80,6 +80,7 @@ module.exports = grammar({
       $.pseudo_element_selector,
       $.id_selector,
       $.attribute_selector,
+      $.string_value,
       $.child_selector,
       $.descendant_selector
     ),
@@ -190,8 +191,8 @@ module.exports = grammar({
     color_value: $ => /#[0-9a-fA-F]{3,8}/,
 
     string_value: $ => token(choice(
-      seq("'", /([^']|\\.)+/, "'"),
-      seq('"', /([^"]|\\.)+/, '"')
+      seq("'", /([^'\n]|\\(.|\n))+/, "'"),
+      seq('"', /([^"\n]|\\(.|\n))+/, '"')
     )),
 
     integer_value: $ => seq(

@@ -1148,10 +1148,14 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
     case 78:
       if (lookahead == 0)
         ADVANCE(1);
+      if (lookahead == '\"')
+        ADVANCE(2);
       if (lookahead == '#')
         ADVANCE(7);
       if (lookahead == '&')
         ADVANCE(10);
+      if (lookahead == '\'')
+        ADVANCE(11);
       if (lookahead == '*')
         ADVANCE(79);
       if (lookahead == '.')
@@ -1701,10 +1705,14 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
     case 118:
       if (lookahead == 0)
         ADVANCE(1);
+      if (lookahead == '\"')
+        ADVANCE(2);
       if (lookahead == '#')
         ADVANCE(7);
       if (lookahead == '&')
         ADVANCE(10);
+      if (lookahead == '\'')
+        ADVANCE(11);
       if (lookahead == '*')
         ADVANCE(79);
       if (lookahead == '.')
@@ -2061,6 +2069,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_COLON_COLON] = ACTIONS(19),
     [anon_sym_POUND] = ACTIONS(21),
     [anon_sym_LBRACK] = ACTIONS(23),
+    [sym_string_value] = ACTIONS(13),
     [sym_identifier] = ACTIONS(25),
     [sym_at_keyword] = ACTIONS(27),
     [sym_comment] = ACTIONS(29),
@@ -2195,6 +2204,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_COLON_COLON] = ACTIONS(19),
     [anon_sym_POUND] = ACTIONS(21),
     [anon_sym_LBRACK] = ACTIONS(23),
+    [sym_string_value] = ACTIONS(13),
     [sym_identifier] = ACTIONS(25),
     [sym_at_keyword] = ACTIONS(27),
     [sym_comment] = ACTIONS(29),
@@ -2372,6 +2382,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_COLON_COLON] = ACTIONS(153),
     [anon_sym_POUND] = ACTIONS(153),
     [anon_sym_LBRACK] = ACTIONS(153),
+    [sym_string_value] = ACTIONS(153),
     [sym_identifier] = ACTIONS(153),
     [sym_at_keyword] = ACTIONS(155),
     [sym_comment] = ACTIONS(29),
@@ -2404,6 +2415,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_COLON_COLON] = ACTIONS(19),
     [anon_sym_POUND] = ACTIONS(21),
     [anon_sym_LBRACK] = ACTIONS(23),
+    [sym_string_value] = ACTIONS(13),
     [sym_identifier] = ACTIONS(159),
     [sym_at_keyword] = ACTIONS(27),
     [sym_comment] = ACTIONS(29),
@@ -2442,6 +2454,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_COLON_COLON] = ACTIONS(167),
     [anon_sym_POUND] = ACTIONS(167),
     [anon_sym_LBRACK] = ACTIONS(167),
+    [sym_string_value] = ACTIONS(167),
     [sym_identifier] = ACTIONS(167),
     [sym_at_keyword] = ACTIONS(169),
     [sym_comment] = ACTIONS(29),
@@ -2462,6 +2475,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_COLON_COLON] = ACTIONS(19),
     [anon_sym_POUND] = ACTIONS(21),
     [anon_sym_LBRACK] = ACTIONS(23),
+    [sym_string_value] = ACTIONS(171),
     [sym_identifier] = ACTIONS(25),
     [sym_comment] = ACTIONS(29),
   },
@@ -2481,6 +2495,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_COLON_COLON] = ACTIONS(19),
     [anon_sym_POUND] = ACTIONS(21),
     [anon_sym_LBRACK] = ACTIONS(23),
+    [sym_string_value] = ACTIONS(173),
     [sym_identifier] = ACTIONS(25),
     [sym_comment] = ACTIONS(29),
   },
@@ -2520,6 +2535,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_COLON_COLON] = ACTIONS(19),
     [anon_sym_POUND] = ACTIONS(21),
     [anon_sym_LBRACK] = ACTIONS(23),
+    [sym_string_value] = ACTIONS(185),
     [sym_identifier] = ACTIONS(25),
     [sym_comment] = ACTIONS(29),
   },
@@ -2556,6 +2572,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_COLON_COLON] = ACTIONS(209),
     [anon_sym_POUND] = ACTIONS(212),
     [anon_sym_LBRACK] = ACTIONS(215),
+    [sym_string_value] = ACTIONS(200),
     [sym_identifier] = ACTIONS(218),
     [sym_at_keyword] = ACTIONS(221),
     [sym_comment] = ACTIONS(29),
@@ -2616,6 +2633,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_COLON_COLON] = ACTIONS(240),
     [anon_sym_POUND] = ACTIONS(240),
     [anon_sym_LBRACK] = ACTIONS(240),
+    [sym_string_value] = ACTIONS(240),
     [sym_identifier] = ACTIONS(240),
     [sym_at_keyword] = ACTIONS(242),
     [sym_comment] = ACTIONS(29),
@@ -2707,6 +2725,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_COLON_COLON] = ACTIONS(258),
     [anon_sym_POUND] = ACTIONS(258),
     [anon_sym_LBRACK] = ACTIONS(258),
+    [sym_string_value] = ACTIONS(258),
     [sym_identifier] = ACTIONS(258),
     [sym_at_keyword] = ACTIONS(260),
     [sym_comment] = ACTIONS(29),
@@ -2731,6 +2750,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_COLON_COLON] = ACTIONS(262),
     [anon_sym_POUND] = ACTIONS(262),
     [anon_sym_LBRACK] = ACTIONS(262),
+    [sym_string_value] = ACTIONS(262),
     [sym_identifier] = ACTIONS(262),
     [sym_at_keyword] = ACTIONS(264),
     [sym_comment] = ACTIONS(29),
@@ -2797,6 +2817,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_COLON_COLON] = ACTIONS(280),
     [anon_sym_POUND] = ACTIONS(280),
     [anon_sym_LBRACK] = ACTIONS(280),
+    [sym_string_value] = ACTIONS(280),
     [sym_identifier] = ACTIONS(280),
     [sym_at_keyword] = ACTIONS(282),
     [sym_comment] = ACTIONS(29),
@@ -2841,6 +2862,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_COLON_COLON] = ACTIONS(19),
     [anon_sym_POUND] = ACTIONS(21),
     [anon_sym_LBRACK] = ACTIONS(23),
+    [sym_string_value] = ACTIONS(13),
     [sym_identifier] = ACTIONS(159),
     [sym_at_keyword] = ACTIONS(27),
     [sym_comment] = ACTIONS(29),
@@ -2869,6 +2891,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_COLON_COLON] = ACTIONS(288),
     [anon_sym_POUND] = ACTIONS(288),
     [anon_sym_LBRACK] = ACTIONS(288),
+    [sym_string_value] = ACTIONS(288),
     [sym_identifier] = ACTIONS(288),
     [sym_at_keyword] = ACTIONS(290),
     [sym_comment] = ACTIONS(29),
@@ -3034,6 +3057,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_COLON_COLON] = ACTIONS(335),
     [anon_sym_POUND] = ACTIONS(335),
     [anon_sym_LBRACK] = ACTIONS(335),
+    [sym_string_value] = ACTIONS(335),
     [sym_identifier] = ACTIONS(335),
     [sym_at_keyword] = ACTIONS(337),
     [sym_comment] = ACTIONS(29),
@@ -3116,6 +3140,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_COLON_COLON] = ACTIONS(349),
     [anon_sym_POUND] = ACTIONS(349),
     [anon_sym_LBRACK] = ACTIONS(349),
+    [sym_string_value] = ACTIONS(349),
     [sym_identifier] = ACTIONS(349),
     [sym_at_keyword] = ACTIONS(351),
     [sym_comment] = ACTIONS(29),
@@ -3173,6 +3198,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_COLON_COLON] = ACTIONS(368),
     [anon_sym_POUND] = ACTIONS(368),
     [anon_sym_LBRACK] = ACTIONS(368),
+    [sym_string_value] = ACTIONS(368),
     [sym_identifier] = ACTIONS(368),
     [sym_at_keyword] = ACTIONS(370),
     [sym_comment] = ACTIONS(29),
@@ -3205,6 +3231,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_COLON_COLON] = ACTIONS(392),
     [anon_sym_POUND] = ACTIONS(395),
     [anon_sym_LBRACK] = ACTIONS(398),
+    [sym_string_value] = ACTIONS(383),
     [sym_identifier] = ACTIONS(401),
     [sym_at_keyword] = ACTIONS(404),
     [sym_comment] = ACTIONS(29),
@@ -3230,6 +3257,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_COLON_COLON] = ACTIONS(407),
     [anon_sym_POUND] = ACTIONS(407),
     [anon_sym_LBRACK] = ACTIONS(407),
+    [sym_string_value] = ACTIONS(407),
     [sym_identifier] = ACTIONS(407),
     [sym_at_keyword] = ACTIONS(409),
     [sym_comment] = ACTIONS(29),
@@ -3325,6 +3353,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_COLON_COLON] = ACTIONS(432),
     [anon_sym_POUND] = ACTIONS(432),
     [anon_sym_LBRACK] = ACTIONS(432),
+    [sym_string_value] = ACTIONS(432),
     [sym_identifier] = ACTIONS(432),
     [sym_at_keyword] = ACTIONS(434),
     [sym_comment] = ACTIONS(29),
@@ -3531,6 +3560,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_COLON_COLON] = ACTIONS(480),
     [anon_sym_POUND] = ACTIONS(480),
     [anon_sym_LBRACK] = ACTIONS(480),
+    [sym_string_value] = ACTIONS(480),
     [sym_identifier] = ACTIONS(480),
     [sym_at_keyword] = ACTIONS(478),
     [sym_comment] = ACTIONS(29),
@@ -3600,6 +3630,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_COLON_COLON] = ACTIONS(498),
     [anon_sym_POUND] = ACTIONS(498),
     [anon_sym_LBRACK] = ACTIONS(498),
+    [sym_string_value] = ACTIONS(498),
     [sym_identifier] = ACTIONS(498),
     [sym_at_keyword] = ACTIONS(496),
     [sym_comment] = ACTIONS(29),
