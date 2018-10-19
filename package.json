@@ -1,6 +1,6 @@
 {
   "name": "tree-sitter-bash",
-  "version": "0.13.5",
+  "version": "0.13.6",
   "description": "Bash grammar for tree-sitter",
   "main": "index.js",
   "keywords": [
