@@ -393,11 +393,10 @@ module.exports = grammar({
       ')'
     ),
 
-    _argument_list_with_trailing_comma: $ => sepTrailing(
-      $._argument_list_with_trailing_comma,
-      $._argument,
-      prec.right(seq(',', optional($.heredoc_body)))
-    ),
+    _argument_list_with_trailing_comma: $ => prec.right(seq(
+      sep1($._argument, seq(',', optional($.heredoc_body))),
+      optional(',')
+    )),
 
     _argument: $ => choice(
       $._arg,
