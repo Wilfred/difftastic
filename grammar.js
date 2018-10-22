@@ -345,7 +345,6 @@ module.exports = grammar({
       $._primary,
       token.immediate('['),
       optional($._argument_list_with_trailing_comma),
-      optional($.heredoc_body),
       ']'
     )),
 
@@ -389,13 +388,13 @@ module.exports = grammar({
     _argument_list_with_parens: $ => seq(
       token.immediate('('),
       optional($._argument_list_with_trailing_comma),
-      optional($.heredoc_body),
       ')'
     ),
 
     _argument_list_with_trailing_comma: $ => prec.right(seq(
       sep1($._argument, seq(',', optional($.heredoc_body))),
-      optional(',')
+      optional(','),
+      optional($.heredoc_body)
     )),
 
     _argument: $ => choice(
@@ -475,8 +474,10 @@ module.exports = grammar({
     _arg_or_splat_arg: $ => choice($._arg, $.splat_argument),
 
     left_assignment_list: $ => $._mlhs,
-    _mlhs: $ => prec.left(-1, sepTrailing($._mlhs, choice($._simple_mlhs, $.destructured_left_assignment), ',')),
-    _simple_mlhs: $ => prec(-1, choice($._lhs, $.rest_assignment)),
+    _mlhs: $ => prec.left(-1, seq(
+      commaSep1(choice($._lhs, $.rest_assignment, $.destructured_left_assignment)),
+      optional(',')
+    )),
     destructured_left_assignment: $ => prec(-1, seq('(', $._mlhs, ')')),
 
     rest_assignment: $ => prec(-1, seq('*', optional($._lhs))),
@@ -636,7 +637,6 @@ module.exports = grammar({
     array: $ => seq(
       '[',
       optional($._argument_list_with_trailing_comma),
-      optional($.heredoc_body),
       ']'
     ),
 
@@ -678,10 +678,6 @@ module.exports = grammar({
     ),
   }
 });
-
-function sepTrailing (self, rule, separator) {
-  return choice(rule, seq(rule, separator, optional(self)));
-}
 
 function sep (rule, separator) {
   return optional(sep1(rule, separator));
