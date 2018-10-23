@@ -191,8 +191,8 @@ module.exports = grammar({
     color_value: $ => /#[0-9a-fA-F]{3,8}/,
 
     string_value: $ => token(choice(
-      seq("'", /([^'\n]|\\(.|\n))+/, "'"),
-      seq('"', /([^"\n]|\\(.|\n))+/, '"')
+      seq("'", /([^'\n]|\\(.|\n))*/, "'"),
+      seq('"', /([^"\n]|\\(.|\n))*/, '"')
     )),
 
     integer_value: $ => seq(

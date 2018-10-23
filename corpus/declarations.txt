@@ -37,3 +37,21 @@ a {
     (block
       (declaration (property_name) (color_value))
       (declaration (property_name) (color_value)))))
+
+============================
+Strings
+============================
+
+a {
+  b: '';
+  c: '\'hi\'';
+}
+
+---
+
+(stylesheet
+  (rule_set
+    (selectors (tag_name))
+    (block
+      (declaration (property_name) (string_value))
+      (declaration (property_name) (string_value)))))
