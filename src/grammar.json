@@ -2656,6 +2656,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "nil"
+        },
+        {
+          "type": "SYMBOL",
           "name": "parenthesized_expression"
         }
       ]
@@ -4458,6 +4462,10 @@
           }
         ]
       }
+    },
+    "nil": {
+      "type": "STRING",
+      "value": "nil"
     },
     "comment": {
       "type": "TOKEN",
