@@ -185,6 +185,7 @@ module.exports = grammar({
       $.integer_value,
       $.float_value,
       $.string_value,
+      $.binary_expression,
       $.call_expression
     ),
 
@@ -222,6 +223,12 @@ module.exports = grammar({
       alias($.identifier, $.function_name),
       $.arguments
     ),
+
+    binary_expression: $ => prec.left(seq(
+      $._value,
+      choice('+', '-', '*', '/'),
+      $._value
+    )),
 
     arguments: $ => seq(
       token.immediate('('),

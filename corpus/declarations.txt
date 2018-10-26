@@ -55,6 +55,28 @@ a {
     (declaration (property_name) (integer_value (unit))))))
 
 ============================
+Binary arithmetic operators
+============================
+
+a {
+  width: calc(100% - 80px);
+  aspect-ratio: 1/2;
+}
+
+---
+
+(stylesheet
+  (rule_set
+    (selectors (tag_name))
+    (block
+      (declaration
+        (property_name)
+        (call_expression (function_name) (arguments (binary_expression (integer_value (unit)) (integer_value (unit))))))
+      (declaration
+        (property_name)
+        (binary_expression (integer_value) (integer_value))))))
+
+============================
 Strings
 ============================
 
