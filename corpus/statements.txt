@@ -18,6 +18,32 @@ Import statements
   (import_statement (string_value) (keyword_query)))
 
 ==============================
+Namespace statements
+==============================
+
+/* Default namespace */
+@namespace url(XML-namespace-URL);
+@namespace "XML-namespace-URL";
+@namespace url(http://www.w3.org/1999/xhtml);
+@namespace svg url(http://www.w3.org/2000/svg);
+
+/* Prefixed namespace */
+@namespace prefix url(XML-namespace-URL);
+@namespace prefix "XML-namespace-URL";
+
+---
+
+(stylesheet
+  (comment)
+  (namespace_statement (call_expression (function_name) (arguments (plain_value))))
+  (namespace_statement (string_value))
+  (namespace_statement (call_expression (function_name) (arguments (plain_value))))
+  (namespace_statement (namespace_name) (call_expression (function_name) (arguments (plain_value))))
+  (comment)
+  (namespace_statement (namespace_name) (call_expression (function_name) (arguments (plain_value))))
+  (namespace_statement (namespace_name) (string_value)))
+
+==============================
 Media statements
 ==============================
 

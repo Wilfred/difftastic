@@ -29,6 +29,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "namespace_statement"
+        },
+        {
+          "type": "SYMBOL",
           "name": "at_rule"
         }
       ]
@@ -131,6 +135,49 @@
         {
           "type": "SYMBOL",
           "name": "_value"
+        },
+        {
+          "type": "STRING",
+          "value": ";"
+        }
+      ]
+    },
+    "namespace_statement": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "@namespace"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "SYMBOL",
+                "name": "identifier"
+              },
+              "named": true,
+              "value": "namespace_name"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "string_value"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "call_expression"
+            }
+          ]
         },
         {
           "type": "STRING",

@@ -23,6 +23,7 @@ module.exports = grammar({
       $.import_statement,
       $.media_statement,
       $.charset_statement,
+      $.namespace_statement,
       $.at_rule
     ),
 
@@ -44,6 +45,13 @@ module.exports = grammar({
     charset_statement: $ => seq(
       '@charset',
       $._value,
+      ';'
+    ),
+
+    namespace_statement: $ => seq(
+      '@namespace',
+      optional(alias($.identifier, $.namespace_name)),
+      choice($.string_value, $.call_expression),
       ';'
     ),
 
