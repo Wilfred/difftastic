@@ -14,11 +14,13 @@ Type selectors
 =========================
 
 div, span {}
+h1, h2, h3, h4 {}
 
 ---
 
 (stylesheet
-  (rule_set (selectors (tag_name) (tag_name)) (block)))
+  (rule_set (selectors (tag_name) (tag_name)) (block))
+  (rule_set (selectors (tag_name) (tag_name) (tag_name) (tag_name)) (block)))
 
 =========================
 Class selectors

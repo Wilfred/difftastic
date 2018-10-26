@@ -1090,7 +1090,7 @@
     },
     "identifier": {
       "type": "PATTERN",
-      "value": "[a-zA-Z-_]+"
+      "value": "[a-zA-Z-_][a-zA-Z0-9-_]*"
     },
     "at_keyword": {
       "type": "PATTERN",
