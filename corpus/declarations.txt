@@ -167,6 +167,20 @@ declare class Foo {
         (call_signature (formal_parameters) (type_annotation (type_identifier))))))))
 
 ==================================
+Flow module.exports declarations
+==================================
+
+declare module.exports: {
+  foo: string;
+}
+
+---
+
+(program
+  (ambient_declaration (property_identifier) (object_type
+    (property_signature (property_identifier) (type_annotation (predefined_type))))))
+
+==================================
 Ambient exports
 ==================================
 

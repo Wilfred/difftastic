@@ -281,7 +281,8 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       'declare',
       choice(
         $._declaration,
-        seq('global', $.statement_block)
+        seq('global', $.statement_block),
+        seq('module', '.', alias($.identifier, $.property_identifier), ':', $._type)
       )
     ),
 
