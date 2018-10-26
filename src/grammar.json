@@ -548,8 +548,13 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "SYMBOL",
-              "name": "arguments"
+              "type": "ALIAS",
+              "content": {
+                "type": "SYMBOL",
+                "name": "pseudo_class_arguments"
+              },
+              "named": true,
+              "value": "arguments"
             },
             {
               "type": "BLANK"
@@ -782,6 +787,79 @@
         ]
       }
     },
+    "pseudo_class_arguments": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "IMMEDIATE_TOKEN",
+          "content": {
+            "type": "STRING",
+            "value": "("
+          }
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "SYMBOL",
+                      "name": "_selector"
+                    },
+                    {
+                      "type": "REPEAT1",
+                      "content": {
+                        "type": "SYMBOL",
+                        "name": "_value"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "REPEAT",
+                  "content": {
+                    "type": "SEQ",
+                    "members": [
+                      {
+                        "type": "STRING",
+                        "value": ","
+                      },
+                      {
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "SYMBOL",
+                            "name": "_selector"
+                          },
+                          {
+                            "type": "REPEAT1",
+                            "content": {
+                              "type": "SYMBOL",
+                              "name": "_value"
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
     "declaration": {
       "type": "PREC",
       "value": 1,
@@ -1002,46 +1080,50 @@
       ]
     },
     "_value": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "ALIAS",
-          "content": {
-            "type": "SYMBOL",
-            "name": "identifier"
+      "type": "PREC",
+      "value": -1,
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "identifier"
+            },
+            "named": true,
+            "value": "plain_value"
           },
-          "named": true,
-          "value": "plain_value"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "plain_value"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "color_value"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "integer_value"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "float_value"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "string_value"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "binary_expression"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "call_expression"
-        }
-      ]
+          {
+            "type": "SYMBOL",
+            "name": "plain_value"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "color_value"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "integer_value"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "float_value"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "string_value"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "binary_expression"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "call_expression"
+          }
+        ]
+      }
     },
     "color_value": {
       "type": "PATTERN",

@@ -137,7 +137,7 @@ module.exports = grammar({
       optional($._selector),
       ':',
       alias($.identifier, $.class_name),
-      optional($.arguments)
+      optional(alias($.pseudo_class_arguments, $.arguments))
     ),
 
     pseudo_element_selector: $ => seq(
@@ -170,6 +170,12 @@ module.exports = grammar({
     sibling_selector: $ => prec.left(seq($._selector, '~', $._selector)),
 
     adjacent_sibling_selector: $ => prec.left(seq($._selector, '+', $._selector)),
+
+    pseudo_class_arguments: $ => seq(
+      token.immediate('('),
+      commaSep(choice($._selector, repeat1($._value))),
+      ')'
+    ),
 
     // Declarations
 
@@ -232,7 +238,7 @@ module.exports = grammar({
 
     // Property Values
 
-    _value: $ => choice(
+    _value: $ => prec(-1, choice(
       alias($.identifier, $.plain_value),
       $.plain_value,
       $.color_value,
@@ -241,7 +247,7 @@ module.exports = grammar({
       $.string_value,
       $.binary_expression,
       $.call_expression
-    ),
+    )),
 
     color_value: $ => /#[0-9a-fA-F]{3,8}/,
 

@@ -179,3 +179,26 @@ a.b ~ c.d {}
       (class_selector (class_selector (class_name)) (class_name))
       (class_selector (class_selector (class_name)) (class_name))))
     (block)))
+
+===========================
+The :not selector
+===========================
+
+a:not(:hover) {}
+.b:not(c > .d) {}
+
+---
+
+(stylesheet
+  (rule_set
+    (selectors (pseudo_class_selector
+      (tag_name)
+      (class_name)
+      (arguments (pseudo_class_selector (class_name)))))
+    (block))
+  (rule_set
+    (selectors (pseudo_class_selector
+      (class_selector (class_name))
+      (class_name)
+      (arguments (child_selector (tag_name) (class_selector (class_name))))))
+    (block)))
