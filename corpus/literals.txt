@@ -89,6 +89,19 @@ r######"foo ##### bar"######;
   (raw_string_literal))
 
 ============================================
+Raw byte string literals
+============================================
+
+br#"abc"#;
+br##"abc"##;
+
+---
+
+(source_file
+  (raw_string_literal)
+  (raw_string_literal))
+
+============================================
 Character literals
 ============================================
 
