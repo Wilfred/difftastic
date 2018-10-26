@@ -25,8 +25,13 @@ bool tree_sitter_rust_external_scanner_scan(void *payload, TSLexer *lexer,
                                             const bool *valid_symbols) {
   while (iswspace(lexer->lookahead)) lexer->advance(lexer, true);
 
-  if (valid_symbols[RAW_STRING_LITERAL] && lexer->lookahead == 'r') {
+  if (
+    valid_symbols[RAW_STRING_LITERAL] &&
+    (lexer->lookahead == 'r' || lexer->lookahead == 'b')
+  ) {
     lexer->result_symbol = RAW_STRING_LITERAL;
+    if (lexer->lookahead == 'b') advance(lexer);
+    if (lexer->lookahead != 'r') return false;
     advance(lexer);
 
     unsigned opening_hash_count = 0;
