@@ -46,7 +46,7 @@ let thing: { [type: string]: string };
   (lexical_declaration (variable_declarator
     (identifier)
     (type_annotation (object_type
-      (index_signature (identifier) (type_annotation (predefined_type))))))))
+      (index_signature (identifier) (predefined_type) (type_annotation (predefined_type))))))))
 
 =======================================
 Array types
