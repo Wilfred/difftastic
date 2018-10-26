@@ -20,6 +20,45 @@ a {
           (integer_value)
           (float_value)))))))
 
+=============================================
+Calls where each argument has multiple values
+=============================================
+
+div {
+  background: repeating-linear-gradient(red, orange 50px);
+  clip-path: polygon(50% 0%, 60% 40%, 100% 50%, 60% 60%, 50% 100%, 40% 60%, 0% 50%, 40% 40%);
+}
+
+---
+
+(stylesheet
+  (rule_set (selectors (tag_name)) (block
+    (declaration
+      (property_name)
+      (call_expression (function_name) (arguments
+        (plain_value)
+        (plain_value)
+        (integer_value (unit)))))
+    (declaration
+      (property_name)
+      (call_expression (function_name) (arguments
+        (integer_value (unit))
+        (integer_value (unit))
+        (integer_value (unit))
+        (integer_value (unit))
+        (integer_value (unit))
+        (integer_value (unit))
+        (integer_value (unit))
+        (integer_value (unit))
+        (integer_value (unit))
+        (integer_value (unit))
+        (integer_value (unit))
+        (integer_value (unit))
+        (integer_value (unit))
+        (integer_value (unit))
+        (integer_value (unit))
+        (integer_value (unit))))))))
+
 ============================
 Color literals
 ============================

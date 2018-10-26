@@ -244,7 +244,7 @@ module.exports = grammar({
 
     arguments: $ => seq(
       token.immediate('('),
-      commaSep($._value),
+      commaSep(repeat1($._value)),
       ')'
     ),
 

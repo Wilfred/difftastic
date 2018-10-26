@@ -1165,8 +1165,11 @@
               "type": "SEQ",
               "members": [
                 {
-                  "type": "SYMBOL",
-                  "name": "_value"
+                  "type": "REPEAT1",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "_value"
+                  }
                 },
                 {
                   "type": "REPEAT",
@@ -1178,8 +1181,11 @@
                         "value": ","
                       },
                       {
-                        "type": "SYMBOL",
-                        "name": "_value"
+                        "type": "REPEAT1",
+                        "content": {
+                          "type": "SYMBOL",
+                          "name": "_value"
+                        }
                       }
                     ]
                   }
