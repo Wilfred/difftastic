@@ -25,6 +25,7 @@ module.exports = grammar({
       $.charset_statement,
       $.namespace_statement,
       $.keyframes_statement,
+      $.supports_statement,
       $.at_rule
     ),
 
@@ -75,6 +76,12 @@ module.exports = grammar({
 
     from: $ => 'from',
     to: $ => 'to',
+
+    supports_statement: $ => seq(
+      '@supports',
+      $._query,
+      $.block
+    ),
 
     at_rule: $ => seq(
       $.at_keyword,
@@ -181,6 +188,7 @@ module.exports = grammar({
       $.feature_query,
       $.binary_query,
       $.negated_query,
+      $.selector_query,
       $.parenthesized_query
     ),
 
@@ -208,6 +216,13 @@ module.exports = grammar({
       'not',
       $._query
     )),
+
+    selector_query: $ => seq(
+      'selector',
+      '(',
+      $._selector,
+      ')'
+    ),
 
     // Property Values
 
