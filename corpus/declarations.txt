@@ -95,3 +95,19 @@ a {
     (block
       (declaration (property_name) (string_value))
       (declaration (property_name) (string_value)))))
+
+============================
+URLs
+============================
+
+a {
+  b: http://something-else?foo=bar;
+}
+
+---
+
+(stylesheet
+  (rule_set
+    (selectors (tag_name))
+    (block
+      (declaration (property_name) (plain_value)))))

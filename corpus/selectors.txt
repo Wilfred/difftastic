@@ -67,8 +67,8 @@ a[b] {}
 
 (stylesheet
   (rule_set (selectors (attribute_selector (attribute_name))) (block))
-  (rule_set (selectors (attribute_selector (attribute_name) (keyword_value))) (block))
-  (rule_set (selectors (attribute_selector (attribute_name) (keyword_value))) (block))
+  (rule_set (selectors (attribute_selector (attribute_name) (plain_value))) (block))
+  (rule_set (selectors (attribute_selector (attribute_name) (plain_value))) (block))
   (rule_set (selectors (attribute_selector (tag_name) (attribute_name))) (block)))
 
 =========================

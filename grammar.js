@@ -180,7 +180,8 @@ module.exports = grammar({
     // Property Values
 
     _value: $ => choice(
-      alias($.identifier, $.keyword_value),
+      alias($.identifier, $.plain_value),
+      $.plain_value,
       $.color_value,
       $.integer_value,
       $.float_value,
@@ -237,6 +238,8 @@ module.exports = grammar({
     ),
 
     identifier: $ => /[a-zA-Z-_][a-zA-Z0-9-_]*/,
+
+    plain_value: $ => /[a-zA-Z-_][^;()\[\]\s]*/,
 
     at_keyword: $ => /@[a-zA-Z-_]+/,
 

@@ -33,11 +33,11 @@ Media statements
       (binary_query
         (keyword_query)
         (feature_query (feature_name) (integer_value (unit))))
-      (feature_query (feature_name) (keyword_value)))
+      (feature_query (feature_name) (plain_value)))
     (block))
   (media_statement
     (feature_query (feature_name) (integer_value (unit)))
-    (binary_query (keyword_query) (feature_query (feature_name) (keyword_value)))
+    (binary_query (keyword_query) (feature_query (feature_name) (plain_value)))
     (block))
   (media_statement
     (binary_query (negated_query (keyword_query)) (parenthesized_query (keyword_query)))

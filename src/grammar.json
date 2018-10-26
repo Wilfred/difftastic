@@ -768,7 +768,11 @@
             "name": "identifier"
           },
           "named": true,
-          "value": "keyword_value"
+          "value": "plain_value"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "plain_value"
         },
         {
           "type": "SYMBOL",
@@ -1133,6 +1137,10 @@
     "identifier": {
       "type": "PATTERN",
       "value": "[a-zA-Z-_][a-zA-Z0-9-_]*"
+    },
+    "plain_value": {
+      "type": "PATTERN",
+      "value": "[a-zA-Z-_][^;()\\[\\]\\s]*"
     },
     "at_keyword": {
       "type": "PATTERN",
