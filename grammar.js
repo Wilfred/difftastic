@@ -139,8 +139,11 @@ module.exports = grammar({
         optional(','),
         $._value
       )),
+      optional($.important),
       ';'
     )),
+
+    important: $ => '!important',
 
     // Media queries
 

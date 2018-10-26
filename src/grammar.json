@@ -628,11 +628,27 @@
             }
           },
           {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "important"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          },
+          {
             "type": "STRING",
             "value": ";"
           }
         ]
       }
+    },
+    "important": {
+      "type": "STRING",
+      "value": "!important"
     },
     "_query": {
       "type": "CHOICE",
