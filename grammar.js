@@ -118,18 +118,20 @@ module.exports = grammar({
       $.attribute_selector,
       $.string_value,
       $.child_selector,
-      $.descendant_selector
+      $.descendant_selector,
+      $.sibling_selector,
+      $.adjacent_sibling_selector
     ),
 
     nesting_selector: $ => '&',
 
     universal_selector: $ => '*',
 
-    class_selector: $ => seq(
+    class_selector: $ => prec(1, seq(
       optional($._selector),
       '.',
       alias($.identifier, $.class_name),
-    ),
+    )),
 
     pseudo_class_selector: $ => seq(
       optional($._selector),
@@ -164,6 +166,10 @@ module.exports = grammar({
     child_selector: $ => prec.left(seq($._selector, '>', $._selector)),
 
     descendant_selector: $ => prec.left(seq($._selector, $._descendant_operator, $._selector)),
+
+    sibling_selector: $ => prec.left(seq($._selector, '~', $._selector)),
+
+    adjacent_sibling_selector: $ => prec.left(seq($._selector, '+', $._selector)),
 
     // Declarations
 

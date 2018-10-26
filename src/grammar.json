@@ -463,6 +463,14 @@
         {
           "type": "SYMBOL",
           "name": "descendant_selector"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "sibling_selector"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "adjacent_sibling_selector"
         }
       ]
     },
@@ -475,34 +483,38 @@
       "value": "*"
     },
     "class_selector": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "_selector"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        },
-        {
-          "type": "STRING",
-          "value": "."
-        },
-        {
-          "type": "ALIAS",
-          "content": {
-            "type": "SYMBOL",
-            "name": "identifier"
+      "type": "PREC",
+      "value": 1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "_selector"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
           },
-          "named": true,
-          "value": "class_name"
-        }
-      ]
+          {
+            "type": "STRING",
+            "value": "."
+          },
+          {
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "identifier"
+            },
+            "named": true,
+            "value": "class_name"
+          }
+        ]
+      }
     },
     "pseudo_class_selector": {
       "type": "SEQ",
@@ -720,6 +732,48 @@
           {
             "type": "SYMBOL",
             "name": "_descendant_operator"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_selector"
+          }
+        ]
+      }
+    },
+    "sibling_selector": {
+      "type": "PREC_LEFT",
+      "value": 0,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_selector"
+          },
+          {
+            "type": "STRING",
+            "value": "~"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_selector"
+          }
+        ]
+      }
+    },
+    "adjacent_sibling_selector": {
+      "type": "PREC_LEFT",
+      "value": 0,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_selector"
+          },
+          {
+            "type": "STRING",
+            "value": "+"
           },
           {
             "type": "SYMBOL",

@@ -158,3 +158,24 @@ a {
       (rule_set (selectors (class_selector (nesting_selector) (class_name))) (block))
       (rule_set (selectors (descendant_selector (nesting_selector) (tag_name))) (block))
       (rule_set (selectors (child_selector (nesting_selector) (tag_name))) (block)))))
+
+===========================
+Sibling selectors
+===========================
+
+a.b ~ c.d {}
+.e.f + .g.h {}
+
+---
+
+(stylesheet
+  (rule_set
+    (selectors (sibling_selector
+      (class_selector (tag_name) (class_name))
+      (class_selector (tag_name) (class_name))))
+    (block))
+  (rule_set
+    (selectors (adjacent_sibling_selector
+      (class_selector (class_selector (class_name)) (class_name))
+      (class_selector (class_selector (class_name)) (class_name))))
+    (block)))
