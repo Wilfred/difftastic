@@ -45,6 +45,7 @@ Numbers
 a {
   b: 0.5%;
   c: 5em;
+  margin: 10E3px;
 }
 
 ---
@@ -52,7 +53,8 @@ a {
 (stylesheet
   (rule_set (selectors (tag_name)) (block
     (declaration (property_name) (float_value (unit)))
-    (declaration (property_name) (integer_value (unit))))))
+    (declaration (property_name) (integer_value (unit)))
+    (declaration (property_name) (float_value (unit))))))
 
 ============================
 Binary arithmetic operators

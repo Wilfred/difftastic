@@ -210,8 +210,8 @@ module.exports = grammar({
         /\d*/,
         choice(
           seq('.', /\d+/),
-          seq('e', optional('-'), /\d+/),
-          seq('.', /\d+/, 'e', optional('-'), /\d+/)
+          seq(/[eE]/, optional('-'), /\d+/),
+          seq('.', /\d+/, /[eE]/, optional('-'), /\d+/)
         )
       )),
       optional($.unit)

@@ -945,8 +945,8 @@
                     "type": "SEQ",
                     "members": [
                       {
-                        "type": "STRING",
-                        "value": "e"
+                        "type": "PATTERN",
+                        "value": "[eE]"
                       },
                       {
                         "type": "CHOICE",
@@ -978,8 +978,8 @@
                         "value": "\\d+"
                       },
                       {
-                        "type": "STRING",
-                        "value": "e"
+                        "type": "PATTERN",
+                        "value": "[eE]"
                       },
                       {
                         "type": "CHOICE",
