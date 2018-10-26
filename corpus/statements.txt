@@ -44,6 +44,25 @@ Namespace statements
   (namespace_statement (namespace_name) (string_value)))
 
 ==============================
+Keyframes statements
+==============================
+
+@keyframes important1 {
+  from { margin-top: 50px; }
+  50%  { margin-top: 150px !important; } /* ignored */
+  to   { margin-top: 100px; }
+}
+
+---
+
+(stylesheet
+  (keyframes_statement (keyframes_name) (keyframe_block_list
+    (keyframe_block (from) (block (declaration (property_name) (integer_value (unit)))))
+    (keyframe_block (integer_value (unit)) (block (declaration (property_name) (integer_value (unit)) (important))))
+    (comment)
+    (keyframe_block (to) (block (declaration (property_name) (integer_value (unit))))))))
+
+==============================
 Media statements
 ==============================
 

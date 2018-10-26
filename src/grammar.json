@@ -33,6 +33,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "keyframes_statement"
+        },
+        {
+          "type": "SYMBOL",
           "name": "at_rule"
         }
       ]
@@ -184,6 +188,82 @@
           "value": ";"
         }
       ]
+    },
+    "keyframes_statement": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "@keyframes"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "identifier"
+          },
+          "named": true,
+          "value": "keyframes_name"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "keyframe_block_list"
+        }
+      ]
+    },
+    "keyframe_block_list": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "{"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "keyframe_block"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "}"
+        }
+      ]
+    },
+    "keyframe_block": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "from"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "to"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "integer_value"
+            }
+          ]
+        },
+        {
+          "type": "SYMBOL",
+          "name": "block"
+        }
+      ]
+    },
+    "from": {
+      "type": "STRING",
+      "value": "from"
+    },
+    "to": {
+      "type": "STRING",
+      "value": "to"
     },
     "at_rule": {
       "type": "SEQ",

@@ -24,6 +24,7 @@ module.exports = grammar({
       $.media_statement,
       $.charset_statement,
       $.namespace_statement,
+      $.keyframes_statement,
       $.at_rule
     ),
 
@@ -54,6 +55,26 @@ module.exports = grammar({
       choice($.string_value, $.call_expression),
       ';'
     ),
+
+    keyframes_statement: $ => seq(
+      '@keyframes',
+      alias($.identifier, $.keyframes_name),
+      $.keyframe_block_list,
+    ),
+
+    keyframe_block_list: $ => seq(
+      '{',
+      repeat($.keyframe_block),
+      '}'
+    ),
+
+    keyframe_block: $ => seq(
+      choice($.from, $.to, $.integer_value),
+      $.block
+    ),
+
+    from: $ => 'from',
+    to: $ => 'to',
 
     at_rule: $ => seq(
       $.at_keyword,
