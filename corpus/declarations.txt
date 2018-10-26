@@ -39,6 +39,22 @@ a {
       (declaration (property_name) (color_value)))))
 
 ============================
+Numbers
+============================
+
+a {
+  b: 0.5%;
+  c: 5em;
+}
+
+---
+
+(stylesheet
+  (rule_set (selectors (tag_name)) (block
+    (declaration (property_name) (float_value (unit)))
+    (declaration (property_name) (integer_value (unit))))))
+
+============================
 Strings
 ============================
 

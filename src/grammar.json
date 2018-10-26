@@ -1018,7 +1018,7 @@
       "type": "IMMEDIATE_TOKEN",
       "content": {
         "type": "PATTERN",
-        "value": "[a-z]+"
+        "value": "[a-zA-Z%]+"
       }
     },
     "call_expression": {

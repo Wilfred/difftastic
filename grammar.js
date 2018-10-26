@@ -216,7 +216,7 @@ module.exports = grammar({
       optional($.unit)
     ),
 
-    unit: $ => token.immediate(/[a-z]+/),
+    unit: $ => token.immediate(/[a-zA-Z%]+/),
 
     call_expression: $ => seq(
       alias($.identifier, $.function_name),
