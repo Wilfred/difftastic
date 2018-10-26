@@ -581,9 +581,13 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       optional($.type_annotation)
     ),
 
-    index_signature: $ => choice(
-      seq('[', choice($.identifier, alias($._reserved_identifier, $.identifier)), ':', 'string', ']', $.type_annotation),
-      seq('[', choice($.identifier, alias($._reserved_identifier, $.identifier)), ':', 'number', ']', $.type_annotation)
+    index_signature: $ => seq(
+      '[',
+      choice($.identifier, alias($._reserved_identifier, $.identifier)),
+      ':',
+      $.predefined_type,
+      ']',
+      $.type_annotation
     ),
 
     array_type: $ => prec.right(PREC.ARRAY_TYPE, seq(
