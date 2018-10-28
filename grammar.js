@@ -20,6 +20,8 @@ module.exports = grammar(C, {
     [$.scoped_type_identifier, $.scoped_field_identifier],
     [$.comma_expression, $.initializer_list],
     [$._type_specifier, $.optional_type_parameter_declaration],
+    [$._type_specifier, $._declarator, $._expression],
+    [$._declarator, $._expression],
     [$.parameter_list, $.argument_list],
   ]),
 
