@@ -163,3 +163,16 @@ int main() {
         (expression_statement (identifier))))
     (comment)
     (expression_statement (identifier)))))
+
+===============================================
+Top-level macro invocations
+===============================================
+
+DEFINE_SOMETHING(THING_A, "this is a thing a");
+DEFINE_SOMETHING(THING_B, "this is a thing b", "thanks");
+
+---
+
+(translation_unit
+  (call_expression (identifier) (argument_list (identifier) (string_literal)))
+  (call_expression (identifier) (argument_list (identifier) (string_literal) (string_literal))))
