@@ -249,7 +249,7 @@ module.exports = grammar({
       $.call_expression
     )),
 
-    color_value: $ => /#[0-9a-fA-F]{3,8}/,
+    color_value: $ => seq('#', token.immediate(/[0-9a-fA-F]{3,8}/)),
 
     string_value: $ => token(choice(
       seq("'", /([^'\n]|\\(.|\n))*/, "'"),

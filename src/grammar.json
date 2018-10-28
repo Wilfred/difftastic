@@ -1126,8 +1126,20 @@
       }
     },
     "color_value": {
-      "type": "PATTERN",
-      "value": "#[0-9a-fA-F]{3,8}"
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "#"
+        },
+        {
+          "type": "IMMEDIATE_TOKEN",
+          "content": {
+            "type": "PATTERN",
+            "value": "[0-9a-fA-F]{3,8}"
+          }
+        }
+      ]
     },
     "string_value": {
       "type": "TOKEN",
