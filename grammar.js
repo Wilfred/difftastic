@@ -317,13 +317,10 @@ module.exports = grammar({
 
     at_keyword: $ => /@[a-zA-Z-_]+/,
 
-    comment: $ => token(choice(
-      seq('//', /.*/),
-      seq(
-        '/*',
-        /[^*]*\*+([^/*][^*]*\*+)*/,
-        '/'
-      )
+    comment: $ => token(seq(
+      '/*',
+      /[^*]*\*+([^/*][^*]*\*+)*/,
+      '/'
     ))
   }
 })
