@@ -216,29 +216,29 @@ module.exports = grammar({
     array_declarator: $ => prec(1, seq(
       $._declarator,
       '[',
-      optional($._declaration_specifiers),
-      optional($._expression),
+      repeat($.type_qualifier),
+      optional(choice($._expression, '*')),
       ']'
     )),
     array_field_declarator: $ => prec(1, seq(
       $._field_declarator,
       '[',
-      optional($._declaration_specifiers),
-      optional($._expression),
+      repeat($.type_qualifier),
+      optional(choice($._expression, '*')),
       ']'
     )),
     array_type_declarator: $ => prec(1, seq(
       $._type_declarator,
       '[',
-      optional($._declaration_specifiers),
-      optional($._expression),
+      repeat($.type_qualifier),
+      optional(choice($._expression, '*')),
       ']'
     )),
     abstract_array_declarator: $ => prec(1, seq(
       optional($._abstract_declarator),
       '[',
-      optional($._declaration_specifiers),
-      optional($._expression),
+      repeat($.type_qualifier),
+      optional(choice($._expression, '*')),
       ']'
     )),
 
