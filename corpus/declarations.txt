@@ -166,3 +166,21 @@ a {
     (selectors (tag_name))
     (block
       (declaration (property_name) (plain_value) (important)))))
+
+============================
+Declarations without trailing semicolons
+============================
+
+a {
+  b: c;
+  d: e
+}
+
+---
+
+(stylesheet
+  (rule_set
+    (selectors (tag_name))
+    (block
+      (declaration (property_name) (plain_value))
+      (declaration (property_name) (plain_value)))))

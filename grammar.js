@@ -98,7 +98,11 @@ module.exports = grammar({
 
     selectors: $ => commaSep1($._selector),
 
-    block: $ => seq('{', repeat($._block_item), '}'),
+    block: $ => seq('{',
+      repeat($._block_item),
+      optional(alias($.last_declaration, $.declaration)),
+      '}'
+    ),
 
     _block_item: $ => choice(
       $.declaration,
@@ -189,6 +193,17 @@ module.exports = grammar({
       )),
       optional($.important),
       ';'
+    )),
+
+    last_declaration: $ => prec(1, seq(
+      alias($.identifier, $.property_name),
+      ':',
+      $._value,
+      repeat(seq(
+        optional(','),
+        $._value
+      )),
+      optional($.important)
     )),
 
     important: $ => '!important',
