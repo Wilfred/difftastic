@@ -69,6 +69,7 @@ Media statements
 @media screen and (min-width: 30em) and (orientation: landscape) {}
 @media (min-height: 680px), screen and (orientation: portrait) {}
 @media not all and (monochrome) {}
+@media only screen {}
 
 ---
 
@@ -85,8 +86,9 @@ Media statements
     (binary_query (keyword_query) (feature_query (feature_name) (plain_value)))
     (block))
   (media_statement
-    (binary_query (negated_query (keyword_query)) (parenthesized_query (keyword_query)))
-    (block)))
+    (binary_query (unary_query (keyword_query)) (parenthesized_query (keyword_query)))
+    (block))
+  (media_statement (unary_query (keyword_query)) (block)))
 
 ==============================
 Supports statements
@@ -113,12 +115,12 @@ Supports statements
       (feature_query (feature_name) (plain_value)))
     (block))
   (supports_statement
-    (negated_query (parenthesized_query (binary_query
+    (unary_query (parenthesized_query (binary_query
       (feature_query (feature_name) (plain_value))
       (feature_query (feature_name) (plain_value)))))
     (block))
   (supports_statement
-    (negated_query (selector_query (pseudo_class_selector
+    (unary_query (selector_query (pseudo_class_selector
       (class_name)
       (arguments (tag_name) (tag_name)))))
     (block)))

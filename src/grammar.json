@@ -1031,7 +1031,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "negated_query"
+          "name": "unary_query"
         },
         {
           "type": "SYMBOL",
@@ -1120,15 +1120,24 @@
         ]
       }
     },
-    "negated_query": {
+    "unary_query": {
       "type": "PREC",
       "value": 1,
       "content": {
         "type": "SEQ",
         "members": [
           {
-            "type": "STRING",
-            "value": "not"
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "not"
+              },
+              {
+                "type": "STRING",
+                "value": "only"
+              }
+            ]
           },
           {
             "type": "SYMBOL",

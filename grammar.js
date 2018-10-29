@@ -214,7 +214,7 @@ module.exports = grammar({
       alias($.identifier, $.keyword_query),
       $.feature_query,
       $.binary_query,
-      $.negated_query,
+      $.unary_query,
       $.selector_query,
       $.parenthesized_query
     ),
@@ -239,8 +239,8 @@ module.exports = grammar({
       $._query
     )),
 
-    negated_query: $ => prec(1, seq(
-      'not',
+    unary_query: $ => prec(1, seq(
+      choice('not', 'only'),
       $._query
     )),
 
