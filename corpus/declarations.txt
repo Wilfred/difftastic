@@ -106,6 +106,7 @@ Binary arithmetic operators
 a {
   width: calc(100% - 80px);
   aspect-ratio: 1/2;
+  font-size: calc(10px + (56 - 10) * ((100vw - 320px) / (1920 - 320)));
 }
 
 ---
@@ -119,7 +120,20 @@ a {
         (call_expression (function_name) (arguments (binary_expression (integer_value (unit)) (integer_value (unit))))))
       (declaration
         (property_name)
-        (binary_expression (integer_value) (integer_value))))))
+        (binary_expression (integer_value) (integer_value)))
+      (declaration
+        (property_name)
+        (call_expression
+          (function_name)
+          (arguments
+            (binary_expression
+              (binary_expression
+                (integer_value (unit))
+                (parenthesized_value (binary_expression (integer_value) (integer_value))))
+              (parenthesized_value
+                (binary_expression
+                  (parenthesized_value (binary_expression (integer_value (unit)) (integer_value (unit))))
+                  (parenthesized_value (binary_expression (integer_value) (integer_value))))))))))))
 
 ============================
 Strings

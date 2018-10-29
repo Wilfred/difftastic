@@ -1199,10 +1199,31 @@
           },
           {
             "type": "SYMBOL",
+            "name": "parenthesized_value"
+          },
+          {
+            "type": "SYMBOL",
             "name": "call_expression"
           }
         ]
       }
+    },
+    "parenthesized_value": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_value"
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
     },
     "color_value": {
       "type": "SEQ",
@@ -1560,10 +1581,6 @@
       "type": "PATTERN",
       "value": "[a-zA-Z-_][a-zA-Z0-9-_]*"
     },
-    "plain_value": {
-      "type": "PATTERN",
-      "value": "[a-zA-Z-_][^;()\\[\\]\\s]*"
-    },
     "at_keyword": {
       "type": "PATTERN",
       "value": "@[a-zA-Z-_]+"
@@ -1587,6 +1604,10 @@
           }
         ]
       }
+    },
+    "plain_value": {
+      "type": "PATTERN",
+      "value": "[-_]*[a-zA-Z][^;()\\[\\]\\s]*"
     }
   },
   "extras": [

@@ -261,8 +261,15 @@ module.exports = grammar({
       $.float_value,
       $.string_value,
       $.binary_expression,
+      $.parenthesized_value,
       $.call_expression
     )),
+
+    parenthesized_value: $ => seq(
+      '(',
+      $._value,
+      ')'
+    ),
 
     color_value: $ => seq('#', token.immediate(/[0-9a-fA-F]{3,8}/)),
 
