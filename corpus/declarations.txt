@@ -202,3 +202,30 @@ a {
     (block
       (declaration (property_name) (plain_value))
       (declaration (property_name) (plain_value)))))
+
+=======================================
+Comments right after numbers
+=======================================
+
+a {
+	shape-outside: circle(20em/*=*/at 50% 50%);
+	shape-outside: inset(1em, 1em, 1em, 1em);
+}
+
+---
+
+(stylesheet
+  (rule_set
+    (selectors (tag_name))
+    (block
+      (declaration (property_name) (call_expression (function_name) (arguments
+        (integer_value (unit))
+        (comment)
+        (plain_value)
+        (integer_value (unit))
+        (integer_value (unit)))))
+      (declaration (property_name) (call_expression (function_name) (arguments
+        (integer_value (unit))
+        (integer_value (unit))
+        (integer_value (unit))
+        (integer_value (unit))))))))

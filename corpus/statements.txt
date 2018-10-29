@@ -120,7 +120,7 @@ Supports statements
   (supports_statement
     (negated_query (selector_query (pseudo_class_selector
       (class_name)
-      (arguments (plain_value) (plain_value)))))
+      (arguments (tag_name) (tag_name)))))
     (block)))
 
 ==============================

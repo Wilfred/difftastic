@@ -328,7 +328,7 @@ module.exports = grammar({
       '/'
     )),
 
-    plain_value: $ => /[-_]*[a-zA-Z][^;()\[\]\s]*/
+    plain_value: $ => /[-_]*[a-zA-Z]([^/,;()\[\]\s]|\/[^\*])*/
   }
 })
 
