@@ -108,7 +108,6 @@ struct Scanner {
             lexer->mark_end(lexer);
             return true;
           }
-          break;
         default:
           dashes = 0;
       }
