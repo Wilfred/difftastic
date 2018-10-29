@@ -114,12 +114,14 @@ Custom tags
 Comments
 ==================================
 <!-- hello -->
+<!-- world ->-> -- > ->->->-- -> still comment -->
 <div>
   <!-- <span>something</span> -->
 </div>
 ---
 
 (fragment
+  (comment)
   (comment)
   (text)
   (element
