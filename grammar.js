@@ -313,15 +313,15 @@ module.exports = grammar({
 
     identifier: $ => /[a-zA-Z-_][a-zA-Z0-9-_]*/,
 
-    plain_value: $ => /[a-zA-Z-_][^;()\[\]\s]*/,
-
     at_keyword: $ => /@[a-zA-Z-_]+/,
 
     comment: $ => token(seq(
       '/*',
       /[^*]*\*+([^/*][^*]*\*+)*/,
       '/'
-    ))
+    )),
+
+    plain_value: $ => /[-_]*[a-zA-Z][^;()\[\]\s]*/
   }
 })
 
