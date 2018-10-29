@@ -1,7 +1,8 @@
 const C = require("tree-sitter-c/grammar")
 
 const PREC = Object.assign(C.PREC, {
-  LAMBDA: 18
+  LAMBDA: 18,
+  NEW: C.PREC.CALL + 1,
 })
 
 module.exports = grammar(C, {
@@ -16,6 +17,7 @@ module.exports = grammar(C, {
     [$.template_function, $.template_type, $._expression],
     [$.template_function, $._expression],
     [$.template_method, $.template_type, $.field_expression],
+    [$._type_specifier, $.template_type],
     [$.scoped_type_identifier, $.scoped_identifier],
     [$.scoped_type_identifier, $.scoped_field_identifier],
     [$.comma_expression, $.initializer_list],
@@ -27,6 +29,7 @@ module.exports = grammar(C, {
 
   inline: ($, original) => original.concat([
     $._namespace_identifier,
+    $._class_name,
   ]),
 
   rules: {
@@ -479,26 +482,23 @@ module.exports = grammar(C, {
       $.raw_string_literal
     ),
 
-    new_expression: $ => seq(
+    new_expression: $ => prec.right(PREC.NEW, seq(
       'new',
-      optional($.parenthesized_expression),
-      choice(
-        $._type_identifier,
-        $.scoped_type_identifier
-      ),
+      optional($.argument_list),
+      $._type_specifier,
       optional($.new_declarator),
-      choice(
+      optional(choice(
         $.argument_list,
         $.initializer_list
-      )
-    ),
+      ))
+    )),
 
-    new_declarator: $ => seq(
+    new_declarator: $ => prec.right(seq(
       '[',
       $._expression,
       ']',
       optional($.new_declarator)
-    ),
+    )),
 
     delete_expression: $ => seq(
       optional('::'),

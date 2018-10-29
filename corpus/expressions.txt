@@ -72,9 +72,11 @@ New and Delete expressions
 
 int main() {
   auto a = new T();
-  auto b = new U::V{};
-  auto c = new (&d) T();
-  auto c = new T[5][3]();
+  auto b = new U::V<W, X>{};
+  auto c = new (&d) T;
+  auto d = new T[5][3]();
+  auto e = new int[5];
+  d = new(2, f) T;
   delete a;
   ::delete[] c;
 }
@@ -96,16 +98,19 @@ int main() {
         (init_declarator
           (identifier)
           (new_expression
-            (scoped_type_identifier (namespace_identifier) (type_identifier))
+            (template_type
+              (scoped_type_identifier (namespace_identifier) (type_identifier))
+              (template_argument_list
+                (type_descriptor (type_identifier))
+                (type_descriptor (type_identifier))))
             (initializer_list))))
       (declaration
         (auto)
         (init_declarator
           (identifier)
           (new_expression
-            (parenthesized_expression (pointer_expression (identifier)))
-            (type_identifier)
-            (argument_list))))
+            (argument_list (pointer_expression (identifier)))
+            (type_identifier))))
       (declaration
         (auto)
         (init_declarator
@@ -114,6 +119,16 @@ int main() {
             (type_identifier)
             (new_declarator (number_literal) (new_declarator (number_literal)))
             (argument_list))))
+      (declaration
+        (auto)
+        (init_declarator
+          (identifier)
+          (new_expression (primitive_type) (new_declarator (number_literal)))))
+      (expression_statement (assignment_expression
+        (identifier)
+        (new_expression
+          (argument_list (number_literal) (identifier))
+          (type_identifier))))
       (expression_statement (delete_expression (identifier)))
       (expression_statement (delete_expression (identifier))))))
 
