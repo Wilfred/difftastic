@@ -339,7 +339,7 @@ func main() {
         (break_statement)))
     (expression_switch_statement
       (expression_case_clause
-        (expression_case (expression_list (identifier)))
+        (expression_case (expression_list (true)))
         (return_statement)))
     (expression_switch_statement
       (short_var_declaration

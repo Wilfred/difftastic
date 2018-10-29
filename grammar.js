@@ -590,6 +590,8 @@ module.exports = grammar({
       $.imaginary_literal,
       $.rune_literal,
       $.nil,
+      $.true,
+      $.false,
       $.parenthesized_expression
     ),
 
@@ -802,6 +804,8 @@ module.exports = grammar({
     )),
 
     nil: $ => 'nil',
+    true: $ => 'true',
+    false: $ => 'false',
 
     // http://stackoverflow.com/questions/13014947/regex-to-match-a-c-style-multiline-comment/36328890#36328890
     comment: $ => token(choice(

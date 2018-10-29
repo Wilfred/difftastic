@@ -2660,6 +2660,14 @@
         },
         {
           "type": "SYMBOL",
+          "name": "true"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "false"
+        },
+        {
+          "type": "SYMBOL",
           "name": "parenthesized_expression"
         }
       ]
@@ -4466,6 +4474,14 @@
     "nil": {
       "type": "STRING",
       "value": "nil"
+    },
+    "true": {
+      "type": "STRING",
+      "value": "true"
+    },
+    "false": {
+      "type": "STRING",
+      "value": "false"
     },
     "comment": {
       "type": "TOKEN",
