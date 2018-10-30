@@ -34,13 +34,13 @@ module.exports = grammar({
     import_statement: $ => seq(
       '@import',
       $._value,
-      commaSep($._query),
+      sep(',', $._query),
       ';'
     ),
 
     media_statement: $ => seq(
       '@media',
-      commaSep1($._query),
+      sep1(',', $._query),
       $.block
     ),
 
@@ -58,7 +58,10 @@ module.exports = grammar({
     ),
 
     keyframes_statement: $ => seq(
-      '@keyframes',
+      choice(
+        '@keyframes',
+        alias(/@[-a-z]+keyframes/, $.at_keyword)
+      ),
       alias($.identifier, $.keyframes_name),
       $.keyframe_block_list,
     ),
@@ -85,7 +88,7 @@ module.exports = grammar({
 
     at_rule: $ => seq(
       $.at_keyword,
-      commaSep($._query),
+      sep(',', $._query),
       choice(';', $.block)
     ),
 
@@ -96,7 +99,7 @@ module.exports = grammar({
       $.block
     ),
 
-    selectors: $ => commaSep1($._selector),
+    selectors: $ => sep1(',', $._selector),
 
     block: $ => seq('{',
       repeat($._block_item),
@@ -177,7 +180,7 @@ module.exports = grammar({
 
     pseudo_class_arguments: $ => seq(
       token.immediate('('),
-      commaSep(choice($._selector, repeat1($._value))),
+      sep(',', choice($._selector, repeat1($._value))),
       ')'
     ),
 
@@ -223,7 +226,7 @@ module.exports = grammar({
       '(',
       alias($.identifier, $.feature_name),
       ':',
-      $._value,
+      repeat1($._value),
       ')'
     ),
 
@@ -314,7 +317,7 @@ module.exports = grammar({
 
     arguments: $ => seq(
       token.immediate('('),
-      commaSep(repeat1($._value)),
+      sep(choice(',', ';'), repeat1($._value)),
       ')'
     ),
 
@@ -328,14 +331,24 @@ module.exports = grammar({
       '/'
     )),
 
-    plain_value: $ => /[-_]*[a-zA-Z]([^/,;()\[\]\s]|\/[^\*])*/
+    plain_value: $ => token(seq(
+      repeat(choice(
+        /[-_]/,
+        /\/[^\*\s,;!{}()\[\]]/ // Slash not followed by a '*' (which would be a comment)
+      )),
+      /[a-zA-Z]/,
+      repeat(choice(
+        /[^/\s,;!{}()\[\]]/,   // Not a slash, not a delimiter character
+        /\/[^\*\s,;!{}()\[\]]/ // Slash not followed by a '*' (which would be a comment)
+      ))
+    ))
   }
 })
 
-function commaSep (rule) {
-  return optional(commaSep1(rule))
+function sep (separator, rule) {
+  return optional(sep1(separator, rule))
 }
 
-function commaSep1 (rule) {
-  return seq(rule, repeat(seq(',', rule)))
+function sep1 (separator, rule) {
+  return seq(rule, repeat(seq(separator, rule)))
 }

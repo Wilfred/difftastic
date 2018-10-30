@@ -197,8 +197,22 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "STRING",
-          "value": "@keyframes"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "@keyframes"
+            },
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "PATTERN",
+                "value": "@[-a-z]+keyframes"
+              },
+              "named": true,
+              "value": "at_keyword"
+            }
+          ]
         },
         {
           "type": "ALIAS",
@@ -1064,8 +1078,11 @@
           "value": ":"
         },
         {
-          "type": "SYMBOL",
-          "name": "_value"
+          "type": "REPEAT1",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_value"
+          }
         },
         {
           "type": "STRING",
@@ -1560,8 +1577,17 @@
                     "type": "SEQ",
                     "members": [
                       {
-                        "type": "STRING",
-                        "value": ","
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "STRING",
+                            "value": ","
+                          },
+                          {
+                            "type": "STRING",
+                            "value": ";"
+                          }
+                        ]
                       },
                       {
                         "type": "REPEAT1",
@@ -1615,8 +1641,48 @@
       }
     },
     "plain_value": {
-      "type": "PATTERN",
-      "value": "[-_]*[a-zA-Z]([^\\/,;()\\[\\]\\s]|\\/[^\\*])*"
+      "type": "TOKEN",
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "REPEAT",
+            "content": {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "PATTERN",
+                  "value": "[-_]"
+                },
+                {
+                  "type": "PATTERN",
+                  "value": "\\/[^\\*\\s,;!{}()\\[\\]]"
+                }
+              ]
+            }
+          },
+          {
+            "type": "PATTERN",
+            "value": "[a-zA-Z]"
+          },
+          {
+            "type": "REPEAT",
+            "content": {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "PATTERN",
+                  "value": "[^\\/\\s,;!{}()\\[\\]]"
+                },
+                {
+                  "type": "PATTERN",
+                  "value": "\\/[^\\*\\s,;!{}()\\[\\]]"
+                }
+              ]
+            }
+          }
+        ]
+      }
     }
   },
   "extras": [
