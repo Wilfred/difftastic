@@ -56,7 +56,7 @@ module.exports = grammar({
       $.function_definition,
       $.linkage_specification,
       $.declaration,
-      seq($.call_expression, ';'),
+      $._statement,
       $.type_definition,
       $._empty_declaration,
       $.preproc_if,
