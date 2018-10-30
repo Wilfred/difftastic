@@ -229,3 +229,16 @@ a {
         (integer_value (unit))
         (integer_value (unit))
         (integer_value (unit))))))))
+
+=================================
+Declarations at the top level
+=================================
+
+--a-variable: -5px;
+a-property: calc(5px + var(--a-variable));
+
+---
+
+(stylesheet
+  (declaration (property_name) (plain_value))
+  (declaration (property_name) (call_expression (function_name) (arguments (binary_expression (integer_value (unit)) (call_expression (function_name) (arguments (plain_value))))))))

@@ -10,6 +10,10 @@ module.exports = grammar({
     $._descendant_operator,
   ],
 
+  conflicts: $ => [
+    [$._selector, $.declaration],
+  ],
+
   inline: $ => [
     $._top_level_item,
     $._block_item,
@@ -19,6 +23,7 @@ module.exports = grammar({
     stylesheet: $ => repeat($._top_level_item),
 
     _top_level_item: $ => choice(
+      $.declaration,
       $.rule_set,
       $.import_statement,
       $.media_statement,
@@ -109,7 +114,14 @@ module.exports = grammar({
 
     _block_item: $ => choice(
       $.declaration,
-      $._top_level_item
+      $.rule_set,
+      $.import_statement,
+      $.media_statement,
+      $.charset_statement,
+      $.namespace_statement,
+      $.keyframes_statement,
+      $.supports_statement,
+      $.at_rule
     ),
 
     // Selectors
@@ -186,7 +198,7 @@ module.exports = grammar({
 
     // Declarations
 
-    declaration: $ => prec(1, seq(
+    declaration: $ => seq(
       alias($.identifier, $.property_name),
       ':',
       $._value,
@@ -196,7 +208,7 @@ module.exports = grammar({
       )),
       optional($.important),
       ';'
-    )),
+    ),
 
     last_declaration: $ => prec(1, seq(
       alias($.identifier, $.property_name),
