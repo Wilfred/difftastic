@@ -174,5 +174,5 @@ DEFINE_SOMETHING(THING_B, "this is a thing b", "thanks");
 ---
 
 (translation_unit
-  (call_expression (identifier) (argument_list (identifier) (string_literal)))
-  (call_expression (identifier) (argument_list (identifier) (string_literal) (string_literal))))
+  (expression_statement (call_expression (identifier) (argument_list (identifier) (string_literal))))
+  (expression_statement (call_expression (identifier) (argument_list (identifier) (string_literal) (string_literal)))))
