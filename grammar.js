@@ -263,6 +263,7 @@ module.exports = grammar({
 
     for_of_statement: $ => seq(
       'for',
+      optional('await'),
       '(',
       optional(choice('var', 'let', 'const')),
       choice($.identifier, $._destructuring_pattern),

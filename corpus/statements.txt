@@ -286,6 +286,23 @@ for (let {a, b} of items || [])
     (expression_statement (call_expression (identifier) (arguments (identifier) (identifier))))))
 
 ============================================
+For-await-of statements
+============================================
+
+for await (const chunk of stream) {
+  str += chunk;
+}
+
+---
+
+(program
+  (for_of_statement
+    (identifier)
+    (identifier)
+    (statement_block
+      (expression_statement (augmented_assignment_expression (identifier) (identifier))))))
+
+============================================
 While statements
 ============================================
 
