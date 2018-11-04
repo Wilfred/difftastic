@@ -23,8 +23,8 @@ echo ]]] ===
 
 (program
   (command (command_name (word)) (concatenation (word) (word)))
-  (command (command_name (word)) (word))
-  (command (command_name (word)) (word) (word)))
+  (command (command_name (word)) (concatenation))
+  (command (command_name (word)) (concatenation) (word)))
 
 =============================
 Simple variable expansions
@@ -142,6 +142,7 @@ Other variable expansion operators
 ===================================
 
 cat ${BAR} ${ABC=def} ${GHI:?jkl}
+[ "$a" != "${a#[Bc]}" ]
 
 ---
 
@@ -150,7 +151,11 @@ cat ${BAR} ${ABC=def} ${GHI:?jkl}
     (command_name (word))
     (expansion (variable_name))
     (expansion (variable_name) (word))
-    (expansion (variable_name) (word))))
+    (expansion (variable_name) (word)))
+  (test_command
+    (binary_expression
+      (string (simple_expansion (variable_name)))
+      (string (expansion (variable_name) (concatenation (word)))))))
 
 =============================
 Command substitutions
