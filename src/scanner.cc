@@ -318,7 +318,7 @@ struct Scanner {
               state.bracket_depth++;
               break;
             case '{':
-              state.bracket_depth++;
+              state.brace_depth++;
               break;
             case ')':
               if (state.paren_depth == 0) state.done = true;
