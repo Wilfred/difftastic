@@ -1615,6 +1615,27 @@
                 ]
               }
             }
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "_concat"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "$"
+                  }
+                ]
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
           }
         ]
       }

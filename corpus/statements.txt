@@ -252,6 +252,11 @@ Test commands with regexes
 [[ $CMD =~ (^|;)update_terminal_cwd($|;) ]]
 [[ ! " ${completions[*]} " =~ " $alias_cmd " ]]
 ! [[ "$a" =~ ^a|b\ *c|d$ ]]
+[[ "$1" =~ ^${var}${var}*=..* ]]
+[[ "$1" =~ ^\-${var}+ ]]
+[[ ${var1} == *${var2}* ]]
+[[ "$server" =~ [0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3} ]]
+[[ "$primary_wins" =~ ([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}) ]]
 
 ---
 
@@ -273,7 +278,27 @@ Test commands with regexes
     (test_command
       (binary_expression
         (string (simple_expansion (variable_name)))
-        (regex)))))
+        (regex))))
+  (test_command
+    (binary_expression
+      (string (simple_expansion (variable_name)))
+      (regex)))
+  (test_command
+    (binary_expression
+      (string (simple_expansion (variable_name)))
+      (regex)))
+  (test_command
+    (binary_expression
+      (expansion (variable_name))
+      (regex)))
+  (test_command
+    (binary_expression
+      (string (simple_expansion (variable_name)))
+      (regex)))
+  (test_command
+    (binary_expression
+      (string (simple_expansion (variable_name)))
+      (regex))))
 
 ===============================
 Subshells
