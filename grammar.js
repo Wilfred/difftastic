@@ -378,7 +378,7 @@ module.exports = grammar({
     _literal: $ => choice(
       $.concatenation,
       $._primary_expression,
-      alias(prec(-2, $._special_characters), $.word)
+      alias(prec(-2, repeat1($._special_character)), $.word)
     ),
 
     _primary_expression: $ => choice(
@@ -395,18 +395,18 @@ module.exports = grammar({
     concatenation: $ => prec(-1, seq(
       choice(
         $._primary_expression,
-        $._special_characters,
+        $._special_character,
       ),
       repeat1(prec(-1, seq(
         $._concat,
         choice(
           $._primary_expression,
-          $._special_characters,
+          $._special_character,
         )
       ))),
     )),
 
-    _special_characters: $ => token(prec(-1, repeat1(choice('{', '}', '[', ']')))),
+    _special_character: $ => token(prec(-1, choice('{', '}', '[', ']'))),
 
     string: $ => seq(
       '"',
