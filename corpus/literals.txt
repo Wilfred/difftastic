@@ -158,6 +158,18 @@ cat ${BAR} ${ABC=def} ${GHI:?jkl}
       (string (expansion (variable_name) (concatenation (word)))))))
 
 =============================
+Words ending with '$'
+=============================
+
+grep ^${var}$
+
+---
+
+(program (command
+  (command_name (word))
+  (concatenation (word) (expansion (variable_name)))))
+
+=============================
 Command substitutions
 =============================
 

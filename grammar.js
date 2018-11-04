@@ -404,6 +404,7 @@ module.exports = grammar({
           $._special_character,
         )
       ))),
+      optional(seq($._concat, '$'))
     )),
 
     _special_character: $ => token(prec(-1, choice('{', '}', '[', ']'))),
