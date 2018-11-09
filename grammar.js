@@ -772,20 +772,19 @@ module.exports = grammar({
       )
     )),
 
-    float: $ => token(
-      seq(
+    float: $ => {
+      const digits = repeat1(/[0-9]+_?/);
+      const exponent = seq(/[eE][\+-]?/, digits)
+
+      return token(seq(
         choice(
-          seq(repeat(/[0-9]+_?/), '.', repeat(/[0-9]+_?/), optional(/[eE][\+-]?/), repeat(/[0-9]+_?/)),
-          seq(repeat(/[0-9]+_?/), optional(/[eE][\+-]?/), repeat1(/[0-9]+_?/))
+          seq(digits, '.', optional(digits), optional(exponent)),
+          seq(optional(digits), '.', digits, optional(exponent)),
+          seq(digits, exponent)
         ),
-        optional(
-          choice(
-            optional(/[Ll]/), // long numbers
-            optional(/[jJ]/) // complex numbers
-          )
-        )
-      )
-    ),
+        optional(choice(/[Ll]/, /[jJ]/))
+      ))
+    },
 
     identifier: $ => /[a-zA-Zα-ωΑ-Ω_][a-zA-Zα-ωΑ-Ω_0-9]*/,
 
