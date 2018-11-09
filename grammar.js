@@ -787,7 +787,7 @@ module.exports = grammar({
       )
     ),
 
-    identifier: $ => /[a-zA-Z_]\w*/,
+    identifier: $ => /[a-zA-Zα-ωΑ-Ω_][a-zA-Zα-ωΑ-Ω_0-9]*/,
 
     keyword_identifier: $ => alias(choice('print', 'exec'), $.identifier),
 
