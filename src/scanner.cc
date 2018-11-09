@@ -147,10 +147,14 @@ struct Scanner {
             lexer->result_symbol = STRING_CONTENT;
             return has_content;
           }
-        } else if (lexer->lookahead == '\\' && !delimiter.is_raw()) {
-          lexer->mark_end(lexer);
-          lexer->result_symbol = STRING_CONTENT;
-          return has_content;
+        } else if (lexer->lookahead == '\\') {
+          if (delimiter.is_raw()) {
+            lexer->advance(lexer, false);
+          } else {
+            lexer->mark_end(lexer);
+            lexer->result_symbol = STRING_CONTENT;
+            return has_content;
+          }
         } else if (lexer->lookahead == end_character) {
           if (delimiter.is_triple()) {
             lexer->mark_end(lexer);
