@@ -133,6 +133,22 @@ ur"\n"
   (expression_statement (string)))
 
 =====================================
+Raw strings with escaped quotes
+=====================================
+
+re.compile(r"(\n|\A)#include\s*['\"]"
+           r"(?P<name>[\w\d./\\]+[.]src)['\"]")
+
+---
+
+(module
+  (expression_statement
+    (call
+      (attribute (identifier) (identifier))
+      (argument_list
+        (concatenated_string (string) (string))))))
+
+=====================================
 Format strings
 =====================================
 
