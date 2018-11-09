@@ -1,4 +1,17 @@
 =====================================
+Identifiers with Greek letters
+=====================================
+
+ψ1 = β_γ + Ψ_5
+
+---
+
+(module
+  (expression_statement (assignment
+    (expression_list (identifier))
+    (expression_list (binary_operator (identifier) (identifier))))))
+
+=====================================
 Subscript expressions
 =====================================
 
