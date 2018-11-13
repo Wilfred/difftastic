@@ -169,6 +169,28 @@ f"a {{}} e"
             (identifier))))))))
   (expression_statement (string)))
 
+======================================
+Format strings with format specifiers
+======================================
+
+f"a {b:2} {c:34.5}"
+f"{b:{c.d}.{d.e}}"
+
+---
+
+(module
+  (expression_statement
+    (string
+      (interpolation (identifier) (format_specifier))
+      (interpolation (identifier) (format_specifier))))
+  (expression_statement
+    (string
+      (interpolation
+        (identifier)
+        (format_specifier
+          (format_expression (attribute (identifier) (identifier)))
+          (format_expression (attribute (identifier) (identifier))))))))
+
 =====================================
 Unicode escape sequences
 =====================================
