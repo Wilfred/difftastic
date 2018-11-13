@@ -730,6 +730,7 @@ module.exports = grammar({
       '{',
       $._expression,
       optional($.type_conversion),
+      optional($.format_specifier),
       '}'
     ),
 
@@ -744,6 +745,16 @@ module.exports = grammar({
         /[^uxo]/
       )
     )),
+
+    format_specifier: $ => seq(
+      ':',
+      repeat(choice(
+        /[^{}\n]+/,
+        $.format_expression
+      ))
+    ),
+
+    format_expression: $ => seq('{', $._expression, '}'),
 
     type_conversion: $ => /![a-z]/,
 
