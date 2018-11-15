@@ -70,7 +70,7 @@ module.exports = grammar(C, {
     // When used in a trailing return type, these specifiers can now occur immediately before
     // a compound statement. This introduces a shift/reduce conflict that needs to be resolved
     // with an associativity.
-    class_specifier: $ => prec.left(seq(
+    class_specifier: $ => prec.right(seq(
       'class',
       choice(
         $._class_name,
@@ -83,7 +83,7 @@ module.exports = grammar(C, {
       )
     )),
 
-    union_specifier: $ => prec.left(seq(
+    union_specifier: $ => prec.right(seq(
       'union',
       choice(
         $._class_name,
@@ -96,7 +96,7 @@ module.exports = grammar(C, {
       )
     )),
 
-    struct_specifier: $ => prec.left(seq(
+    struct_specifier: $ => prec.right(seq(
       'struct',
       choice(
         $._class_name,
@@ -123,7 +123,7 @@ module.exports = grammar(C, {
     base_class_clause: $ => seq(
       ':',
       commaSep1(seq(
-        optional('public'),
+        optional(choice('public', 'private', 'protected')),
         $._class_name
       ))
     ),
