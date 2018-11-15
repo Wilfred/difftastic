@@ -181,6 +181,7 @@ module.exports = grammar(C, {
         $.parameter_declaration,
         $.optional_parameter_declaration,
         $.type_parameter_declaration,
+        $.variadic_type_parameter_declaration,
         $.optional_type_parameter_declaration
       )),
       alias(token(prec(1, '>')), '>')
@@ -191,6 +192,12 @@ module.exports = grammar(C, {
       $._type_identifier
     )),
 
+    variadic_type_parameter_declaration: $ => prec(1, seq(
+      choice('typename', 'class'),
+      '...',
+      $._type_identifier
+    )),
+
     optional_type_parameter_declaration: $ => seq(
       'typename',
       $._type_identifier,
@@ -198,19 +205,41 @@ module.exports = grammar(C, {
       $._type_specifier
     ),
 
-    parameter_declaration: ($, original) => choice(
-      original,
-      seq(
-        $._declaration_specifiers,
-        $.init_declarator
+    parameter_list: $ => seq(
+      '(',
+      commaSep(choice(
+        $.parameter_declaration,
+        $.optional_parameter_declaration,
+        $.variadic_parameter_declaration,
+        '...'
+      )),
+      ')'
+    ),
+
+    optional_parameter_declaration: $ => seq(
+      $._declaration_specifiers,
+      optional($._declarator),
+      '=',
+      $._expression
+    ),
+
+    variadic_parameter_declaration: $ => seq(
+      $._declaration_specifiers,
+      choice(
+        $.variadic_declarator,
+        alias($.variadic_reference_declarator, $.reference_declarator)
       )
     ),
 
-    optional_parameter_declaration: $ => prec(20, seq(
-      $._type_specifier,
-      '=',
-      $._expression
-    )),
+    variadic_declarator: $ => seq(
+      '...',
+      $.identifier
+    ),
+
+    variadic_reference_declarator: $ => seq(
+      choice('&&', '&'),
+      $.variadic_declarator
+    ),
 
     init_declarator: ($, original) => choice(
       original,

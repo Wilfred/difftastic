@@ -301,7 +301,7 @@ int foo(bool x = 5) {}
     (function_declarator
       (identifier)
       (parameter_list
-        (parameter_declaration (primitive_type) (init_declarator (identifier) (number_literal)))))
+        (optional_parameter_declaration (primitive_type) (identifier) (number_literal))))
     (compound_statement)))
 
 =========================================
@@ -611,3 +611,46 @@ constexpr double pi = 3.14159;
     (init_declarator
       (identifier)
       (number_literal))))
+
+============================
+Variadic templates
+============================
+
+template <class T>
+class TT {
+  template <typename... Ts>
+
+  void func1(Ts ... args) {
+    func3(nullptr);
+  }
+
+  void func2(Ts &&... args) {}
+};
+
+---
+
+(translation_unit
+  (template_declaration
+    (template_parameter_list (type_parameter_declaration (type_identifier)))
+    (class_specifier (type_identifier) (field_declaration_list
+      (template_declaration
+        (template_parameter_list (variadic_type_parameter_declaration (type_identifier)))
+        (function_definition
+          (primitive_type)
+          (function_declarator
+            (identifier)
+            (parameter_list
+              (variadic_parameter_declaration
+                (type_identifier)
+                (variadic_declarator (identifier)))))
+          (compound_statement
+            (expression_statement (call_expression (identifier) (argument_list (nullptr)))))))
+        (function_definition
+          (primitive_type)
+          (function_declarator
+            (field_identifier)
+            (parameter_list
+              (variadic_parameter_declaration
+                (type_identifier)
+                (reference_declarator (variadic_declarator (identifier))))))
+          (compound_statement))))))
