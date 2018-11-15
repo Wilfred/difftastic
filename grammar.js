@@ -392,7 +392,6 @@ module.exports = grammar({
       $.expression_statement,
       $.if_statement,
       $.switch_statement,
-      $.case_statement,
       $.do_statement,
       $.while_statement,
       $.for_statement,
@@ -429,21 +428,27 @@ module.exports = grammar({
     switch_statement: $ => seq(
       'switch',
       $.parenthesized_expression,
-      $._statement
+      alias($.switch_body, $.compound_statement)
     ),
 
-    case_statement: $ => seq(
+    switch_body: $ => seq(
+      '{',
+      repeat(choice($.case_statement, $._statement)),
+      '}'
+    ),
+
+    case_statement: $ => prec.right(seq(
       choice(
         seq('case', $._expression),
         'default'
       ),
       ':',
-      choice(
+      repeat(choice(
         $._statement,
         $.declaration,
         $.type_definition
-      )
-    ),
+      ))
+    )),
 
     while_statement: $ => seq(
       'while',

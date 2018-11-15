@@ -111,6 +111,49 @@ recur:
       (if_statement (parenthesized_expression (identifier)) (goto_statement (statement_identifier))))))
 
 ============================================
+Switch statements
+============================================
+
+void foo(int a) {
+  switch (a) {
+    puts("entered switch!");
+
+    case 3:
+    case 5:
+      if (b) {
+        c();
+      }
+      break;
+
+    default:
+      c();
+      break;
+  }
+}
+
+---
+
+(translation_unit
+  (function_definition
+    (primitive_type)
+    (function_declarator (identifier) (parameter_list
+      (parameter_declaration (primitive_type) (identifier))))
+    (compound_statement
+      (switch_statement
+        (parenthesized_expression (identifier))
+        (compound_statement
+          (expression_statement (call_expression (identifier) (argument_list (string_literal))))
+          (case_statement (number_literal))
+          (case_statement (number_literal)
+            (if_statement
+              (parenthesized_expression (identifier))
+              (compound_statement (expression_statement (call_expression (identifier) (argument_list)))))
+            (break_statement))
+          (case_statement
+            (expression_statement (call_expression (identifier) (argument_list)))
+            (break_statement)))))))
+
+============================================
 Comments with asterisks
 ============================================
 
