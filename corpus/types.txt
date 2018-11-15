@@ -46,7 +46,7 @@ Type modifiers
 
 void f(unsigned);
 void f(unsigned int);
-void f(unsigned long int);
+void f(signed long int);
 void f(unsigned v1);
 void f(unsigned long v2);
 

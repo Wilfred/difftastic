@@ -282,6 +282,7 @@ module.exports = grammar({
 
     sized_type_specifier: $ => seq(
       repeat1(choice(
+        'signed',
         'unsigned',
         'long',
         'short'

@@ -7,9 +7,9 @@
 
 #define LANGUAGE_VERSION 9
 #define STATE_COUNT 1362
-#define SYMBOL_COUNT 217
+#define SYMBOL_COUNT 218
 #define ALIAS_COUNT 3
-#define TOKEN_COUNT 101
+#define TOKEN_COUNT 102
 #define EXTERNAL_TOKEN_COUNT 0
 #define MAX_ALIAS_SEQUENCE_LENGTH 3
 
@@ -47,192 +47,193 @@ enum {
   anon_sym_restrict = 31,
   anon_sym_volatile = 32,
   anon_sym__Atomic = 33,
-  anon_sym_unsigned = 34,
-  anon_sym_long = 35,
-  anon_sym_short = 36,
-  sym_primitive_type = 37,
-  anon_sym_enum = 38,
-  anon_sym_struct = 39,
-  anon_sym_union = 40,
-  anon_sym_COLON = 41,
-  anon_sym_if = 42,
-  anon_sym_else = 43,
-  anon_sym_switch = 44,
-  anon_sym_case = 45,
-  anon_sym_default = 46,
-  anon_sym_while = 47,
-  anon_sym_do = 48,
-  anon_sym_for = 49,
-  anon_sym_return = 50,
-  anon_sym_break = 51,
-  anon_sym_continue = 52,
-  anon_sym_goto = 53,
-  anon_sym_QMARK = 54,
-  anon_sym_STAR_EQ = 55,
-  anon_sym_SLASH_EQ = 56,
-  anon_sym_PERCENT_EQ = 57,
-  anon_sym_PLUS_EQ = 58,
-  anon_sym_DASH_EQ = 59,
-  anon_sym_LT_LT_EQ = 60,
-  anon_sym_GT_GT_EQ = 61,
-  anon_sym_AMP_EQ = 62,
-  anon_sym_CARET_EQ = 63,
-  anon_sym_PIPE_EQ = 64,
-  anon_sym_AMP = 65,
-  anon_sym_PIPE_PIPE = 66,
-  anon_sym_AMP_AMP = 67,
-  anon_sym_BANG = 68,
-  anon_sym_PIPE = 69,
-  anon_sym_CARET = 70,
-  anon_sym_TILDE = 71,
-  anon_sym_EQ_EQ = 72,
-  anon_sym_BANG_EQ = 73,
-  anon_sym_LT = 74,
-  anon_sym_GT = 75,
-  anon_sym_LT_EQ = 76,
-  anon_sym_GT_EQ = 77,
-  anon_sym_LT_LT = 78,
-  anon_sym_GT_GT = 79,
-  anon_sym_PLUS = 80,
-  anon_sym_DASH = 81,
-  anon_sym_SLASH = 82,
-  anon_sym_PERCENT = 83,
-  anon_sym_DASH_DASH = 84,
-  anon_sym_PLUS_PLUS = 85,
-  anon_sym_sizeof = 86,
-  anon_sym_DOT = 87,
-  anon_sym_DASH_GT = 88,
-  sym_number_literal = 89,
-  anon_sym_SQUOTE = 90,
-  aux_sym_SLASH_LBRACK_CARET_BSLASHn_SQUOTE_RBRACK_SLASH = 91,
-  anon_sym_DQUOTE = 92,
-  aux_sym_SLASH_LBRACK_CARET_BSLASH_BSLASH_DQUOTE_BSLASHn_RBRACK_SLASH = 93,
-  sym_escape_sequence = 94,
-  sym_system_lib_string = 95,
-  sym_true = 96,
-  sym_false = 97,
-  sym_null = 98,
-  sym_identifier = 99,
-  sym_comment = 100,
-  sym_translation_unit = 101,
-  sym_preproc_include = 102,
-  sym_preproc_def = 103,
-  sym_preproc_function_def = 104,
-  sym_preproc_params = 105,
-  sym_preproc_call = 106,
-  sym_preproc_if = 107,
-  sym_preproc_ifdef = 108,
-  sym_preproc_else = 109,
-  sym_preproc_elif = 110,
-  sym_preproc_if_in_compound_statement = 111,
-  sym_preproc_ifdef_in_compound_statement = 112,
-  sym_preproc_else_in_compound_statement = 113,
-  sym_preproc_elif_in_compound_statement = 114,
-  sym_preproc_if_in_field_declaration_list = 115,
-  sym_preproc_ifdef_in_field_declaration_list = 116,
-  sym_preproc_else_in_field_declaration_list = 117,
-  sym_preproc_elif_in_field_declaration_list = 118,
-  sym_function_definition = 119,
-  sym_declaration = 120,
-  sym_type_definition = 121,
-  sym__declaration_specifiers = 122,
-  sym_linkage_specification = 123,
-  sym_declaration_list = 124,
-  sym__declarator = 125,
-  sym__field_declarator = 126,
-  sym__type_declarator = 127,
-  sym__abstract_declarator = 128,
-  sym_pointer_declarator = 129,
-  sym_pointer_field_declarator = 130,
-  sym_pointer_type_declarator = 131,
-  sym_abstract_pointer_declarator = 132,
-  sym_function_declarator = 133,
-  sym_function_field_declarator = 134,
-  sym_function_type_declarator = 135,
-  sym_abstract_function_declarator = 136,
-  sym_array_declarator = 137,
-  sym_array_field_declarator = 138,
-  sym_array_type_declarator = 139,
-  sym_abstract_array_declarator = 140,
-  sym_init_declarator = 141,
-  sym_compound_statement = 142,
-  sym_storage_class_specifier = 143,
-  sym_type_qualifier = 144,
-  sym__type_specifier = 145,
-  sym_sized_type_specifier = 146,
-  sym_enum_specifier = 147,
-  sym_enumerator_list = 148,
-  sym_struct_specifier = 149,
-  sym_union_specifier = 150,
-  sym_field_declaration_list = 151,
-  sym__field_declaration_list_item = 152,
-  sym_field_declaration = 153,
-  sym_enumerator = 154,
-  sym_parameter_list = 155,
-  sym_parameter_declaration = 156,
-  sym_labeled_statement = 157,
-  sym_expression_statement = 158,
-  sym_if_statement = 159,
-  sym_switch_statement = 160,
-  sym_switch_body = 161,
-  sym_case_statement = 162,
-  sym_while_statement = 163,
-  sym_do_statement = 164,
-  sym_for_statement = 165,
-  sym_return_statement = 166,
-  sym_break_statement = 167,
-  sym_continue_statement = 168,
-  sym_goto_statement = 169,
-  sym__expression = 170,
-  sym_comma_expression = 171,
-  sym_conditional_expression = 172,
-  sym_assignment_expression = 173,
-  sym_pointer_expression = 174,
-  sym_logical_expression = 175,
-  sym_bitwise_expression = 176,
-  sym_equality_expression = 177,
-  sym_relational_expression = 178,
-  sym_shift_expression = 179,
-  sym_math_expression = 180,
-  sym_cast_expression = 181,
-  sym_type_descriptor = 182,
-  sym_sizeof_expression = 183,
-  sym_subscript_expression = 184,
-  sym_call_expression = 185,
-  sym_argument_list = 186,
-  sym_field_expression = 187,
-  sym_compound_literal_expression = 188,
-  sym_parenthesized_expression = 189,
-  sym_initializer_list = 190,
-  sym_initializer_pair = 191,
-  sym_subscript_designator = 192,
-  sym_field_designator = 193,
-  sym_char_literal = 194,
-  sym_concatenated_string = 195,
-  sym_string_literal = 196,
-  sym__empty_declaration = 197,
-  sym_macro_type_specifier = 198,
-  aux_sym_translation_unit_repeat1 = 199,
-  aux_sym_preproc_params_repeat1 = 200,
-  aux_sym_preproc_if_in_compound_statement_repeat1 = 201,
-  aux_sym_preproc_if_in_field_declaration_list_repeat1 = 202,
-  aux_sym_declaration_repeat1 = 203,
-  aux_sym_type_definition_repeat1 = 204,
-  aux_sym__declaration_specifiers_repeat1 = 205,
-  aux_sym_sized_type_specifier_repeat1 = 206,
-  aux_sym_enumerator_list_repeat1 = 207,
-  aux_sym_field_declaration_repeat1 = 208,
-  aux_sym_parameter_list_repeat1 = 209,
-  aux_sym_switch_body_repeat1 = 210,
-  aux_sym_case_statement_repeat1 = 211,
-  aux_sym_for_statement_repeat1 = 212,
-  aux_sym_initializer_list_repeat1 = 213,
-  aux_sym_initializer_pair_repeat1 = 214,
-  aux_sym_concatenated_string_repeat1 = 215,
-  aux_sym_string_literal_repeat1 = 216,
-  alias_sym_field_identifier = 217,
-  alias_sym_statement_identifier = 218,
-  alias_sym_type_identifier = 219,
+  anon_sym_signed = 34,
+  anon_sym_unsigned = 35,
+  anon_sym_long = 36,
+  anon_sym_short = 37,
+  sym_primitive_type = 38,
+  anon_sym_enum = 39,
+  anon_sym_struct = 40,
+  anon_sym_union = 41,
+  anon_sym_COLON = 42,
+  anon_sym_if = 43,
+  anon_sym_else = 44,
+  anon_sym_switch = 45,
+  anon_sym_case = 46,
+  anon_sym_default = 47,
+  anon_sym_while = 48,
+  anon_sym_do = 49,
+  anon_sym_for = 50,
+  anon_sym_return = 51,
+  anon_sym_break = 52,
+  anon_sym_continue = 53,
+  anon_sym_goto = 54,
+  anon_sym_QMARK = 55,
+  anon_sym_STAR_EQ = 56,
+  anon_sym_SLASH_EQ = 57,
+  anon_sym_PERCENT_EQ = 58,
+  anon_sym_PLUS_EQ = 59,
+  anon_sym_DASH_EQ = 60,
+  anon_sym_LT_LT_EQ = 61,
+  anon_sym_GT_GT_EQ = 62,
+  anon_sym_AMP_EQ = 63,
+  anon_sym_CARET_EQ = 64,
+  anon_sym_PIPE_EQ = 65,
+  anon_sym_AMP = 66,
+  anon_sym_PIPE_PIPE = 67,
+  anon_sym_AMP_AMP = 68,
+  anon_sym_BANG = 69,
+  anon_sym_PIPE = 70,
+  anon_sym_CARET = 71,
+  anon_sym_TILDE = 72,
+  anon_sym_EQ_EQ = 73,
+  anon_sym_BANG_EQ = 74,
+  anon_sym_LT = 75,
+  anon_sym_GT = 76,
+  anon_sym_LT_EQ = 77,
+  anon_sym_GT_EQ = 78,
+  anon_sym_LT_LT = 79,
+  anon_sym_GT_GT = 80,
+  anon_sym_PLUS = 81,
+  anon_sym_DASH = 82,
+  anon_sym_SLASH = 83,
+  anon_sym_PERCENT = 84,
+  anon_sym_DASH_DASH = 85,
+  anon_sym_PLUS_PLUS = 86,
+  anon_sym_sizeof = 87,
+  anon_sym_DOT = 88,
+  anon_sym_DASH_GT = 89,
+  sym_number_literal = 90,
+  anon_sym_SQUOTE = 91,
+  aux_sym_SLASH_LBRACK_CARET_BSLASHn_SQUOTE_RBRACK_SLASH = 92,
+  anon_sym_DQUOTE = 93,
+  aux_sym_SLASH_LBRACK_CARET_BSLASH_BSLASH_DQUOTE_BSLASHn_RBRACK_SLASH = 94,
+  sym_escape_sequence = 95,
+  sym_system_lib_string = 96,
+  sym_true = 97,
+  sym_false = 98,
+  sym_null = 99,
+  sym_identifier = 100,
+  sym_comment = 101,
+  sym_translation_unit = 102,
+  sym_preproc_include = 103,
+  sym_preproc_def = 104,
+  sym_preproc_function_def = 105,
+  sym_preproc_params = 106,
+  sym_preproc_call = 107,
+  sym_preproc_if = 108,
+  sym_preproc_ifdef = 109,
+  sym_preproc_else = 110,
+  sym_preproc_elif = 111,
+  sym_preproc_if_in_compound_statement = 112,
+  sym_preproc_ifdef_in_compound_statement = 113,
+  sym_preproc_else_in_compound_statement = 114,
+  sym_preproc_elif_in_compound_statement = 115,
+  sym_preproc_if_in_field_declaration_list = 116,
+  sym_preproc_ifdef_in_field_declaration_list = 117,
+  sym_preproc_else_in_field_declaration_list = 118,
+  sym_preproc_elif_in_field_declaration_list = 119,
+  sym_function_definition = 120,
+  sym_declaration = 121,
+  sym_type_definition = 122,
+  sym__declaration_specifiers = 123,
+  sym_linkage_specification = 124,
+  sym_declaration_list = 125,
+  sym__declarator = 126,
+  sym__field_declarator = 127,
+  sym__type_declarator = 128,
+  sym__abstract_declarator = 129,
+  sym_pointer_declarator = 130,
+  sym_pointer_field_declarator = 131,
+  sym_pointer_type_declarator = 132,
+  sym_abstract_pointer_declarator = 133,
+  sym_function_declarator = 134,
+  sym_function_field_declarator = 135,
+  sym_function_type_declarator = 136,
+  sym_abstract_function_declarator = 137,
+  sym_array_declarator = 138,
+  sym_array_field_declarator = 139,
+  sym_array_type_declarator = 140,
+  sym_abstract_array_declarator = 141,
+  sym_init_declarator = 142,
+  sym_compound_statement = 143,
+  sym_storage_class_specifier = 144,
+  sym_type_qualifier = 145,
+  sym__type_specifier = 146,
+  sym_sized_type_specifier = 147,
+  sym_enum_specifier = 148,
+  sym_enumerator_list = 149,
+  sym_struct_specifier = 150,
+  sym_union_specifier = 151,
+  sym_field_declaration_list = 152,
+  sym__field_declaration_list_item = 153,
+  sym_field_declaration = 154,
+  sym_enumerator = 155,
+  sym_parameter_list = 156,
+  sym_parameter_declaration = 157,
+  sym_labeled_statement = 158,
+  sym_expression_statement = 159,
+  sym_if_statement = 160,
+  sym_switch_statement = 161,
+  sym_switch_body = 162,
+  sym_case_statement = 163,
+  sym_while_statement = 164,
+  sym_do_statement = 165,
+  sym_for_statement = 166,
+  sym_return_statement = 167,
+  sym_break_statement = 168,
+  sym_continue_statement = 169,
+  sym_goto_statement = 170,
+  sym__expression = 171,
+  sym_comma_expression = 172,
+  sym_conditional_expression = 173,
+  sym_assignment_expression = 174,
+  sym_pointer_expression = 175,
+  sym_logical_expression = 176,
+  sym_bitwise_expression = 177,
+  sym_equality_expression = 178,
+  sym_relational_expression = 179,
+  sym_shift_expression = 180,
+  sym_math_expression = 181,
+  sym_cast_expression = 182,
+  sym_type_descriptor = 183,
+  sym_sizeof_expression = 184,
+  sym_subscript_expression = 185,
+  sym_call_expression = 186,
+  sym_argument_list = 187,
+  sym_field_expression = 188,
+  sym_compound_literal_expression = 189,
+  sym_parenthesized_expression = 190,
+  sym_initializer_list = 191,
+  sym_initializer_pair = 192,
+  sym_subscript_designator = 193,
+  sym_field_designator = 194,
+  sym_char_literal = 195,
+  sym_concatenated_string = 196,
+  sym_string_literal = 197,
+  sym__empty_declaration = 198,
+  sym_macro_type_specifier = 199,
+  aux_sym_translation_unit_repeat1 = 200,
+  aux_sym_preproc_params_repeat1 = 201,
+  aux_sym_preproc_if_in_compound_statement_repeat1 = 202,
+  aux_sym_preproc_if_in_field_declaration_list_repeat1 = 203,
+  aux_sym_declaration_repeat1 = 204,
+  aux_sym_type_definition_repeat1 = 205,
+  aux_sym__declaration_specifiers_repeat1 = 206,
+  aux_sym_sized_type_specifier_repeat1 = 207,
+  aux_sym_enumerator_list_repeat1 = 208,
+  aux_sym_field_declaration_repeat1 = 209,
+  aux_sym_parameter_list_repeat1 = 210,
+  aux_sym_switch_body_repeat1 = 211,
+  aux_sym_case_statement_repeat1 = 212,
+  aux_sym_for_statement_repeat1 = 213,
+  aux_sym_initializer_list_repeat1 = 214,
+  aux_sym_initializer_pair_repeat1 = 215,
+  aux_sym_concatenated_string_repeat1 = 216,
+  aux_sym_string_literal_repeat1 = 217,
+  alias_sym_field_identifier = 218,
+  alias_sym_statement_identifier = 219,
+  alias_sym_type_identifier = 220,
 };
 
 static const char *ts_symbol_names[] = {
@@ -270,6 +271,7 @@ static const char *ts_symbol_names[] = {
   [anon_sym_restrict] = "restrict",
   [anon_sym_volatile] = "volatile",
   [anon_sym__Atomic] = "_Atomic",
+  [anon_sym_signed] = "signed",
   [anon_sym_unsigned] = "unsigned",
   [anon_sym_long] = "long",
   [anon_sym_short] = "short",
@@ -592,6 +594,10 @@ static const TSSymbolMetadata ts_symbol_metadata[] = {
     .named = false,
   },
   [anon_sym__Atomic] = {
+    .visible = true,
+    .named = false,
+  },
+  [anon_sym_signed] = {
     .visible = true,
     .named = false,
   },
@@ -3541,13 +3547,13 @@ static bool ts_lex_keywords(TSLexer *lexer, TSStateId state) {
       if (lookahead == 's')
         ADVANCE(120);
       if (lookahead == 't')
-        ADVANCE(147);
+        ADVANCE(151);
       if (lookahead == 'u')
-        ADVANCE(156);
+        ADVANCE(160);
       if (lookahead == 'v')
-        ADVANCE(170);
+        ADVANCE(174);
       if (lookahead == 'w')
-        ADVANCE(179);
+        ADVANCE(183);
       END_STATE();
     case 1:
       if (lookahead == 'A')
@@ -4045,11 +4051,11 @@ static bool ts_lex_keywords(TSLexer *lexer, TSStateId state) {
       if (lookahead == 'i')
         ADVANCE(125);
       if (lookahead == 's')
-        ADVANCE(130);
+        ADVANCE(134);
       if (lookahead == 't')
-        ADVANCE(133);
+        ADVANCE(137);
       if (lookahead == 'w')
-        ADVANCE(142);
+        ADVANCE(146);
       END_STATE();
     case 121:
       if (lookahead == 'o')
@@ -4067,145 +4073,162 @@ static bool ts_lex_keywords(TSLexer *lexer, TSStateId state) {
       ACCEPT_TOKEN(anon_sym_short);
       END_STATE();
     case 125:
-      if (lookahead == 'z')
+      if (lookahead == 'g')
         ADVANCE(126);
+      if (lookahead == 'z')
+        ADVANCE(130);
       END_STATE();
     case 126:
-      if (lookahead == 'e')
+      if (lookahead == 'n')
         ADVANCE(127);
       END_STATE();
     case 127:
-      if (lookahead == '_')
-        ADVANCE(42);
-      if (lookahead == 'o')
+      if (lookahead == 'e')
         ADVANCE(128);
       END_STATE();
     case 128:
-      if (lookahead == 'f')
+      if (lookahead == 'd')
         ADVANCE(129);
       END_STATE();
     case 129:
-      ACCEPT_TOKEN(anon_sym_sizeof);
+      ACCEPT_TOKEN(anon_sym_signed);
       END_STATE();
     case 130:
-      if (lookahead == 'i')
+      if (lookahead == 'e')
         ADVANCE(131);
       END_STATE();
     case 131:
-      if (lookahead == 'z')
+      if (lookahead == '_')
+        ADVANCE(42);
+      if (lookahead == 'o')
         ADVANCE(132);
       END_STATE();
     case 132:
-      if (lookahead == 'e')
-        ADVANCE(41);
+      if (lookahead == 'f')
+        ADVANCE(133);
       END_STATE();
     case 133:
-      if (lookahead == 'a')
-        ADVANCE(134);
-      if (lookahead == 'r')
-        ADVANCE(138);
+      ACCEPT_TOKEN(anon_sym_sizeof);
       END_STATE();
     case 134:
-      if (lookahead == 't')
+      if (lookahead == 'i')
         ADVANCE(135);
       END_STATE();
     case 135:
-      if (lookahead == 'i')
+      if (lookahead == 'z')
         ADVANCE(136);
       END_STATE();
     case 136:
-      if (lookahead == 'c')
-        ADVANCE(137);
+      if (lookahead == 'e')
+        ADVANCE(41);
       END_STATE();
     case 137:
-      ACCEPT_TOKEN(anon_sym_static);
+      if (lookahead == 'a')
+        ADVANCE(138);
+      if (lookahead == 'r')
+        ADVANCE(142);
       END_STATE();
     case 138:
-      if (lookahead == 'u')
+      if (lookahead == 't')
         ADVANCE(139);
       END_STATE();
     case 139:
-      if (lookahead == 'c')
+      if (lookahead == 'i')
         ADVANCE(140);
       END_STATE();
     case 140:
-      if (lookahead == 't')
+      if (lookahead == 'c')
         ADVANCE(141);
       END_STATE();
     case 141:
-      ACCEPT_TOKEN(anon_sym_struct);
+      ACCEPT_TOKEN(anon_sym_static);
       END_STATE();
     case 142:
-      if (lookahead == 'i')
+      if (lookahead == 'u')
         ADVANCE(143);
       END_STATE();
     case 143:
-      if (lookahead == 't')
+      if (lookahead == 'c')
         ADVANCE(144);
       END_STATE();
     case 144:
-      if (lookahead == 'c')
+      if (lookahead == 't')
         ADVANCE(145);
       END_STATE();
     case 145:
-      if (lookahead == 'h')
-        ADVANCE(146);
+      ACCEPT_TOKEN(anon_sym_struct);
       END_STATE();
     case 146:
-      ACCEPT_TOKEN(anon_sym_switch);
+      if (lookahead == 'i')
+        ADVANCE(147);
       END_STATE();
     case 147:
-      if (lookahead == 'r')
+      if (lookahead == 't')
         ADVANCE(148);
-      if (lookahead == 'y')
-        ADVANCE(150);
       END_STATE();
     case 148:
-      if (lookahead == 'u')
+      if (lookahead == 'c')
         ADVANCE(149);
       END_STATE();
     case 149:
-      if (lookahead == 'e')
-        ADVANCE(13);
+      if (lookahead == 'h')
+        ADVANCE(150);
       END_STATE();
     case 150:
-      if (lookahead == 'p')
-        ADVANCE(151);
+      ACCEPT_TOKEN(anon_sym_switch);
       END_STATE();
     case 151:
-      if (lookahead == 'e')
+      if (lookahead == 'r')
         ADVANCE(152);
+      if (lookahead == 'y')
+        ADVANCE(154);
       END_STATE();
     case 152:
-      if (lookahead == 'd')
+      if (lookahead == 'u')
         ADVANCE(153);
       END_STATE();
     case 153:
       if (lookahead == 'e')
-        ADVANCE(154);
+        ADVANCE(13);
       END_STATE();
     case 154:
-      if (lookahead == 'f')
+      if (lookahead == 'p')
         ADVANCE(155);
       END_STATE();
     case 155:
-      ACCEPT_TOKEN(anon_sym_typedef);
+      if (lookahead == 'e')
+        ADVANCE(156);
       END_STATE();
     case 156:
-      if (lookahead == 'i')
+      if (lookahead == 'd')
         ADVANCE(157);
-      if (lookahead == 'n')
-        ADVANCE(160);
       END_STATE();
     case 157:
-      if (lookahead == 'n')
+      if (lookahead == 'e')
         ADVANCE(158);
       END_STATE();
     case 158:
-      if (lookahead == 't')
+      if (lookahead == 'f')
         ADVANCE(159);
       END_STATE();
     case 159:
+      ACCEPT_TOKEN(anon_sym_typedef);
+      END_STATE();
+    case 160:
+      if (lookahead == 'i')
+        ADVANCE(161);
+      if (lookahead == 'n')
+        ADVANCE(164);
+      END_STATE();
+    case 161:
+      if (lookahead == 'n')
+        ADVANCE(162);
+      END_STATE();
+    case 162:
+      if (lookahead == 't')
+        ADVANCE(163);
+      END_STATE();
+    case 163:
       if (lookahead == '1')
         ADVANCE(40);
       if (lookahead == '3')
@@ -4217,29 +4240,14 @@ static bool ts_lex_keywords(TSLexer *lexer, TSStateId state) {
       if (lookahead == 'p')
         ADVANCE(45);
       END_STATE();
-    case 160:
-      if (lookahead == 'i')
-        ADVANCE(161);
-      if (lookahead == 's')
-        ADVANCE(164);
-      END_STATE();
-    case 161:
-      if (lookahead == 'o')
-        ADVANCE(162);
-      END_STATE();
-    case 162:
-      if (lookahead == 'n')
-        ADVANCE(163);
-      END_STATE();
-    case 163:
-      ACCEPT_TOKEN(anon_sym_union);
-      END_STATE();
     case 164:
       if (lookahead == 'i')
         ADVANCE(165);
+      if (lookahead == 's')
+        ADVANCE(168);
       END_STATE();
     case 165:
-      if (lookahead == 'g')
+      if (lookahead == 'o')
         ADVANCE(166);
       END_STATE();
     case 166:
@@ -4247,70 +4255,85 @@ static bool ts_lex_keywords(TSLexer *lexer, TSStateId state) {
         ADVANCE(167);
       END_STATE();
     case 167:
-      if (lookahead == 'e')
-        ADVANCE(168);
+      ACCEPT_TOKEN(anon_sym_union);
       END_STATE();
     case 168:
-      if (lookahead == 'd')
+      if (lookahead == 'i')
         ADVANCE(169);
       END_STATE();
     case 169:
-      ACCEPT_TOKEN(anon_sym_unsigned);
+      if (lookahead == 'g')
+        ADVANCE(170);
       END_STATE();
     case 170:
-      if (lookahead == 'o')
+      if (lookahead == 'n')
         ADVANCE(171);
       END_STATE();
     case 171:
-      if (lookahead == 'i')
+      if (lookahead == 'e')
         ADVANCE(172);
-      if (lookahead == 'l')
-        ADVANCE(173);
       END_STATE();
     case 172:
       if (lookahead == 'd')
-        ADVANCE(28);
+        ADVANCE(173);
       END_STATE();
     case 173:
-      if (lookahead == 'a')
-        ADVANCE(174);
+      ACCEPT_TOKEN(anon_sym_unsigned);
       END_STATE();
     case 174:
-      if (lookahead == 't')
+      if (lookahead == 'o')
         ADVANCE(175);
       END_STATE();
     case 175:
       if (lookahead == 'i')
         ADVANCE(176);
-      END_STATE();
-    case 176:
       if (lookahead == 'l')
         ADVANCE(177);
       END_STATE();
+    case 176:
+      if (lookahead == 'd')
+        ADVANCE(28);
+      END_STATE();
     case 177:
-      if (lookahead == 'e')
+      if (lookahead == 'a')
         ADVANCE(178);
       END_STATE();
     case 178:
-      ACCEPT_TOKEN(anon_sym_volatile);
+      if (lookahead == 't')
+        ADVANCE(179);
       END_STATE();
     case 179:
-      if (lookahead == 'h')
+      if (lookahead == 'i')
         ADVANCE(180);
       END_STATE();
     case 180:
-      if (lookahead == 'i')
+      if (lookahead == 'l')
         ADVANCE(181);
       END_STATE();
     case 181:
-      if (lookahead == 'l')
+      if (lookahead == 'e')
         ADVANCE(182);
       END_STATE();
     case 182:
-      if (lookahead == 'e')
-        ADVANCE(183);
+      ACCEPT_TOKEN(anon_sym_volatile);
       END_STATE();
     case 183:
+      if (lookahead == 'h')
+        ADVANCE(184);
+      END_STATE();
+    case 184:
+      if (lookahead == 'i')
+        ADVANCE(185);
+      END_STATE();
+    case 185:
+      if (lookahead == 'l')
+        ADVANCE(186);
+      END_STATE();
+    case 186:
+      if (lookahead == 'e')
+        ADVANCE(187);
+      END_STATE();
+    case 187:
       ACCEPT_TOKEN(anon_sym_while);
       END_STATE();
     default:
@@ -5717,6 +5740,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(3),
     [anon_sym_volatile] = ACTIONS(3),
     [anon_sym__Atomic] = ACTIONS(3),
+    [anon_sym_signed] = ACTIONS(3),
     [anon_sym_unsigned] = ACTIONS(3),
     [anon_sym_long] = ACTIONS(3),
     [anon_sym_short] = ACTIONS(3),
@@ -5861,6 +5885,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(31),
     [anon_sym_volatile] = ACTIONS(31),
     [anon_sym__Atomic] = ACTIONS(31),
+    [anon_sym_signed] = ACTIONS(33),
     [anon_sym_unsigned] = ACTIONS(33),
     [anon_sym_long] = ACTIONS(33),
     [anon_sym_short] = ACTIONS(33),
@@ -5940,6 +5965,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(101),
     [anon_sym_volatile] = ACTIONS(101),
     [anon_sym__Atomic] = ACTIONS(101),
+    [anon_sym_signed] = ACTIONS(101),
     [anon_sym_unsigned] = ACTIONS(101),
     [anon_sym_long] = ACTIONS(101),
     [anon_sym_short] = ACTIONS(101),
@@ -5990,6 +6016,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(31),
     [anon_sym_volatile] = ACTIONS(31),
     [anon_sym__Atomic] = ACTIONS(31),
+    [anon_sym_signed] = ACTIONS(103),
     [anon_sym_unsigned] = ACTIONS(103),
     [anon_sym_long] = ACTIONS(103),
     [anon_sym_short] = ACTIONS(103),
@@ -6011,6 +6038,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(109),
     [anon_sym_volatile] = ACTIONS(109),
     [anon_sym__Atomic] = ACTIONS(109),
+    [anon_sym_signed] = ACTIONS(109),
     [anon_sym_unsigned] = ACTIONS(109),
     [anon_sym_long] = ACTIONS(109),
     [anon_sym_short] = ACTIONS(109),
@@ -6098,6 +6126,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(31),
     [anon_sym_volatile] = ACTIONS(31),
     [anon_sym__Atomic] = ACTIONS(31),
+    [anon_sym_signed] = ACTIONS(33),
     [anon_sym_unsigned] = ACTIONS(33),
     [anon_sym_long] = ACTIONS(33),
     [anon_sym_short] = ACTIONS(33),
@@ -6169,6 +6198,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(31),
     [anon_sym_volatile] = ACTIONS(31),
     [anon_sym__Atomic] = ACTIONS(31),
+    [anon_sym_signed] = ACTIONS(129),
     [anon_sym_unsigned] = ACTIONS(129),
     [anon_sym_long] = ACTIONS(129),
     [anon_sym_short] = ACTIONS(129),
@@ -6249,6 +6279,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(109),
     [anon_sym_volatile] = ACTIONS(109),
     [anon_sym__Atomic] = ACTIONS(109),
+    [anon_sym_signed] = ACTIONS(109),
     [anon_sym_unsigned] = ACTIONS(109),
     [anon_sym_long] = ACTIONS(109),
     [anon_sym_short] = ACTIONS(109),
@@ -6277,6 +6308,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(157),
     [anon_sym_volatile] = ACTIONS(157),
     [anon_sym__Atomic] = ACTIONS(157),
+    [anon_sym_signed] = ACTIONS(157),
     [anon_sym_unsigned] = ACTIONS(157),
     [anon_sym_long] = ACTIONS(157),
     [anon_sym_short] = ACTIONS(157),
@@ -6883,6 +6915,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(31),
     [anon_sym_volatile] = ACTIONS(31),
     [anon_sym__Atomic] = ACTIONS(31),
+    [anon_sym_signed] = ACTIONS(33),
     [anon_sym_unsigned] = ACTIONS(33),
     [anon_sym_long] = ACTIONS(33),
     [anon_sym_short] = ACTIONS(33),
@@ -6936,6 +6969,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(31),
     [anon_sym_volatile] = ACTIONS(31),
     [anon_sym__Atomic] = ACTIONS(31),
+    [anon_sym_signed] = ACTIONS(33),
     [anon_sym_unsigned] = ACTIONS(33),
     [anon_sym_long] = ACTIONS(33),
     [anon_sym_short] = ACTIONS(33),
@@ -6960,6 +6994,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(315),
     [anon_sym_volatile] = ACTIONS(315),
     [anon_sym__Atomic] = ACTIONS(315),
+    [anon_sym_signed] = ACTIONS(317),
     [anon_sym_unsigned] = ACTIONS(317),
     [anon_sym_long] = ACTIONS(317),
     [anon_sym_short] = ACTIONS(317),
@@ -6997,6 +7032,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(330),
     [anon_sym_volatile] = ACTIONS(330),
     [anon_sym__Atomic] = ACTIONS(330),
+    [anon_sym_signed] = ACTIONS(330),
     [anon_sym_unsigned] = ACTIONS(330),
     [anon_sym_long] = ACTIONS(330),
     [anon_sym_short] = ACTIONS(330),
@@ -7119,6 +7155,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(31),
     [anon_sym_volatile] = ACTIONS(31),
     [anon_sym__Atomic] = ACTIONS(31),
+    [anon_sym_signed] = ACTIONS(33),
     [anon_sym_unsigned] = ACTIONS(33),
     [anon_sym_long] = ACTIONS(33),
     [anon_sym_short] = ACTIONS(33),
@@ -7234,6 +7271,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(31),
     [anon_sym_volatile] = ACTIONS(31),
     [anon_sym__Atomic] = ACTIONS(31),
+    [anon_sym_signed] = ACTIONS(33),
     [anon_sym_unsigned] = ACTIONS(33),
     [anon_sym_long] = ACTIONS(33),
     [anon_sym_short] = ACTIONS(33),
@@ -7290,6 +7328,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(390),
     [anon_sym_volatile] = ACTIONS(390),
     [anon_sym__Atomic] = ACTIONS(390),
+    [anon_sym_signed] = ACTIONS(390),
     [anon_sym_unsigned] = ACTIONS(390),
     [anon_sym_long] = ACTIONS(390),
     [anon_sym_short] = ACTIONS(390),
@@ -7371,6 +7410,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(31),
     [anon_sym_volatile] = ACTIONS(31),
     [anon_sym__Atomic] = ACTIONS(31),
+    [anon_sym_signed] = ACTIONS(103),
     [anon_sym_unsigned] = ACTIONS(103),
     [anon_sym_long] = ACTIONS(103),
     [anon_sym_short] = ACTIONS(103),
@@ -7385,6 +7425,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [aux_sym_sized_type_specifier_repeat1] = STATE(196),
     [anon_sym_LPAREN2] = ACTIONS(313),
     [anon_sym_STAR] = ACTIONS(313),
+    [anon_sym_signed] = ACTIONS(407),
     [anon_sym_unsigned] = ACTIONS(407),
     [anon_sym_long] = ACTIONS(407),
     [anon_sym_short] = ACTIONS(407),
@@ -7417,6 +7458,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(31),
     [anon_sym_volatile] = ACTIONS(31),
     [anon_sym__Atomic] = ACTIONS(31),
+    [anon_sym_signed] = ACTIONS(411),
     [anon_sym_unsigned] = ACTIONS(411),
     [anon_sym_long] = ACTIONS(411),
     [anon_sym_short] = ACTIONS(411),
@@ -7458,6 +7500,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(421),
     [anon_sym_volatile] = ACTIONS(421),
     [anon_sym__Atomic] = ACTIONS(421),
+    [anon_sym_signed] = ACTIONS(421),
     [anon_sym_unsigned] = ACTIONS(421),
     [anon_sym_long] = ACTIONS(421),
     [anon_sym_short] = ACTIONS(421),
@@ -7648,6 +7691,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(31),
     [anon_sym_volatile] = ACTIONS(31),
     [anon_sym__Atomic] = ACTIONS(31),
+    [anon_sym_signed] = ACTIONS(33),
     [anon_sym_unsigned] = ACTIONS(33),
     [anon_sym_long] = ACTIONS(33),
     [anon_sym_short] = ACTIONS(33),
@@ -7719,6 +7763,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(31),
     [anon_sym_volatile] = ACTIONS(31),
     [anon_sym__Atomic] = ACTIONS(31),
+    [anon_sym_signed] = ACTIONS(129),
     [anon_sym_unsigned] = ACTIONS(129),
     [anon_sym_long] = ACTIONS(129),
     [anon_sym_short] = ACTIONS(129),
@@ -8104,6 +8149,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(31),
     [anon_sym_volatile] = ACTIONS(31),
     [anon_sym__Atomic] = ACTIONS(31),
+    [anon_sym_signed] = ACTIONS(129),
     [anon_sym_unsigned] = ACTIONS(129),
     [anon_sym_long] = ACTIONS(129),
     [anon_sym_short] = ACTIONS(129),
@@ -8120,6 +8166,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_LPAREN2] = ACTIONS(313),
     [anon_sym_STAR] = ACTIONS(313),
     [anon_sym_LBRACK] = ACTIONS(313),
+    [anon_sym_signed] = ACTIONS(483),
     [anon_sym_unsigned] = ACTIONS(483),
     [anon_sym_long] = ACTIONS(483),
     [anon_sym_short] = ACTIONS(483),
@@ -8252,6 +8299,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(31),
     [anon_sym_volatile] = ACTIONS(31),
     [anon_sym__Atomic] = ACTIONS(31),
+    [anon_sym_signed] = ACTIONS(511),
     [anon_sym_unsigned] = ACTIONS(511),
     [anon_sym_long] = ACTIONS(511),
     [anon_sym_short] = ACTIONS(511),
@@ -8730,6 +8778,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(31),
     [anon_sym_volatile] = ACTIONS(31),
     [anon_sym__Atomic] = ACTIONS(31),
+    [anon_sym_signed] = ACTIONS(411),
     [anon_sym_unsigned] = ACTIONS(411),
     [anon_sym_long] = ACTIONS(411),
     [anon_sym_short] = ACTIONS(411),
@@ -8777,6 +8826,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(563),
     [anon_sym_volatile] = ACTIONS(563),
     [anon_sym__Atomic] = ACTIONS(563),
+    [anon_sym_signed] = ACTIONS(563),
     [anon_sym_unsigned] = ACTIONS(563),
     [anon_sym_long] = ACTIONS(563),
     [anon_sym_short] = ACTIONS(563),
@@ -8851,6 +8901,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(31),
     [anon_sym_volatile] = ACTIONS(31),
     [anon_sym__Atomic] = ACTIONS(31),
+    [anon_sym_signed] = ACTIONS(129),
     [anon_sym_unsigned] = ACTIONS(129),
     [anon_sym_long] = ACTIONS(129),
     [anon_sym_short] = ACTIONS(129),
@@ -9182,6 +9233,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(603),
     [anon_sym_volatile] = ACTIONS(603),
     [anon_sym__Atomic] = ACTIONS(603),
+    [anon_sym_signed] = ACTIONS(603),
     [anon_sym_unsigned] = ACTIONS(603),
     [anon_sym_long] = ACTIONS(603),
     [anon_sym_short] = ACTIONS(603),
@@ -9241,6 +9293,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(607),
     [anon_sym_volatile] = ACTIONS(607),
     [anon_sym__Atomic] = ACTIONS(607),
+    [anon_sym_signed] = ACTIONS(607),
     [anon_sym_unsigned] = ACTIONS(607),
     [anon_sym_long] = ACTIONS(607),
     [anon_sym_short] = ACTIONS(607),
@@ -9457,6 +9510,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(31),
     [anon_sym_volatile] = ACTIONS(31),
     [anon_sym__Atomic] = ACTIONS(31),
+    [anon_sym_signed] = ACTIONS(129),
     [anon_sym_unsigned] = ACTIONS(129),
     [anon_sym_long] = ACTIONS(129),
     [anon_sym_short] = ACTIONS(129),
@@ -9547,6 +9601,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(631),
     [anon_sym_volatile] = ACTIONS(631),
     [anon_sym__Atomic] = ACTIONS(631),
+    [anon_sym_signed] = ACTIONS(631),
     [anon_sym_unsigned] = ACTIONS(631),
     [anon_sym_long] = ACTIONS(631),
     [anon_sym_short] = ACTIONS(631),
@@ -9613,6 +9668,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(31),
     [anon_sym_volatile] = ACTIONS(31),
     [anon_sym__Atomic] = ACTIONS(31),
+    [anon_sym_signed] = ACTIONS(129),
     [anon_sym_unsigned] = ACTIONS(129),
     [anon_sym_long] = ACTIONS(129),
     [anon_sym_short] = ACTIONS(129),
@@ -9710,6 +9766,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(639),
     [anon_sym_volatile] = ACTIONS(639),
     [anon_sym__Atomic] = ACTIONS(639),
+    [anon_sym_signed] = ACTIONS(639),
     [anon_sym_unsigned] = ACTIONS(639),
     [anon_sym_long] = ACTIONS(639),
     [anon_sym_short] = ACTIONS(639),
@@ -9870,6 +9927,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(667),
     [anon_sym_volatile] = ACTIONS(667),
     [anon_sym__Atomic] = ACTIONS(667),
+    [anon_sym_signed] = ACTIONS(667),
     [anon_sym_unsigned] = ACTIONS(667),
     [anon_sym_long] = ACTIONS(667),
     [anon_sym_short] = ACTIONS(667),
@@ -10683,6 +10741,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(803),
     [anon_sym_volatile] = ACTIONS(803),
     [anon_sym__Atomic] = ACTIONS(803),
+    [anon_sym_signed] = ACTIONS(806),
     [anon_sym_unsigned] = ACTIONS(806),
     [anon_sym_long] = ACTIONS(806),
     [anon_sym_short] = ACTIONS(806),
@@ -10748,6 +10807,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(881),
     [anon_sym_volatile] = ACTIONS(881),
     [anon_sym__Atomic] = ACTIONS(881),
+    [anon_sym_signed] = ACTIONS(884),
     [anon_sym_unsigned] = ACTIONS(884),
     [anon_sym_long] = ACTIONS(884),
     [anon_sym_short] = ACTIONS(884),
@@ -10812,6 +10872,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(896),
     [anon_sym_volatile] = ACTIONS(896),
     [anon_sym__Atomic] = ACTIONS(896),
+    [anon_sym_signed] = ACTIONS(898),
     [anon_sym_unsigned] = ACTIONS(898),
     [anon_sym_long] = ACTIONS(898),
     [anon_sym_short] = ACTIONS(898),
@@ -10842,6 +10903,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(631),
     [anon_sym_volatile] = ACTIONS(631),
     [anon_sym__Atomic] = ACTIONS(631),
+    [anon_sym_signed] = ACTIONS(631),
     [anon_sym_unsigned] = ACTIONS(631),
     [anon_sym_long] = ACTIONS(631),
     [anon_sym_short] = ACTIONS(631),
@@ -10905,6 +10967,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(905),
     [anon_sym_volatile] = ACTIONS(905),
     [anon_sym__Atomic] = ACTIONS(905),
+    [anon_sym_signed] = ACTIONS(905),
     [anon_sym_unsigned] = ACTIONS(905),
     [anon_sym_long] = ACTIONS(905),
     [anon_sym_short] = ACTIONS(905),
@@ -10990,6 +11053,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(927),
     [anon_sym_volatile] = ACTIONS(927),
     [anon_sym__Atomic] = ACTIONS(927),
+    [anon_sym_signed] = ACTIONS(927),
     [anon_sym_unsigned] = ACTIONS(927),
     [anon_sym_long] = ACTIONS(927),
     [anon_sym_short] = ACTIONS(927),
@@ -11105,6 +11169,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(31),
     [anon_sym_volatile] = ACTIONS(31),
     [anon_sym__Atomic] = ACTIONS(31),
+    [anon_sym_signed] = ACTIONS(33),
     [anon_sym_unsigned] = ACTIONS(33),
     [anon_sym_long] = ACTIONS(33),
     [anon_sym_short] = ACTIONS(33),
@@ -11171,6 +11236,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(101),
     [anon_sym_volatile] = ACTIONS(101),
     [anon_sym__Atomic] = ACTIONS(101),
+    [anon_sym_signed] = ACTIONS(101),
     [anon_sym_unsigned] = ACTIONS(101),
     [anon_sym_long] = ACTIONS(101),
     [anon_sym_short] = ACTIONS(101),
@@ -11219,6 +11285,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(31),
     [anon_sym_volatile] = ACTIONS(31),
     [anon_sym__Atomic] = ACTIONS(31),
+    [anon_sym_signed] = ACTIONS(103),
     [anon_sym_unsigned] = ACTIONS(103),
     [anon_sym_long] = ACTIONS(103),
     [anon_sym_short] = ACTIONS(103),
@@ -11240,6 +11307,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(109),
     [anon_sym_volatile] = ACTIONS(109),
     [anon_sym__Atomic] = ACTIONS(109),
+    [anon_sym_signed] = ACTIONS(109),
     [anon_sym_unsigned] = ACTIONS(109),
     [anon_sym_long] = ACTIONS(109),
     [anon_sym_short] = ACTIONS(109),
@@ -11327,6 +11395,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(31),
     [anon_sym_volatile] = ACTIONS(31),
     [anon_sym__Atomic] = ACTIONS(31),
+    [anon_sym_signed] = ACTIONS(33),
     [anon_sym_unsigned] = ACTIONS(33),
     [anon_sym_long] = ACTIONS(33),
     [anon_sym_short] = ACTIONS(33),
@@ -11692,6 +11761,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(31),
     [anon_sym_volatile] = ACTIONS(31),
     [anon_sym__Atomic] = ACTIONS(31),
+    [anon_sym_signed] = ACTIONS(33),
     [anon_sym_unsigned] = ACTIONS(33),
     [anon_sym_long] = ACTIONS(33),
     [anon_sym_short] = ACTIONS(33),
@@ -11748,6 +11818,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(1013),
     [anon_sym_volatile] = ACTIONS(1013),
     [anon_sym__Atomic] = ACTIONS(1013),
+    [anon_sym_signed] = ACTIONS(1013),
     [anon_sym_unsigned] = ACTIONS(1013),
     [anon_sym_long] = ACTIONS(1013),
     [anon_sym_short] = ACTIONS(1013),
@@ -11867,6 +11938,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(31),
     [anon_sym_volatile] = ACTIONS(31),
     [anon_sym__Atomic] = ACTIONS(31),
+    [anon_sym_signed] = ACTIONS(33),
     [anon_sym_unsigned] = ACTIONS(33),
     [anon_sym_long] = ACTIONS(33),
     [anon_sym_short] = ACTIONS(33),
@@ -11923,6 +11995,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(1021),
     [anon_sym_volatile] = ACTIONS(1021),
     [anon_sym__Atomic] = ACTIONS(1021),
+    [anon_sym_signed] = ACTIONS(1021),
     [anon_sym_unsigned] = ACTIONS(1021),
     [anon_sym_long] = ACTIONS(1021),
     [anon_sym_short] = ACTIONS(1021),
@@ -12013,6 +12086,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(1033),
     [anon_sym_volatile] = ACTIONS(1033),
     [anon_sym__Atomic] = ACTIONS(1033),
+    [anon_sym_signed] = ACTIONS(1036),
     [anon_sym_unsigned] = ACTIONS(1036),
     [anon_sym_long] = ACTIONS(1036),
     [anon_sym_short] = ACTIONS(1036),
@@ -12027,6 +12101,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [aux_sym_sized_type_specifier_repeat1] = STATE(196),
     [anon_sym_LPAREN2] = ACTIONS(894),
     [anon_sym_STAR] = ACTIONS(894),
+    [anon_sym_signed] = ACTIONS(1038),
     [anon_sym_unsigned] = ACTIONS(1038),
     [anon_sym_long] = ACTIONS(1038),
     [anon_sym_short] = ACTIONS(1038),
@@ -12112,6 +12187,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(31),
     [anon_sym_volatile] = ACTIONS(31),
     [anon_sym__Atomic] = ACTIONS(31),
+    [anon_sym_signed] = ACTIONS(33),
     [anon_sym_unsigned] = ACTIONS(33),
     [anon_sym_long] = ACTIONS(33),
     [anon_sym_short] = ACTIONS(33),
@@ -12168,6 +12244,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(1045),
     [anon_sym_volatile] = ACTIONS(1045),
     [anon_sym__Atomic] = ACTIONS(1045),
+    [anon_sym_signed] = ACTIONS(1045),
     [anon_sym_unsigned] = ACTIONS(1045),
     [anon_sym_long] = ACTIONS(1045),
     [anon_sym_short] = ACTIONS(1045),
@@ -12250,6 +12327,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(31),
     [anon_sym_volatile] = ACTIONS(31),
     [anon_sym__Atomic] = ACTIONS(31),
+    [anon_sym_signed] = ACTIONS(411),
     [anon_sym_unsigned] = ACTIONS(411),
     [anon_sym_long] = ACTIONS(411),
     [anon_sym_short] = ACTIONS(411),
@@ -12273,6 +12351,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(315),
     [anon_sym_volatile] = ACTIONS(315),
     [anon_sym__Atomic] = ACTIONS(315),
+    [anon_sym_signed] = ACTIONS(1049),
     [anon_sym_unsigned] = ACTIONS(1049),
     [anon_sym_long] = ACTIONS(1049),
     [anon_sym_short] = ACTIONS(1049),
@@ -12360,6 +12439,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(31),
     [anon_sym_volatile] = ACTIONS(31),
     [anon_sym__Atomic] = ACTIONS(31),
+    [anon_sym_signed] = ACTIONS(33),
     [anon_sym_unsigned] = ACTIONS(33),
     [anon_sym_long] = ACTIONS(33),
     [anon_sym_short] = ACTIONS(33),
@@ -12473,6 +12553,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(31),
     [anon_sym_volatile] = ACTIONS(31),
     [anon_sym__Atomic] = ACTIONS(31),
+    [anon_sym_signed] = ACTIONS(33),
     [anon_sym_unsigned] = ACTIONS(33),
     [anon_sym_long] = ACTIONS(33),
     [anon_sym_short] = ACTIONS(33),
@@ -12679,6 +12760,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(31),
     [anon_sym_volatile] = ACTIONS(31),
     [anon_sym__Atomic] = ACTIONS(31),
+    [anon_sym_signed] = ACTIONS(411),
     [anon_sym_unsigned] = ACTIONS(411),
     [anon_sym_long] = ACTIONS(411),
     [anon_sym_short] = ACTIONS(411),
@@ -12816,6 +12898,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(1081),
     [anon_sym_volatile] = ACTIONS(1081),
     [anon_sym__Atomic] = ACTIONS(1081),
+    [anon_sym_signed] = ACTIONS(1081),
     [anon_sym_unsigned] = ACTIONS(1081),
     [anon_sym_long] = ACTIONS(1081),
     [anon_sym_short] = ACTIONS(1081),
@@ -12928,6 +13011,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(1118),
     [anon_sym_volatile] = ACTIONS(1118),
     [anon_sym__Atomic] = ACTIONS(1118),
+    [anon_sym_signed] = ACTIONS(1121),
     [anon_sym_unsigned] = ACTIONS(1121),
     [anon_sym_long] = ACTIONS(1121),
     [anon_sym_short] = ACTIONS(1121),
@@ -13003,6 +13087,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(31),
     [anon_sym_volatile] = ACTIONS(31),
     [anon_sym__Atomic] = ACTIONS(31),
+    [anon_sym_signed] = ACTIONS(129),
     [anon_sym_unsigned] = ACTIONS(129),
     [anon_sym_long] = ACTIONS(129),
     [anon_sym_short] = ACTIONS(129),
@@ -13101,6 +13186,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(31),
     [anon_sym_volatile] = ACTIONS(31),
     [anon_sym__Atomic] = ACTIONS(31),
+    [anon_sym_signed] = ACTIONS(1199),
     [anon_sym_unsigned] = ACTIONS(1199),
     [anon_sym_long] = ACTIONS(1199),
     [anon_sym_short] = ACTIONS(1199),
@@ -13863,6 +13949,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_LPAREN2] = ACTIONS(894),
     [anon_sym_STAR] = ACTIONS(894),
     [anon_sym_LBRACK] = ACTIONS(894),
+    [anon_sym_signed] = ACTIONS(1279),
     [anon_sym_unsigned] = ACTIONS(1279),
     [anon_sym_long] = ACTIONS(1279),
     [anon_sym_short] = ACTIONS(1279),
@@ -14016,6 +14103,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(31),
     [anon_sym_volatile] = ACTIONS(31),
     [anon_sym__Atomic] = ACTIONS(31),
+    [anon_sym_signed] = ACTIONS(511),
     [anon_sym_unsigned] = ACTIONS(511),
     [anon_sym_long] = ACTIONS(511),
     [anon_sym_short] = ACTIONS(511),
@@ -14046,6 +14134,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(31),
     [anon_sym_volatile] = ACTIONS(31),
     [anon_sym__Atomic] = ACTIONS(31),
+    [anon_sym_signed] = ACTIONS(511),
     [anon_sym_unsigned] = ACTIONS(511),
     [anon_sym_long] = ACTIONS(511),
     [anon_sym_short] = ACTIONS(511),
@@ -14070,6 +14159,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(315),
     [anon_sym_volatile] = ACTIONS(315),
     [anon_sym__Atomic] = ACTIONS(315),
+    [anon_sym_signed] = ACTIONS(1320),
     [anon_sym_unsigned] = ACTIONS(1320),
     [anon_sym_long] = ACTIONS(1320),
     [anon_sym_short] = ACTIONS(1320),
@@ -14242,6 +14332,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(1338),
     [anon_sym_volatile] = ACTIONS(1338),
     [anon_sym__Atomic] = ACTIONS(1338),
+    [anon_sym_signed] = ACTIONS(1338),
     [anon_sym_unsigned] = ACTIONS(1338),
     [anon_sym_long] = ACTIONS(1338),
     [anon_sym_short] = ACTIONS(1338),
@@ -14368,6 +14459,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(1358),
     [anon_sym_volatile] = ACTIONS(1358),
     [anon_sym__Atomic] = ACTIONS(1358),
+    [anon_sym_signed] = ACTIONS(1358),
     [anon_sym_unsigned] = ACTIONS(1358),
     [anon_sym_long] = ACTIONS(1358),
     [anon_sym_short] = ACTIONS(1358),
@@ -14469,6 +14561,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(1362),
     [anon_sym_volatile] = ACTIONS(1362),
     [anon_sym__Atomic] = ACTIONS(1362),
+    [anon_sym_signed] = ACTIONS(1362),
     [anon_sym_unsigned] = ACTIONS(1362),
     [anon_sym_long] = ACTIONS(1362),
     [anon_sym_short] = ACTIONS(1362),
@@ -14682,6 +14775,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(31),
     [anon_sym_volatile] = ACTIONS(31),
     [anon_sym__Atomic] = ACTIONS(31),
+    [anon_sym_signed] = ACTIONS(411),
     [anon_sym_unsigned] = ACTIONS(411),
     [anon_sym_long] = ACTIONS(411),
     [anon_sym_short] = ACTIONS(411),
@@ -14960,6 +15054,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(31),
     [anon_sym_volatile] = ACTIONS(31),
     [anon_sym__Atomic] = ACTIONS(31),
+    [anon_sym_signed] = ACTIONS(129),
     [anon_sym_unsigned] = ACTIONS(129),
     [anon_sym_long] = ACTIONS(129),
     [anon_sym_short] = ACTIONS(129),
@@ -15048,6 +15143,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(1392),
     [anon_sym_volatile] = ACTIONS(1392),
     [anon_sym__Atomic] = ACTIONS(1392),
+    [anon_sym_signed] = ACTIONS(1392),
     [anon_sym_unsigned] = ACTIONS(1392),
     [anon_sym_long] = ACTIONS(1392),
     [anon_sym_short] = ACTIONS(1392),
@@ -15630,6 +15726,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(1440),
     [anon_sym_volatile] = ACTIONS(1440),
     [anon_sym__Atomic] = ACTIONS(1440),
+    [anon_sym_signed] = ACTIONS(1440),
     [anon_sym_unsigned] = ACTIONS(1440),
     [anon_sym_long] = ACTIONS(1440),
     [anon_sym_short] = ACTIONS(1440),
@@ -15735,6 +15832,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(1450),
     [anon_sym_volatile] = ACTIONS(1450),
     [anon_sym__Atomic] = ACTIONS(1450),
+    [anon_sym_signed] = ACTIONS(1450),
     [anon_sym_unsigned] = ACTIONS(1450),
     [anon_sym_long] = ACTIONS(1450),
     [anon_sym_short] = ACTIONS(1450),
@@ -15813,6 +15911,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(1461),
     [anon_sym_volatile] = ACTIONS(1461),
     [anon_sym__Atomic] = ACTIONS(1461),
+    [anon_sym_signed] = ACTIONS(1461),
     [anon_sym_unsigned] = ACTIONS(1461),
     [anon_sym_long] = ACTIONS(1461),
     [anon_sym_short] = ACTIONS(1461),
@@ -15933,6 +16032,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(1473),
     [anon_sym_volatile] = ACTIONS(1473),
     [anon_sym__Atomic] = ACTIONS(1473),
+    [anon_sym_signed] = ACTIONS(1473),
     [anon_sym_unsigned] = ACTIONS(1473),
     [anon_sym_long] = ACTIONS(1473),
     [anon_sym_short] = ACTIONS(1473),
@@ -15992,6 +16092,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(31),
     [anon_sym_volatile] = ACTIONS(31),
     [anon_sym__Atomic] = ACTIONS(31),
+    [anon_sym_signed] = ACTIONS(1199),
     [anon_sym_unsigned] = ACTIONS(1199),
     [anon_sym_long] = ACTIONS(1199),
     [anon_sym_short] = ACTIONS(1199),
@@ -16114,6 +16215,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(1489),
     [anon_sym_volatile] = ACTIONS(1489),
     [anon_sym__Atomic] = ACTIONS(1489),
+    [anon_sym_signed] = ACTIONS(1489),
     [anon_sym_unsigned] = ACTIONS(1489),
     [anon_sym_long] = ACTIONS(1489),
     [anon_sym_short] = ACTIONS(1489),
@@ -16401,6 +16503,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(31),
     [anon_sym_volatile] = ACTIONS(31),
     [anon_sym__Atomic] = ACTIONS(31),
+    [anon_sym_signed] = ACTIONS(129),
     [anon_sym_unsigned] = ACTIONS(129),
     [anon_sym_long] = ACTIONS(129),
     [anon_sym_short] = ACTIONS(129),
@@ -16789,6 +16892,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(31),
     [anon_sym_volatile] = ACTIONS(31),
     [anon_sym__Atomic] = ACTIONS(31),
+    [anon_sym_signed] = ACTIONS(129),
     [anon_sym_unsigned] = ACTIONS(129),
     [anon_sym_long] = ACTIONS(129),
     [anon_sym_short] = ACTIONS(129),
@@ -17606,6 +17710,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(1450),
     [anon_sym_volatile] = ACTIONS(1450),
     [anon_sym__Atomic] = ACTIONS(1450),
+    [anon_sym_signed] = ACTIONS(1450),
     [anon_sym_unsigned] = ACTIONS(1450),
     [anon_sym_long] = ACTIONS(1450),
     [anon_sym_short] = ACTIONS(1450),
@@ -17673,6 +17778,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(1628),
     [anon_sym_volatile] = ACTIONS(1628),
     [anon_sym__Atomic] = ACTIONS(1628),
+    [anon_sym_signed] = ACTIONS(1628),
     [anon_sym_unsigned] = ACTIONS(1628),
     [anon_sym_long] = ACTIONS(1628),
     [anon_sym_short] = ACTIONS(1628),
@@ -17729,6 +17835,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(1632),
     [anon_sym_volatile] = ACTIONS(1632),
     [anon_sym__Atomic] = ACTIONS(1632),
+    [anon_sym_signed] = ACTIONS(1632),
     [anon_sym_unsigned] = ACTIONS(1632),
     [anon_sym_long] = ACTIONS(1632),
     [anon_sym_short] = ACTIONS(1632),
@@ -17797,6 +17904,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(330),
     [anon_sym_volatile] = ACTIONS(330),
     [anon_sym__Atomic] = ACTIONS(330),
+    [anon_sym_signed] = ACTIONS(330),
     [anon_sym_unsigned] = ACTIONS(330),
     [anon_sym_long] = ACTIONS(330),
     [anon_sym_short] = ACTIONS(330),
@@ -17919,6 +18027,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(31),
     [anon_sym_volatile] = ACTIONS(31),
     [anon_sym__Atomic] = ACTIONS(31),
+    [anon_sym_signed] = ACTIONS(33),
     [anon_sym_unsigned] = ACTIONS(33),
     [anon_sym_long] = ACTIONS(33),
     [anon_sym_short] = ACTIONS(33),
@@ -18034,6 +18143,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(31),
     [anon_sym_volatile] = ACTIONS(31),
     [anon_sym__Atomic] = ACTIONS(31),
+    [anon_sym_signed] = ACTIONS(33),
     [anon_sym_unsigned] = ACTIONS(33),
     [anon_sym_long] = ACTIONS(33),
     [anon_sym_short] = ACTIONS(33),
@@ -18112,6 +18222,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(101),
     [anon_sym_volatile] = ACTIONS(101),
     [anon_sym__Atomic] = ACTIONS(101),
+    [anon_sym_signed] = ACTIONS(101),
     [anon_sym_unsigned] = ACTIONS(101),
     [anon_sym_long] = ACTIONS(101),
     [anon_sym_short] = ACTIONS(101),
@@ -18160,6 +18271,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(31),
     [anon_sym_volatile] = ACTIONS(31),
     [anon_sym__Atomic] = ACTIONS(31),
+    [anon_sym_signed] = ACTIONS(103),
     [anon_sym_unsigned] = ACTIONS(103),
     [anon_sym_long] = ACTIONS(103),
     [anon_sym_short] = ACTIONS(103),
@@ -18181,6 +18293,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(109),
     [anon_sym_volatile] = ACTIONS(109),
     [anon_sym__Atomic] = ACTIONS(109),
+    [anon_sym_signed] = ACTIONS(109),
     [anon_sym_unsigned] = ACTIONS(109),
     [anon_sym_long] = ACTIONS(109),
     [anon_sym_short] = ACTIONS(109),
@@ -18268,6 +18381,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(31),
     [anon_sym_volatile] = ACTIONS(31),
     [anon_sym__Atomic] = ACTIONS(31),
+    [anon_sym_signed] = ACTIONS(33),
     [anon_sym_unsigned] = ACTIONS(33),
     [anon_sym_long] = ACTIONS(33),
     [anon_sym_short] = ACTIONS(33),
@@ -18625,6 +18739,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(31),
     [anon_sym_volatile] = ACTIONS(31),
     [anon_sym__Atomic] = ACTIONS(31),
+    [anon_sym_signed] = ACTIONS(33),
     [anon_sym_unsigned] = ACTIONS(33),
     [anon_sym_long] = ACTIONS(33),
     [anon_sym_short] = ACTIONS(33),
@@ -18740,6 +18855,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(31),
     [anon_sym_volatile] = ACTIONS(31),
     [anon_sym__Atomic] = ACTIONS(31),
+    [anon_sym_signed] = ACTIONS(33),
     [anon_sym_unsigned] = ACTIONS(33),
     [anon_sym_long] = ACTIONS(33),
     [anon_sym_short] = ACTIONS(33),
@@ -18797,6 +18913,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(390),
     [anon_sym_volatile] = ACTIONS(390),
     [anon_sym__Atomic] = ACTIONS(390),
+    [anon_sym_signed] = ACTIONS(390),
     [anon_sym_unsigned] = ACTIONS(390),
     [anon_sym_long] = ACTIONS(390),
     [anon_sym_short] = ACTIONS(390),
@@ -18858,6 +18975,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(31),
     [anon_sym_volatile] = ACTIONS(31),
     [anon_sym__Atomic] = ACTIONS(31),
+    [anon_sym_signed] = ACTIONS(103),
     [anon_sym_unsigned] = ACTIONS(103),
     [anon_sym_long] = ACTIONS(103),
     [anon_sym_short] = ACTIONS(103),
@@ -18893,6 +19011,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(31),
     [anon_sym_volatile] = ACTIONS(31),
     [anon_sym__Atomic] = ACTIONS(31),
+    [anon_sym_signed] = ACTIONS(411),
     [anon_sym_unsigned] = ACTIONS(411),
     [anon_sym_long] = ACTIONS(411),
     [anon_sym_short] = ACTIONS(411),
@@ -18927,6 +19046,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(421),
     [anon_sym_volatile] = ACTIONS(421),
     [anon_sym__Atomic] = ACTIONS(421),
+    [anon_sym_signed] = ACTIONS(421),
     [anon_sym_unsigned] = ACTIONS(421),
     [anon_sym_long] = ACTIONS(421),
     [anon_sym_short] = ACTIONS(421),
@@ -19037,6 +19157,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(31),
     [anon_sym_volatile] = ACTIONS(31),
     [anon_sym__Atomic] = ACTIONS(31),
+    [anon_sym_signed] = ACTIONS(33),
     [anon_sym_unsigned] = ACTIONS(33),
     [anon_sym_long] = ACTIONS(33),
     [anon_sym_short] = ACTIONS(33),
@@ -19252,6 +19373,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(31),
     [anon_sym_volatile] = ACTIONS(31),
     [anon_sym__Atomic] = ACTIONS(31),
+    [anon_sym_signed] = ACTIONS(411),
     [anon_sym_unsigned] = ACTIONS(411),
     [anon_sym_long] = ACTIONS(411),
     [anon_sym_short] = ACTIONS(411),
@@ -19300,6 +19422,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(563),
     [anon_sym_volatile] = ACTIONS(563),
     [anon_sym__Atomic] = ACTIONS(563),
+    [anon_sym_signed] = ACTIONS(563),
     [anon_sym_unsigned] = ACTIONS(563),
     [anon_sym_long] = ACTIONS(563),
     [anon_sym_short] = ACTIONS(563),
@@ -19399,6 +19522,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(603),
     [anon_sym_volatile] = ACTIONS(603),
     [anon_sym__Atomic] = ACTIONS(603),
+    [anon_sym_signed] = ACTIONS(603),
     [anon_sym_unsigned] = ACTIONS(603),
     [anon_sym_long] = ACTIONS(603),
     [anon_sym_short] = ACTIONS(603),
@@ -19457,6 +19581,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(607),
     [anon_sym_volatile] = ACTIONS(607),
     [anon_sym__Atomic] = ACTIONS(607),
+    [anon_sym_signed] = ACTIONS(607),
     [anon_sym_unsigned] = ACTIONS(607),
     [anon_sym_long] = ACTIONS(607),
     [anon_sym_short] = ACTIONS(607),
@@ -19582,6 +19707,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(1726),
     [anon_sym_volatile] = ACTIONS(1726),
     [anon_sym__Atomic] = ACTIONS(1726),
+    [anon_sym_signed] = ACTIONS(1726),
     [anon_sym_unsigned] = ACTIONS(1726),
     [anon_sym_long] = ACTIONS(1726),
     [anon_sym_short] = ACTIONS(1726),
@@ -19639,6 +19765,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(639),
     [anon_sym_volatile] = ACTIONS(639),
     [anon_sym__Atomic] = ACTIONS(639),
+    [anon_sym_signed] = ACTIONS(639),
     [anon_sym_unsigned] = ACTIONS(639),
     [anon_sym_long] = ACTIONS(639),
     [anon_sym_short] = ACTIONS(639),
@@ -19714,6 +19841,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(667),
     [anon_sym_volatile] = ACTIONS(667),
     [anon_sym__Atomic] = ACTIONS(667),
+    [anon_sym_signed] = ACTIONS(667),
     [anon_sym_unsigned] = ACTIONS(667),
     [anon_sym_long] = ACTIONS(667),
     [anon_sym_short] = ACTIONS(667),
@@ -19832,6 +19960,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(803),
     [anon_sym_volatile] = ACTIONS(803),
     [anon_sym__Atomic] = ACTIONS(803),
+    [anon_sym_signed] = ACTIONS(806),
     [anon_sym_unsigned] = ACTIONS(806),
     [anon_sym_long] = ACTIONS(806),
     [anon_sym_short] = ACTIONS(806),
@@ -19888,6 +20017,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(1799),
     [anon_sym_volatile] = ACTIONS(1799),
     [anon_sym__Atomic] = ACTIONS(1799),
+    [anon_sym_signed] = ACTIONS(1799),
     [anon_sym_unsigned] = ACTIONS(1799),
     [anon_sym_long] = ACTIONS(1799),
     [anon_sym_short] = ACTIONS(1799),
@@ -19995,6 +20125,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(1809),
     [anon_sym_volatile] = ACTIONS(1809),
     [anon_sym__Atomic] = ACTIONS(1809),
+    [anon_sym_signed] = ACTIONS(1809),
     [anon_sym_unsigned] = ACTIONS(1809),
     [anon_sym_long] = ACTIONS(1809),
     [anon_sym_short] = ACTIONS(1809),
@@ -20114,6 +20245,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(1825),
     [anon_sym_volatile] = ACTIONS(1825),
     [anon_sym__Atomic] = ACTIONS(1825),
+    [anon_sym_signed] = ACTIONS(1825),
     [anon_sym_unsigned] = ACTIONS(1825),
     [anon_sym_long] = ACTIONS(1825),
     [anon_sym_short] = ACTIONS(1825),
@@ -20225,6 +20357,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(31),
     [anon_sym_volatile] = ACTIONS(31),
     [anon_sym__Atomic] = ACTIONS(31),
+    [anon_sym_signed] = ACTIONS(33),
     [anon_sym_unsigned] = ACTIONS(33),
     [anon_sym_long] = ACTIONS(33),
     [anon_sym_short] = ACTIONS(33),
@@ -20307,6 +20440,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(896),
     [anon_sym_volatile] = ACTIONS(896),
     [anon_sym__Atomic] = ACTIONS(896),
+    [anon_sym_signed] = ACTIONS(1829),
     [anon_sym_unsigned] = ACTIONS(1829),
     [anon_sym_long] = ACTIONS(1829),
     [anon_sym_short] = ACTIONS(1829),
@@ -20340,6 +20474,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(1834),
     [anon_sym_volatile] = ACTIONS(1834),
     [anon_sym__Atomic] = ACTIONS(1834),
+    [anon_sym_signed] = ACTIONS(1834),
     [anon_sym_unsigned] = ACTIONS(1834),
     [anon_sym_long] = ACTIONS(1834),
     [anon_sym_short] = ACTIONS(1834),
@@ -20453,6 +20588,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(31),
     [anon_sym_volatile] = ACTIONS(31),
     [anon_sym__Atomic] = ACTIONS(31),
+    [anon_sym_signed] = ACTIONS(33),
     [anon_sym_unsigned] = ACTIONS(33),
     [anon_sym_long] = ACTIONS(33),
     [anon_sym_short] = ACTIONS(33),
@@ -20586,6 +20722,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(31),
     [anon_sym_volatile] = ACTIONS(31),
     [anon_sym__Atomic] = ACTIONS(31),
+    [anon_sym_signed] = ACTIONS(33),
     [anon_sym_unsigned] = ACTIONS(33),
     [anon_sym_long] = ACTIONS(33),
     [anon_sym_short] = ACTIONS(33),
@@ -20641,6 +20778,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(1854),
     [anon_sym_volatile] = ACTIONS(1854),
     [anon_sym__Atomic] = ACTIONS(1854),
+    [anon_sym_signed] = ACTIONS(1854),
     [anon_sym_unsigned] = ACTIONS(1854),
     [anon_sym_long] = ACTIONS(1854),
     [anon_sym_short] = ACTIONS(1854),
@@ -20758,6 +20896,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(31),
     [anon_sym_volatile] = ACTIONS(31),
     [anon_sym__Atomic] = ACTIONS(31),
+    [anon_sym_signed] = ACTIONS(33),
     [anon_sym_unsigned] = ACTIONS(33),
     [anon_sym_long] = ACTIONS(33),
     [anon_sym_short] = ACTIONS(33),
@@ -20869,6 +21008,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(1338),
     [anon_sym_volatile] = ACTIONS(1338),
     [anon_sym__Atomic] = ACTIONS(1338),
+    [anon_sym_signed] = ACTIONS(1338),
     [anon_sym_unsigned] = ACTIONS(1338),
     [anon_sym_long] = ACTIONS(1338),
     [anon_sym_short] = ACTIONS(1338),
@@ -21172,6 +21312,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(31),
     [anon_sym_volatile] = ACTIONS(31),
     [anon_sym__Atomic] = ACTIONS(31),
+    [anon_sym_signed] = ACTIONS(1199),
     [anon_sym_unsigned] = ACTIONS(1199),
     [anon_sym_long] = ACTIONS(1199),
     [anon_sym_short] = ACTIONS(1199),
@@ -21198,6 +21339,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(315),
     [anon_sym_volatile] = ACTIONS(315),
     [anon_sym__Atomic] = ACTIONS(315),
+    [anon_sym_signed] = ACTIONS(1896),
     [anon_sym_unsigned] = ACTIONS(1896),
     [anon_sym_long] = ACTIONS(1896),
     [anon_sym_short] = ACTIONS(1896),
@@ -22222,6 +22364,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(31),
     [anon_sym_volatile] = ACTIONS(31),
     [anon_sym__Atomic] = ACTIONS(31),
+    [anon_sym_signed] = ACTIONS(511),
     [anon_sym_unsigned] = ACTIONS(511),
     [anon_sym_long] = ACTIONS(511),
     [anon_sym_short] = ACTIONS(511),
@@ -22266,6 +22409,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(31),
     [anon_sym_volatile] = ACTIONS(31),
     [anon_sym__Atomic] = ACTIONS(31),
+    [anon_sym_signed] = ACTIONS(511),
     [anon_sym_unsigned] = ACTIONS(511),
     [anon_sym_long] = ACTIONS(511),
     [anon_sym_short] = ACTIONS(511),
@@ -22293,6 +22437,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(1970),
     [anon_sym_volatile] = ACTIONS(1970),
     [anon_sym__Atomic] = ACTIONS(1970),
+    [anon_sym_signed] = ACTIONS(1970),
     [anon_sym_unsigned] = ACTIONS(1970),
     [anon_sym_long] = ACTIONS(1970),
     [anon_sym_short] = ACTIONS(1970),
@@ -22458,6 +22603,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(2007),
     [anon_sym_volatile] = ACTIONS(2007),
     [anon_sym__Atomic] = ACTIONS(2007),
+    [anon_sym_signed] = ACTIONS(2010),
     [anon_sym_unsigned] = ACTIONS(2010),
     [anon_sym_long] = ACTIONS(2010),
     [anon_sym_short] = ACTIONS(2010),
@@ -22502,6 +22648,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(896),
     [anon_sym_volatile] = ACTIONS(896),
     [anon_sym__Atomic] = ACTIONS(896),
+    [anon_sym_signed] = ACTIONS(2028),
     [anon_sym_unsigned] = ACTIONS(2028),
     [anon_sym_long] = ACTIONS(2028),
     [anon_sym_short] = ACTIONS(2028),
@@ -22533,6 +22680,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(1227),
     [anon_sym_volatile] = ACTIONS(1227),
     [anon_sym__Atomic] = ACTIONS(1227),
+    [anon_sym_signed] = ACTIONS(1227),
     [anon_sym_unsigned] = ACTIONS(1227),
     [anon_sym_long] = ACTIONS(1227),
     [anon_sym_short] = ACTIONS(1227),
@@ -22742,6 +22890,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(31),
     [anon_sym_volatile] = ACTIONS(31),
     [anon_sym__Atomic] = ACTIONS(31),
+    [anon_sym_signed] = ACTIONS(411),
     [anon_sym_unsigned] = ACTIONS(411),
     [anon_sym_long] = ACTIONS(411),
     [anon_sym_short] = ACTIONS(411),
@@ -22917,6 +23066,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(2039),
     [anon_sym_volatile] = ACTIONS(2039),
     [anon_sym__Atomic] = ACTIONS(2039),
+    [anon_sym_signed] = ACTIONS(2039),
     [anon_sym_unsigned] = ACTIONS(2039),
     [anon_sym_long] = ACTIONS(2039),
     [anon_sym_short] = ACTIONS(2039),
@@ -23293,6 +23443,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(2069),
     [anon_sym_volatile] = ACTIONS(2069),
     [anon_sym__Atomic] = ACTIONS(2069),
+    [anon_sym_signed] = ACTIONS(2069),
     [anon_sym_unsigned] = ACTIONS(2069),
     [anon_sym_long] = ACTIONS(2069),
     [anon_sym_short] = ACTIONS(2069),
@@ -24357,6 +24508,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(2121),
     [anon_sym_volatile] = ACTIONS(2121),
     [anon_sym__Atomic] = ACTIONS(2121),
+    [anon_sym_signed] = ACTIONS(2121),
     [anon_sym_unsigned] = ACTIONS(2121),
     [anon_sym_long] = ACTIONS(2121),
     [anon_sym_short] = ACTIONS(2121),
@@ -24531,6 +24683,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(31),
     [anon_sym_volatile] = ACTIONS(31),
     [anon_sym__Atomic] = ACTIONS(31),
+    [anon_sym_signed] = ACTIONS(129),
     [anon_sym_unsigned] = ACTIONS(129),
     [anon_sym_long] = ACTIONS(129),
     [anon_sym_short] = ACTIONS(129),
@@ -25206,6 +25359,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(31),
     [anon_sym_volatile] = ACTIONS(31),
     [anon_sym__Atomic] = ACTIONS(31),
+    [anon_sym_signed] = ACTIONS(129),
     [anon_sym_unsigned] = ACTIONS(129),
     [anon_sym_long] = ACTIONS(129),
     [anon_sym_short] = ACTIONS(129),
@@ -25873,6 +26027,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(2244),
     [anon_sym_volatile] = ACTIONS(2244),
     [anon_sym__Atomic] = ACTIONS(2244),
+    [anon_sym_signed] = ACTIONS(2244),
     [anon_sym_unsigned] = ACTIONS(2244),
     [anon_sym_long] = ACTIONS(2244),
     [anon_sym_short] = ACTIONS(2244),
@@ -25930,6 +26085,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(631),
     [anon_sym_volatile] = ACTIONS(631),
     [anon_sym__Atomic] = ACTIONS(631),
+    [anon_sym_signed] = ACTIONS(631),
     [anon_sym_unsigned] = ACTIONS(631),
     [anon_sym_long] = ACTIONS(631),
     [anon_sym_short] = ACTIONS(631),
@@ -25994,6 +26150,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(905),
     [anon_sym_volatile] = ACTIONS(905),
     [anon_sym__Atomic] = ACTIONS(905),
+    [anon_sym_signed] = ACTIONS(905),
     [anon_sym_unsigned] = ACTIONS(905),
     [anon_sym_long] = ACTIONS(905),
     [anon_sym_short] = ACTIONS(905),
@@ -26060,6 +26217,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(927),
     [anon_sym_volatile] = ACTIONS(927),
     [anon_sym__Atomic] = ACTIONS(927),
+    [anon_sym_signed] = ACTIONS(927),
     [anon_sym_unsigned] = ACTIONS(927),
     [anon_sym_long] = ACTIONS(927),
     [anon_sym_short] = ACTIONS(927),
@@ -26179,6 +26337,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(31),
     [anon_sym_volatile] = ACTIONS(31),
     [anon_sym__Atomic] = ACTIONS(31),
+    [anon_sym_signed] = ACTIONS(33),
     [anon_sym_unsigned] = ACTIONS(33),
     [anon_sym_long] = ACTIONS(33),
     [anon_sym_short] = ACTIONS(33),
@@ -26236,6 +26395,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(1013),
     [anon_sym_volatile] = ACTIONS(1013),
     [anon_sym__Atomic] = ACTIONS(1013),
+    [anon_sym_signed] = ACTIONS(1013),
     [anon_sym_unsigned] = ACTIONS(1013),
     [anon_sym_long] = ACTIONS(1013),
     [anon_sym_short] = ACTIONS(1013),
@@ -26355,6 +26515,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(31),
     [anon_sym_volatile] = ACTIONS(31),
     [anon_sym__Atomic] = ACTIONS(31),
+    [anon_sym_signed] = ACTIONS(33),
     [anon_sym_unsigned] = ACTIONS(33),
     [anon_sym_long] = ACTIONS(33),
     [anon_sym_short] = ACTIONS(33),
@@ -26417,6 +26578,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(330),
     [anon_sym_volatile] = ACTIONS(330),
     [anon_sym__Atomic] = ACTIONS(330),
+    [anon_sym_signed] = ACTIONS(330),
     [anon_sym_unsigned] = ACTIONS(330),
     [anon_sym_long] = ACTIONS(330),
     [anon_sym_short] = ACTIONS(330),
@@ -26539,6 +26701,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(31),
     [anon_sym_volatile] = ACTIONS(31),
     [anon_sym__Atomic] = ACTIONS(31),
+    [anon_sym_signed] = ACTIONS(33),
     [anon_sym_unsigned] = ACTIONS(33),
     [anon_sym_long] = ACTIONS(33),
     [anon_sym_short] = ACTIONS(33),
@@ -26654,6 +26817,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(31),
     [anon_sym_volatile] = ACTIONS(31),
     [anon_sym__Atomic] = ACTIONS(31),
+    [anon_sym_signed] = ACTIONS(33),
     [anon_sym_unsigned] = ACTIONS(33),
     [anon_sym_long] = ACTIONS(33),
     [anon_sym_short] = ACTIONS(33),
@@ -26709,6 +26873,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(390),
     [anon_sym_volatile] = ACTIONS(390),
     [anon_sym__Atomic] = ACTIONS(390),
+    [anon_sym_signed] = ACTIONS(390),
     [anon_sym_unsigned] = ACTIONS(390),
     [anon_sym_long] = ACTIONS(390),
     [anon_sym_short] = ACTIONS(390),
@@ -26770,6 +26935,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(31),
     [anon_sym_volatile] = ACTIONS(31),
     [anon_sym__Atomic] = ACTIONS(31),
+    [anon_sym_signed] = ACTIONS(103),
     [anon_sym_unsigned] = ACTIONS(103),
     [anon_sym_long] = ACTIONS(103),
     [anon_sym_short] = ACTIONS(103),
@@ -26805,6 +26971,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(31),
     [anon_sym_volatile] = ACTIONS(31),
     [anon_sym__Atomic] = ACTIONS(31),
+    [anon_sym_signed] = ACTIONS(411),
     [anon_sym_unsigned] = ACTIONS(411),
     [anon_sym_long] = ACTIONS(411),
     [anon_sym_short] = ACTIONS(411),
@@ -26837,6 +27004,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(421),
     [anon_sym_volatile] = ACTIONS(421),
     [anon_sym__Atomic] = ACTIONS(421),
+    [anon_sym_signed] = ACTIONS(421),
     [anon_sym_unsigned] = ACTIONS(421),
     [anon_sym_long] = ACTIONS(421),
     [anon_sym_short] = ACTIONS(421),
@@ -26947,6 +27115,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(31),
     [anon_sym_volatile] = ACTIONS(31),
     [anon_sym__Atomic] = ACTIONS(31),
+    [anon_sym_signed] = ACTIONS(33),
     [anon_sym_unsigned] = ACTIONS(33),
     [anon_sym_long] = ACTIONS(33),
     [anon_sym_short] = ACTIONS(33),
@@ -27162,6 +27331,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(31),
     [anon_sym_volatile] = ACTIONS(31),
     [anon_sym__Atomic] = ACTIONS(31),
+    [anon_sym_signed] = ACTIONS(411),
     [anon_sym_unsigned] = ACTIONS(411),
     [anon_sym_long] = ACTIONS(411),
     [anon_sym_short] = ACTIONS(411),
@@ -27208,6 +27378,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(563),
     [anon_sym_volatile] = ACTIONS(563),
     [anon_sym__Atomic] = ACTIONS(563),
+    [anon_sym_signed] = ACTIONS(563),
     [anon_sym_unsigned] = ACTIONS(563),
     [anon_sym_long] = ACTIONS(563),
     [anon_sym_short] = ACTIONS(563),
@@ -27305,6 +27476,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(603),
     [anon_sym_volatile] = ACTIONS(603),
     [anon_sym__Atomic] = ACTIONS(603),
+    [anon_sym_signed] = ACTIONS(603),
     [anon_sym_unsigned] = ACTIONS(603),
     [anon_sym_long] = ACTIONS(603),
     [anon_sym_short] = ACTIONS(603),
@@ -27361,6 +27533,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(607),
     [anon_sym_volatile] = ACTIONS(607),
     [anon_sym__Atomic] = ACTIONS(607),
+    [anon_sym_signed] = ACTIONS(607),
     [anon_sym_unsigned] = ACTIONS(607),
     [anon_sym_long] = ACTIONS(607),
     [anon_sym_short] = ACTIONS(607),
@@ -27485,6 +27658,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(639),
     [anon_sym_volatile] = ACTIONS(639),
     [anon_sym__Atomic] = ACTIONS(639),
+    [anon_sym_signed] = ACTIONS(639),
     [anon_sym_unsigned] = ACTIONS(639),
     [anon_sym_long] = ACTIONS(639),
     [anon_sym_short] = ACTIONS(639),
@@ -27558,6 +27732,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(667),
     [anon_sym_volatile] = ACTIONS(667),
     [anon_sym__Atomic] = ACTIONS(667),
+    [anon_sym_signed] = ACTIONS(667),
     [anon_sym_unsigned] = ACTIONS(667),
     [anon_sym_long] = ACTIONS(667),
     [anon_sym_short] = ACTIONS(667),
@@ -27670,6 +27845,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(803),
     [anon_sym_volatile] = ACTIONS(803),
     [anon_sym__Atomic] = ACTIONS(803),
+    [anon_sym_signed] = ACTIONS(806),
     [anon_sym_unsigned] = ACTIONS(806),
     [anon_sym_long] = ACTIONS(806),
     [anon_sym_short] = ACTIONS(806),
@@ -27789,6 +27965,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(31),
     [anon_sym_volatile] = ACTIONS(31),
     [anon_sym__Atomic] = ACTIONS(31),
+    [anon_sym_signed] = ACTIONS(33),
     [anon_sym_unsigned] = ACTIONS(33),
     [anon_sym_long] = ACTIONS(33),
     [anon_sym_short] = ACTIONS(33),
@@ -27846,6 +28023,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(1021),
     [anon_sym_volatile] = ACTIONS(1021),
     [anon_sym__Atomic] = ACTIONS(1021),
+    [anon_sym_signed] = ACTIONS(1021),
     [anon_sym_unsigned] = ACTIONS(1021),
     [anon_sym_long] = ACTIONS(1021),
     [anon_sym_short] = ACTIONS(1021),
@@ -27974,6 +28152,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(31),
     [anon_sym_volatile] = ACTIONS(31),
     [anon_sym__Atomic] = ACTIONS(31),
+    [anon_sym_signed] = ACTIONS(33),
     [anon_sym_unsigned] = ACTIONS(33),
     [anon_sym_long] = ACTIONS(33),
     [anon_sym_short] = ACTIONS(33),
@@ -28031,6 +28210,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(1045),
     [anon_sym_volatile] = ACTIONS(1045),
     [anon_sym__Atomic] = ACTIONS(1045),
+    [anon_sym_signed] = ACTIONS(1045),
     [anon_sym_unsigned] = ACTIONS(1045),
     [anon_sym_long] = ACTIONS(1045),
     [anon_sym_short] = ACTIONS(1045),
@@ -28099,6 +28279,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(1081),
     [anon_sym_volatile] = ACTIONS(1081),
     [anon_sym__Atomic] = ACTIONS(1081),
+    [anon_sym_signed] = ACTIONS(1081),
     [anon_sym_unsigned] = ACTIONS(1081),
     [anon_sym_long] = ACTIONS(1081),
     [anon_sym_short] = ACTIONS(1081),
@@ -28213,6 +28394,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(1338),
     [anon_sym_volatile] = ACTIONS(1338),
     [anon_sym__Atomic] = ACTIONS(1338),
+    [anon_sym_signed] = ACTIONS(1338),
     [anon_sym_unsigned] = ACTIONS(1338),
     [anon_sym_long] = ACTIONS(1338),
     [anon_sym_short] = ACTIONS(1338),
@@ -28340,6 +28522,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(1358),
     [anon_sym_volatile] = ACTIONS(1358),
     [anon_sym__Atomic] = ACTIONS(1358),
+    [anon_sym_signed] = ACTIONS(1358),
     [anon_sym_unsigned] = ACTIONS(1358),
     [anon_sym_long] = ACTIONS(1358),
     [anon_sym_short] = ACTIONS(1358),
@@ -28440,6 +28623,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(1362),
     [anon_sym_volatile] = ACTIONS(1362),
     [anon_sym__Atomic] = ACTIONS(1362),
+    [anon_sym_signed] = ACTIONS(1362),
     [anon_sym_unsigned] = ACTIONS(1362),
     [anon_sym_long] = ACTIONS(1362),
     [anon_sym_short] = ACTIONS(1362),
@@ -28585,6 +28769,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(1392),
     [anon_sym_volatile] = ACTIONS(1392),
     [anon_sym__Atomic] = ACTIONS(1392),
+    [anon_sym_signed] = ACTIONS(1392),
     [anon_sym_unsigned] = ACTIONS(1392),
     [anon_sym_long] = ACTIONS(1392),
     [anon_sym_short] = ACTIONS(1392),
@@ -28643,6 +28828,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(1440),
     [anon_sym_volatile] = ACTIONS(1440),
     [anon_sym__Atomic] = ACTIONS(1440),
+    [anon_sym_signed] = ACTIONS(1440),
     [anon_sym_unsigned] = ACTIONS(1440),
     [anon_sym_long] = ACTIONS(1440),
     [anon_sym_short] = ACTIONS(1440),
@@ -28701,6 +28887,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(1461),
     [anon_sym_volatile] = ACTIONS(1461),
     [anon_sym__Atomic] = ACTIONS(1461),
+    [anon_sym_signed] = ACTIONS(1461),
     [anon_sym_unsigned] = ACTIONS(1461),
     [anon_sym_long] = ACTIONS(1461),
     [anon_sym_short] = ACTIONS(1461),
@@ -28759,6 +28946,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(1473),
     [anon_sym_volatile] = ACTIONS(1473),
     [anon_sym__Atomic] = ACTIONS(1473),
+    [anon_sym_signed] = ACTIONS(1473),
     [anon_sym_unsigned] = ACTIONS(1473),
     [anon_sym_long] = ACTIONS(1473),
     [anon_sym_short] = ACTIONS(1473),
@@ -28816,6 +29004,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(1489),
     [anon_sym_volatile] = ACTIONS(1489),
     [anon_sym__Atomic] = ACTIONS(1489),
+    [anon_sym_signed] = ACTIONS(1489),
     [anon_sym_unsigned] = ACTIONS(1489),
     [anon_sym_long] = ACTIONS(1489),
     [anon_sym_short] = ACTIONS(1489),
@@ -28878,6 +29067,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(2401),
     [anon_sym_volatile] = ACTIONS(2401),
     [anon_sym__Atomic] = ACTIONS(2401),
+    [anon_sym_signed] = ACTIONS(2401),
     [anon_sym_unsigned] = ACTIONS(2401),
     [anon_sym_long] = ACTIONS(2401),
     [anon_sym_short] = ACTIONS(2401),
@@ -28934,6 +29124,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(2405),
     [anon_sym_volatile] = ACTIONS(2405),
     [anon_sym__Atomic] = ACTIONS(2405),
+    [anon_sym_signed] = ACTIONS(2405),
     [anon_sym_unsigned] = ACTIONS(2405),
     [anon_sym_long] = ACTIONS(2405),
     [anon_sym_short] = ACTIONS(2405),
@@ -29157,6 +29348,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(2423),
     [anon_sym_volatile] = ACTIONS(2423),
     [anon_sym__Atomic] = ACTIONS(2423),
+    [anon_sym_signed] = ACTIONS(2423),
     [anon_sym_unsigned] = ACTIONS(2423),
     [anon_sym_long] = ACTIONS(2423),
     [anon_sym_short] = ACTIONS(2423),
@@ -29215,6 +29407,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(2427),
     [anon_sym_volatile] = ACTIONS(2427),
     [anon_sym__Atomic] = ACTIONS(2427),
+    [anon_sym_signed] = ACTIONS(2427),
     [anon_sym_unsigned] = ACTIONS(2427),
     [anon_sym_long] = ACTIONS(2427),
     [anon_sym_short] = ACTIONS(2427),
@@ -29326,6 +29519,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(803),
     [anon_sym_volatile] = ACTIONS(803),
     [anon_sym__Atomic] = ACTIONS(803),
+    [anon_sym_signed] = ACTIONS(806),
     [anon_sym_unsigned] = ACTIONS(806),
     [anon_sym_long] = ACTIONS(806),
     [anon_sym_short] = ACTIONS(806),
@@ -29475,6 +29669,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(31),
     [anon_sym_volatile] = ACTIONS(31),
     [anon_sym__Atomic] = ACTIONS(31),
+    [anon_sym_signed] = ACTIONS(33),
     [anon_sym_unsigned] = ACTIONS(33),
     [anon_sym_long] = ACTIONS(33),
     [anon_sym_short] = ACTIONS(33),
@@ -29588,6 +29783,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(31),
     [anon_sym_volatile] = ACTIONS(31),
     [anon_sym__Atomic] = ACTIONS(31),
+    [anon_sym_signed] = ACTIONS(33),
     [anon_sym_unsigned] = ACTIONS(33),
     [anon_sym_long] = ACTIONS(33),
     [anon_sym_short] = ACTIONS(33),
@@ -29717,6 +29913,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(31),
     [anon_sym_volatile] = ACTIONS(31),
     [anon_sym__Atomic] = ACTIONS(31),
+    [anon_sym_signed] = ACTIONS(33),
     [anon_sym_unsigned] = ACTIONS(33),
     [anon_sym_long] = ACTIONS(33),
     [anon_sym_short] = ACTIONS(33),
@@ -29830,6 +30027,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(31),
     [anon_sym_volatile] = ACTIONS(31),
     [anon_sym__Atomic] = ACTIONS(31),
+    [anon_sym_signed] = ACTIONS(33),
     [anon_sym_unsigned] = ACTIONS(33),
     [anon_sym_long] = ACTIONS(33),
     [anon_sym_short] = ACTIONS(33),
@@ -29885,6 +30083,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(2455),
     [anon_sym_volatile] = ACTIONS(2455),
     [anon_sym__Atomic] = ACTIONS(2455),
+    [anon_sym_signed] = ACTIONS(2455),
     [anon_sym_unsigned] = ACTIONS(2455),
     [anon_sym_long] = ACTIONS(2455),
     [anon_sym_short] = ACTIONS(2455),
@@ -30010,6 +30209,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(1118),
     [anon_sym_volatile] = ACTIONS(1118),
     [anon_sym__Atomic] = ACTIONS(1118),
+    [anon_sym_signed] = ACTIONS(1121),
     [anon_sym_unsigned] = ACTIONS(1121),
     [anon_sym_long] = ACTIONS(1121),
     [anon_sym_short] = ACTIONS(1121),
@@ -30065,6 +30265,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(2523),
     [anon_sym_volatile] = ACTIONS(2523),
     [anon_sym__Atomic] = ACTIONS(2523),
+    [anon_sym_signed] = ACTIONS(2523),
     [anon_sym_unsigned] = ACTIONS(2523),
     [anon_sym_long] = ACTIONS(2523),
     [anon_sym_short] = ACTIONS(2523),
@@ -30275,6 +30476,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(31),
     [anon_sym_volatile] = ACTIONS(31),
     [anon_sym__Atomic] = ACTIONS(31),
+    [anon_sym_signed] = ACTIONS(411),
     [anon_sym_unsigned] = ACTIONS(411),
     [anon_sym_long] = ACTIONS(411),
     [anon_sym_short] = ACTIONS(411),
@@ -30646,6 +30848,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(31),
     [anon_sym_volatile] = ACTIONS(31),
     [anon_sym__Atomic] = ACTIONS(31),
+    [anon_sym_signed] = ACTIONS(1199),
     [anon_sym_unsigned] = ACTIONS(1199),
     [anon_sym_long] = ACTIONS(1199),
     [anon_sym_short] = ACTIONS(1199),
@@ -30709,6 +30912,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(31),
     [anon_sym_volatile] = ACTIONS(31),
     [anon_sym__Atomic] = ACTIONS(31),
+    [anon_sym_signed] = ACTIONS(1199),
     [anon_sym_unsigned] = ACTIONS(1199),
     [anon_sym_long] = ACTIONS(1199),
     [anon_sym_short] = ACTIONS(1199),
@@ -30824,6 +31028,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(896),
     [anon_sym_volatile] = ACTIONS(896),
     [anon_sym__Atomic] = ACTIONS(896),
+    [anon_sym_signed] = ACTIONS(2565),
     [anon_sym_unsigned] = ACTIONS(2565),
     [anon_sym_long] = ACTIONS(2565),
     [anon_sym_short] = ACTIONS(2565),
@@ -31142,6 +31347,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(31),
     [anon_sym_volatile] = ACTIONS(31),
     [anon_sym__Atomic] = ACTIONS(31),
+    [anon_sym_signed] = ACTIONS(129),
     [anon_sym_unsigned] = ACTIONS(129),
     [anon_sym_long] = ACTIONS(129),
     [anon_sym_short] = ACTIONS(129),
@@ -31608,6 +31814,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(2650),
     [anon_sym_volatile] = ACTIONS(2650),
     [anon_sym__Atomic] = ACTIONS(2650),
+    [anon_sym_signed] = ACTIONS(2650),
     [anon_sym_unsigned] = ACTIONS(2650),
     [anon_sym_long] = ACTIONS(2650),
     [anon_sym_short] = ACTIONS(2650),
@@ -31648,6 +31855,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(31),
     [anon_sym_volatile] = ACTIONS(31),
     [anon_sym__Atomic] = ACTIONS(31),
+    [anon_sym_signed] = ACTIONS(511),
     [anon_sym_unsigned] = ACTIONS(511),
     [anon_sym_long] = ACTIONS(511),
     [anon_sym_short] = ACTIONS(511),
@@ -31700,6 +31908,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(31),
     [anon_sym_volatile] = ACTIONS(31),
     [anon_sym__Atomic] = ACTIONS(31),
+    [anon_sym_signed] = ACTIONS(511),
     [anon_sym_unsigned] = ACTIONS(511),
     [anon_sym_long] = ACTIONS(511),
     [anon_sym_short] = ACTIONS(511),
@@ -31727,6 +31936,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(2660),
     [anon_sym_volatile] = ACTIONS(2660),
     [anon_sym__Atomic] = ACTIONS(2660),
+    [anon_sym_signed] = ACTIONS(2660),
     [anon_sym_unsigned] = ACTIONS(2660),
     [anon_sym_long] = ACTIONS(2660),
     [anon_sym_short] = ACTIONS(2660),
@@ -31775,6 +31985,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(31),
     [anon_sym_volatile] = ACTIONS(31),
     [anon_sym__Atomic] = ACTIONS(31),
+    [anon_sym_signed] = ACTIONS(511),
     [anon_sym_unsigned] = ACTIONS(511),
     [anon_sym_long] = ACTIONS(511),
     [anon_sym_short] = ACTIONS(511),
@@ -31902,6 +32113,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(2672),
     [anon_sym_volatile] = ACTIONS(2672),
     [anon_sym__Atomic] = ACTIONS(2672),
+    [anon_sym_signed] = ACTIONS(2672),
     [anon_sym_unsigned] = ACTIONS(2672),
     [anon_sym_long] = ACTIONS(2672),
     [anon_sym_short] = ACTIONS(2672),
@@ -32077,6 +32289,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(1338),
     [anon_sym_volatile] = ACTIONS(1338),
     [anon_sym__Atomic] = ACTIONS(1338),
+    [anon_sym_signed] = ACTIONS(1338),
     [anon_sym_unsigned] = ACTIONS(1338),
     [anon_sym_long] = ACTIONS(1338),
     [anon_sym_short] = ACTIONS(1338),
@@ -32216,6 +32429,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(2704),
     [anon_sym_volatile] = ACTIONS(2704),
     [anon_sym__Atomic] = ACTIONS(2704),
+    [anon_sym_signed] = ACTIONS(2704),
     [anon_sym_unsigned] = ACTIONS(2704),
     [anon_sym_long] = ACTIONS(2704),
     [anon_sym_short] = ACTIONS(2704),
@@ -32420,6 +32634,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(31),
     [anon_sym_volatile] = ACTIONS(31),
     [anon_sym__Atomic] = ACTIONS(31),
+    [anon_sym_signed] = ACTIONS(411),
     [anon_sym_unsigned] = ACTIONS(411),
     [anon_sym_long] = ACTIONS(411),
     [anon_sym_short] = ACTIONS(411),
@@ -32564,6 +32779,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(31),
     [anon_sym_volatile] = ACTIONS(31),
     [anon_sym__Atomic] = ACTIONS(31),
+    [anon_sym_signed] = ACTIONS(411),
     [anon_sym_unsigned] = ACTIONS(411),
     [anon_sym_long] = ACTIONS(411),
     [anon_sym_short] = ACTIONS(411),
@@ -32675,6 +32891,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(2736),
     [anon_sym_volatile] = ACTIONS(2736),
     [anon_sym__Atomic] = ACTIONS(2736),
+    [anon_sym_signed] = ACTIONS(2736),
     [anon_sym_unsigned] = ACTIONS(2736),
     [anon_sym_long] = ACTIONS(2736),
     [anon_sym_short] = ACTIONS(2736),
@@ -32953,6 +33170,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(31),
     [anon_sym_volatile] = ACTIONS(31),
     [anon_sym__Atomic] = ACTIONS(31),
+    [anon_sym_signed] = ACTIONS(411),
     [anon_sym_unsigned] = ACTIONS(411),
     [anon_sym_long] = ACTIONS(411),
     [anon_sym_short] = ACTIONS(411),
@@ -34876,6 +35094,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(1450),
     [anon_sym_volatile] = ACTIONS(1450),
     [anon_sym__Atomic] = ACTIONS(1450),
+    [anon_sym_signed] = ACTIONS(1450),
     [anon_sym_unsigned] = ACTIONS(1450),
     [anon_sym_long] = ACTIONS(1450),
     [anon_sym_short] = ACTIONS(1450),
@@ -34933,6 +35152,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(1628),
     [anon_sym_volatile] = ACTIONS(1628),
     [anon_sym__Atomic] = ACTIONS(1628),
+    [anon_sym_signed] = ACTIONS(1628),
     [anon_sym_unsigned] = ACTIONS(1628),
     [anon_sym_long] = ACTIONS(1628),
     [anon_sym_short] = ACTIONS(1628),
@@ -34990,6 +35210,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(1632),
     [anon_sym_volatile] = ACTIONS(1632),
     [anon_sym__Atomic] = ACTIONS(1632),
+    [anon_sym_signed] = ACTIONS(1632),
     [anon_sym_unsigned] = ACTIONS(1632),
     [anon_sym_long] = ACTIONS(1632),
     [anon_sym_short] = ACTIONS(1632),
@@ -35051,6 +35272,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(1726),
     [anon_sym_volatile] = ACTIONS(1726),
     [anon_sym__Atomic] = ACTIONS(1726),
+    [anon_sym_signed] = ACTIONS(1726),
     [anon_sym_unsigned] = ACTIONS(1726),
     [anon_sym_long] = ACTIONS(1726),
     [anon_sym_short] = ACTIONS(1726),
@@ -35112,6 +35334,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(1799),
     [anon_sym_volatile] = ACTIONS(1799),
     [anon_sym__Atomic] = ACTIONS(1799),
+    [anon_sym_signed] = ACTIONS(1799),
     [anon_sym_unsigned] = ACTIONS(1799),
     [anon_sym_long] = ACTIONS(1799),
     [anon_sym_short] = ACTIONS(1799),
@@ -35171,6 +35394,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(631),
     [anon_sym_volatile] = ACTIONS(631),
     [anon_sym__Atomic] = ACTIONS(631),
+    [anon_sym_signed] = ACTIONS(631),
     [anon_sym_unsigned] = ACTIONS(631),
     [anon_sym_long] = ACTIONS(631),
     [anon_sym_short] = ACTIONS(631),
@@ -35233,6 +35457,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(905),
     [anon_sym_volatile] = ACTIONS(905),
     [anon_sym__Atomic] = ACTIONS(905),
+    [anon_sym_signed] = ACTIONS(905),
     [anon_sym_unsigned] = ACTIONS(905),
     [anon_sym_long] = ACTIONS(905),
     [anon_sym_short] = ACTIONS(905),
@@ -35297,6 +35522,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(927),
     [anon_sym_volatile] = ACTIONS(927),
     [anon_sym__Atomic] = ACTIONS(927),
+    [anon_sym_signed] = ACTIONS(927),
     [anon_sym_unsigned] = ACTIONS(927),
     [anon_sym_long] = ACTIONS(927),
     [anon_sym_short] = ACTIONS(927),
@@ -35416,6 +35642,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(31),
     [anon_sym_volatile] = ACTIONS(31),
     [anon_sym__Atomic] = ACTIONS(31),
+    [anon_sym_signed] = ACTIONS(33),
     [anon_sym_unsigned] = ACTIONS(33),
     [anon_sym_long] = ACTIONS(33),
     [anon_sym_short] = ACTIONS(33),
@@ -35471,6 +35698,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(1013),
     [anon_sym_volatile] = ACTIONS(1013),
     [anon_sym__Atomic] = ACTIONS(1013),
+    [anon_sym_signed] = ACTIONS(1013),
     [anon_sym_unsigned] = ACTIONS(1013),
     [anon_sym_long] = ACTIONS(1013),
     [anon_sym_short] = ACTIONS(1013),
@@ -35590,6 +35818,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(31),
     [anon_sym_volatile] = ACTIONS(31),
     [anon_sym__Atomic] = ACTIONS(31),
+    [anon_sym_signed] = ACTIONS(33),
     [anon_sym_unsigned] = ACTIONS(33),
     [anon_sym_long] = ACTIONS(33),
     [anon_sym_short] = ACTIONS(33),
@@ -35645,6 +35874,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(1021),
     [anon_sym_volatile] = ACTIONS(1021),
     [anon_sym__Atomic] = ACTIONS(1021),
+    [anon_sym_signed] = ACTIONS(1021),
     [anon_sym_unsigned] = ACTIONS(1021),
     [anon_sym_long] = ACTIONS(1021),
     [anon_sym_short] = ACTIONS(1021),
@@ -35773,6 +36003,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(31),
     [anon_sym_volatile] = ACTIONS(31),
     [anon_sym__Atomic] = ACTIONS(31),
+    [anon_sym_signed] = ACTIONS(33),
     [anon_sym_unsigned] = ACTIONS(33),
     [anon_sym_long] = ACTIONS(33),
     [anon_sym_short] = ACTIONS(33),
@@ -35828,6 +36059,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(1045),
     [anon_sym_volatile] = ACTIONS(1045),
     [anon_sym__Atomic] = ACTIONS(1045),
+    [anon_sym_signed] = ACTIONS(1045),
     [anon_sym_unsigned] = ACTIONS(1045),
     [anon_sym_long] = ACTIONS(1045),
     [anon_sym_short] = ACTIONS(1045),
@@ -35894,6 +36126,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(1081),
     [anon_sym_volatile] = ACTIONS(1081),
     [anon_sym__Atomic] = ACTIONS(1081),
+    [anon_sym_signed] = ACTIONS(1081),
     [anon_sym_unsigned] = ACTIONS(1081),
     [anon_sym_long] = ACTIONS(1081),
     [anon_sym_short] = ACTIONS(1081),
@@ -36006,6 +36239,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(1338),
     [anon_sym_volatile] = ACTIONS(1338),
     [anon_sym__Atomic] = ACTIONS(1338),
+    [anon_sym_signed] = ACTIONS(1338),
     [anon_sym_unsigned] = ACTIONS(1338),
     [anon_sym_long] = ACTIONS(1338),
     [anon_sym_short] = ACTIONS(1338),
@@ -36131,6 +36365,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(1358),
     [anon_sym_volatile] = ACTIONS(1358),
     [anon_sym__Atomic] = ACTIONS(1358),
+    [anon_sym_signed] = ACTIONS(1358),
     [anon_sym_unsigned] = ACTIONS(1358),
     [anon_sym_long] = ACTIONS(1358),
     [anon_sym_short] = ACTIONS(1358),
@@ -36229,6 +36464,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(1362),
     [anon_sym_volatile] = ACTIONS(1362),
     [anon_sym__Atomic] = ACTIONS(1362),
+    [anon_sym_signed] = ACTIONS(1362),
     [anon_sym_unsigned] = ACTIONS(1362),
     [anon_sym_long] = ACTIONS(1362),
     [anon_sym_short] = ACTIONS(1362),
@@ -36372,6 +36608,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(1392),
     [anon_sym_volatile] = ACTIONS(1392),
     [anon_sym__Atomic] = ACTIONS(1392),
+    [anon_sym_signed] = ACTIONS(1392),
     [anon_sym_unsigned] = ACTIONS(1392),
     [anon_sym_long] = ACTIONS(1392),
     [anon_sym_short] = ACTIONS(1392),
@@ -36428,6 +36665,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(1440),
     [anon_sym_volatile] = ACTIONS(1440),
     [anon_sym__Atomic] = ACTIONS(1440),
+    [anon_sym_signed] = ACTIONS(1440),
     [anon_sym_unsigned] = ACTIONS(1440),
     [anon_sym_long] = ACTIONS(1440),
     [anon_sym_short] = ACTIONS(1440),
@@ -36484,6 +36722,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(1461),
     [anon_sym_volatile] = ACTIONS(1461),
     [anon_sym__Atomic] = ACTIONS(1461),
+    [anon_sym_signed] = ACTIONS(1461),
     [anon_sym_unsigned] = ACTIONS(1461),
     [anon_sym_long] = ACTIONS(1461),
     [anon_sym_short] = ACTIONS(1461),
@@ -36540,6 +36779,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(1473),
     [anon_sym_volatile] = ACTIONS(1473),
     [anon_sym__Atomic] = ACTIONS(1473),
+    [anon_sym_signed] = ACTIONS(1473),
     [anon_sym_unsigned] = ACTIONS(1473),
     [anon_sym_long] = ACTIONS(1473),
     [anon_sym_short] = ACTIONS(1473),
@@ -36595,6 +36835,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(1489),
     [anon_sym_volatile] = ACTIONS(1489),
     [anon_sym__Atomic] = ACTIONS(1489),
+    [anon_sym_signed] = ACTIONS(1489),
     [anon_sym_unsigned] = ACTIONS(1489),
     [anon_sym_long] = ACTIONS(1489),
     [anon_sym_short] = ACTIONS(1489),
@@ -36662,6 +36903,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(1809),
     [anon_sym_volatile] = ACTIONS(1809),
     [anon_sym__Atomic] = ACTIONS(1809),
+    [anon_sym_signed] = ACTIONS(1809),
     [anon_sym_unsigned] = ACTIONS(1809),
     [anon_sym_long] = ACTIONS(1809),
     [anon_sym_short] = ACTIONS(1809),
@@ -36726,6 +36968,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(1825),
     [anon_sym_volatile] = ACTIONS(1825),
     [anon_sym__Atomic] = ACTIONS(1825),
+    [anon_sym_signed] = ACTIONS(1825),
     [anon_sym_unsigned] = ACTIONS(1825),
     [anon_sym_long] = ACTIONS(1825),
     [anon_sym_short] = ACTIONS(1825),
@@ -36837,6 +37080,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(31),
     [anon_sym_volatile] = ACTIONS(31),
     [anon_sym__Atomic] = ACTIONS(31),
+    [anon_sym_signed] = ACTIONS(33),
     [anon_sym_unsigned] = ACTIONS(33),
     [anon_sym_long] = ACTIONS(33),
     [anon_sym_short] = ACTIONS(33),
@@ -37043,6 +37287,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(31),
     [anon_sym_volatile] = ACTIONS(31),
     [anon_sym__Atomic] = ACTIONS(31),
+    [anon_sym_signed] = ACTIONS(411),
     [anon_sym_unsigned] = ACTIONS(411),
     [anon_sym_long] = ACTIONS(411),
     [anon_sym_short] = ACTIONS(411),
@@ -37219,6 +37464,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(2039),
     [anon_sym_volatile] = ACTIONS(2039),
     [anon_sym__Atomic] = ACTIONS(2039),
+    [anon_sym_signed] = ACTIONS(2039),
     [anon_sym_unsigned] = ACTIONS(2039),
     [anon_sym_long] = ACTIONS(2039),
     [anon_sym_short] = ACTIONS(2039),
@@ -37387,6 +37633,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(2069),
     [anon_sym_volatile] = ACTIONS(2069),
     [anon_sym__Atomic] = ACTIONS(2069),
+    [anon_sym_signed] = ACTIONS(2069),
     [anon_sym_unsigned] = ACTIONS(2069),
     [anon_sym_long] = ACTIONS(2069),
     [anon_sym_short] = ACTIONS(2069),
@@ -37568,6 +37815,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(2121),
     [anon_sym_volatile] = ACTIONS(2121),
     [anon_sym__Atomic] = ACTIONS(2121),
+    [anon_sym_signed] = ACTIONS(2121),
     [anon_sym_unsigned] = ACTIONS(2121),
     [anon_sym_long] = ACTIONS(2121),
     [anon_sym_short] = ACTIONS(2121),
@@ -37714,6 +37962,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(1834),
     [anon_sym_volatile] = ACTIONS(1834),
     [anon_sym__Atomic] = ACTIONS(1834),
+    [anon_sym_signed] = ACTIONS(1834),
     [anon_sym_unsigned] = ACTIONS(1834),
     [anon_sym_long] = ACTIONS(1834),
     [anon_sym_short] = ACTIONS(1834),
@@ -37831,6 +38080,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(31),
     [anon_sym_volatile] = ACTIONS(31),
     [anon_sym__Atomic] = ACTIONS(31),
+    [anon_sym_signed] = ACTIONS(33),
     [anon_sym_unsigned] = ACTIONS(33),
     [anon_sym_long] = ACTIONS(33),
     [anon_sym_short] = ACTIONS(33),
@@ -37888,6 +38138,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(1854),
     [anon_sym_volatile] = ACTIONS(1854),
     [anon_sym__Atomic] = ACTIONS(1854),
+    [anon_sym_signed] = ACTIONS(1854),
     [anon_sym_unsigned] = ACTIONS(1854),
     [anon_sym_long] = ACTIONS(1854),
     [anon_sym_short] = ACTIONS(1854),
@@ -38005,6 +38256,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(31),
     [anon_sym_volatile] = ACTIONS(31),
     [anon_sym__Atomic] = ACTIONS(31),
+    [anon_sym_signed] = ACTIONS(33),
     [anon_sym_unsigned] = ACTIONS(33),
     [anon_sym_long] = ACTIONS(33),
     [anon_sym_short] = ACTIONS(33),
@@ -38118,6 +38370,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(31),
     [anon_sym_volatile] = ACTIONS(31),
     [anon_sym__Atomic] = ACTIONS(31),
+    [anon_sym_signed] = ACTIONS(33),
     [anon_sym_unsigned] = ACTIONS(33),
     [anon_sym_long] = ACTIONS(33),
     [anon_sym_short] = ACTIONS(33),
@@ -38231,6 +38484,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(31),
     [anon_sym_volatile] = ACTIONS(31),
     [anon_sym__Atomic] = ACTIONS(31),
+    [anon_sym_signed] = ACTIONS(33),
     [anon_sym_unsigned] = ACTIONS(33),
     [anon_sym_long] = ACTIONS(33),
     [anon_sym_short] = ACTIONS(33),
@@ -38350,6 +38604,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(1118),
     [anon_sym_volatile] = ACTIONS(1118),
     [anon_sym__Atomic] = ACTIONS(1118),
+    [anon_sym_signed] = ACTIONS(1121),
     [anon_sym_unsigned] = ACTIONS(1121),
     [anon_sym_long] = ACTIONS(1121),
     [anon_sym_short] = ACTIONS(1121),
@@ -38467,6 +38722,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(31),
     [anon_sym_volatile] = ACTIONS(31),
     [anon_sym__Atomic] = ACTIONS(31),
+    [anon_sym_signed] = ACTIONS(33),
     [anon_sym_unsigned] = ACTIONS(33),
     [anon_sym_long] = ACTIONS(33),
     [anon_sym_short] = ACTIONS(33),
@@ -38522,6 +38778,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(3035),
     [anon_sym_volatile] = ACTIONS(3035),
     [anon_sym__Atomic] = ACTIONS(3035),
+    [anon_sym_signed] = ACTIONS(3035),
     [anon_sym_unsigned] = ACTIONS(3035),
     [anon_sym_long] = ACTIONS(3035),
     [anon_sym_short] = ACTIONS(3035),
@@ -38577,6 +38834,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(3039),
     [anon_sym_volatile] = ACTIONS(3039),
     [anon_sym__Atomic] = ACTIONS(3039),
+    [anon_sym_signed] = ACTIONS(3039),
     [anon_sym_unsigned] = ACTIONS(3039),
     [anon_sym_long] = ACTIONS(3039),
     [anon_sym_short] = ACTIONS(3039),
@@ -38632,6 +38890,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(1338),
     [anon_sym_volatile] = ACTIONS(1338),
     [anon_sym__Atomic] = ACTIONS(1338),
+    [anon_sym_signed] = ACTIONS(1338),
     [anon_sym_unsigned] = ACTIONS(1338),
     [anon_sym_long] = ACTIONS(1338),
     [anon_sym_short] = ACTIONS(1338),
@@ -39325,6 +39584,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(31),
     [anon_sym_volatile] = ACTIONS(31),
     [anon_sym__Atomic] = ACTIONS(31),
+    [anon_sym_signed] = ACTIONS(129),
     [anon_sym_unsigned] = ACTIONS(129),
     [anon_sym_long] = ACTIONS(129),
     [anon_sym_short] = ACTIONS(129),
@@ -40082,6 +40342,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(31),
     [anon_sym_volatile] = ACTIONS(31),
     [anon_sym__Atomic] = ACTIONS(31),
+    [anon_sym_signed] = ACTIONS(511),
     [anon_sym_unsigned] = ACTIONS(511),
     [anon_sym_long] = ACTIONS(511),
     [anon_sym_short] = ACTIONS(511),
@@ -40126,6 +40387,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(31),
     [anon_sym_volatile] = ACTIONS(31),
     [anon_sym__Atomic] = ACTIONS(31),
+    [anon_sym_signed] = ACTIONS(511),
     [anon_sym_unsigned] = ACTIONS(511),
     [anon_sym_long] = ACTIONS(511),
     [anon_sym_short] = ACTIONS(511),
@@ -40153,6 +40415,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(3161),
     [anon_sym_volatile] = ACTIONS(3161),
     [anon_sym__Atomic] = ACTIONS(3161),
+    [anon_sym_signed] = ACTIONS(3161),
     [anon_sym_unsigned] = ACTIONS(3161),
     [anon_sym_long] = ACTIONS(3161),
     [anon_sym_short] = ACTIONS(3161),
@@ -40199,6 +40462,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(2007),
     [anon_sym_volatile] = ACTIONS(2007),
     [anon_sym__Atomic] = ACTIONS(2007),
+    [anon_sym_signed] = ACTIONS(2010),
     [anon_sym_unsigned] = ACTIONS(2010),
     [anon_sym_long] = ACTIONS(2010),
     [anon_sym_short] = ACTIONS(2010),
@@ -40226,6 +40490,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(3167),
     [anon_sym_volatile] = ACTIONS(3167),
     [anon_sym__Atomic] = ACTIONS(3167),
+    [anon_sym_signed] = ACTIONS(3167),
     [anon_sym_unsigned] = ACTIONS(3167),
     [anon_sym_long] = ACTIONS(3167),
     [anon_sym_short] = ACTIONS(3167),
@@ -40292,6 +40557,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(3177),
     [anon_sym_volatile] = ACTIONS(3177),
     [anon_sym__Atomic] = ACTIONS(3177),
+    [anon_sym_signed] = ACTIONS(3177),
     [anon_sym_unsigned] = ACTIONS(3177),
     [anon_sym_long] = ACTIONS(3177),
     [anon_sym_short] = ACTIONS(3177),
@@ -40878,6 +41144,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(31),
     [anon_sym_volatile] = ACTIONS(31),
     [anon_sym__Atomic] = ACTIONS(31),
+    [anon_sym_signed] = ACTIONS(411),
     [anon_sym_unsigned] = ACTIONS(411),
     [anon_sym_long] = ACTIONS(411),
     [anon_sym_short] = ACTIONS(411),
@@ -41042,6 +41309,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(31),
     [anon_sym_volatile] = ACTIONS(31),
     [anon_sym__Atomic] = ACTIONS(31),
+    [anon_sym_signed] = ACTIONS(411),
     [anon_sym_unsigned] = ACTIONS(411),
     [anon_sym_long] = ACTIONS(411),
     [anon_sym_short] = ACTIONS(411),
@@ -41458,6 +41726,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(3256),
     [anon_sym_volatile] = ACTIONS(3256),
     [anon_sym__Atomic] = ACTIONS(3256),
+    [anon_sym_signed] = ACTIONS(3256),
     [anon_sym_unsigned] = ACTIONS(3256),
     [anon_sym_long] = ACTIONS(3256),
     [anon_sym_short] = ACTIONS(3256),
@@ -41947,6 +42216,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(2244),
     [anon_sym_volatile] = ACTIONS(2244),
     [anon_sym__Atomic] = ACTIONS(2244),
+    [anon_sym_signed] = ACTIONS(2244),
     [anon_sym_unsigned] = ACTIONS(2244),
     [anon_sym_long] = ACTIONS(2244),
     [anon_sym_short] = ACTIONS(2244),
@@ -42004,6 +42274,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(2401),
     [anon_sym_volatile] = ACTIONS(2401),
     [anon_sym__Atomic] = ACTIONS(2401),
+    [anon_sym_signed] = ACTIONS(2401),
     [anon_sym_unsigned] = ACTIONS(2401),
     [anon_sym_long] = ACTIONS(2401),
     [anon_sym_short] = ACTIONS(2401),
@@ -42061,6 +42332,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(2405),
     [anon_sym_volatile] = ACTIONS(2405),
     [anon_sym__Atomic] = ACTIONS(2405),
+    [anon_sym_signed] = ACTIONS(2405),
     [anon_sym_unsigned] = ACTIONS(2405),
     [anon_sym_long] = ACTIONS(2405),
     [anon_sym_short] = ACTIONS(2405),
@@ -42116,6 +42388,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(1450),
     [anon_sym_volatile] = ACTIONS(1450),
     [anon_sym__Atomic] = ACTIONS(1450),
+    [anon_sym_signed] = ACTIONS(1450),
     [anon_sym_unsigned] = ACTIONS(1450),
     [anon_sym_long] = ACTIONS(1450),
     [anon_sym_short] = ACTIONS(1450),
@@ -42171,6 +42444,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(1628),
     [anon_sym_volatile] = ACTIONS(1628),
     [anon_sym__Atomic] = ACTIONS(1628),
+    [anon_sym_signed] = ACTIONS(1628),
     [anon_sym_unsigned] = ACTIONS(1628),
     [anon_sym_long] = ACTIONS(1628),
     [anon_sym_short] = ACTIONS(1628),
@@ -42226,6 +42500,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(1632),
     [anon_sym_volatile] = ACTIONS(1632),
     [anon_sym__Atomic] = ACTIONS(1632),
+    [anon_sym_signed] = ACTIONS(1632),
     [anon_sym_unsigned] = ACTIONS(1632),
     [anon_sym_long] = ACTIONS(1632),
     [anon_sym_short] = ACTIONS(1632),
@@ -42285,6 +42560,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(1726),
     [anon_sym_volatile] = ACTIONS(1726),
     [anon_sym__Atomic] = ACTIONS(1726),
+    [anon_sym_signed] = ACTIONS(1726),
     [anon_sym_unsigned] = ACTIONS(1726),
     [anon_sym_long] = ACTIONS(1726),
     [anon_sym_short] = ACTIONS(1726),
@@ -42344,6 +42620,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(1799),
     [anon_sym_volatile] = ACTIONS(1799),
     [anon_sym__Atomic] = ACTIONS(1799),
+    [anon_sym_signed] = ACTIONS(1799),
     [anon_sym_unsigned] = ACTIONS(1799),
     [anon_sym_long] = ACTIONS(1799),
     [anon_sym_short] = ACTIONS(1799),
@@ -42403,6 +42680,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(1809),
     [anon_sym_volatile] = ACTIONS(1809),
     [anon_sym__Atomic] = ACTIONS(1809),
+    [anon_sym_signed] = ACTIONS(1809),
     [anon_sym_unsigned] = ACTIONS(1809),
     [anon_sym_long] = ACTIONS(1809),
     [anon_sym_short] = ACTIONS(1809),
@@ -42465,6 +42743,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(1825),
     [anon_sym_volatile] = ACTIONS(1825),
     [anon_sym__Atomic] = ACTIONS(1825),
+    [anon_sym_signed] = ACTIONS(1825),
     [anon_sym_unsigned] = ACTIONS(1825),
     [anon_sym_long] = ACTIONS(1825),
     [anon_sym_short] = ACTIONS(1825),
@@ -42576,6 +42855,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(31),
     [anon_sym_volatile] = ACTIONS(31),
     [anon_sym__Atomic] = ACTIONS(31),
+    [anon_sym_signed] = ACTIONS(33),
     [anon_sym_unsigned] = ACTIONS(33),
     [anon_sym_long] = ACTIONS(33),
     [anon_sym_short] = ACTIONS(33),
@@ -42782,6 +43062,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(31),
     [anon_sym_volatile] = ACTIONS(31),
     [anon_sym__Atomic] = ACTIONS(31),
+    [anon_sym_signed] = ACTIONS(411),
     [anon_sym_unsigned] = ACTIONS(411),
     [anon_sym_long] = ACTIONS(411),
     [anon_sym_short] = ACTIONS(411),
@@ -42956,6 +43237,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(2039),
     [anon_sym_volatile] = ACTIONS(2039),
     [anon_sym__Atomic] = ACTIONS(2039),
+    [anon_sym_signed] = ACTIONS(2039),
     [anon_sym_unsigned] = ACTIONS(2039),
     [anon_sym_long] = ACTIONS(2039),
     [anon_sym_short] = ACTIONS(2039),
@@ -43122,6 +43404,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(2069),
     [anon_sym_volatile] = ACTIONS(2069),
     [anon_sym__Atomic] = ACTIONS(2069),
+    [anon_sym_signed] = ACTIONS(2069),
     [anon_sym_unsigned] = ACTIONS(2069),
     [anon_sym_long] = ACTIONS(2069),
     [anon_sym_short] = ACTIONS(2069),
@@ -43301,6 +43584,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(2121),
     [anon_sym_volatile] = ACTIONS(2121),
     [anon_sym__Atomic] = ACTIONS(2121),
+    [anon_sym_signed] = ACTIONS(2121),
     [anon_sym_unsigned] = ACTIONS(2121),
     [anon_sym_long] = ACTIONS(2121),
     [anon_sym_short] = ACTIONS(2121),
@@ -43358,6 +43642,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(2423),
     [anon_sym_volatile] = ACTIONS(2423),
     [anon_sym__Atomic] = ACTIONS(2423),
+    [anon_sym_signed] = ACTIONS(2423),
     [anon_sym_unsigned] = ACTIONS(2423),
     [anon_sym_long] = ACTIONS(2423),
     [anon_sym_short] = ACTIONS(2423),
@@ -43415,6 +43700,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(2427),
     [anon_sym_volatile] = ACTIONS(2427),
     [anon_sym__Atomic] = ACTIONS(2427),
+    [anon_sym_signed] = ACTIONS(2427),
     [anon_sym_unsigned] = ACTIONS(2427),
     [anon_sym_long] = ACTIONS(2427),
     [anon_sym_short] = ACTIONS(2427),
@@ -43472,6 +43758,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(1338),
     [anon_sym_volatile] = ACTIONS(1338),
     [anon_sym__Atomic] = ACTIONS(1338),
+    [anon_sym_signed] = ACTIONS(1338),
     [anon_sym_unsigned] = ACTIONS(1338),
     [anon_sym_long] = ACTIONS(1338),
     [anon_sym_short] = ACTIONS(1338),
@@ -43612,6 +43899,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(2704),
     [anon_sym_volatile] = ACTIONS(2704),
     [anon_sym__Atomic] = ACTIONS(2704),
+    [anon_sym_signed] = ACTIONS(2704),
     [anon_sym_unsigned] = ACTIONS(2704),
     [anon_sym_long] = ACTIONS(2704),
     [anon_sym_short] = ACTIONS(2704),
@@ -43670,6 +43958,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(2736),
     [anon_sym_volatile] = ACTIONS(2736),
     [anon_sym__Atomic] = ACTIONS(2736),
+    [anon_sym_signed] = ACTIONS(2736),
     [anon_sym_unsigned] = ACTIONS(2736),
     [anon_sym_long] = ACTIONS(2736),
     [anon_sym_short] = ACTIONS(2736),
@@ -43970,6 +44259,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(2455),
     [anon_sym_volatile] = ACTIONS(2455),
     [anon_sym__Atomic] = ACTIONS(2455),
+    [anon_sym_signed] = ACTIONS(2455),
     [anon_sym_unsigned] = ACTIONS(2455),
     [anon_sym_long] = ACTIONS(2455),
     [anon_sym_short] = ACTIONS(2455),
@@ -44031,6 +44321,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(2523),
     [anon_sym_volatile] = ACTIONS(2523),
     [anon_sym__Atomic] = ACTIONS(2523),
+    [anon_sym_signed] = ACTIONS(2523),
     [anon_sym_unsigned] = ACTIONS(2523),
     [anon_sym_long] = ACTIONS(2523),
     [anon_sym_short] = ACTIONS(2523),
@@ -44090,6 +44381,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(1834),
     [anon_sym_volatile] = ACTIONS(1834),
     [anon_sym__Atomic] = ACTIONS(1834),
+    [anon_sym_signed] = ACTIONS(1834),
     [anon_sym_unsigned] = ACTIONS(1834),
     [anon_sym_long] = ACTIONS(1834),
     [anon_sym_short] = ACTIONS(1834),
@@ -44207,6 +44499,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(31),
     [anon_sym_volatile] = ACTIONS(31),
     [anon_sym__Atomic] = ACTIONS(31),
+    [anon_sym_signed] = ACTIONS(33),
     [anon_sym_unsigned] = ACTIONS(33),
     [anon_sym_long] = ACTIONS(33),
     [anon_sym_short] = ACTIONS(33),
@@ -44262,6 +44555,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(1854),
     [anon_sym_volatile] = ACTIONS(1854),
     [anon_sym__Atomic] = ACTIONS(1854),
+    [anon_sym_signed] = ACTIONS(1854),
     [anon_sym_unsigned] = ACTIONS(1854),
     [anon_sym_long] = ACTIONS(1854),
     [anon_sym_short] = ACTIONS(1854),
@@ -44379,6 +44673,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(31),
     [anon_sym_volatile] = ACTIONS(31),
     [anon_sym__Atomic] = ACTIONS(31),
+    [anon_sym_signed] = ACTIONS(33),
     [anon_sym_unsigned] = ACTIONS(33),
     [anon_sym_long] = ACTIONS(33),
     [anon_sym_short] = ACTIONS(33),
@@ -45583,6 +45878,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(2007),
     [anon_sym_volatile] = ACTIONS(2007),
     [anon_sym__Atomic] = ACTIONS(2007),
+    [anon_sym_signed] = ACTIONS(2010),
     [anon_sym_unsigned] = ACTIONS(2010),
     [anon_sym_long] = ACTIONS(2010),
     [anon_sym_short] = ACTIONS(2010),
@@ -45631,6 +45927,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(31),
     [anon_sym_volatile] = ACTIONS(31),
     [anon_sym__Atomic] = ACTIONS(31),
+    [anon_sym_signed] = ACTIONS(511),
     [anon_sym_unsigned] = ACTIONS(511),
     [anon_sym_long] = ACTIONS(511),
     [anon_sym_short] = ACTIONS(511),
@@ -45658,6 +45955,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(3393),
     [anon_sym_volatile] = ACTIONS(3393),
     [anon_sym__Atomic] = ACTIONS(3393),
+    [anon_sym_signed] = ACTIONS(3393),
     [anon_sym_unsigned] = ACTIONS(3393),
     [anon_sym_long] = ACTIONS(3393),
     [anon_sym_short] = ACTIONS(3393),
@@ -45685,6 +45983,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(3397),
     [anon_sym_volatile] = ACTIONS(3397),
     [anon_sym__Atomic] = ACTIONS(3397),
+    [anon_sym_signed] = ACTIONS(3397),
     [anon_sym_unsigned] = ACTIONS(3397),
     [anon_sym_long] = ACTIONS(3397),
     [anon_sym_short] = ACTIONS(3397),
@@ -45803,6 +46102,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(3405),
     [anon_sym_volatile] = ACTIONS(3405),
     [anon_sym__Atomic] = ACTIONS(3405),
+    [anon_sym_signed] = ACTIONS(3405),
     [anon_sym_unsigned] = ACTIONS(3405),
     [anon_sym_long] = ACTIONS(3405),
     [anon_sym_short] = ACTIONS(3405),
@@ -46216,6 +46516,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(31),
     [anon_sym_volatile] = ACTIONS(31),
     [anon_sym__Atomic] = ACTIONS(31),
+    [anon_sym_signed] = ACTIONS(411),
     [anon_sym_unsigned] = ACTIONS(411),
     [anon_sym_long] = ACTIONS(411),
     [anon_sym_short] = ACTIONS(411),
@@ -46431,6 +46732,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(31),
     [anon_sym_volatile] = ACTIONS(31),
     [anon_sym__Atomic] = ACTIONS(31),
+    [anon_sym_signed] = ACTIONS(411),
     [anon_sym_unsigned] = ACTIONS(411),
     [anon_sym_long] = ACTIONS(411),
     [anon_sym_short] = ACTIONS(411),
@@ -46639,6 +46941,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(31),
     [anon_sym_volatile] = ACTIONS(31),
     [anon_sym__Atomic] = ACTIONS(31),
+    [anon_sym_signed] = ACTIONS(411),
     [anon_sym_unsigned] = ACTIONS(411),
     [anon_sym_long] = ACTIONS(411),
     [anon_sym_short] = ACTIONS(411),
@@ -46790,6 +47093,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(3465),
     [anon_sym_volatile] = ACTIONS(3465),
     [anon_sym__Atomic] = ACTIONS(3465),
+    [anon_sym_signed] = ACTIONS(3468),
     [anon_sym_unsigned] = ACTIONS(3468),
     [anon_sym_long] = ACTIONS(3468),
     [anon_sym_short] = ACTIONS(3468),
@@ -47312,6 +47616,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(3574),
     [anon_sym_volatile] = ACTIONS(3574),
     [anon_sym__Atomic] = ACTIONS(3574),
+    [anon_sym_signed] = ACTIONS(3574),
     [anon_sym_unsigned] = ACTIONS(3574),
     [anon_sym_long] = ACTIONS(3574),
     [anon_sym_short] = ACTIONS(3574),
@@ -47565,6 +47870,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(2244),
     [anon_sym_volatile] = ACTIONS(2244),
     [anon_sym__Atomic] = ACTIONS(2244),
+    [anon_sym_signed] = ACTIONS(2244),
     [anon_sym_unsigned] = ACTIONS(2244),
     [anon_sym_long] = ACTIONS(2244),
     [anon_sym_short] = ACTIONS(2244),
@@ -47620,6 +47926,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(2401),
     [anon_sym_volatile] = ACTIONS(2401),
     [anon_sym__Atomic] = ACTIONS(2401),
+    [anon_sym_signed] = ACTIONS(2401),
     [anon_sym_unsigned] = ACTIONS(2401),
     [anon_sym_long] = ACTIONS(2401),
     [anon_sym_short] = ACTIONS(2401),
@@ -47675,6 +47982,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(2405),
     [anon_sym_volatile] = ACTIONS(2405),
     [anon_sym__Atomic] = ACTIONS(2405),
+    [anon_sym_signed] = ACTIONS(2405),
     [anon_sym_unsigned] = ACTIONS(2405),
     [anon_sym_long] = ACTIONS(2405),
     [anon_sym_short] = ACTIONS(2405),
@@ -47730,6 +48038,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(2423),
     [anon_sym_volatile] = ACTIONS(2423),
     [anon_sym__Atomic] = ACTIONS(2423),
+    [anon_sym_signed] = ACTIONS(2423),
     [anon_sym_unsigned] = ACTIONS(2423),
     [anon_sym_long] = ACTIONS(2423),
     [anon_sym_short] = ACTIONS(2423),
@@ -47785,6 +48094,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(2427),
     [anon_sym_volatile] = ACTIONS(2427),
     [anon_sym__Atomic] = ACTIONS(2427),
+    [anon_sym_signed] = ACTIONS(2427),
     [anon_sym_unsigned] = ACTIONS(2427),
     [anon_sym_long] = ACTIONS(2427),
     [anon_sym_short] = ACTIONS(2427),
@@ -47840,6 +48150,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(1338),
     [anon_sym_volatile] = ACTIONS(1338),
     [anon_sym__Atomic] = ACTIONS(1338),
+    [anon_sym_signed] = ACTIONS(1338),
     [anon_sym_unsigned] = ACTIONS(1338),
     [anon_sym_long] = ACTIONS(1338),
     [anon_sym_short] = ACTIONS(1338),
@@ -47978,6 +48289,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(2704),
     [anon_sym_volatile] = ACTIONS(2704),
     [anon_sym__Atomic] = ACTIONS(2704),
+    [anon_sym_signed] = ACTIONS(2704),
     [anon_sym_unsigned] = ACTIONS(2704),
     [anon_sym_long] = ACTIONS(2704),
     [anon_sym_short] = ACTIONS(2704),
@@ -48034,6 +48346,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(2736),
     [anon_sym_volatile] = ACTIONS(2736),
     [anon_sym__Atomic] = ACTIONS(2736),
+    [anon_sym_signed] = ACTIONS(2736),
     [anon_sym_unsigned] = ACTIONS(2736),
     [anon_sym_long] = ACTIONS(2736),
     [anon_sym_short] = ACTIONS(2736),
@@ -48514,6 +48827,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(1227),
     [anon_sym_volatile] = ACTIONS(1227),
     [anon_sym__Atomic] = ACTIONS(1227),
+    [anon_sym_signed] = ACTIONS(1227),
     [anon_sym_unsigned] = ACTIONS(1227),
     [anon_sym_long] = ACTIONS(1227),
     [anon_sym_short] = ACTIONS(1227),
@@ -48572,6 +48886,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(3256),
     [anon_sym_volatile] = ACTIONS(3256),
     [anon_sym__Atomic] = ACTIONS(3256),
+    [anon_sym_signed] = ACTIONS(3256),
     [anon_sym_unsigned] = ACTIONS(3256),
     [anon_sym_long] = ACTIONS(3256),
     [anon_sym_short] = ACTIONS(3256),
@@ -48784,6 +49099,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(3035),
     [anon_sym_volatile] = ACTIONS(3035),
     [anon_sym__Atomic] = ACTIONS(3035),
+    [anon_sym_signed] = ACTIONS(3035),
     [anon_sym_unsigned] = ACTIONS(3035),
     [anon_sym_long] = ACTIONS(3035),
     [anon_sym_short] = ACTIONS(3035),
@@ -48841,6 +49157,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(3039),
     [anon_sym_volatile] = ACTIONS(3039),
     [anon_sym__Atomic] = ACTIONS(3039),
+    [anon_sym_signed] = ACTIONS(3039),
     [anon_sym_unsigned] = ACTIONS(3039),
     [anon_sym_long] = ACTIONS(3039),
     [anon_sym_short] = ACTIONS(3039),
@@ -48896,6 +49213,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(2455),
     [anon_sym_volatile] = ACTIONS(2455),
     [anon_sym__Atomic] = ACTIONS(2455),
+    [anon_sym_signed] = ACTIONS(2455),
     [anon_sym_unsigned] = ACTIONS(2455),
     [anon_sym_long] = ACTIONS(2455),
     [anon_sym_short] = ACTIONS(2455),
@@ -48955,6 +49273,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(2523),
     [anon_sym_volatile] = ACTIONS(2523),
     [anon_sym__Atomic] = ACTIONS(2523),
+    [anon_sym_signed] = ACTIONS(2523),
     [anon_sym_unsigned] = ACTIONS(2523),
     [anon_sym_long] = ACTIONS(2523),
     [anon_sym_short] = ACTIONS(2523),
@@ -49544,6 +49863,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(3646),
     [anon_sym_volatile] = ACTIONS(3646),
     [anon_sym__Atomic] = ACTIONS(3646),
+    [anon_sym_signed] = ACTIONS(3646),
     [anon_sym_unsigned] = ACTIONS(3646),
     [anon_sym_long] = ACTIONS(3646),
     [anon_sym_short] = ACTIONS(3646),
@@ -49897,6 +50217,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(1338),
     [anon_sym_volatile] = ACTIONS(1338),
     [anon_sym__Atomic] = ACTIONS(1338),
+    [anon_sym_signed] = ACTIONS(1338),
     [anon_sym_unsigned] = ACTIONS(1338),
     [anon_sym_long] = ACTIONS(1338),
     [anon_sym_short] = ACTIONS(1338),
@@ -50571,6 +50892,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(3700),
     [anon_sym_volatile] = ACTIONS(3700),
     [anon_sym__Atomic] = ACTIONS(3700),
+    [anon_sym_signed] = ACTIONS(3700),
     [anon_sym_unsigned] = ACTIONS(3700),
     [anon_sym_long] = ACTIONS(3700),
     [anon_sym_short] = ACTIONS(3700),
@@ -50886,6 +51208,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(1227),
     [anon_sym_volatile] = ACTIONS(1227),
     [anon_sym__Atomic] = ACTIONS(1227),
+    [anon_sym_signed] = ACTIONS(1227),
     [anon_sym_unsigned] = ACTIONS(1227),
     [anon_sym_long] = ACTIONS(1227),
     [anon_sym_short] = ACTIONS(1227),
@@ -50942,6 +51265,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(3256),
     [anon_sym_volatile] = ACTIONS(3256),
     [anon_sym__Atomic] = ACTIONS(3256),
+    [anon_sym_signed] = ACTIONS(3256),
     [anon_sym_unsigned] = ACTIONS(3256),
     [anon_sym_long] = ACTIONS(3256),
     [anon_sym_short] = ACTIONS(3256),
@@ -51343,6 +51667,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(3574),
     [anon_sym_volatile] = ACTIONS(3574),
     [anon_sym__Atomic] = ACTIONS(3574),
+    [anon_sym_signed] = ACTIONS(3574),
     [anon_sym_unsigned] = ACTIONS(3574),
     [anon_sym_long] = ACTIONS(3574),
     [anon_sym_short] = ACTIONS(3574),
@@ -51512,6 +51837,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(3035),
     [anon_sym_volatile] = ACTIONS(3035),
     [anon_sym__Atomic] = ACTIONS(3035),
+    [anon_sym_signed] = ACTIONS(3035),
     [anon_sym_unsigned] = ACTIONS(3035),
     [anon_sym_long] = ACTIONS(3035),
     [anon_sym_short] = ACTIONS(3035),
@@ -51567,6 +51893,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(3039),
     [anon_sym_volatile] = ACTIONS(3039),
     [anon_sym__Atomic] = ACTIONS(3039),
+    [anon_sym_signed] = ACTIONS(3039),
     [anon_sym_unsigned] = ACTIONS(3039),
     [anon_sym_long] = ACTIONS(3039),
     [anon_sym_short] = ACTIONS(3039),
@@ -52339,6 +52666,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(31),
     [anon_sym_volatile] = ACTIONS(31),
     [anon_sym__Atomic] = ACTIONS(31),
+    [anon_sym_signed] = ACTIONS(411),
     [anon_sym_unsigned] = ACTIONS(411),
     [anon_sym_long] = ACTIONS(411),
     [anon_sym_short] = ACTIONS(411),
@@ -53015,6 +53343,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(3788),
     [anon_sym_volatile] = ACTIONS(3788),
     [anon_sym__Atomic] = ACTIONS(3788),
+    [anon_sym_signed] = ACTIONS(3788),
     [anon_sym_unsigned] = ACTIONS(3788),
     [anon_sym_long] = ACTIONS(3788),
     [anon_sym_short] = ACTIONS(3788),
@@ -53326,6 +53655,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(3574),
     [anon_sym_volatile] = ACTIONS(3574),
     [anon_sym__Atomic] = ACTIONS(3574),
+    [anon_sym_signed] = ACTIONS(3574),
     [anon_sym_unsigned] = ACTIONS(3574),
     [anon_sym_long] = ACTIONS(3574),
     [anon_sym_short] = ACTIONS(3574),
@@ -53651,6 +53981,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(3700),
     [anon_sym_volatile] = ACTIONS(3700),
     [anon_sym__Atomic] = ACTIONS(3700),
+    [anon_sym_signed] = ACTIONS(3700),
     [anon_sym_unsigned] = ACTIONS(3700),
     [anon_sym_long] = ACTIONS(3700),
     [anon_sym_short] = ACTIONS(3700),
@@ -54207,6 +54538,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(1338),
     [anon_sym_volatile] = ACTIONS(1338),
     [anon_sym__Atomic] = ACTIONS(1338),
+    [anon_sym_signed] = ACTIONS(1338),
     [anon_sym_unsigned] = ACTIONS(1338),
     [anon_sym_long] = ACTIONS(1338),
     [anon_sym_short] = ACTIONS(1338),
@@ -54827,6 +55159,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(3844),
     [anon_sym_volatile] = ACTIONS(3844),
     [anon_sym__Atomic] = ACTIONS(3844),
+    [anon_sym_signed] = ACTIONS(3844),
     [anon_sym_unsigned] = ACTIONS(3844),
     [anon_sym_long] = ACTIONS(3844),
     [anon_sym_short] = ACTIONS(3844),
@@ -55039,6 +55372,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(3700),
     [anon_sym_volatile] = ACTIONS(3700),
     [anon_sym__Atomic] = ACTIONS(3700),
+    [anon_sym_signed] = ACTIONS(3700),
     [anon_sym_unsigned] = ACTIONS(3700),
     [anon_sym_long] = ACTIONS(3700),
     [anon_sym_short] = ACTIONS(3700),
@@ -55280,6 +55614,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(3788),
     [anon_sym_volatile] = ACTIONS(3788),
     [anon_sym__Atomic] = ACTIONS(3788),
+    [anon_sym_signed] = ACTIONS(3788),
     [anon_sym_unsigned] = ACTIONS(3788),
     [anon_sym_long] = ACTIONS(3788),
     [anon_sym_short] = ACTIONS(3788),
@@ -56282,6 +56617,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(3788),
     [anon_sym_volatile] = ACTIONS(3788),
     [anon_sym__Atomic] = ACTIONS(3788),
+    [anon_sym_signed] = ACTIONS(3788),
     [anon_sym_unsigned] = ACTIONS(3788),
     [anon_sym_long] = ACTIONS(3788),
     [anon_sym_short] = ACTIONS(3788),
@@ -56474,6 +56810,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(3844),
     [anon_sym_volatile] = ACTIONS(3844),
     [anon_sym__Atomic] = ACTIONS(3844),
+    [anon_sym_signed] = ACTIONS(3844),
     [anon_sym_unsigned] = ACTIONS(3844),
     [anon_sym_long] = ACTIONS(3844),
     [anon_sym_short] = ACTIONS(3844),
@@ -57207,6 +57544,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_restrict] = ACTIONS(3844),
     [anon_sym_volatile] = ACTIONS(3844),
     [anon_sym__Atomic] = ACTIONS(3844),
+    [anon_sym_signed] = ACTIONS(3844),
     [anon_sym_unsigned] = ACTIONS(3844),
     [anon_sym_long] = ACTIONS(3844),
     [anon_sym_short] = ACTIONS(3844),
