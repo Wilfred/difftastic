@@ -5,6 +5,7 @@
   "main": "index.js",
   "keywords": [
     "parser",
+    "tree-sitter",
     "typescript"
   ],
   "author": "Max Brunsfeld",
