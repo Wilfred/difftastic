@@ -32,7 +32,19 @@ module.exports = grammar({
       "[", commaSep($._value), "]"
     ),
 
-    string: $ => token(seq('"', repeat(choice(/[^\\"\n]/, /\\./)), '"')),
+    string: $ => seq(
+      '"',
+      repeat(choice(
+        token.immediate(prec(1, /[^\\"\n]/)),
+        $.escape_sequence
+      )),
+      '"'
+    ),
+
+    escape_sequence: $ => token.immediate(seq(
+      '\\',
+      /(\"|\\|\/|b|n|r|t|u)/
+    )),
 
     number: $ => {
       const hex_literal = seq(
