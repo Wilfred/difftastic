@@ -365,9 +365,11 @@ module.exports = grammar({
     field_declaration: $ => seq(
       $._declaration_specifiers,
       commaSep($._field_declarator),
-      optional(seq(':', $._expression)),
+      optional($.bitfield_clause),
       ';'
     ),
+
+    bitfield_clause: $ => seq(':', $._expression),
 
     enumerator: $ => seq(
       $.identifier,
