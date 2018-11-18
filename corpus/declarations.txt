@@ -287,6 +287,33 @@ struct C {
       (identifier)
       (parameter_list (parameter_declaration (type_identifier) (abstract_reference_declarator)))))))))
 
+=============================================
+Default member initializers
+=============================================
+
+struct A {
+  bool a = 1;
+  vector<int> b = {c, d, e};
+  F g {h};
+};
+
+---
+
+(translation_unit
+  (struct_specifier (type_identifier) (field_declaration_list
+    (field_declaration
+      (primitive_type)
+      (field_identifier)
+      (number_literal))
+    (field_declaration
+      (template_type (type_identifier) (template_argument_list (type_descriptor (primitive_type))))
+      (field_identifier)
+      (initializer_list (identifier) (identifier) (identifier)))
+    (field_declaration
+      (type_identifier)
+      (field_identifier)
+      (initializer_list (identifier))))))
+
 =========================================
 Function parameters with default values
 =========================================
