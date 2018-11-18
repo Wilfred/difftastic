@@ -279,6 +279,17 @@ module.exports = grammar(C, {
       $.type_definition
     ),
 
+    field_declaration: $ => seq(
+      $._declaration_specifiers,
+      commaSep($._field_declarator),
+      optional(choice(
+        $.bitfield_clause,
+        $.initializer_list,
+        seq('=', choice($._expression, $.initializer_list))
+      )),
+      ';'
+    ),
+
     inline_method_definition: $ => seq(
       $._declaration_specifiers,
       $._field_declarator,
