@@ -15,7 +15,7 @@ struct s2 {
   (struct_specifier (type_identifier))
   (struct_specifier (type_identifier) (field_declaration_list
     (field_declaration (primitive_type) (field_identifier))
-    (field_declaration (primitive_type) (field_identifier) (number_literal)))))
+    (field_declaration (primitive_type) (field_identifier) (bitfield_clause (number_literal))))))
 
 ============================================
 Union declarations
