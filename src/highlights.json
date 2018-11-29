@@ -1,0 +1,7781 @@
+{
+  "states": [
+    {
+      "id": 0,
+      "property_set_id": 0,
+      "transitions": [
+        {
+          "type": "%i(",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "%w(",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "(",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ")",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "bare_string",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "bare_symbol",
+          "named": true,
+          "state_id": 21
+        },
+        {
+          "type": "begin",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "break",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "call",
+          "named": true,
+          "state_id": 12
+        },
+        {
+          "type": "case",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "class",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "class_variable",
+          "named": true,
+          "state_id": 9
+        },
+        {
+          "type": "comment",
+          "named": true,
+          "state_id": 7
+        },
+        {
+          "type": "constant",
+          "named": true,
+          "text": "^[A-Z_]+$",
+          "state_id": 20
+        },
+        {
+          "type": "constant",
+          "named": true,
+          "state_id": 19
+        },
+        {
+          "type": "def",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "do",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "else",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "elsif",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "end",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "ensure",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "escape_sequence",
+          "named": true,
+          "state_id": 4
+        },
+        {
+          "type": "false",
+          "named": true,
+          "state_id": 2
+        },
+        {
+          "type": "for",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "heredoc_beginning",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "heredoc_body",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "identifier",
+          "named": true,
+          "text": "^__(FILE|LINE|ENCODING)__$",
+          "state_id": 13
+        },
+        {
+          "type": "if",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "in",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "instance_variable",
+          "named": true,
+          "state_id": 9
+        },
+        {
+          "type": "integer",
+          "named": true,
+          "state_id": 6
+        },
+        {
+          "type": "interpolation",
+          "named": true,
+          "state_id": 18
+        },
+        {
+          "type": "keyword_parameter",
+          "named": true,
+          "state_id": 10
+        },
+        {
+          "type": "method",
+          "named": true,
+          "state_id": 15
+        },
+        {
+          "type": "method_call",
+          "named": true,
+          "state_id": 11
+        },
+        {
+          "type": "module",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "nil",
+          "named": true,
+          "state_id": 2
+        },
+        {
+          "type": "regex",
+          "named": true,
+          "state_id": 22
+        },
+        {
+          "type": "rescue",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "retry",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "return",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "self",
+          "named": true,
+          "state_id": 16
+        },
+        {
+          "type": "setter",
+          "named": true,
+          "state_id": 15
+        },
+        {
+          "type": "singleton_method",
+          "named": true,
+          "state_id": 17
+        },
+        {
+          "type": "string",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "subshell",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "superclass",
+          "named": true,
+          "state_id": 14
+        },
+        {
+          "type": "symbol",
+          "named": true,
+          "state_id": 8
+        },
+        {
+          "type": "then",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "true",
+          "named": true,
+          "state_id": 2
+        },
+        {
+          "type": "unless",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "until",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "when",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "while",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "yield",
+          "named": false,
+          "state_id": 5
+        }
+      ],
+      "default_next_state_id": 0
+    },
+    {
+      "id": 1,
+      "property_set_id": 1,
+      "transitions": [
+        {
+          "type": "%i(",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "%w(",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "(",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ")",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "bare_string",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "bare_symbol",
+          "named": true,
+          "state_id": 21
+        },
+        {
+          "type": "begin",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "break",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "call",
+          "named": true,
+          "state_id": 12
+        },
+        {
+          "type": "case",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "class",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "class_variable",
+          "named": true,
+          "state_id": 9
+        },
+        {
+          "type": "comment",
+          "named": true,
+          "state_id": 7
+        },
+        {
+          "type": "constant",
+          "named": true,
+          "text": "^[A-Z_]+$",
+          "state_id": 20
+        },
+        {
+          "type": "constant",
+          "named": true,
+          "state_id": 19
+        },
+        {
+          "type": "def",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "do",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "else",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "elsif",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "end",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "ensure",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "escape_sequence",
+          "named": true,
+          "state_id": 4
+        },
+        {
+          "type": "false",
+          "named": true,
+          "state_id": 2
+        },
+        {
+          "type": "for",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "heredoc_beginning",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "heredoc_body",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "identifier",
+          "named": true,
+          "text": "^__(FILE|LINE|ENCODING)__$",
+          "state_id": 13
+        },
+        {
+          "type": "if",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "in",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "instance_variable",
+          "named": true,
+          "state_id": 9
+        },
+        {
+          "type": "integer",
+          "named": true,
+          "state_id": 6
+        },
+        {
+          "type": "interpolation",
+          "named": true,
+          "state_id": 18
+        },
+        {
+          "type": "keyword_parameter",
+          "named": true,
+          "state_id": 10
+        },
+        {
+          "type": "method",
+          "named": true,
+          "state_id": 15
+        },
+        {
+          "type": "method_call",
+          "named": true,
+          "state_id": 11
+        },
+        {
+          "type": "module",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "nil",
+          "named": true,
+          "state_id": 2
+        },
+        {
+          "type": "regex",
+          "named": true,
+          "state_id": 22
+        },
+        {
+          "type": "rescue",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "retry",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "return",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "self",
+          "named": true,
+          "state_id": 16
+        },
+        {
+          "type": "setter",
+          "named": true,
+          "state_id": 15
+        },
+        {
+          "type": "singleton_method",
+          "named": true,
+          "state_id": 17
+        },
+        {
+          "type": "string",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "subshell",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "superclass",
+          "named": true,
+          "state_id": 14
+        },
+        {
+          "type": "symbol",
+          "named": true,
+          "state_id": 8
+        },
+        {
+          "type": "then",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "true",
+          "named": true,
+          "state_id": 2
+        },
+        {
+          "type": "unless",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "until",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "when",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "while",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "yield",
+          "named": false,
+          "state_id": 5
+        }
+      ],
+      "default_next_state_id": 0
+    },
+    {
+      "id": 2,
+      "property_set_id": 2,
+      "transitions": [
+        {
+          "type": "%i(",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "%w(",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "(",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ")",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "bare_string",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "bare_symbol",
+          "named": true,
+          "state_id": 21
+        },
+        {
+          "type": "begin",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "break",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "call",
+          "named": true,
+          "state_id": 12
+        },
+        {
+          "type": "case",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "class",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "class_variable",
+          "named": true,
+          "state_id": 9
+        },
+        {
+          "type": "comment",
+          "named": true,
+          "state_id": 7
+        },
+        {
+          "type": "constant",
+          "named": true,
+          "text": "^[A-Z_]+$",
+          "state_id": 20
+        },
+        {
+          "type": "constant",
+          "named": true,
+          "state_id": 19
+        },
+        {
+          "type": "def",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "do",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "else",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "elsif",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "end",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "ensure",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "escape_sequence",
+          "named": true,
+          "state_id": 4
+        },
+        {
+          "type": "false",
+          "named": true,
+          "state_id": 2
+        },
+        {
+          "type": "for",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "heredoc_beginning",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "heredoc_body",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "identifier",
+          "named": true,
+          "text": "^__(FILE|LINE|ENCODING)__$",
+          "state_id": 13
+        },
+        {
+          "type": "if",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "in",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "instance_variable",
+          "named": true,
+          "state_id": 9
+        },
+        {
+          "type": "integer",
+          "named": true,
+          "state_id": 6
+        },
+        {
+          "type": "interpolation",
+          "named": true,
+          "state_id": 18
+        },
+        {
+          "type": "keyword_parameter",
+          "named": true,
+          "state_id": 10
+        },
+        {
+          "type": "method",
+          "named": true,
+          "state_id": 15
+        },
+        {
+          "type": "method_call",
+          "named": true,
+          "state_id": 11
+        },
+        {
+          "type": "module",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "nil",
+          "named": true,
+          "state_id": 2
+        },
+        {
+          "type": "regex",
+          "named": true,
+          "state_id": 22
+        },
+        {
+          "type": "rescue",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "retry",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "return",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "self",
+          "named": true,
+          "state_id": 16
+        },
+        {
+          "type": "setter",
+          "named": true,
+          "state_id": 15
+        },
+        {
+          "type": "singleton_method",
+          "named": true,
+          "state_id": 17
+        },
+        {
+          "type": "string",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "subshell",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "superclass",
+          "named": true,
+          "state_id": 14
+        },
+        {
+          "type": "symbol",
+          "named": true,
+          "state_id": 8
+        },
+        {
+          "type": "then",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "true",
+          "named": true,
+          "state_id": 2
+        },
+        {
+          "type": "unless",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "until",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "when",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "while",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "yield",
+          "named": false,
+          "state_id": 5
+        }
+      ],
+      "default_next_state_id": 0
+    },
+    {
+      "id": 3,
+      "property_set_id": 3,
+      "transitions": [
+        {
+          "type": "%i(",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "%w(",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "(",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ")",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "bare_string",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "bare_symbol",
+          "named": true,
+          "state_id": 21
+        },
+        {
+          "type": "begin",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "break",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "call",
+          "named": true,
+          "state_id": 12
+        },
+        {
+          "type": "case",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "class",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "class_variable",
+          "named": true,
+          "state_id": 9
+        },
+        {
+          "type": "comment",
+          "named": true,
+          "state_id": 7
+        },
+        {
+          "type": "constant",
+          "named": true,
+          "text": "^[A-Z_]+$",
+          "state_id": 20
+        },
+        {
+          "type": "constant",
+          "named": true,
+          "state_id": 19
+        },
+        {
+          "type": "def",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "do",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "else",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "elsif",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "end",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "ensure",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "escape_sequence",
+          "named": true,
+          "state_id": 4
+        },
+        {
+          "type": "false",
+          "named": true,
+          "state_id": 2
+        },
+        {
+          "type": "for",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "heredoc_beginning",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "heredoc_body",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "identifier",
+          "named": true,
+          "text": "^__(FILE|LINE|ENCODING)__$",
+          "state_id": 13
+        },
+        {
+          "type": "if",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "in",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "instance_variable",
+          "named": true,
+          "state_id": 9
+        },
+        {
+          "type": "integer",
+          "named": true,
+          "state_id": 6
+        },
+        {
+          "type": "interpolation",
+          "named": true,
+          "state_id": 18
+        },
+        {
+          "type": "keyword_parameter",
+          "named": true,
+          "state_id": 10
+        },
+        {
+          "type": "method",
+          "named": true,
+          "state_id": 15
+        },
+        {
+          "type": "method_call",
+          "named": true,
+          "state_id": 11
+        },
+        {
+          "type": "module",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "nil",
+          "named": true,
+          "state_id": 2
+        },
+        {
+          "type": "regex",
+          "named": true,
+          "state_id": 22
+        },
+        {
+          "type": "rescue",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "retry",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "return",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "self",
+          "named": true,
+          "state_id": 16
+        },
+        {
+          "type": "setter",
+          "named": true,
+          "state_id": 15
+        },
+        {
+          "type": "singleton_method",
+          "named": true,
+          "state_id": 17
+        },
+        {
+          "type": "string",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "subshell",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "superclass",
+          "named": true,
+          "state_id": 14
+        },
+        {
+          "type": "symbol",
+          "named": true,
+          "state_id": 8
+        },
+        {
+          "type": "then",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "true",
+          "named": true,
+          "state_id": 2
+        },
+        {
+          "type": "unless",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "until",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "when",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "while",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "yield",
+          "named": false,
+          "state_id": 5
+        }
+      ],
+      "default_next_state_id": 0
+    },
+    {
+      "id": 4,
+      "property_set_id": 4,
+      "transitions": [
+        {
+          "type": "%i(",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "%w(",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "(",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ")",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "bare_string",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "bare_symbol",
+          "named": true,
+          "state_id": 21
+        },
+        {
+          "type": "begin",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "break",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "call",
+          "named": true,
+          "state_id": 12
+        },
+        {
+          "type": "case",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "class",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "class_variable",
+          "named": true,
+          "state_id": 9
+        },
+        {
+          "type": "comment",
+          "named": true,
+          "state_id": 7
+        },
+        {
+          "type": "constant",
+          "named": true,
+          "text": "^[A-Z_]+$",
+          "state_id": 20
+        },
+        {
+          "type": "constant",
+          "named": true,
+          "state_id": 19
+        },
+        {
+          "type": "def",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "do",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "else",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "elsif",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "end",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "ensure",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "escape_sequence",
+          "named": true,
+          "state_id": 4
+        },
+        {
+          "type": "false",
+          "named": true,
+          "state_id": 2
+        },
+        {
+          "type": "for",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "heredoc_beginning",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "heredoc_body",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "identifier",
+          "named": true,
+          "text": "^__(FILE|LINE|ENCODING)__$",
+          "state_id": 13
+        },
+        {
+          "type": "if",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "in",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "instance_variable",
+          "named": true,
+          "state_id": 9
+        },
+        {
+          "type": "integer",
+          "named": true,
+          "state_id": 6
+        },
+        {
+          "type": "interpolation",
+          "named": true,
+          "state_id": 18
+        },
+        {
+          "type": "keyword_parameter",
+          "named": true,
+          "state_id": 10
+        },
+        {
+          "type": "method",
+          "named": true,
+          "state_id": 15
+        },
+        {
+          "type": "method_call",
+          "named": true,
+          "state_id": 11
+        },
+        {
+          "type": "module",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "nil",
+          "named": true,
+          "state_id": 2
+        },
+        {
+          "type": "regex",
+          "named": true,
+          "state_id": 22
+        },
+        {
+          "type": "rescue",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "retry",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "return",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "self",
+          "named": true,
+          "state_id": 16
+        },
+        {
+          "type": "setter",
+          "named": true,
+          "state_id": 15
+        },
+        {
+          "type": "singleton_method",
+          "named": true,
+          "state_id": 17
+        },
+        {
+          "type": "string",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "subshell",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "superclass",
+          "named": true,
+          "state_id": 14
+        },
+        {
+          "type": "symbol",
+          "named": true,
+          "state_id": 8
+        },
+        {
+          "type": "then",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "true",
+          "named": true,
+          "state_id": 2
+        },
+        {
+          "type": "unless",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "until",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "when",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "while",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "yield",
+          "named": false,
+          "state_id": 5
+        }
+      ],
+      "default_next_state_id": 0
+    },
+    {
+      "id": 5,
+      "property_set_id": 5,
+      "transitions": [
+        {
+          "type": "%i(",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "%w(",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "(",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ")",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "bare_string",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "bare_symbol",
+          "named": true,
+          "state_id": 21
+        },
+        {
+          "type": "begin",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "break",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "call",
+          "named": true,
+          "state_id": 12
+        },
+        {
+          "type": "case",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "class",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "class_variable",
+          "named": true,
+          "state_id": 9
+        },
+        {
+          "type": "comment",
+          "named": true,
+          "state_id": 7
+        },
+        {
+          "type": "constant",
+          "named": true,
+          "text": "^[A-Z_]+$",
+          "state_id": 20
+        },
+        {
+          "type": "constant",
+          "named": true,
+          "state_id": 19
+        },
+        {
+          "type": "def",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "do",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "else",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "elsif",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "end",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "ensure",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "escape_sequence",
+          "named": true,
+          "state_id": 4
+        },
+        {
+          "type": "false",
+          "named": true,
+          "state_id": 2
+        },
+        {
+          "type": "for",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "heredoc_beginning",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "heredoc_body",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "identifier",
+          "named": true,
+          "text": "^__(FILE|LINE|ENCODING)__$",
+          "state_id": 13
+        },
+        {
+          "type": "if",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "in",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "instance_variable",
+          "named": true,
+          "state_id": 9
+        },
+        {
+          "type": "integer",
+          "named": true,
+          "state_id": 6
+        },
+        {
+          "type": "interpolation",
+          "named": true,
+          "state_id": 18
+        },
+        {
+          "type": "keyword_parameter",
+          "named": true,
+          "state_id": 10
+        },
+        {
+          "type": "method",
+          "named": true,
+          "state_id": 15
+        },
+        {
+          "type": "method_call",
+          "named": true,
+          "state_id": 11
+        },
+        {
+          "type": "module",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "nil",
+          "named": true,
+          "state_id": 2
+        },
+        {
+          "type": "regex",
+          "named": true,
+          "state_id": 22
+        },
+        {
+          "type": "rescue",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "retry",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "return",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "self",
+          "named": true,
+          "state_id": 16
+        },
+        {
+          "type": "setter",
+          "named": true,
+          "state_id": 15
+        },
+        {
+          "type": "singleton_method",
+          "named": true,
+          "state_id": 17
+        },
+        {
+          "type": "string",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "subshell",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "superclass",
+          "named": true,
+          "state_id": 14
+        },
+        {
+          "type": "symbol",
+          "named": true,
+          "state_id": 8
+        },
+        {
+          "type": "then",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "true",
+          "named": true,
+          "state_id": 2
+        },
+        {
+          "type": "unless",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "until",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "when",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "while",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "yield",
+          "named": false,
+          "state_id": 5
+        }
+      ],
+      "default_next_state_id": 0
+    },
+    {
+      "id": 6,
+      "property_set_id": 6,
+      "transitions": [
+        {
+          "type": "%i(",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "%w(",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "(",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ")",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "bare_string",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "bare_symbol",
+          "named": true,
+          "state_id": 21
+        },
+        {
+          "type": "begin",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "break",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "call",
+          "named": true,
+          "state_id": 12
+        },
+        {
+          "type": "case",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "class",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "class_variable",
+          "named": true,
+          "state_id": 9
+        },
+        {
+          "type": "comment",
+          "named": true,
+          "state_id": 7
+        },
+        {
+          "type": "constant",
+          "named": true,
+          "text": "^[A-Z_]+$",
+          "state_id": 20
+        },
+        {
+          "type": "constant",
+          "named": true,
+          "state_id": 19
+        },
+        {
+          "type": "def",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "do",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "else",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "elsif",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "end",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "ensure",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "escape_sequence",
+          "named": true,
+          "state_id": 4
+        },
+        {
+          "type": "false",
+          "named": true,
+          "state_id": 2
+        },
+        {
+          "type": "for",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "heredoc_beginning",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "heredoc_body",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "identifier",
+          "named": true,
+          "text": "^__(FILE|LINE|ENCODING)__$",
+          "state_id": 13
+        },
+        {
+          "type": "if",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "in",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "instance_variable",
+          "named": true,
+          "state_id": 9
+        },
+        {
+          "type": "integer",
+          "named": true,
+          "state_id": 6
+        },
+        {
+          "type": "interpolation",
+          "named": true,
+          "state_id": 18
+        },
+        {
+          "type": "keyword_parameter",
+          "named": true,
+          "state_id": 10
+        },
+        {
+          "type": "method",
+          "named": true,
+          "state_id": 15
+        },
+        {
+          "type": "method_call",
+          "named": true,
+          "state_id": 11
+        },
+        {
+          "type": "module",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "nil",
+          "named": true,
+          "state_id": 2
+        },
+        {
+          "type": "regex",
+          "named": true,
+          "state_id": 22
+        },
+        {
+          "type": "rescue",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "retry",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "return",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "self",
+          "named": true,
+          "state_id": 16
+        },
+        {
+          "type": "setter",
+          "named": true,
+          "state_id": 15
+        },
+        {
+          "type": "singleton_method",
+          "named": true,
+          "state_id": 17
+        },
+        {
+          "type": "string",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "subshell",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "superclass",
+          "named": true,
+          "state_id": 14
+        },
+        {
+          "type": "symbol",
+          "named": true,
+          "state_id": 8
+        },
+        {
+          "type": "then",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "true",
+          "named": true,
+          "state_id": 2
+        },
+        {
+          "type": "unless",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "until",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "when",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "while",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "yield",
+          "named": false,
+          "state_id": 5
+        }
+      ],
+      "default_next_state_id": 0
+    },
+    {
+      "id": 7,
+      "property_set_id": 7,
+      "transitions": [
+        {
+          "type": "%i(",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "%w(",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "(",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ")",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "bare_string",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "bare_symbol",
+          "named": true,
+          "state_id": 21
+        },
+        {
+          "type": "begin",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "break",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "call",
+          "named": true,
+          "state_id": 12
+        },
+        {
+          "type": "case",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "class",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "class_variable",
+          "named": true,
+          "state_id": 9
+        },
+        {
+          "type": "comment",
+          "named": true,
+          "state_id": 7
+        },
+        {
+          "type": "constant",
+          "named": true,
+          "text": "^[A-Z_]+$",
+          "state_id": 20
+        },
+        {
+          "type": "constant",
+          "named": true,
+          "state_id": 19
+        },
+        {
+          "type": "def",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "do",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "else",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "elsif",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "end",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "ensure",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "escape_sequence",
+          "named": true,
+          "state_id": 4
+        },
+        {
+          "type": "false",
+          "named": true,
+          "state_id": 2
+        },
+        {
+          "type": "for",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "heredoc_beginning",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "heredoc_body",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "identifier",
+          "named": true,
+          "text": "^__(FILE|LINE|ENCODING)__$",
+          "state_id": 13
+        },
+        {
+          "type": "if",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "in",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "instance_variable",
+          "named": true,
+          "state_id": 9
+        },
+        {
+          "type": "integer",
+          "named": true,
+          "state_id": 6
+        },
+        {
+          "type": "interpolation",
+          "named": true,
+          "state_id": 18
+        },
+        {
+          "type": "keyword_parameter",
+          "named": true,
+          "state_id": 10
+        },
+        {
+          "type": "method",
+          "named": true,
+          "state_id": 15
+        },
+        {
+          "type": "method_call",
+          "named": true,
+          "state_id": 11
+        },
+        {
+          "type": "module",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "nil",
+          "named": true,
+          "state_id": 2
+        },
+        {
+          "type": "regex",
+          "named": true,
+          "state_id": 22
+        },
+        {
+          "type": "rescue",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "retry",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "return",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "self",
+          "named": true,
+          "state_id": 16
+        },
+        {
+          "type": "setter",
+          "named": true,
+          "state_id": 15
+        },
+        {
+          "type": "singleton_method",
+          "named": true,
+          "state_id": 17
+        },
+        {
+          "type": "string",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "subshell",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "superclass",
+          "named": true,
+          "state_id": 14
+        },
+        {
+          "type": "symbol",
+          "named": true,
+          "state_id": 8
+        },
+        {
+          "type": "then",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "true",
+          "named": true,
+          "state_id": 2
+        },
+        {
+          "type": "unless",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "until",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "when",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "while",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "yield",
+          "named": false,
+          "state_id": 5
+        }
+      ],
+      "default_next_state_id": 0
+    },
+    {
+      "id": 8,
+      "property_set_id": 8,
+      "transitions": [
+        {
+          "type": "%i(",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "%w(",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "(",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ")",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "bare_string",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "bare_symbol",
+          "named": true,
+          "state_id": 21
+        },
+        {
+          "type": "begin",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "break",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "call",
+          "named": true,
+          "state_id": 12
+        },
+        {
+          "type": "case",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "class",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "class_variable",
+          "named": true,
+          "state_id": 9
+        },
+        {
+          "type": "comment",
+          "named": true,
+          "state_id": 7
+        },
+        {
+          "type": "constant",
+          "named": true,
+          "text": "^[A-Z_]+$",
+          "state_id": 20
+        },
+        {
+          "type": "constant",
+          "named": true,
+          "state_id": 19
+        },
+        {
+          "type": "def",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "do",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "else",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "elsif",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "end",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "ensure",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "escape_sequence",
+          "named": true,
+          "state_id": 4
+        },
+        {
+          "type": "false",
+          "named": true,
+          "state_id": 2
+        },
+        {
+          "type": "for",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "heredoc_beginning",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "heredoc_body",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "identifier",
+          "named": true,
+          "text": "^__(FILE|LINE|ENCODING)__$",
+          "state_id": 13
+        },
+        {
+          "type": "if",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "in",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "instance_variable",
+          "named": true,
+          "state_id": 9
+        },
+        {
+          "type": "integer",
+          "named": true,
+          "state_id": 6
+        },
+        {
+          "type": "interpolation",
+          "named": true,
+          "state_id": 18
+        },
+        {
+          "type": "keyword_parameter",
+          "named": true,
+          "state_id": 10
+        },
+        {
+          "type": "method",
+          "named": true,
+          "state_id": 15
+        },
+        {
+          "type": "method_call",
+          "named": true,
+          "state_id": 11
+        },
+        {
+          "type": "module",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "nil",
+          "named": true,
+          "state_id": 2
+        },
+        {
+          "type": "regex",
+          "named": true,
+          "state_id": 22
+        },
+        {
+          "type": "rescue",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "retry",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "return",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "self",
+          "named": true,
+          "state_id": 16
+        },
+        {
+          "type": "setter",
+          "named": true,
+          "state_id": 15
+        },
+        {
+          "type": "singleton_method",
+          "named": true,
+          "state_id": 17
+        },
+        {
+          "type": "string",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "subshell",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "superclass",
+          "named": true,
+          "state_id": 14
+        },
+        {
+          "type": "symbol",
+          "named": true,
+          "state_id": 8
+        },
+        {
+          "type": "then",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "true",
+          "named": true,
+          "state_id": 2
+        },
+        {
+          "type": "unless",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "until",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "when",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "while",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "yield",
+          "named": false,
+          "state_id": 5
+        }
+      ],
+      "default_next_state_id": 0
+    },
+    {
+      "id": 9,
+      "property_set_id": 9,
+      "transitions": [
+        {
+          "type": "%i(",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "%w(",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "(",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ")",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "bare_string",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "bare_symbol",
+          "named": true,
+          "state_id": 21
+        },
+        {
+          "type": "begin",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "break",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "call",
+          "named": true,
+          "state_id": 12
+        },
+        {
+          "type": "case",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "class",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "class_variable",
+          "named": true,
+          "state_id": 9
+        },
+        {
+          "type": "comment",
+          "named": true,
+          "state_id": 7
+        },
+        {
+          "type": "constant",
+          "named": true,
+          "text": "^[A-Z_]+$",
+          "state_id": 20
+        },
+        {
+          "type": "constant",
+          "named": true,
+          "state_id": 19
+        },
+        {
+          "type": "def",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "do",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "else",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "elsif",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "end",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "ensure",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "escape_sequence",
+          "named": true,
+          "state_id": 4
+        },
+        {
+          "type": "false",
+          "named": true,
+          "state_id": 2
+        },
+        {
+          "type": "for",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "heredoc_beginning",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "heredoc_body",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "identifier",
+          "named": true,
+          "text": "^__(FILE|LINE|ENCODING)__$",
+          "state_id": 13
+        },
+        {
+          "type": "if",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "in",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "instance_variable",
+          "named": true,
+          "state_id": 9
+        },
+        {
+          "type": "integer",
+          "named": true,
+          "state_id": 6
+        },
+        {
+          "type": "interpolation",
+          "named": true,
+          "state_id": 18
+        },
+        {
+          "type": "keyword_parameter",
+          "named": true,
+          "state_id": 10
+        },
+        {
+          "type": "method",
+          "named": true,
+          "state_id": 15
+        },
+        {
+          "type": "method_call",
+          "named": true,
+          "state_id": 11
+        },
+        {
+          "type": "module",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "nil",
+          "named": true,
+          "state_id": 2
+        },
+        {
+          "type": "regex",
+          "named": true,
+          "state_id": 22
+        },
+        {
+          "type": "rescue",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "retry",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "return",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "self",
+          "named": true,
+          "state_id": 16
+        },
+        {
+          "type": "setter",
+          "named": true,
+          "state_id": 15
+        },
+        {
+          "type": "singleton_method",
+          "named": true,
+          "state_id": 17
+        },
+        {
+          "type": "string",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "subshell",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "superclass",
+          "named": true,
+          "state_id": 14
+        },
+        {
+          "type": "symbol",
+          "named": true,
+          "state_id": 8
+        },
+        {
+          "type": "then",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "true",
+          "named": true,
+          "state_id": 2
+        },
+        {
+          "type": "unless",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "until",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "when",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "while",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "yield",
+          "named": false,
+          "state_id": 5
+        }
+      ],
+      "default_next_state_id": 0
+    },
+    {
+      "id": 10,
+      "property_set_id": 0,
+      "transitions": [
+        {
+          "type": "%i(",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "%w(",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "(",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ")",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "bare_string",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "bare_symbol",
+          "named": true,
+          "state_id": 21
+        },
+        {
+          "type": "begin",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "break",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "call",
+          "named": true,
+          "state_id": 12
+        },
+        {
+          "type": "case",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "class",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "class_variable",
+          "named": true,
+          "state_id": 9
+        },
+        {
+          "type": "comment",
+          "named": true,
+          "state_id": 7
+        },
+        {
+          "type": "constant",
+          "named": true,
+          "text": "^[A-Z_]+$",
+          "state_id": 20
+        },
+        {
+          "type": "constant",
+          "named": true,
+          "state_id": 19
+        },
+        {
+          "type": "def",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "do",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "else",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "elsif",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "end",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "ensure",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "escape_sequence",
+          "named": true,
+          "state_id": 4
+        },
+        {
+          "type": "false",
+          "named": true,
+          "state_id": 2
+        },
+        {
+          "type": "for",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "heredoc_beginning",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "heredoc_body",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "identifier",
+          "named": true,
+          "index": 0,
+          "state_id": 8
+        },
+        {
+          "type": "identifier",
+          "named": true,
+          "text": "^__(FILE|LINE|ENCODING)__$",
+          "state_id": 13
+        },
+        {
+          "type": "if",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "in",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "instance_variable",
+          "named": true,
+          "state_id": 9
+        },
+        {
+          "type": "integer",
+          "named": true,
+          "state_id": 6
+        },
+        {
+          "type": "interpolation",
+          "named": true,
+          "state_id": 18
+        },
+        {
+          "type": "keyword_parameter",
+          "named": true,
+          "state_id": 10
+        },
+        {
+          "type": "method",
+          "named": true,
+          "state_id": 15
+        },
+        {
+          "type": "method_call",
+          "named": true,
+          "state_id": 11
+        },
+        {
+          "type": "module",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "nil",
+          "named": true,
+          "state_id": 2
+        },
+        {
+          "type": "regex",
+          "named": true,
+          "state_id": 22
+        },
+        {
+          "type": "rescue",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "retry",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "return",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "self",
+          "named": true,
+          "state_id": 16
+        },
+        {
+          "type": "setter",
+          "named": true,
+          "state_id": 15
+        },
+        {
+          "type": "singleton_method",
+          "named": true,
+          "state_id": 17
+        },
+        {
+          "type": "string",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "subshell",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "superclass",
+          "named": true,
+          "state_id": 14
+        },
+        {
+          "type": "symbol",
+          "named": true,
+          "state_id": 8
+        },
+        {
+          "type": "then",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "true",
+          "named": true,
+          "state_id": 2
+        },
+        {
+          "type": "unless",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "until",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "when",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "while",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "yield",
+          "named": false,
+          "state_id": 5
+        }
+      ],
+      "default_next_state_id": 0
+    },
+    {
+      "id": 11,
+      "property_set_id": 0,
+      "transitions": [
+        {
+          "type": "%i(",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "%w(",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "(",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ")",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "bare_string",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "bare_symbol",
+          "named": true,
+          "state_id": 21
+        },
+        {
+          "type": "begin",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "break",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "call",
+          "named": true,
+          "state_id": 12
+        },
+        {
+          "type": "case",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "class",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "class_variable",
+          "named": true,
+          "state_id": 9
+        },
+        {
+          "type": "comment",
+          "named": true,
+          "state_id": 7
+        },
+        {
+          "type": "constant",
+          "named": true,
+          "text": "^[A-Z_]+$",
+          "state_id": 20
+        },
+        {
+          "type": "constant",
+          "named": true,
+          "state_id": 19
+        },
+        {
+          "type": "def",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "do",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "else",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "elsif",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "end",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "ensure",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "escape_sequence",
+          "named": true,
+          "state_id": 4
+        },
+        {
+          "type": "false",
+          "named": true,
+          "state_id": 2
+        },
+        {
+          "type": "for",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "heredoc_beginning",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "heredoc_body",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "identifier",
+          "named": true,
+          "index": 0,
+          "text": "^require#",
+          "state_id": 23
+        },
+        {
+          "type": "identifier",
+          "named": true,
+          "index": 0,
+          "state_id": 24
+        },
+        {
+          "type": "identifier",
+          "named": true,
+          "text": "^__(FILE|LINE|ENCODING)__$",
+          "state_id": 13
+        },
+        {
+          "type": "if",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "in",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "instance_variable",
+          "named": true,
+          "state_id": 9
+        },
+        {
+          "type": "integer",
+          "named": true,
+          "state_id": 6
+        },
+        {
+          "type": "interpolation",
+          "named": true,
+          "state_id": 18
+        },
+        {
+          "type": "keyword_parameter",
+          "named": true,
+          "state_id": 10
+        },
+        {
+          "type": "method",
+          "named": true,
+          "state_id": 15
+        },
+        {
+          "type": "method_call",
+          "named": true,
+          "state_id": 11
+        },
+        {
+          "type": "module",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "nil",
+          "named": true,
+          "state_id": 2
+        },
+        {
+          "type": "regex",
+          "named": true,
+          "state_id": 22
+        },
+        {
+          "type": "rescue",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "retry",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "return",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "self",
+          "named": true,
+          "state_id": 16
+        },
+        {
+          "type": "setter",
+          "named": true,
+          "state_id": 15
+        },
+        {
+          "type": "singleton_method",
+          "named": true,
+          "state_id": 17
+        },
+        {
+          "type": "string",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "subshell",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "superclass",
+          "named": true,
+          "state_id": 14
+        },
+        {
+          "type": "symbol",
+          "named": true,
+          "state_id": 8
+        },
+        {
+          "type": "then",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "true",
+          "named": true,
+          "state_id": 2
+        },
+        {
+          "type": "unless",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "until",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "when",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "while",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "yield",
+          "named": false,
+          "state_id": 5
+        }
+      ],
+      "default_next_state_id": 0
+    },
+    {
+      "id": 12,
+      "property_set_id": 0,
+      "transitions": [
+        {
+          "type": "%i(",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "%w(",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "(",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ")",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "bare_string",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "bare_symbol",
+          "named": true,
+          "state_id": 21
+        },
+        {
+          "type": "begin",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "break",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "call",
+          "named": true,
+          "state_id": 12
+        },
+        {
+          "type": "case",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "class",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "class_variable",
+          "named": true,
+          "state_id": 9
+        },
+        {
+          "type": "comment",
+          "named": true,
+          "state_id": 7
+        },
+        {
+          "type": "constant",
+          "named": true,
+          "text": "^[A-Z_]+$",
+          "state_id": 20
+        },
+        {
+          "type": "constant",
+          "named": true,
+          "state_id": 19
+        },
+        {
+          "type": "def",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "do",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "else",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "elsif",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "end",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "ensure",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "escape_sequence",
+          "named": true,
+          "state_id": 4
+        },
+        {
+          "type": "false",
+          "named": true,
+          "state_id": 2
+        },
+        {
+          "type": "for",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "heredoc_beginning",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "heredoc_body",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "identifier",
+          "named": true,
+          "index": 2,
+          "state_id": 24
+        },
+        {
+          "type": "identifier",
+          "named": true,
+          "text": "^__(FILE|LINE|ENCODING)__$",
+          "state_id": 13
+        },
+        {
+          "type": "if",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "in",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "instance_variable",
+          "named": true,
+          "state_id": 9
+        },
+        {
+          "type": "integer",
+          "named": true,
+          "state_id": 6
+        },
+        {
+          "type": "interpolation",
+          "named": true,
+          "state_id": 18
+        },
+        {
+          "type": "keyword_parameter",
+          "named": true,
+          "state_id": 10
+        },
+        {
+          "type": "method",
+          "named": true,
+          "state_id": 15
+        },
+        {
+          "type": "method_call",
+          "named": true,
+          "state_id": 11
+        },
+        {
+          "type": "module",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "nil",
+          "named": true,
+          "state_id": 2
+        },
+        {
+          "type": "regex",
+          "named": true,
+          "state_id": 22
+        },
+        {
+          "type": "rescue",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "retry",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "return",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "self",
+          "named": true,
+          "state_id": 16
+        },
+        {
+          "type": "setter",
+          "named": true,
+          "state_id": 15
+        },
+        {
+          "type": "singleton_method",
+          "named": true,
+          "state_id": 17
+        },
+        {
+          "type": "string",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "subshell",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "superclass",
+          "named": true,
+          "state_id": 14
+        },
+        {
+          "type": "symbol",
+          "named": true,
+          "state_id": 8
+        },
+        {
+          "type": "then",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "true",
+          "named": true,
+          "state_id": 2
+        },
+        {
+          "type": "unless",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "until",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "when",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "while",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "yield",
+          "named": false,
+          "state_id": 5
+        }
+      ],
+      "default_next_state_id": 0
+    },
+    {
+      "id": 13,
+      "property_set_id": 10,
+      "transitions": [
+        {
+          "type": "%i(",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "%w(",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "(",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ")",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "bare_string",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "bare_symbol",
+          "named": true,
+          "state_id": 21
+        },
+        {
+          "type": "begin",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "break",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "call",
+          "named": true,
+          "state_id": 12
+        },
+        {
+          "type": "case",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "class",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "class_variable",
+          "named": true,
+          "state_id": 9
+        },
+        {
+          "type": "comment",
+          "named": true,
+          "state_id": 7
+        },
+        {
+          "type": "constant",
+          "named": true,
+          "text": "^[A-Z_]+$",
+          "state_id": 20
+        },
+        {
+          "type": "constant",
+          "named": true,
+          "state_id": 19
+        },
+        {
+          "type": "def",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "do",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "else",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "elsif",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "end",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "ensure",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "escape_sequence",
+          "named": true,
+          "state_id": 4
+        },
+        {
+          "type": "false",
+          "named": true,
+          "state_id": 2
+        },
+        {
+          "type": "for",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "heredoc_beginning",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "heredoc_body",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "identifier",
+          "named": true,
+          "text": "^__(FILE|LINE|ENCODING)__$",
+          "state_id": 13
+        },
+        {
+          "type": "if",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "in",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "instance_variable",
+          "named": true,
+          "state_id": 9
+        },
+        {
+          "type": "integer",
+          "named": true,
+          "state_id": 6
+        },
+        {
+          "type": "interpolation",
+          "named": true,
+          "state_id": 18
+        },
+        {
+          "type": "keyword_parameter",
+          "named": true,
+          "state_id": 10
+        },
+        {
+          "type": "method",
+          "named": true,
+          "state_id": 15
+        },
+        {
+          "type": "method_call",
+          "named": true,
+          "state_id": 11
+        },
+        {
+          "type": "module",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "nil",
+          "named": true,
+          "state_id": 2
+        },
+        {
+          "type": "regex",
+          "named": true,
+          "state_id": 22
+        },
+        {
+          "type": "rescue",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "retry",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "return",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "self",
+          "named": true,
+          "state_id": 16
+        },
+        {
+          "type": "setter",
+          "named": true,
+          "state_id": 15
+        },
+        {
+          "type": "singleton_method",
+          "named": true,
+          "state_id": 17
+        },
+        {
+          "type": "string",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "subshell",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "superclass",
+          "named": true,
+          "state_id": 14
+        },
+        {
+          "type": "symbol",
+          "named": true,
+          "state_id": 8
+        },
+        {
+          "type": "then",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "true",
+          "named": true,
+          "state_id": 2
+        },
+        {
+          "type": "unless",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "until",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "when",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "while",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "yield",
+          "named": false,
+          "state_id": 5
+        }
+      ],
+      "default_next_state_id": 0
+    },
+    {
+      "id": 14,
+      "property_set_id": 0,
+      "transitions": [
+        {
+          "type": "%i(",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "%w(",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "(",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ")",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "bare_string",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "bare_symbol",
+          "named": true,
+          "state_id": 21
+        },
+        {
+          "type": "begin",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "break",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "call",
+          "named": true,
+          "state_id": 12
+        },
+        {
+          "type": "case",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "class",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "class_variable",
+          "named": true,
+          "state_id": 9
+        },
+        {
+          "type": "comment",
+          "named": true,
+          "state_id": 7
+        },
+        {
+          "type": "constant",
+          "named": true,
+          "text": "^[A-Z_]+$",
+          "state_id": 25
+        },
+        {
+          "type": "constant",
+          "named": true,
+          "state_id": 25
+        },
+        {
+          "type": "def",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "do",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "else",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "elsif",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "end",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "ensure",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "escape_sequence",
+          "named": true,
+          "state_id": 4
+        },
+        {
+          "type": "false",
+          "named": true,
+          "state_id": 2
+        },
+        {
+          "type": "for",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "heredoc_beginning",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "heredoc_body",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "identifier",
+          "named": true,
+          "text": "^__(FILE|LINE|ENCODING)__$",
+          "state_id": 13
+        },
+        {
+          "type": "if",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "in",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "instance_variable",
+          "named": true,
+          "state_id": 9
+        },
+        {
+          "type": "integer",
+          "named": true,
+          "state_id": 6
+        },
+        {
+          "type": "interpolation",
+          "named": true,
+          "state_id": 18
+        },
+        {
+          "type": "keyword_parameter",
+          "named": true,
+          "state_id": 10
+        },
+        {
+          "type": "method",
+          "named": true,
+          "state_id": 15
+        },
+        {
+          "type": "method_call",
+          "named": true,
+          "state_id": 11
+        },
+        {
+          "type": "module",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "nil",
+          "named": true,
+          "state_id": 2
+        },
+        {
+          "type": "regex",
+          "named": true,
+          "state_id": 22
+        },
+        {
+          "type": "rescue",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "retry",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "return",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "self",
+          "named": true,
+          "state_id": 16
+        },
+        {
+          "type": "setter",
+          "named": true,
+          "state_id": 15
+        },
+        {
+          "type": "singleton_method",
+          "named": true,
+          "state_id": 17
+        },
+        {
+          "type": "string",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "subshell",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "superclass",
+          "named": true,
+          "state_id": 14
+        },
+        {
+          "type": "symbol",
+          "named": true,
+          "state_id": 8
+        },
+        {
+          "type": "then",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "true",
+          "named": true,
+          "state_id": 2
+        },
+        {
+          "type": "unless",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "until",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "when",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "while",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "yield",
+          "named": false,
+          "state_id": 5
+        }
+      ],
+      "default_next_state_id": 0
+    },
+    {
+      "id": 15,
+      "property_set_id": 0,
+      "transitions": [
+        {
+          "type": "%i(",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "%w(",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "(",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ")",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "bare_string",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "bare_symbol",
+          "named": true,
+          "state_id": 21
+        },
+        {
+          "type": "begin",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "break",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "call",
+          "named": true,
+          "state_id": 12
+        },
+        {
+          "type": "case",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "class",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "class_variable",
+          "named": true,
+          "state_id": 9
+        },
+        {
+          "type": "comment",
+          "named": true,
+          "state_id": 7
+        },
+        {
+          "type": "constant",
+          "named": true,
+          "text": "^[A-Z_]+$",
+          "state_id": 20
+        },
+        {
+          "type": "constant",
+          "named": true,
+          "state_id": 19
+        },
+        {
+          "type": "def",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "do",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "else",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "elsif",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "end",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "ensure",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "escape_sequence",
+          "named": true,
+          "state_id": 4
+        },
+        {
+          "type": "false",
+          "named": true,
+          "state_id": 2
+        },
+        {
+          "type": "for",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "heredoc_beginning",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "heredoc_body",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "identifier",
+          "named": true,
+          "text": "^__(FILE|LINE|ENCODING)__$",
+          "state_id": 24
+        },
+        {
+          "type": "identifier",
+          "named": true,
+          "state_id": 24
+        },
+        {
+          "type": "if",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "in",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "instance_variable",
+          "named": true,
+          "state_id": 9
+        },
+        {
+          "type": "integer",
+          "named": true,
+          "state_id": 6
+        },
+        {
+          "type": "interpolation",
+          "named": true,
+          "state_id": 18
+        },
+        {
+          "type": "keyword_parameter",
+          "named": true,
+          "state_id": 10
+        },
+        {
+          "type": "method",
+          "named": true,
+          "state_id": 15
+        },
+        {
+          "type": "method_call",
+          "named": true,
+          "state_id": 11
+        },
+        {
+          "type": "module",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "nil",
+          "named": true,
+          "state_id": 2
+        },
+        {
+          "type": "regex",
+          "named": true,
+          "state_id": 22
+        },
+        {
+          "type": "rescue",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "retry",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "return",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "self",
+          "named": true,
+          "state_id": 16
+        },
+        {
+          "type": "setter",
+          "named": true,
+          "state_id": 15
+        },
+        {
+          "type": "singleton_method",
+          "named": true,
+          "state_id": 17
+        },
+        {
+          "type": "string",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "subshell",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "superclass",
+          "named": true,
+          "state_id": 14
+        },
+        {
+          "type": "symbol",
+          "named": true,
+          "state_id": 8
+        },
+        {
+          "type": "then",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "true",
+          "named": true,
+          "state_id": 2
+        },
+        {
+          "type": "unless",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "until",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "when",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "while",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "yield",
+          "named": false,
+          "state_id": 5
+        }
+      ],
+      "default_next_state_id": 0
+    },
+    {
+      "id": 16,
+      "property_set_id": 11,
+      "transitions": [
+        {
+          "type": "%i(",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "%w(",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "(",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ")",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "bare_string",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "bare_symbol",
+          "named": true,
+          "state_id": 21
+        },
+        {
+          "type": "begin",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "break",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "call",
+          "named": true,
+          "state_id": 12
+        },
+        {
+          "type": "case",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "class",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "class_variable",
+          "named": true,
+          "state_id": 9
+        },
+        {
+          "type": "comment",
+          "named": true,
+          "state_id": 7
+        },
+        {
+          "type": "constant",
+          "named": true,
+          "text": "^[A-Z_]+$",
+          "state_id": 20
+        },
+        {
+          "type": "constant",
+          "named": true,
+          "state_id": 19
+        },
+        {
+          "type": "def",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "do",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "else",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "elsif",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "end",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "ensure",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "escape_sequence",
+          "named": true,
+          "state_id": 4
+        },
+        {
+          "type": "false",
+          "named": true,
+          "state_id": 2
+        },
+        {
+          "type": "for",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "heredoc_beginning",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "heredoc_body",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "identifier",
+          "named": true,
+          "text": "^__(FILE|LINE|ENCODING)__$",
+          "state_id": 13
+        },
+        {
+          "type": "if",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "in",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "instance_variable",
+          "named": true,
+          "state_id": 9
+        },
+        {
+          "type": "integer",
+          "named": true,
+          "state_id": 6
+        },
+        {
+          "type": "interpolation",
+          "named": true,
+          "state_id": 18
+        },
+        {
+          "type": "keyword_parameter",
+          "named": true,
+          "state_id": 10
+        },
+        {
+          "type": "method",
+          "named": true,
+          "state_id": 15
+        },
+        {
+          "type": "method_call",
+          "named": true,
+          "state_id": 11
+        },
+        {
+          "type": "module",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "nil",
+          "named": true,
+          "state_id": 2
+        },
+        {
+          "type": "regex",
+          "named": true,
+          "state_id": 22
+        },
+        {
+          "type": "rescue",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "retry",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "return",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "self",
+          "named": true,
+          "state_id": 16
+        },
+        {
+          "type": "setter",
+          "named": true,
+          "state_id": 15
+        },
+        {
+          "type": "singleton_method",
+          "named": true,
+          "state_id": 17
+        },
+        {
+          "type": "string",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "subshell",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "superclass",
+          "named": true,
+          "state_id": 14
+        },
+        {
+          "type": "symbol",
+          "named": true,
+          "state_id": 8
+        },
+        {
+          "type": "then",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "true",
+          "named": true,
+          "state_id": 2
+        },
+        {
+          "type": "unless",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "until",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "when",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "while",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "yield",
+          "named": false,
+          "state_id": 5
+        }
+      ],
+      "default_next_state_id": 0
+    },
+    {
+      "id": 17,
+      "property_set_id": 0,
+      "transitions": [
+        {
+          "type": "%i(",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "%w(",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "(",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ")",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "bare_string",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "bare_symbol",
+          "named": true,
+          "state_id": 21
+        },
+        {
+          "type": "begin",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "break",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "call",
+          "named": true,
+          "state_id": 12
+        },
+        {
+          "type": "case",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "class",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "class_variable",
+          "named": true,
+          "state_id": 9
+        },
+        {
+          "type": "comment",
+          "named": true,
+          "state_id": 7
+        },
+        {
+          "type": "constant",
+          "named": true,
+          "text": "^[A-Z_]+$",
+          "state_id": 20
+        },
+        {
+          "type": "constant",
+          "named": true,
+          "state_id": 19
+        },
+        {
+          "type": "def",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "do",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "else",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "elsif",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "end",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "ensure",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "escape_sequence",
+          "named": true,
+          "state_id": 4
+        },
+        {
+          "type": "false",
+          "named": true,
+          "state_id": 2
+        },
+        {
+          "type": "for",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "heredoc_beginning",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "heredoc_body",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "identifier",
+          "named": true,
+          "index": 3,
+          "state_id": 24
+        },
+        {
+          "type": "identifier",
+          "named": true,
+          "text": "^__(FILE|LINE|ENCODING)__$",
+          "state_id": 13
+        },
+        {
+          "type": "if",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "in",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "instance_variable",
+          "named": true,
+          "state_id": 9
+        },
+        {
+          "type": "integer",
+          "named": true,
+          "state_id": 6
+        },
+        {
+          "type": "interpolation",
+          "named": true,
+          "state_id": 18
+        },
+        {
+          "type": "keyword_parameter",
+          "named": true,
+          "state_id": 10
+        },
+        {
+          "type": "method",
+          "named": true,
+          "state_id": 15
+        },
+        {
+          "type": "method_call",
+          "named": true,
+          "state_id": 11
+        },
+        {
+          "type": "module",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "nil",
+          "named": true,
+          "state_id": 2
+        },
+        {
+          "type": "regex",
+          "named": true,
+          "state_id": 22
+        },
+        {
+          "type": "rescue",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "retry",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "return",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "self",
+          "named": true,
+          "state_id": 16
+        },
+        {
+          "type": "setter",
+          "named": true,
+          "state_id": 15
+        },
+        {
+          "type": "singleton_method",
+          "named": true,
+          "state_id": 17
+        },
+        {
+          "type": "string",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "subshell",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "superclass",
+          "named": true,
+          "state_id": 14
+        },
+        {
+          "type": "symbol",
+          "named": true,
+          "state_id": 8
+        },
+        {
+          "type": "then",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "true",
+          "named": true,
+          "state_id": 2
+        },
+        {
+          "type": "unless",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "until",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "when",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "while",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "yield",
+          "named": false,
+          "state_id": 5
+        }
+      ],
+      "default_next_state_id": 0
+    },
+    {
+      "id": 18,
+      "property_set_id": 12,
+      "transitions": [
+        {
+          "type": "#{",
+          "named": false,
+          "state_id": 26
+        },
+        {
+          "type": "%i(",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "%w(",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "(",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ")",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "bare_string",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "bare_symbol",
+          "named": true,
+          "state_id": 21
+        },
+        {
+          "type": "begin",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "break",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "call",
+          "named": true,
+          "state_id": 12
+        },
+        {
+          "type": "case",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "class",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "class_variable",
+          "named": true,
+          "state_id": 9
+        },
+        {
+          "type": "comment",
+          "named": true,
+          "state_id": 7
+        },
+        {
+          "type": "constant",
+          "named": true,
+          "text": "^[A-Z_]+$",
+          "state_id": 20
+        },
+        {
+          "type": "constant",
+          "named": true,
+          "state_id": 19
+        },
+        {
+          "type": "def",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "do",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "else",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "elsif",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "end",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "ensure",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "escape_sequence",
+          "named": true,
+          "state_id": 4
+        },
+        {
+          "type": "false",
+          "named": true,
+          "state_id": 2
+        },
+        {
+          "type": "for",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "heredoc_beginning",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "heredoc_body",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "identifier",
+          "named": true,
+          "text": "^__(FILE|LINE|ENCODING)__$",
+          "state_id": 13
+        },
+        {
+          "type": "if",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "in",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "instance_variable",
+          "named": true,
+          "state_id": 9
+        },
+        {
+          "type": "integer",
+          "named": true,
+          "state_id": 6
+        },
+        {
+          "type": "interpolation",
+          "named": true,
+          "state_id": 18
+        },
+        {
+          "type": "keyword_parameter",
+          "named": true,
+          "state_id": 10
+        },
+        {
+          "type": "method",
+          "named": true,
+          "state_id": 15
+        },
+        {
+          "type": "method_call",
+          "named": true,
+          "state_id": 11
+        },
+        {
+          "type": "module",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "nil",
+          "named": true,
+          "state_id": 2
+        },
+        {
+          "type": "regex",
+          "named": true,
+          "state_id": 22
+        },
+        {
+          "type": "rescue",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "retry",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "return",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "self",
+          "named": true,
+          "state_id": 16
+        },
+        {
+          "type": "setter",
+          "named": true,
+          "state_id": 15
+        },
+        {
+          "type": "singleton_method",
+          "named": true,
+          "state_id": 17
+        },
+        {
+          "type": "string",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "subshell",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "superclass",
+          "named": true,
+          "state_id": 14
+        },
+        {
+          "type": "symbol",
+          "named": true,
+          "state_id": 8
+        },
+        {
+          "type": "then",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "true",
+          "named": true,
+          "state_id": 2
+        },
+        {
+          "type": "unless",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "until",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "when",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "while",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "yield",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "}",
+          "named": false,
+          "state_id": 26
+        }
+      ],
+      "default_next_state_id": 0
+    },
+    {
+      "id": 19,
+      "property_set_id": 13,
+      "transitions": [
+        {
+          "type": "%i(",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "%w(",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "(",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ")",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "bare_string",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "bare_symbol",
+          "named": true,
+          "state_id": 21
+        },
+        {
+          "type": "begin",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "break",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "call",
+          "named": true,
+          "state_id": 12
+        },
+        {
+          "type": "case",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "class",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "class_variable",
+          "named": true,
+          "state_id": 9
+        },
+        {
+          "type": "comment",
+          "named": true,
+          "state_id": 7
+        },
+        {
+          "type": "constant",
+          "named": true,
+          "text": "^[A-Z_]+$",
+          "state_id": 20
+        },
+        {
+          "type": "constant",
+          "named": true,
+          "state_id": 19
+        },
+        {
+          "type": "def",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "do",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "else",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "elsif",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "end",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "ensure",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "escape_sequence",
+          "named": true,
+          "state_id": 4
+        },
+        {
+          "type": "false",
+          "named": true,
+          "state_id": 2
+        },
+        {
+          "type": "for",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "heredoc_beginning",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "heredoc_body",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "identifier",
+          "named": true,
+          "text": "^__(FILE|LINE|ENCODING)__$",
+          "state_id": 13
+        },
+        {
+          "type": "if",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "in",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "instance_variable",
+          "named": true,
+          "state_id": 9
+        },
+        {
+          "type": "integer",
+          "named": true,
+          "state_id": 6
+        },
+        {
+          "type": "interpolation",
+          "named": true,
+          "state_id": 18
+        },
+        {
+          "type": "keyword_parameter",
+          "named": true,
+          "state_id": 10
+        },
+        {
+          "type": "method",
+          "named": true,
+          "state_id": 15
+        },
+        {
+          "type": "method_call",
+          "named": true,
+          "state_id": 11
+        },
+        {
+          "type": "module",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "nil",
+          "named": true,
+          "state_id": 2
+        },
+        {
+          "type": "regex",
+          "named": true,
+          "state_id": 22
+        },
+        {
+          "type": "rescue",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "retry",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "return",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "self",
+          "named": true,
+          "state_id": 16
+        },
+        {
+          "type": "setter",
+          "named": true,
+          "state_id": 15
+        },
+        {
+          "type": "singleton_method",
+          "named": true,
+          "state_id": 17
+        },
+        {
+          "type": "string",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "subshell",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "superclass",
+          "named": true,
+          "state_id": 14
+        },
+        {
+          "type": "symbol",
+          "named": true,
+          "state_id": 8
+        },
+        {
+          "type": "then",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "true",
+          "named": true,
+          "state_id": 2
+        },
+        {
+          "type": "unless",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "until",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "when",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "while",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "yield",
+          "named": false,
+          "state_id": 5
+        }
+      ],
+      "default_next_state_id": 0
+    },
+    {
+      "id": 20,
+      "property_set_id": 14,
+      "transitions": [
+        {
+          "type": "%i(",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "%w(",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "(",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ")",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "bare_string",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "bare_symbol",
+          "named": true,
+          "state_id": 21
+        },
+        {
+          "type": "begin",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "break",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "call",
+          "named": true,
+          "state_id": 12
+        },
+        {
+          "type": "case",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "class",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "class_variable",
+          "named": true,
+          "state_id": 9
+        },
+        {
+          "type": "comment",
+          "named": true,
+          "state_id": 7
+        },
+        {
+          "type": "constant",
+          "named": true,
+          "text": "^[A-Z_]+$",
+          "state_id": 20
+        },
+        {
+          "type": "constant",
+          "named": true,
+          "state_id": 19
+        },
+        {
+          "type": "def",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "do",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "else",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "elsif",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "end",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "ensure",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "escape_sequence",
+          "named": true,
+          "state_id": 4
+        },
+        {
+          "type": "false",
+          "named": true,
+          "state_id": 2
+        },
+        {
+          "type": "for",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "heredoc_beginning",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "heredoc_body",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "identifier",
+          "named": true,
+          "text": "^__(FILE|LINE|ENCODING)__$",
+          "state_id": 13
+        },
+        {
+          "type": "if",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "in",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "instance_variable",
+          "named": true,
+          "state_id": 9
+        },
+        {
+          "type": "integer",
+          "named": true,
+          "state_id": 6
+        },
+        {
+          "type": "interpolation",
+          "named": true,
+          "state_id": 18
+        },
+        {
+          "type": "keyword_parameter",
+          "named": true,
+          "state_id": 10
+        },
+        {
+          "type": "method",
+          "named": true,
+          "state_id": 15
+        },
+        {
+          "type": "method_call",
+          "named": true,
+          "state_id": 11
+        },
+        {
+          "type": "module",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "nil",
+          "named": true,
+          "state_id": 2
+        },
+        {
+          "type": "regex",
+          "named": true,
+          "state_id": 22
+        },
+        {
+          "type": "rescue",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "retry",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "return",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "self",
+          "named": true,
+          "state_id": 16
+        },
+        {
+          "type": "setter",
+          "named": true,
+          "state_id": 15
+        },
+        {
+          "type": "singleton_method",
+          "named": true,
+          "state_id": 17
+        },
+        {
+          "type": "string",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "subshell",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "superclass",
+          "named": true,
+          "state_id": 14
+        },
+        {
+          "type": "symbol",
+          "named": true,
+          "state_id": 8
+        },
+        {
+          "type": "then",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "true",
+          "named": true,
+          "state_id": 2
+        },
+        {
+          "type": "unless",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "until",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "when",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "while",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "yield",
+          "named": false,
+          "state_id": 5
+        }
+      ],
+      "default_next_state_id": 0
+    },
+    {
+      "id": 21,
+      "property_set_id": 15,
+      "transitions": [
+        {
+          "type": "%i(",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "%w(",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "(",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ")",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "bare_string",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "bare_symbol",
+          "named": true,
+          "state_id": 21
+        },
+        {
+          "type": "begin",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "break",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "call",
+          "named": true,
+          "state_id": 12
+        },
+        {
+          "type": "case",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "class",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "class_variable",
+          "named": true,
+          "state_id": 9
+        },
+        {
+          "type": "comment",
+          "named": true,
+          "state_id": 7
+        },
+        {
+          "type": "constant",
+          "named": true,
+          "text": "^[A-Z_]+$",
+          "state_id": 20
+        },
+        {
+          "type": "constant",
+          "named": true,
+          "state_id": 19
+        },
+        {
+          "type": "def",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "do",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "else",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "elsif",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "end",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "ensure",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "escape_sequence",
+          "named": true,
+          "state_id": 4
+        },
+        {
+          "type": "false",
+          "named": true,
+          "state_id": 2
+        },
+        {
+          "type": "for",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "heredoc_beginning",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "heredoc_body",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "identifier",
+          "named": true,
+          "text": "^__(FILE|LINE|ENCODING)__$",
+          "state_id": 13
+        },
+        {
+          "type": "if",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "in",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "instance_variable",
+          "named": true,
+          "state_id": 9
+        },
+        {
+          "type": "integer",
+          "named": true,
+          "state_id": 6
+        },
+        {
+          "type": "interpolation",
+          "named": true,
+          "state_id": 18
+        },
+        {
+          "type": "keyword_parameter",
+          "named": true,
+          "state_id": 10
+        },
+        {
+          "type": "method",
+          "named": true,
+          "state_id": 15
+        },
+        {
+          "type": "method_call",
+          "named": true,
+          "state_id": 11
+        },
+        {
+          "type": "module",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "nil",
+          "named": true,
+          "state_id": 2
+        },
+        {
+          "type": "regex",
+          "named": true,
+          "state_id": 22
+        },
+        {
+          "type": "rescue",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "retry",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "return",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "self",
+          "named": true,
+          "state_id": 16
+        },
+        {
+          "type": "setter",
+          "named": true,
+          "state_id": 15
+        },
+        {
+          "type": "singleton_method",
+          "named": true,
+          "state_id": 17
+        },
+        {
+          "type": "string",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "subshell",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "superclass",
+          "named": true,
+          "state_id": 14
+        },
+        {
+          "type": "symbol",
+          "named": true,
+          "state_id": 8
+        },
+        {
+          "type": "then",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "true",
+          "named": true,
+          "state_id": 2
+        },
+        {
+          "type": "unless",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "until",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "when",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "while",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "yield",
+          "named": false,
+          "state_id": 5
+        }
+      ],
+      "default_next_state_id": 0
+    },
+    {
+      "id": 22,
+      "property_set_id": 16,
+      "transitions": [
+        {
+          "type": "%i(",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "%w(",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "(",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ")",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "bare_string",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "bare_symbol",
+          "named": true,
+          "state_id": 21
+        },
+        {
+          "type": "begin",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "break",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "call",
+          "named": true,
+          "state_id": 12
+        },
+        {
+          "type": "case",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "class",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "class_variable",
+          "named": true,
+          "state_id": 9
+        },
+        {
+          "type": "comment",
+          "named": true,
+          "state_id": 7
+        },
+        {
+          "type": "constant",
+          "named": true,
+          "text": "^[A-Z_]+$",
+          "state_id": 20
+        },
+        {
+          "type": "constant",
+          "named": true,
+          "state_id": 19
+        },
+        {
+          "type": "def",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "do",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "else",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "elsif",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "end",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "ensure",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "escape_sequence",
+          "named": true,
+          "state_id": 4
+        },
+        {
+          "type": "false",
+          "named": true,
+          "state_id": 2
+        },
+        {
+          "type": "for",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "heredoc_beginning",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "heredoc_body",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "identifier",
+          "named": true,
+          "text": "^__(FILE|LINE|ENCODING)__$",
+          "state_id": 13
+        },
+        {
+          "type": "if",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "in",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "instance_variable",
+          "named": true,
+          "state_id": 9
+        },
+        {
+          "type": "integer",
+          "named": true,
+          "state_id": 6
+        },
+        {
+          "type": "interpolation",
+          "named": true,
+          "state_id": 18
+        },
+        {
+          "type": "keyword_parameter",
+          "named": true,
+          "state_id": 10
+        },
+        {
+          "type": "method",
+          "named": true,
+          "state_id": 15
+        },
+        {
+          "type": "method_call",
+          "named": true,
+          "state_id": 11
+        },
+        {
+          "type": "module",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "nil",
+          "named": true,
+          "state_id": 2
+        },
+        {
+          "type": "regex",
+          "named": true,
+          "state_id": 22
+        },
+        {
+          "type": "rescue",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "retry",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "return",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "self",
+          "named": true,
+          "state_id": 16
+        },
+        {
+          "type": "setter",
+          "named": true,
+          "state_id": 15
+        },
+        {
+          "type": "singleton_method",
+          "named": true,
+          "state_id": 17
+        },
+        {
+          "type": "string",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "subshell",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "superclass",
+          "named": true,
+          "state_id": 14
+        },
+        {
+          "type": "symbol",
+          "named": true,
+          "state_id": 8
+        },
+        {
+          "type": "then",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "true",
+          "named": true,
+          "state_id": 2
+        },
+        {
+          "type": "unless",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "until",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "when",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "while",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "yield",
+          "named": false,
+          "state_id": 5
+        }
+      ],
+      "default_next_state_id": 0
+    },
+    {
+      "id": 23,
+      "property_set_id": 17,
+      "transitions": [
+        {
+          "type": "%i(",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "%w(",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "(",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ")",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "bare_string",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "bare_symbol",
+          "named": true,
+          "state_id": 21
+        },
+        {
+          "type": "begin",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "break",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "call",
+          "named": true,
+          "state_id": 12
+        },
+        {
+          "type": "case",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "class",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "class_variable",
+          "named": true,
+          "state_id": 9
+        },
+        {
+          "type": "comment",
+          "named": true,
+          "state_id": 7
+        },
+        {
+          "type": "constant",
+          "named": true,
+          "text": "^[A-Z_]+$",
+          "state_id": 20
+        },
+        {
+          "type": "constant",
+          "named": true,
+          "state_id": 19
+        },
+        {
+          "type": "def",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "do",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "else",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "elsif",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "end",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "ensure",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "escape_sequence",
+          "named": true,
+          "state_id": 4
+        },
+        {
+          "type": "false",
+          "named": true,
+          "state_id": 2
+        },
+        {
+          "type": "for",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "heredoc_beginning",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "heredoc_body",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "identifier",
+          "named": true,
+          "text": "^__(FILE|LINE|ENCODING)__$",
+          "state_id": 13
+        },
+        {
+          "type": "if",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "in",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "instance_variable",
+          "named": true,
+          "state_id": 9
+        },
+        {
+          "type": "integer",
+          "named": true,
+          "state_id": 6
+        },
+        {
+          "type": "interpolation",
+          "named": true,
+          "state_id": 18
+        },
+        {
+          "type": "keyword_parameter",
+          "named": true,
+          "state_id": 10
+        },
+        {
+          "type": "method",
+          "named": true,
+          "state_id": 15
+        },
+        {
+          "type": "method_call",
+          "named": true,
+          "state_id": 11
+        },
+        {
+          "type": "module",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "nil",
+          "named": true,
+          "state_id": 2
+        },
+        {
+          "type": "regex",
+          "named": true,
+          "state_id": 22
+        },
+        {
+          "type": "rescue",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "retry",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "return",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "self",
+          "named": true,
+          "state_id": 16
+        },
+        {
+          "type": "setter",
+          "named": true,
+          "state_id": 15
+        },
+        {
+          "type": "singleton_method",
+          "named": true,
+          "state_id": 17
+        },
+        {
+          "type": "string",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "subshell",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "superclass",
+          "named": true,
+          "state_id": 14
+        },
+        {
+          "type": "symbol",
+          "named": true,
+          "state_id": 8
+        },
+        {
+          "type": "then",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "true",
+          "named": true,
+          "state_id": 2
+        },
+        {
+          "type": "unless",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "until",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "when",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "while",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "yield",
+          "named": false,
+          "state_id": 5
+        }
+      ],
+      "default_next_state_id": 0
+    },
+    {
+      "id": 24,
+      "property_set_id": 18,
+      "transitions": [
+        {
+          "type": "%i(",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "%w(",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "(",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ")",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "bare_string",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "bare_symbol",
+          "named": true,
+          "state_id": 21
+        },
+        {
+          "type": "begin",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "break",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "call",
+          "named": true,
+          "state_id": 12
+        },
+        {
+          "type": "case",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "class",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "class_variable",
+          "named": true,
+          "state_id": 9
+        },
+        {
+          "type": "comment",
+          "named": true,
+          "state_id": 7
+        },
+        {
+          "type": "constant",
+          "named": true,
+          "text": "^[A-Z_]+$",
+          "state_id": 20
+        },
+        {
+          "type": "constant",
+          "named": true,
+          "state_id": 19
+        },
+        {
+          "type": "def",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "do",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "else",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "elsif",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "end",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "ensure",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "escape_sequence",
+          "named": true,
+          "state_id": 4
+        },
+        {
+          "type": "false",
+          "named": true,
+          "state_id": 2
+        },
+        {
+          "type": "for",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "heredoc_beginning",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "heredoc_body",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "identifier",
+          "named": true,
+          "text": "^__(FILE|LINE|ENCODING)__$",
+          "state_id": 13
+        },
+        {
+          "type": "if",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "in",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "instance_variable",
+          "named": true,
+          "state_id": 9
+        },
+        {
+          "type": "integer",
+          "named": true,
+          "state_id": 6
+        },
+        {
+          "type": "interpolation",
+          "named": true,
+          "state_id": 18
+        },
+        {
+          "type": "keyword_parameter",
+          "named": true,
+          "state_id": 10
+        },
+        {
+          "type": "method",
+          "named": true,
+          "state_id": 15
+        },
+        {
+          "type": "method_call",
+          "named": true,
+          "state_id": 11
+        },
+        {
+          "type": "module",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "nil",
+          "named": true,
+          "state_id": 2
+        },
+        {
+          "type": "regex",
+          "named": true,
+          "state_id": 22
+        },
+        {
+          "type": "rescue",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "retry",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "return",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "self",
+          "named": true,
+          "state_id": 16
+        },
+        {
+          "type": "setter",
+          "named": true,
+          "state_id": 15
+        },
+        {
+          "type": "singleton_method",
+          "named": true,
+          "state_id": 17
+        },
+        {
+          "type": "string",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "subshell",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "superclass",
+          "named": true,
+          "state_id": 14
+        },
+        {
+          "type": "symbol",
+          "named": true,
+          "state_id": 8
+        },
+        {
+          "type": "then",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "true",
+          "named": true,
+          "state_id": 2
+        },
+        {
+          "type": "unless",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "until",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "when",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "while",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "yield",
+          "named": false,
+          "state_id": 5
+        }
+      ],
+      "default_next_state_id": 0
+    },
+    {
+      "id": 25,
+      "property_set_id": 19,
+      "transitions": [
+        {
+          "type": "%i(",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "%w(",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "(",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ")",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "bare_string",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "bare_symbol",
+          "named": true,
+          "state_id": 21
+        },
+        {
+          "type": "begin",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "break",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "call",
+          "named": true,
+          "state_id": 12
+        },
+        {
+          "type": "case",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "class",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "class_variable",
+          "named": true,
+          "state_id": 9
+        },
+        {
+          "type": "comment",
+          "named": true,
+          "state_id": 7
+        },
+        {
+          "type": "constant",
+          "named": true,
+          "text": "^[A-Z_]+$",
+          "state_id": 20
+        },
+        {
+          "type": "constant",
+          "named": true,
+          "state_id": 19
+        },
+        {
+          "type": "def",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "do",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "else",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "elsif",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "end",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "ensure",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "escape_sequence",
+          "named": true,
+          "state_id": 4
+        },
+        {
+          "type": "false",
+          "named": true,
+          "state_id": 2
+        },
+        {
+          "type": "for",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "heredoc_beginning",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "heredoc_body",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "identifier",
+          "named": true,
+          "text": "^__(FILE|LINE|ENCODING)__$",
+          "state_id": 13
+        },
+        {
+          "type": "if",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "in",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "instance_variable",
+          "named": true,
+          "state_id": 9
+        },
+        {
+          "type": "integer",
+          "named": true,
+          "state_id": 6
+        },
+        {
+          "type": "interpolation",
+          "named": true,
+          "state_id": 18
+        },
+        {
+          "type": "keyword_parameter",
+          "named": true,
+          "state_id": 10
+        },
+        {
+          "type": "method",
+          "named": true,
+          "state_id": 15
+        },
+        {
+          "type": "method_call",
+          "named": true,
+          "state_id": 11
+        },
+        {
+          "type": "module",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "nil",
+          "named": true,
+          "state_id": 2
+        },
+        {
+          "type": "regex",
+          "named": true,
+          "state_id": 22
+        },
+        {
+          "type": "rescue",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "retry",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "return",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "self",
+          "named": true,
+          "state_id": 16
+        },
+        {
+          "type": "setter",
+          "named": true,
+          "state_id": 15
+        },
+        {
+          "type": "singleton_method",
+          "named": true,
+          "state_id": 17
+        },
+        {
+          "type": "string",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "subshell",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "superclass",
+          "named": true,
+          "state_id": 14
+        },
+        {
+          "type": "symbol",
+          "named": true,
+          "state_id": 8
+        },
+        {
+          "type": "then",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "true",
+          "named": true,
+          "state_id": 2
+        },
+        {
+          "type": "unless",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "until",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "when",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "while",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "yield",
+          "named": false,
+          "state_id": 5
+        }
+      ],
+      "default_next_state_id": 0
+    },
+    {
+      "id": 26,
+      "property_set_id": 20,
+      "transitions": [
+        {
+          "type": "%i(",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "%w(",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "(",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ")",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "bare_string",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "bare_symbol",
+          "named": true,
+          "state_id": 21
+        },
+        {
+          "type": "begin",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "break",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "call",
+          "named": true,
+          "state_id": 12
+        },
+        {
+          "type": "case",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "class",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "class_variable",
+          "named": true,
+          "state_id": 9
+        },
+        {
+          "type": "comment",
+          "named": true,
+          "state_id": 7
+        },
+        {
+          "type": "constant",
+          "named": true,
+          "text": "^[A-Z_]+$",
+          "state_id": 20
+        },
+        {
+          "type": "constant",
+          "named": true,
+          "state_id": 19
+        },
+        {
+          "type": "def",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "do",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "else",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "elsif",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "end",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "ensure",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "escape_sequence",
+          "named": true,
+          "state_id": 4
+        },
+        {
+          "type": "false",
+          "named": true,
+          "state_id": 2
+        },
+        {
+          "type": "for",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "heredoc_beginning",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "heredoc_body",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "identifier",
+          "named": true,
+          "text": "^__(FILE|LINE|ENCODING)__$",
+          "state_id": 13
+        },
+        {
+          "type": "if",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "in",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "instance_variable",
+          "named": true,
+          "state_id": 9
+        },
+        {
+          "type": "integer",
+          "named": true,
+          "state_id": 6
+        },
+        {
+          "type": "interpolation",
+          "named": true,
+          "state_id": 18
+        },
+        {
+          "type": "keyword_parameter",
+          "named": true,
+          "state_id": 10
+        },
+        {
+          "type": "method",
+          "named": true,
+          "state_id": 15
+        },
+        {
+          "type": "method_call",
+          "named": true,
+          "state_id": 11
+        },
+        {
+          "type": "module",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "nil",
+          "named": true,
+          "state_id": 2
+        },
+        {
+          "type": "regex",
+          "named": true,
+          "state_id": 22
+        },
+        {
+          "type": "rescue",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "retry",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "return",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "self",
+          "named": true,
+          "state_id": 16
+        },
+        {
+          "type": "setter",
+          "named": true,
+          "state_id": 15
+        },
+        {
+          "type": "singleton_method",
+          "named": true,
+          "state_id": 17
+        },
+        {
+          "type": "string",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "subshell",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "superclass",
+          "named": true,
+          "state_id": 14
+        },
+        {
+          "type": "symbol",
+          "named": true,
+          "state_id": 8
+        },
+        {
+          "type": "then",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "true",
+          "named": true,
+          "state_id": 2
+        },
+        {
+          "type": "unless",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "until",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "when",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "while",
+          "named": false,
+          "state_id": 5
+        },
+        {
+          "type": "yield",
+          "named": false,
+          "state_id": 5
+        }
+      ],
+      "default_next_state_id": 0
+    }
+  ],
+  "property_sets": [
+    {},
+    {
+      "scope": "punctuation.definition.parameters"
+    },
+    {
+      "scope": "constant.language"
+    },
+    {
+      "scope": "string"
+    },
+    {
+      "scope": "constant.character.escape"
+    },
+    {
+      "scope": "keyword.control"
+    },
+    {
+      "scope": "constant.numeric"
+    },
+    {
+      "scope": "comment"
+    },
+    {
+      "scope": "constant.other.symbol"
+    },
+    {
+      "scope": "variable.other.object.property"
+    },
+    {
+      "scope": "support.variable"
+    },
+    {
+      "scope": "variable.language"
+    },
+    {
+      "scope": "embedded.source"
+    },
+    {
+      "scope": "entity.name.type.class"
+    },
+    {
+      "scope": "variable.constant"
+    },
+    {
+      "scope": "constant.other"
+    },
+    {
+      "scope": "string.regexp"
+    },
+    {
+      "scope": "support.function"
+    },
+    {
+      "scope": "entity.name.function"
+    },
+    {
+      "scope": "entity.other.inherited-class"
+    },
+    {
+      "scope": "punctuation.section.embedded"
+    }
+  ]
+}
