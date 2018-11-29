@@ -40,6 +40,21 @@ long objects
   (pair (string) (string))
   (pair (string) (number))))
 
+=====================
+Escape sequences
+=====================
+
+{
+  "key1": "value\n",
+  "key2": "value\t"
+}
+
+----
+
+(value (object
+  (pair (string) (string (escape_sequence)))
+  (pair (string) (string (escape_sequence)))))
+
 ================================
 Top-level numbers
 ================================
