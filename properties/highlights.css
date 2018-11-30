@@ -1,3 +1,5 @@
+@schema "tree-sitter-highlight-schema";
+
 /* Keywords */
 
 "begin",
@@ -23,62 +25,66 @@
 "when",
 "while",
 "yield" {
-  scope: 'keyword.control';
+  scope: 'keyword';
 }
 
 /* Identifiers */
 
 constant {
-  scope: 'entity.name.type.class';
+  scope: 'constructor';
 
   &:text('^[A-Z_]+$') {
-    scope: 'variable.constant';
+    scope: 'constant';
   }
 }
 
 superclass > constant {
-  scope: 'entity.other.inherited-class';
+  scope: 'constructor';
 }
 
 identifier:text('^__(FILE|LINE|ENCODING)__$') {
-  scope: 'support.variable';
+  scope: 'constant.builtin';
+}
+
+identifier {
+  scope: 'variable';
 }
 
 self {
-  scope: 'variable.language';
+  scope: 'variable.builtin';
 }
 
 method > identifier,
 singleton_method > identifier:nth-child(3),
 setter > identifier,
 call > identifier:nth-child(2) {
-  scope: 'entity.name.function';
+  scope: 'function';
 }
 
 method_call > identifier:nth-child(0) {
   &:text('^require$') {
-    scope: 'support.function';
+    scope: 'function.builtin';
   }
 
-  scope: 'entity.name.function';
+  scope: 'function';
 }
 
 keyword_parameter > identifier:nth-child(0) {
-  scope: 'constant.other.symbol';
+  scope: 'string.special';
 }
 
 class_variable, instance_variable {
-  scope: 'variable.other.object.property';
+  scope: 'property';
 }
 
 /* Literals */
 
 symbol {
-  scope: 'constant.other.symbol';
+  scope: 'string.special';
 }
 
 bare_symbol {
-  scope: 'constant.other';
+  scope: 'string.special';
 }
 
 comment {
@@ -86,11 +92,11 @@ comment {
 }
 
 regex {
-  scope: 'string.regexp';
+  scope: 'string.special';
 }
 
 integer {
-  scope: 'constant.numeric';
+  scope: 'number';
 }
 
 string,
@@ -102,27 +108,29 @@ heredoc_body {
 }
 
 escape_sequence {
-  scope: 'constant.character.escape';
+  scope: 'escape';
 }
 
 interpolation {
-  scope: 'embedded.source';
+  scope: 'embedded';
 
   & > "#{",
   & > "}" {
-    scope: 'punctuation.section.embedded';
+    scope: 'punctuation.special';
   }
 }
 
 nil, true, false {
-  scope: 'constant.language';
+  scope: 'constant.builtin';
 }
 
 /* Delimiters */
 
+",",
+".",
 "%w(",
 "%i(",
 "(",
 ")" {
-  scope: 'punctuation.definition.parameters';
+  scope: 'punctuation';
 }
