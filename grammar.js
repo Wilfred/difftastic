@@ -276,7 +276,7 @@ module.exports = grammar({
     ),
 
     constructor_declaration: $ => seq(
-      repeat1($._method_modifier), 'function', optional('&'), '__construct', $._parameters, $.compound_statement
+      repeat1($._method_modifier), 'function', optional('&'), '__construct', $.formal_parameters, $.compound_statement
     ),
 
     destructor_declaration: $ => seq(
@@ -329,10 +329,10 @@ module.exports = grammar({
     ),
 
     _function_definition_header: $ => seq(
-      'function', optional('&'), choice($.name, alias($._reserved_identifier, $.name)), $._parameters, optional($.return_type)
+      'function', optional('&'), choice($.name, alias($._reserved_identifier, $.name)), $.formal_parameters, optional($.return_type)
     ),
 
-    _parameters: $ => seq(
+    formal_parameters: $ => seq(
       '(',
       choice(
         seq(commaSep($.simple_parameter), optional(seq(',', $.variadic_parameter))),
@@ -683,7 +683,7 @@ module.exports = grammar({
     ),
 
     anonymous_function_creation_expression: $ => seq(
-      optional('static'), 'function', optional('&'), $._parameters, optional($.anonymous_function_use_clause), optional($.return_type), $.compound_statement
+      optional('static'), 'function', optional('&'), $.formal_parameters, optional($.anonymous_function_use_clause), optional($.return_type), $.compound_statement
     ),
 
     anonymous_function_use_clause: $ => seq(

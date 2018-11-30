@@ -1369,7 +1369,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_parameters"
+          "name": "formal_parameters"
         },
         {
           "type": "SYMBOL",
@@ -1699,7 +1699,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_parameters"
+          "name": "formal_parameters"
         },
         {
           "type": "CHOICE",
@@ -1715,7 +1715,7 @@
         }
       ]
     },
-    "_parameters": {
+    "formal_parameters": {
       "type": "SEQ",
       "members": [
         {
@@ -3792,7 +3792,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_parameters"
+          "name": "formal_parameters"
         },
         {
           "type": "CHOICE",
