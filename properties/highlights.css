@@ -1,0 +1,220 @@
+@schema "tree-sitter-highlight-schema";
+
+/* Constants */
+
+identifier,
+property_identifier,
+shorthand_property_identifier {
+  &:text('^[\\$A-Z_]{2,}+$') {
+    scope: 'constant';
+  }
+}
+
+/* Properties */
+
+property_identifier {
+  scope: 'property';
+}
+
+/* Classes */
+
+identifier,
+shorthand_property_identifier {
+  &:text('^[A-Z]') {
+    scope: 'constructor';
+  }
+}
+
+identifier,
+call_expression > identifier {
+  &:text('^require$') {
+    scope: 'function.builtin';
+  }
+}
+
+/* Functions */
+
+function,
+generator_function,
+call_expression {
+  & > identifier {
+    scope: 'function';
+  }
+}
+
+method_definition,
+call_expression > member_expression {
+  & > property_identifier {
+    scope: 'function';
+  }
+}
+
+call_expression > super {
+  scope: 'function.builtin';
+}
+
+identifier {
+  scope: 'variable';
+}
+
+identifier:text('^(global|module|exports|__filename|__dirname|window|event|document|performance|screen|navigator|console)$') {
+  scope: 'variable.builtin';
+}
+
+/* Literals */
+
+number {
+  scope: 'number';
+}
+
+string, template_string {
+  scope: 'string';
+}
+
+regex {
+  scope: 'string.special';
+}
+
+escape_sequence {
+  scope: 'escape';
+}
+
+undefined, null,
+true, false {
+  scope: 'constant.builtin';
+}
+
+comment,
+hash_bang_line {
+  scope: 'comment';
+}
+
+"(", ")",
+"{", "}",
+"[", "]" {
+  scope: 'punctuation.bracket';
+}
+
+jsx_expression {
+  & > "{",
+  & > "}" {
+    scope: 'punctuation.special';
+  }
+}
+
+template_substitution {
+  & > "${",
+  & > "}" {
+    scope: 'punctuation.special';
+  }
+
+  scope: 'embedded';
+}
+
+/* Keywords */
+
+"get",
+"set" {
+  scope: 'keyword';
+}
+
+"as",
+"async",
+"await",
+"break",
+"case",
+"catch",
+"class",
+"const",
+"continue",
+"debugger",
+"default",
+"delete",
+"do",
+"else",
+"export",
+"extends",
+"finally",
+"for",
+"from",
+"function",
+"if",
+"import",
+"in",
+"instanceof",
+"let",
+"new",
+"of",
+"return",
+"static",
+"switch",
+"throw",
+"try",
+"typeof",
+"var",
+"while",
+"yield" {
+  scope: 'keyword';
+}
+
+/* Punctuation */
+
+",", ";", "." {
+  scope: 'punctuation.delimiter';
+}
+
+"=>",
+"=",
+"+=",
+"-=",
+"*=",
+"/=",
+"%=",
+"<<=",
+">>=",
+">>>=",
+"&=",
+"^=",
+"|=",
+"!",
+"+",
+"-",
+"*",
+"/",
+"%",
+"==",
+"===",
+"!=",
+"!==",
+">=",
+"<=",
+">",
+"<",
+":",
+"?",
+"&&",
+"||",
+"&",
+"~",
+"^",
+">>",
+">>>",
+"<<",
+"|",
+"++",
+"--",
+"..." {
+  scope: 'operator';
+}
+
+/* JSX Elements */
+
+jsx_opening_element, jsx_closing_element, jsx_self_closing_element {
+  & > identifier {
+    scope: 'tag';
+  }
+}
+
+jsx_attribute > property_identifier {
+  scope: 'attribute';
+}
