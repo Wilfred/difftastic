@@ -32,7 +32,6 @@ module.exports = grammar({
   inline: $ => [
     $._statement,
     $._top_level_item,
-    $._compound_statement_item,
     $._type_identifier,
     $._field_identifier,
     $._statement_identifier,
@@ -61,19 +60,6 @@ module.exports = grammar({
       $._empty_declaration,
       $.preproc_if,
       $.preproc_ifdef,
-      $.preproc_include,
-      $.preproc_def,
-      $.preproc_function_def,
-      $.preproc_call
-    ),
-
-    _compound_statement_item: $ => choice(
-      $._statement,
-      $.declaration,
-      $.type_definition,
-      $._empty_declaration,
-      alias($.preproc_if_in_compound_statement, $.preproc_if),
-      alias($.preproc_ifdef_in_compound_statement, $.preproc_ifdef),
       $.preproc_include,
       $.preproc_def,
       $.preproc_function_def,
@@ -113,7 +99,6 @@ module.exports = grammar({
     ),
 
     ...preprocIf('', $ => $._top_level_item),
-    ...preprocIf('_in_compound_statement', $ => $._compound_statement_item),
     ...preprocIf( '_in_field_declaration_list', $ => $._field_declaration_list_item),
 
     preproc_directive: $ => /#[ \t]*[a-zA-Z]\w*/,
@@ -250,7 +235,7 @@ module.exports = grammar({
 
     compound_statement: $ => seq(
       '{',
-      repeat($._compound_statement_item),
+      repeat($._top_level_item),
       '}'
     ),
 
