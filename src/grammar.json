@@ -100,70 +100,6 @@
         }
       ]
     },
-    "_compound_statement_item": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "_statement"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "declaration"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "type_definition"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "_empty_declaration"
-            },
-            {
-              "type": "ALIAS",
-              "content": {
-                "type": "SYMBOL",
-                "name": "preproc_if_in_compound_statement"
-              },
-              "named": true,
-              "value": "preproc_if"
-            },
-            {
-              "type": "ALIAS",
-              "content": {
-                "type": "SYMBOL",
-                "name": "preproc_ifdef_in_compound_statement"
-              },
-              "named": true,
-              "value": "preproc_ifdef"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "preproc_include"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "preproc_def"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "preproc_function_def"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "preproc_call"
-            }
-          ]
-        },
-        {
-          "type": "SYMBOL",
-          "name": "structured_binding_declaration"
-        }
-      ]
-    },
     "preproc_include": {
       "type": "SEQ",
       "members": [
@@ -536,227 +472,6 @@
                 {
                   "type": "SYMBOL",
                   "name": "preproc_elif"
-                }
-              ]
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        }
-      ]
-    },
-    "preproc_if_in_compound_statement": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "ALIAS",
-          "content": {
-            "type": "PATTERN",
-            "value": "#[ \t]*if"
-          },
-          "named": false,
-          "value": "#if"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "preproc_arg"
-        },
-        {
-          "type": "REPEAT",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_compound_statement_item"
-          }
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "ALIAS",
-                  "content": {
-                    "type": "SYMBOL",
-                    "name": "preproc_else_in_compound_statement"
-                  },
-                  "named": true,
-                  "value": "preproc_else"
-                },
-                {
-                  "type": "ALIAS",
-                  "content": {
-                    "type": "SYMBOL",
-                    "name": "preproc_elif_in_compound_statement"
-                  },
-                  "named": true,
-                  "value": "preproc_elif"
-                }
-              ]
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        },
-        {
-          "type": "ALIAS",
-          "content": {
-            "type": "PATTERN",
-            "value": "#[ \t]*endif"
-          },
-          "named": false,
-          "value": "#endif"
-        }
-      ]
-    },
-    "preproc_ifdef_in_compound_statement": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "ALIAS",
-              "content": {
-                "type": "PATTERN",
-                "value": "#[ \t]*ifdef"
-              },
-              "named": false,
-              "value": "#ifdef"
-            },
-            {
-              "type": "ALIAS",
-              "content": {
-                "type": "PATTERN",
-                "value": "#[ \t]*ifndef"
-              },
-              "named": false,
-              "value": "#ifndef"
-            }
-          ]
-        },
-        {
-          "type": "SYMBOL",
-          "name": "identifier"
-        },
-        {
-          "type": "REPEAT",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_compound_statement_item"
-          }
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "ALIAS",
-                  "content": {
-                    "type": "SYMBOL",
-                    "name": "preproc_else_in_compound_statement"
-                  },
-                  "named": true,
-                  "value": "preproc_else"
-                },
-                {
-                  "type": "ALIAS",
-                  "content": {
-                    "type": "SYMBOL",
-                    "name": "preproc_elif_in_compound_statement"
-                  },
-                  "named": true,
-                  "value": "preproc_elif"
-                }
-              ]
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        },
-        {
-          "type": "ALIAS",
-          "content": {
-            "type": "PATTERN",
-            "value": "#[ \t]*endif"
-          },
-          "named": false,
-          "value": "#endif"
-        }
-      ]
-    },
-    "preproc_else_in_compound_statement": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "ALIAS",
-          "content": {
-            "type": "PATTERN",
-            "value": "#[ \t]*else"
-          },
-          "named": false,
-          "value": "#else"
-        },
-        {
-          "type": "REPEAT",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_compound_statement_item"
-          }
-        }
-      ]
-    },
-    "preproc_elif_in_compound_statement": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "ALIAS",
-          "content": {
-            "type": "PATTERN",
-            "value": "#[ \t]*elif"
-          },
-          "named": false,
-          "value": "#elif"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "preproc_arg"
-        },
-        {
-          "type": "REPEAT",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_compound_statement_item"
-          }
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "ALIAS",
-                  "content": {
-                    "type": "SYMBOL",
-                    "name": "preproc_else_in_compound_statement"
-                  },
-                  "named": true,
-                  "value": "preproc_else"
-                },
-                {
-                  "type": "ALIAS",
-                  "content": {
-                    "type": "SYMBOL",
-                    "name": "preproc_elif_in_compound_statement"
-                  },
-                  "named": true,
-                  "value": "preproc_elif"
                 }
               ]
             },
@@ -2010,7 +1725,7 @@
             "type": "REPEAT",
             "content": {
               "type": "SYMBOL",
-              "name": "_compound_statement_item"
+              "name": "_top_level_item"
             }
           },
           {
@@ -2681,7 +2396,7 @@
               "members": [
                 {
                   "type": "SYMBOL",
-                  "name": "bit_count_clause"
+                  "name": "bitfield_clause"
                 },
                 {
                   "type": "SYMBOL",
@@ -2722,7 +2437,7 @@
         }
       ]
     },
-    "bit_count_clause": {
+    "bitfield_clause": {
       "type": "SEQ",
       "members": [
         {
@@ -4768,7 +4483,7 @@
                   "value": 1,
                   "content": {
                     "type": "PATTERN",
-                    "value": "[^\\\\\"\\n]"
+                    "value": "[^\\\\\"\\n]+"
                   }
                 }
               },
@@ -7076,7 +6791,6 @@
   "inline": [
     "_statement",
     "_top_level_item",
-    "_compound_statement_item",
     "_type_identifier",
     "_field_identifier",
     "_statement_identifier",
