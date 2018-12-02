@@ -44,11 +44,6 @@ module.exports = grammar(C, {
       alias($.constructor_or_destructor_definition, $.function_definition)
     ),
 
-    _compound_statement_item: ($, original) => choice(
-      original,
-      $.structured_binding_declaration
-    ),
-
     // Types
 
     _type_specifier: ($, original) => choice(
