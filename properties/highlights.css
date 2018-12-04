@@ -1,0 +1,38 @@
+@import "tree-sitter-javascript/properties/highlights.css";
+
+class > identifier, new_expression > call_expression > identifier {
+  scope: 'type';
+}
+
+jsx_opening_element,
+jsx_closing_element,
+jsx_self_closing_element,
+call_expression {
+  & > identifier:text('^[A-Z]') {
+    scope: 'type';
+  }
+}
+
+type_identifier,
+predefined_type {
+  scope: 'type';
+}
+
+method_signature > property_identifier,
+function_signature > identifier {
+  scope: 'function';
+}
+
+"implements",
+"namespace",
+"enum",
+"interface",
+"module",
+"declare",
+"public",
+"private",
+"protected",
+readonly,
+"type" {
+  scope: 'keyword';
+}
