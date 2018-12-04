@@ -1,0 +1,103 @@
+@schema "tree-sitter-highlight-schema";
+
+identifier {
+  scope: 'variable';
+
+  &:text('^[A-Z]') {
+    scope: 'constructor';
+  }
+
+  &:text('^[A-Z][A-Z_]*$') {
+    scope: 'constant';
+  }
+}
+
+attribute > identifier:nth_child(2) {
+  scope: 'property';
+}
+
+decorator,
+call > identifier,
+call > attribute > identifier:nth-child(2),
+function_definition > identifier {
+  scope: 'function';
+}
+
+call_identifier > identifier:text('^(abs|all|any|ascii|bin|bool|breakpoint|bytearray|bytes|callable|chr|classmethod|compile|complex|delattr|dict|dir|divmod|enumerate|eval|exec|filter|float|format|frozenset|getattr|globals|hasattr|hash|help|hex|id|input|int|isinstance|issubclass|iter|len|list|locals|map|max|memoryview|min|next|object|oct|open|ord|pow|print|property|range|repr|reversed|round|set|setattr|slice|sorted|staticmethod|str|sum|super|tuple|type|vars|zip|__import__)$') {
+  scope: 'function.builtin';
+}
+
+type > identifier {
+  scope: 'type';
+}
+
+keyword_argument > identifier:nth-child(0) {
+  scope: 'variable.builtin';
+}
+
+/* Literals */
+
+none, true, false { scope: 'constant.builtin'; }
+integer, float { scope: 'number'; }
+comment { scope: 'comment'; }
+string { scope: 'string'; }
+escape_sequence { scope: 'escape'; }
+
+/* Punctuation */
+
+"-", "-=",
+"!=",
+"*", "**", "**=", "*=",
+"/", "//", "//=", "/=",
+"&", "%", "%=", "^",
+"+", "+=",
+"<", "<<", "<=", "<>",
+"=", "==",
+">", ">=", ">>",
+"|", "~",
+"and", "in", "is", "not", "or" {
+  scope: 'operator';
+}
+
+interpolation {
+  scope: 'embedded';
+
+  & > "{", & > "}" {
+    scope: 'punctuation.special';
+  }
+}
+
+
+/* Keywords */
+
+"as",
+"assert",
+"async",
+"await",
+"break",
+"class",
+"continue",
+"def",
+"del",
+"elif",
+"else",
+"except",
+"exec",
+"finally",
+"for",
+"from",
+"global",
+"if",
+"import",
+"lambda",
+"nonlocal",
+"pass",
+"print",
+"raise",
+"return",
+"try",
+"while",
+"with",
+"yield" {
+  scope: 'keyword';
+}
