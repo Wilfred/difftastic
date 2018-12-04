@@ -1,0 +1,91 @@
+@schema "tree-sitter-highlight-schema";
+
+identifier {
+  scope: 'variable';
+}
+
+call_expression > identifier,
+function_declaration > identifier,
+method_declaration > field_identifier,
+call_expression > selector_expression > field_identifier {
+  scope: 'function';
+}
+
+type_identifier {
+  scope: 'type';
+}
+
+field_identifier {
+  scope: 'property';
+}
+
+/* Operators */
+
+"--", "-", "-=",
+":=",
+"!", "!=",
+"...",
+"*", "*", "*=",
+"/", "/=",
+"&", "&&", "&=",
+"%", "%=",
+"^", "^=",
+"+", "++", "+=",
+"<-"
+"<", "<<", "<<=", "<=",
+"=", "==",
+">", ">=", ">>", ">>=",
+"|", "|=", "||",
+{
+  scope: 'operator';
+}
+
+/* Keywords */
+
+"break",
+"case",
+"chan",
+"const",
+"continue",
+"default",
+"defer",
+"else",
+"fallthrough",
+"for",
+"func",
+"go",
+"goto",
+"if",
+"import",
+"interface",
+"map",
+"package",
+"range",
+"return",
+"select",
+"struct",
+"switch",
+"type",
+"var" {
+  scope: 'keyword';
+}
+
+interpreted_string_literal, raw_string_literal, rune_literal {
+  scope: 'string';
+}
+
+escape_sequence {
+  scope: 'escape';
+}
+
+int_literal, float_literal, imaginary_literal {
+  scope: 'number';
+}
+
+true, false, nil {
+  scope: 'constant.builtin';
+}
+
+comment {
+  scope: 'comment';
+}
