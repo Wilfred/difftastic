@@ -12,3 +12,7 @@ addons:
       - ubuntu-toolchain-r-test
     packages:
       - clang-3.6
+
+branches:
+  only:
+    - master
