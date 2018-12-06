@@ -2,6 +2,7 @@
 
 /* Keywords */
 
+"alias",
 "begin",
 "break",
 "case",
@@ -28,6 +29,10 @@
   scope: 'keyword';
 }
 
+identifier:text('^(private|protected|public)$') {
+  scope: 'keyword';
+}
+
 /* Identifiers */
 
 constant {
@@ -50,8 +55,12 @@ identifier {
   scope: 'variable';
 }
 
-self {
+self, super {
   scope: 'variable.builtin';
+}
+
+alias > identifier {
+  scope: 'function';
 }
 
 method > identifier,
