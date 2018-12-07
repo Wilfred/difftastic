@@ -2470,7 +2470,7 @@
             "members": [
               {
                 "type": "SYMBOL",
-                "name": "formal_parameters"
+                "name": "arguments"
               },
               {
                 "type": "BLANK"
