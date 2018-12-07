@@ -593,7 +593,7 @@ module.exports = grammar({
       choice(
         $._new_member_expression,
         seq($._new_member_expression, $.template_string)),
-      optional($.formal_parameters)
+        optional($.arguments)
     )),
 
     _new_member_expression: $ => choice(
