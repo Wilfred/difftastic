@@ -18,8 +18,8 @@ const PREC = {
   NOT: 8,
   NEG: 9,
   INC: 10,
-  NEW: 11,
-  CALL: 12,
+  CALL: 11,
+  NEW: 12,
   MEMBER: 13
 };
 
@@ -37,6 +37,7 @@ module.exports = grammar({
   ],
 
   inline: $ => [
+    $._constructable_expression,
     $._statement,
     $._expressions,
     $._semicolon,
@@ -57,6 +58,7 @@ module.exports = grammar({
     [$._expression, $.arrow_function],
     [$._expression, $.method_definition],
     [$._expression, $.formal_parameters],
+    [$._expression, $.rest_parameter],
     [$.labeled_statement, $._property_name],
     [$.assignment_pattern, $.assignment_expression],
     [$.computed_property_name, $.array],
@@ -386,15 +388,9 @@ module.exports = grammar({
     ),
 
     _expression: $ => choice(
-      $.object,
-      $.array,
+      $._constructable_expression,
       $._jsx_element,
       $.jsx_fragment,
-      $.class,
-      $.anonymous_class,
-      $.function,
-      $.arrow_function,
-      $.generator_function,
 
       $.assignment_expression,
       $.augmented_assignment_expression,
@@ -404,23 +400,7 @@ module.exports = grammar({
       $.ternary_expression,
       $.update_expression,
       $.call_expression,
-      $.member_expression,
-      $.new_expression,
-      $.parenthesized_expression,
-      $.subscript_expression,
       $.yield_expression,
-      $.this,
-
-      $.number,
-      $.string,
-      $.template_string,
-      $.regex,
-      $.true,
-      $.false,
-      $.null,
-      $.undefined,
-      $.identifier,
-      alias($._reserved_identifier, $.identifier)
     ),
 
     yield_expression: $ => prec.right(seq(
@@ -586,10 +566,42 @@ module.exports = grammar({
       choice($.arguments, $.template_string)
     )),
 
-    new_expression: $ => prec(PREC.NEW, seq(
+    new_expression: $ => prec.right(PREC.NEW, seq(
       'new',
-      $._expression
+
+      $._constructable_expression,
+
+      optional($.arguments)
     )),
+
+    _constructable_expression: $ => choice(
+      // Primary Expression
+      $.this,
+      $.identifier,
+      alias($._reserved_identifier, $.identifier),
+      $.number,
+      $.string,
+      $.template_string,
+      $.regex,
+      $.true,
+      $.false,
+      $.null,
+      $.undefined,
+      $.object,
+      $.array,
+      $.function,
+      $.arrow_function,
+      $.generator_function,
+      $.class,
+      $.anonymous_class,
+      $.parenthesized_expression,
+
+      $.subscript_expression,
+      $.member_expression,
+      $.meta_property,
+      $.new_expression,
+    ),
+
 
     await_expression: $ => seq(
       'await',
@@ -829,6 +841,8 @@ module.exports = grammar({
 
       return token(seq(alpha, repeat(alpha_numeric)))
     },
+
+    meta_property: $ => seq('new', '.', 'target'),
 
     this: $ => 'this',
     super: $ => 'super',

@@ -512,7 +512,7 @@ throw new Error("uh oh");
 
 (program
   (throw_statement
-    (new_expression (call_expression (identifier) (arguments (string))))))
+    (new_expression (identifier) (arguments (string)))))
 
 ============================================
 Throw statements with sequence expressions

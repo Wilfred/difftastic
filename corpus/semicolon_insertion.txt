@@ -188,15 +188,15 @@ var a = new A()
 (program
   (variable_declaration (variable_declarator
     (identifier)
-    (new_expression (call_expression
+    (call_expression
       (member_expression
         (call_expression
           (member_expression
-            (call_expression (identifier) (arguments))
+            (new_expression (identifier) (arguments))
             (property_identifier))
           (arguments (object (pair (property_identifier) (string)))))
         (property_identifier))
-      (arguments))))))
+      (arguments)))))
 
 ==============================================
 if/for/while/do statements without semicolons
