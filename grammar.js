@@ -18,8 +18,8 @@ const PREC = {
   NOT: 8,
   NEG: 9,
   INC: 10,
-  NEW: 11,
-  CALL: 12,
+  CALL: 11,
+  NEW: 12,
   MEMBER: 13
 };
 
@@ -590,10 +590,10 @@ module.exports = grammar({
 
     new_expression: $ => prec.right(PREC.NEW, seq(
       'new',
-      choice(
-        $._new_member_expression,
-        seq($._new_member_expression, $.template_string)),
-        optional($.arguments)
+
+      $._new_member_expression,
+
+      optional($.arguments)
     )),
 
     _new_member_expression: $ => choice(
@@ -620,6 +620,7 @@ module.exports = grammar({
       $.subscript_expression,
       $.member_expression,
       $.meta_property,
+      $.new_expression,
     ),
 
 

@@ -2396,7 +2396,7 @@
     },
     "call_expression": {
       "type": "PREC",
-      "value": 12,
+      "value": 11,
       "content": {
         "type": "SEQ",
         "members": [
@@ -2435,7 +2435,7 @@
     },
     "new_expression": {
       "type": "PREC_RIGHT",
-      "value": 11,
+      "value": 12,
       "content": {
         "type": "SEQ",
         "members": [
@@ -2444,26 +2444,8 @@
             "value": "new"
           },
           {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "_new_member_expression"
-              },
-              {
-                "type": "SEQ",
-                "members": [
-                  {
-                    "type": "SYMBOL",
-                    "name": "_new_member_expression"
-                  },
-                  {
-                    "type": "SYMBOL",
-                    "name": "template_string"
-                  }
-                ]
-              }
-            ]
+            "type": "SYMBOL",
+            "name": "_new_member_expression"
           },
           {
             "type": "CHOICE",
@@ -2571,6 +2553,10 @@
         {
           "type": "SYMBOL",
           "name": "meta_property"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "new_expression"
         }
       ]
     },
@@ -4351,7 +4337,7 @@
     },
     "arguments": {
       "type": "PREC",
-      "value": 12,
+      "value": 11,
       "content": {
         "type": "SEQ",
         "members": [
@@ -4534,7 +4520,7 @@
     },
     "decorator_call_expression": {
       "type": "PREC",
-      "value": 12,
+      "value": 11,
       "content": {
         "type": "SEQ",
         "members": [
