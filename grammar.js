@@ -616,6 +616,7 @@ module.exports = grammar({
       $.generator_function,
       $.class,
       $.anonymous_class,
+      $.parenthesized_expression,
 
       $.subscript_expression,
       $.member_expression,
