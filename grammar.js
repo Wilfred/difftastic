@@ -37,7 +37,7 @@ module.exports = grammar({
   ],
 
   inline: $ => [
-    $._new_member_expression,
+    $._constructable_expression,
     $._statement,
     $._expressions,
     $._semicolon,
@@ -388,15 +388,9 @@ module.exports = grammar({
     ),
 
     _expression: $ => choice(
-      $.object,
-      $.array,
+      $._constructable_expression,
       $._jsx_element,
       $.jsx_fragment,
-      $.class,
-      $.anonymous_class,
-      $.function,
-      $.arrow_function,
-      $.generator_function,
 
       $.assignment_expression,
       $.augmented_assignment_expression,
@@ -406,23 +400,7 @@ module.exports = grammar({
       $.ternary_expression,
       $.update_expression,
       $.call_expression,
-      $.member_expression,
-      $.new_expression,
-      $.parenthesized_expression,
-      $.subscript_expression,
       $.yield_expression,
-      $.this,
-
-      $.number,
-      $.string,
-      $.template_string,
-      $.regex,
-      $.true,
-      $.false,
-      $.null,
-      $.undefined,
-      $.identifier,
-      alias($._reserved_identifier, $.identifier)
     ),
 
     yield_expression: $ => prec.right(seq(
@@ -591,12 +569,12 @@ module.exports = grammar({
     new_expression: $ => prec.right(PREC.NEW, seq(
       'new',
 
-      $._new_member_expression,
+      $._constructable_expression,
 
       optional($.arguments)
     )),
 
-    _new_member_expression: $ => choice(
+    _constructable_expression: $ => choice(
       // Primary Expression
       $.this,
       $.identifier,
