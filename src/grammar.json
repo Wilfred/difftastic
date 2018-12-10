@@ -3736,21 +3736,21 @@
         {
           "type": "IMMEDIATE_TOKEN",
           "content": {
-            "type": "SEQ",
-            "members": [
-              {
-                "type": "STRING",
-                "value": "/"
-              },
-              {
-                "type": "REPEAT",
-                "content": {
-                  "type": "PATTERN",
-                  "value": "[a-z]"
-                }
-              }
-            ]
+            "type": "STRING",
+            "value": "/"
           }
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "regex_flags"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         }
       ]
     },
@@ -3818,6 +3818,13 @@
             }
           ]
         }
+      }
+    },
+    "regex_flags": {
+      "type": "IMMEDIATE_TOKEN",
+      "content": {
+        "type": "PATTERN",
+        "value": "[a-z]+"
       }
     },
     "number": {
