@@ -1,6 +1,0 @@
-[submodule "examples/go"]
-	path = examples/go
-	url = https://github.com/golang/go
-[submodule "examples/moby"]
-	path = examples/moby
-	url = https://github.com/moby/moby
