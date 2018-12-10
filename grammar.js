@@ -784,7 +784,8 @@ module.exports = grammar({
     regex: $ => seq(
       '/',
       $.regex_pattern,
-      token.immediate(seq('/', repeat(/[a-z]/)))
+      token.immediate('/'),
+      optional($.regex_flags)
     ),
 
     regex_pattern: $ => token.immediate(
@@ -801,6 +802,8 @@ module.exports = grammar({
         /[^/\\\[\n]/    // any character besides '[', '\', '/', '\n'
       ))
     ),
+
+    regex_flags: $ => token.immediate(/[a-z]+/),
 
     number: $ => {
       const hex_literal = seq(

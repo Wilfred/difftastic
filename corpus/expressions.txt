@@ -180,11 +180,11 @@ Regexps
 
 (program
   (expression_statement (regex (regex_pattern)))
-  (expression_statement (regex (regex_pattern)))
-  (expression_statement (regex (regex_pattern)))
-  (expression_statement (regex (regex_pattern)))
-  (expression_statement (regex (regex_pattern)))
-  (expression_statement (regex (regex_pattern)))
+  (expression_statement (regex (regex_pattern) (regex_flags)))
+  (expression_statement (regex (regex_pattern) (regex_flags)))
+  (expression_statement (regex (regex_pattern) (regex_flags)))
+  (expression_statement (regex (regex_pattern) (regex_flags)))
+  (expression_statement (regex (regex_pattern) (regex_flags)))
   (expression_statement (regex (regex_pattern))))
 
 ============================================
