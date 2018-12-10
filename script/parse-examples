@@ -8,12 +8,11 @@ function checkout_at() {
   repo=$1; url=$2; sha=$3
   if [ ! -d "$repo" ]; then
     git clone "https://github.com/$url" "$repo"
-    git fetch && git reset --hard "$sha"
-  else
-    pushd "$repo" && git fetch
-    git reset --hard "$sha"
-    popd
   fi
+
+  pushd "$repo"
+  git fetch && git reset --hard "$sha"
+  popd
 }
 
 checkout_at "examples/go" "golang/go" "870e12d7bfaea70fb0d743842f5864eb059cb939"
