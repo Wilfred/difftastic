@@ -2,6 +2,21 @@
 
 set -e
 
+cd "$(dirname "$0")/.."
+
+function checkout_at() {
+  repo=$1; url=$2; sha=$3
+  if [ ! -d "$repo" ]; then
+    git clone "https://github.com/$url" "$repo"
+  fi
+
+  pushd "$repo"
+  git fetch && git reset --hard "$sha"
+  popd
+}
+
+checkout_at "examples/ruby_spec" "ruby/spec" "c3e6b9017926f44a76e2b966c4dd35fa84c4cd3b"
+
 # TODO: Fix these known issues:
 #   - [ ] String literals delimited with `=`, e.g. `%=hi=`
 #   - [ ] Issue with << operator mistaken for heredocs, e.g. `send(@method){|r,i| r<<i}`
