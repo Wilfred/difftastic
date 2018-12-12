@@ -448,10 +448,7 @@ module.exports = grammar({
       choice($.identifier, $.metavariable),
       optional($.type_parameters),
       $.parameters,
-      optional(seq(
-        '->',
-        choice($._type, $.abstract_type)
-      )),
+      optional(seq('->', $._type)),
       optional($.where_clause),
       $.block
     ),
@@ -463,10 +460,7 @@ module.exports = grammar({
       choice($.identifier, $.metavariable),
       optional($.type_parameters),
       $.parameters,
-      optional(seq(
-        '->',
-        choice($._type, $.abstract_type)
-      )),
+      optional(seq('->', $._type)),
       optional($.where_clause),
       ';'
     ),
@@ -635,12 +629,11 @@ module.exports = grammar({
     parameters: $ => seq(
       '(',
       sepBy(',', choice(
-        $.self_parameter,
         $.parameter,
+        $.self_parameter,
+        $.variadic_parameter,
         '_',
-        $._type,
-        $.abstract_type,
-        $.variadic_parameter
+        $._type
       )),
       optional(','),
       ')'
@@ -664,7 +657,7 @@ module.exports = grammar({
         alias(choice(...primitive_types), $.identifier)
       ),
       ':',
-      choice($._type, $.abstract_type)
+      $._type
     ),
 
     extern_modifier: $ => seq(
@@ -689,6 +682,7 @@ module.exports = grammar({
     // Section - Types
 
     _type: $ => choice(
+      $.abstract_type,
       $.reference_type,
       $.metavariable,
       $.pointer_type,
@@ -743,10 +737,7 @@ module.exports = grammar({
         ),
         $.parameters
       )),
-      optional(seq(
-        '->',
-        choice($._type, $.abstract_type)
-      ))
+      optional(seq('->', $._type))
     ),
 
     tuple_type: $ => seq(

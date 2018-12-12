@@ -2241,17 +2241,8 @@
                   "value": "->"
                 },
                 {
-                  "type": "CHOICE",
-                  "members": [
-                    {
-                      "type": "SYMBOL",
-                      "name": "_type"
-                    },
-                    {
-                      "type": "SYMBOL",
-                      "name": "abstract_type"
-                    }
-                  ]
+                  "type": "SYMBOL",
+                  "name": "_type"
                 }
               ]
             },
@@ -2349,17 +2340,8 @@
                   "value": "->"
                 },
                 {
-                  "type": "CHOICE",
-                  "members": [
-                    {
-                      "type": "SYMBOL",
-                      "name": "_type"
-                    },
-                    {
-                      "type": "SYMBOL",
-                      "name": "abstract_type"
-                    }
-                  ]
+                  "type": "SYMBOL",
+                  "name": "_type"
                 }
               ]
             },
@@ -3187,11 +3169,15 @@
                   "members": [
                     {
                       "type": "SYMBOL",
+                      "name": "parameter"
+                    },
+                    {
+                      "type": "SYMBOL",
                       "name": "self_parameter"
                     },
                     {
                       "type": "SYMBOL",
-                      "name": "parameter"
+                      "name": "variadic_parameter"
                     },
                     {
                       "type": "STRING",
@@ -3200,14 +3186,6 @@
                     {
                       "type": "SYMBOL",
                       "name": "_type"
-                    },
-                    {
-                      "type": "SYMBOL",
-                      "name": "abstract_type"
-                    },
-                    {
-                      "type": "SYMBOL",
-                      "name": "variadic_parameter"
                     }
                   ]
                 },
@@ -3225,11 +3203,15 @@
                         "members": [
                           {
                             "type": "SYMBOL",
+                            "name": "parameter"
+                          },
+                          {
+                            "type": "SYMBOL",
                             "name": "self_parameter"
                           },
                           {
                             "type": "SYMBOL",
-                            "name": "parameter"
+                            "name": "variadic_parameter"
                           },
                           {
                             "type": "STRING",
@@ -3238,14 +3220,6 @@
                           {
                             "type": "SYMBOL",
                             "name": "_type"
-                          },
-                          {
-                            "type": "SYMBOL",
-                            "name": "abstract_type"
-                          },
-                          {
-                            "type": "SYMBOL",
-                            "name": "variadic_parameter"
                           }
                         ]
                       }
@@ -3441,17 +3415,8 @@
           "value": ":"
         },
         {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "_type"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "abstract_type"
-            }
-          ]
+          "type": "SYMBOL",
+          "name": "_type"
         }
       ]
     },
@@ -3543,6 +3508,10 @@
     "_type": {
       "type": "CHOICE",
       "members": [
+        {
+          "type": "SYMBOL",
+          "name": "abstract_type"
+        },
         {
           "type": "SYMBOL",
           "name": "reference_type"
@@ -3829,17 +3798,8 @@
                   "value": "->"
                 },
                 {
-                  "type": "CHOICE",
-                  "members": [
-                    {
-                      "type": "SYMBOL",
-                      "name": "_type"
-                    },
-                    {
-                      "type": "SYMBOL",
-                      "name": "abstract_type"
-                    }
-                  ]
+                  "type": "SYMBOL",
+                  "name": "_type"
                 }
               ]
             },
