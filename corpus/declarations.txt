@@ -395,6 +395,39 @@ fn foo(mut x : u32) {
     (block)))
 
 ============================================
+Functions with destructured parameters
+============================================
+
+fn f1([x, y]: [u32; 2]) {}
+fn f2(&x: &Y) {}
+fn f3((x, y): (T, U)) {}
+
+---
+
+(source_file
+  (function_item
+    (identifier)
+    (parameters
+      (parameter
+        (slice_pattern (identifier) (identifier))
+        (array_type (primitive_type) (integer_literal))))
+    (block))
+  (function_item
+    (identifier)
+    (parameters
+      (parameter
+        (reference_pattern (identifier))
+        (reference_type (type_identifier))))
+    (block))
+  (function_item
+    (identifier)
+    (parameters
+      (parameter
+        (tuple_pattern (identifier) (identifier))
+        (tuple_type (type_identifier) (type_identifier))))
+    (block)))
+
+============================================
 Functions with custom types for self
 ============================================
 
