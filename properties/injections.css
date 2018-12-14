@@ -1,0 +1,9 @@
+regex {
+  injection-language: 'regex';
+  injection-content: this();
+}
+
+heredoc_beginning {
+  injection-language: this();
+  injection-content: next(this(), 'heredoc_body');
+}

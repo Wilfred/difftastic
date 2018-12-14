@@ -25,5 +25,13 @@
     "test": "tree-sitter test && script/parse-examples",
     "test-windows": "tree-sitter test"
   },
-  "repository": "https://github.com/tree-sitter/tree-sitter-ruby"
+  "repository": "https://github.com/tree-sitter/tree-sitter-ruby",
+  "tree-sitter": [
+    {
+      "textmate-scope": "source.ruby",
+      "file-types": ["rb"],
+      "highlights": "src/highlights.json",
+      "injection-regex": "ruby"
+    }
+  ]
 }

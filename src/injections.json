@@ -1,0 +1,81 @@
+{
+  "states": [
+    {
+      "id": 0,
+      "property_set_id": 0,
+      "transitions": [
+        {
+          "type": "heredoc_beginning",
+          "named": true,
+          "state_id": 1
+        },
+        {
+          "type": "regex",
+          "named": true,
+          "state_id": 2
+        }
+      ],
+      "default_next_state_id": 0
+    },
+    {
+      "id": 1,
+      "property_set_id": 1,
+      "transitions": [
+        {
+          "type": "heredoc_beginning",
+          "named": true,
+          "state_id": 1
+        },
+        {
+          "type": "regex",
+          "named": true,
+          "state_id": 2
+        }
+      ],
+      "default_next_state_id": 0
+    },
+    {
+      "id": 2,
+      "property_set_id": 2,
+      "transitions": [
+        {
+          "type": "heredoc_beginning",
+          "named": true,
+          "state_id": 1
+        },
+        {
+          "type": "regex",
+          "named": true,
+          "state_id": 2
+        }
+      ],
+      "default_next_state_id": 0
+    }
+  ],
+  "property_sets": [
+    {},
+    {
+      "injection-content": {
+        "name": "next",
+        "args": [
+          {
+            "name": "this",
+            "args": []
+          },
+          "heredoc_body"
+        ]
+      },
+      "injection-language": {
+        "name": "this",
+        "args": []
+      }
+    },
+    {
+      "injection-content": {
+        "name": "this",
+        "args": []
+      },
+      "injection-language": "regex"
+    }
+  ]
+}
