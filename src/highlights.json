@@ -1,0 +1,244 @@
+{
+  "states": [
+    {
+      "id": 0,
+      "property_set_id": 0,
+      "transitions": [
+        {
+          "type": "attribute_name",
+          "named": true,
+          "state_id": 4
+        },
+        {
+          "type": "attribute_value",
+          "named": true,
+          "state_id": 2
+        },
+        {
+          "type": "comment",
+          "named": true,
+          "state_id": 1
+        },
+        {
+          "type": "doctype",
+          "named": true,
+          "state_id": 5
+        },
+        {
+          "type": "erroneous_end_tag_name",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "tag_name",
+          "named": true,
+          "state_id": 3
+        }
+      ],
+      "default_next_state_id": 0
+    },
+    {
+      "id": 1,
+      "property_set_id": 1,
+      "transitions": [
+        {
+          "type": "attribute_name",
+          "named": true,
+          "state_id": 4
+        },
+        {
+          "type": "attribute_value",
+          "named": true,
+          "state_id": 2
+        },
+        {
+          "type": "comment",
+          "named": true,
+          "state_id": 1
+        },
+        {
+          "type": "doctype",
+          "named": true,
+          "state_id": 5
+        },
+        {
+          "type": "erroneous_end_tag_name",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "tag_name",
+          "named": true,
+          "state_id": 3
+        }
+      ],
+      "default_next_state_id": 0
+    },
+    {
+      "id": 2,
+      "property_set_id": 2,
+      "transitions": [
+        {
+          "type": "attribute_name",
+          "named": true,
+          "state_id": 4
+        },
+        {
+          "type": "attribute_value",
+          "named": true,
+          "state_id": 2
+        },
+        {
+          "type": "comment",
+          "named": true,
+          "state_id": 1
+        },
+        {
+          "type": "doctype",
+          "named": true,
+          "state_id": 5
+        },
+        {
+          "type": "erroneous_end_tag_name",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "tag_name",
+          "named": true,
+          "state_id": 3
+        }
+      ],
+      "default_next_state_id": 0
+    },
+    {
+      "id": 3,
+      "property_set_id": 3,
+      "transitions": [
+        {
+          "type": "attribute_name",
+          "named": true,
+          "state_id": 4
+        },
+        {
+          "type": "attribute_value",
+          "named": true,
+          "state_id": 2
+        },
+        {
+          "type": "comment",
+          "named": true,
+          "state_id": 1
+        },
+        {
+          "type": "doctype",
+          "named": true,
+          "state_id": 5
+        },
+        {
+          "type": "erroneous_end_tag_name",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "tag_name",
+          "named": true,
+          "state_id": 3
+        }
+      ],
+      "default_next_state_id": 0
+    },
+    {
+      "id": 4,
+      "property_set_id": 4,
+      "transitions": [
+        {
+          "type": "attribute_name",
+          "named": true,
+          "state_id": 4
+        },
+        {
+          "type": "attribute_value",
+          "named": true,
+          "state_id": 2
+        },
+        {
+          "type": "comment",
+          "named": true,
+          "state_id": 1
+        },
+        {
+          "type": "doctype",
+          "named": true,
+          "state_id": 5
+        },
+        {
+          "type": "erroneous_end_tag_name",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "tag_name",
+          "named": true,
+          "state_id": 3
+        }
+      ],
+      "default_next_state_id": 0
+    },
+    {
+      "id": 5,
+      "property_set_id": 5,
+      "transitions": [
+        {
+          "type": "attribute_name",
+          "named": true,
+          "state_id": 4
+        },
+        {
+          "type": "attribute_value",
+          "named": true,
+          "state_id": 2
+        },
+        {
+          "type": "comment",
+          "named": true,
+          "state_id": 1
+        },
+        {
+          "type": "doctype",
+          "named": true,
+          "state_id": 5
+        },
+        {
+          "type": "erroneous_end_tag_name",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "tag_name",
+          "named": true,
+          "state_id": 3
+        }
+      ],
+      "default_next_state_id": 0
+    }
+  ],
+  "property_sets": [
+    {},
+    {
+      "scope": "comment"
+    },
+    {
+      "scope": "string"
+    },
+    {
+      "scope": "tag"
+    },
+    {
+      "scope": "attribute"
+    },
+    {
+      "scope": "constant"
+    }
+  ]
+}
