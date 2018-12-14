@@ -1,0 +1,24 @@
+tag_name {
+  scope: 'tag';
+}
+
+/* TODO - highlight as an error? */
+erroneous_end_tag_name {
+  scope: 'tag';
+}
+
+doctype {
+  scope: 'constant';
+}
+
+attribute_name {
+  scope: 'attribute';
+}
+
+attribute_value {
+  scope: 'string';
+}
+
+comment {
+  scope: 'comment';
+}
