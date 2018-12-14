@@ -1,4 +1,5 @@
 @schema "tree-sitter-highlight-schema";
+@import "./injections.css";
 
 /* Keywords */
 
