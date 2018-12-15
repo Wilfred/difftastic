@@ -1,0 +1,9 @@
+script_element {
+  injection-language: 'javascript';
+  injection-content: child(this(), 1);
+}
+
+style_element {
+  injection-language: 'css';
+  injection-content: child(this(), 1);
+}

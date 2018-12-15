@@ -329,10 +329,6 @@ struct Tag {
     return type < END_OF_VOID_TAGS;
   }
 
-  inline bool is_raw() const {
-    return type == SCRIPT || type == STYLE;
-  }
-
   inline bool can_contain(const Tag &tag) {
     TagType child = tag.type;
 
