@@ -27,17 +27,32 @@
         {
           "type": ",",
           "named": false,
-          "state_id": 1
+          "state_id": 2
+        },
+        {
+          "type": "->",
+          "named": false,
+          "state_id": 3
         },
         {
           "type": ".",
           "named": false,
-          "state_id": 1
+          "state_id": 2
+        },
+        {
+          "type": "=",
+          "named": false,
+          "state_id": 3
+        },
+        {
+          "type": "=>",
+          "named": false,
+          "state_id": 3
         },
         {
           "type": "alias",
           "named": true,
-          "state_id": 11
+          "state_id": 14
         },
         {
           "type": "alias",
@@ -52,12 +67,12 @@
         {
           "type": "bare_string",
           "named": true,
-          "state_id": 4
+          "state_id": 6
         },
         {
           "type": "bare_symbol",
           "named": true,
-          "state_id": 5
+          "state_id": 9
         },
         {
           "type": "begin",
@@ -72,7 +87,7 @@
         {
           "type": "call",
           "named": true,
-          "state_id": 10
+          "state_id": 13
         },
         {
           "type": "case",
@@ -87,23 +102,23 @@
         {
           "type": "class_variable",
           "named": true,
-          "state_id": 6
+          "state_id": 10
         },
         {
           "type": "comment",
           "named": true,
-          "state_id": 17
+          "state_id": 8
         },
         {
           "type": "constant",
           "named": true,
           "text": "^[A-Z_]+$",
-          "state_id": 18
+          "state_id": 20
         },
         {
           "type": "constant",
           "named": true,
-          "state_id": 20
+          "state_id": 22
         },
         {
           "type": "def",
@@ -138,12 +153,12 @@
         {
           "type": "escape_sequence",
           "named": true,
-          "state_id": 3
+          "state_id": 5
         },
         {
           "type": "false",
           "named": true,
-          "state_id": 2
+          "state_id": 4
         },
         {
           "type": "for",
@@ -153,12 +168,12 @@
         {
           "type": "heredoc_beginning",
           "named": true,
-          "state_id": 22
+          "state_id": 6
         },
         {
           "type": "heredoc_body",
           "named": true,
-          "state_id": 4
+          "state_id": 6
         },
         {
           "type": "identifier",
@@ -170,12 +185,12 @@
           "type": "identifier",
           "named": true,
           "text": "^__(FILE|LINE|ENCODING)__$",
-          "state_id": 2
+          "state_id": 4
         },
         {
           "type": "identifier",
           "named": true,
-          "state_id": 14
+          "state_id": 17
         },
         {
           "type": "if",
@@ -190,32 +205,32 @@
         {
           "type": "instance_variable",
           "named": true,
-          "state_id": 6
+          "state_id": 10
         },
         {
           "type": "integer",
           "named": true,
-          "state_id": 15
+          "state_id": 18
         },
         {
           "type": "interpolation",
           "named": true,
-          "state_id": 19
+          "state_id": 21
         },
         {
           "type": "keyword_parameter",
           "named": true,
-          "state_id": 8
+          "state_id": 11
         },
         {
           "type": "method",
           "named": true,
-          "state_id": 11
+          "state_id": 14
         },
         {
           "type": "method_call",
           "named": true,
-          "state_id": 9
+          "state_id": 12
         },
         {
           "type": "module",
@@ -225,7 +240,7 @@
         {
           "type": "nil",
           "named": true,
-          "state_id": 2
+          "state_id": 4
         },
         {
           "type": "or",
@@ -235,7 +250,7 @@
         {
           "type": "regex",
           "named": true,
-          "state_id": 21
+          "state_id": 23
         },
         {
           "type": "rescue",
@@ -255,42 +270,42 @@
         {
           "type": "self",
           "named": true,
-          "state_id": 12
+          "state_id": 15
         },
         {
           "type": "setter",
           "named": true,
-          "state_id": 11
+          "state_id": 14
         },
         {
           "type": "singleton_method",
           "named": true,
-          "state_id": 16
+          "state_id": 19
         },
         {
           "type": "string",
           "named": true,
-          "state_id": 4
+          "state_id": 6
         },
         {
           "type": "subshell",
           "named": true,
-          "state_id": 4
+          "state_id": 6
         },
         {
           "type": "super",
           "named": true,
-          "state_id": 12
+          "state_id": 15
         },
         {
           "type": "superclass",
           "named": true,
-          "state_id": 13
+          "state_id": 16
         },
         {
           "type": "symbol",
           "named": true,
-          "state_id": 5
+          "state_id": 9
         },
         {
           "type": "then",
@@ -300,7 +315,7 @@
         {
           "type": "true",
           "named": true,
-          "state_id": 2
+          "state_id": 4
         },
         {
           "type": "unless",
@@ -357,17 +372,32 @@
         {
           "type": ",",
           "named": false,
-          "state_id": 1
+          "state_id": 2
+        },
+        {
+          "type": "->",
+          "named": false,
+          "state_id": 3
         },
         {
           "type": ".",
           "named": false,
-          "state_id": 1
+          "state_id": 2
+        },
+        {
+          "type": "=",
+          "named": false,
+          "state_id": 3
+        },
+        {
+          "type": "=>",
+          "named": false,
+          "state_id": 3
         },
         {
           "type": "alias",
           "named": true,
-          "state_id": 11
+          "state_id": 14
         },
         {
           "type": "alias",
@@ -382,12 +412,12 @@
         {
           "type": "bare_string",
           "named": true,
-          "state_id": 4
+          "state_id": 6
         },
         {
           "type": "bare_symbol",
           "named": true,
-          "state_id": 5
+          "state_id": 9
         },
         {
           "type": "begin",
@@ -402,7 +432,7 @@
         {
           "type": "call",
           "named": true,
-          "state_id": 10
+          "state_id": 13
         },
         {
           "type": "case",
@@ -417,23 +447,23 @@
         {
           "type": "class_variable",
           "named": true,
-          "state_id": 6
+          "state_id": 10
         },
         {
           "type": "comment",
           "named": true,
-          "state_id": 17
+          "state_id": 8
         },
         {
           "type": "constant",
           "named": true,
           "text": "^[A-Z_]+$",
-          "state_id": 18
+          "state_id": 20
         },
         {
           "type": "constant",
           "named": true,
-          "state_id": 20
+          "state_id": 22
         },
         {
           "type": "def",
@@ -468,12 +498,12 @@
         {
           "type": "escape_sequence",
           "named": true,
-          "state_id": 3
+          "state_id": 5
         },
         {
           "type": "false",
           "named": true,
-          "state_id": 2
+          "state_id": 4
         },
         {
           "type": "for",
@@ -483,12 +513,12 @@
         {
           "type": "heredoc_beginning",
           "named": true,
-          "state_id": 22
+          "state_id": 6
         },
         {
           "type": "heredoc_body",
           "named": true,
-          "state_id": 4
+          "state_id": 6
         },
         {
           "type": "identifier",
@@ -500,12 +530,12 @@
           "type": "identifier",
           "named": true,
           "text": "^__(FILE|LINE|ENCODING)__$",
-          "state_id": 2
+          "state_id": 4
         },
         {
           "type": "identifier",
           "named": true,
-          "state_id": 14
+          "state_id": 17
         },
         {
           "type": "if",
@@ -520,32 +550,32 @@
         {
           "type": "instance_variable",
           "named": true,
-          "state_id": 6
+          "state_id": 10
         },
         {
           "type": "integer",
           "named": true,
-          "state_id": 15
+          "state_id": 18
         },
         {
           "type": "interpolation",
           "named": true,
-          "state_id": 19
+          "state_id": 21
         },
         {
           "type": "keyword_parameter",
           "named": true,
-          "state_id": 8
+          "state_id": 11
         },
         {
           "type": "method",
           "named": true,
-          "state_id": 11
+          "state_id": 14
         },
         {
           "type": "method_call",
           "named": true,
-          "state_id": 9
+          "state_id": 12
         },
         {
           "type": "module",
@@ -555,7 +585,7 @@
         {
           "type": "nil",
           "named": true,
-          "state_id": 2
+          "state_id": 4
         },
         {
           "type": "or",
@@ -565,7 +595,7 @@
         {
           "type": "regex",
           "named": true,
-          "state_id": 21
+          "state_id": 23
         },
         {
           "type": "rescue",
@@ -585,42 +615,42 @@
         {
           "type": "self",
           "named": true,
-          "state_id": 12
+          "state_id": 15
         },
         {
           "type": "setter",
           "named": true,
-          "state_id": 11
+          "state_id": 14
         },
         {
           "type": "singleton_method",
           "named": true,
-          "state_id": 16
+          "state_id": 19
         },
         {
           "type": "string",
           "named": true,
-          "state_id": 4
+          "state_id": 6
         },
         {
           "type": "subshell",
           "named": true,
-          "state_id": 4
+          "state_id": 6
         },
         {
           "type": "super",
           "named": true,
-          "state_id": 12
+          "state_id": 15
         },
         {
           "type": "superclass",
           "named": true,
-          "state_id": 13
+          "state_id": 16
         },
         {
           "type": "symbol",
           "named": true,
-          "state_id": 5
+          "state_id": 9
         },
         {
           "type": "then",
@@ -630,7 +660,7 @@
         {
           "type": "true",
           "named": true,
-          "state_id": 2
+          "state_id": 4
         },
         {
           "type": "unless",
@@ -687,17 +717,32 @@
         {
           "type": ",",
           "named": false,
-          "state_id": 1
+          "state_id": 2
+        },
+        {
+          "type": "->",
+          "named": false,
+          "state_id": 3
         },
         {
           "type": ".",
           "named": false,
-          "state_id": 1
+          "state_id": 2
+        },
+        {
+          "type": "=",
+          "named": false,
+          "state_id": 3
+        },
+        {
+          "type": "=>",
+          "named": false,
+          "state_id": 3
         },
         {
           "type": "alias",
           "named": true,
-          "state_id": 11
+          "state_id": 14
         },
         {
           "type": "alias",
@@ -712,12 +757,12 @@
         {
           "type": "bare_string",
           "named": true,
-          "state_id": 4
+          "state_id": 6
         },
         {
           "type": "bare_symbol",
           "named": true,
-          "state_id": 5
+          "state_id": 9
         },
         {
           "type": "begin",
@@ -732,7 +777,7 @@
         {
           "type": "call",
           "named": true,
-          "state_id": 10
+          "state_id": 13
         },
         {
           "type": "case",
@@ -747,23 +792,23 @@
         {
           "type": "class_variable",
           "named": true,
-          "state_id": 6
+          "state_id": 10
         },
         {
           "type": "comment",
           "named": true,
-          "state_id": 17
+          "state_id": 8
         },
         {
           "type": "constant",
           "named": true,
           "text": "^[A-Z_]+$",
-          "state_id": 18
+          "state_id": 20
         },
         {
           "type": "constant",
           "named": true,
-          "state_id": 20
+          "state_id": 22
         },
         {
           "type": "def",
@@ -798,12 +843,12 @@
         {
           "type": "escape_sequence",
           "named": true,
-          "state_id": 3
+          "state_id": 5
         },
         {
           "type": "false",
           "named": true,
-          "state_id": 2
+          "state_id": 4
         },
         {
           "type": "for",
@@ -813,12 +858,12 @@
         {
           "type": "heredoc_beginning",
           "named": true,
-          "state_id": 22
+          "state_id": 6
         },
         {
           "type": "heredoc_body",
           "named": true,
-          "state_id": 4
+          "state_id": 6
         },
         {
           "type": "identifier",
@@ -830,12 +875,12 @@
           "type": "identifier",
           "named": true,
           "text": "^__(FILE|LINE|ENCODING)__$",
-          "state_id": 2
+          "state_id": 4
         },
         {
           "type": "identifier",
           "named": true,
-          "state_id": 14
+          "state_id": 17
         },
         {
           "type": "if",
@@ -850,32 +895,32 @@
         {
           "type": "instance_variable",
           "named": true,
-          "state_id": 6
+          "state_id": 10
         },
         {
           "type": "integer",
           "named": true,
-          "state_id": 15
+          "state_id": 18
         },
         {
           "type": "interpolation",
           "named": true,
-          "state_id": 19
+          "state_id": 21
         },
         {
           "type": "keyword_parameter",
           "named": true,
-          "state_id": 8
+          "state_id": 11
         },
         {
           "type": "method",
           "named": true,
-          "state_id": 11
+          "state_id": 14
         },
         {
           "type": "method_call",
           "named": true,
-          "state_id": 9
+          "state_id": 12
         },
         {
           "type": "module",
@@ -885,7 +930,7 @@
         {
           "type": "nil",
           "named": true,
-          "state_id": 2
+          "state_id": 4
         },
         {
           "type": "or",
@@ -895,7 +940,7 @@
         {
           "type": "regex",
           "named": true,
-          "state_id": 21
+          "state_id": 23
         },
         {
           "type": "rescue",
@@ -915,42 +960,42 @@
         {
           "type": "self",
           "named": true,
-          "state_id": 12
+          "state_id": 15
         },
         {
           "type": "setter",
           "named": true,
-          "state_id": 11
+          "state_id": 14
         },
         {
           "type": "singleton_method",
           "named": true,
-          "state_id": 16
+          "state_id": 19
         },
         {
           "type": "string",
           "named": true,
-          "state_id": 4
+          "state_id": 6
         },
         {
           "type": "subshell",
           "named": true,
-          "state_id": 4
+          "state_id": 6
         },
         {
           "type": "super",
           "named": true,
-          "state_id": 12
+          "state_id": 15
         },
         {
           "type": "superclass",
           "named": true,
-          "state_id": 13
+          "state_id": 16
         },
         {
           "type": "symbol",
           "named": true,
-          "state_id": 5
+          "state_id": 9
         },
         {
           "type": "then",
@@ -960,7 +1005,7 @@
         {
           "type": "true",
           "named": true,
-          "state_id": 2
+          "state_id": 4
         },
         {
           "type": "unless",
@@ -1017,17 +1062,32 @@
         {
           "type": ",",
           "named": false,
-          "state_id": 1
+          "state_id": 2
+        },
+        {
+          "type": "->",
+          "named": false,
+          "state_id": 3
         },
         {
           "type": ".",
           "named": false,
-          "state_id": 1
+          "state_id": 2
+        },
+        {
+          "type": "=",
+          "named": false,
+          "state_id": 3
+        },
+        {
+          "type": "=>",
+          "named": false,
+          "state_id": 3
         },
         {
           "type": "alias",
           "named": true,
-          "state_id": 11
+          "state_id": 14
         },
         {
           "type": "alias",
@@ -1042,12 +1102,12 @@
         {
           "type": "bare_string",
           "named": true,
-          "state_id": 4
+          "state_id": 6
         },
         {
           "type": "bare_symbol",
           "named": true,
-          "state_id": 5
+          "state_id": 9
         },
         {
           "type": "begin",
@@ -1062,7 +1122,7 @@
         {
           "type": "call",
           "named": true,
-          "state_id": 10
+          "state_id": 13
         },
         {
           "type": "case",
@@ -1077,23 +1137,23 @@
         {
           "type": "class_variable",
           "named": true,
-          "state_id": 6
+          "state_id": 10
         },
         {
           "type": "comment",
           "named": true,
-          "state_id": 17
+          "state_id": 8
         },
         {
           "type": "constant",
           "named": true,
           "text": "^[A-Z_]+$",
-          "state_id": 18
+          "state_id": 20
         },
         {
           "type": "constant",
           "named": true,
-          "state_id": 20
+          "state_id": 22
         },
         {
           "type": "def",
@@ -1128,12 +1188,12 @@
         {
           "type": "escape_sequence",
           "named": true,
-          "state_id": 3
+          "state_id": 5
         },
         {
           "type": "false",
           "named": true,
-          "state_id": 2
+          "state_id": 4
         },
         {
           "type": "for",
@@ -1143,12 +1203,12 @@
         {
           "type": "heredoc_beginning",
           "named": true,
-          "state_id": 22
+          "state_id": 6
         },
         {
           "type": "heredoc_body",
           "named": true,
-          "state_id": 4
+          "state_id": 6
         },
         {
           "type": "identifier",
@@ -1160,12 +1220,12 @@
           "type": "identifier",
           "named": true,
           "text": "^__(FILE|LINE|ENCODING)__$",
-          "state_id": 2
+          "state_id": 4
         },
         {
           "type": "identifier",
           "named": true,
-          "state_id": 14
+          "state_id": 17
         },
         {
           "type": "if",
@@ -1180,32 +1240,32 @@
         {
           "type": "instance_variable",
           "named": true,
-          "state_id": 6
+          "state_id": 10
         },
         {
           "type": "integer",
           "named": true,
-          "state_id": 15
+          "state_id": 18
         },
         {
           "type": "interpolation",
           "named": true,
-          "state_id": 19
+          "state_id": 21
         },
         {
           "type": "keyword_parameter",
           "named": true,
-          "state_id": 8
+          "state_id": 11
         },
         {
           "type": "method",
           "named": true,
-          "state_id": 11
+          "state_id": 14
         },
         {
           "type": "method_call",
           "named": true,
-          "state_id": 9
+          "state_id": 12
         },
         {
           "type": "module",
@@ -1215,7 +1275,7 @@
         {
           "type": "nil",
           "named": true,
-          "state_id": 2
+          "state_id": 4
         },
         {
           "type": "or",
@@ -1225,7 +1285,7 @@
         {
           "type": "regex",
           "named": true,
-          "state_id": 21
+          "state_id": 23
         },
         {
           "type": "rescue",
@@ -1245,42 +1305,42 @@
         {
           "type": "self",
           "named": true,
-          "state_id": 12
+          "state_id": 15
         },
         {
           "type": "setter",
           "named": true,
-          "state_id": 11
+          "state_id": 14
         },
         {
           "type": "singleton_method",
           "named": true,
-          "state_id": 16
+          "state_id": 19
         },
         {
           "type": "string",
           "named": true,
-          "state_id": 4
+          "state_id": 6
         },
         {
           "type": "subshell",
           "named": true,
-          "state_id": 4
+          "state_id": 6
         },
         {
           "type": "super",
           "named": true,
-          "state_id": 12
+          "state_id": 15
         },
         {
           "type": "superclass",
           "named": true,
-          "state_id": 13
+          "state_id": 16
         },
         {
           "type": "symbol",
           "named": true,
-          "state_id": 5
+          "state_id": 9
         },
         {
           "type": "then",
@@ -1290,7 +1350,7 @@
         {
           "type": "true",
           "named": true,
-          "state_id": 2
+          "state_id": 4
         },
         {
           "type": "unless",
@@ -1347,17 +1407,32 @@
         {
           "type": ",",
           "named": false,
-          "state_id": 1
+          "state_id": 2
+        },
+        {
+          "type": "->",
+          "named": false,
+          "state_id": 3
         },
         {
           "type": ".",
           "named": false,
-          "state_id": 1
+          "state_id": 2
+        },
+        {
+          "type": "=",
+          "named": false,
+          "state_id": 3
+        },
+        {
+          "type": "=>",
+          "named": false,
+          "state_id": 3
         },
         {
           "type": "alias",
           "named": true,
-          "state_id": 11
+          "state_id": 14
         },
         {
           "type": "alias",
@@ -1372,12 +1447,12 @@
         {
           "type": "bare_string",
           "named": true,
-          "state_id": 4
+          "state_id": 6
         },
         {
           "type": "bare_symbol",
           "named": true,
-          "state_id": 5
+          "state_id": 9
         },
         {
           "type": "begin",
@@ -1392,7 +1467,7 @@
         {
           "type": "call",
           "named": true,
-          "state_id": 10
+          "state_id": 13
         },
         {
           "type": "case",
@@ -1407,23 +1482,23 @@
         {
           "type": "class_variable",
           "named": true,
-          "state_id": 6
+          "state_id": 10
         },
         {
           "type": "comment",
           "named": true,
-          "state_id": 17
+          "state_id": 8
         },
         {
           "type": "constant",
           "named": true,
           "text": "^[A-Z_]+$",
-          "state_id": 18
+          "state_id": 20
         },
         {
           "type": "constant",
           "named": true,
-          "state_id": 20
+          "state_id": 22
         },
         {
           "type": "def",
@@ -1458,12 +1533,12 @@
         {
           "type": "escape_sequence",
           "named": true,
-          "state_id": 3
+          "state_id": 5
         },
         {
           "type": "false",
           "named": true,
-          "state_id": 2
+          "state_id": 4
         },
         {
           "type": "for",
@@ -1473,12 +1548,12 @@
         {
           "type": "heredoc_beginning",
           "named": true,
-          "state_id": 22
+          "state_id": 6
         },
         {
           "type": "heredoc_body",
           "named": true,
-          "state_id": 4
+          "state_id": 6
         },
         {
           "type": "identifier",
@@ -1490,12 +1565,12 @@
           "type": "identifier",
           "named": true,
           "text": "^__(FILE|LINE|ENCODING)__$",
-          "state_id": 2
+          "state_id": 4
         },
         {
           "type": "identifier",
           "named": true,
-          "state_id": 14
+          "state_id": 17
         },
         {
           "type": "if",
@@ -1510,32 +1585,32 @@
         {
           "type": "instance_variable",
           "named": true,
-          "state_id": 6
+          "state_id": 10
         },
         {
           "type": "integer",
           "named": true,
-          "state_id": 15
+          "state_id": 18
         },
         {
           "type": "interpolation",
           "named": true,
-          "state_id": 19
+          "state_id": 21
         },
         {
           "type": "keyword_parameter",
           "named": true,
-          "state_id": 8
+          "state_id": 11
         },
         {
           "type": "method",
           "named": true,
-          "state_id": 11
+          "state_id": 14
         },
         {
           "type": "method_call",
           "named": true,
-          "state_id": 9
+          "state_id": 12
         },
         {
           "type": "module",
@@ -1545,7 +1620,7 @@
         {
           "type": "nil",
           "named": true,
-          "state_id": 2
+          "state_id": 4
         },
         {
           "type": "or",
@@ -1555,7 +1630,7 @@
         {
           "type": "regex",
           "named": true,
-          "state_id": 21
+          "state_id": 23
         },
         {
           "type": "rescue",
@@ -1575,42 +1650,42 @@
         {
           "type": "self",
           "named": true,
-          "state_id": 12
+          "state_id": 15
         },
         {
           "type": "setter",
           "named": true,
-          "state_id": 11
+          "state_id": 14
         },
         {
           "type": "singleton_method",
           "named": true,
-          "state_id": 16
+          "state_id": 19
         },
         {
           "type": "string",
           "named": true,
-          "state_id": 4
+          "state_id": 6
         },
         {
           "type": "subshell",
           "named": true,
-          "state_id": 4
+          "state_id": 6
         },
         {
           "type": "super",
           "named": true,
-          "state_id": 12
+          "state_id": 15
         },
         {
           "type": "superclass",
           "named": true,
-          "state_id": 13
+          "state_id": 16
         },
         {
           "type": "symbol",
           "named": true,
-          "state_id": 5
+          "state_id": 9
         },
         {
           "type": "then",
@@ -1620,7 +1695,7 @@
         {
           "type": "true",
           "named": true,
-          "state_id": 2
+          "state_id": 4
         },
         {
           "type": "unless",
@@ -1677,17 +1752,32 @@
         {
           "type": ",",
           "named": false,
-          "state_id": 1
+          "state_id": 2
+        },
+        {
+          "type": "->",
+          "named": false,
+          "state_id": 3
         },
         {
           "type": ".",
           "named": false,
-          "state_id": 1
+          "state_id": 2
+        },
+        {
+          "type": "=",
+          "named": false,
+          "state_id": 3
+        },
+        {
+          "type": "=>",
+          "named": false,
+          "state_id": 3
         },
         {
           "type": "alias",
           "named": true,
-          "state_id": 11
+          "state_id": 14
         },
         {
           "type": "alias",
@@ -1702,12 +1792,12 @@
         {
           "type": "bare_string",
           "named": true,
-          "state_id": 4
+          "state_id": 6
         },
         {
           "type": "bare_symbol",
           "named": true,
-          "state_id": 5
+          "state_id": 9
         },
         {
           "type": "begin",
@@ -1722,7 +1812,7 @@
         {
           "type": "call",
           "named": true,
-          "state_id": 10
+          "state_id": 13
         },
         {
           "type": "case",
@@ -1737,23 +1827,23 @@
         {
           "type": "class_variable",
           "named": true,
-          "state_id": 6
+          "state_id": 10
         },
         {
           "type": "comment",
           "named": true,
-          "state_id": 17
+          "state_id": 8
         },
         {
           "type": "constant",
           "named": true,
           "text": "^[A-Z_]+$",
-          "state_id": 18
+          "state_id": 20
         },
         {
           "type": "constant",
           "named": true,
-          "state_id": 20
+          "state_id": 22
         },
         {
           "type": "def",
@@ -1788,12 +1878,12 @@
         {
           "type": "escape_sequence",
           "named": true,
-          "state_id": 3
+          "state_id": 5
         },
         {
           "type": "false",
           "named": true,
-          "state_id": 2
+          "state_id": 4
         },
         {
           "type": "for",
@@ -1803,12 +1893,12 @@
         {
           "type": "heredoc_beginning",
           "named": true,
-          "state_id": 22
+          "state_id": 6
         },
         {
           "type": "heredoc_body",
           "named": true,
-          "state_id": 4
+          "state_id": 6
         },
         {
           "type": "identifier",
@@ -1820,12 +1910,12 @@
           "type": "identifier",
           "named": true,
           "text": "^__(FILE|LINE|ENCODING)__$",
-          "state_id": 2
+          "state_id": 4
         },
         {
           "type": "identifier",
           "named": true,
-          "state_id": 14
+          "state_id": 17
         },
         {
           "type": "if",
@@ -1840,32 +1930,32 @@
         {
           "type": "instance_variable",
           "named": true,
-          "state_id": 6
+          "state_id": 10
         },
         {
           "type": "integer",
           "named": true,
-          "state_id": 15
+          "state_id": 18
         },
         {
           "type": "interpolation",
           "named": true,
-          "state_id": 19
+          "state_id": 21
         },
         {
           "type": "keyword_parameter",
           "named": true,
-          "state_id": 8
+          "state_id": 11
         },
         {
           "type": "method",
           "named": true,
-          "state_id": 11
+          "state_id": 14
         },
         {
           "type": "method_call",
           "named": true,
-          "state_id": 9
+          "state_id": 12
         },
         {
           "type": "module",
@@ -1875,7 +1965,7 @@
         {
           "type": "nil",
           "named": true,
-          "state_id": 2
+          "state_id": 4
         },
         {
           "type": "or",
@@ -1885,7 +1975,7 @@
         {
           "type": "regex",
           "named": true,
-          "state_id": 21
+          "state_id": 23
         },
         {
           "type": "rescue",
@@ -1905,42 +1995,42 @@
         {
           "type": "self",
           "named": true,
-          "state_id": 12
+          "state_id": 15
         },
         {
           "type": "setter",
           "named": true,
-          "state_id": 11
+          "state_id": 14
         },
         {
           "type": "singleton_method",
           "named": true,
-          "state_id": 16
+          "state_id": 19
         },
         {
           "type": "string",
           "named": true,
-          "state_id": 4
+          "state_id": 6
         },
         {
           "type": "subshell",
           "named": true,
-          "state_id": 4
+          "state_id": 6
         },
         {
           "type": "super",
           "named": true,
-          "state_id": 12
+          "state_id": 15
         },
         {
           "type": "superclass",
           "named": true,
-          "state_id": 13
+          "state_id": 16
         },
         {
           "type": "symbol",
           "named": true,
-          "state_id": 5
+          "state_id": 9
         },
         {
           "type": "then",
@@ -1950,7 +2040,7 @@
         {
           "type": "true",
           "named": true,
-          "state_id": 2
+          "state_id": 4
         },
         {
           "type": "unless",
@@ -2007,17 +2097,32 @@
         {
           "type": ",",
           "named": false,
-          "state_id": 1
+          "state_id": 2
+        },
+        {
+          "type": "->",
+          "named": false,
+          "state_id": 3
         },
         {
           "type": ".",
           "named": false,
-          "state_id": 1
+          "state_id": 2
+        },
+        {
+          "type": "=",
+          "named": false,
+          "state_id": 3
+        },
+        {
+          "type": "=>",
+          "named": false,
+          "state_id": 3
         },
         {
           "type": "alias",
           "named": true,
-          "state_id": 11
+          "state_id": 14
         },
         {
           "type": "alias",
@@ -2032,12 +2137,12 @@
         {
           "type": "bare_string",
           "named": true,
-          "state_id": 4
+          "state_id": 6
         },
         {
           "type": "bare_symbol",
           "named": true,
-          "state_id": 5
+          "state_id": 9
         },
         {
           "type": "begin",
@@ -2052,7 +2157,7 @@
         {
           "type": "call",
           "named": true,
-          "state_id": 10
+          "state_id": 13
         },
         {
           "type": "case",
@@ -2067,23 +2172,23 @@
         {
           "type": "class_variable",
           "named": true,
-          "state_id": 6
+          "state_id": 10
         },
         {
           "type": "comment",
           "named": true,
-          "state_id": 17
+          "state_id": 8
         },
         {
           "type": "constant",
           "named": true,
           "text": "^[A-Z_]+$",
-          "state_id": 18
+          "state_id": 20
         },
         {
           "type": "constant",
           "named": true,
-          "state_id": 20
+          "state_id": 22
         },
         {
           "type": "def",
@@ -2118,12 +2223,12 @@
         {
           "type": "escape_sequence",
           "named": true,
-          "state_id": 3
+          "state_id": 5
         },
         {
           "type": "false",
           "named": true,
-          "state_id": 2
+          "state_id": 4
         },
         {
           "type": "for",
@@ -2133,12 +2238,12 @@
         {
           "type": "heredoc_beginning",
           "named": true,
-          "state_id": 22
+          "state_id": 6
         },
         {
           "type": "heredoc_body",
           "named": true,
-          "state_id": 4
+          "state_id": 6
         },
         {
           "type": "identifier",
@@ -2150,12 +2255,12 @@
           "type": "identifier",
           "named": true,
           "text": "^__(FILE|LINE|ENCODING)__$",
-          "state_id": 2
+          "state_id": 4
         },
         {
           "type": "identifier",
           "named": true,
-          "state_id": 14
+          "state_id": 17
         },
         {
           "type": "if",
@@ -2170,32 +2275,32 @@
         {
           "type": "instance_variable",
           "named": true,
-          "state_id": 6
+          "state_id": 10
         },
         {
           "type": "integer",
           "named": true,
-          "state_id": 15
+          "state_id": 18
         },
         {
           "type": "interpolation",
           "named": true,
-          "state_id": 19
+          "state_id": 21
         },
         {
           "type": "keyword_parameter",
           "named": true,
-          "state_id": 8
+          "state_id": 11
         },
         {
           "type": "method",
           "named": true,
-          "state_id": 11
+          "state_id": 14
         },
         {
           "type": "method_call",
           "named": true,
-          "state_id": 9
+          "state_id": 12
         },
         {
           "type": "module",
@@ -2205,7 +2310,7 @@
         {
           "type": "nil",
           "named": true,
-          "state_id": 2
+          "state_id": 4
         },
         {
           "type": "or",
@@ -2215,7 +2320,7 @@
         {
           "type": "regex",
           "named": true,
-          "state_id": 21
+          "state_id": 23
         },
         {
           "type": "rescue",
@@ -2235,42 +2340,42 @@
         {
           "type": "self",
           "named": true,
-          "state_id": 12
+          "state_id": 15
         },
         {
           "type": "setter",
           "named": true,
-          "state_id": 11
+          "state_id": 14
         },
         {
           "type": "singleton_method",
           "named": true,
-          "state_id": 16
+          "state_id": 19
         },
         {
           "type": "string",
           "named": true,
-          "state_id": 4
+          "state_id": 6
         },
         {
           "type": "subshell",
           "named": true,
-          "state_id": 4
+          "state_id": 6
         },
         {
           "type": "super",
           "named": true,
-          "state_id": 12
+          "state_id": 15
         },
         {
           "type": "superclass",
           "named": true,
-          "state_id": 13
+          "state_id": 16
         },
         {
           "type": "symbol",
           "named": true,
-          "state_id": 5
+          "state_id": 9
         },
         {
           "type": "then",
@@ -2280,7 +2385,7 @@
         {
           "type": "true",
           "named": true,
-          "state_id": 2
+          "state_id": 4
         },
         {
           "type": "unless",
@@ -2337,17 +2442,32 @@
         {
           "type": ",",
           "named": false,
-          "state_id": 1
+          "state_id": 2
+        },
+        {
+          "type": "->",
+          "named": false,
+          "state_id": 3
         },
         {
           "type": ".",
           "named": false,
-          "state_id": 1
+          "state_id": 2
+        },
+        {
+          "type": "=",
+          "named": false,
+          "state_id": 3
+        },
+        {
+          "type": "=>",
+          "named": false,
+          "state_id": 3
         },
         {
           "type": "alias",
           "named": true,
-          "state_id": 11
+          "state_id": 14
         },
         {
           "type": "alias",
@@ -2362,12 +2482,12 @@
         {
           "type": "bare_string",
           "named": true,
-          "state_id": 4
+          "state_id": 6
         },
         {
           "type": "bare_symbol",
           "named": true,
-          "state_id": 5
+          "state_id": 9
         },
         {
           "type": "begin",
@@ -2382,7 +2502,7 @@
         {
           "type": "call",
           "named": true,
-          "state_id": 10
+          "state_id": 13
         },
         {
           "type": "case",
@@ -2397,23 +2517,23 @@
         {
           "type": "class_variable",
           "named": true,
-          "state_id": 6
+          "state_id": 10
         },
         {
           "type": "comment",
           "named": true,
-          "state_id": 17
+          "state_id": 8
         },
         {
           "type": "constant",
           "named": true,
           "text": "^[A-Z_]+$",
-          "state_id": 18
+          "state_id": 20
         },
         {
           "type": "constant",
           "named": true,
-          "state_id": 20
+          "state_id": 22
         },
         {
           "type": "def",
@@ -2448,12 +2568,12 @@
         {
           "type": "escape_sequence",
           "named": true,
-          "state_id": 3
+          "state_id": 5
         },
         {
           "type": "false",
           "named": true,
-          "state_id": 2
+          "state_id": 4
         },
         {
           "type": "for",
@@ -2463,12 +2583,12 @@
         {
           "type": "heredoc_beginning",
           "named": true,
-          "state_id": 22
+          "state_id": 6
         },
         {
           "type": "heredoc_body",
           "named": true,
-          "state_id": 4
+          "state_id": 6
         },
         {
           "type": "identifier",
@@ -2480,12 +2600,12 @@
           "type": "identifier",
           "named": true,
           "text": "^__(FILE|LINE|ENCODING)__$",
-          "state_id": 2
+          "state_id": 4
         },
         {
           "type": "identifier",
           "named": true,
-          "state_id": 14
+          "state_id": 17
         },
         {
           "type": "if",
@@ -2500,32 +2620,32 @@
         {
           "type": "instance_variable",
           "named": true,
-          "state_id": 6
+          "state_id": 10
         },
         {
           "type": "integer",
           "named": true,
-          "state_id": 15
+          "state_id": 18
         },
         {
           "type": "interpolation",
           "named": true,
-          "state_id": 19
+          "state_id": 21
         },
         {
           "type": "keyword_parameter",
           "named": true,
-          "state_id": 8
+          "state_id": 11
         },
         {
           "type": "method",
           "named": true,
-          "state_id": 11
+          "state_id": 14
         },
         {
           "type": "method_call",
           "named": true,
-          "state_id": 9
+          "state_id": 12
         },
         {
           "type": "module",
@@ -2535,7 +2655,7 @@
         {
           "type": "nil",
           "named": true,
-          "state_id": 2
+          "state_id": 4
         },
         {
           "type": "or",
@@ -2545,7 +2665,7 @@
         {
           "type": "regex",
           "named": true,
-          "state_id": 21
+          "state_id": 23
         },
         {
           "type": "rescue",
@@ -2565,42 +2685,42 @@
         {
           "type": "self",
           "named": true,
-          "state_id": 12
+          "state_id": 15
         },
         {
           "type": "setter",
           "named": true,
-          "state_id": 11
+          "state_id": 14
         },
         {
           "type": "singleton_method",
           "named": true,
-          "state_id": 16
+          "state_id": 19
         },
         {
           "type": "string",
           "named": true,
-          "state_id": 4
+          "state_id": 6
         },
         {
           "type": "subshell",
           "named": true,
-          "state_id": 4
+          "state_id": 6
         },
         {
           "type": "super",
           "named": true,
-          "state_id": 12
+          "state_id": 15
         },
         {
           "type": "superclass",
           "named": true,
-          "state_id": 13
+          "state_id": 16
         },
         {
           "type": "symbol",
           "named": true,
-          "state_id": 5
+          "state_id": 9
         },
         {
           "type": "then",
@@ -2610,7 +2730,7 @@
         {
           "type": "true",
           "named": true,
-          "state_id": 2
+          "state_id": 4
         },
         {
           "type": "unless",
@@ -2642,7 +2762,7 @@
     },
     {
       "id": 8,
-      "property_set_id": 0,
+      "property_set_id": 8,
       "transitions": [
         {
           "type": "%i(",
@@ -2667,17 +2787,32 @@
         {
           "type": ",",
           "named": false,
-          "state_id": 1
+          "state_id": 2
+        },
+        {
+          "type": "->",
+          "named": false,
+          "state_id": 3
         },
         {
           "type": ".",
           "named": false,
-          "state_id": 1
+          "state_id": 2
+        },
+        {
+          "type": "=",
+          "named": false,
+          "state_id": 3
+        },
+        {
+          "type": "=>",
+          "named": false,
+          "state_id": 3
         },
         {
           "type": "alias",
           "named": true,
-          "state_id": 11
+          "state_id": 14
         },
         {
           "type": "alias",
@@ -2692,12 +2827,12 @@
         {
           "type": "bare_string",
           "named": true,
-          "state_id": 4
+          "state_id": 6
         },
         {
           "type": "bare_symbol",
           "named": true,
-          "state_id": 5
+          "state_id": 9
         },
         {
           "type": "begin",
@@ -2712,7 +2847,7 @@
         {
           "type": "call",
           "named": true,
-          "state_id": 10
+          "state_id": 13
         },
         {
           "type": "case",
@@ -2727,23 +2862,23 @@
         {
           "type": "class_variable",
           "named": true,
-          "state_id": 6
+          "state_id": 10
         },
         {
           "type": "comment",
           "named": true,
-          "state_id": 17
+          "state_id": 8
         },
         {
           "type": "constant",
           "named": true,
           "text": "^[A-Z_]+$",
-          "state_id": 18
+          "state_id": 20
         },
         {
           "type": "constant",
           "named": true,
-          "state_id": 20
+          "state_id": 22
         },
         {
           "type": "def",
@@ -2778,12 +2913,12 @@
         {
           "type": "escape_sequence",
           "named": true,
-          "state_id": 3
+          "state_id": 5
         },
         {
           "type": "false",
           "named": true,
-          "state_id": 2
+          "state_id": 4
         },
         {
           "type": "for",
@@ -2793,24 +2928,12 @@
         {
           "type": "heredoc_beginning",
           "named": true,
-          "state_id": 22
+          "state_id": 6
         },
         {
           "type": "heredoc_body",
           "named": true,
-          "state_id": 4
-        },
-        {
-          "type": "identifier",
-          "named": true,
-          "index": 0,
-          "state_id": 5
-        },
-        {
-          "type": "identifier",
-          "named": true,
-          "text": "^__(FILE|LINE|ENCODING)__$",
-          "state_id": 2
+          "state_id": 6
         },
         {
           "type": "identifier",
@@ -2821,7 +2944,13 @@
         {
           "type": "identifier",
           "named": true,
-          "state_id": 14
+          "text": "^__(FILE|LINE|ENCODING)__$",
+          "state_id": 4
+        },
+        {
+          "type": "identifier",
+          "named": true,
+          "state_id": 17
         },
         {
           "type": "if",
@@ -2836,32 +2965,32 @@
         {
           "type": "instance_variable",
           "named": true,
-          "state_id": 6
+          "state_id": 10
         },
         {
           "type": "integer",
           "named": true,
-          "state_id": 15
+          "state_id": 18
         },
         {
           "type": "interpolation",
           "named": true,
-          "state_id": 19
+          "state_id": 21
         },
         {
           "type": "keyword_parameter",
           "named": true,
-          "state_id": 8
+          "state_id": 11
         },
         {
           "type": "method",
           "named": true,
-          "state_id": 11
+          "state_id": 14
         },
         {
           "type": "method_call",
           "named": true,
-          "state_id": 9
+          "state_id": 12
         },
         {
           "type": "module",
@@ -2871,7 +3000,7 @@
         {
           "type": "nil",
           "named": true,
-          "state_id": 2
+          "state_id": 4
         },
         {
           "type": "or",
@@ -2881,7 +3010,7 @@
         {
           "type": "regex",
           "named": true,
-          "state_id": 21
+          "state_id": 23
         },
         {
           "type": "rescue",
@@ -2901,42 +3030,42 @@
         {
           "type": "self",
           "named": true,
-          "state_id": 12
+          "state_id": 15
         },
         {
           "type": "setter",
           "named": true,
-          "state_id": 11
+          "state_id": 14
         },
         {
           "type": "singleton_method",
           "named": true,
-          "state_id": 16
+          "state_id": 19
         },
         {
           "type": "string",
           "named": true,
-          "state_id": 4
+          "state_id": 6
         },
         {
           "type": "subshell",
           "named": true,
-          "state_id": 4
+          "state_id": 6
         },
         {
           "type": "super",
           "named": true,
-          "state_id": 12
+          "state_id": 15
         },
         {
           "type": "superclass",
           "named": true,
-          "state_id": 13
+          "state_id": 16
         },
         {
           "type": "symbol",
           "named": true,
-          "state_id": 5
+          "state_id": 9
         },
         {
           "type": "then",
@@ -2946,7 +3075,7 @@
         {
           "type": "true",
           "named": true,
-          "state_id": 2
+          "state_id": 4
         },
         {
           "type": "unless",
@@ -2978,7 +3107,7 @@
     },
     {
       "id": 9,
-      "property_set_id": 0,
+      "property_set_id": 9,
       "transitions": [
         {
           "type": "%i(",
@@ -3003,17 +3132,32 @@
         {
           "type": ",",
           "named": false,
-          "state_id": 1
+          "state_id": 2
+        },
+        {
+          "type": "->",
+          "named": false,
+          "state_id": 3
         },
         {
           "type": ".",
           "named": false,
-          "state_id": 1
+          "state_id": 2
+        },
+        {
+          "type": "=",
+          "named": false,
+          "state_id": 3
+        },
+        {
+          "type": "=>",
+          "named": false,
+          "state_id": 3
         },
         {
           "type": "alias",
           "named": true,
-          "state_id": 11
+          "state_id": 14
         },
         {
           "type": "alias",
@@ -3028,12 +3172,12 @@
         {
           "type": "bare_string",
           "named": true,
-          "state_id": 4
+          "state_id": 6
         },
         {
           "type": "bare_symbol",
           "named": true,
-          "state_id": 5
+          "state_id": 9
         },
         {
           "type": "begin",
@@ -3048,7 +3192,7 @@
         {
           "type": "call",
           "named": true,
-          "state_id": 10
+          "state_id": 13
         },
         {
           "type": "case",
@@ -3063,23 +3207,23 @@
         {
           "type": "class_variable",
           "named": true,
-          "state_id": 6
+          "state_id": 10
         },
         {
           "type": "comment",
           "named": true,
-          "state_id": 17
+          "state_id": 8
         },
         {
           "type": "constant",
           "named": true,
           "text": "^[A-Z_]+$",
-          "state_id": 18
+          "state_id": 20
         },
         {
           "type": "constant",
           "named": true,
-          "state_id": 20
+          "state_id": 22
         },
         {
           "type": "def",
@@ -3114,12 +3258,12 @@
         {
           "type": "escape_sequence",
           "named": true,
-          "state_id": 3
+          "state_id": 5
         },
         {
           "type": "false",
           "named": true,
-          "state_id": 2
+          "state_id": 4
         },
         {
           "type": "for",
@@ -3129,25 +3273,12 @@
         {
           "type": "heredoc_beginning",
           "named": true,
-          "state_id": 22
+          "state_id": 6
         },
         {
           "type": "heredoc_body",
           "named": true,
-          "state_id": 4
-        },
-        {
-          "type": "identifier",
-          "named": true,
-          "index": 0,
-          "text": "^require$",
-          "state_id": 23
-        },
-        {
-          "type": "identifier",
-          "named": true,
-          "index": 0,
-          "state_id": 24
+          "state_id": 6
         },
         {
           "type": "identifier",
@@ -3159,12 +3290,12 @@
           "type": "identifier",
           "named": true,
           "text": "^__(FILE|LINE|ENCODING)__$",
-          "state_id": 2
+          "state_id": 4
         },
         {
           "type": "identifier",
           "named": true,
-          "state_id": 14
+          "state_id": 17
         },
         {
           "type": "if",
@@ -3179,32 +3310,32 @@
         {
           "type": "instance_variable",
           "named": true,
-          "state_id": 6
+          "state_id": 10
         },
         {
           "type": "integer",
           "named": true,
-          "state_id": 15
+          "state_id": 18
         },
         {
           "type": "interpolation",
           "named": true,
-          "state_id": 19
+          "state_id": 21
         },
         {
           "type": "keyword_parameter",
           "named": true,
-          "state_id": 8
+          "state_id": 11
         },
         {
           "type": "method",
           "named": true,
-          "state_id": 11
+          "state_id": 14
         },
         {
           "type": "method_call",
           "named": true,
-          "state_id": 9
+          "state_id": 12
         },
         {
           "type": "module",
@@ -3214,7 +3345,7 @@
         {
           "type": "nil",
           "named": true,
-          "state_id": 2
+          "state_id": 4
         },
         {
           "type": "or",
@@ -3224,7 +3355,7 @@
         {
           "type": "regex",
           "named": true,
-          "state_id": 21
+          "state_id": 23
         },
         {
           "type": "rescue",
@@ -3244,42 +3375,42 @@
         {
           "type": "self",
           "named": true,
-          "state_id": 12
+          "state_id": 15
         },
         {
           "type": "setter",
           "named": true,
-          "state_id": 11
+          "state_id": 14
         },
         {
           "type": "singleton_method",
           "named": true,
-          "state_id": 16
+          "state_id": 19
         },
         {
           "type": "string",
           "named": true,
-          "state_id": 4
+          "state_id": 6
         },
         {
           "type": "subshell",
           "named": true,
-          "state_id": 4
+          "state_id": 6
         },
         {
           "type": "super",
           "named": true,
-          "state_id": 12
+          "state_id": 15
         },
         {
           "type": "superclass",
           "named": true,
-          "state_id": 13
+          "state_id": 16
         },
         {
           "type": "symbol",
           "named": true,
-          "state_id": 5
+          "state_id": 9
         },
         {
           "type": "then",
@@ -3289,7 +3420,7 @@
         {
           "type": "true",
           "named": true,
-          "state_id": 2
+          "state_id": 4
         },
         {
           "type": "unless",
@@ -3321,7 +3452,7 @@
     },
     {
       "id": 10,
-      "property_set_id": 0,
+      "property_set_id": 10,
       "transitions": [
         {
           "type": "%i(",
@@ -3346,17 +3477,32 @@
         {
           "type": ",",
           "named": false,
-          "state_id": 1
+          "state_id": 2
+        },
+        {
+          "type": "->",
+          "named": false,
+          "state_id": 3
         },
         {
           "type": ".",
           "named": false,
-          "state_id": 1
+          "state_id": 2
+        },
+        {
+          "type": "=",
+          "named": false,
+          "state_id": 3
+        },
+        {
+          "type": "=>",
+          "named": false,
+          "state_id": 3
         },
         {
           "type": "alias",
           "named": true,
-          "state_id": 11
+          "state_id": 14
         },
         {
           "type": "alias",
@@ -3371,12 +3517,12 @@
         {
           "type": "bare_string",
           "named": true,
-          "state_id": 4
+          "state_id": 6
         },
         {
           "type": "bare_symbol",
           "named": true,
-          "state_id": 5
+          "state_id": 9
         },
         {
           "type": "begin",
@@ -3391,7 +3537,7 @@
         {
           "type": "call",
           "named": true,
-          "state_id": 10
+          "state_id": 13
         },
         {
           "type": "case",
@@ -3406,23 +3552,23 @@
         {
           "type": "class_variable",
           "named": true,
-          "state_id": 6
+          "state_id": 10
         },
         {
           "type": "comment",
           "named": true,
-          "state_id": 17
+          "state_id": 8
         },
         {
           "type": "constant",
           "named": true,
           "text": "^[A-Z_]+$",
-          "state_id": 18
+          "state_id": 20
         },
         {
           "type": "constant",
           "named": true,
-          "state_id": 20
+          "state_id": 22
         },
         {
           "type": "def",
@@ -3457,12 +3603,12 @@
         {
           "type": "escape_sequence",
           "named": true,
-          "state_id": 3
+          "state_id": 5
         },
         {
           "type": "false",
           "named": true,
-          "state_id": 2
+          "state_id": 4
         },
         {
           "type": "for",
@@ -3472,24 +3618,12 @@
         {
           "type": "heredoc_beginning",
           "named": true,
-          "state_id": 22
+          "state_id": 6
         },
         {
           "type": "heredoc_body",
           "named": true,
-          "state_id": 4
-        },
-        {
-          "type": "identifier",
-          "named": true,
-          "index": 2,
-          "state_id": 24
-        },
-        {
-          "type": "identifier",
-          "named": true,
-          "text": "^__(FILE|LINE|ENCODING)__$",
-          "state_id": 2
+          "state_id": 6
         },
         {
           "type": "identifier",
@@ -3500,7 +3634,13 @@
         {
           "type": "identifier",
           "named": true,
-          "state_id": 14
+          "text": "^__(FILE|LINE|ENCODING)__$",
+          "state_id": 4
+        },
+        {
+          "type": "identifier",
+          "named": true,
+          "state_id": 17
         },
         {
           "type": "if",
@@ -3515,32 +3655,32 @@
         {
           "type": "instance_variable",
           "named": true,
-          "state_id": 6
+          "state_id": 10
         },
         {
           "type": "integer",
           "named": true,
-          "state_id": 15
+          "state_id": 18
         },
         {
           "type": "interpolation",
           "named": true,
-          "state_id": 19
+          "state_id": 21
         },
         {
           "type": "keyword_parameter",
           "named": true,
-          "state_id": 8
+          "state_id": 11
         },
         {
           "type": "method",
           "named": true,
-          "state_id": 11
+          "state_id": 14
         },
         {
           "type": "method_call",
           "named": true,
-          "state_id": 9
+          "state_id": 12
         },
         {
           "type": "module",
@@ -3550,7 +3690,7 @@
         {
           "type": "nil",
           "named": true,
-          "state_id": 2
+          "state_id": 4
         },
         {
           "type": "or",
@@ -3560,7 +3700,7 @@
         {
           "type": "regex",
           "named": true,
-          "state_id": 21
+          "state_id": 23
         },
         {
           "type": "rescue",
@@ -3580,42 +3720,42 @@
         {
           "type": "self",
           "named": true,
-          "state_id": 12
+          "state_id": 15
         },
         {
           "type": "setter",
           "named": true,
-          "state_id": 11
+          "state_id": 14
         },
         {
           "type": "singleton_method",
           "named": true,
-          "state_id": 16
+          "state_id": 19
         },
         {
           "type": "string",
           "named": true,
-          "state_id": 4
+          "state_id": 6
         },
         {
           "type": "subshell",
           "named": true,
-          "state_id": 4
+          "state_id": 6
         },
         {
           "type": "super",
           "named": true,
-          "state_id": 12
+          "state_id": 15
         },
         {
           "type": "superclass",
           "named": true,
-          "state_id": 13
+          "state_id": 16
         },
         {
           "type": "symbol",
           "named": true,
-          "state_id": 5
+          "state_id": 9
         },
         {
           "type": "then",
@@ -3625,7 +3765,7 @@
         {
           "type": "true",
           "named": true,
-          "state_id": 2
+          "state_id": 4
         },
         {
           "type": "unless",
@@ -3682,17 +3822,32 @@
         {
           "type": ",",
           "named": false,
-          "state_id": 1
+          "state_id": 2
+        },
+        {
+          "type": "->",
+          "named": false,
+          "state_id": 3
         },
         {
           "type": ".",
           "named": false,
-          "state_id": 1
+          "state_id": 2
+        },
+        {
+          "type": "=",
+          "named": false,
+          "state_id": 3
+        },
+        {
+          "type": "=>",
+          "named": false,
+          "state_id": 3
         },
         {
           "type": "alias",
           "named": true,
-          "state_id": 11
+          "state_id": 14
         },
         {
           "type": "alias",
@@ -3707,12 +3862,12 @@
         {
           "type": "bare_string",
           "named": true,
-          "state_id": 4
+          "state_id": 6
         },
         {
           "type": "bare_symbol",
           "named": true,
-          "state_id": 5
+          "state_id": 9
         },
         {
           "type": "begin",
@@ -3727,7 +3882,7 @@
         {
           "type": "call",
           "named": true,
-          "state_id": 10
+          "state_id": 13
         },
         {
           "type": "case",
@@ -3742,23 +3897,23 @@
         {
           "type": "class_variable",
           "named": true,
-          "state_id": 6
+          "state_id": 10
         },
         {
           "type": "comment",
           "named": true,
-          "state_id": 17
+          "state_id": 8
         },
         {
           "type": "constant",
           "named": true,
           "text": "^[A-Z_]+$",
-          "state_id": 18
+          "state_id": 20
         },
         {
           "type": "constant",
           "named": true,
-          "state_id": 20
+          "state_id": 22
         },
         {
           "type": "def",
@@ -3793,12 +3948,12 @@
         {
           "type": "escape_sequence",
           "named": true,
-          "state_id": 3
+          "state_id": 5
         },
         {
           "type": "false",
           "named": true,
-          "state_id": 2
+          "state_id": 4
         },
         {
           "type": "for",
@@ -3808,29 +3963,35 @@
         {
           "type": "heredoc_beginning",
           "named": true,
-          "state_id": 22
+          "state_id": 6
         },
         {
           "type": "heredoc_body",
           "named": true,
+          "state_id": 6
+        },
+        {
+          "type": "identifier",
+          "named": true,
+          "index": 0,
+          "state_id": 9
+        },
+        {
+          "type": "identifier",
+          "named": true,
+          "text": "^__(FILE|LINE|ENCODING)__$",
           "state_id": 4
         },
         {
           "type": "identifier",
           "named": true,
           "text": "^(private|protected|public)$",
-          "state_id": 24
+          "state_id": 7
         },
         {
           "type": "identifier",
           "named": true,
-          "text": "^__(FILE|LINE|ENCODING)__$",
-          "state_id": 24
-        },
-        {
-          "type": "identifier",
-          "named": true,
-          "state_id": 24
+          "state_id": 17
         },
         {
           "type": "if",
@@ -3845,32 +4006,32 @@
         {
           "type": "instance_variable",
           "named": true,
-          "state_id": 6
+          "state_id": 10
         },
         {
           "type": "integer",
           "named": true,
-          "state_id": 15
+          "state_id": 18
         },
         {
           "type": "interpolation",
           "named": true,
-          "state_id": 19
+          "state_id": 21
         },
         {
           "type": "keyword_parameter",
           "named": true,
-          "state_id": 8
+          "state_id": 11
         },
         {
           "type": "method",
           "named": true,
-          "state_id": 11
+          "state_id": 14
         },
         {
           "type": "method_call",
           "named": true,
-          "state_id": 9
+          "state_id": 12
         },
         {
           "type": "module",
@@ -3880,7 +4041,7 @@
         {
           "type": "nil",
           "named": true,
-          "state_id": 2
+          "state_id": 4
         },
         {
           "type": "or",
@@ -3890,7 +4051,7 @@
         {
           "type": "regex",
           "named": true,
-          "state_id": 21
+          "state_id": 23
         },
         {
           "type": "rescue",
@@ -3910,42 +4071,42 @@
         {
           "type": "self",
           "named": true,
-          "state_id": 12
+          "state_id": 15
         },
         {
           "type": "setter",
           "named": true,
-          "state_id": 11
+          "state_id": 14
         },
         {
           "type": "singleton_method",
           "named": true,
-          "state_id": 16
+          "state_id": 19
         },
         {
           "type": "string",
           "named": true,
-          "state_id": 4
+          "state_id": 6
         },
         {
           "type": "subshell",
           "named": true,
-          "state_id": 4
+          "state_id": 6
         },
         {
           "type": "super",
           "named": true,
-          "state_id": 12
+          "state_id": 15
         },
         {
           "type": "superclass",
           "named": true,
-          "state_id": 13
+          "state_id": 16
         },
         {
           "type": "symbol",
           "named": true,
-          "state_id": 5
+          "state_id": 9
         },
         {
           "type": "then",
@@ -3955,7 +4116,7 @@
         {
           "type": "true",
           "named": true,
-          "state_id": 2
+          "state_id": 4
         },
         {
           "type": "unless",
@@ -3987,7 +4148,7 @@
     },
     {
       "id": 12,
-      "property_set_id": 8,
+      "property_set_id": 0,
       "transitions": [
         {
           "type": "%i(",
@@ -4012,17 +4173,32 @@
         {
           "type": ",",
           "named": false,
-          "state_id": 1
+          "state_id": 2
+        },
+        {
+          "type": "->",
+          "named": false,
+          "state_id": 3
         },
         {
           "type": ".",
           "named": false,
-          "state_id": 1
+          "state_id": 2
+        },
+        {
+          "type": "=",
+          "named": false,
+          "state_id": 3
+        },
+        {
+          "type": "=>",
+          "named": false,
+          "state_id": 3
         },
         {
           "type": "alias",
           "named": true,
-          "state_id": 11
+          "state_id": 14
         },
         {
           "type": "alias",
@@ -4037,12 +4213,12 @@
         {
           "type": "bare_string",
           "named": true,
-          "state_id": 4
+          "state_id": 6
         },
         {
           "type": "bare_symbol",
           "named": true,
-          "state_id": 5
+          "state_id": 9
         },
         {
           "type": "begin",
@@ -4057,7 +4233,7 @@
         {
           "type": "call",
           "named": true,
-          "state_id": 10
+          "state_id": 13
         },
         {
           "type": "case",
@@ -4072,23 +4248,23 @@
         {
           "type": "class_variable",
           "named": true,
-          "state_id": 6
+          "state_id": 10
         },
         {
           "type": "comment",
           "named": true,
-          "state_id": 17
+          "state_id": 8
         },
         {
           "type": "constant",
           "named": true,
           "text": "^[A-Z_]+$",
-          "state_id": 18
+          "state_id": 20
         },
         {
           "type": "constant",
           "named": true,
-          "state_id": 20
+          "state_id": 22
         },
         {
           "type": "def",
@@ -4123,12 +4299,12 @@
         {
           "type": "escape_sequence",
           "named": true,
-          "state_id": 3
+          "state_id": 5
         },
         {
           "type": "false",
           "named": true,
-          "state_id": 2
+          "state_id": 4
         },
         {
           "type": "for",
@@ -4138,12 +4314,25 @@
         {
           "type": "heredoc_beginning",
           "named": true,
-          "state_id": 22
+          "state_id": 6
         },
         {
           "type": "heredoc_body",
           "named": true,
-          "state_id": 4
+          "state_id": 6
+        },
+        {
+          "type": "identifier",
+          "named": true,
+          "index": 0,
+          "text": "^require$",
+          "state_id": 24
+        },
+        {
+          "type": "identifier",
+          "named": true,
+          "index": 0,
+          "state_id": 25
         },
         {
           "type": "identifier",
@@ -4155,12 +4344,12 @@
           "type": "identifier",
           "named": true,
           "text": "^__(FILE|LINE|ENCODING)__$",
-          "state_id": 2
+          "state_id": 4
         },
         {
           "type": "identifier",
           "named": true,
-          "state_id": 14
+          "state_id": 17
         },
         {
           "type": "if",
@@ -4175,32 +4364,32 @@
         {
           "type": "instance_variable",
           "named": true,
-          "state_id": 6
+          "state_id": 10
         },
         {
           "type": "integer",
           "named": true,
-          "state_id": 15
+          "state_id": 18
         },
         {
           "type": "interpolation",
           "named": true,
-          "state_id": 19
+          "state_id": 21
         },
         {
           "type": "keyword_parameter",
           "named": true,
-          "state_id": 8
+          "state_id": 11
         },
         {
           "type": "method",
           "named": true,
-          "state_id": 11
+          "state_id": 14
         },
         {
           "type": "method_call",
           "named": true,
-          "state_id": 9
+          "state_id": 12
         },
         {
           "type": "module",
@@ -4210,7 +4399,7 @@
         {
           "type": "nil",
           "named": true,
-          "state_id": 2
+          "state_id": 4
         },
         {
           "type": "or",
@@ -4220,7 +4409,7 @@
         {
           "type": "regex",
           "named": true,
-          "state_id": 21
+          "state_id": 23
         },
         {
           "type": "rescue",
@@ -4240,42 +4429,42 @@
         {
           "type": "self",
           "named": true,
-          "state_id": 12
+          "state_id": 15
         },
         {
           "type": "setter",
           "named": true,
-          "state_id": 11
+          "state_id": 14
         },
         {
           "type": "singleton_method",
           "named": true,
-          "state_id": 16
+          "state_id": 19
         },
         {
           "type": "string",
           "named": true,
-          "state_id": 4
+          "state_id": 6
         },
         {
           "type": "subshell",
           "named": true,
-          "state_id": 4
+          "state_id": 6
         },
         {
           "type": "super",
           "named": true,
-          "state_id": 12
+          "state_id": 15
         },
         {
           "type": "superclass",
           "named": true,
-          "state_id": 13
+          "state_id": 16
         },
         {
           "type": "symbol",
           "named": true,
-          "state_id": 5
+          "state_id": 9
         },
         {
           "type": "then",
@@ -4285,7 +4474,7 @@
         {
           "type": "true",
           "named": true,
-          "state_id": 2
+          "state_id": 4
         },
         {
           "type": "unless",
@@ -4342,17 +4531,32 @@
         {
           "type": ",",
           "named": false,
-          "state_id": 1
+          "state_id": 2
+        },
+        {
+          "type": "->",
+          "named": false,
+          "state_id": 3
         },
         {
           "type": ".",
           "named": false,
-          "state_id": 1
+          "state_id": 2
+        },
+        {
+          "type": "=",
+          "named": false,
+          "state_id": 3
+        },
+        {
+          "type": "=>",
+          "named": false,
+          "state_id": 3
         },
         {
           "type": "alias",
           "named": true,
-          "state_id": 11
+          "state_id": 14
         },
         {
           "type": "alias",
@@ -4367,12 +4571,12 @@
         {
           "type": "bare_string",
           "named": true,
-          "state_id": 4
+          "state_id": 6
         },
         {
           "type": "bare_symbol",
           "named": true,
-          "state_id": 5
+          "state_id": 9
         },
         {
           "type": "begin",
@@ -4387,7 +4591,7 @@
         {
           "type": "call",
           "named": true,
-          "state_id": 10
+          "state_id": 13
         },
         {
           "type": "case",
@@ -4402,12 +4606,12 @@
         {
           "type": "class_variable",
           "named": true,
-          "state_id": 6
+          "state_id": 10
         },
         {
           "type": "comment",
           "named": true,
-          "state_id": 17
+          "state_id": 8
         },
         {
           "type": "constant",
@@ -4418,7 +4622,7 @@
         {
           "type": "constant",
           "named": true,
-          "state_id": 20
+          "state_id": 22
         },
         {
           "type": "def",
@@ -4453,12 +4657,12 @@
         {
           "type": "escape_sequence",
           "named": true,
-          "state_id": 3
+          "state_id": 5
         },
         {
           "type": "false",
           "named": true,
-          "state_id": 2
+          "state_id": 4
         },
         {
           "type": "for",
@@ -4468,11 +4672,23 @@
         {
           "type": "heredoc_beginning",
           "named": true,
-          "state_id": 22
+          "state_id": 6
         },
         {
           "type": "heredoc_body",
           "named": true,
+          "state_id": 6
+        },
+        {
+          "type": "identifier",
+          "named": true,
+          "index": 2,
+          "state_id": 25
+        },
+        {
+          "type": "identifier",
+          "named": true,
+          "text": "^__(FILE|LINE|ENCODING)__$",
           "state_id": 4
         },
         {
@@ -4484,13 +4700,7 @@
         {
           "type": "identifier",
           "named": true,
-          "text": "^__(FILE|LINE|ENCODING)__$",
-          "state_id": 2
-        },
-        {
-          "type": "identifier",
-          "named": true,
-          "state_id": 14
+          "state_id": 17
         },
         {
           "type": "if",
@@ -4505,32 +4715,32 @@
         {
           "type": "instance_variable",
           "named": true,
-          "state_id": 6
+          "state_id": 10
         },
         {
           "type": "integer",
           "named": true,
-          "state_id": 15
+          "state_id": 18
         },
         {
           "type": "interpolation",
           "named": true,
-          "state_id": 19
+          "state_id": 21
         },
         {
           "type": "keyword_parameter",
           "named": true,
-          "state_id": 8
+          "state_id": 11
         },
         {
           "type": "method",
           "named": true,
-          "state_id": 11
+          "state_id": 14
         },
         {
           "type": "method_call",
           "named": true,
-          "state_id": 9
+          "state_id": 12
         },
         {
           "type": "module",
@@ -4540,7 +4750,7 @@
         {
           "type": "nil",
           "named": true,
-          "state_id": 2
+          "state_id": 4
         },
         {
           "type": "or",
@@ -4550,7 +4760,7 @@
         {
           "type": "regex",
           "named": true,
-          "state_id": 21
+          "state_id": 23
         },
         {
           "type": "rescue",
@@ -4570,42 +4780,42 @@
         {
           "type": "self",
           "named": true,
-          "state_id": 12
+          "state_id": 15
         },
         {
           "type": "setter",
           "named": true,
-          "state_id": 11
+          "state_id": 14
         },
         {
           "type": "singleton_method",
           "named": true,
-          "state_id": 16
+          "state_id": 19
         },
         {
           "type": "string",
           "named": true,
-          "state_id": 4
+          "state_id": 6
         },
         {
           "type": "subshell",
           "named": true,
-          "state_id": 4
+          "state_id": 6
         },
         {
           "type": "super",
           "named": true,
-          "state_id": 12
+          "state_id": 15
         },
         {
           "type": "superclass",
           "named": true,
-          "state_id": 13
+          "state_id": 16
         },
         {
           "type": "symbol",
           "named": true,
-          "state_id": 5
+          "state_id": 9
         },
         {
           "type": "then",
@@ -4615,7 +4825,7 @@
         {
           "type": "true",
           "named": true,
-          "state_id": 2
+          "state_id": 4
         },
         {
           "type": "unless",
@@ -4647,7 +4857,7 @@
     },
     {
       "id": 14,
-      "property_set_id": 9,
+      "property_set_id": 0,
       "transitions": [
         {
           "type": "%i(",
@@ -4672,17 +4882,32 @@
         {
           "type": ",",
           "named": false,
-          "state_id": 1
+          "state_id": 2
+        },
+        {
+          "type": "->",
+          "named": false,
+          "state_id": 3
         },
         {
           "type": ".",
           "named": false,
-          "state_id": 1
+          "state_id": 2
+        },
+        {
+          "type": "=",
+          "named": false,
+          "state_id": 3
+        },
+        {
+          "type": "=>",
+          "named": false,
+          "state_id": 3
         },
         {
           "type": "alias",
           "named": true,
-          "state_id": 11
+          "state_id": 14
         },
         {
           "type": "alias",
@@ -4697,12 +4922,12 @@
         {
           "type": "bare_string",
           "named": true,
-          "state_id": 4
+          "state_id": 6
         },
         {
           "type": "bare_symbol",
           "named": true,
-          "state_id": 5
+          "state_id": 9
         },
         {
           "type": "begin",
@@ -4717,7 +4942,7 @@
         {
           "type": "call",
           "named": true,
-          "state_id": 10
+          "state_id": 13
         },
         {
           "type": "case",
@@ -4732,23 +4957,23 @@
         {
           "type": "class_variable",
           "named": true,
-          "state_id": 6
+          "state_id": 10
         },
         {
           "type": "comment",
           "named": true,
-          "state_id": 17
+          "state_id": 8
         },
         {
           "type": "constant",
           "named": true,
           "text": "^[A-Z_]+$",
-          "state_id": 18
+          "state_id": 20
         },
         {
           "type": "constant",
           "named": true,
-          "state_id": 20
+          "state_id": 22
         },
         {
           "type": "def",
@@ -4783,12 +5008,12 @@
         {
           "type": "escape_sequence",
           "named": true,
-          "state_id": 3
+          "state_id": 5
         },
         {
           "type": "false",
           "named": true,
-          "state_id": 2
+          "state_id": 4
         },
         {
           "type": "for",
@@ -4798,29 +5023,29 @@
         {
           "type": "heredoc_beginning",
           "named": true,
-          "state_id": 22
+          "state_id": 6
         },
         {
           "type": "heredoc_body",
           "named": true,
-          "state_id": 4
+          "state_id": 6
         },
         {
           "type": "identifier",
           "named": true,
           "text": "^(private|protected|public)$",
-          "state_id": 7
+          "state_id": 25
         },
         {
           "type": "identifier",
           "named": true,
           "text": "^__(FILE|LINE|ENCODING)__$",
-          "state_id": 2
+          "state_id": 25
         },
         {
           "type": "identifier",
           "named": true,
-          "state_id": 14
+          "state_id": 25
         },
         {
           "type": "if",
@@ -4835,32 +5060,32 @@
         {
           "type": "instance_variable",
           "named": true,
-          "state_id": 6
+          "state_id": 10
         },
         {
           "type": "integer",
           "named": true,
-          "state_id": 15
+          "state_id": 18
         },
         {
           "type": "interpolation",
           "named": true,
-          "state_id": 19
+          "state_id": 21
         },
         {
           "type": "keyword_parameter",
           "named": true,
-          "state_id": 8
+          "state_id": 11
         },
         {
           "type": "method",
           "named": true,
-          "state_id": 11
+          "state_id": 14
         },
         {
           "type": "method_call",
           "named": true,
-          "state_id": 9
+          "state_id": 12
         },
         {
           "type": "module",
@@ -4870,7 +5095,7 @@
         {
           "type": "nil",
           "named": true,
-          "state_id": 2
+          "state_id": 4
         },
         {
           "type": "or",
@@ -4880,7 +5105,7 @@
         {
           "type": "regex",
           "named": true,
-          "state_id": 21
+          "state_id": 23
         },
         {
           "type": "rescue",
@@ -4900,42 +5125,42 @@
         {
           "type": "self",
           "named": true,
-          "state_id": 12
+          "state_id": 15
         },
         {
           "type": "setter",
           "named": true,
-          "state_id": 11
+          "state_id": 14
         },
         {
           "type": "singleton_method",
           "named": true,
-          "state_id": 16
+          "state_id": 19
         },
         {
           "type": "string",
           "named": true,
-          "state_id": 4
+          "state_id": 6
         },
         {
           "type": "subshell",
           "named": true,
-          "state_id": 4
+          "state_id": 6
         },
         {
           "type": "super",
           "named": true,
-          "state_id": 12
+          "state_id": 15
         },
         {
           "type": "superclass",
           "named": true,
-          "state_id": 13
+          "state_id": 16
         },
         {
           "type": "symbol",
           "named": true,
-          "state_id": 5
+          "state_id": 9
         },
         {
           "type": "then",
@@ -4945,7 +5170,7 @@
         {
           "type": "true",
           "named": true,
-          "state_id": 2
+          "state_id": 4
         },
         {
           "type": "unless",
@@ -4977,7 +5202,7 @@
     },
     {
       "id": 15,
-      "property_set_id": 10,
+      "property_set_id": 11,
       "transitions": [
         {
           "type": "%i(",
@@ -5002,17 +5227,32 @@
         {
           "type": ",",
           "named": false,
-          "state_id": 1
+          "state_id": 2
+        },
+        {
+          "type": "->",
+          "named": false,
+          "state_id": 3
         },
         {
           "type": ".",
           "named": false,
-          "state_id": 1
+          "state_id": 2
+        },
+        {
+          "type": "=",
+          "named": false,
+          "state_id": 3
+        },
+        {
+          "type": "=>",
+          "named": false,
+          "state_id": 3
         },
         {
           "type": "alias",
           "named": true,
-          "state_id": 11
+          "state_id": 14
         },
         {
           "type": "alias",
@@ -5027,12 +5267,12 @@
         {
           "type": "bare_string",
           "named": true,
-          "state_id": 4
+          "state_id": 6
         },
         {
           "type": "bare_symbol",
           "named": true,
-          "state_id": 5
+          "state_id": 9
         },
         {
           "type": "begin",
@@ -5047,7 +5287,7 @@
         {
           "type": "call",
           "named": true,
-          "state_id": 10
+          "state_id": 13
         },
         {
           "type": "case",
@@ -5062,23 +5302,23 @@
         {
           "type": "class_variable",
           "named": true,
-          "state_id": 6
+          "state_id": 10
         },
         {
           "type": "comment",
           "named": true,
-          "state_id": 17
+          "state_id": 8
         },
         {
           "type": "constant",
           "named": true,
           "text": "^[A-Z_]+$",
-          "state_id": 18
+          "state_id": 20
         },
         {
           "type": "constant",
           "named": true,
-          "state_id": 20
+          "state_id": 22
         },
         {
           "type": "def",
@@ -5113,12 +5353,12 @@
         {
           "type": "escape_sequence",
           "named": true,
-          "state_id": 3
+          "state_id": 5
         },
         {
           "type": "false",
           "named": true,
-          "state_id": 2
+          "state_id": 4
         },
         {
           "type": "for",
@@ -5128,12 +5368,12 @@
         {
           "type": "heredoc_beginning",
           "named": true,
-          "state_id": 22
+          "state_id": 6
         },
         {
           "type": "heredoc_body",
           "named": true,
-          "state_id": 4
+          "state_id": 6
         },
         {
           "type": "identifier",
@@ -5145,12 +5385,12 @@
           "type": "identifier",
           "named": true,
           "text": "^__(FILE|LINE|ENCODING)__$",
-          "state_id": 2
+          "state_id": 4
         },
         {
           "type": "identifier",
           "named": true,
-          "state_id": 14
+          "state_id": 17
         },
         {
           "type": "if",
@@ -5165,32 +5405,32 @@
         {
           "type": "instance_variable",
           "named": true,
-          "state_id": 6
+          "state_id": 10
         },
         {
           "type": "integer",
           "named": true,
-          "state_id": 15
+          "state_id": 18
         },
         {
           "type": "interpolation",
           "named": true,
-          "state_id": 19
+          "state_id": 21
         },
         {
           "type": "keyword_parameter",
           "named": true,
-          "state_id": 8
+          "state_id": 11
         },
         {
           "type": "method",
           "named": true,
-          "state_id": 11
+          "state_id": 14
         },
         {
           "type": "method_call",
           "named": true,
-          "state_id": 9
+          "state_id": 12
         },
         {
           "type": "module",
@@ -5200,7 +5440,7 @@
         {
           "type": "nil",
           "named": true,
-          "state_id": 2
+          "state_id": 4
         },
         {
           "type": "or",
@@ -5210,7 +5450,7 @@
         {
           "type": "regex",
           "named": true,
-          "state_id": 21
+          "state_id": 23
         },
         {
           "type": "rescue",
@@ -5230,42 +5470,42 @@
         {
           "type": "self",
           "named": true,
-          "state_id": 12
+          "state_id": 15
         },
         {
           "type": "setter",
           "named": true,
-          "state_id": 11
+          "state_id": 14
         },
         {
           "type": "singleton_method",
           "named": true,
-          "state_id": 16
+          "state_id": 19
         },
         {
           "type": "string",
           "named": true,
-          "state_id": 4
+          "state_id": 6
         },
         {
           "type": "subshell",
           "named": true,
-          "state_id": 4
+          "state_id": 6
         },
         {
           "type": "super",
           "named": true,
-          "state_id": 12
+          "state_id": 15
         },
         {
           "type": "superclass",
           "named": true,
-          "state_id": 13
+          "state_id": 16
         },
         {
           "type": "symbol",
           "named": true,
-          "state_id": 5
+          "state_id": 9
         },
         {
           "type": "then",
@@ -5275,7 +5515,7 @@
         {
           "type": "true",
           "named": true,
-          "state_id": 2
+          "state_id": 4
         },
         {
           "type": "unless",
@@ -5332,17 +5572,32 @@
         {
           "type": ",",
           "named": false,
-          "state_id": 1
+          "state_id": 2
+        },
+        {
+          "type": "->",
+          "named": false,
+          "state_id": 3
         },
         {
           "type": ".",
           "named": false,
-          "state_id": 1
+          "state_id": 2
+        },
+        {
+          "type": "=",
+          "named": false,
+          "state_id": 3
+        },
+        {
+          "type": "=>",
+          "named": false,
+          "state_id": 3
         },
         {
           "type": "alias",
           "named": true,
-          "state_id": 11
+          "state_id": 14
         },
         {
           "type": "alias",
@@ -5357,12 +5612,12 @@
         {
           "type": "bare_string",
           "named": true,
-          "state_id": 4
+          "state_id": 6
         },
         {
           "type": "bare_symbol",
           "named": true,
-          "state_id": 5
+          "state_id": 9
         },
         {
           "type": "begin",
@@ -5377,7 +5632,7 @@
         {
           "type": "call",
           "named": true,
-          "state_id": 10
+          "state_id": 13
         },
         {
           "type": "case",
@@ -5392,23 +5647,23 @@
         {
           "type": "class_variable",
           "named": true,
-          "state_id": 6
+          "state_id": 10
         },
         {
           "type": "comment",
           "named": true,
-          "state_id": 17
+          "state_id": 8
         },
         {
           "type": "constant",
           "named": true,
           "text": "^[A-Z_]+$",
-          "state_id": 18
+          "state_id": 22
         },
         {
           "type": "constant",
           "named": true,
-          "state_id": 20
+          "state_id": 22
         },
         {
           "type": "def",
@@ -5443,12 +5698,12 @@
         {
           "type": "escape_sequence",
           "named": true,
-          "state_id": 3
+          "state_id": 5
         },
         {
           "type": "false",
           "named": true,
-          "state_id": 2
+          "state_id": 4
         },
         {
           "type": "for",
@@ -5458,18 +5713,12 @@
         {
           "type": "heredoc_beginning",
           "named": true,
-          "state_id": 22
+          "state_id": 6
         },
         {
           "type": "heredoc_body",
           "named": true,
-          "state_id": 4
-        },
-        {
-          "type": "identifier",
-          "named": true,
-          "index": 3,
-          "state_id": 24
+          "state_id": 6
         },
         {
           "type": "identifier",
@@ -5481,12 +5730,12 @@
           "type": "identifier",
           "named": true,
           "text": "^__(FILE|LINE|ENCODING)__$",
-          "state_id": 2
+          "state_id": 4
         },
         {
           "type": "identifier",
           "named": true,
-          "state_id": 14
+          "state_id": 17
         },
         {
           "type": "if",
@@ -5501,32 +5750,32 @@
         {
           "type": "instance_variable",
           "named": true,
-          "state_id": 6
+          "state_id": 10
         },
         {
           "type": "integer",
           "named": true,
-          "state_id": 15
+          "state_id": 18
         },
         {
           "type": "interpolation",
           "named": true,
-          "state_id": 19
+          "state_id": 21
         },
         {
           "type": "keyword_parameter",
           "named": true,
-          "state_id": 8
+          "state_id": 11
         },
         {
           "type": "method",
           "named": true,
-          "state_id": 11
+          "state_id": 14
         },
         {
           "type": "method_call",
           "named": true,
-          "state_id": 9
+          "state_id": 12
         },
         {
           "type": "module",
@@ -5536,7 +5785,7 @@
         {
           "type": "nil",
           "named": true,
-          "state_id": 2
+          "state_id": 4
         },
         {
           "type": "or",
@@ -5546,7 +5795,7 @@
         {
           "type": "regex",
           "named": true,
-          "state_id": 21
+          "state_id": 23
         },
         {
           "type": "rescue",
@@ -5566,42 +5815,42 @@
         {
           "type": "self",
           "named": true,
-          "state_id": 12
+          "state_id": 15
         },
         {
           "type": "setter",
           "named": true,
-          "state_id": 11
+          "state_id": 14
         },
         {
           "type": "singleton_method",
           "named": true,
-          "state_id": 16
+          "state_id": 19
         },
         {
           "type": "string",
           "named": true,
-          "state_id": 4
+          "state_id": 6
         },
         {
           "type": "subshell",
           "named": true,
-          "state_id": 4
+          "state_id": 6
         },
         {
           "type": "super",
           "named": true,
-          "state_id": 12
+          "state_id": 15
         },
         {
           "type": "superclass",
           "named": true,
-          "state_id": 13
+          "state_id": 16
         },
         {
           "type": "symbol",
           "named": true,
-          "state_id": 5
+          "state_id": 9
         },
         {
           "type": "then",
@@ -5611,7 +5860,7 @@
         {
           "type": "true",
           "named": true,
-          "state_id": 2
+          "state_id": 4
         },
         {
           "type": "unless",
@@ -5643,7 +5892,7 @@
     },
     {
       "id": 17,
-      "property_set_id": 11,
+      "property_set_id": 12,
       "transitions": [
         {
           "type": "%i(",
@@ -5668,17 +5917,32 @@
         {
           "type": ",",
           "named": false,
-          "state_id": 1
+          "state_id": 2
+        },
+        {
+          "type": "->",
+          "named": false,
+          "state_id": 3
         },
         {
           "type": ".",
           "named": false,
-          "state_id": 1
+          "state_id": 2
+        },
+        {
+          "type": "=",
+          "named": false,
+          "state_id": 3
+        },
+        {
+          "type": "=>",
+          "named": false,
+          "state_id": 3
         },
         {
           "type": "alias",
           "named": true,
-          "state_id": 11
+          "state_id": 14
         },
         {
           "type": "alias",
@@ -5693,12 +5957,12 @@
         {
           "type": "bare_string",
           "named": true,
-          "state_id": 4
+          "state_id": 6
         },
         {
           "type": "bare_symbol",
           "named": true,
-          "state_id": 5
+          "state_id": 9
         },
         {
           "type": "begin",
@@ -5713,7 +5977,7 @@
         {
           "type": "call",
           "named": true,
-          "state_id": 10
+          "state_id": 13
         },
         {
           "type": "case",
@@ -5728,23 +5992,23 @@
         {
           "type": "class_variable",
           "named": true,
-          "state_id": 6
+          "state_id": 10
         },
         {
           "type": "comment",
           "named": true,
-          "state_id": 17
+          "state_id": 8
         },
         {
           "type": "constant",
           "named": true,
           "text": "^[A-Z_]+$",
-          "state_id": 18
+          "state_id": 20
         },
         {
           "type": "constant",
           "named": true,
-          "state_id": 20
+          "state_id": 22
         },
         {
           "type": "def",
@@ -5779,12 +6043,12 @@
         {
           "type": "escape_sequence",
           "named": true,
-          "state_id": 3
+          "state_id": 5
         },
         {
           "type": "false",
           "named": true,
-          "state_id": 2
+          "state_id": 4
         },
         {
           "type": "for",
@@ -5794,12 +6058,12 @@
         {
           "type": "heredoc_beginning",
           "named": true,
-          "state_id": 22
+          "state_id": 6
         },
         {
           "type": "heredoc_body",
           "named": true,
-          "state_id": 4
+          "state_id": 6
         },
         {
           "type": "identifier",
@@ -5811,12 +6075,12 @@
           "type": "identifier",
           "named": true,
           "text": "^__(FILE|LINE|ENCODING)__$",
-          "state_id": 2
+          "state_id": 4
         },
         {
           "type": "identifier",
           "named": true,
-          "state_id": 14
+          "state_id": 17
         },
         {
           "type": "if",
@@ -5831,32 +6095,32 @@
         {
           "type": "instance_variable",
           "named": true,
-          "state_id": 6
+          "state_id": 10
         },
         {
           "type": "integer",
           "named": true,
-          "state_id": 15
+          "state_id": 18
         },
         {
           "type": "interpolation",
           "named": true,
-          "state_id": 19
+          "state_id": 21
         },
         {
           "type": "keyword_parameter",
           "named": true,
-          "state_id": 8
+          "state_id": 11
         },
         {
           "type": "method",
           "named": true,
-          "state_id": 11
+          "state_id": 14
         },
         {
           "type": "method_call",
           "named": true,
-          "state_id": 9
+          "state_id": 12
         },
         {
           "type": "module",
@@ -5866,7 +6130,7 @@
         {
           "type": "nil",
           "named": true,
-          "state_id": 2
+          "state_id": 4
         },
         {
           "type": "or",
@@ -5876,7 +6140,7 @@
         {
           "type": "regex",
           "named": true,
-          "state_id": 21
+          "state_id": 23
         },
         {
           "type": "rescue",
@@ -5896,42 +6160,42 @@
         {
           "type": "self",
           "named": true,
-          "state_id": 12
+          "state_id": 15
         },
         {
           "type": "setter",
           "named": true,
-          "state_id": 11
+          "state_id": 14
         },
         {
           "type": "singleton_method",
           "named": true,
-          "state_id": 16
+          "state_id": 19
         },
         {
           "type": "string",
           "named": true,
-          "state_id": 4
+          "state_id": 6
         },
         {
           "type": "subshell",
           "named": true,
-          "state_id": 4
+          "state_id": 6
         },
         {
           "type": "super",
           "named": true,
-          "state_id": 12
+          "state_id": 15
         },
         {
           "type": "superclass",
           "named": true,
-          "state_id": 13
+          "state_id": 16
         },
         {
           "type": "symbol",
           "named": true,
-          "state_id": 5
+          "state_id": 9
         },
         {
           "type": "then",
@@ -5941,7 +6205,7 @@
         {
           "type": "true",
           "named": true,
-          "state_id": 2
+          "state_id": 4
         },
         {
           "type": "unless",
@@ -5973,7 +6237,7 @@
     },
     {
       "id": 18,
-      "property_set_id": 12,
+      "property_set_id": 13,
       "transitions": [
         {
           "type": "%i(",
@@ -5998,17 +6262,32 @@
         {
           "type": ",",
           "named": false,
-          "state_id": 1
+          "state_id": 2
+        },
+        {
+          "type": "->",
+          "named": false,
+          "state_id": 3
         },
         {
           "type": ".",
           "named": false,
-          "state_id": 1
+          "state_id": 2
+        },
+        {
+          "type": "=",
+          "named": false,
+          "state_id": 3
+        },
+        {
+          "type": "=>",
+          "named": false,
+          "state_id": 3
         },
         {
           "type": "alias",
           "named": true,
-          "state_id": 11
+          "state_id": 14
         },
         {
           "type": "alias",
@@ -6023,12 +6302,12 @@
         {
           "type": "bare_string",
           "named": true,
-          "state_id": 4
+          "state_id": 6
         },
         {
           "type": "bare_symbol",
           "named": true,
-          "state_id": 5
+          "state_id": 9
         },
         {
           "type": "begin",
@@ -6043,7 +6322,7 @@
         {
           "type": "call",
           "named": true,
-          "state_id": 10
+          "state_id": 13
         },
         {
           "type": "case",
@@ -6058,23 +6337,23 @@
         {
           "type": "class_variable",
           "named": true,
-          "state_id": 6
+          "state_id": 10
         },
         {
           "type": "comment",
           "named": true,
-          "state_id": 17
+          "state_id": 8
         },
         {
           "type": "constant",
           "named": true,
           "text": "^[A-Z_]+$",
-          "state_id": 18
+          "state_id": 20
         },
         {
           "type": "constant",
           "named": true,
-          "state_id": 20
+          "state_id": 22
         },
         {
           "type": "def",
@@ -6109,12 +6388,12 @@
         {
           "type": "escape_sequence",
           "named": true,
-          "state_id": 3
+          "state_id": 5
         },
         {
           "type": "false",
           "named": true,
-          "state_id": 2
+          "state_id": 4
         },
         {
           "type": "for",
@@ -6124,12 +6403,12 @@
         {
           "type": "heredoc_beginning",
           "named": true,
-          "state_id": 22
+          "state_id": 6
         },
         {
           "type": "heredoc_body",
           "named": true,
-          "state_id": 4
+          "state_id": 6
         },
         {
           "type": "identifier",
@@ -6141,12 +6420,12 @@
           "type": "identifier",
           "named": true,
           "text": "^__(FILE|LINE|ENCODING)__$",
-          "state_id": 2
+          "state_id": 4
         },
         {
           "type": "identifier",
           "named": true,
-          "state_id": 14
+          "state_id": 17
         },
         {
           "type": "if",
@@ -6161,32 +6440,32 @@
         {
           "type": "instance_variable",
           "named": true,
-          "state_id": 6
+          "state_id": 10
         },
         {
           "type": "integer",
           "named": true,
-          "state_id": 15
+          "state_id": 18
         },
         {
           "type": "interpolation",
           "named": true,
-          "state_id": 19
+          "state_id": 21
         },
         {
           "type": "keyword_parameter",
           "named": true,
-          "state_id": 8
+          "state_id": 11
         },
         {
           "type": "method",
           "named": true,
-          "state_id": 11
+          "state_id": 14
         },
         {
           "type": "method_call",
           "named": true,
-          "state_id": 9
+          "state_id": 12
         },
         {
           "type": "module",
@@ -6196,7 +6475,7 @@
         {
           "type": "nil",
           "named": true,
-          "state_id": 2
+          "state_id": 4
         },
         {
           "type": "or",
@@ -6206,7 +6485,7 @@
         {
           "type": "regex",
           "named": true,
-          "state_id": 21
+          "state_id": 23
         },
         {
           "type": "rescue",
@@ -6226,42 +6505,42 @@
         {
           "type": "self",
           "named": true,
-          "state_id": 12
+          "state_id": 15
         },
         {
           "type": "setter",
           "named": true,
-          "state_id": 11
+          "state_id": 14
         },
         {
           "type": "singleton_method",
           "named": true,
-          "state_id": 16
+          "state_id": 19
         },
         {
           "type": "string",
           "named": true,
-          "state_id": 4
+          "state_id": 6
         },
         {
           "type": "subshell",
           "named": true,
-          "state_id": 4
+          "state_id": 6
         },
         {
           "type": "super",
           "named": true,
-          "state_id": 12
+          "state_id": 15
         },
         {
           "type": "superclass",
           "named": true,
-          "state_id": 13
+          "state_id": 16
         },
         {
           "type": "symbol",
           "named": true,
-          "state_id": 5
+          "state_id": 9
         },
         {
           "type": "then",
@@ -6271,7 +6550,7 @@
         {
           "type": "true",
           "named": true,
-          "state_id": 2
+          "state_id": 4
         },
         {
           "type": "unless",
@@ -6303,13 +6582,8 @@
     },
     {
       "id": 19,
-      "property_set_id": 13,
+      "property_set_id": 0,
       "transitions": [
-        {
-          "type": "#{",
-          "named": false,
-          "state_id": 25
-        },
         {
           "type": "%i(",
           "named": false,
@@ -6333,17 +6607,32 @@
         {
           "type": ",",
           "named": false,
-          "state_id": 1
+          "state_id": 2
+        },
+        {
+          "type": "->",
+          "named": false,
+          "state_id": 3
         },
         {
           "type": ".",
           "named": false,
-          "state_id": 1
+          "state_id": 2
+        },
+        {
+          "type": "=",
+          "named": false,
+          "state_id": 3
+        },
+        {
+          "type": "=>",
+          "named": false,
+          "state_id": 3
         },
         {
           "type": "alias",
           "named": true,
-          "state_id": 11
+          "state_id": 14
         },
         {
           "type": "alias",
@@ -6358,12 +6647,12 @@
         {
           "type": "bare_string",
           "named": true,
-          "state_id": 4
+          "state_id": 6
         },
         {
           "type": "bare_symbol",
           "named": true,
-          "state_id": 5
+          "state_id": 9
         },
         {
           "type": "begin",
@@ -6378,7 +6667,7 @@
         {
           "type": "call",
           "named": true,
-          "state_id": 10
+          "state_id": 13
         },
         {
           "type": "case",
@@ -6393,23 +6682,23 @@
         {
           "type": "class_variable",
           "named": true,
-          "state_id": 6
+          "state_id": 10
         },
         {
           "type": "comment",
           "named": true,
-          "state_id": 17
+          "state_id": 8
         },
         {
           "type": "constant",
           "named": true,
           "text": "^[A-Z_]+$",
-          "state_id": 18
+          "state_id": 20
         },
         {
           "type": "constant",
           "named": true,
-          "state_id": 20
+          "state_id": 22
         },
         {
           "type": "def",
@@ -6444,12 +6733,12 @@
         {
           "type": "escape_sequence",
           "named": true,
-          "state_id": 3
+          "state_id": 5
         },
         {
           "type": "false",
           "named": true,
-          "state_id": 2
+          "state_id": 4
         },
         {
           "type": "for",
@@ -6459,12 +6748,18 @@
         {
           "type": "heredoc_beginning",
           "named": true,
-          "state_id": 22
+          "state_id": 6
         },
         {
           "type": "heredoc_body",
           "named": true,
-          "state_id": 4
+          "state_id": 6
+        },
+        {
+          "type": "identifier",
+          "named": true,
+          "index": 3,
+          "state_id": 25
         },
         {
           "type": "identifier",
@@ -6476,12 +6771,12 @@
           "type": "identifier",
           "named": true,
           "text": "^__(FILE|LINE|ENCODING)__$",
-          "state_id": 2
+          "state_id": 4
         },
         {
           "type": "identifier",
           "named": true,
-          "state_id": 14
+          "state_id": 17
         },
         {
           "type": "if",
@@ -6496,32 +6791,32 @@
         {
           "type": "instance_variable",
           "named": true,
-          "state_id": 6
+          "state_id": 10
         },
         {
           "type": "integer",
           "named": true,
-          "state_id": 15
+          "state_id": 18
         },
         {
           "type": "interpolation",
           "named": true,
-          "state_id": 19
+          "state_id": 21
         },
         {
           "type": "keyword_parameter",
           "named": true,
-          "state_id": 8
+          "state_id": 11
         },
         {
           "type": "method",
           "named": true,
-          "state_id": 11
+          "state_id": 14
         },
         {
           "type": "method_call",
           "named": true,
-          "state_id": 9
+          "state_id": 12
         },
         {
           "type": "module",
@@ -6531,7 +6826,7 @@
         {
           "type": "nil",
           "named": true,
-          "state_id": 2
+          "state_id": 4
         },
         {
           "type": "or",
@@ -6541,7 +6836,7 @@
         {
           "type": "regex",
           "named": true,
-          "state_id": 21
+          "state_id": 23
         },
         {
           "type": "rescue",
@@ -6561,42 +6856,42 @@
         {
           "type": "self",
           "named": true,
-          "state_id": 12
+          "state_id": 15
         },
         {
           "type": "setter",
           "named": true,
-          "state_id": 11
+          "state_id": 14
         },
         {
           "type": "singleton_method",
           "named": true,
-          "state_id": 16
+          "state_id": 19
         },
         {
           "type": "string",
           "named": true,
-          "state_id": 4
+          "state_id": 6
         },
         {
           "type": "subshell",
           "named": true,
-          "state_id": 4
+          "state_id": 6
         },
         {
           "type": "super",
           "named": true,
-          "state_id": 12
+          "state_id": 15
         },
         {
           "type": "superclass",
           "named": true,
-          "state_id": 13
+          "state_id": 16
         },
         {
           "type": "symbol",
           "named": true,
-          "state_id": 5
+          "state_id": 9
         },
         {
           "type": "then",
@@ -6606,7 +6901,7 @@
         {
           "type": "true",
           "named": true,
-          "state_id": 2
+          "state_id": 4
         },
         {
           "type": "unless",
@@ -6632,11 +6927,6 @@
           "type": "yield",
           "named": false,
           "state_id": 7
-        },
-        {
-          "type": "}",
-          "named": false,
-          "state_id": 25
         }
       ],
       "default_next_state_id": 0
@@ -6668,17 +6958,32 @@
         {
           "type": ",",
           "named": false,
-          "state_id": 1
+          "state_id": 2
+        },
+        {
+          "type": "->",
+          "named": false,
+          "state_id": 3
         },
         {
           "type": ".",
           "named": false,
-          "state_id": 1
+          "state_id": 2
+        },
+        {
+          "type": "=",
+          "named": false,
+          "state_id": 3
+        },
+        {
+          "type": "=>",
+          "named": false,
+          "state_id": 3
         },
         {
           "type": "alias",
           "named": true,
-          "state_id": 11
+          "state_id": 14
         },
         {
           "type": "alias",
@@ -6693,12 +6998,12 @@
         {
           "type": "bare_string",
           "named": true,
-          "state_id": 4
+          "state_id": 6
         },
         {
           "type": "bare_symbol",
           "named": true,
-          "state_id": 5
+          "state_id": 9
         },
         {
           "type": "begin",
@@ -6713,7 +7018,7 @@
         {
           "type": "call",
           "named": true,
-          "state_id": 10
+          "state_id": 13
         },
         {
           "type": "case",
@@ -6728,23 +7033,23 @@
         {
           "type": "class_variable",
           "named": true,
-          "state_id": 6
+          "state_id": 10
         },
         {
           "type": "comment",
           "named": true,
-          "state_id": 17
+          "state_id": 8
         },
         {
           "type": "constant",
           "named": true,
           "text": "^[A-Z_]+$",
-          "state_id": 18
+          "state_id": 20
         },
         {
           "type": "constant",
           "named": true,
-          "state_id": 20
+          "state_id": 22
         },
         {
           "type": "def",
@@ -6779,12 +7084,12 @@
         {
           "type": "escape_sequence",
           "named": true,
-          "state_id": 3
+          "state_id": 5
         },
         {
           "type": "false",
           "named": true,
-          "state_id": 2
+          "state_id": 4
         },
         {
           "type": "for",
@@ -6794,12 +7099,12 @@
         {
           "type": "heredoc_beginning",
           "named": true,
-          "state_id": 22
+          "state_id": 6
         },
         {
           "type": "heredoc_body",
           "named": true,
-          "state_id": 4
+          "state_id": 6
         },
         {
           "type": "identifier",
@@ -6811,12 +7116,12 @@
           "type": "identifier",
           "named": true,
           "text": "^__(FILE|LINE|ENCODING)__$",
-          "state_id": 2
+          "state_id": 4
         },
         {
           "type": "identifier",
           "named": true,
-          "state_id": 14
+          "state_id": 17
         },
         {
           "type": "if",
@@ -6831,32 +7136,32 @@
         {
           "type": "instance_variable",
           "named": true,
-          "state_id": 6
+          "state_id": 10
         },
         {
           "type": "integer",
           "named": true,
-          "state_id": 15
+          "state_id": 18
         },
         {
           "type": "interpolation",
           "named": true,
-          "state_id": 19
+          "state_id": 21
         },
         {
           "type": "keyword_parameter",
           "named": true,
-          "state_id": 8
+          "state_id": 11
         },
         {
           "type": "method",
           "named": true,
-          "state_id": 11
+          "state_id": 14
         },
         {
           "type": "method_call",
           "named": true,
-          "state_id": 9
+          "state_id": 12
         },
         {
           "type": "module",
@@ -6866,7 +7171,7 @@
         {
           "type": "nil",
           "named": true,
-          "state_id": 2
+          "state_id": 4
         },
         {
           "type": "or",
@@ -6876,7 +7181,7 @@
         {
           "type": "regex",
           "named": true,
-          "state_id": 21
+          "state_id": 23
         },
         {
           "type": "rescue",
@@ -6896,42 +7201,42 @@
         {
           "type": "self",
           "named": true,
-          "state_id": 12
+          "state_id": 15
         },
         {
           "type": "setter",
           "named": true,
-          "state_id": 11
+          "state_id": 14
         },
         {
           "type": "singleton_method",
           "named": true,
-          "state_id": 16
+          "state_id": 19
         },
         {
           "type": "string",
           "named": true,
-          "state_id": 4
+          "state_id": 6
         },
         {
           "type": "subshell",
           "named": true,
-          "state_id": 4
+          "state_id": 6
         },
         {
           "type": "super",
           "named": true,
-          "state_id": 12
+          "state_id": 15
         },
         {
           "type": "superclass",
           "named": true,
-          "state_id": 13
+          "state_id": 16
         },
         {
           "type": "symbol",
           "named": true,
-          "state_id": 5
+          "state_id": 9
         },
         {
           "type": "then",
@@ -6941,7 +7246,7 @@
         {
           "type": "true",
           "named": true,
-          "state_id": 2
+          "state_id": 4
         },
         {
           "type": "unless",
@@ -6976,6 +7281,11 @@
       "property_set_id": 15,
       "transitions": [
         {
+          "type": "#{",
+          "named": false,
+          "state_id": 26
+        },
+        {
           "type": "%i(",
           "named": false,
           "state_id": 1
@@ -6998,17 +7308,32 @@
         {
           "type": ",",
           "named": false,
-          "state_id": 1
+          "state_id": 2
+        },
+        {
+          "type": "->",
+          "named": false,
+          "state_id": 3
         },
         {
           "type": ".",
           "named": false,
-          "state_id": 1
+          "state_id": 2
+        },
+        {
+          "type": "=",
+          "named": false,
+          "state_id": 3
+        },
+        {
+          "type": "=>",
+          "named": false,
+          "state_id": 3
         },
         {
           "type": "alias",
           "named": true,
-          "state_id": 11
+          "state_id": 14
         },
         {
           "type": "alias",
@@ -7023,12 +7348,12 @@
         {
           "type": "bare_string",
           "named": true,
-          "state_id": 4
+          "state_id": 6
         },
         {
           "type": "bare_symbol",
           "named": true,
-          "state_id": 5
+          "state_id": 9
         },
         {
           "type": "begin",
@@ -7043,7 +7368,7 @@
         {
           "type": "call",
           "named": true,
-          "state_id": 10
+          "state_id": 13
         },
         {
           "type": "case",
@@ -7058,23 +7383,23 @@
         {
           "type": "class_variable",
           "named": true,
-          "state_id": 6
+          "state_id": 10
         },
         {
           "type": "comment",
           "named": true,
-          "state_id": 17
+          "state_id": 8
         },
         {
           "type": "constant",
           "named": true,
           "text": "^[A-Z_]+$",
-          "state_id": 18
+          "state_id": 20
         },
         {
           "type": "constant",
           "named": true,
-          "state_id": 20
+          "state_id": 22
         },
         {
           "type": "def",
@@ -7109,12 +7434,12 @@
         {
           "type": "escape_sequence",
           "named": true,
-          "state_id": 3
+          "state_id": 5
         },
         {
           "type": "false",
           "named": true,
-          "state_id": 2
+          "state_id": 4
         },
         {
           "type": "for",
@@ -7124,12 +7449,12 @@
         {
           "type": "heredoc_beginning",
           "named": true,
-          "state_id": 22
+          "state_id": 6
         },
         {
           "type": "heredoc_body",
           "named": true,
-          "state_id": 4
+          "state_id": 6
         },
         {
           "type": "identifier",
@@ -7141,12 +7466,12 @@
           "type": "identifier",
           "named": true,
           "text": "^__(FILE|LINE|ENCODING)__$",
-          "state_id": 2
+          "state_id": 4
         },
         {
           "type": "identifier",
           "named": true,
-          "state_id": 14
+          "state_id": 17
         },
         {
           "type": "if",
@@ -7161,32 +7486,32 @@
         {
           "type": "instance_variable",
           "named": true,
-          "state_id": 6
+          "state_id": 10
         },
         {
           "type": "integer",
           "named": true,
-          "state_id": 15
+          "state_id": 18
         },
         {
           "type": "interpolation",
           "named": true,
-          "state_id": 19
+          "state_id": 21
         },
         {
           "type": "keyword_parameter",
           "named": true,
-          "state_id": 8
+          "state_id": 11
         },
         {
           "type": "method",
           "named": true,
-          "state_id": 11
+          "state_id": 14
         },
         {
           "type": "method_call",
           "named": true,
-          "state_id": 9
+          "state_id": 12
         },
         {
           "type": "module",
@@ -7196,7 +7521,7 @@
         {
           "type": "nil",
           "named": true,
-          "state_id": 2
+          "state_id": 4
         },
         {
           "type": "or",
@@ -7206,7 +7531,7 @@
         {
           "type": "regex",
           "named": true,
-          "state_id": 21
+          "state_id": 23
         },
         {
           "type": "rescue",
@@ -7226,42 +7551,42 @@
         {
           "type": "self",
           "named": true,
-          "state_id": 12
+          "state_id": 15
         },
         {
           "type": "setter",
           "named": true,
-          "state_id": 11
+          "state_id": 14
         },
         {
           "type": "singleton_method",
           "named": true,
-          "state_id": 16
+          "state_id": 19
         },
         {
           "type": "string",
           "named": true,
-          "state_id": 4
+          "state_id": 6
         },
         {
           "type": "subshell",
           "named": true,
-          "state_id": 4
+          "state_id": 6
         },
         {
           "type": "super",
           "named": true,
-          "state_id": 12
+          "state_id": 15
         },
         {
           "type": "superclass",
           "named": true,
-          "state_id": 13
+          "state_id": 16
         },
         {
           "type": "symbol",
           "named": true,
-          "state_id": 5
+          "state_id": 9
         },
         {
           "type": "then",
@@ -7271,7 +7596,7 @@
         {
           "type": "true",
           "named": true,
-          "state_id": 2
+          "state_id": 4
         },
         {
           "type": "unless",
@@ -7297,6 +7622,11 @@
           "type": "yield",
           "named": false,
           "state_id": 7
+        },
+        {
+          "type": "}",
+          "named": false,
+          "state_id": 26
         }
       ],
       "default_next_state_id": 0
@@ -7328,17 +7658,32 @@
         {
           "type": ",",
           "named": false,
-          "state_id": 1
+          "state_id": 2
+        },
+        {
+          "type": "->",
+          "named": false,
+          "state_id": 3
         },
         {
           "type": ".",
           "named": false,
-          "state_id": 1
+          "state_id": 2
+        },
+        {
+          "type": "=",
+          "named": false,
+          "state_id": 3
+        },
+        {
+          "type": "=>",
+          "named": false,
+          "state_id": 3
         },
         {
           "type": "alias",
           "named": true,
-          "state_id": 11
+          "state_id": 14
         },
         {
           "type": "alias",
@@ -7353,12 +7698,12 @@
         {
           "type": "bare_string",
           "named": true,
-          "state_id": 4
+          "state_id": 6
         },
         {
           "type": "bare_symbol",
           "named": true,
-          "state_id": 5
+          "state_id": 9
         },
         {
           "type": "begin",
@@ -7373,7 +7718,7 @@
         {
           "type": "call",
           "named": true,
-          "state_id": 10
+          "state_id": 13
         },
         {
           "type": "case",
@@ -7388,23 +7733,23 @@
         {
           "type": "class_variable",
           "named": true,
-          "state_id": 6
+          "state_id": 10
         },
         {
           "type": "comment",
           "named": true,
-          "state_id": 17
+          "state_id": 8
         },
         {
           "type": "constant",
           "named": true,
           "text": "^[A-Z_]+$",
-          "state_id": 18
+          "state_id": 20
         },
         {
           "type": "constant",
           "named": true,
-          "state_id": 20
+          "state_id": 22
         },
         {
           "type": "def",
@@ -7439,12 +7784,12 @@
         {
           "type": "escape_sequence",
           "named": true,
-          "state_id": 3
+          "state_id": 5
         },
         {
           "type": "false",
           "named": true,
-          "state_id": 2
+          "state_id": 4
         },
         {
           "type": "for",
@@ -7454,12 +7799,12 @@
         {
           "type": "heredoc_beginning",
           "named": true,
-          "state_id": 22
+          "state_id": 6
         },
         {
           "type": "heredoc_body",
           "named": true,
-          "state_id": 4
+          "state_id": 6
         },
         {
           "type": "identifier",
@@ -7471,12 +7816,12 @@
           "type": "identifier",
           "named": true,
           "text": "^__(FILE|LINE|ENCODING)__$",
-          "state_id": 2
+          "state_id": 4
         },
         {
           "type": "identifier",
           "named": true,
-          "state_id": 14
+          "state_id": 17
         },
         {
           "type": "if",
@@ -7491,32 +7836,32 @@
         {
           "type": "instance_variable",
           "named": true,
-          "state_id": 6
+          "state_id": 10
         },
         {
           "type": "integer",
           "named": true,
-          "state_id": 15
+          "state_id": 18
         },
         {
           "type": "interpolation",
           "named": true,
-          "state_id": 19
+          "state_id": 21
         },
         {
           "type": "keyword_parameter",
           "named": true,
-          "state_id": 8
+          "state_id": 11
         },
         {
           "type": "method",
           "named": true,
-          "state_id": 11
+          "state_id": 14
         },
         {
           "type": "method_call",
           "named": true,
-          "state_id": 9
+          "state_id": 12
         },
         {
           "type": "module",
@@ -7526,7 +7871,7 @@
         {
           "type": "nil",
           "named": true,
-          "state_id": 2
+          "state_id": 4
         },
         {
           "type": "or",
@@ -7536,7 +7881,7 @@
         {
           "type": "regex",
           "named": true,
-          "state_id": 21
+          "state_id": 23
         },
         {
           "type": "rescue",
@@ -7556,42 +7901,42 @@
         {
           "type": "self",
           "named": true,
-          "state_id": 12
+          "state_id": 15
         },
         {
           "type": "setter",
           "named": true,
-          "state_id": 11
+          "state_id": 14
         },
         {
           "type": "singleton_method",
           "named": true,
-          "state_id": 16
+          "state_id": 19
         },
         {
           "type": "string",
           "named": true,
-          "state_id": 4
+          "state_id": 6
         },
         {
           "type": "subshell",
           "named": true,
-          "state_id": 4
+          "state_id": 6
         },
         {
           "type": "super",
           "named": true,
-          "state_id": 12
+          "state_id": 15
         },
         {
           "type": "superclass",
           "named": true,
-          "state_id": 13
+          "state_id": 16
         },
         {
           "type": "symbol",
           "named": true,
-          "state_id": 5
+          "state_id": 9
         },
         {
           "type": "then",
@@ -7601,7 +7946,7 @@
         {
           "type": "true",
           "named": true,
-          "state_id": 2
+          "state_id": 4
         },
         {
           "type": "unless",
@@ -7658,17 +8003,32 @@
         {
           "type": ",",
           "named": false,
-          "state_id": 1
+          "state_id": 2
+        },
+        {
+          "type": "->",
+          "named": false,
+          "state_id": 3
         },
         {
           "type": ".",
           "named": false,
-          "state_id": 1
+          "state_id": 2
+        },
+        {
+          "type": "=",
+          "named": false,
+          "state_id": 3
+        },
+        {
+          "type": "=>",
+          "named": false,
+          "state_id": 3
         },
         {
           "type": "alias",
           "named": true,
-          "state_id": 11
+          "state_id": 14
         },
         {
           "type": "alias",
@@ -7683,12 +8043,12 @@
         {
           "type": "bare_string",
           "named": true,
-          "state_id": 4
+          "state_id": 6
         },
         {
           "type": "bare_symbol",
           "named": true,
-          "state_id": 5
+          "state_id": 9
         },
         {
           "type": "begin",
@@ -7703,7 +8063,7 @@
         {
           "type": "call",
           "named": true,
-          "state_id": 10
+          "state_id": 13
         },
         {
           "type": "case",
@@ -7718,23 +8078,23 @@
         {
           "type": "class_variable",
           "named": true,
-          "state_id": 6
+          "state_id": 10
         },
         {
           "type": "comment",
           "named": true,
-          "state_id": 17
+          "state_id": 8
         },
         {
           "type": "constant",
           "named": true,
           "text": "^[A-Z_]+$",
-          "state_id": 18
+          "state_id": 20
         },
         {
           "type": "constant",
           "named": true,
-          "state_id": 20
+          "state_id": 22
         },
         {
           "type": "def",
@@ -7769,12 +8129,12 @@
         {
           "type": "escape_sequence",
           "named": true,
-          "state_id": 3
+          "state_id": 5
         },
         {
           "type": "false",
           "named": true,
-          "state_id": 2
+          "state_id": 4
         },
         {
           "type": "for",
@@ -7784,12 +8144,12 @@
         {
           "type": "heredoc_beginning",
           "named": true,
-          "state_id": 22
+          "state_id": 6
         },
         {
           "type": "heredoc_body",
           "named": true,
-          "state_id": 4
+          "state_id": 6
         },
         {
           "type": "identifier",
@@ -7801,12 +8161,12 @@
           "type": "identifier",
           "named": true,
           "text": "^__(FILE|LINE|ENCODING)__$",
-          "state_id": 2
+          "state_id": 4
         },
         {
           "type": "identifier",
           "named": true,
-          "state_id": 14
+          "state_id": 17
         },
         {
           "type": "if",
@@ -7821,32 +8181,32 @@
         {
           "type": "instance_variable",
           "named": true,
-          "state_id": 6
+          "state_id": 10
         },
         {
           "type": "integer",
           "named": true,
-          "state_id": 15
+          "state_id": 18
         },
         {
           "type": "interpolation",
           "named": true,
-          "state_id": 19
+          "state_id": 21
         },
         {
           "type": "keyword_parameter",
           "named": true,
-          "state_id": 8
+          "state_id": 11
         },
         {
           "type": "method",
           "named": true,
-          "state_id": 11
+          "state_id": 14
         },
         {
           "type": "method_call",
           "named": true,
-          "state_id": 9
+          "state_id": 12
         },
         {
           "type": "module",
@@ -7856,7 +8216,7 @@
         {
           "type": "nil",
           "named": true,
-          "state_id": 2
+          "state_id": 4
         },
         {
           "type": "or",
@@ -7866,7 +8226,7 @@
         {
           "type": "regex",
           "named": true,
-          "state_id": 21
+          "state_id": 23
         },
         {
           "type": "rescue",
@@ -7886,42 +8246,42 @@
         {
           "type": "self",
           "named": true,
-          "state_id": 12
+          "state_id": 15
         },
         {
           "type": "setter",
           "named": true,
-          "state_id": 11
+          "state_id": 14
         },
         {
           "type": "singleton_method",
           "named": true,
-          "state_id": 16
+          "state_id": 19
         },
         {
           "type": "string",
           "named": true,
-          "state_id": 4
+          "state_id": 6
         },
         {
           "type": "subshell",
           "named": true,
-          "state_id": 4
+          "state_id": 6
         },
         {
           "type": "super",
           "named": true,
-          "state_id": 12
+          "state_id": 15
         },
         {
           "type": "superclass",
           "named": true,
-          "state_id": 13
+          "state_id": 16
         },
         {
           "type": "symbol",
           "named": true,
-          "state_id": 5
+          "state_id": 9
         },
         {
           "type": "then",
@@ -7931,7 +8291,7 @@
         {
           "type": "true",
           "named": true,
-          "state_id": 2
+          "state_id": 4
         },
         {
           "type": "unless",
@@ -7988,17 +8348,32 @@
         {
           "type": ",",
           "named": false,
-          "state_id": 1
+          "state_id": 2
+        },
+        {
+          "type": "->",
+          "named": false,
+          "state_id": 3
         },
         {
           "type": ".",
           "named": false,
-          "state_id": 1
+          "state_id": 2
+        },
+        {
+          "type": "=",
+          "named": false,
+          "state_id": 3
+        },
+        {
+          "type": "=>",
+          "named": false,
+          "state_id": 3
         },
         {
           "type": "alias",
           "named": true,
-          "state_id": 11
+          "state_id": 14
         },
         {
           "type": "alias",
@@ -8013,12 +8388,12 @@
         {
           "type": "bare_string",
           "named": true,
-          "state_id": 4
+          "state_id": 6
         },
         {
           "type": "bare_symbol",
           "named": true,
-          "state_id": 5
+          "state_id": 9
         },
         {
           "type": "begin",
@@ -8033,7 +8408,7 @@
         {
           "type": "call",
           "named": true,
-          "state_id": 10
+          "state_id": 13
         },
         {
           "type": "case",
@@ -8048,23 +8423,23 @@
         {
           "type": "class_variable",
           "named": true,
-          "state_id": 6
+          "state_id": 10
         },
         {
           "type": "comment",
           "named": true,
-          "state_id": 17
+          "state_id": 8
         },
         {
           "type": "constant",
           "named": true,
           "text": "^[A-Z_]+$",
-          "state_id": 18
+          "state_id": 20
         },
         {
           "type": "constant",
           "named": true,
-          "state_id": 20
+          "state_id": 22
         },
         {
           "type": "def",
@@ -8099,12 +8474,12 @@
         {
           "type": "escape_sequence",
           "named": true,
-          "state_id": 3
+          "state_id": 5
         },
         {
           "type": "false",
           "named": true,
-          "state_id": 2
+          "state_id": 4
         },
         {
           "type": "for",
@@ -8114,12 +8489,12 @@
         {
           "type": "heredoc_beginning",
           "named": true,
-          "state_id": 22
+          "state_id": 6
         },
         {
           "type": "heredoc_body",
           "named": true,
-          "state_id": 4
+          "state_id": 6
         },
         {
           "type": "identifier",
@@ -8131,12 +8506,12 @@
           "type": "identifier",
           "named": true,
           "text": "^__(FILE|LINE|ENCODING)__$",
-          "state_id": 2
+          "state_id": 4
         },
         {
           "type": "identifier",
           "named": true,
-          "state_id": 14
+          "state_id": 17
         },
         {
           "type": "if",
@@ -8151,32 +8526,32 @@
         {
           "type": "instance_variable",
           "named": true,
-          "state_id": 6
+          "state_id": 10
         },
         {
           "type": "integer",
           "named": true,
-          "state_id": 15
+          "state_id": 18
         },
         {
           "type": "interpolation",
           "named": true,
-          "state_id": 19
+          "state_id": 21
         },
         {
           "type": "keyword_parameter",
           "named": true,
-          "state_id": 8
+          "state_id": 11
         },
         {
           "type": "method",
           "named": true,
-          "state_id": 11
+          "state_id": 14
         },
         {
           "type": "method_call",
           "named": true,
-          "state_id": 9
+          "state_id": 12
         },
         {
           "type": "module",
@@ -8186,7 +8561,7 @@
         {
           "type": "nil",
           "named": true,
-          "state_id": 2
+          "state_id": 4
         },
         {
           "type": "or",
@@ -8196,7 +8571,7 @@
         {
           "type": "regex",
           "named": true,
-          "state_id": 21
+          "state_id": 23
         },
         {
           "type": "rescue",
@@ -8216,42 +8591,42 @@
         {
           "type": "self",
           "named": true,
-          "state_id": 12
+          "state_id": 15
         },
         {
           "type": "setter",
           "named": true,
-          "state_id": 11
+          "state_id": 14
         },
         {
           "type": "singleton_method",
           "named": true,
-          "state_id": 16
+          "state_id": 19
         },
         {
           "type": "string",
           "named": true,
-          "state_id": 4
+          "state_id": 6
         },
         {
           "type": "subshell",
           "named": true,
-          "state_id": 4
+          "state_id": 6
         },
         {
           "type": "super",
           "named": true,
-          "state_id": 12
+          "state_id": 15
         },
         {
           "type": "superclass",
           "named": true,
-          "state_id": 13
+          "state_id": 16
         },
         {
           "type": "symbol",
           "named": true,
-          "state_id": 5
+          "state_id": 9
         },
         {
           "type": "then",
@@ -8261,7 +8636,7 @@
         {
           "type": "true",
           "named": true,
-          "state_id": 2
+          "state_id": 4
         },
         {
           "type": "unless",
@@ -8318,17 +8693,32 @@
         {
           "type": ",",
           "named": false,
-          "state_id": 1
+          "state_id": 2
+        },
+        {
+          "type": "->",
+          "named": false,
+          "state_id": 3
         },
         {
           "type": ".",
           "named": false,
-          "state_id": 1
+          "state_id": 2
+        },
+        {
+          "type": "=",
+          "named": false,
+          "state_id": 3
+        },
+        {
+          "type": "=>",
+          "named": false,
+          "state_id": 3
         },
         {
           "type": "alias",
           "named": true,
-          "state_id": 11
+          "state_id": 14
         },
         {
           "type": "alias",
@@ -8343,12 +8733,12 @@
         {
           "type": "bare_string",
           "named": true,
-          "state_id": 4
+          "state_id": 6
         },
         {
           "type": "bare_symbol",
           "named": true,
-          "state_id": 5
+          "state_id": 9
         },
         {
           "type": "begin",
@@ -8363,7 +8753,7 @@
         {
           "type": "call",
           "named": true,
-          "state_id": 10
+          "state_id": 13
         },
         {
           "type": "case",
@@ -8378,23 +8768,23 @@
         {
           "type": "class_variable",
           "named": true,
-          "state_id": 6
+          "state_id": 10
         },
         {
           "type": "comment",
           "named": true,
-          "state_id": 17
+          "state_id": 8
         },
         {
           "type": "constant",
           "named": true,
           "text": "^[A-Z_]+$",
-          "state_id": 18
+          "state_id": 20
         },
         {
           "type": "constant",
           "named": true,
-          "state_id": 20
+          "state_id": 22
         },
         {
           "type": "def",
@@ -8429,12 +8819,12 @@
         {
           "type": "escape_sequence",
           "named": true,
-          "state_id": 3
+          "state_id": 5
         },
         {
           "type": "false",
           "named": true,
-          "state_id": 2
+          "state_id": 4
         },
         {
           "type": "for",
@@ -8444,12 +8834,12 @@
         {
           "type": "heredoc_beginning",
           "named": true,
-          "state_id": 22
+          "state_id": 6
         },
         {
           "type": "heredoc_body",
           "named": true,
-          "state_id": 4
+          "state_id": 6
         },
         {
           "type": "identifier",
@@ -8461,12 +8851,12 @@
           "type": "identifier",
           "named": true,
           "text": "^__(FILE|LINE|ENCODING)__$",
-          "state_id": 2
+          "state_id": 4
         },
         {
           "type": "identifier",
           "named": true,
-          "state_id": 14
+          "state_id": 17
         },
         {
           "type": "if",
@@ -8481,32 +8871,32 @@
         {
           "type": "instance_variable",
           "named": true,
-          "state_id": 6
+          "state_id": 10
         },
         {
           "type": "integer",
           "named": true,
-          "state_id": 15
+          "state_id": 18
         },
         {
           "type": "interpolation",
           "named": true,
-          "state_id": 19
+          "state_id": 21
         },
         {
           "type": "keyword_parameter",
           "named": true,
-          "state_id": 8
+          "state_id": 11
         },
         {
           "type": "method",
           "named": true,
-          "state_id": 11
+          "state_id": 14
         },
         {
           "type": "method_call",
           "named": true,
-          "state_id": 9
+          "state_id": 12
         },
         {
           "type": "module",
@@ -8516,7 +8906,7 @@
         {
           "type": "nil",
           "named": true,
-          "state_id": 2
+          "state_id": 4
         },
         {
           "type": "or",
@@ -8526,7 +8916,7 @@
         {
           "type": "regex",
           "named": true,
-          "state_id": 21
+          "state_id": 23
         },
         {
           "type": "rescue",
@@ -8546,42 +8936,42 @@
         {
           "type": "self",
           "named": true,
-          "state_id": 12
+          "state_id": 15
         },
         {
           "type": "setter",
           "named": true,
-          "state_id": 11
+          "state_id": 14
         },
         {
           "type": "singleton_method",
           "named": true,
-          "state_id": 16
+          "state_id": 19
         },
         {
           "type": "string",
           "named": true,
-          "state_id": 4
+          "state_id": 6
         },
         {
           "type": "subshell",
           "named": true,
-          "state_id": 4
+          "state_id": 6
         },
         {
           "type": "super",
           "named": true,
-          "state_id": 12
+          "state_id": 15
         },
         {
           "type": "superclass",
           "named": true,
-          "state_id": 13
+          "state_id": 16
         },
         {
           "type": "symbol",
           "named": true,
-          "state_id": 5
+          "state_id": 9
         },
         {
           "type": "then",
@@ -8591,7 +8981,352 @@
         {
           "type": "true",
           "named": true,
+          "state_id": 4
+        },
+        {
+          "type": "unless",
+          "named": false,
+          "state_id": 7
+        },
+        {
+          "type": "until",
+          "named": false,
+          "state_id": 7
+        },
+        {
+          "type": "when",
+          "named": false,
+          "state_id": 7
+        },
+        {
+          "type": "while",
+          "named": false,
+          "state_id": 7
+        },
+        {
+          "type": "yield",
+          "named": false,
+          "state_id": 7
+        }
+      ],
+      "default_next_state_id": 0
+    },
+    {
+      "id": 26,
+      "property_set_id": 20,
+      "transitions": [
+        {
+          "type": "%i(",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "%w(",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "(",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ")",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ",",
+          "named": false,
           "state_id": 2
+        },
+        {
+          "type": "->",
+          "named": false,
+          "state_id": 3
+        },
+        {
+          "type": ".",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "=",
+          "named": false,
+          "state_id": 3
+        },
+        {
+          "type": "=>",
+          "named": false,
+          "state_id": 3
+        },
+        {
+          "type": "alias",
+          "named": true,
+          "state_id": 14
+        },
+        {
+          "type": "alias",
+          "named": false,
+          "state_id": 7
+        },
+        {
+          "type": "and",
+          "named": false,
+          "state_id": 7
+        },
+        {
+          "type": "bare_string",
+          "named": true,
+          "state_id": 6
+        },
+        {
+          "type": "bare_symbol",
+          "named": true,
+          "state_id": 9
+        },
+        {
+          "type": "begin",
+          "named": false,
+          "state_id": 7
+        },
+        {
+          "type": "break",
+          "named": false,
+          "state_id": 7
+        },
+        {
+          "type": "call",
+          "named": true,
+          "state_id": 13
+        },
+        {
+          "type": "case",
+          "named": false,
+          "state_id": 7
+        },
+        {
+          "type": "class",
+          "named": false,
+          "state_id": 7
+        },
+        {
+          "type": "class_variable",
+          "named": true,
+          "state_id": 10
+        },
+        {
+          "type": "comment",
+          "named": true,
+          "state_id": 8
+        },
+        {
+          "type": "constant",
+          "named": true,
+          "text": "^[A-Z_]+$",
+          "state_id": 20
+        },
+        {
+          "type": "constant",
+          "named": true,
+          "state_id": 22
+        },
+        {
+          "type": "def",
+          "named": false,
+          "state_id": 7
+        },
+        {
+          "type": "do",
+          "named": false,
+          "state_id": 7
+        },
+        {
+          "type": "else",
+          "named": false,
+          "state_id": 7
+        },
+        {
+          "type": "elsif",
+          "named": false,
+          "state_id": 7
+        },
+        {
+          "type": "end",
+          "named": false,
+          "state_id": 7
+        },
+        {
+          "type": "ensure",
+          "named": false,
+          "state_id": 7
+        },
+        {
+          "type": "escape_sequence",
+          "named": true,
+          "state_id": 5
+        },
+        {
+          "type": "false",
+          "named": true,
+          "state_id": 4
+        },
+        {
+          "type": "for",
+          "named": false,
+          "state_id": 7
+        },
+        {
+          "type": "heredoc_beginning",
+          "named": true,
+          "state_id": 6
+        },
+        {
+          "type": "heredoc_body",
+          "named": true,
+          "state_id": 6
+        },
+        {
+          "type": "identifier",
+          "named": true,
+          "text": "^(private|protected|public)$",
+          "state_id": 7
+        },
+        {
+          "type": "identifier",
+          "named": true,
+          "text": "^__(FILE|LINE|ENCODING)__$",
+          "state_id": 4
+        },
+        {
+          "type": "identifier",
+          "named": true,
+          "state_id": 17
+        },
+        {
+          "type": "if",
+          "named": false,
+          "state_id": 7
+        },
+        {
+          "type": "in",
+          "named": false,
+          "state_id": 7
+        },
+        {
+          "type": "instance_variable",
+          "named": true,
+          "state_id": 10
+        },
+        {
+          "type": "integer",
+          "named": true,
+          "state_id": 18
+        },
+        {
+          "type": "interpolation",
+          "named": true,
+          "state_id": 21
+        },
+        {
+          "type": "keyword_parameter",
+          "named": true,
+          "state_id": 11
+        },
+        {
+          "type": "method",
+          "named": true,
+          "state_id": 14
+        },
+        {
+          "type": "method_call",
+          "named": true,
+          "state_id": 12
+        },
+        {
+          "type": "module",
+          "named": false,
+          "state_id": 7
+        },
+        {
+          "type": "nil",
+          "named": true,
+          "state_id": 4
+        },
+        {
+          "type": "or",
+          "named": false,
+          "state_id": 7
+        },
+        {
+          "type": "regex",
+          "named": true,
+          "state_id": 23
+        },
+        {
+          "type": "rescue",
+          "named": false,
+          "state_id": 7
+        },
+        {
+          "type": "retry",
+          "named": false,
+          "state_id": 7
+        },
+        {
+          "type": "return",
+          "named": false,
+          "state_id": 7
+        },
+        {
+          "type": "self",
+          "named": true,
+          "state_id": 15
+        },
+        {
+          "type": "setter",
+          "named": true,
+          "state_id": 14
+        },
+        {
+          "type": "singleton_method",
+          "named": true,
+          "state_id": 19
+        },
+        {
+          "type": "string",
+          "named": true,
+          "state_id": 6
+        },
+        {
+          "type": "subshell",
+          "named": true,
+          "state_id": 6
+        },
+        {
+          "type": "super",
+          "named": true,
+          "state_id": 15
+        },
+        {
+          "type": "superclass",
+          "named": true,
+          "state_id": 16
+        },
+        {
+          "type": "symbol",
+          "named": true,
+          "state_id": 9
+        },
+        {
+          "type": "then",
+          "named": false,
+          "state_id": 7
+        },
+        {
+          "type": "true",
+          "named": true,
+          "state_id": 4
         },
         {
           "type": "unless",
@@ -8625,7 +9360,13 @@
   "property_sets": [
     {},
     {
-      "scope": "punctuation"
+      "scope": "punctuation.bracket"
+    },
+    {
+      "scope": "punctuation.delimiter"
+    },
+    {
+      "scope": "operator"
     },
     {
       "scope": "constant.builtin"
@@ -8637,13 +9378,16 @@
       "scope": "string"
     },
     {
+      "scope": "keyword"
+    },
+    {
+      "scope": "comment"
+    },
+    {
       "scope": "string.special"
     },
     {
       "scope": "property"
-    },
-    {
-      "scope": "keyword"
     },
     {
       "scope": "variable.builtin"
@@ -8653,9 +9397,6 @@
     },
     {
       "scope": "number"
-    },
-    {
-      "scope": "comment"
     },
     {
       "scope": "constant"
@@ -8673,23 +9414,6 @@
       },
       "injection-language": "regex",
       "scope": "string.special"
-    },
-    {
-      "injection-content": {
-        "name": "next",
-        "args": [
-          {
-            "name": "this",
-            "args": []
-          },
-          "heredoc_body"
-        ]
-      },
-      "injection-language": {
-        "name": "this",
-        "args": []
-      },
-      "scope": "string"
     },
     {
       "scope": "function.builtin"

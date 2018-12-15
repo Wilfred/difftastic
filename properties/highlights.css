@@ -136,13 +136,22 @@ nil, true, false {
   scope: 'constant.builtin';
 }
 
-/* Delimiters */
+/* Punctuation */
+
+"=",
+"=>",
+"->" {
+  scope: 'operator';
+}
 
 ",",
-".",
+"." {
+  scope: 'punctuation.delimiter';
+}
+
 "%w(",
 "%i(",
 "(",
 ")" {
-  scope: 'punctuation';
+  scope: 'punctuation.bracket';
 }
