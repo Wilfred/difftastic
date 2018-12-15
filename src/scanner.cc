@@ -13,7 +13,8 @@ using std::string;
 
 enum TokenType {
   START_TAG_NAME,
-  START_RAW_TAG_NAME,
+  SCRIPT_START_TAG_NAME,
+  STYLE_START_TAG_NAME,
   END_TAG_NAME,
   ERRONEOUS_END_TAG_NAME,
   SELF_CLOSING_TAG_DELIMITER,
@@ -187,10 +188,16 @@ struct Scanner {
     if (tag_name.empty()) return false;
     Tag tag = Tag::for_name(tag_name);
     tags.push_back(tag);
-    if (tag.is_raw()) {
-      lexer->result_symbol = START_RAW_TAG_NAME;
-    } else {
-      lexer->result_symbol = START_TAG_NAME;
+    switch (tag.type) {
+      case SCRIPT:
+        lexer->result_symbol = SCRIPT_START_TAG_NAME;
+        break;
+      case STYLE:
+        lexer->result_symbol = STYLE_START_TAG_NAME;
+        break;
+      default:
+        lexer->result_symbol = START_TAG_NAME;
+        break;
     }
     return true;
   }

@@ -7,7 +7,7 @@
         {
           "type": "attribute_name",
           "named": true,
-          "state_id": 4
+          "state_id": 5
         },
         {
           "type": "attribute_value",
@@ -22,17 +22,27 @@
         {
           "type": "doctype",
           "named": true,
-          "state_id": 5
+          "state_id": 3
         },
         {
           "type": "erroneous_end_tag_name",
           "named": true,
-          "state_id": 3
+          "state_id": 4
+        },
+        {
+          "type": "script_element",
+          "named": true,
+          "state_id": 7
+        },
+        {
+          "type": "style_element",
+          "named": true,
+          "state_id": 6
         },
         {
           "type": "tag_name",
           "named": true,
-          "state_id": 3
+          "state_id": 4
         }
       ],
       "default_next_state_id": 0
@@ -44,7 +54,7 @@
         {
           "type": "attribute_name",
           "named": true,
-          "state_id": 4
+          "state_id": 5
         },
         {
           "type": "attribute_value",
@@ -59,17 +69,27 @@
         {
           "type": "doctype",
           "named": true,
-          "state_id": 5
+          "state_id": 3
         },
         {
           "type": "erroneous_end_tag_name",
           "named": true,
-          "state_id": 3
+          "state_id": 4
+        },
+        {
+          "type": "script_element",
+          "named": true,
+          "state_id": 7
+        },
+        {
+          "type": "style_element",
+          "named": true,
+          "state_id": 6
         },
         {
           "type": "tag_name",
           "named": true,
-          "state_id": 3
+          "state_id": 4
         }
       ],
       "default_next_state_id": 0
@@ -81,7 +101,7 @@
         {
           "type": "attribute_name",
           "named": true,
-          "state_id": 4
+          "state_id": 5
         },
         {
           "type": "attribute_value",
@@ -96,17 +116,27 @@
         {
           "type": "doctype",
           "named": true,
-          "state_id": 5
+          "state_id": 3
         },
         {
           "type": "erroneous_end_tag_name",
           "named": true,
-          "state_id": 3
+          "state_id": 4
+        },
+        {
+          "type": "script_element",
+          "named": true,
+          "state_id": 7
+        },
+        {
+          "type": "style_element",
+          "named": true,
+          "state_id": 6
         },
         {
           "type": "tag_name",
           "named": true,
-          "state_id": 3
+          "state_id": 4
         }
       ],
       "default_next_state_id": 0
@@ -118,7 +148,7 @@
         {
           "type": "attribute_name",
           "named": true,
-          "state_id": 4
+          "state_id": 5
         },
         {
           "type": "attribute_value",
@@ -133,17 +163,27 @@
         {
           "type": "doctype",
           "named": true,
-          "state_id": 5
+          "state_id": 3
         },
         {
           "type": "erroneous_end_tag_name",
           "named": true,
-          "state_id": 3
+          "state_id": 4
+        },
+        {
+          "type": "script_element",
+          "named": true,
+          "state_id": 7
+        },
+        {
+          "type": "style_element",
+          "named": true,
+          "state_id": 6
         },
         {
           "type": "tag_name",
           "named": true,
-          "state_id": 3
+          "state_id": 4
         }
       ],
       "default_next_state_id": 0
@@ -155,7 +195,7 @@
         {
           "type": "attribute_name",
           "named": true,
-          "state_id": 4
+          "state_id": 5
         },
         {
           "type": "attribute_value",
@@ -170,17 +210,27 @@
         {
           "type": "doctype",
           "named": true,
-          "state_id": 5
+          "state_id": 3
         },
         {
           "type": "erroneous_end_tag_name",
           "named": true,
-          "state_id": 3
+          "state_id": 4
+        },
+        {
+          "type": "script_element",
+          "named": true,
+          "state_id": 7
+        },
+        {
+          "type": "style_element",
+          "named": true,
+          "state_id": 6
         },
         {
           "type": "tag_name",
           "named": true,
-          "state_id": 3
+          "state_id": 4
         }
       ],
       "default_next_state_id": 0
@@ -192,7 +242,7 @@
         {
           "type": "attribute_name",
           "named": true,
-          "state_id": 4
+          "state_id": 5
         },
         {
           "type": "attribute_value",
@@ -207,17 +257,121 @@
         {
           "type": "doctype",
           "named": true,
-          "state_id": 5
+          "state_id": 3
         },
         {
           "type": "erroneous_end_tag_name",
           "named": true,
-          "state_id": 3
+          "state_id": 4
+        },
+        {
+          "type": "script_element",
+          "named": true,
+          "state_id": 7
+        },
+        {
+          "type": "style_element",
+          "named": true,
+          "state_id": 6
         },
         {
           "type": "tag_name",
           "named": true,
+          "state_id": 4
+        }
+      ],
+      "default_next_state_id": 0
+    },
+    {
+      "id": 6,
+      "property_set_id": 6,
+      "transitions": [
+        {
+          "type": "attribute_name",
+          "named": true,
+          "state_id": 5
+        },
+        {
+          "type": "attribute_value",
+          "named": true,
+          "state_id": 2
+        },
+        {
+          "type": "comment",
+          "named": true,
+          "state_id": 1
+        },
+        {
+          "type": "doctype",
+          "named": true,
           "state_id": 3
+        },
+        {
+          "type": "erroneous_end_tag_name",
+          "named": true,
+          "state_id": 4
+        },
+        {
+          "type": "script_element",
+          "named": true,
+          "state_id": 7
+        },
+        {
+          "type": "style_element",
+          "named": true,
+          "state_id": 6
+        },
+        {
+          "type": "tag_name",
+          "named": true,
+          "state_id": 4
+        }
+      ],
+      "default_next_state_id": 0
+    },
+    {
+      "id": 7,
+      "property_set_id": 7,
+      "transitions": [
+        {
+          "type": "attribute_name",
+          "named": true,
+          "state_id": 5
+        },
+        {
+          "type": "attribute_value",
+          "named": true,
+          "state_id": 2
+        },
+        {
+          "type": "comment",
+          "named": true,
+          "state_id": 1
+        },
+        {
+          "type": "doctype",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "erroneous_end_tag_name",
+          "named": true,
+          "state_id": 4
+        },
+        {
+          "type": "script_element",
+          "named": true,
+          "state_id": 7
+        },
+        {
+          "type": "style_element",
+          "named": true,
+          "state_id": 6
+        },
+        {
+          "type": "tag_name",
+          "named": true,
+          "state_id": 4
         }
       ],
       "default_next_state_id": 0
@@ -232,13 +386,39 @@
       "scope": "string"
     },
     {
+      "scope": "constant"
+    },
+    {
       "scope": "tag"
     },
     {
       "scope": "attribute"
     },
     {
-      "scope": "constant"
+      "injection-content": {
+        "name": "child",
+        "args": [
+          {
+            "name": "this",
+            "args": []
+          },
+          1
+        ]
+      },
+      "injection-language": "css"
+    },
+    {
+      "injection-content": {
+        "name": "child",
+        "args": [
+          {
+            "name": "this",
+            "args": []
+          },
+          1
+        ]
+      },
+      "injection-language": "javascript"
     }
   ]
 }
