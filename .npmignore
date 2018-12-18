@@ -2,3 +2,5 @@ corpus
 build
 script
 examples
+*.log
+test.js
