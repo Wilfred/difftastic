@@ -1,6 +1,6 @@
 # The complete syntax of Lua
 
-#### Here is the complete syntax of Lua in extended BNF. As usual in extended BNF, {A} means 0 or more As, and [A] means an optional A.
+Here is the complete syntax of Lua in extended BNF. As usual in extended BNF, {A} means 0 or more As, and [A] means an optional A.
 
 ---
 
