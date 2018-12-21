@@ -34,7 +34,6 @@
     "tree-sitter-cli": "^0.13.15"
   },
   "files": [
-    "node_modules",
     "src",
     "binding.gyp",
     "grammar.js",
