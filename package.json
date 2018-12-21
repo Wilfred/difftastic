@@ -22,6 +22,7 @@
     "build": "tree-sitter generate && node-gyp build --debug",
     "install": "prebuild-install || node-gyp rebuild",
     "prebuild": "prebuild -r electron -t 1.6.0 -t 1.7.0 -t 1.8.0 -t 2.0.0 --strip --verbose",
+    "prebuild:upload": "prebuild --upload-all",
     "test": "tree-sitter test"
   },
   "dependencies": {
