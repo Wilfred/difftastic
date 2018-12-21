@@ -19,13 +19,17 @@
   "author": "Ademir Ferreira <ademir.ferreiracif@gmail.com> (https://github.com/Azganoth)",
   "main": "index",
   "scripts": {
-    "build": "tree-sitter generate && node-gyp build",
+    "build": "tree-sitter generate && node-gyp build --debug",
+    "install": "prebuild-install || node-gyp rebuild",
+    "prebuild": "prebuild -r electron -t 1.6.0 -t 1.7.0 -t 1.8.0 -t 2.0.0 --strip --verbose",
     "test": "tree-sitter test"
   },
   "dependencies": {
-    "nan": "^2.12.1"
+    "nan": "^2.12.1",
+    "prebuild-install": "^5.2.2"
   },
   "devDependencies": {
+    "prebuild": "^8.1.2",
     "tree-sitter-cli": "^0.13.15"
   },
   "files": [

@@ -1252,13 +1252,17 @@
           "name": "_variable_declarator"
         },
         {
-          "type": "ALIAS",
+          "type": "PREC",
+          "value": -1,
           "content": {
-            "type": "SYMBOL",
-            "name": "function_call_statement"
-          },
-          "named": true,
-          "value": "function_call"
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "function_call_statement"
+            },
+            "named": true,
+            "value": "function_call"
+          }
         },
         {
           "type": "SEQ",

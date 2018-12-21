@@ -248,7 +248,7 @@ module.exports = grammar({
     _expression: $ => choice(
       $.spread,
       $._prefix,
-      
+
       $.next,
 
       $.function_definition,
@@ -270,7 +270,7 @@ module.exports = grammar({
     spread: $ => '...',
 
     self: $ => 'self',
-    
+
     next: $ => 'next',
 
     global_variable: $ => choice('_G', '_VERSION'),
@@ -279,7 +279,7 @@ module.exports = grammar({
       $.self,
       $.global_variable,
       $._variable_declarator,
-      alias($.function_call_statement, $.function_call),
+      prec(-1, alias($.function_call_statement, $.function_call)),
       seq('(', $._expression, ')')
     ),
 
