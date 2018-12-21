@@ -23,10 +23,10 @@
     "test": "tree-sitter test"
   },
   "dependencies": {
-    "nan": "^2.11.0"
+    "nan": "^2.12.1"
   },
   "devDependencies": {
-    "tree-sitter-cli": "^0.13.10"
+    "tree-sitter-cli": "^0.13.15"
   },
   "files": [
     "src", "binding.gyp", "grammar.js", "index.js", "package.json", "yarn.lock"
