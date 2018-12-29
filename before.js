@@ -1,0 +1,4 @@
+// hello
+foo();
+bar();
+baz();
