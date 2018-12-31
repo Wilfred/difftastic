@@ -819,6 +819,8 @@ module.exports = grammar({
 
       const octal_literal = seq(choice('0o', '0O'), /[0-7]+/)
 
+      const bigint_literal = seq(decimal_digits, 'n')
+
       const decimal_integer_literal = choice(
         '0',
         seq(optional('0'), /[1-9]/, optional(decimal_digits))
@@ -834,7 +836,8 @@ module.exports = grammar({
         hex_literal,
         decimal_literal,
         binary_literal,
-        octal_literal
+        octal_literal,
+        bigint_literal,
       ))
     },
 
