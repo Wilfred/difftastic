@@ -3,6 +3,7 @@ extern crate colored;
 extern crate diff;
 extern crate itertools;
 extern crate regex;
+extern crate term_size;
 
 use clap::{App, Arg};
 use colored::*;
@@ -11,6 +12,13 @@ use itertools::Itertools;
 use regex::{Match, Regex};
 use std::cmp::max;
 use std::fs;
+
+fn term_width() -> Option<usize> {
+    if let Some((w, _)) = term_size::dimensions() {
+        return Some(w);
+    }
+    None
+}
 
 #[derive(Debug, Clone)]
 struct Token {
@@ -167,7 +175,8 @@ fn main() {
     let after_path = matches.value_of("second").unwrap();
     let mut after_src = fs::read_to_string(after_path).expect("Unable to read PATH 2");
 
-    let pad_to_length = max_line_length(&before_src);
+    let terminal_width = term_width().unwrap_or(80);
+    let pad_to_length = std::cmp::max(max_line_length(&before_src), terminal_width / 2 - 1);
     // Pad the left column, so the right column aligns. Do this before
     // diffing, so we can calculate the visible length correctly.
     before_src = pad_string(&before_src, pad_to_length);
