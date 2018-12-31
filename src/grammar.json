@@ -4193,6 +4193,19 @@
                 "value": "[0-7]+"
               }
             ]
+          },
+          {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "PATTERN",
+                "value": "\\d+"
+              },
+              {
+                "type": "STRING",
+                "value": "n"
+              }
+            ]
           }
         ]
       }

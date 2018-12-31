@@ -4,10 +4,12 @@ Numbers
 
 04000
 400
+100n
 
 ---
 
 (program
+  (expression_statement (number))
   (expression_statement (number))
   (expression_statement (number)))
 
