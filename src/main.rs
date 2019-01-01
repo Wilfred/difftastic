@@ -92,34 +92,87 @@ fn lex(src: &str, re: &Regex) -> Vec<Token> {
     result
 }
 
-fn highlight_changes(before_src: &str, after_src: &str, lang: Language) -> (String, String) {
+#[derive(Debug, PartialEq, Clone, Copy)]
+enum Change {
+    Add,
+    Remove,
+}
+
+fn difference_positions(
+    before_src: &str,
+    after_src: &str,
+    lang: Language,
+) -> (Vec<(Change, usize, usize)>) {
     let re = language_lexer(lang);
     let before_tokens = lex(&before_src, &re);
     let after_tokens = lex(&after_src, &re);
 
-    let mut before_colored = String::with_capacity(before_src.len());
-    let mut after_colored = String::with_capacity(after_src.len());
+    let mut positions = vec![];
     for d in diff::slice(&before_tokens, &after_tokens) {
         match d {
             // Only present in the before, so has been removed.
             diff::Result::Left(l) => {
-                before_colored.push_str(&l.text.red().to_string());
-                before_colored.push_str(&l.trivia);
+                positions.push((Change::Remove, l.start, l.start + l.text.len()));
             }
             // Present in both.
-            diff::Result::Both(l, r) => {
-                before_colored.push_str(&l.text);
-                before_colored.push_str(&l.trivia);
-                after_colored.push_str(&r.text);
-                after_colored.push_str(&r.trivia);
-            }
+            diff::Result::Both(_, _) => (),
             // Only present in the after.
             diff::Result::Right(r) => {
-                after_colored.push_str(&r.text.green().to_string());
-                after_colored.push_str(&r.trivia);
+                positions.push((Change::Add, r.start, r.start + r.text.len()));
             }
         }
     }
+    positions
+}
+
+fn apply_color(s: &str, positions: &Vec<(usize, usize)>, c: Color) -> String {
+    let mut res = String::with_capacity(s.len());
+    let mut i = 0;
+    for (start, end) in positions {
+        if i < *start {
+            res.push_str(&s[i..*start]);
+        }
+        let colored = &s[*start..*end].color(c);
+        res.push_str(&colored.to_string());
+        i = *end;
+    }
+    if i < s.len() {
+        res.push_str(&s[i..s.len()]);
+    }
+    res
+}
+
+#[test]
+fn apply_color_no_positions() {
+    assert_eq!(apply_color("foobar", &vec![], Color::Black), "foobar");
+}
+
+#[test]
+fn apply_color_whole_length() {
+    assert_eq!(
+        apply_color("foo", &vec![(0, 3)], Color::Red),
+        "foo".red().to_string()
+    );
+}
+
+fn highlight_differences(
+    before_src: &str,
+    after_src: &str,
+    differences: &Vec<(Change, usize, usize)>,
+) -> (String, String) {
+    let additions: Vec<(usize, usize)> = differences
+        .iter()
+        .filter(|(c, _, _)| *c == Change::Add)
+        .map(|(_, start, end)| (*start, *end))
+        .collect();
+    let removals: Vec<(usize, usize)> = differences
+        .iter()
+        .filter(|(c, _, _)| *c == Change::Remove)
+        .map(|(_, start, end)| (*start, *end))
+        .collect();
+
+    let before_colored = apply_color(before_src, &removals, Color::Red);
+    let after_colored = apply_color(after_src, &additions, Color::Green);
 
     (before_colored, after_colored)
 }
@@ -210,7 +263,9 @@ fn main() {
         None => infer_language(before_path).expect("Could not infer language"),
     };
 
-    let (before_colored, after_colored) = highlight_changes(&before_src, &after_src, language);
+    let positions = difference_positions(&before_src, &after_src, language);
+    let (before_colored, after_colored) =
+        highlight_differences(&before_src, &after_src, &positions);
 
     print!(
         "{}",
