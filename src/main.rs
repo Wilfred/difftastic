@@ -35,20 +35,38 @@ impl PartialEq for Token {
     }
 }
 
-fn lex(src: &str, language: Option<&str>) -> Vec<Token> {
+#[derive(Debug)]
+enum Language {
+    JavaScript,
+    Lisp,
+    Css,
+}
+
+fn infer_language(filename: &str) -> Option<Language> {
+    if filename.ends_with(".js") {
+        return Some(Language::JavaScript);
+    } else if filename.ends_with(".el") {
+        return Some(Language::Lisp);
+    } else if filename.ends_with(".css") {
+        return Some(Language::Css);
+    }
+    None
+}
+
+fn language_lexer(lang: Language) -> Regex {
+    match lang {
+        Language::JavaScript => {
+            Regex::new(r#"//.+|[a-zA-Z0-9_]+|"(\\.|[^"\\])*"|[^ \t\n]"#).unwrap()
+        }
+        Language::Lisp => Regex::new(r#";.+|[a-zA-Z0-9_*!.-]+|"(\\.|[^"\\])*"|[^ \t\n]"#).unwrap(),
+        Language::Css => {
+            Regex::new(r#"(?s)/\*.*?\*/|[a-zA-Z0-9_*!.-]+|"(\\.|[^"\\])*"|[^ \t\n]"#).unwrap()
+        }
+    }
+}
+
+fn lex(src: &str, re: &Regex) -> Vec<Token> {
     let mut result = vec![];
-
-    let js_re = Regex::new(r#"//.+|[a-zA-Z0-9_]+|"(\\.|[^"\\])*"|[^ \t\n]"#).unwrap();
-    let lisp_re = Regex::new(r#";.+|[a-zA-Z0-9_*!.-]+|"(\\.|[^"\\])*"|[^ \t\n]"#).unwrap();
-    let css_re = Regex::new(r#"(?s)/\*.*?\*/|[a-zA-Z0-9_*!.-]+|"(\\.|[^"\\])*"|[^ \t\n]"#).unwrap();
-
-    let re = if language == Some("lisp") {
-        lisp_re
-    } else if language == Some("css") {
-        css_re
-    } else {
-        js_re
-    };
 
     let mut prev: Option<Match> = None;
     for mat in re.find_iter(src) {
@@ -74,13 +92,10 @@ fn lex(src: &str, language: Option<&str>) -> Vec<Token> {
     result
 }
 
-fn highlight_changes(
-    before_src: &str,
-    after_src: &str,
-    language: Option<&str>,
-) -> (String, String) {
-    let before_tokens = lex(&before_src, language);
-    let after_tokens = lex(&after_src, language);
+fn highlight_changes(before_src: &str, after_src: &str, lang: Language) -> (String, String) {
+    let re = language_lexer(lang);
+    let before_tokens = lex(&before_src, &re);
+    let after_tokens = lex(&after_src, &re);
 
     let mut before_colored = String::with_capacity(before_src.len());
     let mut after_colored = String::with_capacity(after_src.len());
@@ -184,7 +199,17 @@ fn main() {
     // whitespace.
     after_src = pad_string(&after_src, pad_to_length);
 
-    let language = matches.value_of("language");
+    let language = match matches.value_of("language") {
+        Some("css") => Language::Css,
+        Some("js") => Language::JavaScript,
+        Some("lisp") => Language::Lisp,
+        Some(_) => {
+            println!("No such language known.");
+            return;
+        }
+        None => infer_language(before_path).expect("Could not infer language"),
+    };
+
     let (before_colored, after_colored) = highlight_changes(&before_src, &after_src, language);
 
     print!(
