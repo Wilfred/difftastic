@@ -9,7 +9,7 @@ use clap::{App, Arg};
 use colored::*;
 use itertools::EitherOrBoth::{Both, Left, Right};
 use itertools::Itertools;
-use regex::{Match, Regex};
+use regex::Regex;
 use std::cmp::max;
 use std::fs;
 
@@ -25,8 +25,6 @@ struct Token {
     start: usize,
     // The actual token, e.g. "var"
     text: String,
-    // Any trailing whitespace or comment before the next token.
-    trivia: String,
 }
 
 impl PartialEq for Token {
@@ -68,28 +66,26 @@ fn language_lexer(lang: Language) -> Regex {
 fn lex(src: &str, re: &Regex) -> Vec<Token> {
     let mut result = vec![];
 
-    let mut prev: Option<Match> = None;
     for mat in re.find_iter(src) {
-        if let Some(prev_match) = prev {
-            let trivia = &src[prev_match.end()..mat.start()];
-            result.push(Token {
-                start: prev_match.end(),
-                text: prev_match.as_str().to_string(),
-                trivia: trivia.to_string(),
-            });
-        }
-        prev = Some(mat);
-    }
-    if let Some(prev_match) = prev {
-        let trivia = &src[prev_match.end()..src.len()];
         result.push(Token {
-            start: prev_match.end(),
-            text: prev_match.as_str().to_string(),
-            trivia: trivia.to_string(),
+            start: mat.start(),
+            text: mat.as_str().to_string(),
         });
     }
 
     result
+}
+
+#[test]
+fn lex_single_symbol_css() {
+    let re = language_lexer(Language::Css);
+    let tokens = lex(".foo", &re);
+
+    // Since we've overriden eq for tokens, manually compare fields.
+    assert_eq!(tokens.len(), 1);
+    let token = &tokens[0];
+    assert_eq!(token.start, 0);
+    assert_eq!(token.text, ".foo");
 }
 
 #[derive(Debug, PartialEq, Clone, Copy)]
