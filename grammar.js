@@ -99,7 +99,7 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       previous
     ),
 
-    import_statement: ($, previous) => seq(
+    import_statement: $ => seq(
       'import',
       optional(choice('type', 'typeof')),
       choice(
