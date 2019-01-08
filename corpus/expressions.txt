@@ -478,7 +478,8 @@ Functions
   function(arg1, ...arg2) {
     arg2;
   },
-  function stuff() {}
+  function stuff() {},
+  function trailing(a,) {}
 ]
 
 ---
@@ -495,6 +496,10 @@ Functions
     (function
       (identifier)
       (formal_parameters)
+      (statement_block))
+    (function
+      (identifier)
+      (formal_parameters (identifier))
       (statement_block)))))
 
 ===================================================
@@ -507,6 +512,7 @@ a => 1;
 (f, g) => {
   return h;
 };
+(trailing,) => 4;
 (set, kv) => 2;
 
 ---
@@ -525,6 +531,9 @@ a => 1;
     (formal_parameters (identifier) (identifier))
     (statement_block
       (return_statement (identifier)))))
+  (expression_statement (arrow_function
+    (formal_parameters (identifier))
+    (number)))
   (expression_statement (arrow_function
     (formal_parameters (identifier) (identifier)) (number))))
 
