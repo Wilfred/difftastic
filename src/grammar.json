@@ -4598,76 +4598,41 @@
               "type": "SEQ",
               "members": [
                 {
-                  "type": "CHOICE",
+                  "type": "SEQ",
                   "members": [
                     {
                       "type": "SYMBOL",
-                      "name": "identifier"
+                      "name": "_formal_parameter"
                     },
                     {
-                      "type": "ALIAS",
+                      "type": "REPEAT",
                       "content": {
-                        "type": "SYMBOL",
-                        "name": "_reserved_identifier"
-                      },
-                      "named": true,
-                      "value": "identifier"
-                    },
-                    {
-                      "type": "SYMBOL",
-                      "name": "_destructuring_pattern"
-                    },
-                    {
-                      "type": "SYMBOL",
-                      "name": "assignment_pattern"
-                    },
-                    {
-                      "type": "SYMBOL",
-                      "name": "rest_parameter"
+                        "type": "SEQ",
+                        "members": [
+                          {
+                            "type": "STRING",
+                            "value": ","
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "_formal_parameter"
+                          }
+                        ]
+                      }
                     }
                   ]
                 },
                 {
-                  "type": "REPEAT",
-                  "content": {
-                    "type": "SEQ",
-                    "members": [
-                      {
-                        "type": "STRING",
-                        "value": ","
-                      },
-                      {
-                        "type": "CHOICE",
-                        "members": [
-                          {
-                            "type": "SYMBOL",
-                            "name": "identifier"
-                          },
-                          {
-                            "type": "ALIAS",
-                            "content": {
-                              "type": "SYMBOL",
-                              "name": "_reserved_identifier"
-                            },
-                            "named": true,
-                            "value": "identifier"
-                          },
-                          {
-                            "type": "SYMBOL",
-                            "name": "_destructuring_pattern"
-                          },
-                          {
-                            "type": "SYMBOL",
-                            "name": "assignment_pattern"
-                          },
-                          {
-                            "type": "SYMBOL",
-                            "name": "rest_parameter"
-                          }
-                        ]
-                      }
-                    ]
-                  }
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "STRING",
+                      "value": ","
+                    },
+                    {
+                      "type": "BLANK"
+                    }
+                  ]
                 }
               ]
             },
@@ -4679,6 +4644,36 @@
         {
           "type": "STRING",
           "value": ")"
+        }
+      ]
+    },
+    "_formal_parameter": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "identifier"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_reserved_identifier"
+          },
+          "named": true,
+          "value": "identifier"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_destructuring_pattern"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "assignment_pattern"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "rest_parameter"
         }
       ]
     },
@@ -4913,6 +4908,7 @@
     "_statement",
     "_expressions",
     "_semicolon",
+    "_formal_parameter",
     "_destructuring_pattern",
     "_reserved_identifier",
     "_jsx_attribute",

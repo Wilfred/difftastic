@@ -41,6 +41,7 @@ module.exports = grammar({
     $._statement,
     $._expressions,
     $._semicolon,
+    $._formal_parameter,
     $._destructuring_pattern,
     $._reserved_identifier,
     $._jsx_attribute,
@@ -909,14 +910,19 @@ module.exports = grammar({
 
     formal_parameters: $ => seq(
       '(',
-      commaSep(choice(
-        $.identifier,
-        alias($._reserved_identifier, $.identifier),
-        $._destructuring_pattern,
-        $.assignment_pattern,
-        $.rest_parameter
+      optional(seq(
+        commaSep1($._formal_parameter),
+        optional(',')
       )),
       ')'
+    ),
+
+    _formal_parameter: $ => choice(
+      $.identifier,
+      alias($._reserved_identifier, $.identifier),
+      $._destructuring_pattern,
+      $.assignment_pattern,
+      $.rest_parameter
     ),
 
     rest_parameter: $ => seq(
