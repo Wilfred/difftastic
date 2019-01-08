@@ -148,7 +148,9 @@ Flow Import Types
 =======================================
 
 import type {UserID, User} from "./User.js";
+import {type UserID, type User} from "./User.js";
 import typeof {jimiguitar as GuitarT} from "./User.js";
+import type UserID, {addUser, removeUser} from './User.js';
 
 ---
 
@@ -158,7 +160,26 @@ import typeof {jimiguitar as GuitarT} from "./User.js";
       (named_imports (import_specifier (identifier)) (import_specifier (identifier)))) (string))
   (import_statement
     (import_clause
-      (named_imports (import_specifier (identifier) (identifier)))) (string)))
+      (named_imports (import_specifier (identifier)) (import_specifier (identifier)))) (string))
+  (import_statement
+    (import_clause
+      (named_imports (import_specifier (identifier) (identifier)))) (string))
+  (import_statement
+    (import_clause (identifier)
+      (named_imports (import_specifier (identifier)) (import_specifier (identifier)))) (string)))
+
+=======================================
+Flow Export Types
+=======================================
+
+export type UserType = {};
+export interface UserInterface {}
+
+---
+
+(program
+  (export_statement (type_alias_declaration (type_identifier) (object_type)))
+  (export_statement (interface_declaration (type_identifier) (object_type))))
 
 =======================================
 Type alias declarations
