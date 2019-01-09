@@ -46,6 +46,10 @@ constant {
   }
 }
 
+class > constant {
+  is-definition: true;
+}
+
 superclass > constant {
   scope: 'constructor';
 }
