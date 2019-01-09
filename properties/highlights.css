@@ -68,11 +68,12 @@ alias > identifier {
 
 method > identifier,
 singleton_method > identifier:nth-child(3),
-setter > identifier,
-call > identifier:nth-child(2) {
+setter > identifier {
   scope: 'function';
+  is-definition: true;
 }
 
+call > identifier:nth-child(2),
 method_call > identifier:nth-child(0) {
   &:text('^require$') {
     scope: 'function.builtin';
