@@ -151,6 +151,132 @@ fn apply_color_whole_length() {
     );
 }
 
+/// A position in a single line of a string.
+#[derive(Debug, PartialEq, Clone, Copy)]
+struct LinePosition {
+    /// Both zero-indexed.
+    line: usize,
+    column: usize,
+}
+
+fn line_position(offset: usize, newline_positions: &[usize]) -> LinePosition {
+    for line_num in (0..newline_positions.len()).rev() {
+        if offset > newline_positions[line_num as usize] {
+            return LinePosition {
+                line: line_num as usize + 1,
+                column: offset - newline_positions[line_num as usize],
+            };
+        }
+    }
+
+    LinePosition {
+        line: 0,
+        column: offset,
+    }
+}
+
+// Given a range within a string, split it into ranges where each
+// range is on a single line.
+fn split_line_boundaries(
+    start: LinePosition,
+    end: LinePosition,
+    newlines_positions: &[usize],
+) -> Vec<(LinePosition, LinePosition)> {
+    let mut ranges = vec![];
+
+    if start.line == end.line {
+        ranges.push((start, end));
+        return ranges;
+    } else {
+        let first_line_end_pos = newlines_positions[start.line + 1] - 1;
+        let first_line_end = LinePosition {
+            line: start.line,
+            column: first_line_end_pos,
+        };
+        ranges.push((start, first_line_end));
+    }
+
+    // TODO: use a for loop.
+    let mut line_num = start.line + 1;
+    while line_num < end.line {
+        let line_end_pos = newlines_positions[line_num + 1] - 1;
+        ranges.push((
+            LinePosition {
+                line: line_num,
+                column: 0,
+            },
+            LinePosition {
+                line: line_num,
+                column: line_end_pos,
+            },
+        ));
+
+        line_num += 1;
+    }
+    // Last line, up to end.
+    ranges.push((
+        LinePosition {
+            line: end.line,
+            column: 0,
+        },
+        end,
+    ));
+
+    ranges
+}
+
+/// Convert string offsets to line and column start/stop.
+fn line_relative_positions(
+    s: &str,
+    positions: &Vec<(usize, usize)>,
+) -> Vec<(LinePosition, LinePosition)> {
+    let newline_re = Regex::new("\n").unwrap();
+    let newlines: Vec<_> = newline_re.find_iter(s).map(|mat| mat.end()).collect();
+
+    let mut rel_positions = vec![];
+    for (start_offset, end_offset) in positions {
+        let start_pos = line_position(*start_offset, &newlines);
+        let end_pos = line_position(*end_offset, &newlines);
+
+        rel_positions.extend(split_line_boundaries(start_pos, end_pos, &newlines));
+    }
+
+    rel_positions
+}
+
+#[test]
+fn line_relative_first_line() {
+    let relative_positions = line_relative_positions("foo", &vec![(1, 3)]);
+    assert_eq!(
+        relative_positions,
+        vec![(
+            LinePosition { line: 0, column: 1 },
+            LinePosition { line: 0, column: 3 }
+        )]
+    );
+}
+
+#[test]
+fn line_relative_split_over_multiple() {
+    let relative_positions = line_relative_positions("foo\nbar\nbaz\naaaaaaaaaaa", &vec![(5, 10)]);
+    assert_eq!(
+        relative_positions,
+        vec![
+            (
+                LinePosition { line: 1, column: 1 },
+                LinePosition { line: 1, column: 5 }
+            ),
+            (
+                LinePosition { line: 2, column: 0 },
+                LinePosition {
+                    line: 2,
+                    column: 11
+                }
+            )
+        ]
+    );
+}
+
 fn highlight_differences(
     before_src: &str,
     after_src: &str,
