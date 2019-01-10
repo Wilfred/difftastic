@@ -1,0 +1,19 @@
+{
+  "name": "tree-sitter-elm",
+  "version": "1.0.0",
+  "description": "Tree sitter definitions for elm",
+  "main": "index.js",
+  "scripts": {
+    "test": "",
+    "gen": "tree-sitter generate",
+    "regen": "node-gyp build && tree-sitter parse ./test-files/basic.elm"
+  },
+  "author": "Razze",
+  "license": "ISC",
+  "dependencies": {
+    "nan": "^2.12.1"
+  },
+  "devDependencies": {
+    "tree-sitter-cli": "^0.13.16"
+  }
+}
