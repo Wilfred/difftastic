@@ -4,9 +4,10 @@
   "description": "Tree sitter definitions for elm",
   "main": "index.js",
   "scripts": {
-    "test": "",
-    "gen": "tree-sitter generate",
-    "regen": "node-gyp build && tree-sitter parse ./test-files/basic.elm"
+    "build": "tree-sitter generate && node-gyp build",
+    "test": "tree-sitter test && script/parse-examples",
+    "test-windows": "tree-sitter test",
+    "parse": "tree-sitter parse ./examples/basic.elm"
   },
   "author": "Razze",
   "license": "ISC",
