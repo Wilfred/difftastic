@@ -61,11 +61,14 @@ module.exports = grammar({
     ),
 
     _simple_statement: $ => choice(
+      $.tool_statement,
+      $.class_name_statement,
+      $.extends_statement,
       $.expression_statement,
       $.return_statement,
       $.pass_statement,
       $.break_statement,
-      $.continue_statement,
+      $.continue_statement
     ),
 
     expression_statement: $ => choice(
@@ -84,6 +87,19 @@ module.exports = grammar({
     pass_statement: $ => prec.left('pass'),
     break_statement: $ => prec.left('break'),
     continue_statement: $ => prec.left('continue'),
+
+    tool_statement: $ => 'tool'
+
+    class_name_statement: $ => seq(
+      'class_name',
+      $.identifier,
+      optional(seq(',', /".*"/))
+    ),
+
+    extends_statement: $ => seq(
+      'extends',
+      $.identifier
+    ),
 
     // Compount statements
 
@@ -186,7 +202,7 @@ module.exports = grammar({
     class_definition: $ => seq(
       'class',
       $.identifier,
-      optional($.argument_list),
+      optional($.extends_statement),
       ':',
       $._suite
     ),
