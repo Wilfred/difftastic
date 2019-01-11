@@ -1,0 +1,854 @@
+=====================================
+Import statements
+=====================================
+
+import a, b
+import b.c as d
+import a.b.c
+
+---
+
+(module
+  (import_statement
+    (dotted_name (identifier))
+    (dotted_name (identifier)))
+  (import_statement
+    (aliased_import
+      (dotted_name (identifier) (identifier))
+      (identifier)))
+  (import_statement
+    (dotted_name (identifier) (identifier) (identifier))))
+
+=====================================
+Import-from statements
+=====================================
+
+from a import b
+from a import *
+from a import (b, c)
+from a.b import c
+from . import b
+from .. import b
+from .a import b
+from ..a import b
+
+---
+
+(module
+  (import_from_statement
+    (dotted_name (identifier))
+    (dotted_name (identifier)))
+  (import_from_statement
+    (dotted_name (identifier))
+    (wildcard_import))
+  (import_from_statement
+    (dotted_name (identifier))
+    (dotted_name (identifier))
+    (dotted_name (identifier)))
+  (import_from_statement
+    (dotted_name (identifier) (identifier))
+    (dotted_name (identifier)))
+  (import_from_statement
+    (relative_import (import_prefix))
+    (dotted_name (identifier)))
+  (import_from_statement
+    (relative_import (import_prefix))
+    (dotted_name (identifier)))
+  (import_from_statement
+    (relative_import
+      (import_prefix)
+      (dotted_name (identifier)))
+      (dotted_name (identifier)))
+  (import_from_statement
+    (relative_import
+      (import_prefix)
+      (dotted_name (identifier)))
+      (dotted_name (identifier))))
+
+=====================================
+Future import statements
+=====================================
+
+from __future__ import print_statement
+from __future__ import python4
+
+---
+
+(module
+  (future_import_statement (dotted_name (identifier)))
+  (future_import_statement (dotted_name (identifier))))
+
+=====================================
+Print statements
+=====================================
+
+print a
+print b, c
+print 0 or 1, 1 or 0,
+print 0 or 1
+
+---
+
+(module
+  (print_statement (identifier))
+  (print_statement (identifier) (identifier))
+  (print_statement
+    (boolean_operator (integer) (integer))
+    (boolean_operator (integer) (integer)))
+  (print_statement
+    (boolean_operator (integer) (integer))))
+
+=====================================
+Print statements with redirection
+=====================================
+
+print >> a
+print >> a, "b", "c"
+
+---
+
+(module
+  (print_statement (chevron (identifier)))
+  (print_statement (chevron (identifier)) (string) (string)))
+
+=====================================
+Assert statements
+=====================================
+
+assert a
+assert b, c
+
+---
+
+(module
+  (assert_statement (identifier))
+  (assert_statement (identifier) (identifier)))
+
+=====================================
+Expression statements
+=====================================
+
+a
+b + c
+1, 2, 3
+1, 2, 3,
+
+---
+
+(module
+  (expression_statement (identifier))
+  (expression_statement (binary_operator (identifier) (identifier)))
+  (expression_statement (integer) (integer) (integer))
+  (expression_statement (integer) (integer) (integer)))
+
+=====================================
+Delete statements
+=====================================
+
+del a[1], b[2]
+
+---
+
+(module
+  (delete_statement (expression_list
+    (subscript (identifier) (integer))
+    (subscript (identifier) (integer)))))
+
+=====================================
+Control-flow statements
+=====================================
+
+while true:
+  pass
+  break
+  continue
+
+---
+
+(module
+  (while_statement (identifier)
+    (pass_statement)
+    (break_statement)
+    (continue_statement)))
+
+=====================================
+Return statements
+=====================================
+
+return
+return a + b, c
+return not b
+
+---
+
+(module
+  (return_statement)
+  (return_statement (expression_list
+    (binary_operator (identifier) (identifier))
+    (identifier)))
+  (return_statement (expression_list (not_operator (identifier)))))
+
+=====================================
+If statements
+=====================================
+
+if a:
+  b
+  c
+
+---
+
+(module
+  (if_statement (identifier)
+    (expression_statement (identifier))
+    (expression_statement (identifier))))
+
+=====================================
+If else statements
+=====================================
+
+if a:
+  b
+elif c:
+  d
+else:
+  f
+
+if a:
+  b
+else:
+  f
+
+if a: b
+
+if a: b; c
+
+---
+
+(module
+  (if_statement (identifier)
+    (expression_statement (identifier))
+    (elif_clause (identifier)
+      (expression_statement (identifier)))
+    (else_clause
+      (expression_statement (identifier))))
+  (if_statement (identifier)
+    (expression_statement (identifier))
+    (else_clause
+      (expression_statement (identifier))))
+  (if_statement (identifier)
+    (expression_statement (identifier)))
+  (if_statement (identifier)
+    (expression_statement (identifier))
+    (expression_statement (identifier))))
+
+=====================================
+Nested if statements
+=====================================
+
+if a:
+  if b:
+    c
+  else:
+    if e:
+      f
+g
+
+---
+
+(module
+  (if_statement (identifier)
+    (if_statement (identifier)
+      (expression_statement (identifier))
+      (else_clause
+        (if_statement (identifier)
+          (expression_statement (identifier))))))
+  (expression_statement (identifier)))
+
+=====================================
+While statements
+=====================================
+
+while a:
+  b
+
+while c:
+  d
+else:
+  e
+  f
+
+---
+
+(module
+  (while_statement (identifier)
+    (expression_statement (identifier)))
+  (while_statement (identifier)
+    (expression_statement (identifier))
+    (else_clause
+      (expression_statement (identifier))
+      (expression_statement (identifier)))))
+
+=====================================
+For statements
+=====================================
+
+for line, i in lines:
+  print line
+  for character, j in line:
+    print character
+else:
+  print x
+
+for x, in [(1,), (2,), (3,)]:
+  x
+
+---
+
+(module
+  (for_statement
+    (variables (identifier) (identifier))
+    (expression_list (identifier))
+    (print_statement (identifier))
+    (for_statement
+      (variables (identifier) (identifier))
+      (expression_list (identifier))
+      (print_statement (identifier)))
+    (else_clause
+      (print_statement (identifier))))
+  (for_statement
+    (variables (identifier))
+    (expression_list (list (tuple (integer)) (tuple (integer)) (tuple (integer))))
+    (expression_statement (identifier))))
+
+=====================================
+Try statements
+=====================================
+
+try:
+  a
+except b:
+  c
+except d as e:
+  f
+except g, h:
+  i
+except:
+  j
+
+try:
+  a
+except b:
+  c
+else:
+  d
+finally:
+  e
+
+---
+
+(module
+  (try_statement
+    (expression_statement (identifier))
+    (except_clause (identifier)
+      (expression_statement (identifier)))
+    (except_clause (identifier) (identifier)
+      (expression_statement (identifier)))
+    (except_clause (identifier) (identifier)
+      (expression_statement (identifier)))
+    (except_clause
+      (expression_statement (identifier))))
+  (try_statement
+    (expression_statement (identifier))
+    (except_clause (identifier)
+      (expression_statement (identifier)))
+    (else_clause
+      (expression_statement (identifier)))
+    (finally_clause
+      (expression_statement (identifier)))))
+
+=====================================
+With statements
+=====================================
+
+with a as b:
+  c
+
+---
+
+(module
+  (with_statement
+    (with_item (identifier) (identifier))
+    (expression_statement (identifier))))
+
+=====================================
+Async Function definitions
+=====================================
+
+async def a():
+  b
+
+async def c(d):
+  e
+
+async def g(g, h,):
+  i
+
+async def c(a: str):
+  a
+
+async def c(a: b.c):
+  a
+
+async def d(a: Sequence[T]) -> T:
+  a
+
+async def i(a, b=c, *c, **d):
+  a
+
+async def d(a: str) -> None:
+  return None
+
+async def d(a:str="default", b=c) -> None:
+  return None
+
+---
+
+(module
+  (function_definition (identifier)
+    (parameters)
+    (expression_statement (identifier)))
+  (function_definition
+    (identifier)
+    (parameters (identifier))
+    (expression_statement (identifier)))
+  (function_definition
+    (identifier)
+    (parameters (identifier) (identifier))
+    (expression_statement (identifier)))
+  (function_definition
+    (identifier)
+    (parameters (typed_parameter (identifier) (type (identifier))))
+    (expression_statement (identifier)))
+  (function_definition
+    (identifier)
+    (parameters (typed_parameter (identifier) (type (attribute (identifier) (identifier)))))
+    (expression_statement (identifier)))
+  (function_definition
+    (identifier)
+    (parameters (typed_parameter (identifier) (type (subscript (identifier) (identifier)))))
+    (type (identifier))
+    (expression_statement (identifier)))
+  (function_definition
+    (identifier)
+    (parameters
+      (identifier)
+      (default_parameter (identifier) (identifier))
+      (list_splat (identifier))
+      (dictionary_splat (identifier)))
+    (expression_statement (identifier)))
+  (function_definition
+    (identifier)
+    (parameters (typed_parameter (identifier) (type (identifier))))
+    (type (none))
+    (return_statement (expression_list (none))))
+  (function_definition
+    (identifier)
+    (parameters
+      (typed_default_parameter (identifier) (type (identifier)) (string))
+      (default_parameter (identifier) (identifier)))
+    (type (none))
+    (return_statement (expression_list (none)))))
+
+=====================================
+Function definitions
+=====================================
+
+def a():
+  b
+
+def c(d):
+  e
+
+def g(g, h,):
+  i
+
+def c(a: str):
+  a
+
+def c(a: b.c):
+  a
+
+def d(a: Sequence[T]) -> T:
+  a
+
+def i(a, b=c, *c, **d):
+  a
+
+def d(a: str) -> None:
+  return None
+
+def e((a,b)):
+  return (a,b)
+
+def e(*list: str):
+  pass
+
+def e(**list: str):
+  pass
+
+def f():
+  nonlocal a
+
+def g(h, i, *, j, k=100, **kwarg):
+  return h,i,j,k,kwarg
+
+---
+
+(module
+  (function_definition (identifier)
+    (parameters)
+    (expression_statement (identifier)))
+  (function_definition
+    (identifier)
+    (parameters (identifier))
+    (expression_statement (identifier)))
+  (function_definition
+    (identifier)
+    (parameters (identifier) (identifier))
+    (expression_statement (identifier)))
+  (function_definition
+    (identifier)
+    (parameters (typed_parameter (identifier) (type (identifier))))
+    (expression_statement (identifier)))
+  (function_definition
+    (identifier)
+    (parameters (typed_parameter (identifier) (type (attribute (identifier) (identifier)))))
+    (expression_statement (identifier)))
+  (function_definition
+    (identifier)
+    (parameters (typed_parameter (identifier) (type (subscript (identifier) (identifier)))))
+    (type (identifier))
+    (expression_statement (identifier)))
+  (function_definition
+    (identifier)
+    (parameters
+      (identifier)
+      (default_parameter (identifier) (identifier))
+      (list_splat (identifier))
+      (dictionary_splat (identifier)))
+    (expression_statement (identifier)))
+  (function_definition
+    (identifier)
+    (parameters (typed_parameter (identifier) (type (identifier))))
+    (type (none))
+    (return_statement (expression_list (none))))
+  (function_definition
+    (identifier)
+    (parameters (tuple (identifier) (identifier)))
+    (return_statement (expression_list (tuple (identifier) (identifier)))))
+  (function_definition
+    (identifier)
+    (parameters (typed_parameter (list_splat (identifier)) (type (identifier))))
+    (pass_statement))
+  (function_definition
+    (identifier)
+    (parameters (typed_parameter (dictionary_splat (identifier)) (type (identifier))))
+    (pass_statement))
+  (function_definition
+    (identifier)
+    (parameters)
+    (nonlocal_statement (identifier)))
+  (function_definition
+    (identifier)
+    (parameters
+      (identifier)
+      (identifier)
+      (list_splat)
+      (identifier)
+      (default_parameter (identifier) (integer))
+      (dictionary_splat (identifier)))
+    (return_statement
+      (expression_list
+        (identifier)
+        (identifier)
+        (identifier)
+        (identifier)
+        (identifier)))))
+
+====================================================
+Class definitions
+====================================================
+
+class A:
+  def b(self):
+    return c
+class B():
+  pass
+class B(method1):
+  def method1(self):
+    return
+class C(method1, Sequence[T]):
+  pass
+class D(Sequence[T, U]):
+  pass
+
+---
+
+(module
+  (class_definition
+    (identifier)
+    (function_definition
+      (identifier)
+      (parameters (identifier))
+      (return_statement (expression_list (identifier)))))
+ (class_definition
+    (identifier)
+    (argument_list)
+    (pass_statement))
+ (class_definition
+    (identifier)
+    (argument_list (identifier))
+    (function_definition
+      (identifier)
+      (parameters (identifier))
+      (return_statement)))
+ (class_definition
+    (identifier)
+    (argument_list (identifier) (subscript (identifier) (identifier)))
+    (pass_statement))
+ (class_definition
+    (identifier)
+    (argument_list (subscript (identifier) (identifier) (identifier)))
+    (pass_statement)))
+
+====================================================
+Class definitions with superclasses
+====================================================
+
+class A(B, C):
+  def d():
+    e
+
+---
+
+(module
+  (class_definition
+    (identifier)
+    (argument_list (identifier) (identifier))
+    (function_definition
+      (identifier)
+      (parameters)
+      (expression_statement (identifier)))))
+
+====================================================
+Decorated definitions
+====================================================
+
+@a.b
+class C:
+  @f()
+  @d(1)
+  @e(2, 3)
+  @a(b=True)
+  @a(*b)
+  @a(**c)
+  @a(1, b=True, *b, **c)
+  def f():
+    g
+
+  @f()
+  async def f():
+    g
+
+---
+
+(module
+  (decorated_definition
+    (decorator (dotted_name (identifier) (identifier)))
+    (class_definition
+      (identifier)
+      (decorated_definition
+        (decorator
+          (dotted_name (identifier))
+          (argument_list))
+        (decorator
+          (dotted_name (identifier))
+          (argument_list
+            (integer)))
+        (decorator
+          (dotted_name (identifier))
+          (argument_list
+            (integer) (integer)))
+        (decorator
+          (dotted_name (identifier))
+          (argument_list
+            (keyword_argument (identifier) (true))))
+        (decorator
+          (dotted_name (identifier))
+          (argument_list
+            (list_splat (identifier))))
+        (decorator
+          (dotted_name (identifier))
+          (argument_list
+            (dictionary_splat (identifier))))
+        (decorator
+          (dotted_name (identifier))
+          (argument_list
+            (integer)
+            (keyword_argument (identifier) (true))
+            (list_splat (identifier))
+            (dictionary_splat (identifier))))
+        (function_definition (identifier) (parameters) (expression_statement (identifier))))
+      (decorated_definition
+        (decorator
+          (dotted_name (identifier))
+          (argument_list))
+        (function_definition (identifier) (parameters) (expression_statement (identifier)))))))
+
+====================================================
+Raise statements
+====================================================
+
+raise
+raise RuntimeError('NO')
+raise RunTimeError('NO') from e
+
+---
+
+(module
+  (raise_statement)
+  (raise_statement
+    (expression_list (call (identifier) (argument_list (string)))))
+  (raise_statement
+    (expression_list (call (identifier) (argument_list (string))))
+    (identifier)))
+
+====================================================
+Comments
+====================================================
+
+print a
+# hi
+print b # bye
+print c
+
+---
+
+(module
+  (print_statement (identifier))
+  (comment)
+  (print_statement (identifier))
+  (comment)
+  (print_statement (identifier)))
+
+====================================================
+Comments at different indentation levels
+====================================================
+
+if a:
+  # one
+# two
+    # three
+  b
+    # four
+  c
+
+---
+
+(module
+  (if_statement (identifier)
+    (comment)
+    (comment)
+    (comment)
+    (expression_statement (identifier))
+    (comment)
+    (expression_statement (identifier))))
+
+====================================================
+Comments after dedents
+====================================================
+
+if a:
+  b
+
+# one
+c
+
+---
+
+(module
+  (if_statement
+    (identifier)
+    (expression_statement (identifier)))
+  (comment)
+  (expression_statement (identifier)))
+
+====================================================
+Newline tokens followed by comments
+====================================================
+
+print "a"
+  # We need to recognize the newline *preceding* this comment, because there's no newline after it
+---
+
+(module (print_statement (string)) (comment))
+
+====================================================
+Global statements
+====================================================
+
+global a
+global a, b
+
+---
+
+(module
+  (global_statement (identifier))
+  (global_statement (identifier) (identifier)))
+
+====================================================
+Exec statements
+====================================================
+
+exec '1+1'
+exec 'x+=1' in None
+exec 'x+=1' in a, b
+
+---
+
+(module
+  (exec_statement (string))
+  (exec_statement (string) (none))
+  (exec_statement (string) (identifier) (identifier)))
+
+==================================================
+Extra newlines
+==================================================
+
+if a:
+
+
+    b()
+
+
+    c()
+
+
+    def d():
+
+
+        e()
+
+
+    f()
+
+---
+
+(module
+  (if_statement (identifier)
+    (expression_statement (call (identifier) (argument_list)))
+    (expression_statement (call (identifier) (argument_list)))
+    (function_definition (identifier) (parameters)
+      (expression_statement (call (identifier) (argument_list))))
+    (expression_statement (call (identifier) (argument_list)))))
