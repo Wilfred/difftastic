@@ -120,6 +120,28 @@ func hello(typed_default_param: Type="string") -> Type:
     (pass_statement)))
 
 =====================================
+Function Calls
+=====================================
+
+hello()
+hello(world)
+hello("world")
+hello(1 + 1, "world")
+hello(hello())
+hello(hello("world"))
+
+---
+
+(source
+  (expression_statement (call (identifier) (argument_list)))
+  (expression_statement (call (identifier) (argument_list (identifier))))
+  (expression_statement (call (identifier) (argument_list (string))))
+  (expression_statement (call (identifier) (argument_list (binary_operator (integer) (integer)) (string))))
+  (expression_statement (call (identifier) (argument_list (call (identifier) (argument_list)))))
+  (expression_statement (call (identifier) (argument_list (call (identifier) (argument_list (string))))))
+)
+
+=====================================
 Class Name
 =====================================
 
