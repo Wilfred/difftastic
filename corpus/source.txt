@@ -1,0 +1,120 @@
+=====================================
+Math Expressions
+=====================================
+
+1 + x + 1
+0xDEAD * x / 0.01
+0xDEAD * (x / 0.01)
+
+---
+
+(source
+  (expression_statement
+    (binary_operator (binary_operator (integer) (identifier)) (integer)))
+  (expression_statement
+    (binary_operator (binary_operator (integer) (identifier)) (float)))
+  (expression_statement
+    (binary_operator (integer) (parenthesized_expression
+      (binary_operator (identifier) (float))))))
+
+=====================================
+Variables
+=====================================
+
+var x
+var x = "hello"
+var x := "hello"
+var x: Type
+var x: Type = "hello"
+
+---
+
+(source
+  (variable_statement (identifier))
+  (variable_statement (identifier) (string))
+  (variable_statement (identifier) (inferred_type) (string))
+  (variable_statement (identifier) (type (identifier)))
+  (variable_statement (identifier) (type (identifier)) (string)))
+
+=====================================
+Variable Assign Expressions
+=====================================
+
+var x = 1 + x + 1
+
+---
+
+(source
+  (variable_statement (identifier)
+      (binary_operator (binary_operator (integer) (identifier)) (integer))))
+
+=====================================
+Invalid Variables
+=====================================
+
+var x = var y
+var x :=
+
+---
+
+(source
+  (variable_statement (identifier) (ERROR (identifier)) (identifier))
+  (ERROR (identifier)  (inferred_type)))
+
+=====================================
+Function Definitions
+=====================================
+
+func hello():
+  pass
+
+func hello() -> Type:
+  pass
+
+func hello(param):
+  pass
+
+func hello(param) -> Type:
+  pass
+
+func hello(default_param="string"):
+  pass
+
+func hello(default_param="string") -> Type:
+  pass
+
+func hello(typed_param: Type):
+  pass
+
+func hello(typed_param: Type) -> Type:
+  pass
+
+func hello(typed_default_param: Type="string"):
+  pass
+
+func hello(typed_default_param: Type="string") -> Type:
+  pass
+
+---
+
+(source
+  (function_definition (identifier) (parameters)
+    (pass_statement))
+  (function_definition (identifier) (parameters) (return_type (type (identifier)))
+    (pass_statement))
+  (function_definition (identifier) (parameters (identifier))
+    (pass_statement))
+  (function_definition (identifier) (parameters (identifier)) (return_type (type (identifier)))
+    (pass_statement))
+  (function_definition (identifier) (parameters (default_parameter (identifier) (string)))
+    (pass_statement))
+  (function_definition (identifier) (parameters (default_parameter (identifier) (string))) (return_type (type (identifier)))
+    (pass_statement))
+  (function_definition (identifier) (parameters (typed_parameter (identifier) (type (identifier))))
+    (pass_statement))
+  (function_definition (identifier) (parameters (typed_parameter (identifier) (type (identifier)))) (return_type (type (identifier)))
+    (pass_statement))
+  (function_definition (identifier) (parameters (typed_default_parameter (identifier) (type (identifier)) (string)))
+    (pass_statement))
+  (function_definition (identifier) (parameters (typed_default_parameter (identifier) (type (identifier)) (string))) (return_type (type (identifier)))
+    (pass_statement)))

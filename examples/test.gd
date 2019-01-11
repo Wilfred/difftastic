@@ -4,6 +4,8 @@ extends SceneTree
 #         print('hello')
 
 func _initialize():
+        var b: String = "hello"
+        print(b)
         var butt = 'buttface'
         var next = 'next'
         var d = {

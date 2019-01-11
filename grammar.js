@@ -137,6 +137,7 @@ module.exports = grammar({
       $.class_name_statement,
       $.extends_statement,
       $.expression_statement,
+      $.variable_statement,
       $.return_statement,
       $.pass_statement,
       $.break_statement,
@@ -148,6 +149,22 @@ module.exports = grammar({
       seq(commaSep1($._expression), optional(',')),
       $.assignment,
       $.augmented_assignment,
+    ),
+
+    // -- Variables
+    variable_statement: $ => seq(
+      'var', $.identifier,
+      optional(choice(
+        $._variable_typed_definition,
+        seq($.inferred_type, $._expression),
+        seq('=', $._expression)
+      ))
+    ),
+
+    inferred_type: $ => seq(':', '='),
+    _variable_typed_definition: $ => choice(
+        seq(':', $.type),
+        seq(':', $.type, '=', $._expression)
     ),
 
     return_statement: $ => seq(
@@ -336,16 +353,9 @@ module.exports = grammar({
 // -----------------------------------------------------------------------------
 
     assignment: $ => seq(
-      choice(
-        seq('var', $.identifier),
-        $._expression
-      ),
-      choice(
-        seq('=', $._expression),
-        seq(':', '=', $._expression),
-        seq(':', $.type),
-        seq(':', $.type, '=', $._expression)
-      )
+      $._expression,
+      '=',
+      $._expression
     ),
 
     augmented_assignment: $ => seq(
