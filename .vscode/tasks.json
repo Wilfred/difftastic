@@ -17,6 +17,11 @@
             "type": "npm",
             "script": "gen",
             "problemMatcher": []
+        },
+        {
+            "type": "npm",
+            "script": "build",
+            "problemMatcher": []
         }
     ]
 }

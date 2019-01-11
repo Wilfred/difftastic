@@ -1,0 +1,160 @@
+=====================================
+Import statements
+=====================================
+
+import Browser
+import Html.Events
+import Html.Events.Test
+
+---
+
+(file
+  (import_statement
+    (dotted_name (module_identifier)))
+  (import_statement
+    (dotted_name (module_identifier) (module_identifier))
+  )
+  (import_statement
+    (dotted_name (module_identifier) (module_identifier) (module_identifier))
+  )
+)
+
+=====================================
+Import statements with exposing
+=====================================
+
+import Html.Events exposing (onClick)
+import Html.Events exposing (onClick, onDoubleClick)
+import Html exposing (Html, button, div, text)
+
+---
+
+(file
+  (import_statement_with_exposing
+    (dotted_name (module_identifier) (module_identifier)) (func_identifier)
+  )
+  (import_statement_with_exposing
+    (dotted_name (module_identifier) (module_identifier)) (func_identifier) (func_identifier)
+  )
+  (import_statement_with_exposing
+    (dotted_name (module_identifier)) (type_alias_identifier) (func_identifier) (func_identifier) (func_identifier)
+  )
+)
+
+=====================================
+module statement
+=====================================
+
+module Main
+module Page.View
+
+---
+
+(file
+  (module_statement
+    (dotted_name (module_identifier))
+  )
+  (module_statement
+    (dotted_name (module_identifier) (module_identifier))
+  )
+)
+
+=====================================
+module statement with exposing
+=====================================
+
+module Main exposing (view)
+module Main exposing (main, update, view)
+module Main exposing (Msg(..), main, update, view)
+
+---
+
+(file
+  (module_statement_with_exposing
+    (dotted_name (module_identifier)) (func_identifier)
+  )
+  (module_statement_with_exposing
+    (dotted_name (module_identifier)) (func_identifier) (func_identifier) (func_identifier)
+  )
+  (module_statement_with_exposing
+    (dotted_name (module_identifier)) (type_alias_identifier) (func_identifier) (func_identifier) (func_identifier)
+  )
+)
+
+=====================================
+Type statement
+=====================================
+
+type Msg
+    = Increment
+
+type Msg
+    = Increment
+    | Decrement
+
+type Msg
+    = Increment
+    | Decrement
+    | NoOp
+
+---
+
+(file
+  (custom_type_statement
+    (custom_type_identifier) (custom_type_variant)
+  )
+  (custom_type_statement
+    (custom_type_identifier) (custom_type_variant) (custom_type_variant)
+  )
+  (custom_type_statement
+    (custom_type_identifier) (custom_type_variant) (custom_type_variant) (custom_type_variant)
+  )
+)
+
+=====================================
+Function statement with function call and inline record
+=====================================
+
+main =
+    Browser.sandbox { init = 0, update = update, view = view }
+
+---
+
+(file
+  (func_statement (func_identifier)
+    (func_call (module_identifier) (func_identifier)
+        (func_call_params
+            (inline_record
+                (record_entry) (int)
+                (record_entry) (func_identifier)
+                (record_entry) (func_identifier)
+            )
+        )
+    )
+  )
+)
+
+=====================================
+Function statement with case
+=====================================
+
+update msg model =
+    case msg of
+        Increment ->
+            model + 1
+
+        Decrement ->
+            model - 1
+
+---
+
+(file
+  (func_statement (func_identifier) (func_param) (func_param)
+    (case_call (func_param)
+        (custom_type_identifier)
+            (func_param) (int)
+        (custom_type_identifier)
+            (func_param) (int)
+    )
+  )
+)

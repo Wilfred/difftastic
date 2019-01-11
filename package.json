@@ -5,8 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "tree-sitter generate && node-gyp build",
-    "test": "tree-sitter test && script/parse-examples",
-    "test-windows": "tree-sitter test",
+    "test": "tree-sitter test",
     "parse": "tree-sitter parse ./examples/basic.elm"
   },
   "author": "Razze",
