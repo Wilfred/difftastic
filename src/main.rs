@@ -180,7 +180,7 @@ fn line_position(offset: usize, newline_positions: &[usize]) -> LinePosition {
 fn split_line_boundaries(
     start: LinePosition,
     end: LinePosition,
-    newlines_positions: &[usize],
+    line_start_positions: &[usize],
 ) -> Vec<(LinePosition, LinePosition)> {
     let mut ranges = vec![];
 
@@ -188,18 +188,18 @@ fn split_line_boundaries(
         ranges.push((start, end));
         return ranges;
     } else {
-        let first_line_end_pos = newlines_positions[start.line + 1] - 1;
+        let first_line_end_pos = line_start_positions[start.line + 1] - 1;
+        let first_line_length = first_line_end_pos - line_start_positions[start.line];
         let first_line_end = LinePosition {
             line: start.line,
-            column: first_line_end_pos,
+            column: first_line_length,
         };
         ranges.push((start, first_line_end));
     }
 
-    // TODO: use a for loop.
-    let mut line_num = start.line + 1;
-    while line_num < end.line {
-        let line_end_pos = newlines_positions[line_num + 1] - 1;
+    for line_num in (start.line + 1)..end.line {
+        let line_end_pos = line_start_positions[line_num + 1] - 1;
+        let line_length = line_end_pos - line_start_positions[line_num];
         ranges.push((
             LinePosition {
                 line: line_num,
@@ -207,12 +207,11 @@ fn split_line_boundaries(
             },
             LinePosition {
                 line: line_num,
-                column: line_end_pos,
+                column: line_length,
             },
         ));
-
-        line_num += 1;
     }
+
     // Last line, up to end.
     ranges.push((
         LinePosition {
@@ -232,13 +231,19 @@ fn line_relative_positions(
 ) -> Vec<(LinePosition, LinePosition)> {
     let newline_re = Regex::new("\n").unwrap();
     let newlines: Vec<_> = newline_re.find_iter(s).map(|mat| mat.end()).collect();
+    let mut line_start_positions = vec![0];
+    line_start_positions.extend(&newlines);
 
     let mut rel_positions = vec![];
     for (start_offset, end_offset) in positions {
         let start_pos = line_position(*start_offset, &newlines);
         let end_pos = line_position(*end_offset, &newlines);
 
-        rel_positions.extend(split_line_boundaries(start_pos, end_pos, &newlines));
+        rel_positions.extend(split_line_boundaries(
+            start_pos,
+            end_pos,
+            &line_start_positions,
+        ));
     }
 
     rel_positions
@@ -264,14 +269,11 @@ fn line_relative_split_over_multiple() {
         vec![
             (
                 LinePosition { line: 1, column: 1 },
-                LinePosition { line: 1, column: 5 }
+                LinePosition { line: 1, column: 3 }
             ),
             (
                 LinePosition { line: 2, column: 0 },
-                LinePosition {
-                    line: 2,
-                    column: 11
-                }
+                LinePosition { line: 2, column: 2 }
             )
         ]
     );
