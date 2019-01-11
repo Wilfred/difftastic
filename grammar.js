@@ -188,8 +188,8 @@ module.exports = grammar({
     extends_statement: $ => seq(
       'extends',
       choice(
-        $.identifier,
-        $.string,
+        $.dotted_name,
+        seq($.string, optional(seq('.', $.dotted_name))),
       )
     ),
 

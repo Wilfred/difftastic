@@ -132,3 +132,24 @@ class_name Name, "icon"
   (class_name_statement (identifier))
   (class_name_statement (identifier) (class_name_icon_path)))
 
+=====================================
+Tool and Extend
+=====================================
+
+tool
+extends "class/path"
+extends "class/path".Attr
+extends "class/path".Attr.Attr
+extends Ident
+extends Ident.Attr
+extends Ident.Attr.Attr
+
+---
+(source
+  (tool_statement)
+  (extends_statement (string))
+  (extends_statement (string) (dotted_name (identifier)))
+  (extends_statement (string) (dotted_name (identifier) (identifier)))
+  (extends_statement (dotted_name (identifier)))
+  (extends_statement (dotted_name (identifier) (identifier)))
+  (extends_statement (dotted_name (identifier) (identifier) (identifier))))
