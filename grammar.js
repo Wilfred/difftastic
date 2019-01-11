@@ -1,7 +1,4 @@
 const PREC = {
-  // this resolves a conflict between the usage of ':' in a lambda vs in a
-  // typed parameter. In the case of a lambda, we don't allow typed parameters.
-  lambda: -2,
   typed_parameter: -1,
   conditional: -1,
 
@@ -64,95 +61,11 @@ module.exports = grammar({
     ),
 
     _simple_statement: $ => choice(
-      $.future_import_statement,
-      $.import_statement,
-      $.import_from_statement,
-      $.print_statement,
-      $.assert_statement,
       $.expression_statement,
       $.return_statement,
-      $.delete_statement,
-      $.raise_statement,
       $.pass_statement,
       $.break_statement,
       $.continue_statement,
-      $.global_statement,
-      $.nonlocal_statement,
-      $.exec_statement
-    ),
-
-    import_statement: $ => seq(
-      'import',
-      $._import_list
-    ),
-
-    import_prefix: $ => repeat1('.'),
-
-    relative_import: $ => seq(
-      $.import_prefix,
-      optional($.dotted_name)
-    ),
-
-    future_import_statement: $ => seq(
-      'from',
-      '__future__',
-      'import',
-      $._import_list
-    ),
-
-    import_from_statement: $ => seq(
-      'from',
-      choice(
-        $.relative_import,
-        $.dotted_name
-      ),
-      'import',
-      choice(
-        $.wildcard_import,
-        $._import_list,
-        seq('(', $._import_list, ')')
-      )
-    ),
-
-    _import_list: $ => seq(
-      commaSep1(choice(
-        $.dotted_name,
-        $.aliased_import
-      )),
-      optional(',')
-    ),
-
-    aliased_import: $ => seq(
-      $.dotted_name,
-      'as',
-      $.identifier
-    ),
-
-    wildcard_import: $ => '*',
-
-    print_statement: $ => choice(
-      prec(1, seq(
-        'print',
-        $.chevron,
-        repeat(seq(',', $._expression)),
-        optional(','))
-      ),
-      prec(-1, seq(
-        'print',
-        commaSep1($._expression),
-        optional(','))
-      )
-    ),
-
-    chevron: $ => seq(
-      '>>',
-      $._expression
-    ),
-
-    assert_statement: $ => seq(
-      'assert',
-      $._expression,
-      repeat(seq(',', $._expression))
     ),
 
     expression_statement: $ => choice(
@@ -168,17 +81,6 @@ module.exports = grammar({
       optional($.expression_list)
     ),
 
-    delete_statement: $ => seq(
-      'del',
-      $.expression_list
-    ),
-
-    raise_statement: $ => seq(
-      'raise',
-      optional($.expression_list),
-      optional(seq('from', $._expression))
-    ),
-
     pass_statement: $ => prec.left('pass'),
     break_statement: $ => prec.left('break'),
     continue_statement: $ => prec.left('continue'),
@@ -189,8 +91,6 @@ module.exports = grammar({
       $.if_statement,
       $.for_statement,
       $.while_statement,
-      $.try_statement,
-      $.with_statement,
       $.function_definition,
       $.class_definition,
       $.decorated_definition
@@ -237,55 +137,6 @@ module.exports = grammar({
       optional($.else_clause)
     ),
 
-    try_statement: $ => seq(
-      'try',
-      ':',
-      $._suite,
-      choice(
-        seq(
-          repeat1($.except_clause),
-          optional($.else_clause),
-          optional($.finally_clause)
-        ),
-        $.finally_clause
-      )
-    ),
-
-    except_clause: $ => seq(
-      'except',
-      optional(seq(
-        $._expression,
-        optional(seq(
-          choice('as', ','),
-          $._expression
-        ))
-      )),
-      ':',
-      $._suite
-    ),
-
-    finally_clause: $ => seq(
-      'finally',
-      ':',
-      $._suite
-    ),
-
-    with_statement: $ => seq(
-      optional('async'),
-      'with',
-      commaSep1($.with_item),
-      ':',
-      $._suite
-    ),
-
-    with_item: $ => seq(
-      $._expression,
-      optional(seq(
-        'as',
-        $._expression
-      ))
-    ),
-
     function_definition: $ => seq(
       optional('async'),
       'def',
@@ -307,18 +158,13 @@ module.exports = grammar({
       ')'
     ),
 
-    lambda_parameters: $ => $._parameters,
-
     _parameters: $ => seq(
       commaSep1(choice(
         $.identifier,
         $.keyword_identifier,
-        $.tuple,
         $.typed_parameter,
         $.default_parameter,
         $.typed_default_parameter,
-        $.list_splat,
-        $.dictionary_splat
       )),
       optional(',')
     ),
@@ -337,38 +183,6 @@ module.exports = grammar({
       $._expression
     )),
 
-    list_splat: $ => seq(
-      '*',
-      optional($._expression)
-    ),
-
-    dictionary_splat: $ => seq(
-      '*',
-      '*',
-      $._expression
-    ),
-
-    global_statement: $ => seq(
-      'global',
-      commaSep1($.identifier)
-    ),
-
-    nonlocal_statement: $ => seq(
-      'nonlocal',
-      commaSep1($.identifier)
-    ),
-
-    exec_statement: $ => seq(
-      'exec',
-      $.string,
-      optional(
-        seq(
-          'in',
-          commaSep1($._expression)
-        )
-      )
-    ),
-
     class_definition: $ => seq(
       'class',
       $.identifier,
@@ -382,8 +196,6 @@ module.exports = grammar({
       optional(commaSep1(
         choice(
           $._expression,
-          $.list_splat,
-          $.dictionary_splat,
           $.keyword_argument
         )
       )),
@@ -428,17 +240,11 @@ module.exports = grammar({
     dotted_name: $ => sep1($.identifier, '.'),
 
     // Expressions
-    _expression_within_for_in_clause: $ => choice(
-      $._expression,
-      alias($.lambda_within_for_in_clause, $.lambda)
-    ),
-
     _expression: $ => choice(
       $.comparison_operator,
       $.not_operator,
       $.boolean_operator,
       $.await,
-      $.lambda,
       $._primary_expression,
       $.conditional_expression
     ),
@@ -459,15 +265,8 @@ module.exports = grammar({
       $.subscript,
       $.call,
       $.list,
-      $.list_comprehension,
       $.dictionary,
-      $.dictionary_comprehension,
-      $.set,
-      $.set_comprehension,
-      $.tuple,
-      $.parenthesized_expression,
-      $.generator_expression,
-      $.ellipsis
+      $.parenthesized_expression
     ),
 
     not_operator: $ => prec(PREC.not, seq('not', $._expression)),
@@ -519,20 +318,6 @@ module.exports = grammar({
       ))
     )),
 
-    lambda: $ => prec(PREC.lambda, seq(
-      'lambda',
-      optional($.lambda_parameters),
-      ':',
-      $._expression
-    )),
-
-    lambda_within_for_in_clause: $ => seq(
-      'lambda',
-      optional($.lambda_parameters),
-      ':',
-      $._expression_within_for_in_clause
-    ),
-
     assignment: $ => seq(
       $.expression_list,
       choice(
@@ -575,34 +360,18 @@ module.exports = grammar({
     subscript: $ => seq(
       $._primary_expression,
       '[',
-      commaSep1(choice($._expression, $.slice)),
+      commaSep1($._expression),
       optional(','),
       ']'
     ),
 
-    slice: $ => seq(
-      optional($._expression),
-      ':',
-      optional($._expression),
-      optional(seq(':', optional($._expression)))
-    ),
-
-    ellipsis: $ => '...',
-
     call: $ => prec(PREC.call, seq(
       $._primary_expression,
-      choice(
-        $.generator_expression,
-        $.argument_list
-      )
+      $.argument_list
     )),
 
     typed_parameter: $ => prec(PREC.typed_parameter, seq(
-      choice(
-        $.identifier,
-        $.list_splat,
-        $.dictionary_splat
-      ),
+	  $.identifier,
       ':',
       $.type
     )),
@@ -619,37 +388,15 @@ module.exports = grammar({
 
     list: $ => seq(
       '[',
-      optional(commaSep1(choice($._expression, $.list_splat))),
+      optional(commaSep1($._expression)),
       optional(','),
-      ']'
-    ),
-
-    _comprehension_body: $ => seq(
-      $.for_in_clause,
-      repeat(choice(
-        $.for_in_clause,
-        $.if_clause
-      ))
-    ),
-
-    list_comprehension: $ => seq(
-      '[',
-      $._expression,
-      $._comprehension_body,
       ']'
     ),
 
     dictionary: $ => seq(
       '{',
-      optional(commaSep1(choice($.pair, $.dictionary_splat))),
+      optional(commaSep1($.pair)),
       optional(','),
-      '}'
-    ),
-
-    dictionary_comprehension: $ => seq(
-      '{',
-      $.pair,
-      $._comprehension_body,
       '}'
     ),
 
@@ -659,46 +406,18 @@ module.exports = grammar({
       $._expression
     ),
 
-    set: $ => seq(
-      '{',
-      commaSep1(choice($._expression, $.list_splat)),
-      optional(','),
-      '}'
-    ),
-
-    set_comprehension: $ => seq(
-      '{',
-      $._expression,
-      $._comprehension_body,
-      '}'
-    ),
-
     parenthesized_expression: $ => prec(PREC.parenthesized_expression, seq(
       '(',
       choice($._expression, $.yield),
       ')'
     )),
 
-    tuple: $ => seq(
-      '(',
-      optional(commaSep1(choice($._expression, $.yield))),
-      optional(','),
-      ')'
-    ),
-
-    generator_expression: $ => seq(
-      '(',
-      $._expression,
-      $._comprehension_body,
-      ')'
-    ),
-
     for_in_clause: $ => seq(
       optional('async'),
       'for',
       $.variables,
       'in',
-      commaSep1($._expression_within_for_in_clause),
+      commaSep1($._expression),
       optional(',')
     ),
 
