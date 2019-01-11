@@ -118,3 +118,17 @@ func hello(typed_default_param: Type="string") -> Type:
     (pass_statement))
   (function_definition (identifier) (parameters (typed_default_parameter (identifier) (type (identifier)) (string))) (return_type (type (identifier)))
     (pass_statement)))
+
+=====================================
+Class Name
+=====================================
+
+class_name Name
+class_name Name, "icon"
+
+---
+
+(source
+  (class_name_statement (identifier))
+  (class_name_statement (identifier) (class_name_icon_path)))
+

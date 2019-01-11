@@ -177,10 +177,11 @@ module.exports = grammar({
     continue_statement: $ => prec.left('continue'),
     tool_statement: $ => 'tool',
 
+    class_name_icon_path: $ => seq(',', /".*"/),
     class_name_statement: $ => seq(
       'class_name',
       $.identifier,
-      optional(seq(',', /".*"/))
+      optional($.class_name_icon_path)
     ),
 
     dotted_name: $ => sep1($.identifier, '.'),
