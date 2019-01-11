@@ -977,6 +977,10 @@
         }
       ]
     },
+    "class_body": {
+      "type": "SYMBOL",
+      "name": "_suite"
+    },
     "class_definition": {
       "type": "SEQ",
       "members": [
@@ -1006,7 +1010,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_suite"
+          "name": "class_body"
         }
       ]
     },

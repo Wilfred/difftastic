@@ -239,12 +239,13 @@ module.exports = grammar({
       $._suite
     ),
 
+    class_body: $ => $._suite,
     class_definition: $ => seq(
       'class',
       $.identifier,
       optional($.extends_statement),
       ':',
-      $._suite
+      $.class_body
     ),
 
 // -----------------------------------------------------------------------------

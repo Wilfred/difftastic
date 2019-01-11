@@ -175,3 +175,26 @@ extends Ident.Attr.Attr
   (extends_statement (dotted_name (identifier)))
   (extends_statement (dotted_name (identifier) (identifier)))
   (extends_statement (dotted_name (identifier) (identifier) (identifier))))
+
+=====================================
+Inner Class
+=====================================
+
+class Name:
+  func hello(): pass
+
+class Name extends Type:
+  func hello(): pass
+
+class Name:
+  extends Type
+
+---
+
+(source
+  (class_definition (identifier) (class_body
+    (function_definition (identifier) (parameters) (pass_statement))))
+  (class_definition (identifier) (extends_statement (dotted_name (identifier))) (class_body
+    (function_definition (identifier) (parameters) (pass_statement))))
+  (class_definition (identifier) (class_body
+    (extends_statement (dotted_name (identifier))))))
