@@ -1,0 +1,50 @@
+=====================================
+Sample
+=====================================
+
+tool
+extends Node2D
+class_name CustomNode, "icon_path"
+
+class Data extends Resource:
+        var source: DataSource
+
+        func process_source() -> ProcessedSource:
+                if source.is_processable():
+                        var processed = ProcessedSource.new(source)
+                        return processed
+                return null
+
+func _ready():
+        for i in range(100):
+                var child = Node.new()
+                child.name = str("Name-", i)
+                add_child(child)
+
+---
+
+(source
+  (tool_statement)
+  (extends_statement (dotted_name (identifier)))
+  (class_name_statement (identifier) (class_name_icon_path))
+  (class_definition (identifier) (extends_statement (dotted_name (identifier)))
+    (class_body
+      (variable_statement (identifier) (type (identifier)))
+      (function_definition (identifier) (parameters) (return_type (type (identifier)))
+        (if_statement
+          (call (attribute (identifier) (identifier)) (argument_list))
+          (variable_statement (identifier)
+            (call (attribute (identifier) (identifier)) (argument_list (identifier))))
+          (return_statement (identifier)))
+        (return_statement (null)))))
+  (function_definition (identifier) (parameters)
+    (for_statement (identifier)
+      (call (identifier) (argument_list (integer)))
+      (variable_statement (identifier)
+        (call (attribute (identifier) (identifier)) (argument_list)))
+      (expression_statement
+        (assignment
+          (attribute (identifier) (identifier))
+          (call (identifier) (argument_list (string) (identifier)))))
+      (expression_statement
+        (call (identifier) (argument_list (identifier)))))))
