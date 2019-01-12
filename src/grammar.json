@@ -564,71 +564,85 @@
         }
       ]
     },
-    "_variable_statement": {
+    "inferred_type": {
       "type": "SEQ",
       "members": [
         {
           "type": "STRING",
-          "value": "var"
+          "value": ":"
+        },
+        {
+          "type": "STRING",
+          "value": "="
+        }
+      ]
+    },
+    "_variable_assignment": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "="
         },
         {
           "type": "SYMBOL",
-          "name": "identifier"
+          "name": "_expression"
+        }
+      ]
+    },
+    "_variable_inferred_type_assignment": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "inferred_type"
         },
         {
-          "type": "CHOICE",
+          "type": "SYMBOL",
+          "name": "_expression"
+        }
+      ]
+    },
+    "_variable_typed_assignment": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": ":"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "type"
+        },
+        {
+          "type": "STRING",
+          "value": "="
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_expression"
+        }
+      ]
+    },
+    "_variable_typed_definition": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SEQ",
           "members": [
             {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "SYMBOL",
-                  "name": "_variable_typed_definition"
-                },
-                {
-                  "type": "SEQ",
-                  "members": [
-                    {
-                      "type": "SYMBOL",
-                      "name": "inferred_type"
-                    },
-                    {
-                      "type": "SYMBOL",
-                      "name": "_expression"
-                    }
-                  ]
-                },
-                {
-                  "type": "SEQ",
-                  "members": [
-                    {
-                      "type": "STRING",
-                      "value": "="
-                    },
-                    {
-                      "type": "SYMBOL",
-                      "name": "_expression"
-                    }
-                  ]
-                }
-              ]
+              "type": "STRING",
+              "value": ":"
             },
-            {
-              "type": "BLANK"
-            }
-          ]
-        },
-        {
-          "type": "CHOICE",
-          "members": [
             {
               "type": "SYMBOL",
-              "name": "setget"
-            },
-            {
-              "type": "BLANK"
+              "name": "type"
             }
           ]
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_variable_typed_assignment"
         }
       ]
     },
@@ -688,6 +702,56 @@
         }
       ]
     },
+    "_variable_statement": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "var"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "identifier"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "_variable_typed_definition"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "_variable_inferred_type_assignment"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "_variable_assignment"
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "setget"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        }
+      ]
+    },
     "variable_statement": {
       "type": "SYMBOL",
       "name": "_variable_statement"
@@ -717,58 +781,6 @@
         }
       ]
     },
-    "inferred_type": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": ":"
-        },
-        {
-          "type": "STRING",
-          "value": "="
-        }
-      ]
-    },
-    "_variable_typed_definition": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "STRING",
-              "value": ":"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "type"
-            }
-          ]
-        },
-        {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "STRING",
-              "value": ":"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "type"
-            },
-            {
-              "type": "STRING",
-              "value": "="
-            },
-            {
-              "type": "SYMBOL",
-              "name": "_expression"
-            }
-          ]
-        }
-      ]
-    },
     "const_statement": {
       "type": "SEQ",
       "members": [
@@ -784,51 +796,16 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "SYMBOL",
-                  "name": "inferred_type"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "_expression"
-                }
-              ]
+              "type": "SYMBOL",
+              "name": "_variable_inferred_type_assignment"
             },
             {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "STRING",
-                  "value": ":"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "type"
-                },
-                {
-                  "type": "STRING",
-                  "value": "="
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "_expression"
-                }
-              ]
+              "type": "SYMBOL",
+              "name": "_variable_typed_assignment"
             },
             {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "STRING",
-                  "value": "="
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "_expression"
-                }
-              ]
+              "type": "SYMBOL",
+              "name": "_variable_assignment"
             }
           ]
         }

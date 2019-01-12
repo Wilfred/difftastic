@@ -154,14 +154,16 @@ module.exports = grammar({
     ),
 
     // -- Variables
-    _variable_statement: $ => seq(
-      'var', $.identifier,
-      optional(choice(
-        $._variable_typed_definition,
-        seq($.inferred_type, $._expression),
-        seq('=', $._expression)
-      )),
-      optional($.setget)
+
+    inferred_type: $ => seq(':', '='),
+
+    _variable_assignment: $ => seq('=', $._expression),
+    _variable_inferred_type_assignment: $ => seq($.inferred_type, $._expression),
+    _variable_typed_assignment: $ => seq(':', $.type, '=', $._expression),
+
+    _variable_typed_definition: $ => choice(
+      seq(':', $.type),
+      $._variable_typed_assignment
     ),
 
     setter: $ => $.identifier,
@@ -175,6 +177,16 @@ module.exports = grammar({
       )
     ),
 
+    _variable_statement: $ => seq(
+      'var', $.identifier,
+      optional(choice(
+        $._variable_typed_definition,
+        $._variable_inferred_type_assignment,
+        $._variable_assignment
+      )),
+      optional($.setget)
+    ),
+
     variable_statement: $ => $._variable_statement,
 
     export_variable_statement: $ => seq(
@@ -183,19 +195,13 @@ module.exports = grammar({
       $._variable_statement
     ),
 
-    inferred_type: $ => seq(':', '='),
-    _variable_typed_definition: $ => choice(
-        seq(':', $.type),
-        seq(':', $.type, '=', $._expression)
-    ),
-
     const_statement: $ => seq(
       'const',
       $.identifier,
       choice(
-        seq($.inferred_type, $._expression),
-        seq(':', $.type, '=', $._expression),
-        seq('=', $._expression)
+        $._variable_inferred_type_assignment,
+        $._variable_typed_assignment,
+        $._variable_assignment
       )
     ),
 
