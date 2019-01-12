@@ -14,7 +14,7 @@ NOTE: Not ready for use. @see Todo.
 - [ ] Statements
   - [X] setget
   - [X] export
-  - [ ] const
+  - [X] const
   - [ ] signal
 - [ ] Expression
   - [ ] call base class function

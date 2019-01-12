@@ -88,6 +88,22 @@ var x setget ,getter
 )
 
 =====================================
+Const Variables
+=====================================
+
+const CONST = 1
+const CONST := 1
+const CONST : int = 1
+
+---
+
+(source
+  (const_statement (identifier) (integer))
+  (const_statement (identifier) (inferred_type) (integer))
+  (const_statement (identifier) (type (identifier)) (integer)))
+
+
+=====================================
 Invalid Variables
 =====================================
 

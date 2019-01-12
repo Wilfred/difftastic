@@ -139,6 +139,7 @@ module.exports = grammar({
       $.expression_statement,
       $.export_variable_statement,
       $.variable_statement,
+      $.const_statement,
       $.return_statement,
       $.pass_statement,
       $.break_statement,
@@ -186,6 +187,16 @@ module.exports = grammar({
     _variable_typed_definition: $ => choice(
         seq(':', $.type),
         seq(':', $.type, '=', $._expression)
+    ),
+
+    const_statement: $ => seq(
+      'const',
+      $.identifier,
+      choice(
+        seq($.inferred_type, $._expression),
+        seq(':', $.type, '=', $._expression),
+        seq('=', $._expression)
+      )
     ),
 
     return_statement: $ => seq(
