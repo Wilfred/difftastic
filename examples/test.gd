@@ -1,5 +1,9 @@
 extends SceneTree
 
+# interesting, godot looks for a get_node() func when '$' is used on a non node?
+func get_node(a):
+        return null
+
 # func hello(one,):
 #         print('hello')
 
@@ -24,3 +28,7 @@ func _initialize():
         var d2 = {hello='hello',}
         print(1 % 5)
         print(d)
+
+        var n = $node
+        n = $ node
+        n = $'1/a'

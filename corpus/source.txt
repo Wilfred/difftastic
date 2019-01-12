@@ -34,6 +34,24 @@ var x = @"NodePath"
   (ERROR (UNEXPECTED ' ')) (expression_statement (string))
   (variable_statement (identifier) (node_path)))
 
+=====================================
+Get Node
+=====================================
+
+$node/path
+$'node/path'
+$"node/path"
+$ "node/path"
+var x = $"node/path"
+
+---
+
+(source
+  (expression_statement (get_node))
+  (expression_statement (get_node))
+  (expression_statement (get_node))
+  (ERROR (UNEXPECTED ' ')) (expression_statement (string))
+  (variable_statement (identifier) (get_node)))
 
 =====================================
 Variables

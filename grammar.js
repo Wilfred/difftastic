@@ -105,13 +105,25 @@ module.exports = grammar({
       repeat1(/[0-9]+_?/)
     )),
 
-    // FIXME: this will need custom parsing as Godot supports all forms of
+    // FIXME: node_path will need custom parsing as Godot supports all forms of
     // strings following '@'
     node_path: $ => token(seq(
       '@',
       choice("'", '"'),
       /[0-9a-zA-Z_/\- ]*/,
       choice("'", '"')
+    )),
+
+    get_node: $ => token(seq(
+      '$',
+      choice(
+        seq(
+          choice("'", '"'),
+          /[0-9a-zA-Z_/\- ]*/,
+          choice("'", '"')
+        ),
+        /[a-zA-Z_][a-zA-Z_/0-9]*/
+      ),
     )),
 
 // -----------------------------------------------------------------------------
@@ -327,6 +339,7 @@ module.exports = grammar({
       $.null,
       $.unary_operator,
       $.node_path,
+      $.get_node,
       $.attribute,
       $.subscript,
       $.call,

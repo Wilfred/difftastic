@@ -16,9 +16,6 @@ NOTE: Not ready for use. @see Todo.
 - [ ] Keyword Statements
   - [ ] breakpoint
   - [ ] self
-- [ ] Literals
-  - [X] @"NodePath/StringName"
-  - [ ] $node and $"../node"
 - [ ] Operators
   - [ ] is
   - [ ] as
@@ -34,5 +31,8 @@ NOTE: Not ready for use. @see Todo.
   - [X] export
   - [X] const
   - [X] signal
+- [X] Literals
+  - [X] @"NodePath/StringName"
+  - [X] $node and $"../node"
 
 [tree-sitter]: https://github.com/tree-sitter/tree-sitter
