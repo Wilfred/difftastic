@@ -12,7 +12,7 @@ NOTE: Not ready for use. @see Todo.
   - [ ] enum
   - [ ] inheriting class constructor
 - [ ] Statements
-  - [ ] setget
+  - [X] setget
   - [X] export
   - [ ] const
   - [ ] signal

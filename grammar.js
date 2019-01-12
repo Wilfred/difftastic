@@ -159,7 +159,19 @@ module.exports = grammar({
         $._variable_typed_definition,
         seq($.inferred_type, $._expression),
         seq('=', $._expression)
-      ))
+      )),
+      optional($.setget)
+    ),
+
+    setter: $ => $.identifier,
+    getter: $ => $.identifier,
+    setget: $ => seq(
+      'setget',
+      choice(
+        $.setter,
+        seq($.setter, ',', $.getter),
+        seq(',', $.getter)
+      )
     ),
 
     variable_statement: $ => $._variable_statement,

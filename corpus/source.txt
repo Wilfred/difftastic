@@ -72,6 +72,22 @@ export(Type, "Param") var a = "a"
   (export_variable_statement (argument_list (identifier) (string)) (identifier) (string)))
 
 =====================================
+SetGet Variables
+=====================================
+
+var x setget setter,getter
+var x setget setter
+var x setget ,getter
+
+---
+
+(source
+  (variable_statement (identifier) (setget (setter (identifier)) (getter (identifier))))
+  (variable_statement (identifier) (setget (setter (identifier))))
+  (variable_statement (identifier) (setget (getter (identifier))))
+)
+
+=====================================
 Invalid Variables
 =====================================
 

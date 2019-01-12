@@ -3,6 +3,13 @@ extends SceneTree
 # func hello(one,):
 #         print('hello')
 
+var x setget setter,getter
+var y setget setter
+var a setget ,getter
+
+func setter(a):pass
+func getter():pass
+
 func _initialize():
         var b: String = "hello"
         print(b)
