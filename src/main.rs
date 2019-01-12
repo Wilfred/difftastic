@@ -94,11 +94,18 @@ enum Change {
     Remove,
 }
 
+/// A range in a string, relative to the string start.
+#[derive(Debug, PartialEq, Clone, Copy)]
+struct Range {
+    start: usize,
+    end: usize,
+}
+
 fn difference_positions(
     before_src: &str,
     after_src: &str,
     lang: Language,
-) -> (Vec<(Change, usize, usize)>) {
+) -> (Vec<(Change, Range)>) {
     let re = language_lexer(lang);
     let before_tokens = lex(&before_src, &re);
     let after_tokens = lex(&after_src, &re);
@@ -108,29 +115,41 @@ fn difference_positions(
         match d {
             // Only present in the before, so has been removed.
             diff::Result::Left(l) => {
-                positions.push((Change::Remove, l.start, l.start + l.text.len()));
+                positions.push((
+                    Change::Remove,
+                    Range {
+                        start: l.start,
+                        end: l.start + l.text.len(),
+                    },
+                ));
             }
             // Present in both.
             diff::Result::Both(_, _) => (),
             // Only present in the after.
             diff::Result::Right(r) => {
-                positions.push((Change::Add, r.start, r.start + r.text.len()));
+                positions.push((
+                    Change::Add,
+                    Range {
+                        start: r.start,
+                        end: r.start + r.text.len(),
+                    },
+                ));
             }
         }
     }
     positions
 }
 
-fn apply_color(s: &str, positions: &Vec<(usize, usize)>, c: Color) -> String {
+fn apply_color(s: &str, ranges: &[Range], c: Color) -> String {
     let mut res = String::with_capacity(s.len());
     let mut i = 0;
-    for (start, end) in positions {
-        if i < *start {
-            res.push_str(&s[i..*start]);
+    for range in ranges {
+        if i < range.start {
+            res.push_str(&s[i..range.start]);
         }
-        let colored = &s[*start..*end].color(c);
+        let colored = &s[range.start..range.end].color(c);
         res.push_str(&colored.to_string());
-        i = *end;
+        i = range.end;
     }
     if i < s.len() {
         res.push_str(&s[i..s.len()]);
@@ -146,7 +165,7 @@ fn apply_color_no_positions() {
 #[test]
 fn apply_color_whole_length() {
     assert_eq!(
-        apply_color("foo", &vec![(0, 3)], Color::Red),
+        apply_color("foo", &vec![Range { start: 0, end: 3 }], Color::Red),
         "foo".red().to_string()
     );
 }
@@ -288,17 +307,17 @@ fn line_relative_split_over_multiple() {
 fn highlight_differences(
     before_src: &str,
     after_src: &str,
-    differences: &Vec<(Change, usize, usize)>,
+    differences: &Vec<(Change, Range)>,
 ) -> (String, String) {
-    let additions: Vec<(usize, usize)> = differences
+    let additions: Vec<Range> = differences
         .iter()
-        .filter(|(c, _, _)| *c == Change::Add)
-        .map(|(_, start, end)| (*start, *end))
+        .filter(|(c, _)| *c == Change::Add)
+        .map(|(_, r)| *r)
         .collect();
-    let removals: Vec<(usize, usize)> = differences
+    let removals: Vec<Range> = differences
         .iter()
-        .filter(|(c, _, _)| *c == Change::Remove)
-        .map(|(_, start, end)| (*start, *end))
+        .filter(|(c, _)| *c == Change::Remove)
+        .map(|(_, r)| *r)
         .collect();
 
     let before_colored = apply_color(before_src, &removals, Color::Red);
