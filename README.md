@@ -17,7 +17,7 @@ NOTE: Not ready for use. @see Todo.
   - [ ] breakpoint
   - [ ] self
 - [ ] Literals
-  - [ ] @"NodePath/StringName"
+  - [X] @"NodePath/StringName"
   - [ ] $node and $"../node"
 - [ ] Operators
   - [ ] is

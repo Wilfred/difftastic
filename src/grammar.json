@@ -365,6 +365,48 @@
         ]
       }
     },
+    "node_path": {
+      "type": "TOKEN",
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "@"
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "'"
+              },
+              {
+                "type": "STRING",
+                "value": "\""
+              }
+            ]
+          },
+          {
+            "type": "PATTERN",
+            "value": "[0-9a-zA-Z_\\/\\- ]*"
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "'"
+              },
+              {
+                "type": "STRING",
+                "value": "\""
+              }
+            ]
+          }
+        ]
+      }
+    },
     "_statement": {
       "type": "CHOICE",
       "members": [
@@ -1295,6 +1337,10 @@
         {
           "type": "SYMBOL",
           "name": "unary_operator"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "node_path"
         },
         {
           "type": "SYMBOL",

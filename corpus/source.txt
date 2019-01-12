@@ -18,6 +18,24 @@ Math Expressions
       (binary_operator (identifier) (float))))))
 
 =====================================
+NodePath
+=====================================
+
+@"Node/Path"
+@'Node/Path'
+@ 'node/path'
+var x = @"NodePath"
+
+---
+
+(source
+  (expression_statement (node_path))
+  (expression_statement (node_path))
+  (ERROR (UNEXPECTED ' ')) (expression_statement (string))
+  (variable_statement (identifier) (node_path)))
+
+
+=====================================
 Variables
 =====================================
 
