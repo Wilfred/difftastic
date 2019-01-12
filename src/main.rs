@@ -20,6 +20,17 @@ fn term_width() -> Option<usize> {
     None
 }
 
+#[derive(Debug, Clone, Copy, PartialEq)]
+struct LineNumber {
+    number: usize,
+}
+
+impl LineNumber {
+    fn from(number: usize) -> LineNumber {
+        LineNumber { number: number }
+    }
+}
+
 #[derive(Debug, Clone)]
 struct Token {
     start: usize,
@@ -174,7 +185,7 @@ fn apply_color_whole_length() {
 #[derive(Debug, PartialEq, Clone, Copy)]
 struct LinePosition {
     /// Both zero-indexed.
-    line: usize,
+    line: LineNumber,
     column: usize,
 }
 
@@ -182,7 +193,7 @@ struct LinePosition {
 #[derive(Debug, PartialEq, Clone, Copy)]
 struct LineRange {
     /// All zero-indexed.
-    line: usize,
+    line: LineNumber,
     start: usize,
     end: usize,
 }
@@ -191,14 +202,14 @@ fn line_position(offset: usize, newline_positions: &[usize]) -> LinePosition {
     for line_num in (0..newline_positions.len()).rev() {
         if offset > newline_positions[line_num as usize] {
             return LinePosition {
-                line: line_num as usize + 1,
+                line: LineNumber::from(line_num as usize + 1),
                 column: offset - newline_positions[line_num as usize],
             };
         }
     }
 
     LinePosition {
-        line: 0,
+        line: LineNumber::from(0),
         column: offset,
     }
 }
@@ -220,8 +231,8 @@ fn split_line_boundaries(
         });
         return ranges;
     } else {
-        let first_line_end_pos = line_start_positions[start.line + 1] - 1;
-        let first_line_length = first_line_end_pos - line_start_positions[start.line];
+        let first_line_end_pos = line_start_positions[start.line.number + 1] - 1;
+        let first_line_length = first_line_end_pos - line_start_positions[start.line.number];
         ranges.push(LineRange {
             line: start.line,
             start: start.column,
@@ -229,11 +240,11 @@ fn split_line_boundaries(
         });
     }
 
-    for line_num in (start.line + 1)..end.line {
+    for line_num in (start.line.number + 1)..end.line.number {
         let line_end_pos = line_start_positions[line_num + 1] - 1;
         let line_length = line_end_pos - line_start_positions[line_num];
         ranges.push(LineRange {
-            line: line_num,
+            line: LineNumber::from(line_num),
             start: 0,
             end: line_length,
         });
@@ -277,7 +288,7 @@ fn line_relative_first_line() {
     assert_eq!(
         relative_positions,
         vec![LineRange {
-            line: 0,
+            line: LineNumber::from(0),
             start: 1,
             end: 3
         }]
@@ -291,12 +302,12 @@ fn line_relative_split_over_multiple() {
         relative_positions,
         vec![
             (LineRange {
-                line: 1,
+                line: LineNumber::from(1),
                 start: 1,
                 end: 3
             }),
             (LineRange {
-                line: 2,
+                line: LineNumber::from(2),
                 start: 0,
                 end: 2
             })
