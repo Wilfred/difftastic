@@ -134,6 +134,7 @@ module.exports = grammar({
 
     _simple_statement: $ => choice(
       $.tool_statement,
+      $.signal_statement,
       $.class_name_statement,
       $.extends_statement,
       $.expression_statement,
@@ -214,6 +215,15 @@ module.exports = grammar({
     break_statement: $ => prec.left('break'),
     continue_statement: $ => prec.left('continue'),
     tool_statement: $ => 'tool',
+
+    identifier_list: $ => commaSep1($.identifier, ','),
+    signal_statement: $ => seq(
+      'signal',
+      $.identifier,
+      optional(seq(
+        '(', optional($.identifier_list), ')'
+      ))
+    ),
 
     class_name_icon_path: $ => seq(',', /".*"/),
     class_name_statement: $ => seq(

@@ -197,6 +197,21 @@ hello(hello("world"))
 )
 
 =====================================
+Signal Statements
+=====================================
+
+signal x
+signal x()
+signal x(a, b)
+
+---
+
+(source
+  (signal_statement (identifier))
+  (signal_statement (identifier))
+  (signal_statement (identifier) (identifier_list (identifier) (identifier))))
+
+=====================================
 Class Name
 =====================================
 

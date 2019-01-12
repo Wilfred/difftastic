@@ -11,11 +11,6 @@ NOTE: Not ready for use. @see Todo.
   - [ ] match
   - [ ] enum
   - [ ] inheriting class constructor
-- [ ] Statements
-  - [X] setget
-  - [X] export
-  - [X] const
-  - [ ] signal
 - [ ] Expression
   - [ ] call base class function
 - [ ] Keyword Statements
@@ -34,5 +29,10 @@ NOTE: Not ready for use. @see Todo.
   - [ ] master[sync]
   - [ ] puppet[sync]
 - [ ] Format Specifiers
+- [X] Statements
+  - [X] setget
+  - [X] export
+  - [X] const
+  - [X] signal
 
 [tree-sitter]: https://github.com/tree-sitter/tree-sitter
