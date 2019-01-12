@@ -114,7 +114,7 @@ module.exports = grammar({
       $._compound_statement
     ),
 
-    _suite: $ => choice(
+    body: $ => choice(
       $._simple_statements,
       seq(
         $._indent,
@@ -205,7 +205,7 @@ module.exports = grammar({
       'if',
       $._expression,
       ':',
-      $._suite,
+      $.body,
       repeat($.elif_clause),
       optional($.else_clause)
     ),
@@ -214,13 +214,13 @@ module.exports = grammar({
       'elif',
       $._expression,
       ':',
-      $._suite
+      $.body
     ),
 
     else_clause: $ => seq(
       'else',
       ':',
-      $._suite
+      $.body
     ),
 
     for_statement: $ => seq(
@@ -229,23 +229,22 @@ module.exports = grammar({
       'in',
       $._expression,
       ':',
-      $._suite
+      $.body
     ),
 
     while_statement: $ => seq(
       'while',
       $._expression,
       ':',
-      $._suite
+      $.body
     ),
 
-    class_body: $ => $._suite,
     class_definition: $ => seq(
       'class',
       $.identifier,
       optional($.extends_statement),
       ':',
-      $.class_body
+      $.body
     ),
 
 // -----------------------------------------------------------------------------
@@ -446,7 +445,7 @@ module.exports = grammar({
       $.parameters,
       optional($.return_type),
       ':',
-      $._suite
+      $.body
     ),
 
 

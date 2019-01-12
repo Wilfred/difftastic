@@ -99,25 +99,25 @@ func hello(typed_default_param: Type="string") -> Type:
 
 (source
   (function_definition (identifier) (parameters)
-    (pass_statement))
+    (body (pass_statement)))
   (function_definition (identifier) (parameters) (return_type (type (identifier)))
-    (pass_statement))
+    (body (pass_statement)))
   (function_definition (identifier) (parameters (identifier))
-    (pass_statement))
+    (body (pass_statement)))
   (function_definition (identifier) (parameters (identifier)) (return_type (type (identifier)))
-    (pass_statement))
+    (body (pass_statement)))
   (function_definition (identifier) (parameters (default_parameter (identifier) (string)))
-    (pass_statement))
+    (body (pass_statement)))
   (function_definition (identifier) (parameters (default_parameter (identifier) (string))) (return_type (type (identifier)))
-    (pass_statement))
+    (body (pass_statement)))
   (function_definition (identifier) (parameters (typed_parameter (identifier) (type (identifier))))
-    (pass_statement))
+    (body (pass_statement)))
   (function_definition (identifier) (parameters (typed_parameter (identifier) (type (identifier)))) (return_type (type (identifier)))
-    (pass_statement))
+    (body (pass_statement)))
   (function_definition (identifier) (parameters (typed_default_parameter (identifier) (type (identifier)) (string)))
-    (pass_statement))
+    (body (pass_statement)))
   (function_definition (identifier) (parameters (typed_default_parameter (identifier) (type (identifier)) (string))) (return_type (type (identifier)))
-    (pass_statement)))
+    (body (pass_statement))))
 
 =====================================
 Function Calls
@@ -192,9 +192,14 @@ class Name:
 ---
 
 (source
-  (class_definition (identifier) (class_body
-    (function_definition (identifier) (parameters) (pass_statement))))
-  (class_definition (identifier) (extends_statement (dotted_name (identifier))) (class_body
-    (function_definition (identifier) (parameters) (pass_statement))))
-  (class_definition (identifier) (class_body
-    (extends_statement (dotted_name (identifier))))))
+  (class_definition (identifier)
+    (body
+      (function_definition (identifier) (parameters)
+        (body (pass_statement)))))
+  (class_definition (identifier) (extends_statement (dotted_name (identifier)))
+    (body
+      (function_definition (identifier) (parameters)
+        (body (pass_statement)))))
+  (class_definition (identifier)
+    (body
+      (extends_statement (dotted_name (identifier))))))

@@ -28,23 +28,25 @@ func _ready():
   (extends_statement (dotted_name (identifier)))
   (class_name_statement (identifier) (class_name_icon_path))
   (class_definition (identifier) (extends_statement (dotted_name (identifier)))
-    (class_body
+    (body
       (variable_statement (identifier) (type (identifier)))
       (function_definition (identifier) (parameters) (return_type (type (identifier)))
-        (if_statement
-          (call (attribute (identifier) (identifier)) (argument_list))
-          (variable_statement (identifier)
-            (call (attribute (identifier) (identifier)) (argument_list (identifier))))
-          (return_statement (identifier)))
-        (return_statement (null)))))
+        (body
+          (if_statement (call (attribute (identifier) (identifier)) (argument_list))
+            (body
+              (variable_statement (identifier)
+                (call (attribute (identifier) (identifier)) (argument_list (identifier))))
+              (return_statement (identifier))))
+          (return_statement (null))))))
   (function_definition (identifier) (parameters)
-    (for_statement (identifier)
-      (call (identifier) (argument_list (integer)))
-      (variable_statement (identifier)
-        (call (attribute (identifier) (identifier)) (argument_list)))
-      (expression_statement
-        (assignment
-          (attribute (identifier) (identifier))
-          (call (identifier) (argument_list (string) (identifier)))))
-      (expression_statement
-        (call (identifier) (argument_list (identifier)))))))
+    (body
+      (for_statement (identifier) (call (identifier) (argument_list (integer)))
+        (body
+          (variable_statement (identifier)
+            (call (attribute (identifier) (identifier)) (argument_list)))
+          (expression_statement
+            (assignment
+              (attribute (identifier) (identifier))
+              (call (identifier) (argument_list (string) (identifier)))))
+          (expression_statement
+            (call (identifier) (argument_list (identifier)))))))))
