@@ -13,7 +13,7 @@ NOTE: Not ready for use. @see Todo.
   - [ ] inheriting class constructor
 - [ ] Statements
   - [ ] setget
-  - [ ] export
+  - [X] export
   - [ ] const
   - [ ] signal
 - [ ] Expression

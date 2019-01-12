@@ -49,6 +49,29 @@ var x = 1 + x + 1
       (binary_operator (binary_operator (integer) (identifier)) (integer))))
 
 =====================================
+Export Variables
+=====================================
+
+export var a
+export var a = "a"
+
+export(Type) var a
+export(Type) var a = "a"
+
+export(Type, Param) var a
+export(Type, "Param") var a = "a"
+
+---
+
+(source
+  (export_variable_statement (identifier))
+  (export_variable_statement (identifier) (string))
+  (export_variable_statement (argument_list (identifier)) (identifier))
+  (export_variable_statement (argument_list (identifier)) (identifier) (string))
+  (export_variable_statement (argument_list (identifier) (identifier)) (identifier))
+  (export_variable_statement (argument_list (identifier) (string)) (identifier) (string)))
+
+=====================================
 Invalid Variables
 =====================================
 

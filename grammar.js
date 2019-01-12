@@ -137,6 +137,7 @@ module.exports = grammar({
       $.class_name_statement,
       $.extends_statement,
       $.expression_statement,
+      $.export_variable_statement,
       $.variable_statement,
       $.return_statement,
       $.pass_statement,
@@ -152,13 +153,21 @@ module.exports = grammar({
     ),
 
     // -- Variables
-    variable_statement: $ => seq(
+    _variable_statement: $ => seq(
       'var', $.identifier,
       optional(choice(
         $._variable_typed_definition,
         seq($.inferred_type, $._expression),
         seq('=', $._expression)
       ))
+    ),
+
+    variable_statement: $ => $._variable_statement,
+
+    export_variable_statement: $ => seq(
+      'export',
+      optional($.argument_list),
+      $._variable_statement
     ),
 
     inferred_type: $ => seq(':', '='),

@@ -477,6 +477,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "export_variable_statement"
+        },
+        {
+          "type": "SYMBOL",
           "name": "variable_statement"
         },
         {
@@ -556,7 +560,7 @@
         }
       ]
     },
-    "variable_statement": {
+    "_variable_statement": {
       "type": "SEQ",
       "members": [
         {
@@ -609,6 +613,35 @@
               "type": "BLANK"
             }
           ]
+        }
+      ]
+    },
+    "variable_statement": {
+      "type": "SYMBOL",
+      "name": "_variable_statement"
+    },
+    "export_variable_statement": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "export"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "argument_list"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_variable_statement"
         }
       ]
     },
