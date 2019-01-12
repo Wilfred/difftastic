@@ -159,6 +159,15 @@ struct LinePosition {
     column: usize,
 }
 
+/// A range within a single line of a string.
+#[derive(Debug, PartialEq, Clone, Copy)]
+struct LineRange {
+    /// All zero-indexed.
+    line: usize,
+    start: usize,
+    end: usize,
+}
+
 fn line_position(offset: usize, newline_positions: &[usize]) -> LinePosition {
     for line_num in (0..newline_positions.len()).rev() {
         if offset > newline_positions[line_num as usize] {
@@ -181,54 +190,48 @@ fn split_line_boundaries(
     start: LinePosition,
     end: LinePosition,
     line_start_positions: &[usize],
-) -> Vec<(LinePosition, LinePosition)> {
+) -> Vec<LineRange> {
     let mut ranges = vec![];
 
     if start.line == end.line {
-        ranges.push((start, end));
+        ranges.push(LineRange {
+            line: start.line,
+            start: start.column,
+            end: end.column,
+        });
         return ranges;
     } else {
         let first_line_end_pos = line_start_positions[start.line + 1] - 1;
         let first_line_length = first_line_end_pos - line_start_positions[start.line];
-        let first_line_end = LinePosition {
+        ranges.push(LineRange {
             line: start.line,
-            column: first_line_length,
-        };
-        ranges.push((start, first_line_end));
+            start: start.column,
+            end: first_line_length,
+        });
     }
 
     for line_num in (start.line + 1)..end.line {
         let line_end_pos = line_start_positions[line_num + 1] - 1;
         let line_length = line_end_pos - line_start_positions[line_num];
-        ranges.push((
-            LinePosition {
-                line: line_num,
-                column: 0,
-            },
-            LinePosition {
-                line: line_num,
-                column: line_length,
-            },
-        ));
+        ranges.push(LineRange {
+            line: line_num,
+            start: 0,
+            end: line_length,
+        });
     }
 
     // Last line, up to end.
-    ranges.push((
-        LinePosition {
-            line: end.line,
-            column: 0,
-        },
-        end,
-    ));
+    ranges.push(LineRange {
+        line: end.line,
+        start: 0,
+        end: end.column,
+    });
 
     ranges
 }
 
 /// Convert string offsets to line and column start/stop.
-fn line_relative_positions(
-    s: &str,
-    positions: &Vec<(usize, usize)>,
-) -> Vec<(LinePosition, LinePosition)> {
+fn line_relative_positions(s: &str, positions: &Vec<(usize, usize)>) -> Vec<LineRange> {
     let newline_re = Regex::new("\n").unwrap();
     let newlines: Vec<_> = newline_re.find_iter(s).map(|mat| mat.end()).collect();
     let mut line_start_positions = vec![0];
@@ -254,10 +257,11 @@ fn line_relative_first_line() {
     let relative_positions = line_relative_positions("foo", &vec![(1, 3)]);
     assert_eq!(
         relative_positions,
-        vec![(
-            LinePosition { line: 0, column: 1 },
-            LinePosition { line: 0, column: 3 }
-        )]
+        vec![LineRange {
+            line: 0,
+            start: 1,
+            end: 3
+        }]
     );
 }
 
@@ -267,14 +271,16 @@ fn line_relative_split_over_multiple() {
     assert_eq!(
         relative_positions,
         vec![
-            (
-                LinePosition { line: 1, column: 1 },
-                LinePosition { line: 1, column: 3 }
-            ),
-            (
-                LinePosition { line: 2, column: 0 },
-                LinePosition { line: 2, column: 2 }
-            )
+            (LineRange {
+                line: 1,
+                start: 1,
+                end: 3
+            }),
+            (LineRange {
+                line: 2,
+                start: 0,
+                end: 2
+            })
         ]
     );
 }
