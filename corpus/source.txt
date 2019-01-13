@@ -130,14 +130,37 @@ var x = 1 + x + 1
       (binary_operator (binary_operator (integer) (identifier)) (integer))))
 
 =====================================
+Remote Variables
+=====================================
+
+remote var hello
+master var hello
+puppet var hello
+remotesync var hello
+mastersync var hello
+puppetsync var hello
+
+---
+
+(source
+  (variable_statement (remote_keyword) (identifier))
+  (variable_statement (remote_keyword) (identifier))
+  (variable_statement (remote_keyword) (identifier))
+  (variable_statement (remote_keyword) (identifier))
+  (variable_statement (remote_keyword) (identifier))
+  (variable_statement (remote_keyword) (identifier)))
+
+=====================================
 Export Variables
 =====================================
 
 export var a
 export var a = "a"
+export remote var a
 
 export(Type) var a
 export(Type) var a = "a"
+export(Type) remote var a
 
 export(Type, Param) var a
 export(Type, "Param") var a = "a"
@@ -147,8 +170,10 @@ export(Type, "Param") var a = "a"
 (source
   (export_variable_statement (identifier))
   (export_variable_statement (identifier) (string))
+  (export_variable_statement (remote_keyword) (identifier))
   (export_variable_statement (argument_list (identifier)) (identifier))
   (export_variable_statement (argument_list (identifier)) (identifier) (string))
+  (export_variable_statement (argument_list (identifier)) (remote_keyword) (identifier))
   (export_variable_statement (argument_list (identifier) (identifier)) (identifier))
   (export_variable_statement (argument_list (identifier) (string)) (identifier) (string)))
 

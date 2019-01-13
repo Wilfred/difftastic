@@ -34,5 +34,9 @@ NOTE: Not ready for use. @see Todo.
   - [X] breakpoint
 - [X] Variable Attributes
   - [X] onready
+  - These can come after 'export' or before 'var'
+    - [X] remote[sync]
+    - [X] master[sync]
+    - [X] puppet[sync]
 
 [tree-sitter]: https://github.com/tree-sitter/tree-sitter

@@ -7,6 +7,18 @@ func get_node(a):
 # func hello(one,):
 #         print('hello')
 
+class n extends Node:
+
+        # no: remote static func rfunc():
+        # no: static remote func rfunc():
+        static func rfunc():
+                pass
+
+        # no: master export var world = 'world'
+        remotesync var hello = 'world'
+        export remote var butt = 'world'
+
+
 var x setget setter,getter
 var y setget setter
 var a setget ,getter

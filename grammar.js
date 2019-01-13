@@ -61,6 +61,10 @@ module.exports = grammar({
     true: $ => 'true',
     false: $ => 'false',
     null: $ => 'null',
+    remote_keyword: $ => choice(
+      'remote', 'master', 'puppet',
+      'remotesync', 'mastersync', 'puppetsync'
+    ),
 
     escape_sequence: $ => token(seq(
       '\\',
@@ -213,11 +217,15 @@ module.exports = grammar({
       optional($.setget)
     ),
 
-    variable_statement: $ => $._variable_statement,
+    variable_statement: $ => seq(
+      optional($.remote_keyword),
+      $._variable_statement,
+    ),
 
     export_variable_statement: $ => seq(
       'export',
       optional($.argument_list),
+      optional($.remote_keyword),
       $._variable_statement
     ),
 

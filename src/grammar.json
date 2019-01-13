@@ -49,6 +49,35 @@
       "type": "STRING",
       "value": "null"
     },
+    "remote_keyword": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "remote"
+        },
+        {
+          "type": "STRING",
+          "value": "master"
+        },
+        {
+          "type": "STRING",
+          "value": "puppet"
+        },
+        {
+          "type": "STRING",
+          "value": "remotesync"
+        },
+        {
+          "type": "STRING",
+          "value": "mastersync"
+        },
+        {
+          "type": "STRING",
+          "value": "puppetsync"
+        }
+      ]
+    },
     "escape_sequence": {
       "type": "TOKEN",
       "content": {
@@ -863,8 +892,25 @@
       ]
     },
     "variable_statement": {
-      "type": "SYMBOL",
-      "name": "_variable_statement"
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "remote_keyword"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_variable_statement"
+        }
+      ]
     },
     "export_variable_statement": {
       "type": "SEQ",
@@ -879,6 +925,18 @@
             {
               "type": "SYMBOL",
               "name": "argument_list"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "remote_keyword"
             },
             {
               "type": "BLANK"
