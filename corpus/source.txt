@@ -356,6 +356,23 @@ func _init(a, b).(a,b): pass
     (body (pass_statement))))
 
 =====================================
+Base Calls
+=====================================
+
+.hello()
+var x = .hello()
+var x = hello(.hello())
+
+---
+
+(source
+  (expression_statement (base_call (identifier) (argument_list)))
+  (variable_statement (identifier) (base_call (identifier) (argument_list)))
+  (variable_statement
+    (identifier)
+    (call (identifier) (argument_list (base_call (identifier) (argument_list))))))
+
+=====================================
 Function Calls
 =====================================
 

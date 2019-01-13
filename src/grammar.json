@@ -1898,6 +1898,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "base_call"
+        },
+        {
+          "type": "SYMBOL",
           "name": "call"
         },
         {
@@ -2997,6 +3001,27 @@
           "value": ")"
         }
       ]
+    },
+    "base_call": {
+      "type": "PREC",
+      "value": 21,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "."
+          },
+          {
+            "type": "SYMBOL",
+            "name": "identifier"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "argument_list"
+          }
+        ]
+      }
     },
     "call": {
       "type": "PREC",

@@ -445,6 +445,7 @@ module.exports = grammar({
       $.get_node,
       $.attribute,
       $.subscript,
+      $.base_call,
       $.call,
       $.list,
       $.dictionary,
@@ -644,6 +645,12 @@ module.exports = grammar({
       optional(commaSep1($._expression)),
       ')'
     ),
+
+    base_call: $ => prec(PREC.call, seq(
+      '.',
+      $.identifier,
+      $.argument_list
+    )),
 
     call: $ => prec(PREC.call, seq(
       $._primary_expression,

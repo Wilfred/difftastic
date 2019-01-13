@@ -7,8 +7,6 @@ NOTE: Not ready for use. @see Todo.
 
 ### Todo
 
-- [ ] Expression
-  - [ ] call base class function
 - [ ] Format Specifiers
 - [X] Statements
   - [X] setget
@@ -38,5 +36,7 @@ NOTE: Not ready for use. @see Todo.
   - [X] match
   - [X] enum
   - [X] inheriting class constructor
+- [X] Expression
+  - [X] call base class function
 
 [tree-sitter]: https://github.com/tree-sitter/tree-sitter
