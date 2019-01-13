@@ -49,6 +49,10 @@
       "type": "STRING",
       "value": "null"
     },
+    "static_keyword": {
+      "type": "STRING",
+      "value": "static"
+    },
     "remote_keyword": {
       "type": "CHOICE",
       "members": [
@@ -2436,6 +2440,27 @@
     "function_definition": {
       "type": "SEQ",
       "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "static_keyword"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "remote_keyword"
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
         {
           "type": "STRING",
           "value": "func"

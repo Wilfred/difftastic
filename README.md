@@ -13,11 +13,6 @@ NOTE: Not ready for use. @see Todo.
   - [ ] inheriting class constructor
 - [ ] Expression
   - [ ] call base class function
-- [ ] Function Attributes
-  - [ ] static
-  - [ ] remote[sync]
-  - [ ] master[sync]
-  - [ ] puppet[sync]
 - [ ] Format Specifiers
 - [X] Statements
   - [X] setget
@@ -38,5 +33,10 @@ NOTE: Not ready for use. @see Todo.
     - [X] remote[sync]
     - [X] master[sync]
     - [X] puppet[sync]
+- [X] Function Attributes
+  - [X] static
+  - [X] remote[sync]
+  - [X] master[sync]
+  - [X] puppet[sync]
 
 [tree-sitter]: https://github.com/tree-sitter/tree-sitter

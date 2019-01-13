@@ -294,6 +294,45 @@ func hello(typed_default_param: Type="string") -> Type:
     (body (pass_statement))))
 
 =====================================
+Remote Function Definitions
+=====================================
+
+remote func hello(): pass
+master func hello(): pass
+puppet func hello(): pass
+remotesync func hello(): pass
+mastersync func hello(): pass
+puppetsync func hello(): pass
+
+---
+
+(source
+  (function_definition (remote_keyword) (identifier) (parameters)
+    (body (pass_statement)))
+  (function_definition (remote_keyword) (identifier) (parameters)
+    (body (pass_statement)))
+  (function_definition (remote_keyword) (identifier) (parameters)
+    (body (pass_statement)))
+  (function_definition (remote_keyword) (identifier) (parameters)
+    (body (pass_statement)))
+  (function_definition (remote_keyword) (identifier) (parameters)
+    (body (pass_statement)))
+  (function_definition (remote_keyword) (identifier) (parameters)
+    (body (pass_statement))))
+
+=====================================
+Static Function Definitions
+=====================================
+
+static func hello(): pass
+
+---
+
+(source
+  (function_definition (static_keyword) (identifier) (parameters)
+    (body (pass_statement))))
+
+=====================================
 Function Calls
 =====================================
 

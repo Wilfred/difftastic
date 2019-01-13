@@ -61,6 +61,7 @@ module.exports = grammar({
     true: $ => 'true',
     false: $ => 'false',
     null: $ => 'null',
+    static_keyword: $ => 'static',
     remote_keyword: $ => choice(
       'remote', 'master', 'puppet',
       'remotesync', 'mastersync', 'puppetsync'
@@ -531,6 +532,7 @@ module.exports = grammar({
     ),
 
     function_definition: $ => seq(
+      optional(choice($.static_keyword, $.remote_keyword)),
       'func',
       $.identifier,
       $.parameters,
