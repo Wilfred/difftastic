@@ -287,6 +287,7 @@ module.exports = grammar({
       $.while_statement,
       $.function_definition,
       $.class_definition,
+      $.enum_definition,
     ),
 
     if_statement: $ => seq(
@@ -333,6 +334,24 @@ module.exports = grammar({
       optional($.extends_statement),
       ':',
       $.body
+    ),
+
+    // -- Enum
+    enum_definition: $ => seq(
+      'enum',
+      optional($.identifier),
+      $.enumerator_list
+    ),
+
+    enumerator_list: $ => seq(
+      '{',
+      commaSep1($.enumerator),
+      '}'
+    ),
+
+    enumerator: $ => seq(
+      $.identifier,
+      optional(seq('=', $.integer))
     ),
 
 // -----------------------------------------------------------------------------

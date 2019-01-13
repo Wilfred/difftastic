@@ -9,7 +9,7 @@ NOTE: Not ready for use. @see Todo.
 
 - [ ] Compound Statements
   - [ ] match
-  - [ ] enum
+  - [X] enum
   - [ ] inheriting class constructor
 - [ ] Expression
   - [ ] call base class function

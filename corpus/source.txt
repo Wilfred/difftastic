@@ -431,3 +431,33 @@ class Name:
   (class_definition (identifier)
     (body
       (extends_statement (dotted_name (identifier))))))
+
+============================================
+Enum declarations
+============================================
+
+enum Hello {
+  val1,
+  val2 = 5,
+  val3
+}
+
+enum {
+  val1,
+  val2 = 5,
+  val3
+}
+
+---
+
+(source
+  (enum_definition (identifier)
+    (enumerator_list
+      (enumerator (identifier))
+      (enumerator (identifier) (integer))
+      (enumerator (identifier))))
+  (enum_definition
+    (enumerator_list
+      (enumerator (identifier))
+      (enumerator (identifier) (integer))
+      (enumerator (identifier)))))
