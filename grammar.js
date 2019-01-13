@@ -162,6 +162,7 @@ module.exports = grammar({
       $.extends_statement,
       $.expression_statement,
       $.export_variable_statement,
+      $.onready_variable_statement,
       $.variable_statement,
       $.const_statement,
       $.return_statement,
@@ -217,6 +218,11 @@ module.exports = grammar({
     export_variable_statement: $ => seq(
       'export',
       optional($.argument_list),
+      $._variable_statement
+    ),
+
+    onready_variable_statement: $ => seq(
+      'onready',
       $._variable_statement
     ),
 

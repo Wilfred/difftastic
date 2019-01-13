@@ -169,6 +169,19 @@ var x setget ,getter
 )
 
 =====================================
+Onready Variables
+=====================================
+
+onready var hello
+onready var hello: World
+
+---
+
+(source
+  (onready_variable_statement (identifier))
+  (onready_variable_statement (identifier) (type (identifier))))
+
+=====================================
 Const Variables
 =====================================
 

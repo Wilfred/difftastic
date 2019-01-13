@@ -15,7 +15,6 @@ NOTE: Not ready for use. @see Todo.
   - [ ] call base class function
 - [ ] Function Attributes
   - [ ] static
-  - [ ] onready
   - [ ] remote[sync]
   - [ ] master[sync]
   - [ ] puppet[sync]
@@ -33,5 +32,7 @@ NOTE: Not ready for use. @see Todo.
   - [X] as
 - [X] Keyword Statements
   - [X] breakpoint
+- [X] Variable Attributes
+  - [X] onready
 
 [tree-sitter]: https://github.com/tree-sitter/tree-sitter

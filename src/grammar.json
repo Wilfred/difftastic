@@ -583,6 +583,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "onready_variable_statement"
+        },
+        {
+          "type": "SYMBOL",
           "name": "variable_statement"
         },
         {
@@ -880,6 +884,19 @@
               "type": "BLANK"
             }
           ]
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_variable_statement"
+        }
+      ]
+    },
+    "onready_variable_statement": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "onready"
         },
         {
           "type": "SYMBOL",
