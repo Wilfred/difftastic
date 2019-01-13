@@ -32,3 +32,5 @@ func _initialize():
         var n = $node
         n = $ node
         n = $'1/a'
+
+        var x = n is get_node(a)

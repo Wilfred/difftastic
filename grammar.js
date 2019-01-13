@@ -15,7 +15,9 @@ const PREC = {
   times: 17,
   power: 18,
   unary: 19,
-  call: 20,
+  is: 20,
+  as: 20,
+  call: 21,
 }
 
 module.exports = grammar({
@@ -366,7 +368,9 @@ module.exports = grammar({
       prec.left(PREC.bitwise_and, seq($._primary_expression, '&', $._primary_expression)),
       prec.left(PREC.xor, seq($._primary_expression, '^', $._primary_expression)),
       prec.left(PREC.shift, seq($._primary_expression, '<<', $._primary_expression)),
-      prec.left(PREC.shift, seq($._primary_expression, '>>', $._primary_expression))
+      prec.left(PREC.shift, seq($._primary_expression, '>>', $._primary_expression)),
+      prec.left(PREC.is, seq($._primary_expression, 'is', $._primary_expression)),
+      prec.left(PREC.as, seq($._primary_expression, 'as', $.identifier))
     ),
 
     unary_operator: $ => choice(

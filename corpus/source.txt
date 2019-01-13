@@ -18,6 +18,37 @@ Math Expressions
       (binary_operator (identifier) (float))))))
 
 =====================================
+Is Operator
+=====================================
+
+x is y
+x is int()
+(1 + 1) is Name
+
+---
+
+(source
+  (expression_statement (binary_operator (identifier) (identifier)))
+  (expression_statement (binary_operator (identifier) (call (identifier) (argument_list))))
+  (expression_statement (binary_operator
+    (parenthesized_expression
+      (binary_operator (integer) (integer)))
+    (identifier))))
+
+=====================================
+As Operator
+=====================================
+
+x as Y
+x() as Y
+
+---
+
+(source
+  (expression_statement (binary_operator (identifier) (identifier)))
+  (expression_statement (binary_operator (call (identifier) (argument_list)) (identifier))))
+
+=====================================
 NodePath
 =====================================
 

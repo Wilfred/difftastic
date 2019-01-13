@@ -16,9 +16,6 @@ NOTE: Not ready for use. @see Todo.
 - [ ] Keyword Statements
   - [ ] breakpoint
   - [ ] self
-- [ ] Operators
-  - [ ] is
-  - [ ] as
 - [ ] Function Attributes
   - [ ] static
   - [ ] onready
@@ -34,5 +31,8 @@ NOTE: Not ready for use. @see Todo.
 - [X] Literals
   - [X] @"NodePath/StringName"
   - [X] $node and $"../node"
+- [X] Operators
+  - [X] is
+  - [X] as
 
 [tree-sitter]: https://github.com/tree-sitter/tree-sitter
