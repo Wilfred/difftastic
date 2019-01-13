@@ -85,6 +85,20 @@ var x = $"node/path"
   (variable_statement (identifier) (get_node)))
 
 =====================================
+Breakpoint Statement
+=====================================
+
+breakpoint
+breakpoint; hi()
+
+---
+
+(source
+  (breakpoint_statement)
+  (breakpoint_statement)
+  (expression_statement (call (identifier) (argument_list))))
+
+=====================================
 Variables
 =====================================
 

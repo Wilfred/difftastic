@@ -13,9 +13,6 @@ NOTE: Not ready for use. @see Todo.
   - [ ] inheriting class constructor
 - [ ] Expression
   - [ ] call base class function
-- [ ] Keyword Statements
-  - [ ] breakpoint
-  - [ ] self
 - [ ] Function Attributes
   - [ ] static
   - [ ] onready
@@ -34,5 +31,7 @@ NOTE: Not ready for use. @see Todo.
 - [X] Operators
   - [X] is
   - [X] as
+- [X] Keyword Statements
+  - [X] breakpoint
 
 [tree-sitter]: https://github.com/tree-sitter/tree-sitter

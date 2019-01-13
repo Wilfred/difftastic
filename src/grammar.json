@@ -603,6 +603,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "breakpoint_statement"
+        },
+        {
+          "type": "SYMBOL",
           "name": "continue_statement"
         }
       ]
@@ -949,6 +953,10 @@
         "type": "STRING",
         "value": "break"
       }
+    },
+    "breakpoint_statement": {
+      "type": "STRING",
+      "value": "breakpoint"
     },
     "continue_statement": {
       "type": "PREC_LEFT",

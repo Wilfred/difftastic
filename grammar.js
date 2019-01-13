@@ -167,6 +167,7 @@ module.exports = grammar({
       $.return_statement,
       $.pass_statement,
       $.break_statement,
+      $.breakpoint_statement,
       $.continue_statement
     ),
 
@@ -236,6 +237,7 @@ module.exports = grammar({
 
     pass_statement: $ => prec.left('pass'),
     break_statement: $ => prec.left('break'),
+    breakpoint_statement: $ => 'breakpoint',
     continue_statement: $ => prec.left('continue'),
     tool_statement: $ => 'tool',
 
