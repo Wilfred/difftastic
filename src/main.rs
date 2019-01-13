@@ -11,7 +11,9 @@ use itertools::EitherOrBoth::{Both, Left, Right};
 use itertools::Itertools;
 use regex::Regex;
 use std::cmp::max;
+use std::collections::HashSet;
 use std::fs;
+use std::iter::FromIterator;
 
 fn term_width() -> Option<usize> {
     if let Some((w, _)) = term_size::dimensions() {
@@ -20,7 +22,7 @@ fn term_width() -> Option<usize> {
     None
 }
 
-#[derive(Debug, Clone, Copy, PartialEq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
 struct LineNumber {
     number: usize,
 }
@@ -260,17 +262,19 @@ fn split_line_boundaries(
     ranges
 }
 
-/// Convert string offsets to line and column start/stop.
-fn line_relative_positions(s: &str, positions: &Vec<(usize, usize)>) -> Vec<LineRange> {
+/// Convert absolute string ranges to line-relative ranges. If the
+/// absolute range crosses a newline, split it into multiple
+/// line-relative ranges.
+fn line_relative_ranges(ranges: &[Range], s: &str) -> Vec<LineRange> {
     let newline_re = Regex::new("\n").unwrap();
     let newlines: Vec<_> = newline_re.find_iter(s).map(|mat| mat.end()).collect();
     let mut line_start_positions = vec![0];
     line_start_positions.extend(&newlines);
 
     let mut rel_positions = vec![];
-    for (start_offset, end_offset) in positions {
-        let start_pos = line_position(*start_offset, &newlines);
-        let end_pos = line_position(*end_offset, &newlines);
+    for range in ranges {
+        let start_pos = line_position(range.start, &newlines);
+        let end_pos = line_position(range.end, &newlines);
 
         rel_positions.extend(split_line_boundaries(
             start_pos,
@@ -284,7 +288,7 @@ fn line_relative_positions(s: &str, positions: &Vec<(usize, usize)>) -> Vec<Line
 
 #[test]
 fn line_relative_first_line() {
-    let relative_positions = line_relative_positions("foo", &vec![(1, 3)]);
+    let relative_positions = line_relative_ranges(&vec![Range { start: 1, end: 3 }], "foo");
     assert_eq!(
         relative_positions,
         vec![LineRange {
@@ -297,7 +301,10 @@ fn line_relative_first_line() {
 
 #[test]
 fn line_relative_split_over_multiple() {
-    let relative_positions = line_relative_positions("foo\nbar\nbaz\naaaaaaaaaaa", &vec![(5, 10)]);
+    let relative_positions = line_relative_ranges(
+        &vec![Range { start: 5, end: 10 }],
+        "foo\nbar\nbaz\naaaaaaaaaaa",
+    );
     assert_eq!(
         relative_positions,
         vec![
@@ -315,24 +322,38 @@ fn line_relative_split_over_multiple() {
     );
 }
 
-fn highlight_differences(
-    before_src: &str,
-    after_src: &str,
-    differences: &Vec<(Change, Range)>,
-) -> (String, String) {
-    let additions: Vec<Range> = differences
+/// Given a slice of absolute positioned ranges, return the lines that
+/// they land on.
+fn relevant_lines(ranges: &[Range], s: &str) -> Vec<LineNumber> {
+    line_relative_ranges(ranges, s)
+        .iter()
+        .map(|r| r.line)
+        .collect()
+}
+
+fn added(differences: &[(Change, Range)]) -> Vec<Range> {
+    differences
         .iter()
         .filter(|(c, _)| *c == Change::Add)
         .map(|(_, r)| *r)
-        .collect();
-    let removals: Vec<Range> = differences
+        .collect()
+}
+
+fn removed(differences: &[(Change, Range)]) -> Vec<Range> {
+    differences
         .iter()
         .filter(|(c, _)| *c == Change::Remove)
         .map(|(_, r)| *r)
-        .collect();
+        .collect()
+}
 
-    let before_colored = apply_color(before_src, &removals, Color::Red);
-    let after_colored = apply_color(after_src, &additions, Color::Green);
+fn highlight_differences(
+    before_src: &str,
+    after_src: &str,
+    differences: &[(Change, Range)],
+) -> (String, String) {
+    let before_colored = apply_color(before_src, &removed(differences), Color::Red);
+    let after_colored = apply_color(after_src, &added(differences), Color::Green);
 
     (before_colored, after_colored)
 }
@@ -355,6 +376,33 @@ fn pad_string(s: &str, min_length: usize) -> String {
     result.push_str("\n");
 
     result
+}
+
+/// Return a copy of string that only contains the lines specified.
+fn filter_lines(s: &str, lines_wanted: &[LineNumber]) -> String {
+    let lines_wanted: HashSet<usize> =
+        HashSet::from_iter(lines_wanted.iter().map(|line| line.number));
+
+    let mut result = String::new();
+    let mut first = true;
+    for (i, line) in s.lines().enumerate() {
+        if lines_wanted.contains(&i) {
+            if first {
+                first = false;
+            } else {
+                result.push('\n');
+            }
+            result.push_str(line);
+        }
+    }
+    result
+}
+
+#[test]
+fn test_filter_lines() {
+    let s = "foo\nbar\nbaz\nquux";
+    let result = filter_lines(s, &[LineNumber::from(1), LineNumber::from(3)]);
+    assert_eq!(result, "bar\nquux");
 }
 
 fn vertical_concat(left: &str, right: &str, max_left_length: usize) -> String {
@@ -394,6 +442,12 @@ fn main() {
                 .takes_value(true)
                 .help("Override the language parser"),
         )
+        .arg(
+            Arg::with_name("context")
+                .long("context")
+                .takes_value(true)
+                .help("Number of lines of context (todo)"),
+        )
         .arg(Arg::with_name("first").index(1).required(true))
         .arg(Arg::with_name("second").index(2).required(true))
         .get_matches();
@@ -423,9 +477,26 @@ fn main() {
         None => infer_language(before_path).expect("Could not infer language"),
     };
 
-    let positions = difference_positions(&before_src, &after_src, language);
-    let (before_colored, after_colored) =
-        highlight_differences(&before_src, &after_src, &positions);
+    let differences = difference_positions(&before_src, &after_src, language);
+
+    let mut lines = vec![];
+    lines.extend(relevant_lines(&removed(&differences), &before_src));
+    lines.extend(relevant_lines(&added(&differences), &after_src));
+    lines.sort();
+    lines.dedup();
+
+    println!("lines: {:?}", lines);
+
+    let (mut before_colored, mut after_colored) =
+        highlight_differences(&before_src, &after_src, &differences);
+
+    if matches.value_of("context").is_some() {
+        // TODO: this is very dumb. Context is always zero, and we
+        // assume the left and right line up (rather than showing gaps
+        // if we've just added a big block of text).
+        before_colored = filter_lines(&before_colored, &lines);
+        after_colored = filter_lines(&after_colored, &lines);
+    }
 
     print!(
         "{}",
