@@ -20,5 +20,5 @@
     "test": "tree-sitter test && script/parse-examples",
     "test-windows": "tree-sitter test"
   },
-  "repository": "https://github.com/tree-sitter/tree-sitter-gdscript"
+  "repository": "https://github.com/PrestonKnopp/tree-sitter-gdscript"
 }
