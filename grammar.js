@@ -61,6 +61,7 @@ module.exports = grammar({
     true: $ => 'true',
     false: $ => 'false',
     null: $ => 'null',
+    underscore: $ => '_',
     static_keyword: $ => 'static',
     remote_keyword: $ => choice(
       'remote', 'master', 'puppet',
@@ -166,6 +167,7 @@ module.exports = grammar({
       $.class_name_statement,
       $.extends_statement,
       $.expression_statement,
+      $.match_statement,
       $.export_variable_statement,
       $.onready_variable_statement,
       $.variable_statement,
@@ -352,6 +354,68 @@ module.exports = grammar({
     enumerator: $ => seq(
       $.identifier,
       optional(seq('=', $.integer))
+    ),
+
+// -----------------------------------------------------------------------------
+// -                                     Match                                 -
+// -----------------------------------------------------------------------------
+
+    match_statement: $ => seq(
+      'match',
+      $._expression,
+      ':',
+      $.match_body
+    ),
+
+    match_body: $ => seq(
+      $._indent,
+      repeat1($.pattern_section),
+      $._dedent
+    ),
+
+    pattern_section: $ => seq(
+      commaSep1($._pattern),
+      ':',
+      $.body,
+    ),
+
+    _pattern: $ => choice(
+      $.pattern_array,
+      $.pattern_dictionary,
+      $.pattern_binding,
+      $.identifier,
+      $.underscore,
+      $.string,
+      $.integer,
+      $.float,
+      $.true,
+      $.false,
+      $.null
+    ),
+
+    pattern_binding: $ => seq(
+      'var',
+      $.identifier
+    ),
+
+    pattern_open_ending: $ => '..',
+
+    pattern_array: $ => seq(
+      '[',
+      optional(commaSep1(choice($._pattern, $.pattern_open_ending))),
+      ']'
+    ),
+
+    pattern_dictionary: $ => seq(
+      '{',
+      optional(commaSep1(choice($.pattern_pair, $.pattern_open_ending))),
+      '}'
+    ),
+
+    pattern_pair: $ => seq(
+      $.string,
+      ':',
+      $._pattern
     ),
 
 // -----------------------------------------------------------------------------
@@ -590,11 +654,14 @@ module.exports = grammar({
 
 })
 
+function commaSep(rule) {
+  return repeat()
+}
 
-function commaSep1 (rule) {
+function commaSep1(rule) {
   return sep1(rule, ',')
 }
 
-function sep1 (rule, separator) {
+function sep1(rule, separator) {
   return seq(rule, repeat(seq(separator, rule)))
 }

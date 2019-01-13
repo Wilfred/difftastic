@@ -8,7 +8,7 @@ NOTE: Not ready for use. @see Todo.
 ### Todo
 
 - [ ] Compound Statements
-  - [ ] match
+  - [X] match
   - [X] enum
   - [ ] inheriting class constructor
 - [ ] Expression

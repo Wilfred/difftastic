@@ -45,4 +45,16 @@ func _initialize():
         n = $ node
         n = $'1/a'
 
-        var x = n is get_node(a)
+        # var x = n is get_node(a)
+
+        var res = 'Response'
+
+        match 'Response':
+                res: print('response')
+        # no:
+        # match {'Response':'ok'}:
+        #         {res: 'ok'}: print('okay')
+
+        # no:
+        # match {'Response':'ok'}:
+        #         {Response = 'ok'}: print('okay')
