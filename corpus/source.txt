@@ -333,6 +333,29 @@ static func hello(): pass
     (body (pass_statement))))
 
 =====================================
+Constructor Definitions
+=====================================
+
+func _init(): pass
+func _init().(): pass
+func _init(a, b).(a,b): pass
+
+---
+
+(source
+  (constructor_definition
+    (parameters)
+    (body (pass_statement)))
+  (constructor_definition
+    (parameters)
+    (argument_list)
+    (body (pass_statement)))
+  (constructor_definition
+    (parameters (identifier) (identifier))
+    (argument_list (identifier) (identifier))
+    (body (pass_statement))))
+
+=====================================
 Function Calls
 =====================================
 

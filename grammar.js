@@ -288,6 +288,7 @@ module.exports = grammar({
       $.for_statement,
       $.while_statement,
       $.function_definition,
+      $.constructor_definition,
       $.class_definition,
       $.enum_definition,
     ),
@@ -619,6 +620,15 @@ module.exports = grammar({
       'func',
       $.identifier,
       $.parameters,
+      optional($.return_type),
+      ':',
+      $.body
+    ),
+
+    constructor_definition: $ => seq(
+      'func', '_init',
+      $.parameters,
+      optional(seq('.', $.argument_list)),
       optional($.return_type),
       ':',
       $.body

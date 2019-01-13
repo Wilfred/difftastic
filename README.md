@@ -7,10 +7,6 @@ NOTE: Not ready for use. @see Todo.
 
 ### Todo
 
-- [ ] Compound Statements
-  - [X] match
-  - [X] enum
-  - [ ] inheriting class constructor
 - [ ] Expression
   - [ ] call base class function
 - [ ] Format Specifiers
@@ -38,5 +34,9 @@ NOTE: Not ready for use. @see Todo.
   - [X] remote[sync]
   - [X] master[sync]
   - [X] puppet[sync]
+- [X] Compound Statements
+  - [X] match
+  - [X] enum
+  - [X] inheriting class constructor
 
 [tree-sitter]: https://github.com/tree-sitter/tree-sitter
