@@ -20,6 +20,17 @@ pub enum Language {
     Css,
 }
 
+impl Language {
+    pub fn from(s: &str) -> Option<Language> {
+        match s {
+            "css" => Some(Language::Css),
+            "js" => Some(Language::JavaScript),
+            "lisp" => Some(Language::Lisp),
+            _ => None
+        }
+    }
+}
+
 pub fn infer_language(filename: &str) -> Option<Language> {
     if filename.ends_with(".js") {
         return Some(Language::JavaScript);

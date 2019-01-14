@@ -237,14 +237,8 @@ fn main() {
     after_src = pad_string(&after_src, pad_to_length);
 
     let language = match matches.value_of("language") {
-        Some("css") => Language::Css,
-        Some("js") => Language::JavaScript,
-        Some("lisp") => Language::Lisp,
-        Some(_) => {
-            println!("No such language known.");
-            return;
-        }
-        None => infer_language(before_path).expect("Could not infer language"),
+        Some(s) => Language::from(s).expect("No such language known."),
+        _ => infer_language(before_path).expect("Could not infer language"),
     };
 
     let differences = difference_positions(&before_src, &after_src, language);
