@@ -483,7 +483,7 @@ class_name Name, "icon"
 
 (source
   (class_name_statement (identifier))
-  (class_name_statement (identifier) (class_name_icon_path)))
+  (class_name_statement (identifier) (class_name_icon_path (string))))
 
 =====================================
 Tool and Extend

@@ -267,11 +267,11 @@ module.exports = grammar({
       ))
     ),
 
-    class_name_icon_path: $ => seq(',', /".*"/),
+    class_name_icon_path: $ => $.string,
     class_name_statement: $ => seq(
       'class_name',
       $.identifier,
-      optional($.class_name_icon_path)
+      optional(seq(',', $.class_name_icon_path))
     ),
 
     dotted_name: $ => sep1($.identifier, '.'),

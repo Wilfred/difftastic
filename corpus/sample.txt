@@ -26,7 +26,7 @@ func _ready():
 (source
   (tool_statement)
   (extends_statement (dotted_name (identifier)))
-  (class_name_statement (identifier) (class_name_icon_path))
+  (class_name_statement (identifier) (class_name_icon_path (string)))
   (class_definition (identifier) (extends_statement (dotted_name (identifier)))
     (body
       (variable_statement (identifier) (type (identifier)))

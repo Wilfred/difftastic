@@ -1129,17 +1129,8 @@
       ]
     },
     "class_name_icon_path": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": ","
-        },
-        {
-          "type": "PATTERN",
-          "value": "\".*\""
-        }
-      ]
+      "type": "SYMBOL",
+      "name": "string"
     },
     "class_name_statement": {
       "type": "SEQ",
@@ -1156,8 +1147,17 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "SYMBOL",
-              "name": "class_name_icon_path"
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": ","
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "class_name_icon_path"
+                }
+              ]
             },
             {
               "type": "BLANK"
