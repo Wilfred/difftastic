@@ -96,43 +96,21 @@ module.exports = grammar({
             )
         )),
 
-        func_call: $ => prec(2, choice(
-            $._local_func_call,
-            $._local_func_call_with_params,
-            $._module_func_call,
-            $._module_func_call_with_params
-        )),
-
-        _local_func_call: $ => seq(
-            $.func_identifier
-        ),
-
-        _module_func_call: $ => seq(
-            $._module_func_identifier
-        ),
-
-        _local_func_call_with_params: $ => seq(
-            $.func_identifier,
-            $.func_call_params
-        ),
-
-        _module_func_call_with_params: $ => seq(
-            $._module_func_identifier,
-            $.func_call_params
+        func_call: $ => prec(2,
+            choice(
+                seq(
+                    prec.left(2, $._func_identifiers),
+                    prec.left(1, optional($.func_call_params))
+                ),
+            )
         ),
 
         func_call_params: $ => repeat1(
             choice(
-                $.inline_record
-            )
-        ),
-
-        _module_func_identifier: $ => seq(
-            $.module_identifier,
-            '.',
-            choice(
-                $.func_identifier,
-                $.type_alias_identifier,
+                $.inline_record,
+                $.list,
+                $._basic_datatypes
+                // $.custom_type_identifier
             )
         ),
 
@@ -154,12 +132,29 @@ module.exports = grammar({
             '}',
         ),
 
+        list: $ => choice(
+            seq(
+                '[',
+                commaSep1($._basic_datatypes),
+                ']',
+            ),
+            seq(
+                '[',
+                ']'
+            ),
+            seq(
+                '[',
+                commaSep1($.func_call),
+                ']'
+            )
+        ),
+
         _assignment: $ => seq(
             $.record_entry,
             '=',
             choice(
                 $.int,
-                $.func_identifier
+                $._func_identifiers
             )
         ),
 
@@ -170,10 +165,10 @@ module.exports = grammar({
                 '-',
                 '*',
                 '/',
-                ),
+            ),
             choice(
                 $.int,
-                $.func_identifier
+                $._func_identifiers
             )
         ),
 
@@ -192,13 +187,45 @@ module.exports = grammar({
             '(..)'
         ),
 
+        _func_identifiers: $ => choice(
+            $.func_identifier,
+            $._module_func_identifier
+        ),
+
         func_identifier: $ => /[a-z][A-Za-z]*/,
+
+        _module_func_identifier: $ => seq(
+            $.module_identifier,
+            '.',
+            choice(
+                $.func_identifier,
+                $.type_alias_identifier,
+            )
+        ),
 
         func_param: $ => /[a-z][A-Za-z]*/,
 
         record_entry: $ => /[a-z][A-Za-z]*/,
 
-        int: $ => /\d+/
+        int: $ => /\d+/,
+
+        string: $ => choice(
+            seq(
+                '"',
+                /.*/,
+                '"'
+            ),
+            seq(
+                '"""',
+                /.*/,
+                '"""'
+            ),
+        ),
+
+        _basic_datatypes: $ => choice(
+            $.int,
+            $.string
+        )
 
     }
 

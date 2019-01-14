@@ -158,3 +158,28 @@ update msg model =
     )
   )
 )
+
+=====================================
+Function statement with list
+=====================================
+
+view model =
+    div []
+        [ button [ onClick Decrement ] [ text "-" ]
+        , div [] [ text (String.fromInt model) ]
+        , button [ onClick Increment ] [ text "+" ]
+        ]
+
+---
+
+(file
+  (func_statement (func_identifier) (func_param)
+    (func_call (func_identifier) (func_call_params (list)
+        (list
+          (func_call (func_identifier) (func_call_params (list (func_call (func_identifier) custom_type_identifier)) (list (func_call (func_identifier) (string)))))
+          (func_call (func_identifier) (func_call_params (list) (list (func_call (func_identifier)) (func_call (module_identifier) (func_identifier)) (func_param))))
+          (func_call (func_identifier) (func_call_params (list (func_call (func_identifier) custom_type_identifier)) (list (func_call (func_identifier) (string)))))
+        )
+    )
+  )
+)
