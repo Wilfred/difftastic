@@ -249,8 +249,6 @@ fn main() {
     lines.sort();
     lines.dedup();
 
-    println!("lines: {:?}", lines);
-
     let (mut before_colored, mut after_colored) =
         highlight_differences(&before_src, &after_src, &differences);
 
