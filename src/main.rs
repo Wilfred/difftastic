@@ -5,14 +5,15 @@ extern crate itertools;
 extern crate regex;
 extern crate term_size;
 
+mod language;
 mod lines;
 
 use clap::{App, Arg};
 use colored::*;
 use itertools::EitherOrBoth::{Both, Left, Right};
 use itertools::Itertools;
+use language::{infer_language, language_lexer, lex, Language};
 use lines::{relevant_lines, LineNumber, Range};
-use regex::Regex;
 use std::cmp::max;
 use std::collections::HashSet;
 use std::fs;
@@ -23,74 +24,6 @@ fn term_width() -> Option<usize> {
         return Some(w);
     }
     None
-}
-
-#[derive(Debug, Clone)]
-struct Token {
-    start: usize,
-    // The actual token, e.g. "var"
-    text: String,
-}
-
-impl PartialEq for Token {
-    fn eq(&self, other: &Token) -> bool {
-        self.text == other.text
-    }
-}
-
-#[derive(Debug)]
-enum Language {
-    JavaScript,
-    Lisp,
-    Css,
-}
-
-fn infer_language(filename: &str) -> Option<Language> {
-    if filename.ends_with(".js") {
-        return Some(Language::JavaScript);
-    } else if filename.ends_with(".el") {
-        return Some(Language::Lisp);
-    } else if filename.ends_with(".css") {
-        return Some(Language::Css);
-    }
-    None
-}
-
-fn language_lexer(lang: Language) -> Regex {
-    match lang {
-        Language::JavaScript => {
-            Regex::new(r#"//.+|[a-zA-Z0-9_]+|"(\\.|[^"\\])*"|[^ \t\n]"#).unwrap()
-        }
-        Language::Lisp => Regex::new(r#";.+|[a-zA-Z0-9_*!.-]+|"(\\.|[^"\\])*"|[^ \t\n]"#).unwrap(),
-        Language::Css => {
-            Regex::new(r#"(?s)/\*.*?\*/|[a-zA-Z0-9_*!.-]+|"(\\.|[^"\\])*"|[^ \t\n]"#).unwrap()
-        }
-    }
-}
-
-fn lex(src: &str, re: &Regex) -> Vec<Token> {
-    let mut result = vec![];
-
-    for mat in re.find_iter(src) {
-        result.push(Token {
-            start: mat.start(),
-            text: mat.as_str().to_string(),
-        });
-    }
-
-    result
-}
-
-#[test]
-fn lex_single_symbol_css() {
-    let re = language_lexer(Language::Css);
-    let tokens = lex(".foo", &re);
-
-    // Since we've overriden eq for tokens, manually compare fields.
-    assert_eq!(tokens.len(), 1);
-    let token = &tokens[0];
-    assert_eq!(token.start, 0);
-    assert_eq!(token.text, ".foo");
 }
 
 #[derive(Debug, PartialEq, Clone, Copy)]
