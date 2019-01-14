@@ -1,0 +1,14 @@
+language: rust
+rust:
+  - stable
+  - beta
+  - nightly
+
+
+notifications:
+  email: false
+
+matrix:
+  allow_failures:
+    - rust: nightly
+  fast_finish: true
