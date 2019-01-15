@@ -13,7 +13,7 @@ use colored::*;
 use itertools::EitherOrBoth::{Both, Left, Right};
 use itertools::Itertools;
 use language::{infer_language, language_lexer, lex, Language};
-use lines::{relevant_lines, LineNumber, Range};
+use lines::{add_context, max_line, relevant_lines, LineNumber, Range};
 use std::cmp::max;
 use std::collections::HashSet;
 use std::fs;
@@ -252,10 +252,14 @@ fn main() {
     let (mut before_colored, mut after_colored) =
         highlight_differences(&before_src, &after_src, &differences);
 
-    if matches.value_of("context").is_some() {
-        // TODO: this is very dumb. Context is always zero, and we
-        // assume the left and right line up (rather than showing gaps
-        // if we've just added a big block of text).
+    if let Some(context) = matches.value_of("context") {
+        let context = usize::from_str_radix(context, 10).unwrap();
+        let max_line_num = max_line(&before_src, &after_src);
+        lines = add_context(&lines, context, max_line_num);
+
+        // TODO: this is very dumb. We assume the left and right line
+        // up (rather than showing gaps if we've just added a big
+        // block of text).
         before_colored = filter_lines(&before_colored, &lines);
         after_colored = filter_lines(&after_colored, &lines);
     }

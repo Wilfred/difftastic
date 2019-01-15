@@ -1,4 +1,5 @@
 use regex::Regex;
+use std::cmp::{max, min};
 
 // TODO: Move to a separate file, this isn't line related.
 /// A range in a string, relative to the string start.
@@ -7,8 +8,6 @@ pub struct Range {
     pub start: usize,
     pub end: usize,
 }
-
-
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct LineNumber {
@@ -167,4 +166,71 @@ pub fn relevant_lines(ranges: &[Range], s: &str) -> Vec<LineNumber> {
         .iter()
         .map(|r| r.line)
         .collect()
+}
+
+pub fn add_context(lines: &[LineNumber], context: usize, max_line: LineNumber) -> Vec<LineNumber> {
+    let mut result: Vec<LineNumber> = vec![];
+
+    for line in lines {
+        let earliest = max(0, line.number as isize - context as isize) as usize;
+        let latest = min(line.number + context, max_line.number);
+
+        for i in earliest..latest + 1 {
+            let mut is_new = true;
+            if let Some(last_line) = result.last() {
+                if i <= last_line.number {
+                    is_new = false;
+                }
+            }
+            if is_new {
+                result.push(LineNumber::from(i));
+            }
+        }
+    }
+
+    result
+}
+
+pub fn max_line(before_str: &str, after_str: &str) -> LineNumber {
+    let before_lines: Vec<_> = before_str.lines().collect();
+    let after_lines: Vec<_> = after_str.lines().collect();
+    LineNumber::from(max(before_lines.len(), after_lines.len()) - 1)
+}
+
+#[test]
+fn test_add_context() {
+    let start_lines = [
+        LineNumber::from(5),
+        LineNumber::from(12),
+        LineNumber::from(14),
+    ];
+    let result = add_context(&start_lines, 2, LineNumber::from(20));
+
+    let expected = [
+        LineNumber::from(3),
+        LineNumber::from(4),
+        LineNumber::from(5),
+        LineNumber::from(6),
+        LineNumber::from(7),
+        LineNumber::from(10),
+        LineNumber::from(11),
+        LineNumber::from(12),
+        LineNumber::from(13),
+        LineNumber::from(14),
+        LineNumber::from(15),
+        LineNumber::from(16),
+    ];
+    assert_eq!(result, expected);
+}
+
+#[test]
+fn test_add_zero_context() {
+    let start_lines = [
+        LineNumber::from(5),
+        LineNumber::from(12),
+        LineNumber::from(14),
+    ];
+    let result = add_context(&start_lines, 0, LineNumber::from(20));
+
+    assert_eq!(result, start_lines);
 }
