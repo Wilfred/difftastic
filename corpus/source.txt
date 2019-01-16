@@ -63,7 +63,7 @@ var x = @"NodePath"
   (expression_statement (node_path))
   (expression_statement (node_path))
   (ERROR (UNEXPECTED ' ')) (expression_statement (string))
-  (variable_statement (identifier) (node_path)))
+  (variable_statement (name) (node_path)))
 
 =====================================
 Get Node
@@ -82,7 +82,7 @@ var x = $"node/path"
   (expression_statement (get_node))
   (expression_statement (get_node))
   (ERROR (UNEXPECTED ' ')) (expression_statement (string))
-  (variable_statement (identifier) (get_node)))
+  (variable_statement (name) (get_node)))
 
 =====================================
 Breakpoint Statement
@@ -111,11 +111,11 @@ var x: Type = "hello"
 ---
 
 (source
-  (variable_statement (identifier))
-  (variable_statement (identifier) (string))
-  (variable_statement (identifier) (inferred_type) (string))
-  (variable_statement (identifier) (type (identifier)))
-  (variable_statement (identifier) (type (identifier)) (string)))
+  (variable_statement (name))
+  (variable_statement (name) (string))
+  (variable_statement (name) (inferred_type) (string))
+  (variable_statement (name) (type))
+  (variable_statement (name) (type) (string)))
 
 =====================================
 Variable Assign Expressions
@@ -126,7 +126,7 @@ var x = 1 + x + 1
 ---
 
 (source
-  (variable_statement (identifier)
+  (variable_statement (name)
       (binary_operator (binary_operator (integer) (identifier)) (integer))))
 
 =====================================
@@ -143,12 +143,12 @@ puppetsync var hello
 ---
 
 (source
-  (variable_statement (remote_keyword) (identifier))
-  (variable_statement (remote_keyword) (identifier))
-  (variable_statement (remote_keyword) (identifier))
-  (variable_statement (remote_keyword) (identifier))
-  (variable_statement (remote_keyword) (identifier))
-  (variable_statement (remote_keyword) (identifier)))
+  (variable_statement (remote_keyword) (name))
+  (variable_statement (remote_keyword) (name))
+  (variable_statement (remote_keyword) (name))
+  (variable_statement (remote_keyword) (name))
+  (variable_statement (remote_keyword) (name))
+  (variable_statement (remote_keyword) (name)))
 
 =====================================
 Export Variables
@@ -168,14 +168,14 @@ export(Type, "Param") var a = "a"
 ---
 
 (source
-  (export_variable_statement (identifier))
-  (export_variable_statement (identifier) (string))
-  (export_variable_statement (remote_keyword) (identifier))
-  (export_variable_statement (argument_list (identifier)) (identifier))
-  (export_variable_statement (argument_list (identifier)) (identifier) (string))
-  (export_variable_statement (argument_list (identifier)) (remote_keyword) (identifier))
-  (export_variable_statement (argument_list (identifier) (identifier)) (identifier))
-  (export_variable_statement (argument_list (identifier) (string)) (identifier) (string)))
+  (export_variable_statement (name))
+  (export_variable_statement (name) (string))
+  (export_variable_statement (remote_keyword) (name))
+  (export_variable_statement (argument_list (identifier)) (name))
+  (export_variable_statement (argument_list (identifier)) (name) (string))
+  (export_variable_statement (argument_list (identifier)) (remote_keyword) (name))
+  (export_variable_statement (argument_list (identifier) (identifier)) (name))
+  (export_variable_statement (argument_list (identifier) (string)) (name) (string)))
 
 =====================================
 SetGet Variables
@@ -188,9 +188,9 @@ var x setget ,getter
 ---
 
 (source
-  (variable_statement (identifier) (setget (setter (identifier)) (getter (identifier))))
-  (variable_statement (identifier) (setget (setter (identifier))))
-  (variable_statement (identifier) (setget (getter (identifier))))
+  (variable_statement (name) (setget (setter) (getter)))
+  (variable_statement (name) (setget (setter)))
+  (variable_statement (name) (setget (getter)))
 )
 
 =====================================
@@ -203,8 +203,8 @@ onready var hello: World
 ---
 
 (source
-  (onready_variable_statement (identifier))
-  (onready_variable_statement (identifier) (type (identifier))))
+  (onready_variable_statement (name))
+  (onready_variable_statement (name) (type)))
 
 =====================================
 Const Variables
@@ -217,9 +217,9 @@ const CONST : int = 1
 ---
 
 (source
-  (const_statement (identifier) (integer))
-  (const_statement (identifier) (inferred_type) (integer))
-  (const_statement (identifier) (type (identifier)) (integer)))
+  (const_statement (name) (integer))
+  (const_statement (name) (inferred_type) (integer))
+  (const_statement (name) (type) (integer)))
 
 
 =====================================
@@ -232,8 +232,8 @@ var x :=
 ---
 
 (source
-  (variable_statement (identifier) (ERROR (identifier)) (identifier))
-  (ERROR (identifier)  (inferred_type)))
+  (variable_statement (name) (ERROR (identifier)) (identifier))
+  (ERROR (name)  (inferred_type)))
 
 =====================================
 Function Definitions
@@ -272,25 +272,25 @@ func hello(typed_default_param: Type="string") -> Type:
 ---
 
 (source
-  (function_definition (identifier) (parameters)
+  (function_definition (name) (parameters)
     (body (pass_statement)))
-  (function_definition (identifier) (parameters) (return_type (type (identifier)))
+  (function_definition (name) (parameters) (return_type (type))
     (body (pass_statement)))
-  (function_definition (identifier) (parameters (identifier))
+  (function_definition (name) (parameters (identifier))
     (body (pass_statement)))
-  (function_definition (identifier) (parameters (identifier)) (return_type (type (identifier)))
+  (function_definition (name) (parameters (identifier)) (return_type (type))
     (body (pass_statement)))
-  (function_definition (identifier) (parameters (default_parameter (identifier) (string)))
+  (function_definition (name) (parameters (default_parameter (identifier) (string)))
     (body (pass_statement)))
-  (function_definition (identifier) (parameters (default_parameter (identifier) (string))) (return_type (type (identifier)))
+  (function_definition (name) (parameters (default_parameter (identifier) (string))) (return_type (type))
     (body (pass_statement)))
-  (function_definition (identifier) (parameters (typed_parameter (identifier) (type (identifier))))
+  (function_definition (name) (parameters (typed_parameter (identifier) (type)))
     (body (pass_statement)))
-  (function_definition (identifier) (parameters (typed_parameter (identifier) (type (identifier)))) (return_type (type (identifier)))
+  (function_definition (name) (parameters (typed_parameter (identifier) (type))) (return_type (type))
     (body (pass_statement)))
-  (function_definition (identifier) (parameters (typed_default_parameter (identifier) (type (identifier)) (string)))
+  (function_definition (name) (parameters (typed_default_parameter (identifier) (type) (string)))
     (body (pass_statement)))
-  (function_definition (identifier) (parameters (typed_default_parameter (identifier) (type (identifier)) (string))) (return_type (type (identifier)))
+  (function_definition (name) (parameters (typed_default_parameter (identifier) (type) (string))) (return_type (type))
     (body (pass_statement))))
 
 =====================================
@@ -307,17 +307,17 @@ puppetsync func hello(): pass
 ---
 
 (source
-  (function_definition (remote_keyword) (identifier) (parameters)
+  (function_definition (remote_keyword) (name) (parameters)
     (body (pass_statement)))
-  (function_definition (remote_keyword) (identifier) (parameters)
+  (function_definition (remote_keyword) (name) (parameters)
     (body (pass_statement)))
-  (function_definition (remote_keyword) (identifier) (parameters)
+  (function_definition (remote_keyword) (name) (parameters)
     (body (pass_statement)))
-  (function_definition (remote_keyword) (identifier) (parameters)
+  (function_definition (remote_keyword) (name) (parameters)
     (body (pass_statement)))
-  (function_definition (remote_keyword) (identifier) (parameters)
+  (function_definition (remote_keyword) (name) (parameters)
     (body (pass_statement)))
-  (function_definition (remote_keyword) (identifier) (parameters)
+  (function_definition (remote_keyword) (name) (parameters)
     (body (pass_statement))))
 
 =====================================
@@ -329,7 +329,7 @@ static func hello(): pass
 ---
 
 (source
-  (function_definition (static_keyword) (identifier) (parameters)
+  (function_definition (static_keyword) (name) (parameters)
     (body (pass_statement))))
 
 =====================================
@@ -367,9 +367,9 @@ var x = hello(.hello())
 
 (source
   (expression_statement (base_call (identifier) (argument_list)))
-  (variable_statement (identifier) (base_call (identifier) (argument_list)))
+  (variable_statement (name) (base_call (identifier) (argument_list)))
   (variable_statement
-    (identifier)
+    (name)
     (call (identifier) (argument_list (base_call (identifier) (argument_list))))))
 
 =====================================
@@ -468,9 +468,9 @@ signal x(a, b)
 ---
 
 (source
-  (signal_statement (identifier))
-  (signal_statement (identifier))
-  (signal_statement (identifier) (identifier_list (identifier) (identifier))))
+  (signal_statement (name))
+  (signal_statement (name))
+  (signal_statement (name) (identifier_list (identifier) (identifier))))
 
 =====================================
 Class Name
@@ -482,8 +482,8 @@ class_name Name, "icon"
 ---
 
 (source
-  (class_name_statement (identifier))
-  (class_name_statement (identifier) (class_name_icon_path (string))))
+  (class_name_statement (name))
+  (class_name_statement (name) (class_name_icon_path (string))))
 
 =====================================
 Tool and Extend
@@ -501,11 +501,11 @@ extends Ident.Attr.Attr
 (source
   (tool_statement)
   (extends_statement (string))
-  (extends_statement (string) (dotted_name (identifier)))
-  (extends_statement (string) (dotted_name (identifier) (identifier)))
-  (extends_statement (dotted_name (identifier)))
-  (extends_statement (dotted_name (identifier) (identifier)))
-  (extends_statement (dotted_name (identifier) (identifier) (identifier))))
+  (extends_statement (string) (dotted_type (type)))
+  (extends_statement (string) (dotted_type (type) (type)))
+  (extends_statement (dotted_type (type)))
+  (extends_statement (dotted_type (type) (type)))
+  (extends_statement (dotted_type (type) (type) (type))))
 
 =====================================
 Inner Class
@@ -523,17 +523,17 @@ class Name:
 ---
 
 (source
-  (class_definition (identifier)
+  (class_definition (name)
     (body
-      (function_definition (identifier) (parameters)
+      (function_definition (name) (parameters)
         (body (pass_statement)))))
-  (class_definition (identifier) (extends_statement (dotted_name (identifier)))
+  (class_definition (name) (extends_statement (dotted_type (type)))
     (body
-      (function_definition (identifier) (parameters)
+      (function_definition (name) (parameters)
         (body (pass_statement)))))
-  (class_definition (identifier)
+  (class_definition (name)
     (body
-      (extends_statement (dotted_name (identifier))))))
+      (extends_statement (dotted_type (type))))))
 
 ============================================
 Enum declarations
@@ -554,7 +554,7 @@ enum {
 ---
 
 (source
-  (enum_definition (identifier)
+  (enum_definition (name)
     (enumerator_list
       (enumerator (identifier))
       (enumerator (identifier) (integer))

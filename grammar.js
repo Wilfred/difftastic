@@ -24,7 +24,7 @@ module.exports = grammar({
 
   name: 'gdscript',
 
-  word: $ => $.identifier,
+  word: $ => $._identifier,
 
   extras: $ => [
     $.comment,
@@ -54,8 +54,14 @@ module.exports = grammar({
 // -                                     Atoms                                 -
 // -----------------------------------------------------------------------------
 
-    identifier: $ => /[a-zA-Z_][a-zA-Z_0-9]*/,
-    type: $ => $.identifier,
+    _identifier: $ => /[a-zA-Z_][a-zA-Z_0-9]*/,
+    // any "symbol"
+    identifier: $ => $._identifier,
+    // named symbol of a statement
+    // such as a function name or class name
+    name: $ => $._identifier,
+    // symbol that only represents a type
+    type: $ => $._identifier,
     comment: $ => token(seq('#', /.*/)),
     _semicolon: $ => ';',
     true: $ => 'true',
@@ -199,8 +205,8 @@ module.exports = grammar({
       $._variable_typed_assignment
     ),
 
-    setter: $ => $.identifier,
-    getter: $ => $.identifier,
+    setter: $ => $._identifier,
+    getter: $ => $._identifier,
     setget: $ => seq(
       'setget',
       choice(
@@ -211,7 +217,7 @@ module.exports = grammar({
     ),
 
     _variable_statement: $ => seq(
-      'var', $.identifier,
+      'var', $.name,
       optional(choice(
         $._variable_typed_definition,
         $._variable_inferred_type_assignment,
@@ -239,7 +245,7 @@ module.exports = grammar({
 
     const_statement: $ => seq(
       'const',
-      $.identifier,
+      $.name,
       choice(
         $._variable_inferred_type_assignment,
         $._variable_typed_assignment,
@@ -261,7 +267,7 @@ module.exports = grammar({
     identifier_list: $ => commaSep1($.identifier, ','),
     signal_statement: $ => seq(
       'signal',
-      $.identifier,
+      $.name,
       optional(seq(
         '(', optional($.identifier_list), ')'
       ))
@@ -270,16 +276,16 @@ module.exports = grammar({
     class_name_icon_path: $ => $.string,
     class_name_statement: $ => seq(
       'class_name',
-      $.identifier,
+      $.name,
       optional(seq(',', $.class_name_icon_path))
     ),
 
-    dotted_name: $ => sep1($.identifier, '.'),
+    dotted_type: $ => sep1($.type, '.'),
     extends_statement: $ => seq(
       'extends',
       choice(
-        $.dotted_name,
-        seq($.string, optional(seq('.', $.dotted_name))),
+        $.dotted_type,
+        seq($.string, optional(seq('.', $.dotted_type))),
       )
     ),
 
@@ -333,7 +339,7 @@ module.exports = grammar({
 
     class_definition: $ => seq(
       'class',
-      $.identifier,
+      $.name,
       optional($.extends_statement),
       ':',
       $.body
@@ -342,7 +348,7 @@ module.exports = grammar({
     // -- Enum
     enum_definition: $ => seq(
       'enum',
-      optional($.identifier),
+      optional($.name),
       $.enumerator_list
     ),
 
@@ -619,7 +625,7 @@ module.exports = grammar({
     function_definition: $ => seq(
       optional(choice($.static_keyword, $.remote_keyword)),
       'func',
-      $.identifier,
+      $.name,
       $.parameters,
       optional($.return_type),
       ':',

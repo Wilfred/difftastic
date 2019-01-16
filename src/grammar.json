@@ -1,6 +1,6 @@
 {
   "name": "gdscript",
-  "word": "identifier",
+  "word": "_identifier",
   "rules": {
     "source": {
       "type": "REPEAT",
@@ -9,13 +9,21 @@
         "name": "_statement"
       }
     },
-    "identifier": {
+    "_identifier": {
       "type": "PATTERN",
       "value": "[a-zA-Z_][a-zA-Z_0-9]*"
     },
+    "identifier": {
+      "type": "SYMBOL",
+      "name": "_identifier"
+    },
+    "name": {
+      "type": "SYMBOL",
+      "name": "_identifier"
+    },
     "type": {
       "type": "SYMBOL",
-      "name": "identifier"
+      "name": "_identifier"
     },
     "comment": {
       "type": "TOKEN",
@@ -799,11 +807,11 @@
     },
     "setter": {
       "type": "SYMBOL",
-      "name": "identifier"
+      "name": "_identifier"
     },
     "getter": {
       "type": "SYMBOL",
-      "name": "identifier"
+      "name": "_identifier"
     },
     "setget": {
       "type": "SEQ",
@@ -862,7 +870,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "identifier"
+          "name": "name"
         },
         {
           "type": "CHOICE",
@@ -983,7 +991,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "identifier"
+          "name": "name"
         },
         {
           "type": "CHOICE",
@@ -1091,7 +1099,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "identifier"
+          "name": "name"
         },
         {
           "type": "CHOICE",
@@ -1141,7 +1149,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "identifier"
+          "name": "name"
         },
         {
           "type": "CHOICE",
@@ -1166,12 +1174,12 @@
         }
       ]
     },
-    "dotted_name": {
+    "dotted_type": {
       "type": "SEQ",
       "members": [
         {
           "type": "SYMBOL",
-          "name": "identifier"
+          "name": "type"
         },
         {
           "type": "REPEAT",
@@ -1184,7 +1192,7 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "identifier"
+                "name": "type"
               }
             ]
           }
@@ -1203,7 +1211,7 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "dotted_name"
+              "name": "dotted_type"
             },
             {
               "type": "SEQ",
@@ -1224,7 +1232,7 @@
                         },
                         {
                           "type": "SYMBOL",
-                          "name": "dotted_name"
+                          "name": "dotted_type"
                         }
                       ]
                     },
@@ -1409,7 +1417,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "identifier"
+          "name": "name"
         },
         {
           "type": "CHOICE",
@@ -1445,7 +1453,7 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "identifier"
+              "name": "name"
             },
             {
               "type": "BLANK"
@@ -2870,7 +2878,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "identifier"
+          "name": "name"
         },
         {
           "type": "SYMBOL",
