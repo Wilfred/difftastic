@@ -279,10 +279,11 @@ integer with decimal prefix
 ===========================
 
 0d1_234
+0D1_234
 
 ---
 
-(program (integer))
+(program (integer) (integer))
 
 ===============================
 integer with hexadecimal prefix
@@ -308,12 +309,12 @@ integer with octal prefix
 ==========================
 integer with binary prefix
 ==========================
-
 0b1_0
+0B1_0
 
 ---
 
-(program (integer))
+(program (integer) (integer))
 
 =====
 float
