@@ -1,6 +1,6 @@
 {
   "name": "tree-sitter-gdscript",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "GDScript grammar for tree-sitter",
   "main": "index.js",
   "keywords": [
@@ -16,9 +16,10 @@
     "tree-sitter-cli": "^0.13.2"
   },
   "scripts": {
-    "build": "tree-sitter generate && node-gyp build",
-    "test": "tree-sitter test && script/parse-examples",
-    "test-windows": "tree-sitter test"
+    "build": "tree-sitter generate && tree-sitter build",
+    "buildTest": "tree-sitter generate && tree-sitter build && tree-sitter test",
+    "test": "tree-sitter test",
+    "test-windows": "node_modules/.bin/tree-sitter test"
   },
   "repository": "https://github.com/PrestonKnopp/tree-sitter-gdscript"
 }
