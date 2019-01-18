@@ -10,17 +10,12 @@
         },
         {
             "type": "npm",
-            "script": "regen",
-            "problemMatcher": []
-        },
-        {
-            "type": "npm",
-            "script": "gen",
-            "problemMatcher": []
-        },
-        {
-            "type": "npm",
             "script": "build",
+            "problemMatcher": []
+        },
+        {
+            "type": "npm",
+            "script": "parse-1",
             "problemMatcher": []
         }
     ]

@@ -160,6 +160,66 @@ update msg model =
 )
 
 =====================================
+Strings
+=====================================
+
+type alias String1 =
+                  ""
+
+type alias String2 =
+                  "15131465"
+
+type alias String3 =
+                  "string1"
+
+type alias String4 =
+                  "string{(*)]+]}"
+
+type alias String5 =
+                  "string with space"
+
+type alias String6 =
+                  """
+                  multiline
+
+                  """
+
+
+---
+
+(file
+  (type_alias (type_alias_identifier) (string))
+  (type_alias (type_alias_identifier) (string))
+  (type_alias (type_alias_identifier) (string))
+  (type_alias (type_alias_identifier) (string))
+  (type_alias (type_alias_identifier) (string))
+  (type_alias (type_alias_identifier) (string))
+)
+
+
+=====================================
+Tuples
+=====================================
+
+type alias Tuple1 =
+                  ()
+type alias Tuple2 =
+                  (0, 15)
+type alias Tuple3 =
+                  (0,15)
+type alias Tuple4 =
+                  ("string",  "string")
+
+---
+
+(file
+  (type_alias (type_alias_identifier) (tuple))
+  (type_alias (type_alias_identifier) (tuple (int) (int)))
+  (type_alias (type_alias_identifier) (tuple (int) (int)))
+  (type_alias (type_alias_identifier) (tuple (string) (string)))
+)
+
+=====================================
 Function statement with list
 =====================================
 

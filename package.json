@@ -6,7 +6,8 @@
   "scripts": {
     "build": "tree-sitter generate && node-gyp build",
     "test": "tree-sitter test",
-    "parse": "tree-sitter parse ./examples/basic.elm"
+    "parse-basic": "tree-sitter parse ./examples/basic.elm",
+    "parse-1": "tree-sitter parse ./examples/1.elm"
   },
   "author": "Razze",
   "license": "ISC",

@@ -8,7 +8,8 @@ module.exports = grammar({
             $._module,
             $._imports,
             $._custom_type_statements,
-            $._simple_statements
+            $._simple_statements,
+            $.type_alias
         ),
 
         _custom_type_statements: $ => choice(
@@ -26,6 +27,14 @@ module.exports = grammar({
                     $.custom_type_variant
                 )
             )
+        ),
+
+        type_alias: $ => seq(
+            'type',
+            'alias',
+            $.type_alias_identifier,
+            '=',
+            $._basic_datatypes
         ),
 
         _module: $ => choice(
@@ -107,8 +116,6 @@ module.exports = grammar({
 
         func_call_params: $ => repeat1(
             choice(
-                $.inline_record,
-                $.list,
                 $._basic_datatypes
                 // $.custom_type_identifier
             )
@@ -176,7 +183,7 @@ module.exports = grammar({
 
         module_identifier: $ => /[A-Z][a-z]*/,
 
-        type_alias_identifier: $ => /[A-Z][a-z]*/,
+        type_alias_identifier: $ => /[A-Z][a-z0-9]*/,
 
         custom_type_identifier: $ => /[A-Z][a-z]*/,
 
@@ -212,19 +219,55 @@ module.exports = grammar({
         string: $ => choice(
             seq(
                 '"',
-                /.*/,
+                /[\w &[{}(=*)+\]!#@-]*/,
                 '"'
             ),
             seq(
                 '"""',
-                /.*/,
+                /[\w\s]*/,
                 '"""'
             ),
         ),
 
+
+        // string: $ => seq(
+        //     alias($._string_start, '"'),
+        //     repeat(choice($.escape_sequence, $._string_content)),
+        //     alias($._string_end, '"')
+        //     ),
+
+        // escape_sequence: $ => token(seq(
+        //     '\\',
+        //     choice(
+        //         /u[a-fA-F\d]{4}/,
+        //         /U[a-fA-F\d]{8}/,
+        //         /x[a-fA-F\d]{2}/,
+        //         /o\d{3}/,
+        //         /\r\n/,
+        //         /[^uxo]/
+        //     )
+        // )),
+
         _basic_datatypes: $ => choice(
+            $.string,
             $.int,
-            $.string
+            $.tuple,
+            $.inline_record,
+            $.list,
+        ),
+
+        tuple: $ => choice(
+            seq(
+                '(',
+                ')'
+                ),
+                seq(
+                    '(',
+                    $._basic_datatypes,
+                    ',',
+                    $._basic_datatypes,
+                    ')'
+            )
         )
 
     }
