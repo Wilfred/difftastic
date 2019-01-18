@@ -1,6 +1,8 @@
 use colored::*;
 use language::{language_lexer, lex, Language};
 use lines::Range;
+use std::cmp::min;
+use std::collections::HashMap;
 
 #[derive(Debug, PartialEq, Clone, Copy)]
 pub enum Change {
@@ -47,14 +49,19 @@ pub fn difference_positions(
     positions
 }
 
+/// Return a copy of `s` with this colour applied to the ranges specified.
 fn apply_color(s: &str, ranges: &[Range], c: Color) -> String {
     let mut res = String::with_capacity(s.len());
     let mut i = 0;
     for range in ranges {
+        if range.start >= s.len() {
+            break;
+        }
+
         if i < range.start {
             res.push_str(&s[i..range.start]);
         }
-        let colored = &s[range.start..range.end].color(c);
+        let colored = &s[range.start..min(s.len(), range.end)].color(c);
         res.push_str(&colored.to_string());
         i = range.end;
     }
@@ -74,6 +81,28 @@ fn apply_color_whole_length() {
     assert_eq!(
         apply_color("foo", &vec![Range { start: 0, end: 3 }], Color::Red),
         "foo".red().to_string()
+    );
+}
+
+#[test]
+fn apply_color_beyond_end() {
+    assert_eq!(
+        apply_color("foobar", &vec![Range { start: 6, end: 10 }], Color::Black),
+        "foobar"
+    );
+}
+
+/// A range whose start is in bounds, but end is beyond the string
+/// end.
+#[test]
+fn apply_color_overlapping_end() {
+    let mut expected = String::new();
+    expected.push_str("foo");
+    expected.push_str(&"bar".green().to_string());
+
+    assert_eq!(
+        apply_color("foobar", &vec![Range { start: 3, end: 100 }], Color::Green),
+        expected
     );
 }
 
