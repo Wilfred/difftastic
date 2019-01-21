@@ -1,6 +1,6 @@
 use colored::*;
 use language::{language_lexer, lex, Language};
-use lines::Range;
+use lines::{LineRange, Range};
 use std::cmp::min;
 use std::collections::HashMap;
 
@@ -67,6 +67,45 @@ fn apply_color(s: &str, ranges: &[Range], c: Color) -> String {
     }
     if i < s.len() {
         res.push_str(&s[i..s.len()]);
+    }
+    res
+}
+
+/// Apply this colour to all the ranges specified. Handle lines being
+/// shorter than the ranges specified.
+fn apply_color_by_line(s: &str, ranges: &[LineRange], c: Color) -> String {
+    // TODO: we're assuming ranges is sorted. Either sort, or assert.
+
+    let mut ranges_by_line: HashMap<usize, Vec<LineRange>> = HashMap::with_capacity(ranges.len());
+    for range in ranges {
+        let mut inserted = false;
+        if let Some(matching_ranges) = ranges_by_line.get_mut(&range.line.number) {
+            (*matching_ranges).push(*range);
+            inserted = true;
+        }
+        if !inserted {
+            ranges_by_line.insert(range.line.number, vec![*range]);
+        }
+    }
+
+    let mut res = String::with_capacity(s.len());
+    for (i, line) in s.lines().enumerate() {
+        match ranges_by_line.get(&i) {
+            Some(line_ranges) => {
+                let ranges: Vec<_> = line_ranges
+                    .iter()
+                    .map(|lr| Range {
+                        start: lr.start,
+                        end: lr.end,
+                    })
+                    .collect();
+
+                res.push_str(&apply_color(&line, &ranges, c));
+            }
+            None => {
+                res.push_str(line);
+            }
+        }
     }
     res
 }

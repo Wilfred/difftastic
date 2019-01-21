@@ -30,11 +30,11 @@ struct LinePosition {
 
 /// A range within a single line of a string.
 #[derive(Debug, PartialEq, Clone, Copy)]
-struct LineRange {
+pub struct LineRange {
     /// All zero-indexed.
-    line: LineNumber,
-    start: usize,
-    end: usize,
+    pub line: LineNumber,
+    pub start: usize,
+    pub end: usize,
 }
 
 fn line_position(offset: usize, newline_positions: &[usize]) -> LinePosition {
