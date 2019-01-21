@@ -99,25 +99,30 @@ fn split_line_boundaries(
     ranges
 }
 
+/// A vector of the start positions of all the lines in `s`.
+fn line_start_positions(s: &str) -> Vec<usize> {
+    let newline_re = Regex::new("\n").unwrap();
+    let newlines: Vec<_> = newline_re.find_iter(s).map(|mat| mat.end()).collect();
+
+    let mut positions = Vec::with_capacity(newlines.len() + 1);
+    positions.push(0);
+    positions.extend(&newlines);
+
+    positions
+}
+
 /// Convert absolute string ranges to line-relative ranges. If the
 /// absolute range crosses a newline, split it into multiple
 /// line-relative ranges.
 fn line_relative_ranges(ranges: &[Range], s: &str) -> Vec<LineRange> {
-    let newline_re = Regex::new("\n").unwrap();
-    let newlines: Vec<_> = newline_re.find_iter(s).map(|mat| mat.end()).collect();
-    let mut line_start_positions = vec![0];
-    line_start_positions.extend(&newlines);
+    let start_positions = line_start_positions(s);
 
     let mut rel_positions = vec![];
     for range in ranges {
-        let start_pos = line_position(range.start, &newlines);
-        let end_pos = line_position(range.end, &newlines);
+        let start_pos = line_position(range.start, &start_positions);
+        let end_pos = line_position(range.end, &start_positions);
 
-        rel_positions.extend(split_line_boundaries(
-            start_pos,
-            end_pos,
-            &line_start_positions,
-        ));
+        rel_positions.extend(split_line_boundaries(start_pos, end_pos, &start_positions));
     }
 
     rel_positions
