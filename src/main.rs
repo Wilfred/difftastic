@@ -115,7 +115,7 @@ fn main() {
             Arg::with_name("context")
                 .long("context")
                 .takes_value(true)
-                .help("Number of lines of context (todo)"),
+                .help("Number of lines of context (default 3)"),
         )
         .arg(Arg::with_name("first").index(1).required(true))
         .arg(Arg::with_name("second").index(2).required(true))
@@ -151,17 +151,16 @@ fn main() {
     let (mut before_colored, mut after_colored) =
         highlight_differences(&before_src, &after_src, &differences);
 
-    if let Some(context) = matches.value_of("context") {
-        let context = usize::from_str_radix(context, 10).unwrap();
-        let max_line_num = max_line(&before_src, &after_src);
-        lines = add_context(&lines, context, max_line_num);
+    let context = matches.value_of("context").unwrap_or("3");
+    let context = usize::from_str_radix(context, 10).unwrap();
+    let max_line_num = max_line(&before_src, &after_src);
+    lines = add_context(&lines, context, max_line_num);
 
-        // TODO: this is very dumb. We assume the left and right line
-        // up (rather than showing gaps if we've just added a big
-        // block of text).
-        before_colored = filter_lines(&before_colored, &lines);
-        after_colored = filter_lines(&after_colored, &lines);
-    }
+    // TODO: this is very dumb. We assume the left and right line
+    // up (rather than showing gaps if we've just added a big
+    // block of text).
+    before_colored = filter_lines(&before_colored, &lines);
+    after_colored = filter_lines(&after_colored, &lines);
 
     print!(
         "{}",
