@@ -106,13 +106,13 @@ fn main() {
         .about("A word level diff tool that understands syntax!")
         .author("Wilfred Hughes")
         .arg(
-            Arg::with_name("language")
+            Arg::with_name("LANGUAGE")
                 .long("lang")
                 .takes_value(true)
                 .help("Override the language parser"),
         )
         .arg(
-            Arg::with_name("context")
+            Arg::with_name("LINES")
                 .long("context")
                 .takes_value(true)
                 .help("Number of lines of context (default 3)"),
@@ -135,7 +135,7 @@ fn main() {
     // whitespace.
     after_src = pad_string(&after_src, pad_to_length);
 
-    let language = match matches.value_of("language") {
+    let language = match matches.value_of("LANGUAGE") {
         Some(s) => Language::from(s).expect("No such language known."),
         _ => infer_language(before_path).expect("Could not infer language"),
     };
@@ -151,7 +151,7 @@ fn main() {
     let (mut before_colored, mut after_colored) =
         highlight_differences(&before_src, &after_src, &differences);
 
-    let context = matches.value_of("context").unwrap_or("3");
+    let context = matches.value_of("LINES").unwrap_or("3");
     let context = usize::from_str_radix(context, 10).unwrap();
     let max_line_num = max_line(&before_src, &after_src);
     lines = add_context(&lines, context, max_line_num);
