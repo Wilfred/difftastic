@@ -117,6 +117,12 @@ fn main() {
                 .takes_value(true)
                 .help("Number of lines of context (default 3)"),
         )
+        .arg(
+            Arg::with_name("COLUMNS")
+                .long("width")
+                .takes_value(true)
+                .help("Override terminal width"),
+        )
         .arg(Arg::with_name("first").index(1).required(true))
         .arg(Arg::with_name("second").index(2).required(true))
         .get_matches();
@@ -126,7 +132,11 @@ fn main() {
     let after_path = matches.value_of("second").unwrap();
     let mut after_src = fs::read_to_string(after_path).expect("Unable to read PATH 2");
 
-    let terminal_width = term_width().unwrap_or(80);
+    let terminal_width = match matches.value_of("COLUMNS") {
+        Some(width) => usize::from_str_radix(width, 10).unwrap(),
+        None => term_width().unwrap_or(80),
+    };
+
     let pad_to_length = std::cmp::max(max_line_length(&before_src), terminal_width / 2 - 1);
     // Pad the left column, so the right column aligns. Do this before
     // diffing, so we can calculate the visible length correctly.
