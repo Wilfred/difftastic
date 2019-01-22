@@ -249,6 +249,7 @@ pub fn enforce_length(s: &str, line_length: usize) -> String {
         if line.len() > line_length {
             // Truncate.
             result.push_str(&line[0..line_length]);
+            result.push_str("\n");
         } else {
             // Pad with spaces.
             result.push_str(&format!("{:width$}\n", line, width = line_length));
@@ -256,4 +257,16 @@ pub fn enforce_length(s: &str, line_length: usize) -> String {
     }
 
     result
+}
+
+#[test]
+fn enforce_length_short() {
+    let result = enforce_length("foo\nbar\n", 5);
+    assert_eq!(result, "foo  \nbar  \n");
+}
+
+#[test]
+fn enforce_length_long() {
+    let result = enforce_length("foobar\nbarbaz\n", 3);
+    assert_eq!(result, "foo\nbar\n");
 }
