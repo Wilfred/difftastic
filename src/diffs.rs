@@ -106,8 +106,17 @@ fn apply_color_by_line(s: &str, ranges: &[LineRange], c: Color) -> String {
                 res.push_str(line);
             }
         }
+        res.push_str("\n");
     }
     res
+}
+
+#[test]
+fn apply_color_by_line_no_positions() {
+    assert_eq!(
+        apply_color_by_line("foo\nbar\n", &vec![], Color::Black),
+        "foo\nbar\n"
+    );
 }
 
 #[test]
