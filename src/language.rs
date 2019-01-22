@@ -18,14 +18,18 @@ pub enum Language {
     JavaScript,
     Lisp,
     Css,
+    Rust,
 }
 
 impl Language {
+    /// Given a human friendly name, return the corresponding enum
+    /// variant.
     pub fn from(s: &str) -> Option<Language> {
         match s {
             "css" => Some(Language::Css),
             "js" => Some(Language::JavaScript),
             "lisp" => Some(Language::Lisp),
+            "rust" => Some(Language::Rust),
             _ => None
         }
     }
@@ -38,6 +42,8 @@ pub fn infer_language(filename: &str) -> Option<Language> {
         return Some(Language::Lisp);
     } else if filename.ends_with(".css") {
         return Some(Language::Css);
+    } else if filename.ends_with(".rs") {
+        return Some(Language::Rust);
     }
     None
 }
@@ -46,6 +52,10 @@ pub fn language_lexer(lang: Language) -> Regex {
     match lang {
         Language::JavaScript => {
             Regex::new(r#"//.+|[a-zA-Z0-9_]+|"(\\.|[^"\\])*"|[^ \t\n]"#).unwrap()
+        }
+        Language::Rust => {
+            // TODO: proper raw string literal lexing.
+            Regex::new(r#"//.+|[a-zA-Z0-9_]+!?|"(\\.|[^"\\])*"|[^ \t\n]"#).unwrap()
         }
         Language::Lisp => Regex::new(r#";.+|[a-zA-Z0-9_*!.-]+|"(\\.|[^"\\])*"|[^ \t\n]"#).unwrap(),
         Language::Css => {
