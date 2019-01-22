@@ -14,8 +14,7 @@ use diffs::{added, difference_positions, highlight_differences, removed};
 use itertools::EitherOrBoth::{Both, Left, Right};
 use itertools::Itertools;
 use language::{infer_language, Language};
-use lines::{add_context, max_line, relevant_lines, LineNumber};
-use std::cmp::max;
+use lines::{add_context, enforce_length, max_line, relevant_lines, LineNumber};
 use std::collections::HashSet;
 use std::fs;
 use std::iter::FromIterator;
@@ -25,26 +24,6 @@ fn term_width() -> Option<usize> {
         return Some(w);
     }
     None
-}
-
-fn max_line_length(s: &str) -> usize {
-    let mut max_length = 0;
-    for line in s.lines() {
-        max_length = max(max_length, line.len());
-    }
-
-    max_length
-}
-
-// Ensure that every line in S in the same length, by appending spaces as necessary.
-fn pad_string(s: &str, min_length: usize) -> String {
-    let mut result = String::with_capacity(s.len());
-    for line in s.lines() {
-        result.push_str(&format!("{:width$}\n", line, width = min_length));
-    }
-    result.push_str("\n");
-
-    result
 }
 
 /// Return a copy of string that only contains the lines specified.
@@ -137,13 +116,9 @@ fn main() {
         None => term_width().unwrap_or(80),
     };
 
-    let pad_to_length = std::cmp::max(max_line_length(&before_src), terminal_width / 2 - 1);
-    // Pad the left column, so the right column aligns. Do this before
-    // diffing, so we can calculate the visible length correctly.
-    before_src = pad_string(&before_src, pad_to_length);
-    // Pad after too, so unchanged comments don't have differing
-    // whitespace.
-    after_src = pad_string(&after_src, pad_to_length);
+    let line_length = terminal_width / 2 - 1;
+    before_src = enforce_length(&before_src, line_length);
+    after_src = enforce_length(&after_src, line_length);
 
     let language = match matches.value_of("LANGUAGE") {
         Some(s) => Language::from(s).expect("No such language known."),
@@ -174,6 +149,6 @@ fn main() {
 
     print!(
         "{}",
-        vertical_concat(&before_colored, &after_colored, pad_to_length)
+        vertical_concat(&before_colored, &after_colored, line_length)
     );
 }

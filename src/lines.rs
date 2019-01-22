@@ -239,3 +239,21 @@ fn test_add_zero_context() {
 
     assert_eq!(result, start_lines);
 }
+
+/// Ensure that every line in `s` has this length. Pad short lines and
+/// truncate long lines.
+pub fn enforce_length(s: &str, line_length: usize) -> String {
+    let mut result = String::with_capacity(s.len());
+    for line in s.lines() {
+        // TODO: use length in chars not bytes.
+        if line.len() > line_length {
+            // Truncate.
+            result.push_str(&line[0..line_length]);
+        } else {
+            // Pad with spaces.
+            result.push_str(&format!("{:width$}\n", line, width = line_length));
+        }
+    }
+
+    result
+}
