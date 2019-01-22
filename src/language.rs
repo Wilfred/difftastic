@@ -51,7 +51,7 @@ pub fn infer_language(filename: &str) -> Option<Language> {
 pub fn language_lexer(lang: Language) -> Regex {
     match lang {
         Language::JavaScript => {
-            Regex::new(r#"//.+|[a-zA-Z0-9_]+|"(\\.|[^"\\])*"|[^ \t\n]"#).unwrap()
+            Regex::new(r#"//.+|[a-zA-Z0-9_]+|"(\\.|[^"\\])*"|'(\\.|[^'\\])*'|[^ \t\n]"#).unwrap()
         }
         Language::Rust => {
             // TODO: proper raw string literal lexing.
@@ -87,4 +87,16 @@ fn lex_single_symbol_css() {
     let token = &tokens[0];
     assert_eq!(token.start, 0);
     assert_eq!(token.text, ".foo");
+}
+
+#[test]
+fn lex_string_js() {
+    let re = language_lexer(Language::JavaScript);
+    let tokens = lex("'foo'", &re);
+
+    // Since we've overriden eq for tokens, manually compare fields.
+    assert_eq!(tokens.len(), 1);
+    let token = &tokens[0];
+    assert_eq!(token.start, 0);
+    assert_eq!(token.text, "'foo'");
 }
