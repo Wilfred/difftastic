@@ -1,6 +1,6 @@
 use colored::*;
 use language::{language_lexer, lex, Language};
-use lines::{LineRange, Range};
+use lines::{line_relative_ranges, LineRange, Range};
 use std::cmp::min;
 use std::collections::HashMap;
 
@@ -175,8 +175,11 @@ pub fn highlight_differences(
     after_src: &str,
     differences: &[(Change, Range)],
 ) -> (String, String) {
-    let before_colored = apply_color(before_src, &removed(differences), Color::Red);
-    let after_colored = apply_color(after_src, &added(differences), Color::Green);
+    let before_ranges = line_relative_ranges(&removed(differences), &before_src);
+    let after_ranges = line_relative_ranges(&added(differences), &after_src);
+
+    let before_colored = apply_color_by_line(&before_src, &before_ranges, Color::Red);
+    let after_colored = apply_color_by_line(&after_src, &after_ranges, Color::Green);
 
     (before_colored, after_colored)
 }

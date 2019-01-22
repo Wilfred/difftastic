@@ -114,7 +114,7 @@ fn line_start_positions(s: &str) -> Vec<usize> {
 /// Convert absolute string ranges to line-relative ranges. If the
 /// absolute range crosses a newline, split it into multiple
 /// line-relative ranges.
-fn line_relative_ranges(ranges: &[Range], s: &str) -> Vec<LineRange> {
+pub fn line_relative_ranges(ranges: &[Range], s: &str) -> Vec<LineRange> {
     let start_positions = line_start_positions(s);
 
     let mut rel_positions = vec![];
