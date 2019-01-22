@@ -41,7 +41,7 @@ fn line_position(offset: usize, newline_positions: &[usize]) -> LinePosition {
     for line_num in (0..newline_positions.len()).rev() {
         if offset > newline_positions[line_num as usize] {
             return LinePosition {
-                line: LineNumber::from(line_num as usize + 1),
+                line: LineNumber::from(line_num as usize),
                 column: offset - newline_positions[line_num as usize],
             };
         }
