@@ -3,18 +3,23 @@
   "version": "1.0.0",
   "description": "Tree sitter definitions for elm",
   "main": "index.js",
+    "keywords": [
+      "parser",
+      "lexer"
+    ],
+  "author": "Razze",
+  "license": "MIT",
+  "dependencies": {
+    "nan": "^2.12.1"
+  },
+  "devDependencies": {
+    "tree-sitter-cli": "^0.13.16"
+  },
   "scripts": {
     "build": "tree-sitter generate && node-gyp build",
     "test": "tree-sitter test",
     "parse-basic": "tree-sitter parse ./examples/basic.elm",
     "parse-1": "tree-sitter parse ./examples/1.elm"
   },
-  "author": "Razze",
-  "license": "ISC",
-  "dependencies": {
-    "nan": "^2.12.1"
-  },
-  "devDependencies": {
-    "tree-sitter-cli": "^0.13.16"
-  }
+  "repository": "https://github.com/razzeee/tree-sitter-elm"
 }
