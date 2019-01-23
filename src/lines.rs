@@ -37,6 +37,59 @@ pub struct LineRange {
     pub end: usize,
 }
 
+/// A struct for efficiently converting absolute string positions to
+/// line-relative positions.
+pub struct NewlinePositions {
+    /// A vector of the start positions of all the lines in `s`.
+    positions: Vec<usize>,
+}
+
+impl NewlinePositions {
+    pub fn from(s: &str) -> NewlinePositions {
+        let newline_re = Regex::new("\n").unwrap();
+        let newlines: Vec<_> = newline_re.find_iter(s).map(|mat| mat.end()).collect();
+
+        let mut positions = Vec::with_capacity(newlines.len() + 1);
+        positions.push(0);
+        positions.extend(&newlines);
+
+        NewlinePositions {
+            positions: positions,
+        }
+    }
+
+    fn from_offset(self: &NewlinePositions, offset: usize) -> LinePosition {
+        for line_num in (0..self.positions.len()).rev() {
+            if offset > self.positions[line_num as usize] {
+                return LinePosition {
+                    line: LineNumber::from(line_num as usize),
+                    column: offset - self.positions[line_num as usize],
+                };
+            }
+        }
+
+        LinePosition {
+            line: LineNumber::from(0),
+            column: offset,
+        }
+    }
+
+    /// Convert absolute string ranges to line-relative ranges. If the
+    /// absolute range crosses a newline, split it into multiple
+    /// line-relative ranges.
+    pub fn from_ranges(self: &NewlinePositions, ranges: &[Range]) -> Vec<LineRange> {
+        let mut rel_positions = vec![];
+        for range in ranges {
+            let start_pos = line_position(range.start, &self.positions);
+            let end_pos = line_position(range.end, &self.positions);
+
+            rel_positions.extend(split_line_boundaries(start_pos, end_pos, &self.positions));
+        }
+
+        rel_positions
+    }
+}
+
 fn line_position(offset: usize, newline_positions: &[usize]) -> LinePosition {
     for line_num in (0..newline_positions.len()).rev() {
         if offset > newline_positions[line_num as usize] {
@@ -99,40 +152,12 @@ fn split_line_boundaries(
     ranges
 }
 
-/// A vector of the start positions of all the lines in `s`.
-fn line_start_positions(s: &str) -> Vec<usize> {
-    let newline_re = Regex::new("\n").unwrap();
-    let newlines: Vec<_> = newline_re.find_iter(s).map(|mat| mat.end()).collect();
-
-    let mut positions = Vec::with_capacity(newlines.len() + 1);
-    positions.push(0);
-    positions.extend(&newlines);
-
-    positions
-}
-
-/// Convert absolute string ranges to line-relative ranges. If the
-/// absolute range crosses a newline, split it into multiple
-/// line-relative ranges.
-pub fn line_relative_ranges(ranges: &[Range], s: &str) -> Vec<LineRange> {
-    let start_positions = line_start_positions(s);
-
-    let mut rel_positions = vec![];
-    for range in ranges {
-        let start_pos = line_position(range.start, &start_positions);
-        let end_pos = line_position(range.end, &start_positions);
-
-        rel_positions.extend(split_line_boundaries(start_pos, end_pos, &start_positions));
-    }
-
-    rel_positions
-}
-
 #[test]
-fn line_relative_first_line() {
-    let relative_positions = line_relative_ranges(&vec![Range { start: 1, end: 3 }], "foo");
+fn from_ranges_first_line() {
+    let newline_positions = NewlinePositions::from("foo");
+    let relative_ranges = newline_positions.from_ranges(&vec![Range { start: 1, end: 3 }]);
     assert_eq!(
-        relative_positions,
+        relative_ranges,
         vec![LineRange {
             line: LineNumber::from(0),
             start: 1,
@@ -142,13 +167,12 @@ fn line_relative_first_line() {
 }
 
 #[test]
-fn line_relative_split_over_multiple() {
-    let relative_positions = line_relative_ranges(
-        &vec![Range { start: 5, end: 10 }],
-        "foo\nbar\nbaz\naaaaaaaaaaa",
-    );
+fn from_ranges_split_over_multiple_lines() {
+    let newline_positions = NewlinePositions::from("foo\nbar\nbaz\naaaaaaaaaaa");
+    let relative_ranges = newline_positions.from_ranges(&vec![Range { start: 5, end: 10 }]);
+
     assert_eq!(
-        relative_positions,
+        relative_ranges,
         vec![
             (LineRange {
                 line: LineNumber::from(1),
@@ -167,7 +191,8 @@ fn line_relative_split_over_multiple() {
 /// Given a slice of absolute positioned ranges, return the lines that
 /// they land on.
 pub fn relevant_lines(ranges: &[Range], s: &str) -> Vec<LineNumber> {
-    line_relative_ranges(ranges, s)
+    NewlinePositions::from(s)
+        .from_ranges(ranges)
         .iter()
         .map(|r| r.line)
         .collect()
