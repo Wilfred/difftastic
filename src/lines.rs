@@ -74,82 +74,66 @@ impl NewlinePositions {
         }
     }
 
+    // Given a range within a string, split it into ranges where each
+    // range is on a single line.
+    fn split_line_boundaries(
+        self: &NewlinePositions,
+        start: LinePosition,
+        end: LinePosition,
+    ) -> Vec<LineRange> {
+        let mut ranges = vec![];
+
+        if start.line == end.line {
+            ranges.push(LineRange {
+                line: start.line,
+                start: start.column,
+                end: end.column,
+            });
+            return ranges;
+        } else {
+            let first_line_end_pos = self.positions[start.line.number + 1] - 1;
+            let first_line_length = first_line_end_pos - self.positions[start.line.number];
+            ranges.push(LineRange {
+                line: start.line,
+                start: start.column,
+                end: first_line_length,
+            });
+        }
+
+        for line_num in (start.line.number + 1)..end.line.number {
+            let line_end_pos = self.positions[line_num + 1] - 1;
+            let line_length = line_end_pos - self.positions[line_num];
+            ranges.push(LineRange {
+                line: LineNumber::from(line_num),
+                start: 0,
+                end: line_length,
+            });
+        }
+
+        // Last line, up to end.
+        ranges.push(LineRange {
+            line: end.line,
+            start: 0,
+            end: end.column,
+        });
+
+        ranges
+    }
+
     /// Convert absolute string ranges to line-relative ranges. If the
     /// absolute range crosses a newline, split it into multiple
     /// line-relative ranges.
     pub fn from_ranges(self: &NewlinePositions, ranges: &[Range]) -> Vec<LineRange> {
         let mut rel_positions = vec![];
         for range in ranges {
-            let start_pos = line_position(range.start, &self.positions);
-            let end_pos = line_position(range.end, &self.positions);
+            let start_pos = self.from_offset(range.start);
+            let end_pos = self.from_offset(range.end);
 
-            rel_positions.extend(split_line_boundaries(start_pos, end_pos, &self.positions));
+            rel_positions.extend(self.split_line_boundaries(start_pos, end_pos));
         }
 
         rel_positions
     }
-}
-
-fn line_position(offset: usize, newline_positions: &[usize]) -> LinePosition {
-    for line_num in (0..newline_positions.len()).rev() {
-        if offset > newline_positions[line_num as usize] {
-            return LinePosition {
-                line: LineNumber::from(line_num as usize),
-                column: offset - newline_positions[line_num as usize],
-            };
-        }
-    }
-
-    LinePosition {
-        line: LineNumber::from(0),
-        column: offset,
-    }
-}
-
-// Given a range within a string, split it into ranges where each
-// range is on a single line.
-fn split_line_boundaries(
-    start: LinePosition,
-    end: LinePosition,
-    line_start_positions: &[usize],
-) -> Vec<LineRange> {
-    let mut ranges = vec![];
-
-    if start.line == end.line {
-        ranges.push(LineRange {
-            line: start.line,
-            start: start.column,
-            end: end.column,
-        });
-        return ranges;
-    } else {
-        let first_line_end_pos = line_start_positions[start.line.number + 1] - 1;
-        let first_line_length = first_line_end_pos - line_start_positions[start.line.number];
-        ranges.push(LineRange {
-            line: start.line,
-            start: start.column,
-            end: first_line_length,
-        });
-    }
-
-    for line_num in (start.line.number + 1)..end.line.number {
-        let line_end_pos = line_start_positions[line_num + 1] - 1;
-        let line_length = line_end_pos - line_start_positions[line_num];
-        ranges.push(LineRange {
-            line: LineNumber::from(line_num),
-            start: 0,
-            end: line_length,
-        });
-    }
-
-    // Last line, up to end.
-    ranges.push(LineRange {
-        line: end.line,
-        start: 0,
-        end: end.column,
-    });
-
-    ranges
 }
 
 #[test]
