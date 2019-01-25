@@ -20,10 +20,7 @@ use std::fs;
 use std::iter::FromIterator;
 
 fn term_width() -> Option<usize> {
-    if let Some((w, _)) = term_size::dimensions() {
-        return Some(w);
-    }
-    None
+    term_size::dimensions().map(|(w, _)| w)
 }
 
 /// Return a copy of string that only contains the lines specified.
