@@ -10,11 +10,14 @@ pub enum ChangeKind {
     Remove,
 }
 
-pub fn difference_positions(
-    before_src: &str,
-    after_src: &str,
-    lang: Language,
-) -> (Vec<(ChangeKind, Range)>) {
+/// An addition or removal in a string.
+pub struct Change {
+    kind: ChangeKind,
+    /// The position of the affected text.
+    range: Range,
+}
+
+pub fn difference_positions(before_src: &str, after_src: &str, lang: Language) -> (Vec<Change>) {
     let re = language_lexer(lang);
     let before_tokens = lex(&before_src, &re);
     let after_tokens = lex(&after_src, &re);
@@ -24,25 +27,25 @@ pub fn difference_positions(
         match d {
             // Only present in the before, so has been removed.
             diff::Result::Left(l) => {
-                positions.push((
-                    ChangeKind::Remove,
-                    Range {
+                positions.push(Change {
+                    kind: ChangeKind::Remove,
+                    range: Range {
                         start: l.start,
                         end: l.start + l.text.len(),
                     },
-                ));
+                });
             }
             // Present in both.
             diff::Result::Both(_, _) => (),
             // Only present in the after.
             diff::Result::Right(r) => {
-                positions.push((
-                    ChangeKind::Add,
-                    Range {
+                positions.push(Change {
+                    kind: ChangeKind::Add,
+                    range: Range {
                         start: r.start,
                         end: r.start + r.text.len(),
                     },
-                ));
+                });
             }
         }
     }
@@ -154,26 +157,26 @@ fn apply_color_overlapping_end() {
     );
 }
 
-pub fn added(differences: &[(ChangeKind, Range)]) -> Vec<Range> {
+pub fn added(differences: &[Change]) -> Vec<Range> {
     differences
         .iter()
-        .filter(|(c, _)| *c == ChangeKind::Add)
-        .map(|(_, r)| *r)
+        .filter(|c| c.kind == ChangeKind::Add)
+        .map(|c| c.range)
         .collect()
 }
 
-pub fn removed(differences: &[(ChangeKind, Range)]) -> Vec<Range> {
+pub fn removed(differences: &[Change]) -> Vec<Range> {
     differences
         .iter()
-        .filter(|(c, _)| *c == ChangeKind::Remove)
-        .map(|(_, r)| *r)
+        .filter(|c| c.kind == ChangeKind::Remove)
+        .map(|c| c.range)
         .collect()
 }
 
 pub fn highlight_differences(
     before_src: &str,
     after_src: &str,
-    differences: &[(ChangeKind, Range)],
+    differences: &[Change],
 ) -> (String, String) {
     let before_newlines = NewlinePositions::from(before_src);
     let after_newlines = NewlinePositions::from(after_src);
