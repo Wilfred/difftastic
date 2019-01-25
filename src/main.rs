@@ -127,25 +127,28 @@ fn main() {
 
     let differences = difference_positions(&before_src, &after_src, language);
 
-    let mut lines = vec![];
-    lines.extend(relevant_lines(&removed(&differences), &before_src));
-    lines.extend(relevant_lines(&added(&differences), &after_src));
-    lines.sort();
-    lines.dedup();
+    let mut left_lines = relevant_lines(&removed(&differences), &before_src);
+    left_lines.sort();
+    left_lines.dedup();
+
+    let mut right_lines = relevant_lines(&added(&differences), &after_src);
+    right_lines.sort();
+    right_lines.dedup();
 
     let (mut before_colored, mut after_colored) =
         highlight_differences(&before_src, &after_src, &differences);
 
     let context = matches.value_of("LINES").unwrap_or("3");
     let context = usize::from_str_radix(context, 10).unwrap();
-    let max_line_num = max_line(&before_src, &after_src);
-    lines = add_context(&lines, context, max_line_num);
+
+    left_lines = add_context(&left_lines, context, max_line(&before_src));
+    right_lines = add_context(&right_lines, context, max_line(&after_src));
 
     // TODO: this is very dumb. We assume the left and right line
     // up (rather than showing gaps if we've just added a big
     // block of text).
-    before_colored = filter_lines(&before_colored, &lines);
-    after_colored = filter_lines(&after_colored, &lines);
+    before_colored = filter_lines(&before_colored, &left_lines);
+    after_colored = filter_lines(&after_colored, &right_lines);
 
     print!(
         "{}",

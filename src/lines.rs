@@ -205,10 +205,9 @@ pub fn add_context(lines: &[LineNumber], context: usize, max_line: LineNumber) -
     result
 }
 
-pub fn max_line(before_str: &str, after_str: &str) -> LineNumber {
-    let before_lines: Vec<_> = before_str.lines().collect();
-    let after_lines: Vec<_> = after_str.lines().collect();
-    LineNumber::from(max(before_lines.len(), after_lines.len()) - 1)
+pub fn max_line(s: &str) -> LineNumber {
+    let lines: Vec<_> = s.lines().collect();
+    LineNumber::from(lines.len() - 1)
 }
 
 #[test]
