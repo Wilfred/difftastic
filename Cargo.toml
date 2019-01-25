@@ -5,7 +5,7 @@ authors = ["Wilfred Hughes <me@wilfred.me.uk>"]
 
 [dependencies]
 regex = "1"
-colored = "1.6"
+colored = "1.7"
 diff = "0.1.11"
 clap = "2.32"
 itertools = "0.8.0"
