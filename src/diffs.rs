@@ -5,7 +5,7 @@ use std::cmp::min;
 use std::collections::HashMap;
 
 #[derive(Debug, PartialEq, Clone, Copy)]
-pub enum Change {
+pub enum ChangeKind {
     Add,
     Remove,
 }
@@ -14,7 +14,7 @@ pub fn difference_positions(
     before_src: &str,
     after_src: &str,
     lang: Language,
-) -> (Vec<(Change, Range)>) {
+) -> (Vec<(ChangeKind, Range)>) {
     let re = language_lexer(lang);
     let before_tokens = lex(&before_src, &re);
     let after_tokens = lex(&after_src, &re);
@@ -25,7 +25,7 @@ pub fn difference_positions(
             // Only present in the before, so has been removed.
             diff::Result::Left(l) => {
                 positions.push((
-                    Change::Remove,
+                    ChangeKind::Remove,
                     Range {
                         start: l.start,
                         end: l.start + l.text.len(),
@@ -37,7 +37,7 @@ pub fn difference_positions(
             // Only present in the after.
             diff::Result::Right(r) => {
                 positions.push((
-                    Change::Add,
+                    ChangeKind::Add,
                     Range {
                         start: r.start,
                         end: r.start + r.text.len(),
@@ -154,18 +154,18 @@ fn apply_color_overlapping_end() {
     );
 }
 
-pub fn added(differences: &[(Change, Range)]) -> Vec<Range> {
+pub fn added(differences: &[(ChangeKind, Range)]) -> Vec<Range> {
     differences
         .iter()
-        .filter(|(c, _)| *c == Change::Add)
+        .filter(|(c, _)| *c == ChangeKind::Add)
         .map(|(_, r)| *r)
         .collect()
 }
 
-pub fn removed(differences: &[(Change, Range)]) -> Vec<Range> {
+pub fn removed(differences: &[(ChangeKind, Range)]) -> Vec<Range> {
     differences
         .iter()
-        .filter(|(c, _)| *c == Change::Remove)
+        .filter(|(c, _)| *c == ChangeKind::Remove)
         .map(|(_, r)| *r)
         .collect()
 }
@@ -173,7 +173,7 @@ pub fn removed(differences: &[(Change, Range)]) -> Vec<Range> {
 pub fn highlight_differences(
     before_src: &str,
     after_src: &str,
-    differences: &[(Change, Range)],
+    differences: &[(ChangeKind, Range)],
 ) -> (String, String) {
     let before_newlines = NewlinePositions::from(before_src);
     let after_newlines = NewlinePositions::from(after_src);
