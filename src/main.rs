@@ -130,9 +130,24 @@ fn main() {
         .get_matches();
 
     let before_path = matches.value_of("first").unwrap();
-    let mut before_src = fs::read_to_string(before_path).expect("Unable to read PATH 1");
+    let mut before_src: String = match fs::read_to_string(before_path) {
+        Ok(src) => src.to_owned(),
+        Err(_) => {
+            // TODO: distinguish between no such file and a permissions error.
+            eprintln!("Could not read file: {}", before_path);
+            std::process::exit(1);
+        }
+    };
+
     let after_path = matches.value_of("second").unwrap();
-    let mut after_src = fs::read_to_string(after_path).expect("Unable to read PATH 2");
+    let mut after_src: String = match fs::read_to_string(after_path) {
+        Ok(src) => src.to_owned(),
+        Err(_) => {
+            // TODO: distinguish between no such file and a permissions error.
+            eprintln!("Could not read file: {}", after_path);
+            std::process::exit(1);
+        }
+    };
 
     let terminal_width = match matches.value_of("COLUMNS") {
         Some(width) => usize::from_str_radix(width, 10).unwrap(),
