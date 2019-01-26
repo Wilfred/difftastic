@@ -45,6 +45,7 @@ fn filter_concat(
 
     let mut left_i = 0;
     let mut right_i = 0;
+    let mut needs_separator = false;
 
     let mut result = String::new();
     let spacer = "  ";
@@ -62,6 +63,13 @@ fn filter_concat(
                 .get(&left_i)
                 .map(|ml| ml.opposite_line.number)
                 == Some(right_i);
+
+        if (include_left_i || include_right_i) && needs_separator {
+            result.push_str(&"-".repeat(max_left_length));
+            result.push_str(spacer);
+            result.push_str(&"-".repeat(max_left_length));
+            needs_separator = false;
+        }
 
         if include_left_i && include_right_i {
             result.push_str(left_str_lines[left_i]);
@@ -86,6 +94,8 @@ fn filter_concat(
         } else {
             left_i += 1;
             right_i += 1;
+
+            needs_separator = true;
         }
     }
 
