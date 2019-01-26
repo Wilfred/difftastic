@@ -1,4 +1,6 @@
+use std::collections::HashSet;
 use regex::Regex;
+use diffs::Change;
 use std::cmp::{max, min};
 
 // TODO: Move to a separate file, this isn't line related.
@@ -22,9 +24,9 @@ impl LineNumber {
 
 /// A position in a single line of a string.
 #[derive(Debug, PartialEq, Clone, Copy)]
-struct LinePosition {
+pub struct LinePosition {
     /// Both zero-indexed.
-    line: LineNumber,
+    pub line: LineNumber,
     column: usize,
 }
 
@@ -58,7 +60,7 @@ impl NewlinePositions {
         }
     }
 
-    fn from_offset(self: &NewlinePositions, offset: usize) -> LinePosition {
+    pub fn from_offset(self: &NewlinePositions, offset: usize) -> LinePosition {
         for line_num in (0..self.positions.len()).rev() {
             if offset > self.positions[line_num as usize] {
                 return LinePosition {
@@ -172,32 +174,68 @@ fn from_ranges_split_over_multiple_lines() {
     );
 }
 
-/// Given a slice of absolute positioned ranges, return the lines that
-/// they land on.
-pub fn relevant_lines(ranges: &[Range], s: &str) -> Vec<LineNumber> {
-    NewlinePositions::from(s)
-        .from_ranges(ranges)
-        .iter()
-        .map(|r| r.line)
-        .collect()
+#[derive(Debug, PartialEq)]
+pub struct MatchedLine {
+    pub line: LineNumber,
+    pub opposite_line: LineNumber
 }
 
-pub fn add_context(lines: &[LineNumber], context: usize, max_line: LineNumber) -> Vec<LineNumber> {
-    let mut result: Vec<LineNumber> = vec![];
+/// Given a slice of changes, return the unique lines that
+/// they land on, plus their corresponding line in the other file.
+pub fn relevant_lines(changes: &[Change], s: &str) -> Vec<MatchedLine> {
+    let newlines = NewlinePositions::from(s);
 
-    for line in lines {
-        let earliest = max(0, line.number as isize - context as isize) as usize;
-        let latest = min(line.number + context, max_line.number);
+    let mut line_nums_seen = HashSet::new();
+
+    let mut result = vec![];
+    for change in changes {
+        // TODO: refactor to from_range.
+        let line_relative_ranges = newlines.from_ranges(&[change.range]);
+        for range in line_relative_ranges {
+            if line_nums_seen.contains(&range.line) {
+                continue;
+            }
+
+            line_nums_seen.insert(range.line);
+            result.push(MatchedLine {
+                line: range.line,
+                opposite_line: change.opposite_line
+            });
+        }
+    }
+
+    result
+}
+
+pub fn add_context(lines: &[MatchedLine], context: usize, max_line: LineNumber) -> Vec<MatchedLine> {
+    let mut result: Vec<MatchedLine> = vec![];
+
+    for matched_line in lines {
+        // We know the line number that matches this line. In order to
+        // calculate the opposite line number for the context lines,
+        // we assume that they line up. Context line -1 should have
+        // opposite_line - 1.
+        let opposite_offset = matched_line.opposite_line.number as isize - matched_line.line.number as isize;
+        
+        let line_number = matched_line.line.number;
+        let earliest = max(0, line_number as isize - context as isize) as usize;
+        let latest = min(line_number + context, max_line.number);
 
         for i in earliest..latest + 1 {
             let mut is_new = true;
             if let Some(last_line) = result.last() {
-                if i <= last_line.number {
+                if i <= last_line.line.number {
                     is_new = false;
                 }
             }
             if is_new {
-                result.push(LineNumber::from(i));
+                result.push(
+                    MatchedLine {
+                        line: LineNumber::from(i),
+                        opposite_line: LineNumber::from(max(i as isize + opposite_offset, 0) as usize)
+                    }
+
+                );
             }
         }
     }
@@ -212,26 +250,33 @@ pub fn max_line(s: &str) -> LineNumber {
 
 #[test]
 fn test_add_context() {
+    fn matched_line(i: usize) -> MatchedLine {
+        MatchedLine {
+            line: LineNumber::from(i),
+            opposite_line: LineNumber::from(i),
+        }
+    }
+    
     let start_lines = [
-        LineNumber::from(5),
-        LineNumber::from(12),
-        LineNumber::from(14),
+        matched_line(5),
+        matched_line(12),
+        matched_line(14),
     ];
     let result = add_context(&start_lines, 2, LineNumber::from(20));
 
     let expected = [
-        LineNumber::from(3),
-        LineNumber::from(4),
-        LineNumber::from(5),
-        LineNumber::from(6),
-        LineNumber::from(7),
-        LineNumber::from(10),
-        LineNumber::from(11),
-        LineNumber::from(12),
-        LineNumber::from(13),
-        LineNumber::from(14),
-        LineNumber::from(15),
-        LineNumber::from(16),
+        matched_line(3),
+        matched_line(4),
+        matched_line(5),
+        matched_line(6),
+        matched_line(7),
+        matched_line(10),
+        matched_line(11),
+        matched_line(12),
+        matched_line(13),
+        matched_line(14),
+        matched_line(15),
+        matched_line(16),
     ];
     assert_eq!(result, expected);
 }
@@ -239,9 +284,18 @@ fn test_add_context() {
 #[test]
 fn test_add_zero_context() {
     let start_lines = [
-        LineNumber::from(5),
-        LineNumber::from(12),
-        LineNumber::from(14),
+        MatchedLine {
+            line: LineNumber::from(5),
+            opposite_line: LineNumber::from(5),
+        },
+        MatchedLine {
+            line: LineNumber::from(12),
+            opposite_line: LineNumber::from(12),
+        },
+        MatchedLine {
+            line: LineNumber::from(14),
+            opposite_line: LineNumber::from(14),
+        }
     ];
     let result = add_context(&start_lines, 0, LineNumber::from(20));
 

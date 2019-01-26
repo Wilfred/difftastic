@@ -1,6 +1,6 @@
 use colored::*;
 use language::{language_lexer, lex, Language};
-use lines::{LineRange, NewlinePositions, Range};
+use lines::{LineNumber, LineRange, NewlinePositions, Range};
 use std::cmp::min;
 use std::collections::HashMap;
 
@@ -11,10 +11,14 @@ pub enum ChangeKind {
 }
 
 /// An addition or removal in a string.
+#[derive(Debug, PartialEq, Clone, Copy)]
 pub struct Change {
     kind: ChangeKind,
     /// The position of the affected text.
-    range: Range,
+    pub range: Range,
+    /// The corresponding position of the comparison string. This
+    /// enables us to line up changed lines between the two strings.
+    pub opposite_line: LineNumber,
 }
 
 pub fn difference_positions(before_src: &str, after_src: &str, lang: Language) -> (Vec<Change>) {
@@ -22,7 +26,13 @@ pub fn difference_positions(before_src: &str, after_src: &str, lang: Language) -
     let before_tokens = lex(&before_src, &re);
     let after_tokens = lex(&after_src, &re);
 
+    let before_newlines = NewlinePositions::from(before_src);
+    let after_newlines = NewlinePositions::from(after_src);
+
+    let mut left_line = LineNumber::from(0);
+    let mut right_line = LineNumber::from(0);
     let mut positions = vec![];
+
     for d in diff::slice(&before_tokens, &after_tokens) {
         match d {
             // Only present in the before, so has been removed.
@@ -33,10 +43,14 @@ pub fn difference_positions(before_src: &str, after_src: &str, lang: Language) -
                         start: l.start,
                         end: l.start + l.text.len(),
                     },
+                    opposite_line: right_line
                 });
             }
             // Present in both.
-            diff::Result::Both(_, _) => (),
+            diff::Result::Both(l, r) => {
+                left_line = before_newlines.from_offset(l.start).line;
+                right_line = after_newlines.from_offset(r.start).line;
+            }
             // Only present in the after.
             diff::Result::Right(r) => {
                 positions.push(Change {
@@ -45,6 +59,7 @@ pub fn difference_positions(before_src: &str, after_src: &str, lang: Language) -
                         start: r.start,
                         end: r.start + r.text.len(),
                     },
+                    opposite_line: left_line
                 });
             }
         }
@@ -157,19 +172,19 @@ fn apply_color_overlapping_end() {
     );
 }
 
-pub fn added(differences: &[Change]) -> Vec<Range> {
+pub fn added(differences: &[Change]) -> Vec<Change> {
     differences
         .iter()
         .filter(|c| c.kind == ChangeKind::Add)
-        .map(|c| c.range)
+        .map(|c| *c)
         .collect()
 }
 
-pub fn removed(differences: &[Change]) -> Vec<Range> {
+pub fn removed(differences: &[Change]) -> Vec<Change> {
     differences
         .iter()
         .filter(|c| c.kind == ChangeKind::Remove)
-        .map(|c| c.range)
+        .map(|c| *c)
         .collect()
 }
 
@@ -181,8 +196,11 @@ pub fn highlight_differences(
     let before_newlines = NewlinePositions::from(before_src);
     let after_newlines = NewlinePositions::from(after_src);
 
-    let before_ranges = before_newlines.from_ranges(&removed(differences));
-    let after_ranges = after_newlines.from_ranges(&added(differences));
+    let before_abs_ranges: Vec<_> = removed(differences).iter().map(|c| c.range).collect();
+    let after_abs_ranges: Vec<_> = added(differences).iter().map(|c| c.range).collect();
+
+    let before_ranges = before_newlines.from_ranges(&before_abs_ranges);
+    let after_ranges = after_newlines.from_ranges(&after_abs_ranges);
 
     let before_colored = apply_color_by_line(&before_src, &before_ranges, Color::Red);
     let after_colored = apply_color_by_line(&after_src, &after_ranges, Color::Green);

@@ -14,7 +14,7 @@ use diffs::{added, difference_positions, highlight_differences, removed};
 use itertools::EitherOrBoth::{Both, Left, Right};
 use itertools::Itertools;
 use language::{infer_language, Language};
-use lines::{add_context, enforce_length, max_line, relevant_lines, LineNumber};
+use lines::{add_context, enforce_length, max_line, relevant_lines, MatchedLine};
 use std::collections::HashSet;
 use std::fs;
 use std::iter::FromIterator;
@@ -24,9 +24,9 @@ fn term_width() -> Option<usize> {
 }
 
 /// Return a copy of string that only contains the lines specified.
-fn filter_lines(s: &str, lines_wanted: &[LineNumber]) -> String {
+fn filter_lines(s: &str, lines_wanted: &[MatchedLine]) -> String {
     let lines_wanted: HashSet<usize> =
-        HashSet::from_iter(lines_wanted.iter().map(|line| line.number));
+        HashSet::from_iter(lines_wanted.iter().map(|ml| ml.line.number));
 
     let mut result = String::new();
     let mut first = true;
@@ -45,8 +45,15 @@ fn filter_lines(s: &str, lines_wanted: &[LineNumber]) -> String {
 
 #[test]
 fn test_filter_lines() {
+    fn matched_line(i: usize) -> MatchedLine {
+        MatchedLine {
+            line: LineNumber::from(i),
+            opposite_line: LineNumber::from(i),
+        }
+    }
+
     let s = "foo\nbar\nbaz\nquux";
-    let result = filter_lines(s, &[LineNumber::from(1), LineNumber::from(3)]);
+    let result = filter_lines(s, &[matched_line(1), matched_line(3)]);
     assert_eq!(result, "bar\nquux");
 }
 
@@ -125,12 +132,7 @@ fn main() {
     let differences = difference_positions(&before_src, &after_src, language);
 
     let mut left_lines = relevant_lines(&removed(&differences), &before_src);
-    left_lines.sort();
-    left_lines.dedup();
-
     let mut right_lines = relevant_lines(&added(&differences), &after_src);
-    right_lines.sort();
-    right_lines.dedup();
 
     let (mut before_colored, mut after_colored) =
         highlight_differences(&before_src, &after_src, &differences);
