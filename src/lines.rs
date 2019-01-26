@@ -174,7 +174,7 @@ fn from_ranges_split_over_multiple_lines() {
     );
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Copy, Clone)]
 pub struct MatchedLine {
     pub line: LineNumber,
     pub opposite_line: LineNumber

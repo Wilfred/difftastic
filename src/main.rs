@@ -11,11 +11,9 @@ mod lines;
 
 use clap::{App, Arg};
 use diffs::{added, difference_positions, highlight_differences, removed};
-use itertools::EitherOrBoth::{Both, Left, Right};
-use itertools::Itertools;
 use language::{infer_language, Language};
 use lines::{add_context, enforce_length, max_line, relevant_lines, MatchedLine};
-use std::collections::HashSet;
+use std::collections::HashMap;
 use std::fs;
 use std::iter::FromIterator;
 
@@ -23,61 +21,72 @@ fn term_width() -> Option<usize> {
     term_size::dimensions().map(|(w, _)| w)
 }
 
-/// Return a copy of string that only contains the lines specified.
-fn filter_lines(s: &str, lines_wanted: &[MatchedLine]) -> String {
-    let lines_wanted: HashSet<usize> =
-        HashSet::from_iter(lines_wanted.iter().map(|ml| ml.line.number));
+fn index_map(lines: &[MatchedLine]) -> HashMap<usize, MatchedLine> {
+    HashMap::from_iter(lines.iter().map(|ml| (ml.line.number, *ml)))
+}
+
+/// Vertically concat the desired lines of `left` and `right`, lining
+/// up corresponding lines where possible.
+///
+/// Assumes that `enforce_length` has already been called on the
+/// strings.
+fn filter_concat(
+    left: &str,
+    right: &str,
+    left_lines: &[MatchedLine],
+    right_lines: &[MatchedLine],
+    max_left_length: usize,
+) -> String {
+    let left_line_indexes = index_map(left_lines);
+    let right_line_indexes = index_map(right_lines);
+
+    let left_str_lines: Vec<&str> = left.lines().collect();
+    let right_str_lines: Vec<&str> = right.lines().collect();
+
+    let mut left_i = 0;
+    let mut right_i = 0;
 
     let mut result = String::new();
-    let mut first = true;
-    for (i, line) in s.lines().enumerate() {
-        if lines_wanted.contains(&i) {
-            if first {
-                first = false;
-            } else {
-                result.push('\n');
-            }
-            result.push_str(line);
-        }
-    }
-    result
-}
-
-#[test]
-fn test_filter_lines() {
-    fn matched_line(i: usize) -> MatchedLine {
-        MatchedLine {
-            line: LineNumber::from(i),
-            opposite_line: LineNumber::from(i),
-        }
-    }
-
-    let s = "foo\nbar\nbaz\nquux";
-    let result = filter_lines(s, &[matched_line(1), matched_line(3)]);
-    assert_eq!(result, "bar\nquux");
-}
-
-fn vertical_concat(left: &str, right: &str, max_left_length: usize) -> String {
-    let mut result = String::with_capacity(left.len() + right.len());
-
     let spacer = "  ";
-    for item in left.lines().zip_longest(right.lines()) {
-        match item {
-            Both(left_line, right_line) if left_line != "" => {
-                result.push_str(left_line);
-                result.push_str(spacer);
-                result.push_str(right_line);
-            }
-            Both(_, right_line) | Right(right_line) => {
-                result.push_str(&" ".repeat(max_left_length));
-                result.push_str(spacer);
-                result.push_str(right_line);
-            }
-            Left(left_line) => {
-                result.push_str(left_line);
-            }
+
+    // Walk the lines and append any if they're present in the slice
+    // of matched lines as a line number or opposite line number.
+    while left_i < left_str_lines.len() || right_i < right_str_lines.len() {
+        let include_left_i = left_line_indexes.contains_key(&left_i)
+            || right_line_indexes
+                .get(&right_i)
+                .map(|ml| ml.opposite_line.number)
+                == Some(left_i);
+        let include_right_i = right_line_indexes.contains_key(&right_i)
+            || left_line_indexes
+                .get(&left_i)
+                .map(|ml| ml.opposite_line.number)
+                == Some(right_i);
+
+        if include_left_i && include_right_i {
+            result.push_str(left_str_lines[left_i]);
+            result.push_str(spacer);
+            result.push_str(right_str_lines[right_i]);
+            result.push_str("\n");
+
+            left_i += 1;
+            right_i += 1;
+        } else if include_left_i {
+            result.push_str(left_str_lines[left_i]);
+            result.push_str("\n");
+
+            left_i += 1;
+        } else if include_right_i {
+            result.push_str(&" ".repeat(max_left_length));
+            result.push_str(spacer);
+            result.push_str(right_str_lines[right_i]);
+            result.push_str("\n");
+
+            right_i += 1;
+        } else {
+            left_i += 1;
+            right_i += 1;
         }
-        result.push_str("\n");
     }
 
     result
@@ -134,7 +143,7 @@ fn main() {
     let mut left_lines = relevant_lines(&removed(&differences), &before_src);
     let mut right_lines = relevant_lines(&added(&differences), &after_src);
 
-    let (mut before_colored, mut after_colored) =
+    let (before_colored, after_colored) =
         highlight_differences(&before_src, &after_src, &differences);
 
     let context = matches.value_of("LINES").unwrap_or("3");
@@ -143,14 +152,13 @@ fn main() {
     left_lines = add_context(&left_lines, context, max_line(&before_src));
     right_lines = add_context(&right_lines, context, max_line(&after_src));
 
-    // TODO: this is very dumb. We assume the left and right line
-    // up (rather than showing gaps if we've just added a big
-    // block of text).
-    before_colored = filter_lines(&before_colored, &left_lines);
-    after_colored = filter_lines(&after_colored, &right_lines);
-
-    print!(
-        "{}",
-        vertical_concat(&before_colored, &after_colored, line_length)
+    let result = filter_concat(
+        &before_colored,
+        &after_colored,
+        &left_lines,
+        &right_lines,
+        line_length,
     );
+
+    print!("{}", result);
 }
