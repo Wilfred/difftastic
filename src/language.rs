@@ -90,7 +90,7 @@ fn lex_single_symbol_css() {
 }
 
 #[test]
-fn lex_string_js() {
+fn lex_js_single_quotes() {
     let re = language_lexer(Language::JavaScript);
     let tokens = lex("'foo'", &re);
 
@@ -99,4 +99,19 @@ fn lex_string_js() {
     let token = &tokens[0];
     assert_eq!(token.start, 0);
     assert_eq!(token.text, "'foo'");
+}
+
+#[test]
+fn lex_js_function_call_with_double_quotes() {
+    let re = language_lexer(Language::JavaScript);
+    let tokens = lex("foo(\"bar\")", &re);
+
+    assert_eq!(tokens.len(), 4);
+
+    // Since we've overriden eq for tokens, manually compare fields.
+    assert_eq!(tokens[0].start, 0);
+    assert_eq!(tokens[0].text, "foo");
+    assert_eq!(tokens[1].text, "(");
+    assert_eq!(tokens[2].text, "\"bar\"");
+    assert_eq!(tokens[3].text, ")");
 }
