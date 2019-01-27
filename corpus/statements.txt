@@ -221,7 +221,7 @@ type alias Tuple4 =
 
 =====================================
 Function statement with list
-=====================================
+commented out for now
 
 view model =
     div []
@@ -243,3 +243,4 @@ view model =
     )
   )
 )
+=====================================
