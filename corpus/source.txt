@@ -395,6 +395,36 @@ hello(hello("world"))
 )
 
 =====================================
+Attribute Accessors
+=====================================
+
+x.y
+x.y.z
+x.y.z()
+x.y().z
+x().y
+
+x.y[0]
+x[0].z
+x.y.z[0]
+x['s'].y.z[0]
+
+---
+
+(source
+  (expression_statement (attribute (identifier) (identifier)))
+  (expression_statement (attribute (identifier) (identifier) (identifier)))
+  (expression_statement (attribute (identifier) (identifier) (attribute_call (identifier) (argument_list))))
+  (expression_statement (attribute (identifier) (attribute_call (identifier) (argument_list)) (identifier)))
+  (expression_statement (attribute (call (identifier) (argument_list)) (identifier)))
+
+  (expression_statement (attribute (identifier) (attribute_subscript (identifier) (integer))))
+  (expression_statement (attribute (subscript (identifier) (integer)) (identifier)))
+  (expression_statement (attribute (identifier) (identifier) (attribute_subscript (identifier) (integer))))
+  (expression_statement (attribute (subscript (identifier) (string)) (identifier) (attribute_subscript (identifier) (integer))))
+)
+
+=====================================
 Match Statements
 =====================================
 

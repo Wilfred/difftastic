@@ -18,6 +18,8 @@ const PREC = {
   is: 20,
   as: 20,
   call: 21,
+  attribute: 22,
+  attribute_expression: 23
 }
 
 module.exports = grammar({
@@ -458,6 +460,28 @@ module.exports = grammar({
       $.parenthesized_expression
     ),
 
+    // This makes an attribute's ast linear
+    // When attribute is used inside $.attribute it becomes recursive spaghetti
+    _attribute_expression: $ => prec(PREC.attribute_expression, choice(
+      $.binary_operator,
+      $.identifier,
+      $.string,
+      $.integer,
+      $.float,
+      $.true,
+      $.false,
+      $.null,
+      $.unary_operator,
+      $.node_path,
+      $.get_node,
+      $.subscript,
+      $.base_call,
+      $.call,
+      $.list,
+      $.dictionary,
+      $.parenthesized_expression
+    )),
+
     // -- Operators
     not_operator: $ => prec(PREC.not, seq('not', $._expression)),
 
@@ -512,11 +536,20 @@ module.exports = grammar({
       ']'
     ),
 
-    attribute: $ => seq(
-      $._primary_expression,
-      '.',
-      $.identifier
-    ),
+    attribute_call: $ => prec(PREC.attribute, seq(
+      $.identifier, $.argument_list
+    )),
+    attribute_subscript: $ => prec(PREC.attribute, seq(
+      $.identifier, '[', $._primary_expression, ']'
+    )),
+    attribute: $ => prec(PREC.attribute, seq(
+      $._attribute_expression,
+      repeat1(seq('.', choice(
+        $.attribute_subscript,
+        $.attribute_call,
+        $.identifier
+      )))
+    )),
 
     conditional_expression: $ => prec.right(PREC.conditional, seq(
       $._expression,
