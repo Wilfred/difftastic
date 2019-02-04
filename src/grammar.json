@@ -51,7 +51,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "custom_type_identifier"
+          "name": "type_declaration"
         },
         {
           "type": "STRING",
@@ -92,7 +92,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "type_alias_identifier"
+          "name": "upper_case_identifier"
         },
         {
           "type": "STRING",
@@ -126,7 +126,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "dotted_name"
+          "name": "upper_case_qid"
         }
       ]
     },
@@ -139,7 +139,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "dotted_name"
+          "name": "upper_case_qid"
         },
         {
           "type": "STRING",
@@ -152,15 +152,23 @@
       ]
     },
     "_imports": {
-      "type": "CHOICE",
+      "type": "SEQ",
       "members": [
         {
           "type": "SYMBOL",
-          "name": "import_statement"
+          "name": "import_clause"
         },
         {
-          "type": "SYMBOL",
-          "name": "import_statement_with_exposing"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "exposing_list"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         }
       ]
     },
@@ -175,21 +183,8 @@
           "type": "SEQ",
           "members": [
             {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "SYMBOL",
-                  "name": "func_identifier"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "type_alias_identifier"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "_type_alias_identifier_exposing_all"
-                }
-              ]
+              "type": "SYMBOL",
+              "name": "exposed_type"
             },
             {
               "type": "REPEAT",
@@ -201,21 +196,8 @@
                     "value": ","
                   },
                   {
-                    "type": "CHOICE",
-                    "members": [
-                      {
-                        "type": "SYMBOL",
-                        "name": "func_identifier"
-                      },
-                      {
-                        "type": "SYMBOL",
-                        "name": "type_alias_identifier"
-                      },
-                      {
-                        "type": "SYMBOL",
-                        "name": "_type_alias_identifier_exposing_all"
-                      }
-                    ]
+                    "type": "SYMBOL",
+                    "name": "exposed_type"
                   }
                 ]
               }
@@ -225,6 +207,23 @@
         {
           "type": "STRING",
           "value": ")"
+        }
+      ]
+    },
+    "exposed_type": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "upper_case_identifier"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "lower_case_identifier"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_type_alias_identifier_exposing_all"
         }
       ]
     },
@@ -251,7 +250,7 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "func_identifier"
+          "name": "lower_case_identifier"
         },
         {
           "type": "REPEAT",
@@ -312,7 +311,7 @@
               "members": [
                 {
                   "type": "SYMBOL",
-                  "name": "custom_type_identifier"
+                  "name": "type_declaration"
                 },
                 {
                   "type": "STRING",
@@ -378,7 +377,7 @@
         ]
       }
     },
-    "import_statement": {
+    "import_clause": {
       "type": "SEQ",
       "members": [
         {
@@ -387,21 +386,13 @@
         },
         {
           "type": "SYMBOL",
-          "name": "dotted_name"
+          "name": "upper_case_qid"
         }
       ]
     },
-    "import_statement_with_exposing": {
+    "exposing_list": {
       "type": "SEQ",
       "members": [
-        {
-          "type": "STRING",
-          "value": "import"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "dotted_name"
-        },
         {
           "type": "STRING",
           "value": "exposing"
@@ -613,12 +604,12 @@
         }
       ]
     },
-    "dotted_name": {
+    "upper_case_qid": {
       "type": "SEQ",
       "members": [
         {
           "type": "SYMBOL",
-          "name": "module_identifier"
+          "name": "upper_case_identifier"
         },
         {
           "type": "REPEAT",
@@ -631,22 +622,18 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "module_identifier"
+                "name": "upper_case_identifier"
               }
             ]
           }
         }
       ]
     },
-    "module_identifier": {
+    "upper_case_identifier": {
       "type": "PATTERN",
       "value": "[A-Z][a-z]*"
     },
-    "type_alias_identifier": {
-      "type": "PATTERN",
-      "value": "[A-Z][a-z0-9]*"
-    },
-    "custom_type_identifier": {
+    "type_declaration": {
       "type": "PATTERN",
       "value": "[A-Z][a-z]*"
     },
@@ -659,7 +646,7 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "type_alias_identifier"
+          "name": "upper_case_identifier"
         },
         {
           "type": "STRING",
@@ -672,7 +659,7 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "func_identifier"
+          "name": "lower_case_identifier"
         },
         {
           "type": "SYMBOL",
@@ -680,7 +667,7 @@
         }
       ]
     },
-    "func_identifier": {
+    "lower_case_identifier": {
       "type": "PATTERN",
       "value": "[a-z][A-Za-z]*"
     },
@@ -689,7 +676,7 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "module_identifier"
+          "name": "upper_case_identifier"
         },
         {
           "type": "STRING",
@@ -700,11 +687,11 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "func_identifier"
+              "name": "lower_case_identifier"
             },
             {
               "type": "SYMBOL",
-              "name": "type_alias_identifier"
+              "name": "upper_case_identifier"
             }
           ]
         }
@@ -734,7 +721,7 @@
             },
             {
               "type": "PATTERN",
-              "value": "[\\w &[{}(=*)+\\]!#@-]*"
+              "value": "[\\w &\\[{}(=*)+\\]!#@-]*"
             },
             {
               "type": "STRING",

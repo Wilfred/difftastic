@@ -9,13 +9,14 @@ import Html.Events.Test
 ---
 
 (file
-  (import_statement
-    (dotted_name (module_identifier)))
-  (import_statement
-    (dotted_name (module_identifier) (module_identifier))
+  (import_clause
+    (upper_case_qid (upper_case_identifier))
   )
-  (import_statement
-    (dotted_name (module_identifier) (module_identifier) (module_identifier))
+  (import_clause
+    (upper_case_qid (upper_case_identifier) (upper_case_identifier))
+  )
+  (import_clause
+    (upper_case_qid (upper_case_identifier) (upper_case_identifier) (upper_case_identifier))
   )
 )
 
@@ -30,14 +31,36 @@ import Html exposing (Html, button, div, text)
 ---
 
 (file
-  (import_statement_with_exposing
-    (dotted_name (module_identifier) (module_identifier)) (func_identifier)
+  (import_clause
+    (upper_case_qid (upper_case_identifier) (upper_case_identifier))) (exposing_list (exposed_type (lower_case_identifier))
   )
-  (import_statement_with_exposing
-    (dotted_name (module_identifier) (module_identifier)) (func_identifier) (func_identifier)
+  (import_clause
+    (upper_case_qid (upper_case_identifier) (upper_case_identifier))) (exposing_list (exposed_type (lower_case_identifier)) (exposed_type (lower_case_identifier))
   )
-  (import_statement_with_exposing
-    (dotted_name (module_identifier)) (type_alias_identifier) (func_identifier) (func_identifier) (func_identifier)
+  (import_clause
+    (upper_case_qid (upper_case_identifier))) (exposing_list (exposed_type (upper_case_identifier)) (exposed_type (lower_case_identifier)) (exposed_type (lower_case_identifier)) (exposed_type (lower_case_identifier))
+  )
+)
+
+=====================================
+Import statements with as clause
+=====================================
+
+import Dict.Any as AnyDict exposing (AnyDict)
+import Remedy.ScreenId as ScreenId exposing (ScreenId)
+import Remedy.ScreenList as ScreenList
+
+---
+
+(file
+  (import_clause
+    (upper_case_qid (upper_case_identifier) (upper_case_identifier))) (as_clause (upper_case_identifier)) (exposing_list (exposed_type (upper_case_identifier))
+  )
+  (import_clause
+    (upper_case_qid (upper_case_identifier) (upper_case_identifier))) (as_clause (upper_case_identifier)) (exposing_list (exposed_type (upper_case_identifier))
+  )
+  (import_clause
+    (upper_case_qid (upper_case_identifier) (upper_case_identifier))) (as_clause (upper_case_identifier)
   )
 )
 
@@ -51,11 +74,11 @@ module Page.View
 ---
 
 (file
-  (module_statement
-    (dotted_name (module_identifier))
+  (module_declaration
+    (upper_case_qid (upper_case_identifier))
   )
-  (module_statement
-    (dotted_name (module_identifier) (module_identifier))
+  (module_declaration
+    (upper_case_qid (upper_case_identifier) (upper_case_identifier))
   )
 )
 
@@ -70,15 +93,56 @@ module Main exposing (Msg(..), main, update, view)
 ---
 
 (file
-  (module_statement_with_exposing
-    (dotted_name (module_identifier)) (func_identifier)
+  (module_declaration
+    (upper_case_qid (upper_case_identifier)) (exposing_list (exposed_type (lower_case_identifier)))
   )
-  (module_statement_with_exposing
-    (dotted_name (module_identifier)) (func_identifier) (func_identifier) (func_identifier)
+  (module_declaration
+    (upper_case_qid (upper_case_identifier)) (exposing_list (exposed_type (lower_case_identifier)) (exposed_type (lower_case_identifier)) (exposed_type (lower_case_identifier)))
   )
-  (module_statement_with_exposing
-    (dotted_name (module_identifier)) (type_alias_identifier) (func_identifier) (func_identifier) (func_identifier)
+  (module_declaration
+    (upper_case_qid (upper_case_identifier)) (exposing_list (exposed_type (upper_case_identifier)) (exposed_type (lower_case_identifier)) (exposed_type (lower_case_identifier)) (exposed_type (lower_case_identifier)))
   )
+)
+
+=====================================
+One line comments
+=====================================
+
+-- MODEL
+-- update
+-- more words
+
+---
+
+(file
+  (line_comment)
+  (line_comment)
+  (line_comment)
+)
+
+=====================================
+Block comments
+=====================================
+
+{- one line -}
+{- a multiline comment
+  how nice
+-}
+{-| Returns a dictionary mapping `ScreenId` to its problems, if any.
+-}
+{--}
+add x y = x + y
+--}
+
+---
+
+(file
+  (block_comment)
+  (block_comment)
+  (block_comment)
+  (block_comment)
+  (func_statement (lower_case_identifier) (func_param) (func_param) (func_param) (lower_case_identifier)) 
+  (line_comment)
 )
 
 =====================================
@@ -100,15 +164,12 @@ type Msg
 ---
 
 (file
-  (custom_type_statement
-    (custom_type_identifier) (custom_type_variant)
-  )
-  (custom_type_statement
-    (custom_type_identifier) (custom_type_variant) (custom_type_variant)
-  )
-  (custom_type_statement
-    (custom_type_identifier) (custom_type_variant) (custom_type_variant) (custom_type_variant)
-  )
+  (type_declaration (upper_case_identifier) (union_variant (upper_case_identifier)))
+  
+  (type_declaration (upper_case_identifier) (union_variant (upper_case_identifier)) (union_variant (upper_case_identifier)))
+  
+  (type_declaration (upper_case_identifier) (union_variant (upper_case_identifier)) (union_variant (upper_case_identifier)) (union_variant (upper_case_identifier)))
+  
 )
 
 =====================================
@@ -121,13 +182,13 @@ main =
 ---
 
 (file
-  (func_statement (func_identifier)
-    (func_call (module_identifier) (func_identifier)
+  (func_statement (lower_case_identifier)
+    (func_call (upper_case_identifier) (lower_case_identifier)
         (func_call_params
             (inline_record
                 (record_entry) (int)
-                (record_entry) (func_identifier)
-                (record_entry) (func_identifier)
+                (record_entry) (lower_case_identifier)
+                (record_entry) (lower_case_identifier)
             )
         )
     )
@@ -149,11 +210,11 @@ update msg model =
 ---
 
 (file
-  (func_statement (func_identifier) (func_param) (func_param)
+  (func_statement (lower_case_identifier) (func_param) (func_param)
     (case_call (func_param)
-        (custom_type_identifier)
+        (type_declaration)
             (func_param) (int)
-        (custom_type_identifier)
+        (type_declaration)
             (func_param) (int)
     )
   )
@@ -188,12 +249,12 @@ type alias String6 =
 ---
 
 (file
-  (type_alias (type_alias_identifier) (string))
-  (type_alias (type_alias_identifier) (string))
-  (type_alias (type_alias_identifier) (string))
-  (type_alias (type_alias_identifier) (string))
-  (type_alias (type_alias_identifier) (string))
-  (type_alias (type_alias_identifier) (string))
+  (type_alias (upper_case_identifier) (string))
+  (type_alias (upper_case_identifier) (string))
+  (type_alias (upper_case_identifier) (string))
+  (type_alias (upper_case_identifier) (string))
+  (type_alias (upper_case_identifier) (string))
+  (type_alias (upper_case_identifier) (string))
 )
 
 
@@ -213,15 +274,15 @@ type alias Tuple4 =
 ---
 
 (file
-  (type_alias (type_alias_identifier) (tuple))
-  (type_alias (type_alias_identifier) (tuple (int) (int)))
-  (type_alias (type_alias_identifier) (tuple (int) (int)))
-  (type_alias (type_alias_identifier) (tuple (string) (string)))
+  (type_alias (upper_case_identifier) (tuple))
+  (type_alias (upper_case_identifier) (tuple (int) (int)))
+  (type_alias (upper_case_identifier) (tuple (int) (int)))
+  (type_alias (upper_case_identifier) (tuple (string) (string)))
 )
 
 =====================================
 Function statement with list
-commented out for now
+=====================================
 
 view model =
     div []
@@ -233,14 +294,109 @@ view model =
 ---
 
 (file
-  (func_statement (func_identifier) (func_param)
-    (func_call (func_identifier) (func_call_params (list)
+  (func_statement (lower_case_identifier) (func_param)
+    (func_call (lower_case_identifier) 
+      (func_call_params 
+        (list)
         (list
-          (func_call (func_identifier) (func_call_params (list (func_call (func_identifier) custom_type_identifier)) (list (func_call (func_identifier) (string)))))
-          (func_call (func_identifier) (func_call_params (list) (list (func_call (func_identifier)) (func_call (module_identifier) (func_identifier)) (func_param))))
-          (func_call (func_identifier) (func_call_params (list (func_call (func_identifier) custom_type_identifier)) (list (func_call (func_identifier) (string)))))
+          (func_call (lower_case_identifier) (func_call_params 
+            (list (func_call (lower_case_identifier) (upper_case_identifier))) 
+            (list (func_call (lower_case_identifier) (func_call_params (string))))))
+          (func_call (lower_case_identifier) (func_call_params 
+            (list) 
+            (list (func_call (lower_case_identifier)) (func_call (lower_case_identifier)) (func_param))))
+          (func_call (lower_case_identifier) (func_call_params 
+            (list (func_call (lower_case_identifier) (upper_case_identifier))) 
+            (list (func_call (lower_case_identifier) (func_call_params (string)))))))
         )
     )
   )
 )
+
 =====================================
+Function statement with comment and type annotation
+=====================================
+
+
+{-| Returns a dictionary mapping `ScreenId` to its problems, if any.
+-}
+problemsByScreenId : List Problem -> AnyDict String ScreenId (List ScreenProblem)
+problemsByScreenId problems =
+    let
+        assocById problem =
+            case problem of
+                ContentProblem (WithScreen screenId prob) ->
+                    Just ( screenId, prob )
+
+                _ ->
+                    Nothing
+
+        groupById =
+            List.foldl
+                (\( screenId, problem ) acc -> Util.AnyDict.collect screenId problem acc)
+                (AnyDict.empty ScreenId.toString)
+    in
+    List.filterMap assocById problems
+        |> groupById
+---
+
+(file
+)
+
+
+
+=====================================
+Type statement with payload
+=====================================
+
+type Problem
+    = ContentProblem ValidationProblem
+    | GenericProblem String
+    | MetaProblem String
+
+
+type ValidationProblem
+    = WithScreen ScreenId ScreenProblem
+    | RequiresAtLeastOneScreen
+    | ScreenListProblem ScreenList.ValidationProblem
+
+
+type ScreenProblem
+    = WithElement Int ElementProblem
+    | ScreenIsEmpty
+    | ScreenIsUnreachable
+
+
+type ElementProblem
+    = InvalidElement String
+    | InvalidScreenTarget
+    | InvalidScreenTargetCausesCycle
+
+---
+
+(file
+  (type_declaration (upper_case_identifier) 
+  (union_variant (upper_case_identifier) (type_ref (upper_case_qid (upper_case_identifier)))) 
+  (union_variant (upper_case_identifier) (type_ref (upper_case_qid (upper_case_identifier)))) 
+  (union_variant (upper_case_identifier) (type_ref (upper_case_qid (upper_case_identifier))))
+  )
+  
+  (type_declaration (upper_case_identifier) 
+  (union_variant (upper_case_identifier) (type_ref (upper_case_qid (upper_case_identifier))) (type_ref (upper_case_qid (upper_case_identifier)))) 
+  (union_variant (upper_case_identifier))
+  (union_variant (upper_case_identifier) (type_ref (upper_case_qid (upper_case_identifier) (upper_case_identifier))))
+  )
+  
+  (type_declaration (upper_case_identifier) 
+  (union_variant (upper_case_identifier) (type_ref (upper_case_qid (upper_case_identifier))) (type_ref (upper_case_qid (upper_case_identifier)))) 
+  (union_variant (upper_case_identifier))
+  (union_variant (upper_case_identifier))
+  )
+
+  (type_declaration (upper_case_identifier) 
+  (union_variant (upper_case_identifier) (type_ref (upper_case_qid (upper_case_identifier)))) 
+  (union_variant (upper_case_identifier))
+  (union_variant (upper_case_identifier))
+  )
+  
+)
