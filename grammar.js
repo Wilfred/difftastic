@@ -569,9 +569,7 @@ module.exports = grammar({
 
     new_expression: $ => prec.right(PREC.NEW, seq(
       'new',
-
       $._constructable_expression,
-
       optional($.arguments)
     )),
 
