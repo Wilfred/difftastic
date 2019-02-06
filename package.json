@@ -10,15 +10,14 @@
   "author": "Rob Rix",
   "license": "MIT",
   "dependencies": {
-    "nan": "^2.10.0",
+    "nan": "^2.12.1",
     "prebuild-install": "^5.0.0"
   },
   "devDependencies": {
     "prebuild": "^7.6.0",
-    "tree-sitter-cli": "^0.13.9"
+    "tree-sitter-cli": "^0.14.1"
   },
   "scripts": {
-    "build": "tree-sitter generate && node-gyp build --debug",
     "install": "prebuild-install || node-gyp rebuild",
     "prebuild": "prebuild -r electron -t 1.6.0 -t 1.7.0 -t 1.8.0 -t 2.0.0 -t 3.0.0 -t 4.0.0 --strip --verbose",
     "prebuild:upload": "prebuild --upload-all",
