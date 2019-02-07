@@ -22,6 +22,7 @@ let x, y = y, x
 let x : 'a . 'a t = y
 let f ~x ~l:y ~(x : t) ?(l = y) ?l:((x, y) : t = xy) = x
 let f (type t) x : t = x
+let+ x = a and+ y = b
 
 ---
 
@@ -65,7 +66,12 @@ let f (type t) x : t = x
       (parameter (abstract_type (type_constructor)))
       (parameter (value_name))
       (type_constructor_path (type_constructor))
-      (value_path (value_name)))))
+      (value_path (value_name))))
+  (value_definition
+    (let_operator)
+    (let_binding (value_name) (value_path (value_name)))
+    (and_operator)
+    (let_binding (value_name) (value_path (value_name)))))
 
 ==============================
 External
@@ -95,6 +101,7 @@ type t = {
   mutable x : t;
 }
 type t = t constraint 'a = t
+type t = |
 
 ---
 
@@ -149,7 +156,11 @@ type t = t constraint 'a = t
     (type_binding
       (type_constructor)
       (type_constructor_path (type_constructor))
-      (type_constraint (type_variable) (type_constructor_path (type_constructor))))))
+      (type_constraint (type_variable) (type_constructor_path (type_constructor)))))
+  (type_definition
+    (type_binding
+      (type_constructor)
+      (variant_declaration))))
 
 ==============================
 Exception definition

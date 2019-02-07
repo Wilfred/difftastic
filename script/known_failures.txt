@@ -5,11 +5,7 @@ examples/lablgtk/src/introspection/stubs/stubs_Atk.ml
 examples/lablgtk/src/introspection/stubs/stubs_Pango.ml
 examples/opam/src/core/opamCompat.ml
 examples/opam/src/core/opamCompat.mli
-examples/js_of_ocaml/camlp4/pa_deriving_json/lib/pa_deriving_Json.ml
-examples/js_of_ocaml/camlp4/pa_deriving_json/tests/deriving.ml
-examples/js_of_ocaml/camlp4/pa_js/lib/pa_js.ml
-examples/js_of_ocaml/camlp4/pa_js/tests/camlp4.ml
-examples/js_of_ocaml/compiler/lib/util.cppo.ml
+examples/js_of_ocaml/compiler/lib/ocaml_compiler.cppo.ml
 examples/js_of_ocaml/ppx/ppx_deriving_json/lib/ppx_deriving_json.cppo.ml
 examples/lwt/src/unix/lwt_unix.cppo.ml
 examples/lwt/src/unix/lwt_unix.cppo.mli
