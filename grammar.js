@@ -110,8 +110,17 @@ module.exports = grammar({
     ),
 
     value_definition: $ => seq(
-      'let', optional($._extension_attribute), optional('rec'),
-      sep1(seq('and', repeat($.attribute)), $.let_binding)
+      choice(
+        seq('let', optional($._extension_attribute), optional('rec')),
+        $.let_operator
+      ),
+      sep1(
+        choice(
+          seq('and', repeat($.attribute)),
+          $.and_operator
+        ),
+        $.let_binding
+      )
     ),
 
     let_binding: $ => seq(
@@ -216,8 +225,8 @@ module.exports = grammar({
       $._type
     ),
 
-    variant_declaration: $ => seq(
-      optional('|'),
+    variant_declaration: $ => choice(
+      seq('|', sep('|', $.constructor_declaration)),
       sep1('|', $.constructor_declaration)
     ),
 
@@ -1022,7 +1031,7 @@ module.exports = grammar({
     array_get_expression: $ => prec(PREC.dot, seq(
       $._simple_expression,
       '.',
-      optional($.dot_operator_path),
+      optional($.indexing_operator_path),
       '(',
       $._seq_expression,
       ')'
@@ -1031,7 +1040,7 @@ module.exports = grammar({
     string_get_expression: $ => prec(PREC.dot, seq(
       $._simple_expression,
       '.',
-      optional($.dot_operator_path),
+      optional($.indexing_operator_path),
       '[',
       $._seq_expression,
       ']'
@@ -1040,7 +1049,7 @@ module.exports = grammar({
     bigarray_get_expression: $ => prec(PREC.dot, seq(
       $._simple_expression,
       '.',
-      optional($.dot_operator_path),
+      optional($.indexing_operator_path),
       '{',
       $._seq_expression,
       '}'
@@ -1110,8 +1119,10 @@ module.exports = grammar({
     )),
 
     match_expression: $ => prec.right(PREC.match, seq(
-      'match',
-      optional($._extension_attribute),
+      choice(
+        seq('match', optional($._extension_attribute)),
+        $.match_operator
+      ),
       $._seq_expression,
       'with',
       $._match_cases
@@ -1560,13 +1571,25 @@ module.exports = grammar({
 
     _assign_operator: $ => choice(':='),
 
-    dot_operator: $ => token(
-      seq(/[!$%&*+\-/:=>?@^|~]/, repeat(OP_CHAR))
+    indexing_operator: $ => token(
+      seq(/[!$%&*+\-/:=>?@^|]/, repeat(OP_CHAR))
     ),
 
-    dot_operator_path: $ => choice(
-      $.dot_operator,
-      seq($._module_name, '.', $.dot_operator_path)
+    indexing_operator_path: $ => choice(
+      $.indexing_operator,
+      seq($._module_name, '.', $.indexing_operator_path)
+    ),
+
+    let_operator: $ => token(
+      seq('let', /[$&*+\-/<=>@^|]/, repeat(OP_CHAR))
+    ),
+
+    and_operator: $ => token(
+      seq('and', /[$&*+\-/<=>@^|]/, repeat(OP_CHAR))
+    ),
+
+    match_operator: $ => token(
+      seq('match', /[$&*+\-/<=>@^|]/, repeat(OP_CHAR))
     ),
 
     // Names
@@ -1579,14 +1602,17 @@ module.exports = grammar({
         $.infix_operator,
         seq(
           '.',
-          $.dot_operator,
+          $.indexing_operator,
           choice(
             seq('(', ')'),
             seq('[', ']'),
             seq('{', '}')
           ),
           optional('<-')
-        )
+        ),
+        $.let_operator,
+        $.and_operator,
+        $.match_operator
       ))
     ),
 

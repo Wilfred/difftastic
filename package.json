@@ -1,6 +1,6 @@
 {
   "name": "tree-sitter-ocaml",
-  "version": "0.13.1",
+  "version": "0.14.0",
   "description": "OCaml grammar for tree-sitter",
   "main": "index.js",
   "keywords": [
@@ -10,10 +10,10 @@
   "author": "Max Brunsfeld",
   "license": "MIT",
   "dependencies": {
-    "nan": "^2.10.0"
+    "nan": "^2.12.1"
   },
   "devDependencies": {
-    "tree-sitter-cli": "^0.13.0"
+    "tree-sitter-cli": "^0.14.0"
   },
   "scripts": {
     "build": "tree-sitter generate && node-gyp build",

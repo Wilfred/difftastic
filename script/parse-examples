@@ -19,22 +19,24 @@ ocsigen/lwt
 owlbarn/owl
 "
 
+failed=0
+
 for repo in $repos; do
   dir=examples/${repo#*/}
   if [ ! -d "$dir" ]; then
     git clone --depth 1 https://github.com/$repo $dir
   fi
 
-  known_failures=$(cat script/known_failures.txt)
   examples_to_parse=$(
     for example in $(find "$dir" -name '*.ml' -o -name '*.mli'); do
-      if [[ ! $known_failures == *$example* ]]; then
+      if ! grep -q $example script/known_failures.txt; then
         echo $example
       fi
     done
   )
 
-  echo $examples_to_parse | xargs -n 5000 tree-sitter parse -q
-
+  echo $examples_to_parse | xargs tree-sitter parse -q
   echo "Successfully parsed $repo ($( echo $examples_to_parse | wc -w ) files)"
 done
+
+exit $failed

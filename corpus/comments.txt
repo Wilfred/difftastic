@@ -49,6 +49,10 @@ Characters and comments
 (*  *)
 (* '\o170' '"' *)
 (* '\'"' *)
+(* '\" " *)
+(* '" " *)
+(* '*)
+x
 
 ---
 
@@ -57,4 +61,8 @@ Characters and comments
   (comment)
   (comment)
   (comment)
-  (comment))
+  (comment)
+  (comment)
+  (comment)
+  (comment)
+  (value_path (value_name)))

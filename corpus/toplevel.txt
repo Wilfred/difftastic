@@ -16,3 +16,16 @@ Toplevel directives
   (toplevel_directive
     (directive)
     (value_path (value_name))))
+
+==============================
+Line number directives
+==============================
+
+# 1 "test.ml"
+# 2 "test.ml" (* comment *)
+
+---
+
+(compilation_unit
+  (line_number_directive)
+  (line_number_directive))

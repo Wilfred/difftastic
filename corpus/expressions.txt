@@ -130,6 +130,7 @@ Get and set expressions
 x.y.z <- x;;
 x.(0).[0].{0,0} <- x;;
 x.%(0).M.%(0) <- x;;
+1 #? x.%(0);;
 
 ---
 
@@ -156,13 +157,20 @@ x.%(0).M.%(0) <- x;;
     (array_get_expression
       (array_get_expression
         (value_path (value_name))
-        (dot_operator_path (dot_operator))
+        (indexing_operator_path (indexing_operator))
         (number))
-      (dot_operator_path
+      (indexing_operator_path
         (module_name)
-        (dot_operator_path (dot_operator)))
+        (indexing_operator_path (indexing_operator)))
       (number))
-    (value_path (value_name))))
+    (value_path (value_name)))
+  (infix_expression
+    (number)
+    (infix_operator)
+    (array_get_expression
+      (value_path (value_name))
+      (indexing_operator_path (indexing_operator))
+      (number))))
 
 ===========================
 Coercions
@@ -378,7 +386,8 @@ match x with
 | x -> x
 | x when x -> x
 | x | x -> x
-| exception x -> x
+| exception x -> x;;
+match+ x with x -> x;;
 
 ---
 
@@ -397,6 +406,12 @@ match x with
       (value_path (value_name)))
     (match_case
       (exception_pattern (value_name))
+      (value_path (value_name))))
+  (match_expression
+    (match_operator)
+    (value_path (value_name))
+    (match_case
+      (value_name)
       (value_path (value_name)))))
 
 ===========================
