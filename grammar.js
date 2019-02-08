@@ -163,6 +163,12 @@ module.exports = grammar({
       $.yield
     ),
 
+    named_expression: $ => seq(
+      $.identifier,
+      ':=',
+      $._expression
+    ),
+
     return_statement: $ => seq(
       'return',
       optional($.expression_list)
@@ -440,7 +446,8 @@ module.exports = grammar({
       $.await,
       $.lambda,
       $._primary_expression,
-      $.conditional_expression
+      $.conditional_expression,
+      $.named_expression
     ),
 
     _primary_expression: $ => choice(
