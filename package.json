@@ -1,6 +1,6 @@
 {
   "name": "tree-sitter-ruby",
-  "version": "0.13.11",
+  "version": "0.13.13",
   "description": "Ruby grammar for tree-sitter",
   "main": "index.js",
   "keywords": [
