@@ -7,9 +7,11 @@ Identifiers with Greek letters
 ---
 
 (module
-  (expression_statement (assignment
-    (expression_list (identifier))
-    (expression_list (binary_operator (identifier) (identifier))))))
+  statement: (expression_statement (assignment
+    left: (expression_list (identifier))
+    right: (expression_list (binary_operator
+      left: (identifier)
+      right: (identifier))))))
 
 =====================================
 Subscript expressions
@@ -187,23 +189,23 @@ def print():
   (function_definition
     (identifier)
     (parameters (identifier))
-    (expression_statement (identifier)))
+    (block (expression_statement (identifier))))
   (function_definition
     (identifier)
     (parameters (default_parameter (identifier) (identifier)))
-    (expression_statement (identifier)))
+    (block (expression_statement (identifier))))
   (function_definition
     (identifier)
     (parameters (list_splat (identifier)))
-    (expression_statement (identifier)))
+    (block (expression_statement (identifier))))
   (function_definition
     (identifier)
     (parameters (dictionary_splat (identifier)))
-    (expression_statement (identifier)))
+    (block (expression_statement (identifier))))
   (function_definition
     (identifier)
     (parameters)
-    (expression_statement (identifier))))
+    (block (expression_statement (identifier)))))
 
 
 =====================================
@@ -457,7 +459,7 @@ c //= 1
       (expression_list (integer)))))
 
 ====================================================
-Named Assignments
+Named expressions
 ====================================================
 
 a := x
@@ -507,7 +509,7 @@ foo(x := 3, cat='vector')
       (default_parameter
         (identifier)
         (parenthesized_expression (named_expression (identifier) (integer)))))
-    (return_statement (expression_list (identifier))))
+    (block (return_statement (expression_list (identifier)))))
   (function_definition
     (identifier)
     (parameters
@@ -515,7 +517,7 @@ foo(x := 3, cat='vector')
         (identifier)
         (type (parenthesized_expression (named_expression (identifier) (integer))))
         (integer)))
-    (return_statement (expression_list (identifier))))
+    (block (return_statement (expression_list (identifier)))))
   (expression_statement
     (call
       (identifier)
@@ -548,7 +550,7 @@ def example():
 ---
 
 (module
-  (function_definition (identifier) (parameters)
+  (function_definition (identifier) (parameters) (block
     (expression_statement (yield))
     (expression_statement (yield (expression_list (integer))))
     (expression_statement
@@ -564,7 +566,7 @@ def example():
               (identifier)
               (for_in_clause
               (variables (identifier))
-              (call (identifier) (argument_list (integer) (integer)))))))))))
+              (call (identifier) (argument_list (integer) (integer))))))))))))
 
 ====================================================
 lambdas
@@ -638,8 +640,10 @@ async with a as b:
 (module
   (with_statement
     (with_item (identifier) (identifier))
-    (for_statement
-      (variables (identifier))
-      (expression_list (identifier))
-      (expression_statement
-        (list_comprehension (identifier) (for_in_clause (variables (identifier)) (identifier)))))))
+    (block
+      (for_statement
+        (variables (identifier))
+        (expression_list (identifier))
+        (block
+          (expression_statement
+            (list_comprehension (identifier) (for_in_clause (variables (identifier)) (identifier)))))))))

@@ -166,10 +166,12 @@ while true:
 ---
 
 (module
-  (while_statement (identifier)
-    (pass_statement)
-    (break_statement)
-    (continue_statement)))
+  statement: (while_statement
+    condition: (identifier)
+    body: (block
+      statement: (pass_statement)
+      statement: (break_statement)
+      statement: (continue_statement))))
 
 =====================================
 Return statements
@@ -199,9 +201,11 @@ if a:
 ---
 
 (module
-  (if_statement (identifier)
-    (expression_statement (identifier))
-    (expression_statement (identifier))))
+  statement: (if_statement
+    condition: (identifier)
+    consequence: (block
+      statement: (expression_statement (identifier))
+      statement: (expression_statement (identifier)))))
 
 =====================================
 If else statements
@@ -226,21 +230,33 @@ if a: b; c
 ---
 
 (module
-  (if_statement (identifier)
-    (expression_statement (identifier))
-    (elif_clause (identifier)
-      (expression_statement (identifier)))
-    (else_clause
-      (expression_statement (identifier))))
-  (if_statement (identifier)
-    (expression_statement (identifier))
-    (else_clause
-      (expression_statement (identifier))))
-  (if_statement (identifier)
-    (expression_statement (identifier)))
-  (if_statement (identifier)
-    (expression_statement (identifier))
-    (expression_statement (identifier))))
+  statement: (if_statement
+    condition: (identifier)
+    consequence: (block
+      statement: (expression_statement (identifier)))
+    alternative: (elif_clause
+      condition: (identifier)
+      consequence: (block
+        statement: (expression_statement (identifier))))
+    alternative: (else_clause
+      body: (block
+        statement: (expression_statement (identifier)))))
+  statement: (if_statement
+    condition: (identifier)
+    consequence: (block
+      statement: (expression_statement (identifier)))
+    alternative: (else_clause
+      body: (block
+        statement: (expression_statement (identifier)))))
+  statement: (if_statement
+    condition: (identifier)
+    consequence: (block
+      statement: (expression_statement (identifier))))
+  statement: (if_statement
+    condition: (identifier)
+    consequence: (block
+      statement: (expression_statement (identifier))
+      statement: (expression_statement (identifier)))))
 
 =====================================
 Nested if statements
@@ -257,13 +273,20 @@ g
 ---
 
 (module
-  (if_statement (identifier)
-    (if_statement (identifier)
-      (expression_statement (identifier))
-      (else_clause
-        (if_statement (identifier)
-          (expression_statement (identifier))))))
-  (expression_statement (identifier)))
+  statement: (if_statement
+    condition: (identifier)
+    consequence: (block
+      statement: (if_statement
+        condition: (identifier)
+        consequence: (block
+          statement: (expression_statement (identifier)))
+        alternative: (else_clause
+          body: (block
+            statement: (if_statement
+              condition: (identifier)
+              consequence: (block
+                statement: (expression_statement (identifier)))))))))
+  statement: (expression_statement (identifier)))
 
 =====================================
 While statements
@@ -281,13 +304,18 @@ else:
 ---
 
 (module
-  (while_statement (identifier)
-    (expression_statement (identifier)))
-  (while_statement (identifier)
-    (expression_statement (identifier))
-    (else_clause
-      (expression_statement (identifier))
-      (expression_statement (identifier)))))
+  statement: (while_statement
+    condition: (identifier)
+    body: (block
+      statement: (expression_statement (identifier))))
+  statement: (while_statement
+    condition: (identifier)
+    body: (block
+      statement: (expression_statement (identifier)))
+    alternative: (else_clause
+      body: (block
+        statement: (expression_statement (identifier))
+        statement: (expression_statement (identifier))))))
 
 =====================================
 For statements
@@ -306,20 +334,27 @@ for x, in [(1,), (2,), (3,)]:
 ---
 
 (module
-  (for_statement
-    (variables (identifier) (identifier))
-    (expression_list (identifier))
-    (print_statement (identifier))
-    (for_statement
-      (variables (identifier) (identifier))
-      (expression_list (identifier))
-      (print_statement (identifier)))
-    (else_clause
-      (print_statement (identifier))))
-  (for_statement
-    (variables (identifier))
-    (expression_list (list (tuple (integer)) (tuple (integer)) (tuple (integer))))
-    (expression_statement (identifier))))
+  statement: (for_statement
+    left: (variables (identifier) (identifier))
+    right: (expression_list (identifier))
+    body: (block
+      statement: (print_statement
+        argument: (identifier))
+      statement: (for_statement
+        left: (variables (identifier) (identifier))
+        right: (expression_list (identifier))
+        body: (block
+          statement: (print_statement
+            argument: (identifier)))))
+    alternative: (else_clause
+      body: (block
+        statement: (print_statement
+          argument: (identifier)))))
+  statement: (for_statement
+    left: (variables (identifier))
+    right: (expression_list (list (tuple (integer)) (tuple (integer)) (tuple (integer))))
+    body: (block
+      statement: (expression_statement (identifier)))))
 
 =====================================
 Try statements
@@ -340,32 +375,41 @@ try:
   a
 except b:
   c
-else:
   d
-finally:
+else:
   e
+finally:
+  f
 
 ---
 
 (module
-  (try_statement
-    (expression_statement (identifier))
+  statement: (try_statement
+    body: (block
+      statement: (expression_statement (identifier)))
     (except_clause (identifier)
-      (expression_statement (identifier)))
+      (block
+        statement: (expression_statement (identifier))))
     (except_clause (identifier) (identifier)
-      (expression_statement (identifier)))
+      (block
+        statement: (expression_statement (identifier))))
     (except_clause (identifier) (identifier)
-      (expression_statement (identifier)))
+      (block
+        statement: (expression_statement (identifier))))
     (except_clause
-      (expression_statement (identifier))))
-  (try_statement
-    (expression_statement (identifier))
+      (block
+        statement: (expression_statement (identifier)))))
+  statement: (try_statement
+    body: (block
+      statement: (expression_statement (identifier)))
     (except_clause (identifier)
-      (expression_statement (identifier)))
-    (else_clause
-      (expression_statement (identifier)))
-    (finally_clause
-      (expression_statement (identifier)))))
+      (block
+        statement: (expression_statement (identifier))
+        statement: (expression_statement (identifier))))
+    (else_clause body: (block
+      statement: (expression_statement (identifier))))
+    (finally_clause (block
+      statement: (expression_statement (identifier))))))
 
 =====================================
 With statements
@@ -379,7 +423,8 @@ with a as b:
 (module
   (with_statement
     (with_item (identifier) (identifier))
-    (expression_statement (identifier))))
+    (block
+      (expression_statement (identifier)))))
 
 =====================================
 Async Function definitions
@@ -415,50 +460,60 @@ async def d(a:str="default", b=c) -> None:
 ---
 
 (module
-  (function_definition (identifier)
-    (parameters)
-    (expression_statement (identifier)))
-  (function_definition
-    (identifier)
-    (parameters (identifier))
-    (expression_statement (identifier)))
-  (function_definition
-    (identifier)
-    (parameters (identifier) (identifier))
-    (expression_statement (identifier)))
-  (function_definition
-    (identifier)
-    (parameters (typed_parameter (identifier) (type (identifier))))
-    (expression_statement (identifier)))
-  (function_definition
-    (identifier)
-    (parameters (typed_parameter (identifier) (type (attribute (identifier) (identifier)))))
-    (expression_statement (identifier)))
-  (function_definition
-    (identifier)
-    (parameters (typed_parameter (identifier) (type (subscript (identifier) (identifier)))))
-    (type (identifier))
-    (expression_statement (identifier)))
-  (function_definition
-    (identifier)
-    (parameters
+  statement: (function_definition
+    name: (identifier)
+    parameters: (parameters)
+    body: (block
+      statement: (expression_statement (identifier))))
+  statement: (function_definition
+    name: (identifier)
+    parameters: (parameters (identifier))
+    body: (block
+      statement: (expression_statement (identifier))))
+  statement: (function_definition
+    name: (identifier)
+    parameters: (parameters (identifier) (identifier))
+    body: (block
+      statement: (expression_statement (identifier))))
+  statement: (function_definition
+    name: (identifier)
+    parameters: (parameters (typed_parameter (identifier) (type (identifier))))
+    body: (block
+      statement: (expression_statement (identifier))))
+  statement: (function_definition
+    name: (identifier)
+    parameters: (parameters (typed_parameter (identifier) (type (attribute (identifier) (identifier)))))
+    body: (block
+      statement: (expression_statement (identifier))))
+  statement: (function_definition
+    name: (identifier)
+    parameters: (parameters (typed_parameter (identifier) (type (subscript (identifier) (identifier)))))
+    return_type: (type (identifier))
+    body: (block
+      statement: (expression_statement (identifier))))
+  statement: (function_definition
+    name: (identifier)
+    parameters: (parameters
       (identifier)
       (default_parameter (identifier) (identifier))
       (list_splat (identifier))
       (dictionary_splat (identifier)))
-    (expression_statement (identifier)))
-  (function_definition
-    (identifier)
-    (parameters (typed_parameter (identifier) (type (identifier))))
-    (type (none))
-    (return_statement (expression_list (none))))
-  (function_definition
-    (identifier)
-    (parameters
+    body: (block
+      statement: (expression_statement (identifier))))
+  statement: (function_definition
+    name: (identifier)
+    parameters: (parameters (typed_parameter (identifier) (type (identifier))))
+    return_type: (type (none))
+    body: (block
+      statement: (return_statement (expression_list (none)))))
+  statement: (function_definition
+    name: (identifier)
+    parameters: (parameters
       (typed_default_parameter (identifier) (type (identifier)) (string))
       (default_parameter (identifier) (identifier)))
-    (type (none))
-    (return_statement (expression_list (none)))))
+    return_type: (type (none))
+    body: (block
+      statement: (return_statement (expression_list (none))))))
 
 =====================================
 Function definitions
@@ -506,75 +561,88 @@ def g(h, i, *, j, k=100, **kwarg):
 ---
 
 (module
-  (function_definition (identifier)
-    (parameters)
-    (expression_statement (identifier)))
-  (function_definition
-    (identifier)
-    (parameters (identifier))
-    (expression_statement (identifier)))
-  (function_definition
-    (identifier)
-    (parameters (identifier) (identifier))
-    (expression_statement (identifier)))
-  (function_definition
-    (identifier)
-    (parameters (typed_parameter (identifier) (type (identifier))))
-    (expression_statement (identifier)))
-  (function_definition
-    (identifier)
-    (parameters (typed_parameter (identifier) (type (attribute (identifier) (identifier)))))
-    (expression_statement (identifier)))
-  (function_definition
-    (identifier)
-    (parameters (typed_parameter (identifier) (type (subscript (identifier) (identifier)))))
-    (type (identifier))
-    (expression_statement (identifier)))
-  (function_definition
-    (identifier)
-    (parameters
+  statement: (function_definition
+    name: (identifier)
+    parameters: (parameters)
+    body: (block
+      statement: (expression_statement (identifier))))
+  statement: (function_definition
+    name: (identifier)
+    parameters: (parameters (identifier))
+    body: (block
+      statement: (expression_statement (identifier))))
+  statement: (function_definition
+    name: (identifier)
+    parameters: (parameters (identifier) (identifier))
+    body: (block
+      statement: (expression_statement (identifier))))
+  statement: (function_definition
+    name: (identifier)
+    parameters: (parameters (typed_parameter (identifier) (type (identifier))))
+    body: (block
+      statement: (expression_statement (identifier))))
+  statement: (function_definition
+    name: (identifier)
+    parameters: (parameters (typed_parameter (identifier) (type (attribute (identifier) (identifier)))))
+    body: (block
+      statement: (expression_statement (identifier))))
+  statement: (function_definition
+    name: (identifier)
+    parameters: (parameters (typed_parameter (identifier) (type (subscript (identifier) (identifier)))))
+    return_type: (type (identifier))
+    body: (block
+      statement: (expression_statement (identifier))))
+  statement: (function_definition
+    name: (identifier)
+    parameters: (parameters
       (identifier)
       (default_parameter (identifier) (identifier))
       (list_splat (identifier))
       (dictionary_splat (identifier)))
-    (expression_statement (identifier)))
-  (function_definition
-    (identifier)
-    (parameters (typed_parameter (identifier) (type (identifier))))
-    (type (none))
-    (return_statement (expression_list (none))))
-  (function_definition
-    (identifier)
-    (parameters (tuple (identifier) (identifier)))
-    (return_statement (expression_list (tuple (identifier) (identifier)))))
-  (function_definition
-    (identifier)
-    (parameters (typed_parameter (list_splat (identifier)) (type (identifier))))
-    (pass_statement))
-  (function_definition
-    (identifier)
-    (parameters (typed_parameter (dictionary_splat (identifier)) (type (identifier))))
-    (pass_statement))
-  (function_definition
-    (identifier)
-    (parameters)
-    (nonlocal_statement (identifier)))
-  (function_definition
-    (identifier)
-    (parameters
+    body: (block
+      statement: (expression_statement (identifier))))
+  statement: (function_definition
+    name: (identifier)
+    parameters: (parameters (typed_parameter (identifier) (type (identifier))))
+    return_type: (type (none))
+    body: (block
+      statement: (return_statement (expression_list (none)))))
+  statement: (function_definition
+    name: (identifier)
+    parameters: (parameters (tuple (identifier) (identifier)))
+    body: (block
+      statement: (return_statement (expression_list (tuple (identifier) (identifier))))))
+  statement: (function_definition
+    name: (identifier)
+    parameters: (parameters (typed_parameter (list_splat (identifier)) (type (identifier))))
+    body: (block
+      statement: (pass_statement)))
+  statement: (function_definition
+    name: (identifier)
+    parameters: (parameters (typed_parameter (dictionary_splat (identifier)) (type (identifier))))
+    body: (block
+      statement: (pass_statement)))
+  statement: (function_definition
+    name: (identifier)
+    parameters: (parameters)
+    body: (block
+      statement: (nonlocal_statement (identifier))))
+  statement: (function_definition
+    name: (identifier)
+    parameters: (parameters
       (identifier)
       (identifier)
       (list_splat)
       (identifier)
       (default_parameter (identifier) (integer))
       (dictionary_splat (identifier)))
-    (return_statement
-      (expression_list
+    body: (block
+      statement: (return_statement (expression_list
         (identifier)
         (identifier)
         (identifier)
         (identifier)
-        (identifier)))))
+        (identifier))))))
 
 ====================================================
 Class definitions
@@ -598,29 +666,36 @@ class D(Sequence[T, U]):
 (module
   (class_definition
     (identifier)
-    (function_definition
-      (identifier)
-      (parameters (identifier))
-      (return_statement (expression_list (identifier)))))
+    (block
+      (function_definition
+        (identifier)
+        (parameters (identifier))
+        (block
+          (return_statement (expression_list (identifier)))))))
  (class_definition
     (identifier)
     (argument_list)
-    (pass_statement))
+    (block
+      (pass_statement)))
  (class_definition
     (identifier)
     (argument_list (identifier))
-    (function_definition
-      (identifier)
-      (parameters (identifier))
-      (return_statement)))
+    (block
+      (function_definition
+        (identifier)
+        (parameters (identifier))
+        (block
+          (return_statement)))))
  (class_definition
     (identifier)
     (argument_list (identifier) (subscript (identifier) (identifier)))
-    (pass_statement))
+    (block
+      (pass_statement)))
  (class_definition
     (identifier)
     (argument_list (subscript (identifier) (identifier) (identifier)))
-    (pass_statement)))
+    (block
+      (pass_statement))))
 
 ====================================================
 Class definitions with superclasses
@@ -636,10 +711,12 @@ class A(B, C):
   (class_definition
     (identifier)
     (argument_list (identifier) (identifier))
-    (function_definition
-      (identifier)
-      (parameters)
-      (expression_statement (identifier)))))
+    (block
+      (function_definition
+        (identifier)
+        (parameters)
+        (block
+          (expression_statement (identifier)))))))
 
 ====================================================
 Decorated definitions
@@ -666,8 +743,7 @@ class C:
 (module
   (decorated_definition
     (decorator (dotted_name (identifier) (identifier)))
-    (class_definition
-      (identifier)
+    (class_definition (identifier) (block
       (decorated_definition
         (decorator
           (dotted_name (identifier))
@@ -699,12 +775,18 @@ class C:
             (keyword_argument (identifier) (true))
             (list_splat (identifier))
             (dictionary_splat (identifier))))
-        (function_definition (identifier) (parameters) (expression_statement (identifier))))
+        (function_definition
+          (identifier)
+          (parameters)
+          (block (expression_statement (identifier)))))
       (decorated_definition
         (decorator
           (dotted_name (identifier))
           (argument_list))
-        (function_definition (identifier) (parameters) (expression_statement (identifier)))))))
+        (function_definition
+          (identifier)
+          (parameters)
+          (block (expression_statement (identifier)))))))))
 
 ====================================================
 Raise statements
@@ -761,9 +843,10 @@ if a:
     (comment)
     (comment)
     (comment)
-    (expression_statement (identifier))
-    (comment)
-    (expression_statement (identifier))))
+    (block
+      (expression_statement (identifier))
+      (comment)
+      (expression_statement (identifier)))))
 
 ====================================================
 Comments after dedents
@@ -780,7 +863,8 @@ c
 (module
   (if_statement
     (identifier)
-    (expression_statement (identifier)))
+    (block
+      (expression_statement (identifier))))
   (comment)
   (expression_statement (identifier)))
 
@@ -846,9 +930,9 @@ if a:
 ---
 
 (module
-  (if_statement (identifier)
+  (if_statement (identifier) (block
     (expression_statement (call (identifier) (argument_list)))
     (expression_statement (call (identifier) (argument_list)))
-    (function_definition (identifier) (parameters)
-      (expression_statement (call (identifier) (argument_list))))
-    (expression_statement (call (identifier) (argument_list)))))
+    (function_definition (identifier) (parameters) (block
+      (expression_statement (call (identifier) (argument_list)))))
+    (expression_statement (call (identifier) (argument_list))))))
