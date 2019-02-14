@@ -1,0 +1,65 @@
+
+=====================================
+Strings
+=====================================
+
+string1 =
+        ""
+
+string2 =
+        "15131465"
+
+string3 =
+        "string1"
+
+string4 =
+        "string{(*)]+]}"
+
+string5 =
+        "string with space"
+
+string6 =
+        """
+        multiline
+
+        """
+
+
+---
+
+(file
+  (value_declaration (function_declaration_left (lower_case_identifier)) (eq) (string_constant_expr (open_quote) (close_quote)))
+  (value_declaration (function_declaration_left (lower_case_identifier)) (eq) (string_constant_expr (open_quote) (regular_string_part) (close_quote)))
+  (value_declaration (function_declaration_left (lower_case_identifier)) (eq) (string_constant_expr (open_quote) (regular_string_part) (close_quote)))
+  (value_declaration (function_declaration_left (lower_case_identifier)) (eq) (string_constant_expr (open_quote) (regular_string_part) (close_quote)))
+  (value_declaration (function_declaration_left (lower_case_identifier)) (eq) (string_constant_expr (open_quote) (regular_string_part) (close_quote)))
+  (value_declaration (function_declaration_left (lower_case_identifier)) (eq) (string_constant_expr (open_quote) (regular_string_part) (close_quote)))
+)
+
+
+=====================================
+Tuples
+=====================================
+
+tuple1 =
+        ()
+tuple2 =
+        (0, 15)
+tuple3 =
+        (0,15)
+tuple4 =
+        ("string",  "string")
+
+---
+
+(file
+  (value_declaration (function_declaration_left (lower_case_identifier)) (eq)
+            (unit_expr (left_parenthesis) (right_parenthesis)))
+  (value_declaration (function_declaration_left (lower_case_identifier)) (eq)
+            (tuple_expr (left_parenthesis) (number_constant_expr (number_literal)) (comma) (number_constant_expr (number_literal)) (right_parenthesis)))
+  (value_declaration (function_declaration_left (lower_case_identifier)) (eq)
+            (tuple_expr (left_parenthesis) (number_constant_expr (number_literal)) (comma) (number_constant_expr (number_literal)) (right_parenthesis)))
+  (value_declaration (function_declaration_left (lower_case_identifier)) (eq)
+            (tuple_expr (left_parenthesis) (string_constant_expr (open_quote) (regular_string_part) (close_quote))
+            (comma) (string_constant_expr (open_quote) (regular_string_part)  (close_quote)) (right_parenthesis)))
+)

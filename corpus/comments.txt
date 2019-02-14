@@ -1,0 +1,40 @@
+=====================================
+One line comments
+=====================================
+
+-- MODEL
+-- update
+-- more words
+
+---
+
+(file
+  (line_comment)
+  (line_comment)
+  (line_comment)
+)
+
+=====================================
+Block comments
+=====================================
+
+{- one line -}
+{- a multiline comment
+  how nice
+-}
+{-| Returns a dictionary mapping `ScreenId` to its problems, if any.
+-}
+{--}
+-- add x y = x + y
+--}
+
+---
+
+(file
+  (block_comment)
+  (block_comment)
+  (block_documentation)
+  (block_comment)
+  (line_comment)
+  (line_comment)
+)

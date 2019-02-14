@@ -1,195 +1,21 @@
 =====================================
-Import statements
-=====================================
-
-import Browser
-import Html.Events
-import Html.Events.Test
-
----
-
-(file
-  (import_clause
-    (upper_case_qid (upper_case_identifier))
-  )
-  (import_clause
-    (upper_case_qid (upper_case_identifier) (upper_case_identifier))
-  )
-  (import_clause
-    (upper_case_qid (upper_case_identifier) (upper_case_identifier) (upper_case_identifier))
-  )
-)
-
-=====================================
-Import statements with exposing
-=====================================
-
-import Html.Events exposing (onClick)
-import Html.Events exposing (onClick, onDoubleClick)
-import Html exposing (Html, button, div, text)
-
----
-
-(file
-  (import_clause
-    (upper_case_qid (upper_case_identifier) (upper_case_identifier))) (exposing_list (exposed_type (lower_case_identifier))
-  )
-  (import_clause
-    (upper_case_qid (upper_case_identifier) (upper_case_identifier))) (exposing_list (exposed_type (lower_case_identifier)) (exposed_type (lower_case_identifier))
-  )
-  (import_clause
-    (upper_case_qid (upper_case_identifier))) (exposing_list (exposed_type (upper_case_identifier)) (exposed_type (lower_case_identifier)) (exposed_type (lower_case_identifier)) (exposed_type (lower_case_identifier))
-  )
-)
-
-=====================================
-Import statements with as clause
-=====================================
-
-import Dict.Any as AnyDict exposing (AnyDict)
-import Remedy.ScreenId as ScreenId exposing (ScreenId)
-import Remedy.ScreenList as ScreenList
-
----
-
-(file
-  (import_clause
-    (upper_case_qid (upper_case_identifier) (upper_case_identifier))) (as_clause (upper_case_identifier)) (exposing_list (exposed_type (upper_case_identifier))
-  )
-  (import_clause
-    (upper_case_qid (upper_case_identifier) (upper_case_identifier))) (as_clause (upper_case_identifier)) (exposing_list (exposed_type (upper_case_identifier))
-  )
-  (import_clause
-    (upper_case_qid (upper_case_identifier) (upper_case_identifier))) (as_clause (upper_case_identifier)
-  )
-)
-
-=====================================
-module statement
-=====================================
-
-module Main
-module Page.View
-
----
-
-(file
-  (module_declaration
-    (upper_case_qid (upper_case_identifier))
-  )
-  (module_declaration
-    (upper_case_qid (upper_case_identifier) (upper_case_identifier))
-  )
-)
-
-=====================================
-module statement with exposing
-=====================================
-
-module Main exposing (view)
-module Main exposing (main, update, view)
-module Main exposing (Msg(..), main, update, view)
-
----
-
-(file
-  (module_declaration
-    (upper_case_qid (upper_case_identifier)) (exposing_list (exposed_type (lower_case_identifier)))
-  )
-  (module_declaration
-    (upper_case_qid (upper_case_identifier)) (exposing_list (exposed_type (lower_case_identifier)) (exposed_type (lower_case_identifier)) (exposed_type (lower_case_identifier)))
-  )
-  (module_declaration
-    (upper_case_qid (upper_case_identifier)) (exposing_list (exposed_type (upper_case_identifier)) (exposed_type (lower_case_identifier)) (exposed_type (lower_case_identifier)) (exposed_type (lower_case_identifier)))
-  )
-)
-
-=====================================
-One line comments
-=====================================
-
--- MODEL
--- update
--- more words
-
----
-
-(file
-  (line_comment)
-  (line_comment)
-  (line_comment)
-)
-
-=====================================
-Block comments
-=====================================
-
-{- one line -}
-{- a multiline comment
-  how nice
--}
-{-| Returns a dictionary mapping `ScreenId` to its problems, if any.
--}
-{--}
-add x y = x + y
---}
-
----
-
-(file
-  (block_comment)
-  (block_comment)
-  (block_comment)
-  (block_comment)
-  (func_statement (lower_case_identifier) (func_param) (func_param) (func_param) (lower_case_identifier)) 
-  (line_comment)
-)
-
-=====================================
-Type statement
-=====================================
-
-type Msg
-    = Increment
-
-type Msg
-    = Increment
-    | Decrement
-
-type Msg
-    = Increment
-    | Decrement
-    | NoOp
-
----
-
-(file
-  (type_declaration (upper_case_identifier) (union_variant (upper_case_identifier)))
-  
-  (type_declaration (upper_case_identifier) (union_variant (upper_case_identifier)) (union_variant (upper_case_identifier)))
-  
-  (type_declaration (upper_case_identifier) (union_variant (upper_case_identifier)) (union_variant (upper_case_identifier)) (union_variant (upper_case_identifier)))
-  
-)
-
-=====================================
 Function statement with function call and inline record
 =====================================
 
 main =
-    Browser.sandbox { init = 0, update = update, view = view }
+    Browser.sandbox 
+    { init = 0
+    , update = update
+    , view = view }
 
 ---
 
 (file
-  (func_statement (lower_case_identifier)
-    (func_call (upper_case_identifier) (lower_case_identifier)
-        (func_call_params
-            (inline_record
-                (record_entry) (int)
-                (record_entry) (lower_case_identifier)
-                (record_entry) (lower_case_identifier)
-            )
+ (value_declaration (function_declaration_left (lower_case_identifier)) (eq)
+    (function_call_expr (value_expr (value_qid (upper_case_identifier) (dot) (lower_case_identifier)))
+        (record_expr (left_brace) (field (lower_case_identifier) (eq) (number_constant_expr (number_literal))) 
+        (comma) (field (lower_case_identifier) (eq) (value_expr (value_qid (lower_case_identifier)))) 
+        (comma) (field (lower_case_identifier) (eq) (value_expr (value_qid (lower_case_identifier)))) (right_brace)
         )
     )
   )
@@ -210,74 +36,14 @@ update msg model =
 ---
 
 (file
-  (func_statement (lower_case_identifier) (func_param) (func_param)
-    (case_call (func_param)
-        (type_declaration)
-            (func_param) (int)
-        (type_declaration)
-            (func_param) (int)
+  (value_declaration (function_declaration_left (lower_case_identifier) (lower_pattern (lower_case_identifier)) (lower_pattern (lower_case_identifier))) (eq)
+   (case_of_expr (case) (value_expr (value_qid (lower_case_identifier))) (of)
+    (case_of_branch (pattern (union_pattern (upper_case_qid (upper_case_identifier)))) (arrow)
+            (bin_op_expr (value_expr (value_qid (lower_case_identifier))) (operator (operator_identifier)) (number_constant_expr (number_literal))))
+     (case_of_branch (pattern (union_pattern (upper_case_qid (upper_case_identifier)))) (arrow)
+            (bin_op_expr (value_expr (value_qid (lower_case_identifier))) (operator (operator_identifier)) (number_constant_expr (number_literal))))
     )
   )
-)
-
-=====================================
-Strings
-=====================================
-
-type alias String1 =
-                  ""
-
-type alias String2 =
-                  "15131465"
-
-type alias String3 =
-                  "string1"
-
-type alias String4 =
-                  "string{(*)]+]}"
-
-type alias String5 =
-                  "string with space"
-
-type alias String6 =
-                  """
-                  multiline
-
-                  """
-
-
----
-
-(file
-  (type_alias (upper_case_identifier) (string))
-  (type_alias (upper_case_identifier) (string))
-  (type_alias (upper_case_identifier) (string))
-  (type_alias (upper_case_identifier) (string))
-  (type_alias (upper_case_identifier) (string))
-  (type_alias (upper_case_identifier) (string))
-)
-
-
-=====================================
-Tuples
-=====================================
-
-type alias Tuple1 =
-                  ()
-type alias Tuple2 =
-                  (0, 15)
-type alias Tuple3 =
-                  (0,15)
-type alias Tuple4 =
-                  ("string",  "string")
-
----
-
-(file
-  (type_alias (upper_case_identifier) (tuple))
-  (type_alias (upper_case_identifier) (tuple (int) (int)))
-  (type_alias (upper_case_identifier) (tuple (int) (int)))
-  (type_alias (upper_case_identifier) (tuple (string) (string)))
 )
 
 =====================================
@@ -294,21 +60,19 @@ view model =
 ---
 
 (file
-  (func_statement (lower_case_identifier) (func_param)
-    (func_call (lower_case_identifier) 
-      (func_call_params 
-        (list)
-        (list
-          (func_call (lower_case_identifier) (func_call_params 
-            (list (func_call (lower_case_identifier) (upper_case_identifier))) 
-            (list (func_call (lower_case_identifier) (func_call_params (string))))))
-          (func_call (lower_case_identifier) (func_call_params 
-            (list) 
-            (list (func_call (lower_case_identifier)) (func_call (lower_case_identifier)) (func_param))))
-          (func_call (lower_case_identifier) (func_call_params 
-            (list (func_call (lower_case_identifier) (upper_case_identifier))) 
-            (list (func_call (lower_case_identifier) (func_call_params (string)))))))
-        )
+  (value_declaration (function_declaration_left (lower_case_identifier) (lower_pattern (lower_case_identifier))) (eq)
+    (function_call_expr (value_expr (value_qid (lower_case_identifier))) (list_expr (left_square_bracket) (right_square_bracket))
+    (list_expr (left_square_bracket) (function_call_expr (value_expr (value_qid (lower_case_identifier))) 
+      (list_expr (left_square_bracket) (function_call_expr (value_expr (value_qid (lower_case_identifier))) 
+      (value_expr (upper_case_qid (upper_case_identifier)))) (right_square_bracket))
+      (list_expr (left_square_bracket) (function_call_expr (value_expr (value_qid (lower_case_identifier))) (string_constant_expr (open_quote) (regular_string_part) (close_quote))) (right_square_bracket)))
+      (comma) (function_call_expr (value_expr (value_qid (lower_case_identifier))) (list_expr (left_square_bracket) (right_square_bracket))
+      (list_expr (left_square_bracket) (function_call_expr (value_expr (value_qid (lower_case_identifier))) 
+      (parenthesized_expr (left_parenthesis) (function_call_expr (value_expr (value_qid (upper_case_identifier) (dot) (lower_case_identifier))) (value_expr (value_qid (lower_case_identifier)))) (right_parenthesis))) (right_square_bracket)))
+      (comma) (function_call_expr (value_expr (value_qid (lower_case_identifier))) (list_expr (left_square_bracket) (function_call_expr (value_expr (value_qid (lower_case_identifier))) (value_expr (upper_case_qid (upper_case_identifier)))) (right_square_bracket))
+      (list_expr (left_square_bracket) (function_call_expr (value_expr (value_qid (lower_case_identifier))) (string_constant_expr (open_quote)
+    (regular_string_part) (close_quote))) (right_square_bracket)))
+    (right_square_bracket))
     )
   )
 )
@@ -340,63 +104,39 @@ problemsByScreenId problems =
         |> groupById
 ---
 
-(file
+(file 
+(block_documentation) 
+(type_annotation (lower_case_identifier) (colon) 
+    (type_expression (type_ref (upper_case_qid (upper_case_identifier)) (type_ref (upper_case_qid (upper_case_identifier)))) 
+      (arrow) (type_ref (upper_case_qid (upper_case_identifier)) (type_ref (upper_case_qid (upper_case_identifier))))
+    )
 )
-
-
-
-=====================================
-Type statement with payload
-=====================================
-
-type Problem
-    = ContentProblem ValidationProblem
-    | GenericProblem String
-    | MetaProblem String
-
-
-type ValidationProblem
-    = WithScreen ScreenId ScreenProblem
-    | RequiresAtLeastOneScreen
-    | ScreenListProblem ScreenList.ValidationProblem
-
-
-type ScreenProblem
-    = WithElement Int ElementProblem
-    | ScreenIsEmpty
-    | ScreenIsUnreachable
-
-
-type ElementProblem
-    = InvalidElement String
-    | InvalidScreenTarget
-    | InvalidScreenTargetCausesCycle
-
----
-
-(file
-  (type_declaration (upper_case_identifier) 
-  (union_variant (upper_case_identifier) (type_ref (upper_case_qid (upper_case_identifier)))) 
-  (union_variant (upper_case_identifier) (type_ref (upper_case_qid (upper_case_identifier)))) 
-  (union_variant (upper_case_identifier) (type_ref (upper_case_qid (upper_case_identifier))))
-  )
+(value_declaration 
+  (pattern (union_pattern (upper_case_qid (upper_case_identifier)) (union_argument_pattern (left_parenthesis) 
+    (pattern (union_pattern (upper_case_qid (upper_case_identifier)) (union_argument_pattern (upper_case_qid (upper_case_identifier))))) (right_parenthesis)) 
+    (union_argument_pattern (lower_pattern (lower_case_identifier))) (union_argument_pattern (lower_pattern (lower_case_identifier))))
+  ) (eq) 
   
-  (type_declaration (upper_case_identifier) 
-  (union_variant (upper_case_identifier) (type_ref (upper_case_qid (upper_case_identifier))) (type_ref (upper_case_qid (upper_case_identifier)))) 
-  (union_variant (upper_case_identifier))
-  (union_variant (upper_case_identifier) (type_ref (upper_case_qid (upper_case_identifier) (upper_case_identifier))))
+    (let_in_expr (let) 
+      (value_declaration (function_declaration_left (lower_case_identifier) (lower_pattern (lower_case_identifier))) (eq)
+       (case_of_expr (case) (value_expr (value_qid (lower_case_identifier))) (of) 
+        (case_of_branch (pattern (union_pattern (upper_case_qid (upper_case_identifier)) (union_argument_pattern 
+          (left_parenthesis) (pattern (union_pattern (upper_case_qid (upper_case_identifier)) 
+            (union_argument_pattern (lower_pattern (lower_case_identifier)))
+            (union_argument_pattern (lower_pattern (lower_case_identifier))))) (right_parenthesis)))) (arrow) 
+          (function_call_expr (value_expr (upper_case_qid (upper_case_identifier))) 
+            (tuple_expr (left_parenthesis) (value_expr (value_qid (lower_case_identifier))) 
+            (comma) (value_expr (value_qid (lower_case_identifier))) (right_parenthesis)))) 
+        (case_of_branch (pattern (anything_pattern (underscore))) (arrow)
+          (function_call_expr (value_expr (upper_case_qid (upper_case_identifier)))) 
+        ))
+      (value_declaration (function_declaration_left (lower_case_identifier)) (eq)
+        
+      ) (in)
+      (function_call_expr (value_expr (value_qid (upper_case_identifier) (dot) (lower_case_identifier))) (value_expr (value_qid (lower_case_identifier))) 
+        (value_expr (value_qid (lower_case_identifier)))) (operator (operator_identifier)) (value_expr (value_qid (lower_case_identifier)))
+      )
+    )
   )
-  
-  (type_declaration (upper_case_identifier) 
-  (union_variant (upper_case_identifier) (type_ref (upper_case_qid (upper_case_identifier))) (type_ref (upper_case_qid (upper_case_identifier)))) 
-  (union_variant (upper_case_identifier))
-  (union_variant (upper_case_identifier))
-  )
-
-  (type_declaration (upper_case_identifier) 
-  (union_variant (upper_case_identifier) (type_ref (upper_case_qid (upper_case_identifier)))) 
-  (union_variant (upper_case_identifier))
-  (union_variant (upper_case_identifier))
-  )
-  
+)
 )
