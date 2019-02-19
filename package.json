@@ -26,6 +26,7 @@
   },
   "tree-sitter": [
     {
+      "name": "JavaScript",
       "textmate-scope": "source.js",
       "file-types": ["js"],
       "highlights": "src/highlights.json",
