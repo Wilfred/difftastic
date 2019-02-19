@@ -1,0 +1,55 @@
+{
+  "states": [
+    {
+      "id": 0,
+      "property_set_id": 0,
+      "transitions": [
+        {
+          "type": "call_expression",
+          "named": true,
+          "state_id": 1
+        }
+      ],
+      "default_next_state_id": 0
+    },
+    {
+      "id": 1,
+      "property_set_id": 1,
+      "transitions": [
+        {
+          "type": "call_expression",
+          "named": true,
+          "state_id": 1
+        }
+      ],
+      "default_next_state_id": 0
+    }
+  ],
+  "property_sets": [
+    {},
+    {
+      "injection-content": {
+        "args": [
+          {
+            "args": [],
+            "name": "this"
+          },
+          1,
+          "template_string"
+        ],
+        "name": "child"
+      },
+      "injection-language": {
+        "args": [
+          {
+            "args": [],
+            "name": "this"
+          },
+          0,
+          "identifier"
+        ],
+        "name": "child"
+      }
+    }
+  ]
+}

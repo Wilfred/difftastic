@@ -16,11 +16,21 @@
     "acorn": "^2.6.4",
     "babylon": "^6.3.26",
     "esprima": "^2.7.1",
-    "tree-sitter-cli": "^0.14.1"
+    "tree-sitter-cli": "^0.14.2",
+    "tree-sitter-highlight-schema": "0.1.1"
   },
   "scripts": {
     "build": "tree-sitter generate && node-gyp build",
     "test": "tree-sitter test && script/parse-examples",
-    "test-windows": "tree-sitter test && tree-sitter parse examples --quiet --time"
-  }
+    "test-windows": "tree-sitter test"
+  },
+  "tree-sitter": [
+    {
+      "name": "JavaScript",
+      "textmate-scope": "source.js",
+      "file-types": ["js"],
+      "highlights": "src/highlights.json",
+      "injection-regex": "js|javascript"
+    }
+  ]
 }
