@@ -16,10 +16,20 @@
     "nan": "^2.10.0"
   },
   "devDependencies": {
-    "tree-sitter-cli": "^0.13.8"
+    "tree-sitter-cli": "^0.14.4"
   },
   "scripts": {
     "build": "tree-sitter generate && node-gyp build",
-    "test": "tree-sitter test && tree-sitter parse examples --quiet --time"
-  }
+    "test": "tree-sitter test && tree-sitter parse examples/*.html --quiet --time",
+    "test-windows": "tree-sitter test"
+  },
+  "tree-sitter": [
+    {
+      "name": "HTML",
+      "textmate-scope": "text.html.basic",
+      "file-types": ["html"],
+      "highlights": "src/highlights.json",
+      "injection-regex": "html"
+    }
+  ]
 }
