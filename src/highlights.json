@@ -7,7 +7,7 @@
         {
           "type": "attribute_name",
           "named": true,
-          "state_id": 5
+          "state_id": 1
         },
         {
           "type": "attribute_value",
@@ -17,32 +17,32 @@
         {
           "type": "comment",
           "named": true,
-          "state_id": 1
+          "state_id": 3
         },
         {
           "type": "doctype",
           "named": true,
-          "state_id": 3
+          "state_id": 4
         },
         {
           "type": "erroneous_end_tag_name",
           "named": true,
-          "state_id": 4
+          "state_id": 5
         },
         {
           "type": "script_element",
           "named": true,
-          "state_id": 7
+          "state_id": 6
         },
         {
           "type": "style_element",
           "named": true,
-          "state_id": 6
+          "state_id": 7
         },
         {
           "type": "tag_name",
           "named": true,
-          "state_id": 4
+          "state_id": 5
         }
       ],
       "default_next_state_id": 0
@@ -54,7 +54,7 @@
         {
           "type": "attribute_name",
           "named": true,
-          "state_id": 5
+          "state_id": 1
         },
         {
           "type": "attribute_value",
@@ -64,32 +64,32 @@
         {
           "type": "comment",
           "named": true,
-          "state_id": 1
+          "state_id": 3
         },
         {
           "type": "doctype",
           "named": true,
-          "state_id": 3
+          "state_id": 4
         },
         {
           "type": "erroneous_end_tag_name",
           "named": true,
-          "state_id": 4
+          "state_id": 5
         },
         {
           "type": "script_element",
           "named": true,
-          "state_id": 7
+          "state_id": 6
         },
         {
           "type": "style_element",
           "named": true,
-          "state_id": 6
+          "state_id": 7
         },
         {
           "type": "tag_name",
           "named": true,
-          "state_id": 4
+          "state_id": 5
         }
       ],
       "default_next_state_id": 0
@@ -101,7 +101,7 @@
         {
           "type": "attribute_name",
           "named": true,
-          "state_id": 5
+          "state_id": 1
         },
         {
           "type": "attribute_value",
@@ -111,32 +111,32 @@
         {
           "type": "comment",
           "named": true,
-          "state_id": 1
+          "state_id": 3
         },
         {
           "type": "doctype",
           "named": true,
-          "state_id": 3
+          "state_id": 4
         },
         {
           "type": "erroneous_end_tag_name",
           "named": true,
-          "state_id": 4
+          "state_id": 5
         },
         {
           "type": "script_element",
           "named": true,
-          "state_id": 7
+          "state_id": 6
         },
         {
           "type": "style_element",
           "named": true,
-          "state_id": 6
+          "state_id": 7
         },
         {
           "type": "tag_name",
           "named": true,
-          "state_id": 4
+          "state_id": 5
         }
       ],
       "default_next_state_id": 0
@@ -148,7 +148,7 @@
         {
           "type": "attribute_name",
           "named": true,
-          "state_id": 5
+          "state_id": 1
         },
         {
           "type": "attribute_value",
@@ -158,32 +158,32 @@
         {
           "type": "comment",
           "named": true,
-          "state_id": 1
+          "state_id": 3
         },
         {
           "type": "doctype",
           "named": true,
-          "state_id": 3
+          "state_id": 4
         },
         {
           "type": "erroneous_end_tag_name",
           "named": true,
-          "state_id": 4
+          "state_id": 5
         },
         {
           "type": "script_element",
           "named": true,
-          "state_id": 7
+          "state_id": 6
         },
         {
           "type": "style_element",
           "named": true,
-          "state_id": 6
+          "state_id": 7
         },
         {
           "type": "tag_name",
           "named": true,
-          "state_id": 4
+          "state_id": 5
         }
       ],
       "default_next_state_id": 0
@@ -195,7 +195,7 @@
         {
           "type": "attribute_name",
           "named": true,
-          "state_id": 5
+          "state_id": 1
         },
         {
           "type": "attribute_value",
@@ -205,32 +205,32 @@
         {
           "type": "comment",
           "named": true,
-          "state_id": 1
+          "state_id": 3
         },
         {
           "type": "doctype",
           "named": true,
-          "state_id": 3
+          "state_id": 4
         },
         {
           "type": "erroneous_end_tag_name",
           "named": true,
-          "state_id": 4
+          "state_id": 5
         },
         {
           "type": "script_element",
           "named": true,
-          "state_id": 7
+          "state_id": 6
         },
         {
           "type": "style_element",
           "named": true,
-          "state_id": 6
+          "state_id": 7
         },
         {
           "type": "tag_name",
           "named": true,
-          "state_id": 4
+          "state_id": 5
         }
       ],
       "default_next_state_id": 0
@@ -242,7 +242,7 @@
         {
           "type": "attribute_name",
           "named": true,
-          "state_id": 5
+          "state_id": 1
         },
         {
           "type": "attribute_value",
@@ -252,32 +252,32 @@
         {
           "type": "comment",
           "named": true,
-          "state_id": 1
+          "state_id": 3
         },
         {
           "type": "doctype",
           "named": true,
-          "state_id": 3
+          "state_id": 4
         },
         {
           "type": "erroneous_end_tag_name",
           "named": true,
-          "state_id": 4
+          "state_id": 5
         },
         {
           "type": "script_element",
           "named": true,
-          "state_id": 7
+          "state_id": 6
         },
         {
           "type": "style_element",
           "named": true,
-          "state_id": 6
+          "state_id": 7
         },
         {
           "type": "tag_name",
           "named": true,
-          "state_id": 4
+          "state_id": 5
         }
       ],
       "default_next_state_id": 0
@@ -289,7 +289,7 @@
         {
           "type": "attribute_name",
           "named": true,
-          "state_id": 5
+          "state_id": 1
         },
         {
           "type": "attribute_value",
@@ -299,32 +299,32 @@
         {
           "type": "comment",
           "named": true,
-          "state_id": 1
+          "state_id": 3
         },
         {
           "type": "doctype",
           "named": true,
-          "state_id": 3
+          "state_id": 4
         },
         {
           "type": "erroneous_end_tag_name",
           "named": true,
-          "state_id": 4
+          "state_id": 5
         },
         {
           "type": "script_element",
           "named": true,
-          "state_id": 7
+          "state_id": 6
         },
         {
           "type": "style_element",
           "named": true,
-          "state_id": 6
+          "state_id": 7
         },
         {
           "type": "tag_name",
           "named": true,
-          "state_id": 4
+          "state_id": 5
         }
       ],
       "default_next_state_id": 0
@@ -336,7 +336,7 @@
         {
           "type": "attribute_name",
           "named": true,
-          "state_id": 5
+          "state_id": 1
         },
         {
           "type": "attribute_value",
@@ -346,32 +346,32 @@
         {
           "type": "comment",
           "named": true,
-          "state_id": 1
+          "state_id": 3
         },
         {
           "type": "doctype",
           "named": true,
-          "state_id": 3
+          "state_id": 4
         },
         {
           "type": "erroneous_end_tag_name",
           "named": true,
-          "state_id": 4
+          "state_id": 5
         },
         {
           "type": "script_element",
           "named": true,
-          "state_id": 7
+          "state_id": 6
         },
         {
           "type": "style_element",
           "named": true,
-          "state_id": 6
+          "state_id": 7
         },
         {
           "type": "tag_name",
           "named": true,
-          "state_id": 4
+          "state_id": 5
         }
       ],
       "default_next_state_id": 0
@@ -380,10 +380,13 @@
   "property_sets": [
     {},
     {
-      "scope": "comment"
+      "scope": "attribute"
     },
     {
       "scope": "string"
+    },
+    {
+      "scope": "comment"
     },
     {
       "scope": "constant"
@@ -392,33 +395,30 @@
       "scope": "tag"
     },
     {
-      "scope": "attribute"
-    },
-    {
       "injection-content": {
-        "name": "child",
         "args": [
           {
-            "name": "this",
-            "args": []
+            "args": [],
+            "name": "this"
           },
           1
-        ]
-      },
-      "injection-language": "css"
-    },
-    {
-      "injection-content": {
-        "name": "child",
-        "args": [
-          {
-            "name": "this",
-            "args": []
-          },
-          1
-        ]
+        ],
+        "name": "child"
       },
       "injection-language": "javascript"
+    },
+    {
+      "injection-content": {
+        "args": [
+          {
+            "args": [],
+            "name": "this"
+          },
+          1
+        ],
+        "name": "child"
+      },
+      "injection-language": "css"
     }
   ]
 }
