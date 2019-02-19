@@ -5,7 +5,7 @@ sudo: false
 node_js: node
 
 env:
-  - CXX=clang
+  - CXX=clang++
 
 branches:
   only:

@@ -148,12 +148,12 @@ Raw text elements
 ---
 
 (fragment
-  (raw_element
+  (script_element
     (start_tag (tag_name))
     (raw_text)
     (end_tag (tag_name)))
   (text)
-  (raw_element
+  (style_element
     (start_tag (tag_name))
     (raw_text)
     (end_tag (tag_name)))
