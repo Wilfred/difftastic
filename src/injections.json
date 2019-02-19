@@ -28,19 +28,7 @@
   "property_sets": [
     {},
     {
-      "injection-content": {
-        "name": "child",
-        "args": [
-          {
-            "name": "this",
-            "args": []
-          },
-          1,
-          "template_string"
-        ]
-      },
       "injection-language": {
-        "name": "child",
         "args": [
           {
             "name": "this",
@@ -48,7 +36,19 @@
           },
           0,
           "identifier"
-        ]
+        ],
+        "name": "child"
+      },
+      "injection-content": {
+        "args": [
+          {
+            "args": [],
+            "name": "this"
+          },
+          1,
+          "template_string"
+        ],
+        "name": "child"
       }
     }
   ]

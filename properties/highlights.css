@@ -1,4 +1,3 @@
-@schema "tree-sitter-highlight-schema";
 @import "./injections.css";
 
 /* Properties */
@@ -11,7 +10,7 @@ property_identifier {
 
 identifier,
 call_expression > identifier {
-  &:text('^require$') {
+  &[text='^require$'] {
     scope: 'function.builtin';
   }
 }
@@ -39,7 +38,7 @@ identifier {
   scope: 'variable';
 }
 
-identifier:text('^(global|module|exports|__filename|__dirname|window|event|document|performance|screen|navigator|console)$') {
+identifier[text='^(global|module|exports|__filename|__dirname|window|event|document|performance|screen|navigator|console)$'] {
   scope: 'variable.builtin';
 }
 
@@ -49,7 +48,7 @@ identifier,
 shorthand_property_identifier,
 call_expression > identifier
 {
-  &:text('^[A-Z]') {
+  &[text="^[A-Z]"] {
     scope: 'constructor';
   }
 }
@@ -59,7 +58,7 @@ call_expression > identifier
 identifier,
 property_identifier,
 shorthand_property_identifier {
-  &:text("^[\$A-Z_]{2,}+$") {
+  &[text="^[\\$A-Z_]{2,}+$"] {
     scope: 'constant';
   }
 }
@@ -92,22 +91,22 @@ hash_bang_line {
   scope: 'comment';
 }
 
-"(", ")",
-"{", "}",
-"[", "]" {
+[token="("], [token=")"],
+[token="{"], [token="}"],
+[token="["], [token="]"] {
   scope: 'punctuation.bracket';
 }
 
 jsx_expression {
-  & > "{",
-  & > "}" {
+  & > [token="{"],
+  & > [token="}"] {
     scope: 'punctuation.special';
   }
 }
 
 template_substitution {
-  & > "${",
-  & > "}" {
+  & > [token="${"],
+  & > [token="}"] {
     scope: 'punctuation.special';
   }
 
@@ -116,97 +115,99 @@ template_substitution {
 
 /* Keywords */
 
-"get",
-"set" {
+[token="get"],
+[token="set"] {
   scope: 'keyword';
 }
 
-"as",
-"async",
-"await",
-"break",
-"case",
-"catch",
-"class",
-"const",
-"continue",
-"debugger",
-"default",
-"delete",
-"do",
-"else",
-"export",
-"extends",
-"finally",
-"for",
-"from",
-"function",
-"if",
-"import",
-"in",
-"instanceof",
-"let",
-"new",
-"of",
-"return",
-"static",
-"switch",
-"throw",
-"try",
-"typeof",
-"var",
-"while",
-"yield" {
+[token="as"],
+[token="async"],
+[token="await"],
+[token="break"],
+[token="case"],
+[token="catch"],
+[token="class"],
+[token="const"],
+[token="continue"],
+[token="debugger"],
+[token="default"],
+[token="delete"],
+[token="do"],
+[token="else"],
+[token="export"],
+[token="extends"],
+[token="finally"],
+[token="for"],
+[token="from"],
+[token="function"],
+[token="if"],
+[token="import"],
+[token="in"],
+[token="instanceof"],
+[token="let"],
+[token="new"],
+[token="of"],
+[token="return"],
+[token="static"],
+[token="switch"],
+[token="throw"],
+[token="try"],
+[token="typeof"],
+[token="var"],
+[token="while"],
+[token="yield"] {
   scope: 'keyword';
 }
 
 /* Punctuation */
 
-",", ";", "." {
+[token=","],
+[token=";"],
+[token="."] {
   scope: 'punctuation.delimiter';
 }
 
-"=>",
-"=",
-"+=",
-"-=",
-"*=",
-"/=",
-"%=",
-"<<=",
-">>=",
-">>>=",
-"&=",
-"^=",
-"|=",
-"!",
-"+",
-"-",
-"*",
-"/",
-"%",
-"==",
-"===",
-"!=",
-"!==",
-">=",
-"<=",
-">",
-"<",
-":",
-"?",
-"&&",
-"||",
-"&",
-"~",
-"^",
-">>",
-">>>",
-"<<",
-"|",
-"++",
-"--",
-"..." {
+[token="=>"],
+[token="="],
+[token="+="],
+[token="-="],
+[token="*="],
+[token="/="],
+[token="%="],
+[token="<<="],
+[token=">>="],
+[token=">>>="],
+[token="&="],
+[token="^="],
+[token="|="],
+[token="!"],
+[token="+"],
+[token="-"],
+[token="*"],
+[token="/"],
+[token="%"],
+[token="=="],
+[token="==="],
+[token="!="],
+[token="!=="],
+[token=">="],
+[token="<="],
+[token=">"],
+[token="<"],
+[token=":"],
+[token="?"],
+[token="&&"],
+[token="||"],
+[token="&"],
+[token="~"],
+[token="^"],
+[token=">>"],
+[token=">>>"],
+[token="<<"],
+[token="|"],
+[token="++"],
+[token="--"],
+[token="..."] {
   scope: 'operator';
 }
 
