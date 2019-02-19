@@ -7,12 +7,12 @@
         {
           "type": "script_element",
           "named": true,
-          "state_id": 2
+          "state_id": 1
         },
         {
           "type": "style_element",
           "named": true,
-          "state_id": 1
+          "state_id": 2
         }
       ],
       "default_next_state_id": 0
@@ -24,12 +24,12 @@
         {
           "type": "script_element",
           "named": true,
-          "state_id": 2
+          "state_id": 1
         },
         {
           "type": "style_element",
           "named": true,
-          "state_id": 1
+          "state_id": 2
         }
       ],
       "default_next_state_id": 0
@@ -41,12 +41,12 @@
         {
           "type": "script_element",
           "named": true,
-          "state_id": 2
+          "state_id": 1
         },
         {
           "type": "style_element",
           "named": true,
-          "state_id": 1
+          "state_id": 2
         }
       ],
       "default_next_state_id": 0
@@ -56,29 +56,29 @@
     {},
     {
       "injection-content": {
-        "name": "child",
         "args": [
           {
-            "name": "this",
-            "args": []
+            "args": [],
+            "name": "this"
           },
           1
-        ]
+        ],
+        "name": "child"
       },
-      "injection-language": "css"
+      "injection-language": "javascript"
     },
     {
       "injection-content": {
-        "name": "child",
         "args": [
           {
-            "name": "this",
-            "args": []
+            "args": [],
+            "name": "this"
           },
           1
-        ]
+        ],
+        "name": "child"
       },
-      "injection-language": "javascript"
+      "injection-language": "css"
     }
   ]
 }
