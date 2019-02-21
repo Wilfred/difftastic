@@ -1,4 +1,7 @@
+.vscode
 corpus
+corpus_failing
 examples
 build
+prebuilds
 script
