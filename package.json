@@ -28,8 +28,10 @@
   "repository": "https://github.com/tree-sitter/tree-sitter-ruby",
   "tree-sitter": [
     {
-      "textmate-scope": "source.ruby",
-      "file-types": ["rb"],
+      "scope": "source.ruby",
+      "file-types": [
+        "rb"
+      ],
       "highlights": "src/highlights.json",
       "injection-regex": "ruby"
     }

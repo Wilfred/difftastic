@@ -29,8 +29,8 @@
     {},
     {
       "injection-content": {
-        "name": "this",
-        "args": []
+        "args": [],
+        "name": "this"
       },
       "injection-language": "regex"
     }
