@@ -507,7 +507,7 @@
       "name": "lower_case_identifier"
     },
     "union_variant": {
-      "type": "PREC_LEFT",
+      "type": "PREC_RIGHT",
       "value": 0,
       "content": {
         "type": "SEQ",
@@ -892,7 +892,7 @@
       ]
     },
     "function_call_expr": {
-      "type": "PREC_LEFT",
+      "type": "PREC_RIGHT",
       "value": 0,
       "content": {
         "type": "SEQ",

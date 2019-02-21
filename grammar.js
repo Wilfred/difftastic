@@ -130,7 +130,7 @@ module.exports = grammar({
     lower_type_name: $ => $.lower_case_identifier,
 
     union_variant: $ =>
-      prec.left(
+      prec.right(
         seq($.upper_case_identifier, repeat($._single_type_expression))
       ),
 
@@ -212,7 +212,7 @@ module.exports = grammar({
     _call_or_atom: $ => choice($.function_call_expr, $._atom),
 
     function_call_expr: $ =>
-      prec.left(seq($._function_call_target, repeat1($._atom))),
+      prec.right(seq($._function_call_target, repeat1($._atom))),
 
     _function_call_target: $ =>
       prec(

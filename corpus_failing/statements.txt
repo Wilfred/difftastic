@@ -1,0 +1,64 @@
+
+=====================================
+Function statement with comment and type annotation
+=====================================
+
+
+{-| Returns a dictionary mapping `ScreenId` to its problems, if any.
+-}
+problemsByScreenId : List Problem -> AnyDict String ScreenId (List ScreenProblem)
+problemsByScreenId problems =
+    let
+        assocById problem =
+            case problem of
+                ContentProblem (WithScreen screenId prob) ->
+                    Just ( screenId, prob )
+
+                _ ->
+                    Nothing
+
+        groupById =
+            List.foldl
+                (\( screenId, problem ) acc -> Util.AnyDict.collect screenId problem acc)
+                (AnyDict.empty ScreenId.toString)
+    in
+    List.filterMap assocById problems
+        |> groupById
+---
+
+(file 
+(block_documentation) 
+(type_annotation (lower_case_identifier) (colon) 
+    (type_expression (type_ref (upper_case_qid (upper_case_identifier)) (type_ref (upper_case_qid (upper_case_identifier)))) 
+      (arrow) (type_ref (upper_case_qid (upper_case_identifier)) (type_ref (upper_case_qid (upper_case_identifier))))
+    )
+)
+(value_declaration 
+  (pattern (union_pattern (upper_case_qid (upper_case_identifier)) (union_argument_pattern (left_parenthesis) 
+    (pattern (union_pattern (upper_case_qid (upper_case_identifier)) (union_argument_pattern (upper_case_qid (upper_case_identifier))))) (right_parenthesis)) 
+    (union_argument_pattern (lower_pattern (lower_case_identifier))) (union_argument_pattern (lower_pattern (lower_case_identifier))))
+  ) (eq) 
+  
+    (let_in_expr (let) 
+      (value_declaration (function_declaration_left (lower_case_identifier) (lower_pattern (lower_case_identifier))) (eq)
+       (case_of_expr (case) (value_expr (value_qid (lower_case_identifier))) (of) 
+        (case_of_branch (pattern (union_pattern (upper_case_qid (upper_case_identifier)) (union_argument_pattern 
+          (left_parenthesis) (pattern (union_pattern (upper_case_qid (upper_case_identifier)) 
+            (union_argument_pattern (lower_pattern (lower_case_identifier)))
+            (union_argument_pattern (lower_pattern (lower_case_identifier))))) (right_parenthesis)))) (arrow) 
+          (function_call_expr (value_expr (upper_case_qid (upper_case_identifier))) 
+            (tuple_expr (left_parenthesis) (value_expr (value_qid (lower_case_identifier))) 
+            (comma) (value_expr (value_qid (lower_case_identifier))) (right_parenthesis)))) 
+        (case_of_branch (pattern (anything_pattern (underscore))) (arrow)
+          (function_call_expr (value_expr (upper_case_qid (upper_case_identifier)))) 
+        ))
+      (value_declaration (function_declaration_left (lower_case_identifier)) (eq)
+        
+      ) (in)
+      (function_call_expr (value_expr (value_qid (upper_case_identifier) (dot) (lower_case_identifier))) (value_expr (value_qid (lower_case_identifier))) 
+        (value_expr (value_qid (lower_case_identifier)))) (operator (operator_identifier)) (value_expr (value_qid (lower_case_identifier)))
+      )
+    )
+  )
+)
+)
