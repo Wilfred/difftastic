@@ -1,38 +1,37 @@
-@schema "tree-sitter-highlight-schema";
 @import "./injections.css";
 
 /* Keywords */
 
-"alias",
-"and",
-"begin",
-"break",
-"case",
-"class",
-"def",
-"do",
-"else",
-"elsif",
-"end",
-"ensure",
-"for",
-"if",
-"in",
-"module",
-"or",
-"rescue",
-"retry",
-"return",
-"then",
-"unless",
-"until",
-"when",
-"while",
-"yield" {
+[token="alias"],
+[token="and"],
+[token="begin"],
+[token="break"],
+[token="case"],
+[token="class"],
+[token="def"],
+[token="do"],
+[token="else"],
+[token="elsif"],
+[token="end"],
+[token="ensure"],
+[token="for"],
+[token="if"],
+[token="in"],
+[token="module"],
+[token="or"],
+[token="rescue"],
+[token="retry"],
+[token="return"],
+[token="then"],
+[token="unless"],
+[token="until"],
+[token="when"],
+[token="while"],
+[token="yield"] {
   scope: 'keyword';
 }
 
-identifier:text('^(private|protected|public)$') {
+identifier[text='^(private|protected|public)$'] {
   scope: 'keyword';
 }
 
@@ -41,7 +40,7 @@ identifier:text('^(private|protected|public)$') {
 constant {
   scope: 'constructor';
 
-  &:text('^[A-Z_]+$') {
+  &[text="^[A-Z_]+$"] {
     scope: 'constant';
   }
 }
@@ -54,7 +53,7 @@ superclass > constant {
   scope: 'constructor';
 }
 
-identifier:text('^__(FILE|LINE|ENCODING)__$') {
+identifier[text='^__(FILE|LINE|ENCODING)__$'] {
   scope: 'constant.builtin';
 }
 
@@ -79,7 +78,7 @@ setter > identifier {
 
 call > identifier:nth-child(2),
 method_call > identifier:nth-child(0) {
-  &:text('^require$') {
+  &[text='^require$'] {
     scope: 'function.builtin';
   }
 
@@ -131,8 +130,8 @@ escape_sequence {
 interpolation {
   scope: 'embedded';
 
-  & > "#{",
-  & > "}" {
+  & > [token='\#{'],
+  & > [token='}'] {
     scope: 'punctuation.special';
   }
 }
@@ -143,20 +142,20 @@ nil, true, false {
 
 /* Punctuation */
 
-"=",
-"=>",
-"->" {
+[token="="],
+[token="=>"],
+[token="->"] {
   scope: 'operator';
 }
 
-",",
-"." {
+[token=","],
+[token="."] {
   scope: 'punctuation.delimiter';
 }
 
-"%w(",
-"%i(",
-"(",
-")" {
+[token="%w("],
+[token="%i("],
+[token="("],
+[token=")"] {
   scope: 'punctuation.bracket';
 }
