@@ -1,0 +1,161 @@
+@import "./injections.css";
+
+/* Keywords */
+
+[token="alias"],
+[token="and"],
+[token="begin"],
+[token="break"],
+[token="case"],
+[token="class"],
+[token="def"],
+[token="do"],
+[token="else"],
+[token="elsif"],
+[token="end"],
+[token="ensure"],
+[token="for"],
+[token="if"],
+[token="in"],
+[token="module"],
+[token="or"],
+[token="rescue"],
+[token="retry"],
+[token="return"],
+[token="then"],
+[token="unless"],
+[token="until"],
+[token="when"],
+[token="while"],
+[token="yield"] {
+  scope: 'keyword';
+}
+
+identifier[text='^(private|protected|public)$'] {
+  scope: 'keyword';
+}
+
+/* Identifiers */
+
+constant {
+  scope: 'constructor';
+
+  &[text="^[A-Z_]+$"] {
+    scope: 'constant';
+  }
+}
+
+class > constant {
+  is-definition: true;
+}
+
+superclass > constant {
+  scope: 'constructor';
+}
+
+identifier[text='^__(FILE|LINE|ENCODING)__$'] {
+  scope: 'constant.builtin';
+}
+
+identifier {
+  scope: 'variable';
+}
+
+self, super {
+  scope: 'variable.builtin';
+}
+
+alias > identifier {
+  scope: 'function';
+}
+
+method > identifier,
+singleton_method > identifier:nth-child(3),
+setter > identifier {
+  scope: 'function';
+  is-definition: true;
+}
+
+call > identifier:nth-child(2),
+method_call > identifier:nth-child(0) {
+  &[text='^require$'] {
+    scope: 'function.builtin';
+  }
+
+  scope: 'function';
+}
+
+keyword_parameter > identifier:nth-child(0) {
+  scope: 'string.special';
+}
+
+class_variable, instance_variable {
+  scope: 'property';
+}
+
+/* Literals */
+
+symbol {
+  scope: 'string.special';
+}
+
+bare_symbol {
+  scope: 'string.special';
+}
+
+comment {
+  scope: 'comment';
+}
+
+regex {
+  scope: 'string.special';
+}
+
+integer {
+  scope: 'number';
+}
+
+string,
+bare_string,
+subshell,
+heredoc_beginning,
+heredoc_body {
+  scope: 'string';
+}
+
+escape_sequence {
+  scope: 'escape';
+}
+
+interpolation {
+  scope: 'embedded';
+
+  & > [token='\#{'],
+  & > [token='}'] {
+    scope: 'punctuation.special';
+  }
+}
+
+nil, true, false {
+  scope: 'constant.builtin';
+}
+
+/* Punctuation */
+
+[token="="],
+[token="=>"],
+[token="->"] {
+  scope: 'operator';
+}
+
+[token=","],
+[token="."] {
+  scope: 'punctuation.delimiter';
+}
+
+[token="%w("],
+[token="%i("],
+[token="("],
+[token=")"] {
+  scope: 'punctuation.bracket';
+}
