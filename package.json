@@ -15,7 +15,8 @@
   },
   "devDependencies": {
     "prebuild": "^7.6.0",
-    "tree-sitter-cli": "^0.14.1"
+    "tree-sitter-cli": "^0.14.4",
+    "tree-sitter-highlight-schema": "^0.1.3"
   },
   "scripts": {
     "install": "prebuild-install || node-gyp rebuild",
@@ -24,5 +25,15 @@
     "test": "tree-sitter test && script/parse-examples",
     "test-windows": "tree-sitter test"
   },
-  "repository": "https://github.com/tree-sitter/tree-sitter-ruby"
+  "repository": "https://github.com/tree-sitter/tree-sitter-ruby",
+  "tree-sitter": [
+    {
+      "scope": "source.ruby",
+      "file-types": [
+        "rb"
+      ],
+      "highlights": "src/highlights.json",
+      "injection-regex": "ruby"
+    }
+  ]
 }
