@@ -55,17 +55,59 @@ module.exports = grammar({
     exposed_union_constructor: $ => $.upper_case_identifier,
 
     // WHITESPACE-SENSITIVE RULES
-    // todo disallow whitespaces etc
 
-    upper_case_qid: $ => prec.right(sep1($.upper_case_identifier, $.dot)),
+    _upper_case_identifier_without_leading_whitespace: $ =>
+      token.immediate(/[A-Z][a-zA-Z0-9_]*/),
 
-    value_qid: $ =>
-      seq(
-        repeat(prec(5, seq($.upper_case_identifier, $.dot))),
-        $.lower_case_identifier
+    _lower_case_identifier_without_leading_whitespace: $ =>
+      token.immediate(/[a-z][a-zA-Z0-9_]*/),
+
+    _dot_without_leading_whitespace: $ => token.immediate("."),
+
+    upper_case_qid: $ =>
+      prec.right(
+        seq(
+          $.upper_case_identifier,
+          repeat(
+            seq(
+              alias($._dot_without_leading_whitespace, $.dot),
+              alias(
+                $._upper_case_identifier_without_leading_whitespace,
+                $.upper_case_identifier
+              )
+            )
+          )
+        )
       ),
 
-    field_accessor_function_expr: $ => seq($.dot, $.lower_case_identifier),
+    value_qid: $ =>
+      choice(
+        $.lower_case_identifier,
+        seq(
+          prec(
+            5,
+            repeat(
+              seq(
+                $.upper_case_identifier,
+                alias($._dot_without_leading_whitespace, $.dot)
+              )
+            )
+          ),
+          alias(
+            $._lower_case_identifier_without_leading_whitespace,
+            $.lower_case_identifier
+          )
+        )
+      ),
+
+    field_accessor_function_expr: $ =>
+      seq(
+        $.dot,
+        alias(
+          $._lower_case_identifier_without_leading_whitespace,
+          $.lower_case_identifier
+        )
+      ),
 
     // IMPORT DECLARATION
     import_clause: $ =>
@@ -251,7 +293,13 @@ module.exports = grammar({
     _field_access_start: $ =>
       prec(3, choice($.value_expr, $.parenthesized_expr, $.record_expr)),
 
-    field_access_segment: $ => prec.left(seq($.dot, $.lower_case_identifier)),
+    field_access_segment: $ =>
+      prec.left(
+        seq(
+          alias($._dot_without_leading_whitespace, $.dot),
+          $.lower_case_identifier
+        )
+      ),
 
     parenthesized_expr: $ =>
       seq($.left_parenthesis, $._expression, $.right_parenthesis),
@@ -427,7 +475,7 @@ module.exports = grammar({
 
     regular_string_part: $ => /[^\\\"]+/,
 
-    string_escape: $ => /\\(u\{{[0-9A-Fa-f]}{4,6}\}|[nrt\"'\\])/, //todo wtf?
+    string_escape: $ => /\\(u\{{[0-9A-Fa-f]}{4,6}\}|[nrt\"'\\])/,
 
     invalid_string_escape: $ => /\\(u\{[^}]*\}|[^nrt\"'\\])/,
 
