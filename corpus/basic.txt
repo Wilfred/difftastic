@@ -28,12 +28,46 @@ string6 =
 ---
 
 (file
-  (value_declaration (function_declaration_left (lower_case_identifier)) (eq) (string_constant_expr (open_quote) (close_quote)))
-  (value_declaration (function_declaration_left (lower_case_identifier)) (eq) (string_constant_expr (open_quote) (regular_string_part) (close_quote)))
-  (value_declaration (function_declaration_left (lower_case_identifier)) (eq) (string_constant_expr (open_quote) (regular_string_part) (close_quote)))
-  (value_declaration (function_declaration_left (lower_case_identifier)) (eq) (string_constant_expr (open_quote) (regular_string_part) (close_quote)))
-  (value_declaration (function_declaration_left (lower_case_identifier)) (eq) (string_constant_expr (open_quote) (regular_string_part) (close_quote)))
-  (value_declaration (function_declaration_left (lower_case_identifier)) (eq) (string_constant_expr (open_quote) (regular_string_part) (close_quote)))
+  (value_declaration 
+        (function_declaration_left 
+                (lower_case_identifier)) 
+        (eq) 
+        (string_constant_expr (open_quote) (close_quote))
+        )
+        (virtual_end_decl)
+  (value_declaration 
+        (function_declaration_left 
+                (lower_case_identifier)) 
+        (eq) 
+        (string_constant_expr (open_quote) (regular_string_part) (close_quote))
+        )
+        (virtual_end_decl)
+  (value_declaration 
+        (function_declaration_left 
+                (lower_case_identifier)) 
+        (eq) 
+        (string_constant_expr (open_quote) (regular_string_part) (close_quote))
+        )
+        (virtual_end_decl)
+  (value_declaration 
+        (function_declaration_left 
+                (lower_case_identifier)) 
+        (eq) 
+        (string_constant_expr (open_quote) (regular_string_part) (close_quote))
+        )
+        (virtual_end_decl)
+  (value_declaration 
+        (function_declaration_left 
+                (lower_case_identifier)) 
+        (eq) 
+        (string_constant_expr (open_quote) (regular_string_part) (close_quote))
+        )
+        (virtual_end_decl)
+  (value_declaration 
+        (function_declaration_left 
+                (lower_case_identifier)) (eq) (string_constant_expr (open_quote) (regular_string_part) (close_quote))
+                )
+                (virtual_end_decl)
 )
 
 
@@ -55,11 +89,15 @@ tuple4 =
 (file
   (value_declaration (function_declaration_left (lower_case_identifier)) (eq)
             (unit_expr (left_parenthesis) (right_parenthesis)))
+  (virtual_end_decl)
   (value_declaration (function_declaration_left (lower_case_identifier)) (eq)
             (tuple_expr (left_parenthesis) (number_constant_expr (number_literal)) (comma) (number_constant_expr (number_literal)) (right_parenthesis)))
+  (virtual_end_decl)
   (value_declaration (function_declaration_left (lower_case_identifier)) (eq)
             (tuple_expr (left_parenthesis) (number_constant_expr (number_literal)) (comma) (number_constant_expr (number_literal)) (right_parenthesis)))
+  (virtual_end_decl)
   (value_declaration (function_declaration_left (lower_case_identifier)) (eq)
             (tuple_expr (left_parenthesis) (string_constant_expr (open_quote) (regular_string_part) (close_quote))
             (comma) (string_constant_expr (open_quote) (regular_string_part)  (close_quote)) (right_parenthesis)))
+  (virtual_end_decl)
 )

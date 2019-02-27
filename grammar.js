@@ -1,6 +1,14 @@
 module.exports = grammar({
   name: "elm",
 
+  conflicts: $ => [[$._case_of_tail2]],
+
+  externals: $ => [
+    $.virtual_end_decl,
+    $.virtual_open_section,
+    $.virtual_end_section
+  ],
+
   extras: $ => [
     $.block_comment,
     $.block_documentation,
@@ -11,20 +19,16 @@ module.exports = grammar({
   rules: {
     file: $ =>
       seq(
-        optional($.module_declaration),
-        repeat($.import_clause),
-        repeat($._declaration)
+        optional(seq($.module_declaration, $.virtual_end_decl)),
+        optional($._import_list),
+        optional($._top_decl_list)
       ),
 
     module_declaration: $ =>
-      prec.left(
-        seq(
-          $.module,
-          $.upper_case_qid,
-          $.exposing_list,
-          optional($.block_documentation)
-        )
-      ),
+      prec.left(seq($.module, $.upper_case_qid, $.exposing_list)),
+
+    _import_list: $ => repeat1(seq($.import_clause, $.virtual_end_decl)),
+    _top_decl_list: $ => repeat1(seq($._declaration, $.virtual_end_decl)),
 
     // MODULE DECLARATION
 
@@ -377,17 +381,30 @@ module.exports = grammar({
 
     case_of_expr: $ => seq($.case, $._expression, $._case_of_tail),
 
-    _case_of_tail: $ => prec.right(seq($.of, repeat1($.case_of_branch))),
+    _case_of_tail: $ => prec.left(seq($.of, $._case_of_tail2)),
+
+    _case_of_tail2: $ =>
+      seq(
+        $.virtual_open_section,
+        $.case_of_branch,
+        repeat(seq($.virtual_end_decl, $.case_of_branch))
+        // $.virtual_end_section
+      ),
 
     case_of_branch: $ => seq($.pattern, $.arrow, $._expression),
 
     let_in_expr: $ =>
       seq(
         $.let,
-        repeat(choice($.value_declaration, $.type_annotation)),
+        $.virtual_open_section,
+        $._inner_declaration,
+        repeat1(seq($.virtual_end_decl, $._inner_declaration)),
+        // $.virtual_end_section,
         $.in,
         $._expression
       ),
+
+    _inner_declaration: $ => choice($.value_declaration, $.type_annotation),
 
     // PATTERNS
 
@@ -511,7 +528,21 @@ module.exports = grammar({
     underscore: $ => "_",
     dot: $ => ".",
     operator_identifier: $ =>
-      choice("^", "|", "*", "/", "+", "-", "&&", "||", "<", ">"),
+      choice(
+        "^",
+        "|",
+        "|>",
+        "::",
+        "*",
+        "/",
+        "+",
+        "++",
+        "-",
+        "&&",
+        "||",
+        "<",
+        ">"
+      ),
 
     _char_quote: $ => "'"
   }

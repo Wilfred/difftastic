@@ -10,10 +10,11 @@ type alias Number =
 ---
 
 (file 
-(type_alias_declaration (type) (alias) (upper_case_identifier) (eq)
- (type_expression (type_ref (upper_case_qid (upper_case_identifier)))
+  (type_alias_declaration (type) (alias) (upper_case_identifier) (eq)
+  (type_expression (type_ref (upper_case_qid (upper_case_identifier)))
+    )
   )
-)
+  (virtual_end_decl)
 )
 
 =====================================
@@ -30,12 +31,13 @@ type alias ListItem =
 ---
 
 (file 
-(type_alias_declaration (type) (alias) (upper_case_identifier) (eq)
- (type_expression (record_type 
-  (left_brace) (field_type (lower_case_identifier) (colon) (type_expression (type_ref (upper_case_qid (upper_case_identifier)))))
-  (comma) (field_type (lower_case_identifier) (colon) (type_expression (type_ref (upper_case_qid (upper_case_identifier))))) 
-  (comma) (field_type (lower_case_identifier) (colon) (type_expression (type_ref (upper_case_qid (upper_case_identifier))))) 
-  (right_brace))
+  (type_alias_declaration (type) (alias) (upper_case_identifier) (eq)
+  (type_expression (record_type 
+    (left_brace) (field_type (lower_case_identifier) (colon) (type_expression (type_ref (upper_case_qid (upper_case_identifier)))))
+    (comma) (field_type (lower_case_identifier) (colon) (type_expression (type_ref (upper_case_qid (upper_case_identifier))))) 
+    (comma) (field_type (lower_case_identifier) (colon) (type_expression (type_ref (upper_case_qid (upper_case_identifier))))) 
+    (right_brace))
+    )
   )
-)
+  (virtual_end_decl)
 )
