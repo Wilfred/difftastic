@@ -13,10 +13,20 @@
     "nan": "^2.10.0"
   },
   "devDependencies": {
-    "tree-sitter-cli": "^0.13.6"
+    "tree-sitter-cli": "^0.14.4",
+    "tree-sitter-highlight-schema": "^0.1.1"
   },
   "scripts": {
     "build": "tree-sitter generate && node-gyp build",
     "test": "tree-sitter test && script/parse-examples"
-  }
+  },
+  "tree-sitter": [
+    {
+      "scope": "source.go",
+      "file-types": [
+        "go"
+      ],
+      "highlights": "src/highlights.json"
+    }
+  ]
 }

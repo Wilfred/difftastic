@@ -1,0 +1,5925 @@
+{
+  "states": [
+    {
+      "id": 0,
+      "property_set_id": 0,
+      "transitions": [
+        {
+          "type": "!",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "!=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "%",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "%=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "&",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "&&",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "&=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "*",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "*=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "+",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "++",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "+=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "-",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "--",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "-=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "...",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "/",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "/=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ":=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "<",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "<-",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "<<",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "<<=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "<=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "==",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ">",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ">=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ">>",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ">>=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "^",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "^=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "break",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "call_expression",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "case",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "chan",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "comment",
+          "named": true,
+          "state_id": 4
+        },
+        {
+          "type": "const",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "continue",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "default",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "defer",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "else",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "escape_sequence",
+          "named": true,
+          "state_id": 5
+        },
+        {
+          "type": "fallthrough",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "false",
+          "named": true,
+          "state_id": 6
+        },
+        {
+          "type": "field_identifier",
+          "named": true,
+          "state_id": 7
+        },
+        {
+          "type": "float_literal",
+          "named": true,
+          "state_id": 8
+        },
+        {
+          "type": "for",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "func",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "function_declaration",
+          "named": true,
+          "state_id": 9
+        },
+        {
+          "type": "go",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "goto",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "identifier",
+          "named": true,
+          "state_id": 10
+        },
+        {
+          "type": "if",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "imaginary_literal",
+          "named": true,
+          "state_id": 8
+        },
+        {
+          "type": "import",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "int_literal",
+          "named": true,
+          "state_id": 8
+        },
+        {
+          "type": "interface",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "interpreted_string_literal",
+          "named": true,
+          "state_id": 11
+        },
+        {
+          "type": "map",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "method_declaration",
+          "named": true,
+          "state_id": 12
+        },
+        {
+          "type": "nil",
+          "named": true,
+          "state_id": 6
+        },
+        {
+          "type": "package",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "range",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "raw_string_literal",
+          "named": true,
+          "state_id": 11
+        },
+        {
+          "type": "return",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "rune_literal",
+          "named": true,
+          "state_id": 11
+        },
+        {
+          "type": "select",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "struct",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "switch",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "true",
+          "named": true,
+          "state_id": 6
+        },
+        {
+          "type": "type",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "type_identifier",
+          "named": true,
+          "state_id": 13
+        },
+        {
+          "type": "var",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "|",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "|=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "||",
+          "named": false,
+          "state_id": 1
+        }
+      ],
+      "default_next_state_id": 0
+    },
+    {
+      "id": 1,
+      "property_set_id": 1,
+      "transitions": [
+        {
+          "type": "!",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "!=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "%",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "%=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "&",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "&&",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "&=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "*",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "*=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "+",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "++",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "+=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "-",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "--",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "-=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "...",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "/",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "/=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ":=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "<",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "<-",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "<<",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "<<=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "<=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "==",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ">",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ">=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ">>",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ">>=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "^",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "^=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "break",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "call_expression",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "case",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "chan",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "comment",
+          "named": true,
+          "state_id": 4
+        },
+        {
+          "type": "const",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "continue",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "default",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "defer",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "else",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "escape_sequence",
+          "named": true,
+          "state_id": 5
+        },
+        {
+          "type": "fallthrough",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "false",
+          "named": true,
+          "state_id": 6
+        },
+        {
+          "type": "field_identifier",
+          "named": true,
+          "state_id": 7
+        },
+        {
+          "type": "float_literal",
+          "named": true,
+          "state_id": 8
+        },
+        {
+          "type": "for",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "func",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "function_declaration",
+          "named": true,
+          "state_id": 9
+        },
+        {
+          "type": "go",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "goto",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "identifier",
+          "named": true,
+          "state_id": 10
+        },
+        {
+          "type": "if",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "imaginary_literal",
+          "named": true,
+          "state_id": 8
+        },
+        {
+          "type": "import",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "int_literal",
+          "named": true,
+          "state_id": 8
+        },
+        {
+          "type": "interface",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "interpreted_string_literal",
+          "named": true,
+          "state_id": 11
+        },
+        {
+          "type": "map",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "method_declaration",
+          "named": true,
+          "state_id": 12
+        },
+        {
+          "type": "nil",
+          "named": true,
+          "state_id": 6
+        },
+        {
+          "type": "package",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "range",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "raw_string_literal",
+          "named": true,
+          "state_id": 11
+        },
+        {
+          "type": "return",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "rune_literal",
+          "named": true,
+          "state_id": 11
+        },
+        {
+          "type": "select",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "struct",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "switch",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "true",
+          "named": true,
+          "state_id": 6
+        },
+        {
+          "type": "type",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "type_identifier",
+          "named": true,
+          "state_id": 13
+        },
+        {
+          "type": "var",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "|",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "|=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "||",
+          "named": false,
+          "state_id": 1
+        }
+      ],
+      "default_next_state_id": 0
+    },
+    {
+      "id": 2,
+      "property_set_id": 2,
+      "transitions": [
+        {
+          "type": "!",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "!=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "%",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "%=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "&",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "&&",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "&=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "*",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "*=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "+",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "++",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "+=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "-",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "--",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "-=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "...",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "/",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "/=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ":=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "<",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "<-",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "<<",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "<<=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "<=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "==",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ">",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ">=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ">>",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ">>=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "^",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "^=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "break",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "call_expression",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "case",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "chan",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "comment",
+          "named": true,
+          "state_id": 4
+        },
+        {
+          "type": "const",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "continue",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "default",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "defer",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "else",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "escape_sequence",
+          "named": true,
+          "state_id": 5
+        },
+        {
+          "type": "fallthrough",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "false",
+          "named": true,
+          "state_id": 6
+        },
+        {
+          "type": "field_identifier",
+          "named": true,
+          "state_id": 7
+        },
+        {
+          "type": "float_literal",
+          "named": true,
+          "state_id": 8
+        },
+        {
+          "type": "for",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "func",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "function_declaration",
+          "named": true,
+          "state_id": 9
+        },
+        {
+          "type": "go",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "goto",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "identifier",
+          "named": true,
+          "state_id": 10
+        },
+        {
+          "type": "if",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "imaginary_literal",
+          "named": true,
+          "state_id": 8
+        },
+        {
+          "type": "import",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "int_literal",
+          "named": true,
+          "state_id": 8
+        },
+        {
+          "type": "interface",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "interpreted_string_literal",
+          "named": true,
+          "state_id": 11
+        },
+        {
+          "type": "map",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "method_declaration",
+          "named": true,
+          "state_id": 12
+        },
+        {
+          "type": "nil",
+          "named": true,
+          "state_id": 6
+        },
+        {
+          "type": "package",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "range",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "raw_string_literal",
+          "named": true,
+          "state_id": 11
+        },
+        {
+          "type": "return",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "rune_literal",
+          "named": true,
+          "state_id": 11
+        },
+        {
+          "type": "select",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "struct",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "switch",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "true",
+          "named": true,
+          "state_id": 6
+        },
+        {
+          "type": "type",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "type_identifier",
+          "named": true,
+          "state_id": 13
+        },
+        {
+          "type": "var",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "|",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "|=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "||",
+          "named": false,
+          "state_id": 1
+        }
+      ],
+      "default_next_state_id": 0
+    },
+    {
+      "id": 3,
+      "property_set_id": 0,
+      "transitions": [
+        {
+          "type": "!",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "!=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "%",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "%=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "&",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "&&",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "&=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "*",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "*=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "+",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "++",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "+=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "-",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "--",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "-=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "...",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "/",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "/=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ":=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "<",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "<-",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "<<",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "<<=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "<=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "==",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ">",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ">=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ">>",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ">>=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "^",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "^=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "break",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "call_expression",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "case",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "chan",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "comment",
+          "named": true,
+          "state_id": 4
+        },
+        {
+          "type": "const",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "continue",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "default",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "defer",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "else",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "escape_sequence",
+          "named": true,
+          "state_id": 5
+        },
+        {
+          "type": "fallthrough",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "false",
+          "named": true,
+          "state_id": 6
+        },
+        {
+          "type": "field_identifier",
+          "named": true,
+          "state_id": 7
+        },
+        {
+          "type": "float_literal",
+          "named": true,
+          "state_id": 8
+        },
+        {
+          "type": "for",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "func",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "function_declaration",
+          "named": true,
+          "state_id": 9
+        },
+        {
+          "type": "go",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "goto",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "identifier",
+          "named": true,
+          "state_id": 14
+        },
+        {
+          "type": "if",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "imaginary_literal",
+          "named": true,
+          "state_id": 8
+        },
+        {
+          "type": "import",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "int_literal",
+          "named": true,
+          "state_id": 8
+        },
+        {
+          "type": "interface",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "interpreted_string_literal",
+          "named": true,
+          "state_id": 11
+        },
+        {
+          "type": "map",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "method_declaration",
+          "named": true,
+          "state_id": 12
+        },
+        {
+          "type": "nil",
+          "named": true,
+          "state_id": 6
+        },
+        {
+          "type": "package",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "range",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "raw_string_literal",
+          "named": true,
+          "state_id": 11
+        },
+        {
+          "type": "return",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "rune_literal",
+          "named": true,
+          "state_id": 11
+        },
+        {
+          "type": "select",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "selector_expression",
+          "named": true,
+          "state_id": 12
+        },
+        {
+          "type": "struct",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "switch",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "true",
+          "named": true,
+          "state_id": 6
+        },
+        {
+          "type": "type",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "type_identifier",
+          "named": true,
+          "state_id": 13
+        },
+        {
+          "type": "var",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "|",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "|=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "||",
+          "named": false,
+          "state_id": 1
+        }
+      ],
+      "default_next_state_id": 0
+    },
+    {
+      "id": 4,
+      "property_set_id": 3,
+      "transitions": [
+        {
+          "type": "!",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "!=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "%",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "%=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "&",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "&&",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "&=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "*",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "*=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "+",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "++",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "+=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "-",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "--",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "-=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "...",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "/",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "/=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ":=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "<",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "<-",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "<<",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "<<=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "<=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "==",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ">",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ">=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ">>",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ">>=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "^",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "^=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "break",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "call_expression",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "case",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "chan",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "comment",
+          "named": true,
+          "state_id": 4
+        },
+        {
+          "type": "const",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "continue",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "default",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "defer",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "else",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "escape_sequence",
+          "named": true,
+          "state_id": 5
+        },
+        {
+          "type": "fallthrough",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "false",
+          "named": true,
+          "state_id": 6
+        },
+        {
+          "type": "field_identifier",
+          "named": true,
+          "state_id": 7
+        },
+        {
+          "type": "float_literal",
+          "named": true,
+          "state_id": 8
+        },
+        {
+          "type": "for",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "func",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "function_declaration",
+          "named": true,
+          "state_id": 9
+        },
+        {
+          "type": "go",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "goto",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "identifier",
+          "named": true,
+          "state_id": 10
+        },
+        {
+          "type": "if",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "imaginary_literal",
+          "named": true,
+          "state_id": 8
+        },
+        {
+          "type": "import",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "int_literal",
+          "named": true,
+          "state_id": 8
+        },
+        {
+          "type": "interface",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "interpreted_string_literal",
+          "named": true,
+          "state_id": 11
+        },
+        {
+          "type": "map",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "method_declaration",
+          "named": true,
+          "state_id": 12
+        },
+        {
+          "type": "nil",
+          "named": true,
+          "state_id": 6
+        },
+        {
+          "type": "package",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "range",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "raw_string_literal",
+          "named": true,
+          "state_id": 11
+        },
+        {
+          "type": "return",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "rune_literal",
+          "named": true,
+          "state_id": 11
+        },
+        {
+          "type": "select",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "struct",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "switch",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "true",
+          "named": true,
+          "state_id": 6
+        },
+        {
+          "type": "type",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "type_identifier",
+          "named": true,
+          "state_id": 13
+        },
+        {
+          "type": "var",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "|",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "|=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "||",
+          "named": false,
+          "state_id": 1
+        }
+      ],
+      "default_next_state_id": 0
+    },
+    {
+      "id": 5,
+      "property_set_id": 4,
+      "transitions": [
+        {
+          "type": "!",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "!=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "%",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "%=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "&",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "&&",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "&=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "*",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "*=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "+",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "++",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "+=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "-",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "--",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "-=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "...",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "/",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "/=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ":=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "<",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "<-",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "<<",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "<<=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "<=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "==",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ">",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ">=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ">>",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ">>=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "^",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "^=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "break",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "call_expression",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "case",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "chan",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "comment",
+          "named": true,
+          "state_id": 4
+        },
+        {
+          "type": "const",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "continue",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "default",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "defer",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "else",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "escape_sequence",
+          "named": true,
+          "state_id": 5
+        },
+        {
+          "type": "fallthrough",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "false",
+          "named": true,
+          "state_id": 6
+        },
+        {
+          "type": "field_identifier",
+          "named": true,
+          "state_id": 7
+        },
+        {
+          "type": "float_literal",
+          "named": true,
+          "state_id": 8
+        },
+        {
+          "type": "for",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "func",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "function_declaration",
+          "named": true,
+          "state_id": 9
+        },
+        {
+          "type": "go",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "goto",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "identifier",
+          "named": true,
+          "state_id": 10
+        },
+        {
+          "type": "if",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "imaginary_literal",
+          "named": true,
+          "state_id": 8
+        },
+        {
+          "type": "import",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "int_literal",
+          "named": true,
+          "state_id": 8
+        },
+        {
+          "type": "interface",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "interpreted_string_literal",
+          "named": true,
+          "state_id": 11
+        },
+        {
+          "type": "map",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "method_declaration",
+          "named": true,
+          "state_id": 12
+        },
+        {
+          "type": "nil",
+          "named": true,
+          "state_id": 6
+        },
+        {
+          "type": "package",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "range",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "raw_string_literal",
+          "named": true,
+          "state_id": 11
+        },
+        {
+          "type": "return",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "rune_literal",
+          "named": true,
+          "state_id": 11
+        },
+        {
+          "type": "select",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "struct",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "switch",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "true",
+          "named": true,
+          "state_id": 6
+        },
+        {
+          "type": "type",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "type_identifier",
+          "named": true,
+          "state_id": 13
+        },
+        {
+          "type": "var",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "|",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "|=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "||",
+          "named": false,
+          "state_id": 1
+        }
+      ],
+      "default_next_state_id": 0
+    },
+    {
+      "id": 6,
+      "property_set_id": 5,
+      "transitions": [
+        {
+          "type": "!",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "!=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "%",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "%=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "&",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "&&",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "&=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "*",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "*=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "+",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "++",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "+=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "-",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "--",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "-=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "...",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "/",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "/=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ":=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "<",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "<-",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "<<",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "<<=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "<=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "==",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ">",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ">=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ">>",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ">>=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "^",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "^=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "break",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "call_expression",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "case",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "chan",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "comment",
+          "named": true,
+          "state_id": 4
+        },
+        {
+          "type": "const",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "continue",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "default",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "defer",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "else",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "escape_sequence",
+          "named": true,
+          "state_id": 5
+        },
+        {
+          "type": "fallthrough",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "false",
+          "named": true,
+          "state_id": 6
+        },
+        {
+          "type": "field_identifier",
+          "named": true,
+          "state_id": 7
+        },
+        {
+          "type": "float_literal",
+          "named": true,
+          "state_id": 8
+        },
+        {
+          "type": "for",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "func",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "function_declaration",
+          "named": true,
+          "state_id": 9
+        },
+        {
+          "type": "go",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "goto",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "identifier",
+          "named": true,
+          "state_id": 10
+        },
+        {
+          "type": "if",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "imaginary_literal",
+          "named": true,
+          "state_id": 8
+        },
+        {
+          "type": "import",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "int_literal",
+          "named": true,
+          "state_id": 8
+        },
+        {
+          "type": "interface",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "interpreted_string_literal",
+          "named": true,
+          "state_id": 11
+        },
+        {
+          "type": "map",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "method_declaration",
+          "named": true,
+          "state_id": 12
+        },
+        {
+          "type": "nil",
+          "named": true,
+          "state_id": 6
+        },
+        {
+          "type": "package",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "range",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "raw_string_literal",
+          "named": true,
+          "state_id": 11
+        },
+        {
+          "type": "return",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "rune_literal",
+          "named": true,
+          "state_id": 11
+        },
+        {
+          "type": "select",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "struct",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "switch",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "true",
+          "named": true,
+          "state_id": 6
+        },
+        {
+          "type": "type",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "type_identifier",
+          "named": true,
+          "state_id": 13
+        },
+        {
+          "type": "var",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "|",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "|=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "||",
+          "named": false,
+          "state_id": 1
+        }
+      ],
+      "default_next_state_id": 0
+    },
+    {
+      "id": 7,
+      "property_set_id": 6,
+      "transitions": [
+        {
+          "type": "!",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "!=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "%",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "%=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "&",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "&&",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "&=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "*",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "*=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "+",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "++",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "+=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "-",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "--",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "-=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "...",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "/",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "/=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ":=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "<",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "<-",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "<<",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "<<=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "<=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "==",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ">",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ">=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ">>",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ">>=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "^",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "^=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "break",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "call_expression",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "case",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "chan",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "comment",
+          "named": true,
+          "state_id": 4
+        },
+        {
+          "type": "const",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "continue",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "default",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "defer",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "else",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "escape_sequence",
+          "named": true,
+          "state_id": 5
+        },
+        {
+          "type": "fallthrough",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "false",
+          "named": true,
+          "state_id": 6
+        },
+        {
+          "type": "field_identifier",
+          "named": true,
+          "state_id": 7
+        },
+        {
+          "type": "float_literal",
+          "named": true,
+          "state_id": 8
+        },
+        {
+          "type": "for",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "func",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "function_declaration",
+          "named": true,
+          "state_id": 9
+        },
+        {
+          "type": "go",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "goto",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "identifier",
+          "named": true,
+          "state_id": 10
+        },
+        {
+          "type": "if",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "imaginary_literal",
+          "named": true,
+          "state_id": 8
+        },
+        {
+          "type": "import",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "int_literal",
+          "named": true,
+          "state_id": 8
+        },
+        {
+          "type": "interface",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "interpreted_string_literal",
+          "named": true,
+          "state_id": 11
+        },
+        {
+          "type": "map",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "method_declaration",
+          "named": true,
+          "state_id": 12
+        },
+        {
+          "type": "nil",
+          "named": true,
+          "state_id": 6
+        },
+        {
+          "type": "package",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "range",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "raw_string_literal",
+          "named": true,
+          "state_id": 11
+        },
+        {
+          "type": "return",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "rune_literal",
+          "named": true,
+          "state_id": 11
+        },
+        {
+          "type": "select",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "struct",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "switch",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "true",
+          "named": true,
+          "state_id": 6
+        },
+        {
+          "type": "type",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "type_identifier",
+          "named": true,
+          "state_id": 13
+        },
+        {
+          "type": "var",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "|",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "|=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "||",
+          "named": false,
+          "state_id": 1
+        }
+      ],
+      "default_next_state_id": 0
+    },
+    {
+      "id": 8,
+      "property_set_id": 7,
+      "transitions": [
+        {
+          "type": "!",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "!=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "%",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "%=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "&",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "&&",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "&=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "*",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "*=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "+",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "++",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "+=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "-",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "--",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "-=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "...",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "/",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "/=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ":=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "<",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "<-",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "<<",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "<<=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "<=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "==",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ">",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ">=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ">>",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ">>=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "^",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "^=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "break",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "call_expression",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "case",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "chan",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "comment",
+          "named": true,
+          "state_id": 4
+        },
+        {
+          "type": "const",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "continue",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "default",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "defer",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "else",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "escape_sequence",
+          "named": true,
+          "state_id": 5
+        },
+        {
+          "type": "fallthrough",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "false",
+          "named": true,
+          "state_id": 6
+        },
+        {
+          "type": "field_identifier",
+          "named": true,
+          "state_id": 7
+        },
+        {
+          "type": "float_literal",
+          "named": true,
+          "state_id": 8
+        },
+        {
+          "type": "for",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "func",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "function_declaration",
+          "named": true,
+          "state_id": 9
+        },
+        {
+          "type": "go",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "goto",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "identifier",
+          "named": true,
+          "state_id": 10
+        },
+        {
+          "type": "if",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "imaginary_literal",
+          "named": true,
+          "state_id": 8
+        },
+        {
+          "type": "import",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "int_literal",
+          "named": true,
+          "state_id": 8
+        },
+        {
+          "type": "interface",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "interpreted_string_literal",
+          "named": true,
+          "state_id": 11
+        },
+        {
+          "type": "map",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "method_declaration",
+          "named": true,
+          "state_id": 12
+        },
+        {
+          "type": "nil",
+          "named": true,
+          "state_id": 6
+        },
+        {
+          "type": "package",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "range",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "raw_string_literal",
+          "named": true,
+          "state_id": 11
+        },
+        {
+          "type": "return",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "rune_literal",
+          "named": true,
+          "state_id": 11
+        },
+        {
+          "type": "select",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "struct",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "switch",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "true",
+          "named": true,
+          "state_id": 6
+        },
+        {
+          "type": "type",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "type_identifier",
+          "named": true,
+          "state_id": 13
+        },
+        {
+          "type": "var",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "|",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "|=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "||",
+          "named": false,
+          "state_id": 1
+        }
+      ],
+      "default_next_state_id": 0
+    },
+    {
+      "id": 9,
+      "property_set_id": 0,
+      "transitions": [
+        {
+          "type": "!",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "!=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "%",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "%=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "&",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "&&",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "&=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "*",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "*=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "+",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "++",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "+=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "-",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "--",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "-=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "...",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "/",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "/=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ":=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "<",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "<-",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "<<",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "<<=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "<=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "==",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ">",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ">=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ">>",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ">>=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "^",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "^=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "break",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "call_expression",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "case",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "chan",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "comment",
+          "named": true,
+          "state_id": 4
+        },
+        {
+          "type": "const",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "continue",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "default",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "defer",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "else",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "escape_sequence",
+          "named": true,
+          "state_id": 5
+        },
+        {
+          "type": "fallthrough",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "false",
+          "named": true,
+          "state_id": 6
+        },
+        {
+          "type": "field_identifier",
+          "named": true,
+          "state_id": 7
+        },
+        {
+          "type": "float_literal",
+          "named": true,
+          "state_id": 8
+        },
+        {
+          "type": "for",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "func",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "function_declaration",
+          "named": true,
+          "state_id": 9
+        },
+        {
+          "type": "go",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "goto",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "identifier",
+          "named": true,
+          "state_id": 14
+        },
+        {
+          "type": "if",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "imaginary_literal",
+          "named": true,
+          "state_id": 8
+        },
+        {
+          "type": "import",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "int_literal",
+          "named": true,
+          "state_id": 8
+        },
+        {
+          "type": "interface",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "interpreted_string_literal",
+          "named": true,
+          "state_id": 11
+        },
+        {
+          "type": "map",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "method_declaration",
+          "named": true,
+          "state_id": 12
+        },
+        {
+          "type": "nil",
+          "named": true,
+          "state_id": 6
+        },
+        {
+          "type": "package",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "range",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "raw_string_literal",
+          "named": true,
+          "state_id": 11
+        },
+        {
+          "type": "return",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "rune_literal",
+          "named": true,
+          "state_id": 11
+        },
+        {
+          "type": "select",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "struct",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "switch",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "true",
+          "named": true,
+          "state_id": 6
+        },
+        {
+          "type": "type",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "type_identifier",
+          "named": true,
+          "state_id": 13
+        },
+        {
+          "type": "var",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "|",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "|=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "||",
+          "named": false,
+          "state_id": 1
+        }
+      ],
+      "default_next_state_id": 0
+    },
+    {
+      "id": 10,
+      "property_set_id": 8,
+      "transitions": [
+        {
+          "type": "!",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "!=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "%",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "%=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "&",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "&&",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "&=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "*",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "*=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "+",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "++",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "+=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "-",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "--",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "-=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "...",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "/",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "/=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ":=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "<",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "<-",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "<<",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "<<=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "<=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "==",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ">",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ">=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ">>",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ">>=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "^",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "^=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "break",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "call_expression",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "case",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "chan",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "comment",
+          "named": true,
+          "state_id": 4
+        },
+        {
+          "type": "const",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "continue",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "default",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "defer",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "else",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "escape_sequence",
+          "named": true,
+          "state_id": 5
+        },
+        {
+          "type": "fallthrough",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "false",
+          "named": true,
+          "state_id": 6
+        },
+        {
+          "type": "field_identifier",
+          "named": true,
+          "state_id": 7
+        },
+        {
+          "type": "float_literal",
+          "named": true,
+          "state_id": 8
+        },
+        {
+          "type": "for",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "func",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "function_declaration",
+          "named": true,
+          "state_id": 9
+        },
+        {
+          "type": "go",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "goto",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "identifier",
+          "named": true,
+          "state_id": 10
+        },
+        {
+          "type": "if",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "imaginary_literal",
+          "named": true,
+          "state_id": 8
+        },
+        {
+          "type": "import",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "int_literal",
+          "named": true,
+          "state_id": 8
+        },
+        {
+          "type": "interface",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "interpreted_string_literal",
+          "named": true,
+          "state_id": 11
+        },
+        {
+          "type": "map",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "method_declaration",
+          "named": true,
+          "state_id": 12
+        },
+        {
+          "type": "nil",
+          "named": true,
+          "state_id": 6
+        },
+        {
+          "type": "package",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "range",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "raw_string_literal",
+          "named": true,
+          "state_id": 11
+        },
+        {
+          "type": "return",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "rune_literal",
+          "named": true,
+          "state_id": 11
+        },
+        {
+          "type": "select",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "struct",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "switch",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "true",
+          "named": true,
+          "state_id": 6
+        },
+        {
+          "type": "type",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "type_identifier",
+          "named": true,
+          "state_id": 13
+        },
+        {
+          "type": "var",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "|",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "|=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "||",
+          "named": false,
+          "state_id": 1
+        }
+      ],
+      "default_next_state_id": 0
+    },
+    {
+      "id": 11,
+      "property_set_id": 9,
+      "transitions": [
+        {
+          "type": "!",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "!=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "%",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "%=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "&",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "&&",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "&=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "*",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "*=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "+",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "++",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "+=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "-",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "--",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "-=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "...",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "/",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "/=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ":=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "<",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "<-",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "<<",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "<<=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "<=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "==",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ">",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ">=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ">>",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ">>=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "^",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "^=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "break",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "call_expression",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "case",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "chan",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "comment",
+          "named": true,
+          "state_id": 4
+        },
+        {
+          "type": "const",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "continue",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "default",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "defer",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "else",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "escape_sequence",
+          "named": true,
+          "state_id": 5
+        },
+        {
+          "type": "fallthrough",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "false",
+          "named": true,
+          "state_id": 6
+        },
+        {
+          "type": "field_identifier",
+          "named": true,
+          "state_id": 7
+        },
+        {
+          "type": "float_literal",
+          "named": true,
+          "state_id": 8
+        },
+        {
+          "type": "for",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "func",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "function_declaration",
+          "named": true,
+          "state_id": 9
+        },
+        {
+          "type": "go",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "goto",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "identifier",
+          "named": true,
+          "state_id": 10
+        },
+        {
+          "type": "if",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "imaginary_literal",
+          "named": true,
+          "state_id": 8
+        },
+        {
+          "type": "import",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "int_literal",
+          "named": true,
+          "state_id": 8
+        },
+        {
+          "type": "interface",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "interpreted_string_literal",
+          "named": true,
+          "state_id": 11
+        },
+        {
+          "type": "map",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "method_declaration",
+          "named": true,
+          "state_id": 12
+        },
+        {
+          "type": "nil",
+          "named": true,
+          "state_id": 6
+        },
+        {
+          "type": "package",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "range",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "raw_string_literal",
+          "named": true,
+          "state_id": 11
+        },
+        {
+          "type": "return",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "rune_literal",
+          "named": true,
+          "state_id": 11
+        },
+        {
+          "type": "select",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "struct",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "switch",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "true",
+          "named": true,
+          "state_id": 6
+        },
+        {
+          "type": "type",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "type_identifier",
+          "named": true,
+          "state_id": 13
+        },
+        {
+          "type": "var",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "|",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "|=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "||",
+          "named": false,
+          "state_id": 1
+        }
+      ],
+      "default_next_state_id": 0
+    },
+    {
+      "id": 12,
+      "property_set_id": 0,
+      "transitions": [
+        {
+          "type": "!",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "!=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "%",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "%=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "&",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "&&",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "&=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "*",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "*=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "+",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "++",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "+=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "-",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "--",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "-=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "...",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "/",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "/=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ":=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "<",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "<-",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "<<",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "<<=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "<=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "==",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ">",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ">=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ">>",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ">>=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "^",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "^=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "break",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "call_expression",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "case",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "chan",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "comment",
+          "named": true,
+          "state_id": 4
+        },
+        {
+          "type": "const",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "continue",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "default",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "defer",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "else",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "escape_sequence",
+          "named": true,
+          "state_id": 5
+        },
+        {
+          "type": "fallthrough",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "false",
+          "named": true,
+          "state_id": 6
+        },
+        {
+          "type": "field_identifier",
+          "named": true,
+          "state_id": 14
+        },
+        {
+          "type": "float_literal",
+          "named": true,
+          "state_id": 8
+        },
+        {
+          "type": "for",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "func",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "function_declaration",
+          "named": true,
+          "state_id": 9
+        },
+        {
+          "type": "go",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "goto",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "identifier",
+          "named": true,
+          "state_id": 10
+        },
+        {
+          "type": "if",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "imaginary_literal",
+          "named": true,
+          "state_id": 8
+        },
+        {
+          "type": "import",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "int_literal",
+          "named": true,
+          "state_id": 8
+        },
+        {
+          "type": "interface",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "interpreted_string_literal",
+          "named": true,
+          "state_id": 11
+        },
+        {
+          "type": "map",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "method_declaration",
+          "named": true,
+          "state_id": 12
+        },
+        {
+          "type": "nil",
+          "named": true,
+          "state_id": 6
+        },
+        {
+          "type": "package",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "range",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "raw_string_literal",
+          "named": true,
+          "state_id": 11
+        },
+        {
+          "type": "return",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "rune_literal",
+          "named": true,
+          "state_id": 11
+        },
+        {
+          "type": "select",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "struct",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "switch",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "true",
+          "named": true,
+          "state_id": 6
+        },
+        {
+          "type": "type",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "type_identifier",
+          "named": true,
+          "state_id": 13
+        },
+        {
+          "type": "var",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "|",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "|=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "||",
+          "named": false,
+          "state_id": 1
+        }
+      ],
+      "default_next_state_id": 0
+    },
+    {
+      "id": 13,
+      "property_set_id": 10,
+      "transitions": [
+        {
+          "type": "!",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "!=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "%",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "%=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "&",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "&&",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "&=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "*",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "*=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "+",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "++",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "+=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "-",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "--",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "-=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "...",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "/",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "/=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ":=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "<",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "<-",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "<<",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "<<=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "<=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "==",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ">",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ">=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ">>",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ">>=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "^",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "^=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "break",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "call_expression",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "case",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "chan",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "comment",
+          "named": true,
+          "state_id": 4
+        },
+        {
+          "type": "const",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "continue",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "default",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "defer",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "else",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "escape_sequence",
+          "named": true,
+          "state_id": 5
+        },
+        {
+          "type": "fallthrough",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "false",
+          "named": true,
+          "state_id": 6
+        },
+        {
+          "type": "field_identifier",
+          "named": true,
+          "state_id": 7
+        },
+        {
+          "type": "float_literal",
+          "named": true,
+          "state_id": 8
+        },
+        {
+          "type": "for",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "func",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "function_declaration",
+          "named": true,
+          "state_id": 9
+        },
+        {
+          "type": "go",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "goto",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "identifier",
+          "named": true,
+          "state_id": 10
+        },
+        {
+          "type": "if",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "imaginary_literal",
+          "named": true,
+          "state_id": 8
+        },
+        {
+          "type": "import",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "int_literal",
+          "named": true,
+          "state_id": 8
+        },
+        {
+          "type": "interface",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "interpreted_string_literal",
+          "named": true,
+          "state_id": 11
+        },
+        {
+          "type": "map",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "method_declaration",
+          "named": true,
+          "state_id": 12
+        },
+        {
+          "type": "nil",
+          "named": true,
+          "state_id": 6
+        },
+        {
+          "type": "package",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "range",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "raw_string_literal",
+          "named": true,
+          "state_id": 11
+        },
+        {
+          "type": "return",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "rune_literal",
+          "named": true,
+          "state_id": 11
+        },
+        {
+          "type": "select",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "struct",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "switch",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "true",
+          "named": true,
+          "state_id": 6
+        },
+        {
+          "type": "type",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "type_identifier",
+          "named": true,
+          "state_id": 13
+        },
+        {
+          "type": "var",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "|",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "|=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "||",
+          "named": false,
+          "state_id": 1
+        }
+      ],
+      "default_next_state_id": 0
+    },
+    {
+      "id": 14,
+      "property_set_id": 11,
+      "transitions": [
+        {
+          "type": "!",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "!=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "%",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "%=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "&",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "&&",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "&=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "*",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "*=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "+",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "++",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "+=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "-",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "--",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "-=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "...",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "/",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "/=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ":=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "<",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "<-",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "<<",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "<<=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "<=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "==",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ">",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ">=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ">>",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ">>=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "^",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "^=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "break",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "call_expression",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "case",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "chan",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "comment",
+          "named": true,
+          "state_id": 4
+        },
+        {
+          "type": "const",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "continue",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "default",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "defer",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "else",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "escape_sequence",
+          "named": true,
+          "state_id": 5
+        },
+        {
+          "type": "fallthrough",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "false",
+          "named": true,
+          "state_id": 6
+        },
+        {
+          "type": "field_identifier",
+          "named": true,
+          "state_id": 7
+        },
+        {
+          "type": "float_literal",
+          "named": true,
+          "state_id": 8
+        },
+        {
+          "type": "for",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "func",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "function_declaration",
+          "named": true,
+          "state_id": 9
+        },
+        {
+          "type": "go",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "goto",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "identifier",
+          "named": true,
+          "state_id": 10
+        },
+        {
+          "type": "if",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "imaginary_literal",
+          "named": true,
+          "state_id": 8
+        },
+        {
+          "type": "import",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "int_literal",
+          "named": true,
+          "state_id": 8
+        },
+        {
+          "type": "interface",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "interpreted_string_literal",
+          "named": true,
+          "state_id": 11
+        },
+        {
+          "type": "map",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "method_declaration",
+          "named": true,
+          "state_id": 12
+        },
+        {
+          "type": "nil",
+          "named": true,
+          "state_id": 6
+        },
+        {
+          "type": "package",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "range",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "raw_string_literal",
+          "named": true,
+          "state_id": 11
+        },
+        {
+          "type": "return",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "rune_literal",
+          "named": true,
+          "state_id": 11
+        },
+        {
+          "type": "select",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "struct",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "switch",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "true",
+          "named": true,
+          "state_id": 6
+        },
+        {
+          "type": "type",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "type_identifier",
+          "named": true,
+          "state_id": 13
+        },
+        {
+          "type": "var",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "|",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "|=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "||",
+          "named": false,
+          "state_id": 1
+        }
+      ],
+      "default_next_state_id": 0
+    }
+  ],
+  "property_sets": [
+    {},
+    {
+      "scope": "operator"
+    },
+    {
+      "scope": "keyword"
+    },
+    {
+      "scope": "comment"
+    },
+    {
+      "scope": "escape"
+    },
+    {
+      "scope": "constant.builtin"
+    },
+    {
+      "scope": "property"
+    },
+    {
+      "scope": "number"
+    },
+    {
+      "scope": "variable"
+    },
+    {
+      "scope": "string"
+    },
+    {
+      "scope": "type"
+    },
+    {
+      "scope": "function"
+    }
+  ]
+}
