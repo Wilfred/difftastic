@@ -3,11 +3,11 @@
 identifier {
   scope: 'variable';
 
-  &:text('^[A-Z]') {
+  &[text='^[A-Z]'] {
     scope: 'constructor';
   }
 
-  &:text('^[A-Z][A-Z_]*$') {
+  &[text='^[A-Z][A-Z_]*$'] {
     scope: 'constant';
   }
 }
@@ -23,7 +23,7 @@ function_definition > identifier {
   scope: 'function';
 }
 
-call_identifier > identifier:text('^(abs|all|any|ascii|bin|bool|breakpoint|bytearray|bytes|callable|chr|classmethod|compile|complex|delattr|dict|dir|divmod|enumerate|eval|exec|filter|float|format|frozenset|getattr|globals|hasattr|hash|help|hex|id|input|int|isinstance|issubclass|iter|len|list|locals|map|max|memoryview|min|next|object|oct|open|ord|pow|print|property|range|repr|reversed|round|set|setattr|slice|sorted|staticmethod|str|sum|super|tuple|type|vars|zip|__import__)$') {
+call_identifier > identifier[text='^(abs|all|any|ascii|bin|bool|breakpoint|bytearray|bytes|callable|chr|classmethod|compile|complex|delattr|dict|dir|divmod|enumerate|eval|exec|filter|float|format|frozenset|getattr|globals|hasattr|hash|help|hex|id|input|int|isinstance|issubclass|iter|len|list|locals|map|max|memoryview|min|next|object|oct|open|ord|pow|print|property|range|repr|reversed|round|set|setattr|slice|sorted|staticmethod|str|sum|super|tuple|type|vars|zip|__import__)$'] {
   scope: 'function.builtin';
 }
 
@@ -45,24 +45,47 @@ escape_sequence { scope: 'escape'; }
 
 /* Punctuation */
 
-"-", "-=",
-"!=",
-"*", "**", "**=", "*=",
-"/", "//", "//=", "/=",
-"&", "%", "%=", "^",
-"+", "+=",
-"<", "<<", "<=", "<>",
-"=", "==",
-">", ">=", ">>",
-"|", "~",
-"and", "in", "is", "not", "or" {
+[token="-"],
+[token="-="],
+[token="!="],
+[token="*"],
+[token="**"],
+[token="**="],
+[token="*="],
+[token="/"],
+[token="//"],
+[token="//="],
+[token="/="],
+[token="&"],
+[token="%"],
+[token="%="],
+[token="^"],
+[token="+"],
+[token="+="],
+[token="<"],
+[token="<<"],
+[token="<="],
+[token="<>"],
+[token="="],
+[token="=="],
+[token=">"],
+[token=">="],
+[token=">>"],
+[token="|"],
+[token="~"],
+[token="and"],
+[token="in"],
+[token="is"],
+[token="not"],
+[token="or"] {
   scope: 'operator';
 }
 
 interpolation {
   scope: 'embedded';
 
-  & > "{", & > "}" {
+  & > [token="{"],
+  & > [token="}"] {
     scope: 'punctuation.special';
   }
 }
@@ -70,34 +93,34 @@ interpolation {
 
 /* Keywords */
 
-"as",
-"assert",
-"async",
-"await",
-"break",
-"class",
-"continue",
-"def",
-"del",
-"elif",
-"else",
-"except",
-"exec",
-"finally",
-"for",
-"from",
-"global",
-"if",
-"import",
-"lambda",
-"nonlocal",
-"pass",
-"print",
-"raise",
-"return",
-"try",
-"while",
-"with",
-"yield" {
+[token="as"],
+[token="assert"],
+[token="async"],
+[token="await"],
+[token="break"],
+[token="class"],
+[token="continue"],
+[token="def"],
+[token="del"],
+[token="elif"],
+[token="else"],
+[token="except"],
+[token="exec"],
+[token="finally"],
+[token="for"],
+[token="from"],
+[token="global"],
+[token="if"],
+[token="import"],
+[token="lambda"],
+[token="nonlocal"],
+[token="pass"],
+[token="print"],
+[token="raise"],
+[token="return"],
+[token="try"],
+[token="while"],
+[token="with"],
+[token="yield"] {
   scope: 'keyword';
 }
