@@ -8,7 +8,7 @@ jsx_opening_element,
 jsx_closing_element,
 jsx_self_closing_element,
 call_expression {
-  & > identifier:text('^[A-Z]') {
+  & > identifier[text='^[A-Z]'] {
     scope: 'type';
   }
 }
@@ -23,16 +23,16 @@ function_signature > identifier {
   scope: 'function';
 }
 
-"implements",
-"namespace",
-"enum",
-"interface",
-"module",
-"declare",
-"public",
-"private",
-"protected",
-readonly,
-"type" {
+[token="implements"],
+[token="namespace"],
+[token="enum"],
+[token="interface"],
+[token="module"],
+[token="declare"],
+[token="public"],
+[token="private"],
+[token="protected"],
+[token=readonly],
+[token="type"] {
   scope: 'keyword';
 }
