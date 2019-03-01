@@ -1,0 +1,111 @@
+@schema "tree-sitter-highlight-schema";
+
+identifier {
+  scope: 'variable';
+}
+
+call_expression > identifier,
+function_declaration > identifier,
+method_declaration > field_identifier,
+call_expression > selector_expression > field_identifier {
+  scope: 'function';
+}
+
+type_identifier {
+  scope: 'type';
+}
+
+field_identifier {
+  scope: 'property';
+}
+
+/* Operators */
+
+[token="--"],
+[token="-"],
+[token="-="],
+[token=":="],
+[token="!"],
+[token="!="],
+[token="..."],
+[token="*"],
+[token="*"],
+[token="*="],
+[token="/"],
+[token="/="],
+[token="&"],
+[token="&&"],
+[token="&="],
+[token="%"],
+[token="%="],
+[token="^"],
+[token="^="],
+[token="+"],
+[token="++"],
+[token="+="],
+[token="<-"],
+[token="<"],
+[token="<<"],
+[token="<<="],
+[token="<="],
+[token="="],
+[token="=="],
+[token=">"],
+[token=">="],
+[token=">>"],
+[token=">>="],
+[token="|"],
+[token="|="],
+[token="||"] {
+  scope: 'operator';
+}
+
+/* Keywords */
+
+[token="break"],
+[token="case"],
+[token="chan"],
+[token="const"],
+[token="continue"],
+[token="default"],
+[token="defer"],
+[token="else"],
+[token="fallthrough"],
+[token="for"],
+[token="func"],
+[token="go"],
+[token="goto"],
+[token="if"],
+[token="import"],
+[token="interface"],
+[token="map"],
+[token="package"],
+[token="range"],
+[token="return"],
+[token="select"],
+[token="struct"],
+[token="switch"],
+[token="type"],
+[token="var"] {
+  scope: 'keyword';
+}
+
+interpreted_string_literal, raw_string_literal, rune_literal {
+  scope: 'string';
+}
+
+escape_sequence {
+  scope: 'escape';
+}
+
+int_literal, float_literal, imaginary_literal {
+  scope: 'number';
+}
+
+true, false, nil {
+  scope: 'constant.builtin';
+}
+
+comment {
+  scope: 'comment';
+}
