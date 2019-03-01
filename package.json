@@ -13,12 +13,20 @@
     "nan": "^2.4.0"
   },
   "devDependencies": {
-    "tree-sitter-cli": "^0.14.1"
+    "tree-sitter-cli": "^0.14.4",
+    "tree-sitter-highlight-schema": "^0.1.1"
   },
   "scripts": {
     "build": "tree-sitter generate && node-gyp build",
     "test": "tree-sitter test && script/parse-examples",
     "test-windows": "tree-sitter test"
   },
-  "repository": "https://github.com/tree-sitter/tree-sitter-python"
+  "repository": "https://github.com/tree-sitter/tree-sitter-python",
+  "tree-sitter": [
+    {
+      "scope": "source.python",
+      "highlights": "src/highlights.json",
+      "file-types": ["py"]
+    }
+  ]
 }
