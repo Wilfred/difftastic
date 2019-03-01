@@ -12,7 +12,7 @@ const PREC = {
   NEG: 9,
   INC: 10,
   NON_NULL: 10,
-  FUNCTION_CALL: 12,
+  FUNCTION_CALL: 11,
   ARRAY_TYPE: 13,
   MEMBER: 13,
   AS_EXPRESSION: 14,
@@ -99,7 +99,12 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       previous
     ),
 
-    import_statement: ($, previous) => seq(
+    _import_export_specifier: ($, previous) => seq(
+      optional(choice('type', 'typeof')),
+      previous
+    ),
+
+    import_statement: $ => seq(
       'import',
       optional(choice('type', 'typeof')),
       choice(
@@ -155,17 +160,13 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       ')'
     ),
 
-    formal_parameters: ($, previous) => seq(
-      '(',
-      commaSep(seq(
-        repeat($.decorator),
-        choice(
-          $.required_parameter,
-          $.rest_parameter,
-          $.optional_parameter
-      ))),
-      optional(','),
-      ')'
+    _formal_parameter: $ => seq(
+      repeat($.decorator),
+      choice(
+        $.required_parameter,
+        $.rest_parameter,
+        $.optional_parameter
+      )
     ),
 
     function_signature: $ => seq(
