@@ -4,3 +4,8 @@
 # Elm tree sitter
 
 This is very alpha, incomplete and just an exploration. Please keep this in mind.
+
+## Want to help?
+
+Help us writing some tests or simply find valid elm files, that we fail parsing.
+Test are located in the `corpus` folder.
