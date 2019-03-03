@@ -20,6 +20,11 @@ branches:
     - master
     - /^v.*$/
 
+before_script:
+  - cd script
+  - chmod +x parse-examples
+  - cd ..
+
 deploy:
   provider: script
   script: npm run prebuild && npm run prebuild:upload -u ${PREBUILD_UPLOAD}
