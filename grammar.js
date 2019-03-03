@@ -58,6 +58,8 @@ module.exports = grammar({
 
     exposed_union_constructor: $ => $.upper_case_identifier,
 
+    exposed_operator: $ => $._operator_as_function_inner,
+
     // WHITESPACE-SENSITIVE RULES
 
     _upper_case_identifier_without_leading_whitespace: $ =>
@@ -252,7 +254,9 @@ module.exports = grammar({
 
     operator: $ => $.operator_identifier,
 
-    operator_as_function_expr: $ =>
+    operator_as_function_expr: $ => $._operator_as_function_inner,
+
+    _operator_as_function_inner: $ =>
       seq($.left_parenthesis, $.operator_identifier, $.right_parenthesis),
 
     _call_or_atom: $ => choice($.function_call_expr, $._atom),
@@ -532,6 +536,7 @@ module.exports = grammar({
         "^",
         "|",
         "|>",
+        "<|",
         "::",
         "*",
         "/",

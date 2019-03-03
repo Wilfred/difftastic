@@ -269,6 +269,10 @@
       "type": "SYMBOL",
       "name": "upper_case_identifier"
     },
+    "exposed_operator": {
+      "type": "SYMBOL",
+      "name": "_operator_as_function_inner"
+    },
     "_upper_case_identifier_without_leading_whitespace": {
       "type": "IMMEDIATE_TOKEN",
       "content": {
@@ -956,6 +960,10 @@
       "name": "operator_identifier"
     },
     "operator_as_function_expr": {
+      "type": "SYMBOL",
+      "name": "_operator_as_function_inner"
+    },
+    "_operator_as_function_inner": {
       "type": "SEQ",
       "members": [
         {
@@ -2300,6 +2308,10 @@
         {
           "type": "STRING",
           "value": "|>"
+        },
+        {
+          "type": "STRING",
+          "value": "<|"
         },
         {
           "type": "STRING",
