@@ -1,5 +1,5 @@
 =====================================
-Cemplete counter example
+Complete counter example
 =====================================
 
 module Main exposing (Msg(..), main, update, view)

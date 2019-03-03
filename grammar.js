@@ -398,18 +398,22 @@ module.exports = grammar({
 
     case_of_branch: $ => seq($.pattern, $.arrow, $._expression),
 
-    let_in_expr: $ =>
+    let_in_expr: $ => seq($.let, $._let_in_tail),
+
+    _let_in_tail: $ =>
       seq(
-        $.let,
         $.virtual_open_section,
         $._inner_declaration,
-        repeat1(seq($.virtual_end_decl, $._inner_declaration)),
-        // $.virtual_end_section,
+        optional($._more_inner_declarations),
+        $.virtual_end_section,
         $.in,
         $._expression
       ),
 
     _inner_declaration: $ => choice($.value_declaration, $.type_annotation),
+
+    _more_inner_declarations: $ =>
+      repeat1(seq($.virtual_end_decl, $._inner_declaration)),
 
     // PATTERNS
 

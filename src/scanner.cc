@@ -125,6 +125,13 @@ struct Scanner
                 return true;
             }
 
+            if (indent_length < indent_length_stack.back() && valid_symbols[VIRTUAL_END_SECTION])
+            {
+                indent_length_stack.pop_back();
+                lexer->result_symbol = VIRTUAL_END_SECTION;
+                return true;
+            }
+
             if (valid_symbols[VIRTUAL_END_DECL])
             {
                 if (indent_length < indent_length_stack.back())
