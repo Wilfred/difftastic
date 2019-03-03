@@ -165,6 +165,10 @@
         {
           "type": "SYMBOL",
           "name": "exposed_type"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "exposed_operator"
         }
       ]
     },
@@ -2312,6 +2316,10 @@
         {
           "type": "STRING",
           "value": "<|"
+        },
+        {
+          "type": "STRING",
+          "value": "</>"
         },
         {
           "type": "STRING",

@@ -40,7 +40,8 @@ module.exports = grammar({
         $.right_parenthesis
       ),
 
-    _exposed_item: $ => choice($.exposed_value, $.exposed_type),
+    _exposed_item: $ =>
+      choice($.exposed_value, $.exposed_type, $.exposed_operator),
 
     exposed_value: $ => $.lower_case_identifier,
 
@@ -537,6 +538,7 @@ module.exports = grammar({
         "|",
         "|>",
         "<|",
+        "</>",
         "::",
         "*",
         "/",

@@ -128,3 +128,38 @@ import Remedy.ScreenList as ScreenList
   )
   (virtual_end_decl)
 )
+
+=====================================
+Import statements with operator statement
+=====================================
+
+import Url.Parser as Parser exposing ((</>), Parser, oneOf, s, string)
+
+---
+
+(file
+  (import_clause
+    (import) 
+    (upper_case_qid (upper_case_identifier) (dot) (upper_case_identifier)) 
+    (as_clause (as) (upper_case_identifier)) 
+    (exposing_list 
+      (exposing) 
+      (left_parenthesis) 
+      (exposed_operator 
+        (left_parenthesis) 
+        (operator_identifier)
+        (right_parenthesis)
+      )
+      (comma)
+      (exposed_type (upper_case_identifier)) 
+      (comma)
+      (exposed_value (lower_case_identifier)) 
+      (comma)
+      (exposed_value (lower_case_identifier)) 
+      (comma)
+      (exposed_value (lower_case_identifier)) 
+      (right_parenthesis)
+    )
+  )
+  (virtual_end_decl)
+)
