@@ -4,33 +4,35 @@ set -e
 
 cd "$(dirname "$0")/.."
 
-# Clone example repo and check out a known sha
-repo=rtfeldman/elm-spa-example
-if [ ! -d "$repo" ]; then
-  git clone https://github.com/rtfeldman/elm-spa-example "$repo"
-else
-  pushd "$repo" && git fetch
-  git reset --hard c8c3201ec0488f17c1245e1fd2293ba5bc0748d5
+
+function checkout_at() {
+  repo=$1; url=$2; sha=$3
+  if [ ! -d "$repo" ]; then
+    git clone "https://github.com/$url" "$repo"
+  fi
+
+  pushd "$repo"
+  git fetch && git reset --hard "$sha"
   popd
-fi
+}
 
-tree-sitter parse examples/*.elm -qt
+checkout_at "examples/elm-spa-example" "rtfeldman/elm-spa-example" "c8c3201ec0488f17c1245e1fd2293ba5bc0748d5"
 
-# TODO: Fix known issues in known_failures.txt
-known_failures=$(cat script/known_failures.txt)
+all_examples=$(find examples -name '*.elm')
+known_failures=$(cat script/known-failures.txt)
 examples_to_parse=$(
-  for example in $(find "$repo" -name '*.elm'); do
+  for example in $all_examples; do
     if [[ ! $known_failures == *$example* ]]; then
       echo $example
     fi
   done
 )
 
-echo $examples_to_parse | xargs -n 5000 tree-sitter parse -q
+echo $examples_to_parse | xargs -n 1000 tree-sitter parse -q
 
 skipped=$( echo $known_failures | wc -w )
 parsed=$( echo $examples_to_parse | wc -w )
 total=$((parsed+skipped))
 percent=$(bc -l <<< "100*$parsed/$total")
 
-printf "Successfully parsed %.2f%% of $repo (%d of %d files)\n" $percent $parsed $total
+printf "Successfully parsed %d of %d files (%.2f%%)\n" $parsed $total $percent
