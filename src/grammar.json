@@ -360,28 +360,42 @@
           "type": "SEQ",
           "members": [
             {
-              "type": "PREC",
-              "value": 5,
+              "type": "SYMBOL",
+              "name": "upper_case_identifier"
+            },
+            {
+              "type": "ALIAS",
               "content": {
-                "type": "REPEAT",
-                "content": {
-                  "type": "SEQ",
-                  "members": [
-                    {
+                "type": "SYMBOL",
+                "name": "_dot_without_leading_whitespace"
+              },
+              "named": true,
+              "value": "dot"
+            },
+            {
+              "type": "REPEAT",
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "ALIAS",
+                    "content": {
                       "type": "SYMBOL",
-                      "name": "upper_case_identifier"
+                      "name": "_upper_case_identifier_without_leading_whitespace"
                     },
-                    {
-                      "type": "ALIAS",
-                      "content": {
-                        "type": "SYMBOL",
-                        "name": "_dot_without_leading_whitespace"
-                      },
-                      "named": true,
-                      "value": "dot"
-                    }
-                  ]
-                }
+                    "named": true,
+                    "value": "upper_case_identifier"
+                  },
+                  {
+                    "type": "ALIAS",
+                    "content": {
+                      "type": "SYMBOL",
+                      "name": "_dot_without_leading_whitespace"
+                    },
+                    "named": true,
+                    "value": "dot"
+                  }
+                ]
               }
             },
             {
@@ -2036,13 +2050,13 @@
             "type": "REPEAT",
             "content": {
               "type": "SYMBOL",
-              "name": "union_argument_pattern"
+              "name": "_union_argument_pattern"
             }
           }
         ]
       }
     },
-    "union_argument_pattern": {
+    "_union_argument_pattern": {
       "type": "CHOICE",
       "members": [
         {
@@ -2551,6 +2565,10 @@
   "conflicts": [
     [
       "_case_of_tail2"
+    ],
+    [
+      "upper_case_qid",
+      "value_qid"
     ]
   ],
   "externals": [

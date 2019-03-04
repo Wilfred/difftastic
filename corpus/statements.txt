@@ -23,34 +23,6 @@ main =
 )
 
 =====================================
-Function statement with case
-=====================================
-
-update msg model =
-    case msg of
-        Increment ->
-            model + 1
-
-        Decrement ->
-            model - 1
-
----
-
-(file
-  (value_declaration (function_declaration_left (lower_case_identifier) (lower_pattern (lower_case_identifier)) (lower_pattern (lower_case_identifier))) (eq)
-    (case_of_expr (case) (value_expr (value_qid (lower_case_identifier))) (of)
-      (virtual_open_section)
-        (case_of_branch (pattern (union_pattern (upper_case_qid (upper_case_identifier)))) (arrow)
-                (bin_op_expr (value_expr (value_qid (lower_case_identifier))) (operator (operator_identifier)) (number_constant_expr (number_literal))))
-        (virtual_end_decl)
-        (case_of_branch (pattern (union_pattern (upper_case_qid (upper_case_identifier)))) (arrow)
-                (bin_op_expr (value_expr (value_qid (lower_case_identifier))) (operator (operator_identifier)) (number_constant_expr (number_literal))))
-    )
-  )
-  (virtual_end_decl)
-)
-
-=====================================
 Function statement with list
 =====================================
 

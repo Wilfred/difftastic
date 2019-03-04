@@ -1,7 +1,7 @@
 module.exports = grammar({
   name: "elm",
 
-  conflicts: $ => [[$._case_of_tail2]],
+  conflicts: $ => [[$._case_of_tail2], [$.upper_case_qid, $.value_qid]],
 
   externals: $ => [
     $.virtual_end_decl,
@@ -93,13 +93,15 @@ module.exports = grammar({
       choice(
         $.lower_case_identifier,
         seq(
-          prec(
-            5,
-            repeat(
-              seq(
-                $.upper_case_identifier,
-                alias($._dot_without_leading_whitespace, $.dot)
-              )
+          $.upper_case_identifier,
+          alias($._dot_without_leading_whitespace, $.dot),
+          repeat(
+            seq(
+              alias(
+                $._upper_case_identifier_without_leading_whitespace,
+                $.upper_case_identifier
+              ),
+              alias($._dot_without_leading_whitespace, $.dot)
             )
           ),
           alias(
@@ -470,9 +472,9 @@ module.exports = grammar({
       ),
 
     union_pattern: $ =>
-      prec.right(seq($.upper_case_qid, repeat($.union_argument_pattern))),
+      prec.right(seq($.upper_case_qid, repeat($._union_argument_pattern))),
 
-    union_argument_pattern: $ =>
+    _union_argument_pattern: $ =>
       choice(
         $.anything_pattern,
         $.lower_pattern,
