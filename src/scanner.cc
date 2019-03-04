@@ -265,7 +265,7 @@ struct Scanner {
         break;
 
       default:
-        if (valid_symbols[START_TAG_NAME] || valid_symbols[END_TAG_NAME]) {
+        if ((valid_symbols[START_TAG_NAME] || valid_symbols[END_TAG_NAME]) && !valid_symbols[RAW_TEXT]) {
           return valid_symbols[START_TAG_NAME]
             ? scan_start_tag_name(lexer)
             : scan_end_tag_name(lexer);
