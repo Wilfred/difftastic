@@ -32,6 +32,11 @@
             "type": "npm",
             "script": "parse-basic",
             "problemMatcher": []
+        },
+        {
+            "type": "npm",
+            "script": "parse-test",
+            "problemMatcher": []
         }
     ]
 }

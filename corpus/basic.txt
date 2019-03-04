@@ -24,6 +24,25 @@ string6 =
 
         """
 
+json =
+        """
+            { "description": null
+            , "slug": \"""" ++ str ++ """"
+            , "title": ""
+            , "tagList": []
+            , "createdAt": "2012-04-23T18:25:43.511Z"
+            , "updatedAt": "2012-04-23T18:25:43.511Z"
+            , "favorited": false
+            , "favoritesCount": 1
+            , "author":
+                 { "username": ""
+                 , "bio": null
+                 , "image": null
+                 , "following": false
+                 }
+            }
+        """
+
 
 ---
 
@@ -68,6 +87,92 @@ string6 =
                 (lower_case_identifier)) (eq) (string_constant_expr (open_quote) (regular_string_part) (close_quote))
                 )
                 (virtual_end_decl)
+  (value_declaration 
+        (function_declaration_left (lower_case_identifier)) 
+        (eq)
+        (bin_op_expr 
+                (string_constant_expr 
+                        (open_quote) 
+                        (regular_string_part)
+                        (regular_string_part)
+                        (regular_string_part)
+                        (regular_string_part)
+                        (regular_string_part)
+                        (regular_string_part)
+                        (regular_string_part)
+                        (regular_string_part)
+                        (regular_string_part)
+                        (string_escape) 
+                        (close_quote)
+                ) 
+                (operator (operator_identifier))
+                (value_expr (value_qid (lower_case_identifier)))
+                (operator (operator_identifier)) 
+                (string_constant_expr 
+                        (open_quote) 
+                        (regular_string_part) 
+                        (regular_string_part)
+                        (regular_string_part) 
+                        (regular_string_part) 
+                        (regular_string_part) 
+                        (regular_string_part) 
+                        (regular_string_part) 
+                        (regular_string_part) 
+                        (regular_string_part) 
+                        (regular_string_part) 
+                        (regular_string_part) 
+                        (regular_string_part) 
+                        (regular_string_part) 
+                        (regular_string_part) 
+                        (regular_string_part) 
+                        (regular_string_part) 
+                        (regular_string_part) 
+                        (regular_string_part) 
+                        (regular_string_part) 
+                        (regular_string_part) 
+                        (regular_string_part) 
+                        (regular_string_part) 
+                        (regular_string_part) 
+                        (regular_string_part) 
+                        (regular_string_part) 
+                        (regular_string_part) 
+                        (regular_string_part) 
+                        (regular_string_part) 
+                        (regular_string_part) 
+                        (regular_string_part) 
+                        (regular_string_part) 
+                        (regular_string_part) 
+                        (regular_string_part) 
+                        (regular_string_part) 
+                        (regular_string_part) 
+                        (regular_string_part) 
+                        (regular_string_part) 
+                        (regular_string_part) 
+                        (regular_string_part) 
+                        (regular_string_part) 
+                        (regular_string_part) 
+                        (regular_string_part) 
+                        (regular_string_part) 
+                        (regular_string_part) 
+                        (regular_string_part) 
+                        (regular_string_part) 
+                        (regular_string_part) 
+                        (regular_string_part) 
+                        (regular_string_part) 
+                        (regular_string_part) 
+                        (regular_string_part) 
+                        (regular_string_part) 
+                        (regular_string_part) 
+                        (regular_string_part) 
+                        (regular_string_part) 
+                        (regular_string_part) 
+                        (regular_string_part) 
+                        (regular_string_part) 
+                        (close_quote)
+                )
+        )
+  ) 
+  (virtual_end_decl)
 )
 
 
@@ -97,7 +202,13 @@ tuple4 =
             (tuple_expr (left_parenthesis) (number_constant_expr (number_literal)) (comma) (number_constant_expr (number_literal)) (right_parenthesis)))
   (virtual_end_decl)
   (value_declaration (function_declaration_left (lower_case_identifier)) (eq)
-            (tuple_expr (left_parenthesis) (string_constant_expr (open_quote) (regular_string_part) (close_quote))
-            (comma) (string_constant_expr (open_quote) (regular_string_part)  (close_quote)) (right_parenthesis)))
+            (tuple_expr 
+                (left_parenthesis) 
+                (string_constant_expr (open_quote) (regular_string_part) (close_quote))
+                (comma) 
+                (string_constant_expr (open_quote) (regular_string_part)  (close_quote)) 
+                (right_parenthesis)
+            )
+  )
   (virtual_end_decl)
 )

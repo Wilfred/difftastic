@@ -1238,27 +1238,67 @@
       "name": "number_literal"
     },
     "string_constant_expr": {
-      "type": "SEQ",
+      "type": "CHOICE",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "open_quote"
-        },
-        {
-          "type": "CHOICE",
+          "type": "SEQ",
           "members": [
             {
               "type": "SYMBOL",
-              "name": "_string_parts"
+              "name": "open_quote"
             },
             {
-              "type": "BLANK"
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "_string_parts"
+                },
+                {
+                  "type": "BLANK"
+                }
+              ]
+            },
+            {
+              "type": "SYMBOL",
+              "name": "close_quote"
             }
           ]
         },
         {
-          "type": "SYMBOL",
-          "name": "close_quote"
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "SYMBOL",
+                "name": "open_quote_multiline"
+              },
+              "named": true,
+              "value": "open_quote"
+            },
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "_string_parts_multiline"
+                },
+                {
+                  "type": "BLANK"
+                }
+              ]
+            },
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "SYMBOL",
+                "name": "close_quote_multiline"
+              },
+              "named": true,
+              "value": "close_quote"
+            }
+          ]
         }
       ]
     },
@@ -1279,11 +1319,40 @@
         }
       ]
     },
+    "_string_part_multiline": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "regular_string_part_multiline"
+          },
+          "named": true,
+          "value": "regular_string_part"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "string_escape"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "invalid_string_escape"
+        }
+      ]
+    },
     "_string_parts": {
       "type": "REPEAT1",
       "content": {
         "type": "SYMBOL",
         "name": "_string_part"
+      }
+    },
+    "_string_parts_multiline": {
+      "type": "REPEAT1",
+      "content": {
+        "type": "SYMBOL",
+        "name": "_string_part_multiline"
       }
     },
     "anonymous_function_expr": {
@@ -2166,10 +2235,6 @@
       "members": [
         {
           "type": "STRING",
-          "value": "\"\"\""
-        },
-        {
-          "type": "STRING",
           "value": "\""
         }
       ]
@@ -2179,21 +2244,57 @@
       "members": [
         {
           "type": "STRING",
-          "value": "\"\"\""
-        },
-        {
-          "type": "STRING",
           "value": "\""
         }
       ]
     },
+    "open_quote_multiline": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "\"\"\""
+        }
+      ]
+    },
+    "close_quote_multiline": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "\"\"\""
+        }
+      ]
+    },
     "regular_string_part": {
-      "type": "PATTERN",
-      "value": "[^\\\\\\\"]+"
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "PATTERN",
+          "value": "[^\\\\\\\"\\n]+"
+        },
+        {
+          "type": "PATTERN",
+          "value": "\\\""
+        }
+      ]
+    },
+    "regular_string_part_multiline": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "PATTERN",
+          "value": "[^\\\\\\\"]+"
+        },
+        {
+          "type": "PATTERN",
+          "value": "\\\"\\\"?"
+        }
+      ]
     },
     "string_escape": {
       "type": "PATTERN",
-      "value": "\\\\(u\\{{[0-9A-Fa-f]}{4,6}\\}|[nrt\\\"'\\\\])"
+      "value": "\\\\(u\\{[0-9A-Fa-f]{4,6}\\}|[nrt\\\"'\\\\])"
     },
     "invalid_string_escape": {
       "type": "PATTERN",

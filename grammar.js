@@ -329,12 +329,27 @@ module.exports = grammar({
     number_constant_expr: $ => $.number_literal,
 
     string_constant_expr: $ =>
-      seq($.open_quote, optional($._string_parts), $.close_quote),
+      choice(
+        seq($.open_quote, optional($._string_parts), $.close_quote),
+        seq(
+          alias($.open_quote_multiline, $.open_quote),
+          optional($._string_parts_multiline),
+          alias($.close_quote_multiline, $.close_quote)
+        )
+      ),
 
     _string_part: $ =>
       choice($.regular_string_part, $.string_escape, $.invalid_string_escape),
 
+    _string_part_multiline: $ =>
+      choice(
+        alias($.regular_string_part_multiline, $.regular_string_part),
+        $.string_escape,
+        $.invalid_string_escape
+      ),
+
     _string_parts: $ => repeat1($._string_part),
+    _string_parts_multiline: $ => repeat1($._string_part_multiline),
 
     anonymous_function_expr: $ =>
       seq($.backslash, repeat1($.pattern), $.arrow, $._expression),
@@ -495,13 +510,18 @@ module.exports = grammar({
 
     number_literal: $ => /("-")?[0-9]+(\.[0-9]+)?(e"-"?[0-9]+)?/,
 
-    open_quote: $ => choice('"""', '"'),
+    open_quote: $ => choice('"'),
 
-    close_quote: $ => choice('"""', '"'),
+    close_quote: $ => choice('"'),
 
-    regular_string_part: $ => /[^\\\"]+/,
+    open_quote_multiline: $ => choice('"""'),
 
-    string_escape: $ => /\\(u\{{[0-9A-Fa-f]}{4,6}\}|[nrt\"'\\])/,
+    close_quote_multiline: $ => choice('"""'),
+
+    regular_string_part: $ => choice(/[^\\\"\n]+/, /\"/),
+    regular_string_part_multiline: $ => choice(/[^\\\"]+/, /\"\"?/),
+
+    string_escape: $ => /\\(u\{[0-9A-Fa-f]{4,6}\}|[nrt\"'\\])/,
 
     invalid_string_escape: $ => /\\(u\{[^}]*\}|[^nrt\"'\\])/,
 
