@@ -25,7 +25,9 @@ module.exports = grammar({
       ),
 
     module_declaration: $ =>
-      prec.left(seq($.module, $.upper_case_qid, $.exposing_list)),
+      prec.left(
+        seq(optional($.port), $.module, $.upper_case_qid, $.exposing_list)
+      ),
 
     _import_list: $ => repeat1(seq($.import_clause, $.virtual_end_decl)),
     _top_decl_list: $ => repeat1(seq($._declaration, $.virtual_end_decl)),

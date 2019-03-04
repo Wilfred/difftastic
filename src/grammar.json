@@ -58,6 +58,18 @@
         "type": "SEQ",
         "members": [
           {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "port"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          },
+          {
             "type": "SYMBOL",
             "name": "module"
           },
