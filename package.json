@@ -26,13 +26,12 @@
   },
   "tree-sitter": [
     {
-      "name": "JavaScript",
-      "textmate-scope": "source.js",
+      "scope": "source.js",
       "file-types": [
         "js"
       ],
       "highlights": "src/highlights.json",
-      "injection-regex": "js|javascript"
+      "injection-regex": "^(js|javascript)$"
     }
   ]
 }
