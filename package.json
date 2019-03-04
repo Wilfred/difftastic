@@ -25,8 +25,7 @@
   },
   "tree-sitter": [
     {
-      "name": "HTML",
-      "textmate-scope": "text.html.basic",
+      "scope": "text.html.basic",
       "file-types": ["html"],
       "highlights": "src/highlights.json",
       "injection-regex": "html"
