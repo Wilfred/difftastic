@@ -252,9 +252,12 @@ module.exports = grammar({
     _expression: $ => choice($.bin_op_expr, $._call_or_atom),
 
     bin_op_expr: $ =>
-      prec.left(
+      prec(
         5,
-        seq($._call_or_atom, repeat1(seq($.operator, $._call_or_atom)))
+        seq(
+          $._call_or_atom,
+          prec.right(repeat1(seq($.operator, $._call_or_atom)))
+        )
       ),
 
     operator: $ => $.operator_identifier,

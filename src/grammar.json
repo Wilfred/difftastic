@@ -957,7 +957,7 @@
       ]
     },
     "bin_op_expr": {
-      "type": "PREC_LEFT",
+      "type": "PREC",
       "value": 5,
       "content": {
         "type": "SEQ",
@@ -967,19 +967,23 @@
             "name": "_call_or_atom"
           },
           {
-            "type": "REPEAT1",
+            "type": "PREC_RIGHT",
+            "value": 0,
             "content": {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "SYMBOL",
-                  "name": "operator"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "_call_or_atom"
-                }
-              ]
+              "type": "REPEAT1",
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "operator"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "_call_or_atom"
+                  }
+                ]
+              }
             }
           }
         ]
