@@ -501,6 +501,10 @@
         {
           "type": "SYMBOL",
           "name": "port_annotation"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "infix_declaration"
         }
       ]
     },
@@ -2161,6 +2165,53 @@
         {
           "type": "SYMBOL",
           "name": "right_parenthesis"
+        }
+      ]
+    },
+    "infix_declaration": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "infix"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "left"
+              },
+              {
+                "type": "STRING",
+                "value": "right"
+              },
+              {
+                "type": "STRING",
+                "value": "non"
+              }
+            ]
+          },
+          "named": true,
+          "value": "lower_case_identifier"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "number_literal"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_operator_as_function_inner"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "eq"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "value_expr"
         }
       ]
     },

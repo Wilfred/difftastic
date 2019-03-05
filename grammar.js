@@ -139,7 +139,8 @@ module.exports = grammar({
         $.type_alias_declaration,
         $.type_declaration,
         $.type_annotation,
-        $.port_annotation
+        $.port_annotation,
+        $.infix_declaration
       ),
 
     value_declaration: $ =>
@@ -502,6 +503,17 @@ module.exports = grammar({
     _parenthesized_pattern: $ =>
       seq($.left_parenthesis, $.pattern, $.right_parenthesis),
 
+    // MISC
+    infix_declaration: $ =>
+      seq(
+        $.infix,
+        alias(choice("left", "right", "non"), $.lower_case_identifier),
+        $.number_literal,
+        $._operator_as_function_inner,
+        $.eq,
+        $.value_expr
+      ),
+
     // Stuff from lexer
 
     block_comment: $ => token(seq("{-", repeat(choice(/[^-]/, /-[^}]/)), "-}")),
@@ -590,6 +602,7 @@ module.exports = grammar({
         "::",
         "</>"
       ),
+    infix: $ => "infix",
 
     _char_quote: $ => "'"
   }
