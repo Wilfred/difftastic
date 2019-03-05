@@ -1376,10 +1376,10 @@ module.exports = grammar({
 
     array_pattern: $ => seq(
       '[|',
-      optional(
+      optional(seq(
         sep1(';', $._pattern),
         optional(';')
-      ),
+      )),
       '|]'
     ),
 
@@ -1469,7 +1469,7 @@ module.exports = grammar({
     character: $ => seq(
       "'",
       choice(
-        /[^\\']/,
+        /[^\\']|\x00/,
         $.escape_sequence
       ),
       "'"
@@ -1478,7 +1478,7 @@ module.exports = grammar({
     string: $ => seq(
       '"',
       repeat(choice(
-        /[^\\"%@]+|%|@/,
+        /[^\\"%@]+|%|@|\x00/,
         $.escape_sequence,
         alias(/\\u\{[0-9A-Fa-f]+\}/, $.escape_sequence),
         alias(/\\\n[\t ]*/, $.escape_sequence),

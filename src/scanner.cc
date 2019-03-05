@@ -38,6 +38,12 @@ struct Scanner {
     lexer->advance(lexer, true);
   }
 
+  bool is_eof(TSLexer *lexer) {
+    uint32_t column = lexer->get_column(lexer);
+    advance(lexer);
+    return lexer->get_column(lexer) <= column;
+  }
+
   bool scan(TSLexer *lexer, const bool *valid_symbols) {
     while (isspace(lexer->lookahead)) {
       skip(lexer);
@@ -90,8 +96,10 @@ struct Scanner {
           break;
         case '"':
           advance(lexer);
-        case '\0':
           return;
+        case '\0':
+          if (is_eof(lexer)) return;
+          break;
         default:
           advance(lexer);
       }
@@ -145,7 +153,8 @@ struct Scanner {
       case '\'':
         break;
       case '\0':
-        return 0;
+        if (is_eof(lexer)) return 0;
+        break;
       default:
         last = lexer->lookahead;
         advance(lexer);
@@ -185,7 +194,8 @@ struct Scanner {
           }
           break;
         case '\0':
-          return false;
+          if (is_eof(lexer)) return false;
+          break;
         default:
           advance(lexer);
       }
@@ -224,7 +234,8 @@ struct Scanner {
           scan_quoted_string(lexer);
           break;
         case '\0':
-          return false;
+          if (is_eof(lexer)) return false;
+          break;
         default:
           if (isalpha(lexer->lookahead) || lexer->lookahead == '_') {
             if (last) last = 0; else advance(lexer);
