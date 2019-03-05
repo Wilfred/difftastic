@@ -93,7 +93,7 @@ function #t -> ()
 Records, lists and arrays
 ============================
 
-function {x} | [x] | [|x|] | x :: xs -> ()
+function {x} | [x] | [|x|] | [|x;y;|] | x :: xs -> ()
 
 ---
 
@@ -103,10 +103,12 @@ function {x} | [x] | [|x|] | x :: xs -> ()
       (or_pattern
         (or_pattern
           (or_pattern
-            (record_pattern
-              (field_pattern (field_path (field_name))))
-            (list_pattern (value_name)))
-          (array_pattern (value_name)))
+            (or_pattern
+              (record_pattern
+                (field_pattern (field_path (field_name))))
+              (list_pattern (value_name)))
+            (array_pattern (value_name)))
+          (array_pattern (value_name) (value_name)))
         (cons_pattern (value_name) (value_name)))
       (unit))))
 

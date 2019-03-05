@@ -7246,24 +7246,41 @@
               "type": "SEQ",
               "members": [
                 {
-                  "type": "SYMBOL",
-                  "name": "_pattern"
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "SYMBOL",
+                      "name": "_pattern"
+                    },
+                    {
+                      "type": "REPEAT",
+                      "content": {
+                        "type": "SEQ",
+                        "members": [
+                          {
+                            "type": "STRING",
+                            "value": ";"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "_pattern"
+                          }
+                        ]
+                      }
+                    }
+                  ]
                 },
                 {
-                  "type": "REPEAT",
-                  "content": {
-                    "type": "SEQ",
-                    "members": [
-                      {
-                        "type": "STRING",
-                        "value": ";"
-                      },
-                      {
-                        "type": "SYMBOL",
-                        "name": "_pattern"
-                      }
-                    ]
-                  }
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "STRING",
+                      "value": ";"
+                    },
+                    {
+                      "type": "BLANK"
+                    }
+                  ]
                 }
               ]
             },
@@ -7857,7 +7874,7 @@
           "members": [
             {
               "type": "PATTERN",
-              "value": "[^\\\\']"
+              "value": "[^\\\\']|\\x00"
             },
             {
               "type": "SYMBOL",
@@ -7885,7 +7902,7 @@
             "members": [
               {
                 "type": "PATTERN",
-                "value": "[^\\\\\"%@]+|%|@"
+                "value": "[^\\\\\"%@]+|%|@|\\x00"
               },
               {
                 "type": "SYMBOL",
