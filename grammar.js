@@ -12,15 +12,16 @@ const PREC = {
   PLUS: 4,
   REL: 5,
   TIMES: 6,
-  TYPEOF: 7,
-  DELETE: 7,
-  VOID: 7,
-  NOT: 8,
-  NEG: 9,
-  INC: 10,
-  CALL: 11,
-  NEW: 12,
-  MEMBER: 13
+  EXP: 7,
+  TYPEOF: 8,
+  DELETE: 8,
+  VOID: 8,
+  NOT: 9,
+  NEG: 10,
+  INC: 11,
+  CALL: 12,
+  NEW: 13,
+  MEMBER: 14
 };
 
 module.exports = grammar({
@@ -641,7 +642,7 @@ module.exports = grammar({
         alias($._reserved_identifier, $.identifier),
         $.identifier
       ),
-      choice('+=', '-=', '*=', '/=', '%=', '^=', '&=', '|=', '>>=', '>>>=', '<<='),
+      choice('+=', '-=', '*=', '/=', '%=', '^=', '&=', '|=', '>>=', '>>>=', '<<=', '**='),
       $._expression
     )),
 
@@ -682,6 +683,7 @@ module.exports = grammar({
         ['*', PREC.TIMES],
         ['/', PREC.TIMES],
         ['%', PREC.TIMES],
+        ['**', PREC.EXP],
         ['<', PREC.REL],
         ['<=', PREC.REL],
         ['==', PREC.REL],

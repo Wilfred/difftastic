@@ -28,7 +28,9 @@
     {
       "name": "JavaScript",
       "textmate-scope": "source.js",
-      "file-types": ["js"],
+      "file-types": [
+        "js"
+      ],
       "highlights": "src/highlights.json",
       "injection-regex": "js|javascript"
     }
