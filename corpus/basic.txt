@@ -212,3 +212,61 @@ tuple4 =
   )
   (virtual_end_decl)
 )
+
+=====================================
+Number literal
+=====================================
+
+isUpper : Char -> Bool
+isUpper char =
+  let
+    code =
+      toCode char
+  in
+    code <= 0x5A && 0x41 <= code
+
+---
+
+(file 
+        (type_annotation 
+                (lower_case_identifier) 
+                (colon) 
+                (type_expression 
+                        (type_ref
+                                (upper_case_qid (upper_case_identifier))
+                        )
+                        (arrow) 
+                        (type_ref (upper_case_qid (upper_case_identifier)))
+                )
+        ) 
+        (virtual_end_decl)
+        (value_declaration 
+                (function_declaration_left 
+                        (lower_case_identifier) 
+                        (lower_pattern (lower_case_identifier))
+                ) 
+                (eq) 
+                (let_in_expr 
+                        (let) 
+                        (virtual_open_section) 
+                        (value_declaration 
+                                (function_declaration_left (lower_case_identifier)) 
+                                (eq) 
+                                (function_call_expr (value_expr (value_qid (lower_case_identifier))) 
+                                (value_expr (value_qid (lower_case_identifier))))
+                        ) 
+                        (virtual_end_section) 
+                        (in) 
+                        (bin_op_expr 
+                                (value_expr (value_qid (lower_case_identifier))) 
+                                (operator (operator_identifier)) 
+                                (number_constant_expr (number_literal))
+                                (operator (operator_identifier)) 
+                                (number_constant_expr (number_literal))
+                                (operator (operator_identifier)) 
+                                (value_expr (value_qid (lower_case_identifier)))
+                        )
+                )
+        )
+        (virtual_end_decl)
+)

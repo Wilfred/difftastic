@@ -2253,8 +2253,21 @@
       "value": "[a-z][a-zA-Z0-9_]*"
     },
     "number_literal": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "PATTERN",
+          "value": "(\"-\")?[0-9]+(\\.[0-9]+)?(e\"-\"?[0-9]+)?"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_hex_literal"
+        }
+      ]
+    },
+    "_hex_literal": {
       "type": "PATTERN",
-      "value": "(\"-\")?[0-9]+(\\.[0-9]+)?(e\"-\"?[0-9]+)?"
+      "value": "0x[0-9A-Fa-f]+"
     },
     "open_quote": {
       "type": "CHOICE",
