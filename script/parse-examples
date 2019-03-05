@@ -1,7 +1,5 @@
 #!/bin/bash
 
-set -e
-
 cd "$(dirname "$0")/.."
 
 
@@ -28,11 +26,20 @@ examples_to_parse=$(
   done
 )
 
-echo $examples_to_parse | xargs -n 1000 tree-sitter parse -q
+tree_sitter_report=$(echo $examples_to_parse | xargs -n 1000 tree-sitter parse -q)
 
-skipped=$( echo $known_failures | wc -w )
-parsed=$( echo $examples_to_parse | wc -w )
-total=$((parsed+skipped))
+ret_code=$?
+
+echo "$tree_sitter_report"
+
+errors=$( echo "$tree_sitter_report" | wc -l )
+
+skipped=$( echo "$known_failures" | wc -w )
+tried_to_parse=$( echo "$examples_to_parse" | wc -w )
+parsed=$(bc -l <<< "$tried_to_parse-$errors")
+total=$((tried_to_parse+skipped))
 percent=$(bc -l <<< "100*$parsed/$total")
 
-printf "Successfully parsed %d of %d files (%.2f%%)\n" $parsed $total $percent
+printf "Successfully parsed %d of %d files (%.2f%%)\n Skipped: %d Failed: %d\n" $parsed $total $percent $skipped $errors
+
+exit $ret_code
