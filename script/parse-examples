@@ -15,6 +15,7 @@ function checkout_at() {
 }
 
 checkout_at "examples/elm-spa-example" "rtfeldman/elm-spa-example" "c8c3201ec0488f17c1245e1fd2293ba5bc0748d5"
+checkout_at "examples/elm-core" "elm/core" "5dcec7f6cd46599f9de95ca5f1cef386f0dc767d"
 
 all_examples=$(find examples -name '*.elm')
 known_failures=$(cat script/known-failures.txt)
