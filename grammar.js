@@ -299,6 +299,7 @@ module.exports = grammar({
     _atom: $ =>
       choice(
         $._literal_expr_group,
+        // $.negate_expr,
         $.field_access_expr,
         $.value_expr,
         $.field_accessor_function_expr,
@@ -327,6 +328,8 @@ module.exports = grammar({
           $.lower_case_identifier
         )
       ),
+
+    // negate_expr: $ => seq("-", $._atom), // todo disallow whitespace
 
     parenthesized_expr: $ =>
       seq($.left_parenthesis, $._expression, $.right_parenthesis),
@@ -538,7 +541,7 @@ module.exports = grammar({
     lower_case_identifier: $ => /[a-z][a-zA-Z0-9_]*/,
 
     number_literal: $ =>
-      choice(/("-")?[0-9]+(\.[0-9]+)?(e"-"?[0-9]+)?/, $._hex_literal),
+      choice(/(-)?[0-9]+(\.[0-9]+)?(e[0-9]+)?/, $._hex_literal),
 
     _hex_literal: $ => /0x[0-9A-Fa-f]+/,
 

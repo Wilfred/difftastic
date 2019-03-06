@@ -176,6 +176,52 @@ json =
 
 
 =====================================
+Numbers
+=====================================
+
+number =
+    1
+
+minusNumber =
+    -1
+
+float =
+    1.5
+
+eNumber =
+    1e12
+
+
+---
+
+(file
+  (value_declaration 
+        (function_declaration_left (lower_case_identifier))
+        (eq) 
+        (number_constant_expr (number_literal))
+  ) 
+  (virtual_end_decl) 
+  (value_declaration 
+        (function_declaration_left (lower_case_identifier))
+        (eq) 
+        (number_constant_expr (number_literal))
+  ) 
+  (virtual_end_decl)
+  (value_declaration 
+        (function_declaration_left (lower_case_identifier))
+        (eq) 
+        (number_constant_expr (number_literal))
+  ) 
+  (virtual_end_decl)
+  (value_declaration 
+        (function_declaration_left (lower_case_identifier))
+        (eq) 
+        (number_constant_expr (number_literal))
+  ) 
+  (virtual_end_decl)
+)
+
+=====================================
 Tuples
 =====================================
 

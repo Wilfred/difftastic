@@ -1,7 +1,12 @@
-isUpper : Char -> Bool
-isUpper char =
-  let
-    code =
-      toCode char
-  in
-    code <= 0x5A && 0x41 <= code
+
+number =
+    1
+
+minusNumber =
+    -1
+
+float =
+    1.5
+
+eNumber =
+    1e12
