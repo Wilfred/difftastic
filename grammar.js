@@ -26,7 +26,17 @@ module.exports = grammar({
 
     module_declaration: $ =>
       prec.left(
-        seq(optional($.port), $.module, $.upper_case_qid, $.exposing_list)
+        choice(
+          seq(optional($.port), $.module, $.upper_case_qid, $.exposing_list),
+          seq(
+            $.effect,
+            $.module,
+            $.upper_case_qid,
+            $.where,
+            $.record_expr,
+            $.exposing_list
+          )
+        )
       ),
 
     _import_list: $ => repeat1(seq($.import_clause, $.virtual_end_decl)),
@@ -548,6 +558,7 @@ module.exports = grammar({
     invalid_string_escape: $ => /\\(u\{[^}]*\}|[^nrt\"'\\])/,
 
     module: $ => "module",
+    effect: $ => "effect",
     where: $ => "where",
     import: $ => "import",
     as: $ => "as",

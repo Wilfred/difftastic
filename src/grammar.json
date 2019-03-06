@@ -55,31 +55,65 @@
       "type": "PREC_LEFT",
       "value": 0,
       "content": {
-        "type": "SEQ",
+        "type": "CHOICE",
         "members": [
           {
-            "type": "CHOICE",
+            "type": "SEQ",
             "members": [
               {
-                "type": "SYMBOL",
-                "name": "port"
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "port"
+                  },
+                  {
+                    "type": "BLANK"
+                  }
+                ]
               },
               {
-                "type": "BLANK"
+                "type": "SYMBOL",
+                "name": "module"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "upper_case_qid"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "exposing_list"
               }
             ]
           },
           {
-            "type": "SYMBOL",
-            "name": "module"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "upper_case_qid"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "exposing_list"
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "effect"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "module"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "upper_case_qid"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "where"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "record_expr"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "exposing_list"
+              }
+            ]
           }
         ]
       }
@@ -2397,6 +2431,10 @@
     "module": {
       "type": "STRING",
       "value": "module"
+    },
+    "effect": {
+      "type": "STRING",
+      "value": "effect"
     },
     "where": {
       "type": "STRING",
