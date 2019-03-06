@@ -1764,19 +1764,23 @@
           "name": "case_of_branch"
         },
         {
-          "type": "REPEAT",
+          "type": "PREC_RIGHT",
+          "value": 7,
           "content": {
-            "type": "SEQ",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "virtual_end_decl"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "case_of_branch"
-              }
-            ]
+            "type": "REPEAT",
+            "content": {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "virtual_end_decl"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "case_of_branch"
+                }
+              ]
+            }
           }
         }
       ]

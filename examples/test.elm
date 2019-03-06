@@ -1,12 +1,13 @@
 
-number =
-    1
+routeToString : Route -> String
+routeToString page =
+    let
+        pieces =
+            case page of
+                Home ->
+                    []
 
-minusNumber =
-    -1
-
-float =
-    1.5
-
-eNumber =
-    1e12
+                Root ->
+                    []
+    in
+    "#/" ++ String.join "/" pieces

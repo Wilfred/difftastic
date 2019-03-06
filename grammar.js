@@ -428,8 +428,8 @@ module.exports = grammar({
       seq(
         $.virtual_open_section,
         $.case_of_branch,
-        repeat(seq($.virtual_end_decl, $.case_of_branch))
-        // $.virtual_end_section
+        prec.right(7, repeat(seq($.virtual_end_decl, $.case_of_branch)))
+        // $.virtual_end_section todo
       ),
 
     case_of_branch: $ => seq($.pattern, $.arrow, $._expression),
