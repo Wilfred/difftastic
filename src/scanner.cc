@@ -116,45 +116,33 @@ struct Scanner
             }
         }
 
-        if (has_newline)
+        // hold this in a variable as it will change due to the pop
+        uint32_t previous_line_length = indent_length_stack.back();
+
+        if (has_newline && valid_symbols[VIRTUAL_OPEN_SECTION])
         {
-            // hold this in a variable as it will change due to the pop
-            uint32_t previous_line_length = indent_length_stack.back();
-            if (indent_length > previous_line_length)
-            {
-                indent_length_stack.push_back(indent_length);
-            }
-            else if (indent_length < previous_line_length)
-            {
-                indent_length_stack.pop_back();
-            }
+            indent_length_stack.push_back(indent_length);
+            lexer->result_symbol = VIRTUAL_OPEN_SECTION;
+            return true;
+        }
 
-            if (valid_symbols[VIRTUAL_OPEN_SECTION])
-            {
-                lexer->result_symbol = VIRTUAL_OPEN_SECTION;
-                return true;
-            }
-
-            if (valid_symbols[VIRTUAL_END_SECTION])
-            {
-                lexer->result_symbol = VIRTUAL_END_SECTION;
-                return true;
-            }
-
+        else if (has_newline)
+        {
             if (valid_symbols[VIRTUAL_END_DECL])
             {
-                if (indent_length < previous_line_length)
-                {
-
-                    lexer->result_symbol = VIRTUAL_END_DECL;
-                    return true;
-                }
 
                 if (indent_length == previous_line_length)
                 {
                     lexer->result_symbol = VIRTUAL_END_DECL;
                     return true;
                 }
+            }
+
+            if (indent_length < previous_line_length && valid_symbols[VIRTUAL_END_SECTION])
+            {
+                indent_length_stack.pop_back();
+                lexer->result_symbol = VIRTUAL_END_SECTION;
+                return true;
             }
         }
 

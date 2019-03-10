@@ -1782,6 +1782,18 @@
               ]
             }
           }
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "virtual_end_section"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         }
       ]
     },
