@@ -64,7 +64,7 @@ module.exports = grammar({
     exposed_type: $ =>
       seq($.upper_case_identifier, optional($.exposed_union_constructors)),
 
-    type_expression: $ => prec.right(2, arrowSep1($.type_ref, $.arrow)),
+    type_expression: $ => prec(2, arrowSep1($.type_ref, $.arrow)),
 
     exposed_union_constructors: $ =>
       seq(
@@ -184,7 +184,7 @@ module.exports = grammar({
     // TYPE DECLARATIONS AND REFERENCES
 
     type_declaration: $ =>
-      prec.right(
+      prec.left(
         seq(
           $.type,
           $.upper_case_identifier,
@@ -198,7 +198,7 @@ module.exports = grammar({
     lower_type_name: $ => $.lower_case_identifier,
 
     union_variant: $ =>
-      prec.right(
+      prec.left(
         seq($.upper_case_identifier, repeat($._single_type_expression))
       ),
 
@@ -285,7 +285,7 @@ module.exports = grammar({
     _call_or_atom: $ => choice($.function_call_expr, $._atom),
 
     function_call_expr: $ =>
-      prec.right(seq($._function_call_target, repeat1($._atom))),
+      prec.left(seq($._function_call_target, repeat1($._atom))),
 
     _function_call_target: $ =>
       prec(
@@ -320,7 +320,7 @@ module.exports = grammar({
       ),
 
     field_access_expr: $ =>
-      prec.right(seq($._field_access_start, repeat1($.field_access_segment))),
+      prec.left(seq($._field_access_start, repeat1($.field_access_segment))),
 
     _field_access_start: $ =>
       prec(3, choice($.value_expr, $.parenthesized_expr, $.record_expr)),
@@ -418,7 +418,7 @@ module.exports = grammar({
         $.then,
         $._expression,
         repeat(
-          prec.right(seq($.else, $.if, $._expression, $.then, $._expression))
+          prec.left(seq($.else, $.if, $._expression, $.then, $._expression))
         ),
         $.else,
         $._expression
@@ -496,7 +496,7 @@ module.exports = grammar({
       ),
 
     union_pattern: $ =>
-      prec.right(seq($.upper_case_qid, repeat($._union_argument_pattern))),
+      prec.left(seq($.upper_case_qid, repeat($._union_argument_pattern))),
 
     _union_argument_pattern: $ =>
       choice(
@@ -539,7 +539,7 @@ module.exports = grammar({
     block_comment: $ => token(seq("{-", repeat(choice(/[^-]/, /-[^}]/)), "-}")),
 
     block_documentation: $ =>
-      prec(5, token(seq("{-| ", repeat(choice(/[^-]/, /-[^}]/)), "-}"))),
+      prec(1, token(seq("{-| ", repeat(choice(/[^-]/, /-[^}]/)), "-}"))),
 
     line_comment: $ => token(seq("--", /.*/)),
 

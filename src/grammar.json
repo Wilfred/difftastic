@@ -630,7 +630,7 @@
       ]
     },
     "type_declaration": {
-      "type": "PREC_RIGHT",
+      "type": "PREC_LEFT",
       "value": 0,
       "content": {
         "type": "SEQ",
@@ -673,7 +673,7 @@
       "name": "lower_case_identifier"
     },
     "union_variant": {
-      "type": "PREC_RIGHT",
+      "type": "PREC_LEFT",
       "value": 0,
       "content": {
         "type": "SEQ",
@@ -1066,7 +1066,7 @@
       ]
     },
     "function_call_expr": {
-      "type": "PREC_RIGHT",
+      "type": "PREC_LEFT",
       "value": 0,
       "content": {
         "type": "SEQ",
@@ -1180,7 +1180,7 @@
       ]
     },
     "field_access_expr": {
-      "type": "PREC_RIGHT",
+      "type": "PREC_LEFT",
       "value": 0,
       "content": {
         "type": "SEQ",
@@ -1679,7 +1679,7 @@
         {
           "type": "REPEAT",
           "content": {
-            "type": "PREC_RIGHT",
+            "type": "PREC_LEFT",
             "value": 0,
             "content": {
               "type": "SEQ",
@@ -2103,7 +2103,7 @@
       ]
     },
     "union_pattern": {
-      "type": "PREC_RIGHT",
+      "type": "PREC_LEFT",
       "value": 0,
       "content": {
         "type": "SEQ",
@@ -2307,7 +2307,7 @@
     },
     "block_documentation": {
       "type": "PREC",
-      "value": 5,
+      "value": 1,
       "content": {
         "type": "TOKEN",
         "content": {
