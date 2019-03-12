@@ -1284,8 +1284,13 @@
           "name": "open_char"
         },
         {
-          "type": "SYMBOL",
-          "name": "_string_part"
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "regular_char"
+          },
+          "named": true,
+          "value": "regular_string_part"
         },
         {
           "type": "SYMBOL",
@@ -2417,6 +2422,10 @@
           "value": "\"\"\""
         }
       ]
+    },
+    "regular_char": {
+      "type": "PATTERN",
+      "value": "[^\\\\\\n']"
     },
     "regular_string_part": {
       "type": "CHOICE",

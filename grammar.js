@@ -345,7 +345,12 @@ module.exports = grammar({
         $.string_constant_expr
       ),
 
-    char_constant_expr: $ => seq($.open_char, $._string_part, $.close_char),
+    char_constant_expr: $ =>
+      seq(
+        $.open_char,
+        alias($.regular_char, $.regular_string_part),
+        $.close_char
+      ),
 
     open_char: $ => $._char_quote,
 
@@ -560,6 +565,7 @@ module.exports = grammar({
 
     close_quote_multiline: $ => choice('"""'),
 
+    regular_char: $ => /[^\\\n']/,
     regular_string_part: $ => choice(/[^\\\"\n]+/, /\"/),
     regular_string_part_multiline: $ => choice(/[^\\\"]+/, /\"\"?/),
 

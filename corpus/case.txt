@@ -28,7 +28,7 @@ update msg =
 
 
 =====================================
-Function statement with case
+Case with two branches
 =====================================
 
 update msg model =
@@ -60,7 +60,7 @@ update msg model =
 
 
 =====================================
-Function statement with case and follow up function
+Case with three branches
 =====================================
 
 src : Avatar -> Attribute msg
@@ -159,3 +159,109 @@ src (Avatar maybeUrl)=
     (virtual_end_decl)
 )
 
+
+=====================================
+Function statement with nested case
+=====================================
+
+map3 func ma mb mc =
+    case ma of
+        Nothing ->
+            Nothing
+
+        Just a ->
+            case mb of
+                Nothing ->
+                    Nothing
+
+                Just b ->
+                    b
+
+
+map4 func ma mb mc md =
+    case ma of
+        Nothing ->
+            Nothing
+
+        Just a ->
+            a
+
+
+
+---
+
+(file
+    (value_declaration
+        (function_declaration_left
+            (lower_case_identifier)
+            (lower_pattern (lower_case_identifier))
+            (lower_pattern (lower_case_identifier))
+            (lower_pattern (lower_case_identifier))
+            (lower_pattern (lower_case_identifier))
+        )
+        (eq)
+        (case_of_expr
+            (case)
+            (value_expr (value_qid (lower_case_identifier)))
+            (of)
+            (virtual_open_section)
+            (case_of_branch
+                (pattern (union_pattern (upper_case_qid (upper_case_identifier))))
+                (arrow)
+                (value_expr (upper_case_qid (upper_case_identifier)))
+            )
+            (virtual_end_decl)
+            (case_of_branch
+                (pattern (union_pattern (upper_case_qid (upper_case_identifier)) (lower_pattern (lower_case_identifier))))
+                (arrow)
+                (case_of_expr
+                    (case)
+                    (value_expr (value_qid (lower_case_identifier)))
+                    (of)
+                    (virtual_open_section)
+                    (case_of_branch
+                        (pattern (union_pattern (upper_case_qid (upper_case_identifier))))
+                        (arrow)
+                        (value_expr (upper_case_qid (upper_case_identifier)))
+                    )
+                    (virtual_end_decl)
+                    (case_of_branch
+                        (pattern (union_pattern (upper_case_qid (upper_case_identifier)) (lower_pattern (lower_case_identifier))))
+                        (arrow)
+                        (value_expr (value_qid (lower_case_identifier)))
+                    )
+                )
+            )
+        )
+    )
+    (virtual_end_decl)
+    (value_declaration
+        (function_declaration_left
+            (lower_case_identifier)
+            (lower_pattern (lower_case_identifier))
+            (lower_pattern (lower_case_identifier))
+            (lower_pattern (lower_case_identifier))
+            (lower_pattern (lower_case_identifier))
+            (lower_pattern (lower_case_identifier))
+        )
+        (eq)
+        (case_of_expr
+            (case)
+            (value_expr (value_qid (lower_case_identifier)))
+            (of)
+            (virtual_open_section)
+            (case_of_branch
+                (pattern (union_pattern (upper_case_qid (upper_case_identifier))))
+                (arrow)
+                (value_expr (upper_case_qid (upper_case_identifier)))
+            )
+            (virtual_end_decl)
+            (case_of_branch
+                (pattern (union_pattern (upper_case_qid (upper_case_identifier)) (lower_pattern (lower_case_identifier))))
+                (arrow)
+                (value_expr (value_qid (lower_case_identifier)))
+            )
+        )
+    )
+    (virtual_end_decl)
+)
