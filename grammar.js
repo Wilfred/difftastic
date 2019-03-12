@@ -14,10 +14,10 @@ const PREC = {
   NON_NULL: 10,
   FUNCTION_CALL: 11,
   ARRAY_TYPE: 13,
-  MEMBER: 13,
-  AS_EXPRESSION: 14,
-  TYPE_ASSERTION: 15,
-  TYPE_REFERENCE: 15
+  MEMBER: 14,
+  AS_EXPRESSION: 15,
+  TYPE_ASSERTION: 16,
+  TYPE_REFERENCE: 16
 };
 
 module.exports = grammar(require('tree-sitter-javascript/grammar'), {
