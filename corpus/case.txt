@@ -1,4 +1,33 @@
 =====================================
+Case with one branch
+=====================================
+
+update msg =
+    case msg of
+        Nothing ->
+            Nothing
+
+---
+
+(file
+  (value_declaration 
+    (function_declaration_left (lower_case_identifier) (lower_pattern (lower_case_identifier)))
+    (eq)
+    (case_of_expr (case) (value_expr (value_qid (lower_case_identifier))) (of)
+      (virtual_open_section)
+        (case_of_branch 
+            (pattern (union_pattern (upper_case_qid (upper_case_identifier)))) 
+            (arrow)
+            (value_expr (upper_case_qid (upper_case_identifier)))
+        )
+    )
+  )
+  (virtual_end_decl)
+)
+
+
+
+=====================================
 Function statement with case
 =====================================
 

@@ -1,7 +1,11 @@
 module.exports = grammar({
   name: "elm",
 
-  conflicts: $ => [[$._case_of_tail2], [$.upper_case_qid, $.value_qid]],
+  conflicts: $ => [
+    [$._case_of_tail2],
+    [$.upper_case_qid, $.value_qid],
+    [$._more_case_of_branches]
+  ],
 
   externals: $ => [
     $.virtual_end_decl,
@@ -433,7 +437,7 @@ module.exports = grammar({
       ),
 
     _more_case_of_branches: $ =>
-      prec.right(9, repeat1(seq($.virtual_end_decl, $.case_of_branch))),
+      prec.dynamic(6, repeat1(seq($.virtual_end_decl, $.case_of_branch))),
 
     case_of_branch: $ => seq($.pattern, $.arrow, $._expression),
 

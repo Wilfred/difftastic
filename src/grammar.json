@@ -1786,8 +1786,8 @@
       ]
     },
     "_more_case_of_branches": {
-      "type": "PREC_RIGHT",
-      "value": 9,
+      "type": "PREC_DYNAMIC",
+      "value": 6,
       "content": {
         "type": "REPEAT1",
         "content": {
@@ -2699,6 +2699,9 @@
     [
       "upper_case_qid",
       "value_qid"
+    ],
+    [
+      "_more_case_of_branches"
     ]
   ],
   "externals": [
