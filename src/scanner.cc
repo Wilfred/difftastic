@@ -35,6 +35,8 @@ struct Scanner
             buffer[i++] = *iter;
         }
 
+        buffer[i++] = indent_length;
+
         return i;
     }
 
@@ -51,6 +53,8 @@ struct Scanner
             {
                 indent_length_stack.push_back(buffer[i]);
             }
+            i++;
+            indent_length = buffer[i];
         }
     }
 
@@ -74,7 +78,8 @@ struct Scanner
     bool scan(TSLexer *lexer, const bool *valid_symbols)
     {
         bool has_newline = false;
-        uint32_t indent_length = 0;
+        uint32_t previous_indent_length = indent_length;
+
         for (;;)
         {
             if (lexer->lookahead == '\n')
@@ -95,12 +100,12 @@ struct Scanner
             }
             else if (lexer->lookahead == 0)
             {
-                if (valid_symbols[VIRTUAL_END_SECTION] && indent_length_stack.size() > 1)
-                {
-                    indent_length_stack.pop_back();
-                    lexer->result_symbol = VIRTUAL_END_SECTION;
-                    return true;
-                }
+                // if (valid_symbols[VIRTUAL_END_SECTION] && indent_length_stack.size() > 1)
+                // {
+                //     indent_length_stack.pop_back();
+                //     lexer->result_symbol = VIRTUAL_END_SECTION;
+                //     return true;
+                // }
 
                 if (valid_symbols[VIRTUAL_END_DECL])
                 {
@@ -121,23 +126,18 @@ struct Scanner
 
         if (has_newline && valid_symbols[VIRTUAL_OPEN_SECTION])
         {
-            indent_length_stack.push_back(indent_length);
+            indent_length_stack.push_back(previous_indent_length);
             lexer->result_symbol = VIRTUAL_OPEN_SECTION;
             return true;
         }
 
         else if (has_newline)
         {
-            if (valid_symbols[VIRTUAL_END_DECL])
+            if ((indent_length == previous_line_length || indent_length == 0) && valid_symbols[VIRTUAL_END_DECL])
             {
-
-                if (indent_length == previous_line_length)
-                {
-                    lexer->result_symbol = VIRTUAL_END_DECL;
-                    return true;
-                }
+                lexer->result_symbol = VIRTUAL_END_DECL;
+                return true;
             }
-
             if (indent_length < previous_line_length && valid_symbols[VIRTUAL_END_SECTION])
             {
                 indent_length_stack.pop_back();
@@ -149,6 +149,7 @@ struct Scanner
         return false;
     }
 
+    uint32_t indent_length = 0;
     vector<uint16_t> indent_length_stack;
 };
 

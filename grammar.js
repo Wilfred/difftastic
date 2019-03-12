@@ -422,15 +422,18 @@ module.exports = grammar({
 
     case_of_expr: $ => seq($.case, $._expression, $._case_of_tail),
 
-    _case_of_tail: $ => prec.left(seq($.of, $._case_of_tail2)),
+    _case_of_tail: $ => seq($.of, $._case_of_tail2),
 
     _case_of_tail2: $ =>
       seq(
         $.virtual_open_section,
         $.case_of_branch,
-        prec.right(7, repeat(seq($.virtual_end_decl, $.case_of_branch))),
+        optional($._more_case_of_branches),
         optional($.virtual_end_section)
       ),
+
+    _more_case_of_branches: $ =>
+      prec.right(9, repeat1(seq($.virtual_end_decl, $.case_of_branch))),
 
     case_of_branch: $ => seq($.pattern, $.arrow, $._expression),
 
