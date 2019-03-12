@@ -13,7 +13,7 @@ install:
   - npm install
 
 test_script:
-  - npm test
+  - npm run test-windows
 
 build: off
 

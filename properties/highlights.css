@@ -10,19 +10,19 @@ universal_selector {
   scope: 'tag';
 }
 
-sibling_selector > "~",
-child_selector > ">",
-adjacent_sibling_selector > "+" {
+sibling_selector > [token="~"],
+child_selector > [token=">"],
+adjacent_sibling_selector > [token="+"] {
   scope: 'operator';
 }
 
 attribute_selector > {
-  & > "=",
-  & > "^=",
-  & > "|=",
-  & > "~=",
-  & > "$=",
-  & > "*=" {
+  & > [token="="],
+  & > [token="^="],
+  & > [token="|="],
+  & > [token="~="],
+  & > [token="$="],
+  & > [token="*="] {
     scope: 'operator';
   }
 }
@@ -54,7 +54,7 @@ function_name {
 
 property_name,
 plain_value {
-  &:text('^--') {
+  &[text='^--'] {
     scope: 'variable';
   }
 }
@@ -67,12 +67,12 @@ attribute_name {
   scope: 'attribute';
 }
 
-"@media",
-"@import",
-"@charset",
-"@namespace",
-"@supports",
-"@keyframes",
+[token="@media"],
+[token="@import"],
+[token="@charset"],
+[token="@namespace"],
+[token="@supports"],
+[token="@keyframes"],
 at_keyword,
 to,
 from,
@@ -121,20 +121,20 @@ feature_name {
   scope: 'property';
 }
 
-color_value > "#",
-id_selector > "#",
-selectors > "," {
+color_value > [token="#"],
+id_selector > [token="#"],
+selectors > [token=","] {
   scope: 'punctuation.delimiter';
 }
 
-"and",
-"or",
-"not",
-"only",
+[token="and"],
+[token="or"],
+[token="not"],
+[token="only"],
 keyword_query,
-binary_expression > "+",
-binary_expression > "-",
-binary_expression > "/",
-binary_expression > "*" {
+binary_expression > [token="+"],
+binary_expression > [token="-"],
+binary_expression > [token="/"],
+binary_expression > [token="*"] {
   scope: 'operator';
 }
