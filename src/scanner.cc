@@ -55,14 +55,8 @@ struct Scanner
             }
             i++;
             indent_length = buffer[i];
+            i++;
         }
-    }
-
-    bool scan_virtual_end_decl(TSLexer *lexer)
-    {
-        lexer->advance(lexer, false);
-        lexer->result_symbol = VIRTUAL_END_DECL;
-        return true;
     }
 
     void advance(TSLexer *lexer)
@@ -87,12 +81,57 @@ struct Scanner
                 has_newline = true;
                 indent_length = 0;
                 skip(lexer);
+                for (;;)
+                {
+                    if (lexer->lookahead == ' ')
+                    {
+                        indent_length++;
+                        skip(lexer);
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
             }
-            else if (lexer->lookahead == ' ')
+            else if (valid_symbols[VIRTUAL_END_SECTION] && lexer->lookahead == ' ')
             {
-                indent_length++;
+                lexer->mark_end(lexer);
                 skip(lexer);
+                if (lexer->lookahead == 'i')
+                {
+                    skip(lexer);
+
+                    if (lexer->lookahead == 'n')
+                    {
+                        lexer->result_symbol = VIRTUAL_END_SECTION;
+                        return true;
+                    }
+                }
             }
+
+            // else if (!has_let && lexer->lookahead == 'l')
+            // {
+            //     skip(lexer);
+            //     if (lexer->lookahead == 'e')
+            //     {
+            //         skip(lexer);
+            //         if (lexer->lookahead == 't')
+            //         {
+            //             skip(lexer);
+            //             if (lexer->lookahead == ' ')
+            //             {
+            //                 has_let == true;
+            //                 skip(lexer);
+            //             }
+            //         }
+            //     }
+            // }
+            // else if (lexer->lookahead == ' ')
+            // {
+            //     indent_length++;
+            //     skip(lexer);
+            // }
             else if (lexer->lookahead == '\r')
             {
                 indent_length = 0;
@@ -124,7 +163,7 @@ struct Scanner
         // hold this in a variable as it will change due to the pop
         uint32_t previous_line_length = indent_length_stack.back();
 
-        if (has_newline && valid_symbols[VIRTUAL_OPEN_SECTION])
+        if (valid_symbols[VIRTUAL_OPEN_SECTION])
         {
             indent_length_stack.push_back(previous_indent_length);
             lexer->result_symbol = VIRTUAL_OPEN_SECTION;
