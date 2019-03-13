@@ -1,5 +1,34 @@
 =====================================
-Complete route
+Single line let
+=====================================
+
+i = let x = 320 in x
+
+---
+
+(file 
+    (value_declaration 
+        (function_declaration_left (lower_case_identifier)) 
+        (eq) 
+        (let_in_expr
+            (let) 
+            (virtual_open_section)
+            (value_declaration
+                (function_declaration_left (lower_case_identifier))
+                (eq)
+                (number_constant_expr (number_literal))
+            )
+            (virtual_end_section)
+            (in)
+            (value_expr (value_qid (lower_case_identifier)))
+        )
+    )
+    (virtual_end_decl)
+)
+
+
+=====================================
+Let with case
 =====================================
 
 routeToString : Route -> String
