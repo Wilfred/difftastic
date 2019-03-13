@@ -1,1 +1,9 @@
-i = let x = 320 in x
+balance =
+    case right of
+        y ->
+            case left of
+                c ->
+                    a
+
+        _ ->
+            x
