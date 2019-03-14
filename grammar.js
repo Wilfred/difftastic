@@ -10,7 +10,8 @@ module.exports = grammar({
   externals: $ => [
     $.virtual_end_decl,
     $.virtual_open_section,
-    $.virtual_end_section
+    $.virtual_end_section,
+    $.minus_without_trailing_whitespace
   ],
 
   extras: $ => [
@@ -303,7 +304,7 @@ module.exports = grammar({
     _atom: $ =>
       choice(
         $._literal_expr_group,
-        // $.negate_expr,
+        $.negate_expr,
         $.field_access_expr,
         $.value_expr,
         $.field_accessor_function_expr,
@@ -333,7 +334,7 @@ module.exports = grammar({
         )
       ),
 
-    // negate_expr: $ => seq("-", $._atom), // todo disallow whitespace
+    negate_expr: $ => seq("-", $._atom), // todo disallow whitespace
 
     parenthesized_expr: $ =>
       seq($.left_parenthesis, $._expression, $.right_parenthesis),

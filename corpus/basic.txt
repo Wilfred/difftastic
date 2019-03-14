@@ -1,4 +1,26 @@
 =====================================
+Negate
+=====================================
+
+negate n =
+  -n
+
+---
+(file 
+        (value_declaration
+                (function_declaration_left
+                        (lower_case_identifier)
+                        (lower_pattern (lower_case_identifier))
+                )
+                (eq)
+                (negate_expr 
+                        (operator_identifier)
+                        (value_expr (value_qid (lower_case_identifier)))
+                )
+        )
+        (virtual_end_decl)
+)
+=====================================
 Chars
 =====================================
 

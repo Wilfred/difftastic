@@ -1127,6 +1127,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "negate_expr"
+        },
+        {
+          "type": "SYMBOL",
           "name": "field_access_expr"
         },
         {
@@ -1241,6 +1245,19 @@
           }
         ]
       }
+    },
+    "negate_expr": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "-"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_atom"
+        }
+      ]
     },
     "parenthesized_expr": {
       "type": "SEQ",
