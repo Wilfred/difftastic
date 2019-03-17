@@ -1250,8 +1250,13 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "STRING",
-          "value": "-"
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "minus_without_trailing_whitespace"
+          },
+          "named": true,
+          "value": "operator_identifier"
         },
         {
           "type": "SYMBOL",
@@ -1962,7 +1967,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "lower_case_identifier"
+          "name": "lower_pattern"
         }
       ]
     },
@@ -2742,6 +2747,10 @@
     {
       "type": "SYMBOL",
       "name": "virtual_end_section"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "minus_without_trailing_whitespace"
     }
   ],
   "inline": []

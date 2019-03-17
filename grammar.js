@@ -334,7 +334,11 @@ module.exports = grammar({
         )
       ),
 
-    negate_expr: $ => seq("-", $._atom), // todo disallow whitespace
+    negate_expr: $ =>
+      seq(
+        alias($.minus_without_trailing_whitespace, $.operator_identifier),
+        $._atom
+      ), // todo disallow whitespace
 
     parenthesized_expr: $ =>
       seq($.left_parenthesis, $._expression, $.right_parenthesis),
@@ -469,7 +473,7 @@ module.exports = grammar({
     pattern: $ =>
       seq(choice($.cons_pattern, $._single_pattern), optional($.pattern_as)),
 
-    pattern_as: $ => seq($.as, $.lower_case_identifier),
+    pattern_as: $ => seq($.as, $.lower_pattern),
 
     cons_pattern: $ =>
       seq($._single_pattern, repeat1(seq("::", $._single_pattern))),

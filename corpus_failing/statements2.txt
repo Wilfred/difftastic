@@ -62,3 +62,67 @@ problemsByScreenId problems =
   )
 )
 )
+
+
+=====================================
+Function statement with nested case
+=====================================
+
+balance =
+    case right of
+        y ->
+            case left of
+                c ->
+                    a
+
+        _ ->
+            x
+
+---
+
+(file 
+    (value_declaration 
+        (function_declaration_left (lower_case_identifier)) 
+        (eq) 
+        (case_of_expr 
+            (case) 
+            (value_expr (value_qid (lower_case_identifier))) 
+            (of) 
+            (virtual_open_section) 
+            (case_of_branch 
+                (pattern (lower_pattern (lower_case_identifier))) 
+                (arrow) 
+                (case_of_expr 
+                    (case) 
+                    (value_expr (value_qid (lower_case_identifier))) 
+                    (of) 
+                    (virtual_open_section) 
+                    (case_of_branch 
+                        (pattern (lower_pattern (lower_case_identifier))) 
+                        (arrow) 
+                        (case_of_expr 
+                            (case)
+                            (value_expr)
+                            (value_qid (lower_case_identifier))
+                            (of)
+                            (virtual_open_section)
+                            (case_of_branch
+                                (pattern (lower_pattern (lower_case_identifier)))
+                                (arrow)
+                                (value_expr (value_qid (lower_case_identifier)))
+                            )
+                        )
+                    ) 
+                    (virtual_end_decl) 
+                    (case_of_branch 
+                        (pattern (anything_pattern (underscore))) 
+                        (arrow) 
+                        (value_expr (value_qid (lower_case_identifier)))
+                    ) 
+                    (virtual_end_section)
+                )
+            )
+        )
+    ) 
+    (virtual_end_decl)
+)

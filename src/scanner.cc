@@ -15,7 +15,8 @@ enum TokenType
 {
     VIRTUAL_END_DECL,
     VIRTUAL_OPEN_SECTION,
-    VIRTUAL_END_SECTION
+    VIRTUAL_END_SECTION,
+    MINUS_WITHOUT_TRAILING_WHITESPACE
 };
 
 struct Scanner
@@ -181,6 +182,26 @@ struct Scanner
             {
                 indent_length_stack.pop_back();
                 lexer->result_symbol = VIRTUAL_END_SECTION;
+                return true;
+            }
+        }
+
+        if (valid_symbols[MINUS_WITHOUT_TRAILING_WHITESPACE] && lexer->lookahead == '-')
+        {
+            skip(lexer);
+            if (lexer->lookahead != ' ' &&
+                lexer->lookahead != '0' &&
+                lexer->lookahead != '1' &&
+                lexer->lookahead != '2' &&
+                lexer->lookahead != '3' &&
+                lexer->lookahead != '4' &&
+                lexer->lookahead != '5' &&
+                lexer->lookahead != '6' &&
+                lexer->lookahead != '7' &&
+                lexer->lookahead != '8' &&
+                lexer->lookahead != '9')
+            {
+                lexer->result_symbol = MINUS_WITHOUT_TRAILING_WHITESPACE;
                 return true;
             }
         }
