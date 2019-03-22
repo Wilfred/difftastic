@@ -148,7 +148,10 @@ module.exports = grammar({
 
     attrs: $ => repeat1(choice($.string_attr, $.attr)),
 
-    string_attr: $ => /"[^"]*"/,
+    string_attr: $ => choice(
+      seq('"', $.string_parts, '"'),
+      seq('${', $.expr, '}'),
+    ),
 
     attr: $ => (
       $.id,
