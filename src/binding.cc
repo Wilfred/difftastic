@@ -19,7 +19,7 @@ void Init(Handle<Object> exports, Handle<Object> module) {
   Local<Object> instance = constructor->NewInstance(Nan::GetCurrentContext()).ToLocalChecked();
   Nan::SetInternalFieldPointer(instance, 0, tree_sitter_nix());
 
-  instance->Set(Nan::New("name").ToLocalChecked(), Nan::New("the_language_name").ToLocalChecked());
+  instance->Set(Nan::New("name").ToLocalChecked(), Nan::New("nix").ToLocalChecked());
   module->Set(Nan::New("exports").ToLocalChecked(), instance);
 }
 
