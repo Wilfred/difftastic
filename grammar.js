@@ -141,6 +141,7 @@ module.exports = grammar({
       $.hpath,
       $.spath,
       $.uri,
+      seq('(', $._expr, ')'),
       $.attrset,
       $.let_attrset,
       $.rec_attrset,

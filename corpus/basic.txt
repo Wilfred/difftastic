@@ -319,3 +319,14 @@ square 2 + -pi - 42.0
             (app (identifier) (integer))
             (unary (identifier)))
         (float)))
+
+====================
+parens
+====================
+
+(123)
+
+---
+
+(expression
+    (integer))
