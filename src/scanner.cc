@@ -111,6 +111,9 @@ struct Scanner {
               // accept anything following the '\\'
               advance(lexer);
               has_content = true;
+            } else if (lexer->lookahead == '$') {
+              advance(lexer);
+              has_content = true;
             } else {
               if (has_content) {
                 return true;

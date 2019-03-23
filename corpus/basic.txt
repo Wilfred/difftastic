@@ -85,6 +85,7 @@ This is just a couple of quotes: '''
 A lone $ doesn't throw things off.
 And of course, ''\${this shouldn't be an interpolation}.
 But ${this} is.
+This works, too:  ''$
 ''
 
 ---
