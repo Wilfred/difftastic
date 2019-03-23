@@ -70,7 +70,6 @@ struct Scanner {
           break;
         case '\0':
           if (is_eof(lexer)) {
-            // TODO: should we treat EOF as failure?
             return false;
           }
           has_content = true;
@@ -86,7 +85,6 @@ struct Scanner {
   bool scan_ind_str(TSLexer *lexer) {
     bool has_content = false;
     lexer->result_symbol = IND_STR_CONTENT;
-
     while (true) {
       switch (lexer->lookahead) {
         case '$':
@@ -127,7 +125,6 @@ struct Scanner {
           break;
         case '\0':
           if (is_eof(lexer)) {
-            // TODO: should we treat EOF as failure?
             return false;
           }
           has_content = true;
@@ -148,6 +145,8 @@ struct Scanner {
 
   // TODO: handle EOF in loops
   bool scan(TSLexer *lexer, const bool *valid_symbols) {
+    fprintf(stderr, "SCANNING - char: %c\n", lexer->lookahead);
+
     if (valid_symbols[STR_CONTENT]) {
       return scan_str(lexer);
     } else if (valid_symbols[IND_STR_CONTENT]) {

@@ -31,138 +31,164 @@ module.exports = grammar({
   ],
 
   externals: $ => [
-    $.str_content,
-    $.ind_str_content,
+    $._str_content,
+    $._ind_str_content,
   ],
 
-  word: $ => $.id,
+  word: $ => $.identifier,
 
   conflicts: $ => [
     [$.attrpath, $.attrs],
   ],
 
   rules: {
-    expr: $ => $.expr_function,
+    expression: $ => $._expr,
+    _expr: $ => $._expr_function,
 
-    id: $ => /[a-zA-Z_][a-zA-Z0-9_\'\-]*/,
-    int: $ => /[0-9]+/,
+    identifier: $ => /[a-zA-Z_][a-zA-Z0-9_\'\-]*/,
+    integer: $ => /[0-9]+/,
     float: $ => /(([1-9][0-9]*\.[0-9]*)|(0?\.[0-9]+))([Ee][+-]?[0-9]+)?/,
     path: $ => /[a-zA-Z0-9\._\-\+]*(\/[a-zA-Z0-9\._\-\+]+)+\/?/,
     hpath: $ => /\~(\/[a-zA-Z0-9\._\-\+]+)+\/?/,
     spath: $ => /<[a-zA-Z0-9\._\-\+]+(\/[a-zA-Z0-9\._\-\+]+)*>/,
     uri: $ => /[a-zA-Z][a-zA-Z0-9\+\-\.]*:[a-zA-Z0-9%\/\?:@\&=\+\$,\-_\.\!\~\*\']+/,
 
-    expr_function: $ => choice(
-      seq($.id, ':', $.expr_function),
-      seq('{', optional($.formals), '}', ":", $.expr_function),
-      seq('{', optional($.formals), '}', '@', $.id, ':', $.expr_function),
-      seq($.id, '@', '{', optional($.formals), '}', ':', $.expr_function),
-      seq('assert', $.expr, ';', $.expr_function),
-      seq('with', $.expr, ';', $.expr_function),
-      seq('let', optional($.binds), 'in', $.expr_function),
-      $.expr_if
+    _expr_function: $ => choice(
+      $.function,
+      $.assert,
+      $.with,
+      $.let,
+      $._expr_if
     ),
 
-    expr_if: $ => choice(
-      seq('if', $.expr, 'then', $.expr, 'else', $.expr),
-      $.expr_op
+    function: $ => choice(
+      seq($.identifier, ':', $._expr_function),
+      seq('{', optional($.formals), '}', ":", $._expr_function),
+      seq('{', optional($.formals), '}', '@', $.identifier, ':', $._expr_function),
+      seq($.identifier, '@', '{', optional($.formals), '}', ':', $._expr_function),
     ),
 
-    expr_op: $ => choice(
-      prec.left(PREC.not, seq('!', $.expr_op)),
-      prec.left(PREC.negate, seq('-', $.expr_op)),
-      prec.left(PREC.eq, seq($.expr_op, '==', $.expr_op)),
-      prec.left(PREC.neq, seq($.expr_op, '!=', $.expr_op)),
-      prec.left(PREC['<'], seq($.expr_op, '<', $.expr_op)),
-      prec.left(PREC.leq, seq($.expr_op, '<=', $.expr_op)),
-      prec.left(PREC['>'], seq($.expr_op, '>', $.expr_op)),
-      prec.left(PREC.geq, seq($.expr_op, '>=', $.expr_op)),
-      prec.left(PREC.and, seq($.expr_op, '&&', $.expr_op)),
-      prec.left(PREC.or, seq($.expr_op, '||', $.expr_op)),
-      prec.left(PREC.impl, seq($.expr_op, '->', $.expr_op)),
-      prec.right(PREC.update, seq($.expr_op, '//', $.expr_op)),
-      prec.left(PREC['?'], seq($.expr_op, '?', $.expr_op)),
-      prec.left(PREC['+'], seq($.expr_op, '+', $.expr_op)),
-      prec.left(PREC['-'], seq($.expr_op, '-', $.expr_op)),
-      prec.left(PREC['*'], seq($.expr_op, '*', $.expr_op)),
-      prec.left(PREC['/'], seq($.expr_op, '/', $.expr_op)),
-      prec.right(PREC.concat, seq($.expr_op, '++', $.expr_op)),
-      $.expr_app
+    formals: $ => commaSep1(choice($.formal, $.ellipses)),
+    formal: $ => seq($.identifier, optional(seq('?', $._expr))),
+    ellipses: $ => '...',
+
+    assert: $ => seq('assert', $._expr, ';', $._expr_function),
+    with: $ => seq('with', $._expr, ';', $._expr_function),
+    let: $ => seq('let', optional($.binds), 'in', $._expr_function),
+
+    _expr_if: $ => choice(
+      $.if,
+      $._expr_op
     ),
 
-    expr_app: $ => choice(
-      (seq($.expr_app, $.expr_select)),
-      $.expr_select
+    if: $ => seq('if', $._expr, 'then', $._expr, 'else', $._expr),
+
+    _expr_op: $ => choice(
+      $.unary,
+      $.binary,
+      $._expr_app
     ),
 
-    expr_select: $ => choice(
-      seq($.expr_simple, '.', $.attrpath),
-      seq($.expr_simple, '.', $.attrpath, 'or', $.expr_select),
-      $.expr_simple
+    unary: $ => choice(
+      prec(PREC.not, seq('!', $._expr_op)),
+      prec(PREC.negate, seq('-', $._expr_op)),
+
     ),
 
-    expr_simple: $ => choice(
-      $.id,
-      $.int,
+    binary: $ => choice(
+      prec.left(PREC.eq, seq($._expr_op, '==', $._expr_op)),
+      prec.left(PREC.neq, seq($._expr_op, '!=', $._expr_op)),
+      prec.left(PREC['<'], seq($._expr_op, '<', $._expr_op)),
+      prec.left(PREC.leq, seq($._expr_op, '<=', $._expr_op)),
+      prec.left(PREC['>'], seq($._expr_op, '>', $._expr_op)),
+      prec.left(PREC.geq, seq($._expr_op, '>=', $._expr_op)),
+      prec.left(PREC.and, seq($._expr_op, '&&', $._expr_op)),
+      prec.left(PREC.or, seq($._expr_op, '||', $._expr_op)),
+      prec.left(PREC.impl, seq($._expr_op, '->', $._expr_op)),
+      prec.right(PREC.update, seq($._expr_op, '//', $._expr_op)),
+      prec.left(PREC['?'], seq($._expr_op, '?', $._expr_op)),
+      prec.left(PREC['+'], seq($._expr_op, '+', $._expr_op)),
+      prec.left(PREC['-'], seq($._expr_op, '-', $._expr_op)),
+      prec.left(PREC['*'], seq($._expr_op, '*', $._expr_op)),
+      prec.left(PREC['/'], seq($._expr_op, '/', $._expr_op)),
+      prec.right(PREC.concat, seq($._expr_op, '++', $._expr_op)),
+    ),
+
+    _expr_app: $ => choice(
+      $.app,
+      $._expr_select
+    ),
+
+    app: $ => (seq($._expr_app, $._expr_select)),
+
+    _expr_select: $ => choice(
+      $.select,
+      $._expr_simple
+    ),
+
+    select: $ => choice(
+      seq($._expr_simple, '.', $.attrpath),
+      seq($._expr_simple, '.', $.attrpath, 'or', $._expr_select),
+    ),
+
+    _expr_simple: $ => choice(
+      $.identifier,
+      $.integer,
       $.float,
-      seq('"', optional($.string_parts), '"'),
-      seq("''", optional($.ind_string_parts), "''"),
+      $.string,
+      $.indented_string,
       $.path,
       $.hpath,
       $.spath,
       $.uri,
-      seq('(', $.expr, ')'),
-      seq('let', '{', optional($.binds), '}'),
-      seq('rec', '{', optional($.binds), '}'),
-      seq('{', optional($.binds), '}'),
-      $.expr_list
+      $.attr_set,
+      $.let_attr_set,
+      $.rec_attr_set,
+      $.list
     ),
 
-    string_parts: $ => repeat1(
+    attr_set: $ => seq('{', optional($._binds), '}'),
+    let_attr_set: $ => seq('let', '{', optional($._binds), '}'),
+    rec_attr_set: $ => seq('rec', '{', optional($._binds), '}'),
+
+    string: $ => seq('"', optional($._string_parts), '"'),
+    indented_string: $ => seq("''", optional($._ind_string_parts), "''"),
+
+    _string_parts: $ => repeat1(
       choice(
-        $.str_content,
-        seq('${', $.expr, "}")
+        $._str_content,
+        $.interpolation
       )
     ),
 
-    ind_string_parts: $ => repeat1(
+    _ind_string_parts: $ => repeat1(
       choice(
-        $.ind_str_content,
-        seq('${', $.expr, "}")
+        $._ind_str_content,
+        $.interpolation
       )
     ),
 
-    binds: $ => repeat1(
-      choice(
-        seq("inherit", $.attrpath, $.attrs, ';'),
-        seq("inherit", $.attrs, ';'),
-        seq("inherit", '(', $.expr, ')', $.attrs, ';'),
-      ),
+    binds: $ => $._binds,
+    _binds: $ => repeat1(choice($.bind, $.inherit)),
+    bind: $ => seq($.attrpath, '=', $._expr, ';'),
+    inherit: $ => choice(
+      seq("inherit", $.attrs, ';'),
+      seq("inherit", '(', $._expr, ')', $.attrs, ';'),
     ),
 
-    attrpath: $ => choice(
-      seq($.attrpath, '.', choice($.attr, $.string_attr)),
-      $.attr,
-      $.string_attr
+    attrpath: $ => sep1($._attr, "."),
+
+    attrs: $ => repeat1($._attr),
+
+    _attr: $ => choice(
+      $.identifier,
+      $.string,
+      $.interpolation,
     ),
 
-    attrs: $ => repeat1(choice($.string_attr, $.attr)),
+    interpolation: $ => seq('${', $._expr, '}'),
 
-    string_attr: $ => choice(
-      seq('"', $.string_parts, '"'),
-      seq('${', $.expr, '}'),
-    ),
-
-    attr: $ => (
-      $.id,
-      'or'
-    ),
-
-    expr_list: $ => seq('[', repeat($.expr_select), ']'),
-
-    formals: $ => commaSep1(choice($.formal, '...')),
-
-    formal: $ => seq($.id, optional(seq('?', $.expr))),
+    list: $ => seq('[', repeat($._expr_select), ']'),
 
     comment: $ => token(choice(
       seq('#', /.*/),
