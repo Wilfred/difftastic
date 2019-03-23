@@ -141,15 +141,15 @@ module.exports = grammar({
       $.hpath,
       $.spath,
       $.uri,
-      $.attr_set,
-      $.let_attr_set,
-      $.rec_attr_set,
+      $.attrset,
+      $.let_attrset,
+      $.rec_attrset,
       $.list
     ),
 
-    attr_set: $ => seq('{', optional($._binds), '}'),
-    let_attr_set: $ => seq('let', '{', optional($._binds), '}'),
-    rec_attr_set: $ => seq('rec', '{', optional($._binds), '}'),
+    attrset: $ => seq('{', optional($._binds), '}'),
+    let_attrset: $ => seq('let', '{', optional($._binds), '}'),
+    rec_attrset: $ => seq('rec', '{', optional($._binds), '}'),
 
     string: $ => seq('"', optional($._string_parts), '"'),
     indented_string: $ => seq("''", optional($._ind_string_parts), "''"),

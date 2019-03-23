@@ -145,8 +145,6 @@ struct Scanner {
 
   // TODO: handle EOF in loops
   bool scan(TSLexer *lexer, const bool *valid_symbols) {
-    fprintf(stderr, "SCANNING - char: %c\n", lexer->lookahead);
-
     if (valid_symbols[STR_CONTENT]) {
       return scan_str(lexer);
     } else if (valid_symbols[IND_STR_CONTENT]) {

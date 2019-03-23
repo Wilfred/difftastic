@@ -1,0 +1,321 @@
+====================
+comments
+====================
+
+# This is a comment.
+
+/*
+This is also a comment.
+*/
+
+---
+
+(expression (comment) (comment) (MISSING))
+
+====================
+identifier
+====================
+
+abc
+
+---
+
+(expression (identifier))
+
+====================
+integer
+====================
+
+123
+
+---
+
+(expression (integer))
+
+====================
+float
+====================
+
+123.456
+
+---
+
+(expression (float))
+
+====================
+string
+====================
+
+"abcdef"
+
+---
+
+(expression (string))
+
+====================
+string (complex)
+====================
+
+"${bob} likes crisp $ bills. \${don't interpolate here!}"
+
+---
+
+(expression (string (interpolation (identifier))))
+
+====================
+indented string
+====================
+
+''
+abc
+def
+ghi
+''
+
+---
+
+(expression (indented_string))
+
+====================
+indented string (complex)
+====================
+
+''
+This is just a couple of quotes: '''
+A lone $ doesn't throw things off.
+And of course, ''\${this shouldn't be an interpolation}.
+But ${this} is.
+''
+
+---
+
+(expression (indented_string (interpolation (identifier))))
+
+====================
+uri
+====================
+
+http://foobar.com:80?baz=quux&blarg=etc
+
+---
+
+(expression (uri))
+
+====================
+list (empty)
+====================
+
+[ ]
+
+---
+
+(expression (list))
+
+====================
+list
+====================
+
+[ a 1 2.0 ]
+
+---
+
+(expression (list (identifier) (integer) (float)))
+
+====================
+if
+====================
+
+if a then b else c
+
+---
+
+(expression (if (identifier) (identifier) (identifier)))
+
+====================
+assert
+====================
+
+assert a; b
+
+---
+
+(expression (assert (identifier) (identifier)))
+
+====================
+with
+====================
+
+with a; b
+
+---
+
+(expression (with (identifier) (identifier)))
+
+====================
+let (empty)
+====================
+
+let in a
+
+---
+
+(expression (let (identifier)))
+
+====================
+let (bind)
+====================
+
+let a = b; in c
+
+---
+
+(expression (let (binds (bind (attrpath (identifier)) (identifier))) (identifier)))
+
+====================
+let (inherit)
+====================
+
+let inherit a; in c
+
+---
+
+(expression
+    (let
+        (binds
+            (inherit
+                (attrs (identifier))))
+        (identifier)))
+
+====================
+let (inherit from)
+====================
+
+let inherit (a) b "c" ${d}; in 123
+
+---
+
+(expression
+    (let
+        (binds
+            (inherit
+                (identifier)
+                (attrs (identifier) (string) (interpolation (identifier)))))
+        (integer)))
+
+====================
+function
+====================
+
+a: b
+
+---
+
+(expression (function (identifier) (identifier)))
+
+====================
+function (with formals)
+====================
+
+a@{ b, c ? 123, ... }: 1.234
+
+---
+
+(expression
+    (function
+        (identifier)
+        (formals
+            (formal (identifier))
+            (formal (identifier) (integer))
+            (ellipses))
+        (float)))
+
+====================
+rec. attrset (empty)
+====================
+
+rec { }
+
+---
+
+(expression (rec_attrset))
+
+====================
+let attrset (empty)
+====================
+
+let { }
+
+---
+
+(expression (let_attrset))
+
+====================
+attrset (empty)
+====================
+
+{ }
+
+---
+
+(expression (attrset))
+
+====================
+attr set
+====================
+
+{ a = 1; ${b} = "quux"; "c" = 3.14; x.y.z = <foo>; }
+
+---
+
+(expression
+    (attrset
+        (bind (attrpath (identifier)) (integer))
+        (bind (attrpath (interpolation (identifier))) (string))
+        (bind (attrpath (string)) (float))
+        (bind (attrpath (identifier) (identifier) (identifier)) (spath))))
+
+====================
+select
+====================
+
+u.v.${w}."x${y}z"
+
+---
+
+(expression
+    (select
+        (identifier)
+        (attrpath
+            (identifier)
+            (interpolation (identifier))
+            (string (interpolation (identifier))))))
+
+====================
+application
+====================
+
+a 1 2.0
+
+---
+
+(expression
+    (app
+        (app
+            (identifier)
+            (integer))
+        (float)))
+
+====================
+operators
+====================
+
+square 2 + -pi - 42.0
+
+---
+
+(expression
+    (binary
+        (binary
+            (app (identifier) (integer))
+            (unary (identifier)))
+        (float)))

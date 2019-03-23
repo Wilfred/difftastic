@@ -914,15 +914,15 @@
         },
         {
           "type": "SYMBOL",
-          "name": "attr_set"
+          "name": "attrset"
         },
         {
           "type": "SYMBOL",
-          "name": "let_attr_set"
+          "name": "let_attrset"
         },
         {
           "type": "SYMBOL",
-          "name": "rec_attr_set"
+          "name": "rec_attrset"
         },
         {
           "type": "SYMBOL",
@@ -930,7 +930,7 @@
         }
       ]
     },
-    "attr_set": {
+    "attrset": {
       "type": "SEQ",
       "members": [
         {
@@ -955,7 +955,7 @@
         }
       ]
     },
-    "let_attr_set": {
+    "let_attrset": {
       "type": "SEQ",
       "members": [
         {
@@ -984,7 +984,7 @@
         }
       ]
     },
-    "rec_attr_set": {
+    "rec_attrset": {
       "type": "SEQ",
       "members": [
         {
