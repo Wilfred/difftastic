@@ -104,7 +104,7 @@ module.exports = grammar({
       prec.left(PREC.geq, seq($._expr_op, '>=', $._expr_op)),
       prec.left(PREC.and, seq($._expr_op, '&&', $._expr_op)),
       prec.left(PREC.or, seq($._expr_op, '||', $._expr_op)),
-      prec.left(PREC.impl, seq($._expr_op, '->', $._expr_op)),
+      prec.right(PREC.impl, seq($._expr_op, '->', $._expr_op)),
       prec.right(PREC.update, seq($._expr_op, '//', $._expr_op)),
       prec.left(PREC['?'], seq($._expr_op, '?', $._expr_op)),
       prec.left(PREC['+'], seq($._expr_op, '+', $._expr_op)),
