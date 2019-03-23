@@ -143,7 +143,6 @@ struct Scanner {
     return lexer->get_column(lexer) <= column;
   }
 
-  // TODO: handle EOF in loops
   bool scan(TSLexer *lexer, const bool *valid_symbols) {
     if (valid_symbols[STR_CONTENT]) {
       return scan_str(lexer);
