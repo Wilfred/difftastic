@@ -199,7 +199,9 @@ struct Scanner
                 lexer->lookahead != '6' &&
                 lexer->lookahead != '7' &&
                 lexer->lookahead != '8' &&
-                lexer->lookahead != '9')
+                lexer->lookahead != '9' &&
+                lexer->lookahead != '-' &&
+                lexer->lookahead != '>')
             {
                 lexer->result_symbol = MINUS_WITHOUT_TRAILING_WHITESPACE;
                 return true;

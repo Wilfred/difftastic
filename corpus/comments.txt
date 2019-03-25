@@ -5,10 +5,12 @@ One line comments
 -- MODEL
 -- update
 -- more words
+-- note: (isOkay x || any isOkay xs) would not get TCO
 
 ---
 
 (file
+  (line_comment)
   (line_comment)
   (line_comment)
   (line_comment)

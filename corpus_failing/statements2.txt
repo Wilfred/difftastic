@@ -194,3 +194,85 @@ init session =
         )
     ) 
     (virtual_end_decl)) 
+
+
+=====================================
+One line if
+=====================================
+
+abs n =
+  if lt n 0 then -n else n
+
+---
+(file 
+        (value_declaration 
+                (function_declaration_left 
+                        (lower_case_identifier) 
+                        (lower_pattern (lower_case_identifier))
+                ) 
+                (eq) 
+                (if_else_expr 
+                        (if) 
+                        (function_call_expr 
+                                (value_expr (value_qid (lower_case_identifier))) 
+                                (value_expr (value_qid (lower_case_identifier))) 
+                                (number_constant_expr (number_literal))
+                        ) 
+                        (then) 
+                        (negate_expr 
+                                (operator_identifier)
+                                (value_expr (value_qid (lower_case_identifier)))
+                        ) 
+                        (else) 
+                        (value_expr (value_qid (lower_case_identifier)))
+                )
+        ) 
+        (virtual_end_decl)
+)
+
+
+=====================================
+Negate and negative number
+=====================================
+
+xsOpp =
+    List.range -n -1
+
+---
+(file 
+)
+
+=====================================
+Case int result
+=====================================
+
+toIntResult s =
+    case String.toInt s of
+        Just i ->
+            Ok i
+        Nothing ->
+            Err <| "could not convert string '" ++ s ++ "' to an Int"
+---
+(file 
+)
+
+=====================================
+Comment test
+=====================================
+
+        toStringTests =
+            describe "toString Tests"
+                [ test "toString Int" <| \() -> Expect.equal "42" (toString 42)
+                , test "toString Float" <| \() -> Expect.equal "42.52" (toString 42.52)
+                , test "toString Char" <| \() -> Expect.equal "'c'" (toString 'c')
+                , test "toString Char single quote" <| \() -> Expect.equal "'\\''" (toString '\'')
+                , test "toString Char double quote" <| \() -> Expect.equal "'\"'" (toString '"')
+                , test "toString String single quote" <| \() -> Expect.equal "\"not 'escaped'\"" (toString "not 'escaped'")
+                , test "toString String double quote" <| \() -> Expect.equal "\"are \\\"escaped\\\"\"" (toString "are \"escaped\"")
+                , test "toString record" <| \() -> Expect.equal "{ field = [0] }" (toString { field = [ 0 ] })
+                  -- TODO
+                  --, test "toString record, special case" <| \() -> Expect.equal "{ ctor = [0] }" (toString { ctor = [ 0 ] })
+                ]
+---
+(file 
+)
