@@ -33,12 +33,15 @@ module.exports = grammar({
   externals: $ => [
     $._str_content,
     $._ind_str_content,
+    $.escape_sequence,
+    $.ind_escape_sequence,
   ],
 
   word: $ => $.identifier,
 
   conflicts: $ => [
     [$.attrpath, $.attrs],
+    [$.formals],
   ],
 
   rules: {
@@ -63,12 +66,24 @@ module.exports = grammar({
 
     function: $ => choice(
       seq($.identifier, ':', $._expr_function),
-      seq('{', optional($.formals), '}', ":", $._expr_function),
-      seq('{', optional($.formals), '}', '@', $.identifier, ':', $._expr_function),
-      seq($.identifier, '@', '{', optional($.formals), '}', ':', $._expr_function),
+
+      seq('{', '}', ":", $._expr_function),
+      seq('{', $.formals, '}', ":", $._expr_function),
+      seq('{', $.formals, ',', $.ellipses, '}', ":", $._expr_function),
+      seq('{', $.ellipses, '}', ":", $._expr_function),
+
+      seq('{', '}', '@', $.identifier, ':', $._expr_function),
+      seq('{', $.formals, '}', '@', $.identifier, ':', $._expr_function),
+      seq('{', $.formals, ',', $.ellipses, '}', '@', $.identifier, ':', $._expr_function),
+      seq('{', $.ellipses, '}', '@', $.identifier, ':', $._expr_function),
+
+      seq($.identifier, '@', '{', '}', ':', $._expr_function),
+      seq($.identifier, '@', '{', $.formals, '}', ':', $._expr_function),
+      seq($.identifier, '@', '{', $.formals, ',', $.ellipses, '}', ':', $._expr_function),
+      seq($.identifier, '@', '{', $.ellipses, '}', ':', $._expr_function),
     ),
 
-    formals: $ => commaSep1(choice($.formal, $.ellipses)),
+    formals: $ => commaSep1($.formal),
     formal: $ => seq($.identifier, optional(seq('?', $._expr))),
     ellipses: $ => '...',
 
@@ -158,14 +173,16 @@ module.exports = grammar({
     _string_parts: $ => repeat1(
       choice(
         $._str_content,
-        $.interpolation
+        $.interpolation,
+        $.escape_sequence,
       )
     ),
 
     _ind_string_parts: $ => repeat1(
       choice(
         $._ind_str_content,
-        $.interpolation
+        $.interpolation,
+        alias($.ind_escape_sequence, $.escape_sequence),
       )
     ),
 

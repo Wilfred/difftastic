@@ -60,7 +60,10 @@ string (complex)
 
 ---
 
-(expression (string (interpolation (identifier))))
+(expression
+    (string
+        (interpolation (identifier))
+        (escape_sequence)))
 
 ====================
 indented string
@@ -90,7 +93,12 @@ This works, too:  ''$
 
 ---
 
-(expression (indented_string (interpolation (identifier))))
+(expression
+    (indented_string
+        (escape_sequence)
+        (escape_sequence)
+        (interpolation (identifier))
+        (escape_sequence)))
 
 ====================
 uri
@@ -226,8 +234,8 @@ a@{ b, c ? 123, ... }: 1.234
         (identifier)
         (formals
             (formal (identifier))
-            (formal (identifier) (integer))
-            (ellipses))
+            (formal (identifier) (integer)))
+        (ellipses)
         (float)))
 
 ====================

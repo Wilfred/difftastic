@@ -12,6 +12,8 @@ using std::string;
 enum TokenType {
   STR_CONTENT,
   IND_STR_CONTENT,
+  ESCAPE_SEQUENCE,
+  IND_ESCAPE_SEQUENCE,
 
   NONE
 };
@@ -51,11 +53,15 @@ struct Scanner {
             return false;
           }
         case '\\':
-          has_content = true;
-          advance(lexer);
-          // accept anything following the '\\'
-          advance(lexer);
-          break;
+          lexer->mark_end(lexer);
+          if (!has_content) {
+            advance(lexer);
+            // accept anything following the '\\'
+            advance(lexer);
+            lexer->result_symbol = ESCAPE_SEQUENCE;
+            lexer->mark_end(lexer);
+          }
+          return true;
         case '$':
           lexer->mark_end(lexer);
           advance(lexer);
@@ -104,16 +110,28 @@ struct Scanner {
           if (lexer->lookahead == '\'') {
             advance(lexer);
             if (lexer->lookahead == '\'') {
-              advance(lexer);
-              has_content = true;
+              if (!has_content) {
+                advance(lexer);
+                lexer->result_symbol = IND_ESCAPE_SEQUENCE;
+                lexer->mark_end(lexer);
+              }
+              return true;
             } else if (lexer->lookahead == '\\') {
-              advance(lexer);
-              // accept anything following the '\\'
-              advance(lexer);
-              has_content = true;
+              if (!has_content) {
+                advance(lexer);
+                // accept anything following the '\\'
+                advance(lexer);
+                lexer->result_symbol = IND_ESCAPE_SEQUENCE;
+                lexer->mark_end(lexer);
+              }
+              return true;
             } else if (lexer->lookahead == '$') {
-              advance(lexer);
-              has_content = true;
+              if (!has_content) {
+                advance(lexer);
+                lexer->result_symbol = IND_ESCAPE_SEQUENCE;
+                lexer->mark_end(lexer);
+              }
+              return true;
             } else {
               if (has_content) {
                 return true;
