@@ -1306,13 +1306,26 @@
           "name": "open_char"
         },
         {
-          "type": "ALIAS",
-          "content": {
-            "type": "SYMBOL",
-            "name": "regular_char"
-          },
-          "named": true,
-          "value": "regular_string_part"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "SYMBOL",
+                "name": "regular_char"
+              },
+              "named": true,
+              "value": "regular_string_part"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "string_escape"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "invalid_string_escape"
+            }
+          ]
         },
         {
           "type": "SYMBOL",

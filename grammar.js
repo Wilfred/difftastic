@@ -353,7 +353,11 @@ module.exports = grammar({
     char_constant_expr: $ =>
       seq(
         $.open_char,
-        alias($.regular_char, $.regular_string_part),
+        choice(
+          alias($.regular_char, $.regular_string_part),
+          $.string_escape,
+          $.invalid_string_escape,
+        ),
         $.close_char
       ),
 

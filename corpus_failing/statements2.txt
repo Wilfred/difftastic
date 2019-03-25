@@ -26,36 +26,36 @@ problemsByScreenId problems =
         |> groupById
 ---
 
-(file 
-(block_documentation) 
-(type_annotation (lower_case_identifier) (colon) 
-    (type_expression (type_ref (upper_case_qid (upper_case_identifier)) (type_ref (upper_case_qid (upper_case_identifier)))) 
+(file
+(block_documentation)
+(type_annotation (lower_case_identifier) (colon)
+    (type_expression (type_ref (upper_case_qid (upper_case_identifier)) (type_ref (upper_case_qid (upper_case_identifier))))
       (arrow) (type_ref (upper_case_qid (upper_case_identifier)) (type_ref (upper_case_qid (upper_case_identifier))))
     )
 )
-(value_declaration 
-  (pattern (union_pattern (upper_case_qid (upper_case_identifier))  (left_parenthesis) 
+(value_declaration
+  (pattern (union_pattern (upper_case_qid (upper_case_identifier))  (left_parenthesis)
     (pattern (union_pattern (upper_case_qid (upper_case_identifier)) (upper_case_qid (upper_case_identifier)))) (right_parenthesis)
     (lower_pattern (lower_case_identifier)) (lower_pattern (lower_case_identifier)))
-  ) (eq) 
-  
-    (let_in_expr (let) 
+  ) (eq)
+
+    (let_in_expr (let)
       (value_declaration (function_declaration_left (lower_case_identifier) (lower_pattern (lower_case_identifier))) (eq)
-       (case_of_expr (case) (value_expr (value_qid (lower_case_identifier))) (of) 
-        (case_of_branch (pattern (union_pattern (upper_case_qid (upper_case_identifier)) 
-          (left_parenthesis) (pattern (union_pattern (upper_case_qid (upper_case_identifier)) 
+       (case_of_expr (case) (value_expr (value_qid (lower_case_identifier))) (of)
+        (case_of_branch (pattern (union_pattern (upper_case_qid (upper_case_identifier))
+          (left_parenthesis) (pattern (union_pattern (upper_case_qid (upper_case_identifier))
             (lower_pattern (lower_case_identifier))
-            (lower_pattern (lower_case_identifier)))) (right_parenthesis))) (arrow) 
-          (function_call_expr (value_expr (upper_case_qid (upper_case_identifier))) 
-            (tuple_expr (left_parenthesis) (value_expr (value_qid (lower_case_identifier))) 
-            (comma) (value_expr (value_qid (lower_case_identifier))) (right_parenthesis)))) 
+            (lower_pattern (lower_case_identifier)))) (right_parenthesis))) (arrow)
+          (function_call_expr (value_expr (upper_case_qid (upper_case_identifier)))
+            (tuple_expr (left_parenthesis) (value_expr (value_qid (lower_case_identifier)))
+            (comma) (value_expr (value_qid (lower_case_identifier))) (right_parenthesis))))
         (case_of_branch (pattern (anything_pattern (underscore))) (arrow)
-          (function_call_expr (value_expr (upper_case_qid (upper_case_identifier)))) 
+          (function_call_expr (value_expr (upper_case_qid (upper_case_identifier))))
         ))
       (value_declaration (function_declaration_left (lower_case_identifier)) (eq)
-        
+
       ) (in)
-      (function_call_expr (value_expr (value_qid (upper_case_identifier) (dot) (lower_case_identifier))) (value_expr (value_qid (lower_case_identifier))) 
+      (function_call_expr (value_expr (value_qid (upper_case_identifier) (dot) (lower_case_identifier))) (value_expr (value_qid (lower_case_identifier)))
         (value_expr (value_qid (lower_case_identifier)))) (operator (operator_identifier)) (value_expr (value_qid (lower_case_identifier)))
       )
     )
@@ -80,27 +80,27 @@ balance =
 
 ---
 
-(file 
-    (value_declaration 
-        (function_declaration_left (lower_case_identifier)) 
-        (eq) 
-        (case_of_expr 
-            (case) 
-            (value_expr (value_qid (lower_case_identifier))) 
-            (of) 
-            (virtual_open_section) 
-            (case_of_branch 
-                (pattern (lower_pattern (lower_case_identifier))) 
-                (arrow) 
-                (case_of_expr 
-                    (case) 
-                    (value_expr (value_qid (lower_case_identifier))) 
-                    (of) 
-                    (virtual_open_section) 
-                    (case_of_branch 
-                        (pattern (lower_pattern (lower_case_identifier))) 
-                        (arrow) 
-                        (case_of_expr 
+(file
+    (value_declaration
+        (function_declaration_left (lower_case_identifier))
+        (eq)
+        (case_of_expr
+            (case)
+            (value_expr (value_qid (lower_case_identifier)))
+            (of)
+            (virtual_open_section)
+            (case_of_branch
+                (pattern (lower_pattern (lower_case_identifier)))
+                (arrow)
+                (case_of_expr
+                    (case)
+                    (value_expr (value_qid (lower_case_identifier)))
+                    (of)
+                    (virtual_open_section)
+                    (case_of_branch
+                        (pattern (lower_pattern (lower_case_identifier)))
+                        (arrow)
+                        (case_of_expr
                             (case)
                             (value_expr)
                             (value_qid (lower_case_identifier))
@@ -112,18 +112,18 @@ balance =
                                 (value_expr (value_qid (lower_case_identifier)))
                             )
                         )
-                    ) 
-                    (virtual_end_decl) 
-                    (case_of_branch 
-                        (pattern (anything_pattern (underscore))) 
-                        (arrow) 
+                    )
+                    (virtual_end_decl)
+                    (case_of_branch
+                        (pattern (anything_pattern (underscore)))
+                        (arrow)
                         (value_expr (value_qid (lower_case_identifier)))
-                    ) 
+                    )
                     (virtual_end_section)
                 )
             )
         )
-    ) 
+    )
     (virtual_end_decl)
 )
 
@@ -148,52 +148,52 @@ init session =
     abcd
 
 ---
-(file 
-    (value_declaration 
-        (function_declaration_left 
+(file
+    (value_declaration
+        (function_declaration_left
             (lower_case_identifier) (lower_pattern (lower_case_identifier))
-        ) 
-        (eq) 
-        (let_in_expr 
-            (let) 
-            (virtual_open_section) 
-            (value_declaration 
-                (function_declaration_left 
+        )
+        (eq)
+        (let_in_expr
+            (let)
+            (virtual_open_section)
+            (value_declaration
+                (function_declaration_left
                     (lower_case_identifier)
-                ) 
+                )
                 (eq)
-                (case_of_expr 
-                    (case) 
-                    (function_call_expr (value_expr (value_qid (upper_case_identifier) (dot) (lower_case_identifier))) (value_expr (value_qid (lower_case_identifier)))) 
-                    (of) 
-                    (virtual_open_section) 
-                    (case_of_branch 
-                        (pattern (union_pattern (upper_case_qid (upper_case_identifier)) (lower_pattern (lower_case_identifier)))) 
-                        (arrow) 
+                (case_of_expr
+                    (case)
+                    (function_call_expr (value_expr (value_qid (upper_case_identifier) (dot) (lower_case_identifier))) (value_expr (value_qid (lower_case_identifier))))
+                    (of)
+                    (virtual_open_section)
+                    (case_of_branch
+                        (pattern (union_pattern (upper_case_qid (upper_case_identifier)) (lower_pattern (lower_case_identifier))))
+                        (arrow)
                         (function_call_expr (value_expr (upper_case_qid (upper_case_identifier))) (value_expr (value_qid (lower_case_identifier))))
                     )
-                    (virtual_end_decl) 
-                    (case_of_branch 
-                        (pattern (union_pattern (upper_case_qid (upper_case_identifier)))) 
-                        (arrow) 
+                    (virtual_end_decl)
+                    (case_of_branch
+                        (pattern (union_pattern (upper_case_qid (upper_case_identifier))))
+                        (arrow)
                         (value_expr (upper_case_qid (upper_case_identifier)))
                     )
                     (virtual_end_section)
                 )
             )
-            (value_declaration 
-                (function_declaration_left (lower_case_identifier)) 
-                (eq) 
+            (value_declaration
+                (function_declaration_left (lower_case_identifier))
+                (eq)
                 (function_call_expr (value_expr (value_qid (upper_case_identifier) (dot) (lower_case_identifier))) (value_expr (value_qid (upper_case_identifier) (dot) (lower_case_identifier))))
-            ) 
-            (virtual_end_section) 
-            (in) 
-            (value_expr 
+            )
+            (virtual_end_section)
+            (in)
+            (value_expr
                 (value_qid (lower_case_identifier))
             )
         )
-    ) 
-    (virtual_end_decl)) 
+    )
+    (virtual_end_decl))
 
 
 =====================================
@@ -204,29 +204,29 @@ abs n =
   if lt n 0 then -n else n
 
 ---
-(file 
-        (value_declaration 
-                (function_declaration_left 
-                        (lower_case_identifier) 
+(file
+        (value_declaration
+                (function_declaration_left
+                        (lower_case_identifier)
                         (lower_pattern (lower_case_identifier))
-                ) 
-                (eq) 
-                (if_else_expr 
-                        (if) 
-                        (function_call_expr 
-                                (value_expr (value_qid (lower_case_identifier))) 
-                                (value_expr (value_qid (lower_case_identifier))) 
+                )
+                (eq)
+                (if_else_expr
+                        (if)
+                        (function_call_expr
+                                (value_expr (value_qid (lower_case_identifier)))
+                                (value_expr (value_qid (lower_case_identifier)))
                                 (number_constant_expr (number_literal))
-                        ) 
-                        (then) 
-                        (negate_expr 
+                        )
+                        (then)
+                        (negate_expr
                                 (operator_identifier)
                                 (value_expr (value_qid (lower_case_identifier)))
-                        ) 
-                        (else) 
+                        )
+                        (else)
                         (value_expr (value_qid (lower_case_identifier)))
                 )
-        ) 
+        )
         (virtual_end_decl)
 )
 
@@ -239,7 +239,7 @@ xsOpp =
     List.range -n -1
 
 ---
-(file 
+(file
 )
 
 =====================================
@@ -253,26 +253,5 @@ toIntResult s =
         Nothing ->
             Err <| "could not convert string '" ++ s ++ "' to an Int"
 ---
-(file 
-)
-
-=====================================
-Comment test
-=====================================
-
-        toStringTests =
-            describe "toString Tests"
-                [ test "toString Int" <| \() -> Expect.equal "42" (toString 42)
-                , test "toString Float" <| \() -> Expect.equal "42.52" (toString 42.52)
-                , test "toString Char" <| \() -> Expect.equal "'c'" (toString 'c')
-                , test "toString Char single quote" <| \() -> Expect.equal "'\\''" (toString '\'')
-                , test "toString Char double quote" <| \() -> Expect.equal "'\"'" (toString '"')
-                , test "toString String single quote" <| \() -> Expect.equal "\"not 'escaped'\"" (toString "not 'escaped'")
-                , test "toString String double quote" <| \() -> Expect.equal "\"are \\\"escaped\\\"\"" (toString "are \"escaped\"")
-                , test "toString record" <| \() -> Expect.equal "{ field = [0] }" (toString { field = [ 0 ] })
-                  -- TODO
-                  --, test "toString record, special case" <| \() -> Expect.equal "{ ctor = [0] }" (toString { ctor = [ 0 ] })
-                ]
----
-(file 
+(file
 )
