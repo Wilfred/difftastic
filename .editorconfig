@@ -12,7 +12,7 @@ trim_trailing_whitespace = false
 trim_trailing_whitespace = false
 end_of_line = unset
 
-[**.{js,json,cc}]
+[**.{js,json,cc,css}]
 indent_style = space
 indent_size = 2
 

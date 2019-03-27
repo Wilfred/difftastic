@@ -1,0 +1,124 @@
+/* Keywords */
+
+[token="assert"],
+[token="with"],
+[token="let"],
+[token="in"],
+[token="if"],
+[token="then"],
+[token="else"],
+[token="or"],
+[token="rec"],
+[token="inherit"] {
+  scope: 'keyword';
+}
+
+/* Identifiers */
+
+identifier {
+  scope: 'variable';
+}
+
+app > identifier:nth-child(0) {
+  scope: 'function';
+}
+
+/* https://github.com/tree-sitter/tree-sitter/issues/311
+app > select > attrpath > identifier:nth-last-child(-1) {
+  scope: 'function';
+}
+*/
+
+select > attrpath > identifier {
+  scope: 'property';
+}
+
+let > binds > inherit > attrs > identifier {
+  scope: 'property';
+}
+
+function > formals > formal > identifier:nth-child(0) {
+  scope: 'property';
+}
+
+/* Literals */
+
+comment {
+  scope: 'comment';
+}
+
+integer,
+float {
+    scope: 'number';
+}
+
+string,
+indented_string {
+  scope: 'string';
+}
+
+path,
+hpath,
+spath,
+uri {
+  scope: 'string.special';
+}
+
+escape_sequence {
+  scope: 'escape';
+}
+
+interpolation {
+  scope: 'embedded';
+
+  & > [token='${'],
+  & > [token='}'] {
+    scope: 'punctuation.special';
+  }
+}
+
+/** Not *actually* guaranteed to be the builtins,
+  * but close enough.
+  */
+null, true, false {
+  scope: 'constant.builtin';
+}
+
+/* Punctuation */
+
+[token="="],
+[token=":"],
+[token="..."],
+[token="=="],
+[token="!="],
+[token="<"],
+[token="<="],
+[token=">"],
+[token=">="],
+[token="&&"],
+[token="||"],
+[token="->"],
+[token="//"],
+[token="?"],
+[token="+"],
+[token="-"],
+[token="*"],
+[token="/"],
+[token="++"] {
+  scope: 'operator';
+}
+
+[token=","],
+[token="."]
+[token=";"] {
+  scope: 'punctuation.delimiter';
+}
+
+[token="["],
+[token="]"],
+[token="{"],
+[token="}"],
+[token="("],
+[token=")"] {
+  scope: 'punctuation.bracket';
+}

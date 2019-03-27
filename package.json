@@ -21,5 +21,15 @@
   },
   "devDependencies": {
     "tree-sitter-cli": "^0.14.5"
-  }
+  },
+  "tree-sitter": [
+    {
+      "scope": "source.nix",
+      "file-types": [
+        "nix"
+      ],
+      "highlights": "src/highlights.json",
+      "injection-regex": "^(nix)$"
+    }
+  ]
 }
