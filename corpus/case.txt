@@ -265,3 +265,64 @@ map4 func ma mb mc md =
     )
     (virtual_end_decl)
 )
+
+=====================================
+Case int result
+=====================================
+
+toIntResult s =
+    case String.toInt s of
+        Just i ->
+            Ok i
+        Nothing ->
+            Err <| "could not convert string '" ++ s ++ "' to an Int"
+---
+(file 
+    (value_declaration 
+        (function_declaration_left 
+            (lower_case_identifier) 
+            (lower_pattern (lower_case_identifier))
+        ) 
+        (eq) 
+        (case_of_expr 
+            (case) 
+            (function_call_expr 
+                (value_expr 
+                    (value_qid (upper_case_identifier) (dot) (lower_case_identifier))
+                ) 
+                (value_expr (value_qid (lower_case_identifier)))
+            ) 
+            (of) 
+            (virtual_open_section) 
+            (case_of_branch 
+                (pattern 
+                    (union_pattern 
+                        (upper_case_qid (upper_case_identifier)) 
+                        (lower_pattern (lower_case_identifier))
+                    )
+                ) 
+                (arrow) 
+                (function_call_expr 
+                    (value_expr (upper_case_qid (upper_case_identifier)))
+                    (value_expr (value_qid (lower_case_identifier)))
+                )
+            ) 
+            (virtual_end_decl) 
+            (case_of_branch 
+                (pattern 
+                    (union_pattern (upper_case_qid (upper_case_identifier))))
+                (arrow) 
+                (bin_op_expr 
+                    (value_expr (upper_case_qid (upper_case_identifier)))
+                    (operator (operator_identifier)) 
+                    (string_constant_expr (open_quote) (regular_string_part) (close_quote))
+                    (operator (operator_identifier)) 
+                    (value_expr (value_qid (lower_case_identifier))) 
+                    (operator (operator_identifier)) 
+                    (string_constant_expr (open_quote) (regular_string_part) (close_quote))
+                )
+            )
+        )
+    )
+    (virtual_end_decl)
+)

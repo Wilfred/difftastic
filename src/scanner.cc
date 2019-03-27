@@ -95,22 +95,7 @@ struct Scanner
                     }
                 }
             }
-            else if (valid_symbols[VIRTUAL_END_SECTION] && lexer->lookahead == ' ')
-            {
-                lexer->mark_end(lexer);
-                skip(lexer);
-                if (lexer->lookahead == 'i')
-                {
-                    skip(lexer);
-
-                    if (lexer->lookahead == 'n')
-                    {
-                        lexer->result_symbol = VIRTUAL_END_SECTION;
-                        return true;
-                    }
-                }
-            }
-
+            
             // else if (!has_let && lexer->lookahead == 'l')
             // {
             //     skip(lexer);
@@ -136,6 +121,7 @@ struct Scanner
             else if (lexer->lookahead == '\r')
             {
                 indent_length = 0;
+                has_newline = true;
                 skip(lexer);
             }
             else if (lexer->lookahead == 0)
@@ -186,27 +172,101 @@ struct Scanner
             }
         }
 
-        if (valid_symbols[MINUS_WITHOUT_TRAILING_WHITESPACE] && lexer->lookahead == '-')
-        {
-            skip(lexer);
-            if (lexer->lookahead != ' ' &&
-                lexer->lookahead != '0' &&
-                lexer->lookahead != '1' &&
-                lexer->lookahead != '2' &&
-                lexer->lookahead != '3' &&
-                lexer->lookahead != '4' &&
-                lexer->lookahead != '5' &&
-                lexer->lookahead != '6' &&
-                lexer->lookahead != '7' &&
-                lexer->lookahead != '8' &&
-                lexer->lookahead != '9' &&
-                lexer->lookahead != '-' &&
-                lexer->lookahead != '>')
+     if (valid_symbols[MINUS_WITHOUT_TRAILING_WHITESPACE] && lexer->lookahead == ' ')
             {
-                lexer->result_symbol = MINUS_WITHOUT_TRAILING_WHITESPACE;
-                return true;
+                skip(lexer);
+                if(lexer->lookahead == '-')
+                {
+                    skip(lexer);
+                    auto lookahead = lexer->lookahead;
+                    if (lookahead == 'a' ||
+                        lookahead == 'b' ||
+                        lookahead == 'c' ||
+                        lookahead == 'd' ||
+                        lookahead == 'e' ||
+                        lookahead == 'f' ||
+                        lookahead == 'g' ||
+                        lookahead == 'h' ||
+                        lookahead == 'i' ||
+                        lookahead == 'j' ||
+                        lookahead == 'k' ||
+                        lookahead == 'l' ||
+                        lookahead == 'm' ||
+                        lookahead == 'n' ||
+                        lookahead == 'o' ||
+                        lookahead == 'p' ||
+                        lookahead == 'q' ||
+                        lookahead == 'r' ||
+                        lookahead == 's' ||
+                        lookahead == 't' ||
+                        lookahead == 'u' ||
+                        lookahead == 'v' ||
+                        lookahead == 'w' ||
+                        lookahead == 'x' ||
+                        lookahead == 'y' ||
+                        lookahead == 'z')
+                    {
+                        lexer->result_symbol = MINUS_WITHOUT_TRAILING_WHITESPACE;
+                        return true;
+                    }
+                }
             }
-        }
+            else if (valid_symbols[MINUS_WITHOUT_TRAILING_WHITESPACE] && lexer->lookahead == '-')
+            {
+                skip(lexer);
+                auto lookahead = lexer->lookahead;
+                if (lookahead == 'a' ||
+                    lookahead == 'b' ||
+                    lookahead == 'c' ||
+                    lookahead == 'd' ||
+                    lookahead == 'e' ||
+                    lookahead == 'f' ||
+                    lookahead == 'g' ||
+                    lookahead == 'h' ||
+                    lookahead == 'i' ||
+                    lookahead == 'j' ||
+                    lookahead == 'k' ||
+                    lookahead == 'l' ||
+                    lookahead == 'm' ||
+                    lookahead == 'n' ||
+                    lookahead == 'o' ||
+                    lookahead == 'p' ||
+                    lookahead == 'q' ||
+                    lookahead == 'r' ||
+                    lookahead == 's' ||
+                    lookahead == 't' ||
+                    lookahead == 'u' ||
+                    lookahead == 'v' ||
+                    lookahead == 'w' ||
+                    lookahead == 'x' ||
+                    lookahead == 'y' ||
+                    lookahead == 'z')
+                {
+                    lexer->result_symbol = MINUS_WITHOUT_TRAILING_WHITESPACE;
+                    return true;
+                }
+            }
+
+
+            if (valid_symbols[VIRTUAL_END_SECTION] && lexer->lookahead == ' ')
+            {
+                lexer->mark_end(lexer);
+                skip(lexer);
+                if (lexer->lookahead == 'i')
+                {
+                    skip(lexer);
+
+                    if (lexer->lookahead == 'n')
+                    {
+                        skip(lexer);
+                    if (lexer->lookahead == ' ' || lexer->lookahead == '\r' || lexer->lookahead == '\n')
+                    {
+                        lexer->result_symbol = VIRTUAL_END_SECTION;
+                        return true;
+                    }
+                    }
+                }
+            }
 
         return false;
     }

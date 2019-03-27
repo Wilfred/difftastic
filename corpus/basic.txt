@@ -20,6 +20,40 @@ negate n =
         )
         (virtual_end_decl)
 )
+
+
+=====================================
+Negate and negative number
+=====================================
+
+xsOpp =
+    List.range -n -1
+
+---
+(file 
+        (value_declaration 
+                (function_declaration_left 
+                        (lower_case_identifier)
+                ) 
+                (eq) 
+                (function_call_expr 
+                        (value_expr 
+                                (value_qid 
+                                        (upper_case_identifier) 
+                                        (dot) 
+                                        (lower_case_identifier)
+                                )
+                        ) 
+                        (negate_expr
+                                (operator_identifier)
+                                (value_expr (value_qid (lower_case_identifier)))
+                        )
+                        (number_constant_expr (number_literal))
+                )
+        ) 
+        (virtual_end_decl)
+) 
+
 =====================================
 Char Escaped
 =====================================
@@ -742,3 +776,38 @@ isUpper char =
         )
         (virtual_end_decl)
 )
+
+=====================================
+One line if
+=====================================
+
+abs n =
+  if lt n 0 then -n else n
+
+---
+(file
+        (value_declaration
+                (function_declaration_left
+                        (lower_case_identifier)
+                        (lower_pattern (lower_case_identifier))
+                )
+                (eq)
+                (if_else_expr
+                        (if)
+                        (function_call_expr
+                                (value_expr (value_qid (lower_case_identifier)))
+                                (value_expr (value_qid (lower_case_identifier)))
+                                (number_constant_expr (number_literal))
+                        )
+                        (then)
+                        (negate_expr
+                                (operator_identifier)
+                                (value_expr (value_qid (lower_case_identifier)))
+                        )
+                        (else)
+                        (value_expr (value_qid (lower_case_identifier)))
+                )
+        )
+        (virtual_end_decl)
+)
+
