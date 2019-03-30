@@ -1,7 +1,17 @@
-toIntResult s =
-    case String.toInt s of
-        Just i ->
-            Ok i
+module Main exposing (init)
 
-        Nothing ->
-            Err <| "could not convert string '" ++ s ++ "' to an Int"
+
+init session =
+    let
+        feedTab =
+            case Session.cred session of
+                Just cred ->
+                    YourFeed cred
+
+                Nothing ->
+                    GlobalFeed
+
+        loadTags =
+            Http.toTask Tag.list
+    in
+    abcd

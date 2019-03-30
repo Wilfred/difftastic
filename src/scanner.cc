@@ -19,6 +19,12 @@ enum TokenType
     MINUS_WITHOUT_TRAILING_WHITESPACE
 };
 
+enum ClosingToken
+{
+    END_DECL = 1 << 0,
+    END_SECTION = 1 << 1,
+};
+
 struct Scanner
 {
     Scanner() {}
@@ -26,6 +32,14 @@ struct Scanner
     unsigned serialize(char *buffer)
     {
         size_t i = 0;
+
+        size_t stack_size = runback.size();
+        if (stack_size > UINT8_MAX)
+            stack_size = UINT8_MAX;
+        buffer[i++] = stack_size;
+
+        memcpy(&buffer[i], runback.data(), stack_size);
+        i += stack_size;
 
         vector<uint16_t>::iterator
             iter = indent_length_stack.begin() + 1,
@@ -43,6 +57,7 @@ struct Scanner
 
     void deserialize(const char *buffer, unsigned length)
     {
+        runback.clear();
         indent_length_stack.clear();
         indent_length_stack.push_back(0);
 
@@ -50,6 +65,10 @@ struct Scanner
         {
             size_t i = 0;
 
+            size_t runback_count = (uint8_t)buffer[i++];
+            runback.resize(runback_count);
+            memcpy(runback.data(), &buffer[i], runback_count);
+            i += runback_count;
             for (; i < length; i++)
             {
                 indent_length_stack.push_back(buffer[i]);
@@ -72,6 +91,19 @@ struct Scanner
 
     bool scan(TSLexer *lexer, const bool *valid_symbols)
     {
+        if (!runback.empty() && runback.back() == END_DECL && valid_symbols[VIRTUAL_END_DECL])
+        {
+            runback.pop_back();
+            lexer->result_symbol = VIRTUAL_END_DECL;
+            return true;
+        }
+        if (!runback.empty() && runback.back() == END_SECTION && valid_symbols[VIRTUAL_END_SECTION])
+        {
+            runback.pop_back();
+            lexer->result_symbol = VIRTUAL_END_SECTION;
+            return true;
+        }
+
         bool has_newline = false;
         uint32_t previous_indent_length = indent_length;
 
@@ -95,7 +127,7 @@ struct Scanner
                     }
                 }
             }
-            
+
             // else if (!has_let && lexer->lookahead == 'l')
             // {
             //     skip(lexer);
@@ -159,59 +191,45 @@ struct Scanner
 
         else if (has_newline)
         {
-            if ((indent_length == previous_line_length || indent_length == 0) && valid_symbols[VIRTUAL_END_DECL])
+            while (indent_length <= indent_length_stack.back())
             {
+                if (indent_length == 0) // No idea why
+                {
+                    runback.push_back(END_DECL);
+                    break;
+                }
+                else if (indent_length == indent_length_stack.back())
+                {
+                    runback.push_back(END_DECL);
+                    break;
+                }
+                else if (indent_length < indent_length_stack.back())
+                {
+                    indent_length_stack.pop_back();
+                    runback.push_back(END_SECTION);
+                }
+            }
+
+            std::reverse(runback.begin(), runback.end());
+
+            if (runback.back() == END_DECL && valid_symbols[VIRTUAL_END_DECL])
+            {
+                runback.pop_back();
                 lexer->result_symbol = VIRTUAL_END_DECL;
                 return true;
             }
-            if (indent_length < previous_line_length && valid_symbols[VIRTUAL_END_SECTION])
+            else if (runback.back() == END_SECTION && valid_symbols[VIRTUAL_END_SECTION])
             {
-                indent_length_stack.pop_back();
+                runback.pop_back();
                 lexer->result_symbol = VIRTUAL_END_SECTION;
                 return true;
             }
         }
 
-     if (valid_symbols[MINUS_WITHOUT_TRAILING_WHITESPACE] && lexer->lookahead == ' ')
-            {
-                skip(lexer);
-                if(lexer->lookahead == '-')
-                {
-                    skip(lexer);
-                    auto lookahead = lexer->lookahead;
-                    if (lookahead == 'a' ||
-                        lookahead == 'b' ||
-                        lookahead == 'c' ||
-                        lookahead == 'd' ||
-                        lookahead == 'e' ||
-                        lookahead == 'f' ||
-                        lookahead == 'g' ||
-                        lookahead == 'h' ||
-                        lookahead == 'i' ||
-                        lookahead == 'j' ||
-                        lookahead == 'k' ||
-                        lookahead == 'l' ||
-                        lookahead == 'm' ||
-                        lookahead == 'n' ||
-                        lookahead == 'o' ||
-                        lookahead == 'p' ||
-                        lookahead == 'q' ||
-                        lookahead == 'r' ||
-                        lookahead == 's' ||
-                        lookahead == 't' ||
-                        lookahead == 'u' ||
-                        lookahead == 'v' ||
-                        lookahead == 'w' ||
-                        lookahead == 'x' ||
-                        lookahead == 'y' ||
-                        lookahead == 'z')
-                    {
-                        lexer->result_symbol = MINUS_WITHOUT_TRAILING_WHITESPACE;
-                        return true;
-                    }
-                }
-            }
-            else if (valid_symbols[MINUS_WITHOUT_TRAILING_WHITESPACE] && lexer->lookahead == '-')
+        if (valid_symbols[MINUS_WITHOUT_TRAILING_WHITESPACE] && lexer->lookahead == ' ')
+        {
+            skip(lexer);
+            if (lexer->lookahead == '-')
             {
                 skip(lexer);
                 auto lookahead = lexer->lookahead;
@@ -246,33 +264,69 @@ struct Scanner
                     return true;
                 }
             }
-
-
-            if (valid_symbols[VIRTUAL_END_SECTION] && lexer->lookahead == ' ')
+        }
+        else if (valid_symbols[MINUS_WITHOUT_TRAILING_WHITESPACE] && lexer->lookahead == '-')
+        {
+            skip(lexer);
+            auto lookahead = lexer->lookahead;
+            if (lookahead == 'a' ||
+                lookahead == 'b' ||
+                lookahead == 'c' ||
+                lookahead == 'd' ||
+                lookahead == 'e' ||
+                lookahead == 'f' ||
+                lookahead == 'g' ||
+                lookahead == 'h' ||
+                lookahead == 'i' ||
+                lookahead == 'j' ||
+                lookahead == 'k' ||
+                lookahead == 'l' ||
+                lookahead == 'm' ||
+                lookahead == 'n' ||
+                lookahead == 'o' ||
+                lookahead == 'p' ||
+                lookahead == 'q' ||
+                lookahead == 'r' ||
+                lookahead == 's' ||
+                lookahead == 't' ||
+                lookahead == 'u' ||
+                lookahead == 'v' ||
+                lookahead == 'w' ||
+                lookahead == 'x' ||
+                lookahead == 'y' ||
+                lookahead == 'z')
             {
-                lexer->mark_end(lexer);
+                lexer->result_symbol = MINUS_WITHOUT_TRAILING_WHITESPACE;
+                return true;
+            }
+        }
+
+        if (valid_symbols[VIRTUAL_END_SECTION] && lexer->lookahead == ' ')
+        {
+            lexer->mark_end(lexer);
+            skip(lexer);
+            if (lexer->lookahead == 'i')
+            {
                 skip(lexer);
-                if (lexer->lookahead == 'i')
+
+                if (lexer->lookahead == 'n')
                 {
                     skip(lexer);
-
-                    if (lexer->lookahead == 'n')
-                    {
-                        skip(lexer);
                     if (lexer->lookahead == ' ' || lexer->lookahead == '\r' || lexer->lookahead == '\n')
                     {
                         lexer->result_symbol = VIRTUAL_END_SECTION;
                         return true;
                     }
-                    }
                 }
             }
+        }
 
         return false;
     }
 
     uint32_t indent_length = 0;
     vector<uint16_t> indent_length_stack;
+    vector<ClosingToken> runback;
 };
 
 } // namespace
