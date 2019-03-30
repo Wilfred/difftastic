@@ -2733,7 +2733,7 @@
     },
     {
       "type": "PATTERN",
-      "value": "[\\s﻿⁠​]|\\\\\\r?\\n"
+      "value": "[\\s\\uFEFF\\u2060\\u200B]|\\\\\\r?\\n"
     }
   ],
   "conflicts": [
@@ -2766,5 +2766,7 @@
       "name": "minus_without_trailing_whitespace"
     }
   ],
-  "inline": []
+  "inline": [],
+  "supertypes": []
 }
+
