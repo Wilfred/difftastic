@@ -75,7 +75,6 @@ struct Scanner
             }
             i++;
             indent_length = buffer[i];
-            i++;
         }
     }
 
@@ -179,12 +178,12 @@ struct Scanner
             }
         }
 
-        // hold this in a variable as it will change due to the pop
-        uint32_t previous_line_length = indent_length_stack.back();
-
         if (valid_symbols[VIRTUAL_OPEN_SECTION])
         {
-            indent_length_stack.push_back(previous_indent_length);
+            if(indent_length != indent_length_stack.back())
+            {
+                indent_length_stack.push_back(indent_length);
+            }
             lexer->result_symbol = VIRTUAL_OPEN_SECTION;
             return true;
         }
@@ -205,8 +204,8 @@ struct Scanner
                 }
                 else if (indent_length < indent_length_stack.back())
                 {
-                    indent_length_stack.pop_back();
                     runback.push_back(END_SECTION);
+                    indent_length_stack.pop_back();
                 }
             }
 

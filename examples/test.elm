@@ -1,6 +1,3 @@
-module Main exposing (init)
-
-
 init session =
     let
         feedTab =

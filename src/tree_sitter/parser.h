@@ -15,20 +15,8 @@ extern "C" {
 
 #ifndef TREE_SITTER_API_H_
 typedef uint16_t TSSymbol;
-typedef uint16_t TSFieldId;
 typedef struct TSLanguage TSLanguage;
 #endif
-
-typedef struct {
-  TSFieldId field_id;
-  uint8_t child_index;
-  bool inherited;
-} TSFieldMapEntry;
-
-typedef struct {
-  uint16_t index;
-  uint16_t length;
-} TSFieldMapSlice;
 
 typedef uint16_t TSStateId;
 
@@ -66,7 +54,7 @@ typedef struct {
       TSSymbol symbol;
       int16_t dynamic_precedence;
       uint8_t child_count;
-      uint8_t production_id;
+      uint8_t alias_sequence_id;
     };
   } params;
   TSParseActionType type : 4;
@@ -104,16 +92,12 @@ struct TSLanguage {
   struct {
     const bool *states;
     const TSSymbol *symbol_map;
-    void *(*create)(void);
+    void *(*create)();
     void (*destroy)(void *);
     bool (*scan)(void *, TSLexer *, const bool *symbol_whitelist);
     unsigned (*serialize)(void *, char *);
     void (*deserialize)(void *, const char *, unsigned);
   } external_scanner;
-  uint32_t field_count;
-  const TSFieldMapSlice *field_map_slices;
-  const TSFieldMapEntry *field_map_entries;
-  const char **field_names;
 };
 
 /*
