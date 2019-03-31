@@ -180,7 +180,7 @@ struct Scanner
 
         if (valid_symbols[VIRTUAL_OPEN_SECTION])
         {
-            if(indent_length != indent_length_stack.back())
+            if (indent_length != indent_length_stack.back())
             {
                 indent_length_stack.push_back(indent_length);
             }
@@ -211,13 +211,13 @@ struct Scanner
 
             std::reverse(runback.begin(), runback.end());
 
-            if (runback.back() == END_DECL && valid_symbols[VIRTUAL_END_DECL])
+            if (!runback.empty() && runback.back() == END_DECL && valid_symbols[VIRTUAL_END_DECL])
             {
                 runback.pop_back();
                 lexer->result_symbol = VIRTUAL_END_DECL;
                 return true;
             }
-            else if (runback.back() == END_SECTION && valid_symbols[VIRTUAL_END_SECTION])
+            else if (!runback.empty() && runback.back() == END_SECTION && valid_symbols[VIRTUAL_END_SECTION])
             {
                 runback.pop_back();
                 lexer->result_symbol = VIRTUAL_END_SECTION;
