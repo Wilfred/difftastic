@@ -121,29 +121,6 @@ struct Scanner
                     }
                 }
             }
-
-            // else if (!has_let && lexer->lookahead == 'l')
-            // {
-            //     skip(lexer);
-            //     if (lexer->lookahead == 'e')
-            //     {
-            //         skip(lexer);
-            //         if (lexer->lookahead == 't')
-            //         {
-            //             skip(lexer);
-            //             if (lexer->lookahead == ' ')
-            //             {
-            //                 has_let == true;
-            //                 skip(lexer);
-            //             }
-            //         }
-            //     }
-            // }
-            // else if (lexer->lookahead == ' ')
-            // {
-            //     indent_length++;
-            //     skip(lexer);
-            // }
             else if (lexer->lookahead == '\r')
             {
                 indent_length = 0;
@@ -152,13 +129,6 @@ struct Scanner
             }
             else if (lexer->lookahead == 0)
             {
-                // if (valid_symbols[VIRTUAL_END_SECTION] && indent_length_stack.size() > 1)
-                // {
-                //     indent_length_stack.pop_back();
-                //     lexer->result_symbol = VIRTUAL_END_SECTION;
-                //     return true;
-                // }
-
                 if (valid_symbols[VIRTUAL_END_DECL])
                 {
                     lexer->result_symbol = VIRTUAL_END_DECL;
@@ -202,7 +172,6 @@ struct Scanner
                 lexer->result_symbol = VIRTUAL_OPEN_SECTION;
                 return true;
         }
-
         else if (has_newline)
         {
             runback.clear();
@@ -310,7 +279,6 @@ struct Scanner
                 return true;
             }
         }
-
 
         return false;
     }
