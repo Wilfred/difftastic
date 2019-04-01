@@ -31,9 +31,9 @@ tree_sitter_report=$(echo $examples_to_parse | xargs -n 1000 tree-sitter parse -
 
 ret_code=$?
 
-echo "$tree_sitter_report"
+echo "report: $tree_sitter_report"
 
-errors=$( echo "$tree_sitter_report" | wc -l )
+errors=$( echo "$tree_sitter_report" | sed '/^\s*$/d' | wc -l )
 
 skipped=$( echo "$known_failures" | wc -w )
 tried_to_parse=$( echo "$examples_to_parse" | wc -w )
