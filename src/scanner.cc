@@ -99,8 +99,6 @@ struct Scanner
         runback.clear();
 
         bool has_newline = false;
-        uint32_t previous_indent_length = indent_length;
-
         for (;;)
         {
             if (lexer->lookahead == '\n')
