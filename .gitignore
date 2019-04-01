@@ -4,3 +4,5 @@ build
 *.log
 prebuilds
 .idea
+examples/elm-core
+examples/elm-spa-example
