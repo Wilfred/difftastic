@@ -285,7 +285,7 @@ struct Scanner
 
     uint32_t indent_length;
     vector<uint16_t> indent_length_stack;
-    vector<u_int8_t> runback;
+    vector<uint8_t> runback;
 };
 
 } // namespace
