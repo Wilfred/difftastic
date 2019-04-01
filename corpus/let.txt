@@ -26,6 +26,54 @@ i = let x = 320 in x
     (virtual_end_decl)
 )
 
+=====================================
+Single line let with in changing line
+=====================================
+
+i = let f = (\a b c d -> a + b + c + d) in
+            f
+
+---
+
+(file 
+    (value_declaration 
+        (function_declaration_left (lower_case_identifier))
+        (eq) 
+        (let_in_expr 
+            (let) 
+            (virtual_open_section) 
+            (value_declaration 
+                (function_declaration_left (lower_case_identifier)) 
+                (eq) 
+                (parenthesized_expr 
+                    (left_parenthesis) 
+                    (anonymous_function_expr 
+                        (backslash) 
+                        (pattern (lower_pattern (lower_case_identifier))) 
+                        (pattern (lower_pattern (lower_case_identifier))) 
+                        (pattern (lower_pattern (lower_case_identifier))) 
+                        (pattern (lower_pattern (lower_case_identifier))) 
+                        (arrow) 
+                        (bin_op_expr 
+                            (value_expr (value_qid (lower_case_identifier))) 
+                            (operator (operator_identifier))
+                            (value_expr (value_qid (lower_case_identifier))) 
+                            (operator (operator_identifier)) 
+                            (value_expr (value_qid (lower_case_identifier))) 
+                            (operator (operator_identifier)) 
+                            (value_expr (value_qid (lower_case_identifier)))
+                        )
+                    ) 
+                    (right_parenthesis)
+                )
+            ) 
+            (virtual_end_section) 
+            (in) 
+            (value_expr (value_qid (lower_case_identifier)))
+        )
+    )
+    (virtual_end_decl)
+)
 
 =====================================
 Let with case
@@ -84,6 +132,7 @@ routeToString page =
                         (arrow)
                         (list_expr (left_square_bracket) (right_square_bracket))
                     )
+                    (virtual_end_section)
                 )
             )
             (virtual_end_section)

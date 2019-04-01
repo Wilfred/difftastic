@@ -130,6 +130,7 @@ view model =
                 (arrow) 
                 (bin_op_expr (value_expr (value_qid (lower_case_identifier))) (operator (operator_identifier)) (number_constant_expr (number_literal)))
             )
+            (virtual_end_section)
         )
     )
     (virtual_end_decl)

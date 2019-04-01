@@ -19,12 +19,6 @@ enum TokenType
     MINUS_WITHOUT_TRAILING_WHITESPACE
 };
 
-enum ClosingToken
-{
-    END_DECL = 1 << 0,
-    END_SECTION = 1 << 1,
-};
-
 struct Scanner
 {
     Scanner() {}
@@ -41,6 +35,8 @@ struct Scanner
         memcpy(&buffer[i], runback.data(), stack_size);
         i += stack_size;
 
+        buffer[i++] = indent_length;
+
         vector<uint16_t>::iterator
             iter = indent_length_stack.begin() + 1,
             end = indent_length_stack.end();
@@ -50,7 +46,6 @@ struct Scanner
             buffer[i++] = *iter;
         }
 
-        buffer[i++] = indent_length;
 
         return i;
     }
@@ -69,12 +64,11 @@ struct Scanner
             runback.resize(runback_count);
             memcpy(runback.data(), &buffer[i], runback_count);
             i += runback_count;
+            indent_length = buffer[i++];
             for (; i < length; i++)
             {
                 indent_length_stack.push_back(buffer[i]);
             }
-            i++;
-            indent_length = buffer[i];
         }
     }
 
@@ -90,18 +84,19 @@ struct Scanner
 
     bool scan(TSLexer *lexer, const bool *valid_symbols)
     {
-        if (!runback.empty() && runback.back() == END_DECL && valid_symbols[VIRTUAL_END_DECL])
+        if (!runback.empty() && runback.back() == 0 && valid_symbols[VIRTUAL_END_DECL])
         {
             runback.pop_back();
             lexer->result_symbol = VIRTUAL_END_DECL;
             return true;
         }
-        if (!runback.empty() && runback.back() == END_SECTION && valid_symbols[VIRTUAL_END_SECTION])
+        if (!runback.empty() && runback.back() == 1 && valid_symbols[VIRTUAL_END_SECTION])
         {
             runback.pop_back();
             lexer->result_symbol = VIRTUAL_END_SECTION;
             return true;
         }
+        runback.clear();
 
         bool has_newline = false;
         uint32_t previous_indent_length = indent_length;
@@ -178,46 +173,62 @@ struct Scanner
             }
         }
 
+        if (valid_symbols[VIRTUAL_END_SECTION] && lexer->lookahead == ' ')
+        {
+            lexer->mark_end(lexer);
+            skip(lexer);
+            if (lexer->lookahead == 'i')
+            {
+                skip(lexer);
+
+                if (lexer->lookahead == 'n')
+                {
+                    skip(lexer);
+                    if (lexer->lookahead == ' ' || lexer->lookahead == '\r' || lexer->lookahead == '\n')
+                    {
+                        lexer->result_symbol = VIRTUAL_END_SECTION;
+                        return true;
+                    }
+                }
+            }
+        }
+
         if (valid_symbols[VIRTUAL_OPEN_SECTION])
         {
-            if (indent_length != indent_length_stack.back())
+            if (indent_length > indent_length_stack.back())
             {
                 indent_length_stack.push_back(indent_length);
             }
-            lexer->result_symbol = VIRTUAL_OPEN_SECTION;
-            return true;
+                lexer->result_symbol = VIRTUAL_OPEN_SECTION;
+                return true;
         }
 
         else if (has_newline)
         {
+            runback.clear();
             while (indent_length <= indent_length_stack.back())
             {
-                if (indent_length == 0) // No idea why
+                 if (indent_length == indent_length_stack.back())
                 {
-                    runback.push_back(END_DECL);
-                    break;
-                }
-                else if (indent_length == indent_length_stack.back())
-                {
-                    runback.push_back(END_DECL);
+                    runback.push_back(0);
                     break;
                 }
                 else if (indent_length < indent_length_stack.back())
                 {
-                    runback.push_back(END_SECTION);
                     indent_length_stack.pop_back();
+                    runback.push_back(1);
                 }
             }
 
             std::reverse(runback.begin(), runback.end());
 
-            if (!runback.empty() && runback.back() == END_DECL && valid_symbols[VIRTUAL_END_DECL])
+            if (!runback.empty() && runback.back() == 0 && valid_symbols[VIRTUAL_END_DECL])
             {
                 runback.pop_back();
                 lexer->result_symbol = VIRTUAL_END_DECL;
                 return true;
             }
-            else if (!runback.empty() && runback.back() == END_SECTION && valid_symbols[VIRTUAL_END_SECTION])
+            else if (!runback.empty() && runback.back() == 1 && valid_symbols[VIRTUAL_END_SECTION])
             {
                 runback.pop_back();
                 lexer->result_symbol = VIRTUAL_END_SECTION;
@@ -300,32 +311,13 @@ struct Scanner
             }
         }
 
-        if (valid_symbols[VIRTUAL_END_SECTION] && lexer->lookahead == ' ')
-        {
-            lexer->mark_end(lexer);
-            skip(lexer);
-            if (lexer->lookahead == 'i')
-            {
-                skip(lexer);
-
-                if (lexer->lookahead == 'n')
-                {
-                    skip(lexer);
-                    if (lexer->lookahead == ' ' || lexer->lookahead == '\r' || lexer->lookahead == '\n')
-                    {
-                        lexer->result_symbol = VIRTUAL_END_SECTION;
-                        return true;
-                    }
-                }
-            }
-        }
 
         return false;
     }
 
-    uint32_t indent_length = 0;
+    uint32_t indent_length;
     vector<uint16_t> indent_length_stack;
-    vector<ClosingToken> runback;
+    vector<u_int8_t> runback;
 };
 
 } // namespace

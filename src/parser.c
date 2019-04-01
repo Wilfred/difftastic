@@ -13,12 +13,13 @@
 #pragma GCC optimize ("O0")
 #endif
 
-#define LANGUAGE_VERSION 9
+#define LANGUAGE_VERSION 10
 #define STATE_COUNT 2414
 #define SYMBOL_COUNT 212
 #define ALIAS_COUNT 0
 #define TOKEN_COUNT 81
 #define EXTERNAL_TOKEN_COUNT 4
+#define FIELD_COUNT 0
 #define MAX_ALIAS_SEQUENCE_LENGTH 7
 
 enum {
@@ -84651,7 +84652,7 @@ static TSParseActionEntry ts_parse_actions[] = {
   [3825] = {.count = 1, .reusable = true}, SHIFT(2411),
 };
 
-void *tree_sitter_elm_external_scanner_create();
+void *tree_sitter_elm_external_scanner_create(void);
 void tree_sitter_elm_external_scanner_destroy(void *);
 bool tree_sitter_elm_external_scanner_scan(void *, TSLexer *, const bool *);
 unsigned tree_sitter_elm_external_scanner_serialize(void *, char *);
@@ -84661,7 +84662,7 @@ void tree_sitter_elm_external_scanner_deserialize(void *, const char *, unsigned
 #define extern __declspec(dllexport)
 #endif
 
-extern const TSLanguage *tree_sitter_elm() {
+extern const TSLanguage *tree_sitter_elm(void) {
   static TSLanguage language = {
     .version = LANGUAGE_VERSION,
     .symbol_count = SYMBOL_COUNT,
@@ -84672,6 +84673,7 @@ extern const TSLanguage *tree_sitter_elm() {
     .parse_actions = ts_parse_actions,
     .lex_modes = ts_lex_modes,
     .symbol_names = ts_symbol_names,
+    .field_count = FIELD_COUNT,
     .max_alias_sequence_length = MAX_ALIAS_SEQUENCE_LENGTH,
     .lex_fn = ts_lex,
     .external_token_count = EXTERNAL_TOKEN_COUNT,
