@@ -1,4 +1,97 @@
 =====================================
+Matching a list
+=====================================
+
+getFirstMatch state =
+    case state.unvisited of
+      [] ->
+        Just state.value
+
+      [""] ->
+        Just state.value
+
+      _ ->
+        getFirstMatch rest
+
+
+
+---
+(file 
+        (value_declaration 
+                (function_declaration_left 
+                        (lower_case_identifier) 
+                        (lower_pattern (lower_case_identifier))
+                ) 
+                (eq) 
+                (case_of_expr 
+                        (case) 
+                        (field_access_expr 
+                                (value_expr (value_qid (lower_case_identifier))) 
+                                (field_access_segment (dot) (lower_case_identifier))
+                        ) 
+                        (of) 
+                        (virtual_open_section) 
+                        (case_of_branch 
+                                (pattern 
+                                        (list_pattern 
+                                                (left_square_bracket) 
+                                                (right_square_bracket)
+                                        )
+                                ) 
+                                (arrow) 
+                                (function_call_expr 
+                                        (value_expr 
+                                                (upper_case_qid 
+                                                        (upper_case_identifier)
+                                                )
+                                        ) 
+                                        (field_access_expr 
+                                                (value_expr 
+                                                        (value_qid (lower_case_identifier))
+                                                ) 
+                                                (field_access_segment (dot) (lower_case_identifier))
+                                        )
+                                )
+                        ) 
+                        (virtual_end_decl) 
+                        (case_of_branch 
+                                (pattern 
+                                        (list_pattern 
+                                                (left_square_bracket) 
+                                                (pattern (string_constant_expr (open_quote) (close_quote)))
+                                                (right_square_bracket)
+                                        )
+                                ) 
+                                (arrow) 
+                                (function_call_expr 
+                                        (value_expr 
+                                                (upper_case_qid (upper_case_identifier))
+                                        ) 
+                                        (field_access_expr 
+                                                (value_expr 
+                                                        (value_qid (lower_case_identifier))
+                                                ) 
+                                                (field_access_segment 
+                                                        (dot) 
+                                                        (lower_case_identifier)
+                                                )
+                                        )
+                                )
+                        ) 
+                        (virtual_end_decl) 
+                        (case_of_branch 
+                                (pattern (anything_pattern (underscore))) 
+                                (arrow) 
+                                (function_call_expr 
+                                        (value_expr (value_qid (lower_case_identifier))) 
+                                        (value_expr (value_qid (lower_case_identifier)))
+                                )
+                        )
+                )
+        ) 
+        (virtual_end_decl)
+)
+=====================================
 Negate
 =====================================
 

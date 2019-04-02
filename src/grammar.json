@@ -2111,7 +2111,7 @@
               "members": [
                 {
                   "type": "SYMBOL",
-                  "name": "lower_pattern"
+                  "name": "pattern"
                 },
                 {
                   "type": "REPEAT",
@@ -2124,7 +2124,7 @@
                       },
                       {
                         "type": "SYMBOL",
-                        "name": "lower_pattern"
+                        "name": "pattern"
                       }
                     ]
                   }

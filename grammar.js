@@ -505,7 +505,7 @@ module.exports = grammar({
     list_pattern: $ =>
       seq(
         $.left_square_bracket,
-        optional(commaSep1($.lower_pattern, $.comma)),
+        optional(commaSep1($.pattern, $.comma)),
         $.right_square_bracket
       ),
 
