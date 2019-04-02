@@ -16,6 +16,10 @@ function checkout_at() {
 
 checkout_at "examples/elm-spa-example" "rtfeldman/elm-spa-example" "c8c3201ec0488f17c1245e1fd2293ba5bc0748d5"
 checkout_at "examples/elm-core" "elm/core" "5dcec7f6cd46599f9de95ca5f1cef386f0dc767d"
+checkout_at "examples/elm-url" "elm/url" "384b1dcf84065a500a71402ec367f3982b35093d"
+checkout_at "examples/elm-parser" "elm/parser" "02839df10e462d8423c91917271f4b6f8d2f284d"
+checkout_at "examples/elm-browser" "elm/browser" "c36edde5a3bac1db04ea310c225cd4db59bd55e0"
+checkout_at "examples/elm-http" "elm/http" "34a9a27411c2492d3e247ac75cd48e22b473bef5"
 
 all_examples=$(find examples -name '*.elm')
 known_failures=$(cat script/known-failures.txt)
@@ -31,7 +35,7 @@ tree_sitter_report=$(echo $examples_to_parse | xargs -n 1000 tree-sitter parse -
 
 ret_code=$?
 
-echo "report: $tree_sitter_report"
+echo -e "-----------------------------------------------------------------\n $tree_sitter_report \n -----------------------------------------------------------------\n"
 
 errors=$( echo "$tree_sitter_report" | sed '/^\s*$/d' | wc -l )
 

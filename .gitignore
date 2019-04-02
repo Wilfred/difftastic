@@ -6,3 +6,7 @@ prebuilds
 .idea
 examples/elm-core
 examples/elm-spa-example
+examples/elm-url
+examples/elm-parser
+examples/elm-http
+examples/elm-browser
