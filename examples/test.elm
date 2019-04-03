@@ -1,11 +1,8 @@
-getFirstMatch state =
-    case state.unvisited of
-      [] ->
-        Just state.value
+enum =
+    \stringList ->
+        case stringList of
+            [ str ] ->
+                get str dict
 
-      [""] ->
-        Just state.value
-
-      _ ->
-        getFirstMatch rest
-
+            _ ->
+                Nothing

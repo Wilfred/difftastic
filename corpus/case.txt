@@ -10,13 +10,13 @@ update msg =
 ---
 
 (file
-  (value_declaration 
+  (value_declaration
     (function_declaration_left (lower_case_identifier) (lower_pattern (lower_case_identifier)))
     (eq)
     (case_of_expr (case) (value_expr (value_qid (lower_case_identifier))) (of)
       (virtual_open_section)
-        (case_of_branch 
-            (pattern (union_pattern (upper_case_qid (upper_case_identifier)))) 
+        (case_of_branch
+            (pattern (union_pattern (upper_case_qid (upper_case_identifier))))
             (arrow)
             (value_expr (upper_case_qid (upper_case_identifier)))
         )
@@ -42,7 +42,7 @@ update msg model =
 ---
 
 (file
-  (value_declaration 
+  (value_declaration
     (function_declaration_left (lower_case_identifier) (lower_pattern (lower_case_identifier)) (lower_pattern (lower_case_identifier)))
     (eq)
     (case_of_expr (case) (value_expr (value_qid (lower_case_identifier))) (of)
@@ -55,6 +55,61 @@ update msg model =
     )
   )
   (virtual_end_decl)
+)
+
+=====================================
+Case with anonymous function
+=====================================
+
+enum =
+    \stringList ->
+        case stringList of
+            [ str ] ->
+                get str dict
+
+            _ ->
+                Nothing
+
+---
+
+(file
+    (value_declaration
+        (function_declaration_left (lower_case_identifier))
+        (eq)
+        (anonymous_function_expr
+            (backslash)
+            (pattern (lower_pattern (lower_case_identifier)))
+            (arrow)
+            (case_of_expr
+                (case)
+                (value_expr (value_qid (lower_case_identifier)))
+                (of)
+                (virtual_open_section)
+                (case_of_branch
+                    (pattern
+                        (list_pattern
+                            (left_square_bracket)
+                            (pattern (lower_pattern (lower_case_identifier)))
+                            (right_square_bracket)
+                        )
+                    )
+                    (arrow)
+                    (function_call_expr
+                        (value_expr (value_qid (lower_case_identifier)))
+                        (value_expr (value_qid (lower_case_identifier)))
+                        (value_expr (value_qid (lower_case_identifier)))
+                    )
+                )
+                (virtual_end_decl)
+                (case_of_branch
+                    (pattern (anything_pattern (underscore)))
+                    (arrow)
+                    (value_expr (upper_case_qid (upper_case_identifier)))
+                )
+            )
+        )
+    )
+    (virtual_end_decl)
 )
 
 
@@ -78,26 +133,26 @@ src (Avatar maybeUrl)=
 
 ---
 
-(file 
-    (type_annotation 
+(file
+    (type_annotation
         (lower_case_identifier)
         (colon)
-        (type_expression 
+        (type_expression
             (type_ref (upper_case_qid (upper_case_identifier)))
             (arrow)
-            (type_ref 
+            (type_ref
                 (upper_case_qid (upper_case_identifier))
                 (type_variable_ref (lower_case_identifier))
             )
         )
     )
     (virtual_end_decl)
-    (value_declaration 
-        (function_declaration_left 
+    (value_declaration
+        (function_declaration_left
             (lower_case_identifier)
             (left_parenthesis)
-            (pattern 
-                (union_pattern 
+            (pattern
+                (union_pattern
                     (upper_case_qid (upper_case_identifier))
                     (lower_pattern (lower_case_identifier))
                 )
@@ -105,49 +160,49 @@ src (Avatar maybeUrl)=
             (right_parenthesis)
         )
         (eq)
-        (case_of_expr 
+        (case_of_expr
             (case)
             (value_expr (value_qid (lower_case_identifier)))
             (of)
             (virtual_open_section)
-            (case_of_branch 
+            (case_of_branch
                 (pattern (union_pattern (upper_case_qid (upper_case_identifier))))
                 (arrow)
-                (function_call_expr 
+                (function_call_expr
                     (value_expr (value_qid (upper_case_identifier) (dot) (lower_case_identifier)))
                     (value_expr (value_qid (upper_case_identifier) (dot) (lower_case_identifier)))
                 )
             )
             (virtual_end_decl)
-            (case_of_branch 
-                (pattern 
-                    (union_pattern 
+            (case_of_branch
+                (pattern
+                    (union_pattern
                         (upper_case_qid (upper_case_identifier))
                         (string_constant_expr (open_quote) (close_quote))
                     )
                 )
                 (arrow)
-                (function_call_expr 
+                (function_call_expr
                     (value_expr (value_qid (upper_case_identifier) (dot) (lower_case_identifier)))
                     (value_expr (value_qid (upper_case_identifier) (dot) (lower_case_identifier)))
                 )
             )
             (virtual_end_decl)
-            (case_of_branch 
-                (pattern 
-                    (union_pattern 
-                        (upper_case_qid (upper_case_identifier)) 
+            (case_of_branch
+                (pattern
+                    (union_pattern
+                        (upper_case_qid (upper_case_identifier))
                         (lower_pattern (lower_case_identifier))
                     )
                 )
                 (arrow)
-                (function_call_expr 
-                    (value_expr 
-                        (value_qid 
-                            (upper_case_identifier) 
-                            (dot) 
-                            (upper_case_identifier) 
-                            (dot) 
+                (function_call_expr
+                    (value_expr
+                        (value_qid
+                            (upper_case_identifier)
+                            (dot)
+                            (upper_case_identifier)
+                            (dot)
                             (lower_case_identifier)
                         )
                     )
@@ -279,48 +334,48 @@ toIntResult s =
         Nothing ->
             Err <| "could not convert string '" ++ s ++ "' to an Int"
 ---
-(file 
-    (value_declaration 
-        (function_declaration_left 
-            (lower_case_identifier) 
+(file
+    (value_declaration
+        (function_declaration_left
+            (lower_case_identifier)
             (lower_pattern (lower_case_identifier))
-        ) 
-        (eq) 
-        (case_of_expr 
-            (case) 
-            (function_call_expr 
-                (value_expr 
+        )
+        (eq)
+        (case_of_expr
+            (case)
+            (function_call_expr
+                (value_expr
                     (value_qid (upper_case_identifier) (dot) (lower_case_identifier))
-                ) 
+                )
                 (value_expr (value_qid (lower_case_identifier)))
-            ) 
-            (of) 
-            (virtual_open_section) 
-            (case_of_branch 
-                (pattern 
-                    (union_pattern 
-                        (upper_case_qid (upper_case_identifier)) 
+            )
+            (of)
+            (virtual_open_section)
+            (case_of_branch
+                (pattern
+                    (union_pattern
+                        (upper_case_qid (upper_case_identifier))
                         (lower_pattern (lower_case_identifier))
                     )
-                ) 
-                (arrow) 
-                (function_call_expr 
+                )
+                (arrow)
+                (function_call_expr
                     (value_expr (upper_case_qid (upper_case_identifier)))
                     (value_expr (value_qid (lower_case_identifier)))
                 )
-            ) 
-            (virtual_end_decl) 
-            (case_of_branch 
-                (pattern 
+            )
+            (virtual_end_decl)
+            (case_of_branch
+                (pattern
                     (union_pattern (upper_case_qid (upper_case_identifier))))
-                (arrow) 
-                (bin_op_expr 
+                (arrow)
+                (bin_op_expr
                     (value_expr (upper_case_qid (upper_case_identifier)))
-                    (operator (operator_identifier)) 
+                    (operator (operator_identifier))
                     (string_constant_expr (open_quote) (regular_string_part) (close_quote))
-                    (operator (operator_identifier)) 
-                    (value_expr (value_qid (lower_case_identifier))) 
-                    (operator (operator_identifier)) 
+                    (operator (operator_identifier))
+                    (value_expr (value_qid (lower_case_identifier)))
+                    (operator (operator_identifier))
                     (string_constant_expr (open_quote) (regular_string_part) (close_quote))
                 )
             )

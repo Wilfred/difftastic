@@ -1066,8 +1066,8 @@
       ]
     },
     "function_call_expr": {
-      "type": "PREC_LEFT",
-      "value": 0,
+      "type": "PREC_DYNAMIC",
+      "value": 10,
       "content": {
         "type": "SEQ",
         "members": [
@@ -2758,6 +2758,9 @@
     ],
     [
       "_more_case_of_branches"
+    ],
+    [
+      "function_call_expr"
     ]
   ],
   "externals": [

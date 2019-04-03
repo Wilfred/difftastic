@@ -4,7 +4,8 @@ module.exports = grammar({
   conflicts: $ => [
     [$._case_of_tail2],
     [$.upper_case_qid, $.value_qid],
-    [$._more_case_of_branches]
+    [$._more_case_of_branches],
+    [$.function_call_expr]
   ],
 
   externals: $ => [
@@ -286,7 +287,7 @@ module.exports = grammar({
     _call_or_atom: $ => choice($.function_call_expr, $._atom),
 
     function_call_expr: $ =>
-      prec.left(seq($._function_call_target, repeat1($._atom))),
+      prec.dynamic(10, seq($._function_call_target, repeat1($._atom))),
 
     _function_call_target: $ =>
       prec(
