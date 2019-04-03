@@ -295,7 +295,7 @@
     "fields": {}
   },
   {
-    "type": "type_variable_ref",
+    "type": "type_variable",
     "named": true,
     "fields": {}
   },

@@ -784,7 +784,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "type_variable_ref"
+          "name": "type_variable"
         },
         {
           "type": "SYMBOL",
@@ -817,7 +817,7 @@
       "type": "SYMBOL",
       "name": "upper_case_qid"
     },
-    "type_variable_ref": {
+    "type_variable": {
       "type": "SYMBOL",
       "name": "lower_case_identifier"
     },

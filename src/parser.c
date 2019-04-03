@@ -137,7 +137,7 @@ enum {
   sym_type_ref = 112,
   sym__single_type_expression = 113,
   sym_type_ref_without_args = 114,
-  sym_type_variable_ref = 115,
+  sym_type_variable = 115,
   sym_record_type = 116,
   sym_field_type = 117,
   sym_tuple_type = 118,
@@ -355,7 +355,7 @@ static const char *ts_symbol_names[] = {
   [sym_type_ref] = "type_ref",
   [sym__single_type_expression] = "_single_type_expression",
   [sym_type_ref_without_args] = "type_ref",
-  [sym_type_variable_ref] = "type_variable_ref",
+  [sym_type_variable] = "type_variable",
   [sym_record_type] = "record_type",
   [sym_field_type] = "field_type",
   [sym_tuple_type] = "tuple_type",
@@ -918,7 +918,7 @@ static const TSSymbolMetadata ts_symbol_metadata[] = {
     .visible = true,
     .named = true,
   },
-  [sym_type_variable_ref] = {
+  [sym_type_variable] = {
     .visible = true,
     .named = true,
   },
@@ -10752,7 +10752,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
   },
   [42] = {
     [sym_type_ref_without_args] = STATE(119),
-    [sym_type_variable_ref] = STATE(119),
+    [sym_type_variable] = STATE(119),
     [sym_record_type] = STATE(119),
     [sym_unit_expr] = STATE(118),
     [sym__type_expression_inner] = STATE(119),
@@ -12032,7 +12032,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
   },
   [116] = {
     [sym_type_ref_without_args] = STATE(228),
-    [sym_type_variable_ref] = STATE(228),
+    [sym_type_variable] = STATE(228),
     [sym_record_type] = STATE(228),
     [sym_unit_expr] = STATE(227),
     [sym__type_expression_inner] = STATE(228),
@@ -12085,7 +12085,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
   },
   [120] = {
     [sym_type_ref_without_args] = STATE(236),
-    [sym_type_variable_ref] = STATE(236),
+    [sym_type_variable] = STATE(236),
     [sym_record_type] = STATE(236),
     [sym_unit_expr] = STATE(118),
     [sym_upper_case_qid] = STATE(235),
@@ -12635,7 +12635,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
   },
   [152] = {
     [sym_type_ref_without_args] = STATE(119),
-    [sym_type_variable_ref] = STATE(119),
+    [sym_type_variable] = STATE(119),
     [sym_record_type] = STATE(119),
     [sym_unit_expr] = STATE(118),
     [sym__type_expression_inner] = STATE(119),
@@ -14257,7 +14257,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
   },
   [225] = {
     [sym_type_ref_without_args] = STATE(228),
-    [sym_type_variable_ref] = STATE(228),
+    [sym_type_variable] = STATE(228),
     [sym_record_type] = STATE(228),
     [sym_unit_expr] = STATE(227),
     [sym__type_expression_inner] = STATE(228),
@@ -14313,7 +14313,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
   },
   [229] = {
     [sym_type_ref_without_args] = STATE(419),
-    [sym_type_variable_ref] = STATE(419),
+    [sym_type_variable] = STATE(419),
     [sym_record_type] = STATE(419),
     [sym_unit_expr] = STATE(227),
     [sym_upper_case_qid] = STATE(418),
@@ -14360,7 +14360,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
   },
   [233] = {
     [sym_type_ref_without_args] = STATE(425),
-    [sym_type_variable_ref] = STATE(425),
+    [sym_type_variable] = STATE(425),
     [sym_record_type] = STATE(425),
     [sym_unit_expr] = STATE(118),
     [sym__type_expression_inner] = STATE(425),
@@ -14398,7 +14398,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
   },
   [236] = {
     [sym_type_ref_without_args] = STATE(427),
-    [sym_type_variable_ref] = STATE(427),
+    [sym_type_variable] = STATE(427),
     [sym_record_type] = STATE(427),
     [sym_unit_expr] = STATE(118),
     [sym_upper_case_qid] = STATE(235),
@@ -14579,7 +14579,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
   },
   [246] = {
     [sym_type_ref_without_args] = STATE(119),
-    [sym_type_variable_ref] = STATE(119),
+    [sym_type_variable] = STATE(119),
     [sym_record_type] = STATE(119),
     [sym_unit_expr] = STATE(118),
     [sym__type_expression_inner] = STATE(119),
@@ -14607,7 +14607,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
   },
   [248] = {
     [sym_type_ref_without_args] = STATE(436),
-    [sym_type_variable_ref] = STATE(436),
+    [sym_type_variable] = STATE(436),
     [sym_record_type] = STATE(436),
     [sym_unit_expr] = STATE(118),
     [sym_upper_case_qid] = STATE(235),
@@ -19116,7 +19116,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
   },
   [402] = {
     [sym_type_ref_without_args] = STATE(633),
-    [sym_type_variable_ref] = STATE(633),
+    [sym_type_variable] = STATE(633),
     [sym_record_type] = STATE(633),
     [sym_unit_expr] = STATE(227),
     [sym__type_expression_inner] = STATE(633),
@@ -19238,7 +19238,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
   },
   [415] = {
     [sym_type_ref_without_args] = STATE(647),
-    [sym_type_variable_ref] = STATE(647),
+    [sym_type_variable] = STATE(647),
     [sym_record_type] = STATE(647),
     [sym_unit_expr] = STATE(227),
     [sym__type_expression_inner] = STATE(647),
@@ -19265,7 +19265,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
   },
   [417] = {
     [sym_type_ref_without_args] = STATE(228),
-    [sym_type_variable_ref] = STATE(228),
+    [sym_type_variable] = STATE(228),
     [sym_record_type] = STATE(228),
     [sym_unit_expr] = STATE(227),
     [sym__type_expression_inner] = STATE(228),
@@ -19298,7 +19298,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
   },
   [419] = {
     [sym_type_ref_without_args] = STATE(649),
-    [sym_type_variable_ref] = STATE(649),
+    [sym_type_variable] = STATE(649),
     [sym_record_type] = STATE(649),
     [sym_unit_expr] = STATE(227),
     [sym_upper_case_qid] = STATE(418),
@@ -19330,7 +19330,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
   },
   [421] = {
     [sym_type_ref_without_args] = STATE(228),
-    [sym_type_variable_ref] = STATE(228),
+    [sym_type_variable] = STATE(228),
     [sym_record_type] = STATE(228),
     [sym_unit_expr] = STATE(227),
     [sym__type_expression_inner] = STATE(228),
@@ -19398,7 +19398,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
   },
   [427] = {
     [sym_type_ref_without_args] = STATE(427),
-    [sym_type_variable_ref] = STATE(427),
+    [sym_type_variable] = STATE(427),
     [sym_record_type] = STATE(427),
     [sym_unit_expr] = STATE(118),
     [sym_upper_case_qid] = STATE(235),
@@ -19495,7 +19495,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
   },
   [434] = {
     [sym_type_ref_without_args] = STATE(119),
-    [sym_type_variable_ref] = STATE(119),
+    [sym_type_variable] = STATE(119),
     [sym_record_type] = STATE(119),
     [sym_unit_expr] = STATE(118),
     [sym__type_expression_inner] = STATE(119),
@@ -19527,7 +19527,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
   },
   [436] = {
     [sym_type_ref_without_args] = STATE(660),
-    [sym_type_variable_ref] = STATE(660),
+    [sym_type_variable] = STATE(660),
     [sym_record_type] = STATE(660),
     [sym_unit_expr] = STATE(118),
     [sym_upper_case_qid] = STATE(235),
@@ -25440,7 +25440,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
   },
   [634] = {
     [sym_type_ref_without_args] = STATE(880),
-    [sym_type_variable_ref] = STATE(880),
+    [sym_type_variable] = STATE(880),
     [sym_record_type] = STATE(880),
     [sym_unit_expr] = STATE(227),
     [sym_upper_case_qid] = STATE(418),
@@ -25598,7 +25598,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
   },
   [649] = {
     [sym_type_ref_without_args] = STATE(649),
-    [sym_type_variable_ref] = STATE(649),
+    [sym_type_variable] = STATE(649),
     [sym_record_type] = STATE(649),
     [sym_unit_expr] = STATE(227),
     [sym_upper_case_qid] = STATE(418),
@@ -25735,7 +25735,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
   },
   [660] = {
     [sym_type_ref_without_args] = STATE(660),
-    [sym_type_variable_ref] = STATE(660),
+    [sym_type_variable] = STATE(660),
     [sym_record_type] = STATE(660),
     [sym_unit_expr] = STATE(118),
     [sym_upper_case_qid] = STATE(235),
@@ -28721,7 +28721,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
   },
   [759] = {
     [sym_type_ref_without_args] = STATE(954),
-    [sym_type_variable_ref] = STATE(954),
+    [sym_type_variable] = STATE(954),
     [sym_record_type] = STATE(954),
     [sym_unit_expr] = STATE(953),
     [sym__type_expression_inner] = STATE(954),
@@ -32374,7 +32374,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
   },
   [878] = {
     [sym_type_ref_without_args] = STATE(647),
-    [sym_type_variable_ref] = STATE(647),
+    [sym_type_variable] = STATE(647),
     [sym_record_type] = STATE(647),
     [sym_unit_expr] = STATE(227),
     [sym__type_expression_inner] = STATE(647),
@@ -32401,7 +32401,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
   },
   [880] = {
     [sym_type_ref_without_args] = STATE(1083),
-    [sym_type_variable_ref] = STATE(1083),
+    [sym_type_variable] = STATE(1083),
     [sym_record_type] = STATE(1083),
     [sym_unit_expr] = STATE(227),
     [sym_upper_case_qid] = STATE(418),
@@ -34635,7 +34635,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
   },
   [951] = {
     [sym_type_ref_without_args] = STATE(228),
-    [sym_type_variable_ref] = STATE(228),
+    [sym_type_variable] = STATE(228),
     [sym_record_type] = STATE(228),
     [sym_unit_expr] = STATE(227),
     [sym__type_expression_inner] = STATE(228),
@@ -34690,7 +34690,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
   },
   [955] = {
     [sym_type_ref_without_args] = STATE(1140),
-    [sym_type_variable_ref] = STATE(1140),
+    [sym_type_variable] = STATE(1140),
     [sym_record_type] = STATE(1140),
     [sym_unit_expr] = STATE(953),
     [sym_upper_case_qid] = STATE(1139),
@@ -38747,7 +38747,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
   },
   [1083] = {
     [sym_type_ref_without_args] = STATE(1083),
-    [sym_type_variable_ref] = STATE(1083),
+    [sym_type_variable] = STATE(1083),
     [sym_record_type] = STATE(1083),
     [sym_unit_expr] = STATE(227),
     [sym_upper_case_qid] = STATE(418),
@@ -40380,7 +40380,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
   },
   [1137] = {
     [sym_type_ref_without_args] = STATE(1325),
-    [sym_type_variable_ref] = STATE(1325),
+    [sym_type_variable] = STATE(1325),
     [sym_record_type] = STATE(1325),
     [sym_unit_expr] = STATE(953),
     [sym__type_expression_inner] = STATE(1325),
@@ -40419,7 +40419,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
   },
   [1140] = {
     [sym_type_ref_without_args] = STATE(1327),
-    [sym_type_variable_ref] = STATE(1327),
+    [sym_type_variable] = STATE(1327),
     [sym_record_type] = STATE(1327),
     [sym_unit_expr] = STATE(953),
     [sym_upper_case_qid] = STATE(1139),
@@ -46443,7 +46443,7 @@ static uint16_t ts_parse_table[STATE_COUNT][SYMBOL_COUNT] = {
   },
   [1327] = {
     [sym_type_ref_without_args] = STATE(1327),
-    [sym_type_variable_ref] = STATE(1327),
+    [sym_type_variable] = STATE(1327),
     [sym_record_type] = STATE(1327),
     [sym_unit_expr] = STATE(953),
     [sym_upper_case_qid] = STATE(1139),
@@ -86314,8 +86314,8 @@ static TSParseActionEntry ts_parse_actions[] = {
   [416] = {.count = 1, .reusable = true}, SHIFT(215),
   [418] = {.count = 1, .reusable = true}, SHIFT(218),
   [420] = {.count = 1, .reusable = true}, SHIFT(217),
-  [422] = {.count = 1, .reusable = true}, REDUCE(sym_type_variable_ref, 1),
-  [424] = {.count = 1, .reusable = false}, REDUCE(sym_type_variable_ref, 1),
+  [422] = {.count = 1, .reusable = true}, REDUCE(sym_type_variable, 1),
+  [424] = {.count = 1, .reusable = false}, REDUCE(sym_type_variable, 1),
   [426] = {.count = 1, .reusable = true}, SHIFT(223),
   [428] = {.count = 1, .reusable = true}, SHIFT(226),
   [430] = {.count = 1, .reusable = false}, SHIFT(222),

@@ -226,7 +226,7 @@ module.exports = grammar({
     _single_type_expression: $ =>
       choice(
         alias($.type_ref_without_args, $.type_ref),
-        $.type_variable_ref,
+        $.type_variable,
         $.record_type,
         $.tuple_type,
         seq($.left_parenthesis, $.type_expression, $.right_parenthesis)
@@ -234,7 +234,7 @@ module.exports = grammar({
 
     type_ref_without_args: $ => $.upper_case_qid,
 
-    type_variable_ref: $ => $.lower_case_identifier,
+    type_variable: $ => $.lower_case_identifier,
 
     record_type: $ =>
       seq(
