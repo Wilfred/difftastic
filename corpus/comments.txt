@@ -35,8 +35,23 @@ Block comments
 (file
   (block_comment)
   (block_comment)
-  (block_documentation)
+  (block_comment)
   (block_comment)
   (line_comment)
   (line_comment)
+)
+
+=====================================
+Complex Block comment
+=====================================
+
+{-| Works just like [`Parser.Nestable`](Parser#nestable) to help distinguish
+between unnestable `/*` `*/` comments like in JS and nestable `{-` `-}`
+comments like in Elm.
+-}
+
+---
+
+(file
+  (block_comment)
 )

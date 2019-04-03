@@ -16,7 +16,8 @@ enum TokenType
     VIRTUAL_END_DECL,
     VIRTUAL_OPEN_SECTION,
     VIRTUAL_END_SECTION,
-    MINUS_WITHOUT_TRAILING_WHITESPACE
+    MINUS_WITHOUT_TRAILING_WHITESPACE,
+    BLOCK_COMMENT
 };
 
 struct Scanner
@@ -80,6 +81,31 @@ struct Scanner
     void skip(TSLexer *lexer)
     {
         lexer->advance(lexer, true);
+    }
+
+    bool scan_comment(TSLexer *lexer) {
+        if (lexer->lookahead != '-') return false;
+        advance(lexer);
+
+        for (;;) {
+        switch (lexer->lookahead) {
+            case '{':
+                advance(lexer);
+                scan_comment(lexer);
+                break;
+            case '-':
+                advance(lexer);
+                if (lexer->lookahead == '}') {
+                    advance(lexer);
+                    return true;
+                }
+                break;
+            case '\0':
+                return true;
+            default:
+                advance(lexer);
+            }
+        }
     }
 
     bool scan(TSLexer *lexer, const bool *valid_symbols)
@@ -167,8 +193,8 @@ struct Scanner
             {
                 indent_length_stack.push_back(indent_length);
             }
-                lexer->result_symbol = VIRTUAL_OPEN_SECTION;
-                return true;
+            lexer->result_symbol = VIRTUAL_OPEN_SECTION;
+            return true;
         }
         else if (has_newline)
         {
@@ -276,6 +302,13 @@ struct Scanner
                 lexer->result_symbol = MINUS_WITHOUT_TRAILING_WHITESPACE;
                 return true;
             }
+        }
+
+        if(valid_symbols[BLOCK_COMMENT] && lexer->lookahead == '{')
+        {
+            advance(lexer);
+            lexer->result_symbol = BLOCK_COMMENT;
+            return scan_comment(lexer);
         }
 
         return false;

@@ -2313,74 +2313,6 @@
         }
       ]
     },
-    "block_comment": {
-      "type": "TOKEN",
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "STRING",
-            "value": "{-"
-          },
-          {
-            "type": "REPEAT",
-            "content": {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "PATTERN",
-                  "value": "[^-]"
-                },
-                {
-                  "type": "PATTERN",
-                  "value": "-[^}]"
-                }
-              ]
-            }
-          },
-          {
-            "type": "STRING",
-            "value": "-}"
-          }
-        ]
-      }
-    },
-    "block_documentation": {
-      "type": "PREC",
-      "value": 1,
-      "content": {
-        "type": "TOKEN",
-        "content": {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "STRING",
-              "value": "{-| "
-            },
-            {
-              "type": "REPEAT",
-              "content": {
-                "type": "CHOICE",
-                "members": [
-                  {
-                    "type": "PATTERN",
-                    "value": "[^-]"
-                  },
-                  {
-                    "type": "PATTERN",
-                    "value": "-[^}]"
-                  }
-                ]
-              }
-            },
-            {
-              "type": "STRING",
-              "value": "-}"
-            }
-          ]
-        }
-      }
-    },
     "line_comment": {
       "type": "TOKEN",
       "content": {
@@ -2737,10 +2669,6 @@
     },
     {
       "type": "SYMBOL",
-      "name": "block_documentation"
-    },
-    {
-      "type": "SYMBOL",
       "name": "line_comment"
     },
     {
@@ -2779,6 +2707,10 @@
     {
       "type": "SYMBOL",
       "name": "minus_without_trailing_whitespace"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "block_comment"
     }
   ],
   "inline": [],

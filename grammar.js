@@ -12,12 +12,12 @@ module.exports = grammar({
     $.virtual_end_decl,
     $.virtual_open_section,
     $.virtual_end_section,
-    $.minus_without_trailing_whitespace
+    $.minus_without_trailing_whitespace,
+    $.block_comment
   ],
 
   extras: $ => [
     $.block_comment,
-    $.block_documentation,
     $.line_comment,
     /[\s\uFEFF\u2060\u200B]|\\\r?\n/
   ],
@@ -551,11 +551,6 @@ module.exports = grammar({
 
     // Stuff from lexer
 
-    block_comment: $ => token(seq("{-", repeat(choice(/[^-]/, /-[^}]/)), "-}")),
-
-    block_documentation: $ =>
-      prec(1, token(seq("{-| ", repeat(choice(/[^-]/, /-[^}]/)), "-}"))),
-
     line_comment: $ => token(seq("--", /.*/)),
 
     upper_case_identifier: $ => /[A-Z][a-zA-Z0-9_]*/,
@@ -641,8 +636,6 @@ module.exports = grammar({
         "<?>",
         "|.",
         "|="
-
-
       ),
     infix: $ => "infix",
 

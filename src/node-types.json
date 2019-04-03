@@ -351,14 +351,6 @@
     "named": false
   },
   {
-    "type": "block_comment",
-    "named": true
-  },
-  {
-    "type": "block_documentation",
-    "named": true
-  },
-  {
     "type": "line_comment",
     "named": true
   },

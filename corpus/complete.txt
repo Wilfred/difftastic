@@ -1,4 +1,59 @@
 =====================================
+Complete function example
+=====================================
+
+{-| An animation frame triggers about 60 times per second. Get the POSIX time
+on each frame. (See [`elm/time`](/packages/elm/time/latest) for more info on
+POSIX times.)
+
+**Note:** Browsers have their own render loop, repainting things as fast as
+possible. If you want smooth animations in your application, it is helpful to
+sync up with the browsers natural refresh rate. This hooks into JavaScript's
+`requestAnimationFrame` function.
+-}
+onAnimationFrame : (Time.Posix -> msg) -> Sub msg
+onAnimationFrame =
+  AM.onAnimationFrame
+---
+
+(file 
+    (block_comment)
+    (type_annotation 
+        (lower_case_identifier) 
+        (colon) 
+        (type_expression 
+            (left_parenthesis) 
+            (type_expression 
+                (type_ref 
+                    (upper_case_qid 
+                        (upper_case_identifier) 
+                        (dot) 
+                        (upper_case_identifier)
+                    )
+                ) 
+                (arrow) 
+                (type_variable (lower_case_identifier))
+            ) 
+            (right_parenthesis)
+            (arrow) 
+            (type_ref 
+                (upper_case_qid (upper_case_identifier)) 
+                (type_variable (lower_case_identifier))
+            )
+        )
+    ) 
+    (virtual_end_decl) 
+    (value_declaration 
+        (function_declaration_left 
+            (lower_case_identifier)
+        ) 
+        (eq) 
+        (value_expr (value_qid (upper_case_identifier) (dot) (lower_case_identifier)))
+    ) 
+    (virtual_end_decl)
+)
+
+=====================================
 Complete counter example
 =====================================
 
