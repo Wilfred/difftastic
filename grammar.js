@@ -1,8 +1,9 @@
 const PREC = {
-  times: 6,
-  plus: 5,
-  lazy_or: 4,
-  lazy_and: 3,
+  times: 7,
+  plus: 6,
+  comparison: 5,
+  lazy_and: 4,
+  lazy_or: 3,
   arrow: 2,
   assign: 1,
   pair: 0,
@@ -86,6 +87,7 @@ grammar({
 
     _statement: $ => choice(
       $.if_statement,
+      $.for_statement,
       $.import_statement
     ),
 
@@ -109,6 +111,15 @@ grammar({
       $._expression_list
     ),
 
+    for_statement: $ => seq(
+      'for',
+      $.identifier,
+      'in',
+      $._expression,
+      optional($._expression_list),
+      'end'
+    ),
+
     import_statement: $ => seq(
       choice(
         'using',
@@ -130,19 +141,23 @@ grammar({
       $._definition,
       $.parenthesized_expression,
       $.typed_expression,
+      $.compound_expression,
       $.pair_expression,
       $.field_expression,
+      $.macro_expression,
       $.call_expression,
       $.binary_expression,
       $.assignment_expression,
       $.parameterized_identifier,
+      $.array_expression,
+      $.tuple_expression,
       $.identifier,
       $.number,
       $.string
     ),
 
     parenthesized_expression: $ => prec(-1, seq(
-      '(', $._expression, ')'
+      '(', $._expression_list, ')'
     )),
 
     field_expression: $ => seq(
@@ -170,13 +185,30 @@ grammar({
       '}'
     ),
 
+    compound_expression: $ => seq(
+      'begin',
+      $._expression_list,
+      'end'
+    ),
+
     call_expression: $ => seq(
       $._expression,
       $.argument_list
     ),
 
+    macro_expression: $ => seq(
+      '@',
+      $.identifier,
+      choice(
+        $.argument_list,
+        $.macro_argument_list
+      )
+    ),
+
+    macro_argument_list: $ => prec(-1, repeat1(prec(-1, $._expression))),
+
     argument_list: $ => seq(
-      '(',
+      token.immediate('('),
       sep(',', $._expression),
       ')'
     ),
@@ -203,6 +235,11 @@ grammar({
         $._arrow_operator,
         $._expression
       )),
+      prec.left(PREC.comparison, seq(
+        $._expression,
+        $._comparison_operator,
+        $._expression
+      )),
       prec.left(PREC.lazy_or, seq(
         $._expression,
         '||',
@@ -220,6 +257,21 @@ grammar({
       '=>',
       $._expression
     )),
+
+    tuple_expression: $ => seq(
+      '(',
+      $._expression,
+      sep1(',', $._expression),
+      optional(','),
+      ')'
+    ),
+
+    array_expression: $ => seq(
+      '[',
+      sep(',', $._expression),
+      optional(','),
+      ']'
+    ),
 
     // Tokens
 
@@ -253,6 +305,18 @@ grammar({
       ⥢ ⥤ ⥦ ⥧ ⥨ ⥩ ⥪ ⥫ ⥬ ⥭ ⥰ ⧴ ⬱ ⬰ ⬲ ⬳ ⬴ ⬵ ⬶ ⬷
       ⬸ ⬹ ⬺ ⬻ ⬼ ⬽ ⬾ ⬿ ⭀ ⭁ ⭂ ⭃ ⭄ ⭇ ⭈ ⭉ ⭊ ⭋ ⭌ ￩ ￫
       ⇜ ⇝ ↜ ↝ ↩ ↪ ↫ ↬ ↼ ↽ ⇀ ⇁ ⇄ ⇆ ⇇ ⇉ ⇋ ⇌ ⇚ ⇛ ⇠ ⇢
+    `))),
+
+    _comparison_operator: $ => token(choice('|<:|', '|>:|', 'in', 'isa', addDots(`
+      > < >= ≥ <= ≤ == === ≡ != ≠ !== ≢ ∈ ∉ ∋ ∌ ⊆ ⊈ ⊂ ⊄ ⊊ ∝ ∊ ∍ ∥ ∦ ∷ ∺ ∻ ∽ ∾ ≁
+      ≃ ≂ ≄ ≅ ≆ ≇ ≈ ≉ ≊ ≋ ≌ ≍ ≎ ≐ ≑ ≒ ≓ ≖ ≗ ≘ ≙ ≚ ≛ ≜ ≝ ≞ ≟ ≣ ≦ ≧ ≨ ≩ ≪ ≫ ≬ ≭
+      ≮ ≯ ≰ ≱ ≲ ≳ ≴ ≵ ≶ ≷ ≸ ≹ ≺ ≻ ≼ ≽ ≾ ≿ ⊀ ⊁ ⊃ ⊅ ⊇ ⊉ ⊋ ⊏ ⊐ ⊑ ⊒ ⊜ ⊩ ⊬ ⊮ ⊰ ⊱
+      ⊲ ⊳ ⊴ ⊵ ⊶ ⊷ ⋍ ⋐ ⋑ ⋕ ⋖ ⋗ ⋘ ⋙ ⋚ ⋛ ⋜ ⋝ ⋞ ⋟ ⋠ ⋡ ⋢ ⋣ ⋤ ⋥ ⋦ ⋧ ⋨ ⋩ ⋪ ⋫
+      ⋬ ⋭ ⋲ ⋳ ⋴ ⋵ ⋶ ⋷ ⋸ ⋹ ⋺ ⋻ ⋼ ⋽ ⋾ ⋿ ⟈ ⟉ ⟒ ⦷ ⧀ ⧁ ⧡ ⧣ ⧤ ⧥ ⩦ ⩧ ⩪ ⩫ ⩬ ⩭ ⩮ ⩯
+      ⩰ ⩱ ⩲ ⩳ ⩵ ⩶ ⩷ ⩸ ⩹ ⩺ ⩻ ⩼ ⩽ ⩾ ⩿ ⪀ ⪁ ⪂ ⪃ ⪄ ⪅ ⪆ ⪇ ⪈ ⪉ ⪊ ⪋ ⪌ ⪍ ⪎ ⪏ ⪐ ⪑ ⪒ ⪓ ⪔
+      ⪕ ⪖ ⪗ ⪘ ⪙ ⪚ ⪛ ⪜ ⪝ ⪞ ⪟ ⪠ ⪡ ⪢ ⪣ ⪤ ⪥ ⪦ ⪧ ⪨ ⪩ ⪪ ⪫ ⪬ ⪭ ⪮ ⪯ ⪰ ⪱ ⪲ ⪳ ⪴ ⪵ ⪶ ⪷ ⪸
+      ⪹ ⪺ ⪻ ⪼ ⪽ ⪾ ⪿ ⫀ ⫁ ⫂ ⫃ ⫄ ⫅ ⫆ ⫇ ⫈ ⫉ ⫊ ⫋ ⫌ ⫍ ⫎ ⫏ ⫐ ⫑ ⫒ ⫓ ⫔ ⫕ ⫖ ⫗ ⫘ ⫙ ⫷ ⫸
+      ⫹ ⫺ ⊢ ⊣ ⟂
     `))),
 
     _assign_operator: $ => token(choice(':=', '~', '$=', addDots(`

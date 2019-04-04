@@ -5,6 +5,11 @@
     "fields": {}
   },
   {
+    "type": "array_expression",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "assignment_expression",
     "named": true,
     "fields": {}
@@ -20,6 +25,11 @@
     "fields": {}
   },
   {
+    "type": "compound_expression",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "else_clause",
     "named": true,
     "fields": {}
@@ -31,6 +41,11 @@
   },
   {
     "type": "field_expression",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "for_statement",
     "named": true,
     "fields": {}
   },
@@ -51,6 +66,16 @@
   },
   {
     "type": "import_statement",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "macro_argument_list",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "macro_expression",
     "named": true,
     "fields": {}
   },
@@ -91,6 +116,11 @@
   },
   {
     "type": "subtype_clause",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "tuple_expression",
     "named": true,
     "fields": {}
   },
@@ -166,6 +196,14 @@
     "named": false
   },
   {
+    "type": "for",
+    "named": false
+  },
+  {
+    "type": "in",
+    "named": false
+  },
+  {
     "type": "using",
     "named": false
   },
@@ -186,6 +224,18 @@
     "named": false
   },
   {
+    "type": "begin",
+    "named": false
+  },
+  {
+    "type": "@",
+    "named": false
+  },
+  {
+    "type": "(",
+    "named": false
+  },
+  {
     "type": "||",
     "named": false
   },
@@ -195,6 +245,14 @@
   },
   {
     "type": "=>",
+    "named": false
+  },
+  {
+    "type": "[",
+    "named": false
+  },
+  {
+    "type": "]",
     "named": false
   },
   {

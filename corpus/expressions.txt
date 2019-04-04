@@ -45,11 +45,41 @@ b("hi", 2)
   (call_expression (identifier) (argument_list (string) (number))))
 
 =================
+Macro calls
+=================
+
+@assert x == y
+@assert x == y "a message"
+
+@testset "a" begin
+  b = c
+end
+
+---
+
+(source_file
+  (macro_expression
+    (identifier)
+    (macro_argument_list
+      (binary_expression (identifier) (identifier))))
+  (macro_expression
+    (identifier)
+    (macro_argument_list
+      (binary_expression (identifier) (identifier))
+      (string)))
+  (macro_expression
+    (identifier)
+    (macro_argument_list
+      (string)
+      (compound_expression (assignment_expression (identifier) (identifier))))))
+
+=================
 Binary operators
 =================
 
 a → b ⇶ c ⭄ d
 a * b ⦼ c
+a == b
 
 ---
 
@@ -65,6 +95,9 @@ a * b ⦼ c
     (binary_expression
       (identifier)
       (identifier))
+    (identifier))
+  (binary_expression
+    (identifier)
     (identifier)))
 
 ===================================

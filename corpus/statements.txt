@@ -25,6 +25,22 @@ end
       (call_expression (identifier) (argument_list)))))
 
 ===============================
+For statements
+===============================
+
+for i in [1, 2, 3]
+  print(i)
+end
+
+---
+
+(source_file
+  (for_statement
+    (identifier)
+    (array_expression (number) (number) (number))
+    (call_expression (identifier) (argument_list (identifier)))))
+
+===============================
 Import statements
 ===============================
 
