@@ -1,6 +1,3 @@
-// test with
-// ./node_modules/.bin/tree-sitter generate && node-gyp build && ./node_modules/.bin/tree-sitter test
-
 const PREC = {
   times: 6,
   plus: 5,
@@ -18,6 +15,8 @@ grammar({
   inline: $ => [
     $._terminator,
     $._expression_list,
+    $._definition,
+    $._statement,
   ],
 
   extras: $ => [
@@ -33,62 +32,35 @@ grammar({
       optional($._terminator)
     ),
 
-    // Expressions
+    // Definitions
 
-    _expression: $ => choice(
-      $.number,
-      $.string,
-      $.identifier,
-      $.pair_expression,
-      $.call_expression,
-      $.module_expression,
-      $.function_expression,
-      $.binary_expression,
-      $.conditional_expression,
-      $.assignment_expression,
-      $.struct_definition
+    _definition: $ => choice(
+      $.struct_definition,
+      $.module_definition,
+      $.function_definition
     ),
 
-    module_expression: $ => seq(
-      'module',
+    function_definition: $ => seq(
+      'function',
       $.identifier,
+      $.parameter_list,
       optional($._expression_list),
       'end'
     ),
 
-    // abstract_definition: $ => seq(
-    //   'abstract type',
-    //   $.typed_identifier,
-    //   'end'
-    // ),
-
     struct_definition: $ => seq(
       optional('mutable'),
       'struct',
-      $.typed_identifier,
-      sep($.typed_identifier, $._terminator),
+      $.identifier,
+      optional($.type_parameter_list),
+      optional($.subtype_clause),
+      optional($._expression_list),
       'end'
     ),
 
-    typed_identifier: $ => seq(
-      $.parameterized_identifier,
-      optional(seq(
-        choice('::', '<:'),
-        $.parameterized_identifier
-      ))
-    ),
-
-    parameterized_identifier: $ => seq(
+    module_definition: $ => seq(
+      'module',
       $.identifier,
-      optional(
-        seq('{', sep1(',', $.typed_identifier), '}')
-      )
-    ),
-
-    function_expression: $ => seq(
-      'function',
-      $.identifier,
-      $.parameter_list,
       optional($._expression_list),
       'end'
     ),
@@ -97,6 +69,105 @@ grammar({
       '(',
       sep(',', $.identifier),
       ')'
+    ),
+
+    type_parameter_list: $ => seq(
+      '{',
+      sep1(',', choice($.identifier, $.typed_expression)),
+      '}'
+    ),
+
+    subtype_clause: $ => prec.left(seq(
+      '<:',
+      $._expression
+    )),
+
+    // Statements
+
+    _statement: $ => choice(
+      $.if_statement,
+      $.import_statement
+    ),
+
+    if_statement: $ => seq(
+      'if',
+      $._expression,
+      $._expression_list,
+      repeat($.elseif_clause),
+      optional($.else_clause),
+      'end'
+    ),
+
+    elseif_clause: $ => seq(
+      'elseif',
+      $._expression,
+      $._expression_list
+    ),
+
+    else_clause: $ => seq(
+      'else',
+      $._expression_list
+    ),
+
+    import_statement: $ => seq(
+      choice(
+        'using',
+        'import'
+      ),
+      choice($.identifier, $.field_expression),
+      optional($.import_list)
+    ),
+
+    import_list: $ => seq(
+      token.immediate(':'),
+      prec.left(sep1(',', $.identifier))
+    ),
+
+    // Expressions
+
+    _expression: $ => choice(
+      $._statement,
+      $._definition,
+      $.parenthesized_expression,
+      $.typed_expression,
+      $.pair_expression,
+      $.field_expression,
+      $.call_expression,
+      $.binary_expression,
+      $.assignment_expression,
+      $.parameterized_identifier,
+      $.identifier,
+      $.number,
+      $.string
+    ),
+
+    parenthesized_expression: $ => prec(-1, seq(
+      '(', $._expression, ')'
+    )),
+
+    field_expression: $ => seq(
+      choice($.identifier, $.field_expression),
+      '.',
+      $.identifier
+    ),
+
+    typed_expression: $ => seq(
+      choice(
+        $._expression
+      ),
+      choice('::', '<:'),
+      choice($.identifier, $.parameterized_identifier)
+    ),
+
+    parameterized_identifier: $ => seq(
+      $.identifier,
+      $.type_argument_list
+    ),
+
+    type_argument_list: $ => seq(
+      '{',
+      sep1(',', choice($._expression)),
+      '}'
     ),
 
     call_expression: $ => seq(
@@ -149,26 +220,6 @@ grammar({
       '=>',
       $._expression
     )),
-
-    conditional_expression: $ => seq(
-      'if',
-      $._expression,
-      $._expression_list,
-      repeat($.elseif_clause),
-      optional($.else_clause),
-      'end'
-    ),
-
-    elseif_clause: $ => seq(
-      'elseif',
-      $._expression,
-      $._expression_list
-    ),
-
-    else_clause: $ => seq(
-      'else',
-      $._expression_list
-    ),
 
     // Tokens
 

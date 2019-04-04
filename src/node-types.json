@@ -1,0 +1,224 @@
+[
+  {
+    "type": "argument_list",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "assignment_expression",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "binary_expression",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "call_expression",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "else_clause",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "elseif_clause",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "field_expression",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "function_definition",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "if_statement",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "import_list",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "import_statement",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "module_definition",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "pair_expression",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "parameter_list",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "parameterized_identifier",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "parenthesized_expression",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "source_file",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "struct_definition",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "subtype_clause",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "type_argument_list",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "type_parameter_list",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "typed_expression",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "function",
+    "named": false
+  },
+  {
+    "type": "end",
+    "named": false
+  },
+  {
+    "type": "mutable",
+    "named": false
+  },
+  {
+    "type": "struct",
+    "named": false
+  },
+  {
+    "type": "module",
+    "named": false
+  },
+  {
+    "type": "(",
+    "named": false
+  },
+  {
+    "type": ",",
+    "named": false
+  },
+  {
+    "type": ")",
+    "named": false
+  },
+  {
+    "type": "{",
+    "named": false
+  },
+  {
+    "type": "}",
+    "named": false
+  },
+  {
+    "type": "<:",
+    "named": false
+  },
+  {
+    "type": "if",
+    "named": false
+  },
+  {
+    "type": "elseif",
+    "named": false
+  },
+  {
+    "type": "else",
+    "named": false
+  },
+  {
+    "type": "using",
+    "named": false
+  },
+  {
+    "type": "import",
+    "named": false
+  },
+  {
+    "type": ":",
+    "named": false
+  },
+  {
+    "type": ".",
+    "named": false
+  },
+  {
+    "type": "::",
+    "named": false
+  },
+  {
+    "type": "||",
+    "named": false
+  },
+  {
+    "type": "&&",
+    "named": false
+  },
+  {
+    "type": "=>",
+    "named": false
+  },
+  {
+    "type": "identifier",
+    "named": true
+  },
+  {
+    "type": "number",
+    "named": true
+  },
+  {
+    "type": "string",
+    "named": true
+  },
+  {
+    "type": "\n",
+    "named": false
+  },
+  {
+    "type": ";",
+    "named": false
+  },
+  {
+    "type": "comment",
+    "named": true
+  }
+]

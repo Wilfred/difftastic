@@ -1,0 +1,40 @@
+=================
+If statements
+=================
+
+if a
+  b()
+elseif c
+  d()
+  d()
+else
+  e()
+end
+
+---
+
+(source_file
+  (if_statement
+    (identifier)
+    (call_expression (identifier) (argument_list))
+    (elseif_clause
+      (identifier)
+      (call_expression (identifier) (argument_list))
+      (call_expression (identifier) (argument_list)))
+    (else_clause
+      (call_expression (identifier) (argument_list)))))
+
+===============================
+Import statements
+===============================
+
+using Lib
+using BigLib: thing1, thing2
+import Base.show
+
+---
+
+(source_file
+  (import_statement (identifier))
+  (import_statement (identifier) (import_list (identifier) (identifier)))
+  (import_statement (field_expression (identifier) (identifier))))

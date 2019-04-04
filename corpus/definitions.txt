@@ -1,0 +1,84 @@
+=================
+Modules
+=================
+
+module A
+
+module B
+end
+
+module C
+end
+
+end
+
+---
+
+(source_file
+  (module_definition (identifier)
+    (module_definition (identifier))
+    (module_definition (identifier))))
+
+
+=================
+Structs
+=================
+
+# empty
+struct NoFields
+end
+
+# mutable
+mutable struct Bar
+  baz
+  qux::Float64
+end
+
+# parametric
+struct Point{T}
+  x::T
+  y::T
+end
+
+# parametric with constraints, parent type
+struct Rational{T<:Integer} <: Real
+  num::T
+  den::T
+end
+
+# parametric fields
+mutable struct Foo<:Bar
+  asd::Vector{Bar}
+end
+
+---
+
+(source_file
+  (comment)
+  (struct_definition
+    (identifier))
+  (comment)
+  (struct_definition
+    (identifier)
+    (identifier)
+    (typed_expression (identifier) (identifier)))
+  (comment)
+  (struct_definition
+    (identifier)
+    (type_parameter_list (identifier))
+    (typed_expression (identifier) (identifier))
+    (typed_expression (identifier) (identifier)))
+  (comment)
+  (struct_definition
+    (identifier)
+    (type_parameter_list (typed_expression (identifier) (identifier)))
+    (subtype_clause (identifier))
+    (typed_expression (identifier) (identifier))
+    (typed_expression (identifier) (identifier)))
+  (comment)
+  (struct_definition
+    (identifier)
+    (subtype_clause (identifier))
+    (typed_expression
+      (identifier)
+      (parameterized_identifier (identifier) (type_argument_list (identifier))))))

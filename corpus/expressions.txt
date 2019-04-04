@@ -27,57 +27,9 @@ end
 ---
 
 (source_file
-  (function_expression
+  (function_definition
     (identifier)
     (parameter_list (identifier) (identifier))))
-
-=================
-Modules
-=================
-
-module A
-
-module B
-end
-
-module C
-end
-
-end
-
----
-
-(source_file
-  (module_expression (identifier)
-    (module_expression (identifier))
-    (module_expression (identifier))))
-
-
-=================
-Structs
-=================
-struct Asdf{T}
-  asd::Any
-  bsd
-end
-
-mutable struct Foo<:Bar
-  asd::Vector{Bar}
-end
-
----
-
-(source_file
-  (struct_definition
-    (typed_identifier (parameterized_identifier (identifier) (typed_identifier (parameterized_identifier (identifier)))))
-    (typed_identifier (parameterized_identifier (identifier)) (parameterized_identifier (identifier)))
-    (typed_identifier (parameterized_identifier (identifier)))
-  )
-  (struct_definition
-    (typed_identifier (parameterized_identifier (identifier)) (parameterized_identifier (identifier)))
-    (typed_identifier (parameterized_identifier (identifier)) (parameterized_identifier (identifier) (typed_identifier (parameterized_identifier (identifier)))))
-  )
-)
 
 =================
 Function calls
@@ -127,32 +79,6 @@ a .* b .+ c
   (binary_expression
     (binary_expression (identifier) (identifier))
     (identifier)))
-
-=================
-Conditionals
-=================
-
-if a
-  b()
-elseif c
-  d()
-  d()
-else
-  e()
-end
-
----
-
-(source_file
-  (conditional_expression
-    (identifier)
-    (call_expression (identifier) (argument_list))
-    (elseif_clause
-      (identifier)
-      (call_expression (identifier) (argument_list))
-      (call_expression (identifier) (argument_list)))
-    (else_clause
-      (call_expression (identifier) (argument_list)))))
 
 =================
 Pairs
