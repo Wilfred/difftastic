@@ -19,13 +19,15 @@ const PREC = [
   'decl',
   'dot',
 ].reduce((result, name, index) => {
-  result[name] = index;
+  result[name] = index + 10;
   return result;
 }, {});
 
 module.exports =
 grammar({
   name: 'julia',
+
+  word: $ => $.identifier,
 
   inline: $ => [
     $._terminator,
@@ -105,14 +107,22 @@ grammar({
 
     _statement: $ => choice(
       $.if_statement,
+      $.try_statement,
       $.for_statement,
-      $.import_statement
+      $.while_statement,
+      $.let_statement,
+      $.quote_statement,
+      $.break_statement,
+      $.continue_statement,
+      $.import_statement,
+      $.export_statement
     ),
 
     if_statement: $ => seq(
       'if',
       $._expression,
-      $._expression_list,
+      optional($._terminator),
+      optional($._expression_list),
       repeat($.elseif_clause),
       optional($.else_clause),
       'end'
@@ -129,11 +139,64 @@ grammar({
       $._expression_list
     ),
 
+    try_statement: $ => seq(
+      'try',
+      optional($._expression_list),
+      optional($.catch_clause),
+      optional($.finally_clause),
+      'end'
+    ),
+
+    catch_clause: $ => prec(1, seq(
+      'catch',
+      optional($.identifier),
+      optional($._terminator),
+      optional($._expression_list),
+    )),
+
+    finally_clause: $ => seq(
+      'finally',
+      optional($._terminator),
+      optional($._expression_list),
+    ),
+
     for_statement: $ => seq(
       'for',
       $.identifier,
       choice('in', '=', '∈'),
       $._expression,
+      optional($._terminator),
+      optional($._expression_list),
+      'end'
+    ),
+
+    while_statement: $ => seq(
+      'while',
+      $._expression,
+      optional($._terminator),
+      optional($._expression_list),
+      'end'
+    ),
+
+    break_statement: $ => 'break',
+
+    continue_statement: $ => 'continue',
+
+    let_statement: $ => seq(
+      'let',
+      sep1(',', $.let_declaration),
+      optional($._terminator),
+      optional($._expression_list),
+      'end'
+    ),
+
+    let_declaration: $ => seq(
+      $.identifier,
+      optional(seq('=', $._expression))
+    ),
+
+    quote_statement: $ => seq(
+      'quote',
       optional($._expression_list),
       'end'
     ),
@@ -153,6 +216,11 @@ grammar({
       choice($.identifier, $.scoped_identifier),
       '.',
       $.identifier
+    )),
+
+    export_statement: $ => prec.right(seq(
+      'export',
+      sep1(',', $.identifier)
     )),
 
     // Expressions

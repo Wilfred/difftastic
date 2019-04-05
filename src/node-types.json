@@ -25,6 +25,11 @@
     "fields": {}
   },
   {
+    "type": "catch_clause",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "coefficient_expression",
     "named": true,
     "fields": {}
@@ -45,7 +50,17 @@
     "fields": {}
   },
   {
+    "type": "export_statement",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "field_expression",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "finally_clause",
     "named": true,
     "fields": {}
   },
@@ -71,6 +86,16 @@
   },
   {
     "type": "import_statement",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "let_declaration",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "let_statement",
     "named": true,
     "fields": {}
   },
@@ -120,6 +145,11 @@
     "fields": {}
   },
   {
+    "type": "quote_statement",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "range_expression",
     "named": true,
     "fields": {}
@@ -150,6 +180,11 @@
     "fields": {}
   },
   {
+    "type": "try_statement",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "tuple_expression",
     "named": true,
     "fields": {}
@@ -166,6 +201,11 @@
   },
   {
     "type": "typed_expression",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "while_statement",
     "named": true,
     "fields": {}
   },
@@ -226,6 +266,18 @@
     "named": false
   },
   {
+    "type": "try",
+    "named": false
+  },
+  {
+    "type": "catch",
+    "named": false
+  },
+  {
+    "type": "finally",
+    "named": false
+  },
+  {
     "type": "for",
     "named": false
   },
@@ -242,6 +294,26 @@
     "named": false
   },
   {
+    "type": "while",
+    "named": false
+  },
+  {
+    "type": "break_statement",
+    "named": true
+  },
+  {
+    "type": "continue_statement",
+    "named": true
+  },
+  {
+    "type": "let",
+    "named": false
+  },
+  {
+    "type": "quote",
+    "named": false
+  },
+  {
     "type": "using",
     "named": false
   },
@@ -255,6 +327,10 @@
   },
   {
     "type": ".",
+    "named": false
+  },
+  {
+    "type": "export",
     "named": false
   },
   {

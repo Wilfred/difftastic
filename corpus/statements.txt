@@ -41,6 +41,96 @@ end
     (call_expression (identifier) (argument_list (identifier)))))
 
 ===============================
+While statements
+===============================
+
+while i < 5
+  print(i)
+  continue
+  break
+end
+
+while a(); b(); end
+
+---
+
+(source_file
+  (while_statement
+    (binary_expression (identifier) (number))
+    (call_expression (identifier) (argument_list (identifier)))
+    (continue_statement)
+    (break_statement))
+  (while_statement
+    (call_expression (identifier) (argument_list))
+    (call_expression (identifier) (argument_list))))
+
+===============================
+Let statements
+===============================
+
+let var1 = value1, var2, var3 = value3
+    code
+end
+
+---
+
+(source_file
+  (let_statement
+    (let_declaration (identifier) (identifier))
+    (let_declaration (identifier))
+    (let_declaration (identifier) (identifier))
+    (identifier)))
+
+===============================
+Quote statements
+===============================
+
+quote
+  x = 1
+  y = 2
+  x + y
+end
+
+---
+
+(source_file
+  (quote_statement
+    (assignment_expression (identifier) (number))
+    (assignment_expression (identifier) (number))
+    (binary_expression (identifier) (identifier))))
+
+===============================
+Try statements
+===============================
+
+try
+    sqrt(x)
+catch
+    sqrt(complex(x, 0))
+end
+
+try
+    operate_on_file(f)
+finally
+    close(f)
+end
+
+---
+
+(source_file
+  (try_statement
+    (call_expression (identifier) (argument_list (identifier)))
+    (catch_clause
+      (call_expression
+        (identifier)
+        (argument_list
+          (call_expression (identifier) (argument_list (identifier) (number)))))))
+  (try_statement
+    (call_expression (identifier) (argument_list (identifier)))
+    (finally_clause
+      (call_expression (identifier) (argument_list (identifier))))))
+
+===============================
 Import statements
 ===============================
 
@@ -56,3 +146,16 @@ using A, B, C
   (import_statement (selected_import (identifier) (identifier) (identifier)))
   (import_statement (scoped_identifier (identifier) (identifier)))
   (import_statement (identifier) (identifier) (identifier)))
+
+===============================
+Export statements
+===============================
+
+export a
+export a, b, c
+
+---
+
+(source_file
+  (export_statement (identifier))
+  (export_statement (identifier) (identifier) (identifier)))
