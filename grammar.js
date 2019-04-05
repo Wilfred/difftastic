@@ -18,6 +18,8 @@ const PREC = [
   'call',
   'decl',
   'dot',
+  'postfix',
+  'prefix',
 ].reduce((result, name, index) => {
   result[name] = index + 10;
   return result;
@@ -136,14 +138,20 @@ grammar({
 
     type_parameter_list: $ => seq(
       '{',
-      sep1(',', choice($.identifier, $.typed_expression)),
+      sep1(',', choice($.identifier, $.constrained_parameter)),
       '}'
     ),
 
-    subtype_clause: $ => prec.left(seq(
+    constrained_parameter: $ => seq(
+      $.identifier,
       '<:',
       $._expression
-    )),
+    ),
+
+    subtype_clause: $ => seq(
+      '<:',
+      $._expression
+    ),
 
     // Statements
 
@@ -153,6 +161,7 @@ grammar({
       $.for_statement,
       $.while_statement,
       $.let_statement,
+      $.const_statement,
       $.quote_statement,
       $.break_statement,
       $.continue_statement,
@@ -226,13 +235,18 @@ grammar({
 
     let_statement: $ => seq(
       'let',
-      sep1(',', $.let_declaration),
+      sep1(',', $.variable_declaration),
       optional($._terminator),
       optional($._expression_list),
       'end'
     ),
 
-    let_declaration: $ => seq(
+    const_statement: $ => seq(
+      'const',
+      prec.right(sep1(',', $.variable_declaration))
+    ),
+
+    variable_declaration: $ => seq(
       $.identifier,
       optional(seq('=', $._expression))
     ),
@@ -331,9 +345,7 @@ grammar({
     ),
 
     typed_expression: $ => prec(PREC.decl, seq(
-      choice(
-        $._expression
-      ),
+      $._expression,
       choice('::', '<:'),
       choice($.identifier, $.parameterized_identifier)
     )),
@@ -392,7 +404,7 @@ grammar({
       ')'
     ),
 
-    spread_expression: $ => seq($._expression, '...'),
+    spread_expression: $ => prec(PREC.dot, seq($._expression, '...')),
 
     assignment_expression: $ => prec.right(PREC.assign, seq(
       $._expression,
@@ -400,10 +412,16 @@ grammar({
       $._expression
     )),
 
-    unary_expression: $ => prec(PREC.call, seq(
-      choice('!', '-', '+'),
-      $._expression
-    )),
+    unary_expression: $ => choice(
+      prec(PREC.prefix, seq(
+        choice('>:', '+', '-', '!', '~', '¬', '√', '∛', '∜'),
+        $._expression
+      )),
+      prec(PREC.postfix, seq(
+        $._expression,
+        choice("'", ".'")
+      ))
+    ),
 
     binary_expression: $ => choice(
       prec.left(PREC.power, seq(

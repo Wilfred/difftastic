@@ -76,10 +76,23 @@ end
 
 (source_file
   (let_statement
-    (let_declaration (identifier) (identifier))
-    (let_declaration (identifier))
-    (let_declaration (identifier) (identifier))
+    (variable_declaration (identifier) (identifier))
+    (variable_declaration (identifier))
+    (variable_declaration (identifier) (identifier))
     (identifier)))
+
+===============================
+Const statements
+===============================
+
+const x, y = 5
+
+---
+
+(source_file
+  (const_statement
+    (variable_declaration (identifier))
+    (variable_declaration (identifier) (number))))
 
 ===============================
 Quote statements

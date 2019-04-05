@@ -45,6 +45,16 @@
     "fields": {}
   },
   {
+    "type": "const_statement",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "constrained_parameter",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "else_clause",
     "named": true,
     "fields": {}
@@ -91,11 +101,6 @@
   },
   {
     "type": "import_statement",
-    "named": true,
-    "fields": {}
-  },
-  {
-    "type": "let_declaration",
     "named": true,
     "fields": {}
   },
@@ -235,6 +240,11 @@
     "fields": {}
   },
   {
+    "type": "variable_declaration",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "while_statement",
     "named": true,
     "fields": {}
@@ -340,6 +350,10 @@
     "named": false
   },
   {
+    "type": "const",
+    "named": false
+  },
+  {
     "type": "quote",
     "named": false
   },
@@ -400,11 +414,43 @@
     "named": false
   },
   {
-    "type": "!",
+    "type": ">:",
     "named": false
   },
   {
     "type": "-",
+    "named": false
+  },
+  {
+    "type": "!",
+    "named": false
+  },
+  {
+    "type": "~",
+    "named": false
+  },
+  {
+    "type": "¬",
+    "named": false
+  },
+  {
+    "type": "√",
+    "named": false
+  },
+  {
+    "type": "∛",
+    "named": false
+  },
+  {
+    "type": "∜",
+    "named": false
+  },
+  {
+    "type": "'",
+    "named": false
+  },
+  {
+    "type": ".'",
     "named": false
   },
   {

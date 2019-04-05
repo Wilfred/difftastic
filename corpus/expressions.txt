@@ -144,6 +144,8 @@ Unary operators
 
 +a
 -b
+√9
+[a]'
 !(a + b)
 
 ---
@@ -151,6 +153,8 @@ Unary operators
 (source_file
   (unary_expression (identifier))
   (unary_expression (identifier))
+  (unary_expression (number))
+  (unary_expression (array_expression (identifier)))
   (unary_expression
     (parenthesized_expression (binary_expression (identifier) (identifier)))))
 

@@ -71,7 +71,7 @@ end
   (comment)
   (struct_definition
     (identifier)
-    (type_parameter_list (typed_expression (identifier) (identifier)))
+    (type_parameter_list (constrained_parameter (identifier) (identifier)))
     (subtype_clause (identifier))
     (typed_expression (identifier) (identifier))
     (typed_expression (identifier) (identifier)))
