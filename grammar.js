@@ -1,13 +1,27 @@
-const PREC = {
-  times: 7,
-  plus: 6,
-  comparison: 5,
-  lazy_and: 4,
-  lazy_or: 3,
-  arrow: 2,
-  assign: 1,
-  pair: 0,
-};
+const PREC = [
+  'assign',
+  'pair',
+  'conditional',
+  'lazy_or',
+  'lazy_and',
+  'arrow',
+  'comparison',
+  'pipe_left',
+  'pipe_right',
+  'colon_quote',
+  'colon_range',
+  'plus',
+  'bitshift',
+  'times',
+  'rational',
+  'power',
+  'call',
+  'decl',
+  'dot',
+].reduce((result, name, index) => {
+  result[name] = index;
+  return result;
+}, {});
 
 module.exports =
 grammar({
@@ -18,6 +32,10 @@ grammar({
     $._expression_list,
     $._definition,
     $._statement,
+  ],
+
+  conflicts: $ => [
+    [$.parameter_list, $._expression],
   ],
 
   extras: $ => [
@@ -114,25 +132,28 @@ grammar({
     for_statement: $ => seq(
       'for',
       $.identifier,
-      'in',
+      choice('in', '=', '∈'),
       $._expression,
       optional($._expression_list),
       'end'
     ),
 
-    import_statement: $ => seq(
-      choice(
-        'using',
-        'import'
-      ),
-      choice($.identifier, $.field_expression),
-      optional($.import_list)
+    import_statement: $ => prec.right(seq(
+      choice('using', 'import'),
+      sep1(',', choice($.identifier, $.scoped_identifier, $.selected_import))
+    )),
+
+    selected_import: $ => seq(
+      choice($.identifier, $.scoped_identifier),
+      token.immediate(':'),
+      prec.right(sep1(',', $.identifier))
     ),
 
-    import_list: $ => seq(
-      token.immediate(':'),
-      prec.left(sep1(',', $.identifier))
-    ),
+    scoped_identifier: $ => prec(PREC.dot, seq(
+      choice($.identifier, $.scoped_identifier),
+      '.',
+      $.identifier
+    )),
 
     // Expressions
 
@@ -151,31 +172,35 @@ grammar({
       $.parameterized_identifier,
       $.array_expression,
       $.tuple_expression,
+      $.function_expression,
+      $.coefficient_expression,
+      $.range_expression,
+      $.quote_expression,
       $.identifier,
       $.number,
       $.string
     ),
 
-    parenthesized_expression: $ => prec(-1, seq(
+    parenthesized_expression: $ => prec(1, seq(
       '(', $._expression_list, ')'
     )),
 
-    field_expression: $ => seq(
-      choice($.identifier, $.field_expression),
+    field_expression: $ => prec(PREC.dot, seq(
+      $._expression,
       '.',
       $.identifier
-    ),
+    )),
 
-    typed_expression: $ => seq(
+    typed_expression: $ => prec(PREC.decl, seq(
       choice(
         $._expression
       ),
       choice('::', '<:'),
       choice($.identifier, $.parameterized_identifier)
-    ),
+    )),
 
     parameterized_identifier: $ => seq(
-      $.identifier,
+      choice($.identifier, $.field_expression),
       $.type_argument_list
     ),
 
@@ -191,10 +216,13 @@ grammar({
       'end'
     ),
 
-    call_expression: $ => seq(
-      $._expression,
+    call_expression: $ => prec(PREC.call, seq(
+      choice(
+        $.identifier,
+        $.field_expression
+      ),
       $.argument_list
-    ),
+    )),
 
     macro_expression: $ => seq(
       '@',
@@ -220,6 +248,11 @@ grammar({
     )),
 
     binary_expression: $ => choice(
+      prec.left(PREC.power, seq(
+        $._expression,
+        $._power_operator,
+        $._expression
+      )),
       prec.left(PREC.times, seq(
         $._expression,
         $._times_operator,
@@ -260,8 +293,7 @@ grammar({
 
     tuple_expression: $ => seq(
       '(',
-      $._expression,
-      sep1(',', $._expression),
+      optional(sep1(',', $._expression)),
       optional(','),
       ')'
     ),
@@ -273,17 +305,52 @@ grammar({
       ']'
     ),
 
+    function_expression: $ => prec.right(PREC.arrow, seq(
+      choice(
+        $.identifier,
+        $.parameter_list,
+      ),
+      '->',
+      $._expression
+    )),
+
+    range_expression: $ => prec.left(PREC.colon_range, seq(
+      $._expression,
+      ':',
+      $._expression
+    )),
+
+    coefficient_expression: $ => prec(PREC.call, seq(
+      $.number,
+      choice(
+        $.parenthesized_expression,
+        $.identifier
+      )
+    )),
+
+    quote_expression: $ => prec.left(PREC.colon_quote, seq(
+      ':',
+      $._expression
+    )),
+
     // Tokens
 
-    identifier: $ => /[a-zA-Z]\w*/,
+    identifier: $ => /[a-zA-Zα-ωΑ-Ω][a-zA-Zα-ωΑ-Ω\d_'′!\u0304]*/,
 
-    number: $ => /\d+/,
+    number: $ => choice(
+      /\d+\.?/,
+      /\d?\.\d+/
+    ),
 
     string: $ => token(seq(
       '"',
       repeat(choice(/[^"\\\n]/, /\\./)),
       '"'
     )),
+
+    _power_operator: $ => token(addDots(`
+      ^ ↑ ↓ ⇵ ⟰ ⟱ ⤈ ⤉ ⤊ ⤋ ⤒ ⤓ ⥉ ⥌ ⥍ ⥏ ⥑ ⥔ ⥕ ⥘ ⥙ ⥜ ⥝ ⥠ ⥡ ⥣ ⥥ ⥮ ⥯ ￪ ￬
+    `)),
 
     _times_operator: $ => token(addDots(`
       * / ÷ % & ⋅ ∘ × \\ ∩ ∧ ⊗ ⊘ ⊙ ⊚ ⊛ ⊠ ⊡ ⊓ ∗ ∙

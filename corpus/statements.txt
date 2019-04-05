@@ -47,10 +47,12 @@ Import statements
 using Lib
 using BigLib: thing1, thing2
 import Base.show
+using A, B, C
 
 ---
 
 (source_file
   (import_statement (identifier))
-  (import_statement (identifier) (import_list (identifier) (identifier)))
-  (import_statement (field_expression (identifier) (identifier))))
+  (import_statement (selected_import (identifier) (identifier) (identifier)))
+  (import_statement (scoped_identifier (identifier) (identifier)))
+  (import_statement (identifier) (identifier) (identifier)))

@@ -25,6 +25,11 @@
     "fields": {}
   },
   {
+    "type": "coefficient_expression",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "compound_expression",
     "named": true,
     "fields": {}
@@ -55,12 +60,12 @@
     "fields": {}
   },
   {
-    "type": "if_statement",
+    "type": "function_expression",
     "named": true,
     "fields": {}
   },
   {
-    "type": "import_list",
+    "type": "if_statement",
     "named": true,
     "fields": {}
   },
@@ -85,6 +90,11 @@
     "fields": {}
   },
   {
+    "type": "number",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "pair_expression",
     "named": true,
     "fields": {}
@@ -101,6 +111,26 @@
   },
   {
     "type": "parenthesized_expression",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "quote_expression",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "range_expression",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "scoped_identifier",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "selected_import",
     "named": true,
     "fields": {}
   },
@@ -204,6 +234,14 @@
     "named": false
   },
   {
+    "type": "=",
+    "named": false
+  },
+  {
+    "type": "∈",
+    "named": false
+  },
+  {
     "type": "using",
     "named": false
   },
@@ -256,11 +294,15 @@
     "named": false
   },
   {
-    "type": "identifier",
-    "named": true
+    "type": "->",
+    "named": false
   },
   {
-    "type": "number",
+    "type": ":",
+    "named": false
+  },
+  {
+    "type": "identifier",
     "named": true
   },
   {
