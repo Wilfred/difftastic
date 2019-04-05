@@ -47,7 +47,6 @@ struct Scanner
             buffer[i++] = *iter;
         }
 
-
         return i;
     }
 
@@ -83,20 +82,26 @@ struct Scanner
         lexer->advance(lexer, true);
     }
 
-    bool scan_comment(TSLexer *lexer) {
-        if (lexer->lookahead != '-') return false;
+    bool scan_comment(TSLexer *lexer)
+    {
+        if (lexer->lookahead != '-')
+            return false;
         advance(lexer);
 
-        for (;;) {
-        switch (lexer->lookahead) {
+        for (;;)
+        {
+            switch (lexer->lookahead)
+            {
             case '{':
                 advance(lexer);
                 scan_comment(lexer);
                 break;
             case '-':
                 advance(lexer);
-                if (lexer->lookahead == '}') {
+                if (lexer->lookahead == '}')
+                {
                     advance(lexer);
+                    runback.clear();
                     return true;
                 }
                 break;
@@ -201,7 +206,7 @@ struct Scanner
             runback.clear();
             while (indent_length <= indent_length_stack.back())
             {
-                 if (indent_length == indent_length_stack.back())
+                if (indent_length == indent_length_stack.back())
                 {
                     runback.push_back(0);
                     break;
@@ -304,7 +309,7 @@ struct Scanner
             }
         }
 
-        if(valid_symbols[BLOCK_COMMENT] && lexer->lookahead == '{')
+        if (valid_symbols[BLOCK_COMMENT] && lexer->lookahead == '{')
         {
             advance(lexer);
             lexer->result_symbol = BLOCK_COMMENT;
