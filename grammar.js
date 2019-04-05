@@ -80,6 +80,10 @@ grammar({
     $._statement,
   ],
 
+  externals: $ => [
+    $.triple_string,
+  ],
+
   conflicts: $ => [
     [$.parameter_list, $._expression],
   ],
@@ -213,7 +217,7 @@ grammar({
 
     for_statement: $ => seq(
       'for',
-      $.identifier,
+      choice($.identifier, $.tuple_expression),
       choice('in', '=', '∈'),
       $._expression,
       optional($._terminator),
@@ -308,7 +312,8 @@ grammar({
       $.identifier,
       $.operator,
       $.number,
-      $.string
+      $.string,
+      $.triple_string,
     ),
 
     operator: $ => choice(':', '+', $._plus_operator, $._times_operator, $._power_operator),

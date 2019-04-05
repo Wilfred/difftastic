@@ -22,6 +22,21 @@ logŷ
   (identifier))
 
 =================
+Strings
+=================
+
+"foo"
+"""a "quoted" string"""
+"fo\"o"
+
+---
+
+(source_file
+  (string)
+  (triple_string)
+  (string))
+
+=================
 Assignments
 =================
 

@@ -610,8 +610,17 @@
           "value": "for"
         },
         {
-          "type": "SYMBOL",
-          "name": "identifier"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "identifier"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "tuple_expression"
+            }
+          ]
         },
         {
           "type": "CHOICE",
@@ -1173,6 +1182,10 @@
         {
           "type": "SYMBOL",
           "name": "string"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "triple_string"
         }
       ]
     },
@@ -4994,7 +5007,12 @@
       "_expression"
     ]
   ],
-  "externals": [],
+  "externals": [
+    {
+      "type": "SYMBOL",
+      "name": "triple_string"
+    }
+  ],
   "inline": [
     "_terminator",
     "_expression_list",

@@ -32,13 +32,21 @@ for i in [1, 2, 3]
   print(i)
 end
 
+for (a, b) in c
+  print(a, b)
+end
+
 ---
 
 (source_file
   (for_statement
     (identifier)
     (array_expression (number) (number) (number))
-    (call_expression (identifier) (argument_list (identifier)))))
+    (call_expression (identifier) (argument_list (identifier))))
+  (for_statement
+    (tuple_expression (identifier) (identifier))
+    (identifier)
+    (call_expression (identifier) (argument_list (identifier) (identifier)))))
 
 ===============================
 While statements
