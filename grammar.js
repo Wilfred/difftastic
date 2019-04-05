@@ -234,6 +234,7 @@ module.exports = grammar({
       choice(
         $._constructor_name,
         seq('[', ']'),
+        seq('(', ')'),
         parenthesize('::')
       ),
       optional(choice(
@@ -1478,7 +1479,7 @@ module.exports = grammar({
     string: $ => seq(
       '"',
       repeat(choice(
-        /[^\\"%@]+|%|@|\x00/,
+        /[^\\"%@]+|%|@/,
         $.escape_sequence,
         alias(/\\u\{[0-9A-Fa-f]+\}/, $.escape_sequence),
         alias(/\\\n[\t ]*/, $.escape_sequence),
