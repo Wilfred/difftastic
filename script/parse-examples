@@ -15,11 +15,23 @@ function checkout_at() {
 }
 
 checkout_at "examples/elm-spa-example" "rtfeldman/elm-spa-example" "c8c3201ec0488f17c1245e1fd2293ba5bc0748d5"
-checkout_at "examples/elm-core" "elm/core" "5dcec7f6cd46599f9de95ca5f1cef386f0dc767d"
-checkout_at "examples/elm-url" "elm/url" "384b1dcf84065a500a71402ec367f3982b35093d"
-checkout_at "examples/elm-parser" "elm/parser" "02839df10e462d8423c91917271f4b6f8d2f284d"
 checkout_at "examples/elm-browser" "elm/browser" "c36edde5a3bac1db04ea310c225cd4db59bd55e0"
-checkout_at "examples/elm-http" "elm/http" "34a9a27411c2492d3e247ac75cd48e22b473bef5"
+checkout_at "examples/elm-bytes" "elm/bytes" "2bce2aeda4ef18c3dcccd84084647d22a7af36a6"
+checkout_at "examples/elm-core" "elm/core" "5dcec7f6cd46599f9de95ca5f1cef386f0dc767d"
+checkout_at "examples/elm-file" "elm/file" "e4ca3864c93a5e766e24ed6916174753567b2f59"
+checkout_at "examples/elm-html" "elm/html" "bd01138f617459cc0299e9172e91dd7b48b5f7e9"
+checkout_at "examples/elm-http" "elm/http" "615275c1dac50befe4fe81f600b960e1f92b239f"
+checkout_at "examples/elm-json" "elm/json" "063aaf05e0dc5a642bacbdaae59c33dcfd116898"
+checkout_at "examples/elm-parser" "elm/parser" "02839df10e462d8423c91917271f4b6f8d2f284d"
+checkout_at "examples/elm-project-metadata-utils" "elm/project-metadata-utils" "1d43c1a660c4f7dca9f14e64a050ac3971141221"
+checkout_at "examples/elm-random" "elm/random" "b87594755cfce6e7b350c742603c72c1c16a2e3e"
+checkout_at "examples/elm-regex" "elm/regex" "5da3ab2fd3d5856f52909f7d1c2adfea7efae1fd"
+checkout_at "examples/elm-svg" "elm/svg" "08bd432990862bab5b840654dd437fbb2e6176e7"
+checkout_at "examples/elm-time" "elm/time" "dc3b75b7366e59b99962706f7bf064d3634a4bba"
+checkout_at "examples/elm-url" "elm/url" "384b1dcf84065a500a71402ec367f3982b35093d"
+checkout_at "examples/elm-virtual-dom" "elm/virtual-dom" "5a5bcf48720bc7d53461b3cd42a9f19f119c5503"
+
+
 
 all_examples=$(find examples -name '*.elm')
 known_failures=$(cat script/known-failures.txt)
