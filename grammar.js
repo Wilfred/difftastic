@@ -23,6 +23,48 @@ const PREC = [
   return result;
 }, {});
 
+const ARROW_OPERATORS = `
+  ← → ↔ ↚ ↛ ↞ ↠ ↢ ↣ ↦ ↤ ↮ ⇎ ⇍ ⇏ ⇐ ⇒ ⇔ ⇴ ⇶
+  ⇷ ⇸ ⇹ ⇺ ⇻ ⇼ ⇽ ⇾ ⇿ ⟵ ⟶ ⟷ ⟹ ⟺ ⟻ ⟼ ⟽ ⟾
+  ⟿ ⤀ ⤁ ⤂ ⤃ ⤄ ⤅ ⤆ ⤇ ⤌ ⤍ ⤎ ⤏ ⤐ ⤑ ⤔ ⤕ ⤖ ⤗ ⤘
+  ⤝ ⤞ ⤟ ⤠ ⥄ ⥅ ⥆ ⥇ ⥈ ⥊ ⥋ ⥎ ⥐ ⥒ ⥓ ⥖ ⥗ ⥚ ⥛ ⥞ ⥟
+  ⥢ ⥤ ⥦ ⥧ ⥨ ⥩ ⥪ ⥫ ⥬ ⥭ ⥰ ⧴ ⬱ ⬰ ⬲ ⬳ ⬴ ⬵ ⬶ ⬷
+  ⬸ ⬹ ⬺ ⬻ ⬼ ⬽ ⬾ ⬿ ⭀ ⭁ ⭂ ⭃ ⭄ ⭇ ⭈ ⭉ ⭊ ⭋ ⭌ ￩ ￫
+  ⇜ ⇝ ↜ ↝ ↩ ↪ ↫ ↬ ↼ ↽ ⇀ ⇁ ⇄ ⇆ ⇇ ⇉ ⇋ ⇌ ⇚ ⇛ ⇠ ⇢
+`;
+
+const ASSIGN_OPERATORS = `
+  = += -= *= /= //= |\=| ^= ÷= %= <<= >>= >>>= ||=| &= ⊻= ≔ ⩴ ≕
+`;
+
+const COMPARISON_OPERATORS = `
+  > < >= ≥ <= ≤ == === ≡ != ≠ !== ≢ ∈ ∉ ∋ ∌ ⊆ ⊈ ⊂ ⊄ ⊊ ∝ ∊ ∍ ∥ ∦ ∷ ∺ ∻ ∽ ∾ ≁
+  ≃ ≂ ≄ ≅ ≆ ≇ ≈ ≉ ≊ ≋ ≌ ≍ ≎ ≐ ≑ ≒ ≓ ≖ ≗ ≘ ≙ ≚ ≛ ≜ ≝ ≞ ≟ ≣ ≦ ≧ ≨ ≩ ≪ ≫ ≬ ≭
+  ≮ ≯ ≰ ≱ ≲ ≳ ≴ ≵ ≶ ≷ ≸ ≹ ≺ ≻ ≼ ≽ ≾ ≿ ⊀ ⊁ ⊃ ⊅ ⊇ ⊉ ⊋ ⊏ ⊐ ⊑ ⊒ ⊜ ⊩ ⊬ ⊮ ⊰ ⊱
+  ⊲ ⊳ ⊴ ⊵ ⊶ ⊷ ⋍ ⋐ ⋑ ⋕ ⋖ ⋗ ⋘ ⋙ ⋚ ⋛ ⋜ ⋝ ⋞ ⋟ ⋠ ⋡ ⋢ ⋣ ⋤ ⋥ ⋦ ⋧ ⋨ ⋩ ⋪ ⋫
+  ⋬ ⋭ ⋲ ⋳ ⋴ ⋵ ⋶ ⋷ ⋸ ⋹ ⋺ ⋻ ⋼ ⋽ ⋾ ⋿ ⟈ ⟉ ⟒ ⦷ ⧀ ⧁ ⧡ ⧣ ⧤ ⧥ ⩦ ⩧ ⩪ ⩫ ⩬ ⩭ ⩮ ⩯
+  ⩰ ⩱ ⩲ ⩳ ⩵ ⩶ ⩷ ⩸ ⩹ ⩺ ⩻ ⩼ ⩽ ⩾ ⩿ ⪀ ⪁ ⪂ ⪃ ⪄ ⪅ ⪆ ⪇ ⪈ ⪉ ⪊ ⪋ ⪌ ⪍ ⪎ ⪏ ⪐ ⪑ ⪒ ⪓ ⪔
+  ⪕ ⪖ ⪗ ⪘ ⪙ ⪚ ⪛ ⪜ ⪝ ⪞ ⪟ ⪠ ⪡ ⪢ ⪣ ⪤ ⪥ ⪦ ⪧ ⪨ ⪩ ⪪ ⪫ ⪬ ⪭ ⪮ ⪯ ⪰ ⪱ ⪲ ⪳ ⪴ ⪵ ⪶ ⪷ ⪸
+  ⪹ ⪺ ⪻ ⪼ ⪽ ⪾ ⪿ ⫀ ⫁ ⫂ ⫃ ⫄ ⫅ ⫆ ⫇ ⫈ ⫉ ⫊ ⫋ ⫌ ⫍ ⫎ ⫏ ⫐ ⫑ ⫒ ⫓ ⫔ ⫕ ⫖ ⫗ ⫘ ⫙ ⫷ ⫸
+  ⫹ ⫺ ⊢ ⊣ ⟂
+`;
+
+const PLUS_OPERATORS = `
+  + - |\|| ⊕ ⊖ ⊞ ⊟ |++| ∪ ∨ ⊔ ± ∓ ∔ ∸ ≂ ≏ ⊎ ⊻ ⊽ ⋎ ⋓ ⧺ ⧻ ⨈
+  ⨢ ⨣ ⨤ ⨥ ⨦ ⨧ ⨨ ⨩ ⨪ ⨫ ⨬ ⨭ ⨮ ⨹ ⨺ ⩁ ⩂ ⩅ ⩊ ⩌ ⩏ ⩐ ⩒ ⩔ ⩖ ⩗ ⩛ ⩝ ⩡ ⩢ ⩣
+`;
+
+const TIMES_OPERATORS = `
+  * / ÷ % & ⋅ ∘ × \\ ∩ ∧ ⊗ ⊘ ⊙ ⊚ ⊛ ⊠ ⊡ ⊓ ∗ ∙
+  ∤ ⅋ ≀ ⊼ ⋄ ⋆ ⋇ ⋉ ⋊ ⋋ ⋌ ⋏ ⋒ ⟑ ⦸ ⦼ ⦾ ⦿ ⧶ ⧷ ⨇ ⨰
+  ⨱ ⨲ ⨳ ⨴ ⨵ ⨶ ⨷ ⨸ ⨻ ⨼ ⨽ ⩀ ⩃ ⩄ ⩋ ⩍ ⩎ ⩑ ⩓ ⩕ ⩘
+  ⩚ ⩜ ⩞ ⩟ ⩠ ⫛ ⊍ ▷ ⨝ ⟕ ⟖ ⟗
+`;
+
+const POWER_OPERATORS = `
+  ^ ↑ ↓ ⇵ ⟰ ⟱ ⤈ ⤉ ⤊ ⤋ ⤒ ⤓ ⥉ ⥌ ⥍ ⥏ ⥑ ⥔ ⥕ ⥘ ⥙ ⥜ ⥝ ⥠ ⥡ ⥣ ⥥ ⥮ ⥯ ￪ ￬
+`;
+
 module.exports =
 grammar({
   name: 'julia',
@@ -233,31 +275,60 @@ grammar({
       $.compound_expression,
       $.pair_expression,
       $.field_expression,
+      $.subscript_expression,
       $.macro_expression,
       $.call_expression,
+      $.broadcast_call_expression,
+      $.unary_expression,
       $.binary_expression,
       $.assignment_expression,
       $.parameterized_identifier,
       $.array_expression,
+      $.matrix_expression,
       $.tuple_expression,
       $.function_expression,
       $.coefficient_expression,
+      $.spread_expression,
       $.range_expression,
       $.quote_expression,
       $.identifier,
+      $.operator,
       $.number,
       $.string
     ),
+
+    operator: $ => choice(':', '+', $._plus_operator, $._times_operator, $._power_operator),
 
     parenthesized_expression: $ => prec(1, seq(
       '(', $._expression_list, ')'
     )),
 
     field_expression: $ => prec(PREC.dot, seq(
-      $._expression,
+      choice(
+        $.identifier,
+        $.array_expression,
+        $.tuple_expression,
+        $.field_expression,
+        $.call_expression,
+        $.parenthesized_expression
+      ),
       '.',
       $.identifier
     )),
+
+    subscript_expression: $ => seq(
+      choice(
+        $.identifier,
+        $.array_expression,
+        $.tuple_expression,
+        $.field_expression,
+        $.call_expression,
+        $.parenthesized_expression
+      ),
+      token.immediate('['),
+      $._expression,
+      ']'
+    ),
 
     typed_expression: $ => prec(PREC.decl, seq(
       choice(
@@ -287,8 +358,20 @@ grammar({
     call_expression: $ => prec(PREC.call, seq(
       choice(
         $.identifier,
-        $.field_expression
+        $.field_expression,
+        $.call_expression,
+        $.parenthesized_expression
       ),
+      $.argument_list
+    )),
+
+    broadcast_call_expression: $ => prec(PREC.call, seq(
+      choice(
+        $.identifier,
+        $.field_expression,
+        $.call_expression
+      ),
+      '.',
       $.argument_list
     )),
 
@@ -309,9 +392,16 @@ grammar({
       ')'
     ),
 
+    spread_expression: $ => seq($._expression, '...'),
+
     assignment_expression: $ => prec.right(PREC.assign, seq(
       $._expression,
       $._assign_operator,
+      $._expression
+    )),
+
+    unary_expression: $ => prec(PREC.call, seq(
+      choice('!', '-', '+'),
       $._expression
     )),
 
@@ -328,7 +418,7 @@ grammar({
       )),
       prec.left(PREC.plus, seq(
         $._expression,
-        $._plus_operator,
+        choice('+', $._plus_operator),
         $._expression
       )),
       prec.right(PREC.arrow, seq(
@@ -338,7 +428,7 @@ grammar({
       )),
       prec.left(PREC.comparison, seq(
         $._expression,
-        $._comparison_operator,
+        choice('in', 'isa', $._comparison_operator),
         $._expression
       )),
       prec.left(PREC.lazy_or, seq(
@@ -373,6 +463,15 @@ grammar({
       ']'
     ),
 
+    matrix_expression: $ => prec(-1, seq(
+      '[',
+      sep(';', $.matrix_row),
+      optional(';'),
+      ']'
+    )),
+
+    matrix_row: $ => repeat1(prec(-1, $._expression)),
+
     function_expression: $ => prec.right(PREC.arrow, seq(
       choice(
         $.identifier,
@@ -403,12 +502,49 @@ grammar({
 
     // Tokens
 
-    identifier: $ => /[a-zA-Zα-ωΑ-Ω][a-zA-Zα-ωΑ-Ω\d_'′!\u0304]*/,
+    identifier: $ => {
+      const operators = [
+        ',',
+        ';',
+        ':',
+        '(', ')',
+        '{', '}',
+        '&',
+        '|',
+        '$',
+        ARROW_OPERATORS,
+        ASSIGN_OPERATORS,
+        COMPARISON_OPERATORS,
+        PLUS_OPERATORS,
+        POWER_OPERATORS,
+        TIMES_OPERATORS,
+      ];
 
-    number: $ => choice(
-      /\d+\.?/,
-      /\d?\.\d+/
-    ),
+      const operatorCharacters = operators
+        .join(' ')
+        .trim()
+        .replace(/\s+/g, '')
+        .replace(/-/g, '')
+        .replace(/\\/g, '\\\\')
+        .replace(/!/g, '');
+
+      // First char: ASCII letter, Greek letter, or Extended Latin letter
+      // Remaining characters: not delimiter, not operator
+      return new RegExp(`[a-zA-ZͰ-ϿĀ-ſ][^\\s\\.\\-\\[\\]${operatorCharacters}]*`)
+    },
+
+    number: $ => {
+      const decimal = /[0-9][0-9_]*/;
+      const hexadecimal = /[0-9a-fA-F][0-9a-fA-F_]*/;
+      return token(seq(
+        choice(
+          seq(/0[xX]/, hexadecimal),
+          seq(decimal, optional('.'), optional(decimal)),
+          seq('.', decimal)
+        ),
+        optional(/[eE][+-]?\d+/)
+      ))
+    },
 
     string: $ => token(seq(
       '"',
@@ -416,47 +552,19 @@ grammar({
       '"'
     )),
 
-    _power_operator: $ => token(addDots(`
-      ^ ↑ ↓ ⇵ ⟰ ⟱ ⤈ ⤉ ⤊ ⤋ ⤒ ⤓ ⥉ ⥌ ⥍ ⥏ ⥑ ⥔ ⥕ ⥘ ⥙ ⥜ ⥝ ⥠ ⥡ ⥣ ⥥ ⥮ ⥯ ￪ ￬
-    `)),
+    _power_operator: $ => token(addDots(POWER_OPERATORS)),
 
-    _times_operator: $ => token(addDots(`
-      * / ÷ % & ⋅ ∘ × \\ ∩ ∧ ⊗ ⊘ ⊙ ⊚ ⊛ ⊠ ⊡ ⊓ ∗ ∙
-      ∤ ⅋ ≀ ⊼ ⋄ ⋆ ⋇ ⋉ ⋊ ⋋ ⋌ ⋏ ⋒ ⟑ ⦸ ⦼ ⦾ ⦿ ⧶ ⧷ ⨇ ⨰
-      ⨱ ⨲ ⨳ ⨴ ⨵ ⨶ ⨷ ⨸ ⨻ ⨼ ⨽ ⩀ ⩃ ⩄ ⩋ ⩍ ⩎ ⩑ ⩓ ⩕ ⩘
-      ⩚ ⩜ ⩞ ⩟ ⩠ ⫛ ⊍ ▷ ⨝ ⟕ ⟖ ⟗
-    `)),
+    _times_operator: $ => token(addDots(TIMES_OPERATORS)),
 
-    _plus_operator: $ => token(choice('$', addDots(`
-      + - |\|| ⊕ ⊖ ⊞ ⊟ |++| ∪ ∨ ⊔ ± ∓ ∔ ∸ ≂ ≏ ⊎ ⊻ ⊽ ⋎ ⋓ ⧺ ⧻ ⨈
-      ⨢ ⨣ ⨤ ⨥ ⨦ ⨧ ⨨ ⨩ ⨪ ⨫ ⨬ ⨭ ⨮ ⨹ ⨺ ⩁ ⩂ ⩅ ⩊ ⩌ ⩏ ⩐ ⩒ ⩔ ⩖ ⩗ ⩛ ⩝ ⩡ ⩢ ⩣
-    `))),
+    _plus_operator: $ => token(choice('$', addDots(PLUS_OPERATORS))),
 
-    _arrow_operator: $ => token(choice('--', '-->', addDots(`
-      ← → ↔ ↚ ↛ ↞ ↠ ↢ ↣ ↦ ↤ ↮ ⇎ ⇍ ⇏ ⇐ ⇒ ⇔ ⇴ ⇶
-      ⇷ ⇸ ⇹ ⇺ ⇻ ⇼ ⇽ ⇾ ⇿ ⟵ ⟶ ⟷ ⟹ ⟺ ⟻ ⟼ ⟽ ⟾
-      ⟿ ⤀ ⤁ ⤂ ⤃ ⤄ ⤅ ⤆ ⤇ ⤌ ⤍ ⤎ ⤏ ⤐ ⤑ ⤔ ⤕ ⤖ ⤗ ⤘
-      ⤝ ⤞ ⤟ ⤠ ⥄ ⥅ ⥆ ⥇ ⥈ ⥊ ⥋ ⥎ ⥐ ⥒ ⥓ ⥖ ⥗ ⥚ ⥛ ⥞ ⥟
-      ⥢ ⥤ ⥦ ⥧ ⥨ ⥩ ⥪ ⥫ ⥬ ⥭ ⥰ ⧴ ⬱ ⬰ ⬲ ⬳ ⬴ ⬵ ⬶ ⬷
-      ⬸ ⬹ ⬺ ⬻ ⬼ ⬽ ⬾ ⬿ ⭀ ⭁ ⭂ ⭃ ⭄ ⭇ ⭈ ⭉ ⭊ ⭋ ⭌ ￩ ￫
-      ⇜ ⇝ ↜ ↝ ↩ ↪ ↫ ↬ ↼ ↽ ⇀ ⇁ ⇄ ⇆ ⇇ ⇉ ⇋ ⇌ ⇚ ⇛ ⇠ ⇢
-    `))),
+    _arrow_operator: $ => token(choice('--', '-->', addDots(ARROW_OPERATORS))),
 
-    _comparison_operator: $ => token(choice('|<:|', '|>:|', 'in', 'isa', addDots(`
-      > < >= ≥ <= ≤ == === ≡ != ≠ !== ≢ ∈ ∉ ∋ ∌ ⊆ ⊈ ⊂ ⊄ ⊊ ∝ ∊ ∍ ∥ ∦ ∷ ∺ ∻ ∽ ∾ ≁
-      ≃ ≂ ≄ ≅ ≆ ≇ ≈ ≉ ≊ ≋ ≌ ≍ ≎ ≐ ≑ ≒ ≓ ≖ ≗ ≘ ≙ ≚ ≛ ≜ ≝ ≞ ≟ ≣ ≦ ≧ ≨ ≩ ≪ ≫ ≬ ≭
-      ≮ ≯ ≰ ≱ ≲ ≳ ≴ ≵ ≶ ≷ ≸ ≹ ≺ ≻ ≼ ≽ ≾ ≿ ⊀ ⊁ ⊃ ⊅ ⊇ ⊉ ⊋ ⊏ ⊐ ⊑ ⊒ ⊜ ⊩ ⊬ ⊮ ⊰ ⊱
-      ⊲ ⊳ ⊴ ⊵ ⊶ ⊷ ⋍ ⋐ ⋑ ⋕ ⋖ ⋗ ⋘ ⋙ ⋚ ⋛ ⋜ ⋝ ⋞ ⋟ ⋠ ⋡ ⋢ ⋣ ⋤ ⋥ ⋦ ⋧ ⋨ ⋩ ⋪ ⋫
-      ⋬ ⋭ ⋲ ⋳ ⋴ ⋵ ⋶ ⋷ ⋸ ⋹ ⋺ ⋻ ⋼ ⋽ ⋾ ⋿ ⟈ ⟉ ⟒ ⦷ ⧀ ⧁ ⧡ ⧣ ⧤ ⧥ ⩦ ⩧ ⩪ ⩫ ⩬ ⩭ ⩮ ⩯
-      ⩰ ⩱ ⩲ ⩳ ⩵ ⩶ ⩷ ⩸ ⩹ ⩺ ⩻ ⩼ ⩽ ⩾ ⩿ ⪀ ⪁ ⪂ ⪃ ⪄ ⪅ ⪆ ⪇ ⪈ ⪉ ⪊ ⪋ ⪌ ⪍ ⪎ ⪏ ⪐ ⪑ ⪒ ⪓ ⪔
-      ⪕ ⪖ ⪗ ⪘ ⪙ ⪚ ⪛ ⪜ ⪝ ⪞ ⪟ ⪠ ⪡ ⪢ ⪣ ⪤ ⪥ ⪦ ⪧ ⪨ ⪩ ⪪ ⪫ ⪬ ⪭ ⪮ ⪯ ⪰ ⪱ ⪲ ⪳ ⪴ ⪵ ⪶ ⪷ ⪸
-      ⪹ ⪺ ⪻ ⪼ ⪽ ⪾ ⪿ ⫀ ⫁ ⫂ ⫃ ⫄ ⫅ ⫆ ⫇ ⫈ ⫉ ⫊ ⫋ ⫌ ⫍ ⫎ ⫏ ⫐ ⫑ ⫒ ⫓ ⫔ ⫕ ⫖ ⫗ ⫘ ⫙ ⫷ ⫸
-      ⫹ ⫺ ⊢ ⊣ ⟂
-    `))),
+    _comparison_operator: $ => token(choice(
+      '|<:|', '|>:|', addDots(COMPARISON_OPERATORS)
+    )),
 
-    _assign_operator: $ => token(choice(':=', '~', '$=', addDots(`
-      = += -= *= /= //= |\=| ^= ÷= %= <<= >>= >>>= ||=| &= ⊻= ≔ ⩴ ≕
-    `))),
+    _assign_operator: $ => token(choice(':=', '~', '$=', addDots(ASSIGN_OPERATORS))),
 
     _terminator: $ => choice('\n', ';'),
 

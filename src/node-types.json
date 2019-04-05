@@ -20,6 +20,11 @@
     "fields": {}
   },
   {
+    "type": "broadcast_call_expression",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "call_expression",
     "named": true,
     "fields": {}
@@ -110,12 +115,22 @@
     "fields": {}
   },
   {
+    "type": "matrix_expression",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "matrix_row",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "module_definition",
     "named": true,
     "fields": {}
   },
   {
-    "type": "number",
+    "type": "operator",
     "named": true,
     "fields": {}
   },
@@ -170,7 +185,17 @@
     "fields": {}
   },
   {
+    "type": "spread_expression",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "struct_definition",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "subscript_expression",
     "named": true,
     "fields": {}
   },
@@ -201,6 +226,11 @@
   },
   {
     "type": "typed_expression",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "unary_expression",
     "named": true,
     "fields": {}
   },
@@ -334,6 +364,22 @@
     "named": false
   },
   {
+    "type": ":",
+    "named": false
+  },
+  {
+    "type": "+",
+    "named": false
+  },
+  {
+    "type": "[",
+    "named": false
+  },
+  {
+    "type": "]",
+    "named": false
+  },
+  {
     "type": "::",
     "named": false
   },
@@ -347,6 +393,22 @@
   },
   {
     "type": "(",
+    "named": false
+  },
+  {
+    "type": "...",
+    "named": false
+  },
+  {
+    "type": "!",
+    "named": false
+  },
+  {
+    "type": "-",
+    "named": false
+  },
+  {
+    "type": "isa",
     "named": false
   },
   {
@@ -366,7 +428,7 @@
     "named": false
   },
   {
-    "type": "]",
+    "type": ";",
     "named": false
   },
   {
@@ -374,11 +436,11 @@
     "named": false
   },
   {
-    "type": ":",
-    "named": false
+    "type": "identifier",
+    "named": true
   },
   {
-    "type": "identifier",
+    "type": "number",
     "named": true
   },
   {
@@ -387,10 +449,6 @@
   },
   {
     "type": "\n",
-    "named": false
-  },
-  {
-    "type": ";",
     "named": false
   },
   {

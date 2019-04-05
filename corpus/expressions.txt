@@ -6,10 +6,16 @@ w
 w′
 θ
 θ̄
+logŷ
+ϵ
+ŷ
 
 ---
 
 (source_file
+  (identifier)
+  (identifier)
+  (identifier)
   (identifier)
   (identifier)
   (identifier)
@@ -54,12 +60,14 @@ Function calls
 
 a()
 b("hi", 2)
+c(d...)
 
 ---
 
 (source_file
   (call_expression (identifier) (argument_list))
-  (call_expression (identifier) (argument_list (string) (number))))
+  (call_expression (identifier) (argument_list (string) (number)))
+  (call_expression (identifier) (argument_list (spread_expression (identifier)))))
 
 =================
 Macro calls
@@ -130,6 +138,37 @@ a .* b .+ c
     (binary_expression (identifier) (identifier))
     (identifier)))
 
+=================
+Unary operators
+=================
+
++a
+-b
+!(a + b)
+
+---
+
+(source_file
+  (unary_expression (identifier))
+  (unary_expression (identifier))
+  (unary_expression
+    (parenthesized_expression (binary_expression (identifier) (identifier)))))
+
+====================
+Operators as values
+====================
+
+x = +
+print(:)
+foo(^, ÷)
+
+---
+
+(source_file
+  (assignment_expression (identifier) (operator))
+  (call_expression (identifier) (argument_list (operator)))
+  (call_expression (identifier) (argument_list (operator) (operator))))
+
 ============================
 Numerical expressions
 ============================
@@ -137,11 +176,17 @@ Numerical expressions
 1
 2.0
 3.
+0xdeadbeef999
+100_000_000
 .4
+1.0e-7
 
 ---
 
 (source_file
+  (number)
+  (number)
+  (number)
   (number)
   (number)
   (number)
@@ -204,6 +249,39 @@ Tuples
   (parenthesized_expression (number))
   (tuple_expression (number))
   (tuple_expression (number) (number) (number)))
+
+=================
+Arrays
+=================
+
+[]
+[1, 2,]
+
+---
+
+(source_file
+  (array_expression)
+  (array_expression (number) (number)))
+
+=================
+Matrices
+=================
+
+[1 2]
+[1 2; 3 4]
+[1 2; 3 4;]
+
+---
+
+(source_file
+  (matrix_expression
+    (matrix_row (number) (number)))
+  (matrix_expression
+    (matrix_row (number) (number))
+    (matrix_row (number) (number)))
+  (matrix_expression
+    (matrix_row (number) (number))
+    (matrix_row (number) (number))))
 
 =================
 Pairs
