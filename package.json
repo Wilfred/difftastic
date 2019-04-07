@@ -13,7 +13,7 @@
     "nan": "^2.4.0"
   },
   "devDependencies": {
-    "tree-sitter-cli": "^0.14.4",
+    "tree-sitter-cli": "^0.14.5",
     "tree-sitter-highlight-schema": "^0.1.1"
   },
   "scripts": {
@@ -26,7 +26,9 @@
     {
       "scope": "source.python",
       "highlights": "src/highlights.json",
-      "file-types": ["py"]
+      "file-types": [
+        "py"
+      ]
     }
   ]
 }
