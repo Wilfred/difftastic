@@ -12,7 +12,7 @@ identifier {
   }
 }
 
-attribute > identifier:nth_child(2) {
+attribute > identifier:nth-child(2) {
   scope: 'property';
 }
 
