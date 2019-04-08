@@ -89,7 +89,7 @@ module.exports = grammar({
 
     assert: $ => seq('assert', $._expr, ';', $._expr_function),
     with: $ => seq('with', $._expr, ';', $._expr_function),
-    let: $ => seq('let', optional($.binds), 'in', $._expr_function),
+    let: $ => seq('let', optional($._binds), 'in', $._expr_function),
 
     _expr_if: $ => choice(
       $.if,
@@ -188,7 +188,6 @@ module.exports = grammar({
       )
     ),
 
-    binds: $ => $._binds,
     _binds: $ => repeat1(choice($.bind, $.inherit)),
     bind: $ => seq($.attrpath, '=', $._expr, ';'),
     inherit: $ => choice(

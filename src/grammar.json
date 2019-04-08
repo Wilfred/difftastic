@@ -574,7 +574,7 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "binds"
+              "name": "_binds"
             },
             {
               "type": "BLANK"
@@ -1371,10 +1371,6 @@
           }
         ]
       }
-    },
-    "binds": {
-      "type": "SYMBOL",
-      "name": "_binds"
     },
     "_binds": {
       "type": "REPEAT1",

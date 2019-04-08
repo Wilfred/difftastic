@@ -178,7 +178,36 @@ let a = b; in c
 
 ---
 
-(expression (let (binds (bind (attrpath (identifier)) (identifier))) (identifier)))
+(expression
+    (let
+        (bind
+            (attrpath (identifier))
+            (identifier))
+        (identifier)))
+
+====================
+let (bind, comments)
+====================
+
+let
+  # foo
+  a = b;
+  # bar
+  x = y;
+  in
+    # baz
+    c
+
+---
+
+(expression
+    (let
+        (comment)
+        (bind (attrpath (identifier)) (identifier))
+        (comment)
+        (bind (attrpath (identifier)) (identifier))
+        (comment)
+        (identifier)))
 
 ====================
 let (inherit)
@@ -190,9 +219,8 @@ let inherit a; in c
 
 (expression
     (let
-        (binds
-            (inherit
-                (attrs (identifier))))
+        (inherit
+            (attrs (identifier)))
         (identifier)))
 
 ====================
@@ -205,10 +233,9 @@ let inherit (a) b "c" ${d}; in 123
 
 (expression
     (let
-        (binds
-            (inherit
-                (parenthesized (identifier))
-                (attrs (identifier) (string) (interpolation (identifier)))))
+        (inherit
+            (parenthesized (identifier))
+            (attrs (identifier) (string) (interpolation (identifier))))
         (integer)))
 
 ====================
@@ -225,7 +252,7 @@ a: b
 function (with formals)
 ====================
 
-a@{ b, c ? 123, ... }: 1.234
+a@{ /**/ b, /**/ c ? 123, ... }: 1.234
 
 ---
 
