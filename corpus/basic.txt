@@ -207,7 +207,7 @@ let inherit (a) b "c" ${d}; in 123
     (let
         (binds
             (inherit
-                (identifier)
+                (parenthesized (identifier))
                 (attrs (identifier) (string) (interpolation (identifier)))))
         (integer)))
 
@@ -338,4 +338,4 @@ parens
 ---
 
 (expression
-    (integer))
+    (parenthesized (integer)))

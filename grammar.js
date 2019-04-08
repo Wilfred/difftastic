@@ -156,12 +156,14 @@ module.exports = grammar({
       $.hpath,
       $.spath,
       $.uri,
-      seq('(', $._expr, ')'),
+      $.parenthesized,
       $.attrset,
       $.let_attrset,
       $.rec_attrset,
       $.list
     ),
+
+    parenthesized: $ => seq('(', $._expr, ')'),
 
     attrset: $ => seq('{', optional($._binds), '}'),
     let_attrset: $ => seq('let', '{', optional($._binds), '}'),
@@ -191,7 +193,7 @@ module.exports = grammar({
     bind: $ => seq($.attrpath, '=', $._expr, ';'),
     inherit: $ => choice(
       seq("inherit", $.attrs, ';'),
-      seq("inherit", '(', $._expr, ')', $.attrs, ';'),
+      seq("inherit", $.parenthesized, $.attrs, ';'),
     ),
 
     attrpath: $ => sep1($._attr, "."),

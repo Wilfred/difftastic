@@ -4333,7 +4333,7 @@
         {
           "type": "${",
           "named": false,
-          "state_id": 34
+          "state_id": 36
         },
         {
           "type": "&&",
@@ -4608,7 +4608,7 @@
         {
           "type": "}",
           "named": false,
-          "state_id": 34
+          "state_id": 36
         }
       ],
       "default_next_state_id": 0
@@ -4750,7 +4750,7 @@
         {
           "type": "binds",
           "named": true,
-          "state_id": 36
+          "state_id": 37
         },
         {
           "type": "comment",
@@ -5042,7 +5042,7 @@
         {
           "type": "attrpath",
           "named": true,
-          "state_id": 37
+          "state_id": 38
         },
         {
           "type": "comment",
@@ -6251,7 +6251,7 @@
           "type": "identifier",
           "named": true,
           "index": 0,
-          "state_id": 38
+          "state_id": 39
         },
         {
           "type": "identifier",
@@ -7998,7 +7998,7 @@
         {
           "type": "formals",
           "named": true,
-          "state_id": 39
+          "state_id": 40
         },
         {
           "type": "function",
@@ -9016,7 +9016,7 @@
         {
           "type": "${",
           "named": false,
-          "state_id": 38
+          "state_id": 41
         },
         {
           "type": "&&",
@@ -9296,7 +9296,7 @@
         {
           "type": "}",
           "named": false,
-          "state_id": 38
+          "state_id": 41
         }
       ],
       "default_next_state_id": 11
@@ -9443,7 +9443,7 @@
         {
           "type": "binds",
           "named": true,
-          "state_id": 40
+          "state_id": 42
         },
         {
           "type": "comment",
@@ -9740,7 +9740,7 @@
         {
           "type": "attrpath",
           "named": true,
-          "state_id": 41
+          "state_id": 43
         },
         {
           "type": "comment",
@@ -10344,7 +10344,7 @@
         {
           "type": "formal",
           "named": true,
-          "state_id": 42
+          "state_id": 44
         },
         {
           "type": "function",
@@ -10476,7 +10476,7 @@
     },
     {
       "id": 36,
-      "property_set_id": 0,
+      "property_set_id": 14,
       "transitions": [
         {
           "type": "!=",
@@ -10667,11 +10667,6 @@
           "type": "inherit",
           "named": false,
           "state_id": 6
-        },
-        {
-          "type": "inherit",
-          "named": true,
-          "state_id": 43
         },
         {
           "type": "integer",
@@ -10938,7 +10933,299 @@
         {
           "type": "identifier",
           "named": true,
-          "state_id": 44
+          "state_id": 13
+        },
+        {
+          "type": "if",
+          "named": false,
+          "state_id": 6
+        },
+        {
+          "type": "in",
+          "named": false,
+          "state_id": 6
+        },
+        {
+          "type": "indented_string",
+          "named": true,
+          "state_id": 14
+        },
+        {
+          "type": "inherit",
+          "named": false,
+          "state_id": 6
+        },
+        {
+          "type": "inherit",
+          "named": true,
+          "state_id": 45
+        },
+        {
+          "type": "integer",
+          "named": true,
+          "state_id": 10
+        },
+        {
+          "type": "interpolation",
+          "named": true,
+          "state_id": 15
+        },
+        {
+          "type": "let",
+          "named": false,
+          "state_id": 6
+        },
+        {
+          "type": "let",
+          "named": true,
+          "state_id": 16
+        },
+        {
+          "type": "null",
+          "named": true,
+          "state_id": 9
+        },
+        {
+          "type": "or",
+          "named": false,
+          "state_id": 6
+        },
+        {
+          "type": "path",
+          "named": true,
+          "state_id": 12
+        },
+        {
+          "type": "rec",
+          "named": false,
+          "state_id": 6
+        },
+        {
+          "type": "select",
+          "named": true,
+          "state_id": 17
+        },
+        {
+          "type": "spath",
+          "named": true,
+          "state_id": 12
+        },
+        {
+          "type": "string",
+          "named": true,
+          "state_id": 14
+        },
+        {
+          "type": "then",
+          "named": false,
+          "state_id": 6
+        },
+        {
+          "type": "true",
+          "named": true,
+          "state_id": 9
+        },
+        {
+          "type": "uri",
+          "named": true,
+          "state_id": 12
+        },
+        {
+          "type": "with",
+          "named": false,
+          "state_id": 6
+        },
+        {
+          "type": "{",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "||",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "}",
+          "named": false,
+          "state_id": 2
+        }
+      ],
+      "default_next_state_id": 0
+    },
+    {
+      "id": 38,
+      "property_set_id": 0,
+      "transitions": [
+        {
+          "type": "!=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "&&",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "(",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": ")",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "*",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "+",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "++",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ",",
+          "named": false,
+          "state_id": 3
+        },
+        {
+          "type": "-",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "->",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ".",
+          "named": false,
+          "state_id": 4
+        },
+        {
+          "type": "...",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "/",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "//",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ":",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "<",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "<=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "==",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ">",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ">=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "?",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "[",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "]",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "app",
+          "named": true,
+          "state_id": 5
+        },
+        {
+          "type": "assert",
+          "named": false,
+          "state_id": 6
+        },
+        {
+          "type": "comment",
+          "named": true,
+          "state_id": 7
+        },
+        {
+          "type": "else",
+          "named": false,
+          "state_id": 6
+        },
+        {
+          "type": "escape_sequence",
+          "named": true,
+          "state_id": 8
+        },
+        {
+          "type": "false",
+          "named": true,
+          "state_id": 9
+        },
+        {
+          "type": "float",
+          "named": true,
+          "state_id": 10
+        },
+        {
+          "type": "function",
+          "named": true,
+          "state_id": 11
+        },
+        {
+          "type": "hpath",
+          "named": true,
+          "state_id": 12
+        },
+        {
+          "type": "identifier",
+          "named": true,
+          "state_id": 46
         },
         {
           "type": "if",
@@ -11054,7 +11341,7 @@
       "default_next_state_id": 0
     },
     {
-      "id": 38,
+      "id": 39,
       "property_set_id": 13,
       "transitions": [
         {
@@ -11216,303 +11503,6 @@
           "type": "float",
           "named": true,
           "state_id": 26
-        },
-        {
-          "type": "function",
-          "named": true,
-          "state_id": 27
-        },
-        {
-          "type": "hpath",
-          "named": true,
-          "state_id": 28
-        },
-        {
-          "type": "identifier",
-          "named": true,
-          "state_id": 29
-        },
-        {
-          "type": "if",
-          "named": false,
-          "state_id": 22
-        },
-        {
-          "type": "in",
-          "named": false,
-          "state_id": 22
-        },
-        {
-          "type": "indented_string",
-          "named": true,
-          "state_id": 30
-        },
-        {
-          "type": "inherit",
-          "named": false,
-          "state_id": 22
-        },
-        {
-          "type": "integer",
-          "named": true,
-          "state_id": 26
-        },
-        {
-          "type": "interpolation",
-          "named": true,
-          "state_id": 31
-        },
-        {
-          "type": "let",
-          "named": false,
-          "state_id": 22
-        },
-        {
-          "type": "let",
-          "named": true,
-          "state_id": 32
-        },
-        {
-          "type": "null",
-          "named": true,
-          "state_id": 25
-        },
-        {
-          "type": "or",
-          "named": false,
-          "state_id": 22
-        },
-        {
-          "type": "path",
-          "named": true,
-          "state_id": 28
-        },
-        {
-          "type": "rec",
-          "named": false,
-          "state_id": 22
-        },
-        {
-          "type": "select",
-          "named": true,
-          "state_id": 33
-        },
-        {
-          "type": "spath",
-          "named": true,
-          "state_id": 28
-        },
-        {
-          "type": "string",
-          "named": true,
-          "state_id": 30
-        },
-        {
-          "type": "then",
-          "named": false,
-          "state_id": 22
-        },
-        {
-          "type": "true",
-          "named": true,
-          "state_id": 25
-        },
-        {
-          "type": "uri",
-          "named": true,
-          "state_id": 28
-        },
-        {
-          "type": "with",
-          "named": false,
-          "state_id": 22
-        },
-        {
-          "type": "{",
-          "named": false,
-          "state_id": 19
-        },
-        {
-          "type": "||",
-          "named": false,
-          "state_id": 18
-        },
-        {
-          "type": "}",
-          "named": false,
-          "state_id": 19
-        }
-      ],
-      "default_next_state_id": 11
-    },
-    {
-      "id": 39,
-      "property_set_id": 0,
-      "transitions": [
-        {
-          "type": "!=",
-          "named": false,
-          "state_id": 18
-        },
-        {
-          "type": "&&",
-          "named": false,
-          "state_id": 18
-        },
-        {
-          "type": "(",
-          "named": false,
-          "state_id": 19
-        },
-        {
-          "type": ")",
-          "named": false,
-          "state_id": 19
-        },
-        {
-          "type": "*",
-          "named": false,
-          "state_id": 18
-        },
-        {
-          "type": "+",
-          "named": false,
-          "state_id": 18
-        },
-        {
-          "type": "++",
-          "named": false,
-          "state_id": 18
-        },
-        {
-          "type": ",",
-          "named": false,
-          "state_id": 20
-        },
-        {
-          "type": "-",
-          "named": false,
-          "state_id": 18
-        },
-        {
-          "type": "->",
-          "named": false,
-          "state_id": 18
-        },
-        {
-          "type": ".",
-          "named": false,
-          "state_id": 4
-        },
-        {
-          "type": "...",
-          "named": false,
-          "state_id": 18
-        },
-        {
-          "type": "/",
-          "named": false,
-          "state_id": 18
-        },
-        {
-          "type": "//",
-          "named": false,
-          "state_id": 18
-        },
-        {
-          "type": ":",
-          "named": false,
-          "state_id": 18
-        },
-        {
-          "type": ";",
-          "named": false,
-          "state_id": 20
-        },
-        {
-          "type": "<",
-          "named": false,
-          "state_id": 18
-        },
-        {
-          "type": "<=",
-          "named": false,
-          "state_id": 18
-        },
-        {
-          "type": "=",
-          "named": false,
-          "state_id": 18
-        },
-        {
-          "type": "==",
-          "named": false,
-          "state_id": 18
-        },
-        {
-          "type": ">",
-          "named": false,
-          "state_id": 18
-        },
-        {
-          "type": ">=",
-          "named": false,
-          "state_id": 18
-        },
-        {
-          "type": "?",
-          "named": false,
-          "state_id": 18
-        },
-        {
-          "type": "[",
-          "named": false,
-          "state_id": 19
-        },
-        {
-          "type": "]",
-          "named": false,
-          "state_id": 19
-        },
-        {
-          "type": "app",
-          "named": true,
-          "state_id": 21
-        },
-        {
-          "type": "assert",
-          "named": false,
-          "state_id": 22
-        },
-        {
-          "type": "comment",
-          "named": true,
-          "state_id": 23
-        },
-        {
-          "type": "else",
-          "named": false,
-          "state_id": 22
-        },
-        {
-          "type": "escape_sequence",
-          "named": true,
-          "state_id": 24
-        },
-        {
-          "type": "false",
-          "named": true,
-          "state_id": 25
-        },
-        {
-          "type": "float",
-          "named": true,
-          "state_id": 26
-        },
-        {
-          "type": "formal",
-          "named": true,
-          "state_id": 45
         },
         {
           "type": "function",
@@ -11807,6 +11797,11 @@
           "state_id": 26
         },
         {
+          "type": "formal",
+          "named": true,
+          "state_id": 47
+        },
+        {
           "type": "function",
           "named": true,
           "state_id": 27
@@ -11840,11 +11835,6 @@
           "type": "inherit",
           "named": false,
           "state_id": 22
-        },
-        {
-          "type": "inherit",
-          "named": true,
-          "state_id": 46
         },
         {
           "type": "integer",
@@ -11941,6 +11931,298 @@
     },
     {
       "id": 41,
+      "property_set_id": 14,
+      "transitions": [
+        {
+          "type": "!=",
+          "named": false,
+          "state_id": 18
+        },
+        {
+          "type": "&&",
+          "named": false,
+          "state_id": 18
+        },
+        {
+          "type": "(",
+          "named": false,
+          "state_id": 19
+        },
+        {
+          "type": ")",
+          "named": false,
+          "state_id": 19
+        },
+        {
+          "type": "*",
+          "named": false,
+          "state_id": 18
+        },
+        {
+          "type": "+",
+          "named": false,
+          "state_id": 18
+        },
+        {
+          "type": "++",
+          "named": false,
+          "state_id": 18
+        },
+        {
+          "type": ",",
+          "named": false,
+          "state_id": 20
+        },
+        {
+          "type": "-",
+          "named": false,
+          "state_id": 18
+        },
+        {
+          "type": "->",
+          "named": false,
+          "state_id": 18
+        },
+        {
+          "type": ".",
+          "named": false,
+          "state_id": 4
+        },
+        {
+          "type": "...",
+          "named": false,
+          "state_id": 18
+        },
+        {
+          "type": "/",
+          "named": false,
+          "state_id": 18
+        },
+        {
+          "type": "//",
+          "named": false,
+          "state_id": 18
+        },
+        {
+          "type": ":",
+          "named": false,
+          "state_id": 18
+        },
+        {
+          "type": ";",
+          "named": false,
+          "state_id": 20
+        },
+        {
+          "type": "<",
+          "named": false,
+          "state_id": 18
+        },
+        {
+          "type": "<=",
+          "named": false,
+          "state_id": 18
+        },
+        {
+          "type": "=",
+          "named": false,
+          "state_id": 18
+        },
+        {
+          "type": "==",
+          "named": false,
+          "state_id": 18
+        },
+        {
+          "type": ">",
+          "named": false,
+          "state_id": 18
+        },
+        {
+          "type": ">=",
+          "named": false,
+          "state_id": 18
+        },
+        {
+          "type": "?",
+          "named": false,
+          "state_id": 18
+        },
+        {
+          "type": "[",
+          "named": false,
+          "state_id": 19
+        },
+        {
+          "type": "]",
+          "named": false,
+          "state_id": 19
+        },
+        {
+          "type": "app",
+          "named": true,
+          "state_id": 21
+        },
+        {
+          "type": "assert",
+          "named": false,
+          "state_id": 22
+        },
+        {
+          "type": "comment",
+          "named": true,
+          "state_id": 23
+        },
+        {
+          "type": "else",
+          "named": false,
+          "state_id": 22
+        },
+        {
+          "type": "escape_sequence",
+          "named": true,
+          "state_id": 24
+        },
+        {
+          "type": "false",
+          "named": true,
+          "state_id": 25
+        },
+        {
+          "type": "float",
+          "named": true,
+          "state_id": 26
+        },
+        {
+          "type": "function",
+          "named": true,
+          "state_id": 27
+        },
+        {
+          "type": "hpath",
+          "named": true,
+          "state_id": 28
+        },
+        {
+          "type": "identifier",
+          "named": true,
+          "state_id": 29
+        },
+        {
+          "type": "if",
+          "named": false,
+          "state_id": 22
+        },
+        {
+          "type": "in",
+          "named": false,
+          "state_id": 22
+        },
+        {
+          "type": "indented_string",
+          "named": true,
+          "state_id": 30
+        },
+        {
+          "type": "inherit",
+          "named": false,
+          "state_id": 22
+        },
+        {
+          "type": "integer",
+          "named": true,
+          "state_id": 26
+        },
+        {
+          "type": "interpolation",
+          "named": true,
+          "state_id": 31
+        },
+        {
+          "type": "let",
+          "named": false,
+          "state_id": 22
+        },
+        {
+          "type": "let",
+          "named": true,
+          "state_id": 32
+        },
+        {
+          "type": "null",
+          "named": true,
+          "state_id": 25
+        },
+        {
+          "type": "or",
+          "named": false,
+          "state_id": 22
+        },
+        {
+          "type": "path",
+          "named": true,
+          "state_id": 28
+        },
+        {
+          "type": "rec",
+          "named": false,
+          "state_id": 22
+        },
+        {
+          "type": "select",
+          "named": true,
+          "state_id": 33
+        },
+        {
+          "type": "spath",
+          "named": true,
+          "state_id": 28
+        },
+        {
+          "type": "string",
+          "named": true,
+          "state_id": 30
+        },
+        {
+          "type": "then",
+          "named": false,
+          "state_id": 22
+        },
+        {
+          "type": "true",
+          "named": true,
+          "state_id": 25
+        },
+        {
+          "type": "uri",
+          "named": true,
+          "state_id": 28
+        },
+        {
+          "type": "with",
+          "named": false,
+          "state_id": 22
+        },
+        {
+          "type": "{",
+          "named": false,
+          "state_id": 19
+        },
+        {
+          "type": "||",
+          "named": false,
+          "state_id": 18
+        },
+        {
+          "type": "}",
+          "named": false,
+          "state_id": 19
+        }
+      ],
+      "default_next_state_id": 11
+    },
+    {
+      "id": 42,
       "property_set_id": 0,
       "transitions": [
         {
@@ -12116,7 +12398,304 @@
         {
           "type": "identifier",
           "named": true,
-          "state_id": 47
+          "state_id": 29
+        },
+        {
+          "type": "if",
+          "named": false,
+          "state_id": 22
+        },
+        {
+          "type": "in",
+          "named": false,
+          "state_id": 22
+        },
+        {
+          "type": "indented_string",
+          "named": true,
+          "state_id": 30
+        },
+        {
+          "type": "inherit",
+          "named": false,
+          "state_id": 22
+        },
+        {
+          "type": "inherit",
+          "named": true,
+          "state_id": 48
+        },
+        {
+          "type": "integer",
+          "named": true,
+          "state_id": 26
+        },
+        {
+          "type": "interpolation",
+          "named": true,
+          "state_id": 31
+        },
+        {
+          "type": "let",
+          "named": false,
+          "state_id": 22
+        },
+        {
+          "type": "let",
+          "named": true,
+          "state_id": 32
+        },
+        {
+          "type": "null",
+          "named": true,
+          "state_id": 25
+        },
+        {
+          "type": "or",
+          "named": false,
+          "state_id": 22
+        },
+        {
+          "type": "path",
+          "named": true,
+          "state_id": 28
+        },
+        {
+          "type": "rec",
+          "named": false,
+          "state_id": 22
+        },
+        {
+          "type": "select",
+          "named": true,
+          "state_id": 33
+        },
+        {
+          "type": "spath",
+          "named": true,
+          "state_id": 28
+        },
+        {
+          "type": "string",
+          "named": true,
+          "state_id": 30
+        },
+        {
+          "type": "then",
+          "named": false,
+          "state_id": 22
+        },
+        {
+          "type": "true",
+          "named": true,
+          "state_id": 25
+        },
+        {
+          "type": "uri",
+          "named": true,
+          "state_id": 28
+        },
+        {
+          "type": "with",
+          "named": false,
+          "state_id": 22
+        },
+        {
+          "type": "{",
+          "named": false,
+          "state_id": 19
+        },
+        {
+          "type": "||",
+          "named": false,
+          "state_id": 18
+        },
+        {
+          "type": "}",
+          "named": false,
+          "state_id": 19
+        }
+      ],
+      "default_next_state_id": 11
+    },
+    {
+      "id": 43,
+      "property_set_id": 0,
+      "transitions": [
+        {
+          "type": "!=",
+          "named": false,
+          "state_id": 18
+        },
+        {
+          "type": "&&",
+          "named": false,
+          "state_id": 18
+        },
+        {
+          "type": "(",
+          "named": false,
+          "state_id": 19
+        },
+        {
+          "type": ")",
+          "named": false,
+          "state_id": 19
+        },
+        {
+          "type": "*",
+          "named": false,
+          "state_id": 18
+        },
+        {
+          "type": "+",
+          "named": false,
+          "state_id": 18
+        },
+        {
+          "type": "++",
+          "named": false,
+          "state_id": 18
+        },
+        {
+          "type": ",",
+          "named": false,
+          "state_id": 20
+        },
+        {
+          "type": "-",
+          "named": false,
+          "state_id": 18
+        },
+        {
+          "type": "->",
+          "named": false,
+          "state_id": 18
+        },
+        {
+          "type": ".",
+          "named": false,
+          "state_id": 4
+        },
+        {
+          "type": "...",
+          "named": false,
+          "state_id": 18
+        },
+        {
+          "type": "/",
+          "named": false,
+          "state_id": 18
+        },
+        {
+          "type": "//",
+          "named": false,
+          "state_id": 18
+        },
+        {
+          "type": ":",
+          "named": false,
+          "state_id": 18
+        },
+        {
+          "type": ";",
+          "named": false,
+          "state_id": 20
+        },
+        {
+          "type": "<",
+          "named": false,
+          "state_id": 18
+        },
+        {
+          "type": "<=",
+          "named": false,
+          "state_id": 18
+        },
+        {
+          "type": "=",
+          "named": false,
+          "state_id": 18
+        },
+        {
+          "type": "==",
+          "named": false,
+          "state_id": 18
+        },
+        {
+          "type": ">",
+          "named": false,
+          "state_id": 18
+        },
+        {
+          "type": ">=",
+          "named": false,
+          "state_id": 18
+        },
+        {
+          "type": "?",
+          "named": false,
+          "state_id": 18
+        },
+        {
+          "type": "[",
+          "named": false,
+          "state_id": 19
+        },
+        {
+          "type": "]",
+          "named": false,
+          "state_id": 19
+        },
+        {
+          "type": "app",
+          "named": true,
+          "state_id": 21
+        },
+        {
+          "type": "assert",
+          "named": false,
+          "state_id": 22
+        },
+        {
+          "type": "comment",
+          "named": true,
+          "state_id": 23
+        },
+        {
+          "type": "else",
+          "named": false,
+          "state_id": 22
+        },
+        {
+          "type": "escape_sequence",
+          "named": true,
+          "state_id": 24
+        },
+        {
+          "type": "false",
+          "named": true,
+          "state_id": 25
+        },
+        {
+          "type": "float",
+          "named": true,
+          "state_id": 26
+        },
+        {
+          "type": "function",
+          "named": true,
+          "state_id": 27
+        },
+        {
+          "type": "hpath",
+          "named": true,
+          "state_id": 28
+        },
+        {
+          "type": "identifier",
+          "named": true,
+          "state_id": 49
         },
         {
           "type": "if",
@@ -12232,7 +12811,7 @@
       "default_next_state_id": 11
     },
     {
-      "id": 42,
+      "id": 44,
       "property_set_id": 0,
       "transitions": [
         {
@@ -12404,586 +12983,7 @@
           "type": "identifier",
           "named": true,
           "index": 0,
-          "state_id": 44
-        },
-        {
-          "type": "identifier",
-          "named": true,
-          "state_id": 13
-        },
-        {
-          "type": "if",
-          "named": false,
-          "state_id": 6
-        },
-        {
-          "type": "in",
-          "named": false,
-          "state_id": 6
-        },
-        {
-          "type": "indented_string",
-          "named": true,
-          "state_id": 14
-        },
-        {
-          "type": "inherit",
-          "named": false,
-          "state_id": 6
-        },
-        {
-          "type": "integer",
-          "named": true,
-          "state_id": 10
-        },
-        {
-          "type": "interpolation",
-          "named": true,
-          "state_id": 15
-        },
-        {
-          "type": "let",
-          "named": false,
-          "state_id": 6
-        },
-        {
-          "type": "let",
-          "named": true,
-          "state_id": 16
-        },
-        {
-          "type": "null",
-          "named": true,
-          "state_id": 9
-        },
-        {
-          "type": "or",
-          "named": false,
-          "state_id": 6
-        },
-        {
-          "type": "path",
-          "named": true,
-          "state_id": 12
-        },
-        {
-          "type": "rec",
-          "named": false,
-          "state_id": 6
-        },
-        {
-          "type": "select",
-          "named": true,
-          "state_id": 17
-        },
-        {
-          "type": "spath",
-          "named": true,
-          "state_id": 12
-        },
-        {
-          "type": "string",
-          "named": true,
-          "state_id": 14
-        },
-        {
-          "type": "then",
-          "named": false,
-          "state_id": 6
-        },
-        {
-          "type": "true",
-          "named": true,
-          "state_id": 9
-        },
-        {
-          "type": "uri",
-          "named": true,
-          "state_id": 12
-        },
-        {
-          "type": "with",
-          "named": false,
-          "state_id": 6
-        },
-        {
-          "type": "{",
-          "named": false,
-          "state_id": 2
-        },
-        {
-          "type": "||",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "}",
-          "named": false,
-          "state_id": 2
-        }
-      ],
-      "default_next_state_id": 0
-    },
-    {
-      "id": 43,
-      "property_set_id": 0,
-      "transitions": [
-        {
-          "type": "!=",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "&&",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "(",
-          "named": false,
-          "state_id": 2
-        },
-        {
-          "type": ")",
-          "named": false,
-          "state_id": 2
-        },
-        {
-          "type": "*",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "+",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "++",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": ",",
-          "named": false,
-          "state_id": 3
-        },
-        {
-          "type": "-",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "->",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": ".",
-          "named": false,
-          "state_id": 4
-        },
-        {
-          "type": "...",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "/",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "//",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": ":",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "<",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "<=",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "=",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "==",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": ">",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": ">=",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "?",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "[",
-          "named": false,
-          "state_id": 2
-        },
-        {
-          "type": "]",
-          "named": false,
-          "state_id": 2
-        },
-        {
-          "type": "app",
-          "named": true,
-          "state_id": 5
-        },
-        {
-          "type": "assert",
-          "named": false,
-          "state_id": 6
-        },
-        {
-          "type": "attrs",
-          "named": true,
-          "state_id": 37
-        },
-        {
-          "type": "comment",
-          "named": true,
-          "state_id": 7
-        },
-        {
-          "type": "else",
-          "named": false,
-          "state_id": 6
-        },
-        {
-          "type": "escape_sequence",
-          "named": true,
-          "state_id": 8
-        },
-        {
-          "type": "false",
-          "named": true,
-          "state_id": 9
-        },
-        {
-          "type": "float",
-          "named": true,
-          "state_id": 10
-        },
-        {
-          "type": "function",
-          "named": true,
-          "state_id": 11
-        },
-        {
-          "type": "hpath",
-          "named": true,
-          "state_id": 12
-        },
-        {
-          "type": "identifier",
-          "named": true,
-          "state_id": 13
-        },
-        {
-          "type": "if",
-          "named": false,
-          "state_id": 6
-        },
-        {
-          "type": "in",
-          "named": false,
-          "state_id": 6
-        },
-        {
-          "type": "indented_string",
-          "named": true,
-          "state_id": 14
-        },
-        {
-          "type": "inherit",
-          "named": false,
-          "state_id": 6
-        },
-        {
-          "type": "integer",
-          "named": true,
-          "state_id": 10
-        },
-        {
-          "type": "interpolation",
-          "named": true,
-          "state_id": 15
-        },
-        {
-          "type": "let",
-          "named": false,
-          "state_id": 6
-        },
-        {
-          "type": "let",
-          "named": true,
-          "state_id": 16
-        },
-        {
-          "type": "null",
-          "named": true,
-          "state_id": 9
-        },
-        {
-          "type": "or",
-          "named": false,
-          "state_id": 6
-        },
-        {
-          "type": "path",
-          "named": true,
-          "state_id": 12
-        },
-        {
-          "type": "rec",
-          "named": false,
-          "state_id": 6
-        },
-        {
-          "type": "select",
-          "named": true,
-          "state_id": 17
-        },
-        {
-          "type": "spath",
-          "named": true,
-          "state_id": 12
-        },
-        {
-          "type": "string",
-          "named": true,
-          "state_id": 14
-        },
-        {
-          "type": "then",
-          "named": false,
-          "state_id": 6
-        },
-        {
-          "type": "true",
-          "named": true,
-          "state_id": 9
-        },
-        {
-          "type": "uri",
-          "named": true,
-          "state_id": 12
-        },
-        {
-          "type": "with",
-          "named": false,
-          "state_id": 6
-        },
-        {
-          "type": "{",
-          "named": false,
-          "state_id": 2
-        },
-        {
-          "type": "||",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "}",
-          "named": false,
-          "state_id": 2
-        }
-      ],
-      "default_next_state_id": 0
-    },
-    {
-      "id": 44,
-      "property_set_id": 14,
-      "transitions": [
-        {
-          "type": "!=",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "&&",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "(",
-          "named": false,
-          "state_id": 2
-        },
-        {
-          "type": ")",
-          "named": false,
-          "state_id": 2
-        },
-        {
-          "type": "*",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "+",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "++",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": ",",
-          "named": false,
-          "state_id": 3
-        },
-        {
-          "type": "-",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "->",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": ".",
-          "named": false,
-          "state_id": 4
-        },
-        {
-          "type": "...",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "/",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "//",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": ":",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "<",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "<=",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "=",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "==",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": ">",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": ">=",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "?",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "[",
-          "named": false,
-          "state_id": 2
-        },
-        {
-          "type": "]",
-          "named": false,
-          "state_id": 2
-        },
-        {
-          "type": "app",
-          "named": true,
-          "state_id": 5
-        },
-        {
-          "type": "assert",
-          "named": false,
-          "state_id": 6
-        },
-        {
-          "type": "comment",
-          "named": true,
-          "state_id": 7
-        },
-        {
-          "type": "else",
-          "named": false,
-          "state_id": 6
-        },
-        {
-          "type": "escape_sequence",
-          "named": true,
-          "state_id": 8
-        },
-        {
-          "type": "false",
-          "named": true,
-          "state_id": 9
-        },
-        {
-          "type": "float",
-          "named": true,
-          "state_id": 10
-        },
-        {
-          "type": "function",
-          "named": true,
-          "state_id": 11
-        },
-        {
-          "type": "hpath",
-          "named": true,
-          "state_id": 12
+          "state_id": 46
         },
         {
           "type": "identifier",
@@ -13110,6 +13110,585 @@
         {
           "type": "!=",
           "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "&&",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "(",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": ")",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "*",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "+",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "++",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ",",
+          "named": false,
+          "state_id": 3
+        },
+        {
+          "type": "-",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "->",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ".",
+          "named": false,
+          "state_id": 4
+        },
+        {
+          "type": "...",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "/",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "//",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ":",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "<",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "<=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "==",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ">",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ">=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "?",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "[",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "]",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "app",
+          "named": true,
+          "state_id": 5
+        },
+        {
+          "type": "assert",
+          "named": false,
+          "state_id": 6
+        },
+        {
+          "type": "attrs",
+          "named": true,
+          "state_id": 38
+        },
+        {
+          "type": "comment",
+          "named": true,
+          "state_id": 7
+        },
+        {
+          "type": "else",
+          "named": false,
+          "state_id": 6
+        },
+        {
+          "type": "escape_sequence",
+          "named": true,
+          "state_id": 8
+        },
+        {
+          "type": "false",
+          "named": true,
+          "state_id": 9
+        },
+        {
+          "type": "float",
+          "named": true,
+          "state_id": 10
+        },
+        {
+          "type": "function",
+          "named": true,
+          "state_id": 11
+        },
+        {
+          "type": "hpath",
+          "named": true,
+          "state_id": 12
+        },
+        {
+          "type": "identifier",
+          "named": true,
+          "state_id": 13
+        },
+        {
+          "type": "if",
+          "named": false,
+          "state_id": 6
+        },
+        {
+          "type": "in",
+          "named": false,
+          "state_id": 6
+        },
+        {
+          "type": "indented_string",
+          "named": true,
+          "state_id": 14
+        },
+        {
+          "type": "inherit",
+          "named": false,
+          "state_id": 6
+        },
+        {
+          "type": "integer",
+          "named": true,
+          "state_id": 10
+        },
+        {
+          "type": "interpolation",
+          "named": true,
+          "state_id": 15
+        },
+        {
+          "type": "let",
+          "named": false,
+          "state_id": 6
+        },
+        {
+          "type": "let",
+          "named": true,
+          "state_id": 16
+        },
+        {
+          "type": "null",
+          "named": true,
+          "state_id": 9
+        },
+        {
+          "type": "or",
+          "named": false,
+          "state_id": 6
+        },
+        {
+          "type": "path",
+          "named": true,
+          "state_id": 12
+        },
+        {
+          "type": "rec",
+          "named": false,
+          "state_id": 6
+        },
+        {
+          "type": "select",
+          "named": true,
+          "state_id": 17
+        },
+        {
+          "type": "spath",
+          "named": true,
+          "state_id": 12
+        },
+        {
+          "type": "string",
+          "named": true,
+          "state_id": 14
+        },
+        {
+          "type": "then",
+          "named": false,
+          "state_id": 6
+        },
+        {
+          "type": "true",
+          "named": true,
+          "state_id": 9
+        },
+        {
+          "type": "uri",
+          "named": true,
+          "state_id": 12
+        },
+        {
+          "type": "with",
+          "named": false,
+          "state_id": 6
+        },
+        {
+          "type": "{",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "||",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "}",
+          "named": false,
+          "state_id": 2
+        }
+      ],
+      "default_next_state_id": 0
+    },
+    {
+      "id": 46,
+      "property_set_id": 15,
+      "transitions": [
+        {
+          "type": "!=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "&&",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "(",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": ")",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "*",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "+",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "++",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ",",
+          "named": false,
+          "state_id": 3
+        },
+        {
+          "type": "-",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "->",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ".",
+          "named": false,
+          "state_id": 4
+        },
+        {
+          "type": "...",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "/",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "//",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ":",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "<",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "<=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "==",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ">",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": ">=",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "?",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "[",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "]",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "app",
+          "named": true,
+          "state_id": 5
+        },
+        {
+          "type": "assert",
+          "named": false,
+          "state_id": 6
+        },
+        {
+          "type": "comment",
+          "named": true,
+          "state_id": 7
+        },
+        {
+          "type": "else",
+          "named": false,
+          "state_id": 6
+        },
+        {
+          "type": "escape_sequence",
+          "named": true,
+          "state_id": 8
+        },
+        {
+          "type": "false",
+          "named": true,
+          "state_id": 9
+        },
+        {
+          "type": "float",
+          "named": true,
+          "state_id": 10
+        },
+        {
+          "type": "function",
+          "named": true,
+          "state_id": 11
+        },
+        {
+          "type": "hpath",
+          "named": true,
+          "state_id": 12
+        },
+        {
+          "type": "identifier",
+          "named": true,
+          "state_id": 13
+        },
+        {
+          "type": "if",
+          "named": false,
+          "state_id": 6
+        },
+        {
+          "type": "in",
+          "named": false,
+          "state_id": 6
+        },
+        {
+          "type": "indented_string",
+          "named": true,
+          "state_id": 14
+        },
+        {
+          "type": "inherit",
+          "named": false,
+          "state_id": 6
+        },
+        {
+          "type": "integer",
+          "named": true,
+          "state_id": 10
+        },
+        {
+          "type": "interpolation",
+          "named": true,
+          "state_id": 15
+        },
+        {
+          "type": "let",
+          "named": false,
+          "state_id": 6
+        },
+        {
+          "type": "let",
+          "named": true,
+          "state_id": 16
+        },
+        {
+          "type": "null",
+          "named": true,
+          "state_id": 9
+        },
+        {
+          "type": "or",
+          "named": false,
+          "state_id": 6
+        },
+        {
+          "type": "path",
+          "named": true,
+          "state_id": 12
+        },
+        {
+          "type": "rec",
+          "named": false,
+          "state_id": 6
+        },
+        {
+          "type": "select",
+          "named": true,
+          "state_id": 17
+        },
+        {
+          "type": "spath",
+          "named": true,
+          "state_id": 12
+        },
+        {
+          "type": "string",
+          "named": true,
+          "state_id": 14
+        },
+        {
+          "type": "then",
+          "named": false,
+          "state_id": 6
+        },
+        {
+          "type": "true",
+          "named": true,
+          "state_id": 9
+        },
+        {
+          "type": "uri",
+          "named": true,
+          "state_id": 12
+        },
+        {
+          "type": "with",
+          "named": false,
+          "state_id": 6
+        },
+        {
+          "type": "{",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "||",
+          "named": false,
+          "state_id": 1
+        },
+        {
+          "type": "}",
+          "named": false,
+          "state_id": 2
+        }
+      ],
+      "default_next_state_id": 0
+    },
+    {
+      "id": 47,
+      "property_set_id": 0,
+      "transitions": [
+        {
+          "type": "!=",
+          "named": false,
           "state_id": 18
         },
         {
@@ -13281,7 +13860,7 @@
           "type": "identifier",
           "named": true,
           "index": 0,
-          "state_id": 47
+          "state_id": 49
         },
         {
           "type": "identifier",
@@ -13402,7 +13981,7 @@
       "default_next_state_id": 11
     },
     {
-      "id": 46,
+      "id": 48,
       "property_set_id": 0,
       "transitions": [
         {
@@ -13543,7 +14122,7 @@
         {
           "type": "attrs",
           "named": true,
-          "state_id": 41
+          "state_id": 43
         },
         {
           "type": "comment",
@@ -13699,8 +14278,8 @@
       "default_next_state_id": 11
     },
     {
-      "id": 47,
-      "property_set_id": 14,
+      "id": 49,
+      "property_set_id": 15,
       "transitions": [
         {
           "type": "!=",
@@ -14031,6 +14610,9 @@
     },
     {
       "scope": "function"
+    },
+    {
+      "scope": "punctuation.special"
     },
     {
       "scope": "property"
