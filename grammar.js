@@ -66,24 +66,17 @@ module.exports = grammar({
 
     function: $ => choice(
       seq($.identifier, ':', $._expr_function),
-
-      seq('{', '}', ":", $._expr_function),
-      seq('{', $.formals, '}', ":", $._expr_function),
-      seq('{', $.formals, ',', $.ellipses, '}', ":", $._expr_function),
-      seq('{', $.ellipses, '}', ":", $._expr_function),
-
-      seq('{', '}', '@', $.identifier, ':', $._expr_function),
-      seq('{', $.formals, '}', '@', $.identifier, ':', $._expr_function),
-      seq('{', $.formals, ',', $.ellipses, '}', '@', $.identifier, ':', $._expr_function),
-      seq('{', $.ellipses, '}', '@', $.identifier, ':', $._expr_function),
-
-      seq($.identifier, '@', '{', '}', ':', $._expr_function),
-      seq($.identifier, '@', '{', $.formals, '}', ':', $._expr_function),
-      seq($.identifier, '@', '{', $.formals, ',', $.ellipses, '}', ':', $._expr_function),
-      seq($.identifier, '@', '{', $.ellipses, '}', ':', $._expr_function),
+      seq($.formals, ":", $._expr_function),
+      seq($.formals, '@', $.identifier, ':', $._expr_function),
+      seq($.identifier, '@', $.formals, ':', $._expr_function),
     ),
 
-    formals: $ => commaSep1($.formal),
+    formals: $ => choice(
+      seq('{', '}'),
+      seq('{', commaSep1($.formal), '}'),
+      seq('{', commaSep1($.formal), ',', $.ellipses, '}'),
+      seq('{', $.ellipses, '}'),
+    ),
     formal: $ => seq($.identifier, optional(seq('?', $._expr))),
     ellipses: $ => '...',
 

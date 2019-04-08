@@ -252,7 +252,7 @@ a: b
 function (with formals)
 ====================
 
-a@{ /**/ b, /**/ c ? 123, ... }: 1.234
+a@{ /*1*/ b, /*2*/ c ? 123, /*3*/ ... }: 1.234
 
 ---
 
@@ -260,9 +260,12 @@ a@{ /**/ b, /**/ c ? 123, ... }: 1.234
     (function
         (identifier)
         (formals
+            (comment)
             (formal (identifier))
-            (formal (identifier) (integer)))
-        (ellipses)
+            (comment)
+            (formal (identifier) (integer))
+            (comment)
+            (ellipses))
         (float)))
 
 ====================
