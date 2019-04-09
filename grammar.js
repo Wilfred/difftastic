@@ -13,14 +13,11 @@ module.exports = grammar({
     $.virtual_open_section,
     $.virtual_end_section,
     $.minus_without_trailing_whitespace,
-    $.block_comment
+    $.comment,
+    $.line_comment
   ],
 
-  extras: $ => [
-    $.block_comment,
-    $.line_comment,
-    /[\s\uFEFF\u2060\u200B]|\\\r?\n/
-  ],
+  extras: $ => [$.comment, $.line_comment, /[\s\uFEFF\u2060\u200B]|\\\r?\n/],
 
   rules: {
     file: $ =>
@@ -357,7 +354,7 @@ module.exports = grammar({
         choice(
           alias($.regular_char, $.regular_string_part),
           $.string_escape,
-          $.invalid_string_escape,
+          $.invalid_string_escape
         ),
         $.close_char
       ),
@@ -550,8 +547,6 @@ module.exports = grammar({
       ),
 
     // Stuff from lexer
-
-    line_comment: $ => token(seq("--", /.*/)),
 
     upper_case_identifier: $ => /[A-Z][a-zA-Z0-9_]*/,
 

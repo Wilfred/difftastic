@@ -16,79 +16,79 @@ getFirstMatch state =
 
 
 ---
-(file 
-        (value_declaration 
-                (function_declaration_left 
-                        (lower_case_identifier) 
+(file
+        (value_declaration
+                (function_declaration_left
+                        (lower_case_identifier)
                         (lower_pattern (lower_case_identifier))
-                ) 
-                (eq) 
-                (case_of_expr 
-                        (case) 
-                        (field_access_expr 
-                                (value_expr (value_qid (lower_case_identifier))) 
+                )
+                (eq)
+                (case_of_expr
+                        (case)
+                        (field_access_expr
+                                (value_expr (value_qid (lower_case_identifier)))
                                 (field_access_segment (dot) (lower_case_identifier))
-                        ) 
-                        (of) 
-                        (virtual_open_section) 
-                        (case_of_branch 
-                                (pattern 
-                                        (list_pattern 
-                                                (left_square_bracket) 
+                        )
+                        (of)
+                        (virtual_open_section)
+                        (case_of_branch
+                                (pattern
+                                        (list_pattern
+                                                (left_square_bracket)
                                                 (right_square_bracket)
                                         )
-                                ) 
-                                (arrow) 
-                                (function_call_expr 
-                                        (value_expr 
-                                                (upper_case_qid 
+                                )
+                                (arrow)
+                                (function_call_expr
+                                        (value_expr
+                                                (upper_case_qid
                                                         (upper_case_identifier)
                                                 )
-                                        ) 
-                                        (field_access_expr 
-                                                (value_expr 
+                                        )
+                                        (field_access_expr
+                                                (value_expr
                                                         (value_qid (lower_case_identifier))
-                                                ) 
+                                                )
                                                 (field_access_segment (dot) (lower_case_identifier))
                                         )
                                 )
-                        ) 
-                        (virtual_end_decl) 
-                        (case_of_branch 
-                                (pattern 
-                                        (list_pattern 
-                                                (left_square_bracket) 
+                        )
+                        (virtual_end_decl)
+                        (case_of_branch
+                                (pattern
+                                        (list_pattern
+                                                (left_square_bracket)
                                                 (pattern (string_constant_expr (open_quote) (close_quote)))
                                                 (right_square_bracket)
                                         )
-                                ) 
-                                (arrow) 
-                                (function_call_expr 
-                                        (value_expr 
+                                )
+                                (arrow)
+                                (function_call_expr
+                                        (value_expr
                                                 (upper_case_qid (upper_case_identifier))
-                                        ) 
-                                        (field_access_expr 
-                                                (value_expr 
+                                        )
+                                        (field_access_expr
+                                                (value_expr
                                                         (value_qid (lower_case_identifier))
-                                                ) 
-                                                (field_access_segment 
-                                                        (dot) 
+                                                )
+                                                (field_access_segment
+                                                        (dot)
                                                         (lower_case_identifier)
                                                 )
                                         )
                                 )
-                        ) 
-                        (virtual_end_decl) 
-                        (case_of_branch 
-                                (pattern (anything_pattern (underscore))) 
-                                (arrow) 
-                                (function_call_expr 
-                                        (value_expr (value_qid (lower_case_identifier))) 
+                        )
+                        (virtual_end_decl)
+                        (case_of_branch
+                                (pattern (anything_pattern (underscore)))
+                                (arrow)
+                                (function_call_expr
+                                        (value_expr (value_qid (lower_case_identifier)))
                                         (value_expr (value_qid (lower_case_identifier)))
                                 )
                         )
                 )
-        ) 
+        )
         (virtual_end_decl)
 )
 =====================================
@@ -123,29 +123,29 @@ xsOpp =
     List.range -n -1
 
 ---
-(file 
-        (value_declaration 
-                (function_declaration_left 
+(file
+        (value_declaration
+                (function_declaration_left
                         (lower_case_identifier)
-                ) 
-                (eq) 
-                (function_call_expr 
-                        (value_expr 
-                                (value_qid 
-                                        (upper_case_identifier) 
-                                        (dot) 
+                )
+                (eq)
+                (function_call_expr
+                        (value_expr
+                                (value_qid
+                                        (upper_case_identifier)
+                                        (dot)
                                         (lower_case_identifier)
                                 )
-                        ) 
+                        )
                         (negate_expr
                                 (operator_identifier)
                                 (value_expr (value_qid (lower_case_identifier)))
                         )
                         (number_constant_expr (number_literal))
                 )
-        ) 
+        )
         (virtual_end_decl)
-) 
+)
 
 =====================================
 Char Escaped
@@ -377,6 +377,10 @@ json =
             }
         """
 
+string7 =
+        "-"
+string8 =
+        "--"
 
 ---
 
@@ -506,6 +510,29 @@ json =
                 )
         )
   )
+  (virtual_end_decl) 
+  (value_declaration 
+        (function_declaration_left 
+                (lower_case_identifier)
+        ) 
+        (eq) 
+        (string_constant_expr 
+                (open_quote) 
+                (regular_string_part) 
+                (close_quote)
+        )
+  ) 
+  (virtual_end_decl) 
+  (value_declaration 
+        (function_declaration_left 
+                (lower_case_identifier)
+        ) 
+        (eq) 
+        (string_constant_expr 
+                (open_quote) 
+                (regular_string_part) 
+                (close_quote)
+        ))
   (virtual_end_decl)
 )
 

@@ -351,10 +351,6 @@
     "named": false
   },
   {
-    "type": "line_comment",
-    "named": true
-  },
-  {
     "type": "upper_case_identifier",
     "named": true
   },

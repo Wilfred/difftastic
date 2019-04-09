@@ -17,7 +17,8 @@ enum TokenType
     VIRTUAL_OPEN_SECTION,
     VIRTUAL_END_SECTION,
     MINUS_WITHOUT_TRAILING_WHITESPACE,
-    BLOCK_COMMENT
+    BLOCK_COMMENT,
+    LINE_COMMENT
 };
 
 struct Scanner
@@ -37,6 +38,7 @@ struct Scanner
         i += stack_size;
 
         buffer[i++] = indent_length;
+        buffer[i++] = in_string;
 
         vector<uint16_t>::iterator
             iter = indent_length_stack.begin() + 1,
@@ -65,6 +67,7 @@ struct Scanner
             memcpy(runback.data(), &buffer[i], runback_count);
             i += runback_count;
             indent_length = buffer[i++];
+            in_string = buffer[i++];
             for (; i < length; i++)
             {
                 indent_length_stack.push_back(buffer[i]);
@@ -115,6 +118,7 @@ struct Scanner
 
     bool scan(TSLexer *lexer, const bool *valid_symbols)
     {
+
         if (!runback.empty() && runback.back() == 0 && valid_symbols[VIRTUAL_END_DECL])
         {
             runback.pop_back();
@@ -234,9 +238,24 @@ struct Scanner
             }
         }
 
-        if (valid_symbols[MINUS_WITHOUT_TRAILING_WHITESPACE] && lexer->lookahead == ' ')
+
+        if (valid_symbols[BLOCK_COMMENT])
         {
-            skip(lexer);
+            if(lexer->lookahead == '{')
+            {
+
+            advance(lexer);
+            lexer->result_symbol = BLOCK_COMMENT;
+            return scan_comment(lexer);
+            }
+        }
+
+        if (valid_symbols[MINUS_WITHOUT_TRAILING_WHITESPACE] || valid_symbols[LINE_COMMENT])
+        {
+            while (isspace(lexer->lookahead)) {
+                skip(lexer);
+            }
+
             if (lexer->lookahead == '-')
             {
                 skip(lexer);
@@ -271,49 +290,20 @@ struct Scanner
                     lexer->result_symbol = MINUS_WITHOUT_TRAILING_WHITESPACE;
                     return true;
                 }
-            }
-        }
-        else if (valid_symbols[MINUS_WITHOUT_TRAILING_WHITESPACE] && lexer->lookahead == '-')
-        {
-            skip(lexer);
-            auto lookahead = lexer->lookahead;
-            if (lookahead == 'a' ||
-                lookahead == 'b' ||
-                lookahead == 'c' ||
-                lookahead == 'd' ||
-                lookahead == 'e' ||
-                lookahead == 'f' ||
-                lookahead == 'g' ||
-                lookahead == 'h' ||
-                lookahead == 'i' ||
-                lookahead == 'j' ||
-                lookahead == 'k' ||
-                lookahead == 'l' ||
-                lookahead == 'm' ||
-                lookahead == 'n' ||
-                lookahead == 'o' ||
-                lookahead == 'p' ||
-                lookahead == 'q' ||
-                lookahead == 'r' ||
-                lookahead == 's' ||
-                lookahead == 't' ||
-                lookahead == 'u' ||
-                lookahead == 'v' ||
-                lookahead == 'w' ||
-                lookahead == 'x' ||
-                lookahead == 'y' ||
-                lookahead == 'z')
-            {
-                lexer->result_symbol = MINUS_WITHOUT_TRAILING_WHITESPACE;
-                return true;
-            }
-        }
+                else
+                if(lexer->lookahead == '-')
+                {
 
-        if (valid_symbols[BLOCK_COMMENT] && lexer->lookahead == '{')
-        {
-            advance(lexer);
-            lexer->result_symbol = BLOCK_COMMENT;
-            return scan_comment(lexer);
+                    advance(lexer);
+                    lexer->result_symbol = LINE_COMMENT;
+
+                    while(lexer->lookahead != '\n'){
+                        advance(lexer);
+                    }
+                    runback.clear();
+                    return true;
+                }
+            }
         }
 
         return false;
@@ -322,6 +312,7 @@ struct Scanner
     uint32_t indent_length;
     vector<uint16_t> indent_length_stack;
     vector<uint8_t> runback;
+    bool in_string = false;
 };
 
 } // namespace

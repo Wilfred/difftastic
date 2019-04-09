@@ -2313,22 +2313,6 @@
         }
       ]
     },
-    "line_comment": {
-      "type": "TOKEN",
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "STRING",
-            "value": "--"
-          },
-          {
-            "type": "PATTERN",
-            "value": ".*"
-          }
-        ]
-      }
-    },
     "upper_case_identifier": {
       "type": "PATTERN",
       "value": "[A-Z][a-zA-Z0-9_]*"
@@ -2665,7 +2649,7 @@
   "extras": [
     {
       "type": "SYMBOL",
-      "name": "block_comment"
+      "name": "comment"
     },
     {
       "type": "SYMBOL",
@@ -2710,7 +2694,11 @@
     },
     {
       "type": "SYMBOL",
-      "name": "block_comment"
+      "name": "comment"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "line_comment"
     }
   ],
   "inline": [],
