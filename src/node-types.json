@@ -40,11 +40,6 @@
     "fields": {}
   },
   {
-    "type": "close_quote",
-    "named": true,
-    "fields": {}
-  },
-  {
     "type": "cons_pattern",
     "named": true,
     "fields": {}
@@ -181,11 +176,6 @@
   },
   {
     "type": "open_char",
-    "named": true,
-    "fields": {}
-  },
-  {
-    "type": "open_quote",
     "named": true,
     "fields": {}
   },
@@ -357,14 +347,6 @@
   {
     "type": "lower_case_identifier",
     "named": true
-  },
-  {
-    "type": "\"",
-    "named": false
-  },
-  {
-    "type": "\"\"\"",
-    "named": false
   },
   {
     "type": "regular_char",

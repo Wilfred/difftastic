@@ -13,11 +13,19 @@ module.exports = grammar({
     $.virtual_open_section,
     $.virtual_end_section,
     $.minus_without_trailing_whitespace,
-    $.comment,
-    $.line_comment
+    $.block_comment,
+    $.line_comment,
+    $.open_quote,
+    $.close_quote,
+    $.open_quote_multiline,
+    $.close_quote_multiline
   ],
 
-  extras: $ => [$.comment, $.line_comment, /[\s\uFEFF\u2060\u200B]|\\\r?\n/],
+  extras: $ => [
+    $.block_comment,
+    $.line_comment,
+    /[\s\uFEFF\u2060\u200B]|\\\r?\n/
+  ],
 
   rules: {
     file: $ =>
@@ -556,14 +564,6 @@ module.exports = grammar({
       choice(/(-)?[0-9]+(\.[0-9]+)?(e[0-9]+)?/, $._hex_literal),
 
     _hex_literal: $ => /0x[0-9A-Fa-f]+/,
-
-    open_quote: $ => choice('"'),
-
-    close_quote: $ => choice('"'),
-
-    open_quote_multiline: $ => choice('"""'),
-
-    close_quote_multiline: $ => choice('"""'),
 
     regular_char: $ => /[^\\\n']/,
     regular_string_part: $ => choice(/[^\\\"\n]+/, /\"/),

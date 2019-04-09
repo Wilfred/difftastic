@@ -88,7 +88,7 @@ import Html.Attributes as Attr
     (right_parenthesis)))
   (virtual_end_decl)
 
-  (comment)
+  (block_comment)
 
   (import_clause
     (import) (upper_case_qid (upper_case_identifier)) (exposing_list (exposing) (left_parenthesis) (exposed_type (upper_case_identifier)) (comma) (exposed_type (upper_case_identifier)) (right_parenthesis)

@@ -2338,42 +2338,6 @@
       "type": "PATTERN",
       "value": "0x[0-9A-Fa-f]+"
     },
-    "open_quote": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "\""
-        }
-      ]
-    },
-    "close_quote": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "\""
-        }
-      ]
-    },
-    "open_quote_multiline": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "\"\"\""
-        }
-      ]
-    },
-    "close_quote_multiline": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "\"\"\""
-        }
-      ]
-    },
     "regular_char": {
       "type": "PATTERN",
       "value": "[^\\\\\\n']"
@@ -2649,7 +2613,7 @@
   "extras": [
     {
       "type": "SYMBOL",
-      "name": "comment"
+      "name": "block_comment"
     },
     {
       "type": "SYMBOL",
@@ -2694,11 +2658,27 @@
     },
     {
       "type": "SYMBOL",
-      "name": "comment"
+      "name": "block_comment"
     },
     {
       "type": "SYMBOL",
       "name": "line_comment"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "open_quote"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "close_quote"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "open_quote_multiline"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "close_quote_multiline"
     }
   ],
   "inline": [],

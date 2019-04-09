@@ -18,7 +18,11 @@ enum TokenType
     VIRTUAL_END_SECTION,
     MINUS_WITHOUT_TRAILING_WHITESPACE,
     BLOCK_COMMENT,
-    LINE_COMMENT
+    LINE_COMMENT,
+    OPEN_QUOTE,
+    CLOSE_QUOTE,
+    OPEN_QUOTE_MULTILINE,
+    CLOSE_QUOTE_MULTILINE
 };
 
 struct Scanner
@@ -39,6 +43,7 @@ struct Scanner
 
         buffer[i++] = indent_length;
         buffer[i++] = in_string;
+        buffer[i++] = in_string_multiline;
 
         vector<uint16_t>::iterator
             iter = indent_length_stack.begin() + 1,
@@ -68,6 +73,7 @@ struct Scanner
             i += runback_count;
             indent_length = buffer[i++];
             in_string = buffer[i++];
+            in_string_multiline = buffer[i++];
             for (; i < length; i++)
             {
                 indent_length_stack.push_back(buffer[i]);
@@ -238,25 +244,24 @@ struct Scanner
             }
         }
 
-
-        if (valid_symbols[BLOCK_COMMENT])
+        if (!in_string && !in_string_multiline && valid_symbols[BLOCK_COMMENT])
         {
-            if(lexer->lookahead == '{')
+            if (lexer->lookahead == '{')
             {
 
-            advance(lexer);
-            lexer->result_symbol = BLOCK_COMMENT;
-            return scan_comment(lexer);
+                advance(lexer);
+                lexer->result_symbol = BLOCK_COMMENT;
+                return scan_comment(lexer);
             }
         }
 
         if (valid_symbols[MINUS_WITHOUT_TRAILING_WHITESPACE] || valid_symbols[LINE_COMMENT])
         {
-            while (isspace(lexer->lookahead)) {
+            while (isspace(lexer->lookahead))
+            {
                 skip(lexer);
             }
-
-            if (lexer->lookahead == '-')
+            if (!in_string && lexer->lookahead == '-')
             {
                 skip(lexer);
                 auto lookahead = lexer->lookahead;
@@ -290,19 +295,103 @@ struct Scanner
                     lexer->result_symbol = MINUS_WITHOUT_TRAILING_WHITESPACE;
                     return true;
                 }
-                else
-                if(lexer->lookahead == '-')
+                else if (!in_string && !in_string_multiline && lexer->lookahead == '-')
                 {
-
                     advance(lexer);
                     lexer->result_symbol = LINE_COMMENT;
 
-                    while(lexer->lookahead != '\n'){
+                    while (lexer->lookahead != '\n')
+                    {
                         advance(lexer);
                     }
                     runback.clear();
                     return true;
                 }
+            }
+        }
+
+        if ((!in_string || !in_string_multiline) && (valid_symbols[OPEN_QUOTE] || valid_symbols[OPEN_QUOTE_MULTILINE]))
+        {
+            while (isspace(lexer->lookahead))
+            {
+                skip(lexer);
+            }
+            if (lexer->lookahead == '"')
+            {
+                advance(lexer);
+                lexer->mark_end(lexer);
+                if(lexer->lookahead == '"')
+                {
+                    advance(lexer);
+
+                    if(lexer->lookahead == '"')
+                    {
+                        advance(lexer);
+                        lexer->result_symbol = OPEN_QUOTE_MULTILINE;
+                        in_string_multiline = true;
+                        lexer->mark_end(lexer);
+                        // runback.clear();
+                        return true;
+
+                    } else if(!in_string_multiline)
+                    {
+                        lexer->result_symbol = OPEN_QUOTE;
+                        in_string = true;
+                        // runback.clear();
+                        return true;
+                    }
+                    
+                }
+                else if(!in_string_multiline)
+                {
+                    lexer->result_symbol = OPEN_QUOTE;
+                    in_string = true;
+                    lexer->mark_end(lexer);
+                    // runback.clear();
+                    return true;
+                }
+            }
+        }
+        if ((in_string || in_string_multiline) && (valid_symbols[CLOSE_QUOTE] || valid_symbols[CLOSE_QUOTE_MULTILINE]))
+        {
+            while (isspace(lexer->lookahead))
+            {
+                skip(lexer);
+            }
+            if (lexer->lookahead == '"')
+            {
+                advance(lexer);
+                lexer->mark_end(lexer);
+                if(lexer->lookahead == '"')
+                {
+                    advance(lexer);
+
+                    if(lexer->lookahead == '"')
+                    {
+                        advance(lexer);
+                        lexer->result_symbol = CLOSE_QUOTE_MULTILINE;
+                        in_string_multiline = false;
+                        lexer->mark_end(lexer);
+                        // runback.clear();
+                        return true;
+
+                    }else if(!in_string_multiline)
+                    {
+                        lexer->result_symbol = CLOSE_QUOTE;
+                        in_string = false;
+                        // runback.clear();
+                        return true;
+                    }
+                } else if(!in_string_multiline)
+                {
+                    
+                lexer->result_symbol = CLOSE_QUOTE;
+                in_string = false;
+                lexer->mark_end(lexer);
+                // runback.clear();
+                return true;
+                }
+                
             }
         }
 
@@ -313,6 +402,7 @@ struct Scanner
     vector<uint16_t> indent_length_stack;
     vector<uint8_t> runback;
     bool in_string = false;
+    bool in_string_multiline = false;
 };
 
 } // namespace

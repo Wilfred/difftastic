@@ -17,7 +17,7 @@ onAnimationFrame =
 ---
 
 (file
-    (comment)
+    (block_comment)
     (type_annotation
         (lower_case_identifier)
         (colon)

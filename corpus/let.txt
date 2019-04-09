@@ -6,12 +6,12 @@ i = let x = 320 in x
 
 ---
 
-(file 
-    (value_declaration 
-        (function_declaration_left (lower_case_identifier)) 
-        (eq) 
+(file
+    (value_declaration
+        (function_declaration_left (lower_case_identifier))
+        (eq)
         (let_in_expr
-            (let) 
+            (let)
             (virtual_open_section)
             (value_declaration
                 (function_declaration_left (lower_case_identifier))
@@ -35,40 +35,40 @@ i = let f = (\a b c d -> a + b + c + d) in
 
 ---
 
-(file 
-    (value_declaration 
+(file
+    (value_declaration
         (function_declaration_left (lower_case_identifier))
-        (eq) 
-        (let_in_expr 
-            (let) 
-            (virtual_open_section) 
-            (value_declaration 
-                (function_declaration_left (lower_case_identifier)) 
-                (eq) 
-                (parenthesized_expr 
-                    (left_parenthesis) 
-                    (anonymous_function_expr 
-                        (backslash) 
-                        (pattern (lower_pattern (lower_case_identifier))) 
-                        (pattern (lower_pattern (lower_case_identifier))) 
-                        (pattern (lower_pattern (lower_case_identifier))) 
-                        (pattern (lower_pattern (lower_case_identifier))) 
-                        (arrow) 
-                        (bin_op_expr 
-                            (value_expr (value_qid (lower_case_identifier))) 
+        (eq)
+        (let_in_expr
+            (let)
+            (virtual_open_section)
+            (value_declaration
+                (function_declaration_left (lower_case_identifier))
+                (eq)
+                (parenthesized_expr
+                    (left_parenthesis)
+                    (anonymous_function_expr
+                        (backslash)
+                        (pattern (lower_pattern (lower_case_identifier)))
+                        (pattern (lower_pattern (lower_case_identifier)))
+                        (pattern (lower_pattern (lower_case_identifier)))
+                        (pattern (lower_pattern (lower_case_identifier)))
+                        (arrow)
+                        (bin_op_expr
+                            (value_expr (value_qid (lower_case_identifier)))
                             (operator (operator_identifier))
-                            (value_expr (value_qid (lower_case_identifier))) 
-                            (operator (operator_identifier)) 
-                            (value_expr (value_qid (lower_case_identifier))) 
-                            (operator (operator_identifier)) 
+                            (value_expr (value_qid (lower_case_identifier)))
+                            (operator (operator_identifier))
+                            (value_expr (value_qid (lower_case_identifier)))
+                            (operator (operator_identifier))
                             (value_expr (value_qid (lower_case_identifier)))
                         )
-                    ) 
+                    )
                     (right_parenthesis)
                 )
-            ) 
-            (virtual_end_section) 
-            (in) 
+            )
+            (virtual_end_section)
+            (in)
             (value_expr (value_qid (lower_case_identifier)))
         )
     )
@@ -132,7 +132,6 @@ routeToString page =
                         (arrow)
                         (list_expr (left_square_bracket) (right_square_bracket))
                     )
-                    (virtual_end_section)
                 )
             )
             (virtual_end_section)
@@ -168,36 +167,36 @@ isUpper =
     abcd
 
 ---
-(file 
-    (value_declaration 
-        (function_declaration_left 
+(file
+    (value_declaration
+        (function_declaration_left
             (lower_case_identifier)
-        ) 
-        (eq) 
-        (let_in_expr 
-            (let) 
-            (virtual_open_section) 
-            (value_declaration 
-                (function_declaration_left 
+        )
+        (eq)
+        (let_in_expr
+            (let)
+            (virtual_open_section)
+            (value_declaration
+                (function_declaration_left
                     (lower_case_identifier)
-                ) 
-                (eq) 
+                )
+                (eq)
                 (number_constant_expr (number_literal))
-            ) 
-            (virtual_end_decl) 
-            (value_declaration 
-                (function_declaration_left (lower_case_identifier)) 
-                (eq) 
+            )
+            (virtual_end_decl)
+            (value_declaration
+                (function_declaration_left (lower_case_identifier))
+                (eq)
                 (number_constant_expr (number_literal))
-            ) 
-            (virtual_end_section) 
-            (in) 
-            (value_expr 
+            )
+            (virtual_end_section)
+            (in)
+            (value_expr
                 (value_qid (lower_case_identifier))
             )
         )
-    ) 
-    (virtual_end_decl)) 
+    )
+    (virtual_end_decl))
 
 =====================================
 let with two variables and case
@@ -266,4 +265,3 @@ init session =
         )
     )
     (virtual_end_decl))
-    

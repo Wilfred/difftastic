@@ -33,10 +33,10 @@ Block comments
 ---
 
 (file
-  (comment)
-  (comment)
-  (comment)
-  (comment)
+  (block_comment)
+  (block_comment)
+  (block_comment)
+  (block_comment)
   (line_comment)
   (line_comment)
 )
@@ -53,5 +53,5 @@ comments like in Elm.
 ---
 
 (file
-  (comment)
+  (block_comment)
 )

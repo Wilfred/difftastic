@@ -352,33 +352,9 @@ string4 =
 string5 =
         "string with space"
 
-string6 =
-        """
-        multiline
-
-        """
-
-json =
-        """
-            { "description": null
-            , "slug": \"""" ++ str ++ """"
-            , "title": ""
-            , "tagList": []
-            , "createdAt": "2012-04-23T18:25:43.511Z"
-            , "updatedAt": "2012-04-23T18:25:43.511Z"
-            , "favorited": false
-            , "favoritesCount": 1
-            , "author":
-                 { "username": ""
-                 , "bio": null
-                 , "image": null
-                 , "following": false
-                 }
-            }
-        """
-
 string7 =
         "-"
+
 string8 =
         "--"
 
@@ -420,97 +396,6 @@ string8 =
         (string_constant_expr (open_quote) (regular_string_part) (close_quote))
         )
         (virtual_end_decl)
-  (value_declaration
-        (function_declaration_left
-                (lower_case_identifier)) (eq) (string_constant_expr (open_quote) (regular_string_part) (close_quote))
-                )
-                (virtual_end_decl)
-  (value_declaration
-        (function_declaration_left (lower_case_identifier))
-        (eq)
-        (bin_op_expr
-                (string_constant_expr
-                        (open_quote)
-                        (regular_string_part)
-                        (regular_string_part)
-                        (regular_string_part)
-                        (regular_string_part)
-                        (regular_string_part)
-                        (regular_string_part)
-                        (regular_string_part)
-                        (regular_string_part)
-                        (regular_string_part)
-                        (string_escape)
-                        (close_quote)
-                )
-                (operator (operator_identifier))
-                (value_expr (value_qid (lower_case_identifier)))
-                (operator (operator_identifier))
-                (string_constant_expr
-                        (open_quote)
-                        (regular_string_part)
-                        (regular_string_part)
-                        (regular_string_part)
-                        (regular_string_part)
-                        (regular_string_part)
-                        (regular_string_part)
-                        (regular_string_part)
-                        (regular_string_part)
-                        (regular_string_part)
-                        (regular_string_part)
-                        (regular_string_part)
-                        (regular_string_part)
-                        (regular_string_part)
-                        (regular_string_part)
-                        (regular_string_part)
-                        (regular_string_part)
-                        (regular_string_part)
-                        (regular_string_part)
-                        (regular_string_part)
-                        (regular_string_part)
-                        (regular_string_part)
-                        (regular_string_part)
-                        (regular_string_part)
-                        (regular_string_part)
-                        (regular_string_part)
-                        (regular_string_part)
-                        (regular_string_part)
-                        (regular_string_part)
-                        (regular_string_part)
-                        (regular_string_part)
-                        (regular_string_part)
-                        (regular_string_part)
-                        (regular_string_part)
-                        (regular_string_part)
-                        (regular_string_part)
-                        (regular_string_part)
-                        (regular_string_part)
-                        (regular_string_part)
-                        (regular_string_part)
-                        (regular_string_part)
-                        (regular_string_part)
-                        (regular_string_part)
-                        (regular_string_part)
-                        (regular_string_part)
-                        (regular_string_part)
-                        (regular_string_part)
-                        (regular_string_part)
-                        (regular_string_part)
-                        (regular_string_part)
-                        (regular_string_part)
-                        (regular_string_part)
-                        (regular_string_part)
-                        (regular_string_part)
-                        (regular_string_part)
-                        (regular_string_part)
-                        (regular_string_part)
-                        (regular_string_part)
-                        (regular_string_part)
-                        (close_quote)
-                )
-        )
-  )
-  (virtual_end_decl) 
   (value_declaration 
         (function_declaration_left 
                 (lower_case_identifier)
@@ -534,6 +419,190 @@ string8 =
                 (close_quote)
         ))
   (virtual_end_decl)
+)
+
+=====================================
+Strings multiline
+=====================================
+
+string1 =
+        """
+        multiline
+
+        """
+
+string2 =
+        """"""
+
+string3 =
+        """
+        "
+
+        """
+
+string4 =
+        """
+        --comment
+
+        """
+
+string5 =
+        """
+        {- block comment -}
+
+        """
+
+json =
+        """
+            { "description": null
+            , "slug": \"""" ++ str ++ """"
+            , "title": ""
+            , "tagList": []
+            , "createdAt": "2012-04-23T18:25:43.511Z"
+            , "updatedAt": "2012-04-23T18:25:43.511Z"
+            , "favorited": false
+            , "favoritesCount": 1
+            , "author":
+                 { "username": ""
+                 , "bio": null
+                 , "image": null
+                 , "following": false
+                 }
+            }
+        """
+
+
+---
+
+(file 
+        (value_declaration 
+                (function_declaration_left (lower_case_identifier))
+                (eq) 
+                (string_constant_expr (open_quote) (regular_string_part) (close_quote))
+        ) 
+        (virtual_end_decl) 
+        (value_declaration 
+                (function_declaration_left (lower_case_identifier)) 
+                (eq) 
+                (string_constant_expr (open_quote) (close_quote))
+        ) 
+        (virtual_end_decl) 
+        (value_declaration 
+                (function_declaration_left (lower_case_identifier)) 
+                (eq) 
+                (string_constant_expr 
+                        (open_quote) 
+                        (regular_string_part) 
+                        (regular_string_part) 
+                        (close_quote)
+                )
+        ) 
+        (virtual_end_decl) 
+        (value_declaration 
+                (function_declaration_left (lower_case_identifier)) 
+                (eq) 
+                (string_constant_expr 
+                        (open_quote) 
+                        (regular_string_part)
+                        (close_quote)
+                )
+        ) 
+        (virtual_end_decl) 
+        (value_declaration 
+                (function_declaration_left (lower_case_identifier)) 
+                (eq) 
+                (string_constant_expr 
+                        (open_quote) 
+                        (regular_string_part)
+                        (close_quote)
+                )
+        ) 
+        (virtual_end_decl)
+        (value_declaration 
+                (function_declaration_left (lower_case_identifier)) 
+                (eq)
+                (bin_op_expr 
+                        (string_constant_expr 
+                                (open_quote) 
+                                (regular_string_part) 
+                                (regular_string_part)
+                                (regular_string_part)
+                                (regular_string_part)
+                                (regular_string_part)
+                                (regular_string_part)
+                                (regular_string_part)
+                                (regular_string_part)
+                                (regular_string_part)
+                                (string_escape) 
+                                (close_quote)
+                        ) 
+                        (operator (operator_identifier)) 
+                        (value_expr (value_qid (lower_case_identifier))) 
+                        (operator (operator_identifier)) 
+                        (string_constant_expr 
+                                (open_quote) 
+                                (regular_string_part)
+                                (regular_string_part) (regular_string_part)
+                                (regular_string_part)
+                                (regular_string_part)
+                                (regular_string_part)
+                                (regular_string_part)
+                                (regular_string_part)
+                                (regular_string_part)
+                                (regular_string_part)
+                                (regular_string_part)
+                                (regular_string_part)
+                                (regular_string_part)
+                                (regular_string_part)
+                                (regular_string_part)
+                                (regular_string_part)
+                                (regular_string_part)
+                                (regular_string_part)
+                                (regular_string_part)
+                                (regular_string_part)
+                                (regular_string_part)
+                                (regular_string_part)
+                                (regular_string_part)
+                                (regular_string_part)
+                                (regular_string_part)
+                                (regular_string_part)
+                                (regular_string_part) 
+                                (regular_string_part)
+                                (regular_string_part)
+                                (regular_string_part)
+                                (regular_string_part)
+                                (regular_string_part)
+                                (regular_string_part)
+                                (regular_string_part)
+                                (regular_string_part)
+                                (regular_string_part)
+                                (regular_string_part)
+                                (regular_string_part)
+                                (regular_string_part)
+                                (regular_string_part)
+                                (regular_string_part)
+                                (regular_string_part)
+                                (regular_string_part)
+                                (regular_string_part)
+                                (regular_string_part)
+                                (regular_string_part)
+                                (regular_string_part) 
+                                (regular_string_part)
+                                (regular_string_part)
+                                (regular_string_part)
+                                (regular_string_part)
+                                (regular_string_part)
+                                (regular_string_part)
+                                (regular_string_part)
+                                (regular_string_part)
+                                (regular_string_part)
+                                (regular_string_part)
+                                (regular_string_part)
+                                (close_quote)
+                        )
+                )
+        ) 
+        (virtual_end_decl)
 )
 
 
