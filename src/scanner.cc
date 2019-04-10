@@ -31,9 +31,9 @@ struct Scanner
 
     unsigned serialize(char *buffer)
     {
-        size_t i = 0;
+        std::size_t i = 0;
 
-        size_t stack_size = runback.size();
+        std::size_t stack_size = runback.size();
         if (stack_size > UINT8_MAX)
             stack_size = UINT8_MAX;
         buffer[i++] = stack_size;
@@ -44,7 +44,7 @@ struct Scanner
         buffer[i++] = indent_length;
         buffer[i++] = in_string;
 
-        vector<uint16_t>::iterator
+        vector<std::uint16_t>::iterator
             iter = indent_length_stack.begin() + 1,
             end = indent_length_stack.end();
 
@@ -64,9 +64,9 @@ struct Scanner
 
         if (length > 0)
         {
-            size_t i = 0;
+            std::size_t i = 0;
 
-            size_t runback_count = (uint8_t)buffer[i++];
+            std::size_t runback_count = (std::uint8_t)buffer[i++];
             runback.resize(runback_count);
             memcpy(runback.data(), &buffer[i], runback_count);
             i += runback_count;
@@ -123,8 +123,8 @@ struct Scanner
 
     bool scan_quote(TSLexer *lexer, TokenType quoteToken, TokenType quoteTokenMultiline, bool closingQuote)
     {
-        uint8_t newInString = closingQuote ? 0 : 1;
-        uint8_t newInStringMultiline = closingQuote ? 0 : 2;
+        std::uint8_t newInString = closingQuote ? 0 : 1;
+        std::uint8_t newInStringMultiline = closingQuote ? 0 : 2;
 
         if (lexer->lookahead == '"')
         {
@@ -342,13 +342,13 @@ struct Scanner
     }
 
     // The indention of the current line
-    uint32_t indent_length;
+    std::uint32_t indent_length;
     // Our indentation stack
-    vector<uint16_t> indent_length_stack;
+    vector<std::uint16_t> indent_length_stack;
     // Stack of 0 - for possible VIRTUAL_END_DECL or 1 - for possible VIRTUAL_END_SECTION
-    vector<uint8_t> runback;
+    vector<std::uint8_t> runback;
     // 0 - Not in a string | 1 - in a normal string | 2 - in a multiline string
-    uint8_t in_string = 0;
+    std::uint8_t in_string = 0;
 };
 
 } // namespace
