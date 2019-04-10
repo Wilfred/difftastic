@@ -1,0 +1,267 @@
+=====================================
+Single line let
+=====================================
+
+i = let x = 320 in x
+
+---
+
+(file
+    (value_declaration
+        (function_declaration_left (lower_case_identifier))
+        (eq)
+        (let_in_expr
+            (let)
+            (virtual_open_section)
+            (value_declaration
+                (function_declaration_left (lower_case_identifier))
+                (eq)
+                (number_constant_expr (number_literal))
+            )
+            (virtual_end_section)
+            (in)
+            (value_expr (value_qid (lower_case_identifier)))
+        )
+    )
+    (virtual_end_decl)
+)
+
+=====================================
+Single line let with in changing line
+=====================================
+
+i = let f = (\a b c d -> a + b + c + d) in
+            f
+
+---
+
+(file
+    (value_declaration
+        (function_declaration_left (lower_case_identifier))
+        (eq)
+        (let_in_expr
+            (let)
+            (virtual_open_section)
+            (value_declaration
+                (function_declaration_left (lower_case_identifier))
+                (eq)
+                (parenthesized_expr
+                    (left_parenthesis)
+                    (anonymous_function_expr
+                        (backslash)
+                        (pattern (lower_pattern (lower_case_identifier)))
+                        (pattern (lower_pattern (lower_case_identifier)))
+                        (pattern (lower_pattern (lower_case_identifier)))
+                        (pattern (lower_pattern (lower_case_identifier)))
+                        (arrow)
+                        (bin_op_expr
+                            (value_expr (value_qid (lower_case_identifier)))
+                            (operator (operator_identifier))
+                            (value_expr (value_qid (lower_case_identifier)))
+                            (operator (operator_identifier))
+                            (value_expr (value_qid (lower_case_identifier)))
+                            (operator (operator_identifier))
+                            (value_expr (value_qid (lower_case_identifier)))
+                        )
+                    )
+                    (right_parenthesis)
+                )
+            )
+            (virtual_end_section)
+            (in)
+            (value_expr (value_qid (lower_case_identifier)))
+        )
+    )
+    (virtual_end_decl)
+)
+
+=====================================
+Let with case
+=====================================
+
+routeToString : Route -> String
+routeToString page =
+    let
+        pieces =
+            case page of
+                Home ->
+                    []
+
+                Root ->
+                    []
+    in
+    "#/" ++ String.join "/" pieces
+
+---
+
+(file
+    (type_annotation
+        (lower_case_identifier)
+        (colon)
+        (type_expression
+            (type_ref (upper_case_qid (upper_case_identifier)))
+            (arrow)
+            (type_ref (upper_case_qid (upper_case_identifier)))
+        )
+    )
+    (virtual_end_decl)
+    (value_declaration
+        (function_declaration_left
+        (lower_case_identifier)
+        (lower_pattern (lower_case_identifier)))
+        (eq)
+        (let_in_expr
+            (let)
+            (virtual_open_section)
+            (value_declaration
+                (function_declaration_left (lower_case_identifier))
+                (eq)
+                (case_of_expr
+                    (case)
+                    (value_expr (value_qid (lower_case_identifier)))
+                    (of)
+                    (virtual_open_section)
+                    (case_of_branch
+                        (pattern (union_pattern (upper_case_qid (upper_case_identifier))))
+                        (arrow)
+                        (list_expr (left_square_bracket) (right_square_bracket))
+                    )
+                    (virtual_end_decl)
+                    (case_of_branch
+                        (pattern (union_pattern (upper_case_qid (upper_case_identifier))))
+                        (arrow)
+                        (list_expr (left_square_bracket) (right_square_bracket))
+                    )
+                )
+            )
+            (virtual_end_section)
+            (in)
+            (bin_op_expr
+                (string_constant_expr (open_quote) (regular_string_part) (close_quote))
+                (operator (operator_identifier))
+                (function_call_expr
+                    (value_expr (value_qid (upper_case_identifier) (dot) (lower_case_identifier)))
+                    (string_constant_expr (open_quote) (regular_string_part) (close_quote))
+                    (value_expr (value_qid (lower_case_identifier)))
+                )
+            )
+
+        )
+    )
+    (virtual_end_decl)
+)
+
+
+=====================================
+let with two variables
+=====================================
+
+isUpper =
+  let
+    five =
+      5
+
+    six =
+      6
+  in
+    abcd
+
+---
+(file
+    (value_declaration
+        (function_declaration_left
+            (lower_case_identifier)
+        )
+        (eq)
+        (let_in_expr
+            (let)
+            (virtual_open_section)
+            (value_declaration
+                (function_declaration_left
+                    (lower_case_identifier)
+                )
+                (eq)
+                (number_constant_expr (number_literal))
+            )
+            (virtual_end_decl)
+            (value_declaration
+                (function_declaration_left (lower_case_identifier))
+                (eq)
+                (number_constant_expr (number_literal))
+            )
+            (virtual_end_section)
+            (in)
+            (value_expr
+                (value_qid (lower_case_identifier))
+            )
+        )
+    )
+    (virtual_end_decl))
+
+=====================================
+let with two variables and case
+=====================================
+
+init session =
+    let
+        feedTab =
+            case Session.cred session of
+                Just cred ->
+                    YourFeed cred
+
+                Nothing ->
+                    GlobalFeed
+
+        loadTags =
+            Http.toTask Tag.list
+    in
+    abcd
+
+---
+(file
+    (value_declaration
+        (function_declaration_left
+            (lower_case_identifier) (lower_pattern (lower_case_identifier))
+        )
+        (eq)
+        (let_in_expr
+            (let)
+            (virtual_open_section)
+            (value_declaration
+                (function_declaration_left
+                    (lower_case_identifier)
+                )
+                (eq)
+                (case_of_expr
+                    (case)
+                    (function_call_expr (value_expr (value_qid (upper_case_identifier) (dot) (lower_case_identifier))) (value_expr (value_qid (lower_case_identifier))))
+                    (of)
+                    (virtual_open_section)
+                    (case_of_branch
+                        (pattern (union_pattern (upper_case_qid (upper_case_identifier)) (lower_pattern (lower_case_identifier))))
+                        (arrow)
+                        (function_call_expr (value_expr (upper_case_qid (upper_case_identifier))) (value_expr (value_qid (lower_case_identifier))))
+                    )
+                    (virtual_end_decl)
+                    (case_of_branch
+                        (pattern (union_pattern (upper_case_qid (upper_case_identifier))))
+                        (arrow)
+                        (value_expr (upper_case_qid (upper_case_identifier)))
+                    )
+                    (virtual_end_section)
+                )
+            )
+            (virtual_end_decl)
+            (value_declaration
+                (function_declaration_left (lower_case_identifier))
+                (eq)
+                (function_call_expr (value_expr (value_qid (upper_case_identifier) (dot) (lower_case_identifier))) (value_expr (value_qid (upper_case_identifier) (dot) (lower_case_identifier))))
+            )
+            (virtual_end_section)
+            (in)
+            (value_expr
+                (value_qid (lower_case_identifier))
+            )
+        )
+    )
+    (virtual_end_decl))
