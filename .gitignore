@@ -4,6 +4,7 @@ build
 *.log
 prebuilds
 .idea
+.vscode/ipch
 examples/elm-spa-example
 examples/elm-browser
 examples/elm-bytes

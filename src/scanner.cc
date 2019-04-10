@@ -31,9 +31,9 @@ struct Scanner
 
     unsigned serialize(char *buffer)
     {
-        std::size_t i = 0;
+        size_t i = 0;
 
-        std::size_t stack_size = runback.size();
+        size_t stack_size = runback.size();
         if (stack_size > UINT8_MAX)
             stack_size = UINT8_MAX;
         buffer[i++] = stack_size;
@@ -44,7 +44,7 @@ struct Scanner
         buffer[i++] = indent_length;
         buffer[i++] = in_string;
 
-        vector<std::uint16_t>::iterator
+        vector<uint16_t>::iterator
             iter = indent_length_stack.begin() + 1,
             end = indent_length_stack.end();
 
@@ -64,9 +64,9 @@ struct Scanner
 
         if (length > 0)
         {
-            std::size_t i = 0;
+            size_t i = 0;
 
-            std::size_t runback_count = (std::uint8_t)buffer[i++];
+            size_t runback_count = (uint8_t)buffer[i++];
             runback.resize(runback_count);
             memcpy(runback.data(), &buffer[i], runback_count);
             i += runback_count;
@@ -87,6 +87,11 @@ struct Scanner
     void skip(TSLexer *lexer)
     {
         lexer->advance(lexer, true);
+    }
+
+    bool isElmSpace(TSLexer *lexer)
+    {
+        return lexer->lookahead == ' ' || lexer->lookahead == '\r' || lexer->lookahead == '\n';
     }
 
     bool scan_comment(TSLexer *lexer)
@@ -123,8 +128,8 @@ struct Scanner
 
     bool scan_quote(TSLexer *lexer, TokenType quoteToken, TokenType quoteTokenMultiline, bool closingQuote)
     {
-        std::uint8_t newInString = closingQuote ? 0 : 1;
-        std::uint8_t newInStringMultiline = closingQuote ? 0 : 2;
+        uint8_t newInString = closingQuote ? 0 : 1;
+        uint8_t newInStringMultiline = closingQuote ? 0 : 2;
 
         if (lexer->lookahead == '"')
         {
@@ -164,7 +169,7 @@ struct Scanner
 
     bool scan(TSLexer *lexer, const bool *valid_symbols)
     {
-
+        // First handle eventual runback tokens, we saved on a previous scan op
         if (!runback.empty() && runback.back() == 0 && valid_symbols[VIRTUAL_END_DECL])
         {
             runback.pop_back();
@@ -179,6 +184,7 @@ struct Scanner
         }
         runback.clear();
 
+        // Check if we have newlines and how much indentation
         bool has_newline = false;
         while (true)
         {
@@ -221,8 +227,8 @@ struct Scanner
                 break;
             }
         }
-
-        if (valid_symbols[VIRTUAL_END_SECTION] && lexer->lookahead == ' ')
+        // Are we at the end of a let (in) declaration
+        if (valid_symbols[VIRTUAL_END_SECTION] && isElmSpace(lexer))
         {
             lexer->mark_end(lexer);
             skip(lexer);
@@ -233,7 +239,7 @@ struct Scanner
                 if (lexer->lookahead == 'n')
                 {
                     skip(lexer);
-                    if (lexer->lookahead == ' ' || lexer->lookahead == '\r' || lexer->lookahead == '\n')
+                    if (isElmSpace(lexer))
                     {
                         lexer->result_symbol = VIRTUAL_END_SECTION;
                         return true;
@@ -242,6 +248,12 @@ struct Scanner
             }
         }
 
+        while (isElmSpace(lexer))
+        {
+            skip(lexer);
+        }
+
+        // Open section if the grammar lets us but only push to indent stack if we go further down in the stack
         if (valid_symbols[VIRTUAL_OPEN_SECTION])
         {
             if (indent_length > indent_length_stack.back())
@@ -253,6 +265,7 @@ struct Scanner
         }
         else if (has_newline)
         {
+            // We had a newline now it's time to check if we need to add multiple tokens to get back up to the right level
             runback.clear();
             while (indent_length <= indent_length_stack.back())
             {
@@ -267,9 +280,9 @@ struct Scanner
                     runback.push_back(1);
                 }
             }
-
+            // Our list is the wrong way around, reverse it
             std::reverse(runback.begin(), runback.end());
-
+            // Handle the first runback token if we have them, if there are more they will be handled on the next scan operation
             if (!runback.empty() && runback.back() == 0 && valid_symbols[VIRTUAL_END_DECL])
             {
                 runback.pop_back();
@@ -289,16 +302,10 @@ struct Scanner
         {
             if (lexer->lookahead == '{')
             {
-
                 advance(lexer);
                 lexer->result_symbol = BLOCK_COMMENT;
                 return scan_comment(lexer);
             }
-        }
-
-        while (isspace(lexer->lookahead))
-        {
-            skip(lexer);
         }
 
         // Handle minus without a whitespace for negate and line comments as both start with '-'
@@ -333,7 +340,7 @@ struct Scanner
         {
             return scan_quote(lexer, OPEN_QUOTE, OPEN_QUOTE_MULTILINE, false);
         }
-        if (in_string > 0 && (valid_symbols[CLOSE_QUOTE] || valid_symbols[CLOSE_QUOTE_MULTILINE]))
+        if (in_string != 0 && (valid_symbols[CLOSE_QUOTE] || valid_symbols[CLOSE_QUOTE_MULTILINE]))
         {
             return scan_quote(lexer, CLOSE_QUOTE, CLOSE_QUOTE_MULTILINE, true);
         }
@@ -342,13 +349,13 @@ struct Scanner
     }
 
     // The indention of the current line
-    std::uint32_t indent_length;
+    uint32_t indent_length;
     // Our indentation stack
-    vector<std::uint16_t> indent_length_stack;
+    vector<uint16_t> indent_length_stack;
     // Stack of 0 - for possible VIRTUAL_END_DECL or 1 - for possible VIRTUAL_END_SECTION
-    vector<std::uint8_t> runback;
+    vector<uint8_t> runback;
     // 0 - Not in a string | 1 - in a normal string | 2 - in a multiline string
-    std::uint8_t in_string = 0;
+    uint8_t in_string = 0;
 };
 
 } // namespace
