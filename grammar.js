@@ -1,9 +1,28 @@
 module.exports = grammar({
   name: "elm",
 
+  conflicts: $ => [
+    [$._case_of_tail2],
+    [$.upper_case_qid, $.value_qid],
+    [$._more_case_of_branches],
+    [$.function_call_expr]
+  ],
+
+  externals: $ => [
+    $.virtual_end_decl,
+    $.virtual_open_section,
+    $.virtual_end_section,
+    $.minus_without_trailing_whitespace,
+    $.block_comment,
+    $.line_comment,
+    $.open_quote,
+    $.close_quote,
+    $.open_quote_multiline,
+    $.close_quote_multiline
+  ],
+
   extras: $ => [
     $.block_comment,
-    $.block_documentation,
     $.line_comment,
     /[\s\uFEFF\u2060\u200B]|\\\r?\n/
   ],
@@ -11,20 +30,28 @@ module.exports = grammar({
   rules: {
     file: $ =>
       seq(
-        optional($.module_declaration),
-        repeat($.import_clause),
-        repeat($._declaration)
+        optional(seq($.module_declaration, $.virtual_end_decl)),
+        optional($._import_list),
+        optional($._top_decl_list)
       ),
 
     module_declaration: $ =>
       prec.left(
-        seq(
-          $.module,
-          $.upper_case_qid,
-          $.exposing_list,
-          optional($.block_documentation)
+        choice(
+          seq(optional($.port), $.module, $.upper_case_qid, $.exposing_list),
+          seq(
+            $.effect,
+            $.module,
+            $.upper_case_qid,
+            $.where,
+            $.record_expr,
+            $.exposing_list
+          )
         )
       ),
+
+    _import_list: $ => repeat1(seq($.import_clause, $.virtual_end_decl)),
+    _top_decl_list: $ => repeat1(seq($._declaration, $.virtual_end_decl)),
 
     // MODULE DECLARATION
 
@@ -36,14 +63,15 @@ module.exports = grammar({
         $.right_parenthesis
       ),
 
-    _exposed_item: $ => choice($.exposed_value, $.exposed_type),
+    _exposed_item: $ =>
+      choice($.exposed_value, $.exposed_type, $.exposed_operator),
 
     exposed_value: $ => $.lower_case_identifier,
 
     exposed_type: $ =>
       seq($.upper_case_identifier, optional($.exposed_union_constructors)),
 
-    type_expression: $ => prec.right(2, arrowSep1($.type_ref, $.arrow)),
+    type_expression: $ => prec(2, arrowSep1($.type_ref, $.arrow)),
 
     exposed_union_constructors: $ =>
       seq(
@@ -53,6 +81,8 @@ module.exports = grammar({
       ),
 
     exposed_union_constructor: $ => $.upper_case_identifier,
+
+    exposed_operator: $ => $._operator_as_function_inner,
 
     // WHITESPACE-SENSITIVE RULES
 
@@ -84,13 +114,15 @@ module.exports = grammar({
       choice(
         $.lower_case_identifier,
         seq(
-          prec(
-            5,
-            repeat(
-              seq(
-                $.upper_case_identifier,
-                alias($._dot_without_leading_whitespace, $.dot)
-              )
+          $.upper_case_identifier,
+          alias($._dot_without_leading_whitespace, $.dot),
+          repeat(
+            seq(
+              alias(
+                $._upper_case_identifier_without_leading_whitespace,
+                $.upper_case_identifier
+              ),
+              alias($._dot_without_leading_whitespace, $.dot)
             )
           ),
           alias(
@@ -128,7 +160,8 @@ module.exports = grammar({
         $.type_alias_declaration,
         $.type_declaration,
         $.type_annotation,
-        $.port_annotation
+        $.port_annotation,
+        $.infix_declaration
       ),
 
     value_declaration: $ =>
@@ -158,7 +191,7 @@ module.exports = grammar({
     // TYPE DECLARATIONS AND REFERENCES
 
     type_declaration: $ =>
-      prec.right(
+      prec.left(
         seq(
           $.type,
           $.upper_case_identifier,
@@ -172,7 +205,7 @@ module.exports = grammar({
     lower_type_name: $ => $.lower_case_identifier,
 
     union_variant: $ =>
-      prec.right(
+      prec.left(
         seq($.upper_case_identifier, repeat($._single_type_expression))
       ),
 
@@ -198,7 +231,7 @@ module.exports = grammar({
     _single_type_expression: $ =>
       choice(
         alias($.type_ref_without_args, $.type_ref),
-        $.type_variable_ref,
+        $.type_variable,
         $.record_type,
         $.tuple_type,
         seq($.left_parenthesis, $.type_expression, $.right_parenthesis)
@@ -206,7 +239,7 @@ module.exports = grammar({
 
     type_ref_without_args: $ => $.upper_case_qid,
 
-    type_variable_ref: $ => $.lower_case_identifier,
+    type_variable: $ => $.lower_case_identifier,
 
     record_type: $ =>
       seq(
@@ -241,20 +274,25 @@ module.exports = grammar({
     _expression: $ => choice($.bin_op_expr, $._call_or_atom),
 
     bin_op_expr: $ =>
-      prec.left(
+      prec(
         5,
-        seq($._call_or_atom, repeat1(seq($.operator, $._call_or_atom)))
+        seq(
+          $._call_or_atom,
+          prec.right(repeat1(seq($.operator, $._call_or_atom)))
+        )
       ),
 
     operator: $ => $.operator_identifier,
 
-    operator_as_function_expr: $ =>
+    operator_as_function_expr: $ => $._operator_as_function_inner,
+
+    _operator_as_function_inner: $ =>
       seq($.left_parenthesis, $.operator_identifier, $.right_parenthesis),
 
     _call_or_atom: $ => choice($.function_call_expr, $._atom),
 
     function_call_expr: $ =>
-      prec.right(seq($._function_call_target, repeat1($._atom))),
+      prec.dynamic(10, seq($._function_call_target, repeat1($._atom))),
 
     _function_call_target: $ =>
       prec(
@@ -272,6 +310,7 @@ module.exports = grammar({
     _atom: $ =>
       choice(
         $._literal_expr_group,
+        $.negate_expr,
         $.field_access_expr,
         $.value_expr,
         $.field_accessor_function_expr,
@@ -288,7 +327,7 @@ module.exports = grammar({
       ),
 
     field_access_expr: $ =>
-      prec.right(seq($._field_access_start, repeat1($.field_access_segment))),
+      prec.left(seq($._field_access_start, repeat1($.field_access_segment))),
 
     _field_access_start: $ =>
       prec(3, choice($.value_expr, $.parenthesized_expr, $.record_expr)),
@@ -301,6 +340,12 @@ module.exports = grammar({
         )
       ),
 
+    negate_expr: $ =>
+      seq(
+        alias($.minus_without_trailing_whitespace, $.operator_identifier),
+        $._atom
+      ), // todo disallow whitespace
+
     parenthesized_expr: $ =>
       seq($.left_parenthesis, $._expression, $.right_parenthesis),
 
@@ -311,7 +356,16 @@ module.exports = grammar({
         $.string_constant_expr
       ),
 
-    char_constant_expr: $ => seq($.open_char, $._string_part, $.close_char),
+    char_constant_expr: $ =>
+      seq(
+        $.open_char,
+        choice(
+          alias($.regular_char, $.regular_string_part),
+          $.string_escape,
+          $.invalid_string_escape
+        ),
+        $.close_char
+      ),
 
     open_char: $ => $._char_quote,
 
@@ -320,12 +374,27 @@ module.exports = grammar({
     number_constant_expr: $ => $.number_literal,
 
     string_constant_expr: $ =>
-      seq($.open_quote, optional($._string_parts), $.close_quote),
+      choice(
+        seq($.open_quote, optional($._string_parts), $.close_quote),
+        seq(
+          alias($.open_quote_multiline, $.open_quote),
+          optional($._string_parts_multiline),
+          alias($.close_quote_multiline, $.close_quote)
+        )
+      ),
 
     _string_part: $ =>
       choice($.regular_string_part, $.string_escape, $.invalid_string_escape),
 
+    _string_part_multiline: $ =>
+      choice(
+        alias($.regular_string_part_multiline, $.regular_string_part),
+        $.string_escape,
+        $.invalid_string_escape
+      ),
+
     _string_parts: $ => repeat1($._string_part),
+    _string_parts_multiline: $ => repeat1($._string_part_multiline),
 
     anonymous_function_expr: $ =>
       seq($.backslash, repeat1($.pattern), $.arrow, $._expression),
@@ -369,7 +438,7 @@ module.exports = grammar({
         $.then,
         $._expression,
         repeat(
-          prec.right(seq($.else, $.if, $._expression, $.then, $._expression))
+          prec.left(seq($.else, $.if, $._expression, $.then, $._expression))
         ),
         $.else,
         $._expression
@@ -377,24 +446,44 @@ module.exports = grammar({
 
     case_of_expr: $ => seq($.case, $._expression, $._case_of_tail),
 
-    _case_of_tail: $ => prec.right(seq($.of, repeat1($.case_of_branch))),
+    _case_of_tail: $ => seq($.of, $._case_of_tail2),
+
+    _case_of_tail2: $ =>
+      seq(
+        $.virtual_open_section,
+        $.case_of_branch,
+        optional($._more_case_of_branches),
+        optional($.virtual_end_section)
+      ),
+
+    _more_case_of_branches: $ =>
+      prec.dynamic(6, repeat1(seq($.virtual_end_decl, $.case_of_branch))),
 
     case_of_branch: $ => seq($.pattern, $.arrow, $._expression),
 
-    let_in_expr: $ =>
+    let_in_expr: $ => seq($.let, $._let_in_tail),
+
+    _let_in_tail: $ =>
       seq(
-        $.let,
-        repeat(choice($.value_declaration, $.type_annotation)),
+        $.virtual_open_section,
+        $._inner_declaration,
+        optional($._more_inner_declarations),
+        $.virtual_end_section,
         $.in,
         $._expression
       ),
+
+    _inner_declaration: $ => choice($.value_declaration, $.type_annotation),
+
+    _more_inner_declarations: $ =>
+      repeat1(seq($.virtual_end_decl, $._inner_declaration)),
 
     // PATTERNS
 
     pattern: $ =>
       seq(choice($.cons_pattern, $._single_pattern), optional($.pattern_as)),
 
-    pattern_as: $ => seq($.as, $.lower_case_identifier),
+    pattern_as: $ => seq($.as, $.lower_pattern),
 
     cons_pattern: $ =>
       seq($._single_pattern, repeat1(seq("::", $._single_pattern))),
@@ -422,14 +511,14 @@ module.exports = grammar({
     list_pattern: $ =>
       seq(
         $.left_square_bracket,
-        optional(commaSep1($.lower_pattern, $.comma)),
+        optional(commaSep1($.pattern, $.comma)),
         $.right_square_bracket
       ),
 
     union_pattern: $ =>
-      prec.right(seq($.upper_case_qid, repeat($.union_argument_pattern))),
+      prec.left(seq($.upper_case_qid, repeat($._union_argument_pattern))),
 
-    union_argument_pattern: $ =>
+    _union_argument_pattern: $ =>
       choice(
         $.anything_pattern,
         $.lower_pattern,
@@ -454,32 +543,38 @@ module.exports = grammar({
     _parenthesized_pattern: $ =>
       seq($.left_parenthesis, $.pattern, $.right_parenthesis),
 
+    // MISC
+    infix_declaration: $ =>
+      seq(
+        $.infix,
+        alias(choice("left", "right", "non"), $.lower_case_identifier),
+        $.number_literal,
+        $._operator_as_function_inner,
+        $.eq,
+        $.value_expr
+      ),
+
     // Stuff from lexer
-
-    block_comment: $ => token(seq("{-", repeat(choice(/[^-]/, /-[^}]/)), "-}")),
-
-    block_documentation: $ =>
-      prec(5, token(seq("{-| ", repeat(choice(/[^-]/, /-[^}]/)), "-}"))),
-
-    line_comment: $ => token(seq("--", /.*/)),
 
     upper_case_identifier: $ => /[A-Z][a-zA-Z0-9_]*/,
 
     lower_case_identifier: $ => /[a-z][a-zA-Z0-9_]*/,
 
-    number_literal: $ => /("-")?[0-9]+(\.[0-9]+)?(e"-"?[0-9]+)?/,
+    number_literal: $ =>
+      choice(/(-)?[0-9]+(\.[0-9]+)?(e[0-9]+)?/, $._hex_literal),
 
-    open_quote: $ => choice('"""', '"'),
+    _hex_literal: $ => /0x[0-9A-Fa-f]+/,
 
-    close_quote: $ => choice('"""', '"'),
+    regular_char: $ => /[^\\\n']/,
+    regular_string_part: $ => choice(/[^\\\"\n]+/, /\"/),
+    regular_string_part_multiline: $ => choice(/[^\\\"]+/, /\"\"?/),
 
-    regular_string_part: $ => /[^\\\"]+/,
-
-    string_escape: $ => /\\(u\{{[0-9A-Fa-f]}{4,6}\}|[nrt\"'\\])/,
+    string_escape: $ => /\\(u\{[0-9A-Fa-f]{4,6}\}|[nrt\"'\\])/,
 
     invalid_string_escape: $ => /\\(u\{[^}]*\}|[^nrt\"'\\])/,
 
     module: $ => "module",
+    effect: $ => "effect",
     where: $ => "where",
     import: $ => "import",
     as: $ => "as",
@@ -511,7 +606,33 @@ module.exports = grammar({
     underscore: $ => "_",
     dot: $ => ".",
     operator_identifier: $ =>
-      choice("^", "|", "*", "/", "+", "-", "&&", "||", "<", ">"),
+      choice(
+        "+",
+        "-",
+        "*",
+        "/",
+        "//",
+        "^",
+        "==",
+        "/=",
+        "<",
+        ">",
+        "<=",
+        ">=",
+        "&&",
+        "||",
+        "++",
+        "<|",
+        "|>",
+        "<<",
+        ">>",
+        "::",
+        "</>",
+        "<?>",
+        "|.",
+        "|="
+      ),
+    infix: $ => "infix",
 
     _char_quote: $ => "'"
   }

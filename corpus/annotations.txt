@@ -1,7 +1,6 @@
 =====================================
 Annotation for func returning multiple
 =====================================
-
 main : Program Value Model Msg
 main =
     Api.application Viewer.decoder
@@ -15,71 +14,77 @@ main =
 ---
 
 (file
-    (type_annotation 
-        (lower_case_identifier) (colon) 
-            (type_expression 
-                (type_ref (upper_case_qid (upper_case_identifier)) (type_ref (upper_case_qid (upper_case_identifier)))
-                )
+    (type_annotation
+        (lower_case_identifier) 
+        (colon)
+        (type_expression
+            (type_ref 
+                (upper_case_qid (upper_case_identifier))
+                (type_ref (upper_case_qid (upper_case_identifier)))
+                (type_ref (upper_case_qid (upper_case_identifier)))
+                (type_ref (upper_case_qid (upper_case_identifier)))
             )
-    ) 
-    (value_declaration 
-        (pattern (union_pattern (upper_case_qid (upper_case_identifier)) 
-        (union_argument_pattern (upper_case_qid (upper_case_identifier))) 
-        (union_argument_pattern (lower_pattern (lower_case_identifier))))
-        ) (eq) 
-        (function_call_expr (value_expr (value_qid (upper_case_identifier) (dot) (lower_case_identifier)))
+        )
+    )
+    (virtual_end_decl)
+    (value_declaration
+        (function_declaration_left (lower_case_identifier))
+        (eq)
+        (function_call_expr 
             (value_expr (value_qid (upper_case_identifier) (dot) (lower_case_identifier)))
-            (record_expr 
+            (value_expr (value_qid (upper_case_identifier) (dot) (lower_case_identifier)))
+            (record_expr
                 (left_brace) (field (lower_case_identifier) (eq) (value_expr (value_qid (lower_case_identifier))))
-                (comma) (field (lower_case_identifier) (eq) (value_expr (upper_case_qid (upper_case_identifier)))) 
-                (comma) (field (lower_case_identifier) (eq) (value_expr (upper_case_qid (upper_case_identifier)))) 
-                (comma) (field (lower_case_identifier) (eq) (value_expr (value_qid (lower_case_identifier)))) 
-                (comma) (field (lower_case_identifier) (eq) (value_expr (value_qid (lower_case_identifier)))) 
-                (comma) (field (lower_case_identifier) (eq) (value_expr (value_qid (lower_case_identifier)))) 
+                (comma) (field (lower_case_identifier) (eq) (value_expr (upper_case_qid (upper_case_identifier))))
+                (comma) (field (lower_case_identifier) (eq) (value_expr (upper_case_qid (upper_case_identifier))))
+                (comma) (field (lower_case_identifier) (eq) (value_expr (value_qid (lower_case_identifier))))
+                (comma) (field (lower_case_identifier) (eq) (value_expr (value_qid (lower_case_identifier))))
+                (comma) (field (lower_case_identifier) (eq) (value_expr (value_qid (lower_case_identifier))))
                 (right_brace)
             )
         )
     )
+    (virtual_end_decl)
 )
 
 =====================================
 Annotation for func with parameters returning tuple
 =====================================
-
-
 init : Maybe Viewer -> Url -> Nav.Key -> ( Model, Cmd Msg )
 init maybeViewer url navKey =
     changeRouteTo (Route.fromUrl url)
         (Redirect (Session.fromViewer navKey maybeViewer))
 ---
 
-(file 
-    (type_annotation 
-        (lower_case_identifier) (colon) 
-            (type_expression 
+(file
+    (type_annotation
+        (lower_case_identifier) (colon)
+            (type_expression
                 (type_ref (upper_case_qid (upper_case_identifier)) (type_ref (upper_case_qid (upper_case_identifier))))
-                (arrow) (type_ref (upper_case_qid (upper_case_identifier))) 
-                (arrow) (type_ref (upper_case_qid (upper_case_identifier) (dot) (upper_case_identifier))) 
-                (arrow) (tuple_type (left_parenthesis) (type_expression (type_ref (upper_case_qid (upper_case_identifier)))) 
+                (arrow) (type_ref (upper_case_qid (upper_case_identifier)))
+                (arrow) (type_ref (upper_case_qid (upper_case_identifier) (dot) (upper_case_identifier)))
+                (arrow) (tuple_type (left_parenthesis) (type_expression (type_ref (upper_case_qid (upper_case_identifier))))
                     (comma) (type_expression (type_ref (upper_case_qid (upper_case_identifier)) (type_ref (upper_case_qid (upper_case_identifier))))) (right_parenthesis))
             )
-    ) 
-    (value_declaration 
-        (function_declaration_left (lower_case_identifier) 
-            (lower_pattern (lower_case_identifier)) 
-            (lower_pattern (lower_case_identifier)) 
-            (lower_pattern (lower_case_identifier))) (eq) 
-        (function_call_expr (value_expr (value_qid (lower_case_identifier))) 
-            (parenthesized_expr (left_parenthesis) 
+    )
+    (virtual_end_decl)
+    (value_declaration
+        (function_declaration_left (lower_case_identifier)
+            (lower_pattern (lower_case_identifier))
+            (lower_pattern (lower_case_identifier))
+            (lower_pattern (lower_case_identifier))) (eq)
+        (function_call_expr (value_expr (value_qid (lower_case_identifier)))
+            (parenthesized_expr (left_parenthesis)
                 (function_call_expr (value_expr (value_qid (upper_case_identifier) (dot) (lower_case_identifier)))
-                (value_expr (value_qid (lower_case_identifier)))) 
-            (right_parenthesis)) 
-                (parenthesized_expr (left_parenthesis) (function_call_expr (value_expr (upper_case_qid (upper_case_identifier))) 
+                (value_expr (value_qid (lower_case_identifier))))
+            (right_parenthesis))
+                (parenthesized_expr (left_parenthesis) (function_call_expr (value_expr (upper_case_qid (upper_case_identifier)))
                     (parenthesized_expr (left_parenthesis) (function_call_expr (value_expr (value_qid (upper_case_identifier) (dot) (lower_case_identifier)))
-                        (value_expr (value_qid (lower_case_identifier))) 
-                        (value_expr (value_qid (lower_case_identifier)))) 
-                    (right_parenthesis))) 
+                        (value_expr (value_qid (lower_case_identifier)))
+                        (value_expr (value_qid (lower_case_identifier))))
+                    (right_parenthesis)))
                 (right_parenthesis))
         )
     )
-) 
+    (virtual_end_decl)
+)

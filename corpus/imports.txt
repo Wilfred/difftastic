@@ -12,12 +12,15 @@ import Html.Events.Test
   (import_clause
     (import) (upper_case_qid (upper_case_identifier))
   )
+  (virtual_end_decl)
   (import_clause
     (import) (upper_case_qid (upper_case_identifier) (dot) (upper_case_identifier))
   )
+  (virtual_end_decl)
   (import_clause
     (import) (upper_case_qid (upper_case_identifier) (dot) (upper_case_identifier) (dot) (upper_case_identifier))
   )
+  (virtual_end_decl)
 )
 
 =====================================
@@ -36,14 +39,17 @@ import Html exposing (Html, button, div, text)
     (import) (upper_case_qid (upper_case_identifier) (dot) (upper_case_identifier)) (exposing_list (exposing) (left_parenthesis) (exposed_value (lower_case_identifier)) (right_parenthesis)
     )
   )
+  (virtual_end_decl)
   (import_clause
     (import) (upper_case_qid (upper_case_identifier) (dot) (upper_case_identifier)) (exposing_list (exposing) (left_parenthesis) (double_dot) (right_parenthesis)
     )
   )
+  (virtual_end_decl)
   (import_clause
     (import) (upper_case_qid (upper_case_identifier) (dot) (upper_case_identifier)) (exposing_list (exposing) (left_parenthesis) (exposed_value (lower_case_identifier)) (comma) (exposed_value (lower_case_identifier)) (right_parenthesis)
      )
   )
+  (virtual_end_decl)
   (import_clause
     (import) (upper_case_qid (upper_case_identifier)) (exposing_list (exposing) (left_parenthesis) (exposed_type (upper_case_identifier)) (comma)
                                    (exposed_value (lower_case_identifier))  (comma)
@@ -51,6 +57,7 @@ import Html exposing (Html, button, div, text)
                                    (exposed_value (lower_case_identifier)) (right_parenthesis)
     )
   )
+  (virtual_end_decl)
 )
 
 =====================================
@@ -74,21 +81,24 @@ import Html.Attributes as Attr
 ---
 
 (file
-  (module_declaration (module) (upper_case_qid (upper_case_identifier)) 
-    (exposing_list (exposing) (left_parenthesis) (exposed_type (upper_case_identifier)) 
-      (comma) (exposed_value (lower_case_identifier)) (comma) (exposed_value (lower_case_identifier)) 
-      (comma) (exposed_value (lower_case_identifier)) (comma) (exposed_value (lower_case_identifier)) 
-    (right_parenthesis)) 
-      
-  (block_documentation))
+  (module_declaration (module) (upper_case_qid (upper_case_identifier))
+    (exposing_list (exposing) (left_parenthesis) (exposed_type (upper_case_identifier))
+      (comma) (exposed_value (lower_case_identifier)) (comma) (exposed_value (lower_case_identifier))
+      (comma) (exposed_value (lower_case_identifier)) (comma) (exposed_value (lower_case_identifier))
+    (right_parenthesis)))
+  (virtual_end_decl)
+
+  (block_comment)
 
   (import_clause
     (import) (upper_case_qid (upper_case_identifier)) (exposing_list (exposing) (left_parenthesis) (exposed_type (upper_case_identifier)) (comma) (exposed_type (upper_case_identifier)) (right_parenthesis)
     )
   )
+  (virtual_end_decl)
   (import_clause
-    (import) (upper_case_qid (upper_case_identifier) (dot) (upper_case_identifier)) (as_clause (as) (upper_case_identifier)) 
+    (import) (upper_case_qid (upper_case_identifier) (dot) (upper_case_identifier)) (as_clause (as) (upper_case_identifier))
   )
+  (virtual_end_decl)
 )
 
 =====================================
@@ -106,12 +116,50 @@ import Remedy.ScreenList as ScreenList
     (import) (upper_case_qid (upper_case_identifier) (dot) (upper_case_identifier)) (as_clause (as) (upper_case_identifier)) (exposing_list (exposing) (left_parenthesis) (exposed_type (upper_case_identifier)) (right_parenthesis)
     )
   )
+  (virtual_end_decl)
   (import_clause
     (import) (upper_case_qid (upper_case_identifier) (dot) (upper_case_identifier)) (as_clause (as) (upper_case_identifier)) (exposing_list (exposing) (left_parenthesis) (exposed_type (upper_case_identifier)) (right_parenthesis)
     )
   )
+  (virtual_end_decl)
   (import_clause
     (import) (upper_case_qid (upper_case_identifier) (dot) (upper_case_identifier)) (as_clause (as) (upper_case_identifier)
     )
   )
+  (virtual_end_decl)
+)
+
+=====================================
+Import statements with operator statement
+=====================================
+
+import Url.Parser as Parser exposing ((</>), Parser, oneOf, s, string)
+
+---
+
+(file
+  (import_clause
+    (import)
+    (upper_case_qid (upper_case_identifier) (dot) (upper_case_identifier))
+    (as_clause (as) (upper_case_identifier))
+    (exposing_list
+      (exposing)
+      (left_parenthesis)
+      (exposed_operator
+        (left_parenthesis)
+        (operator_identifier)
+        (right_parenthesis)
+      )
+      (comma)
+      (exposed_type (upper_case_identifier))
+      (comma)
+      (exposed_value (lower_case_identifier))
+      (comma)
+      (exposed_value (lower_case_identifier))
+      (comma)
+      (exposed_value (lower_case_identifier))
+      (right_parenthesis)
+    )
+  )
+  (virtual_end_decl)
 )

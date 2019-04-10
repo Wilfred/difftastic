@@ -3,25 +3,22 @@ language: node_js
 sudo: false
 
 node_js:
-- node
+  - node
 
 os:
-- linux
+  - linux
 
 matrix:
   include:
-  - os: osx
-    env: COMPILER=clang++
-    osx_image: xcode9.2
-    compiler: clang
-  - os: linux
-    env: CXX=clang
-    compiler: clang
+    - os: osx
+      osx_image: xcode9.2
+    - os: linux
+      env: CXX=clang++
 
 branches:
   only:
-  - master
-  - /^v.*$/
+    - master
+    - /^v.*$/
 
 deploy:
   provider: script

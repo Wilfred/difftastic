@@ -17,6 +17,26 @@
             "type": "npm",
             "script": "parse-1",
             "problemMatcher": []
+        },
+        {
+            "type": "npm",
+            "script": "parse-asset",
+            "problemMatcher": []
+        },
+        {
+            "type": "npm",
+            "script": "parse-article",
+            "problemMatcher": []
+        },
+        {
+            "type": "npm",
+            "script": "parse-basic",
+            "problemMatcher": []
+        },
+        {
+            "type": "npm",
+            "script": "parse-test",
+            "problemMatcher": []
         }
     ]
 }
