@@ -17,6 +17,7 @@ ocaml/opam
 ocsigen/js_of_ocaml
 ocsigen/lwt
 owlbarn/owl
+ocaml/ocaml
 "
 
 failed=0

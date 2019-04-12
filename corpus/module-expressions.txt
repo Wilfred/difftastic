@@ -26,6 +26,7 @@ Structures
 module M = struct
   let x = x
 end
+module M = struct ;; end
 
 ---
 
@@ -37,7 +38,11 @@ end
         (value_definition
           (let_binding
             (value_name)
-            (value_path (value_name))))))))
+            (value_path (value_name)))))))
+  (module_definition
+    (module_binding
+      (module_name)
+      (structure))))
 
 ============================
 Module applications
@@ -86,6 +91,7 @@ Packed modules
 
 module M = (val m)
 module M = (val m : T)
+module M = M (val m)
 
 ---
 
@@ -93,14 +99,21 @@ module M = (val m : T)
   (module_definition
     (module_binding
       (module_name)
-      (packed_module (value_path (value_name)))))
+      (parenthesized_module_expression
+        (packed_module (value_path (value_name))))))
   (module_definition
     (module_binding
       (module_name)
-      (packed_module
-        (value_path (value_name))
-        (module_type_path (module_type_name))))))
-
+      (parenthesized_module_expression
+        (packed_module
+          (value_path (value_name))
+          (module_type_path (module_type_name))))))
+  (module_definition
+    (module_binding
+      (module_name)
+      (module_application
+        (module_name)
+        (packed_module (value_path (value_name)))))))
 
 =========================
 Functors

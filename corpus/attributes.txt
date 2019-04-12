@@ -6,6 +6,7 @@ Floating attributes
 [@@@I.D]
 [@@@id let x = x]
 [@@@id : t]
+[@@@id : type t type t]
 [@@@id ? A x]
 
 ---
@@ -24,6 +25,11 @@ Floating attributes
     (attribute_id)
     (attribute_payload
       (type_constructor_path (type_constructor))))
+  (floating_attribute
+    (attribute_id)
+    (attribute_payload
+      (type_definition (type_binding (type_constructor)))
+      (type_definition (type_binding (type_constructor)))))
   (floating_attribute
     (attribute_id)
     (attribute_payload
