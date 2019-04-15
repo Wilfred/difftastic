@@ -2621,7 +2621,7 @@
     },
     {
       "type": "PATTERN",
-      "value": "[\\s\\uFEFF\\u2060\\u200B]|\\\\\\r?\\n"
+      "value": "[\\s﻿⁠​]|\\\\\\r?\\n"
     }
   ],
   "conflicts": [
@@ -2681,7 +2681,5 @@
       "name": "close_quote_multiline"
     }
   ],
-  "inline": [],
-  "supertypes": []
+  "inline": []
 }
-
