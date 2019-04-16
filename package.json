@@ -13,12 +13,20 @@
     "nan": "^2.8.0"
   },
   "devDependencies": {
-    "tree-sitter-cli": "^0.13.5",
+    "tree-sitter-cli": "^0.14.5",
     "eslint": "^3.19.0"
   },
   "scripts": {
     "build": "tree-sitter generate && node-gyp build",
     "test": "eslint ./grammar.js && tree-sitter test && script/parse-examples",
     "test-windows": "eslint ./grammar.js && tree-sitter test"
-  }
+  },
+  "tree-sitter": [
+    {
+      "name": "Rust",
+      "file-types": [
+        "rs"
+      ]
+    }
+  ]
 }
