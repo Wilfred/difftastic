@@ -54,11 +54,11 @@ module.exports = grammar({
     _statements: $ => prec(1, seq(
       repeat(seq(
         $._statement,
-        optional($.heredoc_body),
+        optional(seq('\n', $.heredoc_body)),
         $._terminator
       )),
       $._statement,
-      optional($.heredoc_body),
+      optional(seq('\n', $.heredoc_body)),
       optional($._terminator)
     )),
 

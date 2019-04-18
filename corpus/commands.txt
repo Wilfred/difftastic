@@ -160,15 +160,33 @@ wc -l $tmpfile
 (program
   (redirected_statement
     (command (command_name (word)))
-    (heredoc_redirect (heredoc_start)))
+    (heredoc_redirect (heredoc_start))
+    (file_redirect (simple_expansion (variable_name))))
   (heredoc_body
-    (simple_expansion (variable_name))
     (simple_expansion (variable_name))
     (expansion (variable_name)))
   (command
     (command_name (word))
     (word)
     (simple_expansion (variable_name))))
+
+=================================
+Heredocs with pipes
+================================
+
+one <<EOF | grep two
+three
+EOF
+
+---
+
+(program
+  (pipeline
+    (redirected_statement
+      (command (command_name (word)))
+      (heredoc_redirect (heredoc_start)))
+    (command (command_name (word)) (word)))
+    (heredoc_body))
 
 ======================================
 Heredocs with escaped expansions
