@@ -18,6 +18,7 @@ module.exports = grammar({
     $._statement,
     $._terminator,
     $._literal,
+    $._statements2,
     $._primary_expression,
     $._simple_variable_name,
     $._special_variable_name,
@@ -60,6 +61,12 @@ module.exports = grammar({
       $._statement,
       optional(seq('\n', $.heredoc_body)),
       optional($._terminator)
+    )),
+
+    _statements2: $ => repeat1(seq(
+      $._statement,
+      optional(seq('\n', $.heredoc_body)),
+      $._terminator
     )),
 
     _terminated_statement: $ => seq(
@@ -133,7 +140,7 @@ module.exports = grammar({
 
     do_group: $ => seq(
       'do',
-      optional($._statements),
+      optional($._statements2),
       'done'
     ),
 
@@ -141,7 +148,7 @@ module.exports = grammar({
       'if',
       $._terminated_statement,
       'then',
-      optional($._statements),
+      optional($._statements2),
       repeat($.elif_clause),
       optional($.else_clause),
       'fi'
@@ -151,12 +158,12 @@ module.exports = grammar({
       'elif',
       $._terminated_statement,
       'then',
-      optional($._statements)
+      optional($._statements2)
     ),
 
     else_clause: $ => seq(
       'else',
-      optional($._statements)
+      optional($._statements2)
     ),
 
     case_statement: $ => seq(
@@ -198,7 +205,11 @@ module.exports = grammar({
 
     compound_statement: $ => seq(
       '{',
-      optional($._statements),
+      repeat(seq(
+        $._statement,
+        optional(seq('\n', $.heredoc_body)),
+        $._terminator
+      )),
       '}'
     ),
 
