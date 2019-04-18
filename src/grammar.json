@@ -33,8 +33,17 @@
                   "type": "CHOICE",
                   "members": [
                     {
-                      "type": "SYMBOL",
-                      "name": "heredoc_body"
+                      "type": "SEQ",
+                      "members": [
+                        {
+                          "type": "STRING",
+                          "value": "\n"
+                        },
+                        {
+                          "type": "SYMBOL",
+                          "name": "heredoc_body"
+                        }
+                      ]
                     },
                     {
                       "type": "BLANK"
@@ -56,8 +65,17 @@
             "type": "CHOICE",
             "members": [
               {
-                "type": "SYMBOL",
-                "name": "heredoc_body"
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "STRING",
+                    "value": "\n"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "heredoc_body"
+                  }
+                ]
               },
               {
                 "type": "BLANK"
