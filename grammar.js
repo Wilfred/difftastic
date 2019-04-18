@@ -662,14 +662,36 @@ module.exports = grammar({
 
     field_designator: $ => seq('.', $._field_identifier),
 
-    number_literal: $ => token(seq(
-      choice(
-        /\d+('\d+)*(\.\d+('\d+)*)?/,
-        seq('0x', /[0-9a-fA-f]+/),
-        seq('0b', /[01]+/)
-      ),
-      repeat(choice('u', 'l', 'U', 'L', 'f', 'F'))
-    )),
+    number_literal: $ => {
+      const separator = "'";
+      const hex = /[0-9a-fA-F]/;
+      const decimal = /[0-9]/;
+      const hexDigits = seq(repeat1(hex), repeat(seq(separator, repeat1(hex))));
+      const decimalDigits = seq(repeat1(decimal), repeat(seq(separator, repeat1(decimal))));
+      return token(seq(
+        optional(/[-\+]/),
+        optional(choice('0x', '0b')),
+        choice(
+          seq(
+            choice(
+              decimalDigits,
+              seq('0b', decimalDigits),
+              seq('0x', hexDigits)
+            ),
+            optional(seq('.', optional(hexDigits)))
+          ),
+          seq('.', decimalDigits)
+        ),
+        optional(seq(
+          /[eEpP]/,
+          optional(seq(
+            optional(/[-\+]/),
+            hexDigits
+          ))
+        )),
+        repeat(choice('u', 'l', 'U', 'L', 'f', 'F'))
+      ))
+    },
 
     char_literal: $ => seq(
       '\'',
