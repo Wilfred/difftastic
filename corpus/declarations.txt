@@ -184,6 +184,10 @@ typedef struct {
 
 typedef void my_callback(void *, size_t);
 
+typedef struct A {
+  int i;
+} a, b;
+
 ---
 
 (translation_unit
@@ -197,7 +201,13 @@ typedef void my_callback(void *, size_t);
       (type_identifier)
       (parameter_list
         (parameter_declaration (primitive_type) (abstract_pointer_declarator))
-        (parameter_declaration (primitive_type))))))
+        (parameter_declaration (primitive_type)))))
+  (type_definition
+    (struct_specifier
+      (type_identifier)
+      (field_declaration_list (field_declaration (primitive_type) (field_identifier))))
+    (type_identifier)
+    (type_identifier)))
 
 ============================================
 Function declarations

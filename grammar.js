@@ -125,7 +125,7 @@ module.exports = grammar({
       'typedef',
       repeat($.type_qualifier),
       $._type_specifier,
-      $._type_declarator,
+      commaSep1($._type_declarator),
       ';'
     ),
 
