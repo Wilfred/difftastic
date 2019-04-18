@@ -1,6 +1,6 @@
 {
   "name": "tree-sitter-cpp",
-  "version": "0.13.12",
+  "version": "0.13.13",
   "description": "C++ grammar for tree-sitter",
   "main": "index.js",
   "keywords": [
