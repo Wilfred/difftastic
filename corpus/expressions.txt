@@ -2,24 +2,44 @@
 Number literals
 ============================================
 
-int a = 0xAC00;
-int b = 0.123;
-int c = 0b1010001;
-int d = 0xabc00ull;
-int e = -0.1f + 1'000'000.000'001;
+double a = {
+  0xAC00,
+  0.123,
+  0b1010001,
+  0xabc00ull,
+  -0.1f,
+  1'000'000.000'001,
+  24e-5,
+  0.1E,
+  58.,
+  4e2,
+  123.456e-67,
+  .1E4f,
+  0x10.1p0,
+};
 
 ---
 
 (translation_unit
-  (declaration (primitive_type) (init_declarator (identifier) (number_literal)))
-  (declaration (primitive_type) (init_declarator (identifier) (number_literal)))
-  (declaration (primitive_type) (init_declarator (identifier) (number_literal)))
-  (declaration (primitive_type) (init_declarator (identifier) (number_literal)))
   (declaration
     (primitive_type)
-    (init_declarator (identifier) (math_expression
-      (math_expression (number_literal))
-      (number_literal)))))
+    (init_declarator
+      (identifier)
+      (initializer_list
+        (number_literal)
+        (number_literal)
+        (number_literal)
+        (number_literal)
+        (number_literal)
+        (number_literal)
+        (number_literal)
+        (number_literal)
+        (number_literal)
+        (number_literal)
+        (number_literal)
+        (number_literal)
+        (number_literal)
+      ))))
 
 ============================================
 Identifiers
