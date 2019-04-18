@@ -322,7 +322,7 @@ do_something() {
 }
 
 function do_something_else() {
-  echo ok
+  a | xargs -I{} find xml/{} -type f
 }
 
 function do_yet_another_thing {
@@ -337,7 +337,16 @@ function do_yet_another_thing {
     (compound_statement (command (command_name (word)) (word))))
   (function_definition
     (word)
-    (compound_statement (command (command_name (word)) (word))))
+    (compound_statement
+      (pipeline
+        (command (command_name (word)))
+        (command
+          (command_name (word))
+          (concatenation (word))
+          (word)
+          (concatenation (word))
+          (word)
+          (word)))))
   (redirected_statement (function_definition
     (word)
     (compound_statement (command (command_name (word)) (word))))
