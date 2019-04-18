@@ -139,6 +139,16 @@ module.exports = grammar(C, {
 
     // Declarations
 
+    function_definition: ($, original) => seq(
+      repeat($.attribute),
+      original
+    ),
+
+    declaration: ($, original) => seq(
+      repeat($.attribute),
+      original
+    ),
+
     structured_binding_declaration: $ => seq(
       $._declaration_specifiers,
       choice(
@@ -180,6 +190,11 @@ module.exports = grammar(C, {
         $.optional_type_parameter_declaration
       )),
       alias(token(prec(1, '>')), '>')
+    ),
+
+    parameter_declaration: ($, original) => seq(
+      repeat($.attribute),
+      original
     ),
 
     type_parameter_declaration: $ => prec(1, seq(
@@ -504,6 +519,12 @@ module.exports = grammar(C, {
       'catch',
       $.parameter_list,
       $.compound_statement
+    ),
+
+    attribute: $ => seq(
+      '[[',
+      commaSep1($._expression),
+      ']]'
     ),
 
     // Expressions
