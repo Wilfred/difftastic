@@ -392,3 +392,15 @@ int main() {
         (initializer_list
           (number_literal)
           (number_literal))))))))
+
+====================================
+Comments with escaped newlines
+====================================
+
+// one \
+   two
+
+---
+
+(translation_unit
+  (comment))
