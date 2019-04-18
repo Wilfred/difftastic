@@ -354,6 +354,39 @@ int foo(bool x = 5) {}
     (compound_statement)))
 
 =========================================
+Functions with attributes
+=========================================
+
+int f([[a::b(c), d]] int x) {}
+
+[[gnu::always_inline]] [[gnu::hot]] [[gnu::const]] [[nodiscard]]
+inline int g();
+
+---
+
+(translation_unit
+  (function_definition
+    (primitive_type)
+    (function_declarator
+      (identifier)
+      (parameter_list
+        (parameter_declaration
+          (attribute
+            (call_expression (scoped_identifier (namespace_identifier) (identifier)) (argument_list (identifier)))
+            (identifier))
+          (primitive_type)
+          (identifier))))
+    (compound_statement))
+  (declaration
+    (attribute (scoped_identifier (namespace_identifier) (identifier)))
+    (attribute (scoped_identifier (namespace_identifier) (identifier)))
+    (attribute (scoped_identifier (namespace_identifier) (identifier)))
+    (attribute (identifier))
+    (storage_class_specifier)
+    (primitive_type)
+    (function_declarator (identifier) (parameter_list))))
+
+=========================================
 Operator overload declarations
 =========================================
 
