@@ -813,8 +813,29 @@
           "name": "_type_specifier"
         },
         {
-          "type": "SYMBOL",
-          "name": "_type_declarator"
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_type_declarator"
+            },
+            {
+              "type": "REPEAT",
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "STRING",
+                    "value": ","
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "_type_declarator"
+                  }
+                ]
+              }
+            }
+          ]
         },
         {
           "type": "STRING",
@@ -2274,6 +2295,18 @@
             {
               "type": "SYMBOL",
               "name": "field_declaration"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "preproc_def"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "preproc_function_def"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "preproc_call"
             },
             {
               "type": "ALIAS",
@@ -4358,11 +4391,7 @@
             "members": [
               {
                 "type": "PATTERN",
-                "value": "\\d+(\\.\\d+)?"
-              },
-              {
-                "type": "PATTERN",
-                "value": "\\d+u"
+                "value": "\\d+('\\d+)*(\\.\\d+('\\d+)*)?"
               },
               {
                 "type": "SEQ",
@@ -4412,6 +4441,14 @@
                 {
                   "type": "STRING",
                   "value": "L"
+                },
+                {
+                  "type": "STRING",
+                  "value": "f"
+                },
+                {
+                  "type": "STRING",
+                  "value": "F"
                 }
               ]
             }
@@ -4667,7 +4704,7 @@
               },
               {
                 "type": "PATTERN",
-                "value": ".*"
+                "value": "(\\\\[.\\n]|[^\\\\\\n])*"
               }
             ]
           },
