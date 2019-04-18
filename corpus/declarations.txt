@@ -63,6 +63,26 @@ enum e3 {
   (enum_specifier (type_identifier) (enumerator_list
     (enumerator (identifier)))))
 
+======================================================
+Struct declarations containing preprocessor directives
+======================================================
+
+struct s {
+  #define A 5
+  int b[a];
+  #undef A
+};
+
+---
+
+(translation_unit
+  (struct_specifier
+    (type_identifier)
+    (field_declaration_list
+      (preproc_def (identifier) (preproc_arg))
+      (field_declaration (primitive_type) (array_declarator (field_identifier) (identifier)))
+      (preproc_call (preproc_directive) (preproc_arg)))))
+
 ============================================
 Primitive-typed variable declarations
 ============================================
