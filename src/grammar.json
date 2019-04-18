@@ -3784,11 +3784,7 @@
             "members": [
               {
                 "type": "PATTERN",
-                "value": "\\d+(\\.\\d+)?"
-              },
-              {
-                "type": "PATTERN",
-                "value": "\\d+u"
+                "value": "\\d+('\\d+)*(\\.\\d+('\\d+)*)?"
               },
               {
                 "type": "SEQ",
@@ -3838,6 +3834,14 @@
                 {
                   "type": "STRING",
                   "value": "L"
+                },
+                {
+                  "type": "STRING",
+                  "value": "f"
+                },
+                {
+                  "type": "STRING",
+                  "value": "F"
                 }
               ]
             }

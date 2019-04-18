@@ -663,12 +663,11 @@ module.exports = grammar({
 
     number_literal: $ => token(seq(
       choice(
-        /\d+(\.\d+)?/,
-        /\d+u/,
+        /\d+('\d+)*(\.\d+('\d+)*)?/,
         seq('0x', /[0-9a-fA-f]+/),
         seq('0b', /[01]+/)
       ),
-      repeat(choice('u', 'l', 'U', 'L'))
+      repeat(choice('u', 'l', 'U', 'L', 'f', 'F'))
     )),
 
     char_literal: $ => seq(
