@@ -170,6 +170,28 @@ struct B : A {
       (function_declarator (field_identifier) (parameter_list) (type_qualifier) (virtual_specifier) (virtual_specifier))
       (compound_statement (return_statement (number_literal)))))))
 
+
+=====================================
+Virtual method declarations
+===============================
+
+class A {
+  virtual ~Point();
+  void b();
+};
+
+---
+
+(translation_unit
+  (class_specifier
+    (type_identifier)
+    (field_declaration_list
+      (declaration
+        (function_declarator (destructor_name (identifier)) (parameter_list)))
+      (field_declaration
+        (primitive_type)
+        (function_declarator (field_identifier) (parameter_list))))))
+
 =========================================
 Constructor and destructor declarations
 =========================================

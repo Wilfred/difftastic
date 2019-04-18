@@ -275,6 +275,7 @@ module.exports = grammar(C, {
     ),
 
     field_declaration: $ => seq(
+      optional('virtual'),
       $._declaration_specifiers,
       commaSep($._field_declarator),
       optional(choice(
@@ -311,6 +312,7 @@ module.exports = grammar(C, {
     ),
 
     constructor_or_destructor_declaration: $ => seq(
+      optional('virtual'),
       $.function_declarator,
       ';'
     ),
