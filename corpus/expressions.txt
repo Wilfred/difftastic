@@ -6,6 +6,7 @@ int a = 0xAC00;
 int b = 0.123;
 int c = 0b1010001;
 int d = 0xabc00ull;
+int e = -0.1f + 1'000'000.000'001;
 
 ---
 
@@ -13,7 +14,12 @@ int d = 0xabc00ull;
   (declaration (primitive_type) (init_declarator (identifier) (number_literal)))
   (declaration (primitive_type) (init_declarator (identifier) (number_literal)))
   (declaration (primitive_type) (init_declarator (identifier) (number_literal)))
-  (declaration (primitive_type) (init_declarator (identifier) (number_literal))))
+  (declaration (primitive_type) (init_declarator (identifier) (number_literal)))
+  (declaration
+    (primitive_type)
+    (init_declarator (identifier) (math_expression
+      (math_expression (number_literal))
+      (number_literal)))))
 
 ============================================
 Identifiers
