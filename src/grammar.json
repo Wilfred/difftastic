@@ -2074,6 +2074,18 @@
           "type": "CHOICE",
           "members": [
             {
+              "type": "STRING",
+              "value": "ref"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
               "type": "SYMBOL",
               "name": "mutable_specifier"
             },

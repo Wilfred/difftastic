@@ -420,6 +420,10 @@ module.exports = grammar({
     static_item: $ => seq(
       optional($.visibility_modifier),
       'static',
+
+      // Not actual rust syntax, but made popular by the lazy_static crate.
+      optional('ref'),
+
       optional($.mutable_specifier),
       $.identifier,
       ':',

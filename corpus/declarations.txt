@@ -478,6 +478,20 @@ static mut __progname: *mut ::c_char;
     (pointer_type (mutable_specifier) (scoped_type_identifier (type_identifier)))))
 
 ============================================
+Static 'ref' items using lazy_static
+============================================
+
+lazy_static! {
+  static ref ONE: usize = 0;
+}
+
+---
+
+(source_file
+  (macro_invocation (identifier) (token_tree
+    (static_item (identifier) (primitive_type) (integer_literal)))))
+
+============================================
 Type aliases
 ============================================
 
