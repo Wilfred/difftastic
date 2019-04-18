@@ -41,13 +41,14 @@ echo $abc
 Special variable expansions
 =============================
 
-echo $# $* $@
+echo $# $* $@ $!
 
 ---
 
 (program
   (command
     (command_name (word))
+    (simple_expansion (special_variable_name))
     (simple_expansion (special_variable_name))
     (simple_expansion (special_variable_name))
     (simple_expansion (special_variable_name))))

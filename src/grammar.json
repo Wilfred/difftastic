@@ -1888,6 +1888,15 @@
               "type": "ALIAS",
               "content": {
                 "type": "STRING",
+                "value": "!"
+              },
+              "named": true,
+              "value": "special_variable_name"
+            },
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "STRING",
                 "value": "#"
               },
               "named": true,

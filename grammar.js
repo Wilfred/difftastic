@@ -450,6 +450,7 @@ module.exports = grammar({
       choice(
         $._simple_variable_name,
         $._special_variable_name,
+        alias('!', $.special_variable_name),
         alias('#', $.special_variable_name)
       )
     ),
