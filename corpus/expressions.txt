@@ -346,6 +346,7 @@ int main() {
     7,
     8
   };
+  z = (char const []) {'a', 'b'};
 }
 
 ---
@@ -374,7 +375,13 @@ int main() {
           (type_descriptor (struct_specifier (type_identifier)))
           (initializer_list
             (number_literal)
-            (number_literal))))))))
+            (number_literal)))))
+      (expression_statement
+        (assignment_expression
+          (identifier)
+          (compound_literal_expression
+            (type_descriptor (primitive_type) (type_qualifier) (abstract_array_declarator))
+            (initializer_list (char_literal) (char_literal))))))))
 
 ============================================
 Compound literals with trailing commas

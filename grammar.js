@@ -600,6 +600,7 @@ module.exports = grammar({
     type_descriptor: $ => seq(
       repeat($.type_qualifier),
       $._type_specifier,
+      repeat($.type_qualifier),
       optional($._abstract_declarator)
     ),
 

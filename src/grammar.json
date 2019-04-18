@@ -3400,6 +3400,13 @@
           "name": "_type_specifier"
         },
         {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "type_qualifier"
+          }
+        },
+        {
           "type": "CHOICE",
           "members": [
             {
