@@ -775,8 +775,29 @@
           "name": "_type_specifier"
         },
         {
-          "type": "SYMBOL",
-          "name": "_type_declarator"
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_type_declarator"
+            },
+            {
+              "type": "REPEAT",
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "STRING",
+                    "value": ","
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "_type_declarator"
+                  }
+                ]
+              }
+            }
+          ]
         },
         {
           "type": "STRING",
