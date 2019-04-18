@@ -290,6 +290,7 @@ module.exports = grammar(C, {
     ),
 
     field_declaration: $ => seq(
+      repeat($.attribute),
       optional('virtual'),
       $._declaration_specifiers,
       commaSep($._field_declarator),
@@ -302,6 +303,7 @@ module.exports = grammar(C, {
     ),
 
     inline_method_definition: $ => seq(
+      repeat($.attribute),
       $._declaration_specifiers,
       $._field_declarator,
       choice(
