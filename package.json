@@ -1,6 +1,6 @@
 {
   "name": "tree-sitter-julia",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Julia grammar for tree-sitter",
   "main": "index.js",
   "keywords": [
