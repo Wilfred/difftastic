@@ -9,9 +9,9 @@ module.exports = grammar({
   ],
 
   externals: $ => [
-    $.virtual_end_decl,
-    $.virtual_open_section,
-    $.virtual_end_section,
+    $._virtual_end_decl,
+    $._virtual_open_section,
+    $._virtual_end_section,
     $.minus_without_trailing_whitespace,
     $.block_comment,
     $.line_comment,
@@ -30,7 +30,7 @@ module.exports = grammar({
   rules: {
     file: $ =>
       seq(
-        optional(seq($.module_declaration, $.virtual_end_decl)),
+        optional(seq($.module_declaration, $._virtual_end_decl)),
         optional($._import_list),
         optional($._top_decl_list)
       ),
@@ -50,8 +50,8 @@ module.exports = grammar({
         )
       ),
 
-    _import_list: $ => repeat1(seq($.import_clause, $.virtual_end_decl)),
-    _top_decl_list: $ => repeat1(seq($._declaration, $.virtual_end_decl)),
+    _import_list: $ => repeat1(seq($.import_clause, $._virtual_end_decl)),
+    _top_decl_list: $ => repeat1(seq($._declaration, $._virtual_end_decl)),
 
     // MODULE DECLARATION
 
@@ -450,14 +450,14 @@ module.exports = grammar({
 
     _case_of_tail2: $ =>
       seq(
-        $.virtual_open_section,
+        $._virtual_open_section,
         $.case_of_branch,
         optional($._more_case_of_branches),
-        optional($.virtual_end_section)
+        optional($._virtual_end_section)
       ),
 
     _more_case_of_branches: $ =>
-      prec.dynamic(6, repeat1(seq($.virtual_end_decl, $.case_of_branch))),
+      prec.dynamic(6, repeat1(seq($._virtual_end_decl, $.case_of_branch))),
 
     case_of_branch: $ => seq($.pattern, $.arrow, $._expression),
 
@@ -465,10 +465,10 @@ module.exports = grammar({
 
     _let_in_tail: $ =>
       seq(
-        $.virtual_open_section,
+        $._virtual_open_section,
         $._inner_declaration,
         optional($._more_inner_declarations),
-        $.virtual_end_section,
+        $._virtual_end_section,
         $.in,
         $._expression
       ),
@@ -476,7 +476,7 @@ module.exports = grammar({
     _inner_declaration: $ => choice($.value_declaration, $.type_annotation),
 
     _more_inner_declarations: $ =>
-      repeat1(seq($.virtual_end_decl, $._inner_declaration)),
+      repeat1(seq($._virtual_end_decl, $._inner_declaration)),
 
     // PATTERNS
 

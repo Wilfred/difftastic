@@ -10,7 +10,7 @@ module Main exposing (..)
   (module_declaration (module)
     (upper_case_qid (upper_case_identifier)) (exposing_list (exposing) (left_parenthesis) (double_dot) (right_parenthesis))
   )
-  (virtual_end_decl)
+  
 )
 =====================================
 module statement sub dir exposing all
@@ -24,7 +24,7 @@ module Page.View exposing (..)
   (module_declaration (module)
     (upper_case_qid (upper_case_identifier) (dot) (upper_case_identifier)) (exposing_list (exposing) (left_parenthesis) (double_dot) (right_parenthesis))
   )
-  (virtual_end_decl)
+  
 )
 
 =====================================
@@ -39,7 +39,7 @@ module Main exposing (view)
   (module_declaration (module)
     (upper_case_qid (upper_case_identifier)) (exposing_list (exposing) (left_parenthesis) (exposed_value (lower_case_identifier)) (right_parenthesis))
   )
-  (virtual_end_decl)
+  
 )
 
 =====================================
@@ -58,7 +58,7 @@ module Main exposing (main, update, view)
     (comma)
     (exposed_value (lower_case_identifier)) (right_parenthesis))
   )
-  (virtual_end_decl)
+  
 )
 
 =====================================
@@ -76,7 +76,7 @@ module Main exposing (Msg(..), main, update, view)
                                                                                            (exposed_value (lower_case_identifier)) (comma)
                                                                                            (exposed_value (lower_case_identifier)) (right_parenthesis))
   )
-  (virtual_end_decl)
+  
 )
 
 =====================================
@@ -94,7 +94,7 @@ module Main exposing (Msg, main, update, view)
                                                                                            (exposed_value (lower_case_identifier)) (comma)
                                                                                            (exposed_value (lower_case_identifier)) (right_parenthesis))
   )
-  (virtual_end_decl)
+  
 )
 
 =====================================
@@ -112,7 +112,7 @@ module Main exposing (Msg(One), main, update, view)
                                                                                            (exposed_value (lower_case_identifier)) (comma)
                                                                                            (exposed_value (lower_case_identifier)) (right_parenthesis))
   )
-  (virtual_end_decl)
+  
 )
 
 =====================================
@@ -170,5 +170,5 @@ effect module Task where { command = MyCmd } exposing
       (right_parenthesis)
     )
   )
-  (virtual_end_decl)
+  
 )

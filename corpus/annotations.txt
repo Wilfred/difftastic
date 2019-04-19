@@ -26,7 +26,7 @@ main =
             )
         )
     )
-    (virtual_end_decl)
+    
     (value_declaration
         (function_declaration_left (lower_case_identifier))
         (eq)
@@ -44,7 +44,7 @@ main =
             )
         )
     )
-    (virtual_end_decl)
+    
 )
 
 =====================================
@@ -67,7 +67,7 @@ init maybeViewer url navKey =
                     (comma) (type_expression (type_ref (upper_case_qid (upper_case_identifier)) (type_ref (upper_case_qid (upper_case_identifier))))) (right_parenthesis))
             )
     )
-    (virtual_end_decl)
+    
     (value_declaration
         (function_declaration_left (lower_case_identifier)
             (lower_pattern (lower_case_identifier))
@@ -86,5 +86,5 @@ init maybeViewer url navKey =
                 (right_parenthesis))
         )
     )
-    (virtual_end_decl)
+    
 )

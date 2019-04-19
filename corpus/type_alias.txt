@@ -14,7 +14,7 @@ type alias Number =
   (type_expression (type_ref (upper_case_qid (upper_case_identifier)))
     )
   )
-  (virtual_end_decl)
+  
 )
 
 =====================================
@@ -39,5 +39,5 @@ type alias ListItem =
     (right_brace))
     )
   )
-  (virtual_end_decl)
+  
 )
