@@ -363,6 +363,7 @@ grammar({
       $.operator,
       $.number,
       $.string,
+      $.command_string,
       $.character,
       $.triple_string,
     ),
@@ -719,6 +720,12 @@ grammar({
       '"',
       repeat(choice(/[^"\\\n]/, /\\./)),
       '"'
+    )),
+
+    command_string: $ => token(seq(
+      '`',
+      repeat(choice(/[^`\\\n]/, /\\./)),
+      '`'
     )),
 
     character: $ => token(seq(

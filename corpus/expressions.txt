@@ -37,6 +37,19 @@ Strings
   (string))
 
 =================
+Command strings
+=================
+
+`foo`
+`foo \` bar`
+
+---
+
+(source_file
+  (command_string)
+  (command_string))
+
+=================
 Characters
 =================
 
