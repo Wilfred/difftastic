@@ -74,6 +74,23 @@ while a(); b(); end
     (call_expression (identifier) (argument_list))
     (call_expression (identifier) (argument_list))))
 
+==============================
+Return statements
+==============================
+
+return
+return a
+return a || b
+return a, b, c
+
+---
+
+(source_file
+  (return_statement)
+  (return_statement (identifier))
+  (return_statement (binary_expression (identifier) (identifier)))
+  (return_statement (bare_tuple_expression (identifier) (identifier) (identifier))))
+
 ===============================
 Let statements
 ===============================

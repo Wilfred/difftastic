@@ -211,6 +211,7 @@ grammar({
       $.quote_statement,
       $.break_statement,
       $.continue_statement,
+      $.return_statement,
       $.import_statement,
       $.export_statement
     ),
@@ -276,6 +277,14 @@ grammar({
     break_statement: $ => 'break',
 
     continue_statement: $ => 'continue',
+
+    return_statement: $ => prec.right(-2, seq(
+      'return',
+      optional(choice(
+        $._expression,
+        $.bare_tuple_expression
+      ))
+    )),
 
     let_statement: $ => seq(
       'let',

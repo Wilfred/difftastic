@@ -33,7 +33,6 @@ examples/Gadfly.jl/test/testscripts/issue177.jl
 examples/Gadfly.jl/test/testscripts/gridstack_empty_args.jl
 examples/Gadfly.jl/test/testscripts/unitful_basic.jl
 examples/Gadfly.jl/test/testscripts/stat_dodge.jl
-examples/Gadfly.jl/test/testscripts/Theme_plot_padding.jl
 examples/Gadfly.jl/test/testscripts/histogram_errorbar.jl
 examples/Gadfly.jl/test/testscripts/timeseries_day.jl
 examples/Gadfly.jl/test/testscripts/hexbin_dark.jl
@@ -70,7 +69,6 @@ examples/Gadfly.jl/src/Gadfly.jl
 examples/Gadfly.jl/src/varset.jl
 examples/Gadfly.jl/src/scale.jl
 examples/Gadfly.jl/src/bincount.jl
-examples/Gadfly.jl/src/open_file.jl
 examples/Gadfly.jl/src/geometry.jl
 examples/Gadfly.jl/src/coord.jl
 examples/Gadfly.jl/src/terminalextensions.jl
@@ -144,14 +142,12 @@ examples/Mocha.jl/test/solvers/test-adadelta-solver.jl
 examples/Mocha.jl/test/utils/ref-count.jl
 examples/Mocha.jl/test/utils/glob.jl
 examples/Mocha.jl/test/utils/blas.jl
-examples/Mocha.jl/examples/mnist/VAE.jl
 examples/Mocha.jl/examples/mnist/convert.jl
-examples/Mocha.jl/examples/mnist/mnist_learning_curve.jl
 examples/Mocha.jl/examples/mnist/mnist-demo.jl
 examples/Mocha.jl/examples/mnist/mnist-VAE.jl
 examples/Mocha.jl/examples/test-wasserstein.jl
 examples/Mocha.jl/examples/test.jl
-examples/Mocha.jl/examples/unsupervised-pretrain/denoising-autoencoder/denoising-autoencoder.jl	1
+examples/Mocha.jl/examples/unsupervised-pretrain/denoising-autoencoder/denoising-autoencoder.jl
 examples/Mocha.jl/examples/unsupervised-pretrain/denoising-autoencoder/plot-all.jl
 examples/Mocha.jl/examples/test-gradients.jl
 examples/Mocha.jl/examples/cifar10/cifar10.jl
@@ -161,11 +157,9 @@ examples/Mocha.jl/benchmarks/parallel-loop/parallel-pool-module.jl
 examples/Mocha.jl/benchmarks/softmax.jl
 examples/Mocha.jl/benchmarks/cond-in-loop.jl
 examples/Mocha.jl/benchmarks/crop.jl
-examples/Mocha.jl/benchmarks/loop-vs-whole.jl
 examples/Mocha.jl/benchmarks/subarray.jl
 examples/Mocha.jl/benchmarks/hdf5-read.jl
 examples/Mocha.jl/benchmarks/broadcast-index.jl
-examples/Mocha.jl/deps/build.jl
 examples/Mocha.jl/src/parameter.jl
 examples/Mocha.jl/src/layers.jl
 examples/Mocha.jl/src/constraints.jl
@@ -209,18 +203,13 @@ examples/Mocha.jl/src/blob.jl
 examples/Mocha.jl/src/pooling-functions.jl
 examples/Mocha.jl/src/initializers.jl
 examples/Mocha.jl/src/neurons.jl
-examples/Mocha.jl/src/cuda/layers/accuracy.jl
-examples/Mocha.jl/src/cuda/layers/dropout.jl
 examples/Mocha.jl/src/cuda/layers/power.jl
 examples/Mocha.jl/src/cuda/layers/softmax.jl
 examples/Mocha.jl/src/cuda/layers/inner-product.jl
 examples/Mocha.jl/src/cuda/layers/tied-inner-product.jl
 examples/Mocha.jl/src/cuda/layers/wasserstein-loss.jl
 examples/Mocha.jl/src/cuda/layers/random-normal.jl
-examples/Mocha.jl/src/cuda/layers/binary-accuracy.jl
-examples/Mocha.jl/src/cuda/layers/channel-pooling.jl
 examples/Mocha.jl/src/cuda/layers/pooling.jl
-examples/Mocha.jl/src/cuda/layers/gaussian-kl-loss.jl
 examples/Mocha.jl/src/cuda/layers/convolution.jl
 examples/Mocha.jl/src/cuda/cublas.jl
 examples/Mocha.jl/src/cuda/blob.jl
@@ -228,7 +217,6 @@ examples/Mocha.jl/src/cuda/cudnn.jl
 examples/Mocha.jl/src/cuda/cuda.jl
 examples/Mocha.jl/src/cuda/neurons.jl
 examples/Mocha.jl/src/cuda/utils/math.jl
-examples/Mocha.jl/src/cuda/regularizers.jl
 examples/Mocha.jl/src/cuda/backend.jl
 examples/Mocha.jl/src/solvers/adadelta.jl
 examples/Mocha.jl/src/solvers/policies.jl

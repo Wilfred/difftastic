@@ -2,4 +2,4 @@
 
 tree-sitter parse $(find examples -type f -name '*.jl') -q -t \
   | egrep 'ERROR|\(' \
-  | tee >(cut -d' ' -f1 > script/known-failures.txt)
+  | tee >(tr '\t' ' ' | cut -d' ' -f1 > script/known-failures.txt)
