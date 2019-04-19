@@ -121,6 +121,23 @@ new{typeof(xs)}(xs)
         (call_expression (identifier) (argument_list (identifier)))))
     (argument_list (identifier))))
 
+=============================
+Function calls with do blocks
+=============================
+
+a(b) do
+  print(c)
+end
+
+---
+
+(source_file
+  (call_expression
+    (identifier)
+    (argument_list (identifier))
+    (do_clause
+      (call_expression (identifier) (argument_list (identifier))))))
+
 =====================
 Fields and subscripts
 =====================

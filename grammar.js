@@ -448,7 +448,8 @@ grammar({
         $.parenthesized_expression
       ),
       $._immediate_paren,
-      choice($.argument_list, $.generator_expression)
+      choice($.argument_list, $.generator_expression),
+      optional($.do_clause)
     )),
 
     broadcast_call_expression: $ => prec(PREC.call, seq(
@@ -460,7 +461,8 @@ grammar({
       ),
       '.',
       $._immediate_paren,
-      choice($.argument_list, $.generator_expression)
+      choice($.argument_list, $.generator_expression),
+      optional($.do_clause)
     )),
 
     macro_expression: $ => seq(
@@ -484,6 +486,12 @@ grammar({
         sep1(',', alias($.named_field, $.named_argument))
       )),
       ')'
+    ),
+
+    do_clause: $ => seq(
+      'do',
+      $._expression_list,
+      'end'
     ),
 
     named_field: $ => seq(

@@ -26,7 +26,6 @@ examples/Gadfly.jl/test/testscripts/issue1125.jl
 examples/Gadfly.jl/test/testscripts/hstack_empty_vector.jl
 examples/Gadfly.jl/test/testscripts/timeseries_month.jl
 examples/Gadfly.jl/test/testscripts/errorbar.jl
-examples/Gadfly.jl/test/testscripts/density_dark.jl
 examples/Gadfly.jl/test/testscripts/subplot_grid_free_axis.jl
 examples/Gadfly.jl/test/testscripts/hexbin.jl
 examples/Gadfly.jl/test/testscripts/issue177.jl
@@ -127,7 +126,6 @@ examples/Mocha.jl/test/layers/random-mask.jl
 examples/Mocha.jl/test/layers/memory-data.jl
 examples/Mocha.jl/test/layers/element-wise.jl
 examples/Mocha.jl/test/layers/gaussian-kl-loss.jl
-examples/Mocha.jl/test/layers/hdf5-output.jl
 examples/Mocha.jl/test/layers/index2onehot.jl
 examples/Mocha.jl/test/layers/concat.jl
 examples/Mocha.jl/test/layers/softmax-loss.jl
@@ -253,7 +251,6 @@ examples/IJulia.jl/src/msg.jl
 examples/IJulia.jl/src/hmac.jl
 examples/IJulia.jl/src/init.jl
 examples/IJulia.jl/src/stdio.jl
-examples/IJulia.jl/src/jupyter.jl
 examples/IJulia.jl/src/inline.jl
 examples/IJulia.jl/src/magics.jl
 examples/IJulia.jl/src/comm_manager.jl
