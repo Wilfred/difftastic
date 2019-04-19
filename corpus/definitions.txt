@@ -82,3 +82,17 @@ end
     (typed_expression
       (identifier)
       (parameterized_identifier (identifier) (type_argument_list (identifier))))))
+
+===============================
+Functions with typed parameters
+===============================
+
+function a(b::C)
+end
+
+---
+
+(source_file
+  (function_definition
+    (identifier)
+    (parameter_list (typed_parameter (identifier) (identifier))))) 

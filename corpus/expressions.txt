@@ -37,6 +37,17 @@ Strings
   (string))
 
 =================
+Characters
+=================
+
+'o'
+'\t'
+
+---
+
+(source_file (character) (character)) 
+
+=================
 Assignments
 =================
 
@@ -197,6 +208,24 @@ Unary operators
   (unary_expression (array_expression (identifier)))
   (unary_expression
     (parenthesized_expression (binary_expression (identifier) (identifier)))))
+
+====================
+The ternary operator
+====================
+
+x = batch_size == 1 ?
+  rand(10) :
+  rand(10, batch_size)
+
+---
+
+(source_file
+  (assignment_expression
+    (identifier)
+    (ternary_expression
+      (binary_expression (identifier) (number))
+      (call_expression (identifier) (argument_list (number)))
+      (call_expression (identifier) (argument_list (number) (identifier))))))
 
 ====================
 Operators as values

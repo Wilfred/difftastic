@@ -205,6 +205,11 @@
     "fields": {}
   },
   {
+    "type": "spread_parameter",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "struct_definition",
     "named": true,
     "fields": {}
@@ -216,6 +221,11 @@
   },
   {
     "type": "subtype_clause",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "ternary_expression",
     "named": true,
     "fields": {}
   },
@@ -241,6 +251,11 @@
   },
   {
     "type": "typed_expression",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "typed_parameter",
     "named": true,
     "fields": {}
   },
@@ -289,6 +304,14 @@
   },
   {
     "type": ")",
+    "named": false
+  },
+  {
+    "type": "...",
+    "named": false
+  },
+  {
+    "type": "::",
     "named": false
   },
   {
@@ -404,10 +427,6 @@
     "named": false
   },
   {
-    "type": "::",
-    "named": false
-  },
-  {
     "type": "begin",
     "named": false
   },
@@ -421,10 +440,6 @@
   },
   {
     "type": ";",
-    "named": false
-  },
-  {
-    "type": "...",
     "named": false
   },
   {
@@ -480,6 +495,10 @@
     "named": false
   },
   {
+    "type": "?",
+    "named": false
+  },
+  {
     "type": "=>",
     "named": false
   },
@@ -501,6 +520,10 @@
   },
   {
     "type": "string",
+    "named": true
+  },
+  {
+    "type": "character",
     "named": true
   },
   {

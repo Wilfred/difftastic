@@ -86,6 +86,8 @@ grammar({
 
   conflicts: $ => [
     [$.parameter_list, $._expression],
+    [$.spread_parameter, $._expression],
+    [$.typed_parameter, $._expression],
     [$._expression, $.named_field],
   ],
 
@@ -141,8 +143,20 @@ grammar({
 
     parameter_list: $ => seq(
       '(',
-      sep(',', $.identifier),
+      sep(',', choice(
+        $.identifier,
+        $.spread_parameter,
+        $.typed_parameter
+      )),
       ')'
+    ),
+
+    spread_parameter: $ => seq($.identifier, '...'),
+
+    typed_parameter: $ => seq(
+      $.identifier,
+      '::',
+      choice($.identifier, $.parameterized_identifier)
     ),
 
     type_parameter_list: $ => seq(
@@ -304,6 +318,7 @@ grammar({
       $.broadcast_call_expression,
       $.unary_expression,
       $.binary_expression,
+      $.ternary_expression,
       $.parameterized_identifier,
       $.array_expression,
       $.matrix_expression,
@@ -317,6 +332,7 @@ grammar({
       $.operator,
       $.number,
       $.string,
+      $.character,
       $.triple_string,
     ),
 
@@ -493,6 +509,14 @@ grammar({
       ))
     ),
 
+    ternary_expression: $ => prec.right(PREC.conditional, seq(
+      $._expression,
+      '?',
+      $._expression,
+      ':',
+      $._expression
+    )),
+
     pair_expression: $ => prec.right(PREC.pair, seq(
       $._expression,
       '=>',
@@ -613,6 +637,12 @@ grammar({
       '"',
       repeat(choice(/[^"\\\n]/, /\\./)),
       '"'
+    )),
+
+    character: $ => token(seq(
+      "'",
+      choice(/\\./, /[^'\\]/),
+      "'",
     )),
 
     _power_operator: $ => token(addDots(POWER_OPERATORS)),
