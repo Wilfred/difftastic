@@ -45,7 +45,7 @@ Characters
 
 ---
 
-(source_file (character) (character)) 
+(source_file (character) (character))
 
 =================
 Assignments
@@ -135,16 +135,16 @@ end
 
 (source_file
   (macro_expression
-    (identifier)
+    (macro_identifier (identifier))
     (macro_argument_list
       (binary_expression (identifier) (identifier))))
   (macro_expression
-    (identifier)
+    (macro_identifier (identifier))
     (macro_argument_list
       (binary_expression (identifier) (identifier))
       (string)))
   (macro_expression
-    (identifier)
+    (macro_identifier (identifier))
     (macro_argument_list
       (string)
       (compound_expression (assignment_expression (identifier) (identifier))))))
@@ -419,3 +419,24 @@ x -> x^2
       (call_expression (identifier) (argument_list (number)))
       (assignment_expression (identifier) (number))
       (identifier))))
+
+============================
+Generator expressions
+============================
+
+(b(c, e) for c in d, e = 5 if e)
+[b(c, e) for c in d for e in f]
+
+---
+
+(source_file
+  (generator_expression
+    (call_expression (identifier) (argument_list (identifier) (identifier)))
+    (for_clause
+      (for_binding (identifier) (identifier))
+      (for_binding (identifier) (number)))
+    (if_clause (identifier)))
+  (array_comprehension_expression
+    (call_expression (identifier) (argument_list (identifier) (identifier)))
+    (for_clause (for_binding (identifier) (identifier)))
+    (for_clause (for_binding (identifier) (identifier)))))

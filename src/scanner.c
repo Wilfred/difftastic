@@ -2,6 +2,7 @@
 
 enum TokenType {
   TRIPLE_STRING,
+  IMMEDIATE_PAREN,
 };
 
 bool tree_sitter_julia_external_scanner_scan(
@@ -9,6 +10,14 @@ bool tree_sitter_julia_external_scanner_scan(
   TSLexer *lexer,
   const bool *valid_symbols
 ) {
+  if (
+    lexer->lookahead == '(' &&
+    valid_symbols[IMMEDIATE_PAREN]
+  ) {
+    lexer->result_symbol = IMMEDIATE_PAREN;
+    return true;
+  }
+
   while (iswspace(lexer->lookahead)) {
     lexer->advance(lexer, true);
   }

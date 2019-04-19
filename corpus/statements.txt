@@ -40,12 +40,14 @@ end
 
 (source_file
   (for_statement
-    (identifier)
-    (array_expression (number) (number) (number))
+    (for_binding
+      (identifier)
+      (array_expression (number) (number) (number)))
     (call_expression (identifier) (argument_list (identifier))))
   (for_statement
-    (tuple_expression (identifier) (identifier))
-    (identifier)
+    (for_binding
+      (tuple_expression (identifier) (identifier))
+      (identifier))
     (call_expression (identifier) (argument_list (identifier) (identifier)))))
 
 ===============================
@@ -158,6 +160,7 @@ Import statements
 using Lib
 using BigLib: thing1, thing2
 import Base.show
+import .A: @b
 using A, B, C
 
 ---
@@ -166,6 +169,7 @@ using A, B, C
   (import_statement (identifier))
   (import_statement (selected_import (identifier) (identifier) (identifier)))
   (import_statement (scoped_identifier (identifier) (identifier)))
+  (import_statement (selected_import (scoped_identifier (identifier)) (macro_identifier (identifier))))
   (import_statement (identifier) (identifier) (identifier)))
 
 ===============================

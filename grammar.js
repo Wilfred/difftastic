@@ -82,6 +82,7 @@ grammar({
 
   externals: $ => [
     $.triple_string,
+    $._immediate_paren,
   ],
 
   conflicts: $ => [
@@ -236,9 +237,7 @@ grammar({
 
     for_statement: $ => seq(
       'for',
-      choice($.identifier, $.tuple_expression),
-      choice('in', '=', '∈'),
-      $._expression,
+      $.for_binding,
       optional($._terminator),
       optional($._expression_list),
       'end'
@@ -282,17 +281,24 @@ grammar({
 
     import_statement: $ => prec.right(seq(
       choice('using', 'import'),
-      sep1(',', choice($.identifier, $.scoped_identifier, $.selected_import))
+      sep1(',', choice(
+        $.identifier,
+        $.scoped_identifier,
+        $.selected_import
+      ))
     )),
 
     selected_import: $ => seq(
       choice($.identifier, $.scoped_identifier),
       token.immediate(':'),
-      prec.right(sep1(',', $.identifier))
+      prec.right(sep1(',', choice(
+        $.identifier,
+        $.macro_identifier
+      )))
     ),
 
     scoped_identifier: $ => prec(PREC.dot, seq(
-      choice($.identifier, $.scoped_identifier),
+      optional(choice($.identifier, $.scoped_identifier)),
       '.',
       $.identifier
     )),
@@ -323,6 +329,8 @@ grammar({
       $.array_expression,
       $.matrix_expression,
       $.tuple_expression,
+      $.generator_expression,
+      $.array_comprehension_expression,
       $.function_expression,
       $.coefficient_expression,
       $.spread_expression,
@@ -405,7 +413,8 @@ grammar({
         $.call_expression,
         $.parenthesized_expression
       ),
-      $.argument_list
+      $._immediate_paren,
+      choice($.argument_list, $.generator_expression)
     )),
 
     broadcast_call_expression: $ => prec(PREC.call, seq(
@@ -415,14 +424,14 @@ grammar({
         $.call_expression
       ),
       '.',
-      $.argument_list
+      $._immediate_paren,
+      choice($.argument_list, $.generator_expression)
     )),
 
     macro_expression: $ => seq(
-      '@',
-      $.identifier,
+      $.macro_identifier,
       choice(
-        $.argument_list,
+        seq($._immediate_paren, $.argument_list),
         $.macro_argument_list
       )
     ),
@@ -430,7 +439,7 @@ grammar({
     macro_argument_list: $ => prec(-1, repeat1(prec(-1, $._expression))),
 
     argument_list: $ => seq(
-      token.immediate('('),
+      '(',
       sep(',', choice($._expression, $.named_field)),
       optional(seq(
         ';',
@@ -556,6 +565,44 @@ grammar({
 
     matrix_row: $ => repeat1(prec(-1, $._expression)),
 
+    generator_expression: $ => seq(
+      '(',
+      $._expression,
+      $._comprehension_clause,
+      ')'
+    ),
+
+    array_comprehension_expression: $ => seq(
+      '[',
+      $._expression,
+      $._comprehension_clause,
+      ']'
+    ),
+
+    _comprehension_clause: $ => seq(
+      $.for_clause,
+      repeat(choice(
+        $.for_clause,
+        $.if_clause
+      ))
+    ),
+
+    if_clause: $ => seq(
+      'if',
+      $._expression
+    ),
+
+    for_clause: $ => seq(
+      'for',
+      sep1(',', $.for_binding)
+    ),
+
+    for_binding: $ => seq(
+      choice($.identifier, $.tuple_expression),
+      choice('in', '=', '∈'),
+      $._expression
+    ),
+
     function_expression: $ => prec.right(PREC.arrow, seq(
       choice(
         $.identifier,
@@ -588,6 +635,8 @@ grammar({
     )),
 
     // Tokens
+
+    macro_identifier: $ => seq('@', $.identifier),
 
     identifier: $ => {
       const operators = [
