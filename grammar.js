@@ -86,6 +86,7 @@ grammar({
 
   conflicts: $ => [
     [$.parameter_list, $._expression],
+    [$._expression, $.named_field],
   ],
 
   extras: $ => [
@@ -97,7 +98,11 @@ grammar({
     source_file: $ => optional($._expression_list),
 
     _expression_list: $ => seq(
-      sep1($._terminator, $._expression),
+      sep1($._terminator, choice(
+        $._expression,
+        $.assignment_expression,
+        $.bare_tuple_expression
+      )),
       optional($._terminator)
     ),
 
@@ -250,10 +255,10 @@ grammar({
       prec.right(sep1(',', $.variable_declaration))
     ),
 
-    variable_declaration: $ => seq(
+    variable_declaration: $ => prec.right(seq(
       $.identifier,
       optional(seq('=', $._expression))
-    ),
+    )),
 
     quote_statement: $ => seq(
       'quote',
@@ -299,7 +304,6 @@ grammar({
       $.broadcast_call_expression,
       $.unary_expression,
       $.binary_expression,
-      $.assignment_expression,
       $.parameterized_identifier,
       $.array_expression,
       $.matrix_expression,
@@ -316,6 +320,11 @@ grammar({
       $.triple_string,
     ),
 
+    bare_tuple_expression: $ => prec(-1, seq(
+      $._expression,
+      repeat1(prec(-1, seq(',', $._expression)))
+    )),
+
     operator: $ => choice(':', '+', $._plus_operator, $._times_operator, $._power_operator),
 
     parenthesized_expression: $ => prec(1, seq(
@@ -329,6 +338,7 @@ grammar({
         $.tuple_expression,
         $.field_expression,
         $.call_expression,
+        $.subscript_expression,
         $.parenthesized_expression
       ),
       '.',
@@ -405,16 +415,33 @@ grammar({
 
     argument_list: $ => seq(
       token.immediate('('),
-      sep(',', $._expression),
+      sep(',', choice($._expression, $.named_field)),
+      optional(seq(
+        ';',
+        sep1(',', $.named_field)
+      )),
       ')'
+    ),
+
+    named_field: $ => seq(
+      $.identifier,
+      '=',
+      $._expression
     ),
 
     spread_expression: $ => prec(PREC.dot, seq($._expression, '...')),
 
     assignment_expression: $ => prec.right(PREC.assign, seq(
-      $._expression,
-      $._assign_operator,
-      $._expression
+      choice(
+        $._expression,
+        $.bare_tuple_expression
+      ),
+      choice($._assign_operator, '='),
+      choice(
+        $._expression,
+        $.assignment_expression,
+        $.bare_tuple_expression
+      )
     )),
 
     unary_expression: $ => choice(
@@ -474,8 +501,18 @@ grammar({
 
     tuple_expression: $ => seq(
       '(',
-      optional(sep1(',', $._expression)),
-      optional(','),
+      choice(
+        optional(','),
+        seq(
+          choice($._expression, $.named_field),
+          ','
+        ),
+        seq(
+          choice($._expression, $.named_field),
+          repeat1(seq(',', choice($._expression, $.named_field))),
+          optional(',')
+        )
+      ),
       ')'
     ),
 
@@ -501,7 +538,10 @@ grammar({
         $.parameter_list,
       ),
       '->',
-      $._expression
+      choice(
+        $._expression,
+        $.assignment_expression
+      )
     )),
 
     range_expression: $ => prec.left(PREC.colon_range, seq(

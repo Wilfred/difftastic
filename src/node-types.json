@@ -15,6 +15,11 @@
     "fields": {}
   },
   {
+    "type": "bare_tuple_expression",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "binary_expression",
     "named": true,
     "fields": {}
@@ -131,6 +136,11 @@
   },
   {
     "type": "module_definition",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "named_field",
     "named": true,
     "fields": {}
   },
@@ -410,6 +420,10 @@
     "named": false
   },
   {
+    "type": ";",
+    "named": false
+  },
+  {
     "type": "...",
     "named": false
   },
@@ -471,10 +485,6 @@
   },
   {
     "type": "[",
-    "named": false
-  },
-  {
-    "type": ";",
     "named": false
   },
   {

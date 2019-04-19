@@ -42,6 +42,7 @@ Assignments
 
 a = b
 c &= d ÷= e
+a, b = c, d, e
 
 ---
 
@@ -53,7 +54,10 @@ c &= d ÷= e
     (identifier)
     (assignment_expression
       (identifier)
-      (identifier))))
+      (identifier)))
+  (assignment_expression
+    (bare_tuple_expression (identifier) (identifier))
+    (bare_tuple_expression (identifier) (identifier) (identifier))))
 
 =================
 Functions
@@ -76,13 +80,34 @@ Function calls
 a()
 b("hi", 2)
 c(d...)
+d(e; f = g)
 
 ---
 
 (source_file
   (call_expression (identifier) (argument_list))
   (call_expression (identifier) (argument_list (string) (number)))
-  (call_expression (identifier) (argument_list (spread_expression (identifier)))))
+  (call_expression (identifier) (argument_list (spread_expression (identifier))))
+  (call_expression (identifier) (argument_list (identifier) (named_field (identifier) (identifier)))))
+
+=====================
+Fields and subscripts
+=====================
+
+(a[1].b().c).d
+
+---
+
+(source_file
+  (field_expression
+    (parenthesized_expression (field_expression
+      (call_expression
+        (field_expression
+          (subscript_expression (identifier) (number))
+          (identifier))
+        (argument_list))
+      (identifier)))
+    (identifier)))
 
 =================
 Macro calls
@@ -268,6 +293,25 @@ Tuples
   (parenthesized_expression (number))
   (tuple_expression (number))
   (tuple_expression (number) (number) (number)))
+
+=================
+Named tuples
+=================
+
+(a = 1)
+(a = 1,)
+(a = 1, b = 2)
+
+---
+
+(source_file
+  (parenthesized_expression
+    (assignment_expression (identifier) (number)))
+  (tuple_expression
+    (named_field (identifier) (number)))
+  (tuple_expression
+    (named_field (identifier) (number))
+    (named_field (identifier) (number))))
 
 =================
 Arrays
