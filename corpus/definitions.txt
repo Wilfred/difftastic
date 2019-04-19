@@ -90,9 +90,36 @@ Functions with typed parameters
 function a(b::C)
 end
 
+function d{E}(f::E)
+end
+
 ---
 
 (source_file
   (function_definition
     (identifier)
-    (parameter_list (typed_parameter (identifier) (identifier))))) 
+    (parameter_list (typed_parameter (identifier) (identifier))))
+  (function_definition
+    (identifier)
+    (type_parameter_list (identifier))
+    (parameter_list (typed_parameter (identifier) (identifier)))))
+
+===============================================
+Functions with optional and keyword parameters
+===============================================
+
+function a(b::C = 1; d, e::F = 2)
+end
+
+---
+
+(source_file
+  (function_definition
+    (identifier)
+    (parameter_list
+      (optional_parameter (typed_parameter (identifier) (identifier)) (number))
+      (keyword_parameters
+        (identifier)
+        (optional_parameter
+          (typed_parameter (identifier) (identifier))
+          (number))))))

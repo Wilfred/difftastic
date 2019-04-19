@@ -92,6 +92,7 @@ a()
 b("hi", 2)
 c(d...)
 d(e; f = g)
+new{typeof(xs)}(xs)
 
 ---
 
@@ -99,7 +100,13 @@ d(e; f = g)
   (call_expression (identifier) (argument_list))
   (call_expression (identifier) (argument_list (string) (number)))
   (call_expression (identifier) (argument_list (spread_expression (identifier))))
-  (call_expression (identifier) (argument_list (identifier) (named_field (identifier) (identifier)))))
+  (call_expression (identifier) (argument_list (identifier) (named_argument (identifier) (identifier))))
+  (call_expression
+    (parameterized_identifier
+      (identifier)
+      (type_argument_list
+        (call_expression (identifier) (argument_list (identifier)))))
+    (argument_list (identifier))))
 
 =====================
 Fields and subscripts

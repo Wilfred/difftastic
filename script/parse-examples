@@ -1,0 +1,46 @@
+#!/bin/bash
+
+set -e
+
+function fixture() {
+  url=$1
+  sha=$2
+  name=$(basename $url)
+  path=examples/$name
+
+  echo $name $path
+
+  if [ ! -d $path ]; then
+    git clone $url $path
+  fi
+
+  (
+    cd $path
+    git fetch origin $sha
+    git reset --hard $sha
+  )
+}
+
+fixture https://github.com/FluxML/Flux.jl 25097c432259c37c32a675153b9b26db376f7d58
+fixture https://github.com/pluskid/Mocha.jl 5e15b882d7dd615b0c5159bb6fde2cc040b2d8ee
+fixture https://github.com/JuliaLang/IJulia.jl bd9b39e27e0c41ebd8aa8d5d0a6ed5388924e439
+fixture https://github.com/GiovineItalia/Gadfly.jl 9df68de0e658be4a2c9ef83770e0d9116f6a68af
+
+all_examples=$(find "examples" -type f -name '*.jl')
+known_failures=$(cat script/known-failures.txt)
+examples_to_parse=$(
+  for example in $all_examples; do
+    if [[ ! $known_failures == *$example* ]]; then
+      echo $example
+    fi
+  done
+)
+
+echo $examples_to_parse | xargs -n 5000 tree-sitter parse -q -t
+
+skipped=$( echo $known_failures | wc -w )
+parsed=$( echo $examples_to_parse | wc -w )
+total=$(( parsed + skipped ))
+percent=$( bc -l <<< "100*$parsed/$total" )
+
+printf "Successfully parsed %d of %d files (%.2f%%)\n" $parsed $total $percent

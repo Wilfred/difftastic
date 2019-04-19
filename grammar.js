@@ -86,10 +86,13 @@ grammar({
   ],
 
   conflicts: $ => [
-    [$.parameter_list, $._expression],
-    [$.spread_parameter, $._expression],
-    [$.typed_parameter, $._expression],
+    // Arrow functions vs tuples
+    [$._expression, $.parameter_list],
+    [$._expression, $.spread_parameter],
+    [$._expression, $.typed_parameter],
     [$._expression, $.named_field],
+    [$._expression, $.named_field, $.optional_parameter],
+    [$.named_field, $.optional_parameter],
   ],
 
   extras: $ => [
@@ -120,6 +123,7 @@ grammar({
     function_definition: $ => seq(
       'function',
       $.identifier,
+      optional($.type_parameter_list),
       $.parameter_list,
       optional($._expression_list),
       'end'
@@ -147,9 +151,27 @@ grammar({
       sep(',', choice(
         $.identifier,
         $.spread_parameter,
+        $.optional_parameter,
         $.typed_parameter
       )),
+      optional($.keyword_parameters),
       ')'
+    ),
+
+    keyword_parameters: $ => seq(
+      ';',
+      sep1(',', choice(
+        $.identifier,
+        $.spread_parameter,
+        $.optional_parameter,
+        $.typed_parameter
+      ))
+    ),
+
+    optional_parameter: $ => seq(
+      choice($.identifier, $.typed_parameter),
+      '=',
+      $._expression
     ),
 
     spread_parameter: $ => seq($.identifier, '...'),
@@ -336,6 +358,7 @@ grammar({
       $.spread_expression,
       $.range_expression,
       $.quote_expression,
+      $.interpolation_expression,
       $.identifier,
       $.operator,
       $.number,
@@ -409,6 +432,7 @@ grammar({
     call_expression: $ => prec(PREC.call, seq(
       choice(
         $.identifier,
+        $.parameterized_identifier,
         $.field_expression,
         $.call_expression,
         $.parenthesized_expression
@@ -420,6 +444,7 @@ grammar({
     broadcast_call_expression: $ => prec(PREC.call, seq(
       choice(
         $.identifier,
+        $.parameterized_identifier,
         $.field_expression,
         $.call_expression
       ),
@@ -440,10 +465,13 @@ grammar({
 
     argument_list: $ => seq(
       '(',
-      sep(',', choice($._expression, $.named_field)),
+      sep(',', choice(
+        $._expression,
+        alias($.named_field, $.named_argument)
+      )),
       optional(seq(
         ';',
-        sep1(',', $.named_field)
+        sep1(',', alias($.named_field, $.named_argument))
       )),
       ')'
     ),
@@ -634,6 +662,11 @@ grammar({
       $._expression
     )),
 
+    interpolation_expression: $ => prec.left(PREC.colon_quote, seq(
+      '$',
+      $._expression
+    )),
+
     // Tokens
 
     macro_identifier: $ => seq('@', $.identifier),
@@ -664,9 +697,9 @@ grammar({
         .replace(/\\/g, '\\\\')
         .replace(/!/g, '');
 
-      // First char: ASCII letter, Greek letter, or Extended Latin letter
+      // First char: ASCII letter, Greek letter, Extended Latin letter, or ∇
       // Remaining characters: not delimiter, not operator
-      return new RegExp(`[a-zA-ZͰ-ϿĀ-ſ][^\\s\\.\\-\\[\\]${operatorCharacters}]*`)
+      return new RegExp(`[_a-zA-ZͰ-ϿĀ-ſ∇][^\\s\\.\\-\\[\\]${operatorCharacters}]*`)
     },
 
     number: $ => {
