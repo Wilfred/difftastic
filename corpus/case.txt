@@ -14,7 +14,7 @@ update msg =
     (function_declaration_left (lower_case_identifier) (lower_pattern (lower_case_identifier)))
     (eq)
     (case_of_expr (case) (value_expr (value_qid (lower_case_identifier))) (of)
-      (virtual_open_section)
+      
         (case_of_branch
             (pattern (union_pattern (upper_case_qid (upper_case_identifier))))
             (arrow)
@@ -22,7 +22,7 @@ update msg =
         )
     )
   )
-  (virtual_end_decl)
+  
 )
 
 
@@ -46,15 +46,15 @@ update msg model =
     (function_declaration_left (lower_case_identifier) (lower_pattern (lower_case_identifier)) (lower_pattern (lower_case_identifier)))
     (eq)
     (case_of_expr (case) (value_expr (value_qid (lower_case_identifier))) (of)
-      (virtual_open_section)
+      
         (case_of_branch (pattern (union_pattern (upper_case_qid (upper_case_identifier)))) (arrow)
                 (bin_op_expr (value_expr (value_qid (lower_case_identifier))) (operator (operator_identifier)) (number_constant_expr (number_literal))))
-        (virtual_end_decl)
+        
         (case_of_branch (pattern (union_pattern (upper_case_qid (upper_case_identifier)))) (arrow)
                 (bin_op_expr (value_expr (value_qid (lower_case_identifier))) (operator (operator_identifier)) (number_constant_expr (number_literal))))
     )
   )
-  (virtual_end_decl)
+  
 )
 
 =====================================
@@ -84,7 +84,7 @@ enum =
                 (case)
                 (value_expr (value_qid (lower_case_identifier)))
                 (of)
-                (virtual_open_section)
+                
                 (case_of_branch
                     (pattern
                         (list_pattern
@@ -100,7 +100,7 @@ enum =
                         (value_expr (value_qid (lower_case_identifier)))
                     )
                 )
-                (virtual_end_decl)
+                
                 (case_of_branch
                     (pattern (anything_pattern (underscore)))
                     (arrow)
@@ -109,7 +109,7 @@ enum =
             )
         )
     )
-    (virtual_end_decl)
+    
 )
 
 
@@ -146,7 +146,7 @@ src (Avatar maybeUrl)=
             )
         )
     )
-    (virtual_end_decl)
+    
     (value_declaration
         (function_declaration_left
             (lower_case_identifier)
@@ -164,7 +164,7 @@ src (Avatar maybeUrl)=
             (case)
             (value_expr (value_qid (lower_case_identifier)))
             (of)
-            (virtual_open_section)
+            
             (case_of_branch
                 (pattern (union_pattern (upper_case_qid (upper_case_identifier))))
                 (arrow)
@@ -173,7 +173,7 @@ src (Avatar maybeUrl)=
                     (value_expr (value_qid (upper_case_identifier) (dot) (lower_case_identifier)))
                 )
             )
-            (virtual_end_decl)
+            
             (case_of_branch
                 (pattern
                     (union_pattern
@@ -187,7 +187,7 @@ src (Avatar maybeUrl)=
                     (value_expr (value_qid (upper_case_identifier) (dot) (lower_case_identifier)))
                 )
             )
-            (virtual_end_decl)
+            
             (case_of_branch
                 (pattern
                     (union_pattern
@@ -211,7 +211,7 @@ src (Avatar maybeUrl)=
             )
         )
     )
-    (virtual_end_decl)
+    
 )
 
 
@@ -259,13 +259,13 @@ map4 func ma mb mc md =
             (case)
             (value_expr (value_qid (lower_case_identifier)))
             (of)
-            (virtual_open_section)
+            
             (case_of_branch
                 (pattern (union_pattern (upper_case_qid (upper_case_identifier))))
                 (arrow)
                 (value_expr (upper_case_qid (upper_case_identifier)))
             )
-            (virtual_end_decl)
+            
             (case_of_branch
                 (pattern (union_pattern (upper_case_qid (upper_case_identifier)) (lower_pattern (lower_case_identifier))))
                 (arrow)
@@ -273,25 +273,25 @@ map4 func ma mb mc md =
                     (case)
                     (value_expr (value_qid (lower_case_identifier)))
                     (of)
-                    (virtual_open_section)
+                    
                     (case_of_branch
                         (pattern (union_pattern (upper_case_qid (upper_case_identifier))))
                         (arrow)
                         (value_expr (upper_case_qid (upper_case_identifier)))
                     )
-                    (virtual_end_decl)
+                    
                     (case_of_branch
                         (pattern (union_pattern (upper_case_qid (upper_case_identifier)) (lower_pattern (lower_case_identifier))))
                         (arrow)
                         (value_expr (value_qid (lower_case_identifier)))
                     )
-                    (virtual_end_section)
+                    
                 )
             )
-            (virtual_end_section)
+            
         )
     )
-    (virtual_end_decl)
+    
     (value_declaration
         (function_declaration_left
             (lower_case_identifier)
@@ -306,13 +306,13 @@ map4 func ma mb mc md =
             (case)
             (value_expr (value_qid (lower_case_identifier)))
             (of)
-            (virtual_open_section)
+            
             (case_of_branch
                 (pattern (union_pattern (upper_case_qid (upper_case_identifier))))
                 (arrow)
                 (value_expr (upper_case_qid (upper_case_identifier)))
             )
-            (virtual_end_decl)
+            
             (case_of_branch
                 (pattern (union_pattern (upper_case_qid (upper_case_identifier)) (lower_pattern (lower_case_identifier))))
                 (arrow)
@@ -320,7 +320,7 @@ map4 func ma mb mc md =
             )
         )
     )
-    (virtual_end_decl)
+    
 )
 
 =====================================
@@ -350,7 +350,7 @@ toIntResult s =
                 (value_expr (value_qid (lower_case_identifier)))
             )
             (of)
-            (virtual_open_section)
+            
             (case_of_branch
                 (pattern
                     (union_pattern
@@ -364,7 +364,7 @@ toIntResult s =
                     (value_expr (value_qid (lower_case_identifier)))
                 )
             )
-            (virtual_end_decl)
+            
             (case_of_branch
                 (pattern
                     (union_pattern (upper_case_qid (upper_case_identifier))))
@@ -381,5 +381,5 @@ toIntResult s =
             )
         )
     )
-    (virtual_end_decl)
+    
 )

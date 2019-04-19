@@ -16,7 +16,7 @@
                 },
                 {
                   "type": "SYMBOL",
-                  "name": "virtual_end_decl"
+                  "name": "_virtual_end_decl"
                 }
               ]
             },
@@ -129,7 +129,7 @@
           },
           {
             "type": "SYMBOL",
-            "name": "virtual_end_decl"
+            "name": "_virtual_end_decl"
           }
         ]
       }
@@ -145,7 +145,7 @@
           },
           {
             "type": "SYMBOL",
-            "name": "virtual_end_decl"
+            "name": "_virtual_end_decl"
           }
         ]
       }
@@ -1793,7 +1793,7 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "virtual_open_section"
+          "name": "_virtual_open_section"
         },
         {
           "type": "SYMBOL",
@@ -1816,7 +1816,7 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "virtual_end_section"
+              "name": "_virtual_end_section"
             },
             {
               "type": "BLANK"
@@ -1835,7 +1835,7 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "virtual_end_decl"
+              "name": "_virtual_end_decl"
             },
             {
               "type": "SYMBOL",
@@ -1880,7 +1880,7 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "virtual_open_section"
+          "name": "_virtual_open_section"
         },
         {
           "type": "SYMBOL",
@@ -1900,7 +1900,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "virtual_end_section"
+          "name": "_virtual_end_section"
         },
         {
           "type": "SYMBOL",
@@ -1932,7 +1932,7 @@
         "members": [
           {
             "type": "SYMBOL",
-            "name": "virtual_end_decl"
+            "name": "_virtual_end_decl"
           },
           {
             "type": "SYMBOL",
@@ -2642,15 +2642,15 @@
   "externals": [
     {
       "type": "SYMBOL",
-      "name": "virtual_end_decl"
+      "name": "_virtual_end_decl"
     },
     {
       "type": "SYMBOL",
-      "name": "virtual_open_section"
+      "name": "_virtual_open_section"
     },
     {
       "type": "SYMBOL",
-      "name": "virtual_end_section"
+      "name": "_virtual_end_section"
     },
     {
       "type": "SYMBOL",

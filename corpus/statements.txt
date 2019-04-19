@@ -19,7 +19,7 @@ main =
         )
     )
   )
-  (virtual_end_decl)
+  
 )
 
 =====================================
@@ -51,5 +51,5 @@ view model =
     (right_square_bracket))
     )
   )
-  (virtual_end_decl)
+  
 )

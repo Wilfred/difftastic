@@ -42,7 +42,7 @@ onAnimationFrame =
             )
         )
     )
-    (virtual_end_decl)
+    
     (value_declaration
         (function_declaration_left
             (lower_case_identifier)
@@ -50,7 +50,7 @@ onAnimationFrame =
         (eq)
         (value_expr (value_qid (upper_case_identifier) (dot) (lower_case_identifier)))
     )
-    (virtual_end_decl)
+    
 )
 
 =====================================
@@ -108,9 +108,9 @@ view model =
             (right_parenthesis)
         )
     )
-    (virtual_end_decl)
+    
     (import_clause (import) (upper_case_qid (upper_case_identifier)))
-    (virtual_end_decl)
+    
     (import_clause (import) (upper_case_qid (upper_case_identifier))
         (exposing_list
             (exposing)
@@ -125,7 +125,7 @@ view model =
             (right_parenthesis)
         )
     )
-    (virtual_end_decl)
+    
     (import_clause (import) (upper_case_qid (upper_case_identifier) (dot) (upper_case_identifier))
         (exposing_list
             (exposing)
@@ -134,7 +134,7 @@ view model =
             (right_parenthesis)
         )
     )
-    (virtual_end_decl)
+    
     (value_declaration
         (function_declaration_left (lower_case_identifier))
         (eq)
@@ -159,9 +159,9 @@ view model =
             )
         )
     )
-    (virtual_end_decl)
+    
     (type_declaration (type) (upper_case_identifier) (eq) (union_variant (upper_case_identifier)) (pipe) (union_variant (upper_case_identifier)))
-    (virtual_end_decl)
+    
     (value_declaration
         (function_declaration_left
             (lower_case_identifier)
@@ -173,22 +173,22 @@ view model =
             (case)
             (value_expr (value_qid (lower_case_identifier)))
             (of)
-            (virtual_open_section)
+            
             (case_of_branch
                 (pattern (union_pattern (upper_case_qid (upper_case_identifier))))
                 (arrow)
                 (bin_op_expr (value_expr (value_qid (lower_case_identifier))) (operator (operator_identifier)) (number_constant_expr (number_literal)))
             )
-            (virtual_end_decl)
+            
             (case_of_branch
                 (pattern (union_pattern (upper_case_qid (upper_case_identifier))))
                 (arrow)
                 (bin_op_expr (value_expr (value_qid (lower_case_identifier))) (operator (operator_identifier)) (number_constant_expr (number_literal)))
             )
-            (virtual_end_section)
+            
         )
     )
-    (virtual_end_decl)
+    
     (value_declaration
         (function_declaration_left
             (lower_case_identifier)
@@ -254,5 +254,5 @@ view model =
             )
         )
     )
-    (virtual_end_decl)
+    
 )

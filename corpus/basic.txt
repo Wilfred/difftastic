@@ -30,7 +30,7 @@ getFirstMatch state =
                                 (field_access_segment (dot) (lower_case_identifier))
                         )
                         (of)
-                        (virtual_open_section)
+                        
                         (case_of_branch
                                 (pattern
                                         (list_pattern
@@ -53,7 +53,7 @@ getFirstMatch state =
                                         )
                                 )
                         )
-                        (virtual_end_decl)
+                        
                         (case_of_branch
                                 (pattern
                                         (list_pattern
@@ -78,7 +78,7 @@ getFirstMatch state =
                                         )
                                 )
                         )
-                        (virtual_end_decl)
+                        
                         (case_of_branch
                                 (pattern (anything_pattern (underscore)))
                                 (arrow)
@@ -89,7 +89,7 @@ getFirstMatch state =
                         )
                 )
         )
-        (virtual_end_decl)
+        
 )
 =====================================
 Negate
@@ -111,7 +111,7 @@ negate n =
                         (value_expr (value_qid (lower_case_identifier)))
                 )
         )
-        (virtual_end_decl)
+        
 )
 
 
@@ -144,7 +144,7 @@ xsOpp =
                         (number_constant_expr (number_literal))
                 )
         )
-        (virtual_end_decl)
+        
 )
 
 =====================================
@@ -164,7 +164,7 @@ charTest =
                 (eq)
                 (char_constant_expr (open_char) (string_escape) (close_char))
         )
-        (virtual_end_decl)
+        
 )
 =====================================
 Chars
@@ -242,7 +242,7 @@ dec =
                         (char_constant_expr (open_char) (regular_string_part) (close_char))
                         (right_square_bracket))
                 )
-        (virtual_end_decl)
+        
         (value_declaration
                 (function_declaration_left (lower_case_identifier))
                 (eq)
@@ -302,7 +302,7 @@ dec =
                         (right_square_bracket)
                 )
         )
-        (virtual_end_decl)
+        
         (value_declaration
                 (function_declaration_left (lower_case_identifier))
                 (eq)
@@ -330,7 +330,7 @@ dec =
                         (right_square_bracket)
                 )
         )
-        (virtual_end_decl)
+        
 )
 
 =====================================
@@ -367,35 +367,35 @@ string8 =
         (eq)
         (string_constant_expr (open_quote) (close_quote))
         )
-        (virtual_end_decl)
+        
   (value_declaration
         (function_declaration_left
                 (lower_case_identifier))
         (eq)
         (string_constant_expr (open_quote) (regular_string_part) (close_quote))
         )
-        (virtual_end_decl)
+        
   (value_declaration
         (function_declaration_left
                 (lower_case_identifier))
         (eq)
         (string_constant_expr (open_quote) (regular_string_part) (close_quote))
         )
-        (virtual_end_decl)
+        
   (value_declaration
         (function_declaration_left
                 (lower_case_identifier))
         (eq)
         (string_constant_expr (open_quote) (regular_string_part) (close_quote))
         )
-        (virtual_end_decl)
+        
   (value_declaration
         (function_declaration_left
                 (lower_case_identifier))
         (eq)
         (string_constant_expr (open_quote) (regular_string_part) (close_quote))
         )
-        (virtual_end_decl)
+        
   (value_declaration 
         (function_declaration_left 
                 (lower_case_identifier)
@@ -407,7 +407,7 @@ string8 =
                 (close_quote)
         )
   ) 
-  (virtual_end_decl) 
+   
   (value_declaration 
         (function_declaration_left 
                 (lower_case_identifier)
@@ -418,7 +418,7 @@ string8 =
                 (regular_string_part) 
                 (close_quote)
         ))
-  (virtual_end_decl)
+  
 )
 
 =====================================
@@ -480,13 +480,13 @@ json =
                 (eq) 
                 (string_constant_expr (open_quote) (regular_string_part) (close_quote))
         ) 
-        (virtual_end_decl) 
+         
         (value_declaration 
                 (function_declaration_left (lower_case_identifier)) 
                 (eq) 
                 (string_constant_expr (open_quote) (close_quote))
         ) 
-        (virtual_end_decl) 
+         
         (value_declaration 
                 (function_declaration_left (lower_case_identifier)) 
                 (eq) 
@@ -497,7 +497,7 @@ json =
                         (close_quote)
                 )
         ) 
-        (virtual_end_decl) 
+         
         (value_declaration 
                 (function_declaration_left (lower_case_identifier)) 
                 (eq) 
@@ -507,7 +507,7 @@ json =
                         (close_quote)
                 )
         ) 
-        (virtual_end_decl) 
+         
         (value_declaration 
                 (function_declaration_left (lower_case_identifier)) 
                 (eq) 
@@ -517,7 +517,7 @@ json =
                         (close_quote)
                 )
         ) 
-        (virtual_end_decl)
+        
         (value_declaration 
                 (function_declaration_left (lower_case_identifier)) 
                 (eq)
@@ -602,7 +602,7 @@ json =
                         )
                 )
         ) 
-        (virtual_end_decl)
+        
 )
 
 
@@ -631,25 +631,25 @@ eNumber =
         (eq)
         (number_constant_expr (number_literal))
   )
-  (virtual_end_decl)
+  
   (value_declaration
         (function_declaration_left (lower_case_identifier))
         (eq)
         (number_constant_expr (number_literal))
   )
-  (virtual_end_decl)
+  
   (value_declaration
         (function_declaration_left (lower_case_identifier))
         (eq)
         (number_constant_expr (number_literal))
   )
-  (virtual_end_decl)
+  
   (value_declaration
         (function_declaration_left (lower_case_identifier))
         (eq)
         (number_constant_expr (number_literal))
   )
-  (virtual_end_decl)
+  
 )
 
 =====================================
@@ -670,13 +670,13 @@ tuple4 =
 (file
   (value_declaration (function_declaration_left (lower_case_identifier)) (eq)
             (unit_expr (left_parenthesis) (right_parenthesis)))
-  (virtual_end_decl)
+  
   (value_declaration (function_declaration_left (lower_case_identifier)) (eq)
             (tuple_expr (left_parenthesis) (number_constant_expr (number_literal)) (comma) (number_constant_expr (number_literal)) (right_parenthesis)))
-  (virtual_end_decl)
+  
   (value_declaration (function_declaration_left (lower_case_identifier)) (eq)
             (tuple_expr (left_parenthesis) (number_constant_expr (number_literal)) (comma) (number_constant_expr (number_literal)) (right_parenthesis)))
-  (virtual_end_decl)
+  
   (value_declaration (function_declaration_left (lower_case_identifier)) (eq)
             (tuple_expr
                 (left_parenthesis)
@@ -686,7 +686,7 @@ tuple4 =
                 (right_parenthesis)
             )
   )
-  (virtual_end_decl)
+  
 )
 
 =====================================
@@ -725,7 +725,7 @@ infix right 9 (>>) = composeR
                 (right_parenthesis)
                 (eq)
                 (value_expr (value_qid (lower_case_identifier))))
-        (virtual_end_decl)
+        
         (infix_declaration
                 (infix)
                 (lower_case_identifier)
@@ -735,7 +735,7 @@ infix right 9 (>>) = composeR
                 (right_parenthesis)
                 (eq)
                 (value_expr (value_qid (lower_case_identifier))))
-        (virtual_end_decl)
+        
         (infix_declaration
                 (infix)
                 (lower_case_identifier)
@@ -745,7 +745,7 @@ infix right 9 (>>) = composeR
                 (right_parenthesis)
                 (eq)
                 (value_expr (value_qid (lower_case_identifier))))
-        (virtual_end_decl)
+        
         (infix_declaration
                 (infix)
                 (lower_case_identifier)
@@ -755,7 +755,7 @@ infix right 9 (>>) = composeR
                 (right_parenthesis)
                 (eq)
                 (value_expr (value_qid (lower_case_identifier))))
-        (virtual_end_decl)
+        
         (infix_declaration
                 (infix)
                 (lower_case_identifier)
@@ -765,7 +765,7 @@ infix right 9 (>>) = composeR
                 (right_parenthesis)
                 (eq)
                 (value_expr (value_qid (lower_case_identifier))))
-        (virtual_end_decl)
+        
         (infix_declaration
                 (infix)
                 (lower_case_identifier)
@@ -775,7 +775,7 @@ infix right 9 (>>) = composeR
                 (right_parenthesis)
                 (eq)
                 (value_expr (value_qid (lower_case_identifier))))
-        (virtual_end_decl)
+        
         (infix_declaration
                 (infix)
                 (lower_case_identifier)
@@ -785,7 +785,7 @@ infix right 9 (>>) = composeR
                 (right_parenthesis)
                 (eq)
                 (value_expr (value_qid (lower_case_identifier))))
-        (virtual_end_decl)
+        
         (infix_declaration
                 (infix)
                 (lower_case_identifier)
@@ -795,7 +795,7 @@ infix right 9 (>>) = composeR
                 (right_parenthesis)
                 (eq)
                 (value_expr (value_qid (lower_case_identifier))))
-        (virtual_end_decl)
+        
         (infix_declaration
                 (infix)
                 (lower_case_identifier)
@@ -805,7 +805,7 @@ infix right 9 (>>) = composeR
                 (right_parenthesis)
                 (eq)
                 (value_expr (value_qid (lower_case_identifier))))
-        (virtual_end_decl)
+        
         (infix_declaration
                 (infix)
                 (lower_case_identifier)
@@ -815,7 +815,7 @@ infix right 9 (>>) = composeR
                 (right_parenthesis)
                 (eq)
                 (value_expr (value_qid (lower_case_identifier))))
-        (virtual_end_decl)
+        
         (infix_declaration
                 (infix)
                 (lower_case_identifier)
@@ -825,7 +825,7 @@ infix right 9 (>>) = composeR
                 (right_parenthesis)
                 (eq)
                 (value_expr (value_qid (lower_case_identifier))))
-        (virtual_end_decl)
+        
         (infix_declaration
                 (infix)
                 (lower_case_identifier)
@@ -835,7 +835,7 @@ infix right 9 (>>) = composeR
                 (right_parenthesis)
                 (eq)
                 (value_expr (value_qid (lower_case_identifier))))
-        (virtual_end_decl)
+        
         (infix_declaration
                 (infix)
                 (lower_case_identifier)
@@ -845,7 +845,7 @@ infix right 9 (>>) = composeR
                 (right_parenthesis)
                 (eq)
                 (value_expr (value_qid (lower_case_identifier))))
-        (virtual_end_decl)
+        
         (infix_declaration
                 (infix)
                 (lower_case_identifier)
@@ -855,7 +855,7 @@ infix right 9 (>>) = composeR
                 (right_parenthesis)
                 (eq)
                 (value_expr (value_qid (lower_case_identifier))))
-        (virtual_end_decl)
+        
         (infix_declaration
                 (infix)
                 (lower_case_identifier)
@@ -865,7 +865,7 @@ infix right 9 (>>) = composeR
                 (right_parenthesis)
                 (eq)
                 (value_expr (value_qid (lower_case_identifier))))
-        (virtual_end_decl)
+        
         (infix_declaration
                 (infix)
                 (lower_case_identifier)
@@ -875,7 +875,7 @@ infix right 9 (>>) = composeR
                 (right_parenthesis)
                 (eq)
                 (value_expr (value_qid (lower_case_identifier))))
-        (virtual_end_decl)
+        
         (infix_declaration
                 (infix)
                 (lower_case_identifier)
@@ -885,7 +885,7 @@ infix right 9 (>>) = composeR
                 (right_parenthesis)
                 (eq)
                 (value_expr (value_qid (lower_case_identifier))))
-        (virtual_end_decl)
+        
         (infix_declaration
                 (infix)
                 (lower_case_identifier)
@@ -895,7 +895,7 @@ infix right 9 (>>) = composeR
                 (right_parenthesis)
                 (eq)
                 (value_expr (value_qid (lower_case_identifier))))
-        (virtual_end_decl)
+        
         (infix_declaration
                 (infix)
                 (lower_case_identifier)
@@ -905,7 +905,7 @@ infix right 9 (>>) = composeR
                 (right_parenthesis)
                 (eq)
                 (value_expr (value_qid (lower_case_identifier))))
-        (virtual_end_decl)
+        
 )
 
 =====================================
@@ -934,7 +934,7 @@ isUpper char =
                         (type_ref (upper_case_qid (upper_case_identifier)))
                 )
         )
-        (virtual_end_decl)
+        
         (value_declaration
                 (function_declaration_left
                         (lower_case_identifier)
@@ -943,14 +943,14 @@ isUpper char =
                 (eq)
                 (let_in_expr
                         (let)
-                        (virtual_open_section)
+                        
                         (value_declaration
                                 (function_declaration_left (lower_case_identifier))
                                 (eq)
                                 (function_call_expr (value_expr (value_qid (lower_case_identifier)))
                                 (value_expr (value_qid (lower_case_identifier))))
                         )
-                        (virtual_end_section)
+                        
                         (in)
                         (bin_op_expr
                                 (value_expr (value_qid (lower_case_identifier)))
@@ -963,7 +963,7 @@ isUpper char =
                         )
                 )
         )
-        (virtual_end_decl)
+        
 )
 
 =====================================
@@ -997,6 +997,6 @@ abs n =
                         (value_expr (value_qid (lower_case_identifier)))
                 )
         )
-        (virtual_end_decl)
+        
 )
 
