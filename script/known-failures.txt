@@ -5,7 +5,6 @@ examples/Flux.jl/src/layers/basic.jl
 examples/Flux.jl/src/layers/normalise.jl
 examples/Flux.jl/src/layers/recurrent.jl
 examples/Flux.jl/src/layers/stateless.jl
-examples/Flux.jl/src/optimise/train.jl
 examples/Flux.jl/src/optimise/optimisers.jl
 examples/Flux.jl/src/utils.jl
 examples/Flux.jl/src/cuda/cudnn.jl
@@ -44,7 +43,6 @@ examples/Gadfly.jl/test/testscripts/unitful_geoms.jl
 examples/Gadfly.jl/test/testscripts/hstack.jl
 examples/Gadfly.jl/test/testscripts/histogram_limits.jl
 examples/Gadfly.jl/test/testscripts/subplot_grid.jl
-examples/Gadfly.jl/test/testscripts/issue120.jl
 examples/Gadfly.jl/test/testscripts/subplot_grid_free_y_2.jl
 examples/Gadfly.jl/test/testscripts/timeseries_year_1.jl
 examples/Gadfly.jl/test/testscripts/contour_matrix.jl
@@ -145,7 +143,6 @@ examples/Mocha.jl/examples/mnist/mnist-demo.jl
 examples/Mocha.jl/examples/mnist/mnist-VAE.jl
 examples/Mocha.jl/examples/test-wasserstein.jl
 examples/Mocha.jl/examples/test.jl
-examples/Mocha.jl/examples/unsupervised-pretrain/denoising-autoencoder/denoising-autoencoder.jl
 examples/Mocha.jl/examples/unsupervised-pretrain/denoising-autoencoder/plot-all.jl
 examples/Mocha.jl/examples/test-gradients.jl
 examples/Mocha.jl/examples/cifar10/cifar10.jl
