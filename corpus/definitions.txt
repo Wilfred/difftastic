@@ -123,3 +123,41 @@ end
         (optional_parameter
           (typed_parameter (identifier) (identifier))
           (number))))))
+
+============================
+Macro definitions
+======================
+
+macro treelike(T, fs = nothing)
+  fs = [:($(map(QuoteNode, fs.args)...),)]
+  :(treelike(@__MODULE__, $(esc(T)), $(fs...)))
+end
+
+---
+
+(source_file
+  (macro_definition
+    (identifier)
+    (parameter_list (identifier) (optional_parameter (identifier) (identifier)))
+    (assignment_expression
+      (identifier)
+      (array_expression
+        (quote_expression
+          (tuple_expression
+            (interpolation_expression
+              (parenthesized_expression (spread_expression
+                (call_expression
+                  (identifier)
+                  (argument_list
+                    (identifier)
+                    (field_expression (identifier) (identifier)))))))))))
+    (quote_expression
+      (parenthesized_expression
+        (call_expression
+          (identifier)
+          (argument_list
+            (macro_expression (macro_identifier (identifier)))
+            (interpolation_expression (parenthesized_expression
+              (call_expression (identifier) (argument_list (identifier)))))
+            (interpolation_expression (parenthesized_expression
+              (spread_expression (identifier))))))))))

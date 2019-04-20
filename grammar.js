@@ -117,7 +117,8 @@ grammar({
     _definition: $ => choice(
       $.struct_definition,
       $.module_definition,
-      $.function_definition
+      $.function_definition,
+      $.macro_definition
     ),
 
     function_definition: $ => seq(
@@ -142,6 +143,14 @@ grammar({
     module_definition: $ => seq(
       'module',
       $.identifier,
+      optional($._expression_list),
+      'end'
+    ),
+
+    macro_definition: $ => seq(
+      'macro',
+      $.identifier,
+      $.parameter_list,
       optional($._expression_list),
       'end'
     ),
@@ -385,7 +394,7 @@ grammar({
     operator: $ => choice(':', '+', $._plus_operator, $._times_operator, $._power_operator),
 
     parenthesized_expression: $ => prec(1, seq(
-      '(', $._expression_list, ')'
+      '(', choice($._expression_list, $.spread_expression), ')'
     )),
 
     field_expression: $ => prec(PREC.dot, seq(
@@ -465,13 +474,13 @@ grammar({
       optional($.do_clause)
     )),
 
-    macro_expression: $ => seq(
+    macro_expression: $ => prec.right(seq(
       $.macro_identifier,
-      choice(
+      optional(choice(
         seq($._immediate_paren, $.argument_list),
         $.macro_argument_list
-      )
-    ),
+      ))
+    )),
 
     macro_argument_list: $ => prec(-1, repeat1(prec(-1, $._expression))),
 
