@@ -1,6 +1,6 @@
 {
   "name": "tree-sitter-elm",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "description": "Tree sitter definitions for elm",
   "main": "index.js",
   "keywords": [
@@ -20,7 +20,7 @@
   "scripts": {
     "build": "tree-sitter generate && node-gyp build --debug",
     "install": "prebuild-install || node-gyp rebuild",
-    "prebuild": "prebuild -r electron -t 1.6.0 -t 1.7.0 -t 1.8.0 -t 2.0.0 -t 3.0.0 -t 4.0.0 --strip --verbose",
+    "prebuild": "prebuild -r electron --all --strip --verbose",
     "prebuild:upload": "prebuild --upload-all",
     "parse-basic": "tree-sitter parse ./examples/Basic.elm",
     "parse-test": "tree-sitter parse --debug ./examples/test.elm",
