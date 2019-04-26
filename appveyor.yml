@@ -1,0 +1,18 @@
+branches:
+  only:
+  - master
+skip_non_tags: true
+platform:
+- x86
+- x64
+environment:
+  NODEJS_VERSION: "8"
+install:
+- ps: Install-Product node $env:NODEJS_VERSION $env:Platform
+- node --version
+- npm --version
+- npm install
+build: off
+test_script:
+- npm run test
+deploy_script: npm run prebuild && npm run prebuild:upload -u %PREBUILD_UPLOAD%
