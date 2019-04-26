@@ -26,5 +26,9 @@
   "devDependencies": {
     "prebuild": "^8.2.1",
     "tree-sitter-cli": "^0.14.6"
+  },
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/PrestonKnopp/tree-sitter-godot-resource.git"
   }
 }
