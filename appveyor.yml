@@ -1,7 +1,7 @@
 image: Visual Studio 2015
 
 environment:
-  NODEJS_VERSION: "8"
+  NODEJS_VERSION: "10"
   PREBUILD_UPLOAD:
     secure: /JesINEpGYP12bsjCPZEozyGOBGXj48nVKYqcS7kHO+aiL8+R/ko8vmh3mo5aQvw
 
