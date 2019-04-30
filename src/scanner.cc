@@ -230,10 +230,10 @@ struct Scanner
         // Are we at the end of a let (in) declaration
         if (valid_symbols[VIRTUAL_END_SECTION] && isElmSpace(lexer))
         {
-            lexer->mark_end(lexer);
             skip(lexer);
             if (lexer->lookahead == 'i')
             {
+                lexer->mark_end(lexer);
                 skip(lexer);
 
                 if (lexer->lookahead == 'n')
