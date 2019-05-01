@@ -16,7 +16,7 @@
   "devDependencies": {
     "nodemon": "^1.18.3",
     "prebuild": "^7.6.1",
-    "tree-sitter-cli": "^0.14.5"
+    "tree-sitter-cli": "^0.14.7"
   },
   "scripts": {
     "build": "tree-sitter generate && node-gyp build",
