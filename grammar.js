@@ -531,7 +531,13 @@ module.exports = grammar({
     )),
 
     assignment_expression: $ => prec.right(PREC.ASSIGNMENT, seq(
-      $._expression,
+      choice(
+        $.identifier,
+        $.call_expression,
+        $.field_expression,
+        $.pointer_expression,
+        $.subscript_expression
+      ),
       choice(
         '=',
         '*=',
@@ -551,7 +557,7 @@ module.exports = grammar({
     pointer_expression: $ => choice(
       prec.left(PREC.UNARY, seq('*', $._expression)),
       prec.left(PREC.UNARY, seq('&', $._expression))
-    ),
+      ),
 
     logical_expression: $ => choice(
       prec.left(PREC.LOGICAL_OR, seq($._expression, '||', $._expression)),
