@@ -22,8 +22,9 @@ module.exports = grammar(C, {
     [$.scoped_type_identifier, $.scoped_field_identifier],
     [$.comma_expression, $.initializer_list],
     [$._type_specifier, $.optional_type_parameter_declaration],
-    [$._type_specifier, $._declarator, $._expression],
-    [$._declarator, $._expression],
+    [$._expression, $._declarator],
+    [$._expression, $.structured_binding_declarator],
+    [$._expression, $._declarator, $._type_specifier],
     [$.parameter_list, $.argument_list],
   ]),
 
@@ -40,7 +41,7 @@ module.exports = grammar(C, {
       $.alias_declaration,
       $.template_declaration,
       $.template_instantiation,
-      $.structured_binding_declaration,
+      // $.structured_binding_declaration,
       alias($.constructor_or_destructor_definition, $.function_definition)
     ),
 
@@ -149,19 +150,19 @@ module.exports = grammar(C, {
       original
     ),
 
-    structured_binding_declaration: $ => seq(
-      $._declaration_specifiers,
-      choice(
-        alias($.structured_binding_reference_declarator, $.reference_declarator),
-        $.structured_binding_declarator,
-      ),
-      choice(
-        seq('=', choice($.initializer_list, $._expression)),
-        $.initializer_list,
-        $.argument_list
-      ),
-      ';'
-    ),
+    // structured_binding_declaration: $ => seq(
+    //   $._declaration_specifiers,
+    //   choice(
+    //     alias($.structured_binding_reference_declarator, $.reference_declarator),
+    //     $.structured_binding_declarator,
+    //   ),
+    //   choice(
+    //     seq('=', choice($.initializer_list, $._expression)),
+    //     $.initializer_list,
+    //     $.argument_list
+    //   ),
+    //   ';'
+    // ),
 
     template_declaration: $ => seq(
       'template',
@@ -361,8 +362,15 @@ module.exports = grammar(C, {
       $.scoped_identifier,
       $.template_function,
       $.operator_name,
-      $.destructor_name
+      $.destructor_name,
+      $.structured_binding_declarator
     ),
+
+    // structured_declarator: $ => seq(
+    //   '[',
+    //   commaSep1($.identifier),
+    //   ']'
+    // ),
 
     _field_declarator: ($, original) => choice(
       original,
@@ -380,7 +388,7 @@ module.exports = grammar(C, {
     reference_field_declarator: $ => prec.dynamic(1, prec.right(seq(choice('&', '&&'), $._field_declarator))),
     abstract_reference_declarator: $ => prec.right(seq(choice('&', '&&'), optional($._abstract_declarator))),
 
-    structured_binding_reference_declarator: $ => seq(choice('&', '&&'), $.structured_binding_declarator),
+    // structured_binding_reference_declarator: $ => seq(choice('&', '&&'), $.structured_binding_declarator),
     structured_binding_declarator: $ => seq('[', commaSep1($.identifier), ']'),
 
     function_declarator: ($, original) => seq(

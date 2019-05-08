@@ -86,10 +86,6 @@
           "name": "template_instantiation"
         },
         {
-          "type": "SYMBOL",
-          "name": "structured_binding_declaration"
-        },
-        {
           "type": "ALIAS",
           "content": {
             "type": "SYMBOL",
@@ -1022,6 +1018,10 @@
         {
           "type": "SYMBOL",
           "name": "destructor_name"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "structured_binding_declarator"
         }
       ]
     },
@@ -5316,72 +5316,6 @@
         ]
       }
     },
-    "structured_binding_declaration": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "_declaration_specifiers"
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "ALIAS",
-              "content": {
-                "type": "SYMBOL",
-                "name": "structured_binding_reference_declarator"
-              },
-              "named": true,
-              "value": "reference_declarator"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "structured_binding_declarator"
-            }
-          ]
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "STRING",
-                  "value": "="
-                },
-                {
-                  "type": "CHOICE",
-                  "members": [
-                    {
-                      "type": "SYMBOL",
-                      "name": "initializer_list"
-                    },
-                    {
-                      "type": "SYMBOL",
-                      "name": "_expression"
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "type": "SYMBOL",
-              "name": "initializer_list"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "argument_list"
-            }
-          ]
-        },
-        {
-          "type": "STRING",
-          "value": ";"
-        }
-      ]
-    },
     "template_declaration": {
       "type": "SEQ",
       "members": [
@@ -6087,28 +6021,6 @@
           }
         ]
       }
-    },
-    "structured_binding_reference_declarator": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "STRING",
-              "value": "&"
-            },
-            {
-              "type": "STRING",
-              "value": "&&"
-            }
-          ]
-        },
-        {
-          "type": "SYMBOL",
-          "name": "structured_binding_declarator"
-        }
-      ]
     },
     "structured_binding_declarator": {
       "type": "SEQ",
@@ -7239,13 +7151,17 @@
       "optional_type_parameter_declaration"
     ],
     [
-      "_type_specifier",
-      "_declarator",
-      "_expression"
+      "_expression",
+      "_declarator"
     ],
     [
+      "_expression",
+      "structured_binding_declarator"
+    ],
+    [
+      "_expression",
       "_declarator",
-      "_expression"
+      "_type_specifier"
     ],
     [
       "parameter_list",
