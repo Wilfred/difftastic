@@ -280,3 +280,36 @@ const char *s2 = R"FOO(
     (init_declarator
       (pointer_declarator (identifier))
       (raw_string_literal))))
+
+====================================================
+Template calls
+====================================================
+
+int main() {
+  // '<' and '>' as template argument list delimiters
+  if (a<b && c>()) {}
+
+  // '<' and '>' as binary operators
+  if (a < b && c >= d) {}
+}
+---
+
+(translation_unit
+  (function_definition
+  (primitive_type)
+  (function_declarator (identifier) (parameter_list))
+  (compound_statement
+    (comment)
+    (if_statement
+      (call_expression
+        (template_function
+          (identifier)
+          (template_argument_list (logical_expression (identifier) (identifier))))
+        (argument_list))
+      (compound_statement))
+    (comment)
+    (if_statement
+      (logical_expression
+        (relational_expression (identifier) (identifier))
+        (relational_expression (identifier) (identifier)))
+      (compound_statement)))))
