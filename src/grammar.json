@@ -4809,5 +4809,10 @@
       "name": "_identifier_hash_key"
     }
   ],
-  "inline": []
+  "inline": [
+    "_formal_parameter",
+    "_simple_formal_parameter",
+    "_argument"
+  ]
 }
+
