@@ -5,12 +5,12 @@
       "property_set_id": 0,
       "transitions": [
         {
-          "type": "script_element",
+          "type": "style_element",
           "named": true,
           "state_id": 1
         },
         {
-          "type": "style_element",
+          "type": "script_element",
           "named": true,
           "state_id": 2
         }
@@ -22,12 +22,12 @@
       "property_set_id": 1,
       "transitions": [
         {
-          "type": "script_element",
+          "type": "style_element",
           "named": true,
           "state_id": 1
         },
         {
-          "type": "style_element",
+          "type": "script_element",
           "named": true,
           "state_id": 2
         }
@@ -39,12 +39,12 @@
       "property_set_id": 2,
       "transitions": [
         {
-          "type": "script_element",
+          "type": "style_element",
           "named": true,
           "state_id": 1
         },
         {
-          "type": "style_element",
+          "type": "script_element",
           "named": true,
           "state_id": 2
         }
@@ -65,7 +65,7 @@
         ],
         "name": "child"
       },
-      "injection-language": "javascript"
+      "injection-language": "css"
     },
     {
       "injection-content": {
@@ -78,7 +78,7 @@
         ],
         "name": "child"
       },
-      "injection-language": "css"
+      "injection-language": "javascript"
     }
   ]
 }

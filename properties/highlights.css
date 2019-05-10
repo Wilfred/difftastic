@@ -1,26 +1,26 @@
 @import "./injections.css";
 
 tag_name {
-  scope: 'tag';
+  highlight: 'tag';
 }
 
 /* TODO - highlight as an error? */
 erroneous_end_tag_name {
-  scope: 'tag';
+  highlight: 'tag';
 }
 
 doctype {
-  scope: 'constant';
+  highlight: 'constant';
 }
 
 attribute_name {
-  scope: 'attribute';
+  highlight: 'attribute';
 }
 
 attribute_value {
-  scope: 'string';
+  highlight: 'string';
 }
 
 comment {
-  scope: 'comment';
+  highlight: 'comment';
 }
