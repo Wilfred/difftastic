@@ -1,8 +1,6 @@
 language: node_js
 
-sudo: false
-
-node_js: node
+node_js: 10
 
 env:
   - CXX=clang++
