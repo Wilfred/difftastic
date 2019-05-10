@@ -1,19 +1,19 @@
 @schema "tree-sitter-highlight-schema";
 
 comment {
-  scope: 'comment';
+  highlight: 'comment';
 }
 
 tag_name,
 nesting_selector,
 universal_selector {
-  scope: 'tag';
+  highlight: 'tag';
 }
 
 sibling_selector > [token="~"],
 child_selector > [token=">"],
 adjacent_sibling_selector > [token="+"] {
-  scope: 'operator';
+  highlight: 'operator';
 }
 
 attribute_selector > {
@@ -23,48 +23,48 @@ attribute_selector > {
   & > [token="~="],
   & > [token="$="],
   & > [token="*="] {
-    scope: 'operator';
+    highlight: 'operator';
   }
 }
 
 attribute_selector > plain_value {
-  scope: 'string';
+  highlight: 'string';
 }
 
 pseudo_element_selector > tag_name,
 pseudo_class_selector > class_name {
-  scope: 'attribute';
+  highlight: 'attribute';
 }
 
 class_name {
-  scope: 'property';
+  highlight: 'property';
 }
 
 id_name {
-  scope: 'property';
+  highlight: 'property';
 }
 
 namespace_name {
-  scope: 'property';
+  highlight: 'property';
 }
 
 function_name {
-  scope: 'function';
+  highlight: 'function';
 }
 
 property_name,
 plain_value {
   &[text='^--'] {
-    scope: 'variable';
+    highlight: 'variable';
   }
 }
 
 property_name {
-  scope: 'property';
+  highlight: 'property';
 }
 
 attribute_name {
-  scope: 'attribute';
+  highlight: 'attribute';
 }
 
 [token="@media"],
@@ -77,54 +77,34 @@ at_keyword,
 to,
 from,
 important {
-  scope: 'keyword';
+  highlight: 'keyword';
 }
 
 string_value {
-  scope: 'string';
+  highlight: 'string';
 }
 
 color_value {
-  scope: 'string.special';
+  highlight: 'string.special';
 }
 
 integer_value,
 float_value {
-  scope: 'number';
+  highlight: 'number';
 
   & > unit {
-    scope: 'type';
+    highlight: 'type';
   }
 }
 
-/* plain_value': [
-  {match:'^(aqua|black|blue|fuchsia|gray|green|lime|maroon|navy|olive|orange|purple|red|silver|teal|white|yellow)$', scopes:'support.constant.color.w3c-standard'}
-  {match:'^(aliceblue|antiquewhite|aquamarine|azure|beige|bisque|blanchedalmond|blueviolet|brown|burlywood
-  |cadetblue|chartreuse|chocolate|coral|cornflowerblue|cornsilk|crimson|cyan|darkblue|darkcyan
-  |darkgoldenrod|darkgray|darkgreen|darkgrey|darkkhaki|darkmagenta|darkolivegreen|darkorange
-  |darkorchid|darkred|darksalmon|darkseagreen|darkslateblue|darkslategray|darkslategrey|darkturquoise
-  |darkviolet|deeppink|deepskyblue|dimgray|dimgrey|dodgerblue|firebrick|floralwhite|forestgreen
-  |gainsboro|ghostwhite|gold|goldenrod|greenyellow|grey|honeydew|hotpink|indianred|indigo|ivory|khaki
-  |lavender|lavenderblush|lawngreen|lemonchiffon|lightblue|lightcoral|lightcyan|lightgoldenrodyellow
-  |lightgray|lightgreen|lightgrey|lightpink|lightsalmon|lightseagreen|lightskyblue|lightslategray
-  |lightslategrey|lightsteelblue|lightyellow|limegreen|linen|magenta|mediumaquamarine|mediumblue
-  |mediumorchid|mediumpurple|mediumseagreen|mediumslateblue|mediumspringgreen|mediumturquoise
-  |mediumvioletred|midnightblue|mintcream|mistyrose|moccasin|navajowhite|oldlace|olivedrab|orangered
-  |orchid|palegoldenrod|palegreen|paleturquoise|palevioletred|papayawhip|peachpuff|peru|pink|plum
-  |powderblue|rebeccapurple|rosybrown|royalblue|saddlebrown|salmon|sandybrown|seagreen|seashell
-  |sienna|skyblue|slateblue|slategray|slategrey|snow|springgreen|steelblue|tan|thistle|tomato
-  |transparent|turquoise|violet|wheat|whitesmoke|yellowgreen)$', scopes: 'support.constant.color.w3c-extended'}
-  'support.constant.property-value.css'
-] */
-
 feature_name {
-  scope: 'property';
+  highlight: 'property';
 }
 
 color_value > [token="#"],
 id_selector > [token="#"],
 selectors > [token=","] {
-  scope: 'punctuation.delimiter';
+  highlight: 'punctuation.delimiter';
 }
 
 [token="and"],
@@ -136,5 +116,5 @@ binary_expression > [token="+"],
 binary_expression > [token="-"],
 binary_expression > [token="/"],
 binary_expression > [token="*"] {
-  scope: 'operator';
+  highlight: 'operator';
 }
