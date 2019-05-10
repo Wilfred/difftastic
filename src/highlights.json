@@ -5,99 +5,141 @@
       "property_set_id": 0,
       "transitions": [
         {
-          "type": "@charset",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@import",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@keyframes",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@media",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@namespace",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@supports",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "adjacent_sibling_selector",
+          "type": "plain_value",
           "named": true,
-          "state_id": 2
+          "text": "^--",
+          "state_id": 1
+        },
+        {
+          "type": "property_name",
+          "named": true,
+          "text": "^--",
+          "state_id": 1
         },
         {
           "type": "and",
           "named": false,
-          "state_id": 3
-        },
-        {
-          "type": "at_keyword",
-          "named": true,
-          "state_id": 1
-        },
-        {
-          "type": "attribute_name",
-          "named": true,
-          "state_id": 4
-        },
-        {
-          "type": "attribute_selector",
-          "named": true,
-          "state_id": 5
+          "state_id": 2
         },
         {
           "type": "binary_expression",
           "named": true,
-          "state_id": 6
+          "state_id": 3
         },
         {
-          "type": "child_selector",
+          "type": "keyword_query",
           "named": true,
-          "state_id": 7
+          "state_id": 2
         },
         {
-          "type": "class_name",
-          "named": true,
-          "state_id": 8
+          "type": "not",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "only",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "or",
+          "named": false,
+          "state_id": 2
         },
         {
           "type": "color_value",
           "named": true,
-          "state_id": 9
+          "state_id": 4
         },
         {
-          "type": "comment",
+          "type": "id_selector",
           "named": true,
-          "state_id": 10
+          "state_id": 5
+        },
+        {
+          "type": "selectors",
+          "named": true,
+          "state_id": 6
         },
         {
           "type": "feature_name",
           "named": true,
-          "state_id": 8
+          "state_id": 7
         },
         {
           "type": "float_value",
           "named": true,
-          "state_id": 11
+          "state_id": 8
+        },
+        {
+          "type": "integer_value",
+          "named": true,
+          "state_id": 8
+        },
+        {
+          "type": "string_value",
+          "named": true,
+          "state_id": 9
+        },
+        {
+          "type": "@charset",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@import",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@keyframes",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@media",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@namespace",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@supports",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "at_keyword",
+          "named": true,
+          "state_id": 10
         },
         {
           "type": "from",
           "named": true,
-          "state_id": 1
+          "state_id": 10
+        },
+        {
+          "type": "important",
+          "named": true,
+          "state_id": 10
+        },
+        {
+          "type": "to",
+          "named": true,
+          "state_id": 10
+        },
+        {
+          "type": "attribute_name",
+          "named": true,
+          "state_id": 11
+        },
+        {
+          "type": "property_name",
+          "named": true,
+          "state_id": 7
         },
         {
           "type": "function_name",
@@ -105,111 +147,69 @@
           "state_id": 12
         },
         {
-          "type": "id_name",
-          "named": true,
-          "state_id": 8
-        },
-        {
-          "type": "id_selector",
-          "named": true,
-          "state_id": 13
-        },
-        {
-          "type": "important",
-          "named": true,
-          "state_id": 1
-        },
-        {
-          "type": "integer_value",
-          "named": true,
-          "state_id": 11
-        },
-        {
-          "type": "keyword_query",
-          "named": true,
-          "state_id": 3
-        },
-        {
           "type": "namespace_name",
           "named": true,
-          "state_id": 8
+          "state_id": 7
         },
         {
-          "type": "nesting_selector",
+          "type": "id_name",
           "named": true,
-          "state_id": 14
+          "state_id": 7
         },
         {
-          "type": "not",
-          "named": false,
-          "state_id": 3
-        },
-        {
-          "type": "only",
-          "named": false,
-          "state_id": 3
-        },
-        {
-          "type": "or",
-          "named": false,
-          "state_id": 3
-        },
-        {
-          "type": "plain_value",
+          "type": "class_name",
           "named": true,
-          "text": "^--",
-          "state_id": 15
-        },
-        {
-          "type": "property_name",
-          "named": true,
-          "text": "^--",
-          "state_id": 15
-        },
-        {
-          "type": "property_name",
-          "named": true,
-          "state_id": 8
+          "state_id": 7
         },
         {
           "type": "pseudo_class_selector",
           "named": true,
-          "state_id": 16
+          "state_id": 13
         },
         {
           "type": "pseudo_element_selector",
           "named": true,
-          "state_id": 17
+          "state_id": 14
         },
         {
-          "type": "selectors",
+          "type": "attribute_selector",
           "named": true,
-          "state_id": 18
+          "state_id": 15
+        },
+        {
+          "type": "adjacent_sibling_selector",
+          "named": true,
+          "state_id": 16
+        },
+        {
+          "type": "child_selector",
+          "named": true,
+          "state_id": 17
         },
         {
           "type": "sibling_selector",
           "named": true,
-          "state_id": 19
+          "state_id": 18
         },
         {
-          "type": "string_value",
+          "type": "nesting_selector",
           "named": true,
-          "state_id": 20
+          "state_id": 19
         },
         {
           "type": "tag_name",
           "named": true,
-          "state_id": 14
-        },
-        {
-          "type": "to",
-          "named": true,
-          "state_id": 1
+          "state_id": 19
         },
         {
           "type": "universal_selector",
           "named": true,
-          "state_id": 14
+          "state_id": 19
+        },
+        {
+          "type": "comment",
+          "named": true,
+          "state_id": 20
         }
       ],
       "default_next_state_id": 0
@@ -219,99 +219,141 @@
       "property_set_id": 1,
       "transitions": [
         {
-          "type": "@charset",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@import",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@keyframes",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@media",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@namespace",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@supports",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "adjacent_sibling_selector",
+          "type": "plain_value",
           "named": true,
-          "state_id": 2
+          "text": "^--",
+          "state_id": 1
+        },
+        {
+          "type": "property_name",
+          "named": true,
+          "text": "^--",
+          "state_id": 1
         },
         {
           "type": "and",
           "named": false,
-          "state_id": 3
-        },
-        {
-          "type": "at_keyword",
-          "named": true,
-          "state_id": 1
-        },
-        {
-          "type": "attribute_name",
-          "named": true,
-          "state_id": 4
-        },
-        {
-          "type": "attribute_selector",
-          "named": true,
-          "state_id": 5
+          "state_id": 2
         },
         {
           "type": "binary_expression",
           "named": true,
-          "state_id": 6
+          "state_id": 3
         },
         {
-          "type": "child_selector",
+          "type": "keyword_query",
           "named": true,
-          "state_id": 7
+          "state_id": 2
         },
         {
-          "type": "class_name",
-          "named": true,
-          "state_id": 8
+          "type": "not",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "only",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "or",
+          "named": false,
+          "state_id": 2
         },
         {
           "type": "color_value",
           "named": true,
-          "state_id": 9
+          "state_id": 4
         },
         {
-          "type": "comment",
+          "type": "id_selector",
           "named": true,
-          "state_id": 10
+          "state_id": 5
+        },
+        {
+          "type": "selectors",
+          "named": true,
+          "state_id": 6
         },
         {
           "type": "feature_name",
           "named": true,
-          "state_id": 8
+          "state_id": 7
         },
         {
           "type": "float_value",
           "named": true,
-          "state_id": 11
+          "state_id": 8
+        },
+        {
+          "type": "integer_value",
+          "named": true,
+          "state_id": 8
+        },
+        {
+          "type": "string_value",
+          "named": true,
+          "state_id": 9
+        },
+        {
+          "type": "@charset",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@import",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@keyframes",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@media",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@namespace",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@supports",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "at_keyword",
+          "named": true,
+          "state_id": 10
         },
         {
           "type": "from",
           "named": true,
-          "state_id": 1
+          "state_id": 10
+        },
+        {
+          "type": "important",
+          "named": true,
+          "state_id": 10
+        },
+        {
+          "type": "to",
+          "named": true,
+          "state_id": 10
+        },
+        {
+          "type": "attribute_name",
+          "named": true,
+          "state_id": 11
+        },
+        {
+          "type": "property_name",
+          "named": true,
+          "state_id": 7
         },
         {
           "type": "function_name",
@@ -319,218 +361,213 @@
           "state_id": 12
         },
         {
-          "type": "id_name",
-          "named": true,
-          "state_id": 8
-        },
-        {
-          "type": "id_selector",
-          "named": true,
-          "state_id": 13
-        },
-        {
-          "type": "important",
-          "named": true,
-          "state_id": 1
-        },
-        {
-          "type": "integer_value",
-          "named": true,
-          "state_id": 11
-        },
-        {
-          "type": "keyword_query",
-          "named": true,
-          "state_id": 3
-        },
-        {
           "type": "namespace_name",
           "named": true,
-          "state_id": 8
+          "state_id": 7
         },
         {
-          "type": "nesting_selector",
+          "type": "id_name",
           "named": true,
-          "state_id": 14
+          "state_id": 7
         },
         {
-          "type": "not",
-          "named": false,
-          "state_id": 3
-        },
-        {
-          "type": "only",
-          "named": false,
-          "state_id": 3
-        },
-        {
-          "type": "or",
-          "named": false,
-          "state_id": 3
-        },
-        {
-          "type": "plain_value",
+          "type": "class_name",
           "named": true,
-          "text": "^--",
-          "state_id": 15
-        },
-        {
-          "type": "property_name",
-          "named": true,
-          "text": "^--",
-          "state_id": 15
-        },
-        {
-          "type": "property_name",
-          "named": true,
-          "state_id": 8
+          "state_id": 7
         },
         {
           "type": "pseudo_class_selector",
           "named": true,
-          "state_id": 16
+          "state_id": 13
         },
         {
           "type": "pseudo_element_selector",
           "named": true,
-          "state_id": 17
+          "state_id": 14
         },
         {
-          "type": "selectors",
+          "type": "attribute_selector",
           "named": true,
-          "state_id": 18
+          "state_id": 15
+        },
+        {
+          "type": "adjacent_sibling_selector",
+          "named": true,
+          "state_id": 16
+        },
+        {
+          "type": "child_selector",
+          "named": true,
+          "state_id": 17
         },
         {
           "type": "sibling_selector",
           "named": true,
-          "state_id": 19
+          "state_id": 18
         },
         {
-          "type": "string_value",
+          "type": "nesting_selector",
           "named": true,
-          "state_id": 20
+          "state_id": 19
         },
         {
           "type": "tag_name",
           "named": true,
-          "state_id": 14
-        },
-        {
-          "type": "to",
-          "named": true,
-          "state_id": 1
+          "state_id": 19
         },
         {
           "type": "universal_selector",
           "named": true,
-          "state_id": 14
+          "state_id": 19
+        },
+        {
+          "type": "comment",
+          "named": true,
+          "state_id": 20
         }
       ],
       "default_next_state_id": 0
     },
     {
       "id": 2,
-      "property_set_id": 0,
+      "property_set_id": 2,
       "transitions": [
         {
-          "type": "+",
-          "named": false,
-          "state_id": 3
-        },
-        {
-          "type": "@charset",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@import",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@keyframes",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@media",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@namespace",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@supports",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "adjacent_sibling_selector",
+          "type": "plain_value",
           "named": true,
-          "state_id": 2
+          "text": "^--",
+          "state_id": 1
+        },
+        {
+          "type": "property_name",
+          "named": true,
+          "text": "^--",
+          "state_id": 1
         },
         {
           "type": "and",
           "named": false,
-          "state_id": 3
-        },
-        {
-          "type": "at_keyword",
-          "named": true,
-          "state_id": 1
-        },
-        {
-          "type": "attribute_name",
-          "named": true,
-          "state_id": 4
-        },
-        {
-          "type": "attribute_selector",
-          "named": true,
-          "state_id": 5
+          "state_id": 2
         },
         {
           "type": "binary_expression",
           "named": true,
-          "state_id": 6
+          "state_id": 3
         },
         {
-          "type": "child_selector",
+          "type": "keyword_query",
           "named": true,
-          "state_id": 7
+          "state_id": 2
         },
         {
-          "type": "class_name",
-          "named": true,
-          "state_id": 8
+          "type": "not",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "only",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "or",
+          "named": false,
+          "state_id": 2
         },
         {
           "type": "color_value",
           "named": true,
-          "state_id": 9
+          "state_id": 4
         },
         {
-          "type": "comment",
+          "type": "id_selector",
           "named": true,
-          "state_id": 10
+          "state_id": 5
+        },
+        {
+          "type": "selectors",
+          "named": true,
+          "state_id": 6
         },
         {
           "type": "feature_name",
           "named": true,
-          "state_id": 8
+          "state_id": 7
         },
         {
           "type": "float_value",
           "named": true,
-          "state_id": 11
+          "state_id": 8
+        },
+        {
+          "type": "integer_value",
+          "named": true,
+          "state_id": 8
+        },
+        {
+          "type": "string_value",
+          "named": true,
+          "state_id": 9
+        },
+        {
+          "type": "@charset",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@import",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@keyframes",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@media",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@namespace",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@supports",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "at_keyword",
+          "named": true,
+          "state_id": 10
         },
         {
           "type": "from",
           "named": true,
-          "state_id": 1
+          "state_id": 10
+        },
+        {
+          "type": "important",
+          "named": true,
+          "state_id": 10
+        },
+        {
+          "type": "to",
+          "named": true,
+          "state_id": 10
+        },
+        {
+          "type": "attribute_name",
+          "named": true,
+          "state_id": 11
+        },
+        {
+          "type": "property_name",
+          "named": true,
+          "state_id": 7
         },
         {
           "type": "function_name",
@@ -538,213 +575,233 @@
           "state_id": 12
         },
         {
-          "type": "id_name",
-          "named": true,
-          "state_id": 8
-        },
-        {
-          "type": "id_selector",
-          "named": true,
-          "state_id": 13
-        },
-        {
-          "type": "important",
-          "named": true,
-          "state_id": 1
-        },
-        {
-          "type": "integer_value",
-          "named": true,
-          "state_id": 11
-        },
-        {
-          "type": "keyword_query",
-          "named": true,
-          "state_id": 3
-        },
-        {
           "type": "namespace_name",
           "named": true,
-          "state_id": 8
+          "state_id": 7
         },
         {
-          "type": "nesting_selector",
+          "type": "id_name",
           "named": true,
-          "state_id": 14
+          "state_id": 7
         },
         {
-          "type": "not",
-          "named": false,
-          "state_id": 3
-        },
-        {
-          "type": "only",
-          "named": false,
-          "state_id": 3
-        },
-        {
-          "type": "or",
-          "named": false,
-          "state_id": 3
-        },
-        {
-          "type": "plain_value",
+          "type": "class_name",
           "named": true,
-          "text": "^--",
-          "state_id": 15
-        },
-        {
-          "type": "property_name",
-          "named": true,
-          "text": "^--",
-          "state_id": 15
-        },
-        {
-          "type": "property_name",
-          "named": true,
-          "state_id": 8
+          "state_id": 7
         },
         {
           "type": "pseudo_class_selector",
           "named": true,
-          "state_id": 16
+          "state_id": 13
         },
         {
           "type": "pseudo_element_selector",
           "named": true,
-          "state_id": 17
+          "state_id": 14
         },
         {
-          "type": "selectors",
+          "type": "attribute_selector",
           "named": true,
-          "state_id": 18
+          "state_id": 15
+        },
+        {
+          "type": "adjacent_sibling_selector",
+          "named": true,
+          "state_id": 16
+        },
+        {
+          "type": "child_selector",
+          "named": true,
+          "state_id": 17
         },
         {
           "type": "sibling_selector",
           "named": true,
-          "state_id": 19
+          "state_id": 18
         },
         {
-          "type": "string_value",
+          "type": "nesting_selector",
           "named": true,
-          "state_id": 20
+          "state_id": 19
         },
         {
           "type": "tag_name",
           "named": true,
-          "state_id": 14
-        },
-        {
-          "type": "to",
-          "named": true,
-          "state_id": 1
+          "state_id": 19
         },
         {
           "type": "universal_selector",
           "named": true,
-          "state_id": 14
+          "state_id": 19
+        },
+        {
+          "type": "comment",
+          "named": true,
+          "state_id": 20
         }
       ],
       "default_next_state_id": 0
     },
     {
       "id": 3,
-      "property_set_id": 2,
+      "property_set_id": 0,
       "transitions": [
         {
-          "type": "@charset",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@import",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@keyframes",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@media",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@namespace",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@supports",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "adjacent_sibling_selector",
+          "type": "plain_value",
           "named": true,
+          "text": "^--",
+          "state_id": 1
+        },
+        {
+          "type": "property_name",
+          "named": true,
+          "text": "^--",
+          "state_id": 1
+        },
+        {
+          "type": "*",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "+",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "-",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "/",
+          "named": false,
           "state_id": 2
         },
         {
           "type": "and",
           "named": false,
-          "state_id": 3
-        },
-        {
-          "type": "at_keyword",
-          "named": true,
-          "state_id": 1
-        },
-        {
-          "type": "attribute_name",
-          "named": true,
-          "state_id": 4
-        },
-        {
-          "type": "attribute_selector",
-          "named": true,
-          "state_id": 5
+          "state_id": 2
         },
         {
           "type": "binary_expression",
           "named": true,
-          "state_id": 6
+          "state_id": 3
         },
         {
-          "type": "child_selector",
+          "type": "keyword_query",
           "named": true,
-          "state_id": 7
+          "state_id": 2
         },
         {
-          "type": "class_name",
-          "named": true,
-          "state_id": 8
+          "type": "not",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "only",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "or",
+          "named": false,
+          "state_id": 2
         },
         {
           "type": "color_value",
           "named": true,
-          "state_id": 9
+          "state_id": 4
         },
         {
-          "type": "comment",
+          "type": "id_selector",
           "named": true,
-          "state_id": 10
+          "state_id": 5
+        },
+        {
+          "type": "selectors",
+          "named": true,
+          "state_id": 6
         },
         {
           "type": "feature_name",
           "named": true,
-          "state_id": 8
+          "state_id": 7
         },
         {
           "type": "float_value",
           "named": true,
-          "state_id": 11
+          "state_id": 8
+        },
+        {
+          "type": "integer_value",
+          "named": true,
+          "state_id": 8
+        },
+        {
+          "type": "string_value",
+          "named": true,
+          "state_id": 9
+        },
+        {
+          "type": "@charset",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@import",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@keyframes",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@media",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@namespace",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@supports",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "at_keyword",
+          "named": true,
+          "state_id": 10
         },
         {
           "type": "from",
           "named": true,
-          "state_id": 1
+          "state_id": 10
+        },
+        {
+          "type": "important",
+          "named": true,
+          "state_id": 10
+        },
+        {
+          "type": "to",
+          "named": true,
+          "state_id": 10
+        },
+        {
+          "type": "attribute_name",
+          "named": true,
+          "state_id": 11
+        },
+        {
+          "type": "property_name",
+          "named": true,
+          "state_id": 7
         },
         {
           "type": "function_name",
@@ -752,111 +809,69 @@
           "state_id": 12
         },
         {
-          "type": "id_name",
-          "named": true,
-          "state_id": 8
-        },
-        {
-          "type": "id_selector",
-          "named": true,
-          "state_id": 13
-        },
-        {
-          "type": "important",
-          "named": true,
-          "state_id": 1
-        },
-        {
-          "type": "integer_value",
-          "named": true,
-          "state_id": 11
-        },
-        {
-          "type": "keyword_query",
-          "named": true,
-          "state_id": 3
-        },
-        {
           "type": "namespace_name",
           "named": true,
-          "state_id": 8
+          "state_id": 7
         },
         {
-          "type": "nesting_selector",
+          "type": "id_name",
           "named": true,
-          "state_id": 14
+          "state_id": 7
         },
         {
-          "type": "not",
-          "named": false,
-          "state_id": 3
-        },
-        {
-          "type": "only",
-          "named": false,
-          "state_id": 3
-        },
-        {
-          "type": "or",
-          "named": false,
-          "state_id": 3
-        },
-        {
-          "type": "plain_value",
+          "type": "class_name",
           "named": true,
-          "text": "^--",
-          "state_id": 15
-        },
-        {
-          "type": "property_name",
-          "named": true,
-          "text": "^--",
-          "state_id": 15
-        },
-        {
-          "type": "property_name",
-          "named": true,
-          "state_id": 8
+          "state_id": 7
         },
         {
           "type": "pseudo_class_selector",
           "named": true,
-          "state_id": 16
+          "state_id": 13
         },
         {
           "type": "pseudo_element_selector",
           "named": true,
-          "state_id": 17
+          "state_id": 14
         },
         {
-          "type": "selectors",
+          "type": "attribute_selector",
           "named": true,
-          "state_id": 18
+          "state_id": 15
+        },
+        {
+          "type": "adjacent_sibling_selector",
+          "named": true,
+          "state_id": 16
+        },
+        {
+          "type": "child_selector",
+          "named": true,
+          "state_id": 17
         },
         {
           "type": "sibling_selector",
           "named": true,
-          "state_id": 19
+          "state_id": 18
         },
         {
-          "type": "string_value",
+          "type": "nesting_selector",
           "named": true,
-          "state_id": 20
+          "state_id": 19
         },
         {
           "type": "tag_name",
           "named": true,
-          "state_id": 14
-        },
-        {
-          "type": "to",
-          "named": true,
-          "state_id": 1
+          "state_id": 19
         },
         {
           "type": "universal_selector",
           "named": true,
-          "state_id": 14
+          "state_id": 19
+        },
+        {
+          "type": "comment",
+          "named": true,
+          "state_id": 20
         }
       ],
       "default_next_state_id": 0
@@ -866,99 +881,146 @@
       "property_set_id": 3,
       "transitions": [
         {
-          "type": "@charset",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@import",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@keyframes",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@media",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@namespace",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@supports",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "adjacent_sibling_selector",
+          "type": "plain_value",
           "named": true,
-          "state_id": 2
+          "text": "^--",
+          "state_id": 1
+        },
+        {
+          "type": "property_name",
+          "named": true,
+          "text": "^--",
+          "state_id": 1
         },
         {
           "type": "and",
           "named": false,
-          "state_id": 3
-        },
-        {
-          "type": "at_keyword",
-          "named": true,
-          "state_id": 1
-        },
-        {
-          "type": "attribute_name",
-          "named": true,
-          "state_id": 4
-        },
-        {
-          "type": "attribute_selector",
-          "named": true,
-          "state_id": 5
+          "state_id": 2
         },
         {
           "type": "binary_expression",
           "named": true,
-          "state_id": 6
+          "state_id": 3
         },
         {
-          "type": "child_selector",
+          "type": "keyword_query",
           "named": true,
-          "state_id": 7
+          "state_id": 2
         },
         {
-          "type": "class_name",
-          "named": true,
-          "state_id": 8
+          "type": "not",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "only",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "or",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "#",
+          "named": false,
+          "state_id": 21
         },
         {
           "type": "color_value",
           "named": true,
-          "state_id": 9
+          "state_id": 4
         },
         {
-          "type": "comment",
+          "type": "id_selector",
           "named": true,
-          "state_id": 10
+          "state_id": 5
+        },
+        {
+          "type": "selectors",
+          "named": true,
+          "state_id": 6
         },
         {
           "type": "feature_name",
           "named": true,
-          "state_id": 8
+          "state_id": 7
         },
         {
           "type": "float_value",
           "named": true,
-          "state_id": 11
+          "state_id": 8
+        },
+        {
+          "type": "integer_value",
+          "named": true,
+          "state_id": 8
+        },
+        {
+          "type": "string_value",
+          "named": true,
+          "state_id": 9
+        },
+        {
+          "type": "@charset",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@import",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@keyframes",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@media",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@namespace",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@supports",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "at_keyword",
+          "named": true,
+          "state_id": 10
         },
         {
           "type": "from",
           "named": true,
-          "state_id": 1
+          "state_id": 10
+        },
+        {
+          "type": "important",
+          "named": true,
+          "state_id": 10
+        },
+        {
+          "type": "to",
+          "named": true,
+          "state_id": 10
+        },
+        {
+          "type": "attribute_name",
+          "named": true,
+          "state_id": 11
+        },
+        {
+          "type": "property_name",
+          "named": true,
+          "state_id": 7
         },
         {
           "type": "function_name",
@@ -966,111 +1028,69 @@
           "state_id": 12
         },
         {
-          "type": "id_name",
-          "named": true,
-          "state_id": 8
-        },
-        {
-          "type": "id_selector",
-          "named": true,
-          "state_id": 13
-        },
-        {
-          "type": "important",
-          "named": true,
-          "state_id": 1
-        },
-        {
-          "type": "integer_value",
-          "named": true,
-          "state_id": 11
-        },
-        {
-          "type": "keyword_query",
-          "named": true,
-          "state_id": 3
-        },
-        {
           "type": "namespace_name",
           "named": true,
-          "state_id": 8
+          "state_id": 7
         },
         {
-          "type": "nesting_selector",
+          "type": "id_name",
           "named": true,
-          "state_id": 14
+          "state_id": 7
         },
         {
-          "type": "not",
-          "named": false,
-          "state_id": 3
-        },
-        {
-          "type": "only",
-          "named": false,
-          "state_id": 3
-        },
-        {
-          "type": "or",
-          "named": false,
-          "state_id": 3
-        },
-        {
-          "type": "plain_value",
+          "type": "class_name",
           "named": true,
-          "text": "^--",
-          "state_id": 15
-        },
-        {
-          "type": "property_name",
-          "named": true,
-          "text": "^--",
-          "state_id": 15
-        },
-        {
-          "type": "property_name",
-          "named": true,
-          "state_id": 8
+          "state_id": 7
         },
         {
           "type": "pseudo_class_selector",
           "named": true,
-          "state_id": 16
+          "state_id": 13
         },
         {
           "type": "pseudo_element_selector",
           "named": true,
-          "state_id": 17
+          "state_id": 14
         },
         {
-          "type": "selectors",
+          "type": "attribute_selector",
           "named": true,
-          "state_id": 18
+          "state_id": 15
+        },
+        {
+          "type": "adjacent_sibling_selector",
+          "named": true,
+          "state_id": 16
+        },
+        {
+          "type": "child_selector",
+          "named": true,
+          "state_id": 17
         },
         {
           "type": "sibling_selector",
           "named": true,
-          "state_id": 19
+          "state_id": 18
         },
         {
-          "type": "string_value",
+          "type": "nesting_selector",
           "named": true,
-          "state_id": 20
+          "state_id": 19
         },
         {
           "type": "tag_name",
           "named": true,
-          "state_id": 14
-        },
-        {
-          "type": "to",
-          "named": true,
-          "state_id": 1
+          "state_id": 19
         },
         {
           "type": "universal_selector",
           "named": true,
-          "state_id": 14
+          "state_id": 19
+        },
+        {
+          "type": "comment",
+          "named": true,
+          "state_id": 20
         }
       ],
       "default_next_state_id": 0
@@ -1080,119 +1100,146 @@
       "property_set_id": 0,
       "transitions": [
         {
-          "type": "$=",
-          "named": false,
-          "state_id": 3
-        },
-        {
-          "type": "*=",
-          "named": false,
-          "state_id": 3
-        },
-        {
-          "type": "=",
-          "named": false,
-          "state_id": 3
-        },
-        {
-          "type": "@charset",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@import",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@keyframes",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@media",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@namespace",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@supports",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "^=",
-          "named": false,
-          "state_id": 3
-        },
-        {
-          "type": "adjacent_sibling_selector",
+          "type": "plain_value",
           "named": true,
-          "state_id": 2
+          "text": "^--",
+          "state_id": 1
+        },
+        {
+          "type": "property_name",
+          "named": true,
+          "text": "^--",
+          "state_id": 1
         },
         {
           "type": "and",
           "named": false,
-          "state_id": 3
-        },
-        {
-          "type": "at_keyword",
-          "named": true,
-          "state_id": 1
-        },
-        {
-          "type": "attribute_name",
-          "named": true,
-          "state_id": 4
-        },
-        {
-          "type": "attribute_selector",
-          "named": true,
-          "state_id": 5
+          "state_id": 2
         },
         {
           "type": "binary_expression",
           "named": true,
-          "state_id": 6
+          "state_id": 3
         },
         {
-          "type": "child_selector",
+          "type": "keyword_query",
           "named": true,
-          "state_id": 7
+          "state_id": 2
         },
         {
-          "type": "class_name",
-          "named": true,
-          "state_id": 8
+          "type": "not",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "only",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "or",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "#",
+          "named": false,
+          "state_id": 21
         },
         {
           "type": "color_value",
           "named": true,
-          "state_id": 9
+          "state_id": 4
         },
         {
-          "type": "comment",
+          "type": "id_selector",
           "named": true,
-          "state_id": 10
+          "state_id": 5
+        },
+        {
+          "type": "selectors",
+          "named": true,
+          "state_id": 6
         },
         {
           "type": "feature_name",
           "named": true,
-          "state_id": 8
+          "state_id": 7
         },
         {
           "type": "float_value",
           "named": true,
-          "state_id": 11
+          "state_id": 8
+        },
+        {
+          "type": "integer_value",
+          "named": true,
+          "state_id": 8
+        },
+        {
+          "type": "string_value",
+          "named": true,
+          "state_id": 9
+        },
+        {
+          "type": "@charset",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@import",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@keyframes",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@media",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@namespace",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@supports",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "at_keyword",
+          "named": true,
+          "state_id": 10
         },
         {
           "type": "from",
           "named": true,
-          "state_id": 1
+          "state_id": 10
+        },
+        {
+          "type": "important",
+          "named": true,
+          "state_id": 10
+        },
+        {
+          "type": "to",
+          "named": true,
+          "state_id": 10
+        },
+        {
+          "type": "attribute_name",
+          "named": true,
+          "state_id": 11
+        },
+        {
+          "type": "property_name",
+          "named": true,
+          "state_id": 7
         },
         {
           "type": "function_name",
@@ -1200,126 +1247,69 @@
           "state_id": 12
         },
         {
-          "type": "id_name",
-          "named": true,
-          "state_id": 8
-        },
-        {
-          "type": "id_selector",
-          "named": true,
-          "state_id": 13
-        },
-        {
-          "type": "important",
-          "named": true,
-          "state_id": 1
-        },
-        {
-          "type": "integer_value",
-          "named": true,
-          "state_id": 11
-        },
-        {
-          "type": "keyword_query",
-          "named": true,
-          "state_id": 3
-        },
-        {
           "type": "namespace_name",
           "named": true,
-          "state_id": 8
+          "state_id": 7
         },
         {
-          "type": "nesting_selector",
+          "type": "id_name",
           "named": true,
-          "state_id": 14
+          "state_id": 7
         },
         {
-          "type": "not",
-          "named": false,
-          "state_id": 3
-        },
-        {
-          "type": "only",
-          "named": false,
-          "state_id": 3
-        },
-        {
-          "type": "or",
-          "named": false,
-          "state_id": 3
-        },
-        {
-          "type": "plain_value",
+          "type": "class_name",
           "named": true,
-          "text": "^--",
-          "state_id": 15
-        },
-        {
-          "type": "plain_value",
-          "named": true,
-          "state_id": 20
-        },
-        {
-          "type": "property_name",
-          "named": true,
-          "text": "^--",
-          "state_id": 15
-        },
-        {
-          "type": "property_name",
-          "named": true,
-          "state_id": 8
+          "state_id": 7
         },
         {
           "type": "pseudo_class_selector",
           "named": true,
-          "state_id": 16
+          "state_id": 13
         },
         {
           "type": "pseudo_element_selector",
           "named": true,
-          "state_id": 17
+          "state_id": 14
         },
         {
-          "type": "selectors",
+          "type": "attribute_selector",
           "named": true,
-          "state_id": 18
+          "state_id": 15
+        },
+        {
+          "type": "adjacent_sibling_selector",
+          "named": true,
+          "state_id": 16
+        },
+        {
+          "type": "child_selector",
+          "named": true,
+          "state_id": 17
         },
         {
           "type": "sibling_selector",
           "named": true,
-          "state_id": 19
+          "state_id": 18
         },
         {
-          "type": "string_value",
+          "type": "nesting_selector",
           "named": true,
-          "state_id": 20
+          "state_id": 19
         },
         {
           "type": "tag_name",
           "named": true,
-          "state_id": 14
-        },
-        {
-          "type": "to",
-          "named": true,
-          "state_id": 1
+          "state_id": 19
         },
         {
           "type": "universal_selector",
           "named": true,
-          "state_id": 14
+          "state_id": 19
         },
         {
-          "type": "|=",
-          "named": false,
-          "state_id": 3
-        },
-        {
-          "type": "~=",
-          "named": false,
-          "state_id": 3
+          "type": "comment",
+          "named": true,
+          "state_id": 20
         }
       ],
       "default_next_state_id": 0
@@ -1329,119 +1319,146 @@
       "property_set_id": 0,
       "transitions": [
         {
-          "type": "*",
-          "named": false,
-          "state_id": 3
-        },
-        {
-          "type": "+",
-          "named": false,
-          "state_id": 3
-        },
-        {
-          "type": "-",
-          "named": false,
-          "state_id": 3
-        },
-        {
-          "type": "/",
-          "named": false,
-          "state_id": 3
-        },
-        {
-          "type": "@charset",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@import",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@keyframes",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@media",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@namespace",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@supports",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "adjacent_sibling_selector",
+          "type": "plain_value",
           "named": true,
-          "state_id": 2
+          "text": "^--",
+          "state_id": 1
+        },
+        {
+          "type": "property_name",
+          "named": true,
+          "text": "^--",
+          "state_id": 1
         },
         {
           "type": "and",
           "named": false,
-          "state_id": 3
-        },
-        {
-          "type": "at_keyword",
-          "named": true,
-          "state_id": 1
-        },
-        {
-          "type": "attribute_name",
-          "named": true,
-          "state_id": 4
-        },
-        {
-          "type": "attribute_selector",
-          "named": true,
-          "state_id": 5
+          "state_id": 2
         },
         {
           "type": "binary_expression",
           "named": true,
-          "state_id": 6
+          "state_id": 3
         },
         {
-          "type": "child_selector",
+          "type": "keyword_query",
           "named": true,
-          "state_id": 7
+          "state_id": 2
         },
         {
-          "type": "class_name",
-          "named": true,
-          "state_id": 8
+          "type": "not",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "only",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "or",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": ",",
+          "named": false,
+          "state_id": 21
         },
         {
           "type": "color_value",
           "named": true,
-          "state_id": 9
+          "state_id": 4
         },
         {
-          "type": "comment",
+          "type": "id_selector",
           "named": true,
-          "state_id": 10
+          "state_id": 5
+        },
+        {
+          "type": "selectors",
+          "named": true,
+          "state_id": 6
         },
         {
           "type": "feature_name",
           "named": true,
-          "state_id": 8
+          "state_id": 7
         },
         {
           "type": "float_value",
           "named": true,
-          "state_id": 11
+          "state_id": 8
+        },
+        {
+          "type": "integer_value",
+          "named": true,
+          "state_id": 8
+        },
+        {
+          "type": "string_value",
+          "named": true,
+          "state_id": 9
+        },
+        {
+          "type": "@charset",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@import",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@keyframes",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@media",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@namespace",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@supports",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "at_keyword",
+          "named": true,
+          "state_id": 10
         },
         {
           "type": "from",
           "named": true,
-          "state_id": 1
+          "state_id": 10
+        },
+        {
+          "type": "important",
+          "named": true,
+          "state_id": 10
+        },
+        {
+          "type": "to",
+          "named": true,
+          "state_id": 10
+        },
+        {
+          "type": "attribute_name",
+          "named": true,
+          "state_id": 11
+        },
+        {
+          "type": "property_name",
+          "named": true,
+          "state_id": 7
         },
         {
           "type": "function_name",
@@ -1449,218 +1466,213 @@
           "state_id": 12
         },
         {
-          "type": "id_name",
-          "named": true,
-          "state_id": 8
-        },
-        {
-          "type": "id_selector",
-          "named": true,
-          "state_id": 13
-        },
-        {
-          "type": "important",
-          "named": true,
-          "state_id": 1
-        },
-        {
-          "type": "integer_value",
-          "named": true,
-          "state_id": 11
-        },
-        {
-          "type": "keyword_query",
-          "named": true,
-          "state_id": 3
-        },
-        {
           "type": "namespace_name",
           "named": true,
-          "state_id": 8
+          "state_id": 7
         },
         {
-          "type": "nesting_selector",
+          "type": "id_name",
           "named": true,
-          "state_id": 14
+          "state_id": 7
         },
         {
-          "type": "not",
-          "named": false,
-          "state_id": 3
-        },
-        {
-          "type": "only",
-          "named": false,
-          "state_id": 3
-        },
-        {
-          "type": "or",
-          "named": false,
-          "state_id": 3
-        },
-        {
-          "type": "plain_value",
+          "type": "class_name",
           "named": true,
-          "text": "^--",
-          "state_id": 15
-        },
-        {
-          "type": "property_name",
-          "named": true,
-          "text": "^--",
-          "state_id": 15
-        },
-        {
-          "type": "property_name",
-          "named": true,
-          "state_id": 8
+          "state_id": 7
         },
         {
           "type": "pseudo_class_selector",
           "named": true,
-          "state_id": 16
+          "state_id": 13
         },
         {
           "type": "pseudo_element_selector",
           "named": true,
-          "state_id": 17
+          "state_id": 14
         },
         {
-          "type": "selectors",
+          "type": "attribute_selector",
           "named": true,
-          "state_id": 18
+          "state_id": 15
+        },
+        {
+          "type": "adjacent_sibling_selector",
+          "named": true,
+          "state_id": 16
+        },
+        {
+          "type": "child_selector",
+          "named": true,
+          "state_id": 17
         },
         {
           "type": "sibling_selector",
           "named": true,
-          "state_id": 19
+          "state_id": 18
         },
         {
-          "type": "string_value",
+          "type": "nesting_selector",
           "named": true,
-          "state_id": 20
+          "state_id": 19
         },
         {
           "type": "tag_name",
           "named": true,
-          "state_id": 14
-        },
-        {
-          "type": "to",
-          "named": true,
-          "state_id": 1
+          "state_id": 19
         },
         {
           "type": "universal_selector",
           "named": true,
-          "state_id": 14
+          "state_id": 19
+        },
+        {
+          "type": "comment",
+          "named": true,
+          "state_id": 20
         }
       ],
       "default_next_state_id": 0
     },
     {
       "id": 7,
-      "property_set_id": 0,
+      "property_set_id": 4,
       "transitions": [
         {
-          "type": ">",
-          "named": false,
-          "state_id": 3
-        },
-        {
-          "type": "@charset",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@import",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@keyframes",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@media",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@namespace",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@supports",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "adjacent_sibling_selector",
+          "type": "plain_value",
           "named": true,
-          "state_id": 2
+          "text": "^--",
+          "state_id": 1
+        },
+        {
+          "type": "property_name",
+          "named": true,
+          "text": "^--",
+          "state_id": 1
         },
         {
           "type": "and",
           "named": false,
-          "state_id": 3
-        },
-        {
-          "type": "at_keyword",
-          "named": true,
-          "state_id": 1
-        },
-        {
-          "type": "attribute_name",
-          "named": true,
-          "state_id": 4
-        },
-        {
-          "type": "attribute_selector",
-          "named": true,
-          "state_id": 5
+          "state_id": 2
         },
         {
           "type": "binary_expression",
           "named": true,
-          "state_id": 6
+          "state_id": 3
         },
         {
-          "type": "child_selector",
+          "type": "keyword_query",
           "named": true,
-          "state_id": 7
+          "state_id": 2
         },
         {
-          "type": "class_name",
-          "named": true,
-          "state_id": 8
+          "type": "not",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "only",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "or",
+          "named": false,
+          "state_id": 2
         },
         {
           "type": "color_value",
           "named": true,
-          "state_id": 9
+          "state_id": 4
         },
         {
-          "type": "comment",
+          "type": "id_selector",
           "named": true,
-          "state_id": 10
+          "state_id": 5
+        },
+        {
+          "type": "selectors",
+          "named": true,
+          "state_id": 6
         },
         {
           "type": "feature_name",
           "named": true,
-          "state_id": 8
+          "state_id": 7
         },
         {
           "type": "float_value",
           "named": true,
-          "state_id": 11
+          "state_id": 8
+        },
+        {
+          "type": "integer_value",
+          "named": true,
+          "state_id": 8
+        },
+        {
+          "type": "string_value",
+          "named": true,
+          "state_id": 9
+        },
+        {
+          "type": "@charset",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@import",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@keyframes",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@media",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@namespace",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@supports",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "at_keyword",
+          "named": true,
+          "state_id": 10
         },
         {
           "type": "from",
           "named": true,
-          "state_id": 1
+          "state_id": 10
+        },
+        {
+          "type": "important",
+          "named": true,
+          "state_id": 10
+        },
+        {
+          "type": "to",
+          "named": true,
+          "state_id": 10
+        },
+        {
+          "type": "attribute_name",
+          "named": true,
+          "state_id": 11
+        },
+        {
+          "type": "property_name",
+          "named": true,
+          "state_id": 7
         },
         {
           "type": "function_name",
@@ -1668,967 +1680,148 @@
           "state_id": 12
         },
         {
-          "type": "id_name",
-          "named": true,
-          "state_id": 8
-        },
-        {
-          "type": "id_selector",
-          "named": true,
-          "state_id": 13
-        },
-        {
-          "type": "important",
-          "named": true,
-          "state_id": 1
-        },
-        {
-          "type": "integer_value",
-          "named": true,
-          "state_id": 11
-        },
-        {
-          "type": "keyword_query",
-          "named": true,
-          "state_id": 3
-        },
-        {
           "type": "namespace_name",
           "named": true,
-          "state_id": 8
+          "state_id": 7
         },
         {
-          "type": "nesting_selector",
+          "type": "id_name",
           "named": true,
-          "state_id": 14
+          "state_id": 7
         },
         {
-          "type": "not",
-          "named": false,
-          "state_id": 3
-        },
-        {
-          "type": "only",
-          "named": false,
-          "state_id": 3
-        },
-        {
-          "type": "or",
-          "named": false,
-          "state_id": 3
-        },
-        {
-          "type": "plain_value",
+          "type": "class_name",
           "named": true,
-          "text": "^--",
-          "state_id": 15
-        },
-        {
-          "type": "property_name",
-          "named": true,
-          "text": "^--",
-          "state_id": 15
-        },
-        {
-          "type": "property_name",
-          "named": true,
-          "state_id": 8
+          "state_id": 7
         },
         {
           "type": "pseudo_class_selector",
           "named": true,
-          "state_id": 16
+          "state_id": 13
         },
         {
           "type": "pseudo_element_selector",
           "named": true,
-          "state_id": 17
+          "state_id": 14
         },
         {
-          "type": "selectors",
+          "type": "attribute_selector",
           "named": true,
-          "state_id": 18
+          "state_id": 15
+        },
+        {
+          "type": "adjacent_sibling_selector",
+          "named": true,
+          "state_id": 16
+        },
+        {
+          "type": "child_selector",
+          "named": true,
+          "state_id": 17
         },
         {
           "type": "sibling_selector",
           "named": true,
-          "state_id": 19
+          "state_id": 18
         },
         {
-          "type": "string_value",
+          "type": "nesting_selector",
           "named": true,
-          "state_id": 20
+          "state_id": 19
         },
         {
           "type": "tag_name",
           "named": true,
-          "state_id": 14
-        },
-        {
-          "type": "to",
-          "named": true,
-          "state_id": 1
+          "state_id": 19
         },
         {
           "type": "universal_selector",
           "named": true,
-          "state_id": 14
+          "state_id": 19
+        },
+        {
+          "type": "comment",
+          "named": true,
+          "state_id": 20
         }
       ],
       "default_next_state_id": 0
     },
     {
       "id": 8,
-      "property_set_id": 4,
-      "transitions": [
-        {
-          "type": "@charset",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@import",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@keyframes",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@media",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@namespace",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@supports",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "adjacent_sibling_selector",
-          "named": true,
-          "state_id": 2
-        },
-        {
-          "type": "and",
-          "named": false,
-          "state_id": 3
-        },
-        {
-          "type": "at_keyword",
-          "named": true,
-          "state_id": 1
-        },
-        {
-          "type": "attribute_name",
-          "named": true,
-          "state_id": 4
-        },
-        {
-          "type": "attribute_selector",
-          "named": true,
-          "state_id": 5
-        },
-        {
-          "type": "binary_expression",
-          "named": true,
-          "state_id": 6
-        },
-        {
-          "type": "child_selector",
-          "named": true,
-          "state_id": 7
-        },
-        {
-          "type": "class_name",
-          "named": true,
-          "state_id": 8
-        },
-        {
-          "type": "color_value",
-          "named": true,
-          "state_id": 9
-        },
-        {
-          "type": "comment",
-          "named": true,
-          "state_id": 10
-        },
-        {
-          "type": "feature_name",
-          "named": true,
-          "state_id": 8
-        },
-        {
-          "type": "float_value",
-          "named": true,
-          "state_id": 11
-        },
-        {
-          "type": "from",
-          "named": true,
-          "state_id": 1
-        },
-        {
-          "type": "function_name",
-          "named": true,
-          "state_id": 12
-        },
-        {
-          "type": "id_name",
-          "named": true,
-          "state_id": 8
-        },
-        {
-          "type": "id_selector",
-          "named": true,
-          "state_id": 13
-        },
-        {
-          "type": "important",
-          "named": true,
-          "state_id": 1
-        },
-        {
-          "type": "integer_value",
-          "named": true,
-          "state_id": 11
-        },
-        {
-          "type": "keyword_query",
-          "named": true,
-          "state_id": 3
-        },
-        {
-          "type": "namespace_name",
-          "named": true,
-          "state_id": 8
-        },
-        {
-          "type": "nesting_selector",
-          "named": true,
-          "state_id": 14
-        },
-        {
-          "type": "not",
-          "named": false,
-          "state_id": 3
-        },
-        {
-          "type": "only",
-          "named": false,
-          "state_id": 3
-        },
-        {
-          "type": "or",
-          "named": false,
-          "state_id": 3
-        },
-        {
-          "type": "plain_value",
-          "named": true,
-          "text": "^--",
-          "state_id": 15
-        },
-        {
-          "type": "property_name",
-          "named": true,
-          "text": "^--",
-          "state_id": 15
-        },
-        {
-          "type": "property_name",
-          "named": true,
-          "state_id": 8
-        },
-        {
-          "type": "pseudo_class_selector",
-          "named": true,
-          "state_id": 16
-        },
-        {
-          "type": "pseudo_element_selector",
-          "named": true,
-          "state_id": 17
-        },
-        {
-          "type": "selectors",
-          "named": true,
-          "state_id": 18
-        },
-        {
-          "type": "sibling_selector",
-          "named": true,
-          "state_id": 19
-        },
-        {
-          "type": "string_value",
-          "named": true,
-          "state_id": 20
-        },
-        {
-          "type": "tag_name",
-          "named": true,
-          "state_id": 14
-        },
-        {
-          "type": "to",
-          "named": true,
-          "state_id": 1
-        },
-        {
-          "type": "universal_selector",
-          "named": true,
-          "state_id": 14
-        }
-      ],
-      "default_next_state_id": 0
-    },
-    {
-      "id": 9,
       "property_set_id": 5,
       "transitions": [
         {
-          "type": "#",
-          "named": false,
-          "state_id": 21
-        },
-        {
-          "type": "@charset",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@import",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@keyframes",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@media",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@namespace",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@supports",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "adjacent_sibling_selector",
+          "type": "plain_value",
           "named": true,
-          "state_id": 2
+          "text": "^--",
+          "state_id": 1
+        },
+        {
+          "type": "property_name",
+          "named": true,
+          "text": "^--",
+          "state_id": 1
         },
         {
           "type": "and",
           "named": false,
-          "state_id": 3
-        },
-        {
-          "type": "at_keyword",
-          "named": true,
-          "state_id": 1
-        },
-        {
-          "type": "attribute_name",
-          "named": true,
-          "state_id": 4
-        },
-        {
-          "type": "attribute_selector",
-          "named": true,
-          "state_id": 5
+          "state_id": 2
         },
         {
           "type": "binary_expression",
           "named": true,
-          "state_id": 6
-        },
-        {
-          "type": "child_selector",
-          "named": true,
-          "state_id": 7
-        },
-        {
-          "type": "class_name",
-          "named": true,
-          "state_id": 8
-        },
-        {
-          "type": "color_value",
-          "named": true,
-          "state_id": 9
-        },
-        {
-          "type": "comment",
-          "named": true,
-          "state_id": 10
-        },
-        {
-          "type": "feature_name",
-          "named": true,
-          "state_id": 8
-        },
-        {
-          "type": "float_value",
-          "named": true,
-          "state_id": 11
-        },
-        {
-          "type": "from",
-          "named": true,
-          "state_id": 1
-        },
-        {
-          "type": "function_name",
-          "named": true,
-          "state_id": 12
-        },
-        {
-          "type": "id_name",
-          "named": true,
-          "state_id": 8
-        },
-        {
-          "type": "id_selector",
-          "named": true,
-          "state_id": 13
-        },
-        {
-          "type": "important",
-          "named": true,
-          "state_id": 1
-        },
-        {
-          "type": "integer_value",
-          "named": true,
-          "state_id": 11
+          "state_id": 3
         },
         {
           "type": "keyword_query",
-          "named": true,
-          "state_id": 3
-        },
-        {
-          "type": "namespace_name",
-          "named": true,
-          "state_id": 8
-        },
-        {
-          "type": "nesting_selector",
-          "named": true,
-          "state_id": 14
-        },
-        {
-          "type": "not",
-          "named": false,
-          "state_id": 3
-        },
-        {
-          "type": "only",
-          "named": false,
-          "state_id": 3
-        },
-        {
-          "type": "or",
-          "named": false,
-          "state_id": 3
-        },
-        {
-          "type": "plain_value",
-          "named": true,
-          "text": "^--",
-          "state_id": 15
-        },
-        {
-          "type": "property_name",
-          "named": true,
-          "text": "^--",
-          "state_id": 15
-        },
-        {
-          "type": "property_name",
-          "named": true,
-          "state_id": 8
-        },
-        {
-          "type": "pseudo_class_selector",
-          "named": true,
-          "state_id": 16
-        },
-        {
-          "type": "pseudo_element_selector",
-          "named": true,
-          "state_id": 17
-        },
-        {
-          "type": "selectors",
-          "named": true,
-          "state_id": 18
-        },
-        {
-          "type": "sibling_selector",
-          "named": true,
-          "state_id": 19
-        },
-        {
-          "type": "string_value",
-          "named": true,
-          "state_id": 20
-        },
-        {
-          "type": "tag_name",
-          "named": true,
-          "state_id": 14
-        },
-        {
-          "type": "to",
-          "named": true,
-          "state_id": 1
-        },
-        {
-          "type": "universal_selector",
-          "named": true,
-          "state_id": 14
-        }
-      ],
-      "default_next_state_id": 0
-    },
-    {
-      "id": 10,
-      "property_set_id": 6,
-      "transitions": [
-        {
-          "type": "@charset",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@import",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@keyframes",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@media",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@namespace",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@supports",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "adjacent_sibling_selector",
           "named": true,
           "state_id": 2
         },
         {
-          "type": "and",
-          "named": false,
-          "state_id": 3
-        },
-        {
-          "type": "at_keyword",
-          "named": true,
-          "state_id": 1
-        },
-        {
-          "type": "attribute_name",
-          "named": true,
-          "state_id": 4
-        },
-        {
-          "type": "attribute_selector",
-          "named": true,
-          "state_id": 5
-        },
-        {
-          "type": "binary_expression",
-          "named": true,
-          "state_id": 6
-        },
-        {
-          "type": "child_selector",
-          "named": true,
-          "state_id": 7
-        },
-        {
-          "type": "class_name",
-          "named": true,
-          "state_id": 8
-        },
-        {
-          "type": "color_value",
-          "named": true,
-          "state_id": 9
-        },
-        {
-          "type": "comment",
-          "named": true,
-          "state_id": 10
-        },
-        {
-          "type": "feature_name",
-          "named": true,
-          "state_id": 8
-        },
-        {
-          "type": "float_value",
-          "named": true,
-          "state_id": 11
-        },
-        {
-          "type": "from",
-          "named": true,
-          "state_id": 1
-        },
-        {
-          "type": "function_name",
-          "named": true,
-          "state_id": 12
-        },
-        {
-          "type": "id_name",
-          "named": true,
-          "state_id": 8
-        },
-        {
-          "type": "id_selector",
-          "named": true,
-          "state_id": 13
-        },
-        {
-          "type": "important",
-          "named": true,
-          "state_id": 1
-        },
-        {
-          "type": "integer_value",
-          "named": true,
-          "state_id": 11
-        },
-        {
-          "type": "keyword_query",
-          "named": true,
-          "state_id": 3
-        },
-        {
-          "type": "namespace_name",
-          "named": true,
-          "state_id": 8
-        },
-        {
-          "type": "nesting_selector",
-          "named": true,
-          "state_id": 14
-        },
-        {
           "type": "not",
           "named": false,
-          "state_id": 3
-        },
-        {
-          "type": "only",
-          "named": false,
-          "state_id": 3
-        },
-        {
-          "type": "or",
-          "named": false,
-          "state_id": 3
-        },
-        {
-          "type": "plain_value",
-          "named": true,
-          "text": "^--",
-          "state_id": 15
-        },
-        {
-          "type": "property_name",
-          "named": true,
-          "text": "^--",
-          "state_id": 15
-        },
-        {
-          "type": "property_name",
-          "named": true,
-          "state_id": 8
-        },
-        {
-          "type": "pseudo_class_selector",
-          "named": true,
-          "state_id": 16
-        },
-        {
-          "type": "pseudo_element_selector",
-          "named": true,
-          "state_id": 17
-        },
-        {
-          "type": "selectors",
-          "named": true,
-          "state_id": 18
-        },
-        {
-          "type": "sibling_selector",
-          "named": true,
-          "state_id": 19
-        },
-        {
-          "type": "string_value",
-          "named": true,
-          "state_id": 20
-        },
-        {
-          "type": "tag_name",
-          "named": true,
-          "state_id": 14
-        },
-        {
-          "type": "to",
-          "named": true,
-          "state_id": 1
-        },
-        {
-          "type": "universal_selector",
-          "named": true,
-          "state_id": 14
-        }
-      ],
-      "default_next_state_id": 0
-    },
-    {
-      "id": 11,
-      "property_set_id": 7,
-      "transitions": [
-        {
-          "type": "@charset",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@import",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@keyframes",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@media",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@namespace",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@supports",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "adjacent_sibling_selector",
-          "named": true,
           "state_id": 2
         },
         {
-          "type": "and",
-          "named": false,
-          "state_id": 3
-        },
-        {
-          "type": "at_keyword",
-          "named": true,
-          "state_id": 1
-        },
-        {
-          "type": "attribute_name",
-          "named": true,
-          "state_id": 4
-        },
-        {
-          "type": "attribute_selector",
-          "named": true,
-          "state_id": 5
-        },
-        {
-          "type": "binary_expression",
-          "named": true,
-          "state_id": 6
-        },
-        {
-          "type": "child_selector",
-          "named": true,
-          "state_id": 7
-        },
-        {
-          "type": "class_name",
-          "named": true,
-          "state_id": 8
-        },
-        {
-          "type": "color_value",
-          "named": true,
-          "state_id": 9
-        },
-        {
-          "type": "comment",
-          "named": true,
-          "state_id": 10
-        },
-        {
-          "type": "feature_name",
-          "named": true,
-          "state_id": 8
-        },
-        {
-          "type": "float_value",
-          "named": true,
-          "state_id": 11
-        },
-        {
-          "type": "from",
-          "named": true,
-          "state_id": 1
-        },
-        {
-          "type": "function_name",
-          "named": true,
-          "state_id": 12
-        },
-        {
-          "type": "id_name",
-          "named": true,
-          "state_id": 8
-        },
-        {
-          "type": "id_selector",
-          "named": true,
-          "state_id": 13
-        },
-        {
-          "type": "important",
-          "named": true,
-          "state_id": 1
-        },
-        {
-          "type": "integer_value",
-          "named": true,
-          "state_id": 11
-        },
-        {
-          "type": "keyword_query",
-          "named": true,
-          "state_id": 3
-        },
-        {
-          "type": "namespace_name",
-          "named": true,
-          "state_id": 8
-        },
-        {
-          "type": "nesting_selector",
-          "named": true,
-          "state_id": 14
-        },
-        {
-          "type": "not",
-          "named": false,
-          "state_id": 3
-        },
-        {
           "type": "only",
           "named": false,
-          "state_id": 3
+          "state_id": 2
         },
         {
           "type": "or",
           "named": false,
-          "state_id": 3
+          "state_id": 2
         },
         {
-          "type": "plain_value",
+          "type": "color_value",
           "named": true,
-          "text": "^--",
-          "state_id": 15
+          "state_id": 4
         },
         {
-          "type": "property_name",
+          "type": "id_selector",
           "named": true,
-          "text": "^--",
-          "state_id": 15
-        },
-        {
-          "type": "property_name",
-          "named": true,
-          "state_id": 8
-        },
-        {
-          "type": "pseudo_class_selector",
-          "named": true,
-          "state_id": 16
-        },
-        {
-          "type": "pseudo_element_selector",
-          "named": true,
-          "state_id": 17
+          "state_id": 5
         },
         {
           "type": "selectors",
           "named": true,
-          "state_id": 18
+          "state_id": 6
         },
         {
-          "type": "sibling_selector",
+          "type": "feature_name",
           "named": true,
-          "state_id": 19
+          "state_id": 7
         },
         {
-          "type": "string_value",
+          "type": "float_value",
           "named": true,
-          "state_id": 20
+          "state_id": 8
         },
         {
-          "type": "tag_name",
+          "type": "integer_value",
           "named": true,
-          "state_id": 14
-        },
-        {
-          "type": "to",
-          "named": true,
-          "state_id": 1
+          "state_id": 8
         },
         {
           "type": "unit",
@@ -2636,111 +1829,69 @@
           "state_id": 22
         },
         {
-          "type": "universal_selector",
-          "named": true,
-          "state_id": 14
-        }
-      ],
-      "default_next_state_id": 0
-    },
-    {
-      "id": 12,
-      "property_set_id": 8,
-      "transitions": [
-        {
-          "type": "@charset",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@import",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@keyframes",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@media",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@namespace",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@supports",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "adjacent_sibling_selector",
-          "named": true,
-          "state_id": 2
-        },
-        {
-          "type": "and",
-          "named": false,
-          "state_id": 3
-        },
-        {
-          "type": "at_keyword",
-          "named": true,
-          "state_id": 1
-        },
-        {
-          "type": "attribute_name",
-          "named": true,
-          "state_id": 4
-        },
-        {
-          "type": "attribute_selector",
-          "named": true,
-          "state_id": 5
-        },
-        {
-          "type": "binary_expression",
-          "named": true,
-          "state_id": 6
-        },
-        {
-          "type": "child_selector",
-          "named": true,
-          "state_id": 7
-        },
-        {
-          "type": "class_name",
-          "named": true,
-          "state_id": 8
-        },
-        {
-          "type": "color_value",
+          "type": "string_value",
           "named": true,
           "state_id": 9
         },
         {
-          "type": "comment",
+          "type": "@charset",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@import",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@keyframes",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@media",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@namespace",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@supports",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "at_keyword",
           "named": true,
           "state_id": 10
         },
         {
-          "type": "feature_name",
+          "type": "from",
           "named": true,
-          "state_id": 8
+          "state_id": 10
         },
         {
-          "type": "float_value",
+          "type": "important",
+          "named": true,
+          "state_id": 10
+        },
+        {
+          "type": "to",
+          "named": true,
+          "state_id": 10
+        },
+        {
+          "type": "attribute_name",
           "named": true,
           "state_id": 11
         },
         {
-          "type": "from",
+          "type": "property_name",
           "named": true,
-          "state_id": 1
+          "state_id": 7
         },
         {
           "type": "function_name",
@@ -2748,111 +1899,925 @@
           "state_id": 12
         },
         {
-          "type": "id_name",
-          "named": true,
-          "state_id": 8
-        },
-        {
-          "type": "id_selector",
-          "named": true,
-          "state_id": 13
-        },
-        {
-          "type": "important",
-          "named": true,
-          "state_id": 1
-        },
-        {
-          "type": "integer_value",
-          "named": true,
-          "state_id": 11
-        },
-        {
-          "type": "keyword_query",
-          "named": true,
-          "state_id": 3
-        },
-        {
           "type": "namespace_name",
           "named": true,
-          "state_id": 8
+          "state_id": 7
         },
         {
-          "type": "nesting_selector",
+          "type": "id_name",
           "named": true,
-          "state_id": 14
+          "state_id": 7
         },
         {
-          "type": "not",
-          "named": false,
-          "state_id": 3
-        },
-        {
-          "type": "only",
-          "named": false,
-          "state_id": 3
-        },
-        {
-          "type": "or",
-          "named": false,
-          "state_id": 3
-        },
-        {
-          "type": "plain_value",
+          "type": "class_name",
           "named": true,
-          "text": "^--",
-          "state_id": 15
-        },
-        {
-          "type": "property_name",
-          "named": true,
-          "text": "^--",
-          "state_id": 15
-        },
-        {
-          "type": "property_name",
-          "named": true,
-          "state_id": 8
+          "state_id": 7
         },
         {
           "type": "pseudo_class_selector",
           "named": true,
-          "state_id": 16
+          "state_id": 13
         },
         {
           "type": "pseudo_element_selector",
           "named": true,
-          "state_id": 17
+          "state_id": 14
         },
         {
-          "type": "selectors",
+          "type": "attribute_selector",
           "named": true,
-          "state_id": 18
+          "state_id": 15
+        },
+        {
+          "type": "adjacent_sibling_selector",
+          "named": true,
+          "state_id": 16
+        },
+        {
+          "type": "child_selector",
+          "named": true,
+          "state_id": 17
         },
         {
           "type": "sibling_selector",
           "named": true,
-          "state_id": 19
+          "state_id": 18
         },
         {
-          "type": "string_value",
+          "type": "nesting_selector",
           "named": true,
-          "state_id": 20
+          "state_id": 19
         },
         {
           "type": "tag_name",
           "named": true,
-          "state_id": 14
-        },
-        {
-          "type": "to",
-          "named": true,
-          "state_id": 1
+          "state_id": 19
         },
         {
           "type": "universal_selector",
           "named": true,
+          "state_id": 19
+        },
+        {
+          "type": "comment",
+          "named": true,
+          "state_id": 20
+        }
+      ],
+      "default_next_state_id": 0
+    },
+    {
+      "id": 9,
+      "property_set_id": 6,
+      "transitions": [
+        {
+          "type": "plain_value",
+          "named": true,
+          "text": "^--",
+          "state_id": 1
+        },
+        {
+          "type": "property_name",
+          "named": true,
+          "text": "^--",
+          "state_id": 1
+        },
+        {
+          "type": "and",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "binary_expression",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "keyword_query",
+          "named": true,
+          "state_id": 2
+        },
+        {
+          "type": "not",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "only",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "or",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "color_value",
+          "named": true,
+          "state_id": 4
+        },
+        {
+          "type": "id_selector",
+          "named": true,
+          "state_id": 5
+        },
+        {
+          "type": "selectors",
+          "named": true,
+          "state_id": 6
+        },
+        {
+          "type": "feature_name",
+          "named": true,
+          "state_id": 7
+        },
+        {
+          "type": "float_value",
+          "named": true,
+          "state_id": 8
+        },
+        {
+          "type": "integer_value",
+          "named": true,
+          "state_id": 8
+        },
+        {
+          "type": "string_value",
+          "named": true,
+          "state_id": 9
+        },
+        {
+          "type": "@charset",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@import",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@keyframes",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@media",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@namespace",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@supports",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "at_keyword",
+          "named": true,
+          "state_id": 10
+        },
+        {
+          "type": "from",
+          "named": true,
+          "state_id": 10
+        },
+        {
+          "type": "important",
+          "named": true,
+          "state_id": 10
+        },
+        {
+          "type": "to",
+          "named": true,
+          "state_id": 10
+        },
+        {
+          "type": "attribute_name",
+          "named": true,
+          "state_id": 11
+        },
+        {
+          "type": "property_name",
+          "named": true,
+          "state_id": 7
+        },
+        {
+          "type": "function_name",
+          "named": true,
+          "state_id": 12
+        },
+        {
+          "type": "namespace_name",
+          "named": true,
+          "state_id": 7
+        },
+        {
+          "type": "id_name",
+          "named": true,
+          "state_id": 7
+        },
+        {
+          "type": "class_name",
+          "named": true,
+          "state_id": 7
+        },
+        {
+          "type": "pseudo_class_selector",
+          "named": true,
+          "state_id": 13
+        },
+        {
+          "type": "pseudo_element_selector",
+          "named": true,
           "state_id": 14
+        },
+        {
+          "type": "attribute_selector",
+          "named": true,
+          "state_id": 15
+        },
+        {
+          "type": "adjacent_sibling_selector",
+          "named": true,
+          "state_id": 16
+        },
+        {
+          "type": "child_selector",
+          "named": true,
+          "state_id": 17
+        },
+        {
+          "type": "sibling_selector",
+          "named": true,
+          "state_id": 18
+        },
+        {
+          "type": "nesting_selector",
+          "named": true,
+          "state_id": 19
+        },
+        {
+          "type": "tag_name",
+          "named": true,
+          "state_id": 19
+        },
+        {
+          "type": "universal_selector",
+          "named": true,
+          "state_id": 19
+        },
+        {
+          "type": "comment",
+          "named": true,
+          "state_id": 20
+        }
+      ],
+      "default_next_state_id": 0
+    },
+    {
+      "id": 10,
+      "property_set_id": 7,
+      "transitions": [
+        {
+          "type": "plain_value",
+          "named": true,
+          "text": "^--",
+          "state_id": 1
+        },
+        {
+          "type": "property_name",
+          "named": true,
+          "text": "^--",
+          "state_id": 1
+        },
+        {
+          "type": "and",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "binary_expression",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "keyword_query",
+          "named": true,
+          "state_id": 2
+        },
+        {
+          "type": "not",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "only",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "or",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "color_value",
+          "named": true,
+          "state_id": 4
+        },
+        {
+          "type": "id_selector",
+          "named": true,
+          "state_id": 5
+        },
+        {
+          "type": "selectors",
+          "named": true,
+          "state_id": 6
+        },
+        {
+          "type": "feature_name",
+          "named": true,
+          "state_id": 7
+        },
+        {
+          "type": "float_value",
+          "named": true,
+          "state_id": 8
+        },
+        {
+          "type": "integer_value",
+          "named": true,
+          "state_id": 8
+        },
+        {
+          "type": "string_value",
+          "named": true,
+          "state_id": 9
+        },
+        {
+          "type": "@charset",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@import",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@keyframes",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@media",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@namespace",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@supports",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "at_keyword",
+          "named": true,
+          "state_id": 10
+        },
+        {
+          "type": "from",
+          "named": true,
+          "state_id": 10
+        },
+        {
+          "type": "important",
+          "named": true,
+          "state_id": 10
+        },
+        {
+          "type": "to",
+          "named": true,
+          "state_id": 10
+        },
+        {
+          "type": "attribute_name",
+          "named": true,
+          "state_id": 11
+        },
+        {
+          "type": "property_name",
+          "named": true,
+          "state_id": 7
+        },
+        {
+          "type": "function_name",
+          "named": true,
+          "state_id": 12
+        },
+        {
+          "type": "namespace_name",
+          "named": true,
+          "state_id": 7
+        },
+        {
+          "type": "id_name",
+          "named": true,
+          "state_id": 7
+        },
+        {
+          "type": "class_name",
+          "named": true,
+          "state_id": 7
+        },
+        {
+          "type": "pseudo_class_selector",
+          "named": true,
+          "state_id": 13
+        },
+        {
+          "type": "pseudo_element_selector",
+          "named": true,
+          "state_id": 14
+        },
+        {
+          "type": "attribute_selector",
+          "named": true,
+          "state_id": 15
+        },
+        {
+          "type": "adjacent_sibling_selector",
+          "named": true,
+          "state_id": 16
+        },
+        {
+          "type": "child_selector",
+          "named": true,
+          "state_id": 17
+        },
+        {
+          "type": "sibling_selector",
+          "named": true,
+          "state_id": 18
+        },
+        {
+          "type": "nesting_selector",
+          "named": true,
+          "state_id": 19
+        },
+        {
+          "type": "tag_name",
+          "named": true,
+          "state_id": 19
+        },
+        {
+          "type": "universal_selector",
+          "named": true,
+          "state_id": 19
+        },
+        {
+          "type": "comment",
+          "named": true,
+          "state_id": 20
+        }
+      ],
+      "default_next_state_id": 0
+    },
+    {
+      "id": 11,
+      "property_set_id": 8,
+      "transitions": [
+        {
+          "type": "plain_value",
+          "named": true,
+          "text": "^--",
+          "state_id": 1
+        },
+        {
+          "type": "property_name",
+          "named": true,
+          "text": "^--",
+          "state_id": 1
+        },
+        {
+          "type": "and",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "binary_expression",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "keyword_query",
+          "named": true,
+          "state_id": 2
+        },
+        {
+          "type": "not",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "only",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "or",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "color_value",
+          "named": true,
+          "state_id": 4
+        },
+        {
+          "type": "id_selector",
+          "named": true,
+          "state_id": 5
+        },
+        {
+          "type": "selectors",
+          "named": true,
+          "state_id": 6
+        },
+        {
+          "type": "feature_name",
+          "named": true,
+          "state_id": 7
+        },
+        {
+          "type": "float_value",
+          "named": true,
+          "state_id": 8
+        },
+        {
+          "type": "integer_value",
+          "named": true,
+          "state_id": 8
+        },
+        {
+          "type": "string_value",
+          "named": true,
+          "state_id": 9
+        },
+        {
+          "type": "@charset",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@import",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@keyframes",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@media",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@namespace",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@supports",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "at_keyword",
+          "named": true,
+          "state_id": 10
+        },
+        {
+          "type": "from",
+          "named": true,
+          "state_id": 10
+        },
+        {
+          "type": "important",
+          "named": true,
+          "state_id": 10
+        },
+        {
+          "type": "to",
+          "named": true,
+          "state_id": 10
+        },
+        {
+          "type": "attribute_name",
+          "named": true,
+          "state_id": 11
+        },
+        {
+          "type": "property_name",
+          "named": true,
+          "state_id": 7
+        },
+        {
+          "type": "function_name",
+          "named": true,
+          "state_id": 12
+        },
+        {
+          "type": "namespace_name",
+          "named": true,
+          "state_id": 7
+        },
+        {
+          "type": "id_name",
+          "named": true,
+          "state_id": 7
+        },
+        {
+          "type": "class_name",
+          "named": true,
+          "state_id": 7
+        },
+        {
+          "type": "pseudo_class_selector",
+          "named": true,
+          "state_id": 13
+        },
+        {
+          "type": "pseudo_element_selector",
+          "named": true,
+          "state_id": 14
+        },
+        {
+          "type": "attribute_selector",
+          "named": true,
+          "state_id": 15
+        },
+        {
+          "type": "adjacent_sibling_selector",
+          "named": true,
+          "state_id": 16
+        },
+        {
+          "type": "child_selector",
+          "named": true,
+          "state_id": 17
+        },
+        {
+          "type": "sibling_selector",
+          "named": true,
+          "state_id": 18
+        },
+        {
+          "type": "nesting_selector",
+          "named": true,
+          "state_id": 19
+        },
+        {
+          "type": "tag_name",
+          "named": true,
+          "state_id": 19
+        },
+        {
+          "type": "universal_selector",
+          "named": true,
+          "state_id": 19
+        },
+        {
+          "type": "comment",
+          "named": true,
+          "state_id": 20
+        }
+      ],
+      "default_next_state_id": 0
+    },
+    {
+      "id": 12,
+      "property_set_id": 9,
+      "transitions": [
+        {
+          "type": "plain_value",
+          "named": true,
+          "text": "^--",
+          "state_id": 1
+        },
+        {
+          "type": "property_name",
+          "named": true,
+          "text": "^--",
+          "state_id": 1
+        },
+        {
+          "type": "and",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "binary_expression",
+          "named": true,
+          "state_id": 3
+        },
+        {
+          "type": "keyword_query",
+          "named": true,
+          "state_id": 2
+        },
+        {
+          "type": "not",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "only",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "or",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "color_value",
+          "named": true,
+          "state_id": 4
+        },
+        {
+          "type": "id_selector",
+          "named": true,
+          "state_id": 5
+        },
+        {
+          "type": "selectors",
+          "named": true,
+          "state_id": 6
+        },
+        {
+          "type": "feature_name",
+          "named": true,
+          "state_id": 7
+        },
+        {
+          "type": "float_value",
+          "named": true,
+          "state_id": 8
+        },
+        {
+          "type": "integer_value",
+          "named": true,
+          "state_id": 8
+        },
+        {
+          "type": "string_value",
+          "named": true,
+          "state_id": 9
+        },
+        {
+          "type": "@charset",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@import",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@keyframes",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@media",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@namespace",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@supports",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "at_keyword",
+          "named": true,
+          "state_id": 10
+        },
+        {
+          "type": "from",
+          "named": true,
+          "state_id": 10
+        },
+        {
+          "type": "important",
+          "named": true,
+          "state_id": 10
+        },
+        {
+          "type": "to",
+          "named": true,
+          "state_id": 10
+        },
+        {
+          "type": "attribute_name",
+          "named": true,
+          "state_id": 11
+        },
+        {
+          "type": "property_name",
+          "named": true,
+          "state_id": 7
+        },
+        {
+          "type": "function_name",
+          "named": true,
+          "state_id": 12
+        },
+        {
+          "type": "namespace_name",
+          "named": true,
+          "state_id": 7
+        },
+        {
+          "type": "id_name",
+          "named": true,
+          "state_id": 7
+        },
+        {
+          "type": "class_name",
+          "named": true,
+          "state_id": 7
+        },
+        {
+          "type": "pseudo_class_selector",
+          "named": true,
+          "state_id": 13
+        },
+        {
+          "type": "pseudo_element_selector",
+          "named": true,
+          "state_id": 14
+        },
+        {
+          "type": "attribute_selector",
+          "named": true,
+          "state_id": 15
+        },
+        {
+          "type": "adjacent_sibling_selector",
+          "named": true,
+          "state_id": 16
+        },
+        {
+          "type": "child_selector",
+          "named": true,
+          "state_id": 17
+        },
+        {
+          "type": "sibling_selector",
+          "named": true,
+          "state_id": 18
+        },
+        {
+          "type": "nesting_selector",
+          "named": true,
+          "state_id": 19
+        },
+        {
+          "type": "tag_name",
+          "named": true,
+          "state_id": 19
+        },
+        {
+          "type": "universal_selector",
+          "named": true,
+          "state_id": 19
+        },
+        {
+          "type": "comment",
+          "named": true,
+          "state_id": 20
         }
       ],
       "default_next_state_id": 0
@@ -2862,104 +2827,141 @@
       "property_set_id": 0,
       "transitions": [
         {
-          "type": "#",
-          "named": false,
-          "state_id": 21
-        },
-        {
-          "type": "@charset",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@import",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@keyframes",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@media",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@namespace",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@supports",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "adjacent_sibling_selector",
+          "type": "plain_value",
           "named": true,
-          "state_id": 2
+          "text": "^--",
+          "state_id": 1
+        },
+        {
+          "type": "property_name",
+          "named": true,
+          "text": "^--",
+          "state_id": 1
         },
         {
           "type": "and",
           "named": false,
-          "state_id": 3
-        },
-        {
-          "type": "at_keyword",
-          "named": true,
-          "state_id": 1
-        },
-        {
-          "type": "attribute_name",
-          "named": true,
-          "state_id": 4
-        },
-        {
-          "type": "attribute_selector",
-          "named": true,
-          "state_id": 5
+          "state_id": 2
         },
         {
           "type": "binary_expression",
           "named": true,
-          "state_id": 6
+          "state_id": 3
         },
         {
-          "type": "child_selector",
+          "type": "keyword_query",
           "named": true,
-          "state_id": 7
+          "state_id": 2
         },
         {
-          "type": "class_name",
-          "named": true,
-          "state_id": 8
+          "type": "not",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "only",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "or",
+          "named": false,
+          "state_id": 2
         },
         {
           "type": "color_value",
           "named": true,
-          "state_id": 9
+          "state_id": 4
         },
         {
-          "type": "comment",
+          "type": "id_selector",
           "named": true,
-          "state_id": 10
+          "state_id": 5
+        },
+        {
+          "type": "selectors",
+          "named": true,
+          "state_id": 6
         },
         {
           "type": "feature_name",
           "named": true,
-          "state_id": 8
+          "state_id": 7
         },
         {
           "type": "float_value",
           "named": true,
-          "state_id": 11
+          "state_id": 8
+        },
+        {
+          "type": "integer_value",
+          "named": true,
+          "state_id": 8
+        },
+        {
+          "type": "string_value",
+          "named": true,
+          "state_id": 9
+        },
+        {
+          "type": "@charset",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@import",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@keyframes",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@media",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@namespace",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@supports",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "at_keyword",
+          "named": true,
+          "state_id": 10
         },
         {
           "type": "from",
           "named": true,
-          "state_id": 1
+          "state_id": 10
+        },
+        {
+          "type": "important",
+          "named": true,
+          "state_id": 10
+        },
+        {
+          "type": "to",
+          "named": true,
+          "state_id": 10
+        },
+        {
+          "type": "attribute_name",
+          "named": true,
+          "state_id": 11
+        },
+        {
+          "type": "property_name",
+          "named": true,
+          "state_id": 7
         },
         {
           "type": "function_name",
@@ -2967,213 +2969,213 @@
           "state_id": 12
         },
         {
+          "type": "namespace_name",
+          "named": true,
+          "state_id": 7
+        },
+        {
           "type": "id_name",
           "named": true,
-          "state_id": 8
+          "state_id": 7
         },
         {
-          "type": "id_selector",
-          "named": true,
-          "state_id": 13
-        },
-        {
-          "type": "important",
-          "named": true,
-          "state_id": 1
-        },
-        {
-          "type": "integer_value",
+          "type": "class_name",
           "named": true,
           "state_id": 11
         },
         {
-          "type": "keyword_query",
-          "named": true,
-          "state_id": 3
-        },
-        {
-          "type": "namespace_name",
-          "named": true,
-          "state_id": 8
-        },
-        {
-          "type": "nesting_selector",
-          "named": true,
-          "state_id": 14
-        },
-        {
-          "type": "not",
-          "named": false,
-          "state_id": 3
-        },
-        {
-          "type": "only",
-          "named": false,
-          "state_id": 3
-        },
-        {
-          "type": "or",
-          "named": false,
-          "state_id": 3
-        },
-        {
-          "type": "plain_value",
-          "named": true,
-          "text": "^--",
-          "state_id": 15
-        },
-        {
-          "type": "property_name",
-          "named": true,
-          "text": "^--",
-          "state_id": 15
-        },
-        {
-          "type": "property_name",
-          "named": true,
-          "state_id": 8
-        },
-        {
           "type": "pseudo_class_selector",
           "named": true,
-          "state_id": 16
+          "state_id": 13
         },
         {
           "type": "pseudo_element_selector",
           "named": true,
-          "state_id": 17
+          "state_id": 14
         },
         {
-          "type": "selectors",
+          "type": "attribute_selector",
           "named": true,
-          "state_id": 18
+          "state_id": 15
+        },
+        {
+          "type": "adjacent_sibling_selector",
+          "named": true,
+          "state_id": 16
+        },
+        {
+          "type": "child_selector",
+          "named": true,
+          "state_id": 17
         },
         {
           "type": "sibling_selector",
           "named": true,
-          "state_id": 19
+          "state_id": 18
         },
         {
-          "type": "string_value",
+          "type": "nesting_selector",
           "named": true,
-          "state_id": 20
+          "state_id": 19
         },
         {
           "type": "tag_name",
           "named": true,
-          "state_id": 14
-        },
-        {
-          "type": "to",
-          "named": true,
-          "state_id": 1
+          "state_id": 19
         },
         {
           "type": "universal_selector",
           "named": true,
-          "state_id": 14
+          "state_id": 19
+        },
+        {
+          "type": "comment",
+          "named": true,
+          "state_id": 20
         }
       ],
       "default_next_state_id": 0
     },
     {
       "id": 14,
-      "property_set_id": 9,
+      "property_set_id": 0,
       "transitions": [
         {
-          "type": "@charset",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@import",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@keyframes",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@media",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@namespace",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@supports",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "adjacent_sibling_selector",
+          "type": "plain_value",
           "named": true,
-          "state_id": 2
+          "text": "^--",
+          "state_id": 1
+        },
+        {
+          "type": "property_name",
+          "named": true,
+          "text": "^--",
+          "state_id": 1
         },
         {
           "type": "and",
           "named": false,
-          "state_id": 3
-        },
-        {
-          "type": "at_keyword",
-          "named": true,
-          "state_id": 1
-        },
-        {
-          "type": "attribute_name",
-          "named": true,
-          "state_id": 4
-        },
-        {
-          "type": "attribute_selector",
-          "named": true,
-          "state_id": 5
+          "state_id": 2
         },
         {
           "type": "binary_expression",
           "named": true,
-          "state_id": 6
+          "state_id": 3
         },
         {
-          "type": "child_selector",
+          "type": "keyword_query",
           "named": true,
-          "state_id": 7
+          "state_id": 2
         },
         {
-          "type": "class_name",
-          "named": true,
-          "state_id": 8
+          "type": "not",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "only",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "or",
+          "named": false,
+          "state_id": 2
         },
         {
           "type": "color_value",
           "named": true,
-          "state_id": 9
+          "state_id": 4
         },
         {
-          "type": "comment",
+          "type": "id_selector",
           "named": true,
-          "state_id": 10
+          "state_id": 5
+        },
+        {
+          "type": "selectors",
+          "named": true,
+          "state_id": 6
         },
         {
           "type": "feature_name",
           "named": true,
-          "state_id": 8
+          "state_id": 7
         },
         {
           "type": "float_value",
           "named": true,
-          "state_id": 11
+          "state_id": 8
+        },
+        {
+          "type": "integer_value",
+          "named": true,
+          "state_id": 8
+        },
+        {
+          "type": "string_value",
+          "named": true,
+          "state_id": 9
+        },
+        {
+          "type": "@charset",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@import",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@keyframes",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@media",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@namespace",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@supports",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "at_keyword",
+          "named": true,
+          "state_id": 10
         },
         {
           "type": "from",
           "named": true,
-          "state_id": 1
+          "state_id": 10
+        },
+        {
+          "type": "important",
+          "named": true,
+          "state_id": 10
+        },
+        {
+          "type": "to",
+          "named": true,
+          "state_id": 10
+        },
+        {
+          "type": "attribute_name",
+          "named": true,
+          "state_id": 11
+        },
+        {
+          "type": "property_name",
+          "named": true,
+          "state_id": 7
         },
         {
           "type": "function_name",
@@ -3181,213 +3183,213 @@
           "state_id": 12
         },
         {
-          "type": "id_name",
-          "named": true,
-          "state_id": 8
-        },
-        {
-          "type": "id_selector",
-          "named": true,
-          "state_id": 13
-        },
-        {
-          "type": "important",
-          "named": true,
-          "state_id": 1
-        },
-        {
-          "type": "integer_value",
-          "named": true,
-          "state_id": 11
-        },
-        {
-          "type": "keyword_query",
-          "named": true,
-          "state_id": 3
-        },
-        {
           "type": "namespace_name",
           "named": true,
-          "state_id": 8
+          "state_id": 7
         },
         {
-          "type": "nesting_selector",
+          "type": "id_name",
           "named": true,
-          "state_id": 14
+          "state_id": 7
         },
         {
-          "type": "not",
-          "named": false,
-          "state_id": 3
-        },
-        {
-          "type": "only",
-          "named": false,
-          "state_id": 3
-        },
-        {
-          "type": "or",
-          "named": false,
-          "state_id": 3
-        },
-        {
-          "type": "plain_value",
+          "type": "class_name",
           "named": true,
-          "text": "^--",
-          "state_id": 15
-        },
-        {
-          "type": "property_name",
-          "named": true,
-          "text": "^--",
-          "state_id": 15
-        },
-        {
-          "type": "property_name",
-          "named": true,
-          "state_id": 8
+          "state_id": 7
         },
         {
           "type": "pseudo_class_selector",
           "named": true,
-          "state_id": 16
+          "state_id": 13
         },
         {
           "type": "pseudo_element_selector",
           "named": true,
-          "state_id": 17
-        },
-        {
-          "type": "selectors",
-          "named": true,
-          "state_id": 18
-        },
-        {
-          "type": "sibling_selector",
-          "named": true,
-          "state_id": 19
-        },
-        {
-          "type": "string_value",
-          "named": true,
-          "state_id": 20
+          "state_id": 14
         },
         {
           "type": "tag_name",
           "named": true,
-          "state_id": 14
+          "state_id": 11
         },
         {
-          "type": "to",
+          "type": "attribute_selector",
           "named": true,
-          "state_id": 1
+          "state_id": 15
+        },
+        {
+          "type": "adjacent_sibling_selector",
+          "named": true,
+          "state_id": 16
+        },
+        {
+          "type": "child_selector",
+          "named": true,
+          "state_id": 17
+        },
+        {
+          "type": "sibling_selector",
+          "named": true,
+          "state_id": 18
+        },
+        {
+          "type": "nesting_selector",
+          "named": true,
+          "state_id": 19
         },
         {
           "type": "universal_selector",
           "named": true,
-          "state_id": 14
+          "state_id": 19
+        },
+        {
+          "type": "comment",
+          "named": true,
+          "state_id": 20
         }
       ],
       "default_next_state_id": 0
     },
     {
       "id": 15,
-      "property_set_id": 10,
+      "property_set_id": 0,
       "transitions": [
         {
-          "type": "@charset",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@import",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@keyframes",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@media",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@namespace",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@supports",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "adjacent_sibling_selector",
+          "type": "plain_value",
           "named": true,
-          "state_id": 2
+          "text": "^--",
+          "state_id": 1
+        },
+        {
+          "type": "property_name",
+          "named": true,
+          "text": "^--",
+          "state_id": 1
         },
         {
           "type": "and",
           "named": false,
-          "state_id": 3
-        },
-        {
-          "type": "at_keyword",
-          "named": true,
-          "state_id": 1
-        },
-        {
-          "type": "attribute_name",
-          "named": true,
-          "state_id": 4
-        },
-        {
-          "type": "attribute_selector",
-          "named": true,
-          "state_id": 5
+          "state_id": 2
         },
         {
           "type": "binary_expression",
           "named": true,
-          "state_id": 6
+          "state_id": 3
         },
         {
-          "type": "child_selector",
+          "type": "keyword_query",
           "named": true,
-          "state_id": 7
+          "state_id": 2
         },
         {
-          "type": "class_name",
-          "named": true,
-          "state_id": 8
+          "type": "not",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "only",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "or",
+          "named": false,
+          "state_id": 2
         },
         {
           "type": "color_value",
           "named": true,
-          "state_id": 9
+          "state_id": 4
         },
         {
-          "type": "comment",
+          "type": "id_selector",
           "named": true,
-          "state_id": 10
+          "state_id": 5
+        },
+        {
+          "type": "selectors",
+          "named": true,
+          "state_id": 6
         },
         {
           "type": "feature_name",
           "named": true,
-          "state_id": 8
+          "state_id": 7
         },
         {
           "type": "float_value",
           "named": true,
-          "state_id": 11
+          "state_id": 8
+        },
+        {
+          "type": "integer_value",
+          "named": true,
+          "state_id": 8
+        },
+        {
+          "type": "string_value",
+          "named": true,
+          "state_id": 9
+        },
+        {
+          "type": "@charset",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@import",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@keyframes",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@media",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@namespace",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@supports",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "at_keyword",
+          "named": true,
+          "state_id": 10
         },
         {
           "type": "from",
           "named": true,
-          "state_id": 1
+          "state_id": 10
+        },
+        {
+          "type": "important",
+          "named": true,
+          "state_id": 10
+        },
+        {
+          "type": "to",
+          "named": true,
+          "state_id": 10
+        },
+        {
+          "type": "attribute_name",
+          "named": true,
+          "state_id": 11
+        },
+        {
+          "type": "property_name",
+          "named": true,
+          "state_id": 7
         },
         {
           "type": "function_name",
@@ -3395,111 +3397,104 @@
           "state_id": 12
         },
         {
-          "type": "id_name",
-          "named": true,
-          "state_id": 8
-        },
-        {
-          "type": "id_selector",
-          "named": true,
-          "state_id": 13
-        },
-        {
-          "type": "important",
-          "named": true,
-          "state_id": 1
-        },
-        {
-          "type": "integer_value",
-          "named": true,
-          "state_id": 11
-        },
-        {
-          "type": "keyword_query",
-          "named": true,
-          "state_id": 3
-        },
-        {
           "type": "namespace_name",
           "named": true,
-          "state_id": 8
+          "state_id": 7
         },
         {
-          "type": "nesting_selector",
+          "type": "id_name",
           "named": true,
-          "state_id": 14
+          "state_id": 7
         },
         {
-          "type": "not",
-          "named": false,
-          "state_id": 3
-        },
-        {
-          "type": "only",
-          "named": false,
-          "state_id": 3
-        },
-        {
-          "type": "or",
-          "named": false,
-          "state_id": 3
-        },
-        {
-          "type": "plain_value",
+          "type": "class_name",
           "named": true,
-          "text": "^--",
-          "state_id": 15
-        },
-        {
-          "type": "property_name",
-          "named": true,
-          "text": "^--",
-          "state_id": 15
-        },
-        {
-          "type": "property_name",
-          "named": true,
-          "state_id": 8
+          "state_id": 7
         },
         {
           "type": "pseudo_class_selector",
           "named": true,
-          "state_id": 16
+          "state_id": 13
         },
         {
           "type": "pseudo_element_selector",
           "named": true,
-          "state_id": 17
+          "state_id": 14
         },
         {
-          "type": "selectors",
+          "type": "attribute_selector",
           "named": true,
-          "state_id": 18
+          "state_id": 15
+        },
+        {
+          "type": "plain_value",
+          "named": true,
+          "state_id": 9
+        },
+        {
+          "type": "$=",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "*=",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "=",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "^=",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "|=",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "~=",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "adjacent_sibling_selector",
+          "named": true,
+          "state_id": 16
+        },
+        {
+          "type": "child_selector",
+          "named": true,
+          "state_id": 17
         },
         {
           "type": "sibling_selector",
           "named": true,
-          "state_id": 19
+          "state_id": 18
         },
         {
-          "type": "string_value",
+          "type": "nesting_selector",
           "named": true,
-          "state_id": 20
+          "state_id": 19
         },
         {
           "type": "tag_name",
           "named": true,
-          "state_id": 14
-        },
-        {
-          "type": "to",
-          "named": true,
-          "state_id": 1
+          "state_id": 19
         },
         {
           "type": "universal_selector",
           "named": true,
-          "state_id": 14
+          "state_id": 19
+        },
+        {
+          "type": "comment",
+          "named": true,
+          "state_id": 20
         }
       ],
       "default_next_state_id": 0
@@ -3509,99 +3504,141 @@
       "property_set_id": 0,
       "transitions": [
         {
-          "type": "@charset",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@import",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@keyframes",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@media",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@namespace",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@supports",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "adjacent_sibling_selector",
+          "type": "plain_value",
           "named": true,
-          "state_id": 2
+          "text": "^--",
+          "state_id": 1
+        },
+        {
+          "type": "property_name",
+          "named": true,
+          "text": "^--",
+          "state_id": 1
         },
         {
           "type": "and",
           "named": false,
-          "state_id": 3
-        },
-        {
-          "type": "at_keyword",
-          "named": true,
-          "state_id": 1
-        },
-        {
-          "type": "attribute_name",
-          "named": true,
-          "state_id": 4
-        },
-        {
-          "type": "attribute_selector",
-          "named": true,
-          "state_id": 5
+          "state_id": 2
         },
         {
           "type": "binary_expression",
           "named": true,
-          "state_id": 6
+          "state_id": 3
         },
         {
-          "type": "child_selector",
+          "type": "keyword_query",
           "named": true,
-          "state_id": 7
+          "state_id": 2
         },
         {
-          "type": "class_name",
-          "named": true,
-          "state_id": 4
+          "type": "not",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "only",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "or",
+          "named": false,
+          "state_id": 2
         },
         {
           "type": "color_value",
           "named": true,
-          "state_id": 9
+          "state_id": 4
         },
         {
-          "type": "comment",
+          "type": "id_selector",
           "named": true,
-          "state_id": 10
+          "state_id": 5
+        },
+        {
+          "type": "selectors",
+          "named": true,
+          "state_id": 6
         },
         {
           "type": "feature_name",
           "named": true,
-          "state_id": 8
+          "state_id": 7
         },
         {
           "type": "float_value",
           "named": true,
-          "state_id": 11
+          "state_id": 8
+        },
+        {
+          "type": "integer_value",
+          "named": true,
+          "state_id": 8
+        },
+        {
+          "type": "string_value",
+          "named": true,
+          "state_id": 9
+        },
+        {
+          "type": "@charset",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@import",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@keyframes",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@media",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@namespace",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@supports",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "at_keyword",
+          "named": true,
+          "state_id": 10
         },
         {
           "type": "from",
           "named": true,
-          "state_id": 1
+          "state_id": 10
+        },
+        {
+          "type": "important",
+          "named": true,
+          "state_id": 10
+        },
+        {
+          "type": "to",
+          "named": true,
+          "state_id": 10
+        },
+        {
+          "type": "attribute_name",
+          "named": true,
+          "state_id": 11
+        },
+        {
+          "type": "property_name",
+          "named": true,
+          "state_id": 7
         },
         {
           "type": "function_name",
@@ -3609,111 +3646,74 @@
           "state_id": 12
         },
         {
-          "type": "id_name",
-          "named": true,
-          "state_id": 8
-        },
-        {
-          "type": "id_selector",
-          "named": true,
-          "state_id": 13
-        },
-        {
-          "type": "important",
-          "named": true,
-          "state_id": 1
-        },
-        {
-          "type": "integer_value",
-          "named": true,
-          "state_id": 11
-        },
-        {
-          "type": "keyword_query",
-          "named": true,
-          "state_id": 3
-        },
-        {
           "type": "namespace_name",
           "named": true,
-          "state_id": 8
+          "state_id": 7
         },
         {
-          "type": "nesting_selector",
+          "type": "id_name",
           "named": true,
-          "state_id": 14
+          "state_id": 7
         },
         {
-          "type": "not",
-          "named": false,
-          "state_id": 3
-        },
-        {
-          "type": "only",
-          "named": false,
-          "state_id": 3
-        },
-        {
-          "type": "or",
-          "named": false,
-          "state_id": 3
-        },
-        {
-          "type": "plain_value",
+          "type": "class_name",
           "named": true,
-          "text": "^--",
-          "state_id": 15
-        },
-        {
-          "type": "property_name",
-          "named": true,
-          "text": "^--",
-          "state_id": 15
-        },
-        {
-          "type": "property_name",
-          "named": true,
-          "state_id": 8
+          "state_id": 7
         },
         {
           "type": "pseudo_class_selector",
           "named": true,
-          "state_id": 16
+          "state_id": 13
         },
         {
           "type": "pseudo_element_selector",
           "named": true,
-          "state_id": 17
+          "state_id": 14
         },
         {
-          "type": "selectors",
+          "type": "attribute_selector",
           "named": true,
-          "state_id": 18
+          "state_id": 15
+        },
+        {
+          "type": "+",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "adjacent_sibling_selector",
+          "named": true,
+          "state_id": 16
+        },
+        {
+          "type": "child_selector",
+          "named": true,
+          "state_id": 17
         },
         {
           "type": "sibling_selector",
           "named": true,
-          "state_id": 19
+          "state_id": 18
         },
         {
-          "type": "string_value",
+          "type": "nesting_selector",
           "named": true,
-          "state_id": 20
+          "state_id": 19
         },
         {
           "type": "tag_name",
           "named": true,
-          "state_id": 14
-        },
-        {
-          "type": "to",
-          "named": true,
-          "state_id": 1
+          "state_id": 19
         },
         {
           "type": "universal_selector",
           "named": true,
-          "state_id": 14
+          "state_id": 19
+        },
+        {
+          "type": "comment",
+          "named": true,
+          "state_id": 20
         }
       ],
       "default_next_state_id": 0
@@ -3723,99 +3723,141 @@
       "property_set_id": 0,
       "transitions": [
         {
-          "type": "@charset",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@import",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@keyframes",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@media",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@namespace",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@supports",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "adjacent_sibling_selector",
+          "type": "plain_value",
           "named": true,
-          "state_id": 2
+          "text": "^--",
+          "state_id": 1
+        },
+        {
+          "type": "property_name",
+          "named": true,
+          "text": "^--",
+          "state_id": 1
         },
         {
           "type": "and",
           "named": false,
-          "state_id": 3
-        },
-        {
-          "type": "at_keyword",
-          "named": true,
-          "state_id": 1
-        },
-        {
-          "type": "attribute_name",
-          "named": true,
-          "state_id": 4
-        },
-        {
-          "type": "attribute_selector",
-          "named": true,
-          "state_id": 5
+          "state_id": 2
         },
         {
           "type": "binary_expression",
           "named": true,
-          "state_id": 6
+          "state_id": 3
         },
         {
-          "type": "child_selector",
+          "type": "keyword_query",
           "named": true,
-          "state_id": 7
+          "state_id": 2
         },
         {
-          "type": "class_name",
-          "named": true,
-          "state_id": 8
+          "type": "not",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "only",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "or",
+          "named": false,
+          "state_id": 2
         },
         {
           "type": "color_value",
           "named": true,
-          "state_id": 9
+          "state_id": 4
         },
         {
-          "type": "comment",
+          "type": "id_selector",
           "named": true,
-          "state_id": 10
+          "state_id": 5
+        },
+        {
+          "type": "selectors",
+          "named": true,
+          "state_id": 6
         },
         {
           "type": "feature_name",
           "named": true,
-          "state_id": 8
+          "state_id": 7
         },
         {
           "type": "float_value",
           "named": true,
-          "state_id": 11
+          "state_id": 8
+        },
+        {
+          "type": "integer_value",
+          "named": true,
+          "state_id": 8
+        },
+        {
+          "type": "string_value",
+          "named": true,
+          "state_id": 9
+        },
+        {
+          "type": "@charset",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@import",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@keyframes",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@media",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@namespace",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@supports",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "at_keyword",
+          "named": true,
+          "state_id": 10
         },
         {
           "type": "from",
           "named": true,
-          "state_id": 1
+          "state_id": 10
+        },
+        {
+          "type": "important",
+          "named": true,
+          "state_id": 10
+        },
+        {
+          "type": "to",
+          "named": true,
+          "state_id": 10
+        },
+        {
+          "type": "attribute_name",
+          "named": true,
+          "state_id": 11
+        },
+        {
+          "type": "property_name",
+          "named": true,
+          "state_id": 7
         },
         {
           "type": "function_name",
@@ -3823,111 +3865,74 @@
           "state_id": 12
         },
         {
-          "type": "id_name",
-          "named": true,
-          "state_id": 8
-        },
-        {
-          "type": "id_selector",
-          "named": true,
-          "state_id": 13
-        },
-        {
-          "type": "important",
-          "named": true,
-          "state_id": 1
-        },
-        {
-          "type": "integer_value",
-          "named": true,
-          "state_id": 11
-        },
-        {
-          "type": "keyword_query",
-          "named": true,
-          "state_id": 3
-        },
-        {
           "type": "namespace_name",
           "named": true,
-          "state_id": 8
+          "state_id": 7
         },
         {
-          "type": "nesting_selector",
+          "type": "id_name",
           "named": true,
-          "state_id": 14
+          "state_id": 7
         },
         {
-          "type": "not",
-          "named": false,
-          "state_id": 3
-        },
-        {
-          "type": "only",
-          "named": false,
-          "state_id": 3
-        },
-        {
-          "type": "or",
-          "named": false,
-          "state_id": 3
-        },
-        {
-          "type": "plain_value",
+          "type": "class_name",
           "named": true,
-          "text": "^--",
-          "state_id": 15
-        },
-        {
-          "type": "property_name",
-          "named": true,
-          "text": "^--",
-          "state_id": 15
-        },
-        {
-          "type": "property_name",
-          "named": true,
-          "state_id": 8
+          "state_id": 7
         },
         {
           "type": "pseudo_class_selector",
           "named": true,
-          "state_id": 16
+          "state_id": 13
         },
         {
           "type": "pseudo_element_selector",
           "named": true,
-          "state_id": 17
+          "state_id": 14
         },
         {
-          "type": "selectors",
+          "type": "attribute_selector",
           "named": true,
-          "state_id": 18
+          "state_id": 15
+        },
+        {
+          "type": ">",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "adjacent_sibling_selector",
+          "named": true,
+          "state_id": 16
+        },
+        {
+          "type": "child_selector",
+          "named": true,
+          "state_id": 17
         },
         {
           "type": "sibling_selector",
           "named": true,
-          "state_id": 19
+          "state_id": 18
         },
         {
-          "type": "string_value",
+          "type": "nesting_selector",
           "named": true,
-          "state_id": 20
+          "state_id": 19
         },
         {
           "type": "tag_name",
           "named": true,
-          "state_id": 4
-        },
-        {
-          "type": "to",
-          "named": true,
-          "state_id": 1
+          "state_id": 19
         },
         {
           "type": "universal_selector",
           "named": true,
-          "state_id": 14
+          "state_id": 19
+        },
+        {
+          "type": "comment",
+          "named": true,
+          "state_id": 20
         }
       ],
       "default_next_state_id": 0
@@ -3937,104 +3942,141 @@
       "property_set_id": 0,
       "transitions": [
         {
-          "type": ",",
-          "named": false,
-          "state_id": 21
-        },
-        {
-          "type": "@charset",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@import",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@keyframes",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@media",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@namespace",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@supports",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "adjacent_sibling_selector",
+          "type": "plain_value",
           "named": true,
-          "state_id": 2
+          "text": "^--",
+          "state_id": 1
+        },
+        {
+          "type": "property_name",
+          "named": true,
+          "text": "^--",
+          "state_id": 1
         },
         {
           "type": "and",
           "named": false,
-          "state_id": 3
-        },
-        {
-          "type": "at_keyword",
-          "named": true,
-          "state_id": 1
-        },
-        {
-          "type": "attribute_name",
-          "named": true,
-          "state_id": 4
-        },
-        {
-          "type": "attribute_selector",
-          "named": true,
-          "state_id": 5
+          "state_id": 2
         },
         {
           "type": "binary_expression",
           "named": true,
-          "state_id": 6
+          "state_id": 3
         },
         {
-          "type": "child_selector",
+          "type": "keyword_query",
           "named": true,
-          "state_id": 7
+          "state_id": 2
         },
         {
-          "type": "class_name",
-          "named": true,
-          "state_id": 8
+          "type": "not",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "only",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "or",
+          "named": false,
+          "state_id": 2
         },
         {
           "type": "color_value",
           "named": true,
-          "state_id": 9
+          "state_id": 4
         },
         {
-          "type": "comment",
+          "type": "id_selector",
           "named": true,
-          "state_id": 10
+          "state_id": 5
+        },
+        {
+          "type": "selectors",
+          "named": true,
+          "state_id": 6
         },
         {
           "type": "feature_name",
           "named": true,
-          "state_id": 8
+          "state_id": 7
         },
         {
           "type": "float_value",
           "named": true,
-          "state_id": 11
+          "state_id": 8
+        },
+        {
+          "type": "integer_value",
+          "named": true,
+          "state_id": 8
+        },
+        {
+          "type": "string_value",
+          "named": true,
+          "state_id": 9
+        },
+        {
+          "type": "@charset",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@import",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@keyframes",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@media",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@namespace",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@supports",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "at_keyword",
+          "named": true,
+          "state_id": 10
         },
         {
           "type": "from",
           "named": true,
-          "state_id": 1
+          "state_id": 10
+        },
+        {
+          "type": "important",
+          "named": true,
+          "state_id": 10
+        },
+        {
+          "type": "to",
+          "named": true,
+          "state_id": 10
+        },
+        {
+          "type": "attribute_name",
+          "named": true,
+          "state_id": 11
+        },
+        {
+          "type": "property_name",
+          "named": true,
+          "state_id": 7
         },
         {
           "type": "function_name",
@@ -4042,213 +4084,218 @@
           "state_id": 12
         },
         {
-          "type": "id_name",
-          "named": true,
-          "state_id": 8
-        },
-        {
-          "type": "id_selector",
-          "named": true,
-          "state_id": 13
-        },
-        {
-          "type": "important",
-          "named": true,
-          "state_id": 1
-        },
-        {
-          "type": "integer_value",
-          "named": true,
-          "state_id": 11
-        },
-        {
-          "type": "keyword_query",
-          "named": true,
-          "state_id": 3
-        },
-        {
           "type": "namespace_name",
           "named": true,
-          "state_id": 8
+          "state_id": 7
         },
         {
-          "type": "nesting_selector",
+          "type": "id_name",
           "named": true,
-          "state_id": 14
+          "state_id": 7
         },
         {
-          "type": "not",
-          "named": false,
-          "state_id": 3
-        },
-        {
-          "type": "only",
-          "named": false,
-          "state_id": 3
-        },
-        {
-          "type": "or",
-          "named": false,
-          "state_id": 3
-        },
-        {
-          "type": "plain_value",
+          "type": "class_name",
           "named": true,
-          "text": "^--",
-          "state_id": 15
-        },
-        {
-          "type": "property_name",
-          "named": true,
-          "text": "^--",
-          "state_id": 15
-        },
-        {
-          "type": "property_name",
-          "named": true,
-          "state_id": 8
+          "state_id": 7
         },
         {
           "type": "pseudo_class_selector",
           "named": true,
-          "state_id": 16
+          "state_id": 13
         },
         {
           "type": "pseudo_element_selector",
           "named": true,
-          "state_id": 17
+          "state_id": 14
         },
         {
-          "type": "selectors",
+          "type": "attribute_selector",
           "named": true,
-          "state_id": 18
+          "state_id": 15
+        },
+        {
+          "type": "adjacent_sibling_selector",
+          "named": true,
+          "state_id": 16
+        },
+        {
+          "type": "child_selector",
+          "named": true,
+          "state_id": 17
         },
         {
           "type": "sibling_selector",
           "named": true,
-          "state_id": 19
+          "state_id": 18
         },
         {
-          "type": "string_value",
+          "type": "~",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "nesting_selector",
           "named": true,
-          "state_id": 20
+          "state_id": 19
         },
         {
           "type": "tag_name",
           "named": true,
-          "state_id": 14
-        },
-        {
-          "type": "to",
-          "named": true,
-          "state_id": 1
+          "state_id": 19
         },
         {
           "type": "universal_selector",
           "named": true,
-          "state_id": 14
+          "state_id": 19
+        },
+        {
+          "type": "comment",
+          "named": true,
+          "state_id": 20
         }
       ],
       "default_next_state_id": 0
     },
     {
       "id": 19,
-      "property_set_id": 0,
+      "property_set_id": 10,
       "transitions": [
         {
-          "type": "@charset",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@import",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@keyframes",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@media",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@namespace",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@supports",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "adjacent_sibling_selector",
+          "type": "plain_value",
           "named": true,
-          "state_id": 2
+          "text": "^--",
+          "state_id": 1
+        },
+        {
+          "type": "property_name",
+          "named": true,
+          "text": "^--",
+          "state_id": 1
         },
         {
           "type": "and",
           "named": false,
-          "state_id": 3
-        },
-        {
-          "type": "at_keyword",
-          "named": true,
-          "state_id": 1
-        },
-        {
-          "type": "attribute_name",
-          "named": true,
-          "state_id": 4
-        },
-        {
-          "type": "attribute_selector",
-          "named": true,
-          "state_id": 5
+          "state_id": 2
         },
         {
           "type": "binary_expression",
           "named": true,
-          "state_id": 6
+          "state_id": 3
         },
         {
-          "type": "child_selector",
+          "type": "keyword_query",
           "named": true,
-          "state_id": 7
+          "state_id": 2
         },
         {
-          "type": "class_name",
-          "named": true,
-          "state_id": 8
+          "type": "not",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "only",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "or",
+          "named": false,
+          "state_id": 2
         },
         {
           "type": "color_value",
           "named": true,
-          "state_id": 9
+          "state_id": 4
         },
         {
-          "type": "comment",
+          "type": "id_selector",
           "named": true,
-          "state_id": 10
+          "state_id": 5
+        },
+        {
+          "type": "selectors",
+          "named": true,
+          "state_id": 6
         },
         {
           "type": "feature_name",
           "named": true,
-          "state_id": 8
+          "state_id": 7
         },
         {
           "type": "float_value",
           "named": true,
-          "state_id": 11
+          "state_id": 8
+        },
+        {
+          "type": "integer_value",
+          "named": true,
+          "state_id": 8
+        },
+        {
+          "type": "string_value",
+          "named": true,
+          "state_id": 9
+        },
+        {
+          "type": "@charset",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@import",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@keyframes",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@media",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@namespace",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@supports",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "at_keyword",
+          "named": true,
+          "state_id": 10
         },
         {
           "type": "from",
           "named": true,
-          "state_id": 1
+          "state_id": 10
+        },
+        {
+          "type": "important",
+          "named": true,
+          "state_id": 10
+        },
+        {
+          "type": "to",
+          "named": true,
+          "state_id": 10
+        },
+        {
+          "type": "attribute_name",
+          "named": true,
+          "state_id": 11
+        },
+        {
+          "type": "property_name",
+          "named": true,
+          "state_id": 7
         },
         {
           "type": "function_name",
@@ -4256,116 +4303,69 @@
           "state_id": 12
         },
         {
-          "type": "id_name",
-          "named": true,
-          "state_id": 8
-        },
-        {
-          "type": "id_selector",
-          "named": true,
-          "state_id": 13
-        },
-        {
-          "type": "important",
-          "named": true,
-          "state_id": 1
-        },
-        {
-          "type": "integer_value",
-          "named": true,
-          "state_id": 11
-        },
-        {
-          "type": "keyword_query",
-          "named": true,
-          "state_id": 3
-        },
-        {
           "type": "namespace_name",
           "named": true,
-          "state_id": 8
+          "state_id": 7
         },
         {
-          "type": "nesting_selector",
+          "type": "id_name",
           "named": true,
-          "state_id": 14
+          "state_id": 7
         },
         {
-          "type": "not",
-          "named": false,
-          "state_id": 3
-        },
-        {
-          "type": "only",
-          "named": false,
-          "state_id": 3
-        },
-        {
-          "type": "or",
-          "named": false,
-          "state_id": 3
-        },
-        {
-          "type": "plain_value",
+          "type": "class_name",
           "named": true,
-          "text": "^--",
-          "state_id": 15
-        },
-        {
-          "type": "property_name",
-          "named": true,
-          "text": "^--",
-          "state_id": 15
-        },
-        {
-          "type": "property_name",
-          "named": true,
-          "state_id": 8
+          "state_id": 7
         },
         {
           "type": "pseudo_class_selector",
           "named": true,
-          "state_id": 16
+          "state_id": 13
         },
         {
           "type": "pseudo_element_selector",
           "named": true,
-          "state_id": 17
+          "state_id": 14
         },
         {
-          "type": "selectors",
+          "type": "attribute_selector",
           "named": true,
-          "state_id": 18
+          "state_id": 15
+        },
+        {
+          "type": "adjacent_sibling_selector",
+          "named": true,
+          "state_id": 16
+        },
+        {
+          "type": "child_selector",
+          "named": true,
+          "state_id": 17
         },
         {
           "type": "sibling_selector",
           "named": true,
-          "state_id": 19
+          "state_id": 18
         },
         {
-          "type": "string_value",
+          "type": "nesting_selector",
           "named": true,
-          "state_id": 20
+          "state_id": 19
         },
         {
           "type": "tag_name",
           "named": true,
-          "state_id": 14
-        },
-        {
-          "type": "to",
-          "named": true,
-          "state_id": 1
+          "state_id": 19
         },
         {
           "type": "universal_selector",
           "named": true,
-          "state_id": 14
+          "state_id": 19
         },
         {
-          "type": "~",
-          "named": false,
-          "state_id": 3
+          "type": "comment",
+          "named": true,
+          "state_id": 20
         }
       ],
       "default_next_state_id": 0
@@ -4375,99 +4375,141 @@
       "property_set_id": 11,
       "transitions": [
         {
-          "type": "@charset",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@import",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@keyframes",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@media",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@namespace",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@supports",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "adjacent_sibling_selector",
+          "type": "plain_value",
           "named": true,
-          "state_id": 2
+          "text": "^--",
+          "state_id": 1
+        },
+        {
+          "type": "property_name",
+          "named": true,
+          "text": "^--",
+          "state_id": 1
         },
         {
           "type": "and",
           "named": false,
-          "state_id": 3
-        },
-        {
-          "type": "at_keyword",
-          "named": true,
-          "state_id": 1
-        },
-        {
-          "type": "attribute_name",
-          "named": true,
-          "state_id": 4
-        },
-        {
-          "type": "attribute_selector",
-          "named": true,
-          "state_id": 5
+          "state_id": 2
         },
         {
           "type": "binary_expression",
           "named": true,
-          "state_id": 6
+          "state_id": 3
         },
         {
-          "type": "child_selector",
+          "type": "keyword_query",
           "named": true,
-          "state_id": 7
+          "state_id": 2
         },
         {
-          "type": "class_name",
-          "named": true,
-          "state_id": 8
+          "type": "not",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "only",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "or",
+          "named": false,
+          "state_id": 2
         },
         {
           "type": "color_value",
           "named": true,
-          "state_id": 9
+          "state_id": 4
         },
         {
-          "type": "comment",
+          "type": "id_selector",
           "named": true,
-          "state_id": 10
+          "state_id": 5
+        },
+        {
+          "type": "selectors",
+          "named": true,
+          "state_id": 6
         },
         {
           "type": "feature_name",
           "named": true,
-          "state_id": 8
+          "state_id": 7
         },
         {
           "type": "float_value",
           "named": true,
-          "state_id": 11
+          "state_id": 8
+        },
+        {
+          "type": "integer_value",
+          "named": true,
+          "state_id": 8
+        },
+        {
+          "type": "string_value",
+          "named": true,
+          "state_id": 9
+        },
+        {
+          "type": "@charset",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@import",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@keyframes",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@media",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@namespace",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@supports",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "at_keyword",
+          "named": true,
+          "state_id": 10
         },
         {
           "type": "from",
           "named": true,
-          "state_id": 1
+          "state_id": 10
+        },
+        {
+          "type": "important",
+          "named": true,
+          "state_id": 10
+        },
+        {
+          "type": "to",
+          "named": true,
+          "state_id": 10
+        },
+        {
+          "type": "attribute_name",
+          "named": true,
+          "state_id": 11
+        },
+        {
+          "type": "property_name",
+          "named": true,
+          "state_id": 7
         },
         {
           "type": "function_name",
@@ -4475,111 +4517,69 @@
           "state_id": 12
         },
         {
-          "type": "id_name",
-          "named": true,
-          "state_id": 8
-        },
-        {
-          "type": "id_selector",
-          "named": true,
-          "state_id": 13
-        },
-        {
-          "type": "important",
-          "named": true,
-          "state_id": 1
-        },
-        {
-          "type": "integer_value",
-          "named": true,
-          "state_id": 11
-        },
-        {
-          "type": "keyword_query",
-          "named": true,
-          "state_id": 3
-        },
-        {
           "type": "namespace_name",
           "named": true,
-          "state_id": 8
+          "state_id": 7
         },
         {
-          "type": "nesting_selector",
+          "type": "id_name",
           "named": true,
-          "state_id": 14
+          "state_id": 7
         },
         {
-          "type": "not",
-          "named": false,
-          "state_id": 3
-        },
-        {
-          "type": "only",
-          "named": false,
-          "state_id": 3
-        },
-        {
-          "type": "or",
-          "named": false,
-          "state_id": 3
-        },
-        {
-          "type": "plain_value",
+          "type": "class_name",
           "named": true,
-          "text": "^--",
-          "state_id": 15
-        },
-        {
-          "type": "property_name",
-          "named": true,
-          "text": "^--",
-          "state_id": 15
-        },
-        {
-          "type": "property_name",
-          "named": true,
-          "state_id": 8
+          "state_id": 7
         },
         {
           "type": "pseudo_class_selector",
           "named": true,
-          "state_id": 16
+          "state_id": 13
         },
         {
           "type": "pseudo_element_selector",
           "named": true,
-          "state_id": 17
+          "state_id": 14
         },
         {
-          "type": "selectors",
+          "type": "attribute_selector",
           "named": true,
-          "state_id": 18
+          "state_id": 15
+        },
+        {
+          "type": "adjacent_sibling_selector",
+          "named": true,
+          "state_id": 16
+        },
+        {
+          "type": "child_selector",
+          "named": true,
+          "state_id": 17
         },
         {
           "type": "sibling_selector",
           "named": true,
-          "state_id": 19
+          "state_id": 18
         },
         {
-          "type": "string_value",
+          "type": "nesting_selector",
           "named": true,
-          "state_id": 20
+          "state_id": 19
         },
         {
           "type": "tag_name",
           "named": true,
-          "state_id": 14
-        },
-        {
-          "type": "to",
-          "named": true,
-          "state_id": 1
+          "state_id": 19
         },
         {
           "type": "universal_selector",
           "named": true,
-          "state_id": 14
+          "state_id": 19
+        },
+        {
+          "type": "comment",
+          "named": true,
+          "state_id": 20
         }
       ],
       "default_next_state_id": 0
@@ -4589,99 +4589,141 @@
       "property_set_id": 12,
       "transitions": [
         {
-          "type": "@charset",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@import",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@keyframes",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@media",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@namespace",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@supports",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "adjacent_sibling_selector",
+          "type": "plain_value",
           "named": true,
-          "state_id": 2
+          "text": "^--",
+          "state_id": 1
+        },
+        {
+          "type": "property_name",
+          "named": true,
+          "text": "^--",
+          "state_id": 1
         },
         {
           "type": "and",
           "named": false,
-          "state_id": 3
-        },
-        {
-          "type": "at_keyword",
-          "named": true,
-          "state_id": 1
-        },
-        {
-          "type": "attribute_name",
-          "named": true,
-          "state_id": 4
-        },
-        {
-          "type": "attribute_selector",
-          "named": true,
-          "state_id": 5
+          "state_id": 2
         },
         {
           "type": "binary_expression",
           "named": true,
-          "state_id": 6
+          "state_id": 3
         },
         {
-          "type": "child_selector",
+          "type": "keyword_query",
           "named": true,
-          "state_id": 7
+          "state_id": 2
         },
         {
-          "type": "class_name",
-          "named": true,
-          "state_id": 8
+          "type": "not",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "only",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "or",
+          "named": false,
+          "state_id": 2
         },
         {
           "type": "color_value",
           "named": true,
-          "state_id": 9
+          "state_id": 4
         },
         {
-          "type": "comment",
+          "type": "id_selector",
           "named": true,
-          "state_id": 10
+          "state_id": 5
+        },
+        {
+          "type": "selectors",
+          "named": true,
+          "state_id": 6
         },
         {
           "type": "feature_name",
           "named": true,
-          "state_id": 8
+          "state_id": 7
         },
         {
           "type": "float_value",
           "named": true,
-          "state_id": 11
+          "state_id": 8
+        },
+        {
+          "type": "integer_value",
+          "named": true,
+          "state_id": 8
+        },
+        {
+          "type": "string_value",
+          "named": true,
+          "state_id": 9
+        },
+        {
+          "type": "@charset",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@import",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@keyframes",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@media",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@namespace",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@supports",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "at_keyword",
+          "named": true,
+          "state_id": 10
         },
         {
           "type": "from",
           "named": true,
-          "state_id": 1
+          "state_id": 10
+        },
+        {
+          "type": "important",
+          "named": true,
+          "state_id": 10
+        },
+        {
+          "type": "to",
+          "named": true,
+          "state_id": 10
+        },
+        {
+          "type": "attribute_name",
+          "named": true,
+          "state_id": 11
+        },
+        {
+          "type": "property_name",
+          "named": true,
+          "state_id": 7
         },
         {
           "type": "function_name",
@@ -4689,111 +4731,69 @@
           "state_id": 12
         },
         {
-          "type": "id_name",
-          "named": true,
-          "state_id": 8
-        },
-        {
-          "type": "id_selector",
-          "named": true,
-          "state_id": 13
-        },
-        {
-          "type": "important",
-          "named": true,
-          "state_id": 1
-        },
-        {
-          "type": "integer_value",
-          "named": true,
-          "state_id": 11
-        },
-        {
-          "type": "keyword_query",
-          "named": true,
-          "state_id": 3
-        },
-        {
           "type": "namespace_name",
           "named": true,
-          "state_id": 8
+          "state_id": 7
         },
         {
-          "type": "nesting_selector",
+          "type": "id_name",
           "named": true,
-          "state_id": 14
+          "state_id": 7
         },
         {
-          "type": "not",
-          "named": false,
-          "state_id": 3
-        },
-        {
-          "type": "only",
-          "named": false,
-          "state_id": 3
-        },
-        {
-          "type": "or",
-          "named": false,
-          "state_id": 3
-        },
-        {
-          "type": "plain_value",
+          "type": "class_name",
           "named": true,
-          "text": "^--",
-          "state_id": 15
-        },
-        {
-          "type": "property_name",
-          "named": true,
-          "text": "^--",
-          "state_id": 15
-        },
-        {
-          "type": "property_name",
-          "named": true,
-          "state_id": 8
+          "state_id": 7
         },
         {
           "type": "pseudo_class_selector",
           "named": true,
-          "state_id": 16
+          "state_id": 13
         },
         {
           "type": "pseudo_element_selector",
           "named": true,
-          "state_id": 17
+          "state_id": 14
         },
         {
-          "type": "selectors",
+          "type": "attribute_selector",
           "named": true,
-          "state_id": 18
+          "state_id": 15
+        },
+        {
+          "type": "adjacent_sibling_selector",
+          "named": true,
+          "state_id": 16
+        },
+        {
+          "type": "child_selector",
+          "named": true,
+          "state_id": 17
         },
         {
           "type": "sibling_selector",
           "named": true,
-          "state_id": 19
+          "state_id": 18
         },
         {
-          "type": "string_value",
+          "type": "nesting_selector",
           "named": true,
-          "state_id": 20
+          "state_id": 19
         },
         {
           "type": "tag_name",
           "named": true,
-          "state_id": 14
-        },
-        {
-          "type": "to",
-          "named": true,
-          "state_id": 1
+          "state_id": 19
         },
         {
           "type": "universal_selector",
           "named": true,
-          "state_id": 14
+          "state_id": 19
+        },
+        {
+          "type": "comment",
+          "named": true,
+          "state_id": 20
         }
       ],
       "default_next_state_id": 0
@@ -4803,99 +4803,141 @@
       "property_set_id": 13,
       "transitions": [
         {
-          "type": "@charset",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@import",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@keyframes",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@media",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@namespace",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "@supports",
-          "named": false,
-          "state_id": 1
-        },
-        {
-          "type": "adjacent_sibling_selector",
+          "type": "plain_value",
           "named": true,
-          "state_id": 2
+          "text": "^--",
+          "state_id": 1
+        },
+        {
+          "type": "property_name",
+          "named": true,
+          "text": "^--",
+          "state_id": 1
         },
         {
           "type": "and",
           "named": false,
-          "state_id": 3
-        },
-        {
-          "type": "at_keyword",
-          "named": true,
-          "state_id": 1
-        },
-        {
-          "type": "attribute_name",
-          "named": true,
-          "state_id": 4
-        },
-        {
-          "type": "attribute_selector",
-          "named": true,
-          "state_id": 5
+          "state_id": 2
         },
         {
           "type": "binary_expression",
           "named": true,
-          "state_id": 6
+          "state_id": 3
         },
         {
-          "type": "child_selector",
+          "type": "keyword_query",
           "named": true,
-          "state_id": 7
+          "state_id": 2
         },
         {
-          "type": "class_name",
-          "named": true,
-          "state_id": 8
+          "type": "not",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "only",
+          "named": false,
+          "state_id": 2
+        },
+        {
+          "type": "or",
+          "named": false,
+          "state_id": 2
         },
         {
           "type": "color_value",
           "named": true,
-          "state_id": 9
+          "state_id": 4
         },
         {
-          "type": "comment",
+          "type": "id_selector",
           "named": true,
-          "state_id": 10
+          "state_id": 5
+        },
+        {
+          "type": "selectors",
+          "named": true,
+          "state_id": 6
         },
         {
           "type": "feature_name",
           "named": true,
-          "state_id": 8
+          "state_id": 7
         },
         {
           "type": "float_value",
           "named": true,
-          "state_id": 11
+          "state_id": 8
+        },
+        {
+          "type": "integer_value",
+          "named": true,
+          "state_id": 8
+        },
+        {
+          "type": "string_value",
+          "named": true,
+          "state_id": 9
+        },
+        {
+          "type": "@charset",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@import",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@keyframes",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@media",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@namespace",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "@supports",
+          "named": false,
+          "state_id": 10
+        },
+        {
+          "type": "at_keyword",
+          "named": true,
+          "state_id": 10
         },
         {
           "type": "from",
           "named": true,
-          "state_id": 1
+          "state_id": 10
+        },
+        {
+          "type": "important",
+          "named": true,
+          "state_id": 10
+        },
+        {
+          "type": "to",
+          "named": true,
+          "state_id": 10
+        },
+        {
+          "type": "attribute_name",
+          "named": true,
+          "state_id": 11
+        },
+        {
+          "type": "property_name",
+          "named": true,
+          "state_id": 7
         },
         {
           "type": "function_name",
@@ -4903,111 +4945,69 @@
           "state_id": 12
         },
         {
-          "type": "id_name",
-          "named": true,
-          "state_id": 8
-        },
-        {
-          "type": "id_selector",
-          "named": true,
-          "state_id": 13
-        },
-        {
-          "type": "important",
-          "named": true,
-          "state_id": 1
-        },
-        {
-          "type": "integer_value",
-          "named": true,
-          "state_id": 11
-        },
-        {
-          "type": "keyword_query",
-          "named": true,
-          "state_id": 3
-        },
-        {
           "type": "namespace_name",
           "named": true,
-          "state_id": 8
+          "state_id": 7
         },
         {
-          "type": "nesting_selector",
+          "type": "id_name",
           "named": true,
-          "state_id": 14
+          "state_id": 7
         },
         {
-          "type": "not",
-          "named": false,
-          "state_id": 3
-        },
-        {
-          "type": "only",
-          "named": false,
-          "state_id": 3
-        },
-        {
-          "type": "or",
-          "named": false,
-          "state_id": 3
-        },
-        {
-          "type": "plain_value",
+          "type": "class_name",
           "named": true,
-          "text": "^--",
-          "state_id": 15
-        },
-        {
-          "type": "property_name",
-          "named": true,
-          "text": "^--",
-          "state_id": 15
-        },
-        {
-          "type": "property_name",
-          "named": true,
-          "state_id": 8
+          "state_id": 7
         },
         {
           "type": "pseudo_class_selector",
           "named": true,
-          "state_id": 16
+          "state_id": 13
         },
         {
           "type": "pseudo_element_selector",
           "named": true,
-          "state_id": 17
+          "state_id": 14
         },
         {
-          "type": "selectors",
+          "type": "attribute_selector",
           "named": true,
-          "state_id": 18
+          "state_id": 15
+        },
+        {
+          "type": "adjacent_sibling_selector",
+          "named": true,
+          "state_id": 16
+        },
+        {
+          "type": "child_selector",
+          "named": true,
+          "state_id": 17
         },
         {
           "type": "sibling_selector",
           "named": true,
-          "state_id": 19
+          "state_id": 18
         },
         {
-          "type": "string_value",
+          "type": "nesting_selector",
           "named": true,
-          "state_id": 20
+          "state_id": 19
         },
         {
           "type": "tag_name",
           "named": true,
-          "state_id": 14
-        },
-        {
-          "type": "to",
-          "named": true,
-          "state_id": 1
+          "state_id": 19
         },
         {
           "type": "universal_selector",
           "named": true,
-          "state_id": 14
+          "state_id": 19
+        },
+        {
+          "type": "comment",
+          "named": true,
+          "state_id": 20
         }
       ],
       "default_next_state_id": 0
@@ -5016,43 +5016,43 @@
   "property_sets": [
     {},
     {
-      "scope": "keyword"
+      "highlight": "variable"
     },
     {
-      "scope": "operator"
+      "highlight": "operator"
     },
     {
-      "scope": "attribute"
+      "highlight": "string.special"
     },
     {
-      "scope": "property"
+      "highlight": "property"
     },
     {
-      "scope": "string.special"
+      "highlight": "number"
     },
     {
-      "scope": "comment"
+      "highlight": "string"
     },
     {
-      "scope": "number"
+      "highlight": "keyword"
     },
     {
-      "scope": "function"
+      "highlight": "attribute"
     },
     {
-      "scope": "tag"
+      "highlight": "function"
     },
     {
-      "scope": "variable"
+      "highlight": "tag"
     },
     {
-      "scope": "string"
+      "highlight": "comment"
     },
     {
-      "scope": "punctuation.delimiter"
+      "highlight": "punctuation.delimiter"
     },
     {
-      "scope": "type"
+      "highlight": "type"
     }
   ]
 }
