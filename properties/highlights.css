@@ -1,7 +1,7 @@
 @import "tree-sitter-javascript/properties/highlights.css";
 
 class > identifier, new_expression > call_expression > identifier {
-  scope: 'type';
+  highlight: 'type';
 }
 
 jsx_opening_element,
@@ -9,18 +9,25 @@ jsx_closing_element,
 jsx_self_closing_element,
 call_expression {
   & > identifier[text='^[A-Z]'] {
-    scope: 'type';
+    highlight: 'type';
+  }
+}
+
+required_parameter, optional_parameter, rest_parameter {
+  & > identifier {
+    highlight: 'variable.parameter';
+    local-definition: true;
   }
 }
 
 type_identifier,
 predefined_type {
-  scope: 'type';
+  highlight: 'type';
 }
 
 method_signature > property_identifier,
 function_signature > identifier {
-  scope: 'function';
+  highlight: 'function';
 }
 
 [token="implements"],
@@ -32,7 +39,7 @@ function_signature > identifier {
 [token="public"],
 [token="private"],
 [token="protected"],
-[token=readonly],
+[token="readonly"],
 [token="type"] {
-  scope: 'keyword';
+  highlight: 'keyword';
 }
