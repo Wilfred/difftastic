@@ -20,7 +20,7 @@
   },
   "scripts": {
     "install": "prebuild-install || node-gyp rebuild",
-    "prebuild": "prebuild -r electron -t 1.6.0 -t 1.7.0 -t 1.8.0 -t 2.0.0 -t 3.0.0 -t 4.0.0 --strip && prebuild -t 8.16.0 -t 9.11.2 -t 10.12.0 --strip",
+    "prebuild": "prebuild -r electron -t 1.8.0 -t 2.0.0 -t 3.0.0 -t 4.0.0 --strip && prebuild -t 8.16.0 -t 10.12.0 --strip",
     "prebuild:upload": "prebuild --upload-all",
     "test": "tree-sitter test && script/parse-examples",
     "test-windows": "tree-sitter test"
