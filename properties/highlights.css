@@ -1,22 +1,22 @@
 @schema "tree-sitter-highlight-schema";
 
 identifier {
-  scope: 'variable';
+  highlight: 'variable';
 }
 
 call_expression > identifier,
 function_declaration > identifier,
 method_declaration > field_identifier,
 call_expression > selector_expression > field_identifier {
-  scope: 'function';
+  highlight: 'function';
 }
 
 type_identifier {
-  scope: 'type';
+  highlight: 'type';
 }
 
 field_identifier {
-  scope: 'property';
+  highlight: 'property';
 }
 
 /* Operators */
@@ -57,7 +57,7 @@ field_identifier {
 [token="|"],
 [token="|="],
 [token="||"] {
-  scope: 'operator';
+  highlight: 'operator';
 }
 
 /* Keywords */
@@ -87,25 +87,25 @@ field_identifier {
 [token="switch"],
 [token="type"],
 [token="var"] {
-  scope: 'keyword';
+  highlight: 'keyword';
 }
 
 interpreted_string_literal, raw_string_literal, rune_literal {
-  scope: 'string';
+  highlight: 'string';
 }
 
 escape_sequence {
-  scope: 'escape';
+  highlight: 'escape';
 }
 
 int_literal, float_literal, imaginary_literal {
-  scope: 'number';
+  highlight: 'number';
 }
 
 true, false, nil {
-  scope: 'constant.builtin';
+  highlight: 'constant.builtin';
 }
 
 comment {
-  scope: 'comment';
+  highlight: 'comment';
 }
