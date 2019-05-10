@@ -5,7 +5,7 @@
       "property_set_id": 0,
       "transitions": [
         {
-          "type": "attribute_name",
+          "type": "comment",
           "named": true,
           "state_id": 1
         },
@@ -15,7 +15,7 @@
           "state_id": 2
         },
         {
-          "type": "comment",
+          "type": "attribute_name",
           "named": true,
           "state_id": 3
         },
@@ -30,19 +30,19 @@
           "state_id": 5
         },
         {
-          "type": "script_element",
+          "type": "tag_name",
           "named": true,
-          "state_id": 6
+          "state_id": 5
         },
         {
           "type": "style_element",
           "named": true,
-          "state_id": 7
+          "state_id": 6
         },
         {
-          "type": "tag_name",
+          "type": "script_element",
           "named": true,
-          "state_id": 5
+          "state_id": 7
         }
       ],
       "default_next_state_id": 0
@@ -52,7 +52,7 @@
       "property_set_id": 1,
       "transitions": [
         {
-          "type": "attribute_name",
+          "type": "comment",
           "named": true,
           "state_id": 1
         },
@@ -62,7 +62,7 @@
           "state_id": 2
         },
         {
-          "type": "comment",
+          "type": "attribute_name",
           "named": true,
           "state_id": 3
         },
@@ -77,19 +77,19 @@
           "state_id": 5
         },
         {
-          "type": "script_element",
+          "type": "tag_name",
           "named": true,
-          "state_id": 6
+          "state_id": 5
         },
         {
           "type": "style_element",
           "named": true,
-          "state_id": 7
+          "state_id": 6
         },
         {
-          "type": "tag_name",
+          "type": "script_element",
           "named": true,
-          "state_id": 5
+          "state_id": 7
         }
       ],
       "default_next_state_id": 0
@@ -99,7 +99,7 @@
       "property_set_id": 2,
       "transitions": [
         {
-          "type": "attribute_name",
+          "type": "comment",
           "named": true,
           "state_id": 1
         },
@@ -109,7 +109,7 @@
           "state_id": 2
         },
         {
-          "type": "comment",
+          "type": "attribute_name",
           "named": true,
           "state_id": 3
         },
@@ -124,19 +124,19 @@
           "state_id": 5
         },
         {
-          "type": "script_element",
+          "type": "tag_name",
           "named": true,
-          "state_id": 6
+          "state_id": 5
         },
         {
           "type": "style_element",
           "named": true,
-          "state_id": 7
+          "state_id": 6
         },
         {
-          "type": "tag_name",
+          "type": "script_element",
           "named": true,
-          "state_id": 5
+          "state_id": 7
         }
       ],
       "default_next_state_id": 0
@@ -146,7 +146,7 @@
       "property_set_id": 3,
       "transitions": [
         {
-          "type": "attribute_name",
+          "type": "comment",
           "named": true,
           "state_id": 1
         },
@@ -156,7 +156,7 @@
           "state_id": 2
         },
         {
-          "type": "comment",
+          "type": "attribute_name",
           "named": true,
           "state_id": 3
         },
@@ -171,19 +171,19 @@
           "state_id": 5
         },
         {
-          "type": "script_element",
+          "type": "tag_name",
           "named": true,
-          "state_id": 6
+          "state_id": 5
         },
         {
           "type": "style_element",
           "named": true,
-          "state_id": 7
+          "state_id": 6
         },
         {
-          "type": "tag_name",
+          "type": "script_element",
           "named": true,
-          "state_id": 5
+          "state_id": 7
         }
       ],
       "default_next_state_id": 0
@@ -193,7 +193,7 @@
       "property_set_id": 4,
       "transitions": [
         {
-          "type": "attribute_name",
+          "type": "comment",
           "named": true,
           "state_id": 1
         },
@@ -203,7 +203,7 @@
           "state_id": 2
         },
         {
-          "type": "comment",
+          "type": "attribute_name",
           "named": true,
           "state_id": 3
         },
@@ -218,19 +218,19 @@
           "state_id": 5
         },
         {
-          "type": "script_element",
+          "type": "tag_name",
           "named": true,
-          "state_id": 6
+          "state_id": 5
         },
         {
           "type": "style_element",
           "named": true,
-          "state_id": 7
+          "state_id": 6
         },
         {
-          "type": "tag_name",
+          "type": "script_element",
           "named": true,
-          "state_id": 5
+          "state_id": 7
         }
       ],
       "default_next_state_id": 0
@@ -240,7 +240,7 @@
       "property_set_id": 5,
       "transitions": [
         {
-          "type": "attribute_name",
+          "type": "comment",
           "named": true,
           "state_id": 1
         },
@@ -250,7 +250,7 @@
           "state_id": 2
         },
         {
-          "type": "comment",
+          "type": "attribute_name",
           "named": true,
           "state_id": 3
         },
@@ -265,19 +265,19 @@
           "state_id": 5
         },
         {
-          "type": "script_element",
+          "type": "tag_name",
           "named": true,
-          "state_id": 6
+          "state_id": 5
         },
         {
           "type": "style_element",
           "named": true,
-          "state_id": 7
+          "state_id": 6
         },
         {
-          "type": "tag_name",
+          "type": "script_element",
           "named": true,
-          "state_id": 5
+          "state_id": 7
         }
       ],
       "default_next_state_id": 0
@@ -287,7 +287,7 @@
       "property_set_id": 6,
       "transitions": [
         {
-          "type": "attribute_name",
+          "type": "comment",
           "named": true,
           "state_id": 1
         },
@@ -297,7 +297,7 @@
           "state_id": 2
         },
         {
-          "type": "comment",
+          "type": "attribute_name",
           "named": true,
           "state_id": 3
         },
@@ -312,19 +312,19 @@
           "state_id": 5
         },
         {
-          "type": "script_element",
+          "type": "tag_name",
           "named": true,
-          "state_id": 6
+          "state_id": 5
         },
         {
           "type": "style_element",
           "named": true,
-          "state_id": 7
+          "state_id": 6
         },
         {
-          "type": "tag_name",
+          "type": "script_element",
           "named": true,
-          "state_id": 5
+          "state_id": 7
         }
       ],
       "default_next_state_id": 0
@@ -334,7 +334,7 @@
       "property_set_id": 7,
       "transitions": [
         {
-          "type": "attribute_name",
+          "type": "comment",
           "named": true,
           "state_id": 1
         },
@@ -344,7 +344,7 @@
           "state_id": 2
         },
         {
-          "type": "comment",
+          "type": "attribute_name",
           "named": true,
           "state_id": 3
         },
@@ -359,19 +359,19 @@
           "state_id": 5
         },
         {
-          "type": "script_element",
+          "type": "tag_name",
           "named": true,
-          "state_id": 6
+          "state_id": 5
         },
         {
           "type": "style_element",
           "named": true,
-          "state_id": 7
+          "state_id": 6
         },
         {
-          "type": "tag_name",
+          "type": "script_element",
           "named": true,
-          "state_id": 5
+          "state_id": 7
         }
       ],
       "default_next_state_id": 0
@@ -380,32 +380,19 @@
   "property_sets": [
     {},
     {
-      "scope": "attribute"
+      "highlight": "comment"
     },
     {
-      "scope": "string"
+      "highlight": "string"
     },
     {
-      "scope": "comment"
+      "highlight": "attribute"
     },
     {
-      "scope": "constant"
+      "highlight": "constant"
     },
     {
-      "scope": "tag"
-    },
-    {
-      "injection-content": {
-        "args": [
-          {
-            "args": [],
-            "name": "this"
-          },
-          1
-        ],
-        "name": "child"
-      },
-      "injection-language": "javascript"
+      "highlight": "tag"
     },
     {
       "injection-content": {
@@ -419,6 +406,19 @@
         "name": "child"
       },
       "injection-language": "css"
+    },
+    {
+      "injection-content": {
+        "args": [
+          {
+            "args": [],
+            "name": "this"
+          },
+          1
+        ],
+        "name": "child"
+      },
+      "injection-language": "javascript"
     }
   ]
 }
