@@ -74,11 +74,7 @@ module.exports = grammar({
     type_expression: $ => prec(2, arrowSep1($.type_ref, $.arrow)),
 
     exposed_union_constructors: $ =>
-      seq(
-        $.left_parenthesis,
-        choice($.double_dot, commaSep1($.exposed_union_constructor, $.comma)),
-        $.right_parenthesis
-      ),
+      seq($.left_parenthesis, $.double_dot, $.right_parenthesis),
 
     exposed_union_constructor: $ => $.upper_case_identifier,
 
