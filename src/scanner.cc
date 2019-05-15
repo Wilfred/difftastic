@@ -722,12 +722,14 @@ struct Scanner {
 
     // Contents of literals, which match any character except for some close delimiter
     if (!valid_symbols[STRING_START]) {
-      if (valid_symbols[STRING_CONTENT] && !literal_stack.empty()) {
-        return scan_literal_content(lexer);
-      }
-      if (valid_symbols[HEREDOC_CONTENT] && !open_heredocs.empty()) {
-        return scan_heredoc_content(lexer);
-      }
+      if (
+        (valid_symbols[STRING_CONTENT] || valid_symbols[STRING_END]) &&
+        !literal_stack.empty()
+      ) return scan_literal_content(lexer);
+      if (
+        (valid_symbols[HEREDOC_CONTENT] || valid_symbols[HEREDOC_BODY_END]) &&
+        !open_heredocs.empty()
+      ) return scan_heredoc_content(lexer);
     }
 
     // Whitespace
