@@ -51,7 +51,7 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
     [$.required_parameter, $._primary_type],
 
     [$._primary_type, $.type_parameter],
-    [$.jsx_opening_element, $._primary_type, $.type_parameter],
+    [$.jsx_opening_element, $.type_parameter],
     [$.jsx_namespace_name, $._primary_type],
 
     [$._expression, $.literal_type],
@@ -91,7 +91,7 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
     )),
 
     _expression: ($, previous) => choice(
-      $.type_assertion,
+      // $.type_assertion,
       $.as_expression,
       $.non_null_expression,
       $.internal_module,
@@ -634,8 +634,20 @@ module.exports = grammar(require('tree-sitter-javascript/grammar'), {
       'import',
       'export',
       previous
-    )
-  }
+    ),
+
+    jsx_opening_element: $ => prec.dynamic(-1, seq(
+      '<',
+      choice(
+        $._jsx_identifier,
+        seq($.nested_identifier, optional($.type_arguments)),
+        seq($.identifier, optional($.type_arguments)),
+        $.jsx_namespace_name,
+      ),
+      repeat($._jsx_attribute),
+      '>'
+    )),
+  },
 });
 
 function commaSep1 (rule) {
