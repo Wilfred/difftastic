@@ -1,5 +1,5 @@
 ===================
-arrays
+Arrays
 ===================
 
 [
@@ -23,37 +23,27 @@ arrays
   (null)
   (true)
   (false)
-  (object (pair (string) (string)))))
-
-===================
-long objects
-===================
-
-{
-  "key1": "value1",
-  "key2": 1
-}
-
----
-
-(value (object
-  (pair (string) (string))
-  (pair (string) (number))))
+  (object (pair (string (string_content)) (string (string_content))))))
 
 =====================
-Escape sequences
+String content
 =====================
 
-{
-  "key1": "value\n",
-  "key2": "value\t"
-}
+[
+  "",
+  "abc",
+  "def\n",
+  "ghi\t"
+]
 
 ----
 
-(value (object
-  (pair (string) (string (escape_sequence)))
-  (pair (string) (string (escape_sequence)))))
+(value
+  (array
+    (string)
+    (string (string_content))
+    (string (string_content (escape_sequence)))
+    (string (string_content (escape_sequence)))))
 
 ================================
 Top-level numbers
