@@ -32,14 +32,15 @@ module.exports = grammar({
       "[", commaSep($._value), "]"
     ),
 
-    string: $ => seq(
-      '"',
-      repeat(choice(
-        token.immediate(prec(1, /[^\\"\n]/)),
-        $.escape_sequence
-      )),
-      '"'
+    string: $ => choice(
+      seq('"', '"'),
+      seq('"', $.string_content, '"')
     ),
+
+    string_content: $ => repeat1(choice(
+      token.immediate(/[^\\"\n]/),
+      $.escape_sequence
+    )),
 
     escape_sequence: $ => token.immediate(seq(
       '\\',
