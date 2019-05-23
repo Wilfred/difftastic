@@ -4,7 +4,7 @@
       "scope": "source.ts",
       "highlights": "src/highlights.json",
       "file-types": [
-        "ts",
+        "ts"
       ]
     }
   ]
