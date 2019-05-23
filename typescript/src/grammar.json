@@ -7655,6 +7655,14 @@
       "type_parameter"
     ],
     [
+      "jsx_opening_element",
+      "type_parameter"
+    ],
+    [
+      "jsx_namespace_name",
+      "_primary_type"
+    ],
+    [
       "_expression",
       "literal_type"
     ],
