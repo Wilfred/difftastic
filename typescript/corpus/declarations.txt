@@ -386,48 +386,6 @@ Accessibility modifiers as pair keywords
   (pair (property_identifier) (identifier)))))
 
 =================================
-JSX and type assertions
-=================================
-
-<string>foo;
-
-a = <div className='b' tabIndex={1} />;
-b = <div>{ <string>a } <span>b</span> c</div>;
-c = <Foo.Bar></Foo.Bar>
-
----
-
-(program
-  (expression_statement (type_assertion
-    (type_arguments (predefined_type))
-    (identifier)))
-  (expression_statement (assignment_expression
-    (identifier)
-    (jsx_self_closing_element
-      (identifier)
-      (jsx_attribute (property_identifier) (string))
-      (jsx_attribute (property_identifier) (jsx_expression (number))))))
-  (expression_statement (assignment_expression
-    (identifier)
-    (jsx_element
-      (jsx_opening_element (identifier))
-      (jsx_expression (type_assertion (type_arguments (predefined_type)) (identifier)))
-      (jsx_text)
-      (jsx_element
-        (jsx_opening_element (identifier))
-        (jsx_text)
-        (jsx_closing_element (identifier)))
-      (jsx_text)
-      (jsx_closing_element (identifier)))))
-  (expression_statement (assignment_expression
-    (identifier)
-    (jsx_element
-      (jsx_opening_element
-        (nested_identifier (identifier) (identifier)))
-      (jsx_closing_element
-        (nested_identifier (identifier) (identifier)))))))
-
-=================================
 Type assertions
 =================================
 
