@@ -1,3 +1,3 @@
-const defineGrammar = require('../define-grammar');
+const defineGrammar = require('../common/define-grammar');
 
 module.exports = defineGrammar('typescript');
