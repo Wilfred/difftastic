@@ -1,6 +1,4 @@
-#include <tree_sitter/parser.h>
-#include <wctype.h>
-#include "../../typescript/src/scanner.c"
+#include "../../common/scanner.h"
 
 void *tree_sitter_tsx_external_scanner_create() { return NULL; }
 void tree_sitter_tsx_external_scanner_destroy(void *p) {}
@@ -9,5 +7,5 @@ unsigned tree_sitter_tsx_external_scanner_serialize(void *p, char *buffer) { ret
 void tree_sitter_tsx_external_scanner_deserialize(void *p, const char *b, unsigned n) {}
 
 bool tree_sitter_tsx_external_scanner_scan(void *payload, TSLexer *lexer, const bool *valid_symbols) {
-  return tree_sitter_typescript_external_scanner_scan(payload, lexer, valid_symbols);
+  return external_scanner_scan(payload, lexer, valid_symbols);
 }
