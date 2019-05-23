@@ -2,7 +2,6 @@
   "name": "tree-sitter-typescript",
   "version": "0.13.6",
   "description": "Typescript grammar for tree-sitter",
-  "main": "typescript.js",
   "keywords": [
     "parser",
     "tree-sitter",
