@@ -1,0 +1,11 @@
+{
+  "tree-sitter": [
+    {
+      "scope": "source.tsx",
+      "highlights": "src/highlights.json",
+      "file-types": [
+        "tsx"
+      ]
+    }
+  ]
+}

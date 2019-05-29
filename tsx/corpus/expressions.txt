@@ -1,0 +1,119 @@
+==================================
+As expressions
+==================================
+
+h as `hello`
+
+---
+
+(program
+  (expression_statement (as_expression (identifier) (template_string))))
+
+==================================
+Typeof expressions
+==================================
+
+typeof class {} === "function";
+
+typeof module === "object" && typeof module.exports === "object"
+
+---
+
+(program
+  (expression_statement
+    (binary_expression
+      (unary_expression (anonymous_class (class_body)))
+      (string)))
+
+  (expression_statement
+    (binary_expression
+      (binary_expression (unary_expression (identifier)) (string))
+      (binary_expression (unary_expression (member_expression (identifier) (property_identifier))) (string)))))
+
+==================================
+Array with empty elements
+==================================
+
+[, a, , b, , , , s, , , ]
+
+---
+
+(program
+  (expression_statement
+    (array (identifier) (identifier) (identifier))))
+
+==================================
+Variable named 'module'
+==================================
+
+var module;
+module;
+
+---
+
+(program
+  (variable_declaration (variable_declarator (identifier)))
+  (expression_statement (identifier)))
+
+==================================
+Multi-line variable declarations
+==================================
+
+var a = b
+  , c = d
+  , e = f
+
+---
+
+(program (variable_declaration (variable_declarator (identifier) (identifier)) (variable_declarator (identifier) (identifier)) (variable_declarator (identifier) (identifier))))
+
+
+=====================================
+The 'less than' operator
+=====================================
+
+i < foo.length;
+i < type.length;
+i < string.length;
+
+---
+
+(program
+  (expression_statement (binary_expression (identifier) (member_expression (identifier) (property_identifier))))
+  (expression_statement (binary_expression (identifier) (member_expression (identifier) (property_identifier))))
+  (expression_statement (binary_expression (identifier) (member_expression (identifier) (property_identifier)))))
+
+=====================================
+Subscript expressions in if statements
+=====================================
+
+if ( foo ) {
+	set[ 1 ].apply()
+}
+
+---
+
+(program
+  (if_statement
+    (parenthesized_expression (identifier))
+    (statement_block
+      (expression_statement
+        (call_expression
+          (member_expression
+            (subscript_expression (identifier) (number)) (property_identifier))
+          (arguments))))))
+
+==========================================================
+Type arguments in JSX
+==========================================================
+
+<Element<T>>hi</Element>;
+
+---
+
+(program
+  (expression_statement
+    (jsx_element
+      (jsx_opening_element (identifier) (type_arguments (type_identifier)))
+      (jsx_text)
+      (jsx_closing_element (identifier)))))

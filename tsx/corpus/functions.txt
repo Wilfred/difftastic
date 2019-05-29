@@ -1,0 +1,158 @@
+==================================
+Functions with typed parameters
+==================================
+
+function greeter(person: string) {
+  return "Hello, " + person;
+}
+
+function foo<T>(x: T): T {
+
+}
+
+function foo<T, U>(a: T[], f: (x: T) => U): U[] {
+
+}
+
+function foo<T, U>(this: T[]): U[] {
+  return []
+}
+
+---
+
+(program
+  (expression_statement
+    (function
+      (identifier)
+      (call_signature (formal_parameters (required_parameter (identifier) (type_annotation (predefined_type)))))
+      (statement_block
+        (return_statement (binary_expression (string) (identifier))))))
+  (expression_statement
+    (function
+      (identifier)
+      (call_signature
+        (type_parameters (type_parameter (type_identifier)))
+        (formal_parameters (required_parameter (identifier) (type_annotation (type_identifier))))
+        (type_annotation (type_identifier)))
+        (statement_block)))
+  (expression_statement
+    (function
+      (identifier)
+      (call_signature
+        (type_parameters (type_parameter (type_identifier)) (type_parameter (type_identifier)))
+        (formal_parameters
+          (required_parameter (identifier) (type_annotation (array_type (type_identifier))))
+          (required_parameter
+            (identifier)
+            (type_annotation
+              (function_type
+                (formal_parameters (required_parameter (identifier) (type_annotation (type_identifier)))) (type_identifier)))))
+        (type_annotation (array_type (type_identifier))))
+      (statement_block)))
+  (expression_statement
+    (function
+      (identifier)
+      (call_signature
+        (type_parameters (type_parameter (type_identifier)) (type_parameter (type_identifier)))
+        (formal_parameters
+          (required_parameter (this) (type_annotation (array_type (type_identifier)))))
+          (type_annotation (array_type (type_identifier))))
+      (statement_block (return_statement (array))))))
+
+==================================
+Function calls with type arguments
+==================================
+
+const lines = new Array<DiffLine>()
+
+---
+
+(program
+  (lexical_declaration
+    (variable_declarator
+      (identifier)
+      (call_expression (new_expression (identifier)) (type_arguments (type_identifier)) (arguments)))))
+
+==================================
+Arrow functions and generators with call signatures
+==================================
+
+<A>(amount, interestRate, duration): number => 2
+
+function* foo<A>(amount, interestRate, duration): number {
+	yield amount * interestRate * duration / 12
+}
+
+(module: any): number => 2
+
+---
+
+(program
+  (expression_statement
+    (arrow_function
+      (call_signature (type_parameters (type_parameter (type_identifier))) (formal_parameters (required_parameter (identifier)) (required_parameter (identifier)) (required_parameter (identifier))) (type_annotation (predefined_type)))
+      (number)))
+    (generator_function
+      (identifier)
+      (call_signature
+        (type_parameters (type_parameter (type_identifier)))
+        (formal_parameters
+          (required_parameter (identifier))
+          (required_parameter (identifier))
+          (required_parameter (identifier)))
+        (type_annotation (predefined_type)))
+      (statement_block
+        (expression_statement (yield_expression (binary_expression
+          (binary_expression (binary_expression (identifier) (identifier)) (identifier))
+          (number))))))
+  (expression_statement (arrow_function (call_signature (formal_parameters (required_parameter (identifier) (type_annotation (predefined_type)))) (type_annotation (predefined_type))) (number))))
+
+==================================
+Arrow function with parameter named async
+==================================
+
+const x = async => async;
+
+---
+
+(program
+  (lexical_declaration (variable_declarator (identifier) (arrow_function (identifier) (identifier)))))
+
+==================================
+Super
+==================================
+
+class A extends B {
+    constructor(x: number, y: number) {
+        super(x);
+    }
+    public toString() {
+        return super.toString() + " y=" + this.y;
+    }
+}
+
+---
+
+(program
+  (expression_statement
+    (class
+      (type_identifier)
+      (class_heritage (extends_clause (type_identifier)))
+      (class_body
+        (method_definition
+          (property_identifier)
+          (call_signature
+            (formal_parameters
+              (required_parameter (identifier) (type_annotation (predefined_type)))
+              (required_parameter (identifier) (type_annotation (predefined_type)))))
+          (statement_block
+            (expression_statement (call_expression (super) (arguments (identifier))))))
+        (method_definition
+          (accessibility_modifier)
+          (property_identifier)
+          (call_signature (formal_parameters))
+          (statement_block
+            (return_statement
+              (binary_expression
+                (binary_expression (call_expression (member_expression (super) (property_identifier)) (arguments)) (string))
+                (member_expression (this) (property_identifier))))))))))
