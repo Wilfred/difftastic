@@ -1,2 +1,5 @@
-/src/** linguist-vendored
-/examples/* linguist-vendored
+parser.c linguist-vendored
+parser.h linguist-vendored
+grammar.json linguist-vendored
+tsx/examples/* linguist-vendored
+typescript/examples/* linguist-vendored
