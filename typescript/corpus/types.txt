@@ -558,3 +558,25 @@ type K1 = Foo['bar' | 'baz']
   (type_alias_declaration
     (type_identifier)
     (lookup_type (type_identifier) (union_type (literal_type (string)) (literal_type (string))))))
+
+
+=======================================
+Mapped types
+=======================================
+
+export type NoInfer<T> = T & { [K in keyof T]: T[K] };
+
+---
+
+(program
+  (export_statement
+  (type_alias_declaration
+    (type_identifier)
+    (type_parameters (type_parameter (type_identifier)))
+    (intersection_type (type_identifier)
+      (object_type
+        (index_signature
+          (mapped_type
+            (type_identifier)
+            (index_type_query (type_identifier)))
+            (type_annotation (lookup_type (type_identifier) (type_identifier)))))))))
