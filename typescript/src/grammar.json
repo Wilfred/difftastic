@@ -6592,6 +6592,10 @@
         {
           "type": "SYMBOL",
           "name": "lookup_type"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "mapped_type"
         }
       ]
     },
@@ -6709,6 +6713,32 @@
         {
           "type": "STRING",
           "value": "]"
+        }
+      ]
+    },
+    "mapped_type": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_type_identifier"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "nested_type_identifier"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": "in"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_type"
         }
       ]
     },
@@ -7327,27 +7357,41 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "SYMBOL",
-              "name": "identifier"
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "SYMBOL",
+                      "name": "identifier"
+                    },
+                    {
+                      "type": "ALIAS",
+                      "content": {
+                        "type": "SYMBOL",
+                        "name": "_reserved_identifier"
+                      },
+                      "named": true,
+                      "value": "identifier"
+                    }
+                  ]
+                },
+                {
+                  "type": "STRING",
+                  "value": ":"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "predefined_type"
+                }
+              ]
             },
             {
-              "type": "ALIAS",
-              "content": {
-                "type": "SYMBOL",
-                "name": "_reserved_identifier"
-              },
-              "named": true,
-              "value": "identifier"
+              "type": "SYMBOL",
+              "name": "mapped_type"
             }
           ]
-        },
-        {
-          "type": "STRING",
-          "value": ":"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "predefined_type"
         },
         {
           "type": "STRING",
@@ -7615,6 +7659,10 @@
     [
       "_primary_type",
       "lookup_type"
+    ],
+    [
+      "_primary_type",
+      "mapped_type"
     ],
     [
       "member_expression",
