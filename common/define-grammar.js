@@ -39,6 +39,7 @@ module.exports = function defineGrammar(dialect) {
       [$.generic_type, $._primary_type],
       [$._expression, $._primary_type, $.lookup_type],
       [$._primary_type, $.lookup_type],
+      [$._primary_type, $.mapped_type],
 
       [$.member_expression, $.nested_identifier],
 
@@ -490,7 +491,8 @@ module.exports = function defineGrammar(dialect) {
         $.this_type,
         $.existential_type,
         $.literal_type,
-        $.lookup_type
+        $.lookup_type,
+        $.mapped_type
       ),
 
       generic_type: $ => seq(
@@ -522,6 +524,12 @@ module.exports = function defineGrammar(dialect) {
         '[',
         $._type,
         ']'
+      ),
+
+      mapped_type: $ => seq(
+        choice($._type_identifier, $.nested_type_identifier),
+        'in',
+        $._type,
       ),
 
       literal_type: $ => choice(alias($._number, $.unary_expression), $.number, $.string, $.true, $.false),
@@ -614,9 +622,11 @@ module.exports = function defineGrammar(dialect) {
 
       index_signature: $ => seq(
         '[',
-        choice($.identifier, alias($._reserved_identifier, $.identifier)),
-        ':',
-        $.predefined_type,
+        choice(seq(
+          choice($.identifier, alias($._reserved_identifier, $.identifier)),
+          ':',
+          $.predefined_type,
+        ), $.mapped_type),
         ']',
         $.type_annotation
       ),
