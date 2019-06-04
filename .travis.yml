@@ -3,7 +3,7 @@ language: node_js
 sudo: false
 
 node_js:
-  - node
+  - 10
 
 os:
   - linux
@@ -21,10 +21,11 @@ matrix:
 branches:
   only:
     - master
+    - "/^v.*$/"
 
 deploy:
   provider: script
-  script: yarn run prebuild && yarn run prebuild:upload -u ${PREBUILD_UPLOAD}
+  script: npm run prebuild && npm run prebuild:upload -u ${PREBUILD_UPLOAD}
   skip_cleanup: true
   on:
     all_branches: true
