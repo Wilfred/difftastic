@@ -116,6 +116,10 @@ module.exports = grammar(C, {
       'override' // legal for functions in addition to final, plus permutations.
     ),
 
+    virtual_function_specifier: $ => choice(
+      'virtual'
+    ),
+
     base_class_clause: $ => seq(
       ':',
       commaSep1(seq(
@@ -292,7 +296,7 @@ module.exports = grammar(C, {
 
     field_declaration: $ => seq(
       repeat($.attribute),
-      optional('virtual'),
+      optional($.virtual_function_specifier),
       $._declaration_specifiers,
       commaSep($._field_declarator),
       optional(choice(
@@ -305,6 +309,7 @@ module.exports = grammar(C, {
 
     inline_method_definition: $ => seq(
       repeat($.attribute),
+      optional($.virtual_function_specifier),
       $._declaration_specifiers,
       $._field_declarator,
       choice(
@@ -319,6 +324,7 @@ module.exports = grammar(C, {
         $.type_qualifier
       )),
       prec(1, seq(
+        optional($.virtual_function_specifier),
         $.function_declarator,
         optional($.field_initializer_list)
       )),
@@ -330,7 +336,7 @@ module.exports = grammar(C, {
     ),
 
     constructor_or_destructor_declaration: $ => seq(
-      optional('virtual'),
+      optional($.virtual_function_specifier),
       $.function_declarator,
       ';'
     ),

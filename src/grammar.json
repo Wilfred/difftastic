@@ -2419,8 +2419,8 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "STRING",
-              "value": "virtual"
+              "type": "SYMBOL",
+              "name": "virtual_function_specifier"
             },
             {
               "type": "BLANK"
@@ -5080,7 +5080,7 @@
               },
               {
                 "type": "PATTERN",
-                "value": "(\\\\[.\\n]|[^\\\\\\n])*"
+                "value": "(\\\\(.|\\n)|[^\\\\\\n])*"
               }
             ]
           },
@@ -5198,6 +5198,15 @@
         {
           "type": "STRING",
           "value": "override"
+        }
+      ]
+    },
+    "virtual_function_specifier": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "virtual"
         }
       ]
     },
@@ -5723,6 +5732,18 @@
           }
         },
         {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "virtual_function_specifier"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
           "type": "SYMBOL",
           "name": "_declaration_specifiers"
         },
@@ -5771,6 +5792,18 @@
             "type": "SEQ",
             "members": [
               {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "virtual_function_specifier"
+                  },
+                  {
+                    "type": "BLANK"
+                  }
+                ]
+              },
+              {
                 "type": "SYMBOL",
                 "name": "function_declarator"
               },
@@ -5815,8 +5848,8 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "STRING",
-              "value": "virtual"
+              "type": "SYMBOL",
+              "name": "virtual_function_specifier"
             },
             {
               "type": "BLANK"

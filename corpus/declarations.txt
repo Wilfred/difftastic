@@ -178,6 +178,8 @@ Virtual method declarations
 class A {
   virtual ~Point();
   void b();
+  virtual void foo() {}
+  virtual void bar();
 };
 
 ---
@@ -187,10 +189,24 @@ class A {
     (type_identifier)
     (field_declaration_list
       (declaration
+        (virtual_function_specifier)
         (function_declarator (destructor_name (identifier)) (parameter_list)))
       (field_declaration
         (primitive_type)
-        (function_declarator (field_identifier) (parameter_list))))))
+        (function_declarator (field_identifier) (parameter_list)))
+      (function_definition
+        (virtual_function_specifier)
+        (primitive_type)
+        (function_declarator
+          (field_identifier)
+          (parameter_list))
+        (compound_statement))
+      (field_declaration
+        (virtual_function_specifier)
+        (primitive_type)
+        (function_declarator
+          (field_identifier)
+          (parameter_list))))))
 
 =========================================
 Constructor and destructor declarations
