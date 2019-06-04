@@ -11,12 +11,8 @@ os:
 matrix:
   include:
     - os: osx
-      env: COMPILER=clang++
-      osx_image: xcode9.4
-      compiler: clang
     - os: linux
-      env: CXX=clang
-      compiler: clang
+      env: CXX=clang++
 
 branches:
   only:
