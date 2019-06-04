@@ -437,3 +437,16 @@ Comments with escaped newlines
 
 (translation_unit
   (comment))
+
+==============================================
+Comments with escaped chars and newlines
+==============================================
+
+// one \a \b \
+   two
+// one \c \d
+---
+
+(translation_unit
+  (comment)
+  (comment))
