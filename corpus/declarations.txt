@@ -362,3 +362,41 @@ int main() {
     (compound_statement
       (declaration (primitive_type) (array_declarator (identifier) (identifier)))
       (declaration (primitive_type) (array_declarator (identifier))))))
+
+================================
+Attributes
+================================
+
+extern __attribute__((visibility("hidden"))) int foo();
+extern int bar() __attribute__((const));
+void die(const char *format, ...) __attribute__((noreturn))
+                                  __attribute__((format(printf,1,2)));
+extern __attribute__((visibility("default"), weak)) int print_status();
+
+---
+
+(translation_unit
+  (declaration
+    (storage_class_specifier)
+    (attribute_specifier
+      (argument_list
+        (call_expression
+          (identifier) (argument_list (string_literal)))))
+    (primitive_type)
+    (function_declarator (identifier) (parameter_list)))
+  (declaration
+    (storage_class_specifier)
+    (primitive_type)
+    (function_declarator (identifier) (parameter_list) (attribute_specifier (argument_list (identifier)))))
+  (declaration
+    (primitive_type)
+    (function_declarator (identifier)
+      (parameter_list (parameter_declaration (type_qualifier) (primitive_type) (pointer_declarator (identifier))))
+      (attribute_specifier (argument_list (identifier)))
+      (attribute_specifier
+        (argument_list (call_expression (identifier) (argument_list (identifier) (number_literal) (number_literal)))))))
+  (declaration
+    (storage_class_specifier)
+    (attribute_specifier
+      (argument_list (call_expression (identifier) (argument_list (string_literal))) (identifier)))
+    (primitive_type) (function_declarator (identifier) (parameter_list))))

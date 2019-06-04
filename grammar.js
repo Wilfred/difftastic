@@ -132,12 +132,14 @@ module.exports = grammar({
     _declaration_specifiers: $ => seq(
       repeat(choice(
         $.storage_class_specifier,
-        $.type_qualifier
+        $.type_qualifier,
+        $.attribute_specifier
       )),
       $._type_specifier,
       repeat(choice(
         $.storage_class_specifier,
-        $.type_qualifier
+        $.type_qualifier,
+        $.attribute_specifier
       ))
     ),
 
@@ -148,6 +150,15 @@ module.exports = grammar({
         $.function_definition,
         $.declaration,
         $.declaration_list
+      )
+    ),
+
+    attribute_specifier: $ => seq(
+      '__attribute__',
+      seq(
+        '(',
+        $.argument_list,
+        ')'
       )
     ),
 
@@ -193,7 +204,7 @@ module.exports = grammar({
     pointer_type_declarator: $ => prec.dynamic(1, prec.right(seq('*', repeat($.type_qualifier), $._type_declarator))),
     abstract_pointer_declarator: $ => prec.dynamic(1, prec.right(seq('*', repeat($.type_qualifier), optional($._abstract_declarator)))),
 
-    function_declarator: $ => prec(1, seq($._declarator, $.parameter_list)),
+    function_declarator: $ => prec(1, seq($._declarator, $.parameter_list, repeat($.attribute_specifier))),
     function_field_declarator: $ => prec(1, seq($._field_declarator, $.parameter_list)),
     function_type_declarator: $ => prec(1, seq($._type_declarator, $.parameter_list)),
     abstract_function_declarator: $ => prec(1, seq(optional($._abstract_declarator), $.parameter_list)),
