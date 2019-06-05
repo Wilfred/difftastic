@@ -547,7 +547,8 @@ module.exports = grammar({
         $.call_expression,
         $.field_expression,
         $.pointer_expression,
-        $.subscript_expression
+        $.subscript_expression,
+        $.parenthesized_expression
       ),
       choice(
         '=',
