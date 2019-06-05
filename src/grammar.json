@@ -3449,6 +3449,10 @@
               {
                 "type": "SYMBOL",
                 "name": "subscript_expression"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "parenthesized_expression"
               }
             ]
           },
@@ -6433,8 +6437,17 @@
           "value": ":"
         },
         {
-          "type": "SYMBOL",
-          "name": "_expression"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_expression"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "initializer_list"
+            }
+          ]
         },
         {
           "type": "STRING",
