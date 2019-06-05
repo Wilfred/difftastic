@@ -878,6 +878,10 @@
               {
                 "type": "SYMBOL",
                 "name": "type_qualifier"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "attribute_specifier"
               }
             ]
           }
@@ -898,6 +902,10 @@
               {
                 "type": "SYMBOL",
                 "name": "type_qualifier"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "attribute_specifier"
               }
             ]
           }
@@ -929,6 +937,32 @@
             {
               "type": "SYMBOL",
               "name": "declaration_list"
+            }
+          ]
+        }
+      ]
+    },
+    "attribute_specifier": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "__attribute__"
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "("
+            },
+            {
+              "type": "SYMBOL",
+              "name": "argument_list"
+            },
+            {
+              "type": "STRING",
+              "value": ")"
             }
           ]
         }
@@ -1344,6 +1378,13 @@
               {
                 "type": "SYMBOL",
                 "name": "parameter_list"
+              },
+              {
+                "type": "REPEAT",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "attribute_specifier"
+                }
               }
             ]
           }
@@ -2741,6 +2782,10 @@
         {
           "type": "SYMBOL",
           "name": "try_statement"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "throw_statement"
         }
       ]
     },
@@ -5781,6 +5826,10 @@
               {
                 "type": "SYMBOL",
                 "name": "type_qualifier"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "attribute_specifier"
               }
             ]
           }
@@ -6407,6 +6456,31 @@
         {
           "type": "SYMBOL",
           "name": "_declarator"
+        }
+      ]
+    },
+    "throw_statement": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "throw"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_expression"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": ";"
         }
       ]
     },
