@@ -508,7 +508,10 @@ module.exports = grammar(C, {
       '(',
       $.for_range_declaration,
       ':',
-      $._expression,
+      choice(
+        $._expression,
+        $.initializer_list,
+      ),
       ')',
       $._statement
     ),
