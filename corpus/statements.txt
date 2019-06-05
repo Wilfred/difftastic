@@ -107,3 +107,26 @@ void main() {
         (catch_clause
           (parameter_list)
           (compound_statement (comment)))))))
+
+===========================================
+Throw statements
+===========================================
+
+void main() {
+     throw e;
+     throw x + 1;
+     throw "exception";
+}
+
+---
+
+(translation_unit
+  (function_definition
+    (primitive_type)
+    (function_declarator
+      (identifier)
+      (parameter_list))
+      (compound_statement
+        (throw_statement (identifier))
+        (throw_statement (math_expression (identifier) (number_literal)))
+        (throw_statement (string_literal)))))
