@@ -2881,6 +2881,10 @@
               {
                 "type": "SYMBOL",
                 "name": "subscript_expression"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "parenthesized_expression"
               }
             ]
           },
