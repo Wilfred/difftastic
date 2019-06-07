@@ -13,7 +13,7 @@
     "nan": "^2.8.0"
   },
   "devDependencies": {
-    "tree-sitter-cli": "^0.14.5",
+    "tree-sitter-cli": "^0.15.3",
     "eslint": "^3.19.0"
   },
   "scripts": {
@@ -23,6 +23,7 @@
   },
   "tree-sitter": [
     {
+      "scope": "source.rs",
       "name": "Rust",
       "file-types": [
         "rs"
