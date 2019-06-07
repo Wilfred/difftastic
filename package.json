@@ -1,6 +1,6 @@
 {
   "name": "tree-sitter-c",
-  "version": "0.13.13",
+  "version": "0.15.0",
   "description": "C grammar for node-tree-sitter",
   "main": "index.js",
   "keywords": [
@@ -23,7 +23,9 @@
   "tree-sitter": [
     {
       "scope": "source.c",
-      "file-types": ["c"]
+      "file-types": [
+        "c"
+      ]
     }
   ]
 }
