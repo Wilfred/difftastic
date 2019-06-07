@@ -7558,5 +7558,7 @@
     "_declaration_statement",
     "_reserved_identifier",
     "_expression_ending_with_block"
-  ]
+  ],
+  "supertypes": []
 }
+
