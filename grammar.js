@@ -404,6 +404,7 @@ module.exports = grammar(C, {
         $.type_qualifier,
         $.virtual_specifier,
         $.noexcept,
+        $.throw_specifier,
         $.trailing_return_type
       ))
     ),
@@ -414,6 +415,7 @@ module.exports = grammar(C, {
         $.type_qualifier,
         $.virtual_specifier,
         $.noexcept,
+        $.throw_specifier,
         $.trailing_return_type
       ))
     ),
@@ -422,7 +424,8 @@ module.exports = grammar(C, {
       original,
       repeat(choice(
         $.type_qualifier,
-        $.noexcept
+        $.noexcept,
+        $.throw_specifier,
       )),
       optional($.trailing_return_type)
     )),
@@ -433,7 +436,25 @@ module.exports = grammar(C, {
       optional($._abstract_declarator)
     )),
 
-    noexcept: $ => 'noexcept',
+    noexcept: $ => prec.right(seq(
+      'noexcept',
+      optional(
+        seq(
+          '(',
+          optional($._expression),
+          ')',
+        ),
+      ),
+    )),
+
+    throw_specifier: $ => seq(
+      'throw',
+      seq(
+        '(',
+        commaSep($.type_descriptor),
+        ')',
+      )
+    ),
 
     template_type: $ => seq(
       choice($._type_identifier, $.scoped_type_identifier),

@@ -139,3 +139,63 @@ void main() {
         (throw_statement (identifier))
         (throw_statement (math_expression (identifier) (number_literal)))
         (throw_statement (string_literal)))))
+
+===========================================
+Noexcept specifier
+===========================================
+
+void foo() noexcept;
+void foo() noexcept(true);
+template<class T> T foo() noexcept(sizeof(T) < 4);
+
+---
+
+(translation_unit
+  (declaration
+    (primitive_type)
+    (function_declarator (identifier) (parameter_list)
+      (noexcept)))
+  (declaration
+    (primitive_type)
+    (function_declarator (identifier) (parameter_list)
+      (noexcept (true))))
+  (template_declaration
+    (template_parameter_list
+      (type_parameter_declaration (type_identifier)))
+    (declaration
+      (type_identifier)
+      (function_declarator (identifier) (parameter_list)
+        (noexcept
+          (relational_expression (sizeof_expression (parenthesized_expression (identifier))) (number_literal))))))) 
+
+===========================================
+Throw specifier
+===========================================
+
+void foo() throw();
+void foo() throw(int);
+void foo() throw(std::string, char *);
+void foo() throw(float) { }
+
+---
+
+(translation_unit
+  (declaration
+    (primitive_type)
+    (function_declarator (identifier) (parameter_list)
+      (throw_specifier)))
+  (declaration
+  (primitive_type)
+  (function_declarator (identifier) (parameter_list)
+    (throw_specifier (type_descriptor (primitive_type)))))
+  (declaration
+    (primitive_type)
+    (function_declarator (identifier) (parameter_list)
+      (throw_specifier
+        (type_descriptor (scoped_type_identifier (namespace_identifier) (type_identifier)))
+        (type_descriptor (primitive_type) (abstract_pointer_declarator)))))
+  (function_definition
+    (primitive_type)
+    (function_declarator (identifier) (parameter_list)
+      (throw_specifier (type_descriptor (primitive_type))))
+      (compound_statement)))
