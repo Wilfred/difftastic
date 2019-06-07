@@ -1,0 +1,101 @@
+[
+  {
+    "type": "attribute",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "doctype",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "element",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "end_tag",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "erroneous_end_tag",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "fragment",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "quoted_attribute_value",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "script_element",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "self_closing_tag",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "start_tag",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "style_element",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "<!",
+    "named": false
+  },
+  {
+    "type": ">",
+    "named": false
+  },
+  {
+    "type": "<",
+    "named": false
+  },
+  {
+    "type": "/>",
+    "named": false
+  },
+  {
+    "type": "</",
+    "named": false
+  },
+  {
+    "type": "=",
+    "named": false
+  },
+  {
+    "type": "attribute_name",
+    "named": true
+  },
+  {
+    "type": "attribute_value",
+    "named": true
+  },
+  {
+    "type": "'",
+    "named": false
+  },
+  {
+    "type": "\"",
+    "named": false
+  },
+  {
+    "type": "text",
+    "named": true
+  }
+]

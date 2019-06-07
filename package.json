@@ -16,7 +16,7 @@
     "nan": "^2.10.0"
   },
   "devDependencies": {
-    "tree-sitter-cli": "^0.14.4"
+    "tree-sitter-cli": "^0.15.3"
   },
   "scripts": {
     "build": "tree-sitter generate && node-gyp build",
@@ -26,7 +26,9 @@
   "tree-sitter": [
     {
       "scope": "text.html.basic",
-      "file-types": ["html"],
+      "file-types": [
+        "html"
+      ],
       "highlights": "src/highlights.json",
       "injection-regex": "html"
     }
