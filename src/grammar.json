@@ -4242,13 +4242,13 @@
         "members": [
           {
             "type": "PATTERN",
-            "value": "[^\\s0-9:;`\"'@#.,|^&<=>+\\-*\\/\\\\%?!~()\\[\\]{}﻿⁠​ ]"
+            "value": "[^\\s0-9:;`\"'@#.,|^&<=>+\\-*\\/\\\\%?!~()\\[\\]{}\\uFEFF\\u2060\\u200B\\u00A0]"
           },
           {
             "type": "REPEAT",
             "content": {
               "type": "PATTERN",
-              "value": "[^\\s:;`\"'@#.,|^&<=>+\\-*\\/\\\\%?!~()\\[\\]{}﻿⁠​ ]"
+              "value": "[^\\s:;`\"'@#.,|^&<=>+\\-*\\/\\\\%?!~()\\[\\]{}\\uFEFF\\u2060\\u200B\\u00A0]"
             }
           }
         ]
@@ -4876,7 +4876,7 @@
     },
     {
       "type": "PATTERN",
-      "value": "[\\s﻿⁠​ ]"
+      "value": "[\\s\\uFEFF\\u2060\\u200B\\u00A0]"
     }
   ],
   "conflicts": [
@@ -4943,5 +4943,7 @@
     "_jsx_attribute_name",
     "_jsx_attribute_value",
     "_jsx_identifier"
-  ]
+  ],
+  "supertypes": []
 }
+
