@@ -1611,10 +1611,6 @@
         },
         {
           "type": "STRING",
-          "value": "restrict"
-        },
-        {
-          "type": "STRING",
           "value": "volatile"
         },
         {
@@ -2949,7 +2945,7 @@
       "members": [
         {
           "type": "PREC_LEFT",
-          "value": 13,
+          "value": 12,
           "content": {
             "type": "SEQ",
             "members": [
@@ -2966,7 +2962,7 @@
         },
         {
           "type": "PREC_LEFT",
-          "value": 13,
+          "value": 12,
           "content": {
             "type": "SEQ",
             "members": [
