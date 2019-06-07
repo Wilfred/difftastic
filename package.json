@@ -13,11 +13,17 @@
     "nan": "^2.10.0"
   },
   "devDependencies": {
-    "tree-sitter-cli": "^0.14.5"
+    "tree-sitter-cli": "^0.15.3"
   },
   "scripts": {
     "build": "tree-sitter generate && node-gyp build",
     "test": "tree-sitter test && tree-sitter parse examples/* --quiet --time",
     "test-windows": "tree-sitter test"
-  }
+  },
+  "tree-sitter": [
+    {
+      "scope": "source.c",
+      "file-types": ["c"]
+    }
+  ]
 }
