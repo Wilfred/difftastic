@@ -1866,10 +1866,6 @@
             },
             {
               "type": "STRING",
-              "value": "restrict"
-            },
-            {
-              "type": "STRING",
               "value": "volatile"
             },
             {
@@ -3529,7 +3525,7 @@
       "members": [
         {
           "type": "PREC_LEFT",
-          "value": 13,
+          "value": 12,
           "content": {
             "type": "SEQ",
             "members": [
@@ -3546,7 +3542,7 @@
         },
         {
           "type": "PREC_LEFT",
-          "value": 13,
+          "value": 12,
           "content": {
             "type": "SEQ",
             "members": [
@@ -7411,5 +7407,7 @@
     "_statement_identifier",
     "_namespace_identifier",
     "_class_name"
-  ]
+  ],
+  "supertypes": []
 }
+
