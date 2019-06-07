@@ -260,7 +260,6 @@ module.exports = grammar({
 
     type_qualifier: $ => choice(
       'const',
-      'restrict',
       'volatile',
       'restrict',
       '_Atomic'
@@ -567,8 +566,8 @@ module.exports = grammar({
     )),
 
     pointer_expression: $ => choice(
-      prec.left(PREC.UNARY, seq('*', $._expression)),
-      prec.left(PREC.UNARY, seq('&', $._expression))
+      prec.left(PREC.CAST, seq('*', $._expression)),
+      prec.left(PREC.CAST, seq('&', $._expression))
       ),
 
     logical_expression: $ => choice(
