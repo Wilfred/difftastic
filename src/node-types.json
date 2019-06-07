@@ -1,0 +1,926 @@
+[
+  {
+    "type": "alias",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "argument_list",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "argument_list_with_parens",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "array",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "assignment",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "begin",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "begin_block",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "binary",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "block",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "block_argument",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "block_parameter",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "block_parameters",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "break",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "call",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "case",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "chained_string",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "class",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "conditional",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "destructured_left_assignment",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "destructured_parameter",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "do_block",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "element_reference",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "else",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "elsif",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "empty_statement",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "end_block",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "ensure",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "exception_variable",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "exceptions",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "false",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "for",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "hash",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "hash_splat_argument",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "hash_splat_parameter",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "heredoc_body",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "if",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "if_modifier",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "in",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "interpolation",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "keyword_parameter",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "lambda",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "lambda_parameters",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "left_assignment_list",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "method",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "method_call",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "method_parameters",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "module",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "next",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "nil",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "operator",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "operator_assignment",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "optional_parameter",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "pair",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "parenthesized_statements",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "pattern",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "program",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "range",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "rational",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "regex",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "rescue",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "rescue_modifier",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "rest_assignment",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "return",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "right_assignment_list",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "scope_resolution",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "setter",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "singleton_class",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "singleton_method",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "splat_argument",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "splat_parameter",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "string",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "string_array",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "subshell",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "superclass",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "symbol",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "symbol_array",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "then",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "true",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "unary",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "undef",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "unless",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "unless_modifier",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "until",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "until_modifier",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "when",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "while",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "while_modifier",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "yield",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "__END__",
+    "named": false
+  },
+  {
+    "type": "uninterpreted",
+    "named": true
+  },
+  {
+    "type": "BEGIN",
+    "named": false
+  },
+  {
+    "type": "{",
+    "named": false
+  },
+  {
+    "type": "}",
+    "named": false
+  },
+  {
+    "type": "END",
+    "named": false
+  },
+  {
+    "type": "def",
+    "named": false
+  },
+  {
+    "type": "(",
+    "named": false
+  },
+  {
+    "type": ")",
+    "named": false
+  },
+  {
+    "type": ".",
+    "named": false
+  },
+  {
+    "type": "::",
+    "named": false
+  },
+  {
+    "type": ",",
+    "named": false
+  },
+  {
+    "type": "|",
+    "named": false
+  },
+  {
+    "type": ";",
+    "named": false
+  },
+  {
+    "type": "*",
+    "named": false
+  },
+  {
+    "type": "**",
+    "named": false
+  },
+  {
+    "type": "&",
+    "named": false
+  },
+  {
+    "type": ":",
+    "named": false
+  },
+  {
+    "type": "=",
+    "named": false
+  },
+  {
+    "type": "class",
+    "named": false
+  },
+  {
+    "type": "<",
+    "named": false
+  },
+  {
+    "type": "module",
+    "named": false
+  },
+  {
+    "type": "end",
+    "named": false
+  },
+  {
+    "type": "return",
+    "named": false
+  },
+  {
+    "type": "yield",
+    "named": false
+  },
+  {
+    "type": "break",
+    "named": false
+  },
+  {
+    "type": "next",
+    "named": false
+  },
+  {
+    "type": "redo",
+    "named": true
+  },
+  {
+    "type": "retry",
+    "named": true
+  },
+  {
+    "type": "if",
+    "named": false
+  },
+  {
+    "type": "unless",
+    "named": false
+  },
+  {
+    "type": "while",
+    "named": false
+  },
+  {
+    "type": "until",
+    "named": false
+  },
+  {
+    "type": "rescue",
+    "named": false
+  },
+  {
+    "type": "for",
+    "named": false
+  },
+  {
+    "type": "in",
+    "named": false
+  },
+  {
+    "type": "do",
+    "named": false
+  },
+  {
+    "type": "case",
+    "named": false
+  },
+  {
+    "type": "when",
+    "named": false
+  },
+  {
+    "type": "elsif",
+    "named": false
+  },
+  {
+    "type": "else",
+    "named": false
+  },
+  {
+    "type": "then",
+    "named": false
+  },
+  {
+    "type": "begin",
+    "named": false
+  },
+  {
+    "type": "ensure",
+    "named": false
+  },
+  {
+    "type": "=>",
+    "named": false
+  },
+  {
+    "type": "[",
+    "named": false
+  },
+  {
+    "type": "]",
+    "named": false
+  },
+  {
+    "type": "::",
+    "named": false
+  },
+  {
+    "type": "&.",
+    "named": false
+  },
+  {
+    "type": "(",
+    "named": false
+  },
+  {
+    "type": "+=",
+    "named": false
+  },
+  {
+    "type": "-=",
+    "named": false
+  },
+  {
+    "type": "*=",
+    "named": false
+  },
+  {
+    "type": "**=",
+    "named": false
+  },
+  {
+    "type": "/=",
+    "named": false
+  },
+  {
+    "type": "||=",
+    "named": false
+  },
+  {
+    "type": "|=",
+    "named": false
+  },
+  {
+    "type": "&&=",
+    "named": false
+  },
+  {
+    "type": "&=",
+    "named": false
+  },
+  {
+    "type": "%=",
+    "named": false
+  },
+  {
+    "type": ">>=",
+    "named": false
+  },
+  {
+    "type": "<<=",
+    "named": false
+  },
+  {
+    "type": "^=",
+    "named": false
+  },
+  {
+    "type": "?",
+    "named": false
+  },
+  {
+    "type": ":",
+    "named": false
+  },
+  {
+    "type": "..",
+    "named": false
+  },
+  {
+    "type": "...",
+    "named": false
+  },
+  {
+    "type": "and",
+    "named": false
+  },
+  {
+    "type": "or",
+    "named": false
+  },
+  {
+    "type": "||",
+    "named": false
+  },
+  {
+    "type": "&&",
+    "named": false
+  },
+  {
+    "type": "<<",
+    "named": false
+  },
+  {
+    "type": ">>",
+    "named": false
+  },
+  {
+    "type": "==",
+    "named": false
+  },
+  {
+    "type": "!=",
+    "named": false
+  },
+  {
+    "type": "===",
+    "named": false
+  },
+  {
+    "type": "<=>",
+    "named": false
+  },
+  {
+    "type": "=~",
+    "named": false
+  },
+  {
+    "type": "!~",
+    "named": false
+  },
+  {
+    "type": "<=",
+    "named": false
+  },
+  {
+    "type": ">",
+    "named": false
+  },
+  {
+    "type": ">=",
+    "named": false
+  },
+  {
+    "type": "^",
+    "named": false
+  },
+  {
+    "type": "+",
+    "named": false
+  },
+  {
+    "type": "/",
+    "named": false
+  },
+  {
+    "type": "%",
+    "named": false
+  },
+  {
+    "type": "defined?",
+    "named": false
+  },
+  {
+    "type": "not",
+    "named": false
+  },
+  {
+    "type": "!",
+    "named": false
+  },
+  {
+    "type": "~",
+    "named": false
+  },
+  {
+    "type": "constant",
+    "named": true
+  },
+  {
+    "type": "identifier",
+    "named": true
+  },
+  {
+    "type": "instance_variable",
+    "named": true
+  },
+  {
+    "type": "class_variable",
+    "named": true
+  },
+  {
+    "type": "global_variable",
+    "named": true
+  },
+  {
+    "type": "-",
+    "named": false
+  },
+  {
+    "type": "+@",
+    "named": false
+  },
+  {
+    "type": "-@",
+    "named": false
+  },
+  {
+    "type": "[]",
+    "named": false
+  },
+  {
+    "type": "[]=",
+    "named": false
+  },
+  {
+    "type": "`",
+    "named": false
+  },
+  {
+    "type": "undef",
+    "named": false
+  },
+  {
+    "type": "alias",
+    "named": false
+  },
+  {
+    "type": "comment",
+    "named": true
+  },
+  {
+    "type": "integer",
+    "named": true
+  },
+  {
+    "type": "float",
+    "named": true
+  },
+  {
+    "type": "complex",
+    "named": true
+  },
+  {
+    "type": "r",
+    "named": false
+  },
+  {
+    "type": "super",
+    "named": true
+  },
+  {
+    "type": "true",
+    "named": false
+  },
+  {
+    "type": "TRUE",
+    "named": false
+  },
+  {
+    "type": "false",
+    "named": false
+  },
+  {
+    "type": "FALSE",
+    "named": false
+  },
+  {
+    "type": "self",
+    "named": true
+  },
+  {
+    "type": "nil",
+    "named": false
+  },
+  {
+    "type": "NIL",
+    "named": false
+  },
+  {
+    "type": "character",
+    "named": true
+  },
+  {
+    "type": "#{",
+    "named": false
+  },
+  {
+    "type": "escape_sequence",
+    "named": true
+  },
+  {
+    "type": "[",
+    "named": false
+  },
+  {
+    "type": "->",
+    "named": false
+  }
+]
