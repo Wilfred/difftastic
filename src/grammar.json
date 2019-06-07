@@ -486,5 +486,7 @@
       "name": "comment"
     }
   ],
-  "inline": []
+  "inline": [],
+  "supertypes": []
 }
+
