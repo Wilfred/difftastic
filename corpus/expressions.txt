@@ -427,6 +427,7 @@ Field expressions
 mystruct.myfield;
 foo().x;
 value.0.1.iter();
+1.max(2);
 
 ---
 
@@ -437,7 +438,9 @@ value.0.1.iter();
     (field_expression
       (field_expression (field_expression (identifier) (integer_literal)) (integer_literal))
       (field_identifier))
-    (arguments)))
+    (arguments))
+  (call_expression
+    (field_expression (integer_literal) (field_identifier)) (arguments (integer_literal))))
 
 ============================================
 Method call expressions

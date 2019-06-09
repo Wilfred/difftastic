@@ -75,6 +75,11 @@ bool tree_sitter_rust_external_scanner_scan(void *payload, TSLexer *lexer,
     if (lexer->lookahead == '.') {
       has_fraction = true;
       advance(lexer);
+      if (iswalpha(lexer->lookahead)) {
+          // The dot is followed by a letter: 1.max(2) => not a float but an integer
+          return false;
+      }
+
       if (lexer->lookahead == '.') {
         return false;
       }
