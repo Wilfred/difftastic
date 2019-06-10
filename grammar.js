@@ -1081,7 +1081,10 @@ module.exports = grammar({
 
     match_arm: $ => seq(
       repeat($.attribute_item),
-      $.match_pattern,
+      choice(
+        $.macro_invocation,
+        $.match_pattern
+      ),
       '=>',
       choice(
         seq($._expression, ','),
