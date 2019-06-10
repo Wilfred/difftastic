@@ -616,7 +616,8 @@ module.exports = grammar({
       sepBy(',', choice(
         $._path,
         $.use_as_clause,
-        $.use_list
+        $.use_list,
+        $.scoped_use_list,
       )),
       optional(','),
       '}'
