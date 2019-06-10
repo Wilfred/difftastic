@@ -1413,20 +1413,25 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "SYMBOL",
-              "name": "where_clause"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "field_declaration_list"
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "SYMBOL",
+                      "name": "where_clause"
+                    },
+                    {
+                      "type": "BLANK"
+                    }
+                  ]
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "field_declaration_list"
+                }
+              ]
             },
             {
               "type": "SEQ",
@@ -1514,19 +1519,6 @@
             {
               "type": "SYMBOL",
               "name": "field_declaration_list"
-            },
-            {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "SYMBOL",
-                  "name": "ordered_field_declaration_list"
-                },
-                {
-                  "type": "STRING",
-                  "value": ";"
-                }
-              ]
             },
             {
               "type": "STRING",
@@ -2488,6 +2480,10 @@
             {
               "type": "SYMBOL",
               "name": "reference_type"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "tuple_type"
             }
           ]
         },
