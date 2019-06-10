@@ -1107,8 +1107,8 @@ module.exports = grammar({
     ),
 
     match_pattern: $ => seq(
-      choice($._pattern, $.range_pattern),
-      repeat(seq('|', choice($._pattern, $.range_pattern))),
+      $._pattern,
+      repeat(seq('|', $._pattern)),
       optional(seq('if', $._expression))
     ),
 
@@ -1210,6 +1210,7 @@ module.exports = grammar({
       $.reference_pattern,
       $.remaining_field_pattern,
       $.mut_pattern,
+      $.range_pattern,
       '_'
     ),
 
@@ -1279,7 +1280,7 @@ module.exports = grammar({
     captured_pattern: $ => seq(
       $.identifier,
       '@',
-      $._pattern
+      $._pattern,
     ),
 
     reference_pattern: $ => seq(
