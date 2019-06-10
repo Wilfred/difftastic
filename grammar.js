@@ -1197,7 +1197,7 @@ module.exports = grammar({
     // Section - Patterns
 
     _pattern: $ => choice(
-      $._literal,
+      $._literal_pattern,
       alias(choice(...primitive_types), $.identifier),
       $.identifier,
       $.scoped_identifier,
@@ -1267,9 +1267,9 @@ module.exports = grammar({
     )),
 
     range_pattern: $ => seq(
-      $._literal,
+      $._literal_pattern,
       '...',
-      $._literal
+      $._literal_pattern
     ),
 
     ref_pattern: $ => seq(
@@ -1297,7 +1297,15 @@ module.exports = grammar({
       $.char_literal,
       $.boolean_literal,
       $.integer_literal,
-      $.float_literal
+      $.float_literal,
+    ),
+    
+    _literal_pattern: $ => choice(
+      $.string_literal,
+      $.raw_string_literal,
+      $.char_literal,
+      $.boolean_literal,
+      seq(optional('-'), choice($.integer_literal, $.float_literal)),
     ),
 
     integer_literal: $ => token(seq(
