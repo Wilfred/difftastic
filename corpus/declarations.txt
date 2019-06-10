@@ -301,6 +301,7 @@ Generic structs
 
 struct A<B> {}
 struct C<'a, 'b> {}
+struct C<'a,> {}
 
 ---
 
@@ -312,6 +313,10 @@ struct C<'a, 'b> {}
   (struct_item
     (type_identifier)
     (type_parameters (lifetime (identifier)) (lifetime (identifier)))
+    (field_declaration_list))
+  (struct_item
+    (type_identifier)
+    (type_parameters (lifetime (identifier)))
     (field_declaration_list)))
 
 ============================================
