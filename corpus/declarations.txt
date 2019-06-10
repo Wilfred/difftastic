@@ -900,6 +900,10 @@ impl<T> A for B<T>
 {
 }
 
+pub trait A<B> where B: C,
+{
+}
+
 ---
 
 (source_file
@@ -969,6 +973,12 @@ impl<T> A for B<T>
           (type_parameters (lifetime (identifier)))
           (generic_type (type_identifier) (type_arguments (type_identifier))))
         (trait_bounds (generic_type (type_identifier) (type_arguments (lifetime (identifier)))))))
+    (declaration_list))
+  (trait_item
+    (visibility_modifier)
+    (type_identifier)
+    (type_parameters (type_identifier))
+    (where_clause (where_predicate (type_identifier) (trait_bounds (type_identifier))))
     (declaration_list)))
 
 ===================================
