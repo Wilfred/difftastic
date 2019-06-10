@@ -485,9 +485,17 @@ Constant items
 
 const N: i32 = 5;
 
+trait Foo {
+    const X: u8;
+}
+
 ---
 
-(source_file (const_item (identifier) (primitive_type) (integer_literal)))
+(source_file
+  (const_item (identifier) (primitive_type) (integer_literal))
+  (trait_item
+    (type_identifier)
+    (declaration_list (const_item (identifier) (primitive_type)))))
 
 ============================================
 Static items

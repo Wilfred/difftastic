@@ -412,8 +412,12 @@ module.exports = grammar({
       $.identifier,
       ':',
       $._type,
-      '=',
-      $._expression,
+      optional(
+        seq(
+          '=',
+          $._expression,
+        ),
+      ),
       ';'
     ),
 
