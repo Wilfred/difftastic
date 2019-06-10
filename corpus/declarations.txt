@@ -709,6 +709,8 @@ pub trait Item: Clone + Eq + fmt::Debug {
     fn summarize(&self) -> Self::Summary;
 }
 
+unsafe trait Foo { }
+
 ---
 
 (source_file
@@ -723,7 +725,8 @@ pub trait Item: Clone + Eq + fmt::Debug {
       (function_signature_item
         (identifier)
         (parameters (self_parameter (self)))
-        (scoped_type_identifier (identifier) (type_identifier))))))
+        (scoped_type_identifier (identifier) (type_identifier)))))
+   (trait_item (type_identifier) (declaration_list)))
 
 ============================================
 Trait declarations with optional type parameters

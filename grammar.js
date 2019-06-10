@@ -513,6 +513,7 @@ module.exports = grammar({
 
     trait_item: $ => seq(
       optional($.visibility_modifier),
+      optional('unsafe'),
       'trait',
       $._type_identifier,
       optional($.type_parameters),
