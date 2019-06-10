@@ -3400,60 +3400,69 @@
       "type": "PREC_RIGHT",
       "value": 0,
       "content": {
-        "type": "SEQ",
+        "type": "CHOICE",
         "members": [
           {
-            "type": "STRING",
-            "value": "pub"
+            "type": "SYMBOL",
+            "name": "crate"
           },
           {
-            "type": "CHOICE",
+            "type": "SEQ",
             "members": [
               {
-                "type": "SEQ",
+                "type": "STRING",
+                "value": "pub"
+              },
+              {
+                "type": "CHOICE",
                 "members": [
                   {
-                    "type": "STRING",
-                    "value": "("
-                  },
-                  {
-                    "type": "CHOICE",
+                    "type": "SEQ",
                     "members": [
                       {
-                        "type": "SYMBOL",
-                        "name": "self"
+                        "type": "STRING",
+                        "value": "("
                       },
                       {
-                        "type": "SYMBOL",
-                        "name": "super"
-                      },
-                      {
-                        "type": "SYMBOL",
-                        "name": "crate"
-                      },
-                      {
-                        "type": "SEQ",
+                        "type": "CHOICE",
                         "members": [
                           {
-                            "type": "STRING",
-                            "value": "in"
+                            "type": "SYMBOL",
+                            "name": "self"
                           },
                           {
                             "type": "SYMBOL",
-                            "name": "_path"
+                            "name": "super"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "crate"
+                          },
+                          {
+                            "type": "SEQ",
+                            "members": [
+                              {
+                                "type": "STRING",
+                                "value": "in"
+                              },
+                              {
+                                "type": "SYMBOL",
+                                "name": "_path"
+                              }
+                            ]
                           }
                         ]
+                      },
+                      {
+                        "type": "STRING",
+                        "value": ")"
                       }
                     ]
                   },
                   {
-                    "type": "STRING",
-                    "value": ")"
+                    "type": "BLANK"
                   }
                 ]
-              },
-              {
-                "type": "BLANK"
               }
             ]
           }

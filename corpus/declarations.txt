@@ -974,3 +974,26 @@ extern "C" {}
   (foreign_mod_item (visibility_modifier) (extern_modifier) (declaration_list
     (function_signature_item (visibility_modifier) (identifier) (parameters (parameter (identifier) (pointer_type (mutable_specifier) (type_identifier)))))))
   (foreign_mod_item (extern_modifier (string_literal)) (declaration_list)))
+
+===================================
+Crate visibility
+===================================
+
+crate mod foo;
+crate struct Foo(crate crate::Bar);
+crate fn foo() { }
+crate const X: u32 = 0;
+
+---
+
+(source_file
+  (mod_item
+    (visibility_modifier (crate)) (identifier))
+  (struct_item
+    (visibility_modifier (crate))
+    (type_identifier)
+    (ordered_field_declaration_list (visibility_modifier (crate)) (scoped_type_identifier (crate) (type_identifier))))
+  (function_item
+    (visibility_modifier (crate)) (identifier) (parameters) (block))
+  (const_item
+    (visibility_modifier (crate)) (identifier) (primitive_type) (integer_literal)))
