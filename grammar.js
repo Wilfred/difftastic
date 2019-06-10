@@ -437,6 +437,7 @@ module.exports = grammar({
       $._type_identifier,
       optional($.type_parameters),
       optional($.trait_bounds),
+      optional($.where_clause),
       $.declaration_list
     ),
 
