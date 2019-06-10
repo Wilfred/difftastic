@@ -325,6 +325,7 @@ match x {
 
     #[attr1]
     3 => "three",
+    macro!(4) => "four",
     _ => "something else",
 }
 
@@ -347,6 +348,9 @@ let msg = match x {
     (match_arm
       (attribute_item (meta_item (identifier)))
       (match_pattern (integer_literal)) (string_literal))
+    (match_arm
+      (macro_invocation (identifier) (token_tree (integer_literal)))
+      (string_literal))
     (match_arm (match_pattern) (string_literal)))
   (let_declaration (identifier) (match_expression (identifier)
     (match_arm (match_pattern (integer_literal) (integer_literal) (integer_literal)) (string_literal))

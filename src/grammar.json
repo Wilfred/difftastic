@@ -5672,8 +5672,17 @@
           }
         },
         {
-          "type": "SYMBOL",
-          "name": "match_pattern"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "macro_invocation"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "match_pattern"
+            }
+          ]
         },
         {
           "type": "STRING",
