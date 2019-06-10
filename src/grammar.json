@@ -2484,6 +2484,10 @@
             {
               "type": "SYMBOL",
               "name": "tuple_type"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "higher_ranked_trait_bound"
             }
           ]
         },

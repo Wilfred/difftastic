@@ -492,6 +492,7 @@ module.exports = grammar({
         $.generic_type,
         $.reference_type,
         $.tuple_type,
+        $.higher_ranked_trait_bound,
       ),
       $.trait_bounds
     ),
