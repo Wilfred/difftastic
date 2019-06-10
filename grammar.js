@@ -562,6 +562,7 @@ module.exports = grammar({
         $.constrained_type_parameter,
         $.optional_type_parameter
       )),
+      optional(','),
       '>'
     )),
 
