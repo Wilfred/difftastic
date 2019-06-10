@@ -870,7 +870,7 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "identifier"
+          "name": "_path"
         },
         {
           "type": "CHOICE",
@@ -905,8 +905,17 @@
                           "type": "SEQ",
                           "members": [
                             {
-                              "type": "SYMBOL",
-                              "name": "meta_item"
+                              "type": "CHOICE",
+                              "members": [
+                                {
+                                  "type": "SYMBOL",
+                                  "name": "meta_item"
+                                },
+                                {
+                                  "type": "SYMBOL",
+                                  "name": "_literal"
+                                }
+                              ]
                             },
                             {
                               "type": "REPEAT",
@@ -918,8 +927,17 @@
                                     "value": ","
                                   },
                                   {
-                                    "type": "SYMBOL",
-                                    "name": "meta_item"
+                                    "type": "CHOICE",
+                                    "members": [
+                                      {
+                                        "type": "SYMBOL",
+                                        "name": "meta_item"
+                                      },
+                                      {
+                                        "type": "SYMBOL",
+                                        "name": "_literal"
+                                      }
+                                    ]
                                   }
                                 ]
                               }
