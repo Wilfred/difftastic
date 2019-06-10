@@ -377,6 +377,7 @@ Loop expressions
 'outer: loop {
   'inner: loop {
     break 'outer;
+    break true;
   }
 }
 
@@ -385,7 +386,8 @@ Loop expressions
 (source_file
   (loop_expression (loop_label (identifier)) (block
     (loop_expression (loop_label (identifier)) (block
-      (break_expression (loop_label (identifier))))))))
+      (break_expression (loop_label (identifier)))
+      (break_expression (boolean_literal)))))))
 
 ============================================
 For expressions
