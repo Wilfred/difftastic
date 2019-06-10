@@ -880,6 +880,8 @@ where &'a E: Read,
 {
 }
 
+impl<T> A for B<T> where (T, T, T): C, {}
+
 ---
 
 (source_file
@@ -928,7 +930,17 @@ where &'a E: Read,
     (type_identifier)
     (where_clause
       (where_predicate (reference_type (lifetime (identifier)) (type_identifier)) (trait_bounds (type_identifier))))
-    (declaration_list)))
+    (declaration_list))
+  (impl_item
+    (type_parameters (type_identifier))
+    (type_identifier)
+    (impl_for_clause
+      (generic_type (type_identifier) (type_arguments (type_identifier))))
+    (where_clause
+      (where_predicate
+        (tuple_type (type_identifier) (type_identifier) (type_identifier))
+        (trait_bounds (type_identifier))))
+  (declaration_list)))
 
 ===================================
 External Modules

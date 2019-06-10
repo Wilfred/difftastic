@@ -320,12 +320,11 @@ module.exports = grammar({
       'struct',
       $._type_identifier,
       optional($.type_parameters),
-      optional($.where_clause),
       choice(
-        $.field_declaration_list,
+        seq(optional($.where_clause), $.field_declaration_list),
         seq($.ordered_field_declaration_list, optional($.where_clause), ';'),
         ';'
-      )
+      ),
     ),
 
     union_item: $ => seq(
@@ -336,7 +335,6 @@ module.exports = grammar({
       optional($.where_clause),
       choice(
         $.field_declaration_list,
-        seq($.ordered_field_declaration_list, ';'),
         ';'
       )
     ),
@@ -492,7 +490,8 @@ module.exports = grammar({
         $._type_identifier,
         $.scoped_type_identifier,
         $.generic_type,
-        $.reference_type
+        $.reference_type,
+        $.tuple_type,
       ),
       $.trait_bounds
     ),
