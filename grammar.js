@@ -968,8 +968,9 @@ module.exports = grammar({
       $._expression, 'as', $._type
     ),
 
-    return_expression: $ => prec.left(seq(
-      'return', optional($._expression))
+    return_expression: $ => choice(
+      prec.left(seq('return', $._expression)),
+      prec(-1, 'return'),
     ),
 
     call_expression: $ => prec(PREC.call, seq(

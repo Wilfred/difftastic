@@ -52,6 +52,18 @@ fn takes_slice(slice: &str) {
     println!("Got: {}", slice);
 }
 
+fn foo() -> [u32; 2] {
+    return [1, 2];
+}
+
+fn foo() -> (u32, u16) {
+    return (1, 2);
+}
+
+fn foo() {
+    return
+}
+
 ---
 
 (source_file
@@ -66,7 +78,13 @@ fn takes_slice(slice: &str) {
   (function_item (identifier)
     (parameters
       (parameter (identifier) (reference_type (primitive_type))))
-    (block (macro_invocation (identifier) (token_tree (string_literal) (identifier))))))
+    (block (macro_invocation (identifier) (token_tree (string_literal) (identifier)))))
+  (function_item (identifier) (parameters) (array_type (primitive_type) (integer_literal))
+    (block (return_expression (array_expression (integer_literal) (integer_literal)))))
+  (function_item (identifier) (parameters) (tuple_type (primitive_type) (primitive_type))
+    (block (return_expression (tuple_expression (integer_literal) (integer_literal)))))
+  (function_item (identifier) (parameters)
+    (block (return_expression))))
 
 ============================================
 Const function declarations
