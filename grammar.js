@@ -658,7 +658,6 @@ module.exports = grammar({
         $._pattern,
         $.self,
         $._reserved_identifier,
-        alias(choice(...primitive_types), $.identifier)
       ),
       ':',
       $._type
@@ -1185,6 +1184,7 @@ module.exports = grammar({
 
     _pattern: $ => choice(
       $._literal,
+      alias(choice(...primitive_types), $.identifier),
       $.identifier,
       $.scoped_identifier,
       $.tuple_pattern,

@@ -218,6 +218,8 @@ let x: i32;
 let x: i8 = 42;
 let mut x = 5;
 let y: bool = false;
+let bool: bool = false;
+let u32: str = "";
 
 ---
 
@@ -227,7 +229,9 @@ let y: bool = false;
   (let_declaration (identifier) (primitive_type))
   (let_declaration (identifier) (primitive_type) (integer_literal))
   (let_declaration (mutable_specifier) (identifier) (integer_literal))
-  (let_declaration (identifier) (primitive_type) (boolean_literal)))
+  (let_declaration (identifier) (primitive_type) (boolean_literal))
+  (let_declaration (identifier) (primitive_type) (boolean_literal))
+  (let_declaration (identifier) (primitive_type) (string_literal)))
 
 ============================================
 Structs
