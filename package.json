@@ -13,13 +13,11 @@
     "nan": "^2.8.0"
   },
   "devDependencies": {
-    "tree-sitter-cli": "^0.15.3",
-    "eslint": "^3.19.0"
+    "tree-sitter-cli": "^0.15.3"
   },
   "scripts": {
-    "build": "tree-sitter generate && node-gyp build",
-    "test": "eslint ./grammar.js && tree-sitter test && script/parse-examples",
-    "test-windows": "eslint ./grammar.js && tree-sitter test"
+    "test": "tree-sitter test && script/parse-examples",
+    "test-windows": "tree-sitter test"
   },
   "tree-sitter": [
     {
