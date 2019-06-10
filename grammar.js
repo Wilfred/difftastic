@@ -65,62 +65,6 @@ module.exports = grammar({
     [$.scoped_identifier, $.scoped_type_identifier],
     [$.parameters, $._pattern],
     [$.parameters, $.tuple_struct_pattern],
-
-    // We try to parse macro arguments as expressions and items, resulting in many rules
-    // conflicting with `token_tree`.
-    ...[
-      [],
-      [$.array_expression],
-      [$._expression_statement],
-      [$._expression, $.struct_expression],
-      [$._expression],
-      [$.assignment_expression],
-      [$.attribute_item],
-      [$.block],
-      [$.bracketed_type],
-      [$.break_expression],
-      [$.closure_parameters],
-      [$.compound_assignment_expr],
-      [$.const_item],
-      [$.continue_expression],
-      [$.empty_statement],
-      [$.enum_item],
-      [$.for_expression],
-      [$.function_item, $.function_signature_item],
-      [$.function_modifiers],
-      [$.generic_function, $.generic_type_with_turbofish, $.scoped_identifier, $.scoped_type_identifier_in_expression_position],
-      [$.generic_function],
-      [$.if_expression],
-      [$.if_let_expression],
-      [$.impl_item],
-      [$.inner_attribute_item],
-      [$.let_declaration],
-      [$.loop_expression],
-      [$.loop_label],
-      [$.macro_invocation],
-      [$.match_expression],
-      [$.mod_item],
-      [$.parenthesized_expression],
-      [$.reference_expression],
-      [$.return_expression],
-      [$.static_item],
-      [$.struct_expression],
-      [$.struct_item],
-      [$.trait_item],
-      [$.try_expression],
-      [$.tuple_expression],
-      [$.type_cast_expression],
-      [$.type_item, $.associated_type],
-      [$.unary_expression],
-      [$.union_item, $._expression],
-      [$.union_item],
-      [$.unit_expression],
-      [$.unsafe_block],
-      [$.use_declaration],
-      [$.visibility_modifier],
-      [$.while_expression],
-      [$.while_let_expression],
-    ].map(a => a.concat($.token_tree))
   ],
 
   word: $ => $.identifier,
@@ -222,30 +166,9 @@ module.exports = grammar({
     ),
 
     token_tree: $ => choice(
-      seq(
-        '(',
-        choice(
-          prec.dynamic(-1, repeat($._tokens)),
-          seq(sepBy1(',', $._expression), optional(','))
-        ),
-        ')'
-      ),
-      seq(
-        '[',
-        choice(
-          prec.dynamic(-1, repeat($._tokens)),
-          seq(sepBy1(',', $._expression), optional(','))
-        ),
-        ']'
-      ),
-      seq(
-        '{',
-        choice(
-          prec.dynamic(-1, repeat($._tokens)),
-          seq(repeat($._statement), optional($._expression))
-        ),
-        '}'
-      )
+      seq('(', repeat($._tokens), ')'),
+      seq('[', repeat($._tokens), ']'),
+      seq('{', repeat($._tokens), '}')
     ),
 
     token_repetition: $ => seq(
@@ -254,12 +177,8 @@ module.exports = grammar({
 
     _non_special_token: $ => choice(
       $._literal, $.identifier, $.metavariable, $.mutable_specifier, $.self, $.super, $.crate,
-      alias(choice(...primitive_types), $.primitive_type), '_',
-      prec(PREC.unary, choice('*', '&', '-')), '.',
-      '-', '-=', '->', ',', ';', ':', '::', '!', '!=', '@', '*=',
-      '/', '/=', '&&', '&=', '#', '%', '%=', '^', '^=', '+', '+=', '<',
-      '<<', '<<=', '<=', '=', '==', '=>', '>', '>=', '>>', '>>=', '|', '|=',
-      '||', '~', "?", "'", '..', '...', '..=',
+      alias(choice(...primitive_types), $.primitive_type),
+      /[/_\-=->,;:::!=?.@*=/='&=#%=^=+<>|~]+/,
       'as', 'break', 'const', 'continue', 'default', 'enum', 'fn', 'for', 'if', 'impl',
       'let', 'loop', 'match', 'mod', 'pub', 'return', 'static', 'struct', 'trait', 'type',
       'union', 'unsafe', 'use', 'where', 'while'

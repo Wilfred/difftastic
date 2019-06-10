@@ -38,51 +38,6 @@ a!(b + c + +);
     (identifier)
     (token_tree (identifier) (identifier))))
 
-==============================================
-Macro invocation - expressions
-==============================================
-
-println!("a {}", b.c());
-vec!(A::new(), b);
-assert!(a.b);
-
----
-
-(source_file
-  (macro_invocation
-    (identifier)
-    (token_tree
-      (string_literal)
-      (call_expression
-        (field_expression (identifier) (field_identifier))
-        (arguments))))
-  (macro_invocation
-    (identifier)
-    (token_tree
-      (call_expression (scoped_identifier (identifier) (identifier)) (arguments))
-      (identifier)))
-  (macro_invocation
-    (identifier)
-    (token_tree (field_expression (identifier) (field_identifier)))))
-
-==============================================
-Macro invocation - declarations
-==============================================
-
-quote! {
-  impl a for b {
-
-  }
-}
-
----
-
-(source_file
-  (macro_invocation
-    (identifier)
-    (token_tree
-      (impl_item (type_identifier) (impl_for_clause (type_identifier)) (declaration_list)))))
-
 ============================================
 Macro definition
 ============================================
@@ -120,18 +75,18 @@ macro_rules! o_O {
   (macro_definition (identifier)
     (macro_rule
       (token_tree_pattern)
-      (token_tree (binary_expression (integer_literal) (integer_literal)))))
+      (token_tree (integer_literal) (integer_literal))))
   (macro_definition (identifier)
     (macro_rule
       (token_tree_pattern (identifier) (token_binding_pattern (metavariable) (fragment_specifier)))
       (token_tree
-        (macro_invocation (identifier) (token_tree (string_literal) (metavariable)))))
+        (identifier) (token_tree (string_literal) (metavariable))))
     (macro_rule
       (token_tree_pattern
         (identifier)
         (token_binding_pattern (metavariable) (fragment_specifier)))
       (token_tree
-        (macro_invocation (identifier) (token_tree (string_literal) (metavariable))))))
+        (identifier) (token_tree (string_literal) (metavariable)))))
   (macro_definition (identifier)
     (macro_rule
       (token_tree_pattern (token_repetition_pattern
