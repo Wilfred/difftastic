@@ -22,10 +22,6 @@ Rust grammar for [tree-sitter](https://github.com/tree-sitter/tree-sitter)
 
   But if you *edit* the file after parsing it, this parser can generally *update* the previous existing syntax tree to reflect your edit in less than a millisecond, thanks to Tree-sitter's incremental parsing system.
 
-* **Token tree parsing** - The content of a macro definition or macro invocation is treated by the Rust parser as a [*token tree*](https://github.com/steveklabnik/trpl/blob/master/advanced-macros.md) - a sequence of tokens with no structure except for the matching of the delimiters `()`, `[]`, and `{}`. In practice though, many arguments to macros are valid rust expressions or declarations. For code analysis tasks like syntax highlighting, it's useful to understand the structure of this code.
-
-  `Tree-sitter-rust`  attempts to parse the contents of token trees as expressions and declarations, falling back to unstructured token sequences if it can't find a structured interpretation. Because of Tree-sitter's efficient ambiguity handling, this additional parsing adds only a small performance cost.
-
 ## References
 
 * [The Rust Grammar Reference](https://doc.rust-lang.org/grammar.html) - The grammar reference provides chapters that formally define the language grammar.
