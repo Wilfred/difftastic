@@ -673,18 +673,22 @@ module.exports = grammar({
       optional($.string_literal)
     ),
 
-    visibility_modifier: $ => prec.right(seq(
-      'pub',
-      optional(seq(
-        '(',
-        choice(
-          $.self,
-          $.super,
-          $.crate,
-          seq('in', $._path)
+    visibility_modifier: $ => prec.right(
+      choice(
+        $.crate,
+        seq(
+          'pub',
+          optional(seq(
+            '(',
+            choice(
+              $.self,
+              $.super,
+              $.crate,
+              seq('in', $._path)
+            ),
+            ')'
+          )),
         ),
-        ')'
-      ))
     )),
 
     // Section - Types
