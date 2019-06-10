@@ -170,6 +170,7 @@ use phrases::english::{greetings,farewells};
 use sayings::japanese::farewells::*;
 pub use self::greetings::hello;
 use sayings::english::{self, greetings as en_greetings, farewells as en_farewells};
+use three::{ dot::{one, four} };
 
 ---
 
@@ -206,7 +207,15 @@ use sayings::english::{self, greetings as en_greetings, farewells as en_farewell
       (use_list
         (self)
         (use_as_clause (identifier) (identifier))
-        (use_as_clause (identifier) (identifier))))))
+        (use_as_clause (identifier) (identifier)))))
+  (use_declaration
+    (scoped_use_list
+      (identifier)
+      (use_list
+        (scoped_use_list
+          (identifier)
+          (use_list
+            (identifier) (identifier)))))))
 
 ============================================
 Variable bindings
