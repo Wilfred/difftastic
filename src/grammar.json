@@ -1043,6 +1043,10 @@
         },
         {
           "type": "STRING",
+          "value": "..="
+        },
+        {
+          "type": "STRING",
           "value": "as"
         },
         {
@@ -4636,6 +4640,10 @@
                   {
                     "type": "STRING",
                     "value": "..."
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "..="
                   }
                 ]
               },

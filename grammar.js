@@ -259,7 +259,7 @@ module.exports = grammar({
       '-', '-=', '->', ',', ';', ':', '::', '!', '!=', '@', '*=',
       '/', '/=', '&&', '&=', '#', '%', '%=', '^', '^=', '+', '+=', '<',
       '<<', '<<=', '<=', '=', '==', '=>', '>', '>=', '>>', '>>=', '|', '|=',
-      '||', '~', "?", "'", '..', '...',
+      '||', '~', "?", "'", '..', '...', '..=',
       'as', 'break', 'const', 'continue', 'default', 'enum', 'fn', 'for', 'if', 'impl',
       'let', 'loop', 'match', 'mod', 'pub', 'return', 'static', 'struct', 'trait', 'type',
       'union', 'unsafe', 'use', 'where', 'while'
@@ -929,7 +929,7 @@ module.exports = grammar({
     ),
 
     range_expression: $ => prec.left(PREC.range, choice(
-      seq($._expression, choice('..', '...'), $._expression),
+      seq($._expression, choice('..', '...', '..='), $._expression),
       seq($._expression, '..'),
       seq('..', $._expression),
       '..'
@@ -1344,13 +1344,13 @@ module.exports = grammar({
 
     escape_sequence: $ => token.immediate(
       seq('\\',
-      choice(
-        /[^xu]/,
-        /u[0-9a-fA-F]{4}/,
-        /u{[0-9a-fA-F]+}/,
-        /x[0-9a-fA-F]{2}/
-      )
-    )),
+        choice(
+          /[^xu]/,
+          /u[0-9a-fA-F]{4}/,
+          /u{[0-9a-fA-F]+}/,
+          /x[0-9a-fA-F]{2}/
+        )
+      )),
 
     boolean_literal: $ => choice('true', 'false'),
 
