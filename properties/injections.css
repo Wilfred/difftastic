@@ -1,0 +1,6 @@
+macro_invocation:nth-child(2),
+macro_rule:nth-child(2) {
+  injection-language: 'rust';
+  injection-content: this();
+  injection-includes-children: true;
+}

@@ -25,6 +25,7 @@
     {
       "scope": "source.rs",
       "name": "Rust",
+      "highlights": "src/highlights.json",
       "file-types": [
         "rs"
       ]
