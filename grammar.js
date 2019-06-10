@@ -1158,7 +1158,7 @@ module.exports = grammar({
 
     loop_label: $ => seq('\'', $.identifier),
 
-    break_expression: $ => prec.left(seq('break', optional($.loop_label))),
+    break_expression: $ => prec.left(seq('break', optional($.loop_label), optional($._expression))),
 
     continue_expression: $ => prec.left(seq('continue', optional($.loop_label))),
 
