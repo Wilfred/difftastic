@@ -1,6 +1,6 @@
 {
   "name": "tree-sitter-rust",
-  "version": "0.13.7",
+  "version": "0.15.0",
   "description": "Rust grammar for tree-sitter",
   "main": "index.js",
   "keywords": [
