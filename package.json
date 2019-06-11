@@ -21,9 +21,9 @@
   },
   "tree-sitter": [
     {
-      "scope": "source.rs",
-      "name": "Rust",
+      "scope": "source.rust",
       "highlights": "src/highlights.json",
+      "injection-regex": "rust",
       "file-types": [
         "rs"
       ]
