@@ -22,6 +22,27 @@ identifier {
   }
 }
 
+[token="("],
+[token=")"],
+[token="["],
+[token="]"] {
+  highlight: 'punctuation.bracket';
+}
+
+type_arguments,
+type_parameters {
+  & > [token="<"],
+  & > [token=">"] {
+    highlight: 'punctuation.bracket';
+  }
+}
+
+[token='::'],
+[token='.'],
+[token=';'] {
+  highlight: 'punctuation.delimiter';
+}
+
 macro_invocation > identifier,
 macro_invocation > [token="!"],
 macro_definition > identifier,
