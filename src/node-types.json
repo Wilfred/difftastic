@@ -35,6 +35,11 @@
     "fields": {}
   },
   {
+    "type": "await_expression",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "base_field_initializer",
     "named": true,
     "fields": {}
@@ -801,6 +806,14 @@
   },
   {
     "type": "as",
+    "named": false
+  },
+  {
+    "type": "async",
+    "named": false
+  },
+  {
+    "type": "await",
     "named": false
   },
   {

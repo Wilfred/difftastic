@@ -1,0 +1,50 @@
+============================================
+Async function
+============================================
+
+async fn abc() {}
+
+async fn main() {
+    let x = futures.await?;
+}
+
+---
+
+(source_file
+  (function_item
+    (function_modifiers)
+    (identifier)
+    (parameters)
+    (block))
+  (function_item (function_modifiers) (identifier) (parameters)
+    (block
+      (let_declaration (identifier) (try_expression
+        (await_expression (identifier)))))))
+
+============================================
+Await expression
+============================================
+
+futures.await;
+futures.await?;
+futures.await?.await?;
+futures.await?.function().await?;
+
+---
+
+(source_file
+  (await_expression (identifier))
+  (try_expression
+    (await_expression (identifier)))
+  (try_expression
+    (await_expression
+      (try_expression
+        (await_expression (identifier)))))
+  (try_expression
+    (await_expression
+      (call_expression
+        (field_expression
+          (try_expression
+            (await_expression (identifier)))
+          (field_identifier))
+        (arguments)))))

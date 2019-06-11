@@ -179,7 +179,7 @@ module.exports = grammar({
       $._literal, $.identifier, $.metavariable, $.mutable_specifier, $.self, $.super, $.crate,
       alias(choice(...primitive_types), $.primitive_type),
       /[/_\-=->,;:::!=?.@*=/='&=#%=^=+<>|~]+/,
-      'as', 'break', 'const', 'continue', 'default', 'enum', 'fn', 'for', 'if', 'impl',
+      'as', 'async', 'await', 'break', 'const', 'continue', 'default', 'enum', 'fn', 'for', 'if', 'impl',
       'let', 'loop', 'match', 'mod', 'pub', 'return', 'static', 'struct', 'trait', 'type',
       'union', 'unsafe', 'use', 'where', 'while'
     ),
@@ -391,6 +391,7 @@ module.exports = grammar({
     ),
 
     function_modifiers: $ => repeat1(choice(
+      'async',
       'default',
       'const',
       'unsafe',
@@ -785,6 +786,7 @@ module.exports = grammar({
       $.self,
       $.scoped_identifier,
       $.generic_function,
+      $.await_expression,
       $.field_expression,
       $.array_expression,
       $.tuple_expression,
@@ -1093,6 +1095,12 @@ module.exports = grammar({
 
     index_expression: $ => prec(PREC.call, seq($._expression, '[', $._expression, ']')),
 
+    await_expression: $ => prec(PREC.field, seq(
+      $._expression,
+      '.',
+      'await'
+    )),
+
     field_expression: $ => prec(PREC.field, seq(
       $._expression,
       '.',
@@ -1219,7 +1227,7 @@ module.exports = grammar({
       $.integer_literal,
       $.float_literal,
     ),
-    
+
     _literal_pattern: $ => choice(
       $.string_literal,
       $.raw_string_literal,
@@ -1297,7 +1305,7 @@ module.exports = grammar({
 
     _reserved_identifier: $ => alias(choice(
       'default',
-      'union'
+      'union',
     ), $.identifier),
 
     _type_identifier: $ => alias($.identifier, $.type_identifier),
