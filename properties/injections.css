@@ -1,5 +1,6 @@
-macro_invocation:nth-child(2),
-macro_rule:nth-child(2) {
+macro_invocation > token_tree,
+macro_rule > token_tree
+{
   injection-language: 'rust';
   injection-content: this();
   injection-includes-children: true;
