@@ -912,13 +912,14 @@ module.exports = grammar({
 
     arguments: $ => seq(
       '(',
-      sepBy(',', $._expression),
+      sepBy(',', seq(repeat($.attribute_item), $._expression)),
       optional(','),
       ')'
     ),
 
     array_expression: $ => seq(
       '[',
+      repeat($.attribute_item),
       choice(
         seq($._expression, ';', $._expression),
         seq(sepBy(',' ,$._expression), optional(','))
@@ -934,6 +935,7 @@ module.exports = grammar({
 
     tuple_expression: $ => seq(
       '(',
+      repeat($.attribute_item),
       seq($._expression, ','),
       repeat(seq($._expression, ',')),
       optional($._expression),
