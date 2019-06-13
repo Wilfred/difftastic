@@ -13201,14 +13201,14 @@
         {
           "type": "identifier",
           "named": true,
-          "index": 2,
+          "index": 0,
           "text": "^[A-Z]",
           "state_id": 28
         },
         {
           "type": "identifier",
           "named": true,
-          "index": 0,
+          "index": 2,
           "text": "^[A-Z]",
           "state_id": 28
         },

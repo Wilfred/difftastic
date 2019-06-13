@@ -325,6 +325,11 @@
     "fields": {}
   },
   {
+    "type": "match_block",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "match_expression",
     "named": true,
     "fields": {}

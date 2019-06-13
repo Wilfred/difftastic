@@ -5382,6 +5382,15 @@
           "name": "_expression"
         },
         {
+          "type": "SYMBOL",
+          "name": "match_block"
+        }
+      ]
+    },
+    "match_block": {
+      "type": "SEQ",
+      "members": [
+        {
           "type": "STRING",
           "value": "{"
         },
