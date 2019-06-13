@@ -612,6 +612,32 @@ mod macos_only {
   (mod_item (identifier) (declaration_list
     (inner_attribute_item (meta_item (identifier) (meta_item (identifier) (string_literal)))))))
 
+============================================
+Attributes and Expressions
+============================================
+
+fn foo() {
+   bar(x,
+       #[cfg(foo = "bar")]
+       y);
+   let z = [#[hello] 2, 7, 8];
+   let t = (#[hello] 2, 7, 8);
+}
+
+---
+
+(source_file
+  (function_item (identifier) (parameters)
+    (block
+      (call_expression (identifier)
+        (arguments
+          (identifier)
+            (attribute_item (meta_item (identifier) (meta_item (identifier) (string_literal)))) (identifier)))
+      (let_declaration (identifier)
+        (array_expression (attribute_item (meta_item (identifier))) (integer_literal) (integer_literal) (integer_literal)))
+      (let_declaration (identifier)
+        (tuple_expression (attribute_item (meta_item (identifier))) (integer_literal) (integer_literal) (integer_literal))))))
+
 ===========================================
 Inherent Impls
 ===========================================
