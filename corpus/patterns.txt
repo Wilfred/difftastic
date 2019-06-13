@@ -10,13 +10,13 @@ match x {
 ---
 
 (source_file
-  (match_expression (identifier)
+  (match_expression (identifier) (match_block
     (match_arm
       (match_pattern (tuple_struct_pattern (identifier) (identifier)))
       (string_literal))
     (match_arm
       (match_pattern (tuple_struct_pattern (scoped_identifier (identifier) (identifier))))
-      (string_literal))))
+      (string_literal)))))
 
 =================================
 Reference patterns
@@ -31,7 +31,7 @@ match x {
 ---
 
 (source_file
-  (match_expression (identifier)
+  (match_expression (identifier) (match_block
     (match_arm
       (match_pattern (tuple_struct_pattern (identifier) (ref_pattern (identifier))))
       (field_expression (identifier) (integer_literal)))
@@ -40,7 +40,7 @@ match x {
       (identifier))
     (match_arm
       (match_pattern (reference_pattern (mutable_specifier) (identifier)))
-      (identifier))))
+      (identifier)))))
 
 =================================
 Struct patterns
@@ -54,8 +54,7 @@ match x {
 ---
 
 (source_file
-  (match_expression
-    (identifier)
+  (match_expression (identifier) (match_block
     (match_arm
       (match_pattern (struct_pattern
         (type_identifier)
@@ -69,7 +68,7 @@ match x {
           (type_identifier)
           (field_pattern (field_identifier) (identifier))
           (field_pattern (field_identifier))))
-      (tuple_expression (string_literal) (identifier)))))
+      (tuple_expression (string_literal) (identifier))))))
 
 =================================
 Ignored patterns
@@ -84,7 +83,7 @@ match x {
 ---
 
 (source_file
-  (match_expression (identifier)
+  (match_expression (identifier) (match_block
     (match_arm
       (match_pattern
         (tuple_pattern (identifier) (remaining_field_pattern)))
@@ -99,7 +98,7 @@ match x {
           (scoped_type_identifier (identifier) (type_identifier))
           (field_pattern (field_identifier) (identifier))
           (remaining_field_pattern)))
-      (identifier))))
+      (identifier)))))
 
 =================================
 Captured patterns
@@ -114,7 +113,7 @@ match x {
 ---
 
 (source_file
-  (match_expression (identifier)
+  (match_expression (identifier) (match_block
     (match_arm
       (match_pattern
         (captured_pattern (identifier) (tuple_struct_pattern (identifier)))
@@ -127,4 +126,4 @@ match x {
     (match_arm
       (match_pattern
         (tuple_struct_pattern (identifier) (range_pattern (integer_literal) (integer_literal))))
-      (identifier))))
+      (identifier)))))

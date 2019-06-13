@@ -344,7 +344,7 @@ let msg = match x {
 ---
 
 (source_file
-  (match_expression (identifier)
+  (match_expression (identifier) (match_block
     (match_arm (match_pattern (integer_literal)) (block (string_literal)))
     (match_arm (match_pattern (integer_literal)) (string_literal))
     (match_arm (match_pattern (integer_literal)) (integer_literal))
@@ -355,14 +355,14 @@ let msg = match x {
     (match_arm
       (macro_invocation (identifier) (token_tree (integer_literal)))
       (string_literal))
-    (match_arm (match_pattern) (string_literal)))
-  (let_declaration (identifier) (match_expression (identifier)
+    (match_arm (match_pattern) (string_literal))))
+  (let_declaration (identifier) (match_expression (identifier) (match_block
     (match_arm (match_pattern (integer_literal) (integer_literal) (integer_literal)) (string_literal))
     (match_arm (match_pattern (identifier) (binary_expression (identifier) (integer_literal))) (string_literal))
     (match_arm
       (match_pattern (identifier) (binary_expression (identifier) (integer_literal)))
       (if_expression (identifier) (block (string_literal))))
-    (match_arm (match_pattern) (string_literal)))))
+    (match_arm (match_pattern) (string_literal))))))
 
 ============================================
 While expressions

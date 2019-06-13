@@ -999,6 +999,10 @@ module.exports = grammar({
     match_expression: $ => seq(
       'match',
       $._expression,
+      $.match_block
+    ),
+
+    match_block: $ => seq(
       '{',
       optional(seq(
         repeat($.match_arm),
