@@ -1,4 +1,3 @@
 language: node_js
-node_js:
-  - "node"
+node_js: "10"
 compiler: clang
