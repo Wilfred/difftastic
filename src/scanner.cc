@@ -13,21 +13,14 @@ enum {
 
 struct Scanner {
   bool in_string = false;
-  std::string quoted_string_id;
 
   unsigned serialize(char *buffer) {
-    size_t size = quoted_string_id.size();
-
-    buffer[0] = in_string;
-    quoted_string_id.copy(&buffer[1], size);
-    return size + 1;
+    *buffer = in_string;
+    return 1;
   }
 
   void deserialize(const char *buffer, unsigned length) {
-    if (length > 0) {
-      in_string = buffer[0];
-      quoted_string_id.assign(&buffer[1], length - 1);
-    }
+    in_string = (length > 0) && *buffer;
   }
 
   void advance(TSLexer *lexer) {
@@ -169,11 +162,11 @@ struct Scanner {
   }
 
   bool scan_quoted_string(TSLexer *lexer) {
+    std::string id;
     size_t i;
-    quoted_string_id.clear();
 
     while (iswlower(lexer->lookahead) || lexer->lookahead == '_') {
-      quoted_string_id.push_back(lexer->lookahead);
+      id.push_back(lexer->lookahead);
       advance(lexer);
     }
 
@@ -184,11 +177,11 @@ struct Scanner {
       switch (lexer->lookahead) {
         case '|':
           advance(lexer);
-          for (i = 0; i < quoted_string_id.size(); i++) {
-            if (lexer->lookahead != quoted_string_id[i]) break;
+          for (i = 0; i < id.size(); i++) {
+            if (lexer->lookahead != id[i]) break;
             advance(lexer);
           }
-          if (i == quoted_string_id.size() && lexer->lookahead == '}') {
+          if (i == id.size() && lexer->lookahead == '}') {
             advance(lexer);
             return true;
           }
