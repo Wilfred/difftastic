@@ -2,12 +2,14 @@ examples/js_of_ocaml/compiler/lib/ocaml_compiler.cppo.ml
 examples/js_of_ocaml/ppx/ppx_deriving_json/lib/ppx_deriving_json.cppo.ml
 examples/lablgtk/applications/osiris/osiris.ml
 examples/lablgtk/examples/csview.ml
+examples/lablgtk/examples/sourceview/sourceview2.ml
 examples/lablgtk/src/gtkdoc.ml
 examples/lablgtk/src/introspection/stubs/stubs_Atk.ml
 examples/lablgtk/src/introspection/stubs/stubs_Pango.ml
 examples/lwt/src/unix/lwt_unix.cppo.ml
 examples/lwt/src/unix/lwt_unix.cppo.mli
 examples/lwt/test/unix/test_lwt_unix.cppo.ml
+examples/merlin/tests/locate/context-detection/label.ml
 examples/ocaml/testsuite/tests/backtrace/backtrace_or_exception.ml
 examples/ocaml/testsuite/tests/lexing/escape.ml
 examples/ocaml/testsuite/tests/lexing/uchar_esc.ml

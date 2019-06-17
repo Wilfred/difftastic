@@ -135,7 +135,7 @@ module.exports = grammar({
     ),
 
     let_binding: $ => seq(
-      $._pattern,
+      $._pattern_no_exn,
       repeat($.parameter),
       optional(seq(':', $._poly_type)),
       optional(seq(':>', $._type)),
@@ -1153,7 +1153,7 @@ module.exports = grammar({
     )),
 
     match_case: $ => seq(
-      $._pattern_or_exception,
+      $._pattern,
       optional(seq('when', $._seq_expression)),
       '->',
       choice($._seq_expression, $.refutation_case)
@@ -1308,11 +1308,6 @@ module.exports = grammar({
       $.extension
     ),
 
-    _pattern_or_exception: $ => choice(
-      $._pattern,
-      seq($.exception_pattern, repeat($.attribute))
-    ),
-
     _pattern: $ => prec.right(seq(
       choice(
         $._simple_pattern,
@@ -1322,6 +1317,22 @@ module.exports = grammar({
         $.tag_pattern,
         $.tuple_pattern,
         $.cons_pattern,
+        $.range_pattern,
+        $.lazy_pattern,
+        $.exception_pattern
+      ),
+      repeat($.attribute)
+    )),
+
+    _pattern_no_exn: $ => prec.right(seq(
+      choice(
+        $._simple_pattern,
+        alias($._alias_pattern_no_exn, $.alias_pattern),
+        alias($._or_pattern_no_exn, $.or_pattern),
+        $.constructor_pattern,
+        $.tag_pattern,
+        alias($._tuple_pattern_no_exn, $.tuple_pattern),
+        alias($._cons_pattern_no_exn, $.cons_pattern),
         $.range_pattern,
         $.lazy_pattern
       ),
@@ -1334,6 +1345,12 @@ module.exports = grammar({
       $.value_name
     )),
 
+    _alias_pattern_no_exn: $ => prec.left(PREC.match, seq(
+      $._pattern_no_exn,
+      'as',
+      $.value_name
+    )),
+
     typed_pattern: $ => parenthesize(seq(
       $._pattern,
       ':',
@@ -1342,6 +1359,12 @@ module.exports = grammar({
 
     or_pattern: $ => prec.left(PREC.seq, seq(
       $._pattern,
+      '|',
+      $._pattern
+    )),
+
+    _or_pattern_no_exn: $ => prec.left(PREC.seq, seq(
+      $._pattern_no_exn,
       '|',
       $._pattern
     )),
@@ -1360,6 +1383,12 @@ module.exports = grammar({
 
     tuple_pattern: $ => prec.left(PREC.prod, seq(
       $._pattern,
+      ',',
+      $._pattern
+    )),
+
+    _tuple_pattern_no_exn: $ => prec.left(PREC.prod, seq(
+      $._pattern_no_exn,
       ',',
       $._pattern
     )),
@@ -1389,6 +1418,12 @@ module.exports = grammar({
 
     cons_pattern: $ => prec.right(PREC.cons, seq(
       $._pattern,
+      '::',
+      $._pattern
+    )),
+
+    _cons_pattern_no_exn: $ => prec.right(PREC.cons, seq(
+      $._pattern_no_exn,
       '::',
       $._pattern
     )),
@@ -1452,7 +1487,7 @@ module.exports = grammar({
     attribute_payload: $ => choice(
       $._definitions,
       seq(':', choice($._type, $._specifications)),
-      seq('?', $._pattern_or_exception, optional(seq('when', $._seq_expression)))
+      seq('?', $._pattern, optional(seq('when', $._seq_expression)))
     ),
 
     extension: $ => seq('[%', $.attribute_id, optional($.attribute_payload), ']'),
@@ -1488,7 +1523,7 @@ module.exports = grammar({
     character: $ => seq(
       "'",
       choice(
-        /[^\\']|\x00/,
+        /[^\\']/,
         $.escape_sequence
       ),
       "'"
@@ -1623,9 +1658,9 @@ module.exports = grammar({
           '.',
           $.indexing_operator,
           choice(
-            seq('(', ')'),
-            seq('[', ']'),
-            seq('{', '}')
+            seq('(', optional(seq(';', '..')), ')'),
+            seq('[', optional(seq(';', '..')), ']'),
+            seq('{', optional(seq(';', '..')), '}')
           ),
           optional('<-')
         ),
