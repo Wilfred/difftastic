@@ -2626,7 +2626,7 @@
     },
     "number": {
       "type": "PATTERN",
-      "value": "\\d+"
+      "value": "[\\d\\.]+"
     },
     "string_transform_expression": {
       "type": "SEQ",
@@ -2844,5 +2844,7 @@
     "_semicolon",
     "_definition",
     "_type_identifier"
-  ]
+  ],
+  "supertypes": []
 }
+

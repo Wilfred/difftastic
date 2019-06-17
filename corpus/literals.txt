@@ -38,3 +38,14 @@ val string3 = """
   (val_definition (identifier) (string
     (interpolation (identifier))
     (interpolation (block (identifier))))))
+
+==========================
+Floating point numbers
+==========================
+
+val string = 3.14
+
+---
+
+(compilation_unit
+  (val_definition (identifier) (number)))
