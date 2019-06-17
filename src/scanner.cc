@@ -1,6 +1,6 @@
 #include <tree_sitter/parser.h>
-#include <cctype>
 #include <string>
+#include <wctype.h>
 
 namespace {
 
@@ -45,7 +45,7 @@ struct Scanner {
   }
 
   bool scan(TSLexer *lexer, const bool *valid_symbols) {
-    while (isspace(lexer->lookahead)) {
+    while (iswspace(lexer->lookahead)) {
       skip(lexer);
     }
 
@@ -54,8 +54,8 @@ struct Scanner {
 
       while (lexer->lookahead == ' ' || lexer->lookahead == '\t') advance(lexer);
 
-      if (!isdigit(lexer->lookahead)) return false;
-      while (isdigit(lexer->lookahead)) advance(lexer);
+      if (!iswdigit(lexer->lookahead)) return false;
+      while (iswdigit(lexer->lookahead)) advance(lexer);
 
       while (lexer->lookahead == ' ' || lexer->lookahead == '\t') advance(lexer);
 
@@ -112,10 +112,10 @@ struct Scanner {
     switch (lexer->lookahead) {
       case '\\':
         advance(lexer);
-        if (isdigit(lexer->lookahead)) {
+        if (iswdigit(lexer->lookahead)) {
           advance(lexer);
           for (size_t i = 0; i < 2; i++) {
-            if (!isdigit(lexer->lookahead)) return 0;
+            if (!iswdigit(lexer->lookahead)) return 0;
             advance(lexer);
           }
         } else {
@@ -123,14 +123,14 @@ struct Scanner {
             case 'x':
               advance(lexer);
               for (size_t i = 0; i < 2; i++) {
-                if (!isdigit(lexer->lookahead) && (tolower(lexer->lookahead) < 'a' || tolower(lexer->lookahead) > 'f')) return 0;
+                if (!iswdigit(lexer->lookahead) && (towupper(lexer->lookahead) < 'A' || towupper(lexer->lookahead) > 'F')) return 0;
                 advance(lexer);
               }
               break;
             case 'o':
               advance(lexer);
               for (size_t i = 0; i < 3; i++) {
-                if (!isdigit(lexer->lookahead) || lexer->lookahead > '7') return 0;
+                if (!iswdigit(lexer->lookahead) || lexer->lookahead > '7') return 0;
                 advance(lexer);
               }
               break;
@@ -172,7 +172,7 @@ struct Scanner {
     size_t i;
     quoted_string_id.clear();
 
-    while (islower(lexer->lookahead) || lexer->lookahead == '_') {
+    while (iswlower(lexer->lookahead) || lexer->lookahead == '_') {
       quoted_string_id.push_back(lexer->lookahead);
       advance(lexer);
     }
@@ -237,9 +237,9 @@ struct Scanner {
           if (is_eof(lexer)) return false;
           break;
         default:
-          if (isalpha(lexer->lookahead) || lexer->lookahead == '_') {
+          if (iswalpha(lexer->lookahead) || lexer->lookahead == '_') {
             if (last) last = 0; else advance(lexer);
-            while (isalnum(lexer->lookahead) || lexer->lookahead == '_' || lexer->lookahead == '\'') {
+            while (iswalnum(lexer->lookahead) || lexer->lookahead == '_' || lexer->lookahead == '\'') {
               advance(lexer);
             }
           } else {
