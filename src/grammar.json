@@ -2385,5 +2385,7 @@
     "_primary_expression",
     "_simple_variable_name",
     "_special_variable_name"
-  ]
+  ],
+  "supertypes": []
 }
+
