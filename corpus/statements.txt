@@ -22,7 +22,7 @@ int main() {
     (compound_statement
       (if_statement (parenthesized_expression (identifier))
         (expression_statement (number_literal)))
-      (if_statement (parenthesized_expression (logical_expression (identifier)))
+      (if_statement (parenthesized_expression (unary_expression (identifier)))
         (compound_statement
           (expression_statement (number_literal)))
         (compound_statement
@@ -55,9 +55,10 @@ int main() {
         (expression_statement (number_literal)))
       (for_statement
         (declaration (primitive_type) (init_declarator (identifier) (number_literal)))
-        (relational_expression (identifier) (number_literal))
-        (call_expression (identifier) (argument_list))
-        (math_expression (identifier))
+        (binary_expression (identifier) (number_literal))
+        (comma_expression
+          (call_expression (identifier) (argument_list))
+          (update_expression (identifier)))
         (compound_statement (expression_statement (number_literal))))
       (for_statement
         (call_expression (identifier) (argument_list))

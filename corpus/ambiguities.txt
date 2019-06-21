@@ -24,12 +24,12 @@ int main() {
         (identifier)
         (parameter_list (parameter_declaration (type_identifier) (identifier))))))
     (comment)
-    (expression_statement (math_expression
+    (expression_statement (binary_expression
       (identifier)
       (call_expression (identifier) (argument_list (number_literal)))))
     (expression_statement (call_expression
       (identifier)
-      (argument_list (math_expression (identifier) (identifier))))))))
+      (argument_list (binary_expression (identifier) (identifier))))))))
 
 ========================================================================
 casts vs multiplications
@@ -62,7 +62,7 @@ int main() {
       (comment)
       (expression_statement (call_expression
         (identifier)
-        (argument_list (parenthesized_expression (math_expression (identifier) (identifier)))))))))
+        (argument_list (parenthesized_expression (binary_expression (identifier) (identifier)))))))))
 
 ========================================================================
 function-like type macros vs function calls

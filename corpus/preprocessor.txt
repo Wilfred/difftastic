@@ -8,8 +8,8 @@ Include directives
 ---
 
 (translation_unit
-  (preproc_include (string_literal))
-  (preproc_include (system_lib_string)))
+  (preproc_include path: (string_literal))
+  (preproc_include path: (system_lib_string)))
 
 ============================================
 Object-like macro definitions
@@ -26,10 +26,10 @@ Object-like macro definitions
 ---
 
 (translation_unit
-  (preproc_def (identifier))
-  (preproc_def (identifier) (preproc_arg))
-  (preproc_def (identifier) (preproc_arg))
-  (preproc_def (identifier) (preproc_arg)))
+  (preproc_def name: (identifier))
+  (preproc_def name: (identifier) value: (preproc_arg))
+  (preproc_def name: (identifier) value: (preproc_arg))
+  (preproc_def name: (identifier) value: (preproc_arg)))
 
 ============================================
 Function-like macro definitions
@@ -44,11 +44,26 @@ Function-like macro definitions
 ---
 
 (translation_unit
-  (preproc_function_def (identifier) (preproc_params) (preproc_arg))
-  (preproc_function_def (identifier) (preproc_params (identifier)) (preproc_arg))
-  (preproc_function_def (identifier) (preproc_params (identifier) (identifier)) (preproc_arg))
-  (preproc_function_def (identifier) (preproc_params) (preproc_arg))
-  (preproc_function_def (identifier) (preproc_params (identifier) (identifier)) (preproc_arg)))
+  (preproc_function_def
+    name: (identifier)
+    parameters: (preproc_params)
+    value: (preproc_arg))
+  (preproc_function_def
+    name: (identifier)
+    parameters: (preproc_params (identifier))
+    value: (preproc_arg))
+  (preproc_function_def
+    name: (identifier)
+    parameters: (preproc_params (identifier) (identifier))
+    value: (preproc_arg))
+  (preproc_function_def
+    name: (identifier)
+    parameters: (preproc_params)
+    value: (preproc_arg))
+  (preproc_function_def
+    name: (identifier)
+    parameters: (preproc_params (identifier) (identifier))
+    value: (preproc_arg)))
 
 ============================================
 Ifdefs
@@ -78,25 +93,35 @@ int b;
 
 (translation_unit
   (preproc_ifdef
-    (identifier)
-    (declaration (primitive_type) (identifier)))
+    name: (identifier)
+    (declaration
+      type: (primitive_type)
+      declarator: (identifier)))
 
   (preproc_ifdef
-    (identifier)
-    (declaration (primitive_type) (identifier))
-    (preproc_def (identifier) (preproc_arg))
-    (preproc_elif
-      (preproc_arg)
-      (preproc_else
-        (declaration (primitive_type) (identifier))
-        (preproc_def (identifier) (preproc_arg)))))
+    name: (identifier)
+    (declaration
+      type: (primitive_type)
+      declarator: (identifier))
+    (preproc_def
+      name: (identifier)
+      value: (preproc_arg))
+    alternative: (preproc_elif
+      condition: (preproc_arg)
+      alternative: (preproc_else
+        (declaration
+          type: (primitive_type)
+          declarator: (identifier))
+        (preproc_def
+          name: (identifier)
+          value: (preproc_arg)))))
 
   (preproc_ifdef
-    (identifier)
-    (preproc_else
+    name: (identifier)
+    alternative: (preproc_else
       (preproc_ifdef
-        (identifier)
-        (preproc_else)))))
+        name: (identifier)
+        alternative: (preproc_else)))))
 
 ===============================================================
 General if blocks
@@ -196,4 +221,6 @@ Unknown preprocessor directives
 
 ---
 
-(translation_unit (preproc_call (preproc_directive) (preproc_arg)))
+(translation_unit (preproc_call
+  directive: (preproc_directive)
+  argument: (preproc_arg)))
