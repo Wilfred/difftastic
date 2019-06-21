@@ -193,11 +193,11 @@ int main() {
     (primitive_type)
     (function_declarator (identifier) (parameter_list))
     (compound_statement
-      (expression_statement (logical_expression
-        (logical_expression (identifier))
-        (logical_expression
-          (logical_expression (identifier))
-          (logical_expression (identifier))))))))
+      (expression_statement (binary_expression
+        (unary_expression (identifier))
+        (binary_expression
+          (unary_expression (identifier))
+          (unary_expression (identifier))))))))
 
 ============================================
 Math operators
@@ -215,21 +215,21 @@ int main() {
     (primitive_type)
     (function_declarator (identifier) (parameter_list))
     (compound_statement
-      (expression_statement (math_expression
-        (math_expression
-          (math_expression (identifier))
+      (expression_statement (binary_expression
+        (binary_expression
+          (unary_expression (identifier))
           (identifier))
-        (math_expression
+        (binary_expression
           (identifier)
-          (math_expression (identifier)))))
+          (unary_expression (identifier)))))
       (expression_statement
-        (math_expression
-          (math_expression
-            (math_expression
-              (math_expression (identifier))
-              (math_expression (identifier)))
-            (math_expression (identifier)))
-          (math_expression (identifier)))))))
+        (binary_expression
+          (binary_expression
+            (binary_expression
+              (update_expression (identifier))
+              (update_expression (identifier)))
+            (update_expression (identifier)))
+          (update_expression (identifier)))))))
 
 ============================================
 The comma operator
@@ -249,13 +249,13 @@ int main() {
     (compound_statement
       (expression_statement
         (comma_expression
-          (math_expression (identifier))
-          (math_expression (identifier))))
+          (update_expression (identifier))
+          (update_expression (identifier))))
       (expression_statement
         (parenthesized_expression
           (comma_expression
-            (math_expression (identifier))
-            (math_expression (identifier))))))))
+            (update_expression (identifier))
+            (update_expression (identifier))))))))
 
 ============================================
 Assignments
@@ -279,20 +279,59 @@ int main() {
 
 (translation_unit
   (function_definition
-    (primitive_type)
-    (function_declarator (identifier) (parameter_list))
-    (compound_statement
-      (declaration (storage_class_specifier) (primitive_type) (init_declarator (identifier) (number_literal)))
-      (expression_statement (assignment_expression (identifier) (assignment_expression (pointer_expression (identifier)) (number_literal))))
-      (expression_statement (assignment_expression (field_expression (identifier) (field_identifier)) (number_literal)))
-      (expression_statement (assignment_expression (field_expression (identifier) (field_identifier)) (number_literal)))
-      (expression_statement (assignment_expression (subscript_expression (identifier) (identifier)) (identifier)))
-      (expression_statement (assignment_expression (identifier) (identifier)))
-      (expression_statement (assignment_expression (identifier) (identifier)))
-      (expression_statement (assignment_expression (identifier) (identifier)))
-      (expression_statement (assignment_expression (identifier) (identifier)))
-      (expression_statement (assignment_expression (pointer_expression (math_expression (identifier))) (number_literal)))
-      (expression_statement (assignment_expression (parenthesized_expression (pointer_expression (identifier))) (number_literal))))))
+    type: (primitive_type)
+    declarator: (function_declarator
+      declarator: (identifier)
+      parameters: (parameter_list))
+    body: (compound_statement
+      (declaration
+        (storage_class_specifier)
+        type: (primitive_type)
+        declarator: (init_declarator
+          declarator: (identifier)
+          value: (number_literal)))
+      (expression_statement (assignment_expression
+        left: (identifier)
+        right: (assignment_expression
+          left: (pointer_expression
+            argument: (identifier))
+          right: (number_literal))))
+      (expression_statement (assignment_expression
+        left: (field_expression
+          argument: (identifier)
+          field: (field_identifier))
+        right: (number_literal)))
+      (expression_statement (assignment_expression
+        left: (field_expression
+          argument: (identifier)
+          field: (field_identifier))
+        right: (number_literal)))
+      (expression_statement (assignment_expression
+        left: (subscript_expression
+          argument: (identifier)
+          index: (identifier))
+        right: (identifier)))
+      (expression_statement (assignment_expression
+        left: (identifier)
+        right: (identifier)))
+      (expression_statement (assignment_expression
+        left: (identifier)
+        right: (identifier)))
+      (expression_statement (assignment_expression
+        left: (identifier)
+        right: (identifier)))
+      (expression_statement (assignment_expression
+        left: (identifier)
+        right: (identifier)))
+      (expression_statement (assignment_expression
+        left: (pointer_expression
+          argument: (update_expression
+            argument: (identifier)))
+        right: (number_literal)))
+      (expression_statement (assignment_expression
+        left: (parenthesized_expression (pointer_expression
+          argument: (identifier)))
+        right: (number_literal))))))
 
 ============================================
 Pointer operations
@@ -327,14 +366,19 @@ int main() {
 
 (translation_unit
   (function_definition
-    (primitive_type)
-    (function_declarator (identifier) (parameter_list))
-    (compound_statement
+    type: (primitive_type)
+    declarator: (function_declarator
+      declarator: (identifier)
+      parameters: (parameter_list))
+    body: (compound_statement
       (expression_statement (assignment_expression
-        (identifier)
-        (cast_expression
-          (type_descriptor (type_qualifier) (type_identifier) (abstract_pointer_declarator))
-          (identifier)))))))
+        left: (identifier)
+        right: (cast_expression
+          type: (type_descriptor
+            (type_qualifier)
+            type: (type_identifier)
+            declarator: (abstract_pointer_declarator))
+          value: (identifier)))))))
 
 ============================================
 Sizeof expressions

@@ -12,10 +12,18 @@ struct s2 {
 ---
 
 (translation_unit
-  (struct_specifier (type_identifier))
-  (struct_specifier (type_identifier) (field_declaration_list
-    (field_declaration (primitive_type) (field_identifier))
-    (field_declaration (primitive_type) (field_identifier) (bitfield_clause (number_literal))))))
+  (struct_specifier
+    name: (type_identifier))
+  (struct_specifier
+    name: (type_identifier)
+    body: (field_declaration_list
+    (field_declaration
+      type: (primitive_type)
+      declarator: (field_identifier))
+    (field_declaration
+      type: (primitive_type)
+      declarator: (field_identifier)
+      (bitfield_clause (number_literal))))))
 
 ============================================
 Union declarations
@@ -31,10 +39,17 @@ union s2 {
 ---
 
 (translation_unit
-  (union_specifier (type_identifier))
-  (union_specifier (type_identifier) (field_declaration_list
-    (field_declaration (primitive_type) (field_identifier))
-    (field_declaration (primitive_type) (field_identifier)))))
+  (union_specifier
+    name: (type_identifier))
+  (union_specifier
+    name: (type_identifier)
+    body: (field_declaration_list
+      (field_declaration
+        type: (primitive_type)
+        declarator: (field_identifier))
+      (field_declaration
+        type: (primitive_type)
+        declarator: (field_identifier)))))
 
 ============================================
 Enum declarations
@@ -55,13 +70,18 @@ enum e3 {
 ---
 
 (translation_unit
-  (enum_specifier (type_identifier))
-  (enum_specifier (type_identifier) (enumerator_list
-    (enumerator (identifier))
-    (enumerator (identifier) (number_literal))
-    (enumerator (identifier))))
-  (enum_specifier (type_identifier) (enumerator_list
-    (enumerator (identifier)))))
+  (enum_specifier
+    name: (type_identifier))
+  (enum_specifier
+    name: (type_identifier)
+    body: (enumerator_list
+      (enumerator name: (identifier))
+      (enumerator name: (identifier) value: (number_literal))
+      (enumerator name: (identifier))))
+  (enum_specifier
+    name: (type_identifier)
+    body: (enumerator_list
+      (enumerator name: (identifier)))))
 
 ======================================================
 Struct declarations containing preprocessor directives
@@ -96,15 +116,27 @@ short g, h;
 ---
 
 (translation_unit
-  (declaration (sized_type_specifier (primitive_type)) (identifier))
   (declaration
-    (sized_type_specifier (primitive_type))
-    (identifier)
-    (init_declarator (identifier) (number_literal))
-    (identifier))
-  (declaration (primitive_type) (identifier) (identifier))
-  (declaration (sized_type_specifier) (identifier))
-  (declaration (sized_type_specifier) (identifier) (identifier)))
+    type: (sized_type_specifier type: (primitive_type))
+    declarator: (identifier))
+  (declaration
+    type: (sized_type_specifier type: (primitive_type))
+    declarator: (identifier)
+    declarator: (init_declarator
+      declarator: (identifier)
+      value: (number_literal))
+    declarator: (identifier))
+  (declaration
+    type: (primitive_type)
+    declarator: (identifier)
+    declarator: (identifier))
+  (declaration
+    type: (sized_type_specifier)
+    declarator: (identifier))
+  (declaration
+    type: (sized_type_specifier)
+    declarator: (identifier)
+    declarator: (identifier)))
 
 ============================================
 Variable storage classes
@@ -137,17 +169,20 @@ enum { g, h } i;
 
 (translation_unit
   (declaration
-    (struct_specifier (type_identifier))
-    (identifier))
+    type: (struct_specifier name: (type_identifier))
+    declarator: (identifier))
   (declaration
-    (union_specifier (field_declaration_list
-      (field_declaration (primitive_type) (field_identifier))))
-    (identifier))
+    type: (union_specifier
+      body: (field_declaration_list
+        (field_declaration
+          type: (primitive_type)
+          declarator: (field_identifier))))
+    declarator: (identifier))
   (declaration
-    (enum_specifier (enumerator_list
-      (enumerator (identifier))
-      (enumerator (identifier))))
-    (identifier)))
+    type: (enum_specifier body: (enumerator_list
+      (enumerator name: (identifier))
+      (enumerator name: (identifier))))
+    declarator: (identifier)))
 
 ============================================
 Pointer variable declarations
@@ -161,16 +196,22 @@ int const * const restrict x;
 
 (translation_unit
   (declaration
-    (primitive_type)
-    (pointer_declarator (identifier)))
+    type: (primitive_type)
+    declarator: (pointer_declarator
+      declarator: (identifier)))
   (declaration
     (type_qualifier)
-    (primitive_type)
-    (pointer_declarator (pointer_declarator (identifier))))
+    type: (primitive_type)
+    declarator: (pointer_declarator
+      declarator: (pointer_declarator
+        declarator: (identifier))))
   (declaration
-    (primitive_type)
+    type: (primitive_type)
     (type_qualifier)
-    (pointer_declarator (type_qualifier) (type_qualifier) (identifier))))
+    declarator: (pointer_declarator
+      (type_qualifier)
+      (type_qualifier)
+      declarator: (identifier))))
 
 ============================================
 Typedefs
@@ -191,23 +232,36 @@ typedef struct A {
 ---
 
 (translation_unit
-  (type_definition (primitive_type) (type_identifier))
   (type_definition
-    (struct_specifier (field_declaration_list (field_declaration (primitive_type) (field_identifier))))
-    (pointer_declarator (type_identifier)))
+    type: (primitive_type)
+    declarator: (type_identifier))
   (type_definition
-    (primitive_type)
-    (function_declarator
-      (type_identifier)
-      (parameter_list
-        (parameter_declaration (primitive_type) (abstract_pointer_declarator))
-        (parameter_declaration (primitive_type)))))
+    type: (struct_specifier
+      body: (field_declaration_list
+        (field_declaration
+          type: (primitive_type)
+          declarator: (field_identifier))))
+    declarator: (pointer_declarator
+      declarator: (type_identifier)))
   (type_definition
-    (struct_specifier
-      (type_identifier)
-      (field_declaration_list (field_declaration (primitive_type) (field_identifier))))
-    (type_identifier)
-    (type_identifier)))
+    type: (primitive_type)
+    declarator: (function_declarator
+      declarator: (type_identifier)
+      parameters: (parameter_list
+        (parameter_declaration
+          type: (primitive_type)
+          declarator: (abstract_pointer_declarator))
+        (parameter_declaration
+          type: (primitive_type)))))
+  (type_definition
+    type: (struct_specifier
+      name: (type_identifier)
+      body: (field_declaration_list
+        (field_declaration
+          type: (primitive_type)
+          declarator: (field_identifier))))
+    declarator: (type_identifier)
+    declarator: (type_identifier)))
 
 ============================================
 Function declarations
@@ -255,12 +309,17 @@ void * do_stuff(int arg1) {
 
 (translation_unit
   (function_definition
-    (primitive_type)
-    (pointer_declarator
-      (function_declarator (identifier)
-        (parameter_list
-          (parameter_declaration (primitive_type) (identifier)))))
-    (compound_statement (return_statement (number_literal)))))
+    type: (primitive_type)
+    declarator: (pointer_declarator
+      declarator: (function_declarator
+        declarator: (identifier)
+        parameters: (parameter_list
+          (parameter_declaration
+            type: (primitive_type)
+            declarator: (identifier)))))
+    body: (compound_statement
+      (return_statement
+        value: (number_literal)))))
 
 ============================================
 Function specifiers after types
