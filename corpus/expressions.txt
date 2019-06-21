@@ -117,6 +117,7 @@ int main() {
   "a";
   "b" "c" "d";
   "\"hi\"";
+  L"bonjour";
 }
 
 ---
@@ -128,7 +129,8 @@ int main() {
     (compound_statement
       (expression_statement (string_literal))
       (expression_statement (concatenated_string (string_literal) (string_literal) (string_literal)))
-      (expression_statement (string_literal (escape_sequence) (escape_sequence))))))
+      (expression_statement (string_literal (escape_sequence) (escape_sequence)))
+      (expression_statement (string_literal)))))
 
 ============================================
 Character literals
@@ -139,6 +141,7 @@ int main() {
   '\0';
   '\t';
   '\'';
+  L'b';
 }
 
 ---
@@ -151,7 +154,8 @@ int main() {
       (expression_statement (char_literal))
       (expression_statement (char_literal (escape_sequence)))
       (expression_statement (char_literal (escape_sequence)))
-      (expression_statement (char_literal (escape_sequence))))))
+      (expression_statement (char_literal (escape_sequence)))
+      (expression_statement (char_literal)))))
 
 ============================================
 Field access
