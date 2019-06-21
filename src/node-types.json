@@ -712,6 +712,10 @@
     "named": true
   },
   {
+    "type": "L",
+    "named": false
+  },
+  {
     "type": "'",
     "named": false
   },
