@@ -529,7 +529,7 @@ module.exports = grammar({
 
     return_statement: $ => seq(
       'return',
-      field('value', optional($._expression)),
+      optional($._expression),
       ';'
     ),
 
@@ -618,7 +618,7 @@ module.exports = grammar({
     )),
 
     unary_expression: $ => prec.left(PREC.UNARY, seq(
-      choice('!', '~', '-', '+'),
+      field('operator', choice('!', '~', '-', '+')),
       field('argument', $._expression)
     )),
 
@@ -655,10 +655,11 @@ module.exports = grammar({
 
     update_expression: $ => {
       const argument = field('argument', $._expression);
-      return choice(
-        prec.right(PREC.UNARY, seq(choice('--', '++'), argument)),
-        prec.right(PREC.UNARY, seq(argument, choice('++', '--')))
-      );
+      const operator = field('operator', choice('--', '++'));
+      return prec.right(PREC.UNARY, choice(
+        seq(operator, argument),
+        seq(argument, operator),
+      ));
     },
 
     cast_expression: $ => prec(PREC.CAST, seq(
