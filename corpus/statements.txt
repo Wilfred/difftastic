@@ -37,24 +37,37 @@ T main() {
 
 (translation_unit
   (function_definition
-    (type_identifier)
-    (function_declarator (identifier) (parameter_list))
-    (compound_statement
+    type: (type_identifier)
+    declarator: (function_declarator
+      declarator: (identifier)
+      parameters: (parameter_list))
+    body: (compound_statement
       (for_range_loop
-        (for_range_declaration (type_identifier) (reference_declarator (identifier)))
-        (identifier)
-        (compound_statement
-          (expression_statement (shift_expression (identifier) (identifier)))))
+        type: (type_identifier)
+        declarator: (reference_declarator (identifier))
+        right: (identifier)
+        body: (compound_statement
+          (expression_statement (binary_expression
+            left: (identifier)
+            right: (identifier)))))
       (for_range_loop
-        (for_range_declaration (type_qualifier) (auto) (reference_declarator (identifier)))
-        (identifier)
-        (compound_statement
-          (expression_statement (shift_expression (identifier) (identifier)))))
+        (type_qualifier)
+        type: (auto)
+        declarator: (reference_declarator (identifier))
+        right: (identifier)
+        body: (compound_statement
+          (expression_statement (binary_expression
+            left: (identifier)
+            right: (identifier)))))
       (for_range_loop
-        (for_range_declaration (type_qualifier) (auto) (reference_declarator (identifier)))
-        (initializer_list (number_literal) (number_literal) (number_literal))
-        (compound_statement
-          (expression_statement (shift_expression (identifier) (identifier)))))))) 
+        (type_qualifier)
+        type: (auto)
+        declarator: (reference_declarator (identifier))
+        right: (initializer_list (number_literal) (number_literal) (number_literal))
+        body: (compound_statement
+          (expression_statement (binary_expression
+            left: (identifier)
+            right: (identifier))))))))
 
 ===========================================
 Constexpr if statements
@@ -71,15 +84,22 @@ T f() {
 
 (translation_unit
   (function_definition
-    (type_identifier)
-    (function_declarator (identifier) (parameter_list))
-    (compound_statement
+    type: (type_identifier)
+    declarator: (function_declarator
+      declarator: (identifier)
+      parameters: (parameter_list))
+    body: (compound_statement
       (if_statement
-        (template_function
-          (scoped_identifier (namespace_identifier) (identifier))
-          (template_argument_list (type_descriptor (type_identifier))))
-        (return_statement (pointer_expression (identifier)))
-        (return_statement (identifier))))))
+        condition: (parenthesized_expression
+          (template_function
+            name: (scoped_identifier
+              namespace: (namespace_identifier)
+              name: (identifier))
+          arguments: (template_argument_list
+            (type_descriptor type: (type_identifier)))))
+        consequence: (return_statement
+          (pointer_expression argument: (identifier)))
+        alternative: (return_statement (identifier))))))
 
 ===========================================
 Try/catch statements
@@ -137,7 +157,7 @@ void main() {
       (parameter_list))
       (compound_statement
         (throw_statement (identifier))
-        (throw_statement (math_expression (identifier) (number_literal)))
+        (throw_statement (binary_expression (identifier) (number_literal)))
         (throw_statement (string_literal)))))
 
 ===========================================
@@ -166,7 +186,7 @@ template<class T> T foo() noexcept(sizeof(T) < 4);
       (type_identifier)
       (function_declarator (identifier) (parameter_list)
         (noexcept
-          (relational_expression (sizeof_expression (parenthesized_expression (identifier))) (number_literal))))))) 
+          (binary_expression (sizeof_expression (parenthesized_expression (identifier))) (number_literal)))))))
 
 ===========================================
 Throw specifier

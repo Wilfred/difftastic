@@ -301,15 +301,17 @@ int main() {
   (compound_statement
     (comment)
     (if_statement
-      (call_expression
-        (template_function
-          (identifier)
-          (template_argument_list (logical_expression (identifier) (identifier))))
-        (argument_list))
+      (parenthesized_expression
+        (call_expression
+          (template_function
+            (identifier)
+            (template_argument_list (binary_expression (identifier) (identifier))))
+          (argument_list)))
       (compound_statement))
     (comment)
     (if_statement
-      (logical_expression
-        (relational_expression (identifier) (identifier))
-        (relational_expression (identifier) (identifier)))
+      (parenthesized_expression
+        (binary_expression
+          (binary_expression (identifier) (identifier))
+          (binary_expression (identifier) (identifier))))
       (compound_statement)))))
