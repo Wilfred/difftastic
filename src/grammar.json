@@ -7183,15 +7183,19 @@
                   "members": [
                     {
                       "type": "PREC_DYNAMIC",
-                      "value": 1,
+                      "value": 2,
                       "content": {
                         "type": "SYMBOL",
                         "name": "type_descriptor"
                       }
                     },
                     {
-                      "type": "SYMBOL",
-                      "name": "_expression"
+                      "type": "PREC_DYNAMIC",
+                      "value": 1,
+                      "content": {
+                        "type": "SYMBOL",
+                        "name": "_expression"
+                      }
                     }
                   ]
                 },
@@ -7209,15 +7213,19 @@
                         "members": [
                           {
                             "type": "PREC_DYNAMIC",
-                            "value": 1,
+                            "value": 2,
                             "content": {
                               "type": "SYMBOL",
                               "name": "type_descriptor"
                             }
                           },
                           {
-                            "type": "SYMBOL",
-                            "name": "_expression"
+                            "type": "PREC_DYNAMIC",
+                            "value": 1,
+                            "content": {
+                              "type": "SYMBOL",
+                              "name": "_expression"
+                            }
                           }
                         ]
                       }
