@@ -454,8 +454,8 @@ module.exports = grammar(C, {
     template_argument_list: $ => seq(
       '<',
       commaSep(choice(
-        prec.dynamic(1, $.type_descriptor),
-        $._expression
+        prec.dynamic(2, $.type_descriptor),
+        prec.dynamic(1, $._expression)
       )),
       alias(token(prec(1, '>')), '>')
     ),
