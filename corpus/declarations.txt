@@ -318,8 +318,7 @@ void * do_stuff(int arg1) {
             type: (primitive_type)
             declarator: (identifier)))))
     body: (compound_statement
-      (return_statement
-        value: (number_literal)))))
+      (return_statement (number_literal)))))
 
 ============================================
 Function specifiers after types
