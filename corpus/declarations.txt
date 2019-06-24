@@ -12,9 +12,11 @@ int x;
 
 (translation_unit
   (namespace_definition
-    (identifier)
-    (declaration_list
-      (declaration (primitive_type) (identifier))))
+    name: (identifier)
+    body: (declaration_list
+      (declaration
+        type: (primitive_type)
+        declarator: (identifier))))
   (comment))
 
 =========================================
@@ -169,7 +171,6 @@ struct B : A {
       (primitive_type)
       (function_declarator (field_identifier) (parameter_list) (type_qualifier) (virtual_specifier) (virtual_specifier))
       (compound_statement (return_statement (number_literal)))))))
-
 
 =====================================
 Virtual method declarations
@@ -560,16 +561,18 @@ class X
 
 (translation_unit
   (template_declaration
-    (template_parameter_list
+    parameters: (template_parameter_list
       (optional_type_parameter_declaration
-        (type_identifier)
-        (template_type
-          (scoped_type_identifier
-            (namespace_identifier)
-            (type_identifier))
-          (template_argument_list
-            (type_descriptor (primitive_type))))))
-    (class_specifier (type_identifier) (field_declaration_list))))
+        name: (type_identifier)
+        default_type: (template_type
+          name: (scoped_type_identifier
+            namespace: (namespace_identifier)
+            name: (type_identifier))
+          arguments: (template_argument_list
+            (type_descriptor type: (primitive_type))))))
+    (class_specifier
+      name: (type_identifier)
+      body: (field_declaration_list))))
 
 ==============================================
 Templates with optional anonymous parameters
@@ -584,35 +587,39 @@ class X
 
 (translation_unit
   (template_declaration
-    (template_parameter_list
+    parameters: (template_parameter_list
       (type_parameter_declaration (type_identifier))
       (optional_parameter_declaration
-        (dependent_type (scoped_type_identifier
-          (template_type
-            (scoped_type_identifier (namespace_identifier) (type_identifier))
-            (template_argument_list
-              (logical_expression
-                (logical_expression
-                  (compound_literal_expression
-                    (template_type
-                      (type_identifier)
-                      (template_argument_list (type_descriptor (type_identifier))))
-                    (initializer_list)))
-                  (parenthesized_expression
-                    (logical_expression
-                      (compound_literal_expression
-                        (template_type
-                          (type_identifier)
-                          (template_argument_list (type_descriptor (type_identifier))))
-                        (initializer_list))
-                      (compound_literal_expression
-                        (template_type
-                          (type_identifier)
-                          (template_argument_list (type_descriptor (type_identifier))))
-                        (initializer_list)))))))
-          (type_identifier)))
-      (number_literal)))
-    (class_specifier (type_identifier) (field_declaration_list))))
+        type: (dependent_type (scoped_type_identifier
+          namespace: (template_type
+            name: (scoped_type_identifier
+              namespace: (namespace_identifier)
+              name: (type_identifier))
+            arguments: (template_argument_list
+              (binary_expression
+                left: (unary_expression
+                  argument: (compound_literal_expression
+                    type: (template_type
+                      name: (type_identifier)
+                      arguments: (template_argument_list (type_descriptor type: (type_identifier))))
+                    value: (initializer_list)))
+                right: (parenthesized_expression
+                  (binary_expression
+                    left: (compound_literal_expression
+                      type: (template_type
+                        name: (type_identifier)
+                        arguments: (template_argument_list (type_descriptor type: (type_identifier))))
+                      value: (initializer_list))
+                    right: (compound_literal_expression
+                      type: (template_type
+                        name: (type_identifier)
+                        arguments: (template_argument_list (type_descriptor type: (type_identifier))))
+                      value: (initializer_list)))))))
+          name: (type_identifier)))
+      default_value: (number_literal)))
+    (class_specifier
+      name: (type_identifier)
+      body: (field_declaration_list))))
 
 ==========================================
 Declarations with braced initializer lists
@@ -680,36 +687,42 @@ int main() {
 
 (translation_unit
   (declaration
-    (auto)
-    (init_declarator
-      (structured_binding_declarator (identifier))
-      (compound_literal_expression (type_identifier) (initializer_list))))
+    type: (auto)
+    declarator: (init_declarator
+      declarator: (structured_binding_declarator (identifier))
+      value: (compound_literal_expression
+        type: (type_identifier)
+        value: (initializer_list))))
   (function_definition
-    (primitive_type)
-    (function_declarator (identifier) (parameter_list))
-    (compound_statement
+    type: (primitive_type)
+    declarator: (function_declarator
+      declarator: (identifier)
+      parameters: (parameter_list))
+    body: (compound_statement
       (declaration
-        (auto)
-        (init_declarator
-          (reference_declarator (structured_binding_declarator (identifier) (identifier)))
-          (call_expression
-            (scoped_identifier (namespace_identifier) (identifier))
-            (argument_list (identifier)))))
+        type: (auto)
+        declarator: (init_declarator
+          declarator: (reference_declarator
+            (structured_binding_declarator (identifier) (identifier)))
+          value: (call_expression
+            function: (scoped_identifier
+              namespace: (namespace_identifier)
+              name: (identifier))
+            arguments: (argument_list (identifier)))))
       (declaration
         (type_qualifier)
-        (auto)
-        (init_declarator
-          (structured_binding_declarator (identifier) (identifier))
-          (initializer_list (number_literal) (number_literal))))
+        type: (auto)
+        declarator: (init_declarator
+          declarator: (structured_binding_declarator (identifier) (identifier))
+          value: (initializer_list (number_literal) (number_literal))))
       (for_range_loop
-        (for_range_declaration
-          (type_qualifier)
-          (auto)
-          (reference_declarator (structured_binding_declarator
-            (identifier)
-            (identifier))))
+        (type_qualifier)
+        type: (auto)
+        declarator: (reference_declarator (structured_binding_declarator
           (identifier)
-          (compound_statement)))))
+          (identifier)))
+        right: (identifier)
+        body: (compound_statement)))))
 
 ==========================
 Constexpr declarations

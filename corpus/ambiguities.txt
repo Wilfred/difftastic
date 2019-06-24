@@ -12,8 +12,8 @@ T2 e = f<T3>(g);
     (type_identifier)
     (init_declarator
       (identifier)
-      (relational_expression
-        (relational_expression (identifier) (identifier))
+      (binary_expression
+        (binary_expression (identifier) (identifier))
         (identifier))))
   (declaration
     (type_identifier)
