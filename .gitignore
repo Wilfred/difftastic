@@ -21,3 +21,5 @@ examples/elm-svg
 examples/elm-time
 examples/elm-url
 examples/elm-virtual-dom
+examples/elm-ui
+examples/elm-markup
