@@ -12,18 +12,136 @@ i = let x = 320 in x
         (eq)
         (let_in_expr
             (let)
-            
+
             (value_declaration
                 (function_declaration_left (lower_case_identifier))
                 (eq)
                 (number_constant_expr (number_literal))
             )
-            
+
             (in)
             (value_expr (value_qid (lower_case_identifier)))
         )
     )
-    
+
+)
+
+=====================================
+Let with block comment on last line
+=====================================
+
+letExample =
+    let
+        { title } =
+            Article.metadata article
+    {-- test --}
+    in
+    title
+
+---
+
+(file
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier)
+    )
+    (eq)
+    (let_in_expr
+      (let)
+      (value_declaration
+        (pattern
+          (record_pattern
+            (left_brace)
+            (lower_pattern
+              (lower_case_identifier)
+            )
+            (right_brace)
+          )
+        )
+        (eq)
+        (function_call_expr
+          (value_expr
+            (value_qid
+              (upper_case_identifier)
+              (dot)
+              (lower_case_identifier)
+            )
+          )
+          (value_expr
+            (value_qid
+              (lower_case_identifier)
+            )
+          )
+        )
+      )
+      (block_comment)
+      (in)
+      (value_expr
+        (value_qid
+          (lower_case_identifier)
+        )
+      )
+    )
+  )
+)
+
+=====================================
+Let with line comment on last line
+=====================================
+
+letExample =
+    let
+        { title } =
+            Article.metadata article
+    -- test
+    in
+    title
+
+---
+
+(file
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier)
+    )
+    (eq)
+    (let_in_expr
+      (let)
+      (value_declaration
+        (pattern
+          (record_pattern
+            (left_brace)
+            (lower_pattern
+              (lower_case_identifier)
+            )
+            (right_brace)
+          )
+        )
+        (eq)
+        (function_call_expr
+          (value_expr
+            (value_qid
+              (upper_case_identifier)
+              (dot)
+              (lower_case_identifier)
+            )
+          )
+          (value_expr
+            (value_qid
+              (lower_case_identifier)
+            )
+          )
+        )
+      )
+      (line_comment)
+      (in)
+      (value_expr
+        (value_qid
+          (lower_case_identifier)
+        )
+      )
+    )
+  )
 )
 
 =====================================
@@ -41,7 +159,7 @@ i = let f = (\a b c d -> a + b + c + d) in
         (eq)
         (let_in_expr
             (let)
-            
+
             (value_declaration
                 (function_declaration_left (lower_case_identifier))
                 (eq)
@@ -67,12 +185,12 @@ i = let f = (\a b c d -> a + b + c + d) in
                     (right_parenthesis)
                 )
             )
-            
+
             (in)
             (value_expr (value_qid (lower_case_identifier)))
         )
     )
-    
+
 )
 
 =====================================
@@ -104,7 +222,7 @@ routeToString page =
             (type_ref (upper_case_qid (upper_case_identifier)))
         )
     )
-    
+
     (value_declaration
         (function_declaration_left
         (lower_case_identifier)
@@ -112,7 +230,7 @@ routeToString page =
         (eq)
         (let_in_expr
             (let)
-            
+
             (value_declaration
                 (function_declaration_left (lower_case_identifier))
                 (eq)
@@ -120,13 +238,13 @@ routeToString page =
                     (case)
                     (value_expr (value_qid (lower_case_identifier)))
                     (of)
-                    
+
                     (case_of_branch
                         (pattern (union_pattern (upper_case_qid (upper_case_identifier))))
                         (arrow)
                         (list_expr (left_square_bracket) (right_square_bracket))
                     )
-                    
+
                     (case_of_branch
                         (pattern (union_pattern (upper_case_qid (upper_case_identifier))))
                         (arrow)
@@ -134,7 +252,7 @@ routeToString page =
                     )
                 )
             )
-            
+
             (in)
             (bin_op_expr
                 (string_constant_expr (open_quote) (regular_string_part) (close_quote))
@@ -148,7 +266,7 @@ routeToString page =
 
         )
     )
-    
+
 )
 
 
@@ -175,7 +293,7 @@ isUpper =
         (eq)
         (let_in_expr
             (let)
-            
+
             (value_declaration
                 (function_declaration_left
                     (lower_case_identifier)
@@ -183,13 +301,13 @@ isUpper =
                 (eq)
                 (number_constant_expr (number_literal))
             )
-            
+
             (value_declaration
                 (function_declaration_left (lower_case_identifier))
                 (eq)
                 (number_constant_expr (number_literal))
             )
-            
+
             (in)
             (value_expr
                 (value_qid (lower_case_identifier))
@@ -226,7 +344,7 @@ init session =
         (eq)
         (let_in_expr
             (let)
-            
+
             (value_declaration
                 (function_declaration_left
                     (lower_case_identifier)
@@ -236,28 +354,28 @@ init session =
                     (case)
                     (function_call_expr (value_expr (value_qid (upper_case_identifier) (dot) (lower_case_identifier))) (value_expr (value_qid (lower_case_identifier))))
                     (of)
-                    
+
                     (case_of_branch
                         (pattern (union_pattern (upper_case_qid (upper_case_identifier)) (lower_pattern (lower_case_identifier))))
                         (arrow)
                         (function_call_expr (value_expr (upper_case_qid (upper_case_identifier))) (value_expr (value_qid (lower_case_identifier))))
                     )
-                    
+
                     (case_of_branch
                         (pattern (union_pattern (upper_case_qid (upper_case_identifier))))
                         (arrow)
                         (value_expr (upper_case_qid (upper_case_identifier)))
                     )
-                    
+
                 )
             )
-            
+
             (value_declaration
                 (function_declaration_left (lower_case_identifier))
                 (eq)
                 (function_call_expr (value_expr (value_qid (upper_case_identifier) (dot) (lower_case_identifier))) (value_expr (value_qid (upper_case_identifier) (dot) (lower_case_identifier))))
             )
-            
+
             (in)
             (value_expr
                 (value_qid (lower_case_identifier))
