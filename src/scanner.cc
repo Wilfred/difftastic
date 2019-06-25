@@ -96,6 +96,11 @@ struct Scanner
 
     bool scan_comment(TSLexer *lexer)
     {
+        lexer->mark_end(lexer);
+        if (lexer->lookahead != '{')
+            return false;
+
+        advance(lexer);
         if (lexer->lookahead != '-')
             return false;
 
@@ -106,7 +111,6 @@ struct Scanner
             switch (lexer->lookahead)
             {
             case '{':
-                advance(lexer);
                 scan_comment(lexer);
                 break;
             case '-':
@@ -253,6 +257,48 @@ struct Scanner
             skip(lexer);
         }
 
+        // Handle block comments if we're not in a string
+        if (in_string == 0 && valid_symbols[BLOCK_COMMENT])
+        {
+
+            if (scan_comment(lexer))
+            {
+                lexer->mark_end(lexer);
+                lexer->result_symbol = BLOCK_COMMENT;
+                return true;
+            }
+        }
+
+        // Handle minus without a whitespace for negate and line comments as both start with '-'
+        if (valid_symbols[MINUS_WITHOUT_TRAILING_WHITESPACE] || valid_symbols[LINE_COMMENT])
+        {
+            if (in_string == 0 && lexer->lookahead == '-')
+            {
+                skip(lexer);
+                auto lookahead = lexer->lookahead;
+                if (lookahead >= 'a' && lookahead <= 'z')
+                {
+                    lexer->result_symbol = MINUS_WITHOUT_TRAILING_WHITESPACE;
+                    lexer->mark_end(lexer);
+                    
+                    return true;
+                }
+                else if (in_string == 0 && lexer->lookahead == '-') // Handle line comment if we're not in a string
+                {
+                    advance(lexer);
+                    lexer->result_symbol = LINE_COMMENT;
+                    // Take everything until the line ends
+                    while (lexer->lookahead != '\n')
+                    {
+                        advance(lexer);
+                    }
+                    runback.clear();
+                    lexer->mark_end(lexer);
+                    return true;
+                }
+            }
+        }
+
         // Open section if the grammar lets us but only push to indent stack if we go further down in the stack
         if (valid_symbols[VIRTUAL_OPEN_SECTION])
         {
@@ -294,44 +340,6 @@ struct Scanner
                 runback.pop_back();
                 lexer->result_symbol = VIRTUAL_END_SECTION;
                 return true;
-            }
-        }
-
-        // Handle block comments if we're not in a string
-        if (in_string == 0 && valid_symbols[BLOCK_COMMENT])
-        {
-            if (lexer->lookahead == '{')
-            {
-                advance(lexer);
-                lexer->result_symbol = BLOCK_COMMENT;
-                return scan_comment(lexer);
-            }
-        }
-
-        // Handle minus without a whitespace for negate and line comments as both start with '-'
-        if (valid_symbols[MINUS_WITHOUT_TRAILING_WHITESPACE] || valid_symbols[LINE_COMMENT])
-        {
-            if (in_string == 0 && lexer->lookahead == '-')
-            {
-                skip(lexer);
-                auto lookahead = lexer->lookahead;
-                if (lookahead >= 'a' && lookahead <= 'z')
-                {
-                    lexer->result_symbol = MINUS_WITHOUT_TRAILING_WHITESPACE;
-                    return true;
-                }
-                else if (in_string == 0 && lexer->lookahead == '-') // Handle line comment if we're not in a string
-                {
-                    advance(lexer);
-                    lexer->result_symbol = LINE_COMMENT;
-                    // Take everything until the line ends
-                    while (lexer->lookahead != '\n')
-                    {
-                        advance(lexer);
-                    }
-                    runback.clear();
-                    return true;
-                }
             }
         }
 
