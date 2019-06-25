@@ -30,6 +30,8 @@ checkout_at "examples/elm-svg" "elm/svg" "08bd432990862bab5b840654dd437fbb2e6176
 checkout_at "examples/elm-time" "elm/time" "dc3b75b7366e59b99962706f7bf064d3634a4bba"
 checkout_at "examples/elm-url" "elm/url" "384b1dcf84065a500a71402ec367f3982b35093d"
 checkout_at "examples/elm-virtual-dom" "elm/virtual-dom" "5a5bcf48720bc7d53461b3cd42a9f19f119c5503"
+checkout_at "examples/elm-ui" "mdgriffith/elm-ui" "8ea670023987e8dbb025aca3bf2d8072aafbd323"
+checkout_at "examples/elm-markup" "mdgriffith/elm-markup" "8d44a27b8fca4cd936577c239941851451f22b41"
 
 
 
