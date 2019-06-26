@@ -5,22 +5,8 @@ build
 prebuilds
 .idea
 .vscode/ipch
-examples/elm-spa-example
-examples/elm-browser
-examples/elm-bytes
-examples/elm-core
-examples/elm-file
-examples/elm-html
-examples/elm-http
-examples/elm-json
-examples/elm-parser
-examples/elm-projectelm-project-metadata-utils
-examples/elm-random
-examples/elm-regex
-examples/elm-svg
-examples/elm-time
-examples/elm-url
-examples/elm-virtual-dom
-examples/elm-ui
-examples/elm-markup
-examples/elm-visualization
+
+# Examples generated during automated tests
+examples/**
+!examples/Basic.elm
+!examples/Test.elm
