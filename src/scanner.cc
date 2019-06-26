@@ -260,7 +260,6 @@ struct Scanner
         // Handle block comments if we're not in a string
         if (in_string == 0 && valid_symbols[BLOCK_COMMENT])
         {
-
             if (scan_comment(lexer))
             {
                 lexer->mark_end(lexer);
@@ -276,11 +275,11 @@ struct Scanner
             {
                 skip(lexer);
                 auto lookahead = lexer->lookahead;
-                if (lookahead >= 'a' && lookahead <= 'z')
+                if (lookahead >= 'a' && lookahead <= 'z' || lookahead == '(')
                 {
                     lexer->result_symbol = MINUS_WITHOUT_TRAILING_WHITESPACE;
                     lexer->mark_end(lexer);
-                    
+
                     return true;
                 }
                 else if (in_string == 0 && lexer->lookahead == '-') // Handle line comment if we're not in a string
