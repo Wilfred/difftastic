@@ -1007,3 +1007,65 @@ abs n =
 
 )
 
+=====================================
+Named anonymous function
+=====================================
+
+makePows start base =
+    if start < 0 then
+        \x -> -(base ^ -x)
+
+    else
+        \x -> base ^ x
+
+---
+(file
+        (value_declaration
+                (function_declaration_left
+                        (lower_case_identifier)
+                        (lower_pattern (lower_case_identifier))
+                        (lower_pattern (lower_case_identifier))
+                )
+                (eq)
+                (if_else_expr
+                        (if)
+                        (bin_op_expr
+                                (value_expr (value_qid (lower_case_identifier)))
+                                (operator (operator_identifier))
+                                (number_constant_expr (number_literal))
+                        )
+                        (then)
+                        (anonymous_function_expr
+                                (backslash)
+                                (pattern (lower_pattern (lower_case_identifier)))
+                                (arrow)
+                                (negate_expr
+                                        (operator_identifier)
+                                        (parenthesized_expr
+                                                (left_parenthesis)
+                                                (bin_op_expr
+                                                        (value_expr (value_qid (lower_case_identifier)))
+                                                        (operator (operator_identifier))
+                                                        (negate_expr
+                                                                (operator_identifier)
+                                                                (value_expr (value_qid (lower_case_identifier)))
+                                                        )
+                                                )
+                                                (right_parenthesis)
+                                        )
+                                )
+                        )
+                        (else)
+                        (anonymous_function_expr
+                                (backslash)
+                                (pattern (lower_pattern (lower_case_identifier)))
+                                (arrow)
+                                (bin_op_expr
+                                        (value_expr (value_qid (lower_case_identifier)))
+                                        (operator (operator_identifier))
+                                        (value_expr (value_qid (lower_case_identifier)))
+                                )
+                        )
+                )
+        )
+)
