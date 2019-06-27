@@ -30,7 +30,7 @@ getFirstMatch state =
                                 (field_access_segment (dot) (lower_case_identifier))
                         )
                         (of)
-                        
+
                         (case_of_branch
                                 (pattern
                                         (list_pattern
@@ -53,7 +53,7 @@ getFirstMatch state =
                                         )
                                 )
                         )
-                        
+
                         (case_of_branch
                                 (pattern
                                         (list_pattern
@@ -78,7 +78,7 @@ getFirstMatch state =
                                         )
                                 )
                         )
-                        
+
                         (case_of_branch
                                 (pattern (anything_pattern (underscore)))
                                 (arrow)
@@ -89,7 +89,7 @@ getFirstMatch state =
                         )
                 )
         )
-        
+
 )
 =====================================
 Negate
@@ -111,7 +111,7 @@ negate n =
                         (value_expr (value_qid (lower_case_identifier)))
                 )
         )
-        
+
 )
 
 
@@ -144,7 +144,7 @@ xsOpp =
                         (number_constant_expr (number_literal))
                 )
         )
-        
+
 )
 
 =====================================
@@ -164,7 +164,7 @@ charTest =
                 (eq)
                 (char_constant_expr (open_char) (string_escape) (close_char))
         )
-        
+
 )
 =====================================
 Chars
@@ -242,7 +242,7 @@ dec =
                         (char_constant_expr (open_char) (regular_string_part) (close_char))
                         (right_square_bracket))
                 )
-        
+
         (value_declaration
                 (function_declaration_left (lower_case_identifier))
                 (eq)
@@ -302,7 +302,7 @@ dec =
                         (right_square_bracket)
                 )
         )
-        
+
         (value_declaration
                 (function_declaration_left (lower_case_identifier))
                 (eq)
@@ -330,7 +330,7 @@ dec =
                         (right_square_bracket)
                 )
         )
-        
+
 )
 
 =====================================
@@ -367,58 +367,58 @@ string8 =
         (eq)
         (string_constant_expr (open_quote) (close_quote))
         )
-        
+
   (value_declaration
         (function_declaration_left
                 (lower_case_identifier))
         (eq)
         (string_constant_expr (open_quote) (regular_string_part) (close_quote))
         )
-        
+
   (value_declaration
         (function_declaration_left
                 (lower_case_identifier))
         (eq)
         (string_constant_expr (open_quote) (regular_string_part) (close_quote))
         )
-        
+
   (value_declaration
         (function_declaration_left
                 (lower_case_identifier))
         (eq)
         (string_constant_expr (open_quote) (regular_string_part) (close_quote))
         )
-        
+
   (value_declaration
         (function_declaration_left
                 (lower_case_identifier))
         (eq)
         (string_constant_expr (open_quote) (regular_string_part) (close_quote))
         )
-        
-  (value_declaration 
-        (function_declaration_left 
+
+  (value_declaration
+        (function_declaration_left
                 (lower_case_identifier)
-        ) 
-        (eq) 
-        (string_constant_expr 
-                (open_quote) 
-                (regular_string_part) 
+        )
+        (eq)
+        (string_constant_expr
+                (open_quote)
+                (regular_string_part)
                 (close_quote)
         )
-  ) 
-   
-  (value_declaration 
-        (function_declaration_left 
+  )
+
+  (value_declaration
+        (function_declaration_left
                 (lower_case_identifier)
-        ) 
-        (eq) 
-        (string_constant_expr 
-                (open_quote) 
-                (regular_string_part) 
+        )
+        (eq)
+        (string_constant_expr
+                (open_quote)
+                (regular_string_part)
                 (close_quote)
         ))
-  
+
 )
 
 =====================================
@@ -474,57 +474,56 @@ json =
 
 ---
 
-(file 
-        (value_declaration 
+(file
+        (value_declaration
                 (function_declaration_left (lower_case_identifier))
-                (eq) 
-                (string_constant_expr (open_quote) (regular_string_part) (close_quote))
-        ) 
-         
-        (value_declaration 
-                (function_declaration_left (lower_case_identifier)) 
-                (eq) 
-                (string_constant_expr (open_quote) (close_quote))
-        ) 
-         
-        (value_declaration 
-                (function_declaration_left (lower_case_identifier)) 
-                (eq) 
-                (string_constant_expr 
-                        (open_quote) 
-                        (regular_string_part) 
-                        (regular_string_part) 
-                        (close_quote)
-                )
-        ) 
-         
-        (value_declaration 
-                (function_declaration_left (lower_case_identifier)) 
-                (eq) 
-                (string_constant_expr 
-                        (open_quote) 
-                        (regular_string_part)
-                        (close_quote)
-                )
-        ) 
-         
-        (value_declaration 
-                (function_declaration_left (lower_case_identifier)) 
-                (eq) 
-                (string_constant_expr 
-                        (open_quote) 
-                        (regular_string_part)
-                        (close_quote)
-                )
-        ) 
-        
-        (value_declaration 
-                (function_declaration_left (lower_case_identifier)) 
                 (eq)
-                (bin_op_expr 
-                        (string_constant_expr 
-                                (open_quote) 
-                                (regular_string_part) 
+                (string_constant_expr (open_quote) (regular_string_part) (close_quote))
+        )
+
+        (value_declaration
+                (function_declaration_left (lower_case_identifier))
+                (eq)
+                (string_constant_expr (open_quote) (close_quote))
+        )
+
+        (value_declaration
+                (function_declaration_left (lower_case_identifier))
+                (eq)
+                (string_constant_expr
+                        (open_quote)
+                        (regular_string_part)
+                        (regular_string_part)
+                        (close_quote)
+                )
+        )
+
+        (value_declaration
+                (function_declaration_left (lower_case_identifier))
+                (eq)
+                (string_constant_expr
+                        (open_quote)
+                        (regular_string_part)
+                        (close_quote)
+                )
+        )
+
+        (value_declaration
+                (function_declaration_left (lower_case_identifier))
+                (eq)
+                (string_constant_expr
+                        (open_quote)
+                        (regular_string_part)
+                        (close_quote)
+                )
+        )
+
+        (value_declaration
+                (function_declaration_left (lower_case_identifier))
+                (eq)
+                (bin_op_expr
+                        (string_constant_expr
+                                (open_quote)
                                 (regular_string_part)
                                 (regular_string_part)
                                 (regular_string_part)
@@ -533,14 +532,15 @@ json =
                                 (regular_string_part)
                                 (regular_string_part)
                                 (regular_string_part)
-                                (string_escape) 
+                                (regular_string_part)
+                                (string_escape)
                                 (close_quote)
-                        ) 
-                        (operator (operator_identifier)) 
-                        (value_expr (value_qid (lower_case_identifier))) 
-                        (operator (operator_identifier)) 
-                        (string_constant_expr 
-                                (open_quote) 
+                        )
+                        (operator (operator_identifier))
+                        (value_expr (value_qid (lower_case_identifier)))
+                        (operator (operator_identifier))
+                        (string_constant_expr
+                                (open_quote)
                                 (regular_string_part)
                                 (regular_string_part) (regular_string_part)
                                 (regular_string_part)
@@ -566,7 +566,6 @@ json =
                                 (regular_string_part)
                                 (regular_string_part)
                                 (regular_string_part)
-                                (regular_string_part) 
                                 (regular_string_part)
                                 (regular_string_part)
                                 (regular_string_part)
@@ -586,7 +585,8 @@ json =
                                 (regular_string_part)
                                 (regular_string_part)
                                 (regular_string_part)
-                                (regular_string_part) 
+                                (regular_string_part)
+                                (regular_string_part)
                                 (regular_string_part)
                                 (regular_string_part)
                                 (regular_string_part)
@@ -601,8 +601,8 @@ json =
                                 (close_quote)
                         )
                 )
-        ) 
-        
+        )
+
 )
 
 
@@ -622,6 +622,8 @@ float =
 eNumber =
     1e12
 
+eNumberWithDot =
+    1.0e-12
 
 ---
 
@@ -631,25 +633,30 @@ eNumber =
         (eq)
         (number_constant_expr (number_literal))
   )
-  
+
   (value_declaration
         (function_declaration_left (lower_case_identifier))
         (eq)
         (number_constant_expr (number_literal))
   )
-  
+
   (value_declaration
         (function_declaration_left (lower_case_identifier))
         (eq)
         (number_constant_expr (number_literal))
   )
-  
+
   (value_declaration
         (function_declaration_left (lower_case_identifier))
         (eq)
         (number_constant_expr (number_literal))
   )
-  
+
+  (value_declaration
+        (function_declaration_left (lower_case_identifier))
+        (eq)
+        (number_constant_expr (number_literal))
+  )
 )
 
 =====================================
@@ -670,13 +677,13 @@ tuple4 =
 (file
   (value_declaration (function_declaration_left (lower_case_identifier)) (eq)
             (unit_expr (left_parenthesis) (right_parenthesis)))
-  
+
   (value_declaration (function_declaration_left (lower_case_identifier)) (eq)
             (tuple_expr (left_parenthesis) (number_constant_expr (number_literal)) (comma) (number_constant_expr (number_literal)) (right_parenthesis)))
-  
+
   (value_declaration (function_declaration_left (lower_case_identifier)) (eq)
             (tuple_expr (left_parenthesis) (number_constant_expr (number_literal)) (comma) (number_constant_expr (number_literal)) (right_parenthesis)))
-  
+
   (value_declaration (function_declaration_left (lower_case_identifier)) (eq)
             (tuple_expr
                 (left_parenthesis)
@@ -686,7 +693,7 @@ tuple4 =
                 (right_parenthesis)
             )
   )
-  
+
 )
 
 =====================================
@@ -725,7 +732,7 @@ infix right 9 (>>) = composeR
                 (right_parenthesis)
                 (eq)
                 (value_expr (value_qid (lower_case_identifier))))
-        
+
         (infix_declaration
                 (infix)
                 (lower_case_identifier)
@@ -735,7 +742,7 @@ infix right 9 (>>) = composeR
                 (right_parenthesis)
                 (eq)
                 (value_expr (value_qid (lower_case_identifier))))
-        
+
         (infix_declaration
                 (infix)
                 (lower_case_identifier)
@@ -745,7 +752,7 @@ infix right 9 (>>) = composeR
                 (right_parenthesis)
                 (eq)
                 (value_expr (value_qid (lower_case_identifier))))
-        
+
         (infix_declaration
                 (infix)
                 (lower_case_identifier)
@@ -755,7 +762,7 @@ infix right 9 (>>) = composeR
                 (right_parenthesis)
                 (eq)
                 (value_expr (value_qid (lower_case_identifier))))
-        
+
         (infix_declaration
                 (infix)
                 (lower_case_identifier)
@@ -765,7 +772,7 @@ infix right 9 (>>) = composeR
                 (right_parenthesis)
                 (eq)
                 (value_expr (value_qid (lower_case_identifier))))
-        
+
         (infix_declaration
                 (infix)
                 (lower_case_identifier)
@@ -775,7 +782,7 @@ infix right 9 (>>) = composeR
                 (right_parenthesis)
                 (eq)
                 (value_expr (value_qid (lower_case_identifier))))
-        
+
         (infix_declaration
                 (infix)
                 (lower_case_identifier)
@@ -785,7 +792,7 @@ infix right 9 (>>) = composeR
                 (right_parenthesis)
                 (eq)
                 (value_expr (value_qid (lower_case_identifier))))
-        
+
         (infix_declaration
                 (infix)
                 (lower_case_identifier)
@@ -795,7 +802,7 @@ infix right 9 (>>) = composeR
                 (right_parenthesis)
                 (eq)
                 (value_expr (value_qid (lower_case_identifier))))
-        
+
         (infix_declaration
                 (infix)
                 (lower_case_identifier)
@@ -805,7 +812,7 @@ infix right 9 (>>) = composeR
                 (right_parenthesis)
                 (eq)
                 (value_expr (value_qid (lower_case_identifier))))
-        
+
         (infix_declaration
                 (infix)
                 (lower_case_identifier)
@@ -815,7 +822,7 @@ infix right 9 (>>) = composeR
                 (right_parenthesis)
                 (eq)
                 (value_expr (value_qid (lower_case_identifier))))
-        
+
         (infix_declaration
                 (infix)
                 (lower_case_identifier)
@@ -825,7 +832,7 @@ infix right 9 (>>) = composeR
                 (right_parenthesis)
                 (eq)
                 (value_expr (value_qid (lower_case_identifier))))
-        
+
         (infix_declaration
                 (infix)
                 (lower_case_identifier)
@@ -835,7 +842,7 @@ infix right 9 (>>) = composeR
                 (right_parenthesis)
                 (eq)
                 (value_expr (value_qid (lower_case_identifier))))
-        
+
         (infix_declaration
                 (infix)
                 (lower_case_identifier)
@@ -845,7 +852,7 @@ infix right 9 (>>) = composeR
                 (right_parenthesis)
                 (eq)
                 (value_expr (value_qid (lower_case_identifier))))
-        
+
         (infix_declaration
                 (infix)
                 (lower_case_identifier)
@@ -855,7 +862,7 @@ infix right 9 (>>) = composeR
                 (right_parenthesis)
                 (eq)
                 (value_expr (value_qid (lower_case_identifier))))
-        
+
         (infix_declaration
                 (infix)
                 (lower_case_identifier)
@@ -865,7 +872,7 @@ infix right 9 (>>) = composeR
                 (right_parenthesis)
                 (eq)
                 (value_expr (value_qid (lower_case_identifier))))
-        
+
         (infix_declaration
                 (infix)
                 (lower_case_identifier)
@@ -875,7 +882,7 @@ infix right 9 (>>) = composeR
                 (right_parenthesis)
                 (eq)
                 (value_expr (value_qid (lower_case_identifier))))
-        
+
         (infix_declaration
                 (infix)
                 (lower_case_identifier)
@@ -885,7 +892,7 @@ infix right 9 (>>) = composeR
                 (right_parenthesis)
                 (eq)
                 (value_expr (value_qid (lower_case_identifier))))
-        
+
         (infix_declaration
                 (infix)
                 (lower_case_identifier)
@@ -895,7 +902,7 @@ infix right 9 (>>) = composeR
                 (right_parenthesis)
                 (eq)
                 (value_expr (value_qid (lower_case_identifier))))
-        
+
         (infix_declaration
                 (infix)
                 (lower_case_identifier)
@@ -905,7 +912,7 @@ infix right 9 (>>) = composeR
                 (right_parenthesis)
                 (eq)
                 (value_expr (value_qid (lower_case_identifier))))
-        
+
 )
 
 =====================================
@@ -934,7 +941,7 @@ isUpper char =
                         (type_ref (upper_case_qid (upper_case_identifier)))
                 )
         )
-        
+
         (value_declaration
                 (function_declaration_left
                         (lower_case_identifier)
@@ -943,14 +950,14 @@ isUpper char =
                 (eq)
                 (let_in_expr
                         (let)
-                        
+
                         (value_declaration
                                 (function_declaration_left (lower_case_identifier))
                                 (eq)
                                 (function_call_expr (value_expr (value_qid (lower_case_identifier)))
                                 (value_expr (value_qid (lower_case_identifier))))
                         )
-                        
+
                         (in)
                         (bin_op_expr
                                 (value_expr (value_qid (lower_case_identifier)))
@@ -963,7 +970,7 @@ isUpper char =
                         )
                 )
         )
-        
+
 )
 
 =====================================
@@ -997,6 +1004,68 @@ abs n =
                         (value_expr (value_qid (lower_case_identifier)))
                 )
         )
-        
+
 )
 
+=====================================
+Named anonymous function
+=====================================
+
+makePows start base =
+    if start < 0 then
+        \x -> -(base ^ -x)
+
+    else
+        \x -> base ^ x
+
+---
+(file
+        (value_declaration
+                (function_declaration_left
+                        (lower_case_identifier)
+                        (lower_pattern (lower_case_identifier))
+                        (lower_pattern (lower_case_identifier))
+                )
+                (eq)
+                (if_else_expr
+                        (if)
+                        (bin_op_expr
+                                (value_expr (value_qid (lower_case_identifier)))
+                                (operator (operator_identifier))
+                                (number_constant_expr (number_literal))
+                        )
+                        (then)
+                        (anonymous_function_expr
+                                (backslash)
+                                (pattern (lower_pattern (lower_case_identifier)))
+                                (arrow)
+                                (negate_expr
+                                        (operator_identifier)
+                                        (parenthesized_expr
+                                                (left_parenthesis)
+                                                (bin_op_expr
+                                                        (value_expr (value_qid (lower_case_identifier)))
+                                                        (operator (operator_identifier))
+                                                        (negate_expr
+                                                                (operator_identifier)
+                                                                (value_expr (value_qid (lower_case_identifier)))
+                                                        )
+                                                )
+                                                (right_parenthesis)
+                                        )
+                                )
+                        )
+                        (else)
+                        (anonymous_function_expr
+                                (backslash)
+                                (pattern (lower_pattern (lower_case_identifier)))
+                                (arrow)
+                                (bin_op_expr
+                                        (value_expr (value_qid (lower_case_identifier)))
+                                        (operator (operator_identifier))
+                                        (value_expr (value_qid (lower_case_identifier)))
+                                )
+                        )
+                )
+        )
+)
