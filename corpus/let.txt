@@ -382,4 +382,51 @@ init session =
             )
         )
     )
+)
+
+=====================================
+Let with type annotation
+=====================================
+
+i : Int
+i =
+    let
+        x : Int
+        x = 320
+    in
+        x
+---
+
+(file
+    (type_annotation
+        (lower_case_identifier)
+        (colon)
+        (type_expression
+            (type_ref (upper_case_qid (upper_case_identifier)))
+        )
     )
+
+    (value_declaration
+        (function_declaration_left (lower_case_identifier))
+        (eq)
+        (let_in_expr
+            (let)
+            (type_annotation
+                (lower_case_identifier)
+                (colon)
+                (type_expression
+                    (type_ref (upper_case_qid (upper_case_identifier)))
+                )
+            )
+            (value_declaration
+                (function_declaration_left (lower_case_identifier))
+                (eq)
+                (number_constant_expr (number_literal))
+            )
+
+            (in)
+            (value_expr (value_qid (lower_case_identifier)))
+        )
+    )
+
+)
