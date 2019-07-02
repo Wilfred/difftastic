@@ -1743,6 +1743,10 @@
             "named": true
           },
           {
+            "type": "comma_expression",
+            "named": true
+          },
+          {
             "type": "declaration",
             "named": true
           }
@@ -4441,11 +4445,15 @@
     "named": true
   },
   {
-    "type": "L",
+    "type": "L'",
     "named": false
   },
   {
     "type": "'",
+    "named": false
+  },
+  {
+    "type": "L\"",
     "named": false
   },
   {
