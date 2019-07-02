@@ -3423,8 +3423,17 @@
                     "type": "CHOICE",
                     "members": [
                       {
-                        "type": "SYMBOL",
-                        "name": "_expression"
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "SYMBOL",
+                            "name": "_expression"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "comma_expression"
+                          }
+                        ]
                       },
                       {
                         "type": "BLANK"
@@ -5604,16 +5613,13 @@
           "members": [
             {
               "type": "STRING",
-              "value": "L"
+              "value": "L'"
             },
             {
-              "type": "BLANK"
+              "type": "STRING",
+              "value": "'"
             }
           ]
-        },
-        {
-          "type": "STRING",
-          "value": "'"
         },
         {
           "type": "CHOICE",
@@ -5661,16 +5667,13 @@
           "members": [
             {
               "type": "STRING",
-              "value": "L"
+              "value": "L\""
             },
             {
-              "type": "BLANK"
+              "type": "STRING",
+              "value": "\""
             }
           ]
-        },
-        {
-          "type": "STRING",
-          "value": "\""
         },
         {
           "type": "REPEAT",
