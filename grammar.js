@@ -519,7 +519,7 @@ module.exports = grammar({
       '(',
       choice(
         field('initializer', $.declaration),
-        seq(field('initializer', optional($._expression)), ';')
+        seq(field('initializer', optional(choice($._expression, $.comma_expression))), ';')
       ),
       field('condition', optional($._expression)), ';',
       field('update', optional(choice($._expression, $.comma_expression))),
