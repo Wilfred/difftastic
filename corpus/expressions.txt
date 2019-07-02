@@ -206,6 +206,7 @@ Math operators
 int main() {
   -a / b + c * -d;
   a++ - ++b + c-- + --d;
+  ++L;
   }
 
 ---
@@ -229,7 +230,8 @@ int main() {
               (update_expression (identifier))
               (update_expression (identifier)))
             (update_expression (identifier)))
-          (update_expression (identifier)))))))
+          (update_expression (identifier))))
+       (expression_statement (update_expression (identifier))))))
 
 ============================================
 The comma operator
