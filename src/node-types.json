@@ -1222,6 +1222,10 @@
             "named": true
           },
           {
+            "type": "comma_expression",
+            "named": true
+          },
+          {
             "type": "declaration",
             "named": true
           }
