@@ -2822,11 +2822,15 @@
     "named": true
   },
   {
-    "type": "L",
+    "type": "L'",
     "named": false
   },
   {
     "type": "'",
+    "named": false
+  },
+  {
+    "type": "L\"",
     "named": false
   },
   {

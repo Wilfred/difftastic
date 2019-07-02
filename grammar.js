@@ -772,8 +772,7 @@ module.exports = grammar({
     },
 
     char_literal: $ => seq(
-      optional('L'),
-      '\'',
+      choice('L\'', '\''),
       choice(
         $.escape_sequence,
         token.immediate(/[^\n']/)
@@ -787,8 +786,7 @@ module.exports = grammar({
     ),
 
     string_literal: $ => seq(
-      optional('L'),
-      '"',
+      choice('L"', '"'),
       repeat(choice(
         token.immediate(prec(1, /[^\\"\n]+/)),
         $.escape_sequence
