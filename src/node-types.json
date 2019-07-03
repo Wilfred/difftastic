@@ -28,10 +28,6 @@
           "named": true
         },
         {
-          "type": "identifier",
-          "named": true
-        },
-        {
           "type": "integral_type",
           "named": true
         },
@@ -72,10 +68,6 @@
         },
         {
           "type": "generic_type",
-          "named": true
-        },
-        {
-          "type": "identifier",
           "named": true
         },
         {
@@ -623,10 +615,6 @@
         },
         {
           "type": "generic_type",
-          "named": true
-        },
-        {
-          "type": "identifier",
           "named": true
         },
         {
@@ -1569,10 +1557,6 @@
           "named": true
         },
         {
-          "type": "identifier",
-          "named": true
-        },
-        {
           "type": "integral_type",
           "named": true
         },
@@ -1858,10 +1842,6 @@
         },
         {
           "type": "generic_type",
-          "named": true
-        },
-        {
-          "type": "identifier",
           "named": true
         },
         {
@@ -2947,10 +2927,6 @@
           "named": true
         },
         {
-          "type": "identifier",
-          "named": true
-        },
-        {
           "type": "integral_type",
           "named": true
         },
@@ -3246,10 +3222,6 @@
           "named": true
         },
         {
-          "type": "identifier",
-          "named": true
-        },
-        {
           "type": "integral_type",
           "named": true
         },
@@ -3468,10 +3440,6 @@
         },
         {
           "type": "generic_type",
-          "named": true
-        },
-        {
-          "type": "identifier",
           "named": true
         },
         {
@@ -3864,10 +3832,6 @@
         },
         {
           "type": "generic_type",
-          "named": true
-        },
-        {
-          "type": "identifier",
           "named": true
         },
         {
@@ -4304,10 +4268,6 @@
           "named": true
         },
         {
-          "type": "identifier",
-          "named": true
-        },
-        {
           "type": "integral_type",
           "named": true
         },
@@ -4459,10 +4419,6 @@
         },
         {
           "type": "generic_type",
-          "named": true
-        },
-        {
-          "type": "identifier",
           "named": true
         },
         {
@@ -5612,10 +5568,6 @@
           "named": true
         },
         {
-          "type": "identifier",
-          "named": true
-        },
-        {
           "type": "integral_type",
           "named": true
         },
@@ -5698,10 +5650,6 @@
         },
         {
           "type": "generic_type",
-          "named": true
-        },
-        {
-          "type": "identifier",
           "named": true
         },
         {
@@ -6535,10 +6483,6 @@
           "named": true
         },
         {
-          "type": "identifier",
-          "named": true
-        },
-        {
           "type": "integral_type",
           "named": true
         },
@@ -6587,10 +6531,6 @@
         },
         {
           "type": "generic_type",
-          "named": true
-        },
-        {
-          "type": "identifier",
           "named": true
         },
         {
@@ -7324,10 +7264,6 @@
         },
         {
           "type": "generic_type",
-          "named": true
-        },
-        {
-          "type": "identifier",
           "named": true
         },
         {
