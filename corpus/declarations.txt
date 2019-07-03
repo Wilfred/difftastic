@@ -29,8 +29,7 @@ class A {
                   (variable_declarator
                     (variable_declarator_id
                       (identifier))
-                    (integer_literal
-                      (decimal_integer_literal))))))))))))
+                    (decimal_integer_literal)))))))))))
 
 ==========
 module
@@ -66,7 +65,7 @@ module com.foo { }
     (normal_annotation
       (identifier)
       (element_value_pair_list
-        (element_value_pair (identifier) (element_value (integer_literal (decimal_integer_literal))))
+        (element_value_pair (identifier) (element_value (decimal_integer_literal)))
         (element_value_pair (identifier) (element_value (string_literal)))
         (element_value_pair (identifier) (element_value (string_literal)))
         (element_value_pair (identifier) (element_value (string_literal)))))
@@ -284,7 +283,16 @@ class Point {
 
 ---
 
-(program (class_declaration (identifier) (class_body (field_declaration (integral_type) (variable_declarator_list (variable_declarator (variable_declarator_id (identifier))))) (method_declaration (method_header (void_type) (method_declarator (identifier))) (method_body (block (assignment_expression (lhs (identifier)) (integer_literal (decimal_integer_literal)))))))))
+(program
+  (class_declaration
+    (identifier)
+    (class_body
+      (field_declaration
+        (integral_type)
+        (variable_declarator_list (variable_declarator (variable_declarator_id (identifier)))))
+      (method_declaration
+        (method_header (void_type) (method_declarator (identifier)))
+        (method_body (block (assignment_expression (lhs (identifier)) (decimal_integer_literal))))))))
 
 ======================
 interface declaration

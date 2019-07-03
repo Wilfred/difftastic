@@ -7,7 +7,7 @@ decimal integer literals
 ---
 
 (program
-  (integer_literal (decimal_integer_literal)))
+  (decimal_integer_literal))
 
 ====================
 hex integer literals
@@ -18,7 +18,7 @@ hex integer literals
 
 ---
 
-(program (integer_literal (hex_integer_literal)) (integer_literal (hex_integer_literal)))
+(program (hex_integer_literal) (hex_integer_literal))
 
 ======================
 octal integer literals
@@ -29,7 +29,7 @@ octal integer literals
 
 ---
 
-(program (integer_literal (octal_integer_literal)) (integer_literal (octal_integer_literal)))
+(program (octal_integer_literal) (octal_integer_literal))
 
 =======================
 binary integer literal
@@ -43,10 +43,10 @@ binary integer literal
 ---
 
 (program
-  (integer_literal (binary_integer_literal)) 
-  (integer_literal (binary_integer_literal))
-  (integer_literal (binary_integer_literal))
-  (integer_literal (binary_integer_literal)))
+  (binary_integer_literal)
+  (binary_integer_literal)
+  (binary_integer_literal)
+  (binary_integer_literal))
 
 ===============================
 decimal_floating_point_literal
@@ -90,7 +90,7 @@ false;
 
 ---
 
-(program (boolean_literal (true)) (boolean_literal (false)))
+(program (true) (false))
 
 ===================
 character literals
