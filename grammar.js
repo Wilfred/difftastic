@@ -32,7 +32,6 @@ module.exports = grammar({
   ],
 
   inline: $ => [
-    $.formal_parameters,
     $._numeric_type,
     $._block_statement,
     $._ambiguous_name,
@@ -323,13 +322,13 @@ module.exports = grammar({
 
     _lambda_parameters: $ => choice(
       $.identifier,
-      seq($.formal_parameters),
+      $.formal_parameters,
       $.inferred_parameters
     ),
 
     inferred_parameters: $ => seq(
       '(',
-      commaSep($.identifier),
+      commaSep1($.identifier),
       ')'
     ),
 

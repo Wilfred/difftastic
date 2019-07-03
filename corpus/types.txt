@@ -22,7 +22,8 @@ class Beyonce {
         (method_header
           (integral_type)
             (method_declarator
-              (identifier)))
+              (identifier)
+              (formal_parameters)))
         (method_body
           (block
             (local_variable_declaration_statement
@@ -80,7 +81,10 @@ class Beyonce {
     (identifier)
     (class_body
       (method_declaration
-        (method_header (integral_type) (method_declarator (identifier)))
+        (method_header
+          (integral_type)
+          (method_declarator (identifier)
+            (formal_parameters)))
         (method_body
           (block
             (local_variable_declaration_statement
