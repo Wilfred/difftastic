@@ -1,6 +1,6 @@
-===
+==================================
 standalone assignment expression
-===
+==================================
 
 x = 3;
 
@@ -11,9 +11,9 @@ x = 3;
     (lhs (identifier))
       (integer_literal (decimal_integer_literal))))
 
-===
+==================================
 standalone binary expression
-===
+==================================
 
 a > b;
 a < b;
@@ -58,9 +58,9 @@ a >>> b;
   (binary_expression (integer_literal (decimal_integer_literal)) (integer_literal (decimal_integer_literal)))
   (binary_expression (integer_literal (decimal_integer_literal)) (integer_literal (decimal_integer_literal))))
 
-============================
+===========================================================
 if statements
-============================
+===========================================================
 
 if (x)
   y;
@@ -71,9 +71,9 @@ if (x)
   (if_then_else_statement
       (identifier) (identifier)))
 
-============================
+===========================================================
 if statements with braces
-============================
+===========================================================
 
 if (x) {
   y;
@@ -85,9 +85,9 @@ if (x) {
   (if_then_else_statement
     (identifier) (block (identifier))))
 
-============================
+===========================================================
 if statements with assignment without braces
-============================
+===========================================================
 
 if (x = 3)
   y = 2;
@@ -99,9 +99,9 @@ if (x = 3)
     (assignment_expression (lhs (identifier)) (integer_literal (decimal_integer_literal)))
       (assignment_expression (lhs (identifier)) (integer_literal (decimal_integer_literal)))))
 
-============================
+=========================================
 if statements with assignment with braces
-============================
+=========================================
 
 if (x = 3) {
   y = 2;
@@ -115,9 +115,9 @@ if (x = 3) {
       (block
         (assignment_expression (lhs (identifier)) (integer_literal (decimal_integer_literal))))))
 
-===
+===========================================================
 if statement without braces and one assignment in the then
-===
+===========================================================
 
 if (x)
   y = 3;
@@ -128,9 +128,9 @@ if (x)
   (if_then_else_statement
     (identifier) (assignment_expression (lhs (identifier)) (integer_literal (decimal_integer_literal)))))
 
-===
+==================================
 if then else statement
-===
+==================================
 
 if (x = 3) {
   y = 9;
@@ -146,9 +146,9 @@ if (x = 3) {
      (block (assignment_expression (lhs (identifier)) (integer_literal (decimal_integer_literal))))
      (block (assignment_expression (lhs (identifier)) (integer_literal (decimal_integer_literal))))))
 
-===
+==================================
 nested if then else statements
-===
+==================================
 
 if (a)
   if (b)
@@ -166,9 +166,9 @@ if (a)
       (method_invocation (identifier))
       (method_invocation (identifier)))))
 
-===
+==================================
 if-then shorthand
-===
+==================================
 
 max = (a > b) ? a : b;
 
@@ -179,9 +179,9 @@ max = (a > b) ? a : b;
     (ternary_expression
       (binary_expression (identifier) (identifier)) (identifier) (identifier))))
 
-===
+==================================
 for statement
-===
+==================================
 
 class ForDemo {
     public static void main(String[] args){
@@ -201,7 +201,9 @@ class ForDemo {
         (modifiers)
         (method_header
           (void_type)
-          (method_declarator (identifier) (formal_parameter (array_type (type_identifier) (dims)) (variable_declarator_id (identifier)))))
+          (method_declarator
+            (identifier)
+            (formal_parameter (array_type (type_identifier) (dims)) (variable_declarator_id (identifier)))))
           (method_body
             (block
               (for_statement
@@ -221,9 +223,9 @@ class ForDemo {
                       (identifier)
                       (argument_list (binary_expression (string_literal) (identifier)))))))))))))
 
-===
+==================================
 while statement
-===
+==================================
 
 class WhileDemo {
     public static void main(String[] args){
@@ -281,9 +283,9 @@ class WhileDemo {
                     (update_expression
                       (identifier))))))))))
 
-===
+==================================
 try-with-resources statements
-===
+==================================
 
 try (FileInputStream input = new FileInputStream("file.txt")) {
   int data = input.read();
@@ -309,9 +311,9 @@ try (FileInputStream input = new FileInputStream("file.txt")) {
               (variable_declarator_id (identifier))
               (method_invocation (identifier) (identifier))))))))))
 
-===
+==================================
 assignment
-===
+==================================
 
 class Beyonce {
   public void four() {
@@ -335,9 +337,9 @@ class Beyonce {
               (lhs (identifier))
               (integer_literal (decimal_integer_literal)))))))))
 
-===
+==================================
 return statement
-===
+==================================
 
 return x;
 return x * y;
@@ -352,9 +354,9 @@ return fire(x);
   (return_statement (binary_expression (identifier) (integer_literal (decimal_integer_literal))))
   (return_statement (method_invocation (identifier) (argument_list (identifier)))))
 
-===
+==================================
 normal_annotation
-===
+==================================
 
 @SuppressWarnings(value = "unchecked")
 @GwtCompatible(emulated = true)
@@ -384,9 +386,9 @@ class Duck {
     (identifier)
     (class_body)))
 
-===
+==================================
 marker annotation
-===
+==================================
 
 @Override
 class Quack {
@@ -408,9 +410,9 @@ class Quack {
         (method_header (void_type) (method_declarator (identifier)))
         (method_body (block))))))
 
-===
+==================================
 single element annotation
-===
+==================================
 
 @Duck(waddle.swim)
 @SuppressWarnings("unchecked")
@@ -428,9 +430,9 @@ class Quack {
     (identifier)
     (class_body)))
 
-===
+==================================
 lambda expression
-===
+==================================
 
 class LambdaTest {
     void singleton() {
@@ -448,13 +450,12 @@ class LambdaTest {
         (method_header (void_type) (method_declarator (identifier)))
         (method_body (block (lambda_expression (identifier) (lambda_body (identifier)))))))))
 
-===
+==================================
 switch statement
-===
+==================================
 
 public class SwitchDemo {
     public static void main(String[] args) {
-
         int destinysChild = 2;
         String destinysChildString;
         switch (destinysChild) {
@@ -512,11 +513,14 @@ public class SwitchDemo {
                 (switch_label)
                 (assignment_expression (lhs (identifier)) (string_literal))
                 (break_statement)))
-            (method_invocation (scoped_identifier (identifier) (identifier)) (identifier) (argument_list (identifier)))))))))
+            (method_invocation
+              (scoped_identifier (identifier) (identifier))
+              (identifier)
+              (argument_list (identifier)))))))))
 
-===
+==================================
 type arguments
-===
+==================================
 
 class Box <T> {
   private T theObject;
@@ -554,9 +558,9 @@ class Box <T> {
                     (identifier))))
           (comment))))
 
-===
+==================================
 wildcard
-===
+==================================
 
 class WildcardDemo {
   List<? extends B> a;
@@ -579,9 +583,9 @@ class WildcardDemo {
                 (variable_declarator_id
                   (identifier))))))))
 
-===
+==================================
 type arguments with generic types
-===
+==================================
 
 class someClass <T> {
   public List<T> someMethod() {
@@ -655,9 +659,9 @@ class someClass <T> {
                           (type_identifier))
                       (identifier))))))))))
 
-===
+==================================
 empty type arguments
-===
+==================================
 
 Box<Integer> integerBox = new Box<>();
 
@@ -668,4 +672,6 @@ Box<Integer> integerBox = new Box<>();
     (binary_expression (identifier) (identifier))
     (assignment_expression
       (lhs (identifier))
-      (class_instance_creation_expression (unqualified_class_instance_creation_expression (generic_type (type_identifier)))))))
+      (class_instance_creation_expression
+        (unqualified_class_instance_creation_expression
+          (generic_type (type_identifier)))))))
