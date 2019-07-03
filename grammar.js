@@ -45,19 +45,15 @@ module.exports = grammar({
   ],
 
   conflicts: $ => [
-    [$.module_declaration, $.package_declaration, $.modifiers, $.annotated_type],
+    [$.modifiers, $.module_declaration, $.package_declaration, $.annotated_type],
     [$.modifiers, $.annotated_type, $.receiver_parameter],
-    [$.class_literal, $._unann_type], // TODO: remove
+    [$.class_literal, $._unann_type],
     [$._unann_type, $.class_literal, $.array_access],
-    [$.constant_declaration, $.local_variable_declaration],
     [$.variable_declarator_id],
     [$._lambda_parameters, $.inferred_parameters],
-    [$._expression, $.inferred_parameters],
-    [$._expression, $.inferred_parameters, $._unann_type], // TODO: remove (can't occur alone)
     [$._expression, $._unann_type],
     [$.scoped_identifier, $.scoped_type_identifier],
     [$._expression, $.generic_type],
-    [$._expression, $.for_init] // TODO: remove to allow non variable declarations in for_init to parse
   ],
 
   word: $ => $.identifier,
