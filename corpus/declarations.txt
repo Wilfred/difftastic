@@ -19,7 +19,8 @@ class A {
         (method_header
           (integral_type)
         (method_declarator
-          (identifier)))
+          (identifier)
+          (formal_parameters)))
         (method_body
           (block
             (local_variable_declaration_statement
@@ -291,7 +292,9 @@ class Point {
         (integral_type)
         (variable_declarator_list (variable_declarator (variable_declarator_id (identifier)))))
       (method_declaration
-        (method_header (void_type) (method_declarator (identifier)))
+        (method_header
+          (void_type)
+          (method_declarator (identifier) (formal_parameters)))
         (method_body (block (assignment_expression (lhs (identifier)) (decimal_integer_literal))))))))
 
 ======================
@@ -359,10 +362,11 @@ class Beyonce {
           (void_type)
           (method_declarator
             (identifier)
-            (formal_parameter (floating_point_type) (variable_declarator_id (identifier)))
-            (formal_parameter (integral_type) (variable_declarator_id (identifier)))
-            (formal_parameter (floating_point_type) (variable_declarator_id (identifier)))
-            (formal_parameter (floating_point_type) (variable_declarator_id (identifier)))))
+            (formal_parameters
+              (formal_parameter (floating_point_type) (variable_declarator_id (identifier)))
+              (formal_parameter (integral_type) (variable_declarator_id (identifier)))
+              (formal_parameter (floating_point_type) (variable_declarator_id (identifier)))
+              (formal_parameter (floating_point_type) (variable_declarator_id (identifier))))))
         (method_body (block (comment)))))))
 
 ========================
@@ -390,8 +394,9 @@ class Point {
       (constructor_declaration
         (constructor_declarator
           (identifier)
-          (formal_parameter (integral_type) (variable_declarator_id (identifier)))
-          (formal_parameter (integral_type) (variable_declarator_id (identifier))))
+          (formal_parameters
+            (formal_parameter (integral_type) (variable_declarator_id (identifier)))
+            (formal_parameter (integral_type) (variable_declarator_id (identifier)))))
         (constructor_body
           (assignment_expression (lhs (field_access (this) (identifier))) (identifier))
           (assignment_expression (lhs (field_access (this) (identifier))) (identifier)))))))
@@ -416,7 +421,8 @@ class Beyonce {
           (method_header
             (type_identifier)
             (method_declarator
-              (identifier))
+              (identifier)
+              (formal_parameters))
             (throws
               (exception_type_list
                 (exception_type
@@ -460,7 +466,8 @@ class Point {
         (method_header
           (floating_point_type)
           (method_declarator
-            (identifier)))
+            (identifier)
+            (formal_parameters)))
         (method_body
           (block
             (class_instance_creation_expression
@@ -488,7 +495,8 @@ class JayZ {
         (method_header
           (void_type)
           (method_declarator
-            (identifier)))
+            (identifier)
+            (formal_parameters)))
         (method_body
           (block
             (local_variable_declaration_statement

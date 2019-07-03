@@ -2299,19 +2299,11 @@
       "required": false,
       "types": [
         {
-          "type": "formal_parameter",
+          "type": "formal_parameters",
           "named": true
         },
         {
           "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "receiver_parameter",
-          "named": true
-        },
-        {
-          "type": "spread_parameter",
           "named": true
         },
         {
@@ -3811,6 +3803,29 @@
     }
   },
   {
+    "type": "formal_parameters",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "formal_parameter",
+          "named": true
+        },
+        {
+          "type": "receiver_parameter",
+          "named": true
+        },
+        {
+          "type": "spread_parameter",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "generic_type",
     "named": true,
     "fields": {},
@@ -4522,7 +4537,7 @@
       "required": false,
       "types": [
         {
-          "type": "formal_parameter",
+          "type": "formal_parameters",
           "named": true
         },
         {
@@ -4535,14 +4550,6 @@
         },
         {
           "type": "lambda_body",
-          "named": true
-        },
-        {
-          "type": "receiver_parameter",
-          "named": true
-        },
-        {
-          "type": "spread_parameter",
           "named": true
         }
       ]
@@ -4749,19 +4756,11 @@
           "named": true
         },
         {
-          "type": "formal_parameter",
+          "type": "formal_parameters",
           "named": true
         },
         {
           "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "receiver_parameter",
-          "named": true
-        },
-        {
-          "type": "spread_parameter",
           "named": true
         }
       ]

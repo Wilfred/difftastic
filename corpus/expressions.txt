@@ -203,7 +203,10 @@ class ForDemo {
           (void_type)
           (method_declarator
             (identifier)
-            (formal_parameter (array_type (type_identifier) (dims)) (variable_declarator_id (identifier)))))
+            (formal_parameters
+              (formal_parameter
+                (array_type (type_identifier) (dims))
+                (variable_declarator_id (identifier))))))
           (method_body
             (block
               (for_statement
@@ -249,12 +252,13 @@ class WhileDemo {
           (void_type)
           (method_declarator
             (identifier)
-            (formal_parameter
-              (array_type
-              (type_identifier)
-                (dims))
-              (variable_declarator_id
-                (identifier)))))
+            (formal_parameters
+              (formal_parameter
+                (array_type
+                (type_identifier)
+                  (dims))
+                (variable_declarator_id
+                  (identifier))))))
         (method_body
           (block
             (local_variable_declaration_statement
@@ -322,7 +326,9 @@ class Beyonce {
     (class_body
       (method_declaration
         (modifiers)
-        (method_header (void_type) (method_declarator (identifier)))
+        (method_header
+          (void_type)
+          (method_declarator (identifier) (formal_parameters)))
         (method_body
           (block
             (assignment_expression
@@ -399,7 +405,9 @@ class Quack {
     (class_body
       (method_declaration
         (modifiers (marker_annotation (identifier)))
-        (method_header (void_type) (method_declarator (identifier)))
+        (method_header
+          (void_type)
+          (method_declarator (identifier) (formal_parameters)))
         (method_body (block))))))
 
 ==================================
@@ -439,7 +447,7 @@ class LambdaTest {
     (identifier)
     (class_body
       (method_declaration
-        (method_header (void_type) (method_declarator (identifier)))
+        (method_header (void_type) (method_declarator (identifier) (formal_parameters)))
         (method_body (block (lambda_expression (identifier) (lambda_body (identifier)))))))))
 
 ==================================
@@ -475,7 +483,10 @@ public class SwitchDemo {
         (modifiers)
         (method_header
           (void_type)
-          (method_declarator (identifier) (formal_parameter (array_type (type_identifier) (dims)) (variable_declarator_id (identifier)))))
+          (method_declarator
+            (identifier)
+            (formal_parameters
+              (formal_parameter (array_type (type_identifier) (dims)) (variable_declarator_id (identifier))))))
         (method_body
           (block
             (local_variable_declaration_statement
@@ -540,10 +551,11 @@ class Box <T> {
             (modifiers)
               (constructor_declarator
                 (identifier)
+                (formal_parameters
                   (formal_parameter
                     (type_identifier)
                     (variable_declarator_id
-                      (identifier))))
+                      (identifier)))))
               (constructor_body
                 (assignment_expression
                   (lhs (identifier))
@@ -606,7 +618,8 @@ class someClass <T> {
                   (type_argument
                     (type_identifier)))
               (method_declarator
-                (identifier)))
+                (identifier)
+                (formal_parameters)))
             (method_body
               (block
                 (binary_expression
@@ -632,10 +645,11 @@ class someClass <T> {
             (void_type)
               (method_declarator
                 (identifier)
+                (formal_parameters
                   (formal_parameter
                     (type_identifier)
                       (variable_declarator_id
-                        (identifier)))))
+                        (identifier))))))
             (method_body
               (block
                 (binary_expression
