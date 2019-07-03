@@ -47,11 +47,11 @@ module.exports = grammar({
   conflicts: $ => [
     [$.modifiers, $.module_declaration, $.package_declaration, $.annotated_type],
     [$.modifiers, $.annotated_type, $.receiver_parameter],
-    [$.class_literal, $._unann_type],
-    [$._unann_type, $.class_literal, $.array_access],
+    [$.class_literal, $._unannotated_type],
+    [$._unannotated_type, $.class_literal, $.array_access],
     [$.variable_declarator_id],
     [$._lambda_parameters, $.inferred_parameters],
-    [$._expression, $._unann_type],
+    [$._expression, $._unannotated_type],
     [$.scoped_identifier, $.scoped_type_identifier],
     [$._expression, $.generic_type],
   ],
@@ -93,33 +93,30 @@ module.exports = grammar({
     _semicolon: $ => ';',
 
     _literal: $ => choice(
-      $.integer_literal,
+      $.decimal_integer_literal,
+      $.hex_integer_literal,
+      $.octal_integer_literal,
+      $.binary_integer_literal,
+      $.long_integer_literal,
       $.floating_point_literal,
-      $.boolean_literal,
+      $.true,
+      $.false,
       $.character_literal,
       $.string_literal,
       $.null_literal
     ),
 
-    integer_literal: $ => choice(
-      $.decimal_integer_literal,
-      $.hex_integer_literal,
-      $.octal_integer_literal,
-      $.binary_integer_literal,
-      $.long_integer_literal
-    ),
-
     decimal_integer_literal: $ => DIGITS,
 
     hex_integer_literal: $ => token(seq(
-        choice('0x', '0X'),
-        HEX_DIGITS
+      choice('0x', '0X'),
+      HEX_DIGITS
     )),
 
     octal_integer_literal: $ => token(seq(
       choice('0o', '0O'),
       sep1(/[0-7]+/, '_')
-      )),
+    )),
 
     binary_integer_literal: $ => token(seq(
       choice('0b', '0B'),
@@ -136,13 +133,12 @@ module.exports = grammar({
       $.hex_floating_point_literal
     ),
 
-    decimal_floating_point_literal: $ => token(
-      choice(
-        seq(DIGITS, '.', optional(DIGITS), optional(seq((/[eE]/), optional(choice('-', '+')), DIGITS)), optional(/[fFdD]/)),
-        seq('.', DIGITS, optional(seq((/[eE]/), optional(choice('-','+')), DIGITS)), optional(/[fFdD]/)),
-        seq(DIGITS, /[eE]/, optional(choice('-','+')), DIGITS, optional(/[fFdD]/)),
-        seq(DIGITS, optional(seq((/[eE]/), optional(choice('-','+')), DIGITS)), (/[fFdD]/))
-      )),
+    decimal_floating_point_literal: $ => token(choice(
+      seq(DIGITS, '.', optional(DIGITS), optional(seq((/[eE]/), optional(choice('-', '+')), DIGITS)), optional(/[fFdD]/)),
+      seq('.', DIGITS, optional(seq((/[eE]/), optional(choice('-','+')), DIGITS)), optional(/[fFdD]/)),
+      seq(DIGITS, /[eE]/, optional(choice('-','+')), DIGITS, optional(/[fFdD]/)),
+      seq(DIGITS, optional(seq((/[eE]/), optional(choice('-','+')), DIGITS)), (/[fFdD]/))
+    )),
 
     hex_floating_point_literal: $ => token(seq(
       choice('0x', '0X'),
@@ -155,8 +151,6 @@ module.exports = grammar({
       DIGITS,
       optional(/[fFdD]/)
     )),
-
-    boolean_literal: $ => choice($.true, $.false),
 
     true: $ => 'true',
 
@@ -426,7 +420,7 @@ module.exports = grammar({
       $.variable_declarator_id
     ),
 
-    catch_type: $ => seq($._unann_type, repeat(seq('|', $._type))),
+    catch_type: $ => seq($._unannotated_type, repeat(seq('|', $._type))),
 
     finally: $ => seq('finally', $.block),
 
@@ -443,7 +437,7 @@ module.exports = grammar({
     ),
 
     resource: $ => choice(
-      seq(optional($.modifiers), $._unann_type, $.variable_declarator_id, '=', $._expression),
+      seq(optional($.modifiers), $._unannotated_type, $.variable_declarator_id, '=', $._expression),
       $.variable_access
     ),
 
@@ -482,7 +476,7 @@ module.exports = grammar({
       'for',
       '(',
       optional($.modifiers),
-      $._unann_type,
+      $._unannotated_type,
       $.variable_declarator_id,
       ':',
       $._expression,
@@ -780,7 +774,7 @@ module.exports = grammar({
 
     field_declaration: $ => seq(
       optional($.modifiers),
-      $._unann_type,
+      $._unannotated_type,
       $.variable_declarator_list,
       $._semicolon
     ),
@@ -896,7 +890,7 @@ module.exports = grammar({
 
     annotation_type_element_declaration: $ => seq(
       optional($.modifiers),
-      $._unann_type,
+      $._unannotated_type,
       $.identifier,
       '(', ')',
       optional($.dims),
@@ -938,7 +932,7 @@ module.exports = grammar({
 
     constant_declaration: $ => seq(
       optional($.modifiers),
-      $._unann_type,
+      $._unannotated_type,
       $.variable_declarator_list,
       $._semicolon
     ),
@@ -972,11 +966,11 @@ module.exports = grammar({
     ),
 
     _type: $ => choice(
-      $._unann_type,
+      $._unannotated_type,
       $.annotated_type
     ),
 
-    _unann_type: $ => choice(
+    _unannotated_type: $ => choice(
       $._simple_type,
       $.array_type
     ),
@@ -993,7 +987,7 @@ module.exports = grammar({
 
     annotated_type: $ => seq(
       repeat1($._annotation),
-      $._unann_type
+      $._unannotated_type
     ),
 
     scoped_type_identifier: $ => seq(
@@ -1016,13 +1010,13 @@ module.exports = grammar({
     )),
 
     array_type: $ => seq(
-      $._unann_type,
+      $._unannotated_type,
       $.dims
     ),
 
     method_header: $ => choice(
-      seq($._unann_type, $.method_declarator, optional($.throws)),
-      seq($.type_parameters, repeat($._annotation), $._unann_type, $.method_declarator, optional($.throws))
+      seq($._unannotated_type, $.method_declarator, optional($.throws)),
+      seq($.type_parameters, repeat($._annotation), $._unannotated_type, $.method_declarator, optional($.throws))
     ),
 
     method_declarator: $ => seq(
@@ -1042,20 +1036,20 @@ module.exports = grammar({
 
     formal_parameter: $ => seq(
       optional($.modifiers),
-      $._unann_type,
+      $._unannotated_type,
       $.variable_declarator_id
     ),
 
     receiver_parameter: $ => seq(
       repeat($._annotation),
-      $._unann_type,
+      $._unannotated_type,
       optional(seq($.identifier, '.')),
       $.this
     ),
 
     spread_parameter: $ => seq(
       optional($.modifiers),
-      $._unann_type,
+      $._unannotated_type,
       '...',
       $.variable_declarator
     ),
@@ -1099,7 +1093,7 @@ module.exports = grammar({
 
     local_variable_declaration: $ => seq(
       optional($.modifiers),
-      $._unann_type,
+      $._unannotated_type,
       $.variable_declarator_list
     ),
 

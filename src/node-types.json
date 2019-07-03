@@ -250,7 +250,7 @@
           "named": true
         },
         {
-          "type": "boolean_literal",
+          "type": "binary_integer_literal",
           "named": true
         },
         {
@@ -270,6 +270,14 @@
           "named": true
         },
         {
+          "type": "decimal_integer_literal",
+          "named": true
+        },
+        {
+          "type": "false",
+          "named": true
+        },
+        {
           "type": "field_access",
           "named": true
         },
@@ -278,15 +286,19 @@
           "named": true
         },
         {
+          "type": "hex_integer_literal",
+          "named": true
+        },
+        {
           "type": "identifier",
           "named": true
         },
         {
-          "type": "integer_literal",
+          "type": "lambda_expression",
           "named": true
         },
         {
-          "type": "lambda_expression",
+          "type": "long_integer_literal",
           "named": true
         },
         {
@@ -299,6 +311,10 @@
         },
         {
           "type": "null_literal",
+          "named": true
+        },
+        {
+          "type": "octal_integer_literal",
           "named": true
         },
         {
@@ -315,6 +331,10 @@
         },
         {
           "type": "this",
+          "named": true
+        },
+        {
+          "type": "true",
           "named": true
         },
         {
@@ -353,7 +373,7 @@
           "named": true
         },
         {
-          "type": "boolean_literal",
+          "type": "binary_integer_literal",
           "named": true
         },
         {
@@ -373,6 +393,14 @@
           "named": true
         },
         {
+          "type": "decimal_integer_literal",
+          "named": true
+        },
+        {
+          "type": "false",
+          "named": true
+        },
+        {
           "type": "field_access",
           "named": true
         },
@@ -381,15 +409,19 @@
           "named": true
         },
         {
+          "type": "hex_integer_literal",
+          "named": true
+        },
+        {
           "type": "identifier",
           "named": true
         },
         {
-          "type": "integer_literal",
+          "type": "lambda_expression",
           "named": true
         },
         {
-          "type": "lambda_expression",
+          "type": "long_integer_literal",
           "named": true
         },
         {
@@ -402,6 +434,10 @@
         },
         {
           "type": "null_literal",
+          "named": true
+        },
+        {
+          "type": "octal_integer_literal",
           "named": true
         },
         {
@@ -418,6 +454,10 @@
         },
         {
           "type": "this",
+          "named": true
+        },
+        {
+          "type": "true",
           "named": true
         },
         {
@@ -511,7 +551,7 @@
           "named": true
         },
         {
-          "type": "boolean_literal",
+          "type": "binary_integer_literal",
           "named": true
         },
         {
@@ -531,6 +571,14 @@
           "named": true
         },
         {
+          "type": "decimal_integer_literal",
+          "named": true
+        },
+        {
+          "type": "false",
+          "named": true
+        },
+        {
           "type": "field_access",
           "named": true
         },
@@ -539,15 +587,19 @@
           "named": true
         },
         {
+          "type": "hex_integer_literal",
+          "named": true
+        },
+        {
           "type": "identifier",
           "named": true
         },
         {
-          "type": "integer_literal",
+          "type": "lambda_expression",
           "named": true
         },
         {
-          "type": "lambda_expression",
+          "type": "long_integer_literal",
           "named": true
         },
         {
@@ -560,6 +612,10 @@
         },
         {
           "type": "null_literal",
+          "named": true
+        },
+        {
+          "type": "octal_integer_literal",
           "named": true
         },
         {
@@ -576,6 +632,10 @@
         },
         {
           "type": "this",
+          "named": true
+        },
+        {
+          "type": "true",
           "named": true
         },
         {
@@ -666,7 +726,7 @@
           "named": true
         },
         {
-          "type": "boolean_literal",
+          "type": "binary_integer_literal",
           "named": true
         },
         {
@@ -686,6 +746,14 @@
           "named": true
         },
         {
+          "type": "decimal_integer_literal",
+          "named": true
+        },
+        {
+          "type": "false",
+          "named": true
+        },
+        {
           "type": "field_access",
           "named": true
         },
@@ -694,15 +762,19 @@
           "named": true
         },
         {
+          "type": "hex_integer_literal",
+          "named": true
+        },
+        {
           "type": "identifier",
           "named": true
         },
         {
-          "type": "integer_literal",
+          "type": "lambda_expression",
           "named": true
         },
         {
-          "type": "lambda_expression",
+          "type": "long_integer_literal",
           "named": true
         },
         {
@@ -715,6 +787,10 @@
         },
         {
           "type": "null_literal",
+          "named": true
+        },
+        {
+          "type": "octal_integer_literal",
           "named": true
         },
         {
@@ -731,6 +807,10 @@
         },
         {
           "type": "this",
+          "named": true
+        },
+        {
+          "type": "true",
           "named": true
         },
         {
@@ -769,7 +849,7 @@
           "named": true
         },
         {
-          "type": "boolean_literal",
+          "type": "binary_integer_literal",
           "named": true
         },
         {
@@ -789,6 +869,14 @@
           "named": true
         },
         {
+          "type": "decimal_integer_literal",
+          "named": true
+        },
+        {
+          "type": "false",
+          "named": true
+        },
+        {
           "type": "field_access",
           "named": true
         },
@@ -797,11 +885,11 @@
           "named": true
         },
         {
-          "type": "identifier",
+          "type": "hex_integer_literal",
           "named": true
         },
         {
-          "type": "integer_literal",
+          "type": "identifier",
           "named": true
         },
         {
@@ -810,6 +898,10 @@
         },
         {
           "type": "lhs",
+          "named": true
+        },
+        {
+          "type": "long_integer_literal",
           "named": true
         },
         {
@@ -822,6 +914,10 @@
         },
         {
           "type": "null_literal",
+          "named": true
+        },
+        {
+          "type": "octal_integer_literal",
           "named": true
         },
         {
@@ -838,6 +934,10 @@
         },
         {
           "type": "this",
+          "named": true
+        },
+        {
+          "type": "true",
           "named": true
         },
         {
@@ -885,11 +985,11 @@
           "named": true
         },
         {
-          "type": "block",
+          "type": "binary_integer_literal",
           "named": true
         },
         {
-          "type": "boolean_literal",
+          "type": "block",
           "named": true
         },
         {
@@ -917,7 +1017,15 @@
           "named": true
         },
         {
+          "type": "decimal_integer_literal",
+          "named": true
+        },
+        {
           "type": "do_statement",
+          "named": true
+        },
+        {
+          "type": "false",
           "named": true
         },
         {
@@ -937,6 +1045,10 @@
           "named": true
         },
         {
+          "type": "hex_integer_literal",
+          "named": true
+        },
+        {
           "type": "identifier",
           "named": true
         },
@@ -945,15 +1057,15 @@
           "named": true
         },
         {
-          "type": "integer_literal",
-          "named": true
-        },
-        {
           "type": "labeled_statement",
           "named": true
         },
         {
           "type": "lambda_expression",
+          "named": true
+        },
+        {
+          "type": "long_integer_literal",
           "named": true
         },
         {
@@ -966,6 +1078,10 @@
         },
         {
           "type": "null_literal",
+          "named": true
+        },
+        {
+          "type": "octal_integer_literal",
           "named": true
         },
         {
@@ -998,6 +1114,10 @@
         },
         {
           "type": "throw_statement",
+          "named": true
+        },
+        {
+          "type": "true",
           "named": true
         },
         {
@@ -1044,7 +1164,7 @@
           "named": true
         },
         {
-          "type": "boolean_literal",
+          "type": "binary_integer_literal",
           "named": true
         },
         {
@@ -1064,6 +1184,14 @@
           "named": true
         },
         {
+          "type": "decimal_integer_literal",
+          "named": true
+        },
+        {
+          "type": "false",
+          "named": true
+        },
+        {
           "type": "field_access",
           "named": true
         },
@@ -1072,15 +1200,19 @@
           "named": true
         },
         {
+          "type": "hex_integer_literal",
+          "named": true
+        },
+        {
           "type": "identifier",
           "named": true
         },
         {
-          "type": "integer_literal",
+          "type": "lambda_expression",
           "named": true
         },
         {
-          "type": "lambda_expression",
+          "type": "long_integer_literal",
           "named": true
         },
         {
@@ -1093,6 +1225,10 @@
         },
         {
           "type": "null_literal",
+          "named": true
+        },
+        {
+          "type": "octal_integer_literal",
           "named": true
         },
         {
@@ -1109,6 +1245,10 @@
         },
         {
           "type": "this",
+          "named": true
+        },
+        {
+          "type": "true",
           "named": true
         },
         {
@@ -1151,11 +1291,11 @@
           "named": true
         },
         {
-          "type": "block",
+          "type": "binary_integer_literal",
           "named": true
         },
         {
-          "type": "boolean_literal",
+          "type": "block",
           "named": true
         },
         {
@@ -1187,11 +1327,19 @@
           "named": true
         },
         {
+          "type": "decimal_integer_literal",
+          "named": true
+        },
+        {
           "type": "do_statement",
           "named": true
         },
         {
           "type": "enum_declaration",
+          "named": true
+        },
+        {
+          "type": "false",
           "named": true
         },
         {
@@ -1207,6 +1355,10 @@
           "named": true
         },
         {
+          "type": "hex_integer_literal",
+          "named": true
+        },
+        {
           "type": "identifier",
           "named": true
         },
@@ -1216,10 +1368,6 @@
         },
         {
           "type": "import_declaration",
-          "named": true
-        },
-        {
-          "type": "integer_literal",
           "named": true
         },
         {
@@ -1239,6 +1387,10 @@
           "named": true
         },
         {
+          "type": "long_integer_literal",
+          "named": true
+        },
+        {
           "type": "method_invocation",
           "named": true
         },
@@ -1252,6 +1404,10 @@
         },
         {
           "type": "null_literal",
+          "named": true
+        },
+        {
+          "type": "octal_integer_literal",
           "named": true
         },
         {
@@ -1291,6 +1447,10 @@
           "named": true
         },
         {
+          "type": "true",
+          "named": true
+        },
+        {
           "type": "try_statement",
           "named": true
         },
@@ -1304,25 +1464,6 @@
         },
         {
           "type": "while_statement",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "boolean_literal",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "false",
-          "named": true
-        },
-        {
-          "type": "true",
           "named": true
         }
       ]
@@ -1380,7 +1521,7 @@
           "named": true
         },
         {
-          "type": "boolean_literal",
+          "type": "binary_integer_literal",
           "named": true
         },
         {
@@ -1404,6 +1545,14 @@
           "named": true
         },
         {
+          "type": "decimal_integer_literal",
+          "named": true
+        },
+        {
+          "type": "false",
+          "named": true
+        },
+        {
           "type": "field_access",
           "named": true
         },
@@ -1420,11 +1569,11 @@
           "named": true
         },
         {
-          "type": "identifier",
+          "type": "hex_integer_literal",
           "named": true
         },
         {
-          "type": "integer_literal",
+          "type": "identifier",
           "named": true
         },
         {
@@ -1433,6 +1582,10 @@
         },
         {
           "type": "lambda_expression",
+          "named": true
+        },
+        {
+          "type": "long_integer_literal",
           "named": true
         },
         {
@@ -1445,6 +1598,10 @@
         },
         {
           "type": "null_literal",
+          "named": true
+        },
+        {
+          "type": "octal_integer_literal",
           "named": true
         },
         {
@@ -1465,6 +1622,10 @@
         },
         {
           "type": "this",
+          "named": true
+        },
+        {
+          "type": "true",
           "named": true
         },
         {
@@ -1703,7 +1864,7 @@
           "named": true
         },
         {
-          "type": "boolean_literal",
+          "type": "binary_integer_literal",
           "named": true
         },
         {
@@ -1723,6 +1884,14 @@
           "named": true
         },
         {
+          "type": "decimal_integer_literal",
+          "named": true
+        },
+        {
+          "type": "false",
+          "named": true
+        },
+        {
           "type": "field_access",
           "named": true
         },
@@ -1731,15 +1900,19 @@
           "named": true
         },
         {
+          "type": "hex_integer_literal",
+          "named": true
+        },
+        {
           "type": "identifier",
           "named": true
         },
         {
-          "type": "integer_literal",
+          "type": "lambda_expression",
           "named": true
         },
         {
-          "type": "lambda_expression",
+          "type": "long_integer_literal",
           "named": true
         },
         {
@@ -1752,6 +1925,10 @@
         },
         {
           "type": "null_literal",
+          "named": true
+        },
+        {
+          "type": "octal_integer_literal",
           "named": true
         },
         {
@@ -1768,6 +1945,10 @@
         },
         {
           "type": "this",
+          "named": true
+        },
+        {
+          "type": "true",
           "named": true
         },
         {
@@ -1900,11 +2081,11 @@
           "named": true
         },
         {
-          "type": "block",
+          "type": "binary_integer_literal",
           "named": true
         },
         {
-          "type": "boolean_literal",
+          "type": "block",
           "named": true
         },
         {
@@ -1936,6 +2117,10 @@
           "named": true
         },
         {
+          "type": "decimal_integer_literal",
+          "named": true
+        },
+        {
           "type": "do_statement",
           "named": true
         },
@@ -1945,6 +2130,10 @@
         },
         {
           "type": "explicit_constructor_invocation",
+          "named": true
+        },
+        {
+          "type": "false",
           "named": true
         },
         {
@@ -1960,6 +2149,10 @@
           "named": true
         },
         {
+          "type": "hex_integer_literal",
+          "named": true
+        },
+        {
           "type": "identifier",
           "named": true
         },
@@ -1969,10 +2162,6 @@
         },
         {
           "type": "import_declaration",
-          "named": true
-        },
-        {
-          "type": "integer_literal",
           "named": true
         },
         {
@@ -1992,6 +2181,10 @@
           "named": true
         },
         {
+          "type": "long_integer_literal",
+          "named": true
+        },
+        {
           "type": "method_invocation",
           "named": true
         },
@@ -2005,6 +2198,10 @@
         },
         {
           "type": "null_literal",
+          "named": true
+        },
+        {
+          "type": "octal_integer_literal",
           "named": true
         },
         {
@@ -2041,6 +2238,10 @@
         },
         {
           "type": "throw_statement",
+          "named": true
+        },
+        {
+          "type": "true",
           "named": true
         },
         {
@@ -2198,7 +2399,7 @@
           "named": true
         },
         {
-          "type": "boolean_literal",
+          "type": "binary_integer_literal",
           "named": true
         },
         {
@@ -2218,6 +2419,14 @@
           "named": true
         },
         {
+          "type": "decimal_integer_literal",
+          "named": true
+        },
+        {
+          "type": "false",
+          "named": true
+        },
+        {
           "type": "field_access",
           "named": true
         },
@@ -2226,15 +2435,19 @@
           "named": true
         },
         {
+          "type": "hex_integer_literal",
+          "named": true
+        },
+        {
           "type": "identifier",
           "named": true
         },
         {
-          "type": "integer_literal",
+          "type": "lambda_expression",
           "named": true
         },
         {
-          "type": "lambda_expression",
+          "type": "long_integer_literal",
           "named": true
         },
         {
@@ -2258,6 +2471,10 @@
           "named": true
         },
         {
+          "type": "octal_integer_literal",
+          "named": true
+        },
+        {
           "type": "scoped_identifier",
           "named": true
         },
@@ -2275,6 +2492,10 @@
         },
         {
           "type": "this",
+          "named": true
+        },
+        {
+          "type": "true",
           "named": true
         },
         {
@@ -2317,11 +2538,11 @@
           "named": true
         },
         {
-          "type": "block",
+          "type": "binary_integer_literal",
           "named": true
         },
         {
-          "type": "boolean_literal",
+          "type": "block",
           "named": true
         },
         {
@@ -2353,11 +2574,19 @@
           "named": true
         },
         {
+          "type": "decimal_integer_literal",
+          "named": true
+        },
+        {
           "type": "do_statement",
           "named": true
         },
         {
           "type": "enum_declaration",
+          "named": true
+        },
+        {
+          "type": "false",
           "named": true
         },
         {
@@ -2373,6 +2602,10 @@
           "named": true
         },
         {
+          "type": "hex_integer_literal",
+          "named": true
+        },
+        {
           "type": "identifier",
           "named": true
         },
@@ -2385,10 +2618,6 @@
           "named": true
         },
         {
-          "type": "integer_literal",
-          "named": true
-        },
-        {
           "type": "interface_declaration",
           "named": true
         },
@@ -2398,6 +2627,10 @@
         },
         {
           "type": "lambda_expression",
+          "named": true
+        },
+        {
+          "type": "long_integer_literal",
           "named": true
         },
         {
@@ -2414,6 +2647,10 @@
         },
         {
           "type": "null_literal",
+          "named": true
+        },
+        {
+          "type": "octal_integer_literal",
           "named": true
         },
         {
@@ -2453,6 +2690,10 @@
           "named": true
         },
         {
+          "type": "true",
+          "named": true
+        },
+        {
           "type": "try_statement",
           "named": true
         },
@@ -2480,7 +2721,7 @@
       "required": false,
       "types": [
         {
-          "type": "boolean_literal",
+          "type": "binary_integer_literal",
           "named": true
         },
         {
@@ -2488,7 +2729,15 @@
           "named": true
         },
         {
+          "type": "decimal_integer_literal",
+          "named": true
+        },
+        {
           "type": "element_value_array_initializer",
+          "named": true
+        },
+        {
+          "type": "false",
           "named": true
         },
         {
@@ -2496,11 +2745,15 @@
           "named": true
         },
         {
+          "type": "hex_integer_literal",
+          "named": true
+        },
+        {
           "type": "identifier",
           "named": true
         },
         {
-          "type": "integer_literal",
+          "type": "long_integer_literal",
           "named": true
         },
         {
@@ -2516,6 +2769,10 @@
           "named": true
         },
         {
+          "type": "octal_integer_literal",
+          "named": true
+        },
+        {
           "type": "scoped_identifier",
           "named": true
         },
@@ -2525,6 +2782,10 @@
         },
         {
           "type": "string_literal",
+          "named": true
+        },
+        {
+          "type": "true",
           "named": true
         }
       ]
@@ -2612,11 +2873,11 @@
           "named": true
         },
         {
-          "type": "block",
+          "type": "binary_integer_literal",
           "named": true
         },
         {
-          "type": "boolean_literal",
+          "type": "block",
           "named": true
         },
         {
@@ -2648,7 +2909,15 @@
           "named": true
         },
         {
+          "type": "decimal_integer_literal",
+          "named": true
+        },
+        {
           "type": "do_statement",
+          "named": true
+        },
+        {
+          "type": "false",
           "named": true
         },
         {
@@ -2672,15 +2941,15 @@
           "named": true
         },
         {
+          "type": "hex_integer_literal",
+          "named": true
+        },
+        {
           "type": "identifier",
           "named": true
         },
         {
           "type": "if_then_else_statement",
-          "named": true
-        },
-        {
-          "type": "integer_literal",
           "named": true
         },
         {
@@ -2693,6 +2962,10 @@
         },
         {
           "type": "lambda_expression",
+          "named": true
+        },
+        {
+          "type": "long_integer_literal",
           "named": true
         },
         {
@@ -2709,6 +2982,10 @@
         },
         {
           "type": "null_literal",
+          "named": true
+        },
+        {
+          "type": "octal_integer_literal",
           "named": true
         },
         {
@@ -2745,6 +3022,10 @@
         },
         {
           "type": "throw_statement",
+          "named": true
+        },
+        {
+          "type": "true",
           "named": true
         },
         {
@@ -2989,7 +3270,7 @@
           "named": true
         },
         {
-          "type": "boolean_literal",
+          "type": "binary_integer_literal",
           "named": true
         },
         {
@@ -3009,6 +3290,14 @@
           "named": true
         },
         {
+          "type": "decimal_integer_literal",
+          "named": true
+        },
+        {
+          "type": "false",
+          "named": true
+        },
+        {
           "type": "field_access",
           "named": true
         },
@@ -3017,15 +3306,19 @@
           "named": true
         },
         {
+          "type": "hex_integer_literal",
+          "named": true
+        },
+        {
           "type": "identifier",
           "named": true
         },
         {
-          "type": "integer_literal",
+          "type": "lambda_expression",
           "named": true
         },
         {
-          "type": "lambda_expression",
+          "type": "long_integer_literal",
           "named": true
         },
         {
@@ -3038,6 +3331,10 @@
         },
         {
           "type": "null_literal",
+          "named": true
+        },
+        {
+          "type": "octal_integer_literal",
           "named": true
         },
         {
@@ -3058,6 +3355,10 @@
         },
         {
           "type": "this",
+          "named": true
+        },
+        {
+          "type": "true",
           "named": true
         },
         {
@@ -3115,7 +3416,7 @@
           "named": true
         },
         {
-          "type": "boolean_literal",
+          "type": "binary_integer_literal",
           "named": true
         },
         {
@@ -3135,6 +3436,14 @@
           "named": true
         },
         {
+          "type": "decimal_integer_literal",
+          "named": true
+        },
+        {
+          "type": "false",
+          "named": true
+        },
+        {
           "type": "field_access",
           "named": true
         },
@@ -3143,15 +3452,19 @@
           "named": true
         },
         {
+          "type": "hex_integer_literal",
+          "named": true
+        },
+        {
           "type": "identifier",
           "named": true
         },
         {
-          "type": "integer_literal",
+          "type": "lambda_expression",
           "named": true
         },
         {
-          "type": "lambda_expression",
+          "type": "long_integer_literal",
           "named": true
         },
         {
@@ -3164,6 +3477,10 @@
         },
         {
           "type": "null_literal",
+          "named": true
+        },
+        {
+          "type": "octal_integer_literal",
           "named": true
         },
         {
@@ -3184,6 +3501,10 @@
         },
         {
           "type": "this",
+          "named": true
+        },
+        {
+          "type": "true",
           "named": true
         },
         {
@@ -3312,7 +3633,7 @@
           "named": true
         },
         {
-          "type": "boolean_literal",
+          "type": "binary_integer_literal",
           "named": true
         },
         {
@@ -3332,6 +3653,14 @@
           "named": true
         },
         {
+          "type": "decimal_integer_literal",
+          "named": true
+        },
+        {
+          "type": "false",
+          "named": true
+        },
+        {
           "type": "field_access",
           "named": true
         },
@@ -3340,11 +3669,11 @@
           "named": true
         },
         {
-          "type": "identifier",
+          "type": "hex_integer_literal",
           "named": true
         },
         {
-          "type": "integer_literal",
+          "type": "identifier",
           "named": true
         },
         {
@@ -3353,6 +3682,10 @@
         },
         {
           "type": "local_variable_declaration",
+          "named": true
+        },
+        {
+          "type": "long_integer_literal",
           "named": true
         },
         {
@@ -3365,6 +3698,10 @@
         },
         {
           "type": "null_literal",
+          "named": true
+        },
+        {
+          "type": "octal_integer_literal",
           "named": true
         },
         {
@@ -3381,6 +3718,10 @@
         },
         {
           "type": "this",
+          "named": true
+        },
+        {
+          "type": "true",
           "named": true
         },
         {
@@ -3521,11 +3862,11 @@
           "named": true
         },
         {
-          "type": "block",
+          "type": "binary_integer_literal",
           "named": true
         },
         {
-          "type": "boolean_literal",
+          "type": "block",
           "named": true
         },
         {
@@ -3557,11 +3898,19 @@
           "named": true
         },
         {
+          "type": "decimal_integer_literal",
+          "named": true
+        },
+        {
           "type": "do_statement",
           "named": true
         },
         {
           "type": "enum_declaration",
+          "named": true
+        },
+        {
+          "type": "false",
           "named": true
         },
         {
@@ -3577,6 +3926,10 @@
           "named": true
         },
         {
+          "type": "hex_integer_literal",
+          "named": true
+        },
+        {
           "type": "identifier",
           "named": true
         },
@@ -3589,10 +3942,6 @@
           "named": true
         },
         {
-          "type": "integer_literal",
-          "named": true
-        },
-        {
           "type": "interface_declaration",
           "named": true
         },
@@ -3602,6 +3951,10 @@
         },
         {
           "type": "lambda_expression",
+          "named": true
+        },
+        {
+          "type": "long_integer_literal",
           "named": true
         },
         {
@@ -3618,6 +3971,10 @@
         },
         {
           "type": "null_literal",
+          "named": true
+        },
+        {
+          "type": "octal_integer_literal",
           "named": true
         },
         {
@@ -3654,6 +4011,10 @@
         },
         {
           "type": "throw_statement",
+          "named": true
+        },
+        {
+          "type": "true",
           "named": true
         },
         {
@@ -3704,37 +4065,6 @@
       "types": [
         {
           "type": "identifier",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "integer_literal",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "binary_integer_literal",
-          "named": true
-        },
-        {
-          "type": "decimal_integer_literal",
-          "named": true
-        },
-        {
-          "type": "hex_integer_literal",
-          "named": true
-        },
-        {
-          "type": "long_integer_literal",
-          "named": true
-        },
-        {
-          "type": "octal_integer_literal",
           "named": true
         }
       ]
@@ -3882,11 +4212,11 @@
           "named": true
         },
         {
-          "type": "block",
+          "type": "binary_integer_literal",
           "named": true
         },
         {
-          "type": "boolean_literal",
+          "type": "block",
           "named": true
         },
         {
@@ -3918,11 +4248,19 @@
           "named": true
         },
         {
+          "type": "decimal_integer_literal",
+          "named": true
+        },
+        {
           "type": "do_statement",
           "named": true
         },
         {
           "type": "enum_declaration",
+          "named": true
+        },
+        {
+          "type": "false",
           "named": true
         },
         {
@@ -3938,6 +4276,10 @@
           "named": true
         },
         {
+          "type": "hex_integer_literal",
+          "named": true
+        },
+        {
           "type": "identifier",
           "named": true
         },
@@ -3950,10 +4292,6 @@
           "named": true
         },
         {
-          "type": "integer_literal",
-          "named": true
-        },
-        {
           "type": "interface_declaration",
           "named": true
         },
@@ -3963,6 +4301,10 @@
         },
         {
           "type": "lambda_expression",
+          "named": true
+        },
+        {
+          "type": "long_integer_literal",
           "named": true
         },
         {
@@ -3979,6 +4321,10 @@
         },
         {
           "type": "null_literal",
+          "named": true
+        },
+        {
+          "type": "octal_integer_literal",
           "named": true
         },
         {
@@ -4015,6 +4361,10 @@
         },
         {
           "type": "throw_statement",
+          "named": true
+        },
+        {
+          "type": "true",
           "named": true
         },
         {
@@ -4061,11 +4411,11 @@
           "named": true
         },
         {
-          "type": "block",
+          "type": "binary_integer_literal",
           "named": true
         },
         {
-          "type": "boolean_literal",
+          "type": "block",
           "named": true
         },
         {
@@ -4085,6 +4435,14 @@
           "named": true
         },
         {
+          "type": "decimal_integer_literal",
+          "named": true
+        },
+        {
+          "type": "false",
+          "named": true
+        },
+        {
           "type": "field_access",
           "named": true
         },
@@ -4093,15 +4451,19 @@
           "named": true
         },
         {
+          "type": "hex_integer_literal",
+          "named": true
+        },
+        {
           "type": "identifier",
           "named": true
         },
         {
-          "type": "integer_literal",
+          "type": "lambda_expression",
           "named": true
         },
         {
-          "type": "lambda_expression",
+          "type": "long_integer_literal",
           "named": true
         },
         {
@@ -4114,6 +4476,10 @@
         },
         {
           "type": "null_literal",
+          "named": true
+        },
+        {
+          "type": "octal_integer_literal",
           "named": true
         },
         {
@@ -4130,6 +4496,10 @@
         },
         {
           "type": "this",
+          "named": true
+        },
+        {
+          "type": "true",
           "named": true
         },
         {
@@ -4493,7 +4863,7 @@
           "named": true
         },
         {
-          "type": "boolean_literal",
+          "type": "binary_integer_literal",
           "named": true
         },
         {
@@ -4513,6 +4883,14 @@
           "named": true
         },
         {
+          "type": "decimal_integer_literal",
+          "named": true
+        },
+        {
+          "type": "false",
+          "named": true
+        },
+        {
           "type": "field_access",
           "named": true
         },
@@ -4521,15 +4899,19 @@
           "named": true
         },
         {
+          "type": "hex_integer_literal",
+          "named": true
+        },
+        {
           "type": "identifier",
           "named": true
         },
         {
-          "type": "integer_literal",
+          "type": "lambda_expression",
           "named": true
         },
         {
-          "type": "lambda_expression",
+          "type": "long_integer_literal",
           "named": true
         },
         {
@@ -4542,6 +4924,10 @@
         },
         {
           "type": "null_literal",
+          "named": true
+        },
+        {
+          "type": "octal_integer_literal",
           "named": true
         },
         {
@@ -4562,6 +4948,10 @@
         },
         {
           "type": "this",
+          "named": true
+        },
+        {
+          "type": "true",
           "named": true
         },
         {
@@ -4612,7 +5002,7 @@
           "named": true
         },
         {
-          "type": "boolean_literal",
+          "type": "binary_integer_literal",
           "named": true
         },
         {
@@ -4636,6 +5026,14 @@
           "named": true
         },
         {
+          "type": "decimal_integer_literal",
+          "named": true
+        },
+        {
+          "type": "false",
+          "named": true
+        },
+        {
           "type": "field_access",
           "named": true
         },
@@ -4652,11 +5050,11 @@
           "named": true
         },
         {
-          "type": "identifier",
+          "type": "hex_integer_literal",
           "named": true
         },
         {
-          "type": "integer_literal",
+          "type": "identifier",
           "named": true
         },
         {
@@ -4665,6 +5063,10 @@
         },
         {
           "type": "lambda_expression",
+          "named": true
+        },
+        {
+          "type": "long_integer_literal",
           "named": true
         },
         {
@@ -4677,6 +5079,10 @@
         },
         {
           "type": "null_literal",
+          "named": true
+        },
+        {
+          "type": "octal_integer_literal",
           "named": true
         },
         {
@@ -4697,6 +5103,10 @@
         },
         {
           "type": "this",
+          "named": true
+        },
+        {
+          "type": "true",
           "named": true
         },
         {
@@ -4950,11 +5360,11 @@
           "named": true
         },
         {
-          "type": "block",
+          "type": "binary_integer_literal",
           "named": true
         },
         {
-          "type": "boolean_literal",
+          "type": "block",
           "named": true
         },
         {
@@ -4986,11 +5396,19 @@
           "named": true
         },
         {
+          "type": "decimal_integer_literal",
+          "named": true
+        },
+        {
           "type": "do_statement",
           "named": true
         },
         {
           "type": "enum_declaration",
+          "named": true
+        },
+        {
+          "type": "false",
           "named": true
         },
         {
@@ -5006,6 +5424,10 @@
           "named": true
         },
         {
+          "type": "hex_integer_literal",
+          "named": true
+        },
+        {
           "type": "identifier",
           "named": true
         },
@@ -5018,10 +5440,6 @@
           "named": true
         },
         {
-          "type": "integer_literal",
-          "named": true
-        },
-        {
           "type": "interface_declaration",
           "named": true
         },
@@ -5031,6 +5449,10 @@
         },
         {
           "type": "lambda_expression",
+          "named": true
+        },
+        {
+          "type": "long_integer_literal",
           "named": true
         },
         {
@@ -5047,6 +5469,10 @@
         },
         {
           "type": "null_literal",
+          "named": true
+        },
+        {
+          "type": "octal_integer_literal",
           "named": true
         },
         {
@@ -5083,6 +5509,10 @@
         },
         {
           "type": "throw_statement",
+          "named": true
+        },
+        {
+          "type": "true",
           "named": true
         },
         {
@@ -5201,7 +5631,7 @@
           "named": true
         },
         {
-          "type": "boolean_literal",
+          "type": "binary_integer_literal",
           "named": true
         },
         {
@@ -5225,6 +5655,14 @@
           "named": true
         },
         {
+          "type": "decimal_integer_literal",
+          "named": true
+        },
+        {
+          "type": "false",
+          "named": true
+        },
+        {
           "type": "field_access",
           "named": true
         },
@@ -5241,11 +5679,11 @@
           "named": true
         },
         {
-          "type": "identifier",
+          "type": "hex_integer_literal",
           "named": true
         },
         {
-          "type": "integer_literal",
+          "type": "identifier",
           "named": true
         },
         {
@@ -5254,6 +5692,10 @@
         },
         {
           "type": "lambda_expression",
+          "named": true
+        },
+        {
+          "type": "long_integer_literal",
           "named": true
         },
         {
@@ -5270,6 +5712,10 @@
         },
         {
           "type": "null_literal",
+          "named": true
+        },
+        {
+          "type": "octal_integer_literal",
           "named": true
         },
         {
@@ -5290,6 +5736,10 @@
         },
         {
           "type": "this",
+          "named": true
+        },
+        {
+          "type": "true",
           "named": true
         },
         {
@@ -5364,7 +5814,7 @@
           "named": true
         },
         {
-          "type": "boolean_literal",
+          "type": "binary_integer_literal",
           "named": true
         },
         {
@@ -5384,6 +5834,14 @@
           "named": true
         },
         {
+          "type": "decimal_integer_literal",
+          "named": true
+        },
+        {
+          "type": "false",
+          "named": true
+        },
+        {
           "type": "field_access",
           "named": true
         },
@@ -5392,15 +5850,19 @@
           "named": true
         },
         {
+          "type": "hex_integer_literal",
+          "named": true
+        },
+        {
           "type": "identifier",
           "named": true
         },
         {
-          "type": "integer_literal",
+          "type": "lambda_expression",
           "named": true
         },
         {
-          "type": "lambda_expression",
+          "type": "long_integer_literal",
           "named": true
         },
         {
@@ -5413,6 +5875,10 @@
         },
         {
           "type": "null_literal",
+          "named": true
+        },
+        {
+          "type": "octal_integer_literal",
           "named": true
         },
         {
@@ -5429,6 +5895,10 @@
         },
         {
           "type": "this",
+          "named": true
+        },
+        {
+          "type": "true",
           "named": true
         },
         {
@@ -5505,7 +5975,7 @@
       "required": false,
       "types": [
         {
-          "type": "boolean_literal",
+          "type": "binary_integer_literal",
           "named": true
         },
         {
@@ -5513,7 +5983,15 @@
           "named": true
         },
         {
+          "type": "decimal_integer_literal",
+          "named": true
+        },
+        {
           "type": "element_value",
+          "named": true
+        },
+        {
+          "type": "false",
           "named": true
         },
         {
@@ -5521,15 +5999,23 @@
           "named": true
         },
         {
+          "type": "hex_integer_literal",
+          "named": true
+        },
+        {
           "type": "identifier",
           "named": true
         },
         {
-          "type": "integer_literal",
+          "type": "long_integer_literal",
           "named": true
         },
         {
           "type": "null_literal",
+          "named": true
+        },
+        {
+          "type": "octal_integer_literal",
           "named": true
         },
         {
@@ -5538,6 +6024,10 @@
         },
         {
           "type": "string_literal",
+          "named": true
+        },
+        {
+          "type": "true",
           "named": true
         }
       ]
@@ -5700,11 +6190,11 @@
           "named": true
         },
         {
-          "type": "block",
+          "type": "binary_integer_literal",
           "named": true
         },
         {
-          "type": "boolean_literal",
+          "type": "block",
           "named": true
         },
         {
@@ -5736,11 +6226,19 @@
           "named": true
         },
         {
+          "type": "decimal_integer_literal",
+          "named": true
+        },
+        {
           "type": "do_statement",
           "named": true
         },
         {
           "type": "enum_declaration",
+          "named": true
+        },
+        {
+          "type": "false",
           "named": true
         },
         {
@@ -5756,6 +6254,10 @@
           "named": true
         },
         {
+          "type": "hex_integer_literal",
+          "named": true
+        },
+        {
           "type": "identifier",
           "named": true
         },
@@ -5765,10 +6267,6 @@
         },
         {
           "type": "import_declaration",
-          "named": true
-        },
-        {
-          "type": "integer_literal",
           "named": true
         },
         {
@@ -5788,6 +6286,10 @@
           "named": true
         },
         {
+          "type": "long_integer_literal",
+          "named": true
+        },
+        {
           "type": "method_invocation",
           "named": true
         },
@@ -5801,6 +6303,10 @@
         },
         {
           "type": "null_literal",
+          "named": true
+        },
+        {
+          "type": "octal_integer_literal",
           "named": true
         },
         {
@@ -5841,6 +6347,10 @@
         },
         {
           "type": "throw_statement",
+          "named": true
+        },
+        {
+          "type": "true",
           "named": true
         },
         {
@@ -5887,7 +6397,7 @@
           "named": true
         },
         {
-          "type": "boolean_literal",
+          "type": "binary_integer_literal",
           "named": true
         },
         {
@@ -5907,6 +6417,14 @@
           "named": true
         },
         {
+          "type": "decimal_integer_literal",
+          "named": true
+        },
+        {
+          "type": "false",
+          "named": true
+        },
+        {
           "type": "field_access",
           "named": true
         },
@@ -5915,15 +6433,19 @@
           "named": true
         },
         {
+          "type": "hex_integer_literal",
+          "named": true
+        },
+        {
           "type": "identifier",
           "named": true
         },
         {
-          "type": "integer_literal",
+          "type": "lambda_expression",
           "named": true
         },
         {
-          "type": "lambda_expression",
+          "type": "long_integer_literal",
           "named": true
         },
         {
@@ -5936,6 +6458,10 @@
         },
         {
           "type": "null_literal",
+          "named": true
+        },
+        {
+          "type": "octal_integer_literal",
           "named": true
         },
         {
@@ -5952,6 +6478,10 @@
         },
         {
           "type": "this",
+          "named": true
+        },
+        {
+          "type": "true",
           "named": true
         },
         {
@@ -5990,7 +6520,7 @@
           "named": true
         },
         {
-          "type": "boolean_literal",
+          "type": "binary_integer_literal",
           "named": true
         },
         {
@@ -6010,6 +6540,14 @@
           "named": true
         },
         {
+          "type": "decimal_integer_literal",
+          "named": true
+        },
+        {
+          "type": "false",
+          "named": true
+        },
+        {
           "type": "field_access",
           "named": true
         },
@@ -6018,15 +6556,19 @@
           "named": true
         },
         {
+          "type": "hex_integer_literal",
+          "named": true
+        },
+        {
           "type": "identifier",
           "named": true
         },
         {
-          "type": "integer_literal",
+          "type": "lambda_expression",
           "named": true
         },
         {
-          "type": "lambda_expression",
+          "type": "long_integer_literal",
           "named": true
         },
         {
@@ -6039,6 +6581,10 @@
         },
         {
           "type": "null_literal",
+          "named": true
+        },
+        {
+          "type": "octal_integer_literal",
           "named": true
         },
         {
@@ -6059,6 +6605,10 @@
         },
         {
           "type": "this",
+          "named": true
+        },
+        {
+          "type": "true",
           "named": true
         },
         {
@@ -6097,11 +6647,11 @@
           "named": true
         },
         {
-          "type": "block",
+          "type": "binary_integer_literal",
           "named": true
         },
         {
-          "type": "boolean_literal",
+          "type": "block",
           "named": true
         },
         {
@@ -6121,6 +6671,14 @@
           "named": true
         },
         {
+          "type": "decimal_integer_literal",
+          "named": true
+        },
+        {
+          "type": "false",
+          "named": true
+        },
+        {
           "type": "field_access",
           "named": true
         },
@@ -6129,15 +6687,19 @@
           "named": true
         },
         {
+          "type": "hex_integer_literal",
+          "named": true
+        },
+        {
           "type": "identifier",
           "named": true
         },
         {
-          "type": "integer_literal",
+          "type": "lambda_expression",
           "named": true
         },
         {
-          "type": "lambda_expression",
+          "type": "long_integer_literal",
           "named": true
         },
         {
@@ -6150,6 +6712,10 @@
         },
         {
           "type": "null_literal",
+          "named": true
+        },
+        {
+          "type": "octal_integer_literal",
           "named": true
         },
         {
@@ -6166,6 +6732,10 @@
         },
         {
           "type": "this",
+          "named": true
+        },
+        {
+          "type": "true",
           "named": true
         },
         {
@@ -6204,7 +6774,7 @@
           "named": true
         },
         {
-          "type": "boolean_literal",
+          "type": "binary_integer_literal",
           "named": true
         },
         {
@@ -6224,6 +6794,14 @@
           "named": true
         },
         {
+          "type": "decimal_integer_literal",
+          "named": true
+        },
+        {
+          "type": "false",
+          "named": true
+        },
+        {
           "type": "field_access",
           "named": true
         },
@@ -6232,15 +6810,19 @@
           "named": true
         },
         {
+          "type": "hex_integer_literal",
+          "named": true
+        },
+        {
           "type": "identifier",
           "named": true
         },
         {
-          "type": "integer_literal",
+          "type": "lambda_expression",
           "named": true
         },
         {
-          "type": "lambda_expression",
+          "type": "long_integer_literal",
           "named": true
         },
         {
@@ -6253,6 +6835,10 @@
         },
         {
           "type": "null_literal",
+          "named": true
+        },
+        {
+          "type": "octal_integer_literal",
           "named": true
         },
         {
@@ -6269,6 +6855,10 @@
         },
         {
           "type": "this",
+          "named": true
+        },
+        {
+          "type": "true",
           "named": true
         },
         {
@@ -6307,7 +6897,7 @@
           "named": true
         },
         {
-          "type": "boolean_literal",
+          "type": "binary_integer_literal",
           "named": true
         },
         {
@@ -6327,6 +6917,14 @@
           "named": true
         },
         {
+          "type": "decimal_integer_literal",
+          "named": true
+        },
+        {
+          "type": "false",
+          "named": true
+        },
+        {
           "type": "field_access",
           "named": true
         },
@@ -6335,15 +6933,19 @@
           "named": true
         },
         {
+          "type": "hex_integer_literal",
+          "named": true
+        },
+        {
           "type": "identifier",
           "named": true
         },
         {
-          "type": "integer_literal",
+          "type": "lambda_expression",
           "named": true
         },
         {
-          "type": "lambda_expression",
+          "type": "long_integer_literal",
           "named": true
         },
         {
@@ -6356,6 +6958,10 @@
         },
         {
           "type": "null_literal",
+          "named": true
+        },
+        {
+          "type": "octal_integer_literal",
           "named": true
         },
         {
@@ -6372,6 +6978,10 @@
         },
         {
           "type": "this",
+          "named": true
+        },
+        {
+          "type": "true",
           "named": true
         },
         {
@@ -6623,7 +7233,7 @@
           "named": true
         },
         {
-          "type": "boolean_literal",
+          "type": "binary_integer_literal",
           "named": true
         },
         {
@@ -6643,6 +7253,14 @@
           "named": true
         },
         {
+          "type": "decimal_integer_literal",
+          "named": true
+        },
+        {
+          "type": "false",
+          "named": true
+        },
+        {
           "type": "field_access",
           "named": true
         },
@@ -6651,15 +7269,19 @@
           "named": true
         },
         {
+          "type": "hex_integer_literal",
+          "named": true
+        },
+        {
           "type": "identifier",
           "named": true
         },
         {
-          "type": "integer_literal",
+          "type": "lambda_expression",
           "named": true
         },
         {
-          "type": "lambda_expression",
+          "type": "long_integer_literal",
           "named": true
         },
         {
@@ -6672,6 +7294,10 @@
         },
         {
           "type": "null_literal",
+          "named": true
+        },
+        {
+          "type": "octal_integer_literal",
           "named": true
         },
         {
@@ -6688,6 +7314,10 @@
         },
         {
           "type": "this",
+          "named": true
+        },
+        {
+          "type": "true",
           "named": true
         },
         {
@@ -6782,7 +7412,7 @@
           "named": true
         },
         {
-          "type": "boolean_literal",
+          "type": "binary_integer_literal",
           "named": true
         },
         {
@@ -6802,6 +7432,14 @@
           "named": true
         },
         {
+          "type": "decimal_integer_literal",
+          "named": true
+        },
+        {
+          "type": "false",
+          "named": true
+        },
+        {
           "type": "field_access",
           "named": true
         },
@@ -6810,15 +7448,19 @@
           "named": true
         },
         {
+          "type": "hex_integer_literal",
+          "named": true
+        },
+        {
           "type": "identifier",
           "named": true
         },
         {
-          "type": "integer_literal",
+          "type": "lambda_expression",
           "named": true
         },
         {
-          "type": "lambda_expression",
+          "type": "long_integer_literal",
           "named": true
         },
         {
@@ -6831,6 +7473,10 @@
         },
         {
           "type": "null_literal",
+          "named": true
+        },
+        {
+          "type": "octal_integer_literal",
           "named": true
         },
         {
@@ -6847,6 +7493,10 @@
         },
         {
           "type": "this",
+          "named": true
+        },
+        {
+          "type": "true",
           "named": true
         },
         {
@@ -6912,7 +7562,7 @@
           "named": true
         },
         {
-          "type": "boolean_literal",
+          "type": "binary_integer_literal",
           "named": true
         },
         {
@@ -6932,6 +7582,14 @@
           "named": true
         },
         {
+          "type": "decimal_integer_literal",
+          "named": true
+        },
+        {
+          "type": "false",
+          "named": true
+        },
+        {
           "type": "field_access",
           "named": true
         },
@@ -6940,15 +7598,19 @@
           "named": true
         },
         {
+          "type": "hex_integer_literal",
+          "named": true
+        },
+        {
           "type": "identifier",
           "named": true
         },
         {
-          "type": "integer_literal",
+          "type": "lambda_expression",
           "named": true
         },
         {
-          "type": "lambda_expression",
+          "type": "long_integer_literal",
           "named": true
         },
         {
@@ -6961,6 +7623,10 @@
         },
         {
           "type": "null_literal",
+          "named": true
+        },
+        {
+          "type": "octal_integer_literal",
           "named": true
         },
         {
@@ -6977,6 +7643,10 @@
         },
         {
           "type": "this",
+          "named": true
+        },
+        {
+          "type": "true",
           "named": true
         },
         {
@@ -7057,11 +7727,11 @@
           "named": true
         },
         {
-          "type": "block",
+          "type": "binary_integer_literal",
           "named": true
         },
         {
-          "type": "boolean_literal",
+          "type": "block",
           "named": true
         },
         {
@@ -7093,11 +7763,19 @@
           "named": true
         },
         {
+          "type": "decimal_integer_literal",
+          "named": true
+        },
+        {
           "type": "do_statement",
           "named": true
         },
         {
           "type": "enum_declaration",
+          "named": true
+        },
+        {
+          "type": "false",
           "named": true
         },
         {
@@ -7113,6 +7791,10 @@
           "named": true
         },
         {
+          "type": "hex_integer_literal",
+          "named": true
+        },
+        {
           "type": "identifier",
           "named": true
         },
@@ -7125,10 +7807,6 @@
           "named": true
         },
         {
-          "type": "integer_literal",
-          "named": true
-        },
-        {
           "type": "interface_declaration",
           "named": true
         },
@@ -7138,6 +7816,10 @@
         },
         {
           "type": "lambda_expression",
+          "named": true
+        },
+        {
+          "type": "long_integer_literal",
           "named": true
         },
         {
@@ -7154,6 +7836,10 @@
         },
         {
           "type": "null_literal",
+          "named": true
+        },
+        {
+          "type": "octal_integer_literal",
           "named": true
         },
         {
@@ -7190,6 +7876,10 @@
         },
         {
           "type": "throw_statement",
+          "named": true
+        },
+        {
+          "type": "true",
           "named": true
         },
         {

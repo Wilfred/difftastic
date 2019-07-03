@@ -9,7 +9,7 @@ x = 3;
 (program
   (assignment_expression
     (lhs (identifier))
-      (integer_literal (decimal_integer_literal))))
+      (decimal_integer_literal)))
 
 ==================================
 standalone binary expression
@@ -53,10 +53,10 @@ a >>> b;
   (binary_expression (identifier) (identifier))
   (binary_expression (identifier) (identifier))
   (binary_expression (identifier) (identifier))
-  (binary_expression (integer_literal (decimal_integer_literal)) (integer_literal (decimal_integer_literal)))
-  (binary_expression (integer_literal (decimal_integer_literal)) (integer_literal (decimal_integer_literal)))
-  (binary_expression (integer_literal (decimal_integer_literal)) (integer_literal (decimal_integer_literal)))
-  (binary_expression (integer_literal (decimal_integer_literal)) (integer_literal (decimal_integer_literal))))
+  (binary_expression (decimal_integer_literal) (decimal_integer_literal))
+  (binary_expression (decimal_integer_literal) (decimal_integer_literal))
+  (binary_expression (decimal_integer_literal) (decimal_integer_literal))
+  (binary_expression (decimal_integer_literal) (decimal_integer_literal)))
 
 ===========================================================
 if statements
@@ -96,8 +96,8 @@ if (x = 3)
 
 (program
   (if_then_else_statement
-    (assignment_expression (lhs (identifier)) (integer_literal (decimal_integer_literal)))
-      (assignment_expression (lhs (identifier)) (integer_literal (decimal_integer_literal)))))
+    (assignment_expression (lhs (identifier)) (decimal_integer_literal))
+    (assignment_expression (lhs (identifier)) (decimal_integer_literal))))
 
 =========================================
 if statements with assignment with braces
@@ -111,9 +111,9 @@ if (x = 3) {
 
 (program
   (if_then_else_statement
-    (assignment_expression (lhs (identifier)) (integer_literal (decimal_integer_literal)))
+    (assignment_expression (lhs (identifier)) (decimal_integer_literal))
       (block
-        (assignment_expression (lhs (identifier)) (integer_literal (decimal_integer_literal))))))
+        (assignment_expression (lhs (identifier)) (decimal_integer_literal)))))
 
 ===========================================================
 if statement without braces and one assignment in the then
@@ -126,7 +126,7 @@ if (x)
 
 (program
   (if_then_else_statement
-    (identifier) (assignment_expression (lhs (identifier)) (integer_literal (decimal_integer_literal)))))
+    (identifier) (assignment_expression (lhs (identifier)) (decimal_integer_literal))))
 
 ==================================
 if then else statement
@@ -142,9 +142,9 @@ if (x = 3) {
 
 (program
   (if_then_else_statement
-    (assignment_expression (lhs (identifier)) (integer_literal (decimal_integer_literal)))
-     (block (assignment_expression (lhs (identifier)) (integer_literal (decimal_integer_literal))))
-     (block (assignment_expression (lhs (identifier)) (integer_literal (decimal_integer_literal))))))
+    (assignment_expression (lhs (identifier)) (decimal_integer_literal))
+     (block (assignment_expression (lhs (identifier)) (decimal_integer_literal)))
+     (block (assignment_expression (lhs (identifier)) (decimal_integer_literal)))))
 
 ==================================
 nested if then else statements
@@ -214,8 +214,8 @@ class ForDemo {
                       (variable_declarator_list
                         (variable_declarator
                           (variable_declarator_id (identifier))
-                          (integer_literal (decimal_integer_literal))))))
-                  (binary_expression (identifier) (integer_literal (decimal_integer_literal)))
+                          (decimal_integer_literal)))))
+                  (binary_expression (identifier) (decimal_integer_literal))
                   (update_expression (identifier))
                   (block
                     (method_invocation
@@ -264,24 +264,16 @@ class WhileDemo {
                     (variable_declarator
                       (variable_declarator_id
                         (identifier))
-                      (integer_literal
-                        (decimal_integer_literal))))))
+                      (decimal_integer_literal)))))
                 (while_statement
-                  (binary_expression
-                    (identifier)
-                    (integer_literal
-                      (decimal_integer_literal)))
+                  (binary_expression (identifier) (decimal_integer_literal))
                   (block
                     (method_invocation
-                      (scoped_identifier
-                        (identifier) (identifier))
+                      (scoped_identifier (identifier) (identifier))
                       (identifier)
                       (argument_list
-                        (binary_expression
-                          (string_literal)
-                          (identifier))))
-                    (update_expression
-                      (identifier))))))))))
+                        (binary_expression (string_literal) (identifier))))
+                    (update_expression (identifier))))))))))
 
 ==================================
 try-with-resources statements
@@ -335,7 +327,7 @@ class Beyonce {
           (block
             (assignment_expression
               (lhs (identifier))
-              (integer_literal (decimal_integer_literal)))))))))
+              (decimal_integer_literal))))))))
 
 ==================================
 return statement
@@ -351,7 +343,7 @@ return fire(x);
 (program
   (return_statement (identifier))
   (return_statement (binary_expression (identifier) (identifier)))
-  (return_statement (binary_expression (identifier) (integer_literal (decimal_integer_literal))))
+  (return_statement (binary_expression (identifier) (decimal_integer_literal)))
   (return_statement (method_invocation (identifier) (argument_list (identifier)))))
 
 ==================================
@@ -382,7 +374,7 @@ class Duck {
           (element_value_pair
             (identifier)
             (element_value
-              (boolean_literal (true)))))))
+              (true))))))
     (identifier)
     (class_body)))
 
@@ -492,7 +484,7 @@ public class SwitchDemo {
                 (variable_declarator_list
                   (variable_declarator
                     (variable_declarator_id (identifier))
-                    (integer_literal (decimal_integer_literal))))))
+                    (decimal_integer_literal)))))
             (local_variable_declaration_statement
               (local_variable_declaration
                 (type_identifier)
@@ -501,13 +493,13 @@ public class SwitchDemo {
             (switch_statement
               (identifier)
               (switch_block
-                (switch_label (integer_literal (decimal_integer_literal)))
+                (switch_label (decimal_integer_literal))
                 (assignment_expression (lhs (identifier)) (string_literal))
                 (break_statement)
-                (switch_label (integer_literal (decimal_integer_literal)))
+                (switch_label (decimal_integer_literal))
                 (assignment_expression (lhs (identifier)) (string_literal))
                 (break_statement)
-                (switch_label (integer_literal (decimal_integer_literal)))
+                (switch_label (decimal_integer_literal))
                 (assignment_expression (lhs (identifier)) (string_literal))
                 (break_statement)
                 (switch_label)
