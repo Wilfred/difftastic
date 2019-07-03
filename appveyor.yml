@@ -1,10 +1,11 @@
 image: Visual Studio 2015
 
 environment:
-  nodejs_version: "8"
+  nodejs_version: "11"
 
 platform:
   - x64
+  - x86
 
 install:
   - ps: Install-Product node $env:nodejs_version
