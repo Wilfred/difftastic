@@ -36,8 +36,8 @@ module.exports = grammar({
     $._numeric_type,
     $._block_statement,
     $._ambiguous_name,
-    $._class_or_interface_type,
-    $._primitive_type,
+    $._simple_type,
+    $._reserved_identifier,
     $._class_member_declaration,
     $._class_body_declaration,
     $._parenthesized_argument_list,
@@ -792,7 +792,7 @@ module.exports = grammar({
 
     array_creation_expression: $ => seq(
       'new',
-      choice($._primitive_type, $._class_or_interface_type),
+      $._simple_type,
       choice(
         seq($._dims_exprs, optional($.dims)),
         seq($.dims, $.array_initializer)
@@ -833,7 +833,7 @@ module.exports = grammar({
     unqualified_class_instance_creation_expression: $ => prec.right(seq(
       'new',
       optional($._type_arguments),
-      choice($._primitive_type, $._class_or_interface_type),
+      $._simple_type,
       '(', optional($.argument_list), ')',
       optional($.class_body)
     )),
@@ -977,20 +977,16 @@ module.exports = grammar({
     ),
 
     _unann_type: $ => choice(
-      $._primitive_type,
-      $.identifier,
-      $._class_or_interface_type,
+      $._simple_type,
       $.array_type
     ),
 
-    _primitive_type: $ => choice(
+    _simple_type: $ => choice(
       $.void_type,
       $._numeric_type,
       $.boolean_type,
-    ),
-
-    _class_or_interface_type: $ => choice(
       prec(PREC.REL + 1, alias($.identifier, $.type_identifier)),
+      // alias($.identifier, $.type_identifier),
       $.scoped_type_identifier,
       $.generic_type
     ),

@@ -4953,17 +4953,8 @@
           "value": "new"
         },
         {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "_primitive_type"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "_class_or_interface_type"
-            }
-          ]
+          "type": "SYMBOL",
+          "name": "_simple_type"
         },
         {
           "type": "CHOICE",
@@ -5308,17 +5299,8 @@
             ]
           },
           {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "_primitive_type"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "_class_or_interface_type"
-              }
-            ]
+            "type": "SYMBOL",
+            "name": "_simple_type"
           },
           {
             "type": "STRING",
@@ -6205,15 +6187,7 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "_primitive_type"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "identifier"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_class_or_interface_type"
+          "name": "_simple_type"
         },
         {
           "type": "SYMBOL",
@@ -6221,7 +6195,7 @@
         }
       ]
     },
-    "_primitive_type": {
+    "_simple_type": {
       "type": "CHOICE",
       "members": [
         {
@@ -6235,12 +6209,7 @@
         {
           "type": "SYMBOL",
           "name": "boolean_type"
-        }
-      ]
-    },
-    "_class_or_interface_type": {
-      "type": "CHOICE",
-      "members": [
+        },
         {
           "type": "PREC",
           "value": 6,
@@ -6901,9 +6870,9 @@
   ],
   "conflicts": [
     [
+      "modifiers",
       "module_declaration",
       "package_declaration",
-      "modifiers",
       "annotated_type"
     ],
     [
@@ -6921,24 +6890,11 @@
       "array_access"
     ],
     [
-      "constant_declaration",
-      "local_variable_declaration"
-    ],
-    [
       "variable_declarator_id"
     ],
     [
       "_lambda_parameters",
       "inferred_parameters"
-    ],
-    [
-      "_expression",
-      "inferred_parameters"
-    ],
-    [
-      "_expression",
-      "inferred_parameters",
-      "_unann_type"
     ],
     [
       "_expression",
@@ -6951,10 +6907,6 @@
     [
       "_expression",
       "generic_type"
-    ],
-    [
-      "_expression",
-      "for_init"
     ]
   ],
   "externals": [],
@@ -6963,8 +6915,8 @@
     "_numeric_type",
     "_block_statement",
     "_ambiguous_name",
-    "_class_or_interface_type",
-    "_primitive_type",
+    "_simple_type",
+    "_reserved_identifier",
     "_class_member_declaration",
     "_class_body_declaration",
     "_parenthesized_argument_list",
