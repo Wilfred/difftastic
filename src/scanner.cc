@@ -213,6 +213,7 @@ struct Scanner {
         if (
           lexer->lookahead == ' ' ||
           lexer->lookahead == '\t' ||
+          lexer->lookahead == '\r' ||
           (lexer->lookahead == '\n' && !valid_symbols[NEWLINE])
         ) {
           skip(lexer);
