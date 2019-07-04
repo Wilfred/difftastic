@@ -3354,7 +3354,7 @@
           "named": true
         },
         {
-          "type": "type_argument",
+          "type": "type_arguments",
           "named": true
         },
         {
@@ -3838,7 +3838,7 @@
           "named": true
         },
         {
-          "type": "type_argument",
+          "type": "type_arguments",
           "named": true
         },
         {
@@ -4939,7 +4939,7 @@
           "named": true
         },
         {
-          "type": "type_argument",
+          "type": "type_arguments",
           "named": true
         },
         {
@@ -5094,7 +5094,7 @@
           "named": true
         },
         {
-          "type": "type_argument",
+          "type": "type_arguments",
           "named": true
         },
         {
@@ -7049,7 +7049,7 @@
     }
   },
   {
-    "type": "type_argument",
+    "type": "type_arguments",
     "named": true,
     "fields": {},
     "children": {
@@ -7357,7 +7357,7 @@
           "named": true
         },
         {
-          "type": "type_argument",
+          "type": "type_arguments",
           "named": true
         },
         {
@@ -8437,10 +8437,6 @@
   },
   {
     "type": "for",
-    "named": false
-  },
-  {
-    "type": "<>",
     "named": false
   },
   {

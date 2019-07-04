@@ -987,13 +987,13 @@ module.exports = grammar({
       alias($.identifier, $.type_identifier)
     ),
 
-    generic_type: $ => prec(PREC.REL + 1, seq(
+    generic_type: $ => prec.dynamic(1, prec(PREC.REL + 1, seq(
       choice(
         alias($.identifier, $.type_identifier),
         $.scoped_type_identifier
       ),
       $.type_arguments
-    )),
+    ))),
 
     array_type: $ => seq(
       $._unannotated_type,
