@@ -1013,9 +1013,14 @@ module.exports = grammar({
       $.dims
     ),
 
-    method_header: $ => choice(
-      seq($._unannotated_type, $.method_declarator, optional($.throws)),
-      seq($.type_parameters, repeat($._annotation), $._unannotated_type, $.method_declarator, optional($.throws))
+    _method_header: $ => seq(
+      optional(seq(
+        $.type_parameters,
+        repeat($._annotation)
+      )),
+      $._unannotated_type,
+      $.method_declarator,
+      optional($.throws)
     ),
 
     method_declarator: $ => seq(
@@ -1098,7 +1103,7 @@ module.exports = grammar({
 
     method_declaration: $ => seq(
       optional($.modifiers),
-      $.method_header,
+      $._method_header,
       $.method_body
     ),
 

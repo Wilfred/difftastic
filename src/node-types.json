@@ -4729,52 +4729,6 @@
       "required": false,
       "types": [
         {
-          "type": "method_body",
-          "named": true
-        },
-        {
-          "type": "method_header",
-          "named": true
-        },
-        {
-          "type": "modifiers",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "method_declarator",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "dims",
-          "named": true
-        },
-        {
-          "type": "formal_parameters",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "method_header",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
           "type": "array_type",
           "named": true
         },
@@ -4799,7 +4753,15 @@
           "named": true
         },
         {
+          "type": "method_body",
+          "named": true
+        },
+        {
           "type": "method_declarator",
+          "named": true
+        },
+        {
+          "type": "modifiers",
           "named": true
         },
         {
@@ -4828,6 +4790,29 @@
         },
         {
           "type": "void_type",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "method_declarator",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "dims",
+          "named": true
+        },
+        {
+          "type": "formal_parameters",
+          "named": true
+        },
+        {
+          "type": "identifier",
           "named": true
         }
       ]
