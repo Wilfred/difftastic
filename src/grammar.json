@@ -6309,67 +6309,50 @@
         }
       ]
     },
-    "method_header": {
-      "type": "CHOICE",
+    "_method_header": {
+      "type": "SEQ",
       "members": [
         {
-          "type": "SEQ",
+          "type": "CHOICE",
           "members": [
             {
-              "type": "SYMBOL",
-              "name": "_unannotated_type"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "method_declarator"
-            },
-            {
-              "type": "CHOICE",
+              "type": "SEQ",
               "members": [
                 {
                   "type": "SYMBOL",
-                  "name": "throws"
+                  "name": "type_parameters"
                 },
                 {
-                  "type": "BLANK"
+                  "type": "REPEAT",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "_annotation"
+                  }
                 }
               ]
+            },
+            {
+              "type": "BLANK"
             }
           ]
         },
         {
-          "type": "SEQ",
+          "type": "SYMBOL",
+          "name": "_unannotated_type"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "method_declarator"
+        },
+        {
+          "type": "CHOICE",
           "members": [
             {
               "type": "SYMBOL",
-              "name": "type_parameters"
+              "name": "throws"
             },
             {
-              "type": "REPEAT",
-              "content": {
-                "type": "SYMBOL",
-                "name": "_annotation"
-              }
-            },
-            {
-              "type": "SYMBOL",
-              "name": "_unannotated_type"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "method_declarator"
-            },
-            {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "SYMBOL",
-                  "name": "throws"
-                },
-                {
-                  "type": "BLANK"
-                }
-              ]
+              "type": "BLANK"
             }
           ]
         }
@@ -6754,7 +6737,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "method_header"
+          "name": "_method_header"
         },
         {
           "type": "SYMBOL",

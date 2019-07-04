@@ -199,14 +199,13 @@ class ForDemo {
     (class_body
       (method_declaration
         (modifiers)
-        (method_header
-          (void_type)
-          (method_declarator
-            (identifier)
-            (formal_parameters
-              (formal_parameter
-                (array_type (type_identifier) (dims))
-                (variable_declarator_id (identifier))))))
+        (void_type)
+        (method_declarator
+          (identifier)
+          (formal_parameters
+            (formal_parameter
+              (array_type (type_identifier) (dims))
+              (variable_declarator_id (identifier)))))
           (method_body
             (block
               (for_statement
@@ -248,17 +247,16 @@ class WhileDemo {
     (class_body
       (method_declaration
         (modifiers)
-        (method_header
-          (void_type)
-          (method_declarator
-            (identifier)
-            (formal_parameters
-              (formal_parameter
-                (array_type
-                (type_identifier)
-                  (dims))
-                (variable_declarator_id
-                  (identifier))))))
+        (void_type)
+        (method_declarator
+          (identifier)
+          (formal_parameters
+            (formal_parameter
+              (array_type
+              (type_identifier)
+                (dims))
+              (variable_declarator_id
+                (identifier)))))
         (method_body
           (block
             (local_variable_declaration_statement
@@ -326,9 +324,8 @@ class Beyonce {
     (class_body
       (method_declaration
         (modifiers)
-        (method_header
-          (void_type)
-          (method_declarator (identifier) (formal_parameters)))
+        (void_type)
+        (method_declarator (identifier) (formal_parameters))
         (method_body
           (block
             (assignment_expression
@@ -405,9 +402,8 @@ class Quack {
     (class_body
       (method_declaration
         (modifiers (marker_annotation (identifier)))
-        (method_header
-          (void_type)
-          (method_declarator (identifier) (formal_parameters)))
+        (void_type)
+        (method_declarator (identifier) (formal_parameters))
         (method_body (block))))))
 
 ==================================
@@ -447,7 +443,8 @@ class LambdaTest {
     (identifier)
     (class_body
       (method_declaration
-        (method_header (void_type) (method_declarator (identifier) (formal_parameters)))
+        (void_type)
+        (method_declarator (identifier) (formal_parameters))
         (method_body (block (lambda_expression (identifier) (lambda_body (identifier)))))))))
 
 ==================================
@@ -481,12 +478,11 @@ public class SwitchDemo {
     (class_body
       (method_declaration
         (modifiers)
-        (method_header
-          (void_type)
-          (method_declarator
-            (identifier)
-            (formal_parameters
-              (formal_parameter (array_type (type_identifier) (dims)) (variable_declarator_id (identifier))))))
+        (void_type)
+        (method_declarator
+          (identifier)
+          (formal_parameters
+            (formal_parameter (array_type (type_identifier) (dims)) (variable_declarator_id (identifier)))))
         (method_body
           (block
             (local_variable_declaration_statement
@@ -612,14 +608,13 @@ class someClass <T> {
       (class_body
         (method_declaration
           (modifiers)
-            (method_header
-              (generic_type
-                (type_identifier)
-                  (type_argument
-                    (type_identifier)))
-              (method_declarator
-                (identifier)
-                (formal_parameters)))
+            (generic_type
+              (type_identifier)
+                (type_argument
+                  (type_identifier)))
+            (method_declarator
+              (identifier)
+              (formal_parameters))
             (method_body
               (block
                 (binary_expression
@@ -638,18 +633,17 @@ class someClass <T> {
                               (identifier)))))
         (method_declaration
           (modifiers)
-          (method_header
-            (type_parameters
-              (type_parameter
-                (identifier)))
-            (void_type)
-              (method_declarator
-                (identifier)
-                (formal_parameters
-                  (formal_parameter
-                    (type_identifier)
-                      (variable_declarator_id
-                        (identifier))))))
+          (type_parameters
+            (type_parameter
+              (identifier)))
+          (void_type)
+            (method_declarator
+              (identifier)
+              (formal_parameters
+                (formal_parameter
+                  (type_identifier)
+                    (variable_declarator_id
+                      (identifier)))))
             (method_body
               (block
                 (binary_expression
