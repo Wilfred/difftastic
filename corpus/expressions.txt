@@ -163,8 +163,8 @@ if (a)
     (identifier)
     (if_then_else_statement
       (identifier)
-      (method_invocation (identifier))
-      (method_invocation (identifier)))))
+      (method_invocation (identifier) (argument_list))
+      (method_invocation (identifier) (argument_list)))))
 
 ==================================
 if-then shorthand
@@ -303,7 +303,7 @@ try (FileInputStream input = new FileInputStream("file.txt")) {
           (variable_declarator_list
             (variable_declarator
               (variable_declarator_id (identifier))
-              (method_invocation (identifier) (identifier))))))))))
+              (method_invocation (identifier) (identifier) (argument_list))))))))))
 
 ==================================
 assignment
@@ -575,9 +575,8 @@ class WildcardDemo {
         (field_declaration
           (generic_type
             (type_identifier)
-              (type_argument
-                (wildcard
-                  (type_identifier))))
+            (type_arguments
+              (wildcard (type_identifier))))
             (variable_declarator_list
               (variable_declarator
                 (variable_declarator_id
@@ -610,8 +609,7 @@ class someClass <T> {
           (modifiers)
             (generic_type
               (type_identifier)
-                (type_argument
-                  (type_identifier)))
+              (type_arguments (type_identifier)))
             (method_declarator
               (identifier)
               (formal_parameters))
@@ -624,13 +622,12 @@ class someClass <T> {
                   (assignment_expression
                     (lhs
                       (identifier))
-                      (method_invocation
-                        (identifier)
-                          (type_argument
-                            (type_identifier))
-                          (identifier))))
-                            (return_statement
-                              (identifier)))))
+                    (method_invocation
+                      (identifier)
+                      (type_arguments (type_identifier))
+                      (identifier)
+                      (argument_list))))
+                (return_statement (identifier)))))
         (method_declaration
           (modifiers)
           (type_parameters
@@ -655,9 +652,9 @@ class someClass <T> {
                       (identifier))
                     (method_invocation
                       (identifier)
-                        (type_argument
-                          (type_identifier))
-                      (identifier))))))))))
+                      (type_arguments (type_identifier))
+                      (identifier)
+                      (argument_list))))))))))
 
 ==================================
 empty type arguments
@@ -674,4 +671,7 @@ Box<Integer> integerBox = new Box<>();
       (lhs (identifier))
       (class_instance_creation_expression
         (unqualified_class_instance_creation_expression
-          (generic_type (type_identifier)))))))
+          (generic_type
+            (type_identifier)
+            (type_arguments))
+          (argument_list))))))

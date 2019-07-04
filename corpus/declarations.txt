@@ -445,7 +445,6 @@ object instantiation
 ======================
 
 class Point {
-
   public double Foo() {
     new BufferedWriter();
   }
@@ -467,7 +466,8 @@ class Point {
           (block
             (class_instance_creation_expression
               (unqualified_class_instance_creation_expression
-                (type_identifier)))))))))
+                (type_identifier)
+                (argument_list)))))))))
 
 =====================
 variable declaration

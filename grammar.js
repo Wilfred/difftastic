@@ -39,7 +39,6 @@ module.exports = grammar({
     $._reserved_identifier,
     $._class_member_declaration,
     $._class_body_declaration,
-    $._parenthesized_argument_list,
     $._variable_initializer
   ],
 
@@ -483,18 +482,10 @@ module.exports = grammar({
       $._method_statement
     ),
 
-    _type_arguments_or_diamond: $ => choice(
-      $._type_arguments,
-      '<>'
-    ),
-
-    _type_arguments: $ => seq(
-      '<', commaSep1($.type_argument), '>'
-    ),
-
-    type_argument: $ => choice(
-      $._type,
-      $.wildcard
+    type_arguments: $ => seq(
+      '<',
+      commaSep(choice($._type, $.wildcard)),
+      '>'
     ),
 
     wildcard: $ => seq(
@@ -648,7 +639,7 @@ module.exports = grammar({
     enum_constant: $ => (seq(
       optional($.modifiers),
       $.identifier,
-      optional(seq('(', $.argument_list, ')')),
+      optional($.argument_list),
       optional($.class_body)
     )),
 
@@ -744,10 +735,10 @@ module.exports = grammar({
     ),
 
     explicit_constructor_invocation: $ => choice(
-      seq(optional($._type_arguments), $.this, $._parenthesized_argument_list, $._semicolon),
-      seq(optional($._type_arguments), $.super, $._parenthesized_argument_list, $._semicolon),
-      seq($._ambiguous_name, '.', optional($._type_arguments), $.super, $._parenthesized_argument_list, $._semicolon),
-      seq($._primary, '.', $.super, '(', optional($.argument_list), ')', $._semicolon)
+      seq(optional($.type_arguments), $.this, $.argument_list, $._semicolon),
+      seq(optional($.type_arguments), $.super, $.argument_list, $._semicolon),
+      seq($._ambiguous_name, '.', optional($.type_arguments), $.super, $.argument_list, $._semicolon),
+      seq($._primary, '.', $.super, $.argument_list, $._semicolon)
     ),
 
     _ambiguous_name: $ => prec(PREC.REL + 1, choice(
@@ -825,9 +816,9 @@ module.exports = grammar({
 
     unqualified_class_instance_creation_expression: $ => prec.right(seq(
       'new',
-      optional($._type_arguments),
+      optional($.type_arguments),
       $._simple_type,
-      '(', optional($.argument_list), ')',
+      $.argument_list,
       optional($.class_body)
     )),
 
@@ -843,24 +834,20 @@ module.exports = grammar({
     ),
 
     method_invocation: $ => choice(
-      seq($.identifier, $._parenthesized_argument_list),
-      seq($._reserved_identifier, $._parenthesized_argument_list),
-      seq($._ambiguous_name, '.', optional($._type_arguments), $.identifier, $._parenthesized_argument_list),
-      seq($._primary, '.', optional($._type_arguments), $.identifier, $._parenthesized_argument_list),
-      seq($.super, '.', optional($._type_arguments), $.identifier, $._parenthesized_argument_list),
-      seq($._ambiguous_name, '.', $.super, '.', optional($._type_arguments), $.identifier, $._parenthesized_argument_list)
+      seq($.identifier, $.argument_list),
+      seq($._reserved_identifier, $.argument_list),
+      seq($._ambiguous_name, '.', optional($.type_arguments), $.identifier, $.argument_list),
+      seq($._primary, '.', optional($.type_arguments), $.identifier, $.argument_list),
+      seq($.super, '.', optional($.type_arguments), $.identifier, $.argument_list),
+      seq($._ambiguous_name, '.', $.super, '.', optional($.type_arguments), $.identifier, $.argument_list)
     ),
 
-    argument_list: $ => seq(
-      $._expression, repeat(seq(',', $._expression))
-    ),
-
-    _parenthesized_argument_list: $ => seq('(', optional($.argument_list), ')'),
+    argument_list: $ => seq('(', commaSep($._expression), ')'),
 
     method_reference: $ => seq(
       choice($._type, $._primary),
       '::',
-      optional($._type_arguments),
+      optional($.type_arguments),
       choice('new', $.identifier)
     ),
 
@@ -1005,7 +992,7 @@ module.exports = grammar({
         alias($.identifier, $.type_identifier),
         $.scoped_type_identifier
       ),
-      $._type_arguments_or_diamond
+      $.type_arguments
     )),
 
     array_type: $ => seq(
