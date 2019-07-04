@@ -615,18 +615,19 @@ class someClass <T> {
               (formal_parameters))
             (method_body
               (block
-                (binary_expression
-                  (binary_expression
-                    (identifier)
-                    (identifier))
-                  (assignment_expression
-                    (lhs
-                      (identifier))
-                    (method_invocation
-                      (identifier)
-                      (type_arguments (type_identifier))
-                      (identifier)
-                      (argument_list))))
+                (local_variable_declaration_statement
+                  (local_variable_declaration
+                    (generic_type
+                      (type_identifier)
+                      (type_arguments (type_identifier)))
+                    (variable_declarator_list
+                      (variable_declarator
+                        (variable_declarator_id (identifier))
+                        (method_invocation
+                          (identifier)
+                          (type_arguments (type_identifier))
+                          (identifier)
+                          (argument_list))))))
                 (return_statement (identifier)))))
         (method_declaration
           (modifiers)
@@ -643,18 +644,19 @@ class someClass <T> {
                       (identifier)))))
             (method_body
               (block
-                (binary_expression
-                  (binary_expression
-                    (identifier)
-                    (identifier))
-                  (assignment_expression
-                    (lhs
-                      (identifier))
-                    (method_invocation
-                      (identifier)
-                      (type_arguments (type_identifier))
-                      (identifier)
-                      (argument_list))))))))))
+                (local_variable_declaration_statement
+                  (local_variable_declaration
+                    (generic_type
+                      (type_identifier)
+                      (type_arguments (type_identifier)))
+                    (variable_declarator_list
+                      (variable_declarator
+                        (variable_declarator_id (identifier))
+                        (method_invocation
+                          (identifier)
+                          (type_arguments (type_identifier))
+                          (identifier)
+                          (argument_list))))))))))))
 
 ==================================
 empty type arguments
