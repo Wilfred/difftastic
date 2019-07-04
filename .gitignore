@@ -1,6 +1,7 @@
 node_modules
 build
 *.log
+package-lock.json
 script/javaparser-test/target
 test.java
 /examples/elasticsearch
