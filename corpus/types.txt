@@ -28,38 +28,33 @@ class Beyonce {
             (local_variable_declaration_statement
               (local_variable_declaration
                 (integral_type)
-                  (variable_declarator_list
-                    (variable_declarator
-                      (variable_declarator_id
-                        (identifier))))))
+                  (variable_declarator
+                    (variable_declarator_id
+                      (identifier)))))
             (local_variable_declaration_statement
               (local_variable_declaration
                 (integral_type)
-                  (variable_declarator_list
-                    (variable_declarator
-                      (variable_declarator_id
-                        (identifier))))))
+                  (variable_declarator
+                    (variable_declarator_id
+                      (identifier)))))
             (local_variable_declaration_statement
               (local_variable_declaration
                 (integral_type)
-                  (variable_declarator_list
-                    (variable_declarator
-                      (variable_declarator_id
-                        (identifier))))))
+                  (variable_declarator
+                    (variable_declarator_id
+                      (identifier)))))
             (local_variable_declaration_statement
               (local_variable_declaration
                 (integral_type)
-                  (variable_declarator_list
-                    (variable_declarator
-                      (variable_declarator_id
-                        (identifier))))))
+                  (variable_declarator
+                    (variable_declarator_id
+                      (identifier)))))
             (local_variable_declaration_statement
               (local_variable_declaration
                 (integral_type)
-                  (variable_declarator_list
-                    (variable_declarator
-                      (variable_declarator_id
-                        (identifier))))))))))))
+                  (variable_declarator
+                    (variable_declarator_id
+                      (identifier)))))))))))
 
 
 =====================
@@ -88,10 +83,8 @@ class Beyonce {
             (local_variable_declaration_statement
               (local_variable_declaration
                 (floating_point_type)
-                (variable_declarator_list
-                  (variable_declarator (variable_declarator_id (identifier))))))
+                (variable_declarator (variable_declarator_id (identifier)))))
             (local_variable_declaration_statement
               (local_variable_declaration
                 (floating_point_type)
-                (variable_declarator_list
-                  (variable_declarator (variable_declarator_id (identifier))))))))))))
+                (variable_declarator (variable_declarator_id (identifier)))))))))))

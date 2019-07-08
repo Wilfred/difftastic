@@ -765,7 +765,7 @@ module.exports = grammar({
     field_declaration: $ => seq(
       optional($.modifiers),
       $._unannotated_type,
-      $.variable_declarator_list,
+      $._variable_declarator_list,
       $._semicolon
     ),
 
@@ -917,15 +917,11 @@ module.exports = grammar({
     constant_declaration: $ => seq(
       optional($.modifiers),
       $._unannotated_type,
-      $.variable_declarator_list,
+      $._variable_declarator_list,
       $._semicolon
     ),
 
-    // These are part of field declarations - variables of a class type are intro'd by field declarations
-    variable_declarator_list: $ => seq(
-      $.variable_declarator,
-      repeat(seq(',', $.variable_declarator))
-    ),
+    _variable_declarator_list: $ => commaSep1($.variable_declarator),
 
     variable_declarator: $ => seq(
       $.variable_declarator_id,
@@ -1076,7 +1072,7 @@ module.exports = grammar({
     local_variable_declaration: $ => seq(
       optional($.modifiers),
       $._unannotated_type,
-      $.variable_declarator_list
+      $._variable_declarator_list
     ),
 
     method_declaration: $ => seq(

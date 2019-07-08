@@ -25,11 +25,10 @@ class A {
             (local_variable_declaration_statement
               (local_variable_declaration
                 (integral_type)
-                (variable_declarator_list
-                  (variable_declarator
-                    (variable_declarator_id
-                      (identifier))
-                    (decimal_integer_literal)))))))))))
+                (variable_declarator
+                  (variable_declarator_id
+                    (identifier))
+                  (decimal_integer_literal))))))))))
 
 =====================
 local array variable
@@ -43,18 +42,18 @@ Integer[][] inputArrays = new Integer[0x100][];
 (program
   (local_variable_declaration_statement (local_variable_declaration
     (array_type (type_identifier) (dims))
-    (variable_declarator_list (variable_declarator
+    (variable_declarator
       (variable_declarator_id (identifier))
       (method_invocation
         (method_invocation (identifier) (argument_list))
-        (identifier) (argument_list))))))
+        (identifier) (argument_list)))))
   (local_variable_declaration_statement (local_variable_declaration
     (array_type (type_identifier) (dims))
-    (variable_declarator_list (variable_declarator
+    (variable_declarator
       (variable_declarator_id (identifier))
     (array_creation_expression
       (type_identifier)
-      (dims_expr (hex_integer_literal)) (dims)))))))
+      (dims_expr (hex_integer_literal)) (dims))))))
 
 ==========
 module
@@ -313,7 +312,7 @@ class Point {
     (class_body
       (field_declaration
         (integral_type)
-        (variable_declarator_list (variable_declarator (variable_declarator_id (identifier)))))
+        (variable_declarator (variable_declarator_id (identifier))))
       (method_declaration
         (void_type)
         (method_declarator (identifier) (formal_parameters))
@@ -409,9 +408,8 @@ class Point {
     (class_body
       (field_declaration
         (integral_type)
-        (variable_declarator_list
-          (variable_declarator (variable_declarator_id (identifier)))
-          (variable_declarator (variable_declarator_id (identifier)))))
+        (variable_declarator (variable_declarator_id (identifier)))
+        (variable_declarator (variable_declarator_id (identifier))))
       (constructor_declaration
         (constructor_declarator
           (identifier)
@@ -520,9 +518,8 @@ class JayZ {
             (local_variable_declaration_statement
               (local_variable_declaration
                 (integral_type)
-                (variable_declarator_list
-                  (variable_declarator
-                    (variable_declarator_id (identifier))))))))))))
+                (variable_declarator
+                  (variable_declarator_id (identifier)))))))))))
 
 =================
 enum declaration
