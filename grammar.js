@@ -69,7 +69,7 @@ module.exports = grammar({
       $.while_statement,
       $.for_statement,
       $.block,
-      $._semicolon,
+      ';',
       $.assert_statement,
       $.switch_statement,
       $.do_statement,
@@ -84,10 +84,8 @@ module.exports = grammar({
 
     _expression_statement: $ => seq(
       $._expression,
-      $._semicolon
+      ';'
     ),
-
-    _semicolon: $ => ';',
 
     _literal: $ => choice(
       $.decimal_integer_literal,
@@ -277,8 +275,8 @@ module.exports = grammar({
     ),
 
     assert_statement: $ => choice(
-      seq('assert', $._expression, $._semicolon),
-      seq('assert', $._expression, ':', $._expression, $._semicolon)
+      seq('assert', $._expression, ';'),
+      seq('assert', $._expression, ':', $._expression, ';')
     ),
 
     switch_statement: $ => seq(
@@ -300,22 +298,22 @@ module.exports = grammar({
     ),
 
     do_statement: $ => seq(
-      'do', $._statement, 'while', '(', $._expression, ')', $._semicolon
+      'do', $._statement, 'while', '(', $._expression, ')', ';'
     ),
 
-    break_statement: $ => seq('break', optional($.identifier), $._semicolon),
+    break_statement: $ => seq('break', optional($.identifier), ';'),
 
-    continue_statement: $ => seq('continue', optional($.identifier), $._semicolon),
+    continue_statement: $ => seq('continue', optional($.identifier), ';'),
 
     return_statement: $ => seq(
       'return',
       optional($._expression),
-      $._semicolon
+      ';'
     ),
 
     synchronized_statement: $ => seq('synchronized', '(', $._expression, ')', $.block),
 
-    throw_statement: $ => seq('throw', $._expression, $._semicolon),
+    throw_statement: $ => seq('throw', $._expression, ';'),
 
     try_statement: $ => choice(
       seq('try', $.block, $.catches),
@@ -374,8 +372,8 @@ module.exports = grammar({
 
     basic_for_statement: $ => seq(
       'for', '(',
-      optional($.for_init), $._semicolon,
-      optional($._expression), $._semicolon,
+      optional($.for_init), ';',
+      optional($._expression), ';',
       commaSep($._expression), ')',
       $._statement
     ),
@@ -501,7 +499,7 @@ module.exports = grammar({
       seq('opens', $._ambiguous_name, optional('to'), optional($.module_name), repeat(seq(',', $.module_name))),
       seq('uses', $._ambiguous_name),
       seq('provides', $._ambiguous_name, 'with', $._ambiguous_name, repeat(seq(',', $._ambiguous_name)))
-    ), $._semicolon),
+    ), ';'),
 
     requires_modifier: $ => choice(
       'transitive',
@@ -517,7 +515,7 @@ module.exports = grammar({
       repeat($._annotation),
       'package',
       $._ambiguous_name,
-      $._semicolon
+      ';'
     ),
 
     import_declaration: $ => seq(
@@ -525,7 +523,7 @@ module.exports = grammar({
       optional('static'),
       sep1($.identifier, '.'),
       optional(seq('.', $.asterisk)),
-      $._semicolon
+      ';'
     ),
 
     asterisk: $ => '*',
@@ -543,7 +541,7 @@ module.exports = grammar({
     ),
 
     enum_body_declarations: $ => seq(
-      $._semicolon,
+      ';',
       repeat($._class_body_declaration)
     ),
 
@@ -646,10 +644,10 @@ module.exports = grammar({
     ),
 
     explicit_constructor_invocation: $ => choice(
-      seq(optional($.type_arguments), $.this, $.argument_list, $._semicolon),
-      seq(optional($.type_arguments), $.super, $.argument_list, $._semicolon),
-      seq($._ambiguous_name, '.', optional($.type_arguments), $.super, $.argument_list, $._semicolon),
-      seq($._primary, '.', $.super, $.argument_list, $._semicolon)
+      seq(optional($.type_arguments), $.this, $.argument_list, ';'),
+      seq(optional($.type_arguments), $.super, $.argument_list, ';'),
+      seq($._ambiguous_name, '.', optional($.type_arguments), $.super, $.argument_list, ';'),
+      seq($._primary, '.', $.super, $.argument_list, ';')
     ),
 
     _ambiguous_name: $ => choice(
@@ -670,14 +668,14 @@ module.exports = grammar({
       $.class_declaration,
       $.interface_declaration,
       $.enum_declaration,
-      $._semicolon
+      ';'
     ),
 
     field_declaration: $ => seq(
       optional($.modifiers),
       $._unannotated_type,
       $._variable_declarator_list,
-      $._semicolon
+      ';'
     ),
 
     _primary: $ => choice(
@@ -789,7 +787,7 @@ module.exports = grammar({
       '(', ')',
       optional($.dims),
       optional($.default_value),
-      $._semicolon
+      ';'
     ),
 
     default_value: $ => seq(
@@ -822,14 +820,14 @@ module.exports = grammar({
       $.method_declaration,
       $.class_declaration,
       $.interface_declaration,
-      $._semicolon
+      ';'
     ),
 
     constant_declaration: $ => seq(
       optional($.modifiers),
       $._unannotated_type,
       $._variable_declarator_list,
-      $._semicolon
+      ';'
     ),
 
     _variable_declarator_list: $ => commaSep1($.variable_declarator),
@@ -964,7 +962,7 @@ module.exports = grammar({
 
     method_body: $ => choice(
       $.block,
-      $._semicolon
+      ';'
     ),
 
     block: $ => seq(
@@ -973,7 +971,7 @@ module.exports = grammar({
 
     local_variable_declaration_statement: $ => seq(
       $.local_variable_declaration,
-      $._semicolon
+      ';'
     ),
 
     local_variable_declaration: $ => seq(
