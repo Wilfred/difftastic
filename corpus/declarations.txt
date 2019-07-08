@@ -87,13 +87,13 @@ module com.foo { }
 
 (program
   (module_declaration
-    (normal_annotation
+    (annotation
       (identifier)
-      (element_value_pair_list
-        (element_value_pair (identifier) (element_value (decimal_integer_literal)))
-        (element_value_pair (identifier) (element_value (string_literal)))
-        (element_value_pair (identifier) (element_value (string_literal)))
-        (element_value_pair (identifier) (element_value (string_literal)))))
+      (annotation_argument_list
+        (element_value_pair (identifier) (decimal_integer_literal))
+        (element_value_pair (identifier) (string_literal))
+        (element_value_pair (identifier) (string_literal))
+        (element_value_pair (identifier) (string_literal))))
     (scoped_identifier (identifier) (identifier))))
 
 ==============================
@@ -119,10 +119,9 @@ module with single element annotation
 
 (program
   (module_declaration
-    (single_element_annotation
+    (annotation
       (identifier)
-    (element_value
-      (string_literal)))
+      (annotation_argument_list (string_literal)))
     (scoped_identifier
       (identifier)
       (identifier))))
