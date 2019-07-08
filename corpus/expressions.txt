@@ -228,10 +228,9 @@ class ForDemo {
                   (for_init
                     (local_variable_declaration
                       (integral_type)
-                      (variable_declarator_list
-                        (variable_declarator
-                          (variable_declarator_id (identifier))
-                          (decimal_integer_literal)))))
+                      (variable_declarator
+                        (variable_declarator_id (identifier))
+                        (decimal_integer_literal))))
                   (binary_expression (identifier) (decimal_integer_literal))
                   (update_expression (identifier))
                   (block
@@ -277,11 +276,10 @@ class WhileDemo {
             (local_variable_declaration_statement
               (local_variable_declaration
                 (integral_type)
-                  (variable_declarator_list
-                    (variable_declarator
-                      (variable_declarator_id
-                        (identifier))
-                      (decimal_integer_literal)))))
+                  (variable_declarator
+                    (variable_declarator_id
+                      (identifier))
+                    (decimal_integer_literal))))
                 (while_statement
                   (binary_expression (identifier) (decimal_integer_literal))
                   (block
@@ -315,10 +313,9 @@ try (FileInputStream input = new FileInputStream("file.txt")) {
       (local_variable_declaration_statement
         (local_variable_declaration
           (integral_type)
-          (variable_declarator_list
-            (variable_declarator
-              (variable_declarator_id (identifier))
-              (method_invocation (identifier) (identifier) (argument_list))))))))))
+          (variable_declarator
+            (variable_declarator_id (identifier))
+            (method_invocation (identifier) (identifier) (argument_list)))))))))
 
 ==================================
 assignment
@@ -501,15 +498,13 @@ public class SwitchDemo {
             (local_variable_declaration_statement
               (local_variable_declaration
                 (integral_type)
-                (variable_declarator_list
-                  (variable_declarator
-                    (variable_declarator_id (identifier))
-                    (decimal_integer_literal)))))
+                (variable_declarator
+                  (variable_declarator_id (identifier))
+                  (decimal_integer_literal))))
             (local_variable_declaration_statement
               (local_variable_declaration
                 (type_identifier)
-                (variable_declarator_list
-                  (variable_declarator (variable_declarator_id (identifier))))))
+                (variable_declarator (variable_declarator_id (identifier)))))
             (switch_statement
               (identifier)
               (switch_block
@@ -552,10 +547,9 @@ class Box <T> {
       (field_declaration
         (modifiers)
           (type_identifier)
-          (variable_declarator_list
-            (variable_declarator
-              (variable_declarator_id
-                (identifier)))))
+          (variable_declarator
+            (variable_declarator_id
+              (identifier))))
           (constructor_declaration
             (modifiers)
               (constructor_declarator
@@ -590,10 +584,9 @@ class WildcardDemo {
             (type_identifier)
             (type_arguments
               (wildcard (type_identifier))))
-            (variable_declarator_list
-              (variable_declarator
-                (variable_declarator_id
-                  (identifier))))))))
+            (variable_declarator
+              (variable_declarator_id
+                (identifier)))))))
 
 ==================================
 type arguments with generic types
@@ -633,14 +626,13 @@ class someClass <T> {
                     (generic_type
                       (type_identifier)
                       (type_arguments (type_identifier)))
-                    (variable_declarator_list
-                      (variable_declarator
-                        (variable_declarator_id (identifier))
-                        (method_invocation
-                          (identifier)
-                          (type_arguments (type_identifier))
-                          (identifier)
-                          (argument_list))))))
+                    (variable_declarator
+                      (variable_declarator_id (identifier))
+                      (method_invocation
+                        (identifier)
+                        (type_arguments (type_identifier))
+                        (identifier)
+                        (argument_list)))))
                 (return_statement (identifier)))))
         (method_declaration
           (modifiers)
@@ -662,14 +654,13 @@ class someClass <T> {
                     (generic_type
                       (type_identifier)
                       (type_arguments (type_identifier)))
-                    (variable_declarator_list
-                      (variable_declarator
-                        (variable_declarator_id (identifier))
-                        (method_invocation
-                          (identifier)
-                          (type_arguments (type_identifier))
-                          (identifier)
-                          (argument_list))))))))))))
+                    (variable_declarator
+                      (variable_declarator_id (identifier))
+                      (method_invocation
+                        (identifier)
+                        (type_arguments (type_identifier))
+                        (identifier)
+                        (argument_list)))))))))))
 
 ==================================
 empty type arguments
@@ -682,9 +673,9 @@ Box<Integer> integerBox = new Box<>();
 (program
   (local_variable_declaration_statement (local_variable_declaration
     (generic_type (type_identifier) (type_arguments (type_identifier)))
-    (variable_declarator_list (variable_declarator
+    (variable_declarator
       (variable_declarator_id (identifier))
       (class_instance_creation_expression
         (unqualified_class_instance_creation_expression
           (generic_type (type_identifier) (type_arguments))
-          (argument_list))))))))
+          (argument_list)))))))
