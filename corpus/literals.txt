@@ -9,9 +9,9 @@ decimal integer literals
 ---
 
 (program
-  (decimal_integer_literal)
-  (decimal_integer_literal)
-  (decimal_integer_literal))
+  (expression_statement (decimal_integer_literal))
+  (expression_statement (decimal_integer_literal))
+  (expression_statement (decimal_integer_literal)))
 
 ====================
 hex integer literals
@@ -24,9 +24,9 @@ hex integer literals
 ---
 
 (program
-  (hex_integer_literal)
-  (hex_integer_literal)
-  (hex_integer_literal))
+  (expression_statement (hex_integer_literal))
+  (expression_statement (hex_integer_literal))
+  (expression_statement (hex_integer_literal)))
 
 ======================
 octal integer literals
@@ -37,7 +37,9 @@ octal integer literals
 
 ---
 
-(program (octal_integer_literal) (octal_integer_literal))
+(program
+  (expression_statement (octal_integer_literal))
+  (expression_statement (octal_integer_literal)))
 
 =======================
 binary integer literal
@@ -51,10 +53,10 @@ binary integer literal
 ---
 
 (program
-  (binary_integer_literal)
-  (binary_integer_literal)
-  (binary_integer_literal)
-  (binary_integer_literal))
+  (expression_statement (binary_integer_literal))
+  (expression_statement (binary_integer_literal))
+  (expression_statement (binary_integer_literal))
+  (expression_statement (binary_integer_literal)))
 
 ===============================
 decimal_floating_point_literal
@@ -76,18 +78,18 @@ decimal_floating_point_literal
 ---
 
 (program
-  (floating_point_literal (decimal_floating_point_literal))
-  (floating_point_literal (decimal_floating_point_literal))
-  (floating_point_literal (decimal_floating_point_literal))
-  (floating_point_literal (decimal_floating_point_literal))
-  (floating_point_literal (decimal_floating_point_literal))
-  (floating_point_literal (decimal_floating_point_literal))
-  (floating_point_literal (decimal_floating_point_literal))
-  (floating_point_literal (decimal_floating_point_literal))
-  (floating_point_literal (decimal_floating_point_literal))
-  (floating_point_literal (decimal_floating_point_literal))
-  (floating_point_literal (decimal_floating_point_literal))
-  (floating_point_literal (decimal_floating_point_literal)))
+  (expression_statement (floating_point_literal (decimal_floating_point_literal)))
+  (expression_statement (floating_point_literal (decimal_floating_point_literal)))
+  (expression_statement (floating_point_literal (decimal_floating_point_literal)))
+  (expression_statement (floating_point_literal (decimal_floating_point_literal)))
+  (expression_statement (floating_point_literal (decimal_floating_point_literal)))
+  (expression_statement (floating_point_literal (decimal_floating_point_literal)))
+  (expression_statement (floating_point_literal (decimal_floating_point_literal)))
+  (expression_statement (floating_point_literal (decimal_floating_point_literal)))
+  (expression_statement (floating_point_literal (decimal_floating_point_literal)))
+  (expression_statement (floating_point_literal (decimal_floating_point_literal)))
+  (expression_statement (floating_point_literal (decimal_floating_point_literal)))
+  (expression_statement (floating_point_literal (decimal_floating_point_literal))))
 
 ================
 boolean literals
@@ -98,7 +100,9 @@ false;
 
 ---
 
-(program (true) (false))
+(program
+  (expression_statement (true))
+  (expression_statement (false)))
 
 ===================
 character literals
@@ -117,15 +121,15 @@ character literals
 ---
 
 (program
-  (character_literal)
-  (character_literal)
-  (character_literal)
-  (character_literal)
-  (character_literal)
-  (character_literal)
-  (character_literal)
-  (character_literal)
-  (character_literal))
+  (expression_statement (character_literal))
+  (expression_statement (character_literal))
+  (expression_statement (character_literal))
+  (expression_statement (character_literal))
+  (expression_statement (character_literal))
+  (expression_statement (character_literal))
+  (expression_statement (character_literal))
+  (expression_statement (character_literal))
+  (expression_statement (character_literal)))
 
 ===============
 string literals
@@ -139,10 +143,10 @@ string literals
 ---
 
 (program
-  (string_literal)
-  (string_literal)
-  (string_literal)
-  (string_literal))
+  (expression_statement (string_literal))
+  (expression_statement (string_literal))
+  (expression_statement (string_literal))
+  (expression_statement (string_literal)))
 
 =============
 null literals
@@ -152,7 +156,8 @@ null;
 
 ---
 
-(program (null_literal))
+(program
+  (expression_statement (null_literal)))
 
 =========================================
 char escapes
@@ -170,14 +175,14 @@ char escapes
 ---
 
 (program
-  (character_literal)
-  (character_literal)
-  (character_literal)
-  (character_literal)
-  (character_literal)
-  (character_literal)
-  (character_literal)
-  (character_literal))
+  (expression_statement (character_literal))
+  (expression_statement (character_literal))
+  (expression_statement (character_literal))
+  (expression_statement (character_literal))
+  (expression_statement (character_literal))
+  (expression_statement (character_literal))
+  (expression_statement (character_literal))
+  (expression_statement (character_literal)))
 
 =========================================
 octal escapes
@@ -187,7 +192,8 @@ octal escapes
 
 ---
 
-(program (character_literal))
+(program
+  (expression_statement (character_literal)))
 
 =========================================
 unicode escapes
@@ -197,7 +203,8 @@ unicode escapes
 
 ---
 
-(program (character_literal))
+(program
+  (expression_statement (character_literal)))
 
 =================
 ascii escapes
@@ -239,35 +246,35 @@ ascii escapes
 ---
 
 (program
-  (character_literal)
-  (character_literal)
-  (character_literal)
-  (character_literal)
-  (character_literal)
-  (character_literal)
-  (character_literal)
-  (character_literal)
-  (character_literal)
-  (character_literal)
-  (character_literal)
-  (character_literal)
-  (character_literal)
-  (character_literal)
-  (character_literal)
-  (character_literal)
-  (character_literal)
-  (character_literal)
-  (character_literal)
-  (character_literal)
-  (character_literal)
-  (character_literal)
-  (character_literal)
-  (character_literal)
-  (character_literal)
-  (character_literal)
-  (character_literal)
-  (character_literal)
-  (character_literal)
-  (character_literal)
-  (character_literal)
-  (character_literal))
+  (expression_statement (character_literal))
+  (expression_statement (character_literal))
+  (expression_statement (character_literal))
+  (expression_statement (character_literal))
+  (expression_statement (character_literal))
+  (expression_statement (character_literal))
+  (expression_statement (character_literal))
+  (expression_statement (character_literal))
+  (expression_statement (character_literal))
+  (expression_statement (character_literal))
+  (expression_statement (character_literal))
+  (expression_statement (character_literal))
+  (expression_statement (character_literal))
+  (expression_statement (character_literal))
+  (expression_statement (character_literal))
+  (expression_statement (character_literal))
+  (expression_statement (character_literal))
+  (expression_statement (character_literal))
+  (expression_statement (character_literal))
+  (expression_statement (character_literal))
+  (expression_statement (character_literal))
+  (expression_statement (character_literal))
+  (expression_statement (character_literal))
+  (expression_statement (character_literal))
+  (expression_statement (character_literal))
+  (expression_statement (character_literal))
+  (expression_statement (character_literal))
+  (expression_statement (character_literal))
+  (expression_statement (character_literal))
+  (expression_statement (character_literal))
+  (expression_statement (character_literal))
+  (expression_statement (character_literal)))

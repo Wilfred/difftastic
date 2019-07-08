@@ -7,9 +7,9 @@ x = 3;
 ---
 
 (program
-  (assignment_expression
+  (expression_statement (assignment_expression
     (lhs (identifier))
-      (decimal_integer_literal)))
+      (decimal_integer_literal))))
 
 ==================================
 standalone binary expression
@@ -38,25 +38,25 @@ a >>> b;
 ---
 
 (program
-  (binary_expression (identifier) (identifier))
-  (binary_expression (identifier) (identifier))
-  (binary_expression (identifier) (identifier))
-  (binary_expression (identifier) (identifier))
-  (binary_expression (identifier) (identifier))
-  (binary_expression (identifier) (identifier))
-  (binary_expression (identifier) (identifier))
-  (binary_expression (identifier) (identifier))
-  (binary_expression (identifier) (identifier))
-  (binary_expression (identifier) (identifier))
-  (binary_expression (identifier) (identifier))
-  (binary_expression (identifier) (identifier))
-  (binary_expression (identifier) (identifier))
-  (binary_expression (identifier) (identifier))
-  (binary_expression (identifier) (identifier))
-  (binary_expression (decimal_integer_literal) (decimal_integer_literal))
-  (binary_expression (decimal_integer_literal) (decimal_integer_literal))
-  (binary_expression (decimal_integer_literal) (decimal_integer_literal))
-  (binary_expression (decimal_integer_literal) (decimal_integer_literal)))
+  (expression_statement (binary_expression (identifier) (identifier)))
+  (expression_statement (binary_expression (identifier) (identifier)))
+  (expression_statement (binary_expression (identifier) (identifier)))
+  (expression_statement (binary_expression (identifier) (identifier)))
+  (expression_statement (binary_expression (identifier) (identifier)))
+  (expression_statement (binary_expression (identifier) (identifier)))
+  (expression_statement (binary_expression (identifier) (identifier)))
+  (expression_statement (binary_expression (identifier) (identifier)))
+  (expression_statement (binary_expression (identifier) (identifier)))
+  (expression_statement (binary_expression (identifier) (identifier)))
+  (expression_statement (binary_expression (identifier) (identifier)))
+  (expression_statement (binary_expression (identifier) (identifier)))
+  (expression_statement (binary_expression (identifier) (identifier)))
+  (expression_statement (binary_expression (identifier) (identifier)))
+  (expression_statement (binary_expression (identifier) (identifier)))
+  (expression_statement (binary_expression (decimal_integer_literal) (decimal_integer_literal)))
+  (expression_statement (binary_expression (decimal_integer_literal) (decimal_integer_literal)))
+  (expression_statement (binary_expression (decimal_integer_literal) (decimal_integer_literal)))
+  (expression_statement (binary_expression (decimal_integer_literal) (decimal_integer_literal))))
 
 ==================================
 instanceof expressions
@@ -69,9 +69,15 @@ c instanceof C[];
 ---
 
 (program
-  (instanceof_expression (identifier) (scoped_type_identifier (type_identifier) (type_identifier)))
-  (instanceof_expression (identifier) (generic_type (type_identifier) (type_arguments (type_identifier))))
-  (instanceof_expression (identifier) (array_type (type_identifier) (dimensions))))
+  (expression_statement (instanceof_expression
+    (identifier)
+    (scoped_type_identifier (type_identifier) (type_identifier))))
+  (expression_statement (instanceof_expression
+    (identifier)
+    (generic_type (type_identifier) (type_arguments (type_identifier)))))
+  (expression_statement (instanceof_expression
+    (identifier)
+    (array_type (type_identifier) (dimensions)))))
 
 ===========================================================
 if statements
@@ -83,8 +89,7 @@ if (x)
 ---
 
 (program
-  (if_then_else_statement
-      (identifier) (identifier)))
+  (if_statement (identifier) (expression_statement (identifier))))
 
 ===========================================================
 if statements with braces
@@ -97,8 +102,8 @@ if (x) {
 ---
 
 (program
-  (if_then_else_statement
-    (identifier) (block (identifier))))
+  (if_statement
+    (identifier) (block (expression_statement (identifier)))))
 
 ===========================================================
 if statements with assignment without braces
@@ -110,38 +115,10 @@ if (x = 3)
 ---
 
 (program
-  (if_then_else_statement
+  (if_statement
     (assignment_expression (lhs (identifier)) (decimal_integer_literal))
-    (assignment_expression (lhs (identifier)) (decimal_integer_literal))))
-
-=========================================
-if statements with assignment with braces
-=========================================
-
-if (x = 3) {
-  y = 2;
-}
-
----
-
-(program
-  (if_then_else_statement
-    (assignment_expression (lhs (identifier)) (decimal_integer_literal))
-      (block
-        (assignment_expression (lhs (identifier)) (decimal_integer_literal)))))
-
-===========================================================
-if statement without braces and one assignment in the then
-===========================================================
-
-if (x)
-  y = 3;
-
----
-
-(program
-  (if_then_else_statement
-    (identifier) (assignment_expression (lhs (identifier)) (decimal_integer_literal))))
+    (expression_statement
+      (assignment_expression (lhs (identifier)) (decimal_integer_literal)))))
 
 ==================================
 if then else statement
@@ -156,10 +133,10 @@ if (x = 3) {
 ---
 
 (program
-  (if_then_else_statement
+  (if_statement
     (assignment_expression (lhs (identifier)) (decimal_integer_literal))
-     (block (assignment_expression (lhs (identifier)) (decimal_integer_literal)))
-     (block (assignment_expression (lhs (identifier)) (decimal_integer_literal)))))
+     (block (expression_statement (assignment_expression (lhs (identifier)) (decimal_integer_literal))))
+     (block (expression_statement (assignment_expression (lhs (identifier)) (decimal_integer_literal))))))
 
 ==================================
 nested if then else statements
@@ -174,15 +151,15 @@ if (a)
 ---
 
 (program
-  (if_then_else_statement
+  (if_statement
     (identifier)
-    (if_then_else_statement
+    (if_statement
       (identifier)
-      (method_invocation (identifier) (argument_list))
-      (method_invocation (identifier) (argument_list)))))
+      (expression_statement (method_invocation (identifier) (argument_list)))
+      (expression_statement (method_invocation (identifier) (argument_list))))))
 
 ==================================
-if-then shorthand
+ternary expressions
 ==================================
 
 max = (a > b) ? a : b;
@@ -190,9 +167,9 @@ max = (a > b) ? a : b;
 ---
 
 (program
-  (assignment_expression (lhs (identifier))
+  (expression_statement (assignment_expression (lhs (identifier))
     (ternary_expression
-      (binary_expression (identifier) (identifier)) (identifier) (identifier))))
+      (binary_expression (identifier) (identifier)) (identifier) (identifier)))))
 
 ==================================
 for statement
@@ -234,10 +211,10 @@ class ForDemo {
                   (binary_expression (identifier) (decimal_integer_literal))
                   (update_expression (identifier))
                   (block
-                    (method_invocation
+                    (expression_statement (method_invocation
                       (scoped_identifier (identifier) (identifier))
                       (identifier)
-                      (argument_list (binary_expression (string_literal) (identifier)))))))))))))
+                      (argument_list (binary_expression (string_literal) (identifier))))))))))))))
 
 ==================================
 while statement
@@ -283,12 +260,12 @@ class WhileDemo {
                 (while_statement
                   (binary_expression (identifier) (decimal_integer_literal))
                   (block
-                    (method_invocation
+                    (expression_statement (method_invocation
                       (scoped_identifier (identifier) (identifier))
                       (identifier)
                       (argument_list
-                        (binary_expression (string_literal) (identifier))))
-                    (update_expression (identifier))))))))))
+                        (binary_expression (string_literal) (identifier)))))
+                    (expression_statement (update_expression (identifier)))))))))))
 
 ==================================
 try-with-resources statements
@@ -301,48 +278,20 @@ try (FileInputStream input = new FileInputStream("file.txt")) {
 ---
 
 (program
-  (try_statement
-    (try_with_resources_statement
-      (resource_specification
-        (resource
-          (type_identifier)
-          (variable_declarator_id (identifier))
-          (class_instance_creation_expression
-            (unqualified_class_instance_creation_expression (type_identifier) (argument_list (string_literal))))))
+  (try_with_resources_statement
+    (resource_specification
+      (resource
+        (type_identifier)
+        (variable_declarator_id (identifier))
+        (class_instance_creation_expression
+          (unqualified_class_instance_creation_expression (type_identifier) (argument_list (string_literal))))))
     (block
       (local_variable_declaration_statement
         (local_variable_declaration
           (integral_type)
           (variable_declarator
             (variable_declarator_id (identifier))
-            (method_invocation (identifier) (identifier) (argument_list)))))))))
-
-==================================
-assignment
-==================================
-
-class Beyonce {
-  public void four() {
-    x = 1;
-  }
-}
-
-
----
-
-(program
-  (class_declaration
-    (identifier)
-    (class_body
-      (method_declaration
-        (modifiers)
-        (void_type)
-        (method_declarator (identifier) (formal_parameters))
-        (method_body
-          (block
-            (assignment_expression
-              (lhs (identifier))
-              (decimal_integer_literal))))))))
+            (method_invocation (identifier) (identifier) (argument_list))))))))
 
 ==================================
 return statement
@@ -441,9 +390,9 @@ lambda expression
 ==================================
 
 class LambdaTest {
-    void singleton() {
-        version -> create;
-    }
+  void singleton() {
+    version -> create;
+  }
 }
 
 ---
@@ -455,28 +404,29 @@ class LambdaTest {
       (method_declaration
         (void_type)
         (method_declarator (identifier) (formal_parameters))
-        (method_body (block (lambda_expression (identifier) (lambda_body (identifier)))))))))
+        (method_body (block
+          (expression_statement (lambda_expression (identifier) (lambda_body (identifier))))))))))
 
 ==================================
 switch statement
 ==================================
 
 public class SwitchDemo {
-    public static void main(String[] args) {
-        int destinysChild = 2;
-        String destinysChildString;
-        switch (destinysChild) {
-            case 1:  destinysChildString = "Beyonce";
-                     break;
-            case 2:  destinysChildString = "Kelly";
-                     break;
-            case 3:  destinysChildString = "Michelle";
-                     break;
-            default: destinysChildString = "Invalid";
-                     break;
-        }
-        System.out.println(destinysChildString);
+  public static void main(String[] args) {
+    int destinysChild = 2;
+    String destinysChildString;
+    switch (destinysChild) {
+        case 1:  destinysChildString = "Beyonce";
+                 break;
+        case 2:  destinysChildString = "Kelly";
+                 break;
+        case 3:  destinysChildString = "Michelle";
+                 break;
+        default: destinysChildString = "Invalid";
+                 break;
     }
+    System.out.println(destinysChildString);
+  }
 }
 
 ---
@@ -509,21 +459,21 @@ public class SwitchDemo {
               (identifier)
               (switch_block
                 (switch_label (decimal_integer_literal))
-                (assignment_expression (lhs (identifier)) (string_literal))
+                (expression_statement (assignment_expression (lhs (identifier)) (string_literal)))
                 (break_statement)
                 (switch_label (decimal_integer_literal))
-                (assignment_expression (lhs (identifier)) (string_literal))
+                (expression_statement (assignment_expression (lhs (identifier)) (string_literal)))
                 (break_statement)
                 (switch_label (decimal_integer_literal))
-                (assignment_expression (lhs (identifier)) (string_literal))
+                (expression_statement (assignment_expression (lhs (identifier)) (string_literal)))
                 (break_statement)
                 (switch_label)
-                (assignment_expression (lhs (identifier)) (string_literal))
+                (expression_statement (assignment_expression (lhs (identifier)) (string_literal)))
                 (break_statement)))
-            (method_invocation
+            (expression_statement (method_invocation
               (scoped_identifier (identifier) (identifier))
               (identifier)
-              (argument_list (identifier)))))))))
+              (argument_list (identifier))))))))))
 
 ==================================
 type arguments
@@ -560,9 +510,9 @@ class Box <T> {
                     (variable_declarator_id
                       (identifier)))))
               (constructor_body
-                (assignment_expression
+                (expression_statement (assignment_expression
                   (lhs (identifier))
-                    (identifier))))
+                    (identifier)))))
           (comment))))
 
 ==================================

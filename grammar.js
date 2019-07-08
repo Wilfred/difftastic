@@ -20,7 +20,8 @@ const PREC = {
   INC: 10,
   NEW: 11,
   CALL: 12,
-  MEMBER: 13
+  MEMBER: 13,
+  CAST: 15,
 };
 
 module.exports = grammar({
@@ -63,9 +64,9 @@ module.exports = grammar({
 
     _statement: $ => choice(
       $._declaration,
-      $._expression_statement,
+      $.expression_statement,
       $.labeled_statement,
-      $.if_then_else_statement,
+      $.if_statement,
       $.while_statement,
       $.for_statement,
       $.block,
@@ -79,13 +80,16 @@ module.exports = grammar({
       $.synchronized_statement,
       $.local_variable_declaration_statement,
       $.throw_statement,
-      $.try_statement
+      $.try_statement,
+      $.try_with_resources_statement
     ),
 
-    _expression_statement: $ => seq(
+    expression_statement: $ => seq(
       $._expression,
       ';'
     ),
+
+    // Literals
 
     _literal: $ => choice(
       $.decimal_integer_literal,
@@ -161,6 +165,8 @@ module.exports = grammar({
 
     null_literal: $ => 'null',
 
+    // Expressions
+
     _expression: $ => choice(
       $.assignment_expression,
       $.binary_expression,
@@ -174,11 +180,9 @@ module.exports = grammar({
       $.cast_expression
     ),
 
-    cast_expression: $ => prec(15, choice(
-      seq('(', $._type, repeat($.additional_bound), ')', $._expression)
+    cast_expression: $ => prec(PREC.CAST, choice(
+      seq('(', sep1($._type, '&'), ')', $._expression)
     )),
-
-    additional_bound: $ => seq('&', $._type),
 
     assignment_expression: $ => prec.right(PREC.ASSIGN, seq(
       $.lhs,
@@ -227,9 +231,6 @@ module.exports = grammar({
       $._type
     )),
 
-    // TODO: test
-    // Lowest precedence operator is lambda arrow
-    // https://docs.oracle.com/javase/specs/jls/se9/html/jls-15.html#jls-Expression
     lambda_expression: $ => seq($._lambda_parameters, '->', $.lambda_body),
 
     _lambda_parameters: $ => choice(
@@ -262,13 +263,14 @@ module.exports = grammar({
       prec.left(precedence, seq(operator, $._expression))
     )),
 
-    // TODO: test this
     update_expression: $ => prec.left(PREC.INC, choice(
       seq($._expression, '++'),
       seq($._expression, '--'),
       seq('++', $._expression),
       seq('--', $._expression)
     )),
+
+    // Statements
 
     labeled_statement: $ => seq(
       $.identifier, ':', $._statement
@@ -285,7 +287,6 @@ module.exports = grammar({
       $.switch_block
     ),
 
-    // NOTE: switch_label precedes block_statement according to spec
     switch_block: $ => seq(
       '{',
       repeat(choice($.switch_label, $._statement)),
@@ -315,13 +316,14 @@ module.exports = grammar({
 
     throw_statement: $ => seq('throw', $._expression, ';'),
 
-    try_statement: $ => choice(
-      seq('try', $.block, $.catches),
-      seq('try', $.block, optional($.catches), $.finally),
-      $.try_with_resources_statement
+    try_statement: $ => seq(
+      'try',
+      $.block,
+      choice(
+        repeat1($.catch_clause),
+        seq(repeat($.catch_clause), $.finally_clause)
+      )
     ),
-
-    catches: $ => prec.right(repeat1($.catch_clause)),
 
     catch_clause: $ => seq('catch', '(', $.catch_formal_parameter, ')', $.block),
 
@@ -333,14 +335,14 @@ module.exports = grammar({
 
     catch_type: $ => seq($._unannotated_type, repeat(seq('|', $._type))),
 
-    finally: $ => seq('finally', $.block),
+    finally_clause: $ => seq('finally', $.block),
 
     try_with_resources_statement: $ => seq(
       'try',
       $.resource_specification,
       $.block,
-      optional($.catches),
-      optional($.finally)
+      repeat($.catch_clause),
+      optional($.finally_clause)
     ),
 
     resource_specification: $ => seq(
@@ -349,15 +351,11 @@ module.exports = grammar({
 
     resource: $ => choice(
       seq(optional($.modifiers), $._unannotated_type, $.variable_declarator_id, '=', $._expression),
-      $.variable_access
-    ),
-
-    variable_access: $ => choice(
       $._ambiguous_name,
       $.field_access
     ),
 
-    if_then_else_statement: $ => prec.right(seq(
+    if_statement: $ => prec.right(seq(
       'if', '(', $._expression, ')',
       $._statement,
       optional(seq('else', $._statement))
@@ -853,6 +851,8 @@ module.exports = grammar({
       optional(','),
       '}'
     ),
+
+    // Types
 
     _type: $ => choice(
       $._unannotated_type,
