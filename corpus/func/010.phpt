@@ -171,17 +171,17 @@ echo "Done\n";
                   (variable_name
                     (name)))))
             (parenthesized_expression
-              (binary_expression
-                (variable_name
-                  (name))
-                (conditional_expression
+              (conditional_expression
+                (binary_expression
+                  (variable_name
+                    (name))
                   (parenthesized_expression
                     (binary_expression
                       (variable_name
                         (name))
-                      (integer)))
-                  (string)
-                  (string)))))))))
+                      (integer))))
+                (string)
+                (string))))))))
   (expression_statement
     (augmented_assignment_expression
       (variable_name
@@ -307,17 +307,17 @@ echo "Done\n";
                       (name)))))
               (string))
             (parenthesized_expression
-              (binary_expression
-                (variable_name
-                  (name))
-                (conditional_expression
+              (conditional_expression
+                (binary_expression
+                  (variable_name
+                    (name))
                   (parenthesized_expression
                     (binary_expression
                       (variable_name
                         (name))
-                      (integer)))
-                  (string)
-                  (string)))))))))
+                      (integer))))
+                (string)
+                (string))))))))
   (expression_statement
     (augmented_assignment_expression
       (variable_name
