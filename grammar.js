@@ -96,7 +96,6 @@ module.exports = grammar({
       $.hex_integer_literal,
       $.octal_integer_literal,
       $.binary_integer_literal,
-      $.long_integer_literal,
       $.floating_point_literal,
       $.true,
       $.false,
@@ -105,26 +104,27 @@ module.exports = grammar({
       $.null_literal
     ),
 
-    decimal_integer_literal: $ => DIGITS,
+    decimal_integer_literal: $ => token(seq(
+      DIGITS,
+      optional(choice('l', 'L'))
+    )),
 
     hex_integer_literal: $ => token(seq(
       choice('0x', '0X'),
-      HEX_DIGITS
+      HEX_DIGITS,
+      optional(choice('l', 'L'))
     )),
 
     octal_integer_literal: $ => token(seq(
       choice('0o', '0O'),
-      sep1(/[0-7]+/, '_')
+      sep1(/[0-7]+/, '_'),
+      optional(choice('l', 'L'))
     )),
 
     binary_integer_literal: $ => token(seq(
       choice('0b', '0B'),
-      sep1(/[01]+/, '_')
-    )),
-
-    long_integer_literal: $ => token(seq(
-      sep1(/[0-9]+/, '_'),
-      choice('l', 'L'),
+      sep1(/[01]+/, '_'),
+      optional(choice('l', 'L'))
     )),
 
     floating_point_literal: $ => choice(
