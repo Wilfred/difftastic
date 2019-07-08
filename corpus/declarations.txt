@@ -31,6 +31,23 @@ class A {
                       (identifier))
                     (decimal_integer_literal)))))))))))
 
+=====================
+local array variable
+=====================
+
+String[] nodeNames = internalCluster().getNodeNames();
+
+---
+
+(program
+  (local_variable_declaration_statement (local_variable_declaration
+    (array_type (type_identifier) (dims))
+    (variable_declarator_list (variable_declarator
+      (variable_declarator_id (identifier))
+      (method_invocation
+        (method_invocation (identifier) (argument_list))
+        (identifier) (argument_list)))))))
+
 ==========
 module
 ==========

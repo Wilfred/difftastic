@@ -33,7 +33,7 @@ module.exports = grammar({
 
   inline: $ => [
     $._numeric_type,
-    $._block_statement,
+    $._statement,
     $._ambiguous_name,
     $._simple_type,
     $._reserved_identifier,
@@ -48,10 +48,14 @@ module.exports = grammar({
     [$.class_literal, $._unannotated_type],
     [$._unannotated_type, $.class_literal, $.array_access],
     [$.variable_declarator_id],
+
     [$._lambda_parameters, $.inferred_parameters],
-    [$._expression, $._unannotated_type],
-    [$.scoped_identifier, $.scoped_type_identifier],
+    [$._unannotated_type, $._expression],
+    [$._unannotated_type, $._expression, $.inferred_parameters],
+    [$._unannotated_type, $.generic_type],
     [$._expression, $.generic_type],
+
+    [$.scoped_identifier, $.scoped_type_identifier],
   ],
 
   word: $ => $.identifier,
@@ -59,13 +63,9 @@ module.exports = grammar({
   rules: {
     program: $ => repeat($._statement),
 
-    _statement: $ => prec(1, choice(
-      $._expression_statement,
+    _statement: $ => choice(
       $._declaration,
-      $._method_statement
-    )),
-
-    _method_statement: $ => choice(
+      $._expression_statement,
       $.labeled_statement,
       $.if_then_else_statement,
       $.while_statement,
@@ -79,6 +79,7 @@ module.exports = grammar({
       $.continue_statement,
       $.return_statement,
       $.synchronized_statement,
+      $.local_variable_declaration_statement,
       $.throw_statement,
       $.try_statement
     ),
@@ -254,6 +255,7 @@ module.exports = grammar({
     _expression: $ => choice(
       $.assignment_expression,
       $.binary_expression,
+      $.instanceof_expression,
       $.lambda_expression,
       $.ternary_expression,
       $.update_expression,
@@ -281,9 +283,6 @@ module.exports = grammar({
       $.array_access
     ),
 
-    // NOTE: Precedence was added due to error and duplication with
-    // type_arguments.
-    // TODO: Verify precedence is legit.
     binary_expression: $ => choice(
       ...[
       ['>', PREC.REL],
@@ -305,13 +304,18 @@ module.exports = grammar({
       ['<<', PREC.TIMES],
       ['>>', PREC.TIMES],
       ['>>>', PREC.TIMES],
-      ['instanceof', PREC.REL]
     ].map(([operator, precedence]) =>
       prec.left(precedence, seq(
         $._expression,
         operator,
         $._expression
       ))
+    )),
+
+    instanceof_expression: $ => prec(PREC.REL, seq(
+      $._expression,
+      'instanceof',
+      $._type
     )),
 
     // TODO: test
@@ -375,7 +379,7 @@ module.exports = grammar({
     // NOTE: switch_label precedes block_statement according to spec
     switch_block: $ => seq(
       '{',
-      repeat(choice($.switch_label, $._block_statement)),
+      repeat(choice($.switch_label, $._statement)),
       '}'
     ),
 
@@ -462,7 +466,7 @@ module.exports = grammar({
       optional($.for_init), $._semicolon,
       optional($._expression), $._semicolon,
       commaSep($._expression), ')',
-      $._method_statement
+      $._statement
     ),
 
     for_init: $ => choice(
@@ -479,7 +483,7 @@ module.exports = grammar({
       ':',
       $._expression,
       ')',
-      $._method_statement
+      $._statement
     ),
 
     type_arguments: $ => seq(
@@ -730,7 +734,7 @@ module.exports = grammar({
     constructor_body: $ => seq(
       '{',
       optional($.explicit_constructor_invocation),
-      repeat($._block_statement),
+      repeat($._statement),
       '}'
     ),
 
@@ -741,11 +745,11 @@ module.exports = grammar({
       seq($._primary, '.', $.super, $.argument_list, $._semicolon)
     ),
 
-    _ambiguous_name: $ => prec(PREC.REL + 1, choice(
+    _ambiguous_name: $ => choice(
       $.identifier,
       $._reserved_identifier,
       $.scoped_identifier
-    )),
+    ),
 
     scoped_identifier: $ => seq(
       choice($.identifier, $._reserved_identifier, $.scoped_identifier),
@@ -965,8 +969,7 @@ module.exports = grammar({
       $.void_type,
       $._numeric_type,
       $.boolean_type,
-      prec(PREC.REL + 1, alias($.identifier, $.type_identifier)),
-      // alias($.identifier, $.type_identifier),
+      alias($.identifier, $.type_identifier),
       $.scoped_type_identifier,
       $.generic_type
     ),
@@ -987,13 +990,13 @@ module.exports = grammar({
       alias($.identifier, $.type_identifier)
     ),
 
-    generic_type: $ => prec.dynamic(1, prec(PREC.REL + 1, seq(
+    generic_type: $ => prec.dynamic(1, seq(
       choice(
         alias($.identifier, $.type_identifier),
         $.scoped_type_identifier
       ),
       $.type_arguments
-    ))),
+    )),
 
     array_type: $ => seq(
       $._unannotated_type,
@@ -1068,13 +1071,7 @@ module.exports = grammar({
     ),
 
     block: $ => seq(
-      '{', repeat($._block_statement), '}'
-    ),
-
-    _block_statement: $ => choice(
-      $.local_variable_declaration_statement,
-      $.class_declaration,
-      $._statement
+      '{', repeat($._statement), '}'
     ),
 
     local_variable_declaration_statement: $ => seq(

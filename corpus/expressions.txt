@@ -58,6 +58,21 @@ a >>> b;
   (binary_expression (decimal_integer_literal) (decimal_integer_literal))
   (binary_expression (decimal_integer_literal) (decimal_integer_literal)))
 
+==================================
+instanceof expressions
+==================================
+
+a instanceof C.D;
+a instanceof List<B>;
+c instanceof C[];
+
+---
+
+(program
+  (instanceof_expression (identifier) (scoped_type_identifier (type_identifier) (type_identifier)))
+  (instanceof_expression (identifier) (generic_type (type_identifier) (type_arguments (type_identifier))))
+  (instanceof_expression (identifier) (array_type (type_identifier) (dims))))
+
 ===========================================================
 if statements
 ===========================================================
@@ -667,13 +682,11 @@ Box<Integer> integerBox = new Box<>();
 ---
 
 (program
-  (binary_expression
-    (binary_expression (identifier) (identifier))
-    (assignment_expression
-      (lhs (identifier))
+  (local_variable_declaration_statement (local_variable_declaration
+    (generic_type (type_identifier) (type_arguments (type_identifier)))
+    (variable_declarator_list (variable_declarator
+      (variable_declarator_id (identifier))
       (class_instance_creation_expression
         (unqualified_class_instance_creation_expression
-          (generic_type
-            (type_identifier)
-            (type_arguments))
-          (argument_list))))))
+          (generic_type (type_identifier) (type_arguments))
+          (argument_list))))))))
