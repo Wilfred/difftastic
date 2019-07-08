@@ -158,32 +158,34 @@ echo "Done\n";
         (name)))
     (compound_statement
       (expression_statement
-        (binary_expression
+        (augmented_assignment_expression
+          (variable_name
+            (name))
           (binary_expression
-            (augmented_assignment_expression
-              (variable_name
-                (name))
-              (string))
-            (function_call_expression
-              (qualified_name
-                (name))
-              (arguments
-                (variable_name
-                  (name)))))
-          (parenthesized_expression
             (binary_expression
-              (variable_name
-                (name))
-              (conditional_expression
-                (parenthesized_expression
-                  (binary_expression
-                    (variable_name
-                      (name))
-                    (integer)))
-                (string)
-                (string))))))))
+              (string)
+              (function_call_expression
+                (qualified_name
+                  (name))
+                (arguments
+                  (variable_name
+                    (name)))))
+            (parenthesized_expression
+              (binary_expression
+                (variable_name
+                  (name))
+                (conditional_expression
+                  (parenthesized_expression
+                    (binary_expression
+                      (variable_name
+                        (name))
+                      (integer)))
+                  (string)
+                  (string)))))))))
   (expression_statement
-    (binary_expression
+    (augmented_assignment_expression
+      (variable_name
+        (name))
       (binary_expression
         (binary_expression
           (binary_expression
@@ -199,78 +201,76 @@ echo "Done\n";
                               (binary_expression
                                 (binary_expression
                                   (binary_expression
-                                    (augmented_assignment_expression
-                                      (variable_name
-                                        (name))
-                                      (string))
-                                    (function_call_expression
-                                      (qualified_name
-                                        (name))
-                                      (arguments
-                                        (binary_expression
-                                          (variable_name
-                                            (name))
-                                          (integer)))))
-                                  (string))
-                                (function_call_expression
-                                  (qualified_name
-                                    (name))
-                                  (arguments
                                     (binary_expression
-                                      (variable_name
-                                        (name))
-                                      (integer)))))
-                              (string))
-                            (function_call_expression
-                              (qualified_name
-                                (name))
-                              (arguments
-                                (variable_name
-                                  (name)))))
-                          (string))
-                        (function_call_expression
-                          (qualified_name
-                            (name))
-                          (arguments
+                                      (string)
+                                      (function_call_expression
+                                        (qualified_name
+                                          (name))
+                                        (arguments
+                                          (binary_expression
+                                            (variable_name
+                                              (name))
+                                            (integer)))))
+                                    (string))
+                                  (function_call_expression
+                                    (qualified_name
+                                      (name))
+                                    (arguments
+                                      (binary_expression
+                                        (variable_name
+                                          (name))
+                                        (integer)))))
+                                (string))
+                              (function_call_expression
+                                (qualified_name
+                                  (name))
+                                (arguments
+                                  (variable_name
+                                    (name)))))
+                            (string))
+                          (function_call_expression
+                            (qualified_name
+                              (name))
+                            (arguments
+                              (variable_name
+                                (name)))))
+                        (string))
+                      (function_call_expression
+                        (qualified_name
+                          (name))
+                        (arguments
+                          (binary_expression
                             (variable_name
-                              (name)))))
-                      (string))
-                    (function_call_expression
-                      (qualified_name
-                        (name))
-                      (arguments
-                        (binary_expression
-                          (variable_name
-                            (name))
-                          (integer)))))
-                  (string))
-                (function_call_expression
-                  (qualified_name
-                    (name))
-                  (arguments
-                    (binary_expression
-                      (variable_name
-                        (name))
-                      (integer)))))
-              (string))
-            (function_call_expression
-              (qualified_name
-                (name))
-              (arguments
-                (binary_expression
-                  (variable_name
-                    (name))
-                  (integer)))))
-          (string))
-        (function_call_expression
-          (qualified_name
-            (name))
-          (arguments
-            (binary_expression
-              (variable_name
-                (name))
-              (integer)))))
-      (string)))
+                              (name))
+                            (integer)))))
+                    (string))
+                  (function_call_expression
+                    (qualified_name
+                      (name))
+                    (arguments
+                      (binary_expression
+                        (variable_name
+                          (name))
+                        (integer)))))
+                (string))
+              (function_call_expression
+                (qualified_name
+                  (name))
+                (arguments
+                  (binary_expression
+                    (variable_name
+                      (name))
+                    (integer)))))
+            (string))
+          (function_call_expression
+            (qualified_name
+              (name))
+            (arguments
+              (binary_expression
+                (variable_name
+                  (name))
+                (integer)))))
+        (string))))
   (comment)
   (expression_statement
     (augmented_assignment_expression
@@ -292,32 +292,32 @@ echo "Done\n";
         (name)))
     (compound_statement
       (expression_statement
-        (binary_expression
+        (augmented_assignment_expression
+          (variable_name
+            (name))
           (binary_expression
             (binary_expression
-              (augmented_assignment_expression
+              (binary_expression
+                (string)
+                (function_call_expression
+                  (qualified_name
+                    (name))
+                  (arguments
+                    (variable_name
+                      (name)))))
+              (string))
+            (parenthesized_expression
+              (binary_expression
                 (variable_name
                   (name))
-                (string))
-              (function_call_expression
-                (qualified_name
-                  (name))
-                (arguments
-                  (variable_name
-                    (name)))))
-            (string))
-          (parenthesized_expression
-            (binary_expression
-              (variable_name
-                (name))
-              (conditional_expression
-                (parenthesized_expression
-                  (binary_expression
-                    (variable_name
-                      (name))
-                    (integer)))
-                (string)
-                (string))))))))
+                (conditional_expression
+                  (parenthesized_expression
+                    (binary_expression
+                      (variable_name
+                        (name))
+                      (integer)))
+                  (string)
+                  (string)))))))))
   (expression_statement
     (augmented_assignment_expression
       (variable_name

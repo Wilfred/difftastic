@@ -57,18 +57,18 @@ vprintf("vprintf test 1:%2\$-2d %1\$2d\n", array(1, 2));
       (arguments
         (integer))))
   (expression_statement
-    (assignment_expression
-      (variable_name
-        (name))
-      (binary_expression
+    (binary_expression
+      (assignment_expression
+        (variable_name
+          (name))
         (function_call_expression
           (qualified_name
             (name))
           (arguments
             (string)
-            (string)))
-        (exit_intrinsic
-          (string)))))
+            (string))))
+      (exit_intrinsic
+        (string))))
   (expression_statement
     (assignment_expression
       (variable_name
