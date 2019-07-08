@@ -20,5 +20,5 @@ comments and literals
 ---
 
 (program
-  (decimal_integer_literal)
+  (expression_statement (decimal_integer_literal))
   (comment))

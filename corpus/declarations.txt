@@ -53,7 +53,7 @@ Integer[][] inputArrays = new Integer[0x100][];
       (variable_declarator_id (identifier))
     (array_creation_expression
       (type_identifier)
-      (dims_expr (hex_integer_literal)) (dimensions))))))
+      (dimensions_expr (hex_integer_literal)) (dimensions))))))
 
 ==========
 module
@@ -316,7 +316,9 @@ class Point {
       (method_declaration
         (void_type)
         (method_declarator (identifier) (formal_parameters))
-        (method_body (block (assignment_expression (lhs (identifier)) (decimal_integer_literal))))))))
+        (method_body (block
+          (expression_statement
+            (assignment_expression (lhs (identifier)) (decimal_integer_literal)))))))))
 
 ======================
 interface declaration
@@ -396,7 +398,8 @@ constructor declaration
 class Point {
   int x, y;
   Point(int x, int y) {
-    this.x = x; this.y = y;
+    this.x = x;
+    this.y = y;
   }
 }
 
@@ -417,8 +420,12 @@ class Point {
             (formal_parameter (integral_type) (variable_declarator_id (identifier)))
             (formal_parameter (integral_type) (variable_declarator_id (identifier)))))
         (constructor_body
-          (assignment_expression (lhs (field_access (this) (identifier))) (identifier))
-          (assignment_expression (lhs (field_access (this) (identifier))) (identifier)))))))
+          (expression_statement (assignment_expression
+            (lhs (field_access (this) (identifier)))
+            (identifier)))
+          (expression_statement (assignment_expression
+            (lhs (field_access (this) (identifier)))
+            (identifier))))))))
 
 =======
 throws
@@ -426,8 +433,8 @@ throws
 
 class Beyonce {
   BufferedReader newReader() throws FileNotFoundException {
-      new BufferedReader(new InputStreamReader(new FileInputStream(file), charset));
-    }
+    new BufferedReader(new InputStreamReader(new FileInputStream(file), charset));
+  }
 }
 
 ---
@@ -444,20 +451,21 @@ class Beyonce {
           (throws (type_identifier))
           (method_body
             (block
-              (class_instance_creation_expression
-                (unqualified_class_instance_creation_expression
-                  (type_identifier)
-                (argument_list
-                  (class_instance_creation_expression
-                    (unqualified_class_instance_creation_expression
-                      (type_identifier)
-                      (argument_list
-                        (class_instance_creation_expression
-                          (unqualified_class_instance_creation_expression
-                            (type_identifier)
-                              (argument_list
-                                (identifier))))
-                        (identifier)))))))))))))
+              (expression_statement
+                (class_instance_creation_expression
+                  (unqualified_class_instance_creation_expression
+                    (type_identifier)
+                  (argument_list
+                    (class_instance_creation_expression
+                      (unqualified_class_instance_creation_expression
+                        (type_identifier)
+                        (argument_list
+                          (class_instance_creation_expression
+                            (unqualified_class_instance_creation_expression
+                              (type_identifier)
+                                (argument_list
+                                  (identifier))))
+                          (identifier))))))))))))))
 
 ======================
 object instantiation
@@ -483,10 +491,11 @@ class Point {
           (formal_parameters))
         (method_body
           (block
-            (class_instance_creation_expression
-              (unqualified_class_instance_creation_expression
-                (type_identifier)
-                (argument_list)))))))))
+            (expression_statement
+              (class_instance_creation_expression
+                (unqualified_class_instance_creation_expression
+                  (type_identifier)
+                  (argument_list))))))))))
 
 =====================
 variable declaration
