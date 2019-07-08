@@ -782,13 +782,10 @@ module.exports = grammar({
       'new',
       $._simple_type,
       choice(
-        seq($._dims_exprs, optional($.dims)),
+        seq(repeat1($.dims_expr), optional($.dims)),
         seq($.dims, $.array_initializer)
       )
     ),
-
-// why didn't I just use a repeat1 here?
-    _dims_exprs: $ => prec.right(seq($.dims_expr, repeat($.dims_expr))),
 
     dims_expr: $ => seq(repeat($._annotation), '[', $._expression, ']'),
 
