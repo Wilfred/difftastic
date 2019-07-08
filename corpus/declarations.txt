@@ -41,19 +41,19 @@ Integer[][] inputArrays = new Integer[0x100][];
 
 (program
   (local_variable_declaration_statement (local_variable_declaration
-    (array_type (type_identifier) (dims))
+    (array_type (type_identifier) (dimensions))
     (variable_declarator
       (variable_declarator_id (identifier))
       (method_invocation
         (method_invocation (identifier) (argument_list))
         (identifier) (argument_list)))))
   (local_variable_declaration_statement (local_variable_declaration
-    (array_type (type_identifier) (dims))
+    (array_type (type_identifier) (dimensions))
     (variable_declarator
       (variable_declarator_id (identifier))
     (array_creation_expression
       (type_identifier)
-      (dims_expr (hex_integer_literal)) (dims))))))
+      (dims_expr (hex_integer_literal)) (dimensions))))))
 
 ==========
 module
