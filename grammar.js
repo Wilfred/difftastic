@@ -1,6 +1,6 @@
 const PREC = {
   COMMA: -1,
-  CAST_VARIABLE: -1,
+  CAST: -1,
   LOGICAL_OR_2: 1,
   LOGICAL_XOR: 2,
   LOGICAL_AND_2: 3,
@@ -619,14 +619,8 @@ module.exports = grammar({
 
     unary_op_expression: $ => choice(
       seq('@', $._expression),
-      ...[
-      ['+', PREC.NEG],
-      ['-', PREC.NEG],
-      ['~', PREC.NEG],
-      ['!', PREC.NEG],
-    ].map(([operator, precedence]) =>
-      prec.left(precedence, seq(operator, $._expression))
-    )),
+      prec.left(PREC.NEG, seq(choice('+', '-', '~', '!'), $._expression))
+    ),
 
     exponentiation_expression: $ => prec.right(PREC.TIMES, seq(
       choice($.clone_expression, $._primary_expression),
@@ -725,11 +719,11 @@ module.exports = grammar({
       '`', double_quote_chars(), '`'
     )),
 
-    cast_expression: $ => seq(
+    cast_expression: $ => prec(PREC.CAST, seq(
       '(', $.cast_type, ')', $._unary_expression
-    ),
+    )),
 
-    cast_variable: $ => prec(PREC.CAST_VARIABLE, seq(
+    cast_variable: $ => prec(PREC.CAST, seq(
       '(', $.cast_type, ')', $._variable
     )),
 
@@ -765,7 +759,7 @@ module.exports = grammar({
       $._byref_assignment_expression,
     ),
 
-    augmented_assignment_expression: $ => prec.right(seq(
+    augmented_assignment_expression: $ => prec.right(PREC.ASSIGNMENT, seq(
       $._variable,
       choice(
         '**=',
@@ -779,7 +773,8 @@ module.exports = grammar({
         '>>=',
         '&=',
         '^=',
-        '|='),
+        '|='
+      ),
       $._expression
     )),
 
