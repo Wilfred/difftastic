@@ -193,3 +193,272 @@ Destructuring
 ---
 
 (program (expression_statement (assignment_expression (array_creation_expression (array_element_initializer (variable_name (name))) (array_element_initializer (variable_name (name)))) (scoped_call_expression (qualified_name (name)) (name) (arguments (variable_name (name))))))) 
+
+
+================================================
+Precedence of assignment, `or`, `xor`, and `and`
+================================================
+
+<?php
+$x = true and false;
+$x = true or false;
+$x = true xor false;
+$x = true and true or true xor true and true;
+?>
+
+---
+
+(program
+  (expression_statement
+    (binary_expression
+      (assignment_expression
+        (variable_name
+          (name))
+        (qualified_name
+          (name)))
+      (qualified_name
+        (name))))
+  (expression_statement
+    (binary_expression
+      (assignment_expression
+        (variable_name
+          (name))
+        (qualified_name
+          (name)))
+      (qualified_name
+        (name))))
+  (expression_statement
+    (binary_expression
+      (assignment_expression
+        (variable_name
+          (name))
+        (qualified_name
+          (name)))
+      (qualified_name
+        (name))))
+  (expression_statement
+    (binary_expression
+      (binary_expression
+        (assignment_expression
+          (variable_name
+            (name))
+          (qualified_name
+            (name)))
+        (qualified_name
+          (name)))
+      (binary_expression
+        (qualified_name
+          (name))
+        (binary_expression
+          (qualified_name
+            (name))
+          (qualified_name
+            (name)))))))
+
+
+============================
+Associativity of conditional
+============================
+
+<?php
+true ? false : true ? "a" : "b";
+?>
+
+---
+
+(program
+  (expression_statement
+    (conditional_expression
+      (conditional_expression
+        (qualified_name
+          (name))
+        (qualified_name
+          (name))
+        (qualified_name
+          (name)))
+      (string)
+      (string))))
+
+
+=================================
+Associativity of null-coalescence
+=================================
+
+<?php
+NULL ?? NULL ?? 1;
+?>
+
+---
+
+(program
+  (expression_statement
+    (binary_expression
+      (qualified_name
+        (name))
+      (binary_expression
+        (qualified_name
+          (name))
+        (integer)))))
+
+
+=========================
+Associativity of negation
+=========================
+
+<?php
+-1 * -1;
+!$i instanceof object;
+?>
+
+---
+
+(program
+  (expression_statement
+    (binary_expression
+      (unary_op_expression
+        (integer))
+      (unary_op_expression
+        (integer))))
+  (expression_statement
+    (unary_op_expression
+      (binary_expression
+        (variable_name
+          (name))
+        (qualified_name
+          (name))))))
+
+
+====================
+Augmented assignment
+====================
+
+<?php
+$i .= $j = "a";
+$i += $j += 3;
+$i .= "a" . "b";
+"a" . $i .= "b";
+?>
+
+---
+
+(program
+  (expression_statement
+    (augmented_assignment_expression
+      (variable_name
+        (name))
+      (assignment_expression
+        (variable_name
+          (name))
+        (string))))
+  (expression_statement
+    (augmented_assignment_expression
+      (variable_name
+        (name))
+      (augmented_assignment_expression
+        (variable_name
+          (name))
+        (integer))))
+  (expression_statement
+    (augmented_assignment_expression
+      (variable_name
+        (name))
+      (binary_expression
+        (string)
+        (string))))
+  (expression_statement
+    (binary_expression
+      (string)
+      (augmented_assignment_expression
+        (variable_name
+          (name))
+        (string)))))
+
+
+===============================
+All binary op precedence levels
+===============================
+
+<?php
+1 or 2 xor 3 and $i .= 4 ?? 5 || 6 && 7 | 8 ^ 9 & 10 == 11 > 12 << 13 + 14 * (int) 15 instanceof foo;
+(int) 1 instanceof foo / 3 - 4 >> 5 <= 6 <=> 7 & 8 ^ 9 | 10 && 11 || 12 ?? $i += 13 and 14 xor 15 or 16;
+?>
+
+---
+
+(program
+  (expression_statement
+    (binary_expression
+      (integer)
+      (binary_expression
+        (integer)
+        (binary_expression
+          (integer)
+          (augmented_assignment_expression
+            (variable_name
+              (name))
+            (binary_expression
+              (integer)
+              (binary_expression
+                (integer)
+                (binary_expression
+                  (integer)
+                  (binary_expression
+                    (integer)
+                    (binary_expression
+                      (integer)
+                      (binary_expression
+                        (integer)
+                        (binary_expression
+                          (integer)
+                          (binary_expression
+                            (integer)
+                            (binary_expression
+                              (integer)
+                              (binary_expression
+                                (integer)
+                                (binary_expression
+                                  (integer)
+                                  (binary_expression
+                                    (cast_expression
+                                      (cast_type)
+                                      (integer))
+                                    (qualified_name
+                                      (name)))))))))))))))))))
+  (expression_statement
+    (binary_expression
+      (binary_expression
+        (binary_expression
+          (binary_expression
+            (binary_expression
+              (binary_expression
+                (binary_expression
+                  (binary_expression
+                    (binary_expression
+                      (binary_expression
+                        (binary_expression
+                          (binary_expression
+                            (binary_expression
+                              (binary_expression
+                                (binary_expression
+                                  (cast_expression
+                                    (cast_type)
+                                    (integer))
+                                  (qualified_name
+                                    (name)))
+                                (integer))
+                              (integer))
+                            (integer))
+                          (integer))
+                        (integer))
+                      (integer))
+                    (integer))
+                  (integer))
+                (integer))
+              (integer))
+            (augmented_assignment_expression
+              (variable_name
+                (name))
+              (integer)))
+          (integer))
+        (integer))
+      (integer))))
