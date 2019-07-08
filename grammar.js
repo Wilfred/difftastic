@@ -1048,12 +1048,8 @@ module.exports = grammar({
     super: $ => 'super',
 
     throws: $ => seq(
-      'throws', $.exception_type_list
+      'throws', commaSep1($._type)
     ),
-
-    exception_type_list: $ => commaSep1($.exception_type),
-
-    exception_type: $ => $._type,
 
     method_body: $ => choice(
       $.block,

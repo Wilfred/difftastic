@@ -441,10 +441,7 @@ class Beyonce {
           (method_declarator
             (identifier)
             (formal_parameters))
-          (throws
-            (exception_type_list
-              (exception_type
-                (type_identifier))))
+          (throws (type_identifier))
           (method_body
             (block
               (class_instance_creation_expression
