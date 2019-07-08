@@ -530,43 +530,40 @@ module.exports = grammar({
     void_type: $ => 'void',
 
     _annotation: $ => choice(
-      $.normal_annotation,
       $.marker_annotation,
-      $.single_element_annotation
-    ),
-
-    normal_annotation: $ => seq(
-      '@', $._ambiguous_name, '(', optional($.element_value_pair_list), ')',
+      $.annotation
     ),
 
     marker_annotation: $ => seq('@', $._ambiguous_name),
+    annotation: $ => seq('@', $._ambiguous_name, $.annotation_argument_list),
 
-    // TODO: Replace choice($.identifier, $._literal) with $._statement once it's
-    // more fleshed out; The Java spec uses element_value which infinitely loops
-    single_element_annotation: $ => seq(
-      '@', $._ambiguous_name, '(', choice($.element_value), ')'
+    annotation_argument_list: $ => seq(
+      '(',
+      choice(
+        $._element_value,
+        commaSep($.element_value_pair),
+      ),
+      ')'
     ),
-
-    element_value_pair_list: $ => commaSep1($.element_value_pair),
 
     element_value_pair: $ => prec.right(10, seq(
       $.identifier,
       '=',
-      $.element_value
+      $._element_value
     )),
 
-    element_value: $ => choice(
-      $._expression, // TODO: verify this, not accounted for in spec
+    _element_value: $ => choice(
+      $._expression,
       $.element_value_array_initializer,
       $._annotation
     ),
 
-    element_value_array_initializer: $ => prec.left(seq(
+    element_value_array_initializer: $ => seq(
       '{',
-      commaSep($.element_value),
+      commaSep($._element_value),
       optional(','),
       '}'
-    )),
+    ),
 
     _declaration: $ => prec(1, choice(
       $.module_declaration,
@@ -885,7 +882,7 @@ module.exports = grammar({
     ),
 
     default_value: $ => seq(
-      'default', $.element_value
+      'default', $._element_value
     ),
 
     normal_interface_declaration: $ => seq(

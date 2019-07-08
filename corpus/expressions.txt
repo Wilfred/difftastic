@@ -365,7 +365,7 @@ return fire(x);
   (return_statement (method_invocation (identifier) (argument_list (identifier)))))
 
 ==================================
-normal_annotation
+annotation
 ==================================
 
 @SuppressWarnings(value = "unchecked")
@@ -379,20 +379,18 @@ class Duck {
 (program
   (class_declaration
     (modifiers
-      (normal_annotation
+      (annotation
         (identifier)
-        (element_value_pair_list
+        (annotation_argument_list
           (element_value_pair
             (identifier)
-            (element_value
-              (string_literal)))))
-      (normal_annotation
+            (string_literal))))
+      (annotation
         (identifier)
-        (element_value_pair_list
+        (annotation_argument_list
           (element_value_pair
             (identifier)
-            (element_value
-              (true))))))
+            (true)))))
     (identifier)
     (class_body)))
 
@@ -436,8 +434,8 @@ class Quack {
 (program
   (class_declaration
     (modifiers
-      (single_element_annotation (identifier) (element_value (scoped_identifier (identifier) (identifier))))
-      (single_element_annotation (identifier) (element_value (string_literal))))
+      (annotation (identifier) (annotation_argument_list (scoped_identifier (identifier) (identifier))))
+      (annotation (identifier) (annotation_argument_list (string_literal))))
     (identifier)
     (class_body)))
 
