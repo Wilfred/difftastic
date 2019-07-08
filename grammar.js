@@ -756,8 +756,8 @@ module.exports = grammar({
       seq(choice($._variable, $.list_literal, $.array_creation_expression), '=', '&', $._expression)
     ),
 
-    conditional_expression: $ => prec.right(PREC.TERNARY, seq(
-      choice($.binary_expression, $._unary_expression), '?', optional($._expression), ':', $._expression
+    conditional_expression: $ => prec.left(PREC.TERNARY, seq(
+      $._expression, '?', optional($._expression), ':', $._expression
     )),
 
     assignment_expression: $ => choice(
