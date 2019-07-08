@@ -43,18 +43,16 @@ module.exports = grammar({
   ],
 
   conflicts: $ => [
-    [$.modifiers, $.module_declaration, $.package_declaration, $.annotated_type],
     [$.modifiers, $.annotated_type, $.receiver_parameter],
-    [$.class_literal, $._unannotated_type],
+    [$.modifiers, $.annotated_type, $.module_declaration, $.package_declaration],
+    [$._unannotated_type, $.class_literal],
     [$._unannotated_type, $.class_literal, $.array_access],
     [$.variable_declarator_id],
-
     [$._lambda_parameters, $.inferred_parameters],
     [$._unannotated_type, $._expression],
     [$._unannotated_type, $._expression, $.inferred_parameters],
     [$._unannotated_type, $.generic_type],
     [$._expression, $.generic_type],
-
     [$.scoped_identifier, $.scoped_type_identifier],
   ],
 
@@ -164,93 +162,6 @@ module.exports = grammar({
     )),
 
     null_literal: $ => 'null',
-
-    ascii: $ => choice(
-      'NUL', // (null)
-      'SOH', // (start of heading)
-      'STX', // (start of text)
-      'ETX', // (end of text)
-      'EOT', // (end of transmission)
-      'ENQ', // (enquiry)
-      'ACK', // (acknowledge)
-      'BEL', // (bell)
-      'BS', // (backspace)
-      'TAB', // (horizontal tab)
-      'LF', // (NL line feed, new line)
-      'VT', // (vertical tab)
-      'FF', // (NP form feed, new page)
-      'CR', // (carriage return)
-      'SO', // (shift out)
-      'SI', // (shift in)
-      'DLE', // (data link escape)
-      'DC1', // (device control 1)
-      'DC2', // (device control 2)
-      'DC3', // (device control 3)
-      'DC4', // (device control 4)
-      'NAK', // (negative acknowledge)
-      'SYN', // (synchronous idle)
-      'ETB', // (end of trans. block)
-      'CAN', // (cancel)
-      'EM', // (end of medium)
-      'SUB', // (substitute)
-      'ESC', // (escape)
-      'FS', // (file separator)
-      'GS', // (group separator)
-      'RS', // (record separator)
-      'US' // (unit separator)
-    ),
-
-    white_space: $ => choice(
-      $.space,
-      $.horizontal_tab,
-      $.form_feed,
-      $.line_terminator
-    ),
-
-    space: $ => 'SP',
-    horizontal_tab: $ => 'HT',
-    form_feed: $ => 'FF',
-
-    line_terminator: $ => choice(
-      $.newline,
-      $.return,
-      seq($.return, $.newline)
-    ),
-
-    newline: $ => 'LF',
-    return: $ => 'CR',
-
-    unicode_escape: $ => seq(
-      /\\/,
-      'u',
-      /[A-Fa-f0-9]+/,
-      /[A-Fa-f0-9]+/,
-      /[A-Fa-f0-9]+/,
-      /[A-Fa-f0-9]+/
-    ),
-
-    escape_sequences: $ => choice(
-      $.char_escapes,
-      $.octal_escapes
-    ),
-
-    // currently, literals.java returns char not char_escapes in tree
-    char_escapes: $ => choice(
-      'b',
-      't',
-      'n',
-      'f',
-      'r',
-      '"',
-      "'",
-      '\\'
-    ),
-
-    octal_escapes: $ => choice(
-      seq(/\\/, /[0-7]+/),
-      seq(/\\/, /[0-7]+/, /[0-7]+/),
-      seq(/\\/, /[0-3]/, /[0-7]+/, /[0-7]+/)
-    ),
 
     _expression: $ => choice(
       $.assignment_expression,
