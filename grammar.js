@@ -412,7 +412,7 @@ module.exports = grammar({
       seq($.super, $._type)
     ),
 
-    dims: $ => prec.right(repeat1(
+    dimensions: $ => prec.right(repeat1(
       seq(repeat($._annotation), '[', ']')
     )),
 
@@ -687,12 +687,12 @@ module.exports = grammar({
       'new',
       $._simple_type,
       choice(
-        seq(repeat1($.dims_expr), optional($.dims)),
-        seq($.dims, $.array_initializer)
+        seq(repeat1($.dimensions_expr), optional($.dimensions)),
+        seq($.dimensions, $.array_initializer)
       )
     ),
 
-    dims_expr: $ => seq(repeat($._annotation), '[', $._expression, ']'),
+    dimensions_expr: $ => seq(repeat($._annotation), '[', $._expression, ']'),
 
     _primary_no_new_array: $ => choice(
       $._literal,
@@ -785,7 +785,7 @@ module.exports = grammar({
       $._unannotated_type,
       $.identifier,
       '(', ')',
-      optional($.dims),
+      optional($.dimensions),
       optional($.default_value),
       ';'
     ),
@@ -839,7 +839,7 @@ module.exports = grammar({
 
     variable_declarator_id: $ => seq(
       choice($.identifier, $._reserved_identifier),
-      optional($.dims)
+      optional($.dimensions)
     ),
 
     _variable_initializer: $ => choice(
@@ -899,7 +899,7 @@ module.exports = grammar({
 
     array_type: $ => seq(
       $._unannotated_type,
-      $.dims
+      $.dimensions
     ),
 
     _method_header: $ => seq(
@@ -915,7 +915,7 @@ module.exports = grammar({
     method_declarator: $ => seq(
       choice($.identifier, $._reserved_identifier),
       $.formal_parameters,
-      optional($.dims)
+      optional($.dimensions)
     ),
 
     formal_parameters: $ => seq(
@@ -945,11 +945,6 @@ module.exports = grammar({
       $._unannotated_type,
       '...',
       $.variable_declarator
-    ),
-
-    last_formal_parameter: $ => choice(
-      $.spread_parameter,
-      $.formal_parameter
     ),
 
     this: $ => 'this',

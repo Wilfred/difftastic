@@ -71,7 +71,7 @@ c instanceof C[];
 (program
   (instanceof_expression (identifier) (scoped_type_identifier (type_identifier) (type_identifier)))
   (instanceof_expression (identifier) (generic_type (type_identifier) (type_arguments (type_identifier))))
-  (instanceof_expression (identifier) (array_type (type_identifier) (dims))))
+  (instanceof_expression (identifier) (array_type (type_identifier) (dimensions))))
 
 ===========================================================
 if statements
@@ -219,7 +219,7 @@ class ForDemo {
           (identifier)
           (formal_parameters
             (formal_parameter
-              (array_type (type_identifier) (dims))
+              (array_type (type_identifier) (dimensions))
               (variable_declarator_id (identifier)))))
           (method_body
             (block
@@ -268,7 +268,7 @@ class WhileDemo {
             (formal_parameter
               (array_type
               (type_identifier)
-                (dims))
+                (dimensions))
               (variable_declarator_id
                 (identifier)))))
         (method_body
@@ -492,7 +492,7 @@ public class SwitchDemo {
         (method_declarator
           (identifier)
           (formal_parameters
-            (formal_parameter (array_type (type_identifier) (dims)) (variable_declarator_id (identifier)))))
+            (formal_parameter (array_type (type_identifier) (dimensions)) (variable_declarator_id (identifier)))))
         (method_body
           (block
             (local_variable_declaration_statement
