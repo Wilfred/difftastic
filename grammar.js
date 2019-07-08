@@ -62,33 +62,6 @@ module.exports = grammar({
   rules: {
     program: $ => repeat($._statement),
 
-    _statement: $ => choice(
-      $._declaration,
-      $.expression_statement,
-      $.labeled_statement,
-      $.if_statement,
-      $.while_statement,
-      $.for_statement,
-      $.block,
-      ';',
-      $.assert_statement,
-      $.switch_statement,
-      $.do_statement,
-      $.break_statement,
-      $.continue_statement,
-      $.return_statement,
-      $.synchronized_statement,
-      $.local_variable_declaration_statement,
-      $.throw_statement,
-      $.try_statement,
-      $.try_with_resources_statement
-    ),
-
-    expression_statement: $ => seq(
-      $._expression,
-      ';'
-    ),
-
     // Literals
 
     _literal: $ => choice(
@@ -270,7 +243,138 @@ module.exports = grammar({
       seq('--', $._expression)
     )),
 
+    _primary: $ => choice(
+      $._primary_no_new_array,
+      $.array_creation_expression
+    ),
+
+    array_creation_expression: $ => seq(
+      'new',
+      $._simple_type,
+      choice(
+        seq(repeat1($.dimensions_expr), optional($.dimensions)),
+        seq($.dimensions, $.array_initializer)
+      )
+    ),
+
+    dimensions_expr: $ => seq(repeat($._annotation), '[', $._expression, ']'),
+
+    _primary_no_new_array: $ => choice(
+      $._literal,
+      $.class_literal,
+      $.this,
+      seq($._ambiguous_name, '.', $.this),
+      seq('(', $._expression, ')'),
+      $.class_instance_creation_expression,
+      $.field_access,
+      $.array_access,
+      $.method_invocation,
+      $.method_reference
+    ),
+
+    class_literal: $ => choice(
+      seq($._ambiguous_name, repeat(seq('[', ']')), '.', 'class'),
+      seq($._numeric_type, repeat(seq('[', ']')), '.', 'class'),
+      seq($.boolean_type, repeat(seq('[', ']')), '.', 'class'),
+      seq($.void_type, '.', 'class')
+    ),
+
+    class_instance_creation_expression: $ => choice(
+      $.unqualified_class_instance_creation_expression,
+      seq($._ambiguous_name, '.', $.unqualified_class_instance_creation_expression),
+      seq($._primary, '.', $.unqualified_class_instance_creation_expression)
+    ),
+
+    unqualified_class_instance_creation_expression: $ => prec.right(seq(
+      'new',
+      optional($.type_arguments),
+      $._simple_type,
+      $.argument_list,
+      optional($.class_body)
+    )),
+
+    field_access: $ => choice(
+      seq($._primary, '.', $.identifier),
+      seq($.super, '.', $.identifier),
+      seq($._ambiguous_name, '.', $.super, '.', $.identifier)
+    ),
+
+    array_access: $ => choice(
+      seq($._ambiguous_name, '[', $._expression, ']'),
+      seq($._primary_no_new_array, '[', $._expression, ']')
+    ),
+
+    method_invocation: $ => choice(
+      seq($.identifier, $.argument_list),
+      seq($._reserved_identifier, $.argument_list),
+      seq($._ambiguous_name, '.', optional($.type_arguments), $.identifier, $.argument_list),
+      seq($._primary, '.', optional($.type_arguments), $.identifier, $.argument_list),
+      seq($.super, '.', optional($.type_arguments), $.identifier, $.argument_list),
+      seq($._ambiguous_name, '.', $.super, '.', optional($.type_arguments), $.identifier, $.argument_list)
+    ),
+
+    argument_list: $ => seq('(', commaSep($._expression), ')'),
+
+    method_reference: $ => seq(
+      choice($._type, $._primary),
+      '::',
+      optional($.type_arguments),
+      choice('new', $.identifier)
+    ),
+
+    type_arguments: $ => seq(
+      '<',
+      commaSep(choice($._type, $.wildcard)),
+      '>'
+    ),
+
+    wildcard: $ => seq(
+      repeat($._annotation),
+      '?',
+      optional($._wildcard_bounds)
+    ),
+
+    _wildcard_bounds: $ => choice(
+      seq('extends', $._type),
+      seq($.super, $._type)
+    ),
+
+    dimensions: $ => prec.right(repeat1(
+      seq(repeat($._annotation), '[', ']')
+    )),
+
     // Statements
+
+    _statement: $ => choice(
+      $._declaration,
+      $.expression_statement,
+      $.labeled_statement,
+      $.if_statement,
+      $.while_statement,
+      $.for_statement,
+      $.block,
+      ';',
+      $.assert_statement,
+      $.switch_statement,
+      $.do_statement,
+      $.break_statement,
+      $.continue_statement,
+      $.return_statement,
+      $.synchronized_statement,
+      $.local_variable_declaration_statement,
+      $.throw_statement,
+      $.try_statement,
+      $.try_with_resources_statement
+    ),
+
+    block: $ => seq(
+      '{', repeat($._statement), '}'
+    ),
+
+    expression_statement: $ => seq(
+      $._expression,
+      ';'
+    ),
 
     labeled_statement: $ => seq(
       $.identifier, ':', $._statement
@@ -393,48 +497,7 @@ module.exports = grammar({
       $._statement
     ),
 
-    type_arguments: $ => seq(
-      '<',
-      commaSep(choice($._type, $.wildcard)),
-      '>'
-    ),
-
-    wildcard: $ => seq(
-      repeat($._annotation),
-      '?',
-      optional($._wildcard_bounds)
-    ),
-
-    _wildcard_bounds: $ => choice(
-      seq('extends', $._type),
-      seq($.super, $._type)
-    ),
-
-    dimensions: $ => prec.right(repeat1(
-      seq(repeat($._annotation), '[', ']')
-    )),
-
-    _numeric_type: $ => choice(
-      $.integral_type,
-      $.floating_point_type
-    ),
-
-    integral_type: $ => choice(
-      'byte',
-      'short',
-      'int',
-      'long',
-      'char'
-    ),
-
-    floating_point_type: $ => choice(
-      'float',
-      'double'
-    ),
-
-    boolean_type: $ => 'boolean',
-
-    void_type: $ => 'void',
+    // Annotations
 
     _annotation: $ => choice(
       $.marker_annotation,
@@ -442,6 +505,7 @@ module.exports = grammar({
     ),
 
     marker_annotation: $ => seq('@', $._ambiguous_name),
+
     annotation: $ => seq('@', $._ambiguous_name, $.annotation_argument_list),
 
     annotation_argument_list: $ => seq(
@@ -471,6 +535,8 @@ module.exports = grammar({
       optional(','),
       '}'
     ),
+
+    // Declarations
 
     _declaration: $ => prec(1, choice(
       $.module_declaration,
@@ -676,85 +742,6 @@ module.exports = grammar({
       ';'
     ),
 
-    _primary: $ => choice(
-      $._primary_no_new_array,
-      $.array_creation_expression
-    ),
-
-    array_creation_expression: $ => seq(
-      'new',
-      $._simple_type,
-      choice(
-        seq(repeat1($.dimensions_expr), optional($.dimensions)),
-        seq($.dimensions, $.array_initializer)
-      )
-    ),
-
-    dimensions_expr: $ => seq(repeat($._annotation), '[', $._expression, ']'),
-
-    _primary_no_new_array: $ => choice(
-      $._literal,
-      $.class_literal,
-      $.this,
-      seq($._ambiguous_name, '.', $.this),
-      seq('(', $._expression, ')'),
-      $.class_instance_creation_expression,
-      $.field_access,
-      $.array_access,
-      $.method_invocation,
-      $.method_reference
-    ),
-
-    class_literal: $ => choice(
-      seq($._ambiguous_name, repeat(seq('[', ']')), '.', 'class'),
-      seq($._numeric_type, repeat(seq('[', ']')), '.', 'class'),
-      seq($.boolean_type, repeat(seq('[', ']')), '.', 'class'),
-      seq($.void_type, '.', 'class')
-    ),
-
-    class_instance_creation_expression: $ => choice(
-      $.unqualified_class_instance_creation_expression,
-      seq($._ambiguous_name, '.', $.unqualified_class_instance_creation_expression),
-      seq($._primary, '.', $.unqualified_class_instance_creation_expression)
-    ),
-
-    unqualified_class_instance_creation_expression: $ => prec.right(seq(
-      'new',
-      optional($.type_arguments),
-      $._simple_type,
-      $.argument_list,
-      optional($.class_body)
-    )),
-
-    field_access: $ => choice(
-      seq($._primary, '.', $.identifier),
-      seq($.super, '.', $.identifier),
-      seq($._ambiguous_name, '.', $.super, '.', $.identifier)
-    ),
-
-    array_access: $ => choice(
-      seq($._ambiguous_name, '[', $._expression, ']'),
-      seq($._primary_no_new_array, '[', $._expression, ']')
-    ),
-
-    method_invocation: $ => choice(
-      seq($.identifier, $.argument_list),
-      seq($._reserved_identifier, $.argument_list),
-      seq($._ambiguous_name, '.', optional($.type_arguments), $.identifier, $.argument_list),
-      seq($._primary, '.', optional($.type_arguments), $.identifier, $.argument_list),
-      seq($.super, '.', optional($.type_arguments), $.identifier, $.argument_list),
-      seq($._ambiguous_name, '.', $.super, '.', optional($.type_arguments), $.identifier, $.argument_list)
-    ),
-
-    argument_list: $ => seq('(', commaSep($._expression), ')'),
-
-    method_reference: $ => seq(
-      choice($._type, $._primary),
-      '::',
-      optional($.type_arguments),
-      choice('new', $.identifier)
-    ),
-
     interface_declaration: $ => choice(
       $.normal_interface_declaration,
       $.annotation_type_declaration
@@ -902,6 +889,28 @@ module.exports = grammar({
       $.dimensions
     ),
 
+    _numeric_type: $ => choice(
+      $.integral_type,
+      $.floating_point_type
+    ),
+
+    integral_type: $ => choice(
+      'byte',
+      'short',
+      'int',
+      'long',
+      'char'
+    ),
+
+    floating_point_type: $ => choice(
+      'float',
+      'double'
+    ),
+
+    boolean_type: $ => 'boolean',
+
+    void_type: $ => 'void',
+
     _method_header: $ => seq(
       optional(seq(
         $.type_parameters,
@@ -947,10 +956,6 @@ module.exports = grammar({
       $.variable_declarator
     ),
 
-    this: $ => 'this',
-
-    super: $ => 'super',
-
     throws: $ => seq(
       'throws', commaSep1($._type)
     ),
@@ -958,10 +963,6 @@ module.exports = grammar({
     method_body: $ => choice(
       $.block,
       ';'
-    ),
-
-    block: $ => seq(
-      '{', repeat($._statement), '}'
     ),
 
     local_variable_declaration_statement: $ => seq(
@@ -985,6 +986,10 @@ module.exports = grammar({
       'open',
       'module'
     ), $.identifier),
+
+    this: $ => 'this',
+
+    super: $ => 'super',
 
     identifier: $ => /[a-zA-Z_]\w*/,
 
