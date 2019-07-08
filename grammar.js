@@ -911,6 +911,7 @@ module.exports = grammar({
 
     interface_member_declaration: $ => choice(
       $.constant_declaration,
+      $.enum_declaration,
       $.method_declaration,
       $.class_declaration,
       $.interface_declaration,
