@@ -1710,33 +1710,38 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "_lambda_parameters"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "identifier"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "formal_parameters"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "inferred_parameters"
+            }
+          ]
         },
         {
           "type": "STRING",
           "value": "->"
         },
         {
-          "type": "SYMBOL",
-          "name": "lambda_body"
-        }
-      ]
-    },
-    "_lambda_parameters": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "identifier"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "formal_parameters"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "inferred_parameters"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_expression"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "block"
+            }
+          ]
         }
       ]
     },
@@ -1775,19 +1780,6 @@
         {
           "type": "STRING",
           "value": ")"
-        }
-      ]
-    },
-    "lambda_body": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "_expression"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "block"
         }
       ]
     },
@@ -2243,7 +2235,7 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "unqualified_class_instance_creation_expression"
+          "name": "_unqualified_class_instance_creation_expression"
         },
         {
           "type": "SEQ",
@@ -2258,7 +2250,7 @@
             },
             {
               "type": "SYMBOL",
-              "name": "unqualified_class_instance_creation_expression"
+              "name": "_unqualified_class_instance_creation_expression"
             }
           ]
         },
@@ -2275,13 +2267,13 @@
             },
             {
               "type": "SYMBOL",
-              "name": "unqualified_class_instance_creation_expression"
+              "name": "_unqualified_class_instance_creation_expression"
             }
           ]
         }
       ]
     },
-    "unqualified_class_instance_creation_expression": {
+    "_unqualified_class_instance_creation_expression": {
       "type": "PREC_RIGHT",
       "value": 0,
       "content": {
@@ -6176,19 +6168,6 @@
         }
       ]
     },
-    "method_body": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "block"
-        },
-        {
-          "type": "STRING",
-          "value": ";"
-        }
-      ]
-    },
     "local_variable_declaration_statement": {
       "type": "SEQ",
       "members": [
@@ -6247,8 +6226,17 @@
           "name": "_method_header"
         },
         {
-          "type": "SYMBOL",
-          "name": "method_body"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "block"
+            },
+            {
+              "type": "STRING",
+              "value": ";"
+            }
+          ]
         }
       ]
     },
@@ -6349,10 +6337,6 @@
     ],
     [
       "variable_declarator_id"
-    ],
-    [
-      "_lambda_parameters",
-      "inferred_parameters"
     ],
     [
       "_unannotated_type",

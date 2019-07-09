@@ -273,12 +273,12 @@ module.exports = grammar({
     ),
 
     class_instance_creation_expression: $ => choice(
-      $.unqualified_class_instance_creation_expression,
-      seq($._ambiguous_name, '.', $.unqualified_class_instance_creation_expression),
-      seq($._primary, '.', $.unqualified_class_instance_creation_expression)
+      $._unqualified_class_instance_creation_expression,
+      seq($._ambiguous_name, '.', $._unqualified_class_instance_creation_expression),
+      seq($._primary, '.', $._unqualified_class_instance_creation_expression)
     ),
 
-    unqualified_class_instance_creation_expression: $ => prec.right(seq(
+    _unqualified_class_instance_creation_expression: $ => prec.right(seq(
       'new',
       optional($.type_arguments),
       $._simple_type,

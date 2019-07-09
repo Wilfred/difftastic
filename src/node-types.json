@@ -1647,6 +1647,10 @@
       "required": false,
       "types": [
         {
+          "type": "argument_list",
+          "named": true
+        },
+        {
           "type": "array_access",
           "named": true
         },
@@ -1667,11 +1671,19 @@
           "named": true
         },
         {
+          "type": "boolean_type",
+          "named": true
+        },
+        {
           "type": "cast_expression",
           "named": true
         },
         {
           "type": "character_literal",
+          "named": true
+        },
+        {
+          "type": "class_body",
           "named": true
         },
         {
@@ -1699,6 +1711,14 @@
           "named": true
         },
         {
+          "type": "floating_point_type",
+          "named": true
+        },
+        {
+          "type": "generic_type",
+          "named": true
+        },
+        {
           "type": "hex_integer_literal",
           "named": true
         },
@@ -1708,6 +1728,10 @@
         },
         {
           "type": "instanceof_expression",
+          "named": true
+        },
+        {
+          "type": "integral_type",
           "named": true
         },
         {
@@ -1735,6 +1759,10 @@
           "named": true
         },
         {
+          "type": "scoped_type_identifier",
+          "named": true
+        },
+        {
           "type": "string_literal",
           "named": true
         },
@@ -1751,15 +1779,23 @@
           "named": true
         },
         {
+          "type": "type_arguments",
+          "named": true
+        },
+        {
+          "type": "type_identifier",
+          "named": true
+        },
+        {
           "type": "unary_expression",
           "named": true
         },
         {
-          "type": "unqualified_class_instance_creation_expression",
+          "type": "update_expression",
           "named": true
         },
         {
-          "type": "update_expression",
+          "type": "void_type",
           "named": true
         }
       ]
@@ -4739,7 +4775,7 @@
     }
   },
   {
-    "type": "lambda_body",
+    "type": "lambda_expression",
     "named": true,
     "fields": {},
     "children": {
@@ -4803,11 +4839,19 @@
           "named": true
         },
         {
+          "type": "formal_parameters",
+          "named": true
+        },
+        {
           "type": "hex_integer_literal",
           "named": true
         },
         {
           "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "inferred_parameters",
           "named": true
         },
         {
@@ -4860,33 +4904,6 @@
         },
         {
           "type": "update_expression",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "lambda_expression",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "formal_parameters",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "inferred_parameters",
-          "named": true
-        },
-        {
-          "type": "lambda_body",
           "named": true
         }
       ]
@@ -5005,21 +5022,6 @@
     }
   },
   {
-    "type": "method_body",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "block",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "method_declaration",
     "named": true,
     "fields": {},
@@ -5033,6 +5035,10 @@
         },
         {
           "type": "array_type",
+          "named": true
+        },
+        {
+          "type": "block",
           "named": true
         },
         {
@@ -5053,10 +5059,6 @@
         },
         {
           "type": "marker_annotation",
-          "named": true
-        },
-        {
-          "type": "method_body",
           "named": true
         },
         {
@@ -7308,57 +7310,6 @@
         },
         {
           "type": "update_expression",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "unqualified_class_instance_creation_expression",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "argument_list",
-          "named": true
-        },
-        {
-          "type": "boolean_type",
-          "named": true
-        },
-        {
-          "type": "class_body",
-          "named": true
-        },
-        {
-          "type": "floating_point_type",
-          "named": true
-        },
-        {
-          "type": "generic_type",
-          "named": true
-        },
-        {
-          "type": "integral_type",
-          "named": true
-        },
-        {
-          "type": "scoped_type_identifier",
-          "named": true
-        },
-        {
-          "type": "type_arguments",
-          "named": true
-        },
-        {
-          "type": "type_identifier",
-          "named": true
-        },
-        {
-          "type": "void_type",
           "named": true
         }
       ]

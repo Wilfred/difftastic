@@ -451,19 +451,15 @@ class Beyonce {
           (block
             (expression_statement
               (class_instance_creation_expression
-                (unqualified_class_instance_creation_expression
-                  (type_identifier)
+                (type_identifier)
                 (argument_list
                   (class_instance_creation_expression
-                    (unqualified_class_instance_creation_expression
-                      (type_identifier)
-                      (argument_list
-                        (class_instance_creation_expression
-                          (unqualified_class_instance_creation_expression
-                            (type_identifier)
-                              (argument_list
-                                (identifier))))
-                        (identifier)))))))))))))
+                    (type_identifier)
+                    (argument_list
+                      (class_instance_creation_expression
+                        (type_identifier)
+                        (argument_list (identifier)))
+                      (identifier)))))))))))
 
 ======================
 object instantiation
@@ -472,6 +468,7 @@ object instantiation
 class Point {
   public double Foo() {
     new BufferedWriter();
+    Foo.new BufferedWriter();
   }
 }
 
@@ -490,9 +487,13 @@ class Point {
         (block
           (expression_statement
             (class_instance_creation_expression
-              (unqualified_class_instance_creation_expression
-                (type_identifier)
-                (argument_list)))))))))
+              (type_identifier)
+              (argument_list)))
+          (expression_statement
+            (class_instance_creation_expression
+              (identifier)
+              (type_identifier)
+              (argument_list))))))))
 
 =====================
 variable declaration
